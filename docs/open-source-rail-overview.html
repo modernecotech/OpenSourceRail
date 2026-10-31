@@ -1,29 +1,32 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSourceRail: open railway design and delivery</title><style>body{font:17px/1.6 system-ui;max-width:1050px;margin:32px auto;padding:0 24px;color:#173341}img{width:100%;height:auto}table{display:block;overflow:auto;border-collapse:collapse}td,th{padding:10px;text-align:left;border-bottom:1px solid #ccd}a{color:#006b65}h1{line-height:1.15}code{overflow-wrap:anywhere}@media print{body{font-size:11px}img{max-height:260px;object-fit:contain}}</style><h1>OpenSourceRail: open railway design and delivery</h1>
-<p>OpenSourceRail aims to retain design authority, manufacturing, software, integration
-and maintenance capability in-country. It connects three products: a design and
-delivery platform, reference railway hardware and factories, and open GoA4 controls.
-Low whole-life cost, local value added, repairability and repeatable construction
-are objectives, not established savings.</p>
-<h2>The v0.6 reference</h2>
-<p>The selected research configuration is <strong>station-powered freewheeling wheel rail</strong>.
-It has 6 cars of 17 m, each with 44 fixed seats and
-2 wheelchair places, and no planned standing. Passive bogies run on
-conventional rails carried by precast concrete. Station double-sided LIMs act on
-passive onboard aluminium secondaries; normal-service traction motors, traction
-batteries and suspension magnets are absent from the train.</p>
-<p>The targets are 72 km/h, 120-second headway and
-35-second dwell. Capacity arithmetic gives 8,280
-passengers/hour/direction, not a demonstrated protected service. Auxiliary batteries,
-HVAC, doors, independent brakes, onboard ATP, station-led supervision and recovery
-remain necessary. Passengers transfer between fixed lines; depot switching is a
-separate exception to the no-mainline-switch policy.</p>
+<p>OpenSourceRail connects city planning, railway engineering, manufacturing,
+construction, business workflows and open train-control software. Its purpose is
+to build local design authority, production and repair capability while
+comparing whole-life cost and passenger service. These are project objectives;
+economic superiority and physical qualification have not been demonstrated.</p>
+<h2>Selected v0.6 research candidate</h2>
+<p>The selected reference is a station-powered, wheel-supported railway with
+6 cars of 17 m. Each car is planned for
+44 fixed seats and
+2 wheelchair places, with no planned
+standing. Passive steel-wheel bogies run on conventional rails carried by
+concrete guideway. Double-sided station linear induction motors act on passive
+onboard aluminium secondaries. The vehicle has no normal-service traction motor,
+traction battery or suspension magnet. Independent braking, service power,
+protection and rescue remain required.</p>
+<p>The service targets are 72 km/h launch
+speed, 120 seconds headway and 35 seconds
+dwell. The resulting 8,280
+passengers/hour/direction is capacity arithmetic, not a demonstrated protected
+service. The selected candidate is a development reference without manufacturing
+or passenger-operation release.</p>
 <p><img src="design-engine/current/vehicle-overview.svg" alt="Counted v0.6 vehicle proposal" /></p>
-<p><em>Partial stock geometry and equipment accounts, not a complete installed or approved train.</em></p>
-<h2>v0.6 concept illustrations</h2>
-<p>These five supplied illustrations show the intended railway, passenger experience,
-local assembly and construction. They are concept artwork. Dimensions, equipment
-placement, accessibility and construction details require controlled engineering
-records; the images do not establish physical performance or qualification.</p>
+<p><em>Partial stock geometry and equipment accounts; not a complete installed or approved train.</em></p>
+<h2>Concept illustrations</h2>
+<p>These illustrations show the intended passenger experience, local assembly and
+construction approach. They are concept artwork. Detailed dimensions,
+accessibility, equipment placement and construction methods require controlled
+engineering records; the images do not establish physical performance.</p>
 <h3>Elevated train and station</h3>
 <p><img src="images/v06/v06-hero-elevated-station.webp" alt="Wheel-supported train beside an elevated station with a solar canopy" /></p>
 <p>A wheel-supported train on conventional rails beside an elevated station, with roof solar panels and a platform canopy.</p>
@@ -39,39 +42,41 @@ records; the images do not establish physical performance or qualification.</p>
 <h3>Station LIM and passive secondary</h3>
 <p><img src="images/v06/v06-wayside-lim-cutaway.webp" alt="Wheel bogies above a passive aluminium fin between two station LIM primaries" /></p>
 <p>Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.</p>
-<h2>The wider platform remains</h2>
-<p>The lifecycle is plan, design, procure, manufacture, construct, commission, operate,
-maintain and renew. <a href="../deployment/erpnext/README.md">ERPNext/Frappe HR</a> retains
-business, workforce, procurement, quality and maintenance functions.
-<a href="../deployment/supervision/README.md">FUXA and the gateway</a> retain observations,
-alarms, history and review-linked lifecycle records. The
-<a href="workbench/planning/index.html">planning workspace</a> retains local city/service
-editing over historical geographic inputs. Its v0.6 compiler now creates and
-verifies a source-bound review handoff tied to the selected candidate; this is a
-planning proposal, not a route-performance result or construction schedule. These
-services require configured roles, masters, device bindings and reviewed imports;
-the engineering Workbench does not automatically commission them.</p>
-<p>The <a href="design-engine/coupled-railway/README.md">coordinated design experiment</a>
-propagates revised bodies through inventory, interfaces, propulsion demand,
-braking, civil loads and manufacturing/economic coverage. CAD/IFC stock,
-EBOM/MBOM and assembly/procurement records share candidate identities. ERPNext
-exports are disabled research drafts. Complete installed equipment, available
-operating motor maps, force-driven journeys and whole-life prices remain open.</p>
-<p>All 266 retained city geographies remain inputs. <strong>v0.6 performance regeneration
-is held</strong>; earlier fleets, budgets and winding lengths are not current results.
-Imported inputs retain their actual origin. No local-content percentage or
-economic superiority is inferred from a lightweight material subtotal.</p>
-<h2>Start and inspect</h2>
-<p>Run <code>./install.sh</code>, then <code>./osr workbench</code>. Use <code>./osr design railway plan</code> for
-coordinated research, <code>./osr build</code> to refresh current evidence and <code>./osr verify</code>
-to check its sources and payloads. <code>./osr sim baghdad</code> reports the city hold.</p>
+<h2>Planning, engineering and delivery</h2>
+<p>The <a href="workbench/planning/index.html">planning workspace</a> supports local
+geographic, route, stop, service and OD proposals. <code>./osr plan compile</code> writes an
+immutable handoff bound to the selected candidate, and <code>./osr plan verify</code>
+checks its sources and identities. The handoff contains proposals only; route
+performance, procurement quantities, construction schedules and full city costs
+remain held until candidate-specific evidence is available. Planning revisions
+do not grant movement authority.</p>
+<p>The <a href="design-engine/coupled-railway/README.md">coordinated design workflow</a>
+propagates one candidate through geometry, mass, engineering analysis, BOM,
+CAD/IFC, manufacturing, procurement, construction and controls. The
+<a href="design-engine/current/exports/manifest.json">current export manifest</a> and
+<a href="design-engine/coupled-railway/delivery-index.json">delivery package index</a>
+bind research records to candidate identities. ERPNext exports are disabled
+drafts. Complete installed equipment, an available operating motor map,
+force-driven journeys and fully supported lifecycle costs remain open.</p>
+<h2>Business and operating software</h2>
+<p><a href="../deployment/erpnext/README.md">ERPNext and Frappe HR</a> support draft business,
+workforce, procurement, manufacturing, quality and maintenance workflows.
+<a href="../deployment/supervision/README.md">FUXA and the gateway</a> support equipment
+observations, alarms, history and review-linked records. Site masters,
+permissions, device bindings and reviewed imports require deployment-specific
+configuration. These services do not commission a railway or supply movement
+authority.</p>
+<p>Cost scenarios use two 8-hour shifts for production and civil work. Operations
+are modelled at two shifts for 16/18-hour service and three shifts for a 24-hour
+case. These are planning assumptions, not approved staffing or operating plans.</p>
+<h2>Start here</h2>
+<p>Run <code>./install.sh</code>, then <code>./osr status</code> and <code>./osr workbench</code>. Use
+<code>./osr design railway plan</code> for coordinated research, <code>./osr build</code> to refresh
+current evidence and <code>./osr verify</code> to check sources and payloads. <code>./osr sim baghdad</code> reports the current city-evaluation hold.</p>
 <p><a href="../README.md">Project introduction</a> · <a href="design-engine/current/README.md">Current engineering</a> ·
-<a href="first-adoptable-product.md">Adoption path</a> · <a href="ARCHITECTURE.md">Architecture</a> ·
-<a href="ROADMAP.md">Roadmap</a> · <a href="../OpenSourceRail-Book.pdf">Reader</a> · <a href="../CONTRIBUTING.md">Contribute</a>.</p>
-<p>The <a href="https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md">v0.4 introduction</a>
-and <a href="archives/v0.5-maglev/README.md">v0.5 archive</a> retain earlier platform and
-engineering detail. Historical examples, numerical methods and business closure
-do not provide current physical, manufacturing or operating acceptance.</p>
+<a href="ARCHITECTURE.md">Architecture</a> · <a href="ROADMAP.md">Roadmap</a> ·
+<a href="design-engine/coupled-railway/delivery-index.json">Candidate delivery</a> ·
+<a href="../OpenSourceRail-Book.pdf">Reader</a> · <a href="../CONTRIBUTING.md">Contribute</a>.</p>
 <p>Software: Apache 2.0. Open physical designs: CERN-OHL-S v2. Documentation: CC-BY-SA 4.0.
 See <a href="../LICENSE.md">licensing</a> for the applicable path and upstream terms.</p>
 <!-- Generated by tools/automation/generate-public-overview.py; do not hand-edit. -->

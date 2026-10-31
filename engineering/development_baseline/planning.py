@@ -1,10 +1,4 @@
-"""Candidate-bound GIS proposal handoff for the selected v0.6 train.
-
-The editable map still starts from a retained historical city plan. This adapter
-uses that packet only for geography, stops, and an explicitly unaccepted service
-proposal. It does not import its vehicle, propulsion, civil quantities, costs, or
-performance into the v0.6 candidate.
-"""
+"""Candidate-bound planning proposals from current city geography inputs."""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -17,13 +11,19 @@ import re
 import tempfile
 import zlib
 
-from . import FLAGS
+from . import FLAGS, OUTPUT
 
-PLANNING_ROOT = Path('docs/design-engine/ferrite-maglev/planning-platform')
+PLANNING_ROOT = Path(OUTPUT) / 'planning'
+CURRENT_CITY_INDEX = Path(OUTPUT) / 'cities.json'
+CURRENT_CITY_RECEIPT = Path(OUTPUT) / 'city-catalogue-manifest.json'
+SELECTION_SOURCE = Path('engineering/development-baseline.toml')
+BRIEF_SOURCE = Path('engineering/station_rail/brief.toml')
 SCHEMA = 'osr-v06-planning-handoff/1'
 EDIT_SCHEMA = 'osr-planning-edit-bundle/1'
+INPUT_SCHEMA = 'osr-current-planning-inputs/1'
+BASE_SCHEMA = 'osr-owner-builder-plan/1'
 DISPOSITIONS = {**FLAGS, 'movement_authority': False, 'procurement_released': False}
-RETAINED_PLAN_DISPOSITIONS = ('design_complete', 'physical_validation', 'manufacturing_release',
+PLAN_DISPOSITIONS = ('design_complete', 'physical_validation', 'manufacturing_release',
     'physical_release', 'engineering_accepted', 'movement_authority', 'procurement_released')
 EARTH_M = 6_371_008.8
 MAX_BUNDLE_BYTES = 4 * 1024 * 1024
@@ -112,6 +112,174 @@ def _read_gzip_json(path):
         raise PlanningError('Invalid compressed planning base') from exc
 
 
+def _nearest_route_vertex(coordinates, chain, exact, point, source_chainage=None):
+    key = tuple(point[:2])
+    if key in exact:
+        candidates = exact[key]
+        index = min(candidates, key=lambda value: (
+            abs(chain[value] - source_chainage) if source_chainage is not None else chain[value],
+            value))
+    else:
+        index = min(range(len(coordinates)), key=lambda i: _distance(coordinates[i], point))
+    snapped = coordinates[index][:2]
+    offset = _distance(snapped, point)
+    if offset > 100.:
+        raise PlanningError('City stop is more than 100 m from its mapped route')
+    return chain[index], snapped, offset
+
+
+def _current_city_plan(root, city_row, baseline):
+    root = Path(root).resolve()
+    city = city_row['slug']
+    city_rel = Path(city_row['geography_path'])
+    city_path = _safe_file(root, city_rel)
+    route_rel = Path(city_row['route_geography_path'])
+    route_path = _safe_file(root, route_rel)
+    geography = _read_json(city_path)
+    route_geojson = _read_json(route_path, maximum=MAX_PLAN_BYTES)
+    route_features = {}
+    for feature in route_geojson.get('features', []):
+        properties = feature.get('properties') or {}
+        geometry = feature.get('geometry') or {}
+        if properties.get('kind') == 'line' and geometry.get('type') == 'LineString':
+            route_features[properties.get('name')] = geometry.get('coordinates', [])
+    city_lines = {row.get('name'): row for row in geography.get('lines', [])}
+    if not city_lines or set(city_lines) != set(route_features):
+        raise PlanningError('Current city line definitions and route geometry differ')
+
+    source_paths = {
+        city_rel.as_posix(), route_rel.as_posix(), CURRENT_CITY_INDEX.as_posix(),
+        CURRENT_CITY_RECEIPT.as_posix(), SELECTION_SOURCE.as_posix(), BRIEF_SOURCE.as_posix(),
+        'engineering/development_baseline/planning.py',
+    }
+    source_hashes = {name: digest_bytes(_safe_file(root, name).read_bytes())
+                     for name in sorted(source_paths)}
+    service = baseline['selection']['service']
+    stations_by_line = {}
+    for station in geography.get('stations', []):
+        stations_by_line.setdefault(station.get('line'), []).append(station)
+
+    lines = []
+    for line_id in sorted(city_lines):
+        coordinates = [point[:2] for point in route_features[line_id]]
+        if not 2 <= len(coordinates) <= 100_000:
+            raise PlanningError('Current route geometry has an invalid point count')
+        chain = _chainages(coordinates)
+        exact = {}
+        for index, value in enumerate(coordinates):
+            exact.setdefault(tuple(value[:2]), []).append(index)
+        length = chain[-1]
+        if not math.isfinite(length) or length < 1.:
+            raise PlanningError('Current route geometry has no measurable length')
+        stops = []
+        for source in stations_by_line.get(line_id, []):
+            chainage, location, offset = _nearest_route_vertex(
+                coordinates, chain, exact, [source['lon'], source['lat']], source.get('s_m'))
+            stops.append(dict(id=source['id'], chainage_m=chainage,
+                lon=location[0], lat=location[1], dwell_s=service['dwell_s'],
+                source_location_offset_m=offset,
+                access_and_transfer_reassessment_required=True))
+        stops.sort(key=lambda row: (row['chainage_m'], row['id']))
+        if len(stops) < 2:
+            raise PlanningError('Each current route needs at least two mapped stops')
+        lines.append(dict(id=line_id, coordinates=coordinates, length_m=length,
+            headway_s=service['headway_s'], planning_minimum_headway_s=service['headway_s'],
+            stops=stops))
+
+    interchanges = []
+    for row in geography.get('interchanges', []):
+        interchanges.append(dict(id=str(row['id']), lon=float(row['lon']), lat=float(row['lat']),
+            lines=sorted(str(value) for value in row.get('lines', [])),
+            reassessment_required=True))
+    plan = dict(schema=BASE_SCHEMA, environment='planning', city=city, revision=0,
+        selection_id=baseline['selection_id'], source_sha256=source_hashes,
+        geography_basis='Current city routes, station coordinates and transfer locations; no candidate performance or cost results.',
+        lines=lines, interchanges=interchanges, od=[],
+        **{key: False for key in PLAN_DISPOSITIONS})
+    plan['revision_sha256'] = digest_json(plan)
+    return _validate_plan(plan, city)
+
+
+def _planning_package(root):
+    """Build the deterministic current planning inputs and their source receipt."""
+    from . import selection
+    from engineering.station_rail import cities
+
+    root = Path(root).resolve()
+    baseline = selection.load(root)
+    catalogue = cities.read_catalogue(root)
+    if catalogue.get('selection_id') != baseline['selection_id']:
+        raise PlanningError('City geography register and selected candidate differ')
+    city_receipt = _read_json(_safe_file(root, CURRENT_CITY_RECEIPT))
+    if city_receipt.get('files_sha256', {}).get(CURRENT_CITY_INDEX.as_posix()) != digest_bytes(
+            _safe_file(root, CURRENT_CITY_INDEX).read_bytes()):
+        raise PlanningError('Current city geography register differs from its receipt')
+    city_rows = []
+    files = {}
+    sources = {CURRENT_CITY_INDEX.as_posix(): digest_bytes(_safe_file(root, CURRENT_CITY_INDEX).read_bytes()),
+        CURRENT_CITY_RECEIPT.as_posix(): digest_bytes(_safe_file(root, CURRENT_CITY_RECEIPT).read_bytes()),
+        SELECTION_SOURCE.as_posix(): digest_bytes(_safe_file(root, SELECTION_SOURCE).read_bytes()),
+        BRIEF_SOURCE.as_posix(): digest_bytes(_safe_file(root, BRIEF_SOURCE).read_bytes()),
+        'engineering/development_baseline/planning.py': digest_bytes(Path(__file__).read_bytes())}
+    for row in catalogue.get('cities', []):
+        plan = _current_city_plan(root, row, baseline)
+        relative = f"cities/{row['slug']}.json.gz"
+        raw = gzip.compress(encoded(plan), mtime=0)
+        files[relative] = raw
+        sources.update(plan['source_sha256'])
+        city_rows.append(dict(city=row['slug'], label=row['name'], country=row['country'], plan=relative,
+            revision_sha256=plan['revision_sha256'],
+            route_geography_path=str(Path(row['path']) / (row['slug'] + '.corridor.geojson'))))
+    city_rows.sort(key=lambda row: row['city'])
+    candidate_ids = ('candidate_id', 'body_candidate_id', 'support_component_id', 'propulsion_component_id')
+    index = dict(schema=INPUT_SCHEMA, selection_id=baseline['selection_id'],
+        selected_candidate={key: baseline['vehicle'][key] for key in candidate_ids},
+        service_proposal=dict(headway_s=baseline['selection']['service']['headway_s'],
+            dwell_s=baseline['selection']['service']['dwell_s'], source='selected v0.6 development baseline'),
+        city_count=len(city_rows), cities=city_rows, source_sha256=dict(sorted(sources.items())),
+        **{key: False for key in FLAGS})
+    files['index.json'] = encoded(index)
+    package_manifest = dict(schema=INPUT_SCHEMA, selection_id=baseline['selection_id'],
+        selected_candidate=index['selected_candidate'], source_sha256=dict(sorted(sources.items())),
+        files_sha256={name: digest_bytes(raw) for name, raw in sorted(files.items())},
+        **{key: False for key in FLAGS})
+    files['manifest.json'] = encoded(package_manifest)
+    return files, package_manifest
+
+
+def publish_inputs(root):
+    """Publish geography-only planning bases under the selected current packet."""
+    root = Path(root).resolve()
+    files, manifest = _planning_package(root)
+    output = root / PLANNING_ROOT
+    output.mkdir(parents=True, exist_ok=True)
+    expected = set(files)
+    for old in output.rglob('*'):
+        if old.is_file() and old.relative_to(output).as_posix() not in expected:
+            old.unlink()
+    for name, raw in files.items():
+        path = output / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(raw)
+    return dict(published=True, city_count=len(json.loads(files['index.json'])['cities']),
+        manifest_id=digest_bytes(files['manifest.json']), **{key: False for key in FLAGS})
+
+
+def verify_inputs(root):
+    """Recreate and compare every current planning input byte and source digest."""
+    root = Path(root).resolve()
+    files, _ = _planning_package(root)
+    output = root / PLANNING_ROOT
+    actual = {path.relative_to(output).as_posix() for path in output.rglob('*') if path.is_file()}
+    if actual != set(files):
+        raise PlanningError('Current planning input inventory differs')
+    for name, expected in files.items():
+        if (output / name).read_bytes() != expected:
+            raise PlanningError('Current planning input differs: ' + name)
+    return dict(verified=True, city_count=len(json.loads(files['index.json'])['cities']),
+        source_and_payload_integrity=True, **{key: False for key in FLAGS})
+
+
 def _distance(first, last):
     lon1, lat1 = first[:2]
     lon2, lat2 = last[:2]
@@ -145,13 +313,13 @@ def _point_at(points, chainage):
 
 def _validate_plan(plan, expected_city=None):
     if not isinstance(plan, dict) or plan.get('schema') != 'osr-owner-builder-plan/1' or plan.get('environment') != 'planning':
-        raise PlanningError('A retained planning-only city revision is required')
+        raise PlanningError('A current planning-only city revision is required')
     if expected_city is not None and plan.get('city') != expected_city:
         raise PlanningError('Planning city identity differs')
     if plan.get('revision_sha256') != digest_json({k: v for k, v in plan.items() if k != 'revision_sha256'}):
         raise PlanningError('Planning base revision digest differs')
-    if any(plan.get(key) is not False for key in RETAINED_PLAN_DISPOSITIONS):
-        raise PlanningError('Historical planning packet has an unexpected release disposition')
+    if any(plan.get(key) is not False for key in PLAN_DISPOSITIONS):
+        raise PlanningError('Current planning input has an unexpected release disposition')
     if not isinstance(plan.get('source_sha256'), dict) or not plan['source_sha256']:
         raise PlanningError('Source-bound planning geography is required')
     if not isinstance(plan.get('lines'), list) or not plan['lines']:
@@ -211,39 +379,51 @@ def _validate_plan(plan, expected_city=None):
 
 def _load_base(root, city):
     root = Path(root).resolve()
-    manifest_rel = PLANNING_ROOT / 'manifest.json'
-    index_rel = PLANNING_ROOT / 'index.json'
-    manifest_path = _safe_file(root, manifest_rel)
-    index_path = _safe_file(root, index_rel)
-    manifest = _read_json(manifest_path)
-    if manifest.get('schema') != 'osr-owner-builder-publication/1' or any(manifest.get(key) is not False for key in RETAINED_PLAN_DISPOSITIONS):
-        raise PlanningError('Retained planning publication has an unexpected identity or release state')
+    package_manifest_rel = PLANNING_ROOT / 'manifest.json'
+    package_index_rel = PLANNING_ROOT / 'index.json'
+    current_manifest_rel = Path(OUTPUT) / 'manifest.json'
+    package_manifest_path = _safe_file(root, package_manifest_rel)
+    package_index_path = _safe_file(root, package_index_rel)
+    current_manifest = _read_json(_safe_file(root, current_manifest_rel))
+    manifest = _read_json(package_manifest_path)
+    if (manifest.get('schema') != INPUT_SCHEMA
+            or any(manifest.get(key) is not False for key in FLAGS)):
+        raise PlanningError('Current planning input publication has an unexpected identity or release state')
+    current_files = current_manifest.get('files_sha256', {})
+    package_relative = package_manifest_rel.relative_to(OUTPUT).as_posix()
+    if current_files.get(package_relative) != digest_bytes(package_manifest_path.read_bytes()):
+        raise PlanningError('Current engineering publication does not bind the planning inputs')
     index_hash = manifest.get('files_sha256', {}).get('index.json')
-    if not isinstance(index_hash, str) or digest_bytes(index_path.read_bytes()) != index_hash:
-        raise PlanningError('Retained planning index differs from its publication receipt')
-    index = _read_json(index_path)
+    if not isinstance(index_hash, str) or digest_bytes(package_index_path.read_bytes()) != index_hash:
+        raise PlanningError('Current planning index differs from its publication receipt')
+    index = _read_json(package_index_path)
+    from . import selection
+    baseline = selection.load(root)
+    if index.get('selection_id') != baseline['selection_id']:
+        raise PlanningError('Current planning index belongs to a different candidate selection')
     rows = [row for row in index.get('cities', []) if row.get('city') == city]
     if len(rows) != 1:
-        raise PlanningError('Unique retained city planning packet required')
+        raise PlanningError('Unique current city geography packet required')
     plan_rel = PLANNING_ROOT / rows[0]['plan']
     if not plan_rel.is_relative_to(PLANNING_ROOT):
         raise PlanningError('Planning base path escapes its publication')
     plan_path = _safe_file(root, plan_rel)
     expected = manifest.get('files_sha256', {}).get(rows[0]['plan'])
     if not isinstance(expected, str) or digest_bytes(plan_path.read_bytes()) != expected:
-        raise PlanningError('Retained city planning packet differs from its receipt')
+        raise PlanningError('Current city geography packet differs from its receipt')
     plan = _read_gzip_json(plan_path)
     _validate_plan(plan, city)
     sources = dict(plan['source_sha256'])
-    sources[manifest_rel.as_posix()] = digest_bytes(manifest_path.read_bytes())
-    sources[index_rel.as_posix()] = digest_bytes(index_path.read_bytes())
+    sources[package_manifest_rel.as_posix()] = digest_bytes(package_manifest_path.read_bytes())
+    sources[package_index_rel.as_posix()] = digest_bytes(package_index_path.read_bytes())
     sources[plan_rel.as_posix()] = digest_bytes(plan_path.read_bytes())
+    sources[current_manifest_rel.as_posix()] = digest_bytes(_safe_file(root, current_manifest_rel).read_bytes())
     for relative, expected_source in plan['source_sha256'].items():
         if not re.fullmatch(r'[0-9a-f]{64}', str(expected_source)):
-            raise PlanningError('Invalid planning source digest')
+            raise PlanningError('Invalid current geography source digest')
         path = _safe_file(root, relative)
         if digest_bytes(path.read_bytes()) != expected_source:
-            raise PlanningError('Historical planning source changed: ' + relative)
+            raise PlanningError('Current planning source changed: ' + relative)
     return plan, sources
 
 
@@ -331,14 +511,14 @@ def _apply_edits(plan, edits, actor):
 
 
 def _handoff_network(plan):
-    """Remove historical formation and propulsion fields from the handoff."""
+    """Keep the handoff to route, stop, service, transfer and OD proposals."""
     return dict(city=plan['city'], lines=[dict(id=line['id'], coordinates=deepcopy(line['coordinates']),
         route_length_m=line['length_m'], proposed_headway_s=line['headway_s'],
         stations=[dict(id=stop['id'], chainage_m=stop['chainage_m'], lon=stop['lon'], lat=stop['lat'],
             proposed_dwell_s=stop['dwell_s'], access_and_transfer_reassessment_required=bool(
                 stop.get('access_and_transfer_reassessment_required', False))) for stop in line['stops']])
         for line in plan['lines']],
-        retained_interchange_references=[dict(record=deepcopy(row), state='reassessment-required')
+        source_interchange_references=[dict(record=deepcopy(row), state='reassessment-required')
             for row in plan.get('interchanges', [])],
         access_and_transfer_evaluation='pending', service_evaluation='pending',
         origin_destination=deepcopy(plan.get('od', [])))
@@ -396,7 +576,7 @@ def compile_bundle(*, root, baseline, current_summary, current_manifest, bundle_
         network_proposal_id=network_proposal_id,
         base_candidate_evaluation_id=current_summary.get('evaluation_id'),
         planning_revision=planning_identity, selected=False,
-        origin='v0.5 retained city geography and station/service proposal; no old train or cost quantities imported',
+        origin='Current city route and stop geography with selected v0.6 service values treated as proposals',
         engineering_evaluation='held', route_performance_evaluated=False, city_performance_published=False,
         complete_cost_known=False,
         procurement_requirements=dict(state='not-evaluated', known_rows=[], quantities_unknown=True,
@@ -409,8 +589,8 @@ def compile_bundle(*, root, baseline, current_summary, current_manifest, bundle_
             dict(id='civil-and-site', state='pending', scope='Route loads, repeatable span, foundations, erection and site evidence'),
             dict(id='procurement-and-cost', state='pending', scope='Candidate-specific purchasing units, local rates, supplier quotes and installed quantities'),
             dict(id='delivery-and-operations', state='pending', scope='Construction schedule, ERP assets, measured commissioning and maintenance records')],
-        historical_service_values='Retained as proposals from the named city packet; not v0.6 operating results or selected requirements',
-        cost_policy='No legacy maglev prices, guidebeam quantities, fleet figures, or cashflow are carried into this handoff',
+        service_policy='Headway and dwell are proposal defaults from the selected v0.6 development baseline; no service performance is calculated',
+        cost_policy='No candidate procurement quantities, installed costs or cashflow are carried into this handoff',
         **DISPOSITIONS)
     files = {'edit-bundle.json': bundle_raw,
              'planning-revision.json': encoded(planning_identity),

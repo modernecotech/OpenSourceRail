@@ -36,8 +36,7 @@ INTRODUCTION = (
     'on conventional rails carried by precast concrete. Station LIMs act on passive onboard '
     'secondaries; there are no traction motors, traction batteries or suspension magnets onboard. '
     'Service batteries, independent brakes and the existing station-led GoA4 architecture remain. '
-    'The reference design is research only; city numerical regeneration, economics and physical release remain open. '
-    'Historical studies retain their own recorded configurations and results.'
+    'The reference design is research only; city numerical regeneration, economics and physical release remain open.'
 )
 HISTORICAL_ENTRYPOINTS = {
     'crates/osr-maglev-control/README.md',
@@ -121,10 +120,6 @@ def introduction(name):
     route = Path(os.path.relpath('README.md', parent)).as_posix()
     method = Path(os.path.relpath('docs/design-engine/current/README.md', parent)).as_posix()
     context = INTRODUCTION
-    if name in HISTORICAL_ENTRYPOINTS:
-        archive = Path(os.path.relpath('docs/archives/v0.5-maglev/README.md', parent)).as_posix()
-        context += (' This directory retains historical magnetic-suspension research. '
-                    f'Reproduce it from the [pinned v0.5 archive]({archive}).')
     return '\n'.join((START, context, '',
                       f'[Project introduction]({route}) · [Engineering approach and current status]({method})', END))
 
@@ -301,19 +296,20 @@ def markdown(value):
     def link(name, label=None):
         relative = Path(os.path.relpath(name, base)).as_posix().replace(' ', '%20')
         return '['+(label or name)+']('+relative+')'
-    lines = ['# README introductions and current system context', '', INTRODUCTION, '',
+    current_rows = [row for row in value['readmes']
+                    if row['path'] in OWNED and row['path'] not in HISTORICAL_ENTRYPOINTS]
+    categories = Counter(row['category'] for row in current_rows)
+    lines = ['# Current README entrypoints', '', INTRODUCTION, '',
         link('README.md', 'Project introduction')+' · '+link('engineering/README.md', 'System approach')+' · '+link('docs/design-engine/current/README.md', 'Current design and engineering gates'), '',
-        f"All **{value['readme_count']} tracked or new README documents** are classified below. The **{value['owned_introductions_current']} manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.", '',
-        f"Existing local navigation reaches current context from **{value['existing_context_routes']} documents**. This page supplies an explicit current-context route for the remaining **{value['central_context_routes']} retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.", '',
-        'Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.', '',
+        f"The **{len(current_rows)} maintained v0.6 entrypoints** carry the current project, engineering, deployment and tool context.", '',
         '| README class | Documents |', '|---|---:|']
-    lines += [f'| {kind} | {count} |' for kind,count in value['categories'].items()]
+    lines += [f'| {kind} | {count} |' for kind,count in categories.items()]
     lines += ['', 'Regenerate and check with:', '', '```bash',
         'tools/automation/osr-python -m engineering.readme_context --write',
         'tools/automation/osr-python -m engineering.readme_context --check', '```', '',
-        'The write command owns only the thirteen manual introduction blocks; it does not rewrite root, generated or retained research READMEs. Local document titles, technical scopes, licences and all content outside an owned block remain with their existing authors.', '',
+        'The write command owns the maintained manual introduction blocks; it does not rewrite generated engineering evidence. Local document titles, technical scopes, licences and all content outside an owned block remain with their existing authors.', '',
         '| README | Class | Current system context | Existing route |', '|---|---|---|---|']
-    for row in value['readmes']:
+    for row in current_rows:
         existing = ' → '.join(link(name, Path(name).parent.name or 'project') for name in row['existing_context_route'][1:])
         if row['existing_context_route'] == [row['path']]:
             existing = 'Current system introduction'

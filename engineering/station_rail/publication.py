@@ -84,9 +84,13 @@ def native_package(name,record,root=ROOT,output=None,provided=None):
 
 def sources(root,record,index,delivery):
     root=Path(root);maps=[record['source_sha256'],index['source_sha256'],delivery['source_sha256']]
+    planning_manifest=root/'docs/design-engine/current/planning/manifest.json'
+    if planning_manifest.is_file():
+        maps.append(json.loads(planning_manifest.read_bytes()).get('source_sha256',{}))
     names=['AGENTS.md','README.md','VERSION','Cargo.toml','Cargo.lock','package.json','package-lock.json','docs/ROADMAP.md','docs/ARCHITECTURE.md',
         'docs/first-adoptable-product.md','docs/open-source-rail-overview.md','docs/open-source-rail-overview.html','CONTRIBUTING.md',
         'deployment/erpnext/README.md','deployment/supervision/README.md','tools/README.md','crates/README.md','cities/catalogue/README.md',
+        'docs/workbench/planning/index.html','docs/workbench/planning/planning.js','docs/workbench/planning/planning.css',
         'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
         'engineering/development-baseline.toml','engineering/readme_context.py','engineering/requirements.txt','.github/repository-metadata.yml','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
@@ -108,11 +112,6 @@ def sources(root,record,index,delivery):
         'campaigns/practical-launch-comparison.toml','engineering/design_search/launch_options.py',
         'campaigns/simple-affordable-propulsion.toml','engineering/design_search/propulsion_layout.py',
         'campaigns/station-accelerator-development.toml','engineering/design_search/station_accelerators.py',
-        'campaigns/end-to-end-digital-twin.toml','osr-twin',
-        'campaigns/engineering-completion.toml','osr-complete','.github/workflows/engineering-closure.yml',
-        'campaigns/sourced-reference-cell.toml','osr-cell','.github/workflows/reference-cell.yml',
-        'tools/automation/reference-cell-geometry.py',
-        'services/integration/osr_integration/reference_cell.py',
         'engineering/design_search/propulsion_storage.py','engineering/design_search/sparse_launch.py',
         'engineering/design_search/data/skeleton-102v94f-catalogue.json','engineering/design_search/data/tsa-type-x-drive-lead.json',
         'engineering/design_search/demonstration.py','engineering/design_search/route_bundle.py',
@@ -134,9 +133,9 @@ def sources(root,record,index,delivery):
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_twin').glob('*.py')]
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_completion').glob('*.py')]
-    for current_package in ('engineering/component_registry','engineering/reference_cell'):
+    for current_package in ('engineering/component_registry',):
         names += [p.relative_to(root).as_posix() for p in (root/current_package).rglob('*') if p.is_file() and p.suffix in ('.py','.json','.html','.js','.css') and 'tests' not in p.parts and '__pycache__' not in p.parts]
-    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators','digital-twin','engineering-closure','reference-cell'):
+    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators'):
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
         if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))
@@ -670,7 +669,7 @@ def readme(record,summary,root=ROOT):
         raise ValueError('Mass reconciliation identities differ from current selected evaluation')
     lines=['# v0.6 station-powered freewheeling rail','',
       'OpenSourceRail aims for simple, affordable urban transport, repeated precast civil components and local manufacture and repair. Six lightweight comfort cars run on passive steel-wheel bogies and conventional rails. Station LIMs act on passive onboard aluminium secondaries; no onboard traction motor, traction battery or levitation magnet is fitted. Independent service power, braking and the existing station-led GoA4 architecture remain.','',
-      '**Selected for reference engineering and prototype investigation. No physical, manufacturing or operating release.** The [selector](../../../engineering/development-baseline.toml) binds the same vehicle, body, support and propulsion identities through this packet, delivery records, Workbench and reader. [v0.5 maglev evidence](../../archives/v0.5-maglev/README.md) remains independently pinned.','',
+      '**Selected for reference engineering and prototype investigation. No physical, manufacturing or operating release.** The [selector](../../../engineering/development-baseline.toml) binds the same vehicle, body, support and propulsion identities through this packet, delivery records, Workbench and reader.','',
       '| Item | Recalculated basis |','|---|---|',
       '| Formation and comfort | Six 17 m cars; 104.5 m overall; 44 seats + two wheelchair places/car; zero planned standing |',
       '| Running gear | 12 unpowered bogies, 24 axles, 48 wheels; independent friction/WSP/parking brake requirements |',
@@ -684,7 +683,7 @@ def readme(record,summary,root=ROOT):
       '## Reference journey and power','',
       f"The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
       f"Full-train engagement requires **{z['required_shared_winding_m']:.1f} m** of shared launch/receiving winding; the library chooses **{z['length_m']:.0f} m**, **{z['sections_per_direction']} sections/direction** at 12.5 m and at least two independently controlled train branches. The **{z['nominal_resource_interval_s']:.2f} s** nominal berth interval is a necessary resource screen, not verified two-minute operation.",'',
-      'Reference profiles cover empty, 46-person and 160-person structural-control loads at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
+      'Reference profiles cover empty, normal-load and 160-person structural-control cases at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
       'The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit enclosure/cooling/conversion accounts. The 200 kW charging target passes a catalogue voltage/current necessary bound; available charge power versus SOC/temperature remains unknown. A 50°C environment exceeds the module ambient catalogue range. Normal 35 kW/car hotel duty balances in the prototype calculation; 50 kW/car adverse duty needs more charging. Solar yield is not guaranteed or credited to make the balance pass.','',
       'The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.','',
       'The [native physical follow-up](../v06-physical-closure/README.md) adds 18 current-excited LIM cases, 24 reduced Chrono brake runs and native body-interface/fit-up experiments. The tested full primary fails force and steel-field screens. Its raw field calculations remain conditional; the default geometry and acceptance holds are unchanged.','',
@@ -693,13 +692,13 @@ def readme(record,summary,root=ROOT):
       'New bogie hardpoints, deep side sills and retained roof longitudinal members replace the magnetic carrier arrangement. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.','',
       'The roof proposal uses HP60 core and a counted white finish; long-term loaded hot strength, durable reflectance and HVAC performance remain open. Unchanged door, glass, floor and seat stock retains its source ancestry; the revised vehicle receives a new identity. Plastic glazing remains an unqualified alternative.','',
       f"Three conventional guideway families are compared across 15/20/25/30 m spans. The crowd-sized {r['span_m']:.0f} m box reference counts **{r['concrete_m3']:.3f} m³ concrete**, **{r['running_rail_kg']/1000:.3f} t running rail**, **{r['direct_fastener_sets']} fastener sets** and **{r['counted_steel_kg']/1000:.3f} t total preliminary steel including rail, fasteners, reinforcement, tendons and anchorages. Its **{r['total_counted_span_mass_kg']/1000:.2f} t** span account still excludes complete bearings, piers, foundations, access/containment and station equipment.",'',
-      'New rails and fasteners are much lighter than the old magnetic interface stock, while concrete and remaining structural quantities have different boundaries. Lower installed cost is unproven. Each longitudinal section gets its own moving-load envelope; torsion, fatigue, unequal rail loads, prestress losses, erection and sites remain open. Twin and U sections retain their failures.','',
+      'Rails, fasteners, concrete and the remaining structural quantities have separate accounting boundaries. Lower installed cost is unproven. Each longitudinal section gets its own moving-load envelope; torsion, fatigue, unequal rail loads, prestress losses, erection and sites remain open. Twin and U sections retain their failures.','',
       '[Native vehicle material package](native-vehicle.tar.gz) · [Vehicle drawing](vehicle-overview.svg) · [Reference section](interface-section.svg) · [Civil alternatives](exports/civil.json) · [Partial native IFC](exports/selected-interface.ifc) · [IFC scope](exports/bim.json) · [BOM](exports/engineering-bom.json.gz) · [Processes](exports/manufacturing.json) · [Procurement](exports/procurement.json.gz) · [Assembly](exports/assembly.json) · [Controls](exports/controls.json)','',
       '## Automation, comparison and cities','',
       'Station-led GoA4, onboard ATP, OCC, TCMS, door control, interlocking and communications remain. New actual Rust wheel-interface fixtures check configuration/readiness and independent brake demands; existing ATP regressions remain software evidence. They use assumed readiness and have no physical brake plant or hardware outputs. Loss of propulsion leaves wheel support intact. Off-zone restart requires protected rescue/towing; mainline switches remain excluded, with depot exceptions only.','',
-      'v0.6 is chosen for prototype investigation to remove the unproven levitation system and repeated magnetic-facing assemblies. It is heavier than the v0.5 accounted car and lighter than the optimistic stripped-v0.4 mass proxy. No same-service supplier-priced whole-life superiority is established. See the explicit comparison and open price coverage.','',
-      f"All **{summary['cities']['city_count']} city geographies and maps are preserved**; **zero city performance packages are regenerated**. A metadata scan of 17,268 adjacent operating-stop gaps finds a longest retained gap of approximately 3 km in Faisalabad. Reference adverse cases test that distance; uphill unreachable cases and downhill speed-cap violations are retained. Historical city fleet, windings and finance figures are not v0.6 results.",'',
-      '[Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Native controls](native-controls.tar.gz)','',
+      'The selected wheel-supported reference uses station propulsion with passive onboard reaction elements. No same-service supplier-priced whole-life superiority is established; candidate comparisons and open price coverage remain in this dossier.','',
+      f"All **{summary['cities']['city_count']} city route geographies and stop locations are available as planning inputs**; **zero v0.6 city performance packages are published**. A geography-only scan of current city stop chainages finds a longest planning gap of approximately 3 km in Faisalabad. Reference adverse cases use that distance as a scenario; no journey or operating result is inferred from the scan.",'',
+      '[Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Candidate delivery exports](exports/manifest.json) · [Native controls](native-controls.tar.gz)','',
       '## Iterative alternatives','', 'The [failure-driven campaign](../v06-optimisation/README.md) generates body/motor/brake revisions, reruns native solvers, propagates the same mass into civil/service calculations and compiles matching research twins. The research winner is the next experiment; no qualified replacement is silently promoted. The comparison exposes normal/crowd deflection, additional mass and changed thrust requirements; conditional motor results remain outside their declared linear-steel domain. Participating-panel lateral displacement remains nonconverged under mesh refinement; its vertical values are diagnostic rather than validated full-body performance.','',
       'The [whole-railway architecture campaign](../v06-architecture/README.md) tests seven propulsion families, different speed/formation/powered-track arrangements and civil sections. It compares analytical demand and conditional quantities while keeping new equipment mass and actual motor capability unknown. Repaired finite-area joint/body and generic nonlinear magnetic method checks retain their independent numerical and engineering dispositions. No architecture is qualified, no city performance is regenerated and the selected v0.6 reference is preserved.','',
       'The [function-first adaptive generator](../v06-adaptive-design/README.md) separates mandatory obligations, advisory targets, revisable hypotheses and numerical model domains. Its extensible material/structure/joining/equipment/system variables drive coupled revision tasks. New thinner/deeper sill experiments redistribute counted material, with native normal/fine/crowd cases and matched mass, axle, demand and civil calculations. Provisional deflection alone neither rejects nor accepts a car; local stability, strength, joints, clearances and correlation remain open.','',
@@ -708,7 +707,7 @@ def readme(record,summary,root=ROOT):
       'The [candidate-to-journey closure matrix](../railway-closure/README.md) propagates three distinct bodies through separate 1.5 km and 2 km station-only/recovery-research bundles, empty/normal/crowd/adverse demand, independent brake hypotheses, civil and cost quantities. Its fault journeys remain not-run. The [moving-conductor LIM experiment](../moving-lim-method/README.md) translates the actual secondary through a voltage-coupled field model; unresolved refinement and high-speed domain limits prevent force-map admission. Neither experiment supplies a complete equipped vehicle or physical journey.','',
       '## Readiness and reproduction','', '| Gate | State | Evidence still needed |','|---|---|---|']
     lines += [f"| {g['gate']} | **{g['state']}** | {g['reason']} |" for g in record['gates']]
-    lines += ['','```bash','./osr status','./osr build','./osr verify','./osr test','./osr book --check','./osr sim baghdad  # explicit city evaluation hold','./osr legacy verify','```','',
+    lines += ['','```bash','./osr status','./osr build','./osr verify','./osr test','./osr book --check','./osr sim baghdad  # explicit city evaluation hold','./osr twin export','```','',
       '[Source/payload receipt](manifest.json) · [README context](readme-coverage.md) · [Roadmap](../../ROADMAP.md) · [Project ethos](../../../README.md)','']
     for name in IDS:lines += [name.replace('_',' ').capitalize()+' `'+record[name]+'`','']
     marker=lines.index('## Automation, comparison and cities')
@@ -744,8 +743,6 @@ def seal(output,root=ROOT):
 
 def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
-    for script in ('generate-public-overview.py','generate-doc-index.py'):
-        subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
     record=evaluation.build(root);natives={};packages={}
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
@@ -757,13 +754,25 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
         if previous.exists():shutil.rmtree(output)
         else:previous.parent.mkdir(parents=True,exist_ok=True);shutil.move(output,previous)
     output.mkdir(parents=True,exist_ok=True)
-    index=cities.publish_all(root=root);delivery=exports.write(output/'exports',record,root,index,natives['vehicle'])
+    index=cities.publish_all(root=root)
+    from engineering.development_baseline import planning
+    planning.publish_inputs(root)
+    delivery=exports.write(output/'exports',record,root,index,natives['vehicle'])
     compact_value=compact(record,index,natives,delivery)
     for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
        'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root).encode()}.items():write(output/name,raw)
     for name,path in packages.items():write(output/('native-'+name+'.tar.gz'),archive(path))
     figures.write(record,output)
     for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
+    from engineering import readme_context
+    readme_audit=readme_context.audit(root)
+    if not readme_audit['current']:raise ValueError('README context: '+'; '.join(readme_audit['errors']))
+    write(output/'readme-coverage.json',encoded(readme_audit))
+    write(output/'readme-coverage.md',readme_context.markdown(readme_audit).encode())
+    # Generate navigation after the current dossier README has been replaced;
+    # and coverage reports have been written, so their inventory is current.
+    for script in ('generate-public-overview.py','generate-doc-index.py'):
+        subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
     seal(output,root)
     return dict(published=True,selection_id=record['selection_id'],evaluation_id=record['evaluation_id'],city_count=index['city_count'],city_performance_packages_written=0,**FLAGS)
 
@@ -780,6 +789,8 @@ def verify(output=None,*,root=ROOT,replay=True):
     mass_ledger_audit.verify(root)
     if json.loads(gzip.decompress((output/'evaluation.json.gz').read_bytes()))!=record:raise ValueError('evaluation differs')
     citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery=exports.verify(output/'exports',record,root,index)
+    from engineering.development_baseline import planning
+    planning.verify_inputs(root)
     natives={}
     for name in ('vehicle','drive','controls'):
         path=native_package(name,record,root,output);natives[name]=verify_package(path,root)

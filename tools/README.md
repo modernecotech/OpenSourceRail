@@ -1,60 +1,48 @@
-# OpenSourceRail tools
+# OpenSourceRail development tools
 
 <!-- osr-system-context:start -->
-OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open. Historical studies retain their own recorded configurations and results.
+OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open.
 
 [Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
-Start with the [project launcher](../osr) and [current engineering workflow](../engineering/station_rail/README.md).
+The [`./osr` launcher](../osr) is the supported entry point for current v0.6
+engineering, planning, delivery and verification workflows. Start with the
+[engineering guide](../engineering/station_rail/README.md) and
+[current dossier](../docs/design-engine/current/README.md).
 
-| Workflow | Command | Purpose |
+| Task | Command | Result |
 |---|---|---|
-| Rebuild current evidence | `./osr build` | Rebuild stale prerequisites and publish source-bound studies |
-| Inspect current studies | `./osr design status` | Show architecture, requirements, responsibilities and open gates |
-| Inspect city readiness | `./osr city baghdad` | Report retained geography and the v0.6 performance-evaluation hold |
-| Inspect the journey hold | `./osr sim baghdad` | Report missing current physical inputs; never replay old results as v0.6 |
-| Plan coordinated research | `./osr design railway plan` | Show the shared candidate, evaluator dependencies and execution budgets |
-| Run bounded research | `./osr design railway run --max-bundles 2 --native-jobs 1` | Resume engineering/manufacturing evaluation and pending tasks |
-| Verify coordinated evidence | `./osr design railway verify` | Check exact candidate, source, native and publication identities |
-| Open design UI | `./osr workbench` | Inspect city plans, native geometry and provisional cost scope |
-| Verify | `./osr test` | Run current Rust, Python, publication and browser checks |
-| Reproduce historical alternatives | `bash tools/automation/test-maglev-research.sh` in the pinned historical checkout | Retain the original magnetic method, source and publication contracts |
-| Inspect proposed background refresh | `tools/automation/osr-python tools/automation/default-design-cycle.py` | Print proposed service/timer text for review; installation is a separate explicit action |
+| Inspect selected candidate and open gates | `./osr status` | Candidate identities, publication status and acceptance flags |
+| Refresh current engineering records | `./osr build` | Source-bound calculations, dossier, exports and Workbench |
+| Verify current records | `./osr verify` | Source and payload identity checks |
+| Plan a coordinated candidate study | `./osr design railway plan` | Shared candidate, evaluator dependencies and bounded execution plan |
+| Run bounded engineering work | `./osr design railway run --max-bundles 2 --native-jobs 1` | Restartable evaluations; pending and failed tasks remain recorded |
+| Publish and verify a study | `./osr design railway publish` / `./osr design railway verify` | Candidate-bound study records and reproducibility checks |
+| Edit and compile city proposals | `./osr plan serve` then `./osr plan compile edits.json --output build/my-plan` | Immutable route, stop, service and OD handoff bound to the selected candidate |
+| Verify a planning handoff | `./osr plan verify build/my-plan` | Source and candidate identity verification |
+| Inspect candidate delivery twin | `./osr twin export` | Current CAD/IFC, BOM, procurement, assembly and control export status |
+| Open the engineering viewer | `./osr workbench` | Read-only current candidate and evidence views |
 
-[Current automation](automation/default-design.py) follows the selected wheel/LIM
-configuration. Shared Python dependencies are pinned in
-[engineering/requirements.txt](../engineering/requirements.txt). The older
-`capabilities.py`, `catalogue.py` and `generate-design-index.py` helpers belong to
-the pinned historical workflow; use `./osr status` and `./osr catalogue` for current
-read-only state. The generic
-[movement-authority reference utility](reference-ma/README.md) remains a separate
-development helper; it does not qualify control hardware or railway operation.
+Planning handoffs contain proposals. They do not contain route-performance,
+procurement, construction-schedule or full-city-cost results. Exported delivery
+records are research drafts. Missing equipment, installed mass, physical drive
+maps, site data, prices and acceptance evidence remain explicit; no command
+grants manufacturing or movement authority.
 
-## CI and reproducibility
+## Automation and dependencies
 
-CI keeps three evidence scopes visible:
+[`automation/default-design.py`](automation/default-design.py) defines the
+current design refresh. Shared Python dependencies are pinned in
+[`engineering/requirements.txt`](../engineering/requirements.txt). Run repository
+commands through `./osr` so the declared project toolchain and environment are
+used. Background refresh scripts print proposed service configuration; they do
+not install or activate a service.
 
-| Scope | Checks and source |
-|---|---|
-| Current v0.6 development | [Current contracts and required engineering](../.github/workflows/development-baseline.yml) use the selected wheel/LIM configuration. |
-| Shared software compatibility | [Workspace and control checks](../.github/workflows/shared-software.yml), plus current research unit jobs, test the current implementation with explicit compatible fixtures. |
-| Historical research replay | [v0.5 replay](../.github/workflows/historical-v05.yml) and historical publication jobs use their exact recorded source commits, original verifiers and unchanged numerical packets. |
+## Current checks
 
-A historical result is provenance for its original candidate, not current vehicle
-qualification. The publication source guard checks committed receipts, every
-recorded source hash and the complete payload inventory before the original
-verifier runs. Failed checks remain visible and retain their reports.
-
-Current retained-research tests keep archived producer ancestry separate from
-current executable sources. Evaluators do not download missing Git objects. In a
-shallow checkout, fetch the explicit retained source revision before running
-those tests, as CI does:
-
-```bash
-git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
-```
-
-Changing a producer does not update old numerical evidence. Reproduce historical
-publications at their recorded commits; create fresh candidate/run packages for
-new calculations. Missing native tools or physical measurements remain holds.
+CI runs current software, source-bound publication and browser checks from the
+selected v0.6 configuration. Native solvers run only when their declared tools
+and resources are available. Reports distinguish execution, numerical validity,
+engineering screening and physical acceptance. A passed software check is not
+physical validation or release.

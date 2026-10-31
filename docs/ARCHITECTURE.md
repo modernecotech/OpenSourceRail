@@ -1,55 +1,82 @@
 # OpenSourceRail architecture
 
-v0.6 is a station-powered freewheeling railway. Six lightweight 17 m comfort cars run on twelve passive steel-wheel bogies. Conventional rails on precast concrete support the train; station LIM primaries act on passive onboard aluminium secondaries. The train has no normal-service traction motor or traction battery. Service/essential power, sensing, communications and independent mechanical braking remain onboard.
+OpenSourceRail connects three products: a design and delivery platform, a
+reference railway and manufacturing system, and open GoA4 control software. The
+delivery lifecycle covers planning, design, procurement, manufacture,
+construction, commissioning, operation, maintenance and renewal. Local design
+authority, repairability and whole-life affordability are objectives that each
+candidate must demonstrate.
 
-## The wider platform
+## Selected v0.6 research candidate
 
-OpenSourceRail has three connected products: an owner/builder/operator design and
-delivery platform, a reference railway and manufacturing system, and open GoA4
-control software. Its lifecycle is plan, design, procure, manufacture, construct,
-commission, operate, maintain and renew. Local design authority, competitive
-sourcing, repair capability and whole-life affordability apply across all three.
+[`development-baseline.toml`](../engineering/development-baseline.toml) selects
+six 17 m comfort cars with 44 fixed seats and two wheelchair places per car, no
+planned standing, and a 120-second service target. Passive steel-wheel bogies
+run on conventional rails carried by concrete. Double-sided station linear
+induction motors act on passive onboard aluminium secondaries. The vehicles
+have no normal-service traction motors, traction batteries or suspension
+magnets. Independent braking, service power, protection and rescue provisions
+remain required.
 
-The [ERPNext/Frappe HR app](../deployment/erpnext/README.md) retains business,
-workforce, procurement, manufacturing, QA and maintenance functions. The
-[FUXA/gateway services](../deployment/supervision/README.md) retain observations,
-alarms, history and review-linked lifecycle records. The
-[planning workspace](workbench/planning/index.html) retains geographic/service
-proposals over historical packets; its v0.6 compilation is unconnected. These are
-distinct from the read-only engineering Workbench; company
-masters, permissions, device bindings and reviewed imports are deployment inputs.
-Their interfaces do not supply movement authority.
+The selected candidate is a development reference. It has not been physically
+qualified or released for manufacture or passenger operation. The 8,280
+passengers/hour/direction figure is capacity arithmetic, not a demonstrated
+service.
 
-The coordinator connects candidate geometry and materials to engineering,
-inventory, manufacturing tasks and research CAD/IFC/ERP drafts. A full priced
-construction/cashflow plan, qualified shop package and operational asset twin
-require additional current-candidate data. Earlier project-twin and lifecycle
-examples retain their actual configuration; changing the vehicle does not
-requalify them. See [the adoption boundary](first-adoptable-product.md).
+## Connected platform
 
-## One physical candidate
+The [planning workspace](workbench/planning/index.html) supports local
+geographic, stop, service and OD editing. `./osr plan compile` creates an
+immutable proposal handoff bound to the selected candidate, and `./osr plan
+verify` checks its identities and sources. The handoff carries proposals only;
+it does not calculate current route performance, procurement quantities,
+construction schedules or complete city costs. It grants no movement
+authority.
 
-[development-baseline.toml](../engineering/development-baseline.toml) resolves the selected `wheel_rail_station_lim` family through [the v0.6 engineering layer](../engineering/station_rail/README.md). Vehicle, body, support and propulsion identities are separate. Candidate identity describes physical stock; evaluation identity describes models and scenarios; selection identity records purpose and policy. The retained `pm_maglev_station_powered` and conceptual `wheel_rail_station_lsm` families remain explicit comparisons.
+The coordinator carries one candidate bundle through geometry, mass, analysis,
+BOM, CAD/IFC, procurement, assembly, construction and controls. The current
+[engineering exports](design-engine/current/exports/manifest.json) and
+[coupled delivery index](design-engine/coupled-railway/delivery-index.json)
+provide candidate-linked research records. They do not imply complete installed
+equipment, qualified manufacturing instructions or approved business records.
 
-Unchanged component records retain source identities. New bogies, concentrated structural supports, reaction fin and service supply produce a new complete vehicle identity. Counted geometry, supplier reference masses and unlocated allowances are distinguished. Unknown installed mass, force, cost and qualification never become zero.
+[ERPNext and Frappe HR](../deployment/erpnext/README.md) provide draft business,
+workforce, procurement, production, QA and maintenance workflows.
+[FUXA and the gateway](../deployment/supervision/README.md) support observation,
+alarm, history and review records. Company and site masters, permissions,
+authenticated device bindings and reviewed imports are deployment inputs.
+Neither integration supplies movement authority or accepts engineering evidence
+automatically.
 
-## Station-led GoA4
+## Identity and evidence boundaries
 
-Existing Rust ATP, interlocking, OCC, TCMS, door control, station SCADA and train-to-ground communication remain the foundation. Stations reserve route and receiving berth, prove train readiness, sequence motor sections and supervise arrival. Onboard ATP continuously enforces authority and speed using independent brake capability. It must stop the train on communications, authority, receiving or integrity failure. Mainline switches are excluded; depot exceptions remain explicit.
+The physical candidate identity describes the vehicle, support and propulsion
+configuration. Evaluation identity binds models, sources and scenarios.
+Selection identity records which candidate is used for a stated purpose. A
+different model hypothesis is a different evaluation; a physical revision gets
+a new candidate identity. Mixed identities fail closed, and downstream results
+must be regenerated when upstream evidence changes.
 
-Loss of propulsion does not remove wheel support. Motorless off-zone stopping still requires rescue/towing and evacuation provision. The new wheel/station adapter exercises protection predicates; no physical brake curve, operational GoA4 acceptance or full train motion is implied.
+Unknown installed mass, force, heat, cost, origin or qualification remains
+unknown or bounded. Calculated assumptions can complete a research scenario but
+cannot establish a physical result. Software execution, numerical validity,
+engineering screening, evidence maturity, selection purpose and physical
+acceptance remain separate records.
 
-## Coupled engineering
+## Coupled engineering domains
 
-| Domain | Required relationship |
+| Domain | Required coupling |
 |---|---|
-| Vehicle | Full fitout, bogies, service supply, thermal equipment and actual load paths feed mass and inertia |
-| Station motor | Force/current/frequency/gap/temperature map, normal forces, slip, heat and section handoff feed the journey |
-| Rail/civil | Moving axle reactions, alignment, deflection, torsion, rails/fasteners, piers, foundations and construction |
-| Journey | Same mass and geometry, wheel dynamics, independent brakes, service SOC, station power and protection |
-| Delivery | BOM, processes, procurement, assembly, CAD/IFC and maintenance share the selected physical IDs |
-| Economics | Equal passenger service, routes, reliability, life and price coverage; unavailable totals stay unknown |
+| Vehicle | Complete fitout, bogies, service supply, thermal equipment, load paths, mass and inertia |
+| Station propulsion | Force/current/frequency/gap/temperature, normal force, losses, cooling and section handoff |
+| Braking and journey | Same candidate mass and geometry, independent brakes, service energy, station power and protection |
+| Rail and civil | Moving axle reactions, rails and fasteners, alignment, deflection, torsion, piers, foundations and erection |
+| Delivery | Candidate-matched BOM, manufacturing processes, procurement, assembly, CAD/IFC and maintenance records |
+| Economics | Equal passenger service, routes, reliability, design life, installed scope and price uncertainty |
 
-The CLI, [current dossier](design-engine/current/README.md), Workbench and [reader](../OpenSourceRail-Book.pdf) resolve this selection. Build runs deterministic reference calculations and produces research delivery records. City performance publication remains held; retained city maps and route inputs are accessible without reusing old magnetic masses or fleet figures.
-
-[The v0.5 archive](archives/v0.5-maglev/README.md) authenticates former sources and results at their Git revision. Historical numerical reproduction requires that pinned checkout. Ordinary current publication never rewrites historical scientific packets.
+The [current dossier](design-engine/current/README.md), CLI, Workbench,
+[candidate twin exports](design-engine/current/exports/manifest.json) and
+[project reader](../OpenSourceRail-Book.pdf) expose the current development
+selection. City performance publication remains held until candidate-specific
+propulsion, braking, route, civil and economic evidence supports it. Physical
+qualification and independent review remain open.

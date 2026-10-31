@@ -868,15 +868,15 @@ Indexed Markdown files: **1021**.
 
 | File | Title |
 |---|---|
-| [`crates/README.md`](../crates/README.md) | OpenSourceRail Rust research software |
+| [`crates/README.md`](../crates/README.md) | OpenSourceRail Rust control and integration software |
 | [`crates/osr-maglev-control/README.md`](../crates/osr-maglev-control/README.md) | osr-maglev-control |
 
 ## deployment
 
 | File | Title |
 |---|---|
-| [`deployment/README.md`](../deployment/README.md) | Development deployment configuration |
-| [`deployment/erpnext/README.md`](../deployment/erpnext/README.md) | ERPNext business deployment |
+| [`deployment/README.md`](../deployment/README.md) | Deployment and integration |
+| [`deployment/erpnext/README.md`](../deployment/erpnext/README.md) | ERPNext and Frappe HR integration |
 | [`deployment/supervision/README.md`](../deployment/supervision/README.md) | Equipment supervision and lifecycle integration |
 
 ## docs
@@ -886,7 +886,7 @@ Indexed Markdown files: **1021**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Generated Markdown Inventory |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
-| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and prototype roadmap |
+| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and delivery roadmap |
 | [`docs/archives/continuing-cell-source-epochs/README.md`](../docs/archives/continuing-cell-source-epochs/README.md) | Archived continuing-cell source epochs |
 | [`docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md`](../docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md) | Continuing reference-cell engineering |
 | [`docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/validation.md`](../docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/validation.md) | Executed continuing-cell results — 28 October 2026 |
@@ -895,14 +895,14 @@ Indexed Markdown files: **1021**.
 | [`docs/archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md`](../docs/archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md) | Candidate-to-journey closure |
 | [`docs/archives/railway-closure-source-epochs/README.md`](../docs/archives/railway-closure-source-epochs/README.md) | Archived railway-closure source epochs |
 | [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
-| [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
+| [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 28 October 2026 |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
-| [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | README introductions and current system context |
+| [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
 | [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
 | [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
 | [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
@@ -1051,7 +1051,7 @@ Indexed Markdown files: **1021**.
 | [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
 | [`engineering/component_registry/README.md`](../engineering/component_registry/README.md) | Component, material and manufactured-form master |
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Iterative physical design search |
-| [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development selection adapters |
+| [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | Historical reference: OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
@@ -1104,5 +1104,5 @@ Indexed Markdown files: **1021**.
 
 | File | Title |
 |---|---|
-| [`tools/README.md`](../tools/README.md) | OpenSourceRail tools |
+| [`tools/README.md`](../tools/README.md) | OpenSourceRail development tools |
 | [`tools/reference-ma/README.md`](../tools/reference-ma/README.md) | reference-ma — Python reference interpreter for `osr-interlocking` |

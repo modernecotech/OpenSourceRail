@@ -1,37 +1,40 @@
 # OpenSourceRail: open railway design and delivery
 
-OpenSourceRail aims to retain design authority, manufacturing, software, integration
-and maintenance capability in-country. It connects three products: a design and
-delivery platform, reference railway hardware and factories, and open GoA4 controls.
-Low whole-life cost, local value added, repairability and repeatable construction
-are objectives, not established savings.
+OpenSourceRail connects city planning, railway engineering, manufacturing,
+construction, business workflows and open train-control software. Its purpose is
+to build local design authority, production and repair capability while
+comparing whole-life cost and passenger service. These are project objectives;
+economic superiority and physical qualification have not been demonstrated.
 
-## The v0.6 reference
+## Selected v0.6 research candidate
 
-The selected research configuration is **station-powered freewheeling wheel rail**.
-It has 6 cars of 17 m, each with 44 fixed seats and
-2 wheelchair places, and no planned standing. Passive bogies run on
-conventional rails carried by precast concrete. Station double-sided LIMs act on
-passive onboard aluminium secondaries; normal-service traction motors, traction
-batteries and suspension magnets are absent from the train.
+The selected reference is a station-powered, wheel-supported railway with
+6 cars of 17 m. Each car is planned for
+44 fixed seats and
+2 wheelchair places, with no planned
+standing. Passive steel-wheel bogies run on conventional rails carried by
+concrete guideway. Double-sided station linear induction motors act on passive
+onboard aluminium secondaries. The vehicle has no normal-service traction motor,
+traction battery or suspension magnet. Independent braking, service power,
+protection and rescue remain required.
 
-The targets are 72 km/h, 120-second headway and
-35-second dwell. Capacity arithmetic gives 8,280
-passengers/hour/direction, not a demonstrated protected service. Auxiliary batteries,
-HVAC, doors, independent brakes, onboard ATP, station-led supervision and recovery
-remain necessary. Passengers transfer between fixed lines; depot switching is a
-separate exception to the no-mainline-switch policy.
+The service targets are 72 km/h launch
+speed, 120 seconds headway and 35 seconds
+dwell. The resulting 8,280
+passengers/hour/direction is capacity arithmetic, not a demonstrated protected
+service. The selected candidate is a development reference without manufacturing
+or passenger-operation release.
 
 ![Counted v0.6 vehicle proposal](design-engine/current/vehicle-overview.svg)
 
-*Partial stock geometry and equipment accounts, not a complete installed or approved train.*
+*Partial stock geometry and equipment accounts; not a complete installed or approved train.*
 
-## v0.6 concept illustrations
+## Concept illustrations
 
-These five supplied illustrations show the intended railway, passenger experience,
-local assembly and construction. They are concept artwork. Dimensions, equipment
-placement, accessibility and construction details require controlled engineering
-records; the images do not establish physical performance or qualification.
+These illustrations show the intended passenger experience, local assembly and
+construction approach. They are concept artwork. Detailed dimensions,
+accessibility, equipment placement and construction methods require controlled
+engineering records; the images do not establish physical performance.
 
 ### Elevated train and station
 
@@ -63,46 +66,50 @@ Illustrated precast-beam erection above an urban corridor. Lifting arrangements,
 
 Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.
 
-## The wider platform remains
+## Planning, engineering and delivery
 
-The lifecycle is plan, design, procure, manufacture, construct, commission, operate,
-maintain and renew. [ERPNext/Frappe HR](../deployment/erpnext/README.md) retains
-business, workforce, procurement, quality and maintenance functions.
-[FUXA and the gateway](../deployment/supervision/README.md) retain observations,
-alarms, history and review-linked lifecycle records. The
-[planning workspace](workbench/planning/index.html) retains local city/service
-editing over historical geographic inputs. Its v0.6 compiler now creates and
-verifies a source-bound review handoff tied to the selected candidate; this is a
-planning proposal, not a route-performance result or construction schedule. These
-services require configured roles, masters, device bindings and reviewed imports;
-the engineering Workbench does not automatically commission them.
+The [planning workspace](workbench/planning/index.html) supports local
+geographic, route, stop, service and OD proposals. `./osr plan compile` writes an
+immutable handoff bound to the selected candidate, and `./osr plan verify`
+checks its sources and identities. The handoff contains proposals only; route
+performance, procurement quantities, construction schedules and full city costs
+remain held until candidate-specific evidence is available. Planning revisions
+do not grant movement authority.
 
-The [coordinated design experiment](design-engine/coupled-railway/README.md)
-propagates revised bodies through inventory, interfaces, propulsion demand,
-braking, civil loads and manufacturing/economic coverage. CAD/IFC stock,
-EBOM/MBOM and assembly/procurement records share candidate identities. ERPNext
-exports are disabled research drafts. Complete installed equipment, available
-operating motor maps, force-driven journeys and whole-life prices remain open.
+The [coordinated design workflow](design-engine/coupled-railway/README.md)
+propagates one candidate through geometry, mass, engineering analysis, BOM,
+CAD/IFC, manufacturing, procurement, construction and controls. The
+[current export manifest](design-engine/current/exports/manifest.json) and
+[delivery package index](design-engine/coupled-railway/delivery-index.json)
+bind research records to candidate identities. ERPNext exports are disabled
+drafts. Complete installed equipment, an available operating motor map,
+force-driven journeys and fully supported lifecycle costs remain open.
 
-All 266 retained city geographies remain inputs. **v0.6 performance regeneration
-is held**; earlier fleets, budgets and winding lengths are not current results.
-Imported inputs retain their actual origin. No local-content percentage or
-economic superiority is inferred from a lightweight material subtotal.
+## Business and operating software
 
-## Start and inspect
+[ERPNext and Frappe HR](../deployment/erpnext/README.md) support draft business,
+workforce, procurement, manufacturing, quality and maintenance workflows.
+[FUXA and the gateway](../deployment/supervision/README.md) support equipment
+observations, alarms, history and review-linked records. Site masters,
+permissions, device bindings and reviewed imports require deployment-specific
+configuration. These services do not commission a railway or supply movement
+authority.
 
-Run `./install.sh`, then `./osr workbench`. Use `./osr design railway plan` for
-coordinated research, `./osr build` to refresh current evidence and `./osr verify`
-to check its sources and payloads. `./osr sim baghdad` reports the city hold.
+Cost scenarios use two 8-hour shifts for production and civil work. Operations
+are modelled at two shifts for 16/18-hour service and three shifts for a 24-hour
+case. These are planning assumptions, not approved staffing or operating plans.
+
+## Start here
+
+Run `./install.sh`, then `./osr status` and `./osr workbench`. Use
+`./osr design railway plan` for coordinated research, `./osr build` to refresh
+current evidence and `./osr verify` to check sources and payloads. `./osr sim
+baghdad` reports the current city-evaluation hold.
 
 [Project introduction](../README.md) · [Current engineering](design-engine/current/README.md) ·
-[Adoption path](first-adoptable-product.md) · [Architecture](ARCHITECTURE.md) ·
-[Roadmap](ROADMAP.md) · [Reader](../OpenSourceRail-Book.pdf) · [Contribute](../CONTRIBUTING.md).
-
-The [v0.4 introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md)
-and [v0.5 archive](archives/v0.5-maglev/README.md) retain earlier platform and
-engineering detail. Historical examples, numerical methods and business closure
-do not provide current physical, manufacturing or operating acceptance.
+[Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md) ·
+[Candidate delivery](design-engine/coupled-railway/delivery-index.json) ·
+[Reader](../OpenSourceRail-Book.pdf) · [Contribute](../CONTRIBUTING.md).
 
 Software: Apache 2.0. Open physical designs: CERN-OHL-S v2. Documentation: CC-BY-SA 4.0.
 See [licensing](../LICENSE.md) for the applicable path and upstream terms.

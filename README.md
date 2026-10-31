@@ -92,7 +92,7 @@ The 900 m reference and 100 m research geometry require separate force maps, ele
 
 The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 
-The [end-to-end digital twin generator and validator](docs/design-engine/digital-twin/README.md), available through `./osr-twin`, carries the short-bank configuration through a federated train/infrastructure inventory, actual stock geometry, BOM, mass, propulsion requirements, journey/braking calculations, civil quantities, manufacturing, construction, controls and cost coverage. Semantic replay and actual native geometry reopening distinguish a consistent research package from a complete physical design; strict completion fails until its engineering and evidence obligations are closed. [Executed validation](docs/design-engine/digital-twin/validation.md) records six family/distance packages and one actual native federation. The [current engineering closure](docs/design-engine/engineering-closure/README.md), through `./osr-complete`, adds authenticated evidence ingestion, installed-equipment/structure/brake/site/cost evaluators, actual 20 m field/circuit experiments and complete candidate propagation for winding revisions. Recorded calculations remain separate from physical acceptance. The [sourced reference-cell generator](docs/design-engine/reference-cell/README.md), `./osr-cell`, adds a component/material master, five fully categorised equipped proposals, exact component-to-cell identities, coupled electrothermal/fault interfaces, civil production quantities, bounded manufacturing/lifecycle cost models and five Workbench views. These are physically testable research definitions; supplier internals, structural qualification, usable motor maps, actual prices and physical acceptance remain open.
+The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose the v0.6 research twin: candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
 
 ### v0.6 illustrated: a different approach to building a railway
 
@@ -122,14 +122,14 @@ The project links physical product revisions to the people, assets and records n
 | ERPNext and Frappe HR | [Business deployment and native app](deployment/erpnext/README.md) | Configured legal entities, roles, calendars, masters, reviewed imports and production procedures |
 | Equipment supervision | [FUXA/gateway deployment](deployment/supervision/README.md), [integration source](services/integration/osr_integration/) | Authenticated device bindings, current equipment models and deployment-specific commissioning |
 | Manufacturing and procurement | [Reference manufacturing/procurement exports](docs/design-engine/current/exports/manifest.json), [coupled EBOM/MBOM and assembly records](docs/design-engine/coupled-railway/README.md#manufacturing-economics-and-evidence) | Supplier configurations, prices, tooling, labour, QA, inspection and release |
-| Maintenance and evidence | [Lifecycle application](deployment/erpnext/apps/osr_erpnext/osr_erpnext/), [retained native lifecycle demonstration](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) | Real serials, measurements, approved procedures and independent handback |
+| Maintenance and evidence | [ERPNext lifecycle app](deployment/erpnext/apps/osr_erpnext/osr_erpnext/), [FUXA and gateway integration](deployment/supervision/README.md) | Real serials, measurements, approved procedures and independent handback |
 | Train protection and supervision | [Rust crates](crates/README.md), [v0.6 control adapter](engineering/station_rail/controls.py) | Physical braking, localisation, timing, hardware and operating assurance |
 
 ERPNext retains project, procurement, stock, workforce, manufacturing, quality and maintenance functions. FUXA and the gateway retain observation, trends, alarms and review-linked lifecycle integration. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
 
-The earlier [native ERPNext/FUXA/Workbench exercise](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) records an executed **maglev-era simulation example**, not a commissioned v0.6 installation. Current body delivery packages contain disabled ERPNext drafts; the design runner does not submit purchases, activate equipment or invent acceptance evidence.
+The current v0.6 export package carries candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. It is a research delivery twin: unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
 
-### A delivery twin follows the work
+### Candidate delivery records follow the work
 
 ```text
 transport requirements + city/site inputs
@@ -145,14 +145,14 @@ project schedule + resource plan + local/import cash requirements
 reviewed business records + serial installation + maintenance history
 ```
 
-This is the connected delivery objective. The current v0.6 coordinator executes the candidate/engineering/inventory portion and generates research delivery drafts. Complete site construction schedules, priced cashflows, approved production data and operating records still require their own evidence. The [v0.4 project-twin and operating-platform descriptions](https://github.com/modernecotech/OpenSourceRail/tree/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/docs) remain accessible for capabilities no longer exposed by the current front end.
+The current v0.6 coordinator binds the selected candidate through engineering, inventory and delivery drafts. Planning handoffs carry route, stop, service and OD proposals only; they are verified with `./osr plan verify`. Candidate-specific construction schedules, complete priced cashflows, approved production data and measured operating records remain open until their inputs are available.
 
 ## Manufacturing, civil works and affordability
 
 
 ### Cost a design from its parts and production process
 
-OpenSourceRail should calculate a preliminary price for **every** panel, chassis member, bogie part, electrical cabinet, LIM bank, precast beam and installation activity—even when no finished product or supplier quotation exists. It already has [material takeoff and fabrication screens](docs/design-engine/sourcing/README.md), [occurrence-linked production hypotheses](docs/design-engine/reference-cell/README.md) and a [lifecycle evaluator](engineering/reference_cell/economics.py); the remaining task is to connect them into one complete, non-duplicated estimate per physical candidate.
+OpenSourceRail calculates provisional prices for panels, chassis members, bogie parts, electrical equipment, LIM banks, precast beams and installation activities even when no finished product or supplier quotation exists. The [candidate-bound cost model](engineering/design_search/model_cost.py) connects [material and supplier evidence](docs/design-engine/sourcing/README.md) to manufacturing, civil, delivery, operations and lifecycle estimates. Each scope records its inputs, assumptions, uncertainty and exclusions.
 
 A simple first estimate is **(gross material quantity × material rate + direct labour hours × hourly wage) × 1.20**. The 20% is a *declared illustrative allowance* for a quick fabrication screen, not an approved market margin. A fuller estimate adds separately counted machine hours, energy, mould/tooling amortisation, consumables, inspection, scrap and rework, with any overhead applied **once** to a stated cost base. Delivery, cranes/erection, foundations, wiring/connection and testing are then added to obtain installed cost; fleet, staffing, electricity, maintenance, replacements and downtime form the whole-life model.
 
@@ -167,49 +167,45 @@ Civil alternatives must include rails and fastenings, beam stiffness and torsion
 
 The economic comparison covers **rolling stock + guideway + stations and power + factories and construction + energy + maintenance and renewals + service availability**. Passenger capacity, headway, fleet size and travel time belong in the same comparison. Local/foreign-currency procurement and financing sensitivity matter, but financing terms are separate from physical resource cost.
 
-Earlier LM3 factory targets, the v0.4 $100M localisation illustration and v0.5 city budgets belong to their original configurations. They are retained in the [v0.4 front page](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md) and [v0.5 archive](docs/archives/v0.5-maglev/README.md); they are not prices or savings estimates for v0.6. Installed supplier prices and whole-life economic superiority remain open.
+The current model-cost scenarios support preliminary comparison with declared assumptions. Compatible supplier prices, complete factory-to-installed costs and equal-service whole-life superiority remain open.
 
 ## Current engineering and the next working-system milestone
 
-The [current dossier](docs/design-engine/current/README.md), [coordinated experiment](docs/design-engine/coupled-railway/README.md) and [roadmap](docs/ROADMAP.md) separate executed methods from physical qualification.
+The [current dossier](docs/design-engine/current/README.md) records the selected
+candidate and its evidence. The [coordinated railway campaign](docs/design-engine/coupled-railway/README.md)
+passes one candidate identity through geometry, mass, analysis, delivery and
+costing. A research scenario may use explicit assumptions to complete a
+calculation; physical validation and release remain separate gates.
 
-### Recent research progress
-
-The [continuing numerical reference-cell work](docs/design-engine/continuing-cell/README.md), through `./osr design progress`, connects finite-contact mechanical launch alternatives, force-driven conditional journeys, modular station load paths, trajectory-to-guideway reactions and dimension-derived manufacturing plans. Actual refined moving-LIM and located-stock structural runs remain separate from accepted operating maps and physical qualification. The selected wheel/LIM reference and the wider delivery platform remain unchanged.
-
-The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
-
-The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) now links 533 catalogue observations and 18 additional Iraqi discovery leads to candidate-bound takeoffs and provisional material-plus-labour cost screens. Located parts are grouped into 191 draft purchasing packages, but no complete compatible priced supplier match has yet been established. **That is a procurement gap, not a reason to leave design-stage costs uncalculated:** internally priced processes should support transparent low/base/high planning comparisons while supplier, qualification and installed-cost evidence is improved.
-
-A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
-
-| Workstream | Implemented evidence | Remaining gap |
+| Workstream | Current capability | Open evidence |
 |---|---|---|
-| Unified design loop | Architecture, adaptive diagnosis and generative bodies share one bundle and dependency graph; **14 bodies, 112 bundles, 784 downstream stage records** | Broader validated topology/material evaluators and converged whole-system physics |
-| Structural redesign | Five initial recipes, mechanism-driven physical rewrites, four solid-method fixtures and seven 3D metal-body cases | Strength, buckling, fatigue, joints, thermal/fire/crash behaviour and composite qualification; frame refinement remains unresolved |
-| Propulsion | Current-excited LIM studies and six bounded nonlinear transient method controls | A validated available-force map over actual position, speed, current, frequency, gap, temperature and sectional overlap |
-| Equipped vehicle | Counted stock, retained equipment accounts, EBOM/MBOM and mass propagation | Complete located equipment, installed mass, CG, inertia and interference closure |
-| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts, scoped Pareto comparisons and Iraqi material/wage fabrication screens | One internally priced low/base/high factory-to-installed and lifecycle ledger per candidate; production rates and real procurement evidence must mature separately |
-| Journey and operations | Required 1.5–2 km profiles, braking hypotheses and three precast alternatives receive the same candidate mass | Actual motor-driven launch–coast–arrival, qualified stopping, recovery and protected headway |
-| Verification | Source/payload checks, independent method comparisons, CI contract/browser tests and separately scheduled native methods | Physical correlation and independent engineering/manufacturing/operating acceptance |
+| Candidate design | Composable body and system alternatives with ancestry and candidate-bound downstream evaluations | Broader validated evaluators and independently confirmed Pareto selections |
+| Installed inventory | Component identities, geometry-linked stock and explicit mass reserves | Located equipment, complete installed mass, centre of gravity, inertia and interfaces |
+| Propulsion and journey | Candidate-specific LIM, braking, electrical and conditional journey calculations | Available motor force and thermal maps, validated stopping and a physically supported protected journey |
+| Production and civil works | Candidate CAD/IFC, BOM, process, assembly, procurement and provisional construction quantities | Complete installation scope, site data, qualified processes and supplier evidence |
+| Cost and service | Provisional low/base/high factory-to-installed and lifecycle estimates | Complete quantities, compatible prices, operating performance and independently reviewed equal-service comparison |
+| Business and supervision | Candidate-linked draft ERPNext/Frappe HR and FUXA/gateway handoffs | Configured organisations, reviewed records, authenticated devices and commissioned procedures |
+| Verification | Source-bound publications, independent numerical checks and software workflows | Prototype correlation and physical engineering, manufacturing and operating acceptance |
 
-Changing a body now triggers downstream inventory, motor demand, braking, civil and economic reevaluation. New solver evidence also invalidates dependent cached evaluations. Numerical failure creates a model/resource task; a genuine design shortfall creates a physical revision. Missing evidence stays pending rather than becoming zero or an invented pass.
+Current cost scenarios use two 8-hour production shifts and two 8-hour civil
+shifts. Operating costs cover two shifts for 16/18-hour service and a three-shift
+24-hour case. These staffing and shift premiums are planning assumptions, not an
+approved local roster.
 
-**No complete installed vehicle mass, available operating LIM map, physically supported end-to-end journey or qualified economic winner is demonstrated.** The practical milestone remains five structurally different equipped vehicles, automatically revised where necessary, feeding the same force-driven 2 km journey and guideway comparison.
-
-The component experiments remain reproducible: [bounded wheel/LIM iterations](docs/design-engine/v06-optimisation/README.md), [expanded materials/design space](docs/design-engine/v06-design-space/README.md), [architecture alternatives](docs/design-engine/v06-architecture/README.md), [102-variable adaptive search](docs/design-engine/v06-adaptive-design/README.md) and [structural grammar](docs/design-engine/generative-structure/README.md). Their original assumptions and unsuccessful results remain retained.
+The highest-return next milestone is one automatically completed and internally
+costed candidate with a complete accounting structure, visible assumptions,
+manufacturing routes, installed-cost coverage and a specific list of physical
+validation work. The current software can calculate provisional costs without
+waiting for supplier quotations; it must continue to show which values are
+assumed, sourced or supplier-confirmed.
 
 ## Cities, service and deployment
 
-All **266 retained city geographies** remain available as starting inputs, including their maps, routes and stops. **v0.6 city performance regeneration is held** until the drive, braking, complete vehicle, civil and economic evidence is sufficient. Old fleet, winding, energy, CAPEX and OPEX figures describe historical candidates.
+All **266 city geographies** remain available as planning inputs, including maps, route proposals and stops. **v0.6 city performance regeneration is held** until candidate-specific drive, braking, complete vehicle, civil and economic evidence is sufficient.
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
 
-The [planning workspace](docs/workbench/planning/index.html) retains local geographic/service editing over historical v0.5 planning packets. `./osr plan compile edits.json --output build/my-plan` now creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. It carries route, stop, service and OD proposals only; it excludes historical vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. v0.6 route performance, procurement groups, construction schedules and full city costs remain held until their candidate-specific evidence exists. Planning revisions do not grant movement authority. See the [v0.4/v0.5 functionality reconciliation](docs/releases/v0.6-functionality-reconciliation.md) for retained, restored, replaced and still-disconnected workflows.
-
-The [retained Trip Workbench](docs/workbench/trip/index.html) is connected again to its bounded local research service through `./osr workbench`; open `/docs/workbench/trip/` on the local Workbench. It supports its retained magnetic research cases, fixtures, imports, logs and job cancellation. The six-car 120-passenger/180-second comparison remains a separate candidate and gives no performance credit to the selected v0.6 wheel/LIM train.
-
-The removed v0.4 City Studio, simulator, Sim GUI and OCC GUI are restored as an isolated [historical application workspace](legacy/v0.4/README.md). Run them from `legacy/v0.4`; they retain the v0.4 Samawah and maglev-era models and results, separate from the selected v0.6 candidate.
+The [planning workspace](docs/workbench/planning/index.html) supports local geographic, stop, service and OD proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. The handoff contains proposals only. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
 
 ## Run and reproduce
 
@@ -218,7 +214,6 @@ The removed v0.4 City Studio, simulator, Sim GUI and OCC GUI are restored as an 
 ./osr status
 ./osr readiness
 ./osr workbench
-./osr trip status
 ./osr plan --help
 ./osr design railway plan
 ./osr design railway run --max-bundles 2 --native-jobs 1
@@ -231,7 +226,7 @@ The removed v0.4 City Studio, simulator, Sim GUI and OCC GUI are restored as an 
 ./osr sim baghdad
 ```
 
-The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. `./osr sim baghdad` reports the city hold; it does not regenerate or reuse historical fleet results. `./osr build` refreshes the current source-bound dossier, delivery drafts, Workbench and reader. The local review UI has no live train-control authority.
+The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. `./osr sim baghdad` reports the current city-evaluation hold. `./osr build` refreshes the current source-bound dossier, delivery drafts, Workbench and reader. The local review UI has no live train-control authority.
 
 ## Find your way
 
@@ -243,12 +238,11 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Inspect city geography or planning proposals | [Current city register](docs/design-engine/current/cities.json), [city catalogue](cities/catalogue/README.md), [planning UI](docs/workbench/planning/index.html) |
 | Review CAD, BIM, BOM and manufacturing | [Reference exports](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json) |
 | Follow the end-to-end workflow and calculated costing | [Workflow above](#from-a-city-brief-to-a-working-railway), [cost formula above](#cost-a-design-from-its-parts-and-production-process), [implementation plan](docs/design-engine/model-based-cost-and-delivery.md) |
+| Inspect the selected candidate project twin | [Current export manifest](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json), `./osr twin export` |
 | Configure business and people workflows | [ERPNext/Frappe HR deployment](deployment/erpnext/README.md) |
-| Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [native lifecycle example](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) |
+| Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [ERPNext lifecycle app](deployment/erpnext/apps/osr_erpnext/osr_erpnext/) |
 | Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
 | Set up tools or contribute | [Tools](tools/README.md), [CONTRIBUTING](CONTRIBUTING.md), [GOVERNANCE](GOVERNANCE.md), [project instructions](AGENTS.md) |
-| Recover older project details | [v0.4 full introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md), [v0.5.1 introduction](https://github.com/modernecotech/OpenSourceRail/blob/2617b04e722ca24b7ad9120f94610fe869f27053/README.md), [v0.5 source/payload archive](docs/archives/v0.5-maglev/README.md) |
-| Run retained v0.4 City Studio, simulation or OCC tools | [Isolated historical workspace and commands](legacy/v0.4/README.md) |
 
 ## About the author
 
@@ -269,7 +263,7 @@ OpenSourceRail carries that research direction into an ambitious open transport-
 | Business and equipment integration | [ERPNext app](deployment/erpnext/), [supervision deployment](deployment/supervision/), [integration service](services/integration/osr_integration/) |
 | System boundaries and remaining work | [Architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), [engineering instructions](AGENTS.md) |
 
-Regenerate derived artifacts from their sources. Physical candidate, evaluation and selection identities are distinct; a source hash identifies bytes and does not approve engineering. Historical results remain tied to their original revision. `./osr legacy verify` checks the retained archives; `./osr legacy checkout RELEASE --path /absolute/path` creates detached worktrees for the `pre-comfort-default`, `v0.4.0`, `v0.5.1` and `v0.5-maglev` sources. Keep old outputs in those worktrees; they do not become current v0.6 evidence. See the [historical feature reconciliation](docs/releases/v0.6-functionality-reconciliation.md).
+Regenerate derived artifacts from their current sources. Physical candidate, evaluation and selection identities are distinct; a source hash identifies bytes and does not approve engineering. `./osr verify` checks the current source-bound publication, and `./osr twin export` verifies the selected candidate's delivery exports. Neither command grants engineering, manufacturing or operating acceptance.
 
 Contributions can improve supplier/material evidence, structural and motor models, complete equipment, manufacturing and repair methods, city data, controls, tests and documentation. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md). The [documentation index](docs/INDEX.md) is a search aid; it is not another engineering authority.
 

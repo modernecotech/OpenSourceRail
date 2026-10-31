@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OpenSourceRail city planning proposal</title><link rel="stylesheet" href="../maglev/app.css"><link rel="stylesheet" href="planning.css"></head>
-<body><header><p class="eyebrow">OpenSourceRail · owner / builder / operator</p><h1>Plan, revise and hand off</h1>
-<p>Inspect retained city geography, propose station and service changes, and export a source-bound revision for review against the selected v0.6 train. Map and initial service values come from retained v0.5 planning packets; they are not v0.6 route or operating results.</p>
-<nav><a href="../current/">v0.6 Engineering Workbench</a><a href="../../design-engine/current/README.md">Selected v0.6 candidate</a><a href="../../releases/v0.6-functionality-reconciliation.md">v0.4/v0.5 functionality reconciliation</a></nav></header>
+<title>OpenSourceRail city planning proposal</title><link rel="stylesheet" href="../current/app.css"><link rel="stylesheet" href="planning.css"></head>
+<body><header><p class="eyebrow">OpenSourceRail · city planning</p><h1>Plan, revise and hand off</h1>
+<p>Inspect city geography, propose route and service changes, and export a source-bound revision for review against the selected v0.6 candidate. Starting alignments and stops are planning inputs; they are not v0.6 route or operating results.</p>
+<nav><a href="../current/">v0.6 Engineering Workbench</a><a href="../../design-engine/current/README.md">Selected v0.6 candidate</a><a href="../../design-engine/current/exports/manifest.json">Candidate delivery exports</a></nav></header>
 <main><p class="notice">Provisional planning. No construction release, purchasing authority, movement authority or physical handback.</p>
-<p id="status" role="status">Loading source-bound planning data…</p>
+<p id="status" role="status">Loading current source-bound city geography…</p>
 <section><h2>City and revision</h2><label for="city">City</label><select id="city" disabled></select><p id="revision"></p>
-<div class="planning-layout"><aside><h3>GIS layers</h3><div id="layers"></div><p>Unavailable inputs are disabled. Population is aggregated to1km cells; sampled streets and soil points are labelled. Displayed access radii are illustrative.</p></aside>
+<div class="planning-layout"><aside><h3>Geographic layers</h3><div id="layers"></div><p>Routes, stop locations and transfer references are planning inputs. They are not surveyed alignments or approved station sites.</p></aside>
 <figure><svg id="map" viewBox="0 0 1000 700" role="img" aria-label="Editable city planning geography"></svg><figcaption id="map-caption"></figcaption></figure></div></section>
 <section><h2>Station and service proposal</h2><div class="edit-grid"><label>Line<select id="line" disabled></select></label><label>Stop<select id="stop" disabled></select></label>
 <label>Chainage, metres<input id="chainage" type="number" step="0.001" min="0"></label><button id="move" disabled>Propose stop position</button>
@@ -19,8 +19,7 @@
 <ul id="issues"></ul><p id="edit-status" role="status"></p>
 <label>Planning author<input id="author" maxlength="150" value="local-planner"></label><button id="export" disabled>Export edit bundle</button><button id="reset" disabled>Discard local proposal</button>
 <label>Import edit bundle<input id="import" type="file" accept="application/json,.json"></label>
-<p>Exported edits bind the exact base revision. Copy the downloaded bundle into the repository; the compiler rejects stale bases and conflicting station order. Use <code>./osr plan compile edits.json --output build/my-plan</code>, then <code>./osr plan verify build/my-plan</code>, to produce and verify an immutable, selected-candidate-bound planning handoff. It contains no v0.6 route-performance result, procurement quantity, price, construction schedule or release evidence.</p></section>
-<section><h2>Owner, builder and operator workspaces</h2><div id="workspaces" class="cards"></div>
-<p>Native ERP and supervisory links open their own authenticated workspaces. Draft planning, actual business records, measured field observations and independent physical acceptance remain separate.</p>
-<p>Current route performance, procurement, construction and business records remain separate v0.6 work. See the <a href="../../releases/v0.6-functionality-reconciliation.md">functionality reconciliation</a> for the restored handoff and remaining disconnected workflows.</p></section></main>
+<p>Exported edits bind the exact current geography revision. Copy the downloaded bundle into the repository; the compiler rejects stale bases and conflicting stop order. Use <code>./osr plan compile edits.json --output build/my-plan</code>, then <code>./osr plan verify build/my-plan</code>, to produce and verify an immutable handoff bound to the selected candidate. It contains no route-performance result, procurement quantity, price, construction schedule or release evidence.</p></section>
+<section><h2>Current delivery handoffs</h2><p><a href="../../design-engine/current/exports/manifest.json">Candidate engineering exports</a> · <a href="../../design-engine/coupled-railway/delivery-index.json">Candidate delivery package index</a> · <a href="../../../deployment/erpnext/README.md">ERPNext and Frappe HR workflow</a> · <a href="../../../deployment/supervision/README.md">FUXA and gateway integration</a></p>
+<p>Business records are drafts or deployment-specific workflows. Planning proposals do not create approved assets, activate devices or grant movement authority.</p></section></main>
 <script type="module" src="planning.js"></script></body></html>

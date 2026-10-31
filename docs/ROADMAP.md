@@ -1,81 +1,71 @@
-# v0.6 engineering and prototype roadmap
+# v0.6 engineering and delivery roadmap
 
-The [published-specification campaign](design-engine/sourced-case/README.md) replaces selected placeholders with exact source variants, revises actual physical inventories and carries those changes through conditional journeys, civil quantities and production drafts. Its closure matrix distinguishes executable software, numerical validity, catalogue conditions, actual measurements and independent acceptance; public prices remain scoped estimates.
+The next milestone is one complete, internally consistent v0.6 research
+candidate. It must carry visible assumptions through installed inventory,
+engineering checks, manufacturing, civil construction, service and whole-life
+costing. Calculated values can complete research scenarios; unsupported physical
+performance remains an explicit hold.
 
-The [continuing cell](design-engine/continuing-cell/README.md) adds actual second-order moving-field runs, located-stock structural calculations, mechanically bounded launch/coast/brake scenarios, physical station-drive revisions, modular station load paths, trajectory-linked civil reactions and dimensional manufacturing routes. These advance numerical design; prototype measurements, qualified models/prices, HIL, independent assessment and a commissioned pilot remain external acceptance work.
+## Active work sequence
 
-OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [The selector](../engineering/development-baseline.toml) binds one physical candidate across the [current dossier](design-engine/current/README.md), Workbench, reader and delivery drafts. Six 17 m cars retain 44 seats plus two wheelchair places/car, zero planned standing, one-sided doors and station-led GoA4. Conventional wheel support replaces magnetic levitation; station-only propulsion remains the main new feasibility question.
+1. **Reproducible candidate evaluation.** Keep source, tool, candidate, load,
+   mesh and resource identities bound to each result. Regenerate current
+   publications from their source definitions and preserve failed, interrupted
+   and nonconverged executions.
+2. **Complete installed vehicle inventory.** Place every major item or identify
+   a bounded equipment reserve. Record geometry, material, mass, interfaces,
+   installation method, cost basis, confidence, centre of gravity and inertia.
+   Reconcile inherited allowances without double-counting replacement geometry.
+3. **Establish physical feasibility.** Refine load paths, joints, strength,
+   stability, fatigue, wheel/rail dynamics, braking, service energy, thermal
+   performance and station-motor force maps. Run a same-candidate protected
+   launch, coast, arrival and fault-stop journey.
+4. **Complete production and construction planning.** Assign every part a
+   provisional manufacturing or purchasing route. Price factory work, delivery,
+   installation, foundations, rail, erection and QA using dated sources or
+   explicit low/base/high assumptions.
+5. **Compare equal service and lifecycle cost.** Carry the same passenger
+   service through fleet size, stations, propulsion, factories, civil works,
+   operating hours, energy, staffing, maintenance and renewals. Preserve
+   uncertainty and Pareto alternatives.
+6. **Prepare evidence and deployment handoffs.** Generate candidate-linked
+   business, workforce, procurement, production and supervision records as
+   drafts. Build representative prototypes and correlate measurements with the
+   models before engineering review or release.
 
-## Reference sprint
+The coordinated work starts with
+[`./osr design railway`](design-engine/coupled-railway/README.md). The
+[model-based cost and delivery plan](design-engine/model-based-cost-and-delivery.md)
+describes the provisional costing and production pipeline. The
+[current dossier](design-engine/current/README.md) records present results and
+open evidence tasks.
 
-The [end-to-end research twin](design-engine/digital-twin/README.md) now connects
-the active five short wayside accelerators to a separately identified 20 m motor
-and a federated six-car/infrastructure occurrence ledger. `./osr-twin` generates
-and semantically validates the BOM, stock geometry, mass accounts, propulsion and
-braking requirements, civil quantities, manufacturing, construction, controls,
-cost coverage and test obligations. Native IFC/CAD/STEP checks verify actual
-stock geometry and placement. Complete installed equipment, supported operating
-maps, structural/brake/site evidence and economics remain explicit blockers;
-the [current closure adapters](design-engine/engineering-closure/README.md) now admit externally authenticated records and independently replayed operating-map support. Actual supplier, test, route and operating-map evidence is still absent. The new 20 m motor experiment and counted winding revisions remain research candidates; neither software tests nor low-voltage force results close propulsion.
-The [sourced reference-cell layer](design-engine/reference-cell/README.md) adds a component/material master, five equipped proposals, actual full-train IFCs, coupled electrothermal/fault interfaces, civil stock/loads, manufacturing and lifecycle cost contracts and five Workbench views. Two higher-budget moving-field runs complete the same horizon but remain numerically unconverged. [Executed results and phase-by-phase acceptance work](design-engine/reference-cell/validation.md) keep prototype, physical correlation, pricing, commissioning and pilot obligations open.
+## Current shift and costing assumptions
 
-The older campaigns below retain their original physical and source contracts.
+The current cost scenario uses two 8-hour shifts per production day and two
+8-hour civil shifts. Operating cost uses two shifts for 16/18-hour service and
+three shifts for the 24-hour case. Shift premiums, utilization, relief staffing
+and wage uncertainty are explicit assumptions; they do not establish a local
+roster, construction calendar or approved operating plan.
 
-The [coordinated experiment](design-engine/coupled-railway/README.md) now runs architecture, adaptive revisions and physical generation through `./osr design railway`. Fourteen body definitions feed 112 bundles and 784 downstream records. New body evidence invalidates dependent evaluations; numerical/model failures and missing equipment create distinct frontier tasks. Four native fixtures, seven 3D body cases, six transient magnetic controls and two body-stock IFC/ERP draft packages are retained. These demonstrate integration and bounded execution, not a qualified whole-system solution.
+Internal estimates can compare designs before quotations are available. Every
+line must identify its quantity, rate source or engineering assumption, scope,
+uncertainty and exclusions. Factory cost, delivered cost, installed cost and
+whole-life cost remain distinct totals.
 
-The next execution frontier is concrete: resolve remaining body mesh/torsion/strength and joint uncertainty; supply directional composite laws and actual attachments for the other structural families; disaggregate and locate installed equipment; and establish a moving, circuit/thermal-limited available propulsion map. Then run actual force-driven journeys and independently confirm feasible Pareto alternatives. Missing prices, hardware and lifecycle evidence continue to block economic selection. The standalone adaptive, generative and architecture publications remain reproducible.
+## Physical and release gates
 
-1. Preserve [v0.5 evidence](archives/v0.5-maglev/README.md) and identify the wheel/LIM candidate independently. Retain unchanged component identities and declare every changed interface.
-2. Recalculate the equipped 17 m car: passive bogies, concentrated support load paths, passive motor secondary, service battery, brakes, wiring, HVAC and roof. Separate counted material, supplier references and unlocated allocations. Complete installed mass, CG and inertia require closure.
-3. Compare box, twin-beam and U-beam concrete guideways under actual axle moving loads. Include rail/gauge fastenings, lateral and torsional loads, prestress, piers, foundations, containment, drainage, walkways, transport and erection.
-4. Establish a practical station LIM: full moving force/current/frequency/gap/temperature maps, unwanted normal forces, secondary/stator heat, voltage and switching. Compare single-sided LIM and LSM openly; never substitute prescribed acceleration for available thrust.
-5. Couple the same train, motor and independent brake models over 1.5 km, 2 km and the longest retained city gap. Save empty, normal, crowd and adverse cases, including failed arrival, wet rail, power/communications loss, occupied berth and off-zone recovery.
-6. Retain existing onboard ATP, interlocking, OCC, TCMS and station-led GoA4 architecture. Qualify physical brake profiles, localisation, integrity, timing and communications; execute fault injection and the existing formal assurance programme. New software predicates do not release a railway.
-7. Compare whole-life costs against v0.5 and a station-launch v0.4 derivative at equal route, passenger service and reliability. Supplier prices, installation, maintenance, peak supply and renewal costs remain unknown until supported.
+The following remain open until the applicable models and evidence close them:
 
-## Executed native follow-up
-
-The [bounded campaign](design-engine/v06-physical-closure/README.md) adds 18 actual current-excited GetDP motor cases, 24 reduced Chrono braking runs, body connectivity checks and native floor fit-up. Counted wheel rotational inertia now feeds the service requirements. The tested full station primary fails its force and linear-steel domain screens. Independent verification rejected invalid body interfaces; frame/joint qualification remains open. None of these executions grants a physical journey or operating release.
-
-Next, redesign the primary for force, steel cross-section, practical gaps and repeated heat together; obtain actual brake/adhesion/WSP curves; and resolve body-joint load paths using independently benchmarked models. Keep service alternatives explicit and compare whole-system quantities before changing the default.
-
-## Failure-driven campaign
-
-The [v0.6 campaign](design-engine/v06-optimisation/README.md) connects the existing immutable/restartable search to generated joined bodies, station LIMs, brakes, actual candidate mass/rotor energy, civil loads and known-stock research twins. Failures now produce physical revisions or bounded numerical/evidence tasks. The campaign budget limits execution; it does not close an unresolved requirement or promote a research winner to an operating design.
-
-Next extend validated physical families and full position/current/temperature motor maps, correlate structural joints and braking with hardware, and execute the same-candidate protected journey. Preserve competing cost/quantity alternatives and retain every failed or interrupted trial.
-
-The [expanded design space](design-engine/v06-design-space/README.md) generates supplier-bound foam/honeycomb, aluminium/GFRP/hybrid, joining and motor alternatives. Necessary bounds reject the retained PVC core at the 80°C research condition; a PET revision preserves ancestry. New directional shear and sandwich-bending method fixtures pass, while new motor samples still fail thrust and material-domain screens. Resolve the diagnosed clamp rotational-restraint deficiency before ranking full-body material substitutions. Corrugated panels and hollow double-skin extrusions remain explicit geometry/data/model tasks.
-
-## Release gates
-
-The [umbrella architecture search](design-engine/v06-architecture/README.md) now runs above component campaigns. Its 509 analytical cases cover seven propulsion families, four/six/eight-car formations, three speed/spacing requirements, powered-track/recovery arrangements and alternative precast sections. It separates mandatory requirements, preferences and revisable hypotheses. Quantity comparisons and explicit unpriced cost expressions do not select an economic winner; installed mass, protected service and native force maps remain holds.
-
-The joint model has six-axis, energy, reciprocity and modal checks with three-dimensional refinement. Its previous 28.018 mm normal displacement exceeds a provisional 25.6 mm comparison; that comparison is advisory in the new policy. Its ideal bond/section transfer needs local strength, slip, fatigue and measurement validation. A generic nonlinear magnetic circuit passes independent field/coenergy method checks; supplier-specific moving LIM, losses and repeated thermal duty remain open. Scheduled native CI repeats bounded method fixtures.
-
-The [function-first adaptive search](design-engine/v06-adaptive-design/README.md) registers 102 extensible variables across 14 domains and distinguishes supported obligations from preferences, design assumptions and numerical domains. Continuous section redistribution now has native normal/fine/crowd executions: the 600×5 mm sill option saves about 48 kg/car versus the prior jointed body and predicts 19.793 mm normal displacement. Do not stop at provisional targets or select by bending alone: continue the frontier through local stability/strength, joining, functional clearances, manufacturing and coupled operating consequences; develop missing material/topology evaluators as active tasks.
-
-Next execute the [M1/M2/M3 programme](design-engine/v06-architecture/prototype-program.json): measured component/joint/brake correlation, a protected passive-carriage launch/coast/stop demonstrator, then an integrated full-sized pilot with recovery. Plans and simulations do not count as completed physical milestones. Reusable native adapters, installed equipment geometry and same-candidate coupled journeys are required before full-system selection.
-
-The [executed structural grammar](design-engine/generative-structure/README.md) now composes five stock/material/layout recipes and executes three rewrites, including a mechanism-driven triangulated underfloor. Eight physical definitions, six reopened native CAD exports and two independent-reference-checked axial design runs demonstrate a real geometry-to-redesign loop. Gross stock, ideal pins and unlocated equipment remain research hypotheses. Next develop actual joint cuts/hardware and full shell/laminate/buckling evaluators, then use verified bodies in the propulsion, running-gear and civil architecture search. Component integration must preserve demonstrated functions and repair access; fewer declared manufacturing groups alone does not prove a saving.
-
-| Gate | Required result |
+| Area | Required evidence |
 |---|---|
-| Installed vehicle | Counted, located equipment and complete mass/CG/inertia; qualified body and bogie load paths |
-| Wheel/rail dynamics | Ride, hunting, curves, profiles, suspension, axle loads and containment |
-| Station drive | Independently validated thrust and duty, practical clearances, switching and fault response |
-| Independent stopping | Wet/hot brake/WSP performance, gradients, parking, channel failures and thermal reserve |
-| Passenger services | Delivered HVAC at 50°C, hot roof strength, cooled service battery and missed-charge/emergency endurance |
-| Protected journey | Same-candidate launch, coast, receive and safe fault stop with continuous ATP |
-| Civil and construction | Complete moving loads, prestress/fatigue, site foundations, transport, lifting and inspection |
-| Rescue/evacuation | Real off-zone towing, protected access, emergency communication and high-viaduct evacuation |
-| Economics | Same-service installed CAPEX, energy, availability, maintenance and renewals |
-| Prototype release | Reviewed drawings, processes, tolerances, supplier evidence and instrumented test plan |
+| Vehicle | Located equipment, complete installed mass/CG/inertia, qualified load paths, joints and running gear |
+| Station propulsion | Available force and duty over position, speed, current, frequency, air gap and temperature; losses and fault response |
+| Braking and service | Measured or validated brake/WSP curves, adverse stops, HVAC and essential-power endurance |
+| Protected journey | Same-candidate launch, coast, receiving, continuous protection, recovery and fault stops |
+| Civil and construction | Route-specific ground/site inputs, moving loads, foundations, erection, access and inspection |
+| Economics | Equal-service factory-to-installed and lifecycle ranges with operating shifts, maintenance and renewal scope |
+| Prototype and operation | Controlled drawings, processes, tests, independent review and applicable safety/accessibility acceptance |
 
-## Cities and publication
-
-The 266 city geographies, station locations and underlying city details remain starting inputs. Numerical catalogue-wide regeneration is held until reference propulsion, braking, route and economic evidence permits it. Terrain, grades, climate, demand, transfer access and prices need city-specific assessment. No old fleet or financing number is relabelled v0.6.
-
-v0.6 is selected for research because conventional wheel support removes the unresolved magnetic suspension and its continuous facing system. It may increase vehicle mass; station-only LIM, high platforms and recovery introduce their own costs. Lower whole-life cost is an explicit open decision, not a condition silently assumed passed.
-
-[Current readiness](design-engine/current/summary.json) · [Project introduction](../README.md) · [README coverage](design-engine/current/readme-coverage.md).
+Software completion, numerical convergence and a favorable estimate do not
+substitute for these physical and independent acceptance requirements.
