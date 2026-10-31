@@ -56,6 +56,8 @@ Candidate completion is reported in three separate levels: **simulation complete
 
 The separate [conditional P1 journey study](docs/design-engine/conditional-journey-study/README.md) runs low/base/high assumed force maps through the reduced journey model for design comparisons. Those cases remain assumption-only; they do not change the coordinated report's count of completed physical journeys.
 
+The [current mesh resource preflight](docs/design-engine/current-mesh-preflight/README.md) compares exact nested directional refinements for one unchanged body/load case. It stops before native deck generation while the available resource boundary is insufficient for another fine solve.
+
 
 ## v0.6 development basis
 

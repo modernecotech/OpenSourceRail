@@ -1,0 +1,43 @@
+schema = "osr-current-mesh-preflight/1"
+purpose = "Exact nested anisotropic mesh cell-count alternatives for the current unchanged normal-load C3D8I body; preflight only, no solver evidence."
+body_candidate_id = "8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b"
+body_definition_id = "8eed09c97b93d3aa1988d8bdc99f11a45d6f64ca470eea10b28ecf664a34a842"
+bundle_id = "1e8d1d7c394fc0bdbd47e34fb21d413ebc34a49576bad60b31b254bd635dfb68"
+bundle_definition_id = "8b961b89cd2ac4c9f8bb8899e45628a1c41745e8a7d74744e493053e704fbd77"
+load_case = "normal"
+element_kind = "C3D8I"
+previous_cell_budget = 140000
+previous_mesh_m = 0.10625
+next_uniform_mesh_m = 0.053125
+
+[[profiles]]
+name = "reference-0.10625-isotropic"
+axis_steps_m = [0.10625, 0.10625, 0.10625]
+
+[[profiles]]
+name = "z-refined-only"
+axis_steps_m = [0.10625, 0.10625, 0.053125]
+
+[[profiles]]
+name = "y-refined-only"
+axis_steps_m = [0.10625, 0.053125, 0.10625]
+
+[[profiles]]
+name = "x-refined-only"
+axis_steps_m = [0.053125, 0.10625, 0.10625]
+
+[[profiles]]
+name = "xy-refined"
+axis_steps_m = [0.053125, 0.053125, 0.10625]
+
+[[profiles]]
+name = "xz-refined"
+axis_steps_m = [0.053125, 0.10625, 0.053125]
+
+[[profiles]]
+name = "yz-refined"
+axis_steps_m = [0.10625, 0.053125, 0.053125]
+
+[[profiles]]
+name = "uniform-0.053125"
+axis_steps_m = [0.053125, 0.053125, 0.053125]

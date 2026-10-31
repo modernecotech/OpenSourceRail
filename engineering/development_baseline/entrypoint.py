@@ -190,6 +190,7 @@ def main(argv=None, root=ROOT):
               '  status, build, verify     Selected v0.6 reference packet\n'
               '  railway plan/run/...      Coordinated whole-railway research\n'
               '  journey-study run/publish/verify [--replay] Conditional P1 study\n'
+              '  mesh-preflight plan/publish/verify Exact current refinement cell counts\n'
               '  adaptive, architecture    Function-first and architecture studies\n'
               '  generative, space         Structural grammar and design space\n'
               '  campaign                  Bounded candidate campaign lifecycle\n'
@@ -247,6 +248,14 @@ def main(argv=None, root=ROOT):
                     if parsed.state is not None:raise ValueError('Publication verification uses published inputs, not a local state override')
                     emit(demonstration.verify(root));return 0
                 raise ValueError('Use demonstration-plan without options')
+            if rest and rest[0]=='mesh-preflight':
+                action=rest[1] if len(rest)>1 else 'plan'
+                if len(rest)>2 or action not in ('plan','publish','verify'):
+                    raise ValueError('Use mesh-preflight plan, publish or verify')
+                from engineering.design_search import railway_mesh_preflight
+                if action=='plan':emit(railway_mesh_preflight.plan(root));return 0
+                if action=='publish':emit(railway_mesh_preflight.publish(root));return 0
+                emit(railway_mesh_preflight.verify(root));return 0
             if rest==['plan']:
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
