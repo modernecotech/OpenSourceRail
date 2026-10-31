@@ -21,7 +21,7 @@ engineering, planning, delivery and verification workflows. Start with the
 | Publish and verify a study | `./osr design railway publish` / `./osr design railway verify` | Candidate-bound study records and reproducibility checks |
 | Edit and compile city proposals | `./osr plan serve` then `./osr plan compile edits.json --output build/my-plan` | Immutable route, stop, service and OD handoff bound to the selected candidate |
 | Verify a planning handoff | `./osr plan verify build/my-plan` | Source and candidate identity verification |
-| Inspect candidate delivery twin | `./osr twin export` | Current CAD/IFC, BOM, procurement, assembly and control export status |
+| Inspect candidate delivery exports | `./osr twin export` | Current CAD/IFC, BOM, procurement, assembly and control export status |
 | Open the engineering viewer | `./osr workbench` | Read-only current candidate and evidence views |
 
 Planning handoffs contain proposals. They do not contain route-performance,

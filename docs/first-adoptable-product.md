@@ -16,7 +16,7 @@ The current v0.6 [engineering Workbench](workbench/current/index.html) and [coor
 | Manufacturing planning | Stock/process records, EBOM/MBOM coverage, assembly dependencies, procurement and QA tasks | Exact drawings, joints, tooling, labour, suppliers, inspection and production release |
 | ERPNext/Frappe HR | Current OSR app and deployment guide for projects, procurement, workforce, quality and maintenance | Legal entities, calendars, roles, warehouse/item masters, reviewed imports and operating procedures |
 | FUXA/gateway | Integration components for observations, historian, alarms and review-linked lifecycle records | Actual equipment models, authenticated bindings, communications and commissioning |
-| Physical twin | Candidate-bound CAD/IFC stock and disabled ERPNext research drafts | Complete installed geometry, serialised as-built evidence, priced project execution and independent acceptance |
+| Candidate delivery exports | Candidate-bound CAD/IFC stock, engineering BOM, process and assembly records, and disabled ERPNext drafts | Complete installed geometry, serialised as-built evidence, priced project execution and independent acceptance |
 
 The current repository includes [ERPNext/Frappe HR deployment](../deployment/erpnext/README.md), [FUXA/gateway deployment](../deployment/supervision/README.md), candidate-bound [CAD/IFC and delivery exports](design-engine/current/exports/manifest.json), and an [integration service](../services/integration/osr_integration/). These are configurable software components and research handoffs. No current v0.6 site has been commissioned, no physical asset has been accepted, and the railway does not have operating release.
 

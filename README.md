@@ -26,9 +26,9 @@ Local content means **origin-traced domestic value added**, not the address of a
 
 | Product | Purpose | Present boundary |
 |---|---|---|
-| Design and delivery platform | City inputs, design alternatives, engineering evidence, quantities, procurement, manufacturing and project records | Executable research workflows and retained deployment software; complete city-specific delivery integration remains open |
+| Design and delivery tools | City inputs, design alternatives, engineering evidence, quantities, procurement, manufacturing and project records | Current v0.6 Workbench, planning editor, candidate exports and integration components; complete city-specific delivery remains open |
 | Reference railway and manufacturing system | Lightweight vehicles, stations, civil works, tooling, assembly and repair methods | v0.6 physical candidates and numerical studies; equipment, drawings, suppliers and physical qualification are incomplete |
-| Open GoA4 control platform | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
+| Open GoA4 control software | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
 
 The [first adoption path](docs/first-adoptable-product.md) is controlled planning, workshop/depot records, training and evidence management. An owner can develop those capabilities before a new train is qualified. The configured business and supervision services have their own permissions and commissioning requirements.
 
@@ -92,7 +92,7 @@ The 900 m reference and 100 m research geometry require separate force maps, ele
 
 The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 
-The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose the v0.6 research twin: candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
+The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
 
 ### v0.6 illustrated: a different approach to building a railway
 
@@ -110,24 +110,24 @@ The current [candidate export manifest](docs/design-engine/current/exports/manif
 
 The [illustration brief](docs/images/v06/README.md) records the supplied prompts, source images and display-copy recipe.
 
-## The connected delivery and operating platform
+## Delivery records and operations integrations
 
-The project links physical product revisions to the people, assets and records needed to deliver and maintain them. The current implementation and retained examples have different scopes:
+The v0.6 workflow links candidate revisions to engineering and delivery records. The Workbench exposes current candidate exports and links to the separately configured business and supervision components:
 
 | Capability | Where to inspect it | What remains necessary |
 |---|---|---|
 | City geography and planning | [266-city geographic register](docs/design-engine/current/cities.json), [editable planning workspace](docs/workbench/planning/index.html) | Survey, demand, grades, route fit and current-family service evaluation |
 | Engineering Workbench | `./osr workbench`, [current UI](docs/workbench/current/index.html), [coordinated design experiment](docs/design-engine/coupled-railway/README.md) | Available physical models, complete equipment and independently confirmed designs |
 | CAD, BIM and quantities | [Current CAD/IFC and delivery records](docs/design-engine/current/exports/manifest.json), [candidate body-stock IFC packages](docs/design-engine/coupled-railway/delivery-index.json) | Complete installed geometry, tolerances, full civil federation and surveyed interfaces |
-| ERPNext and Frappe HR | [Business deployment and native app](deployment/erpnext/README.md) | Configured legal entities, roles, calendars, masters, reviewed imports and production procedures |
+| ERPNext and Frappe HR | [Business deployment and integration app](deployment/erpnext/README.md) | Configured legal entities, roles, calendars, masters, reviewed imports and production procedures |
 | Equipment supervision | [FUXA/gateway deployment](deployment/supervision/README.md), [integration source](services/integration/osr_integration/) | Authenticated device bindings, current equipment models and deployment-specific commissioning |
 | Manufacturing and procurement | [Reference manufacturing/procurement exports](docs/design-engine/current/exports/manifest.json), [coupled EBOM/MBOM and assembly records](docs/design-engine/coupled-railway/README.md#manufacturing-economics-and-evidence) | Supplier configurations, prices, tooling, labour, QA, inspection and release |
 | Maintenance and evidence | [ERPNext lifecycle app](deployment/erpnext/apps/osr_erpnext/osr_erpnext/), [FUXA and gateway integration](deployment/supervision/README.md) | Real serials, measurements, approved procedures and independent handback |
 | Train protection and supervision | [Rust crates](crates/README.md), [v0.6 control adapter](engineering/station_rail/controls.py) | Physical braking, localisation, timing, hardware and operating assurance |
 
-ERPNext retains project, procurement, stock, workforce, manufacturing, quality and maintenance functions. FUXA and the gateway retain observation, trends, alarms and review-linked lifecycle integration. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
+The ERPNext app provides draft project, procurement, stock, workforce, manufacturing, quality and maintenance workflows when deployed and configured. FUXA and the gateway provide observation, trends, alarms and review-linked lifecycle integration when connected to authenticated equipment. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
 
-The current v0.6 export package carries candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. It is a research delivery twin: unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
+The current v0.6 candidate exports carry candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly, civil and controls records. They provide scoped research handoffs; unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
 
 ### Candidate delivery records follow the work
 
@@ -238,7 +238,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Inspect city geography or planning proposals | [Current city register](docs/design-engine/current/cities.json), [city catalogue](cities/catalogue/README.md), [planning UI](docs/workbench/planning/index.html) |
 | Review CAD, BIM, BOM and manufacturing | [Reference exports](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json) |
 | Follow the end-to-end workflow and calculated costing | [Workflow above](#from-a-city-brief-to-a-working-railway), [cost formula above](#cost-a-design-from-its-parts-and-production-process), [implementation plan](docs/design-engine/model-based-cost-and-delivery.md) |
-| Inspect the selected candidate project twin | [Current export manifest](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json), `./osr twin export` |
+| Inspect current candidate delivery exports | [Current export manifest](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json), `./osr twin export` |
 | Configure business and people workflows | [ERPNext/Frappe HR deployment](deployment/erpnext/README.md) |
 | Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [ERPNext lifecycle app](deployment/erpnext/apps/osr_erpnext/osr_erpnext/) |
 | Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
