@@ -1,9 +1,10 @@
 // Exercise the real current server, selected APIs, desktop/mobile UI and fail-closed states.
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { spawn, spawnSync } from "node:child_process";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { gunzipSync } from "node:zlib";
 import { launchBrowser } from "./browser-launch.mjs";
 
 const root = resolve(
@@ -14,6 +15,9 @@ const output = resolve(
   process.argv[2] || root + "/build/development-baseline-browser",
 );
 await mkdir(output, { recursive: true });
+const planningRun = await mkdtemp(
+  resolve(root, "build/current-planning-check-"),
+);
 const python = process.env.OSR_PYTHON || root + "/.venv/bin/python";
 const server = spawn(
   python,
@@ -228,10 +232,7 @@ try {
     (count) => document.querySelectorAll("#railway-rows tr").length === count,
     railway.body_count,
   );
-  assert.match(
-    await page.locator("#railway-scope").innerText(),
-    /remain open/,
-  );
+  assert.match(await page.locator("#railway-scope").innerText(), /remain open/);
   assert.match(await page.locator("#railway-status").innerText(), /112/);
   report.coupled_railway_bundles = railway.evaluated_bundle_count;
   report.coupled_native_body_cases = railway.native_body_case_count;
@@ -244,10 +245,7 @@ try {
   assert.equal(city.performance_evaluated, false);
   assert.equal(city.totals, null);
   assert.equal(city.geography.underlying_city_details_preserved, true);
-  assert.match(
-    await page.locator("#city-link").innerText(),
-    /Open city map/,
-  );
+  assert.match(await page.locator("#city-link").innerText(), /Open city map/);
   assert.match(
     await page.locator('#design a[href="../planning/"]').innerText(),
     /Open city planning/,
@@ -255,6 +253,117 @@ try {
   report.city_count = await page.locator("#city option").count();
   report.baghdad_performance_state = "held";
   report.city_performance_packages_written = 0;
+  await page.goto(origin + "/docs/workbench/planning/", {
+    waitUntil: "networkidle",
+  });
+  await page.locator("#status").waitFor({ state: "visible" });
+  await page.waitForFunction(() =>
+    document.querySelector("#status").textContent.includes("bytes verified"),
+  );
+  assert.equal(await page.locator("#city option").count(), 266);
+  assert.equal(await page.locator("#layers input").count(), 4);
+  assert.doesNotMatch(
+    await page.locator("body").innerText(),
+    /v0\.5|historical planning/i,
+  );
+  const planManifestResponse = await context.request.get(
+    origin + "/docs/design-engine/current/planning/manifest.json",
+  );
+  assert.equal(
+    planManifestResponse.status(),
+    200,
+    await planManifestResponse.text(),
+  );
+  const planManifest = await planManifestResponse.json();
+  assert.equal(planManifest.schema, "osr-current-planning-inputs/1");
+  assert.equal(planManifest.selection_id, current.selection_id);
+  assert.equal(planManifest.physical_accepted, false);
+  const planIndexResponse = await context.request.get(
+    origin + "/docs/design-engine/current/planning/index.json",
+  );
+  assert.equal(planIndexResponse.status(), 200, await planIndexResponse.text());
+  const planIndex = await planIndexResponse.json();
+  assert.equal(planIndex.selected_candidate.candidate_id, current.candidate_id);
+  const baghdadPlanRow = planIndex.cities.find((row) => row.city === "baghdad");
+  assert(baghdadPlanRow, "Current planning packet must include Baghdad");
+  const baghdadPlanResponse = await context.request.get(
+    origin + "/docs/design-engine/current/planning/" + baghdadPlanRow.plan,
+  );
+  assert.equal(baghdadPlanResponse.status(), 200);
+  const baghdadPlan = JSON.parse(
+    gunzipSync(await baghdadPlanResponse.body()).toString("utf8"),
+  );
+  assert.equal(baghdadPlan.selection_id, current.selection_id);
+  await page.selectOption("#city", "baghdad");
+  await page.waitForFunction(
+    () => document.querySelector("#line").options.length > 0,
+  );
+  const lineId = await page.locator("#line").inputValue();
+  assert(lineId, "Current Baghdad planning lines must populate the editor");
+  const stop = page.locator("#stop");
+  assert((await stop.locator("option").count()) >= 3);
+  await stop.selectOption({ index: 1 });
+  const stopId = await stop.inputValue();
+  const sourceLine = baghdadPlan.lines.find((line) => line.id === lineId);
+  const stopIndex = sourceLine.stops.findIndex((row) => row.id === stopId);
+  assert(stopIndex > 0, "Choose a stop that can be moved along its route");
+  const previousChainage = sourceLine.stops[stopIndex - 1].chainage_m;
+  const currentChainage = sourceLine.stops[stopIndex].chainage_m;
+  const revisedChainage =
+    previousChainage + (currentChainage - previousChainage) * 0.75;
+  await page.locator("#chainage").fill(String(revisedChainage));
+  await page.click("#move");
+  await page.locator("#headway").fill("30");
+  await page.click("#service");
+  assert.match(
+    await page.locator("#issues").innerText(),
+    /selected v0\.6 service headway target/,
+  );
+  const editDownload = page.waitForEvent("download");
+  await page.click("#export");
+  const downloadedEdits = await editDownload;
+  const editPath = resolve(planningRun, "edits.json");
+  await downloadedEdits.saveAs(editPath);
+  const edits = JSON.parse(await readFile(editPath, "utf8"));
+  assert.equal(edits.schema, "osr-planning-edit-bundle/1");
+  assert.equal(edits.city, "baghdad");
+  assert.equal(edits.edits.length, 2);
+  const handoffPath = resolve(planningRun, "handoff");
+  const compile = spawnSync(
+    resolve(root, "osr"),
+    [
+      "plan",
+      "compile",
+      relative(root, editPath),
+      "--output",
+      relative(root, handoffPath),
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(compile.status, 0, compile.stdout + compile.stderr);
+  const verify = spawnSync(
+    resolve(root, "osr"),
+    ["plan", "verify", relative(root, handoffPath)],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(verify.status, 0, verify.stdout + verify.stderr);
+  const handoff = JSON.parse(
+    await readFile(resolve(handoffPath, "planning-handoff.json"), "utf8"),
+  );
+  assert.equal(handoff.selection_id, current.selection_id);
+  assert.equal(handoff.physical_candidate.candidate_id, current.candidate_id);
+  assert.equal(handoff.route_performance_evaluated, false);
+  assert.equal(handoff.procurement_requirements.quantities_unknown, true);
+  assert.equal(handoff.movement_authority, false);
+  report.current_planning = {
+    city_count: planIndex.city_count,
+    selection_id: planIndex.selection_id,
+    edits_compiled_and_verified: edits.edits.length,
+    route_performance_evaluated: false,
+    physical_accepted: false,
+  };
+  await page.goto(origin + "/", { waitUntil: "networkidle" });
+  await page.locator("#design").waitFor({ state: "visible" });
   await page.screenshot({ path: output + "/desktop.png", fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
@@ -266,7 +375,9 @@ try {
   );
   await page.screenshot({ path: output + "/mobile.png", fullPage: true });
   assert.equal(
-    await page.locator('a[href="/docs/archives/v0.5-maglev/README.md"]').count(),
+    await page
+      .locator('a[href="/docs/archives/v0.5-maglev/README.md"]')
+      .count(),
     0,
     "Current Workbench must not link readers to an old application archive",
   );
@@ -345,6 +456,7 @@ try {
 } finally {
   if (browser) await browser.close();
   server.kill("SIGTERM");
+  await rm(planningRun, { recursive: true, force: true });
   await writeFile(output + "/server.log", log);
   await writeFile(
     output + "/result.json",

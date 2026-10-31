@@ -80,7 +80,7 @@ function render(){
    const title=document.createElementNS(svgNS,'title');title.textContent=String(f.id||f.properties?.id||layer.name);e.append(title);svg.append(e);
   }
  }
- $('issues').replaceChildren();for(const l of plan.lines){if(l.headway_s<l.planning_minimum_headway_s){const li=document.createElement('li');li.textContent=l.id+': below the starting planning screen; this is not a v0.6 protection result';$('issues').append(li);}for(let i=1;i<l.stops.length;i++)if(l.stops[i].chainage_m-l.stops[i-1].chainage_m<1500){const li=document.createElement('li');li.textContent=l.id+': below the 1,500 m planning comparison; access and transfer review required';$('issues').append(li);}}
+ $('issues').replaceChildren();for(const l of plan.lines){if(l.headway_s<l.planning_minimum_headway_s){const li=document.createElement('li');li.textContent=`${l.id}: below the selected v0.6 service headway target of ${l.planning_minimum_headway_s} s; this is not a protected-headway result`;$('issues').append(li);}for(let i=1;i<l.stops.length;i++)if(l.stops[i].chainage_m-l.stops[i-1].chainage_m<1500){const li=document.createElement('li');li.textContent=l.id+': below the 1,500 m planning comparison; access and transfer review required';$('issues').append(li);}}
  $('export').disabled=edits.length===0;$('reset').disabled=edits.length===0;
 }
 async function loadCity(){

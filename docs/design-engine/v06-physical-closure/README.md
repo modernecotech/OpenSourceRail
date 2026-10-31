@@ -79,4 +79,4 @@ Motor and frame compact archives retain the complete original SHA-256 index, exa
 .venv/bin/python -m engineering.station_rail.closure_round --publish
 ```
 
-All 266 city maps/geographies are preserved. City performance regeneration, equal-service economics and the physically coupled launch–coast–arrival demonstration remain held. v0.5 evidence and v0.6.0 tag remain unchanged.
+All 266 current city maps/geographies are preserved. City performance regeneration, equal-service economics and the physically coupled launch–coast–arrival demonstration remain held pending candidate-specific evidence.

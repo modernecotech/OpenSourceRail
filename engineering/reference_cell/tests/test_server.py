@@ -64,7 +64,8 @@ def test_owned_static_views_and_current_geography_hold_render_without_historical
     assert status==200 and kind in h['Content-Type'] and data
     assert b'file://' not in data
     if path=='/geography':
-        assert b'266' in data and b'held' in data and b'historical planning editor' in data
+        assert b'candidate-bound city routes' in data and b'./osr plan serve' in data and b'held' in data
+        assert b'historical planning editor' not in data and b'v0.5' not in data
         assert b'/ferrite-maglev/' not in data
 
 

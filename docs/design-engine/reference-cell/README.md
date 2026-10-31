@@ -1,6 +1,6 @@
 # Sourced reference-cell design generation
 
-OpenSourceRail links local design, manufacture, construction, operation and repair through open component knowledge and immutable revisions. This separate current research layer preserves the selected wheel/LIM reference, the six earlier twin regressions and all historical source-bound evidence.
+OpenSourceRail links local design, manufacture, construction, operation and repair through open component knowledge and immutable revisions. This research layer evaluates the selected wheel/LIM reference with separate candidate-bound regression and source-bound evaluation records.
 
 `./osr-cell` connects a manufactured-material master, part definitions, individually located occurrences, five equipped 17 m proposals, a typed architecture registry, coupled simulation admission, two-station civil quantities, manufacturing and whole-life cost interfaces, disabled delivery drafts and an interactive engineering Workbench. It does not issue physical, manufacturing or operating release.
 
@@ -19,7 +19,7 @@ OpenSourceRail links local design, manufacture, construction, operation and repa
 ./osr-cell cad --vehicle V1 --output build/reference-cell-cad/V1
 ```
 
-Runs retain exact sources and completed/pending requests under invocation budgets and a single-coordinator lock. Cached reports undergo semantic replay; a receipt hash alone cannot invent a successful design. The Workbench has design, mass/cost, simulation, closure and manufacturing/construction views. All HTTP mutations are refused and validated response snapshots remain immutable during review. Its geography route explains the current v0.6 evaluation hold and does not send users into historical engineering as if it were current.
+Runs retain exact sources and completed/pending requests under invocation budgets and a single-coordinator lock. Cached reports undergo semantic replay; a receipt hash alone cannot invent a successful design. The Workbench has design, mass/cost, simulation, closure and manufacturing/construction views. All HTTP mutations are refused and validated response snapshots remain immutable during review. Its geography route directs users to the current v0.6 planning workspace and states the current evaluation hold.
 
 ## Component and material master
 

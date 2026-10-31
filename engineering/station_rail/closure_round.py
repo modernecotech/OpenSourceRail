@@ -86,7 +86,7 @@ def readme(s):
         '# body_solid_frame.run(...), body_floor_fit.run(...)',
         '# Chrono workers require build/trip-dynamics/environment/chrono/bin/python',
         '.venv/bin/python -m engineering.station_rail.closure_round --publish','```','',
-        'All 266 city maps/geographies are preserved. City performance regeneration, equal-service economics and the physically coupled launch–coast–arrival demonstration remain held. v0.5 evidence and v0.6.0 tag remain unchanged.','']
+        'All 266 current city maps/geographies are preserved. City performance regeneration, equal-service economics and the physically coupled launch–coast–arrival demonstration remain held pending candidate-specific evidence.','']
     body_lines=['| Full-integration frame-only case | Maximum vertical displacement | Screen versus 25.6 mm |','|---|---|---|']
     for case in s['solid_frame']['cases']:
         if case['case'] in ('normal-fine','empty','crowd','asymmetric-braking'):
