@@ -54,6 +54,8 @@ A failed design is not the end of the process. The coordinator should diagnose *
 
 Candidate completion is reported in three separate levels: **simulation complete** for a named scope with measured or explicitly assumed inputs; **engineering validated** with credible physical evidence and independent review; and **approved for manufacture or operation** under the applicable safety, accessibility and release requirements. A completed provisional cost scenario does not imply an integrated journey simulation, engineering validation or release. The current counts and evidence rules are in the [coordinated railway report](docs/design-engine/coupled-railway/README.md).
 
+The separate [conditional P1 journey study](docs/design-engine/conditional-journey-study/README.md) runs low/base/high assumed force maps through the reduced journey model for design comparisons. Those cases remain assumption-only; they do not change the coordinated report's count of completed physical journeys.
+
 
 ## v0.6 development basis
 

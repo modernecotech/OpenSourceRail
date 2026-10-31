@@ -189,6 +189,7 @@ def main(argv=None, root=ROOT):
         print('Usage: ./osr design COMMAND [arguments]\n\n'
               '  status, build, verify     Selected v0.6 reference packet\n'
               '  railway plan/run/...      Coordinated whole-railway research\n'
+              '  journey-study run/publish/verify [--replay] Conditional P1 study\n'
               '  adaptive, architecture    Function-first and architecture studies\n'
               '  generative, space         Structural grammar and design space\n'
               '  campaign                  Bounded candidate campaign lifecycle\n'
@@ -200,6 +201,19 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='journey-study':
+            if rest in (['-h'],['--help'],['help']):
+                print('Usage: ./osr design journey-study {run|publish|verify} [--replay]')
+                return 0
+            action=rest[0] if rest else 'run'
+            options=argparse.ArgumentParser(prog='./osr design journey-study '+action)
+            if action=='verify':options.add_argument('--replay',action='store_true')
+            parsed=options.parse_args(rest[1:] if rest else [])
+            from engineering.design_search import conditional_journey_study as study,conditional_journey_publication as publication
+            if action=='run':emit(study.run(root));return 0
+            if action=='publish':emit(publication.build(root));return 0
+            if action=='verify':emit(publication.verify(root,replay=parsed.replay));return 0
+            raise ValueError('Use journey-study run, publish, or verify [--replay]')
         if command=='progress':
             from engineering.railway_progress.cli import main as progress_main
             return progress_main(rest,root=root)

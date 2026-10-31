@@ -1,0 +1,44 @@
+schema = "osr-conditional-journey-design-study/1"
+purpose = "Assumption-bound design-study journeys using the canonical P1 bundles; not available propulsion evidence or an accepted service."
+candidate_family = "P1"
+load_case = "normal"
+grade_up_fraction = 0.0
+headwind_m_s = 0.0
+rolling_coefficient = 0.0025
+bearing_N_per_car = 50.0
+aero_N_s2_m2_per_car = 1.8
+dt_s = 0.05
+maximum_time_s = 600.0
+berth_tolerance_m = 2.0
+available_discs = 8
+rail_adhesion_hypothesis = 0.05
+standstill_loss_equivalent_speed_m_s = 0.25
+speed_domain_multiplier = 1.5
+position_lower_guard_m = 1.0
+brake_search_max_iterations = 16
+prelaunch_excitation_s = 1.0
+
+[service]
+seats_per_car = 44
+wheelchair_places_per_car = 2
+target_headway_s = 120.0
+dwell_s = 35.0
+
+[lim_assumptions]
+case_names = ["low", "base", "high"]
+peak_force_N_per_car = [8900.0, 11100.0, 13300.0]
+peak_current_A_train = [750.0, 1000.0, 1250.0]
+rated_efficiency = [0.85, 0.90, 0.95]
+current_slew_A_s = [250.0, 500.0, 1000.0]
+voltage_limit_V = 3000.0
+
+[thermal_assumptions]
+ambient_C = 30.0
+initial_C = 30.0
+maximum_C = 120.0
+capacity_J_K = [6000000.0, 10000000.0, 16000000.0]
+heat_rejection_W_K = [2000.0, 5000.0, 10000.0]
+
+[brake_assumptions]
+service_deceleration_m_s2 = 0.6
+brake_start_lower_margin_m = 150.0
