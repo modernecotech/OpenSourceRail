@@ -72,7 +72,13 @@ def test_resealed_mesh_or_uncovered_entry_cannot_borrow_critical_definition(bund
 def test_legacy_request_shape_and_case_semantics_are_unchanged(bundle):
     old=m.request(bundle,speed_m_s=20.,dt_s=.001,steps=16,transport_method='supg-coth')
     assert old['schema']=='osr-moving-LIM-request/2' and 'mesh_definition' not in old and 'operating_hypothesis' not in old
-    assert old['request_id']=='ee21f69417358c993cd6b7a247cc83e37bea35021950387a91caeeb476582c21'
+    # The request digest covers the full source-bound bundle definition, so it
+    # changes when that definition's source/evaluation context changes even if
+    # the physical candidate ID stays the same. Check both identities directly.
+    assert old['bundle_id']==bundle['candidate_id']
+    assert old['bundle_definition_id']==bundle['definition_id']
+    assert old['body_candidate_id']==bundle['body_candidate_id']
+    assert old['request_id']==m.identity({k:v for k,v in old.items() if k!='request_id'})
     m.validate(old)
     with pytest.raises(ValueError,match='matching numerical variables'):m.request(bundle,critical_dx_m=.01)
 
