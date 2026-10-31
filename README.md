@@ -16,7 +16,7 @@ The [continuing numerical reference-cell work](docs/design-engine/continuing-cel
 
 The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
 
-The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) links 533 main-catalogue observations (83 sources, 16 products, five published catalogue offers) plus 18 separate Iraqi discovery leads to the research digital twin. It keeps 27,216 located occurrences traceable across 191 draft procurement packages, and records material-plus-assumed-labour screens with a stated 20% uplift. A separate Mosul retail screen prices generic fibreglass cloth plus assumed Iraqi labour for three 10 m² scenarios; resin and full fabrication remain unpriced. The current 81-span research procurement candidate also has a separate rebar screen: its declared 120 kg/m³ detailing allowance gives a 216.577 t mass proxy, with Iraqi CSO material rates and assumed hours × regional base wages plus 20%. Rebar remains unlocated and has no purchase quantity or compatible offer; the estimate does not add it to the nominal-concrete BOM. The cost/weight work now ranks declared cost-scenario spread and, separately, selected-reference mass-account reconciliation gaps; these are research priorities rather than cost bounds, physical missing mass, or candidate preference. The balanced railway sourcing run still has zero compatible priced matches, and none of these partial screens is an installed rate.
+The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) now links 533 catalogue observations and 18 additional Iraqi discovery leads to candidate-bound takeoffs and provisional material-plus-labour cost screens. Located parts are grouped into 191 draft purchasing packages, but no complete compatible priced supplier match has yet been established. **That is a procurement gap, not a reason to leave design-stage costs uncalculated:** internally priced processes should support transparent low/base/high planning comparisons while supplier, qualification and installed-cost evidence is improved.
 
 A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
 
@@ -39,6 +39,27 @@ Local content means **origin-traced domestic value added**, not the address of a
 | Open GoA4 control platform | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
 
 The [first adoption path](docs/first-adoptable-product.md) is controlled planning, workshop/depot records, training and evidence management. An owner can develop those capabilities before a new train is qualified. The configured business and supervision services have their own permissions and commissioning requirements.
+
+
+## From a city brief to a working railway
+
+**The intended end-to-end loop is: define the transport need → generate competing designs → calculate and test them → plan their manufacture and construction → estimate complete costs → revise and compare → approve, build and operate.** Every revision should flow through the *same* vehicle, station, civil, factory, service and financial models. A change to a panel, bogie, beam, winding or service assumption must automatically update all affected quantities, analyses, tasks and costs.
+
+| Stage | What the platform should do | Output and next decision |
+|---|---|---|
+| **1. Define the remit** | Record city geography, passengers, station locations, comfort, speed, climate, accessibility, safety, local manufacturing capability and target cost | One versioned requirements and site scenario; distinguish mandatory requirements from preferences |
+| **2. Generate alternatives** | Explore vehicle materials/shapes, structures, bogies, propulsion, stations, beams, foundations and production methods—not just small parameter changes | Several fully identified competing physical candidates |
+| **3. Detail and check** | Produce CAD/BIM, part-by-part installed BOM, weight/CG/inertia, joints, service routes and manufacturing interfaces; run structural, motor, braking, thermal and fault models | Explicit pass, fail or missing-evidence records for every candidate |
+| **4. Repair and iterate** | On failure, revise geometry, material, component, assembly method or entire architecture; rerun dependent calculations without relaxing safety requirements | New candidate generations with ancestry and Pareto comparisons |
+| **5. Calculate build costs** | Derive gross material quantities, labour/process hours, machine time, tooling and QA from each design; use dated rates or declared engineering assumptions even where no quote exists | Low/base/high factory, delivered, installed and whole-life **planning estimates**, with confidence and exclusions |
+| **6. Plan production and construction** | Generate EBOM/MBOM, assembly order, precast and vehicle factory throughput, workstations, crews, inspections, haulage, cranes/launchers and site sequence | Capacity, workforce, construction duration and cashflow scenarios |
+| **7. Review and execute** | Compare equal-service candidates and independently check the preferred design; prepare procurement, production, project, QA and training records in ERPNext/Frappe HR | Reviewed handoffs; purchasing, fabrication, installation and commissioning require human approval |
+| **8. Operate and improve** | Integrate approved equipment, GoA4 protection, FUXA monitoring, maintenance, serial records and actual measured hours/consumption | Real performance and cost evidence fed back into new design revisions |
+
+**This is the target workflow, not a claim that every stage is already commissioned.** The current generator, engineering Workbench, component registry, numerical models and preliminary manufacturing/cost outputs cover much of stages 2–5. City-specific production schedules, complete costed equipment, physical proof, approved business transactions and operating integration remain incomplete. See the [step-by-step cost and delivery implementation plan](docs/design-engine/model-based-cost-and-delivery.md).
+
+A failed design is not the end of the process. The coordinator should diagnose *why* it failed, propose a larger change where necessary, and rerun that candidate through weight, simulation, factory work, construction and whole-life economics. Missing prices can trigger calculated estimate ranges; missing safety-critical physical evidence must still block physical approval.
+
 
 ## v0.6 development basis
 
@@ -128,6 +149,18 @@ This is the connected delivery objective. The current v0.6 coordinator executes 
 
 ## Manufacturing, civil works and affordability
 
+
+### Cost a design from its parts and production process
+
+OpenSourceRail should calculate a preliminary price for **every** panel, chassis member, bogie part, electrical cabinet, LIM bank, precast beam and installation activity—even when no finished product or supplier quotation exists. It already has [material takeoff and fabrication screens](docs/design-engine/sourcing/README.md), [occurrence-linked production hypotheses](docs/design-engine/reference-cell/README.md) and a [lifecycle evaluator](engineering/reference_cell/economics.py); the remaining task is to connect them into one complete, non-duplicated estimate per physical candidate.
+
+A simple first estimate is **(gross material quantity × material rate + direct labour hours × hourly wage) × 1.20**. The 20% is a *declared illustrative allowance* for a quick fabrication screen, not an approved market margin. A fuller estimate adds separately counted machine hours, energy, mould/tooling amortisation, consumables, inspection, scrap and rework, with any overhead applied **once** to a stated cost base. Delivery, cranes/erection, foundations, wiring/connection and testing are then added to obtain installed cost; fleet, staffing, electricity, maintenance, replacements and downtime form the whole-life model.
+
+For example, a **GFRP panel** should be priced from ply areas, glass/resin/core quantities, inserts and fasteners, mould preparation, layup/infusion, curing, trimming, assembly and inspection hours. A **20 m precast span** should include concrete, reinforcement, prestress, mould cycles, curing, crew, transport, lifting, bearings, rail equipment, piers and foundations. Changing the part shape, material, section or method should regenerate **both** its cost and its engineering checks.
+
+Cost records need explicit *low/base/high scenarios*, quantities, source dates, currency, locality, labour and yield assumptions, and one of three statuses: **model-cost complete** (internally estimated), **procurement ready** (reviewed real purchasing basis), or **physically accepted** (separate engineering and safety evidence). A Class C estimate is sufficient for provisional economic ranking, **not** for a supplier commitment, a certified design or passenger operation. Missing parts and costs are never silently valued at zero. [See the detailed implementation and regression plan](docs/design-engine/model-based-cost-and-delivery.md).
+
+
 The manufacturing objective is a repeatable system a local builder can fabricate, assemble, inspect and repair. The design search compares frames, sandwich panels, honeycombs, material arrangements, joints, inserts, floors, roofs and integrated service supports. Joining, fire/thermal behaviour, tooling, access and replacement matter alongside stock mass.
 
 Civil alternatives must include rails and fastenings, beam stiffness and torsion, bearings, piers, foundations, containment, drainage, emergency access, transport and erection. Common precast parts and offsite inspection should reduce site operations; minimum concrete volume alone does not identify the least-cost structure.
@@ -146,7 +179,7 @@ The [current dossier](docs/design-engine/current/README.md), [coordinated experi
 | Structural redesign | Five initial recipes, mechanism-driven physical rewrites, four solid-method fixtures and seven 3D metal-body cases | Strength, buckling, fatigue, joints, thermal/fire/crash behaviour and composite qualification; frame refinement remains unresolved |
 | Propulsion | Current-excited LIM studies and six bounded nonlinear transient method controls | A validated available-force map over actual position, speed, current, frequency, gap, temperature and sectional overlap |
 | Equipped vehicle | Counted stock, retained equipment accounts, EBOM/MBOM and mass propagation | Complete located equipment, installed mass, CG, inertia and interference closure |
-| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts, scoped Pareto comparisons and September 2026 Iraqi material/wage fabrication screens | Production data, supplier quotes, employer-loaded labour, tooling/QA/transport/installation costs and a whole-life-cost winner |
+| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts, scoped Pareto comparisons and Iraqi material/wage fabrication screens | One internally priced low/base/high factory-to-installed and lifecycle ledger per candidate; production rates and real procurement evidence must mature separately |
 | Journey and operations | Required 1.5–2 km profiles, braking hypotheses and three precast alternatives receive the same candidate mass | Actual motor-driven launch–coast–arrival, qualified stopping, recovery and protected headway |
 | Verification | Source/payload checks, independent method comparisons, CI contract/browser tests and separately scheduled native methods | Physical correlation and independent engineering/manufacturing/operating acceptance |
 
@@ -199,6 +232,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Generate and compare new designs | [Coupled experiment](docs/design-engine/coupled-railway/README.md), [design engine](engineering/design_search/README.md) |
 | Inspect city geography or planning proposals | [Current city register](docs/design-engine/current/cities.json), [city catalogue](cities/catalogue/README.md), [planning UI](docs/workbench/planning/index.html) |
 | Review CAD, BIM, BOM and manufacturing | [Reference exports](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json) |
+| Follow the end-to-end workflow and calculated costing | [Workflow above](#from-a-city-brief-to-a-working-railway), [cost formula above](#cost-a-design-from-its-parts-and-production-process), [implementation plan](docs/design-engine/model-based-cost-and-delivery.md) |
 | Configure business and people workflows | [ERPNext/Frappe HR deployment](deployment/erpnext/README.md) |
 | Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [native lifecycle example](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) |
 | Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
