@@ -6,19 +6,11 @@ OpenSourceRail develops affordable urban rail and the open tools needed to **pla
 
 The wider project still includes city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. Changing the reference vehicle does not remove that remit. **The railway is a research and prototype design, without manufacturing or operating release.**
 
-**Start here:** [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
+**Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
 ![OpenSourceRail v0.6 proposed six-car wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
 *Architectural concept, not approved geometry: six 17 m cars, passive steel-wheel bogies, flush roof solar panels, conventional rails on repeatable precast beams and a compact station. [Inspect the source-bound counted vehicle geometry](docs/design-engine/current/vehicle-overview.svg); that geometry and its retained supplier accounts do not establish a complete installed train or manufacturing release.*
-
-The [continuing numerical reference-cell work](docs/design-engine/continuing-cell/README.md), through `./osr design progress`, connects finite-contact mechanical launch alternatives, force-driven conditional journeys, modular station load paths, trajectory-to-guideway reactions and dimension-derived manufacturing plans. Actual refined moving-LIM and located-stock structural runs remain separate from accepted operating maps and physical qualification. The selected wheel/LIM reference and the wider delivery platform remain unchanged.
-
-The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
-
-The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) now links 533 catalogue observations and 18 additional Iraqi discovery leads to candidate-bound takeoffs and provisional material-plus-labour cost screens. Located parts are grouped into 191 draft purchasing packages, but no complete compatible priced supplier match has yet been established. **That is a procurement gap, not a reason to leave design-stage costs uncalculated:** internally priced processes should support transparent low/base/high planning comparisons while supplier, qualification and installed-cost evidence is improved.
-
-A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
 
 ## Why OpenSourceRail
 
@@ -172,6 +164,16 @@ Earlier LM3 factory targets, the v0.4 $100M localisation illustration and v0.5 c
 ## Current engineering and the next working-system milestone
 
 The [current dossier](docs/design-engine/current/README.md), [coordinated experiment](docs/design-engine/coupled-railway/README.md) and [roadmap](docs/ROADMAP.md) separate executed methods from physical qualification.
+
+### Recent research progress
+
+The [continuing numerical reference-cell work](docs/design-engine/continuing-cell/README.md), through `./osr design progress`, connects finite-contact mechanical launch alternatives, force-driven conditional journeys, modular station load paths, trajectory-to-guideway reactions and dimension-derived manufacturing plans. Actual refined moving-LIM and located-stock structural runs remain separate from accepted operating maps and physical qualification. The selected wheel/LIM reference and the wider delivery platform remain unchanged.
+
+The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
+
+The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) now links 533 catalogue observations and 18 additional Iraqi discovery leads to candidate-bound takeoffs and provisional material-plus-labour cost screens. Located parts are grouped into 191 draft purchasing packages, but no complete compatible priced supplier match has yet been established. **That is a procurement gap, not a reason to leave design-stage costs uncalculated:** internally priced processes should support transparent low/base/high planning comparisons while supplier, qualification and installed-cost evidence is improved.
+
+A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
 
 | Workstream | Implemented evidence | Remaining gap |
 |---|---|---|
