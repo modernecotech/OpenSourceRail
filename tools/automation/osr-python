@@ -15,4 +15,11 @@ else
     exit 127
 fi
 
+if ! "$PYTHON_RUNTIME" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
+    printf 'OpenSourceRail requires Python 3.11 or newer; found ' >&2
+    "$PYTHON_RUNTIME" --version >&2
+    printf 'Run ./install.sh to create the project environment.\n' >&2
+    exit 127
+fi
+
 exec "$PYTHON_RUNTIME" "$@"

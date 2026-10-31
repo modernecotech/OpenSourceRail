@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that local links in tracked Markdown resolve inside the repository."""
+"""Check local links in maintained Markdown; retained snapshots stay immutable."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from urllib.parse import unquote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+RETAINED_SNAPSHOT_PREFIXES = ("docs/archives/", "legacy/v0.4/")
 INLINE_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 REFERENCE_TARGET = re.compile(r"^\s*\[[^\]]+\]:\s*(\S+)")
 TITLE_SUFFIX = re.compile(r"^(.*?)\s+[\"'].*[\"']$")
@@ -41,7 +42,11 @@ def markdown_files() -> list[Path]:
         cwd=REPO_ROOT,
         text=True,
     ).splitlines()
-    return sorted({Path(path) for path in tracked + untracked})
+    return sorted(
+        Path(path)
+        for path in set(tracked + untracked)
+        if not Path(path).as_posix().startswith(RETAINED_SNAPSHOT_PREFIXES)
+    )
 
 
 def normalized_candidates(raw: str) -> list[str]:
@@ -83,7 +88,10 @@ def main() -> int:
     if broken:
         print(f"{len(broken)} broken local Markdown link(s)", file=sys.stderr)
         return 1
-    print("local Markdown links: ok")
+    print(
+        "local Markdown links: ok "
+        "(byte-preserved docs/archives/ and legacy/v0.4/ snapshots excluded)"
+    )
     return 0
 
 
