@@ -10,7 +10,7 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     result = publication.verify()
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
-    assert result['native_body_case_count'] == 7
+    assert result['native_body_case_count'] == 8
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
     summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
@@ -19,6 +19,10 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert completion['integrated_force_driven_journey_complete']==0
     assert completion['engineering_validated']==0
     assert completion['approved_for_manufacture_or_operation']==0
+    assert summary['current_source_refinement']['execution']=='completed'
+    assert summary['current_source_refinement']['numerical_validity']=='equilibrium_energy_confirmed_only'
+    assert summary['current_source_refinement']['physical_and_engineering_acceptance'] is False
+    assert summary['frontier_tasks']==46
 
 
 def _declared_cost_row():

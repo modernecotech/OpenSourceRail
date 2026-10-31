@@ -210,7 +210,121 @@ def _retain_exact_prior_body_cases(root,value,out,native_index):
     return reused,rejections
 
 
-def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
+def _current_refinement(root, value):
+    """Load the exact current-source continuation when its sealed package exists."""
+    from . import railway_refinement_current, railway_refinement_current_verifier
+    parent = Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
+    context = railway_refinement_current._context(
+        root, parent_result=parent, candidate_id=railway_refinement_current.CANDIDATE_ID)
+    request = railway_refinement_current._request(context[0], context[2], context[3], context[4],
+        context[5], context[6], context[7])
+    folder = railway_refinement_current._package(root, request)
+    if not folder.exists():
+        return None
+    verified = railway_refinement_current_verifier.verify(
+        root, parent_result=parent, candidate_id=railway_refinement_current.CANDIDATE_ID)
+    return dict(folder=folder, request=json.loads((folder/'request.json').read_bytes()),
+        result=json.loads((folder/'native/result.json').read_bytes()),
+        report=json.loads((folder/'report.json').read_bytes()),
+        manifest=json.loads((folder/'manifest.json').read_bytes()), verified=verified)
+
+
+def _published_frontier(value, refinement):
+    tasks=deepcopy(value['frontier'])
+    if refinement is None or refinement['result'].get('execution')!='completed':
+        return tasks
+    report=refinement['report'];body_id=report['body_candidate_id']
+    # Keep the original task if the run did not establish numerical validity.
+    if refinement['result'].get('numerical_validity')!='equilibrium_energy_confirmed_only':
+        for task in tasks:
+            if task.get('kind')=='unresolved-numerical-refinement' and task.get('body_candidate_id')==body_id:
+                task['state']='completed-run-invalid-or-unconfirmed; diagnosis-required'
+                task['completed_evaluation_id']=refinement['result']['evaluation_id']
+        return tasks
+    tasks=[task for task in tasks if not (task.get('kind')=='unresolved-numerical-refinement' and task.get('body_candidate_id')==body_id)]
+    comparison=next((x for x in report['matched_point_displacement_comparisons']
+                     if x.get('from_mesh_m')==0.425 and x.get('status')=='compared'),None)
+    changes={} if comparison is None else {k:v['maximum_relative_to_fine_component']
+        for k,v in comparison.get('components',{}).items()}
+    threshold=value['specification']['numerical_refinement']['trigger_relative_change']
+    if changes and max(changes.values())>threshold:
+        body=next(b for b in value['bodies'] if b['candidate_id']==body_id)
+        next_mesh=0.10625
+        from . import railway_native
+        estimate=railway_native.cell_estimate(body,next_mesh)
+        tasks.append(dict(kind='unresolved-numerical-refinement',body_candidate_id=body_id,state='explicit-resource-revision-required',
+            evidence_ids=[x['evaluation_id'] for x in report['mesh_and_residual_trend'] if x['mesh_m'] in (0.425,0.2125)],
+            component_relative_changes=changes,trigger_relative_change=threshold,proposed_next_mesh_m=next_mesh,
+            computational_cell_estimate=estimate,previous_mesh_budget_cells=refinement['request']['computational_cell_budget'],
+            next_mesh_exceeds_previous_cell_budget=estimate['solid_cells']>refinement['request']['computational_cell_budget'],
+            numerical_run_id=refinement['result']['evaluation_id'],physical_failure_inferred=False,
+            required=['Assess a separately bounded 0.10625 m resource request','Compare matched-point displacement and residual trends with this exact current-source result',
+                      'Keep stress, joint strength, fatigue, buckling, clearance and physical validation as separate gates']))
+    return tasks
+
+
+def _retain_prior_historical_packets(root, out, value, native, epochs):
+    """Carry exact historical evidence forward when local build caches are absent."""
+    root=Path(root);out=Path(out);seen={x.get('raw_result',{}).get('evaluation_id') or x.get('raw_result',{}).get('candidate_id') for x in native}
+    candidates=[]
+    for folder in sorted((root/'build/coupled-railway/replaced-publications').glob('*/')):
+        manifest_path=folder/'manifest.json';summary_path=folder/'summary.json'
+        if not manifest_path.is_file() or not summary_path.is_file():continue
+        try:
+            manifest=json.loads(manifest_path.read_bytes());s=json.loads(summary_path.read_bytes())
+            actual={p.relative_to(folder).as_posix():digest(p) for p in folder.rglob('*') if p.is_file() and p!=manifest_path}
+            if (s.get('campaign_id')==value['campaign_id']
+                    and manifest.get('manifest_id')==identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+                    and manifest.get('files_sha256')==actual):
+                candidates.append((folder,s,manifest))
+        except (OSError,KeyError,ValueError,TypeError):
+            continue
+    if not candidates:return
+    # Older source-bound packets are immutable; only unique historical evidence
+    # absent from the current build cache is copied into the new receipt.
+    for folder,_summary,_manifest in candidates:
+        old_epochs=json.loads((folder/'source-epochs.json').read_bytes())
+        for item in json.loads((folder/'native-index.json').read_bytes()):
+            if item.get('kind') not in ('historical-CAD','historical-resource-or-numerical-failure','transient-method'):
+                continue
+            result=item.get('raw_result',{});evaluation_id=result.get('evaluation_id') or result.get('candidate_id')
+            if evaluation_id in seen:continue
+            for name,h in result.get('source_sha256',item.get('raw_manifest',{}).get('source_sha256',{})).items():
+                path=root/name
+                if (path.is_file() and digest(path)==h) or h in epochs:continue
+                source=old_epochs.get(h)
+                if source is None:raise ValueError('Prior historical packet lacks its exact source bytes')
+                raw=folder/source['artifact']
+                if digest(raw)!=h:raise ValueError('Prior historical source archive differs')
+                (out/'historical-sources').mkdir(exist_ok=True);target='historical-sources/'+h
+                if not (out/target).exists():shutil.copyfile(raw,out/target)
+                epochs[h]=dict(repository_path=source.get('repository_path',name),artifact=target)
+            suffix=(evaluation_id or identity(item))[:12]
+            target=f"native/retained-{item['kind']}-{suffix}.tar.gz"
+            if not (out/target).exists():shutil.copyfile(folder/item['archive'],out/target)
+            native.append(dict(item,archive=target))
+            seen.add(evaluation_id)
+
+
+def _prior_magnetic_summary(root,value):
+    root=Path(root)
+    for folder in sorted((root/'build/coupled-railway/replaced-publications').glob('*/')):
+        manifest_path=folder/'manifest.json';summary_path=folder/'summary.json';payload=folder/'magnetic-method.json.gz'
+        if not (manifest_path.is_file() and summary_path.is_file() and payload.is_file()):continue
+        try:
+            manifest=json.loads(manifest_path.read_bytes());summary_value=json.loads(summary_path.read_bytes())
+            actual={p.relative_to(folder).as_posix():digest(p) for p in folder.rglob('*') if p.is_file() and p!=manifest_path}
+            if (summary_value.get('campaign_id')!=value['campaign_id']
+                    or manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+                    or manifest.get('files_sha256')!=actual):continue
+            cases=json.loads(gzip.decompress(payload.read_bytes()))
+            if cases:return cases
+        except (OSError,KeyError,ValueError,TypeError):
+            continue
+    return []
+
+
+def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refinement=None):
     new_native_body_case_count=len(value['native']['body_results'])
     if reused_body_cases:
         value=deepcopy(value)
@@ -225,12 +339,19 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
     magnetic=[] if magnetic is None else magnetic
     model_costs=[r['economics']['model_cost'] for r in value['rows'] if isinstance(r.get('economics',{}).get('model_cost'),dict)]
     completion=completion_summary(value['rows'])
+    refinement_count=0 if refinement is None else 1
     result=dict(schema='osr-coupled-railway-summary/1',campaign_id=value['campaign_id'],contract_id=value['contract_id'],body_count=len(rows),
         initial_body_count=value['specification']['initial_structural_recipes'],body_rewrite_count=len(value['executed_body_revisions']),
         bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=sum(len(r['stages']) for r in value['rows']),
-        body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=len(value['native']['body_results']),
+        body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=len(value['native']['body_results'])+len(reused_body_cases)+refinement_count,
         CAD_case_count=len(value['native']['CAD_results']),magnetic_method_cases=len(magnetic),magnetic_completed=sum(r['result']['execution']=='completed' for r in magnetic),
-        native_new_body_case_count=new_native_body_case_count,
+        native_new_body_case_count=new_native_body_case_count+refinement_count,
+        native_campaign_body_case_count=new_native_body_case_count,
+        native_current_source_refinement_count=refinement_count,
+        current_source_refinement=None if refinement is None else dict(request_id=refinement['manifest']['request_id'],
+            evaluation_id=refinement['result']['evaluation_id'],mesh_m=refinement['report']['generated_mesh']['mesh_m'],
+            execution=refinement['result'].get('execution'),numerical_validity=refinement['result'].get('numerical_validity'),
+            manifest_id=refinement['manifest']['manifest_id'],physical_and_engineering_acceptance=False),
         native_reused_body_case_count=len(reused_body_cases),native_prior_reuse_rejections=list(reuse_rejections),
         model_cost_summary=dict(candidate_estimates=len(model_costs),complete_for_declared_case=sum(r['model_cost_complete_for_declared_case'] is True for r in model_costs),
             currency='IQD',estimate_class='C',required_scope_count=len(engine.model_cost.SCOPES),
@@ -238,7 +359,7 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
             procurement_ready=False,physical_or_safety_accepted=False,integrated_winner=None),
         completion_status=completion,
         actual_force_driven_journeys=0,complete_installed_vehicle_masses=0,complete_lifecycle_costs=0,
-        frontier_tasks=len(value['frontier']),dependency_graph=value['dependency_graph'],selection=value['partial_quantity_comparison'],
+        frontier_tasks=len(_published_frontier(value,refinement)),dependency_graph=value['dependency_graph'],selection=value['partial_quantity_comparison'],
         integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
     return result
 
@@ -272,6 +393,7 @@ def readme(s):
         'The source-bound resource revision uses 1.7/0.85 m global subdivision targets; thin physical-feature cuts dominate the conformal grid. All actual mesh counts, resources, force/moment/work/energy residuals and failures are retained. A displacement trend is not strength or operating acceptance. C3D8I torsion limitations, quadratic confirmation, local/global buckling, material/HAZ/joint strength, fatigue, modes, thermal/fire/crash behaviour and physical calibration remain necessary work. Equipment loads are currently lumped over the floor with actual structural selfweight; real component positions and suspension compliance are not resolved.','',
         'The first baseline metal-frame job produced 152,004 cells and exceeded its 5 GiB allocation while factoring. It yielded no structural verdict. The generator then standardized and aligned floor/roof extrusion profiles, preserving openings, support pads and actual load paths. These are new physical children with different identities, fewer profile families and roughly 71% fewer conformal cells. The original failed execution, source epoch and CAD remain retained. A 60,000-cell dispatch budget is a computational control, not a railway acceptance rule or proof that the baseline body cannot work.','',
         'The frame\'s first refinement changed the three displacement maxima by about 10-12%. The coordinator therefore requested another unchanged-candidate numerical experiment at a 0.425 m target. Its 61,352-cell estimate justified an explicit computational budget revision to 65,000 cells under the same 5 GiB/150 s limits. Exact unchanged prior solves/CAD are reused across coordinator epochs, with new context records. A 5% refinement trigger requests work; it does not qualify a body. Whole-field, stress, torsion and physical convergence remain separate questions.','',
+        (f"The current-source continuation then ran the same P1 body and normal-load basis at **{s['current_source_refinement']['mesh_m']:.5g} m** with its separately declared 90,000-cell budget. It completed as **{s['current_source_refinement']['numerical_validity']}** under evaluation `{s['current_source_refinement']['evaluation_id'][:12]}`. This closes only that numerical invocation. The matched-displacement trend requests the next mesh/resource assessment where it remains above the stated trigger; physical material/joint allowables and acceptance remain open." if s.get('current_source_refinement') and s['current_source_refinement']['execution']=='completed' else 'The current-source continuation package is not yet available; the exact 0.2125 m request remains in the frontier.'),'',
         'Original foam/honeycomb and GFRP bodies remain non-admitted to this whole-body solver until their own complete directional material laws, attachment stock and joint models are provided. Orthotropic method patches demonstrate implementation, not purchased composite properties.','',
         '## Available propulsion and forward motion','',
         'Every changed mass automatically reaches the 2 km required-force calculation, nine independent-brake loading/fault hypotheses and three crowd-loaded precast alternatives. Rotor equivalent mass enters acceleration and braking; it is excluded from static axle gravity. P6/P7 remove the old passive-secondary account and preserve unknown replacement mass. A candidate-bound available-map gate checks actual position/speed/current/temperature samples, electrical work, thermal/current/voltage domains and normal-force interfaces. No linear, generic DC or synthetic map is silently admitted as an operating motor.','',
@@ -284,7 +406,7 @@ def readme(s):
         'Candidate cost ranges are compared only where currency, rate assumptions, corridor length, trackways, station count, headway and offered capacity match. Overlapping low/base/high whole-life scenarios remain incomparable; cost dominance does not select a candidate or change the v0.6 reference. Cost inputs include declared energy, staffing, maintenance, replacement, recovery, reliability and end-of-life scenarios. City alignment/site surveys, tariffs, staffing rules, failures, supplier quotes, tax/finance and physical performance are not established. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; geotechnical, torsional and construction qualification remain open.','',
         'Immutable stage requests include candidate and upstream evidence IDs. Native cache admission checks source/executable/payload plus exact body, load, mesh, method and resource request. New structural evidence invalidates dependent case evaluations even if geometry is unchanged. Stable experiment identity is separate from invocation cache counters; interrupted/pending work remains in the frontier. Native/CAD packets retain their original receipts.','',
         '```bash','./osr design railway plan','./osr design railway run --max-bundles 2 --native-jobs 1','./osr design railway run --native-jobs 12','./osr design railway publish','./osr design railway verify','```','',
-        '[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)','',
+        '[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Current refinement](current-refinement.json.gz) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)','',
         'Large fields and CAD solids stay local or regenerate with exact sources and indexed inputs; no remote artifact object or complete manufacturing/operating release is claimed. The selected reference and all 266 city performance packages remain unchanged.','']
     return '\n'.join(lines)
 
@@ -330,13 +452,22 @@ def build(root=ROOT,output=None):
         target='native/historical-failed-'+r['evaluation_id'][:12]+'.tar.gz';(out/target).write_bytes(compact_native_archive(p.parent));seen.add(r['evaluation_id'])
         native.append(dict(kind='historical-resource-or-numerical-failure',archive=target,raw_manifest=json.loads((p.parent/'manifest.json').read_bytes()),raw_result=r))
     reused_body_cases,reuse_rejections=_retain_exact_prior_body_cases(root,value,out,native)
+    refinement=_current_refinement(root,value)
+    if refinement is not None:
+        target='native/current-source-refinement.tar.gz';(out/target).write_bytes(archive(refinement['folder']))
+        native.append(dict(kind='body-current-source-refinement',archive=target,
+            raw_manifest=refinement['manifest'],raw_result=refinement['result']))
+    _retain_prior_historical_packets(root,out,value,native,epochs)
     for r in native:
         result=r['raw_result'];manifest=r['raw_manifest']
         for name,h in result.get('source_sha256',manifest.get('source_sha256',{})).items():
-            if digest(root/name)==h:continue
+            source=root/name
+            if source.is_file() and digest(source)==h:continue
+            if h in epochs:continue
             original=root/'build/coupled-railway/source-epochs'/h
             if not original.is_file() or digest(original)!=h:raise ValueError('Historical native producer bytes are unavailable')
             (out/'historical-sources').mkdir(exist_ok=True);target='historical-sources/'+h;(out/target).write_bytes(original.read_bytes());epochs[h]=dict(repository_path=name,artifact=target)
+    if not magnetic:magnetic=_prior_magnetic_summary(root,value)
     inventories=[];deliveries=[]
     for b in value['bodies']:
         row=next(r for r in value['rows'] if r['body_candidate_id']==b['candidate_id'] and r['family_id']=='P1')
@@ -354,10 +485,13 @@ def build(root=ROOT,output=None):
             for name in ('delivery.json.gz','ERPNext-draft.json.gz','bim.json','body-stock.ifc.gz'):
                 if (target/name).is_file():shutil.copyfile(target/name,out/prefix/name)
             deliveries.append(dict(candidate_id=bundle['candidate_id'],body_candidate_id=b['candidate_id'],prefix=prefix,raw_manifest=manifest))
-    s=summary(value,magnetic,reused_body_cases=reused_body_cases,reuse_rejections=reuse_rejections)
+    s=summary(value,magnetic,reused_body_cases=reused_body_cases,reuse_rejections=reuse_rejections,refinement=refinement)
+    frontier=_published_frontier(value,refinement)
     files={'summary.json':encoded(s),'bodies.json.gz':gzip.compress(encoded(value['bodies']),mtime=0),'bundles.json.gz':gzip.compress(encoded(value['bundles']),mtime=0),
         'comparison.json.gz':gzip.compress(encoded(value['rows']),mtime=0),'inventories.json.gz':gzip.compress(encoded(inventories),mtime=0),
-        'frontier.json.gz':gzip.compress(encoded(value['frontier']),mtime=0),'magnetic-method.json.gz':gzip.compress(encoded(magnetic),mtime=0),
+        'frontier.json.gz':gzip.compress(encoded(frontier),mtime=0),'magnetic-method.json.gz':gzip.compress(encoded(magnetic),mtime=0),
+        'current-refinement.json.gz':gzip.compress(encoded(None if refinement is None else dict(request=refinement['request'],result=refinement['result'],
+            report=refinement['report'],manifest=refinement['manifest'],verification=refinement['verified'])),mtime=0),
         'native-index.json':encoded(native),'source-epochs.json':encoded(epochs),'delivery-index.json':encoded(deliveries),'execution.json':encoded(dict(campaign_id=value['campaign_id'],run_id=value['run_id'],contract_id=value['contract_id'],
             new_bundles=value['new_bundles'],reused_bundles=value['reused_bundles'],native=value['native'],
             exact_prior_body_case_reuse=[dict(evaluation_id=r['evaluation_id'],body_candidate_id=r['body_candidate_id'],case=r['case'],source=r['exact_prior_reuse']) for r in reused_body_cases],
@@ -366,7 +500,9 @@ def build(root=ROOT,output=None):
     for name,raw in files.items():(out/name).write_bytes(raw)
     m=dict(schema='osr-coupled-railway-publication/1',source_sha256={**value['source_sha256'],PRODUCER:digest(root/PRODUCER),
         railway_delivery.PRODUCER:digest(root/railway_delivery.PRODUCER),'engineering/design_search/wheel_twin.py':digest(root/'engineering/design_search/wheel_twin.py'),
-        'engineering/design_search/generative_publication.py':digest(root/'engineering/design_search/generative_publication.py')},
+        'engineering/design_search/generative_publication.py':digest(root/'engineering/design_search/generative_publication.py'),
+        'engineering/design_search/railway_refinement_current.py':digest(root/'engineering/design_search/railway_refinement_current.py'),
+        'engineering/design_search/railway_refinement_current_verifier.py':digest(root/'engineering/design_search/railway_refinement_current_verifier.py')},
         files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()},**FLAGS)
     m['manifest_id']=identity(m);(out/'manifest.json').write_bytes(encoded(m));return verify(root,out)
 
@@ -401,9 +537,37 @@ def verify(root=ROOT,output=None):
         raise ValueError('Published model-cost summary differs from candidate estimates')
     if s.get('completion_status')!=completion_summary(rows):
         raise ValueError('Published candidate completion levels differ from their calculation evidence')
+    continuation=json.loads(gzip.decompress((out/'current-refinement.json.gz').read_bytes()))
+    if continuation is None:
+        if s.get('current_source_refinement') is not None:
+            raise ValueError('Current refinement summary has no retained package')
+    else:
+        request=continuation['request'];result=continuation['result'];report=continuation['report'];manifest=continuation['manifest']
+        if (manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+                or manifest.get('request_id')!=identity(request)
+                or request.get('parent_contract_id')!=s['contract_id']
+                or request.get('body_candidate_id')!=report.get('body_candidate_id')
+                or result.get('evaluation_id')!=report.get('evaluation_id')
+                or result.get('evaluation_id')!=identity({k:v for k,v in result.items() if k!='evaluation_id'})
+                or result.get('source_sha256')!=request.get('source_sha256')
+                or manifest.get('parent_result_sha256')!=request.get('parent_result_sha256')
+                or report.get('physical_and_engineering_acceptance') is not False
+                or any(result.get(k) is not False for k in ('physical_accepted','engineering_accepted','manufacturing_release','operating_release'))
+                or continuation['verification'].get('verified') is not True
+                or s.get('current_source_refinement',{}).get('manifest_id')!=manifest.get('manifest_id')):
+            raise ValueError('Current-source refinement packet is mixed, changed or improperly accepted')
+        indexed=next((x for x in json.loads((out/'native-index.json').read_bytes())
+                      if x.get('kind')=='body-current-source-refinement'),None)
+        if indexed is None or indexed.get('raw_manifest')!=manifest or indexed.get('raw_result')!=result:
+            raise ValueError('Current refinement is absent or differs from native index')
+        with tarfile.open(out/indexed['archive']) as tar:
+            if (json.loads(tar.extractfile('request.json').read())!=request
+                    or json.loads(tar.extractfile('report.json').read())!=report
+                    or json.loads(tar.extractfile('manifest.json').read())!=manifest):
+                raise ValueError('Archived current refinement differs from its published packet')
     if any(s.get(k) is not False for k in FLAGS) or s['integrated_selection'] is not None:raise ValueError('Research comparison cannot release a railway')
     native_index=json.loads((out/'native-index.json').read_bytes())
-    native_body_count=sum(item.get('kind') in ('body','body-refinement','body-exact-cache-reuse') for item in native_index)
+    native_body_count=sum(item.get('kind') in ('body','body-refinement','body-exact-cache-reuse','body-current-source-refinement') for item in native_index)
     reused_body_count=sum(item.get('kind')=='body-exact-cache-reuse' for item in native_index)
     if (native_body_count!=s.get('native_body_case_count')
             or s.get('native_body_case_count')!=s.get('native_new_body_case_count',0)+s.get('native_reused_body_case_count',0)
@@ -414,7 +578,9 @@ def verify(root=ROOT,output=None):
         if digest(out/r['artifact'])!=h:raise ValueError('Historical producer bytes differ')
     for item in native_index:
         with tarfile.open(out/item['archive']) as tar:
-            ai=json.loads(tar.extractfile('archive-index.json').read());manifest=json.loads(tar.extractfile('manifest.json').read());result=json.loads(tar.extractfile('result.json').read())
+            ai=json.loads(tar.extractfile('archive-index.json').read());manifest=json.loads(tar.extractfile('manifest.json').read())
+            result_name='native/result.json' if item.get('kind')=='body-current-source-refinement' else 'result.json'
+            result=json.loads(tar.extractfile(result_name).read())
             if manifest!=item['raw_manifest'] or result!=item['raw_result']:raise ValueError('Native index differs from raw receipt')
             if manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):raise ValueError('Nested native manifest identity differs')
             if 'evaluation_id' in result and result['evaluation_id']!=identity({k:v for k,v in result.items() if k!='evaluation_id'}):raise ValueError('Nested native evaluation identity differs')
