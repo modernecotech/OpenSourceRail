@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1013**.
+Indexed Markdown files: **1016**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1013**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 142 |
+| [docs](#docs) | 145 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -892,11 +892,13 @@ Indexed Markdown files: **1013**.
 | [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
+| [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 28 October 2026 |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | README introductions and current system context |
+| [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
 | [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
 | [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
 | [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | Candidate research twin |
@@ -968,6 +970,7 @@ Indexed Markdown files: **1013**.
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
+| [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle mass reserve sensitivity |
 | [`docs/design-engine/model-based-cost-and-delivery.md`](../docs/design-engine/model-based-cost-and-delivery.md) | Model-based cost and end-to-end delivery closure |
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
