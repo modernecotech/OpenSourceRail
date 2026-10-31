@@ -57,4 +57,4 @@ Comparison mass includes catalogue accounts and stated installation/inertia hypo
 - Replace the illustrative grid-capacitor/metro-drive leads with compatible supplier-defined rail hardware. Compare cooling, higher-density or hybrid storage, complete power/energy maps and actual quotations.
 - Propagate a materialized revision through independently protected journeys, full installed inventory, braking, civil loads, assembly and whole-life economics before ranking an integrated railway.
 
-Study identity: `d96a9b5c10d32f3eddf7eb6201f149c0d14f0abe2f32eaa15dedcd0e8f8f18ed`.
+Study identity: `2c7cb9ac72caf6990c60ef3275984ea5fbf8a057cb52561d62354c36f67dba2e`.
