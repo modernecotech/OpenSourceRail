@@ -46,6 +46,19 @@ def digest_json(value):
     return digest_bytes(encoded(value))
 
 
+def _gzip_member(raw):
+    """Return gzip bytes with a Python-version-independent OS header byte."""
+    member = bytearray(gzip.compress(raw, mtime=0))
+    if (len(member) < 10 or member[:3] != b'\x1f\x8b\x08'
+            or member[4:8] != b'\x00\x00\x00\x00'):
+        raise PlanningError('Deterministic gzip member header required')
+    # gzip.compress(mtime=0) delegated to zlib before Python 3.13, which wrote
+    # the host OS byte. Python 3.13 writes 255. Normalize both to RFC 1952's
+    # unknown platform value so the published city packets hash identically.
+    member[9] = 255
+    return bytes(member)
+
+
 def _safe_file(root, relative):
     root = Path(root).resolve()
     rel = Path(relative)
@@ -224,7 +237,7 @@ def _planning_package(root):
     for row in catalogue.get('cities', []):
         plan = _current_city_plan(root, row, baseline)
         relative = f"cities/{row['slug']}.json.gz"
-        raw = gzip.compress(encoded(plan), mtime=0)
+        raw = _gzip_member(encoded(plan))
         files[relative] = raw
         sources.update(plan['source_sha256'])
         city_rows.append(dict(city=row['slug'], label=row['name'], country=row['country'], plan=relative,

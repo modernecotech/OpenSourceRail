@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from engineering.station_rail import ROOT
+from engineering.development_baseline import selection
 from engineering.design_search import conditional_journey_study as study
 
 
@@ -38,9 +39,41 @@ def test_current_p1_study_runs_declared_low_base_high_maps_without_promoting_the
 
 def test_study_keeps_both_p1_motor_definitions_per_body():
     _,_,bundles=study._campaign(ROOT)
-    assert len(bundles)==28
-    assert len({b['body_candidate_id'] for b in bundles})==14
-    for body_id in {b['body_candidate_id'] for b in bundles}:
-        variants=[b for b in bundles if b['body_candidate_id']==body_id]
+    campaign=[b for b in bundles if b.get('bundle_kind')!='selected-development-reference']
+    assert len(campaign)==28
+    assert len({b['body_candidate_id'] for b in campaign})==14
+    for body_id in {b['body_candidate_id'] for b in campaign}:
+        variants=[b for b in campaign if b['body_candidate_id']==body_id]
         assert len(variants)==2
         assert len({b['propulsion_component_id'] for b in variants})==2
+
+
+def test_selected_reference_has_its_own_selection_bound_p1_evaluation():
+    selected=selection.load(ROOT)
+    _,_,bundles=study._campaign(ROOT)
+    reference=next(b for b in bundles if b.get('bundle_kind')=='selected-development-reference')
+
+    assert reference['reference_candidate_id']==selected['vehicle']['candidate_id']
+    assert reference['candidate_id']==reference['architecture_case']['candidate_id']
+    assert reference['body_candidate_id']==selected['vehicle']['body_candidate_id']
+    assert reference['support_component_id']==selected['vehicle']['support_component_id']
+    assert reference['propulsion_component_id']==selected['vehicle']['propulsion_component_id']
+    assert reference['selection_id']==selected['selection_id']
+    assert reference['architecture_evaluation_candidate_id']==reference['candidate_id']
+    assert reference['architecture_case']['reference_candidate_id']==reference['reference_candidate_id']
+    assert reference['candidate_id']!=reference['reference_candidate_id']
+    assert reference['mass']['accounted_cap_loaded_kg_per_car']==selected['vehicle']['mass']['accounted_cap_loaded_kg_per_car']
+    assert reference['complete_installed_mass_kg'] is None
+
+    result=study.evaluate_bundle(reference,study.specification(),ROOT)
+    assert result['candidate_id']==reference['candidate_id']
+    assert result['reference_candidate_id']==selected['vehicle']['candidate_id']
+    assert result['selection_id']==selected['selection_id']
+    assert result['bundle_kind']=='selected-development-reference'
+    assert [case['case'] for case in result['cases']]==['low','base','high']
+    for case in result['cases']:
+        assert case['forward']['test_only'] is True
+        assert case['forward']['available_motor_map_id'] is None
+        assert case['forward']['physical_journey_completed'] is False
+    assert result['physical_journey_completed'] is False
+    assert result['engineering_validated'] is False

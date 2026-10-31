@@ -32,6 +32,9 @@ def _summary(records,index):
         cases=[_case_row(case) for case in output["cases"]]
         for case in cases:cases_by_name[case["name"]].append(case)
         rows.append(dict(candidate_id=output["candidate_id"],body_candidate_id=output["body_candidate_id"],
+            bundle_kind=output["bundle_kind"],reference_candidate_id=output["reference_candidate_id"],
+            selection_id=output["selection_id"],vehicle_evaluation_id=output["vehicle_evaluation_id"],
+            architecture_evaluation_candidate_id=output["architecture_evaluation_candidate_id"],
             bundle_definition_id=output["bundle_definition_id"],normal_accounted_mass_kg_per_car=output["normal_accounted_mass_kg_per_car"],
             rotating_equivalent_kg_per_car=output["rotating_equivalent_kg_per_car"],
             commanded_power_windows_m=output["powered_windows_m"],
@@ -57,16 +60,24 @@ def _summary(records,index):
                 and r["physical_journey_completed"] is False for r in rows_for_case))
     shifts=index["service_shift_context"]
     service=rows[0]["service_capacity_arithmetic"]
-    return dict(schema="osr-conditional-journey-study-summary/1",study_id=index["study_id"],
+    selected=next(row for row in rows if row["bundle_kind"]=="selected-development-reference")
+    return dict(schema="osr-conditional-journey-study-summary/2",study_id=index["study_id"],
         parent_campaign_id=index["contract"]["parent_campaign_id"],
         parent_contract_id=index["contract"]["parent_contract_id"],parent_run_id=index["contract"]["parent_run_id"],
         candidate_bundle_count=len(rows),conditional_case_count=sum(x["case_count"] for x in case_summary.values()),
+        campaign_p1_bundle_count=len(index["contract"]["campaign_bundle_ids"]),
+        selected_reference=dict(candidate_id=selected["candidate_id"],
+            reference_candidate_id=selected["reference_candidate_id"],body_candidate_id=selected["body_candidate_id"],
+            support_component_id=index["contract"]["selected_reference"]["support_component_id"],
+            propulsion_component_id=index["contract"]["selected_reference"]["propulsion_component_id"],
+            selection_id=selected["selection_id"],vehicle_evaluation_id=selected["vehicle_evaluation_id"],
+            architecture_evaluation_candidate_id=selected["architecture_evaluation_candidate_id"]),
         candidate_rows=rows,case_summary=case_summary,
         service_capacity_arithmetic=service,
         service_shift_context=shifts,
         physical_journey_count=0,engineering_validated_count=0,approved_for_manufacture_or_operation_count=0,
         integrated_selection=None,selected_reference_changed=False,
-        completion_scope="All canonical current P1 bundles have low/base/high assumption-bound point-train design-study results; the repository physical-journey and acceptance states remain open.",
+        completion_scope="The 28 canonical campaign P1 bundles and one separately selection-bound v0.6 vehicle reference have low/base/high assumption-bound point-train study results; physical-journey and acceptance states remain open.",
         limitations=list(index["open_limitations"]),physical_accepted=False,engineering_accepted=False,
         configuration_adopted=False,manufacturing_release=False,operating_release=False,
         physical_journey_completed=False)
@@ -76,9 +87,10 @@ def _readme(summary,index):
     stats=summary["case_summary"]
     assumptions=index["assumptions"]
     cases=assumptions["lim_assumptions"]
+    ref=summary["selected_reference"]
     lines=["# Conditional P1 journey design study","",
-        f"This source-bound study evaluated **{summary['candidate_bundle_count']} canonical P1 bundles** from the current coordinated railway campaign: two separate primary-iron definitions for each of 14 body candidates. It generated **{summary['conditional_case_count']} low/base/high assumption cases** using each bundle's own mass, propulsion identity, braking interface and commanded power windows.","",
-        "Each generated force/current/thermal map is labelled `synthetic-method-test` inside the reduced longitudinal method and retained as an assumption-only design-study input. The nested result keeps `test_only=true`, `available_motor_map_id=null`, and all physical journey, engineering, acceptance and release flags false. The required campaign journey result remains `not-run`.","",
+        f"This source-bound study evaluated **{summary['campaign_p1_bundle_count']} canonical P1 bundles** from the coordinated railway campaign (two primary-iron definitions for each of 14 generated body candidates), plus one separately selection-bound P1 railway bundle. That bundle references the exact selected v0.6 vehicle candidate `{ref['reference_candidate_id']}` (body `{ref['body_candidate_id']}`; selection `{ref['selection_id']}`) and has its own whole-railway identity `{ref['candidate_id']}`. The selected vehicle identity and component IDs were preserved; no result from another body was substituted. Together these inputs produced **{summary['candidate_bundle_count']} bundle evaluations** and **{summary['conditional_case_count']} low/base/high assumption cases** using each input's own accounted mass, propulsion identity, braking interface and commanded power windows.","",
+        "Each generated force/current/thermal map is labelled `synthetic-method-test` inside the reduced longitudinal method and retained as an assumption-only design-study input. The selected-reference adapter is bound to the current selection, vehicle evaluation and physical component identities; its route and LIM assumptions do not change the selected vehicle's physical candidate ID. The nested result keeps `test_only=true`, `available_motor_map_id=null`, and all physical journey, engineering, acceptance and release flags false. The required campaign journey result remains `not-run`.","",
         "## Assumptions and outcomes","",
         "| Case | Assumed peak thrust per car | Train current limit | Rated efficiency | Journey outcome | Berth stops | Maximum initial acceleration |",
         "|---|---:|---:|---:|---|---:|---:|"]
@@ -107,6 +119,13 @@ def build(root=ROOT,output=None):
     run_folder=root/study.OUTPUT/study_id
     result=json.loads((run_folder/"result.json").read_bytes())
     assumptions=study.specification(root)
+    out.mkdir(parents=True,exist_ok=True)
+    expected_candidates={row["bundle_id"]+".json.gz" for row in result["rows"]}
+    candidate_dir=out/"candidates"
+    if candidate_dir.is_dir():
+        for old in candidate_dir.glob("*.json.gz"):
+            if old.name not in expected_candidates:
+                old.unlink()
     cases=[]
     candidate_records=[]
     source_rows=[]
@@ -115,10 +134,12 @@ def build(root=ROOT,output=None):
         relative="candidates/"+bundle_id+".json.gz"
         target=out/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
         h=digest(target);candidate_records.append(dict(bundle_id=bundle_id,body_candidate_id=row["output"]["body_candidate_id"],
+            bundle_kind=row["output"]["bundle_kind"],reference_candidate_id=row["output"]["reference_candidate_id"],
+            selection_id=row["output"]["selection_id"],
             bundle_definition_id=row["bundle_definition_id"],record_id=row["record_id"],artifact=relative,sha256=h,
             output_evaluation_id=row["output"]["evaluation_id"]))
         source_rows.append(row)
-    index=dict(schema="osr-conditional-journey-study-index/1",study_id=study_id,
+    index=dict(schema="osr-conditional-journey-study-index/2",study_id=study_id,
         contract=result["contract"],result_sha256=result["result_sha256"],
         assumption_id=assumptions["assumption_id"],assumptions=assumptions,
         source_sha256=result["source_sha256"],service_shift_context=result["service_shift_context"],
@@ -133,9 +154,10 @@ def build(root=ROOT,output=None):
     sources={**result["source_sha256"],PRODUCER:digest(root/PRODUCER)}
     if any(digest(root/name)!=h for name,h in sources.items()):
         raise ValueError("Conditional-study source epoch changed during publication")
-    manifest=dict(schema="osr-conditional-journey-publication/1",study_id=study_id,
+    manifest=dict(schema="osr-conditional-journey-publication/2",study_id=study_id,
         source_sha256=sources,
-        files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob("*") if p.is_file()},
+        files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob("*")
+            if p.is_file() and p != out/"manifest.json"},
         physical_journey_completed=False,physical_accepted=False,engineering_accepted=False,
         configuration_adopted=False,manufacturing_release=False,operating_release=False)
     manifest["manifest_id"]=identity(manifest);(out/"manifest.json").write_bytes(encoded(manifest))
@@ -145,14 +167,16 @@ def build(root=ROOT,output=None):
 def verify(root=ROOT,output=None,*,replay=False):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
     manifest=json.loads((out/"manifest.json").read_bytes())
-    if manifest.get("manifest_id")!=identity({k:v for k,v in manifest.items() if k!="manifest_id"}):
+    if (manifest.get("schema")!="osr-conditional-journey-publication/2"
+            or manifest.get("manifest_id")!=identity({k:v for k,v in manifest.items() if k!="manifest_id"})):
         raise ValueError("Conditional journey publication manifest identity differs")
     if any(digest(root/name)!=h for name,h in manifest["source_sha256"].items()):
         raise ValueError("Conditional journey source epoch changed")
     actual={p.relative_to(out).as_posix():digest(p) for p in out.rglob("*") if p.is_file() and p!=out/"manifest.json"}
     if manifest.get("files_sha256")!=actual:raise ValueError("Conditional journey publication payload changed")
     index=json.loads((out/"study-index.json").read_bytes())
-    if (index.get("index_id")!=identity({k:v for k,v in index.items() if k!="index_id"})
+    if (index.get("schema")!="osr-conditional-journey-study-index/2"
+            or index.get("index_id")!=identity({k:v for k,v in index.items() if k!="index_id"})
             or index.get("study_id")!=manifest.get("study_id")
             or any(manifest.get("source_sha256",{}).get(k)!=v
                    for k,v in index.get("source_sha256",{}).items())):
@@ -164,28 +188,48 @@ def verify(root=ROOT,output=None,*,replay=False):
     execution=json.loads((coupled/"execution.json").read_bytes())
     bundles=json.loads(gzip.decompress((coupled/"bundles.json.gz").read_bytes()))
     p1={b["candidate_id"]:b for b in bundles if b.get("family_id")=="P1"}
+    _,_,expected_bundles=study._campaign(root)
+    expected={b["candidate_id"]:b for b in expected_bundles}
+    selected=next(b for b in expected_bundles if b.get("bundle_kind")=="selected-development-reference")
+    selected_contract=dict(candidate_id=selected["candidate_id"],
+        reference_candidate_id=selected["reference_candidate_id"],
+        body_candidate_id=selected["body_candidate_id"],
+        support_component_id=selected["support_component_id"],
+        propulsion_component_id=selected["propulsion_component_id"],
+        selection_id=selected["selection_id"],
+        vehicle_evaluation_id=selected["vehicle_evaluation_id"],
+        bundle_definition_id=selected["definition_id"])
     if (index["contract"].get("parent_campaign_id")!=parent_summary.get("campaign_id")
             or index["contract"].get("parent_contract_id")!=parent_summary.get("contract_id")
             or index["contract"].get("parent_run_id")!=execution.get("run_id")
-            or set(index["contract"].get("bundle_ids",[]))!=set(p1)
-            or len(p1)!=28):
-        raise ValueError("Conditional study does not bind to the current exact P1 campaign")
+            or set(index["contract"].get("campaign_bundle_ids",[]))!=set(p1)
+            or index["contract"].get("selected_reference")!=selected_contract
+            or set(index["contract"].get("bundle_ids",[]))!=set(expected)
+            or len(p1)!=28 or len(expected)!=29):
+        raise ValueError("Conditional study does not bind the current P1 campaign and exact selected reference")
     rows=[];seen=set()
     for item in index["candidate_records"]:
         artifact=out/item["artifact"]
         if digest(artifact)!=item["sha256"]:raise ValueError("Conditional candidate archive changed")
         record=json.loads(gzip.decompress(artifact.read_bytes()))
-        bundle=p1.get(item["bundle_id"])
+        bundle=expected.get(item["bundle_id"])
         output=record.get("output",{})
         if (bundle is None or item["bundle_id"] in seen or record.get("record_id")!=item["record_id"]
                 or record.get("record_id")!=identity({k:v for k,v in record.items() if k!="record_id"})
                 or record.get("bundle_id")!=item["bundle_id"]
-                or record.get("bundle_definition_id")!=bundle.get("definition_id")
+                or record.get("bundle_definition_id")!=study._bundle_definition_id(bundle)
                 or output.get("evaluation_id")!=item["output_evaluation_id"]
                 or output.get("evaluation_id")!=identity({k:v for k,v in output.items() if k!="evaluation_id"})
                 or output.get("candidate_id")!=item["bundle_id"]
                 or output.get("body_candidate_id")!=bundle.get("body_candidate_id")):
             raise ValueError("Conditional candidate result is mixed, changed or unbound")
+        if (item.get("bundle_kind")!=output.get("bundle_kind")
+                or item.get("reference_candidate_id")!=output.get("reference_candidate_id")
+                or item.get("selection_id")!=output.get("selection_id")
+                or output.get("bundle_kind")!=bundle.get("bundle_kind", "campaign-variant")
+                or output.get("selection_id")!=bundle.get("selection_id")
+                or output.get("bundle_definition_id")!=study._bundle_definition_id(bundle)):
+            raise ValueError("Conditional candidate kind, selection or bundle definition differs")
         seen.add(item["bundle_id"]);rows.append(record)
         for case in output.get("cases",[]):
             force_map=case.get("force_map",{});scenario=case.get("scenario",{});forward=case.get("forward",{})
@@ -199,14 +243,14 @@ def verify(root=ROOT,output=None,*,replay=False):
                     or forward.get("physical_journey_completed") is not False):
                 raise ValueError("Assumed force map or nested method result is changed or improperly admitted")
     summary=json.loads((out/"summary.json").read_bytes())
-    expected=_summary(rows,index)
-    if summary!={**expected,"summary_id":identity(expected)}:
+    expected_summary=_summary(rows,index)
+    if summary!={**expected_summary,"summary_id":identity(expected_summary)}:
         raise ValueError("Conditional journey summary differs from exact candidate receipts")
     if any(manifest.get(k) is not False for k in ("physical_journey_completed","physical_accepted","engineering_accepted","configuration_adopted","manufacturing_release","operating_release")):
         raise ValueError("Conditional journey publication cannot grant validation or release")
     if replay:
         for record in rows:
-            if record["output"]!=study.evaluate_bundle(p1[record["bundle_id"]],study.specification(root)):
+            if record["output"]!=study.evaluate_bundle(expected[record["bundle_id"]],study.specification(root),root):
                 raise ValueError("Conditional candidate does not reproduce from current source and declared assumptions")
     return dict(verified=True,manifest_id=manifest["manifest_id"],study_id=index["study_id"],
         candidate_count=len(rows),conditional_cases=sum(len(x["output"]["cases"]) for x in rows),

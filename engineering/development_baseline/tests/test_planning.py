@@ -3,10 +3,21 @@ from copy import deepcopy
 from hashlib import sha256
 import json
 from pathlib import Path
+import gzip
 import pytest
 
 from engineering.development_baseline import FLAGS
 from engineering.development_baseline import entrypoint, planning
+
+
+def test_current_planning_gzip_packets_use_platform_neutral_header():
+    raw = planning.encoded(dict(city="fixture", values=[1, 2, 3]))
+    member = planning._gzip_member(raw)
+
+    assert member[:3] == b"\x1f\x8b\x08"
+    assert member[4:8] == b"\x00\x00\x00\x00"
+    assert member[9] == 255
+    assert gzip.decompress(member) == raw
 
 
 def _write_json(path, value):

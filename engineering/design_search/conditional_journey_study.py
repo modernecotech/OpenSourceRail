@@ -15,7 +15,8 @@ import tomllib
 
 from engineering.station_rail import ROOT, braking
 from engineering.station_rail.common import digest, encoded, identity
-from . import railway_campaign, railway_bundle, system_motion, model_cost
+from . import (railway_campaign, railway_bundle, system_motion, model_cost,
+               selected_reference_journey)
 
 PRODUCER = "engineering/design_search/conditional_journey_study.py"
 CONFIG = "campaigns/conditional-journey-design-study.toml"
@@ -73,7 +74,47 @@ def _campaign(root):
                 or req.get("acceleration_m_s2") != 0.4 or req.get("target_headway_s") != 120.0
                 or bundle["architecture_case"]["physical_definition"]["route"]["station_spacing_m"] != 2000.0):
             raise ValueError("P1 comparison no longer shares the current 6-car / 2-km requirements")
+    selected_reference = selected_reference_journey.build(root)
+    if selected_reference["candidate_id"] in {b["candidate_id"] for b in bundles}:
+        raise ValueError("Selected physical candidate collides with a campaign-variant identity")
+    bundles.append(selected_reference)
     return folder, value, bundles
+
+
+def _bundle_definition_id(bundle):
+    return bundle.get("definition_id", bundle.get("bundle_definition_id"))
+
+
+def _validate_bundle(bundle, root):
+    if bundle.get("bundle_kind") == "selected-development-reference":
+        selected_reference_journey.validate(bundle, root)
+    return railway_bundle.validate(bundle)
+
+
+def _contract(root, parent_folder, parent, assumptions, bundles):
+    from . import railway_publication
+    _, parent_value = railway_publication.current(root)
+    campaign_ids = [b["candidate_id"] for b in parent_value["bundles"]
+                    if b.get("family_id") == "P1"]
+    selected_reference = next(
+        b for b in bundles if b.get("bundle_kind") == "selected-development-reference")
+    return dict(schema="osr-conditional-journey-study-contract/2",
+        parent_campaign_id=parent["campaign_id"],
+        parent_contract_id=parent["contract_id"],
+        parent_run_id=parent["run_id"],
+        parent_result_sha256=digest(parent_folder / "result.json"),
+        assumption_id=assumptions["assumption_id"],
+        campaign_bundle_ids=campaign_ids,
+        selected_reference=dict(candidate_id=selected_reference["candidate_id"],
+            reference_candidate_id=selected_reference["reference_candidate_id"],
+            body_candidate_id=selected_reference["body_candidate_id"],
+            support_component_id=selected_reference["support_component_id"],
+            propulsion_component_id=selected_reference["propulsion_component_id"],
+            selection_id=selected_reference["selection_id"],
+            vehicle_evaluation_id=selected_reference["vehicle_evaluation_id"],
+            bundle_definition_id=selected_reference["definition_id"]),
+        bundle_ids=[b["candidate_id"] for b in bundles],
+        source_sha256=_sources(root, parent, selected_reference))
 
 
 def _current_fraction(bundle, assumptions):
@@ -229,8 +270,8 @@ def _trajectory_summary(result,prelaunch):
         maximum_speed_m_s=max((r["speed_m_s"] for r in trace), default=0.0))
 
 
-def evaluate_bundle(bundle, assumptions):
-    railway_bundle.validate(bundle)
+def evaluate_bundle(bundle, assumptions, root=ROOT):
+    _validate_bundle(bundle, root)
     if bundle.get("family_id") != "P1":
         raise ValueError("Conditional LIM study accepts only the candidate's canonical P1 bundle")
     required_force, current_fraction = _current_fraction(bundle, assumptions)
@@ -254,9 +295,16 @@ def evaluate_bundle(bundle, assumptions):
     places_per_car=service["seats_per_car"]+service["wheelchair_places_per_car"]
     places_per_train=places_per_car*bundle["cars"]
     places_per_hour=places_per_train*3600.0/service["target_headway_s"]
-    result=dict(schema="osr-conditional-journey-candidate/1",candidate_id=bundle["candidate_id"],
+    result=dict(schema="osr-conditional-journey-candidate/2",candidate_id=bundle["candidate_id"],
         body_candidate_id=bundle["body_candidate_id"],bundle_id=bundle["candidate_id"],
-        bundle_definition_id=bundle["definition_id"],requirement_revision=bundle["requirement_revision"],
+        bundle_kind=bundle.get("bundle_kind", "campaign-variant"),
+        bundle_definition_id=_bundle_definition_id(bundle),
+        reference_candidate_id=bundle.get("reference_candidate_id"),
+        selection_id=bundle.get("selection_id"),
+        vehicle_evaluation_id=bundle.get("vehicle_evaluation_id"),
+        architecture_evaluation_candidate_id=bundle.get("architecture_evaluation_candidate_id",
+            bundle["architecture_case"]["candidate_id"]),
+        requirement_revision=bundle["requirement_revision"],
         normal_accounted_mass_kg_per_car=bundle["mass"]["accounted_cap_loaded_kg_per_car"],
         rotating_equivalent_kg_per_car=bundle["rotating_equivalent_kg_per_car"],
         initial_force_for_target_acceleration_N_per_car=required_force,
@@ -278,12 +326,17 @@ def evaluate_bundle(bundle, assumptions):
     return result
 
 
-def _sources(root, parent):
+def _sources(root, parent, selected_reference=None):
     root=Path(root)
+    if selected_reference is None:
+        selected_reference=selected_reference_journey.build(root)
     names={PRODUCER: digest(root/PRODUCER), CONFIG: digest(root/CONFIG),
         system_motion.PRODUCER: digest(root/system_motion.PRODUCER),
         railway_bundle.PRODUCER: digest(root/railway_bundle.PRODUCER),
-        model_cost.PRODUCER: digest(root/model_cost.PRODUCER)}
+        model_cost.PRODUCER: digest(root/model_cost.PRODUCER),
+        selected_reference_journey.PRODUCER: digest(root/selected_reference_journey.PRODUCER),
+        "engineering/development_baseline/selection.py": digest(root/"engineering/development_baseline/selection.py")}
+    names.update(selected_reference["source_sha256"])
     if any(digest(root/n)!=h for n,h in parent["source_sha256"].items()):
         raise ValueError("Current railway campaign source epoch changed before conditional study")
     return {**parent["source_sha256"], **names}
@@ -295,11 +348,11 @@ def run(root=ROOT):
     parent_folder, parent=railway_publication.current(root)
     assumptions=specification(root)
     _, _, bundles=_campaign(root)
-    sources=_sources(root,parent)
-    contract=dict(schema="osr-conditional-journey-study-contract/1",parent_campaign_id=parent["campaign_id"],
-        parent_contract_id=parent["contract_id"],parent_run_id=parent["run_id"],
-        parent_result_sha256=digest(parent_folder/"result.json"),assumption_id=assumptions["assumption_id"],
-        bundle_ids=[b["candidate_id"] for b in bundles],source_sha256=sources)
+    selected_reference=next(b for b in bundles if b.get("bundle_kind")=="selected-development-reference")
+    sources=_sources(root,parent,selected_reference)
+    contract=_contract(root, parent_folder, parent, assumptions, bundles)
+    if contract["source_sha256"] != sources:
+        raise ValueError("Conditional study contract and source epoch differ")
     study_id=identity(contract)
     folder=root/OUTPUT/study_id
     result_path=folder/"result.json"
@@ -308,10 +361,11 @@ def run(root=ROOT):
     folder.mkdir(parents=True, exist_ok=True)
     rows=[]
     for bundle in bundles:
-        if _sources(root,parent)!=sources:
+        if _sources(root,parent,selected_reference)!=sources:
             raise ValueError("Conditional journey source epoch changed during evaluation")
-        output=evaluate_bundle(bundle,assumptions)
-        record=dict(bundle_id=bundle["candidate_id"],bundle_definition_id=bundle["definition_id"],output=output)
+        output=evaluate_bundle(bundle,assumptions,root)
+        record=dict(bundle_id=bundle["candidate_id"],
+            bundle_definition_id=_bundle_definition_id(bundle),output=output)
         record["record_id"]=identity(record)
         rows.append(record)
         (folder/(bundle["candidate_id"]+".json.gz")).write_bytes(gzip.compress(encoded(record),mtime=0))
@@ -333,7 +387,9 @@ def run(root=ROOT):
             "Point-train motion does not prove tail clearance, dwell, protected headway, station occupation or fleet size",
             "Brake and adhesion response are unqualified model hypotheses",
             "Candidate mass remains an accounted hypothesis; complete installed mass is unknown"],
-        completion=dict(conditional_design_study_cases=len(rows)*3,canonical_P1_bundles=len(bundles),
+        completion=dict(conditional_design_study_cases=len(rows)*3,
+            canonical_campaign_P1_bundles=len(contract["campaign_bundle_ids"]),
+            selected_reference_bundles=1,all_evaluated_bundles=len(bundles),
             candidate_design_study_complete=True,physical_journeys=0,engineering_validated=0,
             approved_for_manufacture_or_operation=0), **FLAGS)
     result["result_sha256"]=identity(result)
@@ -353,11 +409,11 @@ def verify(root=ROOT, *, study_id=None, replay=True):
     parent_folder,parent=railway_publication.current(root)
     assumptions=specification(root)
     _,_,bundles=_campaign(root)
-    sources=_sources(root,parent)
-    contract=dict(schema="osr-conditional-journey-study-contract/1",parent_campaign_id=parent["campaign_id"],
-        parent_contract_id=parent["contract_id"],parent_run_id=parent["run_id"],
-        parent_result_sha256=digest(parent_folder/"result.json"),assumption_id=assumptions["assumption_id"],
-        bundle_ids=[b["candidate_id"] for b in bundles],source_sha256=sources)
+    selected_reference=next(b for b in bundles if b.get("bundle_kind")=="selected-development-reference")
+    sources=_sources(root,parent,selected_reference)
+    contract=_contract(root, parent_folder, parent, assumptions, bundles)
+    if contract["source_sha256"] != sources:
+        raise ValueError("Conditional verification contract and source epoch differ")
     if (study_id!=identity(contract) or result.get("study_id")!=study_id
             or result.get("contract")!=contract or result.get("source_sha256")!=sources
             or result.get("result_sha256")!=identity({k:v for k,v in result.items() if k!="result_sha256"})
@@ -375,17 +431,17 @@ def verify(root=ROOT, *, study_id=None, replay=True):
         raw_path=path.parent/(bundle_id+".json.gz")
         if json.loads(gzip.decompress(raw_path.read_bytes()))!=row:raise ValueError("Conditional study candidate record differs")
         bundle=expected[bundle_id]
-        if row["bundle_definition_id"]!=bundle["definition_id"]:
-            raise ValueError("Conditional journey row uses a different canonical bundle definition")
+        if row["bundle_definition_id"]!=_bundle_definition_id(bundle):
+            raise ValueError("Conditional journey row uses a different bound bundle definition")
         output=row.get("output",{})
         if (output.get("evaluation_id")!=identity({k:v for k,v in output.items() if k!="evaluation_id"})
                 or output.get("candidate_id")!=bundle_id
                 or output.get("body_candidate_id")!=bundle["body_candidate_id"]
-                or output.get("bundle_definition_id")!=bundle["definition_id"]
+                or output.get("bundle_definition_id")!=_bundle_definition_id(bundle)
                 or len(output.get("cases",[]))!=3):
             raise ValueError("Conditional output identity or candidate bundle differs")
-        if replay and row["output"]!=evaluate_bundle(bundle,assumptions):
-            raise ValueError("Conditional journey did not replay from the exact canonical candidate and assumptions")
+        if replay and row["output"]!=evaluate_bundle(bundle,assumptions,root):
+            raise ValueError("Conditional journey did not replay from the exact candidate and assumptions")
         for case in row["output"]["cases"]:
             force_map=case.get("force_map",{})
             scenario=case.get("scenario",{});forward=case.get("forward",{})
