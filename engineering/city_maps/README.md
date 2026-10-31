@@ -2,7 +2,11 @@
 
 OpenSourceRail aims for simple construction, low whole-life cost and high passenger throughput. These maps place the current proposed corridors, stops and transfer locations in their real city surroundings. They retain roads, waterways, land use, building areas and place names; they do not establish surveyed alignment or clearance.
 
-The v0.4 renderer used street-map backgrounds. Its v0.5 replacement retained routes and stops but omitted the background entirely. The restored renderer uses a common Web Mercator projection for both layers, with legible line colours, a distinct ring, terminal markers and transfer locations. Current corridor and service inputs are preserved.
+The renderer places current proposed corridors, stops and transfer locations over
+their locally stored geographic context using one Web Mercator projection. It
+uses distinct route, ring, terminal and transfer styling. The map is planning
+context only; it is not surveyed alignment, property, utility or clearance
+evidence.
 
 Each city retains `map-context.json.gz`, a bounded cutout of the 24 October 2026 Protomaps OpenStreetMap-derived basemap. The packet records the archive header/metadata pins, exact HTTP byte ranges, tile hashes, source versions and feature counts. It does not claim verification of the entire planet archive. Missing or mismatched context stops rendering explicitly. Ordinary city regeneration and viewing are offline; no browser tile service, API key or old route image is required.
 

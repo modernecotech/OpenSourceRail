@@ -1,17 +1,16 @@
-# City geography and historical planning catalogue
+# City geography and planning inputs
 
-All **266 retained city geographies** remain starting inputs for OpenSourceRail. Routes, stops and underlying map records are preserved. The selected v0.6 reference uses six wheel-supported comfort cars with station LIM propulsion; **city performance regeneration is held** pending current drive, braking, complete vehicle/civil and economic evidence.
+OpenSourceRail includes **266 city geography records** for local route and service planning. The selected v0.6 reference uses six wheel-supported comfort cars with station LIM propulsion. Routes and stops are planning inputs; **city performance evaluation is held** pending current drive, braking, complete vehicle/civil and cost evidence.
 
 [Current geographic register and holds](../../docs/design-engine/current/cities.json) · [Current engineering](../../docs/design-engine/current/README.md) · [Workbench](../../docs/workbench/current/index.html) · [Planning proposals](../../docs/workbench/planning/index.html)
 
-Local front pages and their `engineering/current/` or `engineering/maglev/` results may describe earlier maglev configurations. Their masses, fleet, winding lengths, energy, costs and release status are historical evidence, not v0.6 calculations. The current geographic register identifies that scope explicitly; numerical city packages have not been rewritten.
+The planning workspace edits geography, stops, service and origin-destination proposals. Compile and verify an immutable handoff with:
 
 ```bash
-./osr catalogue
-./osr city baghdad
-./osr sim baghdad
+./osr plan compile edits.json --output build/my-plan
+./osr plan verify build/my-plan
 ```
 
-These commands expose geography and current evaluation holds. A real corridor still needs demand, grades, ground and utility surveys, climate, accessibility, transfers, emergency access, supplier evidence and independent engineering assessment.
+The handoff is bound to the selected v0.6 candidate and carries route, stop, service and OD proposals only. It does not contain vehicle, propulsion, fleet, civil quantity, cost, performance or cashflow results. Candidate-specific route performance, procurement groups, construction schedules and full city costs remain held. Planning changes do not grant movement authority.
 
-[Project introduction](../../README.md) · [v0.5 archive](../../docs/archives/v0.5-maglev/README.md).
+[Project introduction](../../README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Current city evaluation status](../../docs/design-engine/current/cities.json).

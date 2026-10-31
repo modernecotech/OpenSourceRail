@@ -175,10 +175,8 @@ def _module(name):
 def main(argv=None, root=ROOT):
     parser = argparse.ArgumentParser(
         description=__doc__,
-        epilog=('Historical command writers use a pinned external worktree: '
-                './osr legacy checkout v0.5.1 --path /absolute/path. Read '
-                'docs/releases/v0.6-functionality-reconciliation.md for the '
-                'historical command list, runtime requirements and scope limits.'))
+        epilog=('For isolated reproduction of earlier command behavior, use a '
+                'pinned external checkout: ./osr legacy checkout RELEASE --path /absolute/path.'))
     parser.add_argument('--root', type=Path, default=Path(root), help=argparse.SUPPRESS)
     parser.add_argument('command', nargs='?', default='status')
     parser.add_argument('arguments', nargs=argparse.REMAINDER)

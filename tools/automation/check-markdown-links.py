@@ -12,7 +12,7 @@ from urllib.parse import unquote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-RETAINED_SNAPSHOT_PREFIXES = ("docs/archives/", "legacy/v0.4/")
+RETAINED_SNAPSHOT_PREFIXES = ("docs/archives/",)
 INLINE_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 REFERENCE_TARGET = re.compile(r"^\s*\[[^\]]+\]:\s*(\S+)")
 TITLE_SUFFIX = re.compile(r"^(.*?)\s+[\"'].*[\"']$")
@@ -89,8 +89,7 @@ def main() -> int:
         print(f"{len(broken)} broken local Markdown link(s)", file=sys.stderr)
         return 1
     print(
-        "local Markdown links: ok "
-        "(byte-preserved docs/archives/ and legacy/v0.4/ snapshots excluded)"
+        "local Markdown links: ok (byte-preserved docs/archives/ snapshots excluded)"
     )
     return 0
 

@@ -60,9 +60,8 @@ Useful checks for the current v0.6 wheel-supported reference and coordinated res
 The [current engineering workflow](engineering/station_rail/README.md) and
 [coordinated experiment](docs/design-engine/coupled-railway/README.md) describe
 candidate-bound geometry, simulation, inventory and manufacturing drafts. City
-performance regeneration remains held. The
-[maglev archive](docs/archives/v0.5-maglev/README.md) preserves earlier evidence;
-reproduce it in its recorded checkout. Record exact commands and their results;
+performance regeneration remains held until current propulsion, braking, route
+and cost evidence is available. Record exact commands and their results;
 passing digital checks does not qualify physical hardware or manufacturing.
 
 ## Generated Artifacts

@@ -85,7 +85,7 @@ def build(root=ROOT,output=None,check=False):
     m=summary['mass'];s=summary['service'];native=summary['native'];comp=json.loads((root/OUTPUT/'comparison.json').read_bytes());city=json.loads((root/OUTPUT/'cities.json').read_bytes())
     story += [Spacer(1,18),p('OpenSourceRail','Title'),p('v0.6 - Station-powered freewheeling rail','Heading')]
     para('Simple vehicles. Repeated civil works. Comfortable, frequent journeys.')
-    para('Reference engineering and prototype design | 27 October 2026')
+    para('Reference engineering and prototype design | 31 October 2026')
     illustration(0,275)
     para('Concept artwork illustrates the intended railway. Controlled geometry and engineering records govern dimensions and equipment; these images do not establish physical performance or qualification.')
     para('Six lightweight cars run on passive wheel bogies and conventional steel rails. Wayside linear-induction motors launch and receive the train through passive onboard aluminium secondaries. The train has no traction motors, traction battery or suspension magnets.')
@@ -93,13 +93,13 @@ def build(root=ROOT,output=None,check=False):
     page('The whole OpenSourceRail project')
     para('OpenSourceRail develops the railway and the open tools needed to plan, design, procure, manufacture, construct, commission, operate, maintain and renew it. The aim is to retain design authority, software, fabrication, integration and repair capability in-country. Changing the reference vehicle does not remove that wider remit.')
     table(['Connected product','Useful scope','Present boundary'],[
-        ('Design and delivery platform','City inputs, candidate revisions, quantities, supplier enquiries, project and lifecycle evidence.','Research workflows and retained business/supervision software; complete current-family deployment integration remains open.'),
+        ('Design and delivery platform','City inputs, candidate revisions, quantities, supplier enquiries, project and lifecycle evidence.','Research workflows and configurable business/supervision components; complete current-family deployment integration remains open.'),
         ('Railway and manufacturing system','Vehicles, stations, civil works, material/process choices, tooling, assembly and repair.','Physical candidates and numerical methods; installed equipment, production data and qualification remain incomplete.'),
         ('Open GoA4 controls','Station-led dispatch, ATP, interlocking, supervision and independent fault response.','Rust research, simulation and method/formal checks; no live railway or operating release.')],[115,190,185])
-    para('ERPNext and Frappe HR retain project, procurement, workforce, stock, manufacturing, quality and maintenance functions. FUXA and the gateway retain equipment observations, trends, alarms, history and review-linked lifecycle records. Real deployment needs legal entities, users, business masters, device bindings, permissions and reviewed imports.')
-    para('The current engineering Workbench is read-only. The separate planning workspace edits retained historical geography and service proposals, then compiles a source-bound handoff to the selected v0.6 candidate. It does not publish v0.6 route performance, procurement quantities, prices or release evidence. Earlier native ERPNext/FUXA/Workbench exercises are maglev-era simulation evidence, not commissioned v0.6 installations.')
+    para('The OSR ERPNext/Frappe HR app supports draft project, procurement, workforce, stock, manufacturing, quality and maintenance workflows. The FUXA/gateway integration supports equipment observations, trends, alarms, history and review-linked lifecycle records. Deployment needs legal entities, users, business masters, device bindings, permissions and reviewed imports.')
+    para('The current engineering Workbench is read-only. The planning workspace compiles local geography, stop, service and OD proposals into an immutable handoff bound to the selected v0.6 candidate. It carries proposals only; candidate route performance, procurement quantities, construction schedules, city costs and movement authority remain outside that handoff.')
     para('A controlled first adoption can organise a workshop, depot or bounded planning pilot before a new train is physically qualified. A business case closure, cleared alarm, source hash or simulated inspection cannot accept manufactured hardware or authorise movement.')
-    para('Start with README.md, docs/first-adoptable-product.md, docs/ARCHITECTURE.md and the deployment/erpnext/ and deployment/supervision/ guides. The v0.4 and v0.5 front pages remain linked at their exact historical commits.')
+    para('Start with README.md, docs/first-adoptable-product.md, docs/ARCHITECTURE.md and the deployment/erpnext/ and deployment/supervision/ guides for current interfaces and configuration.')
     page('Local capability, manufacture and affordability')
     para('The objective is a simple, repairable railway with low whole-life cost. Develop concrete precasting, structural fabrication, GFRP panels, winding, interiors, wiring, assembly, inspection and maintenance locally. Specialist components remain competitively sourced and must retain their actual origin.')
     table(['Decision','What the comparison must include'],[
@@ -110,7 +110,7 @@ def build(root=ROOT,output=None,check=False):
     para('A lighter body can reduce motor demand and civil loading, but a cheaper train can still require a more expensive station or guideway. The same candidate must carry its physical, operating and manufacturing consequences through the comparison. Unknown equipment and prices stay unknown.')
     para('Local content means origin-traced domestic value added. A distributor address does not establish where cells, semiconductors, bearings, materials or machinery were manufactured. Financing and foreign-currency requirements need supported procurement and programme assumptions, separately from physical resource cost.')
     para('Current candidate packages generate CAD/IFC stock, engineering and manufacturing records, assembly/procurement tasks and disabled ERPNext drafts. They are not submitted purchases, qualified shop instructions, an as-built operating twin or a complete priced construction/cashflow plan.')
-    para('Earlier LM3 factory targets, the v0.4 localisation illustration and v0.5 city budgets remain historical scenarios. They do not establish v0.6 prices, savings or domestic-content percentages. All 266 city geographies remain inputs; new performance publication remains held.')
+    para('Current cost scenarios are calculated from candidate quantities, dated rates and declared assumptions. They do not establish supplier prices, savings or domestic-content percentages. All 266 city geographies remain planning inputs; candidate performance publication remains held.')
     para('Contributors can improve material/supplier evidence, complete assemblies, physical models, manufacturing and repair methods, controls, city data and tests. See CONTRIBUTING.md and GOVERNANCE.md. Software uses Apache 2.0, open physical designs CERN-OHL-S v2 and documentation CC-BY-SA 4.0, subject to the notices in LICENSE.md.')
     page('Passenger comfort and local assembly')
     para('Concept illustrations of the seated passenger experience and local manufacturing objective. Detailed equipment, accessible clearances and assembly sequences remain engineering work.')
@@ -183,13 +183,13 @@ def build(root=ROOT,output=None,check=False):
        ('Actual installed cost','Unknown')],[285,205])
     para('The selected reference is20m with26prestressing strands sized to the crowd load. The same fixed beam/tendons are checked at empty, normal and crowd loads; three families across four spans retain their separate comparisons. It is a necessary longitudinal screen, not an installed-cost winner.')
     para('Moving axle-load envelopes are calculated at each longitudinal section. Each section receives its own critical train position; it does not reuse one global peak. Prestress, no-train and release stress checks and a conservative deflection envelope remain analytical screens.')
-    para('Steel boundaries differ from v0.5: its21.627t/25m interface account excluded reinforcement/prestress, while the new total includes preliminary detailing. Neither includes complete piers, foundations, bearings, walkways, containment and station primaries. Concrete quantity can increase. No steel saving is converted directly to a dollar saving.')
+    para('The counted steel includes preliminary reinforcement and prestressing quantities. Complete piers, foundations, bearings, walkways, containment and station primaries remain outside this beam screen. Concrete and steel quantities are not installed costs, and no material reduction is converted directly to a dollar saving.')
     sub('Construction sequence')
     para('Survey and geotechnical investigation; foundations; piers/headstocks; bearings and temporary stability; precast lift; rails and gauge setting; station motor installation; survey, inspection and independent release. Actual ground, crane radius, labour, factory throughput and supplier lead times are required.')
     para('Same-candidate BOM, manufacturing, procurement, assembly and controls records are research drafts. Unknown prices, availability dates and material release are not replaced with zeros or unconstrained schedules.')
-    page('7. Automation, faults and retained geography')
+    page('7. Automation, faults and city proposals')
     para('Station-led GoA4 reserves route and receiving berth, proves configuration and train readiness, sequences launch equipment and supervises receipt. Independent onboard ATP continuously enforces authority. Stations never replace the train brake protection layer.')
-    para('Actual Rust ATP/interlocking, TCMS, doors and SCADA regressions are retained. New configuration-bound wheel/station predicates exercise readiness faults and mechanical brake requests. Inputs are fixtures: they establish neither a physical brake curve nor a safety-qualified GoA4 product. Historical magnetic healthy-gap fixtures remain archived.')
+    para('Rust ATP/interlocking, TCMS, doors and SCADA checks exercise readiness faults and mechanical brake requests. Inputs are software fixtures: they establish neither a physical brake curve nor a safety-qualified GoA4 product.')
     table(['Fault','Required independent response'],[
        ('Receiving drive or communications lost','Respect authority and independent stopping envelope; cut station thrust and command brakes where required'),
        ('Localisation/integrity uncertain or berth occupied','Restrict authority and stop; no blind timer-based launch'),
@@ -197,12 +197,15 @@ def build(root=ROOT,output=None,check=False):
        ('Off-zone stop','No autonomous restart; protected rail-compatible rescue/towing and evacuation plan'),
        ('Service power lost','Independent essential/brake supply and emergency ventilation; hot-weather endurance qualification')],[170,320])
     para(f"The {city['city_count']} city geographies and detailed maps are preserved. No v0.6 city performance packages are generated. A metadata-only scan covers17,268adjacent operating-stop gaps; the longest is2,999.931m in Faisalabad. Grades, sites, demand, transfers, power and prices remain city-specific.")
-    para('City commands return an explicit evidence hold. Existing fleet, winding, cost and finance figures describe historical designs. They are not carried over as v0.6 results.')
+    para('City commands return an explicit evidence hold. No candidate-specific city fleet, winding, cost or finance result is published until its route, propulsion, braking, civil and service inputs are available.')
     page('8. Equal service and the selection decision')
-    table(['Candidate','Accounted/proxy tare','Normal comparison load'],[(r['name'],f"{r['accounted_tare_kg_per_car']/1000:.3f}t/car",f"{r['comparison_normal_loaded_kg_per_car']/1000:.3f}t/car") for r in comp['alternatives']],[220,135,135])
-    para('All comparison profiles use276people/train,75kg/person,120 s headway,72 km/h cap and the same nominal acceleration/braking. Drag hypotheses remain architecture-specific and unmeasured. The v0.4 row is an optimistic arithmetic proxy from its16.5m LM3, with traction/battery categories removed before replacement service equipment; it is not a designed17m comfort vehicle.')
-    para('v0.6 is selected for research and prototype development by user direction because wheel support removes the unresolved levitation system and continuous magnetic-facing assemblies. Its vehicle account is heavier than v0.5; station-only LIM, high platforms and rescue introduce costs. The selection deliberately records that trade-off.')
-    para('Whole-life economic acceptance remains unknown. Vehicle and station prices, supply reinforcement, construction, maintenance, wheel/rail renewal, energy tariffs, reliability, fleet, staff and financing need equal-service source data. The current package does not demonstrate that v0.6 beats v0.5 or a simpler powered rail alternative.')
+    table(['Current service basis','Development assumption'],[
+       ('Formation','Six 17m cars; 44 seats and two wheelchair places per car'),
+       ('Passenger service','120s target headway; 72km/h launch cap; 35s dwell'),
+       ('Passenger capacity','8,280 passengers/hour/direction arithmetic; protected operation unqualified'),
+       ('Production and civil work','Two 8-hour shifts per working day'),
+       ('Operations','Two shifts for 16/18-hour service; three shifts for a 24-hour case')],[210,280])
+    para('Every design comparison must use the same passenger service and carry vehicle, station, civil, manufacturing, staffing, energy, maintenance and renewal consequences together. Cost ranges are provisional planning estimates; supplier confirmation, equal-service route costs and full lifecycle acceptance remain open.')
     sub('Release remains separate')
     para('A prototype package needs reviewed drawings, tolerances, joining, tooling, BOM, procurement, inspection and an instrumented test programme. Development adoption does not grant manufacturing, physical motion or operating release.')
     page('9. Evidence gaps and next work')
@@ -299,11 +302,10 @@ def build(root=ROOT,output=None,check=False):
     para(f"The new nonlinear transient magnetic kernel completed {coupled['magnetic_completed']} of {coupled['magnetic_method_cases']} bounded controls. Phase excitation, inverse H(B), net secondary current, Joule/mechanical work, stored energy and backward-Euler dissipation are explicit. Time refinement still changes thrust substantially. The short fixed conductor mask, generic steel and incomplete primary circuit/thermal/3D model cannot supply the actual20m/s operating map.")
     para('Actual launch-coast-arrival runs remain not-run. Required-force profiles, synthetic forward-method tests, native component calculations, independently reviewed engineering evidence and operating qualification remain separate. The next frontier requests model/equipment data and further numerical work without inventing a feasible or cheapest railway.')
     page('17. Reproduce and inspect')
-    para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
+    para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. Compile and verify planning handoffs with ./osr plan compile and ./osr plan verify.')
     para('The broader design-space comparison adds supplier-bound PET/PVC and directional honeycomb cores, aluminium/GFRP load paths, joints/inserts, motor topologies, glazing and HVAC leads. Run ./osr design space build/verify. Necessary bounds and component fixtures guide the next experiments; they do not establish a complete train or silently change the default.')
-    para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')
     sub('Repository records')
-    for text in ('engineering/development-baseline.toml','engineering/station_rail/brief.toml','docs/design-engine/current/README.md','docs/design-engine/current/evaluation.json.gz','docs/design-engine/current/comparison.json','docs/design-engine/current/manifest.json','docs/design-engine/current/exports/manifest.json','docs/archives/v0.5-maglev/manifest.json'):
+    for text in ('engineering/development-baseline.toml','engineering/station_rail/brief.toml','docs/design-engine/current/README.md','docs/design-engine/current/evaluation.json.gz','docs/design-engine/current/manifest.json','docs/design-engine/current/exports/manifest.json','docs/design-engine/coupled-railway/delivery-index.json'):
         para(text)
     sub('Physical and evaluation identities')
     for key in IDS:

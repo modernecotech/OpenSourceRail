@@ -23,6 +23,22 @@ def repository_markdown():
     return sorted({REPO_ROOT/name for name in values if (REPO_ROOT/name).is_file()})
 
 
+def indexed_markdown(path):
+    relative = path.relative_to(REPO_ROOT).as_posix()
+    if relative.startswith(('legacy/', 'docs/archives/', 'docs/design-engine/ferrite-maglev/')):
+        return False
+    if relative.startswith('cities/catalogue/') and relative != 'cities/catalogue/README.md':
+        return False
+    return relative not in {
+        'engineering/ferrite_maglev/README.md',
+        'engineering/ferrite_maglev/city-index.md',
+        'docs/design-engine/ferrite-maglev/pilot-delivery/README.md',
+        'docs/design-engine/ferrite-maglev/capability-migration/README.md',
+        'docs/releases/v0.5.1.md',
+        'docs/releases/v0.5.2.md',
+    }
+
+
 def tracked_readmes():
     # Keep these source-hashed historical packet bytes intact. Their former
     # writer serialized Markdown as a JSON string; the current v5 generator
@@ -133,6 +149,8 @@ def main():
     else:
         text=inventory.read_text()
         for path in repository_markdown():
+            if not indexed_markdown(path):
+                continue
             relative=path.relative_to(REPO_ROOT).as_posix()
             if path!=inventory and f'`{relative}`' not in text:
                 findings.append('docs/INDEX.md: missing Markdown inventory entry '+relative)
