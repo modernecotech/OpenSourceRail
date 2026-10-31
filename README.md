@@ -58,6 +58,8 @@ The separate [conditional P1 journey study](docs/design-engine/conditional-journ
 
 The [current mesh resource preflight](docs/design-engine/current-mesh-preflight/README.md) compares exact nested directional refinements for one unchanged body/load case. It stops before native deck generation while the available resource boundary is insufficient for another fine solve.
 
+The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-sensitivity/current/README.md) turns the existing positive mass-account residuals into provisional low/base/high tare scenarios by replacing each residual once. It does not label the vehicle's installed mass complete.
+
 
 ## v0.6 development basis
 

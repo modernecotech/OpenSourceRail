@@ -1,0 +1,10 @@
+schema = "osr-current-mass-reserve-sensitivity/1"
+purpose = "Provisional per-car and six-car tare sensitivity using existing unlocated account balances; replaces those residuals and does not claim an installed-mass inventory."
+source_selection_id = "8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc"
+source_candidate_id = "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3"
+account_residual_scope = "positive accounting-residual_kg values from the selected candidate mass-closure worksheet"
+factor_basis = "Declared engineering sensitivity multipliers. They are not statistical confidence limits, supplier bounds, or physical measurements."
+
+[cases]
+names = ["low", "base", "high"]
+reserve_factors = [0.8, 1.0, 1.2]
