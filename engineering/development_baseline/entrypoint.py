@@ -208,6 +208,7 @@ def main(argv=None, root=ROOT):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
                       '  plan, run [--max-bundles N] [--native-jobs N], publish, verify\n'
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
+                      '  refine-current/refine-current-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-next/refine-next-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-next-resource/refine-next-resource-verify/refine-next-resource-reconcile --parent-result PATH --candidate-id ID\n'
                       '  demonstration-plan, demonstrate [--max-bundles N], demonstration-publish, demonstration-verify')
@@ -234,7 +235,7 @@ def main(argv=None, root=ROOT):
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
             if rest==['verify']:emit(railway_publication.verify(root));return 0
-            if rest and rest[0] in ('refine','refine-verify','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
+            if rest and rest[0] in ('refine','refine-verify','refine-current','refine-current-verify','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
                 action=rest[0]
                 options=argparse.ArgumentParser(prog='./osr design railway '+action)
                 options.add_argument('--parent-result',type=Path,required=True)
@@ -243,6 +244,9 @@ def main(argv=None, root=ROOT):
                 parent_result=parsed.parent_result if parsed.parent_result.is_absolute() else root/parsed.parent_result
                 if action in ('refine','refine-verify'):
                     evaluator=railway_refinement
+                elif action in ('refine-current','refine-current-verify'):
+                    from engineering.design_search import railway_refinement_current
+                    evaluator=railway_refinement_current
                 elif action in ('refine-next','refine-next-verify'):
                     evaluator=railway_fine_refinement
                 else:
@@ -256,7 +260,7 @@ def main(argv=None, root=ROOT):
                         emit(railway_fine_refinement_recovery.verify(
                             root, parent_result=parent_result, candidate_id=parsed.candidate_id))
                     return 0
-                if action in ('refine','refine-next','refine-next-resource'):
+                if action in ('refine','refine-current','refine-next','refine-next-resource'):
                     emit(evaluator.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
                 emit(evaluator.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
             if rest and rest[0]=='run':
