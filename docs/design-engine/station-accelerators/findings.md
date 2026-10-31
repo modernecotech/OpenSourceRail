@@ -24,7 +24,7 @@ These are geometric quantities, not thrust or installed-price reductions. At som
 
 ## Candidate-bound fixed-bank force contract
 
-The five-bank layout is bound to a separate evidence contract (`22bf39518b23c347f7f0a4b4efac47affb7715ec242967be7f7b8be5e0cc7873`) with 5 installed bank records and 18 demand contexts.
+The five-bank layout is bound to a separate evidence contract (`3b25670995dd2495bdc555deaf4f79e2486ded7375dcd637359b9847c21033c8`) with 5 installed bank records and 18 demand contexts.
 
 | Bank | Start | Length | Component ID | Force-map ID | Available force | Status |
 |---:|---:|---:|---|---|---:|---|
@@ -41,4 +41,4 @@ Failed banks remain installed: no mass, stock or price is removed. A middle cont
 
 Required next work: one/two-fin nonlinear position/force/current/thermal maps; current-control handoff; train-level fin/hanger/coupler load paths; receiving and independent braking; protection, external rescue and complete installation quotations.
 
-Study identity: `4f925753a32fbf9fd6b5f105e25e53050554052644be58638a172b43960cf443`.
+Study identity: `00ccbe0a0ec8037507438d3d5979ca73e9c5eb872eb1138d2d6a8bb119b7dac9`.
