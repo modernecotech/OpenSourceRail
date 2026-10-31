@@ -3,7 +3,25 @@ from pathlib import Path
 import json,shutil
 import pytest
 from engineering.station_rail import ROOT
-from engineering.design_search import design_grammar as grammar,grammar_coupling,failure_diagnosis,generative_publication as publication
+from engineering.design_search import design_grammar as grammar,grammar_coupling,failure_diagnosis,generative_campaign as campaign,generative_publication as publication
+
+
+def test_generative_campaign_tracks_transitive_requirement_and_vehicle_sources():
+    sources=campaign.sources()
+    for path in ('engineering/design_search/requirement_policy.py',
+                 'engineering/design_search/architecture_demand.py',
+                 'engineering/design_search/structural_families.py',
+                 'engineering/design_search/joining_catalogue.py',
+                 'engineering/station_rail/vehicle.py',
+                 'engineering/station_rail/braking.py',
+                 'engineering/station_rail/civil.py',
+                 'engineering/station_rail/common.py',
+                 'engineering/station_rail/brief.toml',
+                 'engineering/station_rail/electrical.py',
+                 'engineering/station_rail/__init__.py',
+                 'docs/design-engine/ferrite-maglev/comfort-design/design.json.gz',
+                 'docs/design-engine/ferrite-maglev/comfort-design/manifest.json'):
+        assert sources[path]==publication.digest(ROOT/path)
 
 
 def test_generated_mass_propagates_to_native_load_and_required_motion_without_inventing_available_force():

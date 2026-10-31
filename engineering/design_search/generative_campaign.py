@@ -6,6 +6,7 @@ from importlib.metadata import version,PackageNotFoundError
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from . import design_grammar as g,grammar_structure as structure,grammar_geometry as geometry
+from . import architecture_demand
 from . import interface_graph,dfma,material_database,failure_diagnosis,redesign_engine,grammar_coupling
 
 PRODUCER='engineering/design_search/generative_campaign.py'
@@ -20,8 +21,17 @@ def specification():
 
 
 def sources():
-    names=['remit','design_grammar','grammar_structure','grammar_geometry','interface_graph','dfma','material_database','failure_diagnosis','redesign_engine','grammar_coupling','generative_campaign']
-    return {'engineering/design_search/'+n+'.py':digest(ROOT/'engineering/design_search'/ (n+'.py')) for n in names}
+    names=['requirement_policy','remit','design_grammar','grammar_structure','grammar_geometry','interface_graph','dfma','material_database','structural_families','joining_catalogue','failure_diagnosis','redesign_engine','grammar_coupling','architecture_demand','generative_campaign']
+    result={'engineering/design_search/'+n+'.py':digest(ROOT/'engineering/design_search'/ (n+'.py')) for n in names}
+    # The generated graph and coupled accounts inherit the current vehicle
+    # source graph. Include those files and pinned source publications in the
+    # campaign contract so an upstream revision receives a new immutable run.
+    result.update(g._reference_equipment()[2])
+    result.update(material_database.source_map())
+    for name in ('braking','civil'):
+        path='engineering/station_rail/'+name+'.py'
+        result[path]=digest(ROOT/path)
+    return result
 
 
 def _native(folder,graph,subdivisions):
