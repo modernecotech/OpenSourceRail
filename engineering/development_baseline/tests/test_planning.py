@@ -25,6 +25,44 @@ def _write_json(path, value):
     path.write_bytes(planning.encoded(value))
 
 
+
+def test_current_planning_base_binds_geographic_context_to_selected_candidate(tmp_path):
+    root = tmp_path
+    city_dir = root / "cities/catalogue/test/fixture-city"
+    city_dir.mkdir(parents=True)
+    (city_dir / "city.json").write_text(json.dumps({
+        "lines": [{"name": "line-1"}],
+        "stations": [
+            {"id": "stop-a", "line": "line-1", "s_m": 0.0, "lon": 0.0, "lat": 0.0},
+            {"id": "stop-b", "line": "line-1", "s_m": 1111.95, "lon": 0.01, "lat": 0.0},
+        ],
+        "interchanges": [],
+    }))
+    (city_dir / "fixture-city.corridor.geojson").write_text(json.dumps({
+        "type": "FeatureCollection", "features": [{
+            "type": "Feature", "properties": {"kind": "line", "name": "line-1"},
+            "geometry": {"type": "LineString", "coordinates": [[0.0, 0.0], [0.01, 0.0]]},
+        }],
+    }))
+    context_path = city_dir / "map-context.json.gz"
+    context_path.write_bytes(gzip.compress(json.dumps({"layers": {"roads": []}}).encode(), mtime=0))
+    for relative in (planning.CURRENT_CITY_INDEX, planning.CURRENT_CITY_RECEIPT,
+                     planning.SELECTION_SOURCE, planning.BRIEF_SOURCE,
+                     Path("engineering/development_baseline/planning.py")):
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("{}\n")
+    baseline = {"selection_id": "a" * 64,
+        "selection": {"service": {"headway_s": 120.0, "dwell_s": 35.0}}}
+    row = {"slug": "fixture-city", "geography_path": "cities/catalogue/test/fixture-city/city.json",
+        "route_geography_path": "cities/catalogue/test/fixture-city/fixture-city.corridor.geojson"}
+    plan = planning._current_city_plan(root, row, baseline)
+    relative = context_path.relative_to(root).as_posix()
+    assert plan["map_context"]["path"] == relative
+    assert plan["map_context"]["sha256"] == sha256(context_path.read_bytes()).hexdigest()
+    assert plan["source_sha256"][relative] == plan["map_context"]["sha256"]
+    assert all(plan[key] is False for key in planning.PLAN_DISPOSITIONS)
+
 def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monkeypatch, capsys):
     repository = Path(__file__).resolve().parents[3]
     root = tmp_path / "repo"
@@ -52,11 +90,20 @@ def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monk
     geography = root / "docs/planning/geography.json"
     geography.parent.mkdir(parents=True)
     geography.write_text('{"source":"fixture"}\n')
-    source_sha256 = {"docs/planning/geography.json": sha256(geography.read_bytes()).hexdigest()}
+    context_path = root / 'cities/catalogue/test/fixture-city/map-context.json.gz'
+    context_path.parent.mkdir(parents=True)
+    context_path.write_bytes(gzip.compress(b'{"layers":{}}', mtime=0))
+    source_sha256 = {
+        "docs/planning/geography.json": sha256(geography.read_bytes()).hexdigest(),
+        context_path.relative_to(root).as_posix(): sha256(context_path.read_bytes()).hexdigest(),
+    }
     coordinates = [[0.0, 0.0], [0.01, 0.0]]
     length_m = planning._distance(*coordinates)
     base = dict(schema="osr-owner-builder-plan/1", environment="planning", city="fixture-city",
         revision=4, source_sha256=source_sha256,
+        map_context=dict(path=context_path.relative_to(root).as_posix(),
+            sha256=source_sha256[context_path.relative_to(root).as_posix()],
+            role='Geographic context only; not survey, route-clearance, demand, engineering or operating evidence'),
         lines=[dict(id="line-1", coordinates=coordinates, length_m=length_m, headway_s=240.0,
             stops=[dict(id="stop-a", chainage_m=0.0, lon=0.0, lat=0.0, dwell_s=45.0),
                    dict(id="stop-mid", chainage_m=length_m / 2, lon=0.005, lat=0.0, dwell_s=45.0),
@@ -92,6 +139,8 @@ def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monk
     revised_line = handoff["planning_revision"]["network"]["lines"][0]
     assert [stop["id"] for stop in revised_line["stations"]] == ["stop-a", "proposal-stop-001", "stop-b"]
     assert handoff["planning_revision"]["network"]["origin_destination"][0]["destination"] == "proposal-stop-001"
+    assert "map_context" not in handoff["planning_revision"]["network"]
+    assert sha256(context_path.read_bytes()).hexdigest() == handoff["planning_revision"]["source_sha256"][context_path.relative_to(root).as_posix()]
 
     assert entrypoint.main(["plan", "verify", output], root=root) == 0
     verified = json.loads(capsys.readouterr().out)
@@ -106,3 +155,9 @@ def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monk
     held = json.loads(capsys.readouterr().out)
     assert held["execution"] == "held"
     assert "source changed" in held["reason"]
+    geography.write_text('{"source":"fixture"}\n')
+    context_path.write_bytes(gzip.compress(b'{"layers":{"roads":[]}}', mtime=0))
+    assert entrypoint.main(["plan", "verify", output], root=root) == 3
+    held = json.loads(capsys.readouterr().out)
+    assert held["execution"] == "held"
+    assert context_path.relative_to(root).as_posix() in held["reason"]

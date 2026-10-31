@@ -397,7 +397,7 @@ def main(argv=None, root=ROOT):
             if action in ('-h', '--help', 'help'):
                 return main(['plan', *rest[1:]], root=root)
             if action == 'compile':
-                options = argparse.ArgumentParser(prog='./osr plan compile', description='Create a v0.6-bound planning handoff without importing historical train or cost results.')
+                options = argparse.ArgumentParser(prog='./osr plan compile', description='Create a v0.6-bound proposal; evaluation outputs are excluded from the handoff.')
                 options.add_argument('bundle', type=Path, help='Planning edit bundle exported from the GIS workspace')
                 options.add_argument('--output', type=Path, required=True, help='New repository-relative output directory')
                 parsed = options.parse_args(rest[1:])

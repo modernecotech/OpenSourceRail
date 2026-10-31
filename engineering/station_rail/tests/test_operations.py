@@ -1,4 +1,6 @@
 from math import isclose
+import json
+from pathlib import Path
 import pytest
 from engineering.station_rail import operations as op
 
@@ -93,3 +95,23 @@ def test_rotors_add_acceleration_energy_without_adding_axle_weight():
     assert b['inputs']['effective_inertial_mass_kg_per_car']==24770
     assert b['peak_launch_force_N_per_car']-a['peak_launch_force_N_per_car']==pytest.approx(1770*.4)
     assert b['launch_mechanical_energy_J_per_car']-a['launch_mechanical_energy_J_per_car']==pytest.approx(.5*1770*20**2)
+
+
+def test_longest_city_gap_uses_current_geography_inputs_only(tmp_path):
+    city=tmp_path/'cities/catalogue/region/country/Current-City'
+    (city/'engineering/maglev').mkdir(parents=True)
+    (city/'city.json').write_text(json.dumps(dict(name='Current City',
+        city=dict(slug='current-city',country='XX'),
+        stations=[dict(id='a',line='line-1',s_m=0.),dict(id='b',line='line-1',s_m=900.),
+                  dict(id='c',line='line-1',s_m=2400.)])))
+    (city/'engineering/maglev/summary.json').write_text(json.dumps(dict(lines=[dict(line='old',stations=[
+        dict(id='x',s_m=0.),dict(id='y',s_m=999999.)])])) )
+
+    gap,sources=op.current_city_gap(tmp_path)
+
+    assert gap['distance_m']==1500.
+    assert gap['city']=='Current City'
+    assert gap['from_stop']=='b' and gap['to_stop']=='c'
+    assert gap['source_path']=='cities/catalogue/region/country/Current-City/city.json'
+    assert set(sources)=={gap['source_path']}
+    assert all('/engineering/maglev/' not in path for path in sources)

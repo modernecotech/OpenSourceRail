@@ -34,7 +34,7 @@ The [native physical follow-up](../v06-physical-closure/README.md) adds 18 curre
 
 ## Vehicle and civil design
 
-New bogie hardpoints, deep side sills and retained roof longitudinal members replace the magnetic carrier arrangement. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.
+The selected body uses bogie hardpoints, deep side sills and roof longitudinal members. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.
 
 The roof proposal uses HP60 core and a counted white finish; long-term loaded hot strength, durable reflectance and HVAC performance remain open. Unchanged door, glass, floor and seat stock retains its source ancestry; the revised vehicle receives a new identity. Plastic glazing remains an unqualified alternative.
 
@@ -96,7 +96,7 @@ Station-led GoA4, onboard ATP, OCC, TCMS, door control, interlocking and communi
 
 The selected wheel-supported reference uses station propulsion with passive onboard reaction elements. No same-service supplier-priced whole-life superiority is established; candidate comparisons and open price coverage remain in this dossier.
 
-All **266 city route geographies and stop locations are available as planning inputs**; **zero v0.6 city performance packages are published**. A geography-only scan of current city stop chainages finds a longest planning gap of approximately 3 km in Faisalabad. Reference adverse cases use that distance as a scenario; no journey or operating result is inferred from the scan.
+All **266 city route geographies and stop locations are available as planning inputs**; **zero v0.6 city performance packages are published**. Current city stop geography identifies a 7.000 km adjacent-stop gap in Dar Es Salaam; it supplies a bounded adverse-distance scenario only. No city journey or operating result is inferred from the scan.
 
 [Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Candidate delivery exports](exports/manifest.json) · [Native controls](native-controls.tar.gz)
 

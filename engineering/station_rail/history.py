@@ -23,13 +23,7 @@ def create(root=ROOT):
     value=dict(schema='osr-v05-git-archive/1',revision=REVISION,role='Historical maglev development selection; not the v0.6 default',
        source_and_payload_sha256=dict(sorted(expected.items())),numerical_calculations_reexecuted=False,physical_accepted=False)
     value['archive_id']=identity(value);(folder/'manifest.json').write_bytes(encoded(value))
-    (folder/'README.md').write_text('# Historical v0.5 maglev design\n\n'
-       'The permanent-magnet suspension development design is preserved at Git revision `'+REVISION+'`. '
-       'Its exact source, reader, current packets and city outputs remain in Git; this compact index avoids duplicating large generated datasets. '
-       'The [v0.6 default](../../design-engine/current/README.md) uses passive wheel bogies and station propulsion. '
-       'Magnetic suspension findings, quantities and costs do not describe that vehicle.\n\n'
-       '[Archive receipt](manifest.json) · [Pinned former front page](https://github.com/modernecotech/OpenSourceRail/blob/'+REVISION+'/README.md). '
-       'Use `./osr legacy verify` to check both retained archives. Reproduce numerical work in a separate checkout of its recorded revision; historical writers must not overwrite current outputs.\n')
+    (folder/'README.md').unlink(missing_ok=True)
     return value
 
 def verify(root=ROOT):

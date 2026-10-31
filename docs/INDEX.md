@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **124**.
+Indexed Markdown files: **121**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **124**.
 |---|---:|
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
-| [Repository Root](#repository-root) | 6 |
+| [Repository Root](#repository-root) | 3 |
 | [cities](#cities) | 1 |
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
@@ -45,10 +45,7 @@ Indexed Markdown files: **124**.
 | File | Title |
 |---|---|
 | [`AGENTS.md`](../AGENTS.md) | OpenSourceRail engineering work |
-| [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail changelog |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
-| [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |
-| [`LICENSE.md`](../LICENSE.md) | OpenSourceRail Licensing |
 | [`README.md`](../README.md) | OpenSourceRail |
 
 ## cities

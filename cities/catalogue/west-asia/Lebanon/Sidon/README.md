@@ -1,43 +1,16 @@
-# Sidon — comfort-first OpenSourceRail development design
+# Sidon — city planning geography
 
-OpenSourceRail seeks simple, affordable, locally maintainable transport: repeated lightweight trains, concrete beams with passive steel facings, onboard permanent magnets and suspension controls, and powered launch/receiving zones at stations. The current development default gives passengers four-abreast seating and a controlled low standing load. Transfers connect fixed lines.
+This page provides geographic and service-planning inputs for Sidon, LB. Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.
 
-**Selected for development; physical operation is not yet established.** This city uses the same six-car comfort candidate as the system default. Existing geographic corridors and stops are retained.
+The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.
 
-![Retained city geography and network context](engineering/maglev/network.svg)
+Compile and verify a proposal from the repository root:
 
-The retained map preserves its underlying city detail. Its older engineering annotations are historical; the current vehicle and service calculations below supersede those annotations. Route and station sites remain proposals.
+```bash
+./osr plan compile edits.json --output build/my-plan
+./osr plan verify build/my-plan
+```
 
+[Sidon route geometry](sidon.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=sidon)
 
-| Current development basis | Result |
-|---|---:|
-| Formation | 6 × 17 m cars |
-| Per-car accommodation | 44 seats + 2 wheelchair places; no planned standing |
-| Passenger doors | Two doors on one side per car |
-| Accounted tare / cap-loaded material mass per car | 17.357 / 20.807 t |
-| Complete installed mass, CG and inertia | Unknown |
-| Launch-speed cap / target headway / dwell | 72 km/h / 120 s / 35 s |
-| Arithmetic normal capacity | 8,280 passengers/hour/direction |
-| Retained 14,400 pphpd comparison | Not met by this comfort capacity |
-| Lines / retained route / proposed stops | 4 / 38.1 km / 22 |
-| Peak active + spare + cold reserve trainsets | 79 + 11 + 4 |
-| Total trainsets / cars | 94 / 564 |
-| Additional stops imposed by this default | 0 |
-| Counted mainline station winding, directional | 29.2 km |
-| Mainline powered coverage / overlapping intervals | 32.4% / 1 |
-
-Fleet is recalculated from each actual coast/brake leg, retained terminal-time hypotheses, 35-second dwell, a 120-second target interval, 12% rounded-up spares and one cold reserve per line. Every reachable arrival selects the shortest full-engagement option from 350/450/600/800/900/1,000 m. These motors occupy substantial route length; each direction needs at least two independently routed train phase/current branches. Terminal motors and safe operational headway remain unqualified.
-
-Analytical result: **conditional-analytical-survivor**; 0 lines have unreachable coasting legs and 0 lines have station-library failures. Failed cases stay in the data; their complete fleet/quantity totals remain unknown.
-
-The selected prototype civil interface counts **865.1 tonnes of steel per directional kilometre**, before unclosed reinforcement, prestress, end blocks, bearings, piers and foundations. This heavy extrapolation is a redesign input, not an optimised viaduct or an installed bill. All current CAPEX, OPEX, debt service, imported-content and price-coverage totals remain unknown pending matched designs and quotations.
-
-Stable multiaxis hover, a complete equipped vehicle, actual station thrust/electrical/thermal limits, fault stopping, civil acceptance and safe two-minute operation remain open. The mass ledger, energy requirements, winding layout, source hashes and failures are retained in the machine-readable record.
-
-[Primary planning method](../../../../../docs/design-engine/current/README.md) · [Current calculation and source identities](engineering/current/summary.json) · [Historical ferrite planning package](engineering/maglev/README.md) · [Historical city front page at the pinned source](https://github.com/modernecotech/OpenSourceRail/blob/578ee3950b872bf30fbf9e4207b2bda85951bdd7/cities/catalogue/west-asia/Lebanon/Sidon/README.md)
-
-Candidate `957f7e4e2e0e98b575810fb0c568554968fc1eb0715fb673827a16bcf63d400b`  
-Body `1eca1897b983bf62ec315cdc39aca2e2387f93ad6ab0c195bc278e14c8fb120b`  
-Magnet `397ddf033ab98afaea053acaa3047249a3329f542f1f5e52a6eb1b466b9662e0`  
-Selection `c76af04990ab43d9644b884eb1a7d103851aa53fcc963505bdb0b7580ae74e77`  
-Evaluation `7557f4639cdc8daacb0f752dd58878600deaf24f39c73dbd2a4fbb70678a069c`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8e877a0d9ea2df6eff11ed02244548573dee9264e67f237ac134dec1eb38321d`

@@ -206,6 +206,20 @@ def brake_bound(speed_m_s=20., *, adhesion_coefficient=.05,downhill_grade_fracti
         no_regenerative_brake_credit=True,no_aerodynamic_or_rolling_drag_credit=True)
 
 
+def current_city_gap(root=ROOT):
+    """Return the largest adjacent stop gap scanned from current city geography."""
+    from . import cities
+    scan=cities.route_geography(root)
+    gap=scan['longest_gap']
+    if gap is None:
+        raise ValueError('Current city stop geography is required for the long-gap scenario')
+    context=dict(distance_m=float(gap['distance_m']),city=gap['city'],line=gap['line'],
+        from_stop=gap['from_station'],to_stop=gap['to_station'],
+        adjacent_gaps_scanned=scan['adjacent_gap_count'],source_path=gap['source_path'],
+        source_sha256=gap['source_sha256'],scope=gap['scope'])
+    return context,scan['source_route_context_sha256']
+
+
 def evaluate(vehicle, root=ROOT):
     from . import electrical
     config=brief(root);sv=config['service'];vc=config['vehicle'];m=vehicle['mass']
@@ -224,14 +238,10 @@ def evaluate(vehicle, root=ROOT):
     sensitivity=[profile(d,masses['normal'],rolling_coefficient=rr,grade_fraction=gr,
                         loading='normal',rotating_equivalent_mass_kg_per_car=rot)
         for d in (1500.,2000.) for rr in (.001,.0025,.005) for gr in (-.02,-.01,0.,.01,.02)]
-    longest_distance=2999.9312214890124
+    longest_context,city_sources=current_city_gap(root)
+    longest_distance=longest_context['distance_m']
     longest=[profile(longest_distance,mass,grade_fraction=grade,headwind_m_s=wind,loading=loading,rotating_equivalent_mass_kg_per_car=rot)
              for loading,mass in masses.items() for grade in (0.,.01,.02,-.01) for wind in (0.,10.)]
-    longest_source='cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/maglev/summary.json'
-    from pathlib import Path
-    from .common import digest
-    if digest(Path(root)/longest_source)!='cfa684ad551e9b4a9a1d63fbf95698eca0a8552300fec450abaee796bc56a30a':
-        raise ValueError('Retained longest-gap metadata source differs')
     environment=[]
     for d in (1500.,2000.):
         for loading,mass in masses.items():
@@ -255,10 +265,8 @@ def evaluate(vehicle, root=ROOT):
         airgap_each_side_m=config['propulsion']['primary_target_airgap_each_side_m'])
     critical_heat=chosen['receiving_mechanical_energy_J_per_car']
     result=dict(schema='osr-wheel-operations-evaluation/1',**{k:vehicle[k] for k in IDS},
-        profiles=profiles,rotating_stock=rotors,reference_environment_cases=environment,longest_retained_gap_cases=longest,
-        longest_retained_gap_context=dict(distance_m=longest_distance,city='Faisalabad',line='line-2',
-            from_stop='line-2-operating-0005',to_stop='line-2-operating-0006',adjacent_gaps_scanned=17268,
-            source_role='Geography only; old maglev performance is not reused'),
+        profiles=profiles,rotating_stock=rotors,reference_environment_cases=environment,longest_city_gap_cases=longest,
+        longest_city_gap_context=longest_context,
         selected_scenario=dict(profile=chosen,inputs=chosen['inputs']),
         selected_station=selected,station_options=zones,grade_and_rolling_sensitivity=sensitivity,
         brake_envelopes=brakes,electrical=e,station_drive_bound_map=drive_bounds,
@@ -280,5 +288,5 @@ def evaluate(vehicle, root=ROOT):
         budget=dict(prototype_profiles=len(profiles),station_geometry_options=len(zones),
             grade_rolling_cases=len(sensitivity),independent_braking_cases=len(brakes),
             service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest),conditional_drive_cases=len(drive_bounds['cases']),reference_environment_cases=len(environment)),
-        source_sha256={**source_map(root,PRODUCERS),**e['source_sha256'],longest_source:digest(Path(root)/longest_source)},**FLAGS)
+        source_sha256={**source_map(root,PRODUCERS),**e['source_sha256'],**city_sources},**FLAGS)
     result['evaluation_id']=identity(result);return result

@@ -25,8 +25,9 @@ service.
 
 ## Connected platform
 
-The [planning workspace](workbench/planning/index.html) supports local
-geographic, stop, service and OD editing. `./osr plan compile` creates an
+The [planning workspace](workbench/planning/index.html) verifies current city
+route and map-context sources, displays the available geographic layers, and
+supports route, stop, service and OD editing. `./osr plan compile` creates an
 immutable proposal handoff bound to the selected candidate, and `./osr plan
 verify` checks its identities and sources. The handoff carries proposals only;
 it does not calculate current route performance, procurement quantities,

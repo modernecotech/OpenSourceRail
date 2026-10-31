@@ -187,7 +187,7 @@ the receipt does not mislabel that fallback as an enforced sandbox.
 
 ```bash
 tools/automation/osr-python -m pytest -q engineering/design_search/tests
-tools/automation/osr-python -m pytest -q engineering/analysis/tests/test_ferrite_maglev_candidate_structures.py
+tools/automation/osr-python -m pytest -q engineering/station_rail/tests
 ```
 
 Meaningful regressions cover local prestress stress envelopes, lead times before
@@ -200,5 +200,5 @@ geometry, complete joint/cooling/protection stock and repair paths, measured
 material properties, current/thermal maps, coupled deformation/gap closure and
 then full formation/route/fault confirmation. No supplier price, material test,
 ground investigation or acceptance is invented by this software. The held
-[qualification programme](../../docs/design-engine/ferrite-maglev/qualification/README.md)
+[v0.6 physical follow-up](../../docs/design-engine/v06-physical-closure/README.md)
 continues to control physical dispositions.

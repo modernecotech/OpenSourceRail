@@ -2,7 +2,6 @@
 """Check current README formatting, navigation and city publication scope."""
 from __future__ import annotations
 import argparse
-from functools import lru_cache
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -52,62 +51,39 @@ def normalized(text):
 
 
 
-ARCHIVE = 'docs/archives/v0.5-maglev/manifest.json'
-ARCHIVE_REVISION = '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
-
-
-@lru_cache(maxsize=4)
-def _historical_city_archive(path_name, signature):
-    path=Path(path_name);raw=path.read_bytes();value=json.loads(raw)
-    actual=path.stat()
-    if (actual.st_size,actual.st_mtime_ns,actual.st_ctime_ns)!=signature:
-        raise ValueError('historical city archive changed while reading')
-    unsigned={k:v for k,v in value.items() if k!='archive_id'}
-    expected=sha256((json.dumps(unsigned,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()).hexdigest()
-    if (value.get('schema')!='osr-v05-git-archive/1' or value.get('revision')!=ARCHIVE_REVISION
-        or value.get('physical_accepted') is not False or value.get('archive_id')!=expected):
-        raise ValueError('historical v0.5 city archive identity differs')
-    return value['source_and_payload_sha256']
-
-
-def retained_city_readme(path):
-    """Validate frozen v0.5 bytes as historical records, not the current default."""
-    archive=REPO_ROOT/ARCHIVE
-    if not archive.is_file():return None
-    st=archive.stat();bindings=_historical_city_archive(str(archive),(st.st_size,st.st_mtime_ns,st.st_ctime_ns))
-    relative=path.relative_to(REPO_ROOT).as_posix()
-    if relative not in bindings:return None
-    names=[path]+[path.parent/'engineering/current'/n for n in ('README.md','summary.json','manifest.json')]
-    errors=[]
-    for source in names:
-        name=source.relative_to(REPO_ROOT).as_posix()
-        if name not in bindings or not source.is_file() or sha256(source.read_bytes()).hexdigest()!=bindings[name]:
-            errors.append('retained historical v0.5 city bytes differ from archive: '+name)
-    return errors
-
-
 def primary_city_readme(path,text):
-    """Distinguish retained v0.5 records from any proposed current city package."""
+    """Check that a city frontdoor routes to the candidate-bound planning hold."""
     package = path.parent/'engineering/current'
     if not (path.parent/'city.json').is_file():
         return text,None
     errors=[]
     try:
-        historical=retained_city_readme(path)
-        if historical is not None:return text,historical
         current=(package/'README.md').read_text()
         summary=json.loads((package/'summary.json').read_text())
+        manifest=json.loads((package/'manifest.json').read_text())
         if not current.startswith('# '):errors.append('city package README requires an H1')
-        if '[Primary planning method]' not in current:errors.append('city package lacks a current common-method link')
-        if summary.get('family')=='wheel_rail_station_lim':
-            errors.append('v0.6 city performance publication is held; preserve geographic inputs and historical records')
-        if summary.get('development_default') is not True:errors.append('city is not a retained declared development configuration')
+        if '[Planning workspace]' not in current:errors.append('city package lacks the current planning workspace route')
+        if summary.get('schema')!='osr-current-city-hold/1' or summary.get('execution')!='held':
+            errors.append('city package must be a current v0.6 planning hold')
+        if summary.get('performance_evaluated') is not False or summary.get('totals') is not None:
+            errors.append('city package cannot publish route performance or totals')
         for flag in ('engineering_accepted','physical_accepted','installed_mass_complete','manufacturing_release','operating_release'):
             if summary.get(flag) is not False:errors.append('city cannot grant physical release: '+flag)
-        if summary['vehicle']['cars']!=6 or summary['vehicle']['normal_passengers_per_car']!=46:
-            errors.append('city comfort formation differs')
-        if 'engineering/current/' not in text or 'engineering/maglev/README.md' not in text:
-            errors.append('city front requires current and historical planning routes')
+        if manifest.get('schema')!='osr-current-city-publication/2':
+            errors.append('city package manifest must identify the current v0.6 hold')
+        if manifest.get('files_sha256',{}).get('README.md')!=sha256((package/'README.md').read_bytes()).hexdigest():
+            errors.append('city package README differs from its source-bound manifest')
+        if manifest.get('files_sha256',{}).get('summary.json')!=sha256((package/'summary.json').read_bytes()).hexdigest():
+            errors.append('city package summary differs from its source-bound manifest')
+        if manifest.get('city_frontdoor_path')!=path.relative_to(REPO_ROOT).as_posix():
+            errors.append('city frontdoor path differs from its source-bound manifest')
+        if manifest.get('city_frontdoor_sha256')!=sha256(path.read_bytes()).hexdigest():
+            errors.append('city frontdoor differs from its source-bound manifest')
+        if 'engineering/current/' not in text or '[Planning workspace]' not in text:
+            errors.append('city frontdoor needs current packet and planning workspace routes')
+        for source in (text,current):
+            if any(token in source.casefold() for token in ('engineering/maglev/readme.md','ferrite-maglev','v0.4','v0.5','legacy/')):
+                errors.append('current city README must not route readers to superseded design pages')
     except (OSError,ValueError,KeyError) as exc:
         errors.append('city package missing/invalid: '+str(exc))
     return text,errors

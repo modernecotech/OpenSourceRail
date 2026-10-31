@@ -28,7 +28,9 @@ def test_physical_limitations_do_not_become_successful_journeys(current):
     assert not p['physical_journey_completed']
     assert s['selected_station']['length_m']>=s['selected_station']['required_shared_winding_m']
     assert s['station_drive_bound_map']['available_force_N_per_car'] is None
-    assert any(not row['reachable'] for row in s['longest_retained_gap_cases'])
+    assert any(not row['reachable'] for row in s['longest_city_gap_cases'])
+    assert s['longest_city_gap_context']['source_path'].endswith('/city.json')
+    assert '/engineering/maglev/' not in s['longest_city_gap_context']['source_path']
     assert current['vehicle']['underframe_screens']['normal']['deflection_screen']=='fail'
     assert current['service']['service']['normal_capacity_pphpd_arithmetic']==8280.
     assert not current['service']['service']['physical_headway_qualified']

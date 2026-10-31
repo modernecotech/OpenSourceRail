@@ -668,6 +668,7 @@ def _sourcing_section(root,record):
 
 def readme(record,summary,root=ROOT):
     v=record['vehicle'];m=v['mass'];o=record['service'];p=o['selected_scenario']['profile'];z=o['selected_station'];r=record['civil']['selected_reference'];e=o['electrical'];b=e['battery']
+    city_gap=o['longest_city_gap_context']
     mass_ledger_path=Path(root)/'docs/design-engine/mass-reconciliation/current/summary.json'
     mass_ledger=json.loads(mass_ledger_path.read_bytes())
     if any(mass_ledger.get(key)!=record[key] for key in ('candidate_id','body_candidate_id','selection_id')) or mass_ledger.get('selected_evaluation_id')!=record['evaluation_id']:
@@ -694,7 +695,7 @@ def readme(record,summary,root=ROOT):
       'The [native physical follow-up](../v06-physical-closure/README.md) adds 18 current-excited LIM cases, 24 reduced Chrono brake runs and native body-interface/fit-up experiments. The tested full primary fails force and steel-field screens. Its raw field calculations remain conditional; the default geometry and acceptance holds are unchanged.','',
       '[Prototype/fault test plan](prototype-test-plan.json) · [Full evaluation](evaluation.json.gz) · [Motor method evidence](native-drive.tar.gz) · [Speed requirement](service-profile.svg) · [Equal-service comparison](comparison.json)','',
       '## Vehicle and civil design','',
-      'New bogie hardpoints, deep side sills and retained roof longitudinal members replace the magnetic carrier arrangement. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.','',
+      'The selected body uses bogie hardpoints, deep side sills and roof longitudinal members. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.','',
       'The roof proposal uses HP60 core and a counted white finish; long-term loaded hot strength, durable reflectance and HVAC performance remain open. Unchanged door, glass, floor and seat stock retains its source ancestry; the revised vehicle receives a new identity. Plastic glazing remains an unqualified alternative.','',
       f"Three conventional guideway families are compared across 15/20/25/30 m spans. The crowd-sized {r['span_m']:.0f} m box reference counts **{r['concrete_m3']:.3f} m³ concrete**, **{r['running_rail_kg']/1000:.3f} t running rail**, **{r['direct_fastener_sets']} fastener sets** and **{r['counted_steel_kg']/1000:.3f} t total preliminary steel including rail, fasteners, reinforcement, tendons and anchorages. Its **{r['total_counted_span_mass_kg']/1000:.2f} t** span account still excludes complete bearings, piers, foundations, access/containment and station equipment.",'',
       'Rails, fasteners, concrete and the remaining structural quantities have separate accounting boundaries. Lower installed cost is unproven. Each longitudinal section gets its own moving-load envelope; torsion, fatigue, unequal rail loads, prestress losses, erection and sites remain open. Twin and U sections retain their failures.','',
@@ -702,7 +703,7 @@ def readme(record,summary,root=ROOT):
       '## Automation, comparison and cities','',
       'Station-led GoA4, onboard ATP, OCC, TCMS, door control, interlocking and communications remain. New actual Rust wheel-interface fixtures check configuration/readiness and independent brake demands; existing ATP regressions remain software evidence. They use assumed readiness and have no physical brake plant or hardware outputs. Loss of propulsion leaves wheel support intact. Off-zone restart requires protected rescue/towing; mainline switches remain excluded, with depot exceptions only.','',
       'The selected wheel-supported reference uses station propulsion with passive onboard reaction elements. No same-service supplier-priced whole-life superiority is established; candidate comparisons and open price coverage remain in this dossier.','',
-      f"All **{summary['cities']['city_count']} city route geographies and stop locations are available as planning inputs**; **zero v0.6 city performance packages are published**. A geography-only scan of current city stop chainages finds a longest planning gap of approximately 3 km in Faisalabad. Reference adverse cases use that distance as a scenario; no journey or operating result is inferred from the scan.",'',
+      f"All **{summary['cities']['city_count']} city route geographies and stop locations are available as planning inputs**; **zero v0.6 city performance packages are published**. Current city stop geography identifies a {city_gap['distance_m']/1000:.3f} km adjacent-stop gap in {city_gap['city']}; it supplies a bounded adverse-distance scenario only. No city journey or operating result is inferred from the scan.",'',
       '[Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Candidate delivery exports](exports/manifest.json) · [Native controls](native-controls.tar.gz)','',
       '## Iterative alternatives','', 'The [failure-driven campaign](../v06-optimisation/README.md) generates body/motor/brake revisions, reruns native solvers, propagates the same mass into civil/service calculations and compiles matching research twins. The research winner is the next experiment; no qualified replacement is silently promoted. The comparison exposes normal/crowd deflection, additional mass and changed thrust requirements; conditional motor results remain outside their declared linear-steel domain. Participating-panel lateral displacement remains nonconverged under mesh refinement; its vertical values are diagnostic rather than validated full-body performance.','',
       'The [whole-railway architecture campaign](../v06-architecture/README.md) tests seven propulsion families, different speed/formation/powered-track arrangements and civil sections. It compares analytical demand and conditional quantities while keeping new equipment mass and actual motor capability unknown. Repaired finite-area joint/body and generic nonlinear magnetic method checks retain their independent numerical and engineering dispositions. No architecture is qualified, no city performance is regenerated and the selected v0.6 reference is preserved.','',
@@ -732,7 +733,7 @@ def prototype_plan(record):
             missing_inputs=['Validated station motor map','Qualified brake/WSP/adhesion map','Flexible body and wheel-rail dynamics'],
             physical_outputs={key:None for key in required}))
     return dict(schema='osr-v06-prototype-test-plan/1',**{k:record[k] for k in IDS},development_default=True,
-        reference_cases=cases,longest_gap=record['service']['longest_retained_gap_context'],
+        reference_cases=cases,longest_gap=record['service']['longest_city_gap_context'],
         additional_faults=['Communications lost','Occupied or delayed receiving berth','Gradient overspeed','Train integrity/localisation lost',
             'One brake control channel lost','Missed charge','Station power lost during launch','Off-zone rescue and high-viaduct evacuation'],
         releases=dict(production_drawings=False,supplier_brakes=False,motor_map=False,structural_body=False,prototype_review=False),
@@ -826,8 +827,7 @@ def build(root=ROOT,force=False,output=None):
                 reader(root=root,check=True);return dict(value,cached=True)
             except(ValueError,OSError,KeyError):pass
         from engineering import readme_context
-        readme_context.write_owned(root);audit=readme_context.audit(root)
-        if not audit['current']:raise ValueError('README context: '+'; '.join(audit['errors']))
+        readme_context.write_owned(root)
         value=publish(output,root=root)
         audit=readme_context.audit(root)
         if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))

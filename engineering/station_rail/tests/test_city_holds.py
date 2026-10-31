@@ -1,6 +1,5 @@
 """City publication stops at preserved geography until physical gates exist."""
 from copy import deepcopy
-from hashlib import sha256
 import json
 
 import pytest
@@ -19,7 +18,10 @@ def context(tmp_path,monkeypatch):
     monkeypatch.setattr(selection,'load',lambda root:baseline)
     city=tmp_path/'cities/catalogue/fixture/country/City';(city/'engineering/maglev').mkdir(parents=True)
     (city/'engineering/current').mkdir()
-    (city/'city.json').write_text(json.dumps(dict(name='City',city=dict(slug='city',country='country'))))
+    (city/'city.json').write_text(json.dumps(dict(name='City',city=dict(slug='city',country='country'),
+        stations=[dict(line='line-1',id='a',s_m=0.),dict(line='line-1',id='b',s_m=2500.)])))
+    (city/'city.corridor.geojson').write_text('{"type":"FeatureCollection","features":[]}')
+    (city/'map-context.json.gz').write_bytes(b'geographic context fixture')
     (city/'engineering/maglev/network.svg').write_text('<svg>Underlying streets and city detail</svg>')
     (city/'engineering/maglev/summary.json').write_text(json.dumps(dict(lines=[dict(line='line-1',stations=[dict(id='a',s_m=0.),dict(id='b',s_m=2500.)])])))
     (city/'engineering/current/summary.json').write_text('{"historical_fleet":906}')
@@ -36,30 +38,38 @@ def test_city_returns_bound_hold_without_reusing_old_performance(context):
     assert value['execution']=='held'
     assert value['performance_evaluated'] is False
     assert value['totals'] is None
-    assert value['geography']['map_available'] is True
+    assert value['geography']['map_context_available'] is True
     assert value['geography']['underlying_city_details_preserved'] is True
-    assert value['historical']['selected_for_v06'] is False
+    assert 'historical' not in value
+    assert not any('/engineering/maglev/' in path for path in value['source_sha256'])
     assert value['support_component_id']==baseline['vehicle']['support_component_id']
     assert 'magnet_component_id' not in value
     assert value['physical_accepted'] is False
 
 
-def test_publish_all_writes_global_register_and_preserves_city_bytes(context):
+def test_publish_all_refreshes_candidate_bound_city_frontdoor_and_leaves_old_artifacts_untouched(context):
     root,baseline,city=context
-    before={p.relative_to(city):sha256(p.read_bytes()).hexdigest() for p in city.rglob('*') if p.is_file()}
+    old_summary=(city/'engineering/current/summary.json').read_bytes()
+    old_map=(city/'engineering/maglev/network.svg').read_bytes()
     index=cities.publish_all(root=root,baseline=baseline)
     assert index['city_count']==1
     assert index['summary']['cities_held']==1
+    assert index['summary']['current_city_frontdoors_regenerated'] is True
     assert index['longest_gap']['distance_m']==2500.
     assert index['route_geography']['performance_models_executed']==0
     assert index['city_performance_packages_written']==0
     assert index['cities'][0]['summary_path'] is None
     assert index['cities'][0]['totals'] is None
+    assert index['cities'][0]['map_context_available'] is True
     assert cities.verify_all(root=root)['verified'] is True
-    assert before=={p.relative_to(city):sha256(p.read_bytes()).hexdigest() for p in city.rglob('*') if p.is_file()}
+    assert (city/'engineering/current/summary.json').read_bytes()!=old_summary
+    assert (city/'engineering/maglev/network.svg').read_bytes()==old_map
+    assert 'engineering/maglev/README.md' not in (city/'README.md').read_text()
+    assert '[Planning workspace]' in (city/'README.md').read_text()
+    assert '[Planning workspace]' in (city/'engineering/current/README.md').read_text()
     value=cities.publish_city('city',root=root,update_readme=True)
     assert value['execution']=='held'
-    assert before=={p.relative_to(city):sha256(p.read_bytes()).hexdigest() for p in city.rglob('*') if p.is_file()}
+    assert (city/'engineering/maglev/network.svg').read_bytes()==old_map
 
 
 def test_catalogue_and_city_reject_identity_and_acceptance_tampering(context):

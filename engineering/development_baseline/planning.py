@@ -165,6 +165,14 @@ def _current_city_plan(root, city_row, baseline):
         CURRENT_CITY_RECEIPT.as_posix(), SELECTION_SOURCE.as_posix(), BRIEF_SOURCE.as_posix(),
         'engineering/development_baseline/planning.py',
     }
+    context_rel = city_rel.parent / 'map-context.json.gz'
+    map_context = None
+    if (root / context_rel).is_file():
+        context_path = _safe_file(root, context_rel)
+        context_sha256 = digest_bytes(context_path.read_bytes())
+        source_paths.add(context_rel.as_posix())
+        map_context = dict(path=context_rel.as_posix(), sha256=context_sha256,
+            role='Geographic context only; not survey, route-clearance, demand, engineering or operating evidence')
     source_hashes = {name: digest_bytes(_safe_file(root, name).read_bytes())
                      for name in sorted(source_paths)}
     service = baseline['selection']['service']
@@ -207,7 +215,7 @@ def _current_city_plan(root, city_row, baseline):
     plan = dict(schema=BASE_SCHEMA, environment='planning', city=city, revision=0,
         selection_id=baseline['selection_id'], source_sha256=source_hashes,
         geography_basis='Current city routes, station coordinates and transfer locations; no candidate performance or cost results.',
-        lines=lines, interchanges=interchanges, od=[],
+        map_context=map_context, lines=lines, interchanges=interchanges, od=[],
         **{key: False for key in PLAN_DISPOSITIONS})
     plan['revision_sha256'] = digest_json(plan)
     return _validate_plan(plan, city)
@@ -335,6 +343,16 @@ def _validate_plan(plan, expected_city=None):
         raise PlanningError('Current planning input has an unexpected release disposition')
     if not isinstance(plan.get('source_sha256'), dict) or not plan['source_sha256']:
         raise PlanningError('Source-bound planning geography is required')
+    context = plan.get('map_context')
+    if context is not None:
+        if (not isinstance(context, dict) or set(context) != {'path', 'sha256', 'role'}
+                or not isinstance(context.get('path'), str)
+                or not context['path'].startswith('cities/catalogue/')
+                or not context['path'].endswith('/map-context.json.gz')
+                or not re.fullmatch(r'[0-9a-f]{64}', str(context.get('sha256', '')))
+                or plan['source_sha256'].get(context['path']) != context['sha256']
+                or context.get('role') != 'Geographic context only; not survey, route-clearance, demand, engineering or operating evidence'):
+            raise PlanningError('Map context must be current, source-bound geography only')
     if not isinstance(plan.get('lines'), list) or not plan['lines']:
         raise PlanningError('At least one mapped route is required')
     seen_lines, seen_stops = set(), set()

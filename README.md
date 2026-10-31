@@ -116,7 +116,7 @@ The v0.6 workflow links candidate revisions to engineering and delivery records.
 
 | Capability | Where to inspect it | What remains necessary |
 |---|---|---|
-| City geography and planning | [266-city geographic register](docs/design-engine/current/cities.json), [editable planning workspace](docs/workbench/planning/index.html) | Survey, demand, grades, route fit and current-family service evaluation |
+| City geography and planning | [266-city geographic register](docs/design-engine/current/cities.json), [source-verified planning workspace](docs/workbench/planning/index.html) | Current map context and route/service proposals; survey, demand, grades, route fit and service evaluation remain open |
 | Engineering Workbench | `./osr workbench`, [current UI](docs/workbench/current/index.html), [coordinated design experiment](docs/design-engine/coupled-railway/README.md) | Available physical models, complete equipment and independently confirmed designs |
 | CAD, BIM and quantities | [Current CAD/IFC and delivery records](docs/design-engine/current/exports/manifest.json), [candidate body-stock IFC packages](docs/design-engine/coupled-railway/delivery-index.json) | Complete installed geometry, tolerances, full civil federation and surveyed interfaces |
 | ERPNext and Frappe HR | [Business deployment and integration app](deployment/erpnext/README.md) | Configured legal entities, roles, calendars, masters, reviewed imports and production procedures |
@@ -201,11 +201,11 @@ assumed, sourced or supplier-confirmed.
 
 ## Cities, service and deployment
 
-All **266 city geographies** remain available as planning inputs, including maps, route proposals and stops. **v0.6 city performance regeneration is held** until candidate-specific drive, braking, complete vehicle, civil and economic evidence is sufficient.
+All **266 city geographies** remain available as planning inputs. The editor verifies each city’s route packet and map-context source before displaying road, water, building, land-use and place layers where supplied. These are geographic references; **v0.6 city performance regeneration is held** until candidate-specific drive, braking, complete vehicle, civil and economic evidence is sufficient.
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
 
-The [planning workspace](docs/workbench/planning/index.html) supports local geographic, stop, service and OD proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. The handoff contains proposals only. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
+The [planning workspace](docs/workbench/planning/index.html) displays source-verified city map context and supports route, stop, service and OD proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. The handoff contains proposals only. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
 
 ## Run and reproduce
 

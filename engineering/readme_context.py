@@ -101,7 +101,9 @@ def category(name):
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':
         return 'retained-design-evidence'
     if name.startswith('cities/catalogue/'):
-        return 'generated-city-package' if ('/engineering/maglev/' in name or '/engineering/current/' in name) else 'generated-city-brief'
+        if '/engineering/maglev/' in name:
+            return 'retained-city-method'
+        return 'generated-city-package' if '/engineering/current/' in name else 'generated-city-brief'
     if name == 'docs/design-engine/current/README.md':
         return 'current-development-dossier'
     if name == 'docs/design-engine/sourcing/README.md':
@@ -198,6 +200,9 @@ def bindings(root, names):
         if receipt.is_symlink() or receipt.stat().st_size > 16*1024*1024:
             raise ValueError('bounded ordinary publication receipt required')
         value = json.loads(receipt.read_bytes())
+        if value.get('schema') == 'osr-current-city-publication/2':
+            add(root/value.get('city_frontdoor_path', ''), value.get('city_frontdoor_sha256'),
+                receipt, 'current-city-frontdoor')
         for key, payload_relative in (('files_sha256', True), ('source_sha256', False)):
             if key == 'source_sha256' and not receipt.is_relative_to(root/OUTPUT):
                 continue  # Historical sources are verified against their pinned Git revision, not current introductions.
@@ -205,11 +210,6 @@ def bindings(root, names):
             if isinstance(mapping, dict):
                 for name, expected in mapping.items():
                     add((receipt.parent if payload_relative else root)/name, expected, receipt, key)
-    city_index = root/'engineering/ferrite_maglev/city-index.json'
-    if city_index.is_file():
-        for row in json.loads(city_index.read_bytes()).get('cities', []):
-            if isinstance(row.get('package_path'), str):
-                add(root/row['package_path']/'README.md', row.get('readme_sha256'), city_index, 'city-readme-payload')
     return result
 
 
@@ -234,12 +234,12 @@ def audit(root=ROOT):
         mismatches = [entry for entry in bound[name] if digest != entry['expected_sha256']]
         if mismatches:
             errors.append(name + ': README differs from retained numerical source/payload receipt')
-        # The city brief and package are separate introduction routes. Both must
-        # retain their own declared primary-method link, even if coverage links exist.
-        if kind == 'generated-city-brief' and 'engineering/maglev/README.md' not in text:
-            errors.append(name + ': city brief lacks its retained numerical planning package')
-        if kind == 'generated-city-package' and '[Primary planning method]' not in text:
-            errors.append(name + ': city package lacks its retained common-method link')
+        # City frontdoors are candidate-bound planning handoffs. They do not
+        # route readers to superseded vehicle or performance descriptions.
+        if kind == 'generated-city-brief' and '[Planning workspace]' not in text:
+            errors.append(name + ': city brief lacks the current planning workspace route')
+        if kind == 'generated-city-package' and '[Planning workspace]' not in text:
+            errors.append(name + ': city package lacks the current planning workspace route')
         rows.append(dict(path=name, category=kind, sha256=digest,
                          owned_introduction_current=current,
                          existing_context_route=route,

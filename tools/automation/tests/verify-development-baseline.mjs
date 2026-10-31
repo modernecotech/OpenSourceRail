@@ -278,7 +278,7 @@ try {
   assert.equal(city.performance_evaluated, false);
   assert.equal(city.totals, null);
   assert.equal(city.geography.underlying_city_details_preserved, true);
-  assert.match(await page.locator("#city-link").innerText(), /Open city map/);
+  assert.match(await page.locator("#city-link").innerText(), /Open city planning/);
   assert.match(
     await page.locator('#design a[href="../planning/"]').innerText(),
     /Open city planning/,

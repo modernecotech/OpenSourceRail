@@ -219,15 +219,16 @@ async function showCity(slug) {
   } catch (error) {
     byId("city-status").textContent = "Held: " + error.message;
     const record = error.record;
-    byId("city-link").hidden = !record?.geography?.map_available;
+    byId("city-link").hidden = !record?.geography?.map_context_available;
     if (record?.geography) {
       byId("city-details").textContent = JSON.stringify(
         { geography: record.geography },
         null,
         2,
       );
-      byId("city-link").href = "/" + record.geography.map_path;
-      byId("city-link").textContent = "Open city map";
+      byId("city-link").href =
+        "/docs/workbench/planning/?city=" + encodeURIComponent(record.city.slug);
+      byId("city-link").textContent = "Open city planning";
     }
   }
 }

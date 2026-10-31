@@ -8,7 +8,7 @@ supervision handoffs.
 |---|---|
 | Candidate engineering and coupled design | [`./osr design railway`](../design-engine/coupled-railway/README.md) |
 | Candidate CAD/IFC, BOM, procurement, assembly and control records | [Current export manifest](../design-engine/current/exports/manifest.json) and [delivery package index](../design-engine/coupled-railway/delivery-index.json) |
-| City geography and route/service proposals | [Planning workspace](../workbench/planning/index.html); `./osr plan compile` and `./osr plan verify` |
+| City geography, map context and route/service proposals | [Planning workspace](../workbench/planning/index.html); `./osr plan compile` and `./osr plan verify` |
 | Calculated manufacturing and lifecycle scenarios | [Model-based cost and delivery plan](../design-engine/model-based-cost-and-delivery.md) |
 | Business and workforce workflows | [ERPNext and Frappe HR integration](../../deployment/erpnext/README.md) |
 | Equipment observation and review records | [FUXA and gateway integration](../../deployment/supervision/README.md) |

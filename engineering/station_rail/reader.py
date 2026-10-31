@@ -196,7 +196,9 @@ def build(root=ROOT,output=None,check=False):
        ('Wet rail or brake channel loss','Qualified WSP and degraded brake floor; protect the larger stopping distance'),
        ('Off-zone stop','No autonomous restart; protected rail-compatible rescue/towing and evacuation plan'),
        ('Service power lost','Independent essential/brake supply and emergency ventilation; hot-weather endurance qualification')],[170,320])
-    para(f"The {city['city_count']} city geographies and detailed maps are preserved. No v0.6 city performance packages are generated. A metadata-only scan covers17,268adjacent operating-stop gaps; the longest is2,999.931m in Faisalabad. Grades, sites, demand, transfers, power and prices remain city-specific.")
+    gap=city.get('longest_gap')
+    if gap is None:raise ValueError('Current city geography has no adjacent-stop gap for the reader')
+    para(f"The {city['city_count']} city geographies and detailed maps are available for planning. No v0.6 city performance packages are generated. A geography-only scan covers {city['route_geography']['adjacent_gap_count']:,} adjacent-stop gaps; the largest is {gap['distance_m']:,.1f} m in {gap['city']}. This distance supplies an adverse analytical scenario only. Grades, sites, demand, transfers, power and prices remain city-specific.")
     para('City commands return an explicit evidence hold. No candidate-specific city fleet, winding, cost or finance result is published until its route, propulsion, braking, civil and service inputs are available.')
     page('8. Equal service and the selection decision')
     table(['Current service basis','Development assumption'],[
