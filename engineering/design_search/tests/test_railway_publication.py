@@ -68,4 +68,12 @@ def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
     def refused(*args, **kwargs):
         raise AssertionError('Publication refresh must not launch a campaign or solver')
     monkeypatch.setattr(publication.engine, 'run', refused)
+    execution=json.loads((ROOT/publication.OUTPUT/'execution.json').read_bytes())
+    current_result=dict(contract_id=execution['contract_id'],run_id=execution['run_id'],
+                        campaign_id=execution['campaign_id'])
+    # The immutable publication is present in a clean checkout, while its
+    # ignored working-state cache is deliberately not. Supply the matching
+    # execution receipt so this test exercises publication reuse without
+    # depending on a developer's private build directory.
+    monkeypatch.setattr(publication,'current',lambda root:(ROOT/'build/coupled-railway',current_result))
     assert publication.build()['verified']
