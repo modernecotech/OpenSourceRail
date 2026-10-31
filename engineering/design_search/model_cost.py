@@ -61,10 +61,15 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
         currency="IQD", estimate_date=estimate_date,
         location="Synthetic 6 km Iraqi reference corridor; no city survey or site rates",
         corridor_trackways=TRACKWAYS, production_years=PRODUCTION_YEARS,
-        production_days_per_year=250,
+        production_days_per_year=250, production_shifts_per_day=2,
+        production_hours_per_shift=8, civil_shifts_per_day=2,
+        civil_hours_per_shift=8,
         design_life_years=YEARS, real_discount_rate=0.04,
-        operating_hours_per_day=18, operating_days_per_year=365,
-        shifts_per_day=2, hours_per_shift=8, productive_utilisation=0.75,
+        operating_hours_per_day_cases=[16, 18, 24],
+        operations_shifts_per_day_cases=[2, 2, 3],
+        operations_hours_per_shift_cases=[8, 9, 8],
+        maintenance_reference_operating_hours_per_day=18,
+        operating_days_per_year=365, productive_utilisation=0.75,
         outbound_route_km=50,
         benchmark_dataset=dict(path=RATE_DATA, sha256=digest(path), source_date="2026-07-31",
             source_key="iraq.cso.regional-materials-wages-2026-07",
@@ -82,6 +87,8 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
         benchmark_record_ids={k:v.get("record_id") or identity(v) for k,v in refs.items()},
         assumptions=dict(
             wage_burden_multipliers=[1.25, 1.5, 2.0],
+            second_shift_wage_premium=[0.0, 0.10, 0.20],
+            third_shift_wage_premium=[0.0, 0.15, 0.35],
             material_rate_sensitivity=[0.9, 1.0, 1.2],
             body_purchase_yield=[0.96, 0.90, 0.82],
             body_process_hours_per_kg=[0.10, 0.30, 1.00],
@@ -154,12 +161,12 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
             footing_rebar_kg_per_m3=[100, 160, 250],
             field_hours_per_support=[8, 24, 64],
             transport_iqd_per_tonne_km=[100, 400, 1500],
-            erection_crane_iqd_per_day=[2000000, 10000000, 50000000],
-            spans_per_crane_day=[4, 2, 1],
+            erection_crane_iqd_per_shift=[2000000, 10000000, 50000000],
+            spans_per_crane_shift=[4, 2, 1],
             erection_hours_per_span=[20, 64, 180],
-            foundation_supports_per_day=[8, 4, 2],
-            rail_track_m_per_day=[300, 150, 60],
-            station_completions_per_day=[0.05, 0.02, 0.008],
+            foundation_supports_per_shift=[8, 4, 2],
+            rail_track_m_per_shift=[300, 150, 60],
+            station_completions_per_shift=[0.05, 0.02, 0.008],
             rail_install_iqd_per_track_m=[25000, 100000, 400000],
             land_iqd_per_track_km=[100000000, 600000000, 3000000000],
             utilities_iqd_per_track_km=[50000000, 300000000, 1500000000],
@@ -172,7 +179,6 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
             electricity_iqd_per_kwh=[100, 250, 700],
             controllers_per_shift=[2, 4, 8],
             station_staff_per_station_per_shift=[1, 2, 4],
-            operations_shift_hours=8,
             operations_reliever_multiplier=[1.1, 1.25, 1.5],
             maintenance_fraction_per_year=[0.015, 0.04, 0.09],
             decommissioning_fraction_of_installed_CAPEX=[0.01, 0.03, 0.08],
@@ -258,6 +264,16 @@ def _check_input(record, candidate_id, name):
         raise ValueError("Cost input evaluation identity differs: " + name)
 
 
+def _shift_adjusted_wage(base_wage, shifts, second_shift_premium, third_shift_premium):
+    """Apply explicit C-class premiums to second and third shift hours."""
+    factor=1.0
+    if shifts >= 2:
+        factor += second_shift_premium/shifts
+    if shifts >= 3:
+        factor += third_shift_premium/shifts
+    return base_wage*factor
+
+
 def _validate_assumptions(value, root):
     if (not isinstance(value, dict) or value.get("schema") != "osr-coupled-class-c-cost-assumptions/1"
             or value.get("assumption_id") != identity({k:v for k,v in value.items() if k != "assumption_id"})):
@@ -271,20 +287,29 @@ def _validate_assumptions(value, root):
             for nested in item.values():
                 if isinstance(nested, list):
                     _triple(nested, key)
-    positive_fields=("corridor_trackways", "production_years", "production_days_per_year", "design_life_years", "operating_hours_per_day",
-        "operating_days_per_year", "hours_per_shift", "shifts_per_day", "productive_utilisation", "outbound_route_km")
+    positive_fields=("corridor_trackways", "production_years", "production_days_per_year", "design_life_years",
+        "production_shifts_per_day", "production_hours_per_shift", "civil_shifts_per_day", "civil_hours_per_shift",
+        "maintenance_reference_operating_hours_per_day", "operating_days_per_year", "productive_utilisation", "outbound_route_km")
     for key in positive_fields:
         item=value.get(key)
         if not _finite(item) or item <= 0:
             raise ValueError("Positive finite cost-scope assumption required: " + key)
+    for key in ("operating_hours_per_day_cases", "operations_shifts_per_day_cases", "operations_hours_per_shift_cases"):
+        _triple(value.get(key), key, positive=True)
     if not 0 <= value.get("real_discount_rate", -1) < 1:
         raise ValueError("Real discount rate must be in [0, 1)")
     if value["corridor_trackways"] != int(value["corridor_trackways"]):
         raise ValueError("Trackway quantity must be an integer")
-    if value["operating_hours_per_day"] > 24 or value["operating_days_per_year"] > 366 or value["productive_utilisation"] > 1:
+    if (value["operating_days_per_year"] > 366 or value["productive_utilisation"] > 1
+            or value["production_shifts_per_day"] < 2 or value["civil_shifts_per_day"] < 2):
         raise ValueError("Operating and production utilisation assumptions are outside their declared domains")
-    if value["assumptions"].get("operations_shift_hours", 0) <= 0:
-        raise ValueError("Positive operations shift hours required")
+    hours=value["operating_hours_per_day_cases"]
+    shifts=value["operations_shifts_per_day_cases"]
+    shift_hours=value["operations_hours_per_shift_cases"]
+    if (any(h > 24 for h in hours) or any(n != int(n) for n in shifts)
+            or any(hours[i] != shifts[i]*shift_hours[i] for i in range(3))
+            or shifts[0] < 2 or shifts[1] < 2 or shifts[2] < 3):
+        raise ValueError("Operating hours must reconcile to two-shift baseline and three-shift high case")
     return value["assumptions"]
 
 
@@ -314,6 +339,14 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     wages = assumptions_record["benchmark_rates_iqd"]["wage_skilled_iqd_per_h"]
     burden = a["wage_burden_multipliers"]
     loaded_wage = [wages * burden[i] for i in range(3)]
+    second_premium=a["second_shift_wage_premium"]
+    third_premium=a["third_shift_wage_premium"]
+    production_wage=[_shift_adjusted_wage(loaded_wage[i],assumptions_record["production_shifts_per_day"],
+        second_premium[i],third_premium[i]) for i in range(3)]
+    civil_wage=[_shift_adjusted_wage(loaded_wage[i],assumptions_record["civil_shifts_per_day"],
+        second_premium[i],third_premium[i]) for i in range(3)]
+    operations_wage=[_shift_adjusted_wage(loaded_wage[i],assumptions_record["operations_shifts_per_day_cases"][i],
+        second_premium[i],third_premium[i]) for i in range(3)]
     overhead = a["factory_overhead_fraction"]
     cars_per_train = bundle["cars"]
     coefficients = architecture_result["quantity_coefficients"]
@@ -340,8 +373,12 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     spans_per_track = ceil(route_m / span)
     span_count = spans_per_track * trackways
     support_count = (spans_per_track + 1) * trackways
-    train_km_per_day = (2 * 3600.0 / bundle["requirements"]["target_headway_s"]
-                        * assumptions_record["operating_hours_per_day"] * route_m * trackways / 1000.0)
+    operating_hours=assumptions_record["operating_hours_per_day_cases"]
+    operations_shifts=assumptions_record["operations_shifts_per_day_cases"]
+    operations_shift_hours=assumptions_record["operations_hours_per_shift_cases"]
+    civil_shifts=assumptions_record["civil_shifts_per_day"]
+    train_km_per_day=[2*3600.0/bundle["requirements"]["target_headway_s"]
+        *operating_hours[i]*route_m*trackways/1000.0 for i in range(3)]
     service_trains = max(1, int(trainsets))
 
     # Occurrence-level vehicle manufacturing, including bounded raw-stock yield.
@@ -356,7 +393,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         purchased_kg = [mass / yield_case[i] for i in range(3)]
         material_cost = [purchased_kg[i] * material_rates[i] for i in range(3)]
         process_hours = [mass * a["body_process_hours_per_kg"][i] + (0.02, 0.08, 0.25)[i] for i in range(3)]
-        labour_cost = [process_hours[i] * loaded_wage[i] for i in range(3)]
+        labour_cost = [process_hours[i] * production_wage[i] for i in range(3)]
         machine_hours = [mass * a["body_machine_hours_per_kg"][i] for i in range(3)]
         machine_cost = [machine_hours[i] * a["machine_rate_iqd_per_h"][i] for i in range(3)]
         quality_cost = [material_cost[i] * a["body_qa_fraction"][i] for i in range(3)]
@@ -368,7 +405,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         _line(line_items, candidate_id=candidate_id, scope="rolling-stock", key="vehicle-stock/"+row["id"],
             quantity=dict(per_car_mass_kg=mass, fleet_net_stock_kg=_round([mass*fleet_cars]*3),
                 fleet_purchase_stock_kg=_round([x*fleet_cars for x in purchased_kg])), unit="kg",
-            totals=fleet_total, stage="factory-gate", basis="Occurrence gross stock mass × fleet cars ÷ explicit low/base/high cut yield; material, operation-hours/kg, machine-hours/kg, QA and one factory-overhead uplift.",
+            totals=fleet_total, stage="factory-gate", basis="Occurrence gross stock mass × fleet cars ÷ explicit low/base/high cut yield; material, operation-hours/kg, machine-hours/kg, QA and one factory-overhead uplift. Production labour is costed on a two-shift, 8-hour schedule with the declared second-shift premium.",
             source_ids=[row["component_definition_id"], identity(assumptions_record)],
             rate_evidence_class=rate_class, parts=[row["id"]],
             components=dict(material=[v*fleet_cars for v in material_cost], labour=[v*fleet_cars for v in labour_cost],
@@ -408,7 +445,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     if joint_count:
         joint_cost = [joint_count * a["joint_hardware_iqd_each"][i] for i in range(3)]
         joint_hours = [joint_count * a["joint_labour_h_each"][i] for i in range(3)]
-        joint_labour = [joint_hours[i] * loaded_wage[i] for i in range(3)]
+        joint_labour = [joint_hours[i] * production_wage[i] for i in range(3)]
         totals = [joint_cost[i] + joint_labour[i] for i in range(3)]
         body_process_hours = _sum(body_process_hours, joint_hours)
         _line(line_items, candidate_id=candidate_id, scope="rolling-stock", key="unresolved-joint-hardware-and-assembly",
@@ -432,13 +469,13 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         source_ids=[bundle["definition_id"], identity(assumptions_record)],
         components=dict(accounted_mass_haul=vehicle_haul, unresolved_fitout_logistics=vehicle_logistics))
     vehicle_install_hours = [fleet_cars * a["vehicle_install_hours_per_car"][i] for i in range(3)]
-    vehicle_install_labour = [vehicle_install_hours[i] * loaded_wage[i] for i in range(3)]
+    vehicle_install_labour = [vehicle_install_hours[i] * production_wage[i] for i in range(3)]
     vehicle_install_equipment = [fleet_cars * a["vehicle_install_equipment_iqd_per_car"][i] for i in range(3)]
     vehicle_install = [vehicle_install_labour[i] + vehicle_install_equipment[i] for i in range(3)]
     body_process_hours = _sum(body_process_hours, vehicle_install_hours)
     _line(line_items, candidate_id=candidate_id, scope="rolling-stock", key="vehicle-final-assembly-and-installed-checkout",
         quantity=dict(fleet_cars=fleet_cars, labour_hours=_round(vehicle_install_hours)), unit="car", totals=vehicle_install, stage="installed",
-        basis="Explicit final-assembly labour-hours per car at the loaded wage scenario plus handling/test equipment; unresolved interfaces and actual commissioning requirements remain unqualified.",
+        basis="Explicit final-assembly labour-hours per car at the loaded two-shift production wage plus handling/test equipment; unresolved interfaces and actual commissioning requirements remain unqualified.",
         source_ids=[identity(assumptions_record), *_benchmark_evidence(assumptions_record, "skilled_wage")], rate_evidence_class="B",
         components=dict(labour=vehicle_install_labour, equipment=vehicle_install_equipment))
 
@@ -457,7 +494,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         material = [motor_kg * a["motor_primary_iqd_per_kg"][i] for i in range(3)]
         hours = [motor_kg * a["motor_primary_hours_per_kg"][i] for i in range(3)]
         wayside_process_hours = _sum(wayside_process_hours, hours)
-        labour = [hours[i] * loaded_wage[i] for i in range(3)]
+        labour = [hours[i] * production_wage[i] for i in range(3)]
         direct = [material[i] + labour[i] for i in range(3)]
         overhead_cost = [direct[i] * overhead[i] for i in range(3)]
         totals = [direct[i] + overhead_cost[i] for i in range(3)]
@@ -586,7 +623,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             basis="Counted preliminary fastener sets × explicit complete-set Class C rate; compatibility, clips, pads, anchors and installation remain open.",
             source_ids=[identity(beam), identity(assumptions_record)], rate_evidence_class="C")
     beam_hours = [span_count * a["beam_factory_hours_per_span"][i] for i in range(3)]
-    beam_labour = [beam_hours[i] * loaded_wage[i] for i in range(3)]
+    beam_labour = [beam_hours[i] * production_wage[i] for i in range(3)]
     beam_machine = [span_count * a["beam_machine_iqd_per_span"][i] for i in range(3)]
     beam_qa = [span_count * a["beam_quality_iqd_per_span"][i] for i in range(3)]
     beam_direct = [concrete_total[i] + rebar_cost[i] + specialty_cost[i] + beam_labour[i] + beam_machine[i] + beam_qa[i]
@@ -594,7 +631,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     beam_overhead = [beam_direct[i] * overhead[i] for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="guideway", key="beam-fabrication-crew-machine-and-QA",
         quantity=dict(spans=span_count, factory_hours=_round(beam_hours)), unit="span", totals=beam_labour,
-        stage="factory-gate", basis="Bounded form, prestress handling, cast, cure, inspection and demould labour hours per generated span at the dated Al-Muthanna base-wage proxy plus assumed employer burden.",
+        stage="factory-gate", basis="Bounded form, prestress handling, cast, cure, inspection and demould labour hours per generated span at the dated Al-Muthanna wage proxy, employer burden and declared second-shift premium.",
         source_ids=[identity(beam), identity(assumptions_record), *_benchmark_evidence(assumptions_record, "skilled_wage")],
         rate_evidence_class="B", components=dict(labour=beam_labour))
     _line(line_items, candidate_id=candidate_id, scope="guideway", key="beam-factory-machine-QA-overhead",
@@ -606,7 +643,8 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     # Production capacity and tooling are calculated from the same BOM and span
     # quantities used in the cost lines.
     body_hours = body_process_hours
-    workstation_capacity = production_years*production_days*assumptions_record["hours_per_shift"]*assumptions_record["shifts_per_day"]*assumptions_record["productive_utilisation"]
+    workstation_capacity = (production_years*production_days*assumptions_record["production_hours_per_shift"]
+        *assumptions_record["production_shifts_per_day"]*assumptions_record["productive_utilisation"])
     body_cells = [max(1, ceil(h / workstation_capacity)) for h in body_hours]
     unique_body_operations = len({tuple(r.get("process_candidates", [])) for r in inventory["manufacturing_BOM"]})
     fixtures = max(1, unique_body_operations)
@@ -656,12 +694,13 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
                            + pier_volume[i]*a["footing_rebar_kg_per_m3"][i] for i in range(3)]
     foundation_rebar_cost = [foundation_rebar_kg[i] * rebar_rate * a["material_rate_sensitivity"][i] for i in range(3)]
     foundation_hours = [support_count * a["field_hours_per_support"][i] for i in range(3)]
-    foundation_labour = [foundation_hours[i] * loaded_wage[i] for i in range(3)]
+    foundation_labour = [foundation_hours[i] * civil_wage[i] for i in range(3)]
     foundation_total = [footing_concrete_cost[i]+pier_concrete_cost[i]+foundation_rebar_cost[i]+foundation_labour[i] for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="construction", key="foundation-footing-pier-proxy",
-        quantity=dict(supports=support_count, footing_concrete_m3=_round(footing_volume), pier_concrete_m3=_round(pier_volume),
+        quantity=dict(supports=support_count, civil_shifts_per_day=civil_shifts,
+            footing_concrete_m3=_round(footing_volume), pier_concrete_m3=_round(pier_volume),
             reinforcement_kg=_round(foundation_rebar_kg), field_hours=_round(foundation_hours)), unit="support",
-        totals=foundation_total, stage="installed", basis="Candidate span/support count × bounded bearing-area, depth, pier-section and reinforcement-density hypotheses; site geotechnics, utilities, seismic loads and settlement remain open.",
+        totals=foundation_total, stage="installed", basis="Candidate support count × bounded footing, pier and reinforcement hypotheses; two civil shifts per day, shift-loaded field labour and site geotechnics/utilities/seismic/settlement remain Class C or open.",
         source_ids=[identity(beam), identity(assumptions_record), *_benchmark_evidence(assumptions_record, "rebar", "skilled_wage")],
         rate_evidence_class="B", components=dict(footing_concrete=footing_concrete_cost, pier_concrete=pier_concrete_cost,
             reinforcement=foundation_rebar_cost, field_labour=foundation_labour))
@@ -674,18 +713,20 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             tonne_km=transport_tonne_km), unit="tonne-km", totals=transport_cost, stage="delivered",
         basis="Generated preliminary span mass × two-trackway span count × explicit 50 km haul assumption × Class C heavy-haul rate; trailer payload, route and permits are unknown.",
         source_ids=[identity(beam), identity(assumptions_record)])
-    erection_days = [ceil(span_count / a["spans_per_crane_day"][i]) for i in range(3)]
-    crane_cost = [erection_days[i] * a["erection_crane_iqd_per_day"][i] for i in range(3)]
+    erection_shifts=[ceil(span_count/a["spans_per_crane_shift"][i]) for i in range(3)]
+    erection_days=[ceil(erection_shifts[i]/civil_shifts) for i in range(3)]
+    crane_cost=[erection_shifts[i]*a["erection_crane_iqd_per_shift"][i] for i in range(3)]
     erection_hours = [span_count * a["erection_hours_per_span"][i] for i in range(3)]
-    erection_labour = [erection_hours[i] * loaded_wage[i] for i in range(3)]
+    erection_labour = [erection_hours[i] * civil_wage[i] for i in range(3)]
     rail_metres = route_m * trackways * 2
     rail_install = [rail_metres * a["rail_install_iqd_per_track_m"][i] for i in range(3)]
     construction_direct = [crane_cost[i]+erection_labour[i]+rail_install[i] for i in range(3)]
     construction_contingency = [construction_direct[i] * a["construction_contingency_fraction"][i] for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="construction", key="erection-rail-installation-and-temporary-works",
-        quantity=dict(spans=span_count, crane_days=erection_days, field_hours=_round(erection_hours), rail_track_m=rail_metres),
+        quantity=dict(spans=span_count, crane_work_shifts=erection_shifts, civil_shifts_per_day=civil_shifts,
+            calendar_days=erection_days, field_hours=_round(erection_hours), rail_track_m=rail_metres),
         unit="span-and-track", totals=[construction_direct[i]+construction_contingency[i] for i in range(3)], stage="installed",
-        basis="Span erection productivity × crane-day and field-crew rates plus two-rail track installation; one construction contingency is applied once to this direct construction scope.",
+        basis="Span erection productivity and crane rental are priced per active shift; a two-shift civil calendar compresses schedule duration without erasing the active crane shifts, crew hours or installation cost. Two-rail track installation and one construction contingency are included once.",
         source_ids=[identity(beam), identity(assumptions_record), *_benchmark_evidence(assumptions_record, "skilled_wage")],
         rate_evidence_class="B", components=dict(crane=crane_cost, labour=erection_labour, rail_installation=rail_install,
             contingency=construction_contingency))
@@ -738,38 +779,41 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     else:
         energy_basis = "Required mechanical traction work from the analytical candidate journey, scaled by corridor segments; no motor map, losses or measured service duty is implied."
     segment_count = max(1, ceil(route_m / float(route["station_spacing_m"])))
-    daily_runs = (2 * 3600.0 / bundle["requirements"]["target_headway_s"]
-                  * assumptions_record["operating_hours_per_day"] * trackways)
+    daily_runs=[2*3600.0/bundle["requirements"]["target_headway_s"]*operating_hours[i]*trackways
+        for i in range(3)]
     aux_kw = a["auxiliary_kw_per_car"]
-    mechanical_kwh_year = (float(work_j) * segment_count / 3.6e6) * daily_runs * assumptions_record["operating_days_per_year"]
-    auxiliary_kwh_year = [service_trains*cars_per_train*aux_kw[i]*assumptions_record["operating_hours_per_day"]
+    mechanical_kwh_year = [(float(work_j) * segment_count / 3.6e6) * daily_runs[i]
+        * assumptions_record["operating_days_per_year"] for i in range(3)]
+    auxiliary_kwh_year = [service_trains*cars_per_train*aux_kw[i]*operating_hours[i]
                           * assumptions_record["operating_days_per_year"] for i in range(3)]
-    electrical_kwh_year = [mechanical_kwh_year / a["traction_efficiency"][i] + auxiliary_kwh_year[i] for i in range(3)]
+    electrical_kwh_year = [mechanical_kwh_year[i] / a["traction_efficiency"][i] + auxiliary_kwh_year[i] for i in range(3)]
     energy_cost_year = [electrical_kwh_year[i] * a["electricity_iqd_per_kwh"][i] for i in range(3)]
     annuity = fsum(1/(1+assumptions_record["real_discount_rate"])**y for y in range(1, years+1))
     energy_npv = [energy_cost_year[i] * annuity for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="energy", key="conditional-annual-electricity",
-        quantity=dict(mechanical_traction_kwh_per_year=mechanical_kwh_year, auxiliary_kwh_per_year=_round(auxiliary_kwh_year),
+        quantity=dict(operating_hours_per_day=operating_hours, operations_shifts_per_day=operations_shifts,
+            mechanical_traction_kwh_per_year=_round(mechanical_kwh_year), auxiliary_kwh_per_year=_round(auxiliary_kwh_year),
             electricity_kwh_per_year=_round(electrical_kwh_year), annual_cost_iqd=_round(energy_cost_year)),
         unit="kWh/year", totals=energy_npv, stage="lifecycle", basis=energy_basis+
-            " Annual operating hours, electricity tariff, traction efficiency and real discount rate are declared scenarios.",
+            " Low/base/high service covers 16/18/24 operating hours per day; the high case provides three shifts. Electricity tariff, traction efficiency and real discount rate are declared scenarios.",
         source_ids=[architecture_result["evaluation_id"], identity(assumptions_record)],
         components=dict(annual_energy_npv=energy_npv))
 
-    staffed_shifts_per_day = assumptions_record["operating_hours_per_day"] / a["operations_shift_hours"]
+    staff_per_shift=[a["controllers_per_shift"][i]+station_count*a["station_staff_per_station_per_shift"][i]
+        for i in range(3)]
     operations_staff = [
-        (a["controllers_per_shift"][i] + station_count*a["station_staff_per_station_per_shift"][i])
-        * staffed_shifts_per_day * a["operations_reliever_multiplier"][i] for i in range(3)]
-    operations_hours_year = [operations_staff[i]*a["operations_shift_hours"]
+        staff_per_shift[i]*operations_shifts[i]*a["operations_reliever_multiplier"][i] for i in range(3)]
+    operations_hours_year = [operations_staff[i]*operations_shift_hours[i]
         * assumptions_record["operating_days_per_year"] for i in range(3)]
-    operations_cost_year = [operations_hours_year[i]*loaded_wage[i] for i in range(3)]
+    operations_cost_year = [operations_hours_year[i]*operations_wage[i] for i in range(3)]
     operations_npv = [operations_cost_year[i]*annuity for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="operations", key="control-room-and-station-staffing",
-        quantity=dict(stations=station_count, operating_hours_per_day=assumptions_record["operating_hours_per_day"],
-            staff_per_covered_shift=_round([a["controllers_per_shift"][i]+station_count*a["station_staff_per_station_per_shift"][i] for i in range(3)]),
+        quantity=dict(stations=station_count, operating_hours_per_day=operating_hours,
+            shifts_per_day=operations_shifts, hours_per_shift=operations_shift_hours,
+            staff_per_covered_shift=_round(staff_per_shift), total_staff_positions_with_relief=_round(operations_staff),
             annual_staff_hours=_round(operations_hours_year), annual_cost_iqd=_round(operations_cost_year)),
         unit="annual-staffing", totals=operations_npv, stage="lifecycle",
-        basis="Explicit control-room and station staffing per shift × daily operating coverage × relief factor × loaded dated wage proxy, discounted for the declared 30-year life. Automation, staffing rules and city operations plans remain unknown.",
+        basis="Two operating shifts cover the low/base cases; a third shift covers the 24-hour high case. Per-shift staffing × shift count × relief factor × loaded dated wage and explicit second/third-shift premium, discounted for the declared 30-year life. Automation, staffing rules and city operations plans remain unknown.",
         source_ids=[identity(assumptions_record), *_benchmark_evidence(assumptions_record, "skilled_wage")],
         rate_evidence_class="B", components=dict(annual_staff_cost=operations_cost_year, NPV=operations_npv))
 
@@ -779,12 +823,16 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     maintenance_fraction = a["maintenance_fraction_per_year"]
     maintainable = [fsum(initial_capex_by_scope[s][case] for s in ("rolling-stock", "guideway", "stations-power"))
                     for case in range(3)]
-    maintenance_year = [maintainable[i] * maintenance_fraction[i] for i in range(3)]
+    duty_exposure=[operating_hours[i]/assumptions_record["maintenance_reference_operating_hours_per_day"] for i in range(3)]
+    maintenance_year = [maintainable[i] * maintenance_fraction[i] * duty_exposure[i] for i in range(3)]
     maintenance_npv = [maintenance_year[i] * annuity for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="maintenance", key="planned-maintenance-and-spares-lifecycle",
-        quantity=dict(years=years, maintainable_scope_iqd=_round(maintainable), annual_fraction=maintenance_fraction),
+        quantity=dict(years=years, maintainable_scope_iqd=_round(maintainable), annual_fraction=maintenance_fraction,
+            operating_hours_per_day=operating_hours,
+            reference_operating_hours_per_day=assumptions_record["maintenance_reference_operating_hours_per_day"],
+            duty_exposure_multiplier=_round(duty_exposure)),
         unit="annual-maintenance-fraction", totals=maintenance_npv, stage="lifecycle",
-        basis="Annual maintenance fraction on rolling-stock, guideway and station-power factory/installation cost; includes routine labour/consumables, not measured maintenance history.",
+        basis="Annual maintenance fraction on rolling-stock, guideway and station-power factory/installation cost, scaled by service hours against the 18-hour base duty; includes routine labour/consumables, not measured maintenance history.",
         source_ids=[identity(assumptions_record)], components=dict(annual_cost=maintenance_year, NPV=maintenance_npv))
 
     life_keys = (("rolling-stock", "rolling_stock"), ("stations-power", "motor_primary"),
@@ -798,16 +846,17 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         values = []
         events = []
         for i in range(3):
-            count = max(0, (years - 1) // int(lives[i]))
-            cost = fsum(capex[i] / (1+assumptions_record["real_discount_rate"])**(int(lives[i])*n)
+            effective_life=float(lives[i])*assumptions_record["maintenance_reference_operating_hours_per_day"]/operating_hours[i]
+            count = max(0, int((years - 1) // effective_life))
+            cost = fsum(capex[i] / (1+assumptions_record["real_discount_rate"])**(effective_life*n)
                         for n in range(1, count+1))
             values.append(cost)
-            events.append(dict(case=CASES[i],life_years=lives[i],replacement_count=count))
+            events.append(dict(case=CASES[i],declared_life_years=lives[i],duty_adjusted_life_years=round(effective_life,2),replacement_count=count))
         renewal_total = _sum(renewal_total, values)
         renewal_rows.extend(events)
     _line(line_items, candidate_id=candidate_id, scope="renewals", key="bounded-asset-replacements",
         quantity=dict(years=years, asset_life_events=renewal_rows), unit="replacement-NPV", totals=renewal_total,
-        stage="lifecycle", basis="Discrete replacement events from explicit Class C asset-life scenarios; component lives are not qualified or measured.",
+        stage="lifecycle", basis="Discrete replacement events from explicit Class C asset lives, adjusted inversely with operating hours relative to the 18-hour base duty; component lives are not qualified or measured.",
         source_ids=[identity(assumptions_record)])
 
     rescue = a["rescue_iqd_each"]
@@ -817,13 +866,14 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         quantity=dict(rescue_units=1, standby_years=years), unit="rescue-package", totals=rescue_npv,
         stage="lifecycle", basis="One rescue asset and annual standby allowance for the declared corridor; tow rating, access, response time and availability are unknown.",
         source_ids=[identity(assumptions_record)])
-    reliability_year = [train_km_per_day * assumptions_record["operating_days_per_year"] * a["reliability_iqd_per_train_km"][i]
+    reliability_year = [train_km_per_day[i] * assumptions_record["operating_days_per_year"] * a["reliability_iqd_per_train_km"][i]
                         for i in range(3)]
     reliability_npv = [reliability_year[i] * annuity for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="reliability", key="service-disruption-and-corrective-reserve",
-        quantity=dict(train_km_per_day=train_km_per_day, annual_train_km=train_km_per_day*assumptions_record["operating_days_per_year"],
+        quantity=dict(train_km_per_day=_round(train_km_per_day),
+            annual_train_km=_round([x*assumptions_record["operating_days_per_year"] for x in train_km_per_day]),
             years=years), unit="train-km", totals=reliability_npv, stage="lifecycle",
-        basis="Annual train-km × Class C corrective/disruption reserve rate; no observed failure rates, fares, passenger delay valuations or availability evidence.",
+        basis="Annual train-km under the 16/18/24-hour service cases × Class C corrective/disruption reserve rate; no observed failure rates, fares, passenger delay valuations or availability evidence.",
         source_ids=[identity(assumptions_record)])
 
     decommissioning_base = [fsum(r["scenario_iqd"][case] for r in line_items
@@ -861,9 +911,12 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     body_hours_total = body_process_hours
     guideway_hours_total = beam_hours
     production_cells = [body_cells[i] + guideway_cells[i] + station_power_cells[i] for i in range(3)]
-    foundation_days = [ceil(support_count/a["foundation_supports_per_day"][i]) for i in range(3)]
-    rail_install_days = [ceil(rail_metres/a["rail_track_m_per_day"][i]) for i in range(3)]
-    station_install_days = [ceil(station_count/a["station_completions_per_day"][i]) for i in range(3)]
+    foundation_shifts=[ceil(support_count/a["foundation_supports_per_shift"][i]) for i in range(3)]
+    foundation_days=[ceil(foundation_shifts[i]/civil_shifts) for i in range(3)]
+    rail_install_shifts=[ceil(rail_metres/a["rail_track_m_per_shift"][i]) for i in range(3)]
+    rail_install_days=[ceil(rail_install_shifts[i]/civil_shifts) for i in range(3)]
+    station_install_shifts=[ceil(station_count/a["station_completions_per_shift"][i]) for i in range(3)]
+    station_install_days=[ceil(station_install_shifts[i]/civil_shifts) for i in range(3)]
     construction_days = [max(foundation_days[i], erection_days[i], rail_install_days[i], station_install_days[i])
         for i in range(3)]
     factory_vehicle_guideway = [fsum(r["scenario_iqd"][case] for r in line_items
@@ -885,8 +938,13 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             target_headway_s=bundle["requirements"]["target_headway_s"],
             offered_capacity_pphpd=coefficients["offered_people_per_hour_direction"],
             service_equivalence="Nominal formation/headway/corridor arithmetic only; journey and access remain unqualified."),
-        production_plan=dict(target_years=production_years, shifts_per_day=assumptions_record["shifts_per_day"],
-            hours_per_shift=assumptions_record["hours_per_shift"],
+        production_plan=dict(target_years=production_years,
+            production_shifts_per_day=assumptions_record["production_shifts_per_day"],
+            production_hours_per_shift=assumptions_record["production_hours_per_shift"],
+            civil_shifts_per_day=civil_shifts, civil_hours_per_shift=assumptions_record["civil_hours_per_shift"],
+            operating_hours_per_day_cases=operating_hours, operations_shifts_per_day_cases=operations_shifts,
+            operations_hours_per_shift_cases=operations_shift_hours,
+            second_shift_wage_premium=a["second_shift_wage_premium"], third_shift_wage_premium=a["third_shift_wage_premium"],
             productive_utilisation=assumptions_record["productive_utilisation"], planned_working_days=production_years*production_days,
             vehicle_body_stock_kg_per_car=body_mass, retained_account_mass_kg_per_car=retained_kg,
             vehicle_process_hours_for_fleet=_round(body_hours_total), guideway_factory_hours=_round(guideway_hours_total),
@@ -897,10 +955,13 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             factory_gate_vehicle_and_guideway_IQD=_round(factory_vehicle_guideway),
             factory_gate_station_power_IQD=_round(factory_station_power),
             construction_duration_days=construction_days,
-            construction_schedule_days=dict(foundations=foundation_days, span_erection=erection_days,
-                rail_installation=rail_install_days, stations=station_install_days,
+            construction_schedule_days=dict(civil_shifts_per_day=civil_shifts,
+                foundation_work_shifts=foundation_shifts, foundations=foundation_days,
+                span_erection_work_shifts=erection_shifts, span_erection=erection_days,
+                rail_installation_work_shifts=rail_install_shifts, rail_installation=rail_install_days,
+                station_installation_work_shifts=station_install_shifts, stations=station_install_days,
                 critical_path_duration=construction_days),
-            throughput_basis="Calculated from candidate gross stock, retained equipment, final vehicle assembly, propulsion and guideway process hours, declared shifts and production duration."),
+            throughput_basis="Production workcells use two 8-hour shifts each production day; civil activity uses two 8-hour shifts with calendar duration calculated from per-shift crew productivity; operations cost two shifts at 16/18-hour coverage in low/base and three shifts at 24-hour high case. Shift premiums, utilisation and relief are explicit Class C assumptions."),
         cost_line_items=line_items, scope_totals_iqd={k:_round(v) for k,v in scope_totals.items()},
         factory_gate_cost_iqd=_round(factory_gate), delivered_cost_iqd=_round(delivered),
         model_based_installed_CAPEX_iqd=_round(installed), model_based_whole_life_NPV_iqd=_round(lifecycle),

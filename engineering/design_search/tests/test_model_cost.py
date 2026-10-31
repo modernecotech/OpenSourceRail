@@ -1,5 +1,6 @@
 """Model-based Class C costs complete declared scopes without closing gates."""
 from copy import deepcopy
+from math import ceil
 
 import pytest
 
@@ -43,7 +44,22 @@ def test_candidate_costs_quantify_all_scopes_and_keep_release_gates_open():
     assert estimate["model_based_installed_CAPEX_iqd"] == sorted(estimate["model_based_installed_CAPEX_iqd"])
     assert estimate["model_based_whole_life_NPV_iqd"] == sorted(estimate["model_based_whole_life_NPV_iqd"])
     assert estimate["annual_operations_iqd"][1] > 0
-    assert estimate["production_plan"]["required_parallel_workcells"][1] > 0
+    plan=estimate["production_plan"]
+    assert plan["production_shifts_per_day"] == 2
+    assert plan["civil_shifts_per_day"] == 2
+    assert plan["operations_shifts_per_day_cases"] == [2, 2, 3]
+    assert plan["operating_hours_per_day_cases"] == [16, 18, 24]
+    assert plan["required_parallel_workcells"][1] > 0
+    schedule=plan["construction_schedule_days"]
+    assert schedule["civil_shifts_per_day"] == 2
+    for shifts_key, days_key in (("foundation_work_shifts", "foundations"),
+                                 ("span_erection_work_shifts", "span_erection"),
+                                 ("rail_installation_work_shifts", "rail_installation"),
+                                 ("station_installation_work_shifts", "stations")):
+        assert schedule[days_key] == [ceil(shifts/2) for shifts in schedule[shifts_key]]
+    assert estimate["annual_operations_iqd"][2] > estimate["annual_operations_iqd"][1]
+    assert estimate["annual_electricity_kwh"][2] > estimate["annual_electricity_kwh"][1]
+    assert estimate["annual_maintenance_iqd"][2] > estimate["annual_maintenance_iqd"][1]
     assert estimate["physical_mass_complete"] is False
     assert estimate["physical_journey_completed"] is False
     assert estimate["procurement_ready"] is False
