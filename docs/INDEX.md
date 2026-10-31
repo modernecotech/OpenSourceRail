@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1016**.
+Indexed Markdown files: **1021**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1016**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 145 |
+| [docs](#docs) | 150 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -887,8 +887,13 @@ Indexed Markdown files: **1016**.
 | [`docs/INDEX.md`](../docs/INDEX.md) | Generated Markdown Inventory |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and prototype roadmap |
+| [`docs/archives/continuing-cell-source-epochs/README.md`](../docs/archives/continuing-cell-source-epochs/README.md) | Archived continuing-cell source epochs |
+| [`docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md`](../docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md) | Continuing reference-cell engineering |
+| [`docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/validation.md`](../docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/validation.md) | Executed continuing-cell results — 28 October 2026 |
 | [`docs/archives/pre-comfort-default/README.md`](../docs/archives/pre-comfort-default/README.md) | Historical publications before the comfort default |
 | [`docs/archives/pre-comfort-default/ROADMAP.md`](../docs/archives/pre-comfort-default/ROADMAP.md) | Roadmap |
+| [`docs/archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md`](../docs/archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md) | Candidate-to-journey closure |
+| [`docs/archives/railway-closure-source-epochs/README.md`](../docs/archives/railway-closure-source-epochs/README.md) | Archived railway-closure source epochs |
 | [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
