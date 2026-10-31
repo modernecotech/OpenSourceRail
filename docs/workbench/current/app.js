@@ -138,13 +138,12 @@ async function showCity(slug) {
     byId("city-link").hidden = !record?.geography?.map_available;
     if (record?.geography) {
       byId("city-details").textContent = JSON.stringify(
-        { geography: record.geography, historical: record.historical },
+        { geography: record.geography },
         null,
         2,
       );
       byId("city-link").href = "/" + record.geography.map_path;
-      byId("city-link").textContent =
-        "Preserved city map · historical engineering labels";
+      byId("city-link").textContent = "Open city map";
     }
   }
 }

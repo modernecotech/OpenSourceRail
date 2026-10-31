@@ -246,7 +246,11 @@ try {
   assert.equal(city.geography.underlying_city_details_preserved, true);
   assert.match(
     await page.locator("#city-link").innerText(),
-    /Preserved city map/,
+    /Open city map/,
+  );
+  assert.match(
+    await page.locator('#design a[href="../planning/"]').innerText(),
+    /Open city planning/,
   );
   report.city_count = await page.locator("#city option").count();
   report.baghdad_performance_state = "held";
@@ -261,11 +265,10 @@ try {
     "Mobile page overflows horizontally",
   );
   await page.screenshot({ path: output + "/mobile.png", fullPage: true });
-  assert.match(
-    await page
-      .locator('a[href="/docs/archives/v0.5-maglev/README.md"]')
-      .innerText(),
-    /Historical v0.5 archive.*pinned sources/,
+  assert.equal(
+    await page.locator('a[href="/docs/archives/v0.5-maglev/README.md"]').count(),
+    0,
+    "Current Workbench must not link readers to an old application archive",
   );
   assert.equal(
     (
