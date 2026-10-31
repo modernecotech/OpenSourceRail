@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **961 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **968 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **110 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **117 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -20,13 +20,13 @@ Historical numerical city, design and research packets retain their exact README
 | generated-city-brief | 266 |
 | generated-city-package | 532 |
 | generated-navigation-index | 2 |
-| historical-archive | 2 |
+| historical-archive | 6 |
 | historical-method-entrypoint | 3 |
 | magnetic-research-method | 2 |
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 106 |
+| retained-design-evidence | 109 |
 | retained-v04-workspace-archive | 15 |
 | sourcing-evidence-and-economics | 1 |
 | trip-dynamics-method | 2 |
@@ -850,11 +850,17 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [deployment/erpnext/README.md](../../../deployment/erpnext/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [deployment/supervision/README.md](../../../deployment/supervision/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/README.md](../../README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [docs/archives/continuing-cell-source-epochs/README.md](../../archives/continuing-cell-source-epochs/README.md) | historical-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md](../../archives/continuing-cell-source-epochs/a84b24f83e42789eef3158636f20e3461ea4aeed434c79b33ddb1ee101defadc/README.md) | historical-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/archives/pre-comfort-default/README.md](../../archives/pre-comfort-default/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [docs/archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md](../../archives/railway-closure-source-epochs/1162da47fd390921810af0dff9812064b0070a0d1b43f4cd29a7b28a55f12549/README.md) | historical-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/archives/railway-closure-source-epochs/README.md](../../archives/railway-closure-source-epochs/README.md) | historical-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/archives/v0.5-maglev/README.md](../../archives/v0.5-maglev/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/capabilities/README.md](../../capabilities/README.md) | generated-navigation-index | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [docs/design-engine/conditional-journey-study/README.md](../conditional-journey-study/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/continuing-cell/README.md](../continuing-cell/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/design-engine/coupled-railway/README.md](../coupled-railway/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/current-mesh-preflight/README.md](../current-mesh-preflight/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/current/README.md](README.md) | current-development-dossier | [System approach](../../../engineering/README.md) | Current system introduction |
 | [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md](../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [design_search](../../../engineering/design_search/README.md) → [digital-twin](../digital-twin/README.md) → [project](../../../README.md) |
 | [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md](../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
@@ -917,6 +923,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/lim-static-field/README.md](../lim-static-field/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/magnetic-confirmation/README.md](../magnetic-confirmation/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/mass-reconciliation/current/README.md](../mass-reconciliation/current/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/mass-reserve-sensitivity/current/README.md](../mass-reserve-sensitivity/current/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/moving-lim-method/README.md](../moving-lim-method/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/passive-suspension/README.md](../passive-suspension/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/physical-feasibility-round/README.md](../physical-feasibility-round/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
