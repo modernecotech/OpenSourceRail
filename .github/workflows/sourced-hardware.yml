@@ -85,8 +85,9 @@ jobs:
         env:
           PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
         run: |
-          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
+          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
           mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
+          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
           cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-bolster" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
       - uses: actions/setup-python@v5
         with:
