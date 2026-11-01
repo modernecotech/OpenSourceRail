@@ -14,6 +14,12 @@ The selected six-car vehicle separately has an estimate for 2,482 geometry occur
 
 The system estimate includes provisional support/cooling and a charger package for every station/direction platform. At 200 kW/car and 35 seconds dwell, the declared normal hotel-load case has +0.074 kWh/car per-cycle estimated margin; the 50 kW/car adverse case has a −0.686 kWh/car shortfall. Battery charge acceptance, solar yield, converter/grid capacity and repeated duty remain unmeasured. City route quantities, geotechnical/site data, supplier prices, complete installed mass, force/thermal maps, physically supported journeys and safety acceptance remain open. Estimates from other candidate bundles do not transfer to the selected reference.
 
+### Provisional factory resource envelope
+
+The selected manufacturing export and immutable factory draft now calculate 27 aggregate resource scenarios: batches of 1/6/12 six-car trains over 60/125/250 working days, each with the cost ledger's low/base/high process-hour case. For this sensitivity only, one process hour is interpreted as one person-hour. At 75% productive utilisation each worker supplies six productive hours in one eight-hour shift; two shifts need two distinct sets of staffed positions. Pooled labour gives an arithmetic capacity bound, while separate process-family staffing shows the effect of keeping those resources apart. Every input package retains its cost-line, source and occurrence links, and delivery hours are excluded.
+
+For one train over 250 working days, the 21,428.373-hour base case requires 7.143 pooled positions per shift, rounded up to eight positions on each of two shifts (16 shift positions before relief). This is a declared staffing scenario. Actual crew skills, relief, workstation/machine capacity, concurrent working, assembly/cure precedence, procurement lead times and dated calendars remain open. The envelope neither supplies measured production labour nor releases a shop routing, staffing roster or factory throughput commitment.
+
 ## Why calculated costs are enough for design exploration
 
 A complete *planning scenario* does not require an actual vendor quotation for every manufactured panel, chassis, beam, pier or factory process. Given a dimensioned part, material, production route, quantity and explicitly assumed rates, the platform can calculate a transparent low/base/high engineering estimate and compare alternatives. A third-party quote improves confidence when procurement is imminent; it is not a prerequisite for calculating a provisional design cost.

@@ -2,7 +2,8 @@
 
 The plan reuses the selected vehicle's Class C cost ledger. It converts only
 the ledger's existing process-hour proxies into a serialized two-shift factory
-work plan; it does not create an ERPNext record or an engineering release.
+work plan and explicit aggregate staffing sensitivities. No measured capacity,
+ERPNext record or engineering release follows from these planning assumptions.
 """
 from __future__ import annotations
 
@@ -154,6 +155,101 @@ def _validate_cost(cost, candidate):
     return cars, float(util), lines
 
 
+def resource_envelope(work_packages, candidate, cost_estimate_id, utilisation):
+    """Calculate declared labour-capacity scenarios, without inferring a factory.
+
+    A process hour is treated as one person-hour only in this planning sensitivity.
+    Every person covers one eight-hour shift; the second shift requires a second
+    set of staffed positions. Process families are accounting groups, not proved
+    workstations, competencies, concurrent operations or supplier capacity.
+    """
+    if (not work_packages or not isinstance(cost_estimate_id, str) or len(cost_estimate_id) != 64
+            or isinstance(utilisation, bool) or not isinstance(utilisation, (int, float))
+            or not math.isfinite(utilisation) or not 0 < utilisation <= 1):
+        raise FactoryDraftError("Source-linked work packages and productive utilisation required")
+    if any(not isinstance(candidate.get(key), str) or len(candidate[key]) != 64
+           for key in (*IDS, "evaluation_id")):
+        raise FactoryDraftError("Resource envelope requires exact candidate, selection and evaluation identities")
+    projection = []
+    seen = set()
+    groups = {}
+    for row in work_packages:
+        line_id = row.get("line_id")
+        process = row.get("process_template")
+        if (not isinstance(line_id, str) or len(line_id) != 64 or line_id in seen
+                or not isinstance(process, str) or not process):
+            raise FactoryDraftError("Unique source cost lines and declared process templates required")
+        seen.add(line_id)
+        hours = _scenario(row.get("process_hours_per_train"), "Resource work-package hours")
+        source = dict(line_id=line_id, line_key=row.get("line_key"),
+            process_template=process, process_hours_per_train=hours,
+            occurrence_ids=deepcopy(row.get("occurrence_ids", [])),
+            source_ids=deepcopy(row.get("source_ids", [])))
+        projection.append(source)
+        groups.setdefault(process, []).append(source)
+    totals = {case: sum(row["process_hours_per_train"][case] for row in projection) for case in CASES}
+    assumptions = dict(schema="osr-provisional-factory-resource-assumptions/1",
+        batch_trainsets=[1, 6, 12], horizon_workdays=[60, 125, 250],
+        shifts_per_day=2, hours_per_shift=8, productive_utilisation=float(utilisation),
+        person_hours_per_process_hour_hypothesis=1.0,
+        worker_shift_coverage="One eight-hour shift per person per workday; two distinct sets of staffed positions for two shifts",
+        material_availability="Conditional after required inputs are available; procurement lead times and arrival dates remain unknown",
+        calendar_basis="Working days only; no dates, holidays or weekend calendar inferred")
+    assumptions["assumption_id"] = identity(assumptions)
+    per_worker_day = 8 * float(utilisation)
+    per_lane_day = 2 * per_worker_day
+    families = [dict(process_family_id=identity(process), process_template=process,
+        cost_line_ids=sorted(row["line_id"] for row in rows),
+        process_hours_per_train={case: round(sum(row["process_hours_per_train"][case]
+            for row in rows), 6) for case in CASES}) for process, rows in sorted(groups.items())]
+    scenarios = []
+    for trains in assumptions["batch_trainsets"]:
+        for days in assumptions["horizon_workdays"]:
+            for case in CASES:
+                demand = totals[case] * trains
+                equal_shift_positions = demand / (days * per_lane_day)
+                positions = math.ceil(equal_shift_positions)
+                family_rows = []
+                for family in families:
+                    family_hours = family["process_hours_per_train"][case] * trains
+                    family_rows.append(dict(process_family_id=family["process_family_id"],
+                        required_person_hours_hypothesis=round(family_hours, 6),
+                        pooled_positions_per_shift_unrounded=family_hours / (days * per_lane_day),
+                        separately_staffed_positions_per_shift=math.ceil(family_hours / (days * per_lane_day))))
+                scenarios.append(dict(batch_trainsets=trains, horizon_workdays=days,
+                    process_hour_case=case, required_person_hours_hypothesis=round(demand, 6),
+                    productive_hours_per_worker_shift_day=per_worker_day,
+                    productive_hours_per_equal_two_shift_lane_day=per_lane_day,
+                    pooled_positions_per_shift_unrounded=equal_shift_positions,
+                    pooled_positions_per_shift_rounded_up=positions,
+                    total_positions_across_two_shifts_excluding_relief=2 * positions,
+                    pooled_productive_capacity_person_hours=positions * days * per_lane_day,
+                    separately_staffed_process_family_positions_per_shift=sum(
+                        row["separately_staffed_positions_per_shift"] for row in family_rows),
+                    process_families=family_rows,
+                    physical_workstations_required=None, verified_throughput_trainsets_per_year=None,
+                    actual_headcount_including_relief=None, calendar_completion_date=None))
+    value = dict(schema="osr-v06-provisional-factory-resource-envelope/1",
+        **{key: candidate[key] for key in (*IDS, "evaluation_id")},
+        cost_estimate_id=cost_estimate_id, package_projection_id=identity(projection),
+        source_cost_line_ids=sorted(seen), source_package_count=len(projection),
+        source_package_projection=projection, assumptions=assumptions,
+        process_hours_per_train={case: round(totals[case], 6) for case in CASES},
+        process_families=families, scenarios=scenarios,
+        scenario_count=len(scenarios), actual_factory_capacity_verified=False,
+        measured_process_hours=False, staffing_approved=False,
+        physical_operation_inventory_complete=False, accounting_overlap_resolved=False,
+        accounting_scope="Each source cost package counted once, with no additional hours or overlap credit. Physical account membership and process overlap remain unresolved in the input ledger.",
+        scope="Aggregate Class C workforce/capacity sensitivity only. Pooled staffing is an arithmetic lower bound with perfect skill/resource interchangeability; separate-family figures assume dedicated staffing, not proven parallel production.",
+        external_holds=["Measured person/machine/cure times and process-hour interpretation",
+            "Crew competency, skill mix, supervision, relief and shift roster",
+            "Physical workstations, tools, machine cycles and safe parallel working",
+            "Assembly precedence, curing/storage space, QA capacity and rework",
+            "Procurement lead times, input arrival dates and site calendar"], **FLAGS)
+    value["resource_envelope_id"] = identity(value)
+    return value
+
+
 def _build_work_packages(cost, candidate, planning_revision):
     cars, utilisation, lines = _validate_cost(cost, candidate)
     included = []
@@ -267,6 +363,8 @@ def _build_work_packages(cost, candidate, planning_revision):
         separate_unamortized_factory_tooling_capital_iqd=deepcopy(
             cost.get("separate_unamortized_factory_tooling_capital_iqd")),
         work_packages=work_packages,
+        provisional_resource_envelope=resource_envelope(work_packages, candidate,
+            cost["cost_estimate_id"], utilisation),
         excluded_cost_lines=excluded,
         inventory_disposition=dict(
             accounted_tare_kg_per_car=cost["vehicle_account"]["accounted_tare_kg_per_car"],
@@ -289,7 +387,7 @@ def _held_scopes():
         "procurement": "Quantities beyond the selected vehicle cost ledger are not a purchasing BOM; no supplier items or orders are created.",
         "civil_and_site_schedule": "Route-specific spans, foundations, access, ground conditions, crew resources and work durations remain unmodelled.",
         "supplier_orders": "No supplier, quote, currency, lead time, availability or order approval is inferred.",
-        "staffing": "No crew size, individual, shift roster, payroll or HR record is generated.",
+        "staffing": "Aggregate staffing sensitivities are planning hypotheses only; actual crew size, skill mix, relief, individual rosters, payroll and HR records remain unknown.",
         "railway_operations": "Service, fleet, energy, operations, maintenance and three-shift operating costs remain outside this factory plan.",
         "erpnext_admission": "The package is a local draft only; no ERPNext import or document creation is supported.",
         "manufacturing_release": "Provisional cost/process estimates are not approved production instructions.",

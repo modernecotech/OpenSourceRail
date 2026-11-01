@@ -113,16 +113,19 @@ def compile(record,root=ROOT,city_index=None):
     if city_index is not None and any(city_index.get(k)!=record[k] for k in IDS):raise ValueError('city index belongs to another physical candidate')
     stamp=dict(**{k:record[k] for k in IDS},evaluation_id=record['evaluation_id'],development_default=True,purpose='research and requests for evidence',**FLAGS)
     common=lambda schema,**value:dict(schema=schema,**stamp,**value)
-    from engineering.development_baseline import system_cost, vehicle_cost
+    from engineering.development_baseline import factory_draft, system_cost, vehicle_cost
     selected_vehicle_cost=vehicle_cost.evaluate(record,root)
     selected_system_cost=system_cost.evaluate(record,root,selected_vehicle_cost)
     process_hour_schedule=_process_hour_schedule(selected_vehicle_cost,record)
+    resource_envelope=factory_draft.resource_envelope(process_hour_schedule['work_packages'],record,
+        selected_vehicle_cost['cost_estimate_id'],process_hour_schedule['productive_utilisation'])
     car=record['vehicle'];s=record['service'];z=s['selected_station'];battery=s['electrical']['battery']
     bom=common('osr-v06-engineering-bom/1',mass=car['mass'],stock_inventory_per_car=car['inventory'],
         formation=dict(cars=6,bogies=12,axles=24,wheels=48),onboard_traction_motors=0,onboard_traction_battery_kWh=0.,
         service_battery=battery,complete_installed_BOM=False,retained_component_ancestry=car['retained_component_ancestry'],residual_overlap_unresolved=car['residual_overlap_unresolved'])
     manufacturing=common('osr-v06-manufacturing/1',production_labour_hours_per_car=None,
         line_linked_process_hour_schedule=process_hour_schedule,tooling_cost_USD=None,
+        provisional_resource_envelope=resource_envelope,
         operations=[dict(operation_id='V06-M%02d'%i,operation=op,qualified_process=False,labour_hours=None,inspection_required=True)
           for i,op in enumerate(('Cut and fixture aluminium sills, bows and bogie hardpoints','Join frame and verify diagonal, twist and load-path datums',
             'Prepare, bond and retain GFRP panels and roof/floor sandwiches','Fit doors, glazing, seating, accessible zones and flush PV',
@@ -175,7 +178,7 @@ def write(output,record,root=ROOT,city_index=None,native=None):
     from engineering.development_baseline import system_cost, vehicle_cost
     m=dict(schema='osr-v06-delivery-manifest/1',**{k:record[k] for k in IDS},evaluation_id=record['evaluation_id'],
         development_default=True,source_sha256=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py',
-            *vehicle_cost.sources(root).keys(),
+            'engineering/development_baseline/factory_draft.py',*vehicle_cost.sources(root).keys(),
             *system_cost.sources(root).keys())),
         files_sha256={p.name:digest(p) for p in sorted(output.iterdir()) if p.is_file() and p.name!='manifest.json'},**FLAGS)
     m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return m
@@ -186,7 +189,7 @@ def verify(output,record,root=ROOT,city_index=None):
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('delivery manifest identity differs')
     from engineering.development_baseline import system_cost, vehicle_cost
     if m['source_sha256']!=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py',
-        *vehicle_cost.sources(root).keys(),*system_cost.sources(root).keys())):raise ValueError('delivery source differs')
+        'engineering/development_baseline/factory_draft.py',*vehicle_cost.sources(root).keys(),*system_cost.sources(root).keys())):raise ValueError('delivery source differs')
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('delivery payload differs')
     for key,value in compile(record,root,city_index).items():
         name='engineering-bom' if key=='bom' else 'selected-vehicle-cost' if key=='selected_vehicle_cost' else 'selected-system-cost' if key=='selected_system_cost' else key;compressed=key in ('bom','procurement')

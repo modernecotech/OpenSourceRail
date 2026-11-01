@@ -41,6 +41,14 @@ def test_unknown_prices_dates_equipment_and_processes_remain_unknown(current):
     assert schedule['hours_unit']=='process-hour'
     assert schedule['production_shift_basis']==cost['shifts']['production_per_day']
     assert schedule['engineering_process_qualified'] is False
+    resources=result['manufacturing']['provisional_resource_envelope']
+    assert resources['cost_estimate_id']==cost['cost_estimate_id']
+    assert resources['process_hours_per_train']==schedule['work_package_hours_per_train']
+    assert resources['source_package_count']==len(schedule['work_packages'])
+    assert resources['candidate_id']==current['candidate_id']
+    assert resources['selection_id']==current['selection_id']
+    assert resources['actual_factory_capacity_verified'] is False
+    assert resources['staffing_approved'] is False
     assert schedule['macro_operation_allocation'].startswith('unallocated;')
     assert all(op['labour_hours'] is None for op in result['manufacturing']['operations'])
     assert all(row['line_id'] and row['source_ids'] is not None

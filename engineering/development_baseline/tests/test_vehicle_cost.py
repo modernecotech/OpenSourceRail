@@ -211,6 +211,41 @@ def test_factory_draft_uses_only_selected_cost_ledger_and_two_shift_basis(estima
     }
     assert plan["excluded_cost_lines"][0]["reason"].startswith("Factory plan excludes transport")
     assert plan["inventory_disposition"]["complete_installed_mass"] is False
+    resources = plan["provisional_resource_envelope"]
+    assert resources["source_package_count"] == 19
+    assert resources["scenario_count"] == 27
+    assert resources["process_hours_per_train"] == plan["total_process_hours_per_train"]
+    assert set(resources["source_cost_line_ids"]) == {row["line_id"] for row in plan["work_packages"]}
+    assert resources["assumptions"]["person_hours_per_process_hour_hypothesis"] == 1.0
+    assert resources["candidate_id"] == candidate["candidate_id"]
+    assert resources["selection_id"] == candidate["selection_id"]
+    assert resources["evaluation_id"] == candidate["evaluation_id"]
+    keys = [(row["batch_trainsets"], row["horizon_workdays"], row["process_hour_case"])
+            for row in resources["scenarios"]]
+    assert len(keys) == len(set(keys)) == 27
+    assert set(keys) == {(trains, days, case) for trains in (1, 6, 12)
+                         for days in (60, 125, 250) for case in ("low", "base", "high")}
+    assert resources["actual_factory_capacity_verified"] is False
+    assert resources["accounting_overlap_resolved"] is False
+    assert resources["manufacturing_release"] is False
+    annual = next(row for row in resources["scenarios"] if row["batch_trainsets"] == 1
+                  and row["horizon_workdays"] == 250 and row["process_hour_case"] == "base")
+    # Each person covers one shift; a second shift requires a second crew.
+    assert annual["productive_hours_per_worker_shift_day"] == 6.0
+    assert annual["productive_hours_per_equal_two_shift_lane_day"] == 12.0
+    assert annual["pooled_positions_per_shift_rounded_up"] == 8
+    assert annual["total_positions_across_two_shifts_excluding_relief"] == 16
+    assert annual["pooled_productive_capacity_person_hours"] == 16 * 6 * 250
+    assert all(row["pooled_productive_capacity_person_hours"] >= row["required_person_hours_hypothesis"]
+               for row in resources["scenarios"])
+    assert all(row["actual_headcount_including_relief"] is None
+               and row["physical_workstations_required"] is None for row in resources["scenarios"])
+    for case in resources["process_hours_per_train"]:
+        assert sum(row["process_hours_per_train"][case] for row in resources["process_families"]) == pytest.approx(
+            resources["process_hours_per_train"][case])
+    with pytest.raises(factory_draft.FactoryDraftError, match="Unique source cost lines"):
+        factory_draft.resource_envelope(plan["work_packages"] + [plan["work_packages"][0]],
+            candidate, cost["cost_estimate_id"], 0.75)
 
 
 def test_mixed_selection_and_forged_acceptance_are_rejected(estimate):
