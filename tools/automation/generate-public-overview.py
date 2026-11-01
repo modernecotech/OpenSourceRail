@@ -69,13 +69,14 @@ engineering records; the images do not establish physical performance.
 
 ## Planning, engineering and delivery
 
-The [planning workspace](workbench/planning/index.html) supports local
-geographic, route, stop, service and OD proposals. `./osr plan compile` writes an
-immutable handoff bound to the selected candidate, and `./osr plan verify`
-checks its sources and identities. The handoff contains proposals only; route
-performance, procurement quantities, construction schedules and full city costs
-remain held until candidate-specific evidence is available. Planning revisions
-do not grant movement authority.
+The [planning workspace](workbench/planning/index.html) verifies current city
+geography and route sources, then supports route, stop, service and OD proposals.
+Run `./osr plan compile edits.json --output build/my-plan` to create an immutable
+handoff bound to the selected candidate; run `./osr plan verify build/my-plan`
+to verify its source files and identities. The handoff contains proposals only.
+It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and
+cashflow results; those require candidate-specific evaluation. Planning
+revisions do not grant movement authority.
 
 From a verified handoff, create an immutable six-car factory work package
 with:

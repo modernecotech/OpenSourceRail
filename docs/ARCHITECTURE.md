@@ -27,12 +27,12 @@ service.
 
 The [planning workspace](workbench/planning/index.html) verifies current city
 route and map-context sources, displays the available geographic layers, and
-supports route, stop, service and OD editing. `./osr plan compile` creates an
-immutable proposal handoff bound to the selected candidate, and `./osr plan
-verify` checks its identities and sources. The handoff carries proposals only;
-it does not calculate current route performance, procurement quantities,
-construction schedules or complete city costs. It grants no movement
-authority.
+supports route, stop, service and OD editing. Run
+`./osr plan compile edits.json --output build/my-plan` to create an immutable
+proposal handoff bound to the selected candidate, then verify it with
+`./osr plan verify build/my-plan`. The handoff carries proposals only; it
+excludes vehicle, propulsion, fleet, civil quantity, cost, performance and
+cashflow results. It grants no movement authority.
 
 The coordinator carries one candidate bundle through geometry, mass, analysis,
 BOM, CAD/IFC, procurement, assembly, construction and controls. The current

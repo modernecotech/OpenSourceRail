@@ -43,13 +43,14 @@ engineering records; the images do not establish physical performance.</p>
 <p><img src="images/v06/v06-wayside-lim-cutaway.webp" alt="Wheel bogies above a passive aluminium fin between two station LIM primaries" /></p>
 <p>Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.</p>
 <h2>Planning, engineering and delivery</h2>
-<p>The <a href="workbench/planning/index.html">planning workspace</a> supports local
-geographic, route, stop, service and OD proposals. <code>./osr plan compile</code> writes an
-immutable handoff bound to the selected candidate, and <code>./osr plan verify</code>
-checks its sources and identities. The handoff contains proposals only; route
-performance, procurement quantities, construction schedules and full city costs
-remain held until candidate-specific evidence is available. Planning revisions
-do not grant movement authority.</p>
+<p>The <a href="workbench/planning/index.html">planning workspace</a> verifies current city
+geography and route sources, then supports route, stop, service and OD proposals.
+Run <code>./osr plan compile edits.json --output build/my-plan</code> to create an immutable
+handoff bound to the selected candidate; run <code>./osr plan verify build/my-plan</code>
+to verify its source files and identities. The handoff contains proposals only.
+It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and
+cashflow results; those require candidate-specific evaluation. Planning
+revisions do not grant movement authority.</p>
 <p>From a verified handoff, create an immutable six-car factory work package
 with:</p>
 <pre><code class="language-sh">./osr twin factory-draft compile build/planning-handoff --output build/factory-plan

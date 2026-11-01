@@ -18,6 +18,10 @@ supervision handoffs.
 
 A factory draft is compiled from a verified planning handoff. It creates an immutable six-car production work package from the selected candidate's Class C ledger and low/base/high process-hour proxies under two 8-hour production shifts. The schedule represents one serialized lane; it does not infer crew counts, parallel capacity or calendar dates. It is not an ERPNext import, purchase order or manufacturing release. Civil and railway-operations schedules remain held.
 
+The planning handoff itself contains route, stop, service and OD proposals only.
+It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and
+cashflow results; candidate-specific evaluations remain separate.
+
 The selected vehicle ledger retains a 10.090 t/car reference or unlocated residual. A separate calculated roof-finish estimate distributes the already-accounted 47.809 kg/car over 45.05 m² of source roof surface; it adds no mass or candidate CAD occurrence and does not establish installed location.
 
 Planning and delivery records are proposals or research drafts. Route

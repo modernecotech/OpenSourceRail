@@ -11,9 +11,9 @@ Start with the [project README](../README.md), [architecture](ARCHITECTURE.md),
 [roadmap](ROADMAP.md).
 
 The [project overview](open-source-rail-overview.md) and
-[first adoption path](first-adoptable-product.md) explain the delivery,
-manufacturing, business, supervision and control platform. Current integration
-guides cover [ERPNext/Frappe HR](../deployment/erpnext/README.md),
+[first adoption path](first-adoptable-product.md) describe the current planning,
+engineering, delivery and integration workflows. Current integration guides
+cover [ERPNext/Frappe HR](../deployment/erpnext/README.md),
 [FUXA and the gateway](../deployment/supervision/README.md), and the
 [candidate-bound planning workspace](workbench/planning/index.html).
 

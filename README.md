@@ -4,7 +4,7 @@ OpenSourceRail develops affordable urban rail and the open tools needed to **pla
 
 **v0.6 is the station-powered freewheeling reference railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Wayside linear-induction motors launch and receive the train through passive onboard reaction elements. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
 
-The wider project still includes city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. Changing the reference vehicle does not remove that remit. **The railway is a research and prototype design, without manufacturing or operating release.**
+The wider project encompasses city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. The current v0.6 front end exposes planning proposals, candidate engineering and delivery records; business and supervision functions require separate configuration, and complete city delivery remains open. **The railway is a research and prototype design, without manufacturing or operating release.**
 
 **Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current platform capabilities](docs/capabilities/README.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
@@ -30,7 +30,7 @@ Local content means **origin-traced domestic value added**, not the address of a
 | Reference railway and manufacturing system | Lightweight vehicles, stations, civil works, tooling, assembly and repair methods | v0.6 physical candidates and numerical studies; equipment, drawings, suppliers and physical qualification are incomplete |
 | Open GoA4 control software | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
 
-The [first adoption path](docs/first-adoptable-product.md) is controlled planning, workshop/depot records, training and evidence management. An owner can develop those capabilities before a new train is qualified. The configured business and supervision services have their own permissions and commissioning requirements.
+The [first adoption path](docs/first-adoptable-product.md) describes the current planning and engineering interfaces, candidate delivery drafts and separately configured business and supervision integrations. Owners can use them to organise research and review before a train is qualified; they do not provide a live railway operating interface.
 
 
 ## From a city brief to a working railway
@@ -202,7 +202,7 @@ supplier-confirmed values separately.
 
 ## Cities, service and deployment
 
-All **266 city geographies** remain available as planning inputs. The workspace uses indexed routes, station and transfer locations, plus source-verified road, water, building, land-use and place context where supplied. It supports local route, stop, service and origin–destination proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; `./osr plan verify build/my-plan` checks its candidate, source and payload identities. The handoff carries proposals only; candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until their evidence exists. Planning revisions do not grant movement authority.
+All **266 city geographies** remain available as planning inputs. The workspace uses indexed routes, station and transfer locations, plus source-verified road, water, building, land-use and place context where supplied. It supports local route, stop, service and origin–destination proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; `./osr plan verify build/my-plan` checks its candidate, source and payload identities. The handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results; those require candidate-specific evaluation. Planning revisions do not grant movement authority.
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
 

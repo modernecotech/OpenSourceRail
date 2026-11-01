@@ -1,24 +1,26 @@
-# First adoption path: the design and delivery platform
+# First adoption path: current planning and engineering tools
 
-OpenSourceRail has three connected products: the owner/builder/operator delivery platform, reference railway hardware and manufacturing system, and open GoA4 controls. Controlled planning, training, workshop/depot records and evidence management can be useful before a new train or guideway is physically qualified.
+OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current v0.6 front end provides city-planning proposals, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations; the repository does not provide a complete city-delivery or live operating interface.
 
 ## Who can use it
 
-A public owner can organise requirements, candidate revisions, supplier enquiries and acceptance work. A local builder can inspect material, stock, assembly, tooling and QA needs. An operator can configure asset, defect and maintenance workflows. Universities and reviewers can reproduce numerical methods and identify the measurements needed for a prototype.
+A public owner can edit geographic, route, stop, service and origin-destination proposals, then hand them to candidate-specific engineering review. A local builder can inspect candidate CAD/IFC, bill of materials, process, assembly and procurement drafts. An organisation can configure ERPNext/Frappe HR and FUXA/gateway workflows for its own project and equipment. Universities and reviewers can reproduce source-bound numerical methods and identify measurements needed for a prototype.
 
-The current v0.6 [engineering Workbench](workbench/current/index.html) and [coordinated experiment](design-engine/coupled-railway/README.md) expose candidate-bound geometry, simulation, inventories and delivery drafts. The [editable planning workspace](workbench/planning/index.html) verifies current city map context and route sources, then supports route, stop, service and origin-destination proposals. Compile and verify an immutable handoff with `./osr plan compile edits.json --output build/my-plan` and `./osr plan verify build/my-plan`. The handoff is bound to the selected v0.6 candidate and contains proposals only; route performance, procurement quantities, construction schedules, city costs and movement authority are outside its scope.
+The current v0.6 [engineering Workbench](workbench/current/index.html) displays the selected candidate, source-bound engineering and cost summaries, readiness holds and links to its delivery records. The [coordinated experiment](design-engine/coupled-railway/README.md) carries one candidate identity through geometry, inventory, engineering analysis and delivery drafts.
+
+The [planning workspace](workbench/planning/index.html) verifies current city map context and route sources, then supports route, stop, service and origin-destination proposals. Run `./osr plan compile edits.json --output build/my-plan` to create an immutable handoff bound to the selected v0.6 candidate; run `./osr plan verify build/my-plan` to verify its source files and identities. The handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results; those require candidate-specific evaluation. Planning revisions do not grant movement authority.
 
 ## What is available and what needs configuration
 
 | Area | Available scope | Deployment or engineering work still needed |
 |---|---|---|
-| Design research | Reproducible candidate definitions, source-bound calculations, failed/pending work and comparison | Trustworthy physical evaluators, complete installed equipment and independent confirmation |
-| Manufacturing planning | Stock/process records, EBOM/MBOM coverage, assembly dependencies, procurement and QA tasks | Exact drawings, joints, tooling, labour, suppliers, inspection and production release |
+| Design research | Candidate definitions, source-bound calculations, failed/pending work, comparison and readiness holds | Trustworthy physical evaluators, complete installed equipment and independent confirmation |
+| Manufacturing and delivery records | Candidate CAD/IFC, BOM, provisional process and assembly records, procurement drafts and calculated cost estimates | Exact drawings, joints, tooling, labour, suppliers, inspection, complete installed quantities and production release |
 | ERPNext/Frappe HR | Current OSR app and deployment guide for projects, procurement, workforce, quality and maintenance | Legal entities, calendars, roles, warehouse/item masters, reviewed imports and operating procedures |
 | FUXA/gateway | Integration components for observations, historian, alarms and review-linked lifecycle records | Actual equipment models, authenticated bindings, communications and commissioning |
 | Candidate delivery exports | Candidate-bound CAD/IFC stock, engineering BOM, process and assembly records, and disabled ERPNext drafts | Complete installed geometry, serialised as-built evidence, priced project execution and independent acceptance |
 
-The current repository includes [ERPNext/Frappe HR deployment](../deployment/erpnext/README.md), [FUXA/gateway deployment](../deployment/supervision/README.md), candidate-bound [CAD/IFC and delivery exports](design-engine/current/exports/manifest.json), and an [integration service](../services/integration/osr_integration/). These are configurable software components and research handoffs. No current v0.6 site has been commissioned, no physical asset has been accepted, and the railway does not have operating release.
+The current repository includes [ERPNext/Frappe HR deployment](../deployment/erpnext/README.md), [FUXA/gateway deployment](../deployment/supervision/README.md), candidate-bound [CAD/IFC and delivery exports](design-engine/current/exports/manifest.json), and an [integration service](../services/integration/osr_integration/). These are configurable software components and research handoffs. No v0.6 site has been commissioned, no physical asset has been accepted, and the railway does not have operating release.
 
 ## A controlled adoption sequence
 
