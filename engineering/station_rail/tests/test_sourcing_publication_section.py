@@ -1,12 +1,16 @@
 from pathlib import Path
 
 from engineering.station_rail.publication import _sourcing_section
+from engineering.station_rail.evaluation import build as build_evaluation
 
 ROOT = Path(__file__).resolve().parents[3]
 
 
 def test_current_readme_sourcing_section_checks_current_regional_cost_evidence():
-    lines = _sourcing_section(ROOT, {"candidate_id": "reference-candidate"})
+    # The section now embeds selected-candidate vehicle and system estimates,
+    # so exercise it with the complete current evaluation rather than a stub
+    # that cannot prove candidate, selection or evaluation identity.
+    lines = _sourcing_section(ROOT, build_evaluation(ROOT))
     report = "\n".join(lines)
 
     assert "533 immutable records" in report

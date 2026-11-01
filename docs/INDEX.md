@@ -54,7 +54,7 @@ Indexed Markdown files: **121**.
 
 | File | Title |
 |---|---|
-| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City geography and planning inputs |
+| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City geography and planning index |
 
 ## crates
 

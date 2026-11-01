@@ -91,7 +91,8 @@ def sources(root,record,index,delivery):
         'docs/first-adoptable-product.md','docs/open-source-rail-overview.md','docs/open-source-rail-overview.html','CONTRIBUTING.md',
         'deployment/erpnext/README.md','deployment/supervision/README.md','tools/README.md','crates/README.md','cities/catalogue/README.md',
         'docs/workbench/planning/index.html','docs/workbench/planning/planning.js','docs/workbench/planning/planning.css',
-        'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
+        'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py',
+        'tools/automation/generate-city-geography-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
         'engineering/development-baseline.toml','engineering/readme_context.py','engineering/requirements.txt','.github/repository-metadata.yml','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
@@ -786,7 +787,7 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     write(output/'readme-coverage.md',readme_context.markdown(readme_audit).encode())
     # Generate navigation after the current dossier README has been replaced;
     # and coverage reports have been written, so their inventory is current.
-    for script in ('generate-public-overview.py','generate-doc-index.py'):
+    for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
         subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
     seal(output,root)
     return dict(published=True,selection_id=record['selection_id'],evaluation_id=record['evaluation_id'],city_count=index['city_count'],city_performance_packages_written=0,**FLAGS)
@@ -795,7 +796,7 @@ def verify(output=None,*,root=ROOT,replay=True):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
     from engineering.development_baseline.entrypoint import read_packet
     value,m=read_packet(root,output.relative_to(root).as_posix())
-    for script in ('generate-public-overview.py','generate-doc-index.py'):
+    for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
         try:subprocess.run([sys.executable,str(root/'tools/automation'/script),'--check'],cwd=root,check=True,capture_output=True)
         except subprocess.CalledProcessError as error:raise ValueError('Current generated overview/navigation differs: '+script) from error
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('publication identity differs')
