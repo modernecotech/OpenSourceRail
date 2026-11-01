@@ -18,7 +18,14 @@ This report preserves every retained source-account occurrence in its system acc
 | Combined exact source identity links (disjoint geometry occurrences / mass) | 2,266 / 2,486.346 kg/car |
 | Candidate geometry without either exact source identity link | 216 occurrences / 6,645.452 kg/car |
 | Closure worksheet rows (source / geometry / account) | 5,418 (2,924 / 2,482 / 12) |
+| Separate non-additive analytical estimates | 1 (47.809 kg/car already represented in the scalar account) |
 | Complete installed mass, CG, inertia, axle reactions | Unknown |
+
+## Provisional roof-finish distribution estimate
+
+The separate analytical estimate links the existing `white-roof-finish` account to 24 modelled roof upper-skin surfaces. Their combined plan area is 45.050 m²; the declared 0.800 mm thickness and 1326.56 kg/m³ density give 47.809 kg/car.
+The estimated candidate-frame material centroid is (0.0000, 0.0000, 3.8058) m. It is derived from the roof-surface areas and the 1 m floor translation, with half the assumed coating thickness added vertically. This is not a verified installed position.
+The coating mass is already included in the scalar roof-thermal account. This estimate adds 0 kg to accounted tare, adds no candidate CAD occurrence, and changes neither located geometry mass nor the account residual. Uniform coverage, material density, thickness, seams, openings, and solar-panel overlap require confirmation.
 
 ## Account groups
 

@@ -108,6 +108,40 @@ def test_direct_source_occurrence_link_rejects_cross_system_mapping():
         mass_ledger_audit.reconcile(candidate, parent)
 
 
+def test_roof_finish_distribution_estimate_is_candidate_bound_and_non_additive():
+    ledger, selected, _ = mass_ledger_audit._inputs(vehicle.ROOT)
+    estimate, = ledger["analytical_occurrence_estimates"]
+
+    assert estimate["record_kind"] == "analytical-surface-distribution-estimate"
+    assert estimate["estimate_id"]
+    assert estimate["candidate_id"] == ledger["candidate_id"]
+    assert estimate["body_candidate_id"] == ledger["body_candidate_id"]
+    assert estimate["support_component_id"] == ledger["support_component_id"]
+    assert estimate["propulsion_component_id"] == ledger["propulsion_component_id"]
+    assert estimate["evaluation_id"] == selected["evaluation_id"]
+    assert estimate["selection_id"] == selected["selection_id"]
+    assert estimate["source_account_occurrence_id"] == "white-roof-finish"
+    assert len(estimate["source_geometry_part_ids"]) == 24
+    assert estimate["candidate_geometry_occurrence_ids"] == []
+    assert estimate["surface_area_m2"] == pytest.approx(45.05)
+    assert estimate["coating_thickness_m"] == pytest.approx(0.0008)
+    assert estimate["assumed_density_kg_m3"] == pytest.approx(1326.56)
+    assert estimate["estimated_mass_kg"] == pytest.approx(47.8092224)
+    assert estimate["estimated_candidate_centroid_m"] == pytest.approx([0.0, 0.0, 3.8058])
+    assert estimate["physical_installation_position_m"] is None
+    assert estimate["mass_added_to_accounted_tare_kg"] == 0.0
+    assert estimate["located_geometry_mass_change_kg"] == 0.0
+    assert estimate["account_residual_change_kg"] == 0.0
+    assert estimate["account_residual_after_estimate_kg"] == pytest.approx(47.8092224)
+    assert ledger["summary"]["analytical_non_additive_estimate_count"] == 1
+    assert ledger["summary"]["analytical_non_additive_estimated_mass_kg"] == pytest.approx(47.8092224)
+    assert ledger["summary"]["accounted_tare_kg_per_car"] == pytest.approx(19221.998134341986)
+    assert ledger["summary"]["located_geometry_mass_kg"] == pytest.approx(9131.798543498426)
+    assert ledger["summary"]["residual_reference_or_unlocated_mass_kg"] == pytest.approx(10090.19959084356)
+    assert ledger["installed_mass_complete"] is False
+    assert ledger["physical_accepted"] is False
+
+
 def test_closure_worksheet_separates_source_mass_geometry_and_account_residuals():
     ledger, selected, _ = mass_ledger_audit._inputs(vehicle.ROOT)
     worksheet = mass_ledger_audit.build_closure_worksheet(ledger)
@@ -124,6 +158,8 @@ def test_closure_worksheet_separates_source_mass_geometry_and_account_residuals(
     assert worksheet["summary"]["exact_source_identity_link_count"] == 2266
     assert worksheet["summary"]["candidate_geometry_without_exact_source_identity_link_count"] == 216
     assert worksheet["summary"]["account_residual_count"] > 0
+    assert worksheet["summary"]["analytical_non_additive_estimate_count"] == 1
+    assert worksheet["summary"]["analytical_non_additive_estimated_mass_kg"] == pytest.approx(47.8092224)
     assert worksheet["summary"]["physically_installed_mass_kg"] is None
     assert worksheet["summary"]["complete_installed_CG_m"] is None
     assert worksheet["unknown_is_zero"] is False
@@ -198,6 +234,8 @@ def test_mass_reconciliation_publication_replays_and_verifies(tmp_path):
     assert "2,266 of 2,482" in readme
     assert "mass-closure-worksheet.json.gz" in json.loads((tmp_path / "manifest.json").read_bytes())["files_sha256"]
     assert "mass closure worksheet" in (tmp_path / "README.md").read_text().lower()
+    assert "Provisional roof-finish distribution estimate" in readme
+    assert "adds 0 kg to accounted tare" in readme
     assert compressed[:4] == b"\x1f\x8b\x08\x00"
     assert compressed[4:8] == b"\x00\x00\x00\x00"
     assert compressed[9] == 255

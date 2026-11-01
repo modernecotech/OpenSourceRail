@@ -9,6 +9,7 @@ import argparse
 import gzip
 import io
 import json
+import math
 import os
 import tomllib
 from collections import defaultdict
@@ -67,6 +68,85 @@ def _source_geometry_index(retained):
                 raise ValueError("Retained source geometry part ID is owned more than once: " + part_id)
             by_part_id[part_id] = (source, part)
     return by_part_id
+
+
+def _roof_finish_distribution_estimate(candidate, parent):
+    """Estimate a uniform finish distribution without changing located mass."""
+    account = next((row for row in candidate["inventory"] if row.get("id") == "white-roof-finish"), None)
+    if account is None:
+        raise ValueError("Selected candidate has no white-roof-finish account")
+    thickness = float(account.get("thickness_m", 0.0))
+    density = float(account.get("density_kg_m3", 0.0))
+    floor_height = float(candidate["physical_definition"]["vehicle"]["floor_top_above_rail_m"])
+    if (not math.isfinite(thickness) or not math.isfinite(density)
+            or thickness <= 0.0 or density <= 0.0):
+        raise ValueError("Roof finish requires finite positive declared thickness and density")
+
+    source_parts = sorted(
+        (part for part in parent["geometry_parts"]
+         if part.get("id", "").startswith("roof/panel/")
+         and part.get("id", "").endswith("/skin/top")),
+        key=lambda part: part["id"],
+    )
+    if not source_parts:
+        raise ValueError("Pinned parent geometry has no roof upper-skin surfaces")
+    candidate_ids = {part["id"] for part in candidate["geometry_parts"]}
+    areas = []
+    for part in source_parts:
+        size = part.get("size_m")
+        at = part.get("at_m")
+        if part.get("kind") != "box" or not isinstance(size, list) or len(size) != 3 or not isinstance(at, list) or len(at) != 3:
+            raise ValueError("Roof finish source surfaces require explicit box dimensions and positions")
+        if min(float(value) for value in size) <= 0.0:
+            raise ValueError("Roof finish source surfaces require positive dimensions")
+        if "comfort-shell/" + part["id"] not in candidate_ids:
+            raise ValueError("Roof finish source surface is absent from selected candidate geometry: " + part["id"])
+        area = float(size[0]) * float(size[1])
+        surface_centroid = [
+            float(at[0]) + float(size[0]) / 2.0,
+            float(at[1]) + float(size[1]) / 2.0,
+            float(at[2]) + float(size[2]) + floor_height,
+        ]
+        areas.append((part["id"], area, surface_centroid))
+
+    area_m2 = sum(area for _, area, _ in areas)
+    mass_kg = area_m2 * thickness * density
+    if not math.isfinite(area_m2) or not math.isfinite(mass_kg) or area_m2 <= 0.0:
+        raise ValueError("Roof finish surface estimate must be finite and positive")
+    if abs(mass_kg - float(account["mass_kg"])) > 1e-7:
+        raise ValueError("Roof finish surface takeoff does not reconcile to the existing scalar account")
+    centroid = [
+        sum(area * point[axis] for _, area, point in areas) / area_m2
+        for axis in range(3)
+    ]
+    centroid[2] += thickness / 2.0
+    return dict(
+        estimate_id=None,
+        record_kind="analytical-surface-distribution-estimate",
+        account_id="roof-thermal",
+        source_account_occurrence_id="white-roof-finish",
+        source_geometry_part_ids=[part_id for part_id, _, _ in areas],
+        candidate_geometry_occurrence_ids=[],
+        surface_area_m2=area_m2,
+        coating_thickness_m=thickness,
+        assumed_density_kg_m3=density,
+        estimated_mass_kg=mass_kg,
+        estimated_candidate_centroid_m=centroid,
+        candidate_frame_basis="Pinned roof upper-skin surface centroids translated by the selected 1 m floor height; uniform coating centroid offset by half the declared thickness.",
+        calculation="sum(roof upper-skin plan areas) × declared coating thickness × declared coating density",
+        distribution_assumptions=[
+            "The finish covers every modelled roof upper-skin surface uniformly.",
+            "No deductions are made for seams, apertures, panel overlaps or solar equipment.",
+            "The declared coating thickness and density are assumptions, not supplier or measured evidence.",
+        ],
+        physical_installation_position_m=None,
+        mass_added_to_accounted_tare_kg=0.0,
+        located_geometry_mass_change_kg=0.0,
+        account_residual_change_kg=0.0,
+        account_residual_after_estimate_kg=float(account["mass_kg"]),
+        installed_mass_complete=False,
+        physical_acceptance=False,
+    )
 
 
 def reconcile(candidate, parent):
@@ -344,6 +424,8 @@ def reconcile(candidate, parent):
     if abs(accounted - located - residual) > 1e-6:
         raise ValueError("Accounted, located and residual mass subtotals do not close")
 
+    analytical_estimates = [_roof_finish_distribution_estimate(candidate, parent)]
+
     account_index = {account["account_id"]: account for account in accounts}
     if len(account_index) != len(accounts):
         raise ValueError("Duplicate top-level mass account ID")
@@ -361,6 +443,7 @@ def reconcile(candidate, parent):
         accounts=accounts,
         source_account_occurrences=source_occurrences,
         candidate_geometry_occurrences=geometry_occurrences,
+        analytical_occurrence_estimates=analytical_estimates,
         summary=dict(
             account_row_count=len(accounts),
             source_account_occurrence_count=len(source_occurrences),
@@ -407,6 +490,8 @@ def reconcile(candidate, parent):
             complete_installed_CG_m=None,
             complete_installed_inertia_kg_m2=None,
             axle_reactions=None,
+            analytical_non_additive_estimate_count=len(analytical_estimates),
+            analytical_non_additive_estimated_mass_kg=sum(row["estimated_mass_kg"] for row in analytical_estimates),
             all_candidate_geometry_occurrences_assigned_once=True,
             all_account_rows_reconciled=True,
         ),
@@ -438,7 +523,14 @@ def _readme(ledger, selected):
         f"| Combined exact source identity links (disjoint geometry occurrences / mass) | {summary['candidate_geometry_with_exact_source_identity_link_count']:,} / {summary['candidate_geometry_with_exact_source_identity_link_mass_kg']:,.3f} kg/car |",
         f"| Candidate geometry without either exact source identity link | {summary['candidate_geometry_without_exact_source_identity_link_count']:,} occurrences / {summary['candidate_geometry_without_exact_source_identity_link_mass_kg']:,.3f} kg/car |",
         f"| Closure worksheet rows (source / geometry / account) | {closure['record_count']:,} ({closure['source_account_occurrence_count']:,} / {closure['candidate_geometry_occurrence_count']:,} / {summary['account_row_count']:,}) |",
+        f"| Separate non-additive analytical estimates | {summary['analytical_non_additive_estimate_count']:,} ({summary['analytical_non_additive_estimated_mass_kg']:,.3f} kg/car already represented in the scalar account) |",
         "| Complete installed mass, CG, inertia, axle reactions | Unknown |",
+        "",
+        "## Provisional roof-finish distribution estimate",
+        "",
+        f"The separate analytical estimate links the existing `white-roof-finish` account to {len(ledger['analytical_occurrence_estimates'][0]['source_geometry_part_ids']):,} modelled roof upper-skin surfaces. Their combined plan area is {ledger['analytical_occurrence_estimates'][0]['surface_area_m2']:.3f} m²; the declared {ledger['analytical_occurrence_estimates'][0]['coating_thickness_m'] * 1000:.3f} mm thickness and {ledger['analytical_occurrence_estimates'][0]['assumed_density_kg_m3']:.2f} kg/m³ density give {ledger['analytical_occurrence_estimates'][0]['estimated_mass_kg']:.3f} kg/car.",
+        f"The estimated candidate-frame material centroid is ({', '.join(f'{value:.4f}' for value in ledger['analytical_occurrence_estimates'][0]['estimated_candidate_centroid_m'])}) m. It is derived from the roof-surface areas and the 1 m floor translation, with half the assumed coating thickness added vertically. This is not a verified installed position.",
+        "The coating mass is already included in the scalar roof-thermal account. This estimate adds 0 kg to accounted tare, adds no candidate CAD occurrence, and changes neither located geometry mass nor the account residual. Uniform coverage, material density, thickness, seams, openings, and solar-panel overlap require confirmation.",
         "",
         "## Account groups",
         "",
@@ -492,6 +584,14 @@ def _inputs(root):
     ledger["vehicle_evaluation_id"] = candidate.get("evaluation_id")
     ledger["selected_evaluation_id"] = selected["evaluation_id"]
     ledger["selection_id"] = selected["selection_id"]
+    for estimate in ledger["analytical_occurrence_estimates"]:
+        estimate["evaluation_id"] = selected["evaluation_id"]
+        estimate["selection_id"] = selected["selection_id"]
+        estimate["candidate_id"] = ledger["candidate_id"]
+        estimate["body_candidate_id"] = ledger["body_candidate_id"]
+        estimate["support_component_id"] = ledger["support_component_id"]
+        estimate["propulsion_component_id"] = ledger["propulsion_component_id"]
+        estimate["estimate_id"] = identity({key: value for key, value in estimate.items() if key != "estimate_id"})
     ledger["summary"]["vehicle_evaluation_id"] = candidate.get("evaluation_id")
     ledger["summary"]["selected_evaluation_id"] = selected["evaluation_id"]
     ledger["summary"]["selection_id"] = selected["selection_id"]
@@ -714,6 +814,8 @@ def build_closure_worksheet(ledger):
             candidate_geometry_without_exact_source_geometry_link_mass_kg=ledger["summary"]["candidate_geometry_without_exact_source_geometry_link_mass_kg"],
             account_residual_count=sum(float(row["accounting_residual_kg"]) > 1e-9 for row in rows
                                        if row["record_kind"] == "account-closure"),
+            analytical_non_additive_estimate_count=len(ledger["analytical_occurrence_estimates"]),
+            analytical_non_additive_estimated_mass_kg=ledger["summary"]["analytical_non_additive_estimated_mass_kg"],
             accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
             located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
             accounting_residual_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
@@ -761,6 +863,8 @@ def publish(root=ROOT, output=None):
                 closure_worksheet_id=build_closure_worksheet(ledger)["worksheet_id"],
                 closure_worksheet_record_count=len(ledger["source_account_occurrences"])
                     + len(ledger["candidate_geometry_occurrences"]) + len(ledger["accounts"]),
+                analytical_non_additive_estimate_count=ledger["summary"]["analytical_non_additive_estimate_count"],
+                analytical_non_additive_estimated_mass_kg=ledger["summary"]["analytical_non_additive_estimated_mass_kg"],
                 accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
                 located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
                 residual_reference_or_unlocated_mass_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
@@ -800,6 +904,8 @@ def verify(root=ROOT, output=None):
                 closure_worksheet_id=build_closure_worksheet(ledger)["worksheet_id"],
                 closure_worksheet_record_count=len(ledger["source_account_occurrences"])
                     + len(ledger["candidate_geometry_occurrences"]) + len(ledger["accounts"]),
+                analytical_non_additive_estimate_count=ledger["summary"]["analytical_non_additive_estimate_count"],
+                analytical_non_additive_estimated_mass_kg=ledger["summary"]["analytical_non_additive_estimated_mass_kg"],
                 accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
                 located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
                 residual_reference_or_unlocated_mass_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
