@@ -1,0 +1,59 @@
+name: Reproduce source-bound vehicle geometry
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  SOURCED_PUBLISHED_EPOCH: "659368cbcd3fb0a7f62d62de655f3a8e78552b7f"
+jobs:
+  regenerate:
+    timeout-minutes: 60
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the exact published source epoch
+        run: git fetch --no-tags --depth=1 origin "$SOURCED_PUBLISHED_EPOCH"
+      - name: Materialize the source epoch and overlay the current cell publication
+        env:
+          PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: |
+          git worktree add --detach "$PUBLISHED_EPOCH_ROOT" "$SOURCED_PUBLISHED_EPOCH"
+          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
+          mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
+          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Reassemble the original authenticated sourced-cell payload
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
+      - name: Export and reopen all five source-bound vehicle IFCs
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: |
+          "$GITHUB_WORKSPACE/.venv/bin/python" - <<'PY'
+          import importlib.util, os, sys
+          from pathlib import Path
+          root = Path.cwd()
+          spec = importlib.util.spec_from_file_location('osr_sourced_verify', root / 'tools/automation/sourced-verify.py')
+          archive = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(archive)
+          state = Path(os.environ['RUNNER_TEMP']) / 'osr-sourced-geometry-state'
+          archive._extract(root / 'docs/design-engine/sourced-case/sourced-cell.tar.gz', state)
+          sys.path.insert(0, str(root))
+          from engineering.sourced_case import geometry
+          output = Path(os.environ['GITHUB_WORKSPACE']) / 'build/sourced-geometry-reproduction'
+          output.mkdir(parents=True, exist_ok=False)
+          publication = geometry.publish(state, output, root=root)
+          print('publication_id:', publication['publication_id'])
+          print('vehicles:', len(publication['vehicles']))
+          print('all release flags false:', all(publication.get(k) is False for k in (
+              'physical_accepted', 'engineering_accepted', 'manufacturing_release', 'operating_release')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sourced-vehicle-geometry-reproduction
+          path: build/sourced-geometry-reproduction/revised-vehicles-ifc.*
+          retention-days: 7
