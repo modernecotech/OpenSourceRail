@@ -84,13 +84,15 @@ def test_missing_current_packet_reports_hold_without_legacy(packet, capsys):
 
 
 
-def test_root_help_documents_external_checkout_without_advertising_old_apps():
+def test_root_help_exposes_current_workflows_without_historical_checkout_commands():
     root = Path(__file__).resolve().parents[3]
     result = subprocess.run([str(root / 'osr'), '--help'], cwd=root,
                             capture_output=True, text=True, check=True)
-    assert 'legacy checkout RELEASE --path /absolute/path' in result.stdout
-    assert 'restored v0.4 applications' not in result.stdout
-    assert 'functionality-reconciliation' not in result.stdout
+    assert 'plan [...]' in result.stdout
+    assert 'legacy checkout' not in result.stdout.lower()
+    assert 'city studio' not in result.stdout.lower()
+    assert 'sim gui' not in result.stdout.lower()
+    assert 'occ gui' not in result.stdout.lower()
 
 
 def test_current_workbench_exposes_verified_factory_draft_and_hides_other_candidate_delivery_link():
@@ -99,83 +101,6 @@ def test_current_workbench_exposes_verified_factory_draft_and_hides_other_candid
     assert './osr twin factory-draft compile' in page
     assert './osr twin factory-draft verify' in page
     assert '/docs/design-engine/coupled-railway/delivery-index.json' not in page
-
-def test_legacy_checkout_creates_only_a_pinned_external_detached_worktree(tmp_path, monkeypatch):
-    from types import SimpleNamespace
-    from engineering.development_baseline import legacy
-
-    destination=tmp_path.parent/(tmp_path.name+'-legacy-v051')
-    revision=legacy.LEGACY_CHECKOUTS['v0.5.1']
-    assert legacy.LEGACY_CHECKOUTS['pre-comfort-default'] == legacy.REVISION
-    calls=[]
-
-    def check_output(args, *, cwd, text):
-        calls.append((args,cwd,text))
-        if args[:2] == ['git','rev-parse']:
-            return revision+'\n'
-        if args[:2] == ['git','-C']:
-            return revision+'\n'
-        raise AssertionError(args)
-
-    def run(args, *, cwd, text, capture_output):
-        calls.append((args,cwd,text,capture_output))
-        assert args == ['git','worktree','add','--detach',str(destination),revision]
-        destination.mkdir()
-        return SimpleNamespace(returncode=0,stdout='',stderr='')
-
-    monkeypatch.setattr(legacy.subprocess,'check_output',check_output)
-    monkeypatch.setattr(legacy.subprocess,'run',run)
-    result=legacy.checkout(tmp_path,'v0.5.1',destination)
-
-    assert result['revision'] == revision
-    assert result['detached'] is True
-    assert result['current_candidate_data_imported'] is False
-    assert result['physical_accepted'] is False
-    assert [call[0][:3] for call in calls] == [
-        ['git','rev-parse','--verify'],['git','worktree','add'],['git','-C',str(destination)]]
-
-
-@pytest.mark.parametrize('release,path',[
-    ('v0.6', '/tmp/not-a-historical-release'),
-    ('v0.5.1', 'relative/path'),
-    ('v0.5.1', '.'),
-])
-def test_legacy_checkout_refuses_unknown_or_unsafe_worktree_scope(tmp_path, release, path):
-    from engineering.development_baseline import legacy
-    with pytest.raises(ValueError):
-        legacy.checkout(tmp_path,release,path)
-
-
-def test_legacy_checkout_refuses_existing_destination(tmp_path):
-    from engineering.development_baseline import legacy
-    destination=tmp_path.parent/(tmp_path.name+'-occupied')
-    destination.mkdir()
-    with pytest.raises(ValueError,match='Refusing to replace'):
-        legacy.checkout(tmp_path,'v0.4.0',destination)
-
-
-def test_failed_legacy_checkout_removes_only_its_partial_target(tmp_path, monkeypatch):
-    from types import SimpleNamespace
-    from engineering.development_baseline import legacy
-
-    destination=tmp_path.parent/(tmp_path.name+'-partial-legacy')
-    revision=legacy.LEGACY_CHECKOUTS['v0.4.0']
-
-    def check_output(args, *, cwd, text):
-        return revision+'\n'
-
-    def run(args, *, cwd, text, capture_output):
-        if args[1:3] == ['worktree','add']:
-            destination.mkdir()
-            return SimpleNamespace(returncode=128,stdout='',stderr='disk quota exceeded')
-        return SimpleNamespace(returncode=1,stdout='',stderr='not registered')
-
-    monkeypatch.setattr(legacy.subprocess,'check_output',check_output)
-    monkeypatch.setattr(legacy.subprocess,'run',run)
-    with pytest.raises(RuntimeError,match='disk quota exceeded'):
-        legacy.checkout(tmp_path,'v0.4.0',destination)
-    assert not destination.exists()
-
 
 @pytest.mark.parametrize('mutation', ['source', 'summary', 'identity', 'acceptance', 'symlink'])
 def test_mixed_or_modified_packets_are_rejected(packet, mutation):
@@ -218,7 +143,7 @@ def test_server_is_read_only_and_refuses_tampering(packet):
             value = json.load(response)
         assert value['candidate_id'] == summary['candidate_id']
         assert value['publication_state'] == 'current'
-        for path, method, status in [('/api/default-design', 'POST', 405), ('/api/hardware', 'GET', 410), ('/.git/config', 'GET', 404), ('/docs/%2e%2e/%2e%2e/etc/passwd', 'GET', 404)]:
+        for path, method, status in [('/api/default-design', 'POST', 405), ('/api/hardware', 'GET', 410), ('/.git/config', 'GET', 404), ('/docs/%2e%2e/%2e%2e/etc/passwd', 'GET', 404), ('/docs/workbench/maglev/', 'GET', 410), ('/docs/workbench/maglev/app.js', 'GET', 410)]:
             with pytest.raises(urllib.error.HTTPError) as caught:
                 urllib.request.urlopen(urllib.request.Request(base+path, method=method))
             assert caught.value.code == status

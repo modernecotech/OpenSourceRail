@@ -1,9 +1,7 @@
-# Historical publications before the comfort default
+# Prior source-bound records
 
-These records preserve the source-bound publications at revision `578ee3950b872bf30fbf9e4207b2bda85951bdd7`. The current comfort development design is selected through [the repository selector](../../../engineering/development-baseline.toml) and [current engineering dossier](../../design-engine/current/README.md).
+This directory preserves source and payload identities for earlier engineering records. The manifest is the integrity index. These files are not inputs to the selected v0.6 candidate or its current estimates.
 
-Historical source hashes are checked against the recorded Git revision. They are not edited to match a different working tree. City root introductions can therefore move to the new default while earlier city calculations and source records remain traceable.
+The selected candidate and current engineering status are documented in the [repository selector](../../../engineering/development-baseline.toml) and [current engineering dossier](../../design-engine/current/README.md).
 
-[Former reader](OpenSourceRail-Book.pdf) · [Former roadmap](ROADMAP.md) · [Archive receipt](manifest.json).
-
-These records retain their original source and payload identities. Integrity checks do not rerun numerical solvers or grant physical acceptance. Historical quantities and results remain separate from the current v0.6 candidate.
+The preserved records remain unchanged. Their contents do not qualify the selected candidate or grant physical acceptance.

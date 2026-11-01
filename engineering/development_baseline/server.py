@@ -109,6 +109,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.hold('No current-design read-only endpoint exists here. Historical execution is isolated.', 410)
                 return
             relative = path.lstrip('/')
+            if relative == 'docs/workbench/maglev' or relative.startswith('docs/workbench/maglev/'):
+                self.hold('This interface is not part of the selected v0.6 Workbench.', 410)
+                return
             if not (relative.startswith(('docs/', 'cities/')) or relative == 'OpenSourceRail-Book.pdf'):
                 self.hold('Static route unavailable', 404)
                 return

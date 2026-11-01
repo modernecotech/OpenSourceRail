@@ -173,10 +173,7 @@ def _module(name):
 
 
 def main(argv=None, root=ROOT):
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        epilog=('For isolated reproduction of earlier command behavior, use a '
-                'pinned external checkout: ./osr legacy checkout RELEASE --path /absolute/path.'))
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path(root), help=argparse.SUPPRESS)
     parser.add_argument('command', nargs='?', default='status')
     parser.add_argument('arguments', nargs=argparse.REMAINDER)
@@ -389,8 +386,6 @@ def main(argv=None, root=ROOT):
                 pub.publish(rest[1])
                 emit(twin_recovery.bind_publication(target));return 0
             raise ValueError('Use campaign create PATH, run ID [--max-jobs N], compare ID or publish ID')
-        if command == 'legacy':
-            return _module('legacy').main(rest, root=root)
         if command in ('plan', 'planning'):
             if not rest or rest in (['-h'], ['--help'], ['help']):
                 print('Usage: ./osr plan COMMAND [arguments]\n\n'
@@ -562,7 +557,7 @@ def main(argv=None, root=ROOT):
                 emit(status(root))
                 return 0
             return hold(root, command + ' ' + ' '.join(rest),
-                        'This current-design action has no verified candidate-bound adapter. See ./osr status for actual gates; historical methods use ./osr legacy')
+                        'This action has no verified candidate-bound adapter. See ./osr status for the current gates.')
         if command == 'workbench':
             return _module('server').main(rest, root=root)
         if command == 'test':
@@ -574,7 +569,7 @@ def main(argv=None, root=ROOT):
             emit(_module('publication').verify(root=root, output=root / OUTPUT))
             subprocess.run(['node', str(root / 'tools/automation/tests/verify-development-baseline.mjs')], cwd=root, check=True)
             return 0
-        return hold(root, command, 'Unsupported current-design command; use ./osr --help or ./osr legacy for retained methods')
+        return hold(root, command, 'Unsupported current-design command; use ./osr --help for available workflows.')
     except (OSError, ValueError, KeyError, ImportError, subprocess.CalledProcessError) as exc:
         emit(dict(schema='osr-default-entrypoint-error/1', execution='held',
                   requested_action=command, reason=str(exc), development_default=True, **FLAGS))
