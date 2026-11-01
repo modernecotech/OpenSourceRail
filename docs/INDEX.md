@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **121**.
+Indexed Markdown files: **118**.
 
 ## Sections
 
@@ -21,11 +21,10 @@ Indexed Markdown files: **121**.
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 3 |
 | [cities](#cities) | 1 |
-| [control-electronics](#control-electronics) | 1 |
-| [crates](#crates) | 2 |
+| [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 83 |
-| [engineering](#engineering) | 24 |
+| [engineering](#engineering) | 23 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -54,18 +53,11 @@ Indexed Markdown files: **121**.
 |---|---|
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City geography and planning inputs |
 
-## control-electronics
-
-| File | Title |
-|---|---|
-| [`control-electronics/README.md`](../control-electronics/README.md) | Maglev control electronics |
-
 ## crates
 
 | File | Title |
 |---|---|
 | [`crates/README.md`](../crates/README.md) | OpenSourceRail Rust control and integration software |
-| [`crates/osr-maglev-control/README.md`](../crates/osr-maglev-control/README.md) | osr-maglev-control |
 
 ## deployment
 
@@ -182,7 +174,6 @@ Indexed Markdown files: **121**.
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Iterative physical design search |
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
-| [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
 | [`engineering/magnetic_confirmation/README.md`](../engineering/magnetic_confirmation/README.md) | Finite 3D magnetic confirmation |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |

@@ -31,6 +31,9 @@ def indexed_markdown(path):
     return relative not in {
         'engineering/ferrite_maglev/README.md',
         'engineering/ferrite_maglev/city-index.md',
+        'engineering/ferrite_maglev/observer-prototype/README.md',
+        'control-electronics/README.md',
+        'crates/osr-maglev-control/README.md',
         'docs/design-engine/ferrite-maglev/pilot-delivery/README.md',
         'docs/design-engine/ferrite-maglev/capability-migration/README.md',
         'docs/releases/v0.5.1.md',

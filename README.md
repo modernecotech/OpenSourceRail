@@ -147,6 +147,8 @@ reviewed business records + serial installation + maintenance history
 
 The current v0.6 coordinator binds the selected candidate through engineering, inventory and delivery drafts. Planning handoffs carry route, stop, service and OD proposals only; they are verified with `./osr plan verify`. Candidate-specific construction schedules, complete priced cashflows, approved production data and measured operating records remain open until their inputs are available.
 
+From a verified planning handoff, `./osr twin factory-draft compile build/my-plan --output build/factory-plan` creates a provisional six-car factory work package; `./osr twin factory-draft verify build/my-plan build/factory-plan` checks its source and candidate identities. The draft carries modelled production hours and low/base/high cost estimates under the declared two 8-hour production shifts. It does not release procurement or manufacture, and it does not complete site civil schedules or operating acceptance.
+
 ## Manufacturing, civil works and affordability
 
 
@@ -215,6 +217,7 @@ The [planning workspace](docs/workbench/planning/index.html) displays source-ver
 ./osr readiness
 ./osr workbench
 ./osr plan --help
+./osr twin export
 ./osr design railway plan
 ./osr design railway run --max-bundles 2 --native-jobs 1
 ./osr design railway publish
@@ -225,6 +228,9 @@ The [planning workspace](docs/workbench/planning/index.html) displays source-ver
 ./osr test
 ./osr sim baghdad
 ```
+
+The Workbench shows the factory draft inputs and open holds. Without a verified
+planning handoff, its compiler reports a hold and creates no package.
 
 The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. `./osr sim baghdad` reports the current city-evaluation hold. `./osr build` refreshes the current source-bound dossier, delivery drafts, Workbench and reader. The local review UI has no live train-control authority.
 
@@ -241,7 +247,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Inspect current candidate delivery exports | [Current export manifest](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json), `./osr twin export` |
 | Configure business and people workflows | [ERPNext/Frappe HR deployment](deployment/erpnext/README.md) |
 | Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [ERPNext lifecycle app](deployment/erpnext/apps/osr_erpnext/osr_erpnext/) |
-| Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
+| Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 control interfaces](engineering/station_rail/controls.py) |
 | Set up tools or contribute | [Tools](tools/README.md), [CONTRIBUTING](CONTRIBUTING.md), [GOVERNANCE](GOVERNANCE.md), [project instructions](AGENTS.md) |
 
 ## About the author

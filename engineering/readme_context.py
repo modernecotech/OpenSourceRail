@@ -67,7 +67,7 @@ def inventory(root=ROOT):
     for options in ([], ['--others', '--exclude-standard']):
         raw = subprocess.check_output(['git', 'ls-files', '-z', *options, '*README*'], cwd=root)
         names.update(name.decode() for name in raw.split(b'\0') if name and name.decode().endswith('.md'))
-    return sorted(names)
+    return sorted(name for name in names if (root / name).is_file())
 
 
 def category(name):

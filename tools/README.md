@@ -22,6 +22,8 @@ engineering, planning, delivery and verification workflows. Start with the
 | Edit and compile city proposals | `./osr plan serve` then `./osr plan compile edits.json --output build/my-plan` | Immutable route, stop, service and OD handoff bound to the selected candidate |
 | Verify a planning handoff | `./osr plan verify build/my-plan` | Source and candidate identity verification |
 | Inspect candidate delivery exports | `./osr twin export` | Current CAD/IFC, BOM, procurement, assembly and control export status |
+| Draft selected-candidate factory work package | `./osr twin factory-draft compile build/my-plan --output build/factory-plan` | Modelled process hours, low/base/high cost and two-shift production plan; requires a verified planning handoff |
+| Verify factory work package | `./osr twin factory-draft verify build/my-plan build/factory-plan` | Source and candidate identity verification; no procurement or manufacturing release |
 | Open the engineering viewer | `./osr workbench` | Read-only current candidate and evidence views |
 
 Planning handoffs contain proposals. They do not contain route-performance,
