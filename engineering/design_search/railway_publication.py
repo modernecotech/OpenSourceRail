@@ -213,9 +213,16 @@ def _retain_exact_prior_body_cases(root,value,out,native_index):
 def _current_refinement(root, value):
     """Load the exact current-source continuation when its sealed package exists."""
     from . import railway_refinement_current, railway_refinement_current_verifier
+    requested = _requested_refinement_frontier(
+        value, railway_refinement_current.CANDIDATE_ID,
+        railway_refinement_current.NEXT_MESH_M)
+    if requested is None:
+        return None
     parent = Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
     context = railway_refinement_current._context(
         root, parent_result=parent, candidate_id=railway_refinement_current.CANDIDATE_ID)
+    if context[5] != requested:
+        raise ValueError('Current refinement context differs from the active publication frontier')
     request = railway_refinement_current._request(context[0], context[2], context[3], context[4],
         context[5], context[6], context[7])
     folder = railway_refinement_current._package(root, request)
@@ -231,12 +238,37 @@ def _current_refinement(root, value):
 
 def _current_fine_refinement(root, value):
     from . import railway_refinement_current_fine_reconcile as reconciler
+    from . import railway_refinement_current as current_refinement
+    requested = _requested_refinement_frontier(
+        value, reconciler.CANDIDATE_ID, current_refinement.NEXT_MESH_M)
+    if requested is None:
+        return None
     parent=Path(root)/'build/coupled-railway'/value['contract_id']/'result.json'
     base=Path(root)/'build/coupled-railway/reconciliations'/reconciler.CANDIDATE_ID
     receipts=sorted(p for p in base.glob('*/manifest.json') if p.is_file())
     if not receipts:return None
-    if len(receipts)!=1:raise ValueError('Expected one current-source fine-refinement reconciliation for this body')
-    folder=receipts[0].parent;request=json.loads((folder/'request.json').read_bytes())
+    parent_sha=digest(parent)
+    matching=[]
+    for receipt in receipts:
+        folder=receipt.parent
+        try:
+            request=json.loads((folder/'request.json').read_bytes())
+        except (OSError,ValueError,TypeError):
+            # Keep unrelated or incomplete receipts in build state as provenance.
+            continue
+        if (identity(request)==folder.name
+                and request.get('schema')=='osr-current-source-fine-refinement-request/1'
+                and request.get('body_candidate_id')==reconciler.CANDIDATE_ID
+                and request.get('mesh_m')==reconciler.MESH_M
+                and request.get('parent_result_sha256')==parent_sha
+                and request.get('parent_contract_id')==value.get('contract_id')
+                and request.get('parent_campaign_id')==value.get('campaign_id')
+                and request.get('parent_run_id')==value.get('run_id')
+                and request.get('parent_frontier_item')==requested):
+            matching.append((folder,request))
+    if not matching:return None
+    if len(matching)!=1:raise ValueError('Expected one exact current-source fine-refinement reconciliation for this parent request')
+    folder,request=matching[0]
     verification=reconciler.verify(root,parent_result=parent,candidate_id=reconciler.CANDIDATE_ID,
         request_id=identity(request))
     request_id=identity(request)
@@ -244,6 +276,14 @@ def _current_fine_refinement(root, value):
         request=request,result=json.loads((folder/'result.json').read_bytes()),
         report=json.loads((folder/'report.json').read_bytes()),
         manifest=json.loads((folder/'manifest.json').read_bytes()),verification=verification)
+
+
+def _requested_refinement_frontier(value, candidate_id, mesh_m):
+    """Return the exact bounded continuation request, if this parent asks for it."""
+    return next((task for task in value.get('frontier', [])
+        if task.get('kind')=='unresolved-numerical-refinement'
+        and task.get('body_candidate_id')==candidate_id
+        and task.get('proposed_next_mesh_m')==mesh_m),None)
 
 
 def _published_frontier(value, refinement, fine_refinement=None):
