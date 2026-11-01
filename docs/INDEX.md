@@ -87,7 +87,7 @@ Indexed Markdown files: **121**.
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
-| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 28 October 2026 |
+| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 1 November 2026 |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
@@ -119,7 +119,7 @@ Indexed Markdown files: **121**.
 | [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
 | [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
 | [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
-| [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 28 October 2026 |
+| [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
 | [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 30 October 2026 |

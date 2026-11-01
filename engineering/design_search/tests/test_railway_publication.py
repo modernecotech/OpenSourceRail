@@ -11,7 +11,7 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     result = publication.verify()
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
-    assert result['native_body_case_count'] == 9
+    assert result['native_body_case_count'] == 14
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
     summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
@@ -20,18 +20,14 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert completion['integrated_force_driven_journey_complete']==0
     assert completion['engineering_validated']==0
     assert completion['approved_for_manufacture_or_operation']==0
-    assert summary['current_source_refinement']['execution']=='completed'
-    assert summary['current_source_refinement']['numerical_validity']=='equilibrium_energy_confirmed_only'
-    assert summary['current_source_refinement']['physical_and_engineering_acceptance'] is False
-    assert summary['current_source_fine_refinement']['mesh_m']==0.10625
-    assert summary['current_source_fine_refinement']['reconciliation_state']=='reconciled-from-immutable-native-result'
-    assert summary['current_source_fine_refinement']['physical_and_engineering_acceptance'] is False
+    assert summary['current_source_refinement'] is None
+    assert summary['current_source_fine_refinement'] is None
     assert summary['frontier_tasks']==46
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
     continuation=next(x for x in frontier if x['kind']=='unresolved-numerical-refinement'
         and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b')
-    assert continuation['proposed_next_mesh_m']==0.053125
-    assert continuation['computational_cell_estimate']['solid_cells']==290660
+    assert continuation['proposed_next_mesh_m']==0.2125
+    assert continuation['next_job_within_current_mesh_domain'] is False
 
 
 def _declared_cost_row():
@@ -90,6 +86,53 @@ def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
     # depending on a developer's private build directory.
     monkeypatch.setattr(publication,'current',lambda root:(ROOT/'build/coupled-railway',current_result))
     assert publication.build()['verified']
+
+
+def test_identical_retained_publication_retry_is_idempotent(tmp_path):
+    out=tmp_path/'docs/design-engine/coupled-railway'
+    out.mkdir(parents=True)
+    (out/'manifest.json').write_text('{"manifest_id":"kept"}')
+    (out/'README.md').write_text('prior packet\n')
+    retained=tmp_path/'build/coupled-railway/replaced-publications'/publication.digest(out/'manifest.json')
+    retained.parent.mkdir(parents=True)
+    shutil.copytree(out,retained)
+
+    assert publication._retain_previous_publication(tmp_path,out)==retained
+    assert not out.exists()
+    assert (retained/'README.md').read_text()=='prior packet\n'
+
+
+def test_conflicting_retained_publication_is_preserved_and_refused(tmp_path):
+    out=tmp_path/'docs/design-engine/coupled-railway'
+    out.mkdir(parents=True)
+    (out/'manifest.json').write_text('{"manifest_id":"kept"}')
+    (out/'README.md').write_text('new packet\n')
+    retained=tmp_path/'build/coupled-railway/replaced-publications'/publication.digest(out/'manifest.json')
+    retained.mkdir(parents=True)
+    (retained/'manifest.json').write_text((out/'manifest.json').read_text())
+    (retained/'README.md').write_text('different packet\n')
+
+    with pytest.raises(ValueError,match='already retained'):
+        publication._retain_previous_publication(tmp_path,out)
+    assert (out/'README.md').read_text()=='new packet\n'
+    assert (retained/'README.md').read_text()=='different packet\n'
+
+
+def test_summary_counts_reused_native_body_cases_once():
+    value=dict(campaign_id='campaign',contract_id='contract',
+        specification={'initial_structural_recipes':0},executed_body_revisions=[],
+        bundles=[],rows=[],bodies=[],frontier=[],dependency_graph={},
+        partial_quantity_comparison={},native={
+            'body_results':[{'evaluation_id':'new'}],
+            'independent_fixtures':[],'CAD_results':[]})
+
+    report=publication.summary(value,reused_body_cases=[{'evaluation_id':'reused'}])
+
+    assert report['native_campaign_body_case_count']==1
+    assert report['native_new_body_case_count']==1
+    assert report['native_reused_body_case_count']==1
+    assert report['native_body_case_count']==2
+    assert len(value['native']['body_results'])==1
 
 
 def _refinement_frontier(candidate_id, mesh_m):

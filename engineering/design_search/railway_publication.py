@@ -30,6 +30,26 @@ def compact_native_archive(folder):
     return gzip.compress(buf.getvalue(),mtime=0)
 
 
+def _retain_previous_publication(root,out):
+    """Retain a prior packet once; tolerate its identical retry after interruption."""
+    out=Path(out)
+    root=Path(root)
+    if not out.exists():return None
+    manifest=out/'manifest.json'
+    retained=root/'build/coupled-railway/replaced-publications'/digest(manifest)
+    retained.parent.mkdir(parents=True,exist_ok=True)
+    if retained.exists():
+        def tree_hashes(folder):
+            return {p.relative_to(folder).as_posix():digest(p)
+                    for p in folder.rglob('*') if p.is_file()}
+        if tree_hashes(out)!=tree_hashes(retained):
+            raise ValueError('Previous coordinated publication already retained')
+        shutil.rmtree(out)
+        return retained
+    shutil.move(out,retained)
+    return retained
+
+
 def current(root=ROOT):
     root=Path(root);epoch=engine.source_epoch(root);spec=engine.specification(root);contract=identity(dict(specification=spec,source_sha256=epoch))
     folder=root/'build/coupled-railway'/contract;value=json.loads((folder/'result.json').read_bytes())
@@ -403,7 +423,7 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
     result=dict(schema='osr-coupled-railway-summary/1',campaign_id=value['campaign_id'],contract_id=value['contract_id'],body_count=len(rows),
         initial_body_count=value['specification']['initial_structural_recipes'],body_rewrite_count=len(value['executed_body_revisions']),
         bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=sum(len(r['stages']) for r in value['rows']),
-        body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=len(value['native']['body_results'])+len(reused_body_cases)+refinement_count,
+        body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=new_native_body_case_count+len(reused_body_cases)+refinement_count,
         CAD_case_count=len(value['native']['CAD_results']),magnetic_method_cases=len(magnetic),magnetic_completed=sum(r['result']['execution']=='completed' for r in magnetic),
         native_new_body_case_count=new_native_body_case_count+refinement_count,
         native_campaign_body_case_count=new_native_body_case_count,
@@ -488,9 +508,7 @@ def build(root=ROOT,output=None):
                     and execution.get('campaign_id')==value['campaign_id']):
                 return verify(root,out)
     if out.exists():
-        retained=root/'build/coupled-railway/replaced-publications'/digest(out/'manifest.json');retained.parent.mkdir(parents=True,exist_ok=True)
-        if retained.exists():raise ValueError('Previous coordinated publication already retained')
-        shutil.move(out,retained)
+        _retain_previous_publication(root,out)
     out.mkdir(parents=True);(out/'native').mkdir();native=[];epochs={}
     for i,r in enumerate(value['native']['packet_index']):
         p=folder/'native'/r['raw_path'];target='native/'+str(i)+'.tar.gz';(out/target).write_bytes(compact_native_archive(p))
