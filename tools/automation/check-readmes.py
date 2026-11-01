@@ -6,6 +6,11 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import subprocess
+import sys
+
+AUTOMATION_DIR = str(Path(__file__).resolve().parent)
+if AUTOMATION_DIR not in sys.path:
+    sys.path.insert(0, AUTOMATION_DIR)
 
 from doc_index_policy import is_indexed_markdown
 
