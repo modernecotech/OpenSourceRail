@@ -12,7 +12,7 @@ OpenSourceRail aims for simple, affordable urban transport, repeated precast civ
 | Accounted tare / normal load | 19.222 / 22.672 t/car at 75 kg/person |
 | Located material / remaining reference accounts | 9.132 / 10.090 t/car |
 | Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |
-| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; 1,516 candidate geometry parts trace to 28 source occurrences (1,162.040 kg/car); installed mass remains unknown |
+| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; 1,516 geometry parts retain exact source-geometry links (1,162.040 kg/car); 44 further parts (478.763 kg/car) match three declared source-component groups by exact aggregate mass; installed mass remains unknown |
 | Service-only battery | 82.8 kWh, 1345 kg/car reference account; cooled installation and rail approval open |
 | Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |
 
@@ -55,7 +55,7 @@ The selected six-car vehicle now has its own source-bound Class C estimate for l
 | Research scope | Sourcing evidence | Cost disposition |
 |---|---|---|
 | Selected v0.6 vehicle `756a68870162` | Located geometry plus explicitly priced residual accounts; six cars; two 8 h production shifts; 50 km reference delivery | Candidate-bound Class C vehicle estimate; no route, civil or whole-life total |
-| Selected-candidate synthetic system scenario `ba9bea4a5b2b` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated | Installed CAPEX IQD 55,184,267,657/272,378,358,434/1,669,785,373,213 low/base/high; whole-life NPV IQD 118,237,261,934/648,181,163,997/5,646,181,783,781; Class C only |
+| Selected-candidate synthetic system scenario `4c841ef51c5e` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated | Installed CAPEX IQD 55,184,267,657/272,378,358,434/1,669,785,373,213 low/base/high; whole-life NPV IQD 118,237,261,934/648,181,163,997/5,646,181,783,781; Class C only |
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 physical scopes across 7,042 review requirements; 137 evaluated, 6,905 pending | 0 compatible priced matches; nine RFQ drafts remain unsent |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |

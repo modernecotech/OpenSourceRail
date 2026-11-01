@@ -484,7 +484,8 @@ def mass_account_reconciliation_priority(worksheet):
     uncertainty bounds. This queue is kept separate from research-candidate
     cost scenarios and cannot imply a candidate preference change.
     """
-    if not isinstance(worksheet, dict) or worksheet.get("schema") != "osr-v06-mass-closure-worksheet/1":
+    if not isinstance(worksheet, dict) or worksheet.get("schema") not in {
+            "osr-v06-mass-closure-worksheet/1", "osr-v06-mass-closure-worksheet/2"}:
         raise ValueError("Exact selected-reference mass closure worksheet required")
     if worksheet.get("worksheet_id") != mass_identity({key: value for key, value in worksheet.items()
                                                          if key != "worksheet_id"}):

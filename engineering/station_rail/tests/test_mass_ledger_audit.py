@@ -80,6 +80,76 @@ def test_direct_source_occurrence_links_are_disjoint_and_preserve_mass_totals():
     assert summary["complete_installed_mass_kg"] is None
 
 
+def test_calculated_component_groups_trace_existing_glazing_and_infill_geometry_without_changing_mass():
+    ledger, _, _ = mass_ledger_audit._inputs(vehicle.ROOT)
+    groups = {row["occurrence_id"]: row for row in ledger["derived_source_component_geometry_groups"]}
+    expected = {
+        "infill/blanked-door-stock": (8, 67.62),
+        "glazing/glazing/glass": (24, 390.0),
+        "glazing/glazing/PVB": (12, 21.1432),
+    }
+    assert set(groups) == set(expected)
+    for occurrence_id, (count, mass) in expected.items():
+        group = groups[occurrence_id]
+        assert len(group["candidate_geometry_occurrence_ids"]) == count
+        assert group["source_account_mass_kg"] == pytest.approx(mass, abs=1e-7)
+        assert group["candidate_geometry_mass_kg"] == pytest.approx(mass, abs=1e-7)
+        assert group["mass_difference_kg"] == pytest.approx(0.0, abs=1e-7)
+        assert group["mapping_method"] == "declared-geometry-family-and-exact-group-mass"
+
+    summary = ledger["summary"]
+    assert summary["candidate_geometry_with_derived_source_component_group_link_count"] == 44
+    assert summary["candidate_geometry_with_derived_source_component_group_link_mass_kg"] == pytest.approx(478.7632)
+    assert summary["source_occurrence_with_derived_source_component_group_link_count"] == 3
+    assert summary["derived_source_component_group_mass_checks_pass"] is True
+    assert summary["candidate_geometry_with_exact_source_identity_link_count"] == 2266
+    assert summary["candidate_geometry_without_exact_source_identity_link_count"] == 216
+    assert summary["accounted_tare_kg_per_car"] == pytest.approx(19221.998134341986)
+    assert summary["located_geometry_mass_kg"] == pytest.approx(9131.798543498426)
+    assert summary["residual_reference_or_unlocated_mass_kg"] == pytest.approx(10090.19959084356)
+
+    infill = next(row for row in ledger["source_account_occurrences"]
+                  if row["occurrence_id"] == "infill/blanked-door-stock")
+    assert infill["source_location_known"] is False
+    assert len(infill["candidate_geometry_occurrence_ids"]) == 8
+    derived_parts = [row for row in ledger["candidate_geometry_occurrences"]
+                     if row.get("source_occurrence_link_method") ==
+                     "derived-source-component-group-and-exact-total-mass"]
+    assert len(derived_parts) == 44
+    assert sum(row["mass_kg"] for row in derived_parts) == pytest.approx(478.7632)
+    assert all(row["source_location_known"] is False for row in derived_parts)
+    assert all(row["candidate_to_source_occurrence_mass_difference_kg"] is None for row in derived_parts)
+    assert all(row["derived_source_group_mass_difference_kg"] == pytest.approx(0.0, abs=1e-7)
+               for row in derived_parts)
+
+    worksheet = mass_ledger_audit.build_closure_worksheet(ledger)
+    assert worksheet["schema"] == "osr-v06-mass-closure-worksheet/2"
+    assert worksheet["summary"]["derived_source_component_group_link_count"] == 44
+    assert worksheet["summary"]["derived_source_component_group_link_mass_kg"] == pytest.approx(478.7632)
+    assert worksheet["summary"]["exact_source_identity_link_count"] == 2266
+    assert all(row["physically_installed_mass_kg"] is None and row["installed_position_m"] is None
+               for row in worksheet["rows"])
+
+
+def test_calculated_component_group_rejects_geometry_mass_or_account_mismatch():
+    candidate = deepcopy(vehicle.build())
+    parent, _ = vehicle._read_parent(vehicle.ROOT)
+    parent = deepcopy(parent)
+    infill = next(part for part in candidate["geometry_parts"]
+                  if part["id"] == "comfort-shell/infill/0/outer")
+    infill["mass_kg"] += 0.1
+    with pytest.raises(ValueError, match="differs from its pinned source mass"):
+        mass_ledger_audit.reconcile(candidate, parent)
+
+    candidate = vehicle.build()
+    parent, _ = vehicle._read_parent(vehicle.ROOT)
+    parent = deepcopy(parent)
+    source = next(row for row in parent["inventory"] if row["id"] == "glazing/glazing/glass")
+    source["mass_kg"] += 0.1
+    with pytest.raises(ValueError, match="does not reconcile to its source account"):
+        mass_ledger_audit.reconcile(candidate, parent)
+
+
 def test_direct_source_occurrence_link_rejects_mass_mismatch():
     candidate = deepcopy(vehicle.build())
     parent, _ = vehicle._read_parent(vehicle.ROOT)

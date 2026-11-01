@@ -57,6 +57,16 @@ def test_mass_account_queue_ranks_reconciliation_gap_without_calling_it_uncertai
     assert result["summary"]["could_change_preferred"] is None
 
 
+def test_mass_account_queue_accepts_version_two_closure_worksheet():
+    worksheet = _worksheet()
+    worksheet["schema"] = "osr-v06-mass-closure-worksheet/2"
+    worksheet["summary"]["derived_source_component_group_link_count"] = 44
+    worksheet["worksheet_id"] = identity({key: value for key, value in worksheet.items() if key != "worksheet_id"})
+    result = mass_account_reconciliation_priority(worksheet)
+    assert len(result["account_reconciliation_investigation_queue"]) == 2
+    assert result["summary"]["complete_installed_mass_kg"] is None
+
+
 def test_mass_account_queue_rejects_stale_worksheet_identity():
     worksheet = _worksheet()
     worksheet["rows"][0]["accounting_residual_kg"] = "99"

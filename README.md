@@ -10,7 +10,7 @@ The wider project still includes city planning, CAD/BIM, manufacturing, business
 
 ![OpenSourceRail v0.6 proposed six-car wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
-*Architectural concept, not approved geometry: six 17 m cars, passive steel-wheel bogies, flush roof solar panels, conventional rails on repeatable precast beams and a compact station. [Inspect the source-bound counted vehicle geometry](docs/design-engine/current/vehicle-overview.svg); that geometry and its retained supplier accounts do not establish a complete installed train or manufacturing release.*
+*Architectural concept, not approved geometry: six 17 m cars, passive steel-wheel bogies, flush roof solar panels, conventional rails on repeatable precast beams and a compact station. [Inspect the source-bound counted vehicle geometry](docs/design-engine/current/vehicle-overview.svg); that geometry and its source-account balances do not establish a complete installed train or manufacturing release.*
 
 ## Why OpenSourceRail
 
@@ -70,7 +70,7 @@ The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-
 | Formation | Six 17 m cars; approximately 104.5 m including gaps |
 | Comfort | 44 fixed seats + two wheelchair places/car; 276/train; no planned standing |
 | Layout | Four abreast where structure permits, wall benches at doors; two passenger doors on one side |
-| Body | Aluminium/GFRP architecture, sandwich floor/roof, lightweight benches and retained glazing |
+| Body | Aluminium/GFRP architecture, sandwich floor/roof, lightweight benches and glazing |
 | Running gear | Twelve unpowered two-axle bogies: 24 axles, 48 wheels |
 | Propulsion | Station double-sided LIM reference; passive aluminium secondary on each car |
 | Ordinary guideway | Conventional rails and fastenings on precast concrete; box, twin-beam and U-beam comparisons |
@@ -80,7 +80,7 @@ The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-
 | Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² service deceleration, 35 s dwell, 120 s headway |
 | Capacity arithmetic | 8,280 passengers/hour/direction at 30 departures/hour; protected headway remains unqualified |
 
-The normal passenger cap is a comfort and load-management choice; it does not remove crowd, evacuation or accidental-load checks. The retained 160-person/car structural case remains explicit. The earlier 120-person/car, 14,400 passengers/hour/direction comparison is a separate capacity alternative, not this 46-person/car reference. One-sided doors require compatible platforms, accessible boarding and emergency exits.
+The normal passenger cap is a comfort and load-management choice; it does not remove crowd, evacuation or accidental-load checks. Structural checks retain a 160-person/car crowd-load control case. One-sided doors require compatible platforms, accessible boarding and emergency exits. Any change to propulsion, formation or passenger loading is a separate candidate whose mass, energy, vehicle, civil, factory and service effects must be evaluated together.
 
 Loss of station propulsion leaves the vehicle supported on its wheels. Independent braking must remain available, and a train stopped outside a powered zone needs a protected recovery/towing and evacuation arrangement. Walkway removal or a proposed escape device is not treated as approved.
 
@@ -89,8 +89,6 @@ A separate [practical launch comparison](docs/design-engine/practical-launch/REA
 **The selected v0.6 reference uses passive bogies with station LIM propulsion and no onboard traction motors or traction store.** Its reference dossier retains a 900 m winding allocation per station and direction. The separate [station-accelerator research](docs/design-engine/station-accelerators/README.md) investigates five aligned 20 m banks (100 m active length) as a distinct alternative; that geometry is not the selected reference. In either configuration, available thrust, safe stopping, recovery and installed price remain open.
 
 The 900 m reference and 100 m research geometry require separate force maps, electrical/thermal duty, plant and civil quantities, procurement BOMs and installed costs. Their lengths and results are not combined or transferred between candidates. The five-bank candidate now has [unsent, candidate-bound bank RFQ scope drafts](docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) with a common 1.5/2 km duty matrix, sourced local fabrication leads and explicit converter, cooling, protection and installation holds; no supplier response or physical force map has been obtained.
-
-The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 
 The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
 
