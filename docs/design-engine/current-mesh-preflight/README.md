@@ -1,6 +1,6 @@
 # Current mesh resource preflight
 
-This exact preflight is bound to body `8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b`, definition `8eed09c97b93d3aa1988d8bdc99f11a45d6f64ca470eea10b28ecf664a34a842`, P1 bundle `1e8d1d7c394fc0bdbd47e34fb21d413ebc34a49576bad60b31b254bd635dfb68`, normal load (10818.661 kg sprung-mass hypothesis), and `C3D8I`.
+This exact preflight is bound to body `8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b`, definition `6695d54a44e68692b4d95361f1b5aac72f7f80ed957b0a5b589c08bfbb854641`, P1 bundle `1e8d1d7c394fc0bdbd47e34fb21d413ebc34a49576bad60b31b254bd635dfb68`, normal load (10818.661 kg sprung-mass hypothesis), and `C3D8I`.
 
 It counts nested axis-plane refinements of the same disjoint-box stock. The operation does not generate a native deck or call CalculiX. It reports no memory or runtime estimate.
 

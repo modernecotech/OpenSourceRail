@@ -1,5 +1,5 @@
-schema = "osr-current-mass-reserve-sensitivity/1"
-purpose = "Provisional per-car and six-car tare sensitivity using existing unlocated account balances; replaces those residuals and does not claim an installed-mass inventory."
+schema = "osr-current-mass-reserve-sensitivity/2"
+purpose = "Candidate-bound residual mass completion proposals, Class C manufacturing routes and cost estimates; proposals replace existing account balances and do not claim an installed-mass inventory."
 source_selection_id = "8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc"
 source_candidate_id = "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3"
 account_residual_scope = "positive accounting-residual_kg values from the selected candidate mass-closure worksheet"
@@ -8,3 +8,12 @@ factor_basis = "Declared engineering sensitivity multipliers. They are not stati
 [cases]
 names = ["low", "base", "high"]
 reserve_factors = [0.8, 1.0, 1.2]
+
+[component_completion]
+vehicles_per_demonstrator = 6
+production_shifts_per_day = 2
+production_hours_per_shift = 8
+productive_utilisation = 0.75
+source_class = "C"
+mass_equivalent_volume_only = true
+no_cross_account_cost_summation = true

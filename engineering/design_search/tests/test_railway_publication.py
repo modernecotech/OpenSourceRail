@@ -13,10 +13,14 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
     summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
-    expected_native_cases=(14+int(summary['current_source_refinement'] is not None)
-        +int(summary['current_source_fine_refinement'] is not None)
-        +int(summary.get('current_source_ultrafine_refinement') is not None))
+    native_index=json.loads((ROOT/publication.OUTPUT/'native-index.json').read_bytes())
+    native_kinds={'body','body-refinement','body-exact-cache-reuse','body-current-source-refinement',
+        'body-current-source-fine-refinement','body-current-source-fine-refinement-reconciliation',
+        'body-current-source-ultrafine-refinement'}
+    expected_native_cases=sum(item.get('kind') in native_kinds for item in native_index)
     assert result['native_body_case_count'] == expected_native_cases
+    assert expected_native_cases == (summary['native_campaign_body_case_count']
+        +summary['native_reused_body_case_count']+summary['native_current_source_refinement_count'])
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
     completion=summary['completion_status']
@@ -35,14 +39,16 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert ultrafine['timeout_s']==600
     if ultrafine['execution']=='solver_allocation_failed':
         assert ultrafine['returncode']==255
-        assert ultrafine['max_rss_kib']==9_838_628
+        raw_ultrafine=next(item['raw_result'] for item in native_index
+            if item.get('kind')=='body-current-source-ultrafine-refinement')
+        assert ultrafine['max_rss_kib']==raw_ultrafine['max_rss_kib']
         assert ultrafine['runtime_s'] is not None
     assert ultrafine['source_complete'] is True
     assert ultrafine['physical_and_engineering_acceptance'] is False
     if ultrafine['execution']=='solver_allocation_failed':
         text=publication.readme(summary)
         assert 'Return code 255' in text
-        assert 'peak RSS 9838628 KiB' in text
+        assert f"peak RSS {ultrafine['max_rss_kib']} KiB" in text
     assert summary['frontier_tasks']==len(json.loads(gzip.decompress(
         (ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes())))
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
