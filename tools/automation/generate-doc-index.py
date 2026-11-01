@@ -5,13 +5,24 @@ from __future__ import annotations
 
 import subprocess
 import argparse
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+AUTOMATION_DIR = str(Path(__file__).resolve().parent)
+if AUTOMATION_DIR not in sys.path:
+    sys.path.insert(0, AUTOMATION_DIR)
 
 from doc_index_policy import is_indexed_markdown
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 OUT = REPO_ROOT / "docs" / "INDEX.md"
+
+
+def _indexed(path: Path) -> bool:
+    """Compatibility wrapper for the index inclusion policy."""
+    return is_indexed_markdown(path)
+
 
 def _git_markdown_files() -> list[Path]:
     tracked = subprocess.check_output(
@@ -26,7 +37,7 @@ def _git_markdown_files() -> list[Path]:
     ).splitlines()
     paths = sorted({Path(p) for p in tracked + untracked})
     return [
-        p for p in paths if is_indexed_markdown(p)
+        p for p in paths if _indexed(p)
     ]
 
 
