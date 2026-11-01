@@ -1,4 +1,5 @@
-from copy import deepcopy
+from hashlib import sha256
+import io,tarfile
 from pathlib import Path
 import json,shutil
 import pytest
@@ -59,3 +60,42 @@ def test_current_publication_reuses_evidence_without_requiring_local_native_run_
     def refused(*args,**kwargs):raise AssertionError('Publishing current evidence must not execute or require new local solves')
     monkeypatch.setattr(publication,'read_campaign',refused)
     assert publication.build()['candidate_count']==8
+
+
+def test_failed_method_archives_carry_forward_when_ignored_solver_files_are_absent(tmp_path):
+    previous=tmp_path/'previous';previous.mkdir()
+    out=tmp_path/'new';out.mkdir()
+    source=b'pinned historical method source\n';source_id=sha256(source).hexdigest()
+    source_artifact=f'historical-sources/{source_id}';(previous/source_artifact).parent.mkdir()
+    (previous/source_artifact).write_bytes(source)
+    source_epochs={source_id:dict(repository_path='engineering/design_search/grammar_structure.py',artifact=source_artifact)}
+    (previous/'source-epochs.json').write_bytes(publication.encoded(source_epochs))
+    rows=[]
+    for i,name in enumerate(('axial-s1','axial-s2','tripod-s1','tripod-s2')):
+        result=dict(source_sha256={'engineering/design_search/grammar_structure.py':source_id},execution='failed-method-epoch')
+        result_raw=publication.encoded(result);result_hash=sha256(result_raw).hexdigest()
+        omitted={'graph.frd':sha256(f'omitted-{i}'.encode()).hexdigest()}
+        raw_manifest=dict(schema='fixture',source_sha256=result['source_sha256'],files_sha256={'result.json':result_hash,**omitted})
+        raw_manifest['manifest_id']=publication.identity(raw_manifest)
+        archive_index=dict(retained_sha256={'result.json':result_hash},omitted_sha256=omitted)
+        buf=io.BytesIO()
+        with tarfile.open(fileobj=buf,mode='w:gz') as tar:
+            for filename,raw in [('result.json',result_raw),('manifest.json',publication.encoded(raw_manifest)),('archive-index.json',publication.encoded(archive_index))]:
+                info=tarfile.TarInfo(filename);info.size=len(raw);info.mtime=0;tar.addfile(info,io.BytesIO(raw))
+        archive_raw=buf.getvalue();archive_rel=f'native/{i}.tar.gz'
+        (previous/archive_rel).parent.mkdir(exist_ok=True)
+        (previous/archive_rel).write_bytes(archive_raw)
+        rows.append(dict(name=f'fixtures-r1/{name}',kind='failed-method-epoch',archive=archive_rel,
+            raw_manifest=raw_manifest,raw_result=result))
+    index_raw=publication.encoded(rows);(previous/'native-index.json').write_bytes(index_raw)
+    files={p.relative_to(previous).as_posix():publication.digest(p) for p in previous.rglob('*') if p.is_file()}
+    manifest=dict(schema='fixture-publication',files_sha256=files)
+    manifest['manifest_id']=publication.identity(manifest)
+    (previous/'manifest.json').write_bytes(publication.encoded(manifest))
+    copied,epochs=publication.carry_failed_method_epoch(previous,out,root=tmp_path)
+    assert [row['name'] for row in copied]==[row['name'] for row in rows]
+    for i,row in enumerate(rows):
+        assert (out/copied[i]['archive']).read_bytes()==(previous/row['archive']).read_bytes()
+        assert copied[i]['raw_manifest']==row['raw_manifest'] and copied[i]['raw_result']==row['raw_result']
+    assert epochs==source_epochs
+    assert sha256((out/source_artifact).read_bytes()).hexdigest()==source_id

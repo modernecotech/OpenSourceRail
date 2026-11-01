@@ -57,6 +57,101 @@ def archive(folder):
     return gzip.compress(buf.getvalue(),mtime=0)
 
 
+def carry_failed_method_epoch(previous, output, *, root=ROOT, native_index=None, epochs=None):
+    """Carry immutable failed-method archives forward when local solver files were cleaned."""
+    previous=Path(previous);output=Path(output);root=Path(root)
+    native_index=[] if native_index is None else native_index
+    epochs={} if epochs is None else epochs
+    manifest=json.loads((previous/'manifest.json').read_bytes())
+    actual={p.relative_to(previous).as_posix():digest(p) for p in previous.rglob('*')
+        if p.is_file() and p!=previous/'manifest.json'}
+    if (manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+            or manifest.get('files_sha256')!=actual):
+        raise ValueError('Prior generative publication must verify before retaining its method epoch')
+    old_index=json.loads((previous/'native-index.json').read_bytes())
+    source_epochs=json.loads((previous/'source-epochs.json').read_bytes())
+    failed=[row for row in old_index if row.get('kind')=='failed-method-epoch']
+    required={'fixtures-r1/axial-s1','fixtures-r1/axial-s2',
+              'fixtures-r1/tripod-s1','fixtures-r1/tripod-s2'}
+    if {row.get('name') for row in failed}!=required:
+        raise ValueError('Prior publication does not contain the exact four failed-method fixtures')
+    for row in failed:
+        archive_path=previous/row['archive']
+        if (not archive_path.is_file()
+                or digest(archive_path)!=manifest['files_sha256'].get(row['archive'])):
+            raise ValueError('Retained failed-method archive is missing or changed')
+        with tarfile.open(archive_path,mode='r:gz') as tar:
+            members=tar.getmembers()
+            if any(not m.isfile() or Path(m.name).is_absolute() or '..' in Path(m.name).parts for m in members):
+                raise ValueError('Retained method archive contains an unsafe entry')
+            files={m.name:m for m in members}
+            archive_index=json.loads(tar.extractfile('archive-index.json').read())
+            raw_manifest=json.loads(tar.extractfile('manifest.json').read())
+            raw_result=json.loads(tar.extractfile('result.json').read())
+            if (raw_manifest!=row['raw_manifest'] or raw_result!=row['raw_result']
+                    or raw_manifest.get('manifest_id')!=identity({k:v for k,v in raw_manifest.items() if k!='manifest_id'})):
+                raise ValueError('Retained method archive identity differs from its index')
+            recorded={k:v for k,v in raw_manifest.get('files_sha256',{}).items() if k!='manifest.json'}
+            archived={**archive_index.get('retained_sha256',{}),**archive_index.get('omitted_sha256',{})}
+            archived.pop('manifest.json',None)
+            if recorded!=archived:
+                raise ValueError('Retained method archive does not cover its recorded payload')
+            for name,h in archive_index.get('retained_sha256',{}).items():
+                if name not in files or sha256(tar.extractfile(name).read()).hexdigest()!=h:
+                    raise ValueError('Retained method archive payload hash differs')
+            if any(name in files for name in archive_index.get('omitted_sha256',{})):
+                raise ValueError('Omitted historical solver fields unexpectedly appear in the archive')
+        # Historical sources remain pinned by hash and never become current inputs.
+        for repository_path,h in row['raw_result'].get('source_sha256',row['raw_manifest'].get('source_sha256',{})).items():
+            current=root/repository_path
+            if current.is_file() and digest(current)==h:
+                continue
+            cached=source_epochs.get(h)
+            candidates=[]
+            if cached:
+                candidates.append(previous/cached['artifact'])
+            candidates.append(root/'build/generative-design/source-epochs'/h)
+            source=next((p for p in candidates if p.is_file() and digest(p)==h),None)
+            if source is None:
+                raise ValueError(f'Retained method source epoch is unavailable: {repository_path}')
+            relative='historical-sources/'+h
+            target=output/relative;target.parent.mkdir(parents=True,exist_ok=True)
+            if target.exists() and digest(target)!=h:
+                raise ValueError('Historical source cache collision')
+            if not target.exists():shutil.copyfile(source,target)
+            epochs[h]=dict(repository_path=repository_path,artifact=relative)
+        target_name=f'native/{len(native_index)}.tar.gz'
+        target=output/target_name;target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(archive_path,target)
+        native_index.append({**row,'archive':target_name})
+    return native_index,epochs
+
+
+def find_retained_method_publication(root=ROOT):
+    """Find a single intact prior packet that carries the pinned failed r1 fixtures."""
+    root=Path(root);base=root/'build/generative-design/replaced-publications'
+    required={'fixtures-r1/axial-s1','fixtures-r1/axial-s2',
+              'fixtures-r1/tripod-s1','fixtures-r1/tripod-s2'}
+    matches=[]
+    if not base.is_dir():return None
+    for previous in sorted(p for p in base.iterdir() if p.is_dir()):
+        index_path=previous/'native-index.json';manifest_path=previous/'manifest.json'
+        if not index_path.is_file() or not manifest_path.is_file():continue
+        try:
+            index=json.loads(index_path.read_bytes())
+            failed=[row for row in index if row.get('kind')=='failed-method-epoch']
+        except (OSError,ValueError,TypeError):
+            continue
+        if {row.get('name') for row in failed}==required:
+            signature=tuple(sorted((row['name'],row['raw_manifest'].get('manifest_id'),
+                                    row['raw_result'].get('evaluation_id')) for row in failed))
+            matches.append((previous,signature))
+    if not matches:return None
+    if len({signature for _,signature in matches})!=1:
+        raise ValueError('Multiple distinct failed-method archives are retained; choose the exact source epoch')
+    return matches[-1][0]
+
+
 def summary(value):
     evaluations={r['candidate_id']:r for r in value['evaluations']};rows=[]
     for c in value['candidates']:
@@ -113,21 +208,27 @@ def readme(s):
 
 def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
+    previous_path=None
     if out.exists():
         previous=json.loads((out/'manifest.json').read_bytes())
         if all(digest(root/p)==h for p,h in previous['source_sha256'].items()):return verify(root,out)
         if previous['manifest_id']!=identity({k:v for k,v in previous.items() if k!='manifest_id'}) or previous['files_sha256']!={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file() and p!=out/'manifest.json'}:raise ValueError('Changed publication payload must be investigated before replacement')
     folder,value=read_campaign(root);check_propagation(value)
     if out.exists():
-        retained=root/'build/generative-design/replaced-publications'/previous['manifest_id'];retained.parent.mkdir(parents=True,exist_ok=True)
-        if retained.exists():raise ValueError('Previous publication already retained')
-        shutil.move(out,retained)
+        previous_path=root/'build/generative-design/replaced-publications'/previous['manifest_id'];previous_path.parent.mkdir(parents=True,exist_ok=True)
+        if previous_path.exists():raise ValueError('Previous publication already retained')
+        shutil.move(out,previous_path)
     out.mkdir(parents=True);(out/'native').mkdir();epochs={};native=[]
     packages=[('design/'+p.name,p,'current-design') for p in sorted((folder/'native').iterdir())]
     packages += [('CAD/'+p.name,p,'current-CAD') for p in sorted((folder/'cad').iterdir())]
+    reuse_failed_epoch=False
     for epoch in ('r1','r2'):
         base=root/'build/generative-design'/('native-benchmarks-'+epoch)
-        packages += [('fixtures-'+epoch+'/'+p.name,p,'failed-method-epoch' if epoch=='r1' else 'current-method') for p in sorted(base.iterdir()) if p.is_dir() and (p/'manifest.json').is_file()]
+        local=[p for p in sorted(base.iterdir()) if p.is_dir() and (p/'manifest.json').is_file()] if base.is_dir() else []
+        if epoch=='r1' and not local:
+            reuse_failed_epoch=True
+        else:
+            packages += [('fixtures-'+epoch+'/'+p.name,p,'failed-method-epoch' if epoch=='r1' else 'current-method') for p in local]
     for i,(name,p,kind) in enumerate(packages):
         manifest=json.loads((p/'manifest.json').read_bytes());result=json.loads((p/'result.json').read_bytes())
         if manifest['manifest_id']!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):raise ValueError('Raw packet receipt differs')
@@ -138,6 +239,12 @@ def build(root=ROOT,output=None):
             if digest(original)!=h:raise ValueError('Retained original producer unavailable')
             target='historical-sources/'+h;(out/'historical-sources').mkdir(exist_ok=True);(out/target).write_bytes(original.read_bytes());epochs[h]=dict(repository_path=path,artifact=target)
         target='native/'+str(i)+'.tar.gz';(out/target).write_bytes(archive(p));native.append(dict(name=name,kind=kind,archive=target,raw_manifest=manifest,raw_result=result))
+    if reuse_failed_epoch:
+        if previous_path is None:
+            previous_path=find_retained_method_publication(root)
+        if previous_path is None:
+            raise ValueError('Historical r1 method fixtures require a prior immutable publication archive')
+        native,epochs=carry_failed_method_epoch(previous_path,out,root=root,native_index=native,epochs=epochs)
     s=summary(value)
     files={'campaign.json.gz':gzip.compress(encoded(value),mtime=0),'materials.json.gz':gzip.compress(encoded(material_database.catalogue()),mtime=0),
         'summary.json':encoded(s),'native-index.json':encoded(native),'source-epochs.json':encoded(epochs),'README.md':readme(s).encode()}
