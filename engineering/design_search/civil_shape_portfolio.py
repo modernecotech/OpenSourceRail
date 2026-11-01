@@ -12,7 +12,7 @@ import tomllib
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import civil_shape_geometry as geometry
-from . import model_cost, multifidelity, quality_diversity, search_backends
+from . import model_cost, multifidelity, quality_diversity, search_backends, portable_gzip
 
 PRODUCER = "engineering/design_search/civil_shape_portfolio.py"
 CAMPAIGN = "campaigns/civil-shape-competition.toml"
@@ -55,6 +55,7 @@ def sources(root=ROOT):
     paths = [PRODUCER, CAMPAIGN, "engineering/design_search/civil_shape_geometry.py",
         "engineering/design_search/multifidelity.py", "engineering/design_search/quality_diversity.py",
         "engineering/design_search/search_backends.py", "engineering/design_search/requirements-search.txt",
+        "engineering/design_search/portable_gzip.py",
         "engineering/station_rail/common.py"]
     return {**model_cost.sources(root), **{p:digest(Path(root)/p) for p in paths}}
 
@@ -182,7 +183,7 @@ def _calculate(root=ROOT):
         **FLAGS)
     if epoch!=sources(root): raise ValueError("Civil portfolio sources changed during evaluation")
     value["portfolio_id"]=identity(value)
-    return value,gzip.compress(encoded(candidates),mtime=0)
+    return value,portable_gzip.compress(encoded(candidates))
 
 
 def _readme(value):

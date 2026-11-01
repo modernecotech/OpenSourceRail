@@ -44,7 +44,9 @@ on:
       - "campaigns/adaptive-railway-design.toml"
       - "campaigns/coupled-railway-design.toml"
       - "campaigns/civil-shape-competition.toml"
+      - "campaigns/civil-shape-mechanics.toml"
       - "docs/design-engine/civil-shape-portfolio/**"
+      - "docs/design-engine/civil-shape-mechanics/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
@@ -116,7 +118,9 @@ on:
       - "campaigns/adaptive-railway-design.toml"
       - "campaigns/coupled-railway-design.toml"
       - "campaigns/civil-shape-competition.toml"
+      - "campaigns/civil-shape-mechanics.toml"
       - "docs/design-engine/civil-shape-portfolio/**"
+      - "docs/design-engine/civil-shape-mechanics/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
@@ -186,6 +190,10 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_breadth_first_portfolio.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_architecture_reach_closure.py
+      - name: Stepped civil mechanics and portable publication compression
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_beam.py engineering/design_search/tests/test_civil_section_model.py engineering/design_search/tests/test_civil_shape_mechanics.py engineering/design_search/tests/test_portable_gzip.py
+          .venv/bin/python -m engineering.design_search.civil_shape_mechanics verify
       - name: Breadth-first civil geometry and independent search libraries
         run: |
           python -m venv .venv-search

@@ -1,0 +1,26 @@
+schema = "osr-civil-shape-mechanics/1"
+purpose = "next-experiment"
+reference_changes_allowed = false
+span_m = 20.0
+maximum_cases = 189
+load_cases = ["empty", "normal", "crowd_control"]
+dead_mass_cases = ["low", "base", "high"]
+dynamic_axle_factor_hypothesis = 1.3
+representative_pose = "maximum-midspan-live-moment"
+observation_fractions = [0.0, 0.25, 0.5, 0.75, 1.0]
+
+# Editable research hypotheses, not tested properties or design allowables.
+[elastic_moduli_Pa]
+research_concrete = 35000000000.0
+structural_steel = 200000000000.0
+
+[lifting]
+nominal_hook_capacity_kg_hypothesis = 60000.0
+rigging_mass_fraction_hypothesis = 0.25
+cost_scaling_exponents = [1.0, 1.5, 2.0]
+actual_radius_capacity_confirmed = false
+
+[resources]
+maximum_runtime_s = 150
+maximum_memory_bytes = 1073741824
+native_jobs = 0

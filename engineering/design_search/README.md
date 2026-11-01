@@ -88,6 +88,23 @@ pyribs retains separate objective champions within each descriptor cell.
 These adapters do not yet emit evolutionary geometry candidates. See the
 [civil comparison](../../docs/design-engine/civil-shape-portfolio/README.md).
 
+The [civil mechanics follow-up](../../docs/design-engine/civil-shape-mechanics/README.md)
+evaluates each section's actual stepped stiffness under the same selected train's
+empty, normal and crowd-control axle loads. It propagates all three accounted
+span-mass scenarios and compares steel-only with perfect-bond hybrid hypotheses.
+Representative-pose responses and analytical all-pose model bounds remain
+separate. Lifting demands can increase provisional erection cost; stiffness,
+cost and mass retain alternatives in each family without granting qualification.
+
+```bash
+python3 -m engineering.design_search.civil_shape_mechanics build
+python3 -m engineering.design_search.civil_shape_mechanics verify
+```
+
+These gross-elastic calculations do not resolve cracking, resistance, shear,
+torsion, connections, actual crane capacity or unknown installed quantities.
+Stage-two solver admission and physical acceptance remain pending.
+
 ## Bounded campaigns
 
 Existing campaign definitions remain reproducible under their own contracts:
