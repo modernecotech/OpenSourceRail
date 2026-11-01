@@ -63,6 +63,26 @@ The candidate's existing 1,345 kg service-battery account is disaggregated from 
 
 The 75 Type3-20 modules contribute 1,050.000 kg at the supplier-reference 14.000 kg/module. The 6 named enclosure, protection, cooling, conversion, charging, and retention allowances contribute 295.000 kg and remain design assumptions. No module or accessory geometry, installed position, complete pack mass, or railway approval is established.
 
+## HVAC reference-package account detail
+
+The five source records are supplier-reference package hardware only. Their source roles leave mounting, ducts, complete equipment mass, geometry, location and railway qualification unresolved.
+
+| Source component group | Quantity | Unit mass (kg) | Source-account mass (kg/car) | Candidate geometry (kg/car) | Residual (kg/car) | Evidence class |
+|---|---:|---:|---:|---:|---:|---|
+| Supplier-reference HVAC package | 5 source occurrence | 192.000 | 960.000 | 0.000 | 960.000 | supplier-reference |
+| **Account total** | 5 source occurrences |  | **960.000** | **0.000** | **960.000** |  |
+
+## Seat and interior account detail
+
+The fixture source classes and other-interior allowance reconcile the existing 800 kg account. Candidate geometry is counted once; the remaining account balance is not inferred to be a measured part or an installed seat mass.
+
+| Source component group | Quantity | Unit mass (kg) | Source-account mass (kg/car) | Candidate geometry (kg/car) | Residual (kg/car) | Evidence class |
+|---|---:|---:|---:|---:|---:|---|
+| Seat fixture source mass class A | 20 source occurrence | 11.467 | 229.338 | 181.117 | 48.220 | counted-fixture-with-proposed-material-placement |
+| Seat fixture source mass class B | 4 source occurrence | 7.239 | 28.956 | 20.738 | 8.218 | counted-fixture-with-proposed-material-placement |
+| Other-interior allowance without candidate geometry | 1 source occurrence | 541.706 | 541.706 | 0.000 | 541.706 | unlocated-allocation |
+| **Account total** | 25 source occurrences |  | **800.000** | **201.856** | **598.144** |  |
+
 The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.
 
 Exact retained source-occurrence IDs link 750 candidate geometry occurrences (1,324.307 kg/car) to 750 source occurrences, with each linked mass checked equal. Separately, exact nested source-geometry IDs link 1,516 occurrences (1,162.040 kg/car); those nested links are also mass-checked and have distinct candidate geometry IDs. Together, exact links identify 2,266 of 2,482 candidate geometry occurrences and 2,486.346 kg/car. An additional 44 occurrences (478.763 kg/car) map to 3 source accounts through declared glazing, PVB, and deleted-door-infill groups whose aggregate masses match the source accounts exactly. These are calculated group links, not exact per-part source IDs. The remaining 216 occurrences (6,645.452 kg/car) lack an exact source-occurrence or nested-subgeometry link. None of these mappings proves manufacture or physical installation.

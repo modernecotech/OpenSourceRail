@@ -342,6 +342,107 @@ def _service_battery_component_breakdown(item):
     )
 
 
+def _retained_account_component_breakdown(account, source_occurrences, geometry_occurrences):
+    """Summarize existing source rows against their linked candidate geometry."""
+    account_id = account["account_id"]
+    source_rows = [row for row in source_occurrences if row["account_id"] == account_id]
+    if not source_rows:
+        raise ValueError(f"Mass account {account_id} has no source occurrence rows")
+
+    geometry_by_id = {row["occurrence_id"]: row for row in geometry_occurrences}
+    groups = {}
+    linked_geometry_ids = set()
+    for source in source_rows:
+        mass = float(source["mass_kg"])
+        key = (
+            source.get("source_part_id"), source.get("evidence_class"),
+            source.get("role"), round(mass, 9),
+        )
+        group = groups.setdefault(key, {
+            "source_rows": [], "geometry_ids": [], "geometry_mass_kg": [],
+        })
+        group["source_rows"].append(source)
+        for occurrence_id in source.get("candidate_geometry_occurrence_ids", []):
+            if occurrence_id in linked_geometry_ids:
+                raise ValueError(f"Candidate geometry occurrence {occurrence_id} is linked to multiple source rows")
+            geometry = geometry_by_id.get(occurrence_id)
+            if geometry is None or geometry["account_id"] != account_id:
+                raise ValueError(f"Source account {account_id} links an absent or differently-accounted geometry occurrence")
+            linked_geometry_ids.add(occurrence_id)
+            group["geometry_ids"].append(occurrence_id)
+            group["geometry_mass_kg"].append(float(geometry["mass_kg"]))
+
+    ordered = sorted(
+        groups.items(),
+        key=lambda item: (
+            item[0][0] == "ancestor/interior800",
+            -item[0][3],
+            str(item[0][0]),
+        ),
+    )
+    fixture_class = 0
+    components = []
+    for key, group in ordered:
+        source_part_id, evidence_class, role, unit_mass_kg = key
+        source_mass = math.fsum(float(row["mass_kg"]) for row in group["source_rows"])
+        geometry_mass = math.fsum(group["geometry_mass_kg"])
+        residual_mass = source_mass - geometry_mass
+        if residual_mass < -1e-7:
+            raise ValueError(f"Source account component exceeds its mass in candidate geometry: {account_id}")
+        if residual_mass < 0:
+            residual_mass = 0.0
+        if account_id == "retained-comfort/HVAC":
+            description = "Supplier-reference HVAC package"
+            component_id = "supplier-reference-hvac-package"
+        elif source_part_id == "ancestor/interior800":
+            description = "Other-interior allowance without candidate geometry"
+            component_id = "other-interior-unlocated-allowance"
+        else:
+            fixture_class += 1
+            suffix = chr(ord("A") + fixture_class - 1)
+            description = f"Seat fixture source mass class {suffix}"
+            component_id = f"seat-fixture-class-{suffix.lower()}"
+        components.append(dict(
+            component_id=component_id,
+            description=description,
+            quantity=len(group["source_rows"]),
+            unit="source occurrence",
+            unit_mass_kg=float(unit_mass_kg),
+            source_account_mass_kg=source_mass,
+            candidate_geometry_occurrence_count=len(group["geometry_ids"]),
+            candidate_geometry_mass_kg=geometry_mass,
+            residual_mass_kg=residual_mass,
+            evidence_class=evidence_class,
+            source_role=role,
+            source_part_id=source_part_id,
+            source_occurrence_ids=sorted(row["occurrence_id"] for row in group["source_rows"]),
+            physical_mass_measured=False,
+            installed_position_known=False,
+        ))
+
+    source_mass = math.fsum(float(row["mass_kg"]) for row in source_rows)
+    geometry_mass = math.fsum(
+        float(row["mass_kg"]) for row in geometry_occurrences
+        if row["occurrence_id"] in linked_geometry_ids
+    )
+    residual_mass = source_mass - geometry_mass
+    if (abs(source_mass - float(account["accounted_mass_kg"])) > 1e-7
+            or abs(geometry_mass - float(account["located_geometry_mass_kg"])) > 1e-7
+            or abs(residual_mass - float(account["residual_account_mass_kg"])) > 1e-7):
+        raise ValueError(f"Component detail does not reconcile to source mass account {account_id}")
+    return dict(
+        schema="osr-retained-mass-account-component-breakdown/1",
+        account_id=account_id,
+        components=components,
+        source_account_mass_kg=source_mass,
+        candidate_geometry_mass_kg=geometry_mass,
+        residual_account_mass_kg=residual_mass,
+        additive_to_accounted_tare=False,
+        installed_mass_complete=False,
+        physical_acceptance=False,
+    )
+
+
 def reconcile(candidate, parent):
     """Map source accounts and candidate geometry by explicit parent account."""
     geometry = candidate["geometry_parts"]
@@ -704,6 +805,12 @@ def reconcile(candidate, parent):
     if abs(accounted - located - residual) > 1e-6:
         raise ValueError("Accounted, located and residual mass subtotals do not close")
 
+    for account in accounts:
+        if account["account_id"] in {"retained-comfort/HVAC", "retained-comfort/seating"}:
+            account["calculated_component_mass_breakdown"] = _retained_account_component_breakdown(
+                account, source_occurrences, geometry_occurrences,
+            )
+
     analytical_estimates = [_roof_finish_distribution_estimate(candidate, parent)]
 
     account_index = {account["account_id"]: account for account in accounts}
@@ -865,6 +972,45 @@ def _readme(ledger, selected):
         f"The {battery['module_count']} Type3-20 modules contribute {battery['components'][0]['accounted_mass_kg']:,.3f} kg at the supplier-reference {battery['components'][0]['unit_mass_kg']:,.3f} kg/module. The {len(battery['components']) - 1} named enclosure, protection, cooling, conversion, charging, and retention allowances contribute {math.fsum(row['accounted_mass_kg'] for row in battery['components'][1:]):,.3f} kg and remain design assumptions. No module or accessory geometry, installed position, complete pack mass, or railway approval is established.",
         "",
     ])
+    detail_accounts = {
+        row["account_id"]: row["calculated_component_mass_breakdown"]
+        for row in ledger["accounts"]
+        if "calculated_component_mass_breakdown" in row
+    }
+    for account_id, heading, note in (
+        (
+            "retained-comfort/HVAC",
+            "HVAC reference-package account detail",
+            "The five source records are supplier-reference package hardware only. Their source roles leave mounting, ducts, complete equipment mass, geometry, location and railway qualification unresolved.",
+        ),
+        (
+            "retained-comfort/seating",
+            "Seat and interior account detail",
+            "The fixture source classes and other-interior allowance reconcile the existing 800 kg account. Candidate geometry is counted once; the remaining account balance is not inferred to be a measured part or an installed seat mass.",
+        ),
+    ):
+        detail = detail_accounts[account_id]
+        lines.extend([
+            f"## {heading}",
+            "",
+            note,
+            "",
+            "| Source component group | Quantity | Unit mass (kg) | Source-account mass (kg/car) | Candidate geometry (kg/car) | Residual (kg/car) | Evidence class |",
+            "|---|---:|---:|---:|---:|---:|---|",
+        ])
+        for component in detail["components"]:
+            lines.append(
+                f"| {component['description']} | {component['quantity']} {component['unit']} | "
+                f"{component['unit_mass_kg']:,.3f} | {component['source_account_mass_kg']:,.3f} | "
+                f"{component['candidate_geometry_mass_kg']:,.3f} | {component['residual_mass_kg']:,.3f} | "
+                f"{component['evidence_class']} |"
+            )
+        lines.extend([
+            f"| **Account total** | {sum(row['quantity'] for row in detail['components'])} source occurrences |  | "
+            f"**{detail['source_account_mass_kg']:,.3f}** | **{detail['candidate_geometry_mass_kg']:,.3f}** | "
+            f"**{detail['residual_account_mass_kg']:,.3f}** |  |",
+            "",
+        ])
     lines.extend([
         "The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.",
         "",
