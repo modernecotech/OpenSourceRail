@@ -64,6 +64,37 @@ def test_chargers_shifted_service_energy_and_pack_renewal_are_explicit(estimate)
     assert system["scenario_definition"]["service"]["operating_hours_per_day"] == [16, 18, 24]
 
 
+def test_civil_cost_uses_the_candidate_sized_crowd_control_beam(estimate):
+    selected, system = estimate
+    selected_beam = selected["civil"]["selected_reference"]
+    fixed_stock_control = next(
+        beam for beam in selected["civil"]["control_alternatives"]["crowd_control"]
+        if beam["family"] == "box-beam" and beam["span_m"] == 20.0
+    )
+    basis = system["civil_design_basis"]
+
+    assert selected_beam["load_case"] == "crowd_control"
+    assert selected_beam["prestress_design_policy"] == "resize-for-this-load"
+    assert selected_beam["necessary_longitudinal_screen"] == "pass"
+    assert selected_beam["prestress_strands"] == 26
+    assert fixed_stock_control["prestress_strands"] == 23
+    assert fixed_stock_control["necessary_longitudinal_screen"] == "fail"
+    assert basis == system["scenario_definition"]["civil_design_basis"]
+    assert basis["alternative_id"] == selected_beam["alternative_id"]
+    assert basis["physical_civil_component_id"] == selected_beam["physical_civil_component_id"]
+    assert basis["physical_or_engineering_acceptance"] is False
+
+    prestress = next(line for line in system["cost_line_items"]
+                     if line["line_key"] == "precast-prestress")
+    corridor_spans = (
+        system["corridor_basis"]["directional_route_m"]
+        * system["corridor_basis"]["trackways"] / basis["span_m"]
+    )
+    assert prestress["quantity"]["mass_kg"] == pytest.approx(
+        selected_beam["prestress_kg"] * corridor_spans
+    )
+
+
 def test_separate_vehicle_estimate_is_not_added_and_acceptance_stays_open(estimate):
     _, system = estimate
     reconciliation = system["vehicle_cost_reconciliation"]

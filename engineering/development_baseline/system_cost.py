@@ -343,7 +343,31 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
     propulsion = _propulsion_input(bundle)
     motion = system_motion.evaluate(bundle, available_map=None)
     civil = deepcopy(record["civil"])
-    civil["alternatives"] = deepcopy(civil["control_alternatives"]["crowd_control"])
+    guideway = bundle["architecture_case"]["physical_definition"]["guideway"]
+    selected_civil = deepcopy(civil.get("selected_reference"))
+    if not isinstance(selected_civil, dict):
+        raise ValueError("Selected system-cost scenario requires the generated selected civil design")
+    if (selected_civil.get("family") != guideway.get("family")
+            or float(selected_civil.get("span_m", -1)) != float(guideway.get("span_m", -2))
+            or selected_civil.get("load_case") != "crowd_control"):
+        raise ValueError("Selected crowd-control civil design does not match the candidate guideway")
+    # Price the beam sized for the retained crowd load. The fixed-normal-stock
+    # crowd control is a diagnostic comparison and can fail its screen; it is
+    # not the selected beam design or the civil basis for this corridor cost.
+    civil["alternatives"] = [selected_civil]
+    civil_design_basis = dict(
+        source_civil_evaluation_id=record["civil"]["evaluation_id"],
+        alternative_id=selected_civil["alternative_id"],
+        physical_civil_component_id=selected_civil["physical_civil_component_id"],
+        family=selected_civil["family"],
+        span_m=selected_civil["span_m"],
+        load_case=selected_civil["load_case"],
+        prestress_strands=selected_civil["prestress_strands"],
+        prestress_design_policy=selected_civil["prestress_design_policy"],
+        necessary_longitudinal_screen=selected_civil["necessary_longitudinal_screen"],
+        physical_or_engineering_acceptance=False,
+    )
+    civil["cost_design_basis"] = civil_design_basis
     civil["source_vehicle_candidate_id"] = candidate["candidate_id"]
     civil["candidate_id"] = bundle["candidate_id"]
     civil["body_candidate_id"] = bundle["body_candidate_id"]
@@ -407,6 +431,7 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
             span_m=20.0,
             selected_candidate_geometry_changed=False,
         ),
+        civil_design_basis=civil_design_basis,
         service=dict(
             cars_per_train=6,
             fixed_seats_per_car=44,
@@ -443,6 +468,7 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
         input_evaluation_ids=cost["input_evaluation_ids"],
         source_sha256=sources(root),
         corridor_basis=cost["corridor_basis"],
+        civil_design_basis=civil_design_basis,
         fleet_basis=architecture["cost_fleet_basis"],
         service_battery_duty=duty,
         cost_scope_status=[dict(scope=scope, status="class-c-estimated",
