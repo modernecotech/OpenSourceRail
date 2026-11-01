@@ -56,7 +56,7 @@ Candidate completion is reported in three separate levels: **simulation complete
 
 The separate [conditional P1 journey study](docs/design-engine/conditional-journey-study/README.md) runs low/base/high assumed force maps through the reduced journey model for the 28 coordinated campaign variants and the exact selected v0.6 vehicle. The selected vehicle keeps its physical identity while its P1 route remains a separate evaluation. These cases are assumption-only; they do not change the coordinated report's count of completed physical journeys.
 
-The [current mesh resource preflight](docs/design-engine/current-mesh-preflight/README.md) compares exact nested directional refinements for one unchanged body/load case. It stops before native deck generation while the available resource boundary is insufficient for another fine solve.
+The current same-candidate 0.053125 m refinement generated 290,660 C3D8I cells, then CalculiX failed during factorization under its 8 GiB address-space cap. The exact request, generated deck and solver logs are retained; no numerical result was produced. The runner did not retain the exact publisher source bytes, so the failure record is held for that source gap and is not presented as fully reproducible. A new run needs a separately supported solver or resource envelope. See the [coordinated engineering report](docs/design-engine/coupled-railway/README.md).
 
 The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-sensitivity/current/README.md) turns the existing positive mass-account residuals into provisional low/base/high tare scenarios by replacing each residual once. It does not label the vehicle's installed mass complete.
 

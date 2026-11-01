@@ -56,3 +56,20 @@ def test_owned_context_cannot_overwrite_source_bound_evidence(tmp_path, monkeypa
     with pytest.raises(ValueError, match='alter numerical evidence'):
         context.write_owned(tmp_path)
     assert target.read_text() == '# Tools\n\nSource-bound original.\n'
+
+
+def test_current_front_door_readmes_describe_current_workflows_without_old_app_labels():
+    root = Path(context.__file__).resolve().parents[1]
+    paths = (
+        root / 'README.md',
+        root / 'docs/open-source-rail-overview.md',
+        root / 'docs/ARCHITECTURE.md',
+        root / 'docs/first-adoptable-product.md',
+        root / 'docs/capabilities/README.md',
+        root / 'docs/capabilities/directory.md',
+        root / 'docs/workbench/planning/README.md',
+    )
+    forbidden = ('v0.4', 'v0.5', 'legacy', 'city studio', 'sim gui', 'occ gui')
+    for path in paths:
+        text = path.read_text().lower()
+        assert not any(label in text for label in forbidden), path.relative_to(root)

@@ -13,7 +13,9 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
     summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
-    expected_native_cases=14+int(summary['current_source_refinement'] is not None)+int(summary['current_source_fine_refinement'] is not None)
+    expected_native_cases=(14+int(summary['current_source_refinement'] is not None)
+        +int(summary['current_source_fine_refinement'] is not None)
+        +int(summary.get('current_source_ultrafine_refinement') is not None))
     assert result['native_body_case_count'] == expected_native_cases
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
@@ -26,12 +28,19 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert summary['current_source_refinement']['mesh_m']==0.2125
     assert summary['current_source_fine_refinement']['execution']=='completed'
     assert summary['current_source_fine_refinement']['mesh_m']==0.10625
-    assert summary['frontier_tasks']==46
+    ultrafine=summary.get('current_source_ultrafine_refinement')
+    if ultrafine is not None:
+        assert ultrafine['mesh_m']==0.053125
+        assert ultrafine['physical_and_engineering_acceptance'] is False
+    assert summary['frontier_tasks']==len(json.loads(gzip.decompress(
+        (ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes())))
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
     continuation=next(x for x in frontier if x['kind']=='unresolved-numerical-refinement'
         and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b')
     assert continuation['proposed_next_mesh_m']==0.053125
-    assert continuation['state']=='explicit-resource-revision-required'
+    assert continuation['state']=='bounded-solver-allocation-failed; refinement-unresolved'
+    assert continuation['failed_evaluation_id']==ultrafine['evaluation_id']
+    assert continuation['physical_failure_inferred'] is False
 
 
 def _declared_cost_row():
@@ -95,6 +104,9 @@ def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
     fine_refinement=json.loads(gzip.decompress(
         (ROOT/publication.OUTPUT/'fine-refinement.json.gz').read_bytes()))
     monkeypatch.setattr(publication,'_current_fine_refinement',lambda *a,**k:fine_refinement)
+    ultrafine_refinement=json.loads(gzip.decompress(
+        (ROOT/publication.OUTPUT/'ultrafine-refinement.json.gz').read_bytes()))
+    monkeypatch.setattr(publication,'_current_ultrafine_refinement',lambda *a,**k:ultrafine_refinement)
     source_hashes=json.loads((ROOT/publication.OUTPUT/'manifest.json').read_bytes())['source_sha256']
     original_digest=publication.digest
     monkeypatch.setattr(publication,'digest',lambda path:source_hashes.get(
@@ -125,16 +137,18 @@ def test_publication_rebuilds_when_a_current_refinement_package_is_added(tmp_pat
         json.dumps(None).encode(),mtime=0))
     (out/'fine-refinement.json.gz').write_bytes(gzip.compress(
         json.dumps(None).encode(),mtime=0))
+    (out/'ultrafine-refinement.json.gz').write_bytes(gzip.compress(
+        json.dumps(None).encode(),mtime=0))
 
-    assert not publication._published_refinements_match(out,continuation,None)
+    assert not publication._published_refinements_match(out,continuation,None,None)
 
     (out/'current-refinement.json.gz').write_bytes(gzip.compress(
         json.dumps(continuation).encode(),mtime=0))
-    assert publication._published_refinements_match(out,continuation,None)
+    assert publication._published_refinements_match(out,continuation,None,None)
 
     (out/'current-refinement.json.gz').write_bytes(gzip.compress(
         json.dumps({'manifest':{'manifest_id':'stale'}}).encode(),mtime=0))
-    assert not publication._published_refinements_match(out,continuation,None)
+    assert not publication._published_refinements_match(out,continuation,None,None)
 
 
 def test_conflicting_retained_publication_is_preserved_and_refused(tmp_path):
