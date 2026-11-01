@@ -102,6 +102,10 @@ jobs:
         working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
+      - name: Reassemble the original authenticated sourced-cell payload
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Reopen all five full-train occurrence inventories
         working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
