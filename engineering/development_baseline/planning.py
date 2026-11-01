@@ -618,7 +618,7 @@ def compile_bundle(*, root, baseline, current_summary, current_manifest, bundle_
             dict(id='vehicle-and-propulsion', state='pending', scope='Available station-LIM force map, full journey, repeated duty and recovery'),
             dict(id='braking-and-protection', state='pending', scope='Independent brake/WSP maps, stopping, fault response and protected headway'),
             dict(id='civil-and-site', state='pending', scope='Route loads, repeatable span, foundations, erection and site evidence'),
-            dict(id='procurement-and-cost', state='pending', scope='Candidate-specific purchasing units, local rates, supplier quotes and installed quantities'),
+            dict(id='procurement-and-cost', state='pending', scope='Build candidate-specific low/base/high Class C estimates from calculated quantities and declared local rates; supplier quotes improve procurement readiness, while site-dependent installed quantities remain a separate evidence task'),
             dict(id='delivery-and-operations', state='pending', scope='Construction schedule, ERP assets, measured commissioning and maintenance records')],
         service_policy='Headway and dwell are proposal defaults from the selected v0.6 development baseline; no service performance is calculated',
         cost_policy='No candidate procurement quantities, installed costs or cashflow are carried into this handoff',

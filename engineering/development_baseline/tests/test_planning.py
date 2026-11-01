@@ -211,6 +211,9 @@ def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monk
     assert handoff["planning_revision"]["network"]["origin_destination"][0]["destination"] == "proposal-stop-001"
     assert "map_context" not in handoff["planning_revision"]["network"]
     assert sha256(context_path.read_bytes()).hexdigest() == handoff["planning_revision"]["source_sha256"][context_path.relative_to(root).as_posix()]
+    cost_followup = next(item for item in handoff["required_followups"] if item["id"] == "procurement-and-cost")
+    assert "low/base/high Class C estimates from calculated quantities" in cost_followup["scope"]
+    assert "supplier quotes improve procurement readiness" in cost_followup["scope"]
 
     assert entrypoint.main(["plan", "verify", output], root=root) == 0
     verified = json.loads(capsys.readouterr().out)
