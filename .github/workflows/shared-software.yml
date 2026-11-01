@@ -17,6 +17,10 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
           git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
+      - name: Fetch the pinned source revision for retained packet hash checks
+        run: |
+          git fetch --no-tags --depth=1 origin 578ee3950b872bf30fbf9e4207b2bda85951bdd7
+          git cat-file -e 578ee3950b872bf30fbf9e4207b2bda85951bdd7^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
