@@ -46,6 +46,25 @@ The coating mass is already included in the scalar roof-thermal account. This es
 | services | 1,345.000 | 0.000 | 1,345.000 | 1 | 0 |
 | wheel-underframe | 925.528 | 925.528 | 0.000 | 0 | 60 |
 
+## Retained body account detail
+
+This table groups the existing body source rows by evidence class and recorded role. It shows source-account mass, geometry already represented, and the resulting accounting difference; it does not add geometry or treat the reserve as installed hardware.
+
+| Source scope | Evidence class | Source rows | Source mass (kg/car) | Candidate geometry (count / kg) | Residual (kg/car) |
+|---|---|---:|---:|---:|---:|
+| Unlocated body reserve; not a physical inventory | unlocated-allocation | 1 | 4,778.254 | 0 / 0.000 | 4,778.254 |
+| Panel stock, edges, bonds and fasteners (partial geometry) | counted-component-with-partial-proposed-geometry | 2 | 1,025.907 | 724 / 931.084 | 94.823 |
+| Side panels | located-material | 320 | 659.577 | 320 / 659.577 | 0.000 |
+| Extrusion/frame stock | located-material | 252 | 557.391 | 252 / 557.391 | 0.000 |
+| End panels | located-material | 40 | 93.094 | 40 / 93.094 | 0.000 |
+| Door infill and aperture frames | unlocated-counted-material | 1 | 67.620 | 8 / 67.620 | 0.000 |
+| Corner laps | located-material | 104 | 10.622 | 104 / 10.622 | 0.000 |
+| Corner bonds | located-material | 34 | 3.623 | 34 / 3.623 | 0.000 |
+| **Account total** |  | 754 | **7,196.087** | 1,482 / **2,323.011** | **4,873.077** |
+
+The source account identifies 4,778.254 kg/car as a body reserve without a physical-equipment inventory. A further 94.823 kg/car is the difference between panel/edge/bond/fastener source rows and their partially represented candidate geometry. The combined 4,873.077 kg/car remains unlocated; component identity, material, installation and centre of gravity are not established.
+
+
 ## Passive-bogie geometry detail
 
 The existing reference account is 6,730.000 kg for 2 passive bogies per car. The table decomposes only the candidate CAD solids; the per-bogie column evenly divides those totals for comparison and is not a measured assembly mass.

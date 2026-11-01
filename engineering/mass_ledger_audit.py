@@ -492,6 +492,67 @@ def _bogie_geometry_component_breakdown(account, geometry_occurrences):
     )
 
 
+def _retained_body_source_scope_breakdown(account, source_occurrences, geometry_occurrences):
+    """Reconcile the retained body source scopes against their candidate solids."""
+    account_id = account["account_id"]
+    source_rows = [row for row in source_occurrences if row["account_id"] == account_id]
+    geometry_by_id = {row["occurrence_id"]: row for row in geometry_occurrences}
+    linked_ids = set()
+    grouped = {}
+    for source in source_rows:
+        key = (source.get("evidence_class"), source.get("role"))
+        group = grouped.setdefault(key, {
+            "source_rows": [], "geometry_ids": [], "geometry_mass_kg": [],
+        })
+        group["source_rows"].append(source)
+        for occurrence_id in source.get("candidate_geometry_occurrence_ids", []):
+            if occurrence_id in linked_ids:
+                raise ValueError(f"Candidate body geometry occurrence {occurrence_id} is linked to multiple source rows")
+            geometry = geometry_by_id.get(occurrence_id)
+            if geometry is None or geometry["account_id"] != account_id:
+                raise ValueError("Body source scope links absent or differently-accounted candidate geometry")
+            linked_ids.add(occurrence_id)
+            group["geometry_ids"].append(occurrence_id)
+            group["geometry_mass_kg"].append(float(geometry["mass_kg"]))
+
+    scopes = []
+    for (evidence_class, role), group in sorted(
+        grouped.items(), key=lambda item: (-math.fsum(float(row["mass_kg"]) for row in item[1]["source_rows"]), str(item[0])),
+    ):
+        source_mass = math.fsum(float(row["mass_kg"]) for row in group["source_rows"])
+        geometry_mass = math.fsum(group["geometry_mass_kg"])
+        residual = source_mass - geometry_mass
+        if residual < -1e-7:
+            raise ValueError("Candidate body geometry exceeds its retained source scope")
+        scopes.append(dict(
+            evidence_class=evidence_class,
+            source_role=role,
+            source_occurrence_count=len(group["source_rows"]),
+            source_occurrence_ids=sorted(row["occurrence_id"] for row in group["source_rows"]),
+            source_account_mass_kg=source_mass,
+            candidate_geometry_occurrence_count=len(group["geometry_ids"]),
+            candidate_geometry_mass_kg=geometry_mass,
+            residual_mass_kg=max(0.0, residual),
+        ))
+    source_mass = math.fsum(float(row["mass_kg"]) for row in source_rows)
+    geometry_mass = math.fsum(float(row["mass_kg"]) for row in geometry_occurrences if row["occurrence_id"] in linked_ids)
+    residual = source_mass - geometry_mass
+    if (abs(source_mass - float(account["accounted_mass_kg"])) > 1e-7
+            or abs(geometry_mass - float(account["located_geometry_mass_kg"])) > 1e-7
+            or abs(residual - float(account["residual_account_mass_kg"])) > 1e-7):
+        raise ValueError("Body source-scope breakdown does not reconcile to the body account")
+    return dict(
+        schema="osr-retained-body-source-scope-breakdown/1",
+        scopes=scopes,
+        source_account_mass_kg=source_mass,
+        candidate_geometry_mass_kg=geometry_mass,
+        residual_account_mass_kg=residual,
+        additive_to_accounted_tare=False,
+        installed_mass_complete=False,
+        physical_acceptance=False,
+    )
+
+
 def reconcile(candidate, parent):
     """Map source accounts and candidate geometry by explicit parent account."""
     geometry = candidate["geometry_parts"]
@@ -863,6 +924,10 @@ def reconcile(candidate, parent):
             account["candidate_geometry_component_breakdown"] = _bogie_geometry_component_breakdown(
                 account, geometry_occurrences,
             )
+        elif account["account_id"] == "retained-comfort/body":
+            account["source_scope_breakdown"] = _retained_body_source_scope_breakdown(
+                account, source_occurrences, geometry_occurrences,
+            )
 
     analytical_estimates = [_roof_finish_distribution_estimate(candidate, parent)]
 
@@ -996,6 +1061,45 @@ def _readme(ledger, selected):
             f"{group['residual_account_mass_kg']:,.3f} | {len(group['source_occurrence_ids']):,} | "
             f"{len(group['candidate_geometry_occurrence_ids']):,} |"
         )
+    body_account = next(row for row in ledger["accounts"] if row["account_id"] == "retained-comfort/body")
+    body_detail = body_account["source_scope_breakdown"]
+    body_scope_labels = {
+        "Residual allocation excluding explicitly resolved800kg interior account; not a physical equipment inventory":
+            "Unlocated body reserve; not a physical inventory",
+        "Panel stock plus explicitly counted edges/bonds/fasteners; not all hardware located":
+            "Panel stock, edges, bonds and fasteners (partial geometry)",
+        "panel-side": "Side panels",
+        "material-prism-in-one-extrusion": "Extrusion/frame stock",
+        "panel-end": "End panels",
+        "Original aperture frames retained; opaque skins/core/bond counted": "Door infill and aperture frames",
+        "corner-laps": "Corner laps",
+        "corner-bonds": "Corner bonds",
+    }
+    lines.extend([
+        "",
+        "## Retained body account detail",
+        "",
+        "This table groups the existing body source rows by evidence class and recorded role. It shows source-account mass, geometry already represented, and the resulting accounting difference; it does not add geometry or treat the reserve as installed hardware.",
+        "",
+        "| Source scope | Evidence class | Source rows | Source mass (kg/car) | Candidate geometry (count / kg) | Residual (kg/car) |",
+        "|---|---|---:|---:|---:|---:|",
+    ])
+    for scope in body_detail["scopes"]:
+        lines.append(
+            f"| {body_scope_labels.get(scope['source_role'], scope['source_role'])} | {scope['evidence_class']} | "
+            f"{scope['source_occurrence_count']:,} | {scope['source_account_mass_kg']:,.3f} | "
+            f"{scope['candidate_geometry_occurrence_count']:,} / {scope['candidate_geometry_mass_kg']:,.3f} | "
+            f"{scope['residual_mass_kg']:,.3f} |"
+        )
+    lines.extend([
+        f"| **Account total** |  | {sum(scope['source_occurrence_count'] for scope in body_detail['scopes']):,} | "
+        f"**{body_detail['source_account_mass_kg']:,.3f}** | "
+        f"{sum(scope['candidate_geometry_occurrence_count'] for scope in body_detail['scopes']):,} / "
+        f"**{body_detail['candidate_geometry_mass_kg']:,.3f}** | **{body_detail['residual_account_mass_kg']:,.3f}** |",
+        "",
+        "The source account identifies 4,778.254 kg/car as a body reserve without a physical-equipment inventory. A further 94.823 kg/car is the difference between panel/edge/bond/fastener source rows and their partially represented candidate geometry. The combined 4,873.077 kg/car remains unlocated; component identity, material, installation and centre of gravity are not established.",
+        "",
+    ])
     bogie_account = next(row for row in ledger["accounts"] if row["account_id"] == "passive-bogie-pair")
     bogie_detail = bogie_account["candidate_geometry_component_breakdown"]
     lines.extend([
