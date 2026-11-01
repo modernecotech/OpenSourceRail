@@ -75,7 +75,8 @@ def test_launcher_retains_selected_front_door_for_every_namespace(launcher,args,
 
 def test_launcher_help_lists_trip(launcher):
     result=subprocess.run(['bash',str(launcher),'--help'],capture_output=True,text=True,check=True)
-    assert 'trip/twin/plan' in result.stdout and 'legacy' in result.stdout
+    assert 'trip/twin/plan' in result.stdout
+    assert 'legacy' not in result.stdout.lower()
     assert 'v0.6 wheel/LIM' in result.stdout
 
 
