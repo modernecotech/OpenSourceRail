@@ -397,11 +397,43 @@ def _retained_account_component_breakdown(account, source_occurrences, geometry_
         elif source_part_id == "ancestor/interior800":
             description = "Other-interior allowance without candidate geometry"
             component_id = "other-interior-unlocated-allowance"
-        else:
+        elif account_id == "retained-comfort/seating":
             fixture_class += 1
             suffix = chr(ord("A") + fixture_class - 1)
             description = f"Seat fixture source mass class {suffix}"
             component_id = f"seat-fixture-class-{suffix.lower()}"
+        elif account_id == "retained-comfort/doors":
+            if str(source_part_id).startswith("Wabtec-"):
+                description = "1300 mm door-operator supplier reference"
+                component_id = "door-operator-reference"
+            else:
+                description = "Proposed door-leaf material"
+                component_id = "door-leaf-material"
+        elif account_id == "retained-comfort/glazing":
+            occurrence_tail = group["source_rows"][0]["occurrence_id"].rsplit("/", 1)[-1]
+            description = {
+                "EPDM-seal": "EPDM glazing seals",
+                "PVB": "PVB interlayers",
+                "bond": "Glazing bond allowance",
+                "glass": "Glass panes",
+                "retention-aluminium": "Aluminium glazing retention",
+            }.get(occurrence_tail, occurrence_tail)
+            component_id = "glazing/" + occurrence_tail.lower()
+        elif account_id == "retained-comfort/frame-joints":
+            description = {
+                "hardpoints/roof-spreader": "Roof-spreader plates",
+                "joints/gusset": "Frame-joint gusset plates",
+                "joints/crush-sleeve": "Crush sleeves",
+                "joints/M8-shank": "M8 bolt shanks",
+                "joints/M8-head-and-nut": "M8 head-and-nut stock envelopes",
+                "hardpoints/GFRP-isolator": "GFRP hardpoint isolators",
+                "joints/GFRP-isolation": "GFRP joint-isolation pads",
+                "joints/bond-film": "Joint bond film",
+            }.get(source_part_id, str(source_part_id or role))
+            component_id = "frame-joints/" + str(source_part_id).lower().replace("/", "-")
+        else:
+            description = str(source_part_id or role or "Unspecified source component")
+            component_id = "source-component/" + str(source_part_id or description).lower().replace("/", "-")
         components.append(dict(
             component_id=component_id,
             description=description,
@@ -916,7 +948,10 @@ def reconcile(candidate, parent):
         raise ValueError("Accounted, located and residual mass subtotals do not close")
 
     for account in accounts:
-        if account["account_id"] in {"retained-comfort/HVAC", "retained-comfort/seating"}:
+        if account["account_id"] in {
+            "retained-comfort/HVAC", "retained-comfort/seating", "retained-comfort/doors",
+            "retained-comfort/glazing", "retained-comfort/frame-joints",
+        }:
             account["calculated_component_mass_breakdown"] = _retained_account_component_breakdown(
                 account, source_occurrences, geometry_occurrences,
             )
@@ -1197,6 +1232,36 @@ def _readme(ledger, selected):
             f"**{detail['residual_account_mass_kg']:,.3f}** |  |",
             "",
         ])
+    lines.extend([
+        "## Door, glazing and frame-joint account details",
+        "",
+        "These source-level groups show the existing counted or supplier-reference components and their mapped CAD mass. An entry with zero candidate geometry remains an accounting item without a demonstrated installed location.",
+        "",
+        "| Account | Source component | Quantity | Unit mass (kg) | Source mass (kg/car) | Candidate geometry (count / kg) | Residual (kg/car) | Evidence class |",
+        "|---|---|---:|---:|---:|---:|---:|---|",
+    ])
+    detailed_account_ids = (
+        "retained-comfort/doors", "retained-comfort/glazing", "retained-comfort/frame-joints",
+    )
+    for account_id in detailed_account_ids:
+        account = next(row for row in ledger["accounts"] if row["account_id"] == account_id)
+        detail = account["calculated_component_mass_breakdown"]
+        for component in detail["components"]:
+            lines.append(
+                f"| {account_id} | {component['description']} | {component['quantity']:,} | "
+                f"{component['unit_mass_kg']:,.3f} | {component['source_account_mass_kg']:,.3f} | "
+                f"{component['candidate_geometry_occurrence_count']:,} / {component['candidate_geometry_mass_kg']:,.3f} | "
+                f"{component['residual_mass_kg']:,.3f} | {component['evidence_class']} |"
+            )
+        lines.append(
+            f"| **{account_id} total** |  | {sum(row['quantity'] for row in detail['components']):,} source occurrences |  | "
+            f"**{detail['source_account_mass_kg']:,.3f}** |  | **{detail['residual_account_mass_kg']:,.3f}** |  |"
+        )
+    lines.extend([
+        "",
+        "Door operator figures are 1300 mm product references; the selected 1400 mm openings and deeper leaves are not established compatible installations. The frame-joint component masses are counted stock estimates with no placed candidate geometry. These breakdowns add no mass and do not close installation or qualification.",
+        "",
+    ])
     lines.extend([
         "The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.",
         "",

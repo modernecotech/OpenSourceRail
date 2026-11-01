@@ -120,6 +120,33 @@ The fixture source classes and other-interior allowance reconcile the existing 8
 | Other-interior allowance without candidate geometry | 1 source occurrence | 541.706 | 541.706 | 0.000 | 541.706 | unlocated-allocation |
 | **Account total** | 25 source occurrences |  | **800.000** | **201.856** | **598.144** |  |
 
+## Door, glazing and frame-joint account details
+
+These source-level groups show the existing counted or supplier-reference components and their mapped CAD mass. An entry with zero candidate geometry remains an accounting item without a demonstrated installed location.
+
+| Account | Source component | Quantity | Unit mass (kg) | Source mass (kg/car) | Candidate geometry (count / kg) | Residual (kg/car) | Evidence class |
+|---|---|---:|---:|---:|---:|---:|---|
+| retained-comfort/doors | 1300 mm door-operator supplier reference | 2 | 41.000 | 82.000 | 0 / 0.000 | 82.000 | supplier-reference |
+| retained-comfort/doors | Proposed door-leaf material | 2 | 22.933 | 45.867 | 48 / 29.100 | 16.767 | counted-component-with-partial-proposed-geometry |
+| **retained-comfort/doors total** |  | 4 source occurrences |  | **127.867** |  | **98.767** |  |
+| retained-comfort/glazing | Glass panes | 1 | 390.000 | 390.000 | 24 / 390.000 | 0.000 | unlocated-counted-material |
+| retained-comfort/glazing | PVB interlayers | 1 | 21.143 | 21.143 | 12 / 21.143 | 0.000 | unlocated-counted-material |
+| retained-comfort/glazing | Aluminium glazing retention | 1 | 11.016 | 11.016 | 0 / 0.000 | 11.016 | unlocated-counted-material |
+| retained-comfort/glazing | EPDM glazing seals | 1 | 6.528 | 6.528 | 0 / 0.000 | 6.528 | unlocated-counted-material |
+| retained-comfort/glazing | Glazing bond allowance | 1 | 2.938 | 2.938 | 0 / 0.000 | 2.938 | unlocated-counted-material |
+| **retained-comfort/glazing total** |  | 5 source occurrences |  | **431.625** |  | **20.482** |  |
+| retained-comfort/frame-joints | Roof-spreader plates | 24 | 4.277 | 102.643 | 0 / 0.000 | 102.643 | unlocated-counted-material |
+| retained-comfort/frame-joints | GFRP hardpoint isolators | 24 | 0.251 | 6.019 | 0 / 0.000 | 6.019 | unlocated-counted-material |
+| retained-comfort/frame-joints | Frame-joint gusset plates | 260 | 0.173 | 44.928 | 0 / 0.000 | 44.928 | unlocated-counted-material |
+| retained-comfort/frame-joints | GFRP joint-isolation pads | 130 | 0.046 | 5.928 | 0 / 0.000 | 5.928 | unlocated-counted-material |
+| retained-comfort/frame-joints | Crush sleeves | 520 | 0.043 | 22.121 | 0 / 0.000 | 22.121 | unlocated-counted-material |
+| retained-comfort/frame-joints | M8 bolt shanks | 520 | 0.024 | 12.311 | 0 / 0.000 | 12.311 | unlocated-counted-material |
+| retained-comfort/frame-joints | M8 head-and-nut stock envelopes | 520 | 0.015 | 7.541 | 0 / 0.000 | 7.541 | unlocated-counted-material |
+| retained-comfort/frame-joints | Joint bond film | 130 | 0.010 | 1.248 | 0 / 0.000 | 1.248 | unlocated-counted-material |
+| **retained-comfort/frame-joints total** |  | 2,128 source occurrences |  | **202.739** |  | **202.739** |  |
+
+Door operator figures are 1300 mm product references; the selected 1400 mm openings and deeper leaves are not established compatible installations. The frame-joint component masses are counted stock estimates with no placed candidate geometry. These breakdowns add no mass and do not close installation or qualification.
+
 The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.
 
 Exact retained source-occurrence IDs link 750 candidate geometry occurrences (1,324.307 kg/car) to 750 source occurrences, with each linked mass checked equal. Separately, exact nested source-geometry IDs link 1,516 occurrences (1,162.040 kg/car); those nested links are also mass-checked and have distinct candidate geometry IDs. Together, exact links identify 2,266 of 2,482 candidate geometry occurrences and 2,486.346 kg/car. An additional 44 occurrences (478.763 kg/car) map to 3 source accounts through declared glazing, PVB, and deleted-door-infill groups whose aggregate masses match the source accounts exactly. These are calculated group links, not exact per-part source IDs. The remaining 216 occurrences (6,645.452 kg/car) lack an exact source-occurrence or nested-subgeometry link. None of these mappings proves manufacture or physical installation.
