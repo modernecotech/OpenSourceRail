@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import pytest
 
-from engineering.development_baseline import FLAGS, vehicle_cost
+from engineering.development_baseline import FLAGS, factory_draft, vehicle_cost
 from engineering.station_rail import evaluation
 from engineering.station_rail.common import identity
 
@@ -165,6 +165,34 @@ def test_shift_scenarios_and_held_whole_railway_scopes_are_explicit(estimate):
     assert scopes["factory-tooling"] == "separate-capital-range"
     assert all(value == "held" for key, value in scopes.items()
                if key not in ("rolling-stock", "factory-tooling"))
+
+
+def test_factory_draft_uses_only_selected_cost_ledger_and_two_shift_basis(estimate):
+    record, cost = estimate
+    candidate = {key: record[key] for key in (
+        "selection_id", "candidate_id", "body_candidate_id", "support_component_id",
+        "propulsion_component_id", "evaluation_id")}
+    planning_revision = dict(city="fixture-city", planning_revision_id="a" * 64,
+        network_proposal_id="b" * 64)
+
+    plan = factory_draft._build_work_packages(cost, candidate, planning_revision)
+
+    assert len(plan["work_packages"]) == 19
+    assert plan["production_shifts"]["shifts_per_day"] == 2
+    assert plan["production_shifts"]["hours_per_shift"] == 8
+    assert plan["production_shifts"]["productive_hours_per_day"] == 12
+    assert plan["cost_estimate_id"] == cost["cost_estimate_id"]
+    for previous, current in zip(plan["work_packages"], plan["work_packages"][1:]):
+        assert current["predecessor_ids"] == [previous["operation_id"]]
+        for case in ("low", "base", "high"):
+            assert current["planned_start_workday"][case] == previous["planned_finish_workday"][case]
+    assert plan["factory_and_final_assembly_cost_iqd_per_train"] == {
+        case: round(cost["factory_gate_cost_iqd_per_train"][case]
+                    + cost["final_vehicle_assembly_cost_iqd_per_train"][case], 2)
+        for case in ("low", "base", "high")
+    }
+    assert plan["excluded_cost_lines"][0]["reason"].startswith("Factory plan excludes transport")
+    assert plan["inventory_disposition"]["complete_installed_mass"] is False
 
 
 def test_mixed_selection_and_forged_acceptance_are_rejected(estimate):

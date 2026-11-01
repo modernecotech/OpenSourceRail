@@ -321,7 +321,7 @@
           </nav>
         </section>
         <section class="panel">
-          <h2>Candidate delivery exports and operating integrations</h2>
+          <h2>Selected-candidate exports and delivery handoffs</h2>
           <p>
             The selected candidate exports share their physical identities
             across CAD/IFC, the engineering BOM, manufacturing processes,
@@ -330,6 +330,17 @@
             guides for business and supervision integrations. Incomplete
             equipment, prices and physical acceptance remain open.
           </p>
+          <p>
+            For a city-specific proposal, compile and verify the planning handoff,
+            then create and verify its immutable six-car factory work-package
+            draft. It uses the selected Class C cost ledger and the declared
+            two-shift, eight-hour production case. The draft is not an ERPNext
+            import; civil/site delivery, purchasing, staffing and railway
+            operations remain held.
+          </p>
+          <pre><code>./osr plan compile build/edits.json --output build/planning-handoff
+./osr twin factory-draft compile build/planning-handoff --output build/factory-plan
+./osr twin factory-draft verify build/planning-handoff build/factory-plan</code></pre>
           <nav>
             <a href="/docs/design-engine/current/exports/manifest.json"
               >Selected candidate export manifest</a
@@ -338,8 +349,6 @@
               >Engineering BOM</a
             ><a href="/docs/design-engine/current/exports/manufacturing.json"
               >Manufacturing and assembly records</a
-            ><a href="/docs/design-engine/coupled-railway/delivery-index.json"
-              >Coupled candidate delivery packages</a
             ><a href="/deployment/erpnext/README.md"
               >ERPNext and Frappe HR handoff</a
             ><a href="/deployment/supervision/README.md"

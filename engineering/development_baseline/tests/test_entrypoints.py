@@ -92,6 +92,14 @@ def test_root_help_documents_external_checkout_without_advertising_old_apps():
     assert 'restored v0.4 applications' not in result.stdout
     assert 'functionality-reconciliation' not in result.stdout
 
+
+def test_current_workbench_exposes_verified_factory_draft_and_hides_other_candidate_delivery_link():
+    root = Path(__file__).resolve().parents[3]
+    page = (root / 'engineering/development_baseline/web/index.html').read_text()
+    assert './osr twin factory-draft compile' in page
+    assert './osr twin factory-draft verify' in page
+    assert '/docs/design-engine/coupled-railway/delivery-index.json' not in page
+
 def test_legacy_checkout_creates_only_a_pinned_external_detached_worktree(tmp_path, monkeypatch):
     from types import SimpleNamespace
     from engineering.development_baseline import legacy

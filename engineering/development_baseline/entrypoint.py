@@ -464,6 +464,42 @@ def main(argv=None, root=ROOT):
             result = module.publish_city(slug, root=root) if command == 'city' else module.evaluate_city(slug, root=root)
             emit(result)
             return 3 if result.get('execution') == 'held' else 0
+        if command == 'twin' and rest and rest[0] == 'factory-draft':
+            from . import factory_draft
+            tail = rest[1:]
+            if tail in ([], ['-h'], ['--help'], ['help']):
+                print('Usage: ./osr twin factory-draft COMMAND [arguments]\n\n'
+                      '  compile HANDOFF_DIR --output DIR  Create an immutable two-shift factory work-package draft\n'
+                      '  verify HANDOFF_DIR PACKAGE_DIR    Verify the draft, current candidate and planning revision\n\n'
+                      'The export is not an ERPNext import; civil/site delivery, procurement, staffing and operation remain held.')
+                return 0
+            action = tail[0]
+            if action == 'compile':
+                options = argparse.ArgumentParser(prog='./osr twin factory-draft compile')
+                options.add_argument('handoff', type=Path, help='Verified output directory from ./osr plan compile')
+                options.add_argument('--output', type=Path, required=True, help='New repository-relative draft directory')
+                parsed = options.parse_args(tail[1:])
+                result = factory_draft.compile_bundle(
+                    root=root,
+                    handoff_directory=checked_path(root, parsed.handoff),
+                    output_path=checked_path(root, parsed.output),
+                )
+                emit(result)
+                return 0
+            if action == 'verify':
+                options = argparse.ArgumentParser(prog='./osr twin factory-draft verify')
+                options.add_argument('handoff', type=Path, help='Verified planning handoff directory')
+                options.add_argument('directory', type=Path, help='Immutable factory draft directory')
+                parsed = options.parse_args(tail[1:])
+                result = factory_draft.verify_bundle(
+                    root=root,
+                    handoff_directory=checked_path(root, parsed.handoff),
+                    output_path=checked_path(root, parsed.directory),
+                )
+                emit(result)
+                return 0
+            return hold(root, 'twin factory-draft ' + ' '.join(tail),
+                        'Use ./osr twin factory-draft compile HANDOFF_DIR --output DIR or verify HANDOFF_DIR PACKAGE_DIR')
         if command == 'twin' and rest and rest[0] in ('compile', 'export'):
             baseline = selected(root)
             if len(rest) > 2 or (len(rest) == 2 and rest[1] != baseline['vehicle']['candidate_id']):
