@@ -443,6 +443,55 @@ def _retained_account_component_breakdown(account, source_occurrences, geometry_
     )
 
 
+def _bogie_geometry_component_breakdown(account, geometry_occurrences):
+    """Group explicitly modelled bogie solids while retaining the account balance."""
+    component_labels = {
+        "axle": "Axle solids",
+        "wheel": "Wheel rims, webs and hubs",
+        "brake": "Brake discs",
+        "sideframe": "Bogie sideframes",
+        "bolster": "Bolsters",
+    }
+    bogie_parts = [
+        row for row in geometry_occurrences
+        if row["account_id"] == account["account_id"] and row["occurrence_id"].startswith("bogie/")
+    ]
+    if not bogie_parts:
+        raise ValueError("Passive-bogie account has no explicitly modelled bogie geometry")
+    bogie_ids = {row["occurrence_id"].split("/")[1] for row in bogie_parts}
+    grouped = defaultdict(list)
+    for row in bogie_parts:
+        parts = row["occurrence_id"].split("/")
+        if len(parts) < 3 or parts[2] not in component_labels:
+            raise ValueError(f"Unclassified candidate bogie geometry occurrence: {row['occurrence_id']}")
+        grouped[parts[2]].append(row)
+    components = [dict(
+        component_id=component_id,
+        description=component_labels[component_id],
+        candidate_geometry_occurrence_count=len(rows),
+        candidate_geometry_mass_kg=math.fsum(float(row["mass_kg"]) for row in rows),
+        candidate_geometry_occurrence_ids=sorted(row["occurrence_id"] for row in rows),
+    ) for component_id, rows in sorted(grouped.items())]
+    located_mass = math.fsum(row["candidate_geometry_mass_kg"] for row in components)
+    residual_mass = float(account["residual_account_mass_kg"])
+    if (len(bogie_ids) < 1
+            or abs(located_mass - float(account["located_geometry_mass_kg"])) > 1e-7
+            or abs(located_mass + residual_mass - float(account["accounted_mass_kg"])) > 1e-7):
+        raise ValueError("Bogie geometry groups do not reconcile to the existing pair account")
+    return dict(
+        schema="osr-bogie-geometry-component-breakdown/1",
+        bogies_per_car=len(bogie_ids),
+        reference_account_mass_kg=float(account["accounted_mass_kg"]),
+        candidate_geometry_mass_kg=located_mass,
+        residual_account_mass_kg=residual_mass,
+        residual_per_bogie_kg=residual_mass / len(bogie_ids),
+        components=components,
+        unallocated_account_residual=True,
+        installed_mass_complete=False,
+        physical_acceptance=False,
+    )
+
+
 def reconcile(candidate, parent):
     """Map source accounts and candidate geometry by explicit parent account."""
     geometry = candidate["geometry_parts"]
@@ -810,6 +859,10 @@ def reconcile(candidate, parent):
             account["calculated_component_mass_breakdown"] = _retained_account_component_breakdown(
                 account, source_occurrences, geometry_occurrences,
             )
+        elif account["account_id"] == "passive-bogie-pair":
+            account["candidate_geometry_component_breakdown"] = _bogie_geometry_component_breakdown(
+                account, geometry_occurrences,
+            )
 
     analytical_estimates = [_roof_finish_distribution_estimate(candidate, parent)]
 
@@ -943,6 +996,35 @@ def _readme(ledger, selected):
             f"{group['residual_account_mass_kg']:,.3f} | {len(group['source_occurrence_ids']):,} | "
             f"{len(group['candidate_geometry_occurrence_ids']):,} |"
         )
+    bogie_account = next(row for row in ledger["accounts"] if row["account_id"] == "passive-bogie-pair")
+    bogie_detail = bogie_account["candidate_geometry_component_breakdown"]
+    lines.extend([
+        "",
+        "## Passive-bogie geometry detail",
+        "",
+        f"The existing reference account is {bogie_detail['reference_account_mass_kg']:,.3f} kg for {bogie_detail['bogies_per_car']} passive bogies per car. The table decomposes only the candidate CAD solids; the per-bogie column evenly divides those totals for comparison and is not a measured assembly mass.",
+        "",
+        "| Modelled component family | Candidate solids | Geometry mass (kg/car) | Even split (kg/bogie) |",
+        "|---|---:|---:|---:|",
+    ])
+    for component in bogie_detail["components"]:
+        lines.append(
+            f"| {component['description']} | {component['candidate_geometry_occurrence_count']:,} | "
+            f"{component['candidate_geometry_mass_kg']:,.3f} | "
+            f"{component['candidate_geometry_mass_kg'] / bogie_detail['bogies_per_car']:,.3f} |"
+        )
+    lines.extend([
+        f"| **Located CAD subtotal** | {sum(row['candidate_geometry_occurrence_count'] for row in bogie_detail['components']):,} | "
+        f"**{bogie_detail['candidate_geometry_mass_kg']:,.3f}** | "
+        f"**{bogie_detail['candidate_geometry_mass_kg'] / bogie_detail['bogies_per_car']:,.3f}** |",
+        f"| **Unallocated reference-account residual** | Not modelled | **{bogie_detail['residual_account_mass_kg']:,.3f}** | "
+        f"**{bogie_detail['residual_per_bogie_kg']:,.3f}** |",
+        f"| **Reference-account total** |  | **{bogie_detail['reference_account_mass_kg']:,.3f}** | "
+        f"**{bogie_detail['reference_account_mass_kg'] / bogie_detail['bogies_per_car']:,.3f}** |",
+        "",
+        "The CAD groups include axles, wheel rims/webs/hubs, brake discs, sideframes and bolsters. The 1,764.182 kg/car residual remains an unallocated account balance; individual suspension, bearing, brake-caliper, fastening and interface masses are not defined by the source account. The candidate's passive secondary-suspension description does not add geometry or mass. This account excludes traction motors and gearing, and it does not establish complete bogie mass or physical installation.",
+        "",
+    ])
     battery_source = next(
         row for row in ledger["source_account_occurrences"]
         if row["occurrence_id"] == "service-battery"

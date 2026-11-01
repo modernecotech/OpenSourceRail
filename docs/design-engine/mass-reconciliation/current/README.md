@@ -46,6 +46,24 @@ The coating mass is already included in the scalar roof-thermal account. This es
 | services | 1,345.000 | 0.000 | 1,345.000 | 1 | 0 |
 | wheel-underframe | 925.528 | 925.528 | 0.000 | 0 | 60 |
 
+## Passive-bogie geometry detail
+
+The existing reference account is 6,730.000 kg for 2 passive bogies per car. The table decomposes only the candidate CAD solids; the per-bogie column evenly divides those totals for comparison and is not a measured assembly mass.
+
+| Modelled component family | Candidate solids | Geometry mass (kg/car) | Even split (kg/bogie) |
+|---|---:|---:|---:|
+| Axle solids | 4 | 1,109.768 | 554.884 |
+| Bolsters | 8 | 259.741 | 129.870 |
+| Brake discs | 8 | 599.275 | 299.637 |
+| Bogie sideframes | 16 | 376.800 | 188.400 |
+| Wheel rims, webs and hubs | 24 | 2,620.235 | 1,310.118 |
+| **Located CAD subtotal** | 60 | **4,965.818** | **2,482.909** |
+| **Unallocated reference-account residual** | Not modelled | **1,764.182** | **882.091** |
+| **Reference-account total** |  | **6,730.000** | **3,365.000** |
+
+The CAD groups include axles, wheel rims/webs/hubs, brake discs, sideframes and bolsters. The 1,764.182 kg/car residual remains an unallocated account balance; individual suspension, bearing, brake-caliper, fastening and interface masses are not defined by the source account. The candidate's passive secondary-suspension description does not add geometry or mass. This account excludes traction motors and gearing, and it does not establish complete bogie mass or physical installation.
+
+
 ## Service-battery account detail
 
 The candidate's existing 1,345 kg service-battery account is disaggregated from its selected electrical definition below. These rows sum within the account and do not create extra tare, CAD solids, or installed positions.
