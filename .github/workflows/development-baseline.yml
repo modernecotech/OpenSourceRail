@@ -253,7 +253,7 @@ jobs:
           python-version: "3.12"
       - run: sudo apt-get update && sudo apt-get install -y getdp gmsh calculix-ccx libglu1-mesa
       - run: python -m venv .venv
-      - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - run: .venv/bin/pip install pytest gmsh==4.14.1 --requirement engineering/requirements.txt
       - run: .venv/bin/python tools/automation/v06-native-benchmarks.py --output build/v06-native-ci
       - run: .venv/bin/python -c "from engineering.trip_dynamics.setup_tools import install; install('build/trip-dynamics/tools')"
       - run: .venv/bin/python tools/automation/architecture-native-benchmarks.py --output build/architecture-native-ci
