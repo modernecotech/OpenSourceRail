@@ -40,6 +40,20 @@ def test_real_dispatchers_always_request_recorded_integrity_without_native_reexe
     with pytest.raises(ValueError):methods._check(tmp_path,'invented-kind',tmp_path)
 
 
+def test_comparison_replay_allows_only_small_host_float_differences():
+    recorded=dict(source_sha256={'kernel':'a'*64},candidate_id='b'*64,
+        statistics=dict(mean_thrust_N=1000.0,energy_J=0.125))
+    recomputed=deepcopy(recorded)
+    recomputed['statistics']['mean_thrust_N']+=5e-7
+    recomputed['statistics']['energy_J']+=5e-10
+    assert methods._comparison_difference(recorded,recomputed) is None
+    recomputed['source_sha256']['kernel']='c'*64
+    assert methods._comparison_difference(recorded,recomputed)[0]=='$.source_sha256.kernel'
+    recomputed=deepcopy(recorded)
+    recomputed['statistics']['mean_thrust_N']+=2e-6
+    assert methods._comparison_difference(recorded,recomputed)[0]=='$.statistics.mean_thrust_N'
+
+
 def test_portable_reopening_does_not_relabel_recorded_tool_as_current_tool(publication):
     folder,value,host,_=publication;host['current']='different-reader-host'
     actual=methods.verify(folder)

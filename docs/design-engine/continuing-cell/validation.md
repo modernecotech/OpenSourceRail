@@ -1,4 +1,4 @@
-# Executed continuing-cell results — 31 October 2026
+# Executed continuing-cell results — 1 November 2026
 
 These are numerical research records. No authenticated prototype measurements, accepted operating maps, qualified structural margins, installed whole-life price or operating approval have been established.
 
@@ -16,12 +16,12 @@ Source development used an isolated Git worktree. Numerical jobs used private pe
 
 | Package | Identity |
 |---|---|
-| Ten-cell run | `952d54e8b465b0a903609200a227d3f825b5a0ae6f0a0321db300a2289dab752` |
-| Cell publication | `2dfe56e51be7a3f805dc61eb787bb7f5170d72ee05eb20bb107cc7a2091a0364` |
+| Ten-cell run | `60b9b48c7d246a93a5eb9a5a66d2b6dad3de19c4cb31b987fd77470d5680dba2` |
+| Cell publication | `836391e253fdf7773f9ac2c1fb4925c2cb3e047fda7a3ba75e4c9309669a69ba` |
 | Five native packages | `7306491795f7aa6ca893e3528ccbddf2700370a2cb39b0f36ae431e5ac42dfc3` |
 | Matched motor comparison | `1c0a219e3a012b2fdf7169f160399fa57deeb0a638df9370c2037a32854b55c8` |
 
-The publication carries source snapshots and exact owned payload inventories. Cell verification reconstructs vehicle, launch, civil, manufacturing and trajectory results. Native verification checks recorded tool/source/payload identities and saved-state arithmetic; it does not claim a new independent field solve or physical correlation. Current-tool reuse and recorded-execution integrity remain separate.
+The publication carries source snapshots and exact owned payload inventories. Cell verification reconstructs vehicle, launch, civil, manufacturing and trajectory results. Native verification checks recorded tool/source/payload identities and saved-state arithmetic; it does not claim a new independent field solve or physical correlation. The nested motor-comparison identity is checked against its recorded payload; cross-host replay then requires exact candidate/source/request bindings and 1e-9 relative/absolute agreement for derived floating-point summary statistics. This tolerance applies only to post-processing, not the archived worker records or engineering limits. Current-tool reuse and recorded-execution integrity remain separate.
 
 ## Conditional journeys and physical redesign
 

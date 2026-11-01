@@ -1,6 +1,7 @@
 """Publish actual bounded native packages without inventing correlation or replay."""
 from pathlib import Path
 import io,tarfile,gzip,json,tempfile
+from math import isclose
 import platform,sys
 from . import ROOT,FLAGS,identity,digest,encoded
 
@@ -33,6 +34,35 @@ def _first_difference(expected,actual,path='$'):
             difference=_first_difference(left,right,f'{path}[{index}]')
             if difference is not None:return difference
         return None
+    return None if expected==actual else (path,expected,actual)
+
+
+def _comparison_difference(expected,actual,path='$'):
+    """Compare post-processed comparison records across numerical hosts.
+
+    The archived worker packages retain exact candidate, source, tool, mesh,
+    request and payload identities and are verified before this comparison.
+    Only derived floating-point statistics can vary slightly with host math
+    libraries; their existing replay scale is 1e-9 relative/absolute. The
+    nested evaluation ID is checked against the recorded payload separately.
+    """
+    if type(expected) is not type(actual):return path,expected,actual
+    if isinstance(expected,dict):
+        for key in sorted(expected.keys()|actual.keys()):
+            child=f'{path}.{key}'
+            if key not in expected:return child,'<missing>',actual[key]
+            if key not in actual:return child,expected[key],'<missing>'
+            difference=_comparison_difference(expected[key],actual[key],child)
+            if difference is not None:return difference
+        return None
+    if isinstance(expected,list):
+        if len(expected)!=len(actual):return f'{path}.length',len(expected),len(actual)
+        for index,(left,right) in enumerate(zip(expected,actual)):
+            difference=_comparison_difference(left,right,f'{path}[{index}]')
+            if difference is not None:return difference
+        return None
+    if type(expected) is float:
+        return None if isclose(expected,actual,rel_tol=1e-9,abs_tol=1e-9) else (path,expected,actual)
     return None if expected==actual else (path,expected,actual)
 
 
@@ -83,8 +113,14 @@ def verify(output,*,root=ROOT):
             if {k:x for k,x in actual.items() if k not in volatile}!={k:x for k,x in row['validation'].items() if k not in volatile}:raise ValueError('Native recorded validation differs')
             if row['kind']=='motor':motors.append(folder)
         comparison=propulsion.compare(motors,root=root) if 2<=len(motors)<=3 else None
-        if encoded(comparison)!=encoded(v['motor_comparison']):
-            path,recorded,recomputed=_first_difference(v['motor_comparison'],comparison) or ('$',v['motor_comparison'],comparison)
+        recorded=v['motor_comparison']
+        if isinstance(recorded,dict) and recorded.get('evaluation_id')!=identity({k:x for k,x in recorded.items() if k!='evaluation_id'}):
+            raise ValueError('Recorded motor comparison payload identity differs')
+        recorded_payload={k:x for k,x in recorded.items() if k!='evaluation_id'} if isinstance(recorded,dict) else recorded
+        recomputed_payload={k:x for k,x in comparison.items() if k!='evaluation_id'} if isinstance(comparison,dict) else comparison
+        difference=_comparison_difference(recorded_payload,recomputed_payload)
+        if difference is not None:
+            path,recorded_value,recomputed_value=difference
             runtime=f"Python {sys.version.split()[0]}, {platform.machine()}, NumPy {propulsion.np.__version__}, SciPy {propulsion.scipy.__version__}"
-            raise ValueError(f'Actual motor refinement comparison differs at {path}: recorded={recorded!r}; recomputed={recomputed!r}; runtime={runtime}')
+            raise ValueError(f'Actual motor refinement comparison differs at {path}: recorded={recorded_value!r}; recomputed={recomputed_value!r}; runtime={runtime}')
     return dict(verified=True,publication_id=v['publication_id'],packages=len(v['packages']),physical_correlation=False,**FLAGS)
