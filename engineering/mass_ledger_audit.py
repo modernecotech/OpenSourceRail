@@ -254,6 +254,94 @@ def _roof_finish_distribution_estimate(candidate, parent):
     )
 
 
+def _service_battery_component_breakdown(item):
+    """Expose existing service-pack mass arithmetic without inventing geometry."""
+    definition = item.get("basis")
+    if not isinstance(definition, dict):
+        raise ValueError("Service-battery account requires its candidate-bound electrical definition")
+    module_count = definition.get("module_count")
+    series_count = definition.get("modules_in_series")
+    parallel_strings = definition.get("parallel_strings")
+    module_mass = definition.get("supplier_module_mass_kg")
+    accessories = definition.get("accessories")
+    counts = (module_count, series_count, parallel_strings)
+    if (any(type(value) is not int or value <= 0 for value in counts)
+            or type(module_mass) not in (int, float)
+            or not math.isfinite(module_mass) or module_mass <= 0
+            or module_count != series_count * parallel_strings
+            or type(accessories) is not list or not accessories):
+        raise ValueError("Service-battery module count and mass inputs must be finite and consistent")
+    unit_module_mass = float(module_mass) / int(module_count)
+    components = [dict(
+        component_id="toshiba-type3-20-module-reference",
+        description=definition.get("supplier_reference"),
+        quantity=int(module_count),
+        unit="module",
+        unit_mass_kg=unit_module_mass,
+        accounted_mass_kg=float(module_mass),
+        mass_basis=(f"Supplier-reference module mass multiplied by the declared {series_count}-series by "
+                    f"{parallel_strings}-parallel quantity; not rail application approval or a measured installed pack."),
+        evidence_class="supplier-reference",
+        source_reference_ids=[source.get("title", source.get("url"))
+                              for source in definition.get("sources", [])],
+        geometry_part_ids=[],
+        installed_position_m=None,
+        physical_mass_measured=False,
+    )]
+    accessory_ids = set()
+    for accessory in accessories:
+        if not isinstance(accessory, dict):
+            raise ValueError("Service-battery accessory allowance records must be objects")
+        description = accessory.get("component")
+        mass = accessory.get("mass_kg")
+        if (not isinstance(description, str) or not description.strip()
+                or type(mass) not in (int, float) or not math.isfinite(mass) or mass < 0):
+            raise ValueError("Service-battery accessories require named finite nonnegative masses")
+        component_id = "allowance/" + description.strip().lower().replace(" ", "-")
+        if component_id in accessory_ids:
+            raise ValueError("Service-battery accessory allowance names must be unique")
+        accessory_ids.add(component_id)
+        components.append(dict(
+            component_id=component_id,
+            description=description,
+            quantity=1,
+            unit="per-car allowance",
+            unit_mass_kg=float(mass),
+            accounted_mass_kg=float(mass),
+            mass_basis="Explicit per-car design allowance from the selected service-battery definition; material, supplier, geometry and installed position are unresolved.",
+            evidence_class="engineering-mass-assumption",
+            source_reference_ids=["engineering/station_rail/electrical.py"],
+            geometry_part_ids=[],
+            installed_position_m=None,
+            physical_mass_measured=False,
+        ))
+    total = math.fsum(row["accounted_mass_kg"] for row in components)
+    account_mass = float(item["mass_kg"])
+    if (abs(total - account_mass) > 1e-8
+            or abs(float(definition.get("mass_kg", float("nan"))) - account_mass) > 1e-8
+            or abs(unit_module_mass * module_count - float(module_mass)) > 1e-8):
+        raise ValueError("Service-battery component masses do not reconcile to the existing account")
+    return dict(
+        schema="osr-service-battery-account-breakdown/1",
+        supplier_reference=definition.get("supplier_reference"),
+        battery_component_id=definition.get("component_id"),
+        module_count=int(module_count),
+        modules_in_series=int(series_count),
+        parallel_strings=int(parallel_strings),
+        gross_energy_kWh=definition.get("gross_energy_kWh"),
+        components=components,
+        component_count=len(components),
+        calculated_account_mass_kg=total,
+        source_account_mass_kg=account_mass,
+        account_difference_kg=total - account_mass,
+        geometry_complete=False,
+        installed_positions_known=False,
+        physically_installed_mass_known=False,
+        additive_to_source_account=False,
+        supplier_railway_approval=definition.get("supplier_railway_approval") is True,
+    )
+
+
 def reconcile(candidate, parent):
     """Map source accounts and candidate geometry by explicit parent account."""
     geometry = candidate["geometry_parts"]
@@ -496,6 +584,10 @@ def reconcile(candidate, parent):
     for item_id, group, evidence, basis in scalar_accounts:
         item = inventory[item_id]
         mass = float(item["mass_kg"])
+        component_breakdown = (
+            _service_battery_component_breakdown(item)
+            if item_id == "service-battery" else None
+        )
         accounts.append(dict(
             account_id=group,
             source_system=item["system"],
@@ -517,6 +609,7 @@ def reconcile(candidate, parent):
             evidence_class=evidence,
             source_location_known=False,
             mass_kg=mass,
+            calculated_component_mass_breakdown=component_breakdown,
             source_geometry_part_ids=[],
             candidate_geometry_occurrence_ids=[],
             candidate_geometry_links=[],
@@ -743,8 +836,36 @@ def _readme(ledger, selected):
             f"{group['residual_account_mass_kg']:,.3f} | {len(group['source_occurrence_ids']):,} | "
             f"{len(group['candidate_geometry_occurrence_ids']):,} |"
         )
+    battery_source = next(
+        row for row in ledger["source_account_occurrences"]
+        if row["occurrence_id"] == "service-battery"
+    )
+    battery = battery_source["calculated_component_mass_breakdown"]
     lines.extend([
         "",
+        "## Service-battery account detail",
+        "",
+        "The candidate's existing 1,345 kg service-battery account is disaggregated from its selected electrical definition below. These rows sum within the account and do not create extra tare, CAD solids, or installed positions.",
+        "",
+        "| Component | Quantity | Unit mass (kg) | Account mass (kg/car) | Evidence class |",
+        "|---|---:|---:|---:|---|",
+    ])
+    for component in battery["components"]:
+        unit = component["unit"]
+        if component["quantity"] != 1 and unit == "module":
+            unit = "modules"
+        lines.append(
+            f"| {component['description']} | {component['quantity']} {unit} | "
+            f"{component['unit_mass_kg']:,.3f} | {component['accounted_mass_kg']:,.3f} | "
+            f"{component['evidence_class']} |"
+        )
+    lines.extend([
+        f"| **Calculated account total** |  |  | **{battery['calculated_account_mass_kg']:,.3f}** | Difference to source account: {battery['account_difference_kg']:+.9f} kg |",
+        "",
+        f"The {battery['module_count']} Type3-20 modules contribute {battery['components'][0]['accounted_mass_kg']:,.3f} kg at the supplier-reference {battery['components'][0]['unit_mass_kg']:,.3f} kg/module. The {len(battery['components']) - 1} named enclosure, protection, cooling, conversion, charging, and retention allowances contribute {math.fsum(row['accounted_mass_kg'] for row in battery['components'][1:]):,.3f} kg and remain design assumptions. No module or accessory geometry, installed position, complete pack mass, or railway approval is established.",
+        "",
+    ])
+    lines.extend([
         "The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.",
         "",
         f"Exact retained source-occurrence IDs link {summary['candidate_geometry_with_exact_source_occurrence_link_count']:,} candidate geometry occurrences ({summary['candidate_geometry_with_exact_source_occurrence_link_mass_kg']:,.3f} kg/car) to {summary['source_occurrence_with_candidate_geometry_occurrence_link_count']:,} source occurrences, with each linked mass checked equal. Separately, exact nested source-geometry IDs link {summary['candidate_geometry_with_exact_source_geometry_link_count']:,} occurrences ({summary['candidate_geometry_with_exact_source_geometry_link_mass_kg']:,.3f} kg/car); those nested links are also mass-checked and have distinct candidate geometry IDs. Together, exact links identify {summary['candidate_geometry_with_exact_source_identity_link_count']:,} of {summary['located_geometry_occurrence_count']:,} candidate geometry occurrences and {summary['candidate_geometry_with_exact_source_identity_link_mass_kg']:,.3f} kg/car. An additional {summary['candidate_geometry_with_derived_source_component_group_link_count']:,} occurrences ({summary['candidate_geometry_with_derived_source_component_group_link_mass_kg']:,.3f} kg/car) map to {summary['source_occurrence_with_derived_source_component_group_link_count']:,} source accounts through declared glazing, PVB, and deleted-door-infill groups whose aggregate masses match the source accounts exactly. These are calculated group links, not exact per-part source IDs. The remaining {summary['candidate_geometry_without_exact_source_identity_link_count']:,} occurrences ({summary['candidate_geometry_without_exact_source_identity_link_mass_kg']:,.3f} kg/car) lack an exact source-occurrence or nested-subgeometry link. None of these mappings proves manufacture or physical installation.",
@@ -886,6 +1007,7 @@ def build_closure_worksheet(ledger):
                 "source-occurrence-or-geometry-origin-linked; physical installation and assembly completeness unverified"
                 if linked_geometry_ids else "unresolved"
             ),
+            calculated_component_mass_breakdown=source.get("calculated_component_mass_breakdown"),
             derived_source_geometry_groups=list(source.get("derived_source_geometry_groups", [])),
             accounting_mapping=(
                 "retained source occurrence owns exact ID-linked parts and/or the listed calculated component groups; group totals match this source account, while physical installation remains unverified"

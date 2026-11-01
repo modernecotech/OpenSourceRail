@@ -46,6 +46,23 @@ The coating mass is already included in the scalar roof-thermal account. This es
 | services | 1,345.000 | 0.000 | 1,345.000 | 1 | 0 |
 | wheel-underframe | 925.528 | 925.528 | 0.000 | 0 | 60 |
 
+## Service-battery account detail
+
+The candidate's existing 1,345 kg service-battery account is disaggregated from its selected electrical definition below. These rows sum within the account and do not create extra tare, CAD solids, or installed positions.
+
+| Component | Quantity | Unit mass (kg) | Account mass (kg/car) | Evidence class |
+|---|---:|---:|---:|---|
+| Toshiba SCiB Type3-20 FM01202CCA04A | 75 modules | 14.000 | 1,050.000 | supplier-reference |
+| enclosure and module racks | 1 per-car allowance | 135.000 | 135.000 | engineering-mass-assumption |
+| DC protection, monitoring and busbars | 1 per-car allowance | 45.000 | 45.000 | engineering-mass-assumption |
+| cooled enclosure circuit and heat exchanger | 1 per-car allowance | 55.000 | 55.000 | engineering-mass-assumption |
+| isolated service DC/DC and low voltage supplies | 1 per-car allowance | 30.000 | 30.000 | engineering-mass-assumption |
+| station charge connector and isolation | 1 per-car allowance | 20.000 | 20.000 | engineering-mass-assumption |
+| isolation and retention mounts | 1 per-car allowance | 10.000 | 10.000 | engineering-mass-assumption |
+| **Calculated account total** |  |  | **1,345.000** | Difference to source account: +0.000000000 kg |
+
+The 75 Type3-20 modules contribute 1,050.000 kg at the supplier-reference 14.000 kg/module. The 6 named enclosure, protection, cooling, conversion, charging, and retention allowances contribute 295.000 kg and remain design assumptions. No module or accessory geometry, installed position, complete pack mass, or railway approval is established.
+
 The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.
 
 Exact retained source-occurrence IDs link 750 candidate geometry occurrences (1,324.307 kg/car) to 750 source occurrences, with each linked mass checked equal. Separately, exact nested source-geometry IDs link 1,516 occurrences (1,162.040 kg/car); those nested links are also mass-checked and have distinct candidate geometry IDs. Together, exact links identify 2,266 of 2,482 candidate geometry occurrences and 2,486.346 kg/car. An additional 44 occurrences (478.763 kg/car) map to 3 source accounts through declared glazing, PVB, and deleted-door-infill groups whose aggregate masses match the source accounts exactly. These are calculated group links, not exact per-part source IDs. The remaining 216 occurrences (6,645.452 kg/car) lack an exact source-occurrence or nested-subgeometry link. None of these mappings proves manufacture or physical installation.

@@ -212,6 +212,61 @@ def test_roof_finish_distribution_estimate_is_candidate_bound_and_non_additive()
     assert ledger["physical_accepted"] is False
 
 
+def test_service_battery_account_disaggregates_supplier_modules_and_assumptions_without_adding_mass():
+    ledger, selected, _ = mass_ledger_audit._inputs(vehicle.ROOT)
+    source = next(row for row in ledger["source_account_occurrences"]
+                  if row["occurrence_id"] == "service-battery")
+    detail = source["calculated_component_mass_breakdown"]
+
+    assert source["account_id"] == "services"
+    assert source["mass_kg"] == pytest.approx(1345.0)
+    assert detail["battery_component_id"]
+    assert detail["module_count"] == 75
+    assert detail["modules_in_series"] == 25
+    assert detail["parallel_strings"] == 3
+    assert detail["gross_energy_kWh"] == pytest.approx(82.8)
+    module, *accessories = detail["components"]
+    assert module["quantity"] == 75
+    assert module["unit_mass_kg"] == pytest.approx(14.0)
+    assert module["accounted_mass_kg"] == pytest.approx(1050.0)
+    assert module["evidence_class"] == "supplier-reference"
+    assert module["physical_mass_measured"] is False
+    assert all(row["evidence_class"] == "engineering-mass-assumption" for row in accessories)
+    assert [row["accounted_mass_kg"] for row in accessories] == [135.0, 45.0, 55.0, 30.0, 20.0, 10.0]
+    assert sum(row["accounted_mass_kg"] for row in accessories) == pytest.approx(295.0)
+    assert detail["component_count"] == 7
+    assert detail["calculated_account_mass_kg"] == pytest.approx(1345.0)
+    assert detail["account_difference_kg"] == pytest.approx(0.0, abs=1e-9)
+    assert detail["additive_to_source_account"] is False
+    assert detail["geometry_complete"] is False
+    assert detail["installed_positions_known"] is False
+    assert detail["physically_installed_mass_known"] is False
+    assert detail["supplier_railway_approval"] is False
+
+    account = next(row for row in ledger["accounts"] if row["account_id"] == "services")
+    assert account["accounted_mass_kg"] == pytest.approx(1345.0)
+    assert account["residual_account_mass_kg"] == pytest.approx(1345.0)
+    worksheet = mass_ledger_audit.build_closure_worksheet(ledger)
+    worksheet_source = next(row for row in worksheet["rows"]
+                            if row["record_kind"] == "source-account-occurrence"
+                            and row["occurrence_id"] == "service-battery")
+    assert worksheet_source["calculated_component_mass_breakdown"] == detail
+    assert worksheet_source["physically_installed_mass_kg"] is None
+    assert worksheet_source["installed_position_m"] is None
+    assert worksheet["candidate_id"] == ledger["candidate_id"]
+    assert worksheet["evaluation_id"] == selected["evaluation_id"]
+
+
+def test_service_battery_breakdown_rejects_component_mass_drift():
+    candidate = deepcopy(vehicle.build())
+    parent, _ = vehicle._read_parent(vehicle.ROOT)
+    battery = next(row for row in candidate["inventory"] if row["id"] == "service-battery")
+    battery["basis"]["accessories"][0]["mass_kg"] += 1.0
+
+    with pytest.raises(ValueError, match="Service-battery component masses do not reconcile"):
+        mass_ledger_audit.reconcile(candidate, parent)
+
+
 def test_closure_worksheet_separates_source_mass_geometry_and_account_residuals():
     ledger, selected, _ = mass_ledger_audit._inputs(vehicle.ROOT)
     worksheet = mass_ledger_audit.build_closure_worksheet(ledger)
