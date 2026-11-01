@@ -12,7 +12,7 @@ OpenSourceRail aims for simple construction, low whole-life cost and high passen
 
 The retained earlier Halbach implementations use ferrite in station-propulsion coupons; the previous passive-facing campaign used a three-piece tilted-pole perturbation. Neither supplies a named-grade NdFeB transverse comparison. The new 4/8-segment arrays complete a full magnetic rotation across the vehicle, with equal-volume controls, smaller-volume revisions, iron-backed and no-yoke alternatives. Independent analytical/strong-side reversal tests check that the implementation is an actual Halbach arrangement.
 
-Arnold N42SH and N35UH data distinguish published minimum remanence/coercivity from typical density and temperature coefficients. Named chemistry, density and source hashes are retained. The frozen field solver's legacy internal recoil branch name is `ferrite`; an explicit adapter supplies the actual NdFeB laws and creates no extra ferrite stock. Manufacturer curves and our linear-recoil interpolation do not replace batch measurements. [Material/source declarations](magnetic-worker.json).
+Arnold N42SH and N35UH data distinguish published minimum remanence/coercivity from typical density and temperature coefficients. Named chemistry, density and source hashes are retained. The frozen field solver's internal recoil branch is named `ferrite`; an explicit adapter supplies the actual NdFeB laws and creates no extra ferrite stock. Manufacturer curves and our linear-recoil interpolation do not replace batch measurements. [Material/source declarations](magnetic-worker.json).
 
 | 12 mm, 80°C comparison | Known support stock, t/car | Upward force, kN/module | Recoil screen margin, kA/m | Point disposition |
 |---|---:|---:|---:|---|
