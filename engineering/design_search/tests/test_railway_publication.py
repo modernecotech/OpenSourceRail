@@ -29,18 +29,38 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert summary['current_source_fine_refinement']['execution']=='completed'
     assert summary['current_source_fine_refinement']['mesh_m']==0.10625
     ultrafine=summary.get('current_source_ultrafine_refinement')
-    if ultrafine is not None:
-        assert ultrafine['mesh_m']==0.053125
-        assert ultrafine['physical_and_engineering_acceptance'] is False
+    assert ultrafine is not None
+    assert ultrafine['mesh_m']==0.053125
+    assert ultrafine['memory_mb']==10_240
+    assert ultrafine['timeout_s']==600
+    if ultrafine['execution']=='solver_allocation_failed':
+        assert ultrafine['returncode']==255
+        assert ultrafine['max_rss_kib']==9_838_628
+        assert ultrafine['runtime_s'] is not None
+    assert ultrafine['source_complete'] is True
+    assert ultrafine['physical_and_engineering_acceptance'] is False
+    if ultrafine['execution']=='solver_allocation_failed':
+        text=publication.readme(summary)
+        assert 'Return code 255' in text
+        assert 'peak RSS 9838628 KiB' in text
     assert summary['frontier_tasks']==len(json.loads(gzip.decompress(
         (ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes())))
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
-    continuation=next(x for x in frontier if x['kind']=='unresolved-numerical-refinement'
-        and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b')
-    assert continuation['proposed_next_mesh_m']==0.053125
-    assert continuation['state']=='bounded-solver-allocation-failed; refinement-unresolved'
-    assert continuation['failed_evaluation_id']==ultrafine['evaluation_id']
-    assert continuation['physical_failure_inferred'] is False
+    continuations=[x for x in frontier if x['kind']=='unresolved-numerical-refinement'
+        and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b']
+    if ultrafine['execution']=='solver_allocation_failed':
+        assert len(continuations)==1
+        continuation=continuations[0]
+        assert continuation['proposed_next_mesh_m']==0.053125
+        assert continuation['state']=='bounded-solver-allocation-failed; refinement-unresolved'
+        assert continuation['failed_evaluation_id']==ultrafine['evaluation_id']
+        assert continuation['physical_failure_inferred'] is False
+    else:
+        assert ultrafine['execution']=='completed'
+        if continuations:
+            assert continuations[0]['state']=='explicit-resource-revision-required'
+            assert continuations[0]['proposed_next_mesh_m']==0.0265625
+            assert continuations[0]['physical_failure_inferred'] is False
 
 
 def _declared_cost_row():

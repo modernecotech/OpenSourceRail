@@ -92,6 +92,7 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
             material_rate_sensitivity=[0.9, 1.0, 1.2],
             body_purchase_yield=[0.96, 0.90, 0.82],
             body_process_hours_per_kg=[0.10, 0.30, 1.00],
+            body_process_setup_hours_per_stock=[0.02, 0.08, 0.25],
             body_machine_hours_per_kg=[0.02, 0.08, 0.25],
             machine_rate_iqd_per_h=[20000, 75000, 300000],
             body_qa_fraction=[0.03, 0.08, 0.20],
@@ -235,6 +236,119 @@ def _material_rate(assume, material_id):
     if any(k in name for k in ("copper", "winding")):
         return assume["copper_iqd_per_kg"], "C"
     return assume["generic_material_iqd_per_kg"], "C"
+
+
+def _provisional_stock_process(stock, manufacturing_row, operation):
+    """Select a transparent process hypothesis without qualifying it."""
+    definition = stock.get("geometry", {}).get("definition", {})
+    declared = definition.get("process")
+    candidates = list(manufacturing_row.get("process_candidates", []))
+    if isinstance(declared, str) and declared:
+        return declared, "candidate stock definition"
+    operation_processes = [row.get("process") for row in operation
+        if isinstance(row.get("process"), str) and row["process"]]
+    if len(operation_processes) == 1:
+        return operation_processes[0], "candidate DFMA operation rule"
+    if operation_processes:
+        return "sequence:" + " -> ".join(operation_processes), "candidate DFMA operation sequence"
+    if len(candidates) == 1:
+        return candidates[0], "single process family declared for manufacturing group"
+
+    material = str(stock.get("material_id", "")).lower()
+    form = str(stock.get("material_form", "")).lower()
+    kind = str(definition.get("kind", "")).lower()
+    if any(token in material or token in form for token in ("gfrp", "glass", "composite", "laminate")):
+        return "infuse-or-bond-panel", "Class C material-family process hypothesis"
+    if ("extrusion" in form or "extrud" in form or "rhs" in form
+            or kind == "oriented-rhs"):
+        return "extrude-cut-drill", "Class C stock-form process hypothesis"
+    if "sheet" in form or "plate" in form or kind == "box":
+        return "form-and-fasten", "Class C stock-form process hypothesis"
+    return "cut-drill-and-join", "Class C general stock process hypothesis"
+
+
+def _provisional_manufacturing_plan(bundle, inventory, assumptions_record, fleet_cars, line_items):
+    """Expose the cost engine's existing C-class hours at stock-occurrence level."""
+    candidate_id = bundle["candidate_id"]
+    body_rows = {row["id"]: row for row in inventory["engineering_BOM"]
+        if row.get("scope") == "located-nominal-gross-body-stock"}
+    manufacturing_by_stock = {}
+    for row in inventory["manufacturing_BOM"]:
+        for stock_id in row.get("engineering_stock_ids", []):
+            if stock_id in manufacturing_by_stock:
+                raise ValueError("A physical stock occurrence has multiple manufacturing groups")
+            manufacturing_by_stock[stock_id] = row
+    operations_by_stock = {}
+    for operation in inventory["assembly_operation_graph"].get("operations", []):
+        if operation.get("kind") != "fabrication":
+            continue
+        for stock_id in operation.get("part_ids", []):
+            operations_by_stock.setdefault(stock_id, []).append(operation)
+
+    rates = assumptions_record["assumptions"]["body_process_hours_per_kg"]
+    setup = assumptions_record["assumptions"]["body_process_setup_hours_per_stock"]
+    assumption_id = identity(assumptions_record)
+    cost_lines = {row["line_key"]: row for row in line_items}
+    routes = []
+    for stock_id, stock in sorted(body_rows.items()):
+        group = manufacturing_by_stock.get(stock_id)
+        if group is None:
+            raise ValueError("Located body stock has no manufacturing group: " + stock_id)
+        operations = operations_by_stock.get(stock_id, [])
+        process, process_basis = _provisional_stock_process(stock, group, operations)
+        mass = stock.get("accounted_mass_kg")
+        if not _finite(mass) or mass < 0:
+            raise ValueError("Located stock needs a finite nominal mass for its provisional process estimate")
+        per_car = [mass * rates[i] + setup[i] for i in range(3)]
+        fleet_hours = [hours * fleet_cars for hours in per_car]
+        cost_line = cost_lines.get("vehicle-stock/" + stock_id)
+        if cost_line is None:
+            raise ValueError("Located stock lacks its candidate-specific manufacturing cost line")
+        expected_hours = cost_line.get("quantity", {}).get("fleet_process_hours")
+        if (not isinstance(expected_hours, list) or len(expected_hours) != 3
+                or any(abs(expected_hours[i] - fleet_hours[i]) > 0.011 for i in range(3))):
+            raise ValueError("Per-stock process hours differ from their priced cost line")
+        operation_ids = sorted(row["id"] for row in operations if row.get("id"))
+        value = dict(candidate_id=candidate_id, body_candidate_id=bundle["body_candidate_id"],
+            bundle_id=candidate_id, stock_id=stock_id,
+            component_definition_id=stock.get("component_definition_id"),
+            manufacturing_group_id=group["id"], operation_ids=operation_ids,
+            operation_processes=[row.get("process") for row in operations],
+            material_id=stock.get("material_id"), material_form=stock.get("material_form"),
+            nominal_mass_kg_per_car=mass, provisional_process=process,
+            process_basis=process_basis,
+            process_alternatives=sorted(set(group.get("process_candidates", []))),
+            labor_hours_per_car=dict(zip(CASES, [round(x, 6) for x in per_car])),
+            fleet_cars=fleet_cars,
+            fleet_labor_hours=dict(zip(CASES, [round(x, 6) for x in fleet_hours])),
+            cost_line_id=cost_line["line_id"], estimate_class="C",
+            estimate_basis="Nominal part mass × declared body process-hours/kg plus the declared setup-hours/stock. This is a costing proxy, not a measured cycle or released routing.",
+            source_ids=sorted({x for x in (stock.get("component_definition_id"), assumption_id,
+                identity(group), *(identity(row) for row in operations)) if x}),
+            process_qualified=False, supplier_selected=False, measured_labor=False,
+            physical_accepted=False, engineering_accepted=False, manufacturing_release=False,
+            operating_release=False)
+        value["route_id"] = identity(value)
+        routes.append(value)
+
+    expected_stock_ids = sorted(body_rows)
+    routed_stock_ids = sorted(row["stock_id"] for row in routes)
+    if len(routed_stock_ids) != len(set(routed_stock_ids)) or routed_stock_ids != expected_stock_ids:
+        raise ValueError("Provisional manufacturing process coverage is not one-to-one with located body stock")
+    totals = [sum(row["fleet_labor_hours"][case] for row in routes) for case in CASES]
+    value = dict(schema="osr-v06-provisional-manufacturing-plan/1",
+        candidate_id=candidate_id, body_candidate_id=bundle["body_candidate_id"],
+        bundle_id=candidate_id, inventory_evaluation_id=inventory["evaluation_id"],
+        assumption_id=assumption_id, estimate_class="C", fleet_cars=fleet_cars,
+        route_count=len(routes), coverage=dict(located_stock_occurrences=len(expected_stock_ids),
+            routed_stock_occurrences=len(routed_stock_ids), unrouted_stock_ids=[],
+            scope="Located nominal gross body stock only; unlocated equipment accounts, unknown joints, propulsion and final assembly remain separate allowances or plans."),
+        total_fleet_labor_hours=dict(zip(CASES, [round(x, 2) for x in totals])),
+        production_shifts_per_day=assumptions_record["production_shifts_per_day"],
+        production_hours_per_shift=assumptions_record["production_hours_per_shift"],
+        routes=routes, **railway_bundle.FLAGS)
+    value["plan_id"] = identity(value)
+    return value
 
 
 def _line(lines, *, candidate_id, scope, key, quantity, unit, totals, stage, basis,
@@ -404,7 +518,8 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         yield_case = a["body_purchase_yield"]
         purchased_kg = [mass / yield_case[i] for i in range(3)]
         material_cost = [purchased_kg[i] * material_rates[i] for i in range(3)]
-        process_hours = [mass * a["body_process_hours_per_kg"][i] + (0.02, 0.08, 0.25)[i] for i in range(3)]
+        process_hours = [mass * a["body_process_hours_per_kg"][i]
+            + a["body_process_setup_hours_per_stock"][i] for i in range(3)]
         labour_cost = [process_hours[i] * production_wage[i] for i in range(3)]
         machine_hours = [mass * a["body_machine_hours_per_kg"][i] for i in range(3)]
         machine_cost = [machine_hours[i] * a["machine_rate_iqd_per_h"][i] for i in range(3)]
@@ -416,13 +531,18 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         body_process_hours = _sum(body_process_hours, [v * fleet_cars for v in process_hours])
         _line(line_items, candidate_id=candidate_id, scope="rolling-stock", key="vehicle-stock/"+row["id"],
             quantity=dict(per_car_mass_kg=mass, fleet_net_stock_kg=_round([mass*fleet_cars]*3),
-                fleet_purchase_stock_kg=_round([x*fleet_cars for x in purchased_kg])), unit="kg",
+                fleet_purchase_stock_kg=_round([x*fleet_cars for x in purchased_kg]),
+                process_hours_per_car=_round(process_hours),
+                fleet_process_hours=_round([v*fleet_cars for v in process_hours])), unit="kg",
             totals=fleet_total, stage="factory-gate", basis="Occurrence gross stock mass × fleet cars ÷ explicit low/base/high cut yield; material, operation-hours/kg, machine-hours/kg, QA and one factory-overhead uplift. Production labour is costed on a two-shift, 8-hour schedule with the declared second-shift premium.",
             source_ids=[row["component_definition_id"], identity(assumptions_record)],
             rate_evidence_class=rate_class, parts=[row["id"]],
             components=dict(material=[v*fleet_cars for v in material_cost], labour=[v*fleet_cars for v in labour_cost],
                 equipment=[v*fleet_cars for v in machine_cost], QA=[v*fleet_cars for v in quality_cost],
                 factory_overhead=[v*fleet_cars for v in overhead_cost]))
+
+    provisional_manufacturing_plan = _provisional_manufacturing_plan(
+        bundle, inventory, assumptions_record, fleet_cars, line_items)
 
     account_rows = [r for r in inventory["engineering_BOM"]
                     if r.get("scope") == "retained-unlocated-reference-account"]
@@ -997,6 +1117,8 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             second_shift_wage_premium=a["second_shift_wage_premium"], third_shift_wage_premium=a["third_shift_wage_premium"],
             productive_utilisation=assumptions_record["productive_utilisation"], planned_working_days=production_years*production_days,
             vehicle_body_stock_kg_per_car=body_mass, retained_account_mass_kg_per_car=retained_kg,
+            located_body_stock_route_count=provisional_manufacturing_plan["route_count"],
+            located_body_stock_process_hours_for_fleet=provisional_manufacturing_plan["total_fleet_labor_hours"],
             vehicle_process_hours_for_fleet=_round(body_hours_total), guideway_factory_hours=_round(guideway_hours_total),
             station_power_factory_hours=_round(wayside_process_hours),
             required_vehicle_workcells=body_cells, required_guideway_workcells=guideway_cells,
@@ -1012,6 +1134,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
                 station_installation_work_shifts=station_install_shifts, stations=station_install_days,
                 critical_path_duration=construction_days),
             throughput_basis="Production workcells use two 8-hour shifts each production day; civil activity uses two 8-hour shifts with calendar duration calculated from per-shift crew productivity; operations cost two shifts at 16/18-hour coverage in low/base and three shifts at 24-hour high case. Service train-km use two directional loops once, separate from the two physical corridor trackways. Shift premiums, utilisation and relief are explicit Class C assumptions."),
+        provisional_manufacturing_plan=provisional_manufacturing_plan,
         cost_line_items=line_items, scope_totals_iqd={k:_round(v) for k,v in scope_totals.items()},
         factory_gate_cost_iqd=_round(factory_gate), delivered_cost_iqd=_round(delivered),
         model_based_installed_CAPEX_iqd=_round(installed), model_based_whole_life_NPV_iqd=_round(lifecycle),

@@ -342,6 +342,9 @@ def _current_ultrafine_refinement(root, value, refinement, fine_refinement):
                 and stored.get('mesh_m') == producer.MESH_M
                 and stored.get('parent_contract_id') == value.get('contract_id')
                 and stored.get('parent_result_sha256') == parent_sha
+                and stored.get('source_sha256',{}).get(producer.PRODUCER)==digest(root/producer.PRODUCER)
+                and all((Path(root)/name).is_file() and digest(Path(root)/name)==source_hash
+                        for name,source_hash in stored.get('source_sha256',{}).items())
                 and request_path.parent.name == identity(stored)):
             matching.append(request_path.parent)
     if not matching:
@@ -385,7 +388,8 @@ def _published_frontier(value, refinement, fine_refinement=None, ultrafine_refin
                     task['failed_evaluation_id']=next_run['result'].get('evaluation_id')
                     task['proposed_next_mesh_m']=next_run['request'].get('mesh_m')
                     task['computational_cell_estimate']=next_run['request'].get('computational_cell_estimate')
-                    task['resource_failure']='CalculiX allocator failure under the recorded 8 GiB address-space cap; no numerical result produced'
+                    memory_gib=next_run['request'].get('memory_mb',0)/1024
+                    task['resource_failure']=f"CalculiX allocator failure under the recorded {memory_gib:g} GiB address-space cap; no numerical result produced"
                     task['physical_failure_inferred']=False
                     task['required']=[
                         'Preserve this single failed native attempt and its exact source/deck/logs',
@@ -523,6 +527,11 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
             architecture_cases=len(cases),structural_status=response['numerical_status'],response=response,complete_installed_mass_kg=None))
     magnetic=[] if magnetic is None else magnetic
     model_costs=[r['economics']['model_cost'] for r in value['rows'] if isinstance(r.get('economics',{}).get('model_cost'),dict)]
+    stock_route_plans=[r.get('provisional_manufacturing_plan',{}) for r in model_costs]
+    route_complete=sum(plan.get('schema')=='osr-v06-provisional-manufacturing-plan/1'
+        and plan.get('route_count')==plan.get('coverage',{}).get('located_stock_occurrences')
+        and plan.get('route_count')==plan.get('coverage',{}).get('routed_stock_occurrences')
+        and not plan.get('coverage',{}).get('unrouted_stock_ids') for plan in stock_route_plans)
     completion=completion_summary(value['rows'])
     refinement_count=(int(refinement is not None)+int(fine_refinement is not None)
         +int(ultrafine_refinement is not None))
@@ -549,6 +558,11 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
             mesh_m=ultrafine_refinement['report']['generated_mesh']['mesh_m'],
             execution=ultrafine_refinement['result'].get('execution'),
             numerical_validity=ultrafine_refinement['result'].get('numerical_validity'),
+            memory_mb=ultrafine_refinement['request'].get('memory_mb'),
+            timeout_s=ultrafine_refinement['request'].get('timeout_s'),
+            returncode=ultrafine_refinement['result'].get('returncode'),
+            max_rss_kib=ultrafine_refinement['result'].get('max_rss_kib'),
+            runtime_s=ultrafine_refinement['result'].get('runtime_s'),
             manifest_id=ultrafine_refinement['manifest']['manifest_id'],
             source_complete=not bool(ultrafine_refinement['result'].get('source_bytes_unavailable')),
             source_bytes_unavailable=ultrafine_refinement['result'].get('source_bytes_unavailable',{}),
@@ -556,6 +570,8 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
         native_reused_body_case_count=len(reused_body_cases),native_prior_reuse_rejections=list(reuse_rejections),
         model_cost_summary=dict(candidate_estimates=len(model_costs),complete_for_declared_case=sum(r['model_cost_complete_for_declared_case'] is True for r in model_costs),
             currency='IQD',estimate_class='C',required_scope_count=len(engine.model_cost.SCOPES),
+            provisional_stock_route_complete_candidates=route_complete,
+            provisional_stock_route_count=sum(plan.get('route_count',0) for plan in stock_route_plans),
             comparison_context_count=len(value.get('model_cost_comparisons',[])),supplier_quotes=0,
             procurement_ready=False,physical_or_safety_accepted=False,integrated_winner=None),
         completion_status=completion,
@@ -566,9 +582,13 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
 
 
 def readme(s):
+    ultrafine=s.get('current_source_ultrafine_refinement')
+    ultrafine_source_status=('Exact producer source bytes are included with the recovered report.'
+        if ultrafine and ultrafine.get('source_complete') else
+        'The report retains a held source-availability gap.')
     lines=['# One coordinated railway experiment','',
         'Architecture, adaptive revision planning and physical body generation now share one coordinator, one explicit railway bundle and one dependency graph. A body edit creates new body/railway identities and automatically reevaluates inventory, interfaces, architecture, motor requirements, independent braking, civil loads, manufacture and economic coverage. Each alternative keeps its own candidate identity and evidence; results are not transferred between candidates. New coordinated work starts with `./osr design railway`.','',
-        f"The executed comparison starts with **{s['initial_body_count']} structural recipes**, makes **{s['body_rewrite_count']} physical revisions**, and evaluates **{s['evaluated_bundle_count']} railway bundles through {s['downstream_stage_count']} downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover {s['model_cost_summary']['complete_for_declared_case']} of {s['model_cost_summary']['candidate_estimates']} executed bundles across {s['model_cost_summary']['required_scope_count']} cost scopes. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.**",'',
+        f"The executed comparison starts with **{s['initial_body_count']} structural recipes**, makes **{s['body_rewrite_count']} physical revisions**, and evaluates **{s['evaluated_bundle_count']} railway bundles through {s['downstream_stage_count']} downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover {s['model_cost_summary']['complete_for_declared_case']} of {s['model_cost_summary']['candidate_estimates']} executed bundles across {s['model_cost_summary']['required_scope_count']} cost scopes. Provisional per-stock process routes cover {s['model_cost_summary']['provisional_stock_route_complete_candidates']} candidate bundles and {s['model_cost_summary']['provisional_stock_route_count']} located stock occurrences.** The process hours remain costing proxies. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.",'',
         '## Completion levels','',
         f"Each candidate reports three separate completion levels. The declared cost scenario is simulation-complete for **{s['completion_status']['simulation_complete']} of {s['completion_status']['candidate_count']} candidates**, using source-linked quantities and explicit Class C assumptions across 14 scopes. This flag covers that cost scenario only; it does not claim an integrated journey simulation. **{s['completion_status']['integrated_force_driven_journey_complete']}** candidates have a completed force-driven journey, **{s['completion_status']['engineering_validated']}** are engineering-validated, and **{s['completion_status']['approved_for_manufacture_or_operation']}** are approved for manufacture or operation. Engineering validation requires independent physical evidence and review; release requires a separate approval record.",'',
         '## Closed-loop physical and system changes','',
@@ -595,7 +615,7 @@ def readme(s):
         'The first baseline metal-frame job produced 152,004 cells and exceeded its 5 GiB allocation while factoring. It yielded no structural verdict. The generator then standardized and aligned floor/roof extrusion profiles, preserving openings, support pads and actual load paths. These are new physical children with different identities, fewer profile families and roughly 71% fewer conformal cells. The original failed execution, source epoch and CAD remain retained. A 60,000-cell dispatch budget is a computational control, not a railway acceptance rule or proof that the baseline body cannot work.','',
         'The frame\'s first refinement changed the three displacement maxima by about 10-12%. The coordinator therefore requested another unchanged-candidate numerical experiment at a 0.425 m target. Its 61,352-cell estimate justified an explicit computational budget revision to 65,000 cells under the same 5 GiB/150 s limits. Exact unchanged prior solves/CAD are reused across coordinator epochs, with new context records. A 5% refinement trigger requests work; it does not qualify a body. Whole-field, stress, torsion and physical convergence remain separate questions.','',
         (f"The current-source continuation ran the same P1 body and normal-load basis at **{s['current_source_refinement']['mesh_m']:.5g} m** under its 90,000-cell budget, followed by the 0.10625 m C3D8I run using 128,382 cells under an 8 GiB/240 s request. Both completed with equilibrium/energy consistency only. The fine result is included as a {s['current_source_fine_refinement']['package_kind']} package. Matched-point displacement changes remain above the 5% refinement trigger; numerical convergence and physical acceptance remain open." if s.get('current_source_fine_refinement') and s['current_source_fine_refinement']['execution']=='completed' else (f"The current-source continuation completed at **{s['current_source_refinement']['mesh_m']:.5g} m** with equilibrium/energy consistency only. A separate 0.10625 m continuation is not yet published; the exact candidate remains in the frontier." if s.get('current_source_refinement') and s['current_source_refinement']['execution']=='completed' else 'The current-source continuation package is not yet available; the exact 0.2125 m request remains in the frontier.')),'',
-        (f"The same body/load was meshed at **0.053125 m** (290,660 C3D8I cells), but CalculiX stopped during matrix factorization with an allocation failure under the recorded 8 GiB/480 s request. The solver return code and peak RSS were not captured by the runner's postprocessing error; the exact request, deck and logs are retained. No numerical result was produced, so the refinement remains open. The run record marks the publisher source bytes unavailable, so this package is retained as a held failure record rather than a fully reproducible solver result. This computational limit is not a physical failure or qualification." if s.get('current_source_ultrafine_refinement') and s['current_source_ultrafine_refinement']['execution']=='solver_allocation_failed' else (f"The same unchanged body/load also has a bounded **0.053125 m** C3D8I run ({s['current_source_ultrafine_refinement']['execution']}; 290,660 cells; 8 GiB/480 s limit). This is numerical refinement only. Material and joint strength, fatigue, buckling, clearance, physical correlation and engineering qualification remain open." if s.get('current_source_ultrafine_refinement') else '')),'',
+        (f"The same body/load was meshed at **0.053125 m** (290,660 C3D8I cells), but CalculiX stopped during matrix factorization with an allocation failure under the recorded {ultrafine['memory_mb']/1024:g} GiB/{ultrafine['timeout_s']} s request. Return code {ultrafine.get('returncode')} and peak RSS {ultrafine.get('max_rss_kib')} KiB are recorded. No numerical result was produced, so refinement remains open. {ultrafine_source_status} The solver attempt was reused from the immutable same-parent deck and logs without a second invocation. This computational limit is not a physical failure or qualification." if ultrafine and ultrafine['execution']=='solver_allocation_failed' else (f"The same unchanged body/load also has a bounded **0.053125 m** C3D8I run ({ultrafine['execution']}; 290,660 cells; {ultrafine['memory_mb']/1024:g} GiB/{ultrafine['timeout_s']} s limit). This is numerical refinement only. Material and joint strength, fatigue, buckling, clearance, physical correlation and engineering qualification remain open." if ultrafine else '')),'',
         'Original foam/honeycomb and GFRP bodies remain non-admitted to this whole-body solver until their own complete directional material laws, attachment stock and joint models are provided. Orthotropic method patches demonstrate implementation, not purchased composite properties.','',
         '## Available propulsion and forward motion','',
         'Every changed mass automatically reaches the 2 km required-force calculation, nine independent-brake loading/fault hypotheses and three crowd-loaded precast alternatives. Rotor equivalent mass enters acceleration and braking; it is excluded from static axle gravity. P6/P7 remove the old passive-secondary account and preserve unknown replacement mass. A candidate-bound available-map gate checks actual position/speed/current/temperature samples, electrical work, thermal/current/voltage domains and normal-force interfaces. No linear, generic DC or synthetic map is silently admitted as an operating motor.','',
@@ -603,7 +623,7 @@ def readme(s):
         'The forward-motion method has independent synthetic tests for constant-force energy, finite powered windows, zero entry force, thermal/bus limits and stopping. Actual railway journeys remain not-run because available propulsion and complete installed inputs are missing. The receiving drive receives no safety credit in independent-braking screens.','',
         '## Manufacturing, economics and evidence','',
         'Each shared bundle produces an EBOM of actual stock, retained accounts and unresolved joints; MBOM cuts/blanks and process groups; assembly/inspection dependencies; material, supplier, access, repair and QA tasks; and source-bound price/lead-time coverage. Missing equipment is neither a box invented for an animation nor a zero-mass part. Quotes require the exact bundle/component/quantity/unit/currency context.','',
-        f"The campaign now also produces **{s['model_cost_summary']['required_scope_count']} low/base/high IQD model-cost scopes** per executed candidate: rolling stock, guideway, stations/power, factory/tooling, construction, land/utilities/depot, fleet, energy, operations, maintenance, renewals, recovery, reliability and decommissioning. Dated July 2026 Iraqi CSO materials/wages are used where matched; the remaining rates and missing site/asset quantities are explicit Class C assumptions. Production capacity and civil scheduling use two 8-hour shifts, with second-shift premiums and per-shift construction productivity included. The low/base operations cases cover 16/18 service hours with two shifts; the high case prices 24-hour service with three shifts, including related staffing, energy, maintenance, reliability and renewal effects. See the [model-based cost and delivery plan](../model-based-cost-and-delivery.md). These are design-stage estimates with zero supplier quotations, not procurement-ready prices or accepted city budgets.", '',
+        f"The campaign now also produces **{s['model_cost_summary']['required_scope_count']} low/base/high IQD model-cost scopes** per executed candidate: rolling stock, guideway, stations/power, factory/tooling, construction, land/utilities/depot, fleet, energy, operations, maintenance, renewals, recovery, reliability and decommissioning. Each model-cost result includes a candidate-bound provisional process route and low/base/high labor-hour estimate for every located nominal gross body-stock occurrence. Those Class C hours support costing and factory scenarios; they are not measured cycle times or released MBOM routings, and unlocated accounts, joints and final assembly remain separate. Dated July 2026 Iraqi CSO materials/wages are used where matched; the remaining rates and missing site/asset quantities are explicit Class C assumptions. Production capacity and civil scheduling use two 8-hour shifts, with second-shift premiums and per-shift construction productivity included. The low/base operations cases cover 16/18 service hours with two shifts; the high case prices 24-hour service with three shifts, including related staffing, energy, maintenance, reliability and renewal effects. See the [model-based cost and delivery plan](../model-based-cost-and-delivery.md). These are design-stage estimates with zero supplier quotations, not procurement-ready prices or accepted city budgets.", '',
         'The two executed new body CADs also compile candidate-bound delivery packages: the same stock IDs feed EBOM/MBOM, disabled research ERPNext Item/BOM drafts, assembly and procurement tasks, and reopened IFC body-stock geometry. Drafts are not posted to ERPNext and cannot release purchasing or manufacture. Unlocated equipment, unknown joint realization and missing commercial/process evidence remain explicit.','',
         'Candidate cost ranges are compared only where currency, rate assumptions, corridor length, trackways, station count, headway and offered capacity match. Overlapping low/base/high whole-life scenarios remain incomparable; cost dominance does not select a candidate or change the v0.6 reference. Cost inputs include declared energy, staffing, maintenance, replacement, recovery, reliability and end-of-life scenarios. City alignment/site surveys, tariffs, staffing rules, failures, supplier quotes, tax/finance and physical performance are not established. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; geotechnical, torsional and construction qualification remain open.','',
         'Immutable stage requests include candidate and upstream evidence IDs. Native cache admission checks source/executable/payload plus exact body, load, mesh, method and resource request. New structural evidence invalidates dependent case evaluations even if geometry is unchanged. Stable experiment identity is separate from invocation cache counters; interrupted/pending work remains in the frontier. Native/CAD packets retain their original receipts.','',
@@ -747,6 +767,7 @@ def verify(root=ROOT,output=None):
     for b in bundles:railway_bundle.validate(b)
     if len({b['candidate_id'] for b in bundles})!=len(bundles) or {r['candidate_id'] for r in rows}!={b['candidate_id'] for b in bundles}:raise ValueError('Mixed or incomplete bundle results')
     index={b['candidate_id']:b for b in bundles}
+    verified_route_candidates=0;verified_route_count=0
     for row in rows:
         if row['row_id']!=identity({k:v for k,v in row.items() if k!='row_id'}) or row['bundle_definition_id']!=index[row['candidate_id']]['definition_id']:raise ValueError('Coupled case identity differs')
         if row['body_candidate_id']!=index[row['candidate_id']]['body_candidate_id'] or row['accounted_mass']!=index[row['candidate_id']]['mass']:raise ValueError('Coupled body/mass mismatch')
@@ -759,10 +780,40 @@ def verify(root=ROOT,output=None):
                 or estimate.get('procurement_ready') is not False
                 or estimate.get('physical_or_safety_accepted') is not False):
             raise ValueError('Candidate model-cost receipt incomplete, mixed or improperly accepted')
+        plan=estimate.get('provisional_manufacturing_plan',{})
+        routes=plan.get('routes',[])
+        lines={line.get('line_id'):line for line in estimate.get('cost_line_items',[])}
+        stock_lines={line.get('line_key','').removeprefix('vehicle-stock/'):line
+            for line in estimate.get('cost_line_items',[]) if line.get('line_key','').startswith('vehicle-stock/')}
+        route_ids=[route.get('stock_id') for route in routes]
+        if (plan.get('schema')!='osr-v06-provisional-manufacturing-plan/1'
+                or plan.get('candidate_id')!=row['candidate_id']
+                or plan.get('plan_id')!=identity({k:v for k,v in plan.items() if k!='plan_id'})
+                or plan.get('route_count')!=len(routes)
+                or len(route_ids)!=len(set(route_ids))
+                or set(route_ids)!=set(stock_lines)
+                or plan.get('coverage',{}).get('located_stock_occurrences')!=len(routes)
+                or plan.get('coverage',{}).get('routed_stock_occurrences')!=len(routes)
+                or plan.get('coverage',{}).get('unrouted_stock_ids')!=[]):
+            raise ValueError('Candidate provisional manufacturing route coverage differs')
+        for route in routes:
+            if (route.get('candidate_id')!=row['candidate_id']
+                    or route.get('route_id')!=identity({k:v for k,v in route.items() if k!='route_id'})
+                    or route.get('cost_line_id') not in lines
+                    or lines[route['cost_line_id']].get('line_key')!='vehicle-stock/'+route['stock_id']
+                    or route.get('estimate_class')!='C'
+                    or route.get('process_qualified') is not False
+                    or route.get('measured_labor') is not False
+                    or route.get('manufacturing_release') is not False
+                    or route.get('operating_release') is not False):
+                raise ValueError('Candidate provisional manufacturing route identity or release gate differs')
+        verified_route_candidates+=1;verified_route_count+=len(routes)
     expected_cost_count=sum(isinstance(r.get('economics',{}).get('model_cost'),dict) for r in rows)
     cost_summary=s['model_cost_summary']
     if (cost_summary.get('candidate_estimates')!=expected_cost_count
             or cost_summary.get('complete_for_declared_case')!=expected_cost_count
+            or cost_summary.get('provisional_stock_route_complete_candidates')!=verified_route_candidates
+            or cost_summary.get('provisional_stock_route_count')!=verified_route_count
             or cost_summary.get('integrated_winner') is not None):
         raise ValueError('Published model-cost summary differs from candidate estimates')
     if s.get('completion_status')!=completion_summary(rows):

@@ -96,15 +96,18 @@ def _inventory(bundle, candidate, ledger, vehicle_cost_record):
         if line.get("stage") != "factory-gate" or not line.get("process_template"):
             continue
         process = str(line["process_template"])
-        operations.setdefault(process, []).append(line["line_id"])
+        group = operations.setdefault(process, dict(line_ids=[], stock_ids=[]))
+        group["line_ids"].append(line["line_id"])
+        group["stock_ids"].extend(line.get("occurrence_ids", []))
     manufacturing = [dict(
         id="selected-process-family/" + identity(process)[:16],
         candidate_id=bundle["candidate_id"],
         body_candidate_id=bundle["body_candidate_id"],
         process_candidates=[process],
-        source_cost_line_ids=sorted(line_ids),
+        source_cost_line_ids=sorted(group["line_ids"]),
+        engineering_stock_ids=sorted(set(group["stock_ids"])),
         process_qualified=False,
-    ) for process, line_ids in sorted(operations.items())]
+    ) for process, group in sorted(operations.items())]
 
     coverage = dict(
         candidate_id=bundle["candidate_id"],
@@ -121,6 +124,7 @@ def _inventory(bundle, candidate, ledger, vehicle_cost_record):
         engineering_BOM=rows,
         geometry_coverage=coverage,
         manufacturing_BOM=manufacturing,
+        assembly_operation_graph=dict(operations=[]),
         unweighed_architecture_equipment=[],
         architecture_scope_basis=("Wayside primary stock, converter capacity, feeders, protection, supports, cooling, access and battery chargers receive separate explicit cost lines. These proxies do not locate or qualify the installed equipment."),
         selected_vehicle_mass_ledger_id=identity(ledger),
@@ -323,6 +327,7 @@ def _cost_mass_case_summary(case, bundle, inventory, architecture, motion, civil
         civil_evaluation_id=cost["input_evaluation_ids"]["civil_evaluation_id"],
         model_cost_evaluation_id=cost["evaluation_id"],
         cost_input_evaluation_ids=cost["input_evaluation_ids"],
+        provisional_manufacturing_plan=cost["provisional_manufacturing_plan"],
         journey_demand=dict(
             evidence=trajectory.get("evidence"),
             execution=trajectory.get("execution"),

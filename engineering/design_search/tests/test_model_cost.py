@@ -50,6 +50,49 @@ def test_candidate_costs_quantify_all_scopes_and_keep_release_gates_open():
     assert plan["operations_shifts_per_day_cases"] == [2, 2, 3]
     assert plan["operating_hours_per_day_cases"] == [16, 18, 24]
     assert plan["required_parallel_workcells"][1] > 0
+    routes = estimate["provisional_manufacturing_plan"]
+    located_stock = {
+        row["id"]: row for row in inventory["engineering_BOM"]
+        if row.get("scope") == "located-nominal-gross-body-stock"
+    }
+    assert routes["candidate_id"] == bundle["candidate_id"]
+    assert routes["plan_id"] == model_cost.identity(
+        {key: value for key, value in routes.items() if key != "plan_id"}
+    )
+    assert routes["route_count"] == len(located_stock)
+    assert routes["coverage"]["routed_stock_occurrences"] == len(located_stock)
+    assert routes["coverage"]["unrouted_stock_ids"] == []
+    assert {row["stock_id"] for row in routes["routes"]} == set(located_stock)
+    cost_lines = {
+        line["line_key"].removeprefix("vehicle-stock/"): line
+        for line in estimate["cost_line_items"]
+        if line["line_key"].startswith("vehicle-stock/")
+    }
+    assert set(cost_lines) == set(located_stock)
+    for route in routes["routes"]:
+        stock = located_stock[route["stock_id"]]
+        line = cost_lines[route["stock_id"]]
+        assert route["candidate_id"] == line["candidate_id"] == bundle["candidate_id"]
+        assert route["component_definition_id"] == stock["component_definition_id"]
+        assert route["cost_line_id"] == line["line_id"]
+        assert route["provisional_process"] == stock["geometry"]["definition"]["process"]
+        assert route["estimate_class"] == "C"
+        assert route["process_qualified"] is False
+        assert route["measured_labor"] is False
+        assert route["manufacturing_release"] is False
+        assert line["quantity"]["process_hours_per_car"] == pytest.approx(
+            [route["labor_hours_per_car"][case] for case in ("low", "base", "high")], abs=0.011
+        )
+        assert line["quantity"]["fleet_process_hours"] == pytest.approx(
+            [route["fleet_labor_hours"][case] for case in ("low", "base", "high")], abs=0.011
+        )
+    assert all(row["labor_h"] is None for row in inventory["manufacturing_BOM"])
+    for case in ("low", "base", "high"):
+        assert routes["total_fleet_labor_hours"][case] == pytest.approx(
+            sum(row["fleet_labor_hours"][case] for row in routes["routes"]), abs=0.01
+        )
+    assert plan["located_body_stock_route_count"] == routes["route_count"]
+    assert plan["located_body_stock_process_hours_for_fleet"] == routes["total_fleet_labor_hours"]
     schedule=plan["construction_schedule_days"]
     assert schedule["civil_shifts_per_day"] == 2
     for shifts_key, days_key in (("foundation_work_shifts", "foundations"),

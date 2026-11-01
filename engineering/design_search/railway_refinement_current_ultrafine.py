@@ -7,6 +7,7 @@ import json
 import math
 import os
 import resource
+import shutil
 import subprocess
 import time
 from pathlib import Path
@@ -27,8 +28,8 @@ PREVIOUS_MESH_M = 0.10625
 CELL_BUDGET = 320_000
 EXPECTED_CELLS = 290_660
 EXPECTED_NODES = 513_844
-MEMORY_MB = 8_192
-TIMEOUT_S = 480
+MEMORY_MB = 10_240
+TIMEOUT_S = 600
 ELEMENT_KIND = "C3D8I"
 SOLVER_PATH = "/usr/bin/ccx"
 OMP_THREADS = 1
@@ -332,6 +333,10 @@ def _execute_native(native: Path) -> dict:
         if proc.returncode == 0:
             definition = json.loads((native / "definition.json").read_bytes())
             result.update(grammar_shell.analyse(definition, native / "model.dat"))
+        elif b"ALLOCATE failure" in proc.stderr:
+            result.update(execution="solver_allocation_failed", numerical_validity="not-produced",
+                engineering_screen="not-evaluated",
+                reason=f"CalculiX emitted an ALLOCATE failure under the declared {MEMORY_MB//1024} GiB address-space limit; no numerical result was produced.")
     except subprocess.TimeoutExpired as error:
         (native / "stdout.log").write_bytes(error.stdout or b"")
         (native / "stderr.log").write_bytes(error.stderr or b"")
@@ -441,14 +446,38 @@ def recover(root=ROOT, *, parent_result: Path, candidate_id: str) -> dict:
     """Seal a preserved native allocation failure; never launches CalculiX."""
     context = _context(root, parent_result=parent_result, candidate_id=candidate_id)
     current_request = _request(context)
-    attempts = _attempt_folders(context["root"], context["parent_result"], candidate_id)
+    current_folder=_package(context["root"],current_request)
+    if current_folder.is_dir() and (current_folder/"manifest.json").is_file():
+        result,report,manifest=_verify_package_from_context(context,current_request)
+        return {**FLAGS,"verified":True,"recovered":True,"request_id":manifest["request_id"],
+            "manifest_id":manifest["manifest_id"],"evaluation_id":result["evaluation_id"],
+            "execution":result["execution"],"numerical_validity":result["numerical_validity"],
+            "candidate_id":candidate_id,"mesh_m":MESH_M,"memory_mb":MEMORY_MB,
+            "returncode":result.get("returncode"),"max_rss_kib":result.get("max_rss_kib"),
+            "physical_accepted":False,"engineering_accepted":False,
+            "manufacturing_release":False,"operating_release":False}
+    attempts=[]
+    for path in _attempt_folders(context["root"],context["parent_result"],candidate_id):
+        try:
+            prior=json.loads((path/"native/result.json").read_bytes())
+        except (OSError,ValueError,TypeError):
+            continue
+        if prior.get("execution")=="tool_error" and prior.get("tool",{}).get("requested_memory_mb")==current_request.get("memory_mb"):
+            attempts.append(path)
     if len(attempts) != 1:
         raise ValueError("Recovery requires exactly one retained same-parent native attempt")
     folder = attempts[0]
     request = json.loads((folder / "request.json").read_bytes())
     if (folder / "manifest.json").is_file():
-        result, report, manifest, request = _verify_recovered_package(
-            context, current_request, folder)
+        stored_manifest=json.loads((folder/"manifest.json").read_bytes())
+        if stored_manifest.get("schema")=="osr-current-source-ultrafine-recovery-manifest/1":
+            result, report, manifest, request = _verify_recovered_package(
+                context, current_request, folder)
+        elif stored_manifest.get("schema")=="osr-current-source-ultrafine-refinement-manifest/1":
+            result, report, manifest, request = _reconcile_exact_allocation_attempt(
+                context, current_request, folder)
+        else:
+            raise ValueError("Retained ultrafine attempt has an unsupported immutable manifest")
     else:
         if not _same_request_except_runner(request, current_request):
             raise ValueError("Retained native attempt differs from the current candidate request")
@@ -485,7 +514,7 @@ def recover(root=ROOT, *, parent_result: Path, candidate_id: str) -> dict:
                 requested_memory_mb=MEMORY_MB, RLIMIT_AS_bytes=MEMORY_MB*1024**2,
                 OMP_threads=OMP_THREADS, timeout_s=TIMEOUT_S,
                 resource_control="POSIX RLIMIT_AS on native solver child; shared host workspace, no container isolation"),
-            "reason":"CalculiX emitted an ALLOCATE failure while factoring the 4,157,109-equation system under the declared 8 GiB address-space limit. The solver return code, peak RSS and runtime were not retained by the postprocessing exception.",
+            "reason":f"CalculiX emitted an ALLOCATE failure while factoring the 4,157,109-equation system under the declared {MEMORY_MB//1024} GiB address-space limit. The solver return code, peak RSS and runtime were not retained by the postprocessing exception.",
             "physical_accepted":False, "engineering_accepted":False,
             "manufacturing_release":False, "operating_release":False,
             "configuration_adopted":False}
@@ -530,6 +559,107 @@ def recover(root=ROOT, *, parent_result: Path, candidate_id: str) -> dict:
         "max_rss_kib":result.get("max_rss_kib"), "physical_accepted":False,
         "engineering_accepted":False, "manufacturing_release":False,
         "operating_release":False}
+
+
+def _reconcile_exact_allocation_attempt(context: dict, current_request: dict, old_folder: Path):
+    """Reclassify a preserved solver failure after fixing its result parser."""
+    old_request=json.loads((old_folder/"request.json").read_bytes())
+    old_manifest=json.loads((old_folder/"manifest.json").read_bytes())
+    old_native=old_folder/"native"
+    old_result=json.loads((old_native/"result.json").read_bytes())
+    actual_old={p.relative_to(old_folder).as_posix():digest(p) for p in old_folder.rglob("*")
+        if p.is_file() and p.name!="manifest.json"}
+    if (old_manifest.get("manifest_id")!=identity({k:v for k,v in old_manifest.items() if k!="manifest_id"})
+            or old_manifest.get("schema")!="osr-current-source-ultrafine-refinement-manifest/1"
+            or old_manifest.get("request_id")!=identity(old_request)
+            or old_manifest.get("files_sha256")!=actual_old
+            or old_result.get("evaluation_id")!=identity({k:v for k,v in old_result.items() if k!="evaluation_id"})
+            or old_result.get("execution")!="tool_error"
+            or old_result.get("returncode")!=255
+            or old_result.get("tool",{}).get("requested_memory_mb")!=current_request.get("memory_mb")
+            or old_result.get("tool",{}).get("timeout_s")!=current_request.get("timeout_s")
+            or not _same_request_except_runner(old_request,current_request)):
+        raise ValueError("Preserved ultrafine result is not the exact same-parent allocation attempt")
+    old_source_epoch=context["root"]/"build/coupled-railway/source-epochs"/old_request["source_sha256"][PRODUCER]
+    if not old_source_epoch.is_file() or digest(old_source_epoch)!=old_request["source_sha256"][PRODUCER]:
+        raise ValueError("Exact original runner source bytes for the allocation attempt are unavailable")
+    stderr=(old_native/"stderr.log").read_bytes()
+    stdout=(old_native/"stdout.log").read_bytes()
+    if b"ALLOCATE failure" not in stderr or b"4157109" not in stdout:
+        raise ValueError("Preserved native logs do not prove the declared allocation failure")
+
+    raw,definition,elements=_deck(context["body"],context["bundle"])
+    old_definition=json.loads((old_native/"definition.json").read_bytes())
+    if ((old_native/"model.inp").read_text()!=raw
+            or old_definition!=json.loads(encoded(definition))
+            or len(elements)!=EXPECTED_CELLS
+            or old_result.get("mesh_summary",{}).get("load_basis")!=current_request.get("load_basis")
+            or old_result.get("tool",{}).get("ccx_sha256")!=current_request.get("solver",{}).get("sha256")):
+        raise ValueError("Retained failure deck, candidate, load or solver differs from the current request")
+
+    folder=_package(context["root"],current_request)
+    if folder.exists():
+        raise ValueError("Current ultrafine recovery destination already exists")
+    native=folder/"native";native.mkdir(parents=True)
+    (folder/"request.json").write_bytes(encoded(current_request))
+    for path in old_native.iterdir():
+        if path.is_file() and path.name not in ("result.json","candidate.json","producer-source.py"):
+            shutil.copyfile(path,native/path.name)
+    candidate=dict(candidate_id=current_request["body_candidate_id"],
+        definition_id=current_request["body_definition_id"])
+    (native/"candidate.json").write_bytes(encoded(candidate))
+    (native/"producer-source.py").write_bytes((context["root"]/PRODUCER).read_bytes())
+    reuse=dict(schema="osr-exact-failed-native-reuse/1",
+        source_attempt_request_id=identity(old_request),source_attempt_manifest_id=old_manifest["manifest_id"],
+        source_attempt_evaluation_id=old_result["evaluation_id"],source_attempt_payload_sha256=actual_old,
+        source_attempt_runner_sha256=old_request["source_sha256"][PRODUCER],
+        equivalence="Same current parent, body, bundle, generated deck, normal load, mesh, C3D8I method, CalculiX executable, memory cap and timeout; the runner source changed only to classify the preserved native allocator failure.",
+        solver_invocation_repeated=False,physical_accepted=False,engineering_accepted=False)
+    shutil.copyfile(old_source_epoch,native/"source-attempt-producer.py")
+    (folder/"reuse-context.json").write_bytes(encoded(reuse))
+    definition_summary={k:v for k,v in definition.items() if k not in ("nodes","loads_N","supports")}
+    memory_gib=current_request["memory_mb"]/1024
+    result={**FLAGS,"schema":"osr-current-source-ultrafine-refinement-result/1",
+        "execution":"solver_allocation_failed","numerical_validity":"not-produced",
+        "engineering_screen":"not-evaluated","candidate_id":current_request["body_candidate_id"],
+        "definition_id":current_request["body_definition_id"],"source_sha256":current_request["source_sha256"],
+        "mesh_summary":definition_summary,"returncode":old_result["returncode"],
+        "max_rss_kib":old_result["max_rss_kib"],"runtime_s":old_result.get("runtime_s"),
+        "tool":old_result["tool"],"resource_observations":dict(returncode=old_result["returncode"],
+            max_rss_kib=old_result["max_rss_kib"],runtime_s=old_result.get("runtime_s")),
+        "reuse_context_id":identity(reuse),
+        "reason":f"CalculiX emitted an ALLOCATE failure while factoring the 4,157,109-equation system under the declared {memory_gib:g} GiB address-space limit. The exact same-parent native attempt is retained and reclassified; the solver was not run again.",
+        "physical_accepted":False,"engineering_accepted":False,"manufacturing_release":False,
+        "operating_release":False,"configuration_adopted":False}
+    result["evaluation_id"]=identity(result)
+    (native/"result.json").write_bytes(encoded(result))
+    report=dict(schema="osr-current-source-ultrafine-refinement-report/1",
+        request_id=identity(current_request),evaluation_id=result["evaluation_id"],
+        parent_campaign_id=current_request["parent_campaign_id"],
+        parent_contract_id=current_request["parent_contract_id"],
+        body_candidate_id=current_request["body_candidate_id"],body_definition_id=current_request["body_definition_id"],
+        bundle_id=current_request["bundle_id"],bundle_definition_id=current_request["bundle_definition_id"],
+        preceding_refinements=current_request["preceding_refinements"],
+        generated_mesh=dict(mesh_m=definition["mesh_m"],element_kind=definition["element_kind"],
+            finite_face_components=definition["finite_face_components"],solid_elements=definition["solid_elements"],
+            node_count=definition["node_count"],element_count=len(elements)),
+        max_rss_kib=result["max_rss_kib"],mesh_and_residual_trend=current_request["preceding_refinements"],
+        matched_point_displacement_comparisons=[dict(from_mesh_m=row["mesh_m"],to_mesh_m=MESH_M,
+            from_evaluation_id=row["evaluation_id"],status="unavailable",
+            reason="Native solver did not produce a numerical result")
+            for row in current_request["preceding_refinements"]],solver_outcome="allocator failure; no numerical result",
+        reuse_context_id=identity(reuse),physical_and_engineering_acceptance=False,
+        interpretation="The exact same-parent candidate/load/mesh/solver/resource attempt was verified from its immutable native logs and deck, then classified without another solver invocation. No numerical structural result or physical qualification exists.",**FLAGS)
+    (folder/"report.json").write_bytes(encoded(report))
+    files={p.relative_to(folder).as_posix():digest(p) for p in folder.rglob("*")
+        if p.is_file() and p.name!="manifest.json"}
+    manifest=dict(schema="osr-current-source-ultrafine-refinement-manifest/1",
+        request_id=identity(current_request),evaluation_id=result["evaluation_id"],
+        parent_result_sha256=current_request["parent_result_sha256"],
+        source_sha256=current_request["source_sha256"],files_sha256=files,**FLAGS)
+    manifest["manifest_id"]=identity(manifest)
+    (folder/"manifest.json").write_bytes(encoded(manifest))
+    return result,report,manifest,current_request
 
 
 def _external_integrity(context: dict, request: dict) -> None:

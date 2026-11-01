@@ -33,6 +33,16 @@ def test_selected_reference_has_candidate_bound_low_base_high_system_estimate(es
     assert system["model_cost_complete_for_declared_case"] is True
     assert system["missing_cost_scopes"] == []
     assert set(system["scope_totals_iqd"]) == set(model_cost.SCOPES)
+    for mass_case in system["mass_reserve_sensitivity"]["cases"]:
+        plan = mass_case["provisional_manufacturing_plan"]
+        assert plan["candidate_id"] == plan["bundle_id"]
+        assert plan["body_candidate_id"] == system["scenario_definition"]["selected_body_candidate_id"]
+        assert plan["route_count"] == plan["coverage"]["located_stock_occurrences"]
+        assert plan["coverage"]["routed_stock_occurrences"] == plan["route_count"]
+        assert plan["coverage"]["unrouted_stock_ids"] == []
+        assert all(route["candidate_id"] == plan["candidate_id"]
+                   and route["estimate_class"] == "C" and route["measured_labor"] is False
+                   for route in plan["routes"])
     for scope in model_cost.SCOPES:
         values = system["scope_totals_iqd"][scope]
         assert values["low"] > 0
