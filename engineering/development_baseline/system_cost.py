@@ -9,9 +9,9 @@ from copy import deepcopy
 from math import ceil, fsum, sqrt
 from pathlib import Path
 
-from engineering import mass_ledger_audit
+from engineering import mass_ledger_audit, mass_reserve_sensitivity
 from engineering.design_search import model_cost, railway_bundle, selected_reference_journey, system_motion
-from engineering.station_rail import ROOT, station_motor, vehicle as selected_vehicle
+from engineering.station_rail import ROOT, civil as selected_civil, station_motor, vehicle as selected_vehicle
 from engineering.station_rail.common import digest, identity
 from engineering.development_baseline import selection
 
@@ -24,6 +24,7 @@ FLAGS = dict(
     operating_release=False,
 )
 IDS = ("candidate_id", "body_candidate_id", "support_component_id", "propulsion_component_id")
+FOUNDATION_PRESSURE_CASES_KPA = (300, 200, 100)
 
 
 def sources(root=ROOT):
@@ -176,6 +177,189 @@ def _cost_architecture(bundle, architecture):
     value["source_architecture_evaluation_id"] = value.pop("evaluation_id")
     value["evaluation_id"] = identity(value)
     return value
+
+
+def _mass_case_definition(case, reserve_record, candidate, selected):
+    value = dict(
+        schema="osr-selected-v06-mass-reserve-case/1",
+        name=case["name"],
+        reserve_factor=float(case["reserve_factor"]),
+        assumption_id=reserve_record["assumption_id"],
+        reserve_result_id=reserve_record["result_id"],
+        candidate_id=candidate["candidate_id"],
+        body_candidate_id=candidate["body_candidate_id"],
+        selection_id=selected["selection_id"],
+        located_geometry_mass_kg_per_car=float(case["located_geometry_subtotal_kg"]),
+        existing_residual_mass_kg_per_car=float(case["existing_unlocated_reserve_kg"]),
+        scenario_residual_mass_kg_per_car=float(case["sensitivity_reserve_kg"]),
+        accounted_tare_mass_kg_per_car=float(case["scenario_tare_mass_kg_per_car"]),
+        normal_loaded_mass_kg_per_car=float(case["scenario_tare_mass_kg_per_car"] + 3450.0),
+        crowd_control_mass_kg_per_car=float(case["scenario_tare_mass_kg_per_car"] + 12000.0),
+        physical_candidate_identity_changed=False,
+        reserve_factor_is_probability_bound=False,
+        installed_mass_resolved=False,
+        centre_of_gravity_and_inertia_known=False,
+    )
+    value["mass_case_id"] = identity(value)
+    return value
+
+
+def _bundle_for_mass_case(bundle, case):
+    value = deepcopy(bundle)
+    tare = float(case["accounted_tare_mass_kg_per_car"])
+    value["mass"].update(
+        accounted_tare_kg_per_car=tare,
+        accounted_cap_loaded_kg_per_car=tare + 3450.0,
+        accounted_160_control_kg_per_car=tare + 12000.0,
+    )
+    value["mass_scope"] = (
+        "Located geometry plus a case-specific rescaling of the existing unlocated "
+        "account residual; provisional evaluation input, not resolved installed mass"
+    )
+    value["axle_loads"].update(
+        empty_kg_per_axle=tare / 4.0,
+        normal_kg_per_axle=(tare + 3450.0) / 4.0,
+        crowd_control_kg_per_axle=(tare + 12000.0) / 4.0,
+    )
+    value["mass_sensitivity_case"] = deepcopy(case)
+    value.pop("definition_id", None)
+    value["definition_id"] = identity(value)
+    railway_bundle.validate(value)
+    return value
+
+
+def _inventory_for_mass_case(inventory, reserve_record, case):
+    value = deepcopy(inventory)
+    reserves = {row["account_id"]: row for row in reserve_record["reserve_accounts"]}
+    seen = set()
+    for row in value["engineering_BOM"]:
+        if row.get("scope") != "retained-unlocated-reference-account":
+            continue
+        account_id = row.get("source_account_id")
+        reserve = reserves.get(account_id)
+        if reserve is None:
+            raise ValueError("Mass case lacks a matching positive residual account: " + str(account_id))
+        row["accounted_mass_kg"] = float(reserve["scenario_reserve_kg"][case["name"]])
+        row["mass_sensitivity_case_id"] = case["mass_case_id"]
+        seen.add(account_id)
+    if seen != set(reserves):
+        raise ValueError("Mass-case inventory must replace every residual account exactly once")
+    value["mass_sensitivity_case_id"] = case["mass_case_id"]
+    value["mass_reserve_assumption_id"] = reserve_record["assumption_id"]
+    value.pop("evaluation_id", None)
+    value["evaluation_id"] = identity(value)
+    return value
+
+
+def _civil_cost_input(record, candidate, bundle, case, beam):
+    areas_by_pressure = {
+        str(int(row["allowable_bearing_kPa_hypothesis"])): float(row["minimum_gravity_bearing_area_m2"])
+        for row in beam["foundation_scenarios"]
+    }
+    expected_pressures = {str(value) for value in FOUNDATION_PRESSURE_CASES_KPA}
+    if not expected_pressures.issubset(areas_by_pressure):
+        raise ValueError("Selected civil case lacks its declared soil-bearing scenarios")
+    basis = dict(
+        source_civil_evaluation_id=record["civil"]["evaluation_id"],
+        mass_sensitivity_case_id=case["mass_case_id"],
+        alternative_id=beam["alternative_id"],
+        physical_civil_component_id=beam["physical_civil_component_id"],
+        family=beam["family"],
+        span_m=beam["span_m"],
+        load_case=beam["load_case"],
+        prestress_strands=beam["prestress_strands"],
+        prestress_design_policy=beam["prestress_design_policy"],
+        necessary_longitudinal_screen=beam["necessary_longitudinal_screen"],
+        minimum_gravity_bearing_area_m2_by_pressure_kpa=areas_by_pressure,
+        physical_or_engineering_acceptance=False,
+    )
+    value = dict(
+        schema="osr-selected-system-cost-civil-input/1",
+        candidate_id=bundle["candidate_id"],
+        source_vehicle_candidate_id=candidate["candidate_id"],
+        cost_route_bundle_id=bundle["candidate_id"],
+        cost_design_basis=basis,
+        alternatives=[beam],
+    )
+    value["evaluation_id"] = identity(value)
+    return value, basis
+
+
+def _cost_mass_case_summary(case, bundle, inventory, architecture, motion, civil_basis,
+                            cost, renewal_line, renewal_schedule, assumptions_record):
+    scope_totals = {scope: dict(zip(model_cost.CASES, values))
+                    for scope, values in cost["scope_totals_iqd"].items()}
+    for index, financial_case in enumerate(model_cost.CASES):
+        scope_totals["renewals"][financial_case] = round(
+            scope_totals["renewals"][financial_case] + renewal_line["scenario_iqd"][financial_case], 2)
+    whole_life = {
+        financial_case: round(
+            cost["model_based_whole_life_NPV_iqd"][index]
+            + renewal_line["scenario_iqd"][financial_case], 2)
+        for index, financial_case in enumerate(model_cost.CASES)
+    }
+    trajectory = architecture["trajectory"]
+    located_mass = fsum(
+        float(row["accounted_mass_kg"]) for row in inventory["engineering_BOM"]
+        if row.get("scope") == "located-nominal-gross-body-stock")
+    residual_rows = [row for row in inventory["engineering_BOM"]
+                     if row.get("scope") == "retained-unlocated-reference-account"]
+    residual_mass = fsum(float(row["accounted_mass_kg"]) for row in residual_rows)
+    summary = dict(
+        mass_case=case,
+        bundle_definition_id=bundle["definition_id"],
+        mass_reconciliation=dict(
+            located_geometry_mass_kg_per_car=located_mass,
+            replaced_residual_mass_kg_per_car=residual_mass,
+            accounted_tare_mass_kg_per_car=located_mass + residual_mass,
+            residual_account_count=len(residual_rows),
+            residual_account_mass_kg_per_car={
+                row["source_account_id"]: float(row["accounted_mass_kg"])
+                for row in residual_rows
+            },
+        ),
+        architecture_evaluation_id=architecture["evaluation_id"],
+        motion_evaluation_id=motion["evaluation_id"],
+        civil_evaluation_id=cost["input_evaluation_ids"]["civil_evaluation_id"],
+        model_cost_evaluation_id=cost["evaluation_id"],
+        cost_input_evaluation_ids=cost["input_evaluation_ids"],
+        journey_demand=dict(
+            evidence=trajectory.get("evidence"),
+            execution=trajectory.get("execution"),
+            numerical_validity=trajectory.get("numerical_validity"),
+            reachable=trajectory.get("reachable"),
+            normal_loaded_mass_kg_per_car=trajectory.get("inputs", {}).get("mass_kg_per_car"),
+            runtime_s=trajectory.get("runtime_s"),
+            peak_required_force_N_per_car=trajectory.get("peak_required_force_N_per_car"),
+            peak_required_power_W_train=trajectory.get("peak_required_power_W_train"),
+            traction_mechanical_energy_J_train=trajectory.get("traction_mechanical_energy_J_train"),
+            friction_brake_energy_J_train=trajectory.get("friction_brake_energy_J_train"),
+        ),
+        fleet_basis=architecture["cost_fleet_basis"],
+        civil_design_basis=civil_basis,
+        foundation_area_costing=dict(
+            calculated_minimum_gravity_area_m2_by_pressure_kpa=(
+                civil_basis["minimum_gravity_bearing_area_m2_by_pressure_kpa"]
+            ),
+            costed_class_c_area_proxy_m2=(
+                assumptions_record["assumptions"]["foundation_bearing_area_m2"]
+            ),
+            costed_proxy_mass_coupled=False,
+            reason=(
+                "Calculated gravity-bearing areas are reported for declared 300/200/100 kPa soil hypotheses. "
+                "Foundation price retains its separate low/base/high Class C area proxy because no site geotechnical "
+                "design or footing geometry is available."
+            ),
+        ),
+        scope_totals_iqd=scope_totals,
+        model_based_installed_CAPEX_iqd=cost["model_based_installed_CAPEX_iqd"],
+        model_based_whole_life_NPV_iqd=whole_life,
+        renewal_schedule=renewal_schedule,
+        physical_journey_completed=False,
+        physical_acceptance=False,
+    )
+    summary["mass_case_evaluation_id"] = identity(summary)
+    return summary
 
 
 def _propulsion_input(bundle):
@@ -337,47 +521,117 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
 
     parent, _ = selected_vehicle._read_parent(root)
     ledger = mass_ledger_audit.reconcile(candidate, parent)
-    inventory = _inventory(bundle, candidate, ledger, vehicle_cost_record)
-    architecture = railway_bundle.assess_architecture(bundle)
-    architecture = _cost_architecture(bundle, architecture)
+    base_inventory = _inventory(bundle, candidate, ledger, vehicle_cost_record)
     propulsion = _propulsion_input(bundle)
-    motion = system_motion.evaluate(bundle, available_map=None)
-    civil = deepcopy(record["civil"])
-    guideway = bundle["architecture_case"]["physical_definition"]["guideway"]
-    selected_civil = deepcopy(civil.get("selected_reference"))
-    if not isinstance(selected_civil, dict):
-        raise ValueError("Selected system-cost scenario requires the generated selected civil design")
-    if (selected_civil.get("family") != guideway.get("family")
-            or float(selected_civil.get("span_m", -1)) != float(guideway.get("span_m", -2))
-            or selected_civil.get("load_case") != "crowd_control"):
-        raise ValueError("Selected crowd-control civil design does not match the candidate guideway")
-    # Price the beam sized for the retained crowd load. The fixed-normal-stock
-    # crowd control is a diagnostic comparison and can fail its screen; it is
-    # not the selected beam design or the civil basis for this corridor cost.
-    civil["alternatives"] = [selected_civil]
-    civil_design_basis = dict(
-        source_civil_evaluation_id=record["civil"]["evaluation_id"],
-        alternative_id=selected_civil["alternative_id"],
-        physical_civil_component_id=selected_civil["physical_civil_component_id"],
-        family=selected_civil["family"],
-        span_m=selected_civil["span_m"],
-        load_case=selected_civil["load_case"],
-        prestress_strands=selected_civil["prestress_strands"],
-        prestress_design_policy=selected_civil["prestress_design_policy"],
-        necessary_longitudinal_screen=selected_civil["necessary_longitudinal_screen"],
-        physical_or_engineering_acceptance=False,
-    )
-    civil["cost_design_basis"] = civil_design_basis
-    civil["source_vehicle_candidate_id"] = candidate["candidate_id"]
-    civil["candidate_id"] = bundle["candidate_id"]
-    civil["body_candidate_id"] = bundle["body_candidate_id"]
-    civil["cost_route_bundle_id"] = bundle["candidate_id"]
-    civil["evaluation_id"] = identity({k: v for k, v in civil.items() if k != "evaluation_id"})
-
     assumptions_record = model_cost.assumptions(root)
-    cost = model_cost.evaluate(bundle, inventory, architecture, propulsion, motion, civil,
-                                estimate=assumptions_record, root=root)
-    renewal_line, renewal_schedule = _account_renewal(bundle["candidate_id"], cost, assumptions_record)
+    reserve_record = mass_reserve_sensitivity.plan(root)
+    vehicle_reserve = vehicle_cost_record["mass_reserve_sensitivity"]
+    if (reserve_record["assumption_id"] != vehicle_reserve["assumption_id"]
+            or reserve_record["result_id"] != vehicle_reserve["result_id"]
+            or reserve_record["candidate_id"] != candidate["candidate_id"]
+            or reserve_record["selection_id"] != selected["selection_id"]):
+        raise ValueError("System-cost mass cases differ from the selected vehicle reserve sensitivity")
+    reserve_cases = {row["name"]: row for row in reserve_record["sensitivity_cases"]}
+    if tuple(reserve_cases) != model_cost.CASES:
+        raise ValueError("System-cost mass cases must preserve the declared low/base/high ordering")
+    guideway = bundle["architecture_case"]["physical_definition"]["guideway"]
+    if not guideway or not isinstance(record["civil"].get("selected_reference"), dict):
+        raise ValueError("Selected candidate guideway and generated civil reference are required")
+
+    mass_case_summaries = []
+    cost_cases = {}
+    for case_name in model_cost.CASES:
+        case = _mass_case_definition(reserve_cases[case_name], reserve_record, candidate, selected)
+        case_bundle = _bundle_for_mass_case(bundle, case)
+        case_inventory = _inventory_for_mass_case(base_inventory, reserve_record, case)
+
+        architecture = railway_bundle.assess_architecture(case_bundle)
+        architecture["mass_sensitivity_case_id"] = case["mass_case_id"]
+        architecture["evaluation_id"] = identity(
+            {k: v for k, v in architecture.items() if k != "evaluation_id"})
+        architecture = _cost_architecture(case_bundle, architecture)
+
+        motion = system_motion.evaluate(case_bundle, available_map=None)
+        motion["mass_sensitivity_case_id"] = case["mass_case_id"]
+        motion["evaluation_id"] = identity({k: v for k, v in motion.items() if k != "evaluation_id"})
+
+        civil_vehicle = deepcopy(candidate)
+        civil_vehicle["mass"].update(
+            accounted_tare_kg_per_car=case["accounted_tare_mass_kg_per_car"],
+            accounted_cap_loaded_kg_per_car=case["normal_loaded_mass_kg_per_car"],
+            accounted_160_control_kg_per_car=case["crowd_control_mass_kg_per_car"],
+        )
+        civil_vehicle["axle_loads"] = deepcopy(candidate["axle_loads"])
+        civil_vehicle["axle_loads"].update(
+            empty_kg_per_axle=case["accounted_tare_mass_kg_per_car"] / 4.0,
+            normal_kg_per_axle=case["normal_loaded_mass_kg_per_car"] / 4.0,
+            crowd_control_kg_per_axle=case["crowd_control_mass_kg_per_car"] / 4.0,
+        )
+        beam = selected_civil.alternative(
+            civil_vehicle, guideway["span_m"], guideway["family"], "crowd_control")
+        if case_name == "base" and beam["alternative_id"] != record["civil"]["selected_reference"]["alternative_id"]:
+            raise ValueError("Base mass case does not reproduce the selected crowd-control civil design")
+        civil, civil_design_basis = _civil_cost_input(
+            record, candidate, case_bundle, case, beam)
+
+        cost = model_cost.evaluate(
+            case_bundle, case_inventory, architecture, propulsion, motion, civil,
+            estimate=assumptions_record, root=root,
+        )
+        renewal_line, renewal_schedule = _account_renewal(
+            case_bundle["candidate_id"], cost, assumptions_record)
+        summary = _cost_mass_case_summary(
+            case, case_bundle, case_inventory, architecture, motion, civil_design_basis,
+            cost, renewal_line, renewal_schedule, assumptions_record,
+        )
+        mass_case_summaries.append(summary)
+        cost_cases[case_name] = dict(
+            bundle=case_bundle,
+            inventory=case_inventory,
+            architecture=architecture,
+            motion=motion,
+            civil=civil,
+            civil_design_basis=civil_design_basis,
+            cost=cost,
+            renewal_line=renewal_line,
+            renewal_schedule=renewal_schedule,
+        )
+
+    base_case = cost_cases["base"]
+    bundle = base_case["bundle"]
+    inventory = base_case["inventory"]
+    architecture = base_case["architecture"]
+    motion = base_case["motion"]
+    civil = base_case["civil"]
+    civil_design_basis = base_case["civil_design_basis"]
+    cost = base_case["cost"]
+    renewal_line = base_case["renewal_line"]
+    renewal_schedule = base_case["renewal_schedule"]
+    mass_sensitivity = dict(
+        schema="osr-selected-v06-system-mass-cost-sensitivity/1",
+        candidate_id=candidate["candidate_id"],
+        body_candidate_id=candidate["body_candidate_id"],
+        selection_id=selected["selection_id"],
+        assumption_id=reserve_record["assumption_id"],
+        reserve_result_id=reserve_record["result_id"],
+        cost_assumption_id=assumptions_record["assumption_id"],
+        dimensions=dict(
+            residual_mass_cases=list(model_cost.CASES),
+            independent_class_c_cost_cases=list(model_cost.CASES),
+            interpretation="Each residual-mass case is evaluated against all three existing low/base/high cost-assumption cases; the two axes are reported separately.",
+        ),
+        interpretation=(
+            "Residual factors are declared sensitivities, not statistical confidence bounds or new physical designs. "
+            "Every cost case uses replaced residual balances; located geometry stays fixed. Beam quantities and transport are recalculated; foundation area screens are reported, while foundation cost retains fixed Class C area proxies."
+        ),
+        cases=mass_case_summaries,
+        selected_candidate_changed=False,
+        physical_mass_complete=False,
+        physical_journey_completed=False,
+        engineering_accepted=False,
+        physical_accepted=False,
+    )
+    mass_sensitivity["result_id"] = identity(mass_sensitivity)
 
     lines = [*cost["cost_line_items"], renewal_line]
     scope_totals = {scope: dict(zip(model_cost.CASES, values))
@@ -413,11 +667,18 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
         vehicle_cost_estimate_id=vehicle_cost_record["cost_estimate_id"],
         mass_reserve_sensitivity_boundary=dict(
             assumption_id=vehicle_cost_record["mass_reserve_sensitivity"]["assumption_id"],
+            result_id=vehicle_cost_record["mass_reserve_sensitivity"]["result_id"],
             case_factors=vehicle_cost_record["mass_reserve_sensitivity"]["case_factors"],
             selected_vehicle_cost_and_process_hours="included in the separate vehicle estimate",
-            synthetic_corridor_motion_fleet_energy_and_civil="base accounted vehicle mass only",
-            propagated_through_system_cost=False,
-            reason="The residual-mass factors do not define installed equipment or a physical candidate. Re-evaluate coupled mass-dependent route, energy, fleet and civil quantities before using them in a whole-system comparison.",
+            synthetic_corridor_motion_fleet_energy_and_beam_foundations=(
+                "separate low/base/high residual-mass cases crossed with the independent low/base/high Class C cost cases"
+            ),
+            mass_sensitivity_result_id=mass_sensitivity["result_id"],
+            propagated_through_system_cost=True,
+            foundation_area_basis=(
+                "Calculated minimum gravity areas are reported for 300/200/100 kPa soil hypotheses; foundation costs continue to use separate fixed Class C footprint proxies pending route geotechnical and footing design."
+            ),
+            reason="Each case replaces the existing residual accounts once and recalculates conditional route demand, fleet basis, energy, crowd-control beam quantities and transport. Minimum gravity footing areas are also calculated and reported, but site footing costs remain independent Class C proxies. The cases do not define installed equipment or a physical acceptance result.",
         ),
         system_bundle_id=bundle["candidate_id"],
         system_bundle_definition_id=bundle["definition_id"],
@@ -471,6 +732,7 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
         civil_design_basis=civil_design_basis,
         fleet_basis=architecture["cost_fleet_basis"],
         service_battery_duty=duty,
+        mass_reserve_sensitivity=mass_sensitivity,
         cost_scope_status=[dict(scope=scope, status="class-c-estimated",
             physical_or_commercial_acceptance=False) for scope in model_cost.SCOPES],
         required_cost_scopes=list(model_cost.SCOPES),

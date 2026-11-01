@@ -1,7 +1,7 @@
 """Selected-reference Class C system estimate stays distinct from acceptance."""
 import pytest
 
-from engineering.development_baseline import FLAGS, evaluate, system_cost, vehicle_cost
+from engineering.development_baseline import FLAGS, evaluate, selection, system_cost, vehicle_cost
 from engineering.design_search import model_cost
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import identity
@@ -94,6 +94,85 @@ def test_civil_cost_uses_the_candidate_sized_crowd_control_beam(estimate):
         selected_beam["prestress_kg"] * corridor_spans
     )
 
+    calculated = basis["minimum_gravity_bearing_area_m2_by_pressure_kpa"]
+    source_areas = {
+        str(int(row["allowable_bearing_kPa_hypothesis"])): row["minimum_gravity_bearing_area_m2"]
+        for row in selected_beam["foundation_scenarios"]
+    }
+    assert calculated == source_areas
+
+
+def test_residual_mass_cases_propagate_through_system_economics(estimate):
+    selected, system = estimate
+    sensitivity = system["mass_reserve_sensitivity"]
+    cases = sensitivity["cases"]
+    assert [row["mass_case"]["name"] for row in cases] == ["low", "base", "high"]
+    assert sensitivity["dimensions"]["residual_mass_cases"] == ["low", "base", "high"]
+    assert sensitivity["dimensions"]["independent_class_c_cost_cases"] == ["low", "base", "high"]
+    assert system["scenario_definition"]["mass_reserve_sensitivity_boundary"][
+        "propagated_through_system_cost"] is True
+    assert system["scenario_definition"]["mass_reserve_sensitivity_boundary"][
+        "mass_sensitivity_result_id"] == sensitivity["result_id"]
+
+    expected_tare = selection.load(ROOT)["vehicle"]["mass"]["accounted_tare_kg_per_car"]
+    for row in cases:
+        mass = row["mass_case"]
+        assert mass["candidate_id"] == selected["candidate_id"]
+        assert mass["selection_id"] == selected["selection_id"]
+        assert mass["physical_candidate_identity_changed"] is False
+        assert mass["reserve_factor_is_probability_bound"] is False
+        assert mass["installed_mass_resolved"] is False
+        assert mass["normal_loaded_mass_kg_per_car"] == pytest.approx(
+            mass["accounted_tare_mass_kg_per_car"] + 3450.0
+        )
+        assert mass["crowd_control_mass_kg_per_car"] == pytest.approx(
+            mass["accounted_tare_mass_kg_per_car"] + 12000.0
+        )
+        assert row["journey_demand"]["normal_loaded_mass_kg_per_car"] == pytest.approx(
+            mass["normal_loaded_mass_kg_per_car"]
+        )
+        assert row["journey_demand"]["evidence"] == "analytical-demand-only"
+        assert row["physical_journey_completed"] is False
+        assert row["physical_acceptance"] is False
+        assert row["foundation_area_costing"]["costed_proxy_mass_coupled"] is False
+        assert row["foundation_area_costing"]["calculated_minimum_gravity_area_m2_by_pressure_kpa"] == (
+            row["civil_design_basis"]["minimum_gravity_bearing_area_m2_by_pressure_kpa"]
+        )
+        reconciliation = row["mass_reconciliation"]
+        assert reconciliation["located_geometry_mass_kg_per_car"] == pytest.approx(
+            mass["located_geometry_mass_kg_per_car"]
+        )
+        assert reconciliation["replaced_residual_mass_kg_per_car"] == pytest.approx(
+            mass["scenario_residual_mass_kg_per_car"]
+        )
+        assert reconciliation["accounted_tare_mass_kg_per_car"] == pytest.approx(
+            mass["accounted_tare_mass_kg_per_car"]
+        )
+        assert sum(reconciliation["residual_account_mass_kg_per_car"].values()) == pytest.approx(
+            reconciliation["replaced_residual_mass_kg_per_car"]
+        )
+        assert set(row["scope_totals_iqd"]) == set(model_cost.SCOPES)
+        assert len(row["model_based_installed_CAPEX_iqd"]) == 3
+
+    low, base, high = cases
+    assert base["mass_case"]["accounted_tare_mass_kg_per_car"] == pytest.approx(expected_tare)
+    assert base["model_based_installed_CAPEX_iqd"] == system["model_based_installed_CAPEX_iqd"]
+    assert base["model_based_whole_life_NPV_iqd"] == system["model_based_whole_life_NPV_iqd"]
+    assert low["journey_demand"]["traction_mechanical_energy_J_train"] < base["journey_demand"][
+        "traction_mechanical_energy_J_train"] < high["journey_demand"]["traction_mechanical_energy_J_train"]
+    assert low["civil_design_basis"]["prestress_strands"] < base["civil_design_basis"][
+        "prestress_strands"] < high["civil_design_basis"]["prestress_strands"]
+    assert low["civil_design_basis"]["minimum_gravity_bearing_area_m2_by_pressure_kpa"]["200"] < high[
+        "civil_design_basis"]["minimum_gravity_bearing_area_m2_by_pressure_kpa"]["200"]
+    assert low["foundation_area_costing"]["costed_class_c_area_proxy_m2"] == high[
+        "foundation_area_costing"]["costed_class_c_area_proxy_m2"]
+    assert "foundation costs continue to use separate fixed Class C footprint proxies" in system[
+        "scenario_definition"]["mass_reserve_sensitivity_boundary"]["foundation_area_basis"]
+    assert low["model_based_installed_CAPEX_iqd"][1] < high["model_based_installed_CAPEX_iqd"][1]
+    assert len({row["mass_case"]["mass_case_id"] for row in cases}) == 3
+    assert len({row["bundle_definition_id"] for row in cases}) == 3
+    assert len({row["model_cost_evaluation_id"] for row in cases}) == 3
+
 
 def test_separate_vehicle_estimate_is_not_added_and_acceptance_stays_open(estimate):
     _, system = estimate
@@ -107,10 +186,10 @@ def test_separate_vehicle_estimate_is_not_added_and_acceptance_stays_open(estima
                    for row in system["cost_line_items"])
     reserve = system["scenario_definition"]["mass_reserve_sensitivity_boundary"]
     assert reserve["case_factors"] == {"low": 0.8, "base": 1.0, "high": 1.2}
-    assert reserve["propagated_through_system_cost"] is False
-    assert reserve["synthetic_corridor_motion_fleet_energy_and_civil"] == (
-        "base accounted vehicle mass only"
-    )
+    assert reserve["propagated_through_system_cost"] is True
+    assert "separate low/base/high residual-mass cases" in reserve[
+        "synthetic_corridor_motion_fleet_energy_and_beam_foundations"
+    ]
     assert system["physical_mass_complete"] is False
     assert system["physical_journey_completed"] is False
     assert system["service_qualified"] is False
