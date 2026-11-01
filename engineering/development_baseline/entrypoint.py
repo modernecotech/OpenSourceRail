@@ -1,8 +1,4 @@
-"""Repository front doors for the explicitly selected development design.
-
-Historical calculations are available through the separate ``legacy`` namespace.
-No command substitutes their mass, operating assumptions or qualification state.
-"""
+"""Repository front doors for the explicitly selected development design."""
 from __future__ import annotations
 
 import argparse

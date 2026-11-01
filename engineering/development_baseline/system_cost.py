@@ -11,8 +11,8 @@ from pathlib import Path
 
 from engineering import mass_ledger_audit, mass_reserve_sensitivity
 from engineering.design_search import model_cost, railway_bundle, selected_reference_journey, system_motion
-from engineering.station_rail import ROOT, civil as selected_civil, station_motor, vehicle as selected_vehicle
-from engineering.station_rail.common import digest, identity
+from engineering.station_rail import ROOT, civil as selected_civil, electrical as service_electrical, station_motor, vehicle as selected_vehicle
+from engineering.station_rail.common import brief, digest, identity
 from engineering.development_baseline import selection
 
 PRODUCER = "engineering/development_baseline/system_cost.py"
@@ -42,6 +42,7 @@ def sources(root=ROOT):
         "engineering/station_rail/brief.toml",
         "engineering/station_rail/civil.py",
         "engineering/station_rail/common.py",
+        "engineering/station_rail/electrical.py",
         "engineering/station_rail/evaluation.py",
         "engineering/station_rail/station_motor.py",
         "engineering/station_rail/vehicle.py",
@@ -451,22 +452,261 @@ def _account_renewal(candidate_id, cost_result, assumptions_record):
     return record, schedules
 
 
-def _service_duty(bundle, assumptions_record):
+def _service_energy_supply_sensitivity(bundle, assumptions_record, candidate,
+                                       roof_surface_area_m2, corridor_basis,
+                                       root=ROOT):
+    """Compare service-energy assumptions without admitting a changed design."""
+    cost_assumptions = assumptions_record["assumptions"]
+    brief_data = brief(root)
+    services = brief_data["services"]
+    service = brief_data["service"]
+    runtime = float(bundle["_cost_trajectory"]["runtime_s"])
+    dwell = float(service["dwell_s"])
+    hotel_cases = [("reference", float(services["reference_hotel_kW_per_car"])),
+                   ("adverse", float(services["adverse_hotel_kW_per_car"]))]
+    pack_cases = [service_electrical.battery_definition(root, parallel_strings=value)
+                  for value in (2, 3)]
+    selected_battery_row = next((row for row in candidate["inventory"]
+                                 if row.get("id") == "service-battery"), None)
+    if selected_battery_row is None:
+        raise ValueError("Selected service-battery account is required for supply sensitivity")
+    selected_battery_id = selected_battery_row["basis"]["component_id"]
+    selected_pack = service_electrical.battery_definition(root, parallel_strings=3)
+    if selected_pack["component_id"] != selected_battery_id:
+        raise ValueError("Service-energy selected pack differs from the canonical candidate inventory")
+
+    end_of_life = float(services["battery_end_of_life_fraction"])
+    hot_capacity = float(services["hot_battery_capacity_fraction_hypothesis"])
+    min_soc = float(services["minimum_SOC"])
+    max_soc = float(services["maximum_SOC"])
+    acceptance_cases = (0.50, 0.75, 1.00)
+    charger_powers = cost_assumptions["service_battery_charger_kw_per_car"]
+    charger_efficiencies = cost_assumptions["service_battery_charging_efficiency"]
+    scenario_rows = []
+    for pack in pack_cases:
+        usable_window = (pack["gross_energy_kWh"] * end_of_life * hot_capacity
+                         * (max_soc - min_soc))
+        for index, cost_case in enumerate(model_cost.CASES):
+            charger_kw = float(charger_powers[index])
+            efficiency = float(charger_efficiencies[index])
+            for hotel_name, hotel_kw in hotel_cases:
+                for acceptance in acceptance_cases:
+                    leg = service_electrical.charge_leg(
+                        runtime, dwell, hotel_kw, charger_kw, root=root,
+                        parallel_strings=pack["parallel_strings"],
+                        efficiency=efficiency,
+                        charge_acceptance_fraction=acceptance,
+                    )
+                    margin = (leg["net_charge_energy_kWh_per_car"]
+                              - leg["energy_used_kWh_per_car"])
+                    required_input_kw = None
+                    if dwell > 0:
+                        required_input_kw = (
+                            (leg["energy_used_kWh_per_car"]
+                             + leg["dwell_hotel_energy_from_battery_kWh_per_car"])
+                            * 3600.0 / (dwell * efficiency)
+                        )
+                    hardware_variant = (
+                        pack["parallel_strings"] != selected_pack["parallel_strings"]
+                        or abs(charger_kw - float(services["charging_power_kW_per_car_target"])) > 1e-9
+                    )
+                    row = dict(
+                        parent_candidate_id=candidate["candidate_id"],
+                        selected_battery_component_id=selected_battery_id,
+                        battery_component_id=pack["component_id"],
+                        battery_parallel_strings=pack["parallel_strings"],
+                        battery_module_count=pack["module_count"],
+                        battery_mass_kg_per_car=pack["mass_kg"],
+                        battery_gross_energy_kWh_per_car=pack["gross_energy_kWh"],
+                        usable_SOC_window_kWh_per_car_hypothesis=round(usable_window, 6),
+                        charger_cost_case=cost_case,
+                        charger_power_kW_per_car=charger_kw,
+                        charging_efficiency_hypothesis=efficiency,
+                        hotel_load_case=hotel_name,
+                        hotel_load_kW_per_car=hotel_kw,
+                        charge_acceptance_fraction_hypothesis=acceptance,
+                        required_charger_input_kW_per_car_for_cycle_balance=(
+                            None if required_input_kw is None else round(required_input_kw, 6)
+                        ),
+                        energy_margin_kWh_per_car_per_cycle=round(margin, 6),
+                        energy_only_cycles_from_max_SOC_to_minimum_SOC=(
+                            None if margin >= -1e-12 else round(usable_window / -margin, 3)
+                        ),
+                        leg=leg,
+                        hardware_variant=hardware_variant,
+                        new_candidate_bundle_required_before_design_use=hardware_variant,
+                        service_qualified=False,
+                        actual_charge_acceptance_map_available=False,
+                    )
+                    row["scenario_id"] = identity(row)
+                    scenario_rows.append(row)
+
+    # The panel area is a geometric upper bound. No PV module layout or installed
+    # PV mass is part of the selected vehicle inventory, so these are potential
+    # daily energy offsets only and never change the route-cycle battery result.
+    sun_hours_cases = (0.0, 2.0, 4.0, 6.0)
+    pv_efficiency = {"low": 0.18, "base": 0.21, "high": 0.24}
+    pv_performance_ratio = {"low": 0.70, "base": 0.80, "high": 0.90}
+    solar_rows = []
+    for index, cost_case in enumerate(model_cost.CASES):
+        hotel_kw = float(cost_assumptions["auxiliary_kw_per_car"][index])
+        hours = float(assumptions_record["operating_hours_per_day_cases"][index])
+        daily_load = hotel_kw * hours
+        daily_tariff = float(cost_assumptions["electricity_iqd_per_kwh"][index])
+        efficiency = pv_efficiency[cost_case]
+        performance = pv_performance_ratio[cost_case]
+        for sun_hours in sun_hours_cases:
+            nameplate_kwp = float(roof_surface_area_m2) * efficiency
+            gross_daily_pv_kwh = nameplate_kwp * performance * sun_hours
+            usable_offset = min(gross_daily_pv_kwh, daily_load)
+            solar_rows.append(dict(
+                parent_candidate_id=candidate["candidate_id"],
+                selected_body_candidate_id=candidate["body_candidate_id"],
+                cost_scenario=cost_case,
+                roof_surface_area_m2=round(float(roof_surface_area_m2), 6),
+                assumed_usable_pv_coverage_fraction=1.0,
+                assumed_module_efficiency=efficiency,
+                assumed_pv_performance_ratio=performance,
+                equivalent_peak_sun_hours_per_day=sun_hours,
+                theoretical_DC_nameplate_kWp=round(nameplate_kwp, 6),
+                gross_solar_energy_kWh_per_car_day=round(gross_daily_pv_kwh, 6),
+                hotel_load_kW_per_car=hotel_kw,
+                operating_hours_per_day=hours,
+                service_energy_kWh_per_car_day=round(daily_load, 6),
+                maximum_daily_offset_fraction=(
+                    0.0 if daily_load <= 0 else round(usable_offset / daily_load, 6)
+                ),
+                potential_daily_electricity_cost_offset_iqd=round(usable_offset * daily_tariff, 2),
+                repeated_years_assumed=0,
+                solar_hardware_mass_kg_per_car=None,
+                solar_hardware_capital_cost_iqd=None,
+                candidate_bundle_admission_required=True,
+                interval_energy_credit_applied=False,
+                service_qualified=False,
+            ))
+
+    independent_source = dict(
+        source_technology=None,
+        basis="Continuous service-load requirement only; no generator, fuel cell, conductor or other supply technology is selected.",
+        parent_candidate_id=candidate["candidate_id"],
+        cases=[dict(cost_scenario=name,
+                    continuous_service_power_kW_per_car=float(cost_assumptions["auxiliary_kw_per_car"][index]),
+                    operating_hours_per_day=float(assumptions_record["operating_hours_per_day_cases"][index]),
+                    electrical_energy_kWh_per_car_day=float(cost_assumptions["auxiliary_kw_per_car"][index])
+                        * float(assumptions_record["operating_hours_per_day_cases"][index]),
+                    annual_electrical_energy_kWh_per_car=round(float(cost_assumptions["auxiliary_kw_per_car"][index])
+                        * float(assumptions_record["operating_hours_per_day_cases"][index])
+                        * float(assumptions_record["operating_days_per_year"]), 3))
+              for index, name in enumerate(model_cost.CASES)],
+        mass_kg_per_car=None,
+        capital_cost_iqd=None,
+        new_physical_candidate_required=True,
+        candidate_bundle_admission_required=True,
+        physical_candidate_id=None,
+    )
+
+    station_count = int(corridor_basis["stations"])
+    trackways = int(corridor_basis["trackways"])
+    cars_per_train = int(corridor_basis["cars_per_train"])
+    platforms = station_count * trackways
+    direct_feed_power_kw = max(value for _, value in hotel_cases)
+    direct_feed_installed_kw = platforms * cars_per_train * direct_feed_power_kw
+    package_rates = cost_assumptions["electrical_package_iqd_per_kw"]
+    install_rates = cost_assumptions["power_electronics_install_iqd_per_kw"]
+    direct_feed_cost = [
+        direct_feed_installed_kw * (float(package_rates[index]) + float(install_rates[index]))
+        for index in range(len(model_cost.CASES))
+    ]
+    direct_feed_rows = []
+    for hotel_name, hotel_kw in hotel_cases:
+        leg = service_electrical.charge_leg(
+            runtime, dwell, hotel_kw,
+            float(services["charging_power_kW_per_car_target"]), root=root,
+            parallel_strings=selected_pack["parallel_strings"],
+            efficiency=float(services["charging_efficiency_hypothesis"]),
+            independent_dwell_supply_kW_per_car=hotel_kw,
+        )
+        direct_feed_rows.append(dict(
+            parent_candidate_id=candidate["candidate_id"],
+            variant_id=identity(dict(parent_candidate_id=candidate["candidate_id"],
+                service_mode="station-direct-auxiliary-feed-at-dwell",
+                hotel_load_case=hotel_name,hotel_load_kW_per_car=hotel_kw,
+                selected_battery_component_id=selected_battery_id)),
+            service_mode="station-direct-auxiliary-feed-at-dwell",
+            hotel_load_case=hotel_name,
+            hotel_load_kW_per_car=hotel_kw,
+            independent_station_feed_kW_per_car=hotel_kw,
+            selected_battery_retained_for_running_service_and_essential_backup=True,
+            energy_margin_kWh_per_car_per_cycle=round(
+                leg["net_charge_energy_kWh_per_car"] - leg["energy_used_kWh_per_car"], 6),
+            dwell_hotel_energy_from_independent_supply_kWh_per_car=round(
+                leg["dwell_hotel_energy_from_independent_supply_kWh_per_car"], 6),
+            leg=leg,
+            physical_candidate_id=None,
+            new_system_candidate_required=True,
+            station_connection_and_protection_defined=False,
+            service_qualified=False,
+        ))
+    direct_feed = dict(
+        platforms=platforms,
+        simultaneous_platforms_assumed=platforms,
+        cars_per_train=cars_per_train,
+        full_auxiliary_feed_kW_per_car=direct_feed_power_kw,
+        incremental_installed_capacity_kW=direct_feed_installed_kw,
+        partial_class_c_incremental_power_package_and_install_cost_iqd=dict(
+            zip(model_cost.CASES, [round(value, 2) for value in direct_feed_cost])),
+        cost_basis=("Incremental rated kW × existing Class C electrical-package and per-kW installation rates. "
+                    "Excludes utility upgrades, transformer, route cabling, connector, protection selectivity, "
+                    "station refit, final assembly, tax and commissioning."),
+        new_system_candidate_required=True,
+        physical_candidate_id=None,
+        cases=direct_feed_rows,
+    )
+
+    sensitivity = dict(
+        schema="osr-selected-v06-service-energy-supply-sensitivity/1",
+        parent_candidate_id=candidate["candidate_id"],
+        selected_body_candidate_id=candidate["body_candidate_id"],
+        selected_service_battery_component_id=selected_battery_id,
+        selected_candidate_hardware_changed=False,
+        current_candidate_changed=False,
+        study_only=True,
+        charge_acceptance_fraction_cases=list(acceptance_cases),
+        route=dict(segment_runtime_s=runtime,station_dwell_s=dwell,
+                   station_spacing_m=float(bundle["architecture_case"]["physical_definition"]["route"]["station_spacing_m"]),
+                   corridor_stations=station_count,trackways=trackways),
+        battery_charger_cases=scenario_rows,
+        solar_potential=dict(
+            basis="Theoretical maximum using the complete candidate roof-surface area as PV coverage; no module layout, installed PV mass, temperature profile, shade, soiling or city solar resource is established.",
+            roof_surface_area_source="candidate CAD roof upper-skin surface-area calculation in the mass ledger",
+            candidate_bundle_admission_required=True,
+            capital_cost_included=False,
+            cases=solar_rows,
+        ),
+        independent_continuous_supply_requirement=independent_source,
+        station_direct_auxiliary_feed_alternative=direct_feed,
+        system_cost_base_case_unchanged=True,
+        physical_journey_completed=False,
+        service_qualified=False,
+    )
+    sensitivity["evaluation_id"] = identity(sensitivity)
+    return sensitivity
+
+
+def _service_duty(bundle, assumptions_record, candidate, roof_surface_area_m2,
+                  corridor_basis, root=ROOT):
     trajectory = bundle.get("_cost_trajectory", {})
     runtime = trajectory.get("runtime_s")
-    brief = selected_vehicle.brief(bundle.get("_source_root", ROOT)) if hasattr(selected_vehicle, "brief") else None
-    if brief is None:
-        from engineering.station_rail.common import brief as load_brief
-        brief = load_brief(bundle.get("_source_root", ROOT))
-    service = brief["services"]
-    dwell = float(brief["service"]["dwell_s"])
+    brief_data = brief(bundle.get("_source_root", ROOT))
+    service = brief_data["services"]
+    dwell = float(brief_data["service"]["dwell_s"])
     charge_power = float(service["charging_power_kW_per_car_target"])
     efficiency = float(service["charging_efficiency_hypothesis"])
     interval = None if runtime is None else float(runtime) + dwell
     delivered = charge_power * dwell / 3600.0 * efficiency
-    normal_load = float(brief["services"]["reference_hotel_kW_per_car"])
-    adverse_load = float(brief["services"]["adverse_hotel_kW_per_car"])
-    return dict(
+    normal_load = float(brief_data["services"]["reference_hotel_kW_per_car"])
+    adverse_load = float(brief_data["services"]["adverse_hotel_kW_per_car"])
+    value = dict(
         source="engineering/station_rail/brief.toml",
         selected_reference_hotel_kW_per_car=normal_load,
         adverse_hotel_kW_per_car=adverse_load,
@@ -488,6 +728,10 @@ def _service_duty(bundle, assumptions_record):
         charge_acceptance_and_solar_yield_measured=False,
         assumption_cost_scenarios=assumptions_record["assumptions"]["auxiliary_kw_per_car"],
     )
+    value["supply_sensitivity"] = _service_energy_supply_sensitivity(
+        bundle, assumptions_record, candidate, roof_surface_area_m2,
+        corridor_basis, root=root)
+    return value
 
 
 def evaluate(record, root=ROOT, vehicle_cost_record=None):
@@ -654,7 +898,13 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
     operating_hours = assumptions_record["operating_hours_per_day_cases"]
     assumptions = assumptions_record["assumptions"]
     duty_bundle = dict(bundle, _cost_trajectory=architecture["trajectory"], _source_root=root)
-    duty = _service_duty(duty_bundle, assumptions_record)
+    roof_area = next((float(row["surface_area_m2"])
+                      for row in ledger["analytical_occurrence_estimates"]
+                      if row.get("source_account_occurrence_id") == "white-roof-finish"), None)
+    if roof_area is None:
+        raise ValueError("Candidate-bound roof surface area is required for the solar upper-bound screen")
+    duty = _service_duty(duty_bundle, assumptions_record, candidate, roof_area,
+                         cost["corridor_basis"], root=root)
     active = architecture["cost_fleet_basis"]["active_trainsets"]
     fleet = architecture["cost_fleet_basis"]["reserve_trainsets"] + active
 

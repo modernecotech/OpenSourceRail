@@ -23,6 +23,25 @@ def test_battery_power_limiting_is_not_nominal_voltage_shortcut():
     assert default['actual_charge_power_available'] is None
 
 
+def test_charge_acceptance_and_independent_dwell_supply_are_explicit():
+    reference=e.charge_leg(147.361774,hotel_kW=50.,charging_power_kW=200.,
+        parallel_strings=3,charge_acceptance_fraction=1.)
+    restricted=e.charge_leg(147.361774,hotel_kW=50.,charging_power_kW=200.,
+        parallel_strings=3,charge_acceptance_fraction=.5)
+    direct=e.charge_leg(147.361774,hotel_kW=50.,charging_power_kW=200.,
+        parallel_strings=3,independent_dwell_supply_kW_per_car=50.)
+    assert reference['catalogue_low_voltage_current_limit_kW_per_car']==216.
+    assert restricted['catalogue_low_voltage_current_capped_charge_kW_per_car']==108.
+    assert restricted['energy_deficit_kWh_per_car']>reference['energy_deficit_kWh_per_car']
+    assert direct['dwell_hotel_energy_from_independent_supply_kWh_per_car']==pytest.approx(50*35/3600)
+    assert direct['energy_deficit_kWh_per_car']==pytest.approx(
+        reference['energy_deficit_kWh_per_car']-50*35/3600)
+    assert direct['energy_balance_screen']=='fail'
+    assert direct['actual_charge_power_available'] is None
+    with pytest.raises(ValueError,match='acceptance'):
+        e.charge_leg(100,charge_acceptance_fraction=1.1)
+
+
 def test_hot_hotel_and_catalogue_ambient_failures_not_hidden():
     result=e.charge_leg(180,hotel_kW=50,module_environment_C=50)
     assert result['energy_deficit_kWh_per_car']>0
@@ -36,6 +55,16 @@ def test_route_soc_does_not_recharge_above_maximum_or_ignore_floor():
     deficit=e.state_of_charge([500]*20,hotel_kW=50)
     assert deficit['reserve_screen']=='fail'
     assert deficit['minimum_terminal_extra_charge_s']>0
+
+
+def test_route_soc_can_compare_charge_acceptance_and_direct_dwell_source():
+    baseline=e.state_of_charge([147.361774]*10,hotel_kW=50.,charging_power_kW=200.)
+    accepted=e.state_of_charge([147.361774]*10,hotel_kW=50.,charging_power_kW=200.,
+        charge_acceptance_fraction=.5)
+    fed=e.state_of_charge([147.361774]*10,hotel_kW=50.,charging_power_kW=200.,
+        independent_dwell_supply_kW_per_car=50.)
+    assert accepted['final_SOC']<baseline['final_SOC']
+    assert fed['final_SOC']>baseline['final_SOC']
 
 
 def test_lim_secondary_slip_heat_is_positive_and_increases():

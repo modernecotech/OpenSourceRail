@@ -74,6 +74,68 @@ def test_chargers_shifted_service_energy_and_pack_renewal_are_explicit(estimate)
     assert system["scenario_definition"]["service"]["operating_hours_per_day"] == [16, 18, 24]
 
 
+def test_service_energy_supply_sensitivity_keeps_physical_and_cost_variants_separate(estimate):
+    selected, system = estimate
+    duty = system["service_battery_duty"]
+    sensitivity = duty["supply_sensitivity"]
+    assert sensitivity["parent_candidate_id"] == selected["candidate_id"]
+    assert sensitivity["selected_candidate_hardware_changed"] is False
+    assert sensitivity["current_candidate_changed"] is False
+    assert sensitivity["study_only"] is True
+    assert len(sensitivity["battery_charger_cases"]) == 36
+
+    base_reference = next(row for row in sensitivity["battery_charger_cases"]
+        if row["battery_parallel_strings"] == 3
+        and row["charger_cost_case"] == "base"
+        and row["hotel_load_case"] == "reference"
+        and row["charge_acceptance_fraction_hypothesis"] == 1.0)
+    base_adverse = next(row for row in sensitivity["battery_charger_cases"]
+        if row["battery_parallel_strings"] == 3
+        and row["charger_cost_case"] == "base"
+        and row["hotel_load_case"] == "adverse"
+        and row["charge_acceptance_fraction_hypothesis"] == 1.0)
+    assert base_reference["battery_component_id"] == sensitivity["selected_service_battery_component_id"]
+    assert base_reference["energy_margin_kWh_per_car_per_cycle"] == pytest.approx(
+        duty["per_cycle_energy_margin_kWh"]["reference"])
+    assert base_adverse["energy_margin_kWh_per_car_per_cycle"] == pytest.approx(
+        duty["per_cycle_energy_margin_kWh"]["adverse"])
+    assert base_adverse["energy_only_cycles_from_max_SOC_to_minimum_SOC"] is not None
+
+    reduced_pack = next(row for row in sensitivity["battery_charger_cases"]
+        if row["battery_parallel_strings"] == 2
+        and row["charger_cost_case"] == "base"
+        and row["hotel_load_case"] == "reference"
+        and row["charge_acceptance_fraction_hypothesis"] == 1.0)
+    assert reduced_pack["battery_component_id"] != sensitivity["selected_service_battery_component_id"]
+    assert reduced_pack["new_candidate_bundle_required_before_design_use"] is True
+
+    solar = sensitivity["solar_potential"]
+    assert len(solar["cases"]) == 12
+    maximum_sun = next(row for row in solar["cases"]
+        if row["cost_scenario"] == "base" and row["equivalent_peak_sun_hours_per_day"] == 6.0)
+    assert maximum_sun["gross_solar_energy_kWh_per_car_day"] > 0
+    assert maximum_sun["solar_hardware_mass_kg_per_car"] is None
+    assert maximum_sun["solar_hardware_capital_cost_iqd"] is None
+    assert maximum_sun["interval_energy_credit_applied"] is False
+
+    independent = sensitivity["independent_continuous_supply_requirement"]
+    assert [row["electrical_energy_kWh_per_car_day"] for row in independent["cases"]] == [560, 630, 1200]
+    assert independent["physical_candidate_id"] is None
+    assert independent["new_physical_candidate_required"] is True
+
+    direct = sensitivity["station_direct_auxiliary_feed_alternative"]
+    assert direct["incremental_installed_capacity_kW"] == 1800
+    assert direct["partial_class_c_incremental_power_package_and_install_cost_iqd"] == {
+        "low": 945000000.0, "base": 3780000000.0, "high": 15120000000.0,
+    }
+    adverse_direct = next(row for row in direct["cases"] if row["hotel_load_case"] == "adverse")
+    assert adverse_direct["dwell_hotel_energy_from_independent_supply_kWh_per_car"] == pytest.approx(50*35/3600)
+    assert adverse_direct["energy_margin_kWh_per_car_per_cycle"] < 0
+    assert direct["physical_candidate_id"] is None
+    assert direct["new_system_candidate_required"] is True
+    assert sensitivity["system_cost_base_case_unchanged"] is True
+
+
 def test_civil_cost_uses_the_candidate_sized_crowd_control_beam(estimate):
     selected, system = estimate
     selected_beam = selected["civil"]["selected_reference"]

@@ -33,7 +33,7 @@ These are exact generated nominal/net stock quantities plus retained source acco
 
 ## Three-dimensional structural method
 
-Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **17 exact native body cases** across normal, normal-fine and crowd loading: 10 dispatched in this coordinated run and 7 carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
+Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **10 exact native body cases** across normal, normal-fine and crowd loading: 10 dispatched in this coordinated run and 0 carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
 
 | New solid body | Normal 1.7 m target | Finer 0.85 m | Extra 0.425 m | Last-step change |
 |---|---:|---:|---:|---:|
@@ -48,7 +48,7 @@ The frame's first refinement changed the three displacement maxima by about 10-1
 
 The current-source continuation ran the same P1 body and normal-load basis at **0.2125 m** under its 90,000-cell budget, followed by the 0.10625 m C3D8I run using 128,382 cells under an 8 GiB/240 s request. Both completed with equilibrium/energy consistency only. The fine result is included as a direct-native package. Matched-point displacement changes remain above the 5% refinement trigger; numerical convergence and physical acceptance remain open.
 
-The same body/load was meshed at **0.053125 m** (290,660 C3D8I cells), but CalculiX stopped during matrix factorization with an allocation failure under the recorded 10 GiB/600 s request. Return code 255 and peak RSS 9838628 KiB are recorded. No numerical result was produced, so refinement remains open. Exact producer source bytes are included with the recovered report. The solver attempt was reused from the immutable same-parent deck and logs without a second invocation. This computational limit is not a physical failure or qualification.
+The same body/load was meshed at **0.053125 m** (290,660 C3D8I cells), but CalculiX stopped during matrix factorization with an allocation failure under the recorded 10 GiB/600 s request. Return code 255 and peak RSS 9843284 KiB are recorded. No numerical result was produced, so refinement remains open. Exact producer source bytes are included with the recovered report. The solver attempt was reused from the immutable same-parent deck and logs without a second invocation. This computational limit is not a physical failure or qualification.
 
 Original foam/honeycomb and GFRP bodies remain non-admitted to this whole-body solver until their own complete directional material laws, attachment stock and joint models are provided. Orthotropic method patches demonstrate implementation, not purchased composite properties.
 

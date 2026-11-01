@@ -4,7 +4,7 @@ No traction battery is fitted. Supplier reference figures below define an
 analytical service-pack alternative; they do not qualify a railway pack.
 """
 from __future__ import annotations
-from math import ceil
+from math import ceil, isfinite
 from . import ROOT, FLAGS
 from .common import brief, identity, source_map
 
@@ -61,33 +61,49 @@ def battery_definition(root=ROOT, *, parallel_strings=3):
 
 def charge_leg(runtime_s, dwell_s=35., hotel_kW=35., charging_power_kW=200.,
                *, root=ROOT, parallel_strings=3, efficiency=.95,
-               module_environment_C=25.):
+               module_environment_C=25., charge_acceptance_fraction=1.,
+               independent_dwell_supply_kW_per_car=0.):
     """Energy balance with hotel consumption during charging and catalogue I cap.
 
     Charge power is capped using the *lowest* catalogue module voltage. This
     does not assume a flat 690 V pack. The missing temperature/SOC charge map is
     a separate unknown even when this necessary energy/current bound passes.
     """
-    values=(runtime_s,dwell_s,hotel_kW,charging_power_kW,efficiency)
-    if runtime_s is None or any(float(x)<0 for x in values) or not 0<efficiency<=1:
-        raise ValueError('Nonnegative duration/power and positive efficiency required')
+    values=(runtime_s,dwell_s,hotel_kW,charging_power_kW,efficiency,
+            module_environment_C,charge_acceptance_fraction,
+            independent_dwell_supply_kW_per_car)
+    if (runtime_s is None or any(not isfinite(float(x)) for x in values)
+            or min(float(x) for x in values[:4])<0 or not 0<efficiency<=1
+            or not 0<=charge_acceptance_fraction<=1
+            or independent_dwell_supply_kW_per_car<0):
+        raise ValueError('Finite nonnegative duration/power, 0–1 acceptance and positive efficiency required')
     battery=battery_definition(root,parallel_strings=parallel_strings)
-    allowed=min(charging_power_kW,battery['conservative_voltage_current_power_kW'])
+    catalogue_limit=battery['conservative_voltage_current_power_kW']
+    accepted_limit=catalogue_limit*charge_acceptance_fraction
+    allowed=min(charging_power_kW,accepted_limit)
     flight=hotel_kW*runtime_s/3600
     dwell_hotel=hotel_kW*dwell_s/3600
+    dwell_external=min(hotel_kW,independent_dwell_supply_kW_per_car)*dwell_s/3600
+    dwell_battery=max(0.,dwell_hotel-dwell_external)
     charge=allowed*efficiency*dwell_s/3600
-    net=charge-dwell_hotel
+    net=charge-dwell_battery
     deficit=max(0.,flight-net)
-    net_rate=allowed*efficiency-hotel_kW
+    net_rate=allowed*efficiency-max(0.,hotel_kW-independent_dwell_supply_kW_per_car)
     extra=deficit*3600/net_rate if net_rate>0 else None
     balanced=deficit<=1e-10
     return dict(schema='osr-wheel-service-energy-leg/1',
         runtime_s=runtime_s,dwell_s=dwell_s,hotel_kW_per_car=hotel_kW,
         requested_charge_power_kW_per_car=charging_power_kW,
+        catalogue_low_voltage_current_limit_kW_per_car=catalogue_limit,
+        charge_acceptance_fraction_assumption=charge_acceptance_fraction,
+        accepted_low_voltage_current_limit_kW_per_car=accepted_limit,
         catalogue_low_voltage_current_capped_charge_kW_per_car=allowed,
         charging_efficiency_hypothesis=efficiency,
         energy_used_kWh_per_car=flight,
         dwell_hotel_energy_kWh_per_car=dwell_hotel,
+        dwell_hotel_energy_from_independent_supply_kWh_per_car=dwell_external,
+        dwell_hotel_energy_from_battery_kWh_per_car=dwell_battery,
+        independent_dwell_supply_kW_per_car=independent_dwell_supply_kW_per_car,
         gross_charge_input_kWh_per_car=allowed*dwell_s/3600,
         battery_energy_from_charger_kWh_per_car=charge,
         net_charge_energy_kWh_per_car=net,
@@ -106,10 +122,22 @@ def charge_leg(runtime_s, dwell_s=35., hotel_kW=35., charging_power_kW=200.,
 def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
                     hotel_kW=35., charging_power_kW=200., dwell_s=35.,
                     end_of_life_fraction=.8,hot_capacity_fraction=.9,
-                    root=ROOT,parallel_strings=3):
+                    efficiency=.95,
+                    root=ROOT,parallel_strings=3,
+                    charge_acceptance_fraction=1.,
+                    independent_dwell_supply_kW_per_car=0.):
     """Propagate retained energy, include charge saturation and station hotel load."""
     if not 0<=minimum_SOC<=initial_SOC<=maximum_SOC<=1:
         raise ValueError('Invalid SOC interval')
+    controls=(hotel_kW,charging_power_kW,dwell_s,end_of_life_fraction,
+              hot_capacity_fraction,efficiency,charge_acceptance_fraction,
+              independent_dwell_supply_kW_per_car)
+    if (any(not isfinite(float(x)) for x in controls)
+            or min(float(x) for x in controls[:3])<0
+            or not 0<efficiency<=1 or not 0<=charge_acceptance_fraction<=1
+            or independent_dwell_supply_kW_per_car<0
+            or not 0<end_of_life_fraction<=1 or not 0<hot_capacity_fraction<=1):
+        raise ValueError('Finite nonnegative power/duration and bounded efficiency, acceptance and capacity factors required')
     battery=battery_definition(root,parallel_strings=parallel_strings)
     effective=battery['gross_energy_kWh']*end_of_life_fraction*hot_capacity_fraction
     energy=effective*initial_SOC;floor=effective*minimum_SOC;ceiling=effective*maximum_SOC
@@ -117,7 +145,11 @@ def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
     for i,leg in enumerate(legs):
         seconds=leg.get('runtime_s') if isinstance(leg,dict) else leg
         if seconds is None: raise ValueError('Cannot propagate an unexecuted leg')
-        bal=charge_leg(seconds,dwell_s,hotel_kW,charging_power_kW,root=root,parallel_strings=parallel_strings)
+        bal=charge_leg(seconds,dwell_s,hotel_kW,charging_power_kW,root=root,
+            parallel_strings=parallel_strings,
+            efficiency=efficiency,
+            charge_acceptance_fraction=charge_acceptance_fraction,
+            independent_dwell_supply_kW_per_car=independent_dwell_supply_kW_per_car)
         arrival=energy-bal['energy_used_kWh_per_car'];lowest=min(lowest,arrival/effective)
         after=min(ceiling,arrival+bal['net_charge_energy_kWh_per_car'])
         lowest=min(lowest,after/effective)
@@ -127,7 +159,8 @@ def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
         energy=after
     missing=max(0.,ceiling-energy)
     allowed=min(charging_power_kW,battery['conservative_voltage_current_power_kW'])
-    rate=.95*allowed-hotel_kW
+    allowed*=charge_acceptance_fraction
+    rate=efficiency*allowed-max(0.,hotel_kW-independent_dwell_supply_kW_per_car)
     return dict(schema='osr-service-battery-route/1',battery_component_id=battery['component_id'],
         effective_capacity_kWh=effective,usable_SOC_window_kWh=effective*(maximum_SOC-minimum_SOC),
         end_of_life_fraction_hypothesis=end_of_life_fraction,
