@@ -15,7 +15,8 @@ def _illustrations(root):
 def _inputs(root):
     root=Path(root)
     names=['engineering/station_rail/reader.py','engineering/development_baseline/book.py','engineering/development-baseline.toml',
-        'README.md','docs/ROADMAP.md','docs/ARCHITECTURE.md','docs/first-adoptable-product.md','docs/open-source-rail-overview.md',
+        'README.md','docs/README.md','docs/ROADMAP.md','docs/ARCHITECTURE.md','docs/first-adoptable-product.md','docs/open-source-rail-overview.md',
+        'docs/capabilities/README.md','docs/workbench/planning/README.md',
         'deployment/erpnext/README.md','deployment/supervision/README.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
         'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',
         'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',
@@ -97,7 +98,7 @@ def build(root=ROOT,output=None,check=False):
         ('Railway and manufacturing system','Vehicles, stations, civil works, material/process choices, tooling, assembly and repair.','Physical candidates and numerical methods; installed equipment, production data and qualification remain incomplete.'),
         ('Open GoA4 controls','Station-led dispatch, ATP, interlocking, supervision and independent fault response.','Rust research, simulation and method/formal checks; no live railway or operating release.')],[115,190,185])
     para('The OSR ERPNext/Frappe HR app supports draft project, procurement, workforce, stock, manufacturing, quality and maintenance workflows. The FUXA/gateway integration supports equipment observations, trends, alarms, history and review-linked lifecycle records. Deployment needs legal entities, users, business masters, device bindings, permissions and reviewed imports.')
-    para('The current engineering Workbench is read-only. The planning workspace compiles local geography, stop, service and OD proposals into an immutable handoff bound to the selected v0.6 candidate. It carries proposals only; candidate route performance, procurement quantities, construction schedules, city costs and movement authority remain outside that handoff.')
+    para('The current engineering Workbench is read-only. The planning workspace edits route, stop, service and origin-destination proposals over current city geography and map context. Compile an exported bundle with ./osr plan compile edits.json --output build/my-plan and verify it with ./osr plan verify build/my-plan. The immutable handoff is bound to the selected v0.6 candidate and source identities. It carries proposals only; it excludes vehicle, propulsion, fleet, civil quantities, cost, performance and cashflow results, and it grants no movement authority. Candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until supporting evidence is available.')
     para('A controlled first adoption can organise a workshop, depot or bounded planning pilot before a new train is physically qualified. A business case closure, cleared alarm, source hash or simulated inspection cannot accept manufactured hardware or authorise movement.')
     para('Start with README.md, docs/first-adoptable-product.md, docs/ARCHITECTURE.md and the deployment/erpnext/ and deployment/supervision/ guides for current interfaces and configuration.')
     page('Local capability, manufacture and affordability')

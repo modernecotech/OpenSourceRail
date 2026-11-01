@@ -9,7 +9,7 @@ supervision handoffs.
 | Candidate engineering and coupled design | [`./osr design railway`](../design-engine/coupled-railway/README.md) |
 | Selected vehicle mass account | [Current mass reconciliation and roof-finish distribution estimate](../design-engine/mass-reconciliation/current/README.md#provisional-roof-finish-distribution-estimate) |
 | Candidate CAD/IFC, BOM, procurement, assembly and control records | [Current export manifest](../design-engine/current/exports/manifest.json) and [delivery package index](../design-engine/coupled-railway/delivery-index.json) |
-| City geography, map context and route/service proposals | [Planning workspace](../workbench/planning/index.html); `./osr plan compile` and `./osr plan verify` |
+| City geography, map context and route/service proposals | [Planning guide](../workbench/planning/README.md), [workspace](../workbench/planning/index.html); `./osr plan compile` and `./osr plan verify` |
 | Candidate-bound factory work package | [Current Workbench](../workbench/current/index.html); `./osr twin factory-draft compile` and `./osr twin factory-draft verify` |
 | Calculated manufacturing and lifecycle scenarios | [Selected-candidate 6 km system estimate](../design-engine/current/exports/selected-system-cost.json), [selected vehicle estimate](../design-engine/current/exports/selected-vehicle-cost.json), and [cost and delivery method](../design-engine/model-based-cost-and-delivery.md) |
 | Business and workforce workflows | [ERPNext and Frappe HR integration](../../deployment/erpnext/README.md) |

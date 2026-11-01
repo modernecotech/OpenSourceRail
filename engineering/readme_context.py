@@ -98,6 +98,8 @@ def category(name):
         return 'trip-dynamics-method'
     if name in {'cities/catalogue/README.md', 'docs/capabilities/README.md'}:
         return 'generated-navigation-index'
+    if name == 'docs/workbench/planning/README.md':
+        return 'current-planning-guide'
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':
         return 'retained-design-evidence'
     if name.startswith('cities/catalogue/'):

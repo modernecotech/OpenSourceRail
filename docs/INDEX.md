@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **96**.
+Indexed Markdown files: **97**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **96**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 71 |
+| [docs](#docs) | 72 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -145,6 +145,7 @@ Indexed Markdown files: **96**.
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
 | [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
+| [`docs/workbench/planning/README.md`](../docs/workbench/planning/README.md) | City planning proposals |
 
 ## engineering
 

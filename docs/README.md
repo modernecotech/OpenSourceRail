@@ -10,6 +10,10 @@ Start with the [project README](../README.md), [architecture](ARCHITECTURE.md),
 [current engineering report](design-engine/current/README.md) and
 [roadmap](ROADMAP.md).
 
+The [planning guide](workbench/planning/README.md) explains proposal editing
+and the candidate-bound v0.6 handoff; open the [planning workspace](workbench/planning/index.html)
+to edit current city route, stop, service and OD proposals.
+
 The [project overview](open-source-rail-overview.md) and
 [first adoption path](first-adoptable-product.md) describe the current planning,
 engineering, delivery and integration workflows. Current integration guides
@@ -30,7 +34,7 @@ covers candidate-bound records, adapters, replay packets and business-system
 drafts. The [model-based cost and delivery plan](design-engine/model-based-cost-and-delivery.md)
 describes provisional cost completion and its evidence boundaries.
 
-The [reader PDF](../OpenSourceRail-Book.pdf) combines the current design
-documentation, geometry review and city directory. Source Markdown and
+The [reader PDF](../OpenSourceRail-Book.pdf) combines current v0.6 design,
+planning, delivery and geometry documentation. Source Markdown and
 source-bound receipts remain authoritative. Engineering, manufacturing and
 physical acceptance gates remain open where evidence is incomplete.
