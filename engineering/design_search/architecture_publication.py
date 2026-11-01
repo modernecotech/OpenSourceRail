@@ -16,6 +16,10 @@ from . import railway_architecture as engine,capabilities
 PRODUCER='engineering/design_search/architecture_publication.py'
 OUTPUT='docs/design-engine/v06-architecture'
 FLAGS=engine.FLAGS
+NATIVE_ROOTS=('joint-benchmarks-r1','joint-finite-pilot-r1','joint-refinement-r2','joint-control-r2',
+    'nonlinear-pilot/v1','nonlinear-pilot/v2','nonlinear-native-r1','nonlinear-portable-r2',
+    'finite-body-coarse-r1','finite-body-refinement-r2','finite-body-fine-r3','finite-body-resource-r4')
+NATIVE_NAMES={name.replace('/','-') for name in NATIVE_ROOTS}|{'joint-smoke-r1'}
 
 
 def civil_program(spec,reference):
@@ -131,14 +135,130 @@ def _archive(folder):
     return value
 
 
-def native_packages(out,root):
-    roots=['joint-benchmarks-r1','joint-finite-pilot-r1','joint-refinement-r2','joint-control-r2','nonlinear-pilot/v1','nonlinear-pilot/v2','nonlinear-native-r1','nonlinear-portable-r2',
-           'finite-body-coarse-r1','finite-body-refinement-r2','finite-body-fine-r3','finite-body-resource-r4']
+def _ordinary(base,name):
+    relative=Path(name)
+    if relative.is_absolute() or not relative.parts or '..' in relative.parts:
+        raise ValueError('Ordinary relative evidence path required')
+    path=Path(base)/relative
+    for item in (path,*path.parents):
+        if item==Path(base):break
+        if item.is_symlink():raise ValueError('Ordinary evidence files required')
+    if not path.is_file():raise ValueError('Missing retained evidence: '+str(path))
+    return path
+
+
+def _publication_payload(previous):
+    previous=Path(previous);m=json.loads(_ordinary(previous,'manifest.json').read_bytes())
+    if (m.get('schema')!='osr-architecture-publication/1'
+            or m.get('manifest_id')!=identity({n:v for n,v in m.items() if n!='manifest_id'})):
+        raise ValueError('Prior architecture manifest identity differs')
+    actual={p.relative_to(previous).as_posix():digest(p) for p in previous.rglob('*')
+        if p.is_file() and p!=previous/'manifest.json'}
+    if any(p.is_symlink() for p in previous.rglob('*')) or actual!=m.get('files_sha256'):
+        raise ValueError('Prior architecture publication payload differs')
+    if any(m.get(k) is not v for k,v in FLAGS.items()):raise ValueError('Architecture research cannot grant release')
+    return m
+
+
+def _native_archive(previous,row):
+    """Validate compact raw receipts without reconstructing omitted solver fields."""
+    path=_ordinary(previous,row['archive'])
+    if path.stat().st_size>32*1024**2:raise ValueError('Bounded32MiB native archive required')
+    with tarfile.open(path,mode='r:gz') as tar:
+        members=tar.getmembers()
+        if (sum(m.size for m in members)>512*1024**2 or len({m.name for m in members})!=len(members)
+                or any(not m.isfile() or Path(m.name).is_absolute() or '..' in Path(m.name).parts for m in members)):
+            raise ValueError('Unsafe or unbounded native archive')
+        files={m.name:m for m in members}
+        if 'archive-index.json' not in files:raise ValueError('Native archive index missing')
+        index=json.loads(tar.extractfile(files['archive-index.json']).read())
+        kept=index.get('retained_sha256',{});omitted=index.get('omitted_sha256',{})
+        if (not kept or set(kept)&set(omitted) or set(files)!=(set(kept)|{'archive-index.json'})
+                or any(Path(n).is_absolute() or '..' in Path(n).parts for n in (*kept,*omitted))):
+            raise ValueError('Native retained/omitted inventory differs')
+        if any(sha256(tar.extractfile(files[n]).read()).hexdigest()!=h for n,h in kept.items()):
+            raise ValueError('Native retained payload differs')
+        combined={**kept,**omitted};sources={}
+        manifests=[n for n in kept if Path(n).name=='manifest.json']
+        for name in manifests:
+            manifest=json.loads(tar.extractfile(files[name]).read())
+            if manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):
+                raise ValueError('Archived raw manifest identity differs')
+            parent=Path(name).parent
+            actual={Path(n).relative_to(parent).as_posix():h for n,h in combined.items()
+                if Path(n).is_relative_to(parent) and n!=name}
+            if actual!=manifest.get('files_sha256'):raise ValueError('Archived raw receipt coverage differs')
+            if manifest.get('physical_accepted') is not False or any(manifest.get(k) is True for k in FLAGS):
+                raise ValueError('Native evidence cannot grant release')
+            for source,h in manifest.get('source_sha256',{}).items():
+                if (not isinstance(source,str) or Path(source).is_absolute() or '..' in Path(source).parts
+                        or not isinstance(h,str) or len(h)!=64 or any(c not in '0123456789abcdef' for c in h)):
+                    raise ValueError('Ordinary source path and exact source digest required')
+                sources.setdefault(source,set()).add(h)
+        smoke=row['name']=='joint-smoke-r1'
+        result_name='smoke-result.json' if smoke else 'summary.json' if 'summary.json' in kept else 'result.json'
+        raw_result=json.loads(tar.extractfile(files[result_name]).read())
+        if raw_result!=row.get('raw_result'):raise ValueError('Archived raw result differs from native index')
+        if smoke:
+            if manifests or row.get('original_manifest_absent') is not True:
+                raise ValueError('Original unsealed smoke disposition differs')
+            sources={'engineering/design_search/joint_models.py':{raw_result['source_sha256']}}
+            context=identity(raw_result)
+        else:
+            if 'manifest.json' not in kept or raw_result.get('physical_accepted') is not False:
+                raise ValueError('Native root receipt or disposition differs')
+            if 'evaluation_id' in raw_result and raw_result['evaluation_id']!=identity({k:v for k,v in raw_result.items() if k!='evaluation_id'}):
+                raise ValueError('Archived native result identity differs')
+            context=identity(dict(result_id=raw_result.get('evaluation_id'),manifest_sha256=kept['manifest.json'],source=row['source_sha256_by_path']))
+        if ({k:set(v) for k,v in row.get('source_sha256_by_path',{}).items()}!=sources
+                or row.get('evidence_context_id')!=context or any(row.get(k) is not v for k,v in FLAGS.items())):
+            raise ValueError('Native source/context/disposition index differs')
+        return sources
+
+
+def carry_native_packages(previous,out,root=ROOT):
+    """Carry exact compact native epochs after validating every original receipt."""
+    previous=Path(previous);out=Path(out);root=Path(root);_publication_payload(previous)
+    rows=json.loads(_ordinary(previous,'native-index.json').read_bytes())
+    if len(rows)!=len(NATIVE_NAMES) or {r.get('name') for r in rows}!=NATIVE_NAMES:
+        raise ValueError('All thirteen named native evidence packages are required')
+    old_sources=json.loads(_ordinary(previous,'historical-source-index.json').read_bytes())
+    snapshots={};bindings={};raw_sources={}
+    for h,record in old_sources.items():
+        path=_ordinary(previous,record['artifact'])
+        if digest(path)!=h:raise ValueError('Historical producer snapshot differs')
+        raw_sources[h]=path.read_bytes();snapshots[h]=deepcopy(record)
+    for row in rows:
+        for name,hashes in _native_archive(previous,row).items():
+            for h in hashes:
+                current=root/name
+                if current.is_file() and digest(current)==h:bindings[name]=h;continue
+                record=old_sources.get(h)
+                if record and record.get('repository_path')!=name:raise ValueError('Historical source path differs')
+                if h not in raw_sources:raw_sources[h]=_source_bytes(root,name,h)[0]
+                snapshots[h]=dict(repository_path=name,artifact='historical-sources/'+h)
+    # Only write after all source, payload and index validation succeeds.
+    (out/'native').mkdir(parents=True)
+    for row in rows:
+        target=out/row['archive'];target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(_ordinary(previous,row['archive']),target)
+    for h,record in snapshots.items():
+        target=out/record['artifact'];target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw_sources[h])
+    return deepcopy(rows),bindings,snapshots
+
+
+def native_packages(out,root,*,previous=None):
+    roots=NATIVE_ROOTS
+    available=[(Path(root)/'build/v06-architecture'/name/'manifest.json').is_file() for name in roots]
+    smoke_available=(Path(root)/'build/v06-architecture/joint-smoke-r1/smoke-result.json').is_file()
+    if not all(available) or not smoke_available:
+        if any(available) or smoke_available:raise ValueError('Partial raw native stores require an explicit complete evidence epoch')
+        if previous is None:raise ValueError('Native raw stores missing and no intact prior publication supplied')
+        return carry_native_packages(previous,out,root)
     rows=[];bindings={};snapshots={};dest=out/'native';dest.mkdir()
     for raw_name in roots:
         folder=Path(root)/'build/v06-architecture'/raw_name
         name=raw_name.replace('/','-')
-        if not (folder/'manifest.json').is_file():continue
         package_sources={}
         for mf in sorted(folder.rglob('manifest.json')):
             m=json.loads(mf.read_bytes())
@@ -170,6 +290,8 @@ def native_packages(out,root):
         rows.append(dict(name='joint-smoke-r1',archive='native/joint-smoke-r1.tar.gz',raw_result=record,
             original_manifest_absent=True,source_sha256_by_path={name:[h]},evidence_context_id=identity(record),
             scope='Unsealed first smoke/parser failure. Wrapper retains exact raw bytes and historical producer; no original producer manifest or acceptance is invented.',**FLAGS))
+    if len(rows)!=len(NATIVE_NAMES) or {r['name'] for r in rows}!=NATIVE_NAMES:
+        raise ValueError('All thirteen native evidence packages must be preserved')
     return rows,bindings,snapshots
 
 
@@ -242,15 +364,22 @@ def comparison_table(value):
     return chosen
 
 
-def build(root=ROOT,output=None):
-    root=Path(root);out=root/OUTPUT if output is None else Path(output);value=engine.evaluate_campaign(root)
+def _publication_inputs(root):
+    value=engine.evaluate_campaign(root)
     if value.get('state')=='interrupted':raise ValueError('Complete bounded campaign before publication')
-    if out.exists():
-        receipt=out/'manifest.json'
-        previous=root/'build/v06-architecture/replaced-publications'/(digest(receipt) if receipt.is_file() else identity({p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()}));previous.parent.mkdir(parents=True,exist_ok=True)
-        if previous.exists():raise ValueError('Previous publication already retained; inspect before replacing')
-        shutil.move(out,previous)
-    out.mkdir(parents=True);native,native_sources,snapshots=native_packages(out,root)
+    interruption=root/'build/v06-architecture/umbrella-interruption-final.json'
+    if not interruption.is_file():interruption=root/'build/v06-architecture/umbrella-interruption.json'
+    if not interruption.is_file():raise ValueError('Matching-source interruption demonstration required')
+    first=json.loads(interruption.read_bytes())
+    if first.get('contract_id')!=value.get('contract_id') or first.get('state')!='interrupted':
+        raise ValueError('Matching-source interruption demonstration required')
+    journal=root/'build/v06-architecture/campaigns'/value['contract_id']/'journal.json'
+    if not journal.is_file():raise ValueError('Current campaign journal required')
+    return value,first
+
+
+def _build_stage(root,out,value,first,previous):
+    native,native_sources,snapshots=native_packages(out,root,previous=previous)
     ref=vehicle.build(root);cp=civil_program(value['specification'],ref);program=prototype_program(value['capability_registry'],ref['candidate_id'])
     s=summary(value,native);folder=root/'build/v06-architecture/campaigns'/value['contract_id']
     files={'campaign.json.gz':gzip.compress(encoded(value),mtime=0),'summary.json':encoded(s),'capabilities.json':encoded(value['capability_registry']),
@@ -258,10 +387,6 @@ def build(root=ROOT,output=None):
         'prototype-program.json':encoded(program),'assembly-contract.json':encoded(assembly_program(ref['candidate_id'])),
         'native-index.json':encoded(native),'historical-source-index.json':encoded(snapshots),'README.md':readme(s,native).encode(),
         'journal.json':(folder/'journal.json').read_bytes(),'equal_context_comparison.json':encoded(comparison_table(value))}
-    interruption=root/'build/v06-architecture/umbrella-interruption-final.json'
-    if not interruption.is_file():interruption=root/'build/v06-architecture/umbrella-interruption.json'
-    first=json.loads(interruption.read_bytes())
-    if first['contract_id']!=value['contract_id'] or first['state']!='interrupted':raise ValueError('Matching-source interruption demonstration required')
     files['interruption.json']=encoded(first)
     for name,raw in files.items():(out/name).write_bytes(raw)
     lines=['','## Example architecture trade-offs','',
@@ -279,20 +404,52 @@ def build(root=ROOT,output=None):
     m['manifest_id']=identity(m);(out/'manifest.json').write_bytes(encoded(m));return verify(root,out,replay=False)
 
 
+def build(root=ROOT,output=None):
+    root=Path(root);out=root/OUTPUT if output is None else Path(output)
+    value,first=_publication_inputs(root)
+    if out.exists():_publication_payload(out)
+    out.parent.mkdir(parents=True,exist_ok=True)
+    stage=Path(tempfile.mkdtemp(prefix='.osr-architecture-',dir=out.parent));archived=None
+    try:
+        _build_stage(root,stage,value,first,out if out.exists() else None)
+        # Stage and replay checks complete before the current publication moves.
+        if out.exists():
+            archived=root/'build/v06-architecture/replaced-publications'/digest(out/'manifest.json')
+            archived.parent.mkdir(parents=True,exist_ok=True)
+            if archived.exists():
+                if _publication_payload(archived)!=_publication_payload(out):
+                    raise ValueError('Conflicting retained architecture publication')
+                shutil.rmtree(out)
+            else:out.rename(archived)
+        try:stage.rename(out)
+        except BaseException:
+            if archived is not None and not out.exists() and archived.exists():shutil.copytree(archived,out)
+            raise
+        return verify(root,out,replay=False)
+    finally:
+        if stage.exists():shutil.rmtree(stage)
+
+
 def verify(root=ROOT,output=None,*,replay=True):
-    root=Path(root);out=root/OUTPUT if output is None else Path(output);m=json.loads((out/'manifest.json').read_bytes())
-    if m['manifest_id']!=identity({n:v for n,v in m.items() if n!='manifest_id'}):raise ValueError('Architecture publication identity differs')
+    root=Path(root);out=root/OUTPUT if output is None else Path(output);m=_publication_payload(out)
     if any(digest(root/n)!=h for n,h in m['source_sha256'].items()):raise ValueError('Architecture publication source differs')
     if {p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file() and p!=out/'manifest.json'}!=m['files_sha256']:raise ValueError('Architecture publication payload differs')
     value=json.loads(gzip.decompress((out/'campaign.json.gz').read_bytes()));native=json.loads((out/'native-index.json').read_bytes());s=json.loads((out/'summary.json').read_bytes())
     if value['campaign_id']!=identity({n:v for n,v in value.items() if n!='campaign_id'}) or summary(value,native)!=s:raise ValueError('Architecture campaign/summary differs')
     for record in (m,value,s):
         if any(record.get(n) is not v for n,v in FLAGS.items()):raise ValueError('Architecture research cannot grant release')
-    for h,record in json.loads((out/'historical-source-index.json').read_bytes()).items():
-        if digest(out/record['artifact'])!=h:raise ValueError('Historical producer snapshot differs')
+    historical=json.loads((out/'historical-source-index.json').read_bytes())
+    for h,record in historical.items():
+        if digest(_ordinary(out,record['artifact']))!=h:raise ValueError('Historical producer snapshot differs')
+    if len(native)!=len(NATIVE_NAMES) or {r.get('name') for r in native}!=NATIVE_NAMES:
+        raise ValueError('Native evidence coverage differs')
     for row in native:
-        with tarfile.open(out/row['archive']) as tar:
-            index=json.loads(tar.extractfile('archive-index.json').read())
-            if {n:sha256(tar.extractfile(n).read()).hexdigest() for n in index['retained_sha256']}!=index['retained_sha256']:raise ValueError('Native retained input/log bytes differ')
+        for name,hashes in _native_archive(out,row).items():
+            for h in hashes:
+                current=root/name
+                if current.is_file() and digest(current)==h:continue
+                record=historical.get(h)
+                if not record or record.get('repository_path')!=name or digest(_ordinary(out,record['artifact']))!=h:
+                    raise ValueError('Native historical source binding differs')
     if replay and engine.evaluate_campaign(root)!=value:raise ValueError('Architecture replay differs')
     return dict(verified=True,replayed=replay,manifest_id=m['manifest_id'],**s)

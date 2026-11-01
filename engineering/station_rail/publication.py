@@ -11,6 +11,94 @@ from .evaluation import IDS
 OUTPUT='docs/design-engine/current'
 WORKBENCH='docs/workbench/current'
 
+# These are current linked publications. Historical native/source epochs inside
+# their packets remain governed by their own generators and archive indexes.
+LINKED_PUBLICATIONS={
+    'v06-design-space':('osr-expanded-design-space-manifest/1','source_sha256','files_sha256','manifest_id'),
+    'v06-architecture':('osr-architecture-publication/1','source_sha256','files_sha256','manifest_id'),
+    'v06-adaptive-design':('osr-adaptive-publication/1','source_sha256','files_sha256','manifest_id'),
+    'generative-structure':('osr-generative-structure-publication/1','source_sha256','files_sha256','manifest_id'),
+    'coupled-railway':('osr-coupled-railway-publication/1','source_sha256','files_sha256','manifest_id'),
+    'railway-closure':('osr-end-to-end-railway-closure-publication/1','sources','files','publication_id'),
+    'moving-lim-method':('osr-moving-LIM-method-publication/1','source_sha256','files_sha256','manifest_id'),
+    'practical-launch':('osr-practical-launch-publication/1','source_sha256','files_sha256','manifest_id'),
+    'propulsion-layout':('osr-propulsion-layout-publication/1','source_sha256','files_sha256','manifest_id'),
+    'station-accelerators':('osr-station-accelerator-publication/1','sources_sha256','files_sha256','manifest_id'),
+    'breadth-first-shape-portfolio':('osr-breadth-first-shape-portfolio-publication/1','source_sha256','files_sha256','manifest_id',
+        ('result.json','osr-breadth-first-shape-portfolio/1','portfolio_id')),
+}
+
+
+def _ordinary_file(root,relative):
+    relative=Path(relative)
+    if relative.is_absolute() or not relative.parts or '..' in relative.parts:
+        raise ValueError('Expected ordinary repository-relative publication file: '+str(relative))
+    path=root/relative
+    for item in (path,*path.parents):
+        if item==root:break
+        if item.is_symlink():raise ValueError('Publication dependency is a symlink: '+str(relative))
+    if not path.is_file():raise ValueError('Missing publication dependency: '+str(relative))
+    return path
+
+
+def _linked_packet_sources(root,folder,contract):
+    """Check declared current sources/payload, not numerical or physical validity."""
+    root=Path(root).resolve();base=Path('docs/design-engine')/folder
+    schema,source_key,payload_key,identity_key=contract[:4]
+    path=_ordinary_file(root,base/'manifest.json')
+    manifest=json.loads(path.read_bytes());label='Linked publication '+folder+': '
+    if manifest.get('schema')!=schema or manifest.get(identity_key)!=identity({
+            k:v for k,v in manifest.items() if k!=identity_key}):
+        raise ValueError(label+'manifest schema or identity differs')
+    sources=manifest.get(source_key);payload=manifest.get(payload_key)
+    if not isinstance(sources,dict) or not sources or not isinstance(payload,dict) or not payload:
+        raise ValueError(label+'explicit source and payload maps required')
+    disposition=manifest
+    if len(contract)==5:
+        name,result_schema,result_key=contract[4]
+        result_file=_ordinary_file(root,base/name)
+        if name not in payload or digest(result_file)!=payload[name]:raise ValueError(label+'disposition payload differs')
+        disposition=json.loads(result_file.read_bytes())
+        if disposition.get('schema')!=result_schema or disposition.get(result_key)!=identity({
+                k:v for k,v in disposition.items() if k!=result_key}):
+            raise ValueError(label+'disposition result identity differs')
+    for flag in ('physical_accepted','engineering_accepted','manufacturing_release','operating_release'):
+        if disposition.get(flag) is not False or (flag in manifest and manifest[flag] is not False):
+            raise ValueError(label+'research cannot grant '+flag)
+    for flag in ('configuration_adopted','selected_reference_changed'):
+        if any(flag in record and record[flag] is not False for record in (manifest,disposition)):
+            raise ValueError(label+'research cannot promote a candidate')
+    result={}
+    for name,expected in sources.items():
+        if not isinstance(name,str) or not isinstance(expected,str) or len(expected)!=64:
+            raise ValueError(label+'invalid source binding')
+        if digest(_ordinary_file(root,name))!=expected:
+            raise ValueError(label+'stale source '+name+'; regenerate with its generator')
+        result[name]=expected
+    for name,expected in payload.items():
+        if not isinstance(name,str) or Path(name).is_absolute() or '..' in Path(name).parts:
+            raise ValueError(label+'ordinary packet-relative payload path required')
+        relative=(base/name).as_posix()
+        if digest(_ordinary_file(root,relative))!=expected:
+            raise ValueError(label+'payload differs: '+name)
+        result[relative]=expected
+    result[path.relative_to(root).as_posix()]=digest(path)
+    return result
+
+
+def linked_publication_sources(root=ROOT):
+    """Fail early on stale current packets; retain their exact dependency maps."""
+    from engineering.design_search import retained_publication
+    historical=retained_publication.verify(root)
+    return evaluation.merge(historical['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
+        for folder,contract in LINKED_PUBLICATIONS.items()])
+
+
+def linked_publication_scope():
+    return dict(current_source_and_declared_payload=sorted(LINKED_PUBLICATIONS),
+        original_packet_and_producer_bytes_only=['v06-optimisation'],
+        numerical_or_physical_validation_by_this_check=False)
+
 def write(path,raw):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True);tmp=path.with_name(path.name+'.tmp');tmp.write_bytes(raw);os.replace(tmp,path)
 def archive(folder):
@@ -83,7 +171,7 @@ def native_package(name,record,root=ROOT,output=None,provided=None):
     raise ValueError('Required native '+name+' package unavailable; execute its source-bound worker into a fresh run directory')
 
 def sources(root,record,index,delivery):
-    root=Path(root);maps=[record['source_sha256'],index['source_sha256'],delivery['source_sha256']]
+    root=Path(root);maps=[record['source_sha256'],index['source_sha256'],delivery['source_sha256'],linked_publication_sources(root)]
     planning_manifest=root/'docs/design-engine/current/planning/manifest.json'
     if planning_manifest.is_file():
         maps.append(json.loads(planning_manifest.read_bytes()).get('source_sha256',{}))
@@ -136,7 +224,7 @@ def sources(root,record,index,delivery):
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_completion').glob('*.py')]
     for current_package in ('engineering/component_registry',):
         names += [p.relative_to(root).as_posix() for p in (root/current_package).rglob('*') if p.is_file() and p.suffix in ('.py','.json','.html','.js','.css') and 'tests' not in p.parts and '__pycache__' not in p.parts]
-    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators'):
+    for folder in LINKED_PUBLICATIONS:
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
         if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))
@@ -731,6 +819,7 @@ def readme(record,summary,root=ROOT):
       '[Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Candidate delivery exports](exports/manifest.json) · [Native controls](native-controls.tar.gz)','',
       '## Iterative alternatives','', 'The [failure-driven campaign](../v06-optimisation/README.md) generates body/motor/brake revisions, reruns native solvers, propagates the same mass into civil/service calculations and compiles matching research twins. The research winner is the next experiment; no qualified replacement is silently promoted. The comparison exposes normal/crowd deflection, additional mass and changed thrust requirements; conditional motor results remain outside their declared linear-steel domain. Participating-panel lateral displacement remains nonconverged under mesh refinement; its vertical values are diagnostic rather than validated full-body performance.','',
       'The [whole-railway architecture campaign](../v06-architecture/README.md) tests seven propulsion families, different speed/formation/powered-track arrangements and civil sections. It compares analytical demand and conditional quantities while keeping new equipment mass and actual motor capability unknown. Repaired finite-area joint/body and generic nonlinear magnetic method checks retain their independent numerical and engineering dispositions. No architecture is qualified, no city performance is regenerated and the selected v0.6 reference is preserved.','',
+      'The completed [bounded wheel campaign](../v06-optimisation/README.md) has its top-level campaign producer bindings pinned in a separate [source-epoch receipt](../retained-wheel-source-epoch/manifest.json). Verify that archive with `python3 -m engineering.design_search.retained_publication verify`. Nested attempt archives remain byte-for-byte preserved; additional per-attempt source coverage and numerical re-execution are not claimed. This check grants no admission under current evaluators or current design selection. Continuing architecture and adaptive studies use their current source contracts.','',
       'The [function-first adaptive generator](../v06-adaptive-design/README.md) separates mandatory obligations, advisory targets, revisable hypotheses and numerical model domains. Its extensible material/structure/joining/equipment/system variables drive coupled revision tasks. New thinner/deeper sill experiments redistribute counted material, with native normal/fine/crowd cases and matched mass, axle, demand and civil calculations. Provisional deflection alone neither rejects nor accepts a car; local stability, strength, joints, clearances and correlation remain open.','',
       'The [generative structural campaign](../generative-structure/README.md) composes different physical body arrangements, generates actual stock and interface graphs, diagnoses mechanisms and executes topology, layout and function-integration rewrites. Gross structure stock is not equipped vehicle tare. Native axial underfloor checks and CAD exports do not validate complete shell, laminate, joint or vehicle response; no integrated design is selected.','',
       'The [coordinated railway experiment](../coupled-railway/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through one versioned bundle and dependency graph. Changed body stock automatically triggers downstream evaluation. New three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.','',
@@ -766,13 +855,14 @@ def prototype_plan(record):
 def seal(output,root=ROOT):
     root=Path(root);output=Path(output);record=evaluation.build(root);index=cities.read_catalogue(root);delivery=json.loads((output/'exports/manifest.json').read_bytes())
     m=dict(schema='osr-current-development-publication/2',**{k:record[k] for k in IDS},evaluation_id=record['evaluation_id'],development_default=True,
-      source_sha256=sources(root,record,index,delivery),files_sha256={p.relative_to(output).as_posix():digest(p) for p in sorted(output.rglob('*')) if p.is_file() and p.relative_to(output).as_posix()!='manifest.json'},
+      source_sha256=sources(root,record,index,delivery),linked_publication_scope=linked_publication_scope(),files_sha256={p.relative_to(output).as_posix():digest(p) for p in sorted(output.rglob('*')) if p.is_file() and p.relative_to(output).as_posix()!='manifest.json'},
       workbench_files_sha256={n:digest(root/WORKBENCH/n) for n in ('index.html','app.js','app.css')},**FLAGS)
     m['linked_artifacts_sha256']={n:digest(root/n) for n in ('OpenSourceRail-Book.pdf','OpenSourceRail-Book.receipt.json') if (root/n).is_file()}
     m['manifest_id']=identity(m);write(output/'manifest.json',encoded(m));return m
 
 def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
+    linked_publication_sources(root)
     record=evaluation.build(root);natives={};packages={}
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
@@ -808,12 +898,14 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
 
 def verify(output=None,*,root=ROOT,replay=True):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
+    linked_publication_sources(root)
     from engineering.development_baseline.entrypoint import read_packet
     value,m=read_packet(root,output.relative_to(root).as_posix())
     for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
         try:subprocess.run([sys.executable,str(root/'tools/automation'/script),'--check'],cwd=root,check=True,capture_output=True)
         except subprocess.CalledProcessError as error:raise ValueError('Current generated overview/navigation differs: '+script) from error
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('publication identity differs')
+    if m.get('linked_publication_scope')!=linked_publication_scope():raise ValueError('Linked publication verification scope differs')
     record=evaluation.build(root)
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
