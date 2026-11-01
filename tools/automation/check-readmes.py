@@ -24,7 +24,26 @@ def repository_markdown():
 
 def indexed_markdown(path):
     relative = path.relative_to(REPO_ROOT).as_posix()
-    if relative.startswith(('legacy/', 'docs/archives/', 'docs/design-engine/ferrite-maglev/')):
+    if relative.startswith((
+        'legacy/',
+        'docs/archives/',
+        'docs/design-engine/ferrite-maglev/',
+        'docs/design-engine/design-search/',
+        'docs/design-engine/design-search-twins/',
+        'docs/design-engine/electropermanent/',
+        'docs/design-engine/halbach-scaling/',
+        'docs/design-engine/magnetic-confirmation/',
+        'docs/design-engine/passive-suspension/',
+        'docs/design-engine/trip-dynamics/',
+        'docs/design-engine/vehicle-optimisation/',
+        'engineering/assurance/v052-',
+        'engineering/assurance/v053-',
+        'engineering/electropermanent/',
+        'engineering/magnetic_confirmation/',
+        'engineering/trip_dynamics/',
+    )):
+        return False
+    if relative == 'docs/design-engine/design-search-interpretation.md':
         return False
     if relative.startswith('cities/catalogue/') and relative != 'cities/catalogue/README.md':
         return False

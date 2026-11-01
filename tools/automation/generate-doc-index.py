@@ -37,7 +37,28 @@ def _indexed(path: Path) -> bool:
     name = path.as_posix()
     if not SKIP_PARTS.isdisjoint(path.parts):
         return False
-    if name.startswith(("legacy/", "docs/archives/", "docs/design-engine/ferrite-maglev/")):
+    if name.startswith(
+        (
+            "legacy/",
+            "docs/archives/",
+            "docs/design-engine/ferrite-maglev/",
+            "docs/design-engine/design-search/",
+            "docs/design-engine/design-search-twins/",
+            "docs/design-engine/electropermanent/",
+            "docs/design-engine/halbach-scaling/",
+            "docs/design-engine/magnetic-confirmation/",
+            "docs/design-engine/passive-suspension/",
+            "docs/design-engine/trip-dynamics/",
+            "docs/design-engine/vehicle-optimisation/",
+            "engineering/assurance/v052-",
+            "engineering/assurance/v053-",
+            "engineering/electropermanent/",
+            "engineering/magnetic_confirmation/",
+            "engineering/trip_dynamics/",
+        )
+    ):
+        return False
+    if name == "docs/design-engine/design-search-interpretation.md":
         return False
     if name.startswith("cities/catalogue/") and name != "cities/catalogue/README.md":
         return False

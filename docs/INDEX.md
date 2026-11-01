@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **121**.
+Indexed Markdown files: **96**.
 
 ## Sections
 
@@ -23,8 +23,8 @@ Indexed Markdown files: **121**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 83 |
-| [engineering](#engineering) | 23 |
+| [docs](#docs) | 71 |
+| [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -87,26 +87,17 @@ Indexed Markdown files: **121**.
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
 | [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
-| [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
-| [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
-| [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | Candidate research twin |
-| [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | Candidate BIM and field exchange |
 | [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
 | [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
-| [`docs/design-engine/electropermanent/README.md`](../docs/design-engine/electropermanent/README.md) | Electropermanent next experiments |
 | [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
 | [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
 | [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
-| [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
-| [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle mass reserve sensitivity |
 | [`docs/design-engine/model-based-cost-and-delivery.md`](../docs/design-engine/model-based-cost-and-delivery.md) | Model-based cost and end-to-end delivery closure |
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
-| [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
-| [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
 | [`docs/design-engine/practical-launch/README.md`](../docs/design-engine/practical-launch/README.md) | Practical launch alternatives for v0.6 research |
 | [`docs/design-engine/propulsion-layout/README.md`](../docs/design-engine/propulsion-layout/README.md) | Simpler propulsion: powered bogies and sparse accelerators |
@@ -140,7 +131,6 @@ Indexed Markdown files: **121**.
 | [`docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md`](../docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) | Station-LIM bank RFQ scope drafts — October 2026 |
 | [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
 | [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
-| [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
 | [`docs/design-engine/v06-design-space/README.md`](../docs/design-engine/v06-design-space/README.md) | Broader v0.6 design space |
@@ -152,8 +142,6 @@ Indexed Markdown files: **121**.
 | [`docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md`](../docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
-| [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
-| [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: the design and delivery platform |
 | [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
@@ -163,28 +151,15 @@ Indexed Markdown files: **121**.
 | File | Title |
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | OpenSourceRail engineering |
-| [`engineering/assurance/v052-drives-development/README.md`](../engineering/assurance/v052-drives-development/README.md) | Active-control and launch construction execution evidence |
-| [`engineering/assurance/v052-pilot-actuator-crosscheck/README.md`](../engineering/assurance/v052-pilot-actuator-crosscheck/README.md) | Independent final actuator cross-check |
-| [`engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md`](../engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md) | Independent research-campaign replay and stock audit |
-| [`engineering/assurance/v053-magnetic-redesign-bounds/README.md`](../engineering/assurance/v053-magnetic-redesign-bounds/README.md) | Magnetic redesign bounds — research appendix |
-| [`engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md`](../engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md) | Isolated magnetic redesign bounds |
-| [`engineering/assurance/v053-pole-return-research/README.md`](../engineering/assurance/v053-pole-return-research/README.md) | Supplementary pole-face and return-path study |
-| [`engineering/assurance/v053-pole-return-research/archive/README.md`](../engineering/assurance/v053-pole-return-research/archive/README.md) | Pole-face and 25 mm return-path research — 24 October 2026 |
-| [`engineering/assurance/v053-propulsion-redesign-screen/README.md`](../engineering/assurance/v053-propulsion-redesign-screen/README.md) | Propulsion redesign screen — research appendix |
-| [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
 | [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
 | [`engineering/component_registry/README.md`](../engineering/component_registry/README.md) | Component, material and manufactured-form master |
-| [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Iterative physical design search |
+| [`engineering/design_search/README.md`](../engineering/design_search/README.md) | OpenSourceRail design search |
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
-| [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
-| [`engineering/magnetic_confirmation/README.md`](../engineering/magnetic_confirmation/README.md) | Finite 3D magnetic confirmation |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |
 | [`engineering/station_rail/README.md`](../engineering/station_rail/README.md) | v0.6 station-powered freewheeling rail |
-| [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Retained six-car magnetic trip research |
-| [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
 
 ## tools
 
