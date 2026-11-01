@@ -50,7 +50,7 @@ The current sourcing seed contains **533 immutable records**: 83 sources, 16 pro
 
 The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`. The frame and federated sourcing runs instead use research candidates `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` and `9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate.
 
-The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. See the [selected vehicle cost record](exports/selected-vehicle-cost.json). The estimate does not complete installed mass and possible account overlap is unquantified; route, station, civil, fleet, operations and whole-life costs remain held.
+The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. Candidate delivery exports also publish low/base/high process-hour work packages linked to cost lines and their source/occurrence identities; broad operation allocations remain open. See the [selected vehicle cost record](exports/selected-vehicle-cost.json). The estimate does not complete installed mass and possible account overlap is unquantified; route, station, civil, fleet, operations and whole-life costs remain held.
 
 | Research scope | Sourcing evidence | Cost disposition |
 |---|---|---|

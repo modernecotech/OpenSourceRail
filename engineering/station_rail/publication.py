@@ -354,7 +354,7 @@ def _sourcing_section(root,record):
         if selected_id!=federated['candidate_id'] else
         f"The federated sourcing run uses the selected physical candidate `{selected_id}`.")
     selected_vehicle_cost_note=(
-        "The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. "
+        "The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. Candidate delivery exports also publish low/base/high process-hour work packages linked to cost lines and their source/occurrence identities; broad operation allocations remain open. "
         "See the [selected vehicle cost record](exports/selected-vehicle-cost.json). The estimate does not complete installed mass and possible account overlap is unquantified; route, station, civil, fleet, operations and whole-life costs remain held."
     )
     c=validation['catalogue']['counts']

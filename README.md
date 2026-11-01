@@ -127,7 +127,7 @@ The v0.6 workflow links candidate revisions to engineering and delivery records.
 
 The ERPNext app provides draft project, procurement, stock, workforce, manufacturing, quality and maintenance workflows when deployed and configured. FUXA and the gateway provide observation, trends, alarms and review-linked lifecycle integration when connected to authenticated equipment. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
 
-The current v0.6 candidate exports carry candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly, civil and controls records. They provide scoped research handoffs; unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
+The current v0.6 candidate exports carry candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly, civil and controls records. The manufacturing and assembly exports also carry low/base/high process-hour work packages linked to selected cost-line identities, quantities and source/occurrence records. Hours remain provisional; they are not timed work instructions, crew assignments or qualified production capacity, and broad assembly operations remain unallocated where no direct mapping exists. Unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
 
 ### Candidate delivery records follow the work
 
@@ -203,11 +203,11 @@ assumed, sourced or supplier-confirmed.
 
 ## Cities, service and deployment
 
-All **266 city geographies** remain available as planning inputs. The editor verifies each city’s route packet and map-context source before displaying road, water, building, land-use and place layers where supplied. These are geographic references; **v0.6 city performance regeneration is held** until candidate-specific drive, braking, complete vehicle, civil and economic evidence is sufficient.
+All **266 city geographies** remain available as planning inputs. The editor uses the indexed city routes, station and transfer locations, plus source-verified road, water, building, land-use and place context where supplied. It supports local route, stop, service and origin–destination proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; `./osr plan verify build/my-plan` checks its candidate, source and payload identities. The handoff carries planning proposals only; it contains no vehicle, propulsion, fleet, civil quantity, procurement, cost, performance or cashflow results. Candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until their evidence exists. Planning revisions do not grant movement authority.
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
 
-The [planning workspace](docs/workbench/planning/index.html) displays source-verified city map context and supports route, stop, service and OD proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. The handoff contains proposals only. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
+The [planning workspace](docs/workbench/planning/index.html) displays source-verified city map context and supports route, stop, service and OD proposals. Its compiled handoff carries those proposals and source identities only; it does not inherit vehicle, propulsion, fleet, civil, cost, performance or cashflow results. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
 
 ## Run and reproduce
 

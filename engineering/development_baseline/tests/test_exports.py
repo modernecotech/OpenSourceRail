@@ -31,6 +31,38 @@ def test_unknown_prices_dates_equipment_and_processes_remain_unknown(current):
     assert result['procurement']['material_availability_blocks_consumption']
     assert result['assembly']['scheduled_start_dates'] is None
     assert result['manufacturing']['production_labour_hours_per_car'] is None
+    schedule=result['manufacturing']['line_linked_process_hour_schedule']
+    assert schedule==result['assembly']['vehicle_process_hour_schedule']
+    assert schedule['schema']=='osr-v06-line-linked-process-hours/1'
+    for key in (*IDS,'evaluation_id'):
+        assert schedule[key]==current[key]
+    assert schedule['cost_estimate_id']==cost['cost_estimate_id']
+    assert schedule['hours_unit']=='process-hour'
+    assert schedule['production_shift_basis']==cost['shifts']['production_per_day']
+    assert schedule['engineering_process_qualified'] is False
+    assert schedule['macro_operation_allocation'].startswith('unallocated;')
+    assert all(op['labour_hours'] is None for op in result['manufacturing']['operations'])
+    assert all(row['line_id'] and row['source_ids'] is not None
+        and row['occurrence_ids'] is not None for row in schedule['work_packages'])
+    assert all(row['engineering_process_qualified'] is False for row in schedule['work_packages'])
+    cases=('low','base','high')
+    line_hours={row['line_id']:row for row in schedule['work_packages']}
+    expected_lines=[line for line in cost['lines'] if line['stage']!='reference-delivery']
+    assert set(line_hours)=={line['line_id'] for line in expected_lines}
+    for line in expected_lines:
+        row=line_hours[line['line_id']]
+        assert row['line_key']==line['line_key']
+        assert row['source_ids']==line['source_ids']
+        assert row['occurrence_ids']==line['occurrence_ids']
+    for case in cases:
+        assert schedule['work_package_hours_per_train'][case]==pytest.approx(sum(
+            row['process_hours_per_train'][case] for row in schedule['work_packages']))
+        assert schedule['factory_process_hours_per_train'][case]==pytest.approx(sum(
+            row['process_hours_per_train'][case] for row in schedule['work_packages']
+            if row['stage']!='final-assembly'))
+        assert schedule['final_assembly_labour_hours_per_train'][case]==pytest.approx(sum(
+            row['process_hours_per_train'][case] for row in schedule['work_packages']
+            if row['stage']=='final-assembly'))
     assert result['civil']['fully_installed_route_quantities'] is None
     assert not result['bom']['complete_installed_BOM']
     assert cost['candidate_id']==current['candidate_id']
