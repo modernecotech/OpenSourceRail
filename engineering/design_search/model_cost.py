@@ -60,7 +60,7 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
         schema="osr-coupled-class-c-cost-assumptions/1", source_class="C",
         currency="IQD", estimate_date=estimate_date,
         location="Synthetic 6 km Iraqi reference corridor; no city survey or site rates",
-        corridor_trackways=TRACKWAYS, production_years=PRODUCTION_YEARS,
+        corridor_trackways=TRACKWAYS, service_directions=2, production_years=PRODUCTION_YEARS,
         production_days_per_year=250, production_shifts_per_day=2,
         production_hours_per_shift=8, civil_shifts_per_day=2,
         civil_hours_per_shift=8,
@@ -140,6 +140,9 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
             power_electronics_install_iqd_per_kw=[25000, 100000, 400000],
             motor_primary_iqd_per_kg=[8000, 30000, 100000],
             motor_primary_hours_per_kg=[0.05, 0.18, 0.60],
+            motor_support_cooling_iqd_per_track_m=[100000, 500000, 2000000],
+            motor_support_cooling_hours_per_track_m=[0.05, 0.20, 0.80],
+            motor_support_install_iqd_per_track_m=[100000, 500000, 2000000],
             wayside_primary_process_hours_per_train=dict(P7=[500, 2000, 8000]),
             family_package_process_hours_per_train=dict(
                 P2=[250, 1000, 4000], P3=[250, 1000, 4000], P4=[1000, 4000, 16000],
@@ -174,7 +177,10 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
             fleet_spares_fraction=[0.02, 0.06, 0.15],
             vehicle_delivery_iqd_per_train=[25000000, 150000000, 750000000],
             fleet_commission_iqd_per_train=[25000000, 150000000, 750000000],
-            auxiliary_kw_per_car=[1, 3, 8],
+            auxiliary_kw_per_car=[35, 35, 50],
+            service_battery_charger_kw_per_car=[150, 200, 250],
+            service_battery_charging_efficiency=[0.90, 0.95, 0.98],
+            service_pack_life_years=[10, 8, 6],
             traction_efficiency=[0.95, 0.85, 0.70],
             electricity_iqd_per_kwh=[100, 250, 700],
             controllers_per_shift=[2, 4, 8],
@@ -287,7 +293,7 @@ def _validate_assumptions(value, root):
             for nested in item.values():
                 if isinstance(nested, list):
                     _triple(nested, key)
-    positive_fields=("corridor_trackways", "production_years", "production_days_per_year", "design_life_years",
+    positive_fields=("corridor_trackways", "service_directions", "production_years", "production_days_per_year", "design_life_years",
         "production_shifts_per_day", "production_hours_per_shift", "civil_shifts_per_day", "civil_hours_per_shift",
         "maintenance_reference_operating_hours_per_day", "operating_days_per_year", "productive_utilisation", "outbound_route_km")
     for key in positive_fields:
@@ -300,6 +306,8 @@ def _validate_assumptions(value, root):
         raise ValueError("Real discount rate must be in [0, 1)")
     if value["corridor_trackways"] != int(value["corridor_trackways"]):
         raise ValueError("Trackway quantity must be an integer")
+    if value["service_directions"] != int(value["service_directions"]):
+        raise ValueError("Service direction count must be an integer")
     if (value["operating_days_per_year"] > 366 or value["productive_utilisation"] > 1
             or value["production_shifts_per_day"] < 2 or value["civil_shifts_per_day"] < 2):
         raise ValueError("Operating and production utilisation assumptions are outside their declared domains")
@@ -377,8 +385,12 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     operations_shifts=assumptions_record["operations_shifts_per_day_cases"]
     operations_shift_hours=assumptions_record["operations_hours_per_shift_cases"]
     civil_shifts=assumptions_record["civil_shifts_per_day"]
-    train_km_per_day=[2*3600.0/bundle["requirements"]["target_headway_s"]
-        *operating_hours[i]*route_m*trackways/1000.0 for i in range(3)]
+    # route_m is the directional loop length; service_directions counts the
+    # parallel directions once. Trackways sizes physical infrastructure and
+    # must not multiply service train-km a second time.
+    directions = assumptions_record["service_directions"]
+    train_km_per_day=[directions*3600.0/bundle["requirements"]["target_headway_s"]
+        *operating_hours[i]*route_m/1000.0 for i in range(3)]
     service_trains = max(1, int(trainsets))
 
     # Occurrence-level vehicle manufacturing, including bounded raw-stock yield.
@@ -542,6 +554,19 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             quantity=dict(primary_track_m=motor_length), unit="track-m", totals=primary_install, stage="installed",
             basis="Per-track-metre installation, alignment and connection allowance; civil interfaces, measured air gap and force performance remain unqualified.",
             source_ids=[identity(propulsion_result), identity(assumptions_record)])
+        support_hours = [motor_length*a["motor_support_cooling_hours_per_track_m"][i] for i in range(3)]
+        wayside_process_hours = _sum(wayside_process_hours, support_hours)
+        support_factory = [motor_length*a["motor_support_cooling_iqd_per_track_m"][i] for i in range(3)]
+        _line(line_items, candidate_id=candidate_id, scope="stations-power", key="station-primary-support-cooling-stock",
+            quantity=dict(primary_track_m=motor_length, factory_process_hours=_round(support_hours)),
+            unit="track-m", totals=support_factory, stage="factory-gate",
+            basis="Declared Class C support steel, cooling hardware and maintenance access package per primary track-metre; exact brackets, thermal load, water/air plant and supplier configuration remain unknown.",
+            source_ids=[identity(propulsion_result), identity(assumptions_record)], rate_evidence_class="C")
+        support_install = [motor_length*a["motor_support_install_iqd_per_track_m"][i] for i in range(3)]
+        _line(line_items, candidate_id=candidate_id, scope="stations-power", key="station-primary-support-cooling-installation",
+            quantity=dict(primary_track_m=motor_length), unit="track-m", totals=support_install, stage="installed",
+            basis="Declared Class C installation allowance for primary supports, cooling and maintenance access; station civil interfaces, access envelope and thermal commissioning remain open.",
+            source_ids=[identity(propulsion_result), identity(assumptions_record)], rate_evidence_class="C")
     if bundle["family_id"] != "P6":
         converter_hours = [power_kw*a["converter_assembly_hours_per_kw"][i] for i in range(3)]
         wayside_process_hours = _sum(wayside_process_hours, converter_hours)
@@ -550,6 +575,26 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             quantity=dict(required_peak_kw=power_kw), unit="kW-required", totals=electronics_install, stage="installed",
             basis="Required analytical peak power × Class C installation and checkout rate; installed electrical duty and supplier configuration remain open.",
             source_ids=[architecture_result["evaluation_id"], identity(assumptions_record)])
+
+    charger_platforms = station_count * trackways
+    charger_capacity_kw = [cars_per_train*a["service_battery_charger_kw_per_car"][i]
+                           *charger_platforms for i in range(3)]
+    charger_package = [charger_capacity_kw[i]*a["electrical_package_iqd_per_kw"][i]
+                       for i in range(3)]
+    _line(line_items, candidate_id=candidate_id, scope="stations-power", key="service-battery-charger-packages",
+        quantity=dict(platforms=charger_platforms, simultaneous_platforms_assumed=charger_platforms,
+            charger_kw_per_car=a["service_battery_charger_kw_per_car"],
+            installed_capacity_kw=_round(charger_capacity_kw)), unit="kW-installed",
+        totals=charger_package, stage="factory-gate",
+        basis="One Class C charger package for every station/direction platform, sized to the declared per-car charging target; all platforms are assumed able to charge simultaneously. Grid connection, protection selectivity, battery charge acceptance and measured duty remain open.",
+        source_ids=[bundle["propulsion_component_id"], identity(assumptions_record)])
+    charger_installation = [charger_capacity_kw[i]*a["power_electronics_install_iqd_per_kw"][i]
+                           for i in range(3)]
+    _line(line_items, candidate_id=candidate_id, scope="stations-power", key="service-battery-charger-installation",
+        quantity=dict(platforms=charger_platforms, installed_capacity_kw=_round(charger_capacity_kw)),
+        unit="kW-installed", totals=charger_installation, stage="installed",
+        basis="Class C per-kW electrical installation and checkout allowance for the station charger packages; switchroom, transformer, cable-route and utility-upgrade quantities remain unverified.",
+        source_ids=[architecture_result["evaluation_id"], identity(assumptions_record)])
 
     # Explicit family-level provisional package for obligations whose physical
     # components may overlap. One package per train avoids double-counting each
@@ -779,23 +824,28 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
     else:
         energy_basis = "Required mechanical traction work from the analytical candidate journey, scaled by corridor segments; no motor map, losses or measured service duty is implied."
     segment_count = max(1, ceil(route_m / float(route["station_spacing_m"])))
-    daily_runs=[2*3600.0/bundle["requirements"]["target_headway_s"]*operating_hours[i]*trackways
+    daily_runs=[directions*3600.0/bundle["requirements"]["target_headway_s"]*operating_hours[i]
         for i in range(3)]
     aux_kw = a["auxiliary_kw_per_car"]
     mechanical_kwh_year = [(float(work_j) * segment_count / 3.6e6) * daily_runs[i]
         * assumptions_record["operating_days_per_year"] for i in range(3)]
     auxiliary_kwh_year = [service_trains*cars_per_train*aux_kw[i]*operating_hours[i]
                           * assumptions_record["operating_days_per_year"] for i in range(3)]
-    electrical_kwh_year = [mechanical_kwh_year[i] / a["traction_efficiency"][i] + auxiliary_kwh_year[i] for i in range(3)]
+    charger_grid_kwh_year = [auxiliary_kwh_year[i]/a["service_battery_charging_efficiency"][i]
+                             for i in range(3)]
+    electrical_kwh_year = [mechanical_kwh_year[i] / a["traction_efficiency"][i] + charger_grid_kwh_year[i] for i in range(3)]
     energy_cost_year = [electrical_kwh_year[i] * a["electricity_iqd_per_kwh"][i] for i in range(3)]
     annuity = fsum(1/(1+assumptions_record["real_discount_rate"])**y for y in range(1, years+1))
     energy_npv = [energy_cost_year[i] * annuity for i in range(3)]
     _line(line_items, candidate_id=candidate_id, scope="energy", key="conditional-annual-electricity",
         quantity=dict(operating_hours_per_day=operating_hours, operations_shifts_per_day=operations_shifts,
             mechanical_traction_kwh_per_year=_round(mechanical_kwh_year), auxiliary_kwh_per_year=_round(auxiliary_kwh_year),
+            service_battery_grid_input_kwh_per_year=_round(charger_grid_kwh_year),
+            service_battery_charging_loss_kwh_per_year=_round([charger_grid_kwh_year[i]-auxiliary_kwh_year[i] for i in range(3)]),
+            service_battery_charging_efficiency=a["service_battery_charging_efficiency"],
             electricity_kwh_per_year=_round(electrical_kwh_year), annual_cost_iqd=_round(energy_cost_year)),
         unit="kWh/year", totals=energy_npv, stage="lifecycle", basis=energy_basis+
-            " Low/base/high service covers 16/18/24 operating hours per day; the high case provides three shifts. Electricity tariff, traction efficiency and real discount rate are declared scenarios.",
+            " Low/base/high service covers 16/18/24 operating hours per day; the high case provides three shifts. The 35/35/50 kW per-car hotel-load scenarios are charged through the declared service-battery efficiency; electricity tariff, traction efficiency and real discount rate remain Class C assumptions.",
         source_ids=[architecture_result["evaluation_id"], identity(assumptions_record)],
         components=dict(annual_energy_npv=energy_npv))
 
@@ -961,7 +1011,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
                 rail_installation_work_shifts=rail_install_shifts, rail_installation=rail_install_days,
                 station_installation_work_shifts=station_install_shifts, stations=station_install_days,
                 critical_path_duration=construction_days),
-            throughput_basis="Production workcells use two 8-hour shifts each production day; civil activity uses two 8-hour shifts with calendar duration calculated from per-shift crew productivity; operations cost two shifts at 16/18-hour coverage in low/base and three shifts at 24-hour high case. Shift premiums, utilisation and relief are explicit Class C assumptions."),
+            throughput_basis="Production workcells use two 8-hour shifts each production day; civil activity uses two 8-hour shifts with calendar duration calculated from per-shift crew productivity; operations cost two shifts at 16/18-hour coverage in low/base and three shifts at 24-hour high case. Service train-km use two directional loops once, separate from the two physical corridor trackways. Shift premiums, utilisation and relief are explicit Class C assumptions."),
         cost_line_items=line_items, scope_totals_iqd={k:_round(v) for k,v in scope_totals.items()},
         factory_gate_cost_iqd=_round(factory_gate), delivered_cost_iqd=_round(delivered),
         model_based_installed_CAPEX_iqd=_round(installed), model_based_whole_life_NPV_iqd=_round(lifecycle),

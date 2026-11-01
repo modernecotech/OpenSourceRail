@@ -26,6 +26,7 @@ def test_shared_physical_identity_and_independent_brake_interfaces(current):
 def test_unknown_prices_dates_equipment_and_processes_remain_unknown(current):
     result=exports.compile(current)
     cost=result['selected_vehicle_cost']
+    system=result['selected_system_cost']
     assert result['procurement']['total_price_USD'] is None
     assert result['procurement']['first_material_consumption_dates'] is None
     assert result['procurement']['material_availability_blocks_consumption']
@@ -68,6 +69,11 @@ def test_unknown_prices_dates_equipment_and_processes_remain_unknown(current):
     assert cost['candidate_id']==current['candidate_id']
     assert cost['evaluation_id']==current['evaluation_id']
     assert cost['whole_life_cost_iqd'] is None
+    assert system['candidate_id']==current['candidate_id']
+    assert system['vehicle_evaluation_id']==current['evaluation_id']
+    assert system['model_cost_complete_for_declared_case'] is True
+    assert system['physical_mass_complete'] is False
+    assert system['physical_journey_completed'] is False
 
 def test_mixed_city_selection_is_rejected(current):
     index={k:current[k] for k in IDS};index['city_count']=266
@@ -81,6 +87,9 @@ def test_delivery_hash_and_regeneration_detect_changed_control(tmp_path,current)
     cost=json.loads((tmp_path/'selected-vehicle-cost.json').read_bytes())
     assert cost['candidate_id']==current['candidate_id']
     assert cost['physical_accepted'] is False
+    system=json.loads((tmp_path/'selected-system-cost.json').read_bytes())
+    assert system['candidate_id']==current['candidate_id']
+    assert system['physical_accepted'] is False
     data=json.loads(gzip.decompress((tmp_path/'engineering-bom.json.gz').read_bytes()))
     assert data['stock_inventory_per_car']==current['vehicle']['inventory']
     p=tmp_path/'controls.json';value=json.loads(p.read_bytes());value['target_headway_s']=60.;p.write_text(json.dumps(value))

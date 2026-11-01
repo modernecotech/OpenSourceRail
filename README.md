@@ -48,7 +48,7 @@ The [first adoption path](docs/first-adoptable-product.md) is controlled plannin
 | **7. Review and execute** | Compare equal-service candidates and independently check the preferred design; prepare procurement, production, project, QA and training records in ERPNext/Frappe HR | Reviewed handoffs; purchasing, fabrication, installation and commissioning require human approval |
 | **8. Operate and improve** | Integrate approved equipment, GoA4 protection, FUXA monitoring, maintenance, serial records and actual measured hours/consumption | Real performance and cost evidence fed back into new design revisions |
 
-**This is the target workflow, not a claim that every stage is already commissioned.** The current generator, engineering Workbench, component registry, numerical models and preliminary manufacturing/cost outputs cover much of stages 2–5. City-specific production schedules, complete costed equipment, physical proof, approved business transactions and operating integration remain incomplete. See the [step-by-step cost and delivery implementation plan](docs/design-engine/model-based-cost-and-delivery.md).
+**This is the target workflow, not a claim that every stage is already commissioned.** The current generator, engineering Workbench, component registry, numerical models and preliminary manufacturing/cost outputs cover much of stages 2–5. City-specific production schedules, site-validated quantities, physical proof, approved business transactions and operating integration remain incomplete. See the [step-by-step cost and delivery implementation plan](docs/design-engine/model-based-cost-and-delivery.md).
 
 A failed design is not the end of the process. The coordinator should diagnose *why* it failed, propose a larger change where necessary, and rerun that candidate through weight, simulation, factory work, construction and whole-life economics. Missing prices can trigger calculated estimate ranges; missing safety-critical physical evidence must still block physical approval.
 
@@ -106,7 +106,7 @@ The current [candidate export manifest](docs/design-engine/current/exports/manif
 
 ![Two-kilometre launch, freewheel, wayside receiving and protected-braking concept, with a double-sided LIM cross-section](docs/images/v06/v06-launch-to-arrival.svg)
 
-*All five rendered images are concept illustrations; visual attachments, finishes and site arrangements are not qualified CAD or construction details. The drive diagram is an explanatory schematic, not a simulated trajectory. The present reference allocates **900 m of shared winding per station and direction**, covering the calculated launch and receiving zones together, rather than a short motor confined to the passenger platform. This allowance does not establish the powered or coasting distances between stations. A separate five-bank research layout uses five 20 m drive banks (100 m active length); it is not a shortened BOM or a performance variant of the 900 m reference. It requires separate force, electrical/thermal, civil, equipment-quantity and cost calculations, and results do not transfer between the configurations. Actual moving-entry LIM thrust, full vehicle mass, protected stopping, civil structures and whole-life costs remain unverified. [See the current moving-LIM evidence](docs/design-engine/moving-lim-method/README.md) and [candidate-to-journey closure work](docs/design-engine/railway-closure/README.md).*
+*All five rendered images are concept illustrations; visual attachments, finishes and site arrangements are not qualified CAD or construction details. The drive diagram is an explanatory schematic, not a simulated trajectory. The present reference allocates **900 m of shared winding per station and direction**, covering the calculated launch and receiving zones together, rather than a short motor confined to the passenger platform. This allowance does not establish the powered or coasting distances between stations. A separate five-bank research layout uses five 20 m drive banks (100 m active length); it is not a shortened BOM or a performance variant of the 900 m reference. It requires separate force, electrical/thermal, civil, equipment-quantity and cost calculations, and results do not transfer between the configurations. Actual moving-entry LIM thrust, full vehicle mass, protected stopping and civil structures remain unverified. The selected candidate now has a Class C whole-system estimate for a synthetic 6 km corridor; supplier/site-validated cost and equal-service economic superiority remain open. [See the current moving-LIM evidence](docs/design-engine/moving-lim-method/README.md) and [candidate-to-journey closure work](docs/design-engine/railway-closure/README.md).*
 
 The [illustration brief](docs/images/v06/README.md) records the supplied prompts, source images and display-copy recipe.
 
@@ -169,7 +169,7 @@ Civil alternatives must include rails and fastenings, beam stiffness and torsion
 
 The economic comparison covers **rolling stock + guideway + stations and power + factories and construction + energy + maintenance and renewals + service availability**. Passenger capacity, headway, fleet size and travel time belong in the same comparison. Local/foreign-currency procurement and financing sensitivity matter, but financing terms are separate from physical resource cost.
 
-The current model-cost scenarios support preliminary comparison with declared assumptions. Compatible supplier prices, complete factory-to-installed costs and equal-service whole-life superiority remain open.
+The selected v0.6 vehicle now has a separate Class C estimate for factory production, assembly and a 50 km reference delivery. A candidate-bound [synthetic system estimate](docs/design-engine/current/exports/selected-system-cost.json) covers all 14 declared cost scopes for a 6 km, three-station corridor. Its installed CAPEX is IQD 55.18 / 272.38 / 1,669.79 billion and its 30-year whole-life NPV is IQD 118.24 / 648.18 / 5,646.18 billion, low/base/high. These wide coupled scenarios are not confidence intervals, a city budget, supplier prices or proof of economic superiority. City-specific costs, site quantities, physical journey evidence and independent acceptance remain open. The [current Workbench](docs/workbench/current/index.html) shows the candidate-bound vehicle and system estimates.
 
 ## Current engineering and the next working-system milestone
 
@@ -185,7 +185,7 @@ calculation; physical validation and release remain separate gates.
 | Installed inventory | Component identities, geometry-linked stock and explicit mass reserves | Located equipment, complete installed mass, centre of gravity, inertia and interfaces |
 | Propulsion and journey | Candidate-specific LIM, braking, electrical and conditional journey calculations | Available motor force and thermal maps, validated stopping and a physically supported protected journey |
 | Production and civil works | Candidate CAD/IFC, BOM, process, assembly, procurement and provisional construction quantities | Complete installation scope, site data, qualified processes and supplier evidence |
-| Cost and service | Provisional low/base/high factory-to-installed and lifecycle estimates | Complete quantities, compatible prices, operating performance and independently reviewed equal-service comparison |
+| Cost and service | Research-bundle Class C scenarios plus selected-vehicle and synthetic-corridor Class C estimates | City-specific site quantities, compatible prices, operating performance and independently reviewed equal-service comparison |
 | Business and supervision | Candidate-linked draft ERPNext/Frappe HR and FUXA/gateway handoffs | Configured organisations, reviewed records, authenticated devices and commissioned procedures |
 | Verification | Source-bound publications, independent numerical checks and software workflows | Prototype correlation and physical engineering, manufacturing and operating acceptance |
 
@@ -194,20 +194,19 @@ shifts. Operating costs cover two shifts for 16/18-hour service and a three-shif
 24-hour case. These staffing and shift premiums are planning assumptions, not an
 approved local roster.
 
-The highest-return next milestone is one automatically completed and internally
-costed candidate with a complete accounting structure, visible assumptions,
-manufacturing routes, installed-cost coverage and a specific list of physical
-validation work. The current software can calculate provisional costs without
-waiting for supplier quotations; it must continue to show which values are
-assumed, sourced or supplier-confirmed.
+The selected candidate now has internally calculated factory-to-lifecycle
+cost coverage for one declared synthetic corridor, with visible assumptions
+and separate physical-validation holds. The next economic work is to replace
+generic account allowances with supported account-specific estimates and to
+replace synthetic corridor and site proxies with candidate-specific survey,
+service and quantity inputs. The software labels calculated, benchmarked and
+supplier-confirmed values separately.
 
 ## Cities, service and deployment
 
-All **266 city geographies** remain available as planning inputs. The editor uses the indexed city routes, station and transfer locations, plus source-verified road, water, building, land-use and place context where supplied. It supports local route, stop, service and origin–destination proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; `./osr plan verify build/my-plan` checks its candidate, source and payload identities. The handoff carries planning proposals only; it contains no vehicle, propulsion, fleet, civil quantity, procurement, cost, performance or cashflow results. Candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until their evidence exists. Planning revisions do not grant movement authority.
+All **266 city geographies** remain available as planning inputs. The workspace uses indexed routes, station and transfer locations, plus source-verified road, water, building, land-use and place context where supplied. It supports local route, stop, service and origin–destination proposals. `./osr plan compile edits.json --output build/my-plan` creates an immutable handoff bound to the selected v0.6 candidate; `./osr plan verify build/my-plan` checks its candidate, source and payload identities. The handoff carries proposals only; candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until their evidence exists. Planning revisions do not grant movement authority.
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
-
-The [planning workspace](docs/workbench/planning/index.html) displays source-verified city map context and supports route, stop, service and OD proposals. Its compiled handoff carries those proposals and source identities only; it does not inherit vehicle, propulsion, fleet, civil, cost, performance or cashflow results. Route performance, procurement quantities, construction schedules and full city costs remain held until candidate-specific evidence exists. Planning revisions do not grant movement authority.
 
 ## Run and reproduce
 

@@ -135,6 +135,65 @@ async function renderVehicleCost(expected) {
     body.append(tr);
   }
 }
+async function renderSystemCost(expected) {
+  const cost = validated(
+    await request("/docs/design-engine/current/exports/selected-system-cost.json"),
+    expected,
+  );
+  if (
+    cost.schema !== "osr-selected-v06-whole-system-class-c-cost/1" ||
+    cost.vehicle_evaluation_id !==
+      (expected.publication?.evaluation_id || expected.evaluation_id) ||
+    cost.model_cost_complete_for_declared_case !== true ||
+    cost.physical_mass_complete !== false ||
+    cost.physical_journey_completed !== false ||
+    cost.missing_cost_scopes.length !== 0 ||
+    cost.required_cost_scopes.length !== 14
+  )
+    throw Error("Selected system cost record or scope disposition differs.");
+  const capex = cost.model_based_installed_CAPEX_iqd,
+    wholeLife = [
+      cost.model_based_whole_life_NPV_iqd.low,
+      cost.model_based_whole_life_NPV_iqd.base,
+      cost.model_based_whole_life_NPV_iqd.high,
+    ];
+  for (const values of [capex, wholeLife])
+    if (
+      values.length !== 3 ||
+      values.some((value) => !Number.isFinite(value) || value <= 0) ||
+      values[0] > values[1] ||
+      values[1] > values[2]
+    )
+      throw Error("System cost scenarios must be finite and ordered low/base/high.");
+  byId("system-capex").textContent = capex.map(billions).join(" / ");
+  byId("system-whole-life").textContent = wholeLife.map(billions).join(" / ");
+  byId("system-cost-status").textContent =
+    `Class C planning estimate · ${cost.scenario_definition.route_scenario.directional_ring_length_m / 1000} km synthetic corridor · scenario ${cost.scenario_id.slice(0, 12)} · ${cost.currency} ${cost.estimate_date}.`;
+  const facts = byId("system-cost-facts"),
+    route = cost.scenario_definition.route_scenario,
+    fleet = cost.fleet_basis,
+    margin = cost.service_battery_duty.per_cycle_energy_margin_kWh;
+  fact(
+    facts,
+    "Declared scenario",
+    `${route.stations} stations · ${format(route.spacing_m / 1000)} km spacing · ${route.trackways} trackways`,
+  );
+  fact(
+    facts,
+    "Costed fleet allowance",
+    `${fleet.active_trainsets} active + ${fleet.reserve_trainsets} reserve six-car trainsets; tail-clearance allowance is not an accepted timetable`,
+  );
+  fact(
+    facts,
+    "Service battery energy margin per stop cycle",
+    `${format(margin.reference)} kWh/car reference · ${format(margin.adverse)} kWh/car adverse`,
+  );
+  fact(
+    facts,
+    "Scope and evidence",
+    `${cost.required_cost_scopes.length} of 14 scopes estimated; no supplier quotes, site survey, qualified journey or release`,
+  );
+}
 function renderGates(gates) {
   const rows = Array.isArray(gates)
     ? gates
@@ -249,6 +308,11 @@ async function start() {
     } catch (error) {
       byId("vehicle-cost-status").textContent = "Held: " + error.message;
       byId("vehicle-cost-lines").replaceChildren();
+    }
+    try {
+      await renderSystemCost(current);
+    } catch (error) {
+      byId("system-cost-status").textContent = "Held: " + error.message;
     }
     const speed = s.launch_speed_cap_m_s * 3.6,
       capacity = (v.cars * v.normal_passengers_per_car * 3600) / s.headway_s;

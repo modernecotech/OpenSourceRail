@@ -110,3 +110,37 @@ def test_cost_comparison_is_same_service_and_rejects_mixed_candidate_inputs():
         {key: value for key, value in different_service.items() if key != "evaluation_id"})
     with pytest.raises(ValueError, match="Equal currency, cost assumptions, route and nominal service"):
         model_cost.compare([first, different_service])
+
+
+def test_two_directional_service_and_hotel_load_charging_are_counted_once():
+    bundle, _, estimate = _evaluate("P1")
+    assumptions = model_cost.assumptions(ROOT)
+    reliability = next(row for row in estimate["cost_line_items"]
+                       if row["line_key"] == "service-disruption-and-corrective-reserve")
+    direction_count = assumptions["service_directions"]
+    route_km = estimate["corridor_basis"]["directional_route_m"] / 1000.0
+    headway = bundle["requirements"]["target_headway_s"]
+    expected_train_km = [
+        direction_count * 3600.0 / headway * hours * route_km
+        for hours in assumptions["operating_hours_per_day_cases"]
+    ]
+    assert reliability["quantity"]["train_km_per_day"] == pytest.approx(expected_train_km)
+    # The physical two trackways are already reflected in infrastructure quantities;
+    # they do not double the two directional service loops a second time.
+    assert estimate["corridor_basis"]["trackways"] == 2
+
+    energy = next(row for row in estimate["cost_line_items"]
+                  if row["line_key"] == "conditional-annual-electricity")
+    quantity = energy["quantity"]
+    cars = bundle["cars"]
+    trains = estimate["corridor_basis"]["normal_trainsets"]
+    days = assumptions["operating_days_per_year"]
+    auxiliary = [trains * cars * kw * hours * days
+                 for kw, hours in zip(assumptions["assumptions"]["auxiliary_kw_per_car"],
+                                      assumptions["operating_hours_per_day_cases"])]
+    grid_input = [auxiliary[i] / assumptions["assumptions"]["service_battery_charging_efficiency"][i]
+                  for i in range(3)]
+    assert quantity["auxiliary_kwh_per_year"] == pytest.approx(auxiliary)
+    assert quantity["service_battery_grid_input_kwh_per_year"] == pytest.approx(grid_input)
+    assert quantity["service_battery_charging_loss_kwh_per_year"] == pytest.approx(
+        [grid_input[i] - auxiliary[i] for i in range(3)])

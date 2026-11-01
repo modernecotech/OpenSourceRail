@@ -47,6 +47,11 @@
         <code>./osr plan compile</code>. The handoff does not include route
         performance, prices or release evidence.
       </p>
+      <p>
+        <a href="../../capabilities/">Current platform capabilities</a> ·
+        engineering, planning, manufacturing, business/workforce and equipment
+        supervision entry points with their current scope and evidence limits.
+      </p>
       <div id="error" role="alert" hidden></div>
       <p id="loading" role="status">
         Checking selected identities and source-bound results…
@@ -119,12 +124,38 @@
             This prices the selected vehicle account and its declared production,
             assembly and reference-delivery assumptions. The 10.09 t/car
             residual is priced as an allowance but remains unlocated; possible
-            account overlap is unknown and receives no cost credit. Civil,
-            station, route, fleet, operations and whole-life costs remain held.
+            account overlap is unknown and receives no cost credit. See the
+            separate synthetic-corridor estimate below for provisional system
+            costs.
             This estimate does not establish installed mass or engineering
             acceptance.
           </p>
           <a href="../../design-engine/current/exports/selected-vehicle-cost.json">Source-bound cost record</a>
+        </section>
+        <section class="panel" aria-labelledby="system-cost-heading">
+          <h2 id="system-cost-heading">Selected-candidate synthetic system estimate</h2>
+          <p id="system-cost-status" role="status">
+            Checking the candidate-bound Class C system estimate…
+          </p>
+          <section class="metrics" aria-label="Synthetic system cost scenarios">
+            <article>
+              <strong id="system-capex"></strong><span>installed CAPEX · low / base / high · billion IQD</span>
+            </article>
+            <article>
+              <strong id="system-whole-life"></strong><span>30-year whole-life NPV · low / base / high · billion IQD</span>
+            </article>
+          </section>
+          <dl id="system-cost-facts"></dl>
+          <p class="note">
+            All 14 declared cost scopes have provisional estimates for a
+            synthetic 6 km corridor with three stations. Production and civil
+            work assume two 8-hour shifts; operations cover two shifts at 16/18
+            hours and three shifts at 24 hours. The adverse service-battery
+            duty has a calculated energy shortfall. City/site quantities,
+            supplier prices, force and thermal maps, complete installed mass,
+            journey performance and safety acceptance remain open.
+          </p>
+          <a href="../../design-engine/current/exports/selected-system-cost.json">Candidate-bound system cost record</a>
         </section>
         <section class="panel">
           <h2>Engineering readiness</h2>
