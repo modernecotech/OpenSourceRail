@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../kisangani.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kisangani) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `dffb97bbe407ca1ba2e7885da5be81545b2e660571eb5a802b97665f7882d513`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ee48bade94280f0531d389df60636553b255d8e5988836ce81abf7dcd7b53e6a`

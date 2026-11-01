@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Arish route geometry](arish.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=arish)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `50a7f111b6f1980f0fe9305fbb6a0e12469da53e72793243fb5f195757c939fe`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `64cfd28471fd2aeb1a9b910e5cb21a8b026ac0ab84e46ad0a834456afac2da54`

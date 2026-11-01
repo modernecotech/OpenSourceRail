@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../beni-suef.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=beni-suef) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f413184ce49f811217b394be62b8962ce02e7ca9a41981ea9a7cd24cb449b7ee`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `35b2187a3fb47400e1299196158fddb9ee749fd223983f14188328f55f10e92b`

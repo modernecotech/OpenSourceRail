@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Vadodara route geometry](vadodara.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=vadodara)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `72c351770adc85aa48e360eeadf2341cce713e3a1da695731213044d2fc834c4`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9347838b2a8ab33129ab06647005652b158d559d027a5a75f84c4b896d3b585b`

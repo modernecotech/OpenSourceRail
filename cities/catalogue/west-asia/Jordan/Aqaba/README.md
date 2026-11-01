@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Aqaba route geometry](aqaba.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=aqaba)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `32a0eb9b2435b983852f5a7ca74f90ff77847441f0a374d1e5883cce62c42565`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c240fbccff717c749179340a60f92a3ae05cb845d5db9a09948502feb9351a09`

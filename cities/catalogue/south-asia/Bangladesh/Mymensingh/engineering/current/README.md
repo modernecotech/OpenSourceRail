@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../mymensingh.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=mymensingh) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ff6da4b0fe9de99d6ab49bd12dd467298c705a445080d3a2281cc8dd56d4e799`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `726c97a6741298ef2501361cfb9be9bd4ea408c1a28bfe95f2dfc6e84c59d902`

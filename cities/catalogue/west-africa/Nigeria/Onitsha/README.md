@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Onitsha route geometry](onitsha.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=onitsha)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `322ced44967a6db34adb137782410335231c50f66727e2d5871ce25370d55bbb`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fb6450e7203d6ecf5a7559d3711c1ea64cee85a1e0150f0c0097668d00356c65`

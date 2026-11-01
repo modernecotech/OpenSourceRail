@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../songea.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=songea) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `91ac9f940ba5aadb8d8860185254b89868a869fae9065e58736ab4f902069b11`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ccd0ae447d7fa3568f5d51713b9eb0d410167e7e26e2db2a0ed52406f4f85e16`

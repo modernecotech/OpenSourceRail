@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../meknes.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=meknes) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `18bab1f152a98833a0c84f861704030417b7d12acf2f10f3a9188734dc2f2967`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4719faf977f1b1fe19414fe973b212f62355581e55ef05cbc599fe6421828a12`

@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../khartoum.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=khartoum) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `985cc729907e6199f0c300990ea506310587a3aedd257ed65abfda88d9e56ead`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6dac0d1b487fe1abd139476fe4f39e878fed8df0e83e753d47f39d6d50379af0`

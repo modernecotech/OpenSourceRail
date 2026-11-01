@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Vientiane route geometry](vientiane.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=vientiane)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e3b0f10a1e42f230c34492f4b43ca09561f605074390ec161147a05ae390dd84`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6ba61e3dc033297b1f523659e4e6e8d149105667f2e447b6662c610f97df0a87`

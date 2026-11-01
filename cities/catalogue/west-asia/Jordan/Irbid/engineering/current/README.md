@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../irbid.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=irbid) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a651790cdcf1af1248289b862fb4ad21e5e299072d77a78c296d32c5e0a54c7d`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `56c5e86889ab1c6e969b550899fbd824b101e8a6a53f192e0be326780c5d9e1a`

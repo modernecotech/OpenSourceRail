@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../machakos.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=machakos) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7d6668e6a929ed103a7615244eba5045a57ae14bd3f2e1c9dc8ab53e92ec224d`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `97b7450a0793c01a2ef6005b4dfcddb5ec90afc085131943e7fd04b70c250466`

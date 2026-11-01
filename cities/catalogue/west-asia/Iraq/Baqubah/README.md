@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Baqubah route geometry](baqubah.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=baqubah)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `03cc0f7d5037dfe816affae7f0ac819899c225f3c7af2ddd1067aa33342c69a0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f19eb7ba37925d6db8c82ad11b3d9773ee12229aea08eadcf199464779e637ef`

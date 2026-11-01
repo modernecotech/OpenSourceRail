@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Sanaa route geometry](sanaa.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=sanaa)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `41b9db7e74d4e18bb49a5c158f1b4d732dbfb018febb79c84835e0812ce1b55f`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `699b51d0a18b8e180653ef7404babd5055ec642461cdb7f1d7de76bff63d8131`

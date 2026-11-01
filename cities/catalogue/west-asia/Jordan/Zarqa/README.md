@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Zarqa route geometry](zarqa.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=zarqa)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7e72e4f350723ed51955aa55ccabfaee211f6ac2896dee749d070e55a1030c13`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `16aff800168e1c1c27ac95cad17271019f14d58466ee87e0d474796a5e767f00`

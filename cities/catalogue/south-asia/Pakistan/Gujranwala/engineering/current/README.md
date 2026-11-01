@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../gujranwala.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=gujranwala) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3e691ff84f32480863799b2caf4474c48e523362315ca963fb55c06c41d23369`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `42fa10b5414b0cdd58d64588bdd39c5b132544f781d62a5aa453969fe82294c4`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Vijayawada route geometry](vijayawada.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=vijayawada)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a823157f52992e6d980648dbb6082e11a4c1f98f17dc39af4a453bda9f645b1a`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bd8b2e965ff33f2786a89127452d9fc59f3454f86b128b07bceaf809de2e6d17`

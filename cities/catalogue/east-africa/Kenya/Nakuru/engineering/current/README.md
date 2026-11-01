@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../nakuru.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=nakuru) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `11618092d6e298fb5f2014499d6d40682c1d93273a489bba1ea8da9d47b6a90e`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `00bf31387c17241a254ed58146523e25129f31cf443604b4f89dc80374520876`

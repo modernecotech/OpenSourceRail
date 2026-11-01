@@ -23,6 +23,7 @@ def context(tmp_path,monkeypatch):
     (city/'city.corridor.geojson').write_text('{"type":"FeatureCollection","features":[]}')
     (city/'map-context.json.gz').write_bytes(b'geographic context fixture')
     (city/'engineering/maglev/network.svg').write_text('<svg>Underlying streets and city detail</svg>')
+    (city/'engineering/maglev/README.md').write_text('# City — v0.5 maglev planning\n')
     (city/'engineering/maglev/summary.json').write_text(json.dumps(dict(lines=[dict(line='line-1',stations=[dict(id='a',s_m=0.),dict(id='b',s_m=2500.)])])))
     (city/'engineering/current/summary.json').write_text('{"historical_fleet":906}')
     (city/'README.md').write_text('Historical city front page\n')
@@ -47,7 +48,7 @@ def test_city_returns_bound_hold_without_reusing_old_performance(context):
     assert value['physical_accepted'] is False
 
 
-def test_publish_all_refreshes_candidate_bound_city_frontdoor_and_leaves_old_artifacts_untouched(context):
+def test_publish_all_refreshes_candidate_bound_city_frontdoor_and_removes_stale_readme(context):
     root,baseline,city=context
     old_summary=(city/'engineering/current/summary.json').read_bytes()
     old_map=(city/'engineering/maglev/network.svg').read_bytes()
@@ -64,6 +65,7 @@ def test_publish_all_refreshes_candidate_bound_city_frontdoor_and_leaves_old_art
     assert cities.verify_all(root=root)['verified'] is True
     assert (city/'engineering/current/summary.json').read_bytes()!=old_summary
     assert (city/'engineering/maglev/network.svg').read_bytes()==old_map
+    assert not (city/'engineering/maglev/README.md').exists()
     assert 'engineering/maglev/README.md' not in (city/'README.md').read_text()
     assert '[Planning workspace]' in (city/'README.md').read_text()
     assert '[Planning workspace]' in (city/'engineering/current/README.md').read_text()

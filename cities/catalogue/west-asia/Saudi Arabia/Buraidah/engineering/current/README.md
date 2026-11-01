@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../buraidah.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=buraidah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `41050069a904e1a5ab11cde1fed947d6dd5b991433fe13f8f7fbc60b6c7d5e85`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `124771df3519cb3ab12194dd29df6b19c011db974bbb84cd9733146cfc942e67`

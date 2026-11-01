@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Hyderabad Pk route geometry](hyderabad-pk.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=hyderabad-pk)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2a07847598f7c18440f44cfb5273efd143d348c53ef319132316a9a95f01bc28`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `513fa8543e92ab8f59ece477647dcd467d54df0acadb3c6a5519d237a2bbcb0d`

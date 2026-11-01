@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../dodoma.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=dodoma) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `de32694a58c3593a1f4be1a4e9b5dc97d2960bc5fe0f14a0ddd700503afd4d5c`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5bb489f2a5509c5bbcea1e19ed07736248eedc4d93703a859f4f37757c0f2a2b`

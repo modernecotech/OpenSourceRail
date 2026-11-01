@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../luanda.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=luanda) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `aa095b45d06828d070cb73df73bc8958b6c6adf714855a469e1ad82777472d7b`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `29bd64ec5b7b19ef0b563723d7865ac15336a5b072bfe03290f0618c01601ac8`

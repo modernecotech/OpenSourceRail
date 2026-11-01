@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../rajkot.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=rajkot) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c4b5a3852b03849fa7bff840104df8c78c5ea19a76ae0dad7d91b650c8dabc10`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1e35c7232cb7a5c4ccf107560e5c53e201b9990ddfb0e293b070ff9b0f3b016d`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Morogoro route geometry](morogoro.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=morogoro)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9dd8c84703ac40a57279cb5f2b8abdd4c32a1be0db521dd3e1c35df7ac75b2ab`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9d66af8f08dec855c26984aad22d1ee8fa20c2313121739f3fbf9d86d93ae4ab`

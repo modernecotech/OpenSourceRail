@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../gazipur.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=gazipur) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `32c95c9f81ab3e9703b37e352d6d98e24739b86372a30fa05e744140a5b83fff`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e53d9e5796997a7ea5f2b0ea9749b330bafe6c3dbf27fb30bfac7e72cbd2ad4a`

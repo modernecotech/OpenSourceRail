@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../najran.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=najran) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e5e75a9c7bd31631e3edcfda451335b4fcaf7eeb9a463b9ab67c0b9df607ae6a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7afb7d445efe5151fc0dba93fad1583d2b05438ee9cc93d539e40f09d3b5354e`

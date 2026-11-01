@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../quelimane.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=quelimane) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0dd78a51d2af5c3ecb589b571efba545a94b1562c2c1c602238c301ba8250977`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fbf6fda8bde67451c6bd9c511c397dae0aaea925150013992b843a0a68a9eee7`

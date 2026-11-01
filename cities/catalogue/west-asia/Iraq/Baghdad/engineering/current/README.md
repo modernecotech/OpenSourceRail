@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../baghdad.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=baghdad) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5308195584bee1c478a99615811c1d5504d25fac2b5758a842ed690276d4e918`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `553e01962c25d8b59fce6540ed1f0aa3f864543fec2d3a358f6de100e5fef9a3`

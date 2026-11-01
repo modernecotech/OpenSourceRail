@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Jinja route geometry](jinja.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=jinja)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `27ac8aa30259f72f5e1d528df9035ba50b7f02a43388b333a0257bcbde7db4f6`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `91177de2141b5ca48873ff9a803b6cedb52387e2e84648380fc88931c21da8d8`

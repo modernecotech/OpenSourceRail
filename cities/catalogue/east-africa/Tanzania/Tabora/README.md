@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Tabora route geometry](tabora.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=tabora)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a00db4dfdfc9195b98a9fe23fdfc445e266d73a4f37fdbac61b934972801bb39`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5fe4cb22e423e2cc4e89acb95bcf60ed7251bad140502d4466950ee3a8196f89`

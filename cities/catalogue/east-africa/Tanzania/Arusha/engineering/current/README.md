@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../arusha.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=arusha) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `383fcb43a21ae79e0d97380aa3fd985824868bd2c4ff78631eb4f4b8593c1c91`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f1bb54b0ef3b553789e86c8727c1fed88d625f0dbeeb518c2b1eb53846b35ee1`

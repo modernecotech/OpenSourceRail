@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../oujda.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=oujda) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c76b9138c6d8c0e69714b4cd0ed28be2cb429b0fc354e844bf649d6c557bf8bc`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `884f441db8b22402e700868134f42251634215d619e5c1f3a6fe9a0389551de8`

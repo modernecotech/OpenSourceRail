@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../mbarara.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=mbarara) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7c0d014b462071ccb29c905563b84c781e86eca93ae2338765baa81857506574`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `39e1893cef8d81a5a22e11b00ed7be5ec28d9fc29ebbea35869205a10cbb2c5e`

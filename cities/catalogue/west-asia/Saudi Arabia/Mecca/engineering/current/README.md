@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../mecca.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=mecca) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7904b87107f212796cf0e8d4f38e4a6a4f58b706ef10679f68407a924ab24a25`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9cd079b169b4225fc8e2f5e1d93301f854cbd8c80eb3c80fb6da762f229c53a5`

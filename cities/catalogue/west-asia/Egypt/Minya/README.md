@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Minya route geometry](minya.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=minya)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e91a8180cdcfbd2efc5c2563d98c336027c6a0641c1fd4af0bbda761f5e9329b`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ae7e4d66fb18866a6da7fc5b54c42b6a320df9dd9e9c9d2e304cd62b3920b8a1`

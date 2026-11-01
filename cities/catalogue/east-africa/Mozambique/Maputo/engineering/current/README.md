@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../maputo.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=maputo) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `efa390fd9eaf521d4625b236816bc4899eec737bf6d5d354dbda64af7ae5354e`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d503ef33a92320fd91112449fceb3761c6a0679f9a6ab8f7999b84ef885e1556`

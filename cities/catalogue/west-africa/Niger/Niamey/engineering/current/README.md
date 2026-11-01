@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../niamey.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=niamey) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a98d3e7d2eb05ce6f1fa09af2ddb34a560c95fdc1ce28264cd485a742bc4fb60`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `994610b34ceaa14a5f9dffcb8ac0055a63703a69451c9626c608c406054e1916`

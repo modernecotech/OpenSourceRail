@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Chittagong route geometry](chittagong.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=chittagong)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `106b60ac382af64c9cc0562d74c384e4fb4365f34987574524b00e8cd93060fb`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7a3407b6187b7849b9e50fbb43c9a6924c4475d2ce21e49920366e73f1fc8383`

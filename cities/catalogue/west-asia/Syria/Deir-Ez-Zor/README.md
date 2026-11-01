@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Deir Ez Zor route geometry](deir-ez-zor.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=deir-ez-zor)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3f93db9bb3a801b2d3a7d69c06913407b7880d21279d38939937a3f9aa2d5880`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0c6cd23c20014f8679de5f71de09e6793710294117c6e4dc67439ce0fea02eec`

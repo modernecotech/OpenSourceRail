@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Kakamega route geometry](kakamega.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=kakamega)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `99183de7878dbe9208e5e2c20a802aa39985720d72c9e31abe7ee0563275da9d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `286c54b293debf82480979425d05175dbfc60a9bffc77c91d1a76c58d4e45630`

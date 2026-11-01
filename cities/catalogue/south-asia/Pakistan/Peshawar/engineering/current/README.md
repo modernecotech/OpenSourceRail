@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../peshawar.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=peshawar) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9a3b2fe9f02f7ccc3e30e89c7f77da4e456f062e572fba8f3de41f5b85378e38`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0e77c67e5c623aa999d60078c9a31b2ce111d2863911e68340a1a220cd9012cb`

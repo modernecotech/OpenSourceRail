@@ -1,33 +1,10 @@
-# v0.4 capability migration to station-powered maglev
+# Current OpenSourceRail capabilities
 
-Migration of the actual v0.4 feature table. Tested scope is stated per row; missing features are not marked complete.
+Use the maintained v0.6 pages for current product scope and workflow status:
 
-Baseline: v0.4.0 commit `205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e`, README feature table. Historical product quantities and wheelset geometry are not current inputs.
+- [Project overview](../../../open-source-rail-overview.md)
+- [Platform capabilities](../../../capabilities/README.md)
+- [Current engineering dossier](../../current/README.md)
+- [Planning workspace](../../../workbench/planning/index.html)
 
-| Capability | Disposition | Accountable function | Current evidence and limits |
-|---|---|---|---|
-| Deterministic city generation | retained-but-unconnected | City planning | Current266city generation retains primary geographical identities; a separate16layer stop/service/OD proposal workspace is now restored. [cities.py](../../../../engineering/ferrite_maglev/cities.py) |
-| Generatable project digital twin | replaced | Delivery engineering | Generic any-city revision compiler now emits planned workfront/resource/procurement/monthlycash and retainedERPadapter inputs. Missing rates and actual native records remain explicit; no complete city delivery acceptance. [delivery_platform.py](../../../../engineering/ferrite_maglev/delivery_platform.py); [platform_publication.py](../../../../engineering/ferrite_maglev/platform_publication.py) |
-| Integrated Workbench | replaced | Platform integration | Separate editable owner/builder GIS workspace, evidence viewer and authenticated native owner/builder/operator/people/observation navigation. CompleteOCC/HR federation remains open. [maglev-workbench.py](../../../../tools/automation/maglev-workbench.py); [planning.js](../../../workbench/planning/planning.js); [platform_publication.py](../../../../engineering/ferrite_maglev/platform_publication.py) |
-| Business execution and embedded maintenance | retained-but-unconnected | Owner/operator platform | Test scope is serial cartridge and beam simulation in native ERPNext/FUXA; entire-city HR/accounts and evaluator bindings remain open. [pilot_lifecycle.py](../../../../engineering/ferrite_maglev/pilot_lifecycle.py) |
-| Interactive network and service planning | replaced | GIS and transport planning | 16named source-bound GIS layers; unavailable/sampled layers labelled. Stop/service/dwell/OD and straight-chord proposals, immutable revisions, stale/tampered refusal and local export/import are implemented. General alignment/OD calibration and engineering adoption remain open. [delivery_platform.py](../../../../engineering/ferrite_maglev/delivery_platform.py); [platform_publication.py](../../../../engineering/ferrite_maglev/platform_publication.py); [planning.js](../../../workbench/planning/planning.js) |
-| Software in the loop | replaced | Control integration | ActualRust two-circuit support/guidance/current dynamics,realizablybounded preferred allocation,live numerical authority and postfault integration replace earlier detection-only coupons. Failed maps/capture/thermal/designcases remain failures; no physical acceptance. [full_dynamics.py](../../../../engineering/ferrite_maglev/full_dynamics.py); [candidate_authority.py](../../../../engineering/ferrite_maglev/candidate_authority.py) |
-| Independent operations cross-check | replaced | Operations modelling | Executed independentSUMO Railcustom timing/block/berth,dwell/receiverdelay and over-capacity controls use identical passenger stops and candidate mass. Kinematictraction is explicit; magnetic/Rust/HW and whole-fleet physical assurance are not inferred. [operations_crosscheck.py](../../../../engineering/ferrite_maglev/operations_crosscheck.py) |
-| Civil BIM, GIS and field evidence | replaced | Civil information management | One magnetic module and25m concretebox in actualIFC4.3 with reopenedvolumes,executedIDS1staleidentityrefusal,BCF3schema-valid issues and typed unaccepted field readings. Wholecity IFC/physicalas-built federation remains open. [bim_field.py](../../../../engineering/ferrite_maglev/bim_field.py) |
-| Station and civil product geometry | replaced | Station and civil engineering | Current guidebeam/hub definitions replace old platform and bogie-change products; all45former families are not reproduced. [shared_hub_layout.py](../../../../engineering/ferrite_maglev/shared_hub_layout.py); [pilot_product.py](../../../../engineering/ferrite_maglev/pilot_product.py) |
-| Station engineering screens | replaced | Station engineering | Current structural/access screens replace old benchmarks; complete fire/drainage/thermal qualification remains open. [station_native.py](../../../../engineering/ferrite_maglev/station_native.py); [hub_access.py](../../../../engineering/ferrite_maglev/hub_access.py) |
-| Buildable modular trainset | replaced | Mechanical product engineering | Current composite body and magnetic bays replace the [historical wheel/traction product](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md); stock geometry is not a manufactured train release. [assembled_body.py](../../../../engineering/ferrite_maglev/assembled_body.py); [pilot_product.py](../../../../engineering/ferrite_maglev/pilot_product.py) |
-| Automatic cost propagation | replaced | Project economics | Counted newcandidate quantities,cutyield/prices,commonhotel assumptions and single calendarstandby reconciliation. No newpilotfinance adoption whilemandatorypropulsion/fullserviceduty fail; priorconfiguration finance remains separate. [candidate_economics.py](../../../../engineering/ferrite_maglev/candidate_economics.py); [candidate_manufacturing.py](../../../../engineering/ferrite_maglev/candidate_manufacturing.py); [launch_optimisation.py](../../../../engineering/ferrite_maglev/launch_optimisation.py) |
-| Operations and assurance | retained-and-tested | Independent assurance | Executed authority and maglev refusal properties are source-bound; they do not provide physical or operational acceptance. [pilot_assurance.py](../../../../engineering/ferrite_maglev/pilot_assurance.py) |
-| Deterministic integrated testing | replaced | Platform verification | Current disposable native scenario exercises ERPNext/FUXA/Workbench with faults/recovery; broad former editor coverage is not restored. [pilot-lifecycle-native.py](../../../../tools/automation/pilot-lifecycle-native.py) |
-
-## Three products
-
-**Owner/builder/operator delivery platform** — Planning, procurement, simulated QA/serial execution, evidence and maintenance with business-owned permissions. Controlled pilot planning and training before rolling-stock certification; no movement authority.
-
-**Reference hardware and factories** — Mechanical/civil candidates, methods, origin-accounted suppliers, QA and serial definitions. Digital pilot kits for review and supplier engagement; manufacture requires independent release.
-
-**Open GOA4 control platform** — Rust authority/control kernels, supervision, offline plant and refusal tests. Replay and hardware-in-loop development; no live train or safety authorisation.
-
-The first adoptable product is the simulated owner/builder/operator delivery workflow. It may be used for controlled planning and training before rolling-stock certification; legal entities, calendars, permissions and real equipment bindings remain deployment inputs.
-The read-only maglev evidence Workbench and the authenticated native lifecycle application have different responsibilities. Neither grants movement authority or accepts manufactured hardware.
+These pages describe the selected wheel-supported reference, candidate-bound planning and delivery records, and the limits of each current workflow. They are the maintained source for user-facing capability claims.

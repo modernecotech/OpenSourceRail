@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../garissa.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=garissa) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fe7b945065847631210987034dd4bf406067b7e5113be3fe388d6f7d5a44d9e3`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9ff83753f6deb7d1944c25422ae0ff3df68acf5e3f7d0afe249896f8153ec6eb`

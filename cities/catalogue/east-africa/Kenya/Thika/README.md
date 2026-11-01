@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Thika route geometry](thika.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=thika)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `345b46359ead37f5cd23ddf03afc3a461756da8233165e406b72e6e724e14c6d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a09e7194a3ae9d84f49ee0ea59993300d0b3e67d95ec45d27bb80de1ce40ed80`

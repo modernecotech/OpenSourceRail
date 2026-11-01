@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../hama.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=hama) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6f47b835484084fa0eea31bdafd0788c7a809daff0b3fae674b85e00c0043e1c`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ff79d7e7053a7f9623b135b0a460cc731203b76fcb3d9ddbc5de2a641b8401e8`

@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../soroti.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=soroti) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5548936ee77ebfde5ce59f9b8d23ecd2efdb1731e4ddc2f6acc6eabaedaae574`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5982b22620596bd1d0ab405a3ce26acf8b32ebfcd4ac5f393b4a34a9577868ee`

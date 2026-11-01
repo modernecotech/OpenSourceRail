@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mahalla route geometry](mahalla.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mahalla)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `59dd4a7da793a70b7d9c35f575e72902464a41cc88c7a44d2916e6d449ec6ca0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f8044870b8fb3b9dabc659526292766ecdb2fab50a709bc330d33f217a0a0f3e`

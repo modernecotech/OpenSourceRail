@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../lyon.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=lyon) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4cedd817e3d6a4f42ee3f140186a63dfb4974193bfe2faaefa1527492865e747`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3822bb3f54705d05d5b297eed7b430662eff1636844f1c717ad655dce04dd089`

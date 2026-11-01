@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Rubavu route geometry](rubavu.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=rubavu)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1144637d774a4ee48fc0e3397811f26c7ea011b5bec6185b58ad69fe083ada54`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a82a1c5e75d5fd4e982c26c2f89d0f93c6c6022f5c881ae03ef9a38fade07213`

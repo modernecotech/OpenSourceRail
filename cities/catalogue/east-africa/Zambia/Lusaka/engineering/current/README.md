@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../lusaka.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=lusaka) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1a09f13d613d2e3e5d8cc898ede12d98fa16e2d98b58e35700748ad9a340c72d`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4a67648c659d13ce009b1a701c4c18a2f44ff449de5ba7c47d64193c13f3286c`

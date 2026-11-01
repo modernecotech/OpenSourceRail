@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../huye.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=huye) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c95f09d60842e73a2a2c5c8afd7cd7718aee0caff6f8afecde94bc6a41a441a9`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6b8b4a15c1c4c80ec01dbf46f65cc0ec64e5eca97c66e7d5c2e8e0b3c0f2b8d3`

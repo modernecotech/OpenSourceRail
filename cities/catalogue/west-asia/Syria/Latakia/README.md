@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Latakia route geometry](latakia.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=latakia)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b009047c694ab8f69ddd3c0024ca71d41a9b984b5726c7b10f0340a0894ba74c`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8b08a1206db3a65e5b1a54c9c17caccb50e5b004b6ef0b8a4e77acee77ede85c`

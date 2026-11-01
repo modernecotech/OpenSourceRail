@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../khamis-mushait.corridor.geojson) · [m
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=khamis-mushait) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `888e95a2aad7406bf38eede4ed84912258c718f729e54a6e6c4ee11169750cfb`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `16672c08100f05b6e6a71b786b15b4d4d766b04fb4cebecdb3ecc68609f18b46`

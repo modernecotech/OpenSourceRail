@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../sidon.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=sidon) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8e877a0d9ea2df6eff11ed02244548573dee9264e67f237ac134dec1eb38321d`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d55b89561ae27edc7f57d7b5b934640f80df0e19194b442bc68396c42031a5a2`

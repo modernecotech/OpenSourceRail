@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../barisal.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=barisal) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4f6e445ff2d2be259057aa481df67b3d302acfb52eea722ba952ff512e3d84ee`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2159ce3200c664895f54a49d6df1593f084e31d57c6e31ceaa6e3a79e13d9780`

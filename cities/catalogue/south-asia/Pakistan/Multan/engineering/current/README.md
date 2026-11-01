@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../multan.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=multan) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `65e7aee8c03a4327dbacb1d3616d904f299bfbbe033b24b716bbaf08ea23a986`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fa4244ba726c798edd720e8ea5c3ffc02b39573dec86ddd25fde206e892f6c9d`

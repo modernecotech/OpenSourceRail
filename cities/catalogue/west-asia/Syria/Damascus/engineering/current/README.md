@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../damascus.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=damascus) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `86cad0201f329542957b1f5b9ad494791cab6911a2b25d9ed5ac6c624925c268`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4900200faef85ebf1e469761fe8679a082b39a231a922f920d731c0baf5b3670`

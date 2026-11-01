@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../karbala.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=karbala) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `376fa382b8f7369dfa5a3bde256ec73507c8fa600cdcc389fec76b31482d73a6`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0424d2b4882d34147af83d77439e08f881b5d34e9b77f1a0cd73ea39c19d363e`

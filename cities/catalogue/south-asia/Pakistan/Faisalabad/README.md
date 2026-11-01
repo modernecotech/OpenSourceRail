@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Faisalabad route geometry](faisalabad.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=faisalabad)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `04728099f2de8b141baf26e58eb79b3911458dd7da046679b6b8504810ed788a`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `db3cf4afa584cff7c019be4dfd8fec08666d6e2b768923ace2ec529d65da0bf0`

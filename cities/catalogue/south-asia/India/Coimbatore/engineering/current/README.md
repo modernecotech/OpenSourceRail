@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../coimbatore.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=coimbatore) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `047fb5d45fbc1cf402f5098e5113cc6ff789f4bbd31916f759ca5c72a78cf5d7`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `82a10eec39db088ddf1ede206d8cff867daa8d31f781caeebb9987f5bf808b24`

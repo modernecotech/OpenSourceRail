@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../tripoli-lb.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=tripoli-lb) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `45b9b2958f6abb6d3a719f77116f8fe6e17ec598083c6fc42bdde7cc06078ee2`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9ded90215bf1b61642b6a1856bd798c8c563e21adaabd279a5bb0335206477c6`

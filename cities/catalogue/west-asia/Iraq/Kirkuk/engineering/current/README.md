@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../kirkuk.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kirkuk) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d92044d28a7c27634f55cabe7a4572e0687cc38807aab2df6e1d9245978d30eb`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b5516e19d8c1f4575d13a8a8446fab200c4bfa3855ce94c5dad02025cb3fd084`

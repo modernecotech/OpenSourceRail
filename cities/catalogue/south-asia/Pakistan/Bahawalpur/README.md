@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bahawalpur route geometry](bahawalpur.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bahawalpur)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bc6e53be842bf81bd8545684d15fac3dd3e8280906770f8935bfa4671914570a`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7be84207f8e1b1fdc051721ce4ffb0aa28cfa1587cace5bf0eed516061ca3b6c`

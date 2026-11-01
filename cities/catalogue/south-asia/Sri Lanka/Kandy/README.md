@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Kandy route geometry](kandy.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=kandy)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e4347ad41a279c1b25ea192009455cb632fff2134cdff508abf84150e9788aeb`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `49d24f512d0b208b40a332caec88fc0435eb8aa4b0f1deb78f5139cb9aa9a905`

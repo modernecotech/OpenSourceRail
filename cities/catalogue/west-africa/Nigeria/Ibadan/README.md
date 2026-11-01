@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Ibadan route geometry](ibadan.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=ibadan)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5969bf564258e51d8c8e43f760cf63b6484211813772f012975fb7bd6026f1fc`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `40496dc6265f866248429fe91f55003892f19d647432a710ba0e71b7e1b5727a`

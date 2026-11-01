@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bamenda route geometry](bamenda.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bamenda)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `328845f13bd50b9a6870aa131f8e2d18fd18de32ab8195976b71dca9a53933be`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `51a999db5e64bb3b27a08448b9917227e4d42a244260cc26a20ea050190c97be`

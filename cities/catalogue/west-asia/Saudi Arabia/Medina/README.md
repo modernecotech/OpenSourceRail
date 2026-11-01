@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Medina route geometry](medina.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=medina)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bbfb336f4342e93ab4e57603db17ac4f5d5da570986aca90bed076b8cdd3a681`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `02f6b60af6935594d9700dd378e95863021060652781a36c9a6985354c346b29`

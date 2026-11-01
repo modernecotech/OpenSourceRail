@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../port-sudan.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=port-sudan) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6d2fff91b80aae27af6674842c44e3a3aa40478c46696aba2f407b068b64e048`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3229684b10cfb2128ecf7fb448c8ee6b6062238e84b6b45e58246b890fcfb352`

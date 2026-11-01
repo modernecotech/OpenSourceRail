@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Uige route geometry](uige.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=uige)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `eb8ee209fc1d684736b1b21d347fed24cb4eb35e2da0839e92df8b695303002d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7f1282ff1ab4a8b04d8475ab5a38bb8831483d25837acf90ae67fa5cb05ec50e`

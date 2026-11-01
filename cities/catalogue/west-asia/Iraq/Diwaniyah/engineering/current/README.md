@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../diwaniyah.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=diwaniyah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `64ae69fb8ae528e0a500effc0b54d4febf2e15233f211542170d076e4b529c1a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c2ed178fa03ade5635ce92b8a35003ad1b788a92e148a75e2acd7f495a784cd7`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Lyon route geometry](lyon.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lyon)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4cedd817e3d6a4f42ee3f140186a63dfb4974193bfe2faaefa1527492865e747`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3822bb3f54705d05d5b297eed7b430662eff1636844f1c717ad655dce04dd089`

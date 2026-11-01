@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../nairobi.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=nairobi) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9b32bd30cc7b969fb7009f17fdfd21cd6c6250fcfee100272a907ea5bfb71fdc`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d049848dd8b400d3298695fc6d421c64ab2fcb6affe96c6c489679fc4e8c2859`

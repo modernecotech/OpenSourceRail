@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Port Said route geometry](port-said.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=port-said)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `52eaa32e2cce378350c1a292eed2b80a231b3502b20db5e2f1f9fbf649f2de5d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `840c82512a4ebad3bf803cbef075e88694743dbb34395489bf8285e911e3adaa`

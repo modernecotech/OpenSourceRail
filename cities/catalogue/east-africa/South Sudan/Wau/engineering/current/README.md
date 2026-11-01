@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../waw.corridor.geojson) · [map context]
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=waw) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1b16c5e87d45cac0584ec902a6410d3b8e84a10a3470ca3c0cebe969f2cbbc5a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `601b8520fed1c6382057bb0ae91ed26e4e6ff690e826672264f2b3fab585009e`

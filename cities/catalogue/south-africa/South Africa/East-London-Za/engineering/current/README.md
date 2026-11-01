@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../east-london-za.corridor.geojson) · [m
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=east-london-za) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7b95ba57cb45368cb430c15edc0c7dabcc3812456cfd8af70787a3962f5b8ea5`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `866cbf8eaaa351e20ecb3a7b0aa091d602e4a3ccf1d67c43bd40d864538e387b`

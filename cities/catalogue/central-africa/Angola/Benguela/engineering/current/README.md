@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../benguela.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=benguela) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d9800359ae61d89dbfaefcc047e92cb5e2172789da30b7ce0c24a96a2a3a20b8`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bf92722901a91a0115b5d03d50c299a461bf12179d0461ee75269e9207fe6a5e`

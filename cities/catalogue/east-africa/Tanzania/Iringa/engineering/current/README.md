@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../iringa.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=iringa) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6ff45fbb9f12dcee55a205ad023703ab24e0d3141674c55ac6ad8e37c6a0f088`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8bc5ee80f49d9d39264c445ec981423831f7a6e45110d14cce7320299f040270`

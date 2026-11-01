@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Eldoret route geometry](eldoret.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=eldoret)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b5edb1d6bab631b9150e04c77bfb998786db7871786637cadf7ea62f272f457f`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `22286191fb28cfa6348cf31878ccdfa4baea827124ef8d990ca7a992742d12e9`

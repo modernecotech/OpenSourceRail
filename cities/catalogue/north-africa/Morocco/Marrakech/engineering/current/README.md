@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../marrakech.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=marrakech) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ecbd30da32b650dd6be21a179ca6ec38c6f906219eb236a71474965842b6a84a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2d3b0f30442cd58c9461cbfd9bf4a6fa95bbeca86ca9b933b780dff6828fc1c9`

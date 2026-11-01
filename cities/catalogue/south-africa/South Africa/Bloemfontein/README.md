@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bloemfontein route geometry](bloemfontein.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bloemfontein)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d5ebab64ea7e02ba281adf13310d0200a888e946896841c988669a3f474165db`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `117484994a16f67ca9e9f1c8a4b7e687ee37f689d46de0b984e1f92007a958a8`

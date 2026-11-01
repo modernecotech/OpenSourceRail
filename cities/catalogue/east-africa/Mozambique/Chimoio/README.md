@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Chimoio route geometry](chimoio.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=chimoio)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9a8df8bb7d40a6875f32dd6dba655460a25c8ce4d18b5bbabb3325e8e857c409`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `da16e997b40d18d5cd08fc682dbf733e05005859bc214ee458f1ceaf3c841c2f`

@@ -11,6 +11,13 @@ def test_actual_baseline_features_have_owned_dispositions():
     assert all(r['acceptance_test'] and r['owner'] for r in value['capabilities'])
 
 
+def test_published_readme_points_to_current_product_pages():
+    text=m.readme({})
+    assert '# Current OpenSourceRail capabilities' in text
+    assert 'Platform capabilities' in text and 'Planning workspace' in text
+    assert not any(term in text.lower() for term in ('v0.4', 'v0.5', 'legacy', 'migration'))
+
+
 def test_source_presence_does_not_mark_tested(monkeypatch):
     monkeypatch.setattr(m.pilot_assurance,'study',lambda:dict(profiles=[]))
     value=m.study()
@@ -23,10 +30,10 @@ def test_source_presence_does_not_mark_tested(monkeypatch):
     assert value['physical_release'] is False
 
 
-def test_migration_payload_tamper_rejected(tmp_path):
+def test_current_index_payload_tamper_rejected(tmp_path):
     m.publish(tmp_path);m.verify(tmp_path)
     value=json.loads((tmp_path/'study.json').read_bytes())
-    value['capabilities'][0]['owner']='forged'
+    value['pages'][0]['title']='forged'
     (tmp_path/'study.json').write_text(json.dumps(value))
     with pytest.raises(ValueError,match='altered'):
         m.verify(tmp_path)

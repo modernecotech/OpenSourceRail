@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Jaffna route geometry](jaffna.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=jaffna)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f42040e2c1d643f0ac20bc5c55b1ea73bff9e22f6bd3095608dedf583919a26c`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `128e594520bfe5317740f48f06353aeeded8245cd912f287eab6594afa1aba06`

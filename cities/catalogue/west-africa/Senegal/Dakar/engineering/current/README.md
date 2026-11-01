@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../dakar.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=dakar) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4e05b6d7f92e1f75c2b9f261a94f97c04bfed46aa067fcaae77672a3cc68a8a0`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b53608a8f29f80c3a0fe3852aef2b1f6d6ecd076604eed3b4cf1a64b7ec8fee6`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Dhamar route geometry](dhamar.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=dhamar)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ddcd05ec495d98d219aea2a215222f73361d3c5447f8d602a03b34aa55cc1056`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1a8d8954d450f2497b7dcb98d0bfd127a87c43e3b490938a7368cff2a50b1aed`

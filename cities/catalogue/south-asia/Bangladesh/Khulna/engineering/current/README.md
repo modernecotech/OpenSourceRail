@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../khulna.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=khulna) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6f548904c64f0f64fcccfa74d1ffaa80a37536d0310ac5ffd0e59bf8c3dae36c`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7121699a9fd8ad173c4381fc094af2317443be310282d9d8c3c49a72e8affc08`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Taif route geometry](taif.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=taif)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d6aa345ef6f8ef683b6c419f54b040308fef2afc058592aabc67f0dd0f755503`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `70de95d83071cf81b8dfd01d17a2c1fcdc0728847564c270ed1fa1d4d3522634`

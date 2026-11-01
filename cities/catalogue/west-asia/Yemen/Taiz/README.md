@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Taiz route geometry](taiz.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=taiz)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e1ea87b41a9a30b78ea88f470266324bdf6266d2ba9b6318a5c64c37ef76a7da`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `047154ba21e1902efb748120fcfc799295bcc030d63607e92e84f5f95fcfbf61`

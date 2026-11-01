@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Jizan route geometry](jizan.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=jizan)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b05b80303b2dfab76c7c580275bb4a6c4490104b4248e3ab5ad7387416c669a0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7ddcbb9a70a4190f9372bd1f7b4d2e2a4cbccfdcceb59dcdc183cabd80931378`

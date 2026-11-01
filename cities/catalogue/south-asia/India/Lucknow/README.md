@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Lucknow route geometry](lucknow.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lucknow)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6d2aff3cd5da30892cf2be6d384ec9367ae56dc8e4e50e7c9b597533ab11d7dd`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3608c3ae628b9f079b180aeaf309f49f6b7f2d5e2b803fe7c4d7840d555ae707`

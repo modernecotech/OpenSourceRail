@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Nacala route geometry](nacala.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=nacala)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9a1da4d1de2bc8482aac5e7f362d6c211b942c73f2d3a42a95ce6e9099892b7b`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8353809bc488143f0876b234dca84369e4437b3f67722e044ec1a80c3d7d90fd`

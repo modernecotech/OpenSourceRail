@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Tunis route geometry](tunis.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=tunis)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `800bc4d42515e0e7d54f55e234989061ea715dbf5be3dde180d2af8e15070e80`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ff79243ccddf74017b114110e32ad0961b75d760f81d44a335c1669b4eff6545`

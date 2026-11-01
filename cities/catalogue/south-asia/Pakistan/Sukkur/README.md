@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Sukkur route geometry](sukkur.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=sukkur)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0ab0d557f0190d655ba6181a2aad9dfca2eee56bc64825e25c03b69246be2b35`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b534fec56af9efebb56dfa5a44b22ceec64c71233c3aca00a5ea437372be2c7f`

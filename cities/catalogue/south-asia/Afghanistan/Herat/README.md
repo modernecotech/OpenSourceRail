@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Herat route geometry](herat.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=herat)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `262b14ae6b372c590d77342c29fdd0fa5a314930dc8440ebbfac92cdf9fb8992`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `98c6b62a7b8af1e27981f6e081500170791d51e8411b0e78a628dca3e5e9636a`

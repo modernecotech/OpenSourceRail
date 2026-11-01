@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Hurghada route geometry](hurghada.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=hurghada)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `cfc7878987f55b7ceb5fb404f0b2d9c3faf7d0726f1e19aaead3666301a4c21f`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `86aa0532a2ee39a7f27ecd46882271a5b9c43fd80cf1b2452d81af9540c60d62`

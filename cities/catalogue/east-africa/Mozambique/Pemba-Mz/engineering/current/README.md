@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../pemba-mz.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=pemba-mz) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c918fe6dfeda49ed99c39a3e9014e91d846351dcbc5b3c7ebfb832016111d5c5`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f7fae2bc58ebb7b26bda144020cb117de7e5ae7b79a87d15c97250c2588c7493`

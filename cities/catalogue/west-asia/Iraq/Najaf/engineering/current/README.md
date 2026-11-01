@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../najaf.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=najaf) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `026a9dbbdb015b7f07cf43fb29202c4a51a7718d8e8d442a432b59b7d0a39b65`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b1547f889a1ae633c1b7a00d3a7b2fe473ab4ed8b039965fa85606cad46dd9c8`

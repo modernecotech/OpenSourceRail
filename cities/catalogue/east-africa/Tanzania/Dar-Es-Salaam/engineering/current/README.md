@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../dar-es-salaam.corridor.geojson) · [ma
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=dar-es-salaam) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c7c81af662230e86772d8fcdcec1e8d892fb089fa9cd87565ce32990850c94ea`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `859a527b27d74f31be846eed0a22a600fd3df5c2dbdd24dd075413bc72b77c9b`

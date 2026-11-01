@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Lubango route geometry](lubango.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lubango)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `edf935b7e3b5f125d58e97183418b15d803bf04a813d7185879ce5081495cca2`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8427c8ecf3e3188900dd63e78248d9d6802a6511a843861b34ff74377a742012`

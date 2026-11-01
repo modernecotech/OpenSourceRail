@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../kisumu.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kisumu) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8867f44dfbceecbacbe0fce2c63a80c87c15660d56826f6b0c26c6523ac01a00`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bf60fd1aa7fc541bcd5ebf4ee890833d42ab9714ebf0e4e33e4b2cba197124d5`

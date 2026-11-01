@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../omdurman.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=omdurman) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a2dea325b2c66349dfd0fd669ba6a94bf169f62eeec6b54aa4374b047b627d6c`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `34d520058f7c26ea5e8a21b155b769f409d06f16d3fc91d0d442ce2fd5f2c90a`

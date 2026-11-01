@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../raqqa.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=raqqa) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1d6b0370c5df07fd2751c738991e2137837c53b63b0f1a06284c8096dc9b03d0`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ccddf7323e32d6bf6b80ed469c8577feae1a482c09e9368af7262d8e3a253ed9`

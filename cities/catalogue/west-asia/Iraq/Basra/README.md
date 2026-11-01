@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Basra route geometry](basra.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=basra)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ba6ded18515a9be8a91dc9d8d1dc9699ae4f849cce9dd819fc8715e55330c530`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3473c7996a57fa7ced4b6314ef310954c81acf4775cb68ce484adce7dc2c77e9`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Tangier route geometry](tangier.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=tangier)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6871db4df6fe90a512d68fef283f34e8f32f4ae4b27d5486fa5d5ccb8768c621`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2f5142d843d2a8bc0e49241cd6332672c0830cd73cf19331084d2b07fcea8002`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Beni Mellal route geometry](beni-mellal.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=beni-mellal)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `70ea5310a661b353095f73d28cb089ccb9e7496d51a7e0eaaa0591b9db52ee17`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `65393532753d03c54c282e34b1292a64681b50ca5b5ff162d4cb8347b8bb6838`

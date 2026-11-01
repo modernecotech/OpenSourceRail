@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../fallujah.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=fallujah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ed40fc108dd424ef84cdef3cd1bfecfac764dcb0f1816dd4beb5de21878157ec`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0d951f1a13d61330e6c3034d481401d65b24ac1d6a6b39378f6c866ef285385c`

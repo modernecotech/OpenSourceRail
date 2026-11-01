@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mazar E Sharif route geometry](mazar-e-sharif.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mazar-e-sharif)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a734b8fec02df3a72ecd0bb2142902fddeadc62263a0f17c6e375d8014181994`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5553ce136e2e7a6e42990b1c6fa0de05f3283e487625dc1793cfd2ba8c603ac7`

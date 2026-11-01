@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../malanje.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=malanje) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ae358cadcd1ebd0903d0c3c9dbbdf4dd085fbe3b6e650ce2e70dd9335d64fee4`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e87abe3c0975be76557ac0cf7b994143f01a58e0a7020070d678f1022e7c0b3c`

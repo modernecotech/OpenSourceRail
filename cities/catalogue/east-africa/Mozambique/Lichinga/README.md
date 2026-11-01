@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Lichinga route geometry](lichinga.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lichinga)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fe9499d5e1be8fa9da57ce466134c843377585a430bab5ba34511471148aadad`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ec270e4ad58a4adaa8e8b09f05651bb3f6e83df2f32f2842bf1ab5ca4828dc50`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mwanza route geometry](mwanza.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mwanza)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e4977ed79ecd8a52cfc9c91b1125eff74aef63c72202d5b5f07cc45dbeeccb53`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f8ce8085cc43ae3aa9d8e4df7d613b0215c01699d633a54e538ffaf17850ca1d`

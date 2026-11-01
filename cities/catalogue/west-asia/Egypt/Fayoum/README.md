@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Fayoum route geometry](fayoum.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=fayoum)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ba4c70ecf87a5dc4ec1f934b75933285f82f208f6d89f237d6b6c9ed84bc374a`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c5698e2696209503d6a6114533aab150a153e159e141d12e3502ff48da039f18`

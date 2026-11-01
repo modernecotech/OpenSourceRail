@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Davao route geometry](davao.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=davao)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `499d01b344dbeb2bf0900816261e82e1f987078ce45b4a9838507207b4fe190f`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `de1becfa318e96961bab6a5664bffad683e39a34f904098b454dff82ee7f8070`

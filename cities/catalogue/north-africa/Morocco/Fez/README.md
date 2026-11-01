@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Fez route geometry](fez.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=fez)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `139327d25da29152b62b6966a26a1adfdb6b468690a89a14eb4356c5997c3d39`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `228a81bf63133ed01710e356c8bbdba045f81979c681a2c2077198954d4aec92`

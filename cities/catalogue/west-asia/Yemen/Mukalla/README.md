@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mukalla route geometry](mukalla.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mukalla)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8178349f25d1806839029fb938429de8ab5b646fd1a066f5695e50e513e9cb84`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4c311994d7c01ccfb9ab577a992e5fad5eeec69b853023021e3f08625593a94e`

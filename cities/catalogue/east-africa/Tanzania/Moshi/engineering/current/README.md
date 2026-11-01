@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../moshi.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=moshi) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e124b4759e0a2633eb7cd7e86b0fd9bb729996f59d73c7f86ce4b8c4a24fde37`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ecbd686e9b0f15aedb72a69bdc9eb5fa992fa3673ea52e08e4a0e1a098edd672`

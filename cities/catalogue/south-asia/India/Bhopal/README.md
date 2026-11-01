@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bhopal route geometry](bhopal.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bhopal)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2baa9d83e4cad97d12aec24f9b70b693bc2c867b3089c5a05f843a274c963781`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b0b3e9e0bb46996690ce0661a2f54f12c1651607877e8f050df78af92eb4d3fb`

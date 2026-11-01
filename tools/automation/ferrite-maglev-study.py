@@ -83,7 +83,8 @@ def main():
             'assembled-body':assembled_body,'shared-hub-layout':shared_hub_layout,'body-stiffness':body_stiffness,'stopped-recovery':stopped_recovery}[args.action].publish()
     elif args.action in {'pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery'}:
         import importlib
-        result=importlib.import_module('engineering.ferrite_maglev.'+args.action.replace('-','_')).publish()
+        module='pilot_release' if args.action=='pilot-delivery' else args.action.replace('-','_')
+        result=importlib.import_module('engineering.ferrite_maglev.'+module).publish()
     elif args.action in {'candidate-native','candidate-magnetics','candidate-structures','full-dynamics','candidate-manufacturing','candidate-lifecycle','bim-field','operations-crosscheck','planning-platform','planning-ui','detailed-system'}:
         import importlib
         name='platform_publication' if args.action=='planning-platform' else args.action.replace('-','_')

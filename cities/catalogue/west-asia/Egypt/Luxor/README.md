@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Luxor route geometry](luxor.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=luxor)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d30db8de2b890e2772788d1066340b8f497b03f18c79b135dfa90782fd81c4ef`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `83b6113cac70cdf5c596d808acc64659b1ee0331f5a043cc4ee9f9c23db22c4b`

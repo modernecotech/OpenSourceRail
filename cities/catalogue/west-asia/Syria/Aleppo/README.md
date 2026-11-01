@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Aleppo route geometry](aleppo.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=aleppo)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e390864c99399477d36d7559bc2235d7c90e70a239f458aac7c6678d08c35bdf`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4eb5483f6c293d8de98c19374c449c0aea8449091271e6e778fdc8b0f9530978`

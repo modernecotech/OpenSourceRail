@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../tete.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=tete) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `58b2aefd870a7e2604db4f607960fdef5368523c68373e0d7f8c1811c24a310f`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `761d7bfd7e14f3051b026293bc621aa414061c7477e2c39019428bc0a03a4172`

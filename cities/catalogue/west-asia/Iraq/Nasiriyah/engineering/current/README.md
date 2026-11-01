@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../nasiriyah.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=nasiriyah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `93cde5186102c9c16a593819651afa49a265a2e3291e5eac6ca0c894be8df13f`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0119d7f333b4b64a4d5ce383f5b8d457d01687a113ccc7dc33200b7618f831a2`

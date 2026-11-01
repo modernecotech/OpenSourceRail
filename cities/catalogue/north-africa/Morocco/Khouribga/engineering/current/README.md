@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../khouribga.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=khouribga) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a27d45ee4f8a15b3f0b252d2456d16be4051a94e2774fc664a1545f0fb3a752b`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a50440e0916fd41b9f46770312a448efed070a89e07c42a7ec5f6e84b25b3a26`

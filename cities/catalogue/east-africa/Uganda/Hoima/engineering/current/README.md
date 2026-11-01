@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../hoima.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=hoima) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f4e5912ec6d0e00d4d0210c278cf8f063afc335a3bfe00fb3136bd7a1f8e148e`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c274b3c11b65772b71a827e3c0bfcb7cdc2d38e1ad159b295304552e401d652b`

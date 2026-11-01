@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bukavu route geometry](bukavu.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bukavu)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `aa6be572aa35473a15a91e0ae15aefbbed4cc01a49eaf895566f88c6550a7ba9`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f40aa317f21baf5a1dedc0f5d524aedf46e5336a831872f90c91aab4acdb1bb8`

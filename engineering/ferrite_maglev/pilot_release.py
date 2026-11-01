@@ -10,6 +10,13 @@ from . import model, pilot_limits
 ROOT=model.ROOT
 OUTPUT=ROOT/'docs/design-engine/ferrite-maglev/pilot-delivery'
 SCHEMA='osr-maglev-pilot-delivery/1'
+INDEX_SCHEMA='osr-v06-current-capability-index/1'
+CURRENT_PAGES=(
+    ('Project overview','docs/open-source-rail-overview.md'),
+    ('Platform capabilities','docs/capabilities/README.md'),
+    ('Current engineering dossier','docs/design-engine/current/README.md'),
+    ('Planning workspace','docs/workbench/planning/index.html'),
+)
 COMPONENTS=(
     ('controlled-product','pilot_product','Counted equipment, allowance substitution, physical kit identities and bay access'),
     ('coupled-actuators','pilot_actuators','Voltage/current/force/beam/sensing dynamics and adverse cases'),
@@ -33,6 +40,20 @@ def source_paths():
 
 def sources():
     return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in source_paths()}
+
+
+def index_sources():
+    paths={Path(__file__)}
+    paths.update(ROOT/name for _,name in CURRENT_PAGES)
+    return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
+            for p in sorted(paths)}
+
+
+def current_index():
+    return dict(schema=INDEX_SCHEMA,
+                pages=[dict(title=title,path=name) for title,name in CURRENT_PAGES],
+                scope='Current v0.6 product and workflow documentation.',
+                source_sha256=index_sources(),**model.FLAGS)
 
 
 def read_components():
@@ -150,52 +171,39 @@ def digital_progress(values):
 
 def readme(value,output):
     def link(name):return Path(os.path.relpath(ROOT/name,output)).as_posix()
-    lines=['# Baghdad connected digital pilot delivery','',value['scope'],'',
-           f"Verified digital packets: **{value['digital_packets_verified']}**. All three development profiles executed against current sources: **{value['digital_profiles_executed']}**. Physical releases: **0**.",'',
-           '| Deliverable | Digital state |', '|---|---|']
-    lines += [f"| {r['id']} | {r['state']} |" for r in value['development_deliverables']]
-    lines += ['','## Inspect the connected evidence','']
-    lines += [f"- [{r['id']}]({link(r['packet']+'/README.md')}): {r['scope']}." for r in value['components']]
-    progress=value['qualification_progress']
-    lines += ['',f"Digital completion is recorded separately: {progress['completed_scoped_digital_subtasks']} scoped digital subtasks completed; {len(progress['tasks'])} broader qualification tasks tracked; {progress['full_qualification_tasks_completed']} full qualification tasks completed and 0 physical acceptances. The structured study links every subtask to its qualification parents and exact packet receipt.",'']
-    force=value['coupled_actual_module_force']
-    lines += [f"Actual module-force screen: {force['state']}; observed peak {force['observed_peak_n']}N against the declared {force['limit_n']:g}N study bound. A controller's requested-force clamp does not bound actual magnetic-force overshoot. This screen does not qualify the physical attachments.",'']
-    lines += ['Retained rejected experiment: ['
-              '120-turn coupled run and its exact sources]('+link('docs/design-engine/ferrite-maglev/pilot-actuators-rejected-120turn/README.md')+'). Its ['
-              'matched failed-candidate financial sensitivity]('+link('docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/README.md')+') remains separately archived. A later candidate does not overwrite these failures.','']
-    lines += ['','The component-accounted product is separate from historical14.2/14.4t tare targets. Defined equipment replaces the same scope allowance; target overruns, rejected assembly paths and unselected redesigns remain visible. Passing file integrity cannot close a failed design screen.','',
-              'The counted steel/higher-copper actuator alternative has its own financial sensitivity. Its exact winding, cooling, mass and powered-section configuration are priced together. The lower-cost reference case and independent launch search cannot supply an economic advantage for a different executed candidate.','',
-              'The pilot demand calculation is a declared open-data/proxy experiment, not an observed patronage forecast. Fare revenue, DSCR and funding gaps are sensitivities, not a funding commitment. The comparison-only steel-wheel option has its own quantity bill and does not replace the primary maglev architecture.','',
-              'The native business campaign records simulation assets only. Receiving, inspection and handback in that campaign establish software workflow behavior; no hardware is accepted or authorised.','',
-              'Missing v0.4 functions remain named: '+', '.join(value['missing_legacy_capabilities'])+'. They are not silently retired or marked restored.','',
-              'External closure inputs: '+', '.join(value['external_inputs'])+'.','',
-              'Reproduce: `./osr design pilot-delivery`. Heavy evidence: `./osr assurance run engineering`, `./osr assurance run delivery-lifecycle`, `./osr assurance run control-formal`.','']
-    return '\n'.join(lines)
+    return '\n'.join([
+        '# Current OpenSourceRail capabilities', '',
+        'Use the maintained v0.6 pages for current product scope and workflow status:', '',
+        f"- [Project overview]({link('docs/open-source-rail-overview.md')})",
+        f"- [Platform capabilities]({link('docs/capabilities/README.md')})",
+        f"- [Current engineering dossier]({link('docs/design-engine/current/README.md')})",
+        f"- [Planning workspace]({link('docs/workbench/planning/index.html')})", '',
+        'These pages describe candidate-bound planning and delivery records, the selected development reference, and the limits of current evidence. They are the maintained source for user-facing capability claims.', ''
+    ])
 
 
 def publish(output=OUTPUT):
-    output=Path(output);output.mkdir(parents=True,exist_ok=True);value=study()
-    files={'study.json':encoded(value),'README.md':readme(value,OUTPUT).encode()}
+    output=Path(output);output.mkdir(parents=True,exist_ok=True);value=current_index()
+    files={'study.json':encoded(value),'README.md':readme(value,output).encode()}
     for name,data in files.items():(output/name).write_bytes(data)
-    result=dict(schema=SCHEMA,source_sha256=value['source_sha256'],files_sha256={n:sha256(d).hexdigest() for n,d in files.items()},**model.FLAGS)
+    result=dict(schema=INDEX_SCHEMA,source_sha256=value['source_sha256'],files_sha256={n:sha256(d).hexdigest() for n,d in files.items()},**model.FLAGS)
     (output/'manifest.json').write_bytes(encoded(result));return result
 
 
 def verify(output=OUTPUT):
     output=Path(output);r=json.loads((output/'manifest.json').read_bytes())
-    current=study()
-    if (output.is_symlink() or r['schema']!=SCHEMA or any(r.get(k) is not False for k in model.FLAGS)
+    current=current_index()
+    if (output.is_symlink() or r['schema']!=INDEX_SCHEMA or any(r.get(k) is not False for k in model.FLAGS)
             or set(p.name for p in output.iterdir())!={'README.md','study.json','manifest.json'}
             or any(p.is_symlink() for p in output.iterdir())
             or r['files_sha256']!={n:sha256((output/n).read_bytes()).hexdigest() for n in ('README.md','study.json')}
-            or r.get('source_sha256')!=sources()
+            or r.get('source_sha256')!=index_sources()
             or json.loads((output/'study.json').read_bytes())!=current
-            or (output/'README.md').read_text()!=readme(current,OUTPUT)):
+            or (output/'README.md').read_text()!=readme(current,output)):
         raise ValueError('stale or altered connected pilot evidence')
     return r
 
 
 def read_summary(output=OUTPUT):
     verify(output)
-    value=json.loads((Path(output)/'study.json').read_bytes())
-    return {k:v for k,v in value.items() if k!='components'}
+    return json.loads((Path(output)/'study.json').read_bytes())

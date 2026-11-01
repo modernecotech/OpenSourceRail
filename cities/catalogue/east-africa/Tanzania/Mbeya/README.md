@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mbeya route geometry](mbeya.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mbeya)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `760eb2b441b9e01799eb55f9ac03146847946dae9d698f73e26d9a916f429844`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d3b176c72ad7ae9079b408f878a1d1637bc820646815564526a2322a93008a15`

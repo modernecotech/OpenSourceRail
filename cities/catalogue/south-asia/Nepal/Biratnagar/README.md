@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Biratnagar route geometry](biratnagar.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=biratnagar)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `151f89f92567942ea34d5120689d916c3c82bf17c1b93aaa82bef27b8e5b3d95`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0a926901149f71d13c28f86eff215ac0620a67e0000abe18d821e69ebcf7e5ab`

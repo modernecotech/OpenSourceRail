@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Khartoum route geometry](khartoum.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=khartoum)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `985cc729907e6199f0c300990ea506310587a3aedd257ed65abfda88d9e56ead`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6dac0d1b487fe1abd139476fe4f39e878fed8df0e83e753d47f39d6d50379af0`

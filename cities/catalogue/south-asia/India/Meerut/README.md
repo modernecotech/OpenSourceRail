@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Meerut route geometry](meerut.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=meerut)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `719495b91be098879c17a36548f1cd421f560546b85e1b63aa2493f8f11a5538`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6eac01531939ea3dc90e597dbcdd27a99434f82b6ea5791d4f52b2a8b16bd622`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Sialkot route geometry](sialkot.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=sialkot)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b2581c541d971c2a43093bb29b1dc4136adccea9752ccea62cacbcddc81b5c6d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e8641b3404a8717c6260e3b712332a03fc26dc3c400f9f551fbdd2aeb35f25c6`

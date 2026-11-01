@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../maiduguri.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=maiduguri) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4758640c08613761219ed15c089fdf0b2ef1777320b92dcf4b620dc7663f2e83`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1535a1934776818ca3de4c324f6a505b91581ef6134cb47bfd3fdf3a6162bfc1`

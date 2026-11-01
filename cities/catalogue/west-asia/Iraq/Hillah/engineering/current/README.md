@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../hillah.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=hillah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3a1c6e13691019574e9b9f22bb86ddf6e1deb24a5205eb3d66232213c78292d6`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0fd3888c81e0f2db2a66ed96f812f2560a5b4cae225d45caaa887c64636f60c4`

@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../phnom-penh.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=phnom-penh) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `798b8a532a867cd5e024b14c63391c99d763c420cc578f78d86167c06609a920`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4e494115bfa3f3ca17ba1e43e8399202a2dce6aa774757e0ed453ee20d61e67b`

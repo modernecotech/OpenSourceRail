@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Rahim Yar Khan route geometry](rahim-yar-khan.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=rahim-yar-khan)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a827a83870d1436869170617d0f66b9f407c44ce2b458e846fa8bb76c0bd71f0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3ee56b6510977b471b3397376733e4067dcbd5cc339e5682756371d8f2669707`

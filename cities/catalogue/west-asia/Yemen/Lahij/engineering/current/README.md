@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../lahij.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=lahij) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7d39bd1f07d7935013a10bd61c4403fe9300b02abeb58ac14370ab3dbcbdff34`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `33f6cae01db3fa027b96fe9bdb45a2e751d1d333fa3feeee16d3236ff28e9b5b`

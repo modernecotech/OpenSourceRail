@@ -4,6 +4,13 @@ import pytest
 from engineering.ferrite_maglev import pilot_release as p
 
 
+def test_published_readme_points_to_current_product_pages():
+    text=p.readme({},p.OUTPUT)
+    assert '# Current OpenSourceRail capabilities' in text
+    assert 'Platform capabilities' in text and 'Planning workspace' in text
+    assert not any(term in text.lower() for term in ('v0.4', 'v0.5', 'legacy', 'migration'))
+
+
 def test_failed_mass_and_missing_execution_stay_visible(monkeypatch):
     components=[dict(id='controlled-product',summary=dict(mass_targets_closed=0,configurations=2)),
         dict(id='assurance-profiles',summary=dict(all_profiles_executed=False)),
@@ -112,14 +119,15 @@ def test_candidate_finance_cannot_borrow_a_different_actuator_pass():
         p.check_configurations(components)
 
 
-def test_publication_manifest_source_claim_is_checked(tmp_path,monkeypatch):
+def test_current_index_manifest_source_claim_is_checked(tmp_path,monkeypatch):
     import json
     from hashlib import sha256
-    monkeypatch.setattr(p,'study',lambda:{})
+    monkeypatch.setattr(p,'current_index',lambda:{})
+    monkeypatch.setattr(p,'index_sources',lambda:{'browser.mjs':'a'*64})
     monkeypatch.setattr(p,'readme',lambda value,output:'Fixture')
     for name,data in [('study.json',b'{}'),('README.md',b'Fixture')]:
         (tmp_path/name).write_bytes(data)
-    m=dict(schema=p.SCHEMA,source_sha256=p.sources(),files_sha256={
+    m=dict(schema=p.INDEX_SCHEMA,source_sha256=p.index_sources(),files_sha256={
         n:sha256((tmp_path/n).read_bytes()).hexdigest() for n in ('study.json','README.md')},**p.model.FLAGS)
     (tmp_path/'manifest.json').write_bytes(p.encoded(m));p.verify(tmp_path)
     m['source_sha256']={'forged':'b'*64};(tmp_path/'manifest.json').write_bytes(p.encoded(m))

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Jos route geometry](jos.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=jos)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `dbd5baf7c2401534d0ca02f3528768a2105695b2972d9c84d66bb4ead0931662`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `902679e6d76b57784e346bd4909777f11c6634a2afd0821d831790d2f695124d`

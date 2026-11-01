@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../bahawalpur.corridor.geojson) · [map c
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=bahawalpur) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bc6e53be842bf81bd8545684d15fac3dd3e8280906770f8935bfa4671914570a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7be84207f8e1b1fdc051721ce4ffb0aa28cfa1587cace5bf0eed516061ca3b6c`

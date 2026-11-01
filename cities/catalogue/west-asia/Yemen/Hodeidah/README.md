@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Hodeidah route geometry](hodeidah.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=hodeidah)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `55659c7973a018fbe8925cf9eac3b01453f889df8c432cfb1fda4b518f308271`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `fe49c64c1cfbf761c3e892620756c51802be4c5f99ee1cd7196571a144b1d956`

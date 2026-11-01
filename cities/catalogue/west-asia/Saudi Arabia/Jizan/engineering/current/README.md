@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../jizan.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=jizan) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b05b80303b2dfab76c7c580275bb4a6c4490104b4248e3ab5ad7387416c669a0`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7ddcbb9a70a4190f9372bd1f7b4d2e2a4cbccfdcceb59dcdc183cabd80931378`

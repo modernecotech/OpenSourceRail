@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Suez route geometry](suez.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=suez)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c1b2793e5b2bb2b81be896eb5e080c20f2ccd50b0b2ac79d7e544020c90aa075`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `aadd768000b474fd60fcdf95d112f4a338254f146380e316edb559ad041d329c`

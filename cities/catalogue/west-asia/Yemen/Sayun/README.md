@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Sayun route geometry](sayun.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=sayun)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9a29e871056694abb2223e6e9b40159214fdac0df9a52e99db06df9715abd4e1`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9e6ce2d3eca3e986cab648e0c63ec27a806f652cba1392c5704d27a85dc8ba40`

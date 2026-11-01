@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Tartus route geometry](tartus.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=tartus)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `37ca6ab646cd4e8854826306ba3a5662985c54d698b17a388b4f4698be8344f2`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `58bb45721a63a6d345e1db4f46d0b32c45bbdfff94040cc2f2b346a93cdf5073`

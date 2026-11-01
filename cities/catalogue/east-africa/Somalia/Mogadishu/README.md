@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mogadishu route geometry](mogadishu.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mogadishu)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5e62d345becf3780d7f71d924240900d4298c0676282038a3c6435c13423e7a3`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1bf66ff4c3cf29c8b553da46bb4a92e696d2b226607ac4bb1c05aae4faeaaa0d`

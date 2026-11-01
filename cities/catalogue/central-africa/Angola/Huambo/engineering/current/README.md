@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../huambo.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=huambo) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b5435bde5a34216facf01c83899244184854ef0cc172f883ebefb71f08fa9cbb`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3ff9618cb6c02336bfbb29b40ec87a0377a183782f80ec2cdf4ce17ed7191a94`

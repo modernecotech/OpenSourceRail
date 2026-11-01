@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../nablus.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=nablus) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5934dc846a16ba085ca4bc18dbb4133e2aa9649629bcc951de48f2e86c4eafa2`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `524d0d118b05fa90c4834e8633b2d16f17d7ba0e1a580a378c889577ff03e76a`

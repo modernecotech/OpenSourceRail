@@ -222,6 +222,11 @@ def _publish_city_frontdoor(row,baseline,root):
     write(package/'summary.json',encoded(value))
     write(package/'README.md',current_text.encode())
     write(city_path/'README.md',root_text.encode())
+    superseded=city_path/'engineering/maglev/README.md'
+    if superseded.is_symlink():
+        raise ValueError('refusing symlinked superseded city README: '+superseded.relative_to(root).as_posix())
+    if superseded.is_file():
+        superseded.unlink()
     files={name:digest(package/name) for name in ('README.md','summary.json')}
     manifest=dict(schema='osr-current-city-publication/2',family=FAMILY,
         **{key:value[key] for key in IDS},selection_id=value['selection_id'],
@@ -249,6 +254,9 @@ def _verify_city_frontdoors(root,baseline,rows):
             raise ValueError('Current city README differs: '+current_readme.relative_to(root).as_posix())
         if not frontdoor.is_file() or frontdoor.read_text()!=root_text:
             raise ValueError('City planning frontdoor differs: '+frontdoor.relative_to(root).as_posix())
+        superseded=city_path/'engineering/maglev/README.md'
+        if superseded.exists() or superseded.is_symlink():
+            raise ValueError('Superseded city README remains: '+superseded.relative_to(root).as_posix())
         manifest_path=package/'manifest.json'
         manifest=json.loads(manifest_path.read_bytes())
         unsigned={key:item for key,item in manifest.items() if key!='manifest_id'}

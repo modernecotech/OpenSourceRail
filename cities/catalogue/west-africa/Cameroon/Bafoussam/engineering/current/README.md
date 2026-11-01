@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../bafoussam.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=bafoussam) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `92bda23c85d6077ca6944d03f879ae21f2aa74366c63d3f7a213f7860ceb707e`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f5c710331e9d4a223d3b95823e4aef7965306571cb57063307ea29d86b0941ed`

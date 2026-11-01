@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Gaza City route geometry](gaza-city.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=gaza-city)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `05a4e1feab1e176d6924b8e0f4b9d06fb5e58911eb32e0e7787c502e027d56cd`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0c7d67f238a9cdeca6a2650a4f52d509f7808e3f34348cf9bbf219daa4e56384`

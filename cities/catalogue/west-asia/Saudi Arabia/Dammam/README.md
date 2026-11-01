@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Dammam route geometry](dammam.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=dammam)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `3f5735bde846fe42b935f5f1c254e172fb1d6e31936c689fbbd9165066d25cc2`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `1ac98a70c7aca0b1b372ec25ba67d8f9b52d0bbc4ab810c8f81d9c72e4f29c55`

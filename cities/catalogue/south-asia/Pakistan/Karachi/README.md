@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Karachi route geometry](karachi.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=karachi)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9c173cab8c39dca43c9497c273a4df1455484802fd0ad8b1029fe1861eb6c1ff`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ffbe8666b247a026bcf3fc5dc9296ec29fe6c9561d87be4a0e51a00d7fdfbd6e`

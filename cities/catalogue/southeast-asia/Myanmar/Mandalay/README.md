@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Mandalay route geometry](mandalay.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=mandalay)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `29ce11f173ba9c88e24a29fdba50bff6b32585afaa5bfeab8ec318efb8d0e608`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6031b5c826a16f5a95ff82d8f73314681b30da35157f433d79497bf76dbac890`

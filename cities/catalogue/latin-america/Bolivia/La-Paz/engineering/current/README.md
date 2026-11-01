@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../la-paz.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=la-paz) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d2b9cc65247826c004e417a4e3aebe90373265792bcd58e22a558adaa1155bd2`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `71d293dabbd1eeeaf527f485e5f4e209e4fb2a1c4997c0ee9f8529f6bde01bad`

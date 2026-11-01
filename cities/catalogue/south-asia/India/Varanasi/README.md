@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Varanasi route geometry](varanasi.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=varanasi)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5ab8f54ac6be6245d39632ed3ad2a67d2a063bc2f3610f61f4cae388c09e36ec`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `34c67c66c57dd6c8b0ad8333bed095d82a4a33fab396411ad6c80f7d8517fc1e`

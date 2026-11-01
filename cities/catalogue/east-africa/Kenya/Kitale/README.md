@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Kitale route geometry](kitale.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=kitale)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `142347e373ea5b6abdaed3fc3e05693899d14af345496563713c0b275f489466`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `488d4fab3f3250250a27fa6870133122f4281c53aeb694eb63fa351ef2c02490`

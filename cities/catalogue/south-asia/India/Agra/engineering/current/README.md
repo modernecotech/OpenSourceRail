@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../agra.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=agra) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `319177d20e0b0d7f3359683a0855fab04fb95edb6aaa5110ff851394a01b197d`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `377a21b0ff5eb5a2d11cc2a4d01d5c2cc7de86c055d9a794a74bf506fd184461`

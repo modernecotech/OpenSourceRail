@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../kigoma.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kigoma) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c7bdf7eefa522238f4e0e2c6052b649f7c3c6b65cf6bcaa3e1304303917aa608`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `132c989ffa77cdd825c8181388decc058fb2b6d4cbd4eaf31ba1589af5358c15`

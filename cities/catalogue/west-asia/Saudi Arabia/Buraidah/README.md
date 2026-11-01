@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Buraidah route geometry](buraidah.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=buraidah)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `41050069a904e1a5ab11cde1fed947d6dd5b991433fe13f8f7fbc60b6c7d5e85`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `124771df3519cb3ab12194dd29df6b19c011db974bbb84cd9733146cfc942e67`

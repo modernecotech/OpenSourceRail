@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Lobito route geometry](lobito.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lobito)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8669a64d121d64c04dd8f4151b99a4ad923753768c78c72fb3cab7e2140fd893`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `91231cbcf4bd6cfd39b539ff6b9514b5a0c47ed4f4f1ff57f87f25b9964dd91c`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Yaounde route geometry](yaounde.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=yaounde)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `65b59b40205be655036122af6768a77c7669e038ca30830ec0078f8b7f1b4425`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `54924ce493076dc9d60b93fe26256aa10521227a22cee9b804071d25a07756a1`

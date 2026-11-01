@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Bertoua route geometry](bertoua.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=bertoua)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ec0978495553c2e4df0241cf6aaed9add02f296c37479a73b872ea68b3a899f9`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9d5e0827c0504dfdda178d9200bf4cec2f9c4a5380e9fd5afdaaf37e3533fd3a`

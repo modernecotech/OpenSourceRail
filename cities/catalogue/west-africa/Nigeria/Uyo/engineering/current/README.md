@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../uyo.corridor.geojson) · [map context]
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=uyo) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bb792db8f9ab0d0e52450f3a2000b393f213bfec56e51619d28423d0fe021361`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `989b65d7f63d402c5c324bb6929bb14deb2ed43241387feddf9cdee85fa6ffa3`

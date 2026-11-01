@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../narayanganj.corridor.geojson) · [map 
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=narayanganj) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `48ce3ed7afb6b3b95d05316a92a9364d24d94d040e7988f5a79fc9116d720c2f`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4d34cc8d1ade17a0641d44a39472f8b45c6f8586468272bd66fdf52e7e942424`

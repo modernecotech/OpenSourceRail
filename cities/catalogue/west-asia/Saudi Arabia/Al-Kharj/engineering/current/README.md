@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../al-kharj.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=al-kharj) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a45dcd124fc6f4a3803d0224789c272541339245f429896e3d09074bf62fef2a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0d14fc9b8d317b7fcc677b26093ea5d00ee4fdba2ffd76bcdec11daf8bf8a411`

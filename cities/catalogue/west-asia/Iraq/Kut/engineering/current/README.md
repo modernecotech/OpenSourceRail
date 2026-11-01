@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../kut.corridor.geojson) · [map context]
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kut) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `839bbe7ee508934e086b7b577d198aaebc4e3b296cb706dbf2e94f55af27bfca`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `106aecf64e79def20d5b262bbb286841df098e25f0351ceb2ec0da552d9e534f`

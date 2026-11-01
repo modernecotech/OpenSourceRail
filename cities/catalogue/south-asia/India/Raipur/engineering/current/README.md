@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../raipur.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=raipur) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7facc4a05a7a9c7b97dd8cc9e2acc5101ffc581817fabf8df7ef0a867b6e59db`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `903b5fc44c5bca286bb1a95b646554cae2da244a3ba69d07d97ee494a869fcdc`

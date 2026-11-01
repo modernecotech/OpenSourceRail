@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../tanga.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=tanga) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f7b4f0e5bf56ede3326e49743789502ac2584fe354d885a8b02d517a1ea6ff33`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d88e595c2ce9ba57954b2629e8f659b6de799b602388a3b788a2025fb0fd38fd`

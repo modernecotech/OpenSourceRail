@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Patna route geometry](patna.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=patna)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9f842eea1799c7c1c0d3fe9467c3a12ede34f97953812d2022a46e3b51e7d80d`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0b424a833cca45f2ef68ad294c094ff611ce8d23fa5a7256473e670427da6800`

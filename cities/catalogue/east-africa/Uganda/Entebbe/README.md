@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Entebbe route geometry](entebbe.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=entebbe)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7e252d7dbe15c65e8a4e51e884e1f695ef015a76ff048949a19f31a9144f6602`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2bc2a483baf0de2bc6ea1966753b6b4c0d8ddf655c91b6fccf94cfa4a0132b87`

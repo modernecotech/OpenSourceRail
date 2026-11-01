@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../tangier.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=tangier) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6871db4df6fe90a512d68fef283f34e8f32f4ae4b27d5486fa5d5ccb8768c621`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2f5142d843d2a8bc0e49241cd6332672c0830cd73cf19331084d2b07fcea8002`

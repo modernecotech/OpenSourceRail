@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Rangpur route geometry](rangpur.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=rangpur)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e23c5d6a6ea84e205005e1e6ec254320d3f725e025abe7fe2fe15252df7463c0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f4be09a77c19141e66c36d931739fb551602990b3984aba3d334622d161a8068`

@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Comilla route geometry](comilla.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=comilla)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `74ec474ffde395de2643a1785356bda0f23ce8c39cf77a827273e3d0528d93c1`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0a808e38a29db426fbc0966adc179016c332d954c96f60a9cdf3812c957acfc2`

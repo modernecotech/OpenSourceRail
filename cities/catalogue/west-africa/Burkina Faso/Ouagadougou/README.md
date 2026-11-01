@@ -13,4 +13,4 @@ Compile and verify a proposal from the repository root:
 
 [Ouagadougou route geometry](ouagadougou.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=ouagadougou)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a1d45094f35a1c200123625077c784c8235abfa8561624e50c36728e57379b23`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ad6f661a8afbfa0829ea279f0085d3dfb94ac15a84270da16854c92b33a46589`

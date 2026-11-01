@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../tabuk.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=tabuk) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0d1a9a58eaae5ccf9f156202b43257e861e4e43ff76140cf827403dac730bba8`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `89749a9c7dd3a68bcafeb08806ddec807e3c39077594109f42fd21c559f5568c`

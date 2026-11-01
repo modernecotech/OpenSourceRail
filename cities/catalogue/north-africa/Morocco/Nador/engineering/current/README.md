@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../nador.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=nador) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `70c25ebbd56f7de0f96f23bf4d834f98eb344d0a8ade7bdb7a5e8d17b80c9b32`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `43821a1d7f3a5279cf2a2a973342617edb30e21063dd3b64f3a84bc264fabfc9`

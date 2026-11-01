@@ -8,4 +8,4 @@ Geographic inputs: [route geometry](../../samawah.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=samawah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c066e04e2c6cee80fba60dbc9e45ec7c45add0c8c7612247ac7e9bb201d0e795`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `96534983d97648fbc342f688d77d9e8189fbf7d77db36b8ffb775a082043ba92`
