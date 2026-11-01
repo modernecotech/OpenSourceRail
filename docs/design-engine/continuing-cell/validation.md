@@ -4,7 +4,7 @@ These are numerical research records. No authenticated prototype measurements, a
 
 ## Reproduction and integrity
 
-Final regression coverage: **210 tests passed**, including the existing cost-contract checks and new inactive-export checks:
+Final regression coverage: **211 tests passed**, including cost-contract checks, inactive-export checks and the host-stable comparison-tolerance boundary:
 
 ```bash
 .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_progress/tests
