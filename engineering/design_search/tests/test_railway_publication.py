@@ -2,6 +2,7 @@
 import json
 import gzip
 import shutil
+from pathlib import Path
 import pytest
 from engineering.station_rail import ROOT
 from engineering.design_search import railway_publication as publication
@@ -11,23 +12,26 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     result = publication.verify()
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
-    assert result['native_body_case_count'] == 14
+    summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
+    expected_native_cases=14+int(summary['current_source_refinement'] is not None)+int(summary['current_source_fine_refinement'] is not None)
+    assert result['native_body_case_count'] == expected_native_cases
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
-    summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
     completion=summary['completion_status']
     assert completion['simulation_complete']==112
     assert completion['integrated_force_driven_journey_complete']==0
     assert completion['engineering_validated']==0
     assert completion['approved_for_manufacture_or_operation']==0
-    assert summary['current_source_refinement'] is None
-    assert summary['current_source_fine_refinement'] is None
+    assert summary['current_source_refinement']['execution']=='completed'
+    assert summary['current_source_refinement']['mesh_m']==0.2125
+    assert summary['current_source_fine_refinement']['execution']=='completed'
+    assert summary['current_source_fine_refinement']['mesh_m']==0.10625
     assert summary['frontier_tasks']==46
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
     continuation=next(x for x in frontier if x['kind']=='unresolved-numerical-refinement'
         and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b')
-    assert continuation['proposed_next_mesh_m']==0.2125
-    assert continuation['next_job_within_current_mesh_domain'] is False
+    assert continuation['proposed_next_mesh_m']==0.053125
+    assert continuation['state']=='explicit-resource-revision-required'
 
 
 def _declared_cost_row():
@@ -85,6 +89,17 @@ def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
     # execution receipt so this test exercises publication reuse without
     # depending on a developer's private build directory.
     monkeypatch.setattr(publication,'current',lambda root:(ROOT/'build/coupled-railway',current_result))
+    current_refinement=json.loads(gzip.decompress(
+        (ROOT/publication.OUTPUT/'current-refinement.json.gz').read_bytes()))
+    monkeypatch.setattr(publication,'_current_refinement',lambda *a,**k:current_refinement)
+    fine_refinement=json.loads(gzip.decompress(
+        (ROOT/publication.OUTPUT/'fine-refinement.json.gz').read_bytes()))
+    monkeypatch.setattr(publication,'_current_fine_refinement',lambda *a,**k:fine_refinement)
+    source_hashes=json.loads((ROOT/publication.OUTPUT/'manifest.json').read_bytes())['source_sha256']
+    original_digest=publication.digest
+    monkeypatch.setattr(publication,'digest',lambda path:source_hashes.get(
+        Path(path).relative_to(ROOT).as_posix(),original_digest(path))
+        if Path(path).is_relative_to(ROOT) else original_digest(path))
     assert publication.build()['verified']
 
 
@@ -100,6 +115,26 @@ def test_identical_retained_publication_retry_is_idempotent(tmp_path):
     assert publication._retain_previous_publication(tmp_path,out)==retained
     assert not out.exists()
     assert (retained/'README.md').read_text()=='prior packet\n'
+
+
+def test_publication_rebuilds_when_a_current_refinement_package_is_added(tmp_path):
+    out=tmp_path/'packet'
+    out.mkdir()
+    continuation={'manifest':{'manifest_id':'new-refinement'}}
+    (out/'current-refinement.json.gz').write_bytes(gzip.compress(
+        json.dumps(None).encode(),mtime=0))
+    (out/'fine-refinement.json.gz').write_bytes(gzip.compress(
+        json.dumps(None).encode(),mtime=0))
+
+    assert not publication._published_refinements_match(out,continuation,None)
+
+    (out/'current-refinement.json.gz').write_bytes(gzip.compress(
+        json.dumps(continuation).encode(),mtime=0))
+    assert publication._published_refinements_match(out,continuation,None)
+
+    (out/'current-refinement.json.gz').write_bytes(gzip.compress(
+        json.dumps({'manifest':{'manifest_id':'stale'}}).encode(),mtime=0))
+    assert not publication._published_refinements_match(out,continuation,None)
 
 
 def test_conflicting_retained_publication_is_preserved_and_refused(tmp_path):
@@ -193,6 +228,7 @@ def test_exact_current_refinement_request_is_retained_only_after_verification(tm
 
 def test_exact_fine_request_is_selected_and_verified_among_stale_receipts(tmp_path, monkeypatch):
     from engineering.design_search import railway_refinement_current_fine_reconcile as reconciler
+    from engineering.design_search import railway_refinement_current_fine as fine_producer
     from engineering.station_rail.common import digest, identity
     candidate=reconciler.CANDIDATE_ID
     from engineering.design_search import railway_refinement_current as current_refinement
@@ -209,6 +245,8 @@ def test_exact_fine_request_is_selected_and_verified_among_stale_receipts(tmp_pa
         mesh_m=reconciler.MESH_M,parent_result_sha256=digest(parent),parent_contract_id=value['contract_id'],
         parent_campaign_id=value['campaign_id'],parent_run_id=value['run_id'],parent_frontier_item=task)
     request_id=identity(request)
+    monkeypatch.setattr(fine_producer,'verify',lambda *a,**k:(_ for _ in ()).throw(
+        ValueError('Current-source fine refinement package is missing')))
     exact=stale.parent/request_id
     exact.mkdir()
     (exact/'request.json').write_text(json.dumps(request))
@@ -223,3 +261,36 @@ def test_exact_fine_request_is_selected_and_verified_among_stale_receipts(tmp_pa
     assert result['verification']=={'verified':True}
     assert checked==[dict(parent_result=parent,candidate_id=candidate,request_id=request_id)]
     assert (stale/'manifest.json').read_text()=='{}'
+
+
+def test_exact_direct_fine_package_is_verified_without_reconciliation(tmp_path,monkeypatch):
+    from engineering.design_search import railway_refinement_current as current_refinement
+    from engineering.design_search import railway_refinement_current_fine as fine_producer
+    from engineering.station_rail.common import identity
+    candidate=fine_producer.CANDIDATE_ID
+    task=_refinement_frontier(candidate,current_refinement.NEXT_MESH_M)
+    value=dict(contract_id='current-contract',campaign_id='campaign',run_id='run',frontier=[task])
+    parent=tmp_path/'build/coupled-railway/current-contract/result.json'
+    request=dict(request_id='fine-request')
+    request_id=identity(request)
+    direct_folder=tmp_path/'build/coupled-railway/refinements'/candidate/request_id
+    (direct_folder/'native').mkdir(parents=True)
+    result=dict(evaluation_id='fine-evaluation')
+    report=dict(generated_mesh={'mesh_m':0.10625})
+    manifest=dict(manifest_id='fine-manifest')
+    for path,payload in ((direct_folder/'request.json',request),(direct_folder/'native/result.json',result),
+            (direct_folder/'report.json',report),(direct_folder/'manifest.json',manifest)):
+        path.write_text(json.dumps(payload))
+    checked=[]
+    monkeypatch.setattr(fine_producer,'verify',lambda *a,**k:checked.append(k) or {
+        'verified':True,'request_id':request_id,'manifest_id':manifest['manifest_id']})
+
+    package=publication._current_fine_refinement(tmp_path,value)
+
+    assert package['folder']==direct_folder
+    assert package['raw_folder']==direct_folder
+    assert package['package_kind']=='direct-native'
+    assert package['request']==request
+    assert package['verification']=={'verified':True,'request_id':request_id,
+        'manifest_id':manifest['manifest_id']}
+    assert checked==[dict(parent_result=parent,candidate_id=candidate)]
