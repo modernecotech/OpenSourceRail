@@ -144,6 +144,7 @@ def validate(historical_text, shared_text, current_text, archive):
         assert re.findall(r'^\s+(?:- )?if: (.+)$', current, re.M) == (['always()'] if name == 'control-formal' else []), name
     shared = jobs['current-shared-software']
     for command in ('test_ci_architecture.py', 'verify-maglev-sources.py',
+                    'test_doc_index.py',
                     'cargo test --locked --workspace --all-targets',
                     'cargo check --locked -p osr-maglev-control --no-default-features',
                     'observer-prototype/tests/differential.py',

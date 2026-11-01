@@ -35,7 +35,7 @@ EXCLUDED_DOCS = {
 
 def _indexed(path: Path) -> bool:
     name = path.as_posix()
-    if not SKIP_PARTS.isdisjoint(path.parts) or not (REPO_ROOT / path).exists():
+    if not SKIP_PARTS.isdisjoint(path.parts):
         return False
     if name.startswith(("legacy/", "docs/archives/", "docs/design-engine/ferrite-maglev/")):
         return False
@@ -63,10 +63,21 @@ def _git_markdown_files() -> list[Path]:
 
 def _title(path: Path) -> str:
     try:
-        for line in (REPO_ROOT / path).read_text(encoding="utf-8").splitlines():
+        source = REPO_ROOT / path
+        if source.exists():
+            content = source.read_text(encoding="utf-8")
+        else:
+            # Sparse checkouts omit some tracked Markdown files. Read their
+            # committed source so the generated index matches a full checkout.
+            content = subprocess.check_output(
+                ["git", "show", f"HEAD:{path.as_posix()}"],
+                cwd=REPO_ROOT,
+                text=True,
+            )
+        for line in content.splitlines():
             if line.startswith("# "):
                 return line[2:].strip()
-    except UnicodeDecodeError:
+    except (UnicodeDecodeError, subprocess.CalledProcessError):
         pass
     if path.name == "README.md":
         return path.parent.name or "Repository README"

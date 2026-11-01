@@ -27,6 +27,7 @@ jobs:
       - name: Enforce historical and current CI separation
         run: |
           python tools/automation/tests/test_ci_architecture.py
+          python tools/automation/tests/test_doc_index.py
           python tools/automation/tests/test_research_snapshot.py
           python tools/automation/tests/test_historical_apt.py
           python tools/automation/tests/test_historical_replay.py
