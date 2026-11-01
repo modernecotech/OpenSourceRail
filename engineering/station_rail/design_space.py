@@ -19,12 +19,38 @@ FLAGS=dict(physical_accepted=False,engineering_accepted=False,configuration_adop
 def parent(root=ROOT):
     from engineering.design_search import contracts as k,wheel_families
     root=Path(root);folder=root/'docs/design-engine/v06-optimisation'
+    manifest=json.loads((folder/'manifest.json').read_bytes())
+    if (manifest.get('schema')!='osr-wheel-campaign-publication-manifest/1'
+            or manifest.get('manifest_id')!=identity({n:v for n,v in manifest.items() if n!='manifest_id'})
+            or any(manifest.get(name) is not False for name in ('physical_accepted','engineering_accepted',
+                'configuration_adopted','manufacturing_release','operating_release'))):
+        raise ValueError('Retained parent publication identity or disposition differs')
+    files={p.relative_to(folder).as_posix():digest(p) for p in folder.rglob('*') if p.is_file() and p.name!='manifest.json'}
+    if files!=manifest.get('files_sha256'):
+        raise ValueError('Retained parent publication payload differs')
+    source_epoch=manifest.get('source_sha256',{})
     comparison=json.loads(gzip.decompress((folder/'comparison.json.gz').read_bytes()))
     selected=json.loads((folder/'summary.json').read_bytes())['next_experiment']['selected_candidate_id']
     candidate=next(c for c in comparison['candidates'] if c['candidate_id']==selected);k.validate_candidate(candidate)
+    recorded=candidate.get('source_bindings',{}).get('source_sha256',{})
+    if (not recorded or any(source_epoch.get(name)!=value for name,value in recorded.items())
+            or candidate.get('source_bindings',{}).get('parent_candidate_id')!=wheel_families._base()['candidate_id']):
+        raise ValueError('Retained parent candidate provenance is not bound to its publication')
     results=[r for r in comparison['results'] if r['candidate_id']==selected]
-    for result in results:k.validate_result(result)
-    return candidate,wheel_families.materialize(candidate),results
+    stale_sources=set()
+    for result in results:
+        k.validate_result(result)
+        for name,value in result['request']['evaluator_sources'].items():
+            if not (root/name).is_file() or digest(root/name)!=value:
+                stale_sources.add(name)
+    provenance=dict(schema='osr-expanded-design-parent-provenance/1',
+        parent_publication_manifest_id=manifest['manifest_id'],
+        parent_source_epoch_id=identity(source_epoch),
+        historical_trigger_evaluation_ids=sorted(r['evaluation_id'] for r in results),
+        stale_evaluator_source_paths=sorted(stale_sources),
+        previous_evaluations_used_as_current_evidence=False,
+        previous_evaluations_usage='historical-diagnostic-triggers-only',**FLAGS)
+    return candidate,wheel_families.materialize_recorded_parent(candidate),results,provenance
 
 
 def assemble(root=ROOT):
@@ -33,7 +59,7 @@ def assemble(root=ROOT):
     if spec['schema']!='osr-expanded-design-space/1' or spec['purpose']!='next-experiment':raise ValueError('Research-only versioned specification required')
     if (spec['maximum_structural_proposals'],spec['maximum_propulsion_proposals'],spec['maximum_native_motor_cases'],spec['maximum_native_coupon_cases'])!=(12,12,4,4):raise ValueError('Explicit first expansion budgets required')
     from . import braking
-    candidate,car,results=parent(root);context=dict(accounted_mass_kg_per_car=car['mass']['accounted_cap_loaded_kg_per_car'],
+    candidate,car,results,parent_provenance=parent(root);context=dict(accounted_mass_kg_per_car=car['mass']['accounted_cap_loaded_kg_per_car'],
         rotating_equivalent_mass_kg_per_car=braking.rotating_stock(car)['equivalent_inertial_mass_kg_per_car'])
     motor=motors.expanded_plan(candidate,results,context=context,native_case_budget=4,confirmation_case_budget=0)
     parameters=bodies.initial_parameters();rows=[]
@@ -61,7 +87,8 @@ def assemble(root=ROOT):
     attachments=[joins.attachment_plan(strategy,supports) for strategy in ('bonded-flange','bond-plus-bolts','potted-insert','clip-plus-positive-retention','welded-node')]
     glazing=[joins.glazing_plan(1.3,.7,.006,product=product) for product in ('polycarbonate-flat-window','fire-retardant-flat-window')]
     return dict(schema='osr-expanded-design-space-results/1',parent_candidate_id=candidate['candidate_id'],
-        parent_requirement_revision=candidate['requirement_revision'],vehicle_context=context,specification=spec,structural_plan=bodies.campaign_plan(),
+        parent_requirement_revision=candidate['requirement_revision'],parent_provenance=parent_provenance,
+        vehicle_context=context,specification=spec,structural_plan=bodies.campaign_plan(),
         structural_proposals=rows,propulsion_plan=motor,material_catalogue=bodies.material_catalogue(),joining_catalogue=joins.catalogue(),
         concept_leads=bodies.concept_leads(),
         attachment_examples=attachments,glazing_examples=glazing,
@@ -75,6 +102,7 @@ def readme(value,native,diagnosis=None,native_results=()):
       '# Broader v0.6 design space','',
       'OpenSourceRail seeks simple, affordable transport that can be manufactured and repaired locally. This bounded search uses material and architecture choices to respond to the failed wheel-rail campaign, while preserving its exact evidence and the comfort-first service brief.','',
       '**Research definitions and necessary bounds.** None of these new structural families inherits a validated full-body model, installed mass or physical acceptance. The [executed native campaign](../v06-optimisation/README.md) remains a separate source-bound result.','',
+      'The selected physical layout is replayed under the current geometry generator. Earlier evaluator records are preserved as historical diagnostic triggers only; source-stale results are not reused as current evidence.','',
       '## What can change','',
       '| Domain | Design variables | Required consequence |','|---|---|---|',
       '| Main body | Aluminium spaceframe; participating sandwich; hybrid integral panels; GFRP semi-monocoque | Regenerate load paths, aperture frames, bogie hardpoints and counted stock |',
@@ -178,7 +206,10 @@ def compact(value,native):
 def build(root=ROOT,output=None,*,native_dirs=None):
     from engineering.design_search import wheel_publication as previous
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
-    previous.verify(root/'docs/design-engine/v06-optimisation')
+    # assemble() validates the retained campaign's published bytes and source
+    # bindings, then replays only its physical seed under current geometry code.
+    # The earlier evaluation source epoch is kept as historical trigger data;
+    # it is not promoted or verified as current numerical evidence here.
     value=assemble(root);native=[];native_results=[]
     if native_dirs is None:native_dirs=[root/p for p in value['specification']['native_package_roots'] if (root/p/'manifest.json').is_file()]
     if out.exists():

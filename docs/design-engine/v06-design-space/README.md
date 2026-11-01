@@ -4,6 +4,8 @@ OpenSourceRail seeks simple, affordable transport that can be manufactured and r
 
 **Research definitions and necessary bounds.** None of these new structural families inherits a validated full-body model, installed mass or physical acceptance. The [executed native campaign](../v06-optimisation/README.md) remains a separate source-bound result.
 
+The selected physical layout is replayed under the current geometry generator. Earlier evaluator records are preserved as historical diagnostic triggers only; source-stale results are not reused as current evidence.
+
 ## What can change
 
 | Domain | Design variables | Required consequence |
@@ -43,7 +45,7 @@ The previous participating-body calculation remains laterally nonconverged. Diag
 
 Adhesive coupon shear is not a joint allowable, clip pullout classes are not a primary structural load path, and an unwelded alloy strength is not a welded-node strength. Attachment examples preserve unknown hardware masses. Glazing examples count sheet mass and thermal movement; pressure, retention, abrasion, cleaning, fire and emergency egress remain gates.
 
-Native follow-up packages attached: **3**. Their immutable inputs, outputs, solver logs and manifests are retained in the indexed archive; detailed results remain conditional on each package's declared model and validity. A fixture pass is not full-train acceptance.
+Native follow-up packages attached: **0**. Their immutable inputs, outputs, solver logs and manifests are retained in the indexed archive; detailed results remain conditional on each package's declared model and validity. A fixture pass is not full-train acceptance.
 
 [Complete comparison](results.json.gz) · [Compact summary](summary.json) · [Primary-source catalogues](catalogues.json) · [Native results](native-results.json) · [Native follow-up index](native-index.json) · [Receipt](manifest.json)
 
@@ -53,28 +55,6 @@ Native follow-up packages attached: **3**. Their immutable inputs, outputs, solv
 ```
 
 Choose architecture first, reject necessary failures cheaply, validate its evaluator, then size it with native workers. Integrated selection still requires the same equipped mass, joints, force maps, brakes, civil loads, full journey and equal-service cost. The selected development train and 266 city packages are unchanged.
-
-## New native motor follow-up
-
-Four centred 2D GetDP cases use the same normal-loaded car and counted rotational inertia: required launch thrust **11.758 kN/car**.
-
-| Geometry | Conditional force at 20 m/s | Peak steel field at 20 m/s |
-|---|---|---|
-| deeper-return-and-teeth | 6.522 kN | 1.828 T |
-| longer-pole-pitch | 2.542 kN | 2.126 T |
-
-Both remain below required thrust and outside the retained 1.3 T linear-material domain. Energy balance and current-density checks do not establish an available installed force map. Native dispatch chose unchanged-fin geometries; the longer-fin proposal remains an interface task.
-
-## Native sandwich method fixtures
-
-**4/4** checks pass: separate L/W affine shear and two sandwich bending/shear meshes. The fixture uses published directional core values with explicitly synthetic unreported constitutive regularisation and reference metal faces. This is numerical method evidence, not measured material correlation or a complete body pass. Original refused shear decks remain archived at their historical source revision; the correction bounds numeric field width.
-
-
-## Retained body-model diagnosis
-
-The retained fine model has 128970 physical solid nodes in 1 connected component. The maximum lateral displacement occurs at node 66729. The 40 ideal clamp pads have rank 5: their two collinear transfer points leave one local rotation unconstrained. Connectivity alone therefore does not validate rotational restraint. This establishes a local model deficiency; its share of the full-body mode remains unresolved.
-
-[Diagnosis and next unit-moment/eigenmode tasks](model-diagnosis.json) · [Exact retained input/displacement data](model-diagnosis-inputs.tar.gz)
 
 ## Primary-source starting points
 

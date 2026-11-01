@@ -153,6 +153,33 @@ def materialize(candidate):
     car['configuration_sha256']=candidate['candidate_id'];return car
 
 
+def materialize_recorded_parent(candidate):
+    """Replay a retained physical definition without rewriting its provenance.
+
+    A later, source-current design-space study may use an older campaign's
+    selected geometry as its parent. Its exact source bindings remain attached
+    to that record; this replay accepts only a difference in source_bindings,
+    while requiring the physical candidate to regenerate identically now.
+    Callers must verify the retained source bindings against the parent
+    publication before using this as an upstream design seed.
+    """
+    contracts.validate_candidate(candidate)
+    expected=make(_parameters(candidate),requirement_revision=candidate['requirement_revision'],
+        lineage=candidate['lineage'],label=candidate['label'])
+    recorded_physical={key:value for key,value in candidate.items() if key!='source_bindings'}
+    replayed_physical={key:value for key,value in expected.items() if key!='source_bindings'}
+    bindings=candidate.get('source_bindings')
+    if (recorded_physical!=replayed_physical or not isinstance(bindings,dict)
+            or bindings.get('parent_candidate_id')!=expected['source_bindings']['parent_candidate_id']
+            or not isinstance(bindings.get('source_sha256'),dict)
+            or not bindings['source_sha256']):
+        raise ValueError('Recorded parent physical definition or provenance differs')
+    car=_materialize(_parameters(candidate));car['parent_candidate_id']=_base()['candidate_id'];car['candidate_id']=candidate['candidate_id']
+    car['support_component_id']=contracts.identity(dict(running_gear=_base()['support_component_id'],brakes=candidate['architecture']['wheel_parameters']['brakes']))
+    car['propulsion_component_id']=contracts.identity(candidate['architecture']['wheel_parameters']['motor'])
+    car['configuration_sha256']=candidate['candidate_id'];return car
+
+
 def propose_revision(candidate,results,*,trial_index=0):
     from . import wheel_body,wheel_motor,wheel_brakes
     validate_supported(candidate);p=_parameters(candidate);diagnostics={r['request']['evaluator_id']:r['diagnostics'] for r in results if r['purpose']!='confirmation'}

@@ -18,6 +18,9 @@ def test_alternatives_use_normal_load_and_preserve_unknown_installed_data(compar
     assert v['vehicle_context']['accounted_mass_kg_per_car']==pytest.approx(24214.29217645682)
     assert v['whole_system_winner'] is v['complete_installed_mass_kg'] is v['complete_installed_cost_USD'] is None
     assert not v['full_body_native_dispatch'] and not v['default_changed']
+    assert v['parent_provenance']['previous_evaluations_used_as_current_evidence'] is False
+    assert v['parent_provenance']['previous_evaluations_usage']=='historical-diagnostic-triggers-only'
+    assert v['parent_provenance']['stale_evaluator_source_paths']
     for row in v['structural_proposals']:
         assert row['bundle']['installed_tare_kg_per_car'] is None
         assert not row['bundle']['full_body_ranking_eligible']
