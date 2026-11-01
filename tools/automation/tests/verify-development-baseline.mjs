@@ -294,7 +294,10 @@ try {
     document.querySelector("#status").textContent.includes("bytes verified"),
   );
   assert.equal(await page.locator("#city option").count(), 266);
-  assert.equal(await page.locator("#layers input").count(), 4);
+  const layerControls = page.locator("#layers input");
+  assert.ok(await layerControls.count() >= 4);
+  for (const id of ["alignments", "operating-stops", "transfers", "revision-changes"])
+    assert.equal(await page.locator(`#layers input[data-layer="${id}"]`).count(), 1);
   assert.doesNotMatch(
     await page.locator("body").innerText(),
     /v0\.5|historical planning/i,
