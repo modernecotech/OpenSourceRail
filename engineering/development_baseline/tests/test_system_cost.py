@@ -74,6 +74,12 @@ def test_separate_vehicle_estimate_is_not_added_and_acceptance_stays_open(estima
     assert reconciliation["account_overlap_possible"] is True
     assert not any(row["line_key"] == "separate-selected-vehicle-estimate"
                    for row in system["cost_line_items"])
+    reserve = system["scenario_definition"]["mass_reserve_sensitivity_boundary"]
+    assert reserve["case_factors"] == {"low": 0.8, "base": 1.0, "high": 1.2}
+    assert reserve["propagated_through_system_cost"] is False
+    assert reserve["synthetic_corridor_motion_fleet_energy_and_civil"] == (
+        "base accounted vehicle mass only"
+    )
     assert system["physical_mass_complete"] is False
     assert system["physical_journey_completed"] is False
     assert system["service_qualified"] is False

@@ -37,6 +37,24 @@ def test_cost_rollup_prices_accounted_mass_without_claiming_mass_closure(estimat
     )
     assert mass["geometry_occurrences"] > 0
     assert mass["complete_installed_mass"] is False
+    reserve = cost["mass_reserve_sensitivity"]
+    assert reserve["case_factors"] == {"low": 0.8, "base": 1.0, "high": 1.2}
+    assert mass["scenario_tare_mass_kg_per_car"] == pytest.approx({
+        "low": 17203.958216173272,
+        "base": mass["accounted_tare_kg_per_car"],
+        "high": 21240.038052510696,
+    })
+    reserve_lines = [line for line in cost["lines"]
+                     if line["line_key"].startswith("unlocated-account/")]
+    assert len(reserve_lines) == 10
+    for line in reserve_lines:
+        quantity = line["quantity"]
+        assert quantity["scenario_reserve_mass_kg_per_car"][1] == pytest.approx(
+            quantity["residual_account_mass_kg_per_car"])
+        assert quantity["scenario_reserve_mass_kg_per_car"][0] == pytest.approx(
+            quantity["residual_account_mass_kg_per_car"] * 0.8)
+        assert quantity["scenario_reserve_mass_kg_per_car"][2] == pytest.approx(
+            quantity["residual_account_mass_kg_per_car"] * 1.2)
     assert cost["accounting_overlap"]["possible"] is True
     assert cost["accounting_overlap"]["overlap_mass_kg"] is None
     assert cost["accounting_overlap"]["total_assumes_gross_accounts_are_distinct"] is True
@@ -90,7 +108,7 @@ def test_each_cost_line_recomputes_from_published_quantities(estimate):
                 ))
         elif line["line_key"].startswith("unlocated-account/"):
             expected = [round(
-                quantity["residual_account_mass_kg_per_car"]
+                quantity["scenario_reserve_mass_kg_per_car"][index]
                 * assumptions["finished_equipment_iqd_per_kg"][index]
                 * cars,
                 2,
@@ -117,7 +135,7 @@ def test_each_cost_line_recomputes_from_published_quantities(estimate):
 
     # Precision-only publication changes must preserve the existing totals.
     assert cost["factory_gate_cost_iqd_per_train"] == {
-        "low": 1495543118.52, "base": 6501854060.49, "high": 29420859839.75,
+        "low": 1253378328.35, "base": 6501854060.49, "high": 33053331692.45,
     }
     assert cost["final_vehicle_assembly_cost_iqd_per_train"] == {
         "low": 3450000.0, "base": 13701000.0, "high": 67920000.0,
@@ -126,7 +144,7 @@ def test_each_cost_line_recomputes_from_published_quantities(estimate):
         "low": 576659.94, "base": 2306639.78, "high": 8649899.16,
     }
     assert cost["total_vehicle_factory_delivery_assembly_iqd_per_train"] == {
-        "low": 1499569778.46, "base": 6517861700.27, "high": 29497429738.91,
+        "low": 1257404988.29, "base": 6517861700.27, "high": 33129901591.61,
     }
     total_lines = [
         sum(line["cost_iqd"][case] for line in cost["lines"])

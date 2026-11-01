@@ -9,7 +9,7 @@ from copy import deepcopy
 from math import fsum
 from pathlib import Path
 
-from engineering import mass_ledger_audit
+from engineering import mass_ledger_audit, mass_reserve_sensitivity
 from engineering.design_search import model_cost
 from engineering.station_rail import vehicle as selected_vehicle
 from engineering.station_rail.common import digest, identity
@@ -31,6 +31,8 @@ def sources(root):
         PRODUCER,
         "engineering/design_search/model_cost.py",
         "engineering/mass_ledger_audit.py",
+        "engineering/mass_reserve_sensitivity.py",
+        "campaigns/mass-reserve-sensitivity.toml",
         "engineering/development_baseline/selection.py",
         "engineering/station_rail/common.py",
         "engineering/station_rail/brief.toml",
@@ -186,6 +188,23 @@ def evaluate(record, root):
 
     parent, _ = selected_vehicle._read_parent(root)
     ledger = mass_ledger_audit.reconcile(candidate, parent)
+    reserve_sensitivity = mass_reserve_sensitivity.plan(root)
+    reserve_cases = reserve_sensitivity["sensitivity_cases"]
+    reserve_by_account = {row["account_id"]: row for row in reserve_sensitivity["reserve_accounts"]}
+    if len(reserve_by_account) != len(reserve_sensitivity["reserve_accounts"]):
+        raise ValueError("Mass-reserve sensitivity account identities must be unique")
+    expected_reserve_ids = {
+        account["account_id"] for account in ledger["accounts"]
+        if float(account["residual_account_mass_kg"]) > 1e-9
+    }
+    if set(reserve_by_account) != expected_reserve_ids:
+        raise ValueError("Mass-reserve sensitivity must cover each positive residual account exactly once")
+    scenario_tare = {
+        row["name"]: float(row["scenario_tare_mass_kg_per_car"])
+        for row in reserve_cases
+    }
+    if tuple(scenario_tare) != model_cost.CASES:
+        raise ValueError("Mass-reserve sensitivity cases must match the selected cost cases")
     assumptions_record = model_cost.assumptions(root)
     assumptions = model_cost._validate_assumptions(deepcopy(assumptions_record), root)
     geometry_lines = _geometry_lines(candidate, ledger, assumptions_record, assumptions)
@@ -209,10 +228,16 @@ def evaluate(record, root):
         residual_mass = float(account["residual_account_mass_kg"])
         if residual_mass <= 1e-9:
             continue
+        reserve = reserve_by_account[account["account_id"]]
+        if abs(float(reserve["existing_residual_kg"]) - residual_mass) > 1e-7:
+            raise ValueError("Mass-reserve sensitivity differs from the reconciled account residual")
+        scenario_mass = [float(reserve["scenario_reserve_kg"][case]) for case in model_cost.CASES]
+        if abs(scenario_mass[1] - residual_mass) > 1e-7:
+            raise ValueError("Base reserve scenario must equal the selected account's current residual")
         rates = assumptions["finished_equipment_iqd_per_kg"]
-        cost = [residual_mass * rate * TRAIN_CARS for rate in rates]
+        cost = [scenario_mass[i] * rates[i] * TRAIN_CARS for i in range(3)]
         process_hours = [
-            residual_mass * assumptions["equipment_process_hours_per_kg"][i] * TRAIN_CARS
+            scenario_mass[i] * assumptions["equipment_process_hours_per_kg"][i] * TRAIN_CARS
             for i in range(3)
         ]
         account_lines.append(_line(
@@ -221,14 +246,15 @@ def evaluate(record, root):
             "factory-gate-equipment-allowance",
             dict(
                 residual_account_mass_kg_per_car=round(residual_mass, 12),
-                gross_train_mass_kg=round(residual_mass * TRAIN_CARS, 12),
+                scenario_reserve_mass_kg_per_car=[round(value, 12) for value in scenario_mass],
+                gross_train_mass_kg_by_case=[round(value * TRAIN_CARS, 12) for value in scenario_mass],
                 process_hours_per_train=[round(value, 12) for value in process_hours],
                 disposition=account["disposition"],
             ),
             "accounted-kg",
             cost,
-            "The unreconciled account balance receives a finished-equipment cost proxy. It remains unlocated mass and is not a physical BOM or installed-mass resolution.",
-            [identity(assumptions_record), identity(account)],
+            "Each low/base/high cost case replaces the existing account residual with the same-index declared 0.8×/1.0×/1.2× mass reserve, then applies the finished-equipment proxy. It remains unlocated mass and is not a physical BOM or installed-mass resolution.",
+            [identity(assumptions_record), identity(account), reserve_sensitivity["assumption_id"]],
             account["source_occurrence_ids"],
             "purchase or complete the specified equipment; fit; inspect",
         ))
@@ -363,9 +389,16 @@ def evaluate(record, root):
             accounted_tare_kg_per_car=candidate["mass"]["accounted_tare_kg_per_car"],
             located_geometry_kg_per_car=ledger["summary"]["located_geometry_mass_kg"],
             residual_account_kg_per_car=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
+            scenario_tare_mass_kg_per_car=scenario_tare,
             geometry_occurrences=ledger["summary"]["located_geometry_occurrence_count"],
             account_rows=ledger["summary"]["account_row_count"],
             complete_installed_mass=False,
+        ),
+        mass_reserve_sensitivity=dict(
+            assumption_id=reserve_sensitivity["assumption_id"],
+            result_id=reserve_sensitivity["result_id"],
+            case_factors={row["name"]: row["reserve_factor"] for row in reserve_cases},
+            interpretation="Same-index low/base/high mass factors are coupled to the vehicle cost and process-hour cases. They replace the current unlocated account balances, do not add another allowance, and do not qualify installed mass.",
         ),
         lines=geometry_lines + account_lines + [assembly_line, delivery_line],
         factory_gate_cost_iqd_per_train=_money(factory_gate),

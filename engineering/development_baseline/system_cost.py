@@ -387,6 +387,14 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
         selection_id=selected["selection_id"],
         vehicle_evaluation_id=record["evaluation_id"],
         vehicle_cost_estimate_id=vehicle_cost_record["cost_estimate_id"],
+        mass_reserve_sensitivity_boundary=dict(
+            assumption_id=vehicle_cost_record["mass_reserve_sensitivity"]["assumption_id"],
+            case_factors=vehicle_cost_record["mass_reserve_sensitivity"]["case_factors"],
+            selected_vehicle_cost_and_process_hours="included in the separate vehicle estimate",
+            synthetic_corridor_motion_fleet_energy_and_civil="base accounted vehicle mass only",
+            propagated_through_system_cost=False,
+            reason="The residual-mass factors do not define installed equipment or a physical candidate. Re-evaluate coupled mass-dependent route, energy, fleet and civil quantities before using them in a whole-system comparison.",
+        ),
         system_bundle_id=bundle["candidate_id"],
         system_bundle_definition_id=bundle["definition_id"],
         route_scenario=dict(

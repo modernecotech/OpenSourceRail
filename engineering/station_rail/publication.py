@@ -354,14 +354,17 @@ def _sourcing_section(root,record):
     identity_note=(f"The current selected physical candidate is `{selected_id}`. The frame and federated sourcing runs instead use research candidates `{frame['candidate_id']}` and `{federated['candidate_id']}`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate."
         if selected_id!=federated['candidate_id'] else
         f"The federated sourcing run uses the selected physical candidate `{selected_id}`.")
-    selected_vehicle_cost_note=(
-        "The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. Candidate delivery exports also publish low/base/high process-hour work packages linked to cost lines and their source/occurrence identities; broad operation allocations remain open. "
-        "The selected-candidate system estimate now covers all 14 declared Class C cost scopes for a synthetic 6 km, three-station corridor, including fleet, station chargers, civil installation, two-shift production/construction and 16/18/24-hour operations. It is a planning scenario, not a city estimate or physical acceptance. "
-        "See the [selected vehicle cost record](exports/selected-vehicle-cost.json) and [selected system cost record](exports/selected-system-cost.json). Installed mass and possible account overlap remain unresolved; route-specific city costs, supplier quotes, physical journey performance and safety acceptance remain open."
-    )
     from engineering.development_baseline import system_cost, vehicle_cost
     selected_vehicle_cost=vehicle_cost.evaluate(record,root)
     selected_system_cost=system_cost.evaluate(record,root,selected_vehicle_cost)
+    reserve_factors=selected_vehicle_cost['mass_reserve_sensitivity']['case_factors']
+    selected_vehicle_cost_note=(
+        "The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. Its low/base/high account-cost and process-hour cases pair with the declared "
+        f"{reserve_factors['low']:.1f}×/{reserve_factors['base']:.1f}×/{reserve_factors['high']:.1f}× residual-mass sensitivity; each case replaces the existing balance once, leaves the base tare unchanged, and does not claim installed mass. "
+        "Candidate delivery exports also publish low/base/high process-hour work packages linked to cost lines and their source/occurrence identities; broad operation allocations remain open. "
+        "The selected-candidate system estimate covers all 14 declared Class C cost scopes for a synthetic 6 km, three-station corridor. Its journey, fleet, energy and civil calculations retain the base accounted vehicle mass; its cost cases do not propagate the separate mass-reserve sensitivity through those physical quantities. It is a planning scenario, not a city estimate or physical acceptance. "
+        "See the [selected vehicle cost record](exports/selected-vehicle-cost.json) and [selected system cost record](exports/selected-system-cost.json). Installed mass and possible account overlap remain unresolved; route-specific city costs, supplier quotes, physical journey performance and safety acceptance remain open."
+    )
     capex=dict(zip(('low','base','high'),selected_system_cost['model_based_installed_CAPEX_iqd']))
     whole_life=selected_system_cost['model_based_whole_life_NPV_iqd']
     service_margin=selected_system_cost['service_battery_duty']['per_cycle_energy_margin_kWh']
