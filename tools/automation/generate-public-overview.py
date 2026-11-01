@@ -77,6 +77,20 @@ performance, procurement quantities, construction schedules and full city costs
 remain held until candidate-specific evidence is available. Planning revisions
 do not grant movement authority.
 
+From a verified handoff, create an immutable six-car factory work package
+with:
+
+```sh
+./osr twin factory-draft compile build/planning-handoff --output build/factory-plan
+./osr twin factory-draft verify build/planning-handoff build/factory-plan
+```
+
+The draft uses the selected candidate's Class C cost ledger and source-linked
+low/base/high process hours under two 8-hour production shifts. It schedules one
+serialized planning lane and does not infer crew size, parallel capacity or
+calendar dates. Civil and railway-operations schedules, purchasing and
+manufacturing release remain held.
+
 The [coordinated design workflow](design-engine/coupled-railway/README.md)
 propagates one candidate through geometry, mass, engineering analysis, BOM,
 CAD/IFC, manufacturing, procurement, construction and controls. The

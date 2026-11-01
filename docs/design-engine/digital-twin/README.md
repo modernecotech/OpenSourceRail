@@ -16,8 +16,9 @@ No train is automatically selected, manufactured, purchased or authorised to mov
 
 The wider [OpenSourceRail project](../../../README.md) retains its planning,
 local manufacturing/repair, delivery, ERPNext/Frappe HR, supervision and GoA4 remit.
-This new research configuration leaves the selected reference and historical
-source-bound experiments unchanged.
+This separate research configuration keeps the selected v0.6 reference
+unchanged. Its physical and evaluation identities remain distinct, and results
+do not transfer between configurations.
 
 ## Generate and validate
 

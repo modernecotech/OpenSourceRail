@@ -50,6 +50,16 @@ checks its sources and identities. The handoff contains proposals only; route
 performance, procurement quantities, construction schedules and full city costs
 remain held until candidate-specific evidence is available. Planning revisions
 do not grant movement authority.</p>
+<p>From a verified handoff, create an immutable six-car factory work package
+with:</p>
+<pre><code class="language-sh">./osr twin factory-draft compile build/planning-handoff --output build/factory-plan
+./osr twin factory-draft verify build/planning-handoff build/factory-plan
+</code></pre>
+<p>The draft uses the selected candidate's Class C cost ledger and source-linked
+low/base/high process hours under two 8-hour production shifts. It schedules one
+serialized planning lane and does not infer crew size, parallel capacity or
+calendar dates. Civil and railway-operations schedules, purchasing and
+manufacturing release remain held.</p>
 <p>The <a href="design-engine/coupled-railway/README.md">coordinated design workflow</a>
 propagates one candidate through geometry, mass, engineering analysis, BOM,
 CAD/IFC, manufacturing, procurement, construction and controls. The
