@@ -11,6 +11,7 @@ permissions:
 env:
   OPENBLAS_NUM_THREADS: "1"
   OMP_NUM_THREADS: "1"
+  SOURCED_PUBLISHED_EPOCH: "659368cbcd3fb0a7f62d62de655f3a8e78552b7f"
 jobs:
   source-contracts:
     timeout-minutes: 60
@@ -31,15 +32,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      # These immutable packages bind to this exact source tree. Current source contracts run separately.
+      - run: git fetch --no-tags --depth=1 origin "$SOURCED_PUBLISHED_EPOCH"
+      - name: Materialize the published package's exact source epoch
+        run: git worktree add --detach "$RUNNER_TEMP/osr-sourced-published-epoch" "$SOURCED_PUBLISHED_EPOCH"
+      - name: Replay the checked-in publication against that source epoch
+        env:
+          PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: |
+          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
+          mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
+          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
       - name: Reassemble the original authenticated payload
-        run: .venv/bin/python tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Rebuild all five registries and actually replay every coupled case
-        run: .venv/bin/python tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit build/sourced-replay-audit
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit "$GITHUB_WORKSPACE/build/sourced-replay-audit"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,6 +77,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      # These immutable packages bind to this exact source tree. Current source contracts run separately.
+      - run: git fetch --no-tags --depth=1 origin "$SOURCED_PUBLISHED_EPOCH"
+      - name: Materialize the published package's exact source epoch
+        run: git worktree add --detach "$RUNNER_TEMP/osr-sourced-published-epoch" "$SOURCED_PUBLISHED_EPOCH"
+      - name: Replay the checked-in publication against that source epoch
+        env:
+          PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: |
+          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
+          mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
+          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-bolster" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -71,9 +98,13 @@ jobs:
       - name: Verify the separate physical bolster experiment
         run: ./osr design sourced verify-methods --output docs/design-engine/sourced-bolster
       - name: Replay all downstream stages and IFC of the new bolster body
-        run: .venv/bin/python tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
       - name: Reopen all five full-train occurrence inventories
-        run: ./osr design sourced verify-geometry
+        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
+        run: >-
+          "$GITHUB_WORKSPACE/.venv/bin/python" -m engineering.sourced_case.cli verify-geometry
   bounded-generation:
     timeout-minutes: 20
     runs-on: ubuntu-24.04
