@@ -59,7 +59,34 @@ scenario defines civil work at two 8-hour shifts and operations at two 8-hour,
 two 9-hour and three 8-hour shifts, but this study generates no civil or
 operating estimate. The study does not run structural analysis or select a railway. Curved shells,
 cellular/implicit geometry, topology optimization and coupled vehicle/guideway
-shape search remain explicit adapter work. See the [portfolio results](../../docs/design-engine/breadth-first-shape-portfolio/README.md).
+shape search remain explicit adapter work for these body candidates. See the [portfolio results](../../docs/design-engine/breadth-first-shape-portfolio/README.md).
+
+The separate civil competition explores six physical section families across
+three profiles, sharing a 20 m span and 2 m deck envelope:
+
+```bash
+./osr design civil-portfolio plan
+./osr design civil-portfolio build
+./osr design civil-portfolio verify
+```
+
+It generates explicit polygon-prism geometry for boxes, ribbed U sections,
+varying-depth boxes, folded plates, steel/concrete assemblies and stepped
+load-following ribs. Stock quantities and surfaces feed candidate-specific
+Class C process, tooling, delivery, scoped installed and lifecycle estimates.
+The next-evaluator frontier preserves family diversity and records the required
+load, material-domain, connection and manufacturing checks before costly solves.
+Structural evaluation, smooth organic discovery and native CAD remain pending;
+this study does not replace a selected civil component.
+
+Optional [pymoo](https://pymoo.org/algorithms/moo/nsga2.html) and
+[pyribs](https://docs.pyribs.org/en/stable/api/ribs.archives.CategoricalArchive.html)
+adapters independently audit the finite evaluated pool. Install
+`engineering/design_search/requirements-search.txt`, then run
+`./osr design civil-portfolio audit-optimizers`. pymoo checks Pareto sorting;
+pyribs retains separate objective champions within each descriptor cell.
+These adapters do not yet emit evolutionary geometry candidates. See the
+[civil comparison](../../docs/design-engine/civil-shape-portfolio/README.md).
 
 ## Bounded campaigns
 

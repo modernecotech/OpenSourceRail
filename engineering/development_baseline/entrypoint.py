@@ -183,7 +183,8 @@ def main(argv=None, root=ROOT):
               '  journey-study run/publish/verify [--replay] Conditional P1 study\n'
               '  mesh-preflight plan/publish/verify Exact current refinement cell counts\n'
               '  adaptive, architecture    Function-first and architecture studies\n'
-              '  generative, portfolio     Structural grammar and breadth-first shape portfolio\n'
+              '  generative, portfolio     Structural grammar and breadth-first body portfolio\n'
+              '  civil-portfolio           20 m civil shapes, costs and evaluator frontier\n'
               '  space                     Material, structure, joint and motor design space\n'
               '  campaign                  Bounded candidate campaign lifecycle\n'
               '  sourced                   Source-backed component alternatives\n'
@@ -354,6 +355,13 @@ def main(argv=None, root=ROOT):
                     target=root/'build/v06-architecture/umbrella-interruption-final.json';target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(encoded(result));emit(result);return 3
                 emit(dict(campaign_id=result['campaign_id'],contract_id=result['contract_id'],evaluation_cases=len(result['cases']),physical_definitions=result['distinct_physical_candidates'],integrated_selection=result['integrated_selection'],physical_accepted=False));return 0
             raise ValueError('Use ./osr design architecture run [--max-cases N], publish or verify')
+        if command=='civil-portfolio':
+            from engineering.design_search import civil_shape_portfolio
+            if rest in ([],['plan']):emit(civil_shape_portfolio.specification(root));return 0
+            if rest in (['build'],['run']):emit(civil_shape_portfolio.build(root));return 0
+            if rest==['verify']:emit(civil_shape_portfolio.verify(root));return 0
+            if rest==['audit-optimizers']:emit(civil_shape_portfolio.audit_optimizers(root));return 0
+            raise ValueError('Use ./osr design civil-portfolio {plan|build|verify|audit-optimizers}')
         if command=='portfolio':
             from engineering.design_search import design_portfolio
             if rest in (['-h'],['--help'],['help']):
