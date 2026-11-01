@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 import subprocess
 
+from doc_index_policy import is_indexed_markdown
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FLAGS = ('design_complete','physical_validation','manufacturing_release','physical_release')
 SEALED_LEGACY_PACKET_READMES = {
@@ -20,44 +22,6 @@ def repository_markdown():
     for arguments in (['git','ls-files','*.md'],['git','ls-files','--others','--exclude-standard','*.md']):
         values += subprocess.check_output(arguments,cwd=REPO_ROOT,text=True).splitlines()
     return sorted({REPO_ROOT/name for name in values if (REPO_ROOT/name).is_file()})
-
-
-def indexed_markdown(path):
-    relative = path.relative_to(REPO_ROOT).as_posix()
-    if relative.startswith((
-        'legacy/',
-        'docs/archives/',
-        'docs/design-engine/ferrite-maglev/',
-        'docs/design-engine/design-search/',
-        'docs/design-engine/design-search-twins/',
-        'docs/design-engine/electropermanent/',
-        'docs/design-engine/halbach-scaling/',
-        'docs/design-engine/magnetic-confirmation/',
-        'docs/design-engine/passive-suspension/',
-        'docs/design-engine/trip-dynamics/',
-        'docs/design-engine/vehicle-optimisation/',
-        'engineering/assurance/v052-',
-        'engineering/assurance/v053-',
-        'engineering/electropermanent/',
-        'engineering/magnetic_confirmation/',
-        'engineering/trip_dynamics/',
-    )):
-        return False
-    if relative == 'docs/design-engine/design-search-interpretation.md':
-        return False
-    if relative.startswith('cities/catalogue/') and relative != 'cities/catalogue/README.md':
-        return False
-    return relative not in {
-        'engineering/ferrite_maglev/README.md',
-        'engineering/ferrite_maglev/city-index.md',
-        'engineering/ferrite_maglev/observer-prototype/README.md',
-        'control-electronics/README.md',
-        'crates/osr-maglev-control/README.md',
-        'docs/design-engine/ferrite-maglev/pilot-delivery/README.md',
-        'docs/design-engine/ferrite-maglev/capability-migration/README.md',
-        'docs/releases/v0.5.1.md',
-        'docs/releases/v0.5.2.md',
-    }
 
 
 def tracked_readmes():
@@ -147,7 +111,7 @@ def main():
     else:
         text=inventory.read_text()
         for path in repository_markdown():
-            if not indexed_markdown(path):
+            if not is_indexed_markdown(path.relative_to(REPO_ROOT)):
                 continue
             relative=path.relative_to(REPO_ROOT).as_posix()
             if path!=inventory and f'`{relative}`' not in text:

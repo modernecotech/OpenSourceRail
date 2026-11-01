@@ -8,62 +8,10 @@ import argparse
 from collections import defaultdict
 from pathlib import Path
 
+from doc_index_policy import is_indexed_markdown
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 OUT = REPO_ROOT / "docs" / "INDEX.md"
-SKIP_PARTS = {
-    ".git",
-    ".mypy_cache",
-    ".pytest_cache",
-    ".ruff_cache",
-    ".venv",
-    "node_modules",
-    "target",
-}
-EXCLUDED_DOCS = {
-    "engineering/ferrite_maglev/README.md",
-    "engineering/ferrite_maglev/city-index.md",
-    "engineering/ferrite_maglev/observer-prototype/README.md",
-    "control-electronics/README.md",
-    "crates/osr-maglev-control/README.md",
-    "docs/design-engine/ferrite-maglev/pilot-delivery/README.md",
-    "docs/design-engine/ferrite-maglev/capability-migration/README.md",
-    "docs/releases/v0.5.1.md",
-    "docs/releases/v0.5.2.md",
-}
-
-
-def _indexed(path: Path) -> bool:
-    name = path.as_posix()
-    if not SKIP_PARTS.isdisjoint(path.parts):
-        return False
-    if name.startswith(
-        (
-            "legacy/",
-            "docs/archives/",
-            "docs/design-engine/ferrite-maglev/",
-            "docs/design-engine/design-search/",
-            "docs/design-engine/design-search-twins/",
-            "docs/design-engine/electropermanent/",
-            "docs/design-engine/halbach-scaling/",
-            "docs/design-engine/magnetic-confirmation/",
-            "docs/design-engine/passive-suspension/",
-            "docs/design-engine/trip-dynamics/",
-            "docs/design-engine/vehicle-optimisation/",
-            "engineering/assurance/v052-",
-            "engineering/assurance/v053-",
-            "engineering/electropermanent/",
-            "engineering/magnetic_confirmation/",
-            "engineering/trip_dynamics/",
-        )
-    ):
-        return False
-    if name == "docs/design-engine/design-search-interpretation.md":
-        return False
-    if name.startswith("cities/catalogue/") and name != "cities/catalogue/README.md":
-        return False
-    return name not in EXCLUDED_DOCS
-
 
 def _git_markdown_files() -> list[Path]:
     tracked = subprocess.check_output(
@@ -78,7 +26,7 @@ def _git_markdown_files() -> list[Path]:
     ).splitlines()
     paths = sorted({Path(p) for p in tracked + untracked})
     return [
-        p for p in paths if _indexed(p)
+        p for p in paths if is_indexed_markdown(p)
     ]
 
 
