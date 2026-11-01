@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **97**.
+Indexed Markdown files: **98**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **97**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 72 |
+| [docs](#docs) | 73 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -80,6 +80,7 @@ Indexed Markdown files: **97**.
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and delivery roadmap |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
+| [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 1 November 2026 |

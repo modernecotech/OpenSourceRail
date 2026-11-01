@@ -43,6 +43,24 @@ through the same downstream inventory, engineering, delivery and cost models.
 Search examples and solver construction bounds are not the full design space;
 repeated local failure should lead to a new design family or an evidence task.
 
+The breadth-first shape portfolio composes the existing frame, shell and rib
+productions across 18 descriptor cells and three bounded geometry profiles:
+
+```bash
+./osr design portfolio plan
+./osr design portfolio build
+./osr design portfolio verify
+```
+
+It retains per-family Pareto alternatives using actual nominal stock mass,
+manufacturing-occurrence count and provisional low/base/high Class C body-stock
+factory-gate estimates. The production proxy uses two 8-hour shifts; the linked
+scenario defines civil work at two 8-hour shifts and operations at two 8-hour,
+two 9-hour and three 8-hour shifts, but this study generates no civil or
+operating estimate. The study does not run structural analysis or select a railway. Curved shells,
+cellular/implicit geometry, topology optimization and coupled vehicle/guideway
+shape search remain explicit adapter work. See the [portfolio results](../../docs/design-engine/breadth-first-shape-portfolio/README.md).
+
 ## Bounded campaigns
 
 Existing campaign definitions remain reproducible under their own contracts:

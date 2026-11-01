@@ -1,0 +1,67 @@
+schema = "osr-breadth-first-shape-portfolio/1"
+purpose = "next-experiment"
+maximum_candidates = 54
+reference_changes_allowed = false
+native_dispatch = false
+integrated_selection = false
+
+[vehicle_envelope]
+width_m = 2.65
+
+[design_axes]
+frames = ["aluminium_reference", "gfrp_axial_research"]
+shells = ["skin", "sandwich", "honeycomb-sandwich"]
+rib_layouts = ["full", "sparse", "modular"]
+
+[[profiles]]
+id = "reference"
+bay_pitch_m = 1.8
+frame_depth_m = 0.55
+chord_width_m = 0.10
+chord_height_m = 0.18
+chord_wall_m = 0.006
+braced = false
+integrated_roof = false
+modular_length_m = 2.5
+skin_thickness_m = 0.002
+core_thickness_m = 0.025
+
+[[profiles]]
+id = "long-bay-integrated"
+bay_pitch_m = 3.0
+frame_depth_m = 0.30
+chord_width_m = 0.08
+chord_height_m = 0.14
+chord_wall_m = 0.004
+braced = false
+integrated_roof = true
+modular_length_m = 4.0
+skin_thickness_m = 0.002
+core_thickness_m = 0.020
+
+[[profiles]]
+id = "dense-braced"
+bay_pitch_m = 1.0
+frame_depth_m = 0.55
+chord_width_m = 0.12
+chord_height_m = 0.22
+chord_wall_m = 0.008
+braced = true
+integrated_roof = false
+modular_length_m = 2.0
+skin_thickness_m = 0.003
+core_thickness_m = 0.035
+
+[production_basis]
+shifts_per_day = 2
+hours_per_shift = 8
+days_per_year = 250
+productive_utilisation = 0.75
+
+[civil_basis]
+shifts_per_day = 2
+hours_per_shift = 8
+
+[operations_scenarios]
+shifts_per_day = [2, 2, 3]
+hours_per_shift = [8, 9, 8]

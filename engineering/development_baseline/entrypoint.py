@@ -183,7 +183,8 @@ def main(argv=None, root=ROOT):
               '  journey-study run/publish/verify [--replay] Conditional P1 study\n'
               '  mesh-preflight plan/publish/verify Exact current refinement cell counts\n'
               '  adaptive, architecture    Function-first and architecture studies\n'
-              '  generative, space         Structural grammar and design space\n'
+              '  generative, portfolio     Structural grammar and breadth-first shape portfolio\n'
+              '  space                     Material, structure, joint and motor design space\n'
               '  campaign                  Bounded candidate campaign lifecycle\n'
               '  sourced                   Source-backed component alternatives\n'
               '  progress                  Continuing reference-cell analysis\n'
@@ -353,6 +354,18 @@ def main(argv=None, root=ROOT):
                     target=root/'build/v06-architecture/umbrella-interruption-final.json';target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(encoded(result));emit(result);return 3
                 emit(dict(campaign_id=result['campaign_id'],contract_id=result['contract_id'],evaluation_cases=len(result['cases']),physical_definitions=result['distinct_physical_candidates'],integrated_selection=result['integrated_selection'],physical_accepted=False));return 0
             raise ValueError('Use ./osr design architecture run [--max-cases N], publish or verify')
+        if command=='portfolio':
+            from engineering.design_search import design_portfolio
+            if rest in (['-h'],['--help'],['help']):
+                print('Usage: ./osr design portfolio {plan|build|verify}')
+                return 0
+            if rest==['plan']:
+                emit(design_portfolio.specification(root));return 0
+            if rest in (['build'],['run']):
+                emit(design_portfolio.build(root));return 0
+            if rest==['verify']:
+                emit(design_portfolio.verify(root));return 0
+            raise ValueError('Use ./osr design portfolio plan, build or verify')
         if command=='space':
             from engineering.station_rail import design_space
             if rest==['build']:emit(design_space.build(root));return 0
