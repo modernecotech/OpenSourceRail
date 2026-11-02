@@ -6,7 +6,7 @@ financial scope only; no site, motor-map, journey, acceptance or release result
 is implied.
 """
 from copy import deepcopy
-from math import ceil, fsum, sqrt
+from math import ceil, fsum, nextafter, sqrt
 from pathlib import Path
 
 from engineering import mass_ledger_audit, mass_reserve_sensitivity
@@ -386,13 +386,91 @@ def _propulsion_input(bundle):
     return value
 
 
+def component_renewal_schedule(horizon_years, component_life_years, parent_replacement_years):
+    """Bound component ages within each whole-asset replacement interval.
+
+    Every parent replacement supplies a new component and resets its age.
+    Near-coincident component expiry retains the existing 1e-8-year parent
+    coincidence policy (capped relative to very short component lives), with a
+    zero-cost explanatory event. The horizon uses strict exclusion. An interior
+    due time whose float addition rounds onto the horizon is represented by its
+    preceding float, explicitly flagged; it is not silently omitted.
+    """
+    model_cost._checked_renewal_event_request(horizon_years, component_life_years)
+    if (not isinstance(parent_replacement_years, (list, tuple))
+            or len(parent_replacement_years) > model_cost.MAX_RENEWAL_EVENTS):
+        raise ValueError("Bounded explicit parent replacement times required")
+    parents = []
+    previous = 0.
+    for year in parent_replacement_years:
+        if (not model_cost._finite(year) or not previous < year < horizon_years):
+            raise ValueError("Parent replacement times must increase strictly inside the horizon")
+        parents.append(float(year)); previous = year
+    events = []
+    resets = []
+    tolerance = min(1e-8, component_life_years*1e-8)
+    start = 0.
+    for interval_index, end in enumerate([*parents, horizon_years]):
+        parent_boundary = interval_index < len(parents)
+        duration = end-start
+        offsets = model_cost.replacement_event_times(duration, component_life_years)
+        # Preserve coincident endpoint evidence although the interval generator
+        # correctly excludes its endpoint. Never add the overall horizon.
+        if parent_boundary:
+            next_offset = (len(offsets)+1)*component_life_years
+            if abs(next_offset-duration) <= tolerance:
+                offsets.append(next_offset)
+        age_origin = start
+        coincident = False
+        for ordinal, offset in enumerate(offsets, 1):
+            covered = parent_boundary and abs(offset-duration) <= tolerance
+            year = end if covered else start+offset
+            endpoint_roundoff = not parent_boundary and offset < duration and year >= horizon_years
+            if endpoint_roundoff:
+                year = nextafter(float(horizon_years), 0.)
+            if not 0 < year < horizon_years:
+                continue
+            if len(events) >= model_cost.MAX_RENEWAL_EVENTS:
+                raise ValueError("Component events exceed the computational accounting budget")
+            if events and year <= events[-1]['year']:
+                raise ValueError("Component renewal times are not strictly increasing")
+            events.append(dict(year=year, nominal_due_year=start+offset,
+                strict_horizon_float_roundoff_adjustment=endpoint_roundoff,
+                covered_by_parent_replacement=covered,
+                component_age_origin_year=age_origin,
+                component_age_at_event_years=year-age_origin,
+                parent_interval_start_year=start, ordinal_since_parent_reset=ordinal))
+            if covered:
+                coincident = True
+            else:
+                age_origin = year
+        if parent_boundary:
+            resets.append(dict(year=end, component_supplied_by_parent_replacement=True,
+                component_age_origin_year=age_origin,
+                component_age_before_reset_years=end-age_origin,
+                component_age_after_reset_years=0.,
+                coincident_component_event_recorded=coincident))
+        start = end
+    value = dict(schema='osr-component-renewal-age-reset/1',
+        horizon_years=horizon_years, component_life_years=component_life_years,
+        parent_replacement_years=parents, events=events, age_resets=resets,
+        coincidence_tolerance_years=tolerance, maximum_coincidence_tolerance_years=1e-8,
+        horizon_included=False,
+        maximum_component_events=model_cost.MAX_RENEWAL_EVENTS,
+        maximum_parent_resets=model_cost.MAX_RENEWAL_EVENTS,
+        source_sha256={PRODUCER:digest(Path(__file__))}, **FLAGS)
+    value['evaluation_id'] = identity(value)
+    return value
+
+
 def _account_renewal(candidate_id, cost_result, assumptions_record):
     line_key = "retained-equipment/selected-service-battery-and-services"
     line = next((row for row in cost_result["cost_line_items"] if row.get("line_key") == line_key), None)
     if line is None:
         raise ValueError("Selected service battery/equipment account cost line is missing")
     a = assumptions_record["assumptions"]
-    years = int(assumptions_record["design_life_years"])
+    years = assumptions_record["design_life_years"]
+    model_cost.replacement_event_times(years, years)  # Validate the horizon before event work.
     rate = float(assumptions_record["real_discount_rate"])
     hours = assumptions_record["operating_hours_per_day_cases"]
     reference_hours = float(assumptions_record["maintenance_reference_operating_hours_per_day"])
@@ -404,16 +482,17 @@ def _account_renewal(candidate_id, cost_result, assumptions_record):
     for index, case in enumerate(model_cost.CASES):
         pack_life = float(pack_lives[index]) * reference_hours / float(hours[index])
         vehicle_life = float(vehicle_lives[index]) * reference_hours / float(hours[index])
-        pack_times = [pack_life * n for n in range(1, int((years - 1) // pack_life) + 1)]
-        vehicle_times = [vehicle_life * n for n in range(1, int((years - 1) // vehicle_life) + 1)]
+        vehicle_times = model_cost.replacement_event_times(years, vehicle_life)
+        timing = component_renewal_schedule(years, pack_life, vehicle_times)
         events = []
         case_npv = 0.0
-        for year in pack_times:
-            covered = any(abs(year - vehicle_year) < 1e-8 for vehicle_year in vehicle_times)
+        for event in timing['events']:
+            year = event['year']
+            covered = event['covered_by_parent_replacement']
             value = 0.0 if covered else replacement_cost[index] / (1.0 + rate) ** year
             case_npv += value
             events.append(dict(
-                year=round(year, 6),
+                **event,
                 cost_iqd=round(replacement_cost[index], 2),
                 present_value_iqd=round(value, 2),
                 covered_by_complete_vehicle_replacement=covered,
@@ -424,6 +503,11 @@ def _account_renewal(candidate_id, cost_result, assumptions_record):
             duty_adjusted_life_years=round(pack_life, 6),
             initial_account_cost_iqd=round(replacement_cost[index], 2),
             events=events,
+            age_reset_schedule_id=timing['evaluation_id'],
+            age_resets=timing['age_resets'],
+            parent_replacement_years=timing['parent_replacement_years'],
+            age_reset_policy=dict(complete_parent_supplies_new_component=True,
+                coincidence_tolerance_years=timing['coincidence_tolerance_years'], horizon_excluded=True),
             npv_iqd=round(case_npv, 2),
         ))
         npv.append(round(case_npv, 2))
@@ -445,7 +529,7 @@ def _account_renewal(candidate_id, cost_result, assumptions_record):
         rate_evidence_class="C",
         source_ids=sorted([line["line_id"], identity(assumptions_record)]),
         physical_part_ids=["selected-service-battery-and-services"],
-        calculation_basis=("Renew the already-costed service battery/equipment residual account at declared low/base/high service lives. The same account cost is used as a replacement proxy; events coincident with a whole-vehicle replacement are excluded to avoid double counting. No additional initial mass or installed battery is asserted."),
+        calculation_basis=("Renew the already-costed service battery/equipment residual account at declared low/base/high service lives. Every whole-vehicle replacement supplies a new pack and resets its age; coincident expiry events remain explanatory zero-cost rows. The same account replacement proxy is used once; no additional initial mass or installed battery is asserted."),
         components_iqd=None,
     )
     record["line_id"] = identity(record)
@@ -734,7 +818,7 @@ def _service_duty(bundle, assumptions_record, candidate, roof_surface_area_m2,
     return value
 
 
-def evaluate(record, root=ROOT, vehicle_cost_record=None):
+def evaluate(record, root=ROOT, vehicle_cost_record=None, *, return_case_records=False):
     """Create one same-candidate 6 km synthetic system-cost scenario."""
     root = Path(root).resolve()
     selected = selection.load(root)
@@ -1035,4 +1119,4 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None):
     )
     result["scenario_id"] = scenario_id
     result["cost_estimate_id"] = identity(result)
-    return result
+    return (result, cost_cases) if return_case_records else result

@@ -1,0 +1,70 @@
+schema = "osr-civil-topology-campaign/1"
+purpose = "next-experiment"
+reference_changes_allowed = false
+maximum_trials = 7
+maximum_optimized_trials = 6
+volume_fractions = [0.35, 0.50, 0.65]
+initial_fields = ["uniform", "longitudinal-wave"]
+realization_threshold = 0.5
+same_geometry_refinement_factor = 2
+
+[geometry]
+span_m = 20.0
+deck_width_m = 2.0
+deck_thickness_m = 0.18
+web_height_m = 1.2
+web_thickness_m = 0.02
+web_centres_y_m = [-0.65, 0.65]
+
+[elastic_hypotheses]
+steel_E_Pa = 200000000000.0
+steel_poisson = 0.30
+steel_density_kg_m3 = 7850.0
+concrete_density_kg_m3 = 2500.0
+concrete_stiffness_credited = false
+equal_web_load_sharing_qualified = false
+
+[search]
+nx = 160
+nz = 12
+filter_radius_m = 0.25
+passive_edge_band_m = 0.10
+passive_end_block_m = 0.25
+penalty = 3.0
+minimum_stiffness_ratio = 0.000000001
+minimum_stiffness_check_ratio = 0.000001
+move_limit = 0.20
+maximum_iterations = 60
+physical_density_change_tolerance = 0.01
+pose_controls = ["quarter-span-moment", "midspan-moment", "left-support-reaction"]
+wheel_load_patch_length_m = 0.25
+bearing_patch_length_m = 0.25
+optimization_load_case = "crowd_control"
+optimization_dead_load = "full-solid-web-and-upper-account-reserves-at-top-edge"
+
+[replay]
+load_cases = ["empty", "normal", "crowd_control"]
+mass_cases = ["low", "base", "high"]
+void_stiffness_credited = false
+relative_linear_residual_tolerance = 0.00000001
+relative_equilibrium_tolerance = 0.00000001
+relative_energy_tolerance = 0.00000001
+two_mesh_compliance_change_target = 0.03
+physical_acceptance_limit_available = false
+
+[resources]
+maximum_trial_wall_seconds = 150
+optimization_runtime_seconds = 120
+maximum_address_space_bytes = 1073741824
+maximum_cpu_seconds = 140
+workers = 1
+requested_blas_threads = 1
+maximum_rhs = 128
+replay_rhs = 81
+native_jobs = 0
+
+[publication]
+output = "docs/design-engine/civil-topology"
+replay_relative_tolerance = 0.00000001
+replay_absolute_tolerance = 0.0000000001
+physical_geometry_must_match_exactly = true

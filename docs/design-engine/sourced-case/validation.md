@@ -1,4 +1,4 @@
-# Executed sourced-design research — 30 October 2026
+# Executed sourced-design research — replayed 2 November 2026
 
 The software campaign is complete within its declared numerical scope. It is not
 an accepted railway design. No authenticated installed-train measurements,
@@ -12,12 +12,13 @@ accepted operating map, qualified journey or complete whole-life price is suppli
 - All cases propagate the same body identity through force/energy/braking, source electrical caps, located axle/civil reactions, physical stock, production drafts and scoped public-price records.
 - Required quasi-static current is not measured current response. Missing losses, cooling envelopes, contact correlation, brake fade and complete installed auxiliaries remain open.
 
-Run identity: `1e5186cb6bee091976562fd3f3227be03d99517c54f0d76e363ddd52c8688322`.
+Run identity: `b5279307d706ab8bd887180b1b1d2ef445e3ea268ed627bb8c2416e9ce2d3ce2`.
 
-Publication `acbbef4bc03db1a74aa810b8ad832a8bcdfd37c04c9a51f7bdf9c8114e75d43b`
-records all 30 semantic replays. Actual IFC export and reopening inspected
-**176,202 physical occurrences** across the five six-car inventories, geometry
-publication `a7f040a7bb037d915f3cd8e31c2ddf2a7c8c836bfd15af1f1a16b9f123f2adb3`.
+Publication `76d9e6d97e8320a42b54a5f876f2111f579cb7047cb86d470846f6d33c779507`
+records all 30 semantic replays. The previously exported IFC archive was retained
+byte-for-byte after the candidate inputs were checked and all five models reopened.
+It contains **176,202 physical occurrences** across the five six-car inventories;
+the new geometry publication is `9598e88c4fce391891df7f935cedaab1d1a23b619d0e07f8d5ca4d9a5ddff12c`.
 These are net stock primitives and explicit purchased bounding envelopes, not
 supplier internals or qualified installed geometry.
 

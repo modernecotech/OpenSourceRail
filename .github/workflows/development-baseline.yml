@@ -45,8 +45,13 @@ on:
       - "campaigns/coupled-railway-design.toml"
       - "campaigns/civil-shape-competition.toml"
       - "campaigns/civil-shape-mechanics.toml"
+      - "campaigns/civil-topology.toml"
       - "docs/design-engine/civil-shape-portfolio/**"
       - "docs/design-engine/civil-shape-mechanics/**"
+      - "docs/design-engine/civil-topology/**"
+      - "docs/design-engine/civil-topology-revisions/**"
+      - "docs/design-engine/flanged-span-study/**"
+      - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
@@ -119,8 +124,13 @@ on:
       - "campaigns/coupled-railway-design.toml"
       - "campaigns/civil-shape-competition.toml"
       - "campaigns/civil-shape-mechanics.toml"
+      - "campaigns/civil-topology.toml"
       - "docs/design-engine/civil-shape-portfolio/**"
       - "docs/design-engine/civil-shape-mechanics/**"
+      - "docs/design-engine/civil-topology/**"
+      - "docs/design-engine/civil-topology-revisions/**"
+      - "docs/design-engine/flanged-span-study/**"
+      - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
@@ -163,6 +173,8 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
           git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
+          git fetch --no-tags --depth=1 origin 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f
+          git cat-file -e 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -202,6 +214,14 @@ jobs:
           .venv-search/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_shape_geometry.py engineering/design_search/tests/test_civil_shape_portfolio.py engineering/design_search/tests/test_search_backends.py
           .venv-search/bin/python -m engineering.design_search.civil_shape_portfolio verify
           .venv-search/bin/python -m engineering.design_search.civil_shape_portfolio audit-optimizers
+      - name: Material-distribution experiments and disjoint cost accounting
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_cost_accounting_partition.py engineering/design_search/tests/test_cost_accounting_archive.py engineering/design_search/tests/test_topology_optimisation.py engineering/design_search/tests/test_topology_geometry.py engineering/design_search/tests/test_topology_cost.py engineering/design_search/tests/test_topology_system_cost.py engineering/design_search/tests/test_civil_topology.py engineering/design_search/tests/test_civil_topology_publication.py engineering/design_search/tests/test_topology_revisions.py engineering/design_search/tests/test_topology_revision_campaign.py engineering/design_search/tests/test_topology_revision_publication.py engineering/design_search/tests/test_flanged_span.py engineering/design_search/tests/test_flanged_span_publication.py engineering/design_search/tests/test_implicit_geometry.py engineering/design_search/tests/test_implicit_geometry_publication.py
+          .venv/bin/python -m engineering.design_search.cost_accounting_archive verify
+          .venv/bin/python -m engineering.design_search.civil_topology_publication verify
+          .venv/bin/python -m engineering.design_search.topology_revision_publication verify
+          .venv/bin/python -m engineering.design_search.flanged_span_publication verify
+          .venv/bin/python -m engineering.design_search.implicit_geometry_publication verify --expected-manifest-id 3fa44c54689ae832a4d450a45ba5da7fe0092bd87d54a3738d499a7087787117
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
       - run: ./osr design railway verify
       - name: Candidate, moving-conductor and end-to-end closure contracts

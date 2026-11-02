@@ -1,5 +1,6 @@
 """Portfolio browsing preserves source, parent, evaluation and archive scope."""
 from copy import deepcopy
+from hashlib import sha256
 import gzip
 import http.client
 import json
@@ -9,7 +10,7 @@ import pytest
 
 from engineering.development_baseline import portfolio_view as view, selection, server
 from engineering.station_rail import ROOT
-from engineering.station_rail.common import identity
+from engineering.station_rail.common import encoded, identity
 
 
 @pytest.fixture(scope='module')
@@ -87,14 +88,30 @@ def test_resealed_archive_cannot_omit_candidates(inputs):
 
 
 def test_current_http_endpoint_refuses_changed_bound_payload(tmp_path, monkeypatch, inputs):
+    # Load the sibling fixture explicitly: this also supports isolated tests
+    # against an integration checkout's production package with importlib mode.
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location('osr_topology_view_fixture',
+        Path(__file__).with_name('test_topology_portfolio_view.py'))
+    fixture = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fixture)
+    revision_spec = importlib.util.spec_from_file_location('osr_revision_view_fixture',
+        Path(__file__).with_name('test_topology_revision_portfolio_view.py'))
+    revision_fixture = importlib.util.module_from_spec(revision_spec)
+    revision_spec.loader.exec_module(revision_fixture)
     baseline = inputs[3]
-    publication = json.loads((ROOT/'docs/design-engine/current/manifest.json').read_bytes())
-    paths = ['breadth-first-shape-portfolio/result.json', 'civil-shape-portfolio/result.json', 'civil-shape-mechanics/result.json.gz']
-    for name in paths:
+    revision_record, topology_record, _, parent_manifest = revision_fixture.records(baseline)
+    publication = dict(source_sha256={})
+    payloads = dict(zip(['breadth-first-shape-portfolio/result.json', 'civil-shape-portfolio/result.json',
+        'civil-shape-mechanics/result.json.gz', 'civil-topology/result.json', 'civil-topology/manifest.json', 'civil-topology-revisions/result.json'],
+        [encoded(inputs[0]), encoded(inputs[1]), gzip.compress(encoded(inputs[2]),mtime=0), encoded(topology_record), encoded(parent_manifest), encoded(revision_record)]))
+    for name, raw in payloads.items():
         relative = 'docs/design-engine/' + name
         target = tmp_path/relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((ROOT/relative).read_bytes())
+        target.write_bytes(raw)
+        publication['source_sha256'][relative] = sha256(raw).hexdigest()
     reads = []
     def checked_packet(root):
         reads.append(root)
@@ -113,7 +130,10 @@ def test_current_http_endpoint_refuses_changed_bound_payload(tmp_path, monkeypat
         return status, value
     try:
         status, value = request()
-        assert status == 200 and len(value['portfolios']) == 2
+        assert status == 200 and len(value['portfolios']) == 4
+        assert value['numerical_jobs_dispatched'] == 0
+        assert value['portfolios'][2]['key'] == 'topology'
+        assert value['portfolios'][3]['key'] == 'topology-revisions'
         (tmp_path/'docs/design-engine/civil-shape-mechanics/result.json.gz').write_bytes(b'changed')
         status, value = request()
         assert status == 503 and 'current source binding' in value['reason']

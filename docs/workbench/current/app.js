@@ -221,7 +221,11 @@ async function renderPortfolios(expected) {
     view.numerical_jobs_dispatched !== 0 ||
     view.selected_reference_context.selection_id !== expected.selection_id ||
     view.selected_reference_context.candidate_id !== expected.candidate_id ||
-    view.portfolios.length !== 2
+    view.portfolios.length !== 4 ||
+    new Set(view.portfolios.map((portfolio) => portfolio.key)).size !== 4 ||
+    !["body", "civil", "topology", "topology-revisions"].every((key) =>
+      view.portfolios.some((portfolio) => portfolio.key === key),
+    )
   )
     throw Error("Portfolio source or selected-reference context differs.");
   for (const portfolio of view.portfolios) {
@@ -246,8 +250,9 @@ async function renderPortfolios(expected) {
     }
     if (
       ids.size !== portfolio.candidate_count ||
-      portfolio.rows.filter((row) => row.quantity_retained).length !==
-        portfolio.quantity_retained_count ||
+      (portfolio.quantity_retained_count !== null &&
+        portfolio.rows.filter((row) => row.quantity_retained).length !==
+          portfolio.quantity_retained_count) ||
       (portfolio.mechanics_retained_count !== null &&
         portfolio.rows.filter((row) => row.mechanics_retained).length !==
           portfolio.mechanics_retained_count)
@@ -288,14 +293,16 @@ async function renderPortfolios(expected) {
     fact(
       facts,
       portfolio.process_hours_label + " · low / base / high",
-      ["low", "base", "high"]
-        .map((key) => format(row.process_hours[key]))
-        .join(" / "),
+      row.process_hours === null
+        ? row.process_hours_status || "Unknown; not present in the published summary"
+        : ["low", "base", "high"]
+            .map((key) => format(row.process_hours[key]))
+            .join(" / "),
     );
     fact(facts, "Complete installed mass", "Unknown");
     fact(
       facts,
-      "Crowd/high-mass model deflection bound",
+      portfolio.deflection_label || "Crowd/high-mass model deflection bound",
       row.model_deflection_upper_m === null
         ? "Unknown; structural analysis not run"
         : `${format(row.model_deflection_upper_m * 1000)} mm · conditional elastic model only`,
@@ -345,10 +352,16 @@ async function renderPortfolios(expected) {
             : row.mechanics_retained === true)),
     );
     byId("portfolio-count").textContent =
-      `${rows.length} of ${portfolio.candidate_count} alternatives shown · quantity archive ${portfolio.quantity_retained_count}` +
+      `${rows.length} of ${portfolio.candidate_count} alternatives shown` +
+      (portfolio.quantity_retained_count === null
+        ? " · separate quantity ranking not run"
+        : ` · quantity archive ${portfolio.quantity_retained_count}`) +
       (portfolio.mechanics_retained_count === null
         ? " · mechanics not evaluated"
-        : ` · mechanics archive ${portfolio.mechanics_retained_count}`);
+        : ` · mechanics archive ${portfolio.mechanics_retained_count}`) +
+      (portfolio.key === "topology-revisions"
+        ? ` · ${portfolio.assumptions.terminal_attempt_count} terminal attempts · ${portfolio.assumptions.residual_gate_failed_attempt_count} numerical residual failures · ${portfolio.assumptions.mesh_unresolved_attempt_count} mesh unresolved; physical model and strength unqualified`
+        : "");
     byId("portfolio-rows").replaceChildren();
     byId("portfolio-detail").hidden = true;
     for (const row of rows) {
@@ -368,7 +381,9 @@ async function renderPortfolios(expected) {
         familyName(row),
         format(row.stock_mass_kg / 1000),
         format(row.cost_iqd.base / 1e6),
-        row.quantity_retained ? "Retained" : "Outside partial front",
+        row.quantity_retained === null
+          ? "Not ranked separately"
+          : row.quantity_retained ? "Retained" : "Outside partial front",
         row.mechanics_retained === null
           ? "Unknown / not run"
           : row.mechanics_retained
@@ -391,6 +406,8 @@ async function renderPortfolios(expected) {
     retention.value = "all";
     retention.querySelector('[value="mechanics"]').disabled =
       portfolio.mechanics_archive_id === null;
+    retention.querySelector('[value="quantity"]').disabled =
+      portfolio.quantity_archive_id === null;
     byId("portfolio-scope").textContent =
       `${portfolio.unit}. ${portfolio.cost_scope}`;
     filter();

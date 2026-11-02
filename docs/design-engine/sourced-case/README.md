@@ -39,8 +39,10 @@ source and candidate identities. Raw failed executions remain in the structural
 archive. The local explorer displays exact revisions, mass and scoped price
 coverage, trajectories, open tests and production records.
 
-Current scenario calculations and their IFC exports are regenerated together.
-Recorded structural methods replay separately under their authenticated producer
+Current scenario calculations are regenerated and semantically replayed. The
+previously exported IFC archives are retained byte-for-byte after checking the
+new candidate inputs and reopening all five models; their provenance is recorded
+in the geometry publication. Recorded structural methods replay separately under their authenticated producer
 epoch; their source integrity does not grant current evaluator admission or
 physical qualification. The reproduction commands preserve that separation.
 

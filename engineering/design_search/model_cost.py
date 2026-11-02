@@ -23,6 +23,32 @@ CASES = ("low", "base", "high")
 YEARS = 30
 TRACKWAYS = 2
 PRODUCTION_YEARS = 3
+INITIAL_COST_STAGES = frozenset(("factory-gate", "delivered", "installed", "capital"))
+RENEWAL_GROUPS = ("rolling_stock", "motor_primary", "power_electronics", "guideway", "stations")
+MAX_RENEWAL_HORIZON_YEARS = 10000
+MAX_RENEWAL_EVENTS = 10000
+_PRIMARY_RENEWAL_KEYS = frozenset((
+    "station-lim-primary-stock", "unlocated-wayside-propulsion-package",
+    "traction-feeders-and-protection", "station-primary-delivery",
+    "station-primary-installation-and-alignment", "station-primary-support-cooling-stock",
+    "station-primary-support-cooling-installation",
+))
+_ELECTRONICS_RENEWAL_KEYS = frozenset((
+    "traction-converter-capacity", "power-electronics-installation-and-checkout",
+    "service-battery-charger-packages", "service-battery-charger-installation",
+))
+_STATION_COMPONENT_GROUPS = dict(platform="stations",
+    accessible_access_and_protection="stations", controls="power_electronics",
+    station_installation="stations")
+_GUIDEWAY_RENEWAL_KEYS = frozenset((
+    "precast-beam-concrete-recipe", "precast-reinforcement", "precast-prestress",
+    "precast-prestress-anchorage", "precast-rails", "rail-fastener-sets",
+    "beam-fabrication-crew-machine-and-QA", "beam-factory-machine-QA-overhead",
+))
+_ROLLING_RENEWAL_KEYS = frozenset((
+    "unresolved-joint-hardware-and-assembly", "accounted-vehicle-haul-and-delivery",
+    "vehicle-final-assembly-and-installed-checkout", "unweighed-architecture-equipment-package",
+))
 
 
 def sources(root=Path(__file__).resolve().parents[2]):
@@ -203,7 +229,12 @@ def assumptions(root=Path(__file__).resolve().parents[2]):
 
 
 def _finite(x):
-    return type(x) in (int, float) and isfinite(x)
+    if type(x) not in (int, float):
+        return False
+    try:
+        return isfinite(x)
+    except OverflowError:
+        return False
 
 
 def _triple(value, name, *, positive=False):
@@ -392,6 +423,205 @@ def _shift_adjusted_wage(base_wage, shifts, second_shift_premium, third_shift_pr
     if shifts >= 3:
         factor += third_shift_premium/shifts
     return base_wage*factor
+
+
+def _checked_renewal_event_request(horizon_years, effective_life_years):
+    if (not _finite(horizon_years) or not 0 < horizon_years <= MAX_RENEWAL_HORIZON_YEARS
+            or not _finite(effective_life_years) or effective_life_years <= 0):
+        raise ValueError("Finite positive life and bounded renewal accounting horizon required")
+    # Check the first prohibited event before division, iteration or allocation.
+    # This also rejects tiny positive lives without overflowing horizon/life.
+    if (effective_life_years < horizon_years
+            and effective_life_years*(MAX_RENEWAL_EVENTS+1) < horizon_years):
+        raise ValueError("Renewal event count exceeds the computational accounting budget")
+
+
+def replacement_event_times(horizon_years, effective_life_years):
+    """Return bounded n*T events strictly before the declared horizon.
+
+    A fractional event at 29.5 belongs to a 30-year horizon; an event exactly at
+    30 does not. There is no whole-year subtraction or endpoint tolerance.
+    """
+    _checked_renewal_event_request(horizon_years, effective_life_years)
+    events = []
+    for n in range(1,MAX_RENEWAL_EVENTS+1):
+        year = n*effective_life_years
+        if year >= horizon_years:
+            break
+        events.append(year)
+    return events
+
+
+def renewal_plan(line_items, assumptions_record):
+    """Partition initial asset costs once, then apply declared replacement lives.
+
+    Known line/component names use the canonical policy below. New asset lines
+    require a sealed ``renewal_asset_group``; a new split package can instead
+    supply ``renewal_component_groups`` covering every component. Group names
+    are asset-life keys. Neither annotation may contradict a known allocation.
+    Other scopes and lifecycle rows receive no asset replacement allocation.
+    Inputs are sealed, same-candidate, single-currency cost lines; the full
+    audit is embedded once in the bounded-asset-replacements line quantity.
+    """
+    if (not isinstance(assumptions_record, dict)
+            or assumptions_record.get("assumption_id") != identity(
+                {k:v for k,v in assumptions_record.items() if k != "assumption_id"})):
+        raise ValueError("Sealed renewal assumptions required")
+    years = assumptions_record.get("design_life_years")
+    rate = assumptions_record.get("real_discount_rate")
+    reference_hours = assumptions_record.get("maintenance_reference_operating_hours_per_day")
+    if (type(years) is not int or not _finite(years) or years <= 0 or not _finite(rate) or not 0 <= rate < 1
+            or not _finite(reference_hours) or reference_hours <= 0):
+        raise ValueError("Explicit finite renewal horizon, discount and reference duty required")
+    _checked_renewal_event_request(years,years)
+    hours = _triple(assumptions_record.get("operating_hours_per_day_cases"), "operating duty", positive=True)
+    lives = assumptions_record.get("assumptions", {}).get("asset_life_years", {})
+    group_lives = {g:_triple(lives.get(g), "asset life for " + g, positive=True) for g in RENEWAL_GROUPS}
+    effective_lives = {g:[life*reference_hours/hours[i] for i,life in enumerate(group_lives[g])]
+        for g in RENEWAL_GROUPS}
+    for group in RENEWAL_GROUPS:
+        for life in effective_lives[group]:
+            _checked_renewal_event_request(years,life)
+    if not isinstance(line_items, (list, tuple)):
+        raise ValueError("Explicit cost lines required for renewal partition")
+    allocations = []
+    coverage = []
+    candidate_id = None
+    seen_keys = set()
+    seen_ids = set()
+    source_totals = [[] for _ in CASES]
+    for row in line_items:
+        if (not isinstance(row, dict) or row.get("scope") not in SCOPES
+                or row.get("cost_stage") not in INITIAL_COST_STAGES | {"lifecycle"}
+                or not isinstance(row.get("line_key"), str) or not row["line_key"]
+                or row.get("currency") != assumptions_record.get("currency")
+                or not isinstance(row.get("source_ids"), list) or not row["source_ids"]
+                or any(not isinstance(s, str) or not s for s in row["source_ids"])
+                or row.get("line_id") != identity({k:v for k,v in row.items() if k != "line_id"})):
+            raise ValueError("Sealed canonical cost line required for renewal partition")
+        if row["line_key"] in seen_keys or row["line_id"] in seen_ids:
+            raise ValueError("Duplicate source cost line in renewal partition")
+        seen_keys.add(row["line_key"]); seen_ids.add(row["line_id"])
+        if candidate_id is None:
+            candidate_id = row.get("candidate_id")
+        if (not isinstance(candidate_id, str) or len(candidate_id) != 64
+                or any(c not in "0123456789abcdef" for c in candidate_id)
+                or row.get("candidate_id") != candidate_id):
+            raise ValueError("Mixed candidate in renewal partition")
+        scope, key = row["scope"], row["line_key"]
+        if scope not in ("rolling-stock", "guideway", "stations-power") or row["cost_stage"] not in INITIAL_COST_STAGES:
+            continue
+        expected = None
+        allowed = {"rolling_stock"} if scope == "rolling-stock" else {"guideway"} if scope == "guideway" else {"motor_primary", "power_electronics", "stations"}
+        if scope == "rolling-stock" and (key in _ROLLING_RENEWAL_KEYS or key.startswith(("vehicle-stock/", "retained-equipment/"))):
+            expected = "rolling_stock"
+        elif scope == "guideway" and key in _GUIDEWAY_RENEWAL_KEYS:
+            expected = "guideway"
+        elif scope == "stations-power" and key in _PRIMARY_RENEWAL_KEYS:
+            expected = "motor_primary"
+        elif scope == "stations-power" and key in _ELECTRONICS_RENEWAL_KEYS:
+            expected = "power_electronics"
+        split_station = scope == "stations-power" and key == "stations-platform-access-protection-control"
+        declared = row.get("renewal_asset_group")
+        component_groups = row.get("renewal_component_groups")
+        if declared is not None and (not isinstance(declared, str) or declared not in allowed or expected is not None and declared != expected):
+            raise ValueError("Renewal asset group contradicts the source asset scope/policy")
+        if declared is not None and component_groups is not None:
+            raise ValueError("Choose one explicit renewal allocation annotation")
+        if expected is None and not split_station and declared is None and component_groups is None:
+            raise ValueError("Unknown asset line requires an explicit renewal group: " + key)
+        values = row.get("scenario_iqd")
+        if not isinstance(values, dict) or set(values) != set(CASES):
+            raise ValueError("Exact low/base/high source cost values required")
+        totals = _triple([values[c] for c in CASES], "source asset cost")
+        components = row.get("components_iqd")
+        if split_station and (not isinstance(components, dict) or not set(_STATION_COMPONENT_GROUPS) <= set(components)):
+            raise ValueError("Station package needs every explicit platform/access/control/installation component")
+        if components is None:
+            if component_groups is not None or split_station:
+                raise ValueError("Component allocations require explicit source components")
+            pieces = {None:totals}
+        elif not isinstance(components, dict) or not components or any(not isinstance(k, str) or not k for k in components):
+            raise ValueError("Nonempty named source cost components required")
+        else:
+            pieces = {k:_triple(v, "source asset component " + k) for k,v in sorted(components.items())}
+        if component_groups is not None and (not isinstance(component_groups, dict) or set(component_groups) != set(pieces)):
+            raise ValueError("Every source cost component needs exactly one renewal group")
+        if split_station and declared is not None:
+            raise ValueError("Station controls cannot share a whole-package renewal group")
+        grouped = {}
+        for component in pieces:
+            group = (component_groups[component] if component_groups is not None
+                else _STATION_COMPONENT_GROUPS.get(component) if split_station else expected or declared)
+            if (not isinstance(group, str) or group not in allowed or expected is not None and group != expected
+                    or split_station and component in _STATION_COMPONENT_GROUPS and group != _STATION_COMPONENT_GROUPS[component]):
+                raise ValueError("Missing or contradictory source component renewal group")
+            grouped[component] = group
+        # _line rounds totals and components independently to cents. Reconcile
+        # only that bounded rounding residual; never silently omit an expense.
+        corrections = {k:[0.0]*3 for k in pieces}
+        for i in range(3):
+            difference = totals[i] - fsum(v[i] for v in pieces.values())
+            if abs(difference) > .005*(len(pieces)+1)+1e-6:
+                raise ValueError("Source cost components do not conserve their line total")
+            owner = max(pieces, key=lambda k: pieces[k][i])
+            correction = round(difference, 2)
+            corrections[owner][i] = correction
+            pieces[owner][i] = round(pieces[owner][i]+correction, 2)
+            if pieces[owner][i] < 0 or round(fsum(v[i] for v in pieces.values())-totals[i], 2) != 0:
+                raise ValueError("Source cost rounding cannot conserve nonnegative allocations")
+            source_totals[i].append(totals[i])
+        for component, amounts in pieces.items():
+            allocations.append(dict(source_line_id=row["line_id"], source_line_key=key,
+                source_scope=scope, source_cost_stage=row["cost_stage"], component=component,
+                asset_group=grouped[component], allocated_initial_CAPEX_iqd=dict(zip(CASES, amounts)),
+                rounding_adjustment_iqd=dict(zip(CASES, corrections[component]))))
+        coverage.append(dict(source_line_id=row["line_id"], source_line_key=key,
+            component_names=list(pieces), source_initial_CAPEX_iqd=dict(zip(CASES, totals))))
+    if not coverage:
+        raise ValueError("At least one initial asset cost line is required")
+    groups = []
+    unrounded_total = [[] for _ in CASES]
+    asset_life_events = []
+    for group in RENEWAL_GROUPS:
+        members = [r for r in allocations if r["asset_group"] == group]
+        capital = [fsum(r["allocated_initial_CAPEX_iqd"][c] for r in members) for c in CASES]
+        cases = []
+        for i, case in enumerate(CASES):
+            effective_life = effective_lives[group][i]
+            times = replacement_event_times(years,effective_life) if members else []
+            count = len(times)
+            events = [dict(year=year, replacement_base_iqd=capital[i],
+                present_value_iqd=capital[i]/(1+rate)**year) for year in times]
+            amount = fsum(e["present_value_iqd"] for e in events)
+            unrounded_total[i].append(amount)
+            detail = dict(case=case, asset_group=group, declared_life_years=group_lives[group][i],
+                duty_adjusted_life_years=round(effective_life,2), replacement_count=count,
+                allocated_initial_CAPEX_iqd=capital[i], events=events, renewal_NPV_iqd=amount)
+            cases.append(detail); asset_life_events.append(detail)
+        groups.append(dict(asset_group=group, source_allocation_count=len(members),
+            allocated_initial_CAPEX_iqd=dict(zip(CASES, capital)), cases=cases))
+    allocated = [fsum(g["allocated_initial_CAPEX_iqd"][c] for g in groups) for c in CASES]
+    initial = [fsum(v) for v in source_totals]
+    if any(round(a-b,2) != 0 for a,b in zip(allocated,initial)):
+        raise ValueError("Renewal groups do not conserve initial CAPEX")
+    value = dict(schema="osr-disjoint-asset-renewal-plan/1", candidate_id=candidate_id,
+        assumption_id=assumptions_record["assumption_id"],
+        source_sha256={PRODUCER:digest(Path(__file__))},
+        years=years, real_discount_rate=rate, operating_hours_per_day=hours,
+        maintenance_reference_operating_hours_per_day=reference_hours,
+        maximum_events_per_group_case=MAX_RENEWAL_EVENTS,
+        maximum_accounting_horizon_years=MAX_RENEWAL_HORIZON_YEARS,
+        source_line_allocations=allocations, source_line_coverage=coverage, asset_groups=groups,
+        asset_life_events=asset_life_events,
+        conservation=dict(source_initial_CAPEX_iqd=dict(zip(CASES,initial)),
+            allocated_initial_CAPEX_iqd=dict(zip(CASES,allocated)), every_source_component_allocated_once=True),
+        renewal_NPV_iqd=_round([fsum(v) for v in unrounded_total]),
+        physical_accepted=False, engineering_accepted=False,
+        manufacturing_release=False, operating_release=False,
+        configuration_adopted=False, selected_reference_changed=False)
+    value["plan_id"] = identity(value)
+    return value
 
 
 def _validate_assumptions(value, root):
@@ -769,7 +999,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         source_ids=[*evidence, *_benchmark_evidence(assumptions_record, "rebar")], rate_evidence_class="B")
     specialty_cost = [0.0, 0.0, 0.0]
     for key, field in (("prestress", "prestress_kg"), ("prestress-anchorage", "prestress_anchorage_kg"),
-                       ("rails", "running_rail_kg"), ("direct-fasteners", "direct_fastener_kg")):
+                       ("rails", "running_rail_kg")):
         mass = float(beam.get(field, 0.0) or 0.0) * span_count
         if mass <= 0:
             continue
@@ -780,12 +1010,20 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
             quantity=dict(mass_kg=mass), unit="kg", totals=totals, stage="factory-gate",
             basis="Candidate civil quantity × Class C rate for this specialist grade/form; design, origin and current availability remain unverified.",
             source_ids=[identity(beam), identity(assumptions_record)], rate_evidence_class="C")
-    fastener_sets = int(beam.get("direct_fastener_sets", 0)) * span_count
+    sets_per_span = beam.get("direct_fastener_sets")
+    hardware_per_span = beam.get("direct_fastener_kg")
+    if (type(sets_per_span) is not int or sets_per_span < 0
+            or not _finite(hardware_per_span) or hardware_per_span < 0
+            or hardware_per_span > 0 and sets_per_span == 0
+            or sets_per_span > 0 and hardware_per_span <= 0):
+        raise ValueError("Counted fastener hardware mass and complete-set count must agree")
+    fastener_sets = sets_per_span * span_count
+    fastener_hardware_kg = hardware_per_span * span_count
     fastener_cost = [fastener_sets * a["fastener_iqd_per_set"][i] for i in range(3)]
     if fastener_sets:
         _line(line_items, candidate_id=candidate_id, scope="guideway", key="rail-fastener-sets",
-            quantity=dict(sets=fastener_sets), unit="set", totals=fastener_cost, stage="factory-gate",
-            basis="Counted preliminary fastener sets × explicit complete-set Class C rate; compatibility, clips, pads, anchors and installation remain open.",
+            quantity=dict(sets=fastener_sets, counted_hardware_mass_kg=fastener_hardware_kg), unit="set", totals=fastener_cost, stage="factory-gate",
+            basis="Counted preliminary fastener sets × explicit complete-set Class C rate, including their hardware stock once. Hardware mass remains counted for gravity and transport; no second raw-steel fastener cost is added. Compatibility, clips, pads, anchors and installation remain open.",
             source_ids=[identity(beam), identity(assumptions_record)], rate_evidence_class="C")
     beam_hours = [span_count * a["beam_factory_hours_per_span"][i] for i in range(3)]
     beam_labour = [beam_hours[i] * production_wage[i] for i in range(3)]
@@ -1005,29 +1243,15 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
         basis="Annual maintenance fraction on rolling-stock, guideway and station-power factory/installation cost, scaled by service hours against the 18-hour base duty; includes routine labour/consumables, not measured maintenance history.",
         source_ids=[identity(assumptions_record)], components=dict(annual_cost=maintenance_year, NPV=maintenance_npv))
 
-    life_keys = (("rolling-stock", "rolling_stock"), ("stations-power", "motor_primary"),
-                 ("stations-power", "power_electronics"), ("guideway", "guideway"),
-                 ("stations-power", "stations"))
-    renewal_total = [0.0, 0.0, 0.0]
-    renewal_rows = []
-    for scope, life_key in life_keys:
-        capex = initial_capex_by_scope[scope]
-        lives = a["asset_life_years"][life_key]
-        values = []
-        events = []
-        for i in range(3):
-            effective_life=float(lives[i])*assumptions_record["maintenance_reference_operating_hours_per_day"]/operating_hours[i]
-            count = max(0, int((years - 1) // effective_life))
-            cost = fsum(capex[i] / (1+assumptions_record["real_discount_rate"])**(effective_life*n)
-                        for n in range(1, count+1))
-            values.append(cost)
-            events.append(dict(case=CASES[i],declared_life_years=lives[i],duty_adjusted_life_years=round(effective_life,2),replacement_count=count))
-        renewal_total = _sum(renewal_total, values)
-        renewal_rows.extend(events)
+    replacement_plan = renewal_plan(line_items, assumptions_record)
+    renewal_total = replacement_plan["renewal_NPV_iqd"]
+    renewal_rows = replacement_plan["asset_life_events"]
     _line(line_items, candidate_id=candidate_id, scope="renewals", key="bounded-asset-replacements",
-        quantity=dict(years=years, asset_life_events=renewal_rows), unit="replacement-NPV", totals=renewal_total,
-        stage="lifecycle", basis="Discrete replacement events from explicit Class C asset lives, adjusted inversely with operating hours relative to the 18-hour base duty; component lives are not qualified or measured.",
-        source_ids=[identity(assumptions_record)])
+        quantity=dict(years=years, asset_life_events=renewal_rows,
+            renewal_plan_id=replacement_plan["plan_id"], renewal_plan=replacement_plan),
+        unit="replacement-NPV", totals=renewal_total,
+        stage="lifecycle", basis="Each initial asset line/component is allocated once to a disjoint asset-life group, then replaced at the existing duty-adjusted Class C life. No complete station-power scope is repeatedly assigned to different lives; component lives remain unqualified.",
+        source_ids=[identity(assumptions_record), replacement_plan["plan_id"]])
 
     rescue = a["rescue_iqd_each"]
     rescue_standby_year = a["rescue_standby_iqd_per_year"]
@@ -1135,6 +1359,7 @@ def evaluate(bundle, inventory, architecture_result, propulsion_result, motion_r
                 critical_path_duration=construction_days),
             throughput_basis="Production workcells use two 8-hour shifts each production day; civil activity uses two 8-hour shifts with calendar duration calculated from per-shift crew productivity; operations cost two shifts at 16/18-hour coverage in low/base and three shifts at 24-hour high case. Service train-km use two directional loops once, separate from the two physical corridor trackways. Shift premiums, utilisation and relief are explicit Class C assumptions."),
         provisional_manufacturing_plan=provisional_manufacturing_plan,
+        renewal_plan_id=replacement_plan["plan_id"],
         cost_line_items=line_items, scope_totals_iqd={k:_round(v) for k,v in scope_totals.items()},
         factory_gate_cost_iqd=_round(factory_gate), delivered_cost_iqd=_round(delivered),
         model_based_installed_CAPEX_iqd=_round(installed), model_based_whole_life_NPV_iqd=_round(lifecycle),

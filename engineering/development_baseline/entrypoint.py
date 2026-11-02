@@ -185,6 +185,7 @@ def main(argv=None, root=ROOT):
               '  adaptive, architecture    Function-first and architecture studies\n'
               '  generative, portfolio     Structural grammar and breadth-first body portfolio\n'
               '  civil-portfolio           20 m civil shapes, costs and evaluator frontier\n'
+              '  topology                  Generate/replay civil material-distribution experiments\n'
               '  space                     Material, structure, joint and motor design space\n'
               '  campaign                  Bounded candidate campaign lifecycle\n'
               '  sourced                   Source-backed component alternatives\n'
@@ -355,6 +356,36 @@ def main(argv=None, root=ROOT):
                     target=root/'build/v06-architecture/umbrella-interruption-final.json';target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(encoded(result));emit(result);return 3
                 emit(dict(campaign_id=result['campaign_id'],contract_id=result['contract_id'],evaluation_cases=len(result['cases']),physical_definitions=result['distinct_physical_candidates'],integrated_selection=result['integrated_selection'],physical_accepted=False));return 0
             raise ValueError('Use ./osr design architecture run [--max-cases N], publish or verify')
+        if command=='topology':
+            from engineering.design_search import civil_topology
+            options = argparse.ArgumentParser(prog='./osr design topology')
+            options.add_argument('action', choices=('plan', 'run', 'revise', 'publish', 'verify', 'revision-publish', 'revision-verify'), nargs='?', default='plan')
+            options.add_argument('--state', type=Path)
+            options.add_argument('--parent-state', type=Path)
+            options.add_argument('--max-trials', type=int, default=1)
+            options.add_argument('--replay', action='store_true')
+            values = options.parse_args(rest)
+            if values.action=='plan': result=civil_topology.plan(root)
+            elif values.action=='run':
+                result=civil_topology.run(values.state or root/'build/civil-topology', root=root, max_trials=values.max_trials)
+            elif values.action=='revise':
+                from engineering.design_search import topology_revision_campaign
+                result=topology_revision_campaign.run(values.state or root/'build/civil-topology-revisions',
+                    root=root, parent_state=values.parent_state or root/'build/civil-topology', max_trials=values.max_trials)
+            elif values.action=='publish':
+                from engineering.design_search import civil_topology_publication
+                if values.state is None:raise ValueError('Topology publication requires an immutable --state')
+                result=civil_topology_publication.publish(values.state, root=root)
+            elif values.action in ('revision-publish', 'revision-verify'):
+                from engineering.design_search import topology_revision_publication
+                if values.action=='revision-publish':
+                    if values.state is None:raise ValueError('Revision publication requires an immutable --state')
+                    result=topology_revision_publication.publish(values.state, root=root)
+                else:result=topology_revision_publication.verify(root=root)
+            else:
+                from engineering.design_search import civil_topology_publication
+                result=civil_topology_publication.verify(root=root, replay=values.replay, state=values.state)
+            emit(result);return 0
         if command=='civil-portfolio':
             from engineering.design_search import civil_shape_portfolio
             if rest in ([],['plan']):emit(civil_shape_portfolio.specification(root));return 0

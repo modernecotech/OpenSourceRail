@@ -106,13 +106,32 @@ These gross-elastic calculations do not resolve cracking, resistance, shear,
 torsion, connections, actual crane capacity or unknown installed quantities.
 Stage-two solver admission and physical acceptance remain pending.
 
-Run `./osr workbench` and open Design Portfolio to browse both studies. The body
+Run `./osr workbench` and open Design Portfolio to browse the body, civil and
+two web-topology portfolios. The body
 quantity archive retains 18 of 54 candidates. The civil quantity archive retains
 6 of 18, while the mechanics archive retains all 18; each archive filter keeps
 its own objectives and scope. Civil details join the exact parent portfolio,
 candidate and quantity evaluation, show partial beam progress, and leave stage
 one incomplete. Body stock cost per car and scoped installed civil cost per
 20 m span remain separate comparisons.
+
+The [implicit cellular experiment](../../docs/design-engine/implicit-geometry-study/README.md)
+creates a bounded three-dimensional gyroid-sheet occupancy and a binary VTK
+export. Its 0.4 m sample uses an assumed material density and has 8,448
+occupied cells, or 129.525 kg of sampled material; skin, connections, installed
+mass and costs are not included. The voxel surface is not a manufacturing CAD
+model, and the reported continuous-volume interval assumes exact arithmetic.
+The saved sample is a detached component study, not a railway candidate.
+
+```bash
+python3 -m engineering.design_search.implicit_geometry_publication verify --expected-manifest-id 3fa44c54689ae832a4d450a45ba5da7fe0092bd87d54a3738d499a7087787117
+python3 -m engineering.design_search.flanged_span_publication verify
+```
+
+The externally pinned implicit manifest identifies the original evidence; the
+verifier resamples it and compares the VTK bytes while recording the replay
+environment separately. It does not independently attest the original runtime
+or qualify the shape for manufacture.
 
 ## Bounded campaigns
 

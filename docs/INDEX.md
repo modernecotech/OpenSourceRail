@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **101**.
+Indexed Markdown files: **105**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **101**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 76 |
+| [docs](#docs) | 80 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -84,6 +84,8 @@ Indexed Markdown files: **101**.
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
 | [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
+| [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |
+| [`docs/design-engine/civil-topology-revisions/README.md`](../docs/design-engine/civil-topology-revisions/README.md) | Explicit physical revisions of steel-web topology experiments |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 1 November 2026 |
@@ -95,8 +97,10 @@ Indexed Markdown files: **101**.
 | [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
 | [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
 | [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
+| [`docs/design-engine/flanged-span-study/README.md`](../docs/design-engine/flanged-span-study/README.md) | Flanged-girder 20 m span: analytical research study |
 | [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
+| [`docs/design-engine/implicit-geometry-study/README.md`](../docs/design-engine/implicit-geometry-study/README.md) | Three-dimensional implicit cellular geometry study |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle residual mass completion |
@@ -112,7 +116,7 @@ Indexed Markdown files: **101**.
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
-| [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 30 October 2026 |
+| [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — replayed 2 November 2026 |
 | [`docs/design-engine/sourcing/README.md`](../docs/design-engine/sourcing/README.md) | Sourcing and cost intelligence — v0.6 research snapshot |
 | [`docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md`](../docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md) | Candidate-bound Iraqi civil material + labour screen — October 2026 |
 | [`docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/README.md`](../docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/README.md) | Federated candidate domestic rebar screen — October 2026 |

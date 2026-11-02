@@ -1,5 +1,5 @@
 """Bounded motor controls, practical excitation and physical return-path rewrite."""
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 from copy import deepcopy
 import json
 import time
@@ -8,6 +8,7 @@ import gzip
 import io
 import tarfile
 import tempfile
+import shutil
 from math import sqrt
 
 from engineering.station_rail import ROOT
@@ -86,6 +87,8 @@ def _run(state,*,root=ROOT,maximum_new_runs=8,maximum_seconds=1800.):
     if type(maximum_new_runs) is not int or not 0<=maximum_new_runs<=8 or not 0<maximum_seconds<=1800:
         raise ValueError('Zero to eight new motor runs and at most1800s invocation budget required')
     folder=Path(state);folder.mkdir(parents=True,exist_ok=True)
+    if (folder/'latest.json').is_file() and 'reindex_provenance' in json.loads((folder/'latest.json').read_bytes()):
+        raise ValueError('Reindexed terminal state is immutable; verify or publish it instead of rewriting its provenance')
     epoch=source_epoch(root);requests=cases(root);rows=[];pending=[];new=0;started=time.monotonic()
     tool={k:v for k,v in motor._tool(requests[0]['request']).items() if k in ('python','python_sha256','numpy','scipy','superlu_sha256')}
     for row in requests:
@@ -128,12 +131,128 @@ def run(state,*,root=ROOT,maximum_new_runs=8,maximum_seconds=1800.):
         return _run(folder,root=root,maximum_new_runs=maximum_new_runs,maximum_seconds=maximum_seconds)
 
 
+def _ordinary(folder):
+    folder=Path(folder)
+    if any(p.is_symlink() for p in (folder,*folder.parents)) or not folder.is_dir() or any(p.is_symlink() or not(p.is_file() or p.is_dir()) for p in folder.rglob('*')):
+        raise ValueError('Ordinary unlinked motor state/package required')
+
+
+def _epoch_paths(epoch):
+    if not isinstance(epoch,dict) or not epoch:raise ValueError('Explicit source epoch required')
+    for name,sha in epoch.items():
+        path=PurePosixPath(name)
+        if (not isinstance(name,str) or not path.parts or path.is_absolute() or '..' in path.parts or '\\' in name or path.as_posix()!=name or not isinstance(sha,str) or len(sha)!=64 or any(c not in '0123456789abcdef' for c in sha)):
+            raise ValueError('Ordinary source epoch paths/digests required')
+
+
+def _inventory(folder):
+    _ordinary(folder)
+    return {p.relative_to(folder).as_posix():dict(bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(Path(folder).rglob('*')) if p.is_file()}
+
+
+def _index_seal(value):
+    return value.get('experiment_id')==identity({k:v for k,v in value.items() if k not in ('new_runs','experiment_id')})
+
+
+def _verify_reindex(folder,value,root):
+    provenance=value['reindex_provenance'];origin_path=Path(folder)/'origin-index.json'
+    if (provenance.get('schema')!='osr-exact-raw-motor-reindex/1' or provenance.get('origin_index')!='origin-index.json'
+            or digest(origin_path)!=provenance['origin_index_sha256'] or value['new_runs']!=0):raise ValueError('Reindex origin index/hash differs')
+    origin=json.loads(origin_path.read_bytes());_epoch_paths(origin.get('source_sha256'))
+    if (origin.get('schema')!='osr-configured-motor-experiment/1' or origin.get('integrated_selection') is not None or not _index_seal(origin) or origin.get('reindex_provenance') is not None or origin.get('pending') or len(origin.get('rows',[]))!=8
+            or provenance['origin_experiment_id']!=origin['experiment_id'] or provenance['origin_source_sha256']!=origin['source_sha256']
+            or origin['tool_identity']!=value['tool_identity'] or any(origin.get(k) is not False for k in FLAGS)):
+        raise ValueError('Original execution index seal/epoch/tool/disposition differs')
+    old={r['summary']['name']:r for r in origin['rows']};new={r['summary']['name']:r for r in value['rows']};entries={r['name']:r for r in provenance['entries']}
+    if len(old)!=8 or len(entries)!=8 or len(provenance['entries'])!=8 or set(old)!=set(new) or set(entries)!=set(new):raise ValueError('Reindex origin matrix differs')
+    definitions={r['name']:r for r in cases(root)}
+    for name,row in new.items():
+        previous=old[name];entry=entries[name];request=row['request']
+        expected_old='runs/'+identity(dict(request_id=request['request_id'],source_sha256=origin['source_sha256'],tool_identity=origin['tool_identity']))
+        if (previous['request']!=request or previous['output']!=expected_old or previous['purpose']!=row['purpose']
+                or entry['origin_output']!=expected_old or entry['output']!=row['output']
+                or entry['origin_evaluation_id']!=previous['summary']['evaluation_id']):raise ValueError('Reindex original request/path/evaluation differs')
+        path=Path(folder)/row['output']
+        hold=definitions[name]['purpose']=='candidate-screen' and not electrical_bound(request)['passes_declared_sinusoidal_bound']
+        if hold:
+            retained=Path(folder)/'origin-holds'/expected_old.split('/')[1]
+            if entry['disposition']!='necessary-bound-recomputed' or entry['origin_hold_output']!='origin-holds/'+expected_old.split('/')[1] or _inventory(retained)!=entry['origin_files']:
+                raise ValueError('Retained original necessary-bound payload differs')
+            original_input=json.loads((retained/'input.json').read_bytes());actual=json.loads((retained/'result.json').read_bytes())
+            if (set(entry['origin_files'])!={'input.json','result.json'} or original_input!=dict(request=request,source_sha256=origin['source_sha256'])
+                    or actual!=_held(request) or previous['summary']!=_summary(name,actual) or previous['electrical_bound']!=electrical_bound(request)):
+                raise ValueError('Original necessary-bound provenance differs')
+        else:
+            if entry['disposition']!='exact-raw-package-preserved' or _inventory(path)!=entry['origin_files'] or previous['summary']!=row['summary'] or previous['electrical_bound']!=row['electrical_bound']:
+                raise ValueError('Reused raw package/evaluation differs from origin')
+            proof=entry['creation_verification']
+            if (proof['recorded_tool_identity']!=origin['tool_identity'] or proof['current_tool_identity']!=origin['tool_identity']
+                    or proof['require_current_tool'] is not True or proof['independent_execution_attempted'] is not False
+                    or proof['request_id']!=request['request_id'] or proof['evaluation_id']!=previous['summary']['evaluation_id']):
+                raise ValueError('Exact source/tool/resource reuse verification differs')
+    return provenance
+
+
 def verify_index(state,*,root=ROOT):
-    folder=Path(state);value=json.loads((folder/'latest.json').read_bytes())
-    if (value.get('schema')!='osr-configured-motor-experiment/1' or value.get('source_sha256')!=source_epoch(root)
+    folder=Path(state);_ordinary(folder)
+    if (folder/'reindex-failure.txt').exists():raise ValueError('Failed partial reindex cannot be published; preserve it and use a fresh output')
+    value=json.loads((folder/'latest.json').read_bytes())
+    _verify_contents(folder,value,root,source_epoch(root))
+    if 'reindex_provenance' in value:_verify_reindex(folder,value,root)
+    return value
+
+
+def reindex(source_state,new_state,root=ROOT):
+    """Preserve exact raw executions across a broad-only source-epoch change.
+
+    The source must be the original complete execution index. Necessary bounds
+    are rerun algebraically; no numerical motor execution or replay is allowed.
+    Interrupted packages retain their original evaluation and disposition.
+    """
+    source=Path(source_state);target=Path(new_state);root=Path(root)
+    _ordinary(source)
+    if target.exists() or target.is_symlink() or any(p.is_symlink() for p in target.parents):raise ValueError('Fresh unlinked reindex output required')
+    if source.resolve()==target.resolve() or source.resolve() in target.resolve().parents:raise ValueError('Reindex output cannot mutate source state')
+    snapshot=_inventory(source);raw=(source/'latest.json').read_bytes();origin=json.loads(raw)
+    if origin.get('reindex_provenance') is not None or origin.get('pending') or len(origin.get('rows',[]))!=8:raise ValueError('Original complete8-case execution index required')
+    epoch=source_epoch(root);_epoch_paths(epoch)
+    _verify_contents(source,origin,root,origin.get('source_sha256'),require_current_tool=True)
+    tool={k:v for k,v in motor._tool(cases(root)[0]['request']).items() if k in motor.TOOL_IDENTITY_FIELDS}
+    if origin['tool_identity']!=tool:raise ValueError('Current tool differs from original execution tool')
+    target.mkdir(parents=True);(target/'origin-index.json').write_bytes(raw);rows=[];entries=[]
+    try:
+        for old in origin['rows']:
+            request=old['request'];name=old['summary']['name'];key=identity(dict(request_id=request['request_id'],source_sha256=epoch,tool_identity=tool));output=target/'runs'/key;oldpath=source/old['output']
+            hold=old['purpose']=='candidate-screen' and not electrical_bound(request)['passes_declared_sinusoidal_bound'];files=_inventory(oldpath)
+            entry=dict(name=name,origin_output=old['output'],output='runs/'+key,origin_evaluation_id=old['summary']['evaluation_id'],origin_files=files)
+            if hold:
+                retained=target/'origin-holds'/old['output'].split('/')[1];shutil.copytree(oldpath,retained)
+                output.mkdir(parents=True);result=_held(request);(output/'input.json').write_bytes(encoded(dict(request=request,source_sha256=epoch)));(output/'result.json').write_bytes(encoded(result))
+                entry.update(disposition='necessary-bound-recomputed',origin_hold_output=retained.relative_to(target).as_posix())
+            else:
+                proof=motor.verify(oldpath,root=root,require_current_tool=True,replay=False)
+                shutil.copytree(oldpath,output)
+                if _inventory(output)!=files:raise ValueError('Raw package bytes changed during copy')
+                result=json.loads((output/'result.json').read_bytes());entry.update(disposition='exact-raw-package-preserved',creation_verification=proof)
+            rows.append(dict(output='runs/'+key,request=request,purpose=old['purpose'],electrical_bound=electrical_bound(request),summary=_summary(name,result)));entries.append(entry)
+        provenance=dict(schema='osr-exact-raw-motor-reindex/1',origin_index='origin-index.json',origin_index_sha256=digest(target/'origin-index.json'),origin_experiment_id=origin['experiment_id'],origin_source_sha256=origin['source_sha256'],entries=entries,numerical_solver_executed=False)
+        value=dict(schema='osr-configured-motor-experiment/1',source_sha256=epoch,tool_identity=tool,rows=rows,pending=[],new_runs=0,reindex_provenance=provenance,integrated_selection=None,**FLAGS)
+        value['experiment_id']=identity({k:v for k,v in value.items() if k!='new_runs'})
+        (target/'latest.json').write_bytes(encoded(value))
+        if source_epoch(root)!=epoch or _inventory(source)!=snapshot:raise ValueError('Source epoch/original package changed during reindex')
+        verify_index(target,root=root)
+    except BaseException:
+        (target/'reindex-failure.txt').write_text('Reindex interrupted or verification failed; preserve partial output and original inputs.\n');raise
+    return value
+
+
+def _verify_contents(folder,value,root,epoch,*,require_current_tool=False):
+    if (value.get('schema')!='osr-configured-motor-experiment/1' or value.get('source_sha256')!=epoch
+        or value.get('integrated_selection') is not None or type(value.get('new_runs')) is not int or not 0<=value['new_runs']<=8
         or value.get('experiment_id')!=identity({k:v for k,v in value.items() if k not in ('new_runs','experiment_id')})
         or any(value.get(k) is not False for k in FLAGS)):
         raise ValueError('Motor experiment source/index/disposition differs')
+    _ordinary(folder);_epoch_paths(value.get('source_sha256'))
     tool=value.get('tool_identity')
     if not isinstance(tool,dict) or set(tool)!=set(motor.TOOL_IDENTITY_FIELDS) or any(not isinstance(v,str) or not v.strip() for v in tool.values()):
         raise ValueError('Exact recorded experiment tool identity required')
@@ -149,7 +268,8 @@ def verify_index(state,*,root=ROOT):
         if request!=expected[name]:raise ValueError('Motor experiment request differs')
         key=identity(dict(request_id=request['request_id'],source_sha256=value['source_sha256'],tool_identity=value['tool_identity']))
         if row['output']!='runs/'+key:raise ValueError('Exact ordinary motor output path required')
-        path=folder/row['output']
+        path=folder/row['output'];_ordinary(path)
+        if any(not p.is_file() for p in path.iterdir()):raise ValueError('Flat ordinary motor package required')
         hold=definitions[name]['purpose']=='candidate-screen' and not electrical_bound(request)['passes_declared_sinusoidal_bound']
         if row['purpose']!=definitions[name]['purpose'] or row['electrical_bound']!=electrical_bound(request):
             raise ValueError('Experiment purpose/electrical screen differs')
@@ -159,9 +279,10 @@ def verify_index(state,*,root=ROOT):
             if json.loads((path/'input.json').read_bytes())!=dict(request=request,source_sha256=value['source_sha256']):
                 raise ValueError('Necessary-bound source/input differs')
         else:
-            verified=motor.verify(path,root=root,require_current_tool=False)
+            verified=motor.verify(path,root=root,require_current_tool=require_current_tool,replay=False)
+            if json.loads((path/'input.json').read_bytes())['request']!=request:raise ValueError('Indexed/native motor request differs')
             recorded=verified['recorded_tool_identity']
-            if value['tool_identity']!={k:recorded[k] for k in motor.TOOL_IDENTITY_FIELDS}:
+            if recorded is None or value['tool_identity']!={k:recorded[k] for k in motor.TOOL_IDENTITY_FIELDS}:
                 raise ValueError('Experiment tool identity differs from actual recorded package')
         actual=json.loads((path/'result.json').read_bytes())
         if hold and actual!=_held(request):raise ValueError('Necessary-bound screen differs')
@@ -177,7 +298,8 @@ def publish(state,output,*,root=ROOT):
     value=verify_index(state,root=root);folder=Path(state);target=Path(output);target.mkdir(parents=True,exist_ok=True)
     data=io.BytesIO()
     with tarfile.open(fileobj=data,mode='w') as archive:
-        files=[folder/'latest.json']+[p for row in value['rows'] for p in sorted((folder/row['output']).iterdir()) if p.is_file()]
+        provenance_files=([folder/'origin-index.json']+list((folder/'origin-holds').rglob('*'))) if 'reindex_provenance' in value else []
+        files=[folder/'latest.json']+[p for p in provenance_files if p.is_file()]+[p for row in value['rows'] for p in sorted((folder/row['output']).iterdir()) if p.is_file()]
         for p in files:
             raw=p.read_bytes();item=tarfile.TarInfo(p.relative_to(folder).as_posix());item.size=len(raw);item.mtime=0;item.mode=0o644
             archive.addfile(item,io.BytesIO(raw))

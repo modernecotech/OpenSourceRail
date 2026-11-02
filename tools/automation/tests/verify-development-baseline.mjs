@@ -372,7 +372,30 @@ try {
     ).status(),
     200,
   );
-  report.portfolio_candidates = { body: 54, civil: 18 };
+  const topology = portfolios.portfolios.find((item) => item.key === "topology");
+  assert(topology && topology.candidate_count > 0);
+  await page.selectOption("#portfolio-system", "topology");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), topology.candidate_count);
+  assert.match(await page.locator("#portfolio-scope").innerText(), /research model/);
+  assert.equal(await page.locator('#portfolio-retention option[value="quantity"]').evaluate((option) => option.disabled), true);
+  assert.match(await page.locator("#portfolio-tasks").innerText(), /buckling/i);
+  assert.equal((await context.request.get(origin + (await page.locator("#portfolio-geometry").getAttribute("href")))).status(), 200);
+  const revisions = portfolios.portfolios.find((item) => item.key === "topology-revisions");
+  assert.equal(portfolios.portfolios.length, 4);
+  assert.equal(revisions.candidate_count, 10);
+  assert.equal(revisions.assumptions.terminal_attempt_count, 12);
+  assert.equal(revisions.assumptions.archive_eligible_attempt_count, 4);
+  assert.equal(revisions.assumptions.residual_gate_failed_attempt_count, 8);
+  assert.equal(revisions.assumptions.mesh_unresolved_attempt_count, 12);
+  await page.selectOption("#portfolio-system", "topology-revisions");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 10);
+  assert.match(await page.locator("#portfolio-count").innerText(), /12 terminal attempts.*8 numerical residual failures.*12 mesh unresolved/);
+  assert.match(await page.locator("#portfolio-evidence").innerText(), /mesh-unresolved.*physical model and strength unqualified/);
+  assert.match(await page.locator("#portfolio-facts").innerText(), /Factory person-hours.*low \/ base \/ high/i);
+  assert.equal(await page.locator('#portfolio-retention option[value="quantity"]').evaluate((option) => option.disabled), true);
+  assert.equal((await context.request.get(origin + (await page.locator("#portfolio-source").getAttribute("href")))).status(), 200);
+  assert.equal((await context.request.get(origin + (await page.locator("#portfolio-geometry").getAttribute("href")))).status(), 200);
+  report.portfolio_candidates = { body: 54, civil: 18, topology: topology.candidate_count, topology_revisions: revisions.candidate_count };
   report.portfolio_archive_counts = {
     body_quantity: 18,
     civil_quantity: 6,

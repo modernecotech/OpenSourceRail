@@ -24,7 +24,7 @@ jobs:
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
       - name: Source domains, physical revisions and adversarial contracts
-        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py
+        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py tools/automation/tests/test_sourced_ifc_reuse.py
   semantic-replay:
     timeout-minutes: 60
     runs-on: ubuntu-24.04
