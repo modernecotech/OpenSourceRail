@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **106**.
+Indexed Markdown files: **108**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **106**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 81 |
+| [docs](#docs) | 83 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -98,6 +98,7 @@ Indexed Markdown files: **106**.
 | [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
 | [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
 | [`docs/design-engine/flanged-span-study/README.md`](../docs/design-engine/flanged-span-study/README.md) | Flanged-girder 20 m span: analytical research study |
+| [`docs/design-engine/flanged-system-cost-context.md`](../docs/design-engine/flanged-system-cost-context.md) | Reference geometry behind the flanged-span cost scenarios |
 | [`docs/design-engine/flanged-system-cost-study/README.md`](../docs/design-engine/flanged-system-cost-study/README.md) | Flanged-span whole-railway Class C scenarios |
 | [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
@@ -105,6 +106,7 @@ Indexed Markdown files: **106**.
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle residual mass completion |
+| [`docs/design-engine/matched-renewal-research/README.md`](../docs/design-engine/matched-renewal-research/README.md) | Matched renewal research |
 | [`docs/design-engine/model-based-cost-and-delivery.md`](../docs/design-engine/model-based-cost-and-delivery.md) | Model-based cost and end-to-end delivery closure |
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |

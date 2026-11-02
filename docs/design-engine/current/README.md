@@ -115,7 +115,9 @@ The [20 m civil shape portfolio](../civil-shape-portfolio/README.md) generates 1
 
 The separate [flanged-girder study](../flanged-span-study/README.md) calculates three 20 m steel-girder and concrete-deck configurations against the same selected vehicle and mass scenarios. Its steel-only beam model, full-moment splice assumption and scoped per-span costs remain unqualified; it does not select a railway or establish whole-system economics.
 
-Its [same-service cost scenarios](../flanged-system-cost-study/README.md) propagate the three configurations through fourteen provisional cost scopes with common rates and two-shift delivery assumptions. Whole-life differences against the canonical reference remain held until coating and bearing renewal scopes match; foundation prices and site capacity remain unresolved.
+Its [same-service cost scenarios](../flanged-system-cost-study/README.md) propagate the three configurations through fourteen provisional cost scopes with common rates and two-shift delivery assumptions. The [reference geometry changes by mass case](../flanged-system-cost-context.md). Whole-life differences against the canonical reference remain held until coating and bearing renewal scopes match; foundation prices and site capacity remain unresolved.
+
+The separate [matched-renewal research](../matched-renewal-research/README.md) introduces explicit hypothetical reference bearings, concrete-treatment alternatives and maintenance-overlap sensitivities. It compares fifty-four conditional cases with each reference beam identity preserved; it neither changes the selected reference nor qualifies or ranks a railway.
 
 The [implicit-geometry experiment](../implicit-geometry-study/README.md) preserves a three-dimensional sampled gyroid volume and VTK bytes with separate physical and evaluation identities. Its sampled material mass excludes installation; its continuous surface, manufacture and structural behavior are unqualified.
 

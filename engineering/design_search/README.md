@@ -153,6 +153,15 @@ crane hours include the paid time implied by utilization. Whole-life ranking
 against the reference is held because the reference does not yet have matching
 coating and bearing renewal events. Site, structural and equipment evidence
 remain open.
+The [reference-geometry context](../../docs/design-engine/flanged-system-cost-context.md)
+identifies the different prestress geometry used by each mass case; these are
+not three loads applied to one fixed reference beam.
+The separate [matched-renewal research](../../docs/design-engine/matched-renewal-research/README.md)
+adds bounded hypothetical bearings and concrete-treatment alternatives to
+compare 54 conditional scenarios, without selecting a railway. It retains five
+worker epochs; its verifier replays the final calculation and checks the earlier
+files, while their held descriptions remain interpretations of recorded audits
+rather than independently attested historical executions.
 
 ## Bounded campaigns
 
