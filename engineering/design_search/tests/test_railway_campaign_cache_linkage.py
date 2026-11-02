@@ -1,6 +1,9 @@
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -15,15 +18,24 @@ def fixture(tmp_path):
         definition_id='e'*64,family_id='P1',propulsion_component_id='f'*64,
         mass={'mass_kg':100.0},unweighed_architecture_equipment=['pending'])
     context={'method_status':'not-run','body_candidate_id':bundle['body_candidate_id']}
+    trajectory=dict(schema='osr-architecture-demand-index/1',value=1.0);trajectory['indexed_demand_id']=identity(trajectory)
     outputs={
-        'installed_inventory':dict(schema='inventory',candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],evaluation_id='1'*64,accounted_empty_mass_kg=100.0,**campaign.FLAGS),
+        'installed_inventory':dict(schema='osr-canonical-system-inventory/1',candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],accounted_empty_mass_kg=100.0,**campaign.FLAGS),
         'interfaces':dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],value='declared',**campaign.FLAGS),
-        'architecture':dict(candidate_id=bundle['candidate_id'],evaluation_id='2'*64,**campaign.FLAGS),
-        'propulsion':dict(candidate_id=bundle['candidate_id'],evaluation_id='3'*64,**campaign.FLAGS),
-        'motion_and_braking':dict(candidate_id=bundle['candidate_id'],trace=[{'v':-0.0},{'v':2.0}],**campaign.FLAGS),
+        'architecture':dict(schema='osr-railway-architecture-screen-index/1',candidate_id=bundle['candidate_id'],trajectory=trajectory,**campaign.FLAGS),
+        'propulsion':dict(candidate_id=bundle['candidate_id'],**campaign.FLAGS),
+        'motion_and_braking':dict(schema='osr-coupled-longitudinal-research/1',candidate_id=bundle['candidate_id'],trace=[{'v':-0.0},{'v':2.0}],**campaign.FLAGS),
         'civil':dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],value=5,**campaign.FLAGS),
-        'manufacturing_and_economics':dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],value=6,**campaign.FLAGS),
     }
+    for name in ('installed_inventory','architecture','propulsion','motion_and_braking'):
+        outputs[name]['evaluation_id']=identity(outputs[name])
+    ids=[outputs[name]['evaluation_id'] for name in ('installed_inventory','architecture','propulsion','motion_and_braking')]+[identity(outputs['civil'])]
+    inputs=dict(inventory_evaluation_id=ids[0],architecture_evaluation_id=ids[1],propulsion_evaluation_id=ids[2],
+        motion_evaluation_id=ids[3],civil_evaluation_id=ids[4],bundle_definition_id=bundle['definition_id'])
+    model=dict(schema='osr-coupled-model-cost/1',candidate_id=bundle['candidate_id'],input_evaluation_ids=inputs);model['evaluation_id']=identity(model)
+    outputs['manufacturing_and_economics']=dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],
+        source_evaluation_ids=ids,model_cost=model,value=6,**campaign.FLAGS)
+    outputs['manufacturing_and_economics']['evaluation_id']=identity(outputs['manufacturing_and_economics'])
     base={'bundle_definition_id':bundle['definition_id']};body={'body_definition_id':bundle['body_definition_id'],**base}
     stages=[];upstream=[];(tmp_path/'stages').mkdir()
     for name in campaign.STAGES:
@@ -82,12 +94,59 @@ def test_resealed_stage_output_that_disagrees_with_row_fails(tmp_path,index):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,index)
     record=json.loads(path.read_bytes());out=record['output']
     if index==0:out['accounted_empty_mass_kg']=101.0
-    elif index in (2,3):out['evaluation_id']='8'*64
+    elif index==2:
+        out['trajectory']['value']=2.0
+        out['trajectory']['indexed_demand_id']=identity({k:v for k,v in out['trajectory'].items() if k!='indexed_demand_id'})
+    elif index==3:out['value']='altered'
     elif index==4:out['trace'][0]['v']=1.0
     else:out['value']='altered'
+    if 'evaluation_id' in out:out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
     record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});path.write_bytes(encoded(record))
     row['stages'][index]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='output differs from case projection'):check(tmp_path,row,bundle,epoch,context)
+
+
+@pytest.mark.parametrize('index',[0,2,3,4,6])
+@pytest.mark.parametrize('mutation',['missing','incorrect'])
+def test_resealed_false_inner_evaluation_identity_is_rejected(tmp_path,index,mutation):
+    row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,index)
+    record=json.loads(path.read_bytes());out=record['output']
+    if mutation=='missing':out.pop('evaluation_id')
+    else:out['evaluation_id']='0'*64
+    name=campaign.STAGES[index]
+    if index==0:row['inventory_summary']=campaign._inventory_summary(out)
+    elif index==4:row['motion']=campaign._compact_motion(out)
+    else:row[{'architecture':'architecture','propulsion':'propulsion','manufacturing_and_economics':'economics'}[name]]=deepcopy(out)
+    record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});path.write_bytes(encoded(record))
+    row['stages'][index]['record_id']=record['record_id'];reseal(row)
+    with pytest.raises(ValueError,match='evaluation identity differs'):check(tmp_path,row,bundle,epoch,context)
+
+
+def test_resealed_false_nested_model_cost_identity_is_rejected(tmp_path):
+    row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,6)
+    record=json.loads(path.read_bytes());out=record['output'];out['model_cost']['evaluation_id']='0'*64
+    out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
+    row['economics']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
+    path.write_bytes(encoded(record));row['stages'][6]['record_id']=record['record_id'];reseal(row)
+    with pytest.raises(ValueError,match='model cost evaluation identity differs'):check(tmp_path,row,bundle,epoch,context)
+
+
+def test_resealed_false_indexed_demand_identity_is_rejected(tmp_path):
+    row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,2)
+    record=json.loads(path.read_bytes());out=record['output'];out['trajectory']['indexed_demand_id']='0'*64
+    out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
+    row['architecture']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
+    path.write_bytes(encoded(record));row['stages'][2]['record_id']=record['record_id'];reseal(row)
+    with pytest.raises(ValueError,match='indexed demand identity differs'):check(tmp_path,row,bundle,epoch,context)
+
+
+def test_resealed_false_economic_dependencies_are_rejected(tmp_path):
+    row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,6)
+    record=json.loads(path.read_bytes());out=record['output'];out['source_evaluation_ids'][0]='0'*64
+    out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
+    row['economics']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
+    path.write_bytes(encoded(record));row['stages'][6]['record_id']=record['record_id'];reseal(row)
+    with pytest.raises(ValueError,match='economic source identities differ'):check(tmp_path,row,bundle,epoch,context)
 
 
 @pytest.mark.parametrize('mutation',['stage','candidate','body','source','dependency'])
@@ -130,6 +189,30 @@ def test_duplicate_json_keys_are_rejected(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,0)
     raw=path.read_bytes();path.write_bytes(raw.replace(b'{"configuration_adopted":false,',b'{"configuration_adopted":false,"configuration_adopted":false,',1))
     with pytest.raises(ValueError,match='stage JSON differs'):check(tmp_path,row,bundle,epoch,context)
+
+
+def test_stage_fifo_is_rejected_without_waiting_for_a_writer(tmp_path):
+    fifo=tmp_path/'stage-fifo';os.mkfifo(fifo)
+    code='''import sys\nfrom engineering.design_search import railway_campaign as c\ntry:\n    c._read_cached_stage(sys.argv[1])\nexcept ValueError as exc:\n    if "bounded ordinary-file domain" not in str(exc):raise\nelse:\n    raise AssertionError("FIFO was accepted")\n'''
+    completed=subprocess.run([sys.executable,'-c',code,str(fifo)],capture_output=True,text=True,timeout=5)
+    assert completed.returncode==0,completed.stderr
+
+
+def test_case_fifo_is_rejected_without_waiting_for_a_writer(tmp_path):
+    fifo=tmp_path/'case-fifo';os.mkfifo(fifo)
+    code='''import sys\nfrom engineering.design_search import railway_campaign as c\ntry:\n    c._read_cached_case(sys.argv[1])\nexcept ValueError as exc:\n    if "bounded ordinary-file domain" not in str(exc):raise\nelse:\n    raise AssertionError("FIFO was accepted")\n'''
+    completed=subprocess.run([sys.executable,'-c',code,str(fifo)],capture_output=True,text=True,timeout=5)
+    assert completed.returncode==0,completed.stderr
+
+
+def test_case_reader_rejects_symlink_duplicate_keys_and_oversize(tmp_path,monkeypatch):
+    path=tmp_path/'case';target=tmp_path/'target';target.write_bytes(b'{"x":1}')
+    path.symlink_to(target)
+    with pytest.raises(ValueError,match='unavailable or unsafe'):campaign._read_cached_case(path)
+    path.unlink();path.write_bytes(b'{"x":1,"x":1}')
+    with pytest.raises(ValueError,match='case JSON differs'):campaign._read_cached_case(path)
+    monkeypatch.setattr(campaign,'_CASE_RECORD_MAX_BYTES',4)
+    with pytest.raises(ValueError,match='bounded ordinary-file domain'):campaign._read_cached_case(target)
 
 
 def test_cached_validation_preserves_same_epoch_resume_bytes(tmp_path,monkeypatch):
