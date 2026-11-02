@@ -37,6 +37,8 @@ jobs:
           python tools/automation/tests/test_historical_replay.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
+      - name: Canonical streaming identity parity
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_canonical_stream.py
       - name: Retained v0.5 source and packet portability
         run: python tools/automation/tests/verify-maglev-sources.py
       - name: Retained offline-host compatibility contracts
