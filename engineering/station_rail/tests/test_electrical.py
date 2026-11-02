@@ -67,6 +67,51 @@ def test_route_soc_can_compare_charge_acceptance_and_direct_dwell_source():
     assert fed['final_SOC']>baseline['final_SOC']
 
 
+@pytest.mark.parametrize(
+    'strings,charger,acceptance,hotel,feed,expected_charge,expected_seconds',
+    [
+        # 144 kW catalogue limit, acceptance-limited to 72 kW.
+        (2, 200., .5, 50., 0., 72., 18000. / (68.4 - 50.)),
+        # 144 kW catalogue limit, charger-limited to 40 kW.
+        (2, 40., .5, 50., 50., 40., 18000. / 38.),
+        # 216 kW catalogue limit, acceptance-limited to 108 kW.
+        (3, 200., .5, 50., 0., 108., 18000. / (102.6 - 50.)),
+        # 216 kW catalogue limit, charger-limited to 100 kW.
+        (3, 100., .5, 50., 0., 100., 18000. / 45.),
+        # An independent dwell feed supplies hotel load during replenishment.
+        (3, 200., .5, 50., 50., 108., 18000. / 102.6),
+    ],
+)
+def test_terminal_charge_uses_same_independent_power_limits(
+        strings, charger, acceptance, hotel, feed, expected_charge, expected_seconds):
+    # The 360-second trip consumes exactly 5 kWh at 50 kW; zero dwell
+    # isolates terminal replenishment from charging during the trip.
+    result=e.state_of_charge([360.], parallel_strings=strings, hotel_kW=hotel,
+        charging_power_kW=charger, charge_acceptance_fraction=acceptance,
+        independent_dwell_supply_kW_per_car=feed, dwell_s=0.)
+    assert result['terminal_replenishment_energy_kWh_per_car']==pytest.approx(5.)
+    assert result['legs'][0]['balance']['catalogue_low_voltage_current_capped_charge_kW_per_car']==expected_charge
+    assert result['minimum_terminal_extra_charge_s']==pytest.approx(expected_seconds)
+
+
+@pytest.mark.parametrize('charger,acceptance,hotel,efficiency', [
+    (0., 1., 50., .95),
+    (100., 0., 50., .95),
+    (100., 1., 100., 1.),
+])
+def test_terminal_charge_reports_no_positive_net_rate(charger, acceptance, hotel, efficiency):
+    result=e.state_of_charge([360.], hotel_kW=hotel, charging_power_kW=charger,
+        charge_acceptance_fraction=acceptance, efficiency=efficiency, dwell_s=0.)
+    assert result['terminal_replenishment_energy_kWh_per_car']>0
+    assert result['minimum_terminal_extra_charge_s'] is None
+
+
+def test_terminal_charge_needs_no_extra_time_without_shortfall():
+    result=e.state_of_charge([], charging_power_kW=0.)
+    assert result['terminal_replenishment_energy_kWh_per_car']==0.
+    assert result['minimum_terminal_extra_charge_s']==0.
+
+
 def test_lim_secondary_slip_heat_is_positive_and_increases():
     p=op.profile(2000,23000)
     small=e.secondary_heat(p,58.536,slip=.02)

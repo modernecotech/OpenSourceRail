@@ -158,8 +158,8 @@ def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
             floor_violated=arrival<floor or after<floor,arrival_floor_violated=arrival<floor,dwell_floor_violated=after<floor,balance=bal))
         energy=after
     missing=max(0.,ceiling-energy)
-    allowed=min(charging_power_kW,battery['conservative_voltage_current_power_kW'])
-    allowed*=charge_acceptance_fraction
+    allowed=min(charging_power_kW,
+                battery['conservative_voltage_current_power_kW']*charge_acceptance_fraction)
     rate=efficiency*allowed-max(0.,hotel_kW-independent_dwell_supply_kW_per_car)
     return dict(schema='osr-service-battery-route/1',battery_component_id=battery['component_id'],
         effective_capacity_kWh=effective,usable_SOC_window_kWh=effective*(maximum_SOC-minimum_SOC),
@@ -168,7 +168,7 @@ def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
         lowest_SOC=lowest,final_SOC=energy/effective,
         reserve_screen='pass' if lowest>=minimum_SOC else 'fail',
         terminal_replenishment_energy_kWh_per_car=missing,
-        minimum_terminal_extra_charge_s=missing*3600/rate if rate>0 else None,
+        minimum_terminal_extra_charge_s=0. if missing==0 else missing*3600/rate if rate>0 else None,
         thermal_and_supplier_qualification='unknown')
 
 
