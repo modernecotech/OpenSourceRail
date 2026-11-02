@@ -210,6 +210,7 @@ def sources(root,record,index,delivery):
         'docs/design-engine/service-energy-terminal-recharge.md',
         'engineering/design_search/retained_source_epoch.py',
         'engineering/design_search/retained_packet_materialize.py',
+        'engineering/design_search/retained_service_energy_epoch.py',
         'docs/design-engine/retained-battery-source-epoch/README.md',
         'docs/design-engine/retained-battery-source-epoch/archive/manifest.json',
         'docs/design-engine/retained-battery-source-epoch/pins.json',
@@ -219,6 +220,7 @@ def sources(root,record,index,delivery):
         'engineering/sourcing/data/supplier-catalogue.json','engineering/sourcing/data/public-feeds.json',
         'tools/automation/architecture-native-benchmarks.py','tools/automation/generative-native-benchmarks.py',
         'tools/automation/coupled-native-benchmarks.py','tools/automation/moving-lim-benchmarks.py']
+    names += [p.relative_to(root).as_posix() for p in (root/'docs/design-engine/retained-service-energy-extra').rglob('*') if p.is_file()]
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/sourcing').rglob('*')
         if p.is_file() and p.suffix in ('.py','.json','.md','.html','.js','.css')
         and 'tests' not in p.parts and '__pycache__' not in p.parts]

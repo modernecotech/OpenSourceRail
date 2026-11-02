@@ -26,3 +26,6 @@ remain unverified.
 A [retained source-epoch archive](retained-battery-source-epoch/README.md)
 preserves source bytes for 15 of the affected publications. It requires their
 original packet trees and does not complete the remaining migration.
+An [additional archive](retained-service-energy-extra/README.md) preserves
+source bytes and packet inventories for 14 further manifests, including the
+separately recorded physical-followup producer epoch.

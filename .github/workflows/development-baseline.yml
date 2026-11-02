@@ -58,6 +58,7 @@ on:
       - "docs/design-engine/periodic-thermal-research/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
       - "docs/design-engine/retained-battery-source-epoch/**"
+      - "docs/design-engine/retained-service-energy-extra/**"
       - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
@@ -144,6 +145,7 @@ on:
       - "docs/design-engine/periodic-thermal-research/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
       - "docs/design-engine/retained-battery-source-epoch/**"
+      - "docs/design-engine/retained-service-energy-extra/**"
       - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
@@ -300,6 +302,23 @@ jobs:
           ulimit -v 1048576
           .venv/bin/python -m engineering.design_search.retained_packet_materialize --git-repo . --output "$retained_packet_parent/packets" --archive-directory docs/design-engine/retained-battery-source-epoch/archive --pins docs/design-engine/retained-battery-source-epoch/pins.json --expected-commit dad8c4bedb2361d3e621e9def312273167279027 --expected-archive-id 478479a93642c464cc2be318bbc5b45b9c5c3fec2e9cecb02318d53bd4fb568e
 
+  retained-service-energy-extra:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install --no-cache-dir pytest
+      - name: Verify additional historical service-energy source epoch
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_service_energy_epoch.py engineering/design_search/tests/test_retained_service_energy_handoff.py
+          ulimit -v 1048576
+          .venv/bin/python tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
+          .venv/bin/python -m engineering.design_search.retained_service_energy_epoch verify --root . --archive-directory docs/design-engine/retained-service-energy-extra/original/worker-v7/archive --pins docs/design-engine/retained-service-energy-extra/original/worker-v7/pins.json --expected-pins-id 91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050 --expected-archive-id d2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9
+
   vehicle-runtime-reproducibility:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -325,7 +344,7 @@ jobs:
 
   required-engineering:
     if: always()
-    needs: [current-contracts, independent-search, retained-packet-reconstruction, vehicle-runtime-reproducibility]
+    needs: [current-contracts, independent-search, retained-packet-reconstruction, retained-service-energy-extra, vehicle-runtime-reproducibility]
     runs-on: ubuntu-24.04
     steps:
       - name: Require source, engineering and browser contracts
@@ -333,6 +352,7 @@ jobs:
           test '${{ needs.current-contracts.result }}' = success
           test '${{ needs.independent-search.result }}' = success
           test '${{ needs.retained-packet-reconstruction.result }}' = success
+          test '${{ needs.retained-service-energy-extra.result }}' = success
           test '${{ needs.vehicle-runtime-reproducibility.result }}' = success
 
   coupled-native-methods:
