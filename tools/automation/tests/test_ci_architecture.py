@@ -27,6 +27,14 @@ def job_blocks(text):
             for i, m in enumerate(matches)}
 
 
+def active_run_line(block, command):
+    """Find a command on an uncommented shell line in a YAML run block."""
+    runs = re.findall(r'^        run: \|\n((?: {10}[^\n]*(?:\n|$))*)', block, re.M)
+    lines = (line.split('#', 1)[0].strip() for run in runs for line in run.splitlines())
+    return any(re.match(r'^\.venv(?:-search)?/bin/python\s+(?:-m\s+|tools/automation/sourced-archive\.py\s+)', line)
+               and command in line for line in lines)
+
+
 def validate(historical_text, shared_text, current_text, archive):
     unsigned = {k: v for k, v in archive.items() if k != 'archive_id'}
     raw = (json.dumps(unsigned, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode()
@@ -159,10 +167,39 @@ def validate(historical_text, shared_text, current_text, archive):
     assert not re.search(r'^    (if|needs):', historical, re.M)
     # Current v0.6 contracts retain their independent required gate and neutral dependencies.
     current_jobs = job_blocks(current_text)
-    assert {'current-contracts', 'vehicle-runtime-reproducibility', 'required-engineering'} <= current_jobs.keys()
-    assert 'needs: [current-contracts, vehicle-runtime-reproducibility]' in current_jobs['required-engineering']
-    assert "needs.current-contracts.result" in current_jobs['required-engineering']
-    assert "needs.vehicle-runtime-reproducibility.result" in current_jobs['required-engineering']
+    required_jobs = {'current-contracts', 'independent-search', 'retained-packet-reconstruction',
+                     'retained-service-energy-extra', 'vehicle-runtime-reproducibility'}
+    assert required_jobs | {'required-engineering'} <= current_jobs.keys()
+    gate = current_jobs['required-engineering']
+    needs = re.search(r'^    needs: \[([^\]\n]+)\]$', gate, re.M)
+    assert needs, 'The current engineering gate must declare its required jobs'
+    listed = [name.strip() for name in needs[1].split(',')]
+    assert len(listed) == len(set(listed)) and set(listed) == required_jobs
+    assert re.search(r'^    if: always\(\)$', gate, re.M)
+    for name in required_jobs:
+        check = "test '${{ needs." + name + ".result }}' = success"
+        assert re.search(r'^ {10}' + re.escape(check) + r' *$', gate, re.M), name
+    for name in required_jobs:
+        assert not re.search(r'^    (if|continue-on-error):', current_jobs[name], re.M), name
+    for name in ('independent-search', 'retained-packet-reconstruction', 'retained-service-energy-extra'):
+        assert not re.search(r'^\s+continue-on-error:', current_jobs[name], re.M), name
+        conditions = re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs[name], re.M)
+        assert conditions == (['always()'] if name == 'independent-search' else []), name
+    for name, commands in {
+            'independent-search': ('test_search_backends.py', 'civil_shape_portfolio verify',
+                                   'civil_shape_portfolio audit-optimizers'),
+            'retained-packet-reconstruction': ('test_retained_packet_materialize.py',
+                                                'retained_packet_materialize'),
+            'retained-service-energy-extra': ('test_retained_service_energy_epoch.py',
+                                               'test_retained_service_energy_handoff.py',
+                                               'sourced-archive.py ensure',
+                                               'retained_service_energy_epoch verify'),
+    }.items():
+        for command in commands: assert active_run_line(current_jobs[name], command), (name, command)
+    assert 'uses: actions/upload-artifact@v4' in current_jobs['independent-search']
+    assert re.search(r'^          name: civil-portfolio-search-audit$', current_jobs['independent-search'], re.M)
+    extra = current_jobs['retained-service-energy-extra']
+    assert extra.index('sourced-archive.py ensure') < extra.index('retained_service_energy_epoch verify')
     runtime_job = current_jobs['vehicle-runtime-reproducibility']
     assert re.findall(r'python-version: "([^"]+)"', runtime_job) == ['3.11', '3.12', '3.13']
     for runtime in ('311', '312', '313'):
@@ -300,12 +337,41 @@ class ArchitectureRoutingTests(unittest.TestCase):
 
     def test_runtime_comparison_cannot_be_removed_from_the_required_gate(self):
         for before, after in (
-                ('needs: [current-contracts, vehicle-runtime-reproducibility]', 'needs: [current-contracts]'),
                 ("test '${{ needs.vehicle-runtime-reproducibility.result }}' = success", 'true'),
                 ('python-version: "3.11"', 'python-version: "3.13"'),
                 ('steps.python312.outputs.python-path', 'steps.python313.outputs.python-path')):
             with self.subTest(before=before), self.assertRaises(AssertionError):
                 self.check(current=self.current.replace(before, after))
+
+    def test_each_required_current_job_and_its_checks_cannot_be_removed(self):
+        required = ('current-contracts', 'independent-search', 'retained-packet-reconstruction',
+                    'retained-service-energy-extra', 'vehicle-runtime-reproducibility')
+        match = re.search(r'^    needs: \[([^\]\n]+)\]$', job_blocks(self.current)['required-engineering'], re.M)
+        self.assertIsNotNone(match)
+        line = 'needs: [' + match[1] + ']'
+        for name in required:
+            reduced = 'needs: [' + ', '.join(x.strip() for x in match[1].split(',') if x.strip()!=name) + ']'
+            check = "test '${{ needs." + name + ".result }}' = success"
+            for mutated in (self.current.replace(line, reduced, 1), self.current.replace(check, 'true', 1)):
+                with self.subTest(name=name), self.assertRaises(AssertionError):
+                    self.check(current=mutated)
+        for name, command in (
+                ('independent-search', 'civil_shape_portfolio audit-optimizers'),
+                ('retained-packet-reconstruction', 'test_retained_packet_materialize.py'),
+                ('retained-service-energy-extra', 'retained_service_energy_epoch verify')):
+            with self.subTest(job=name), self.assertRaises(AssertionError):
+                self.check(current=self.current.replace(command, 'removed-check', 1))
+            with self.subTest(job=name, disabled='comment'), self.assertRaises(AssertionError):
+                self.check(current=self.current.replace(command, '# ' + command, 1))
+        check = "test '${{ needs.independent-search.result }}' = success"
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace(check, '# ' + check, 1))
+        audit = '.venv-search/bin/python -m engineering.design_search.civil_shape_portfolio audit-optimizers'
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace(audit, 'echo ' + audit, 1))
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace('      - name: Breadth-first civil geometry and independent search libraries',
+                '      - if: false\n        name: Breadth-first civil geometry and independent search libraries', 1))
 
     def test_historical_coverage_cannot_be_removed(self):
         with self.assertRaises(AssertionError):
@@ -473,8 +539,10 @@ class ArchitectureRoutingTests(unittest.TestCase):
                         self.assertIn('controlled-' + failure + '-failure', log)
 
     def test_required_current_release_gate_cannot_be_removed(self):
+        mutated = re.sub(r'^    needs: \[[^\]\n]+\]$', '    needs: []', self.current, count=1, flags=re.M)
+        self.assertNotEqual(mutated, self.current)
         with self.assertRaises(AssertionError):
-            self.check(current=self.current.replace('needs: [current-contracts, vehicle-runtime-reproducibility]', 'needs: []'))
+            self.check(current=mutated)
 
 
 if __name__ == '__main__':
