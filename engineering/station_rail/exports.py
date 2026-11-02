@@ -164,7 +164,7 @@ def compile(record,root=ROOT,city_index=None):
     return dict(bom=bom,manufacturing=manufacturing,procurement=procurement,assembly=assembly,civil=civil,controls=controls,
         selected_vehicle_cost=selected_vehicle_cost,selected_system_cost=selected_system_cost)
 
-def write(output,record,root=ROOT,city_index=None,native=None):
+def write(output,record,root=ROOT,city_index=None,native=None,*,return_compiled=False):
     output=Path(output);output.mkdir(parents=True,exist_ok=True);values=compile(record,root,city_index)
     for key,value in values.items():
         name='engineering-bom' if key=='bom' else 'selected-vehicle-cost' if key=='selected_vehicle_cost' else 'selected-system-cost' if key=='selected_system_cost' else key
@@ -181,9 +181,10 @@ def write(output,record,root=ROOT,city_index=None,native=None):
             'engineering/development_baseline/factory_draft.py',*vehicle_cost.sources(root).keys(),
             *system_cost.sources(root).keys())),
         files_sha256={p.name:digest(p) for p in sorted(output.iterdir()) if p.is_file() and p.name!='manifest.json'},**FLAGS)
-    m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return m
+    m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m))
+    return (m,values) if return_compiled else m
 
-def verify(output,record,root=ROOT,city_index=None):
+def verify(output,record,root=ROOT,city_index=None,*,return_compiled=False):
     output=Path(output);m=json.loads((output/'manifest.json').read_bytes())
     if any(m.get(k)!=record[k] for k in (*IDS,'evaluation_id')):raise ValueError('delivery candidate differs')
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('delivery manifest identity differs')
@@ -191,11 +192,13 @@ def verify(output,record,root=ROOT,city_index=None):
     if m['source_sha256']!=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py',
         'engineering/development_baseline/factory_draft.py',*vehicle_cost.sources(root).keys(),*system_cost.sources(root).keys())):raise ValueError('delivery source differs')
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('delivery payload differs')
-    for key,value in compile(record,root,city_index).items():
+    values=compile(record,root,city_index)
+    for key,value in values.items():
         name='engineering-bom' if key=='bom' else 'selected-vehicle-cost' if key=='selected_vehicle_cost' else 'selected-system-cost' if key=='selected_system_cost' else key;compressed=key in ('bom','procurement')
         raw=(output/(name+'.json.gz' if compressed else name+'.json')).read_bytes()
         if (gzip.decompress(raw) if compressed else raw)!=encoded(value):raise ValueError('delivery calculation differs')
     from . import bim
     receipt=json.loads((output/'bim.json').read_bytes())
     if receipt['execution']=='completed':bim.verify(output/'selected-interface.ifc',record,receipt)
-    return dict(current=True,manifest_id=m['manifest_id'],complete_installed_BOM=False,**FLAGS)
+    result=dict(current=True,manifest_id=m['manifest_id'],complete_installed_BOM=False,**FLAGS)
+    return (result,values) if return_compiled else result

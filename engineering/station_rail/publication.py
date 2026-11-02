@@ -248,7 +248,25 @@ def compact(record,index,natives,delivery):
         economics_acceptance='unknown',city_performance_packages_written=0)
     return value
 
-def _sourcing_section(root,record):
+def _selected_cost_records(root,record,compiled=None):
+    """Reuse only sealed, same-context costs from this operation's export calculation."""
+    from engineering.development_baseline import system_cost, vehicle_cost
+    if compiled is None:
+        vehicle=vehicle_cost.evaluate(record,root)
+        return vehicle,system_cost.evaluate(record,root,vehicle)
+    vehicle=compiled['selected_vehicle_cost'];system=compiled['selected_system_cost']
+    for value,producer,evaluation_key in ((vehicle,vehicle_cost,'evaluation_id'),(system,system_cost,'vehicle_evaluation_id')):
+        if value.get('cost_estimate_id')!=identity({k:v for k,v in value.items() if k!='cost_estimate_id'}):
+            raise ValueError('Reused selected cost estimate identity differs')
+        if any(value.get(key)!=record[key] for key in IDS) or value.get(evaluation_key)!=record['evaluation_id']:
+            raise ValueError('Reused selected cost candidate or evaluation differs')
+        if value.get('source_sha256')!=producer.sources(root):
+            raise ValueError('Reused selected cost source differs')
+    if system.get('vehicle_cost_estimate_id')!=vehicle['cost_estimate_id']:
+        raise ValueError('Reused system cost vehicle estimate differs')
+    return vehicle,system
+
+def _sourcing_section(root,record,*,compiled=None):
     root=Path(root)
     validation=json.loads((root/'docs/design-engine/sourcing/validation-current.json').read_bytes())
     from engineering.sourcing.catalogue import load_catalogue
@@ -447,9 +465,7 @@ def _sourcing_section(root,record):
     identity_note=(f"The current selected physical candidate is `{selected_id}`. The frame and federated sourcing runs instead use research candidates `{frame['candidate_id']}` and `{federated['candidate_id']}`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate."
         if selected_id!=federated['candidate_id'] else
         f"The federated sourcing run uses the selected physical candidate `{selected_id}`.")
-    from engineering.development_baseline import system_cost, vehicle_cost
-    selected_vehicle_cost=vehicle_cost.evaluate(record,root)
-    selected_system_cost=system_cost.evaluate(record,root,selected_vehicle_cost)
+    selected_vehicle_cost,selected_system_cost=_selected_cost_records(root,record,compiled)
     reserve_factors=selected_vehicle_cost['mass_reserve_sensitivity']['case_factors']
     system_mass_cases=selected_system_cost['mass_reserve_sensitivity']['cases']
     selected_vehicle_cost_note=(
@@ -783,7 +799,7 @@ def _sourcing_section(root,record):
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 
-def readme(record,summary,root=ROOT):
+def readme(record,summary,root=ROOT,*,compiled=None):
     v=record['vehicle'];m=v['mass'];o=record['service'];p=o['selected_scenario']['profile'];z=o['selected_station'];r=record['civil']['selected_reference'];e=o['electrical'];b=e['battery']
     city_gap=o['longest_city_gap_context']
     mass_ledger_path=Path(root)/'docs/design-engine/mass-reconciliation/current/summary.json'
@@ -837,7 +853,7 @@ def readme(record,summary,root=ROOT):
       '[Source/payload receipt](manifest.json) · [README context](readme-coverage.md) · [Roadmap](../../ROADMAP.md) · [Project ethos](../../../README.md)','']
     for name in IDS:lines += [name.replace('_',' ').capitalize()+' `'+record[name]+'`','']
     marker=lines.index('## Automation, comparison and cities')
-    lines[marker:marker]=_sourcing_section(root,record)
+    lines[marker:marker]=_sourcing_section(root,record,compiled=compiled)
     return '\n'.join(lines)
 
 def prototype_plan(record):
@@ -884,10 +900,10 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     index=cities.publish_all(root=root)
     from engineering.development_baseline import planning
     planning.publish_inputs(root)
-    delivery=exports.write(output/'exports',record,root,index,natives['vehicle'])
+    delivery,compiled=exports.write(output/'exports',record,root,index,natives['vehicle'],return_compiled=True)
     compact_value=compact(record,index,natives,delivery)
     for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
-       'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root).encode()}.items():write(output/name,raw)
+       'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root,compiled=compiled).encode()}.items():write(output/name,raw)
     for name,path in packages.items():write(output/('native-'+name+'.tar.gz'),archive(path))
     figures.write(record,output)
     for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
@@ -917,7 +933,7 @@ def verify(output=None,*,root=ROOT,replay=True):
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
     if json.loads(gzip.decompress((output/'evaluation.json.gz').read_bytes()))!=record:raise ValueError('evaluation differs')
-    citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery=exports.verify(output/'exports',record,root,index)
+    citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery,compiled=exports.verify(output/'exports',record,root,index,return_compiled=True)
     from engineering.development_baseline import planning
     planning.verify_inputs(root)
     natives={}
@@ -925,7 +941,7 @@ def verify(output=None,*,root=ROOT,replay=True):
         path=native_package(name,record,root,output);natives[name]=verify_package(path,root)
     exported=json.loads((output/'exports/manifest.json').read_bytes())
     if value!=compact(record,index,natives,exported):raise ValueError('current summary differs')
-    if (output/'README.md').read_text()!=readme(record,value,root):raise ValueError('current introduction differs')
+    if (output/'README.md').read_text()!=readme(record,value,root,compiled=compiled):raise ValueError('current introduction differs')
     if json.loads((output/'comparison.json').read_bytes())!=comparison.evaluate(record,root):raise ValueError('comparison differs')
     if json.loads((output/'prototype-test-plan.json').read_bytes())!=prototype_plan(record):raise ValueError('prototype test plan differs')
     if m['source_sha256']!=sources(root,record,index,exported):raise ValueError('publication source set differs')
