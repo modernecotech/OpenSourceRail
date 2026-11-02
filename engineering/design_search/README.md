@@ -6,6 +6,13 @@ default is defined in [`engineering/development-baseline.toml`](../development-b
 Every run must preserve candidate, evaluation and selection identities and carry
 one candidate bundle through dependent models.
 
+The [selected-car support sensitivity](../../docs/design-engine/installed-mass-support/README.md)
+propagates named mass reserves through hypothetical longitudinal positions and
+two-bogie static reactions. Custom position intervals are accepted by
+`python -m engineering.design_search.installed_mass_cg --intervals-json FILE`.
+The assumed intervals and resulting reactions are not installed geometry, axle
+loads or physical qualification.
+
 ## Coordinated railway workflow
 
 Start with the coupled campaign and continue any pending work from its retained

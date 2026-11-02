@@ -119,6 +119,8 @@ Its [same-service cost scenarios](../flanged-system-cost-study/README.md) propag
 
 The separate [matched-renewal research](../matched-renewal-research/README.md) introduces explicit hypothetical reference bearings, concrete-treatment alternatives and maintenance-overlap sensitivities. It compares fifty-four conditional cases with each reference beam identity preserved; it neither changes the selected reference nor qualifies or ranks a railway.
 
+The [conditional mass and support sensitivity](../installed-mass-support/README.md) replaces named residual accounts once and varies their assumed longitudinal positions across the car. It computes correlated two-bogie reactions, not axle loads or verified installed mass; component positions and potential account overlap remain open.
+
 The [implicit-geometry experiment](../implicit-geometry-study/README.md) preserves a three-dimensional sampled gyroid volume and VTK bytes with separate physical and evaluation identities. Its sampled material mass excludes installation; its continuous surface, manufacture and structural behavior are unqualified.
 
 The completed [bounded wheel campaign](../v06-optimisation/README.md) has its top-level campaign producer bindings pinned in a separate [source-epoch receipt](../retained-wheel-source-epoch/manifest.json). Verify that archive with `python3 -m engineering.design_search.retained_publication verify`. Nested attempt archives remain byte-for-byte preserved; additional per-attempt source coverage and numerical re-execution are not claimed. This check grants no admission under current evaluators or current design selection. Continuing architecture and adaptive studies use their current source contracts.
