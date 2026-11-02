@@ -190,6 +190,7 @@ def _write_aggregate(folder,result):
 
 
 def _validate_cached_row(row,case_context,bundle,epoch):
+    """Check claimed epoch and row identity, not referenced stage-file integrity."""
     if row['case_context_id']!=case_context or row['bundle_definition_id']!=bundle['definition_id'] or row['row_id']!=identity({k:v for k,v in row.items() if k!='row_id'}):
         raise ValueError('Coupled case identity differs')
     stages=row.get('stages')
@@ -199,24 +200,35 @@ def _validate_cached_row(row,case_context,bundle,epoch):
         raise ValueError('Coupled cached case source epoch differs')
 
 
+def _ordinary_state_path(folder):
+    path=Path(folder)
+    if '..' in path.parts:raise ValueError('Coupled state path must not contain parent traversal')
+    path=Path(os.path.abspath(path))
+    if any(part.is_symlink() for part in (path,*path.parents)):
+        raise ValueError('Coupled state path and ancestors must not be symlinks')
+    return path
+
+
 def _bind_state_source(folder,contract,epoch):
-    """Reject foreign or unbound state before examining native/case caches."""
-    folder=Path(folder);marker=folder/'source-contract.json';journal=folder/'journal.json'
+    """Check declared source context, not authentication or a sandbox."""
+    folder=_ordinary_state_path(folder);marker=folder/'source-contract.json';journal=folder/'journal.json'
     expected=dict(schema='osr-coupled-state-source/1',contract_id=contract,source_sha256=epoch)
     for path in (marker,journal):
         if path.is_symlink() or (path.exists() and not path.is_file()):
             raise ValueError('Coupled state contract metadata is not an ordinary file')
+    for name in ('cases','stages','native'):
+        path=folder/name
+        if path.is_symlink() or (path.exists() and not path.is_dir()):
+            raise ValueError('Coupled cache directories must be ordinary directories')
     if marker.is_file():
         if json.loads(marker.read_bytes())!=expected:raise ValueError('Coupled state source contract differs')
-    elif journal.is_file():
-        if json.loads(journal.read_bytes()).get('contract_id')!=contract:
-            raise ValueError('Coupled state journal contract differs')
-        _write(marker,expected)
     else:
         for name in ('cases','stages','native'):
             p=folder/name
             if p.is_symlink() or (p.exists() and (not p.is_dir() or any(p.iterdir()))):
                 raise ValueError('Coupled state has unbound existing cache')
+        if journal.is_file() and json.loads(journal.read_bytes()).get('contract_id')!=contract:
+            raise ValueError('Coupled state journal contract differs')
         _write(marker,expected)
     if journal.is_file() and json.loads(journal.read_bytes()).get('contract_id')!=contract:
         raise ValueError('Coupled state journal contract differs')
@@ -316,8 +328,10 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
     if type(native_jobs) is not int or not 0<=native_jobs<=spec['maximum_native_jobs']:raise ValueError('Explicit bounded native job allowance required')
     if type(stream_aggregate) is not bool:raise ValueError('Explicit boolean aggregate streaming mode required')
     if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):raise ValueError('Nonnegative resumable bundle budget required')
-    contract=identity(dict(specification=spec,source_sha256=epoch));folder=root/'build/coupled-railway'/contract if state is None else Path(state);folder.mkdir(parents=True,exist_ok=True)
-    with (folder/'lock').open('a+') as lock:
+    contract=identity(dict(specification=spec,source_sha256=epoch));folder=_ordinary_state_path(root/'build/coupled-railway'/contract if state is None else state);folder.mkdir(parents=True,exist_ok=True)
+    _ordinary_state_path(folder);lock_path=folder/'lock'
+    if lock_path.is_symlink() or (lock_path.exists() and not lock_path.is_file()):raise ValueError('Coupled state lock is not an ordinary file')
+    with lock_path.open('a+') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch)
         started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
         native=_native_campaign(bodies,folder,native_jobs,root=root)

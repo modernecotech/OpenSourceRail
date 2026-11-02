@@ -218,10 +218,56 @@ def test_unbound_existing_cache_is_preserved_and_rejected(tmp_path):
     assert not (tmp_path/'source-contract.json').exists()
 
 
+@pytest.mark.parametrize('cache_name',['cases','stages','native'])
+def test_matching_untrusted_journal_cannot_adopt_unbound_cache(tmp_path,cache_name):
+    epoch={'producer':'a'*64};contract='b'*64
+    journal=tmp_path/'journal.json';journal.write_bytes(encoded({'contract_id':contract}))
+    saved_journal=journal.read_bytes()
+    cache=tmp_path/cache_name/'existing';cache.parent.mkdir();cache.write_bytes(b'preserve old evidence')
+    with pytest.raises(ValueError,match='unbound existing cache'):
+        campaign._bind_state_source(tmp_path,contract,epoch)
+    assert cache.read_bytes()==b'preserve old evidence'
+    assert journal.read_bytes()==saved_journal
+    assert not (tmp_path/'source-contract.json').exists()
+
+
 def test_symlink_state_marker_is_rejected(tmp_path):
     external=tmp_path/'external';external.write_text('{}');(tmp_path/'source-contract.json').symlink_to(external)
     with pytest.raises(ValueError,match='ordinary file'):
         campaign._bind_state_source(tmp_path,'b'*64,{'producer':'a'*64})
+
+
+@pytest.mark.parametrize('cache_name',['cases','stages','native'])
+def test_marker_does_not_allow_symlinked_cache_directories(tmp_path,cache_name):
+    epoch={'producer':'a'*64};contract='b'*64
+    campaign._bind_state_source(tmp_path,contract,epoch)
+    marker=(tmp_path/'source-contract.json').read_bytes()
+    external=tmp_path/'external';external.mkdir();(external/'evidence').write_bytes(b'preserve')
+    (tmp_path/cache_name).symlink_to(external,target_is_directory=True)
+    with pytest.raises(ValueError,match='cache directories'):
+        campaign._bind_state_source(tmp_path,contract,epoch)
+    assert (tmp_path/'source-contract.json').read_bytes()==marker
+    assert (external/'evidence').read_bytes()==b'preserve'
+
+
+def test_state_and_ancestor_symlinks_are_rejected_before_creation(tmp_path):
+    external=tmp_path/'external';external.mkdir();link=tmp_path/'link';link.symlink_to(external,target_is_directory=True)
+    for path in (link,link/'state'):
+        with pytest.raises(ValueError,match='state path and ancestors'):
+            campaign._ordinary_state_path(path)
+    assert not (external/'state').exists()
+    with pytest.raises(ValueError,match='parent traversal'):
+        campaign._ordinary_state_path(tmp_path/'subdir/../state')
+
+
+def test_symlink_lock_rejected_before_open(tmp_path,monkeypatch):
+    spec={'schema':'fixture','maximum_native_jobs':12};epoch={'producer':'a'*64}
+    monkeypatch.setattr(campaign,'specification',lambda root:spec)
+    monkeypatch.setattr(campaign,'source_epoch',lambda root:epoch)
+    external=tmp_path/'external';external.write_bytes(b'preserve');(tmp_path/'lock').symlink_to(external)
+    with pytest.raises(ValueError,match='lock is not an ordinary'):
+        campaign.run(root=tmp_path,state=tmp_path,native_jobs=0)
+    assert external.read_bytes()==b'preserve'
 
 
 def test_unsupported_stream_values_fall_back_for_writes(tmp_path):
