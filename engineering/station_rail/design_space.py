@@ -4,7 +4,7 @@ Definition/necessary-bound proposals are deliberately separate from native
 full-body evaluations. New topologies never inherit the old solver's results.
 """
 from copy import deepcopy
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 import gzip,json,shutil,tomllib
 from . import ROOT
 from .common import encoded,identity,digest
@@ -37,20 +37,39 @@ def parent(root=ROOT):
             or candidate.get('source_bindings',{}).get('parent_candidate_id')!=wheel_families._base()['candidate_id']):
         raise ValueError('Retained parent candidate provenance is not bound to its publication')
     results=[r for r in comparison['results'] if r['candidate_id']==selected]
-    stale_sources=set()
+    stale_sources=set();current_sources={}
     for result in results:
         k.validate_result(result)
         for name,value in result['request']['evaluator_sources'].items():
-            if not (root/name).is_file() or digest(root/name)!=value:
+            path=PurePosixPath(name)
+            if not name or '\\' in name or path.is_absolute() or '..' in path.parts or str(path)!=name:
+                raise ValueError('Ordinary historical evaluator source path required')
+            if not (root/name).is_file():
+                raise ValueError('Current historical evaluator source unavailable: '+name)
+            if name not in current_sources:current_sources[name]=digest(root/name)
+            if current_sources[name]!=value:
                 stale_sources.add(name)
     provenance=dict(schema='osr-expanded-design-parent-provenance/1',
         parent_publication_manifest_id=manifest['manifest_id'],
         parent_source_epoch_id=identity(source_epoch),
         historical_trigger_evaluation_ids=sorted(r['evaluation_id'] for r in results),
         stale_evaluator_source_paths=sorted(stale_sources),
+        current_evaluator_source_paths=sorted(current_sources),
         previous_evaluations_used_as_current_evidence=False,
         previous_evaluations_usage='historical-diagnostic-triggers-only',**FLAGS)
     return candidate,wheel_families.materialize_recorded_parent(candidate),results,provenance
+
+
+def publication_sources(root,value):
+    """Bind every current source read when classifying historical requests."""
+    root=Path(root)
+    names={PRODUCER,SPEC,'engineering/design_search/structural_families.py',
+        'engineering/design_search/propulsion_families.py','engineering/design_search/joining_catalogue.py',
+        'engineering/design_search/wheel_families.py','engineering/design_search/wheel_motor.py',
+        'docs/design-engine/v06-optimisation/manifest.json','docs/design-engine/v06-optimisation/comparison.json.gz',
+        'docs/design-engine/v06-optimisation/summary.json'}
+    names.update(value['parent_provenance']['current_evaluator_source_paths'])
+    return {n:digest(root/n) for n in sorted(names)}
 
 
 def assemble(root=ROOT):
@@ -248,10 +267,7 @@ def build(root=ROOT,output=None,*,native_dirs=None):
     (out/'native-results.json').write_bytes(encoded(native_results))
     (out/'catalogues.json').write_bytes(encoded({n:value[n] for n in ('material_catalogue','joining_catalogue')}))
     (out/'README.md').write_text(readme(value,native,diagnosis,native_results))
-    names=[PRODUCER,SPEC,'engineering/design_search/structural_families.py','engineering/design_search/propulsion_families.py',
-        'engineering/design_search/joining_catalogue.py','engineering/design_search/wheel_families.py','engineering/design_search/wheel_motor.py',
-        'docs/design-engine/v06-optimisation/manifest.json','docs/design-engine/v06-optimisation/comparison.json.gz','docs/design-engine/v06-optimisation/summary.json']
-    manifest=dict(schema='osr-expanded-design-space-manifest/1',source_sha256={n:digest(root/n) for n in names},
+    manifest=dict(schema='osr-expanded-design-space-manifest/1',source_sha256=publication_sources(root,value),
         files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()},**FLAGS)
     manifest['manifest_id']=identity(manifest);(out/'manifest.json').write_bytes(encoded(manifest));return verify(root,out)
 
@@ -263,6 +279,8 @@ def verify(root=ROOT,output=None):
     if any(digest(root/n)!=h for n,h in m['source_sha256'].items()):raise ValueError('Design-space source differs')
     value=json.loads(gzip.decompress((out/'results.json.gz').read_bytes()));replayed=assemble(root);replayed['result_id']=identity(replayed)
     if value!=replayed:raise ValueError('Replayed design definitions or necessary screens differ')
+    if m['source_sha256']!=publication_sources(root,replayed):
+        raise ValueError('Design-space publication source coverage differs')
     native=json.loads((out/'native-index.json').read_bytes())
     if compact(value,native)!=json.loads((out/'summary.json').read_bytes()):raise ValueError('Design-space summary differs from proposals')
     if (out/'model-diagnosis.json').is_file():

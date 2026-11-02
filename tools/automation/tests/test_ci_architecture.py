@@ -181,6 +181,7 @@ def validate(historical_text, shared_text, current_text, archive):
         assert re.search(r'^ {10}' + re.escape(check) + r' *$', gate, re.M), name
     for name in required_jobs:
         assert not re.search(r'^    (if|continue-on-error):', current_jobs[name], re.M), name
+    assert re.search(r'^      - run: \./osr design space verify\n(?=      - )', current_jobs['current-contracts'], re.M)
     for name in ('independent-search', 'retained-packet-reconstruction', 'retained-service-energy-extra'):
         assert not re.search(r'^\s+continue-on-error:', current_jobs[name], re.M), name
         conditions = re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs[name], re.M)
@@ -386,6 +387,14 @@ class ArchitectureRoutingTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.check(historical=self.historical.replace(
                 'python tools/automation/capabilities.py --check', 'true'))
+
+    def test_design_space_replay_cannot_be_removed(self):
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace('./osr design space verify', 'true', 1))
+        for option in ('if: false', 'continue-on-error: true'):
+            disabled = './osr design space verify\n        ' + option
+            with self.subTest(option=option), self.assertRaises(AssertionError):
+                self.check(current=self.current.replace('./osr design space verify', disabled, 1))
 
     def test_changed_archive_identity_is_rejected(self):
         archive = deepcopy(self.archive)

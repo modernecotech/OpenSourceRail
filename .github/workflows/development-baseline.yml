@@ -206,6 +206,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
+      - run: ./osr design space verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_launch_options.py
       - run: .venv/bin/python -m engineering.design_search.launch_options verify
