@@ -42,10 +42,10 @@
         railway.
       </p>
       <p>
-        <a href="../planning/">Open city planning</a> · edit current candidate-bound geography and service proposals
-        and compile a candidate-bound proposal with
-        <code>./osr plan compile</code>. The handoff does not include route
-        performance, prices or release evidence.
+        <a href="../planning/">Open city planning</a> · edit current
+        candidate-bound geography and service proposals and compile a
+        candidate-bound proposal with <code>./osr plan compile</code>. The
+        handoff does not include route performance, prices or release evidence.
       </p>
       <p>
         <a href="../../capabilities/">Current platform capabilities</a> ·
@@ -104,45 +104,68 @@
           </p>
           <section class="metrics" aria-label="Vehicle cost scenarios">
             <article>
-              <strong id="vehicle-cost-train"></strong><span>six-car factory, delivery and assembly · base · billion IQD</span>
+              <strong id="vehicle-cost-train"></strong
+              ><span
+                >six-car factory, delivery and assembly · base · billion
+                IQD</span
+              >
             </article>
             <article>
-              <strong id="vehicle-cost-car"></strong><span>per car · base · billion IQD</span>
+              <strong id="vehicle-cost-car"></strong
+              ><span>per car · base · billion IQD</span>
             </article>
             <article>
-              <strong id="vehicle-tooling"></strong><span>separate unamortized tooling capital · base · billion IQD</span>
+              <strong id="vehicle-tooling"></strong
+              ><span
+                >separate unamortized tooling capital · base · billion IQD</span
+              >
             </article>
           </section>
           <dl id="vehicle-cost-facts"></dl>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Cost line</th><th>Low · IQD/train</th><th>Base · IQD/train</th><th>High · IQD/train</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Cost line</th>
+                  <th>Low · IQD/train</th>
+                  <th>Base · IQD/train</th>
+                  <th>High · IQD/train</th>
+                </tr>
+              </thead>
               <tbody id="vehicle-cost-lines"></tbody>
             </table>
           </div>
           <p class="note">
-            This prices the selected vehicle account and its declared production,
-            assembly and reference-delivery assumptions. The 10.09 t/car
-            residual is priced as an allowance but remains unlocated; possible
-            account overlap is unknown and receives no cost credit. See the
-            separate synthetic-corridor estimate below for provisional system
-            costs.
-            This estimate does not establish installed mass or engineering
-            acceptance.
+            This prices the selected vehicle account and its declared
+            production, assembly and reference-delivery assumptions. The 10.09
+            t/car residual is priced as an allowance but remains unlocated;
+            possible account overlap is unknown and receives no cost credit. See
+            the separate synthetic-corridor estimate below for provisional
+            system costs. This estimate does not establish installed mass or
+            engineering acceptance.
           </p>
-          <a href="../../design-engine/current/exports/selected-vehicle-cost.json">Source-bound cost record</a>
+          <a
+            href="../../design-engine/current/exports/selected-vehicle-cost.json"
+            >Source-bound cost record</a
+          >
         </section>
         <section class="panel" aria-labelledby="system-cost-heading">
-          <h2 id="system-cost-heading">Selected-candidate synthetic system estimate</h2>
+          <h2 id="system-cost-heading">
+            Selected-candidate synthetic system estimate
+          </h2>
           <p id="system-cost-status" role="status">
             Checking the candidate-bound Class C system estimate…
           </p>
           <section class="metrics" aria-label="Synthetic system cost scenarios">
             <article>
-              <strong id="system-capex"></strong><span>installed CAPEX · low / base / high · billion IQD</span>
+              <strong id="system-capex"></strong
+              ><span>installed CAPEX · low / base / high · billion IQD</span>
             </article>
             <article>
-              <strong id="system-whole-life"></strong><span>30-year whole-life NPV · low / base / high · billion IQD</span>
+              <strong id="system-whole-life"></strong
+              ><span
+                >30-year whole-life NPV · low / base / high · billion IQD</span
+              >
             </article>
           </section>
           <dl id="system-cost-facts"></dl>
@@ -150,12 +173,15 @@
             All 14 declared cost scopes have provisional estimates for a
             synthetic 6 km corridor with three stations. Production and civil
             work assume two 8-hour shifts; operations cover two shifts at 16/18
-            hours and three shifts at 24 hours. The adverse service-battery
-            duty has a calculated energy shortfall. City/site quantities,
-            supplier prices, force and thermal maps, complete installed mass,
-            journey performance and safety acceptance remain open.
+            hours and three shifts at 24 hours. The adverse service-battery duty
+            has a calculated energy shortfall. City/site quantities, supplier
+            prices, force and thermal maps, complete installed mass, journey
+            performance and safety acceptance remain open.
           </p>
-          <a href="../../design-engine/current/exports/selected-system-cost.json">Candidate-bound system cost record</a>
+          <a
+            href="../../design-engine/current/exports/selected-system-cost.json"
+            >Candidate-bound system cost record</a
+          >
         </section>
         <section class="panel">
           <h2>Engineering readiness</h2>
@@ -195,6 +221,70 @@
             >Current city record</a
           >
           <a href="../planning/">Open city planning</a>
+        </section>
+        <section class="panel" aria-labelledby="portfolio-heading">
+          <h2 id="portfolio-heading">Design Portfolio</h2>
+          <p id="portfolio-status" role="status">
+            Checking source-bound body and civil alternatives…
+          </p>
+          <div id="portfolio-controls" class="portfolio-controls" hidden>
+            <label
+              >System
+              <select id="portfolio-system"></select
+            ></label>
+            <label
+              >Family
+              <select id="portfolio-family"></select
+            ></label>
+            <label
+              >Archive
+              <select id="portfolio-retention">
+                <option value="all">All alternatives</option>
+                <option value="quantity">Quantity Pareto alternatives</option>
+                <option value="mechanics">Mechanics Pareto alternatives</option>
+              </select></label
+            >
+          </div>
+          <p id="portfolio-scope" class="note"></p>
+          <p id="portfolio-count" role="status"></p>
+          <div class="table-wrap">
+            <table aria-label="Design portfolio alternatives">
+              <thead>
+                <tr>
+                  <th>Candidate / profile</th>
+                  <th>Family</th>
+                  <th>Nominal stock · t</th>
+                  <th>Scoped base cost · million IQD</th>
+                  <th>Quantity archive</th>
+                  <th>Mechanics archive</th>
+                </tr>
+              </thead>
+              <tbody id="portfolio-rows"></tbody>
+            </table>
+          </div>
+          <article id="portfolio-detail" class="portfolio-detail" hidden>
+            <h3>Candidate evidence</h3>
+            <p id="portfolio-evidence"></p>
+            <dl id="portfolio-facts" class="identities"></dl>
+            <h3>Next engineering tasks</h3>
+            <ul id="portfolio-tasks"></ul>
+            <details>
+              <summary>Declared assumptions and evidence identities</summary>
+              <pre id="portfolio-assumptions"></pre>
+            </details>
+            <p>
+              <a id="portfolio-source">Source-bound study</a> ·
+              <a id="portfolio-geometry">Generated geometry</a>
+            </p>
+          </article>
+          <p class="note">
+            Archive membership preserves alternatives within each study's
+            declared objectives. Body costs cover nominal stock per car; civil
+            costs cover a scoped 20 m span. The views have separate cost
+            boundaries. Complete installed mass and physical qualification
+            remain open. Browsing a candidate does not change the selected
+            railway.
+          </p>
         </section>
         <section class="panel">
           <h2>Failure-driven design campaign</h2>
@@ -362,12 +452,12 @@
             equipment, prices and physical acceptance remain open.
           </p>
           <p>
-            For a city-specific proposal, compile and verify the planning handoff,
-            then create and verify its immutable six-car factory work-package
-            draft. It uses the selected Class C cost ledger and the declared
-            two-shift, eight-hour production case. The draft is not an ERPNext
-            import; civil/site delivery, purchasing, staffing and railway
-            operations remain held.
+            For a city-specific proposal, compile and verify the planning
+            handoff, then create and verify its immutable six-car factory
+            work-package draft. It uses the selected Class C cost ledger and the
+            declared two-shift, eight-hour production case. The draft is not an
+            ERPNext import; civil/site delivery, purchasing, staffing and
+            railway operations remain held.
           </p>
           <pre><code>./osr plan compile build/edits.json --output build/planning-handoff
 ./osr twin factory-draft compile build/planning-handoff --output build/factory-plan

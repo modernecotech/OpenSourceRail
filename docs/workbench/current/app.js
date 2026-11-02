@@ -59,7 +59,9 @@ function billions(value) {
 }
 async function renderVehicleCost(expected) {
   const cost = validated(
-    await request("/docs/design-engine/current/exports/selected-vehicle-cost.json"),
+    await request(
+      "/docs/design-engine/current/exports/selected-vehicle-cost.json",
+    ),
     expected,
   );
   if (
@@ -137,7 +139,9 @@ async function renderVehicleCost(expected) {
 }
 async function renderSystemCost(expected) {
   const cost = validated(
-    await request("/docs/design-engine/current/exports/selected-system-cost.json"),
+    await request(
+      "/docs/design-engine/current/exports/selected-system-cost.json",
+    ),
     expected,
   );
   if (
@@ -164,7 +168,9 @@ async function renderSystemCost(expected) {
       values[0] > values[1] ||
       values[1] > values[2]
     )
-      throw Error("System cost scenarios must be finite and ordered low/base/high.");
+      throw Error(
+        "System cost scenarios must be finite and ordered low/base/high.",
+      );
   byId("system-capex").textContent = capex.map(billions).join(" / ");
   byId("system-whole-life").textContent = wholeLife.map(billions).join(" / ");
   byId("system-cost-status").textContent =
@@ -193,6 +199,214 @@ async function renderSystemCost(expected) {
     "Scope and evidence",
     `${cost.required_cost_scopes.length} of 14 scopes estimated; no supplier quotes, site survey, qualified journey or release`,
   );
+}
+async function renderPortfolios(expected) {
+  const view = await request("/api/portfolios/current");
+  const researchFlags = [
+    "physical_accepted",
+    "engineering_accepted",
+    "configuration_adopted",
+    "selected_reference_changed",
+    "manufacturing_release",
+    "operating_release",
+  ];
+  const checkResearch = (record) => {
+    if (researchFlags.some((key) => record[key] !== false))
+      throw Error("Portfolio research dispositions differ.");
+  };
+  checkResearch(view);
+  if (
+    view.schema !== "osr-design-portfolio-view/1" ||
+    view.integrated_selection !== null ||
+    view.numerical_jobs_dispatched !== 0 ||
+    view.selected_reference_context.selection_id !== expected.selection_id ||
+    view.selected_reference_context.candidate_id !== expected.candidate_id ||
+    view.portfolios.length !== 2
+  )
+    throw Error("Portfolio source or selected-reference context differs.");
+  for (const portfolio of view.portfolios) {
+    const ids = new Set();
+    for (const row of portfolio.rows) {
+      checkResearch(row);
+      const costs = [row.cost_iqd.low, row.cost_iqd.base, row.cost_iqd.high];
+      if (
+        !/^[a-f0-9]{64}$/.test(row.candidate_id) ||
+        ids.has(row.candidate_id) ||
+        !Number.isFinite(row.stock_mass_kg) ||
+        row.stock_mass_kg < 0 ||
+        costs.some((value) => !Number.isFinite(value) || value < 0) ||
+        costs[0] > costs[1] ||
+        costs[1] > costs[2] ||
+        row.complete_installed_mass_kg !== null
+      )
+        throw Error(
+          "Portfolio candidate identities, quantities or cost scenarios differ.",
+        );
+      ids.add(row.candidate_id);
+    }
+    if (
+      ids.size !== portfolio.candidate_count ||
+      portfolio.rows.filter((row) => row.quantity_retained).length !==
+        portfolio.quantity_retained_count ||
+      (portfolio.mechanics_retained_count !== null &&
+        portfolio.rows.filter((row) => row.mechanics_retained).length !==
+          portfolio.mechanics_retained_count)
+    )
+      throw Error("Portfolio archive coverage differs.");
+  }
+  const system = byId("portfolio-system"),
+    family = byId("portfolio-family"),
+    retention = byId("portfolio-retention");
+  const familyName = (row) =>
+    Object.entries(row.descriptor)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(" · ");
+  const selected = () =>
+    view.portfolios.find((portfolio) => portfolio.key === system.value);
+  function inspect(row, portfolio) {
+    byId("portfolio-detail").hidden = false;
+    byId("portfolio-evidence").textContent =
+      row.structural_status + ". Physical acceptance remains open.";
+    const facts = byId("portfolio-facts");
+    facts.replaceChildren();
+    fact(facts, "Physical candidate", row.candidate_id);
+    fact(
+      facts,
+      "Quantity evaluation",
+      row.quantity_evaluation_id ??
+        "No aggregate evaluation ID; exact record SHA-256 below",
+    );
+    fact(facts, "Quantity record SHA-256", row.quantity_record_sha256);
+    fact(facts, "Mechanics evaluation", row.mechanics_evaluation_id);
+    fact(
+      facts,
+      "Low / base / high scoped cost",
+      ["low", "base", "high"]
+        .map((key) => format(row.cost_iqd[key]))
+        .join(" / ") + " IQD",
+    );
+    fact(
+      facts,
+      portfolio.process_hours_label + " · low / base / high",
+      ["low", "base", "high"]
+        .map((key) => format(row.process_hours[key]))
+        .join(" / "),
+    );
+    fact(facts, "Complete installed mass", "Unknown");
+    fact(
+      facts,
+      "Crowd/high-mass model deflection bound",
+      row.model_deflection_upper_m === null
+        ? "Unknown; structural analysis not run"
+        : `${format(row.model_deflection_upper_m * 1000)} mm · conditional elastic model only`,
+    );
+    if (row.quantity_dominated_by.length)
+      fact(
+        facts,
+        "Quantity archive exclusion",
+        "Dominated on partial quantity objectives by " +
+          row.quantity_dominated_by.join(", ") +
+          ". This does not determine engineering suitability.",
+      );
+    const tasks = byId("portfolio-tasks");
+    tasks.replaceChildren();
+    for (const task of row.next_tasks) {
+      const li = document.createElement("li");
+      li.textContent = task;
+      tasks.append(li);
+    }
+    byId("portfolio-assumptions").textContent = JSON.stringify(
+      {
+        portfolio_id: portfolio.portfolio_id,
+        quantity_archive_id: portfolio.quantity_archive_id,
+        mechanics_archive_id: portfolio.mechanics_archive_id,
+        study_assumptions: portfolio.assumptions,
+        candidate_assumptions: row.assumptions,
+      },
+      null,
+      2,
+    );
+    byId("portfolio-source").href = portfolio.evidence_path;
+    byId("portfolio-geometry").href = portfolio.geometry_path;
+    for (const button of byId("portfolio-rows").querySelectorAll("button"))
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.candidate === row.candidate_id),
+      );
+  }
+  function filter() {
+    const portfolio = selected();
+    const rows = portfolio.rows.filter(
+      (row) =>
+        (family.value === "all" || familyName(row) === family.value) &&
+        (retention.value === "all" ||
+          (retention.value === "quantity"
+            ? row.quantity_retained
+            : row.mechanics_retained === true)),
+    );
+    byId("portfolio-count").textContent =
+      `${rows.length} of ${portfolio.candidate_count} alternatives shown · quantity archive ${portfolio.quantity_retained_count}` +
+      (portfolio.mechanics_retained_count === null
+        ? " · mechanics not evaluated"
+        : ` · mechanics archive ${portfolio.mechanics_retained_count}`);
+    byId("portfolio-rows").replaceChildren();
+    byId("portfolio-detail").hidden = true;
+    for (const row of rows) {
+      const tr = document.createElement("tr"),
+        cell = document.createElement("td"),
+        button = document.createElement("button");
+      tr.dataset.candidate = row.candidate_id;
+      button.type = "button";
+      button.dataset.candidate = row.candidate_id;
+      button.textContent = `${row.candidate_id.slice(0, 12)} · ${row.profile}`;
+      button.title = row.candidate_id;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => inspect(row, portfolio));
+      cell.append(button);
+      tr.append(cell);
+      for (const value of [
+        familyName(row),
+        format(row.stock_mass_kg / 1000),
+        format(row.cost_iqd.base / 1e6),
+        row.quantity_retained ? "Retained" : "Outside partial front",
+        row.mechanics_retained === null
+          ? "Unknown / not run"
+          : row.mechanics_retained
+            ? "Retained"
+            : "Outside partial front",
+      ]) {
+        const td = document.createElement("td");
+        td.textContent = value;
+        tr.append(td);
+      }
+      byId("portfolio-rows").append(tr);
+    }
+    if (rows.length) inspect(rows[0], portfolio);
+  }
+  function changeSystem() {
+    const portfolio = selected();
+    family.replaceChildren(new Option("All families", "all"));
+    for (const name of [...new Set(portfolio.rows.map(familyName))].sort())
+      family.append(new Option(name, name));
+    retention.value = "all";
+    retention.querySelector('[value="mechanics"]').disabled =
+      portfolio.mechanics_archive_id === null;
+    byId("portfolio-scope").textContent =
+      `${portfolio.unit}. ${portfolio.cost_scope}`;
+    filter();
+  }
+  system.replaceChildren(
+    ...view.portfolios.map(
+      (portfolio) => new Option(portfolio.label, portfolio.key),
+    ),
+  );
+  system.addEventListener("change", changeSystem);
+  family.addEventListener("change", filter);
+  retention.addEventListener("change", filter);
+  byId("portfolio-controls").hidden = false;
+  byId("portfolio-status").textContent =
+    "Source-bound alternatives · separate quantity and mechanics archives · no integrated replacement selected.";
+  changeSystem();
 }
 function renderGates(gates) {
   const rows = Array.isArray(gates)
@@ -286,7 +500,8 @@ async function showCity(slug) {
         2,
       );
       byId("city-link").href =
-        "/docs/workbench/planning/?city=" + encodeURIComponent(record.city.slug);
+        "/docs/workbench/planning/?city=" +
+        encodeURIComponent(record.city.slug);
       byId("city-link").textContent = "Open city planning";
     }
   }
@@ -406,6 +621,14 @@ async function start() {
       ),
     );
     renderGates(packet.gates || packet.readiness?.gates);
+    try {
+      await renderPortfolios(current);
+    } catch (error) {
+      byId("portfolio-status").textContent = "Held: " + error.message;
+      byId("portfolio-controls").hidden = true;
+      byId("portfolio-detail").hidden = true;
+      byId("portfolio-rows").replaceChildren();
+    }
     try {
       const campaign = await request("/api/campaigns/current");
       if (

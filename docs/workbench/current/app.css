@@ -217,6 +217,45 @@ footer {
   border-top: 1px solid #cbd8ce;
   margin-top: 28px;
 }
+.portfolio-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.portfolio-controls label {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+.portfolio-controls select {
+  width: 100%;
+}
+#portfolio-rows button {
+  font: inherit;
+  cursor: pointer;
+  color: #194f46;
+  background: #f2f5f0;
+  border: 1px solid #a9c5b7;
+  border-radius: 5px;
+  padding: 6px 8px;
+  text-align: left;
+}
+#portfolio-rows button[aria-pressed="true"] {
+  background: #194f46;
+  color: #fff;
+}
+.portfolio-detail {
+  margin-top: 20px;
+  border-top: 1px solid #d8e1d7;
+  padding-top: 16px;
+}
+.portfolio-detail pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 360px;
+  overflow: auto;
+}
 [hidden] {
   display: none !important;
 }

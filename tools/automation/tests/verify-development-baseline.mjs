@@ -120,10 +120,20 @@ try {
   assert.equal(vehicleCost.whole_life_cost_iqd, null);
   assert.equal(vehicleCost.city_cost_iqd, null);
   assert.equal(vehicleCost.accounting_overlap.overlap_mass_kg, null);
-  assert.equal(vehicleCost.accounting_overlap.total_assumes_gross_accounts_are_distinct, true);
+  assert.equal(
+    vehicleCost.accounting_overlap.total_assumes_gross_accounts_are_distinct,
+    true,
+  );
   assert.deepEqual(
-    vehicleCost.shifts.operations_cases.map((row) => [row.hours_per_day, row.shifts_per_day]),
-    [[16, 2], [18, 2], [24, 3]],
+    vehicleCost.shifts.operations_cases.map((row) => [
+      row.hours_per_day,
+      row.shifts_per_day,
+    ]),
+    [
+      [16, 2],
+      [18, 2],
+      [24, 3],
+    ],
   );
   for (const key of [
     "engineering_accepted",
@@ -134,12 +144,22 @@ try {
   ])
     assert.equal(vehicleCost[key], false);
   await page.locator("#vehicle-cost-status").waitFor({ state: "visible" });
-  assert.match(await page.locator("#vehicle-cost-status").innerText(), /Class C provisional estimate/);
-  assert.match(await page.locator("#vehicle-cost-facts").innerText(), /16 h\/day \(2 shifts\).*18 h\/day \(2 shifts\).*24 h\/day \(3 shifts\)/s);
+  assert.match(
+    await page.locator("#vehicle-cost-status").innerText(),
+    /Class C provisional estimate/,
+  );
+  assert.match(
+    await page.locator("#vehicle-cost-facts").innerText(),
+    /16 h\/day \(2 shifts\).*18 h\/day \(2 shifts\).*24 h\/day \(3 shifts\)/s,
+  );
   assert((await page.locator("#vehicle-cost-lines tr").count()) > 0);
-  assert.match(await page.locator("#vehicle-cost-heading").innerText(), /Selected vehicle cost estimate/);
+  assert.match(
+    await page.locator("#vehicle-cost-heading").innerText(),
+    /Selected vehicle cost estimate/,
+  );
   report.vehicle_cost_estimate_id = vehicleCost.cost_estimate_id;
-  report.vehicle_cost_train_iqd = vehicleCost.total_vehicle_factory_delivery_assembly_iqd_per_train;
+  report.vehicle_cost_train_iqd =
+    vehicleCost.total_vehicle_factory_delivery_assembly_iqd_per_train;
   assert.equal(await page.locator("#speed").innerText(), "72");
   assert.equal(await page.locator("#headway").innerText(), "120");
   assert.equal(await page.locator("#capacity").innerText(), "8,280");
@@ -269,6 +289,117 @@ try {
   assert.match(await page.locator("#railway-status").innerText(), /112/);
   report.coupled_railway_bundles = railway.evaluated_bundle_count;
   report.coupled_native_body_cases = railway.native_body_case_count;
+  const portfolioResponse = await context.request.get(
+    origin + "/api/portfolios/current",
+  );
+  assert.equal(portfolioResponse.status(), 200, await portfolioResponse.text());
+  const portfolios = await portfolioResponse.json();
+  assert.equal(
+    portfolios.selected_reference_context.candidate_id,
+    current.candidate_id,
+  );
+  assert.equal(
+    portfolios.selected_reference_context.selection_id,
+    current.selection_id,
+  );
+  assert.equal(portfolios.physical_accepted, false);
+  assert.equal(portfolios.integrated_selection, null);
+  assert.equal(portfolios.numerical_jobs_dispatched, 0);
+  await page.waitForFunction(
+    () => document.querySelectorAll("#portfolio-rows tr").length === 54,
+  );
+  assert.match(await page.locator("#portfolio-scope").innerText(), /per car/);
+  assert.match(
+    await page.locator("#portfolio-facts").innerText(),
+    /Unknown; structural analysis not run/,
+  );
+  assert.equal(
+    await page
+      .locator('#portfolio-retention option[value="mechanics"]')
+      .evaluate((option) => option.disabled),
+    true,
+  );
+  await page.selectOption("#portfolio-retention", "quantity");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 18);
+  const bodyFamily = await page
+    .locator("#portfolio-family option")
+    .nth(1)
+    .getAttribute("value");
+  await page.selectOption("#portfolio-family", bodyFamily);
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 1);
+  await page.selectOption("#portfolio-retention", "all");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 3);
+  await page.selectOption("#portfolio-system", "civil");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 18);
+  assert.match(
+    await page.locator("#portfolio-scope").innerText(),
+    /installed span/,
+  );
+  assert.match(
+    await page.locator("#portfolio-evidence").innerText(),
+    /partial beam calculations.*stage 1 incomplete/,
+  );
+  assert.match(
+    await page.locator("#portfolio-count").innerText(),
+    /quantity archive 6.*mechanics archive 18/,
+  );
+  await page.selectOption("#portfolio-retention", "quantity");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 6);
+  await page.selectOption("#portfolio-retention", "mechanics");
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 18);
+  const candidateButton = page.locator("#portfolio-rows button").nth(1);
+  const candidateId = await candidateButton.getAttribute("data-candidate");
+  await candidateButton.click();
+  assert.equal(await candidateButton.getAttribute("aria-pressed"), "true");
+  assert(
+    (await page.locator("#portfolio-facts").innerText()).includes(candidateId),
+  );
+  assert.match(await page.locator("#portfolio-tasks").innerText(), /torsion/);
+  assert.equal(
+    (
+      await context.request.get(
+        origin +
+          (await page.locator("#portfolio-geometry").getAttribute("href")),
+      )
+    ).status(),
+    200,
+  );
+  assert.equal(
+    (
+      await context.request.get(
+        origin + (await page.locator("#portfolio-source").getAttribute("href")),
+      )
+    ).status(),
+    200,
+  );
+  report.portfolio_candidates = { body: 54, civil: 18 };
+  report.portfolio_archive_counts = {
+    body_quantity: 18,
+    civil_quantity: 6,
+    civil_mechanics: 18,
+  };
+  await page.route("**/api/portfolios/current", (route) => {
+    const forged = structuredClone(portfolios);
+    forged.portfolios[0].rows[0].physical_accepted = true;
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(forged),
+    });
+  });
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator("#design").waitFor({ state: "visible" });
+  assert.match(
+    await page.locator("#portfolio-status").innerText(),
+    /Held:.*dispositions differ/,
+  );
+  assert.equal(await page.locator("#portfolio-controls").isVisible(), false);
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 0);
+  assert.equal(await page.locator("#portfolio-detail").isVisible(), false);
+  await page.unroute("**/api/portfolios/current");
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator("#design").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#portfolio-rows tr").count(), 54);
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();
@@ -278,7 +409,10 @@ try {
   assert.equal(city.performance_evaluated, false);
   assert.equal(city.totals, null);
   assert.equal(city.geography.underlying_city_details_preserved, true);
-  assert.match(await page.locator("#city-link").innerText(), /Open city planning/);
+  assert.match(
+    await page.locator("#city-link").innerText(),
+    /Open city planning/,
+  );
   assert.match(
     await page.locator('#design a[href="../planning/"]').innerText(),
     /Open city planning/,
@@ -295,9 +429,17 @@ try {
   );
   assert.equal(await page.locator("#city option").count(), 266);
   const layerControls = page.locator("#layers input");
-  assert.ok(await layerControls.count() >= 4);
-  for (const id of ["alignments", "operating-stops", "transfers", "revision-changes"])
-    assert.equal(await page.locator(`#layers input[data-layer="${id}"]`).count(), 1);
+  assert.ok((await layerControls.count()) >= 4);
+  for (const id of [
+    "alignments",
+    "operating-stops",
+    "transfers",
+    "revision-changes",
+  ])
+    assert.equal(
+      await page.locator(`#layers input[data-layer="${id}"]`).count(),
+      1,
+    );
   assert.doesNotMatch(
     await page.locator("body").innerText(),
     /v0\.5|historical planning/i,
@@ -481,6 +623,8 @@ try {
     "desktop/mobile rendering",
     "read-only API",
     "coordinated research counts and unknown installed mass",
+    "portfolio family filters, exact candidate evidence and separate quantity/mechanics archives",
+    "forged portfolio acceptance hides research results",
     "forged acceptance rejection",
     "mixed identity rejection",
     "missing current packet hold",

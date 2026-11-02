@@ -76,8 +76,9 @@ load-following ribs. Stock quantities and surfaces feed candidate-specific
 Class C process, tooling, delivery, scoped installed and lifecycle estimates.
 The next-evaluator frontier preserves family diversity and records the required
 load, material-domain, connection and manufacturing checks before costly solves.
-Structural evaluation, smooth organic discovery and native CAD remain pending;
-this study does not replace a selected civil component.
+Resistance, smooth organic discovery and native CAD remain pending; this
+quantity study does not replace a selected civil component. Its conditional
+mechanics follow-up is described below.
 
 Optional [pymoo](https://pymoo.org/algorithms/moo/nsga2.html) and
 [pyribs](https://docs.pyribs.org/en/stable/api/ribs.archives.CategoricalArchive.html)
@@ -104,6 +105,14 @@ python3 -m engineering.design_search.civil_shape_mechanics verify
 These gross-elastic calculations do not resolve cracking, resistance, shear,
 torsion, connections, actual crane capacity or unknown installed quantities.
 Stage-two solver admission and physical acceptance remain pending.
+
+Run `./osr workbench` and open Design Portfolio to browse both studies. The body
+quantity archive retains 18 of 54 candidates. The civil quantity archive retains
+6 of 18, while the mechanics archive retains all 18; each archive filter keeps
+its own objectives and scope. Civil details join the exact parent portfolio,
+candidate and quantity evaluation, show partial beam progress, and leave stage
+one incomplete. Body stock cost per car and scoped installed civil cost per
+20 m span remain separate comparisons.
 
 ## Bounded campaigns
 

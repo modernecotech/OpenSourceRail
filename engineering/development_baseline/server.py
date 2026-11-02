@@ -74,6 +74,11 @@ class Handler(BaseHTTPRequestHandler):
                 read_packet(self.root)
                 self.respond(200, status(self.root))
                 return
+            if path == '/api/portfolios/current':
+                from . import portfolio_view
+                _, publication = read_packet(self.root)
+                self.respond(200, portfolio_view.read(self.root, publication, selected(self.root)))
+                return
             research_routes={
                 '/api/campaigns/current':('v06-optimisation','osr-wheel-iterative-campaign-publication/1'),
                 '/api/design-space/current':('v06-design-space','osr-expanded-design-space-summary/1'),
