@@ -16,7 +16,47 @@ ROOT = Path(__file__).resolve().parents[3]
 HISTORICAL_WORKFLOW = ROOT / '.github/workflows/historical-v05.yml'
 SHARED_WORKFLOW = ROOT / '.github/workflows/shared-software.yml'
 CURRENT_WORKFLOW = ROOT / '.github/workflows/development-baseline.yml'
+SOURCED_WORKFLOW = ROOT / '.github/workflows/sourced-hardware.yml'
+SOURCED_GEOMETRY_WORKFLOW = ROOT / '.github/workflows/reproduce-sourced-geometry.yml'
 ARCHIVE = ROOT / 'docs/archives/v0.5-maglev/manifest.json'
+OLD_COMMIT = 'dad8c4bedb2361d3e621e9def312273167279027'
+EXTRA_COMMIT = '5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76'
+OLD_ARCHIVE_ID = '478479a93642c464cc2be318bbc5b45b9c5c3fec2e9cecb02318d53bd4fb568e'
+EXTRA_ARCHIVE_ID = 'd2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9'
+EXTRA_PINS_ID = '91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050'
+OLD_ARCHIVE_ARGS = ('--archive-directory docs/design-engine/retained-battery-source-epoch/archive '
+                    '--pins docs/design-engine/retained-battery-source-epoch/pins.json')
+EXTRA_ARCHIVE_ARGS = ('--archive-directory docs/design-engine/retained-service-energy-extra/original/worker-v7/archive '
+                      '--pins docs/design-engine/retained-service-energy-extra/original/worker-v7/pins.json')
+OLD_MATERIALIZE = ('.venv/bin/python -m engineering.design_search.retained_packet_materialize --git-repo . '
+                   '--output "$retained_packet_parent/packets" ' + OLD_ARCHIVE_ARGS +
+                   ' --expected-commit ' + OLD_COMMIT + ' --expected-archive-id ' + OLD_ARCHIVE_ID)
+OLD_VERIFY = ('.venv/bin/python -m engineering.design_search.retained_source_epoch verify '
+              '--root "$retained_packet_parent/packets/root" ' + OLD_ARCHIVE_ARGS +
+              ' --expected-archive-id ' + OLD_ARCHIVE_ID)
+EXTRA_MATERIALIZE = ('.venv/bin/python -m engineering.design_search.retained_service_energy_materialize materialize '
+                     '--git-repo . --output "$retained_extra_parent/packets" ' + EXTRA_ARCHIVE_ARGS +
+                     ' --expected-commit ' + EXTRA_COMMIT + ' --expected-pins-id ' + EXTRA_PINS_ID +
+                     ' --expected-archive-id ' + EXTRA_ARCHIVE_ID)
+EXTRA_VERIFY = ('.venv/bin/python -m engineering.design_search.retained_service_energy_epoch verify '
+                '--root "$retained_extra_parent/packets/root" ' + EXTRA_ARCHIVE_ARGS +
+                ' --expected-pins-id ' + EXTRA_PINS_ID + ' --expected-archive-id ' + EXTRA_ARCHIVE_ID)
+OLD_SCRIPT = [
+    '.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_packet_materialize.py',
+    'git fetch --no-tags --depth=1 origin '+OLD_COMMIT,
+    'retained_packet_parent=$(mktemp -d "$RUNNER_TEMP/osr-retained-packets.XXXXXX")',
+    'ulimit -v 1048576', OLD_MATERIALIZE, OLD_VERIFY,
+]
+EXTRA_SCRIPT = [
+    '.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_service_energy_epoch.py engineering/design_search/tests/test_retained_service_energy_handoff.py engineering/design_search/tests/test_retained_service_energy_materialize.py engineering/design_search/tests/test_retained_service_energy_materialize_handoff.py',
+    'git fetch --no-tags --depth=1 origin '+EXTRA_COMMIT,
+    'git fetch --no-tags --depth=1 origin '+OLD_COMMIT,
+    'git fetch --no-tags --depth=1 origin be03a8436a7b5b307840514e05146f98b3ee2574',
+    '.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_service_energy_migration_inventory.py',
+    'ulimit -v 1048576',
+    'retained_extra_parent=$(mktemp -d "$RUNNER_TEMP/osr-service-energy.XXXXXX")',
+    EXTRA_MATERIALIZE, EXTRA_VERIFY,
+]
 
 
 def job_blocks(text):
@@ -35,7 +75,47 @@ def active_run_line(block, command):
                and command in line for line in lines)
 
 
-def validate(historical_text, shared_text, current_text, archive):
+def checked_historical_route(block, *, parent, prefix, commit, materialize, verify, expected_script):
+    """Require one active shell block to materialize before its exact verifier."""
+    assert not re.search(r'^\s+(shell|defaults):', block, re.M), 'Use the runner default fail-fast shell'
+    runs = re.findall(r'^        run: \|\n((?: {10}[^\n]*(?:\n|$))*)', block, re.M)
+    scripts = [[line.split('#', 1)[0].strip() for line in run.splitlines()] for run in runs]
+    matches = [lines for lines in scripts if materialize in lines or verify in lines]
+    assert len(matches) == 1
+    lines = matches[0]
+    assert lines == expected_script, 'Historical verifier shell block must match the complete guarded sequence'
+    init = parent + '=$(mktemp -d "$RUNNER_TEMP/' + prefix + '.XXXXXX")'
+    fetch = 'git fetch --no-tags --depth=1 origin ' + commit
+    for command in (init, fetch, materialize, verify):assert lines.count(command) == 1, command
+    assert lines.index(fetch) < lines.index(init) < lines.index(materialize) < lines.index(verify)
+    assert sum(line.startswith(parent+'=') for line in lines) == 1
+    assert not any(line == 'set +e' or line.startswith('set +e ') for line in lines)
+    return lines
+
+
+def validate_current_sourced_archive_consumers(sourced_text, geometry_text):
+    """Current sourced consumers retain authenticated archive preparation."""
+    sourced=job_blocks(sourced_text);geometry=job_blocks(geometry_text)
+    for block, step_name, consumer in (
+        (sourced['semantic-replay'], 'Reassemble the original authenticated payload',
+         'Rebuild all five registries and actually replay every coupled case'),
+        (sourced['geometry-and-recorded-methods'], 'Reassemble the original authenticated sourced-cell payload',
+         'Reopen all five full-train occurrence inventories'),
+        (geometry['regenerate'], 'Reassemble the original authenticated sourced-cell payload',
+         'Export and reopen all five source-bound vehicle IFCs'),
+    ):
+        header='      - name: '+step_name+'\n'
+        body=('        run: >-\n'
+              '          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case\n')
+        assert block.count(header)==1
+        tail=block.split(header,1)[1]
+        next_step=re.search(r'^      - ',tail,re.M)
+        assert next_step and tail[:next_step.start()]==body, 'Sourced preparation must be an unconditional fail-fast step'
+        assert block.index(header)<block.index('      - name: '+consumer+'\n')
+
+
+def validate(historical_text, shared_text, current_text, archive, sourced_text, geometry_text):
+    validate_current_sourced_archive_consumers(sourced_text, geometry_text)
     unsigned = {k: v for k, v in archive.items() if k != 'archive_id'}
     raw = (json.dumps(unsigned, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode()
     assert archive['schema'] == 'osr-v05-git-archive/1'
@@ -167,6 +247,7 @@ def validate(historical_text, shared_text, current_text, archive):
     assert not re.search(r'^    (if|needs):', historical, re.M)
     # Current v0.6 contracts retain their independent required gate and neutral dependencies.
     current_jobs = job_blocks(current_text)
+    assert not re.search(r'^defaults:', current_text, re.M), 'Do not replace the fail-fast runner shell'
     required_jobs = {'current-contracts', 'independent-search', 'retained-packet-reconstruction',
                      'retained-service-energy-extra', 'vehicle-runtime-reproducibility'}
     assert required_jobs | {'required-engineering'} <= current_jobs.keys()
@@ -190,13 +271,13 @@ def validate(historical_text, shared_text, current_text, archive):
             'independent-search': ('test_search_backends.py', 'civil_shape_portfolio verify',
                                    'civil_shape_portfolio audit-optimizers'),
             'retained-packet-reconstruction': ('test_retained_packet_materialize.py',
-                                                'retained_packet_materialize'),
+                                                'retained_packet_materialize',
+                                                'retained_source_epoch verify'),
             'retained-service-energy-extra': ('test_retained_service_energy_epoch.py',
                                                'test_retained_service_energy_handoff.py',
                                                'test_retained_service_energy_materialize.py',
                                                'test_retained_service_energy_materialize_handoff.py',
                                                'test_service_energy_migration_inventory.py',
-                                               'sourced-archive.py ensure',
                                                'retained_service_energy_epoch verify',
                                                'retained_service_energy_materialize materialize'),
     }.items():
@@ -205,7 +286,14 @@ def validate(historical_text, shared_text, current_text, archive):
     assert re.search(r'^          name: civil-portfolio-search-audit$', current_jobs['independent-search'], re.M)
     extra = current_jobs['retained-service-energy-extra']
     assert re.search(r'^        env:\n          OSR_MIGRATION_REQUIRE_REAL: "1"\n        run: \|$', extra, re.M)
-    assert extra.index('sourced-archive.py ensure') < extra.index('retained_service_energy_epoch verify')
+    checked_historical_route(current_jobs['retained-packet-reconstruction'],
+        parent='retained_packet_parent', prefix='osr-retained-packets', commit=OLD_COMMIT,
+        materialize=OLD_MATERIALIZE, verify=OLD_VERIFY, expected_script=OLD_SCRIPT)
+    checked_historical_route(extra, parent='retained_extra_parent', prefix='osr-service-energy',
+        commit=EXTRA_COMMIT, materialize=EXTRA_MATERIALIZE, verify=EXTRA_VERIFY, expected_script=EXTRA_SCRIPT)
+    assert 'sourced-archive.py ensure docs/design-engine/sourced-case' not in extra
+    assert active_run_line(current_jobs['current-contracts'], 'test_retained_source_epoch.py')
+    assert not active_run_line(current_jobs['current-contracts'], 'retained_source_epoch verify')
     runtime_job = current_jobs['vehicle-runtime-reproducibility']
     assert re.findall(r'python-version: "([^"]+)"', runtime_job) == ['3.11', '3.12', '3.13']
     for runtime in ('311', '312', '313'):
@@ -315,12 +403,16 @@ class ArchitectureRoutingTests(unittest.TestCase):
         cls.shared = SHARED_WORKFLOW.read_text()
         cls.current = CURRENT_WORKFLOW.read_text()
         cls.archive = json.loads(ARCHIVE.read_text())
+        cls.sourced = SOURCED_WORKFLOW.read_text()
+        cls.geometry = SOURCED_GEOMETRY_WORKFLOW.read_text()
 
-    def check(self, *, historical=None, shared=None, current=None, archive=None):
+    def check(self, *, historical=None, shared=None, current=None, archive=None, sourced=None, geometry=None):
         validate(self.historical if historical is None else historical,
                  self.shared if shared is None else shared,
                  self.current if current is None else current,
-                 self.archive if archive is None else archive)
+                 self.archive if archive is None else archive,
+                 self.sourced if sourced is None else sourced,
+                 self.geometry if geometry is None else geometry)
 
     def test_archived_and_current_sources_are_separate(self):
         self.check()
@@ -382,6 +474,67 @@ class ArchitectureRoutingTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.check(current=self.current.replace('      - name: Breadth-first civil geometry and independent search libraries',
                 '      - if: false\n        name: Breadth-first civil geometry and independent search libraries', 1))
+
+    def test_historical_verification_requires_exact_materialized_roots_and_pins(self):
+        for command, root, archive_id in (
+                (OLD_VERIFY, '$retained_packet_parent/packets/root', OLD_ARCHIVE_ID),
+                (EXTRA_VERIFY, '$retained_extra_parent/packets/root', EXTRA_ARCHIVE_ID)):
+            replacements = ('# '+command, 'echo '+command,
+                            command.replace(root, '.'), command.replace(archive_id, '0'*64),
+                            command+' || true')
+            for changed in replacements:
+                with self.subTest(command=command, changed=changed), self.assertRaises(AssertionError):
+                    self.check(current=self.current.replace(command, changed, 1))
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace(EXTRA_VERIFY, EXTRA_VERIFY.replace(EXTRA_PINS_ID, '0'*64), 1))
+
+    def test_historical_verification_must_follow_pinned_materialization(self):
+        for materialize, verify, commit in ((OLD_MATERIALIZE, OLD_VERIFY, OLD_COMMIT),
+                                             (EXTRA_MATERIALIZE, EXTRA_VERIFY, EXTRA_COMMIT)):
+            adjacent = materialize+'\n          '+verify
+            self.assertIn(adjacent, self.current)
+            mutations = (self.current.replace(adjacent, verify+'\n          '+materialize, 1),
+                         self.current.replace(materialize, '# '+materialize, 1),
+                         self.current.replace(materialize, materialize.replace(commit, '0'*40), 1),
+                         self.current.replace('git fetch --no-tags --depth=1 origin '+commit,
+                                              'git fetch --no-tags --depth=1 origin '+'0'*40, 1),
+                         *(self.current.replace(target, bypass+'\n          '+target, 1)
+                           for target in (materialize,verify)
+                           for bypass in ('set +e','set +o errexit','exit 0')),
+                         self.current.replace('          '+materialize,
+                            '        shell: bash {0}\n          '+materialize, 1))
+            for altered in mutations:
+                with self.subTest(materialize=materialize, altered=altered!=self.current), self.assertRaises(AssertionError):
+                    self.check(current=altered)
+            wrong_job=self.current.replace('          '+verify+'\n', '', 1).replace(
+                '          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py\n',
+                '          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py\n          '+verify+'\n', 1)
+            with self.subTest(materialize=materialize, wrong_job=True), self.assertRaises(AssertionError):
+                self.check(current=wrong_job)
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace('\njobs:\n','\ndefaults:\n  run:\n    shell: bash {0}\njobs:\n',1))
+
+    def test_current_sourced_consumers_keep_independent_archive_preparation(self):
+        ensure='"$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case'
+        self.assertEqual(self.sourced.count(ensure),2)
+        self.assertEqual(self.geometry.count(ensure),1)
+        first=self.sourced.replace(ensure, '# '+ensure, 1)
+        last=self.sourced[::-1].replace(ensure[::-1], ('# '+ensure)[::-1], 1)[::-1]
+        for changed in (first,last):
+            with self.subTest(changed=changed), self.assertRaises(AssertionError):self.check(sourced=changed)
+        with self.assertRaises(AssertionError):
+            self.check(geometry=self.geometry.replace(ensure, '# '+ensure, 1))
+        for extra in ('if: false','continue-on-error: true'):
+            injected=ensure+'\n        '+extra
+            first=self.sourced.replace(ensure,injected,1)
+            last=self.sourced[::-1].replace(ensure[::-1],injected[::-1],1)[::-1]
+            for changed in (first,last):
+                with self.subTest(extra=extra), self.assertRaises(AssertionError):self.check(sourced=changed)
+            with self.subTest(extra=extra, geometry=True), self.assertRaises(AssertionError):
+                self.check(geometry=self.geometry.replace(ensure,injected,1))
+        injected='          .venv/bin/python tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case\n'
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace('          '+EXTRA_MATERIALIZE, injected+'          '+EXTRA_MATERIALIZE, 1))
 
     def test_historical_coverage_cannot_be_removed(self):
         with self.assertRaises(AssertionError):
