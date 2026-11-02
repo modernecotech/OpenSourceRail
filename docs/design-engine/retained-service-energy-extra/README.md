@@ -28,6 +28,25 @@ admission, prove physical equivalence or approve a railway. Packet restoration
 and the remaining current-source regeneration are still needed before the
 charging correction can be merged.
 
+The additional packet materializer has a recorded streaming audit of all 365
+tracked Git blobs and the five sourced-cell chunks, without a full local tree.
+Its full reconstruction is a required CI check on an ephemeral runner; until
+that check succeeds, the real full reconstruction remains unverified. To run it
+manually, fetch the pinned commit and choose a fresh private output path with
+at least 1.3 GiB free:
+
+```bash
+git fetch --no-tags --depth=1 origin 5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76
+retained_extra_parent=$(mktemp -d)
+python -m engineering.design_search.retained_service_energy_materialize materialize \
+  --git-repo . --output "$retained_extra_parent/packets" \
+  --archive-directory docs/design-engine/retained-service-energy-extra/original/worker-v7/archive \
+  --pins docs/design-engine/retained-service-energy-extra/original/worker-v7/pins.json \
+  --expected-commit 5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76 \
+  --expected-pins-id 91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050 \
+  --expected-archive-id d2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9
+```
+
 Verification uses process resource limits but no filesystem or network
 sandbox. Pre- and post-checks cannot exclude a concurrent process that swaps
 and restores bytes between checks.

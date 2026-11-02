@@ -192,8 +192,11 @@ def validate(historical_text, shared_text, current_text, archive):
                                                 'retained_packet_materialize'),
             'retained-service-energy-extra': ('test_retained_service_energy_epoch.py',
                                                'test_retained_service_energy_handoff.py',
+                                               'test_retained_service_energy_materialize.py',
+                                               'test_retained_service_energy_materialize_handoff.py',
                                                'sourced-archive.py ensure',
-                                               'retained_service_energy_epoch verify'),
+                                               'retained_service_energy_epoch verify',
+                                               'retained_service_energy_materialize materialize'),
     }.items():
         for command in commands: assert active_run_line(current_jobs[name], command), (name, command)
     assert 'uses: actions/upload-artifact@v4' in current_jobs['independent-search']
@@ -358,7 +361,8 @@ class ArchitectureRoutingTests(unittest.TestCase):
         for name, command in (
                 ('independent-search', 'civil_shape_portfolio audit-optimizers'),
                 ('retained-packet-reconstruction', 'test_retained_packet_materialize.py'),
-                ('retained-service-energy-extra', 'retained_service_energy_epoch verify')):
+                ('retained-service-energy-extra', 'retained_service_energy_epoch verify'),
+                ('retained-service-energy-extra', 'retained_service_energy_materialize materialize')):
             with self.subTest(job=name), self.assertRaises(AssertionError):
                 self.check(current=self.current.replace(command, 'removed-check', 1))
             with self.subTest(job=name, disabled='comment'), self.assertRaises(AssertionError):

@@ -211,6 +211,7 @@ def sources(root,record,index,delivery):
         'engineering/design_search/retained_source_epoch.py',
         'engineering/design_search/retained_packet_materialize.py',
         'engineering/design_search/retained_service_energy_epoch.py',
+        'engineering/design_search/retained_service_energy_materialize.py',
         'docs/design-engine/retained-battery-source-epoch/README.md',
         'docs/design-engine/retained-battery-source-epoch/archive/manifest.json',
         'docs/design-engine/retained-battery-source-epoch/pins.json',

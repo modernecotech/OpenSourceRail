@@ -1,0 +1,31 @@
+{
+  "archive_id": "d2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9",
+  "audit_result_id": "5c355ba03ecd4bdc5a76aa694802c90e65f7049384fc27074b365f752288781d",
+  "files_sha256": {
+    "archive/manifest.json": "05b8b45bf0601e3fee31790a47c125b33aa907f3f8f42591ea555286e7e59653",
+    "archive/sources.tar.gz": "5e1488edf2c771138e2c332099c6b4e5969774d1730ccbd857af1a3277b32b30",
+    "audit/git-archive.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "audit/git-preflight.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "audit/result.json": "2ed99f52786c4dbf59923289e268e15e3e651bc14a36177008715f49cb51c69d",
+    "logs/audit-v1.log": "65635e5993f0499967f81fa03c810622a0168912292fe0a0d66dc9ba68e3323c",
+    "logs/tests-v1-py312.log": "56157f5a40cdb7d31fa84705e83912186eccf86d5d88dbea25ba9fefa5c88934",
+    "logs/tests-v1-py313.log": "b473aae5d20692c056e8afe7082483feae37690cee581ba817c9685a15659bc3",
+    "logs/tests-v2-py312.log": "7744ee715accc9bca8363159ec40ce2c41d5bd13e4e8733c64cf084212ec0af1",
+    "logs/tests-v2-py313.log": "0af916804e19f265b712d1dfb8ac6d57be76fcc1a4d496457928859ada3d987f",
+    "logs/tests-v3-py312.log": "f6ce3537e552856c89074e089ca651474ad60809a32a59ad5688b2f4b25bfa04",
+    "logs/tests-v3-py313.log": "7b5ab41a6447fb409d2fa009970d63ddec9af5939138fddb27339e8dad9ad520",
+    "pins.json": "5555c2d81df70bdb76dfe78da78b5f074ad9737ccb1bbaef8040f6ebc1441360",
+    "source/retained_packet_materialize.py": "0371799162b9093bf6ca75750d38cac649c06db648af06d79af0757ecef55674",
+    "source/retained_service_energy_epoch.py": "5f8fdc430e72ce085af986b1fa1f663450636ac5b37c33fd11ec9446c83e66d4",
+    "source/retained_service_energy_materialize.py": "24e80a1dc85ba431998f987e6efa83b4e08535d83af64dfd4cf1d59d5261c9da",
+    "source/retained_source_epoch.py": "698997eb4a2b74eb7f56e6fd7de14de46bf634eb43854d9d126c8885b6846726",
+    "source/test_retained_service_energy_materialize.py": "fcc448e9c3fc5b01b0643735058c84d73fe5422bc40570ad0a083574d8fb74ee"
+  },
+  "implementation_commit": "f9bb4d1642e5750f199d946dcdcf1e8b861557be",
+  "limits": "Real audit streams only; real full reconstruction and verifier replay have not been run. No filesystem/network sandbox. No physical acceptance or evaluator admission.",
+  "pinned_historical_commit": "5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76",
+  "pins_id": "91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050",
+  "real_audit_command": "ulimit -v 1048576; OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /usr/bin/time -v timeout 600 /home/hayder/Documents/OpenSourceRail/.venv/bin/python -m engineering.design_search.retained_service_energy_materialize audit --git-repo /home/hayder/.local/state/opensourcerail/worktrees/planning-context-20261031 --output /home/hayder/.local/state/opensourcerail/service-energy-materialize-run-20261102/audit-v1 --archive-directory /home/hayder/.local/state/opensourcerail/retained-service-energy-extra-run-20261102/worker-v7/archive --pins /home/hayder/.local/state/opensourcerail/retained-service-energy-extra-run-20261102/worker-v7/pins.json --expected-commit 5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76 --expected-pins-id 91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050 --expected-archive-id d2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9",
+  "schema": "osr-materializer-handoff/1",
+  "tests": "17 synthetic tests passed on Python 3.12 and 3.13; v1 failures and subsequent logs retained"
+}

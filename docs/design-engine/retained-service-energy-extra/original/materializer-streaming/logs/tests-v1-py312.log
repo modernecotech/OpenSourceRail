@@ -1,0 +1,89 @@
+...............F                                                         [100%]
+=================================== FAILURES ===================================
+_________________ test_audit_mode_hands_off_only_small_record __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3035728e30>
+tmp_path = PosixPath('/tmp/pytest-of-hayder/pytest-433/test_audit_mode_hands_off_only0')
+
+    def test_audit_mode_hands_off_only_small_record(monkeypatch,tmp_path):
+        files,tree,expected,storage,_=sample(monkeypatch);raw=make_tar(files)
+        repo=tmp_path/'repo';repo.mkdir();archive=tmp_path/'archive';archive.mkdir();out=tmp_path/'audit'
+        monkeypatch.setattr(materializer.extra,'_pins',lambda pins,expected:pins)
+        monkeypatch.setattr(materializer,'_preflight',lambda *args:({'test':True},expected,set(),('a','b')))
+        monkeypatch.setattr(materializer,'_tree',lambda *args:tree)
+        monkeypatch.setattr(materializer,'_git_metadata',lambda *args:storage)
+        monkeypatch.setattr(materializer,'_git_blob',lambda *args:b'{}')
+        monkeypatch.setattr(materializer,'_old_archive',lambda *args:None)
+        monkeypatch.setattr(materializer.shutil,'which',lambda _: '/usr/bin/timeout')
+        class FakeProcess:
+            def __init__(self,*args,**kwargs):self.stdout=io.BytesIO(raw)
+            def wait(self,timeout=None):return 0
+            def poll(self):return 0
+        monkeypatch.setattr(materializer.subprocess,'Popen',FakeProcess)
+>       result=materializer.run(repo,out,archive,pins={},mode='audit',expected_commit=materializer.COMMIT,
+            expected_pins_id=materializer.PINS_ID,expected_archive_id=materializer.ARCHIVE_ID)
+
+engineering/design_search/tests/test_retained_service_energy_materialize.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+repo = PosixPath('/tmp/pytest-of-hayder/pytest-433/test_audit_mode_hands_off_only0/repo')
+output = PosixPath('/tmp/pytest-of-hayder/pytest-433/test_audit_mode_hands_off_only0/audit')
+archive = PosixPath('/tmp/pytest-of-hayder/pytest-433/test_audit_mode_hands_off_only0/archive')
+pins = {}, mode = 'audit'
+expected_commit = '5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76'
+expected_pins_id = '91d8be8f7893aea692e90683c214bbda0d35c4dbe1a652c7cb8908e3d3a4f050'
+expected_archive_id = 'd2f4511f180592083945bb993658353218b9efcf91d0dd3f21d02e58399967b9'
+
+    def run(repo,output,archive,*,pins,mode,expected_commit,expected_pins_id,expected_archive_id):
+        _fixed(expected_commit,expected_pins_id,expected_archive_id)
+        if mode not in ('audit','materialize'):raise ValueError('Audit or materialize mode required')
+        repo=_ordinary(repo);archive=_ordinary(archive);out=Path(os.path.abspath(output));_ordinary(out.parent)
+        if any(p.is_symlink() for p in (out,*out.parents)) or out.exists():
+            raise ValueError('Fresh ordinary destination required')
+        if (out==repo or out.is_relative_to(repo) or repo.is_relative_to(out)
+                or out==archive or out.is_relative_to(archive) or archive.is_relative_to(out)):
+            raise ValueError('Private destination must be disjoint from inputs')
+        pins=extra._pins(pins,expected_pins_id)
+        helper_paths=(Path(__file__),Path(prior.__file__),Path(extra.__file__),Path(retained.__file__))
+        helper_hashes=[_file(path)[0] for path in helper_paths]
+        meta,expected,dirs,archive_hashes=_preflight(archive,pins,expected_pins_id,expected_archive_id)
+        if mode=='materialize' and shutil.disk_usage(out.parent).free<FINAL_BYTES+200*1024*1024:
+            raise ValueError('Insufficient free disk for one bounded reconstruction plus reserve')
+        stage=Path(tempfile.mkdtemp(prefix='.service-energy-materialize-',dir=out.parent))
+        print('Private stage retained on failure: '+str(stage),file=sys.stderr,flush=True)
+        preflight_log=stage/'git-preflight.stderr.log';archive_log=stage/'git-archive.stderr.log'
+        tree=_tree(repo,expected,preflight_log);storage=_git_metadata(repo,tree,pins,meta,preflight_log)
+>       wrapper=retained._json(_git_blob(repo,tree[OLD_WRAPPER],preflight_log))
+                                              ^^^^^^^^^^^^^^^^^
+E       KeyError: 'docs/design-engine/retained-physical-followup-source-epoch/manifest.json'
+
+engineering/design_search/retained_service_energy_materialize.py:392: KeyError
+----------------------------- Captured stderr call -----------------------------
+Private stage retained on failure: /tmp/pytest-of-hayder/pytest-433/test_audit_mode_hands_off_only0/.service-energy-materialize-_h_sa398
+=========================== short test summary info ============================
+FAILED engineering/design_search/tests/test_retained_service_energy_materialize.py::test_audit_mode_hands_off_only_small_record
+1 failed, 15 passed in 0.10s
+Command exited with non-zero status 1
+	Command being timed: "timeout 120 /home/hayder/.local/state/opensourcerail/verification-python312/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_service_energy_materialize.py"
+	User time (seconds): 0.24
+	System time (seconds): 0.06
+	Percent of CPU this job got: 92%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.32
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 37044
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 16
+	Minor (reclaiming a frame) page faults: 6878
+	Voluntary context switches: 88
+	Involuntary context switches: 2
+	Swaps: 0
+	File system inputs: 48600
+	File system outputs: 448
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
