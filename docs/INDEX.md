@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **105**.
+Indexed Markdown files: **106**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **105**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 80 |
+| [docs](#docs) | 81 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -98,6 +98,7 @@ Indexed Markdown files: **105**.
 | [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
 | [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
 | [`docs/design-engine/flanged-span-study/README.md`](../docs/design-engine/flanged-span-study/README.md) | Flanged-girder 20 m span: analytical research study |
+| [`docs/design-engine/flanged-system-cost-study/README.md`](../docs/design-engine/flanged-system-cost-study/README.md) | Flanged-span whole-railway Class C scenarios |
 | [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
 | [`docs/design-engine/implicit-geometry-study/README.md`](../docs/design-engine/implicit-geometry-study/README.md) | Three-dimensional implicit cellular geometry study |

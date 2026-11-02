@@ -115,6 +115,8 @@ The [20 m civil shape portfolio](../civil-shape-portfolio/README.md) generates 1
 
 The separate [flanged-girder study](../flanged-span-study/README.md) calculates three 20 m steel-girder and concrete-deck configurations against the same selected vehicle and mass scenarios. Its steel-only beam model, full-moment splice assumption and scoped per-span costs remain unqualified; it does not select a railway or establish whole-system economics.
 
+Its [same-service cost scenarios](../flanged-system-cost-study/README.md) propagate the three configurations through fourteen provisional cost scopes with common rates and two-shift delivery assumptions. Whole-life differences against the canonical reference remain held until coating and bearing renewal scopes match; foundation prices and site capacity remain unresolved.
+
 The [implicit-geometry experiment](../implicit-geometry-study/README.md) preserves a three-dimensional sampled gyroid volume and VTK bytes with separate physical and evaluation identities. Its sampled material mass excludes installation; its continuous surface, manufacture and structural behavior are unqualified.
 
 The completed [bounded wheel campaign](../v06-optimisation/README.md) has its top-level campaign producer bindings pinned in a separate [source-epoch receipt](../retained-wheel-source-epoch/manifest.json). Verify that archive with `python3 -m engineering.design_search.retained_publication verify`. Nested attempt archives remain byte-for-byte preserved; additional per-attempt source coverage and numerical re-execution are not claimed. This check grants no admission under current evaluators or current design selection. Continuing architecture and adaptive studies use their current source contracts.

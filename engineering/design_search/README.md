@@ -133,6 +133,27 @@ verifier resamples it and compares the VTK bytes while recording the replay
 environment separately. It does not independently attest the original runtime
 or qualify the shape for manufacture.
 
+The topology baseline has an additional independent cost replay. Supply its
+identity from a trusted reference, such as the reviewed publication commit:
+
+```bash
+python3 -m engineering.design_search.topology_baseline_integrity --expected-baseline-id 55755de037fa3708aab0ff579caea20585c92e3da740505c395784aed6fe7d29
+```
+
+This recomputes the canonical cost fields and compares them with the pinned
+baseline; recorded and replay tool contexts remain separate. The lower-level
+`validate_baseline` check alone checks internal consistency and does not provide
+this independently anchored replay.
+
+The [flanged-span system scenarios](../../docs/design-engine/flanged-system-cost-study/README.md)
+use the same six-car vehicle, synthetic route and cost-rate assumptions for three
+distinct span geometries. Rails and fasteners are counted once; reinforcement
+and bracing have bounded fabrication and inspection allowances. Productive
+crane hours include the paid time implied by utilization. Whole-life ranking
+against the reference is held because the reference does not yet have matching
+coating and bearing renewal events. Site, structural and equipment evidence
+remain open.
+
 ## Bounded campaigns
 
 Existing campaign definitions remain reproducible under their own contracts:
