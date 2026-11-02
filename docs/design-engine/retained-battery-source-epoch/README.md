@@ -16,8 +16,27 @@ python -m engineering.design_search.retained_source_epoch verify \
 ```
 
 Verification requires the exact original packet trees at the supplied root;
-the source archive does not duplicate those packet payloads. Preserve or
-restore the original trees before regenerating them. The catalog covers these
+the source archive does not duplicate those packet payloads. A full Git checkout
+can reconstruct them into a fresh private directory (about 483 MiB):
+
+```bash
+git fetch --no-tags --depth=1 origin dad8c4bedb2361d3e621e9def312273167279027
+retained_parent=$(mktemp -d)
+python -m engineering.design_search.retained_packet_materialize \
+  --git-repo . --output "$retained_parent/packets" \
+  --archive-directory docs/design-engine/retained-battery-source-epoch/archive \
+  --pins docs/design-engine/retained-battery-source-epoch/pins.json \
+  --expected-commit dad8c4bedb2361d3e621e9def312273167279027 \
+  --expected-archive-id 478479a93642c464cc2be318bbc5b45b9c5c3fec2e9cecb02318d53bd4fb568e
+```
+
+The command authenticates the Git blobs and checks the reconstructed packet
+trees against the retained archive. To independently recheck them later, use
+the verification command above with `--root "$retained_parent/packets/root"`.
+The materializer does not fetch missing Git objects itself. A process memory
+limit is needed for a strict bound on buffered Git tree listings.
+
+The catalog covers these
 15 packets only: other source-bound records, including the conditional journey,
 reference-cell, digital-twin and engineering-closure packages, require their
 own migration. The retained bytes do not rerun numerical solvers, grant current

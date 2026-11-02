@@ -209,6 +209,7 @@ def sources(root,record,index,delivery):
         'docs/design-engine/flanged-system-cost-context.md',
         'docs/design-engine/service-energy-terminal-recharge.md',
         'engineering/design_search/retained_source_epoch.py',
+        'engineering/design_search/retained_packet_materialize.py',
         'docs/design-engine/retained-battery-source-epoch/README.md',
         'docs/design-engine/retained-battery-source-epoch/archive/manifest.json',
         'docs/design-engine/retained-battery-source-epoch/pins.json',
