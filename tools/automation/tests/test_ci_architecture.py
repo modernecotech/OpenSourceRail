@@ -159,9 +159,15 @@ def validate(historical_text, shared_text, current_text, archive):
     assert not re.search(r'^    (if|needs):', historical, re.M)
     # Current v0.6 contracts retain their independent required gate and neutral dependencies.
     current_jobs = job_blocks(current_text)
-    assert {'current-contracts', 'required-engineering'} <= current_jobs.keys()
-    assert 'needs: [current-contracts]' in current_jobs['required-engineering']
+    assert {'current-contracts', 'vehicle-runtime-reproducibility', 'required-engineering'} <= current_jobs.keys()
+    assert 'needs: [current-contracts, vehicle-runtime-reproducibility]' in current_jobs['required-engineering']
     assert "needs.current-contracts.result" in current_jobs['required-engineering']
+    assert "needs.vehicle-runtime-reproducibility.result" in current_jobs['required-engineering']
+    runtime_job = current_jobs['vehicle-runtime-reproducibility']
+    assert re.findall(r'python-version: "([^"]+)"', runtime_job) == ['3.11', '3.12', '3.13']
+    for runtime in ('311', '312', '313'):
+        assert 'steps.python' + runtime + '.outputs.python-path' in runtime_job
+    assert 'test_vehicle_runtime_reproducibility.py' in runtime_job
     assert 'engineering/requirements.txt' in current_text and 'engineering/requirements.txt' in shared
     assert 'engineering/ferrite_maglev/requirements.txt' not in current_text + shared_text
     publication_inputs = (
@@ -291,6 +297,15 @@ class ArchitectureRoutingTests(unittest.TestCase):
             '      - uses: actions/checkout@v4\n        with:\n          ref: ' + self.archive['revision'], 1)
         with self.assertRaises(AssertionError):
             self.check(shared=shared)
+
+    def test_runtime_comparison_cannot_be_removed_from_the_required_gate(self):
+        for before, after in (
+                ('needs: [current-contracts, vehicle-runtime-reproducibility]', 'needs: [current-contracts]'),
+                ("test '${{ needs.vehicle-runtime-reproducibility.result }}' = success", 'true'),
+                ('python-version: "3.11"', 'python-version: "3.13"'),
+                ('steps.python312.outputs.python-path', 'steps.python313.outputs.python-path')):
+            with self.subTest(before=before), self.assertRaises(AssertionError):
+                self.check(current=self.current.replace(before, after))
 
     def test_historical_coverage_cannot_be_removed(self):
         with self.assertRaises(AssertionError):
@@ -459,7 +474,7 @@ class ArchitectureRoutingTests(unittest.TestCase):
 
     def test_required_current_release_gate_cannot_be_removed(self):
         with self.assertRaises(AssertionError):
-            self.check(current=self.current.replace('needs: [current-contracts]', 'needs: []'))
+            self.check(current=self.current.replace('needs: [current-contracts, vehicle-runtime-reproducibility]', 'needs: []'))
 
 
 if __name__ == '__main__':

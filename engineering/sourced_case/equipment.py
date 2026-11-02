@@ -176,7 +176,8 @@ def substitute(vehicle,selections=None,root=ROOT,*,catalogue_override=None,hvac_
             occ.append(make_occurrence(o['occurrence_id']+'/installation-package',extra,o['parent_id'],pose,o['scope']))
     reg=make_registry(old['label']+' primary-catalogue research revision',kept,occ,old['required_functions'],
         parent_candidate_id=old['candidate_id'],assemblies=old['assemblies'],materials=old['materials'])
-    revised=deepcopy(vehicle);revised.pop('evaluation_id');revised.update(candidate_id=reg['candidate_id'],registry=reg,summary=summary(reg),
+    registry_summary=summary(reg)
+    revised=deepcopy(vehicle);revised.pop('evaluation_id');revised.update(candidate_id=reg['candidate_id'],registry=reg,summary=registry_summary,
        per_car_mass_properties=_mass_properties(reg,'car-1'),train_mass_properties=_mass_properties(reg),
        per_car_occurrences=len([o for o in occ if o['occurrence_id'].startswith('car-1/')]),
        per_car_part_definitions=len(kept),mass_complete=False,complete_installed_vehicle_mass_kg=None,
@@ -195,8 +196,8 @@ def substitute(vehicle,selections=None,root=ROOT,*,catalogue_override=None,hvac_
       vehicle=revised,catalogue=cat,selections=selections,replacements=replacements,counts=dict(counts),
       architecture=dict(hvac_units_per_car=hvac_units_per_car,battery_series_modules=2,battery_parallel_strings=battery_parallel_strings,
         battery_original_bay_envelope_fit=battery_parallel_strings==2,battery_new_cradle_required=battery_parallel_strings>2,HVAC600V_supply_and_charger_defined=False),
-      summary=summary(reg),mass_change_bounds_kg=[summary(reg)['mass_lower_bound_kg']-vehicle['summary']['mass_upper_bound_kg'],
-          summary(reg)['mass_upper_bound_kg']-vehicle['summary']['mass_lower_bound_kg']],
+      summary=deepcopy(registry_summary),mass_change_bounds_kg=[registry_summary['mass_lower_bound_kg']-vehicle['summary']['mass_upper_bound_kg'],
+          registry_summary['mass_upper_bound_kg']-vehicle['summary']['mass_lower_bound_kg']],
       dependency_invalidation=affected_dependencies(old,reg),
       pad_accounting=dict(removed_old_pad_occurrences=sum(o['part_definition_id'] in removed_pad_ids for o in old['occurrences']),
         treatment='Included in replacement caliper assembly hypothesis; delivered supplier bill/mass boundary pending'),

@@ -32,8 +32,25 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert summary['current_source_refinement']['mesh_m']==0.2125
     assert summary['current_source_fine_refinement']['execution']=='completed'
     assert summary['current_source_fine_refinement']['mesh_m']==0.10625
+    frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
+    assert summary['frontier_tasks']==len(frontier)
+    continuations=[x for x in frontier if x['kind']=='unresolved-numerical-refinement'
+        and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b']
     ultrafine=summary.get('current_source_ultrafine_refinement')
-    assert ultrafine is not None
+    if ultrafine is None:
+        # An earlier parent's allocator failure cannot become a current-source
+        # attempt. Unexecuted refinement must stay an explicit resource hold.
+        assert json.loads(gzip.decompress((ROOT/publication.OUTPUT/'ultrafine-refinement.json.gz').read_bytes())) is None
+        assert not any(item.get('kind')=='body-current-source-ultrafine-refinement' for item in native_index)
+        assert len(continuations)==1
+        continuation=continuations[0]
+        assert continuation['proposed_next_mesh_m']==0.053125
+        assert continuation['state']=='explicit-resource-revision-required'
+        assert continuation['next_mesh_exceeds_previous_cell_budget'] is True
+        assert continuation['physical_failure_inferred'] is False
+        assert 'failed_evaluation_id' not in continuation
+        assert continuation['numerical_run_id']==summary['current_source_fine_refinement']['evaluation_id']
+        return
     assert ultrafine['mesh_m']==0.053125
     assert ultrafine['memory_mb']==10_240
     assert ultrafine['timeout_s']==600
@@ -49,11 +66,6 @@ def test_coordinated_publication_retains_execution_and_unknowns():
         text=publication.readme(summary)
         assert 'Return code 255' in text
         assert f"peak RSS {ultrafine['max_rss_kib']} KiB" in text
-    assert summary['frontier_tasks']==len(json.loads(gzip.decompress(
-        (ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes())))
-    frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
-    continuations=[x for x in frontier if x['kind']=='unresolved-numerical-refinement'
-        and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b']
     if ultrafine['execution']=='solver_allocation_failed':
         assert len(continuations)==1
         continuation=continuations[0]

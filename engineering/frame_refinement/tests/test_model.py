@@ -7,10 +7,10 @@ from engineering.sourced_case import layered_structure as layer
 from engineering.sourced_case import whole_contact as whole
 from engineering.component_registry import validate_registry
 ROOT=Path(__file__).resolve().parents[3]
-from engineering.sourced_case.tests.portable_fixtures import published
+from engineering.sourced_case.tests.portable_fixtures import current
 
 @pytest.fixture(scope='module')
-def parent():return published('bolstered-v4')
+def parent():return current('bolstered-v4')
 @pytest.fixture(scope='module')
 def revised(parent):return f.revision(parent,root=ROOT)
 

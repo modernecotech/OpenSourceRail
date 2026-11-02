@@ -27,6 +27,38 @@ def baseline(name='V1'):
     return json.loads(_baseline_bytes(name))
 
 
+@lru_cache(maxsize=3)
+def _current_bytes(kind):
+    """Generate current source-bound inputs; never rebind archived evaluations."""
+    if kind not in EXPECTED:raise ValueError('Unknown current fixture kind: '+str(kind))
+    if kind=='bolstered-v4':
+        from engineering.sourced_redesign import bolster
+        vehicle=bolster.revision(current('equipped-v4'),root=ROOT)
+    else:
+        from engineering.sourced_case import coordinator
+        vehicle=coordinator.revised({'equipped-v1':'V1','equipped-v4':'V4'}[kind],root=ROOT)['vehicle']
+    from engineering.sourced_case import FLAGS
+    from engineering.station_rail.common import digest
+    if vehicle['candidate_id']!=EXPECTED[kind] or vehicle['registry']['candidate_id']!=EXPECTED[kind]:
+        raise ValueError('Current fixture changed the expected physical candidate')
+    if vehicle['evaluation_id']!=identity({k:v for k,v in vehicle.items() if k!='evaluation_id'}):
+        raise ValueError('Current fixture evaluation identity differs')
+    if any(vehicle.get(k) is not False or vehicle['registry'].get(k) is not False for k in FLAGS if k!='selected_reference_changed') or vehicle.get('selected_reference_changed') is not False:
+        raise ValueError('Current fixture cannot inherit acceptance or release')
+    if (vehicle.get('mass_complete') is not False or vehicle.get('complete_installed_vehicle_mass_kg') is not None or
+        vehicle.get('physical_journey_completed') is not False or vehicle['registry'].get('physical_journey_completed') is not False or
+        vehicle['registry'].get('complete_installed_design') is not False):
+        raise ValueError('Current fixture cannot claim installed mass or physical completion')
+    if not vehicle.get('source_sha256') or any(digest(ROOT/name)!=sha for name,sha in vehicle['source_sha256'].items()):
+        raise ValueError('Current fixture source binding differs')
+    return encoded(vehicle)
+
+
+def current(kind):
+    """Return an independent copy of an actually regenerated current candidate."""
+    return json.loads(_current_bytes(kind))
+
+
 def _name(name):
     path=PurePosixPath(name)
     if path.is_absolute() or '..' in path.parts or '\\' in name or path.as_posix()!=name:raise ValueError('Unsafe fixture archive member')

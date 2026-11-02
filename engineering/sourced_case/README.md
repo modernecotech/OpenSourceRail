@@ -21,9 +21,17 @@ addition to the shared numerical dependencies.
 ./osr design sourced publish-geometry --state build/sourced-cell
 ./osr design sourced verify-publication
 ./osr design sourced verify-geometry
-./osr design sourced verify-methods
 ./osr design sourced dashboard --state build/sourced-cell
 ./osr design sourced serve --state build/sourced-cell --port 8772
+```
+
+Recorded structural experiments keep their original producer epoch. Verify them
+separately from current scenario generation; this does not admit them as current
+candidate evidence or rerun their rejected native models:
+
+```sh
+git fetch --no-tags --depth=1 origin b37988a750690d85939e5cbe7b2223b96c02980e
+tools/automation/osr-python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope sourced-methods --output build/retained-sourced-methods
 ```
 
 For the complete published run, optionally supply its matching saved report with

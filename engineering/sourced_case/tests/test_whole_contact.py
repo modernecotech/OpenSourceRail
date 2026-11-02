@@ -3,7 +3,7 @@ import json,numpy as np,pytest
 from engineering.sourced_case import whole_contact as w
 from engineering.sourced_case import whole_refinement as previous
 ROOT=Path(__file__).resolve().parents[3]
-from engineering.sourced_case.tests.portable_fixtures import published
+from engineering.sourced_case.tests.portable_fixtures import current
 
 
 def test_independent_continuous_three_piece_I_section():
@@ -32,7 +32,7 @@ def test_contact_partition_area_and_mesh_refinement():
 
 
 def test_same_physical_candidate_new_evaluation_and_real_dimensions():
-    vehicle=published('equipped-v1')
+    vehicle=current('equipped-v1')
     req=w.request(vehicle,mesh_m=1.2,root=ROOT);old=previous.request(vehicle,mesh_m=1.2,root=ROOT)
     assert req['candidate_id']==old['candidate_id'] and req['request_id']!=old['request_id']
     model,rows,panels=w.build(vehicle,1.5)

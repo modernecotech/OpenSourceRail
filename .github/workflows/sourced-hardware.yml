@@ -2,16 +2,15 @@ name: v0.6 published-specification design research
 on:
   push:
     branches: [main]
-    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
+    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/replay-retained-frame.py", "tools/automation/tests/test_replay_retained_frame.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
   pull_request:
-    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
+    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/replay-retained-frame.py", "tools/automation/tests/test_replay_retained_frame.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
   workflow_dispatch:
 permissions:
   contents: read
 env:
   OPENBLAS_NUM_THREADS: "1"
   OMP_NUM_THREADS: "1"
-  SOURCED_PUBLISHED_EPOCH: "659368cbcd3fb0a7f62d62de655f3a8e78552b7f"
 jobs:
   source-contracts:
     timeout-minutes: 60
@@ -32,28 +31,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
-      # These immutable packages bind to this exact source tree. Current source contracts run separately.
-      - run: git fetch --no-tags --depth=1 origin "$SOURCED_PUBLISHED_EPOCH"
-      - name: Materialize the published package's exact source epoch
-        run: git worktree add --detach "$RUNNER_TEMP/osr-sourced-published-epoch" "$SOURCED_PUBLISHED_EPOCH"
-      - name: Replay the checked-in publication against that source epoch
-        env:
-          PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
-        run: |
-          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
-          mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
-          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
       - name: Reassemble the original authenticated payload
-        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Rebuild all five registries and actually replay every coupled case
-        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit "$GITHUB_WORKSPACE/build/sourced-replay-audit"
       - uses: actions/upload-artifact@v4
@@ -77,37 +63,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
-      # These immutable packages bind to this exact source tree. Current source contracts run separately.
-      - run: git fetch --no-tags --depth=1 origin "$SOURCED_PUBLISHED_EPOCH"
-      - name: Materialize the published package's exact source epoch
-        run: git worktree add --detach "$RUNNER_TEMP/osr-sourced-published-epoch" "$SOURCED_PUBLISHED_EPOCH"
-      - name: Replay the checked-in publication against that source epoch
-        env:
-          PUBLISHED_EPOCH_ROOT: ${{ runner.temp }}/osr-sourced-published-epoch
-        run: |
-          rm -rf "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
-          mkdir -p "$PUBLISHED_EPOCH_ROOT/docs/design-engine"
-          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-case" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-case"
-          cp -a "$GITHUB_WORKSPACE/docs/design-engine/sourced-bolster" "$PUBLISHED_EPOCH_ROOT/docs/design-engine/sourced-bolster"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
-      - name: Verify corrected and rejected structural experiments
-        run: ./osr design sourced verify-methods
-      - name: Verify the separate physical bolster experiment
-        run: ./osr design sourced verify-methods --output docs/design-engine/sourced-bolster
-      - name: Replay all downstream stages and IFC of the new bolster body
-        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
-        run: >-
-          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
+      - name: Fetch the authenticated producer epoch for retained methods
+        run: |
+          git fetch --no-tags --depth=1 origin b37988a750690d85939e5cbe7b2223b96c02980e
+          git cat-file -e b37988a750690d85939e5cbe7b2223b96c02980e^{commit}
+      - name: Verify retained replay boundaries
+        run: .venv/bin/python -m pytest -q --import-mode=importlib tools/automation/tests/test_replay_retained_frame.py
+      - name: Verify corrected and rejected experiments under their recorded source epoch
+        run: .venv/bin/python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope sourced-methods --output build/retained-sourced-methods
+      - name: Verify the separate bolster method under its recorded source epoch
+        run: .venv/bin/python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope bolster-methods --output build/retained-bolster-methods
+      - name: Replay the recorded bolster cell without current evaluator admission
+        run: .venv/bin/python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope bolster-cell --output build/retained-bolster-cell
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retained-sourced-method-provenance
+          path: |
+            build/retained-*/preflight.json
+            build/retained-*/report.json
+            build/retained-*/stdout.log
+            build/retained-*/stderr.log
+            build/retained-*/failure.log
+          retention-days: 14
       - name: Reassemble the original authenticated sourced-cell payload
-        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Reopen all five full-train occurrence inventories
-        working-directory: ${{ runner.temp }}/osr-sourced-published-epoch
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" -m engineering.sourced_case.cli verify-geometry
   bounded-generation:

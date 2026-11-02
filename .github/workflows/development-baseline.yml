@@ -189,6 +189,7 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py engineering/design_search/tests/test_generative_publication.py tests/test_grammar_structure.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_breadth_first_portfolio.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py
+      - run: .venv/bin/python -m engineering.station_rail.closure_retention verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_architecture_reach_closure.py
       - name: Stepped civil mechanics and portable publication compression
         run: |
@@ -228,13 +229,38 @@ jobs:
           path: build/civil-shape-portfolio/optimizer-audits/
           retention-days: 14
 
+  vehicle-runtime-reproducibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        id: python311
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-python@v5
+        id: python312
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-python@v5
+        id: python313
+        with:
+          python-version: "3.13"
+      - run: python -m pip install pytest
+      - name: Compare complete vehicle and selector payloads on all three runtimes
+        env:
+          OSR_VEHICLE_REPRO_PYTHONS: ${{ steps.python311.outputs.python-path }}:${{ steps.python312.outputs.python-path }}:${{ steps.python313.outputs.python-path }}
+        run: python -m pytest -q --import-mode=importlib engineering/station_rail/tests/test_vehicle_runtime_reproducibility.py
+
   required-engineering:
     if: always()
-    needs: [current-contracts]
+    needs: [current-contracts, vehicle-runtime-reproducibility]
     runs-on: ubuntu-24.04
     steps:
       - name: Require source, engineering and browser contracts
-        run: test '${{ needs.current-contracts.result }}' = success
+        run: |
+          test '${{ needs.current-contracts.result }}' = success
+          test '${{ needs.vehicle-runtime-reproducibility.result }}' = success
 
   coupled-native-methods:
     if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'

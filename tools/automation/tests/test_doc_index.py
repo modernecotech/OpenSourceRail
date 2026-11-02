@@ -14,6 +14,26 @@ SCRIPT = ROOT / 'tools/automation/generate-doc-index.py'
 
 
 class DocumentIndexTests(unittest.TestCase):
+    def test_dependency_markdown_is_excluded_while_project_drafts_are_discoverable(self):
+        with tempfile.TemporaryDirectory(prefix='osr-doc-index-') as directory:
+            root=Path(directory)
+            subprocess.run(['git','init','-q'],cwd=root,check=True)
+            dependency=root/'.venv-search/lib/python3.12/site-packages/package/LICENSE.md'
+            dependency.parent.mkdir(parents=True)
+            dependency.write_text('# Third-party dependency license\n')
+            draft=root/'docs/draft.md';draft.parent.mkdir();draft.write_text('# Project draft\n')
+            spec=importlib.util.spec_from_file_location('osr_doc_index_environment',SCRIPT)
+            indexer=importlib.util.module_from_spec(spec);spec.loader.exec_module(indexer)
+            indexer.REPO_ROOT=root
+            result=indexer.generate()
+            self.assertIn('Project draft',result)
+            self.assertNotIn('Third-party dependency',result)
+            self.assertNotIn('.venv-search',result)
+            # Exercise Git's ignored-file boundary as well as the shared policy.
+            (root/'.gitignore').write_text((ROOT/'.gitignore').read_text())
+            self.assertEqual(subprocess.run(['git','check-ignore','-q',str(dependency.relative_to(root))],cwd=root).returncode,0)
+            self.assertIn('Project draft',indexer.generate())
+
     def test_sparse_checkout_indexes_tracked_source_title(self):
         with tempfile.TemporaryDirectory(prefix='osr-doc-index-') as directory:
             root = Path(directory)

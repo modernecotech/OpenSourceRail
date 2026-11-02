@@ -49,6 +49,12 @@ graph grants manufacturing or operating release.
 [project introduction](../../../README.md)
 
 ```sh
-./osr design sourced verify-methods --output docs/design-engine/sourced-bolster
-tools/automation/osr-python tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
+git fetch --no-tags --depth=1 origin b37988a750690d85939e5cbe7b2223b96c02980e
+tools/automation/osr-python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope bolster-methods --output build/retained-bolster-methods
+tools/automation/osr-python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --scope bolster-cell --output build/retained-bolster-cell
 ```
+
+These checks execute the unchanged verifiers in their authenticated producer
+epoch, preserving the original packets. Current revision tests use freshly
+generated parents. Retained replay grants no current evaluator admission,
+physical equivalence or manufacturing/operating release.

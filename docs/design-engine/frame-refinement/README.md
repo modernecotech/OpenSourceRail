@@ -56,8 +56,12 @@ native inputs, source snapshot and results; a new equipment/power wrapper with
 old evidence retained as ancestry; fresh nine-context force-driven journeys;
 braking and civil load transfer; manufacturing and disabled business drafts;
 scoped price records; and an actually exported/reopened **40,488-occurrence IFC**.
-Its publication repeats the journeys and IFC verification using current tracked
-code. Historical installation/clearance/thermal outcomes are invalidated.
+Its nine journeys and IFC export are replayed under the exact producer epoch
+`b37988a750690d85939e5cbe7b2223b96c02980e`. The replay tool verifies the recorded
+source bindings and recovers additional imports from that same Git tree, recording
+their provenance separately. Current software contracts are tested independently;
+this retained replay grants no current evaluator admission or physical equivalence.
+Earlier installation/clearance/thermal outcomes remain invalidated.
 
 Six scenarios arrive conditionally. The uphill stall, power-interruption stall and
 intentional emergency stop remain separate outcomes. A nominal arrival driven by
@@ -94,7 +98,8 @@ engineering criteria are omitted from its comparison.
 ```sh
 export OPENBLAS_CORETYPE=NEHALEM OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
 export NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512CD,AVX512_KNL,AVX512_KNM,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX512_SPR
-tools/automation/osr-python tools/automation/frame-cell.py verify-publication docs/design-engine/frame-refinement/packet
+git fetch --no-tags --depth=1 origin b37988a750690d85939e5cbe7b2223b96c02980e
+tools/automation/osr-python tools/automation/replay-retained-frame.py docs/design-engine/frame-refinement/packet --git-root . --output build/retained-frame-replay
 ```
 
 [Source and reproduction](../../../engineering/frame_refinement/README.md) ·

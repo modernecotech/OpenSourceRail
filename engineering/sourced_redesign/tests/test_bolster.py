@@ -7,11 +7,11 @@ from engineering.sourced_redesign import bolster as b
 from engineering.sourced_case import layered_structure as layer
 from engineering.sourced_case import whole_contact as whole
 ROOT=Path(__file__).resolve().parents[3]
-from engineering.sourced_case.tests.portable_fixtures import published
+from engineering.sourced_case.tests.portable_fixtures import current
 
 @pytest.fixture(scope='module')
 def parent():
-    return published('equipped-v4')
+    return current('equipped-v4')
 
 
 @pytest.fixture(scope='module')

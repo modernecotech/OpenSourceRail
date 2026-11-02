@@ -11,6 +11,7 @@ SKIP_PARTS = {
     ".pytest_cache",
     ".ruff_cache",
     ".venv",
+    ".venv-search",
     "node_modules",
     "target",
 }

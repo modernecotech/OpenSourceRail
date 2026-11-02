@@ -45,13 +45,13 @@ def _drafts(vehicle,alternative,candidate_id,parts,counts,routes):
     if len(parts)!=len(routes) or {x['part_definition_id'] for x in routes}!=set(parts):
         raise ValueError('Every physical definition needs exactly one routing')
     if len({x['part_definition_id'] for x in routes})!=len(routes):raise ValueError('Duplicate manufacturing routing')
-    records={};onboard_counts=Counter();wayside_counts=Counter();source_to_code={};items=[];operations=[];routings=[];rfqs=[];workstations={}
+    records={};onboard_counts=Counter();wayside_counts=Counter();used_codes=set();items=[];operations=[];routings=[];rfqs=[];workstations={}
     def seal(v):v['draft_id']=identity(v);return v
     def item(source_key,physical_id,revision_id,label,quantity,scope,purchased=False):
         if source_key in records or type(quantity) is not int or quantity<=0:raise ValueError('Unique positive individual item counts required')
         code='OSR-'+candidate_id[:12]+'-'+identity(source_key)[:12]+'-'+revision_id[:12]
-        if code in source_to_code.values():raise ValueError('Draft item-code collision')
-        source_to_code[source_key]=code
+        if code in used_codes:raise ValueError('Draft item-code collision')
+        used_codes.add(code)
         r=seal(dict(doctype='Item',item_code=code,item_name=label,stock_uom='Nos',disabled=1,docstatus=0,
             is_stock_item=1,is_purchase_item=1 if purchased else 0,is_sales_item=0,
             candidate_id=candidate_id,part_definition_id=physical_id,part_revision_id=revision_id,
@@ -74,6 +74,7 @@ def _drafts(vehicle,alternative,candidate_id,parts,counts,routes):
         (onboard_counts if p['installation']=='onboard' else wayside_counts)[key]=p['count']
     route_by={r['part_definition_id']:r for r in routes}
     operation_defs={}
+    quantities=onboard_counts|wayside_counts
     for source_key,record in records.items():
         parent=source_key.split('/',1)[1];route=route_by.get(parent) if source_key.startswith('vehicle/') else None
         route_steps=route['operations'] if route else [dict(sequence=1,name='qualify-launch-component-and-source',workstation=None,work_instruction_id=None),dict(sequence=2,name='install-inspect-test-launch-component',workstation=None,work_instruction_id=None)]
@@ -99,7 +100,7 @@ def _drafts(vehicle,alternative,candidate_id,parts,counts,routes):
             candidate_id=candidate_id,item_code=record['item_code'],part_definition_id=record['part_definition_id'],part_revision_id=record['part_revision_id'],
             operations=steps,disabled=1,docstatus=0,approved=False,submission_allowed=False,import_validation_required=True))
         routings.append(routing)
-        quantity=(onboard_counts|wayside_counts)[source_key]
+        quantity=quantities[source_key]
         rfqs.append(seal(dict(doctype='Request for Quotation',name='OSR-RFQ-'+identity([candidate_id,source_key])[:24],candidate_id=candidate_id,
             source_part_definition_id=record['part_definition_id'],source_part_revision_id=record['part_revision_id'],
             docstatus=0,status='Draft',workflow_state='Engineering review required',disabled=1,company=None,

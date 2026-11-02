@@ -28,7 +28,7 @@ The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit
 
 The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.
 
-The [native physical follow-up](../v06-physical-closure/README.md) adds 18 current-excited LIM cases, 24 reduced Chrono brake runs and native body-interface/fit-up experiments. The tested full primary fails force and steel-field screens. Its raw field calculations remain conditional; the default geometry and acceptance holds are unchanged.
+The [recorded native follow-up](../v06-physical-closure/README.md) contains 18 current-excited LIM cases, 24 reduced Chrono brake runs and body-interface/fit-up experiments under its original producer epoch. All seven original archives and 26 declared producer bindings are protected by a separate [source-epoch receipt](../retained-physical-followup-source-epoch/manifest.json); verify it with `python3 -m engineering.station_rail.closure_retention verify`. Current reference IDs match, but this byte/identity check performs no numerical re-execution, proves no physical equivalence and grants no current evaluator admission. The recorded full primary fails its declared force and steel-field screens; current physical acceptance remains open.
 
 [Prototype/fault test plan](prototype-test-plan.json) · [Full evaluation](evaluation.json.gz) · [Motor method evidence](native-drive.tar.gz) · [Speed requirement](service-profile.svg) · [Equal-service comparison](comparison.json)
 
@@ -55,7 +55,7 @@ The selected six-car vehicle now has its own source-bound Class C estimate for l
 | Research scope | Sourcing evidence | Cost disposition |
 |---|---|---|
 | Selected v0.6 vehicle `756a68870162` | Located geometry plus explicitly priced residual accounts; six cars; two 8 h production shifts; 50 km reference delivery | Candidate-bound Class C vehicle estimate; no route, civil or whole-life total |
-| Selected-candidate synthetic system scenario `7027bb08b291` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated; 3 residual-mass cases × 3 cost cases | Installed CAPEX IQD 59,164,649,181/286,491,494,179/1,721,958,107,280 low/base/high; whole-life NPV IQD 123,136,891,448/672,057,718,966/5,806,451,824,636; Class C only |
+| Selected-candidate synthetic system scenario `a6baf305711b` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated; 3 residual-mass cases × 3 cost cases | Installed CAPEX IQD 59,164,649,181/286,491,494,179/1,721,958,107,280 low/base/high; whole-life NPV IQD 123,136,891,448/672,057,718,966/5,806,451,824,636; Class C only |
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 physical scopes across 7,042 review requirements; 137 evaluated, 6,905 pending | 0 compatible priced matches; nine RFQ drafts remain unsent |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |

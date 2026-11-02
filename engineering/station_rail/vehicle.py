@@ -211,10 +211,10 @@ def _ideal_body_coupling_screen(mass_kg):
 def build(root=ROOT):
     root=Path(root);config=brief(root);parent,parent_sha=_read_parent(root)
     retained=[deepcopy(r) for r in parent['inventory'] if r['system'] not in ('magnetics','propulsion','protection','hardpoints') and 'replacement-frame/extrusion/frame/lower-stringer' not in r['id']]
-    retained_mass=sum(r['mass_kg'] for r in retained)
+    retained_mass=math.fsum(r['mass_kg'] for r in retained)
     parts=_retained_geometry(parent,config['vehicle']['floor_top_above_rail_m'])
     bogie=running_gear(config);frame=underframe(config);fin=secondary(config)
-    bogie_material=sum(p['mass_kg'] for p in bogie)
+    bogie_material=math.fsum(p['mass_kg'] for p in bogie)
     bogie_account=config['support']['reference_bogie_pair_mass_kg']
     if bogie_material>bogie_account:raise ValueError('Bogie stock exceeds retained reference account; resize or increase the reference explicitly')
     # Missing physical equipment definition is a failure, never a fallback to
@@ -223,10 +223,10 @@ def build(root=ROOT):
     battery=battery_definition(root)
     battery_mass=battery['mass_kg'];battery_basis=battery
     coating_mass=17*2.65*.0008*1326.56
-    inventory=[dict(id='retained-comfort/'+system,evidence_class='mixed-counted-stock-and-retained-account',mass_kg=sum(r['mass_kg'] for r in retained if r['system']==system),
+    inventory=[dict(id='retained-comfort/'+system,evidence_class='mixed-counted-stock-and-retained-account',mass_kg=math.fsum(r['mass_kg'] for r in retained if r['system']==system),
         system=system,basis='Source-bound comfort stock excluding every magnetic, old propulsion, old hardpoint and old capture occurrence; body and service residuals are still unresolved') for system in sorted({r['system'] for r in retained})]
     for label,stock in (('wheel-underframe',frame),('passive-secondary',fin)):
-        inventory.append(dict(id=label,system=label,evidence_class='located-proposed-material',mass_kg=sum(p['mass_kg'] for p in stock),parts=len(stock)))
+        inventory.append(dict(id=label,system=label,evidence_class='located-proposed-material',mass_kg=math.fsum(p['mass_kg'] for p in stock),parts=len(stock)))
     inventory += [dict(id='passive-bogie-pair',system='bogies',evidence_class='reference-account-with-partial-proposed-material',mass_kg=bogie_account,
         located_stock_kg=bogie_material,unlocated_remainder_kg=bogie_account-bogie_material,basis='v0.4 two-bogie category includes wheels, frames, suspension and brakes; no traction motor or gear credited'),
         dict(id='service-battery',system='services',evidence_class='supplier-cell-and-installed-pack-account',mass_kg=battery_mass,basis=battery_basis),
@@ -236,7 +236,7 @@ def build(root=ROOT):
     # Do not mutate nested shared rows after deriving the candidate identity.
     for row in inventory:
         row['part_id']=row['id'];row['subsystem']=row['system']
-    mass=sum(r['mass_kg'] for r in inventory)
+    mass=math.fsum(r['mass_kg'] for r in inventory)
     definition=dict(schema='osr-station-rail-physical/1',revision=config['revision'],vehicle=config['vehicle'],support=config['support'],propulsion=config['propulsion'],
         source_body_candidate_id=parent['body_candidate_id'],body_retained_mass_kg=retained_mass,
         roof=dict(core='Divinycell-HP60-proposed',core_density_kg_m3=60.,core_continuous_temperature_reference_C=80.,white_finish_kg=coating_mass,
@@ -251,8 +251,8 @@ def build(root=ROOT):
     min_x=min(abs(c)-config['support']['bogie_wheelbase_m']/2 for c in config['support']['bogie_centres_x_m'])
     sources=source_map(root,(PRODUCER,'engineering/station_rail/electrical.py'));sources[PARENT]=parent_sha;sources[PARENT_MANIFEST]=PARENT_MANIFEST_SHA
     allparts=parts+bogie+frame+fin
-    located_mass=sum(p['mass_kg'] for p in allparts)
-    cg=[sum(p['mass_kg']*p['cg_m'][i] for p in allparts)/located_mass for i in range(3)]
+    located_mass=math.fsum(p['mass_kg'] for p in allparts)
+    cg=[math.fsum(p['mass_kg']*p['cg_m'][i] for p in allparts)/located_mass for i in range(3)]
     connectivity=cassette_connectivity(allparts)
     if connectivity['engineering_screen']!='pass':raise ValueError('Passive secondary material has no counted connection to frame')
     value=dict(schema='osr-station-rail-vehicle/1',candidate_id=candidate,body_candidate_id=body_id,support_component_id=support_id,propulsion_component_id=propulsion_id,
@@ -263,8 +263,8 @@ def build(root=ROOT):
             located_material_kg=located_mass,located_material_CG_m=cg,unlocated_or_reference_account_kg=mass-located_mass,
             old_maglev_accounted_tare_kg_per_car=parent['mass']['accounted_tare_kg_per_car'],
             v04_traction_removed_arithmetic_kg_per_car=23680.,mass_change_from_v04_arithmetic_kg_per_car=mass-23680.),
-        propulsion=dict(secondary_aluminium_mass_kg=sum(p['mass_kg'] for p in fin),active_fin_aluminium_mass_kg=fin[0]['mass_kg'],
-            accounted_mass_kg=sum(p['mass_kg'] for p in fin),installed_accounted_mass_kg=sum(p['mass_kg'] for p in fin),station_primary_geometry_qualified=False),
+        propulsion=dict(secondary_aluminium_mass_kg=math.fsum(p['mass_kg'] for p in fin),active_fin_aluminium_mass_kg=fin[0]['mass_kg'],
+            accounted_mass_kg=math.fsum(p['mass_kg'] for p in fin),installed_accounted_mass_kg=math.fsum(p['mass_kg'] for p in fin),station_primary_geometry_qualified=False),
         secondary_connectivity=connectivity,
         support_counts=dict(bogies_per_car=2,axles_per_car=4,wheels_per_car=8,bogies_per_train=12,axles_per_train=24,wheels_per_train=48),
         axle_loads=dict(empty_kg_per_axle=mass/4,normal_kg_per_axle=(mass+3450)/4,crowd_control_kg_per_axle=(mass+12000)/4,
