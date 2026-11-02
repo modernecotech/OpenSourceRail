@@ -188,6 +188,42 @@ def test_old_source_case_cannot_be_reused_even_at_explicit_state():
         campaign._validate_cached_row(row,context,bundle,epoch)
 
 
+def test_state_marker_rejects_foreign_contract_before_native_work(tmp_path,monkeypatch):
+    spec={'schema':'fixture','maximum_native_jobs':12};epoch={'producer':'a'*64}
+    monkeypatch.setattr(campaign,'specification',lambda root:spec)
+    monkeypatch.setattr(campaign,'source_epoch',lambda root:epoch)
+    monkeypatch.setattr(campaign,'generate_bodies',lambda:pytest.fail('must reject before body/native work'))
+    (tmp_path/'journal.json').write_bytes(encoded({'contract_id':'foreign'}))
+    with pytest.raises(ValueError,match='journal contract'):
+        campaign.run(root=tmp_path,state=tmp_path,native_jobs=0)
+    assert not (tmp_path/'source-contract.json').exists()
+
+
+def test_state_marker_preserves_same_source_interrupted_stages(tmp_path):
+    epoch={'producer':'a'*64};contract='b'*64
+    campaign._bind_state_source(tmp_path,contract,epoch)
+    pending=tmp_path/'stages/pending';pending.parent.mkdir();pending.write_bytes(b'partial')
+    campaign._bind_state_source(tmp_path,contract,epoch)
+    assert pending.read_bytes()==b'partial'
+    with pytest.raises(ValueError,match='source contract'):
+        campaign._bind_state_source(tmp_path,'c'*64,epoch)
+    assert pending.read_bytes()==b'partial'
+
+
+def test_unbound_existing_cache_is_preserved_and_rejected(tmp_path):
+    cache=tmp_path/'native/jobs/existing';cache.parent.mkdir(parents=True);cache.write_bytes(b'old evidence')
+    with pytest.raises(ValueError,match='unbound existing cache'):
+        campaign._bind_state_source(tmp_path,'b'*64,{'producer':'a'*64})
+    assert cache.read_bytes()==b'old evidence'
+    assert not (tmp_path/'source-contract.json').exists()
+
+
+def test_symlink_state_marker_is_rejected(tmp_path):
+    external=tmp_path/'external';external.write_text('{}');(tmp_path/'source-contract.json').symlink_to(external)
+    with pytest.raises(ValueError,match='ordinary file'):
+        campaign._bind_state_source(tmp_path,'b'*64,{'producer':'a'*64})
+
+
 def test_unsupported_stream_values_fall_back_for_writes(tmp_path):
     value={'nested':{1:'one',2:'two'},'integrated_selection':None}
     value['campaign_id']=legacy_semantic(value);value['run_id']=identity(value)

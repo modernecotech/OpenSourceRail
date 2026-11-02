@@ -199,6 +199,29 @@ def _validate_cached_row(row,case_context,bundle,epoch):
         raise ValueError('Coupled cached case source epoch differs')
 
 
+def _bind_state_source(folder,contract,epoch):
+    """Reject foreign or unbound state before examining native/case caches."""
+    folder=Path(folder);marker=folder/'source-contract.json';journal=folder/'journal.json'
+    expected=dict(schema='osr-coupled-state-source/1',contract_id=contract,source_sha256=epoch)
+    for path in (marker,journal):
+        if path.is_symlink() or (path.exists() and not path.is_file()):
+            raise ValueError('Coupled state contract metadata is not an ordinary file')
+    if marker.is_file():
+        if json.loads(marker.read_bytes())!=expected:raise ValueError('Coupled state source contract differs')
+    elif journal.is_file():
+        if json.loads(journal.read_bytes()).get('contract_id')!=contract:
+            raise ValueError('Coupled state journal contract differs')
+        _write(marker,expected)
+    else:
+        for name in ('cases','stages','native'):
+            p=folder/name
+            if p.is_symlink() or (p.exists() and (not p.is_dir() or any(p.iterdir()))):
+                raise ValueError('Coupled state has unbound existing cache')
+        _write(marker,expected)
+    if journal.is_file() and json.loads(journal.read_bytes()).get('contract_id')!=contract:
+        raise ValueError('Coupled state journal contract differs')
+
+
 def generate_bodies():
     """Use the existing grammar and adaptive planner in the same execution."""
     from . import system_body,grammar_shell,railway_native
@@ -295,7 +318,8 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
     if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):raise ValueError('Nonnegative resumable bundle budget required')
     contract=identity(dict(specification=spec,source_sha256=epoch));folder=root/'build/coupled-railway'/contract if state is None else Path(state);folder.mkdir(parents=True,exist_ok=True)
     with (folder/'lock').open('a+') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch)
+        started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
         native=_native_campaign(bodies,folder,native_jobs,root=root)
         for body in bodies:
             for family in spec['families']:
