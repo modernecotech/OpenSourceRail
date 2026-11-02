@@ -56,6 +56,7 @@ on:
       - "docs/design-engine/matched-renewal-research/**"
       - "docs/design-engine/installed-mass-support/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
+      - "docs/design-engine/retained-battery-source-epoch/**"
       - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
@@ -140,6 +141,7 @@ on:
       - "docs/design-engine/matched-renewal-research/**"
       - "docs/design-engine/installed-mass-support/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
+      - "docs/design-engine/retained-battery-source-epoch/**"
       - "docs/design-engine/implicit-geometry-study/**"
       - "docs/design-engine/architecture-reach-closure/**"
       - "campaigns/end-to-end-railway-closure.toml"
@@ -239,6 +241,8 @@ jobs:
           .venv/bin/python -m engineering.design_search.matched_renewal_publication verify --expected-manifest-id 5e7e1eb3868d8d459132c9f2928bd5ea834ba88ef61736e43c4a357787072e69 --expected-parent-manifest-id 8304503b6b409692552846c046d44dfe659c8c9bc8527f1d5289e954b8d70a79 --expected-topology-manifest-id 294de81f3b1cca8215a95704287cfedf74ddfac596232027dee3c030163fdc43 --expected-flanged-manifest-id c6c10afa4889de76b64a806d3b0d6fc9f13ae4d4d40981284a7161c94618605a --expected-request-id 91080f862a1d0e55e906910f9c1e90a14deee5a716c73398c8bdb180dafedc3c --expected-evaluation-id b7a87fa3de087822de6147b805a65b6d69eb4e6d00f1810000452e99c59ed05c
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_installed_mass_cg.py engineering/design_search/tests/test_installed_mass_cg_publication.py
           .venv/bin/python -m engineering.design_search.installed_mass_cg_publication verify --expected-manifest-id 53f880cc6cd0a422aa5992b302899b70841b795671c133e4ebe9880e84541ebc
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py
+          .venv/bin/python -m engineering.design_search.retained_source_epoch verify --root . --archive-directory docs/design-engine/retained-battery-source-epoch/archive --pins docs/design-engine/retained-battery-source-epoch/pins.json --expected-archive-id 478479a93642c464cc2be318bbc5b45b9c5c3fec2e9cecb02318d53bd4fb568e
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
       - run: ./osr design railway verify
       - name: Candidate, moving-conductor and end-to-end closure contracts

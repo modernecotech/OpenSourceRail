@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **110**.
+Indexed Markdown files: **111**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **110**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 85 |
+| [docs](#docs) | 86 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -118,6 +118,7 @@ Indexed Markdown files: **110**.
 | [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
 | [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
+| [`docs/design-engine/retained-battery-source-epoch/README.md`](../docs/design-engine/retained-battery-source-epoch/README.md) | Retained source epoch for service-energy migration |
 | [`docs/design-engine/service-energy-terminal-recharge.md`](../docs/design-engine/service-energy-terminal-recharge.md) | Service-battery terminal recharge: known calculation issue |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |

@@ -22,3 +22,7 @@ source-bound research publications. Those packets must be regenerated or
 explicitly retained under their original source epochs before integration.
 Battery temperature, state-of-charge acceptance and supplier qualification
 remain unverified.
+
+A [retained source-epoch archive](retained-battery-source-epoch/README.md)
+preserves source bytes for 15 of the affected publications. It requires their
+original packet trees and does not complete the remaining migration.
