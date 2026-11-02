@@ -121,6 +121,8 @@ The separate [matched-renewal research](../matched-renewal-research/README.md) i
 
 The [conditional mass and support sensitivity](../installed-mass-support/README.md) replaces named residual accounts once and varies their assumed longitudinal positions across the car. It computes correlated two-bogie reactions, not axle loads or verified installed mass; component positions and potential account overlap remain open.
 
+The [conditional repeated-duty thermal study](../periodic-thermal-research/README.md) reconstructs the selected P1 synthetic 500 m command-window loss trace and compares two 120-second cooling assumptions. The high case remains held after a controller limit; no fixed-bank cooling, actual motor performance or 900 m winding is qualified.
+
 The [implicit-geometry experiment](../implicit-geometry-study/README.md) preserves a three-dimensional sampled gyroid volume and VTK bytes with separate physical and evaluation identities. Its sampled material mass excludes installation; its continuous surface, manufacture and structural behavior are unqualified.
 
 The completed [bounded wheel campaign](../v06-optimisation/README.md) has its top-level campaign producer bindings pinned in a separate [source-epoch receipt](../retained-wheel-source-epoch/manifest.json). Verify that archive with `python3 -m engineering.design_search.retained_publication verify`. Nested attempt archives remain byte-for-byte preserved; additional per-attempt source coverage and numerical re-execution are not claimed. This check grants no admission under current evaluators or current design selection. Continuing architecture and adaptive studies use their current source contracts.

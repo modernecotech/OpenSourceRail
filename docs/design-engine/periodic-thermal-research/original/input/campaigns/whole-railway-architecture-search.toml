@@ -1,0 +1,60 @@
+schema = "osr-railway-architecture-campaign/1"
+revision = "WHOLE-RAILWAY-RESEARCH-1"
+purpose = "next-experiment"
+reference_selector = "engineering/development-baseline.toml"
+reference_changes_allowed = false
+families = ["P1", "P2", "P3", "P4", "P5", "P6", "P7"]
+maximum_cases = 600
+maximum_generations = 2
+maximum_runtime_s = 900
+native_dispatch = false
+
+[requirements]
+capacity_pphpd = 8280.0
+passengers_per_car = 46
+fixed_seats_per_car = 44
+wheelchair_places_per_car = 2
+crowd_control_per_car = 160
+dwell_s = 35.0
+independent_service_deceleration_m_s2 = 0.6
+mandatory = ["independent safe stopping and parking", "structural and crowd integrity", "passenger protection and accessibility", "validated force/current/thermal limits", "protected journey and faults", "demonstrated rescue and evacuation"]
+preferences = ["low whole-life cost", "local manufacture and repair", "few mechanisms", "short powered guideway", "120s or better headway", "simple repeated civil works"]
+revisable_hypotheses = ["station-only propulsion", "no onboard traction", "72kmh cap", "six-car formation", "station spacing", "two bogies per car", "box beam", "normal braking energy recovery"]
+
+[space]
+cars = [4, 6, 8]
+station_spacing_m = [1500.0, 2000.0, 3000.0]
+speed_caps_m_s = [12.0, 16.0, 20.0]
+station_launch_command_m = [250.0, 500.0]
+booster_launch_command_m = [150.0, 300.0]
+booster_command_m = [100.0, 200.0]
+distributed_command_fraction = [0.25, 0.5]
+recovery_driven_axles_per_train = [2, 6]
+wheel_traction_driven_axles_per_car = [2, 4]
+wheel_traction_supply = ["battery", "conductor-supply"]
+
+[scenario]
+directional_ring_length_m = 6000.0
+car_length_m = 17.0
+coupling_gap_m = 0.5
+passive_fin_length_m = 9.0
+receiving_command_m = 350.0
+time_step_s = 0.2
+traction_adhesion_hypothesis = 0.1
+braking_adhesion_hypothesis = 0.05
+adverse_grade_fraction = 0.02
+recovery_speed_m_s = 2.0
+recovery_acceleration_m_s2 = 0.05
+recovery_distance_m = 1500.0
+drive_efficiency_hypothesis = 0.85
+battery_usable_SOC_fraction_hypothesis = 0.7
+battery_EOL_fraction_hypothesis = 0.8
+auxiliary_W_per_car_hypothesis = 35000.0
+spare_fleet_fraction_hypothesis = 0.1
+platform_length_margin_m_hypothesis = 2.0
+
+[civil]
+families = ["box-beam", "twin-beam", "u-beam"]
+span_m = [15.0, 20.0, 25.0]
+ground_allowable_kPa_hypotheses = [100.0, 200.0, 300.0]
+foundation_families = ["spread-footing", "pile-group"]

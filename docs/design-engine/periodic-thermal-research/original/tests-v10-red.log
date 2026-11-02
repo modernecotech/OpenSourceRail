@@ -1,0 +1,61 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_decimal_period_boundary_preserves_all_folded_loss_energy _________
+
+    def test_decimal_period_boundary_preserves_all_folded_loss_energy():
+        start=9.149069823931924;end=38.126895801314596
+        power=23342.940975574133;period=3.615131103142536
+        intervals=[dict(start_s=start,end_s=end,loss_W=power)]
+>       segments,_=p._fold(intervals,period,periodic=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+engineering/design_search/tests/test_periodic_thermal_research.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+intervals = [{'start_s': 9.149069823931924, 'end_s': 38.126895801314596, 'loss_W': 23342.940975574133}]
+period = 3.615131103142536, periodic = True, extra_boundary = None
+
+    def _fold(intervals,period,*,periodic,extra_boundary=None):
+        """Split each independent loss interval at period boundaries, then overlay."""
+        events={0.:[],period:[]};parts=0;index=0
+        if extra_boundary is not None and 0<extra_boundary<period:events[extra_boundary]=[]
+        for row in intervals:
+            a=_number(row['start_s'],'start');end=_number(row['end_s'],'end');power=_number(row['loss_W'],'loss')
+            if not 0<=a<end or power<0:raise ValueError('Nonnegative ordered loss intervals required')
+            if not periodic:end=min(end,period)
+            while a<end:
+                if not periodic and a>=period:break
+                turn=math.floor(a/period) if periodic else 0
+                boundary=min(end,(turn+1)*period)
+>               if boundary<=a:raise ValueError('Cannot split bounded periodic interval')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               ValueError: Cannot split bounded periodic interval
+
+engineering/design_search/periodic_thermal_research.py:231: ValueError
+=========================== short test summary info ============================
+FAILED engineering/design_search/tests/test_periodic_thermal_research.py::test_decimal_period_boundary_preserves_all_folded_loss_energy
+1 failed, 1 passed, 31 deselected in 0.10s
+Command exited with non-zero status 1
+	Command being timed: "timeout 120 /home/hayder/Documents/OpenSourceRail/.venv/bin/python -m pytest -q -p no:cacheprovider --import-mode=importlib engineering/design_search/tests/test_periodic_thermal_research.py -k decimal_period_boundary or tiny_interval_crossing"
+	User time (seconds): 0.28
+	System time (seconds): 0.02
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 39356
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 7228
+	Voluntary context switches: 3
+	Involuntary context switches: 2
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

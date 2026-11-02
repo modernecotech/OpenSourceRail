@@ -13,6 +13,11 @@ two-bogie static reactions. Custom position intervals are accepted by
 The assumed intervals and resulting reactions are not installed geometry, axle
 loads or physical qualification.
 
+The [periodic thermal study](../../docs/design-engine/periodic-thermal-research/README.md)
+reconstructs the retained synthetic P1 loss trace and tests two 120-second
+cooling hypotheses. It preserves the interrupted high case and does not
+represent a qualified fixed-bank or 900 m winding model.
+
 ## Coordinated railway workflow
 
 Start with the coupled campaign and continue any pending work from its retained

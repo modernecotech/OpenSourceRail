@@ -55,6 +55,7 @@ on:
       - "docs/design-engine/flanged-system-cost-context.md"
       - "docs/design-engine/matched-renewal-research/**"
       - "docs/design-engine/installed-mass-support/**"
+      - "docs/design-engine/periodic-thermal-research/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
       - "docs/design-engine/retained-battery-source-epoch/**"
       - "docs/design-engine/implicit-geometry-study/**"
@@ -140,6 +141,7 @@ on:
       - "docs/design-engine/flanged-system-cost-context.md"
       - "docs/design-engine/matched-renewal-research/**"
       - "docs/design-engine/installed-mass-support/**"
+      - "docs/design-engine/periodic-thermal-research/**"
       - "docs/design-engine/service-energy-terminal-recharge.md"
       - "docs/design-engine/retained-battery-source-epoch/**"
       - "docs/design-engine/implicit-geometry-study/**"
@@ -243,6 +245,8 @@ jobs:
           .venv/bin/python -m engineering.design_search.installed_mass_cg_publication verify --expected-manifest-id 53f880cc6cd0a422aa5992b302899b70841b795671c133e4ebe9880e84541ebc
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py
           .venv/bin/python -m engineering.design_search.retained_source_epoch verify --root . --archive-directory docs/design-engine/retained-battery-source-epoch/archive --pins docs/design-engine/retained-battery-source-epoch/pins.json --expected-archive-id 478479a93642c464cc2be318bbc5b45b9c5c3fec2e9cecb02318d53bd4fb568e
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_periodic_thermal_research.py engineering/design_search/tests/test_periodic_thermal_publication.py
+          .venv/bin/python -m engineering.design_search.periodic_thermal_publication verify --expected-manifest-id e2ac8e01ac36eaa19d8f5c59c0dcfc28de6acd7759065a0a7b122cd8d7c3d66d --expected-handoff-id 701824bd9fec83c2ae48725040804d3f7d42f94c3e742b638ac6e23437d6ef3d --expected-request-id 019fb919aaaef52d9e0af4ceda21648544bd35c1c15d9d31dc832f2bdcff6967 --expected-evaluation-id de6c95144aedca6ffde689fb4eb62dcef57adde633da9a46b013420d95dff48c
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
       - run: ./osr design railway verify
       - name: Candidate, moving-conductor and end-to-end closure contracts

@@ -147,6 +147,8 @@ The current v0.6 coordinator binds the selected candidate through engineering, i
 
 The [vehicle mass and support sensitivity](docs/design-engine/installed-mass-support/README.md) shows the effect of assumed equipment positions without claiming installed mass or axle loads. A [known terminal-recharge calculation issue](docs/design-engine/service-energy-terminal-recharge.md) and its pending source-epoch migration are recorded separately.
 
+The [repeated-duty thermal sensitivity](docs/design-engine/periodic-thermal-research/README.md) explores two cooling assumptions using a synthetic 500 m propulsion trace. Its results do not establish actual motor thrust or cooling performance.
+
 From a verified planning handoff, `./osr twin factory-draft compile build/my-plan --output build/factory-plan` creates a provisional six-car factory work package; `./osr twin factory-draft verify build/my-plan build/factory-plan` checks its source and candidate identities. The draft carries modelled production hours and low/base/high cost estimates under the declared two 8-hour production shifts. It does not release procurement or manufacture, and it does not complete site civil schedules or operating acceptance.
 
 ## Manufacturing, civil works and affordability
