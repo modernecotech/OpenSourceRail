@@ -30,8 +30,9 @@ charging correction can be merged.
 
 The additional packet materializer has a recorded streaming audit of all 365
 tracked Git blobs and the five sourced-cell chunks, without a full local tree.
-Its full reconstruction is a required CI check on an ephemeral runner; until
-that check succeeds, the real full reconstruction remains unverified. To run it
+Its full reconstruction and verification passed on an ephemeral runner in
+[the required CI job](https://github.com/modernecotech/OpenSourceRail/actions/runs/41515140831).
+This verifies historical bytes, not a current evaluator replay. To run it
 manually, fetch the pinned commit and choose a fresh private output path with
 at least 1.3 GiB free:
 
@@ -50,3 +51,12 @@ python -m engineering.design_search.retained_service_energy_materialize material
 Verification uses process resource limits but no filesystem or network
 sandbox. Pre- and post-checks cannot exclude a concurrent process that swaps
 and restores bytes between checks.
+
+The service-energy migration inventory compares the pinned historical source
+archives with the proposed charging correction. It records direct-source
+dependencies and separately identifies current publications outside its
+coverage; transitive impacts remain to be evaluated. Run the real-data tests
+with `OSR_MIGRATION_REQUIRE_REAL=1 python -m pytest -q --import-mode=importlib
+engineering/design_search/tests/test_service_energy_migration_inventory.py`
+after fetching the three pinned Git commits listed in the module. A successful
+inventory does not replay packets, promote the correction, or qualify hardware.

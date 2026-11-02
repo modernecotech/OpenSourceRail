@@ -194,6 +194,7 @@ def validate(historical_text, shared_text, current_text, archive):
                                                'test_retained_service_energy_handoff.py',
                                                'test_retained_service_energy_materialize.py',
                                                'test_retained_service_energy_materialize_handoff.py',
+                                               'test_service_energy_migration_inventory.py',
                                                'sourced-archive.py ensure',
                                                'retained_service_energy_epoch verify',
                                                'retained_service_energy_materialize materialize'),
@@ -202,6 +203,7 @@ def validate(historical_text, shared_text, current_text, archive):
     assert 'uses: actions/upload-artifact@v4' in current_jobs['independent-search']
     assert re.search(r'^          name: civil-portfolio-search-audit$', current_jobs['independent-search'], re.M)
     extra = current_jobs['retained-service-energy-extra']
+    assert re.search(r'^        env:\n          OSR_MIGRATION_REQUIRE_REAL: "1"\n        run: \|$', extra, re.M)
     assert extra.index('sourced-archive.py ensure') < extra.index('retained_service_energy_epoch verify')
     runtime_job = current_jobs['vehicle-runtime-reproducibility']
     assert re.findall(r'python-version: "([^"]+)"', runtime_job) == ['3.11', '3.12', '3.13']
@@ -362,12 +364,15 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('independent-search', 'civil_shape_portfolio audit-optimizers'),
                 ('retained-packet-reconstruction', 'test_retained_packet_materialize.py'),
                 ('retained-service-energy-extra', 'retained_service_energy_epoch verify'),
+                ('retained-service-energy-extra', 'test_service_energy_migration_inventory.py'),
                 ('retained-service-energy-extra', 'retained_service_energy_materialize materialize')):
             with self.subTest(job=name), self.assertRaises(AssertionError):
                 self.check(current=self.current.replace(command, 'removed-check', 1))
             with self.subTest(job=name, disabled='comment'), self.assertRaises(AssertionError):
                 self.check(current=self.current.replace(command, '# ' + command, 1))
         check = "test '${{ needs.independent-search.result }}' = success"
+        with self.assertRaises(AssertionError):
+            self.check(current=self.current.replace('OSR_MIGRATION_REQUIRE_REAL: "1"', 'OSR_MIGRATION_REQUIRE_REAL: "0"', 1))
         with self.assertRaises(AssertionError):
             self.check(current=self.current.replace(check, '# ' + check, 1))
         audit = '.venv-search/bin/python -m engineering.design_search.civil_shape_portfolio audit-optimizers'
