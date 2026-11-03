@@ -1,0 +1,217 @@
+"""Real grammar successors, resumable budgets and cache integrity controls."""
+from copy import deepcopy
+import gzip
+import json
+import os
+
+import pytest
+
+from engineering.design_search import native_campaign as c, native_search
+from engineering.station_rail.common import encoded, identity
+
+
+@pytest.fixture
+def small(monkeypatch):
+    original=c.specification()
+    spec=deepcopy(original)
+    spec.update(proposals_per_generation=4,evaluations_per_generation=2,detailed_finalists=0)
+    monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
+    registry=c.shape_families.registry()
+    recipes={name:registry[name] for name in ("aluminium_spaceframe","modular_segments")}
+    monkeypatch.setattr(c.shape_families,"registry",lambda root=c.ROOT:deepcopy(recipes))
+    return recipes
+
+
+def read(result):
+    return json.loads(open(result["output"]).read())
+
+
+def test_new_generations_materialise_real_successors_and_resume_frontier(tmp_path,small):
+    state=tmp_path/"state"
+    first=read(c.run(state=state,generations=1,maximum_new_evaluations=1))
+    assert len(first["generations"])==1
+    assert len(first["deferred"])==3
+    initial={a["proposal_id"] for a in first["attempts"]}
+    second=read(c.run(state=state,generations=1,maximum_new_evaluations=1))
+    assert len(second["deferred"])==2
+    assert {a["proposal_id"] for a in second["attempts"]}>initial
+    assert second["cache_statistics"]["completed_attempts_resumed"]==len(first["attempts"])
+    assert len(second["generations"])==1  # No regeneration of the same genes.
+    final=read(c.run(state=state,generations=2,maximum_new_evaluations=8))
+    assert len(final["generations"])==2
+    seeds={a["candidate_id"] for a in final["attempts"] if a["operator"]=="seed"}
+    successors=[a for a in final["attempts"] if a["generation"]>0 and a.get("candidate_id") not in seeds]
+    assert successors
+    evaluations={e["evaluation_id"]:e for e in final["evaluations"]}
+    for attempt in final["attempts"]:
+        assert attempt["variable_registry_id"]==final["contract"]["variable_registry_id"]
+        for parent in attempt["parent_evaluations"]:
+            assert evaluations[parent["evaluation_id"]]["candidate_id"]==parent["candidate_id"]
+    assert final["integrated_selection"] is None
+    assert final["numerical_solver_dispatch_count"]==0
+    assert all(final[k] is False for k in c.FLAGS)
+
+
+def test_inactive_parameter_keeps_distinct_definitions_without_overwriting_archive(tmp_path,small,monkeypatch):
+    original=c.NativeSearch.propose
+    def alias_proposals(kernel,**request):
+        result=original(kernel,**request)
+        domains=c.axes();names=list(domains)
+        parent=next(p for p in request["parents"] if p["genes"][0]==domains["family"].index("aluminium_spaceframe"))
+        programs=[]
+        for thickness in (.015,.04):
+            genes=parent["genes"].copy();genes[names.index("core_thickness_m")]=domains["core_thickness_m"].index(thickness)
+            programs.append(dict(genes=genes,operator="exploit",parent_candidate_ids=[parent["candidate_id"]]))
+        return dict(result,proposals=programs)
+    monkeypatch.setattr(c.NativeSearch,"propose",alias_proposals)
+    value=read(c.run(state=tmp_path,generations=1,maximum_new_evaluations=2))
+    seed=next(a for a in value["attempts"] if a["operator"]=="seed" and a["genes"][0]==0)
+    aliases=[e for e in value["evaluations"] if e["candidate_id"]==seed["candidate_id"]]
+    assert len(aliases)==3
+    assert len({e["definition_id"] for e in aliases})==3
+    assert value["archive_contexts"][seed["candidate_id"]]==seed["evaluation_id"]
+
+
+def candidate(small):
+    return c.grammar.build(c.grammar.parameters(),recipes=small,
+        reason="Native-search materialisation; ancestry is bound by the proposal record")
+
+
+def test_geometry_cache_rejects_resealed_manufacturing_change(tmp_path,small):
+    parameters=c.grammar.parameters()
+    c._geometry(parameters,small,tmp_path,c.ROOT)
+    path=next((tmp_path/"geometry").iterdir())
+    value=json.loads(gzip.decompress(path.read_bytes()))
+    value["candidate"]["parts"][0]["process"]="FORGED-PROCESS"
+    value["candidate"].pop("definition_id")
+    value["candidate"]["definition_id"]=identity(value["candidate"])
+    value.pop("record_id");value["record_id"]=identity(value)
+    path.write_bytes(gzip.compress(encoded(value),mtime=0))
+    with pytest.raises(RuntimeError,match="does not replay"):
+        c._geometry(parameters,small,tmp_path,c.ROOT)
+
+
+def test_resealed_zero_mass_and_cost_cannot_enter_archive(tmp_path,small):
+    body=candidate(small);a=c.model_cost.assumptions()
+    c._evaluate(body,a,tmp_path,c.ROOT)
+    path=next((tmp_path/"stock-cost").iterdir());value=json.loads(path.read_bytes())
+    value["cost_estimate"]={"candidate_id":body["candidate_id"]}
+    value["metrics"]={key:0 for key in c.OBJECTIVES}
+    value.pop("evaluation_id");value["evaluation_id"]=identity(value)
+    path.write_bytes(encoded(value))
+    with pytest.raises(RuntimeError,match="Conflicting immutable"):
+        c._evaluate(body,a,tmp_path,c.ROOT)
+
+
+@pytest.mark.parametrize("kind",["fifo","symlink","oversize"])
+def test_cache_reader_rejects_special_or_oversized_files(tmp_path,kind):
+    path=tmp_path/"record.json"
+    if kind=="fifo":os.mkfifo(path)
+    elif kind=="symlink":
+        original=tmp_path/"original";original.write_bytes(b"{}\n");path.symlink_to(original)
+    else:
+        with path.open("wb") as handle:handle.truncate(native_search.MAX_BYTES+1)
+    with pytest.raises((ValueError,RuntimeError)):
+        c._store(path,{})
+
+
+def test_source_contract_includes_bridge_and_stage_cost_implementation(small,tmp_path):
+    assert "engineering/design_search/native_search.py" in c._sources(c.ROOT)
+    body=candidate(small);a=c.model_cost.assumptions()
+    value,_=c._evaluate(body,a,tmp_path,c.ROOT)
+    assert c.PRODUCER in value["request"]["evaluator_sources"]
+
+
+def test_cheap_stage_matches_existing_cost_and_does_not_invent_equipment(tmp_path,small):
+    body=candidate(small);a=c.model_cost.assumptions()
+    cheap,_=c._evaluate(body,a,tmp_path,c.ROOT)
+    reference=c.design_portfolio._evaluate(body,small[body["parameters"]["family"]],"control",a,c.ROOT)
+    assert cheap["metrics"]["nominal_stock_kg"]==pytest.approx(reference["metrics"]["known_gross_structure_stock_kg"])
+    assert cheap["cost_estimate"]==reference["cost_estimate"]
+    assert cheap["complete_installed_mass_kg"] is None
+    assert cheap["complete_installed_cost_iqd"] is None
+    assert cheap["structural_analysis"]=="not-run"
+
+
+def test_actual_evaluation_allocation_retains_all_exploration_categories():
+    programs=[dict(genes=[i],operator=op) for i,op in enumerate(
+        ["exploit"]*30+["alternative-family"]*30+["unconventional"]*30)]
+    chosen=c._shortlist(programs,list(range(90)),10)
+    counts={op:sum(programs[i]["operator"]==op for i in chosen) for op in (
+        "exploit","alternative-family","unconventional")}
+    assert counts==dict(exploit=5,**{"alternative-family":3,"unconventional":2})
+
+
+def test_resealed_frontier_edit_cannot_borrow_rust_program_identity(tmp_path,small):
+    result=read(c.run(state=tmp_path,generations=1,maximum_new_evaluations=1))
+    path=tmp_path/"checkpoints"/(result["contract_id"]+".json")
+    value=json.loads(path.read_bytes())
+    value["deferred"][0]["genes"][1]=(value["deferred"][0]["genes"][1]+1)%6
+    value.pop("checkpoint_id");value["checkpoint_id"]=identity(value)
+    path.write_bytes(encoded(value))
+    with pytest.raises(RuntimeError,match="immutable generation journal"):
+        c.run(state=tmp_path,generations=1,maximum_new_evaluations=1)
+
+
+def test_checkpoint_size_rejection_preserves_last_resumable_bytes(tmp_path,monkeypatch):
+    path=tmp_path/"checkpoint.json"
+    c._checkpoint(path,{"previous":"valid"});original=path.read_bytes()
+    monkeypatch.setattr(native_search,"MAX_BYTES",len(original)+1)
+    with pytest.raises(RuntimeError,match="prior checkpoint"):
+        c._checkpoint(path,{"oversize":"x"*1000})
+    assert path.read_bytes()==original
+
+
+def test_checkpoint_refuses_dangling_symlink(tmp_path):
+    path=tmp_path/"checkpoint.json";path.symlink_to(tmp_path/"missing")
+    with pytest.raises(RuntimeError,match="Symlinked checkpoint"):
+        c._checkpoint(path,{"value":"new"})
+    assert path.is_symlink()
+
+
+@pytest.mark.parametrize("mutation",["remove-proposal","duplicate-proposal","remove-seed","duplicate-seed"])
+def test_resealed_checkpoint_cannot_drop_or_duplicate_frontier_work(tmp_path,small,mutation):
+    result=read(c.run(state=tmp_path,generations=1,maximum_new_evaluations=1))
+    path=tmp_path/"checkpoints"/(result["contract_id"]+".json")
+    value=json.loads(path.read_bytes())
+    if mutation=="remove-proposal":value["deferred"].pop()
+    elif mutation=="duplicate-proposal":value["deferred"].append(deepcopy(value["deferred"][0]))
+    elif mutation=="remove-seed":value["attempts"]=[p for p in value["attempts"] if p["operator"]!="seed"][1:]
+    else:value["attempts"].append(deepcopy(next(p for p in value["attempts"] if p["operator"]=="seed")))
+    value.pop("checkpoint_id");value["checkpoint_id"]=identity(value)
+    path.write_bytes(encoded(value))
+    with pytest.raises(RuntimeError,match="coverage/uniqueness"):
+        c.run(state=tmp_path,generations=1,maximum_new_evaluations=1)
+
+
+def test_cost_model_domain_failure_is_preserved_without_zero_estimate(tmp_path,small,monkeypatch):
+    def unavailable(*args,**kwargs):raise ValueError("Unsupported material cost route")
+    monkeypatch.setattr(c.design_portfolio,"_factory_gate_stock_estimate",unavailable)
+    with pytest.raises(ValueError,match="No executable seed"):
+        c.run(state=tmp_path,generations=0)
+    attempts=[json.loads(path.read_bytes()) for path in (tmp_path/"attempts").iterdir()]
+    assert len(attempts)==2
+    assert all(a["state"]=="cost-model-domain-unresolved" and a["candidate_id"] for a in attempts)
+    assert all("evaluation_id" not in a for a in attempts)
+
+
+def test_runtime_is_an_explicit_search_and_cache_context(tmp_path,small):
+    body=candidate(small);a=c.model_cost.assumptions()
+    value,_=c._evaluate(body,a,tmp_path,c.ROOT)
+    assert value["request"]["runtime"]["numpy_version"]==c.np.__version__
+    assert c._geometry_key(body["parameters"],small,c.ROOT)["runtime"]==c._runtime()
+
+
+def test_run_fails_closed_on_unsafe_geometry_cache(tmp_path,small):
+    parameters=c.grammar.parameters()
+    key=identity(c._geometry_key(parameters,small,c.ROOT))
+    path=tmp_path/"geometry"/(key+".json.gz");path.parent.mkdir();os.mkfifo(path)
+    with pytest.raises(RuntimeError,match="Cache integrity/read failure"):
+        c.run(state=tmp_path,generations=0)
+    assert not (tmp_path/"attempts").exists()
+
+
+def test_overlapping_coordinators_are_rejected_without_waiting(tmp_path,small):
+    with c._state_lock(tmp_path):
+        with pytest.raises(RuntimeError,match="active coordinator"):
+            c.run(state=tmp_path,generations=0)

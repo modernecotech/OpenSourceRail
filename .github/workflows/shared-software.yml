@@ -39,6 +39,12 @@ jobs:
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
       - name: Canonical streaming identity parity
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_canonical_stream.py
+      - name: Rust generative search and source-bound Python integration
+        run: |
+          python -m engineering.design_search.native_search build
+          cargo fmt --package osr-design-search -- --check
+          cargo clippy --locked -p osr-design-search --all-targets -- -D warnings
+          python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py
       - name: Civil and station demonstrator identity and evidence handoffs
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_demonstrator.py engineering/design_search/tests/test_station_demonstrator.py
       - name: Retained v0.5 source and packet portability

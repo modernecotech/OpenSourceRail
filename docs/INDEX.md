@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **114**.
+Indexed Markdown files: **115**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **114**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 89 |
+| [docs](#docs) | 90 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -111,6 +111,7 @@ Indexed Markdown files: **114**.
 | [`docs/design-engine/matched-renewal-research/README.md`](../docs/design-engine/matched-renewal-research/README.md) | Matched renewal research |
 | [`docs/design-engine/model-based-cost-and-delivery.md`](../docs/design-engine/model-based-cost-and-delivery.md) | Model-based cost and end-to-end delivery closure |
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
+| [`docs/design-engine/native-design-search.md`](../docs/design-engine/native-design-search.md) | Rust generative design search |
 | [`docs/design-engine/periodic-thermal-research/README.md`](../docs/design-engine/periodic-thermal-research/README.md) | Conditional repeated-duty thermal sensitivity |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
 | [`docs/design-engine/practical-launch/README.md`](../docs/design-engine/practical-launch/README.md) | Practical launch alternatives for v0.6 research |

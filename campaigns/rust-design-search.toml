@@ -1,0 +1,22 @@
+schema = "osr-native-generative-search/1"
+purpose = "next-experiment"
+change_selected_reference = false
+seed = 20261103
+generations = 2
+proposals_per_generation = 1000
+evaluations_per_generation = 12
+detailed_finalists = 3
+maximum_seconds = 180
+exploration_weights = [50, 30, 20]
+
+# Invocation domains for the existing materialiser, not physical acceptance
+# limits or a declaration of the complete possible railway design space.
+[axes]
+bay_pitch_m = [0.9, 1.2, 1.5, 1.8, 2.4, 3.0]
+frame_depth_m = [0.25, 0.35, 0.45, 0.55]
+chord_wall_m = [0.002, 0.003, 0.004, 0.006, 0.008]
+skin_thickness_m = [0.0015, 0.002, 0.003, 0.004]
+core_thickness_m = [0.015, 0.025, 0.04]
+modular_length_m = [1.5, 2.5, 3.5]
+braced = [false, true]
+integrated_roof = [false, true]
