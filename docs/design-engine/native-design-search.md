@@ -3,7 +3,8 @@
 The reusable `osr-design-search` Rust kernel generates successor programs and
 filters large Pareto pools. The coordinator materialises physical component
 graphs, calculates nominal quantities and provisional manufacturing costs, then
-runs bounded analytical and optional native axial refinements. The selected
+runs bounded analytical and optional native axial refinements. Analytical outcomes
+now inform parent weights before each Rust generation. The selected
 railway and its release status remain unchanged.
 
 ```bash
@@ -49,11 +50,29 @@ and Rust above that. The threshold is provisional and configurable through
 Both paths preserve physical IDs, fronts and valid exclusion witnesses. Large
 batches stay bounded; persistent Rust workers remain future work.
 
-Refinement considers all evaluated candidates, including those excluded by the
-partial cost archive. It prioritises topology coverage and applicable axial
-models rather than declaring a cheapest body structurally adequate. Up to twelve
-candidates receive analytical assessments; at most three receive the fuller
-DFMA/interface and immutable refinement packages.
+Before each generation, the coordinator considers all evaluated candidates,
+including those excluded by the partial cost archive. It adds up to twelve
+analytical observations, prioritising topology coverage and applicable axial
+models, and retains up to 64 observations across generations. Immutable feedback
+snapshots bind each observation to its physical definition, stage-zero evaluation,
+loads, model, sources and runtime. Resume reconstructs the assessments and Rust
+parent requests before accepting a saved generation.
+
+Every valid stage-zero design remains an eligible parent. Its positive integer
+weight is one, plus one for a cell cost-front position, plus two for a supported
+cell axial-front position, capped at four by default. Held and unassessed models
+retain positive sampling opportunity; missing stiffness never becomes zero.
+Weighted roulette does not guarantee a family quota in any finite generation.
+Omitting Rust parent weights retains the previous equal-weight seeded sequence.
+
+Axial archives compare candidates only within explicit material, structural-family,
+topology and functional-load-policy cohorts. Each design carries its own stock
+self-weight under the same provisional normal-service assumptions. These are not
+equal-force tests or complete installed-load comparisons. The final refinement
+uses the same cohorts. Separate `maximum_new_assessments` settings bound new
+generation and final-stage work; final reports distinguish inherited, additional
+and total assessments. At most three candidates receive the fuller DFMA/interface
+and immutable refinement packages. Generation feedback dispatches no native jobs.
 
 The assessments distinguish:
 
@@ -96,62 +115,76 @@ python -m engineering.design_search.native_campaign --state build/my-native-sear
 Initial seeds are separate from the successor-evaluation budget. A nonblocking
 advisory lock permits one coordinator per state. Its wall-time budget is
 cooperative between tasks, not an OS sandbox. Checkpoints preserve complete unique
-seed/program coverage, parent evaluations and immutable Rust generation journals.
+seed/program coverage, parent evaluations, feedback snapshots and immutable Rust
+generation journals.
 Distinct definitions sharing one physical geometry retain separate evaluations.
 Cheap geometry/cost records are replay-checked; these cache hits are not claimed
 as avoided expensive solver runtime. Price changes need not invalidate geometry
 or a structurally unchanged solver request.
 
 The checked reference run is
-`92c04676449802aac05ff69b9b245cda9b60f8e3fc1d35fb700e79c05f4190f5`:
+`c2da549729de610e369db2bdc5014e04e52b424157600365bdc2265a7c7ba424`:
 
 | Scope | Executed result |
 |---|---:|
 | Rust mutation programs | 2,000 |
-| Physical designs and nominal-stock cost evaluations | 60 |
-| Connectivity mutations | 5 spine and 5 cellular |
-| Analytical assessments | 12 |
+| Definitions with nominal-stock cost evaluations | 60 |
+| Distinct physical designs | 57 |
+| Connectivity-mutation evaluations | 7 spine and 3 cellular |
+| Generation feedback snapshots | 2 |
+| Accumulated generation observations | 12, then 24 |
+| Final analytical assessments | 24 inherited + 5 additional |
 | Fuller DFMA/interface packages | 3 |
 | New CalculiX axial jobs | 1 |
 | Deferred programs | 1,976 |
-| Full invocation wall time | 16.76 s |
-| Peak command RSS | 279,908 KiB |
+| Full invocation wall time | 22.11 s |
+| Peak command RSS | 280,088 KiB |
 
-The native axial method was numerically verified, with a maximum model nodal
-movement of 0.03035 m and a relative displacement difference of approximately
-1.54e-7 against the independent analytical solution. These are conditional graph
-results, not a whole-body deflection acceptance or physical railway validation.
-Independent read-only verification reproduced all 31 source bindings, 60
-geometries/costs, mutation load projections and three refinement packages without
-another solver execution. Validation passed 118 tests on each of Python 3.12
-and 3.13 (with the opt-in native control separately passing), 29 CI routing checks,
-and `./osr verify`.
+Generation one assigned weights 1/2/3 to 11/18/7 parents; generation two assigned
+them to 19/20/9 parents. Seven then nine axial observations supported that model's
+domain. No candidate received physical or engineering acceptance. Native axial
+agreement is a conditional graph-method result, not whole-body validation.
+Resuming for three evaluations preserved both generations and all 60 prior
+attempts, reduced deferred programs from 1,976 to 1,973, and dispatched no new
+native job. Its run ID is
+`e5049953cd2d69ba703d183c282f0b32f58df4e74070553bb318e3aef02be98d`.
 
-The original Rust performance benchmark remains useful for archive work:
+Independent read-only verification checked all 32 source hashes, regenerated both
+feedback snapshots and weighted Rust journals, and verified the three refinement
+packages without another solver execution. The native axial result retained
+0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
+residual. Verification ran under a 1 GiB address-space limit with one numerical
+thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
+Regression checks passed 147 tests on each of Python 3.12 and 3.13, 15 Rust kernel
+tests and 29 CI routing tests (101 subtests). `./osr verify` also replayed the
+current selected publication successfully without regenerating its packets. The
+opt-in native control remains a separate CI job.
+
+The refreshed Rust performance benchmark measures archive work:
 
 | Dataset | Python reference | Explicit Rust bridge |
 |---|---:|---:|
-| 600 synthetic nondominated points | 1.312 s | 0.0189 s |
-| Actual 18 civil candidates | 0.00065 s | 0.00624 s |
-| Actual 54 body candidates | 0.00223 s | 0.00880 s |
-| 100,000 synthetic points, three/four objectives | Not run | 2.06–2.53 s |
+| 600 synthetic nondominated points | 1.327 s | 0.0191 s |
+| Actual 18 civil candidates | 0.00063 s | 0.00709 s |
+| Actual 54 body candidates | 0.00200 s | 0.00882 s |
+| 100,000 synthetic points, three/four objectives | Not run | 2.12–2.57 s |
 
 Small cases used one warmup and three measured repetitions. The bridge timing
 includes normalization, hashing, receipt checks, process startup and validation.
-The large-case Rust CLI alone took 0.269–0.492 s including parse/serialization;
+The large-case Rust CLI alone took 0.255–0.533 s including parse/serialization;
 that is not pure kernel time. No unmeasured Python speedup is inferred. Generating
-10,000 gene programs took 0.050 s; those were not 10,000 physical evaluations.
+10,000 gene programs took 0.061 s; those were not 10,000 physical evaluations.
 The benchmark report SHA-256 is
-`a81470a1fd0d42add06547416ca7cfa77724ac8ca7e4958b94416ce80be0c0d9`.
+`9e317c4f65dec11b26a33cb9e6224921b3bba57849bb3183fefc0f0662afee24`.
 
 ```bash
 python tools/automation/benchmark-native-search.py --output build/my-search-benchmark
 cargo test --locked -p osr-design-search
-python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py
+python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py
 ```
 
 NumPy/SciPy and CalculiX retain their compiled numerical engines. Arbitrary organic
 solids, full shell/joint/fatigue refinement, parallel solver scheduling, calibrated
-surrogates, physics-adaptive parent allocation, whole-railway co-design and new
+surrogates, native/full-shell feedback, whole-railway co-design and new
 Workbench views remain explicit adapter/frontier work. Installed mass, propulsion,
 braking, protected service and physical release remain unqualified.

@@ -29,7 +29,7 @@ import numpy as np
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, design_portfolio, model_cost, shape_families
-from . import native_search, native_refinement, search_archive, topology_mutation
+from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -44,7 +44,7 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
         "No trained surrogate, refined full-body or whole-railway solver is supplied by this bounded adapter"]
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
-    topology_mutation, native_refinement, search_archive)}
+    topology_mutation, native_refinement, search_archive, search_feedback)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -80,8 +80,14 @@ def specification(root=ROOT):
     refinement=value.get("refinement",{})
     if (type(refinement.get("memory_mb")) is not int or refinement["memory_mb"] not in (1024,2048)
             or type(refinement.get("timeout_s")) is not int or refinement["timeout_s"] not in (30,45)
-            or type(refinement.get("maximum_assessments")) is not int or not 0<=refinement["maximum_assessments"]<=64):
+            or type(refinement.get("maximum_new_assessments")) is not int or not 0<=refinement["maximum_new_assessments"]<=64):
         raise ValueError("Bounded axial refinement resources required")
+    feedback=value.get("feedback",{})
+    for name,low,high in (("maximum_new_assessments",0,64),("maximum_total_assessments",0,64),("maximum_parent_weight",1,4)):
+        if type(feedback.get(name)) is not int or not low<=feedback[name]<=high:
+            raise ValueError("Bounded analytical parent feedback required: "+name)
+    if feedback["maximum_new_assessments"]>feedback["maximum_total_assessments"]:
+        raise ValueError("New feedback work cannot exceed the total observation budget")
     return value
 
 
@@ -94,7 +100,7 @@ def _sources(root):
     return {**design_portfolio.sources(root), PRODUCER: digest(Path(root)/PRODUCER),
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
-                topology_mutation,native_refinement,search_archive)},
+                topology_mutation,native_refinement,search_archive,search_feedback)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -124,7 +130,54 @@ def _load_genome(genes,domains,recipes,state,root):
     return candidate
 
 
-def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs):
+def _assessment_order(rows,genes,domains):
+    groups={}
+    for cid,row in rows.items():groups.setdefault(tuple(sorted(row["descriptor"].items())),[]).append(cid)
+    priority=lambda cid:(rows[cid]["descriptor"]["topology"]=="reference",
+        not _decode_genes(genes[cid],domains)[0]["braced"],
+        tuple(sorted(rows[cid]["descriptor"].items())),rows[cid]["metrics"]["factory_gate_base_iqd"],cid)
+    representatives=[min(ids,key=lambda cid:(not _decode_genes(genes[cid],domains)[0]["braced"],
+        rows[cid]["metrics"]["factory_gate_base_iqd"],cid)) for ids in groups.values()]
+    return sorted(representatives,key=priority)+sorted(set(rows)-set(representatives),key=priority)
+
+
+def _comparison_context(candidate):
+    graph=candidate["structure"];basis=graph["load_basis"];nodes={n["id"]:n["at_m"] for n in graph["nodes"]}
+    supports=sorted((nodes[s["node_id"]][0],nodes[s["node_id"]][1],tuple(sorted(s["dofs"]))) for s in graph["supports"])
+    return identity(dict(requirement_revision=candidate["requirement_revision"],model_scope=native_refinement.grammar_structure.SCOPE,
+        architecture=candidate["physical"]["architecture"],normal_people=basis["normal_people"],
+        retained_equipment_accounts=candidate["retained_equipment_accounts"],materials=graph["materials"],
+        support_xy_dofs=supports,gravity_m_s2=9.80665,person_mass_kg=75.,
+        load_policy="Uniform tributary normal sprung mass including each candidate's own gross stock; installed mass unknown",
+        support_policy="Generated lower-chord nodes at retained bogie longitudinal stations; geometry-dependent height unqualified"))
+
+
+def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous):
+    """Deterministic bounded solver-free observations; replayable before mutation."""
+    if not set(previous)<=set(rows):raise RuntimeError("Feedback lost a prior physical parent")
+    selected=sorted(previous)
+    limit=min(spec["feedback"]["maximum_total_assessments"],len(selected)+spec["feedback"]["maximum_new_assessments"])
+    for cid in _assessment_order(rows,genes,domains):
+        if len(selected)>=limit:break
+        if cid not in previous:selected.append(cid)
+    observations=[]
+    for cid in selected:
+        parameters,topology=_decode_genes(genes[cid],domains)
+        candidate,_=_materialise(parameters,recipes,topology)
+        if candidate["candidate_id"]!=cid or candidate["definition_id"]!=rows[cid]["definition_id"]:
+            raise RuntimeError("Analytical feedback mixed a physical/definition/evaluation context")
+        assessment=native_refinement.assess(candidate,root=root)
+        observations.append(dict(candidate_id=cid,parent_evaluation_id=rows[cid]["evaluation_id"],
+            comparison_context_id=_comparison_context(candidate),assessment=assessment))
+    plan=search_feedback.plan(kernel,list(rows.values()),observations,source_sha256=_sources(root),
+                             maximum_weight=spec["feedback"]["maximum_parent_weight"])
+    value=dict(schema="osr-generation-feedback-snapshot/1",parent_evaluations=sorted(r["evaluation_id"] for r in rows.values()),
+               observations=sorted(observations,key=lambda o:o["candidate_id"]),plan=plan)
+    value["snapshot_id"]=identity(value)
+    return value
+
+
+def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None):
     """Model-specific next-experiment ordering, separate from baseline ranking."""
     groups={}
     for cid,row in data["rows"].items():
@@ -140,9 +193,15 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs):
         data["rows"][cid]["descriptor"]["topology"]=="reference",
         not _decode_genes(data["genes_by_id"][cid],domains)[0]["braced"],
         tuple(sorted(data["rows"][cid]["descriptor"].items())),cid))
-    assessments=[];candidates={}
-    limit=spec["refinement"]["maximum_assessments"] if spec["detailed_finalists"] else 0
-    for cid in representatives[:limit]:
+    inherited=inherited or {}
+    assessments=[o["assessment"] for _,o in sorted(inherited.items())];candidates={}
+    for cid in inherited:
+        candidate=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
+        if candidate["definition_id"]!=data["rows"][cid]["definition_id"]:
+            raise RuntimeError("Refinement inherited a different primary definition")
+        candidates[cid]=candidate
+    limit=min(spec["refinement"]["maximum_new_assessments"],64-len(inherited)) if spec["detailed_finalists"] else 0
+    for cid in [cid for cid in representatives if cid not in inherited][:limit]:
         if time.monotonic()-start>=spec["maximum_seconds"]:break
         candidate=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
         assessment=native_refinement.assess(candidate,root=root)
@@ -173,15 +232,14 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs):
         dispatched+=0 if hit else result["native_jobs_used"]
         reused+=result["native_jobs_used"] if hit else 0
         packages.append(dict(request=request,result=result,output=str(output),reused=hit))
-    mechanics=[]
-    for assessment in assessments:
-        if assessment["axial_status"]!="rigid-axial-graph-analytical-only":continue
-        maximum=max(sum(x*x for x in u)**.5 for u in assessment["axial_reference"]["displacements_m"].values())
-        row=data["rows"][assessment["candidate_id"]]
-        mechanics.append(dict(candidate_id=row["candidate_id"],descriptor=row["descriptor"],
-            metrics={**row["metrics"],"axial_model_displacement_m":maximum},assessment_id=assessment["assessment_id"]))
-    mechanics_archive=search_archive.archive(kernel,mechanics,(*OBJECTIVES,"axial_model_displacement_m"),("family","topology")) if mechanics else None
-    feedback=dict(assessments=assessments,packages=packages,axial_model_archive=mechanics_archive,
+    wrappers=[dict(candidate_id=a["candidate_id"],parent_evaluation_id=data["rows"][a["candidate_id"]]["evaluation_id"],
+        comparison_context_id=_comparison_context(candidates[a["candidate_id"]]),assessment=a) for a in assessments]
+    final_plan=search_feedback.plan(kernel,list(data["rows"].values()),wrappers,source_sha256=_sources(root),
+        maximum_weight=spec["feedback"]["maximum_parent_weight"])
+    feedback=dict(assessments=assessments,packages=packages,axial_model_archives=final_plan["axial_archives"],
+        parent_feedback_plan=final_plan,assessment_counts=dict(inherited=len(inherited),
+            additional=len(assessments)-len(inherited),maximum_additional=spec["refinement"]["maximum_new_assessments"],
+            total=len(assessments),maximum_total=64),
         unassessed_candidate_ids=sorted(set(data["rows"])-set(candidates)),
         held_axial_candidates=[dict(candidate_id=a["candidate_id"],status=a["axial_status"])
                                for a in assessments if a["axial_status"]!="rigid-axial-graph-analytical-only"],
@@ -238,13 +296,18 @@ def _geometry_key(parameters, recipes, root, topology="reference"):
         retained_equipment_sources=grammar._reference_equipment()[2])
 
 
-def _geometry(parameters, recipes, state, root, topology="reference"):
-    request = _geometry_key(parameters, recipes, root,topology)
-    key = identity(request); path = state/"geometry"/(key+".json.gz")
+def _materialise(parameters,recipes,topology="reference"):
     candidate = grammar.build(parameters, recipes=recipes, reason="Native-search materialisation; ancestry is bound by the proposal record")
     base=candidate
     if topology!="reference":
         candidate=topology_mutation.mutate(base,topology,requirement_revision=base["requirement_revision"])
+    return candidate,base
+
+
+def _geometry(parameters, recipes, state, root, topology="reference"):
+    request = _geometry_key(parameters, recipes, root,topology)
+    key = identity(request); path = state/"geometry"/(key+".json.gz")
+    candidate,base=_materialise(parameters,recipes,topology)
     if path.exists():
         record = _read_cache(path,compressed=True)
         if (record.get("request") != request or record.get("record_id") != identity(
@@ -360,12 +423,13 @@ def _checkpoint(path, value):
 
 def _runtime():
     return dict(python_implementation=platform.python_implementation(),python_version=platform.python_version(),
-                numpy_version=np.__version__,proxy_dtype="float64",coordinator_workers=1)
+                numpy_version=np.__version__,proxy_dtype="float64",coordinator_workers=1,
+                numerical_runtime=native_refinement._runtime())
 
 
 def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
     """Replay Rust requests and bind resumable programs to their exact journals."""
-    known={};expected_seen=[p["genes"] for p in data["attempts"] if p["operator"]=="seed"]
+    known={};feedback_observations={};expected_seen=[p["genes"] for p in data["attempts"] if p["operator"]=="seed"]
     seed_genes={tuple(g) for g in _seed_genomes(domains,data["contract"]["specification"]["seed_bracing"])}
     seed_records=[*data["seed_pending"],*[p for p in data["attempts"] if p["operator"]=="seed"]]
     if len(seed_records)!=len(seed_genes) or {tuple(p["genes"]) for p in seed_records}!=seed_genes:
@@ -386,9 +450,18 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
                 cid=attempt["candidate_id"]
                 parent_rows.setdefault(cid,data["all_evaluations"][attempt["evaluation_id"]])
                 parent_genes.setdefault(cid,attempt["genes"])
-        parent_archive=_archive(kernel,list(parent_rows.values()))
-        expected_parents=[dict(candidate_id=cid,genes=parent_genes[cid]) for cid in parent_archive["retained_candidate_ids"]]
+        snapshot=_generation_feedback(parent_rows,parent_genes,domains,recipes,ROOT,kernel,
+            data["contract"]["specification"],feedback_observations)
+        snapshot_path=state/"feedback"/(snapshot["snapshot_id"]+".json")
+        if _read_cache(snapshot_path)!=snapshot:
+            raise RuntimeError("Generation parent feedback does not replay")
+        feedback_observations={o["candidate_id"]:o for o in snapshot["observations"]}
+        parent_archive=snapshot["plan"]["cost_archive"]
+        expected_parents=[dict(candidate_id=p["candidate_id"],genes=parent_genes[p["candidate_id"]],weight=p["weight"])
+                          for p in snapshot["plan"]["parents"]]
         if (generation["generation"]!=ordinal or req["generation"]!=ordinal
+                or generation.get("parent_feedback_snapshot_id")!=snapshot["snapshot_id"]
+                or packet.get("feedback_snapshot_id")!=snapshot["snapshot_id"]
                 or req["parents"]!=expected_parents or generation["parent_archive_id"]!=parent_archive["archive_id"]
                 or req["weights"]!=declared["exploration_weights"] or req["limit"]!=declared["proposals_per_generation"]
                 or req["max_attempts"]!=min(1000000,declared["proposals_per_generation"]*20) or req["family_axis"]!=0
@@ -408,6 +481,9 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
         for p in packet["programs"]:
             genes=tuple(p["genes"]);core=native.get(genes)
             if (core is None or any(p[k]!=core[k] for k in ("genes","operator","parent_candidate_ids"))
+                    or p.get("parent_feedback_snapshot_id")!=snapshot["snapshot_id"]
+                    or p.get("variable_registry_id")!=data["contract"]["variable_registry_id"]
+                    or p.get("requirement_context")!=data["contract"]["requirements_context"]
                     or p["proxy_stock_kg"]!=proxies[genes] or p["generation"]!=generation["generation"]
                     or p["proposal_id"]!=identity(dict(program={k:v for k,v in p.items() if k!="proposal_id"},contract_id=contract_id))):
                 raise RuntimeError("Generation program differs from its Rust provenance")
@@ -433,6 +509,7 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
         raise RuntimeError("Checkpoint attempt lifecycle differs")
     if data["seen"]!=expected_seen or data["next_generation"]!=len(data["generations"])+1:
         raise RuntimeError("Checkpoint continuation/seen frontier differs")
+    return feedback_observations
 
 
 def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0):
@@ -471,7 +548,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
                        for genes in _seed_genomes(domains,spec["seed_bracing"])]
         data=dict(contract=contract,rows={},all_evaluations={},genes_by_id={},seen=[],attempts=[],
             pending=[],deferred=[],seed_pending=seed_programs,generations=[],next_generation=1)
-    _verify_frontier(data,contract_id,state,kernel,domains,recipes)
+    feedback_observations=_verify_frontier(data,contract_id,state,kernel,domains,recipes)
     stats=dict(geometry_cache_replayed=0,geometry_new=0,cost_cache_replayed=0,cost_new=0,
                completed_attempts_resumed=len(data["attempts"]),new_successor_evaluations=0)
     used=0
@@ -549,11 +626,16 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
     while (not data["seed_pending"] and not data["pending"] and data["next_generation"]<=target_generation
             and used<budget and time.monotonic()-start<spec["maximum_seconds"]):
         generation=data["next_generation"];_check_epoch(root,source)
-        parent_ids=archive["retained_candidate_ids"]
+        snapshot=_generation_feedback(data["rows"],data["genes_by_id"],domains,recipes,root,kernel,spec,feedback_observations)
+        _store(state/"feedback"/(snapshot["snapshot_id"]+".json"),snapshot)
+        if time.monotonic()-start>=spec["maximum_seconds"]:break
+        feedback_observations={o["candidate_id"]:o for o in snapshot["observations"]}
+        parents=snapshot["plan"]["parents"]
         request=dict(seed=spec["seed"],generation=generation,limit=spec["proposals_per_generation"],
             max_attempts=min(1000000,spec["proposals_per_generation"]*20),
             axes=[dict(name=name,choices=len(values)) for name,values in domains.items()],family_axis=0,
-            parents=[dict(candidate_id=cid,genes=data["genes_by_id"][cid]) for cid in parent_ids],
+            parents=[dict(candidate_id=p["candidate_id"],genes=data["genes_by_id"][p["candidate_id"]],weight=p["weight"])
+                     for p in parents],
             seen=deepcopy(data["seen"]),weights=spec["exploration_weights"])
         generated=kernel.propose(**request);programs=generated["proposals"]
         data["seen"].extend(p["genes"] for p in programs)
@@ -565,13 +647,16 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
             program=dict(programs[i],generation=generation,proxy_stock_kg=proxies[i],
                 parent_evaluations=[dict(candidate_id=cid,evaluation_id=data["rows"][cid]["evaluation_id"])
                     for cid in programs[i]["parent_candidate_ids"]],
-                variable_registry_id=contract["variable_registry_id"],requirement_context=contract["requirements_context"])
+                variable_registry_id=contract["variable_registry_id"],requirement_context=contract["requirements_context"],
+                parent_feedback_snapshot_id=snapshot["snapshot_id"])
             program["proposal_id"]=identity(dict(program=program,contract_id=contract_id));prepared.append(program)
         generation_id=identity(dict(contract_id=contract_id,generation=generation,request=request))
-        _store(state/"generated"/(generation_id+".json"),dict(request=request,generated=generated,programs=prepared))
+        _store(state/"generated"/(generation_id+".json"),dict(request=request,generated=generated,programs=prepared,
+               feedback_snapshot_id=snapshot["snapshot_id"]))
         data["generations"].append(dict(generation=generation,generation_id=generation_id,
             generated_programs=len(programs),proxy_kind="uncalibrated-full-panel-and-four-RHS-stock-heuristic",
-            parent_attempt_count=len(data["attempts"]),parent_archive_id=archive["archive_id"],
+            parent_attempt_count=len(data["attempts"]),parent_archive_id=snapshot["plan"]["cost_archive"]["archive_id"],
+            parent_feedback_snapshot_id=snapshot["snapshot_id"],
             kernel_provenance=generated["provenance"]))
         data["pending"].extend(prepared[:len(chosen)])
         data["deferred"].extend(prepared[len(chosen):])
@@ -580,7 +665,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         while data["pending"] and used<budget and time.monotonic()-start<spec["maximum_seconds"]:
             evaluate(data["pending"].pop(0));save()
         archive=_archive(kernel,list(data["rows"].values()))
-    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs)
+    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations)
     save(force=True)
     value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
@@ -597,6 +682,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         deferred_programs=len(data["deferred"]),
         detailed_finalists=len(detailed),cache_statistics=stats,numerical_solver_dispatch_count=refinement["native_jobs_new"],
         native_evidence_reused=refinement["native_evidence_reused"],archive_backend=archive["backend"],
+        generation_feedback_snapshots=len(data["generations"]),feedback_observations=len(feedback_observations),
+        analytical_assessment_counts=refinement["assessment_counts"],
         analytical_assessments=len(refinement["assessments"]),output=str(state/"runs"/(value["run_id"]+".json")),
         elapsed_s=time.monotonic()-start,integrated_selection=None,**FLAGS)
 

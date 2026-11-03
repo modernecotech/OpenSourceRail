@@ -60,6 +60,13 @@ pub struct Axis {
 pub struct Parent {
     pub candidate_id: String,
     pub genes: Vec<usize>,
+    /// Positive bounded proposal bias, never a physical acceptance score.
+    #[serde(default = "default_parent_weight")]
+    pub weight: u32,
+}
+
+fn default_parent_weight() -> u32 {
+    1
 }
 
 #[derive(Debug, Serialize, PartialEq)]
@@ -525,6 +532,20 @@ pub fn propose(
         return fail("Positive bounded proposal allocation weights required");
     }
     parents.sort_by(|a, b| a.candidate_id.cmp(&b.candidate_id));
+    let mut parent_total = 0_u64;
+    let mut cumulative_weights = Vec::with_capacity(parents.len());
+    for parent in &parents {
+        if !(1..=1000).contains(&parent.weight) {
+            return fail("Parent proposal weights must be integers from one to 1000");
+        }
+        parent_total = parent_total
+            .checked_add(u64::from(parent.weight))
+            .ok_or_else(|| Error("Parent proposal weight sum overflow".into()))?;
+        if parent_total > 100_000_000 {
+            return fail("Parent proposal weight sum exceeds the bounded search domain");
+        }
+        cumulative_weights.push(parent_total);
+    }
     let mut parent_ids = BTreeSet::new();
     if parents.iter().any(|p| {
         !valid_id(&p.candidate_id)
@@ -573,7 +594,11 @@ pub fn propose(
         *attempts
             .get_mut(operators[operator])
             .expect("registered operator") += 1;
-        let parent = &parents[rng.choose(parents.len())];
+        // One draw with the same bound and subsequent RNG state as the former
+        // uniform choice when all weights are one. Prefix lookup adds no draws.
+        let pick = rng.choose(parent_total as usize) as u64;
+        let parent_index = cumulative_weights.partition_point(|&total| total <= pick);
+        let parent = &parents[parent_index];
         let mut genes = parent.genes.clone();
         match operator {
             0 if !nonfamily.is_empty() => {

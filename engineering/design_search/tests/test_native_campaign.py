@@ -235,7 +235,7 @@ def test_topology_genome_changes_actual_geometry_and_preserves_materialisation_p
 
 def controls(monkeypatch):
     spec=c.specification();spec.update(seed_bracing=[False,True],detailed_finalists=1)
-    spec["refinement"]["maximum_assessments"]=2
+    spec["refinement"]["maximum_new_assessments"]=2
     monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
 
 
@@ -245,7 +245,8 @@ def test_finalists_receive_analytical_evidence_with_zero_native_budget(tmp_path,
     monkeypatch.setattr(c.native_refinement.grammar_structure,"run",forbidden)
     value=read(c.run(state=tmp_path,generations=0,native_jobs=0))
     assert len(value["refinement"]["assessments"])==2
-    assert value["refinement"]["axial_model_archive"] is not None
+    assert value["refinement"]["axial_model_archives"]
+    assert value["refinement"]["assessment_counts"]==dict(inherited=0,additional=2,maximum_additional=2,total=2,maximum_total=64)
     assert value["numerical_solver_dispatch_count"]==0
     assert value["native_dispatch_allowed"] is False
     assert value["refinement"]["native_evidence_reused"]==0
@@ -271,3 +272,46 @@ def test_topology_shortlist_does_not_starve_heavier_new_load_paths():
     proxies=[float(100*t+i) for t in range(3) for i in range(5)]
     chosen=c._shortlist(programs,proxies,3,topology_axis=0)
     assert {programs[i]["genes"][0] for i in chosen}=={0,1,2}
+
+
+def test_structural_feedback_changes_rust_parent_weights_without_dropping_unknowns(tmp_path,small,monkeypatch):
+    spec=c.specification();spec.update(seed_bracing=[False,True],detailed_finalists=0)
+    spec["feedback"].update(maximum_new_assessments=2,maximum_total_assessments=4)
+    monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
+    def forbidden(*args,**kwargs):raise AssertionError("Parent feedback dispatched a native solver")
+    monkeypatch.setattr(c.native_refinement.grammar_structure,"run",forbidden)
+    result=read(c.run(state=tmp_path,generations=2,maximum_new_evaluations=8,native_jobs=0))
+    snapshots=[json.loads((tmp_path/"feedback"/(g["parent_feedback_snapshot_id"]+".json")).read_bytes()) for g in result["generations"]]
+    first=snapshots[0]["plan"]
+    assert len(first["parents"])==4 and all(p["weight"]>0 for p in first["parents"])
+    assert any(p["weight"]>=3 and p["candidate_id"] not in first["cost_archive"]["retained_candidate_ids"] for p in first["parents"])
+    assert len(snapshots[1]["observations"])>len(snapshots[0]["observations"])
+    assert result["refinement"]["assessment_counts"]==dict(inherited=4,additional=0,maximum_additional=12,total=4,maximum_total=64)
+    assert result["refinement"]["axial_model_archives"]==result["refinement"]["parent_feedback_plan"]["axial_archives"]
+    for generation,snapshot in zip(result["generations"],snapshots):
+        journal=json.loads((tmp_path/"generated"/(generation["generation_id"]+".json")).read_bytes())
+        expected={p["candidate_id"]:p["weight"] for p in snapshot["plan"]["parents"]}
+        assert {p["candidate_id"]:p["weight"] for p in journal["request"]["parents"]}==expected
+        assert all(p["parent_feedback_snapshot_id"]==snapshot["snapshot_id"] for p in journal["programs"])
+    assert result["numerical_solver_dispatch_count"]==0 and result["integrated_selection"] is None
+
+
+def test_feedback_snapshot_edit_cannot_be_resealed_into_generation_history(tmp_path,small):
+    result=read(c.run(state=tmp_path,generations=1,maximum_new_evaluations=1))
+    sid=result["generations"][0]["parent_feedback_snapshot_id"]
+    path=tmp_path/"feedback"/(sid+".json");value=json.loads(path.read_bytes())
+    value["plan"]["parents"][0]["weight"]=1000
+    path.write_bytes(encoded(value))
+    with pytest.raises(RuntimeError,match="feedback does not replay"):
+        c.run(state=tmp_path,generations=1,maximum_new_evaluations=1)
+
+
+def test_comparison_cohort_binds_functional_loading_not_candidate_mass(small,tmp_path):
+    p=c.grammar.parameters();p["braced"]=True
+    thin,_=c._geometry(p,small,tmp_path,c.ROOT)
+    p["chord_wall_m"]*=1.5
+    thick,_=c._geometry(p,small,tmp_path,c.ROOT)
+    assert thin["known_structure_stock_kg"]!=thick["known_structure_stock_kg"]
+    assert c._comparison_context(thin)==c._comparison_context(thick)
+    other=deepcopy(thick);other["structure"]["load_basis"]["normal_people"]+=1
+    assert c._comparison_context(thin)!=c._comparison_context(other)

@@ -173,10 +173,12 @@ fn parents() -> Vec<Parent> {
         Parent {
             candidate_id: id(2),
             genes: vec![1, 2, 3, 0],
+            weight: 1,
         },
         Parent {
             candidate_id: id(1),
             genes: vec![0, 1, 2, 0],
+            weight: 1,
         },
     ]
 }
@@ -269,6 +271,7 @@ fn finite_space_saturation_and_unavailable_operators_preserve_budget_state() {
     let parent = vec![Parent {
         candidate_id: id(1),
         genes: vec![0],
+        weight: 1,
     }];
     let result = propose(
         1,
@@ -348,5 +351,191 @@ fn proposal_allocation_counts_describe_accepted_and_attempted_work_separately() 
             + result.duplicates
             + result.operator_unavailable,
         result.attempted
+    );
+}
+
+#[test]
+fn omitted_unit_parent_weights_preserve_the_previous_complete_protocol_result() {
+    let mut request = serde_json::json!({
+        "schema": REQUEST_SCHEMA, "operation": "propose", "seed": 42,
+        "generation": 3, "limit": 6, "max_attempts": 50,
+        "axes": [{"name":"family","choices":4},{"name":"wall","choices":7},
+            {"name":"ribs","choices":5},{"name":"fixed","choices":1}],
+        "family_axis": 0,
+        "parents": [{"candidate_id":id(2),"genes":[1,2,3,0]},
+                    {"candidate_id":id(1),"genes":[0,1,2,0]}],
+        "seen": [[0,0,0,0]], "weights": [50,30,20]
+    });
+    // Captured from the preceding executable before adding parent weights.
+    let expected = serde_json::json!({
+        "schema":"osr-search-kernel-result/1","operation":"propose",
+        "rng":"splitmix64/1; modulo bounded choice",
+        "proposals":[
+            {"genes":[0,4,2,0],"operator":"exploit","parent_candidate_ids":[id(1)]},
+            {"genes":[1,1,3,0],"operator":"exploit","parent_candidate_ids":[id(2)]},
+            {"genes":[1,4,0,0],"operator":"unconventional","parent_candidate_ids":[id(1)]},
+            {"genes":[0,6,2,0],"operator":"exploit","parent_candidate_ids":[id(1)]},
+            {"genes":[0,2,1,0],"operator":"alternative-family","parent_candidate_ids":[id(2)]},
+            {"genes":[0,1,1,0],"operator":"exploit","parent_candidate_ids":[id(1)]}],
+        "attempted":8,"duplicates":2,"operator_unavailable":0,"exhausted":false,
+        "exhaustion_reason":null,
+        "allocation_counts":{"alternative-family":1,"exploit":4,"unconventional":1},
+        "attempt_allocation_counts":{"alternative-family":1,"exploit":6,"unconventional":1}
+    });
+    let omitted = execute(serde_json::from_value(request.clone()).unwrap()).unwrap();
+    assert_eq!(serde_json::to_value(&omitted).unwrap(), expected);
+    for parent in request["parents"].as_array_mut().unwrap() {
+        parent["weight"] = serde_json::json!(1);
+    }
+    assert_eq!(
+        omitted,
+        execute(serde_json::from_value(request).unwrap()).unwrap()
+    );
+}
+
+#[test]
+fn positive_parent_weights_bias_fixed_seed_sampling_without_excluding_any_parent() {
+    let axes = vec![
+        Axis {
+            name: "family".into(),
+            choices: 3,
+        },
+        Axis {
+            name: "span".into(),
+            choices: 10_000,
+        },
+        Axis {
+            name: "wall".into(),
+            choices: 10_000,
+        },
+    ];
+    let parents: Vec<_> = [1, 3, 9]
+        .into_iter()
+        .enumerate()
+        .map(|(i, weight)| Parent {
+            candidate_id: id(i + 1),
+            genes: vec![i, 0, 0],
+            weight,
+        })
+        .collect();
+    let result = propose(
+        7,
+        2,
+        6000,
+        8000,
+        axes.clone(),
+        0,
+        parents.clone(),
+        vec![],
+        [0, 0, 1],
+    )
+    .unwrap();
+    let mut reverse = parents;
+    reverse.reverse();
+    assert_eq!(
+        result,
+        propose(7, 2, 6000, 8000, axes, 0, reverse, vec![], [0, 0, 1]).unwrap()
+    );
+    let mut counts: BTreeMap<String, usize> = BTreeMap::new();
+    for proposal in &result.proposals {
+        *counts
+            .entry(proposal.parent_candidate_ids[0].clone())
+            .or_insert(0) += 1;
+    }
+    assert_eq!(result.proposals.len(), 6000);
+    assert_eq!(counts.len(), 3);
+    // This is a deterministic regression for a fixed stream, not a statistical
+    // probability test or a claim that deduplicated acceptances equal weights.
+    assert!(counts[&id(1)] > 0);
+    assert!(counts[&id(1)] < counts[&id(2)] && counts[&id(2)] < counts[&id(3)]);
+    assert!(result.attempted <= 8000 && !result.exhausted);
+}
+
+#[test]
+fn invalid_parent_weights_are_rejected_before_generating_any_proposal() {
+    for weight in [0, 1001, u32::MAX] {
+        let mut values = parents();
+        values[0].weight = weight;
+        assert!(propose(1, 0, 0, 0, axes(), 0, values, vec![], [50, 30, 20])
+            .unwrap_err()
+            .0
+            .contains("Parent proposal weights"));
+    }
+    for weight in [
+        serde_json::json!(-1),
+        serde_json::json!(1.5),
+        serde_json::json!(true),
+        serde_json::json!("1"),
+        serde_json::json!(null),
+        serde_json::json!(4_294_967_296_u64),
+    ] {
+        let request = serde_json::json!({
+            "schema":REQUEST_SCHEMA,"operation":"propose","seed":1,"generation":0,
+            "limit":1,"max_attempts":2,"axes":[{"name":"family","choices":2}],
+            "family_axis":0,"parents":[{"candidate_id":id(1),"genes":[0],"weight":weight}],
+            "seen":[],"weights":[50,30,20]
+        });
+        assert!(serde_json::from_value::<Request>(request).is_err());
+    }
+}
+
+#[test]
+fn maximum_checked_parent_weight_sum_and_weighted_saturation_remain_bounded() {
+    let parents: Vec<_> = (0..100_000)
+        .map(|i| Parent {
+            candidate_id: id(i),
+            genes: vec![0],
+            weight: 1000,
+        })
+        .collect();
+    let result = propose(
+        1,
+        0,
+        0,
+        0,
+        vec![Axis {
+            name: "family".into(),
+            choices: 1,
+        }],
+        0,
+        parents,
+        vec![],
+        [50, 30, 20],
+    )
+    .unwrap();
+    assert_eq!(result.attempted, 0);
+    assert!(result.proposals.is_empty());
+    let parents = vec![
+        Parent {
+            candidate_id: id(1),
+            genes: vec![0],
+            weight: 1000,
+        },
+        Parent {
+            candidate_id: id(2),
+            genes: vec![1],
+            weight: 1,
+        },
+    ];
+    let result = propose(
+        1,
+        0,
+        5,
+        20,
+        vec![Axis {
+            name: "family".into(),
+            choices: 2,
+        }],
+        0,
+        parents,
+        vec![],
+        [0, 1, 0],
+    )
+    .unwrap();
+    assert_eq!(result.attempted, 0);
+    assert!(result.exhausted && result.proposals.is_empty());
+    assert_eq!(
+        result.exhaustion_reason,
+        Some("finite-gene-space-exhausted")
     );
 }
