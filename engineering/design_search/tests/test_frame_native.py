@@ -1,4 +1,5 @@
 from copy import deepcopy
+from math import cos, sin
 import json
 import os
 
@@ -175,6 +176,31 @@ def test_parent_thread_runtime_change_cannot_reuse_comparison(tmp_path, monkeypa
     monkeypatch.setenv("OMP_NUM_THREADS", "different")
     with pytest.raises(ValueError, match="runtime"):
         n.verify(path)
+
+
+def test_expanded_section_recovers_direct_twist_despite_translation_and_axial_warping(tmp_path):
+    value = model(); angle = .03
+    coordinates, displacement = [], []
+    for i, x in enumerate((0., 3.)):
+        theta = i*angle
+        for j, (y, z) in enumerate(((-.04, -.08), (-.04, .08), (.04, -.08), (.04, .08))):
+            nid = i*4+j+1
+            coordinates.append(f" -1{nid:10d}{x:12.5E}{y:12.5E}{z:12.5E}")
+            u = [2*y*z, (cos(theta)-1)*y-sin(theta)*z+.005, sin(theta)*y+(cos(theta)-1)*z-.003]
+            displacement.append(f" -1{nid:10d}"+"".join(f"{v:12.5E}" for v in u))
+    path = tmp_path/"expanded.frd"
+    path.write_text("    2C\n"+"\n".join(coordinates)+"\n -3\n -4 DISP\n"+"\n".join(displacement)+"\n -3\n")
+    result = n.single_member_twist(value, path)
+    assert result["increment_rad"] == pytest.approx(angle, rel=1e-5)
+    assert result["start"]["angle_rad"] == pytest.approx(0., abs=1e-8)
+    assert result["start"]["node_count"] == result["end"]["node_count"] == 4
+
+
+def test_missing_expanded_displacements_cannot_be_replaced_by_centreline_motion(tmp_path):
+    path = tmp_path/"missing.frd"
+    path.write_text("    2C\n -1         1 0.00000E+00 0.00000E+00 0.00000E+00\n -3\n")
+    with pytest.raises(ValueError, match="displacements"):
+        n.single_member_twist(model(), path)
 
 
 @pytest.mark.skipif(os.environ.get("OSR_TEST_NATIVE_FRAME") != "1",

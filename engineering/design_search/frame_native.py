@@ -5,11 +5,12 @@ Its section approximation and rigid shared-node coupling remain research
 hypotheses. A completed native calculation cannot qualify the physical joints,
 body, clearances, fatigue, buckling or composite material law.
 """
-from math import fsum, isfinite, sqrt
+from math import atan2, fsum, isfinite, sqrt
 import os
 from pathlib import Path
 import platform
 import resource
+import re
 import shutil
 import stat
 import subprocess
@@ -32,7 +33,8 @@ SCOPE = ["CalculiX 2.23 manual sections 6.2.33, 6.3.2 and 7.3: B32R BOX and loca
     "Width is local 1 (analytical local_y); height is local 2 (analytical local_z)",
     "BOX neglects individual-wall bending and resolves warping only approximately; no solid RHS replacement",
     "Shared beam nodes impose rigid continuity; real joints and offsets remain unvalidated",
-    "DAT supplies translations, forces and energy; complete rotations/reaction moments are not recovered here"]
+    "DAT supplies translations, forces and energy; complete frame rotations/reaction moments are not recovered here",
+    "Single-member end twist is a rigid cross-section fit of expanded OUTPUT=3D displacement fields, not centreline translation"]
 LOADED = {PRODUCER: digest(__file__), frame_analysis.PRODUCER: digest(frame_analysis.__file__),
     "engineering/station_rail/common.py": digest(common.__file__)}
 
@@ -101,6 +103,7 @@ def deck(model, subdivisions=2):
             if value:
                 lines.append(f"{number[load['node_id']]},{d},{value:.16g}")
     lines += ["*NODE PRINT,NSET=OUTPUT", "U", "*NODE PRINT,NSET=OUTPUT", "RF",
+        "*NODE FILE,OUTPUT=3D", "U",
         "*EL PRINT,ELSET=ALL,TOTALS=ONLY", "ELSE", "*END STEP", ""]
     definition = dict(model_id=identity(model), original_node_numbers=number, subdivisions=subdivisions,
         element_type="B32R", section_type="BOX", element_count=len(elements), scope=SCOPE, manual=MANUAL)
@@ -130,6 +133,84 @@ def parse_dat(path):
     return displacements, forces, energy
 
 
+def parse_frd_displacements(path):
+    """Read expanded coordinates and the final displacement field, not rotations."""
+    if Path(path).stat().st_size > 16*1024**2:
+        raise ValueError("Native FRD exceeds parser resource limit")
+    coordinates, displacements, active = {}, {}, None
+    pattern = r"[-+]?\d+(?:\.\d*)?(?:[Ee][-+]?\d+)?"
+    for line in Path(path).read_text().splitlines():
+        text = line.strip()
+        if text.startswith("2C"):
+            active = coordinates
+        elif text.startswith("-4"):
+            if len(text.split()) > 1 and text.split()[1] == "DISP":
+                displacements = {}; active = displacements
+            else:
+                active = None
+        elif text.startswith("-3"):
+            active = None
+        elif active is not None and text.startswith("-1"):
+            fields = re.findall(pattern, text)
+            if len(fields) < 5:
+                raise ValueError("Expanded FRD vector record is incomplete")
+            values = [float(v) for v in fields[2:5]]
+            if any(not isfinite(v) for v in values):
+                raise ValueError("Expanded FRD vector is nonfinite")
+            active[int(fields[1])] = values
+    if not coordinates or not displacements or not set(displacements) <= set(coordinates):
+        raise ValueError("Expanded FRD coordinates/displacements required for direct twist")
+    return coordinates, displacements
+
+
+def single_member_twist(model, path):
+    """Recover end twist of one straight member by a planar rigid-rotation fit.
+
+    The fit projects out axial warping and translation. It does not reconstruct
+    arbitrary multi-member knots, rotations of a complete frame or real joints.
+    """
+    if len(model["members"]) != 1:
+        return None
+    member = model["members"][0]
+    nodes = {row["id"]: row["at_m"] for row in model["nodes"]}
+    start, end = [nodes[member[k]] for k in ("start_node", "end_node")]
+    axis = _vector([b-a for a, b in zip(start, end)])
+    coordinates, displacements = parse_frd_displacements(path)
+    def dot(a, b): return fsum(x*y for x, y in zip(a, b))
+    def cross(a, b): return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
+    section = member["section"]
+    radius = sqrt(section["width_m"]**2+section["height_m"]**2)/2
+    tolerance = max(sqrt(dot([b-a for a,b in zip(start,end)], [b-a for a,b in zip(start,end)]))*1e-6, 1e-9)
+    result = {}
+    for key, centre in (("start", start), ("end", end)):
+        selected = []
+        for nid, xyz in coordinates.items():
+            relative = [v-u for u, v in zip(centre, xyz)]
+            axial = dot(relative, axis)
+            radial = [v-axial*u for v, u in zip(relative, axis)]
+            if abs(axial) <= tolerance and dot(radial, radial) <= (radius+tolerance)**2 and nid in displacements:
+                selected.append((nid, radial, displacements[nid]))
+        if len(selected) < 4:
+            raise ValueError("At least four expanded end-section vectors required for direct twist")
+        radial_mean = [fsum(row[1][i] for row in selected)/len(selected) for i in range(3)]
+        motion_mean = [fsum(row[2][i] for row in selected)/len(selected) for i in range(3)]
+        sine, cosine, denominator = [], [], []
+        for _, r, u in selected:
+            r = [v-mean for v, mean in zip(r, radial_mean)]
+            u = [v-mean for v, mean in zip(u, motion_mean)]
+            u = [v-dot(u, axis)*a for v, a in zip(u, axis)]
+            deformed = [a+b for a, b in zip(r, u)]
+            sine.append(dot(axis, cross(r, deformed)))
+            cosine.append(dot(r, deformed)); denominator.append(dot(r, r))
+        if fsum(denominator) <= 1e-20:
+            raise ValueError("Nondegenerate expanded cross-section geometry required")
+        result[key] = dict(angle_rad=atan2(fsum(sine), fsum(cosine)), node_count=len(selected),
+            method="Planar least-squares rigid rotation of expanded cross-section displacement vectors")
+    result["axis"] = axis
+    result["increment_rad"] = result["end"]["angle_rad"]-result["start"]["angle_rad"]
+    return result
+
+
 def _comparison(model, definition, path):
     reference = _reference(model)
     u, forces, energy = parse_dat(path)
@@ -137,12 +218,29 @@ def _comparison(model, definition, path):
     errors = [sqrt(fsum((a-b)**2 for a, b in zip(native[key], value))) for key, value in reference["displacements_m"].items()]
     scale = max([sqrt(fsum(v*v for v in row)) for row in reference["displacements_m"].values()]+[1e-12])
     analytic_energy = reference.get("strain_energy_J")
+    twist = single_member_twist(model, Path(path).with_suffix(".frd"))
+    if twist is not None:
+        member = model["members"][0]; axis = twist["axis"]
+        reference_rotations = reference["rotations_rad"]
+        twist["analytical_increment_rad"] = fsum((b-a)*direction for a, b, direction in zip(
+            reference_rotations[member["start_node"]], reference_rotations[member["end_node"]], axis))
+        if len(model["loads"]) == 1:
+            load = model["loads"][0]; moment = load.get("moment_Nm", [0., 0., 0.])
+            torque = fsum(a*b for a, b in zip(moment, axis))
+            pure = load["node_id"] == member["end_node"] and not any(load["force_N"]) and abs(torque) > 1e-20 and all(
+                abs(m-torque*a) <= abs(torque)*1e-10 for m,a in zip(moment,axis))
+            if pure:
+                work = .5*torque*twist["increment_rad"]
+                twist.update(applied_axial_torque_Nm=torque, direct_end_work_J=work,
+                    energy_work_relative_difference=abs(work-energy)/max(abs(energy), 1e-30),
+                    work_equivalent_twist_rad=2*energy/torque)
     return dict(analytical_evaluation_id=reference["evaluation_id"], displacements_m=native,
         printed_forces_N={key: forces.get(n) for key, n in definition["original_node_numbers"].items()},
         native_strain_energy_J=energy, analytical_strain_energy_J=analytic_energy,
         maximum_translation_difference_m=max(errors), translation_relative_difference=max(errors)/scale,
         energy_relative_difference=None if analytic_energy is None else abs(energy-analytic_energy)/max(abs(analytic_energy), 1e-30),
-        rotations_rad=None, reaction_moments_Nm=None, agreement_is_not_physical_qualification=True)
+        rotations_rad=None, reaction_moments_Nm=None, single_member_twist=twist,
+        agreement_is_not_physical_qualification=True)
 
 
 def _sources(root, supplied=None):

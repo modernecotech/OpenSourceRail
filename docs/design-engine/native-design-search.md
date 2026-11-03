@@ -25,22 +25,44 @@ spacing, dimensions, bracing, roof integration and structural topology. These
 are invocation domains for implemented materialisers, not the entire admissible
 engineering design space or acceptance limits.
 
-Two new topology productions change connectivity and actual counted stock:
+Registered topology productions change connectivity and actual counted stock:
 
 - `add-longitudinal-spine`: centre nodes, longitudinal members and radial branches.
 - `add-cellular-diaphragms`: bay-centre nodes and pyramidal branches between stations.
+- `remove-alternate-crossframe-bracing`: remove alternate interior diagonals from
+  an already braced parent, protecting end and bogie-support stations.
 
-Each adds explicit RHS geometry, joints, typed ports, assembly operations and
+The additive productions introduce explicit RHS geometry, joints, typed ports, assembly operations and
 mass/load projections while preserving accommodation, bogie supports and inherited
 equipment accounts. The materialisation parent is distinct from the genetic
 search parent; both identities are retained. Joint hardware, trimmed/intersecting
 stock, installation and clearance evidence remain incomplete. Heavier first
 mutations are experiments, not claimed improvements.
 
+Member removal retires the corresponding stock, component occurrences and end
+connections, updates remaining joins/assembly and recalculates own-candidate
+gravity loads. Removed stock is not copied into an inherited allowance. It
+requires declared existing bracing; ineligible programs remain in the immutable
+deferred journal with their definition hold. Full projection reconstruction
+rejects resealed accounting, assembly or ancestry changes.
+
+For the default braced control, six removed members reduce gross body stock by
+118.583 kg (161 to 155 members) and the scoped body-stock factory estimate by
+IQD 4.44 million. Nodes, supports, passenger interfaces and inherited equipment
+are unchanged. Pin mechanisms remain zero. Own-load frame displacement falls
+26.769 to 26.491 mm, but equal-load-normalised compliance increases 0.0559%.
+This does not demonstrate greater stiffness or complete installed savings; the
+short-member/shear and joint holds remain. The independent paired-audit SHA is
+`4e49b9cccefa2bf591ffd229062895292b15cf09e678828457487be09c148ea4`.
+
 Each generation creates up to 1,000 programs. A NumPy stock proxy orders twelve
 nominal-geometry/cost evaluations. The initial shortlist targets 50/30/20
 exploitation/alternative/unconventional allocations where available and protects
-observed topology choices from starvation. The proxy omits detailed ribs and
+observed topology choices from starvation. Within the existing twelve-evaluation
+budget, the default shortlist also protects all eight topology/material-family
+cells where eligible proposals exist. This retains both aluminium and GFRP
+experiments rather than letting the light-stock proxy favour only one material.
+The proxy omits detailed ribs and
 joints and is uncalibrated; it cannot establish physical quantities or compliance.
 Actual geometry and cost are calculated after materialisation. Rust allocation
 weights govern attempts; deduplication changes accepted proportions.
@@ -121,6 +143,11 @@ thin-wall torsion and numerical residuals retain separate domain holds. Solved
 frames neither invalidate a pin mechanism nor establish a qualified body. Frame
 results do not affect parent weights or integrated selection.
 
+Frame requests first cover observed topologies, preferring an implemented
+research material route within each topology. Pin-model failure cannot block a
+separate rigid-frame experiment. Unrequested candidates remain in the frame
+frontier; unavailable composite laws remain explicit holds.
+
 `--frame-native-jobs 1` requests a separate bounded native comparison budget;
 its default is zero, independent of `--native-jobs`. A model-domain hold prevents
 dispatch. The optional CalculiX B32R/BOX adapter preserves the hollow section,
@@ -129,16 +156,36 @@ failed/interrupted attempts and exact model/deck/payload receipts. Read-only
 verification regenerates the deck and reanalyses saved outputs without solving.
 These are local integrity checks, not authenticated physical measurements.
 
-Two method controls used actual hollow sections under the documented
-[CalculiX beam formulation](https://www.dhondt.de/ccx_2.23.pdf). Bending displacement
-and energy differed from the analytical beam by 1.038%. Torsion energy differed by
-21.898% and remains unresolved; native rotations and reaction moments are not
-recovered by this adapter. Essentially zero centreline translation cannot verify
-torsion. The controls record has SHA-256
-`df4380eff36cadc25f06fd548a35ac779265800dddfb9c2efd2f9679aaedf9d6`.
-No tolerance or physical gate was relaxed to resolve that disagreement.
+The hollow-section bending control under the documented
+[CalculiX beam formulation](https://www.dhondt.de/ccx_2.23.pdf) differs from the
+analytical beam by about 1.04%. Expanded `OUTPUT=3D` displacement fields now
+support a labelled end-twist fit for one straight member; full-frame rotations
+and reaction moments remain unavailable. Essentially zero centreline translation
+cannot verify torsion.
 
-The complete lightweight phase profile produced run
+Four bounded torsion controls varied mesh (8/16 elements), length (3/6 m) and wall
+(4/2 mm). Energy disagreement with Bredt persists at 21.86–22.30%, while the
+8-to-16-element native energy changes only 0.0457%. Baseline expanded-section
+twist is about 1.83646e-5 rad versus 1.83692e-5 rad from torque–energy work and
+2.35194e-5 rad from Bredt. The manual's restricted BOX warping is a supported
+diagnostic hypothesis; a fitted torsion constant is not substituted. Cross-section
+model calibration remains open, with no tolerance or physical gate relaxed.
+Study SHA-256:
+`c405942d35df0b2e22f1f7a4497af35ad768f4f5e584250a7e918b7f79381f6b`;
+diagnosis SHA-256:
+`e08478cb0b375f9add21209cb25b8c16d732c883e149f1deb6d382f879a83e36`.
+
+The current diversity reference run is
+`26f217859556d0060828f44dcfb8f066c74630e020f8abb581cebce7f9d2b65c`:
+2,000 programs, 60 evaluated definitions/59 physical designs, 34 axial assessments
+and three novel aluminium frame evaluations (cellular, spine and removal).
+Each generation's twelve evaluations cover all eight eligible topology/material
+cells. All 162 unbraced removal proposals remain deferred. The three frames retain
+small-displacement and short-member/shear holds; zero native jobs were dispatched.
+Full invocation wall time was 18.91 s, peak command RSS 280,212 KiB. This is a
+different physical workload from earlier timing cases, not a measured speedup.
+
+The source-pinned lightweight phase profile before member removal produced run
 `ce32143bc9b1d76d0b3745f87c90cfabc2c41e5e8fbb385e6fd2bf14b184d2bb`:
 2,000 programs, 60 evaluated definitions representing 57 physical designs,
 29 axial assessments and three coarse frame assessments, with zero native jobs.
@@ -264,10 +311,10 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Current regression checks passed 223 tests on each of Python 3.12 and 3.13, with
+Current regression checks passed 240 tests on each of Python 3.12 and 3.13, with
 the opt-in native bending control separately passing and both native controls
 required in CI. The unchanged Rust kernel retains its 15 tests in CI;
-30 CI routing tests (101 subtests) passed. `./osr verify` replayed the
+34 CI routing tests (115 subtests) passed. `./osr verify` replayed the
 current selected publication successfully without regenerating its packets. The
 opt-in native control remains a separate CI job.
 
@@ -291,7 +338,7 @@ The benchmark report SHA-256 is
 ```bash
 python tools/automation/benchmark-native-search.py --output build/my-search-benchmark
 cargo test --locked -p osr-design-search
-python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
+python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_topology_revision.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
 ```
 
 NumPy/SciPy and CalculiX retain their compiled numerical engines. Arbitrary organic

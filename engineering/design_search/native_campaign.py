@@ -31,6 +31,7 @@ from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, design_portfolio, model_cost, shape_families
 from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback, invocation_cache, axial_analysis
 from . import frame_analysis, frame_refinement, frame_native
+from . import topology_revision
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -46,7 +47,7 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
     topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis,
-    frame_analysis,frame_refinement,frame_native)}
+    frame_analysis,frame_refinement,frame_native,topology_revision)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -72,7 +73,7 @@ def specification(root=ROOT):
         if not isinstance(choices, list) or not choices or len(choices) != len(set(choices)):
             raise ValueError("Unique nonempty choices required")
         if name=="topology":
-            valid=all(x in ("reference",*topology_mutation.OPERATORS) for x in choices)
+            valid=all(x in ("reference",*topology_mutation.OPERATORS,topology_revision.OPERATOR) for x in choices)
         elif name in ("braced", "integrated_roof"):
             valid = all(type(x) is bool for x in choices)
         else:
@@ -106,7 +107,7 @@ def _sources(root):
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
                 topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis,
-                frame_analysis,frame_refinement,frame_native)},
+                frame_analysis,frame_refinement,frame_native,topology_revision)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -156,6 +157,21 @@ def _comparison_context(candidate):
         support_xy_dofs=supports,gravity_m_s2=9.80665,person_mass_kg=75.,
         load_policy="Uniform tributary normal sprung mass including each candidate's own gross stock; installed mass unknown",
         support_policy="Generated lower-chord nodes at retained bogie longitudinal stations; geometry-dependent height unqualified"))
+
+
+def _frame_order(assessments,rows,recipes):
+    """Request topology coverage independently of pin-model admissibility."""
+    def priority(assessment):
+        row=rows[assessment["candidate_id"]]
+        # This is an implemented research material route, not physical evidence.
+        known_route=recipes[row["descriptor"]["family"]]["frame"]=="aluminium_reference"
+        return (not known_route,row["metrics"]["factory_gate_base_iqd"],assessment["candidate_id"])
+    groups={}
+    for assessment in assessments:
+        groups.setdefault(rows[assessment["candidate_id"]]["descriptor"]["topology"],[]).append(assessment)
+    representatives=[min(group,key=priority) for _,group in sorted(groups.items(),key=lambda pair:(pair[0]=="reference",pair[0]))]
+    selected={a["candidate_id"] for a in representatives}
+    return representatives+sorted((a for a in assessments if a["candidate_id"] not in selected),key=priority)
 
 
 def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous,reuse=None):
@@ -255,7 +271,9 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
     final_plan=search_feedback.plan(kernel,list(data["rows"].values()),wrappers,source_sha256=_sources(root),
         maximum_weight=spec["feedback"]["maximum_parent_weight"])
     frames=[];frame_dispatched=0;frame_reused=0
-    for axial in ordered[:min(spec["frame_refinement"]["maximum_assessments"],spec["detailed_finalists"])]:
+    frame_order=_frame_order(assessments,data["rows"],recipes)
+    frame_limit=min(spec["frame_refinement"]["maximum_assessments"],spec["detailed_finalists"])
+    for axial in frame_order[:frame_limit]:
         if time.monotonic()-start>=spec["maximum_seconds"]:break
         cid=axial["candidate_id"]
         if cid not in candidates:candidates[cid]=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
@@ -283,7 +301,8 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
         frames.append(record)
     feedback=dict(assessments=assessments,packages=packages,axial_model_archives=final_plan["axial_archives"],
         frame_assessments=frames,frame_native_jobs_new=frame_dispatched,frame_native_evidence_reused=frame_reused,
-        frame_selection_purpose="Separate exploratory six-DOF model/domain evidence; no parent-weight or integrated-baseline reward",
+        frame_deferred_candidate_ids=[a["candidate_id"] for a in frame_order if a["candidate_id"] not in {r["assessment"]["candidate_id"] for r in frames}],
+        frame_selection_purpose="Topology coverage before within-family implemented research material route and partial cost; independent of pin-model pass; no parent-weight or integrated-baseline reward",
         parent_feedback_plan=final_plan,assessment_counts=dict(inherited=len(inherited),
             additional=len(assessments)-len(inherited),maximum_additional=spec["refinement"]["maximum_new_assessments"],
             total=len(assessments),maximum_total=64),
@@ -339,15 +358,19 @@ def _geometry_key(parameters, recipes, root, topology="reference"):
     # Price, optimizer and service changes do not invalidate unchanged geometry.
     return dict(parameters=parameters, recipes=recipes, runtime=_runtime(),topology_operator=topology,
         source_sha256={name: digest(Path(root)/name) for name in (
-            grammar.PRODUCER,topology_mutation.PRODUCER, "engineering/design_search/remit.py", "engineering/station_rail/common.py")},
+            grammar.PRODUCER,topology_mutation.PRODUCER, "engineering/design_search/remit.py", "engineering/station_rail/common.py",
+            *((topology_revision.PRODUCER,) if topology==topology_revision.OPERATOR else ()))},
         retained_equipment_sources=grammar._reference_equipment()[2])
 
 
 def _materialise(parameters,recipes,topology="reference"):
+    if topology==topology_revision.OPERATOR and not parameters["braced"]:
+        raise ValueError("Member removal requires declared existing crossframe bracing")
     candidate = grammar.build(parameters, recipes=recipes, reason="Native-search materialisation; ancestry is bound by the proposal record")
     base=candidate
     if topology!="reference":
-        candidate=topology_mutation.mutate(base,topology,requirement_revision=base["requirement_revision"])
+        producer=topology_revision if topology==topology_revision.OPERATOR else topology_mutation
+        candidate=producer.mutate(base,topology,requirement_revision=base["requirement_revision"])
     return candidate,base
 
 
@@ -421,14 +444,31 @@ def screen_programs(programs, domains, recipes):
     return [float(x) for x in proxy]
 
 
-def _shortlist(programs, proxies, limit, topology_axis=None):
+def _definition_screen(genes,domains):
+    values=dict(zip(domains,(choices[index] for index,choices in zip(genes,domains.values()))))
+    if values.get("topology")==topology_revision.OPERATOR and not values.get("braced"):
+        return dict(state="held-by-operator-precondition",reason="Member removal requires declared existing crossframe bracing")
+    return dict(state="eligible-for-materialisation",reason=None)
+
+
+def _screen_cell(genes,domains,recipes):
+    values=dict(zip(domains,(choices[index] for index,choices in zip(genes,domains.values()))))
+    return dict(topology=values["topology"],frame_material=recipes[values["family"]]["frame"])
+
+
+def _shortlist(programs, proxies, limit, topology_axis=None,eligible=None,coverage=None):
     # Keep the proposed 50/30/20 allocation among actual evaluations, not only
     # among generated programs. Highest-remainder deterministic apportionment.
     labels = ("exploit", "alternative-family", "unconventional")
     quotas = [limit*w//100 for w in (50,30,20)]
     for i in sorted(range(3), key=lambda i: (-(limit*(50,30,20)[i]%100), i))[:limit-sum(quotas)]:
         quotas[i] += 1
-    ordered = sorted(range(len(programs)), key=lambda i: (proxies[i], tuple(programs[i]["genes"])))
+    if eligible is None:eligible=[True]*len(programs)
+    if len(eligible)!=len(programs) or any(type(value) is not bool for value in eligible):
+        raise ValueError("Explicit same-size definition eligibility flags required")
+    if coverage is not None and (len(coverage)!=len(programs) or any(not isinstance(value,str) for value in coverage)):
+        raise ValueError("Explicit same-size coverage cell identities required")
+    ordered = sorted((i for i in range(len(programs)) if eligible[i]), key=lambda i: (proxies[i], tuple(programs[i]["genes"])))
     chosen = []
     for label, quota in zip(labels, quotas):
         chosen.extend([i for i in ordered if programs[i]["operator"] == label][:quota])
@@ -436,7 +476,7 @@ def _shortlist(programs, proxies, limit, topology_axis=None):
     if topology_axis is not None:
         # Protect real topology experiments from a proxy that deliberately omits
         # their added members. Preserve category quotas where a swap permits it.
-        for topology in sorted({p["genes"][topology_axis] for p in programs})[:limit]:
+        for topology in sorted({programs[i]["genes"][topology_axis] for i in ordered})[:limit]:
             if any(programs[i]["genes"][topology_axis]==topology for i in chosen):continue
             candidates=[i for i in ordered if programs[i]["genes"][topology_axis]==topology]
             counts={t:sum(programs[i]["genes"][topology_axis]==t for i in chosen)
@@ -447,6 +487,17 @@ def _shortlist(programs, proxies, limit, topology_axis=None):
             candidate,victim=min(pairs,key=lambda pair:(
                 programs[pair[0]]["operator"]!=programs[pair[1]]["operator"],
                 proxies[pair[0]],-proxies[pair[1]],tuple(programs[pair[0]]["genes"])))
+            chosen[chosen.index(victim)]=candidate
+    if coverage is not None:
+        for cell in sorted({coverage[i] for i in ordered})[:limit]:
+            if any(coverage[i]==cell for i in chosen):continue
+            candidates=[i for i in ordered if coverage[i]==cell]
+            counts={key:sum(coverage[i]==key for i in chosen) for key in {coverage[i] for i in chosen}}
+            spare=[i for i in chosen if counts[coverage[i]]>1]
+            pairs=[(candidate,victim) for candidate in candidates for victim in spare]
+            if not pairs:continue
+            candidate,victim=min(pairs,key=lambda pair:(
+                programs[pair[0]]["operator"]!=programs[pair[1]]["operator"],proxies[pair[0]],-proxies[pair[1]],tuple(programs[pair[0]]["genes"])))
             chosen[chosen.index(victim)]=candidate
     return chosen
 
@@ -528,6 +579,8 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes,reuse=None):
         for p in packet["programs"]:
             genes=tuple(p["genes"]);core=native.get(genes)
             if (core is None or any(p[k]!=core[k] for k in ("genes","operator","parent_candidate_ids"))
+                    or p.get("definition_screen")!=_definition_screen(p["genes"],domains)
+                    or p.get("screen_cell")!=_screen_cell(p["genes"],domains,recipes)
                     or p.get("parent_feedback_snapshot_id")!=snapshot["snapshot_id"]
                     or p.get("variable_registry_id")!=data["contract"]["variable_registry_id"]
                     or p.get("requirement_context")!=data["contract"]["requirements_context"]
@@ -703,11 +756,16 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         generated=kernel.propose(**request);programs=generated["proposals"]
         data["seen"].extend(p["genes"] for p in programs)
         proxies=screen_programs(programs,domains,recipes)
-        chosen=_shortlist(programs,proxies,min(spec["evaluations_per_generation"],budget-used),list(domains).index("topology"))
-        ordered=chosen+[i for i in sorted(range(len(programs)),key=lambda i:(proxies[i],tuple(programs[i]["genes"]))) if i not in chosen]
+        definition_screens=[_definition_screen(p["genes"],domains) for p in programs]
+        screen_cells=[_screen_cell(p["genes"],domains,recipes) for p in programs]
+        eligible=[screen["state"]=="eligible-for-materialisation" for screen in definition_screens]
+        chosen=_shortlist(programs,proxies,min(spec["evaluations_per_generation"],budget-used),list(domains).index("topology"),eligible,
+            [identity(cell) for cell in screen_cells])
+        ordered=chosen+[i for i in sorted(range(len(programs)),key=lambda i:(not eligible[i],proxies[i],tuple(programs[i]["genes"]))) if i not in chosen]
         prepared=[]
         for i in ordered:
             program=dict(programs[i],generation=generation,proxy_stock_kg=proxies[i],
+                definition_screen=definition_screens[i],screen_cell=screen_cells[i],
                 parent_evaluations=[dict(candidate_id=cid,evaluation_id=data["rows"][cid]["evaluation_id"])
                     for cid in programs[i]["parent_candidate_ids"]],
                 variable_registry_id=contract["variable_registry_id"],requirement_context=contract["requirements_context"],

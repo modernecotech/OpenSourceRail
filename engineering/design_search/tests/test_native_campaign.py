@@ -274,6 +274,56 @@ def test_topology_shortlist_does_not_starve_heavier_new_load_paths():
     assert {programs[i]["genes"][0] for i in chosen}=={0,1,2}
 
 
+def test_definition_hold_is_preserved_but_does_not_displace_executable_topology():
+    programs=[dict(genes=[0,0],operator="exploit"),dict(genes=[1,0],operator="unconventional"),
+              dict(genes=[1,1],operator="unconventional")]
+    selected=c._shortlist(programs,[10.,1.,20.],2,topology_axis=0,eligible=[True,False,True])
+    assert set(selected)=={0,2}
+    domains=dict(topology=["reference",c.topology_revision.OPERATOR],braced=[False,True])
+    assert c._definition_screen([1,0],domains)["state"]=="held-by-operator-precondition"
+    assert c._definition_screen([1,1],domains)["state"]=="eligible-for-materialisation"
+    assert c._definition_screen([0,0],domains)["state"]=="eligible-for-materialisation"
+
+
+def test_subtractive_genome_reduces_actual_stock_and_requires_existing_braces(tmp_path,small):
+    params=c.grammar.parameters();params["braced"]=True
+    original,_=c._geometry(params,small,tmp_path,c.ROOT)
+    child,_=c._geometry(params,small,tmp_path,c.ROOT,c.topology_revision.OPERATOR)
+    assert len(child["structure"]["members"])<len(original["structure"]["members"])
+    assert child["known_structure_stock_kg"]<original["known_structure_stock_kg"]
+    assumptions=c.model_cost.assumptions()
+    before,_=c._evaluate(original,assumptions,tmp_path,c.ROOT)
+    after,_=c._evaluate(child,assumptions,tmp_path,c.ROOT)
+    assert after["descriptor"]["topology"]==c.topology_revision.OPERATOR
+    assert after["metrics"]["factory_gate_base_iqd"]<before["metrics"]["factory_gate_base_iqd"]
+    params["braced"]=False
+    with pytest.raises(ValueError,match="requires declared existing"):
+        c._materialise(params,small,c.topology_revision.OPERATOR)
+
+
+def test_cheap_shortlist_keeps_material_routes_in_each_topology():
+    programs=[dict(genes=[topology,material,variant],operator="unconventional")
+              for topology in range(4) for material in range(2) for variant in range(3)]
+    cells=[str(p["genes"][:2]) for p in programs]
+    proxies=[float(10*p["genes"][1]+p["genes"][2]) for p in programs]
+    chosen=c._shortlist(programs,proxies,8,topology_axis=0,coverage=cells)
+    assert {cells[i] for i in chosen}==set(cells)
+
+
+def test_frame_request_coverage_is_separate_from_pin_status_and_preserves_frontier():
+    rows={};assessments=[]
+    def add(uid,topology,family,cost,status):
+        rows[uid]=dict(descriptor=dict(topology=topology,family=family),metrics=dict(factory_gate_base_iqd=cost))
+        assessments.append(dict(candidate_id=uid,axial_status=status))
+    add("seed","reference","al",1.,"rigid-axial-graph-analytical-only")
+    add("novel-gfrp","remove","gfrp",1.,"rigid-axial-graph-analytical-only")
+    add("novel-al","remove","al",10.,"graph-mechanism-model-only")
+    add("branch","branch","al",5.,"graph-mechanism-model-only")
+    ordered=c._frame_order(assessments,rows,dict(al=dict(frame="aluminium_reference"),gfrp=dict(frame="gfrp_axial_research")))
+    assert [a["candidate_id"] for a in ordered[:3]]==["branch","novel-al","seed"]
+    assert {a["candidate_id"] for a in ordered}==set(rows)
+
+
 def test_structural_feedback_changes_rust_parent_weights_without_dropping_unknowns(tmp_path,small,monkeypatch):
     spec=c.specification();spec.update(seed_bracing=[False,True],detailed_finalists=0)
     spec["feedback"].update(maximum_new_assessments=2,maximum_total_assessments=4)
