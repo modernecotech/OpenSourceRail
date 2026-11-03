@@ -29,21 +29,22 @@ import numpy as np
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, design_portfolio, model_cost, shape_families
-from . import native_search
+from . import native_search, native_refinement, search_archive, topology_mutation
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
 CONFIG = "campaigns/rust-design-search.toml"
 FLAGS = dict(design_portfolio.FLAGS, physical_journey_completed=False,
-             selected_reference_changed=False, native_dispatch_allowed=False)
+             selected_reference_changed=False)
 OBJECTIVES = ("nominal_stock_kg", "factory_gate_base_iqd", "factory_process_hours")
 OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain unknown",
-        "Structural, fatigue, fire, braking and propulsion evidence is not supplied by search",
-        "Curved/implicit/cellular geometry and new architecture adapters require separate implementations",
+        "Whole-body structural, fatigue, fire, braking and propulsion qualification is not supplied by search",
+        "Curved/implicit solids, continuum cellular geometry and new architecture adapters require separate implementations",
         "Whole-railway installed/lifecycle comparison requires same-candidate downstream propagation",
-        "No trained surrogate or high-fidelity solver is supplied by this bounded adapter"]
+        "No trained surrogate, refined full-body or whole-railway solver is supplied by this bounded adapter"]
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
-    grammar, design_portfolio, model_cost, shape_families, native_search)}
+    grammar, design_portfolio, model_cost, shape_families, native_search,
+    topology_mutation, native_refinement, search_archive)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -58,19 +59,29 @@ def specification(root=ROOT):
             ("maximum_seconds", 1, 600), ("seed", 0, 2**64-1)):
         if type(value.get(key)) is not int or not low <= value[key] <= high:
             raise ValueError("Bounded search invocation required: " + key)
+    bracing=value.get("seed_bracing")
+    if not isinstance(bracing,list) or not bracing or len(set(bracing))!=len(bracing) or any(type(x) is not bool for x in bracing):
+        raise ValueError("Explicit unique braced/unbraced model controls required")
     expected = {"bay_pitch_m", "frame_depth_m", "chord_wall_m", "skin_thickness_m",
-                "core_thickness_m", "modular_length_m", "braced", "integrated_roof"}
+                "core_thickness_m", "modular_length_m", "braced", "integrated_roof", "topology"}
     if set(value.get("axes", {})) != expected:
         raise ValueError("Explicit supported grammar axes required")
     for name, choices in value["axes"].items():
         if not isinstance(choices, list) or not choices or len(choices) != len(set(choices)):
             raise ValueError("Unique nonempty choices required")
-        if name in ("braced", "integrated_roof"):
+        if name=="topology":
+            valid=all(x in ("reference",*topology_mutation.OPERATORS) for x in choices)
+        elif name in ("braced", "integrated_roof"):
             valid = all(type(x) is bool for x in choices)
         else:
             valid = all(type(x) in (int, float) and isfinite(x) and x > 0 for x in choices)
-        if not valid or grammar.parameters()[name] not in choices:
+        if not valid or ("reference" if name=="topology" else grammar.parameters()[name]) not in choices:
             raise ValueError("Finite typed axes containing the declared seed required: " + name)
+    refinement=value.get("refinement",{})
+    if (type(refinement.get("memory_mb")) is not int or refinement["memory_mb"] not in (1024,2048)
+            or type(refinement.get("timeout_s")) is not int or refinement["timeout_s"] not in (30,45)
+            or type(refinement.get("maximum_assessments")) is not int or not 0<=refinement["maximum_assessments"]<=64):
+        raise ValueError("Bounded axial refinement resources required")
     return value
 
 
@@ -82,7 +93,101 @@ def axes(root=ROOT):
 def _sources(root):
     return {**design_portfolio.sources(root), PRODUCER: digest(Path(root)/PRODUCER),
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
+            **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
+                topology_mutation,native_refinement,search_archive)},
+            **{name:digest(Path(root)/name) for name in (
+                "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
+
+
+def _decode_genes(genes,domains):
+    values={name:choices[index] for (name,choices),index in zip(domains.items(),genes)}
+    topology=values.pop("topology","reference")
+    parameters=grammar.parameters();parameters.update(values)
+    return parameters,topology
+
+
+def _seed_genomes(domains,bracing):
+    defaults=grammar.parameters()
+    return [[values.index(family if name=="family" else "reference" if name=="topology"
+                else braced if name=="braced" else defaults[name]) for name,values in domains.items()]
+            for family in domains["family"] for braced in bracing]
+
+
+def _archive(engine,rows):
+    return search_archive.archive(engine,rows,OBJECTIVES,("family","topology"))
+
+
+def _load_genome(genes,domains,recipes,state,root):
+    parameters,topology=_decode_genes(genes,domains)
+    candidate,_=_geometry(parameters,recipes,state,root,topology)
+    return candidate
+
+
+def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs):
+    """Model-specific next-experiment ordering, separate from baseline ranking."""
+    groups={}
+    for cid,row in data["rows"].items():
+        groups.setdefault(tuple(sorted(row["descriptor"].items())),[]).append(cid)
+    representatives=[]
+    for _,ids in sorted(groups.items()):
+        # Include cost-dominated candidates: unknown stiffness must not become
+        # a zero penalty in the nominal-stock cost archive.
+        representatives.append(min(ids,key=lambda cid:(
+            not _decode_genes(data["genes_by_id"][cid],domains)[0]["braced"],
+            data["rows"][cid]["metrics"]["factory_gate_base_iqd"],cid)))
+    representatives.sort(key=lambda cid:(
+        data["rows"][cid]["descriptor"]["topology"]=="reference",
+        not _decode_genes(data["genes_by_id"][cid],domains)[0]["braced"],
+        tuple(sorted(data["rows"][cid]["descriptor"].items())),cid))
+    assessments=[];candidates={}
+    limit=spec["refinement"]["maximum_assessments"] if spec["detailed_finalists"] else 0
+    for cid in representatives[:limit]:
+        if time.monotonic()-start>=spec["maximum_seconds"]:break
+        candidate=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
+        assessment=native_refinement.assess(candidate,root=root)
+        candidates[cid]=candidate;assessments.append(assessment)
+    ordered=sorted(assessments,key=lambda a:(a["axial_status"]!="rigid-axial-graph-analytical-only",
+        data["rows"][a["candidate_id"]]["descriptor"]["topology"]=="reference",
+        tuple(sorted(data["rows"][a["candidate_id"]]["descriptor"].items())),a["candidate_id"]))
+    detailed=[];packages=[];dispatched=0;reused=0
+    for assessment in ordered[:spec["detailed_finalists"]]:
+        if time.monotonic()-start>=spec["maximum_seconds"]:break
+        cid=assessment["candidate_id"];candidate=candidates[cid]
+        parameters=candidate["parameters"]
+        detail=design_portfolio._evaluate(candidate,recipes[parameters["family"]],"native-search-finalist",model_cost.assumptions(root),root)
+        if detail["candidate_id"]!=cid or detail["definition_id"]!=data["rows"][cid]["definition_id"]:
+            raise RuntimeError("Detailed evaluator mixed physical/definition identity")
+        detailed.append(detail)
+        allowed=int(dispatched<native_jobs and assessment["axial_status"]=="rigid-axial-graph-analytical-only")
+        options=dict(root=root,native_jobs=allowed,memory_mb=spec["refinement"]["memory_mb"],
+                     timeout_s=spec["refinement"]["timeout_s"],subdivisions=1)
+        request=native_refinement.request(candidate,**options)
+        output=state/"refinements"/request["request_id"]
+        if allowed and not request["tool"]["available"]:
+            packages.append(dict(request=request,state="solver-dependency-held",native_jobs_used=0));continue
+        hit=output.exists()
+        if hit:native_refinement.verify(output,candidate,**options)
+        else:native_refinement.evaluate(candidate,output=output,**options)
+        result=_read_cache(output/"result.json")
+        dispatched+=0 if hit else result["native_jobs_used"]
+        reused+=result["native_jobs_used"] if hit else 0
+        packages.append(dict(request=request,result=result,output=str(output),reused=hit))
+    mechanics=[]
+    for assessment in assessments:
+        if assessment["axial_status"]!="rigid-axial-graph-analytical-only":continue
+        maximum=max(sum(x*x for x in u)**.5 for u in assessment["axial_reference"]["displacements_m"].values())
+        row=data["rows"][assessment["candidate_id"]]
+        mechanics.append(dict(candidate_id=row["candidate_id"],descriptor=row["descriptor"],
+            metrics={**row["metrics"],"axial_model_displacement_m":maximum},assessment_id=assessment["assessment_id"]))
+    mechanics_archive=search_archive.archive(kernel,mechanics,(*OBJECTIVES,"axial_model_displacement_m"),("family","topology")) if mechanics else None
+    feedback=dict(assessments=assessments,packages=packages,axial_model_archive=mechanics_archive,
+        unassessed_candidate_ids=sorted(set(data["rows"])-set(candidates)),
+        held_axial_candidates=[dict(candidate_id=a["candidate_id"],status=a["axial_status"])
+                               for a in assessments if a["axial_status"]!="rigid-axial-graph-analytical-only"],
+        selection_purpose="Next-evaluator eligibility only; pin-graph findings do not reject or qualify a whole body",
+        integrated_selection=None,native_jobs_new=dispatched,native_evidence_reused=reused)
+    return detailed,feedback
 
 
 def _store(path, value):
@@ -125,27 +230,30 @@ def _check_epoch(root, expected):
         raise RuntimeError("A retained source binding differs from current file bytes")
 
 
-def _geometry_key(parameters, recipes, root):
+def _geometry_key(parameters, recipes, root, topology="reference"):
     # Price, optimizer and service changes do not invalidate unchanged geometry.
-    return dict(parameters=parameters, recipes=recipes, runtime=_runtime(),
+    return dict(parameters=parameters, recipes=recipes, runtime=_runtime(),topology_operator=topology,
         source_sha256={name: digest(Path(root)/name) for name in (
-            grammar.PRODUCER, "engineering/design_search/remit.py", "engineering/station_rail/common.py")},
+            grammar.PRODUCER,topology_mutation.PRODUCER, "engineering/design_search/remit.py", "engineering/station_rail/common.py")},
         retained_equipment_sources=grammar._reference_equipment()[2])
 
 
-def _geometry(parameters, recipes, state, root):
-    request = _geometry_key(parameters, recipes, root)
+def _geometry(parameters, recipes, state, root, topology="reference"):
+    request = _geometry_key(parameters, recipes, root,topology)
     key = identity(request); path = state/"geometry"/(key+".json.gz")
     candidate = grammar.build(parameters, recipes=recipes, reason="Native-search materialisation; ancestry is bound by the proposal record")
+    base=candidate
+    if topology!="reference":
+        candidate=topology_mutation.mutate(base,topology,requirement_revision=base["requirement_revision"])
     if path.exists():
         record = _read_cache(path,compressed=True)
         if (record.get("request") != request or record.get("record_id") != identity(
                 {k:v for k,v in record.items() if k != "record_id"})):
             raise RuntimeError("Geometry cache identity differs")
-        if record.get("candidate") != candidate:
+        if record.get("candidate") != candidate or record.get("materialisation_base")!=base:
             raise RuntimeError("Cached geometry does not replay from the declared materialiser")
         return candidate, True
-    record = _seal(dict(request=request, candidate=candidate), "record_id")
+    record = _seal(dict(request=request, candidate=candidate,materialisation_base=base), "record_id")
     path.parent.mkdir(parents=True, exist_ok=True)
     raw = gzip.compress(encoded(record), mtime=0)
     with path.open("xb") as handle:
@@ -165,7 +273,8 @@ def _evaluate(candidate, assumptions, state, root):
     cost = design_portfolio._factory_gate_stock_estimate(candidate, assumptions, root)
     mass = sum(part["mass_kg"] for part in candidate["parts"])
     record = _seal(dict(request=request, candidate_id=candidate["candidate_id"],
-        definition_id=candidate["definition_id"], descriptor={"family":candidate["parameters"]["family"]},
+        definition_id=candidate["definition_id"], descriptor={"family":candidate["parameters"]["family"],
+            "topology":candidate.get("topology_mutations",[{}])[-1].get("operator","reference")},
         metrics=dict(nominal_stock_kg=mass, factory_gate_base_iqd=cost["scenarios_iqd"]["base"],
                      factory_process_hours=cost["process_hours"]["base"]), cost_estimate=cost,
         complete_installed_mass_kg=None, complete_installed_cost_iqd=None,
@@ -202,7 +311,7 @@ def screen_programs(programs, domains, recipes):
     return [float(x) for x in proxy]
 
 
-def _shortlist(programs, proxies, limit):
+def _shortlist(programs, proxies, limit, topology_axis=None):
     # Keep the proposed 50/30/20 allocation among actual evaluations, not only
     # among generated programs. Highest-remainder deterministic apportionment.
     labels = ("exploit", "alternative-family", "unconventional")
@@ -214,6 +323,21 @@ def _shortlist(programs, proxies, limit):
     for label, quota in zip(labels, quotas):
         chosen.extend([i for i in ordered if programs[i]["operator"] == label][:quota])
     chosen.extend(i for i in ordered if i not in chosen and len(chosen)<limit)
+    if topology_axis is not None:
+        # Protect real topology experiments from a proxy that deliberately omits
+        # their added members. Preserve category quotas where a swap permits it.
+        for topology in sorted({p["genes"][topology_axis] for p in programs})[:limit]:
+            if any(programs[i]["genes"][topology_axis]==topology for i in chosen):continue
+            candidates=[i for i in ordered if programs[i]["genes"][topology_axis]==topology]
+            counts={t:sum(programs[i]["genes"][topology_axis]==t for i in chosen)
+                    for t in {programs[i]["genes"][topology_axis] for i in chosen}}
+            spare=[i for i in chosen if counts[programs[i]["genes"][topology_axis]]>1]
+            pairs=[(candidate,victim) for candidate in candidates for victim in spare]
+            if not pairs:continue
+            candidate,victim=min(pairs,key=lambda pair:(
+                programs[pair[0]]["operator"]!=programs[pair[1]]["operator"],
+                proxies[pair[0]],-proxies[pair[1]],tuple(programs[pair[0]]["genes"])))
+            chosen[chosen.index(victim)]=candidate
     return chosen
 
 
@@ -242,9 +366,7 @@ def _runtime():
 def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
     """Replay Rust requests and bind resumable programs to their exact journals."""
     known={};expected_seen=[p["genes"] for p in data["attempts"] if p["operator"]=="seed"]
-    defaults=grammar.parameters()
-    seed_genes={tuple(values.index(family if name=="family" else defaults[name]) for name,values in domains.items())
-                for family in domains["family"]}
+    seed_genes={tuple(g) for g in _seed_genomes(domains,data["contract"]["specification"]["seed_bracing"])}
     seed_records=[*data["seed_pending"],*[p for p in data["attempts"] if p["operator"]=="seed"]]
     if len(seed_records)!=len(seed_genes) or {tuple(p["genes"]) for p in seed_records}!=seed_genes:
         raise RuntimeError("Checkpoint seed coverage/uniqueness differs")
@@ -264,7 +386,7 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
                 cid=attempt["candidate_id"]
                 parent_rows.setdefault(cid,data["all_evaluations"][attempt["evaluation_id"]])
                 parent_genes.setdefault(cid,attempt["genes"])
-        parent_archive=kernel.archive(list(parent_rows.values()),OBJECTIVES,("family",))
+        parent_archive=_archive(kernel,list(parent_rows.values()))
         expected_parents=[dict(candidate_id=cid,genes=parent_genes[cid]) for cid in parent_archive["retained_candidate_ids"]]
         if (generation["generation"]!=ordinal or req["generation"]!=ordinal
                 or req["parents"]!=expected_parents or generation["parent_archive_id"]!=parent_archive["archive_id"]
@@ -313,7 +435,7 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
         raise RuntimeError("Checkpoint continuation/seen frontier differs")
 
 
-def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None):
+def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0):
     root=Path(root).resolve()
     if root != ROOT.resolve():
         raise ValueError("Execute the coordinator from its imported source checkout")
@@ -324,6 +446,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
     budget=spec["evaluations_per_generation"]*target_generation if maximum_new_evaluations is None else maximum_new_evaluations
     if type(budget) is not int or not 0<=budget<=512:
         raise ValueError("Zero-to-512 new evaluation budget required")
+    if type(native_jobs) is not int or not 0<=native_jobs<=3:
+        raise ValueError("Zero-to-three new axial solver jobs required")
     kernel=NativeSearch(root=root,binary=binary)
     state=Path(state) if state is not None else root/"build/native-design-search"
     if state.is_symlink():raise ValueError("Regular campaign state directory required")
@@ -343,10 +467,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
             raise RuntimeError("Campaign checkpoint source/identity differs")
         data.pop("checkpoint_id")
     else:
-        defaults=grammar.parameters();seed_programs=[]
-        for family in domains["family"]:
-            genes=[values.index(family if name=="family" else defaults[name]) for name,values in domains.items()]
-            seed_programs.append(dict(genes=genes,operator="seed",parent_candidate_ids=[],generation=0))
+        seed_programs=[dict(genes=genes,operator="seed",parent_candidate_ids=[],generation=0)
+                       for genes in _seed_genomes(domains,spec["seed_bracing"])]
         data=dict(contract=contract,rows={},all_evaluations={},genes_by_id={},seen=[],attempts=[],
             pending=[],deferred=[],seed_pending=seed_programs,generations=[],next_generation=1)
     _verify_frontier(data,contract_id,state,kernel,domains,recipes)
@@ -363,8 +485,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
                 for i,values in zip(program["genes"],domains.values()))
                 or program["operator"] not in ("seed","exploit","alternative-family","unconventional")):
             raise RuntimeError("Invalid resumed proposal genes/operator")
-        parameters=grammar.parameters()
-        parameters.update({name:values[index] for (name,values),index in zip(domains.items(),program["genes"])})
+        parameters,topology=_decode_genes(program["genes"],domains)
         program.setdefault("parent_evaluations",[dict(candidate_id=cid,evaluation_id=data["rows"][cid]["evaluation_id"])
             for cid in program["parent_candidate_ids"]])
         if ([p["candidate_id"] for p in program["parent_evaluations"]]!=program["parent_candidate_ids"]
@@ -375,7 +496,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         program["requirement_context"]=contract["requirements_context"]
         program.setdefault("proposal_id",identity(dict(program=program,contract_id=contract_id)))
         try:
-            candidate,hit=_geometry(parameters,recipes,state,root)
+            candidate,hit=_geometry(parameters,recipes,state,root,topology)
         except ValueError as exc:
             program.update(state="definition-or-model-domain-unresolved",reason=str(exc),candidate_id=None)
         else:
@@ -406,9 +527,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         if eid not in by_evaluation or row.get("evaluation_id")!=eid:
             raise RuntimeError("Checkpoint lost an evaluation's materialisation lineage")
         program=by_evaluation[eid]
-        parameters=grammar.parameters()
-        parameters.update({name:values[index] for (name,values),index in zip(domains.items(),program["genes"])})
-        candidate,_=_geometry(parameters,recipes,state,root);expected,_=_evaluate(candidate,assumptions,state,root)
+        parameters,topology=_decode_genes(program["genes"],domains)
+        candidate,_=_geometry(parameters,recipes,state,root,topology);expected,_=_evaluate(candidate,assumptions,state,root)
         if row!=expected:raise RuntimeError("Checkpoint evaluation does not replay")
     for cid,row in data["rows"].items():
         if (row.get("candidate_id")!=cid or data["all_evaluations"].get(row.get("evaluation_id"))!=row
@@ -425,7 +545,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
     while (data["next_generation"]>target_generation and data["deferred"] and used<budget
             and time.monotonic()-start<spec["maximum_seconds"]):
         evaluate(data["deferred"].pop(0));save()
-    archive=kernel.archive(list(data["rows"].values()),OBJECTIVES,("family",))
+    archive=_archive(kernel,list(data["rows"].values()))
     while (not data["seed_pending"] and not data["pending"] and data["next_generation"]<=target_generation
             and used<budget and time.monotonic()-start<spec["maximum_seconds"]):
         generation=data["next_generation"];_check_epoch(root,source)
@@ -438,7 +558,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         generated=kernel.propose(**request);programs=generated["proposals"]
         data["seen"].extend(p["genes"] for p in programs)
         proxies=screen_programs(programs,domains,recipes)
-        chosen=_shortlist(programs,proxies,min(spec["evaluations_per_generation"],budget-used))
+        chosen=_shortlist(programs,proxies,min(spec["evaluations_per_generation"],budget-used),list(domains).index("topology"))
         ordered=chosen+[i for i in sorted(range(len(programs)),key=lambda i:(proxies[i],tuple(programs[i]["genes"]))) if i not in chosen]
         prepared=[]
         for i in ordered:
@@ -459,31 +579,25 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         # Spend this invocation's budget; preserve every unexecuted program.
         while data["pending"] and used<budget and time.monotonic()-start<spec["maximum_seconds"]:
             evaluate(data["pending"].pop(0));save()
-        archive=kernel.archive(list(data["rows"].values()),OBJECTIVES,("family",))
-    detailed=[]
-    for cell in archive["cells"]:
-        if len(detailed)>=spec["detailed_finalists"] or time.monotonic()-start>=spec["maximum_seconds"]:break
-        cid=cell["retained_candidate_ids"][0];parameters=grammar.parameters()
-        parameters.update({name:values[index] for (name,values),index in zip(domains.items(),data["genes_by_id"][cid])})
-        candidate,_=_geometry(parameters,recipes,state,root)
-        detail=design_portfolio._evaluate(candidate,recipes[parameters["family"]],"native-search-finalist",assumptions,root)
-        if detail["candidate_id"]!=cid or detail["definition_id"]!=data["rows"][cid]["definition_id"]:
-            raise RuntimeError("Detailed evaluator mixed physical/definition identity")
-        detailed.append(detail)
+        archive=_archive(kernel,list(data["rows"].values()))
+    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs)
     save(force=True)
     value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
         archive_contexts={cid:row["evaluation_id"] for cid,row in data["rows"].items()},
         attempts=data["attempts"],generations=data["generations"],pending=data["pending"],deferred=data["deferred"],seed_pending=data["seed_pending"],
-        archive=archive,detailed_finalists=detailed,cache_statistics=stats,integrated_selection=None,
-        complete_installed_mass_kg=None,maximum_seconds_is_cooperative=True,numerical_solver_dispatch_count=0,
+        archive=archive,detailed_finalists=detailed,refinement=refinement,cache_statistics=stats,integrated_selection=None,
+        complete_installed_mass_kg=None,maximum_seconds_is_cooperative=True,
+        numerical_solver_dispatch_count=refinement["native_jobs_new"],native_dispatch_allowed=bool(native_jobs),
         cache_scope="Cheap geometry/cost replay-checked; no avoided high-fidelity solver runtime is claimed",
         unresolved=OPEN,**FLAGS),"run_id")
     _store(state/"runs"/(value["run_id"]+".json"),value)
     return dict(run_id=value["run_id"],candidate_count=len(data["rows"]),
         generated_programs=sum(g["generated_programs"] for g in data["generations"]),pending_programs=len(data["pending"]),
         deferred_programs=len(data["deferred"]),
-        detailed_finalists=len(detailed),cache_statistics=stats,output=str(state/"runs"/(value["run_id"]+".json")),
+        detailed_finalists=len(detailed),cache_statistics=stats,numerical_solver_dispatch_count=refinement["native_jobs_new"],
+        native_evidence_reused=refinement["native_evidence_reused"],archive_backend=archive["backend"],
+        analytical_assessments=len(refinement["assessments"]),output=str(state/"runs"/(value["run_id"]+".json")),
         elapsed_s=time.monotonic()-start,integrated_selection=None,**FLAGS)
 
 
@@ -514,7 +628,8 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state",type=Path);parser.add_argument("--generations",type=int)
     parser.add_argument("--binary",type=Path)
+    parser.add_argument("--native-jobs",type=int,default=0,help="Opt-in new axial CalculiX jobs, zero to three")
     parser.add_argument("--evaluations",type=int,help="New successor evaluations in this invocation; seeds are separate")
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
-                         maximum_new_evaluations=args.evaluations),indent=2))
+                         maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs),indent=2))

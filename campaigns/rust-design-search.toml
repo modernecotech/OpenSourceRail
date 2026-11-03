@@ -2,12 +2,18 @@ schema = "osr-native-generative-search/1"
 purpose = "next-experiment"
 change_selected_reference = false
 seed = 20261103
+seed_bracing = [false, true]
 generations = 2
 proposals_per_generation = 1000
 evaluations_per_generation = 12
 detailed_finalists = 3
 maximum_seconds = 180
 exploration_weights = [50, 30, 20]
+
+[refinement]
+memory_mb = 1024
+timeout_s = 30
+maximum_assessments = 12
 
 # Invocation domains for the existing materialiser, not physical acceptance
 # limits or a declaration of the complete possible railway design space.
@@ -20,3 +26,4 @@ core_thickness_m = [0.015, 0.025, 0.04]
 modular_length_m = [1.5, 2.5, 3.5]
 braced = [false, true]
 integrated_roof = [false, true]
+topology = ["reference", "add-longitudinal-spine", "add-cellular-diaphragms"]

@@ -14,7 +14,7 @@ from engineering.station_rail.common import encoded, identity
 def small(monkeypatch):
     original=c.specification()
     spec=deepcopy(original)
-    spec.update(proposals_per_generation=4,evaluations_per_generation=2,detailed_finalists=0)
+    spec.update(proposals_per_generation=4,evaluations_per_generation=2,detailed_finalists=0,seed_bracing=[False])
     monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
     registry=c.shape_families.registry()
     recipes={name:registry[name] for name in ("aluminium_spaceframe","modular_segments")}
@@ -215,3 +215,59 @@ def test_overlapping_coordinators_are_rejected_without_waiting(tmp_path,small):
     with c._state_lock(tmp_path):
         with pytest.raises(RuntimeError,match="active coordinator"):
             c.run(state=tmp_path,generations=0)
+
+
+def test_topology_genome_changes_actual_geometry_and_preserves_materialisation_parent(tmp_path,small):
+    parameters=c.grammar.parameters()
+    base,_=c._geometry(parameters,small,tmp_path,c.ROOT)
+    child,_=c._geometry(parameters,small,tmp_path,c.ROOT,"add-longitudinal-spine")
+    assert child["candidate_id"]!=base["candidate_id"]
+    assert child["parent_candidate_ids"]==[base["candidate_id"]]
+    assert len(child["structure"]["members"])>len(base["structure"]["members"])
+    assert child["retained_equipment_accounts"]==base["retained_equipment_accounts"]
+    a=c.model_cost.assumptions()
+    row,_=c._evaluate(child,a,tmp_path,c.ROOT)
+    reference,_=c._evaluate(base,a,tmp_path,c.ROOT)
+    assert row["descriptor"]["topology"]=="add-longitudinal-spine"
+    assert row["metrics"]["nominal_stock_kg"]>reference["metrics"]["nominal_stock_kg"]
+    assert row["complete_installed_mass_kg"] is None
+
+
+def controls(monkeypatch):
+    spec=c.specification();spec.update(seed_bracing=[False,True],detailed_finalists=1)
+    spec["refinement"]["maximum_assessments"]=2
+    monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
+
+
+def test_finalists_receive_analytical_evidence_with_zero_native_budget(tmp_path,small,monkeypatch):
+    controls(monkeypatch)
+    def forbidden(*args,**kwargs):raise AssertionError("Zero budget dispatched a solver")
+    monkeypatch.setattr(c.native_refinement.grammar_structure,"run",forbidden)
+    value=read(c.run(state=tmp_path,generations=0,native_jobs=0))
+    assert len(value["refinement"]["assessments"])==2
+    assert value["refinement"]["axial_model_archive"] is not None
+    assert value["numerical_solver_dispatch_count"]==0
+    assert value["native_dispatch_allowed"] is False
+    assert value["refinement"]["native_evidence_reused"]==0
+    assert all(not a["whole_body_rejected"] for a in value["refinement"]["assessments"])
+    for package in value["refinement"]["packages"]:
+        assert package["request"]["resources"]["native_jobs"]==0
+        assert package["result"]["native_state"]=="not-requested"
+
+
+def test_missing_solver_is_a_preserved_dependency_hold(tmp_path,small,monkeypatch):
+    controls(monkeypatch)
+    monkeypatch.setattr(c.native_refinement,"_tool",lambda:dict(path="/missing/ccx",sha256=None,available=False))
+    def forbidden(*args,**kwargs):raise AssertionError("Missing solver was dispatched")
+    monkeypatch.setattr(c.native_refinement.grammar_structure,"run",forbidden)
+    value=read(c.run(state=tmp_path,generations=0,native_jobs=1))
+    assert value["numerical_solver_dispatch_count"]==0
+    assert any(p.get("state")=="solver-dependency-held" for p in value["refinement"]["packages"])
+    assert value["physical_accepted"] is False
+
+
+def test_topology_shortlist_does_not_starve_heavier_new_load_paths():
+    programs=[dict(genes=[t,i],operator="unconventional") for t in range(3) for i in range(5)]
+    proxies=[float(100*t+i) for t in range(3) for i in range(5)]
+    chosen=c._shortlist(programs,proxies,3,topology_axis=0)
+    assert {programs[i]["genes"][0] for i in chosen}=={0,1,2}

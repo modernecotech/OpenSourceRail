@@ -125,7 +125,14 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     historical_jobs = job_blocks(historical_text)
     jobs = job_blocks(shared_text)
     assert set(historical_jobs) == {'primary-study'}
-    assert set(jobs) == {'current-shared-software', 'control-formal'}
+    assert set(jobs) == {'current-shared-software', 'bounded-axial-search-method', 'control-formal'}
+    axial=jobs['bounded-axial-search-method']
+    for required in ('timeout-minutes: 15', 'OSR_TEST_NATIVE_AXIAL: "1"',
+                     'OPENBLAS_NUM_THREADS: "1"', 'OMP_NUM_THREADS: "1"', 'MKL_NUM_THREADS: "1"',
+                     'calculix-ccx', 'numpy==2.3.5', 'test -x /usr/bin/ccx',
+                     'engineering/design_search/tests/test_native_refinement.py -k native_axial_run_and_read_only_replay'):
+        assert required in axial, 'Current bounded axial method control missing: '+required
+    assert not re.search(r'^\s+ref:',axial,re.M), 'The current axial control must use current source'
     assert historical_text.startswith('name: Historical v0.5 ')
     assert shared_text.startswith('name: Shared software ')
     assert '  workflow_dispatch:' in historical_text and '  schedule:' in historical_text
@@ -223,7 +230,7 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         'verify-maglev-workbench.mjs',
     ):
         assert command in historical, command
-    for name in ('current-shared-software', 'control-formal'):
+    for name in ('current-shared-software', 'bounded-axial-search-method', 'control-formal'):
         current = jobs[name]
         assert current.count('uses: actions/checkout@v4') == 1
         assert not re.search(r'^\s+(ref|working-directory|needs|continue-on-error):', current, re.M), name
@@ -426,6 +433,16 @@ class ArchitectureRoutingTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.check(shared=self.shared.replace('cargo test --locked --workspace --all-targets',
                                                   'cargo check --workspace'))
+
+    def test_current_axial_method_cannot_disable_its_native_control(self):
+        with self.assertRaises(AssertionError):
+            self.check(shared=self.shared.replace('OSR_TEST_NATIVE_AXIAL: "1"','OSR_TEST_NATIVE_AXIAL: "0"'))
+        with self.assertRaises(AssertionError):
+            self.check(shared=self.shared.replace('-k native_axial_run_and_read_only_replay','-k absent_control'))
+
+    def test_current_axial_method_requires_bounded_threads(self):
+        with self.assertRaises(AssertionError):
+            self.check(shared=self.shared.replace('OPENBLAS_NUM_THREADS: "1"','OPENBLAS_NUM_THREADS: "8"'))
 
     def test_current_source_cannot_be_pinned(self):
         shared = self.shared.replace('      - uses: actions/checkout@v4',
