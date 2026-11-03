@@ -30,6 +30,7 @@ from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, design_portfolio, model_cost, shape_families
 from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback, invocation_cache, axial_analysis
+from . import frame_analysis, frame_refinement, frame_native
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -44,7 +45,8 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
         "No trained surrogate, refined full-body or whole-railway solver is supplied by this bounded adapter"]
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
-    topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis)}
+    topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis,
+    frame_analysis,frame_refinement,frame_native)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -88,6 +90,9 @@ def specification(root=ROOT):
             raise ValueError("Bounded analytical parent feedback required: "+name)
     if feedback["maximum_new_assessments"]>feedback["maximum_total_assessments"]:
         raise ValueError("New feedback work cannot exceed the total observation budget")
+    frame=value.get("frame_refinement",{})
+    if type(frame.get("maximum_assessments")) is not int or not 0<=frame["maximum_assessments"]<=3:
+        raise ValueError("Bounded zero-to-three coarse frame assessments required")
     return value
 
 
@@ -100,7 +105,8 @@ def _sources(root):
     return {**design_portfolio.sources(root), PRODUCER: digest(Path(root)/PRODUCER),
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
-                topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis)},
+                topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis,
+                frame_analysis,frame_refinement,frame_native)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -183,7 +189,7 @@ def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous,re
     return value
 
 
-def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None,reuse=None):
+def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None,reuse=None,frame_native_jobs=0):
     """Model-specific next-experiment ordering, separate from baseline ranking."""
     groups={}
     for cid,row in data["rows"].items():
@@ -248,7 +254,36 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
         comparison_context_id=contexts[a["candidate_id"]],assessment=a) for a in assessments]
     final_plan=search_feedback.plan(kernel,list(data["rows"].values()),wrappers,source_sha256=_sources(root),
         maximum_weight=spec["feedback"]["maximum_parent_weight"])
+    frames=[];frame_dispatched=0;frame_reused=0
+    for axial in ordered[:min(spec["frame_refinement"]["maximum_assessments"],spec["detailed_finalists"])]:
+        if time.monotonic()-start>=spec["maximum_seconds"]:break
+        cid=axial["candidate_id"]
+        if cid not in candidates:candidates[cid]=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
+        candidate=candidates[cid]
+        frame=frame_refinement.assess(candidate,root=root)
+        if frame["candidate_id"]!=cid or frame["definition_id"]!=data["rows"][cid]["definition_id"]:
+            raise RuntimeError("Coarse frame assessment mixed physical/definition context")
+        path=state/"frame-assessments"/(frame["assessment_id"]+".json");_store(path,frame)
+        record=dict(assessment=frame,output=str(path),native_state="not-requested",native=None)
+        if frame_native_jobs and not frame["native_admission"]:
+            record["native_state"]="held-by-frame-model-domain"
+        elif frame_dispatched<frame_native_jobs and frame["model"] is not None:
+            context=dict(assessment_id=frame["assessment_id"],subdivisions=2,
+                producer=digest(frame_native.__file__),tool=frame_native._tool(),
+                resources=frame_native._resources(),runtime=frame_native._runtime())
+            output=state/"frame-native"/identity(context)
+            hit=output.exists()
+            native=(frame_native.verify(output,root=root) if hit else frame_native.run(
+                frame["model"],output,execute=True,subdivisions=2,source_sha256=frame["source_sha256"],root=root))
+            if native["model_id"]!=frame["model_id"] or any(native[k] is not False for k in frame_native.FLAGS):
+                raise RuntimeError("Native frame comparison mixed model identity or disposition")
+            frame_dispatched+=0 if hit else native["native_jobs_used"]
+            frame_reused+=native["native_jobs_used"] if hit else 0
+            record.update(native_state=native["native_state"],native=native,native_output=str(output),reused=hit)
+        frames.append(record)
     feedback=dict(assessments=assessments,packages=packages,axial_model_archives=final_plan["axial_archives"],
+        frame_assessments=frames,frame_native_jobs_new=frame_dispatched,frame_native_evidence_reused=frame_reused,
+        frame_selection_purpose="Separate exploratory six-DOF model/domain evidence; no parent-weight or integrated-baseline reward",
         parent_feedback_plan=final_plan,assessment_counts=dict(inherited=len(inherited),
             additional=len(assessments)-len(inherited),maximum_additional=spec["refinement"]["maximum_new_assessments"],
             total=len(assessments),maximum_total=64),
@@ -532,7 +567,7 @@ def _assess(candidate,root,reuse=None):
         lambda:native_refinement.assess(candidate,root=root))
 
 
-def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True):
+def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True,frame_native_jobs=0):
     root=Path(root).resolve()
     if root != ROOT.resolve():
         raise ValueError("Execute the coordinator from its imported source checkout")
@@ -545,6 +580,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         raise ValueError("Zero-to-512 new evaluation budget required")
     if type(native_jobs) is not int or not 0<=native_jobs<=3:
         raise ValueError("Zero-to-three new axial solver jobs required")
+    if type(frame_native_jobs) is not int or not 0<=frame_native_jobs<=3:
+        raise ValueError("Zero-to-three separately budgeted native frame jobs required")
     if type(invocation_reuse) is not bool:
         raise ValueError("Explicit boolean invocation reuse policy required")
     kernel=NativeSearch(root=root,binary=binary)
@@ -691,7 +728,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         while data["pending"] and used<budget and time.monotonic()-start<spec["maximum_seconds"]:
             evaluate(data["pending"].pop(0));save()
         archive=_archive(kernel,list(data["rows"].values()))
-    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse)
+    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse,frame_native_jobs)
     save(force=True)
     value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
@@ -699,15 +736,18 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         attempts=data["attempts"],generations=data["generations"],pending=data["pending"],deferred=data["deferred"],seed_pending=data["seed_pending"],
         archive=archive,detailed_finalists=detailed,refinement=refinement,cache_statistics=stats,invocation_cache=reuse.statistics(),integrated_selection=None,
         complete_installed_mass_kg=None,maximum_seconds_is_cooperative=True,
-        numerical_solver_dispatch_count=refinement["native_jobs_new"],native_dispatch_allowed=bool(native_jobs),
+        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"],
+        native_dispatch_allowed=bool(native_jobs or frame_native_jobs),
         cache_scope="Cheap geometry/cost replay-checked; bounded fresh analytical records reused only within this invocation; no avoided high-fidelity solver runtime is claimed",
         unresolved=OPEN,**FLAGS),"run_id")
     _store(state/"runs"/(value["run_id"]+".json"),value)
     return dict(run_id=value["run_id"],candidate_count=len(data["rows"]),
         generated_programs=sum(g["generated_programs"] for g in data["generations"]),pending_programs=len(data["pending"]),
         deferred_programs=len(data["deferred"]),
-        detailed_finalists=len(detailed),cache_statistics=stats,invocation_cache=reuse.statistics(),numerical_solver_dispatch_count=refinement["native_jobs_new"],
-        native_evidence_reused=refinement["native_evidence_reused"],archive_backend=archive["backend"],
+        detailed_finalists=len(detailed),cache_statistics=stats,invocation_cache=reuse.statistics(),
+        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"],
+        native_evidence_reused=refinement["native_evidence_reused"]+refinement["frame_native_evidence_reused"],archive_backend=archive["backend"],
+        coarse_frame_assessments=len(refinement["frame_assessments"]),frame_native_jobs_new=refinement["frame_native_jobs_new"],
         generation_feedback_snapshots=len(data["generations"]),feedback_observations=len(feedback_observations),
         analytical_assessment_counts=refinement["assessment_counts"],
         analytical_assessments=len(refinement["assessments"]),output=str(state/"runs"/(value["run_id"]+".json")),
@@ -742,8 +782,10 @@ if __name__ == "__main__":
     parser.add_argument("--state",type=Path);parser.add_argument("--generations",type=int)
     parser.add_argument("--binary",type=Path)
     parser.add_argument("--native-jobs",type=int,default=0,help="Opt-in new axial CalculiX jobs, zero to three")
+    parser.add_argument("--frame-native-jobs",type=int,default=0,help="Separately budgeted zero-to-three conditional coarse frame comparisons")
     parser.add_argument("--evaluations",type=int,help="New successor evaluations in this invocation; seeds are separate")
     parser.add_argument("--no-invocation-reuse",action="store_true",help="Diagnostic independent recomputation mode; separate campaign contract")
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
-                         maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,invocation_reuse=not args.no_invocation_reuse),indent=2))
+                         maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,frame_native_jobs=args.frame_native_jobs,
+                         invocation_reuse=not args.no_invocation_reuse),indent=2))

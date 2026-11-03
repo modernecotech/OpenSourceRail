@@ -44,7 +44,7 @@ jobs:
           python -m engineering.design_search.native_search build
           cargo fmt --package osr-design-search -- --check
           cargo clippy --locked -p osr-design-search --all-targets -- -D warnings
-          python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py
+          python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
       - name: Civil and station demonstrator identity and evidence handoffs
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_demonstrator.py engineering/design_search/tests/test_station_demonstrator.py
       - name: Retained v0.5 source and packet portability
@@ -76,7 +76,7 @@ jobs:
           engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_static_reaction_response_is_linear_and_mesh_converges
           engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_invalid_beam_assumptions_fail_before_numerics
   bounded-axial-search-method:
-    name: Current bounded axial search method
+    name: Current bounded axial and frame search methods
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -84,6 +84,7 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       OSR_TEST_NATIVE_AXIAL: "1"
+      OSR_TEST_NATIVE_FRAME: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -97,6 +98,8 @@ jobs:
           test -x /usr/bin/ccx
       - name: Execute and independently replay one axial method control
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_refinement.py -k native_axial_run_and_read_only_replay
+      - name: Execute and independently replay one coarse frame bending control
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_frame_native.py -k optional_native_bending_control_and_readonly_replay
   control-formal:
     name: Shared authority and retained refusal properties
     runs-on: ubuntu-latest

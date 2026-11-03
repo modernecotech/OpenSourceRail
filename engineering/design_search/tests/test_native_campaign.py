@@ -341,3 +341,20 @@ def test_invocation_reuse_preserves_complete_feedback_and_replays_fresh_on_resum
     assert len(calls)==len(set(calls))==4  # Fresh unique observations, never hydrate saved assessments.
     assert resumed["generations"]==cached["generations"]
     assert resumed["invocation_cache"]["persisted_evidence_loaded"] is False
+
+
+def test_finalists_receive_separate_frame_evidence_and_domain_holds_prevent_native_dispatch(tmp_path,small,monkeypatch):
+    controls(monkeypatch)
+    def forbidden(*args,**kwargs):raise AssertionError("Held frame model dispatched a native solver")
+    monkeypatch.setattr(c.frame_native,"run",forbidden)
+    value=read(c.run(state=tmp_path,generations=0,native_jobs=0,frame_native_jobs=1))
+    frames=value["refinement"]["frame_assessments"]
+    assert len(frames)==1
+    frame=frames[0]["assessment"]
+    assert frame["candidate_id"] in {r["candidate_id"] for r in value["evaluations"]}
+    assert frame["execution"]=="completed" and frame["native_admission"] is False
+    assert frames[0]["native_state"]=="held-by-frame-model-domain"
+    assert value["numerical_solver_dispatch_count"]==0
+    assert value["refinement"]["frame_native_jobs_new"]==0
+    assert frame["whole_body_rejected"] is False
+    assert "no parent-weight" in value["refinement"]["frame_selection_purpose"]

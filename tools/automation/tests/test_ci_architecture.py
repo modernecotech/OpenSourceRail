@@ -127,10 +127,11 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert set(historical_jobs) == {'primary-study'}
     assert set(jobs) == {'current-shared-software', 'bounded-axial-search-method', 'control-formal'}
     axial=jobs['bounded-axial-search-method']
-    for required in ('timeout-minutes: 15', 'OSR_TEST_NATIVE_AXIAL: "1"',
+    for required in ('timeout-minutes: 15', 'OSR_TEST_NATIVE_AXIAL: "1"', 'OSR_TEST_NATIVE_FRAME: "1"',
                      'OPENBLAS_NUM_THREADS: "1"', 'OMP_NUM_THREADS: "1"', 'MKL_NUM_THREADS: "1"',
                      'calculix-ccx', 'numpy==2.3.5', 'test -x /usr/bin/ccx',
-                     'engineering/design_search/tests/test_native_refinement.py -k native_axial_run_and_read_only_replay'):
+                     'engineering/design_search/tests/test_native_refinement.py -k native_axial_run_and_read_only_replay',
+                     'engineering/design_search/tests/test_frame_native.py -k optional_native_bending_control_and_readonly_replay'):
         assert required in axial, 'Current bounded axial method control missing: '+required
     assert not re.search(r'^\s+ref:',axial,re.M), 'The current axial control must use current source'
     assert historical_text.startswith('name: Historical v0.5 ')
@@ -443,6 +444,12 @@ class ArchitectureRoutingTests(unittest.TestCase):
     def test_current_axial_method_requires_bounded_threads(self):
         with self.assertRaises(AssertionError):
             self.check(shared=self.shared.replace('OPENBLAS_NUM_THREADS: "1"','OPENBLAS_NUM_THREADS: "8"'))
+
+    def test_current_frame_method_cannot_disable_its_native_control(self):
+        with self.assertRaises(AssertionError):
+            self.check(shared=self.shared.replace('OSR_TEST_NATIVE_FRAME: "1"','OSR_TEST_NATIVE_FRAME: "0"'))
+        with self.assertRaises(AssertionError):
+            self.check(shared=self.shared.replace('-k optional_native_bending_control_and_readonly_replay','-k absent_frame_control'))
 
     def test_current_source_cannot_be_pinned(self):
         shared = self.shared.replace('      - uses: actions/checkout@v4',

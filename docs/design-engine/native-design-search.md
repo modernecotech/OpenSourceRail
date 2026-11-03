@@ -3,8 +3,9 @@
 The reusable `osr-design-search` Rust kernel generates successor programs and
 filters large Pareto pools. The coordinator materialises physical component
 graphs, calculates nominal quantities and provisional manufacturing costs, then
-runs bounded analytical and optional native axial refinements. Analytical outcomes
-now inform parent weights before each Rust generation. The selected
+runs bounded axial and coarse three-dimensional frame refinements. Supported axial
+outcomes inform parent weights before each Rust generation; coarse frame results
+are retained as separate exploratory evidence. The selected
 railway and its release status remain unchanged.
 
 ```bash
@@ -105,6 +106,65 @@ retained native results with the independent analytical reference without runnin
 the solver. Missing tools, interrupted jobs and model-domain holds remain explicit.
 This adapter does not dispatch a continuum whole-body shell solve.
 
+Up to three finalists now also receive a six-DOF Euler–Bernoulli frame evaluation
+through NumPy's compiled numerical engine. It includes axial deformation, bending
+about both section axes and approximate closed thin-wall torsion. The model covers
+one car's underfloor RHS centroid members; other body and equipment stock contributes
+load without shell stiffness. Exact translational supports and normal-force vectors
+are retained, with a force/mass residual; rotational supports are not invented.
+
+Rigid moment continuity, section roll and an aluminium Poisson ratio of 0.33 are
+explicit evaluation hypotheses. The physical pin/clevis interfaces remain in the
+candidate. GFRP axial modulus alone cannot supply the required shear/orthotropic
+law and produces a model hold. Short-member/shear applicability, large motion,
+thin-wall torsion and numerical residuals retain separate domain holds. Solved
+frames neither invalidate a pin mechanism nor establish a qualified body. Frame
+results do not affect parent weights or integrated selection.
+
+`--frame-native-jobs 1` requests a separate bounded native comparison budget;
+its default is zero, independent of `--native-jobs`. A model-domain hold prevents
+dispatch. The optional CalculiX B32R/BOX adapter preserves the hollow section,
+local orientation, source/runtime/tool identity, effective 1 GiB/30-second limits,
+failed/interrupted attempts and exact model/deck/payload receipts. Read-only
+verification regenerates the deck and reanalyses saved outputs without solving.
+These are local integrity checks, not authenticated physical measurements.
+
+Two method controls used actual hollow sections under the documented
+[CalculiX beam formulation](https://www.dhondt.de/ccx_2.23.pdf). Bending displacement
+and energy differed from the analytical beam by 1.038%. Torsion energy differed by
+21.898% and remains unresolved; native rotations and reaction moments are not
+recovered by this adapter. Essentially zero centreline translation cannot verify
+torsion. The controls record has SHA-256
+`df4380eff36cadc25f06fd548a35ac779265800dddfb9c2efd2f9679aaedf9d6`.
+No tolerance or physical gate was relaxed to resolve that disagreement.
+
+The complete lightweight phase profile produced run
+`ce32143bc9b1d76d0b3745f87c90cfabc2c41e5e8fbb385e6fd2bf14b184d2bb`:
+2,000 programs, 60 evaluated definitions representing 57 physical designs,
+29 axial assessments and three coarse frame assessments, with zero native jobs.
+All three frames balanced forces and energy but remained held for short-member
+applicability. Instrumented full-call time was 16.82 s, with 280,372 KiB peak RSS.
+
+| Profile phase | Calls | Inclusive wall time |
+|---|---:|---:|
+| Geometry materialisation | 92 | 5.91 s |
+| Canonical identities | 40,823 | 7.23 s |
+| Canonical JSON encoding | 41,065 | 8.58 s |
+| Campaign source checks | 149 | 0.94 s |
+| Axial and frame matrix assembly | 35 + 3 | 0.24 + 0.086 s |
+| Compiled SVD / linear solve / frame rank check | 35 / 34 / 3 | 0.181 / 0.011 / 0.011 s |
+| Rust process and tool communication | 4 | 0.044 s |
+
+These phase measurements overlap and must not be added. They are instrumented
+timings for this workload, not uninstrumented throughput or a general solver
+performance claim. The completed profile SHA-256 is
+`20442744bc90d6e4e7a638c118b9ca1f96b9cdb9ef3bd73d9be2cc9c1ea4e148`.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python tools/automation/profile-design-campaign.py --output build/my-phase-profile
+```
+
 Reusing a state resumes queued work and then retained deferred programs:
 
 ```bash
@@ -204,9 +264,10 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Current regression checks passed 176 tests on each of Python 3.12 and 3.13, with
-the opt-in native axial control separately passing. The unchanged Rust kernel
-retains its 15 tests in CI; 29 CI routing tests (101 subtests) passed. `./osr verify` replayed the
+Current regression checks passed 223 tests on each of Python 3.12 and 3.13, with
+the opt-in native bending control separately passing and both native controls
+required in CI. The unchanged Rust kernel retains its 15 tests in CI;
+30 CI routing tests (101 subtests) passed. `./osr verify` replayed the
 current selected publication successfully without regenerating its packets. The
 opt-in native control remains a separate CI job.
 
@@ -230,7 +291,7 @@ The benchmark report SHA-256 is
 ```bash
 python tools/automation/benchmark-native-search.py --output build/my-search-benchmark
 cargo test --locked -p osr-design-search
-python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py
+python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
 ```
 
 NumPy/SciPy and CalculiX retain their compiled numerical engines. Arbitrary organic
