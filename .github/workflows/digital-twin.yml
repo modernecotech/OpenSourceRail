@@ -35,6 +35,38 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
+      - name: Reserve disk on the disposable GitHub-hosted runner
+        run: |
+          test "${RUNNER_ENVIRONMENT:-}" = github-hosted
+          test "${RUNNER_OS:-}" = Linux
+          df -h "$RUNNER_TEMP"
+          sudo /usr/bin/python3 - <<'PYCODE'
+          from pathlib import Path
+          import shutil
+          # These unused SDKs belong to the disposable runner image. Never
+          # remove the workspace, Git objects, evidence, or Python toolcache.
+          for path in map(Path, ('/usr/local/lib/android', '/opt/ghc', '/usr/share/dotnet')):
+              if path.is_symlink():
+                  raise SystemExit('Refusing symlinked runner SDK path: '+str(path))
+              if path.exists():
+                  if not path.is_dir():
+                      raise SystemExit('Expected runner SDK directory: '+str(path))
+                  print('Reclaiming unused runner SDK:', path, flush=True)
+                  shutil.rmtree(path)
+          PYCODE
+          /usr/bin/python3 - <<'PYCODE'
+          import os, shutil
+          from pathlib import Path
+          workspace = Path(os.environ['GITHUB_WORKSPACE'])
+          while not workspace.exists():
+              workspace = workspace.parent
+          for path, required in ((workspace, 16 * 1024**3), (Path(os.environ['RUNNER_TEMP']), 2 * 1024**3)):
+              free = shutil.disk_usage(path).free
+              print('Runner filesystem:', path, 'free bytes:', free, 'required:', required)
+              if free < required:
+                  raise SystemExit('Insufficient runner space for full checkout and CAD replay')
+          PYCODE
+          df -h "$RUNNER_TEMP"
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
@@ -62,11 +94,43 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_twin/tests
       - name: Install the pinned headless CAD tool for actual file reopening
         run: |
+          /usr/bin/python3 - <<'PYCODE'
+          import os, shutil
+          path = os.environ['GITHUB_WORKSPACE']
+          free = shutil.disk_usage(path).free
+          required = 8 * 1024**3
+          print('Workspace free bytes before CAD installation:', free, 'required:', required)
+          if free < required:
+              raise SystemExit('Insufficient workspace space for pinned CAD extraction and replay')
+          PYCODE
+          df -h "$GITHUB_WORKSPACE"
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y libglu1-mesa libegl1 libopengl0 libxrender1 libxkbcommon0 libxcb-cursor0
+          /usr/bin/python3 - <<'PYCODE'
+          import os, shutil
+          free = shutil.disk_usage(os.environ['GITHUB_WORKSPACE']).free
+          required = 6 * 1024**3
+          print('Workspace free bytes after dependency installation:', free, 'required:', required)
+          if free < required:
+              raise SystemExit('Insufficient workspace space for pinned CAD extraction and replay')
+          PYCODE
           mkdir -p build/twin-tools
           curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/twin-tools/freecad.AppImage
           .venv/bin/python tools/automation/install-historical-freecad.py --archive build/twin-tools/freecad.AppImage --output build/twin-tools/freecad
+          test -s build/twin-tools/freecad/install.json
+          test -x build/twin-tools/freecad/bin/FreeCADCmd
+          du -sh build/twin-tools/freecad
+          /usr/bin/python3 - <<'PYCODE'
+          from pathlib import Path
+          import stat
+          archive = Path('build/twin-tools/freecad.AppImage')
+          size = archive.lstat().st_size
+          if not stat.S_ISREG(archive.lstat().st_mode):
+              raise SystemExit('Expected the verified regular FreeCAD download')
+          archive.unlink()
+          print('Removed verified temporary FreeCAD download bytes:', size)
+          PYCODE
+          df -h "$GITHUB_WORKSPACE"
           echo "$PWD/build/twin-tools/freecad/bin" >> "$GITHUB_PATH"
       - name: Verify current semantic packets and reopen published IFC, CAD and STEP
         run: ./osr-twin verify-publication

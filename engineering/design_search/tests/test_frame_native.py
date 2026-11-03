@@ -151,6 +151,9 @@ def test_effective_resources_never_raise_lower_parent_caps(monkeypatch):
 
 
 def test_preexec_failure_is_retained_as_a_failed_attempt(tmp_path, monkeypatch):
+    tool = tmp_path/"synthetic-ccx"
+    tool.write_text("Synthetic tool bytes; subprocess is mocked and this file is never executed.\n")
+    monkeypatch.setattr(n, "_tool", lambda: dict(path=str(tool), sha256=n.digest(tool)))
     def fail(*args, **kwargs):
         raise n.subprocess.SubprocessError("synthetic preexec failure")
     monkeypatch.setattr(n.subprocess, "run", fail)

@@ -7,6 +7,7 @@ from fnmatch import fnmatchcase
 import json
 import os
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 import re
@@ -18,6 +19,7 @@ SHARED_WORKFLOW = ROOT / '.github/workflows/shared-software.yml'
 CURRENT_WORKFLOW = ROOT / '.github/workflows/development-baseline.yml'
 SOURCED_WORKFLOW = ROOT / '.github/workflows/sourced-hardware.yml'
 SOURCED_GEOMETRY_WORKFLOW = ROOT / '.github/workflows/reproduce-sourced-geometry.yml'
+DIGITAL_TWIN_WORKFLOW = ROOT / '.github/workflows/digital-twin.yml'
 ARCHIVE = ROOT / 'docs/archives/v0.5-maglev/manifest.json'
 OLD_COMMIT = 'dad8c4bedb2361d3e621e9def312273167279027'
 EXTRA_COMMIT = '5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76'
@@ -65,6 +67,53 @@ def job_blocks(text):
     matches = list(re.finditer(r'^  ([a-z][a-z0-9-]*):\n', jobs, re.M))
     return {m[1]: jobs[m.end():matches[i+1].start() if i+1 < len(matches) else len(jobs)]
             for i, m in enumerate(matches)}
+
+
+def twin_storage_steps(text):
+    """Require disk preparation while preserving the pinned CAD verification."""
+    block = job_blocks(text)['contracts-and-semantic-replay']
+    assert re.search(r'^    runs-on: ubuntu-24\.04$', block, re.M)
+    steps = re.split(r'(?=^      - (?:name|uses|run):)', block, flags=re.M)
+    def one(header):
+        matches = [step for step in steps if step.startswith('      - '+header+'\n')]
+        assert len(matches) == 1, header
+        assert not re.search(r'^        (?:if|continue-on-error|shell):', matches[0], re.M)
+        assert 'set +e' not in matches[0] and '|| true' not in matches[0]
+        return matches[0]
+    cleanup = one('name: Reserve disk on the disposable GitHub-hosted runner')
+    checkout = one('uses: actions/checkout@v4')
+    install = one('name: Install the pinned headless CAD tool for actual file reopening')
+    verify = one('name: Verify current semantic packets and reopen published IFC, CAD and STEP')
+    assert steps.index(cleanup) < steps.index(checkout) < steps.index(install) < steps.index(verify)
+    assert re.search(r'^        run: \|$', cleanup, re.M) and re.search(r'^        run: \|$', install, re.M)
+    active_cleanup = [line.strip() for line in cleanup.splitlines() if not line.lstrip().startswith('#')]
+    for line in ('test "${RUNNER_ENVIRONMENT:-}" = github-hosted', 'test "${RUNNER_OS:-}" = Linux',
+                 "for path in map(Path, ('/usr/local/lib/android', '/opt/ghc', '/usr/share/dotnet')):",
+                 'if path.is_symlink():', 'shutil.rmtree(path)',
+                 "for path, required in ((workspace, 16 * 1024**3), (Path(os.environ['RUNNER_TEMP']), 2 * 1024**3)):",
+                 'if free < required:'):
+        assert line in active_cleanup, line
+    assert cleanup.count('shutil.rmtree(') == 1
+    expected = ('required = 8 * 1024**3', 'sudo apt-get update', 'required = 6 * 1024**3',
+                'curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/twin-tools/freecad.AppImage',
+                '.venv/bin/python tools/automation/install-historical-freecad.py --archive build/twin-tools/freecad.AppImage --output build/twin-tools/freecad',
+                'test -s build/twin-tools/freecad/install.json', 'test -x build/twin-tools/freecad/bin/FreeCADCmd',
+                "archive = Path('build/twin-tools/freecad.AppImage')", 'archive.unlink()',
+                'echo "$PWD/build/twin-tools/freecad/bin" >> "$GITHUB_PATH"')
+    lines = [line.strip() for line in install.splitlines()]
+    assert all(line in lines for line in expected)
+    positions = [lines.index(line) for line in expected]
+    assert positions == sorted(positions) and install.count('archive.unlink()') == 1
+    assert lines.count('if free < required:') == 2
+    assert re.search(r'^        run: \./osr-twin verify-publication$', verify, re.M)
+    return cleanup, install
+
+
+def twin_python_blocks(step):
+    """Extract the actual Python here-documents from one GitHub run step."""
+    return [re.sub(r'^ {10}', '', body, flags=re.M) for body in
+            re.findall(r"^          (?:sudo )?/usr/bin/python3 - <<'PYCODE'\n(.*?)^          PYCODE$",
+                       step, re.M | re.S)]
 
 
 def active_run_line(block, command):
@@ -421,6 +470,71 @@ class ArchitectureRoutingTests(unittest.TestCase):
                  self.archive if archive is None else archive,
                  self.sourced if sourced is None else sourced,
                  self.geometry if geometry is None else geometry)
+
+    def test_digital_twin_storage_guards_and_pinned_cad_order(self):
+        text = DIGITAL_TWIN_WORKFLOW.read_text()
+        cleanup, install = twin_storage_steps(text)
+        self.assertEqual(len(twin_python_blocks(cleanup)), 2)
+        self.assertEqual(len(twin_python_blocks(install)), 3)
+        for original, replacement in (
+                ('test "${RUNNER_ENVIRONMENT:-}" = github-hosted', '# disabled host guard'),
+                ("'/usr/local/lib/android', '/opt/ghc', '/usr/share/dotnet'", "'/home/runner'"),
+                ('16 * 1024**3', '0'),
+                ('required = 8 * 1024**3', 'required = 0'),
+                ('required = 6 * 1024**3', 'required = 0'),
+                ('archive.unlink()', '# archive retained'),
+                ('run: ./osr-twin verify-publication', 'run: true')):
+            with self.subTest(removed=original), self.assertRaises(AssertionError):
+                twin_storage_steps(text.replace(original, replacement, 1))
+
+    def test_digital_twin_disk_thresholds_fail_before_download(self):
+        _, install = twin_storage_steps(DIGITAL_TWIN_WORKFLOW.read_text())
+        blocks = twin_python_blocks(install)
+        with tempfile.TemporaryDirectory(prefix='osr-twin-space-') as directory:
+            for script, gib in zip(blocks[:2], (8, 6)):
+                for free, success in ((gib*1024**3-1, False), (gib*1024**3, True)):
+                    program = ('import shutil, types\n'
+                               f'shutil.disk_usage=lambda path: types.SimpleNamespace(free={free})\n'
+                               f'exec({script!r})\n')
+                    result = subprocess.run([sys.executable, '-c', program],
+                        env=dict(os.environ, GITHUB_WORKSPACE=directory), capture_output=True, text=True)
+                    with self.subTest(gib=gib, free=free):
+                        self.assertEqual(result.returncode == 0, success, result.stderr)
+
+    def test_digital_twin_space_check_requires_both_runner_filesystems(self):
+        cleanup, _ = twin_storage_steps(DIGITAL_TWIN_WORKFLOW.read_text())
+        script = twin_python_blocks(cleanup)[1]
+        with tempfile.TemporaryDirectory(prefix='osr-twin-space-') as directory:
+            root=Path(directory); workspace=root/'workspace'; workspace.mkdir(); temp=root/'temp'; temp.mkdir()
+            for workspace_free, temp_free, success in ((16*1024**3-1,2*1024**3,False),
+                    (16*1024**3,2*1024**3-1,False), (16*1024**3,2*1024**3,True)):
+                program = ('import shutil, types\n'
+                           f'shutil.disk_usage=lambda path: types.SimpleNamespace(free={workspace_free} if str(path)=={str(workspace)!r} else {temp_free})\n'
+                           f'exec({script!r})\n')
+                result=subprocess.run([sys.executable,'-c',program],
+                    env=dict(os.environ,GITHUB_WORKSPACE=str(workspace),RUNNER_TEMP=str(temp)),capture_output=True,text=True)
+                with self.subTest(workspace=workspace_free,temp=temp_free):
+                    self.assertEqual(result.returncode == 0, success, result.stderr)
+
+    def test_runner_sdk_cleanup_refuses_symlinks_and_preserves_unlisted_data(self):
+        cleanup, _ = twin_storage_steps(DIGITAL_TWIN_WORKFLOW.read_text())
+        script = twin_python_blocks(cleanup)[0]
+        original = "('/usr/local/lib/android', '/opt/ghc', '/usr/share/dotnet')"
+        with tempfile.TemporaryDirectory(prefix='osr-runner-sdk-') as directory:
+            root = Path(directory); names = [root/name for name in ('android', 'ghc', 'dotnet')]
+            preserve = root/'workspace'; preserve.mkdir(); (preserve/'evidence').write_text('keep')
+            for path in names:path.mkdir(); (path/'disposable').write_text('remove')
+            local_script = script.replace(original, repr(tuple(map(str, names))), 1)
+            self.assertNotEqual(local_script, script)
+            result = subprocess.run([sys.executable, '-c', local_script], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(all(not path.exists() for path in names))
+            self.assertEqual((preserve/'evidence').read_text(), 'keep')
+            names[0].symlink_to(preserve, target_is_directory=True)
+            refused = subprocess.run([sys.executable, '-c', local_script], capture_output=True, text=True)
+            self.assertNotEqual(refused.returncode, 0)
+            self.assertIn('Refusing symlinked runner SDK path', refused.stderr)
+            self.assertEqual((preserve/'evidence').read_text(), 'keep')
 
     def test_archived_and_current_sources_are_separate(self):
         self.check()
