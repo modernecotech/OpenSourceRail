@@ -29,7 +29,7 @@ import numpy as np
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, design_portfolio, model_cost, shape_families
-from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback
+from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback, invocation_cache, axial_analysis
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -44,7 +44,7 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
         "No trained surrogate, refined full-body or whole-railway solver is supplied by this bounded adapter"]
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
-    topology_mutation, native_refinement, search_archive, search_feedback)}
+    topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -100,7 +100,7 @@ def _sources(root):
     return {**design_portfolio.sources(root), PRODUCER: digest(Path(root)/PRODUCER),
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
-                topology_mutation,native_refinement,search_archive,search_feedback)},
+                topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -152,7 +152,7 @@ def _comparison_context(candidate):
         support_policy="Generated lower-chord nodes at retained bogie longitudinal stations; geometry-dependent height unqualified"))
 
 
-def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous):
+def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous,reuse=None):
     """Deterministic bounded solver-free observations; replayable before mutation."""
     if not set(previous)<=set(rows):raise RuntimeError("Feedback lost a prior physical parent")
     selected=sorted(previous)
@@ -163,12 +163,18 @@ def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous):
     observations=[]
     for cid in selected:
         parameters,topology=_decode_genes(genes[cid],domains)
-        candidate,_=_materialise(parameters,recipes,topology)
-        if candidate["candidate_id"]!=cid or candidate["definition_id"]!=rows[cid]["definition_id"]:
-            raise RuntimeError("Analytical feedback mixed a physical/definition/evaluation context")
-        assessment=native_refinement.assess(candidate,root=root)
-        observations.append(dict(candidate_id=cid,parent_evaluation_id=rows[cid]["evaluation_id"],
-            comparison_context_id=_comparison_context(candidate),assessment=assessment))
+        def compute():
+            candidate,_=_materialise(parameters,recipes,topology)
+            if candidate["candidate_id"]!=cid or candidate["definition_id"]!=rows[cid]["definition_id"]:
+                raise RuntimeError("Analytical feedback mixed a physical/definition/evaluation context")
+            assessment=native_refinement.assess(candidate,root=root)
+            return dict(candidate_id=cid,parent_evaluation_id=rows[cid]["evaluation_id"],
+                comparison_context_id=_comparison_context(candidate),assessment=assessment)
+        # A miss always rebuilds and assesses the graph. Only a freshly computed
+        # identical materialisation/evaluation in this invocation may be reused.
+        inputs=dict(purpose="generation-observation",parameters=parameters,recipes=recipes,topology=topology,
+                    candidate_id=cid,definition_id=rows[cid]["definition_id"],parent_evaluation_id=rows[cid]["evaluation_id"])
+        observations.append(compute() if reuse is None else reuse.evaluate("axial-assessment",inputs,compute))
     plan=search_feedback.plan(kernel,list(rows.values()),observations,source_sha256=_sources(root),
                              maximum_weight=spec["feedback"]["maximum_parent_weight"])
     value=dict(schema="osr-generation-feedback-snapshot/1",parent_evaluations=sorted(r["evaluation_id"] for r in rows.values()),
@@ -177,7 +183,7 @@ def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous):
     return value
 
 
-def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None):
+def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None,reuse=None):
     """Model-specific next-experiment ordering, separate from baseline ranking."""
     groups={}
     for cid,row in data["rows"].items():
@@ -195,24 +201,30 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
         tuple(sorted(data["rows"][cid]["descriptor"].items())),cid))
     inherited=inherited or {}
     assessments=[o["assessment"] for _,o in sorted(inherited.items())];candidates={}
+    contexts={cid:o["comparison_context_id"] for cid,o in inherited.items()}
     for cid in inherited:
-        candidate=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
-        if candidate["definition_id"]!=data["rows"][cid]["definition_id"]:
+        if (inherited[cid]["assessment"]["definition_id"]!=data["rows"][cid]["definition_id"]
+                or inherited[cid]["parent_evaluation_id"]!=data["rows"][cid]["evaluation_id"]):
             raise RuntimeError("Refinement inherited a different primary definition")
-        candidates[cid]=candidate
     limit=min(spec["refinement"]["maximum_new_assessments"],64-len(inherited)) if spec["detailed_finalists"] else 0
     for cid in [cid for cid in representatives if cid not in inherited][:limit]:
         if time.monotonic()-start>=spec["maximum_seconds"]:break
         candidate=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
-        assessment=native_refinement.assess(candidate,root=root)
+        assessment=_assess(candidate,root,reuse)
         candidates[cid]=candidate;assessments.append(assessment)
+        contexts[cid]=_comparison_context(candidate)
     ordered=sorted(assessments,key=lambda a:(a["axial_status"]!="rigid-axial-graph-analytical-only",
         data["rows"][a["candidate_id"]]["descriptor"]["topology"]=="reference",
         tuple(sorted(data["rows"][a["candidate_id"]]["descriptor"].items())),a["candidate_id"]))
     detailed=[];packages=[];dispatched=0;reused=0
     for assessment in ordered[:spec["detailed_finalists"]]:
         if time.monotonic()-start>=spec["maximum_seconds"]:break
-        cid=assessment["candidate_id"];candidate=candidates[cid]
+        cid=assessment["candidate_id"]
+        if cid not in candidates:
+            candidates[cid]=_load_genome(data["genes_by_id"][cid],domains,recipes,state,root)
+        candidate=candidates[cid]
+        if candidate["candidate_id"]!=cid or candidate["definition_id"]!=data["rows"][cid]["definition_id"]:
+            raise RuntimeError("Refinement finalist mixed a physical/definition context")
         parameters=candidate["parameters"]
         detail=design_portfolio._evaluate(candidate,recipes[parameters["family"]],"native-search-finalist",model_cost.assumptions(root),root)
         if detail["candidate_id"]!=cid or detail["definition_id"]!=data["rows"][cid]["definition_id"]:
@@ -233,14 +245,14 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
         reused+=result["native_jobs_used"] if hit else 0
         packages.append(dict(request=request,result=result,output=str(output),reused=hit))
     wrappers=[dict(candidate_id=a["candidate_id"],parent_evaluation_id=data["rows"][a["candidate_id"]]["evaluation_id"],
-        comparison_context_id=_comparison_context(candidates[a["candidate_id"]]),assessment=a) for a in assessments]
+        comparison_context_id=contexts[a["candidate_id"]],assessment=a) for a in assessments]
     final_plan=search_feedback.plan(kernel,list(data["rows"].values()),wrappers,source_sha256=_sources(root),
         maximum_weight=spec["feedback"]["maximum_parent_weight"])
     feedback=dict(assessments=assessments,packages=packages,axial_model_archives=final_plan["axial_archives"],
         parent_feedback_plan=final_plan,assessment_counts=dict(inherited=len(inherited),
             additional=len(assessments)-len(inherited),maximum_additional=spec["refinement"]["maximum_new_assessments"],
             total=len(assessments),maximum_total=64),
-        unassessed_candidate_ids=sorted(set(data["rows"])-set(candidates)),
+        unassessed_candidate_ids=sorted(set(data["rows"])-{a["candidate_id"] for a in assessments}),
         held_axial_candidates=[dict(candidate_id=a["candidate_id"],status=a["axial_status"])
                                for a in assessments if a["axial_status"]!="rigid-axial-graph-analytical-only"],
         selection_purpose="Next-evaluator eligibility only; pin-graph findings do not reject or qualify a whole body",
@@ -427,7 +439,7 @@ def _runtime():
                 numerical_runtime=native_refinement._runtime())
 
 
-def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
+def _verify_frontier(data,contract_id,state,kernel,domains,recipes,reuse=None):
     """Replay Rust requests and bind resumable programs to their exact journals."""
     known={};feedback_observations={};expected_seen=[p["genes"] for p in data["attempts"] if p["operator"]=="seed"]
     seed_genes={tuple(g) for g in _seed_genomes(domains,data["contract"]["specification"]["seed_bracing"])}
@@ -451,7 +463,7 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
                 parent_rows.setdefault(cid,data["all_evaluations"][attempt["evaluation_id"]])
                 parent_genes.setdefault(cid,attempt["genes"])
         snapshot=_generation_feedback(parent_rows,parent_genes,domains,recipes,ROOT,kernel,
-            data["contract"]["specification"],feedback_observations)
+            data["contract"]["specification"],feedback_observations,reuse)
         snapshot_path=state/"feedback"/(snapshot["snapshot_id"]+".json")
         if _read_cache(snapshot_path)!=snapshot:
             raise RuntimeError("Generation parent feedback does not replay")
@@ -512,7 +524,15 @@ def _verify_frontier(data,contract_id,state,kernel,domains,recipes):
     return feedback_observations
 
 
-def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0):
+def _assess(candidate,root,reuse=None):
+    if reuse is None:return native_refinement.assess(candidate,root=root)
+    # The whole canonical candidate includes definition, physical graph, loads,
+    # requirements and source hypotheses; the session also guards source/runtime.
+    return reuse.evaluate("axial-assessment",dict(candidate=candidate),
+        lambda:native_refinement.assess(candidate,root=root))
+
+
+def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True):
     root=Path(root).resolve()
     if root != ROOT.resolve():
         raise ValueError("Execute the coordinator from its imported source checkout")
@@ -525,15 +545,21 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         raise ValueError("Zero-to-512 new evaluation budget required")
     if type(native_jobs) is not int or not 0<=native_jobs<=3:
         raise ValueError("Zero-to-three new axial solver jobs required")
+    if type(invocation_reuse) is not bool:
+        raise ValueError("Explicit boolean invocation reuse policy required")
     kernel=NativeSearch(root=root,binary=binary)
     state=Path(state) if state is not None else root/"build/native-design-search"
     if state.is_symlink():raise ValueError("Regular campaign state directory required")
     source=_sources(root);_check_epoch(root,source)
+    def guard():
+        _check_epoch(root,source)
+        return dict(root=str(root),sources=source,runtime=_runtime())
+    reuse=invocation_cache.InvocationCache(guard,enabled=invocation_reuse)
     recipes=shape_families.registry(root);domains=axes(root)
     assumptions=model_cost.assumptions(root);start=time.monotonic()
     search_spec={k:v for k,v in spec.items() if k not in (
         "generations","maximum_seconds","evaluations_per_generation","detailed_finalists")}
-    contract=dict(specification=search_spec,sources=source,runtime=_runtime(),binary_sha256=kernel.receipt["binary_sha256"],
+    contract=dict(specification=search_spec,sources=source,runtime=_runtime(),invocation_reuse=invocation_reuse,binary_sha256=kernel.receipt["binary_sha256"],
         kernel_build_receipt_id=kernel.receipt["receipt_id"],variable_registry_id=identity(dict(axes=domains,recipes=recipes)),
         requirements_context="Six 17 m cars, 44 seats plus two wheelchair places per car; same development service")
     contract_id=identity(contract);_store(state/"contracts"/(contract_id+".json"),contract)
@@ -548,7 +574,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
                        for genes in _seed_genomes(domains,spec["seed_bracing"])]
         data=dict(contract=contract,rows={},all_evaluations={},genes_by_id={},seen=[],attempts=[],
             pending=[],deferred=[],seed_pending=seed_programs,generations=[],next_generation=1)
-    feedback_observations=_verify_frontier(data,contract_id,state,kernel,domains,recipes)
+    feedback_observations=_verify_frontier(data,contract_id,state,kernel,domains,recipes,reuse)
     stats=dict(geometry_cache_replayed=0,geometry_new=0,cost_cache_replayed=0,cost_new=0,
                completed_attempts_resumed=len(data["attempts"]),new_successor_evaluations=0)
     used=0
@@ -626,7 +652,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
     while (not data["seed_pending"] and not data["pending"] and data["next_generation"]<=target_generation
             and used<budget and time.monotonic()-start<spec["maximum_seconds"]):
         generation=data["next_generation"];_check_epoch(root,source)
-        snapshot=_generation_feedback(data["rows"],data["genes_by_id"],domains,recipes,root,kernel,spec,feedback_observations)
+        snapshot=_generation_feedback(data["rows"],data["genes_by_id"],domains,recipes,root,kernel,spec,feedback_observations,reuse)
         _store(state/"feedback"/(snapshot["snapshot_id"]+".json"),snapshot)
         if time.monotonic()-start>=spec["maximum_seconds"]:break
         feedback_observations={o["candidate_id"]:o for o in snapshot["observations"]}
@@ -665,22 +691,22 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         while data["pending"] and used<budget and time.monotonic()-start<spec["maximum_seconds"]:
             evaluate(data["pending"].pop(0));save()
         archive=_archive(kernel,list(data["rows"].values()))
-    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations)
+    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse)
     save(force=True)
     value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
         archive_contexts={cid:row["evaluation_id"] for cid,row in data["rows"].items()},
         attempts=data["attempts"],generations=data["generations"],pending=data["pending"],deferred=data["deferred"],seed_pending=data["seed_pending"],
-        archive=archive,detailed_finalists=detailed,refinement=refinement,cache_statistics=stats,integrated_selection=None,
+        archive=archive,detailed_finalists=detailed,refinement=refinement,cache_statistics=stats,invocation_cache=reuse.statistics(),integrated_selection=None,
         complete_installed_mass_kg=None,maximum_seconds_is_cooperative=True,
         numerical_solver_dispatch_count=refinement["native_jobs_new"],native_dispatch_allowed=bool(native_jobs),
-        cache_scope="Cheap geometry/cost replay-checked; no avoided high-fidelity solver runtime is claimed",
+        cache_scope="Cheap geometry/cost replay-checked; bounded fresh analytical records reused only within this invocation; no avoided high-fidelity solver runtime is claimed",
         unresolved=OPEN,**FLAGS),"run_id")
     _store(state/"runs"/(value["run_id"]+".json"),value)
     return dict(run_id=value["run_id"],candidate_count=len(data["rows"]),
         generated_programs=sum(g["generated_programs"] for g in data["generations"]),pending_programs=len(data["pending"]),
         deferred_programs=len(data["deferred"]),
-        detailed_finalists=len(detailed),cache_statistics=stats,numerical_solver_dispatch_count=refinement["native_jobs_new"],
+        detailed_finalists=len(detailed),cache_statistics=stats,invocation_cache=reuse.statistics(),numerical_solver_dispatch_count=refinement["native_jobs_new"],
         native_evidence_reused=refinement["native_evidence_reused"],archive_backend=archive["backend"],
         generation_feedback_snapshots=len(data["generations"]),feedback_observations=len(feedback_observations),
         analytical_assessment_counts=refinement["assessment_counts"],
@@ -717,6 +743,7 @@ if __name__ == "__main__":
     parser.add_argument("--binary",type=Path)
     parser.add_argument("--native-jobs",type=int,default=0,help="Opt-in new axial CalculiX jobs, zero to three")
     parser.add_argument("--evaluations",type=int,help="New successor evaluations in this invocation; seeds are separate")
+    parser.add_argument("--no-invocation-reuse",action="store_true",help="Diagnostic independent recomputation mode; separate campaign contract")
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
-                         maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs),indent=2))
+                         maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,invocation_reuse=not args.no_invocation_reuse),indent=2))

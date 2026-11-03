@@ -122,7 +122,56 @@ Cheap geometry/cost records are replay-checked; these cache hits are not claimed
 as avoided expensive solver runtime. Price changes need not invalidate geometry
 or a structurally unchanged solver request.
 
-The checked reference run is
+The analytical adapter now validates and assembles each graph once, reusing that
+prepared system for its rigidity diagnostic, linear solve and stock basis. The
+original `grammar_structure` implementation stays unchanged as an independent
+oracle. NumPy's compiled SVD and linear solver remain in use; the measured problem
+was repeated copying and validation, rather than slow numerical kernels.
+
+A bounded invocation cache keeps only freshly computed analytical observations:
+up to 64 records and 16 MiB. It retains neither full body geometries nor prepared
+matrices. Keys bind the materialisation inputs, candidate, definition and parent
+evaluation; guards check current sources and numerical runtime before and after
+reuse. Every invocation starts empty. Resuming reconstructs every unique retained
+observation once before sharing it across replayed snapshots; persisted evidence
+never seeds the cache. Finalists still receive their independent refinement checks.
+`--no-invocation-reuse` enables recomputation under a separate campaign contract.
+
+The reproducible benchmark alternates two runs per policy, with exact equality
+checks on all candidate/cost evaluations, Rust requests and proposals, feedback,
+analytical results and deferred programs. On the measured local workload:
+
+| Measurement | Recompute | Reuse |
+|---|---:|---:|
+| One braced-body diagnostic/reference/stock median, three repetitions | 0.03375 s (original oracle) | 0.01459 s (prepared adapter) |
+| Full 2,000-program campaign median, two repetitions per policy | 17.84 s | 16.35 s |
+| Retained analytical records in reuse runs | — | 29, about 1.34 MB |
+| Analytical reuse hits | 0 | 12 |
+
+The campaign timing compares the prepared adapter with invocation reuse disabled
+and enabled: 8.35% less wall time in this small local sample. Each run evaluated
+60 definitions representing 57 physical designs and 29 analytical assessments,
+with no native engineering job. This is not high-fidelity solver throughput.
+The initial full-geometry cache trial was slower and was removed. The partial
+cProfile experiment was interrupted and is not a completed campaign benchmark.
+The final benchmark ID is
+`db89b84a265efd75e3ab284e5c15f5f01a911db20d5ce643c17b83eee9637e4c`,
+with report SHA-256
+`afa8da7c28b6de49be774104d2f46eeccbee645a29c158e59417efcda8ed3892`.
+Outputs remain private reproducible artifacts under `build/`.
+
+Independent verification reproduced all four comparison payloads and checked all
+35 source bindings. A zero-new-evaluation resume preserved 60 attempts, both
+generation journals and 1,976 deferred programs; it freshly computed 29 analytical
+records and reused twelve within the invocation, with no native dispatch. Its ID
+is `74d999f07ce9b5d4de838a850c99ff7cff23b7d5a50aa5d25ae8caa3df7ea4d3`.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python tools/automation/benchmark-campaign-reuse.py --output build/my-campaign-benchmark --samples 2
+```
+
+The earlier source-pinned feedback reference run is
 `c2da549729de610e369db2bdc5014e04e52b424157600365bdc2265a7c7ba424`:
 
 | Scope | Executed result |
@@ -155,8 +204,9 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Regression checks passed 147 tests on each of Python 3.12 and 3.13, 15 Rust kernel
-tests and 29 CI routing tests (101 subtests). `./osr verify` also replayed the
+Current regression checks passed 176 tests on each of Python 3.12 and 3.13, with
+the opt-in native axial control separately passing. The unchanged Rust kernel
+retains its 15 tests in CI; 29 CI routing tests (101 subtests) passed. `./osr verify` replayed the
 current selected publication successfully without regenerating its packets. The
 opt-in native control remains a separate CI job.
 
@@ -180,7 +230,7 @@ The benchmark report SHA-256 is
 ```bash
 python tools/automation/benchmark-native-search.py --output build/my-search-benchmark
 cargo test --locked -p osr-design-search
-python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py
+python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py
 ```
 
 NumPy/SciPy and CalculiX retain their compiled numerical engines. Arbitrary organic

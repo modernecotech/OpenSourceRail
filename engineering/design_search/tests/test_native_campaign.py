@@ -315,3 +315,29 @@ def test_comparison_cohort_binds_functional_loading_not_candidate_mass(small,tmp
     assert c._comparison_context(thin)==c._comparison_context(thick)
     other=deepcopy(thick);other["structure"]["load_basis"]["normal_people"]+=1
     assert c._comparison_context(thin)!=c._comparison_context(other)
+
+
+def test_invocation_reuse_preserves_complete_feedback_and_replays_fresh_on_resume(tmp_path,small,monkeypatch):
+    spec=c.specification();spec.update(seed_bracing=[False,True],detailed_finalists=0)
+    spec["feedback"].update(maximum_new_assessments=2,maximum_total_assessments=4)
+    monkeypatch.setattr(c,"specification",lambda root=c.ROOT:deepcopy(spec))
+    original=c.native_refinement.assess;calls=[]
+    def counted(candidate,**kwargs):
+        calls.append(candidate["definition_id"])
+        return original(candidate,**kwargs)
+    monkeypatch.setattr(c.native_refinement,"assess",counted)
+    cold=read(c.run(state=tmp_path/"cold",generations=2,maximum_new_evaluations=8,invocation_reuse=False))
+    cached=read(c.run(state=tmp_path/"cached",generations=2,maximum_new_evaluations=8))
+    assert cold["evaluations"]==cached["evaluations"]
+    for a,b in zip(cold["generations"],cached["generations"]):
+        assert a["parent_feedback_snapshot_id"]==b["parent_feedback_snapshot_id"]
+    assert cold["refinement"]["parent_feedback_plan"]==cached["refinement"]["parent_feedback_plan"]
+    counts=cached["invocation_cache"]["counts"]
+    assert counts["axial-assessment"]["computations"]==4
+    assert counts["axial-assessment"]["reused"]==2
+    assert cached["contract"]["invocation_reuse"] is True and cold["contract"]["invocation_reuse"] is False
+    calls.clear()
+    resumed=read(c.run(state=tmp_path/"cached",generations=2,maximum_new_evaluations=0))
+    assert len(calls)==len(set(calls))==4  # Fresh unique observations, never hydrate saved assessments.
+    assert resumed["generations"]==cached["generations"]
+    assert resumed["invocation_cache"]["persisted_evidence_loaded"] is False

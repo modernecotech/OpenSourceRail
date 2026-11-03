@@ -21,7 +21,7 @@ import numpy as np
 from engineering import station_rail
 from engineering.station_rail import ROOT, common
 from engineering.station_rail.common import digest, encoded, identity
-from . import design_grammar, grammar_shell, grammar_structure
+from . import design_grammar, grammar_shell, grammar_structure, axial_analysis
 
 PRODUCER = "engineering/design_search/native_refinement.py"
 FLAGS = dict(physical_accepted=False, engineering_accepted=False,
@@ -32,6 +32,7 @@ MAX_FILE_BYTES = 32 * 1024 * 1024
 MODULES = ((station_rail, "engineering/station_rail/__init__.py"),
            (common, "engineering/station_rail/common.py"),
            (design_grammar, design_grammar.PRODUCER),
+           (axial_analysis, axial_analysis.PRODUCER),
            (grammar_structure, grammar_structure.PRODUCER),
            (grammar_shell, grammar_shell.PRODUCER))
 LOADED = {name: digest(module.__file__) for module, name in MODULES}
@@ -122,13 +123,14 @@ def assess(candidate, *, root=ROOT):
     try:
         if graph.get("schema") != "osr-axial-structure-graph/1":
             raise ValueError("This physical topology has no declared axial-graph adapter")
-        diagnostic = grammar_structure.diagnose_rigidity(graph)
+        prepared = axial_analysis.prepare(graph)
+        diagnostic = prepared.diagnose()
         if diagnostic["mechanism_count"]:
             axial_status = "graph-mechanism-model-only"
         else:
             try:
-                reference = grammar_structure.linear_reference(graph)
-                _, _, _, stock, _, _ = grammar_structure._validated(graph)
+                reference = prepared.linear_reference()
+                stock = prepared.stock
                 displacements = reference["displacements_m"]
                 linear_ratio = max(float(np.linalg.norm(
                     np.asarray(displacements[member["end_node"]]) -
