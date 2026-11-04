@@ -75,6 +75,54 @@ timings are inclusive estimates and must not be added to these phases.
 Comparison SHA-256:
 `292d59352092ad7227e329ea63a499d5b7116bda183571ee19aa95d488078e89`.
 
+The optional Rust scope now seals complete records in one nested-input traversal.
+It hashes the original canonical bytes including their newline, then inserts the
+seal at its recorded sorted-key position. `sealed_record` returns the sealed
+bytes and original payload hash without mutating the input. Final size/depth
+limits, strict native types, source/ABI receipts and exception propagation remain
+in force. `--no-native-record-sealing` retains Rust encoding while selecting the
+original Python fragment assembly for comparison; this policy is recorded in the
+evaluation contract. Python remains the default, and mixed nested backend scopes
+are rejected to prevent an inaccurate provenance declaration.
+
+Rust key ordering also uses UTF-8 strings for ordinary keys instead of allocating
+four-byte codepoint vectors. Lone surrogates retain explicit codepoint handling,
+including comparisons against valid Unicode keys. Isolated, matching-toolchain
+measurements improved retained-geometry encoding/hashing/sealing about 10%; the
+mixed-surrogate encoding/sealing case slowed 3–4%. These are workload-specific
+microbenchmarks, not a guarantee that every input is faster. Their report SHA is
+`f07615c8203f7f553118b56a44d177280d23c29e8bc8d94c81167ec57a068f2f`.
+
+Two fresh final campaigns took 11.3506/11.3948 s versus the preceding
+12.2662/12.2572 s controls, about 7% less wall time locally. Peak RSS remained
+about 310,000 KiB. These runs still generate 2,000 proposal programs, not 2,000
+fully evaluated designs. A control with final key ordering but native sealing
+disabled took 11.3652 s: sealing alone has not demonstrated a material campaign
+speedup. The profiling tool accepts `--no-native-record-sealing` for that control.
+
+A separate invocation-local geometry-cache prototype was rejected: it reduced
+materialisations from 98 to 77 but increased wall time from 12.1595 to 14.7065 s,
+increased source checks from 159 to 433, raised RSS and evicted analytical
+observations. Its source, tests and failed trial remain outside Git under an
+immutable experiment manifest with SHA
+`2547ef1d6d1d5b39c317f611eabc82eca044f6e755ea40d45b65e017a177041d`.
+Production retains independent geometry reconstruction and the existing bounded
+analytical reuse. Both Python versions pass 197 focused regressions, including
+3,000 generated nested records, 2,048 extreme floats and 300 multi-plane key-order
+cases; Rust 1.92 passes 20 controls, formatting and optional-feature Clippy.
+The final campaign audit checks all 60 geometry records byte-for-byte against the
+baseline and keeps every candidate/definition identity, mass and cost estimate.
+Its SHA is `e16cc4dca54231a07fd33be6f4286f2c83802a92852c78bd41e922425057db21`.
+
+Final delivery package
+`18b4768ab7731e14fc2bb57f21af88940d2c24507e2620ce3126e91f420d9704`
+independently replays with all twelve scientific stage files byte-identical to
+the preceding Rust-backed delivery. It retains 199 routes, 14 cost scopes,
+two-shift production/civil schedules and operating cases of two/two/three shifts.
+No new CAD job was needed. Supported motion and physical/engineering release
+remain held; the audit is cooperative in-process checking, not an OS sandbox.
+Audit SHA: `9fe0f0e87fad4e674938218349c3771cbfc344b3d9ce49ea22e999e3315d41e6`.
+
 The Rust-backed delivery package
 `3467a18eba7cf3c389724df318aa51be3025ba7fb3776b8665b5f4a000e69b38`
 reuses the exact native geometry with zero new CAD jobs. All twelve engineering

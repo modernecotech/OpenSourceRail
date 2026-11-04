@@ -220,10 +220,11 @@ def compare_large_records(backend):
     return rows
 
 
-def profile_campaign(output,*,sample_stride=64,instrumented=True,canonical_backend='python'):
+def profile_campaign(output,*,sample_stride=64,instrumented=True,canonical_backend='python',native_record_sealing=True):
     """One fresh default campaign, resource-bounded and with native jobs zero."""
     if type(instrumented) is not bool or type(sample_stride) is not int or sample_stride<1:raise ValueError('Explicit profile policy required')
     if canonical_backend not in ('python','rust'):raise ValueError('Explicit canonical backend required')
+    if type(native_record_sealing) is not bool:raise ValueError('Explicit native record sealing policy required')
     for name in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS'):
         if os.environ.get(name)!='1':raise ValueError(name+'=1 required before imports')
     resource.setrlimit(resource.RLIMIT_AS,(1024**3,1024**3));resource.setrlimit(resource.RLIMIT_CPU,(85,85))
@@ -232,6 +233,7 @@ def profile_campaign(output,*,sample_stride=64,instrumented=True,canonical_backe
     sources=c._sources(ROOT);measurements={};originals=[]
     snapshot=output/'producer-before';snapshot.mkdir()
     (snapshot/'native_campaign.py').write_bytes(Path(c.__file__).read_bytes())
+    (snapshot/'native_canonical.py').write_bytes(Path(c.native_canonical.__file__).read_bytes())
     def instrument(owner,name,label,stride=1):
         original=getattr(owner,name);row=measurements.setdefault(label,dict(calls=0,sampled_calls=0,failed=0,sampled_inclusive_wall_s=0.,sample_stride=stride))
         @wraps(original)
@@ -261,10 +263,11 @@ def profile_campaign(output,*,sample_stride=64,instrumented=True,canonical_backe
                 if module is common:continue
                 originals.append((module,helper,getattr(module,helper)));setattr(module,helper,wrapped)
         if canonical_backend=='rust':
-            for name in ('encoded','identity','encoded_with_identity'):
+            for name in ('encoded','identity','encoded_with_identity','sealed_record'):
                 instrument(c.native_canonical._Session,name,'rust_session_'+name,sample_stride)
     started=time.perf_counter()
-    try:summary=c.run(state=output/'state',native_jobs=0,frame_native_jobs=0,section_torsion_jobs=0,canonical_backend=canonical_backend)
+    try:summary=c.run(state=output/'state',native_jobs=0,frame_native_jobs=0,section_torsion_jobs=0,canonical_backend=canonical_backend,
+                      native_record_sealing=native_record_sealing)
     finally:
         for owner,name,original in reversed(originals):setattr(owner,name,original)
     elapsed=time.perf_counter()-started
@@ -273,7 +276,8 @@ def profile_campaign(output,*,sample_stride=64,instrumented=True,canonical_backe
     for row in measurements.values():
         row['estimated_inclusive_wall_s']=row['sampled_inclusive_wall_s']*row['calls']/max(1,row['sampled_calls'])
     report=dict(schema='osr-sampled-coordinator-profile/1',source_sha256=sources,runtime=c._runtime(),
-        instrumented=instrumented,canonical_backend=canonical_backend,full_call_wall_s=elapsed,measurements=measurements,summary=summary,
+        instrumented=instrumented,canonical_backend=canonical_backend,native_record_sealing=native_record_sealing,
+        full_call_wall_s=elapsed,measurements=measurements,summary=summary,
         maxrss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,tool_sha256=common.digest(__file__),
         limitations=['Inclusive nested phases are not additive','Systematic samples estimate canonical helper times, not a statistical confidence interval',
             'One fresh run per invocation; actual coordinator, object conversion and file IO included','No CCX, CAD or section worker jobs',
@@ -287,11 +291,13 @@ def main():
     corpus=commands.add_parser('corpus');corpus.add_argument('--output',type=Path,required=True);corpus.add_argument('--records',type=int,default=10_000)
     profile=commands.add_parser('profile');profile.add_argument('--output',type=Path,required=True);profile.add_argument('--uninstrumented',action='store_true')
     profile.add_argument('--backend',choices=('python','rust'),default='python')
+    profile.add_argument('--no-native-record-sealing',action='store_true',help='Keep Rust encoding but use the Python fragment sealer for an independent control')
     parity=commands.add_parser('parity');parity.add_argument('--corpus',type=Path,required=True);parity.add_argument('--output',type=Path,required=True);parity.add_argument('--floats',type=int,default=50_000)
     args=parser.parse_args()
     if args.command=='corpus':result=create_corpus(ROOT,args.output,count=args.records);print(json.dumps({k:result[k] for k in ('corpus_id','records','canonical_bytes','source_decoded_bytes_read')}))
     elif args.command=='profile':
-        result=profile_campaign(args.output,instrumented=not args.uninstrumented,canonical_backend=args.backend)
+        result=profile_campaign(args.output,instrumented=not args.uninstrumented,canonical_backend=args.backend,
+            native_record_sealing=not args.no_native_record_sealing)
         print(json.dumps({k:result[k] for k in ('profile_id','full_call_wall_s','maxrss_kib','measurements')}))
     else:
         resource.setrlimit(resource.RLIMIT_AS,(1024**3,1024**3));resource.setrlimit(resource.RLIMIT_CPU,(85,85))

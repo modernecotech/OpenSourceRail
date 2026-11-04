@@ -28,6 +28,49 @@ def rejected(call, exception):
     raise AssertionError("Expected bounded canonical input rejection")
 
 
+def sealed_smoke(native):
+    shared=[None,False,-0.0,2**2000,{"nested":[1,2.5]}]
+    records=[{}, {"a":shared,"z":shared}, {"\ud800":1,"\ue000":2,"\U00010000":3},
+        {"quote\"\\\n":shared,"evaluation_id-nested":{"evaluation_id":None}}]
+    keys=["0","evaluation_id","m","zz","\udfff","\U00010001","\"\\\n"]
+    count=0
+    for value in records:
+        original=reference(value)
+        expected_seal=hashlib.sha256(original).hexdigest()
+        for key in keys:
+            expected=reference(dict(value,**{key:expected_seal}))
+            assert native.sealed_record(value,key)==(expected,expected_seal)
+            assert native.sealed_record(value,key,max_bytes=len(expected))==(expected,expected_seal)
+            rejected(lambda:native.sealed_record(value,key,max_bytes=len(expected)-1),ValueError)
+            assert reference(value)==original
+            count+=1
+    value={"nested":[[0]]}
+    seal=hashlib.sha256(reference(value)).hexdigest()
+    assert native.sealed_record(value)==(reference(dict(value,evaluation_id=seal)),seal)
+    rejected(lambda:native.sealed_record(value,max_depth=2),RecursionError)
+    rejected(lambda:native.sealed_record({},max_depth=0),RecursionError)
+    for key in (None,0,True,b"key"):
+        rejected(lambda:native.sealed_record({},key),TypeError)
+    rejected(lambda:native.sealed_record({},""),ValueError)
+    rejected(lambda:native.sealed_record({"evaluation_id":"old"}),ValueError)
+    rejected(lambda:native.sealed_record({"\ud800":1},"\ud800"),ValueError)
+    for value in (None,[],(),1):
+        rejected(lambda:native.sealed_record(value),TypeError)
+    for value in ({"x":float("inf")},{"x":float("nan")}):
+        rejected(lambda:native.sealed_record(value),ValueError)
+    class Key(str):
+        pass
+    class Record(dict):
+        pass
+    rejected(lambda:native.sealed_record({},Key("key")),TypeError)
+    rejected(lambda:native.sealed_record(Record()),TypeError)
+    rejected(lambda:native.sealed_record({Key("key"):0}),TypeError)
+    loop={}
+    loop["loop"]=loop
+    rejected(lambda:native.sealed_record(loop),ValueError)
+    return count
+
+
 def smoke(native):
     shared=[None,True,False,-0.0,2**2000]
     cases=[None,True,False,0,1,-1,-0.0,1e-5,1e-4,1e15,1e16,2**2000,
@@ -89,7 +132,7 @@ def main():
     spec=importlib.util.spec_from_file_location("osr_design_native",args.extension.resolve())
     native=importlib.util.module_from_spec(spec)
     spec.loader.exec_module(native)
-    report=dict(schema="osr-native-canonical-smoke/1",parity_cases=smoke(native),backend=native.backend_info(),
+    report=dict(schema="osr-native-canonical-smoke/1",parity_cases=smoke(native),sealed_record_cases=sealed_smoke(native),backend=native.backend_info(),
         extension_sha256=hashlib.sha256(args.extension.read_bytes()).hexdigest(),
         scope="Canonical encoder method control only; no engineering or native-physics evidence")
     if args.payload:

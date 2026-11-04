@@ -180,7 +180,7 @@ def validate_native_canonical_job(text):
     preparation=block.split(build,1)[1].split(verify,1)[0]
     assert '          python -m engineering.design_search.native_search build\n' in preparation
     assert '          python -m engineering.design_search.native_canonical build\n' in preparation
-    command='        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py\n'
+    command='        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py\n'
     assert block.count(command)==1
     assert '        run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings\n' in block
     assert not re.search(r'^\s+(?:-\s+)?(?:if|continue-on-error|ref):',block,re.M)
@@ -587,6 +587,7 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('uses: dtolnay/rust-toolchain@1.92.0','uses: dtolnay/rust-toolchain@stable'),
                 ('python -m engineering.design_search.native_canonical build','echo extension-not-built'),
                 ('engineering/design_search/tests/test_native_canonical.py','nonexistent-parity-test.py'),
+                ('engineering/design_search/tests/test_native_sealing.py','nonexistent-sealing-test.py'),
                 ('      - name: Require exact canonical parity','      - if: false\n        name: Require exact canonical parity'),
                 ('      - name: Check the optional Rust extension','      - continue-on-error: true\n        name: Check the optional Rust extension')):
             with self.subTest(changed=old),self.assertRaises(AssertionError):

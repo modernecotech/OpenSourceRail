@@ -375,6 +375,11 @@ def _sealed_record(value, key="evaluation_id"):
     """
     if type(value) is not dict or not isinstance(key,str) or not key or key in value or any(type(k) is not str for k in value):
         raise ValueError("Fresh string-keyed record and absent seal key required")
+    native=native_canonical.active_sealed_record(value,key)
+    if native is not None:
+        raw,seal=native
+        sealed=dict(value);sealed[key]=seal
+        return sealed,raw
     keys=sorted(value)
     fragments=[encoded(k)[:-1]+b":"+encoded(value[k])[:-1] for k in keys]
     raw=b"{"+b",".join(fragments)+b"}\n"
@@ -875,10 +880,11 @@ def _state_lock(state):
         finally:fcntl.flock(handle,fcntl.LOCK_UN)
 
 
-def run(*,root=ROOT,state=None,canonical_backend="python",canonical_extension=None,**kwargs):
+def run(*,root=ROOT,state=None,canonical_backend="python",canonical_extension=None,native_record_sealing=True,**kwargs):
     state=Path(state) if state is not None else Path(root)/"build/native-design-search"
     with _state_lock(state):
-        with native_canonical.campaign_backend(canonical_backend,root=root,extension=canonical_extension) as provenance:
+        with native_canonical.campaign_backend(canonical_backend,root=root,extension=canonical_extension,
+                record_sealing=native_record_sealing) as provenance:
             result=_run(root=root,state=state,canonical_provenance=provenance if canonical_backend=="rust" else None,**kwargs)
         return dict(result,canonical_backend=canonical_backend)
 
@@ -894,9 +900,11 @@ if __name__ == "__main__":
     parser.add_argument("--no-invocation-reuse",action="store_true",help="Diagnostic independent recomputation mode; separate campaign contract")
     parser.add_argument("--canonical-backend",choices=("python","rust"),default="python",help="Explicit source-bound research encoder; Python remains the reference/default")
     parser.add_argument("--canonical-extension",type=Path)
+    parser.add_argument("--no-native-record-sealing",action="store_true",help="Keep Rust encoding active but use the reference Python record-sealing assembly")
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
                          maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,frame_native_jobs=args.frame_native_jobs,
                          section_torsion_jobs=args.section_torsion_jobs,
                          canonical_backend=args.canonical_backend,canonical_extension=args.canonical_extension,
+                         native_record_sealing=not args.no_native_record_sealing,
                          invocation_reuse=not args.no_invocation_reuse),indent=2))

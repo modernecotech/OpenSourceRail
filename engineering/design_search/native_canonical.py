@@ -35,6 +35,7 @@ MAX_BYTES=64*1024**2
 MAX_DEPTH=256
 _ORACLE_ENCODED=common.encoded
 _ACTIVE=ContextVar("osr_native_canonical_session",default=None)
+_RECORD_SEALING=ContextVar("osr_native_canonical_record_sealing",default=False)
 _SCOPE_LOCK=threading.Lock()
 _MODULES={}
 LOADED={PRODUCER:common.digest(__file__),native_search.PRODUCER:common.digest(native_search.__file__)}
@@ -129,6 +130,11 @@ class _Session:
         self._limits(max_bytes,max_depth)
         return self.engine._module.encoded_with_identity(value,max_bytes=max_bytes,max_depth=max_depth)
 
+    def sealed_record(self,value,key="evaluation_id",*,max_bytes=MAX_BYTES,max_depth=128):
+        """Return sealed bytes and the unsealed canonical hash; exact types only."""
+        self._limits(max_bytes,max_depth)
+        return self.engine._module.sealed_record(value,key=key,max_bytes=max_bytes,max_depth=max_depth)
+
 
 class NativeCanonical:
     def __init__(self,*,root=ROOT,extension=None):
@@ -185,9 +191,25 @@ class NativeCanonical:
     def encoded_with_identity(self,value,**kwargs):
         with self.session() as session:return session.encoded_with_identity(value,**kwargs)
 
+    def sealed_record(self,value,key="evaluation_id",**kwargs):
+        with self.session() as session:return session.sealed_record(value,key,**kwargs)
+
+
+def active_sealed_record(value,key="evaluation_id"):
+    """Use only an explicitly enabled active Rust scope, without filesystem IO.
+
+    None selects the unchanged Python fragment path. An enabled native error,
+    unsupported type or missing extension method propagates rather than silently
+    substituting another identity path. Native seal keys require exact str;
+    the Python fallback retains its broader original isinstance(str) behavior.
+    """
+    active=_ACTIVE.get()
+    if active is None or not _RECORD_SEALING.get():return None
+    return active.sealed_record(value,key)
+
 
 @contextmanager
-def campaign_backend(mode="python",*,root=ROOT,extension=None):
+def campaign_backend(mode="python",*,root=ROOT,extension=None,record_sealing=True):
     """Opt-in scoped aliases; other contexts keep the Python reference encoder.
 
     One native scope per process avoids conflicting alias installation. The
@@ -195,7 +217,9 @@ def campaign_backend(mode="python",*,root=ROOT,extension=None):
     Every installed alias is restored, including modules imported in the scope.
     """
     if mode not in ("python","rust"):raise ValueError("Explicit python or rust canonical backend required")
+    if type(record_sealing) is not bool:raise ValueError("Explicit boolean native record-sealing policy required")
     if mode=="python":
+        if _ACTIVE.get() is not None:raise RuntimeError("A Python backend cannot nest inside an active Rust canonical scope")
         if extension is not None:raise ValueError("A native extension requires the rust backend")
         yield dict(mode="python",reference="engineering.station_rail.common.encoded")
         return
@@ -218,8 +242,11 @@ def campaign_backend(mode="python",*,root=ROOT,extension=None):
         try:
             with engine.session() as session:
                 token=_ACTIVE.set(session)
-                try:yield dict(mode="rust",**engine.provenance())
-                finally:_ACTIVE.reset(token)
+                sealing_token=_RECORD_SEALING.set(record_sealing)
+                try:yield dict(mode="rust",record_sealing=record_sealing,**engine.provenance())
+                finally:
+                    _RECORD_SEALING.reset(sealing_token)
+                    _ACTIVE.reset(token)
         finally:
             for module,attribute,original in reversed(originals):
                 wrapper=encoded if attribute=="encoded" else identity
