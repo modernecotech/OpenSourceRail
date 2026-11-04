@@ -19,6 +19,71 @@ explicit and records locked sources, tools and the executable hash. Stale or
 modified receipts are rejected. Generated requests, geometries, caches, failed
 experiments and immutable solver packages remain under `build/`, outside Git.
 
+The search can now feed one finalist directly into a complete declared railway
+delivery study, using the existing canonical P1 research bundle and domain
+evaluators rather than running the separate 112-bundle campaign again:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python -m engineering.design_search.search_delivery run \
+    --search-state build/my-search --output build/my-delivery --native-cad
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python -m engineering.design_search.search_delivery verify build/my-delivery --replay
+```
+
+Use the same project Python environment for generation and verification. Runtime
+changes create distinct search/cache contexts. Without `--body-candidate-id`, the
+handoff chooses the lowest partial factory-cost member of the frame-assessed
+finalist set for demonstration only; this is not an integrated design selection.
+The package preserves source-program genes in their declared axis order, primary
+cost evidence and search-result identity. It reconstructs the physical body and
+primary quantities/cost during verification. Replaying the full parent-selection
+sequence additionally requires the retained search journals.
+
+Twelve same-candidate records cover stock geometry/mass properties, inventory,
+interfaces, axial/coarse-frame structure, architecture, required propulsion,
+supported-motion admission, assumption-only journeys, civil alternatives,
+14-scope whole-life economics, delivery and work plans. Structural load mass is
+checked against the bundle. Located stock has one provisional manufacturing
+route per occurrence. Factory/civil plans retain two shifts; operations retain
+two/two/three-shift low/base/high cases. Disabled ERPNext Item/BOM/Routing/
+Workstation/Project and Frappe workforce/shift drafts retain their cost links,
+assembly precedence, staffing assumptions and import holds. No orders, external
+transactions, control commands or movement authority are created.
+
+`--native-cad` explicitly permits one FreeCAD export, including saved CAD/STEP
+reopening checks, and an IFC export/reopening. Exact planar box/RHS facets retain
+the hollow bore, positions, bundle identities and native stock-volume correlation.
+These are one car's nominal stock solids, not an installed six-car train or
+fabricated joints/equipment. The CAD child timeout is 180 seconds; IFC has a
+60-second cooperative budget. A 4 GiB free-disk preflight precedes work. Without
+this option, geometry export is explicitly not requested. Alternatively,
+`--reuse-geometry build/earlier-delivery/geometry-export` verifies and copies exact
+same-body/bundle/source/tool geometry evidence with zero new CAD jobs. It cannot
+be combined with a new CAD budget. Verification reopens IFC and checks saved
+original CAD receipts/hashes without another FreeCAD/STEP process.
+
+The complete reference package is
+`b07377c204f6ce42bb0e5fad89f532537260ddee1c0b09a2baccbcce1930e3fe`,
+under `build/search-delivery-complete-reference-20261104/`: body `883ce3f…`
+from the 2,000-program, 59-physical-design campaign propagates into canonical
+railway `4907f76f…`, three civil alternatives, 199 located-stock routes and all
+14 cost scopes. Twelve compressed stage records plus CAD/STEP/IFC occupy
+4,707,697 bytes; the index holds identities instead of duplicating the records.
+The final structural consolidation reused the existing native geometry package.
+Its independent full replay took 9.96 seconds and 509,144 KiB peak RSS under a
+1 GiB address-space limit, with search/CAD/IFC exports blocked. The recorded
+frame/bundle sprung-mass difference was 1.82e-12 kg. Audit SHA-256:
+`9302ee5b7a289db350e0c9cb1032ec2d0ec2719ea398aba3e660d2fba20be499`.
+
+`computational_workflow_complete` means every declared stage has a result or an
+explicit infeasibility/evidence hold. Low/base assumed journeys stop within the
+berth hypothesis at 170.40/153.25 seconds; the high case retains its controller
+speed-limit failure. Supported motion remains unrun without a valid available
+force map. Large-motion/short-member structural holds, complete installed mass,
+clearances, actual production capacity, site conditions and physical qualification
+remain open. Computational completion grants no engineering or operating release.
+
 The campaign starts with paired braced/unbraced controls for the eighteen
 frame/shell/rib compositions: 36 physical seed designs. Nine genome axes vary
 spacing, dimensions, bracing, roof integration and structural topology. These
@@ -72,6 +137,36 @@ and Rust above that. The threshold is provisional and configurable through
 `search_archive.archive`; the crossover depends on dominance and cell structure.
 Both paths preserve physical IDs, fronts and valid exclusion witnesses. Large
 batches stay bounded; persistent Rust workers remain future work.
+
+Processor work now avoids checkpoint deep copies and repeated canonical JSON
+traversals. Top-level fragments still use the authoritative encoder; inserted
+identity hashes and final bytes match the independent full-record encoder,
+including floating-point, Unicode and alias cases. Geometry gzip uses level one
+with identical decompressed records. In one measured full-call pair, fresh
+campaign time fell from 19.943 to 17.959 seconds (9.95%); resume remained about
+16.3 seconds. Peak cumulative RSS changed from 306,124/308,016 to
+309,152/315,040 KiB. Compression
+trades 1.46 MB more cache storage (4.64 to 6.10 MB for 60 records) for less CPU.
+These are single-sample local timings, not a high-fidelity solver speed claim.
+
+The read-only comparator verifies 17 physical, cost, ancestry, archive, numerical
+and disposition checks. It selects the exact definition/runtime cohorts from the
+retained runs, excluding unrelated later contexts in the shared cache. Report
+SHA-256: `5cf1fbaaeda184e5740600b18d1ae2b4f1ef1a84b4e74d9ba4de24791b75bb70`.
+
+```bash
+python tools/automation/benchmark-campaign-serialization.py \
+  --directory build/processor-profile-20261104 --output build/my-serialization-audit.json
+```
+
+Disk checks use filesystem free-space counters; directory sizes alone do not
+establish reclaimable bytes on a reflink/snapshot filesystem. Four superseded
+coupled-campaign trees were retained as compressed restorable archives and every
+file's content, path and metadata checked twice before retiring the originals.
+Available home space increased from about 26 to 35 GB during this work. Current
+publications and numerical evidence remain preserved. The local cleanup script
+supports `--disk-status --path /home/hayder --report FRESH_JSON`; its report is
+read-only. New delivery packages keep compressed records once and compact indexes.
 
 Before each generation, the coordinator considers all evaluated candidates,
 including those excluded by the partial cost archive. It adds up to twelve
@@ -371,7 +466,8 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Current regression checks passed 300 tests on each of Python 3.12 and 3.13, with
+Current regression checks passed 407 tests on each of Python 3.12 and 3.13,
+including the entrypoint contracts, with
 the opt-in native bending control separately passing and both native controls
 required in CI. The unchanged Rust kernel retains its 15 tests in CI;
 34 CI routing tests (115 subtests) passed. `./osr verify` replayed the

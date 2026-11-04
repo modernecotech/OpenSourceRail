@@ -14,6 +14,7 @@ from copy import deepcopy
 import gzip
 import fcntl
 from io import BytesIO
+from hashlib import sha256
 import json
 import os
 from math import isfinite
@@ -330,7 +331,11 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
 
 def _store(path, value):
     """Immutable canonical JSON: a conflicting existing record is an error."""
-    raw = encoded(value)
+    _store_raw(path, encoded(value))
+
+
+def _store_raw(path, raw):
+    """Store already canonical bytes without serializing an unchanged record twice."""
     if len(raw)>native_search.MAX_BYTES:
         raise RuntimeError("Search record exceeds reader budget; retain prior checkpoint and generation journals")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -357,6 +362,27 @@ def _read_cache(path,*,parse=True,compressed=False):
 def _seal(value, key="evaluation_id"):
     value[key] = identity(value)
     return value
+
+
+def _sealed_record(value, key="evaluation_id"):
+    """Seal a fresh top-level record with one canonical traversal of its payload.
+
+    The resulting bytes/hash exactly match ``encoded(_seal(deepcopy(value),key))``.
+    Top-level fragments permit insertion in canonical key order without a second
+    traversal of large nested models. No cached evidence or mutable bytes are
+    reused; every value is serialized using the authoritative encoder each time.
+    """
+    if type(value) is not dict or not isinstance(key,str) or not key or key in value or any(type(k) is not str for k in value):
+        raise ValueError("Fresh string-keyed record and absent seal key required")
+    keys=sorted(value)
+    fragments=[encoded(k)[:-1]+b":"+encoded(value[k])[:-1] for k in keys]
+    raw=b"{"+b",".join(fragments)+b"}\n"
+    seal=sha256(raw).hexdigest()
+    fragment=encoded(key)[:-1]+b":"+encoded(seal)[:-1]
+    index=sum(k<key for k in keys)
+    fragments.insert(index,fragment)
+    sealed=dict(value);sealed[key]=seal
+    return sealed,b"{"+b",".join(fragments)+b"}\n"
 
 
 def _check_epoch(root, expected):
@@ -400,9 +426,9 @@ def _geometry(parameters, recipes, state, root, topology="reference"):
         if record.get("candidate") != candidate or record.get("materialisation_base")!=base:
             raise RuntimeError("Cached geometry does not replay from the declared materialiser")
         return candidate, True
-    record = _seal(dict(request=request, candidate=candidate,materialisation_base=base), "record_id")
+    record,canonical = _sealed_record(dict(request=request, candidate=candidate,materialisation_base=base), "record_id")
     path.parent.mkdir(parents=True, exist_ok=True)
-    raw = gzip.compress(encoded(record), mtime=0)
+    raw = gzip.compress(canonical, compresslevel=1, mtime=0)
     with path.open("xb") as handle:
         handle.write(raw)
     return candidate, False
@@ -419,7 +445,7 @@ def _evaluate(candidate, assumptions, state, root):
     key = identity(request); path = state/"stock-cost"/(key+".json")
     cost = design_portfolio._factory_gate_stock_estimate(candidate, assumptions, root)
     mass = sum(part["mass_kg"] for part in candidate["parts"])
-    record = _seal(dict(request=request, candidate_id=candidate["candidate_id"],
+    record,canonical = _sealed_record(dict(request=request, candidate_id=candidate["candidate_id"],
         definition_id=candidate["definition_id"], descriptor={"family":candidate["parameters"]["family"],
             "topology":candidate.get("topology_mutations",[{}])[-1].get("operator","reference")},
         metrics=dict(nominal_stock_kg=mass, factory_gate_base_iqd=cost["scenarios_iqd"]["base"],
@@ -428,7 +454,7 @@ def _evaluate(candidate, assumptions, state, root):
         execution="completed", engineering_screen="unknown", structural_analysis="not-run",
         fidelity=0, evidence_maturity="conditional-nominal-stock-and-Class-C-cost", **FLAGS))
     exists=path.exists()
-    _store(path, record)  # Cheap replay prevents resealed zero-cost/mass records.
+    _store_raw(path, canonical)  # Cheap replay prevents resealed zero-cost/mass records.
     return record, exists
 
 
@@ -517,8 +543,7 @@ def _shortlist(programs, proxies, limit, topology_axis=None,eligible=None,covera
 
 
 def _checkpoint(path, value):
-    value = _seal(deepcopy(value), "checkpoint_id")
-    raw=encoded(value)
+    _,raw = _sealed_record(value, "checkpoint_id")
     if len(raw)>native_search.MAX_BYTES:
         raise RuntimeError("Checkpoint exceeds reader budget; prior checkpoint and generation journals retained")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -804,7 +829,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         archive=_archive(kernel,list(data["rows"].values()))
     detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse,frame_native_jobs,section_torsion_jobs)
     save(force=True)
-    value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
+    value,canonical=_sealed_record(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
         archive_contexts={cid:row["evaluation_id"] for cid,row in data["rows"].items()},
         attempts=data["attempts"],generations=data["generations"],pending=data["pending"],deferred=data["deferred"],seed_pending=data["seed_pending"],
@@ -815,7 +840,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         section_torsion_dispatch_allowed=bool(section_torsion_jobs),
         cache_scope="Cheap geometry/cost replay-checked; bounded fresh analytical records reused only within this invocation; no avoided high-fidelity solver runtime is claimed",
         unresolved=OPEN,**FLAGS),"run_id")
-    _store(state/"runs"/(value["run_id"]+".json"),value)
+    _store_raw(state/"runs"/(value["run_id"]+".json"),canonical)
     return dict(run_id=value["run_id"],candidate_count=len(data["rows"]),
         generated_programs=sum(g["generated_programs"] for g in data["generations"]),pending_programs=len(data["pending"]),
         deferred_programs=len(data["deferred"]),

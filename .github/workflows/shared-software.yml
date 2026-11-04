@@ -53,6 +53,12 @@ jobs:
           OMP_NUM_THREADS: "1"
           MKL_NUM_THREADS: "1"
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_section_torsion.py engineering/design_search/tests/test_section_torsion_job.py engineering/design_search/tests/test_frame_section_refinement.py engineering/design_search/tests/test_solid_torsion_native.py
+      - name: Efficient serialization and complete searched-candidate delivery handoffs
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_campaign_serialization.py engineering/design_search/tests/test_campaign_benchmark_cohort.py engineering/design_search/tests/test_search_geometry.py engineering/design_search/tests/test_search_delivery.py
       - name: Retained v0.5 source and packet portability
         run: python tools/automation/tests/verify-maglev-sources.py
       - name: Retained offline-host compatibility contracts
