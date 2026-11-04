@@ -41,6 +41,7 @@ on:
       - "engineering/outline/**"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
+      - "docs/design-engine/supply-economics/**"
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
@@ -131,6 +132,7 @@ on:
       - "engineering/outline/**"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
+      - "docs/design-engine/supply-economics/**"
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
@@ -235,7 +237,7 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_line_benchmark.py tests/test_line_benchmark_service.py tests/test_line_benchmark_civil.py
           .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
       - name: Demand-driven outline, maturity and reference contracts
-        run: .venv/bin/python -m pytest -q --import-mode=importlib tests/test_outline_service_search.py tests/test_outline_maturity.py tests/test_outline_reference_library.py tests/test_outline_coordinator.py tests/test_outline_approaches.py
+        run: .venv/bin/python -m pytest -q --import-mode=importlib tests/test_outline_service_search.py tests/test_outline_maturity.py tests/test_outline_reference_library.py tests/test_outline_coordinator.py tests/test_outline_approaches.py tests/test_outline_make_buy.py tests/test_outline_vehicle_supply.py tests/test_outline_civil_supply.py tests/test_outline_supply_economics.py
       - name: Stepped civil mechanics and portable publication compression
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_beam.py engineering/design_search/tests/test_civil_section_model.py engineering/design_search/tests/test_civil_shape_mechanics.py engineering/design_search/tests/test_portable_gzip.py

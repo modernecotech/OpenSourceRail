@@ -6,7 +6,7 @@ from . import coordinator
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=('run','verify','approaches'))
+    parser.add_argument('action',choices=('run','verify','approaches','supply','supply-verify'))
     parser.add_argument('--output',type=Path)
     parser.add_argument('--brief',type=Path)
     args=parser.parse_args()
@@ -14,10 +14,14 @@ def main():
         from .approaches import catalogue
         print(json.dumps(catalogue(),sort_keys=True));return
     if args.output is None:parser.error('--output is required for run and verify')
+    if args.action in ('supply','supply-verify'):
+        from . import supply_economics as supply
+        result=supply.publish(args.output) if args.action=='supply' else supply.verify(args.output)
+        print(json.dumps(result,sort_keys=True));return
     if args.action=='verify': result=coordinator.verify(args.output)
     else:
         inputs=json.loads(args.brief.read_bytes()) if args.brief else {}
-        result=coordinator.run(args.output,brief=inputs.get('brief'),variables=inputs.get('variables'))
+        result=coordinator.run(args.output,brief=inputs.get('brief'),variables=inputs.get('variables'),pricing_scenario=inputs.get('pricing_scenario'))
     print(json.dumps(result,sort_keys=True))
 
 if __name__=='__main__':main()

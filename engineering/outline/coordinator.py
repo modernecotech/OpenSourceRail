@@ -15,13 +15,13 @@ from engineering.station_rail.common import digest, encoded, identity
 from engineering.development_baseline import selection
 from engineering.design_search import line_benchmark as budget
 from engineering.design_search import line_benchmark_civil, model_cost
-from . import approaches, maturity, reference_library, service_search
+from . import approaches, maturity, reference_library, service_search, supply_economics
 
 PRODUCER = 'engineering/outline/coordinator.py'
 _LOADED={PRODUCER:digest(__file__),**{
     Path(module.__file__).resolve().relative_to(Path(ROOT).resolve()).as_posix():digest(module.__file__)
     for module in (approaches,maturity,reference_library,service_search,budget,
-        line_benchmark_civil,model_cost,selection)}}
+        line_benchmark_civil,model_cost,selection,supply_economics)}}
 FLAGS = {**budget.FLAGS, 'movement_authority': False, 'business_records_submitted': False}
 DEFAULT_BRIEF = dict(route_km=30., stations=12, peak_demand_pphpd=4000.,
     planning_occupancy=.85, maximum_headway_s=300., maximum_one_way_minutes=45.,
@@ -59,7 +59,7 @@ def prepare(root=ROOT):
     names=(PRODUCER,maturity.PRODUCER,service_search.PRODUCER,
         'engineering/outline/__init__.py','engineering/outline/reference_library.py',
         'engineering/outline/rea_adapter.py',approaches.PRODUCER,approaches.POLICY)
-    sources=merge_sources(_LOADED,budget.sources(root),vc['source_sha256'],vehicle['source_sha256'],
+    sources=merge_sources(_LOADED,budget.sources(root),vc['source_sha256'],vehicle['source_sha256'],supply_economics.sources(root),
         {n:digest(root/n) for n in names})
     return dict(spec=spec,vehicle=vehicle,vehicle_cost=vc,assumptions=assumptions,sources=sources)
 
@@ -68,8 +68,10 @@ def _cost(case, mode, context, civil):
     spec=deepcopy(context['spec']); spec['requirements']=case['request']['requirements']
     spec['design']=case['request']['design']
     service=case['service']; vc=context['vehicle_cost']; r=spec['requirements']; fx=spec['currency']['iqd_per_usd']
-    capital,production=budget._capital(spec,context['vehicle'],vc,service,civil,context['assumptions'],mode)
-    life,operating=budget._lifecycle(spec,service,vc,capital,context['assumptions'],mode)
+    supply=supply_economics.evaluate_case(spec,context['vehicle'],vc,service,civil,context['assumptions'],mode,
+        context['pricing_scenario'],cache=context['_supply_cache'],root=context['root'])
+    capital,production=supply['capital'],supply['production']
+    life,operating=supply['lifecycle'],supply['operating']
     cap={x:round(fsum(z['costs_iqd'][x] for z in capital),2) for x in budget.CASES}
     whole={x:round(cap[x]+fsum(z['costs_iqd'][x] for z in life),2) for x in budget.CASES}
     scopes={scope:{x:round(fsum(z['costs_iqd'][x] for z in capital+life if z['scope']==scope),2)
@@ -83,11 +85,12 @@ def _cost(case, mode, context, civil):
         price_per_route_km_usd={x:cap[x]/fx/r['route_km'] for x in budget.CASES},
         whole_life_npv_usd={x:whole[x]/fx for x in budget.CASES},
         production=production,operating=operating,estimate_class='C',
-        terminal_resource_planning=case.get('terminal_resource_planning'),**FLAGS))
+        terminal_resource_planning=case.get('terminal_resource_planning'),
+        pricing_scenario=context['pricing_scenario'],supply_analysis=supply,**FLAGS))
 
 
 def _outline(case, cost, screen, context):
-    vehicle=context['vehicle']; vc=context['vehicle_cost']; service=case['service']
+    vehicle=context['vehicle']; vc=cost['supply_analysis'].get('vehicle',{}).get('vehicle_cost',context['vehicle_cost']); service=case['service']
     # Reserve sensitivities are design-stage bounds, not measured installed mass.
     mass=vehicle['mass']; reserve=case['request']['design']['added_vehicle_mass_kg_per_car']
     bounds={x:mass['located_material_kg']+mass['unlocated_or_reference_account_kg']*f+reserve
@@ -154,9 +157,12 @@ def _outline(case, cost, screen, context):
         remaining_tasks=assessment.get('next_tasks',[]),**FLAGS)
 
 
-def evaluate(brief=None, variables=None, root=ROOT):
+def evaluate(brief=None, variables=None, root=ROOT, *, pricing_scenario=None):
     started=time.perf_counter(); root=Path(root)
     context=prepare(root); context['root']=root
+    pricing_scenario=pricing_scenario or supply_economics.policy(root)['default_scenario']
+    if pricing_scenario not in supply_economics.SCENARIOS:raise ValueError('Unknown pricing scenario')
+    context['pricing_scenario']=pricing_scenario;context['_supply_cache']={}
     brief=deepcopy(DEFAULT_BRIEF if brief is None else brief)
     variables=deepcopy(DEFAULT_VARIABLES if variables is None else variables)
     screen=service_search.screen(brief,variables,context['spec'],context['vehicle'],root=root)
@@ -193,10 +199,12 @@ def evaluate(brief=None, variables=None, root=ROOT):
         requirements_id=screen['requirements_id'],root=root)
         for row in policy['policy']['approaches'] if row['id']!='station-launch-wheel-supported']
     sources=merge_sources(context['sources'],civil['source_sha256'],screen['source_sha256'],
-        library.get('source_sha256',{}),policy['source_sha256'],*(o['maturity']['source_sha256'] for o in outlines))
+        library.get('source_sha256',{}),policy['source_sha256'],*(o['maturity']['source_sha256'] for o in outlines),
+        *(c['supply_analysis']['source_sha256'] for c in costs))
     if any(digest(root/n)!=sha for n,sha in sources.items()):raise ValueError('Outline input sources changed during evaluation')
     value=seal(dict(schema='osr-demand-outline-study/1',brief=brief,variables=variables,
         requirements_id=screen['requirements_id'],service_screen=screen,civil=civil,
+        pricing_scenario=pricing_scenario,supply_policy=supply_economics.policy(root),
         cost_index=index,outlines=outlines,pending_costs=pending_costs,
         recommended_outline_id=best_outline['outline_id'] if best_outline else None,
         selection_purpose='next-outline-for-detailing; minimum base whole-life cost among bounded passing cases',
@@ -224,6 +232,7 @@ def summary(value):
             assumptions=row['outline_input']['assumptions'],tasks=row['maturity'].get('next_tasks',[])))
     return dict(schema='osr-demand-outline-summary/1',evaluation_id=value['evaluation_id'],
         requirements_id=value['requirements_id'],brief=value['brief'],
+        pricing_scenario=value['pricing_scenario'],
         approach_policy_id=value['approach_policy']['catalogue_id'],
         evaluated_scope=value['approach_policy']['policy']['current_calculator_scope'],
         unassessed_approach_count=len(value['unassessed_approaches']),global_optimum_established=False,
@@ -232,10 +241,10 @@ def summary(value):
         source_sha256=value['source_sha256'],**FLAGS)
 
 
-def run(output,brief=None,variables=None,root=ROOT):
+def run(output,brief=None,variables=None,root=ROOT,*,pricing_scenario=None):
     output=Path(output)
     if output.exists():raise ValueError('Use a fresh immutable outline output directory')
-    value,timing=evaluate(brief,variables,root)
+    value,timing=evaluate(brief,variables,root,pricing_scenario=pricing_scenario)
     output.mkdir(parents=True)
     for name,record in [('result.json',value),('summary.json',summary(value)),('performance.json',timing)]:
         (output/name).write_bytes(encoded(record))
@@ -252,7 +261,7 @@ def publish(state,output,root=ROOT):
     value=json.loads((state/'result.json').read_bytes())
     if output.exists():raise ValueError('Fresh compact publication directory required')
     output.mkdir(parents=True)
-    (output/'inputs.json').write_bytes(encoded(dict(brief=value['brief'],variables=value['variables'])))
+    (output/'inputs.json').write_bytes(encoded(dict(brief=value['brief'],variables=value['variables'],pricing_scenario=value['pricing_scenario'])))
     (output/'summary.json').write_bytes(encoded(summary(value)))
     manifest=seal(dict(schema='osr-outline-compact-publication/1',evaluation_id=value['evaluation_id'],
         source_sha256=value['source_sha256'],canonical_result_sha256=verified['files_sha256']['result.json'],
@@ -270,7 +279,7 @@ def verify_compact(output,root=ROOT):
     if any(m.get(k) is not False for k in FLAGS):raise ValueError('Compact outline cannot authorize release')
     if any(digest(Path(root)/n)!=sha for n,sha in m['source_sha256'].items()):raise ValueError('Compact outline sources differ')
     inputs=json.loads((output/'inputs.json').read_bytes())
-    value,_=evaluate(inputs['brief'],inputs['variables'],root)
+    value,_=evaluate(inputs['brief'],inputs['variables'],root,pricing_scenario=inputs.get('pricing_scenario'))
     if (value['evaluation_id']!=m['evaluation_id'] or encoded(summary(value))!=(output/'summary.json').read_bytes()
             or identity(value)!=m['canonical_result_sha256']):
         # identity(value) is SHA256 of the same newline-terminated encoded bytes.
@@ -289,6 +298,6 @@ def verify(output,root=ROOT,*,replay=True):
     if any(value.get(k) is not False for k in FLAGS):raise ValueError('Outline cannot authorize physical or business release')
     if encoded(summary(value))!=(output/'summary.json').read_bytes():raise ValueError('Outline summary differs')
     if replay:
-        actual,_=evaluate(value['brief'],value['variables'],root)
+        actual,_=evaluate(value['brief'],value['variables'],root,pricing_scenario=value.get('pricing_scenario'))
         if encoded(actual)!=encoded(value):raise ValueError('Outline calculation replay differs')
     return manifest

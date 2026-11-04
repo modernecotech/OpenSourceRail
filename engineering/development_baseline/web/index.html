@@ -27,10 +27,14 @@
             <label>Longest planned wait between trains · seconds<input name="maximum_headway_s" type="number" min="30" max="1800" value="300" required /></label>
             <label>Planning occupancy · %<input name="occupancy_percent" type="number" min="10" max="100" value="85" required /></label>
             <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
+            <label>Purchasing and manufacturing basis<select name="pricing_scenario"><option value="project-make-buy">Project-volume make or buy</option><option value="china-bulk-buy">China-origin bulk purchasing</option><option value="reference-rates">Original generic reference rates</option></select></label>
           </div>
           <p class="note">Starting example: level, fully elevated double track; six 17 m cars with
             276 seated/wheelchair places, no planned standing. Demand and 99% service availability
             are planning assumptions. Two shifts for production and construction.</p>
+          <p class="note">Bulk scenarios use China wholesale/manufacturer observations and calculated
+            material, processing and landed costs. The make/buy case includes factory setup and capacity.
+            Advertised prices and engineering estimates are distinct from supplier-confirmed offers.</p>
           <button type="submit" id="outline-generate">Generate and compare outlines</button>
         </form>
         <p id="outline-status" role="status" aria-live="polite">Headway, speed and acceleration are explored rather than fixed.</p>
@@ -59,6 +63,8 @@
           Simple infrastructure. Comfortable, frequent trains.
         </p>
         <h2>The selected development reference</h2>
+        <p class="note">The stored reference estimates below retain their original generic price basis.
+          Use the outline comparison above to inspect project-volume purchasing and manufacturing scenarios.</p>
         <p>
           Version 0.6 uses six cars with four-abreast seating and wheelchair
           spaces. Passive wheel bogies run on conventional rails carried by

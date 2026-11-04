@@ -262,6 +262,12 @@ def sources(root,record,index,delivery):
         outline_manifest=outline.verify_compact(outline_folder,root)
         maps.append(outline_manifest['source_sha256'])
         names += [p.relative_to(root).as_posix() for p in outline_folder.iterdir() if p.is_file()]
+    supply_folder=root/'docs/design-engine/supply-economics'
+    if (supply_folder/'manifest.json').is_file():
+        from engineering.outline import supply_economics
+        supply_manifest=supply_economics.verify_compact(supply_folder,root)
+        maps.append(supply_manifest['source_sha256'])
+        names += [p.relative_to(root).as_posix() for p in supply_folder.iterdir() if p.is_file()]
     for directory in ('engineering/station_rail','engineering/development_baseline','engineering/outline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     for directory in ('docs/assets/v0.6','docs/images/v06'):
@@ -1021,6 +1027,9 @@ def build(root=ROOT,force=False,output=None):
             except(ValueError,OSError,KeyError):pass
         from engineering import readme_context
         readme_context.write_owned(root)
+        if (root/'docs/design-engine/supply-economics/manifest.json').is_file():
+            from engineering.outline.reporting import render as render_supply_readers
+            render_supply_readers(root)
         value=publish(output,root=root)
         audit=readme_context.audit(root)
         if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))

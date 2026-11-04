@@ -25,7 +25,7 @@ def _request(raw):
         return value
     value=json.loads(raw,object_pairs_hook=pairs,
         parse_constant=lambda x:(_ for _ in ()).throw(ValueError('Finite JSON required')))
-    if not isinstance(value,dict) or set(value)-{'brief','variables'}:raise ValueError('Brief and optional bounded variables required')
+    if not isinstance(value,dict) or set(value)-{'brief','variables','pricing_scenario'}:raise ValueError('Brief and optional bounded variables/pricing scenario required')
     # Service-search validation supplies the numerical and variable-count caps.
     return value
 
@@ -63,7 +63,7 @@ def handle_api(handler):
                 if sum(p.stat().st_size for p in store.rglob('*') if p.is_file())>=MAX_STORE_BYTES:
                     handler.respond(507,{'error':'Outline output budget reached; preserve/export runs before cleanup'});return True
                 output=store/uuid4().hex
-                manifest=coordinator.run(output,brief=value.get('brief'),variables=value.get('variables'),root=handler.root)
+                manifest=coordinator.run(output,brief=value.get('brief'),variables=value.get('variables'),root=handler.root,pricing_scenario=value.get('pricing_scenario'))
                 response=json.loads((output/'summary.json').read_bytes())
                 response['artifact_url']='/api/outline-study/'+output.name+'/'
                 response['manifest_id']=manifest['manifest_id']
@@ -72,7 +72,9 @@ def handle_api(handler):
             return True
         suffix=path.removeprefix('/api/outline-study/')
         if path=='/api/outline-study':
+            from . import supply_economics
             handler.respond(200,dict(brief=coordinator.DEFAULT_BRIEF,variables=coordinator.DEFAULT_VARIABLES,
+                pricing_scenarios=list(supply_economics.SCENARIOS),default_pricing_scenario=supply_economics.policy(handler.root)['default_scenario'],
                 workflow=['requirements','generate','compare','accept outline','detail and validate','prepare delivery'],**coordinator.FLAGS))
             return True
         parts=suffix.split('/')

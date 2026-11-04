@@ -28,13 +28,13 @@ The reference run screened 84 service cases and produced 47 complete cost cases 
 
 | Retained launch concept | Headway | Speed cap | Acceleration | Fleet including reserves | Central installed cost | Central cost / route-km |
 | --- | --- | --- | --- | --- | --- | --- |
-| Cable / capstan | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$568.6m | US$18.95m |
-| Common-drive rollers | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$580.1m | US$19.34m |
-| Compact LIM | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$601.8m | US$20.06m |
+| Cable / capstan | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$442.2m | US$14.74m |
+| Common-drive rollers | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$453.8m | US$15.13m |
+| Compact LIM | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$494.7m | US$16.49m |
 
-These are **Class C engineering estimates**, using the same price assumptions as the [30 km benchmark](../line30-benchmark/README.md). The cable example has approximately 42.35 minutes one-way journey time. Its installed low/base/high sensitivity is US$163.1m / US$568.6m / US$2,776.8m, and central 30-year whole-life NPV is US$1,148.5m. The broad ranges are sensitivity cases, not confidence limits or supplier offers.
+These are **Class C engineering estimates** using the [project-volume purchasing and manufacturing policy](../supply-economics/README.md). The cable outline takes approximately 42.35 minutes one way. Installed low/base/high costs are US$140.5m / US$442.2m / US$1,923.8m; central 30-year NPV is US$987.2m. These are sensitivity cases, not confidence limits or supplier offers.
 
-The original benchmark remains US$738.0m / US$24.6m per route-km with 52 trains and a 120-second headway for 8,280 nominal places/hour/direction. The demand example and that reference have different service briefs; their price difference is not an equal-service optimization saving. Comparisons within one outline study share the same requirements identity.
+The original generic-rate benchmark remains US$738.0m / US$24.6m per route-km with 52 trains and a 120-second headway for 8,280 nominal places/hour/direction. The updated supply comparison reprices that same service. This demand example has different requirements; compare pricing scenarios at equal service, and service choices under the same pricing basis. The Workbench retains all three selectable pricing bases.
 
 ## Progressive acceptance
 

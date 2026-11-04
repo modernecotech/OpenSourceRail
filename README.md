@@ -34,7 +34,6 @@ Local content means **origin-traced domestic value added**, not the address of a
 
 The [first adoption path](docs/first-adoptable-product.md) describes the current planning and engineering interfaces, candidate delivery drafts and separately configured business and supervision integrations. Owners can use them to organise research and review before a train is qualified; they do not provide a live railway operating interface.
 
-
 ## From a city brief to a working railway
 
 **The intended end-to-end loop is: define the transport need → generate competing designs → calculate and test them → plan their manufacture and construction → estimate complete costs → revise and compare → approve, build and operate.** Every revision should flow through the *same* vehicle, station, civil, factory, service and financial models. A change to a panel, bogie, beam, winding or service assumption must automatically update all affected quantities, analyses, tasks and costs.
@@ -61,7 +60,6 @@ The separate [conditional P1 journey study](docs/design-engine/conditional-journ
 Structural refinement is tracked against the exact candidate, loads, mesh, solver and resource request. Completed, failed and nonconverged executions remain inspectable in the [coordinated engineering report](docs/design-engine/coupled-railway/README.md); solver completion and mesh agreement alone do not qualify the structure.
 
 The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-sensitivity/current/README.md) turns the existing positive mass-account residuals into provisional low/base/high tare scenarios by replacing each residual once. It does not label the vehicle's installed mass complete.
-
 
 ## v0.6 development basis
 
@@ -157,7 +155,6 @@ From a verified planning handoff, `./osr twin factory-draft compile build/my-pla
 
 ## Manufacturing, civil works and affordability
 
-
 ### Cost a design from its parts and production process
 
 OpenSourceRail calculates provisional prices for panels, chassis members, bogie parts, electrical equipment, LIM banks, precast beams and installation activities even when no finished product or supplier quotation exists. The [candidate-bound cost model](engineering/design_search/model_cost.py) connects [material and supplier evidence](docs/design-engine/sourcing/README.md) to manufacturing, civil, delivery, operations and lifecycle estimates. Each scope records its inputs, assumptions, uncertainty and exclusions.
@@ -167,7 +164,6 @@ A simple first estimate is **(gross material quantity × material rate + direct 
 For example, a **GFRP panel** should be priced from ply areas, glass/resin/core quantities, inserts and fasteners, mould preparation, layup/infusion, curing, trimming, assembly and inspection hours. A **20 m precast span** should include concrete, reinforcement, prestress, mould cycles, curing, crew, transport, lifting, bearings, rail equipment, piers and foundations. Changing the part shape, material, section or method should regenerate **both** its cost and its engineering checks.
 
 Cost records need explicit *low/base/high scenarios*, quantities, source dates, currency, locality, labour and yield assumptions, and one of three statuses: **model-cost complete** (internally estimated), **procurement ready** (reviewed real purchasing basis), or **physically accepted** (separate engineering and safety evidence). A Class C estimate is sufficient for provisional economic ranking, **not** for a supplier commitment, a certified design or passenger operation. Missing parts and costs are never silently valued at zero. [See the detailed implementation and regression plan](docs/design-engine/model-based-cost-and-delivery.md).
-
 
 The manufacturing objective is a repeatable system a local builder can fabricate, assemble, inspect and repair. The design search compares frames, sandwich panels, honeycombs, material arrangements, joints, inserts, floors, roofs and integrated service supports. Joining, fire/thermal behaviour, tooling, access and replacement matter alongside stock mass.
 
@@ -183,9 +179,11 @@ The selected v0.6 vehicle now has a separate Class C estimate for factory produc
 
 ## Current engineering and the next working-system milestone
 
-The [demand-led outline workflow](docs/design-engine/demand-outline/README.md) now connects a passenger brief to conditional service screening, complete provisional costs, production/resource quantities and an **“outline accepted”** result. The local Workbench explores headway, speed, acceleration and dwell, compares three station-launch concepts, and exposes assumptions and subsequent engineering work. Its illustrative 4,000-passenger/hour/direction brief produces a 200-second service and a central US$18.95m/km cable-launch outline; this is a different service brief from the higher-capacity benchmark below. Supplier quotations and prototypes remain later evidence requirements, while known physical contradictions still require redesign. The reference-library pilot uses owned source and offline fixtures; optional REA imports do not confer physical acceptance.
+The [demand-led outline workflow](docs/design-engine/demand-outline/README.md) connects a passenger brief to conditional service screening, complete provisional costs, production/resource quantities and an **‘outline accepted’** result. The Workbench explores service choices and three station-launch concepts under selectable pricing bases. Its illustrative 4,000-passenger/hour/direction project-volume case uses a 200-second service and costs a central **US$14.74m/km**; this differs from the higher-capacity benchmark below. Supplier quotations and prototype validation remain later evidence requirements. Other approaches remain open under the transport-goal policy.
 
-The [30 km / 12 station cost benchmark](docs/design-engine/line30-benchmark/README.md) is the working reference for equal-service design analysis: a double-track elevated line, 72 km/h, 1.0 m/s², 120-second peak headway and 276 places/train. Its **Class C central estimate is USD 738 million, or USD 24.6 million per route-km**, including **52 six-car trains**, stations, civil works, compact launch/power equipment, depot, production/tooling, testing and contingency. The [versioned criteria](campaigns/line30-affordable-benchmark.toml) and [analysis selector](engineering/analysis-baseline.toml) retain the assumptions, full ledger and broad sensitivities. Cable launch is a provisional budget anchor; the selected hardware, engineering acceptance and physical release remain separate. Future comparisons must preserve transport requirements and use the same rate basis; different formations, seating, bogies and propulsion arrangements need their own complete quantities and service calculations.
+The [30 km / 12 station cost benchmark](docs/design-engine/line30-benchmark/README.md) preserves the original generic-rate comparison for equal-service design analysis: a double-track elevated line, 72 km/h, 1.0 m/s², 120-second peak headway and 276 places/train. Its **Class C central estimate is USD 738 million, or USD 24.6 million per route-km**, including **52 six-car trains**, stations, civil works, compact launch/power equipment, depot, production/tooling, testing and contingency. The [versioned criteria](campaigns/line30-affordable-benchmark.toml) and [analysis selector](engineering/analysis-baseline.toml) retain the assumptions, full ledger and broad sensitivities. Cable launch is a provisional budget anchor; the selected hardware, engineering acceptance and physical release remain separate. Future comparisons must preserve transport requirements and use the same rate basis; different formations, seating, bogies and propulsion arrangements need their own complete quantities and service calculations.
+
+The [project-volume supply comparison](docs/design-engine/supply-economics/README.md) reprices those same 30 km, 12 stations and 52 trains using Chinese wholesale/manufacturer observations, landed costs and calculated manufacturing alternatives. Its current **Class C central installed estimate is US$548.1m, or US$18.27m per route-km**. Fixed factories, shared premises, freight, QA, duties and future replacement setup are included once. Lower purchasing prices do not change physical acceptance or establish a globally best transport architecture.
 
 The [current dossier](docs/design-engine/current/README.md) records the selected
 candidate and its evidence. The [coordinated railway campaign](docs/design-engine/coupled-railway/README.md)

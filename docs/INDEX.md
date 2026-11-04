@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **118**.
+Indexed Markdown files: **119**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **118**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 93 |
+| [docs](#docs) | 94 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -152,6 +152,7 @@ Indexed Markdown files: **118**.
 | [`docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md`](../docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) | Station-LIM bank RFQ scope drafts — October 2026 |
 | [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
 | [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
+| [`docs/design-engine/supply-economics/README.md`](../docs/design-engine/supply-economics/README.md) | Project-volume purchasing and manufacturing |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
 | [`docs/design-engine/v06-design-space/README.md`](../docs/design-engine/v06-design-space/README.md) | Broader v0.6 design space |

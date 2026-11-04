@@ -901,7 +901,7 @@ outlineForm.addEventListener("submit", async event => {
       availability_target: .99, planning_availability_assumption: .99,
       demand_source: "User-entered planning brief; survey evidence not attached"
     };
-    const response = await fetch("/api/outline-study", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({brief})});
+    const response = await fetch("/api/outline-study", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({brief, pricing_scenario:fields.get("pricing_scenario")})});
     const value = await response.json();
     if (!response.ok) throw Error(value.error || "Outline calculation unavailable");
     const body = document.getElementById("outline-rows");
@@ -925,7 +925,7 @@ outlineForm.addEventListener("submit", async event => {
       const link=document.createElement("a"); link.href=value.artifact_url+file; link.textContent=label; links.append(link);
     }
     document.getElementById("outline-results").hidden=false;
-    outlineStatus.textContent=`${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · requirements ${value.requirements_id.slice(0,12)}.`;
+    outlineStatus.textContent=`${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0,12)}.`;
     if (selected) outlineInspect(selected);
   } catch(error) {
     outlineStatus.textContent=`Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;

@@ -108,6 +108,9 @@ def test_compact_publication_reproduces_summary(tmp_path):
 
 
 def test_http_requires_same_origin_bounds_and_refuses_arbitrary_artifacts(tmp_path,monkeypatch):
+    policy=tmp_path/'engineering/outline/supply-policy.toml'
+    policy.parent.mkdir(parents=True)
+    policy.write_bytes((Path(ROOT)/'engineering/outline/supply-policy.toml').read_bytes())
     server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,root=tmp_path))
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     base='http://127.0.0.1:'+str(server.server_port)
