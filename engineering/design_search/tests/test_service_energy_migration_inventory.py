@@ -125,11 +125,39 @@ def test_linked_membership_matches_publication_contract():
     assert len(definitions)==1
     linked=set(ast.literal_eval(definitions[0]))
     recorded=set(migration.old.CATALOG)|{name.removesuffix('/manifest.json') for name in migration.LINKED_EXTRA}
-    assert recorded|set(migration.LINKED_NOT_COVERED)==linked
+    # The migration inventory preserves its original linked membership. The
+    # periodic packet now has a separately authenticated retained-source route;
+    # do not rewrite those historical records or present its old sources as live.
+    scopes=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='linked_publication_scope')
+    returns=[n.value for n in ast.walk(scopes) if isinstance(n,ast.Return)]
+    assert len(returns)==1 and isinstance(returns[0],ast.Call)
+    original=next(k.value for k in returns[0].keywords if k.arg=='original_packet_and_producer_bytes_only')
+    retained=recorded.intersection(ast.literal_eval(original))
+    assert retained=={'periodic-thermal-research'}
+    assert not retained.intersection(linked)
+    assert recorded|set(migration.LINKED_NOT_COVERED)==linked|retained
     assert not recorded.intersection(migration.LINKED_NOT_COVERED)
     for name in migration.extra.CATALOG:
         folder=name.removesuffix('/manifest.json')
-        assert (folder in linked)==(name in migration.LINKED_EXTRA)
+        assert (folder in linked|retained)==(name in migration.LINKED_EXTRA)
+    linker=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='linked_publication_sources')
+    calls=[n for n in ast.walk(linker) if isinstance(n,ast.Call)
+        and isinstance(n.func,ast.Attribute) and isinstance(n.func.value,ast.Name)
+        and (n.func.value.id,n.func.attr)==('retained_periodic_thermal','verify')]
+    assert len(calls)==1
+    assert any(isinstance(n,ast.Subscript) and isinstance(n.value,ast.Name)
+        and n.value.id=='thermal' and ast.literal_eval(n.slice)=='dependency_sha256' for n in ast.walk(linker))
+
+
+def test_retained_periodic_membership_keeps_all_authenticated_sources():
+    from engineering.design_search import retained_periodic_thermal
+    proof=retained_periodic_thermal.verify()
+    assert proof['verified'] is True
+    assert proof['original_source_count']==55
+    assert proof['original_manifest_id']=='e2ac8e01ac36eaa19d8f5c59c0dcfc28de6acd7759065a0a7b122cd8d7c3d66d'
+    assert proof['numerical_reexecuted'] is False
+    assert proof['current_evaluator_admission'] is False
+    assert proof['physical_accepted'] is False
 
 
 def test_git_input_environment_is_sanitized_and_read_has_timeout(monkeypatch,tmp_path):

@@ -24,7 +24,7 @@ jobs:
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
       - name: Source domains, physical revisions and adversarial contracts
-        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py tools/automation/tests/test_sourced_ifc_reuse.py
+        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py tools/automation/tests/test_sourced_ifc_reuse.py tools/automation/tests/test_sourced_original_epoch_route.py
   semantic-replay:
     timeout-minutes: 60
     runs-on: ubuntu-24.04
@@ -36,12 +36,22 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Prepare the authenticated original sourced producer epoch
+        run: |
+          git fetch --no-tags --depth=1 origin 32263d93a034bb12edaad395552e37671aef1b23
+          original_parent=$(mktemp -d "$RUNNER_TEMP/osr-sourced-original.XXXXXX")
+          original_root="$original_parent/source"
+          git worktree add --detach --no-checkout "$original_root" 32263d93a034bb12edaad395552e37671aef1b23
+          git -C "$original_root" sparse-checkout set --cone engineering campaigns services/integration/osr_integration tools/automation docs/design-engine/ferrite-maglev/comfort-design docs/design-engine/digital-twin
+          git -C "$original_root" checkout --detach 32263d93a034bb12edaad395552e37671aef1b23
+          test "$(git -C "$original_root" rev-parse HEAD)" = 32263d93a034bb12edaad395552e37671aef1b23
+          echo "OSR_SOURCED_ORIGINAL_ROOT=$original_root" >> "$GITHUB_ENV"
       - name: Reassemble the original authenticated payload
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Rebuild all five registries and actually replay every coupled case
         run: >-
-          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit "$GITHUB_WORKSPACE/build/sourced-replay-audit"
+          "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-verify.py docs/design-engine/sourced-case --root "$OSR_SOURCED_ORIGINAL_ROOT" --workers 3 --audit "$GITHUB_WORKSPACE/build/sourced-replay-audit"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -49,6 +59,7 @@ jobs:
           path: |
             build/sourced-replay-audit/**/orchestration.json
             build/sourced-replay-audit/**/worker-result.json
+            build/sourced-replay-audit/**/verification.json
             build/sourced-replay-audit/**/stderr.log
           retention-days: 14
       - uses: actions/upload-artifact@v4
@@ -68,6 +79,16 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Prepare the authenticated original sourced producer epoch
+        run: |
+          git fetch --no-tags --depth=1 origin 32263d93a034bb12edaad395552e37671aef1b23
+          original_parent=$(mktemp -d "$RUNNER_TEMP/osr-sourced-original.XXXXXX")
+          original_root="$original_parent/source"
+          git worktree add --detach --no-checkout "$original_root" 32263d93a034bb12edaad395552e37671aef1b23
+          git -C "$original_root" sparse-checkout set --cone engineering campaigns services/integration/osr_integration tools/automation docs/design-engine/ferrite-maglev/comfort-design docs/design-engine/digital-twin
+          git -C "$original_root" checkout --detach 32263d93a034bb12edaad395552e37671aef1b23
+          test "$(git -C "$original_root" rev-parse HEAD)" = 32263d93a034bb12edaad395552e37671aef1b23
+          echo "OSR_SOURCED_ORIGINAL_ROOT=$original_root" >> "$GITHUB_ENV"
       - name: Fetch the authenticated producer epoch for retained methods
         run: |
           git fetch --no-tags --depth=1 origin b37988a750690d85939e5cbe7b2223b96c02980e
@@ -95,8 +116,9 @@ jobs:
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Reopen all five full-train occurrence inventories
-        run: >-
-          "$GITHUB_WORKSPACE/.venv/bin/python" -m engineering.sourced_case.cli verify-geometry
+        run: |
+          cd -- "$OSR_SOURCED_ORIGINAL_ROOT"
+          "$GITHUB_WORKSPACE/.venv/bin/python" -m engineering.sourced_case.cli verify-geometry --output "$GITHUB_WORKSPACE/docs/design-engine/sourced-case"
   bounded-generation:
     timeout-minutes: 20
     runs-on: ubuntu-24.04

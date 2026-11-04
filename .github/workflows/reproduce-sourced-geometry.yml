@@ -15,25 +15,48 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Verify the original producer routing contract
+        run: .venv/bin/python -m pytest -q --import-mode=importlib tools/automation/tests/test_sourced_original_epoch_route.py
+      - name: Prepare the authenticated original sourced producer epoch
+        run: |
+          git fetch --no-tags --depth=1 origin 32263d93a034bb12edaad395552e37671aef1b23
+          original_parent=$(mktemp -d "$RUNNER_TEMP/osr-sourced-original.XXXXXX")
+          original_root="$original_parent/source"
+          git worktree add --detach --no-checkout "$original_root" 32263d93a034bb12edaad395552e37671aef1b23
+          git -C "$original_root" sparse-checkout set --cone engineering campaigns services/integration/osr_integration tools/automation docs/design-engine/ferrite-maglev/comfort-design docs/design-engine/digital-twin
+          git -C "$original_root" checkout --detach 32263d93a034bb12edaad395552e37671aef1b23
+          test "$(git -C "$original_root" rev-parse HEAD)" = 32263d93a034bb12edaad395552e37671aef1b23
+          echo "OSR_SOURCED_ORIGINAL_ROOT=$original_root" >> "$GITHUB_ENV"
       - name: Reassemble the original authenticated sourced-cell payload
         run: >-
           "$GITHUB_WORKSPACE/.venv/bin/python" tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
       - name: Export and reopen all five source-bound vehicle IFCs
         run: |
           "$GITHUB_WORKSPACE/.venv/bin/python" - <<'PY'
-          import importlib.util, os, sys
+          import importlib.util, os
           from pathlib import Path
-          root = Path.cwd()
-          spec = importlib.util.spec_from_file_location('osr_sourced_verify', root / 'tools/automation/sourced-verify.py')
+          workspace = Path(os.environ['GITHUB_WORKSPACE'])
+          root = Path(os.environ['OSR_SOURCED_ORIGINAL_ROOT'])
+          spec = importlib.util.spec_from_file_location('osr_sourced_verify', workspace / 'tools/automation/sourced-verify.py')
           archive = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(archive)
+          coordinator = archive._executor(root).modules(root)
+          original = workspace / 'docs/design-engine/sourced-case'
+          manifest = coordinator.read(original / 'manifest.json')
+          archive._executor(root).unreleased(manifest)
+          if manifest['publication_id'] != coordinator.identity({k:v for k,v in manifest.items() if k != 'publication_id'}) or manifest['source_sha256'] != coordinator.sources(root):
+              raise ValueError('Original sourced publication does not match the pinned producer epoch')
+          if manifest['files_sha256'] != {name:coordinator.digest(original/name) for name in ('sourced-cell.tar.gz','summary.json')}:
+              raise ValueError('Original sourced payload differs')
           state = Path(os.environ['RUNNER_TEMP']) / 'osr-sourced-geometry-state'
-          archive._extract(root / 'docs/design-engine/sourced-case/sourced-cell.tar.gz', state)
-          sys.path.insert(0, str(root))
+          archive._extract(original / 'sourced-cell.tar.gz', state)
           from engineering.sourced_case import geometry
-          output = Path(os.environ['GITHUB_WORKSPACE']) / 'build/sourced-geometry-reproduction'
+          output = workspace / 'build/sourced-geometry-reproduction'
           output.mkdir(parents=True, exist_ok=False)
           publication = geometry.publish(state, output, root=root)
+          if coordinator.sources(root) != manifest['source_sha256'] or coordinator.read(original/'manifest.json') != manifest or manifest['files_sha256'] != {name:coordinator.digest(original/name) for name in ('sourced-cell.tar.gz','summary.json')}:
+              raise ValueError('Original sources or input packet changed during geometry reproduction')
+          print('input_original_publication_id:', manifest['publication_id'])
           print('publication_id:', publication['publication_id'])
           print('vehicles:', len(publication['vehicles']))
           print('all release flags false:', all(publication.get(k) is False for k in (
