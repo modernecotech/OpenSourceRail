@@ -15,9 +15,13 @@ from engineering.station_rail.common import digest, encoded, identity
 from engineering.development_baseline import selection
 from engineering.design_search import line_benchmark as budget
 from engineering.design_search import line_benchmark_civil, model_cost
-from . import maturity, reference_library, service_search
+from . import approaches, maturity, reference_library, service_search
 
 PRODUCER = 'engineering/outline/coordinator.py'
+_LOADED={PRODUCER:digest(__file__),**{
+    Path(module.__file__).resolve().relative_to(Path(ROOT).resolve()).as_posix():digest(module.__file__)
+    for module in (approaches,maturity,reference_library,service_search,budget,
+        line_benchmark_civil,model_cost,selection)}}
 FLAGS = {**budget.FLAGS, 'movement_authority': False, 'business_records_submitted': False}
 DEFAULT_BRIEF = dict(route_km=30., stations=12, peak_demand_pphpd=4000.,
     planning_occupancy=.85, maximum_headway_s=300., maximum_one_way_minutes=45.,
@@ -46,13 +50,16 @@ def merge_sources(*maps):
 
 def prepare(root=ROOT):
     """Load/verify source-bound quantities once, outside the candidate loop."""
-    root=Path(root); spec=budget.specification(root)
+    root=Path(root)
+    if any(digest(root/name)!=sha for name,sha in _LOADED.items()):
+        raise ValueError('Loaded outline sources changed; restart the calculation worker')
+    spec=budget.specification(root)
     vehicle=selection.load(root)['vehicle']; vc=budget._vehicle_cost(root,vehicle)
     assumptions=model_cost.assumptions(root)
     names=(PRODUCER,maturity.PRODUCER,service_search.PRODUCER,
         'engineering/outline/__init__.py','engineering/outline/reference_library.py',
-        'engineering/outline/rea_adapter.py')
-    sources=merge_sources(budget.sources(root),vc['source_sha256'],vehicle['source_sha256'],
+        'engineering/outline/rea_adapter.py',approaches.PRODUCER,approaches.POLICY)
+    sources=merge_sources(_LOADED,budget.sources(root),vc['source_sha256'],vehicle['source_sha256'],
         {n:digest(root/n) for n in names})
     return dict(spec=spec,vehicle=vehicle,vehicle_cost=vc,assumptions=assumptions,sources=sources)
 
@@ -180,8 +187,13 @@ def evaluate(brief=None, variables=None, root=ROOT):
         installed_capital_usd=c['installed_capital_usd'],price_per_route_km_usd=c['price_per_route_km_usd'],
         whole_life_npv_usd=c['whole_life_npv_usd']) for c in costs]
     library=reference_library.owned_pilot(root=root)
+    policy=approaches.catalogue(root=root)
+    pending_approaches=[approaches.propose(dict(name=row['name'],approach=row['id'],
+        transport_function='Meet the same declared transport goal',concept=row['scope']),
+        requirements_id=screen['requirements_id'],root=root)
+        for row in policy['policy']['approaches'] if row['id']!='station-launch-wheel-supported']
     sources=merge_sources(context['sources'],civil['source_sha256'],screen['source_sha256'],
-        library.get('source_sha256',{}),*(o['maturity']['source_sha256'] for o in outlines))
+        library.get('source_sha256',{}),policy['source_sha256'],*(o['maturity']['source_sha256'] for o in outlines))
     if any(digest(root/n)!=sha for n,sha in sources.items()):raise ValueError('Outline input sources changed during evaluation')
     value=seal(dict(schema='osr-demand-outline-study/1',brief=brief,variables=variables,
         requirements_id=screen['requirements_id'],service_screen=screen,civil=civil,
@@ -189,6 +201,8 @@ def evaluate(brief=None, variables=None, root=ROOT):
         recommended_outline_id=best_outline['outline_id'] if best_outline else None,
         selection_purpose='next-outline-for-detailing; minimum base whole-life cost among bounded passing cases',
         selection_is_physical_adoption=False,reference_library=library,
+        approach_policy=policy,unassessed_approaches=pending_approaches,
+        global_optimum_established=False,
         production_policy='Two production and civil shifts; two operations shifts for 18 h, three for 24 h',
         source_sha256=sources,**FLAGS))
     # Noncanonical elapsed time remains outside the reproducible evaluation.
@@ -210,6 +224,9 @@ def summary(value):
             assumptions=row['outline_input']['assumptions'],tasks=row['maturity'].get('next_tasks',[])))
     return dict(schema='osr-demand-outline-summary/1',evaluation_id=value['evaluation_id'],
         requirements_id=value['requirements_id'],brief=value['brief'],
+        approach_policy_id=value['approach_policy']['catalogue_id'],
+        evaluated_scope=value['approach_policy']['policy']['current_calculator_scope'],
+        unassessed_approach_count=len(value['unassessed_approaches']),global_optimum_established=False,
         recommended_outline_id=value['recommended_outline_id'],outlines=rows,
         counters=value['service_screen']['counters'],costed_cases=len(value['cost_index']),
         source_sha256=value['source_sha256'],**FLAGS)

@@ -32,6 +32,13 @@ def _request(raw):
 
 def handle_api(handler):
     path=unquote(urlsplit(handler.path).path)
+    if path=='/api/outline-approaches':
+        if handler.command not in ('GET','HEAD'):
+            handler.respond(405,{'error':'Read-only approach catalogue'});return True
+        if not _loopback(handler,post=False):
+            handler.respond(403,{'error':'Matching loopback Host required'});return True
+        from .approaches import catalogue
+        handler.respond(200,catalogue(root=handler.root));return True
     if path!='/api/outline-study' and not path.startswith('/api/outline-study/'):
         return False
     post=handler.command=='POST'

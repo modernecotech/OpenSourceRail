@@ -1,0 +1,64 @@
+schema = "osr-open-transport-search-policy/1"
+revision = "TRANSPORT-GOAL-1"
+objective = "Meet passenger transport needs at affordable installed and whole-life cost"
+search_space_closed = false
+reference_is_mandatory = false
+reference_selector = "engineering/development-baseline.toml"
+mandatory = ["passenger protection", "accessibility", "safe stopping and evacuation appropriate to the approach", "declared demand, journey and reliability requirements"]
+preferences = ["low whole-life cost", "local manufacture and repair", "simple production and installation", "resource and energy efficiency"]
+revisable = ["transport technology", "propulsion and energy distribution", "vehicle length and formation", "seating and running gear", "support and guidance", "surface, elevated or mixed alignment", "stop layout and spacing", "speed, acceleration, dwell and headway", "materials and production methods"]
+comparison_rule = "Use the same declared passenger-service and geographic-access requirements, accounting boundary and uncertainty policy; compare complete installed and whole-life consequences"
+unsupported_rule = "Retain a proposal with explicit definition or evaluator tasks; absent adapters do not establish physical infeasibility"
+selection_rule = "Best means best among the explicitly evaluated alternatives under that requirement identity; it never establishes a global optimum"
+current_calculator_scope = "Service and launch comparisons around six 17 m cars, 276 normal places and the 20 m reference box-beam module; this is not an exhaustive architecture search"
+
+[integration]
+requirement_policy = "engineering/design_search/requirement_policy.py"
+open_variables = "engineering/design_search/design_variables.py"
+architecture_research = "engineering/design_search/railway_architecture.py"
+capability_admission = "engineering/design_search/capabilities.py"
+revision_tasks = "engineering/design_search/revision_planner.py"
+umbrella_campaign = "campaigns/whole-railway-architecture-search.toml"
+adaptive_campaign = "campaigns/adaptive-railway-design.toml"
+
+[[approaches]]
+id = "station-launch-wheel-supported"
+name = "Station-powered wheel-supported vehicles"
+scope = "Current outline calculator: cable/capstan, common-drive rollers and compact LIM hypotheses"
+outline_adapter = "bounded-current-calculator"
+
+[[approaches]]
+id = "distributed-wayside"
+name = "Distributed wayside propulsion or mixed propulsion distribution"
+scope = "New power distribution, support, control and recovery consequences"
+outline_adapter = "requires-approach-specific-adapter"
+
+[[approaches]]
+id = "onboard-electric"
+name = "Onboard electric wheel traction"
+scope = "Conductor supply, storage or hybrid energy hypotheses with complete vehicle and route effects"
+outline_adapter = "requires-approach-specific-adapter"
+
+[[approaches]]
+id = "short-articulated-running-gear"
+name = "Shorter articulated vehicles and alternative running gear"
+scope = "Shared bogies, independent wheels or other support arrangements with stability, loading and service models"
+outline_adapter = "requires-approach-specific-adapter"
+
+[[approaches]]
+id = "alternative-support-guideway"
+name = "Alternative support, guidance and structural architectures"
+scope = "Different guideway sections, support systems, shells and combined functions"
+outline_adapter = "requires-approach-specific-adapter"
+
+[[approaches]]
+id = "surface-elevated-mixed"
+name = "Surface, elevated or mixed alignments and construction methods"
+scope = "Access coverage, crossings, land, utilities, disruption, safety and whole-life costs"
+outline_adapter = "requires-approach-specific-adapter"
+
+[[approaches]]
+id = "other-transport-comparator"
+name = "Other public-transport approaches as explicit comparators"
+scope = "Other rail or non-rail solutions meeting the same transport goal, with their own models and quantities"
+outline_adapter = "requires-approach-specific-adapter"

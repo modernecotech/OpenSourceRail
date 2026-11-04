@@ -6,6 +6,8 @@ OpenSourceRail develops affordable urban rail and the open tools needed to **pla
 
 The wider project encompasses city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. The current v0.6 front end exposes planning proposals, candidate engineering and delivery records; business and supervision functions require separate configuration, and complete city delivery remains open. **The railway is a research and prototype design, without manufacturing or operating release.**
 
+**The transport goal leads the search.** The current vehicle, station propulsion, formation, guideway and service are revisable reference choices. Alternative propulsion, shorter or articulated vehicles, running gear, alignments, manufacturing methods and other transport comparators remain open when they address the same passenger needs. The [open approach policy](engineering/outline/transport-goal.toml) retains unfamiliar concepts as research proposals, calls for their own complete models and costs, and limits any “best” claim to the alternatives actually evaluated. Safety and accessibility remain mandatory.
+
 **Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current platform capabilities](docs/capabilities/README.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
 ![OpenSourceRail v0.6 proposed six-car wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)

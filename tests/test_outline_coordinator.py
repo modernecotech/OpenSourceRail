@@ -27,6 +27,10 @@ def test_complete_demand_study_retains_all_cost_scopes_and_source_identity(study
     assert len(value['outlines'])==3 and len(value['cost_index'])>=30
     assert measurement['elapsed_s']>0 and measurement['native_solver_calls']==0
     assert measurement['source_loads']==1
+    assert value['approach_policy']['examples_are_exhaustive'] is False
+    assert value['global_optimum_established'] is False
+    assert len(value['unassessed_approaches'])>=6
+    assert all(row['comparison_admitted'] is False and row['cost'] is None for row in value['unassessed_approaches'])
     for row in value['outlines']:
         assert len(row['cost']['scope_totals_iqd'])==14
         assert all(x['base']>0 for x in row['cost']['scope_totals_iqd'].values())
@@ -71,6 +75,12 @@ def test_frozen_reference_and_sources_are_unchanged(study):
 def test_conflicting_dependency_epochs_are_rejected():
     with pytest.raises(ValueError,match='Mixed source epochs'):
         coordinator.merge_sources({'common.py':'old'},{'common.py':'new'})
+
+
+def test_live_worker_refuses_a_changed_loaded_source_epoch(monkeypatch):
+    monkeypatch.setitem(coordinator._LOADED,coordinator.PRODUCER,'0'*64)
+    with pytest.raises(ValueError,match='restart the calculation worker'):
+        coordinator.prepare()
 
 
 def test_immutable_run_detects_tampering_and_replays(tmp_path):
