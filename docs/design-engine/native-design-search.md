@@ -175,15 +175,75 @@ Study SHA-256:
 diagnosis SHA-256:
 `e08478cb0b375f9add21209cb25b8c16d732c883e149f1deb6d382f879a83e36`.
 
-The current diversity reference run is
-`26f217859556d0060828f44dcfb8f066c74630e020f8abb581cebce7f9d2b65c`:
+An actual-wall Saint-Venant section evaluator now solves the scalar warping
+problem on conforming triangular meshes, retaining the hollow interior and free
+outer/inner boundaries. Only the additive warping gauge is fixed. Vectorised
+NumPy assembly and SciPy's compiled sparse solver handle the numerical work;
+Rust remains the high-throughput search kernel. Independent rectangle-series,
+gauge, symmetry, scaling, area/inertia and hollow-topology controls accompany
+the implementation. This is a sharp-corner, uniform-wall geometry model, with
+no assumed joint, material-lot or body qualification.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python -m engineering.design_search.native_campaign --state build/my-section-search --section-torsion-jobs 1
+```
+
+This separate opt-in budget permits zero to three new section workers; the
+default is zero. Each child has effective limits of at most 1 GiB, 30 CPU/wall
+seconds and one numerical thread. Four nested meshes use 1/2/4/8 elements through
+each wall, bounded before allocation to 25,000 nodes and 50,000 triangles.
+The declared numerical rule requires positive torsion below polar inertia,
+equation/energy residuals at most 1e-8, nonincreasing nested energies and at most
+1% final successive-mesh change. That rule is not a certified error bound.
+Failed, interrupted and nonconverged studies remain holds with no selected J.
+
+Requests bind geometry, producer sources, Python/NumPy/SciPy/SuperLU identities,
+thread context, resources and numerical policy. Cached fields are replayed by
+rebuilding the mesh and equations, without solving or launching a child. Only
+verified converged fields can supply a separately identified frame hypothesis.
+It preserves the physical candidate, E/nu, bending inertias, joints, roll,
+supports and loads. Short-member/shear and large-motion holds remain; section
+refinement grants neither native frame admission nor parent-selection rewards.
+Resource limits provide no filesystem sandbox.
+
+Seven independent actual-wall C3D20R/C3D20 solid controls examined the earlier
+torsion discrepancy. Full integration changed the long polar-loaded control by
+only 0.103%, leaving substantial interior-gradient variation. A distinct,
+geometry-normalised closed-wall shear-flow load reduced that variation from
+13.10% to 2.124% and produced J = 4.962688e-6 m4, 0.673% above the independent
+2D value of 4.929530e-6 m4 for the 80 × 160 × 4 mm section. This supports
+load-introduction contamination as a diagnosis of the solid controls; it does
+not calibrate the BOX model or establish convergence of the new loading case.
+All solid calibration flags remain false. Final held-disposition SHA-256:
+`46d9aef3d4d9fdb467f727ed210b9460576c6f0fcfc040655c642f01997fbc97`.
+The wall-flow study SHA-256 is
+`a7ff41ca89bf02897f71cabbdc5be394002ba5d1372709aaad21e51a9678609b`;
+raw immutable controls and retained producer epochs are under
+`build/solid-torsion-controls-20261104/`.
+
+The current section-refinement reference run is
+`3bcb055e9dccc04a68c31e69c22e0d28d415c86ec977a33d84c59165965b6168`:
 2,000 programs, 60 evaluated definitions/59 physical designs, 34 axial assessments
 and three novel aluminium frame evaluations (cellular, spine and removal).
 Each generation's twelve evaluations cover all eight eligible topology/material
 cells. All 162 unbraced removal proposals remain deferred. The three frames retain
-small-displacement and short-member/shear holds; zero native jobs were dispatched.
-Full invocation wall time was 18.91 s, peak command RSS 280,212 KiB. This is a
-different physical workload from earlier timing cases, not a measured speedup.
+small-displacement and short-member/shear holds. One new section worker serves
+all three frames, with two replayed reuses and zero CalculiX campaign dispatches.
+For their 100 × 180 × 2 mm section, refined J = 4.440309e-6 m4 versus Bredt's
+4.410045e-6 m4; last mesh change is 0.0415%. Maximum displacements change by
+less than 0.01%, without resolving those holds. Full invocation wall time was
+23.46 s, peak command RSS 309,096 KiB, measured alongside regression checks;
+this is workload evidence, not a speedup comparison.
+
+A zero-new-evaluation resume preserved candidate, generation, cost, model and
+numerical payloads, replayed all three section uses and dispatched no new solver.
+Throwing replacements blocked section children and sparse solves during that
+audit. Resume-audit SHA-256:
+`25d9c50ad0f9cd8e3eef4662c19973ecf3bf2ca13af58b0e0f95d1d8e94ff981`.
+An independent read-only audit checked all three frame replays, the four saved
+section fields, unchanged physical/load/material models and source bindings;
+SHA-256: `80586204cf92d5b50322d2e3eceaecdaf9934e2e4fbe3e6bba09c9c14f722431`.
 
 The source-pinned lightweight phase profile before member removal produced run
 `ce32143bc9b1d76d0b3745f87c90cfabc2c41e5e8fbb385e6fd2bf14b184d2bb`:
@@ -311,7 +371,7 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Current regression checks passed 240 tests on each of Python 3.12 and 3.13, with
+Current regression checks passed 300 tests on each of Python 3.12 and 3.13, with
 the opt-in native bending control separately passing and both native controls
 required in CI. The unchanged Rust kernel retains its 15 tests in CI;
 34 CI routing tests (115 subtests) passed. `./osr verify` replayed the

@@ -92,6 +92,46 @@ def _model(candidate,assumptions):
         physical_joint_policy="Candidate pin/clevis ports retained; rigid moment continuity is a separate unverified evaluation hypothesis")
 
 
+def model_diagnostics(model,frame,assumptions):
+    """Shared numerical/domain checks for explicitly different frame hypotheses."""
+    if (frame.get("evaluation_id")!=identity({k:v for k,v in frame.items() if k!="evaluation_id"})
+            or frame["model_id"]!=identity(model) or any(frame[k] is not False for k in frame_analysis.FLAGS)):
+        raise ValueError("Frame model/diagnostic identity or disposition differs")
+    result=dict(execution="held",numerical_validity="unknown",domain_holds=[])
+    if frame["state"]!="completed-linear-frame-research-only":
+        result["domain_holds"].append("singular-or-unsupported-frame-model")
+        return result
+    result["execution"]="completed"
+    nonnegative=[frame[k] for k in ("maximum_member_relative_translation_over_length","maximum_nodal_rotation_rad",
+        "maximum_nodal_displacement_m","strain_energy_J","external_work_J")]
+    nonnegative.extend(frame["numerical"][k] for k in ("free_force_residual_N_max","free_moment_residual_Nm_max"))
+    if any(type(v) not in (int,float) or not isfinite(v) or v<0 for v in nonnegative):
+        result["domain_holds"].append("invalid-frame-numerical-or-kinematic-values")
+        return result
+    force_scale=max(sum(float(np.linalg.norm(row["force_N"])) for row in model["loads"]),1.)
+    coordinates=np.asarray([n["at_m"] for n in model["nodes"]])
+    length=max(float(np.linalg.norm(np.ptp(coordinates,axis=0))),1.)
+    moment_scale=max(sum(float(np.linalg.norm(row["moment_Nm"])) for row in model["loads"]),force_scale*length,1.)
+    force_error=max(abs(v) for v in frame["force_equilibrium_residual_N"])/force_scale
+    moment_error=max(abs(v) for v in frame["moment_equilibrium_residual_Nm"])/moment_scale
+    energy_error=abs(frame["strain_energy_J"]-frame["external_work_J"])/max(abs(frame["external_work_J"]),1e-30)
+    result["residuals"]=dict(force_relative=force_error,moment_relative=moment_error,energy_relative=energy_error,
+        free_force_relative=frame["numerical"]["free_force_residual_N_max"]/force_scale,
+        free_moment_relative=frame["numerical"]["free_moment_residual_Nm_max"]/moment_scale)
+    if all(isfinite(v) and 0<=v<assumptions["numerical_relative_residual_limit"] for v in result["residuals"].values()):
+        result["numerical_validity"]="equilibrium-and-energy-confirmed-only"
+    else:result["domain_holds"].append("numerical-equilibrium-or-energy-unresolved")
+    if (frame["maximum_member_relative_translation_over_length"]>=assumptions["member_relative_translation_limit"]
+            or frame["maximum_nodal_rotation_rad"]>=assumptions["maximum_rotation_rad"]):
+        result["domain_holds"].append("outside-small-displacement-frame-domain")
+    if frame["domain"]["short_member_ids_advisory_lt_10"]:
+        result["domain_holds"].append("shear-deformation-and-short-member-applicability-unresolved")
+    if any(p["torsion_model"]=="closed-thin-wall-Bredt-approximation" and p["wall_to_min_outer_dimension"]>=.1
+           for p in frame["member_properties"].values()):
+        result["domain_holds"].append("thin-wall-torsion-applicability-unresolved")
+    return result
+
+
 def assess(candidate,*,root=ROOT,assumptions=None):
     source=_sources(candidate,root)
     assumptions=deepcopy(hypothesis() if assumptions is None else assumptions)
@@ -116,31 +156,9 @@ def assess(candidate,*,root=ROOT,assumptions=None):
         frame=frame_analysis.evaluate(model);result["frame_result"]=frame
         if frame["model_id"]!=result["model_id"] or any(frame[k] is not False for k in frame_analysis.FLAGS):
             raise RuntimeError("Frame evaluator mixed model identity or acceptance disposition")
-        if frame["state"]!="completed-linear-frame-research-only":
-            result["domain_holds"].append("singular-or-unsupported-frame-model")
-        else:
-            result["execution"]="completed"
-            force_scale=max(sum(float(np.linalg.norm(row["force_N"])) for row in model["loads"]),1.)
-            coordinates=np.asarray([n["at_m"] for n in model["nodes"]])
-            length=max(float(np.linalg.norm(np.ptp(coordinates,axis=0))),1.)
-            moment_scale=max(sum(float(np.linalg.norm(row["moment_Nm"])) for row in model["loads"]),force_scale*length,1.)
-            force_error=max(abs(v) for v in frame["force_equilibrium_residual_N"])/force_scale
-            moment_error=max(abs(v) for v in frame["moment_equilibrium_residual_Nm"])/moment_scale
-            energy_error=abs(frame["strain_energy_J"]-frame["external_work_J"])/max(abs(frame["external_work_J"]),1e-30)
-            free_force_error=frame["numerical"]["free_force_residual_N_max"]/force_scale
-            free_moment_error=frame["numerical"]["free_moment_residual_Nm_max"]/moment_scale
-            result["residuals"]=dict(force_relative=force_error,moment_relative=moment_error,energy_relative=energy_error,
-                free_force_relative=free_force_error,free_moment_relative=free_moment_error)
-            if max(result["residuals"].values())<assumptions["numerical_relative_residual_limit"]:
-                result["numerical_validity"]="equilibrium-and-energy-confirmed-only"
-            else:result["domain_holds"].append("numerical-equilibrium-or-energy-unresolved")
-            if (frame["maximum_member_relative_translation_over_length"]>=assumptions["member_relative_translation_limit"]
-                    or frame["maximum_nodal_rotation_rad"]>=assumptions["maximum_rotation_rad"]):
-                result["domain_holds"].append("outside-small-displacement-frame-domain")
-            if frame["domain"]["short_member_ids_advisory_lt_10"]:
-                result["domain_holds"].append("shear-deformation-and-short-member-applicability-unresolved")
-            if any(p["wall_to_min_outer_dimension"]>=.1 for p in frame["member_properties"].values()):
-                result["domain_holds"].append("thin-wall-torsion-applicability-unresolved")
+        diagnostics=model_diagnostics(model,frame,assumptions)
+        result["domain_holds"].extend(diagnostics.pop("domain_holds"))
+        result.update(diagnostics)
         result["state"]=("held-unsolved-frame-model" if result["execution"]!="completed" else
             "completed-exploratory-frame-domain-held" if result["domain_holds"] else "completed-conditional-rigid-frame-model")
         result["native_admission"]=not result["domain_holds"]

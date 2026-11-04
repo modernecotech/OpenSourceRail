@@ -47,6 +47,12 @@ jobs:
           python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_topology_revision.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
       - name: Civil and station demonstrator identity and evidence handoffs
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_demonstrator.py engineering/design_search/tests/test_station_demonstrator.py
+      - name: Actual-wall torsion fields, bounded workers and same-candidate frame refinement
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_section_torsion.py engineering/design_search/tests/test_section_torsion_job.py engineering/design_search/tests/test_frame_section_refinement.py engineering/design_search/tests/test_solid_torsion_native.py
       - name: Retained v0.5 source and packet portability
         run: python tools/automation/tests/verify-maglev-sources.py
       - name: Retained offline-host compatibility contracts

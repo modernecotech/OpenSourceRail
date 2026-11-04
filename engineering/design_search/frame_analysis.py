@@ -26,7 +26,7 @@ REFERENCES = [
 LIMITATIONS = [
     "Euler-Bernoulli kinematics exclude shear deformation; short-member applicability remains unverified",
     "Rigid moment-continuity joints do not establish welding, fastener, attachment or real joint stiffness",
-    "RHS area and bending inertias use exact four-wall geometry; torsion uses the closed thin-wall Bredt approximation",
+    "RHS area and bending inertias use exact four-wall geometry; torsion uses Bredt unless an explicit source-bound section evaluation is supplied",
     "Local plate buckling, shear-centre/warping effects, strength, fatigue, modal response and crash remain unknown",
     "Only explicitly declared isotropic elastic laws are supported; GFRP anisotropy is not inferred",
     "Installed equipment, joint masses, load paths, tolerances and independent physical qualification remain open",
@@ -61,8 +61,26 @@ def section_properties(section):
     iz = (h*b**3 - (h-2*t)*(b-2*t)**3)/12
     am = (b-t)*(h-t)
     j = 4*am*am / (2*(b+h-2*t)/t)
-    return dict(area_m2=area, I_y_m4=iy, I_z_m4=iz, J_thin_wall_m4=j,
-                wall_to_min_outer_dimension=t/min(b, h), torsion_model="closed-thin-wall-Bredt-approximation")
+    used,method,basis_id=j,"closed-thin-wall-Bredt-approximation",None
+    if "torsion_basis" in section:
+        basis=section["torsion_basis"]
+        keys={"schema","geometry","geometry_id","request_id","selected_evaluation_id","J_m4","method",
+              "source_epoch_id","runtime_id","convergence_rule_id","basis_id"}
+        if (not isinstance(basis,dict) or set(basis)!=keys or basis.get("schema")!="osr-section-torsion-basis/1"
+                or basis.get("method")!="actual-wall-saint-venant-P1/1"
+                or basis.get("geometry")!=dict(width_m=b,height_m=h,wall_m=t)
+                or basis.get("geometry_id")!=identity(dict(kind="rhs",width_m=b,height_m=h,wall_m=t))
+                or basis.get("basis_id")!=identity({k:v for k,v in basis.items() if k!="basis_id"})):
+            raise ValueError("Explicit same-geometry sealed section torsion basis required")
+        for key in ("request_id","selected_evaluation_id","source_epoch_id","runtime_id","convergence_rule_id"):
+            value=basis[key]
+            if not isinstance(value,str) or len(value)!=64 or any(c not in "0123456789abcdef" for c in value):
+                raise ValueError("Explicit section torsion evaluation/source/runtime identities required")
+        used=_positive(basis["J_m4"],"evaluated section torsion constant")
+        if used>iy+iz:raise ValueError("Evaluated torsion constant exceeds geometric polar-inertia bound")
+        method,basis_id=basis["method"],basis["basis_id"]
+    return dict(area_m2=area, I_y_m4=iy, I_z_m4=iz, J_thin_wall_m4=j,J_used_m4=used,
+                torsion_basis_id=basis_id,wall_to_min_outer_dimension=t/min(b, h),torsion_model=method)
 
 
 def _material(value):
@@ -92,7 +110,7 @@ def _local_stiffness(length, section, material):
     e, shear = material["E_Pa"], material["G_Pa"]
     k = np.zeros((12, 12))
     for dofs, stiffness in (([0, 6], e*section["area_m2"]/length),
-                            ([3, 9], shear*section["J_thin_wall_m4"]/length)):
+                            ([3, 9], shear*section["J_used_m4"]/length)):
         k[np.ix_(dofs, dofs)] += stiffness*np.array([[1., -1.], [-1., 1.]])
     l = length
     bending = np.array([[12., 6*l, -12., 6*l], [6*l, 4*l*l, -6*l, 2*l*l],

@@ -36,6 +36,7 @@ def comparison(result,state):
         attempts=[{k:v for k,v in a.items() if k!="proposal_id"} for a in result["attempts"]],
         assessments=result["refinement"]["assessments"],plan=result["refinement"]["parent_feedback_plan"],
         frame_assessments=[row["assessment"] for row in result["refinement"]["frame_assessments"]],
+        section_frame_assessments=[row["assessment"] for row in result["refinement"]["section_frame_assessments"]],
         deferred=[{k:v for k,v in a.items() if k!="proposal_id"} for a in result["deferred"]])
 
 

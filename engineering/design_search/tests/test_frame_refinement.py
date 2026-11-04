@@ -100,3 +100,19 @@ def test_identity_source_and_unsupported_hypothesis_fail_closed(body,monkeypatch
     with pytest.raises(ValueError,match="Unsupported frame hypothesis"):f.assess(body,assumptions=hyp)
     monkeypatch.setitem(f.LOADED,f.PRODUCER,"0"*64)
     with pytest.raises(ValueError,match="source changed"):f.assess(body)
+
+
+@pytest.mark.parametrize("value",[float("nan"),float("inf")])
+def test_nonfinite_numerical_result_cannot_pass_shared_diagnostics(body,value):
+    assessment=f.assess(body);frame=assessment["frame_result"]
+    frame["strain_energy_J"]=value
+    with pytest.raises(ValueError):f.model_diagnostics(assessment["model"],frame,assessment["hypothesis"])
+
+
+def test_resealed_negative_kinematics_remain_a_numerical_hold(body):
+    assessment=f.assess(body);frame=assessment["frame_result"]
+    frame["maximum_nodal_rotation_rad"]=-1.
+    frame["evaluation_id"]=identity({k:v for k,v in frame.items() if k!="evaluation_id"})
+    diagnostic=f.model_diagnostics(assessment["model"],frame,assessment["hypothesis"])
+    assert diagnostic["numerical_validity"]=="unknown"
+    assert diagnostic["domain_holds"]==["invalid-frame-numerical-or-kinematic-values"]

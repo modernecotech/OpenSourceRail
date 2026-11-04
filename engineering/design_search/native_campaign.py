@@ -32,6 +32,7 @@ from . import design_grammar as grammar, design_portfolio, model_cost, shape_fam
 from . import native_search, native_refinement, search_archive, topology_mutation, search_feedback, invocation_cache, axial_analysis
 from . import frame_analysis, frame_refinement, frame_native
 from . import topology_revision
+from . import section_torsion,section_torsion_job,frame_section_refinement
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -47,7 +48,7 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
     topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis,
-    frame_analysis,frame_refinement,frame_native,topology_revision)}
+    frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -107,7 +108,7 @@ def _sources(root):
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
                 topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis,
-                frame_analysis,frame_refinement,frame_native,topology_revision)},
+                frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -205,7 +206,7 @@ def _generation_feedback(rows,genes,domains,recipes,root,kernel,spec,previous,re
     return value
 
 
-def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None,reuse=None,frame_native_jobs=0):
+def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inherited=None,reuse=None,frame_native_jobs=0,section_torsion_jobs=0):
     """Model-specific next-experiment ordering, separate from baseline ranking."""
     groups={}
     for cid,row in data["rows"].items():
@@ -299,7 +300,20 @@ def _refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,inheri
             frame_reused+=native["native_jobs_used"] if hit else 0
             record.update(native_state=native["native_state"],native=native,native_output=str(output),reused=hit)
         frames.append(record)
+    section_frames=[];section_new=0;section_reused=0
+    if section_torsion_jobs:
+        for record in frames:
+            if time.monotonic()-start>=spec["maximum_seconds"]:break
+            cid=record["assessment"]["candidate_id"]
+            refined=frame_section_refinement.assess(candidates[cid],state/"section-torsion",root=root,
+                maximum_new_jobs=section_torsion_jobs-section_new)
+            if refined["candidate_id"]!=cid or refined["definition_id"]!=data["rows"][cid]["definition_id"]:
+                raise RuntimeError("Section-refined frame mixed physical/definition identity")
+            output=state/"section-frame-assessments"/(refined["assessment_id"]+".json");_store(output,refined)
+            section_new+=refined["new_section_jobs"];section_reused+=refined["reused_section_jobs"]
+            section_frames.append(dict(assessment=refined,output=str(output)))
     feedback=dict(assessments=assessments,packages=packages,axial_model_archives=final_plan["axial_archives"],
+        section_frame_assessments=section_frames,section_jobs_new=section_new,section_evidence_reused=section_reused,
         frame_assessments=frames,frame_native_jobs_new=frame_dispatched,frame_native_evidence_reused=frame_reused,
         frame_deferred_candidate_ids=[a["candidate_id"] for a in frame_order if a["candidate_id"] not in {r["assessment"]["candidate_id"] for r in frames}],
         frame_selection_purpose="Topology coverage before within-family implemented research material route and partial cost; independent of pin-model pass; no parent-weight or integrated-baseline reward",
@@ -620,7 +634,7 @@ def _assess(candidate,root,reuse=None):
         lambda:native_refinement.assess(candidate,root=root))
 
 
-def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True,frame_native_jobs=0):
+def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True,frame_native_jobs=0,section_torsion_jobs=0):
     root=Path(root).resolve()
     if root != ROOT.resolve():
         raise ValueError("Execute the coordinator from its imported source checkout")
@@ -635,6 +649,8 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         raise ValueError("Zero-to-three new axial solver jobs required")
     if type(frame_native_jobs) is not int or not 0<=frame_native_jobs<=3:
         raise ValueError("Zero-to-three separately budgeted native frame jobs required")
+    if type(section_torsion_jobs) is not int or not 0<=section_torsion_jobs<=3:
+        raise ValueError("Zero-to-three separately budgeted section-torsion workers required")
     if type(invocation_reuse) is not bool:
         raise ValueError("Explicit boolean invocation reuse policy required")
     kernel=NativeSearch(root=root,binary=binary)
@@ -786,7 +802,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         while data["pending"] and used<budget and time.monotonic()-start<spec["maximum_seconds"]:
             evaluate(data["pending"].pop(0));save()
         archive=_archive(kernel,list(data["rows"].values()))
-    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse,frame_native_jobs)
+    detailed,refinement=_refine(data,domains,recipes,state,root,kernel,spec,start,native_jobs,feedback_observations,reuse,frame_native_jobs,section_torsion_jobs)
     save(force=True)
     value=_seal(dict(schema="osr-native-generative-search-result/1",contract_id=contract_id,contract=contract,
         sources=source,axes=domains,candidate_count=len(data["rows"]),evaluations=sorted(data["all_evaluations"].values(),key=lambda r:r["evaluation_id"]),
@@ -794,8 +810,9 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         attempts=data["attempts"],generations=data["generations"],pending=data["pending"],deferred=data["deferred"],seed_pending=data["seed_pending"],
         archive=archive,detailed_finalists=detailed,refinement=refinement,cache_statistics=stats,invocation_cache=reuse.statistics(),integrated_selection=None,
         complete_installed_mass_kg=None,maximum_seconds_is_cooperative=True,
-        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"],
+        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"]+refinement["section_jobs_new"],
         native_dispatch_allowed=bool(native_jobs or frame_native_jobs),
+        section_torsion_dispatch_allowed=bool(section_torsion_jobs),
         cache_scope="Cheap geometry/cost replay-checked; bounded fresh analytical records reused only within this invocation; no avoided high-fidelity solver runtime is claimed",
         unresolved=OPEN,**FLAGS),"run_id")
     _store(state/"runs"/(value["run_id"]+".json"),value)
@@ -803,9 +820,11 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
         generated_programs=sum(g["generated_programs"] for g in data["generations"]),pending_programs=len(data["pending"]),
         deferred_programs=len(data["deferred"]),
         detailed_finalists=len(detailed),cache_statistics=stats,invocation_cache=reuse.statistics(),
-        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"],
+        numerical_solver_dispatch_count=refinement["native_jobs_new"]+refinement["frame_native_jobs_new"]+refinement["section_jobs_new"],
         native_evidence_reused=refinement["native_evidence_reused"]+refinement["frame_native_evidence_reused"],archive_backend=archive["backend"],
         coarse_frame_assessments=len(refinement["frame_assessments"]),frame_native_jobs_new=refinement["frame_native_jobs_new"],
+        section_frame_assessments=len(refinement["section_frame_assessments"]),section_jobs_new=refinement["section_jobs_new"],
+        section_evidence_reused=refinement["section_evidence_reused"],
         generation_feedback_snapshots=len(data["generations"]),feedback_observations=len(feedback_observations),
         analytical_assessment_counts=refinement["assessment_counts"],
         analytical_assessments=len(refinement["assessments"]),output=str(state/"runs"/(value["run_id"]+".json")),
@@ -841,9 +860,11 @@ if __name__ == "__main__":
     parser.add_argument("--binary",type=Path)
     parser.add_argument("--native-jobs",type=int,default=0,help="Opt-in new axial CalculiX jobs, zero to three")
     parser.add_argument("--frame-native-jobs",type=int,default=0,help="Separately budgeted zero-to-three conditional coarse frame comparisons")
+    parser.add_argument("--section-torsion-jobs",type=int,default=0,help="Opt-in zero-to-three bounded actual-wall section workers; cached fields are replayed")
     parser.add_argument("--evaluations",type=int,help="New successor evaluations in this invocation; seeds are separate")
     parser.add_argument("--no-invocation-reuse",action="store_true",help="Diagnostic independent recomputation mode; separate campaign contract")
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
                          maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,frame_native_jobs=args.frame_native_jobs,
+                         section_torsion_jobs=args.section_torsion_jobs,
                          invocation_reuse=not args.no_invocation_reuse),indent=2))

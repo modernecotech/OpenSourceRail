@@ -406,5 +406,38 @@ def test_finalists_receive_separate_frame_evidence_and_domain_holds_prevent_nati
     assert frames[0]["native_state"]=="held-by-frame-model-domain"
     assert value["numerical_solver_dispatch_count"]==0
     assert value["refinement"]["frame_native_jobs_new"]==0
+    assert value["refinement"]["section_frame_assessments"]==[]
+    assert value["section_torsion_dispatch_allowed"] is False
     assert frame["whole_body_rejected"] is False
     assert "no parent-weight" in value["refinement"]["frame_selection_purpose"]
+
+
+def test_opt_in_section_worker_replays_same_candidate_without_native_admission(tmp_path,small,monkeypatch):
+    controls(monkeypatch)
+    def forbidden(*args,**kwargs):raise AssertionError("Section refinement dispatched a native frame solver")
+    monkeypatch.setattr(c.frame_native,"run",forbidden)
+    baseline=read(c.run(state=tmp_path,generations=0))
+    value=read(c.run(state=tmp_path,generations=0,section_torsion_jobs=1))
+    assert value["evaluations"]==baseline["evaluations"]
+    assert value["refinement"]["parent_feedback_plan"]==baseline["refinement"]["parent_feedback_plan"]
+    assert value["numerical_solver_dispatch_count"]==1
+    assert value["native_dispatch_allowed"] is False and value["section_torsion_dispatch_allowed"] is True
+    refined=value["refinement"]["section_frame_assessments"][0]["assessment"]
+    frame=value["refinement"]["frame_assessments"][0]["assessment"]
+    assert refined["candidate_id"]==frame["candidate_id"] and refined["definition_id"]==frame["definition_id"]
+    assert refined["new_section_jobs"]==1 and refined["native_admission"] is False
+    assert refined["frame_result"] is not None and refined["domain_holds"]
+    monkeypatch.setattr(c.section_torsion_job,"run",forbidden)
+    monkeypatch.setattr(c.section_torsion,"spsolve",forbidden)
+    resumed=read(c.run(state=tmp_path,generations=0,section_torsion_jobs=1))
+    assert resumed["numerical_solver_dispatch_count"]==0
+    assert resumed["refinement"]["section_evidence_reused"]==1
+    replay=resumed["refinement"]["section_frame_assessments"][0]["assessment"]
+    assert replay["model_id"]==refined["model_id"] and replay["frame_result"]==refined["frame_result"]
+    assert all(resumed[k] is False for k in c.FLAGS)
+
+
+@pytest.mark.parametrize("budget",[-1,4,True,.5])
+def test_section_worker_budget_rejects_implicit_or_unbounded_requests(tmp_path,small,budget):
+    with pytest.raises(ValueError,match="section-torsion workers"):
+        c.run(state=tmp_path,generations=0,section_torsion_jobs=budget)
