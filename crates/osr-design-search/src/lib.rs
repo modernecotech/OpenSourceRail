@@ -5,6 +5,10 @@
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
+pub mod canonical;
+#[cfg(feature = "python-extension")]
+mod python_canonical;
+
 pub const REQUEST_SCHEMA: &str = "osr-search-kernel-request/1";
 pub const RESULT_SCHEMA: &str = "osr-search-kernel-result/1";
 pub const MAX_INPUT_BYTES: usize = 64 * 1024 * 1024;

@@ -19,6 +19,80 @@ explicit and records locked sources, tools and the executable hash. Stale or
 modified receipts are rejected. Generated requests, geometries, caches, failed
 experiments and immutable solver packages remain under `build/`, outside Git.
 
+An optional direct PyO3 encoder now moves canonical traversal, key ordering,
+ASCII escaping and SHA256 into Rust modules in the existing search crate.
+Python remains the coordinator and the unchanged shared encoder remains the
+reference/default. Float representation and arbitrary-size integer formatting
+deliberately use CPython built-ins; this is a hybrid implementation, not an
+independent Rust float-formatting algorithm. NumPy/SciPy and the specialist
+solver/CAD adapters retain their existing native calculation engines.
+
+The compatibility contract is the exact output of
+`json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False,
+ensure_ascii=True) + '\n'`, encoded as ASCII-compatible UTF-8, and SHA256 of
+those bytes. Its native domain is exact built-in `None`, `bool`, `int`, finite
+`float`, `str`, `list`, `tuple` and string-keyed `dict` objects. Mapping keys sort
+by Python Unicode codepoints; there is no Unicode normalisation. Escapes include
+controls, DEL, non-ASCII characters, non-BMP surrogate pairs and lone surrogates.
+Integer precision, negative floating-point zero, exponent formatting, tuple/list
+wire equivalence and the final newline retain their existing meanings. Circular
+containers, unknown/subclass objects, non-string keys and nonfinite numbers are
+rejected in native mode. The broader shared Python domain remains available;
+there is no silent native coercion or fallback. Output defaults to a 64 MiB
+limit and depth 128 (maximum 256); these are output/depth limits, not a claim of
+fixed input memory or operating-system isolation.
+
+```bash
+python -m engineering.design_search.native_search build
+python -m engineering.design_search.native_canonical build
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  python -m engineering.design_search.native_campaign --state build/my-native-encoding \
+    --canonical-backend rust
+```
+
+The [PyO3 0.27.2 manual extension build](https://pyo3.rs/v0.27.2/building-and-distribution.html)
+is an optional, locked dependency path. Ordinary Cargo builds do not link
+Python. Each extension build records source hashes, compiler tools, exact CPython
+ABI/executable and binary digest; there is no implicit build. Guarded sessions
+check that context before/after use instead of hashing files for every object.
+Sessions close explicitly; aliases restore on exceptions, and other execution
+contexts keep the Python reference. Encoder provenance changes the evaluation
+contract while physical identities and engineering results remain unchanged.
+The same `--canonical-backend rust` option is available on `search_delivery run`.
+
+Parity covers 10,000 distinct retained-record representatives from 300 files,
+50,016 float controls, Unicode/alias cases and two larger complete records on
+both Python 3.12 and 3.13. One development control exposed an incorrect DEL
+escape; the defect and its failed trial were retained before correction.
+Four complete 2,000-program campaigns preserve all 60 canonical geometry records,
+cost/quantity evaluations, finalists, numerical results/holds, archive witnesses
+and ancestry/deferred reasons. In the uninstrumented pair, Python took 13.6165 s
+and Rust 12.2856 s (9.77% less wall time), with peak RSS 310,260/310,312 KiB.
+This is one local pair, not a universal speedup. The sampled profiles still place
+geometry materialisation around 5.96/5.22 s and source checks around 1.07/1.09 s;
+compiled SVD/solve/eigenvalue work totals about 0.16/0.17 s. Sampled canonical
+timings are inclusive estimates and must not be added to these phases.
+Comparison SHA-256:
+`292d59352092ad7227e329ea63a499d5b7116bda183571ee19aa95d488078e89`.
+
+The Rust-backed delivery package
+`3467a18eba7cf3c389724df318aa51be3025ba7fb3776b8665b5f4a000e69b38`
+reuses the exact native geometry with zero new CAD jobs. All twelve engineering
+stage payloads match the preceding Python-backed reference byte-for-byte.
+Independent read-only replay checked the source/ABI/binary receipt, 199 routes,
+14 cost scopes, shifts, identities and unchanged physical holds; it took 10.11 s
+and 505,636 KiB peak RSS under a 1 GiB limit. Its audit SHA-256 is
+`df402655937e058fadda8bca0724ddbec9385dd6f83308f635b01468044e2846`.
+
+The later `998c0136` native-methods CI failure was a rustup installation conflict
+before compilation; the earlier green run had skipped those native jobs. The job
+now installs/checks Rust 1.92 in fresh runner directories before the unchanged
+five-crate control command. All 158 control tests passed locally. The current
+dossier was regenerated with its pinned environment after the workflow/lockfile
+changes; selected identities, numerical requests/results and physical holds are
+unchanged. Dedicated Python 3.12/3.13 CI jobs build the optional encoder explicitly
+and require its parity/campaign checks instead of skipping missing extensions.
+
 The search can now feed one finalist directly into a complete declared railway
 delivery study, using the existing canonical P1 research bundle and domain
 evaluators rather than running the separate 112-bundle campaign again:
@@ -466,11 +540,12 @@ packages without another solver execution. The native axial result retained
 0.0303485 m maximum nodal movement, 7.58e-8 force residual and 7.61e-9 energy
 residual. Verification ran under a 1 GiB address-space limit with one numerical
 thread; native dispatch was disabled by a throwing replacement, not an OS sandbox.
-Current regression checks passed 407 tests on each of Python 3.12 and 3.13,
-including the entrypoint contracts, with
+The full regression run passed 468 tests on each of Python 3.12 and 3.13,
+including the native backend and entrypoint contracts. The added legacy Unicode
+compatibility control also passed separately on both versions, with
 the opt-in native bending control separately passing and both native controls
-required in CI. The unchanged Rust kernel retains its 15 tests in CI;
-34 CI routing tests (115 subtests) passed. `./osr verify` replayed the
+required in CI. The unchanged search kernel retains its 15 Rust tests, with
+three new canonical-core controls; 36 CI routing tests passed. `./osr verify` replayed the
 current selected publication successfully without regenerating its packets. The
 opt-in native control remains a separate CI job.
 

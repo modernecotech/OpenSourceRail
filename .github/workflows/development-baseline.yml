@@ -399,6 +399,12 @@ jobs:
     if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    env:
+      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup
+      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo
+      CARGO_TARGET_DIR: ${{ runner.temp }}/osr-native-target
+      RUSTUP_TOOLCHAIN: "1.92.0"
+      CARGO_BUILD_JOBS: "2"
     steps:
       - uses: actions/checkout@v4
       - name: Fetch the exact retained producer source required by offline ancestry checks
@@ -408,6 +414,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - name: Verify isolated Rust toolchain
+        run: |
+          rustc --version --verbose
+          cargo --version
+          test "$(rustc --version --verbose | sed -n 's/^release: //p')" = 1.92.0
+          test "$(cargo --version | awk '{print $2}')" = 1.92.0
       - run: sudo apt-get update && sudo apt-get install -y getdp gmsh calculix-ccx libglu1-mesa
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest gmsh==4.14.1 --requirement engineering/requirements.txt

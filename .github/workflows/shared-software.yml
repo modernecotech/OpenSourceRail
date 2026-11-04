@@ -112,6 +112,38 @@ jobs:
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_refinement.py -k native_axial_run_and_read_only_replay
       - name: Execute and independently replay one coarse frame bending control
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_frame_native.py -k optional_native_bending_control_and_readonly_replay
+  native-canonical-parity:
+    name: Optional Rust canonical encoding on Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+    env:
+      RUSTUP_HOME: ${{ runner.temp }}/osr-canonical-rustup
+      CARGO_HOME: ${{ runner.temp }}/osr-canonical-cargo
+      CARGO_BUILD_JOBS: "2"
+      RUSTUP_TOOLCHAIN: "1.92.0"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OSR_TEST_NATIVE_CANONICAL: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: python -m pip install pytest numpy==2.3.5 scipy==1.16.3
+      - name: Build explicit source-bound kernel and interpreter-specific extension
+        run: |
+          python -m engineering.design_search.native_search build
+          python -m engineering.design_search.native_canonical build
+      - name: Require exact canonical parity and unchanged campaign results
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py
+      - name: Check the optional Rust extension under the pinned compiler
+        run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings
   control-formal:
     name: Shared authority and retained refusal properties
     runs-on: ubuntu-latest

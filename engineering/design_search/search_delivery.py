@@ -282,7 +282,8 @@ def _summary(body,bundle,values,native):
 
 
 def run(*,search_state,output,body_candidate_id=None,root=ROOT,native_cad_jobs=0,
-        generations=None,maximum_new_evaluations=None,section_torsion_jobs=1,reuse_geometry=None):
+        generations=None,maximum_new_evaluations=None,section_torsion_jobs=1,reuse_geometry=None,
+        canonical_backend="python",canonical_extension=None):
     from . import search_geometry
     root=Path(root).resolve()
     if root!=Path(ROOT).resolve():raise ValueError("Use the imported source checkout")
@@ -295,7 +296,8 @@ def run(*,search_state,output,body_candidate_id=None,root=ROOT,native_cad_jobs=0
         raise ValueError("At least 4 GiB free disk required before an end-to-end search handoff")
     sources=_sources(root);started=time.monotonic()
     search_summary=native_campaign.run(root=root,state=Path(search_state),generations=generations,
-        maximum_new_evaluations=maximum_new_evaluations,section_torsion_jobs=section_torsion_jobs)
+        maximum_new_evaluations=maximum_new_evaluations,section_torsion_jobs=section_torsion_jobs,
+        canonical_backend=canonical_backend,canonical_extension=canonical_extension)
     search=_read(search_summary["output"])
     body,row,program=_body(search,search_state,body_candidate_id,root)
     bundle=railway_bundle.materialize(body,family="P1",root=root)
@@ -305,6 +307,7 @@ def run(*,search_state,output,body_candidate_id=None,root=ROOT,native_cad_jobs=0
         search_contract_id=search["contract_id"],search_run_id=search["run_id"],
         search_result_sha256=digest(search_summary["output"]),primary_evaluation_id=row["evaluation_id"],
         source_program=program,search_result_path=str(Path(search_summary["output"]).relative_to(root)),
+        search_encoder=search["contract"].get("canonical_backend",dict(mode="python")),
         ancestry_scope="Exact source-program, physical body and primary quantity/cost replay; full parent-selection replay additionally needs the retained campaign journals",
         purpose="Demonstration handoff from the partial-cost finalist set; not an integrated or physical selection")
     _write(output/"input.json.gz",handoff,compressed=True)
@@ -393,13 +396,16 @@ def main(argv=None):
     run_parser.add_argument("--generations",type=int)
     run_parser.add_argument("--evaluations",type=int)
     run_parser.add_argument("--section-torsion-jobs",type=int,default=1)
+    run_parser.add_argument("--canonical-backend",choices=("python","rust"),default="python")
+    run_parser.add_argument("--canonical-extension",type=Path)
     verify_parser=commands.add_parser("verify")
     verify_parser.add_argument("output",type=Path)
     verify_parser.add_argument("--replay",action="store_true")
     args=parser.parse_args(argv)
     value=(run(search_state=args.search_state,output=args.output,body_candidate_id=args.body_candidate_id,
         native_cad_jobs=int(args.native_cad),generations=args.generations,maximum_new_evaluations=args.evaluations,
-        section_torsion_jobs=args.section_torsion_jobs,reuse_geometry=args.reuse_geometry) if args.command=="run" else verify(args.output,replay=args.replay))
+        section_torsion_jobs=args.section_torsion_jobs,reuse_geometry=args.reuse_geometry,
+        canonical_backend=args.canonical_backend,canonical_extension=args.canonical_extension) if args.command=="run" else verify(args.output,replay=args.replay))
     print(json.dumps(value,indent=2));return 0
 
 

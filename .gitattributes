@@ -2,3 +2,6 @@
 docs/design-engine/periodic-thermal-research/original/tests-v10-red.log -whitespace
 # Preserve original failed materializer-test logs byte for byte.
 docs/design-engine/retained-service-energy-extra/original/materializer-streaming/logs/tests-v1-py*.log -whitespace
+
+# Generated PDF readers are binary artifacts, even when their streams are ASCII.
+*.pdf binary

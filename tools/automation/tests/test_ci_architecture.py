@@ -116,6 +116,55 @@ def twin_python_blocks(step):
                        step, re.M | re.S)]
 
 
+def validate_native_control_toolchain(text):
+    """Keep native Rust control tests on a fresh pinned toolchain, without skips."""
+    native = job_blocks(text)['native-methods']
+    for line in (
+        '      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup',
+        '      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo',
+        '      CARGO_TARGET_DIR: ${{ runner.temp }}/osr-native-target',
+        '      RUSTUP_TOOLCHAIN: "1.92.0"',
+        '      CARGO_BUILD_JOBS: "2"',
+    ):
+        assert re.search(r'^'+re.escape(line)+r'$', native, re.M), line
+    action='      - uses: dtolnay/rust-toolchain@1.92.0\n'
+    header='      - name: Verify isolated Rust toolchain\n'
+    cargo='      - run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada\n'
+    assert native.count(action)==native.count(header)==native.count(cargo)==1
+    block=native.split(header,1)[1].split('      - ',1)[0]
+    assert re.search(r'^        run: \|$',block,re.M)
+    assert not re.search(r'^        (?:if|continue-on-error|shell):',block,re.M)
+    lines=[line.strip() for line in block.splitlines() if not line.lstrip().startswith('#')]
+    assert 'test "$(rustc --version --verbose | sed -n \'s/^release: //p\')" = 1.92.0' in lines
+    assert 'test "$(cargo --version | awk \'{print $2}\')" = 1.92.0' in lines
+    assert native.index(action)<native.index(header)<native.index(cargo)
+    assert cargo+'      - uses: actions/upload-artifact@v4\n' in native
+
+
+def validate_native_canonical_job(text):
+    """The optional ABI matrix must actually build and execute both backends."""
+    jobs=job_blocks(text)
+    assert 'native-canonical-parity' in jobs
+    block=jobs['native-canonical-parity']
+    for required in ('python: ["3.12", "3.13"]', 'timeout-minutes: 15',
+            'RUSTUP_HOME: ${{ runner.temp }}/osr-canonical-rustup',
+            'CARGO_HOME: ${{ runner.temp }}/osr-canonical-cargo',
+            'RUSTUP_TOOLCHAIN: "1.92.0"', 'CARGO_BUILD_JOBS: "2"',
+            'OSR_TEST_NATIVE_CANONICAL: "1"', 'uses: dtolnay/rust-toolchain@1.92.0'):
+        assert required in block, required
+    build='      - name: Build explicit source-bound kernel and interpreter-specific extension\n'
+    verify='      - name: Require exact canonical parity and unchanged campaign results\n'
+    assert block.count(build)==block.count(verify)==1
+    assert block.index(build)<block.index(verify)
+    preparation=block.split(build,1)[1].split(verify,1)[0]
+    assert '          python -m engineering.design_search.native_search build\n' in preparation
+    assert '          python -m engineering.design_search.native_canonical build\n' in preparation
+    command='        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py\n'
+    assert block.count(command)==1
+    assert '        run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings\n' in block
+    assert not re.search(r'^\s+(?:-\s+)?(?:if|continue-on-error|ref):',block,re.M)
+
+
 def active_run_line(block, command):
     """Find a command on an uncommented shell line in a YAML run block."""
     runs = re.findall(r'^        run: \|\n((?: {10}[^\n]*(?:\n|$))*)', block, re.M)
@@ -174,7 +223,8 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     historical_jobs = job_blocks(historical_text)
     jobs = job_blocks(shared_text)
     assert set(historical_jobs) == {'primary-study'}
-    assert set(jobs) == {'current-shared-software', 'bounded-axial-search-method', 'control-formal'}
+    assert set(jobs) == {'current-shared-software', 'bounded-axial-search-method', 'native-canonical-parity', 'control-formal'}
+    validate_native_canonical_job(shared_text)
     axial=jobs['bounded-axial-search-method']
     for required in ('timeout-minutes: 15', 'OSR_TEST_NATIVE_AXIAL: "1"', 'OSR_TEST_NATIVE_FRAME: "1"',
                      'OPENBLAS_NUM_THREADS: "1"', 'OMP_NUM_THREADS: "1"', 'MKL_NUM_THREADS: "1"',
@@ -486,6 +536,34 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('run: ./osr-twin verify-publication', 'run: true')):
             with self.subTest(removed=original), self.assertRaises(AssertionError):
                 twin_storage_steps(text.replace(original, replacement, 1))
+
+    def test_native_control_toolchain_is_isolated_pinned_and_mandatory(self):
+        validate_native_control_toolchain(self.current)
+        for old,new in (
+                ('      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup', '      RUSTUP_HOME: /home/runner/.rustup'),
+                ('      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo', '      CARGO_HOME: /home/runner/.cargo'),
+                ('      RUSTUP_TOOLCHAIN: "1.92.0"', '      RUSTUP_TOOLCHAIN: stable'),
+                ('      - uses: dtolnay/rust-toolchain@1.92.0', '      - uses: dtolnay/rust-toolchain@stable'),
+                ('      - name: Verify isolated Rust toolchain', '      - if: false\n        name: Verify isolated Rust toolchain'),
+                ('test "$(cargo --version | awk \'{print $2}\')" = 1.92.0', 'true'),
+                ('      - run: cargo test --locked -p osr-atp', '      - run: echo cargo test --locked -p osr-atp'),
+                (' -p osr-station-scada\n      - uses: actions/upload-artifact@v4',
+                 ' -p osr-station-scada\n        continue-on-error: true\n      - uses: actions/upload-artifact@v4')):
+            with self.subTest(changed=old), self.assertRaises(AssertionError):
+                validate_native_control_toolchain(self.current.replace(old,new,1))
+
+    def test_canonical_abi_matrix_build_and_parity_cannot_be_skipped(self):
+        validate_native_canonical_job(self.shared)
+        block=job_blocks(self.shared)['native-canonical-parity']
+        for old,new in (('python: ["3.12", "3.13"]','python: ["3.13"]'),
+                ('OSR_TEST_NATIVE_CANONICAL: "1"','OSR_TEST_NATIVE_CANONICAL: "0"'),
+                ('uses: dtolnay/rust-toolchain@1.92.0','uses: dtolnay/rust-toolchain@stable'),
+                ('python -m engineering.design_search.native_canonical build','echo extension-not-built'),
+                ('engineering/design_search/tests/test_native_canonical.py','nonexistent-parity-test.py'),
+                ('      - name: Require exact canonical parity','      - if: false\n        name: Require exact canonical parity'),
+                ('      - name: Check the optional Rust extension','      - continue-on-error: true\n        name: Check the optional Rust extension')):
+            with self.subTest(changed=old),self.assertRaises(AssertionError):
+                validate_native_canonical_job(self.shared.replace(block,block.replace(old,new,1)))
 
     def test_digital_twin_disk_thresholds_fail_before_download(self):
         _, install = twin_storage_steps(DIGITAL_TWIN_WORKFLOW.read_text())

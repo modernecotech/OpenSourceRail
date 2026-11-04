@@ -34,6 +34,7 @@ from . import native_search, native_refinement, search_archive, topology_mutatio
 from . import frame_analysis, frame_refinement, frame_native
 from . import topology_revision
 from . import section_torsion,section_torsion_job,frame_section_refinement
+from . import native_canonical
 NativeSearch = native_search.NativeSearch
 
 PRODUCER = "engineering/design_search/native_campaign.py"
@@ -49,7 +50,7 @@ OPEN = ["Complete installed mass/CG/inertia, attachments and equipment remain un
 EXECUTING = {Path(module.__file__): digest(module.__file__) for module in (
     grammar, design_portfolio, model_cost, shape_families, native_search,
     topology_mutation, native_refinement, search_archive, search_feedback, invocation_cache, axial_analysis,
-    frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement)}
+    frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement,native_canonical)}
 EXECUTING[Path(__file__)]=digest(__file__)
 
 
@@ -109,7 +110,7 @@ def _sources(root):
             "engineering/design_search/native_search.py": digest(Path(root)/"engineering/design_search/native_search.py"),
             **{module.PRODUCER:digest(Path(root)/module.PRODUCER) for module in (
                 topology_mutation,native_refinement,search_archive,search_feedback,invocation_cache,axial_analysis,
-                frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement)},
+                frame_analysis,frame_refinement,frame_native,topology_revision,section_torsion,section_torsion_job,frame_section_refinement,native_canonical)},
             **{name:digest(Path(root)/name) for name in (
                 "engineering/design_search/grammar_structure.py","engineering/design_search/grammar_shell.py")},
             CONFIG: digest(Path(root)/CONFIG)}
@@ -659,7 +660,7 @@ def _assess(candidate,root,reuse=None):
         lambda:native_refinement.assess(candidate,root=root))
 
 
-def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True,frame_native_jobs=0,section_torsion_jobs=0):
+def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_evaluations=None, native_jobs=0,invocation_reuse=True,frame_native_jobs=0,section_torsion_jobs=0,canonical_provenance=None):
     root=Path(root).resolve()
     if root != ROOT.resolve():
         raise ValueError("Execute the coordinator from its imported source checkout")
@@ -693,6 +694,7 @@ def _run(*, root=ROOT, state=None, generations=None, binary=None, maximum_new_ev
     contract=dict(specification=search_spec,sources=source,runtime=_runtime(),invocation_reuse=invocation_reuse,binary_sha256=kernel.receipt["binary_sha256"],
         kernel_build_receipt_id=kernel.receipt["receipt_id"],variable_registry_id=identity(dict(axes=domains,recipes=recipes)),
         requirements_context="Six 17 m cars, 44 seats plus two wheelchair places per car; same development service")
+    if canonical_provenance is not None:contract["canonical_backend"]=canonical_provenance
     contract_id=identity(contract);_store(state/"contracts"/(contract_id+".json"),contract)
     checkpoint_path=state/"checkpoints"/(contract_id+".json")
     if checkpoint_path.exists():
@@ -873,10 +875,12 @@ def _state_lock(state):
         finally:fcntl.flock(handle,fcntl.LOCK_UN)
 
 
-def run(*,root=ROOT,state=None,**kwargs):
+def run(*,root=ROOT,state=None,canonical_backend="python",canonical_extension=None,**kwargs):
     state=Path(state) if state is not None else Path(root)/"build/native-design-search"
     with _state_lock(state):
-        return _run(root=root,state=state,**kwargs)
+        with native_canonical.campaign_backend(canonical_backend,root=root,extension=canonical_extension) as provenance:
+            result=_run(root=root,state=state,canonical_provenance=provenance if canonical_backend=="rust" else None,**kwargs)
+        return dict(result,canonical_backend=canonical_backend)
 
 
 if __name__ == "__main__":
@@ -888,8 +892,11 @@ if __name__ == "__main__":
     parser.add_argument("--section-torsion-jobs",type=int,default=0,help="Opt-in zero-to-three bounded actual-wall section workers; cached fields are replayed")
     parser.add_argument("--evaluations",type=int,help="New successor evaluations in this invocation; seeds are separate")
     parser.add_argument("--no-invocation-reuse",action="store_true",help="Diagnostic independent recomputation mode; separate campaign contract")
+    parser.add_argument("--canonical-backend",choices=("python","rust"),default="python",help="Explicit source-bound research encoder; Python remains the reference/default")
+    parser.add_argument("--canonical-extension",type=Path)
     args=parser.parse_args()
     print(json.dumps(run(state=args.state,generations=args.generations,binary=args.binary,
                          maximum_new_evaluations=args.evaluations,native_jobs=args.native_jobs,frame_native_jobs=args.frame_native_jobs,
                          section_torsion_jobs=args.section_torsion_jobs,
+                         canonical_backend=args.canonical_backend,canonical_extension=args.canonical_extension,
                          invocation_reuse=not args.no_invocation_reuse),indent=2))
