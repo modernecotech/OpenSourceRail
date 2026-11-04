@@ -256,7 +256,13 @@ def sources(root,record,index,delivery):
         'docs/design-engine/mass-reconciliation/current/mass-ledger.json.gz',
         'docs/design-engine/mass-reconciliation/current/summary.json',
         'docs/design-engine/mass-reconciliation/current/manifest.json']
-    for directory in ('engineering/station_rail','engineering/development_baseline'):
+    outline_folder=root/'docs/design-engine/demand-outline'
+    if (outline_folder/'manifest.json').is_file():
+        from engineering.outline import coordinator as outline
+        outline_manifest=outline.verify_compact(outline_folder,root)
+        maps.append(outline_manifest['source_sha256'])
+        names += [p.relative_to(root).as_posix() for p in outline_folder.iterdir() if p.is_file()]
+    for directory in ('engineering/station_rail','engineering/development_baseline','engineering/outline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     for directory in ('docs/assets/v0.6','docs/images/v06'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file()]

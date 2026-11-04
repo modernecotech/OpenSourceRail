@@ -857,3 +857,77 @@ async function start() {
   }
 }
 start();
+
+// Outline research is independent of the selected hardware publication above.
+// The local server calculates immutable studies; the static site explains how
+// to start it instead of substituting historical results.
+const outlineForm = document.getElementById("outline-form");
+const outlineStatus = document.getElementById("outline-status");
+const launchNames = {"cable-capstan":"Cable / capstan", "common-drive-rollers":"Common-drive rollers", "compact-launch-LIM":"Compact LIM"};
+const moneyMillions = value => `$${(value / 1e6).toFixed(1)}m`;
+function outlineInspect(row) {
+  const area = document.getElementById("outline-evidence");
+  area.replaceChildren();
+  const title = document.createElement("h3");
+  title.textContent = `${launchNames[row.mechanism]} · ${row.maturity === "accepted" ? "Outline accepted" : row.maturity}`;
+  area.append(title);
+  for (const assumption of row.assumptions) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = `${assumption.id}: ${assumption.purpose} Bounds: ${JSON.stringify(assumption.bounds)}. Source: ${assumption.source}`;
+    area.append(paragraph);
+  }
+  for (const task of row.tasks) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = task.explanation || task.reason || task.action || JSON.stringify(task);
+    area.append(paragraph);
+  }
+  document.getElementById("outline-detail").open = true;
+}
+outlineForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = document.getElementById("outline-generate");
+  button.disabled = true;
+  outlineStatus.textContent = "Screening service choices and recalculating fleet, production and fourteen cost scopes…";
+  document.getElementById("outline-results").hidden = true;
+  try {
+    const fields = new FormData(outlineForm);
+    const brief = {
+      route_km: Number(fields.get("route_km")), stations: Number(fields.get("stations")),
+      peak_demand_pphpd: Number(fields.get("peak_demand_pphpd")),
+      maximum_one_way_minutes: Number(fields.get("maximum_one_way_minutes")),
+      maximum_headway_s: Number(fields.get("maximum_headway_s")),
+      planning_occupancy: Number(fields.get("occupancy_percent")) / 100,
+      operating_hours_per_day: Number(fields.get("operating_hours_per_day")),
+      availability_target: .99, planning_availability_assumption: .99,
+      demand_source: "User-entered planning brief; survey evidence not attached"
+    };
+    const response = await fetch("/api/outline-study", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({brief})});
+    const value = await response.json();
+    if (!response.ok) throw Error(value.error || "Outline calculation unavailable");
+    const body = document.getElementById("outline-rows");
+    body.replaceChildren();
+    for (const row of value.outlines) {
+      const tr = document.createElement("tr");
+      const values = [launchNames[row.mechanism],`${row.headway_s}s · ${row.speed_kmh.toFixed(0)} km/h · ${row.acceleration_m_s2} m/s²`,
+        `${row.journey_minutes.toFixed(1)} min`,row.trainsets,
+        moneyMillions(row.price_per_route_km_usd.base),moneyMillions(row.whole_life_npv_usd.base),
+        row.maturity === "accepted" ? "Outline accepted" : row.maturity];
+      for (const text of values) { const td=document.createElement("td"); td.textContent=text; tr.append(td); }
+      const td=document.createElement("td"), inspect=document.createElement("button");
+      inspect.textContent="Inspect outline"; inspect.addEventListener("click",()=>outlineInspect(row)); td.append(inspect); tr.append(td); body.append(tr);
+    }
+    const selected=value.outlines.find(row=>row.outline_id===value.recommended_outline_id);
+    document.getElementById("outline-recommendation").textContent = selected
+      ? `Lowest central whole-life estimate in this bounded search: ${launchNames[selected.mechanism]}. Installed range ${moneyMillions(selected.installed_capital_usd.low)}–${moneyMillions(selected.installed_capital_usd.high)}; these are sensitivity cases, not confidence limits.`
+      : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
+    const links=document.getElementById("outline-artifacts"); links.replaceChildren();
+    for (const [file,label] of [["result.json","Complete study and evidence"],["manifest.json","Source and artifact identities"],["performance.json","Execution measurements"]]) {
+      const link=document.createElement("a"); link.href=value.artifact_url+file; link.textContent=label; links.append(link);
+    }
+    document.getElementById("outline-results").hidden=false;
+    outlineStatus.textContent=`${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · requirements ${value.requirements_id.slice(0,12)}.`;
+    if (selected) outlineInspect(selected);
+  } catch(error) {
+    outlineStatus.textContent=`Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;
+  } finally {button.disabled=false;}
+});

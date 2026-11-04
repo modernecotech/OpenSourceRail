@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenSourceRail · Current development design</title>
+    <title>OpenSourceRail · Create and compare railway outlines</title>
     <link rel="stylesheet" href="app.css" />
     <script src="app.js" defer></script>
   </head>
@@ -13,11 +13,46 @@
       ><span class="tag">Current development design</span>
     </header>
     <main>
+      <section class="panel outline-start" aria-labelledby="outline-heading">
+        <p class="eyebrow">Requirements → generate → compare → detail → delivery</p>
+        <h1 id="outline-heading">Create a railway outline</h1>
+        <p>Describe the service your city needs. Compare station launch concepts,
+          service frequency, fleet and whole-life cost using explicit planning assumptions.</p>
+        <form id="outline-form">
+          <div class="outline-inputs">
+            <label>Route length · km<input name="route_km" type="number" min="1" max="100" step="0.1" value="30" required /></label>
+            <label>Stations, including terminals<input name="stations" type="number" min="2" max="100" value="12" required /></label>
+            <label>Peak passengers / hour / direction<input name="peak_demand_pphpd" type="number" min="1" max="50000" value="4000" required /></label>
+            <label>Maximum one-way journey · minutes<input name="maximum_one_way_minutes" type="number" min="5" max="240" value="45" required /></label>
+            <label>Longest planned wait between trains · seconds<input name="maximum_headway_s" type="number" min="30" max="1800" value="300" required /></label>
+            <label>Planning occupancy · %<input name="occupancy_percent" type="number" min="10" max="100" value="85" required /></label>
+            <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
+          </div>
+          <p class="note">Starting example: level, fully elevated double track; six 17 m cars with
+            276 seated/wheelchair places, no planned standing. Demand and 99% service availability
+            are planning assumptions. Two shifts for production and construction.</p>
+          <button type="submit" id="outline-generate">Generate and compare outlines</button>
+        </form>
+        <p id="outline-status" role="status" aria-live="polite">Headway, speed and acceleration are explored rather than fixed.</p>
+        <div id="outline-results" hidden>
+          <div class="table-scroll"><table>
+            <caption>Best calculated whole-life case retained for each launch method</caption>
+            <thead><tr><th>Launch concept</th><th>Service</th><th>Journey</th><th>Trainsets</th><th>Installed cost / km</th><th>30-year NPV</th><th>Design stage</th><th>Inspect</th></tr></thead>
+            <tbody id="outline-rows"></tbody>
+          </table></div>
+          <p id="outline-recommendation"></p>
+          <details id="outline-detail"><summary>Assumptions and next engineering work</summary><div id="outline-evidence"></div></details>
+          <nav id="outline-artifacts" aria-label="Outline study downloads"></nav>
+          <p class="note">Outline acceptance permits comparison and further detailing.
+            Actual force, braking, structure, fire, accessibility, reliability and independent release
+            still require engineering evidence. Selecting an outline here does not change the development reference.</p>
+        </div>
+      </section>
       <section class="intro">
         <p class="eyebrow">
           Simple infrastructure. Comfortable, frequent trains.
         </p>
-        <h1>A simpler wheel-supported train, launched at stations.</h1>
+        <h2>The selected development reference</h2>
         <p>
           Version 0.6 uses six cars with four-abreast seating and wheelchair
           spaces. Passive wheel bogies run on conventional rails carried by

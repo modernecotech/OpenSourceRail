@@ -1,0 +1,62 @@
+# Demand-led railway outlines
+
+The Workbench can now finish a **provisional outline study** from a passenger-service brief. Headway, speed, acceleration and dwell are design variables. The 120-second development reference remains a named comparison, rather than a universal operating requirement.
+
+Open the local Workbench with `./osr workbench`, enter the route, stations, peak directional demand, occupancy and journey limit, then generate and compare outlines. Inspect an outline to see its assumptions and next engineering tasks, or download its complete cost ledger and evidence record. No business-system transaction or hardware selection occurs.
+
+## What the current implementation completes
+
+1. Creates a requirements identity from the demand and service brief.
+2. Adds a demand-derived headway to the supplied service hypotheses.
+3. Screens conditional journeys, capacity, fleet, auxiliary charging, launch reset and terminal resource bounds. Rejected and deferred cases remain in the study.
+4. Recalculates rolling stock, civil quantities, stations, launch power, factory/tooling, construction, depot, operating labour, energy, maintenance and renewals across all 14 cost scopes.
+5. Retains the lowest central whole-life estimate for each of three launch concepts: cable/capstan, common-drive rollers and compact LIM. Every priced case remains in the compact cost index.
+6. Assigns outline maturity using explicit geometry envelopes, bounded mass, calculated costs, provisional production routes and assumptions.
+7. Exports an immutable study with requirements, source identities, assumptions, manufacturing/resource quantities and subsequent verification tasks.
+
+The current formation is six 17 m cars with 276 normal places and no planned standing. Other formations, running gear, arbitrary organic geometry and propulsion architectures still need their own adapters and complete system consequences. Example parameter lists and the bounded 128-screen invocation budget do not define the complete permissible design space.
+
+## A completed planning example
+
+The [reproducible inputs](inputs.json) declare 30 route-km, 12 uniformly spaced stations including terminals, 4,000 peak passengers/hour/direction, 85% occupancy, a 45-minute journey limit, a maximum 300-second headway and an **assumed**, unmeasured 99% service availability. The line is level and fully elevated. Production and construction use two shifts; operating hours can be 18 in two shifts or 24 in three shifts.
+
+The reference run screened 84 service cases and produced 47 complete cost cases in approximately three seconds on the development machine, with zero native solver jobs. Source-bound summaries are in [summary.json](summary.json); source and artifact bindings are in [manifest.json](manifest.json). Runtime measurements belong to the private execution record and are not universal throughput claims.
+
+| Retained launch concept | Headway | Speed cap | Acceleration | Fleet including reserves | Central installed cost | Central cost / route-km |
+| --- | --- | --- | --- | --- | --- | --- |
+| Cable / capstan | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$568.6m | US$18.95m |
+| Common-drive rollers | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$580.1m | US$19.34m |
+| Compact LIM | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$601.8m | US$20.06m |
+
+These are **Class C engineering estimates**, using the same price assumptions as the [30 km benchmark](../line30-benchmark/README.md). The cable example has approximately 42.35 minutes one-way journey time. Its installed low/base/high sensitivity is US$163.1m / US$568.6m / US$2,776.8m, and central 30-year whole-life NPV is US$1,148.5m. The broad ranges are sensitivity cases, not confidence limits or supplier offers.
+
+The original benchmark remains US$738.0m / US$24.6m per route-km with 52 trains and a 120-second headway for 8,280 nominal places/hour/direction. The demand example and that reference have different service briefs; their price difference is not an equal-service optimization saving. Comparisons within one outline study share the same requirements identity.
+
+## Progressive acceptance
+
+An **accepted outline** is a successful design-stage result for comparison and further detailing. It can use explicit bounded assumptions, internally calculated prices and provisional manufacturing routes. A missing supplier quote or prototype test does not by itself reject the outline.
+
+Execution status, numerical validity, outline acceptance, analytical screening, detailed engineering, prototype validation, manufacturing release and operating release remain separate. A supported physical contradiction requires revision. An unsupported model result or missing later-stage evidence creates an evidence task. Unknown mass or cost never becomes zero.
+
+The current launch packages calculate required force and equipment capacity. They do not establish available thrust, coupling integrity, repeated thermal duty, independent stopping, safe separation, conflict-free turnback, complete installed mass/CG, structural/fire performance or physical accessibility acceptance. Mass bounds vary the residual accounts; service and cost comparisons use the stated nominal mass. Independent qualification remains governed by the existing evidence workflow.
+
+## Reference intelligence and reverse engineering
+
+Three linked libraries hold functional patterns, physical solutions and production methods. Each record retains source bytes or hashes, units, uncertainty, rights declarations, interfaces, assumptions and remaining evidence work. Unknown permitted use can be stored for review but cannot become implementation-reusable evidence.
+
+The owned-source pilot actually exercises three offline ERP draft behavior fixtures: disabled draft generation, active-item refusal and mixed-candidate refusal. It also records a source-inspected Rust protocol pattern and reconstructs a bounded, owned 12-triangle plate fixture after manifold, orientation and volume checks. These are software/geometry checks, not observations of railway hardware.
+
+The optional [REA](https://github.com/morluto/rea) adapter prepares bounded authorized inspection tasks and imports normalized observations. **REA is not installed or executed by this workflow.** Complete source uses ordinary source analysis; upstream permission claims require a separate operator declaration before reuse. Physical reconstruction recipes distinguish [Open3D](https://www.open3d.org/docs/latest/), [nickpagz/stl2step](https://github.com/nickpagz/stl2step) and other similarly named tools. Plans do not execute arbitrary commands, and the limited plate reconstruction does not claim general organic CAD recovery.
+
+## Reproduce and verify
+
+From the repository root:
+
+```sh
+.venv/bin/python -m engineering.outline run \
+  --brief docs/design-engine/demand-outline/inputs.json \
+  --output build/my-demand-outline
+.venv/bin/python -m engineering.outline verify --output build/my-demand-outline
+```
+
+Use a fresh output directory. Verification replays the calculation and compares canonical outputs. Full reproducible runs remain outside Git; the repository retains compact inputs, summaries and hashes. Numerical or hardware approval is never inferred from an outline manifest.

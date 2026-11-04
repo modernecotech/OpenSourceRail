@@ -58,6 +58,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        from engineering.outline.interactive import handle_api as outline_api
+        if outline_api(self):
+            return
         from engineering.trip_dynamics.interactive import handle_api
         if handle_api(self):
             return
@@ -145,6 +148,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        from engineering.outline.interactive import handle_api as outline_api
+        if outline_api(self):
+            return
         from engineering.trip_dynamics.interactive import handle_api
         if handle_api(self):
             return

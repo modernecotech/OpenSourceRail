@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **117**.
+Indexed Markdown files: **118**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **117**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 92 |
+| [docs](#docs) | 93 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -94,6 +94,7 @@ Indexed Markdown files: **117**.
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
 | [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
+| [`docs/design-engine/demand-outline/README.md`](../docs/design-engine/demand-outline/README.md) | Demand-led railway outlines |
 | [`docs/design-engine/demonstrator-handoffs.md`](../docs/design-engine/demonstrator-handoffs.md) | Civil and station demonstrator handoffs |
 | [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
 | [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
