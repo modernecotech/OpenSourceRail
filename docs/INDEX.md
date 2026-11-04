@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **116**.
+Indexed Markdown files: **117**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **116**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 91 |
+| [docs](#docs) | 92 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -107,6 +107,7 @@ Indexed Markdown files: **116**.
 | [`docs/design-engine/implicit-geometry-study/README.md`](../docs/design-engine/implicit-geometry-study/README.md) | Three-dimensional implicit cellular geometry study |
 | [`docs/design-engine/installed-mass-support/README.md`](../docs/design-engine/installed-mass-support/README.md) | Conditional vehicle mass and support sensitivity |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
+| [`docs/design-engine/line30-benchmark/README.md`](../docs/design-engine/line30-benchmark/README.md) | 30 km / 12 station cost benchmark |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle residual mass completion |
 | [`docs/design-engine/matched-renewal-research/README.md`](../docs/design-engine/matched-renewal-research/README.md) | Matched renewal research |

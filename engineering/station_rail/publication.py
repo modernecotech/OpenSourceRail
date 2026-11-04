@@ -105,19 +105,23 @@ def _linked_packet_sources(root,folder,contract):
 
 def linked_publication_sources(root=ROOT):
     """Fail early on stale current packets; retain their exact dependency maps."""
-    from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch
+    from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch,line_benchmark
     from . import closure_retention
     historical=retained_publication.verify(root)
     followup=closure_retention.verify(root)
     thermal=retained_periodic_thermal.verify(root)
     compact_launch.verify(Path(root)/'docs/design-engine/compact-launch',root=root)
-    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
+    benchmark=line_benchmark.active_baseline(root)
+    benchmark_sources={**benchmark['source_sha256'],**{
+        'docs/design-engine/line30-benchmark/'+name:digest(Path(root)/'docs/design-engine/line30-benchmark'/name)
+        for name in ('result.json','README.md','manifest.json')}}
+    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],benchmark_sources,*[_linked_packet_sources(root,folder,contract)
         for folder,contract in LINKED_PUBLICATIONS.items()])
 
 
 def linked_publication_scope():
     return dict(current_source_and_declared_payload=sorted(LINKED_PUBLICATIONS),
-        replayed_analytical_research=['compact-launch'],
+        replayed_analytical_research=['compact-launch','line30-benchmark'],
         original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure','periodic-thermal-research'],
         numerical_or_physical_validation_by_this_check=False)
 
@@ -837,6 +841,9 @@ def readme(record,summary,root=ROOT,*,compiled=None):
     city_gap=o['longest_city_gap_context']
     mass_ledger_path=Path(root)/'docs/design-engine/mass-reconciliation/current/summary.json'
     mass_ledger=json.loads(mass_ledger_path.read_bytes())
+    from engineering.design_search import line_benchmark
+    benchmark=line_benchmark.active_baseline(root)
+    budget=next(x for x in benchmark['variants'] if x['mechanism']==benchmark['baseline_mechanism'])
     if any(mass_ledger.get(key)!=record[key] for key in ('candidate_id','body_candidate_id','selection_id')) or mass_ledger.get('selected_evaluation_id')!=record['evaluation_id']:
         raise ValueError('Mass reconciliation identities differ from current selected evaluation')
     lines=['# v0.6 station-powered freewheeling rail','',
@@ -856,6 +863,7 @@ def readme(record,summary,root=ROOT,*,compiled=None):
       f"The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
       f"Full-train engagement requires **{z['required_shared_winding_m']:.1f} m** of shared launch/receiving winding; the library chooses **{z['length_m']:.0f} m**, **{z['sections_per_direction']} sections/direction** at 12.5 m and at least two independently controlled train branches. The **{z['nominal_resource_interval_s']:.2f} s** nominal berth interval is a necessary resource screen, not verified two-minute operation.",'',
       'The 0.4 m/s² acceleration and shared-winding arrangement are revisable hypotheses. The [compact, affordable launch comparison](../compact-launch/README.md) evaluates faster acceleration and different mechanisms against the same reference mass and service case. It distinguishes motion distance, full-train contact coverage and receiving hardware; shorter acceleration does not by itself demonstrate available thrust, lower installed cost or acceptable passenger jerk.','',
+      f"The separate [30 km / 12 station analysis benchmark](../line30-benchmark/README.md) uses 72 km/h, 1.0 m/s², 120-second headway and a provisional compact rotary cable launch. Its Class C base budget is **USD {budget['installed_capital_usd']['base']/1e6:,.1f} million**, or **USD {budget['price_per_route_km_usd']['base']/1e6:.2f} million per route-km**, including {budget['service']['total_trainsets']} six-car trains, civil/station/power works, depot/production allowances, testing and contingency. This is an analysis reference with separate low/high sensitivities; it changes no selected hardware and supplies no available-force, site or physical approval. The [analysis selector](../../../engineering/analysis-baseline.toml) fixes the comparison scope independently of the development vehicle selector.",'',
       'Reference profiles cover empty, normal-load and 160-person structural-control cases at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
       'The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit enclosure/cooling/conversion accounts. The 200 kW charging target passes a catalogue voltage/current necessary bound; available charge power versus SOC/temperature remains unknown. A 50°C environment exceeds the module ambient catalogue range. Normal 35 kW/car hotel duty balances in the prototype calculation; 50 kW/car adverse duty needs more charging. Solar yield is not guaranteed or credited to make the balance pass.','',
       'The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.','',

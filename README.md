@@ -181,6 +181,8 @@ The selected v0.6 vehicle now has a separate Class C estimate for factory produc
 
 ## Current engineering and the next working-system milestone
 
+The [30 km / 12 station cost benchmark](docs/design-engine/line30-benchmark/README.md) is the working reference for equal-service design analysis: a double-track elevated line, 72 km/h, 1.0 m/s², 120-second peak headway and 276 places/train. Its **Class C central estimate is USD 738 million, or USD 24.6 million per route-km**, including **52 six-car trains**, stations, civil works, compact launch/power equipment, depot, production/tooling, testing and contingency. The [versioned criteria](campaigns/line30-affordable-benchmark.toml) and [analysis selector](engineering/analysis-baseline.toml) retain the assumptions, full ledger and broad sensitivities. Cable launch is a provisional budget anchor; the selected hardware, engineering acceptance and physical release remain separate. Future comparisons must preserve transport requirements and use the same rate basis; different formations, seating, bogies and propulsion arrangements need their own complete quantities and service calculations.
+
 The [current dossier](docs/design-engine/current/README.md) records the selected
 candidate and its evidence. The [coordinated railway campaign](docs/design-engine/coupled-railway/README.md)
 passes one candidate identity through geometry, mass, analysis, delivery and

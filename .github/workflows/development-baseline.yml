@@ -224,6 +224,10 @@ jobs:
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_compact_launch.py
           .venv/bin/python -m engineering.design_search.compact_launch --verify --output docs/design-engine/compact-launch
+      - name: Equal-service 30 km budget benchmark
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_line_benchmark.py tests/test_line_benchmark_service.py tests/test_line_benchmark_civil.py
+          .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
       - name: Stepped civil mechanics and portable publication compression
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_beam.py engineering/design_search/tests/test_civil_section_model.py engineering/design_search/tests/test_civil_shape_mechanics.py engineering/design_search/tests/test_portable_gzip.py

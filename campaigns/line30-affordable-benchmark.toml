@@ -1,0 +1,154 @@
+schema = "osr-line-budget-benchmark/1"
+revision = "LINE30-12-FAST-1"
+purpose = "equal-service-cost-analysis"
+baseline_mechanism = "cable-capstan"
+physical_reference_changed = false
+estimate_date = "2026-11-04"
+
+[requirements]
+alignment_id = "synthetic-level-terminal-line-30km-12-uniform-stops"
+minimum_capacity_pphpd = 8280.0
+route_km = 30.0
+stations = 12
+trackways = 2
+cars_per_train = 6
+fixed_seats_per_car = 44
+wheelchair_places_per_car = 2
+headway_s = 120.0
+dwell_s = 35.0
+operating_hours_per_day = 18.0
+operating_days_per_year = 365
+design_life_years = 30
+real_discount_rate = 0.04
+planned_standing_per_car = 0
+
+[design]
+speed_m_s = 20.0
+acceleration_m_s2 = 1.0
+service_deceleration_m_s2 = 0.6
+jerk_m_s3 = 0.5
+terminal_turnback_s = 180.0
+schedule_running_time_margin_fraction = 0.05
+reserve_fraction = 0.15
+added_vehicle_mass_kg_per_car = 250.0
+aux_kw_per_car = 35.0
+charger_kw_per_car = 200.0
+charge_efficiency = 0.95
+span_m = 20.0
+pier_height_m = 8.0
+platform_length_m = 120.0
+platform_width_m = 4.0
+soil_cases_kpa = [300.0, 200.0, 100.0]
+route_grade_fraction = 0.0
+include_walkway_gravity = true
+load_detail_reserve_fraction = 0.05
+production_years = 3
+production_days_per_year = 250
+production_shifts = 2
+civil_shifts = 2
+hours_per_production_shift = 8.0
+productive_utilisation = 0.75
+
+[currency]
+iqd_per_usd = 1510.0
+source_url = "https://cbi.iq/"
+observed_date = "2026-11-04"
+source_fact = "CBI homepage displayed USD 1510 IQD; fixed translation rate, not a procurement FX guarantee."
+
+[rotary]
+# All triples are low/base/high engineering hypotheses. Product observations
+# calibrate bare equipment only; compatibility, duty and available force are open.
+motor_usd_per_shaft_kw = [80.0, 100.0, 140.0]
+converter_usd_per_kva = [80.0, 100.0, 160.0]
+integration_usd_per_shaft_kw = [100.0, 200.0, 500.0]
+grid_protection_usd_per_kva = [75.0, 150.0, 300.0]
+electrical_install_usd_per_kva = [20.0, 50.0, 100.0]
+transmission_efficiency = 0.90
+motor_efficiency = 0.93
+vfd_efficiency = 0.97
+power_factor = [0.95, 0.90, 0.85]
+capacity_margin = [1.10, 1.25, 1.50]
+rope_usd_per_m = [25.0, 60.0, 150.0]
+rope_length_per_stroke = 2.5
+return_guide_usd_per_m = [75.0, 150.0, 350.0]
+winch_grip_drum_anchors_usd_per_site = [100000.0, 300000.0, 1000000.0]
+return_speed_m_s = 4.0
+coupling_reset_s = 10.0
+roller_spacing_m = 4.0
+roller_unit_usd = [1500.0, 4000.0, 12000.0]
+roller_common_drive_usd_per_m = [250.0, 750.0, 2000.0]
+
+[lim]
+efficiency = 0.65
+power_factor = [0.90, 0.70, 0.50]
+copper_iqd_per_kg = [14000.0, 18000.0, 28000.0]
+electrical_steel_iqd_per_kg = [2000.0, 4000.0, 8000.0]
+fabrication_h_per_kg = [0.05, 0.18, 0.60]
+support_cooling_installed_iqd_per_m = [300000.0, 1000000.0, 4000000.0]
+unresolved_thrust_design_cost_multiplier = [1.0, 1.5, 2.5]
+
+[capital]
+vehicle_interface_iqd_per_kg = [8000.0, 16000.0, 40000.0]
+charger_usd_per_kw = [120.0, 220.0, 450.0]
+charger_install_fraction = [0.10, 0.20, 0.35]
+terminal_layout_iqd_per_end = [500000000.0, 1500000000.0, 5000000000.0]
+route_control_iqd_per_km = [50000000.0, 150000000.0, 500000000.0]
+row_width_m = 20.0
+new_row_acquisition_fraction = [0.05, 0.10, 0.25]
+land_iqd_per_m2 = [25000.0, 75000.0, 250000.0]
+utilities_iqd_per_route_km = [100000000.0, 600000000.0, 3000000000.0]
+depot_storage_track_pitch_m = 4.0
+depot_storage_length_per_train_m = 110.0
+depot_workshop_fraction_of_fleet = 0.10
+depot_bay_length_m = 120.0
+depot_bay_width_m = 8.0
+depot_circulation_fraction = 0.30
+depot_earthworks_iqd_per_m2 = [50000.0, 150000.0, 450000.0]
+depot_building_iqd_per_m2 = [300000.0, 700000.0, 1800000.0]
+depot_trackbed_iqd_per_track_m = [100000.0, 200000.0, 600000.0]
+depot_turnout_iqd_each = [150000000.0, 400000000.0, 1500000000.0]
+depot_workshop_equipment_iqd_per_bay = [500000000.0, 1500000000.0, 5000000000.0]
+depot_services_iqd = [1000000000.0, 3000000000.0, 10000000000.0]
+workplace_tooling_iqd = [10000000.0, 20000000.0, 50000000.0]
+vehicle_fixture_sets = 4
+vehicle_fixture_iqd = [10000000.0, 50000000.0, 250000000.0]
+workspace_area_m2 = 15.0
+assembly_bay_area_m2 = 1200.0
+assembly_crew_per_bay = 6
+factory_storage_area_factor = 1.5
+factory_building_iqd_per_m2 = [250000.0, 600000.0, 1500000.0]
+precast_mould_cycle_days = [2.0, 5.0, 10.0]
+precast_mould_iqd = [75000000.0, 250000000.0, 1000000000.0]
+precast_crew_per_cell = 8
+precast_cell_iqd = [100000000.0, 500000000.0, 2500000000.0]
+precast_yard_hold_workdays = 21
+precast_bed_width_m = 5.0
+precast_storage_width_m = 4.0
+precast_storage_utilisation = 0.75
+precast_yard_iqd_per_m2 = [50000.0, 150000.0, 450000.0]
+engineering_testing_fraction = [0.05, 0.08, 0.12]
+tax_duty_provision_fraction = [0.02, 0.05, 0.10]
+project_contingency_fraction = [0.15, 0.25, 0.40]
+financing_provision_fraction = [0.05, 0.10, 0.20]
+
+[lifecycle]
+reserve_aux_fraction = 0.10
+station_aux_kw_each = [20.0, 40.0, 80.0]
+depot_aux_kw = [100.0, 200.0, 400.0]
+maintenance_fraction = [0.015, 0.030, 0.060]
+vehicle_life_years = [25, 20, 15]
+drive_life_years = [25, 20, 15]
+electronics_life_years = [20, 15, 10]
+service_battery_life_years = [10, 8, 6]
+decommission_fraction = [0.01, 0.03, 0.08]
+
+[calibration]
+motor_url = "https://www.automationdirect.com/adc/shopping/catalog/motors/ac_motors/general_purpose_and_inverter_rated/mtcp2-300-3d18"
+motor_model = "MTCP2-300-3D18"
+motor_price_usd = 22007.0
+vfd_url = "https://www.automationdirect.com/adc/shopping/catalog/drives_-a-_soft_starters/ac_variable_frequency_drives_(vfd)/high-performance_vfds/gs4-4300"
+vfd_model = "GS4-4300"
+vfd_price_usd = 22173.0
+rating_hp = 300.0
+observed_date = "2026-11-04"
+evidence = "First-party US catalogue observations. Bare equipment calibration only: no Iraq quotation, 50 Hz compatibility, railway duty or available-force acceptance."
