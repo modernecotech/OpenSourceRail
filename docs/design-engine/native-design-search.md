@@ -86,8 +86,11 @@ and 505,636 KiB peak RSS under a 1 GiB limit. Its audit SHA-256 is
 
 The later `998c0136` native-methods CI failure was a rustup installation conflict
 before compilation; the earlier green run had skipped those native jobs. The job
-now installs/checks Rust 1.92 in fresh runner directories before the unchanged
-five-crate control command. All 158 control tests passed locally. The current
+now initializes isolated paths through `RUNNER_TEMP` and `GITHUB_ENV`, then
+installs/checks Rust 1.92 before the unchanged five-crate control command.
+Actionlint 1.7.12 validates both changed workflows; regression checks execute the
+initializers and reject unsupported job-level runner-context expressions.
+All 158 control tests passed locally. The current
 dossier was regenerated with its pinned environment after the workflow/lockfile
 changes; selected identities, numerical requests/results and physical holds are
 unchanged. Dedicated Python 3.12/3.13 CI jobs build the optional encoder explicitly
@@ -545,7 +548,7 @@ including the native backend and entrypoint contracts. The added legacy Unicode
 compatibility control also passed separately on both versions, with
 the opt-in native bending control separately passing and both native controls
 required in CI. The unchanged search kernel retains its 15 Rust tests, with
-three new canonical-core controls; 36 CI routing tests passed. `./osr verify` replayed the
+three new canonical-core controls; 37 CI routing tests passed. `./osr verify` replayed the
 current selected publication successfully without regenerating its packets. The
 opt-in native control remains a separate CI job.
 

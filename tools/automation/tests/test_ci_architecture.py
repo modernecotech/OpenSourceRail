@@ -116,17 +116,37 @@ def twin_python_blocks(step):
                        step, re.M | re.S)]
 
 
+def isolated_rust_path_script(block, prefix, *, target=False):
+    """Validate the fail-fast environment step and return its executable shell."""
+    job_env = block.split('    steps:\n', 1)[0]
+    assert not re.search(r'\$\{\{\s*runner\.', job_env, re.I), 'runner context is unavailable in job env'
+    header = '      - name: Initialize isolated Rust paths\n'
+    action = '      - uses: dtolnay/rust-toolchain@1.92.0\n'
+    assert block.count(header) == block.count(action) == 1
+    assert block.index(header) < block.index(action)
+    step = block.split(header, 1)[1].split('      - ', 1)[0]
+    assert not re.search(r'^        (?:if|continue-on-error|shell):', step, re.M)
+    match = re.fullmatch(r'        run: \|\n((?: {10}[^\n]*\n)+)', step)
+    assert match, 'Rust path initialization must be an unconditional shell step'
+    lines = [line[10:] for line in match.group(1).splitlines()]
+    expected = ['test -n "${RUNNER_TEMP:-}"', 'test -n "${GITHUB_ENV:-}"',
+        f'printf \'RUSTUP_HOME=%s\\n\' "$RUNNER_TEMP/osr-{prefix}-rustup" >> "$GITHUB_ENV"',
+        f'printf \'CARGO_HOME=%s\\n\' "$RUNNER_TEMP/osr-{prefix}-cargo" >> "$GITHUB_ENV"']
+    if target:
+        expected.append(f'printf \'CARGO_TARGET_DIR=%s\\n\' "$RUNNER_TEMP/osr-{prefix}-target" >> "$GITHUB_ENV"')
+    assert lines == expected
+    return '\n'.join(lines) + '\n'
+
+
 def validate_native_control_toolchain(text):
     """Keep native Rust control tests on a fresh pinned toolchain, without skips."""
     native = job_blocks(text)['native-methods']
     for line in (
-        '      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup',
-        '      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo',
-        '      CARGO_TARGET_DIR: ${{ runner.temp }}/osr-native-target',
         '      RUSTUP_TOOLCHAIN: "1.92.0"',
         '      CARGO_BUILD_JOBS: "2"',
     ):
         assert re.search(r'^'+re.escape(line)+r'$', native, re.M), line
+    isolated_rust_path_script(native, 'native', target=True)
     action='      - uses: dtolnay/rust-toolchain@1.92.0\n'
     header='      - name: Verify isolated Rust toolchain\n'
     cargo='      - run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada\n'
@@ -147,11 +167,12 @@ def validate_native_canonical_job(text):
     assert 'native-canonical-parity' in jobs
     block=jobs['native-canonical-parity']
     for required in ('python: ["3.12", "3.13"]', 'timeout-minutes: 15',
-            'RUSTUP_HOME: ${{ runner.temp }}/osr-canonical-rustup',
-            'CARGO_HOME: ${{ runner.temp }}/osr-canonical-cargo',
             'RUSTUP_TOOLCHAIN: "1.92.0"', 'CARGO_BUILD_JOBS: "2"',
             'OSR_TEST_NATIVE_CANONICAL: "1"', 'uses: dtolnay/rust-toolchain@1.92.0'):
         assert required in block, required
+    isolated_rust_path_script(block, 'canonical')
+    assert ('      - uses: dtolnay/rust-toolchain@1.92.0\n'
+            '        with:\n          components: clippy\n') in block
     build='      - name: Build explicit source-bound kernel and interpreter-specific extension\n'
     verify='      - name: Require exact canonical parity and unchanged campaign results\n'
     assert block.count(build)==block.count(verify)==1
@@ -540,8 +561,10 @@ class ArchitectureRoutingTests(unittest.TestCase):
     def test_native_control_toolchain_is_isolated_pinned_and_mandatory(self):
         validate_native_control_toolchain(self.current)
         for old,new in (
-                ('      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup', '      RUSTUP_HOME: /home/runner/.rustup'),
-                ('      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo', '      CARGO_HOME: /home/runner/.cargo'),
+                ('"$RUNNER_TEMP/osr-native-rustup"', '"/home/runner/.rustup"'),
+                ('"$RUNNER_TEMP/osr-native-cargo"', '"/home/runner/.cargo"'),
+                ('      RUSTUP_TOOLCHAIN: "1.92.0"', '      RUSTUP_HOME: ${{ runner.temp }}/rustup\n      RUSTUP_TOOLCHAIN: "1.92.0"'),
+                ('      - name: Initialize isolated Rust paths', '      - if: false\n        name: Initialize isolated Rust paths'),
                 ('      RUSTUP_TOOLCHAIN: "1.92.0"', '      RUSTUP_TOOLCHAIN: stable'),
                 ('      - uses: dtolnay/rust-toolchain@1.92.0', '      - uses: dtolnay/rust-toolchain@stable'),
                 ('      - name: Verify isolated Rust toolchain', '      - if: false\n        name: Verify isolated Rust toolchain'),
@@ -556,6 +579,10 @@ class ArchitectureRoutingTests(unittest.TestCase):
         validate_native_canonical_job(self.shared)
         block=job_blocks(self.shared)['native-canonical-parity']
         for old,new in (('python: ["3.12", "3.13"]','python: ["3.13"]'),
+                ('      RUSTUP_TOOLCHAIN: "1.92.0"','      CARGO_HOME: ${{ runner.temp }}/cargo\n      RUSTUP_TOOLCHAIN: "1.92.0"'),
+                ('"$RUNNER_TEMP/osr-canonical-rustup"','"/home/runner/.rustup"'),
+                ('          components: clippy','          components: rustfmt'),
+                ('      - name: Initialize isolated Rust paths','      - if: false\n        name: Initialize isolated Rust paths'),
                 ('OSR_TEST_NATIVE_CANONICAL: "1"','OSR_TEST_NATIVE_CANONICAL: "0"'),
                 ('uses: dtolnay/rust-toolchain@1.92.0','uses: dtolnay/rust-toolchain@stable'),
                 ('python -m engineering.design_search.native_canonical build','echo extension-not-built'),
@@ -564,6 +591,24 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('      - name: Check the optional Rust extension','      - continue-on-error: true\n        name: Check the optional Rust extension')):
             with self.subTest(changed=old),self.assertRaises(AssertionError):
                 validate_native_canonical_job(self.shared.replace(block,block.replace(old,new,1)))
+
+    def test_rust_path_initializers_write_runner_temp_before_install(self):
+        jobs = ((job_blocks(self.current)['native-methods'], 'native', True),
+                (job_blocks(self.shared)['native-canonical-parity'], 'canonical', False))
+        with tempfile.TemporaryDirectory(prefix='osr rust env ') as directory:
+            for block, prefix, target in jobs:
+                script = isolated_rust_path_script(block, prefix, target=target)
+                env_path = Path(directory) / (prefix + '.env')
+                env = dict(os.environ, RUNNER_TEMP=directory, GITHUB_ENV=str(env_path))
+                subprocess.run(['bash', '-e', '-c', script], env=env, check=True)
+                expected = [f'RUSTUP_HOME={directory}/osr-{prefix}-rustup',
+                            f'CARGO_HOME={directory}/osr-{prefix}-cargo']
+                if target: expected.append(f'CARGO_TARGET_DIR={directory}/osr-{prefix}-target')
+                self.assertEqual(env_path.read_text().splitlines(), expected)
+                for missing in ('RUNNER_TEMP', 'GITHUB_ENV'):
+                    incomplete = dict(env); incomplete.pop(missing)
+                    result = subprocess.run(['bash', '-e', '-c', script], env=incomplete, capture_output=True)
+                    self.assertNotEqual(result.returncode, 0, missing)
 
     def test_digital_twin_disk_thresholds_fail_before_download(self):
         _, install = twin_storage_steps(DIGITAL_TWIN_WORKFLOW.read_text())

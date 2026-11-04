@@ -400,9 +400,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
-      RUSTUP_HOME: ${{ runner.temp }}/osr-native-rustup
-      CARGO_HOME: ${{ runner.temp }}/osr-native-cargo
-      CARGO_TARGET_DIR: ${{ runner.temp }}/osr-native-target
       RUSTUP_TOOLCHAIN: "1.92.0"
       CARGO_BUILD_JOBS: "2"
     steps:
@@ -414,6 +411,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Initialize isolated Rust paths
+        run: |
+          test -n "${RUNNER_TEMP:-}"
+          test -n "${GITHUB_ENV:-}"
+          printf 'RUSTUP_HOME=%s\n' "$RUNNER_TEMP/osr-native-rustup" >> "$GITHUB_ENV"
+          printf 'CARGO_HOME=%s\n' "$RUNNER_TEMP/osr-native-cargo" >> "$GITHUB_ENV"
+          printf 'CARGO_TARGET_DIR=%s\n' "$RUNNER_TEMP/osr-native-target" >> "$GITHUB_ENV"
       - uses: dtolnay/rust-toolchain@1.92.0
       - name: Verify isolated Rust toolchain
         run: |

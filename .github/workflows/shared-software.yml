@@ -121,8 +121,6 @@ jobs:
       matrix:
         python: ["3.12", "3.13"]
     env:
-      RUSTUP_HOME: ${{ runner.temp }}/osr-canonical-rustup
-      CARGO_HOME: ${{ runner.temp }}/osr-canonical-cargo
       CARGO_BUILD_JOBS: "2"
       RUSTUP_TOOLCHAIN: "1.92.0"
       OPENBLAS_NUM_THREADS: "1"
@@ -134,7 +132,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Initialize isolated Rust paths
+        run: |
+          test -n "${RUNNER_TEMP:-}"
+          test -n "${GITHUB_ENV:-}"
+          printf 'RUSTUP_HOME=%s\n' "$RUNNER_TEMP/osr-canonical-rustup" >> "$GITHUB_ENV"
+          printf 'CARGO_HOME=%s\n' "$RUNNER_TEMP/osr-canonical-cargo" >> "$GITHUB_ENV"
       - uses: dtolnay/rust-toolchain@1.92.0
+        with:
+          components: clippy
       - run: python -m pip install pytest numpy==2.3.5 scipy==1.16.3
       - name: Build explicit source-bound kernel and interpreter-specific extension
         run: |
