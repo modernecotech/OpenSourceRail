@@ -628,3 +628,18 @@ solids, full shell/joint/fatigue refinement, parallel solver scheduling, calibra
 surrogates, native/full-shell feedback, whole-railway co-design and new
 Workbench views remain explicit adapter/frontier work. Installed mass, propulsion,
 braking, protected service and physical release remain unqualified.
+
+The 4 November interface-validation cleanup removes discarded defensive copies
+inside topology generation while preserving the public validator's independent
+snapshot. A bounded 2,000-program comparison took 11.237 s before and
+10.707/10.706 s afterwards (about 4.7% locally; not a general throughput guarantee).
+It retained 60 evaluated definitions, 59 physical designs, 34 axial assessments
+and three frame assessments, with no native solver jobs. An independent comparison
+found identical physical stock, connections, costs, numerical results and ordered
+attempts; source-bound definition/evaluation changes were checked explicitly.
+The audit SHA-256 is
+`4a35fdc1e40fa46bb3b0f9c33c2cc5e5bf4432687a44efce98ac6e08096e4de6`.
+Run `python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_interface_validation_performance.py`
+for copy-isolation, rejection and pre-change physical-result controls. This is
+software maintenance; the [compact-launch comparison](compact-launch/README.md)
+addresses the separate engineering question of faster, simpler acceleration.

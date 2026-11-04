@@ -637,8 +637,11 @@ def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
     folder,value=current(root)
     refinement=_current_refinement(root,value)
-    fine_refinement=_current_fine_refinement(root,value)
-    ultrafine_refinement=_current_ultrafine_refinement(root,value,refinement,fine_refinement)
+    # A continuation cannot borrow an earlier parent's predecessor. Matching
+    # packages still pass their existing verifiers, whose errors must propagate.
+    fine_refinement=_current_fine_refinement(root,value) if refinement is not None else None
+    ultrafine_refinement=(_current_ultrafine_refinement(root,value,refinement,fine_refinement)
+        if fine_refinement is not None else None)
     if (out/'manifest.json').is_file():
         m=json.loads((out/'manifest.json').read_bytes())
         if all(digest(root/n)==h for n,h in m['source_sha256'].items()):

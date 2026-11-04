@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **115**.
+Indexed Markdown files: **116**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **115**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 1 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 90 |
+| [docs](#docs) | 91 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -86,6 +86,7 @@ Indexed Markdown files: **115**.
 | [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
 | [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |
 | [`docs/design-engine/civil-topology-revisions/README.md`](../docs/design-engine/civil-topology-revisions/README.md) | Explicit physical revisions of steel-web topology experiments |
+| [`docs/design-engine/compact-launch/README.md`](../docs/design-engine/compact-launch/README.md) | Compact acceleration and alternative launch mechanisms |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 1 November 2026 |

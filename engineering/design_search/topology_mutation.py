@@ -90,7 +90,7 @@ def _projection_checks(value):
             raise ValueError("Member section differs from its physical stock")
     if abs(fsum(p["mass_kg"] for p in value["parts"]) - value["known_structure_stock_kg"]) > 1e-8:
         raise ValueError("Known stock mass differs from the complete gross part projection")
-    interface_graph.validate_identity(dict(schema=interface_graph.SCHEMA,
+    interface_graph._check_identity(dict(schema=interface_graph.SCHEMA,
         candidate_id=value["candidate_id"], requirement_revision=value["requirement_revision"],
         components=value["components"], connections=value["connections"],
         required_functions=value["required_functions"]))

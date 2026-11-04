@@ -147,7 +147,7 @@ jobs:
           python -m engineering.design_search.native_search build
           python -m engineering.design_search.native_canonical build
       - name: Require exact canonical parity and unchanged campaign results
-        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py
+        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py engineering/design_search/tests/test_interface_validation_performance.py
       - name: Check the optional Rust extension under the pinned compiler
         run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings
   control-formal:

@@ -14,13 +14,15 @@ OpenSourceRail aims for simple, affordable urban transport, repeated precast civ
 | Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |
 | Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; 1,516 geometry parts retain exact source-geometry links (1,162.040 kg/car); 44 further parts (478.763 kg/car) match three declared source-component groups by exact aggregate mass; installed mass remains unknown |
 | Service-only battery | 82.8 kWh, 1345 kg/car reference account; cooled installation and rail approval open |
-| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |
+| Reference service case | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s target headway; 8,280 pphpd arithmetic |
 
 ## Reference journey and power
 
 The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **147.362 s**, reaching 20 m/s and arriving at **16.559 m/s** before braking. Required peak launch force is **11.103 kN/car**, mechanical power **222.1 kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.
 
 Full-train engagement requires **825.0 m** of shared launch/receiving winding; the library chooses **900 m**, **72 sections/direction** at 12.5 m and at least two independently controlled train branches. The **85.46 s** nominal berth interval is a necessary resource screen, not verified two-minute operation.
+
+The 0.4 m/s² acceleration and shared-winding arrangement are revisable hypotheses. The [compact, affordable launch comparison](../compact-launch/README.md) evaluates faster acceleration and different mechanisms against the same reference mass and service case. It distinguishes motion distance, full-train contact coverage and receiving hardware; shorter acceleration does not by itself demonstrate available thrust, lower installed cost or acceptable passenger jerk.
 
 Reference profiles cover empty, normal-load and 160-person structural-control cases at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.
 

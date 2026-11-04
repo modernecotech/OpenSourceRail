@@ -220,6 +220,10 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py
       - run: .venv/bin/python -m engineering.station_rail.closure_retention verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_architecture_reach_closure.py
+      - name: Compact acceleration and alternative launch comparison
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_compact_launch.py
+          .venv/bin/python -m engineering.design_search.compact_launch --verify --output docs/design-engine/compact-launch
       - name: Stepped civil mechanics and portable publication compression
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_beam.py engineering/design_search/tests/test_civil_section_model.py engineering/design_search/tests/test_civil_shape_mechanics.py engineering/design_search/tests/test_portable_gzip.py
@@ -240,8 +244,12 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_installed_mass_cg.py engineering/design_search/tests/test_installed_mass_cg_publication.py
           .venv/bin/python -m engineering.design_search.installed_mass_cg_publication verify --expected-manifest-id 53f880cc6cd0a422aa5992b302899b70841b795671c133e4ebe9880e84541ebc
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py
-          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_periodic_thermal_research.py engineering/design_search/tests/test_periodic_thermal_publication.py
-          .venv/bin/python -m engineering.design_search.periodic_thermal_publication verify --expected-manifest-id e2ac8e01ac36eaa19d8f5c59c0dcfc28de6acd7759065a0a7b122cd8d7c3d66d --expected-handoff-id 701824bd9fec83c2ae48725040804d3f7d42f94c3e742b638ac6e23437d6ef3d --expected-request-id 019fb919aaaef52d9e0af4ceda21648544bd35c1c15d9d31dc832f2bdcff6967 --expected-evaluation-id de6c95144aedca6ffde689fb4eb62dcef57adde633da9a46b013420d95dff48c
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_periodic_thermal_research.py
+          git fetch --no-tags --depth=1 origin 5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76
+          OSR_TEST_RETAINED_PERIODIC=1 .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_periodic_thermal.py
+          .venv/bin/python -m engineering.design_search.retained_periodic_thermal verify
+          retained_periodic_parent=$(mktemp -d "$RUNNER_TEMP/osr-periodic-thermal.XXXXXX")
+          .venv/bin/python -m engineering.design_search.retained_periodic_thermal replay --output "$retained_periodic_parent/context"
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
       - run: ./osr design railway verify
       - name: Candidate, moving-conductor and end-to-end closure contracts

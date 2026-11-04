@@ -28,15 +28,24 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert completion['integrated_force_driven_journey_complete']==0
     assert completion['engineering_validated']==0
     assert completion['approved_for_manufacture_or_operation']==0
-    assert summary['current_source_refinement']['execution']=='completed'
-    assert summary['current_source_refinement']['mesh_m']==0.2125
-    assert summary['current_source_fine_refinement']['execution']=='completed'
-    assert summary['current_source_fine_refinement']['mesh_m']==0.10625
     frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
     assert summary['frontier_tasks']==len(frontier)
     continuations=[x for x in frontier if x['kind']=='unresolved-numerical-refinement'
         and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b']
     ultrafine=summary.get('current_source_ultrafine_refinement')
+    refinement=summary.get('current_source_refinement');fine=summary.get('current_source_fine_refinement')
+    if refinement is None or fine is None:
+        assert ultrafine is None
+        if refinement is None:assert fine is None
+        absent=('current-refinement.json.gz','fine-refinement.json.gz','ultrafine-refinement.json.gz') if refinement is None else ('fine-refinement.json.gz','ultrafine-refinement.json.gz')
+        for name in absent:assert json.loads(gzip.decompress((ROOT/publication.OUTPUT/name).read_bytes())) is None
+        assert len(continuations)==1
+        assert continuations[0]['proposed_next_mesh_m']==(0.2125 if refinement is None else 0.10625)
+        assert 'failed_evaluation_id' not in continuations[0]
+        assert not any(item.get('kind') in ({'body-current-source-refinement','body-current-source-fine-refinement','body-current-source-fine-refinement-reconciliation','body-current-source-ultrafine-refinement'} if refinement is None else {'body-current-source-fine-refinement','body-current-source-fine-refinement-reconciliation','body-current-source-ultrafine-refinement'}) for item in native_index)
+        return
+    assert refinement['execution']=='completed' and refinement['mesh_m']==0.2125
+    assert fine['execution']=='completed' and fine['mesh_m']==0.10625
     if ultrafine is None:
         # An earlier parent's allocator failure cannot become a current-source
         # attempt. Unexecuted refinement must stay an explicit resource hold.
@@ -346,3 +355,57 @@ def test_exact_direct_fine_package_is_verified_without_reconciliation(tmp_path,m
     assert package['verification']=={'verified':True,'request_id':request_id,
         'manifest_id':manifest['manifest_id']}
     assert checked==[dict(parent_result=parent,candidate_id=candidate)]
+
+
+class _StopBeforePublicationWrite(Exception):pass
+
+
+def _stop_before_publication_write(tmp_path,monkeypatch,value):
+    out=tmp_path/'publication';out.mkdir();(out/'retained.txt').write_text('original packet')
+    monkeypatch.setattr(publication,'current',lambda root:(tmp_path,value))
+    def stop(*args,**kwargs):raise _StopBeforePublicationWrite()
+    monkeypatch.setattr(publication,'_retain_previous_publication',stop)
+    return out
+
+
+def test_missing_exact_base_holds_fine_verification_and_preserves_frontier(tmp_path,monkeypatch):
+    from engineering.design_search import railway_refinement_current as base,railway_refinement_current_fine as fine
+    value=dict(contract_id='current',frontier=[_refinement_frontier(base.CANDIDATE_ID,base.NEXT_MESH_M)])
+    out=_stop_before_publication_write(tmp_path,monkeypatch,value)
+    monkeypatch.setattr(publication,'_current_refinement',lambda *a,**k:None)
+    def forbidden(*args,**kwargs):pytest.fail('A missing predecessor must not dispatch a continuation verifier')
+    monkeypatch.setattr(fine,'verify',forbidden)
+    monkeypatch.setattr(publication,'_current_ultrafine_refinement',forbidden)
+    with pytest.raises(_StopBeforePublicationWrite):publication.build(tmp_path,out)
+    assert publication._published_frontier(value,None,None,None)==value['frontier']
+    assert (out/'retained.txt').read_text()=='original packet'
+
+
+@pytest.mark.parametrize('fine_available',[False,True])
+def test_exact_predecessor_keeps_continuation_dispatch_order(tmp_path,monkeypatch,fine_available):
+    out=_stop_before_publication_write(tmp_path,monkeypatch,{})
+    order=[];base={'verified':True};fine={'verified':True} if fine_available else None
+    monkeypatch.setattr(publication,'_current_refinement',lambda *a,**k:order.append('base') or base)
+    monkeypatch.setattr(publication,'_current_fine_refinement',lambda *a,**k:order.append('fine') or fine)
+    monkeypatch.setattr(publication,'_current_ultrafine_refinement',lambda *a,**k:order.append('ultrafine'))
+    with pytest.raises(_StopBeforePublicationWrite):publication.build(tmp_path,out)
+    assert order==(['base','fine','ultrafine'] if fine_available else ['base','fine'])
+
+
+@pytest.mark.parametrize('stage',['base','fine'])
+def test_matching_predecessor_or_continuation_corruption_is_not_held(tmp_path,monkeypatch,stage):
+    out=_stop_before_publication_write(tmp_path,monkeypatch,{})
+    def corrupt(*args,**kwargs):raise ValueError('Matching '+stage+' payload differs')
+    monkeypatch.setattr(publication,'_current_refinement',corrupt if stage=='base' else lambda *a,**k:{'verified':True})
+    monkeypatch.setattr(publication,'_current_fine_refinement',corrupt)
+    with pytest.raises(ValueError,match='Matching '+stage+' payload differs'):publication.build(tmp_path,out)
+    assert (out/'retained.txt').read_text()=='original packet'
+
+
+def test_reader_does_not_claim_current_fine_completion_without_predecessor():
+    summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
+    summary.update(current_source_refinement=None,current_source_fine_refinement=None,current_source_ultrafine_refinement=None)
+    text=publication.readme(summary)
+    assert 'current-source continuation package is not yet available' in text
+    assert 'Both completed with equilibrium/energy consistency' not in text
+    assert 'fine result is included' not in text

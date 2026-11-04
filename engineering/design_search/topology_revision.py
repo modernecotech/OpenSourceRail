@@ -139,7 +139,7 @@ def _apply(parent, reason):
     value.pop("definition_id")
     value["definition_id"] = identity(value)
     grammar.validate(value)
-    interface_graph.validate_identity(dict(schema=interface_graph.SCHEMA, candidate_id=cid,
+    interface_graph._check_identity(dict(schema=interface_graph.SCHEMA, candidate_id=cid,
         requirement_revision=value["requirement_revision"], components=components,
         connections=value["connections"], required_functions=value["required_functions"]))
     return value

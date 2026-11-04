@@ -1,0 +1,34 @@
+schema = "osr-compact-launch-research/1"
+purpose = "next-experiment"
+reference_changes_allowed = false
+native_dispatch = false
+requirement_revision = "COMPACT-LAUNCH-RESEARCH-1"
+maximum_cases = 100
+
+[service]
+distance_m = 2000.0
+headway_s = 120.0
+dwell_s = 35.0
+service_deceleration_m_s2 = 0.6
+acceleration_m_s2 = [0.4, 0.6, 0.8, 1.0, 1.2]
+speed_m_s = [12.0, 16.0, 20.0]
+jerk_m_s3 = [0.5, 1.0]
+
+[sizing]
+# Declared hypotheses, not supplier ratings or verified adhesion/efficiency.
+assumption_source_id = "compact-launch-engineering-assumptions/1"
+rotary_motor_shaft_rating_W = 250000.0
+transmission_efficiency = 0.90
+motor_efficiency = 0.93
+vfd_efficiency = 0.97
+lim_electrical_to_mechanical_efficiency = 0.65
+roller_friction_coefficients = [0.15, 0.30, 0.50]
+wheel_adhesion_coefficients = [0.05, 0.10, 0.15]
+roller_radius_m = 0.30
+winch_drum_radius_m = 0.50
+winch_return_speed_m_s = 4.0
+winch_coupling_reset_s = 10.0
+winch_available_strokes_m = [100.0, 200.0]
+production_shifts_per_day = 2
+construction_shifts_per_day = 2
+operation_shift_scenarios = [2, 3]

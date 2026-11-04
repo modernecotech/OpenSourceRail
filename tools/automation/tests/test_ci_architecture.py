@@ -20,6 +20,7 @@ CURRENT_WORKFLOW = ROOT / '.github/workflows/development-baseline.yml'
 SOURCED_WORKFLOW = ROOT / '.github/workflows/sourced-hardware.yml'
 SOURCED_GEOMETRY_WORKFLOW = ROOT / '.github/workflows/reproduce-sourced-geometry.yml'
 DIGITAL_TWIN_WORKFLOW = ROOT / '.github/workflows/digital-twin.yml'
+RETAINED_PERIODIC_HELPER = ROOT / 'engineering/design_search/retained_periodic_thermal.py'
 ARCHIVE = ROOT / 'docs/archives/v0.5-maglev/manifest.json'
 OLD_COMMIT = 'dad8c4bedb2361d3e621e9def312273167279027'
 EXTRA_COMMIT = '5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76'
@@ -180,7 +181,7 @@ def validate_native_canonical_job(text):
     preparation=block.split(build,1)[1].split(verify,1)[0]
     assert '          python -m engineering.design_search.native_search build\n' in preparation
     assert '          python -m engineering.design_search.native_canonical build\n' in preparation
-    command='        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py\n'
+    command='        run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py engineering/design_search/tests/test_interface_validation_performance.py\n'
     assert block.count(command)==1
     assert '        run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings\n' in block
     assert not re.search(r'^\s+(?:-\s+)?(?:if|continue-on-error|ref):',block,re.M)
@@ -192,6 +193,61 @@ def active_run_line(block, command):
     lines = (line.split('#', 1)[0].strip() for run in runs for line in run.splitlines())
     return any(re.match(r'^\.venv(?:-search)?/bin/python\s+(?:-m\s+|tools/automation/sourced-archive\.py\s+)', line)
                and command in line for line in lines)
+
+
+def validate_retained_periodic_route(current):
+    """Require current research tests plus pinned original-source thermal replay."""
+    header = '      - name: Material-distribution experiments and disjoint cost accounting\n'
+    assert current.count(header) == 1
+    step = current.split(header, 1)[1].split('      - ', 1)[0]
+    assert not re.search(r'^        (?:if|continue-on-error|shell|working-directory):', step, re.M)
+    match = re.fullmatch(r'        run: \|\n((?: {10}[^\n]*\n)+)', step)
+    assert match, 'Retained periodic checks must remain in the mandatory fail-fast run step'
+    lines = [line[10:] for line in match.group(1).splitlines()]
+    assert not any(re.search(r'(^|[;\s])(?:set\s+\+e|exit\s+0)(?:[;\s]|$)', line)
+                   for line in lines), 'Do not bypass the mandatory retained checks'
+    required = [
+        '.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py',
+        '.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_periodic_thermal_research.py',
+        'git fetch --no-tags --depth=1 origin ' + EXTRA_COMMIT,
+        'OSR_TEST_RETAINED_PERIODIC=1 .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_periodic_thermal.py',
+        '.venv/bin/python -m engineering.design_search.retained_periodic_thermal verify',
+        'retained_periodic_parent=$(mktemp -d "$RUNNER_TEMP/osr-periodic-thermal.XXXXXX")',
+        '.venv/bin/python -m engineering.design_search.retained_periodic_thermal replay --output "$retained_periodic_parent/context"',
+    ]
+    assert lines[-len(required):] == required, 'Pinned thermal tests and replay must execute in order'
+    assert not re.search(r'^    (?:if|continue-on-error):', current, re.M)
+
+
+def validate_retained_periodic_test_contract(text):
+    """The isolated replay must execute both original test modules and verifier."""
+    tree = ast.parse(text)
+    assignments = {target.id: node.value for node in tree.body if isinstance(node, ast.Assign)
+                   for target in node.targets if isinstance(target, ast.Name)}
+    tests = ('engineering/design_search/tests/test_periodic_thermal_research.py',
+             'engineering/design_search/tests/test_periodic_thermal_publication.py')
+    assert ast.literal_eval(assignments['TESTS']) == tests
+    bootstrap = ast.literal_eval(assignments['BOOTSTRAP'])
+    child = ast.parse(bootstrap)
+    pytest_calls = [node for node in ast.walk(child) if isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name)
+                    and node.func.value.id == 'pytest' and node.func.attr == 'main']
+    assert len(pytest_calls) == 1
+    assert len(pytest_calls[0].args) == 1 and not pytest_calls[0].keywords
+    assert ast.literal_eval(pytest_calls[0].args[0]) == ['-q', '-p', 'no:cacheprovider',
+        '--import-mode=importlib', *tests]
+    guard = ast.dump(ast.parse('if code: raise SystemExit(code)').body[0], include_attributes=False)
+    assert any(ast.dump(node, include_attributes=False) == guard for node in child.body)
+    verifies = [node for node in ast.walk(child) if isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == 'publication' and node.func.attr == 'verify']
+    assert len(verifies) == 1 and not verifies[0].args
+    expected = {'expected_manifest_id': 'original_manifest_id', 'expected_handoff_id': 'worker_handoff_id',
+                'expected_request_id': 'request_id', 'expected_evaluation_id': 'evaluation_id'}
+    assert {arg.arg for arg in verifies[0].keywords} == expected.keys()
+    for arg in verifies[0].keywords:
+        assert isinstance(arg.value, ast.Subscript) and isinstance(arg.value.value, ast.Name)
+        assert arg.value.value.id == 'pins' and ast.literal_eval(arg.value.slice) == expected[arg.arg]
 
 
 def checked_historical_route(block, *, parent, prefix, commit, materialize, verify, expected_script):
@@ -390,6 +446,8 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         assert re.search(r'^ {10}' + re.escape(check) + r' *$', gate, re.M), name
     for name in required_jobs:
         assert not re.search(r'^    (if|continue-on-error):', current_jobs[name], re.M), name
+    validate_retained_periodic_route(current_jobs['current-contracts'])
+    validate_retained_periodic_test_contract(RETAINED_PERIODIC_HELPER.read_text())
     assert re.search(r'^      - run: \./osr design space verify\n(?=      - )', current_jobs['current-contracts'], re.M)
     for name in ('independent-search', 'retained-packet-reconstruction', 'retained-service-energy-extra'):
         assert not re.search(r'^\s+continue-on-error:', current_jobs[name], re.M), name
@@ -588,6 +646,7 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('python -m engineering.design_search.native_canonical build','echo extension-not-built'),
                 ('engineering/design_search/tests/test_native_canonical.py','nonexistent-parity-test.py'),
                 ('engineering/design_search/tests/test_native_sealing.py','nonexistent-sealing-test.py'),
+                ('engineering/design_search/tests/test_interface_validation_performance.py','nonexistent-interface-test.py'),
                 ('      - name: Require exact canonical parity','      - if: false\n        name: Require exact canonical parity'),
                 ('      - name: Check the optional Rust extension','      - continue-on-error: true\n        name: Check the optional Rust extension')):
             with self.subTest(changed=old),self.assertRaises(AssertionError):
@@ -694,6 +753,51 @@ class ArchitectureRoutingTests(unittest.TestCase):
             '      - uses: actions/checkout@v4\n        with:\n          ref: ' + self.archive['revision'], 1)
         with self.assertRaises(AssertionError):
             self.check(shared=shared)
+
+    def test_retained_periodic_route_cannot_be_removed_skipped_or_reordered(self):
+        block = job_blocks(self.current)['current-contracts']
+        validate_retained_periodic_route(block)
+        for before, after in (
+                ('test_periodic_thermal_research.py', 'not-the-current-test.py'),
+                ('git fetch --no-tags --depth=1 origin ' + EXTRA_COMMIT,
+                 'echo git fetch --no-tags --depth=1 origin ' + EXTRA_COMMIT),
+                ('OSR_TEST_RETAINED_PERIODIC=1', 'OSR_TEST_RETAINED_PERIODIC=0'),
+                ('test_retained_periodic_thermal.py', 'not-the-archived-test.py'),
+                ('.venv/bin/python -m engineering.design_search.retained_periodic_thermal verify',
+                 'echo .venv/bin/python -m engineering.design_search.retained_periodic_thermal verify'),
+                ('.venv/bin/python -m engineering.design_search.retained_periodic_thermal replay',
+                 '# .venv/bin/python -m engineering.design_search.retained_periodic_thermal replay'),
+                ('retained_periodic_parent=$(mktemp -d "$RUNNER_TEMP/osr-periodic-thermal.XXXXXX")',
+                 'retained_periodic_parent=/tmp/unbounded'),
+                ('      - name: Material-distribution experiments and disjoint cost accounting',
+                 '      - if: false\n        name: Material-distribution experiments and disjoint cost accounting'),
+                ('      - name: Material-distribution experiments and disjoint cost accounting\n        run: |',
+                 '      - name: Material-distribution experiments and disjoint cost accounting\n        continue-on-error: true\n        run: |'),
+                ('      - name: Material-distribution experiments and disjoint cost accounting\n        run: |',
+                 '      - name: Material-distribution experiments and disjoint cost accounting\n        run: |\n          set +e'),
+                ('      - name: Material-distribution experiments and disjoint cost accounting\n        run: |',
+                 '      - name: Material-distribution experiments and disjoint cost accounting\n        run: |\n          exit 0'),
+        ):
+            with self.subTest(changed=before), self.assertRaises(AssertionError):
+                validate_retained_periodic_route(block.replace(before, after, 1))
+        fetch = '          git fetch --no-tags --depth=1 origin ' + EXTRA_COMMIT + '\n'
+        verify = '          .venv/bin/python -m engineering.design_search.retained_periodic_thermal verify\n'
+        with self.assertRaises(AssertionError):
+            validate_retained_periodic_route(block.replace(fetch, '', 1).replace(verify, verify + fetch, 1))
+
+    def test_archived_periodic_replay_cannot_drop_original_tests_or_verifier(self):
+        text = RETAINED_PERIODIC_HELPER.read_text()
+        validate_retained_periodic_test_contract(text)
+        for before, after in (
+                ("'engineering/design_search/tests/test_periodic_thermal_research.py'", "'missing-research.py'"),
+                ("'engineering/design_search/tests/test_periodic_thermal_publication.py'", "'missing-publication.py'"),
+                ("'--import-mode=importlib'", "'-k nonexistent-test'"),
+                ('if code:raise SystemExit(code)', 'if code:pass'),
+                ('result=publication.verify(', 'result=publication.ignore('),
+                ("expected_evaluation_id=pins['evaluation_id']", "expected_evaluation_id=pins['request_id']"),
+        ):
+            with self.subTest(changed=before), self.assertRaises(AssertionError):
+                validate_retained_periodic_test_contract(text.replace(before, after, 1))
 
     def test_runtime_comparison_cannot_be_removed_from_the_required_gate(self):
         for before, after in (

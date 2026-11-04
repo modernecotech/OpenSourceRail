@@ -31,8 +31,6 @@ LINKED_PUBLICATIONS={
         ('result.json','osr-matched-renewal-publication-result/1','publication_id')),
     'installed-mass-support':('osr-installed-mass-support-publication/1','source_sha256','files_sha256','manifest_id',
         ('result.json','osr-selected-mass-support-sensitivity/1','evaluation_id')),
-    'periodic-thermal-research':('osr-periodic-thermal-publication/1','source_sha256','files_sha256','manifest_id',
-        ('result.json','osr-periodic-thermal-research/1','evaluation_id')),
     'implicit-geometry-study':('osr-implicit-geometry-publication/1','source_sha256','files_sha256','manifest_id',
         ('result.json','osr-implicit-geometry-publication-result/1','publication_id')),
     'v06-adaptive-design':('osr-adaptive-publication/1','source_sha256','files_sha256','manifest_id'),
@@ -107,17 +105,20 @@ def _linked_packet_sources(root,folder,contract):
 
 def linked_publication_sources(root=ROOT):
     """Fail early on stale current packets; retain their exact dependency maps."""
-    from engineering.design_search import retained_publication
+    from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch
     from . import closure_retention
     historical=retained_publication.verify(root)
     followup=closure_retention.verify(root)
-    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
+    thermal=retained_periodic_thermal.verify(root)
+    compact_launch.verify(Path(root)/'docs/design-engine/compact-launch',root=root)
+    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
         for folder,contract in LINKED_PUBLICATIONS.items()])
 
 
 def linked_publication_scope():
     return dict(current_source_and_declared_payload=sorted(LINKED_PUBLICATIONS),
-        original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure'],
+        replayed_analytical_research=['compact-launch'],
+        original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure','periodic-thermal-research'],
         numerical_or_physical_validation_by_this_check=False)
 
 def write(path,raw):
@@ -231,6 +232,9 @@ def sources(root,record,index,delivery):
     names += [p.relative_to(root).as_posix() for p in (root/'docs/design-engine/sourcing/procurement-bom').rglob('*')
         if p.is_file() and '__pycache__' not in p.parts]
     names += ['campaigns/end-to-end-railway-closure.toml',
+        'campaigns/compact-affordable-launch.toml','engineering/design_search/compact_launch.py',
+        'docs/design-engine/compact-launch/README.md','docs/design-engine/compact-launch/inputs.json',
+        'docs/design-engine/compact-launch/result.json','docs/design-engine/compact-launch/manifest.json',
         'campaigns/practical-launch-comparison.toml','engineering/design_search/launch_options.py',
         'campaigns/simple-affordable-propulsion.toml','engineering/design_search/propulsion_layout.py',
         'campaigns/station-accelerator-development.toml','engineering/design_search/station_accelerators.py',
@@ -847,10 +851,11 @@ def readme(record,summary,root=ROOT,*,compiled=None):
       '| Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |',
       f"| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — {mass_ledger['closure_worksheet_record_count']:,} source, candidate-geometry and account-closure rows; {mass_ledger['closure_worksheet_exact_source_geometry_link_count']:,} geometry parts retain exact source-geometry links ({mass_ledger['closure_worksheet_exact_source_geometry_link_mass_kg']:,.3f} kg/car); {mass_ledger['candidate_geometry_with_derived_source_component_group_link_count']:,} further parts ({mass_ledger['candidate_geometry_with_derived_source_component_group_link_mass_kg']:,.3f} kg/car) match three declared source-component groups by exact aggregate mass; installed mass remains unknown |",
       f"| Service-only battery | {b['gross_energy_kWh']:.1f} kWh, {b['mass_kg']:.0f} kg/car reference account; cooled installation and rail approval open |",
-      '| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |','',
+      '| Reference service case | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s target headway; 8,280 pphpd arithmetic |','',
       '## Reference journey and power','',
       f"The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
       f"Full-train engagement requires **{z['required_shared_winding_m']:.1f} m** of shared launch/receiving winding; the library chooses **{z['length_m']:.0f} m**, **{z['sections_per_direction']} sections/direction** at 12.5 m and at least two independently controlled train branches. The **{z['nominal_resource_interval_s']:.2f} s** nominal berth interval is a necessary resource screen, not verified two-minute operation.",'',
+      'The 0.4 m/s² acceleration and shared-winding arrangement are revisable hypotheses. The [compact, affordable launch comparison](../compact-launch/README.md) evaluates faster acceleration and different mechanisms against the same reference mass and service case. It distinguishes motion distance, full-train contact coverage and receiving hardware; shorter acceleration does not by itself demonstrate available thrust, lower installed cost or acceptable passenger jerk.','',
       'Reference profiles cover empty, normal-load and 160-person structural-control cases at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
       'The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit enclosure/cooling/conversion accounts. The 200 kW charging target passes a catalogue voltage/current necessary bound; available charge power versus SOC/temperature remains unknown. A 50°C environment exceeds the module ambient catalogue range. Normal 35 kW/car hotel duty balances in the prototype calculation; 50 kW/car adverse duty needs more charging. Solar yield is not guaranteed or credited to make the balance pass.','',
       'The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.','',

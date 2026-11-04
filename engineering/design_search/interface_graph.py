@@ -80,9 +80,12 @@ def physical_identity(graph):
         connections=sorted([dict(id=q['id'],source=q['from'],target=q['to']) for q in graph.get('connections',[])],key=lambda c:c['id'])))
 
 
-def validate_identity(graph):
+def _identity_header(graph):
     if not isinstance(graph,dict) or graph.get('schema')!=SCHEMA or not _sha(graph.get('candidate_id')) or not isinstance(graph.get('requirement_revision'),str) or not graph['requirement_revision']:raise ValueError('Explicit graph schema, physical candidate and requirement revision required')
-    value=deepcopy(graph);components=value.get('components')
+
+
+def _identity_checks(value):
+    components=value.get('components')
     if not isinstance(components,list) or not components:raise ValueError('Explicit component occurrences required')
     ids=set();ports={}
     for c in components:
@@ -101,8 +104,27 @@ def validate_identity(graph):
         for endpoint in (q.get('from'),q.get('to')):
             if not isinstance(endpoint,(list,tuple)) or len(endpoint)!=2 or tuple(endpoint) not in ports:raise ValueError('Connection references an absent occurrence/port')
     _names(value.get('required_functions',[]))
-    if value.get('physical_graph_id',physical_identity(value))!=physical_identity(value):raise ValueError('Physical interface graph identity differs')
+    actual=physical_identity(value)
+    if value.get('physical_graph_id',actual)!=actual:raise ValueError('Physical interface graph identity differs')
     json.dumps(value,allow_nan=False);return value
+
+
+def _check_identity(graph):
+    """Check the current graph without copying or changing it; return that graph.
+
+    Internal callers may use this when they discard the validated snapshot.
+    Public consumers needing an independent snapshot use validate_identity.
+    """
+    _identity_header(graph)
+    return _identity_checks(graph)
+
+
+def validate_identity(graph):
+    """Validate and return an independent snapshot, retaining internal aliases."""
+    # Keep the original validation order: reject an invalid header before any
+    # deepcopy hook can run, then validate the defensive copy's contents.
+    _identity_header(graph)
+    return _identity_checks(deepcopy(graph))
 
 
 def _units(port):

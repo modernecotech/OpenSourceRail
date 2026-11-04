@@ -77,7 +77,7 @@ The [selected vehicle mass reserve sensitivity](docs/design-engine/mass-reserve-
 | Services | Flush solar roof and a separately sized auxiliary battery; HVAC, doors, ATP and emergency loads remain |
 | Automation | Station-led GoA4 architecture, continuous onboard ATP and independent mechanical brakes |
 | Network | Passenger transfers between fixed lines; no mainline switches, with depot exceptions explicit |
-| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² service deceleration, 35 s dwell, 120 s headway |
+| Reference service case | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² service deceleration, 35 s dwell, 120 s target headway |
 | Capacity arithmetic | 8,280 passengers/hour/direction at 30 departures/hour; protected headway remains unqualified |
 
 The normal passenger cap is a comfort and load-management choice; it does not remove crowd, evacuation or accidental-load checks. Structural checks retain a 160-person/car crowd-load control case. One-sided doors require compatible platforms, accessible boarding and emergency exits. Any change to propulsion, formation or passenger loading is a separate candidate whose mass, energy, vehicle, civil, factory and service effects must be evaluated together.
@@ -87,6 +87,8 @@ Loss of station propulsion leaves the vehicle supported on its wheels. Independe
 A separate [practical launch comparison](docs/design-engine/practical-launch/README.md) applies the same 1.5 km and 2 km analytical route matrix to 12 station-LIM, wheel, roller, cable and gravity concepts. It exposes required effort, peak mechanical power, route bounds and open force-map, thermal, stopping, recovery, grid and headway evidence; it does not produce a physical journey. The selected wheel/LIM reference remains unchanged.
 
 **The selected v0.6 reference uses passive bogies with station LIM propulsion and no onboard traction motors or traction store.** Its reference dossier retains a 900 m winding allocation per station and direction. The separate [station-accelerator research](docs/design-engine/station-accelerators/README.md) investigates five aligned 20 m banks (100 m active length) as a distinct alternative; that geometry is not the selected reference. In either configuration, available thrust, safe stopping, recovery and installed price remain open.
+
+The reference's **0.4 m/s² acceleration and 900 m winding are revisable design assumptions**. The [compact, affordable launch comparison](docs/design-engine/compact-launch/README.md) examines faster acceleration, launch-only LIM sections, station friction rollers, cable/capstan launch and wheel traction. At 72 km/h, constant acceleration of 1.0 m/s² needs 200 m rather than 500 m at 0.4 m/s², before jerk ramps and contact coverage are included. Shortening a launch raises force and peak power; the comparison keeps those demands and the complete train/contact envelope visible. No mechanism has yet demonstrated the lowest installed or whole-life cost.
 
 The 900 m reference and 100 m research geometry require separate force maps, electrical/thermal duty, plant and civil quantities, procurement BOMs and installed costs. Their lengths and results are not combined or transferred between candidates. The five-bank candidate now has [unsent, candidate-bound bank RFQ scope drafts](docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) with a common 1.5/2 km duty matrix, sourced local fabrication leads and explicit converter, cooling, protection and installation holds; no supplier response or physical force map has been obtained.
 
