@@ -2,7 +2,9 @@
 
 This page provides geographic and service-planning inputs for Aleppo, SY. Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.
 
-The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.
+The planning handoff is bound to the selected v0.6 candidate and contains proposals only. A separate calculated city outline prices the mapped network, service, fleet, civil quantities, production and lifecycle using explicit estimates. That outline does not release a physical design or grant movement authority.
+
+[Inspect the priced city outline](../../../../../docs/workbench/current/index.html?outlineCity=aleppo) · [Outline methods and coverage](../../../../../docs/design-engine/outline-completion/README.md)
 
 Compile and verify a proposal from the repository root:
 
@@ -13,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Aleppo route geometry](aleppo.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=aleppo)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4eb5483f6c293d8de98c19374c449c0aea8449091271e6e778fdc8b0f9530978`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b46cc22a34363e5d7eddc230be5322b17388428bd7424c6c8c52ff0fe35a260e`

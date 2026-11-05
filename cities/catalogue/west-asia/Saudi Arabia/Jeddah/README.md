@@ -2,7 +2,9 @@
 
 This page provides geographic and service-planning inputs for Jeddah, SA. Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.
 
-The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.
+The planning handoff is bound to the selected v0.6 candidate and contains proposals only. A separate calculated city outline prices the mapped network, service, fleet, civil quantities, production and lifecycle using explicit estimates. That outline does not release a physical design or grant movement authority.
+
+[Inspect the priced city outline](../../../../../docs/workbench/current/index.html?outlineCity=jeddah) · [Outline methods and coverage](../../../../../docs/design-engine/outline-completion/README.md)
 
 Compile and verify a proposal from the repository root:
 
@@ -13,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Jeddah route geometry](jeddah.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=jeddah)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f78ca14ca6c4d10b77700bcbfda6c82720a6f8bd7d4bc272f8f5a1dc3886db0b`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d25c1aae8e967a791538e4147dc7a57716608b47b6280704d2849478f4fa8ecb`

@@ -2,10 +2,12 @@
 
 This source-bound packet binds the geographic planning inputs for Patna, IN to the selected v0.6 physical candidate.
 
-Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.
+Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.
+
+[Priced city outline](../../../../../../../docs/workbench/current/index.html?outlineCity=patna) · [Calculation methods](../../../../../../../docs/design-engine/outline-completion/README.md)
 
 Geographic inputs: [route geometry](../../patna.corridor.geojson) · [map context](../../map-context.json.gz)
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=patna) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `0b424a833cca45f2ef68ad294c094ff611ce8d23fa5a7256473e670427da6800`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `624001b21c49049e62d29363ceafd5342dedbe51d6a0ae939e68a97a63dc616e`

@@ -2,10 +2,12 @@
 
 This source-bound packet binds the geographic planning inputs for Lichinga, MZ to the selected v0.6 physical candidate.
 
-Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.
+Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.
+
+[Priced city outline](../../../../../../../docs/workbench/current/index.html?outlineCity=lichinga) · [Calculation methods](../../../../../../../docs/design-engine/outline-completion/README.md)
 
 Geographic inputs: [route geometry](../../lichinga.corridor.geojson) · [map context](../../map-context.json.gz)
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=lichinga) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ec270e4ad58a4adaa8e8b09f05651bb3f6e83df2f32f2842bf1ab5ca4828dc50`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `13ecbedaa35b786d95cee0f11424a8f35bc3c0b18e9741e4b7604c1307df7064`

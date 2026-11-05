@@ -2,10 +2,12 @@
 
 This source-bound packet binds the geographic planning inputs for Kano, NG to the selected v0.6 physical candidate.
 
-Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.
+Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.
+
+[Priced city outline](../../../../../../../docs/workbench/current/index.html?outlineCity=kano) · [Calculation methods](../../../../../../../docs/design-engine/outline-completion/README.md)
 
 Geographic inputs: [route geometry](../../kano.corridor.geojson) · [map context](../../map-context.json.gz)
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kano) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ac191f10bba5bfa1af2b8600b842e6749b509175ef99689470f1c073223d1950`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `4d6a8c1328e2ae77ffbf2e797629ef9761e33916196499162d9c59e63c89d589`

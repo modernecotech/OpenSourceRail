@@ -2,10 +2,12 @@
 
 This source-bound packet binds the geographic planning inputs for Kirkuk, IQ to the selected v0.6 physical candidate.
 
-Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.
+Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.
+
+[Priced city outline](../../../../../../../docs/workbench/current/index.html?outlineCity=kirkuk) · [Calculation methods](../../../../../../../docs/design-engine/outline-completion/README.md)
 
 Geographic inputs: [route geometry](../../kirkuk.corridor.geojson) · [map context](../../map-context.json.gz)
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kirkuk) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `b5516e19d8c1f4575d13a8a8446fab200c4bfa3855ce94c5dad02025cb3fd084`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7dfa024a390865a8fff63aaeac349e1660e97a6a63d4e427b383dd9fcac64424`

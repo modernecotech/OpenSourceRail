@@ -183,6 +183,7 @@ def _city_readmes(value, root):
     current='engineering/current'
     route=value['geography']['route_geography_path']
     context=value['geography']['map_context_path']
+    outlines='docs/workbench/current/index.html?outlineCity='+city['slug']
     root_links=(
         f"[{city['name']} route geometry]({_relative_link(city_path,route)}) · "
         f"[Geographic context]({_relative_link(city_path,context)}) · "
@@ -193,7 +194,11 @@ def _city_readmes(value, root):
         f"# {city['name']} — city planning geography",'',
         f"This page provides geographic and service-planning inputs for {city['name']}, {city['country']}. "
         'Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.', '',
-        'The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.','',
+        'The planning handoff is bound to the selected v0.6 candidate and contains proposals only. '
+        'A separate calculated city outline prices the mapped network, service, fleet, civil quantities, production and lifecycle using explicit estimates. '
+        'That outline does not release a physical design or grant movement authority.','',
+        f"[Inspect the priced city outline]({_relative_link(city_path,outlines)}) · "
+        f"[Outline methods and coverage]({_relative_link(city_path,'docs/design-engine/outline-completion/README.md')})",'',
         'Compile and verify a proposal from the repository root:', '',
         '```bash','./osr plan compile edits.json --output build/my-plan','./osr plan verify build/my-plan','```','',
         root_links,'',
@@ -207,7 +212,11 @@ def _city_readmes(value, root):
     current_text='\n'.join((
         f"# {city['name']} — v0.6 planning and evidence hold",'',
         f"This source-bound packet binds the geographic planning inputs for {city['name']}, {city['country']} to the selected v0.6 physical candidate.", '',
-        'Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.','',
+        'Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. '
+        'Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. '
+        'Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.','',
+        f"[Priced city outline]({_relative_link(current_directory,outlines)}) · "
+        f"[Calculation methods]({_relative_link(current_directory,'docs/design-engine/outline-completion/README.md')})",'',
         'Geographic inputs: '+f"[route geometry]({route_link}) · [map context]({context_link})",'',
         '[Planning workspace]('+workspace+') · [Current engineering status]('+method+')','',
         f"Candidate `{value['candidate_id']}` · selection `{value['selection_id']}` · evaluation `{value['evaluation_id']}`",''

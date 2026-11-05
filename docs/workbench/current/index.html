@@ -58,6 +58,41 @@
             still require engineering evidence. Selecting an outline here does not change the development reference.</p>
         </div>
       </section>
+      <section class="panel outline-start" aria-labelledby="city-outline-heading">
+        <p class="eyebrow">Mapped networks → service → quantities → delivery → whole-life cost</p>
+        <h2 id="city-outline-heading">Priced city and design outlines</h2>
+        <p>Inspect a complete calculated network using its mapped routes, stops and alignment types.
+          Shared factories and facilities are priced once for the project. Demand, local production rates,
+          ground conditions and equipment performance remain visible planning assumptions.</p>
+        <button id="city-outline-load" type="button">Browse priced cities</button>
+        <p id="city-outline-status" role="status" aria-live="polite">Published scenarios keep estimated design completion separate from physical approval.</p>
+        <div id="city-outline-results" hidden>
+          <label for="city-outline-select">City network</label>
+          <select id="city-outline-select"></select>
+          <dl id="city-outline-facts"></dl>
+          <h3>Alignment alternatives</h3>
+          <p>Original routes in grey, straighter proposals in green, square-ring research in orange.
+            Stop and access requirements, crossings, curve speed and changed land are compared explicitly.
+            This diagram is not a surveyed construction map or a demonstrated noise improvement.</p>
+          <svg id="city-outline-map" viewBox="0 0 900 520" role="img" aria-label="Original and revised city alignment proposals"></svg>
+          <div id="city-outline-alignments"></div>
+          <div class="table-scroll"><table>
+            <caption>All fourteen whole-life scopes · present-value US$ million · low / base / high</caption>
+            <thead><tr><th>Scope</th><th>Low</th><th>Base</th><th>High</th></tr></thead>
+            <tbody id="city-outline-costs"></tbody>
+          </table></div>
+          <details><summary>Line services and propulsion hypotheses</summary><div id="city-outline-lines"></div></details>
+          <details><summary>Assumptions, delivery resources and later verification</summary><pre id="city-outline-detail"></pre></details>
+          <p><a id="city-outline-download">Download this city outline</a> ·
+            <a href="../../design-engine/outline-completion/README.md">Methods and complete design-price coverage</a></p>
+          <h3>Priced design library</h3>
+          <p>Component prices keep their declared scope: a body or span is compared separately from a complete railway scenario.</p>
+          <label for="design-price-kind">Design scope</label>
+          <select id="design-price-kind"><option value="railway-bundle">Railway scenarios</option><option value="vehicle-body">Vehicle bodies</option><option value="civil-span">Civil spans</option></select>
+          <div class="table-scroll"><table><thead><tr><th>Candidate</th><th>Price scope</th><th>Central US$</th><th>Inspect</th></tr></thead><tbody id="design-price-rows"></tbody></table></div>
+          <details id="design-price-inspection"><summary>Design quantities, cost basis and further detail</summary><pre id="design-price-detail"></pre></details>
+        </div>
+      </section>
       <section class="intro">
         <p class="eyebrow">
           Simple infrastructure. Comfortable, frequent trains.

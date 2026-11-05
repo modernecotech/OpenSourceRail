@@ -931,3 +931,131 @@ outlineForm.addEventListener("submit", async event => {
     outlineStatus.textContent=`Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;
   } finally {button.disabled=false;}
 });
+
+// Published completion is a separate outline scenario, never the selected
+// hardware's physical-performance endpoint. Static hosting reads the same
+// immutable publication as the loopback API.
+let completionCatalogue;
+const completionBase = "../../design-engine/outline-completion/";
+async function completionRecord(file, api) {
+  const local = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+  const response = await fetch(local ? api : completionBase + file, {cache:"no-store"});
+  const value = !local && file.endsWith(".gz")
+    ? await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).json()
+    : await response.json();
+  if (!response.ok) throw Error(value.error || "Published outline unavailable");
+  for (const key of qualificationKeys)
+    if (value[key] !== false) throw Error("Unexpected outline qualification: " + key);
+  return value;
+}
+async function showCityOutline(slug) {
+  const status = byId("city-outline-status");
+  status.textContent = "Loading the city's calculated quantities, service and cost scopes…";
+  try {
+    const row = await completionRecord(`cities/${slug}.json.gz`, `/api/outline-completion/city/${slug}`);
+    const facts = byId("city-outline-facts"); facts.replaceChildren();
+    fact(facts, "Design stage", row.outline_complete ? "Calculated outline complete" : row.outline_completion);
+    fact(facts, "Mapped network", `${format(row.route_km)} route-km · ${row.lines} lines · ${row.stations} line-stop records`);
+    fact(facts, "Joined operational stop complexes", row.operational_station_complexes);
+    fact(facts, "Alignment retained for this outline", row.selected_alignment_kind);
+    fact(facts, "Fleet including reserves", `${row.trainsets} trainsets`);
+    fact(facts, "Installed capital · low / base / high", ["low","base","high"].map(c=>moneyMillions(row.installed_capital_usd[c])).join(" / "));
+    fact(facts, "Central cost per route-km", moneyMillions(row.price_per_route_km_usd.base));
+    fact(facts, "30-year whole-life NPV · base", moneyMillions(row.whole_life_npv_usd.base));
+    fact(facts, "Demand basis", row.policy.demand_source);
+    const body = byId("city-outline-costs"); body.replaceChildren();
+    for (const [scope, costs] of Object.entries(row.scope_totals_usd)) {
+      const tr = document.createElement("tr");
+      for (const text of [scope,...["low","base","high"].map(c=>(costs[c]/1e6).toFixed(2))]) {
+        const td = document.createElement("td"); td.textContent = text; tr.append(td);
+      }
+      body.append(tr);
+    }
+    const lines = byId("city-outline-lines"); lines.replaceChildren();
+    for (const line of row.line_outlines) {
+      const p = document.createElement("p");
+      p.textContent = `${line.line_id}: ${line.shape} · ${line.headway_s}s headway · ${line.trainsets} trainsets · ${line.propulsion}. Retained station-reference issues: ${line.known_reference_failures.length}.`;
+      lines.append(p);
+    }
+    byId("city-outline-detail").textContent = JSON.stringify({
+      pricing_and_site_assumptions:row.assumptions,
+      delivery:row.delivery_draft,
+      later_verification:row.qualification_requirements
+    },null,2);
+    const alignments = byId("city-outline-alignments"); alignments.replaceChildren();
+    for (const alternative of row.alignment_comparison) {
+      const p = document.createElement("p");
+      p.textContent = `${alternative.kind}: ${format(alternative.route_km)} km · ${moneyMillions(alternative.installed_capital_usd.base)} installed · ${moneyMillions(alternative.whole_life_npv_usd.base)} whole-life NPV · ${alternative.selection_eligibility.status}.`;
+      alignments.append(p);
+    }
+    const geometry = await completionRecord(`maps/${slug}.geojson.gz`, `/api/outline-completion/map/${slug}`);
+    drawOutlineMap(geometry);
+    byId("city-outline-download").href = completionBase + `cities/${slug}.json.gz`;
+    status.textContent = `${row.city.name}, ${row.city.country} · Class C estimates, not supplier offers. No hardware or operating approval. Outline ${row.evaluation_id.slice(0,12)}.`;
+  } catch (error) {status.textContent = "City outline unavailable: " + error.message;}
+}
+byId("city-outline-load").addEventListener("click", async () => {
+  const button = byId("city-outline-load"); button.disabled = true;
+  try {
+    completionCatalogue = await completionRecord("summary.json", "/api/outline-completion");
+    const select = byId("city-outline-select"); select.replaceChildren();
+    for (const row of completionCatalogue.cities) {
+      const option = document.createElement("option"); option.value = row.city.slug;
+      option.textContent = `${row.city.name} · ${row.city.country}`; select.append(option);
+    }
+    const requested = new URLSearchParams(location.search).get("outlineCity") || "baghdad";
+    select.value = completionCatalogue.cities.some(r=>r.city.slug===requested) ? requested : completionCatalogue.cities[0].city.slug;
+    byId("city-outline-results").hidden = false;
+    renderDesignPrices();
+    await showCityOutline(select.value);
+  } catch (error) {byId("city-outline-status").textContent = "Published outlines unavailable: " + error.message;}
+  finally {button.disabled = false;}
+});
+byId("city-outline-select").addEventListener("change", event=>showCityOutline(event.target.value));
+function renderDesignPrices() {
+  if (!completionCatalogue) return;
+  const kind=byId("design-price-kind").value;
+  const prices=completionCatalogue.designs,fx=prices.pricing_policy.iqd_per_usd;
+  const keys={"railway-bundle":["installed_capital","whole_life_npv"],"vehicle-body":["repeat_body_factory_gate","one_time_tooling_setup"],"civil-span":["scoped_installed","scoped_whole_life_npv"]}[kind];
+  const body=byId("design-price-rows");body.replaceChildren();
+  for (const row of prices.rows.filter(r=>r.kind===kind)) for (const key of keys) {
+    const tr=document.createElement("tr");
+    for (const text of [row.physical_candidate_id.slice(0,12),key.replaceAll("_"," "),(row.prices_iqd[key].base/fx).toLocaleString("en-GB",{maximumFractionDigits:0})]) {
+      const td=document.createElement("td");td.textContent=text;tr.append(td);
+    }
+    const td=document.createElement("td"),button=document.createElement("button");button.textContent="Inspect";
+    button.addEventListener("click",()=>{byId("design-price-detail").textContent=JSON.stringify(row,null,2);byId("design-price-inspection").open=true;});
+    td.append(button);tr.append(td);body.append(tr);
+  }
+}
+byId("design-price-kind").addEventListener("change",renderDesignPrices);
+function drawOutlineMap(geometry) {
+  const svg = byId("city-outline-map"); svg.replaceChildren();
+  const lines = geometry.features.filter(f=>f.geometry?.type==="LineString");
+  const points = lines.flatMap(f=>f.geometry.coordinates);
+  if (!points.length) return;
+  const latitude = points.reduce((s,p)=>s+p[1],0)/points.length;
+  const longitudeScale = Math.cos(latitude*Math.PI/180);
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for (const p of points) {minX=Math.min(minX,p[0]*longitudeScale);maxX=Math.max(maxX,p[0]*longitudeScale);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1]);}
+  const scale=Math.min(860/Math.max(1e-9,maxX-minX),480/Math.max(1e-9,maxY-minY));
+  const projected=p=>[20+(p[0]*longitudeScale-minX)*scale,500-(p[1]-minY)*scale];
+  for (const feature of lines) {
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    const kind=feature.properties.variant;
+    path.setAttribute("d",feature.geometry.coordinates.map((p,i)=>`${i?"L":"M"}${projected(p).join(" ")}`).join(" "));
+    path.setAttribute("fill","none");path.setAttribute("stroke",kind==="original"?"#83918d":kind.includes("ring")?"#bc6a18":"#08735a");
+    path.setAttribute("stroke-width",kind==="original"?"4":"2");
+    const title=document.createElementNS("http://www.w3.org/2000/svg","title");title.textContent=`${feature.properties.line_id||feature.properties.name||"Route"} · ${kind}`;
+    path.append(title);svg.append(path);
+  }
+  for (const feature of geometry.features.filter(f=>f.geometry?.type==="Point")) {
+    const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    const point=projected(feature.geometry.coordinates),kind=feature.properties.variant;
+    circle.setAttribute("cx",point[0]);circle.setAttribute("cy",point[1]);circle.setAttribute("r","2.5");
+    circle.setAttribute("fill",kind==="original"?"#65736e":kind.includes("ring")?"#bc6a18":"#08735a");
+    const title=document.createElementNS("http://www.w3.org/2000/svg","title");title.textContent=`${feature.properties.stop_id} · ${kind}`;
+    circle.append(title);svg.append(circle);
+  }
+}
+if (new URLSearchParams(location.search).has("outlineCity")) byId("city-outline-load").click();

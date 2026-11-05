@@ -2,7 +2,9 @@
 
 This page provides geographic and service-planning inputs for Hama, SY. Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.
 
-The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.
+The planning handoff is bound to the selected v0.6 candidate and contains proposals only. A separate calculated city outline prices the mapped network, service, fleet, civil quantities, production and lifecycle using explicit estimates. That outline does not release a physical design or grant movement authority.
+
+[Inspect the priced city outline](../../../../../docs/workbench/current/index.html?outlineCity=hama) · [Outline methods and coverage](../../../../../docs/design-engine/outline-completion/README.md)
 
 Compile and verify a proposal from the repository root:
 
@@ -13,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Hama route geometry](hama.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=hama)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ff79d7e7053a7f9623b135b0a460cc731203b76fcb3d9ddbc5de2a641b8401e8`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f38b903a0d09e50c9684a3d801fab4734c50a578c08a671a3e03ffb59fe3227f`

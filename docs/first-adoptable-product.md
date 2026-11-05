@@ -1,6 +1,6 @@
 # First adoption path: current planning and engineering tools
 
-OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current v0.6 front end provides city-planning proposals, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations; the repository does not provide a complete city-delivery or live operating interface.
+OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current v0.6 front end provides city-planning proposals, calculated city/design outlines, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations. Calculated completion is distinct from approved construction and live railway operation.
 
 ## Who can use it
 
@@ -9,6 +9,8 @@ A public owner can edit geographic, route, stop, service and origin-destination 
 The current v0.6 [engineering Workbench](workbench/current/index.html) displays the selected candidate, source-bound engineering and cost summaries, readiness holds and links to its delivery records. The [coordinated experiment](design-engine/coupled-railway/README.md) carries one candidate identity through geometry, inventory, engineering analysis and delivery drafts.
 
 The [planning workspace](workbench/planning/index.html) verifies current city map context and route sources, then supports route, stop, service and origin-destination proposals. Run `./osr plan compile edits.json --output build/my-plan` to create an immutable handoff bound to the selected v0.6 candidate; run `./osr plan verify build/my-plan` to verify its source files and identities. The handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results; those require candidate-specific evaluation. Planning revisions do not grant movement authority.
+
+The [priced outline workspace](workbench/current/index.html) separately evaluates mapped networks, joined station complexes, straighter corridors and rounded-ring alternatives. It calculates service, fleet, manufacturing, civil quantities, project budgets and thirty-year cost scenarios with visible assumptions. Its [completion record](design-engine/outline-completion/README.md) distinguishes complete calculated outlines from physical engineering and release. It also provides disabled procurement/BOM/project drafts; it does not submit them to a business system.
 
 ## What is available and what needs configuration
 

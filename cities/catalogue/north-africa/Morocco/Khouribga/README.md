@@ -2,7 +2,9 @@
 
 This page provides geographic and service-planning inputs for Khouribga, MA. Open the planning workspace to review the mapped corridors and edit route, stop, service and origin-destination proposals.
 
-The handoff is bound to the selected v0.6 candidate and contains proposals only. It includes no vehicle, propulsion, fleet, civil quantity, cost, route-performance or cashflow results. Those outputs remain held until candidate-specific evidence is available. Planning revisions do not grant movement authority.
+The planning handoff is bound to the selected v0.6 candidate and contains proposals only. A separate calculated city outline prices the mapped network, service, fleet, civil quantities, production and lifecycle using explicit estimates. That outline does not release a physical design or grant movement authority.
+
+[Inspect the priced city outline](../../../../../docs/workbench/current/index.html?outlineCity=khouribga) · [Outline methods and coverage](../../../../../docs/design-engine/outline-completion/README.md)
 
 Compile and verify a proposal from the repository root:
 
@@ -13,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Khouribga route geometry](khouribga.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=khouribga)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a50440e0916fd41b9f46770312a448efed070a89e07c42a7ec5f6e84b25b3a26`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `2ce31eb475fee5ba3963596c20b374bdfa32ba28a0829bd35a9d5fff4a3a9c27`

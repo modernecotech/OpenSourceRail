@@ -2,10 +2,12 @@
 
 This source-bound packet binds the geographic planning inputs for Benguela, AO to the selected v0.6 physical candidate.
 
-Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. The handoff excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Route performance, procurement groups, construction schedules and complete city costs remain held pending candidate-specific evidence.
+Route, stop, service and origin-destination edits compile as immutable candidate-bound proposals. Calculated city outlines separately provide provisional quantities, fleet, prices and delivery drafts. Available propulsion, protected operation, site design and physical release remain subject to candidate-specific evidence.
+
+[Priced city outline](../../../../../../../docs/workbench/current/index.html?outlineCity=benguela) · [Calculation methods](../../../../../../../docs/design-engine/outline-completion/README.md)
 
 Geographic inputs: [route geometry](../../benguela.corridor.geojson) · [map context](../../map-context.json.gz)
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=benguela) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bf92722901a91a0115b5d03d50c299a461bf12179d0461ee75269e9207fe6a5e`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d463b15beb5be45b2d845e8d1c75e0ce04428215de826d273b8fcb375c8597fa`

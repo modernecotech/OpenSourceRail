@@ -32,6 +32,35 @@ def _request(raw):
 
 def handle_api(handler):
     path=unquote(urlsplit(handler.path).path)
+    if path=='/api/outline-completion' or path.startswith('/api/outline-completion/'):
+        if handler.command not in ('GET','HEAD'):
+            handler.respond(405,{'error':'Published outline completion is read-only'});return True
+        if not _loopback(handler,post=False):
+            handler.respond(403,{'error':'Matching loopback Host required'});return True
+        try:
+            from . import completion_publication as completion
+            folder=Path(handler.root)/completion.PUBLICATION
+            manifest,summary=completion.verify(folder,root=handler.root)
+            if path=='/api/outline-completion':
+                handler.respond(200,summary)
+            elif path=='/api/outline-completion/designs':
+                handler.respond(200,summary['designs'])
+            elif path.startswith('/api/outline-completion/map/'):
+                slug=path.removeprefix('/api/outline-completion/map/')
+                if (not re.fullmatch('[a-z0-9]+(?:-[a-z0-9]+)*',slug)
+                        or 'maps/'+slug+'.geojson.gz' not in manifest['files_sha256']):
+                    raise ValueError('Known outline alignment map required')
+                handler.respond(200,completion.read_json(folder/'maps'/f'{slug}.geojson.gz'))
+            else:
+                slug=path.removeprefix('/api/outline-completion/city/')
+                if (not path.startswith('/api/outline-completion/city/')
+                        or not re.fullmatch('[a-z0-9]+(?:-[a-z0-9]+)*',slug)
+                        or 'cities/'+slug+'.json.gz' not in manifest['files_sha256']):
+                    raise ValueError('Known published city outline required')
+                handler.respond(200,completion.read_json(folder/'cities'/f'{slug}.json.gz'))
+        except (ValueError,KeyError,TypeError,OSError) as exc:
+            handler.respond(503,{'error':str(exc),'physical_accepted':False})
+        return True
     if path=='/api/outline-approaches':
         if handler.command not in ('GET','HEAD'):
             handler.respond(405,{'error':'Read-only approach catalogue'});return True
