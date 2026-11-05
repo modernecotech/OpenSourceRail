@@ -20,7 +20,7 @@ def fixture(tmp_path,monkeypatch):
     root=tmp_path
     source=root/'fixture-source.json';source.write_bytes(b'{}\n')
     sources={'fixture-source.json':digest(source)}
-    for name in adapter._LOADED:
+    for name in {**adapter._LOADED,**revision_service._LOADED}:
         target=root/name;target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes((Path(__file__).resolve().parents[1]/name).read_bytes())
     length=planning._distance([0.,0.],[.02,0.]);coordinates=[[0.,0.],[.02,0.]]
@@ -163,3 +163,36 @@ def test_projection_keeps_under_capacity_request_instead_of_silently_optimizing(
 def test_source_map_collision_is_rejected():
     with pytest.raises(planning.PlanningError,match='Mixed'):
         adapter.merge_sources({'same.py':'a'*64},{'same.py':'b'*64})
+
+
+def test_retired_complex_keeps_access_aliases_and_edited_od_proposals(fixture):
+    root,_,_,_,base=fixture
+    base=deepcopy(base);base['outline_context']['city_input_template']['interchanges']=[dict(id='transfer',platforms=['a','c'])]
+    base['revision_sha256']=planning.digest_json({k:v for k,v in base.items() if k!='revision_sha256'})
+    edits=[dict(kind='add-stop',line='L',stop='middle',chainage_m=100.,dwell_s=35.),
+        dict(kind='retire-stop',line='L',stop='complex-ab'),
+        dict(kind='set-od',rows=[dict(origin='middle',destination='c',trips_per_day=100,basis='synthetic')])]
+    result=adapter.apply_edits(base,bundle(base,edits),root)
+    assert [s['id'] for s in result['city_input']['lines'][0]['stops']]==['middle','c']
+    assert result['city_input']['interchanges'][0]['source_platform_ids']==['a','c']
+    assert result['city_input']['interchanges'][0]['platforms']==['middle','c']
+    assert result['city_input']['od']==result['plan']['od']
+    assert result['access_screen']['additional_access_walkway_m']>0
+
+
+def test_revision_evaluation_keeps_priced_capacity_failure_and_explicit_dwell_amendment(fixture,monkeypatch):
+    root,_,_,_,base=fixture
+    revision=adapter.apply_edits(base,bundle(base,[dict(kind='set-service',line='L',headway_s=300.,dwell_s=20.)]),root)
+    original=service();original['stop_dwell_s']=[40.,40.,40.];seal(original)
+    baseline=seal(dict(city_input_id=revision['city_input']['input_id'],line_services=[seal(dict(line_id='L',
+        service=original,requirements=original['requirements'],legs=[dict(braking_time_s=60.)],
+        source_sha256=revision['source_sha256']))],summary={},source_sha256=revision['source_sha256']))
+    before=deepcopy(baseline)
+    monkeypatch.setattr(revision_service.city_service,'evaluate',lambda *a,**kw:deepcopy(baseline))
+    result=revision_service.evaluate(revision,{}, {},root)
+    assert result['functional_pass'] is False and result['provisional_costing_permitted'] is True
+    assert result['line_services'][0]['service']['requirements']['headway_s']==300
+    assert result['functional_checks'][0]['capacity_pass'] is False
+    assert result['line_services'][0]['dwell_adjustment']['requested_minimum_dwell_s']==20
+    assert result['line_services'][0]['dwell_adjustment']['automatic_adjustment_applied'] is True
+    assert baseline==before

@@ -41,6 +41,11 @@ def evaluate(revision,design,vehicle,root=ROOT):
     for row in result['line_services']:
         requested=deepcopy(revision['service_requests'][row['line_id']]);requested['legs']=row['legs']
         row['service']=project(row['service'],requested,revision['requirements']);row['requirements']=deepcopy(row['service']['requirements'])
+        row['requested_service']=deepcopy(revision['service_requests'][row['line_id']])
+        row['dwell_adjustment']=dict(requested_minimum_dwell_s=requested['dwell_s'],
+            calculated_stop_dwell_s=deepcopy(row['service'].get('stop_dwell_s',[])),
+            automatic_adjustment_applied=any(x>requested['dwell_s'] for x in row['service'].get('stop_dwell_s',[])),
+            basis='Explicit calculated amendment for declared reference and nominal hotel charging; not a validated timetable')
         demand=revision['requirements'].get('peak_demand_pphpd',4000.)
         check=dict(line_id=row['line_id'],capacity_pass=row['service']['planning_usable_capacity_pphpd']>=demand,
             headway_pass=row['requirements']['headway_s']<=revision['requirements'].get('maximum_headway_s',300.),
