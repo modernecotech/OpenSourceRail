@@ -12,7 +12,7 @@ PRODUCER='engineering/outline/city_project_cost.py'
 CASES=('low','base','high')
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
     operating_release=False,procurement_approved=False,selected_reference_changed=False,movement_authority=False)
-DEFAULTS=dict(alignment_site_risk_usd_m=[100.,500.,2000.],alignment_bridge_risk_usd_m=[2000.,6000.,20000.],version='CITY-PROJECT-OUTLINE-1',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
+DEFAULTS=dict(vehicle_campaign_retool_fraction=[.5,.75,1.],receiving_hold_workdays=5.,receiving_kit_area_m2=[40.,80.,160.],receiving_minimum_m2=200.,alignment_site_risk_usd_m=[100.,500.,2000.],alignment_bridge_risk_usd_m=[2000.,6000.,20000.],version='CITY-PROJECT-OUTLINE-1',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
     station_repair_walkway_usd_m=[300.,800.,2500.],berth_bypass_junction_usd=[50000.,200000.,800000.],
     interchange_transfer_usd=[250000.,1000000.,4000000.],
     feeder_usd_route_m=[100.,300.,1000.],traction_motor_converter_usd_kw=[110.,180.,320.],
@@ -52,6 +52,31 @@ def _access_sites(city):
     return len({find(s) for s in ids}),len(seen)
 
 
+def _validate_bindings(city,services,context):
+    if city.get('input_id')!=identity({k:v for k,v in city.items() if k!='input_id'}):
+        raise ValueError('City input identity differs')
+    mapped={z['line_id']:z for z in city['lines']}
+    for row in services:
+        cfg=row.get('propulsion_hypothesis',{});service=row.get('service',{})
+        if (cfg.get('city_input_id')!=city['input_id']
+                or cfg.get('line_id')!=row.get('line_id')
+                or cfg.get('reference_vehicle_candidate_id')!=context['vehicle']['candidate_id']
+                or service.get('reference_vehicle_candidate_id')!=context['vehicle']['candidate_id']
+                or service.get('reference_vehicle_evaluation_id')!=context['vehicle']['evaluation_id']):
+            raise ValueError('Mixed city/service propulsion or reference vehicle binding')
+        for record,key in ((cfg,'research_configuration_id'),(service,'evaluation_id'),(row,'evaluation_id')):
+            if record.get(key)!=identity({k:v for k,v in record.items() if k!=key}):
+                raise ValueError('City service/configuration evaluation identity differs')
+        line=mapped.get(row['line_id'])
+        if (line is None or row.get('shape')!=line['shape'] or row.get('requirements')!=service.get('requirements')
+                or row.get('design')!=service.get('design')):
+            raise ValueError('City service requirements/design/topology differ')
+        req=row['requirements'];stops=row.get('operational_stops',line['stops'])
+        if (abs(req.get('route_km',0.)*1000-line['route_m'])>.05 or req.get('stations')!=len(stops)
+                or (req.get('trackways'),req.get('cars_per_train'),req.get('fixed_seats_per_car'),req.get('wheelchair_places_per_car'))!=(2,6,44,2)):
+            raise ValueError('City service route/station/physical formation differs')
+
+
 def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     """Price actual network service, one committed fleet and one production setup.
 
@@ -62,6 +87,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     ids=[z['line_id'] for z in city['lines']]
     if set(ids)!={z['line_id'] for z in services} or len(services)!=len(ids):raise ValueError('Exactly one service per mapped line required')
     if any(z.get('city_input_id',city['input_id'])!=city['input_id'] for z in services):raise ValueError('Mixed city/service identities')
+    _validate_bindings(city,services,context)
     by={z['line_id']:z for z in services};spec=deepcopy(context['spec']);d=spec['design'];a=spec['capital'];l=spec['lifecycle'];fx=spec['currency']['iqd_per_usd']
     fleet=sum(z['service']['total_trainsets'] for z in services);cars=sum(z['service']['totalcars'] for z in services)
     if type(fleet) is not int or fleet<=0 or cars!=fleet*6:raise ValueError('Explicit positive six-car network fleet required')
@@ -158,11 +184,17 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         production_h.append(fsum(z['quantity'].get('process_hours_per_train',[0,0,0])[i]/(vc['mass_reserve_sensitivity']['case_factors'][case] if z['line_key'].startswith('unlocated-account/') else 1.)
             +6*z['quantity'].get('process_hours_per_car',[0,0,0])[i]+z['quantity'].get('cars',0)*z['quantity'].get('labour_hours_per_car',[0,0,0])[i] for z in vc['lines'])*fleet)
     positions=[ceil(h/9000) for h in production_h];assembly=[max(1,ceil(fleet*h/(9000*a['assembly_crew_per_bay']))) for h in (48.,144.,480.)]
-    vehicle_floor=[(v['cell_floor_m2'][i]+max(200.,positions[i]*a['workspace_area_m2'])+assembly[i]*a['assembly_bay_area_m2'])*a['factory_storage_area_factor'] for i in range(3)]
-    vehicle_campaign=[v['owned_factory_capital_usd'][case]+vehicle_floor[i]*a['factory_building_iqd_per_m2'][i]/fx
-        +(a['vehicle_fixture_sets']*a['vehicle_fixture_iqd'][i]+assembly[i]*a['assembly_crew_per_bay']*a['workplace_tooling_iqd'][i])/fx for i,case in enumerate(CASES)]
+    # Operator hours include cell and assembly work, so they cannot also
+    # generate another complete floor allocation. Receiving is a disjoint
+    # throughput-sized buffer; circulation/support stays in the declared factor.
+    receiving_kits=max(1,ceil(cars/(3*250)*p['receiving_hold_workdays']))
+    receiving_floor=[max(p['receiving_minimum_m2'],receiving_kits*z) for z in p['receiving_kit_area_m2']]
+    vehicle_floor=[(v['cell_floor_m2'][i]+receiving_floor[i]+assembly[i]*a['assembly_bay_area_m2'])*a['factory_storage_area_factor'] for i in range(3)]
+    vehicle_setup=[v['owned_factory_capital_usd'][case]+(a['vehicle_fixture_sets']*a['vehicle_fixture_iqd'][i]+assembly[i]*a['assembly_crew_per_bay']*a['workplace_tooling_iqd'][i])/fx for i,case in enumerate(CASES)]
+    vehicle_premises=[vehicle_floor[i]*a['factory_building_iqd_per_m2'][i]/fx for i in range(3)]
+    vehicle_campaign=[vehicle_setup[i]+vehicle_premises[i] for i in range(3)]
     civil_campaign=[civil['owned_factory_capital_usd'][case]+civil['precast_floor_m2'][i]*a['factory_building_iqd_per_m2'][i]/fx+civil['precast_yard_m2'][i]*a['precast_yard_iqd_per_m2'][i]/fx for i,case in enumerate(CASES)]
-    add(capital,'citywide-production-equipment-tools-buildings-yards','factory-tooling',dict(committed_cars=cars,committed_spans=civil['quantities']['span_count'],vehicle_operator_positions_per_shift=positions,two_shift_employee_floor=[2*n for n in positions],production_years=3,productive_hours_per_workplace=9000,assembly_bays=assembly,vehicle_floor_m2=vehicle_floor,precast_floor_m2=civil['precast_floor_m2'],precast_yard_m2=civil['precast_yard_m2']),
+    add(capital,'citywide-production-equipment-tools-buildings-yards','factory-tooling',dict(committed_cars=cars,committed_spans=civil['quantities']['span_count'],vehicle_operator_positions_per_shift=positions,two_shift_employee_floor=[2*n for n in positions],production_years=3,productive_hours_per_workplace=9000,assembly_bays=assembly,vehicle_floor_m2=vehicle_floor,receiving_staging_m2=receiving_floor,receiving_buffer_car_kits=receiving_kits,operator_positions_include_final_assembly=True,disjoint_owned_cell_and_assembly_and_receiving_floor=True,precast_floor_m2=civil['precast_floor_m2'],precast_yard_m2=civil['precast_yard_m2']),
         [vehicle_campaign[i]+civil_campaign[i] for i in range(3)],'One citywide production campaign; existing purchased factories remain in unit prices; no speculative later-city amortisation.',None)
     # One pooled depot, with all line connection spurs explicitly budgeted.
     bays=max(1,ceil(fleet*a['depot_workshop_fraction_of_fleet']));storage=fleet*a['depot_storage_length_per_train_m']*a['depot_storage_track_pitch_m'];workshop=bays*a['depot_bay_length_m']*a['depot_bay_width_m'];depot_area=(storage+workshop)*(1+a['depot_circulation_fraction'])
@@ -213,8 +245,8 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         for i,case in enumerate(CASES):
             for year in model_cost.replacement_event_times(years,row['life_years'][i]/exposure):
                 amount=row['costs_usd'][case]
-                if row['key']=='network-delivered-assembled-fleet':amount+=vehicle_campaign[i]
-                pv=amount/(1+discount)**year;renewal[i]+=pv;events.append(dict(line_id=row['line_id'],case=case,year=year,present_value_usd=pv))
+                if row['key']=='network-delivered-assembled-fleet':amount+=vehicle_setup[i]*p['vehicle_campaign_retool_fraction'][i]
+                pv=amount/(1+discount)**year;renewal[i]+=pv;events.append(dict(line_id=row['line_id'],case=case,year=year,present_value_usd=pv,production_setup_usd=vehicle_setup[i]*p['vehicle_campaign_retool_fraction'][i] if row['key']=='network-delivered-assembled-fleet' else 0.,production_premises_usd=0.))
     # Service-battery account resets when complete fleet is renewed.
     services_account=next(z for z in vc['lines'] if z['line_key']=='unlocated-account/services')
     from engineering.development_baseline.system_cost import component_renewal_schedule
@@ -223,7 +255,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         for e in schedule['events']:
             if e.get('covered_by_parent_replacement',False):continue
             amount=services_account['cost_iqd'][case]/vc['mass_reserve_sensitivity']['case_factors'][case]*fleet/fx/(1+discount)**e['year'];renewal[i]+=amount;events.append(dict(component='service-battery-account',case=case,year=e['year'],present_value_usd=amount))
-    add(life,'disjoint-scheduled-renewals','renewals',dict(events=events),renewal,'Initial disjoint asset lives; full fleet renewal includes one new vehicle production campaign; service-account age resets at fleet replacement.')
+    add(life,'disjoint-scheduled-renewals','renewals',dict(events=events),renewal,'Initial disjoint asset lives; full fleet renewal includes one declared equipment/tooling refurbishment reserve, excluding retained factory premises and land; service-account age resets at fleet replacement.')
     totals={c:fsum(z['costs_usd'][c] for z in capital) for c in CASES}
     add(life,'final-removal-disposal','disposal',dict(year=30),[totals[c]*l['decommission_fraction'][i]/(1+discount)**30 for i,c in enumerate(CASES)],'Nonzero year-30 removal/disposal; no speculative salvage.')
     scopes={s:{c:fsum(z['costs_usd'][c] for z in capital+life if z['scope']==s) for c in CASES} for s in model_cost.SCOPES}
@@ -240,11 +272,11 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],input_line_services_id=identity(line_services),city=city['city'],capital_lines=capital,lifecycle_lines=life,
         scope_totals_usd=scopes,installed_capital_usd=totals,whole_life_npv_usd={c:totals[c]+fsum(z['costs_usd'][c] for z in life) for c in CASES},
         price_per_route_km_usd={c:totals[c]/(route/1000) for c in CASES},
-        resources=dict(network_route_km=route/1000,network_lines=len(ids),radial_lines=sum(z['shape']=='radial' for z in city['lines']),ring_lines=sum(z['shape']=='ring' for z in city['lines']),line_stop_records=station_rows,original_map_stop_records=sum(len(z['stops']) for z in city['lines']),boarding_edges=boarding_edges,additional_berth_edges=extra_edges,access_repair_walkway_m=repair_walkway,access_sites=access_sites,interchanges=interchanges,total_trainsets=fleet,totalcars=cars,depot_area_m2=depot_area,production_positions_per_shift=positions,vehicle_campaign_capital_usd=dict(zip(CASES,vehicle_campaign)),civil_campaign_capital_usd=dict(zip(CASES,civil_campaign)),annual_train_km=annual_km,annual_energy_usd=dict(zip(CASES,annual_energy)),annual_operations_usd=dict(zip(CASES,annual_ops)),production_shifts=2,civil_shifts=2,accounting_years=30),
+        resources=dict(network_route_km=route/1000,network_lines=len(ids),radial_lines=sum(z['shape']=='radial' for z in city['lines']),ring_lines=sum(z['shape']=='ring' for z in city['lines']),line_stop_records=station_rows,original_map_stop_records=sum(len(z['stops']) for z in city['lines']),boarding_edges=boarding_edges,additional_berth_edges=extra_edges,access_repair_walkway_m=repair_walkway,access_sites=access_sites,interchanges=interchanges,total_trainsets=fleet,totalcars=cars,depot_area_m2=depot_area,production_positions_per_shift=positions,vehicle_campaign_capital_usd=dict(zip(CASES,vehicle_campaign)),vehicle_setup_equipment_tools_usd=dict(zip(CASES,vehicle_setup)),vehicle_factory_premises_usd=dict(zip(CASES,vehicle_premises)),vehicle_renewal_setup_fraction=p['vehicle_campaign_retool_fraction'],civil_campaign_capital_usd=dict(zip(CASES,civil_campaign)),annual_train_km=annual_km,annual_energy_usd=dict(zip(CASES,annual_energy)),annual_operations_usd=dict(zip(CASES,annual_ops)),production_shifts=2,civil_shifts=2,accounting_years=30),
         assumptions=dict(policy=p,civil=civil['assumptions'],pricing_basis='Class C source-bound Iraq/China material, equipment and process templates with explicit foreign transfer ranges; not verified local city prices or supplier quotes.',
             quantities_derived_from='Mapped line lengths, complete civil classes, actual line service/fleet and explicit interchange platform grouping',costs_borrowed='Current selected vehicle accounts; CSO process/wage/concrete and China finished/material observations; scenario rates remain provisional.',
             station_launch_lines=launch_ids,powered_axle_research_lines=fallback_ids,bounded_chosen_concept_not_global_optimum=True,
-            central_depot_connections_unqualified=True,civil_added_mass_kg_per_car_hypothesis=civil_context['spec']['design']['added_vehicle_mass_kg_per_car'],civil_uses_maximum_declared_traction_mass_across_lines=True,no_historical_capacity_or_cost_results_used=True,
+            central_depot_connections_unqualified=True,factory_premises_rebuilt_at_fleet_renewal=False,civil_added_mass_kg_per_car_hypothesis=civil_context['spec']['design']['added_vehicle_mass_kg_per_car'],civil_uses_maximum_declared_traction_mass_across_lines=True,no_historical_capacity_or_cost_results_used=True,
             source_country=city['city'].get('country'),local_rates_verified=False,native_solvers=0),
         civil=civil,production_supply=v,source_sha256=sources,sources=sources,pricing_basis='calculated-outline-Class-C',**FLAGS)
     result['evaluation_id']=identity(result);return result
