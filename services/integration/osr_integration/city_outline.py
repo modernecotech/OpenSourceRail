@@ -6,6 +6,7 @@ Non-submittable masters without a standard disabled field are held by the local
 manifest rather than receiving invented site fields. No importer is provided.
 """
 from copy import deepcopy
+from datetime import date
 from hashlib import sha256
 import json
 from math import ceil, isfinite
@@ -18,14 +19,15 @@ DOCTYPES = ('Item', 'BOM', 'Operation', 'Routing', 'Workstation', 'Project',
             'Task', 'Work Order', 'Shift Type', 'Staffing Plan')
 FIELDS = {
     'Item': {'item_code','item_name','stock_uom','disabled','is_stock_item'},
-    'BOM': {'item','quantity','uom','is_active','is_default','currency','items','routing','with_operations'},
+    'BOM': {'item','quantity','uom','is_active','is_default','currency','items','routing','with_operations','company','conversion_rate'},
     'Operation': {'workstation'}, 'Routing': {'routing_name','disabled','operations'},
-    'Workstation': {'workstation_name'}, 'Project': {'project_name','status'},
+    'Workstation': {'workstation_name','production_capacity'}, 'Project': {'project_name','status','company','naming_series','expected_start_date'},
     'Task': {'subject','project','status','depends_on'},
-    'Work Order': {'status','production_item','bom_no','qty','project'},
+    'Work Order': {'status','production_item','bom_no','qty','project','company','source_warehouse','wip_warehouse','fg_warehouse','naming_series'},
     'Shift Type': {'start_time','end_time','enable_auto_attendance'},
-    'Staffing Plan': {'staffing_details'},
+    'Staffing Plan': {'staffing_details','company','from_date','to_date'},
 }
+FIELDS['Item'].add('item_group')
 FLAGS = dict(external_transactions_performed=False, business_records_submitted=False,
     physical_accepted=False, engineering_accepted=False, manufacturing_release=False,
     operating_release=False, procurement_approved=False, movement_authority=False,
@@ -38,6 +40,8 @@ REFERENCES = {
     'staffing_detail': 'https://raw.githubusercontent.com/frappe/hrms/version-15/hrms/hr/doctype/staffing_plan_detail/staffing_plan_detail.json',
     'shift_type': 'https://docs.frappe.io/hr/shift-type',
 }
+UPSTREAM_SCHEMA_COMMITS = dict(erpnext='e5cde8c4b9e3f7f567a92ca3e65fd411402b89ce',
+    hrms='186900a6e3db4e6f927f1ee20df745bbb082638a')
 
 
 def encoded(value):
@@ -171,9 +175,36 @@ def _check_plan(plan, root):
     return items, boms, resources, tasks, groups
 
 
-def delivery_drafts(plan, active_orders=(), root=None):
+def _site_settings(value):
+    value = {} if value is None else deepcopy(value)
+    allowed = {'company','item_group','company_currency','usd_to_company_rate','warehouses',
+        'start_date','end_date','naming_series','designations'}
+    if not isinstance(value,dict) or set(value)-allowed: raise ValueError('Known site mappings required')
+    for key in ('company','item_group','company_currency'):
+        if key in value and (not isinstance(value[key],str) or not 0<len(value[key])<=140):
+            raise ValueError('Named site '+key+' required')
+    for key,allowed in (('warehouses',{'source','wip','finished_goods'}),('naming_series',{'project','work_order'})):
+        rows=value.get(key,{})
+        if not isinstance(rows,dict) or set(rows)-allowed or any(not isinstance(v,str) or not 0<len(v)<=140 for v in rows.values()):
+            raise ValueError('Known '+key+' mappings required')
+    if 'usd_to_company_rate' in value: _number(value['usd_to_company_rate'],'currency conversion')
+    if value.get('company_currency')=='USD' and value.get('usd_to_company_rate',1)!=1:
+        raise ValueError('USD company currency requires unit conversion')
+    for key in ('start_date','end_date'):
+        if key in value:
+            if not isinstance(value[key],str) or date.fromisoformat(value[key]).isoformat()!=value[key]:
+                raise ValueError('ISO site '+key+' required')
+    if 'end_date' in value and ('start_date' not in value or value['end_date']<value['start_date']):
+        raise ValueError('Ordered staffing dates required')
+    if not isinstance(value.get('designations',{}),dict) or any(not isinstance(v,str) or not 0<len(v)<=140 for v in value.get('designations',{}).values()):
+        raise ValueError('Named domain designations required')
+    return value
+
+
+def delivery_drafts(plan, active_orders=(), root=None, *, site=None):
     """Convert a sealed plan into held local payloads, with no invented dates."""
     items, boms, resources, tasks, groups = _check_plan(plan, root)
+    site = _site_settings(site)
     prefix = 'OSR-'+plan['plan_id'][:16]+'-'
     def name(kind, key): return prefix+kind+'-'+identity(key)[:16]
     docs = {kind:[] for kind in DOCTYPES}; metadata = {}
@@ -195,13 +226,20 @@ def delivery_drafts(plan, active_orders=(), root=None):
             unresolved_site_fields=['item_group', 'UOM mapping'])
     project = add('Project', plan['plan_id'], dict(project_name=plan['city']['name']+' calculated outline', status='Open'),
         unresolved_site_fields=['company', 'calendar start date'], budget=deepcopy(plan.get('cost_reconciliation', {})))
-    resource_names = {key:add('Workstation', key, dict(workstation_name=name('Cell', key)),
-        resource=deepcopy(row), capacity_semantics='Outline resource; site workstation/capacity mapping required')
-        for key, row in resources.items()}
+    resource_names = {}; unused_resources = []
+    for key,row in resources.items():
+        capacity = row['capacity_by_case']['base']
+        _number(capacity,'base resource pool quantity',True)
+        if capacity == 0:
+            unused_resources.append(deepcopy(row)); continue
+        if int(capacity)!=capacity: raise ValueError('Integer parallel resource pool required')
+        resource_names[key]=add('Workstation',key,dict(workstation_name=name('Cell',key),production_capacity=int(capacity)),
+            resource=deepcopy(row),capacity_semantics='Base number of priced parallel resource units, not extra machines. Operators/vendor streams are functional scheduling pools; target workstation mapping remains required.')
     route_names = {}; op_names = {}
     for key, group in groups.items():
         route_ops = []
         for op in sorted(group['operations'], key=lambda z:z['sequence']):
+            if op['resource_id'] not in resource_names: raise ValueError('Operation references zero-capacity resource')
             op_name = add('Operation', op['operation_id'], dict(workstation=resource_names[op['resource_id']]),
                 operation_name=op['name'], source_operation=deepcopy(op))
             op_names[op['operation_id']] = op_name
@@ -214,12 +252,24 @@ def delivery_drafts(plan, active_orders=(), root=None):
                 group_id=key, route=group['route'], output_quantity=group['output_quantity'],
                 operation_times_basis='Per output unit; low/base/high retained in operation metadata')
     bom_names = {}
+    def component_rate(code):
+        row=items[code]
+        if row.get('unit_cost_usd') is not None:
+            rates=deepcopy(row['unit_cost_usd']); basis='source-plan-unit-cost'
+        elif row.get('budget_usd') is not None:
+            rates={c:row['budget_usd'][c]/_number(row.get('quantity_cases',{}).get(c,row['quantity']),'priced case quantity') for c in ('low','base','high')}
+            basis='source-plan-total-budget-divided-by-same-case-quantity'
+        else: raise ValueError('Priced bounded BOM component required: '+code)
+        for rate in rates.values():_number(rate,'BOM component rate')
+        return rates,basis
     for key, bom in boms.items():
+        rates={z['item_code']:component_rate(z['item_code']) for z in bom['items']}
         fields = dict(item=item_names[key], quantity=bom['output_quantity'],uom=bom['uom'],
             is_active=0,is_default=0,currency='USD',items=[dict(doctype='BOM Item',docstatus=0,
-                item_code=item_names[z['item_code']],qty=z['qty'],uom=z['uom']) for z in bom['items']])
+                item_code=item_names[z['item_code']],qty=z['qty'],uom=z['uom'],rate=rates[z['item_code']][0]['base']) for z in bom['items']])
         if key in route_names: fields.update(routing=route_names[key],with_operations=1)
         bom_names[key] = add('BOM', key, fields, source_bom_id=bom['bom_id'],
+            component_rate_estimates={item_names[k]:dict(unit_cost_usd=v[0],basis=v[1],source_class='calculated-Class-C',supplier_confirmed=False,uom=items[k]['uom'],source_item_kind=items[k]['kind'],source_scope_note=items[k].get('scope_note')) for k,v in rates.items()},
             unresolved_site_fields=['company', 'warehouse', 'BOM costing validation'])
     task_names = {key:name('Task',key) for key in tasks}
     for key, task in tasks.items():
@@ -261,13 +311,54 @@ def delivery_drafts(plan, active_orders=(), root=None):
         reviews.append(dict(order_id=order['order_id'],released_candidate_id=order['candidate_id'],
             released_revision_id=order['released_revision_id'],proposed_plan_id=plan['plan_id'],
             action='human-change-control-review',active_order_mutated=False))
+    required = {}
+    for kind,rows in docs.items():
+        for doc in rows:
+            missing=[]
+            if kind in ('BOM','Project','Work Order','Staffing Plan'):
+                if 'company' in site:doc['company']=site['company']
+                else:missing.append('company')
+            if kind=='Item':
+                if 'item_group' in site:doc['item_group']=site['item_group']
+                else:missing.append('item_group')
+                missing.append('UOM:'+doc['stock_uom'])
+            if kind=='BOM':
+                if site.get('company_currency')=='USD':doc['conversion_rate']=1.
+                elif 'usd_to_company_rate' in site:doc['conversion_rate']=site['usd_to_company_rate']
+                else:missing.append('currency_conversion:USD-to-company-currency')
+            if kind in ('Project','Work Order'):
+                key='project' if kind=='Project' else 'work_order'
+                if key in site.get('naming_series',{}):doc['naming_series']=site['naming_series'][key]
+                else:missing.append('naming_series:'+key)
+            if kind=='Project' and 'start_date' in site:doc['expected_start_date']=site['start_date']
+            if kind=='Work Order':
+                for alias,field in (('source','source_warehouse'),('wip','wip_warehouse'),('finished_goods','fg_warehouse')):
+                    if alias in site.get('warehouses',{}):doc[field]=site['warehouses'][alias]
+                    else:missing.append('warehouse:'+alias)
+                missing.append('planned_start_date:calendar-and-batch-schedule')
+            if kind in ('Task','Project','Work Order'):missing.append('calendar:working-days-holidays-and-relative-schedule-origin')
+            if kind=='Staffing Plan':
+                for field,alias in (('from_date','start_date'),('to_date','end_date')):
+                    if alias in site:doc[field]=site[alias]
+                    else:missing.append(field)
+                domain=metadata[doc['name']]['workforce']['domain']
+                if domain in site.get('designations',{}):doc['staffing_details'][0]['designation']=site['designations'][domain]
+                else:missing.append('designation:'+domain)
+                missing.extend(['department','employment-currency-and-cost-basis','leave-and-days-off-relief-roster'])
+            if kind=='Workstation':missing.append('workstation-resource-unit-mapping')
+            metadata[doc['name']]['required_site_mappings']=missing
+            required[doc['name']]=missing
     source = dict(plan['source_sha256']); source[PRODUCER] = sha256(Path(__file__).read_bytes()).hexdigest()
     value = dict(schema=SCHEMA, source_plan_id=plan['plan_id'], city=deepcopy(plan['city']),
         identities={k:deepcopy(plan[k]) for k in ('city_record_evaluation_id','city_input_id','cost_evaluation_id',
             'research_configuration_id','reference_candidate_ids','selection_id','planning_revision_id')},
-        documents=docs, document_metadata=metadata, active_orders_preserved=orders,
+        documents=docs, document_metadata=metadata, required_site_mappings=required,
+        site_configuration=site,site_configuration_id=identity(site),unused_zero_capacity_resources=unused_resources,
+        active_orders_preserved=orders,
         active_orders_sha256=identity(orders),change_reviews=reviews,source_sha256=source,
         standard_field_references=REFERENCES, target_schema_basis='ERPNext/HRMS v15 source guidance; not target-site validation',
+        upstream_schema_commits=UPSTREAM_SCHEMA_COMMITS,
+        accounting_policy='Source plan/project cost ledgers remain authoritative. Draft BOM rates are allocated estimates, not added project capital; site costing must reconcile included process/assembly allowances before use.',
         unresolved_handoffs=['Company, warehouses, UOMs, item groups and HR designations',
             'Calendar origin, working/holiday calendars and employee relief rosters',
             'Approved drawings/BOM/routes, QA and independent procurement/manufacturing release'],
@@ -286,6 +377,9 @@ def validate(value, root=None):
     all_docs = [d for rows in value['documents'].values() for d in rows]
     names = _unique(all_docs, 'name')
     if set(names) != set(value['document_metadata']): raise ValueError('Document metadata coverage differs')
+    if (set(value['required_site_mappings'])!=set(names)
+            or value['site_configuration_id']!=identity(_site_settings(value['site_configuration']))):
+        raise ValueError('Site mapping identity/coverage differs')
     for kind, rows in value['documents'].items():
         for doc in rows:
             if doc['doctype'] != kind or doc.get('docstatus') != 0: raise ValueError('Draft docstatus required')
@@ -297,6 +391,8 @@ def validate(value, root=None):
             meta = value['document_metadata'][doc['name']]
             if meta.get('local_disabled') is not True or meta.get('site_insert_permitted') is not False or meta['source_plan_id'] != value['source_plan_id']:
                 raise ValueError('Local hold metadata required')
+            if meta['required_site_mappings'] != value['required_site_mappings'][doc['name']]:
+                raise ValueError('Required site mapping holds differ')
             for field in ('items','operations','depends_on','staffing_details'):
                 for child in doc.get(field,[]):
                     if child.get('docstatus') != 0: raise ValueError('Draft child docstatus required')
@@ -315,9 +411,17 @@ def validate(value, root=None):
             code = child['item_code']
             if code not in items or child['uom'] != items[code]['stock_uom']:
                 raise ValueError('BOM child reference/UOM differs')
-            _number(child['qty'], 'BOM quantity'); graph[bom['item']].append(code)
+            _number(child['qty'], 'BOM quantity');_number(child['rate'],'BOM component rate')
+            rate=value['document_metadata'][bom['name']]['component_rate_estimates'][code]
+            if child['rate']!=rate['unit_cost_usd']['base'] or child['uom']!=rate['uom']:
+                raise ValueError('BOM estimated rate/UOM binding differs')
+            graph[bom['item']].append(code)
         if 'routing' in bom and bom['routing'] not in routes: raise ValueError('Unknown BOM routing')
     _acyclic(graph,'BOM')
+    for resource in resources.values():
+        capacity=resource['production_capacity'];base=value['document_metadata'][resource['name']]['resource']['capacity_by_case']['base']
+        if type(capacity) is not int or capacity<=0 or capacity!=base:
+            raise ValueError('Workstation capacity differs from priced base resource pool')
     for op in operations.values():
         if op['workstation'] not in resources: raise ValueError('Unknown operation workstation')
     for route in routes.values():

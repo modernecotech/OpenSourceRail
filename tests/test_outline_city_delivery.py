@@ -134,3 +134,50 @@ def test_wrong_adapter_source_and_unbound_active_order_are_rejected():
     value=delivery.delivery_drafts(plan());value['source_sha256'][delivery.PRODUCER]='0'*64;seal(value,'draft_id')
     with pytest.raises(ValueError,match='source differs'):delivery.validate(value)
     with pytest.raises(ValueError,match='released bindings'):delivery.delivery_drafts(plan(),[dict(order_id='orphan')])
+
+
+def test_priced_bom_rate_resource_count_and_exact_mapping_holds():
+    p=plan();p['resources'][0]['capacity_by_case']['base']=3;seal(p)
+    value=delivery.delivery_drafts(p)
+    bom=value['documents']['BOM'][0]
+    assert bom['items'][0]['rate']==1.0  # independently: USD200 / 200kg
+    assert value['documents']['Workstation'][0]['production_capacity']==3
+    holds=value['required_site_mappings'][bom['name']]
+    assert 'company' in holds and 'currency_conversion:USD-to-company-currency' in holds
+    assert 'item_group' in value['required_site_mappings'][value['documents']['Item'][0]['name']]
+    bad=deepcopy(value);bad['documents']['BOM'][0]['items'][0]['rate']=0;seal(bad,'draft_id')
+    with pytest.raises(ValueError,match='rate'):delivery.validate(bad)
+    bad=deepcopy(value);bad['documents']['Workstation'][0]['production_capacity']=4;seal(bad,'draft_id')
+    with pytest.raises(ValueError,match='capacity'):delivery.validate(bad)
+
+
+def test_missing_required_component_price_does_not_become_zero():
+    p=plan();p['items'][0].pop('budget_usd');seal(p)
+    with pytest.raises(ValueError,match='Priced bounded BOM component'):delivery.delivery_drafts(p)
+
+
+def test_unused_zero_capacity_resource_is_not_invented():
+    p=plan();extra=deepcopy(p['resources'][0]);extra['resource_id']='unused';extra['capacity_by_case']={c:0 for c in ('low','base','high')};p['resources'].append(extra);seal(p)
+    value=delivery.delivery_drafts(p)
+    assert len(value['documents']['Workstation'])==1
+    assert value['unused_zero_capacity_resources'][0]['resource_id']=='unused'
+    p['production_groups'][0]['operations'][0]['resource_id']='unused';seal(p)
+    with pytest.raises(ValueError,match='zero-capacity'):delivery.delivery_drafts(p)
+
+
+def test_optional_site_mapping_fills_only_declared_standard_fields(tmp_path):
+    site=dict(company='Fixture company',item_group='Fixture parts',company_currency='USD',
+        warehouses=dict(source='Raw',wip='WIP',finished_goods='Finished'),
+        naming_series=dict(project='PROJ-.####',work_order='MFG-WO-.YYYY.-'),
+        start_date='2027-01-04',end_date='2028-12-31',designations=dict(production='Assembler',operations='Operator'))
+    value=delivery.delivery_drafts(plan(),site=site);delivery.validate(value)
+    assert value['documents']['BOM'][0]['conversion_rate']==1
+    assert value['documents']['Project'][0]['expected_start_date']=='2027-01-04'
+    assert value['documents']['Work Order'][0]['fg_warehouse']=='Finished'
+    assert value['documents']['Staffing Plan'][0]['staffing_details'][0]['designation']=='Assembler'
+    wo=value['documents']['Work Order'][0]
+    assert 'planned_start_date' not in wo  # working-day/batch calendar still unresolved
+    assert 'planned_start_date:calendar-and-batch-schedule' in value['required_site_mappings'][wo['name']]
+    assert not value['target_site_schema_validation_performed'] and wo['docstatus']==0
+    for invalid in ([],dict(company=''),dict(arbitrary_command='run'),dict(company_currency='USD',usd_to_company_rate=2)):
+        with pytest.raises(ValueError):delivery.delivery_drafts(plan(),site=invalid)
