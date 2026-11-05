@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **120**.
+Indexed Markdown files: **122**.
 
 ## Sections
 
@@ -21,9 +21,9 @@ Indexed Markdown files: **120**.
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
 | [cities](#cities) | 1 |
-| [crates](#crates) | 1 |
+| [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 95 |
+| [docs](#docs) | 96 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -61,6 +61,7 @@ Indexed Markdown files: **120**.
 | File | Title |
 |---|---|
 | [`crates/README.md`](../crates/README.md) | OpenSourceRail Rust control and integration software |
+| [`crates/osr-station-energy/README.md`](../crates/osr-station-energy/README.md) | Station energy-recovery first screen |
 
 ## deployment
 
@@ -153,6 +154,7 @@ Indexed Markdown files: **120**.
 | [`docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md`](../docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) | Station-LIM bank RFQ scope drafts — October 2026 |
 | [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
 | [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
+| [`docs/design-engine/station-regenerative-launch/README.md`](../docs/design-engine/station-regenerative-launch/README.md) | Station regenerative capture, mechanical launch and compact booster: design plan |
 | [`docs/design-engine/supply-economics/README.md`](../docs/design-engine/supply-economics/README.md) | Project-volume purchasing and manufacturing |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
