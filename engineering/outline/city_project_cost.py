@@ -12,7 +12,7 @@ PRODUCER='engineering/outline/city_project_cost.py'
 CASES=('low','base','high')
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
     operating_release=False,procurement_approved=False,selected_reference_changed=False,movement_authority=False)
-DEFAULTS=dict(version='CITY-PROJECT-OUTLINE-1',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
+DEFAULTS=dict(alignment_site_risk_usd_m=[100.,500.,2000.],alignment_bridge_risk_usd_m=[2000.,6000.,20000.],version='CITY-PROJECT-OUTLINE-1',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
     station_repair_walkway_usd_m=[300.,800.,2500.],berth_bypass_junction_usd=[50000.,200000.,800000.],
     interchange_transfer_usd=[250000.,1000000.,4000000.],
     feeder_usd_route_m=[100.,300.,1000.],traction_motor_converter_usd_kw=[110.,180.,320.],
@@ -94,6 +94,14 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         if scope not in model_cost.SCOPES or any(not isfinite(z) or z<0 for z in amounts):raise ValueError('Invalid disjoint city account')
         row=dict(key=key,scope=scope,quantity=q,costs_usd=dict(zip(CASES,amounts)),basis=basis,source_class='C',life_years=years)
         row['line_id']=identity(row);target.append(row)
+    alignment_risk=city.get('alignment_hypothesis',{}).get('risk_quantities',{})
+    if alignment_risk:
+        add(capital,'revised-alignment-row-access-and-crossing-risk','construction',deepcopy(alignment_risk),
+            [(alignment_risk.get('additional_row_area_m2',0.)*a['land_iqd_per_m2'][i]/fx
+              +alignment_risk.get('changed_route_m',0.)*p['alignment_site_risk_usd_m'][i]
+              +alignment_risk.get('additional_access_walkway_m',0.)*p['station_repair_walkway_usd_m'][i]
+              +alignment_risk.get('unverified_bridge_route_m_hypothesis',0.)*p['alignment_bridge_risk_usd_m'][i])*p['foreign_local_rate_transfer'][i] for i in range(3)],
+            'Changed corridor ROW, obstruction/survey/access and unverified crossing reserve; a shorter chord does not establish free land, road clearance, water crossing approval or an accessible walking route.',None)
     add(capital,'network-delivered-assembled-fleet','rolling-stock',dict(trainsets=fleet,cars=cars),[fleet*vehicle_unit[c]/fx for c in CASES],
         'Same provisional vehicle inventory at total committed city volume; supplier/owned factories are counted once separately.',l['vehicle_life_years'])
     add(capital,'network-common-installed-interface-reserve','rolling-stock',dict(cars=cars,kg_per_car=d['added_vehicle_mass_kg_per_car']),
@@ -229,7 +237,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
             if name in sources and sources[name]!=sha:raise ValueError('Mixed city pricing source epochs: '+name)
             sources[name]=sha
     if any(digest(root/name)!=sha for name,sha in sources.items()):raise ValueError('City pricing sources changed during evaluation')
-    result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],city=city['city'],capital_lines=capital,lifecycle_lines=life,
+    result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],input_line_services_id=identity(line_services),city=city['city'],capital_lines=capital,lifecycle_lines=life,
         scope_totals_usd=scopes,installed_capital_usd=totals,whole_life_npv_usd={c:totals[c]+fsum(z['costs_usd'][c] for z in life) for c in CASES},
         price_per_route_km_usd={c:totals[c]/(route/1000) for c in CASES},
         resources=dict(network_route_km=route/1000,network_lines=len(ids),radial_lines=sum(z['shape']=='radial' for z in city['lines']),ring_lines=sum(z['shape']=='ring' for z in city['lines']),line_stop_records=station_rows,original_map_stop_records=sum(len(z['stops']) for z in city['lines']),boarding_edges=boarding_edges,additional_berth_edges=extra_edges,access_repair_walkway_m=repair_walkway,access_sites=access_sites,interchanges=interchanges,total_trainsets=fleet,totalcars=cars,depot_area_m2=depot_area,production_positions_per_shift=positions,vehicle_campaign_capital_usd=dict(zip(CASES,vehicle_campaign)),civil_campaign_capital_usd=dict(zip(CASES,civil_campaign)),annual_train_km=annual_km,annual_energy_usd=dict(zip(CASES,annual_energy)),annual_operations_usd=dict(zip(CASES,annual_ops)),production_shifts=2,civil_shifts=2,accounting_years=30),
