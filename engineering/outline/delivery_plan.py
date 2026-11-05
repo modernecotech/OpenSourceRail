@@ -4,6 +4,7 @@ Relative workdays are a planning calendar, not promised dates. Process-hour and
 supplier-capacity assumptions do not establish engineering or manufacturing release.
 """
 from copy import deepcopy
+import ast
 from bisect import insort
 from hashlib import sha256
 from heapq import heappop, heappush
@@ -308,8 +309,41 @@ def evaluate(city_record,policy=None,root=ROOT):
         material_checks.append(dict(case=c,nonnegative_stock_by_precedence=True,receipt_and_consumption_quantities_reconcile=True))
     workforces=[dict(shift_id='production',domain='manufacturing',shifts_per_day=2,hours_per_shift=8.,days_per_year=250,utilisation=.75,positions_by_case=dict(zip(CASES,cost['resources']['production_positions_per_shift'])),two_shift_distinct_people={c:2*cost['resources']['production_positions_per_shift'][i] for i,c in enumerate(CASES)}),
         dict(shift_id='civil',domain='civil',shifts_per_day=2,hours_per_shift=8.,days_per_year=250,utilisation=.75,positions_by_case={c:field_positions[i]+ancillary_positions[i]+(civil_dec['comparison']['cases'][c]['make']['cell_count']*p['precast_crew'] if span_count and civil_dec['selected_route']=='make' else 0) for i,c in enumerate(CASES)},employment_basis='Timeboxed contracted peak demand, not full-horizon permanent employment')]
-    services=record['service_evaluation']['line_services'];op_hours=max(z['requirements']['operating_hours_per_day'] for z in services);op_shifts=2 if op_hours<=18 else 3
-    workforces.append(dict(shift_id='operations',domain='operations',shifts_per_day=op_shifts,hours_per_shift=op_hours/op_shifts,days_per_year=365,utilisation=1.,positions_by_case={c:float([2,4,8][i]+cost['resources']['access_sites']*[1,2,4][i]) for i,c in enumerate(CASES)},staffing_basis='Same current city-cost controller[2,4,8] and staff-per-access-site[1,2,4] assumptions; additional relief/competence/site roster requires review'))
+    services=record['service_evaluation']['line_services']
+    op_hours=max(z['requirements']['operating_hours_per_day'] for z in services)
+    op_days=max(_number(z['requirements'].get('operating_days_per_year'),'service operating days') for z in services)
+    if op_days>366 or op_days!=int(op_days):raise ValueError('Integer service operating days from1to366 required')
+    op_days=int(op_days);op_shifts=2 if op_hours<=18 else 3
+    # Read only literal assumptions from the exact cost-bound producer. Do not
+    # execute another financial model or charge relief again in a roster draft.
+    ops_source='engineering/design_search/model_cost.py'
+    ops_rates=dict(controllers_per_shift=[2,4,8],station_staff_per_station_per_shift=[1,2,4],operations_reliever_multiplier=[1.1,1.25,1.5])
+    ops_rate_binding='Declared current city-cost constants; no producer binding supplied'
+    if ops_source in sources:
+        tree=ast.parse((root/ops_source).read_text())
+        for key in ops_rates:
+            found=[node.value for node in ast.walk(tree) if isinstance(node,ast.keyword) and node.arg==key]
+            if len(found)!=1:raise ValueError('Costed operations assumptions require an explicit adapter: '+key)
+            values=ast.literal_eval(found[0])
+            if not isinstance(values,list) or len(values)!=3 or any(type(x) not in (int,float) or not isfinite(x) or x<=0 for x in values):raise ValueError('Invalid costed operations assumption: '+key)
+            ops_rates[key]=values
+        ops_rate_binding='Literal assumptions read from exact source-cost producer SHA256'
+    covered={c:float(ops_rates['controllers_per_shift'][i]+cost['resources']['access_sites']*ops_rates['station_staff_per_station_per_shift'][i]) for i,c in enumerate(CASES)}
+    relief=dict(zip(CASES,ops_rates['operations_reliever_multiplier']))
+    if any(x<1 for x in relief.values()):raise ValueError('Costed operations relief cannot remove required coverage')
+    base_hours={c:covered[c]*op_hours*op_days for c in CASES}
+    paid_hours={c:base_hours[c]*relief[c] for c in CASES};annual_fte_hours=8.*250
+    workforces.append(dict(shift_id='operations',domain='operations',shifts_per_day=op_shifts,hours_per_shift=op_hours/op_shifts,days_per_year=op_days,utilisation=1.,
+        positions_by_case=covered,covered_positions_per_shift=covered,
+        covered_shift_slots_per_day={c:covered[c]*op_shifts for c in CASES},
+        costed_relief_multiplier_by_case=relief,covered_hours_per_year_before_relief=base_hours,
+        budgeted_paid_hours_per_year_including_relief=paid_hours,
+        paid_fte_equivalent_by_case={c:paid_hours[c]/annual_fte_hours for c in CASES},
+        relief_fte_equivalent_by_case={c:(paid_hours[c]-base_hours[c])/annual_fte_hours for c in CASES},
+        fte_basis_paid_hours_per_year=annual_fte_hours,
+        relief_already_in_source_operations_cost=True,additional_workforce_cost_added=False,
+        costed_assumption_source=ops_source,costed_assumption_source_sha256=sources.get(ops_source),costed_assumption_binding=ops_rate_binding,
+        staffing_basis='Covered positions/shift differ from budgeted paid-hours/FTE including existing relief. FTE uses2000paid hours/year as an explicit comparison convention; no named workers, employment calendar or second relief/payroll cost inferred.'))
     value=dict(schema='osr-city-outline-delivery-plan/1',city=record['city'],city_record_evaluation_id=record['evaluation_id'],city_input_id=record['input_id'],cost_evaluation_id=cost['evaluation_id'],research_configuration_id=scope,
         reference_candidate_ids=record['reference_candidate_ids'],selection_id=record['selection_id'],planning_revision_id=record.get('planning_revision_id',record['input_id']),planning_revision_sha256=geometry.get('planning_revision_sha256',geometry.get('revision_sha256')),
         items=items,boms=boms,production_groups=groups,resources=resources,tasks=tasks,schedule=dict(cases=schedules,final_gate_task_id=final,calendar_dates_assigned=False),

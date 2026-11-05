@@ -16,7 +16,7 @@ def city():
     refs=dict(candidate_id='a'*64,body_candidate_id='b'*64,support_component_id='c'*64,propulsion_component_id='d'*64)
     geo=dp.seal(dict(city=dict(slug='fixture',name='Fixture',country='XX'),lines=[dict(line_id='A')],source_sha256={}), 'input_id')
     cfg=dict(reference_candidate_ids=refs,city_input_id=geo['input_id'],line_research_configurations=[])
-    services=dp.seal(dict(city_input_id=geo['input_id'],line_services=[dict(requirements=dict(operating_hours_per_day=18.))]),'evaluation_id')
+    services=dp.seal(dict(city_input_id=geo['input_id'],line_services=[dict(requirements=dict(operating_hours_per_day=18.,operating_days_per_year=365))]),'evaluation_id')
     vc=dp.seal(dict(candidate_id=refs['candidate_id'],mass_reserve_sensitivity=dict(case_factors=dict(low=.8,base=1.,high=1.2)),lines=[
         dict(line_key='located-stock/body/aluminium',line_id='part',quantity=dict(process_hours_per_car=[2.,3.,4.]),cost_iqd=dict(low=10000.,base=20000.,high=40000.)),
         dict(line_key='six-car-final-vehicle-assembly',line_id='assembly',quantity=dict(labour_hours_per_car=[8.,24.,80.]),cost_iqd=dict(low=1000.,base=2000.,high=4000.))]),'cost_estimate_id')
@@ -124,3 +124,37 @@ def test_external_planning_revision_and_time_overhead_not_zero_or_double_capex(t
     assert r['uncovered_overrun_usd']['base']>0
     assert r['additional_cost_usd']['base']==0 and r['factory_capital_counted_again'] is False
     assert any(t['kind']=='uncovered-programme-overrun-budget' for t in p['next_tasks'])
+
+
+def test_actual_330day_operations_roster_and_paid_relief_without_second_cost(tmp_path):
+    c=city();c['service_evaluation']['line_services'][0]['requirements']['operating_days_per_year']=330
+    reseal(c['service_evaluation'],'evaluation_id');c['cost']['input_line_services_id']=dp.identity(c['service_evaluation']['line_services']);reseal(c['cost'],'evaluation_id');reseal(c,'evaluation_id')
+    p=dp.evaluate(c,root=tmp_path);ops=p['workforce']['shift_patterns'][-1]
+    assert ops['days_per_year']==330 and ops['shifts_per_day']==2
+    assert ops['positions_by_case']==ops['covered_positions_per_shift']
+    covered=4+2*2
+    assert ops['covered_positions_per_shift']['base']==covered
+    assert ops['covered_shift_slots_per_day']['base']==covered*2
+    assert ops['costed_relief_multiplier_by_case']['base']==1.25
+    assert ops['budgeted_paid_hours_per_year_including_relief']['base']==covered*18*330*1.25
+    assert ops['paid_fte_equivalent_by_case']['base']==covered*18*330*1.25/2000
+    assert ops['relief_fte_equivalent_by_case']['base']==covered*18*330*.25/2000
+    assert ops['relief_already_in_source_operations_cost'] is True
+    assert ops['additional_workforce_cost_added'] is False
+    assert p['cost_reconciliation']['additional_cost_usd']['base']==0
+
+
+def test_default_365day_coverage_is_retained(tmp_path):
+    ops=dp.evaluate(city(),root=tmp_path)['workforce']['shift_patterns'][-1]
+    assert ops['days_per_year']==365
+    assert ops['costed_relief_multiplier_by_case']==dict(low=1.1,base=1.25,high=1.5)
+
+
+def test_exact_source_bound_relief_literals_are_read_not_overridden(tmp_path):
+    name='engineering/design_search/model_cost.py';path=tmp_path/name;path.parent.mkdir(parents=True)
+    path.write_text('def assumptions():\n return dict(controllers_per_shift=[3,5,9], station_staff_per_station_per_shift=[1,2,4], operations_reliever_multiplier=[1.2,1.4,1.8])\n')
+    c=city();c['cost']['source_sha256'][name]=dp.digest(path);reseal(c['cost'],'evaluation_id');reseal(c,'evaluation_id')
+    ops=dp.evaluate(c,root=tmp_path)['workforce']['shift_patterns'][-1]
+    assert ops['costed_relief_multiplier_by_case']['base']==1.4
+    assert ops['covered_positions_per_shift']['base']==9
+    assert ops['costed_assumption_source_sha256']==dp.digest(path)
