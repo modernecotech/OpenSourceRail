@@ -167,7 +167,7 @@ def evaluate(requirements, design, vehicle):
         allowed = charge_reference["catalogue_low_voltage_current_capped_charge_kW_per_car"]
         gross_input = allowed*charge_seconds/3600
         demand = d["aux_kw_per_car"]*(moving+charge_seconds)/3600
-        margin = gross_input*d["charge_efficiency"]-demand
+        energy_margin = gross_input*d["charge_efficiency"]-demand
         net = allowed*d["charge_efficiency"]-d["aux_kw_per_car"]
         min_terminal = (max(0.,d["aux_kw_per_car"]*moving/net-(r["stations"]-2)*r["dwell_s"])
             if net > 0 else None)
@@ -176,9 +176,9 @@ def evaluate(requirements, design, vehicle):
             moving_s_per_half_cycle=moving,charging_s_per_half_cycle=charge_seconds,
             charge_input_kwh_per_car_per_half_cycle=gross_input,
             hotel_energy_kwh_per_car_per_half_cycle=demand,
-            energy_margin_kwh_per_car_per_half_cycle=margin,
+            energy_margin_kwh_per_car_per_half_cycle=energy_margin,
             minimum_terminal_charge_s=min_terminal,per_leg=charge_reference,
-            energy_balance_screen="pass" if margin>=-1e-10 else "fail",
+            energy_balance_screen="pass" if energy_margin>=-1e-10 else "fail",
             actual_charge_map_available=False,transient_SOC_verified=False,thermal_qualified=False)
     hours = r["operating_hours_per_day"]
     operation_shifts = 2 if hours <= 18 else 3
