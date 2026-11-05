@@ -92,3 +92,42 @@ def test_missing_or_mixed_line_service_cannot_inherit_other_city_result(context)
 def test_shared_interchange_unknown_platform_rejected(context):
     c,s=inputs(context);c['interchanges']=[dict(id='X',platforms=['a','missing'])]
     with pytest.raises(ValueError):city_project_cost.evaluate_city_cost(c,s,context)
+
+
+def test_parallel_berths_and_terminal_positions_add_track_civil_and_drive_quantities(context):
+    c,s=inputs(context);s[0]['service'].update(minimum_parallel_berth_resources=2,terminal_additional_positions=6,minimum_turnback_positions_per_end=5)
+    v=city_project_cost.evaluate_city_cost(c,s,context)
+    assert v['resources']['additional_berth_edges']==12
+    assert v['resources']['boarding_edges']==18
+    assert v['civil']['quantities']['additional_station_track_m']==12*220
+    assert v['civil']['quantities']['span_count']==600+132
+    assert v['civil']['quantities']['rail_m']==24000+2*2640
+    power=next(z for z in v['capital_lines'] if z['key']=='A/launch-converters')
+    assert power['quantity']['capacities'][1]['sites']==2*s[0]['service']['departure_sites']
+
+
+def test_operational_stop_repair_prices_one_complex_and_extra_access_and_platform(context):
+    c,s=inputs(context);s[0]['operational_stops']=[c['lines'][0]['stops'][0],c['lines'][0]['stops'][2]]
+    s[0]['station_repair']=dict(additional_access_walkway_m=100.,additional_shared_platform_length_m=200.,complexes=[dict(operational_stop_id='a',original_stop_ids=['a','b'])])
+    c['interchanges']=[dict(id='X',platforms=['b','c'])]
+    v=city_project_cost.evaluate_city_cost(c,s,context)
+    assert v['resources']['original_map_stop_records']==3
+    assert v['resources']['line_stop_records']==2
+    assert v['resources']['access_sites']==1
+    assert v['resources']['access_repair_walkway_m']==100
+    platforms=next(z for z in v['capital_lines'] if z['key']=='line-platform-structures')
+    assert platforms['quantity']['area_m2']==(4*120+200)*4
+    repair=next(z for z in v['capital_lines'] if z['key']=='stop-complex-access-repair-and-berth-junctions')
+    assert repair['costs_usd']['base']>0
+
+
+def test_conflicting_service_source_hash_cannot_overwrite_existing_epoch(context):
+    c,s=inputs(context);name=next(iter(context['sources']));s[0]['source_sha256']={name:'not-the-source-hash'}
+    with pytest.raises(ValueError,match='Mixed city pricing source epochs'):
+        city_project_cost.evaluate_city_cost(c,s,context)
+
+
+def test_fallback_added_mass_propagates_to_civil_pricing_hypothesis(context):
+    c,s=inputs(context,fallback=True);v=city_project_cost.evaluate_city_cost(c,s,context)
+    assert v['assumptions']['civil_added_mass_kg_per_car_hypothesis']==context['spec']['design']['added_vehicle_mass_kg_per_car']+1000.
+    assert v['assumptions']['civil_uses_maximum_declared_traction_mass_across_lines'] is True

@@ -12,7 +12,7 @@ PRODUCER='engineering/outline/city_civil.py'
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
     operating_release=False,selected_reference_changed=False,movement_authority=False)
 CASES=('low','base','high')
-DEFAULTS=dict(version='CITY-CIVIL-OUTLINE-1',precast_scenario='project-make-buy',
+DEFAULTS=dict(additional_station_track_m=0.,additional_station_track_runs=0.,version='CITY-CIVIL-OUTLINE-1',precast_scenario='project-make-buy',
     locality_transfer_factors=[.75,1.,1.75],soil_capacity_kpa=[300.,200.,100.],
     at_grade_formation_m3_per_route_m=5.,at_grade_concrete_m3_per_route_m=1.2,
     at_grade_earthwork_usd_m3=[6.,15.,40.],at_grade_drain_fence_usd_route_m=[80.,200.,600.],
@@ -39,7 +39,7 @@ def _policy(policy):
         if isinstance(v,list):
             if len(v)!=3:raise ValueError('Three civil sensitivity cases required')
             for n in v:_num(n,k)
-        elif type(v) in (int,float):_num(v,k)
+        elif type(v) in (int,float):_num(v,k,zero=k.startswith('additional_station_'))
     if p['soil_capacity_kpa'] != [300.,200.,100.]:raise ValueError('Current soil template requires300/200/100 kPa scenarios')
     if p['precast_scenario'] not in ('china-bulk-buy','project-make-buy'):raise ValueError('Unknown precast scenario')
     return p
@@ -78,8 +78,13 @@ def quantities(city_input,policy=None):
             runs.append(z)
     route=fsum(z['route_m'] for z in lines)
     if not isclose(fsum(totals.values()),route,abs_tol=.1):raise ValueError('Civil class lengths do not reconcile')
-    q=dict(route_m=route,track_m=2*route,rail_m=4*route,rail_kg=4*route*60.21,
-        fastener_sets=ceil(4*route/(20/35)),class_route_m=totals,runs=runs,
+    extra=p['additional_station_track_m'];extra_runs=p['additional_station_track_runs']
+    if extra_runs != int(extra_runs) or bool(extra)!=bool(extra_runs):raise ValueError('Additional station tracks require explicit positive run count and length')
+    if extra:
+        spans+=ceil(extra/20.);supports+=ceil(extra/20.)+int(extra_runs)
+    q=dict(route_m=route,track_m=2*route+extra,rail_m=4*route+2*extra,rail_kg=(4*route+2*extra)*60.21,
+        additional_station_track_m=extra,additional_station_track_runs=int(extra_runs),
+        fastener_sets=ceil((4*route+2*extra)/(20/35)),class_route_m=totals,runs=runs,
         span_count=spans,independent_supports=supports,
         at_grade_crossing_packages=sum(ceil(z['length_m']/p['at_grade_protected_crossing_spacing_m']) for z in runs if z['class']=='at-grade'),
         tunnel_portals=2*sum(z['class']=='tunnel' for z in runs),
@@ -129,7 +134,7 @@ def evaluate(city_input,context,policy=None,root=ROOT):
             +ceil(n/process['spans_per_crane_shift'][i])*process['crane_iqd_per_shift'][i]/fx
             +n*process['erection_h_per_span'][i]*u['productive_two_shift_wage_iqd_h']/fx
             +q['track_m']*u['rail_field_install_iqd_track_m']/fx
-            +sum(4*max(0,ceil(line['route_m']/20)-1) for line in city_input['lines'])*process['butt_weld_complete_iqd_each'][i]/fx)*transfer)
+            +(sum(4*max(0,ceil(line['route_m']/20)-(0 if line['shape']=='ring' else 1)) for line in city_input['lines'])+2*max(0,ceil(q['additional_station_track_m']/20)-q['additional_station_track_runs']))*process['butt_weld_complete_iqd_each'][i]/fx)*transfer)
         L=q['class_route_m']['at-grade']
         surface.append((L*(p['at_grade_formation_m3_per_route_m']*p['at_grade_earthwork_usd_m3'][i]
             +p['at_grade_concrete_m3_per_route_m']*(cu+160*rebar)
