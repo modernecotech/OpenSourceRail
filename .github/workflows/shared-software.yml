@@ -45,6 +45,8 @@ jobs:
           python tools/automation/tests/test_historical_replay.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
+      - name: Source geometry and engineering model export integrity
+        run: python -m pytest -q --import-mode=importlib engineering/visual_models/tests
       - name: Canonical streaming identity parity
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_canonical_stream.py
       - name: Rust generative search and source-bound Python integration

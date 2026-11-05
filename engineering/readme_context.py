@@ -84,6 +84,8 @@ def category(name):
         return 'project-frontdoor'
     if name == 'docs/images/v06/README.md':
         return 'concept-illustration-brief'
+    if name == 'docs/engineering-models/README.md':
+        return 'source-bound-engineering-model-gallery'
     if name in {'engineering/development_baseline/README.md','engineering/station_rail/README.md'}:
         return 'current-development-adapters'
     if name in {'engineering/design_search/README.md','engineering/component_registry/README.md',
@@ -192,6 +194,9 @@ def bindings(root, names):
     manifests += list((root/'engineering/assurance').rglob('manifest.json'))
     manifests += list((root/'cities/catalogue').glob('*/*/*/engineering/current/manifest.json'))
     manifests += list((root/'engineering/assurance').rglob('archive-receipt.json'))
+    gallery = root/'docs/engineering-models/manifest.json'
+    if gallery.is_file():
+        manifests.append(gallery)
     def add(path, expected, receipt, kind):
         try:
             name = path.resolve().relative_to(root).as_posix()

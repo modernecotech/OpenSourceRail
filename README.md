@@ -2,7 +2,7 @@
 
 OpenSourceRail develops affordable urban rail and the open tools needed to **plan, design, procure, manufacture, construct, operate, maintain and renew it**. The aim is to retain design authority, software, fabrication, integration and repair capability in-country, with competitive sourcing of specialist components.
 
-**v0.6 is the station-powered freewheeling reference railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Wayside linear-induction motors launch and receive the train through passive onboard reaction elements. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
+**v0.6 is the station-powered freewheeling reference railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Station-side propulsion is compared under candidate-specific designs; the vehicle retains passive reaction elements for LIM research alongside mechanical launch alternatives. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
 
 The wider project encompasses city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. The current v0.6 front end exposes planning proposals, candidate engineering and delivery records; business and supervision functions require separate configuration, and complete city delivery remains open. **The railway is a research and prototype design, without manufacturing or operating release.**
 
@@ -12,9 +12,9 @@ The wider project encompasses city planning, CAD/BIM, manufacturing, business ex
 
 **Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current platform capabilities](docs/capabilities/README.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
-![OpenSourceRail v0.6 proposed six-car wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
+![Exploded 3D assembly of the source 17 m vehicle, with roof, seating, doors, passive bogies and proposed shop fixtures](docs/engineering-models/images/vehicle-fabrication.webp)
 
-*Architectural concept, not approved geometry: six 17 m cars, passive steel-wheel bogies, flush roof solar panels, conventional rails on repeatable precast beams and a compact station. [Inspect the source-bound counted vehicle geometry](docs/design-engine/current/vehicle-overview.svg); that geometry and its source-account balances do not establish a complete installed train or manufacturing release.*
+*An actual parametric model: all 2,482 located source parts are preserved. The image separates assemblies for inspection; the CAD keeps their source positions. [Explore eight engineering models and download CAD](docs/engineering-models/README.md), including capture, storage, launch, viaduct erection, precasting and rail/wheelset work. These are source-linked outlines with declared equipment proposals; complete installed mass and physical qualification remain open.*
 
 ## Why OpenSourceRail
 
@@ -22,7 +22,7 @@ The wider project encompasses city planning, CAD/BIM, manufacturing, business ex
 - **Keep ownership of the design and information.** Open software, drawings, interfaces, component identities and maintenance records let an owner change suppliers and repair equipment without depending on one closed turnkey provider.
 - **Simplify the complete installed system.** Compare vehicle mass, bogies, station power, beams, piers, foundations, equipment, factory tooling and erection together. A cheaper train that requires more expensive stations is not automatically a cheaper railway.
 - **Serve constrained urban corridors.** Mostly elevated, prefabricated construction and compact stations aim to reduce surface occupation and site disruption. Land, utilities, buildings, ground conditions, drainage, access and evacuation still govern each route.
-- **Offer comfortable, frequent travel.** The reference prioritises seated accommodation, wheelchair spaces and a two-minute service target. Capacity, dwell, safe separation, transfers and whole-system cost must be evaluated together.
+- **Offer comfortable, frequent travel.** The reference prioritises seated accommodation and wheelchair spaces; frequency is optimised against demand, with a two-minute comparison case retained. Capacity, dwell, safe separation, transfers and whole-system cost must be evaluated together.
 
 Local content means **origin-traced domestic value added**, not the address of a distributor. Imported cells, semiconductors, bearings, sensors, materials and machinery retain their actual origin. No local-content percentage or cost saving is established until the installed BOM, processes and supplier evidence support it.
 
@@ -96,21 +96,25 @@ Kinematic acceleration distance is not motor length. The [candidate-specific lay
 
 The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
 
-### v0.6 illustrated: a different approach to building a railway
+### See how it is built and propelled
 
-| Passenger-focused lightweight car | Locally assembled, modular construction concept |
+The [3D engineering gallery](docs/engineering-models/README.md) connects the mechanical layout to construction and fabrication. Each image comes from explicit geometry, with **rotatable STL, coloured GLB, editable FreeCAD and STEP models**, source identities and export checks.
+
+| Capture braking energy | Launch and accelerate under control |
 |---|---|
-| ![Proposed v0.6 car interior with four-abreast seats, accessible door zone, wheelchair space and integrated HVAC diffusers](docs/images/v06/v06-cabin.webp) | ![Workshop assembly concept for GFRP and aluminium structure, integrated solar roof, doors, glazing, HVAC, services and passive wheel bogies](docs/images/v06/v06-assembly.webp) |
-| Seated comfort, level circulation, wheelchair provision and passenger services remain even without onboard traction motors. | Structural shells, window/door modules, service conduits, roof solar, equipment and unpowered bogies are conceived for repeatable offsite assembly and inspection. |
-| **Rapidly placed, minimal precast guideway** | **Station-powered LIM interface** |
-| ![Precast light-rail beam being placed by mobile crane on repeatable viaduct piers, with conventional rails and a compact station](docs/images/v06/v06-viaduct-construction.webp) | ![Concept cutaway showing conventional wheels supporting the car and a passive onboard aluminium reaction fin between fixed wayside LIM coils](docs/images/v06/v06-wayside-lim-cutaway.webp) |
-| Two conventional rails per direction on slender repeatable precast beams, with site access, containment, drainage and erection requirements to be engineered. | Power equipment is beside the track in the launch/receiving approaches; the vehicle carries a passive aluminium secondary and independent friction braking. |
+| [![Paired cable arrestor drums, hydraulic vessels, isolation, cooling and controls](docs/engineering-models/images/arrestor-storage.webp)](docs/engineering-models/README.md#controlled-capture-and-station-energy-storage) | [![Guided launch shuttle, coupling interface and optional capstan booster drive](docs/engineering-models/images/launcher-booster.webp)](docs/engineering-models/README.md) |
+| Progressive cable engagement feeds a proposed station-side hydraulic store. Independent train brakes remain. | A controlled rear shuttle returns stored energy; an optional motor supplies further acceleration through the same capstan. |
+| **Erect repeatable viaduct spans** | **Manufacture precast stock locally** |
+| [![Crawler crane, spreader and temporary restraints placing a source 20 m box beam](docs/engineering-models/images/viaduct-crane.webp)](docs/engineering-models/README.md) | [![Exploded concrete box beam with reusable forms, proposed void former, tendon and reinforcement jigs](docs/engineering-models/images/precast-fabrication.webp)](docs/engineering-models/README.md) |
+| Whole-span crane erection and an [overhead gantry alternative](docs/engineering-models/models/viaduct-gantry.stl) share the same beam. Site access, lifting ratings and temporary stability govern the choice. | Source concrete quantities are preserved. Mould/core extraction, reinforcement, prestress, curing and inspection need detailed production engineering. |
 
-![Two-kilometre launch, freewheel, wayside receiving and protected-braking concept, with a double-sided LIM cross-section](docs/images/v06/v06-launch-to-arrival.svg)
+![Proposed rail-finishing, wheelset assembly, bearing and passive-bogie inspection workstation](docs/engineering-models/images/rail-running-gear.webp)
 
-*These are concept illustrations, not qualified CAD or construction details. The drive drawing is a vehicle-interface/control illustration, not an active winding selection or simulated journey. Actual powered geometry, force, current, thermal duty, independent stopping, civil structures and price are bound to each proposed candidate. A successful calculated outline does not confer engineering or operating approval.*
+*Purchase standard rolled rails, then finish, join, inspect and fasten locally. Assemble and check wheelsets and passive bogies using proposed fixtures. The geometry identifies the process; it does not imply qualified tooling or a local rail-rolling mill.*
 
-The [illustration brief](docs/images/v06/README.md) records the supplied prompts, source images and display-copy recipe.
+The [complete station layout](docs/engineering-models/models/station-overview.stl) shows five capture stages, the stationary store, launch/boost travel and a separate shuttle runout. Its illustrative hydraulic study uses a 60 km/h departure target. Speed, headway, capture/storage technology and acceleration remain design variables; this gallery selects neither a mandatory LIM length nor a final propulsion system. Equipment envelopes, source geometry and tooling are labelled separately, and engineering/manufacturing/operating releases remain separate gates.
+
+[Passenger interior and architectural concepts](docs/images/v06/README.md) complement these source-based models.
 
 ## Delivery records and operations integrations
 
