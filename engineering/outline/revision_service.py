@@ -22,8 +22,12 @@ def project(service,request,requirements):
     spare=ceil(active*value['design']['reserve_fraction'])
     value.update(requirements=r,active_trainsets=active,spare_trainsets=spare,total_trainsets=active+spare,totalcars=6*(active+spare),
         capacity_pphpd=value['normal_places_per_train']*3600/h,
-        planning_usable_capacity_pphpd=value['normal_places_per_train']*3600/h*requirements.get('planning_occupancy',.85)*requirements.get('planning_availability_assumption',.99),
-        train_km_per_day=service['train_km_per_day']*old_h/h,departures_per_day=service['departures_per_day']*old_h/h)
+        planning_usable_capacity_pphpd=value['normal_places_per_train']*3600/h*requirements.get('planning_occupancy',.85)*requirements.get('planning_availability_assumption',.99))
+    # An unchanged service is the identity projection. Multiplying then dividing
+    # by the same headway can move a float by one ULP and alter cost subtotals.
+    if h!=old_h:
+        value.update(train_km_per_day=service['train_km_per_day']*old_h/h,
+            departures_per_day=service['departures_per_day']*old_h/h)
     parallel=ceil(value['berth_resource_s']/h)
     positions=ceil((value['design']['terminal_turnback_s']+max(x['braking_time_s'] for x in request['legs'])+value['tail_clearance_s_jerk_bound'])/h) if value['baseline_budget_positions_per_end'] else 0
     value.update(minimum_parallel_berth_resources=parallel,additional_berth_edges=2*r['stations']*(parallel-1),
