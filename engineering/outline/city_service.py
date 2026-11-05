@@ -170,6 +170,9 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
     train_length=6*17+5*.5;fin_offset=4.;records=[]
     geography={}
     for original_line in city_input['lines']:
+        line_design=deepcopy(d)
+        if 'design_speed_cap_m_s' in original_line:
+            line_design['speed_m_s']=min(d['speed_m_s'],_number(original_line['design_speed_cap_m_s'],'line geometry speed cap'))
         ref=original_line.get('geometry_reference',{});coordinates=original_line.get('coordinates')
         if coordinates is None and 'path' in ref and not city_input.get('test_hypothesis'):
             if ref['path'] not in geography:
@@ -178,12 +181,12 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
                     for f in geographic.get('features',[]) if f.get('properties',{}).get('kind')=='line'}
             coordinates=geography[ref['path']].get(original_line['line_id'])
         line,repair=_repair_stops(original_line,max(train_length,d.get('platform_length_m',120.)),coordinates)
-        reference=[_leg(x['distance_m'],base_mass,rotor,d) for x in line['legs']]
+        reference=[_leg(x['distance_m'],base_mass,rotor,line_design) for x in line['legs']]
         failed=[dict(leg_index=i,**x) for i,x in enumerate(reference) if x['status']!='conditional-targets-complete']
         fallback=bool(failed);extra_mass=_number(d.get('research_traction_added_mass_kg_per_car',1000.),'traction added mass') if fallback else 0.
         extra_rotor=_number(d.get('research_traction_equivalent_rotating_mass_kg_per_car',100.),'traction rotating inertia') if fallback else 0.
         mass=base_mass+extra_mass
-        legs=[_leg(x['distance_m'],mass,rotor+extra_rotor,d,True) for x in line['legs']] if fallback else reference
+        legs=[_leg(x['distance_m'],mass,rotor+extra_rotor,line_design,True) for x in line['legs']] if fallback else reference
         for x,source in zip(legs,line['legs']):x.update(source)
         initial_dwell=_number(r.get('dwell_s',35.),'dwell')
         net=d['charger_kw_per_car']*d['charge_efficiency']-d['aux_kw_per_car']
@@ -213,7 +216,7 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             added_traction_mass_kg_per_car=extra_mass,added_rotating_equivalent_mass_kg_per_car=extra_rotor,
             added_traction_mass_bounds_kg_per_car=[.7*extra_mass,extra_mass,1.5*extra_mass],
             traction_motors_per_car=4 if fallback else 0,
-            traction_rated_kw_per_car=(maximum_power/6+(mass*operations.G*.02*d['speed_m_s']))/1000/.85 if fallback else 0.,
+            traction_rated_kw_per_car=(maximum_power/6+(mass*operations.G*.02*line_design['speed_m_s']))/1000/.85 if fallback else 0.,
             continuous_feed_route_m=line['route_m'] if fallback else 0.,
             collector_protection_and_rescue_required=True,independent_friction_braking_required=True,
             actual_available_force_map=None,physical_reference_changed=False,
@@ -222,7 +225,7 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
         req={**r,'route_km':line['route_m']/1000,'alignment_id':identity(dict(city_input_id=city_input['input_id'],line_id=line['line_id'],station_revision=repair['revision_id'])),
             'stations':n,'trackways':2,'cars_per_train':6,
             'fixed_seats_per_car':44,'wheelchair_places_per_car':2,'headway_s':headway,'dwell_s':max(stop_dwell)}
-        chosen={**d,'terminal_turnback_s':turnback,'research_traction_added_mass_kg_per_car':extra_mass}
+        chosen={**line_design,'terminal_turnback_s':turnback,'research_traction_added_mass_kg_per_car':extra_mass}
         positions=max(1,ceil((turnback+max(x['braking_time_s'] for x in legs)+tail)/headway)) if not ring else 0
         parallel=ceil(resource/headway)
         service=dict(schema='osr-city-actual-leg-service/1',requirements=req,design=chosen,
@@ -263,6 +266,8 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             service=service,propulsion_hypothesis=config,legs=legs,known_reference_failures=failed,
             operational_stops=line['stops'],station_repair=repair,
             source_sha256=dict(sorted(sources.items())),
+            line_geometry_hypothesis={key:deepcopy(original_line[key]) for key in
+                ('design_speed_cap_m_s','curve_speed_basis','minimum_turn_radius_m','lateral_acceleration_m_s2') if key in original_line},
             interface_holds=[dict(kind='reference-train-platform-spacing',distance_m=x['distance_m'],
                 train_length_m=train_length,platform_length_m=d.get('platform_length_m',120.),
                 reason='Reference train/platform envelopes overlap adjacent stops; revise stop/formation/layout before physical acceptance')

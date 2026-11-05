@@ -99,6 +99,16 @@ def test_single_overlapping_complex_does_not_claim_a_working_rail_line(inputs):
     with pytest.raises(ValueError,match='one overlapping complex'):run(inputs,[39])
 
 
+def test_explicit_line_geometry_speed_cap_is_respected(inputs):
+    city,spec,vehicle,_=inputs;c=synthetic(city,[2000,2000],True)
+    c['lines'][0].update(design_speed_cap_m_s=8.,curve_speed_basis='Declared rounded-corner research bound')
+    c['input_id']=identity({k:v for k,v in c.items() if k!='input_id'})
+    line=city_service.evaluate(c,{},spec['design'],vehicle)['line_services'][0]
+    assert line['design']['speed_m_s']==8
+    assert all(x['adaptive_speed_cap_m_s']<=8 for x in line['legs'])
+    assert line['line_geometry_hypothesis']['curve_speed_basis']=='Declared rounded-corner research bound'
+
+
 def test_long_coast_failure_generates_new_mass_energy_and_feed_hypothesis(inputs):
     result=run(inputs,[7003.100240351595]);line=result['line_services'][0];service=line['service'];h=line['propulsion_hypothesis']
     assert line['known_reference_failures'][0]['reference_profile']['reason']=='coast_stops_before_receiving_zone'
