@@ -3,6 +3,8 @@
 //! operating speed, launcher length, equipment capacity or efficiency is supplied
 //! by this library. Calculations never grant engineering or operating approval.
 
+pub mod arrestor;
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
