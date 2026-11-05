@@ -81,7 +81,8 @@ def test_short_leg_uses_exact_smaller_scurve_and_retains_platform_hold(inputs):
     assert line['station_repair']['original_stop_count']==3
     assert len(line['operational_stops'])==line['requirements']['stations']==2
     assert line['station_repair']['additional_access_walkway_m']==pytest.approx(39.95021266757067)
-    assert line['station_repair']['additional_shared_platform_length_m']==pytest.approx(2*39.95021266757067)
+    assert line['station_repair']['additional_shared_platform_length_m']==0
+    assert all(c['boarding_platform_length_m']==120 for c in line['station_repair']['complexes'])
     assert line['station_repair']['original_marker_spacing_failures']
 
 
@@ -96,7 +97,7 @@ def test_ring_complex_repair_wraps_without_losing_original_access_markers(inputs
 
 
 def test_single_overlapping_complex_does_not_claim_a_working_rail_line(inputs):
-    with pytest.raises(ValueError,match='one overlapping complex'):run(inputs,[39])
+    with pytest.raises(ValueError,match='cannot fit two nonoverlapping'):run(inputs,[39])
 
 
 def test_explicit_line_geometry_speed_cap_is_respected(inputs):

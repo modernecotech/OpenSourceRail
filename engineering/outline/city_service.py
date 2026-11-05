@@ -1,6 +1,5 @@
 """Actual-leg conditional city service with explicit traction research fallback."""
 from copy import deepcopy
-from bisect import bisect_right
 from math import ceil,floor,fsum,isfinite,sqrt
 from pathlib import Path
 import json
@@ -72,8 +71,21 @@ def _leg(distance,mass,rotor,d,continuous=False):
 
 
 def _repair_stops(original,minimum,coordinates=None):
-    """Consolidate overlapping mapped markers into priced station complexes."""
-    line=deepcopy(original);stops=line['stops'];n=len(stops);parent=list(range(n));ring=line['shape']=='ring';length=line['route_m']
+    """Pack compact boarding locations; retain every marker as priced access.
+
+    Proximity is not transitive: a long chain of nearby markers must not become
+    one kilometre-long platform. Centres remain mapped marker locations, at least
+    one declared platform pitch apart. The old clustering is diagnostic only.
+    """
+    _number(minimum,'platform pitch')
+    line=deepcopy(original);stops=line['stops'];n=len(stops);parent=list(range(n));ring=line['shape']=='ring';length=_number(line['route_m'],'route length')
+    if n<2:raise ValueError('At least two mapped stops required')
+    epsilon=1e-7
+    for stop in stops:
+        at=stop['chainage_m']
+        if not isfinite(at) or at < -epsilon or at > length+epsilon:raise ValueError('Mapped stop chainage outside route')
+        stop['chainage_m']=min(length,max(0.,at))
+    if any(a['chainage_m']>=b['chainage_m'] for a,b in zip(stops,stops[1:])):raise ValueError('Ordered distinct mapped stop chainages required')
     def find(i):
         while parent[i]!=i:
             parent[i]=parent[parent[i]];i=parent[i]
@@ -85,36 +97,51 @@ def _repair_stops(original,minimum,coordinates=None):
             failures.append(dict(from_stop=leg['from_stop'],to_stop=leg['to_stop'],distance_m=leg['distance_m'],required_platform_pitch_m=minimum))
     groups={}
     for i in range(n):groups.setdefault(find(i),[]).append(i)
-    if len(groups)<2:raise ValueError('All stops form one overlapping complex; this line needs a separate accessible local-transport alternative')
-    revised=[];complexes=[]
-    chain=(original.get('coordinate_chainages_m') or city_inputs.planning._chainages(coordinates)) if failures and coordinates is not None else None
+    old_walks=[]
     for indices in groups.values():
         values=sorted(stops[i]['chainage_m'] for i in indices)
         if ring and len(values)>1:
             gaps=[b-a for a,b in zip(values,values[1:])]+[length-values[-1]+values[0]]
             cut=(max(range(len(gaps)),key=gaps.__getitem__)+1)%len(values)
             values=values[cut:]+[x+length for x in values[:cut]]
-        span=values[-1]-values[0]
         at=(values[0]+values[-1])/2
         if not ring and 0 in indices:at=stops[0]['chainage_m']
         elif not ring and n-1 in indices:at=stops[-1]['chainage_m']
         if ring:at%=length
-        ids=[stops[i]['id'] for i in indices]
+        old_walks.extend(min(abs(stops[i]['chainage_m']-at),length-abs(stops[i]['chainage_m']-at)) if ring else abs(stops[i]['chainage_m']-at) for i in indices)
+    centres=[0]
+    for i in range(1,n):
+        if stops[i]['chainage_m']-stops[centres[-1]]['chainage_m']>=minimum-epsilon:centres.append(i)
+    if ring:
+        while len(centres)>1 and length-stops[centres[-1]]['chainage_m']+stops[centres[0]]['chainage_m']<minimum-epsilon:centres.pop()
+    elif centres[-1]!=n-1:
+        # Retain both original radial termini. Moving the last centre forward
+        # increases its separation from the preceding centre.
+        if len(centres)>1:centres[-1]=n-1
+    if len(centres)<2:raise ValueError('Mapped route cannot fit two nonoverlapping reference platforms; an explicit shorter-formation/local-transport alternative is required')
+    def distance(i,c):
+        gap=abs(stops[i]['chainage_m']-stops[c]['chainage_m'])
+        return min(gap,length-gap) if ring else gap
+    assigned={c:[] for c in centres}
+    for i in range(n):assigned[min(centres,key=lambda c:(distance(i,c),c))].append(i)
+    revised=[];complexes=[]
+    for centre,indices in assigned.items():
+        at=stops[centre]['chainage_m'];ids=[stops[i]['id'] for i in indices]
         new_id=ids[0] if len(ids)==1 else 'complex-'+identity(dict(line_id=line['line_id'],original_stop_ids=ids))[:20]
-        walks=[min(abs(stops[i]['chainage_m']-at),length-abs(stops[i]['chainage_m']-at)) if ring else abs(stops[i]['chainage_m']-at) for i in indices]
-        chosen=deepcopy(stops[indices[0]]);chosen.update(id=new_id,chainage_m=at,
+        walks=[distance(i,centre) for i in indices]
+        if max(walks)>min(500.,minimum)+epsilon:raise ValueError('Packed marker access exceeds declared compact access bound')
+        chosen=deepcopy(stops[centre]);chosen.update(id=new_id,chainage_m=at,
             dwell_s=max(stops[i]['dwell_s'] for i in indices),source_stop_ids=ids,
-            location_is_outline_chainage_hypothesis=len(ids)>1,physical_access_route_verified=False)
-        if len(ids)>1 and chain is not None:
-            k=min(len(chain)-2,max(0,bisect_right(chain,at)-1))
-            fraction=(at-chain[k])/(chain[k+1]-chain[k]) if chain[k+1]>chain[k] else 0.
-            chosen.update(lon=coordinates[k][0]+fraction*(coordinates[k+1][0]-coordinates[k][0]),
-                lat=coordinates[k][1]+fraction*(coordinates[k+1][1]-coordinates[k][1]))
+            location_is_outline_chainage_hypothesis=False,physical_access_route_verified=False)
         revised.append(chosen)
+        low,high=at-minimum/2,at+minimum/2
+        intervals=([[low+length,length],[0.,high]] if low<0 else [[low,length],[0.,high-length]] if high>length else [[low,high]]) if ring else [[low,high]]
         complexes.append(dict(operational_stop_id=new_id,original_stop_ids=ids,chainage_m=at,
             maximum_added_walk_m=max(walks),summed_added_walk_m=fsum(walks),
-            additional_shared_platform_length_m=2*span,
-            platform_length_basis='Additional length summed across two directional platform edges',
+            original_marker_walks=[dict(original_stop_id=stops[i]['id'],along_route_connector_m=walk) for i,walk in zip(indices,walks)],
+            boarding_platform_length_m=minimum,boarding_platform_intervals_m=intervals,
+            additional_shared_platform_length_m=0.,
+            platform_length_basis='Two compact standard-length boarding edges are in station cost; original markers use separately priced access connectors, not extended platforms',
             accessible_walkway_is_assumed_not_surveyed=True))
     revised.sort(key=lambda x:x['chainage_m']);legs=[]
     for a,b in zip(revised,revised[1:]):legs.append(dict(from_stop=a['id'],to_stop=b['id'],distance_m=b['chainage_m']-a['chainage_m'],closing_leg=False))
@@ -125,8 +152,11 @@ def _repair_stops(original,minimum,coordinates=None):
         original_marker_spacing_failures=failures,complexes=complexes,
         additional_access_walkway_m=fsum(c['summed_added_walk_m'] for c in complexes),
         additional_shared_platform_length_m=fsum(c['additional_shared_platform_length_m'] for c in complexes),
-        original_stops_preserved=True,
-        reason='Merge overlapping reference platform footprints into shared complexes; retain every original access marker and price added platform/walkway lengths. Access/evacuation/geotechnical approval remains open.')
+        original_stops_preserved=True,method='spacing-packed-mapped-centres-with-nearest-access-assignment',
+        maximum_added_walk_m=max(c['maximum_added_walk_m'] for c in complexes),access_bound_m=min(500.,minimum),
+        rejected_transitive_method_diagnostic=dict(group_count=len(groups),maximum_added_walk_m=max(old_walks),adopted=False,
+            reason='Neighbour proximity does not justify a transitive long boarding complex'),
+        reason='Compact separated standard platforms retain every original marker through priced access connectors. Actual access, evacuation, site footprints and engineering qualification remain open.')
     repair['revision_id']=identity(repair)
     return line,repair
 
