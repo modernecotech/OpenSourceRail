@@ -16,10 +16,18 @@
 <button id="service" disabled>Propose service</button><button id="straighten" disabled>Investigate straight end-to-end line</button></div>
 <p>Stop additions, moves and retirements, headway, dwell, stop spacing and junctions are proposal inputs only. Revise OD rows before retiring a station referenced by demand. These edits do not establish v0.6 capacity, protected headway, access or operating feasibility. Straightening redraws the proposed alignment and stations; land, utilities, crossings and passenger access must be recalculated.</p>
 <details><summary>Origin–destination revision</summary><p>JSON rows use origin and destination stop IDs, trips_per_day and basis (synthetic or observed-unaccepted). Observations need provenance and independent review.</p><textarea id="od" rows="7" aria-label="OD revision JSON">[]</textarea><button id="set-od" disabled>Propose OD rows</button></details>
-<ul id="issues"></ul><p id="edit-status" role="status"></p>
+<details id="planning-advisories" open><summary>Advisory planning comparisons</summary><ul id="issues"></ul></details><p id="edit-status" role="status"></p>
 <label>Planning author<input id="author" maxlength="150" value="local-planner"></label><button id="export" disabled>Export edit bundle</button><button id="reset" disabled>Discard local proposal</button>
 <label>Import edit bundle<input id="import" type="file" accept="application/json,.json"></label>
-<p>Exported edits bind the exact indexed city-route and station revision. Copy the downloaded bundle into the repository; the compiler rejects stale bases and conflicting stop order. Use <code>./osr plan compile edits.json --output build/my-plan</code>, then <code>./osr plan verify build/my-plan</code>, to produce and verify an immutable handoff bound to the selected candidate. It carries route, stop, service and OD proposals plus source identities only; it contains no vehicle, propulsion, fleet, civil quantity, procurement, cost, performance, cashflow or release results.</p></section>
+<div id="priced-controls" hidden>
+<h3>Recalculate the priced city</h3><p>Edits retain their exact base and source identities. Recalculation updates the mapped service, fleet, all cost scopes and delivery drafts. Capacity or access failures stay visible and priced.</p>
+<button id="priced-recost" type="button">Recalculate these edits</button><p id="priced-status" role="status"></p><nav id="priced-links"></nav>
+<details><summary>Replace route geometry with explicit station anchors</summary>
+<p>Coordinates use longitude/latitude. Station chainages refer to the new route. No station is silently rescaled or moved.</p>
+<textarea id="priced-geometry" rows="10" aria-label="Explicit route geometry and station anchors"></textarea>
+<button id="priced-replace" type="button">Propose this route geometry</button></details>
+</div>
+<p id="handoff-help">Exported edits bind the exact indexed city-route and station revision. Copy the downloaded bundle into the repository; the compiler rejects stale bases and conflicting stop order. Use <code>./osr plan compile edits.json --output build/my-plan</code>, then <code>./osr plan verify build/my-plan</code>, to produce and verify an immutable handoff bound to the selected candidate. It carries route, stop, service and OD proposals plus source identities only; it contains no vehicle, propulsion, fleet, civil quantity, procurement, cost, performance, cashflow or release results.</p></section>
 <section><h2>Candidate delivery handoffs</h2><p><a href="../../design-engine/current/exports/manifest.json">Candidate engineering exports</a> · <a href="../../design-engine/coupled-railway/delivery-index.json">Candidate delivery package index</a> · <a href="../../../deployment/erpnext/README.md">ERPNext and Frappe HR workflow</a> · <a href="../../../deployment/supervision/README.md">FUXA and gateway integration</a></p>
 <p>Business records are drafts or deployment-specific workflows. Planning proposals do not create approved assets, activate devices or grant movement authority.</p></section></main>
 <script type="module" src="planning.js"></script></body></html>

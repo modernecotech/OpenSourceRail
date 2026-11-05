@@ -39,6 +39,7 @@ on:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/outline/**"
+      - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
       - "docs/design-engine/supply-economics/**"
@@ -131,6 +132,7 @@ on:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/outline/**"
+      - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
       - "docs/design-engine/supply-economics/**"
@@ -240,7 +242,7 @@ jobs:
           .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
       - name: Demand-driven outline, maturity and reference contracts
         run: |
-          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_outline_service_search.py tests/test_outline_maturity.py tests/test_outline_reference_library.py tests/test_outline_coordinator.py tests/test_outline_approaches.py tests/test_outline_make_buy.py tests/test_outline_vehicle_supply.py tests/test_outline_civil_supply.py tests/test_outline_supply_economics.py tests/test_outline_city_service.py tests/test_outline_city_civil.py tests/test_outline_city_project_cost.py tests/test_outline_city_alignment.py tests/test_outline_design_completion.py tests/test_outline_completion.py tests/test_outline_completion_publication.py
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_outline_*.py
           .venv/bin/python -c 'from engineering.outline.completion_publication import verify; verify()'
       - name: Stepped civil mechanics and portable publication compression
         run: |

@@ -3,6 +3,8 @@ const $ = (id) => document.getElementById(id);
 const base = "../../design-engine/current/planning/";
 const repository = "../../../";
 let manifest, index, original, plan, layers, edits = [], epoch = 0;
+const pricedRun = new URLSearchParams(location.search).get("pricedRun");
+const pricedMode = /^[0-9a-f]{32}$/.test(pricedRun || "");
 const svgNS = "http://www.w3.org/2000/svg";
 const colours = ["#14786d", "#8754a0", "#c58132", "#337bb6", "#ad4f5b"];
 const contextColours = {
@@ -169,6 +171,10 @@ function setStops(preferred) {
   const selected = selectedLine.stops.some((stop) => stop.id === preferred) ? preferred : selectedLine.stops[0]?.id;
   $("stop").value = selected || "";
   setStop();
+  if (pricedMode) $("priced-geometry").value=JSON.stringify({coordinates:selectedLine.coordinates,
+    stops:selectedLine.stops.map(s=>({id:s.id,chainage_m:s.chainage_m,dwell_s:s.dwell_s})),
+    shape:selectedLine.shape,design_speed_cap_m_s:selectedLine.design_speed_cap_m_s,
+    reason:"Explicit route and station revision for calculated comparison"},null,2);
 }
 function setStop() {
   const selectedLine = line(), selectedStop = selectedLine?.stops.find((item) => item.id === $("stop").value);
@@ -204,6 +210,20 @@ function apply(edit) {
     clean(edit.dwell_s);
     if (edit.dwell_s < 10 || edit.dwell_s > 3600) throw Error("Dwell outside planning bounds");
     for (const stop of selectedLine.stops) stop.dwell_s = edit.dwell_s;
+  } else if (edit.kind === "replace-line-geometry" && pricedMode) {
+    if (!Array.isArray(edit.coordinates) || edit.coordinates.length<2 || edit.coordinates.length>20000 || !Array.isArray(edit.stops) || edit.stops.length<2) throw Error("Bounded route and explicit stations required");
+    for (const p of edit.coordinates) if (!Array.isArray(p)||p.length!==2||!Number.isFinite(p[0])||!Number.isFinite(p[1])||Math.abs(p[0])>180||Math.abs(p[1])>90) throw Error("Valid longitude/latitude required");
+    if (!["radial","ring"].includes(edit.shape)) throw Error("Explicit route topology required");
+    if (edit.shape==="ring" && JSON.stringify(edit.coordinates[0])!==JSON.stringify(edit.coordinates.at(-1))) throw Error("Ring route must close");
+    selectedLine.coordinates=structuredClone(edit.coordinates);selectedLine.shape=edit.shape;
+    selectedLine.length_m=0;for(let i=1;i<edit.coordinates.length;i++)selectedLine.length_m+=distance(edit.coordinates[i-1],edit.coordinates[i]);
+    if(selectedLine.length_m<1)throw Error("Collapsed route");
+    const seen=new Set();selectedLine.stops=edit.stops.map(s=>{
+      if(typeof s.id!=="string"||seen.has(s.id)||clean(s.chainage_m)<0||s.chainage_m>selectedLine.length_m||clean(s.dwell_s)<10||s.dwell_s>3600)throw Error("Explicit ordered unique station anchors required");
+      seen.add(s.id);const [lon,lat]=point(selectedLine,s.chainage_m);return {...s,lon,lat,access_and_transfer_reassessment_required:true};
+    });
+    selectedLine.design_speed_cap_m_s=clean(edit.design_speed_cap_m_s);
+    if(selectedLine.design_speed_cap_m_s<=0||selectedLine.design_speed_cap_m_s>40)throw Error("Bounded design speed required");
   } else if (edit.kind === "straighten-line") {
     const oldLength = selectedLine.length_m;
     selectedLine.coordinates = [selectedLine.coordinates[0], selectedLine.coordinates.at(-1)];
@@ -363,9 +383,22 @@ async function loadCity() {
   $("map-context-attribution").textContent = "";
   for (const id of ["line", "stop", "move", "add-stop", "retire-stop", "service", "straighten", "set-od", "export"]) $(id).disabled = true;
   try {
-    const row = index.cities.find((item) => item.city === $("city").value), currentPlan = await json(row.plan);
+    const row = index.cities.find((item) => item.city === $("city").value); let currentPlan = await json(row.plan);
     if (current !== epoch) return;
     if (currentPlan.city !== row.city || currentPlan.revision_sha256 !== row.revision_sha256 || currentPlan.selection_id !== index.selection_id) throw Error("Incompatible current geography or candidate identity");
+    if(pricedMode) {
+      const prefix="/api/city-studies/"+pricedRun+"/artifacts/";
+      const response=await fetch(prefix+"manifest.json",{cache:"no-store"});
+      if(!response.ok)throw Error("Verified priced city study unavailable; open the local Workbench");
+      const record=await response.json(),payload=await fetch(prefix+"planning.json",{cache:"no-store"});
+      if(!payload.ok)throw Error("Priced planning base unavailable");
+      const raw=new Uint8Array(await payload.arrayBuffer());
+      if(raw.length>32*1024*1024||(await sha256(raw))!==record.files_sha256?.["planning.json"])throw Error("Priced planning base differs from its manifest");
+      const imported=JSON.parse(new TextDecoder().decode(raw));
+      if(imported.city!==row.city||imported.selection_id!==index.selection_id||imported.schema!=="osr-owner-builder-plan/1"||!imported.outline_context?.seed)throw Error("Priced planning identity differs");
+      if(["design_complete","physical_validation","manufacturing_release","physical_release","engineering_accepted","movement_authority","procurement_released"].some(k=>imported[k]!==false))throw Error("Planning import cannot grant release");
+      currentPlan=imported;$("city").disabled=true;$("priced-controls").hidden=false;$("planning-advisories").open=false;$("handoff-help").textContent="This priced edit bundle is based on the exact calculated study above. Recalculate these edits to produce a new costed outline, fleet, delivery schedule and disabled business drafts. Download the bundle to retain its source identity and review history. Actual construction, purchasing and physical operation require separate approval.";
+    }
     const context = await currentMapContext(currentPlan);
     if (current !== epoch) return;
     original = currentPlan; plan = structuredClone(currentPlan); layers = mapLayers(currentPlan, context); edits = [];
@@ -402,6 +435,7 @@ async function loadCity() {
       $("map-context-attribution").append(item);
     }
     for (const id of ["line", "stop", "move", "add-stop", "retire-stop", "service", "straighten", "set-od", "import"]) $(id).disabled = false;
+    if(pricedMode) {$("straighten").disabled=true;$("revision").textContent=`Priced city planning base ${currentPlan.revision_sha256}; source outline ${currentPlan.source_outline_evaluation_id}. Geometry edits use explicit station anchors.`;}
     $("map-caption").textContent = `${currentPlan.city}: source-verified city geography and route context. Lines, stops, service and OD edits remain proposals.`;
     $("od").value = JSON.stringify(plan.od, null, 2); editStatus("No local changes."); render();
     status("Current planning geography and map-context source bytes verified.");
@@ -419,9 +453,14 @@ $("service").addEventListener("click", () => action(() => apply({ kind: "set-ser
 $("straighten").addEventListener("click", () => action(() => apply({ kind: "straighten-line", line: line().id })));
 $("set-od").addEventListener("click", () => action(() => apply({ kind: "set-od", rows: JSON.parse($("od").value) })));
 $("reset").addEventListener("click", () => { plan = structuredClone(original); edits = []; setStops(); render(); editStatus("Local proposal discarded."); });
-$("export").addEventListener("click", () => action(() => {
+function editBundle() {
   const actor = $("author").value.trim(); if (!actor) throw Error("Named planning author required");
-  const value = { schema: "osr-planning-edit-bundle/1", city: original.city, base_revision_sha256: original.revision_sha256, actor, edits };
+  return pricedMode ? {schema:"osr-priced-planning-edits/1",city:original.city,base_revision_sha256:original.revision_sha256,
+    actor,edits,seed_id:original.official_seed_id,source_outline_evaluation_id:original.source_outline_evaluation_id}
+    : {schema:"osr-planning-edit-bundle/1",city:original.city,base_revision_sha256:original.revision_sha256,actor,edits};
+}
+$("export").addEventListener("click", () => action(() => {
+  const value=editBundle();
   const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2) + "\n"], { type: "application/json" }));
   const anchor = document.createElement("a"); anchor.href = url; anchor.download = original.city + "-planning-edits.json"; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }));
@@ -429,12 +468,28 @@ $("import").addEventListener("change", () => action(async () => {
   try {
     const file = $("import").files[0]; if (!file || file.size > 4 * 1024 * 1024) throw Error("Bounded edit file required");
     const value = JSON.parse(await file.text());
-    if (value.schema !== "osr-planning-edit-bundle/1" || value.city !== original.city || value.base_revision_sha256 !== original.revision_sha256 || !Array.isArray(value.edits) || value.edits.length > 1000) throw Error("Stale or incompatible edit bundle");
+    if (value.schema !== (pricedMode?"osr-priced-planning-edits/1":"osr-planning-edit-bundle/1") || value.city !== original.city || value.base_revision_sha256 !== original.revision_sha256 || !Array.isArray(value.edits) || value.edits.length > 1000) throw Error("Stale or incompatible edit bundle");
     const oldPlan = plan, oldEdits = edits;
     try { plan = structuredClone(original); edits = []; for (const item of value.edits) apply(item); $("author").value = String(value.actor || ""); }
     catch (error) { plan = oldPlan; edits = oldEdits; render(); throw error; }
   } catch (error) { editStatus(error.message, true); }
 }));
+$("priced-replace").addEventListener("click",()=>action(()=>apply({kind:"replace-line-geometry",line:line().id,...JSON.parse($("priced-geometry").value)})));
+$("priced-recost").addEventListener("click",async()=>{
+  const button=$("priced-recost"),status=$("priced-status");button.disabled=true;
+  try {
+    const response=await fetch("/api/city-studies",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({city_slug:original.city,base_study_id:pricedRun,edit_bundle:editBundle()})});
+    let job=await response.json();if(!response.ok)throw Error(job.error||"Another city calculation is running");
+    const deadline=Date.now()+150000;
+    while(job.state==="running"&&Date.now()<deadline){status.textContent="Recalculating the edited mapped network and delivery plan…";await new Promise(r=>setTimeout(r,1000));const r=await fetch("/api/city-studies/"+job.job_id,{cache:"no-store"});job=await r.json();if(!r.ok)throw Error(job.error||"City status unavailable");}
+    if(job.state!=="completed")throw Error(job.error||"Calculation did not complete; artifacts retained");
+    const s=job.summary;status.textContent=`${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}: ${s.trainsets} trains, central installed US$${(s.installed_capital_usd.base/1e6).toFixed(1)}m. Requested service and any failures are retained.`;
+    const links=$("priced-links");links.replaceChildren();
+    for(const [file,label] of [["summary.json","Calculated prices and outcomes"],["delivery-plan.json","Production/construction schedule"],["business-drafts.json","Disabled business drafts"]]){const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);}
+    const again=document.createElement("a");again.href=`?city=${encodeURIComponent(original.city)}&pricedRun=${job.job_id}`;again.textContent="Continue editing this calculated revision";links.append(again);
+  } catch(error){status.textContent=error.message;}finally{button.disabled=false;}
+});
 try {
   const currentResponse = await fetch("../../design-engine/current/manifest.json", { cache: "no-store" });
   if (!currentResponse.ok) throw Error("Current engineering publication unavailable");

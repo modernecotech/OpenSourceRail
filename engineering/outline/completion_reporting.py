@@ -48,6 +48,7 @@ def render(root=ROOT):
         f"plus {counts['railway-bundle']} railway bundles, {counts['vehicle-body']} bodies and {counts['civil-span']} civil spans. "
         'The Workbench compares original, straighter and rounded square-ring proposals, joins close stop markers into operational complexes, '
         'and exposes fleet, manufacturing, construction and fourteen whole-life cost scopes. '
+        'The local workflow edits and re-costs an outline, then exports a resource-leveled delivery plan and disabled business-system drafts. '
         'These are completed calculated outlines under explicit demand, site and rate assumptions; physical approval remains separate.\n'+stop)
     if start in text:
         text = re.sub(re.escape(start)+r'.*?'+re.escape(stop),lambda _:paragraph,text,flags=re.S)

@@ -207,6 +207,7 @@ def sources(root,record,index,delivery):
         'docs/workbench/planning/index.html','docs/workbench/planning/planning.js','docs/workbench/planning/planning.css',
         'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py',
         'tools/automation/generate-city-geography-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
+        'services/integration/osr_integration/city_outline.py',
         'engineering/development-baseline.toml','engineering/readme_context.py','engineering/requirements.txt','.github/repository-metadata.yml','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',

@@ -69,6 +69,20 @@
         <div id="city-outline-results" hidden>
           <label for="city-outline-select">City network</label>
           <select id="city-outline-select"></select>
+          <form id="city-study-options">
+            <h3>Recalculate this city</h3>
+            <div class="outline-inputs">
+              <label>Peak passengers / hour / direction per line<input name="peak_demand_pphpd" type="number" min="1" max="100000" value="4000" required /></label>
+              <label>Longest planned wait · seconds<input name="maximum_headway_s" type="number" min="10" max="3600" value="300" required /></label>
+              <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
+              <label>Maximum added walk · metres<input name="maximum_added_walk_m" type="number" min="50" max="5000" value="500" required /></label>
+              <label>Alignment comparison<select name="selection"><option value="auto">Compare compatible alternatives</option><option value="original">Original alignment</option><option value="anchor-preserving-chord-research">Straighter corridors</option><option value="rounded-four-edge-ring-research">Rounded square-ring concept</option></select></label>
+              <label>Purchasing basis<select name="pricing_scenario"><option value="project-make-buy">Project-scale make or buy</option><option value="china-bulk-buy">China-origin bulk purchasing</option></select></label>
+            </div>
+            <button id="city-study-start" type="submit">Calculate service, costs and delivery plan</button>
+            <p id="city-study-status" role="status" aria-live="polite">Recalculation runs locally with bounded resources and preserves the published outline.</p>
+            <div id="city-study-result" hidden><p id="city-study-outcome"></p><nav id="city-study-links"></nav></div>
+          </form>
           <dl id="city-outline-facts"></dl>
           <h3>Alignment alternatives</h3>
           <p>Original routes in grey, straighter proposals in green, square-ring research in orange.

@@ -35,7 +35,27 @@ def _detail(value,full_sha):
     result['civil_quantities']=civil['quantities']
     result['delivery_draft']['quantity_takeoff']=civil['quantities']
     result['city_cost_evaluation_id']=value['cost']['evaluation_id']
+    result['planning_seed']=planning_seed(value,full_sha)
     return result
+
+
+def planning_seed(value,full_sha):
+    """Bind a lossless replay recipe without duplicating all route coordinates."""
+    inputs=value['geometry_and_service']
+    seed=dict(schema='osr-priced-planning-seed/1',city_slug=value['city']['slug'],
+        rules=value['policy'],selected_alignment_id=value['selected_alignment_id'],
+        selected_alignment_kind=value['selected_alignment_kind'],
+        original_city_input_id=inputs.get('ancestry',{}).get('parent_input_id',inputs['input_id']),
+        selected_city_input_id=inputs['input_id'],
+        selected_service_evaluation_id=value['service_evaluation']['evaluation_id'],
+        source_outline_evaluation_id=value['evaluation_id'],
+        source_core_outline_evaluation_id=value['source_outline_evaluation_id'],
+        source_cost_evaluation_id=value['cost']['evaluation_id'],
+        research_configuration_id=value['research_configuration_id'],
+        reference_candidate_ids=value['reference_candidate_ids'],
+        source_sha256=value['source_sha256'],source_result_sha256=full_sha,**FLAGS)
+    seed['seed_id']=identity(seed)
+    return seed
 
 
 def _write_gzip(path,value):

@@ -196,6 +196,9 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='outline':
+            from engineering.outline.__main__ import main as outline_main
+            return outline_main(rest,root=root) or 0
         if command=='journey-study':
             if rest in (['-h'],['--help'],['help']):
                 print('Usage: ./osr design journey-study {run|publish|verify} [--replay]')

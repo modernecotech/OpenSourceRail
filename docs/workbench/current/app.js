@@ -1012,6 +1012,47 @@ byId("city-outline-load").addEventListener("click", async () => {
   finally {button.disabled = false;}
 });
 byId("city-outline-select").addEventListener("change", event=>showCityOutline(event.target.value));
+byId("city-study-options").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const button=byId("city-study-start"),status=byId("city-study-status");
+  button.disabled=true;byId("city-study-result").hidden=true;
+  try {
+    const fields=new FormData(event.target),slug=byId("city-outline-select").value;
+    const original=completionCatalogue.cities.find(row=>row.city.slug===slug);
+    const payload={city_slug:slug,expected_outline_evaluation_id:original.evaluation_id,
+      service:{peak_demand_pphpd:Number(fields.get("peak_demand_pphpd")),
+        maximum_headway_s:Number(fields.get("maximum_headway_s")),operating_hours_per_day:Number(fields.get("operating_hours_per_day"))},
+      alignment:{maximum_added_walk_m:Number(fields.get("maximum_added_walk_m"))},
+      project:{pricing_scenario:fields.get("pricing_scenario")},selection:fields.get("selection")};
+    status.textContent="Starting a bounded mapped-city calculation…";
+    const response=await fetch("/api/city-studies",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    let job=await response.json();
+    if (!response.ok) throw Error(job.error||"Another calculation is running; retry after it finishes");
+    const deadline=Date.now()+150000;
+    while(job.state==="running" && Date.now()<deadline) {
+      status.textContent="Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";
+      await new Promise(resolve=>setTimeout(resolve,1000));
+      job=await request("/api/city-studies/"+job.job_id);
+    }
+    if(job.state!=="completed")throw Error(job.error||"Calculation did not finish within its budget; artifacts were retained");
+    const s=job.summary;
+    byId("city-study-outcome").textContent=`${s.city.name}: ${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}. `+
+      `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. `+
+      `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; `+
+      (s.delivery.cases.base.target_met?"within the planning target. ":"the planning target needs revised resources, methods or dates. ")+
+      "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
+    const links=byId("city-study-links");links.replaceChildren();
+    for(const [file,label] of [["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
+      ["business-drafts.json","Disabled business-system drafts"],["manifest.json","Sources and artifact identities"]]) {
+      const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);
+    }
+    const edit=document.createElement("a");edit.href=`../planning/?city=${encodeURIComponent(slug)}&pricedRun=${job.job_id}`;
+    edit.textContent="Edit this outline and recalculate";links.prepend(edit);
+    byId("city-study-result").hidden=false;
+    status.textContent=`${job.cache_hit?"Reused the identical verified calculation":"Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0,12)}. Physical approval remains separate.`;
+  } catch(error) {status.textContent=`Unable to calculate this city: ${error.message}. Run the local Workbench with ./osr workbench.`;}
+  finally {button.disabled=false;}
+});
 function renderDesignPrices() {
   if (!completionCatalogue) return;
   const kind=byId("design-price-kind").value;

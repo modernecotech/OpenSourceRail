@@ -58,6 +58,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        from engineering.outline.city_jobs import handle_api as city_api
+        if city_api(self):
+            return
         from engineering.outline.interactive import handle_api as outline_api
         if outline_api(self):
             return
@@ -148,6 +151,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        from engineering.outline.city_jobs import handle_api as city_api
+        if city_api(self):
+            return
         from engineering.outline.interactive import handle_api as outline_api
         if outline_api(self):
             return
@@ -164,21 +170,32 @@ class Handler(BaseHTTPRequestHandler):
 class WorkbenchHTTPServer(ThreadingHTTPServer):
     def __init__(self, address, handler, *, root):
         from engineering.trip_dynamics.interactive import TripService
+        from engineering.outline.city_jobs import CityStudyService
         self.root = Path(root).resolve()
-        self.trip_service = TripService(self.root)
+        self.trip_service = None
+        self.city_studies = None
         try:
+            self.trip_service = TripService(self.root)
+            self.city_studies = CityStudyService(self.root)
             super().__init__(address, handler)
         except BaseException:
             try:
-                super().server_close()
+                if getattr(self, 'socket', None) is not None:
+                    super().server_close()
             finally:
-                self.trip_service.close()
+                if self.trip_service is not None:
+                    self.trip_service.close()
+                if self.city_studies is not None:
+                    self.city_studies.close()
             raise
 
     def server_close(self):
         try:
             super().server_close()
         finally:
+            city_studies = getattr(self, 'city_studies', None)
+            if city_studies is not None:
+                city_studies.close()
             service = getattr(self, 'trip_service', None)
             if service is not None:
                 service.close()

@@ -1,0 +1,156 @@
+"""Controller tests use owned fake workers; engineering runs have separate tests."""
+from copy import deepcopy
+import json
+from pathlib import Path
+
+import pytest
+
+from engineering.outline import city_jobs as jobs, city_workflow as workflow
+from engineering.station_rail.common import encoded, digest
+
+
+class Process:
+    pid=987654321
+    returncode=None
+    def poll(self):return self.returncode
+    def wait(self,timeout=None):self.returncode=-9;return self.returncode
+
+
+@pytest.fixture
+def service(tmp_path,monkeypatch):
+    processes=[]
+    def launch(*args,**kw):
+        p=Process();processes.append((p,args,kw));return p
+    monkeypatch.setattr(jobs.subprocess,'Popen',launch)
+    monkeypatch.setattr(jobs.os,'killpg',lambda *a:None)
+    monkeypatch.setattr(jobs.publication_cache,'json_member',lambda *a,**kw:
+        dict(evaluation_id='a'*64,planning_seed=dict(seed_id='b'*64)))
+    monkeypatch.setattr(workflow,'_sources',lambda root:{'worker.py':'c'*64})
+    s=jobs.CityStudyService(tmp_path)
+    try:yield s,processes
+    finally:s.close()
+
+
+def test_one_worker_at_a_time_and_bounded_environment(service):
+    s,ps=service;a=s.submit(dict(city_slug='samawah'));b=s.submit(dict(city_slug='baghdad'))
+    assert a['state']=='running' and b['busy'] and a['job_id']==b['job_id']
+    assert len(ps)==1
+    _,args,kw=ps[0]
+    assert kw['env']['OPENBLAS_NUM_THREADS']=='1' and kw['start_new_session']
+    assert isinstance(args[0],list) and 'shell' not in kw
+    assert a['resource_budget']['maximum_output_bytes']==jobs.MAX_JOB_BYTES
+    assert all(a[k] is False for k in jobs.FLAGS)
+
+
+def test_timeout_and_output_budget_preserve_requests(service,monkeypatch):
+    s,ps=service;a=s.submit(dict(city_slug='samawah'));folder=s._job(a['job_id'])
+    s.jobs[a['job_id']]['started']-=jobs.WALL_SECONDS+1
+    assert s.status(a['job_id'])['state']=='timed-out'
+    assert (folder/'request.json').exists() and (folder/'worker.log').exists()
+    b=s.submit(dict(city_slug='baghdad'));monkeypatch.setattr(jobs,'MAX_JOB_BYTES',1)
+    assert s.status(b['job_id'])['state']=='failed-output-budget'
+
+
+def test_restarted_coordinator_marks_orphan_interrupted(service):
+    s,_=service;job='d'*32;folder=s._job(job);folder.mkdir(parents=True)
+    (folder/'status.json').write_bytes(encoded(dict(job_id=job,state='running')))
+    assert s.status(job)['state']=='interrupted'
+    with pytest.raises(ValueError):s.status('../outside')
+
+
+def test_complete_cache_hit_requires_verified_artifacts(service,monkeypatch):
+    s,ps=service;request=dict(city_slug='samawah');a=s.submit(request)
+    folder=s._job(a['job_id'])/'artifacts';folder.mkdir()
+    (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
+    monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
+    ps[0][0].returncode=0
+    assert s.status(a['job_id'])['state']=='completed'
+    assert s.submit(request)['cache_hit'] is True and len(ps)==1
+    def stale(p):raise ValueError('source changed')
+    monkeypatch.setattr(s,'_verify',stale)
+    assert s.status(a['job_id'])['state']=='stale'
+    assert s.submit(request)['job_id']!=a['job_id'] and len(ps)==2
+
+
+def test_store_full_refuses_new_worker_without_deleting_runs(service,monkeypatch):
+    s,ps=service;monkeypatch.setattr(s,'_usage',lambda:jobs.MAX_STORE_BYTES)
+    with pytest.raises(ValueError,match='storage budget'):s.submit(dict(city_slug='samawah'))
+    assert not ps
+
+
+def test_corrupt_retained_status_is_preserved_without_blocking_new_work(service):
+    s,ps=service;a=s.submit(dict(city_slug='samawah'));folder=s._job(a['job_id'])
+    (folder/'status.json').write_bytes(b'{invalid')
+    assert s.status(a['job_id'])['state']=='failed-integrity'
+    assert list(folder.glob('status.invalid-*.json'))[0].read_bytes()==b'{invalid'
+    assert s.jobs[a['job_id']]['finished'] and s.jobs[a['job_id']]['log'].closed
+    assert s.submit(dict(city_slug='baghdad'))['job_id']!=a['job_id']
+
+
+def test_another_coordinator_cannot_share_the_same_store(service):
+    s,_=service
+    with pytest.raises(ValueError,match='Another completion coordinator'):
+        jobs.CityStudyService(s.root)
+
+
+def test_shutdown_with_corrupt_status_still_closes_logs_and_releases_coordinator(service):
+    s,_=service;a=s.submit(dict(city_slug='samawah'));folder=s._job(a['job_id'])
+    (folder/'status.json').write_bytes(b'{invalid')
+    s.close()
+    assert s.jobs[a['job_id']]['log'].closed
+    assert json.loads((folder/'status.json').read_bytes())['state']=='failed-integrity'
+    replacement=jobs.CityStudyService(s.root)
+    replacement.close()
+
+
+def test_workbench_constructor_releases_other_service_when_store_is_owned(service,monkeypatch):
+    from engineering.development_baseline.server import WorkbenchHTTPServer,Handler
+    from engineering.trip_dynamics import interactive
+    s,_=service;closed=[]
+    class Trip:
+        def __init__(self,root):pass
+        def close(self):closed.append(True)
+    monkeypatch.setattr(interactive,'TripService',Trip)
+    with pytest.raises(ValueError,match='Another completion coordinator'):
+        WorkbenchHTTPServer(('127.0.0.1',0),Handler,root=s.root)
+    assert closed==[True]
+
+
+def test_artifact_whitelist_and_payload_hash(service,monkeypatch):
+    s,_=service;job='e'*32;folder=s._job(job)/'artifacts';folder.mkdir(parents=True)
+    (folder/'summary.json').write_bytes(b'{"result":1}\n')
+    manifest=dict(artifact_paths={'summary.json':'summary.json'},files_sha256={'summary.json':digest(folder/'summary.json')})
+    monkeypatch.setattr(s,'_poll',lambda j:dict(state='completed'))
+    monkeypatch.setattr(s,'_verify',lambda p:deepcopy(manifest))
+    assert json.loads(s.artifact(job,'summary.json'))=={'result':1}
+    with pytest.raises(ValueError,match='Known'):s.artifact(job,'../../outside')
+    (folder/'summary.json').write_bytes(b'{"result":2}\n')
+    with pytest.raises(ValueError,match='differs'):s.artifact(job,'summary.json')
+
+
+@pytest.mark.parametrize('raw',[b'{"city_slug":"a","city_slug":"b"}',b'{"x":NaN}',b'{"x":Infinity}'])
+def test_ambiguous_or_nonfinite_json_refused(raw):
+    with pytest.raises(ValueError):jobs._json(raw)
+
+
+def test_iterative_edits_inherit_verified_policy_without_resetting_demand_or_prices():
+    previous=dict(operating_hours_per_day=24,operating_days_per_year=330,peak_demand_pphpd=5000,
+        pricing_basis='china-bulk-buy',project=dict(pricing_scenario='china-bulk-buy',station_launch_mode='roller'),
+        alignment=dict(maximum_added_walk_m=350,corner_radius_m=200))
+    result=workflow._rules(previous,workflow.normalize(dict(city_slug='samawah')))
+    assert result['operating_days_per_year']==330 and result['peak_demand_pphpd']==5000
+    assert result['project']==previous['project'] and result['operations_shifts_per_day']==3
+    result=workflow._rules(previous,workflow.normalize(dict(city_slug='samawah',alignment=dict(maximum_added_walk_m=250))))
+    assert result['alignment']==dict(maximum_added_walk_m=250,corner_radius_m=200)
+
+
+@pytest.mark.parametrize('proposal',[
+    {'city_slug':'../outside'}, {'city_slug':'samawah','command':'rm'},
+    {'city_slug':'samawah','service':{'maximum_headway_s':True}},
+    {'city_slug':'samawah','service':{'planning_occupancy':float('nan')}},
+    {'city_slug':'samawah','alignment':{'corner_samples':4.5}},
+    {'city_slug':'samawah','base_study_id':'x'*32,'edit_bundle':{}},
+    {'city_slug':'samawah','project':{'foreign_local_rate_transfer':[2,1,3]}},
+])
+def test_request_contract_has_no_arbitrary_commands_paths_or_unbounded_values(proposal):
+    with pytest.raises((ValueError,TypeError)):workflow.normalize(proposal)
