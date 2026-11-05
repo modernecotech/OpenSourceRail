@@ -9,6 +9,28 @@ import pytest
 from engineering.design_search import architecture_publication as publication
 
 
+def test_shallow_reference_fetch_needs_a_visible_ref(tmp_path):
+    """An object fetched before another FETCH_HEAD must remain discoverable."""
+    import subprocess
+    from hashlib import sha256
+    from engineering.station_rail.retired_station_reference import COMMIT
+    git=lambda *args:subprocess.check_output(['git',*args],cwd=publication.ROOT,text=True).strip()
+    head=git('rev-parse','HEAD')
+    objects=git('rev-parse','--git-path','objects')
+    if not publication.Path(objects).is_absolute():objects=str((publication.ROOT/objects).resolve())
+    subprocess.run(['git','init',str(tmp_path)],check=True,capture_output=True)
+    (tmp_path/'.git/objects/info/alternates').write_text(objects+'\n')
+    (tmp_path/'.git/shallow').write_text(head+'\n'+COMMIT+'\n')
+    subprocess.run(['git','update-ref','refs/heads/main',head],cwd=tmp_path,check=True)
+    name='engineering/station_rail/brief.toml'
+    raw=subprocess.check_output(['git','show',COMMIT+':'+name],cwd=publication.ROOT)
+    wanted=sha256(raw).hexdigest()
+    with pytest.raises(ValueError,match='Historical source bytes unavailable'):
+        publication._source_bytes(tmp_path,name,wanted)
+    subprocess.run(['git','update-ref','refs/osr/retired-station-reference',COMMIT],cwd=tmp_path,check=True)
+    assert publication._source_bytes(tmp_path,name,wanted)==(raw,False)
+
+
 @pytest.fixture
 def prior(tmp_path):
     target=tmp_path/'prior'

@@ -28,7 +28,7 @@ The response asks for the current software map fields (position, speed, current 
 
 Quote imported-complete, imported-modules/local-assembly and local-fabrication/imported-modules alternatives separately. Break out imported and local content, raw material, labour, tooling, QA/testing, delivery, installation/commissioning, spares and renewals. Return dimensions, masses, bill of materials, material grades/certificates, exact operating limits, available-force map evidence, lead time, MOQ, currency, delivery terms, warranty and maintenance requirements. No local-content percentage is assumed.
 
-The listed Iraqi and international sources are discovery/technical leads, not compatible products, supplier offers or endorsements. No RFQ was sent. The five-bank research candidate is separate from the selected reference's approximately 900 m shared winding allocation; prices, force maps, electrical duties or civil requirements do not transfer between them.
+The listed Iraqi and international sources are discovery/technical leads, not compatible products, supplier offers or endorsements. No RFQ was sent. Its five 20 m banks are a retained bounded research configuration, separate from the current candidate-specific propulsion policy and not a selected station layout. Prices, force maps, electrical duties and civil requirements do not transfer between candidates.
 
 RFQ drafts remain disabled until an authorized operator selects a supplier, approves the technical package and sends the request. Candidate selection, engineering/procurement approval, physical acceptance, complete installed cost and whole-life cost remain open.
 

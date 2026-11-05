@@ -1,6 +1,6 @@
 """Compact, non-promoting handoff from existing 20 m civil research packets.
 
-This consumer checks packet integrity, current sources, identities and crosslinks;
+This consumer checks current quantity and retired-reference mechanics integrity;
 it does not independently replay the 189 mechanical calculations or authenticate
 physical measurements. Outputs are immutable and belong outside tracked docs.
 """
@@ -14,7 +14,8 @@ import shutil
 import stat
 import tempfile
 
-from engineering.station_rail import ROOT
+from engineering.station_rail import ROOT, retired_station_reference
+from engineering.development_baseline import selection
 from engineering.station_rail.common import digest, encoded, identity
 from . import civil_shape_mechanics as mechanics
 from . import civil_shape_portfolio as portfolio
@@ -97,7 +98,7 @@ def _regular(path):
         raise ValueError("Regular non-symlink packet file required")
 
 
-def _packet(root, folder, expected_schema, expected_sources):
+def _packet(root, folder, expected_schema, expected_sources, *, retired_reference=None):
     folder = Path(root)/folder
     if folder.is_symlink() or not folder.is_dir():
         raise ValueError("Regular packet directory required")
@@ -107,40 +108,53 @@ def _packet(root, folder, expected_schema, expected_sources):
     _sealed(manifest, "manifest_id", "Publication manifest")
     _flags(manifest)
     actual = {p.name: digest(p) for p in folder.iterdir() if p.name != "manifest.json"}
+    historical = retired_reference is not None
+    if historical and manifest['manifest_id'] != retired_reference['retired_manifest_ids'].get(Path(folder).name):
+        raise ValueError("Retired civil publication does not match its fixed source pin")
     if (manifest.get("schema") != expected_schema or actual != manifest.get("files_sha256")
-            or manifest.get("source_sha256") != expected_sources):
+            or (not historical and manifest.get("source_sha256") != expected_sources)):
         raise ValueError("Current civil publication payload or source bindings differ")
-    _sources(root, manifest["source_sha256"])
+    if not historical:
+        _sources(root, manifest["source_sha256"])
     return manifest
 
 
-def load_inputs(root=ROOT):
-    """Check current publication files and sources, without rerunning mechanics."""
+def _checked_inputs(root=ROOT):
+    """Authenticate unchanged retired mechanics; no current evaluator admission."""
     root = Path(root)
+    reference = retired_station_reference.verify(root)
+    selected = selection.load(root)
+    if any(reference['reference_candidate_ids'][key] != selected['vehicle'][key] for key in
+           ('candidate_id', 'body_candidate_id', 'support_component_id', 'propulsion_component_id')):
+        raise ValueError("Retired civil load physical reference differs from the current vehicle")
     pmanifest = _packet(root, portfolio.OUTPUT, "osr-civil-shape-publication/1", portfolio.sources(root))
-    mmanifest = _packet(root, mechanics.OUTPUT, "osr-civil-mechanics-publication/1", mechanics.sources(root))
+    mmanifest = _packet(root, mechanics.OUTPUT, "osr-civil-mechanics-publication/1", None, retired_reference=reference)
     p = _json((root/portfolio.OUTPUT/"result.json").read_bytes())
     definitions = _json(gzip.decompress((root/portfolio.OUTPUT/"candidates.json.gz").read_bytes()))
     m = _json(gzip.decompress((root/mechanics.OUTPUT/"result.json.gz").read_bytes()))
     if pmanifest.get("portfolio_id") != p.get("portfolio_id") or mmanifest.get("study_id") != m.get("study_id"):
         raise ValueError("Manifest and civil study identities differ")
-    return p, definitions, m
+    return (p, definitions, m), reference, selected
 
 
-def _validate(p, definitions, m, root):
+def load_inputs(root=ROOT):
+    return _checked_inputs(root)[0]
+
+
+def _validate(p, definitions, m, root, reference_mechanics):
     _sealed(p, "portfolio_id", "Quantity portfolio")
     _sealed(m, "study_id", "Mechanical study")
     _flags(p); _flags(m)
     if (p.get("specification") != portfolio.specification(root)
             or m.get("specification") != mechanics.specification(root)
             or p.get("source_sha256") != portfolio.sources(root)
-            or m.get("source_sha256") != mechanics.sources(root)
+            or m.get("source_sha256") != reference_mechanics["source_sha256"]
             or m.get("parent_portfolio_id") != p["portfolio_id"]
             or p.get("integrated_selection") is not None or m.get("integrated_selection") is not None
             or m.get("stage_1_complete") is not False or m.get("native_jobs_dispatched") != 0):
         raise ValueError("Civil scope, parent, source or non-promoting disposition differs")
     context = m["load_context"]
-    if context != mechanics.load_context(root):
+    if context != reference_mechanics["load_context"]:
         raise ValueError("Selected vehicle, evaluation, selection or load context differs")
     candidates = _index(definitions, "candidate_id", "Physical candidate")
     quantities = _index(p["evaluations"], "candidate_id", "Quantity evaluation")
@@ -298,12 +312,14 @@ def consolidate(p, definitions, m, *, root=ROOT, maximum_tasks=6):
     common_sources = set(p["source_sha256"]) & set(m["source_sha256"])
     if any(p["source_sha256"][name] != m["source_sha256"][name] for name in common_sources):
         raise ValueError("Civil parent/mechanics source epochs conflict")
-    source = {**p["source_sha256"], **m["source_sha256"], PRODUCER: LOADED_PRODUCER_SHA256}
+    checked, reference, selected = _checked_inputs(root)
+    source = {**p["source_sha256"], **selected['source_sha256'],
+        **reference['dependency_sha256'], PRODUCER: LOADED_PRODUCER_SHA256}
     for folder in (portfolio.OUTPUT, mechanics.OUTPUT):
         source[folder+"/manifest.json"] = digest(Path(root)/folder/"manifest.json")
     _sources(root, source)
-    candidates, quantities, summaries, cases = _validate(p, definitions, m, root)
-    if (p, definitions, m) != load_inputs(root):
+    candidates, quantities, summaries, cases = _validate(p, definitions, m, root, checked[2])
+    if (p, definitions, m) != checked:
         raise ValueError("Supplied civil evidence differs from the checked publication payloads")
     followup = plan_followup(m["evaluations"], m["archive"]["retained_candidate_ids"], maximum_tasks)
     evidence = []
@@ -330,6 +346,18 @@ def consolidate(p, definitions, m, *, root=ROOT, maximum_tasks=6):
         load_context_id=m["load_context"]["context_id"],
         vehicle_candidate_id=m["load_context"]["vehicle_candidate_id"],
         vehicle_evaluation_id=m["load_context"]["vehicle_evaluation_id"], selection_id=m["load_context"]["selection_id"],
+        reference_comparison=dict(selection_role='retired-reference-control-comparison',
+            reference_commit=reference['reference_commit'], retention_id=reference['retention_id'],
+            reference_selection_id=reference['reference_selection_id'],
+            reference_dossier_evaluation_id=reference['reference_evaluation_id'],
+            reference_vehicle_evaluation_id=m['load_context']['vehicle_evaluation_id'],
+            active_selection_id=selected['selection_id'],
+            active_vehicle_evaluation_id=selected['vehicle']['evaluation_id'],
+            active_policy_id=selected['active_propulsion_policy']['policy_id'],
+            reference_source_sha256=deepcopy(m['source_sha256']),
+            current_evaluator_admission=False, numerical_reexecuted=False,
+            active_installed_propulsion_selected=False),
+        current_evaluator_admission=False, numerical_reexecuted=False,
         source_sha256=source, candidate_count=len(evidence), linked_mechanics_cases=len(cases), evidence=evidence,
         followup=followup, limitations=list(LIMITATIONS), integrated_selection=None,
         stage_1_complete=False, stage_2_admission=False, native_jobs_dispatched=0,

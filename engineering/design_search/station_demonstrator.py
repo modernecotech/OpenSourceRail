@@ -16,7 +16,7 @@ import stat
 
 from engineering import development_baseline, station_rail
 from engineering.development_baseline import selection
-from engineering.station_rail import ROOT, braking, civil, common, electrical, operations, vehicle
+from engineering.station_rail import ROOT, braking, civil, common, electrical, operations, vehicle, retired_station_reference
 from engineering.station_rail.common import brief, digest, encoded, identity, source_map
 from . import capabilities, conditional_journey_study, railway_architecture, requirement_policy
 from . import selected_reference_journey, test_readiness
@@ -52,6 +52,7 @@ NEXT = {
 MODULES = (
     (development_baseline, "engineering/development_baseline/__init__.py"),
     (selection, "engineering/development_baseline/selection.py"),
+    (retired_station_reference, retired_station_reference.PRODUCER),
     (station_rail, "engineering/station_rail/__init__.py"),
     (braking, "engineering/station_rail/braking.py"),
     (civil, "engineering/station_rail/civil.py"),
@@ -87,6 +88,11 @@ def build(bundle=None, *, root=ROOT):
     executing_sources = _executing_sources(root)
     if bundle is None:raise ValueError('Explicit candidate-specific station bundle required; no installed propulsion is selected')
     selected_reference_journey.validate(bundle, root)
+    reference = retired_station_reference.verify(root)
+    expected_ids = dict(candidate_id=bundle['reference_candidate_id'], **{key:bundle[key] for key in
+        ('body_candidate_id', 'support_component_id', 'propulsion_component_id')})
+    if reference['reference_candidate_ids'] != expected_ids:
+        raise ValueError('Retired station comparison physical reference differs')
     config = brief(root)
     case = bundle["architecture_case"]
     formation = case["physical_definition"]["formation"]
@@ -175,14 +181,25 @@ def build(bundle=None, *, root=ROOT):
         capabilities.__name__.replace(".", "/") + ".py",
         test_readiness.PRODUCER, test_readiness.DEFINITIONS, requirement_policy.PRODUCER,
         conditional_journey_study.PRODUCER, conditional_journey_study.CONFIG)))
+    sources[retired_station_reference.OUTPUT+'/manifest.json'] = digest(root/retired_station_reference.OUTPUT/'manifest.json')
     sources.update(executing_sources)
     _executing_sources(root)
 
     value = dict(
         schema="osr-selected-station-demonstrator/1", subject_binding=binding,
-        purpose="next-experiment planning; no integrated selection or physical release",
+        purpose="Explicit retired-recipe demand comparison; no integrated selection or physical release",
+        reference_comparison=dict(selection_role='retired-reference-control-comparison',
+            reference_commit=reference['reference_commit'], retention_id=reference['retention_id'],
+            reference_selection_id=reference['reference_selection_id'],
+            reference_dossier_evaluation_id=reference['reference_evaluation_id'],
+            active_selection_id=bundle['selection_id'],
+            active_vehicle_evaluation_id=bundle['vehicle_evaluation_id'],
+            historical_dependencies_sha256=reference['dependency_sha256'],
+            current_evaluator_admission=False, numerical_reexecuted=False),
+        active_installed_propulsion_selected=False, installed_propulsion_selection=None,
+        current_evaluator_admission=False, numerical_reexecuted=False,
         analytical_demand=demand, reference_shared_winding=reference_zone,
-        reference_winding_scope="Kinematic shared-winding hypothesis; no installed primary candidate or equivalence to the journey adapter established",
+        reference_winding_scope="Explicit retired kinematic shared-winding comparison; no installed primary candidate or equivalence to the journey adapter established",
         winding_library_screens=zones,
         conditional_journey_context=dict(
             assumption_id=assumptions["assumption_id"],
@@ -211,17 +228,17 @@ def build(bundle=None, *, root=ROOT):
     return value
 
 
-def write(output=None, *, root=ROOT):
+def write(output=None, *, bundle=None, root=ROOT):
     """Write a fresh immutable planning record; refuse an existing destination."""
     root = Path(root).resolve()
-    value = build(root=root)
+    value = build(bundle, root=root)
     target = Path(output) if output is not None else root / OUTPUT
     target.mkdir(parents=True, exist_ok=False)
     (target / "result.json").write_bytes(encoded(value))
     return dict(output=str(target), evaluation_id=value["evaluation_id"], **FLAGS)
 
 
-def verify(output=None, *, root=ROOT):
+def verify(output=None, *, bundle=None, root=ROOT):
     root = Path(root).resolve()
     target = Path(output) if output is not None else root / OUTPUT
     if target.is_symlink() or not target.is_dir():
@@ -241,7 +258,7 @@ def verify(output=None, *, root=ROOT):
         if len(raw) > MAX_RESULT_BYTES:
             raise ValueError("Station handoff exceeds reader size budget")
     # Exact regeneration catches resealed edits as well as stale dependencies.
-    if raw != encoded(build(root=root)):
+    if raw != encoded(build(bundle, root=root)):
         raise ValueError("Station handoff differs from the selected reference, sources or unexecuted evidence")
     return dict(verified=True, **FLAGS)
 
@@ -250,8 +267,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("build", "verify"))
     parser.add_argument("--output", type=Path)
+    parser.add_argument('--retired-comparison', action='store_true',
+        help='Explicit fixed-service demand comparison, not an installed propulsion selection')
     args = parser.parse_args(argv)
-    print(json.dumps((write if args.action == "build" else verify)(args.output), sort_keys=True))
+    bundle = selected_reference_journey.build(retired_comparison=True) if args.retired_comparison else None
+    print(json.dumps((write if args.action == "build" else verify)(args.output, bundle=bundle), sort_keys=True))
 
 
 if __name__ == "__main__":

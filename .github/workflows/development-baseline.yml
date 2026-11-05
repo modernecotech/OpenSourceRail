@@ -205,7 +205,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch exact retired references for offline byte verification
         run: |
-          git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+          git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference
           git cat-file -e 3bf38a501d09fa3a3c2dd6f4731be11828d04f55^{commit}
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
           git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}

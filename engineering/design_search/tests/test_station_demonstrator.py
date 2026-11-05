@@ -11,7 +11,7 @@ from engineering.station_rail.common import encoded, identity
 
 @pytest.fixture(scope="module")
 def bundle():
-    return selected_reference_journey.build()
+    return selected_reference_journey.build(retired_comparison=True)
 
 
 @pytest.fixture(scope="module")
@@ -55,6 +55,10 @@ def test_exact_selected_schema_binds_three_distinct_subjects(bundle, record):
 def test_full_train_geometry_is_not_point_train_command_or_available_thrust(record):
     zone = record["reference_shared_winding"]
     context = record["conditional_journey_context"]
+    assert record['reference_comparison']['selection_role'] == 'retired-reference-control-comparison'
+    assert record['reference_comparison']['current_evaluator_admission'] is False
+    assert record['installed_propulsion_selection'] is None
+    assert record['active_installed_propulsion_selected'] is False
     assert zone["length_m"] == 900.0
     assert zone["required_shared_winding_m"] > 800.0
     assert context["commanded_leading_point_windows_m"] == [[0.0, 500.0]]
@@ -83,8 +87,12 @@ def test_civil_load_and_station_demonstrators_share_exact_selected_vehicle(recor
     from engineering.design_search import civil_demonstrator
     civil = civil_demonstrator.calculate(maximum_tasks=0)
     subject = record["subject_binding"]
-    for key in ("vehicle_candidate_id", "vehicle_evaluation_id", "selection_id"):
-        assert civil[key] == subject[key]
+    assert civil['vehicle_candidate_id'] == subject['vehicle_candidate_id']
+    assert civil['reference_comparison']['active_selection_id'] == subject['selection_id']
+    assert civil['reference_comparison']['active_vehicle_evaluation_id'] == subject['vehicle_evaluation_id']
+    assert civil['selection_id'] == record['reference_comparison']['reference_selection_id']
+    assert civil['selection_id'] != subject['selection_id']
+    assert civil['vehicle_evaluation_id'] != subject['vehicle_evaluation_id']
     # Civil alternatives remain distinct from the station journey adapter and
     # neither handoff can select a combined railway from this identity match.
     assert subject["journey_adapter_id"] not in {r["candidate_id"] for r in civil["evidence"]}
@@ -92,19 +100,23 @@ def test_civil_load_and_station_demonstrators_share_exact_selected_vehicle(recor
 
 
 @pytest.fixture
-def relocated_root(tmp_path, record):
+def relocated_root(tmp_path, record, monkeypatch):
     root = tmp_path / "sources"
     for name in record["source_sha256"]:
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(s.ROOT / name, path)
+    # This source-relocation fixture isolates loaded/current-source checks;
+    # real-root pinned-history integrity is exercised by record and civil tests.
+    verified = s.retired_station_reference.verify(s.ROOT)
+    monkeypatch.setattr(s.retired_station_reference, 'verify', lambda root: deepcopy(verified))
     return root
 
 
-def test_architecture_source_bytes_affect_handoff_without_changing_hardware(relocated_root, record):
+def test_architecture_source_bytes_affect_handoff_without_changing_hardware(relocated_root, record, bundle):
     path = relocated_root / s.railway_architecture.SPEC
     path.write_bytes(path.read_bytes() + b"\n# Byte-only source revision.\n")
-    changed = s.build(root=relocated_root)
+    changed = s.build(bundle, root=relocated_root)
     assert changed["subject_binding"] == record["subject_binding"]
     assert changed["evaluation_id"] != record["evaluation_id"]
 
@@ -168,20 +180,20 @@ def test_resealed_geometry_swap_cannot_reuse_selected_adapter(bundle):
         s.build(changed)
 
 
-def test_immutable_output_verified_against_current_sources_and_selection(tmp_path, record, monkeypatch):
+def test_immutable_output_verified_against_current_sources_and_selection(tmp_path, record, monkeypatch, bundle):
     # Build once; verification below still executes the real source/selection build.
     target = tmp_path / "station"
-    s.write(target)
-    assert s.verify(target)["verified"]
+    s.write(target, bundle=bundle)
+    assert s.verify(target, bundle=bundle)["verified"]
     with pytest.raises(FileExistsError):
-        s.write(target)
+        s.write(target, bundle=bundle)
     path = target / "result.json"
     original = path.read_bytes()
     changed = json.loads(original)
     changed["physical_accepted"] = True
     path.write_bytes(encoded(reseal(changed, "evaluation_id")))
     with pytest.raises(ValueError, match="Station handoff differs"):
-        s.verify(target)
+        s.verify(target, bundle=bundle)
     path.write_bytes(original)
     build = s.build
     def different_source(*args, **kwargs):
@@ -190,10 +202,10 @@ def test_immutable_output_verified_against_current_sources_and_selection(tmp_pat
         return reseal(value, "evaluation_id")
     monkeypatch.setattr(s, "build", different_source)
     with pytest.raises(ValueError, match="Station handoff differs"):
-        s.verify(target)
+        s.verify(target, bundle=bundle)
 
 
-def test_resealed_synthetic_geometry_or_source_edit_is_not_accepted(tmp_path, record):
+def test_resealed_synthetic_geometry_or_source_edit_is_not_accepted(tmp_path, record, bundle):
     target = tmp_path / "station"
     target.mkdir()
     path = target / "result.json"
@@ -210,4 +222,35 @@ def test_resealed_synthetic_geometry_or_source_edit_is_not_accepted(tmp_path, re
     for value in changes:
         path.write_bytes(encoded(reseal(value, "evaluation_id")))
         with pytest.raises(ValueError, match="Station handoff differs"):
-            s.verify(target)
+            s.verify(target, bundle=bundle)
+
+
+def test_missing_bundle_never_selects_installed_propulsion_or_writes_output(tmp_path, record):
+    with pytest.raises(ValueError, match='Explicit candidate-specific station bundle'):
+        s.build()
+    with pytest.raises(ValueError, match='Explicit candidate-specific station bundle'):
+        s.write(tmp_path/'not-created')
+    assert not list(tmp_path.iterdir())
+    target = tmp_path/'existing'
+    target.mkdir()
+    raw = encoded(record)
+    (target/'result.json').write_bytes(raw)
+    with pytest.raises(ValueError, match='Explicit candidate-specific station bundle'):
+        s.verify(target)
+    assert (target/'result.json').read_bytes() == raw
+
+
+def test_retired_station_integrity_hold_prevents_demand_handoff(bundle, monkeypatch):
+    def refuse(root):
+        raise ValueError('retired fixture integrity differs')
+    monkeypatch.setattr(s.retired_station_reference, 'verify', refuse)
+    with pytest.raises(ValueError, match='retired fixture integrity'):
+        s.build(bundle)
+
+
+def test_retired_station_cannot_borrow_a_different_physical_reference(bundle, monkeypatch):
+    proof = s.retired_station_reference.verify(s.ROOT)
+    proof['reference_candidate_ids']['body_candidate_id'] = '0'*64
+    monkeypatch.setattr(s.retired_station_reference, 'verify', lambda root: proof)
+    with pytest.raises(ValueError, match='physical reference differs'):
+        s.build(bundle)

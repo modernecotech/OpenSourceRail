@@ -484,6 +484,8 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert re.search(r'^          \./osr design space verify$', current_jobs['current-contracts'], re.M)
     assert 'tests/test_propulsion_layout_quantities.py' in current_jobs['current-contracts']
     assert 'tests/test_candidate_specific_baseline.py' in current_jobs['current-contracts']
+    assert ('git fetch --no-tags --depth=1 origin '
+            '3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference') in current_jobs['current-contracts']
     for name in ('independent-search', 'retained-packet-reconstruction', 'retained-service-energy-extra'):
         assert not re.search(r'^\s+continue-on-error:', current_jobs[name], re.M), name
         conditions = re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs[name], re.M)

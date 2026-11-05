@@ -29,6 +29,13 @@ def test_same_candidate_evidence_and_unknowns_are_preserved(inputs, handoff):
     assert handoff["mechanics_study_id"] == m["study_id"]
     for key in ("vehicle_candidate_id", "vehicle_evaluation_id", "selection_id"):
         assert handoff[key] == m["load_context"][key]
+    comparison = handoff['reference_comparison']
+    assert comparison['selection_role'] == 'retired-reference-control-comparison'
+    assert comparison['reference_selection_id'] == m['load_context']['selection_id']
+    assert comparison['reference_selection_id'] != comparison['active_selection_id']
+    assert comparison['current_evaluator_admission'] is False
+    assert comparison['numerical_reexecuted'] is False
+    assert comparison['active_installed_propulsion_selected'] is False
     assert handoff["linked_mechanics_cases"] == 189
     assert handoff["candidate_count"] == 18
     assert handoff["integrated_selection"] is None
@@ -253,3 +260,19 @@ def test_consistently_resealed_numerical_payload_cannot_borrow_packet_provenance
     seal(m, "study_id")
     with pytest.raises(ValueError, match="checked publication payloads"):
         d.consolidate(p, definitions, m)
+
+
+def test_retired_civil_integrity_hold_is_not_a_current_source_bypass(monkeypatch):
+    def refuse(root):
+        raise ValueError('retired fixture integrity differs')
+    monkeypatch.setattr(d.retired_station_reference, 'verify', refuse)
+    with pytest.raises(ValueError, match='retired fixture integrity'):
+        d.load_inputs()
+
+
+def test_retired_civil_comparison_rejects_different_current_physical_vehicle(monkeypatch):
+    selected = d.selection.load()
+    selected['vehicle']['body_candidate_id'] = '0'*64
+    monkeypatch.setattr(d.selection, 'load', lambda root: selected)
+    with pytest.raises(ValueError, match='physical reference differs'):
+        d.load_inputs()
