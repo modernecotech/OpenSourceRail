@@ -110,12 +110,19 @@ def export_plan(seed,root=ROOT,*,context=None,verify_cost=False):
 
 
 def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
-    by={x['line_id']:x for x in services['line_services']};lines=[];mapping={};normalizations=[]
+    by={x['line_id']:x for x in services['line_services']};lines=[];mapping={};normalizations=[];route_normalizations=[]
     for line in city['lines']:
         duty=by[line['line_id']];stops=deepcopy(duty['operational_stops'])
+        editable_length=geometry.route(line['coordinates'],line['shape'])[-1]
+        if abs(editable_length-line['route_m'])>CHAINAGE_EPSILON_M:
+            raise planning.PlanningError('Source route length differs beyond endpoint numerical epsilon')
+        if editable_length!=line['route_m']:
+            route_normalizations.append(dict(line_id=line['line_id'],source_route_m=line['route_m'],
+                editable_route_m=editable_length,delta_m=editable_length-line['route_m'],
+                scope='Binary64 chain accumulation only; no route rescaling or physical coordinate change'))
         for stop,dwell in zip(stops,duty['service']['stop_dwell_s']):stop['dwell_s']=dwell
         for stop in stops:
-            at=stop['chainage_m'];normalized=_endpoint(at,line['route_m'])
+            at=stop['chainage_m'];normalized=_endpoint(at,editable_length)
             if at!=normalized:
                 normalizations.append(dict(line_id=line['line_id'],stop_id=stop['id'],source_chainage_m=at,
                     editable_chainage_m=normalized,delta_m=normalized-at,
@@ -124,7 +131,7 @@ def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
         for c in duty['station_repair']['complexes']:
             for old in c['original_stop_ids']:mapping[old]=c['operational_stop_id']
         lines.append(dict(id=line['line_id'],shape=line['shape'],coordinates=deepcopy(line['coordinates']),
-            length_m=line['route_m'],headway_s=duty['requirements']['headway_s'],
+            length_m=editable_length,headway_s=duty['requirements']['headway_s'],
             design_speed_cap_m_s=duty['design']['speed_m_s'],stops=stops))
     # Existing records use an empty OD list. Preserve any future original rows
     # separately: an import never fabricates demand or discards their provenance.
@@ -146,7 +153,8 @@ def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
             study_rules=deepcopy(origin['rules'] if origin else seed['rules']),
             source_study=deepcopy(origin),requested_design=deepcopy(design),
             verification_metadata_policy='Observed import/cost verification belongs in the external execution receipt',
-            endpoint_chainage_normalizations=normalizations,original_geography_modified=False),
+            endpoint_chainage_normalizations=normalizations,route_length_normalizations=route_normalizations,
+            original_geography_modified=False),
         **{key:False for key in planning.PLAN_DISPOSITIONS})
     contexts=[n for n in seed['source_sha256'] if n.startswith('cities/catalogue/') and n.endswith('/map-context.json.gz')]
     if len(contexts)==1:
@@ -201,6 +209,7 @@ def verify_base(base,root=ROOT,*,trusted_base_sha256=None):
 def _line_input(original,current,baseline_duty):
     """Expand edited complexes back into their original raw member offsets."""
     output=deepcopy(original);same_geometry=current['coordinates']==original['coordinates'] and current['shape']==original['shape']
+    editable_length=geometry.route(current['coordinates'],current['shape'])[-1]
     chain=deepcopy(original.get('coordinate_chainages_m')) if same_geometry else None
     if chain is None:chain=geometry.route(current['coordinates'],current['shape'])
     length=original['route_m'] if same_geometry else chain[-1]
@@ -223,7 +232,7 @@ def _line_input(original,current,baseline_duty):
         members=repairs[sid]['original_stop_ids'] if sid in repairs else [sid]
         for member in members:
             unchanged_position=(old is not None and same_geometry and
-                stop['chainage_m']==_endpoint(old['chainage_m'],original['route_m']) and
+                stop['chainage_m']==_endpoint(old['chainage_m'],editable_length) and
                 stop['lon']==old['lon'] and stop['lat']==old['lat'])
             if unchanged_position and member in raw:
                 item=deepcopy(raw[member])

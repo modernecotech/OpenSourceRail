@@ -106,6 +106,20 @@ def test_only_nanometre_endpoint_representation_error_is_normalized(fixture):
     with pytest.raises(planning.PlanningError,match='chainage'):adapter._build_plan(seed,city,services)
 
 
+def test_editable_route_accumulation_epsilon_does_not_rescale_source_geometry(fixture):
+    _,seed,city,services,_=fixture
+    city=deepcopy(city);services=deepcopy(services);actual=city['lines'][0]['route_m']
+    city['lines'][0]['route_m']=actual+1e-8
+    services['line_services'][0]['operational_stops'][-1]['chainage_m']=actual+1e-8
+    base=adapter._build_plan(seed,city,services)
+    assert base['lines'][0]['length_m']==actual
+    assert base['lines'][0]['stops'][-1]['chainage_m']==actual
+    assert base['outline_context']['city_input_template']['lines'][0]['route_m']==actual+1e-8
+    assert base['outline_context']['route_length_normalizations']
+    restored,walk,_=adapter._line_input(city['lines'][0],base['lines'][0],services['line_services'][0])
+    assert restored['route_m']==actual+1e-8 and restored['stops']==city['lines'][0]['stops'] and walk==0
+
+
 def test_move_complex_adds_declared_access_cost_and_preserves_original_marker_sources(fixture):
     root,_,original,_,base=fixture
     result=adapter.apply_edits(base,bundle(base,[dict(kind='move-stop',line='L',stop='complex-ab',chainage_m=100.)]),root)
