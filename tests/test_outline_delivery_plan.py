@@ -98,3 +98,29 @@ def test_unsatisfied_capacity_is_explicit_no_free_units():
 @pytest.mark.parametrize('policy',[{'delivery':{'shifts_per_day':1}},{'delivery':{'utilisation':1}},{'delivery':{'maximum_batches':0}}])
 def test_policy_cannot_invent_priced_capacity(policy,tmp_path):
     with pytest.raises(ValueError):dp.evaluate(city(),policy,root=tmp_path)
+
+
+def test_lot_coarsening_conserves_all_committed_trains_and_bom_rates(tmp_path):
+    c=city();c['cost']['resources'].update(total_trainsets=137,totalcars=822)
+    c['cost']['capital_lines'][0]['quantity']['committed_cars']=822
+    reseal(c['cost'],'evaluation_id');reseal(c,'evaluation_id')
+    p=dp.evaluate(c,{'delivery':{'maximum_batches':2}},root=tmp_path)
+    assembled=[t for t in p['tasks'] if t['name']=='Final assembly, interfaces and test batch']
+    assert len(assembled)==2 and sum(t['quantity'] for t in assembled)==137
+    assert len(p['tasks'])<=5000
+    items={x['item_code']:x for x in p['items']}
+    for bom in p['boms']:
+        for row in bom['items']:
+            assert items[row['item_code']]['unit_cost_usd']['base']>0
+
+
+def test_external_planning_revision_and_time_overhead_not_zero_or_double_capex(tmp_path):
+    c=city();c['planning_revision_id']='explicit-edited-plan'
+    # Force a clear commercial delay, without changing owned factory capacity.
+    reseal(c,'evaluation_id')
+    p=dp.evaluate(c,{'delivery':{'supplier_delivery_target_workdays':[1000.,1200.,1500.]}},root=tmp_path)
+    assert p['planning_revision_id']=='explicit-edited-plan' and p['city_input_id']==c['input_id']
+    r=p['cost_reconciliation'];assert r['overrun_overhead_estimate_usd']['base']>0
+    assert r['uncovered_overrun_usd']['base']>0
+    assert r['additional_cost_usd']['base']==0 and r['factory_capital_counted_again'] is False
+    assert any(t['kind']=='uncovered-programme-overrun-budget' for t in p['next_tasks'])

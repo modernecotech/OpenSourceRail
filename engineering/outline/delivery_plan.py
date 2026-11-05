@@ -17,8 +17,8 @@ CASES=('low','base','high')
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
     operating_release=False,movement_authority=False,procurement_approved=False,
     submission_allowed=False,external_transactions_performed=False,named_workers_assigned=False)
-DEFAULTS=dict(version='CITY-DELIVERY-PLAN-1',production_years=3,days_per_year=250,
-    shifts_per_day=2,hours_per_shift=8.,utilisation=.75,maximum_batches=128,
+DEFAULTS=dict(overrun_factory_annual_fraction=[.03,.06,.12],overrun_site_annual_fraction=[.002,.005,.01],version='CITY-DELIVERY-PLAN-1',production_years=3,days_per_year=250,
+    shifts_per_day=2,hours_per_shift=8.,utilisation=.75,maximum_batches=128,maximum_tasks=5000,
     imported_lead_workdays=[30.,60.,120.],local_lead_workdays=[5.,15.,45.],
     engineering_workdays=[30.,60.,120.],plant_setup_workdays=[30.,60.,120.],
     final_test_workdays=[10.,20.,40.],supplier_delivery_target_workdays=[500.,750.,1000.],
@@ -55,6 +55,7 @@ def _policy(policy):
         elif type(v) in (int,float):_number(v,k)
     if (p['production_years'],p['days_per_year'],p['shifts_per_day'],p['hours_per_shift'],p['utilisation'])!=(3,250,2,8.,.75):
         raise ValueError('Delivery must match the priced three-year, two eight-hour shift, 250-day, 75% production calendar')
+    if type(p['maximum_tasks']) is not int or not 100<=p['maximum_tasks']<=5000:raise ValueError('Delivery task budget must be100to5000')
     if type(p['maximum_batches']) is not int or not 1<=p['maximum_batches']<=128:raise ValueError('One to128 delivery batches required')
     return p
 
@@ -154,7 +155,9 @@ def evaluate(city_record,policy=None,root=ROOT):
     if any(n<=0 for n in cost['resources']['production_positions_per_shift']):raise ValueError('Positive priced production workforce required')
     development=task('development','Survey/design/prototypes/independent-review planning gates','engineering',1,'project',[],p['engineering_workdays'],[],[capital_by['design-prototypes-independent-review']['line_id']],planned_gate_only=True,gate_executed=False)
     plant=task('plant-setup','Priced production premises/equipment/tooling commissioning hypothesis','manufacturing',1,'project',[development],p['plant_setup_workdays'],[],[capital_by['citywide-production-equipment-tools-buildings-yards']['line_id']],gate_executed=False)
-    train_batches=_batches(fleet,min(fleet,p['maximum_batches']));car_batches=[n*6 for n in train_batches]
+    component_count=sum(z['line_key'] not in ('six-car-final-vehicle-assembly','reference-factory-to-assembly-delivery') for z in vc['lines'])
+    vehicle_batch_limit=max(1,(p['maximum_tasks']-128*9-component_count-10)//(2*component_count+1))
+    train_batches=_batches(fleet,min(fleet,p['maximum_batches'],vehicle_batch_limit));car_batches=[n*6 for n in train_batches]
     decisions={r.get('line_key'):r for r in cost['production_supply']['decisions']}
     component_codes=[];finished_by_batch=[[] for _ in train_batches]
     for index,line in enumerate(vc['lines']):
@@ -233,7 +236,8 @@ def evaluate(city_record,policy=None,root=ROOT):
             mould_counts=[int(round(z/120)) for z in factory['precast_floor_m2']]
             mould=resource('precast-moulds','Priced 24 by5m bed/mould footprints','civil',mould_counts,'mould',True,True,[capital_by['repeat-box-beams']['line_id']])
         supplier=resource('beam-contract','Contracted beam/material delivery stream','supplier',[1,1,1],'contracted-stream',False,True,[capital_by['repeat-box-beams']['line_id']])
-        civil_batch_count=min(span_count,128,max(p['maximum_batches'],ceil(span_count/max(1,mould_counts[1])) if make else p['maximum_batches']))
+        civil_limit=max(1,(p['maximum_tasks']-len(tasks)-3)//9)
+        civil_batch_count=min(span_count,128,civil_limit,max(p['maximum_batches'],ceil(span_count/max(1,mould_counts[1])) if make else p['maximum_batches']))
         counts=_batches(span_count,civil_batch_count)
         support_batches=_batches(support_count,len(counts))
         previous_beam_delivery=development
@@ -279,10 +283,22 @@ def evaluate(city_record,policy=None,root=ROOT):
             [h/len(endings)/(n*hday) for h,n in zip(ancillary_h,install_crew)],
             [dict(resource_id=installer,units=install_crew[1],units_by_case=dict(zip(CASES,install_crew)))],[z['line_id'] for z in ancillary],labour_estimate_is_budget_share_not_measured=True))
     final=task('final-test','Integrated trials, accessibility/fire/protection and independent review planning gate','engineering',1,'network',installation_tasks+assembly_tasks,p['final_test_workdays'],[],[capital_by['design-prototypes-independent-review']['line_id']],gate_executed=False,movement_authority=False)
+    if len(tasks)>p['maximum_tasks']:raise ValueError('Quantity-conserving lot coarsening did not meet task budget')
     schedules={c:_schedule(tasks,resources,c) for c in CASES}
     for c,case in schedules.items():
         case['target_workdays']=horizon;case['target_met']=case['finish_workday']<=horizon
         if not case['capacity_pass'] or not case['target_met']:next_tasks.append(dict(kind='provisional-resource-or-programme-redesign',case=c,computed_completion_workday=case['finish_workday'],priced_target_workday=horizon,priced_capacity_changed=False,additional_cost_added=False))
+    # Allocate a bounded elapsed-time upkeep/site-services estimate to the
+    # already counted project contingency; never buy premises/capex again.
+    overrun={};allocated={};uncovered={};remaining={}
+    reserve=capital_by.get('city-project-risk-contingency',{}).get('costs_usd',{c:0. for c in CASES})
+    for i,c in enumerate(CASES):
+        extra_years=max(0.,schedules[c]['finish_workday']-horizon)/250
+        premises=cost['resources'].get('vehicle_factory_premises_usd',{}).get(c,0.)
+        site=fsum(z['costs_usd'][c] for z in capital if z['scope'] in ('construction','stations-power','land-utilities-depot') and z['key']!='city-project-risk-contingency')
+        overrun[c]=extra_years*(premises*p['overrun_factory_annual_fraction'][i]+site*p['overrun_site_annual_fraction'][i])
+        allocated[c]=min(reserve[c],overrun[c]);uncovered[c]=max(0.,overrun[c]-reserve[c]);remaining[c]=max(0.,reserve[c]-overrun[c])
+        if uncovered[c]>0:next_tasks.append(dict(kind='uncovered-programme-overrun-budget',case=c,uncovered_usd=uncovered[c],amount_added_to_original_ledger=False))
     # Independent material-precedence check; no consumption precedes receipt.
     material_checks=[]
     for c,sc in schedules.items():
@@ -295,13 +311,13 @@ def evaluate(city_record,policy=None,root=ROOT):
     services=record['service_evaluation']['line_services'];op_hours=max(z['requirements']['operating_hours_per_day'] for z in services);op_shifts=2 if op_hours<=18 else 3
     workforces.append(dict(shift_id='operations',domain='operations',shifts_per_day=op_shifts,hours_per_shift=op_hours/op_shifts,days_per_year=365,utilisation=1.,positions_by_case={c:float([2,4,8][i]+cost['resources']['access_sites']*[1,2,4][i]) for i,c in enumerate(CASES)},staffing_basis='Same current city-cost controller[2,4,8] and staff-per-access-site[1,2,4] assumptions; additional relief/competence/site roster requires review'))
     value=dict(schema='osr-city-outline-delivery-plan/1',city=record['city'],city_record_evaluation_id=record['evaluation_id'],city_input_id=record['input_id'],cost_evaluation_id=cost['evaluation_id'],research_configuration_id=scope,
-        reference_candidate_ids=record['reference_candidate_ids'],selection_id=record['selection_id'],planning_revision_id=record['input_id'],planning_revision_sha256=geometry.get('planning_revision_sha256',geometry.get('revision_sha256')),
+        reference_candidate_ids=record['reference_candidate_ids'],selection_id=record['selection_id'],planning_revision_id=record.get('planning_revision_id',record['input_id']),planning_revision_sha256=geometry.get('planning_revision_sha256',geometry.get('revision_sha256')),
         items=items,boms=boms,production_groups=groups,resources=resources,tasks=tasks,schedule=dict(cases=schedules,final_gate_task_id=final,calendar_dates_assigned=False),
         workforce=dict(shift_patterns=workforces,named_workers_assigned=False),material_flow=dict(events=flows,checks=material_checks,starting_inventory_zero_hypothesis=True),
-        cost_reconciliation=dict(source_capital_usd=cost['installed_capital_usd'],source_whole_life_usd=cost['whole_life_npv_usd'],cost_ledger_identity=identity(cost['capital_lines']+cost['lifecycle_lines']),additional_cost_usd={c:0. for c in CASES},factory_capital_counted_again=False,priced_resources_changed=False,item_budgets_are_hierarchical_not_additive=True,capacity_hours_per_workplace=9000.,derived_local_productive_person_hours=labour_total,paid_factory_person_hours={c:h/.75 for c,h in labour_total.items()},civil_productive_person_hours=dict(zip(CASES,civil_labour)),civil_paid_person_hours={c:civil_labour[i]/.75 for i,c in enumerate(CASES)},priced_crane_active_shifts=dict(zip(CASES,crane_shifts)),ancillary_productive_person_hours=dict(zip(CASES,ancillary_h)),hired_crew_available_workdays=dict(zip(CASES,available_field_days))),
+        cost_reconciliation=dict(source_capital_usd=cost['installed_capital_usd'],source_whole_life_usd=cost['whole_life_npv_usd'],cost_ledger_identity=identity(cost['capital_lines']+cost['lifecycle_lines']),additional_cost_usd={c:0. for c in CASES},factory_capital_counted_again=False,priced_resources_changed=False,item_budgets_are_hierarchical_not_additive=True,capacity_hours_per_workplace=9000.,derived_local_productive_person_hours=labour_total,paid_factory_person_hours={c:h/.75 for c,h in labour_total.items()},civil_productive_person_hours=dict(zip(CASES,civil_labour)),civil_paid_person_hours={c:civil_labour[i]/.75 for i,c in enumerate(CASES)},priced_crane_active_shifts=dict(zip(CASES,crane_shifts)),ancillary_productive_person_hours=dict(zip(CASES,ancillary_h)),hired_crew_available_workdays=dict(zip(CASES,available_field_days)),overrun_overhead_estimate_usd=overrun,existing_contingency_usd=reserve,contingency_allocated_to_overrun_usd=allocated,remaining_contingency_usd=remaining,uncovered_overrun_usd=uncovered,overrun_basis='Elapsed security/supervision/site services and premises upkeep only; productive labour already costed; allocation within existing contingency is not a second capital charge'),
         calendars=[dict(calendar_id='two-shift-productive',shifts_per_day=2,hours_per_shift=8.,days_per_year=250,utilisation=.75,productive_hours_per_workday=12.,calendar_dates_assigned=False)],
         assumptions=dict(policy=p,personnel_are_independent_across_two_shifts=True,
-            schedule_is_provisional_resource_feasible_bound=True,source_account_kits_are_not_complete_detailed_BOM=True,
+            schedule_is_provisional_resource_feasible_bound=True,common_task_count=len(tasks),quantity_conserving_lot_coarsening=True,source_account_kits_are_not_complete_detailed_BOM=True,
             supplier_capacity_confirmed=False,owned_machine_models_qualified=False,
             mould_counts_from_priced_120m2_per_bed_footprints=True,
             ancillary_labour_is_declared_fraction_of_existing_contractor_budget=True,
