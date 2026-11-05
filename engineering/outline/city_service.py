@@ -85,7 +85,8 @@ def _repair_stops(original,minimum,coordinates=None):
         at=stop['chainage_m']
         if not isfinite(at) or at < -epsilon or at > length+epsilon:raise ValueError('Mapped stop chainage outside route')
         stop['chainage_m']=min(length,max(0.,at))
-    if any(a['chainage_m']>=b['chainage_m'] for a,b in zip(stops,stops[1:])):raise ValueError('Ordered distinct mapped stop chainages required')
+    if any(a['chainage_m']>b['chainage_m'] for a,b in zip(stops,stops[1:])):raise ValueError('Ordered mapped stop chainages required')
+    if len({s['id'] for s in stops})!=n:raise ValueError('Distinct mapped marker identities required')
     def find(i):
         while parent[i]!=i:
             parent[i]=parent[parent[i]];i=parent[i]

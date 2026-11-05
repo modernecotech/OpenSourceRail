@@ -71,3 +71,12 @@ def test_too_short_reference_route_is_not_falsely_completed():
 def test_nontransitive_pattern_is_repeatable():
     original=fixture([0,80,160,240,320,1000])
     assert _repair_stops(original,120)==_repair_stops(original,120)
+
+
+def test_coincident_access_markers_remain_distinct_without_duplicate_platforms():
+    original=fixture([0,0,80,160,160,2000])
+    line,repair=_repair_stops(original,120);check(original,line,repair)
+    assert len(line['stops'])==3
+    assert repair['original_stop_count']==6
+    assert repair['complexes'][0]['original_stop_ids']==['s0','s1','s2']
+    assert repair['complexes'][1]['original_stop_ids']==['s3','s4']
