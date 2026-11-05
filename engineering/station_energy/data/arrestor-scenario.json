@@ -1,0 +1,121 @@
+{
+  "assumptions": [
+    "Synthetic 160-tonne effective mass includes unresolved vehicle/interface allowances; not an installed-mass claim.",
+    "Flat station and zero running resistance isolate the architecture; nonzero grade/resistance needs an extended dynamic model.",
+    "The combined 70 percent conversion hypothesis is placed in the store term for equal-hypothesis comparisons, not attributed to any supplier or technology.",
+    "Capacity includes ten percent headroom on arrival kinetic energy; no initial usable storage credit.",
+    "Zero initial usable energy is not proof that an elastic mechanism has no preload.",
+    "Finite-jerk aggregate handover requires physically controlled force cross-fading; independent stage pulses are a separate hypothesis.",
+    "Reset, available space and force distribution are planning inputs. No installed mechanism, operating headway or train formation is selected."
+  ],
+  "available_booster_stroke_m": 500.0,
+  "available_launcher_stroke_m": 150.0,
+  "available_stage_stroke_m": 150.0,
+  "booster_efficiency": 0.9,
+  "capacity_headroom_factor": 1.1,
+  "capture_speeds_m_s": [
+    5.0,
+    10.0,
+    20.0
+  ],
+  "car_mass_fractions": [
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666
+  ],
+  "cruise_speeds_kmh": [
+    40.0,
+    50.0,
+    60.0,
+    72.0
+  ],
+  "cycle_balance_tolerance_j": 0.0001,
+  "displacement_ratios": [
+    5.0,
+    10.0,
+    20.0
+  ],
+  "dwell_s": 30.0,
+  "effective_mass_kg": 160000.0,
+  "efficiency_capture": 1.0,
+  "efficiency_release": 1.0,
+  "efficiency_store": 0.7,
+  "handovers": [
+    "continuous-total-force",
+    "independent-stage-pulses"
+  ],
+  "headway_s": 200.0,
+  "launch_arrangements": [
+    "rear",
+    "front",
+    "distributed"
+  ],
+  "launcher_target_speed_m_s": 10.0,
+  "max_capture_deceleration_m_s2": 0.8,
+  "max_capture_jerk_m_s3": 0.5,
+  "max_launch_acceleration_m_s2": 1.0,
+  "max_launch_jerk_m_s3": 0.5,
+  "maximum_cases": 1000,
+  "maximum_storage_cycles": 8,
+  "research_only": true,
+  "reset_s": 40.0,
+  "schema": "osr-arrestor-scenario/1",
+  "stage_exit_fractions": [
+    0.8,
+    0.6,
+    0.4,
+    0.2,
+    0.0
+  ],
+  "standing_loss_w": 100.0,
+  "stores": [
+    {
+      "allowable_stress_pa": 650000000.0,
+      "density_kg_m3": 7850.0,
+      "id": "G1-steel",
+      "kind": "elastic",
+      "modulus_pa": 80000000000.0,
+      "name": "Steel torsional spring-bank hypothesis",
+      "packing_fraction": 0.2,
+      "stress_mode": "torsional",
+      "utilisation": 0.4
+    },
+    {
+      "allowable_stress_pa": 450000000.0,
+      "density_kg_m3": 1700.0,
+      "id": "G2-composite",
+      "kind": "elastic",
+      "modulus_pa": 60000000000.0,
+      "name": "Composite axial/flexural spring-bank hypothesis",
+      "packing_fraction": 0.15,
+      "stress_mode": "axial",
+      "utilisation": 0.35
+    },
+    {
+      "id": "G3-hydraulic",
+      "kind": "hydraulic",
+      "max_pressure_pa": 30000000.0,
+      "min_pressure_pa": 12000000.0,
+      "name": "Gas-accumulator bank hypothesis",
+      "packing_fraction": 0.5,
+      "polytropic_exponent": 1.4,
+      "precharge_pressure_pa": 10000000.0,
+      "return_pressure_pa": 100000.0,
+      "vessel_mass_kg_per_m3": 3500.0
+    },
+    {
+      "allowable_stress_pa": 600000000.0,
+      "density_kg_m3": 7850.0,
+      "id": "G3-flywheel",
+      "kind": "flywheel",
+      "min_max_speed_ratio": 0.5,
+      "name": "Contained thin-rim flywheel hypothesis",
+      "packing_fraction": 0.08,
+      "radius_m": 0.5,
+      "utilisation": 0.6
+    }
+  ]
+}

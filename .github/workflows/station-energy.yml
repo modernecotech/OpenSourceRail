@@ -9,6 +9,8 @@ on:
       - 'engineering/design_search/native_search.py'
       - 'engineering/station_rail/common.py'
       - 'tests/test_station_energy.py'
+      - 'tests/test_station_arrestor.py'
+      - 'docs/design-engine/station-regenerative-launch/reference.json'
       - 'Cargo.toml'
       - 'Cargo.lock'
       - '.github/workflows/station-energy.yml'
@@ -29,8 +31,31 @@ jobs:
       CARGO_BUILD_JOBS: '2'
       CARGO_TARGET_DIR: build/station-energy-target
       OSR_TEST_STATION_ENERGY: '1'
+      OSR_TEST_STATION_ARRESTOR: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Cargo.toml
+            /Cargo.lock
+            /rust-toolchain*
+            /.cargo/**
+            /crates/**
+            /engineering/__init__.py
+            /engineering/station_energy/**
+            /engineering/design_search/__init__.py
+            /engineering/design_search/native_search.py
+            /engineering/station_rail/__init__.py
+            /engineering/station_rail/common.py
+            /engineering/outline/__init__.py
+            /engineering/outline/approaches.py
+            /engineering/outline/transport-goal.toml
+            /tests/test_station_energy.py
+            /tests/test_station_arrestor.py
+            /docs/design-engine/station-regenerative-launch/reference.json
+            /pytest.ini
+            /pyproject.toml
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
@@ -40,19 +65,30 @@ jobs:
       - run: python -m pip install pytest
       - name: Build and check the bounded Rust kernel
         run: |
-          python -m engineering.station_energy build
+          python -m engineering.station_energy arrestor-build
           cargo fmt --package osr-station-energy -- --check
           cargo clippy --locked -p osr-station-energy --all-targets -- -D warnings
           cargo test --locked -p osr-station-energy --all-targets
       - name: Independent physics and immutable replay controls
-        run: python -m pytest -q --import-mode=importlib tests/test_station_energy.py
+        run: python -m pytest -q --import-mode=importlib tests/test_station_energy.py tests/test_station_arrestor.py
       - name: Execute the explicit variable-speed sensitivity example
         run: |
           python -m engineering.station_energy examples > build/station-energy-examples.json
           python -m engineering.station_energy run --request build/station-energy-examples.json --output build/station-energy-study
           python -m engineering.station_energy verify --output build/station-energy-study
+      - name: Repeated staged capture, scoped costing and independent reference replay
+        run: |
+          python -m engineering.station_energy arrestor-examples > build/arrestor-examples.json
+          python -m engineering.station_energy arrestor-run --request build/arrestor-examples.json --output build/multistage-arrestor-study
+          python -m engineering.station_energy arrestor-verify --output build/multistage-arrestor-study
+          python -m engineering.station_energy arrestor-reference-verify --from-state build/multistage-arrestor-study
+          python -m engineering.station_energy arrestor-reprice --from-state build/multistage-arrestor-study --output build/multistage-arrestor-repriced
+          python -m engineering.station_energy arrestor-verify --output build/multistage-arrestor-repriced
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: station-energy-python-${{ matrix.python }}
-          path: build/station-energy-study
+          path: |
+            build/station-energy-study
+            build/multistage-arrestor-study
+            build/multistage-arrestor-repriced

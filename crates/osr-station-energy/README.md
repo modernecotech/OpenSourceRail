@@ -9,7 +9,7 @@ jerk, coupler loads, storage power, thermal duty or qualified independent brakes
 No speed, train mass, efficiency, headway or installed equipment is selected by
 the kernel. The active reference is never changed.
 
-`cargo run --locked --release -p osr-station-energy` reads one JSON request from
+`cargo run --locked --release -p osr-station-energy --bin osr-station-energy` reads one JSON request from
 standard input and writes one JSON result. Requests are limited to 8 MiB and
 1–10,000 independently identified cases. Unknown fields, duplicate case IDs,
 invalid units/domains, nonfinite values and derived overflows reject the request.
@@ -108,3 +108,30 @@ with the already-stored-energy control.
 Run `cargo test --locked -p osr-station-energy`,
 `cargo fmt --package osr-station-energy -- --check`, and
 `cargo clippy --locked -p osr-station-energy --all-targets -- -D warnings`.
+
+## Staged arrestor and storage research
+
+The additional `osr-arrestor` binary implements the [G research family](../../docs/design-engine/station-regenerative-launch/README.md).
+It uses a separate strict `osr-multistage-arrestor-request/1` contract: bounded
+jerk profiles, aggregate or independently pulsed capture, useful storage-energy
+windows, rear/front/distributed nominal launch loads and required booster motion.
+It does not change the first-screen wire contract above.
+
+Run `cargo run --locked --release -p osr-station-energy --bin osr-arrestor` with
+an explicit request on standard input, or use
+`python -m engineering.station_energy arrestor-build`, `arrestor-examples`,
+`arrestor-run`, `arrestor-verify` and `arrestor-reprice`.
+The Python study carries event streams until usable storage state closes or its
+eight-solver-event budget expires. Identical positive-gain warm-up arrivals can
+be summed analytically with a complete energy ledger and separate event count;
+the next Rust event must independently confirm the periodic state. It keeps motion and monetary identities separate;
+repricing exact-source cached physics does not execute Rust again. Independent
+verification replays the events before publishing.
+
+Store sizing returns active spring/rim material or a declared vessel mass
+estimate. Full installed mass remains false. Flat track and zero running
+resistance are the staged model's explicit domain; other inputs retain an
+unsupported-model result with unresolved energy. Phase coordinates describe a
+reference point, not a complete train or safe swept envelope. Required contact,
+force, thermal, fatigue, containment, braking, reset and control capability remain
+unverified; all release and movement-authority flags stay false.

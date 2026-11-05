@@ -1,0 +1,353 @@
+{
+  "additional_bulk_discount_fraction": 0.0,
+  "civil_shifts": 2,
+  "comparison_scope": "Capture/store/launcher/remaining-booster station module and per-train interface allowance; not a complete corridor budget",
+  "currency": "USD",
+  "factory_basis": "Calculated shared-facility factory-gate scenario: machine-use allocation and one campaign tooling allocation. Capacity, routes and supplier availability are unverified. A new specialist factory is outside this station-module budget.",
+  "geometry": {
+    "assumed_fastener_working_load_n": 30000.0,
+    "booster_fasteners_per_support_hypothesis": 4,
+    "booster_grid_kg_per_kw": 1.5,
+    "booster_hardware_kg_per_m": 30.0,
+    "booster_support_pitch_m_hypothesis": 10.0,
+    "cable_tail_m_per_stage": 10.0,
+    "civil_reference_pressure_kpa": 100.0,
+    "controls_isolation_mass_kg": 600.0,
+    "cooling_grid_fraction": 0.05,
+    "cooling_kg_per_kw": 10.0,
+    "cooling_rating_margin": 2.0,
+    "drum_plate_thickness_m": 0.02,
+    "drum_web_solid_fraction": 0.35,
+    "drum_width_to_rope_diameter": 4.0,
+    "dynamic_force_allowance": 1.5,
+    "fastener_set_mass_kg": 0.4,
+    "field_service_kg_m": 1.0,
+    "field_service_tail_m": 20.0,
+    "flywheel_containment_mass_to_rim": 3.0,
+    "foundation_allowance_depth_m": 1.0,
+    "hydraulic_external_fluid_allowance": 1.2,
+    "hydraulic_fluid_density_kg_m3": 850.0,
+    "idle_grid_kw_site": 0.5,
+    "interface_assembly_usd_per_kg": [
+      4.0,
+      10.0,
+      25.0
+    ],
+    "launcher_displacement_ratio": 1.0,
+    "launcher_fixed_frame_kg_per_point": 200.0,
+    "launcher_frame_kg_per_kn": 6.25,
+    "maintenance_clearance_m": 1.0,
+    "minimum_drum_diameter_to_rope_diameter": 20.0,
+    "minimum_fasteners_per_group": 4,
+    "minimum_foundation_m3": 3.0,
+    "per_train_interface_reserve_kg": [
+      200.0,
+      600.0,
+      1500.0
+    ],
+    "reset_fixed_s": 10.0,
+    "reset_return_speed_m_s": 5.0,
+    "rope_density_kg_m3": 7850.0,
+    "rope_metal_fill_fraction": 0.6,
+    "rope_stock_allowance": 1.15,
+    "rope_working_stress_pa": 200000000.0,
+    "stage_frame_kg": 600.0,
+    "store_housing_kg_per_envelope_m3": 100.0
+  },
+  "hours_per_shift": 8,
+  "life_years": 30,
+  "limitations": [
+    "Every monetary rate and process duration here is a provisional engineering hypothesis, editable and source-bound.",
+    "China benchmark is context only: rebar is not qualified spring wire, a pressure vessel, a flywheel or a composite laminate.",
+    "No additional bulk percentage discount is applied; repeated tooling is charged once per declared production batch.",
+    "No captured-energy benefit is credited from initial storage. Required power never becomes available capacity.",
+    "Station module prices exclude the unchanged railway, rolling stock fleet, stations and route civil works. Per-train interface allowances remain separate until a candidate-specific fleet exists.",
+    "Fatigue cycle lives and maintenance renewals are cost sensitivities, not demonstrated service lives.",
+    "Foundations, containment and protection allowances are calculated planning reserves, not approved designs.",
+    "Rear/front/distributed launch costs count each positive force point, its rope/drum/clutch and fixed/load-dependent frame reserve. The 160 t equal-mass scenario includes a common unresolved vehicle-interface allowance; it is not a completed per-arrangement vehicle mass model.",
+    "Factory process rates assume shared facilities. A greenfield specialist factory and procurement lead times require a separate make/buy/capacity scenario.",
+    "Maintenance free-space uses a cubic-store proxy with a declared clearance in a host-station site; site acquisition/building and viaduct redesign remain outside this module. Bolts and wiring are planning reserves, not verified joints or electrical ratings."
+  ],
+  "material_routes": {
+    "3a81c21ff1183afecd672ba0d8b1274fc513ccd742073cc1bf4d73ff326dae19": {
+      "material_family": "spring-steel",
+      "name": "Steel torsional spring-bank hypothesis",
+      "source_class": "declared-material-and-route-hypothesis",
+      "storage_design": {
+        "allowable_stress_pa": 650000000.0,
+        "density_kg_m3": 7850.0,
+        "kind": "elastic",
+        "modulus_pa": 80000000000.0,
+        "packing_fraction": 0.2,
+        "stress_mode": "torsional",
+        "utilisation": 0.4
+      }
+    },
+    "469b0beafb1aba0dba1c7822d4a5b27703790bd98a0b99c0d3968fe348739119": {
+      "material_family": "composite",
+      "name": "Composite axial/flexural spring-bank hypothesis",
+      "source_class": "declared-material-and-route-hypothesis",
+      "storage_design": {
+        "allowable_stress_pa": 450000000.0,
+        "density_kg_m3": 1700.0,
+        "kind": "elastic",
+        "modulus_pa": 60000000000.0,
+        "packing_fraction": 0.15,
+        "stress_mode": "axial",
+        "utilisation": 0.35
+      }
+    },
+    "6f715d3371f36101cac684ffa65bb04a67d9f9e7a74716218046b70c6d575369": {
+      "material_family": "pressure-vessel-steel",
+      "name": "Gas-accumulator bank hypothesis",
+      "source_class": "declared-material-and-route-hypothesis",
+      "storage_design": {
+        "kind": "hydraulic",
+        "max_pressure_pa": 30000000.0,
+        "min_pressure_pa": 12000000.0,
+        "packing_fraction": 0.5,
+        "polytropic_exponent": 1.4,
+        "precharge_pressure_pa": 10000000.0,
+        "return_pressure_pa": 100000.0,
+        "vessel_mass_kg_per_m3": 3500.0
+      }
+    },
+    "a3206341ee108661f6ea781b1af2a0e07056de3db52ad2ee8de271d3ba7ba78a": {
+      "material_family": "spring-steel",
+      "name": "Literature 140 J/kg capacity control, not a qualified spring design",
+      "source_class": "declared-steel-sensitivity-pricing",
+      "storage_design": {
+        "density_kg_m3": 7850.0,
+        "kind": "declared-specific-energy",
+        "packing_fraction": 0.2,
+        "specific_energy_j_kg": 140.0
+      }
+    },
+    "ceabb004dadc5ebafa18853e5d07cbc546467dd2831e415b9b38de6046806ecc": {
+      "material_family": "flywheel-steel",
+      "name": "Contained thin-rim flywheel hypothesis",
+      "source_class": "declared-material-and-route-hypothesis",
+      "storage_design": {
+        "allowable_stress_pa": 600000000.0,
+        "density_kg_m3": 7850.0,
+        "kind": "flywheel",
+        "min_max_speed_ratio": 0.5,
+        "packing_fraction": 0.08,
+        "radius_m": 0.5,
+        "utilisation": 0.6
+      }
+    }
+  },
+  "operating_days_per_year": 365,
+  "operating_hours_per_day": 18,
+  "physical_material_properties_are_assumptions": true,
+  "price_basis": "Declared China/project-volume material and process hypotheses; not supplier quotations",
+  "production_batch_sites": 22,
+  "production_shifts": 2,
+  "productive_utilisation": 0.75,
+  "rates": {
+    "QA_usd_kg": [
+      0.25,
+      0.75,
+      2.0
+    ],
+    "active_store_life_cycles": [
+      2000000.0,
+      800000.0,
+      200000.0
+    ],
+    "annual_inspection_h_site": [
+      80.0,
+      200.0,
+      500.0
+    ],
+    "annual_parts_fraction": [
+      0.005,
+      0.015,
+      0.04
+    ],
+    "booster_factory_hardware_usd_m": [
+      400.0,
+      1200.0,
+      3500.0
+    ],
+    "booster_grid_usd_kw": [
+      100.0,
+      250.0,
+      600.0
+    ],
+    "civil_labour_h_site": [
+      100.0,
+      250.0,
+      600.0
+    ],
+    "clutch_release_usd_each": [
+      3000.0,
+      8000.0,
+      25000.0
+    ],
+    "composite_labour_h_kg": [
+      0.08,
+      0.18,
+      0.4
+    ],
+    "composite_material_usd_kg": [
+      4.0,
+      8.0,
+      16.0
+    ],
+    "concrete_installed_usd_m3": [
+      100.0,
+      180.0,
+      350.0
+    ],
+    "consumables_usd_kg": [
+      0.08,
+      0.2,
+      0.5
+    ],
+    "decommission_fraction": [
+      0.02,
+      0.04,
+      0.08
+    ],
+    "electricity_usd_kwh": [
+      0.04,
+      0.08,
+      0.16
+    ],
+    "erection_usd_tonne": [
+      50.0,
+      120.0,
+      350.0
+    ],
+    "fabricated_labour_h_kg": [
+      0.02,
+      0.06,
+      0.15
+    ],
+    "factory_to_site_km": 100.0,
+    "fastener_set_usd": [
+      1.0,
+      3.0,
+      8.0
+    ],
+    "field_service_supply_usd_m": [
+      5.0,
+      15.0,
+      50.0
+    ],
+    "final_joint_QA_usd": [
+      1.0,
+      4.0,
+      12.0
+    ],
+    "flywheel_balance_usd_per_kw": [
+      25.0,
+      60.0,
+      180.0
+    ],
+    "freight_usd_tonne_km": [
+      0.04,
+      0.08,
+      0.16
+    ],
+    "guarded_control_isolation_usd_site": [
+      15000.0,
+      40000.0,
+      120000.0
+    ],
+    "hydraulic_balance_usd_per_m3": [
+      15000.0,
+      40000.0,
+      100000.0
+    ],
+    "hydraulic_fluid_usd_kg": [
+      1.2,
+      2.2,
+      4.0
+    ],
+    "labour_usd_h": [
+      5.0,
+      8.0,
+      12.0
+    ],
+    "machine_usd_kg": [
+      0.1,
+      0.4,
+      1.2
+    ],
+    "module_joint_assembly_h": [
+      0.1,
+      0.35,
+      0.8
+    ],
+    "overhead_fraction": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "process_route_tooling_usd": [
+      10000.0,
+      30000.0,
+      100000.0
+    ],
+    "purchase_yield": [
+      0.96,
+      0.9,
+      0.82
+    ],
+    "readiness_commissioning_usd_site": [
+      2000.0,
+      8000.0,
+      25000.0
+    ],
+    "rope_material_usd_kg": [
+      1.5,
+      3.0,
+      6.0
+    ],
+    "rotor_labour_h_kg": [
+      0.1,
+      0.3,
+      0.8
+    ],
+    "spring_labour_h_kg": [
+      0.025,
+      0.06,
+      0.15
+    ],
+    "spring_steel_material_usd_kg": [
+      1.0,
+      1.8,
+      3.0
+    ],
+    "steel_material_usd_kg": [
+      0.7,
+      1.0,
+      1.5
+    ],
+    "thermal_usd_kw": [
+      100.0,
+      250.0,
+      600.0
+    ],
+    "transmission_usd_per_mn": [
+      12000.0,
+      35000.0,
+      100000.0
+    ],
+    "vessel_labour_h_kg": [
+      0.15,
+      0.4,
+      1.0
+    ]
+  },
+  "raw_steel_benchmark": "engineering/outline/data/china-supply-20261104.json",
+  "real_discount_rate": 0.04,
+  "revision": "SCOPED-STATION-MODULE-1",
+  "schema": "osr-arrestor-cost-policy/1",
+  "source_class": "calculated-planning-estimate",
+  "steel_observation_id": "cn-nbs-20261021-31-hrb400e-rebar",
+  "supplier_confirmed": false
+}

@@ -56,8 +56,79 @@ These are **competing hypotheses**, not successive features required on one desi
 | D. Regenerative electromagnetic wayside | Reversible LIM or other generator interacting with passive element | Station flywheel/supercapacitor | Compact electromagnetic drive | Multiple shorter banks if needed | Air-gap, force map, power electronics, cooling |
 | E. Capture-carriage cable | Mechanical carriage/cable couples during controlled braking | Accumulator or flywheel | Mechanically powered launch carriage | Optional compact booster | Safe capture/release, rope fatigue, reset time |
 | F. No-capture comparator | Independent friction braking | None | Compact standalone rollers, cable or LIM | Candidate-specific | Required purchased energy and full installed cost |
+| G. Multi-stage regenerative arrestor | Successive drums/clutches and a train engagement interface | Steel/composite spring bank, hydraulic accumulator or flywheel | Rear trolley, front puller or distributed launch interfaces | Candidate-specific | Controlled handover, store force curve, cyclic state, coupler loads and reset |
 
 For each: also explore **no booster** if mechanically achievable, **booster at station exit**, and **booster some distance downstream** as distinct combinations. Retain onboard traction as an equal-service architecture comparator, without implying onboard motors are required.
+
+### G. Multi-stage capture and independently authorised forward launch
+
+G1 uses a steel spring-bank hypothesis; G2 a composite spring bank; G3 retains hydraulic and flywheel alternatives. Each is compared with rear push, front pull and distributed force application, rather than mandating a rear pusher. The existing approach registration covers this seventh concept; it does not change the active vehicle or select installed propulsion.
+
+```mermaid
+flowchart LR
+  A[Controlled approach] --> B[Successive capture interfaces]
+  B --> C[Drums, transmission and one-way clutches]
+  C --> D[Station energy store]
+  D --> E[Isolated energy path during boarding]
+  E --> F[Controlled forward launch]
+  F --> G[Optional candidate-specific booster]
+  H[Independent service and emergency brakes] --- A
+```
+
+No normal-service collision with a buffer is assumed. The arrestor supplements independent brakes, including when capture is missed, the store is full, a cable fails or release is inhibited. Energy isolation during dwell concerns the **transfer path**: a flywheel must continue rotating in containment, not be mechanically stopped to hold its energy. A scenario's departure-authorisation input is not movement authority; every research result keeps movement authority and engineering/operating release false.
+
+The [Rust staged-arrestor model](../../../crates/osr-station-energy/src/arrestor.rs) compares two explicit handover hypotheses. With an illustrative 160 t effective mass, 10 m/s capture speed, 0.8 m/s² maximum deceleration and 0.5 m/s³ jerk:
+
+| Nominal capture profile | Time | Reference-point capture distance |
+| --- | --- | --- |
+| One continuous total-force profile handed across five devices | 14.1 s | 70.5 m |
+| Five separate zero-to-peak-to-zero deceleration pulses | 20.5 s | 102.5 m |
+
+Both remove the same 8 MJ of train kinetic energy on the declared level, zero-resistance model. Continuous handover requires controlled cross-fading of actual contact forces; the model does not prove it. Required peak train force is 128 kN before equipment dynamics and other omitted loads. With a train/store displacement ratio of 10, an ideal transmission exchanges tenfold force for one-tenth travel; it creates no energy and reduces no required energy-storage capacity. Drums, rope bends, local pulley reactions and return drives must be sized separately.
+
+At an assumed 70% net recovery, 5.6 MJ corresponds to 8.3666 m/s, approximately 30.12 km/h. The constant-acceleration launch distance at 1 m/s² is 35 m. Including 0.5 m/s³ jerk gives approximately **43.37 m and 10.37 s**. These are required reference-point paths, not installed motor lengths or whole-train swept envelopes. Speeds including 40, 50, 60 and 72 km/h remain research variables.
+
+For six equal inertial-mass fractions and a 1 m/s² peak launch, a rear point application produces up to 133.33 kN nominal compression through the couplers; front application gives corresponding tension. Mass-matched distributed application has zero **ideal quasistatic** coupler force, while each local interface still transmits 26.67 kN and the station carries the total 160 kN reaction. Slack, stiffness, uneven loading, buckling, pitch/yaw and engagement shocks need multibody and structural analysis. The booster force distribution is unspecified and is not reported as zero coupler load.
+
+### Storage size is a calculated hypothesis
+
+The [steel comparison in the primary spring research](https://onlinelibrary.wiley.com/doi/full/10.1002/smll.202203887) uses approximately 0.14 kJ/kg. At that assumed usable capacity, 2, 8 and 32 MJ require approximately **14.29, 57.14 and 228.57 t of active material**. That paper's nanoscale results are not a bulk railway spring specification or evidence of fatigue life. Large steel mass alone does not establish high whole-life cost: bulk material, forming, maintenance, support and competing equipment costs must all be calculated.
+
+The executable store models keep their limitations explicit:
+
+- Elastic capacity uses `utilisation * allowable_stress² / (2 * modulus * density)`. Normal stress uses Young's modulus; shear stress uses shear modulus. Material and manufacturing cost routes are assigned explicitly rather than inferred from stress direction. Geometry utilisation, preload range, stress concentrations, fatigue, creep and directional laminate properties need evidence. The [FRP spiral-spring research](https://oa.upm.es/78448/) is a design-method reference, not an approved OSR laminate.
+- Hydraulic usable work integrates a declared polytropic gas expansion between absolute pressure limits, subtracting return-pressure work, with the logarithmic limit for exponent one. Vessel mass is an explicit planning coefficient; oil, valves, pumps, piping, return reservoir, support and QA are additional items.
+- Flywheel usable capacity is based on a declared thin-rim stress/energy model and minimum/maximum speed ratio. Rim mass excludes containment, bearings, enclosure, drive and cooling. A lightweight rim does not establish a light installed flywheel system.
+
+Zero **usable** storage energy is not an unpressurised accumulator or stationary flywheel. Precharge, minimum rotor speed and any spring preload remain separate readiness requirements. The cost model includes a declared readiness/commissioning reserve and explicitly reports startup minimum energy as unquantified. It does not count this baseline energy as recovered braking energy.
+
+Successive nominal arrival/dwell/release cycles carry each store's actual remaining usable state forward. A full store generates an explicit overflow/dissipation requirement; no joule can be assigned to two departures. Recurring-cost estimates require state closure within the bounded invocation. Safe overflow disposal, phase-power limits, thermal cycling and mechanical rearming still need their own evidence.
+
+### Precedents and next physical work
+
+[NAVAIR describes AAG as controlled modular energy absorption](https://www.navair.navy.mil/product/advanced-arresting-gear-aag); [the equipment description identifies water turbines and motor control](https://www.qinetiq.com/en-us/markets/defence/maritime/advanced-arresting-gear). This supports studying controlled arrestor forces, not claiming that aircraft equipment demonstrates this railway energy store or relaunch duty. The published mechanisms in [US6796620B1](https://patents.google.com/patent/US6796620B1/en) and [US20200339165A1](https://patents.google.com/patent/US20200339165A1/en) are useful prior-art references, not measured performance or a permitted-use determination.
+
+The next physical work is the engagement/escape interface; store force/torque versus state and gearing; locked and faulted release; cable, clutch and coupler fatigue; transient heat; failure-independent stopping; full-train geometry; support/anchor loads and a controlled low-energy rig. A successful point-mass calculation cannot replace those tasks.
+
+### Run and independently reproduce G
+
+```sh
+python -m engineering.station_energy arrestor-build
+python -m engineering.station_energy arrestor-examples > build/arrestor-request.json
+python -m engineering.station_energy arrestor-run --request build/arrestor-request.json --output build/arrestor-study
+python -m engineering.station_energy arrestor-verify --output build/arrestor-study
+python -m engineering.station_energy arrestor-reference-verify --from-state build/arrestor-study
+```
+
+The [scenario inputs](../../../engineering/station_energy/data/arrestor-scenario.json) and [generator](../../../engineering/station_energy/arrestor_examples.py) generate 880 bounded configurations: four storage hypotheses, three capture speeds, four cruise-speed targets, three displacement ratios, two handover policies and three force arrangements, plus four no-capture and twelve full-release/no-booster controls. This is an explicit sample, not the complete architecture space. Each nominal stream carries its store state through at most eight Rust-evaluated events. Where identical successful events slowly accumulate charge, an analytical sum accounts for each conditioning arrival, its conversion losses, standing loss, release and overflow; the next Rust event independently checks the repeating state. Analytically accounted arrivals are reported separately from solver executions, with a 10,000-arrival bound per transition. No initial charge is gifted. Full-release controls receive a separate 200 m launch-space and 60 s reset hypothesis; neither is a reference mandate.
+
+The no-booster controls describe a **local event** with a declared incoming train energy. They do not demonstrate a railway needing no purchased traction energy: a complete journey must account for how the train acquires its arrival speed and replaces rolling, aerodynamic, storage and conversion losses between stations.
+
+The [cost policy](../../../engineering/station_energy/data/arrestor-cost-policy.json) and [quantity/process model](../../../engineering/station_energy/arrestor_costs.py) price rope, drums, stage frames, each launcher force point, storage, isolation, cooling, support, delivery, installation and 30-year energy/maintenance sensitivities. Rear/front/distributed arrangements count their actual number of modelled launch mechanisms. Concrete allowance uses force/reference-pressure **area multiplied by an explicit depth**; it is not a verified foundation. Paid and productive factory hours remain distinct, with utilisation applied once. Material pricing routes are explicit and do not depend on whether stress is axial or torsional.
+
+This is a **shared-facility factory-gate scenario**: machine-use costs and batch-specific tooling are included, while a new specialist factory and procurement lead times need a separate capacity/make-buy comparison. The 160 t train is an equal-mass control with a common unresolved interface reserve; the per-arrangement installed vehicle layout and mass remain open. The no-capture comparator retains independent onboard braking; brake wear and complete fleet effects are outside the station-module comparison.
+
+After changing only cost assumptions, use `arrestor-reprice --from-state build/arrestor-study --output build/arrestor-repriced`. Exact-source cached physics is reused without executing Rust. Run `arrestor-verify --output build/arrestor-repriced` before publishing: it recomputes the nominal cycles and costs. The [CI workflow](../../../.github/workflows/station-energy.yml) runs independent Rust/Python controls, full scenario replay and the compact reference comparison; its focused checkout avoids copying unrelated bulky railway archives into this analytical job. Existing whole-project workflows retain their broader checks.
 
 **Possible component creativity:** retracting sprung guide rollers, elastomer/composite engagement strips, distributed low-force contact banks, guided catch trolleys, overrunning clutches, hydro-pneumatic accumulators, serial or parallel springs, differential gears, flywheel shaft power buffers, replaceable clip-in mechanical cartridges and fail-open engagement jaws. These ideas need proof of forces, passenger jerk, wear and failure behavior; a creative shape is not a safety result.
 
@@ -178,3 +249,24 @@ Local execution identity: `0ca5d644a0a07503264fb470396185446a8b722fc6facad03699c
 
 Verification commands: `cargo test --locked -p osr-station-energy --all-targets`, `cargo fmt --package osr-station-energy -- --check`, `cargo clippy --locked -p osr-station-energy --all-targets -- -D warnings`, and `OSR_TEST_STATION_ENERGY=1 python -m pytest -q --import-mode=importlib tests/test_station_energy.py tests/test_outline_approaches.py`. The local checks passed 21 Rust tests and 28 Python tests on each of Python 3.12 and 3.13, including independent arithmetic, energy-origin/reserve accounting, malformed requests and forged-result rejection.
 
+<!-- arrestor-results:start -->
+### Calculated G station-module comparison
+
+This sample uses 160 t effective train mass, 10 m/s capture, a 60 km/h departure target, ratio 10, continuous aggregate handover and rear launch. Conversion efficiency, material properties, process times, cycle lives and rates are declared hypotheses. No storage technology or launcher arrangement is selected.
+
+| Sample | Active store material / vessel mass | Estimated module installed cost, low / base / high | Base 30-year module NPV |
+| --- | --- | --- | --- |
+| G1-steel | 65.40 t | $577k / $1,511k / $3,935k | $3.49m |
+| G2-composite | 25.33 t | $608k / $1,584k / $4,126k | $3.70m |
+| G3-hydraulic | 3.93 t | $476k / $1,252k / $3,264k | $2.55m |
+| G3-flywheel | 0.51 t | $482k / $1,252k / $3,276k | $2.49m |
+| No recovery | 0.00 t | $363k / $945k / $2,401k | $2.37m |
+
+The bounded campaign completed 880 scenarios and priced 880 station modules after repeating arrival/hold/release events to check storage-state closure. Its release conditions remain unknown or failed where stated, independently of calculation completion.
+
+These budgets include declared capture/transmission/store/launcher/remaining-booster hardware, protection, cooling, delivery, installation, support allowances, energy, inspection and renewal. Tooling is allocated once across an illustrative 22-site production batch; production and civil work use two shifts. Actual storage, controls, interfaces, contact, fatigue, foundations and safe stopping remain unqualified.
+
+The comparison excludes the rest of the railway. Per-train interface allowances are reported separately, and a candidate-specific fleet/corridor budget remains open. Required active acceleration distance is not installed winding length. Material/rim mass is not a complete installed store mass; hydraulic fluid and flywheel containment are additional lines. Low/base/high values are engineering sensitivities, not supplier quotes or confidence intervals.
+
+Compact calculation and source records: [reference.json](reference.json), publication `ed860cb4d01221a3e6006491c747e08c00a5cd33214c369a789d444e5fc7119b`. The originating execution has physics identity `880749806e9a069b3d3db26f49ad6e579bc3dadd16f55214304a0a0fa65fe685`; new compiler/binary contexts receive their own execution identities. CI independently checks the reference numbers with declared numerical tolerances.
+<!-- arrestor-results:end -->
