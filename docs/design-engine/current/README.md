@@ -63,7 +63,7 @@ The selected six-car vehicle now has its own source-bound Class C estimate for l
 | Research scope | Sourcing evidence | Cost disposition |
 |---|---|---|
 | Selected v0.6 vehicle `756a68870162` | Located geometry plus explicitly priced residual accounts; six cars; two 8 h production shifts; 50 km reference delivery | Candidate-bound Class C vehicle estimate; no route, civil or whole-life total |
-| Retired synthetic control comparison `9db759dbe20a` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated; 3 residual-mass cases × 3 cost cases | Installed CAPEX IQD 58,240,649,181/282,459,494,179/1,706,670,107,280 low/base/high; whole-life NPV IQD 114,933,002,114/609,825,459,435/4,859,660,439,905; Class C only |
+| Retired synthetic control comparison `6b5e25a5f135` | 6 km periodic corridor; three stations; two service directions; 6 active + 2 reserve trainsets; all 14 scopes estimated; 3 residual-mass cases × 3 cost cases | Installed CAPEX IQD 58,240,649,181/282,459,494,179/1,706,670,107,280 low/base/high; whole-life NPV IQD 114,933,002,114/609,825,459,435/4,859,660,439,905; Class C only |
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 physical scopes across 7,042 review requirements; 137 evaluated, 6,905 pending | 0 compatible priced matches; nine RFQ drafts remain unsent |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |

@@ -53,4 +53,4 @@ python -m engineering.design_search.line_benchmark --verify --output build/my-li
 
 [Versioned criteria](../../../campaigns/line30-affordable-benchmark.toml) · [Analysis baseline selector](../../../engineering/analysis-baseline.toml) · [Complete quantities, assumptions and ledger](result.json) · [Receipt](manifest.json)
 
-Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; evaluation `69b499d62d769ca26079a460dd38a0fde257bfb8fef7bf65653930be38eb5204`.
+Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; evaluation `2b2b1033fda3b123b711383b25c687e6e3b5e9a3c9dacbedfd74df569304f2c0`.

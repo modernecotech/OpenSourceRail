@@ -128,7 +128,7 @@ Indexed Markdown files: **122**.
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
 | [`docs/design-engine/retained-battery-source-epoch/README.md`](../docs/design-engine/retained-battery-source-epoch/README.md) | Retained source epoch for service-energy migration |
 | [`docs/design-engine/retained-service-energy-extra/README.md`](../docs/design-engine/retained-service-energy-extra/README.md) | Additional retained service-energy source epoch |
-| [`docs/design-engine/service-energy-terminal-recharge.md`](../docs/design-engine/service-energy-terminal-recharge.md) | Service-battery terminal recharge: known calculation issue |
+| [`docs/design-engine/service-energy-terminal-recharge.md`](../docs/design-engine/service-energy-terminal-recharge.md) | Service-battery terminal recharge: consistent charging limits |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
 | [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — replayed 2 November 2026 |
