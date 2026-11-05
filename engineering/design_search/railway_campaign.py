@@ -7,10 +7,11 @@ retained component adapters and historical evidence, not silently overwritten.
 """
 from copy import deepcopy
 from pathlib import Path
-import fcntl,json,time,tomllib
+from hashlib import sha256
+import errno,fcntl,json,os,stat,tempfile,time,tomllib
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
-from . import design_grammar as grammar,grammar_geometry,grammar_structure
+from . import canonical_stream,design_grammar as grammar,grammar_geometry,grammar_structure
 from . import failure_diagnosis,redesign_engine,revision_planner,design_variables,railway_bundle as bundle_adapter,model_cost
 
 PRODUCER='engineering/design_search/railway_campaign.py'
@@ -34,7 +35,7 @@ def specification(root=ROOT):
 
 def source_epoch(root=ROOT):
     root=Path(root)
-    names=['railway_campaign','railway_bundle','railway_native','system_inventory','system_selection','system_motion','system_body','grammar_shell',
+    names=['railway_campaign','canonical_stream','railway_bundle','railway_native','system_inventory','system_selection','system_motion','system_body','grammar_shell',
         'design_grammar','grammar_structure','grammar_geometry','interface_graph','failure_diagnosis','redesign_engine','revision_planner','design_variables','model_cost',
         'railway_architecture','architecture_demand','capabilities','requirement_policy','material_database','dfma','structural_families','joining_catalogue','wheel_motor']
     paths=[SPEC,'campaigns/whole-railway-architecture-search.toml',*[f'engineering/design_search/{n}.py' for n in names],
@@ -65,13 +66,324 @@ def _stage(folder,name,bundle,inputs,epoch,calculate,*,root=ROOT):
     r=dict(schema='osr-coupled-stage-record/1',request=request,output=output,**FLAGS);r['record_id']=identity(r);_write(target,r);return r,False
 
 
-def semantic_id(result):
-    """Evidence identity excludes invocation/cache bookkeeping only."""
+def _reference_semantic_id(result):
+    """Original fallback for JSON-compatible values outside the stream domain."""
     def clean(value):
         if isinstance(value,dict):return {k:clean(v) for k,v in value.items() if k not in ('campaign_id','run_id','new_bundles','reused_bundles','new_native_jobs','reused_native_jobs','requested_native_jobs','reused')}
         if isinstance(value,list):return [clean(x) for x in value]
         return value
     return identity(clean(result))
+
+
+def _unsupported_stream_value(error):
+    return str(error).startswith(('Unsupported canonical streaming type:',
+                                  'Canonical streaming requires built-in string object keys'))
+
+
+def semantic_id(result,*,streaming=False):
+    """Evidence identity; streaming is an explicit lower-memory experiment."""
+    if not streaming:return _reference_semantic_id(result)
+    try:
+        return canonical_stream.canonical_identity(result,semantic=True)
+    except TypeError as error:
+        if not _unsupported_stream_value(error):raise
+        return _reference_semantic_id(result)
+
+
+def _aggregate_identity(result):
+    try:
+        return canonical_stream.canonical_identity(result)
+    except TypeError as error:
+        if not _unsupported_stream_value(error):raise
+        return identity(result)
+
+
+class _DigestWriter:
+    def __init__(self,stream):self.stream=stream;self.sha=sha256();self.size=0
+    def write(self,data):
+        n=self.stream.write(data)
+        if type(n) is int and 0<n<=len(data):self.sha.update(data[:n]);self.size+=n
+        return n
+
+
+def _file_digest(path):
+    h=sha256();size=0
+    with Path(path).open('rb') as stream:
+        for block in iter(lambda:stream.read(1024*1024),b''):
+            h.update(block);size+=len(block)
+    return h.hexdigest(),size
+
+
+def _regular_single_link(path):
+    info=Path(path).lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1:
+        raise ValueError('An ordinary, single-link aggregate file is required')
+    return info
+
+
+def _stream_invocation(path,value):
+    """Atomically seal canonical invocation bytes; retain failed temporaries."""
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    fd,name=tempfile.mkstemp(prefix='.'+path.name+'.',suffix='.pending',dir=path.parent)
+    pending=Path(name)
+    with os.fdopen(fd,'w+b',buffering=0) as stream:
+        writer=_DigestWriter(stream)
+        try:
+            canonical_stream.write_canonical(value,writer)
+        except TypeError as error:
+            if not _unsupported_stream_value(error):raise
+            stream.seek(0);stream.truncate();writer=_DigestWriter(stream)
+            data=encoded(value);view=memoryview(data)
+            while view:
+                n=writer.write(view)
+                if type(n) is not int or not 0<n<=len(view):raise OSError('Aggregate write made no progress')
+                view=view[n:]
+        stream.flush();os.fsync(stream.fileno())
+        expected=(writer.sha.hexdigest(),writer.size)
+    _regular_single_link(pending)
+    if _file_digest(pending)!=expected:raise ValueError('Aggregate invocation bytes differ after writing')
+    if path.exists() or path.is_symlink():
+        _regular_single_link(path)
+        if _file_digest(path)!=expected:raise ValueError('Existing invocation differs for this run identity')
+        pending.unlink()
+    else:
+        os.replace(pending,path)
+    return expected
+
+
+_FICLONE=0x40049409
+_CLONE_UNSUPPORTED={errno.EOPNOTSUPP,errno.ENOTTY,errno.EXDEV,errno.EINVAL,errno.ENOSYS}
+
+
+def _clone_result(invocation,target,expected):
+    """Reflink one verified invocation, or copy it in bounded chunks."""
+    invocation=Path(invocation);target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
+    source_info=_regular_single_link(invocation)
+    if _file_digest(invocation)!=expected:raise ValueError('Aggregate invocation changed before cloning')
+    fd,name=tempfile.mkstemp(prefix='.'+target.name+'.',suffix='.pending',dir=target.parent)
+    pending=Path(name)
+    with invocation.open('rb',buffering=0) as source,os.fdopen(fd,'w+b',buffering=0) as output:
+        try:
+            fcntl.ioctl(output.fileno(),_FICLONE,source.fileno())
+        except OSError as error:
+            if error.errno not in _CLONE_UNSUPPORTED:raise
+            output.seek(0);output.truncate();source.seek(0)
+            for block in iter(lambda:source.read(1024*1024),b''):
+                view=memoryview(block)
+                while view:
+                    n=output.write(view)
+                    if type(n) is not int or not 0<n<=len(view):raise OSError('Aggregate copy made no progress')
+                    view=view[n:]
+        output.flush();os.fsync(output.fileno())
+    target_info=_regular_single_link(pending)
+    if (source_info.st_dev,source_info.st_ino)==(target_info.st_dev,target_info.st_ino):
+        raise ValueError('Aggregate snapshots must not be hardlinked')
+    if _file_digest(pending)!=expected or _file_digest(invocation)!=expected:
+        raise ValueError('Aggregate clone or invocation bytes differ')
+    os.replace(pending,target)
+
+
+def _write_aggregate(folder,result):
+    folder=Path(folder);invocation=folder/'invocations'/(result['run_id']+'.json')
+    expected=_stream_invocation(invocation,result)
+    _clone_result(invocation,folder/'result.json',expected)
+
+
+def _validate_cached_row(row,case_context,bundle,epoch):
+    """Check the case envelope; stage file consistency is verified separately."""
+    if row['case_context_id']!=case_context or row['bundle_definition_id']!=bundle['definition_id'] or row['row_id']!=canonical_stream.canonical_identity({k:v for k,v in row.items() if k!='row_id'}):
+        raise ValueError('Coupled case identity differs')
+    stages=row.get('stages')
+    if (not isinstance(stages,list) or tuple(s.get('stage') for s in stages if isinstance(s,dict))!=STAGES
+            or any(not isinstance(s,dict) or not isinstance(s.get('request'),dict)
+                   or s['request'].get('source_sha256')!=epoch for s in stages)):
+        raise ValueError('Coupled cached case source epoch differs')
+
+
+_STAGE_RECORD_MAX_BYTES=128*1024*1024
+_CASE_RECORD_MAX_BYTES=128*1024*1024
+_EVALUATION_STAGES=frozenset(('installed_inventory','architecture','propulsion','motion_and_braking','manufacturing_and_economics'))
+
+
+def _same_json(left,right):
+    """Compare JSON types/values without conflating bool/int or signed zero."""
+    if type(left) is not type(right):return False
+    if isinstance(left,dict):
+        return left.keys()==right.keys() and all(_same_json(left[k],right[k]) for k in left)
+    if isinstance(left,list):
+        return len(left)==len(right) and all(_same_json(a,b) for a,b in zip(left,right))
+    if isinstance(left,float):return repr(left)==repr(right)
+    return left==right
+
+
+def _same_compacted_motion(original,compact):
+    """Compare the motion projection without deep-copying its large traces."""
+    if type(original) is not type(compact):return False
+    if isinstance(original,dict):
+        traced=isinstance(original.get('trace'),list)
+        keys=(original.keys()-{'trace'}|{'trace_index'}) if traced else original.keys()
+        if keys!=compact.keys():return False
+        for key,value in original.items():
+            if traced and key=='trace':
+                expected=dict(rows=len(value),sha256=canonical_stream.canonical_identity(value))
+                if not _same_json(expected,compact['trace_index']):return False
+            elif traced and key=='trace_index':
+                continue
+            elif not _same_compacted_motion(value,compact[key]):return False
+        return True
+    if isinstance(original,list):
+        return len(original)==len(compact) and all(_same_compacted_motion(a,b) for a,b in zip(original,compact))
+    return _same_json(original,compact)
+
+
+def _read_cached_json(path,maximum,kind):
+    """Read one bounded ordinary cache file; no filesystem sandbox is implied."""
+    try:
+        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    except OSError as error:
+        raise ValueError('Coupled cached '+kind+' file unavailable or unsafe') from error
+    with os.fdopen(fd,'rb') as stream:
+        before=os.fstat(stream.fileno())
+        if not stat.S_ISREG(before.st_mode) or before.st_size>maximum:
+            raise ValueError('Coupled cached '+kind+' file exceeds the bounded ordinary-file domain')
+        def unique_pairs(pairs):
+            value={}
+            for key,item in pairs:
+                if key in value:raise ValueError('Duplicate JSON object key')
+                value[key]=item
+            return value
+        try:
+            raw=stream.read(maximum+1)
+            if len(raw)>maximum:raise ValueError('Cache file grew beyond bounded domain')
+            record=json.loads(raw,object_pairs_hook=unique_pairs)
+        except (ValueError,UnicodeError) as error:raise ValueError('Coupled cached '+kind+' JSON differs') from error
+        after=os.fstat(stream.fileno())
+        current=os.stat(path,follow_symlinks=False)
+        fields=('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')
+        if any(getattr(before,k)!=getattr(after,k) or getattr(after,k)!=getattr(current,k) for k in fields):
+            raise ValueError('Coupled cached '+kind+' changed while reading')
+    return record
+
+
+def _read_cached_stage(path):return _read_cached_json(path,_STAGE_RECORD_MAX_BYTES,'stage')
+
+
+def _read_cached_case(path):return _read_cached_json(path,_CASE_RECORD_MAX_BYTES,'case')
+
+
+def _verify_evaluation_identity(value,kind):
+    if (not isinstance(value,dict) or 'evaluation_id' not in value
+            or value['evaluation_id']!=canonical_stream.canonical_identity({k:v for k,v in value.items() if k!='evaluation_id'})):
+        raise ValueError('Coupled cached '+kind+' evaluation identity differs')
+
+
+def _verify_cached_stages(folder,row,bundle,epoch,structure_context):
+    """Verify all declared stage files and row projections before case reuse.
+
+    These checks establish internal consistency, not authenticated physical
+    evidence; regular file reads and advisory locks do not provide a sandbox.
+    """
+    if (row['candidate_id']!=bundle['candidate_id'] or row['body_candidate_id']!=bundle['body_candidate_id']
+            or row['family_id']!=bundle['family_id'] or row['motor_component_id']!=bundle['propulsion_component_id']
+            or not _same_json(row['accounted_mass'],bundle['mass'])
+            or not _same_json(row['architecture_added_mass_unknown'],bundle['unweighed_architecture_equipment'])
+            or not _same_json(row['structure_context'],structure_context)
+            or row['case_context_id']!=identity(dict(bundle_definition_id=bundle['definition_id'],structure_evidence=structure_context))
+            or row.get('installed_mass_kg') is not None or row.get('complete_body_qualified') is not False
+            or row.get('physical_journey_completed') is not False or any(row.get(k) is not v for k,v in FLAGS.items())):
+        raise ValueError('Coupled cached case composition or disposition differs')
+    base=dict(bundle_definition_id=bundle['definition_id']);body=dict(body_definition_id=bundle['body_definition_id'],**base)
+    upstream=[];architecture_id=None;propulsion_id=None;source_ids=[]
+    for index,name in enumerate(STAGES):
+        ref=row['stages'][index]
+        if set(ref)!={'stage','request','record_id','reused'} or type(ref['reused']) is not bool:
+            raise ValueError('Coupled cached stage reference differs')
+        if name in ('installed_inventory','interfaces'):inputs=body
+        elif name=='architecture':inputs=base
+        elif name=='propulsion':inputs=dict(architecture_evaluation_id=architecture_id,**base)
+        elif name=='motion_and_braking':inputs=dict(propulsion_evaluation_id=propulsion_id,**base)
+        elif name=='civil':inputs=dict(structure_context=structure_context,**base)
+        else:inputs=dict(upstream=list(upstream),**base)
+        expected=dict(stage=name,bundle_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],inputs=inputs,source_sha256=epoch)
+        if ref['stage']!=name or not _same_json(ref['request'],expected):raise ValueError('Coupled cached stage request differs')
+        record=_read_cached_stage(Path(folder)/'stages'/identity(expected))
+        if (not isinstance(record,dict) or set(record)!={'schema','request','output','record_id',*FLAGS}
+                or record['schema']!='osr-coupled-stage-record/1' or not _same_json(record['request'],expected)
+                or record['record_id']!=ref['record_id']
+                or record['record_id']!=canonical_stream.canonical_identity({k:v for k,v in record.items() if k!='record_id'})
+                or any(record.get(k) is not v for k,v in FLAGS.items())):
+            raise ValueError('Coupled cached stage record differs')
+        out=record['output']
+        if not isinstance(out,dict) or out.get('candidate_id',bundle['candidate_id'])!=bundle['candidate_id']:
+            raise ValueError('Coupled cached stage output candidate differs')
+        if 'body_candidate_id' in out and out['body_candidate_id']!=bundle['body_candidate_id']:
+            raise ValueError('Coupled cached stage output body differs')
+        if any(k in out and out[k] is not v for k,v in FLAGS.items()):raise ValueError('Coupled cached stage output disposition differs')
+        if name in _EVALUATION_STAGES:_verify_evaluation_identity(out,name)
+        elif 'evaluation_id' in out:raise ValueError('Unexpected cached stage evaluation identity')
+        if name=='installed_inventory':
+            if out.get('schema')!='osr-canonical-system-inventory/1':raise ValueError('Coupled cached inventory schema differs')
+            source_ids.append(out['evaluation_id'])
+        elif name=='architecture':
+            if out.get('schema')!='osr-railway-architecture-screen-index/1':raise ValueError('Coupled cached architecture schema differs')
+            trajectory=out.get('trajectory')
+            if (not isinstance(trajectory,dict) or trajectory.get('schema')!='osr-architecture-demand-index/1'
+                    or trajectory.get('indexed_demand_id')!=canonical_stream.canonical_identity({k:v for k,v in trajectory.items() if k!='indexed_demand_id'})):
+                raise ValueError('Coupled cached indexed demand identity differs')
+            source_ids.append(out['evaluation_id'])
+        elif name in ('propulsion','motion_and_braking'):
+            if name=='motion_and_braking' and out.get('schema')!='osr-coupled-longitudinal-research/1':raise ValueError('Coupled cached motion schema differs')
+            source_ids.append(out['evaluation_id'])
+        elif name=='civil':source_ids.append(canonical_stream.canonical_identity(out))
+        elif name=='manufacturing_and_economics':
+            if not _same_json(out.get('source_evaluation_ids'),source_ids):raise ValueError('Coupled cached economic source identities differ')
+            model=out.get('model_cost');_verify_evaluation_identity(model,'model cost')
+            model_inputs=dict(inventory_evaluation_id=source_ids[0],architecture_evaluation_id=source_ids[1],
+                propulsion_evaluation_id=source_ids[2],motion_evaluation_id=source_ids[3],civil_evaluation_id=source_ids[4],bundle_definition_id=bundle['definition_id'])
+            if (model.get('schema')!='osr-coupled-model-cost/1' or model.get('candidate_id')!=bundle['candidate_id']
+                    or not _same_json(model.get('input_evaluation_ids'),model_inputs)):
+                raise ValueError('Coupled cached model cost inputs differ')
+        if name=='installed_inventory':matches=_same_json(row['inventory_summary'],_inventory_summary(out))
+        elif name=='motion_and_braking':matches=_same_compacted_motion(out,row['motion'])
+        else:matches=_same_json(out,row[{'interfaces':'interfaces','architecture':'architecture','propulsion':'propulsion','civil':'civil','manufacturing_and_economics':'economics'}[name]])
+        if not matches:raise ValueError('Coupled cached stage output differs from case projection')
+        if name=='architecture':architecture_id=out['evaluation_id']
+        if name=='propulsion':propulsion_id=out['evaluation_id']
+        upstream.append(record['record_id'])
+
+
+def _ordinary_state_path(folder):
+    path=Path(folder)
+    if '..' in path.parts:raise ValueError('Coupled state path must not contain parent traversal')
+    path=Path(os.path.abspath(path))
+    if any(part.is_symlink() for part in (path,*path.parents)):
+        raise ValueError('Coupled state path and ancestors must not be symlinks')
+    return path
+
+
+def _bind_state_source(folder,contract,epoch):
+    """Check declared source context, not authentication or a sandbox."""
+    folder=_ordinary_state_path(folder);marker=folder/'source-contract.json';journal=folder/'journal.json'
+    expected=dict(schema='osr-coupled-state-source/1',contract_id=contract,source_sha256=epoch)
+    for path in (marker,journal):
+        if path.is_symlink() or (path.exists() and not path.is_file()):
+            raise ValueError('Coupled state contract metadata is not an ordinary file')
+    for name in ('cases','stages','native'):
+        path=folder/name
+        if path.is_symlink() or (path.exists() and not path.is_dir()):
+            raise ValueError('Coupled cache directories must be ordinary directories')
+    if marker.is_file():
+        if json.loads(marker.read_bytes())!=expected:raise ValueError('Coupled state source contract differs')
+    else:
+        for name in ('cases','stages','native'):
+            p=folder/name
+            if p.is_symlink() or (p.exists() and (not p.is_dir() or any(p.iterdir()))):
+                raise ValueError('Coupled state has unbound existing cache')
+        if journal.is_file() and json.loads(journal.read_bytes()).get('contract_id')!=contract:
+            raise ValueError('Coupled state journal contract differs')
+        _write(marker,expected)
+    if journal.is_file() and json.loads(journal.read_bytes()).get('contract_id')!=contract:
+        raise ValueError('Coupled state journal contract differs')
 
 
 def generate_bodies():
@@ -161,14 +473,19 @@ def _compact_motion(value):
     visit(value);return value
 
 
-def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
+def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_aggregate=False):
+    """Run source-bound bundles; aggregate streaming is explicit and opt-in."""
     from . import system_inventory,system_motion,system_selection,grammar_shell
     root=Path(root);spec=specification(root);epoch=source_epoch(root)
     if type(native_jobs) is not int or not 0<=native_jobs<=spec['maximum_native_jobs']:raise ValueError('Explicit bounded native job allowance required')
+    if type(stream_aggregate) is not bool:raise ValueError('Explicit boolean aggregate streaming mode required')
     if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):raise ValueError('Nonnegative resumable bundle budget required')
-    contract=identity(dict(specification=spec,source_sha256=epoch));folder=root/'build/coupled-railway'/contract if state is None else Path(state);folder.mkdir(parents=True,exist_ok=True)
-    with (folder/'lock').open('a+') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
+    contract=identity(dict(specification=spec,source_sha256=epoch));folder=_ordinary_state_path(root/'build/coupled-railway'/contract if state is None else state);folder.mkdir(parents=True,exist_ok=True)
+    _ordinary_state_path(folder);lock_path=folder/'lock'
+    if lock_path.is_symlink() or (lock_path.exists() and not lock_path.is_file()):raise ValueError('Coupled state lock is not an ordinary file')
+    with lock_path.open('a+') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch)
+        started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
         native=_native_campaign(bodies,folder,native_jobs,root=root)
         for body in bodies:
             for family in spec['families']:
@@ -181,9 +498,10 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
             structure_context=_structure_context(native,bundle['body_candidate_id'])
             case_context=identity(dict(bundle_definition_id=bundle['definition_id'],structure_evidence=structure_context))
             path=folder/'cases'/(case_context+'.json')
-            if path.exists():
-                row=json.loads(path.read_bytes())
-                if row['case_context_id']!=case_context or row['bundle_definition_id']!=bundle['definition_id'] or row['row_id']!=identity({k:v for k,v in row.items() if k!='row_id'}):raise ValueError('Coupled case identity differs')
+            if path.exists() or path.is_symlink():
+                row=_read_cached_case(path)
+                _validate_cached_row(row,case_context,bundle,epoch)
+                _verify_cached_stages(folder,row,bundle,epoch,structure_context)
                 rows.append(row);reused+=1;continue
             if maximum_new_bundles is not None and new>=maximum_new_bundles or time.monotonic()-started>spec['maximum_seconds']:
                 pending.append(dict(kind='bundle-evaluation',bundle_id=bundle['candidate_id'],bundle_definition_id=bundle['definition_id'],state='ready'));continue
@@ -215,7 +533,12 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
             partial_quantity_comparison=partial,model_cost_comparisons=cost_comparisons,frontier=frontier,search_status='work-remaining',new_bundles=new,reused_bundles=reused,
             integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
         if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before final sealing')
-        result['campaign_id']=semantic_id(result);result['run_id']=identity(result);_write(folder/'invocations'/(result['run_id']+'.json'),result);_write(folder/'result.json',result);return result
+        result['campaign_id']=semantic_id(result,streaming=stream_aggregate)
+        if stream_aggregate:
+            result['run_id']=_aggregate_identity(result);_write_aggregate(folder,result)
+        else:
+            result['run_id']=identity(result);_write(folder/'invocations'/(result['run_id']+'.json'),result);_write(folder/'result.json',result)
+        return result
 
 
 def _inventory_summary(value):
