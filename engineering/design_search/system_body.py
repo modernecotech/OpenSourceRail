@@ -5,7 +5,7 @@ strength/HAZ/fatigue, panel retention, installed services and qualification stay
 unknown. Two real physical alternatives precede any numerical comparison.
 """
 from copy import deepcopy
-from math import prod,ceil
+from math import prod,ceil,isfinite
 from pathlib import Path
 from engineering.station_rail import ROOT,FLAGS
 from engineering.station_rail.common import identity,digest
@@ -18,6 +18,21 @@ def _subtract(box,cut):
     if min(b-a for a,b in zip(lo,hi))<=1e-10:return [box]
     x0,x1,y0,y1,z0,z1=box;a,c,e=lo;b,d,f=hi
     return [p for p in ((x0,a,y0,y1,z0,z1),(b,x1,y0,y1,z0,z1),(a,b,y0,c,z0,z1),(a,b,d,y1,z0,z1),(a,b,c,d,z0,e),(a,b,c,d,f,z1)) if min(p[1]-p[0],p[3]-p[2],p[5]-p[4])>1e-10]
+
+
+def _finite_box(box):
+    """Allow the fast disjoint check only for ordinary, finite coordinates."""
+    try:
+        return len(box)==6 and all(type(v) in (float,int) and isfinite(v) for v in box)
+    except (TypeError,ValueError,OverflowError):
+        return False
+
+
+def _disjoint_finite(box,cut):
+    """Conservatively reject zero-overlap finite boxes; overlaps use _subtract."""
+    return (box[1]<=cut[0] or cut[1]<=box[0] or
+            box[3]<=cut[2] or cut[3]<=box[2] or
+            box[5]<=cut[4] or cut[5]<=box[4])
 
 
 def _interfaces(parts):
@@ -100,14 +115,17 @@ def build(parent,topology='aluminium_frame',root=ROOT,*,profile_policy='baseline
                 if a['side']==side:
                     x0,x1,z0,z1=a['xz_m'];pieces=[q for old in pieces for q in _subtract(old,(x0,x1,-W,W,z0,z1))]
         for q in pieces:clipped.append((p,q))
-    parts=[];bounds=[];gross=sum(prod(p['size_m']) for p in raw)
+    parts=[];bounds=[];bounds_finite=True;gross=sum(prod(p['size_m']) for p in raw)
     for origin,b in clipped:
-        remaining=[b]
-        for existing in bounds:remaining=[q for old in remaining for q in _subtract(old,existing)]
+        remaining=[b];b_finite=_finite_box(b)
+        for existing in bounds:
+            if b_finite and bounds_finite and _disjoint_finite(b,existing):continue
+            remaining=[q for old in remaining for q in _subtract(old,existing)]
         for i,q in enumerate(remaining):
             at=[q[0],q[2],q[4]];size=[q[1]-q[0],q[3]-q[2],q[5]-q[4]];volume=prod(size);uid=origin['id']+'/net/'+str(i)+'-'+identity(q)[:8]
             functions=['support-loads']+(['support-passengers'] if origin['role']=='floor' else ['roof-structure'] if origin['role']=='roof' else ['enclosure'] if origin['role'] in ('diaphragm','side-shear') else [])
             parts.append(dict(id=uid,kind='box',at_m=at,size_m=size,material_id='aluminium_reference',volume_m3=volume,mass_kg=volume*2710.,functions=functions,load_roles=['primary'],form='net-trimmed-metal-stock',process='cut-fit-autogenous-weld',manufacturing_occurrence_id=origin['occurrence'],removable=False,access='not-designed',structural_role=origin['role']));bounds.append(q)
+            if bounds_finite and not _finite_box(q):bounds_finite=False
     # Keep only the parent outer side covers as nonstructural, counted stock.
     for old in parent['parts']:
         if old['id'].startswith('side/') and '/outer/' in old['id']:
