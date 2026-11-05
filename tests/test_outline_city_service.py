@@ -19,6 +19,7 @@ def inputs():
 def synthetic(city,distances,ring=False):
     c=deepcopy(city);line=deepcopy(c['lines'][0]);line['shape']='ring' if ring else 'radial'
     line['route_m']=line['operational_route_m']=sum(distances)
+    line.pop('coordinates',None);line.pop('coordinate_chainages_m',None)
     n=len(distances) if ring else len(distances)+1
     line['stops']=[dict(id='stop-'+str(i),chainage_m=sum(distances[:i]),dwell_s=35,lon=0,lat=0) for i in range(n)]
     line['legs']=[dict(from_stop='stop-'+str(i),to_stop='stop-'+str((i+1)%n),distance_m=d,closing_leg=ring and i==len(distances)-1) for i,d in enumerate(distances)]
@@ -39,6 +40,9 @@ def test_catalogue_has_all_cities_and_no_surveyed_demand_is_inherited(inputs):
     assert all(not x['retained_service_and_capacity_are_current_demand'] for x in city['lines'])
     assert city_inputs.load(context['by_slug']['samawah'],context=context)==city
     assert all(city[k] is False for k in city_inputs.FLAGS)
+    for line in city['lines']:
+        assert len(line['coordinates'])==len(line['coordinate_chainages_m'])
+        assert line['coordinate_chainages_m'][-1]==pytest.approx(line['route_m'])
 
 
 def test_actual_ring_closing_distance_is_included(inputs):
@@ -58,16 +62,41 @@ def test_unequal_legs_are_evaluated_separately_and_demand_derives_headway(inputs
     assert line['propulsion_hypothesis']['kind']=='station-launch-reference'
     assert result['assumptions']['survey_demand_available'] is False
     assert service['actual_available_force_map'] is None
+    assert all(x['braking_necessary_distance_fits_after_launch'] for x in line['legs'])
+    assert line['requirements']['operating_days_per_year']==365
+    assert line['requirements']['design_life_years']==30
+    assert line['requirements']['real_discount_rate']==.04
+    assert 'alignment_id' in line['requirements']
 
 
 def test_short_leg_uses_exact_smaller_scurve_and_retains_platform_hold(inputs):
-    result=run(inputs,[39.95021266757067]);line=result['line_services'][0];leg=line['legs'][0]
+    spec=inputs[1];v=inputs[2];rotor=city_service.braking.rotating_stock(v)['equivalent_inertial_mass_kg_per_car']
+    leg=city_service._leg(39.95021266757067,v['mass']['accounted_cap_loaded_kg_per_car']+250,rotor,spec['design'])
     assert leg['adaptive_speed_cap_m_s']<20
-    assert leg['launch_distance_m']+leg['braking_distance_m']==pytest.approx(leg['distance_m'],abs=1e-7)
+    assert leg['launch_distance_m']+leg['braking_distance_m']+leg['coast_distance_m']==pytest.approx(leg['distance_m'],abs=1e-7)
     assert leg['jerk_bound']['distance_m']==leg['launch_distance_m']
-    assert line['interface_holds'] and not line['physical_accepted']
-    expected=helper._tail_clearance(104.5,leg['adaptive_speed_cap_m_s'],1,.5)
-    assert line['service']['tail_clearance_s_jerk_bound']==pytest.approx(expected)
+    assert leg['braking_necessary_distance_fits_after_launch'] is True
+    line=run(inputs,[39.95021266757067,2000])['line_services'][0]
+    assert line['station_repair']['applied'] and not line['physical_accepted']
+    assert line['station_repair']['original_stop_count']==3
+    assert len(line['operational_stops'])==line['requirements']['stations']==2
+    assert line['station_repair']['additional_access_walkway_m']==pytest.approx(39.95021266757067)
+    assert line['station_repair']['additional_shared_platform_length_m']==pytest.approx(2*39.95021266757067)
+    assert line['station_repair']['original_marker_spacing_failures']
+
+
+def test_ring_complex_repair_wraps_without_losing_original_access_markers(inputs):
+    line=run(inputs,[1000,2000,40],True)['line_services'][0]
+    repair=line['station_repair']
+    assert repair['original_stop_count']==3 and repair['operational_stop_count']==2
+    assert len(line['legs'])==2
+    assert fsum(x['distance_m'] for x in line['legs'])==pytest.approx(3040)
+    assert sum(len(x['original_stop_ids']) for x in repair['complexes'])==3
+    assert all(x['distance_m']>=120 for x in line['legs'])
+
+
+def test_single_overlapping_complex_does_not_claim_a_working_rail_line(inputs):
+    with pytest.raises(ValueError,match='one overlapping complex'):run(inputs,[39])
 
 
 def test_long_coast_failure_generates_new_mass_energy_and_feed_hypothesis(inputs):

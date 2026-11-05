@@ -76,7 +76,9 @@ def load(value,root=ROOT,*,context=None):
             if gap<=0:raise ValueError('Positive ring closing leg required')
             legs.append(dict(from_stop=stops[-1]['id'],to_stop=stops[0]['id'],distance_m=gap,closing_leg=True))
         scales[line['id']]=line['length_m']/base['length_m']
+        coordinates=[point[:2] for point in line['coordinates']]
         lines.append(dict(line_id=line['id'],shape=shape,route_m=line['length_m'],
+            coordinates=coordinates,coordinate_chainages_m=planning._chainages(coordinates),
             operational_route_m=math.fsum(r['distance_m'] for r in legs),stops=stops,legs=legs,
             source_schedule=deepcopy(base.get('service',{}).get('schedule',[])),
             retained_capacity_targets=deepcopy(base.get('capacity')),
