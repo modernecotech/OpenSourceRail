@@ -454,6 +454,7 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         assert command in shared, command
     assert 'pilot_assurance run control-formal' in jobs['control-formal']
     assert 'git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164' in shared
+    assert 'git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference' in shared
     assert 'test_research_context.py' in shared and 'test_research_portability.py' in shared
     # Artifact upload may use always(), but checks cannot be conditional or ignored.
     assert not re.search(r'^\s+continue-on-error:', historical_text + shared_text, re.M)
