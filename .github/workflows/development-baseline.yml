@@ -197,6 +197,10 @@ on:
     - cron: "45 3 * * *"
 permissions:
   contents: read
+env:
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
 jobs:
   current-contracts:
     runs-on: ubuntu-24.04

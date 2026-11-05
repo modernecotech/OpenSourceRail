@@ -11,6 +11,10 @@ jobs:
     name: Shared workspace and retained research regressions
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
     steps:
       - uses: actions/checkout@v4
       - name: Fetch the exact retained producer source required by offline ancestry checks
