@@ -31,7 +31,7 @@ def context(tmp_path, monkeypatch):
         value['cost_estimate_id']=identity(value)
         return value
     monkeypatch.setattr(vehicle_cost,'evaluate',vehicle)
-    monkeypatch.setattr(system_cost,'evaluate',system)
+    monkeypatch.setattr(system_cost,'evaluate_reference_comparison',system)
     return record,calls,rates
 
 
@@ -67,7 +67,7 @@ def test_export_return_is_opt_in_and_verify_always_recalculates_before_exposing(
     record,calls,rates=context
     def compile(record,root,city_index):
         vehicle=vehicle_cost.evaluate(record,root)
-        system=system_cost.evaluate(record,root,vehicle)
+        system=system_cost.evaluate_reference_comparison(record,root,vehicle)
         return dict(selected_vehicle_cost=vehicle,selected_system_cost=system,bom={'all':'bytes'},procurement={'unknown':None})
     monkeypatch.setattr(exports,'compile',compile)
     monkeypatch.setattr(exports,'source_map',lambda root,names:{'rates':rates.read_text()})

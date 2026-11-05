@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Nablus route geometry](nablus.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=nablus)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `cff0098d902fb217155aef1c7a4a8e22773a5cd3eef79e1e6c8f23990233edcb`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `346f0fb6602924bcd0e7fc049e3c3229ea8214c849fdbe2c7b285bac2861b36f`

@@ -7,7 +7,10 @@ def test_actual_windings_fit_and_account_end_turns():
     assert d['slot_fill_fraction']==pytest.approx(40*25/(40*55))
     assert d['wire_length_m_per_coil']>40*.16*2
     assert d['bare_primary_stock_kg_per_m']>200
-    assert d['bare_900m_stock_kg_per_direction']==900*d['bare_primary_stock_kg_per_m']
+    assert 'bare_900m_stock_kg_per_direction' not in d
+    assert d['deployment_length_m'] is None
+    assert d['native_evidence_admitted'] is False
+    assert d['bare_addressed_module_stock_kg_both_sides']==d['addressed_module_length_m']*d['bare_primary_stock_kg_per_m']
 
 def test_peak_rms_and_three_phase_reversal_are_explicit():
     c=m.case(current_peak_A=100.)

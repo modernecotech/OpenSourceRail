@@ -8,7 +8,7 @@ import os
 from . import ROOT, FLAGS
 from .common import identity, encoded, source_map
 
-FAMILY = 'wheel_rail_station_lim'
+FAMILY = 'wheel_rail_vehicle_reference'
 IDS = ('candidate_id', 'body_candidate_id', 'support_component_id', 'propulsion_component_id')
 INDEX = 'docs/design-engine/current/cities.json'
 INDEX_MANIFEST = 'docs/design-engine/current/city-catalogue-manifest.json'

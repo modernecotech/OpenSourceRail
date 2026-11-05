@@ -71,7 +71,7 @@ def _selection_stamps(root):
     import tomllib
     selector = checked_path(root, INPUT)
     config = tomllib.loads(selector.read_text())
-    if config.get('family') != 'wheel_rail_station_lim':
+    if config.get('family') not in ('wheel_rail_vehicle_reference','wheel_rail_station_lim'):
         raise CurrentUnavailable('The current front door requires the explicit v0.6 wheel-supported selector')
     # Physical definitions are generated from the selected source. A running
     # Workbench must invalidate its cached selection when those producers change,
@@ -142,6 +142,8 @@ def status(root=ROOT):
                   development_default=True, selection_revision=config['revision'],
                   family=config['family'], vehicle=config['vehicle'],
                   service=config['service'], mass=vehicle['mass'],
+                  active_propulsion_policy=baseline.get('active_propulsion_policy'),
+                  reference_service_values_are_active_requirements=False,
                   network_proposal_id=config['network_proposal_id'],
                   publication_path=OUTPUT, **{key: vehicle[key] for key in IDS}, **FLAGS)
     try:

@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Kinshasa route geometry](kinshasa.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=kinshasa)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6159565a9985a72e474a5ac28b67d3adac682a978a535290ce34cc8805d3a6dd`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `b234b691653a4b78174632258402ba1b98e32db7ce86c6e2b88fed951e039221`

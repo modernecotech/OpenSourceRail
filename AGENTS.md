@@ -26,12 +26,15 @@ alternatives do not silently change the selected reference or inherit its result
   a campaign log or silently discard the rest of the platform's purpose.
 - The repository development default is engineering/development-baseline.toml:
   six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
-  two doors on one side and a 120-second target (8,280 normal passengers/hour/
-  direction). The retained-stop network proposal uses a 72 km/h launch cap.
+  two doors on one side. The 120-second/8,280 normal passengers/hour/direction
+  case is a named reference control, not a mandatory operating design. The retained-stop network proposal uses a 72 km/h launch cap.
   Version 0.6 uses passive wheel bogies on conventional rails carried by concrete.
-  Station double-sided linear-induction motors act on passive onboard aluminium
-  secondaries. Onboard traction motors, traction batteries and permanent magnets
-  are absent; independently sized service batteries, braking and rescue remain.
+  The reference vehicle retains its passive aluminium secondary interface; this
+  does not select an installed propulsion system. Architecture, powered length,
+  acceleration, braking and headway must be selected per candidate against demand,
+  physical constraints and whole-life cost. Neither900m nor100m is a mandatory
+  installation. The reference vehicle has no onboard traction motors, traction
+  batteries or permanent magnets; independently sized service batteries, braking and rescue remain.
   The former PM-assisted maglev is retained historical research. Development
   selection is not physical acceptance.
 - The umbrella research campaign is campaigns/whole-railway-architecture-search.toml.

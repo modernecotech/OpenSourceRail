@@ -16,8 +16,7 @@ FLAGS=dict(configuration_adopted=False,engineering_accepted=False,physical_accep
 BOUNDS=dict(fin_count=[1,3],fin_length_m=[7.,12.],active_height_m=[.12,.18],secondary_thickness_m=[.010,.020],
     physical_gap_m=[.015,.020],pole_pitch_m=[.20,.50],slots_per_period=[6,12],slot_fill_max=.60,
     wire_density_RMS_A_mm2_max=4.,linear_model_peak_field_limit_T=1.3,
-    reserved_transverse_half_corridor_m=.62,primary_top_TOR_m_max=.20,
-    speed_m_s=[12.,20.],acceleration_m_s2=[.25,.40],powered_station_length_m=[600.,1200.])
+    reserved_transverse_half_corridor_m=.62,primary_top_TOR_m_max=.20)
 
 
 def material_options():
@@ -67,30 +66,112 @@ def _base(parent):
     return p,deepcopy(defaults['evaluation'])
 
 
-def _option(parent,physical,evaluation,service,label,rationale):
-    if not parent.get('candidate_id') or not parent.get('requirement_revision'):raise ValueError('Explicit parent candidate and requirements required')
-    base_service=dict(speed_m_s=20.,acceleration_m_s2=.4,service_deceleration_m_s2=.6,
-        powered_station_length_m=900.,headway_s=120.,dwell_s=35.,cars=6,people_per_car=46,train_length_m=104.5)
-    base_service.update(service)
-    changed=any(base_service[n]!=v for n,v in dict(speed_m_s=20.,acceleration_m_s2=.4,powered_station_length_m=900.,headway_s=120.,cars=6,people_per_car=46).items())
-    revision=identity(dict(parent_requirement_revision=parent['requirement_revision'],service_alternative=base_service)) if changed else parent['requirement_revision']
-    option=dict(schema='osr-expanded-propulsion-proposal/1',parent_candidate_id=parent['candidate_id'],
+SERVICE_FIELDS=('speed_m_s','acceleration_m_s2','service_deceleration_m_s2',
+    'headway_s','dwell_s','cars','people_per_car','train_length_m','car_length_m',
+    'jerk_m_s3','grade_fraction','station_spacing_m')
+
+
+def _service(value):
+    if not isinstance(value,dict) or set(value)!=set(SERVICE_FIELDS):
+        raise ValueError('Explicit complete service_requirements required; no propulsion/service fallback')
+    result=deepcopy(value)
+    for key in SERVICE_FIELDS:
+        x=result[key]
+        if type(x) not in (int,float) or not isfinite(x) or (key!='grade_fraction' and x<=0):
+            raise ValueError('Finite explicit service '+key+' required')
+    if any(type(result[k]) is not int for k in ('cars','people_per_car')):
+        raise ValueError('Integer cars and normal passenger places required')
+    if abs(result['grade_fraction'])>=1 or result['train_length_m']<result['cars']*result['car_length_m']:
+        raise ValueError('Explicit grade and complete train envelope required')
+    return result
+
+
+def _launch_bounds(physical,service):
+    v=service['speed_m_s'];a=service['acceleration_m_s2'];j=service['jerk_m_s3']
+    t=2*sqrt(v/j) if v<a*a/j else v/a+a/j
+    setback=(service['car_length_m']-physical['secondary_length_m'])/2
+    if setback<0:raise ValueError('Passive interface exceeds declared car envelope')
+    return dict(constant_acceleration_stroke_m=v*v/(2*a),jerk_limited_stroke_m=.5*v*t,
+        jerk_limited_launch_time_s=t,full_train_contact_envelope_m=service['train_length_m']-2*setback,
+        constant_acceleration_engagement_m=v*v/(2*a)+service['train_length_m']-2*setback,
+        jerk_limited_engagement_m=.5*v*t+service['train_length_m']-2*setback,
+        bound_is_available_force_evidence=False)
+
+
+def _installation(parent,physical,service,request):
+    from engineering.station_rail import propulsion_layout
+    if not isinstance(request,dict):raise ValueError('Explicit candidate station_layout required')
+    r=deepcopy(request)
+    required={'candidate_id','body_candidate_id','passive_interface_id','module_length_m',
+              'module_policy','directions','independent_branches_per_direction'}
+    if not required<=set(r) or set(r)-required-{'sections','strategy','start_m'}:
+        raise ValueError('Explicit station layout identities, sections and module/resource policy required')
+    if r['candidate_id']!=parent['candidate_id']:
+        raise ValueError('Station layout belongs to a different parent candidate')
+    if r['module_length_m']!=physical['primary_length_m']:
+        raise ValueError('Layout module differs from the finite component; explicit new adapter required')
+    if 'sections' in r:
+        if 'strategy' in r or 'start_m' in r:raise ValueError('Use explicit sections or one named layout strategy')
+        sections=r['sections']
+    elif r.get('strategy')=='jerk-limited-launch-envelope' and 'start_m' in r:
+        sections=[dict(section_id='derived-launch',start_m=r['start_m'],
+            length_m=_launch_bounds(physical,service)['jerk_limited_engagement_m'],role='launch')]
+    else:raise ValueError('Explicit sections or jerk-limited-launch-envelope strategy required')
+    passive=identity(dict(parent_interface_id=r['passive_interface_id'],
+        **{k:physical[k] for k in ('topology','fin_centres_y_m','secondary_material',
+            'secondary_length_m','secondary_thickness_m','active_height_m','gap_each_side_m',
+            'single_sided_secondary_backiron_m','rack_tooth_depth_m','rack_pitch_m','rack_tooth_duty')}))
+    kwargs=dict(body_candidate_id=r['body_candidate_id'],passive_interface_id=passive,
+        sections=sections,magnetic_period_m=2*physical['pole_pitch_m'],
+        faces_per_track=(1 if physical['topology']=='single-sided-LIM' else 2)*len(physical['fin_centres_y_m']),
+        **{k:r[k] for k in ('module_length_m','module_policy','directions','independent_branches_per_direction')})
+    provisional=propulsion_layout.layout(candidate_id=parent['candidate_id'],**kwargs)
+    configuration=identity(dict(parent_candidate_id=parent['candidate_id'],
+        body_candidate_id=r['body_candidate_id'],passive_interface_id=passive,
+        primary_physical_design_id=_physical_identity(physical),
+        physical_layout_id=provisional['physical_layout_id']))
+    layout=propulsion_layout.layout(candidate_id=configuration,**kwargs)
+    return layout,configuration
+
+
+def _evaluation_identity(option):
+    return identity(dict(physical_design_id=option['physical_design_id'],
+        installation_layout_id=option['installation_layout']['layout_id'],
+        service_requirements=option['service'],evaluation_hypotheses=option['evaluation_hypotheses']))
+
+
+def _option(parent,physical,evaluation,service,station_layout,label,rationale):
+    if not parent.get('candidate_id') or not parent.get('requirement_revision'):
+        raise ValueError('Explicit parent candidate and requirements required')
+    service=_service(service);evaluation=deepcopy(evaluation)
+    # Sample the explicitly requested speed, rather than an inherited20m/s point.
+    for scenario in evaluation.get('scenarios',[]):
+        if scenario['speed_m_s']>0:scenario['speed_m_s']=service['speed_m_s']
+    layout,configuration=_installation(parent,physical,service,station_layout)
+    revision=identity(dict(parent_requirement_revision=parent['requirement_revision'],service_requirements=service))
+    option=dict(schema='osr-expanded-propulsion-proposal/2',parent_candidate_id=parent['candidate_id'],
         parent_requirement_revision=parent['requirement_revision'],requirement_revision=revision,label=label,rationale=rationale,
         parent_counted_passive_fin_mass_kg=sum(g['native_part']['mass_kg'] for g in parent.get('geometry',[]) if g.get('native_part',{}).get('id')=='station-secondary/active-fin') if any(g.get('native_part',{}).get('id')=='station-secondary/active-fin' for g in parent.get('geometry',[])) else None,
-        physical=deepcopy(physical),physical_design_id=_physical_identity(physical),evaluation_hypotheses=deepcopy(evaluation),
-        service=base_service,service_is_requirement_alternative=changed,changes_development_default=False,
-        candidate_bundle_patch=dict(architecture=dict(wheel_parameters=dict(motor=deepcopy(physical)))),
-        bundle_materialization='Required before CAD/BOM/civil/dynamics; new fin/mount/normal-force interfaces may need adapter development',
+        physical=deepcopy(physical),physical_design_id=_physical_identity(physical),evaluation_hypotheses=evaluation,
+        service=service,service_requirements_id=identity(service),
+        service_is_requirement_alternative=(service!=parent['service_requirements']) if 'service_requirements' in parent else None,
+        parent_service_comparison='explicit-parent-service' if 'service_requirements' in parent else 'parent-service-not-declared',
+        station_layout_request=deepcopy(station_layout),installation_layout=layout,
+        candidate_configuration_id=configuration,changes_development_default=False,
+        candidate_bundle_patch=dict(architecture=dict(wheel_parameters=dict(motor=deepcopy(physical))),
+            station_layout=deepcopy(layout),service_requirements=deepcopy(service)),
+        bundle_materialization='Required before CAD/BOM/civil/dynamics; proposed layout/configuration IDs are not complete installed geometry',
         available_installed_force_N=None,whole_life_cost_USD=None,**FLAGS)
+    option['evaluation_id']=_evaluation_identity(option)
     option['proposal_id']=identity(option);return option
 
 
 def _check(option):
-    p=option['physical'];s=option['service'];e=option['evaluation_hypotheses']
+    p=option['physical'];s=_service(option['service']);e=option['evaluation_hypotheses']
     if option['physical_design_id']!=_physical_identity(p):raise ValueError('Physical proposal identity differs')
     if p['topology'] not in ('double-sided-LIM','single-sided-LIM','passive-linear-reluctance'):raise ValueError('Named supported proposal topology required')
     for n in ('primary_length_m','pole_pitch_m','slot_width_m','slot_depth_m','backiron_m','conductor_area_m2','active_height_m','secondary_length_m','secondary_thickness_m','gap_each_side_m'):
-        if not isinstance(p[n],(int,float)) or not isfinite(p[n]) or p[n]<=0:raise ValueError('Positive finite physical '+n+' required')
+        if type(p[n]) not in (int,float) or not isfinite(p[n]) or p[n]<=0:raise ValueError('Positive finite physical '+n+' required')
     if p['slots_per_period'] not in (6,12) or type(p['periods']) is not int or type(p['turns_per_coil']) is not int or type(p['parallel_paths_per_phase']) is not int:raise ValueError('Integer winding topology required')
     if len(p['fin_centres_y_m']) not in (1,2,3) or len(set(p['fin_centres_y_m']))!=len(p['fin_centres_y_m']):raise ValueError('One to three uniquely located fins required')
     if any(not isinstance(y,(int,float)) or not isfinite(y) for y in p['fin_centres_y_m']):raise ValueError('Finite lateral fin coordinates required')
@@ -99,9 +180,12 @@ def _check(option):
     if p['secondary_material'] not in ('aluminium-hypothesis','copper-hypothesis','sij-M330-50A'):raise ValueError('Named passive secondary material required')
     if p['topology']=='passive-linear-reluctance' and (p['secondary_material']!='sij-M330-50A' or p['rack_pitch_m'] is None or not 0<p['rack_tooth_depth_m']<p['secondary_thickness_m'] or not 0<p['rack_tooth_duty']<1):raise ValueError('Explicit passive toothed steel rack required')
     if p['slot_width_m']>=2*p['pole_pitch_m']/p['slots_per_period'] or p['turns_per_coil']<1 or p['periods']<1 or p['parallel_paths_per_phase']<1:raise ValueError('Positive manufacturable teeth/turns/periods/paths required')
-    if e['current_peak_A']<0 or not isfinite(e['current_peak_A']):raise ValueError('Finite nonnegative source current required')
-    for n in ('speed_m_s','acceleration_m_s2','service_deceleration_m_s2','powered_station_length_m','headway_s'):
-        if not isfinite(s[n]) or s[n]<=0:raise ValueError('Positive finite service alternative required')
+    if type(e['current_peak_A']) not in (int,float) or e['current_peak_A']<0 or not isfinite(e['current_peak_A']):raise ValueError('Finite nonnegative source current required')
+    layout,configuration=_installation(dict(candidate_id=option['parent_candidate_id']),p,s,option['station_layout_request'])
+    if layout!=option['installation_layout'] or configuration!=option['candidate_configuration_id']:
+        raise ValueError('Candidate installation layout or component identity differs')
+    if option['service_requirements_id']!=identity(s) or option['evaluation_id']!=_evaluation_identity(option):
+        raise ValueError('Service/evaluation identity differs')
     if any(option.get(n) is not v for n,v in FLAGS.items()) or option['changes_development_default'] is not False:raise ValueError('Proposal cannot select or release a design')
 
 
@@ -126,25 +210,35 @@ def necessary_screens(option,context=None):
     iron_per_m=count*sides*(p['backiron_m']+p['slot_depth_m']*(1-p['slot_width_m']/pitch))*h*data[p['core_material']]['density_kg_m3']
     coil_length=p['turns_per_coil']*(2*(h+p['pole_pitch_m'])+.05)
     copper_per_m=count*sides*p['slots_per_period']/2/(2*p['pole_pitch_m'])*coil_length*p['conductor_area_m2']*data[p['conductor_material']]['density_kg_m3']
-    v=s['speed_m_s'];a=s['acceleration_m_s2'];b=s['service_deceleration_m_s2'];xa=v*v/(2*a);xb=v*v/(2*b);setback=(17.-p['secondary_length_m'])/2
-    cap_braking_zone=xa+xb+s['train_length_m']-2*setback
+    v=s['speed_m_s'];a=s['acceleration_m_s2'];b=s['service_deceleration_m_s2'];xa=v*v/(2*a);xb=v*v/(2*b)
+    launch_bounds=_launch_bounds(p,s);necessary_zone=launch_bounds['jerk_limited_engagement_m']
+    layout=option['installation_layout'];length=layout['per_direction']['installed_length_m']
+    launch_rows=[r for r in layout['sections'] if r['role'] in ('launch','shared')]
+    launch_length=0.;start=end=None
+    for row in launch_rows:
+        if end is None or row['start_m']>end+1e-9:
+            start=row['start_m'];end=row['installed_end_m']
+        else:end=max(end,row['installed_end_m'])
+        launch_length=max(launch_length,end-start)
+    cap_braking_zone=necessary_zone+xb
     # Coasting lowers arrival speed. Full-cap braking distance is a declared
     # zero-resistance scenario, not a necessary lower bound for every journey.
-    necessary_zone=xa+s['train_length_m']-2*setback
     failures=[]
     screens=dict(slot_fill='pass' if fill<=.60 else 'fail',wire_density='pass' if J<=4. else 'fail',positive_teeth='pass' if tooth>0 else 'fail',
         passive_fin_bounds='pass' if 7.<=p['secondary_length_m']<=12. and .12<=h<=.18 and .010<=p['secondary_thickness_m']<=.020 else 'fail',
-        service_bounds='pass' if 12.<=v<=20. and .25<=a<=.40 and 600.<=s['powered_station_length_m']<=1200. else 'fail',
+        service_definition='pass',
         pole_pitch_bounds='pass' if .20<=p['pole_pitch_m']<=.50 else 'fail',
         gap_bound='pass' if .015<=p['gap_each_side_m']<=.020 else 'fail',
         fin_top_TOR='pass' if p['secondary_bottom_TOR_m']+h<=.2+1e-10 else 'fail',
         primary_cross_sections='pass' if not overlap and inside else 'fail',equal_parallel_group_count='pass' if parallel_ok else 'fail',
-        ideal_powered_length='pass' if s['powered_station_length_m']>=necessary_zone else 'fail')
+        ideal_powered_length='pass' if launch_length>=necessary_zone else 'fail')
     failures=[n for n,value in screens.items() if value=='fail']
     ideal_times={}
-    for distance in (1500.,2000.):
+    for distance in (s['station_spacing_m'],):
         peak=min(v,sqrt(2*distance/(1/a+1/b)));launch=peak*peak/(2*a);brake=peak*peak/(2*b)
-        ideal_times[str(int(distance))]=peak/a+peak/b+(distance-launch-brake)/peak
+        ideal_times[str(distance)]=peak/a+peak/b+(distance-launch-brake)/peak
+    if context.get('candidate_id',option['parent_candidate_id'])!=option['parent_candidate_id']:
+        raise ValueError('Mass context belongs to a different parent candidate')
     known_lower_mass=context.get('accounted_mass_kg_per_car');required=None
     if known_lower_mass is not None:
         if not isfinite(known_lower_mass) or known_lower_mass<=0:raise ValueError('Positive accounted mass required')
@@ -155,23 +249,40 @@ def necessary_screens(option,context=None):
         rot=context.get('rotating_equivalent_mass_kg_per_car')
         if rot is not None and known_lower_mass is not None:
             if not isfinite(rot) or rot<0:raise ValueError('Nonnegative rotating-equivalent mass required')
-            required=(known_lower_mass+rot)*a+.0025*known_lower_mass*9.80665+50+1.8*v*v
+            required=(known_lower_mass+rot)*a+.0025*known_lower_mass*9.80665+50+1.8*v*v+known_lower_mass*9.80665*s['grade_fraction']/sqrt(1+s['grade_fraction']**2)
     stock=dict(passive_secondary_kg_per_car=secondary_mass,passive_secondary_backing_kg_per_car=backing_mass,
         bare_primary_steel_kg_per_m=iron_per_m,bare_primary_conductor_kg_per_m=copper_per_m,
         bare_primary_kg_per_addressed_module=(iron_per_m+copper_per_m)*L,
-        bare_primary_kg_per_station_direction=(iron_per_m+copper_per_m)*s['powered_station_length_m'])
+        bare_primary_kg_per_station_direction=(iron_per_m+copper_per_m)*length,
+        bare_primary_kg_all_directions=(iron_per_m+copper_per_m)*layout['totals']['installed_length_m'],
+        installed_primary_length_m_per_direction=length,
+        electrical_branches=layout['electrical_resources']['total_independent_branches'],
+        branch_count_duplicates_primary_stock=False)
     unknown=['Fin/primary mounts and clearance interfaces','Lamination insulation and assembly','Cooling hardware and heat rejection',
         'Converter branches, current sharing, switching and cables','Civil reactions and normal forces','Complete equipped vehicle mass',
-        'Prices, fabrication labour and whole-life renewals','Actual headway, fleet and journey performance']
+        'Prices, fabrication labour and whole-life renewals','Actual protected headway, platforms, fleet and journey performance',
+        'Independent brake hardware, degraded stopping and rescue between stations',
+        'Auxiliary energy, charging duty and reserve fleet requirements',
+        'Passenger jerk/acceleration comfort and accessibility qualification']
     return dict(schema='osr-propulsion-necessary-screen/1',proposal_id=option['proposal_id'],physical_design_id=option['physical_design_id'],
+        evaluation_id=option['evaluation_id'],installation_layout_id=layout['layout_id'],
+        candidate_configuration_id=option['candidate_configuration_id'],launch_bounds=launch_bounds,
+        maximum_contiguous_launch_bank_envelope_m=launch_length,
         necessary_screens=screens,necessary_screen='fail' if failures else 'pass',failed_necessary_screens=failures,
+        operating_context=deepcopy(s),
+        unverified_system_obligations=dict(independent_braking='unknown',recovery='unknown',
+            charging_and_auxiliary_balance='unknown',reserve_fleet='unknown',
+            actual_protected_headway='unknown',passenger_comfort_and_accessibility='unknown'),
+        mass_context_candidate_binding='explicit' if 'candidate_id' in context else 'not-supplied-parameter-bound-only',
         installed_engineering_screen='unknown',slot_fill_fraction=fill,wire_density_RMS_A_mm2=J,tooth_width_m=tooth,
         fin_active_faces_m2=count*sides*p['secondary_length_m']*h,coils_per_phase_per_fin=coils_per_phase,
         converter_phase_current_RMS_A=e['current_peak_A']/sqrt(2)*p['parallel_paths_per_phase']*count,
         stock=stock,accounted_translation_mass_lower_bound_kg_per_car=known_lower_mass,required_launch_force_N_lower_bound=required,
         ideal_station_powered_length_necessary_m=necessary_zone,ideal_zero_resistance_cap_braking_envelope_m=cap_braking_zone,
-        zero_resistance_cap_braking_layout_screen='pass' if s['powered_station_length_m']>=cap_braking_zone else 'fail',
-        kinematic_bound_scope='Necessary launch plus train engagement only; separately shown full-cap braking assumes zero coast resistance and is not a universal necessary condition',
+        zero_resistance_cap_braking_layout_screen='not-assessed',
+        necessary_screen_scope='Declared full-train continuous-contact construction envelope; not a universal propulsion feasibility verdict',
+        physical_infeasibility_proven=False,
+        kinematic_bound_scope='Explicit jerk-limited launch travel plus full-train engagement only; this is a geometric requirement bound, not an available force map. Separately shown full-cap braking assumes zero coast resistance and is not universally necessary',
         ideal_no_resistance_journey_time_s=ideal_times,
         nominal_arithmetic_passengers_per_hour_direction=s['cars']*s['people_per_car']*3600/s['headway_s'],
         retained_capacity_comparison_passengers_per_hour_direction=14400,actual_protected_headway_s=None,
@@ -204,9 +315,9 @@ def next_experiments(option,diagnostics):
         add('finite-topology-force-map','Evaluate actual finite primary, every fin and current return; measure normal forces and saturation. Do not multiply a single-fin force result',['active area','fin geometry','pole/slot layout','slip3–15Hz','coil stock'],3)
     if p['topology']=='single-sided-LIM':add('normal-force-interface','Recalculate wheel loads, reaction-plate bending, rail adhesion and mounting gaps under single-sided attraction',['steel backing','mount stiffness','primary arrangement'],2)
     if p['topology']=='passive-linear-reluctance':add('reluctance-adapter-benchmark','Develop position-dependent nonlinear reluctance/commutation model with passive toothed secondary; confirm force ripple and normal loads',['tooth profile','phase overlap','position sensing'],3)
-    add('electrothermal-circuit','Calculate real per-branch flux/voltage, current sharing, cooling and120s duty with counted equipment',['branch grouping','conductor','insulation','cooling'],2)
-    if 'economics' in tags or option['service_is_requirement_alternative']:
-        add('equal-service-system-comparison','Compare station-only induction and passive reluctance, complete primary/vehicle/civil/fleet stock and same-service costs; unknown prices stay unknown',['topology','speed','acceleration','powered length','fleet'],0)
+    add('electrothermal-circuit','Calculate real per-branch flux/voltage, current sharing, cooling and the explicitly requested headway duty with counted equipment',['branch grouping','conductor','insulation','cooling'],2)
+    # Every active physical proposal requires an equal-service cost comparison.
+    add('equal-service-system-comparison','Compare station-only induction and passive reluctance, complete primary/vehicle/civil/fleet stock and same-service costs; unknown prices stay unknown',['topology','speed','acceleration','powered length','fleet'],0)
     return tasks
 
 
@@ -223,13 +334,21 @@ def wheel_motor_parameters(option):
     wheel_motor.definition(base);return base
 
 
-def expanded_plan(parent,diagnostics,*,candidate_budget=12,native_case_budget=12,confirmation_case_budget=4,context=None):
-    """Prepare twelve proposals, screening first; execute no native workers."""
+def expanded_plan(parent,diagnostics,*,service_requirements=None,station_layout=None,candidate_budget=12,native_case_budget=12,confirmation_case_budget=4,context=None):
+    """Prepare twelve component variants under explicit equal-service inputs.
+
+    No installation length or operating service is selected by this function.
+    The optional named envelope strategy is a geometric requirement proposal,
+    never available-thrust, protected-stopping or thermal evidence.
+    """
     if candidate_budget!=12 or not 0<=native_case_budget<=12 or not 0<=confirmation_case_budget<=4:raise ValueError('First expansion is bounded to12 proposals,12 primary and4 confirmation cases')
+    service_requirements=_service(service_requirements)
+    if station_layout is None:raise ValueError('Explicit candidate station_layout required; no powered-length fallback')
     p,e=_base(parent);options=[]
     def add(label,changes=None,eval_changes=None,service=None,why='Failure-driven alternative'):
         physical=deepcopy(p);physical.update(changes or {});evaluation=deepcopy(e);evaluation.update(eval_changes or {})
-        options.append(_option(parent,physical,evaluation,service or {},label,why))
+        if service is not None:raise ValueError('Recipe service overrides require an explicit new service request')
+        options.append(_option(parent,physical,evaluation,service_requirements,station_layout,label,why))
     add('deeper-return-and-teeth',dict(backiron_m=.09,slot_width_m=.035,slot_depth_m=.08),why='Increase return and tooth area under the retained1.3T linear-domain limit')
     add('two-parallel-passive-fins',dict(fin_centres_y_m=[-.28,.28],active_height_m=.16),why='Increase actual active area; include coupled fins and doubled interfaces in new spatial model')
     add('three-passive-fins',dict(fin_centres_y_m=[-.43,0.,.43],active_height_m=.16),why='Test greater area against track envelope, wayside stock and maintenance')
@@ -242,8 +361,8 @@ def expanded_plan(parent,diagnostics,*,candidate_budget=12,native_case_budget=12
     add('single-sided-induction',dict(topology='single-sided-LIM',single_sided_secondary_backiron_m=.025),why='Compare reduced primary stock against train-borne backiron and unwanted normal attraction')
     add('passive-toothed-reluctance',dict(topology='passive-linear-reluctance',secondary_material='sij-M330-50A',secondary_thickness_m=.02,
         rack_tooth_depth_m=.006,rack_pitch_m=.08,rack_tooth_duty=.5,core_material='sij-M330-50A'),why='Compare a passive toothed steel secondary; requires a new position-dependent commutated model')
-    add('supplier-steel-57_6kmh',dict(core_material='sij-M330-50A'),service=dict(speed_m_s=16.,acceleration_m_s2=.3,powered_station_length_m=800.),why='Combine supplier nonlinear-data study with an explicit lower-speed, shorter-powered-zone requirement alternative')
-    add('thin-lamination-43_2kmh',dict(core_material='powercore-M270-35A',secondary_thickness_m=.012),service=dict(speed_m_s=12.,acceleration_m_s2=.25,powered_station_length_m=600.),why='Compare thinner core laminations and passive-fin stock at a separate lower-speed service requirement')
+    add('supplier-steel-requested-service',dict(core_material='sij-M330-50A'),why='Compare supplier nonlinear-data study under exactly the requested service and station layout')
+    add('thin-lamination-requested-service',dict(core_material='powercore-M270-35A',secondary_thickness_m=.012),why='Compare thinner core laminations and passive-fin stock under exactly the requested service and station layout')
     rows=[];remaining=native_case_budget
     for option in options:
         screen=necessary_screens(option,context);tasks=next_experiments(option,diagnostics)
@@ -251,11 +370,16 @@ def expanded_plan(parent,diagnostics,*,candidate_budget=12,native_case_budget=12
         except ValueError:ready=False
         allocation=min(2,remaining) if ready and screen['necessary_screen']=='pass' else 0;remaining-=allocation
         rows.append(dict(proposal=option,screen=screen,next_experiments=tasks,current_native_adapter_ready=ready,
-            reserved_primary_cases=allocation,dispatch='not-started',adapter_extension_required=not ready))
-    result=dict(schema='osr-expanded-propulsion-plan/1',parent_candidate_id=parent['candidate_id'],parent_requirement_revision=parent['requirement_revision'],
+            reserved_primary_cases=allocation,dispatch='not-started',adapter_extension_required=not ready,
+            native_adapter_scope='Finite-component parameter construction only; no installed layout or available-force-map admission',
+            full_layout_native_adapter_ready=False))
+    from engineering.station_rail import propulsion_layout
+    result=dict(schema='osr-expanded-propulsion-plan/2',parent_candidate_id=parent['candidate_id'],parent_requirement_revision=parent['requirement_revision'],
         diagnostic_triggers=_triggers(diagnostics),candidate_proposal_count=len(rows),distinct_physical_designs=len({r['proposal']['physical_design_id'] for r in rows}),
-        source_sha256={PRODUCER:digest(Path(__file__).resolve()),wheel_motor.PRODUCER:digest(Path(wheel_motor.__file__).resolve())},
-        bounds=deepcopy(BOUNDS),proposals=rows,budget=dict(candidate_proposals=12,maximum_primary_native_cases=native_case_budget,
+        source_sha256={PRODUCER:digest(Path(__file__).resolve()),wheel_motor.PRODUCER:digest(Path(wheel_motor.__file__).resolve()),propulsion_layout.PRODUCER:digest(Path(propulsion_layout.__file__).resolve())},
+        service_requirements=deepcopy(service_requirements),service_requirements_id=identity(service_requirements),
+        station_layout_request=deepcopy(station_layout),bounds=deepcopy(BOUNDS),
+        bounds_scope='Current finite-component model and fixed reference interface domains; not universal transport design limits',proposals=rows,budget=dict(candidate_proposals=12,maximum_primary_native_cases=native_case_budget,
             reserved_primary_native_cases=native_case_budget-remaining,unallocated_primary_native_cases=remaining,maximum_confirmation_cases=confirmation_case_budget,
             aggregate_runtime_s=1200,worker_RAM_bytes=3*1024**3,threads_per_worker=1),
         automatic_native_dispatch=False,changes_development_default=False,whole_system_selection='held pending materialization, valid native maps and equal-service economics',**FLAGS)

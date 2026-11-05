@@ -33,7 +33,7 @@ Installed capital includes rolling stock, spare trains, elevated civil works, st
 |---|---:|
 |cable-capstan|24.60|
 |common-drive-rollers|24.80|
-|compact-launch-LIM|25.15|
+|compact-launch-LIM|25.19|
 
 These are cost hypotheses with overlapping uncertainty, not a qualified winner. The cable baseline is a stable analysis anchor. A different drive must supply its own force/contact/thermal evidence and installation details.
 Formation, bogies, seating arrangement and acceleration are revisable design hypotheses. The functional comparison fixes route/access, minimum offered capacity, maximum headway, comfort policy and accounting basis; a different vehicle needs its own quantities and service evaluator.
@@ -53,4 +53,4 @@ python -m engineering.design_search.line_benchmark --verify --output build/my-li
 
 [Versioned criteria](../../../campaigns/line30-affordable-benchmark.toml) · [Analysis baseline selector](../../../engineering/analysis-baseline.toml) · [Complete quantities, assumptions and ledger](result.json) · [Receipt](manifest.json)
 
-Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; evaluation `ea4e8a67c0e43a8aa93c84b8c2112c617bad603dc79cd91d1c7945602df73dca`.
+Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; evaluation `69b499d62d769ca26079a460dd38a0fde257bfb8fef7bf65653930be38eb5204`.

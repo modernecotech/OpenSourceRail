@@ -85,11 +85,19 @@ try {
   report.selection_id = current.selection_id;
   report.candidate_id = current.candidate_id;
   assert.equal(current.development_default, true);
-  assert.equal(current.family, "wheel_rail_station_lim");
+  assert.equal(current.family, "wheel_rail_vehicle_reference");
+  assert.equal(current.reference_service_values_are_active_requirements,false);
+  const activePolicy=current.active_propulsion_policy;
+  assert.equal(activePolicy.policy.selection_mode,"candidate-specific");
+  assert.equal(activePolicy.policy.prescribed_powered_length,false);
+  for(const key of ["selected_installed_propulsion_id","selected_architecture","selected_powered_length_m","selected_acceleration_m_s2","selected_braking_m_s2","selected_headway_s"]) assert.equal(activePolicy[key],null);
+  assert.equal(current.publication.active_propulsion_policy.policy_id,activePolicy.policy_id);
+  report.active_propulsion_policy_id=activePolicy.policy_id;
   for (const id of ["support_component_id", "propulsion_component_id"])
     assert.match(current[id], /^[a-f0-9]{64}$/);
   assert.equal("magnet_component_id" in current, false);
   assert.equal(current.publication_state, "current");
+  // These scalar values are retained reproducibility controls, not active requirements.
   assert.equal(current.service.launch_speed_cap_m_s, 20);
   assert.equal(current.service.headway_s, 120);
   assert.equal(current.service.normal_capacity_pphpd_arithmetic, 8280);
@@ -155,14 +163,28 @@ try {
   assert((await page.locator("#vehicle-cost-lines tr").count()) > 0);
   assert.match(
     await page.locator("#vehicle-cost-heading").innerText(),
-    /Selected vehicle cost estimate/,
+    /Reference vehicle cost estimate/,
   );
   report.vehicle_cost_estimate_id = vehicleCost.cost_estimate_id;
   report.vehicle_cost_train_iqd =
     vehicleCost.total_vehicle_factory_delivery_assembly_iqd_per_train;
-  assert.equal(await page.locator("#speed").innerText(), "72");
-  assert.equal(await page.locator("#headway").innerText(), "120");
-  assert.equal(await page.locator("#capacity").innerText(), "8,280");
+  assert.equal(await page.locator("#speed").innerText(), "Variable");
+  assert.equal(await page.locator("#headway").innerText(), "Optimised");
+  assert.equal(await page.locator("#capacity").innerText(), "Demand-led");
+  assert.match(await page.locator("#active-propulsion-status").innerText(),/No installed propulsion/);
+  await page.locator("#outline-results").waitFor({state:"visible"});
+  assert((await page.locator("#outline-rows tr").count())>=3);
+  assert.match(await page.locator("#outline-rows").innerText(),/Cable \/ capstan/);
+  assert.match(await page.locator("#outline-rows").innerText(),/Common-drive rollers/);
+  assert.match(await page.locator("#outline-rows").innerText(),/Compact LIM/);
+  assert.match(await page.locator("#maturity-outline").innerText(),/Outline complete/);
+  assert.match(await page.locator("#maturity-engineering").innerText(),/pending/);
+  assert.match(await page.locator("#maturity-prototype").innerText(),/Not validated/);
+  assert.match(await page.locator("#maturity-release").innerText(),/Not approved/);
+  assert.equal(await page.locator("#system-capex").innerText(),"Compare outlines");
+  assert.equal(await page.locator("#system-whole-life").innerText(),"Candidate-specific");
+  assert.equal((await page.locator("main").innerText()).includes("NaN"),false);
+  assert.equal((await page.locator("#network-facts").innerText()).includes("shared winding"),false);
   assert.match(await page.locator("#physical").innerText(), /not established/);
   const mass = current.publication.mass || current.mass;
   const massText = (v) =>
@@ -174,13 +196,13 @@ try {
   assert.match(facts, /Services battery/);
   assert.match(
     await page.locator("#network-facts").innerText(),
-    /Held pending v0.6 physical evaluation/,
+    /Priced outline available.*engineering verification pending/s,
   );
   assert((await page.locator("#gates tr").count()) >= 1);
   assert.match(await page.locator("#gates").innerText(), /unknown|fail/);
   assert.match(
     await page.locator("#city-status").innerText(),
-    /Held:.*v0.6 city performance regeneration is held/s,
+    /Outline available above.*Engineering verification pending/s,
   );
   assert.equal(await page.locator("#city").inputValue(), "baghdad");
   assert((await page.locator("#city option").count()) > 1);
@@ -595,12 +617,15 @@ try {
     410,
   );
   // A forged disposition or mixed candidate must hide every design result.
-  for (const mutation of ["acceptance", "identity", "support", "propulsion"]) {
+  for (const mutation of ["acceptance", "identity", "support", "propulsion", "prescribed-length", "mixed-policy", "policy-vehicle"]) {
     await page.route("**/api/default-design", async (route) => {
       const value = structuredClone(current);
       if (mutation === "acceptance") value.physical_accepted = true;
       else if (mutation === "identity")
         value.publication.body_candidate_id = "0".repeat(64);
+      else if(mutation==="prescribed-length") value.active_propulsion_policy.selected_powered_length_m=900;
+      else if(mutation==="policy-vehicle") value.active_propulsion_policy.reference_vehicle_candidate_id="0".repeat(64);
+      else if(mutation==="mixed-policy") value.publication.active_propulsion_policy.policy_id="0".repeat(64);
       else value.publication[mutation + "_component_id"] = "0".repeat(64);
       await route.fulfill({
         status: 200,
@@ -638,7 +663,9 @@ try {
   report.screen = "pass";
   report.checks = [
     "current default identities",
-    "72kmh/120s/8280",
+    "candidate-specific architecture, powered length and service; retained controls separated",
+    "three current source-bound outline cost comparisons and four independent maturity indicators",
+    "no null-to-NaN or retired winding fallback",
     "wheel support and passive secondary identities",
     "266 geographic contexts held without reusing historical fleet",
     "current city source bindings",
@@ -649,6 +676,7 @@ try {
     "portfolio family filters, exact candidate evidence and separate quantity/mechanics archives",
     "forged portfolio acceptance hides research results",
     "forged acceptance rejection",
+    "prescribed powered-length and mixed active-policy rejection",
     "mixed identity rejection",
     "missing current packet hold",
   ];

@@ -74,7 +74,7 @@ def _campaign(root):
                 or req.get("acceleration_m_s2") != 0.4 or req.get("target_headway_s") != 120.0
                 or bundle["architecture_case"]["physical_definition"]["route"]["station_spacing_m"] != 2000.0):
             raise ValueError("P1 comparison no longer shares the current 6-car / 2-km requirements")
-    selected_reference = selected_reference_journey.build(root)
+    selected_reference = selected_reference_journey.build(root,retired_comparison=True)
     if selected_reference["candidate_id"] in {b["candidate_id"] for b in bundles}:
         raise ValueError("Selected physical candidate collides with a campaign-variant identity")
     bundles.append(selected_reference)
@@ -329,7 +329,7 @@ def evaluate_bundle(bundle, assumptions, root=ROOT):
 def _sources(root, parent, selected_reference=None):
     root=Path(root)
     if selected_reference is None:
-        selected_reference=selected_reference_journey.build(root)
+        selected_reference=selected_reference_journey.build(root,retired_comparison=True)
     names={PRODUCER: digest(root/PRODUCER), CONFIG: digest(root/CONFIG),
         system_motion.PRODUCER: digest(root/system_motion.PRODUCER),
         railway_bundle.PRODUCER: digest(root/railway_bundle.PRODUCER),

@@ -140,3 +140,46 @@ def test_conflicting_vehicle_source_cannot_be_hidden_by_a_loaded_module_hash(inp
 def test_invalid_briefs_and_unbounded_budgets_are_rejected(inputs,section,key,value):
     b,v,spec,vehicle=deepcopy(inputs);(b if section=="b" else v)[key]=value
     with pytest.raises(ValueError):search.screen(b,v,spec,vehicle)
+
+
+def test_braking_and_jerk_are_distinct_profile_variables_without_force_admission(inputs):
+    b,v,spec,vehicle=inputs
+    variables={**v,'headways_s':[180,200],'speeds_kmh':[72.],'accelerations_m_s2':[.8],
+        'service_decelerations_m_s2':[.6,.9],'jerks_m_s3':[.25,.5]}
+    result=search.screen(b,variables,spec,vehicle)
+    assert result['counters']['physical_profiles_prepared']==4
+    assert result['counters']['headway_projections_reused']==4
+    assert len(result['cases'])==8
+    by={(c['request']['design']['service_deceleration_m_s2'],c['request']['design']['jerk_m_s3'],
+         c['request']['requirements']['headway_s']):c for c in result['cases']}
+    a=by[.6,.5,200];braked=by[.9,.5,200];jerked=by[.6,.25,200];headway=by[.6,.5,180]
+    assert a['service']['jerk_launch_distance_m']==braked['service']['jerk_launch_distance_m']
+    assert a['service']['one_way_s']!=braked['service']['one_way_s']
+    assert a['service']['jerk_launch_distance_m']!=jerked['service']['jerk_launch_distance_m']
+    assert a['service']['jerk_launch_distance_m']==headway['service']['jerk_launch_distance_m']
+    assert len({c['case_id'] for c in (a,braked,jerked,headway)})==4
+    assert all(c['service']['actual_available_force_map'] is None for c in result['cases'])
+    for c in result['cases']:
+        direct=helper.evaluate(c['request']['requirements'],c['request']['design'],vehicle)
+        assert encoded(c['service'])==encoded(direct)
+
+
+def test_demand_changes_requirement_identity_and_derived_headway_not_vehicle_mass(inputs):
+    b,v,spec,vehicle=inputs
+    variables={**v,'speeds_kmh':[72.],'accelerations_m_s2':[.8],'headways_s':[200]}
+    a=search.screen(b,variables,spec,vehicle)
+    other=search.screen({**b,'peak_demand_pphpd':2000},variables,spec,vehicle)
+    assert a['requirements_id']!=other['requirements_id']
+    assert other['generation']['demand_derived_headway_s']==300
+    first=next(c for c in a['cases'] if c['request']['requirements']['headway_s']==200)
+    second=next(c for c in other['cases'] if c['request']['requirements']['headway_s']==200)
+    assert first['case_id']!=second['case_id']
+    assert first['service']['provisional_normal_mass_kg_per_car']==second['service']['provisional_normal_mass_kg_per_car']
+    assert first['service']['jerk_launch_distance_m']==second['service']['jerk_launch_distance_m']
+
+
+def test_unknown_design_variables_are_rejected_instead_of_silently_ignored(inputs):
+    b,v,spec,vehicle=inputs
+    with pytest.raises(ValueError,match='Unknown or untyped'):
+        search.screen(b,{**v,'jerk_m_s3':[.25]},spec,vehicle)
+    with pytest.raises(ValueError):search.screen(b,{**v,'jerks_m_s3':[0.]},spec,vehicle)

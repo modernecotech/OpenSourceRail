@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Quetta route geometry](quetta.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=quetta)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `35c6b3ca678a1fbee61b72937ac77afbf617a2fca3c1e972f602bd39a7a17252`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `71c494fbf0d626f7e598612ce0277e27dcb9ac716b7c1eb932e0d5ec2c4b79bd`

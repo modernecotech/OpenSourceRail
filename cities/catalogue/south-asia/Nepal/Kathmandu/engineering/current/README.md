@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../kathmandu.corridor.geojson) · [map co
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kathmandu) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `513a6f9a5bf3662d3830fafe43cc5ebc5c73d13abc976fd9b65837d7796021b3`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `9d9b56408371ebcf161e15bc630f3befbaf0be0479ae0c3385cddf124cef5c7c`

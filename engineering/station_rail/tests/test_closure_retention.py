@@ -14,6 +14,10 @@ from engineering.station_rail.common import digest, encoded, identity
 
 
 def fixture(root, monkeypatch, *, wrong_raw_reference=False, conflicting_source=False):
+    # Exercise the original wrapper branch with an explicitly old-family fixture.
+    # Current-policy retention is independently checked against the pinned Git packet.
+    from engineering.development_baseline import selection
+    monkeypatch.setattr(selection, 'load', lambda _: dict(selection=dict(family='wheel_rail_station_lim')))
     packet = root / retention.PACKET
     packet.mkdir(parents=True)
     original = b"original_numerical_producer = True\n"

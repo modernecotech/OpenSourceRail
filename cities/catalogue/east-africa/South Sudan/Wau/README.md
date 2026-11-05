@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Waw route geometry](waw.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=waw)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `5e4608a25d0ed73ffff2b501597675a55d49ef8fa20125cd9da6cf462a41a5e0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `469b7a3b2d91dbd8748c69be3ddb3c6b41056ce376d648bad65f453370993c30`

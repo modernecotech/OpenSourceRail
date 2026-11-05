@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../surabaya.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=surabaya) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8941cba88419e1d62c88c5e10474d8556cd23e9f8a7242e0ef79d226f5a43511`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `b6fec4ff3924559a95a42b31cbcf9e79e49247cb32712f809d0caaffa2a55da9`

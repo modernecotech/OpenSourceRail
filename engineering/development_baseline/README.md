@@ -1,8 +1,8 @@
 # Current development adapters
 
-This package exposes the selected v0.6 wheel-supported, station-powered
-candidate through the CLI, Workbench, planning handoff and candidate delivery
-exports. Vehicle, body, support and propulsion identities must match across all
+This package exposes the v0.6 wheel-supported reference vehicle and candidate-specific propulsion policy
+through the CLI, Workbench, planning handoff and delivery exports. No installed propulsion architecture or powered length is selected.
+Vehicle, body, support and passive-interface identities must match across all
 records. Development selection and successful calculations do not grant
 engineering, manufacturing or operating acceptance.
 
@@ -10,8 +10,8 @@ The physical model and engineering evaluators live in
 [`station_rail`](../station_rail/README.md). This package resolves the selected
 candidate, validates source-bound publications, compiles and verifies planning
 proposals, and serves the current read-only Workbench. Unsupported or mixed
-candidate identities fail closed. City performance regeneration remains held
-pending candidate-specific propulsion, braking, route and economic evidence.
+candidate identities fail closed. Priced city and corridor outlines use explicit assumptions;
+engineering verification, prototype validation and operating release require their own evidence.
 
 The Workbench's Design Portfolio compares 54 body-stock alternatives and 18
 20 m civil spans in separate views. Family filters retain all alternatives;

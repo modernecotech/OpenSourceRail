@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Tete route geometry](tete.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=tete)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6c873b1873c7b570ef74266cc63f7ebe601ed84cd535038e09c302fd438e5a18`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `e9607fe9135b646480e3f2fbdc68c4035796395796a1f2b2d5eb0bada5e4aa2b`

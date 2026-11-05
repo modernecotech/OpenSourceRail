@@ -198,6 +198,10 @@ def active_run_line(block, command):
 def validate_retained_periodic_route(current):
     """Require current research tests plus pinned original-source thermal replay."""
     header = '      - name: Material-distribution experiments and disjoint cost accounting\n'
+    current_header = '      - name: Current civil, material, lifecycle and numerical-kernel mathematics\n'
+    current_methods = current_header in current
+    if current_methods:
+        header = current_header
     assert current.count(header) == 1
     step = current.split(header, 1)[1].split('      - ', 1)[0]
     assert not re.search(r'^        (?:if|continue-on-error|shell|working-directory):', step, re.M)
@@ -215,8 +219,33 @@ def validate_retained_periodic_route(current):
         'retained_periodic_parent=$(mktemp -d "$RUNNER_TEMP/osr-periodic-thermal.XXXXXX")',
         '.venv/bin/python -m engineering.design_search.retained_periodic_thermal replay --output "$retained_periodic_parent/context"',
     ]
+    if current_methods:
+        required[:2] = ['.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py engineering/design_search/tests/test_periodic_thermal_research.py']
     assert lines[-len(required):] == required, 'Pinned thermal tests and replay must execute in order'
     assert not re.search(r'^    (?:if|continue-on-error):', current, re.M)
+
+
+def validate_retired_reference_job(block):
+    """All 36 original commands must execute on the exact original checkout."""
+    commit = '3bf38a501d09fa3a3c2dd6f4731be11828d04f55'
+    assert block.count('uses: actions/checkout@v4') == 1
+    assert re.findall(r'^          ref: (.+)$', block, re.M) == [commit]
+    checkout = block.split('uses: actions/checkout@v4', 1)[1].split('      - ', 1)[0]
+    assert not re.search(r'^\s+path:', checkout, re.M)
+    assert not re.search(r'^\s+(?:- )?(?:working-directory|continue-on-error):', block, re.M)
+    assert re.findall(r'^\s+(?:- )?if: (.+)$', block, re.M) == ['always()']
+    commands = []
+    for step in re.split(r'(?=^      - )', block, flags=re.M):
+        match = re.search(r'^(?:      - |        )run: (.*)$', step, re.M)
+        if match:
+            commands.append('\n'.join(line[10:] for line in step[match.end()+1:].splitlines()
+                if line.startswith('          ')) if match[1] == '|' else match[1])
+    assert len(commands) == 37
+    assert commands[0] == 'test "$(git rev-parse HEAD)" = ' + commit
+    # Canonical ordered command list extracted from the 3bf workflow, excluding
+    # only the added checkout-proof command. No stored numerical hashes change.
+    assert sha256(json.dumps(commands[1:], separators=(',', ':')).encode()).hexdigest() == \
+        'c1d8bedcf7cbb4ed46ba3dcdec9c31413d799e56b053521de4bbe8ceab54505b'
 
 
 def validate_retained_periodic_test_contract(text):
@@ -432,7 +461,7 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     # Current v0.6 contracts retain their independent required gate and neutral dependencies.
     current_jobs = job_blocks(current_text)
     assert not re.search(r'^defaults:', current_text, re.M), 'Do not replace the fail-fast runner shell'
-    required_jobs = {'current-contracts', 'independent-search', 'retained-packet-reconstruction',
+    required_jobs = {'current-contracts', 'retired-reference-methods', 'independent-search', 'retained-packet-reconstruction',
                      'retained-service-energy-extra', 'vehicle-runtime-reproducibility'}
     assert required_jobs | {'required-engineering'} <= current_jobs.keys()
     gate = current_jobs['required-engineering']
@@ -446,9 +475,15 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         assert re.search(r'^ {10}' + re.escape(check) + r' *$', gate, re.M), name
     for name in required_jobs:
         assert not re.search(r'^    (if|continue-on-error):', current_jobs[name], re.M), name
+    validate_retired_reference_job(current_jobs['retired-reference-methods'])
+    validate_retained_periodic_route(current_jobs['retired-reference-methods'])
     validate_retained_periodic_route(current_jobs['current-contracts'])
+    assert re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs['current-contracts'], re.M) == ['always()']
+    assert not re.search(r'^\s+(?:- )?continue-on-error:', current_jobs['current-contracts'], re.M)
     validate_retained_periodic_test_contract(RETAINED_PERIODIC_HELPER.read_text())
-    assert re.search(r'^      - run: \./osr design space verify\n(?=      - )', current_jobs['current-contracts'], re.M)
+    assert re.search(r'^          \./osr design space verify$', current_jobs['current-contracts'], re.M)
+    assert 'tests/test_propulsion_layout_quantities.py' in current_jobs['current-contracts']
+    assert 'tests/test_candidate_specific_baseline.py' in current_jobs['current-contracts']
     for name in ('independent-search', 'retained-packet-reconstruction', 'retained-service-energy-extra'):
         assert not re.search(r'^\s+continue-on-error:', current_jobs[name], re.M), name
         conditions = re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs[name], re.M)
@@ -754,8 +789,21 @@ class ArchitectureRoutingTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.check(shared=shared)
 
+    def test_retired_reference_cannot_change_source_commands_or_skip_checks(self):
+        block = job_blocks(self.current)['retired-reference-methods']
+        validate_retired_reference_job(block)
+        for before, after in (
+                ('ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55', 'ref: main'),
+                ('run: ./osr verify', 'run: echo skipped'),
+                ('      - run: ./osr verify', '      - if: false\n        run: ./osr verify'),
+                ('      - run: ./osr verify', '      - continue-on-error: true\n        run: ./osr verify'),
+                ('          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55',
+                 '          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55\n          path: other-source')):
+            with self.subTest(changed=before), self.assertRaises(AssertionError):
+                validate_retired_reference_job(block.replace(before, after, 1))
+
     def test_retained_periodic_route_cannot_be_removed_skipped_or_reordered(self):
-        block = job_blocks(self.current)['current-contracts']
+        block = job_blocks(self.current)['retired-reference-methods']
         validate_retained_periodic_route(block)
         for before, after in (
                 ('test_periodic_thermal_research.py', 'not-the-current-test.py'),
@@ -808,7 +856,7 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 self.check(current=self.current.replace(before, after))
 
     def test_each_required_current_job_and_its_checks_cannot_be_removed(self):
-        required = ('current-contracts', 'independent-search', 'retained-packet-reconstruction',
+        required = ('current-contracts', 'retired-reference-methods', 'independent-search', 'retained-packet-reconstruction',
                     'retained-service-energy-extra', 'vehicle-runtime-reproducibility')
         match = re.search(r'^    needs: \[([^\]\n]+)\]$', job_blocks(self.current)['required-engineering'], re.M)
         self.assertIsNotNone(match)

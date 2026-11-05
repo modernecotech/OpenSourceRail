@@ -26,7 +26,9 @@ def test_physical_limitations_do_not_become_successful_journeys(current):
     s=current['service'];p=s['selected_scenario']['profile']
     assert p['actual_traction_force_available_N'] is None
     assert not p['physical_journey_completed']
-    assert s['selected_station']['length_m']>=s['selected_station']['required_shared_winding_m']
+    assert s['selected_station'] is None
+    assert s['station_options']==[]
+    assert s['active_propulsion_policy']['selected_powered_length_m'] is None
     assert s['station_drive_bound_map']['available_force_N_per_car'] is None
     assert any(not row['reachable'] for row in s['longest_city_gap_cases'])
     assert s['longest_city_gap_context']['source_path'].endswith('/city.json')
@@ -47,7 +49,7 @@ def test_same_actual_civil_tendons_under_all_selected_loads(current):
     assert {r['load_case'] for r in cases}=={'empty','normal','crowd_control'}
 
 def test_mixed_evaluation_and_unpriced_superiority_are_rejected(current):
-    wrong=deepcopy(current);wrong['service']['selected_station']['length_m']=350.
+    wrong=deepcopy(current);wrong['service']['selected_station']={'length_m':900.,'selection_source':'forged-fixed-default'}
     with pytest.raises(ValueError,match='differs'):evaluate.validate(wrong)
     result=comparison.evaluate(current)
     assert result['mass_change_from_v05_kg_per_car']>0
@@ -59,7 +61,8 @@ def test_mixed_evaluation_and_unpriced_superiority_are_rejected(current):
     ('passenger_doors_total_per_car = 2','passenger_doors_total_per_car = 4')])
 def test_selector_cannot_relabel_unchanged_physics(tmp_path,monkeypatch,current,old,new):
     (tmp_path/'engineering/station_rail').mkdir(parents=True)
-    for name in (INPUT,'engineering/station_rail/brief.toml'):
+    for name in (INPUT,'engineering/station_rail/brief.toml','engineering/development_baseline/propulsion_policy.py'):
+        (tmp_path/name).parent.mkdir(parents=True,exist_ok=True)
         (tmp_path/name).write_bytes((ROOT/name).read_bytes())
     monkeypatch.setattr(vehicle,'build',lambda root:current['vehicle'])
     assert selection.load(tmp_path)['vehicle']['candidate_id']==current['candidate_id']

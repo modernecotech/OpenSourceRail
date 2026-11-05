@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../entebbe.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=entebbe) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `664559a59446bd0f9d769d2d6f8aa7b0645dfcb1717b26b9f9d119ad4e709cca`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `bf24a50d52c609e7f483c73d9516a72a2b4d47f85f34399468472b96af3e0c48`

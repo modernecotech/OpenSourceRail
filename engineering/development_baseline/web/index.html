@@ -10,14 +10,22 @@
   <body>
     <header>
       <a class="brand" href="/">OpenSourceRail</a
-      ><span class="tag">Current development design</span>
+      ><span class="tag">Design and delivery Workbench</span>
     </header>
     <main>
       <section class="panel outline-start" aria-labelledby="outline-heading">
         <p class="eyebrow">Requirements → generate → compare → detail → delivery</p>
         <h1 id="outline-heading">Create a railway outline</h1>
-        <p>Describe the service your city needs. Compare station launch concepts,
-          service frequency, fleet and whole-life cost using explicit planning assumptions.</p>
+        <p>Define the transport need, generate alternatives, compare complete costs,
+          then develop a preferred outline into an engineering and delivery package.
+          Propulsion architecture and powered length are selected for each candidate.</p>
+        <div class="design-maturity" id="design-maturity" aria-label="Independent design and approval stages">
+          <p><strong>Outline</strong><span id="maturity-outline">Generate or choose an outline</span></p>
+          <p><strong>Engineering</strong><span id="maturity-engineering">Verification pending</span></p>
+          <p><strong>Prototype</strong><span id="maturity-prototype">Not validated</span></p>
+          <p><strong>Release</strong><span id="maturity-release">Not approved</span></p>
+        </div>
+        <p class="note" id="active-propulsion-status">No installed propulsion architecture or length is selected.</p>
         <form id="outline-form">
           <div class="outline-inputs">
             <label>Route length · km<input name="route_km" type="number" min="1" max="100" step="0.1" value="30" required /></label>
@@ -111,15 +119,16 @@
         <p class="eyebrow">
           Simple infrastructure. Comfortable, frequent trains.
         </p>
-        <h2>The selected development reference</h2>
-        <p class="note">The stored reference estimates below retain their original generic price basis.
+        <h2>Vehicle reference and engineering evidence</h2>
+        <p class="note">The body-reference quantities below retain their declared accounting and price basis.
           Use the outline comparison above to inspect project-volume purchasing and manufacturing scenarios.</p>
         <p>
-          Version 0.6 uses six cars with four-abreast seating and wheelchair
-          spaces. Passive wheel bogies run on conventional rails carried by
-          concrete. Station linear motors launch and receive the train through
-          passive aluminium fins. Services batteries power HVAC, doors and
-          essential equipment.
+          The vehicle reference retains six 17 m cars, four-abreast seating,
+          wheelchair places and passive wheel bogies on conventional rails.
+          Service batteries power HVAC, doors and essential equipment.
+          Propulsion, powered sections, acceleration, braking and headway are
+          candidate-specific. Other configurations require their own complete
+          mass, energy, protection, manufacturing and cost records.
         </p>
       </section>
       <p>
@@ -154,21 +163,21 @@
       </p>
       <div id="design" hidden>
         <div class="disposition">
-          <strong>Adopted for development</strong
+          <strong>Vehicle reference retained</strong
           ><span
             >Physical acceptance: <b id="physical">not established</b></span
           >
         </div>
-        <section class="metrics" aria-label="Selected service specification">
+        <section class="metrics" aria-label="Candidate-specific service and retained vehicle capacity">
           <article>
-            <strong id="speed"></strong><span>speed cap · km/h</span>
+            <strong id="speed"></strong><span>speed and acceleration</span>
           </article>
           <article>
-            <strong id="headway"></strong><span>headway · seconds</span>
+            <strong id="headway"></strong><span>headway</span>
           </article>
           <article>
             <strong id="capacity"></strong
-            ><span>passengers / hour / direction</span>
+            ><span>capacity requirement</span>
           </article>
           <article>
             <strong>44 + 2</strong><span>seats + wheelchair places / car</span>
@@ -176,7 +185,7 @@
         </section>
         <section class="two-column">
           <article class="panel">
-            <h2>The selected train</h2>
+            <h2>The reference vehicle</h2>
             <dl id="vehicle-facts"></dl>
             <p class="note">
               Accounted material and allocations are a design estimate. Full
@@ -194,7 +203,7 @@
           </article>
         </section>
         <section class="panel" aria-labelledby="vehicle-cost-heading">
-          <h2 id="vehicle-cost-heading">Selected vehicle cost estimate</h2>
+          <h2 id="vehicle-cost-heading">Reference vehicle cost estimate</h2>
           <p id="vehicle-cost-status" role="status">
             Checking the selected candidate's source-bound Class C estimate…
           </p>
@@ -247,36 +256,35 @@
         </section>
         <section class="panel" aria-labelledby="system-cost-heading">
           <h2 id="system-cost-heading">
-            Selected-candidate synthetic system estimate
+            Compare complete corridor costs
           </h2>
           <p id="system-cost-status" role="status">
-            Checking the candidate-bound Class C system estimate…
+            Checking the current calculated outline comparisons…
           </p>
-          <section class="metrics" aria-label="Synthetic system cost scenarios">
+          <section class="metrics" aria-label="Candidate-specific corridor cost comparisons">
             <article>
               <strong id="system-capex"></strong
-              ><span>installed CAPEX · low / base / high · billion IQD</span>
+              ><span>installed cost belongs to each outline</span>
             </article>
             <article>
               <strong id="system-whole-life"></strong
               ><span
-                >30-year whole-life NPV · low / base / high · billion IQD</span
+                >whole-life cost belongs to each outline</span
               >
             </article>
           </section>
           <dl id="system-cost-facts"></dl>
           <p class="note">
-            All 14 declared cost scopes have provisional estimates for a
-            synthetic 6 km corridor with three stations. Production and civil
-            work assume two 8-hour shifts; operations cover two shifts at 16/18
-            hours and three shifts at 24 hours. The adverse service-battery duty
-            has a calculated energy shortfall. City/site quantities, supplier
-            prices, force and thermal maps, complete installed mass, journey
-            performance and safety acceptance remain open.
+            The current corridor comparison calculates all fourteen cost scopes
+            for each retained outline, including fleet, factory capacity,
+            construction, maintenance and renewals. Inspect its assumptions and
+            develop the selected outline through engineering, prototype testing
+            and release. Retained reference-control budgets are comparison
+            records, not the active design budget.
           </p>
           <a
             href="../../design-engine/current/exports/selected-system-cost.json"
-            >Candidate-bound system cost record</a
+            >Retained reference-control comparison record</a
           >
         </section>
         <section class="panel">
@@ -299,11 +307,11 @@
           </div>
         </section>
         <section class="panel">
-          <h2>City geography and evaluation holds</h2>
+          <h2>City context and engineering verification</h2>
           <p>
-            City geography and proposal editing are available. v0.6 route
-            performance remains held until candidate-specific drive, braking and
-            equal-service evidence is available.
+            Priced city outlines and proposal editing are available above.
+            Engineering verification is a separate stage: actual drive,
+            braking, access, recovery and protected service need their own evidence.
           </p>
           <label for="city">City</label
           ><select id="city">

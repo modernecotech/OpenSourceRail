@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../dhamar.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=dhamar) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `c252b0e4a2d839f30c126443c9af3bb44cbf98baefed8e682e2ccf0b81ad0b63`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `ba15da0936091e90ce1ac64581258272c4e507bf79d3cba383b72fb565d9abd0`

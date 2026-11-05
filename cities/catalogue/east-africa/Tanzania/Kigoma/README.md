@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Kigoma route geometry](kigoma.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=kigoma)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `e0d5bbbf5d0bc4d966b0971f95eabe24fd0103f9f7683a3b5d655df61a7694e0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `6200ea7b973bc24ddc9315f2a228cabd49a79b7ed4389ecc4c8c92d539db9873`

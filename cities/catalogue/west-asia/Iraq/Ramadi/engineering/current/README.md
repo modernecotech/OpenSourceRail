@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../ramadi.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=ramadi) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `11d35395b57ed34c32b9743d59e6ec9f9d68a4a4d915d24b55f8cb77b3e8fcda`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `1e5cd12a933538e644435f7d32439555d6fdb540aae01fe48a1499b9c9748328`

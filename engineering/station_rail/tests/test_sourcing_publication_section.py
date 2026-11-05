@@ -47,7 +47,8 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "9.354 t across five bank groups and ten retained occurrences" in report
     assert "IQD 90.19/91.03/92.72 million" in report
     assert "do not establish winding-conductor compatibility" in report
-    assert "approximately 900 m winding allocation" in report
+    assert "retired fixed-length winding comparison" in report
+    assert "approximately 900 m winding allocation" not in report
     assert "Five source-bound unsent bank scopes" in report
     assert "station-drive RFQ draft" in report
     assert "validation-current.json" in report

@@ -11,7 +11,28 @@ on:
 permissions:
   contents: read
 jobs:
+  retired-native-reference:
+    name: Recorded structural and motor methods under exact 3bf38a5 producer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+      - run: test "$(git rev-parse HEAD)" = 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.16"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install --requirement engineering/requirements.txt numpy==2.3.5
+      - name: Original-source numerical integrity only; no current evaluator admission
+        run: ./osr design progress verify-methods
   numerical-generation-and-replay:
+    needs: retired-native-reference
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
@@ -19,6 +40,7 @@ jobs:
       OMP_NUM_THREADS: "1"
     steps:
       - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
@@ -31,8 +53,16 @@ jobs:
         run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_progress/tests
       - name: Reconstruct all physical candidates, trajectories, production and civil loads
         run: ./osr design progress verify-publication
-      - name: Verify actual motor and structural packages under recorded execution identities
-        run: ./osr design progress verify-methods
+      - name: Preserve exact original method bytes without current-source admission
+        run: |
+          .venv/bin/python - <<'PY'
+          import hashlib, pathlib, subprocess
+          for name in ('native-methods.json', 'native-methods.tar.gz'):
+              path = 'docs/design-engine/continuing-cell/' + name
+              original = subprocess.check_output(['git', 'show', '3bf38a501d09fa3a3c2dd6f4731be11828d04f55:' + path])
+              assert hashlib.sha256(pathlib.Path(path).read_bytes()).digest() == hashlib.sha256(original).digest(), path
+          print('Retired numerical references preserved; original-source verification is a separate required job.')
+          PY
       - name: Preserve a fresh bounded generation request
         run: ./osr design progress run --state build/continuing-cell-ci --max-cases 1
       - uses: actions/upload-artifact@v4

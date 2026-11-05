@@ -1,6 +1,6 @@
 # v0.6 station-powered freewheeling rail
 
-This package develops the [selected v0.6 research candidate](../development-baseline.toml): six comfort cars, passive two-axle bogies, conventional rail/concrete guideway, station LIM primaries and onboard passive aluminium secondaries. No traction motor, traction battery or suspension magnet is fitted. Independent service energy, brakes, ATP and recovery remain necessary.
+This package develops the [v0.6 reference vehicle](../development-baseline.toml): six comfort cars, passive two-axle bogies and conventional rail/concrete guideway. Its onboard passive aluminium secondary is an interface for LIM comparisons. The active policy selects no installed propulsion architecture or powered length; acceleration, braking and headway are candidate-specific variables. The reference vehicle has no traction motor, traction battery or suspension magnet. Alternatives must account for their complete mass, energy, braking, recovery, manufacturing and whole-system costs.
 
 `brief.toml` owns requirements and declared hypotheses. `vehicle` counts retained and revised assemblies; `civil` compares three structural families; `operations` solves required longitudinal forces and finite station geometry; `electrical` assesses service charge and secondary heat. `evaluation` composes readiness; `exports`, `publication` and `reader` compile consistent research records. `controls` executes the actual Rust wheel-interface predicates and inherited ATP regressions. `cities` preserves geographic inputs and holds numerical city regeneration.
 

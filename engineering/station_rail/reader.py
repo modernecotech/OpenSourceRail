@@ -143,12 +143,12 @@ def build(root=ROOT,output=None,check=False):
     para('Inherited body/service residuals may overlap new battery and electrical equipment. No unsupported mass subtraction is made. This conservative account needs disaggregation before it becomes a definitive equipped mass. Split battery cassettes, connections and removal paths remain unresolved.')
     para('The revised roof proposes HP60 core and a white finish. Glass, doors, floor and seating retain source ancestry; plastics remain alternatives requiring impact, fire, optics, retention and repair evidence.')
     page('3. Station motor: requirements before claims')
-    para('The reference is a double-sided LIM. Powered primaries and converters remain wayside; each train car carries a9m passive aluminium secondary with support and heat-spreading stock. Single-sided LIM and synchronous PM alternatives remain comparisons.')
+    para('No installed propulsion architecture or powered length is selected. The vehicle interface reference can support a separately evaluated double-sided LIM candidate. Powered primaries and converters remain wayside; each train car carries a9m passive aluminium secondary with support and heat-spreading stock. Single-sided LIM and synchronous PM alternatives remain comparisons.')
     figure('interface-section.svg',235,'Reference projected interface. Nominal15mm side clearance is a design target, not a demonstrated dynamic motor gap.')
     table(['2km normal-load requirement','Calculated target'],[
-       ('Launch acceleration / speed cap','0.4m/s2 /20m/s; ideal powered distance500m'),
-       ('Shared winding library choice',f"{s['shared_winding_m']:.0f}m across launch and receipt"),
-       ('Section addresses / independent branches',f"{int(s['shared_winding_m']/12.5)} per direction; at least2train current/phase branches"),
+       ('Retained kinematic control','0.4m/s2 /20m/s;500m ideal travel only, not installed hardware'),
+       ('Installed powered length','Candidate-specific; no fixed selection'),
+       ('Sections and electrical branches','Require explicit layout and evaluated duty'),
        ('Actual available thrust / voltage / current','Unknown; requires actual primary and moving-secondary field maps')],[255,235])
     para('The executed GetDP manufactured conductive-slab model converges against an exact imposed travelling-field solution. It verifies a numerical method. It omits the actual primary, steel, slots, finite-height current closure, motor ends and inverter circuit; conditional force is not available train thrust.')
     para('Moving suspension, wheel wear, alignment, fin expansion and unwanted motor normal forces must fit the same clearance envelope. Full entry, exit, sectional handoff and120-second repeated duty remain gates.')
@@ -156,7 +156,7 @@ def build(root=ROOT,output=None,check=False):
     table(['Input/result','Reference'],[
        ('Route / load','2,000m, six normal-load cars; flat route and declared resistance'),
        ('Runtime',f"{s['prototype_runtime_s']:.3f}s analytical target"),
-       ('Berth resource interval',f"{s['nominal_resource_interval_s']:.2f}s necessary screen;120s target unqualified"),
+        ('Berth resource interval','Candidate-specific; no installed drive or operating headway selected'),
        ('Resistance','0.0025mg +50N/car +1.8v2 N/car hypothesis; not measured drag'),
        ('Motion evidence','Required force, energy and geometry; physical train journey not completed')],[180,310])
     figure('service-profile.svg',205,'Target acceleration, natural coasting and receiving brake profile. Prescribed kinematic acceleration does not prove motor capability.')

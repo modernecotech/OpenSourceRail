@@ -39,12 +39,13 @@ def test_explicit_archive_keeps_physical_ids_and_does_not_change_current_selecti
     assert research.retained_comfort(ROOT)['vehicle'] == retained['vehicle']
 
 
-def test_wrong_family_or_revision_is_rejected_before_reading_any_payload(tmp_path, monkeypatch):
+@pytest.mark.parametrize('family', ['wheel_rail_vehicle_reference', 'wheel_rail_station_lim'])
+def test_wrong_family_or_revision_is_rejected_before_reading_any_payload(tmp_path, monkeypatch, family):
     def forbidden(*args, **kwargs):
         pytest.fail('Incompatible research request read physical evidence')
     monkeypatch.setattr(research, 'describe', forbidden)
     with pytest.raises(ValueError, match='compatible physical family'):
-        research.retained_maglev(tmp_path, family='wheel_rail_station_lim', source_revision=research.REVISION)
+        research.retained_maglev(tmp_path, family=family, source_revision=research.REVISION)
     with pytest.raises(ValueError, match='pinned source revision'):
         research.retained_maglev(tmp_path, family='pm_maglev_station_powered', source_revision='0' * 40)
 
@@ -53,7 +54,7 @@ def test_wrong_family_or_revision_is_rejected_before_reading_any_payload(tmp_pat
 def test_resealed_or_mixed_retained_context_is_rejected(retained, target):
     value = deepcopy(retained)
     if target == 'family':
-        value['family'] = 'wheel_rail_station_lim'
+        value['family'] = 'wheel_rail_vehicle_reference'
     elif target == 'configuration':
         value['configuration']['magnet_component_id'] = 'a' * 64
         value['research_configuration_id'] = identity(value['configuration'])
@@ -68,8 +69,9 @@ def test_resealed_or_mixed_retained_context_is_rejected(retained, target):
 
 
 @pytest.mark.parametrize('entry', ['context', 'native-run', 'subject', 'evaluate', 'capture-run'])
-def test_old_entrypoints_reject_wheel_context_before_solver_or_output(tmp_path, entry):
-    wrong = dict(family='wheel_rail_station_lim', vehicle=dict(candidate_id='d' * 64))
+@pytest.mark.parametrize('family', ['wheel_rail_vehicle_reference', 'wheel_rail_station_lim'])
+def test_old_entrypoints_reject_wheel_context_before_solver_or_output(tmp_path, entry, family):
+    wrong = dict(family=family, vehicle=dict(candidate_id='d' * 64))
     calls = {
         'context': lambda: operating_point.context(tmp_path, research_context=wrong),
         'native-run': lambda: operating_point.run(tmp_path / 'native', root=tmp_path, research_context=wrong),
@@ -82,13 +84,14 @@ def test_old_entrypoints_reject_wheel_context_before_solver_or_output(tmp_path, 
     assert not list(tmp_path.iterdir())
 
 
-def test_mutating_or_native_entrypoints_require_explicit_context(tmp_path):
+@pytest.mark.parametrize('family', ['wheel_rail_vehicle_reference', 'wheel_rail_station_lim'])
+def test_mutating_or_native_entrypoints_require_explicit_context(tmp_path, family):
     with pytest.raises(ValueError, match='Explicit retained PM-maglev research context'):
         operating_point.run(tmp_path / 'native', root=tmp_path)
     with pytest.raises(ValueError, match='Explicit retained PM-maglev research context'):
         comfort_fixes.run(tmp_path / 'capture', root=tmp_path)
     with pytest.raises(ValueError, match='Explicit retained PM-maglev research configuration'):
-        operating_point.worker({'research_configuration': {'family': 'wheel_rail_station_lim'}}, tmp_path)
+        operating_point.worker({'research_configuration': {'family': family}}, tmp_path)
     assert not list(tmp_path.iterdir())
 
 

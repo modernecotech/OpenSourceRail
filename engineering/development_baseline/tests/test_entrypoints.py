@@ -1,4 +1,5 @@
 """Meaningful default/front-door regressions, with synthetic contract fixtures."""
+from copy import deepcopy
 from hashlib import sha256
 import gzip
 import json
@@ -30,8 +31,8 @@ def packet(tmp_path, monkeypatch):
     from engineering.development_baseline.selection import identity
     # This fixture exercises fail-closed front-door plumbing only. It grants no
     # engineering validity and supplies no historical magnetic component ID.
-    selection = dict(schema='osr-development-baseline-selection/1', revision='V06-FIXTURE',
-        family='wheel_rail_station_lim', source_brief='engineering/station_rail/brief.toml',
+    selection = dict(schema='osr-development-baseline-selection/3', revision='V06-FIXTURE',
+        family='wheel_rail_vehicle_reference', source_brief='engineering/station_rail/brief.toml',
         network_proposal_id='e'*64,
         vehicle=dict(cars=6,body_length_m=17.,normal_passengers_per_car=46,
                      fixed_seats_per_car=44,wheelchair_places_per_car=2,
@@ -39,15 +40,26 @@ def packet(tmp_path, monkeypatch):
         service=dict(headway_s=120.,dwell_s=35.,launch_speed_cap_m_s=20.,
                      normal_capacity_pphpd_arithmetic=8280.),acceptance=FLAGS)
     (tmp_path/INPUT).parent.mkdir(parents=True)
-    (tmp_path/INPUT).write_text('family="wheel_rail_station_lim"\nsource_brief="engineering/station_rail/brief.toml"\n')
+    (tmp_path/INPUT).write_text('family="wheel_rail_vehicle_reference"\nsource_brief="engineering/station_rail/brief.toml"\n')
     source=tmp_path/selection['source_brief'];source.parent.mkdir(parents=True);source.write_text('version="0.6.0"\n')
     car=dict(candidate_id='a'*64,body_candidate_id='b'*64,support_component_id='c'*64,
              propulsion_component_id='d'*64,mass=dict(accounted_tare_kg_per_car=22000.),**FLAGS)
-    baseline=dict(selection_id=identity(selection),selection=selection,vehicle=car,source_sha256={},**FLAGS)
+    from engineering.development_baseline.propulsion_policy import DEFAULTS
+    policy = dict(schema='osr-candidate-specific-propulsion-policy/1', policy=deepcopy(DEFAULTS),
+        reference_vehicle_candidate_id=car['candidate_id'],
+        reference_passive_interface_id=car['propulsion_component_id'],
+        selected_installed_propulsion_id=None, selected_architecture=None,
+        selected_powered_length_m=None, selected_acceleration_m_s2=None,
+        selected_braking_m_s2=None, selected_headway_s=None,
+        reference_vehicle_is_installed_drive_selection=False,
+        kinematic_distance_is_powered_hardware_length=False, **FLAGS)
+    policy['policy_id'] = identity(policy)
+    baseline=dict(selection_id=identity(selection),selection=selection,vehicle=car,
+        active_propulsion_policy=policy,source_sha256={},**FLAGS)
     monkeypatch.setattr(cli.selection,'load',lambda root:baseline)
     write_json(tmp_path/'synthetic-baseline.json',baseline)
     common=dict(selection_id=baseline['selection_id'],development_default=True,
-                **{k:car[k] for k in cli.IDS},**FLAGS)
+                **{k:car[k] for k in cli.IDS},active_propulsion_policy=policy,**FLAGS)
     summary=dict(schema='osr-current-design/1',**common,mass=car['mass'],service=selection['service'],
                  gates=[dict(id='wheelrail-braking',engineering_screen='unknown',reason='Measured brake envelope missing')])
     output=tmp_path/OUTPUT;write_json(output/'summary.json',summary)
@@ -59,12 +71,23 @@ def packet(tmp_path, monkeypatch):
     return tmp_path,summary,manifest
 
 
-def test_no_argument_status_uses_explicit_selected_default(packet, capsys):
+def test_no_argument_status_separates_vehicle_reference_from_unselected_drive(packet, capsys):
     root, summary, _ = packet
     assert cli.main([], root=root) == 0
     value = json.loads(capsys.readouterr().out)
     assert value['candidate_id'] == summary['candidate_id']
     assert value['development_default'] is True
+    assert value['family'] == 'wheel_rail_vehicle_reference'
+    assert value['reference_service_values_are_active_requirements'] is False
+    policy = value['active_propulsion_policy']
+    assert policy['reference_vehicle_candidate_id'] == summary['candidate_id']
+    assert policy['reference_passive_interface_id'] == summary['propulsion_component_id']
+    assert all(policy[key] is None for key in ('selected_installed_propulsion_id',
+        'selected_architecture', 'selected_powered_length_m', 'selected_acceleration_m_s2',
+        'selected_braking_m_s2', 'selected_headway_s'))
+    assert policy['policy']['prescribed_powered_length'] is False
+    assert policy['policy']['automatic_hardware_adoption'] is False
+    # These are arithmetic reproducibility controls, not selected service or hardware.
     assert value['service']['headway_s'] == 120
     assert value['service']['launch_speed_cap_m_s'] == 20
     assert value['service']['normal_capacity_pphpd_arithmetic'] == 8280
@@ -167,7 +190,9 @@ def test_actual_cli_process_preserves_explicit_selected_contract(packet):
     value=json.loads(result.stdout)
     assert value['candidate_id']==summary['candidate_id']
     assert value['publication_state']=='current'
-    assert value['family']=='wheel_rail_station_lim'
+    assert value['family']=='wheel_rail_vehicle_reference'
+    assert value['reference_service_values_are_active_requirements'] is False
+    assert value['active_propulsion_policy']['selected_powered_length_m'] is None
     assert value['service']['normal_capacity_pphpd_arithmetic']==8280
 
 

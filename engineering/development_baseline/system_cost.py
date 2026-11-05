@@ -818,8 +818,8 @@ def _service_duty(bundle, assumptions_record, candidate, roof_surface_area_m2,
     return value
 
 
-def evaluate(record, root=ROOT, vehicle_cost_record=None, *, return_case_records=False):
-    """Create one same-candidate 6 km synthetic system-cost scenario."""
+def evaluate_reference_comparison(record, root=ROOT, vehicle_cost_record=None, *, return_case_records=False):
+    """Recalculate the explicitly retired 6 km control; never select active hardware."""
     root = Path(root).resolve()
     selected = selection.load(root)
     candidate = selected["vehicle"]
@@ -837,7 +837,7 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None, *, return_case_records
             {k: v for k, v in vehicle_cost_record.items() if k != "cost_estimate_id"}):
         raise ValueError("Selected-vehicle cost estimate identity differs")
 
-    bundle = selected_reference_journey.build(root)
+    bundle = selected_reference_journey.build(root, retired_comparison=True)
     if (bundle["reference_candidate_id"] != candidate["candidate_id"]
             or bundle["body_candidate_id"] != candidate["body_candidate_id"]
             or bundle["support_component_id"] != candidate["support_component_id"]
@@ -1118,5 +1118,25 @@ def evaluate(record, root=ROOT, vehicle_cost_record=None, *, return_case_records
         **FLAGS,
     )
     result["scenario_id"] = scenario_id
+    result["selection_role"] = "retired-reference-control-comparison"
+    result["active_installed_propulsion_selected"] = False
     result["cost_estimate_id"] = identity(result)
     return (result, cost_cases) if return_case_records else result
+
+
+def evaluate(record, root=ROOT, vehicle_cost_record=None, *, candidate_outline=None):
+    """Inspect an explicit priced outline; no fixed installed propulsion fallback."""
+    if candidate_outline is None:
+        raise ValueError('Candidate-specific propulsion outline required; no installed drive is selected by the baseline')
+    value=deepcopy(candidate_outline)
+    if value.get('evaluation_id')!=identity({k:v for k,v in value.items() if k!='evaluation_id'}):
+        raise ValueError('Sealed candidate-specific cost record required')
+    if value.get('reference_vehicle_candidate_id')!=record['candidate_id']:
+        raise ValueError('Cost outline references another vehicle')
+    if any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','manufacturing_release','operating_release')):
+        raise ValueError('A calculated cost cannot grant physical release')
+    for name,sha in value.get('source_sha256',{}).items():
+        path=Path(name)
+        if path.is_absolute() or '..' in path.parts or digest(Path(root)/path)!=sha:
+            raise ValueError('Candidate-specific cost source differs')
+    return value

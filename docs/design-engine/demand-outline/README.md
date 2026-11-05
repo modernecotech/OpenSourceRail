@@ -28,11 +28,11 @@ The reference run screened 84 service cases and produced 47 complete cost cases 
 
 | Retained launch concept | Headway | Speed cap | Acceleration | Fleet including reserves | Central installed cost | Central cost / route-km |
 | --- | --- | --- | --- | --- | --- | --- |
-| Cable / capstan | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$442.2m | US$14.74m |
-| Common-drive rollers | 200 s | 72 km/h | 0.6 m/s² | 33 trains | US$453.8m | US$15.13m |
+| Cable / capstan | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$450.8m | US$15.03m |
+| Common-drive rollers | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$458.8m | US$15.29m |
 | Compact LIM | 200 s | 72 km/h | 0.8 m/s² | 32 trains | US$494.7m | US$16.49m |
 
-These are **Class C engineering estimates** using the [project-volume purchasing and manufacturing policy](../supply-economics/README.md). The cable outline takes approximately 42.35 minutes one way. Installed low/base/high costs are US$140.5m / US$442.2m / US$1,923.8m; central 30-year NPV is US$987.2m. These are sensitivity cases, not confidence limits or supplier offers.
+These are **Class C engineering estimates** using the [project-volume purchasing and manufacturing policy](../supply-economics/README.md). The cable outline takes approximately 41.93 minutes one way. Installed low/base/high costs are US$144.7m / US$450.8m / US$1,945.4m; central 30-year NPV is US$996.3m. These are sensitivity cases, not confidence limits or supplier offers.
 
 The original generic-rate benchmark remains US$738.0m / US$24.6m per route-km with 52 trains and a 120-second headway for 8,280 nominal places/hour/direction. The updated supply comparison reprices that same service. This demand example has different requirements; compare pricing scenarios at equal service, and service choices under the same pricing basis. The Workbench retains all three selectable pricing bases.
 

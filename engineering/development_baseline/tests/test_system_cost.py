@@ -11,7 +11,7 @@ from engineering.station_rail.common import identity
 def estimate():
     selected = evaluate.build(ROOT)
     vehicle = vehicle_cost.evaluate(selected, ROOT)
-    return selected, system_cost.evaluate(selected, ROOT, vehicle)
+    return selected, system_cost.evaluate_reference_comparison(selected, ROOT, vehicle)
 
 
 def test_selected_reference_has_candidate_bound_low_base_high_system_estimate(estimate):

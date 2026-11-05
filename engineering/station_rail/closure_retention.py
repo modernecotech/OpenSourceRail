@@ -270,6 +270,9 @@ def build(root=ROOT, *, output=OUTPUT, resolver=None):
 
 
 def verify(root=ROOT, *, output=OUTPUT):
+    from engineering.development_baseline import selection
+    if selection.load(root)['selection']['family']=='wheel_rail_vehicle_reference':
+        return verify_retired_comparison(root,output=output)
     root = Path(root).resolve()
     out = _output(root, output)
     receipt_path = _path(root, out.relative_to(root).as_posix() + "/manifest.json")
@@ -308,6 +311,35 @@ def verify(root=ROOT, *, output=OUTPUT):
         original_source_count=len(actual), original_native_archive_count=len(ARCHIVES),
         dependency_sha256=dependencies, **SCOPE, **FLAGS)
 
+
+
+
+def verify_retired_comparison(root=ROOT, *, output=OUTPUT):
+    """Authenticate the old article under its pinned epoch, never current admission."""
+    from . import retired_station_reference
+    root=Path(root).resolve();proof=retired_station_reference.verify(root)
+    context=_context(root)
+    if context['reference_ids']!=proof['reference_candidate_ids']:
+        raise ValueError('Retired physical article differs from the reference vehicle interfaces')
+    dependencies=dict(proof['dependency_sha256'])
+    for path in sorted((root/output).rglob('*')):
+        if path.is_file():
+            relative=path.relative_to(root).as_posix()
+            raw,_=retired_station_reference.reference_bytes(relative,root)
+            if path.read_bytes()!=raw:raise ValueError('Retired physical-source archive differs')
+            dependencies[relative]=digest(path)
+    manifest,summary,_,_=_packet(root)
+    raw,_=retired_station_reference.reference_bytes(PACKET+'/manifest.json',root)
+    if (root/PACKET/'manifest.json').read_bytes()!=raw:
+        raise ValueError('Original physical follow-up manifest differs from the retired epoch')
+    for path in (root/PACKET).iterdir():
+        if path.is_file():dependencies[path.relative_to(root).as_posix()]=digest(path)
+    return dict(verified=True,scope='retired-comparison-packet-and-original-producer-integrity-only',
+        original_followup_id=summary['followup_id'],original_manifest_id=manifest['manifest_id'],
+        original_selection_id=summary['selection_id'],current_policy_selection_id=context['selection_id'],
+        reference_ids=context['reference_ids'],reference_selection_is_physical_equivalence=False,
+        dependency_sha256={**dependencies,PRODUCER:digest(root/PRODUCER),**context['source_sha256']},
+        current_evaluator_admission=False,numerical_reexecuted=False,**FLAGS)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)

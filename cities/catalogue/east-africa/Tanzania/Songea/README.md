@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Songea route geometry](songea.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=songea)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `810be1e032156fcf5af5f07546c94b58747cd4af2fe14c28fcbe4b894b745cdc`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `8bd557617e4e71adb212afdd3d639d44f71115782e57cd7f67a7e9ffc20e1ceb`

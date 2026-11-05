@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../ilorin.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=ilorin) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `624efc6a5ccdd9a1a1a383b9b6c2af9c793687d3ec96e993f80b9e2f487a3188`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `061687beb7c8acfc3942f3cce50ebe97fd7182a37c91652b75dce55bbeb13201`

@@ -38,7 +38,9 @@ def _case(root, vehicle_value):
     return spec, case
 
 
-def build(root=ROOT):
+def build(root=ROOT, *, retired_comparison=False):
+    if retired_comparison is not True:
+        raise ValueError("Fixed P1 journey is a retired comparison; supply an explicit active candidate instead")
     root = Path(root).resolve()
     selected = selection.load(root)
     vehicle_value = selected["vehicle"]

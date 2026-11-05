@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../kumba.corridor.geojson) · [map contex
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kumba) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `bc0f76f1df43eba2a2e796516cc3a17d882b46b34e2078beedeba1d2d8f4e18c`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `8b4387e56b75b98c9aba0b61d91ab59bd89b6678fc9e854279c914de79dea933`

@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Lusaka route geometry](lusaka.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=lusaka)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `905ec49cf3018b3879863a9dea8135b54b9e5b46ccbdc4b93f7ca659e97e645c`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `7ba20b049da9156a2b327fa3e7d04a3b79ca78cd482ad71c2be8c0db1368149b`

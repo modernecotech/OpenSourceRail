@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Ngaoundere route geometry](ngaoundere.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=ngaoundere)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `595fe25547f8c3e42c33df6ca4c45024791e8fc58d792f84018f92471b3e3e10`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `fe4ddcf2bc5f62c47a6b3d3914281a620c0ffcea0840322436ed8b1e33f00ef4`

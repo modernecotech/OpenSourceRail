@@ -5,11 +5,14 @@ import pytest
 from engineering import readme_context as context
 
 
-def test_current_entrypoints_describe_wheel_lim_without_historical_hardware_labels():
+def test_current_entrypoints_describe_reference_vehicle_and_variable_propulsion():
     text = '# Tools\n\nLocal implementation details.\n'
     updated = context.render(text, 'tools/README.md')
     assert updated.startswith('# Tools\n')
-    assert 'Passive steel-wheel bogies' in updated and 'Station LIMs' in updated
+    assert 'passive steel-wheel bogies' in updated
+    assert 'no installed propulsion architecture or powered length is selected' in updated
+    assert 'candidate-specific design variables' in updated
+    assert 'prototype validation' in updated
     assert 'maglev' not in updated.lower()
     assert updated.endswith('Local implementation details.\n')
     assert context.render(updated, 'tools/README.md') == updated

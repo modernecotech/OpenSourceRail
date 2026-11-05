@@ -78,8 +78,44 @@ def _archive(record, by_id):
     return set(retained), excluded
 
 
-def project(body, civil, mechanics, baseline, topology=None, topology_revisions=None, topology_parent_binding=None):
+def _retired_comparison_context(baseline, load_context, proof):
+    """Project caller-authenticated retired records without adopting their evaluation."""
+    from engineering.station_rail import retired_station_reference as retired
+    required = ('candidate_id', 'body_candidate_id', 'support_component_id', 'propulsion_component_id')
+    if (proof.get('verified') is not True or proof.get('reference_commit') != retired.COMMIT
+            or proof.get('retention_id') != retired.EXPECTED_RECEIPT_ID
+            or any(proof.get(key) is not False for key in retired.FLAGS)
+            or any(proof.get('reference_candidate_ids', {}).get(key) != baseline['vehicle'].get(key)
+                   for key in required)
+            or load_context.get('selection_id') != proof.get('reference_selection_id')
+            or load_context.get('vehicle_candidate_id') != baseline['vehicle']['candidate_id']
+            or re.fullmatch('[a-f0-9]{64}', str(load_context.get('vehicle_evaluation_id'))) is None):
+        raise CurrentUnavailable('Retired portfolio reference, physical candidate or disposition differs')
+    # The exact archived load record supplies its historical vehicle evaluation.
+    # The dossier evaluation is a different identity and remains separately named.
+    comparison = dict(selection_role='retired-reference-control-comparison',
+        reference_commit=proof['reference_commit'], retention_id=proof['retention_id'],
+        reference_selection_id=proof['reference_selection_id'],
+        reference_dossier_evaluation_id=proof['reference_evaluation_id'],
+        reference_vehicle_evaluation_id=load_context['vehicle_evaluation_id'],
+        reference_candidate_ids=deepcopy(proof['reference_candidate_ids']),
+        active_selection_id=baseline['selection_id'],
+        active_vehicle_evaluation_id=baseline['vehicle']['evaluation_id'],
+        active_policy_id=baseline.get('active_propulsion_policy', {}).get('policy_id'),
+        current_evaluator_admission=False, numerical_reexecuted=False,
+        physical_equivalence_proven=False, active_installed_propulsion_selected=False)
+    historical = deepcopy(baseline)
+    historical['selection_id'] = proof['reference_selection_id']
+    historical['vehicle']['evaluation_id'] = load_context['vehicle_evaluation_id']
+    return historical, comparison
+
+
+def project(body, civil, mechanics, baseline, topology=None, topology_revisions=None, topology_parent_binding=None, *, retired_reference=None):
     """Join authenticated input records; never compare costs across their scopes."""
+    active_baseline = baseline
+    comparison = None
+    if retired_reference is not None:
+        baseline, comparison = _retired_comparison_context(baseline, mechanics['load_context'], retired_reference)
     bodies = _rows(body)
     civils = _rows(civil, sealed=True)
     mechanical = _rows(mechanics, sealed=True)
@@ -210,12 +246,24 @@ def project(body, civil, mechanics, baseline, topology=None, topology_revisions=
     for portfolio in portfolios:
         portfolio['rows'].sort(key=lambda row: row['candidate_id'])
         portfolio['candidate_count'] = len(portfolio['rows'])
+        portfolio['selection_role'] = ('retired-reference-control-comparison' if comparison else 'current-research-comparison')
+        portfolio['current_evaluator_admission'] = False
+        portfolio['numerical_reexecuted'] = False
     return dict(schema='osr-design-portfolio-view/1',
-        selected_reference_context=dict(selection_id=baseline['selection_id'], candidate_id=vehicle['candidate_id']),
+        selected_reference_context=dict(selection_id=active_baseline['selection_id'],
+            candidate_id=active_baseline['vehicle']['candidate_id']),
+        reference_comparison=comparison, current_evaluator_admission=False, numerical_reexecuted=False,
         portfolios=portfolios, numerical_jobs_dispatched=0, integrated_selection=None, **FLAGS)
 
 
 def read(root, publication, baseline):
+    # Every retired packet is checked against exact pinned Git bytes before any
+    # historical load/evaluation identity can enter this read-only projection.
+    from engineering.station_rail import retired_station_reference
+    try:
+        reference = retired_station_reference.verify(root)
+    except (ValueError, OSError) as exc:
+        raise CurrentUnavailable('Retired portfolio source integrity hold: ' + str(exc)) from exc
     body = _read(root, publication, 'breadth-first-shape-portfolio', 'result.json',
         'osr-breadth-first-shape-portfolio/1', 'portfolio_id')
     civil = _read(root, publication, 'civil-shape-portfolio', 'result.json',
@@ -235,7 +283,7 @@ def read(root, publication, baseline):
         manifest_sha256=publication['source_sha256']['docs/design-engine/civil-topology/manifest.json'],
         state_sha256=parent_manifest['files_sha256']['state.json'],campaign_id=topology['campaign_id'],
         files_sha256=parent_manifest['files_sha256'])
-    return project(body, civil, mechanics, baseline, topology, revisions, binding)
+    return project(body, civil, mechanics, baseline, topology, revisions, binding, retired_reference=reference)
 
 
 def _finite(value):

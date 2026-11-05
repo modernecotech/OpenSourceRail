@@ -115,7 +115,7 @@ def compile(record,root=ROOT,city_index=None):
     common=lambda schema,**value:dict(schema=schema,**stamp,**value)
     from engineering.development_baseline import factory_draft, system_cost, vehicle_cost
     selected_vehicle_cost=vehicle_cost.evaluate(record,root)
-    selected_system_cost=system_cost.evaluate(record,root,selected_vehicle_cost)
+    selected_system_cost=system_cost.evaluate_reference_comparison(record,root,selected_vehicle_cost)
     process_hour_schedule=_process_hour_schedule(selected_vehicle_cost,record)
     resource_envelope=factory_draft.resource_envelope(process_hour_schedule['work_packages'],record,
         selected_vehicle_cost['cost_estimate_id'],process_hour_schedule['productive_utilisation'])
@@ -139,7 +139,7 @@ def compile(record,root=ROOT,city_index=None):
             numerical_city_regeneration='held',whole_repository_city_delivery_complete=False))
     sequence=('Site survey and ground investigation','Foundation design and construction','Pier and headstock erection',
       'Install bearings and verify temporary stability','Lift precast span and secure temporary works','Fit conventional running rails and gauge-control fasteners',
-      'Install separately supported station LIM sections and electrical equipment','Survey gauge, cant, alignment, joints and dynamic clearance',
+      'Install the candidate-specific propulsion and electrical equipment','Survey gauge, cant, alignment, joints and dynamic clearance',
       'Inspect, test and independently release completed railway')
     assembly=common('osr-v06-assembly/1',scheduled_start_dates=None,crew_and_crane_resources=None,
         vehicle_process_hour_schedule=process_hour_schedule,
@@ -150,8 +150,13 @@ def compile(record,root=ROOT,city_index=None):
         continuous_magnetic_facings=False,rails_per_track=2,station_primary_supports_and_maintenance_walkway_qualified=False)
     controls=common('osr-v06-controls-export/1',architecture='Existing station-led GoA4, independent onboard ATP and mechanical brakes',
         launch_speed_cap_m_s=20.,target_headway_s=120.,normal_capacity_pphpd=8280.,
+        service_values_role='Retained control fixture, not active candidate requirements',
+        active_propulsion_policy_id=record['active_propulsion_policy']['policy_id'],
+        installed_propulsion_selected=False,
         shared_station_winding_m=z['length_m'] if z else None,addressed_sections_per_direction=z['sections_per_direction'] if z else None,
-        section_length_m=12.5,minimum_independent_train_phase_branches_per_direction=2,
+        section_length_m=None,minimum_independent_train_phase_branches_per_direction=None,
+        reference_LIM_fixture=dict(addressed_unit_length_m=12.5,independent_train_phase_branches=2,
+            installed_selection=False),
         station_led_functions=['Reserve protected route and receiving berth','Prove configuration, doors, train integrity, service/brake reserve and receiver readiness',
             'Sequence launch sections and monitor continuous movement authority','Supervise coast; preserve independent onboard stopping',
             'Receive, stop, prove zero speed, apply holding brake and authorise platform access'],

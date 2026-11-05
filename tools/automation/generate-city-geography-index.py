@@ -16,7 +16,7 @@ def generate() -> str:
     register = json.loads(SOURCE.read_text(encoding="utf-8"))
     if register.get("schema") != "osr-current-city-catalogue/1":
         raise ValueError("current candidate-bound city register is required")
-    if register.get("family") != "wheel_rail_station_lim":
+    if register.get("family") != "wheel_rail_vehicle_reference":
         raise ValueError("city register does not match the selected v0.6 family")
     if register.get("city_count") != len(register.get("cities", [])):
         raise ValueError("city register count is inconsistent")
@@ -29,7 +29,7 @@ def generate() -> str:
         current_hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
         rows.append(
             f"| {city['country']} | [{city['name']}]({frontdoor}) "
-            f"| [Current v0.6 hold]({current_hold}) "
+            f"| [Engineering status]({current_hold}) "
             f"| {'available' if city['route_geography_available'] else 'not available'} |"
         )
 
@@ -45,7 +45,7 @@ def generate() -> str:
         "./osr plan verify build/my-plan",
         "```",
         "",
-        "A handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. Candidate-specific route performance, procurement groups, construction schedules and complete city costs remain held. Planning revisions do not grant movement authority.",
+        "A handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. The separate [priced city outlines](../../docs/design-engine/outline-completion/README.md) provide calculated service, budgets and provisional construction programmes with explicit assumptions. Engineering verification, prototype validation and deployment approval remain pending. Planning revisions do not grant movement authority.",
         "",
         "[Planning workspace](../../docs/workbench/planning/index.html) · [Current engineering status](../../docs/design-engine/current/README.md) · [Project introduction](../../README.md)",
         "",

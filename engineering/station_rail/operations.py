@@ -220,7 +220,7 @@ def current_city_gap(root=ROOT):
     return context,scan['source_route_context_sha256']
 
 
-def evaluate(vehicle, root=ROOT):
+def evaluate(vehicle, root=ROOT, *, service_parameters=None, station_layout=None):
     from . import electrical
     config=brief(root);sv=config['service'];vc=config['vehicle'];m=vehicle['mass']
     from .braking import rotating_stock
@@ -232,9 +232,32 @@ def evaluate(vehicle, root=ROOT):
         for loading,mass in masses.items():
             profiles.append(profile(distance,mass,cars=vc['cars'],loading=loading,rotating_equivalent_mass_kg_per_car=rot))
     chosen=next(p for p in profiles if p['inputs']['distance_m']==2000 and p['inputs']['loading']=='normal')
-    zones=[station_zone(chosen,length) for length in sv['station_winding_library_m']]
-    survivors=[z for z in zones if z['nominal_resource_screen']=='pass']
-    selected=min(survivors,key=lambda z:z['length_m']) if survivors else None
+    from engineering.development_baseline import propulsion_policy
+    active_policy=propulsion_policy.load(root)
+    zones=[];selected=None
+    if station_layout is not None:
+        if service_parameters is None:
+            raise ValueError('Explicit candidate service and station layout are required together')
+        from . import propulsion_layout
+        if station_layout['candidate_id']!=vehicle['candidate_id']:
+            raise ValueError('Station layout belongs to another physical candidate')
+        stock=propulsion_layout.quantities(station_layout)
+        required={'distance_m','speed_cap_m_s','acceleration_m_s2','service_deceleration_m_s2',
+                  'headway_s','dwell_s'}
+        if set(service_parameters)!=required:
+            raise ValueError('Explicit speed, acceleration, braking, headway, dwell and distance required')
+        params=dict(service_parameters);distance=params.pop('distance_m')
+        headway=params.pop('headway_s');dwell=params.pop('dwell_s')
+        chosen=profile(distance,masses['normal'],rotating_equivalent_mass_kg_per_car=rot,**params)
+        selected=dict(length_m=station_layout['per_direction']['installed_length_m'],
+            physical_layout_id=station_layout['physical_layout_id'],quantity_evaluation=stock,
+            required_shared_winding_m=None,nominal_resource_interval_s=None,
+            sections_per_direction=len(station_layout['sections']),
+            selection_source='explicit-candidate-layout',geometry_full_engagement=None,
+            force_and_thermal_evidence_qualified=False,headway_s=headway,dwell_s=dwell)
+        zones=[selected]
+    elif service_parameters is not None:
+        raise ValueError('A service request cannot silently choose installed propulsion geometry')
     sensitivity=[profile(d,masses['normal'],rolling_coefficient=rr,grade_fraction=gr,
                         loading='normal',rotating_equivalent_mass_kg_per_car=rot)
         for d in (1500.,2000.) for rr in (.001,.0025,.005) for gr in (-.02,-.01,0.,.01,.02)]
@@ -268,7 +291,8 @@ def evaluate(vehicle, root=ROOT):
         profiles=profiles,rotating_stock=rotors,reference_environment_cases=environment,longest_city_gap_cases=longest,
         longest_city_gap_context=longest_context,
         selected_scenario=dict(profile=chosen,inputs=chosen['inputs']),
-        selected_station=selected,station_options=zones,grade_and_rolling_sensitivity=sensitivity,
+        selected_station=selected,station_options=zones,active_propulsion_policy=active_policy,
+        reference_control_profile_is_installed_selection=False,grade_and_rolling_sensitivity=sensitivity,
         brake_envelopes=brakes,electrical=e,station_drive_bound_map=drive_bounds,
         service=dict(cars=6,passengers_per_car=46,headway_s=120.,dwell_s=35.,
             normal_capacity_pphpd_arithmetic=8280.,launch_speed_cap_m_s=20.,

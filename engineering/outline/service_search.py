@@ -120,6 +120,10 @@ def _mode_screens(service, baseline_spec, headway, modes):
 def screen(brief, variables, baseline_spec, vehicle, root=ROOT):
     """Screen cheap service cases; preserve rejects, unknowns and a bounded cursor."""
     b,v,spec = deepcopy(brief),deepcopy(variables),deepcopy(baseline_spec)
+    allowed={'headways_s','speeds_kmh','accelerations_m_s2','service_decelerations_m_s2',
+        'jerks_m_s3','dwell_s','headway_quantum_s','maximum_screened','mechanisms','start_index'}
+    if not isinstance(v,dict) or set(v)-allowed:
+        raise ValueError('Unknown or untyped service design variable')
     for key in ("route_km","maximum_headway_s","maximum_one_way_minutes","operating_hours_per_day"):
         _positive(b[key],key)
     _positive(b["peak_demand_pphpd"],"peak_demand_pphpd",zero=True)
@@ -137,6 +141,10 @@ def screen(brief, variables, baseline_spec, vehicle, root=ROOT):
     speeds=_domain(v,"speeds_kmh",16)
     accelerations=_domain(v,"accelerations_m_s2",16)
     dwells=_domain(v,"dwell_s",8)
+    v.setdefault("service_decelerations_m_s2",[spec["design"]["service_deceleration_m_s2"]])
+    decelerations=_domain(v,"service_decelerations_m_s2",16)
+    v.setdefault("jerks_m_s3",[spec["design"]["jerk_m_s3"]])
+    jerks=_domain(v,"jerks_m_s3",16)
     modes=v.get("mechanisms",list(MODES))
     if not isinstance(modes,list) or not 1<=len(modes)<=8 or any(not isinstance(x,str) or not x for x in modes) or len(set(modes))!=len(modes):
         raise ValueError("Bounded unique mechanism names required")
@@ -161,8 +169,8 @@ def screen(brief, variables, baseline_spec, vehicle, root=ROOT):
         revision_rule="Headway, speed, acceleration, dwell, formation and station arrangement are design hypotheses, not universal transport obligations",
         evidence_scope="Declared planning demand; achieved availability, safe headway and passenger comfort require independent engineering evidence")
     contract["requirements_id"]=common.identity(contract)
-    domains=dict(speeds_kmh=speeds,accelerations_m_s2=accelerations,dwell_s=dwells,headways_s=headways)
-    arrays=[speeds,accelerations,dwells,headways]
+    domains=dict(speeds_kmh=speeds,accelerations_m_s2=accelerations,service_decelerations_m_s2=decelerations,jerks_m_s3=jerks,dwell_s=dwells,headways_s=headways)
+    arrays=[speeds,accelerations,decelerations,jerks,dwells,headways]
     total=prod(len(x) for x in arrays)
     start=v.get("start_index",0)
     if type(start) is not int or not 0<=start<=total:raise ValueError("Valid continuing screen cursor required")
@@ -173,11 +181,11 @@ def screen(brief, variables, baseline_spec, vehicle, root=ROOT):
         return list(reversed(values))
     cases=[];eligible=[];prepared={};projections=0;replays=0
     for index in range(start,min(total,start+limit)):
-        speed,acceleration,dwell,headway=at(index)
+        speed,acceleration,deceleration,jerk,dwell,headway=at(index)
         r=deepcopy(spec["requirements"]);d=deepcopy(spec["design"])
         r.update(route_km=b["route_km"],stations=b["stations"],headway_s=headway,dwell_s=dwell,
             operating_hours_per_day=b["operating_hours_per_day"],minimum_capacity_pphpd=b["peak_demand_pphpd"])
-        d.update(speed_m_s=speed/3.6,acceleration_m_s2=acceleration)
+        d.update(speed_m_s=speed/3.6,acceleration_m_s2=acceleration,service_deceleration_m_s2=deceleration,jerk_m_s3=jerk)
         key=common.identity(dict(requirements={k:x for k,x in r.items() if k!="headway_s"},design=d,
             vehicle_evaluation_id=vehicle["evaluation_id"]))
         if key not in prepared:

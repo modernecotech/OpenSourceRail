@@ -33,7 +33,7 @@ def evaluate(record,root=ROOT):
             v06_concrete_m3_per_25m=ref['concrete_m3'],
             v06_rails_kg_per_directional_km=rate['running_rail_kg'],
             boundaries='Old structural/interface steel excludes reinforcement and prestress. New all-counted steel includes preliminary reinforcement, prestress and fastener accounts. Neither includes complete bearings, piers, foundations, walkways, containment or station motors. Material reduction is not installed cost reduction.'),
-        selection_decision='Select v0.6 for reference/prototype investigation by user direction: remove unresolved levitation and continuous magnetic facing assemblies. Retain v0.5 evidence and LSM comparison. Vehicle account is heavier than v0.5; lower whole-life cost is unknown.',
+        selection_decision='Retained component and kinematic control comparison only. The active policy selects no installed propulsion or fixed powered length; candidate-specific outlines carry their own service and whole-life estimates.',
         economics_acceptance='unknown',numerical_city_regeneration='held',
         cost_coverage=dict(vehicle_quotes=False,civil_installed_quotes=False,station_power_quotes=False,
             maintenance_and_renewals=False,availability_and_staffing=False,energy_tariffs=False,financing=False),

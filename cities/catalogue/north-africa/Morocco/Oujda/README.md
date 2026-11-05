@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Oujda route geometry](oujda.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=oujda)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `97ef4fdf41ac2e7514f0144847e5d1589900339277d3ce29cc0bde628d838118`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `0048934bf0db2d270b4b87ad21ace9d5da6ffdacacf2ef9df5b0db76b6f95631`

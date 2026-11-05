@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Homs route geometry](homs.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=homs)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a8f6b5389862152cc3ca4a81c28e3fd6efcc8eeed1078be6b3c5c2e4e7544ed4`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `0904fad37eb9eaccc733e2a6208926e4ba7657ec41624f6aca16519300abfc55`

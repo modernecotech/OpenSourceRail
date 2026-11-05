@@ -11,7 +11,7 @@ from engineering.station_rail.common import identity
 @pytest.fixture
 def context(tmp_path,monkeypatch):
     from engineering.development_baseline import selection
-    spec=dict(family='wheel_rail_station_lim')
+    spec=dict(family='wheel_rail_vehicle_reference')
     car=dict(candidate_id='a'*64,body_candidate_id='b'*64,support_component_id='c'*64,
              propulsion_component_id='d'*64,mass=dict(accounted_tare_kg_per_car=22000.))
     baseline=dict(selection_id=identity(spec),selection=spec,vehicle=car,source_sha256={},**FLAGS)

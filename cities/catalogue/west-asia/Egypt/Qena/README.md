@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Qena route geometry](qena.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=qena)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `43727bb8d1e377225be2f1d9d2f755f0082f5727259375d1447b887c6ea364c0`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `26a07ecba752ee068adc98dafccafa62d4d878cf6d1cce8321dcc577da153a95`

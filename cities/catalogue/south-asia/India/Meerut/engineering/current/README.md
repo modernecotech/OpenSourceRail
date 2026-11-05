@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../meerut.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=meerut) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `f1fb660db77189dbd4a07e2a6f5d6b1a8be7e6306974180a46165c3e4b7f1d36`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `2dbd54fca5d0210a4e383fd7befc25436ede2fac7e159973644be7ebeb2cf6cc`

@@ -38,6 +38,9 @@ on:
       - "engineering/requirements.txt"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
+      - "docs/archives/retired-station-reference/**"
+      - "tests/test_retired_station_reference.py"
+      - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
       - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
@@ -131,6 +134,9 @@ on:
       - "engineering/requirements.txt"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
+      - "docs/archives/retired-station-reference/**"
+      - "tests/test_retired_station_reference.py"
+      - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
       - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
@@ -184,7 +190,7 @@ on:
   workflow_dispatch:
     inputs:
       native_methods:
-        description: Run the expensive native method fixtures as well as required contracts
+        description: Run expensive retired-reference native method fixtures, without current admission
         type: boolean
         default: false
   schedule:
@@ -197,6 +203,87 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch exact retired references for offline byte verification
+        run: |
+          git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+          git cat-file -e 3bf38a501d09fa3a3c2dd6f4731be11828d04f55^{commit}
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
+          git fetch --no-tags --depth=1 origin 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f
+          git cat-file -e 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f^{commit}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-dejavu-core
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install --no-cache-dir pytest --requirement engineering/requirements.txt
+      - name: Pin NumPy for exact source-bound evaluator replay
+        run: .venv/bin/pip install --no-cache-dir numpy==2.3.5
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Current vehicle, policy, planning and reference-integrity contracts
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_candidate_specific_baseline.py tests/test_retired_station_reference.py tests/test_propulsion_layout_quantities.py
+          .venv/bin/python -m engineering.station_rail.retired_station_reference verify
+          ./osr design space verify
+      - name: Current explicit-model mechanics and interface contracts
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py engineering/design_search/tests/test_propulsion_families.py tests/test_joint_models.py tests/test_joint_body.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_launch_options.py::test_zero_drag_energy_and_contact_inertia_distinction engineering/design_search/tests/test_launch_options.py::test_independent_drag_work_integral_matches_existing_profile engineering/design_search/tests/test_launch_options.py::test_ideal_cable_time_is_faster_than_coasting_but_still_misses_headway engineering/design_search/tests/test_launch_options.py::test_invalid_bound_inputs_fail_closed
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_propulsion_storage.py engineering/design_search/tests/test_sparse_launch.py engineering/design_search/tests/test_propulsion_layout.py::test_powered_cruise_counts_full_route_and_grade_work engineering/design_search/tests/test_propulsion_layout.py::test_bogie_indices_keep_identical_three_car_groups engineering/design_search/tests/test_propulsion_layout.py::test_seed_failure_is_preserved_before_storage_sizing
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py tests/test_grammar_structure.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_breadth_first_portfolio.py engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py engineering/design_search/tests/test_architecture_reach_closure.py::test_constant_resistance_matches_work_energy_and_rotational_inertia engineering/design_search/tests/test_architecture_reach_closure.py::test_positive_quadratic_drag_has_a_shorter_exact_coast_than_the_bound engineering/design_search/tests/test_architecture_reach_closure.py::test_reachable_booster_active_power_downhill_and_rounding_cannot_prove_failure
+          .venv/bin/python -m engineering.station_rail.closure_retention verify
+      - name: Current affordable comparisons, outlined designs and pricing
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_compact_launch.py tests/test_line_benchmark.py tests/test_line_benchmark_service.py tests/test_line_benchmark_civil.py tests/test_outline_*.py
+          .venv/bin/python -m engineering.design_search.compact_launch --verify --output docs/design-engine/compact-launch
+          .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
+          .venv/bin/python -c 'from engineering.outline.completion_publication import verify; verify()'
+      - name: Current civil, material, lifecycle and numerical-kernel mathematics
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_beam.py engineering/design_search/tests/test_civil_section_model.py engineering/design_search/tests/test_civil_shape_mechanics.py engineering/design_search/tests/test_portable_gzip.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_cost_accounting_partition.py engineering/design_search/tests/test_cost_accounting_archive.py engineering/design_search/tests/test_topology_optimisation.py engineering/design_search/tests/test_topology_geometry.py engineering/design_search/tests/test_topology_cost.py engineering/design_search/tests/test_topology_system_cost.py engineering/design_search/tests/test_civil_topology.py engineering/design_search/tests/test_topology_revisions.py engineering/design_search/tests/test_topology_revision_campaign.py engineering/design_search/tests/test_flanged_span.py engineering/design_search/tests/test_implicit_geometry.py engineering/design_search/tests/test_matched_renewal_research.py
+          .venv/bin/python -m engineering.design_search.cost_accounting_archive verify
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py engineering/design_search/tests/test_periodic_thermal_research.py
+          git fetch --no-tags --depth=1 origin 5cd6b8ff9b2fdf3c705f0d68073543c58e6dec76
+          OSR_TEST_RETAINED_PERIODIC=1 .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_periodic_thermal.py
+          .venv/bin/python -m engineering.design_search.retained_periodic_thermal verify
+          retained_periodic_parent=$(mktemp -d "$RUNNER_TEMP/osr-periodic-thermal.XXXXXX")
+          .venv/bin/python -m engineering.design_search.retained_periodic_thermal replay --output "$retained_periodic_parent/context"
+      - name: Current bundle, inventory, dynamics, solver-law and fault contracts
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_equipped_candidates.py engineering/design_search/tests/test_moving_lim.py engineering/design_search/tests/test_lim_transport.py engineering/design_search/tests/test_lim_critical_mesh.py engineering/design_search/tests/test_moving_lim_publication.py engineering/design_search/tests/test_fault_response.py engineering/design_search/tests/test_test_readiness.py engineering/design_search/tests/test_lim_static_benchmark.py engineering/design_search/tests/test_lim_static_publication.py::test_numeric_verification_tolerance_never_accepts_nonfinite_or_engineering_claims engineering/design_search/tests/test_lim_static_publication.py::test_resealed_nested_case_cannot_claim_acceptance_or_release
+          .venv/bin/python -m engineering.design_search.moving_lim_publication verify
+      - name: Current source-bound publication and user journey
+        run: |
+          ./osr verify
+          .venv/bin/python tools/automation/check-readmes.py
+          .venv/bin/python tools/automation/generate-doc-index.py --check
+          npm run test:frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selected-development-workbench
+          path: build/development-baseline-browser/
+
+  retired-reference-methods:
+    name: Retired fixed-service research methods at pinned 3bf38a5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+      - name: Prove original source checkout; no current evaluator admission
+        run: test "$(git rev-parse HEAD)" = 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
       - name: Fetch the exact retained producer source required by offline ancestry checks
         run: |
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
@@ -288,8 +375,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: selected-development-workbench
+          name: retired-reference-workbench
           path: build/development-baseline-browser/
+
   independent-search:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -380,23 +468,29 @@ jobs:
 
   required-engineering:
     if: always()
-    needs: [current-contracts, independent-search, retained-packet-reconstruction, retained-service-energy-extra, vehicle-runtime-reproducibility]
+    needs: [current-contracts, retired-reference-methods, independent-search, retained-packet-reconstruction, retained-service-energy-extra, vehicle-runtime-reproducibility]
     runs-on: ubuntu-24.04
     steps:
       - name: Require source, engineering and browser contracts
         run: |
           test '${{ needs.current-contracts.result }}' = success
+          test '${{ needs.retired-reference-methods.result }}' = success
           test '${{ needs.independent-search.result }}' = success
           test '${{ needs.retained-packet-reconstruction.result }}' = success
           test '${{ needs.retained-service-energy-extra.result }}' = success
           test '${{ needs.vehicle-runtime-reproducibility.result }}' = success
 
   coupled-native-methods:
+    name: Retired coupled native reference methods
     if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+      - name: Confirm retired native-method source, not active candidate admission
+        run: test "$(git rev-parse HEAD)" = 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
       - name: Fetch the exact retained producer source required by offline ancestry checks
         run: |
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
@@ -424,6 +518,7 @@ jobs:
           retention-days: 14
 
   native-methods:
+    name: Retired native reference methods
     if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -432,6 +527,10 @@ jobs:
       CARGO_BUILD_JOBS: "2"
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
+      - name: Confirm retired native-method source, not active candidate admission
+        run: test "$(git rev-parse HEAD)" = 3bf38a501d09fa3a3c2dd6f4731be11828d04f55
       - name: Fetch the exact retained producer source required by offline ancestry checks
         run: |
           git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164

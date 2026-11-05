@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../indore.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=indore) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `03f5ad296322b9ada156d1155dc5aa5085922adc21589cdd451bedeee0b5c0d3`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `9ef8c027dc913cdcab370a11344e2ab5df7b5e40cb2637c89c4d58bab1235d0c`

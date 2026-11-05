@@ -106,7 +106,7 @@ def _linked_packet_sources(root,folder,contract):
 def linked_publication_sources(root=ROOT):
     """Fail early on stale current packets; retain their exact dependency maps."""
     from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch,line_benchmark
-    from . import closure_retention
+    from . import closure_retention,retired_station_reference
     historical=retained_publication.verify(root)
     followup=closure_retention.verify(root)
     thermal=retained_periodic_thermal.verify(root)
@@ -115,12 +115,17 @@ def linked_publication_sources(root=ROOT):
     benchmark_sources={**benchmark['source_sha256'],**{
         'docs/design-engine/line30-benchmark/'+name:digest(Path(root)/'docs/design-engine/line30-benchmark'/name)
         for name in ('result.json','README.md','manifest.json')}}
-    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],benchmark_sources,*[_linked_packet_sources(root,folder,contract)
-        for folder,contract in LINKED_PUBLICATIONS.items()])
+    retired=retired_station_reference.verify(root)
+    return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],benchmark_sources,
+        retired['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
+        for folder,contract in LINKED_PUBLICATIONS.items() if folder not in retired_station_reference.PACKETS])
 
 
 def linked_publication_scope():
-    return dict(current_source_and_declared_payload=sorted(LINKED_PUBLICATIONS),
+    from . import retired_station_reference
+    return dict(current_source_and_declared_payload=sorted(set(LINKED_PUBLICATIONS)-set(retired_station_reference.PACKETS)),
+        retired_fixed_reference_integrity_only=sorted(retired_station_reference.PACKETS),
+        retired_reference_commit=retired_station_reference.COMMIT,
         replayed_analytical_research=['compact-launch','line30-benchmark'],
         original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure','periodic-thermal-research'],
         numerical_or_physical_validation_by_this_check=False)
@@ -288,7 +293,7 @@ def sources(root,record,index,delivery):
     for folder in LINKED_PUBLICATIONS:
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
-        if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))
+        if folder=='coupled-railway' and folder not in __import__('engineering.station_rail.retired_station_reference',fromlist=['PACKETS']).PACKETS and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))
     return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names))})
 
 def compact(record,index,natives,delivery):
@@ -297,7 +302,8 @@ def compact(record,index,natives,delivery):
         native=dict(controls=natives['controls']['controls'],all_controls_pass=natives['controls']['all_controls_pass'],
             CAD=natives['vehicle']['CAD'],underframe_fixtures=natives['vehicle']['underframe_fixtures'],
             drive_convergence=natives['drive']['convergence_screen'],
-            scope='Actual FreeCAD/STEP export and reopen, limited CalculiX underframe fixtures, GetDP manufactured conductive-slab convergence and Rust ATP/interface regressions. No complete physical train journey.',
+            scope='Retired component reference at pinned3bf38a5: CAD, fixtures and software/numerical methods. Integrity and provenance only; not admitted under the new active policy.',
+            current_evaluator_admission=False,current_native_jobs=0,
             physical_train_simulated=False),known_gate_counts=dict(Counter(g['state'] for g in record['gates'])),
         current_outputs=dict(exports=OUTPUT+'/exports/manifest.json',reader='OpenSourceRail-Book.pdf',physical_followup='docs/design-engine/v06-physical-closure/README.md',
             mass_reconciliation='docs/design-engine/mass-reconciliation/current/README.md'),
@@ -309,7 +315,7 @@ def _selected_cost_records(root,record,compiled=None):
     from engineering.development_baseline import system_cost, vehicle_cost
     if compiled is None:
         vehicle=vehicle_cost.evaluate(record,root)
-        return vehicle,system_cost.evaluate(record,root,vehicle)
+        return vehicle,system_cost.evaluate_reference_comparison(record,root,vehicle)
     vehicle=compiled['selected_vehicle_cost'];system=compiled['selected_system_cost']
     for value,producer,evaluation_key in ((vehicle,vehicle_cost,'evaluation_id'),(system,system_cost,'vehicle_evaluation_id')):
         if value.get('cost_estimate_id')!=identity({k:v for k,v in value.items() if k!='cost_estimate_id'}):
@@ -528,7 +534,7 @@ def _sourcing_section(root,record,*,compiled=None):
         "The selected six-car vehicle now has its own source-bound Class C estimate for located geometry, named residual-account allowances, final assembly and a 50 km reference delivery. Its low/base/high account-cost and process-hour cases pair with the declared "
         f"{reserve_factors['low']:.1f}×/{reserve_factors['base']:.1f}×/{reserve_factors['high']:.1f}× residual-mass sensitivity; each case replaces the existing balance once, leaves the base tare unchanged, and does not claim installed mass. "
         "Candidate delivery exports also publish low/base/high process-hour work packages linked to cost lines and their source/occurrence identities; broad operation allocations remain open. "
-        f"The selected-candidate system estimate covers all 14 declared Class C cost scopes for a synthetic 6 km, three-station corridor. It evaluates {len(system_mass_cases)} separate residual-mass cases against each of the low/base/high Class C cost cases. Each case replaces the residual accounts once, recalculates analytical journey demand, fleet basis, conditional energy, crowd-control beam quantities and minimum gravity footing-area screens under declared 300/200/100 kPa soil hypotheses. Footing-area costs remain separate fixed Class C proxies because route geotechnical design is unavailable. The base-mass case remains the published low/base/high estimate; all cases are assumptions, not a force-driven journey, site foundation design or physical acceptance. "
+        f"The explicitly retired reference-control system estimate covers all14scopes for its original6kmthree-station comparison. It is not an active installed-drive selection. It evaluates {len(system_mass_cases)} separate residual-mass cases against each of the low/base/high Class C cost cases. Each case replaces the residual accounts once, recalculates analytical journey demand, fleet basis, conditional energy, crowd-control beam quantities and minimum gravity footing-area screens under declared 300/200/100 kPa soil hypotheses. Footing-area costs remain separate fixed Class C proxies because route geotechnical design is unavailable. The base-mass case remains the published low/base/high estimate; all cases are assumptions, not a force-driven journey, site foundation design or physical acceptance. "
         "See the [selected vehicle cost record](exports/selected-vehicle-cost.json) and [selected system cost record](exports/selected-system-cost.json). Installed mass and possible account overlap remain unresolved; route-specific city costs, supplier quotes, physical journey performance and safety acceptance remain open."
     )
     capex=dict(zip(('low','base','high'),selected_system_cost['model_based_installed_CAPEX_iqd']))
@@ -831,7 +837,7 @@ def _sourcing_section(root,record,*,compiled=None):
       identity_note,'',selected_vehicle_cost_note,'',
       '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
       f"| Selected v0.6 vehicle `{selected_id[:12]}` | Located geometry plus explicitly priced residual accounts; six cars; two 8 h production shifts; 50 km reference delivery | Candidate-bound Class C vehicle estimate; no route, civil or whole-life total |",
-      f"| Selected-candidate synthetic system scenario `{selected_system_cost['scenario_id'][:12]}` | 6 km periodic corridor; three stations; two service directions; {selected_system_cost['fleet_basis']['active_trainsets']} active + {selected_system_cost['fleet_basis']['reserve_trainsets']} reserve trainsets; all {len(selected_system_cost['required_cost_scopes'])} scopes estimated; {len(system_mass_cases)} residual-mass cases × {len(selected_system_cost['mass_reserve_sensitivity']['dimensions']['independent_class_c_cost_cases'])} cost cases | Installed CAPEX IQD {capex['low']:,.0f}/{capex['base']:,.0f}/{capex['high']:,.0f} low/base/high; whole-life NPV IQD {whole_life['low']:,.0f}/{whole_life['base']:,.0f}/{whole_life['high']:,.0f}; Class C only |",
+      f"| Retired synthetic control comparison `{selected_system_cost['scenario_id'][:12]}` | 6 km periodic corridor; three stations; two service directions; {selected_system_cost['fleet_basis']['active_trainsets']} active + {selected_system_cost['fleet_basis']['reserve_trainsets']} reserve trainsets; all {len(selected_system_cost['required_cost_scopes'])} scopes estimated; {len(system_mass_cases)} residual-mass cases × {len(selected_system_cost['mass_reserve_sensitivity']['dimensions']['independent_class_c_cost_cases'])} cost cases | Installed CAPEX IQD {capex['low']:,.0f}/{capex['base']:,.0f}/{capex['high']:,.0f} low/base/high; whole-life NPV IQD {whole_life['low']:,.0f}/{whole_life['base']:,.0f}/{whole_life['high']:,.0f}; Class C only |",
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Complete installed cost unknown |",
       f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} physical scopes across {federated['input_requirement_count']:,} review requirements; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; nine RFQ drafts remain unsent |",
       f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
@@ -850,9 +856,9 @@ def _sourcing_section(root,record,*,compiled=None):
       'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and September 2026 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
       f"The selected-candidate 6 km system estimate now includes a 36-case service-energy sensitivity across the 50/75-module battery alternatives, 50/75/100% catalogue-current acceptance hypotheses, low/base/high 150/200/250 kW-per-car charging cases, and 35/50 kW-per-car hotel loads. The selected 75-module pack's base 200 kW, 35-second-stop case has calculated margins of {service_margin['reference']:.3f} kWh/car reference and {service_margin['adverse']:.3f} kWh/car adverse; the adverse deficit is {abs(base_adverse_supply['energy_margin_kWh_per_car_per_cycle']):.3f} kWh/cycle, or about {base_adverse_supply['energy_only_cycles_from_max_SOC_to_minimum_SOC']:.1f} idealized cycles across the declared hot end-of-life SOC window. This linear reserve screen is not repeated-duty qualification or a supplier charge map. A theoretical full-roof PV case at 4 equivalent peak-sun-hours/day yields {base_solar['gross_solar_energy_kWh_per_car_day']:.1f} kWh/car-day, at most {100*base_solar['maximum_daily_offset_fraction']:.1f}% of the base 35 kW, 18-hour hotel-load energy; PV area/layout, output timing, mass and capital cost remain unverified, and no solar energy is credited to the per-cycle balance. A separate 50 kW/car station-fed hotel branch would supply {adverse_direct_feed['dwell_hotel_energy_from_independent_supply_kWh_per_car']:.3f} kWh during the stop but leaves the adverse cycle short by {abs(adverse_direct_feed['energy_margin_kWh_per_car_per_cycle']):.3f} kWh. Its 1.8 MW six-platform Class C power-package/installation screen is IQD {direct_feed_cost['low']/1e9:.3f}/{direct_feed_cost['base']/1e9:.3f}/{direct_feed_cost['high']/1e9:.3f} billion, excluding grid upgrades, connectors and protection; it requires a new system candidate and is not added to selected-system costs. An independent continuous service source would need 35/50 kW per car and 560/630/1,200 kWh per car-day under the low/base/high shift cases, but no source technology, mass or cost is selected. All sensitivities are research estimates; none changes the selected hardware or establishes service qualification, physical feasibility, supplier pricing or release.", '',
       'The September 2026, July 2026 and 2025 price views remain separately dated source-bound estimates. The September concrete takeoff preserves all 81 manufacturing groups and 486 occurrences across Baghdad and Al-Muthanna scenarios. The aluminium alternatives apply exact aggregate takeoff masses while retaining their group and occurrence identities through the takeoff ID; they do not assign a form or supplier SKU to individual occurrences. Material mix and labour hours remain assumptions, not measured process data; these scenarios do not establish a guideway beam, supplier match, complete installed mass or cost. The selected reference has separate vehicle and synthetic-corridor Class C estimates; city-specific civil and whole-life costs remain open. The regional library also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; posted sheet rates do not establish structural grade or a completed manufacturing route.','',
-      f"The separate five-bank, 100 m active-length research configuration now has a copper raw-stock sensitivity in the [candidate-bound procurement packet](../sourcing/{procurement_relative_path}): 9.354 t across five bank groups and ten retained occurrences, using a 2025 Iraqi CIF copper-wire unit-value benchmark, September 2026 Baghdad base wage, 8/16/32 assumed labour hours per tonne and a 20% uplift. The partial totals are IQD 90.19/91.03/92.72 million. They do not establish winding-conductor compatibility, a measured winding route, complete station-drive cost or the selected reference's approximately 900 m winding allocation. Supplier, force, current, heat-rejection and repeated-duty evidence remain open. Five source-bound unsent bank scopes and their comparable duty/evidence request are in the [station-drive RFQ draft](../sourcing/rfq-drafts/station-drive-banks-2026-10/README.md); the [current sourcing validation index](../sourcing/validation-current.json) records its candidate, quantities and open evidence gates.",'',
+      f"The separate five-bank, 100 m active-length research configuration now has a copper raw-stock sensitivity in the [candidate-bound procurement packet](../sourcing/{procurement_relative_path}): 9.354 t across five bank groups and ten retained occurrences, using a 2025 Iraqi CIF copper-wire unit-value benchmark, September 2026 Baghdad base wage, 8/16/32 assumed labour hours per tonne and a 20% uplift. The partial totals are IQD 90.19/91.03/92.72 million. They do not establish winding-conductor compatibility, a measured winding route, complete station-drive cost or the retired fixed-length winding comparison. Supplier, force, current, heat-rejection and repeated-duty evidence remain open. Five source-bound unsent bank scopes and their comparable duty/evidence request are in the [station-drive RFQ draft](../sourcing/rfq-drafts/station-drive-banks-2026-10/README.md); the [current sourcing validation index](../sourcing/validation-current.json) records its candidate, quantities and open evidence gates.",'',
       'The [CSO 2024 construction-wage archive](../../../engineering/sourcing/data/iraq-construction-wages-2024.json) preserves Table 7 daily wage observations for 15 governorates and six categories, normalized here by an explicit 8-hour workday. Baghdad skilled labour is IQD 75,000/day or IQD 9,375/hour. This is historical base-wage context, excludes employer burden and Kurdistan Region, and is not used in current 2025/2026 estimates; the current fabrication screens use dated material and wage rates, assumed hours, then a 20% uplift.','',
-      'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
+      'The retired900m comparison and separate100m research geometry remain separate; neither defines the active design. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 
 def readme(record,summary,root=ROOT,*,compiled=None):
@@ -866,8 +872,10 @@ def readme(record,summary,root=ROOT,*,compiled=None):
     if any(mass_ledger.get(key)!=record[key] for key in ('candidate_id','body_candidate_id','selection_id')) or mass_ledger.get('selected_evaluation_id')!=record['evaluation_id']:
         raise ValueError('Mass reconciliation identities differ from current selected evaluation')
     lines=['# v0.6 station-powered freewheeling rail','',
-      'OpenSourceRail aims for simple, affordable urban transport, repeated precast civil components and local manufacture and repair. Six lightweight comfort cars run on passive steel-wheel bogies and conventional rails. Station LIMs act on passive onboard aluminium secondaries; no onboard traction motor, traction battery or levitation magnet is fitted. Independent service power, braking and the existing station-led GoA4 architecture remain.','',
-      '**Selected for reference engineering and prototype investigation. No physical, manufacturing or operating release.** The [selector](../../../engineering/development-baseline.toml) binds the same vehicle, body, support and propulsion identities through this packet, delivery records, Workbench and reader.','',
+      'OpenSourceRail aims for simple, affordable urban transport, repeated precast civil components and local manufacture and repair. Six lightweight comfort cars run on passive steel-wheel bogies and conventional rails. The reference body retains a passive aluminium secondary interface; this does not select station LIM propulsion. The reference body has no onboard traction motor, traction battery or levitation magnet; alternative candidates must carry their own equipment, mass and costs. Independent service power, braking and the existing station-led GoA4 architecture remain.','',
+      '**Vehicle/interface reference only. Installed propulsion is candidate-specific; no physical, manufacturing or operating release.** The [selector](../../../engineering/development-baseline.toml) binds the same vehicle, body, support and propulsion identities through this packet, delivery records, Workbench and reader.','',
+      'Start with the [priced 30 km corridor outlines](../demand-outline/README.md): cable/capstan, common-drive rollers and compact LIM alternatives receive conditional service checks, preliminary geometry, fourteen cost scopes and delivery drafts. Their installed hardware follows their own acceleration, braking, speed and headway. Other architectures remain open. **Outline completion, engineering verification, prototype validation and release approval are independent results.**','',
+      'Native archives linked below retain their original component experiments at pinned revision `3bf38a5`. Their exact bytes are checked as retired references; they are not current solver executions or proof of a newly installed propulsion system.','',
       '| Item | Recalculated basis |','|---|---|',
       '| Formation and comfort | Six 17 m cars; 104.5 m overall; 44 seats + two wheelchair places/car; zero planned standing |',
       '| Running gear | 12 unpowered bogies, 24 axles, 48 wheels; independent friction/WSP/parking brake requirements |',
@@ -880,7 +888,7 @@ def readme(record,summary,root=ROOT,*,compiled=None):
       '| Reference service case | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s target headway; 8,280 pphpd arithmetic |','',
       '## Reference journey and power','',
       f"The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
-      f"Full-train engagement requires **{z['required_shared_winding_m']:.1f} m** of shared launch/receiving winding; the library chooses **{z['length_m']:.0f} m**, **{z['sections_per_direction']} sections/direction** at 12.5 m and at least two independently controlled train branches. The **{z['nominal_resource_interval_s']:.2f} s** nominal berth interval is a necessary resource screen, not verified two-minute operation.",'',
+      'No installed drive or powered length is selected by this reference vehicle. Architecture, acceleration, braking, operating headway, force/current/thermal duty and installed hardware must be evaluated together for each candidate. The former 900 m allocation is retired; the separate 100 m experiment is not a replacement default. The motion figure is a named reference control, not the selected launch design.','',
       'The 0.4 m/s² acceleration and shared-winding arrangement are revisable hypotheses. The [compact, affordable launch comparison](../compact-launch/README.md) evaluates faster acceleration and different mechanisms against the same reference mass and service case. It distinguishes motion distance, full-train contact coverage and receiving hardware; shorter acceleration does not by itself demonstrate available thrust, lower installed cost or acceptable passenger jerk.','',
       f"The separate [30 km / 12 station analysis benchmark](../line30-benchmark/README.md) uses 72 km/h, 1.0 m/s², 120-second headway and a provisional compact rotary cable launch. Its Class C base budget is **USD {budget['installed_capital_usd']['base']/1e6:,.1f} million**, or **USD {budget['price_per_route_km_usd']['base']/1e6:.2f} million per route-km**, including {budget['service']['total_trainsets']} six-car trains, civil/station/power works, depot/production allowances, testing and contingency. This is an analysis reference with separate low/high sensitivities; it changes no selected hardware and supplies no available-force, site or physical approval. The [analysis selector](../../../engineering/analysis-baseline.toml) fixes the comparison scope independently of the development vehicle selector.",'',
       'Reference profiles cover empty, normal-load and 160-person structural-control cases at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
@@ -950,15 +958,33 @@ def seal(output,root=ROOT):
     m['linked_artifacts_sha256']={n:digest(root/n) for n in ('OpenSourceRail-Book.pdf','OpenSourceRail-Book.receipt.json') if (root/n).is_file()}
     m['manifest_id']=identity(m);write(output/'manifest.json',encoded(m));return m
 
+def _retired_native_results(root):
+    from . import retired_station_reference
+    results={};archives={};provenance={}
+    from engineering.development_baseline import selection
+    current=selection.load(root)['vehicle'];proof=retired_station_reference.verify(root)
+    if any(current[k]!=v for k,v in proof['reference_candidate_ids'].items()):
+        raise ValueError('Retired component geometry does not match the reference vehicle; generate new component evidence')
+    for name in ('vehicle','drive','controls'):
+        raw,meta=retired_station_reference.reference_archive(name,root)
+        with tarfile.open(fileobj=io.BytesIO(raw),mode='r:gz') as tar:
+            member=tar.getmember('result.json')
+            if not member.isfile() or member.size>64*1024**2:
+                raise ValueError('Bounded retired component result required')
+            result=json.loads(tar.extractfile(member).read())
+        if any(result.get(k) is not v for k,v in FLAGS.items()):
+            raise ValueError('Retired component evidence cannot grant release')
+        results[name]=result;archives[name]=raw;provenance[name]=meta
+    return results,archives,provenance
+
+
 def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
     linked_publication_sources(root)
     record=evaluation.build(root);natives={};packages={}
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
-    for name in ('vehicle','drive','controls'):
-        packages[name]=native_package(name,record,root,output,native_dir if name=='vehicle' else None)
-        natives[name]=verify_package(packages[name],root)
+    natives,reference_archives,reference_provenance=_retired_native_results(root)
     if output.exists():
         previous=root/'build/v06-development/replaced-current'/digest(output/'manifest.json') if (output/'manifest.json').is_file() else root/'build/v06-development/replaced-current/incomplete'
         if previous.exists():shutil.rmtree(output)
@@ -967,11 +993,12 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     index=cities.publish_all(root=root)
     from engineering.development_baseline import planning
     planning.publish_inputs(root)
-    delivery,compiled=exports.write(output/'exports',record,root,index,natives['vehicle'],return_compiled=True)
+    delivery,compiled=exports.write(output/'exports',record,root,index,None,return_compiled=True)
     compact_value=compact(record,index,natives,delivery)
     for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
        'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root,compiled=compiled).encode()}.items():write(output/name,raw)
-    for name,path in packages.items():write(output/('native-'+name+'.tar.gz'),archive(path))
+    for name,raw in reference_archives.items():write(output/('native-'+name+'.tar.gz'),raw)
+    write(output/'reference-native-provenance.json',encoded(reference_provenance))
     figures.write(record,output)
     for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
     from engineering import readme_context
@@ -1003,9 +1030,12 @@ def verify(output=None,*,root=ROOT,replay=True):
     citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery,compiled=exports.verify(output/'exports',record,root,index,return_compiled=True)
     from engineering.development_baseline import planning
     planning.verify_inputs(root)
-    natives={}
-    for name in ('vehicle','drive','controls'):
-        path=native_package(name,record,root,output);natives[name]=verify_package(path,root)
+    natives,reference_archives,reference_provenance=_retired_native_results(root)
+    for name,raw in reference_archives.items():
+        if (output/('native-'+name+'.tar.gz')).read_bytes()!=raw:
+            raise ValueError('Retired component archive differs')
+    if (output/'reference-native-provenance.json').read_bytes()!=encoded(reference_provenance):
+        raise ValueError('Retired component provenance differs')
     exported=json.loads((output/'exports/manifest.json').read_bytes())
     if value!=compact(record,index,natives,exported):raise ValueError('current summary differs')
     if (output/'README.md').read_text()!=readme(record,value,root,compiled=compiled):raise ValueError('current introduction differs')

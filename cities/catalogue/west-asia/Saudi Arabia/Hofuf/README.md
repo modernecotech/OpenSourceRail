@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Hofuf route geometry](hofuf.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=hofuf)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `44fb28c4c4b0bd41219d9d562cccf407047fc0ca558ae472789f02c35d0bfcd1`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `ece9bf8b21ee4c1cd2e4f0004a9bf8ced9f8896f8e327c9690082a1f7666f0f2`

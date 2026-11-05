@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Arua route geometry](arua.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=arua)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `13f288c1e2dead4a2c780a6b898457f6de580cfa224957b03a23171cc410c065`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `5e0bd9f104c47c44fd5deb2cb8a8e83f159c4324c6396b0311cd34a46c3e81c6`

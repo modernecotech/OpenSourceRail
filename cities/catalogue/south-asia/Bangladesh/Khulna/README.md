@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Khulna route geometry](khulna.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=khulna)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d9e78b0e04cd019b6abc38cf4ae55c99c2e45104ecc038e329c966cc8342a498`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `11017719e3a57851bd46235a3a81d7e4c8fe035a77c5b008faf1dee06f99bfc1`

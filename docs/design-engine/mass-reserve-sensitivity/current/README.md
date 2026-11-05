@@ -1,6 +1,6 @@
 # Selected vehicle residual mass completion
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` and selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` retain the source ledger's accounted tare of **19,221.998 kg/car**. Candidate geometry represents **9,131.799 kg/car**. The existing positive accounting residual is **10,090.200 kg/car** across 10 accounts.
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` and selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` retain the source ledger's accounted tare of **19,221.998 kg/car**. Candidate geometry represents **9,131.799 kg/car**. The existing positive accounting residual is **10,090.200 kg/car** across 10 accounts.
 
 Each low/base/high case replaces that existing residual reserve with a declared 0.8×/1.0×/1.2× sensitivity. The reserve is not added again on top of the accounted tare.
 
@@ -27,7 +27,7 @@ Each low/base/high case replaces that existing residual reserve with a declared 
 
 ## Provisional component completion
 
-The completion routine partitions all 10 positive residual accounts into 28 source-linked or explicitly provisional component packages. The base case replaces each existing account balance exactly; no package is added on top. Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` and selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` bind the estimates.
+The completion routine partitions all 10 positive residual accounts into 28 source-linked or explicitly provisional component packages. The base case replaces each existing account balance exactly; no package is added on top. Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` and selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` bind the estimates.
 
 The package-cost ranges are Class C factory-gate calculations from the dated Iraqi rate dataset plus declared process, burden, yield, QA, overhead and equipment proxies. They exclude delivery, final vehicle installation, commissioning and field civil works. Costs are reported per account because overlaps remain unresolved; they are not summed into a new train total or added to the 112-bundle corridor model. Use the account components only as a replacement for their matching aggregate account estimate.
 

@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Edea route geometry](edea.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=edea)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d5a6fe9ce12ce6a17e9f585e9f77165dcc3c321f0ba3faac2bacaff8d91969bb`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `9f169c4a833df7cbaa1b8dc08d68665793d15952ab486256dbe4e51bc7979c3d`

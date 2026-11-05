@@ -54,6 +54,8 @@ battery_end_of_life_fraction = 0.8
 hot_battery_capacity_fraction_hypothesis = 0.9
 minimum_SOC = 0.2
 maximum_SOC = 0.9
+# These scalar values define retained kinematic control cases only.
+# Active service and propulsion are chosen per candidate by the design policy.
 [service]
 headway_s = 120.0
 dwell_s = 35.0
@@ -64,7 +66,8 @@ rolling_coefficient_hypothesis = 0.0025
 bearing_drag_N_per_car_hypothesis = 50.0
 quadratic_drag_N_per_car_per_m_s_squared_hypothesis = 1.8
 mainline_grade_fraction_hypothesis = 0.0
-station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0]
+# Historical comparison library; never used to choose an active installation.
+retired_station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0]
 station_section_length_m = 12.5
 prototype_distances_m = [1500.0,2000.0]
 minimum_independent_train_phase_branches_per_direction = 2

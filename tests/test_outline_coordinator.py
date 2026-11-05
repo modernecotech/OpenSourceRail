@@ -129,3 +129,83 @@ def test_http_requires_same_origin_bounds_and_refuses_arbitrary_artifacts(tmp_pa
         with pytest.raises(urllib.error.HTTPError) as caught:post(b'{}'*(interactive.MAX_REQUEST_BYTES),base)
         assert caught.value.code==400
     finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_all_three_outline_installations_reconcile_exact_cost_quantities_and_braking(study):
+    value,_=study
+    for row in value['outlines']:
+        installation=row['propulsion_installation'];mode=row['mechanism']
+        assert installation['cost_quantities_reconciled'] is True
+        assert installation['receiving_propulsion_selected'] is False
+        assert installation['independent_onboard_braking_required'] is True
+        assert installation['available_force_N'] is None
+        assert installation['actual_installed_mass_kg'] is None
+        assert installation['electrical_thermal_qualified'] is False
+        assert row['delivery_draft']['physical_installation_id']==installation['physical_installation_id']
+        assert row['delivery_draft']['source_propulsion_installation_evaluation_id']==installation['evaluation_id']
+        assert installation['departure_sites']==22
+        totals=installation['corridor_quantities']
+        if mode=='compact-launch-LIM':
+            costline=next(z for z in row['cost']['capital_lines'] if z['key']=='LIM-primary-installed')
+            assert installation['cost_quantity_line_id']==costline['line_id']
+            q=costline['quantity'];layout=installation['geometry']['layout']
+            assert layout['physical_definition']['directions']==1
+            assert totals['installed_length_m']==q['metres']==22*q['installed_length_m_per_site']
+            assert totals['full_modules']==22*q['modules_per_site']
+            assert totals['stator_face_module_joints']==22*q['stator_face_module_joints_per_site']
+            assert totals['bare_primary_stock_kg']==totals['installed_length_m']*q['stock_proxy_kg_per_m']
+            assert all(s['role']=='launch' for s in layout['sections'])
+        else:
+            q=next(z['quantity'] for z in row['cost']['capital_lines'] if z['key']=='launch-contact-and-return-hardware')
+            if mode=='cable-capstan':
+                assert totals['rope_length_m']==22*q['rope_m_per_site']
+                assert installation['geometry']['continuous_coupling'] is True
+            else:
+                assert totals['roller_contacts']==22*q['contacts_per_site']
+                assert totals['installed_common_drive_bank_m']==22*q['bank_m_per_site']
+                assert installation['geometry']['motor_per_roller_assumed'] is False
+
+
+def test_priced_outline_geometry_is_compact_source_bound_and_not_complete_native_CAD(study):
+    value,_=study
+    for row in value['outlines']:
+        geometry=row['outline_geometry'];vehicle=geometry['vehicle'];guideway=geometry['guideway'];station=geometry['stations']
+        assert geometry['route_length_m']==30000 and geometry['world_crs'] is None
+        assert geometry['detailed_CAD_generated'] is False and geometry['native_solver_jobs']==0
+        assert vehicle['cars_per_train']==6 and vehicle['length_m']==104.5
+        assert vehicle['car_module']['source_body_candidate_id']
+        assert vehicle['car_module']['complete_installed_height_m'] is None
+        assert guideway['priced_span_count']==3000 and guideway['repeat_pattern']['count_per_track']==1500
+        assert guideway['module']['span_m']==20
+        assert guideway['module']['section_dimensions']==dict(outer_width_m=2.,depth_m=1.4,wall_m=.18,flange_m=.18)
+        assert guideway['foundation_dimensions'] is None and guideway['relative_track_centres_m'] is None
+        assert station['chainages_m'][0]==0 and station['chainages_m'][-1]==30000
+        assert station['priced_boarding_edges']==24 and station['priced_platform_area_m2']==24*120*4
+        assert station['platform_module']['height_above_rail_m'] is None
+        assert row['delivery_draft']['outline_geometry_id']==geometry['geometry_id']
+        assert geometry['geometry_id']==identity({k:v for k,v in geometry.items() if k!='geometry_id'})
+        assert len(encoded(geometry))<20000
+
+
+def test_mixed_cost_sites_or_unrounded_LIM_metres_cannot_masquerade_as_geometry(study):
+    value,_=study;row=next(z for z in value['outlines'] if z['mechanism']=='compact-launch-LIM')
+    case=next(c for c in value['service_screen']['cases'] if c['case_id']==row['service_case_id'])
+    context=dict(vehicle=coordinator.selection.load()['vehicle'],spec=coordinator.budget.specification(),root=Path(ROOT))
+    for key in ('metres','sites'):
+        cost=deepcopy(row['cost']);line=next(z for z in cost['capital_lines'] if z['key']=='LIM-primary-installed')
+        line['quantity'][key]*=2
+        line.pop('line_id');line['line_id']=identity(line)
+        cost.pop('evaluation_id');cost['evaluation_id']=identity(cost)
+        with pytest.raises(ValueError,match='quantit'):
+            coordinator._installation(case,cost,context)
+    cost=deepcopy(row['cost']);cost['service_evaluation_id']='f'*64
+    cost.pop('evaluation_id');cost['evaluation_id']=identity(cost)
+    with pytest.raises(ValueError,match='Mixed service'):
+        coordinator._installation(case,cost,context)
+
+
+def test_installation_producer_changes_are_captured_before_costing(monkeypatch):
+    for name in (coordinator.propulsion_layout.PRODUCER,coordinator.station_motor.PRODUCER):
+        with monkeypatch.context() as patch:
+            patch.setitem(coordinator._LOADED,name,'0'*64)
+            with pytest.raises(ValueError,match='restart the calculation worker'):coordinator.prepare()

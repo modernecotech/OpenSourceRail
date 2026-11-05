@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../garoua.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=garoua) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `6b16559710257d36244bed06eb4e1dd4a3fa2d16967e6c3d1ff280b75b99bff5`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `631167fd420ead4ce6cd6403787dc021d26c488f7a38da813d5a95fb97992c82`

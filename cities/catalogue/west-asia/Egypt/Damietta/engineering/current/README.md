@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../damietta.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=damietta) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `87c7b6c4ff0a4c5c3324666e4ceb8122ed4ee924db248a789d5160124ed0ec57`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `5557892640ae304c3e8e47d99ecd154672be7b0b7527e5c81a12c44f5aa96238`

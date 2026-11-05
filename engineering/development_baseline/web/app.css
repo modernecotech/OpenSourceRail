@@ -5,6 +5,11 @@
   line-height: 1.55;
   font-size: 16px;
 }
+.design-maturity{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
+.design-maturity p{margin:0;padding:12px;border:1px solid #c4d6cc;border-radius:6px;background:#f4f9f5}
+.design-maturity strong,.design-maturity span{display:block}
+.design-maturity span{font-size:14px;margin-top:4px}
+@media(max-width:700px){.design-maturity{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .outline-start { margin-top: 24px; }
 #city-outline-map { width: 100%; max-height: 520px; background: #f4f7f5; }
 #city-outline-detail { white-space: pre-wrap; overflow-wrap: anywhere; }

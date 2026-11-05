@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Amarah route geometry](amarah.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=amarah)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7fa2e6f6bdfda6d5175ba16c91df4ec0b2449c384ccf9990fe9f27fd1e6fbfc3`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `7565b468bfd46ad19c5360a7eddc5b836e0507f75e9e58338ad2011ba14408d8`

@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Polokwane route geometry](polokwane.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=polokwane)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `9d9916d15c8d5d23aee75ed67119f0d68574744df0545fc0818ec3c4598e22ce`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `2a7fe4b07b04abfc2864188f75fd1430f85455ae585964be77665c59695fd3a8`

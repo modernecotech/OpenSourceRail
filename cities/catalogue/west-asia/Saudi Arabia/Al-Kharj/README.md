@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Al Kharj route geometry](al-kharj.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=al-kharj)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `17c6ce115b49a00551ec9fdd36dde546e28714635bf6bd182017fcc641ff08ad`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `b33f5eeb4b80bfae905dcba1513422454a17c8d564b04b7b11f0c2b5911ca81f`

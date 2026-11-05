@@ -17,7 +17,13 @@ TEMPLATE='build/trip-dynamics/tools/getdp-3.5.0-Linux64/share/doc/getdp/template
 
 
 def definition():
-    d=dict(schema='osr-station-LIM-primary-definition/1',family='double-sided-slotted-LIM',
+    """Finite unit geometry; never selects a station deployment length.
+
+    This v2 identity deliberately differs from the retained v1 producer and its
+    native evidence. Removing a deployment subtotal does not admit those runs
+    against a changed source or establish any installed force map.
+    """
+    d=dict(schema='osr-station-LIM-primary-definition/2',family='double-sided-slotted-LIM',
         wavelength_m=.5,slots_per_period=6,pole_pitch_m=.25,slot_pitch_m=.5/6,
         slot_width_m=.04,slot_depth_m=.055,backiron_m=.025,active_height_m=.16,
         secondary_thickness_m=.015,nominal_gap_each_side_m=.015,
@@ -41,9 +47,20 @@ def definition():
     iron_area_two_sides=2*(d['backiron_m']+d['slot_depth_m']*(1-d['slot_width_m']/d['slot_pitch_m']))*d['active_height_m']
     d['primary_steel_kg_per_m']=iron_area_two_sides*7850
     d['bare_primary_stock_kg_per_m']=d['copper_kg_per_m']+d['primary_steel_kg_per_m']
-    d['bare_900m_stock_kg_per_direction']=900*d['bare_primary_stock_kg_per_m']
-    d['bare_12_5m_module_stock_kg_both_sides']=12.5*d['bare_primary_stock_kg_per_m']
+    d['bare_addressed_module_stock_kg_both_sides']=d['addressed_module_length_m']*d['bare_primary_stock_kg_per_m']
+    d['deployment_length_m']=None
+    d['quantity_scope']='Finite research unit and bare stock per metre; deployment requires an explicit candidate layout'
+    d['native_evidence_admitted']=False
     d['excluded_mass_and_cost']=['Laminations insulation and joints','Supports/fasteners/cooling','Inverters and sectional switchgear','Civil supports and station supply']
+    # A changed material-law/temperature hypothesis is evaluation evidence,
+    # not a different repeating-cell physical geometry or winding topology.
+    physical_keys=('wavelength_m','slots_per_period','pole_pitch_m','slot_pitch_m',
+        'slot_width_m','slot_depth_m','backiron_m','active_height_m',
+        'secondary_thickness_m','nominal_gap_each_side_m','turns_per_coil',
+        'conductor_area_m2','phase_sequence','end_turn_extra_length_m')
+    d['repeating_cell_physical_id']=identity(dict(
+        geometry={k:d[k] for k in physical_keys},
+        material_families=['copper-conductor','electrical-steel-core']))
     d['motor_component_id']=identity(d)
     return d
 

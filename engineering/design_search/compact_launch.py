@@ -148,7 +148,7 @@ def evaluate(root=ROOT):
         "engineering/station_rail/common.py","engineering/station_rail/brief.toml"]
     sources={**car["source_sha256"],**selected["source_sha256"],**{n:digest(root/n) for n in names}}
     baseline=operations.profile(c["distance_m"],mass,rotating_equivalent_mass_kg_per_car=rotor["equivalent_inertial_mass_kg_per_car"])
-    zones=[operations.station_zone(baseline,x,train_length_m=train_length) for x in b["service"]["station_winding_library_m"]]
+    zones=[operations.station_zone(baseline,x,train_length_m=train_length) for x in b["service"]["retired_station_winding_library_m"]]
     feasible=[z for z in zones if z["nominal_resource_screen"]=="pass"]
     if not feasible:raise ValueError("Reference winding catalogue has no necessary-screen survivor")
     reference=min(feasible,key=lambda z:z["length_m"])

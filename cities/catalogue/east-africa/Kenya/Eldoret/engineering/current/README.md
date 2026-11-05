@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../eldoret.corridor.geojson) · [map cont
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=eldoret) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ad7995006cdcf9bf32f8dee6dea6853ea5170c82e3de8623e903cbcc581d3eb0`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `9afebc670e6eebe479dc1165f1bbcfe806b0a27283d315b7387566fa89e3073a`

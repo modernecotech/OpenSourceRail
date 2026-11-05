@@ -7,7 +7,7 @@ OpenSourceRail turns the registered design portfolios and mapped city networks i
 
 **266 city networks**, **1565 lines** and **32,690.0 route-km** have complete fourteen-scope installed and 30-year cost scenarios.
 
-15,227 retained map stop markers are represented by 13,580 operational station complexes. The campaign priced 623 original/revised alignment scenarios; 151 revised alignments are retained for further outline detailing under the declared access and cost assumptions.
+15,227 retained map stop markers are represented by 13,580 operational station complexes. The campaign priced 623 original/revised alignment scenarios; 150 revised alignments are retained for further outline detailing under the declared access and cost assumptions.
 
 Design coverage also includes **112 railway bundles**, **54 body outlines** and **18 civil spans**, each at its explicit component or system scope.
 
@@ -18,7 +18,7 @@ Design coverage also includes **112 railway bundles**, **54 body outlines** and 
 | Lyon | 296.5 | 9 | 109 | 337 | 4,754.0 | 16.03 |
 | Agra | 158.5 | 5 | 54 | 191 | 2,709.5 | 17.09 |
 
-Calculation `f4817ef147e8a046431484093c89ce5c9070b4c2e2eb374682e84789993efe44`; publication `76575a085893cf1d31df8e2890351e4ff0abd5cea45298736e26cfb965308667`.
+Calculation `14afece0da186a4c6ca864f224c2a4101e2f7be2c862eb4c443d333e5c8545be`; publication `168972b749eacc6c09923d3fcb890a4267d83f725ceef700effdcc94894cc1ef`.
 <!-- END calculated outline coverage -->
 
 ## Methods

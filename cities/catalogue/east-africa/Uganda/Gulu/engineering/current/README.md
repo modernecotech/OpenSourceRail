@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../gulu.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=gulu) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `196f081525bceaa9504b9b11182c1ec1a0c8410d004c93ba33dfe54888b24018`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `0a418fa9e8918f8c2544fdff19072bb280700d9622bbc415f38823ecabf3882c`

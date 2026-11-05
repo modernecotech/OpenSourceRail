@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../jeddah.corridor.geojson) · [map conte
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=jeddah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `d25c1aae8e967a791538e4147dc7a57716608b47b6280704d2849478f4fa8ecb`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `7996414ee319a4ecb7f8bafb27f2c7bbf941b0d883bea9e6020254ed3c6bffdb`

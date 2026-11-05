@@ -122,6 +122,11 @@ def _drive(spec, service, rates, mode):
     mechanical = service['peak_train_mechanical_power_W']/1000
     stroke = service['jerk_launch_distance_m']; bank = service['jerk_full_train_fin_launch_envelope_m']
     primary = station_motor.definition(); lines=[]; capacities=[]
+    requested_bank=bank
+    modules_per_site=None
+    if mode=='compact-launch-LIM':
+        modules_per_site=ceil(bank/primary['addressed_module_length_m'])
+        bank=modules_per_site*primary['addressed_module_length_m']
     for i,case in enumerate(CASES):
         efficiency = lim['efficiency'] if mode == 'compact-launch-LIM' else rotary['transmission_efficiency']*rotary['motor_efficiency']*rotary['vfd_efficiency']
         active_input = mechanical/efficiency
@@ -147,6 +152,11 @@ def _drive(spec, service, rates, mode):
             factory.append(metres*(direct*(1+[.1,.2,.3][i])*lim['unresolved_thrust_design_cost_multiplier'][i]
                 +lim['support_cooling_installed_iqd_per_m'][i]))
         _add(lines, 'LIM-primary-installed', 'stations-power', dict(sites=n, metres=metres,
+            requested_launch_envelope_m_per_site=requested_bank,installed_length_m_per_site=bank,
+            modules_per_site=modules_per_site,module_length_m=primary['addressed_module_length_m'],
+            stator_face_module_joints_per_site=2*max(0,modules_per_site-1),
+            layout_policy='whole-modules; launch-only with independent onboard receiving brakes',
+            joints_priced_in='support-cooling-installation allowance; not a detailed joint quotation',
             stock_proxy_kg_per_m=primary['bare_primary_stock_kg_per_m'], thrust_design_cost_multiplier=lim['unresolved_thrust_design_cost_multiplier']), factory,
             'Existing stator copper/steel quantities are a COST proxy; fabrication, support/cooling/installation and explicit unresolved-thrust cost allowance are included. This does not make the old stator deliver the new required force.', spec['lifecycle']['drive_life_years'])
     else:

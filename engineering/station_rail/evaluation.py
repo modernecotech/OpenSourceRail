@@ -35,14 +35,14 @@ def build(root=ROOT):
       ('civil-and-site','unknown','Alternative sections are necessary screens. Prestress, fatigue, torsion, lateral/derailment loads, foundations, survey, erection and independent review remain open.'),
       ('rescue-and-evacuation','unknown','Motorless off-zone restart needs a protected rescue/tow system, emergency access and an acceptable high-viaduct evacuation plan.'),
       ('whole-system-economics','unknown','No same-service supplier quotes or complete CAPEX/OPEX/renewal comparison; lower installed cost has not been established.'),
-      ('city-regeneration','hold','Preserve 266 geographic inputs. Numerical city publication is held pending reference propulsion, braking, route and economic evidence.'),
+      ('city-regeneration','hold','Preserve 266 geographic inputs. Calculated city outlines are available; physical route performance and deployment approval require candidate-specific evidence.'),
     ]
-    result=dict(schema='osr-current-development-evaluation/2',version='0.6.0',family='wheel_rail_station_lim',
+    result=dict(schema='osr-current-development-evaluation/2',version='0.6.0',family=baseline['selection']['family'],
         **{k:car[k] for k in IDS[1:]},selection_id=baseline['selection_id'],selection=baseline['selection'],
         development_default=True,configuration_adopted_for_development=True,
-        selection_purpose='Reference engineering and prototype investigation; no city deployment or economic acceptance',
-        selection_rationale='User-selected wheel/rail station-power architecture eliminates suspension electromagnets and continuous magnetic facing steel. The vehicle may be heavier, station LIM remains unqualified and economic superiority is unknown.',
-        vehicle=car,service=ops,civil=structures,
+        selection_purpose='Vehicle/interface reference plus candidate-specific propulsion search; no installed drive or physical release selected',
+        selection_rationale='Preserve the wheel-supported reference vehicle while independently exploring propulsion, acceleration, braking, headway and installed hardware. Neither a900m nor a100m drive is an active selection.',
+        vehicle=car,service=ops,civil=structures,active_propulsion_policy=baseline['active_propulsion_policy'],
         gates=[dict(gate=name,state=state,reason=reason,evidence_maturity='analytical',physical_acceptance=False) for name,state,reason in gates],
         source_sha256=merge(car['source_sha256'],ops['source_sha256'],structures['source_sha256'],baseline['source_sha256'],
             source_map(root,('engineering/station_rail/evaluation.py','engineering/station_rail/families.py','engineering/development_baseline/selection.py'))),**FLAGS)
@@ -64,4 +64,7 @@ def summary(record):
             shared_winding_m=z['length_m'] if z else None,
             nominal_resource_interval_s=z['nominal_resource_interval_s'] if z else None,
             physical_headway_qualified=False,actual_thrust_map_available=False),
+        active_propulsion_policy=record['active_propulsion_policy'],
+        design_maturity=dict(outline_completion='candidate-specific calculated studies',
+            engineering_verification='pending',prototype_validation='not-demonstrated',release_approval='pending'),
         gates=record['gates'],**FLAGS)

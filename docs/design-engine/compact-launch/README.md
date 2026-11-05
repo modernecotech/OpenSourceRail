@@ -46,4 +46,4 @@ Two-shift production/construction and two/three-shift operating scenarios are re
 Intamin documents a [friction-wheel launch example](https://www.intamin.com/project/quantum-accelerator/); Doppelmayr documents [rope-propelled rail APMs](https://www.doppelmayr.com/en/systems/automated-people-mover/). These establish principles, not this railway's cost, performance or approval.
 
 Every available-force, thermal, wear, braking, coupler, maintenance, accessibility and physical-acceptance gate remains open.
-Comparison `94e5b344a2efd6008ee4fae0911e9518cc99c4b9f5d44100a9e10243b0b544c6`.
+Comparison `14f9bfee5deb473f87fdf1b047212a204a09a28e1877c25c9143b0c6a5d37fc3`.

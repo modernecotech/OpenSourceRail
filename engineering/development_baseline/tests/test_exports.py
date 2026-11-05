@@ -18,7 +18,13 @@ def test_shared_physical_identity_and_independent_brake_interfaces(current):
     assert not c['magnetic_suspension_inputs']
     assert c['qualified_braking_floor_m_s2'] is None
     assert c['actual_physical_headway_s'] is None
-    assert c['addressed_sections_per_direction']==72
+    assert c['addressed_sections_per_direction'] is None
+    assert c['shared_station_winding_m'] is None
+    assert c['section_length_m'] is None
+    assert c['minimum_independent_train_phase_branches_per_direction'] is None
+    assert c['installed_propulsion_selected'] is False
+    assert c['active_propulsion_policy_id']==current['active_propulsion_policy']['policy_id']
+    assert c['reference_LIM_fixture']['installed_selection'] is False
     assert result['bom']['onboard_traction_battery_kWh']==0
     assert result['bom']['service_battery']['gross_energy_kWh']>0
     assert result['bom']['retained_component_ancestry']

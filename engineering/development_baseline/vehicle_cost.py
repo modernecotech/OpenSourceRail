@@ -34,6 +34,7 @@ def sources(root):
         "engineering/mass_reserve_sensitivity.py",
         "campaigns/mass-reserve-sensitivity.toml",
         "engineering/development_baseline/selection.py",
+        "engineering/development_baseline/propulsion_policy.py",
         "engineering/station_rail/common.py",
         "engineering/station_rail/brief.toml",
         "engineering/station_rail/vehicle.py",

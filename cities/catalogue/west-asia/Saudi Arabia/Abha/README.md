@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Abha route geometry](abha.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=abha)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `474a211f8d10cfa01d645a7f788956293fbb307e4e5a26503d567dd7fca0fc2f`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `c7f62774572b25ffbc4a80f833ea55903537463824b4becec29257b0a124780e`

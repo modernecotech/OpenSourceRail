@@ -15,4 +15,4 @@ Compile and verify a proposal from the repository root:
 
 [Beira route geometry](beira.corridor.geojson) · [Geographic context](map-context.json.gz) · [Current v0.6 city hold](../../../../../engineering/current/README.md) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=beira)
 
-Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `8fd8f2ed2c3d78b10285d633653dc40d671ef439b3182532e0d5afa7e9817b2a`
+Selected candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `fbc5861eca53b6ce4f78069501e5f65ecbfaca96491843106a9bfb7b5e379f88`

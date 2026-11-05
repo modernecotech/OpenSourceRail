@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../sulaymaniyah.corridor.geojson) · [map
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=sulaymaniyah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `a6523b4e3fd072f7741386a2e0951b56030b8e2117949d52bbd812b3d1dec9f3`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `d768a6ebfb27cebf6a7d94d7d3d3395db3490d15d125fc6bcb2bbad71565dbbd`

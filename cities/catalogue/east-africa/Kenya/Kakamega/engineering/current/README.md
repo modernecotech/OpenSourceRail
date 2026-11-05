@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../kakamega.corridor.geojson) · [map con
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kakamega) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `7954e61d55b2d0daf935f4e576ec73051bd3095d2c304c2c08f557b1c0a7b041`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `22e8bc34de9f58603c0704715c3d386f2a47729b4faeb0266c5edc1381ed0b89`

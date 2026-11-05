@@ -91,7 +91,6 @@ def definition(parameters):
     d['copper_kg_per_m']=d['wire_length_m_per_coil']*p['conductor_area_m2']*8960*d['coils_both_sides_per_m']
     d['primary_steel_kg_per_m']=2*(p['backiron_m']+p['slot_depth_m']*(1-p['slot_width_m']/pitch))*p['active_height_m']*7850
     d['bare_primary_stock_kg_per_m']=d['copper_kg_per_m']+d['primary_steel_kg_per_m']
-    d['bare_900m_stock_kg_per_direction']=900*d['bare_primary_stock_kg_per_m']
     d['bare_12_5m_module_stock_kg_both_sides']=p['primary_length_m']*d['bare_primary_stock_kg_per_m']
     d['physical_configuration']=deepcopy(p);d['motor_component_id']=identity({k:v for k,v in p.items() if k!='name'})
     return d

@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../hail.corridor.geojson) · [map context
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=hail) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `df53367524333cd9c075f62ab365d4e9d6c10b37131aba2bfc6faeacf83dd29a`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `7eed4c5973d84bd240510683d6d4838d616abd704cba8d6e8fca6e77cee99bc3`

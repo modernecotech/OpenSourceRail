@@ -10,4 +10,4 @@ Geographic inputs: [route geometry](../../jos.corridor.geojson) · [map context]
 
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=jos) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
-Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc` · evaluation `ea238618b3f14d0bd259d616a10b38de6c3d274d8e22b00ae932629089699329`
+Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `ec794061bc4c117585918e7b219e50a3fcddb83a1184898c45c63b0ad3c749d6`

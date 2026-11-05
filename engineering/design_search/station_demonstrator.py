@@ -85,7 +85,7 @@ def build(bundle=None, *, root=ROOT):
     """Bind the selected reference to demand, geometry and T05/T07/T08 requests."""
     root = Path(root).resolve()
     executing_sources = _executing_sources(root)
-    bundle = selected_reference_journey.build(root) if bundle is None else bundle
+    if bundle is None:raise ValueError('Explicit candidate-specific station bundle required; no installed propulsion is selected')
     selected_reference_journey.validate(bundle, root)
     config = brief(root)
     case = bundle["architecture_case"]
@@ -115,7 +115,7 @@ def build(bundle=None, *, root=ROOT):
         dwell_s=service["dwell_s"], headway_s=requirements["target_headway_s"],
         section_length_m=service["station_section_length_m"],
         independent_train_phase_branches=service["minimum_independent_train_phase_branches_per_direction"])
-        for length in service["station_winding_library_m"]]
+        for length in service["retired_station_winding_library_m"]]
     survivors = [z for z in zones if z["nominal_resource_screen"] == "pass"]
     reference_zone = min(survivors, key=lambda z: z["length_m"]) if survivors else None
     binding = dict(
