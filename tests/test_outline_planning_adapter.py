@@ -39,7 +39,7 @@ def fixture(tmp_path,monkeypatch):
         dict(operational_stop_id='c',original_stop_ids=['c'],maximum_added_walk_m=0.,summed_added_walk_m=0.,additional_shared_platform_length_m=0.)])
     duty=dict(line_id='L',operational_stops=ops,station_repair=repair,
         service=dict(stop_dwell_s=[35.,35.]),requirements=dict(headway_s=200.),design=dict(speed_m_s=20.))
-    services=seal(dict(line_services=[duty]))
+    services=seal(dict(city_input_id=original['input_id'],line_services=[duty]))
     seed=dict(schema=adapter.SEED_SCHEMA,city_slug='fixture',rules=dict(peak_demand_pphpd=4000.,
         planning_occupancy=.85,planning_availability_assumption=.99,maximum_headway_s=300.),
         selected_alignment_id='1'*64,selected_alignment_kind='original',selected_city_input_id=original['input_id'],
@@ -62,7 +62,7 @@ def fixture(tmp_path,monkeypatch):
 def bundle(base,edits):
     seed=base['outline_context']['seed']
     return dict(schema=adapter.EDIT_SCHEMA,city=base['city'],base_revision_sha256=base['revision_sha256'],
-        seed_id=seed['seed_id'],source_outline_evaluation_id=seed['source_outline_evaluation_id'],actor='Fixture planner',edits=edits)
+        seed_id=seed['seed_id'],source_outline_evaluation_id=base['source_outline_evaluation_id'],actor='Fixture planner',edits=edits)
 
 
 def test_seed_requires_current_publication_membership_not_just_a_new_hash(fixture):
@@ -129,7 +129,8 @@ def test_stale_bundle_duplicate_stop_bad_ring_offbounds_or_od_orphan_refused(fix
     base['lines'][0]['stops'].insert(1,dict(id='middle',chainage_m=1000.,lon=.02*1000/base['lines'][0]['length_m'],lat=0.,dwell_s=35.))
     base['revision_sha256']=planning.digest_json({k:v for k,v in base.items() if k!='revision_sha256'})
     with pytest.raises(planning.PlanningError,match='OD'):
-        adapter.apply_edits(base,bundle(base,[dict(kind='retire-stop',line='L',stop='complex-ab')]),root)
+        adapter.apply_edits(base,bundle(base,[dict(kind='retire-stop',line='L',stop='complex-ab')]),root,
+            trusted_base_sha256=planning.digest_bytes(encoded(base)))
 
 
 def service(ring=False):
@@ -165,6 +166,37 @@ def test_source_map_collision_is_rejected():
         adapter.merge_sources({'same.py':'a'*64},{'same.py':'b'*64})
 
 
+def test_resealed_untracked_base_is_not_accepted_without_server_manifest_hash(fixture):
+    root,_,_,_,base=fixture
+    forged=deepcopy(base);forged['lines'][0]['headway_s']=140
+    forged['revision_sha256']=planning.digest_json({k:v for k,v in forged.items() if k!='revision_sha256'})
+    with pytest.raises(planning.PlanningError,match='server-verified'):
+        adapter.apply_edits(forged,bundle(forged,[]),root)
+    with pytest.raises(planning.PlanningError,match='artifact hash'):
+        adapter.apply_edits(forged,bundle(forged,[]),root,trusted_base_sha256='0'*64)
+
+
+def test_server_verified_different_study_becomes_exact_editable_base(fixture):
+    root,seed,city,services,_=fixture
+    services=deepcopy(services);services['line_services'][0]['requirements']['headway_s']=150.;seal(services)
+    cost=seal(dict(city_input_id=city['input_id'],source_sha256=city['source_sha256']))
+    record=seal(dict(geometry_and_service=city,service_evaluation=services,cost=cost,
+        reference_candidate_ids=city['reference_candidate_ids'],research_configuration_id='e'*64,
+        selected_alignment_id='f'*64,selected_alignment_kind='server-study',
+        policy={**seed['rules'],'peak_demand_pphpd':5000},source_sha256=city['source_sha256'],**adapter.FLAGS))
+    h=planning.digest_bytes(encoded(record))
+    base=adapter.plan_from_record(seed,record,root,trusted_record_sha256=h,design={'acceleration_m_s2':1.2})
+    assert base['lines'][0]['headway_s']==150
+    assert base['source_outline_evaluation_id']==record['evaluation_id']
+    assert base['source_cost_evaluation_id']==cost['evaluation_id']
+    assert base['research_configuration_id']=='e'*64 and base['source_alignment_id']=='f'*64
+    result=adapter.apply_edits(base,bundle(base,[]),root,trusted_base_sha256=planning.digest_bytes(encoded(base)))
+    assert result['requirements']['peak_demand_pphpd']==5000
+    assert result['source_outline_evaluation_id']==record['evaluation_id']
+    assert result['requested_design']['acceleration_m_s2']==1.2
+    assert result['research_configuration_parent_id']=='e'*64
+
+
 def test_retired_complex_keeps_access_aliases_and_edited_od_proposals(fixture):
     root,_,_,_,base=fixture
     base=deepcopy(base);base['outline_context']['city_input_template']['interchanges']=[dict(id='transfer',platforms=['a','c'])]
@@ -172,7 +204,7 @@ def test_retired_complex_keeps_access_aliases_and_edited_od_proposals(fixture):
     edits=[dict(kind='add-stop',line='L',stop='middle',chainage_m=100.,dwell_s=35.),
         dict(kind='retire-stop',line='L',stop='complex-ab'),
         dict(kind='set-od',rows=[dict(origin='middle',destination='c',trips_per_day=100,basis='synthetic')])]
-    result=adapter.apply_edits(base,bundle(base,edits),root)
+    result=adapter.apply_edits(base,bundle(base,edits),root,trusted_base_sha256=planning.digest_bytes(encoded(base)))
     assert [s['id'] for s in result['city_input']['lines'][0]['stops']]==['middle','c']
     assert result['city_input']['interchanges'][0]['source_platform_ids']==['a','c']
     assert result['city_input']['interchanges'][0]['platforms']==['middle','c']

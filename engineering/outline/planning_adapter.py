@@ -99,6 +99,10 @@ def _reconstruct(seed,root,context=None,verify_cost=False):
 
 def export_plan(seed,root=ROOT,*,context=None,verify_cost=False):
     validate_seed(seed,root);city,services=_reconstruct(seed,root,context,verify_cost)
+    return _build_plan(seed,city,services,verify_cost=verify_cost)
+
+
+def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
     by={x['line_id']:x for x in services['line_services']};lines=[];mapping={}
     for line in city['lines']:
         duty=by[line['line_id']];stops=deepcopy(duty['operational_stops'])
@@ -114,15 +118,69 @@ def export_plan(seed,root=ROOT,*,context=None,verify_cost=False):
     for row in city.get('od',[]):
         r=deepcopy(row);r['origin']=mapping.get(r['origin'],r['origin']);r['destination']=mapping.get(r['destination'],r['destination'])
         if r['origin']!=r['destination']:od.append(r)
+    provenance=origin or seed
     plan=dict(schema=planning.BASE_SCHEMA,environment='planning',city=seed['city_slug'],revision=0,
-        selection_id=city['selection_id'],source_sha256=merge_sources(seed['source_sha256'],_LOADED),
+        source_outline_evaluation_id=provenance['source_outline_evaluation_id'],
+        source_service_evaluation_id=provenance.get('source_service_evaluation_id',seed['selected_service_evaluation_id']),
+        source_cost_evaluation_id=provenance['source_cost_evaluation_id'],
+        research_configuration_id=provenance['research_configuration_id'],
+        source_alignment_id=provenance.get('selected_alignment_id'),official_seed_id=seed['seed_id'],
+        selection_id=city['selection_id'],source_sha256=merge_sources(seed['source_sha256'],city.get('source_sha256',{}),services.get('source_sha256',{}),_LOADED),
         lines=lines,interchanges=deepcopy(city.get('interchanges',[])),od=od,
         outline_context=dict(seed=deepcopy(seed),city_input_template=deepcopy(city),
             baseline_line_services=deepcopy(services['line_services']),original_OD=deepcopy(city.get('od',[])),
+            study_rules=deepcopy(origin['rules'] if origin else seed['rules']),
+            source_study=deepcopy(origin),requested_design=deepcopy(design),
             cost_replay_performed=bool(verify_cost),original_geography_modified=False),
         **{key:False for key in planning.PLAN_DISPOSITIONS})
+    contexts=[n for n in seed['source_sha256'] if n.startswith('cities/catalogue/') and n.endswith('/map-context.json.gz')]
+    if len(contexts)==1:
+        plan['map_context']=dict(path=contexts[0],sha256=seed['source_sha256'][contexts[0]],
+            role='Geographic context only; not survey, route-clearance, demand, engineering or operating evidence')
     plan['revision_sha256']=planning.digest_json(plan)
     return planning._validate_plan(plan,seed['city_slug'])
+
+
+def plan_from_record(seed,city_record,root=ROOT,*,trusted_record_sha256,design=None):
+    """Rebase on an exact immutable calculation verified by the server caller.
+
+    The expected hash must come from the caller's verified run manifest, never
+    from an untrusted upload. This function does not authenticate that manifest.
+    """
+    validate_seed(seed,root)
+    if not re.fullmatch('[0-9a-f]{64}',str(trusted_record_sha256)) or planning.digest_bytes(encoded(city_record))!=trusted_record_sha256:
+        raise planning.PlanningError('Server-verified study artifact hash differs')
+    if city_record.get('evaluation_id')!=identity({k:v for k,v in city_record.items() if k!='evaluation_id'}):
+        raise planning.PlanningError('Source study record identity differs')
+    _sources(root,city_record['source_sha256'])
+    if any(city_record.get(k) not in (None,False) for k in FLAGS):raise planning.PlanningError('Source study cannot grant release')
+    city=city_record['geometry_and_service'];services=city_record['service_evaluation'];cost=city_record['cost']
+    for value,key in ((city,'input_id'),(services,'evaluation_id'),(cost,'evaluation_id')):
+        if value.get(key)!=identity({k:v for k,v in value.items() if k!=key}):
+            raise planning.PlanningError('Source study subrecord identity differs: '+key)
+    if (city['city']['slug']!=seed['city_slug'] or city['reference_candidate_ids']!=seed['reference_candidate_ids']
+            or city_record['reference_candidate_ids']!=seed['reference_candidate_ids']
+            or services['city_input_id']!=city['input_id'] or cost['city_input_id']!=city['input_id']):
+        raise planning.PlanningError('Mixed study city, service, cost or physical reference')
+    origin=dict(kind='server-verified-calculated-study',source_study_sha256=trusted_record_sha256,
+        source_outline_evaluation_id=city_record['evaluation_id'],source_city_input_id=city['input_id'],
+        source_service_evaluation_id=services['evaluation_id'],source_cost_evaluation_id=cost['evaluation_id'],
+        research_configuration_id=city_record['research_configuration_id'],
+        selected_alignment_id=city_record.get('selected_alignment_id'),selected_alignment_kind=city_record.get('selected_alignment_kind'),
+        rules=deepcopy(city_record['policy']),official_seed_id=seed['seed_id'])
+    return _build_plan(seed,city,services,origin=origin,design=design)
+
+
+def verify_base(base,root=ROOT,*,trusted_base_sha256=None):
+    planning._validate_plan(base,base.get('city'));validate_seed(base['outline_context']['seed'],root)
+    _sources(root,base['source_sha256'])
+    if trusted_base_sha256 is not None:
+        if not re.fullmatch('[0-9a-f]{64}',str(trusted_base_sha256)) or planning.digest_bytes(encoded(base))!=trusted_base_sha256:
+            raise planning.PlanningError('Server-verified planning base artifact hash differs')
+    else:
+        expected=export_plan(base['outline_context']['seed'],root)
+        if encoded(base)!=encoded(expected):raise planning.PlanningError('Rebased planning revisions require a server-verified immutable base artifact')
+    return base
 
 
 def _line_input(original,current,baseline_duty):
@@ -168,14 +226,13 @@ def _line_input(original,current,baseline_duty):
     return output,walk,maximum
 
 
-def apply_edits(base,bundle,root=ROOT):
-    planning._validate_plan(base,base.get('city'));seed=validate_seed(base['outline_context']['seed'],root)
-    _sources(root,base['source_sha256'])
+def apply_edits(base,bundle,root=ROOT,*,trusted_base_sha256=None):
+    verify_base(base,root,trusted_base_sha256=trusted_base_sha256);seed=base['outline_context']['seed']
     expected={'schema','city','base_revision_sha256','seed_id','source_outline_evaluation_id','actor','edits'}
     if not isinstance(bundle,dict) or set(bundle)!=expected or bundle.get('schema')!=EDIT_SCHEMA:
         raise planning.PlanningError('Typed priced planning edit bundle required')
     if (bundle['city']!=base['city'] or bundle['base_revision_sha256']!=base['revision_sha256']
-            or bundle['seed_id']!=seed['seed_id'] or bundle['source_outline_evaluation_id']!=seed['source_outline_evaluation_id']):
+            or bundle['seed_id']!=seed['seed_id'] or bundle['source_outline_evaluation_id']!=base['source_outline_evaluation_id']):
         raise planning.PlanningError('Stale or incompatible priced planning base')
     plan=geometry.apply_edits(base,bundle['edits'],bundle['actor']);template=deepcopy(base['outline_context']['city_input_template'])
     by={l['line_id']:l for l in template['lines']};duties={l['line_id']:l for l in base['outline_context']['baseline_line_services']}
@@ -200,10 +257,10 @@ def apply_edits(base,bundle,root=ROOT):
             interchange['source_platform_ids']=deepcopy(prior)
             interchange['platforms']=[aliases.get(x,x) for x in prior]
             interchange['access_reassessment_required']=True
-    template.pop('input_id');template.update(lines=lines,civil_segments=segments,
+    parent_input_id=template.pop('input_id');template.update(lines=lines,civil_segments=segments,
         od=deepcopy(plan['od']),proposed_OD_reference_scope='Edited operational stop proposals; not surveyed or forecast demand',
         source_sha256=merge_sources(template['source_sha256'],_LOADED),
-        ancestry=dict(parent_input_id=seed['selected_city_input_id'],revision_operator='priced-planning-edits',
+        ancestry=dict(parent_input_id=parent_input_id,revision_operator='priced-planning-edits',
             planning_revision_sha256=plan['revision_sha256'],seed_id=seed['seed_id']),**{k:False for k in city_flag_names()})
     if changed or extra_walk:
         hypothesis=deepcopy(template.get('alignment_hypothesis',{}));risk=hypothesis.setdefault('risk_quantities',{})
@@ -211,18 +268,19 @@ def apply_edits(base,bundle,root=ROOT):
         risk['changed_route_m']=risk.get('changed_route_m',0.)+changed
         risk['additional_row_area_m2']=risk.get('additional_row_area_m2',0.)+changed*20.
         risk['unverified_bridge_route_m_hypothesis']=risk.get('unverified_bridge_route_m_hypothesis',0.)+changed*.05
-        hypothesis.update(kind='edited-priced-planning-research',parent_input_id=seed['selected_city_input_id'],
+        hypothesis.update(kind='edited-priced-planning-research',parent_input_id=parent_input_id,
             route_clearance_unknown=True,site_and_row_verified=False,
             revision_assumptions=dict(walking_detour_factor=1.25,new_ROW_width_m=20.,unverified_bridge_route_fraction=.05,
                 civil_class_allocation='Existing class intervals rescaled as an explicit hypothesis; actual crossing locations not inherited'))
         template['alignment_hypothesis']=hypothesis
     template['input_id']=identity(template)
-    maximum_allowed=seed['rules'].get('alignment',{}).get('maximum_added_walk_m',500.)
+    rules=base['outline_context']['study_rules']
+    maximum_allowed=rules.get('alignment',{}).get('maximum_added_walk_m',500.)
     result=dict(schema='osr-priced-planning-revision/1',plan=plan,city_input=template,
-        requirements=deepcopy(seed['rules']),service_requests=requests,
+        requirements=deepcopy(rules),service_requests=requests,requested_design=deepcopy(base['outline_context'].get('requested_design')),
         base_revision_sha256=base['revision_sha256'],seed_id=seed['seed_id'],edit_bundle_id=identity(bundle),
-        source_outline_evaluation_id=seed['source_outline_evaluation_id'],
-        research_configuration_parent_id=seed['research_configuration_id'],
+        source_outline_evaluation_id=base['source_outline_evaluation_id'],official_source_outline_evaluation_id=seed['source_outline_evaluation_id'],
+        research_configuration_parent_id=base['research_configuration_id'],
         access_screen=dict(status='pass' if maximum<=maximum_allowed else 'fail',maximum_added_walk_m=maximum,
             maximum_allowed_walk_m=maximum_allowed,additional_access_walkway_m=extra_walk,actual_walk_network_verified=False),
         planning_revision_id=planning.digest_json(dict(plan_revision=plan['revision_sha256'],seed_id=seed['seed_id'],edit_bundle=bundle)),

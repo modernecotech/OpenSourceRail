@@ -36,7 +36,7 @@ def evaluate(revision,design,vehicle,root=ROOT):
     if revision.get('evaluation_id')!=identity({k:v for k,v in revision.items() if k!='evaluation_id'}):raise ValueError('Sealed planning revision required')
     sources=planning_adapter.merge_sources(revision['source_sha256'],_LOADED)
     planning_adapter._sources(root,sources)
-    result=city_service.evaluate(revision['city_input'],revision['requirements'],design,vehicle,root=root)
+    result=city_service.evaluate(revision['city_input'],revision['requirements'],{**design,**(revision.get('requested_design') or {})},vehicle,root=root)
     result=deepcopy(result);checks=[]
     for row in result['line_services']:
         requested=deepcopy(revision['service_requests'][row['line_id']]);requested['legs']=row['legs']
