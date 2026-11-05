@@ -87,6 +87,25 @@ def test_operational_import_retains_raw_access_and_reexpands_no_edit_once(fixtur
     assert all(result[k] is False for k in adapter.FLAGS)
 
 
+def test_cost_verification_does_not_change_canonical_editable_base(fixture):
+    root,seed,_,_,_=fixture
+    a=adapter.export_plan(seed,root,verify_cost=False);b=adapter.export_plan(seed,root,verify_cost=True)
+    assert encoded(a)==encoded(b)
+    adapter.apply_edits(b,bundle(b,[]),root)
+
+
+def test_only_nanometre_endpoint_representation_error_is_normalized(fixture):
+    _,seed,city,services,_=fixture
+    city=deepcopy(city);services=deepcopy(services);length=city['lines'][0]['route_m']
+    services['line_services'][0]['operational_stops'][-1]['chainage_m']=length+1e-8
+    plan=adapter._build_plan(seed,city,services)
+    assert plan['lines'][0]['stops'][-1]['chainage_m']==length
+    assert plan['outline_context']['endpoint_chainage_normalizations'][0]['delta_m']<0
+    assert services['line_services'][0]['operational_stops'][-1]['chainage_m']>length
+    services['line_services'][0]['operational_stops'][-1]['chainage_m']=length+.001
+    with pytest.raises(planning.PlanningError,match='chainage'):adapter._build_plan(seed,city,services)
+
+
 def test_move_complex_adds_declared_access_cost_and_preserves_original_marker_sources(fixture):
     root,_,original,_,base=fixture
     result=adapter.apply_edits(base,bundle(base,[dict(kind='move-stop',line='L',stop='complex-ab',chainage_m=100.)]),root)

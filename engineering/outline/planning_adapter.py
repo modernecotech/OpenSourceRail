@@ -21,6 +21,13 @@ EDIT_SCHEMA='osr-priced-planning-edits/1'
 PUBLICATION='docs/design-engine/outline-completion'
 FLAGS={**planning.DISPOSITIONS,'selected_reference_changed':False,'procurement_approved':False}
 _LOADED={PRODUCER:digest(__file__),geometry.PRODUCER:digest(geometry.__file__)}
+CHAINAGE_EPSILON_M=1e-7
+
+
+def _endpoint(value,length):
+    if -CHAINAGE_EPSILON_M<=value<0:return 0.
+    if length<value<=length+CHAINAGE_EPSILON_M:return length
+    return value
 
 
 def merge_sources(*maps):
@@ -103,10 +110,17 @@ def export_plan(seed,root=ROOT,*,context=None,verify_cost=False):
 
 
 def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
-    by={x['line_id']:x for x in services['line_services']};lines=[];mapping={}
+    by={x['line_id']:x for x in services['line_services']};lines=[];mapping={};normalizations=[]
     for line in city['lines']:
         duty=by[line['line_id']];stops=deepcopy(duty['operational_stops'])
         for stop,dwell in zip(stops,duty['service']['stop_dwell_s']):stop['dwell_s']=dwell
+        for stop in stops:
+            at=stop['chainage_m'];normalized=_endpoint(at,line['route_m'])
+            if at!=normalized:
+                normalizations.append(dict(line_id=line['line_id'],stop_id=stop['id'],source_chainage_m=at,
+                    editable_chainage_m=normalized,delta_m=normalized-at,
+                    scope='Binary64 endpoint representation only; source geometry and physical position unchanged'))
+                stop['chainage_m']=normalized
         for c in duty['station_repair']['complexes']:
             for old in c['original_stop_ids']:mapping[old]=c['operational_stop_id']
         lines.append(dict(id=line['line_id'],shape=line['shape'],coordinates=deepcopy(line['coordinates']),
@@ -131,7 +145,8 @@ def _build_plan(seed,city,services,*,verify_cost=False,origin=None,design=None):
             baseline_line_services=deepcopy(services['line_services']),original_OD=deepcopy(city.get('od',[])),
             study_rules=deepcopy(origin['rules'] if origin else seed['rules']),
             source_study=deepcopy(origin),requested_design=deepcopy(design),
-            cost_replay_performed=bool(verify_cost),original_geography_modified=False),
+            verification_metadata_policy='Observed import/cost verification belongs in the external execution receipt',
+            endpoint_chainage_normalizations=normalizations,original_geography_modified=False),
         **{key:False for key in planning.PLAN_DISPOSITIONS})
     contexts=[n for n in seed['source_sha256'] if n.startswith('cities/catalogue/') and n.endswith('/map-context.json.gz')]
     if len(contexts)==1:
@@ -185,8 +200,12 @@ def verify_base(base,root=ROOT,*,trusted_base_sha256=None):
 
 def _line_input(original,current,baseline_duty):
     """Expand edited complexes back into their original raw member offsets."""
-    output=deepcopy(original);chain=geometry.route(current['coordinates'],current['shape']);length=chain[-1]
-    oldops={s['id']:s for s in baseline_duty['operational_stops']}
+    output=deepcopy(original);same_geometry=current['coordinates']==original['coordinates'] and current['shape']==original['shape']
+    chain=deepcopy(original.get('coordinate_chainages_m')) if same_geometry else None
+    if chain is None:chain=geometry.route(current['coordinates'],current['shape'])
+    length=original['route_m'] if same_geometry else chain[-1]
+    oldops={s['id']:deepcopy(s) for s in baseline_duty['operational_stops']}
+    for stop,dwell in zip(baseline_duty['operational_stops'],baseline_duty['service']['stop_dwell_s']):oldops[stop['id']]['dwell_s']=dwell
     repairs={c['operational_stop_id']:c for c in baseline_duty['station_repair']['complexes']}
     raw={s['id']:s for s in original['stops']};stops=[];walk=0.;maximum=0.;aliases={}
     ring=current['shape']=='ring';oldring=original['shape']=='ring'
@@ -203,6 +222,13 @@ def _line_input(original,current,baseline_duty):
         sid=stop['id'];old=oldops.get(sid)
         members=repairs[sid]['original_stop_ids'] if sid in repairs else [sid]
         for member in members:
+            unchanged_position=(old is not None and same_geometry and
+                stop['chainage_m']==_endpoint(old['chainage_m'],original['route_m']) and
+                stop['lon']==old['lon'] and stop['lat']==old['lat'])
+            if unchanged_position and member in raw:
+                item=deepcopy(raw[member])
+                if stop['dwell_s']!=old['dwell_s']:item['dwell_s']=stop['dwell_s']
+                stops.append(item);continue
             offset=raw[member]['chainage_m']-old['chainage_m'] if old is not None else 0.
             if oldring and offset>original['route_m']/2:offset-=original['route_m']
             if oldring and offset<-original['route_m']/2:offset+=original['route_m']
