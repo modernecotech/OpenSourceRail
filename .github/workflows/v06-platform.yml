@@ -1,0 +1,98 @@
+name: Current v0.6 native business platform
+on:
+  pull_request:
+    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml']
+  push:
+    branches: [main]
+    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v06-platform-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_v06_platform_native.py
+  native:
+    if: github.event_name != 'pull_request'
+    needs: contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Reserve disk on the disposable GitHub-hosted runner
+        run: |
+          test "${RUNNER_ENVIRONMENT:-}" = github-hosted
+          test "${RUNNER_OS:-}" = Linux
+          df -h "$RUNNER_TEMP"
+          sudo /usr/bin/python3 - <<'PYCODE'
+          from pathlib import Path
+          import shutil
+          # These unused SDKs belong to the disposable runner image. Never
+          # remove the workspace, Git objects, evidence, or Python toolcache.
+          for path in map(Path, ('/usr/local/lib/android', '/opt/ghc', '/usr/share/dotnet')):
+              if path.is_symlink():
+                  raise SystemExit('Refusing symlinked runner SDK path: '+str(path))
+              if path.exists():
+                  if not path.is_dir():
+                      raise SystemExit('Expected runner SDK directory: '+str(path))
+                  print('Reclaiming unused runner SDK:', path, flush=True)
+                  shutil.rmtree(path)
+          PYCODE
+          /usr/bin/python3 - <<'PYCODE'
+          import os, shutil
+          from pathlib import Path
+          workspace = Path(os.environ['GITHUB_WORKSPACE'])
+          while not workspace.exists():
+              workspace = workspace.parent
+          for path, required in ((workspace, 16 * 1024**3), (Path(os.environ['RUNNER_TEMP']), 2 * 1024**3)):
+              free = shutil.disk_usage(path).free
+              print('Runner filesystem:', path, 'free bytes:', free, 'required:', required)
+              if free < required:
+                  raise SystemExit('Insufficient runner space for checkout and native platform images')
+          PYCODE
+          df -h "$RUNNER_TEMP"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Build exact native applications and pull pinned runtime services
+        shell: bash
+        run: |
+          docker build -t osr/erpnext:15.121.2-hr15.64.0-osr14 deployment/erpnext
+          # Send only gateway inputs, not city maps, CAD archives or Git objects.
+          tar -cf - --exclude='__pycache__' --exclude='*.pyc' deployment/supervision/Dockerfile services/integration/osr_integration |
+            docker build -t osr/integration:0.1.3 -f deployment/supervision/Dockerfile -
+          docker pull mariadb:10.6.25
+          docker pull redis:7.2.13-alpine
+          docker pull frangoteam/fuxa:1.3.4@sha256:3778da3377e7685842495497d13157d1548ccad8708c434dc5d4b99fb5cb25bf
+      - name: Inspect resource and source preflight
+        run: python tools/automation/v06-platform-native.py preflight
+      - name: Execute fresh native lifecycle and retain failed execution
+        run: python tools/automation/v06-platform-native.py run --output build/v06-platform-ci
+      - name: Independently read back source-bound native evidence
+        run: python tools/automation/v06-platform-native.py verify --output build/v06-platform-ci/evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-platform-native
+          path: |
+            build/v06-platform-ci/evidence/
+            build/v06-platform-ci/failure.json
+            build/v06-platform-ci/cleanup.json
+          if-no-files-found: warn
+          retention-days: 21

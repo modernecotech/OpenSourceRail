@@ -6,24 +6,31 @@ to build local design authority, production and repair capability while
 comparing whole-life cost and passenger service. These are project objectives;
 economic superiority and physical qualification have not been demonstrated.
 
-## Selected v0.6 research candidate
+## Selected v0.6 vehicle reference
 
-The selected reference is a station-powered, wheel-supported railway with
+The selected wheel-supported vehicle reference has
 6 cars of 17 m. Each car is planned for
 44 fixed seats and
 2 wheelchair places, with no planned
 standing. Passive steel-wheel bogies run on conventional rails carried by
-concrete guideway. Double-sided station linear induction motors act on passive
-onboard aluminium secondaries. The vehicle has no normal-service traction motor,
-traction battery or suspension magnet. Independent braking, service power,
-protection and rescue remain required.
+concrete guideway. The retained passive aluminium secondary is an interface
+reference; it does not select installed station LIM propulsion. The reference
+vehicle has no normal-service traction motor, traction battery or permanent
+magnet. Independent braking, service power, protection and rescue remain required.
 
-The service targets are 72 km/h launch
-speed, 120 seconds headway and 35 seconds
-dwell. The resulting 8,280
-passengers/hour/direction is capacity arithmetic, not a demonstrated protected
-service. The selected candidate is a development reference without manufacturing
-or passenger-operation release.
+Installed propulsion architecture, powered length, acceleration, braking and
+headway must be evaluated together for each candidate. Neither 900 m nor 100 m
+is a prescribed installation. The named retained service control uses
+72 km/h launch speed,
+120 seconds headway and 35 seconds dwell;
+these are reproducibility controls, not selected operating requirements. Its
+8,280 passengers/hour/direction is
+capacity arithmetic, not a demonstrated protected service. The selected vehicle
+is a development reference without manufacturing or passenger-operation release.
+
+Reference and alternative describe selection and comparison roles. Evaluated
+results retain their declared calculation and evidence scope. Prototype
+validation and release require separate physical evidence and review.
 
 ![Counted v0.6 vehicle proposal](design-engine/current/vehicle-overview.svg)
 
@@ -60,11 +67,11 @@ Workshop assembly concept showing the body, roof, glazing, doors, seating and bo
 
 Illustrated precast-beam erection above an urban corridor. Lifting arrangements, temporary stability and site protection need their own engineered plans.
 
-### Station LIM and passive secondary
+### Station LIM alternative and passive secondary
 
 ![Wheel bogies above a passive aluminium fin between two station LIM primaries](images/v06/v06-wayside-lim-cutaway.webp)
 
-Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.
+This station LIM alternative shows passive wheel bogies and station-side double-sided primaries acting on a passive aluminium fin. Blue arrows illustrate the propulsion concept; no installed propulsion architecture or powered length is selected.
 
 ## Planning, engineering and delivery
 

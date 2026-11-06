@@ -7,21 +7,29 @@ construction, commissioning, operation, maintenance and renewal. Local design
 authority, repairability and whole-life affordability are objectives that each
 candidate must demonstrate.
 
-## Selected v0.6 research candidate
+## Selected v0.6 vehicle reference
 
 [`development-baseline.toml`](../engineering/development-baseline.toml) selects
 six 17 m comfort cars with 44 fixed seats and two wheelchair places per car, no
-planned standing, and a 120-second service target. Passive steel-wheel bogies
-run on conventional rails carried by concrete. Double-sided station linear
-induction motors act on passive onboard aluminium secondaries. The vehicles
-have no normal-service traction motors, traction batteries or suspension
-magnets. Independent braking, service power, protection and rescue provisions
-remain required.
+planned standing. Passive steel-wheel bogies run on conventional rails carried
+by concrete. The vehicle retains a passive aluminium secondary interface; this
+does not select an installed propulsion system. The reference vehicles have no
+normal-service traction motors, traction batteries or permanent magnets.
+Independent braking, service power, protection and rescue provisions remain
+required.
+
+The selector's `propulsion_design` policy requires candidate-specific selection
+of architecture, installed powered length, acceleration, braking and headway.
+Neither 900 m nor 100 m is a prescribed installation. The 72 km/h launch cap,
+120-second headway and 35-second dwell form a named retained service control,
+rather than selected operating requirements.
 
 The selected candidate is a development reference. It has not been physically
 qualified or released for manufacture or passenger operation. The 8,280
 passengers/hour/direction figure is capacity arithmetic, not a demonstrated
-service.
+service. A reference records the purpose of selection; an alternative records
+a comparison role. An evaluated result names the calculation and evidence scope.
+Prototype validation requires its own physical evidence and remains undemonstrated.
 
 ## Connected platform
 
@@ -69,7 +77,7 @@ acceptance remain separate records.
 | Domain | Required coupling |
 |---|---|
 | Vehicle | Complete fitout, bogies, service supply, thermal equipment, load paths, mass and inertia |
-| Station propulsion | Force/current/frequency/gap/temperature, normal force, losses, cooling and section handoff |
+| Propulsion candidate | Mechanism-specific force, power, losses, thermal duty, interfaces and handoff; electrical and magnetic maps where applicable |
 | Braking and journey | Same candidate mass and geometry, independent brakes, service energy, station power and protection |
 | Rail and civil | Moving axle reactions, rails and fasteners, alignment, deflection, torsion, piers, foundations and erection |
 | Delivery | Candidate-matched BOM, manufacturing processes, procurement, assembly, CAD/IFC and maintenance records |

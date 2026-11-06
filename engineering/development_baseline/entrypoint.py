@@ -6,6 +6,8 @@ from functools import lru_cache
 from hashlib import sha256
 import importlib
 import json
+import os
+import stat
 from pathlib import Path
 import subprocess
 import sys
@@ -36,9 +38,12 @@ def checked_path(root, relative):
     return target
 
 
-def stamp(path):
-    st = path.stat()
+def _stat_stamp(st):
     return st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns
+
+
+def stamp(path):
+    return _stat_stamp(path.stat())
 
 
 @lru_cache(maxsize=8192)
@@ -103,6 +108,65 @@ def check_identity(value, baseline):
             raise CurrentUnavailable('Unsupported acceptance disposition: ' + key)
 
 
+@lru_cache(maxsize=4)
+def _packet_paths(root, output, manifest_bytes):
+    """Cache lexical structure only; filesystem integrity is checked per request."""
+    # Bound the cached inventories, including malicious or malformed manifests.
+    if len(manifest_bytes) > 16 * 1024 * 1024:
+        raise CurrentUnavailable('Current manifest exceeds the bounded path inventory')
+    manifest = json.loads(manifest_bytes)
+    bindings = manifest.get('files_sha256', {})
+    if not isinstance(bindings, dict) or 'summary.json' not in bindings:
+        raise CurrentUnavailable('Current summary has no publication binding')
+    sources = manifest.get('source_sha256')
+    if not isinstance(sources, dict) or not sources:
+        raise CurrentUnavailable('Current publication has no source bindings')
+    if len(bindings) + len(sources) > 32768:
+        raise CurrentUnavailable('Current manifest exceeds the bounded path inventory')
+    root_path = Path(root)
+    directories = set()
+    files = set()
+    checks = []
+
+    def ordinary(relative):
+        path = Path(relative)
+        if path.is_absolute() or not path.parts or any(p == '..' for p in path.parts):
+            raise CurrentUnavailable('Expected an ordinary repository-relative path')
+        return path
+
+    output_path = ordinary(output)
+    for relative, expected in bindings.items():
+        target = root_path / output_path / ordinary(relative)
+        checks.append((str(target), expected, 'Current output is missing or modified: ' + relative))
+        files.add(target)
+    for relative, expected in sources.items():
+        target = root_path / ordinary(relative)
+        checks.append((str(target), expected, 'Current source changed: ' + relative))
+        files.add(target)
+    for path in files:
+        directories.update(parent for parent in path.parents if parent != root_path and parent.is_relative_to(root_path))
+        if len(directories) + len(files) > 65536:
+            raise CurrentUnavailable('Current manifest exceeds the bounded path inventory')
+    return (tuple(str(p) for p in sorted(directories, key=lambda p: (len(p.parts), str(p)))),
+            tuple(str(p) for p in sorted(files)), tuple(checks))
+
+
+def _packet_stamps(inventory):
+    """Inspect every unique ancestor and ordinary leaf anew, without resolving each path."""
+    directories, files, _ = inventory
+    signatures = {}
+    for paths, required_kind in ((directories, stat.S_ISDIR), (files, stat.S_ISREG)):
+        for path in paths:
+            info = os.lstat(path)
+            if stat.S_ISLNK(info.st_mode):
+                raise CurrentUnavailable('Symlinks are not evidence paths: ' + path)
+            if not required_kind(info.st_mode):
+                raise CurrentUnavailable('Expected ordinary evidence ' + ('directory: ' if paths is directories else 'file: ') + path)
+            if paths is files:
+                signatures[path] = _stat_stamp(info)
+    return signatures
+
+
 def read_packet(root=ROOT, output=OUTPUT):
     root = Path(root).resolve()
     baseline = selected(root)
@@ -110,24 +174,16 @@ def read_packet(root=ROOT, output=OUTPUT):
     manifest_path = checked_path(root, str(Path(output) / 'manifest.json'))
     if not manifest_path.is_file():
         raise CurrentUnavailable('Current publication is missing; run ./osr build')
-    manifest = json.loads(manifest_path.read_text())
+    manifest_bytes = manifest_path.read_bytes()
+    manifest = json.loads(manifest_bytes)
     check_identity(manifest, baseline)
-    bindings = manifest.get('files_sha256', {})
-    if 'summary.json' not in bindings:
-        raise CurrentUnavailable('Current summary has no publication binding')
-    for relative, expected in bindings.items():
-        path = checked_path(root, str(Path(output) / relative))
-        if not path.is_file() or digest(path) != expected:
-            raise CurrentUnavailable('Current output is missing or modified: ' + relative)
-    sources = manifest.get('source_sha256')
-    if not isinstance(sources, dict) or not sources:
-        raise CurrentUnavailable('Current publication has no source bindings')
-    for relative, expected in sources.items():
-        path = checked_path(root, relative)
-        if not path.is_file() or digest(path) != expected:
-            raise CurrentUnavailable('Current source changed: ' + relative)
+    inventory = _packet_paths(str(root), str(output), manifest_bytes)
+    signatures = _packet_stamps(inventory)
+    for path, expected, message in inventory[2]:
+        if _digest(path, signatures[path]) != expected:
+            raise CurrentUnavailable(message)
     summary_bytes = (directory / 'summary.json').read_bytes()
-    if sha256(summary_bytes).hexdigest() != bindings['summary.json']:
+    if sha256(summary_bytes).hexdigest() != manifest['files_sha256']['summary.json']:
         raise CurrentUnavailable('Current summary changed while reading')
     result = json.loads(summary_bytes)
     check_identity(result, baseline)

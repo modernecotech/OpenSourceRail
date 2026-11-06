@@ -24,7 +24,7 @@ Inspect this non-exhaustive catalogue with `.venv/bin/python -m engineering.outl
 
 The [reproducible inputs](inputs.json) declare 30 route-km, 12 uniformly spaced stations including terminals, 4,000 peak passengers/hour/direction, 85% occupancy, a 45-minute journey limit, a maximum 300-second headway and an **assumed**, unmeasured 99% service availability. The line is level and fully elevated. Production and construction use two shifts; operating hours can be 18 in two shifts or 24 in three shifts.
 
-The reference run screened 84 service cases and produced 47 complete cost cases in approximately three seconds on the development machine, with zero native solver jobs. Source-bound summaries are in [summary.json](summary.json); source and artifact bindings are in [manifest.json](manifest.json). Runtime measurements belong to the private execution record and are not universal throughput claims.
+The current publication screened 72 service cases and produced 48 complete cost cases, with 0 native solver jobs. Source-bound summaries are in [summary.json](summary.json); source and artifact bindings are in [manifest.json](manifest.json). Runtime measurements belong to private execution records and are not universal throughput claims.
 
 | Retained launch concept | Headway | Speed cap | Acceleration | Fleet including reserves | Central installed cost | Central cost / route-km |
 | --- | --- | --- | --- | --- | --- | --- |

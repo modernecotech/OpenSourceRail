@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **125**.
+Indexed Markdown files: **127**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **125**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 99 |
+| [docs](#docs) | 101 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -92,7 +92,7 @@ Indexed Markdown files: **125**.
 | [`docs/design-engine/compact-launch/README.md`](../docs/design-engine/compact-launch/README.md) | Compact acceleration and alternative launch mechanisms |
 | [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
-| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 1 November 2026 |
+| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
@@ -172,7 +172,9 @@ Indexed Markdown files: **125**.
 | [`docs/engineering-models/README.md`](../docs/engineering-models/README.md) | Engineering models |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
 | [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
+| [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
+| [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
 | [`docs/workbench/planning/README.md`](../docs/workbench/planning/README.md) | City planning proposals |
 
 ## engineering

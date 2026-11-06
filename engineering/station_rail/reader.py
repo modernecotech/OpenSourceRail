@@ -84,12 +84,12 @@ def build(root=ROOT,output=None,check=False):
         im.drawWidth=w;im.drawHeight=h
         story.append(KeepTogether([im,Spacer(1,7),p(item['title']+'. '+item['caption'],'Cell'),Spacer(1,13)]))
     m=summary['mass'];s=summary['service'];native=summary['native'];comp=json.loads((root/OUTPUT/'comparison.json').read_bytes());city=json.loads((root/OUTPUT/'cities.json').read_bytes())
-    story += [Spacer(1,18),p('OpenSourceRail','Title'),p('v0.6 - Station-powered freewheeling rail','Heading')]
+    story += [Spacer(1,18),p('OpenSourceRail','Title'),p('v0.6 - Wheel-supported vehicle reference','Heading')]
     para('Simple vehicles. Repeated civil works. Comfortable, frequent journeys.')
-    para('Reference engineering and prototype design | 31 October 2026')
+    para('Reference engineering and planned prototype work | 31 October 2026')
     illustration(0,275)
     para('Concept artwork illustrates the intended railway. Controlled geometry and engineering records govern dimensions and equipment; these images do not establish physical performance or qualification.')
-    para('Six lightweight cars run on passive wheel bogies and conventional steel rails. Wayside linear-induction motors launch and receive the train through passive onboard aluminium secondaries. The train has no traction motors, traction battery or suspension magnets.')
+    para('Six lightweight reference cars run on passive wheel bogies and conventional steel rails. The retained passive aluminium secondary is an interface reference, not a selection of installed LIM propulsion. The reference train has no traction motors, traction battery or permanent magnets. Installed propulsion is evaluated separately for each candidate.')
     para('Selected for development, with explicit trade-offs. Physical operation, lowest whole-life cost, complete installed mass and manufacturing release remain unestablished.')
     page('The whole OpenSourceRail project')
     para('OpenSourceRail develops the railway and the open tools needed to plan, design, procure, manufacture, construct, commission, operate, maintain and renew it. The aim is to retain design authority, software, fabrication, integration and repair capability in-country. Changing the reference vehicle does not remove that wider remit.')
@@ -118,18 +118,18 @@ def build(root=ROOT,output=None,check=False):
     illustration(1,220)
     illustration(2,220)
     page('Precast construction and station propulsion')
-    para('Concept illustrations connect repeated civil works with station-powered wheel rail. The LIM interface is schematic; motor clearances, supports and powered-section lengths follow the candidate engineering records.')
+    para('Concept illustrations connect repeated civil works with wheel-supported rail. The schematic LIM alternative is not an installed propulsion selection; motor clearances, supports and powered lengths require the candidate engineering records.')
     illustration(3,220)
     illustration(4,220)
     page('1. Preserve the ethos; change the support')
-    para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. This does not remove the need to prove station-only propulsion, safe stopping or the cost of the complete railway.')
+    para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. Propulsion architecture, safe stopping and the cost of the complete railway still require candidate-specific evidence.')
     figure('vehicle-overview.svg',190,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')
-    table(['Location','Reference architecture'],[
+    table(['Location','Reference interfaces and candidate scope'],[
         ('Train','Six 17m aluminium/GFRP comfort cars; identical passive bogies, independent brakes, ATP, communications, service battery, HVAC and solar roof.'),
         ('Ordinary guideway','Conventional running rails and direct fastenings on precast concrete; box, twin-beam and U-beam alternatives.'),
-        ('Stations','Finite LIM primary sections, inverters, power/charge equipment, reserved receiving berth and compact elevated platforms.'),
+        ('Stations','Candidate-specific launch/receiving and power/charge equipment, protected berth and accessible platforms; no installed drive selected.'),
         ('Control','Existing station-led GoA4 architecture with continuous onboard ATP and independent mechanical braking. No mainline switches; depot exceptions only.')],[105,385])
-    para('Each car retains 44 fixed seats plus two wheelchair places, zero planned standing and two doors on one side. Four-abreast seating and door-zone wall benches preserve the comfort choice. 276 people/train at 120s gives 8,280 passengers/hour/direction; this is capacity arithmetic, not a demonstrated protected headway.')
+    para('Each car retains 44 fixed seats plus two wheelchair places, zero planned standing and two doors on one side. Four-abreast seating and door-zone wall benches preserve the comfort choice. The named 276-people/train, 120-second service control gives 8,280 passengers/hour/direction arithmetic; it does not select or demonstrate a protected operating headway.')
     para('The revised floor reference is1.0m above rail to clear conventional running gear. Platform access, one-sided doors, centre-platform compatibility, evacuation and passenger admission need physical verification. The160-person/car crowd case remains a structural and braking sensitivity.')
     page('2. Equipped vehicle and mass accounts')
     table(['Per car','Reference result','Meaning'],[
@@ -143,7 +143,7 @@ def build(root=ROOT,output=None,check=False):
     para('Inherited body/service residuals may overlap new battery and electrical equipment. No unsupported mass subtraction is made. This conservative account needs disaggregation before it becomes a definitive equipped mass. Split battery cassettes, connections and removal paths remain unresolved.')
     para('The revised roof proposes HP60 core and a white finish. Glass, doors, floor and seating retain source ancestry; plastics remain alternatives requiring impact, fire, optics, retention and repair evidence.')
     page('3. Station motor: requirements before claims')
-    para('No installed propulsion architecture or powered length is selected. The vehicle interface reference can support a separately evaluated double-sided LIM candidate. Powered primaries and converters remain wayside; each train car carries a9m passive aluminium secondary with support and heat-spreading stock. Single-sided LIM and synchronous PM alternatives remain comparisons.')
+    para('No installed propulsion architecture or powered length is selected. The vehicle interface reference can support a separately evaluated double-sided LIM candidate. In that alternative, powered primaries and converters are wayside. Each reference car retains a 9 m passive aluminium secondary with support and heat-spreading stock. Single-sided LIM and synchronous PM alternatives remain comparisons.')
     figure('interface-section.svg',235,'Reference projected interface. Nominal15mm side clearance is a design target, not a demonstrated dynamic motor gap.')
     table(['2km normal-load requirement','Calculated target'],[
        ('Retained kinematic control','0.4m/s2 /20m/s;500m ideal travel only, not installed hardware'),
@@ -151,7 +151,7 @@ def build(root=ROOT,output=None,check=False):
        ('Sections and electrical branches','Require explicit layout and evaluated duty'),
        ('Actual available thrust / voltage / current','Unknown; requires actual primary and moving-secondary field maps')],[255,235])
     para('The executed GetDP manufactured conductive-slab model converges against an exact imposed travelling-field solution. It verifies a numerical method. It omits the actual primary, steel, slots, finite-height current closure, motor ends and inverter circuit; conditional force is not available train thrust.')
-    para('Moving suspension, wheel wear, alignment, fin expansion and unwanted motor normal forces must fit the same clearance envelope. Full entry, exit, sectional handoff and120-second repeated duty remain gates.')
+    para('Moving suspension, wheel wear, alignment, fin expansion and unwanted motor normal forces must fit the same clearance envelope. For the LIM alternative, entry, exit, sectional handoff and repeated duty require candidate-specific evidence. The 120-second duty is a retained control, not a prescribed operating interval.')
     page('4. Reference motion and independent stopping')
     table(['Input/result','Reference'],[
        ('Route / load','2,000m, six normal-load cars; flat route and declared resistance'),
@@ -204,11 +204,11 @@ def build(root=ROOT,output=None,check=False):
     page('8. Equal service and the selection decision')
     table(['Current service basis','Development assumption'],[
        ('Formation','Six 17m cars; 44 seats and two wheelchair places per car'),
-       ('Passenger service','120s target headway; 72km/h launch cap; 35s dwell'),
+       ('Retained service control','120s headway; 72km/h launch cap; 35s dwell; not selected operating requirements'),
        ('Passenger capacity','8,280 passengers/hour/direction arithmetic; protected operation unqualified'),
        ('Production and civil work','Two 8-hour shifts per working day'),
        ('Operations','Two shifts for 16/18-hour service; three shifts for a 24-hour case')],[210,280])
-    para('Every design comparison must use the same passenger service and carry vehicle, station, civil, manufacturing, staffing, energy, maintenance and renewal consequences together. Cost ranges are provisional planning estimates; supplier confirmation, equal-service route costs and full lifecycle acceptance remain open.')
+    para('Neither 900 m nor 100 m is a prescribed installation. Architecture, powered length, acceleration, braking and operating headway require candidate-specific selection. Every equal-service comparison must carry vehicle, station, civil, manufacturing, staffing, energy, maintenance and renewal consequences together. Cost ranges are provisional planning estimates; supplier confirmation, equal-service route costs and full lifecycle acceptance remain open.')
     sub('Release remains separate')
     para('A prototype package needs reviewed drawings, tolerances, joining, tooling, BOM, procurement, inspection and an instrumented test programme. Development adoption does not grant manufacturing, physical motion or operating release.')
     page('9. Evidence gaps and next work')

@@ -1,4 +1,41 @@
-# Executed continuing-cell results — 1 November 2026
+# Executed continuing-cell results
+
+## Current numerical replay — 6 November 2026
+
+The failing `./osr design progress verify-publication` gate was reproduced from
+a clean checkout of `acee5623cba335663db8945b89e0134a521e13bf`, using
+Python 3.13.16 and NumPy 2.3.5. It rejected stale source bindings before numerical
+reconstruction: `canonical_stream.py` had entered the dependency inventory, and
+`railway_campaign.py`, `system_body.py` and `station_rail/electrical.py` had changed.
+
+All ten cells were generated anew in a private run directory and independently
+reconstructed by the publication generator. The ten physical candidate IDs and
+every case summary apart from its evaluation identity agree with the previous
+packet. There are **90 conditional numerical arrivals and zero qualified
+journeys**. No engineering obligation, tolerance or physical release gate changed.
+
+| Current artifact | Identity |
+|---|---|
+| Ten-cell run | `f1f90834bd23760bde2b65cad2b2b48e8d764cb04857a8a2bdc6c09e0e5f3991` |
+| Publication | `a73acf1f8b6f777c6223b2017dea0893a472b98cfdee05cb86988bfe42a24038` |
+
+The 215 continuing-cell regression tests passed, followed by both new CI coverage
+and failure-propagation checks. The exact `./osr design progress verify-publication`
+command also passed with full semantic replay. The original five native-method
+packages also replayed successfully from their exact `3bf38a5` source checkout;
+`native-methods.json` and `native-methods.tar.gz` remain byte-identical. Original
+method results below have not been relabelled as current physical evidence.
+
+Measured on this host with numerical threads limited to one: ten-cell generation
+took 240.47 seconds and 476 MiB peak RSS; publication with semantic reconstruction
+took 245.82 seconds and 515 MiB peak RSS. These are bounded local measurements,
+not general design throughput claims. Failed CI logs, the clean-checkout failure,
+previous publication bytes and the new source/input/output/log packages are
+retained privately under the `convergence-20261106` run. CI now retains source
+drift and verification logs even when the gate fails; a failed pipeline still
+fails the job.
+
+## Retained native executions — 1 November 2026
 
 These are numerical research records. No authenticated prototype measurements, accepted operating maps, qualified structural margins, installed whole-life price or operating approval have been established.
 

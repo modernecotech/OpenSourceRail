@@ -37,7 +37,13 @@ def render(root=ROOT):
     cable=next(r for r in d['outlines'] if r['mechanism']=='cable-capstan');costs=cable['installed_capital_usd']
     table += ['',f"These are **Class C engineering estimates** using the [project-volume purchasing and manufacturing policy](../supply-economics/README.md). The cable outline takes approximately {cable['journey_minutes']:.2f} minutes one way. Installed low/base/high costs are US${costs['low']/1e6:,.1f}m / US${costs['base']/1e6:,.1f}m / US${costs['high']/1e6:,.1f}m; central 30-year NPV is US${cable['whole_life_npv_usd']['base']/1e6:,.1f}m. These are sensitivity cases, not confidence limits or supplier offers.",'',
         'The original generic-rate benchmark remains US$738.0m / US$24.6m per route-km with 52 trains and a 120-second headway for 8,280 nominal places/hour/direction. The updated supply comparison reprices that same service. This demand example has different requirements; compare pricing scenarios at equal service, and service choices under the same pricing basis. The Workbench retains all three selectable pricing bases.']
-    path=demand/'README.md';path.write_text(_block(path.read_text(),'| Retained launch concept','## Progressive acceptance','\n'.join(table)))
+    path=demand/'README.md';text=path.read_text()
+    # Counts belong to the verified current packet, not a previous timed run.
+    text='\n'.join(
+        (f"The current publication screened {d['counters']['screened']} service cases and produced {d['costed_cases']} complete cost cases, with {d['counters']['native_solver_jobs']} native solver jobs. Source-bound summaries are in [summary.json](summary.json); source and artifact bindings are in [manifest.json](manifest.json). Runtime measurements belong to private execution records and are not universal throughput claims."
+         if line.startswith(('The reference run screened ', 'The current publication screened ')) else line)
+        for line in text.splitlines())+'\n'
+    path.write_text(_block(text,'| Retained launch concept','## Progressive acceptance','\n'.join(table)))
     path=root/'README.md';text=path.read_text();lines=text.splitlines();output=[]
     for line in lines:
         if line.startswith('The [demand-led outline workflow]'):

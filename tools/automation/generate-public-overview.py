@@ -35,24 +35,31 @@ to build local design authority, production and repair capability while
 comparing whole-life cost and passenger service. These are project objectives;
 economic superiority and physical qualification have not been demonstrated.
 
-## Selected v0.6 research candidate
+## Selected v0.6 vehicle reference
 
-The selected reference is a station-powered, wheel-supported railway with
+The selected wheel-supported vehicle reference has
 {vehicle['cars']} cars of {vehicle['body_length_m']:g} m. Each car is planned for
 {vehicle['fixed_seats_per_car']} fixed seats and
 {vehicle['wheelchair_places_per_car']} wheelchair places, with no planned
 standing. Passive steel-wheel bogies run on conventional rails carried by
-concrete guideway. Double-sided station linear induction motors act on passive
-onboard aluminium secondaries. The vehicle has no normal-service traction motor,
-traction battery or suspension magnet. Independent braking, service power,
-protection and rescue remain required.
+concrete guideway. The retained passive aluminium secondary is an interface
+reference; it does not select installed station LIM propulsion. The reference
+vehicle has no normal-service traction motor, traction battery or permanent
+magnet. Independent braking, service power, protection and rescue remain required.
 
-The service targets are {service['launch_speed_cap_m_s'] * 3.6:g} km/h launch
-speed, {service['headway_s']:g} seconds headway and {service['dwell_s']:g} seconds
-dwell. The resulting {service['normal_capacity_pphpd_arithmetic']:,.0f}
-passengers/hour/direction is capacity arithmetic, not a demonstrated protected
-service. The selected candidate is a development reference without manufacturing
-or passenger-operation release.
+Installed propulsion architecture, powered length, acceleration, braking and
+headway must be evaluated together for each candidate. Neither 900 m nor 100 m
+is a prescribed installation. The named retained service control uses
+{service['launch_speed_cap_m_s'] * 3.6:g} km/h launch speed,
+{service['headway_s']:g} seconds headway and {service['dwell_s']:g} seconds dwell;
+these are reproducibility controls, not selected operating requirements. Its
+{service['normal_capacity_pphpd_arithmetic']:,.0f} passengers/hour/direction is
+capacity arithmetic, not a demonstrated protected service. The selected vehicle
+is a development reference without manufacturing or passenger-operation release.
+
+Reference and alternative describe selection and comparison roles. Evaluated
+results retain their declared calculation and evidence scope. Prototype
+validation and release require separate physical evidence and review.
 
 ![Counted v0.6 vehicle proposal](design-engine/current/vehicle-overview.svg)
 
