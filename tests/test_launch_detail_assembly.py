@@ -115,3 +115,22 @@ def test_cad_regions_are_not_duplicate_purchased_retaining_screws():
     assert m['nominal_material_region_count']==122 and m['nominal_component_count']==120
     screws=[r for r in m['component_bom'] if r['component_id'].startswith('clevis/retaining-screw/')]
     assert len(screws)==2 and all(len(r['material_region_ids'])==2 and r['quantity']==1 for r in screws)
+
+
+def test_fem_dimensions_reconcile_actual_cad_parts_and_analysis_transform():
+    v=a.build();d=v['fem_interface']['dimensions'];parts={p['id']:p for p in v['entities']}
+    origin=d['ear_parent_translation_m']
+    for i,y in enumerate(d['ear_local_y_m']):
+        ear=parts[f'clevis/ear/{i}']
+        assert ear['size_m']==[d['ear_length_m'],d['ear_thickness_m'],d['ear_height_m']]
+        assert ear['at_m']==[origin[0],y,origin[2]]
+        bore=ear['holes'][0]
+        assert bore['diameter_m']==d['bore_diameter_m']
+        assert [bore['x_m'],bore['z_m']]==d['bore_center_local_xz_m']
+    pin=parts['clevis/pin']
+    assert pin['radius_m']*2==d['pin_diameter_m']
+    assert pin['length_m']==d['pin_length_m']
+    assert pin['at_m'][0]==pytest.approx(origin[0]+d['bore_center_local_xz_m'][0])
+    assert pin['at_m'][2]==pytest.approx(origin[2]+d['bore_center_local_xz_m'][1])
+    assert v['component_geometry']['parts_coordinate_frame']=='station'
+    assert v['component_geometry']['analysis_frame_to_station']['translation_to_station_m']==origin
