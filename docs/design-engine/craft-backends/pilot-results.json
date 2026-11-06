@@ -1,0 +1,219 @@
+{
+  "cases": [
+    {
+      "candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+      "case_id": "selected-beam20m",
+      "component_geometry_id": "2bc0cec6091ec585e6e75c87f18554e8bbf2f713bb5b6ea32be4850feaf4cfd4",
+      "fieldcraft_geometry_names_and_units_verified": true,
+      "geometry_comparison_passed": true,
+      "material_mass_kg": 55704.0,
+      "maximum_exact_position_error_m": 7.105427357601002e-15,
+      "maximum_exact_volume_relative_error": 1.4103442894120382e-16,
+      "native_step_names_preserved": false,
+      "occurrences": 6,
+      "status": "completed",
+      "volume_m3": 22.281599999999997
+    },
+    {
+      "candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+      "case_id": "selected-side-sill",
+      "component_geometry_id": "10a3842c35cc235204e65c9c61aa67da8d754e6449f10dc9feecd0e08bea3395",
+      "fieldcraft_geometry_names_and_units_verified": true,
+      "geometry_comparison_passed": true,
+      "material_mass_kg": 378.87968,
+      "maximum_exact_position_error_m": 2.220446049250313e-16,
+      "maximum_exact_volume_relative_error": 0.0,
+      "native_step_names_preserved": false,
+      "occurrences": 4,
+      "status": "completed",
+      "volume_m3": 0.139808
+    },
+    {
+      "candidate_id": "d736a87d8a95ff7847a48d67a2e5ba1251295db05ab14143d177763773d297fc",
+      "case_id": "research-launch-shuttle",
+      "component_geometry_id": "d736a87d8a95ff7847a48d67a2e5ba1251295db05ab14143d177763773d297fc",
+      "fieldcraft_geometry_names_and_units_verified": true,
+      "geometry_comparison_passed": true,
+      "material_mass_kg": null,
+      "maximum_exact_position_error_m": 1.000008964524568e-10,
+      "maximum_exact_volume_relative_error": 1.318137142835026e-14,
+      "native_step_names_preserved": false,
+      "occurrences": 14,
+      "status": "completed",
+      "volume_m3": 0.048122749016888365
+    },
+    {
+      "candidate_id": "25c56a51f635932d79f4fae739604d8c5b133ba00bd15a7d52e4694281b12504",
+      "case_id": "asymmetric-si-control",
+      "component_geometry_id": "25c56a51f635932d79f4fae739604d8c5b133ba00bd15a7d52e4694281b12504",
+      "fieldcraft_geometry_names_and_units_verified": true,
+      "geometry_comparison_passed": true,
+      "material_mass_kg": 0.5295537,
+      "maximum_exact_position_error_m": 4.440892098500626e-16,
+      "maximum_exact_volume_relative_error": 1.381987259134844e-16,
+      "native_step_names_preserved": false,
+      "occurrences": 1,
+      "status": "completed",
+      "volume_m3": 0.000196131
+    }
+  ],
+  "compatibility": {
+    "convenience_sc_open": "rejected; direct geometry.open used without renaming",
+    "material_definitions_automatically_transferred": false,
+    "native_step_import_name_retention": "held; generic FreeCAD product labels",
+    "prerelease_direct_geometry_open": "rejected",
+    "stable_direct_geometry_open": "verified on all four cases",
+    "tagged_surface_imported": true
+  },
+  "default_backends_changed": false,
+  "elapsed_s": 9.409345180960372,
+  "engineering_accepted": false,
+  "engineering_component_analysis_complete": false,
+  "evaluation_id": "593f8d68b82ff5868a2994911183a457f4cf9d43ef29ee754e558b19e4bf9eb2",
+  "installed_mass_complete": false,
+  "integrity_verified": true,
+  "limits": {
+    "comparison": {
+      "diagnostic_position_m": 0.001,
+      "diagnostic_volume_relative": 0.001,
+      "exact_position_m": 1e-07,
+      "exact_volume_relative": 1e-07,
+      "refinement_relative": 0.005,
+      "structural_cross_solver_relative": 0.01
+    },
+    "default_cad": "freecad",
+    "default_structural": "calculix",
+    "max_native_processes": 32,
+    "max_parts": 30,
+    "memory_mb_per_process": 2048,
+    "parallel_native_workers": 1,
+    "physical_accepted": false,
+    "pilot_cad": "solidcraft",
+    "pilot_structural": "fieldcraft",
+    "purpose": "Opt-in CAD interchange and linear-isotropic method comparison",
+    "schema": "osr-craft-backend-pilot/1",
+    "scope": {
+      "analysis": [
+        "one-metre-isotropic-cantilever",
+        "axial-rod"
+      ],
+      "cad": [
+        "selected-beam20m",
+        "selected-side-sill",
+        "research-launch-shuttle",
+        "asymmetric-si-control"
+      ],
+      "not_admitted": [
+        "full-bridge resistance",
+        "complete carbody",
+        "composite failure",
+        "contact arrestment",
+        "electromagnetics",
+        "operating release"
+      ]
+    },
+    "selected_reference_changed": false,
+    "timeout_s": 120
+  },
+  "manufacturing_release": false,
+  "measurements": {
+    "artifact_bytes": 1845238,
+    "cache_context": "Fresh native processes/private tool caches; OS page cache uncontrolled",
+    "cached_native_evaluations": 0,
+    "comparison_scope": "SolidCraft generation versus FreeCAD reimport is not a like-for-like CAD rebuild benchmark",
+    "maximum_individual_process_rss_kib": 113000,
+    "native_processes": 29
+  },
+  "movement_authority": false,
+  "numerical": {
+    "coarse_theory_relative_error": 0.0006405654474448636,
+    "cross_solver": [
+      {
+        "case": "cantilever-coarse",
+        "comparison_passed": true,
+        "relative_displacement_difference": 1.6073785735011483e-08,
+        "tolerance": 0.01
+      },
+      {
+        "case": "cantilever-fine",
+        "comparison_passed": true,
+        "relative_displacement_difference": 8.236205222606042e-08,
+        "tolerance": 0.01
+      },
+      {
+        "case": "axial",
+        "comparison_passed": true,
+        "relative_displacement_difference": 6.666667086731207e-08,
+        "tolerance": 0.01
+      }
+    ],
+    "fine_theory_relative_error": 8.296933464854298e-05,
+    "geometry_face_set_reopen_verified": true,
+    "refinement": {
+      "both_numerical_screens_passed": true,
+      "engineering_accepted": false,
+      "manufacturing_release": false,
+      "mesh_independence_established": false,
+      "movement_authority": false,
+      "operating_release": false,
+      "physical_accepted": false,
+      "qualification_scope": "Two mesh levels are a bounded sensitivity check, not general convergence or physical validation",
+      "refinement_screen_passed": true,
+      "relative_tip_change": 0.0005576423800135621,
+      "selected_reference_changed": false,
+      "tolerance": 0.005
+    }
+  },
+  "operating_release": false,
+  "physical_accepted": false,
+  "producer_sha256": "da21b5fe9ba18220e382a6a814a3068bb26f8087193f193d6a674410fc7e31dc",
+  "raw_evidence": {
+    "artifact_inventory_id": "6ff8c0c9991900915a5d4d18a4a8b083af09a90397974fad0f025dce85d12cb9",
+    "file_count": 270,
+    "location": "Private immutable run directory supplied to the generator; full evidence not duplicated in Git",
+    "manifest_sha256": "714d1cbd1c0c86e39a8b04c826b90ec9d517f40480eb2b79d87c9d6f88053e15",
+    "request_sha256": "2fcccff8f83e3772f57c71d82a16b530c6cd1a41ff7e83531b4e244e00cdd117"
+  },
+  "result_id": "e1018eefe9b79ce231845b1abfd79e9a4ace4d1bae481a798158b47031d677d1",
+  "schema": "osr-craft-pilot-summary/1",
+  "selected_reference_changed": false,
+  "software_pilot_passed": true,
+  "source_sha256": {
+    "campaigns/craft-backend-pilot.toml": "d5fe3d3c3d1fa462f62bd54c9980f0545d381ef7e0a8d837d2e53673ea298980",
+    "docs/design-engine/supply-economics/manifest.json": "5bd0e2545bd15b8856e240db148be031af676f44f2dd66863e697eadb811bf42",
+    "docs/design-engine/supply-economics/summary.json": "bfe05d942655b51214d2fde364ddfa460dd2dfaec67a4217bec47926785b2ebf",
+    "engineering/design_search/craft_backends/__init__.py": "f8c04e529f90c5133ed6ee09860d82025998f87cbbcdb58e94369271c15980f2",
+    "engineering/design_search/craft_backends/__main__.py": "07814c13466e59d67921e233c42aba3a4215ea1e58d4e1a8a6436714bce24cf2",
+    "engineering/design_search/craft_backends/calculix_reference.py": "a5fd483a7a09b113b25266f0f56bebce80d898db3467eef36f5b74ab237b503f",
+    "engineering/design_search/craft_backends/cases.py": "408c5a31b97c6951ce6710a293e8a45bd50c63970cca114bd477d7ec00b82819",
+    "engineering/design_search/craft_backends/fieldcraft.py": "e9abe8cb940f6dac49ef6314efb8d612e4b15fc3ef635eceb964492c86bdc75b",
+    "engineering/design_search/craft_backends/freecad_reference.py": "2f593f3987f447083eec2b65b33b66633177475f78bc2007e6b2a6ef64919447",
+    "engineering/design_search/craft_backends/handoff.py": "5a4483a65a38d1df3b5415e46f6eea15a76b0daf8e0f59dcdcdd99cc425bdd89",
+    "engineering/design_search/craft_backends/native.py": "9f5bbbceb9b5a2f4d896e78ee43817c2761b5008a6f56fe20794c5cbd81a195e",
+    "engineering/design_search/craft_backends/pilot.py": "f4eecceb9301d0bed58cfc861f025523c6209c998f7e3d20ff951f62bf786d30",
+    "engineering/design_search/craft_backends/solidcraft.py": "f4c4ea10f1d47d56828da0565c69494b771525b265a27e35d0d0225f6444c7e4",
+    "engineering/design_search/craft_backends/tools.json": "f3a541558712165fd7543d7557b0b8ff2bc7243152992740fb0743512e0e007b",
+    "engineering/outline/data/china-supply-20261104.json": "58d397efb13dfb8edf76d476770a77b71a30ab080224eba639ef454d971401ab",
+    "engineering/outline/supply-policy.toml": "b46ff052e5528830af8bb6fada12dec632750399967326d43e63e162e29a8997"
+  },
+  "toolchain": {
+    "fieldcraft": {
+      "asset_sha256": "f07b957e79c22ed2bebaedf883f50085ef2aa81d477d7cf6bb839da94c72653e",
+      "binary_sha256": "06db1aa29bfdfa10d99746be952012acc4f66b943cebbd8b7fc48ba3fe837c9c",
+      "commit": "6b613217851b4c5ddf2d315930db12e9e25354dc",
+      "version": "v0.7.5"
+    },
+    "solidcraft": {
+      "asset_sha256": "2be163c618e7ccd9523d997ebd9f5094c310e968a80560b2840db1e1a8c0d482",
+      "binary_sha256": "e8a778658ddc43214f253a33255c23d0b0c520ba6e3b283bd913123cda86b243",
+      "commit": "8e2b0cd60d14b4152b12b8f1fdb2bcfdcd8c52f4",
+      "version": "v0.30.1"
+    },
+    "solidcraft-rc": {
+      "asset_sha256": "187479a4bf107ceead34f2e99f09cb8fc939accae5ae5073fc9501546bfa34af",
+      "binary_sha256": "dc3e655db990fd38864d45417fe519f7f2f4d3f34020e520d3f5c1bd3d25dd28",
+      "commit": "777f960999cbd256ae8f53b3a042cccd19703ba6",
+      "version": "v0.40.0-rc.2"
+    }
+  }
+}

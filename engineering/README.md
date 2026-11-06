@@ -8,7 +8,7 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 ## Current ownership
 
-[development-baseline.toml](development-baseline.toml) selects the v0.6 wheel/LIM research candidate. [station_rail/](station_rail/README.md) owns its physical definition, counted vehicle, service energy, civil alternatives, motion requirements and candidate delivery records. [development_baseline/](development_baseline/README.md) supplies the CLI, planning handoff and Workbench adapters. Whole-life cost and physical operation remain open.
+[development-baseline.toml](development-baseline.toml) selects the v0.6 passive-wheel reference with candidate-specific propulsion. [station_rail/](station_rail/README.md) owns its physical definition, counted vehicle, service energy, civil alternatives, motion requirements and candidate delivery records. [development_baseline/](development_baseline/README.md) supplies the CLI, planning handoff and Workbench adapters. Whole-life cost and physical operation remain open.
 
 | Responsibility | Current owner and boundary |
 |---|---|
@@ -24,6 +24,8 @@ Coordinated research starts with `./osr design railway` and the [coupled experim
 The [sourcing and cost engine](sourcing/README.md) connects dated supplier, material, commodity, FX and civil-price evidence to exact candidate requirement groups. RFQs are disabled drafts; no price source establishes component approval or an installed railway cost.
 
 The [adaptive variables](../docs/design-engine/v06-adaptive-design/README.md) and [structural grammar](../docs/design-engine/generative-structure/README.md) support physical revisions across materials, load paths and assemblies. Composite qualification, joints, buckling, complete installed geometry and physically driven journeys require their own evidence.
+
+The opt-in [SolidCraft / FieldCraft backend pilot](../docs/design-engine/craft-backends/README.md) compares source-bound CAD subsets and mechanical controls against FreeCAD and CalculiX. It retains the existing BIM, electromagnetic and delivery routes. Run `./osr design backends plan` to inspect its scope.
 
 ## Run the current workflow
 

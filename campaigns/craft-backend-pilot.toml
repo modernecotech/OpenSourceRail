@@ -1,0 +1,26 @@
+schema = "osr-craft-backend-pilot/1"
+purpose = "Opt-in CAD interchange and linear-isotropic method comparison"
+default_cad = "freecad"
+default_structural = "calculix"
+pilot_cad = "solidcraft"
+pilot_structural = "fieldcraft"
+selected_reference_changed = false
+physical_accepted = false
+max_parts = 30
+max_native_processes = 32
+timeout_s = 120
+memory_mb_per_process = 2048
+parallel_native_workers = 1
+
+[comparison]
+exact_volume_relative = 1e-7
+exact_position_m = 1e-7
+diagnostic_volume_relative = 1e-3
+diagnostic_position_m = 1e-3
+structural_cross_solver_relative = 0.01
+refinement_relative = 0.005
+
+[scope]
+cad = ["selected-beam20m", "selected-side-sill", "research-launch-shuttle", "asymmetric-si-control"]
+analysis = ["one-metre-isotropic-cantilever", "axial-rod"]
+not_admitted = ["full-bridge resistance", "complete carbody", "composite failure", "contact arrestment", "electromagnetics", "operating release"]

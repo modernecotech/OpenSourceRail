@@ -248,12 +248,16 @@ def main(argv=None, root=ROOT):
               '  campaign                  Bounded candidate campaign lifecycle\n'
               '  sourced                   Source-backed component alternatives\n'
               '  progress                  Continuing reference-cell analysis\n'
+              '  backends plan/install/run/verify  Optional pinned CAD/CAE comparison\n'
               'Use ./osr design railway --help or ./osr plan --help for details.')
         return 0
     # design/infrastructure are aliases, including their own status default.
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='backends':
+            from engineering.design_search.craft_backends.__main__ import main as backend_main
+            return backend_main(rest,root=root)
         if command=='outline':
             from engineering.outline.__main__ import main as outline_main
             return outline_main(rest,root=root) or 0
