@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
-  <title id="title">OpenSourceRail v0.6: launch, freewheel and protected arrival</title>
-  <desc id="desc">Explanatory sequence for a two-kilometre station-to-station journey, not to scale and not a simulated trajectory. Wheels support the vehicle on rails. Fixed double-sided LIM primaries act on a passive aluminium fin. Independent onboard friction brakes and ATP protect stopping. The reference allocates 900 metres of shared winding per station and direction for launch and receiving together, not 900 metres in each approach. Actual thrust and protection remain unqualified.</desc>
-  <metadata>Reference: engineering/station_rail/operations.py station_zone; docs/design-engine/current/summary.json service.shared_winding_m=900 and service.prototype_station_spacing_m=2000. Evaluation: 2366a37fba205bc6bfdc1a660830cc8e8337f1c78c90951646d54e2c5baba5cf. Concept schematic; physical_evidence=false.</metadata>
+  <title id="title">OpenSourceRail v0.6 LIM comparison: launch, freewheel and protected arrival</title>
+  <desc id="desc">Explanatory LIM comparison for a two-kilometre example journey, not to scale and not a simulated trajectory. Wheels support the vehicle on rails. Fixed double-sided LIM primaries act on a passive aluminium fin. Independent onboard friction brakes and ATP protect stopping. Powered geometry, station spacing, speed and force are selected per candidate; no installed propulsion system or fixed winding length is prescribed. Actual thrust and protection remain unqualified.</desc>
+  <metadata>Concept communication schematic. Candidate-specific propulsion policy: engineering/development-baseline.toml. No computed trajectory, numerical sizing or installed propulsion selection is represented. physical_evidence=false.</metadata>
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#537583"/></marker>
     <pattern id="coil" width="11" height="12" patternUnits="userSpaceOnUse"><path d="M2 1H9V10H2" fill="none" stroke="#a85b24" stroke-width="3"/></pattern>
@@ -9,7 +9,7 @@
   <rect width="1200" height="780" rx="22" fill="#f4f8fa"/>
   <g font-family="DejaVu Sans,Arial,sans-serif" fill="#153b50">
     <text x="40" y="58" font-size="32" font-weight="bold">Station-powered travel, independent protection</text>
-    <text x="40" y="93" font-size="22" fill="#526d7c">2 km reference journey | Concept sequence | Not to scale</text>
+    <text x="40" y="93" font-size="22" fill="#526d7c">2 km example journey | LIM comparison | Not to scale</text>
     <g stroke="#d2e0e5" stroke-width="2">
       <rect x="40" y="130" width="264" height="150" rx="14" fill="#e1f0ee"/>
       <rect x="320" y="130" width="264" height="150" rx="14" fill="#fff"/>
@@ -32,8 +32,8 @@
     <text x="42" y="339" font-size="19">Departure station</text>
     <text x="1144" y="339" text-anchor="end" font-size="19">Arrival station</text>
     <rect x="40" y="360" width="1104" height="62" rx="12" fill="#dfeaf0"/>
-    <text x="60" y="386" font-size="22" font-weight="bold">900 m shared winding / station / direction</text>
-    <text x="60" y="411" font-size="18">Launch and receiving together; 496 m + 329 m calculated engagement zones. No interstation layout is implied.</text>
+    <text x="60" y="386" font-size="22" font-weight="bold">Powered geometry is selected for each candidate</text>
+    <text x="60" y="411" font-size="18">Size launch and receiving from mass, speed, force, jerk, duty and station layout.</text>
     <text x="40" y="482" font-size="27" font-weight="bold">How the station drive acts</text>
     <g font-size="22">
       <text x="40" y="526">Wheels carry the vehicle on steel rails.</text>
@@ -64,6 +64,6 @@
     <text x="790" y="707" text-anchor="middle" font-size="18">Fixed primary</text>
     <text x="905" y="731" text-anchor="middle" font-size="18">Passive aluminium fin</text>
     <text x="1020" y="707" text-anchor="middle" font-size="18">Fixed primary</text>
-    <text x="40" y="755" font-size="18" fill="#526d7c">Research reference: actual moving thrust, complete installed mass, protected stopping and operating release remain open.</text>
+    <text x="40" y="755" font-size="18" fill="#526d7c">Concept only: moving thrust, complete installed mass, protected stopping and operating release remain open.</text>
   </g>
 </svg>

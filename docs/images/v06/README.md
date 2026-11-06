@@ -10,9 +10,11 @@ source PNGs and display files. The prompts below record the supplied illustratio
 brief; they do not certify every detail visible in the images.
 
 `v06-launch-to-arrival.svg` is an editable, deterministic explanatory drawing.
-Its quantities follow the [current reference](../../design-engine/current/README.md)
-and `station_zone()` in [operations.py](../../../engineering/station_rail/operations.py).
-It does not plot a simulated or measured trajectory.
+It illustrates a LIM comparison with launch, freewheeling, receiving and independent
+protected stopping. Powered geometry follows the candidate-specific
+[propulsion policy](../../../engineering/development-baseline.toml); the drawing
+selects no installed system or fixed winding length and plots no simulated or
+measured trajectory.
 
 ## Regeneration prompts and invariants
 
@@ -21,10 +23,10 @@ It does not plot a simulated or measured trajectory.
 3. **`v06-assembly.webp` - offsite workshop assembly.** Photorealistic 16:9 raised three-quarter exploded workshop view of one 17 m composite/aluminium car, framed shells, roof solar, HVAC/ducting, window and door modules, benches, wiring, lightweight two-axle **passive** bogies, brake discs and passive aluminium LIM fin as separate modules installed on repeatable assembly jigs. Exclude traction motors, gearboxes and high-voltage drive cabling on the bogies; attachment method remains conceptual.
 4. **`v06-viaduct-construction.webp` - civil prefabrication.** Photorealistic wide 16:9 repeated slender precast concrete rail girders, conventional running rails, columns and pier heads, mobile crane carefully lifting one prefabricated span from a trailer with temporary works and safely separated crew. Baghdad-like urban setting and small station beyond. No motorway deck, monorail, catenary or levitation.
 5. **`v06-wayside-lim-cutaway.webp` - motor interface.** Photorealistic wide 16:9 close engineering cutaway of a steel-wheel passenger car on two steel rails over a precast guideway. A smooth **passive vertical aluminium secondary** hangs below the body between **two stationary wayside LIM primary coil faces** at a powered station approach; independent disc brakes on unpowered bogies. No onboard primary coils or traction motor, no magnet levitation or overhead electrification. The field and force are unverified.
-6. **`v06-launch-to-arrival.svg` - explanatory system schematic.** A 2 km not-to-scale journey illustration with proposed powered launch, unpowered rolling, wayside receiving and independent friction-brake/ATP stopping. The current selected reference allocates **900 m of shared station winding per direction**, covering a calculated 496 m launch zone and 329 m receiving zone together; these are full-train engagement envelopes. The library allowance is not a 900 m motor in each approach and does not imply a 200 m coasting interval. Cross-section distinguishes supported wheel contact, wayside twin primaries and passive aluminium secondary. Available thrust remains open.
+6. **`v06-launch-to-arrival.svg` - explanatory system schematic.** A 2 km example, not-to-scale LIM comparison with proposed powered launch, unpowered rolling, wayside receiving and independent friction-brake/ATP stopping. Cross-section distinguishes supported wheel contact, wayside twin primaries and a passive aluminium secondary. Launch/receiving geometry must follow each candidate's mass, speed, force, jerk, thermal duty and station layout. No fixed winding length or installed propulsion system is selected; available thrust remains open.
 
-The renderings carry no quantitative labels; the SVG adds explicit schematic
-quantities and limitations. Never use these assets as measured proof of safety,
+The renderings carry no quantitative labels; the SVG identifies the example
+journey and its schematic limitations. Never use these assets as measured proof of safety,
 minimum mass, clearance, accessibility, or physical performance.
 
 ## Reproduce the display copies
@@ -45,5 +47,5 @@ for item in catalogue["illustrations"]:
 
 Dimensions remain 1672 by 941 pixels. The catalogue records the encoding-library
 versions used for the checked-in copies. Original PNGs continue to supply the
-illustrated PDF reader. Edit the SVG directly and recheck its numbers against
-the current station model when the selected reference changes.
+illustrated PDF reader. Edit the SVG directly and check its interface and propulsion descriptions
+against the applicable candidate policy when the design changes.

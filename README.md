@@ -12,9 +12,9 @@ The wider project encompasses city planning, CAD/BIM, manufacturing, business ex
 
 **Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current platform capabilities](docs/capabilities/README.md) · [current engineering](docs/design-engine/current/README.md) · [sourcing and cost evidence](docs/design-engine/sourcing/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
-![Exploded 3D assembly of the source 17 m vehicle, with roof, seating, doors, passive bogies and proposed shop fixtures](docs/engineering-models/images/vehicle-fabrication.webp)
+![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
-*An actual parametric model: all 2,482 located source parts are preserved. The image separates assemblies for inspection; the CAD keeps their source positions. [Explore eight engineering models and download CAD](docs/engineering-models/README.md), including capture, storage, launch, viaduct erection, precasting and rail/wheelset work. These are source-linked outlines with declared equipment proposals; complete installed mass and physical qualification remain open.*
+*Architectural concept: a lightweight wheel-supported train, roof solar, conventional rails, repeatable precast beams and an accessible elevated station. [Inspect the source-bound vehicle geometry](docs/design-engine/current/vehicle-overview.svg) and [download the engineering models](docs/engineering-models/README.md). The illustration communicates the design intent; geometry, installed equipment and physical qualification follow the candidate records.*
 
 ## Why OpenSourceRail
 
@@ -96,9 +96,27 @@ Kinematic acceleration distance is not motor length. The [candidate-specific lay
 
 The current [candidate export manifest](docs/design-engine/current/exports/manifest.json) and [coupled delivery index](docs/design-engine/coupled-railway/delivery-index.json) expose candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly and controls records. `./osr twin export` inspects these outputs. They do not establish complete installed equipment, a physically supported journey, approved production instructions or operating acceptance. The [cost and delivery model](docs/design-engine/model-based-cost-and-delivery.md) calculates provisional factory, delivery, installation and lifecycle ranges when supplier quotes are unavailable; assumptions, uncertainty and evidence status remain attached.
 
+### The railway in pictures
+
+| Passenger-focused lightweight car | Local modular vehicle assembly |
+|---|---|
+| ![Proposed v0.6 passenger cabin with seated accommodation, an accessible door zone and wheelchair provision](docs/images/v06/v06-cabin.webp) | ![Workshop assembly concept with body, roof, doors, glazing, seating and passive bogies](docs/images/v06/v06-assembly.webp) |
+| Seated comfort, level circulation, wheelchair provision, lighting and HVAC remain part of the vehicle. Detailed seating and accessibility come from the controlled layout. | Modular shells, doors, glazing, service systems and running gear support repeatable offsite assembly, inspection and repair. |
+| **Precast guideway construction** | **Station LIM comparison** |
+| ![Crane placing a precast rail beam onto elevated piers beside an urban corridor](docs/images/v06/v06-viaduct-construction.webp) | ![Concept cutaway of passive wheel bogies and an aluminium secondary between two wayside LIM primaries](docs/images/v06/v06-wayside-lim-cutaway.webp) |
+| Repeated spans, conventional running rails and planned access aim to simplify construction. Lifting and temporary stability require site-specific engineering. | A passive aluminium fin provides an interface for a LIM alternative. Mechanical launch and other propulsion approaches remain open; the picture selects no installed motor or powered length. |
+
+![Station LIM comparison showing launch, freewheeling, receiving and independent protected stopping](docs/images/v06/v06-launch-to-arrival.svg)
+
+*These original concept renders complement the CAD-based models below. They are illustrations, not accepted engineering geometry. The [illustration brief and original files](docs/images/v06/README.md) retain their provenance. The schematic explains a LIM comparison; propulsion, speed, powered length, braking and headway remain candidate-specific.*
+
 ### See how it is built and propelled
 
 The [3D engineering gallery](docs/engineering-models/README.md) connects the mechanical layout to construction and fabrication. Each image comes from explicit geometry, with **rotatable STL, coloured GLB, editable FreeCAD and STEP models**, source identities and export checks.
+
+![Exploded 3D assembly of the source 17 m vehicle, with roof, seating, doors, passive bogies and proposed shop fixtures](docs/engineering-models/images/vehicle-fabrication.webp)
+
+*The parametric vehicle model preserves all 2,482 located source parts. Render-only separation reveals the assemblies; downloadable CAD retains source positions. Located stock is distinct from complete installed mass and physical qualification.*
 
 | Capture braking energy | Launch and accelerate under control |
 |---|---|
