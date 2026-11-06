@@ -123,6 +123,36 @@ def test_deterministic_render_context_requires_explicit_verification(packet):
     assert 'stroke' in station_text[0].attrib and 'stroke' not in station_text[1].attrib
 
 
+@pytest.mark.parametrize('kind', ['LineString', 'MultiLineString'])
+def test_bent_waterways_are_stroked_without_implicitly_filling_land(packet, kind):
+    river = [[44., 33.002], [44.005, 33.009], [44.019, 33.002]]
+    geometry = dict(type=kind, coordinates=river if kind == 'LineString' else [river, river[::-1]])
+    context = dict(layers=dict(water=[dict(geometry=geometry)]))
+    root = ET.fromstring(render(packet, context, context_verified=True))
+    group = root.find('.//{http://www.w3.org/2000/svg}g[@id="context-water"]')
+    assert group is not None and group.get('fill') == 'none'
+    lines = group.findall('{http://www.w3.org/2000/svg}path')
+    assert lines and all(p.get('fill') == 'none' and p.get('data-geometry') == 'line' for p in lines)
+    assert all('Z' not in p.get('d') for p in lines)
+
+
+def test_water_areas_keep_island_holes_and_mixed_geometry_lines_are_unfilled(packet):
+    outer = [[44.002, 33.001], [44.018, 33.001], [44.018, 33.009], [44.002, 33.009], [44.002, 33.001]]
+    island = [[44.006, 33.003], [44.012, 33.003], [44.012, 33.007], [44.006, 33.007], [44.006, 33.003]]
+    context = dict(layers=dict(water=[dict(geometry=dict(type='GeometryCollection', geometries=[
+        dict(type='Polygon', coordinates=[outer, island]),
+        dict(type='LineString', coordinates=[[44., 33.], [44.015, 33.01], [44.02, 33.]])]))]))
+    original = deepcopy(context)
+    root = ET.fromstring(render(packet, context, context_verified=True))
+    group = root.find('.//{http://www.w3.org/2000/svg}g[@id="context-water"]')
+    assert group.get('fill-rule') == 'evenodd'
+    area = group.find('{http://www.w3.org/2000/svg}path[@data-geometry="area"]')
+    line = group.find('{http://www.w3.org/2000/svg}path[@data-geometry="line"]')
+    assert area.get('fill') == '#bbdce8' and area.get('d').count('Z') == 2
+    assert line.get('fill') == 'none' and 'Z' not in line.get('d')
+    assert context == original
+
+
 @pytest.mark.parametrize('flag', ['physical_accepted', 'operating_release', 'movement_authority',
     'engineering_accepted', 'physical_reference_changed', 'procurement_ready'])
 def test_false_release_guards(packet, flag):

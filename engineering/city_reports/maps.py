@@ -309,18 +309,26 @@ def render(packet, context=None, *, context_verified=False, width=1400, height=1
     if context:
         for layer, fill, stroke, weight in (('landuse', '#e0e7d7', '#d9e2d0', .35),
                 ('water', '#bbdce8', '#9cc7da', .7), ('roads', 'none', '#d3c6b0', 1.0)):
-            parts.append(f'<g fill="{fill}" stroke="{stroke}" stroke-width="{weight}" fill-rule="evenodd">')
+            parts.append(f'<g id="context-{layer}" fill="none" stroke="{stroke}" stroke-width="{weight}" fill-rule="evenodd">')
             for feature in context.get('layers', {}).get(layer, []):
-                paths = []
+                # SVG fills implicitly close even an open path. River/canal
+                # centre lines must never inherit an area fill: otherwise the
+                # chord between their endpoints paints a blue wedge on land.
+                # Keep polygon rings together for holes, but separate lines
+                # even inside mixed GeometryCollections.
+                paths = {False: [], True: []}
                 for coords, closed in context_paths(feature.get('geometry', {})):
                     if len(coords) < 2 or not all(map(_point_ok, coords)):
                         continue
                     pts = _simplify([project(p) for p in coords])
                     if max(p[0] for p in pts) < mx or min(p[0] for p in pts) > mx + mw or max(p[1] for p in pts) < my or min(p[1] for p in pts) > my + mh:
                         continue
-                    paths.append('M' + 'L'.join(f'{x:.2f},{y:.2f}' for x, y in pts) + ('Z' if closed else ''))
-                if paths:
-                    parts.append('<path d="' + ''.join(paths) + '"/>')
+                    paths[closed].append('M' + 'L'.join(f'{x:.2f},{y:.2f}' for x, y in pts) + ('Z' if closed else ''))
+                for closed, segments in paths.items():
+                    if segments:
+                        geometry_kind = 'area' if closed else 'line'
+                        colour = fill if closed else 'none'
+                        parts.append(f'<path d="{"".join(segments)}" fill="{colour}" data-geometry="{geometry_kind}"/>')
             parts.append('</g>')
     for route_index, (line, colour) in enumerate(rows):
         points = [project(p) for p in line['coordinates']]
