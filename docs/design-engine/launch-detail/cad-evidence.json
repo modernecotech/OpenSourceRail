@@ -1,0 +1,2567 @@
+{
+  "artifact_sha256": {
+    "commands.json": "e0fe2b391242b2e5001d657fc166749aa196728570cfbc3941dc05edf9f82854",
+    "freecad-reference/__pycache__/worker.cpython-313.pyc": "31af8115e02b9403f386286c5c5c61adde83be88005c5539958dae684ba26ecb",
+    "freecad-reference/command.json": "f149c6bda5151d68234d531d0b4dec43e7c8612051ee0228212605b14d352809",
+    "freecad-reference/input.json": "52ac097408cef2f832c4f9a7ae20431f387c78c1cb66029f0d0c1888794b774b",
+    "freecad-reference/input.step": "9c6fcb7ebe6df1a2f41c158222dbb83e2b4ed6a7bb74f8f237b8b3e279b437b1",
+    "freecad-reference/measurement.json": "54088f4a046b62f85eca2b7bf40a6b3215104a7c62c3a506df646402b2ae3433",
+    "freecad-reference/resource.json": "595d764db66c50ef59bb6cb0507098a8e373a20a7134b0d4a03006c85f17d5e1",
+    "freecad-reference/result.json": "7c0bd2eac942e55619fec17d8648430c1e942449b16faf2ed0bd5bffe1e28245",
+    "freecad-reference/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "freecad-reference/stdout.log": "d2100443b8d59b2f0bb86c18045a5453299719fcd46c367f9127bba9046c8ac0",
+    "freecad-reference/worker.py": "2ee59db47c6e7a18bf1dd79a5a858577013159c1c742993a508fc816a0eb82b6",
+    "generate/assembly.sc": "47d23f16f4ed8e8a573be392ea5613b96e293a07a2ad10d36edf0519f18b7d7c",
+    "generate/assembly.step": "9c6fcb7ebe6df1a2f41c158222dbb83e2b4ed6a7bb74f8f237b8b3e279b437b1",
+    "generate/execution.json": "0af2ad4eee48b93338674add28801830526dedcb81d473353e7148d91b672b70",
+    "generate/invocation.json": "b526313ddc21615ac6999bc038202d34ba6f6e4ce85632ccd9692da37ef249be",
+    "generate/results.json": "b14c7f38b0b524774e7b420da78ad3b7e78f5545ccd689961d593478a519072b",
+    "generate/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generate/stdin.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generate/stdout.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generate/usage.json": "980dcacac5e54928243c0ff9ec228515f53a6e1f010144d49423c0f385dbff8f",
+    "reopen-sc/execution.json": "d9af6da22e3000ad57043ed50adb2de71c44921615081345e92c3a10578ea75a",
+    "reopen-sc/invocation.json": "d0cf1a59e1afe7bc8783204ef27190270099647db3ae37c4ec19662ec61b1511",
+    "reopen-sc/measure.json": "1719ed7af8ce501134c8180a55b4caa26c4d599cb38c16993f827b4151a53272",
+    "reopen-sc/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-sc/stdin.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-sc/stdout.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-sc/usage.json": "0f6e02c3ef5cc54c6aae93c789ebd900bf8d6e28351da9c7a7d23570eb43fb81",
+    "reopen-step/execution.json": "e2c2352c007fa9631d32a2dd1a81fd1e3264c6e500e818460f0cda3cf3534b92",
+    "reopen-step/invocation.json": "582032d367b9c79cc084ba3392c218c58c047904f583333afc8968a60531aa93",
+    "reopen-step/measure.json": "8889ccae95b5f572775c8cd9493ecce11d8ce53fae611f3cb97beaa0cbeaadd7",
+    "reopen-step/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-step/stdin.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-step/stdout.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reopen-step/usage.json": "c5adc081851ea36d123bc36e0db5e06818dc9b1f5dc57c1192bd20620de7b6fc",
+    "request.json": "0cef22d9137806e1e2fd631e4538b93441d6f09f6ad49343885d700377e6b447"
+  },
+  "assembly_geometry_id": "af5f8fe815bc4edc7f435003d5ac9e77467e085d808d62c39ebbdb6436bf9ca3",
+  "candidate_id": "3e1d592fd88893ce11c83cfbc51b95253355b6dc45bb4bbc4aa1536151d77ab7",
+  "checks": {
+    "generated": {
+      "comparison_passed": true,
+      "engineering_accepted": false,
+      "exact_brep": false,
+      "identity_basis": "Source IDs where retained; otherwise unique volume/centroid/tight-bounds correspondence",
+      "installed_mass_complete": false,
+      "manufacturing_release": false,
+      "movement_authority": false,
+      "native_names_preserved": true,
+      "occurrences": 122,
+      "operating_release": false,
+      "parts": [
+        {
+          "native_label": "clevis/backplate",
+          "relative_volume_error": 0.0,
+          "source_part_id": "clevis/backplate"
+        },
+        {
+          "native_label": "clevis/ear/0",
+          "relative_volume_error": 1.450756475294716e-05,
+          "source_part_id": "clevis/ear/0"
+        },
+        {
+          "native_label": "clevis/ear/1",
+          "relative_volume_error": 1.450756475294716e-05,
+          "source_part_id": "clevis/ear/1"
+        },
+        {
+          "native_label": "clevis/pin",
+          "relative_volume_error": 3.2714159262430825e-05,
+          "source_part_id": "clevis/pin"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/0",
+          "relative_volume_error": 2.540112379966294e-05,
+          "source_part_id": "clevis/pin-end-cap/0"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/1",
+          "relative_volume_error": 2.5401123798830843e-05,
+          "source_part_id": "clevis/pin-end-cap/1"
+        },
+        {
+          "native_label": "clevis/pin-spacer/0",
+          "relative_volume_error": 3.2921119539349975e-05,
+          "source_part_id": "clevis/pin-spacer/0"
+        },
+        {
+          "native_label": "clevis/pin-spacer/1",
+          "relative_volume_error": 3.292111953999914e-05,
+          "source_part_id": "clevis/pin-spacer/1"
+        },
+        {
+          "native_label": "clevis/pin-washer/0",
+          "relative_volume_error": 1.9554234017546866e-05,
+          "source_part_id": "clevis/pin-washer/0"
+        },
+        {
+          "native_label": "clevis/pin-washer/1",
+          "relative_volume_error": 1.9554234018515882e-05,
+          "source_part_id": "clevis/pin-washer/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/0",
+          "relative_volume_error": 9.604006374072545e-05,
+          "source_part_id": "clevis/retaining-screw-head/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/1",
+          "relative_volume_error": 9.604006374017068e-05,
+          "source_part_id": "clevis/retaining-screw-head/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/0",
+          "relative_volume_error": 0.00016610368649269154,
+          "source_part_id": "clevis/retaining-screw-shank/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/1",
+          "relative_volume_error": 0.00016610368649070902,
+          "source_part_id": "clevis/retaining-screw-shank/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/0",
+          "relative_volume_error": 8.642619882716349e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/1",
+          "relative_volume_error": 8.642619883356973e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/0",
+          "relative_volume_error": 8.64261988373299e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/1",
+          "relative_volume_error": 8.64261988377477e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/0",
+          "relative_volume_error": 4.4438372950125424e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/1",
+          "relative_volume_error": 4.443837295053394e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/0",
+          "relative_volume_error": 4.4438372946448806e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/1",
+          "relative_volume_error": 4.4438372947061577e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/0",
+          "relative_volume_error": 4.4438372950738194e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/1",
+          "relative_volume_error": 4.443837295318928e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/0",
+          "relative_volume_error": 4.4438372954006305e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/1",
+          "relative_volume_error": 4.4438372953393534e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/0",
+          "relative_volume_error": 0.000166103686501782,
+          "source_part_id": "fasteners/deck-stud/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/1",
+          "relative_volume_error": 0.00016610368650054035,
+          "source_part_id": "fasteners/deck-stud/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/0",
+          "relative_volume_error": 0.00016610368648794631,
+          "source_part_id": "fasteners/deck-stud/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/1",
+          "relative_volume_error": 0.00016610368648954272,
+          "source_part_id": "fasteners/deck-stud/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/0",
+          "relative_volume_error": 3.6116294391708606e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/1",
+          "relative_volume_error": 3.6116294389943505e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/0",
+          "relative_volume_error": 3.611629440509394e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/1",
+          "relative_volume_error": 3.6116294402593386e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/0",
+          "relative_volume_error": 3.611629438861968e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/1",
+          "relative_volume_error": 3.6116294392002784e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/0",
+          "relative_volume_error": 3.6116294391708606e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/1",
+          "relative_volume_error": 3.6116294387590034e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/1"
+        },
+        {
+          "native_label": "frame/clevis-deck",
+          "relative_volume_error": 9.841790831762918e-07,
+          "source_part_id": "frame/clevis-deck"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/0",
+          "relative_volume_error": 5.0155476230372754e-05,
+          "source_part_id": "guards/nut-blank/-1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/1",
+          "relative_volume_error": 5.015547623693181e-05,
+          "source_part_id": "guards/nut-blank/-1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/0",
+          "relative_volume_error": 5.0155476236792254e-05,
+          "source_part_id": "guards/nut-blank/-1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/1",
+          "relative_volume_error": 5.015547623455939e-05,
+          "source_part_id": "guards/nut-blank/-1/1/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/0",
+          "relative_volume_error": 5.015547623525716e-05,
+          "source_part_id": "guards/nut-blank/1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/1",
+          "relative_volume_error": 5.0155476236513146e-05,
+          "source_part_id": "guards/nut-blank/1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/0",
+          "relative_volume_error": 5.015547623525716e-05,
+          "source_part_id": "guards/nut-blank/1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/1",
+          "relative_volume_error": 5.015547623455939e-05,
+          "source_part_id": "guards/nut-blank/1/1/1"
+        },
+        {
+          "native_label": "guards/side/-1",
+          "relative_volume_error": 2.5514433647139745e-07,
+          "source_part_id": "guards/side/-1"
+        },
+        {
+          "native_label": "guards/side/1",
+          "relative_volume_error": 2.5514433647139745e-07,
+          "source_part_id": "guards/side/1"
+        },
+        {
+          "native_label": "guards/spacer/-1/0",
+          "relative_volume_error": 8.818377730197237e-05,
+          "source_part_id": "guards/spacer/-1/0"
+        },
+        {
+          "native_label": "guards/spacer/-1/1",
+          "relative_volume_error": 8.818377730051003e-05,
+          "source_part_id": "guards/spacer/-1/1"
+        },
+        {
+          "native_label": "guards/spacer/1/0",
+          "relative_volume_error": 8.81837772992566e-05,
+          "source_part_id": "guards/spacer/1/0"
+        },
+        {
+          "native_label": "guards/spacer/1/1",
+          "relative_volume_error": 8.818377730051003e-05,
+          "source_part_id": "guards/spacer/1/1"
+        },
+        {
+          "native_label": "guards/stud/-1/0",
+          "relative_volume_error": 0.00016610368649055485,
+          "source_part_id": "guards/stud/-1/0"
+        },
+        {
+          "native_label": "guards/stud/-1/1",
+          "relative_volume_error": 0.0001661036864919426,
+          "source_part_id": "guards/stud/-1/1"
+        },
+        {
+          "native_label": "guards/stud/1/0",
+          "relative_volume_error": 0.00016610368649055485,
+          "source_part_id": "guards/stud/1/0"
+        },
+        {
+          "native_label": "guards/stud/1/1",
+          "relative_volume_error": 0.00016610368649313208,
+          "source_part_id": "guards/stud/1/1"
+        },
+        {
+          "native_label": "guards/washer/-1/0/0",
+          "relative_volume_error": 4.167711441231157e-05,
+          "source_part_id": "guards/washer/-1/0/0"
+        },
+        {
+          "native_label": "guards/washer/-1/0/1",
+          "relative_volume_error": 4.1677114414253267e-05,
+          "source_part_id": "guards/washer/-1/0/1"
+        },
+        {
+          "native_label": "guards/washer/-1/1/0",
+          "relative_volume_error": 4.167711441661105e-05,
+          "source_part_id": "guards/washer/-1/1/0"
+        },
+        {
+          "native_label": "guards/washer/-1/1/1",
+          "relative_volume_error": 4.167711441397588e-05,
+          "source_part_id": "guards/washer/-1/1/1"
+        },
+        {
+          "native_label": "guards/washer/1/0/0",
+          "relative_volume_error": 4.167711441577889e-05,
+          "source_part_id": "guards/washer/1/0/0"
+        },
+        {
+          "native_label": "guards/washer/1/0/1",
+          "relative_volume_error": 4.167711441494673e-05,
+          "source_part_id": "guards/washer/1/0/1"
+        },
+        {
+          "native_label": "guards/washer/1/1/0",
+          "relative_volume_error": 4.167711441827536e-05,
+          "source_part_id": "guards/washer/1/1/0"
+        },
+        {
+          "native_label": "guards/washer/1/1/1",
+          "relative_volume_error": 4.1677114411756796e-05,
+          "source_part_id": "guards/washer/1/1/1"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/axle",
+          "relative_volume_error": 0.00016610368649526587,
+          "source_part_id": "guidance/capture/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/bush",
+          "relative_volume_error": 0.00010291898344990282,
+          "source_part_id": "guidance/capture/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar",
+          "relative_volume_error": 2.702431205103263e-05,
+          "source_part_id": "guidance/capture/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486410715,
+          "source_part_id": "guidance/capture/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/washer",
+          "relative_volume_error": 3.2730510710240936e-05,
+          "source_part_id": "guidance/capture/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/wheel",
+          "relative_volume_error": 4.442533148969915e-05,
+          "source_part_id": "guidance/capture/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/axle",
+          "relative_volume_error": 0.00016610368649924793,
+          "source_part_id": "guidance/capture/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/bush",
+          "relative_volume_error": 0.00010291898345174637,
+          "source_part_id": "guidance/capture/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar",
+          "relative_volume_error": 2.7024312053707423e-05,
+          "source_part_id": "guidance/capture/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486285894,
+          "source_part_id": "guidance/capture/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/washer",
+          "relative_volume_error": 3.27305107135208e-05,
+          "source_part_id": "guidance/capture/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/wheel",
+          "relative_volume_error": 4.442533148752041e-05,
+          "source_part_id": "guidance/capture/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/0/axle",
+          "relative_volume_error": 0.00016610368649460218,
+          "source_part_id": "guidance/capture/1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/0/bush",
+          "relative_volume_error": 0.00010291898344540917,
+          "source_part_id": "guidance/capture/1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar",
+          "relative_volume_error": 2.702431205103263e-05,
+          "source_part_id": "guidance/capture/1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486566746,
+          "source_part_id": "guidance/capture/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/0/washer",
+          "relative_volume_error": 3.273051071437113e-05,
+          "source_part_id": "guidance/capture/1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/0/wheel",
+          "relative_volume_error": 4.442533148867386e-05,
+          "source_part_id": "guidance/capture/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/1/axle",
+          "relative_volume_error": 0.00016610368649709096,
+          "source_part_id": "guidance/capture/1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/1/bush",
+          "relative_volume_error": 0.0001029189834477136,
+          "source_part_id": "guidance/capture/1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar",
+          "relative_volume_error": 2.7024312056047863e-05,
+          "source_part_id": "guidance/capture/1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486441921,
+          "source_part_id": "guidance/capture/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/1/washer",
+          "relative_volume_error": 3.273051071595032e-05,
+          "source_part_id": "guidance/capture/1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/1/wheel",
+          "relative_volume_error": 4.442533148777674e-05,
+          "source_part_id": "guidance/capture/1/1/wheel"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/0",
+          "relative_volume_error": 3.2283802572670667e-06,
+          "source_part_id": "guidance/drop-plate/-1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/1",
+          "relative_volume_error": 3.2283802574324947e-06,
+          "source_part_id": "guidance/drop-plate/-1/1"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/0",
+          "relative_volume_error": 3.228380257101639e-06,
+          "source_part_id": "guidance/drop-plate/1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/1",
+          "relative_volume_error": 3.2283802572670667e-06,
+          "source_part_id": "guidance/drop-plate/1/1"
+        },
+        {
+          "native_label": "guidance/running/-1/0/axle",
+          "relative_volume_error": 0.00016610368649875017,
+          "source_part_id": "guidance/running/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/0/bush",
+          "relative_volume_error": 8.720444674493353e-05,
+          "source_part_id": "guidance/running/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar",
+          "relative_volume_error": 2.702431206351499e-05,
+          "source_part_id": "guidance/running/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486597952,
+          "source_part_id": "guidance/running/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/0/washer",
+          "relative_volume_error": 3.2730510716314745e-05,
+          "source_part_id": "guidance/running/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/0/wheel",
+          "relative_volume_error": 3.116071100632755e-05,
+          "source_part_id": "guidance/running/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/-1/1/axle",
+          "relative_volume_error": 0.0001661036864974228,
+          "source_part_id": "guidance/running/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/1/bush",
+          "relative_volume_error": 8.720444676045006e-05,
+          "source_part_id": "guidance/running/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar",
+          "relative_volume_error": 2.7024312050029585e-05,
+          "source_part_id": "guidance/running/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486457526,
+          "source_part_id": "guidance/running/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/1/washer",
+          "relative_volume_error": 3.2730510709269125e-05,
+          "source_part_id": "guidance/running/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/1/wheel",
+          "relative_volume_error": 3.116071100665783e-05,
+          "source_part_id": "guidance/running/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/0/axle",
+          "relative_volume_error": 0.00016610368649858426,
+          "source_part_id": "guidance/running/1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/1/0/bush",
+          "relative_volume_error": 8.720444675568755e-05,
+          "source_part_id": "guidance/running/1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar",
+          "relative_volume_error": 2.7024312062511944e-05,
+          "source_part_id": "guidance/running/1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702487097246,
+          "source_part_id": "guidance/running/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/0/washer",
+          "relative_volume_error": 3.2730510717408034e-05,
+          "source_part_id": "guidance/running/1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/1/0/wheel",
+          "relative_volume_error": 3.116071100715326e-05,
+          "source_part_id": "guidance/running/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/1/axle",
+          "relative_volume_error": 0.00016610368649609545,
+          "source_part_id": "guidance/running/1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/1/1/bush",
+          "relative_volume_error": 8.720444674892788e-05,
+          "source_part_id": "guidance/running/1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar",
+          "relative_volume_error": 2.7024312048803637e-05,
+          "source_part_id": "guidance/running/1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486566746,
+          "source_part_id": "guidance/running/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/1/washer",
+          "relative_volume_error": 3.273051071121275e-05,
+          "source_part_id": "guidance/running/1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/1/1/wheel",
+          "relative_volume_error": 3.116071100599727e-05,
+          "source_part_id": "guidance/running/1/1/wheel"
+        },
+        {
+          "native_label": "frame/longitudinal/0",
+          "relative_volume_error": 1.2968758261801855e-06,
+          "source_part_id": "frame/longitudinal/0"
+        },
+        {
+          "native_label": "frame/longitudinal/1",
+          "relative_volume_error": 1.2968757141423473e-06,
+          "source_part_id": "frame/longitudinal/1"
+        },
+        {
+          "native_label": "frame/crossmember/0",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/0"
+        },
+        {
+          "native_label": "frame/crossmember/1",
+          "relative_volume_error": 1.2209483924386313e-16,
+          "source_part_id": "frame/crossmember/1"
+        },
+        {
+          "native_label": "frame/crossmember/2",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/2"
+        }
+      ],
+      "physical_accepted": false,
+      "selected_reference_changed": false
+    },
+    "independent_step": {
+      "comparison_passed": true,
+      "engineering_accepted": false,
+      "exact_brep": true,
+      "identity_basis": "Source IDs where retained; otherwise unique volume/centroid/tight-bounds correspondence",
+      "installed_mass_complete": false,
+      "manufacturing_release": false,
+      "movement_authority": false,
+      "native_names_preserved": false,
+      "occurrences": 122,
+      "operating_release": false,
+      "parts": [
+        {
+          "native_label": "assembly",
+          "relative_volume_error": 0.0,
+          "source_part_id": "clevis/backplate"
+        },
+        {
+          "native_label": "assembly001",
+          "relative_volume_error": 4.0189664989664595e-16,
+          "source_part_id": "clevis/ear/0"
+        },
+        {
+          "native_label": "assembly002",
+          "relative_volume_error": 5.358621998621946e-16,
+          "source_part_id": "clevis/ear/1"
+        },
+        {
+          "native_label": "assembly003",
+          "relative_volume_error": 5.80762436261577e-16,
+          "source_part_id": "clevis/pin"
+        },
+        {
+          "native_label": "assembly004",
+          "relative_volume_error": 6.240728212008672e-16,
+          "source_part_id": "clevis/pin-end-cap/0"
+        },
+        {
+          "native_label": "assembly005",
+          "relative_volume_error": 6.240728212008672e-16,
+          "source_part_id": "clevis/pin-end-cap/1"
+        },
+        {
+          "native_label": "assembly006",
+          "relative_volume_error": 1.0386676096629055e-14,
+          "source_part_id": "clevis/pin-spacer/0"
+        },
+        {
+          "native_label": "assembly007",
+          "relative_volume_error": 1.0386676096629055e-14,
+          "source_part_id": "clevis/pin-spacer/1"
+        },
+        {
+          "native_label": "assembly008",
+          "relative_volume_error": 5.168084359487007e-15,
+          "source_part_id": "clevis/pin-washer/0"
+        },
+        {
+          "native_label": "assembly009",
+          "relative_volume_error": 5.6525922681889144e-15,
+          "source_part_id": "clevis/pin-washer/1"
+        },
+        {
+          "native_label": "assembly010",
+          "relative_volume_error": 4.2994793169071765e-15,
+          "source_part_id": "clevis/retaining-screw-head/0"
+        },
+        {
+          "native_label": "assembly011",
+          "relative_volume_error": 4.2994793169071765e-15,
+          "source_part_id": "clevis/retaining-screw-head/1"
+        },
+        {
+          "native_label": "assembly012",
+          "relative_volume_error": 4.4055385789940706e-16,
+          "source_part_id": "clevis/retaining-screw-shank/0"
+        },
+        {
+          "native_label": "assembly013",
+          "relative_volume_error": 4.4055385789940706e-16,
+          "source_part_id": "clevis/retaining-screw-shank/1"
+        },
+        {
+          "native_label": "assembly014",
+          "relative_volume_error": 4.735043737175032e-15,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/0"
+        },
+        {
+          "native_label": "assembly015",
+          "relative_volume_error": 6.1277036598735715e-15,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/1"
+        },
+        {
+          "native_label": "assembly016",
+          "relative_volume_error": 2.1307696817287645e-14,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/0"
+        },
+        {
+          "native_label": "assembly017",
+          "relative_volume_error": 9.052289497540503e-15,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/1"
+        },
+        {
+          "native_label": "assembly018",
+          "relative_volume_error": 3.8808789845865945e-15,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/0"
+        },
+        {
+          "native_label": "assembly019",
+          "relative_volume_error": 4.493649350573952e-15,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/1"
+        },
+        {
+          "native_label": "assembly020",
+          "relative_volume_error": 5.106419716561309e-15,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/0"
+        },
+        {
+          "native_label": "assembly021",
+          "relative_volume_error": 5.106419716561309e-15,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/1"
+        },
+        {
+          "native_label": "assembly022",
+          "relative_volume_error": 8.170271546498093e-15,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/0"
+        },
+        {
+          "native_label": "assembly023",
+          "relative_volume_error": 7.966014757835641e-15,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/1"
+        },
+        {
+          "native_label": "assembly024",
+          "relative_volume_error": 3.063851829936785e-15,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/0"
+        },
+        {
+          "native_label": "assembly025",
+          "relative_volume_error": 2.4510814639494283e-15,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/1"
+        },
+        {
+          "native_label": "assembly026",
+          "relative_volume_error": 1.0642853725043571e-15,
+          "source_part_id": "fasteners/deck-stud/0/0"
+        },
+        {
+          "native_label": "assembly027",
+          "relative_volume_error": 1.0642853725043571e-15,
+          "source_part_id": "fasteners/deck-stud/0/1"
+        },
+        {
+          "native_label": "assembly028",
+          "relative_volume_error": 6.385712235026142e-15,
+          "source_part_id": "fasteners/deck-stud/1/0"
+        },
+        {
+          "native_label": "assembly029",
+          "relative_volume_error": 4.0797605946000354e-15,
+          "source_part_id": "fasteners/deck-stud/1/1"
+        },
+        {
+          "native_label": "assembly030",
+          "relative_volume_error": 3.971474057790399e-15,
+          "source_part_id": "fasteners/deck-washer/0/0/0"
+        },
+        {
+          "native_label": "assembly031",
+          "relative_volume_error": 7.354581588500739e-16,
+          "source_part_id": "fasteners/deck-washer/0/0/1"
+        },
+        {
+          "native_label": "assembly032",
+          "relative_volume_error": 8.531314642660857e-15,
+          "source_part_id": "fasteners/deck-washer/0/1/0"
+        },
+        {
+          "native_label": "assembly033",
+          "relative_volume_error": 5.1482071119505176e-15,
+          "source_part_id": "fasteners/deck-washer/0/1/1"
+        },
+        {
+          "native_label": "assembly034",
+          "relative_volume_error": 3.236015898940325e-15,
+          "source_part_id": "fasteners/deck-washer/1/0/0"
+        },
+        {
+          "native_label": "assembly035",
+          "relative_volume_error": 1.4709163177001477e-15,
+          "source_part_id": "fasteners/deck-washer/1/0/1"
+        },
+        {
+          "native_label": "assembly036",
+          "relative_volume_error": 5.4423903754905465e-15,
+          "source_part_id": "fasteners/deck-washer/1/1/0"
+        },
+        {
+          "native_label": "assembly037",
+          "relative_volume_error": 2.5005577400902514e-15,
+          "source_part_id": "fasteners/deck-washer/1/1/1"
+        },
+        {
+          "native_label": "assembly038",
+          "relative_volume_error": 2.901048820048308e-16,
+          "source_part_id": "frame/clevis-deck"
+        },
+        {
+          "native_label": "assembly039",
+          "relative_volume_error": 1.409498709341519e-14,
+          "source_part_id": "guards/nut-blank/-1/0/0"
+        },
+        {
+          "native_label": "assembly040",
+          "relative_volume_error": 1.3118106799812157e-14,
+          "source_part_id": "guards/nut-blank/-1/0/1"
+        },
+        {
+          "native_label": "assembly041",
+          "relative_volume_error": 2.1910029442239452e-14,
+          "source_part_id": "guards/nut-blank/-1/1/0"
+        },
+        {
+          "native_label": "assembly042",
+          "relative_volume_error": 2.1072703476293996e-14,
+          "source_part_id": "guards/nut-blank/-1/1/1"
+        },
+        {
+          "native_label": "assembly043",
+          "relative_volume_error": 1.4234541421072765e-14,
+          "source_part_id": "guards/nut-blank/1/0/0"
+        },
+        {
+          "native_label": "assembly044",
+          "relative_volume_error": 1.046657457431821e-14,
+          "source_part_id": "guards/nut-blank/1/0/1"
+        },
+        {
+          "native_label": "assembly045",
+          "relative_volume_error": 2.135181213160915e-14,
+          "source_part_id": "guards/nut-blank/1/1/0"
+        },
+        {
+          "native_label": "assembly046",
+          "relative_volume_error": 2.0654040493321267e-14,
+          "source_part_id": "guards/nut-blank/1/1/1"
+        },
+        {
+          "native_label": "assembly047",
+          "relative_volume_error": 1.6357682680665469e-16,
+          "source_part_id": "guards/side/-1"
+        },
+        {
+          "native_label": "assembly048",
+          "relative_volume_error": 1.6357682680665469e-16,
+          "source_part_id": "guards/side/1"
+        },
+        {
+          "native_label": "assembly049",
+          "relative_volume_error": 1.6921364334170967e-14,
+          "source_part_id": "guards/spacer/-1/0"
+        },
+        {
+          "native_label": "assembly050",
+          "relative_volume_error": 1.2743249683758382e-14,
+          "source_part_id": "guards/spacer/-1/1"
+        },
+        {
+          "native_label": "assembly051",
+          "relative_volume_error": 1.671245860165034e-14,
+          "source_part_id": "guards/spacer/1/0"
+        },
+        {
+          "native_label": "assembly052",
+          "relative_volume_error": 1.2534343951237753e-14,
+          "source_part_id": "guards/spacer/1/1"
+        },
+        {
+          "native_label": "assembly053",
+          "relative_volume_error": 7.929969442189327e-16,
+          "source_part_id": "guards/stud/-1/0"
+        },
+        {
+          "native_label": "assembly054",
+          "relative_volume_error": 5.947477081641995e-15,
+          "source_part_id": "guards/stud/-1/1"
+        },
+        {
+          "native_label": "assembly055",
+          "relative_volume_error": 9.912461802736659e-16,
+          "source_part_id": "guards/stud/1/0"
+        },
+        {
+          "native_label": "assembly056",
+          "relative_volume_error": 6.1457263176967285e-15,
+          "source_part_id": "guards/stud/1/1"
+        },
+        {
+          "native_label": "assembly057",
+          "relative_volume_error": 1.900092472310591e-14,
+          "source_part_id": "guards/washer/-1/0/0"
+        },
+        {
+          "native_label": "assembly058",
+          "relative_volume_error": 1.5672295574532614e-14,
+          "source_part_id": "guards/washer/-1/0/1"
+        },
+        {
+          "native_label": "assembly059",
+          "relative_volume_error": 7.905494227861584e-15,
+          "source_part_id": "guards/washer/-1/1/0"
+        },
+        {
+          "native_label": "assembly060",
+          "relative_volume_error": 1.2482359307149868e-14,
+          "source_part_id": "guards/washer/-1/1/1"
+        },
+        {
+          "native_label": "assembly061",
+          "relative_volume_error": 1.9139617604296465e-14,
+          "source_part_id": "guards/washer/1/0/0"
+        },
+        {
+          "native_label": "assembly062",
+          "relative_volume_error": 1.8862231841915358e-14,
+          "source_part_id": "guards/washer/1/0/1"
+        },
+        {
+          "native_label": "assembly063",
+          "relative_volume_error": 8.044187109052138e-15,
+          "source_part_id": "guards/washer/1/1/0"
+        },
+        {
+          "native_label": "assembly064",
+          "relative_volume_error": 1.1788894901197098e-14,
+          "source_part_id": "guards/washer/1/1/1"
+        },
+        {
+          "native_label": "assembly065",
+          "relative_volume_error": 2.156951688275497e-15,
+          "source_part_id": "guidance/capture/-1/0/axle"
+        },
+        {
+          "native_label": "assembly066",
+          "relative_volume_error": 9.793851148686819e-15,
+          "source_part_id": "guidance/capture/-1/0/bush"
+        },
+        {
+          "native_label": "assembly067",
+          "relative_volume_error": 4.3465358301682575e-15,
+          "source_part_id": "guidance/capture/-1/0/collar"
+        },
+        {
+          "native_label": "assembly068",
+          "relative_volume_error": 1.9347656926082294e-14,
+          "source_part_id": "guidance/capture/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly069",
+          "relative_volume_error": 2.5510011992336986e-15,
+          "source_part_id": "guidance/capture/-1/0/washer"
+        },
+        {
+          "native_label": "assembly070",
+          "relative_volume_error": 2.819544690556205e-15,
+          "source_part_id": "guidance/capture/-1/0/wheel"
+        },
+        {
+          "native_label": "assembly071",
+          "relative_volume_error": 0.0,
+          "source_part_id": "guidance/capture/-1/1/axle"
+        },
+        {
+          "native_label": "assembly072",
+          "relative_volume_error": 3.9175404594747276e-15,
+          "source_part_id": "guidance/capture/-1/1/bush"
+        },
+        {
+          "native_label": "assembly073",
+          "relative_volume_error": 2.228992733419619e-16,
+          "source_part_id": "guidance/capture/-1/1/collar"
+        },
+        {
+          "native_label": "assembly074",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/capture/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly075",
+          "relative_volume_error": 1.457714970990685e-15,
+          "source_part_id": "guidance/capture/-1/1/washer"
+        },
+        {
+          "native_label": "assembly076",
+          "relative_volume_error": 2.050577956768149e-15,
+          "source_part_id": "guidance/capture/-1/1/wheel"
+        },
+        {
+          "native_label": "assembly077",
+          "relative_volume_error": 2.156951688275497e-15,
+          "source_part_id": "guidance/capture/1/0/axle"
+        },
+        {
+          "native_label": "assembly078",
+          "relative_volume_error": 2.8805444554961234e-15,
+          "source_part_id": "guidance/capture/1/0/bush"
+        },
+        {
+          "native_label": "assembly079",
+          "relative_volume_error": 7.912924203639648e-15,
+          "source_part_id": "guidance/capture/1/0/collar"
+        },
+        {
+          "native_label": "assembly080",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/capture/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly081",
+          "relative_volume_error": 6.316764874292968e-15,
+          "source_part_id": "guidance/capture/1/0/washer"
+        },
+        {
+          "native_label": "assembly082",
+          "relative_volume_error": 2.819544690556205e-15,
+          "source_part_id": "guidance/capture/1/0/wheel"
+        },
+        {
+          "native_label": "assembly083",
+          "relative_volume_error": 0.0,
+          "source_part_id": "guidance/capture/1/1/axle"
+        },
+        {
+          "native_label": "assembly084",
+          "relative_volume_error": 5.876310689212091e-15,
+          "source_part_id": "guidance/capture/1/1/bush"
+        },
+        {
+          "native_label": "assembly085",
+          "relative_volume_error": 1.6717445500647144e-15,
+          "source_part_id": "guidance/capture/1/1/collar"
+        },
+        {
+          "native_label": "assembly086",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/capture/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly087",
+          "relative_volume_error": 1.0932862282430136e-15,
+          "source_part_id": "guidance/capture/1/1/washer"
+        },
+        {
+          "native_label": "assembly088",
+          "relative_volume_error": 1.4097723452781025e-15,
+          "source_part_id": "guidance/capture/1/1/wheel"
+        },
+        {
+          "native_label": "assembly089",
+          "relative_volume_error": 0.0,
+          "source_part_id": "guidance/drop-plate/-1/0"
+        },
+        {
+          "native_label": "assembly090",
+          "relative_volume_error": 1.6542765594631519e-16,
+          "source_part_id": "guidance/drop-plate/-1/1"
+        },
+        {
+          "native_label": "assembly091",
+          "relative_volume_error": 3.3085531189263037e-16,
+          "source_part_id": "guidance/drop-plate/1/0"
+        },
+        {
+          "native_label": "assembly092",
+          "relative_volume_error": 1.6542765594631519e-16,
+          "source_part_id": "guidance/drop-plate/1/1"
+        },
+        {
+          "native_label": "assembly093",
+          "relative_volume_error": 1.8251129670023436e-15,
+          "source_part_id": "guidance/running/-1/0/axle"
+        },
+        {
+          "native_label": "assembly094",
+          "relative_volume_error": 1.766733932704289e-14,
+          "source_part_id": "guidance/running/-1/0/bush"
+        },
+        {
+          "native_label": "assembly095",
+          "relative_volume_error": 4.569435103510219e-15,
+          "source_part_id": "guidance/running/-1/0/collar"
+        },
+        {
+          "native_label": "assembly096",
+          "relative_volume_error": 1.9347656926082294e-14,
+          "source_part_id": "guidance/running/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly097",
+          "relative_volume_error": 6.073812379127854e-15,
+          "source_part_id": "guidance/running/-1/0/washer"
+        },
+        {
+          "native_label": "assembly098",
+          "relative_volume_error": 9.908477465520512e-16,
+          "source_part_id": "guidance/running/-1/0/wheel"
+        },
+        {
+          "native_label": "assembly099",
+          "relative_volume_error": 1.659193606365767e-16,
+          "source_part_id": "guidance/running/-1/1/axle"
+        },
+        {
+          "native_label": "assembly100",
+          "relative_volume_error": 5.684274392179017e-15,
+          "source_part_id": "guidance/running/-1/1/bush"
+        },
+        {
+          "native_label": "assembly101",
+          "relative_volume_error": 1.2928157853833792e-14,
+          "source_part_id": "guidance/running/-1/1/collar"
+        },
+        {
+          "native_label": "assembly102",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/running/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly103",
+          "relative_volume_error": 7.531527350118539e-15,
+          "source_part_id": "guidance/running/-1/1/washer"
+        },
+        {
+          "native_label": "assembly104",
+          "relative_volume_error": 3.302825821840171e-16,
+          "source_part_id": "guidance/running/-1/1/wheel"
+        },
+        {
+          "native_label": "assembly105",
+          "relative_volume_error": 1.8251129670023436e-15,
+          "source_part_id": "guidance/running/1/0/axle"
+        },
+        {
+          "native_label": "assembly106",
+          "relative_volume_error": 3.687096903035038e-15,
+          "source_part_id": "guidance/running/1/0/bush"
+        },
+        {
+          "native_label": "assembly107",
+          "relative_volume_error": 4.123636556826296e-15,
+          "source_part_id": "guidance/running/1/0/collar"
+        },
+        {
+          "native_label": "assembly108",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/running/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly109",
+          "relative_volume_error": 9.232194816274338e-15,
+          "source_part_id": "guidance/running/1/0/washer"
+        },
+        {
+          "native_label": "assembly110",
+          "relative_volume_error": 1.3211303287360685e-15,
+          "source_part_id": "guidance/running/1/0/wheel"
+        },
+        {
+          "native_label": "assembly111",
+          "relative_volume_error": 1.659193606365767e-16,
+          "source_part_id": "guidance/running/1/1/axle"
+        },
+        {
+          "native_label": "assembly112",
+          "relative_volume_error": 1.0907661671478654e-14,
+          "source_part_id": "guidance/running/1/1/bush"
+        },
+        {
+          "native_label": "assembly113",
+          "relative_volume_error": 1.159076221378202e-14,
+          "source_part_id": "guidance/running/1/1/collar"
+        },
+        {
+          "native_label": "assembly114",
+          "relative_volume_error": 1.9503686417421666e-14,
+          "source_part_id": "guidance/running/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "assembly115",
+          "relative_volume_error": 1.579191218573242e-15,
+          "source_part_id": "guidance/running/1/1/washer"
+        },
+        {
+          "native_label": "assembly116",
+          "relative_volume_error": 1.6514129109200856e-16,
+          "source_part_id": "guidance/running/1/1/wheel"
+        },
+        {
+          "native_label": "assembly117",
+          "relative_volume_error": 8.163048323285807e-16,
+          "source_part_id": "frame/longitudinal/0"
+        },
+        {
+          "native_label": "assembly118",
+          "relative_volume_error": 1.146908289421656e-13,
+          "source_part_id": "frame/longitudinal/1"
+        },
+        {
+          "native_label": "assembly119",
+          "relative_volume_error": 9.76758713950905e-16,
+          "source_part_id": "frame/crossmember/0"
+        },
+        {
+          "native_label": "assembly120",
+          "relative_volume_error": 1.2209483924386313e-16,
+          "source_part_id": "frame/crossmember/1"
+        },
+        {
+          "native_label": "assembly121",
+          "relative_volume_error": 9.76758713950905e-16,
+          "source_part_id": "frame/crossmember/2"
+        }
+      ],
+      "physical_accepted": false,
+      "selected_reference_changed": false
+    },
+    "reopen_sc": {
+      "comparison_passed": true,
+      "engineering_accepted": false,
+      "exact_brep": false,
+      "identity_basis": "Source IDs where retained; otherwise unique volume/centroid/tight-bounds correspondence",
+      "installed_mass_complete": false,
+      "manufacturing_release": false,
+      "movement_authority": false,
+      "native_names_preserved": true,
+      "occurrences": 122,
+      "operating_release": false,
+      "parts": [
+        {
+          "native_label": "clevis/backplate",
+          "relative_volume_error": 0.0,
+          "source_part_id": "clevis/backplate"
+        },
+        {
+          "native_label": "clevis/ear/0",
+          "relative_volume_error": 1.450756475294716e-05,
+          "source_part_id": "clevis/ear/0"
+        },
+        {
+          "native_label": "clevis/ear/1",
+          "relative_volume_error": 1.450756475294716e-05,
+          "source_part_id": "clevis/ear/1"
+        },
+        {
+          "native_label": "clevis/pin",
+          "relative_volume_error": 3.2714159262430825e-05,
+          "source_part_id": "clevis/pin"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/0",
+          "relative_volume_error": 2.540112379966294e-05,
+          "source_part_id": "clevis/pin-end-cap/0"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/1",
+          "relative_volume_error": 2.5401123798830843e-05,
+          "source_part_id": "clevis/pin-end-cap/1"
+        },
+        {
+          "native_label": "clevis/pin-spacer/0",
+          "relative_volume_error": 3.2921119539349975e-05,
+          "source_part_id": "clevis/pin-spacer/0"
+        },
+        {
+          "native_label": "clevis/pin-spacer/1",
+          "relative_volume_error": 3.292111953999914e-05,
+          "source_part_id": "clevis/pin-spacer/1"
+        },
+        {
+          "native_label": "clevis/pin-washer/0",
+          "relative_volume_error": 1.9554234017546866e-05,
+          "source_part_id": "clevis/pin-washer/0"
+        },
+        {
+          "native_label": "clevis/pin-washer/1",
+          "relative_volume_error": 1.9554234018515882e-05,
+          "source_part_id": "clevis/pin-washer/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/0",
+          "relative_volume_error": 9.604006374072545e-05,
+          "source_part_id": "clevis/retaining-screw-head/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/1",
+          "relative_volume_error": 9.604006374017068e-05,
+          "source_part_id": "clevis/retaining-screw-head/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/0",
+          "relative_volume_error": 0.00016610368649269154,
+          "source_part_id": "clevis/retaining-screw-shank/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/1",
+          "relative_volume_error": 0.00016610368649070902,
+          "source_part_id": "clevis/retaining-screw-shank/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/0",
+          "relative_volume_error": 8.642619882716349e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/1",
+          "relative_volume_error": 8.642619883356973e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/0",
+          "relative_volume_error": 8.64261988373299e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/1",
+          "relative_volume_error": 8.64261988377477e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/0",
+          "relative_volume_error": 4.4438372950125424e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/1",
+          "relative_volume_error": 4.443837295053394e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/0",
+          "relative_volume_error": 4.4438372946448806e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/1",
+          "relative_volume_error": 4.4438372947061577e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/0",
+          "relative_volume_error": 4.4438372950738194e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/1",
+          "relative_volume_error": 4.443837295318928e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/0",
+          "relative_volume_error": 4.4438372954006305e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/1",
+          "relative_volume_error": 4.4438372953393534e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/0",
+          "relative_volume_error": 0.000166103686501782,
+          "source_part_id": "fasteners/deck-stud/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/1",
+          "relative_volume_error": 0.00016610368650054035,
+          "source_part_id": "fasteners/deck-stud/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/0",
+          "relative_volume_error": 0.00016610368648794631,
+          "source_part_id": "fasteners/deck-stud/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/1",
+          "relative_volume_error": 0.00016610368648954272,
+          "source_part_id": "fasteners/deck-stud/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/0",
+          "relative_volume_error": 3.6116294391708606e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/1",
+          "relative_volume_error": 3.6116294389943505e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/0",
+          "relative_volume_error": 3.611629440509394e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/1",
+          "relative_volume_error": 3.6116294402593386e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/0",
+          "relative_volume_error": 3.611629438861968e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/1",
+          "relative_volume_error": 3.6116294392002784e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/0",
+          "relative_volume_error": 3.6116294391708606e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/1",
+          "relative_volume_error": 3.6116294387590034e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/1"
+        },
+        {
+          "native_label": "frame/clevis-deck",
+          "relative_volume_error": 9.841790831762918e-07,
+          "source_part_id": "frame/clevis-deck"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/0",
+          "relative_volume_error": 5.0155476230372754e-05,
+          "source_part_id": "guards/nut-blank/-1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/1",
+          "relative_volume_error": 5.015547623693181e-05,
+          "source_part_id": "guards/nut-blank/-1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/0",
+          "relative_volume_error": 5.0155476236792254e-05,
+          "source_part_id": "guards/nut-blank/-1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/1",
+          "relative_volume_error": 5.015547623455939e-05,
+          "source_part_id": "guards/nut-blank/-1/1/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/0",
+          "relative_volume_error": 5.015547623525716e-05,
+          "source_part_id": "guards/nut-blank/1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/1",
+          "relative_volume_error": 5.0155476236513146e-05,
+          "source_part_id": "guards/nut-blank/1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/0",
+          "relative_volume_error": 5.015547623525716e-05,
+          "source_part_id": "guards/nut-blank/1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/1",
+          "relative_volume_error": 5.015547623455939e-05,
+          "source_part_id": "guards/nut-blank/1/1/1"
+        },
+        {
+          "native_label": "guards/side/-1",
+          "relative_volume_error": 2.5514433647139745e-07,
+          "source_part_id": "guards/side/-1"
+        },
+        {
+          "native_label": "guards/side/1",
+          "relative_volume_error": 2.5514433647139745e-07,
+          "source_part_id": "guards/side/1"
+        },
+        {
+          "native_label": "guards/spacer/-1/0",
+          "relative_volume_error": 8.818377730197237e-05,
+          "source_part_id": "guards/spacer/-1/0"
+        },
+        {
+          "native_label": "guards/spacer/-1/1",
+          "relative_volume_error": 8.818377730051003e-05,
+          "source_part_id": "guards/spacer/-1/1"
+        },
+        {
+          "native_label": "guards/spacer/1/0",
+          "relative_volume_error": 8.81837772992566e-05,
+          "source_part_id": "guards/spacer/1/0"
+        },
+        {
+          "native_label": "guards/spacer/1/1",
+          "relative_volume_error": 8.818377730051003e-05,
+          "source_part_id": "guards/spacer/1/1"
+        },
+        {
+          "native_label": "guards/stud/-1/0",
+          "relative_volume_error": 0.00016610368649055485,
+          "source_part_id": "guards/stud/-1/0"
+        },
+        {
+          "native_label": "guards/stud/-1/1",
+          "relative_volume_error": 0.0001661036864919426,
+          "source_part_id": "guards/stud/-1/1"
+        },
+        {
+          "native_label": "guards/stud/1/0",
+          "relative_volume_error": 0.00016610368649055485,
+          "source_part_id": "guards/stud/1/0"
+        },
+        {
+          "native_label": "guards/stud/1/1",
+          "relative_volume_error": 0.00016610368649313208,
+          "source_part_id": "guards/stud/1/1"
+        },
+        {
+          "native_label": "guards/washer/-1/0/0",
+          "relative_volume_error": 4.167711441231157e-05,
+          "source_part_id": "guards/washer/-1/0/0"
+        },
+        {
+          "native_label": "guards/washer/-1/0/1",
+          "relative_volume_error": 4.1677114414253267e-05,
+          "source_part_id": "guards/washer/-1/0/1"
+        },
+        {
+          "native_label": "guards/washer/-1/1/0",
+          "relative_volume_error": 4.167711441661105e-05,
+          "source_part_id": "guards/washer/-1/1/0"
+        },
+        {
+          "native_label": "guards/washer/-1/1/1",
+          "relative_volume_error": 4.167711441397588e-05,
+          "source_part_id": "guards/washer/-1/1/1"
+        },
+        {
+          "native_label": "guards/washer/1/0/0",
+          "relative_volume_error": 4.167711441577889e-05,
+          "source_part_id": "guards/washer/1/0/0"
+        },
+        {
+          "native_label": "guards/washer/1/0/1",
+          "relative_volume_error": 4.167711441494673e-05,
+          "source_part_id": "guards/washer/1/0/1"
+        },
+        {
+          "native_label": "guards/washer/1/1/0",
+          "relative_volume_error": 4.167711441827536e-05,
+          "source_part_id": "guards/washer/1/1/0"
+        },
+        {
+          "native_label": "guards/washer/1/1/1",
+          "relative_volume_error": 4.1677114411756796e-05,
+          "source_part_id": "guards/washer/1/1/1"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/axle",
+          "relative_volume_error": 0.00016610368649526587,
+          "source_part_id": "guidance/capture/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/bush",
+          "relative_volume_error": 0.00010291898344990282,
+          "source_part_id": "guidance/capture/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar",
+          "relative_volume_error": 2.702431205103263e-05,
+          "source_part_id": "guidance/capture/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486410715,
+          "source_part_id": "guidance/capture/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/washer",
+          "relative_volume_error": 3.2730510710240936e-05,
+          "source_part_id": "guidance/capture/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/wheel",
+          "relative_volume_error": 4.442533148969915e-05,
+          "source_part_id": "guidance/capture/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/axle",
+          "relative_volume_error": 0.00016610368649924793,
+          "source_part_id": "guidance/capture/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/bush",
+          "relative_volume_error": 0.00010291898345174637,
+          "source_part_id": "guidance/capture/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar",
+          "relative_volume_error": 2.7024312053707423e-05,
+          "source_part_id": "guidance/capture/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486285894,
+          "source_part_id": "guidance/capture/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/washer",
+          "relative_volume_error": 3.27305107135208e-05,
+          "source_part_id": "guidance/capture/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/wheel",
+          "relative_volume_error": 4.442533148752041e-05,
+          "source_part_id": "guidance/capture/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/0/axle",
+          "relative_volume_error": 0.00016610368649460218,
+          "source_part_id": "guidance/capture/1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/0/bush",
+          "relative_volume_error": 0.00010291898344540917,
+          "source_part_id": "guidance/capture/1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar",
+          "relative_volume_error": 2.702431205103263e-05,
+          "source_part_id": "guidance/capture/1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486566746,
+          "source_part_id": "guidance/capture/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/0/washer",
+          "relative_volume_error": 3.273051071437113e-05,
+          "source_part_id": "guidance/capture/1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/0/wheel",
+          "relative_volume_error": 4.442533148867386e-05,
+          "source_part_id": "guidance/capture/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/1/axle",
+          "relative_volume_error": 0.00016610368649709096,
+          "source_part_id": "guidance/capture/1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/1/bush",
+          "relative_volume_error": 0.0001029189834477136,
+          "source_part_id": "guidance/capture/1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar",
+          "relative_volume_error": 2.7024312056047863e-05,
+          "source_part_id": "guidance/capture/1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486441921,
+          "source_part_id": "guidance/capture/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/1/washer",
+          "relative_volume_error": 3.273051071595032e-05,
+          "source_part_id": "guidance/capture/1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/1/wheel",
+          "relative_volume_error": 4.442533148777674e-05,
+          "source_part_id": "guidance/capture/1/1/wheel"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/0",
+          "relative_volume_error": 3.2283802572670667e-06,
+          "source_part_id": "guidance/drop-plate/-1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/1",
+          "relative_volume_error": 3.2283802574324947e-06,
+          "source_part_id": "guidance/drop-plate/-1/1"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/0",
+          "relative_volume_error": 3.228380257101639e-06,
+          "source_part_id": "guidance/drop-plate/1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/1",
+          "relative_volume_error": 3.2283802572670667e-06,
+          "source_part_id": "guidance/drop-plate/1/1"
+        },
+        {
+          "native_label": "guidance/running/-1/0/axle",
+          "relative_volume_error": 0.00016610368649875017,
+          "source_part_id": "guidance/running/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/0/bush",
+          "relative_volume_error": 8.720444674493353e-05,
+          "source_part_id": "guidance/running/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar",
+          "relative_volume_error": 2.702431206351499e-05,
+          "source_part_id": "guidance/running/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486597952,
+          "source_part_id": "guidance/running/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/0/washer",
+          "relative_volume_error": 3.2730510716314745e-05,
+          "source_part_id": "guidance/running/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/0/wheel",
+          "relative_volume_error": 3.116071100632755e-05,
+          "source_part_id": "guidance/running/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/-1/1/axle",
+          "relative_volume_error": 0.0001661036864974228,
+          "source_part_id": "guidance/running/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/1/bush",
+          "relative_volume_error": 8.720444676045006e-05,
+          "source_part_id": "guidance/running/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar",
+          "relative_volume_error": 2.7024312050029585e-05,
+          "source_part_id": "guidance/running/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486457526,
+          "source_part_id": "guidance/running/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/1/washer",
+          "relative_volume_error": 3.2730510709269125e-05,
+          "source_part_id": "guidance/running/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/1/wheel",
+          "relative_volume_error": 3.116071100665783e-05,
+          "source_part_id": "guidance/running/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/0/axle",
+          "relative_volume_error": 0.00016610368649858426,
+          "source_part_id": "guidance/running/1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/1/0/bush",
+          "relative_volume_error": 8.720444675568755e-05,
+          "source_part_id": "guidance/running/1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar",
+          "relative_volume_error": 2.7024312062511944e-05,
+          "source_part_id": "guidance/running/1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00013236702487097246,
+          "source_part_id": "guidance/running/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/0/washer",
+          "relative_volume_error": 3.2730510717408034e-05,
+          "source_part_id": "guidance/running/1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/1/0/wheel",
+          "relative_volume_error": 3.116071100715326e-05,
+          "source_part_id": "guidance/running/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/1/axle",
+          "relative_volume_error": 0.00016610368649609545,
+          "source_part_id": "guidance/running/1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/1/1/bush",
+          "relative_volume_error": 8.720444674892788e-05,
+          "source_part_id": "guidance/running/1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar",
+          "relative_volume_error": 2.7024312048803637e-05,
+          "source_part_id": "guidance/running/1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00013236702486566746,
+          "source_part_id": "guidance/running/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/1/washer",
+          "relative_volume_error": 3.273051071121275e-05,
+          "source_part_id": "guidance/running/1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/1/1/wheel",
+          "relative_volume_error": 3.116071100599727e-05,
+          "source_part_id": "guidance/running/1/1/wheel"
+        },
+        {
+          "native_label": "frame/longitudinal/0",
+          "relative_volume_error": 1.2968758261801855e-06,
+          "source_part_id": "frame/longitudinal/0"
+        },
+        {
+          "native_label": "frame/longitudinal/1",
+          "relative_volume_error": 1.2968757141423473e-06,
+          "source_part_id": "frame/longitudinal/1"
+        },
+        {
+          "native_label": "frame/crossmember/0",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/0"
+        },
+        {
+          "native_label": "frame/crossmember/1",
+          "relative_volume_error": 1.2209483924386313e-16,
+          "source_part_id": "frame/crossmember/1"
+        },
+        {
+          "native_label": "frame/crossmember/2",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/2"
+        }
+      ],
+      "physical_accepted": false,
+      "selected_reference_changed": false
+    },
+    "reopen_step": {
+      "comparison_passed": true,
+      "engineering_accepted": false,
+      "exact_brep": false,
+      "identity_basis": "Source IDs where retained; otherwise unique volume/centroid/tight-bounds correspondence",
+      "installed_mass_complete": false,
+      "manufacturing_release": false,
+      "movement_authority": false,
+      "native_names_preserved": true,
+      "occurrences": 122,
+      "operating_release": false,
+      "parts": [
+        {
+          "native_label": "clevis/backplate",
+          "relative_volume_error": 1.2320479232789822e-16,
+          "source_part_id": "clevis/backplate"
+        },
+        {
+          "native_label": "clevis/ear/0",
+          "relative_volume_error": 8.957734240626753e-06,
+          "source_part_id": "clevis/ear/0"
+        },
+        {
+          "native_label": "clevis/ear/1",
+          "relative_volume_error": 8.957734240626753e-06,
+          "source_part_id": "clevis/ear/1"
+        },
+        {
+          "native_label": "clevis/pin",
+          "relative_volume_error": 2.430217205578844e-05,
+          "source_part_id": "clevis/pin"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/0",
+          "relative_volume_error": 2.227991435706679e-05,
+          "source_part_id": "clevis/pin-end-cap/0"
+        },
+        {
+          "native_label": "clevis/pin-end-cap/1",
+          "relative_volume_error": 2.2279914356442718e-05,
+          "source_part_id": "clevis/pin-end-cap/1"
+        },
+        {
+          "native_label": "clevis/pin-spacer/0",
+          "relative_volume_error": 9.041267613231554e-05,
+          "source_part_id": "clevis/pin-spacer/0"
+        },
+        {
+          "native_label": "clevis/pin-spacer/1",
+          "relative_volume_error": 9.041267613231554e-05,
+          "source_part_id": "clevis/pin-spacer/1"
+        },
+        {
+          "native_label": "clevis/pin-washer/0",
+          "relative_volume_error": 4.5259018218069206e-05,
+          "source_part_id": "clevis/pin-washer/0"
+        },
+        {
+          "native_label": "clevis/pin-washer/1",
+          "relative_volume_error": 4.5259018219684226e-05,
+          "source_part_id": "clevis/pin-washer/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/0",
+          "relative_volume_error": 9.767822605094627e-05,
+          "source_part_id": "clevis/retaining-screw-head/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-head/1",
+          "relative_volume_error": 9.767822605094627e-05,
+          "source_part_id": "clevis/retaining-screw-head/1"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/0",
+          "relative_volume_error": 0.00010120779991426125,
+          "source_part_id": "clevis/retaining-screw-shank/0"
+        },
+        {
+          "native_label": "clevis/retaining-screw-shank/1",
+          "relative_volume_error": 0.00010120779991404097,
+          "source_part_id": "clevis/retaining-screw-shank/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/0",
+          "relative_volume_error": 9.845722765823427e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/0/1",
+          "relative_volume_error": 9.845722766032326e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/0",
+          "relative_volume_error": 9.84572276720216e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-crush-sleeve/1/1",
+          "relative_volume_error": 9.845722766450123e-05,
+          "source_part_id": "fasteners/deck-crush-sleeve/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/0",
+          "relative_volume_error": 8.979670737829818e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/0/1",
+          "relative_volume_error": 8.97967073772769e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/0",
+          "relative_volume_error": 8.979670737523433e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/0/1/1",
+          "relative_volume_error": 8.979670737503007e-05,
+          "source_part_id": "fasteners/deck-nut-blank/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/0",
+          "relative_volume_error": 8.97967073862642e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/0/1",
+          "relative_volume_error": 8.979670738646846e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/0",
+          "relative_volume_error": 8.97967073848344e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-nut-blank/1/1/1",
+          "relative_volume_error": 8.97967073848344e-05,
+          "source_part_id": "fasteners/deck-nut-blank/1/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/0",
+          "relative_volume_error": 0.00010120779988425141,
+          "source_part_id": "fasteners/deck-stud/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/0/1",
+          "relative_volume_error": 0.00010120779988833118,
+          "source_part_id": "fasteners/deck-stud/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/0",
+          "relative_volume_error": 0.00010120779988708952,
+          "source_part_id": "fasteners/deck-stud/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-stud/1/1",
+          "relative_volume_error": 0.0001012077998807038,
+          "source_part_id": "fasteners/deck-stud/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/0",
+          "relative_volume_error": 6.968187575034625e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/0/1",
+          "relative_volume_error": 6.968187574181493e-05,
+          "source_part_id": "fasteners/deck-washer/0/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/0",
+          "relative_volume_error": 6.968187575520028e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/0/1/1",
+          "relative_volume_error": 6.968187575446482e-05,
+          "source_part_id": "fasteners/deck-washer/0/1/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/0",
+          "relative_volume_error": 6.968187574578641e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/0/1",
+          "relative_volume_error": 6.968187574563932e-05,
+          "source_part_id": "fasteners/deck-washer/1/0/1"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/0",
+          "relative_volume_error": 6.968187575108172e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/0"
+        },
+        {
+          "native_label": "fasteners/deck-washer/1/1/1",
+          "relative_volume_error": 6.968187575034625e-05,
+          "source_part_id": "fasteners/deck-washer/1/1/1"
+        },
+        {
+          "native_label": "frame/clevis-deck",
+          "relative_volume_error": 1.3017477300476563e-06,
+          "source_part_id": "frame/clevis-deck"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/0",
+          "relative_volume_error": 9.152293750221297e-05,
+          "source_part_id": "guards/nut-blank/-1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/0/1",
+          "relative_volume_error": 9.152293750221297e-05,
+          "source_part_id": "guards/nut-blank/-1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/0",
+          "relative_volume_error": 9.152293751477285e-05,
+          "source_part_id": "guards/nut-blank/-1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/-1/1/1",
+          "relative_volume_error": 9.152293751379597e-05,
+          "source_part_id": "guards/nut-blank/-1/1/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/0",
+          "relative_volume_error": 9.152293750221297e-05,
+          "source_part_id": "guards/nut-blank/1/0/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/0/1",
+          "relative_volume_error": 9.152293750221297e-05,
+          "source_part_id": "guards/nut-blank/1/0/1"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/0",
+          "relative_volume_error": 9.152293751407509e-05,
+          "source_part_id": "guards/nut-blank/1/1/0"
+        },
+        {
+          "native_label": "guards/nut-blank/1/1/1",
+          "relative_volume_error": 9.152293751379597e-05,
+          "source_part_id": "guards/nut-blank/1/1/1"
+        },
+        {
+          "native_label": "guards/side/-1",
+          "relative_volume_error": 2.9674623753998315e-07,
+          "source_part_id": "guards/side/-1"
+        },
+        {
+          "native_label": "guards/side/1",
+          "relative_volume_error": 2.9674623753998315e-07,
+          "source_part_id": "guards/side/1"
+        },
+        {
+          "native_label": "guards/spacer/-1/0",
+          "relative_volume_error": 9.853160373742387e-05,
+          "source_part_id": "guards/spacer/-1/0"
+        },
+        {
+          "native_label": "guards/spacer/-1/1",
+          "relative_volume_error": 9.8531603723845e-05,
+          "source_part_id": "guards/spacer/-1/1"
+        },
+        {
+          "native_label": "guards/spacer/1/0",
+          "relative_volume_error": 9.85316037382595e-05,
+          "source_part_id": "guards/spacer/1/0"
+        },
+        {
+          "native_label": "guards/spacer/1/1",
+          "relative_volume_error": 9.853160372426281e-05,
+          "source_part_id": "guards/spacer/1/1"
+        },
+        {
+          "native_label": "guards/stud/-1/0",
+          "relative_volume_error": 0.00010120779994179586,
+          "source_part_id": "guards/stud/-1/0"
+        },
+        {
+          "native_label": "guards/stud/-1/1",
+          "relative_volume_error": 0.00010120779995805231,
+          "source_part_id": "guards/stud/-1/1"
+        },
+        {
+          "native_label": "guards/stud/1/0",
+          "relative_volume_error": 0.00010120779994199412,
+          "source_part_id": "guards/stud/1/0"
+        },
+        {
+          "native_label": "guards/stud/1/1",
+          "relative_volume_error": 0.00010120779995805231,
+          "source_part_id": "guards/stud/1/1"
+        },
+        {
+          "native_label": "guards/washer/-1/0/0",
+          "relative_volume_error": 7.138497374035062e-05,
+          "source_part_id": "guards/washer/-1/0/0"
+        },
+        {
+          "native_label": "guards/washer/-1/0/1",
+          "relative_volume_error": 7.138497374007323e-05,
+          "source_part_id": "guards/washer/-1/0/1"
+        },
+        {
+          "native_label": "guards/washer/-1/1/0",
+          "relative_volume_error": 7.138497373563506e-05,
+          "source_part_id": "guards/washer/-1/1/0"
+        },
+        {
+          "native_label": "guards/washer/-1/1/1",
+          "relative_volume_error": 7.138497373563506e-05,
+          "source_part_id": "guards/washer/-1/1/1"
+        },
+        {
+          "native_label": "guards/washer/1/0/0",
+          "relative_volume_error": 7.138497374090539e-05,
+          "source_part_id": "guards/washer/1/0/0"
+        },
+        {
+          "native_label": "guards/washer/1/0/1",
+          "relative_volume_error": 7.138497374090539e-05,
+          "source_part_id": "guards/washer/1/0/1"
+        },
+        {
+          "native_label": "guards/washer/1/1/0",
+          "relative_volume_error": 7.138497373563506e-05,
+          "source_part_id": "guards/washer/1/1/0"
+        },
+        {
+          "native_label": "guards/washer/1/1/1",
+          "relative_volume_error": 7.138497373563506e-05,
+          "source_part_id": "guards/washer/1/1/1"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/axle",
+          "relative_volume_error": 0.00010120779996106936,
+          "source_part_id": "guidance/capture/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/bush",
+          "relative_volume_error": 9.872151142514196e-05,
+          "source_part_id": "guidance/capture/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar",
+          "relative_volume_error": 8.585987058040137e-05,
+          "source_part_id": "guidance/capture/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576072649,
+          "source_part_id": "guidance/capture/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/washer",
+          "relative_volume_error": 5.1896682173076985e-05,
+          "source_part_id": "guidance/capture/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/0/wheel",
+          "relative_volume_error": 8.897496938219105e-05,
+          "source_part_id": "guidance/capture/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/axle",
+          "relative_volume_error": 0.00010120779995924424,
+          "source_part_id": "guidance/capture/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/bush",
+          "relative_volume_error": 9.872151144691888e-05,
+          "source_part_id": "guidance/capture/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar",
+          "relative_volume_error": 8.585987057895252e-05,
+          "source_part_id": "guidance/capture/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576431517,
+          "source_part_id": "guidance/capture/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/washer",
+          "relative_volume_error": 5.189668217611389e-05,
+          "source_part_id": "guidance/capture/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/-1/1/wheel",
+          "relative_volume_error": 8.897496938283185e-05,
+          "source_part_id": "guidance/capture/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/0/axle",
+          "relative_volume_error": 0.00010120779996106936,
+          "source_part_id": "guidance/capture/1/0/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/0/bush",
+          "relative_volume_error": 9.872151144691888e-05,
+          "source_part_id": "guidance/capture/1/0/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar",
+          "relative_volume_error": 8.585987058028991e-05,
+          "source_part_id": "guidance/capture/1/0/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576962018,
+          "source_part_id": "guidance/capture/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/0/washer",
+          "relative_volume_error": 5.189668217356289e-05,
+          "source_part_id": "guidance/capture/1/0/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/0/wheel",
+          "relative_volume_error": 8.897496938219105e-05,
+          "source_part_id": "guidance/capture/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/capture/1/1/axle",
+          "relative_volume_error": 0.00010120779995924424,
+          "source_part_id": "guidance/capture/1/1/axle"
+        },
+        {
+          "native_label": "guidance/capture/1/1/bush",
+          "relative_volume_error": 9.872151155799267e-05,
+          "source_part_id": "guidance/capture/1/1/bush"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar",
+          "relative_volume_error": 8.585987057939832e-05,
+          "source_part_id": "guidance/capture/1/1/collar"
+        },
+        {
+          "native_label": "guidance/capture/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00010004103577367695,
+          "source_part_id": "guidance/capture/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/capture/1/1/washer",
+          "relative_volume_error": 5.189668217611389e-05,
+          "source_part_id": "guidance/capture/1/1/washer"
+        },
+        {
+          "native_label": "guidance/capture/1/1/wheel",
+          "relative_volume_error": 8.897496938283185e-05,
+          "source_part_id": "guidance/capture/1/1/wheel"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/0",
+          "relative_volume_error": 3.1626001189674393e-06,
+          "source_part_id": "guidance/drop-plate/-1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/-1/1",
+          "relative_volume_error": 3.1626001194637223e-06,
+          "source_part_id": "guidance/drop-plate/-1/1"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/0",
+          "relative_volume_error": 3.1626001189674393e-06,
+          "source_part_id": "guidance/drop-plate/1/0"
+        },
+        {
+          "native_label": "guidance/drop-plate/1/1",
+          "relative_volume_error": 3.1626001194637223e-06,
+          "source_part_id": "guidance/drop-plate/1/1"
+        },
+        {
+          "native_label": "guidance/running/-1/0/axle",
+          "relative_volume_error": 0.00010120779996306039,
+          "source_part_id": "guidance/running/-1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/0/bush",
+          "relative_volume_error": 9.851949038496905e-05,
+          "source_part_id": "guidance/running/-1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar",
+          "relative_volume_error": 8.585987058207311e-05,
+          "source_part_id": "guidance/running/-1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/0/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576072649,
+          "source_part_id": "guidance/running/-1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/0/washer",
+          "relative_volume_error": 5.189668217939375e-05,
+          "source_part_id": "guidance/running/-1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/0/wheel",
+          "relative_volume_error": 2.1058041611717043e-05,
+          "source_part_id": "guidance/running/-1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/-1/1/axle",
+          "relative_volume_error": 0.00010120779995542809,
+          "source_part_id": "guidance/running/-1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/-1/1/bush",
+          "relative_volume_error": 9.851949052661502e-05,
+          "source_part_id": "guidance/running/-1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar",
+          "relative_volume_error": 8.585987056268087e-05,
+          "source_part_id": "guidance/running/-1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/-1/1/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576431517,
+          "source_part_id": "guidance/running/-1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/-1/1/washer",
+          "relative_volume_error": 5.1896682160443454e-05,
+          "source_part_id": "guidance/running/-1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/-1/1/wheel",
+          "relative_volume_error": 2.105804161006563e-05,
+          "source_part_id": "guidance/running/-1/1/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/0/axle",
+          "relative_volume_error": 0.00010120779996306039,
+          "source_part_id": "guidance/running/1/0/axle"
+        },
+        {
+          "native_label": "guidance/running/1/0/bush",
+          "relative_volume_error": 9.851949036576543e-05,
+          "source_part_id": "guidance/running/1/0/bush"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar",
+          "relative_volume_error": 8.585987058263035e-05,
+          "source_part_id": "guidance/running/1/0/collar"
+        },
+        {
+          "native_label": "guidance/running/1/0/collar-lock-screw",
+          "relative_volume_error": 0.00010004103576962018,
+          "source_part_id": "guidance/running/1/0/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/0/washer",
+          "relative_volume_error": 5.189668217975818e-05,
+          "source_part_id": "guidance/running/1/0/washer"
+        },
+        {
+          "native_label": "guidance/running/1/0/wheel",
+          "relative_volume_error": 2.1058041609239922e-05,
+          "source_part_id": "guidance/running/1/0/wheel"
+        },
+        {
+          "native_label": "guidance/running/1/1/axle",
+          "relative_volume_error": 0.00010120779995542809,
+          "source_part_id": "guidance/running/1/1/axle"
+        },
+        {
+          "native_label": "guidance/running/1/1/bush",
+          "relative_volume_error": 9.851949035808397e-05,
+          "source_part_id": "guidance/running/1/1/bush"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar",
+          "relative_volume_error": 8.585987056223507e-05,
+          "source_part_id": "guidance/running/1/1/collar"
+        },
+        {
+          "native_label": "guidance/running/1/1/collar-lock-screw",
+          "relative_volume_error": 0.00010004103577367695,
+          "source_part_id": "guidance/running/1/1/collar-lock-screw"
+        },
+        {
+          "native_label": "guidance/running/1/1/washer",
+          "relative_volume_error": 5.189668216007903e-05,
+          "source_part_id": "guidance/running/1/1/washer"
+        },
+        {
+          "native_label": "guidance/running/1/1/wheel",
+          "relative_volume_error": 2.1058041612047325e-05,
+          "source_part_id": "guidance/running/1/1/wheel"
+        },
+        {
+          "native_label": "frame/longitudinal/0",
+          "relative_volume_error": 1.0875612830530548e-06,
+          "source_part_id": "frame/longitudinal/0"
+        },
+        {
+          "native_label": "frame/longitudinal/1",
+          "relative_volume_error": 1.0875610630589025e-06,
+          "source_part_id": "frame/longitudinal/1"
+        },
+        {
+          "native_label": "frame/crossmember/0",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/0"
+        },
+        {
+          "native_label": "frame/crossmember/1",
+          "relative_volume_error": 1.2209483924386313e-16,
+          "source_part_id": "frame/crossmember/1"
+        },
+        {
+          "native_label": "frame/crossmember/2",
+          "relative_volume_error": 8.546638747070419e-16,
+          "source_part_id": "frame/crossmember/2"
+        }
+      ],
+      "physical_accepted": false,
+      "selected_reference_changed": false
+    }
+  },
+  "component_geometry_id": "bba173ba0f59948ff70441c02a949ed037074050beeebbccc55e5839881dfadd",
+  "engineering_accepted": false,
+  "evaluation_id": "3affa1f7f55018d25f5b3d7b79efe681695a318dcb8816474125fbc707d127a5",
+  "evaluation_request_id": "44365ed5bb6988231196250ca8f024adb65eb2976ca4584ca71e7c1197be35db",
+  "installed_mass_bound_kg": [
+    187.60945580003857,
+    193.62189367350874
+  ],
+  "installed_mass_complete": false,
+  "located_nominal_material_mass_kg": 190.62189367350874,
+  "manufacturing_release": false,
+  "movement_authority": false,
+  "native_geometry_comparison_passed": true,
+  "operating_release": false,
+  "physical_accepted": false,
+  "schema": "osr-launch-detail-native/1",
+  "selected_reference_changed": false,
+  "source_sha256": {
+    "engineering/design_search/craft_backends/launch_assembly.py": "b94f25b755fa852ebf3590dcb32c3cd5b7467a141895f0f6b7d6c4f366af24c0"
+  }
+}

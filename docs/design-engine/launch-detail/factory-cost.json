@@ -1,0 +1,169 @@
+{
+  "assumptions": {
+    "bronze_cut_yield": [
+      0.9,
+      0.75,
+      0.6
+    ],
+    "bronze_tin_alloy_stock_conversion_premium_usd_per_kg": [
+      3.0,
+      7.0,
+      15.0
+    ],
+    "dimensional_material_and_weld_QA_usd_each": [
+      50.0,
+      150.0,
+      500.0
+    ],
+    "factory_overhead_fraction": [
+      0.1,
+      0.2,
+      0.35
+    ],
+    "imported_stock_landing_usd_per_kg": [
+      0.15,
+      0.35,
+      0.8
+    ],
+    "loaded_labour_usd_per_h": [
+      5.0,
+      9.0,
+      16.0
+    ],
+    "machine_cash_hours": [
+      4.0,
+      8.0,
+      16.0
+    ],
+    "machine_cash_usd_per_h": [
+      8.0,
+      15.0,
+      30.0
+    ],
+    "one_batch_fixture_tooling_usd": [
+      200.0,
+      600.0,
+      1800.0
+    ],
+    "process_labour_hours_per_unit": {
+      "assembly-dimensional-function-QA": [
+        2.0,
+        4.0,
+        8.0
+      ],
+      "clevis-bore-fit": [
+        1.5,
+        3.0,
+        6.0
+      ],
+      "fastener-finish": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "frame-cut-jig-weld": [
+        3.0,
+        6.0,
+        12.0
+      ],
+      "guards-finish": [
+        1.0,
+        2.0,
+        4.0
+      ],
+      "wheels-axles-bushes-collars": [
+        4.0,
+        8.0,
+        16.0
+      ]
+    },
+    "steel_cut_yield": [
+      0.98,
+      0.92,
+      0.84
+    ],
+    "steel_grade_form_premium_usd_per_kg": [
+      0.3,
+      0.8,
+      2.0
+    ]
+  },
+  "candidate_id": "3e1d592fd88893ce11c83cfbc51b95253355b6dc45bb4bbc4aa1536151d77ab7",
+  "cases": {
+    "base": {
+      "QA_usd": 150.0,
+      "bronze_proxy_stock_usd": 40.971343393171615,
+      "committed_batch_factory_usd": 1643.7841595563186,
+      "factory_usd_per_shuttle": 1643.7841595563186,
+      "fixture_allocation_usd": 600.0,
+      "labour_hours": 24.0,
+      "labour_usd": 216.0,
+      "machine_cash_usd": 120.0,
+      "overhead_usd": 173.96402659271976,
+      "steel_stock_usd": 342.84878957042713
+    },
+    "high": {
+      "QA_usd": 500.0,
+      "bronze_proxy_stock_usd": 69.4356679596976,
+      "committed_batch_factory_usd": 5262.522021557323,
+      "factory_usd_per_shuttle": 5262.522021557323,
+      "fixture_allocation_usd": 1800.0,
+      "labour_hours": 48.0,
+      "labour_usd": 768.0,
+      "machine_cash_usd": 480.0,
+      "overhead_usd": 897.6908944778244,
+      "steel_stock_usd": 747.3954591198008
+    },
+    "low": {
+      "QA_usd": 50.0,
+      "bronze_proxy_stock_usd": 28.10489640818905,
+      "committed_batch_factory_usd": 592.4014765856207,
+      "factory_usd_per_shuttle": 592.4014765856207,
+      "fixture_allocation_usd": 200.0,
+      "labour_hours": 12.0,
+      "labour_usd": 60.0,
+      "machine_cash_usd": 32.0,
+      "overhead_usd": 35.67286150778369,
+      "steel_stock_usd": 186.62371866964787
+    }
+  },
+  "committed_quantity": 1,
+  "cost_estimate_id": "44cc36411daf1f2ab1152e12a2605b5c40ff019c0397405c822078f9c1a10bc2",
+  "currency": "USD",
+  "engineering_accepted": false,
+  "estimate_class": "Calculated Class C factory-gate component estimate; not a supplier quote or installed station cost",
+  "exclusions": [
+    "Actuator and storage, cables/capstans or hydraulics, complete guideway/station installation",
+    "Production-line buildings, financed plant capacity, freight of completed shuttle, duties/tax not in stock landing",
+    "Prototype proof/qualification, fatigue/contact testing, supplier grade/fit validation and lifecycle maintenance",
+    "Measured labour/routing calibration and unresolved sensor/wiring/grease/weld-detail procurement"
+  ],
+  "fixed_fixture_counted_once": true,
+  "installed_mass_complete": false,
+  "machine_basis": "Cash operating proxy including energy/consumables; no duplicated plant capital recovery. Fixture is allocated once after one overhead uplift.",
+  "manufacturing_release": false,
+  "movement_authority": false,
+  "no_additional_bulk_discount": true,
+  "nominal_component_count": 120,
+  "nominal_material_masses_kg": {
+    "bronze-bush-proposed": 1.29383351845442,
+    "steel-proposed": 189.32806015505432
+  },
+  "nominal_material_region_count": 122,
+  "operating_release": false,
+  "physical_accepted": false,
+  "price_basis": "Dated China wholesale commodity observations; Q235 is only a floor proxy for proposed certified steel. Copper is only a floor proxy for bearing bronze, with explicit tin/alloy/stock-conversion additions.",
+  "procurement_approved": false,
+  "schema": "osr-launch-detail-factory-estimate/1",
+  "selected_reference_changed": false,
+  "source_FX_id": "cn-cfets-usdcny-20261104",
+  "source_dataset_id": "42ccba06a2714d229f650fb1a2b6bcb8dc72885133cad8721504422f11b140a1",
+  "source_observation_ids": {
+    "bronze_proxy": "cn-nbs-20261021-31-copper-1",
+    "steel": "cn-nbs-20261021-31-q235-plate"
+  },
+  "stock_proxy_floor_usd_per_kg": {
+    "bronze_proxy": 16.399970229234892,
+    "steel": 0.5160017862459065
+  }
+}
