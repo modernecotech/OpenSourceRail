@@ -38,9 +38,9 @@ def _rhs(name,at,size,axis,group):
 
 
 def dimensions():
-    return dict(ear_length_m=.160,ear_thickness_m=.025,ear_height_m=.120,bore_diameter_m=.040,
-        bore_center_local_xz_m=[.120,.060],ear_local_y_m=[-.055,.030],clear_gap_m=.060,
-        ear_parent_translation_m=[.10,0,.24],pin_diameter_m=.040,pin_length_m=.200,
+    return dict(ear_length_m=.220,ear_thickness_m=.025,ear_height_m=.160,bore_diameter_m=.060,
+        bore_center_local_xz_m=[.140,.080],ear_local_y_m=[-.055,.030],clear_gap_m=.060,
+        ear_parent_translation_m=[.10,0,.24],pin_diameter_m=.060,pin_length_m=.200,central_eye_contact_width_bounds_m=[0.,.060],
         root_support_local_x_m=0.,research_train_mass_kg=160000.,target_acceleration_m_s2=1.,
         total_longitudinal_requirement_N=160000.,force_per_ear_N=80000.)
 
@@ -55,23 +55,23 @@ def _parts():
         p.append(_rhs(f'frame/crossmember/{i}',[x,-.25,.12],[.06,.50,.10],'y','frame'))
     mounting=[dict(axis='z',diameter_m=.018,x_m=x,y_m=y) for x in (.04,.46) for y in (.02,.58)]
     p.append(_box('frame/clevis-deck',[-.20,-.30,.22],[.50,.60,.020],'frame',holes=mounting))
-    p.append(_box('clevis/backplate',[.075,-.055,.24],[.025,.110,.120],'clevis'))
+    p.append(_box('clevis/backplate',[.075,-.055,.24],[.025,.110,.160],'clevis'))
     for i,y in enumerate((-.055,.030)):
-        p.append(_box(f'clevis/ear/{i}',[.10,y,.24],[.160,.025,.120],'clevis',
-            holes=[dict(axis='y',diameter_m=.040,x_m=.120,z_m=.060)]))
-    pin=_cyl('clevis/pin',[.220,-.100,.300],.020,.200,'clevis')
-    pin['blind_bores']=[dict(base_m=[.220,-.100,.300],axis=[0,1,0],radius_m=.005,length_m=.020),dict(base_m=[.220,.100,.300],axis=[0,-1,0],radius_m=.005,length_m=.020)]
+        p.append(_box(f'clevis/ear/{i}',[.10,y,.24],[.220,.025,.160],'clevis',
+            holes=[dict(axis='y',diameter_m=.060,x_m=.140,z_m=.080)]))
+    pin=_cyl('clevis/pin',[.240,-.100,.320],.030,.200,'clevis')
+    pin['blind_bores']=[dict(base_m=[.240,-.100,.320],axis=[0,1,0],radius_m=.006,length_m=.024),dict(base_m=[.240,.100,.320],axis=[0,-1,0],radius_m=.006,length_m=.024)]
     p.append(pin)
     for i,y in enumerate((-.061,.055)):
-        p.append(_cyl(f'clevis/pin-washer/{i}',[.220,y,.300],.031,.006,'clevis',inner=.0202))
+        p.append(_cyl(f'clevis/pin-washer/{i}',[.240,y,.320],.045,.006,'clevis',inner=.0302))
     for i,y in enumerate((-.100,.061)):
-        p.append(_cyl(f'clevis/pin-spacer/{i}',[.220,y,.300],.029,.039,'clevis',inner=.0202))
-    for i,y in enumerate((-.106,.100)):
-        p.append(_cyl(f'clevis/pin-end-cap/{i}',[.220,y,.300],.032,.006,'clevis',inner=.0055))
-        shaft_y=-.106 if i==0 else .080
-        head_y=-.116 if i==0 else .106
-        p.append(_cyl(f'clevis/retaining-screw-shank/{i}',[.220,shaft_y,.300],.005,.026,'clevis'))
-        p.append(_cyl(f'clevis/retaining-screw-head/{i}',[.220,head_y,.300],.008,.010,'clevis'))
+        p.append(_cyl(f'clevis/pin-spacer/{i}',[.240,y,.320],.042,.039,'clevis',inner=.0302))
+    for i,y in enumerate((-.110,.100)):
+        p.append(_cyl(f'clevis/pin-end-cap/{i}',[.240,y,.320],.046,.010,'clevis',inner=.0065))
+        shaft_y=-.110 if i==0 else .076
+        head_y=-.122 if i==0 else .110
+        p.append(_cyl(f'clevis/retaining-screw-shank/{i}',[.240,shaft_y,.320],.006,.034,'clevis'))
+        p.append(_cyl(f'clevis/retaining-screw-head/{i}',[.240,head_y,.320],.009,.012,'clevis'))
     for side in (-1,1):
         for i,x in enumerate((-.50,.50)):
             sy=.310 if side==1 else -.322
@@ -157,17 +157,17 @@ def build():
     parts=_parts();ids={p['id'] for p in parts}
     if len(ids)!=len(parts):raise ValueError('Duplicate assembly occurrence')
     physical=dict(schema='osr-launch-shuttle-physical/1',frame='station-local right-handed: +x forward,+y left,+z up; rail top z=0',
-        materials=MATERIALS,parts=parts,subassemblies=['frame','clevis','guidance','guards','fasteners'],
+        materials=deepcopy(MATERIALS),parts=parts,subassemblies=['frame','clevis','guidance','guards','fasteners'],
         parent_transforms={name:dict(rotation_matrix=[[1,0,0],[0,1,0],[0,0,1]],translation_m=[0,0,0])
                            for name in ['frame','clevis','guidance','guards','fasteners']})
     cid=identity(physical)
     ears=[p for p in parts if p['id'].startswith('clevis/ear/')]
-    component=dict(schema='osr-launch-double-clevis-geometry/1',parts=ears,component_frame=dict(translation_to_station_m=[.10,0,.24],
+    component=dict(schema='osr-launch-double-clevis-geometry/1',parts=ears,parts_coordinate_frame='station',analysis_frame_to_station=dict(translation_to_station_m=[.10,0,.24],
         rotation_matrix=[[1,0,0],[0,1,0],[0,0,1]]))
     quantities={p['id']:measures(p) for p in parts};nominal=fsum(v['nominal_material_mass_kg'] for v in quantities.values())
     b=dict(schema='osr-launch-detail-assembly/1',case_id='launch-shuttle-detail',candidate_id=cid,
         component_geometry_id=identity(component),physical_definition=physical,dimensions=dimensions(),
-        entities=parts,materials=MATERIALS,part_measures=quantities,component_geometry=component,
+        entities=parts,materials=deepcopy(MATERIALS),part_measures=quantities,component_geometry=component,
         nominal_located_material_mass_kg=nominal,
         installed_mass_bound_kg=[nominal*.98+.80,nominal+3.00],
         mass_scope='Nominal cut/bored material plus bounded thread/flats, weld filler, grease, sensors and flexible cable; not verified installed mass',
@@ -177,7 +177,7 @@ def build():
         requirements=dict(train_mass_kg=160000.,acceleration_m_s2=1.,longitudinal_force_N=160000.,available_thrust_N=None,
             force_basis='m*a research requirement only; excludes resistance/grade and does not establish an actuator map',launch_speed_m_s=None,powered_length_m=None),
         fem_interface=dict(schema='osr-launch-clevis-load-interface/1',candidate_id=cid,component_geometry_id=identity(component),
-            component_body_ids=[p['id'] for p in ears],dimensions=dimensions(),units=dict(length='m',force='N',stress='Pa'),
+            component_body_ids=[p['id'] for p in ears],parts_coordinate_frame='station',analysis_coordinates='Subtract ear_parent_translation_m for local x/z; y is unchanged',dimensions=dimensions(),units=dict(length='m',force='N',stress='Pa'),
             material_hypothesis=dict(young_Pa=210e9,poisson=.3,density_kg_m3=7850.,nominal_yield_Pa=355e6,
                 status='Declared isotropic S355-like candidate, not certified or approved allowable'),
             total_force_N=160000.,force_per_ear_N=80000.,force_direction=[1,0,0],
@@ -185,10 +185,12 @@ def build():
             load=dict(region='positive-x half of bore',hypothesis='distributed bearing contact surrogate; no concentrated node force'),
             **FLAGS),
         joints=_joints(parts),access=_access(),manufacturing=_manufacturing(parts),
+        revision_history=[dict(parent_candidate_id='60d6ea6ca295803262e7bd6da93e8a14e5ebc802c69467b89a08f03d8e2d0eb8',reason='40mm pin necessary bending/combined-stress screen exceeded355MPa hypothesis; enlarge pin/ears and retain prior valid CAD/ear FEM as previous evidence')],
         engineering_holds=['Actual actuator/energy store and independent train braking absent from this component model',
             'Root weld, deck bolt preload/slip, guideway strength and rail retention load transfer unqualified',
             'Bearing PV/wear, fatigue, engagement/release, jerk and failure recovery require separate evidence',
             'Nominal solids omit threads, fillets, weld beads and certified supplier fits; no manufacturing release'],**FLAGS)
+    b['necessary_screens']=pin_ear_screens(b)
     b['assembly_definition_id']=identity(b);return b
 
 
@@ -199,7 +201,7 @@ def _joints(parts):
         welded_interfaces=[dict(id='crossmember-ends',count=6),dict(id='drop-plate-to-frame',count=4),
             dict(id='ear-to-backplate',count=2),dict(id='backplate-to-deck',count=1)],
         root_weld_hypothesis='Continuous6mm fillet candidate; weld sizing, access, distortion and fatigue remain open',
-        fits=[dict(interface='coupling pin/ears',nominal_diameter_m=.040,status='Fit/tolerance and replaceable bush design pending'),
+        fits=[dict(interface='coupling pin/ears',nominal_diameter_m=.060,status='Fit/tolerance and replaceable bush design pending'),
               dict(interface='wheel/bush/axle',wheel_bore_m=.032,bush_bore_m=.020,status='Nominal contact; press/sliding fits require supplier/material sizing')],
         wiring=dict(position_sensors=2,flexible_cable_length_m=2.4,service_loop_travel_m=1.,mass_status='bounded allowance, not zero'),
         cooling=dict(active_hoses_count=0,basis='No hydraulic actuator or active cooler belongs to this component; their cooling and flexible connections remain external unknowns',
@@ -208,7 +210,7 @@ def _joints(parts):
 
 def _access():
     return dict(travel=dict(direction=[1,0,0],range_m=[-.50,.50],
-        swept_bounds_m=[[-1.15,-.46,-.15],[1.15,.46,.36]],finite_local_stroke_only=True,
+        swept_bounds_m=[[-1.15,-.46,-.15],[1.15,.46,.40]],finite_local_stroke_only=True,
         remaining_station_acceleration_distance_m=None),
         removal=[dict(component='clevis/pin',direction=[0,1,0],distance_m=.30,required_clearance_m=.30,
                      sequence=['Isolate and mechanically unload shuttle; park/lock independently','Remove upper guard/access obstruction and pin retaining screws and end caps','Support mating eye, withdraw pin along+y; never under stored load']),
@@ -217,23 +219,68 @@ def _access():
         installation=['Weld and inspect frame in jig before machining mating datums','Insert and inspect RHS crush sleeves before closing/joining frame; fit deck/backplate/ears with bore alignment fixture',
             'Fit wheel bushes, axles and both running/capture rollers','Install lock devices, sensors and cable service loops','Fit guards; verify swept/tool/removal envelopes on real guideway'],
         lifting=dict(points=4,method='Engineered removable lifting fixture; lug positions/capacity and proof test pending',rated_capacity_kg=None),
-        retention=dict(required=True,capture_wheel_count=4,longitudinal_force_height_m=.30,wheelbase_m=1.,
-            pitch_moment_requirement_Nm=48000.,pitch_reaction_delta_N=48000.,
+        retention=dict(required=True,capture_wheel_count=4,longitudinal_force_height_m=.32,wheelbase_m=1.,
+            pitch_moment_requirement_Nm=51200.,pitch_reaction_delta_N=51200.,
+            reaction_model='Conservative force reacted at rail top z0; actual drive attachment height is unresolved',
             status='Necessary equilibrium requirement; roller/axle/guideway reaction capacity not qualified'),
         envelope_status='Finite dimensional envelopes defined, but collision/access validation on complete installation remains pending')
 
 
 def _manufacturing(parts):
-    return dict(bom=[dict(part_id=p['id'],subassembly=p['subassembly'],quantity=1,material=p['material'],stock=p['stock'],
+    groups={}
+    for part in parts:
+        name=part['id']
+        if name.startswith('clevis/retaining-screw-'):name='clevis/retaining-screw/'+name.rsplit('/',1)[-1]
+        groups.setdefault(name,[]).append(part['id'])
+    return dict(component_bom=[dict(component_id=name,quantity=1,material_region_ids=ids,
+        basis='One nominal purchased/manufactured component; separate head/shank CAD regions are not duplicate screws') for name,ids in sorted(groups.items())],
+        nominal_material_region_count=len(parts),nominal_component_count=len(groups),
+        bom=[dict(part_id=p['id'],subassembly=p['subassembly'],quantity=1,material=p['material'],stock=p['stock'],
         nominal_volume_m3=measures(p)['volume_m3'],nominal_mass_kg=measures(p)['nominal_material_mass_kg'],
         route=['cut/turn/form stock as declared','machine bores and mating datums','deburr/protect','dimensional and material inspection'],
         tolerances='Candidate bore/plate datums only; drawing-level tolerances and approved fits remain pending') for p in parts],
         process_plans=dict(frame=['Cut RHS stock, retain real hollow ends','Jig/tack, weld controlled sequence','Inspect welds and machine datums'],
-            clevis=['Cut25mm plate and backplate','Bore paired ears in common fixture','Inspect bore coaxiality and ligament dimensions'],
+            clevis=['Cut25mm ears and backplate; machine60mm paired bores','Bore paired ears in common fixture','Inspect bore coaxiality and ligament dimensions'],
             guidance=['Turn wheels/journals/bushes','Inspect bore/shaft fits and retention features','Grease and check free rotation'],
             guards=['Laser cut3mm sheet and holes','Deburr edges, coat and fit captive attachments']),
         costs=dict(estimated_factory_cost=None,basis='Part-level source quantities/routings are defined; price/labour/tooling/QA must be bound by the coordinator cost adapter, never zero'),
         transactions_performed=False,manufacturing_release=False)
+
+
+def pin_ear_screens(value,*,force_N=None,proof_factor=1.5):
+    """Necessary nominal statics only, before local FEA/contact/fatigue work.
+
+    The pin is a simply-supported beam between ear bearing centroids. Uniform
+    central-eye contact widths bracket a point load and a60mm eye; actual
+    contact, concentrations and certified allowables remain unavailable.
+    """
+    d=value['dimensions'];F=value['requirements']['longitudinal_force_N'] if force_N is None else float(force_N)
+    if F<=0 or proof_factor<1:raise ValueError('Positive force and proof multiplier>=1 required')
+    t,h,D=d['ear_thickness_m'],d['ear_height_m'],d['pin_diameter_m'];span=d['clear_gap_m']+t
+    widths=d['central_eye_contact_width_bounds_m'];fy=355e6
+    cases=[]
+    for width in widths:
+        moment=F*(2*span-width)/8
+        bending=32*moment/(pi*D**3);shear=2*F/(pi*D**2)
+        combined=sqrt(bending*bending+3*shear*shear)
+        cases.append(dict(eye_contact_width_m=width,pin_moment_Nm=moment,pin_bending_Pa=bending,
+            double_shear_Pa=shear,combined_nominal_von_mises_Pa=combined,proof_combined_Pa=proof_factor*combined,
+            nominal_yield_proxy_Pa=fy,proof_nominal_yield_screen=proof_factor*combined<=fy))
+    ligament=d['ear_length_m']-d['bore_center_local_xz_m'][0]-d['bore_diameter_m']/2
+    per=F/2
+    return dict(scope='Necessary nominal static bounds; no approved material allowable/contact/fatigue/retention acceptance',
+        total_requirement_N=F,proof_factor=proof_factor,
+        screening_factor_basis='Revisable research load multiplier, not a prescribed railway proof-test factor',
+        ear_bearing_centre_span_m=span,pin_cases=cases,
+        ear_net_tension_Pa=per/(t*(h-d['bore_diameter_m'])),ear_bearing_Pa=per/(t*d['bore_diameter_m']),
+        forward_edge_ligament_m=ligament,ear_two_plane_tearout_shear_Pa=per/(2*t*ligament),
+        retaining_screw=dict(candidate='M12 strength8.8 hypothesis, not certified',axial_research_action_fraction=.10,
+            action_N=F*.10,tensile_stress_area_m2=84.3e-6,nominal_tensile_Pa=F*.10/84.3e-6,
+            proof_nominal_tensile_Pa=proof_factor*F*.10/84.3e-6,declared_yield_proxy_Pa=640e6,
+            load_basis='Revisable axial action hypothesis; not a measured or approved transverse train force',
+            cap_plate_bending_qualified=False,thread_engagement_qualified=False),
+        necessary_pin_screen_passed=all(c['proof_nominal_yield_screen'] for c in cases),
+        actual_available_thrust_established=False,**FLAGS)
 
 
 def validate(value):
