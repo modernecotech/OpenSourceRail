@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OpenSourceRail · Create and compare railway outlines</title>
     <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="city-atlas.css" />
+    <script src="city-atlas.js" defer></script>
+    <script src="city-journeys.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -91,6 +94,8 @@
             <p id="city-study-status" role="status" aria-live="polite">Recalculation runs locally with bounded resources and preserves the published outline.</p>
             <div id="city-study-result" hidden><p id="city-study-outcome"></p><nav id="city-study-links"></nav></div>
           </form>
+          <section id="city-atlas" hidden aria-label="Source-bound city network and calculated results"></section>
+          <div class="city-outline-legacy">
           <dl id="city-outline-facts"></dl>
           <h3>Alignment alternatives</h3>
           <p>Original routes in grey, straighter proposals in green, square-ring research in orange.
@@ -107,6 +112,7 @@
           <details><summary>Assumptions, delivery resources and later verification</summary><pre id="city-outline-detail"></pre></details>
           <p><a id="city-outline-download">Download this city outline</a> ·
             <a href="../../design-engine/outline-completion/README.md">Methods and complete design-price coverage</a></p>
+          </div>
           <h3>Priced design library</h3>
           <p>Component prices keep their declared scope: a body or span is compared separately from a complete railway scenario.</p>
           <label for="design-price-kind">Design scope</label>

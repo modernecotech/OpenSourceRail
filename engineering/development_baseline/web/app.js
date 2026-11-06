@@ -929,52 +929,75 @@ async function completionRecord(file, api) {
     if (value[key] !== false) throw Error("Unexpected outline qualification: " + key);
   return value;
 }
+let cityViewEpoch = 0;
+let cityAtlasView;
+const atlasBase = "../../design-engine/city-atlas/";
+async function atlasDigest(raw) {
+  return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",raw)),b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function atlasPacket(slug, studyId=null) {
+  const local=["127.0.0.1","localhost","[::1]"].includes(location.hostname);
+  if(studyId || local) {
+    const value=await request(studyId ? `/api/city-atlas/study/${studyId}` : `/api/city-atlas/${slug}`);
+    if(value.city?.slug!==slug)throw Error("City map belongs to another calculation");
+    return value;
+  }
+  const response=await fetch(atlasBase+"manifest.json",{cache:"no-store"});
+  if(!response.ok)throw Error("Calculated city atlas unavailable");
+  const manifest=await response.json(),name=`cities/${slug}.json.gz`;
+  const member=await fetch(atlasBase+name,{cache:"no-store"});
+  if(!member.ok)throw Error("Calculated city dossier unavailable");
+  const raw=new Uint8Array(await member.arrayBuffer());
+  if(raw.length>16*1024*1024 || await atlasDigest(raw)!==manifest.files_sha256?.[name])throw Error("City map payload differs from its manifest");
+  const value=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
+  if(value.city?.slug!==slug || value.sources?.publication_manifest_id!==manifest.publication_manifest_id)throw Error("City map source identity differs");
+  return value;
+}
+async function atlasMapContext(packet) {
+  const ref=packet.map_context;
+  if(!ref)return null;
+  if(!/^cities\/catalogue\/[^/]+\/[^/]+\/[^/]+\/map-context\.json\.gz$/.test(ref.path||"") ||
+      !/^[a-f0-9]{64}$/.test(ref.sha256||"") || packet.sources?.calculation_sha256?.[ref.path]!==ref.sha256)
+    throw Error("Geographic context is not bound to this city calculation");
+  const url=new URL(ref.path.split("/").map(encodeURIComponent).join("/"),new URL("../../../",document.baseURI));
+  const response=await fetch(url,{cache:"no-store"});
+  if(!response.ok)throw Error("Geographic context unavailable");
+  const raw=new Uint8Array(await response.arrayBuffer());
+  if(raw.length>32*1024*1024 || await atlasDigest(raw)!==ref.sha256)throw Error("Geographic context differs from its source");
+  const value=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
+  if(!value.layers || !Array.isArray(value.bounds_wsen))throw Error("Invalid geographic context");
+  return value;
+}
+async function displayCityAtlas(packet, epoch, downloadUrl) {
+  if(packet.schema!=="osr-city-atlas/1" || qualificationKeys.some(k=>packet[k]!==false))throw Error("Unaccepted calculated city map required");
+  let context=null,contextError=null;
+  try {context=await atlasMapContext(packet);}catch(error){contextError=error.message;}
+  if(epoch!==cityViewEpoch)return false;
+  cityAtlasView?.destroy();
+  cityAtlasView=window.OSRCityAtlas.render(packet,null,{context,contextVerified:!!context,contextSource:packet.map_context,downloadUrl});
+  window.OSRCityJourneys.mount(byId("city-atlas"),packet);
+  if(contextError) {
+    const note=document.createElement("p");note.className="note";note.textContent="Network calculations remain available; geographic background held: "+contextError;
+    byId("city-atlas").append(note);
+  }
+  return true;
+}
 async function showCityOutline(slug) {
-  const status = byId("city-outline-status");
-  status.textContent = "Loading the city's calculated quantities, service and cost scopes…";
+  const epoch=++cityViewEpoch,status=byId("city-outline-status");
+  cityAtlasView?.destroy();cityAtlasView=null;
+  document.querySelector(".city-outline-legacy").hidden=true;
+  byId("city-study-result").hidden=true;
+  byId("city-atlas").hidden=true;
+  status.textContent="Loading the city's source-bound map, service, energy, quantities and whole-life costs…";
   try {
-    const row = await completionRecord(`cities/${slug}.json.gz`, `/api/outline-completion/city/${slug}`);
-    const facts = byId("city-outline-facts"); facts.replaceChildren();
-    fact(facts, "Design stage", row.outline_complete ? "Outline complete · engineering verification pending" : row.outline_completion);
-    showMaturity(row.outline_complete,row.city.name);
-    fact(facts, "Mapped network", `${format(row.route_km)} route-km · ${row.lines} lines · ${row.stations} line-stop records`);
-    fact(facts, "Joined operational stop complexes", row.operational_station_complexes);
-    fact(facts, "Alignment retained for this outline", row.selected_alignment_kind);
-    fact(facts, "Fleet including reserves", `${row.trainsets} trainsets`);
-    fact(facts, "Installed capital · low / base / high", ["low","base","high"].map(c=>moneyMillions(row.installed_capital_usd[c])).join(" / "));
-    fact(facts, "Central cost per route-km", moneyMillions(row.price_per_route_km_usd.base));
-    fact(facts, "30-year whole-life NPV · base", moneyMillions(row.whole_life_npv_usd.base));
-    fact(facts, "Demand basis", row.policy.demand_source);
-    const body = byId("city-outline-costs"); body.replaceChildren();
-    for (const [scope, costs] of Object.entries(row.scope_totals_usd)) {
-      const tr = document.createElement("tr");
-      for (const text of [scope,...["low","base","high"].map(c=>(costs[c]/1e6).toFixed(2))]) {
-        const td = document.createElement("td"); td.textContent = text; tr.append(td);
-      }
-      body.append(tr);
-    }
-    const lines = byId("city-outline-lines"); lines.replaceChildren();
-    for (const line of row.line_outlines) {
-      const p = document.createElement("p");
-      p.textContent = `${line.line_id}: ${line.shape} · ${line.headway_s}s headway · ${line.trainsets} trainsets · ${line.propulsion}. Retained station-reference issues: ${line.known_reference_failures.length}.`;
-      lines.append(p);
-    }
-    byId("city-outline-detail").textContent = JSON.stringify({
-      pricing_and_site_assumptions:row.assumptions,
-      delivery:row.delivery_draft,
-      later_verification:row.qualification_requirements
-    },null,2);
-    const alignments = byId("city-outline-alignments"); alignments.replaceChildren();
-    for (const alternative of row.alignment_comparison) {
-      const p = document.createElement("p");
-      p.textContent = `${alternative.kind}: ${format(alternative.route_km)} km · ${moneyMillions(alternative.installed_capital_usd.base)} installed · ${moneyMillions(alternative.whole_life_npv_usd.base)} whole-life NPV · ${alternative.selection_eligibility.status}.`;
-      alignments.append(p);
-    }
-    const geometry = await completionRecord(`maps/${slug}.geojson.gz`, `/api/outline-completion/map/${slug}`);
-    drawOutlineMap(geometry);
-    byId("city-outline-download").href = completionBase + `cities/${slug}.json.gz`;
-    status.textContent = `${row.city.name}, ${row.city.country} · Class C estimates, not supplier offers. No hardware or operating approval. Outline ${row.evaluation_id.slice(0,12)}.`;
-  } catch (error) {status.textContent = "City outline unavailable: " + error.message;}
+    const packet=await atlasPacket(slug);
+    if(epoch!==cityViewEpoch)return;
+    const published=completionCatalogue.cities.find(row=>row.city.slug===slug);
+    if(packet.identity.outline_evaluation_id!==published.evaluation_id)throw Error("City calculations changed; regenerate the map dossier");
+    if(!await displayCityAtlas(packet,epoch,atlasBase+`cities/${slug}.json.gz`))return;
+    byId("city-outline-download").href=atlasBase+`cities/${slug}.json.gz`;
+    status.textContent=`${packet.city.name}, ${packet.city.country} · Complete calculated outline with Class C estimates. Physical verification remains separate. Calculation ${packet.identity.outline_evaluation_id.slice(0,12)}.`;
+  } catch(error) {if(epoch===cityViewEpoch)status.textContent="City outline unavailable: "+error.message;}
 }
 byId("city-outline-load").addEventListener("click", async () => {
   const button = byId("city-outline-load"); button.disabled = true;
@@ -998,6 +1021,7 @@ byId("city-study-options").addEventListener("submit",async event=>{
   event.preventDefault();
   const button=byId("city-study-start"),status=byId("city-study-status");
   button.disabled=true;byId("city-study-result").hidden=true;
+  const selection=byId("city-outline-select"),epoch=++cityViewEpoch;selection.disabled=true;
   try {
     const fields=new FormData(event.target),slug=byId("city-outline-select").value;
     const original=completionCatalogue.cities.find(row=>row.city.slug===slug);
@@ -1018,13 +1042,18 @@ byId("city-study-options").addEventListener("submit",async event=>{
     }
     if(job.state!=="completed")throw Error(job.error||"Calculation did not finish within its budget; artifacts were retained");
     const s=job.summary;
+    if(epoch!==cityViewEpoch || selection.value!==slug)return;
+    const packet=await atlasPacket(slug,job.job_id);
+    if(packet.identity.workflow_evaluation_id!==s.evaluation_id || packet.identity.research_configuration_id!==s.research_configuration_id)throw Error("Calculated map and study identities differ");
+    if(!await displayCityAtlas(packet,epoch,`/api/city-atlas/study/${job.job_id}`))return;
+    byId("city-outline-status").textContent=`${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0,12)}, including its actual geometry, service and costs.`;
     byId("city-study-outcome").textContent=`${s.city.name}: ${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}. `+
       `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. `+
       `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; `+
       (s.delivery.cases.base.target_met?"within the planning target. ":"the planning target needs revised resources, methods or dates. ")+
       "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
     const links=byId("city-study-links");links.replaceChildren();
-    for(const [file,label] of [["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
+    for(const [file,label] of [["result.json","Complete calculated result"],["summary.json","City calculation summary"],["alignments.geojson","Alignment alternatives"],["performance.json","Calculation execution record"],["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
       ["business-drafts.json","Disabled business-system drafts"],["manifest.json","Sources and artifact identities"]]) {
       const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);
     }
@@ -1034,7 +1063,7 @@ byId("city-study-options").addEventListener("submit",async event=>{
     showMaturity(s.outline_acceptance==="accepted",s.city.name);
     status.textContent=`${job.cache_hit?"Reused the identical verified calculation":"Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0,12)}. Physical approval remains separate.`;
   } catch(error) {status.textContent=`Unable to calculate this city: ${error.message}. Run the local Workbench with ./osr workbench.`;}
-  finally {button.disabled=false;}
+  finally {button.disabled=false;selection.disabled=false;}
 });
 function renderDesignPrices() {
   if (!completionCatalogue) return;

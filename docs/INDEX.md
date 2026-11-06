@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **123**.
+Indexed Markdown files: **124**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **123**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 97 |
+| [docs](#docs) | 98 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -83,6 +83,7 @@ Indexed Markdown files: **123**.
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
+| [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway maps and calculated studies |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
 | [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
 | [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |

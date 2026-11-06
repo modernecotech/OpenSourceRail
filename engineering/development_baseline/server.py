@@ -58,6 +58,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        from engineering.outline.city_atlas_api import handle_api as atlas_api
+        if atlas_api(self):
+            return
         from engineering.outline.city_jobs import handle_api as city_api
         if city_api(self):
             return
@@ -144,7 +147,10 @@ class Handler(BaseHTTPRequestHandler):
                 _, manifest = read_packet(self.root)
                 bindings = manifest.get('workbench_files_sha256', {})
                 expected = bindings.get(target.name) or bindings.get(str(target.relative_to(self.root)))
-                if not expected or digest(target) != expected:
+                from engineering.outline.city_atlas_api import ASSETS,verify_asset
+                if target.name in ASSETS:
+                    verify_asset(self.root,target.name,target)
+                elif not expected or digest(target) != expected:
                     raise CurrentUnavailable('Current Workbench asset changed')
             self.respond(200, target.read_bytes(), mimetypes.guess_type(str(target))[0] or 'application/octet-stream')
         except (OSError, ValueError, KeyError) as exc:

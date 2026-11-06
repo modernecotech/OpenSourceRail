@@ -13,6 +13,6 @@ The immutable handoff is bound to the selected v0.6 candidate and the source ide
 
 Missing unit prices can be covered in a separate candidate-specific low/base/high Class C estimate from calculated quantities and declared assumptions. Supplier quotes improve procurement readiness but are not required for design-stage cost comparison. A complete installed city estimate still needs route-specific quantities and site scope.
 
-Candidate-specific route performance, procurement groups, construction schedules and full city costs remain held until their supporting evidence is available. Planning changes do not grant movement authority.
+The [calculated city atlas](../../design-engine/city-atlas/README.md) provides current outline service, fleet, civil quantities, complete estimated costs and delivery studies for all 266 cities. A completed local study can be opened here for candidate-bound editing and recalculation. The ordinary planning handoff remains a proposal, while the calculated study carries its own result identities and assumptions. Verified physical performance, procurement approval, construction release and movement authority remain separate.
 
 For the connected candidate workflow, see the [coordinated railway design](../../design-engine/coupled-railway/README.md), [current platform capabilities](../../capabilities/README.md) and [current engineering dossier](../../design-engine/current/README.md).
