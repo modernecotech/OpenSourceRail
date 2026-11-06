@@ -103,7 +103,8 @@ jobs:
           engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_invalid_beam_assumptions_fail_before_numerics
   bounded-axial-search-method:
     name: Current bounded axial and frame search methods
-    runs-on: ubuntu-latest
+    # Pin the CPU solver environment; the floating image changed its dependency graph.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       OPENBLAS_NUM_THREADS: "1"
