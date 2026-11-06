@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **128**.
+Indexed Markdown files: **130**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **128**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 102 |
+| [docs](#docs) | 104 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -85,6 +85,7 @@ Indexed Markdown files: **128**.
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
 | [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway maps and calculated studies |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
+| [`docs/design-engine/city-price-review/README.md`](../docs/design-engine/city-price-review/README.md) | City price review — 6 November 2026 |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
 | [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
 | [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |
@@ -111,6 +112,7 @@ Indexed Markdown files: **128**.
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
 | [`docs/design-engine/implicit-geometry-study/README.md`](../docs/design-engine/implicit-geometry-study/README.md) | Three-dimensional implicit cellular geometry study |
 | [`docs/design-engine/installed-mass-support/README.md`](../docs/design-engine/installed-mass-support/README.md) | Conditional vehicle mass and support sensitivity |
+| [`docs/design-engine/launch-detail/README.md`](../docs/design-engine/launch-detail/README.md) | Detailed station launch shuttle — research assembly |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/line30-benchmark/README.md`](../docs/design-engine/line30-benchmark/README.md) | 30 km / 12 station cost benchmark |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |

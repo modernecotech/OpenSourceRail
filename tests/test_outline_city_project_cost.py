@@ -50,6 +50,52 @@ def test_complete_city_all_fourteen_scopes_and_accounting_identity(context):
     assert v['assumptions']['local_rates_verified'] is False
 
 
+def test_reserve_auxiliary_electricity_and_supply_ledger_reconcile(context):
+    c,s=inputs(context);v=cost(c,s,context)
+    service=s[0]['service'];req=s[0]['requirements'];design=s[0]['design']
+    expected=service['spare_trainsets']*6*design['aux_kw_per_car']*context['spec']['lifecycle']['reserve_aux_fraction']*req['operating_hours_per_day']*req['operating_days_per_year']/design['charge_efficiency']
+    assert expected>0
+    line=next(r for r in v['lifecycle_lines'] if r['key']=='network-electricity')
+    for case in ('low','base','high'):
+        row=v['energy_ledger']['cases'][case]
+        assert row['reserve_vehicle_aux_grid_kwh']==pytest.approx(expected)
+        assert row['total_grid_kwh']==pytest.approx(sum(row[k] for k in ('traction_grid_kwh','active_vehicle_aux_grid_kwh','reserve_vehicle_aux_grid_kwh','station_and_depot_kwh')))
+        assert row['annual_cost_usd']==pytest.approx(row['total_grid_kwh']*row['electricity_usd_per_kwh'])
+        assert line['quantity']['annual_energy'][case]==row
+    assert v['energy_ledger']['physical_grid_demand_verified'] is False
+
+
+def test_city_horizon_discount_and_final_removal_follow_declared_policy(context):
+    c,s=inputs(context);cost(c,s,context)
+    v=city_project_cost.evaluate_city_cost(c,s,context,policy=dict(accounting_horizon_years=12,real_discount_rate=0.))
+    assert v['resources']['accounting_years']==12 and v['resources']['real_discount_rate']==0
+    energy=next(r for r in v['lifecycle_lines'] if r['key']=='network-electricity')
+    assert energy['quantity']['annuity']==12
+    end=next(r for r in v['lifecycle_lines'] if r['key']=='final-removal-disposal')
+    assert end['quantity']['year']==12
+    assert end['costs_usd']['base']==pytest.approx(v['installed_capital_usd']['base']*context['spec']['lifecycle']['decommission_fraction'][1])
+    renewal=next(r for r in v['lifecycle_lines'] if r['scope']=='renewals')
+    assert all(r['year']<12 for r in renewal['quantity']['events'])
+
+
+def test_local_operating_overrides_do_not_discount_imported_capital(context):
+    c,s=inputs(context);base=cost(c,s,context)
+    profile=dict(basis='Declared local tariff/wage test estimates; not supplier evidence',
+        electricity_usd_per_kwh=[.1,.2,.3],operations_loaded_paid_wage_usd_h=[1.,2.,3.])
+    v=city_project_cost.evaluate_city_cost(c,s,context,policy=dict(local_costs=profile))
+    assert v['capital_lines']==base['capital_lines']
+    assert v['local_cost_inputs']['status']=='scoped-operating-estimates'
+    assert v['local_cost_inputs']['local_rates_verified'] is False
+    assert v['energy_ledger']['cases']['base']['annual_cost_usd']==pytest.approx(v['energy_ledger']['cases']['base']['total_grid_kwh']*.2)
+    assert v['source_sha256']['engineering/outline/city-cost-inputs.toml']
+
+
+@pytest.mark.parametrize('policy',[dict(accounting_horizon_years=0),dict(accounting_horizon_years=True),dict(real_discount_rate=-.1),dict(real_discount_rate=float('nan'))])
+def test_invalid_accounting_inputs_are_not_silently_replaced(context,policy):
+    c,s=inputs(context);cost(c,s,context)
+    with pytest.raises(ValueError,match='accounting horizon'):city_project_cost.evaluate_city_cost(c,s,context,policy=policy)
+
+
 def test_ring_terminal_quantities_not_copied_from_radial_default(context):
     c,s=inputs(context,'ring');v=cost(c,s,context)
     row=next(z for z in v['capital_lines'] if z['key']=='A/terminal-and-line-controls')
@@ -209,3 +255,25 @@ def test_fleet_renewal_retools_without_rebuying_retained_factory_premises(contex
         assert e['present_value_usd']==pytest.approx((fleet['costs_usd']['base']+setup)/(1+discount)**e['year'])
         assert e['present_value_usd']<(fleet['costs_usd']['base']+setup+premises)/(1+discount)**e['year']
     assert v['assumptions']['factory_premises_rebuilt_at_fleet_renewal'] is False
+
+
+@pytest.mark.parametrize('years',[1,5])
+def test_short_horizon_keeps_explicit_zero_scheduled_renewals(context,years):
+    from engineering.outline.completion import _check_costs
+    c,rows=inputs(context);cost(c,rows,context)
+    v=city_project_cost.evaluate_city_cost(c,rows,context,policy=dict(accounting_horizon_years=years))
+    renewal=next(r for r in v['lifecycle_lines'] if r['scope']=='renewals')
+    assert renewal['quantity']['events']==[]
+    assert renewal['quantity']['zero_basis']
+    assert v['scope_totals_usd']['renewals']['base']==0
+    _check_costs(v)
+
+
+def test_explicit_local_wage_bounds_are_not_transferred_again(context):
+    c,rows=inputs(context);cost(c,rows,context)
+    profile=dict(basis='Local paid-hour scenario',operations_loaded_paid_wage_usd_h=[1.,1.,1.])
+    v=city_project_cost.evaluate_city_cost(c,rows,context,policy=dict(local_costs=profile))
+    stat=context['assumptions']['assumptions'];req=rows[0]['requirements']
+    sites=v['resources']['access_sites']
+    expected=[(stat['controllers_per_shift'][i]+sites*stat['station_staff_per_station_per_shift'][i])*req['operating_hours_per_day']*req['operating_days_per_year']*stat['operations_reliever_multiplier'][i] for i in range(3)]
+    assert [v['resources']['annual_operations_usd'][case] for case in ('low','base','high')]==pytest.approx(expected)

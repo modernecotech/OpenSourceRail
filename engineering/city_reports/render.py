@@ -147,6 +147,27 @@ def _organisation(model):
     'Unallocated maintenance/support functions have budget envelopes or open allocation; their unknown FTE is not zero. No recruitment or complete-organisation claim follows from this table.','']
 
 
+def _civil_price_comparison(model):
+    comparison=model['costs'].get('civil_comparison')
+    if not comparison:return []
+    return ['### Civil classification comparison','',
+        'The headline retains the mapped civil allowances. A separate alternative uses the retained '
+        'WorldCover/OSM water evidence to distinguish water crossings from other bridge allowances. '
+        'Dry land does not establish that a bridge is unnecessary: roads, utilities, clearances and ground conditions remain unsurveyed.','',
+        table(['Same-route, same-service estimate','Low','Base','High'],[
+            ['Headline installed capital',*cases(model['costs']['installed_capital_usd'])],
+            ['Water-evidence alternative capital',*cases(comparison['installed_capital_usd'])],
+            ['Alternative capital / route-km',*cases(comparison['price_per_route_km_usd'])],
+            ['Alternative whole-life NPV',*cases(comparison['whole_life_npv_usd'])],
+            ['Included non-water obstruction reserve',*cases(comparison['obstruction_reserve_usd'])],
+        ]),'',
+        number(comparison['dry_bridge_reclassified_m']/1000,2)+' km of legacy bridge allowance is represented as elevated construction plus an explicit obstruction reserve in this alternative. '
+        +str(comparison['interface_hold_count'])+' water/civil interface holds require investigation. '
+        'The reserve is a provisional estimate, not evidence that the crossing work is fully sized. '
+        'Historical evidence revision: `'+comparison['historical_revision'][:12]+'`. '
+        'This comparison does not select a new alignment, civil design or physical baseline.','']
+
+
 def city(model,packet,detail,row,root):
     directory=Path(row['path']);city=packet['city'];name=city['name'];slug=city['slug']
     p='engineering/outline/';policy=packet['assumptions']['policy'];cost=packet['costs'];r=packet['resources'];q=packet['civil']['quantities']
@@ -202,10 +223,14 @@ def city(model,packet,detail,row,root):
             'Geometric access scenarios are separate from measured population coverage. Full assumptions and outputs are in the dossier data.','',
             _flat_rows(access.get('scenarios',[])), '', '</details>','']
     energy=model['energy']
+    priced_energy=energy.get('priced_supply_scenarios',{}).get('cases',{})
+    cost_inputs=model['costs'].get('local_cost_inputs',{})
     out += ['## Energy and propulsion','',table(['Energy measure','Daily','Annual'],[
         ('Mechanical traction work',number(energy.get('mechanical_traction_kwh_per_day'))+' kWh mechanical',number(energy.get('mechanical_traction_kwh_per_year')/1e6,2)+' GWh mechanical' if energy.get('mechanical_traction_kwh_per_year') is not None else 'Unestablished'),
         ('Nominal auxiliary load',number(energy.get('auxiliary_load_kwh_per_day'))+' kWh',number(energy.get('auxiliary_load_kwh_per_year')/1e6,2)+' GWh' if energy.get('auxiliary_load_kwh_per_year') is not None else 'Unestablished'),
         ('Auxiliary supply including scenario charging losses',number(energy.get('auxiliary_grid_kwh_per_day'))+' kWh',number(energy.get('auxiliary_grid_kwh_per_year')/1e6,2)+' GWh' if energy.get('auxiliary_grid_kwh_per_year') is not None else 'Unestablished'),
+        ('Reserve-fleet auxiliary supply scenario','See annual budget',number(priced_energy.get('base',{}).get('reserve_vehicle_aux_grid_kwh',0.)/1e6,2)+' GWh' if priced_energy else 'Unestablished'),
+        ('Total priced grid-supply scenario','See annual budget',number(priced_energy.get('base',{}).get('total_grid_kwh',0.)/1e6,2)+' GWh' if priced_energy else 'Unestablished'),
         ('Physically supported total grid demand','Unestablished','Unestablished'),
     ]),'',table(['Annual electricity budget','Low','Base','High'],[
         ['Priced supply/efficiency scenario',*cases(r['annual_energy_usd'])]]),'',
@@ -262,7 +287,7 @@ def city(model,packet,detail,row,root):
     table(['Programme estimate','Low','Base','High'],[
         ['Installed capital',*cases(cost['installed_capital_usd'])],
         ['Installed capital / route-km',*cases(cost['price_per_route_km_usd'])],
-        ['30-year whole-life NPV',*cases(cost['whole_life_npv_usd'])],
+        [str(policy['accounting_horizon_years'])+'-year whole-life NPV',*cases(cost['whole_life_npv_usd'])],
         ['Annual operating provision',*cases(model['costs']['annual_opex_usd'])],
     ]),'',
     'US dollars, '+number(policy['real_discount_rate']*100)+'% real discount rate, '+str(policy['accounting_horizon_years'])+'-year horizon. '
@@ -271,6 +296,21 @@ def city(model,packet,detail,row,root):
         (label(scope),money(model['costs']['capital_by_scope_usd'].get(scope,{}).get('base')),
          money(values['base'])) for scope,values in model['costs']['whole_life_by_scope_usd'].items()]),'',
     f'[Full capital and lifecycle ledger]({p}costs.csv)','',
+    '### Price inputs and confidence','',
+    'These are calculated v0.6-derived outline prices. Country-specific demand, ground conditions, local contracts and supplier quotations are not established by this calculation. '
+    'The price includes the declared mixed propulsion research configurations shown above; it is not a quotation for an already proven station-powered railway.','',
+    table(['Operating input','Low','Base','High'],[
+        ['Electricity · US$/kWh',*[number(v,3) for v in cost_inputs.get('values',{}).get('electricity_usd_per_kwh',[None]*3)]],
+        ['Loaded operating wage · US$/paid hour',*[number(v,2) for v in cost_inputs.get('values',{}).get('operations_loaded_paid_wage_usd_h',[None]*3)]],
+    ]),'',
+    'Input status: '+text(cost_inputs.get('status','Reference transfer, not locally verified'))+'. '
+    'Scoped local tariff/wage overrides can replace those accounts; they do not apply a blanket discount to imported equipment or civil quantities. '
+    'Reserve-fleet auxiliary consumption and charging losses are included in the electricity budget.','',
+    table(['Largest capital allowance','Base estimate','Share of capital'],[
+        [label(r['key']),money(r['base_usd']),number(100*r['capital_share'],1)+'%']
+        for r in model['costs'].get('estimate_review',{}).get('largest_capital_accounts',[])]),'',
+    f'[Annual energy budget]({p}energy_budget.csv) · [Local operating inputs]({p}local_cost_inputs.csv)','',
+    *_civil_price_comparison(model),
     '### Passenger receipts and funding scenarios','',
     'The following sensitivities use explicitly assumed daily demand profiles, average trip length, transfers, paid-trip collection and fares. '
     'They are calculated planning scenarios, not surveyed ridership or an approved financing plan. Import origin and financing source are distinct: '

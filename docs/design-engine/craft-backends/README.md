@@ -100,3 +100,7 @@ larger matched CAD/FEA campaign with complete interfaces and independent review.
 Upstream references: [SolidCraft commands](https://docs.solidcraft.io/dev/commands.html),
 [SolidCraft source](https://github.com/tangency-labs/solidcraft/tree/8e2b0cd60d14b4152b12b8f1fdb2bcfdcd8c52f4),
 [FieldCraft source](https://github.com/tangency-labs/fieldcraft/tree/6b613217851b4c5ddf2d315930db12e9e25354dc).
+
+## Detailed launch assembly follow-on
+
+The [R3 launch-shuttle dossier](../launch-detail/README.md) contains dimensioned parts, a counted assembly, native CAD/STEP checks, an actual clevis-ear bearing-load FEM comparison, and a bounded fabrication estimate. It preserves the earlier pin-bending failure and distinguishes local component results from full-shuttle or propulsion qualification.

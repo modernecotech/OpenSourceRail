@@ -162,7 +162,8 @@ def test_current_samawah_authenticated_fixture_sample():
     # Integration runs against the actual publication when available; never copies
     # large city artefacts into test/source worktrees. Manifest authentication is
     # performed by the publication owner, outside the pure analysis function.
-    root=Path('/home/hayder/Documents/OpenSourceRail')
+    from engineering.station_rail import ROOT
+    root=ROOT
     atlas=root/'docs/design-engine/city-atlas/cities/samawah.json.gz'
     detail=root/'docs/design-engine/outline-completion/cities/samawah.json.gz'
     if not atlas.exists() or not detail.exists():pytest.skip('Current source publication not available')
@@ -170,7 +171,10 @@ def test_current_samawah_authenticated_fixture_sample():
     r=analysis.build(a,d)
     assert len(r['lines'])==5
     assert r['network']['all_lines_reachable_by_declared_transfers']
-    assert r['costs']['annual_opex_usd']['base']==pytest.approx(48685436.23685808)
+    ledger=a['costs']['energy_ledger']['cases']['base']
+    reserve_cost=ledger['reserve_vehicle_aux_grid_kwh']*ledger['electricity_usd_per_kwh']
+    assert reserve_cost>0
+    assert r['costs']['annual_opex_usd']['base']==pytest.approx(48685436.23685808+reserve_cost)
     op=next(z for z in r['workforce'] if z['case']=='base' and z['domain']=='operations')
     assert op['paid_fte_equivalent']==pytest.approx((4+17*2)*18*365*1.25/2000)
     assert r['source_ids']['atlas_packet_id']==a['packet_id']
@@ -223,3 +227,18 @@ def test_per_line_energy_propulsion_and_force_requirements_are_csv_ready(inputs)
     assert line['independent_braking_qualified'] is False
     assert line['reference_failure_statuses']=='reference-coast-infeasible'
     assert all(not isinstance(v,(dict,list)) for v in line.values())
+
+
+def test_price_comparison_is_separate_from_headline_and_has_no_adoption(inputs):
+    from engineering.city_reports.render import _civil_price_comparison
+    packet,detail=deepcopy(inputs)
+    detail['civil_comparison']=dict(installed_capital_usd=dict(low=100.,base=200.,high=300.),
+        whole_life_npv_usd=dict(low=200.,base=400.,high=600.),price_per_route_km_usd=dict(low=100.,base=200.,high=300.),
+        obstruction_reserve_usd=dict(low=10.,base=20.,high=30.),dry_bridge_reclassified_m=500.,interface_hold_count=2,
+        historical_revision='a'*40,status='comparison-only')
+    result=analysis.build(packet,detail)
+    assert result['costs']['installed_capital_usd']['base']==280.
+    assert result['costs']['civil_comparison']['installed_capital_usd']['base']==200.
+    text='\n'.join(_civil_price_comparison(result))
+    assert '2 water/civil interface holds' in text
+    assert 'does not select' in text and 'obstruction reserve' in text

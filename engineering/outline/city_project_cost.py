@@ -6,13 +6,13 @@ from pathlib import Path
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, identity
 from engineering.design_search import line_benchmark as budget, model_cost, compact_launch
-from . import city_civil, vehicle_supply, supply_economics
+from . import city_civil, vehicle_supply, supply_economics, city_cost_inputs
 
 PRODUCER='engineering/outline/city_project_cost.py'
 CASES=('low','base','high')
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
     operating_release=False,procurement_approved=False,selected_reference_changed=False,movement_authority=False)
-DEFAULTS=dict(vehicle_campaign_retool_fraction=[.5,.75,1.],receiving_hold_workdays=5.,receiving_kit_area_m2=[40.,80.,160.],receiving_minimum_m2=200.,alignment_site_risk_usd_m=[100.,500.,2000.],alignment_bridge_risk_usd_m=[2000.,6000.,20000.],version='CITY-PROJECT-OUTLINE-1',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
+DEFAULTS=dict(vehicle_campaign_retool_fraction=[.5,.75,1.],receiving_hold_workdays=5.,receiving_kit_area_m2=[40.,80.,160.],receiving_minimum_m2=200.,alignment_site_risk_usd_m=[100.,500.,2000.],alignment_bridge_risk_usd_m=[2000.,6000.,20000.],version='CITY-PROJECT-OUTLINE-2',pricing_scenario='project-make-buy',station_launch_mode='cable-capstan',
     station_repair_walkway_usd_m=[300.,800.,2500.],berth_bypass_junction_usd=[50000.,200000.,800000.],
     interchange_transfer_usd=[250000.,1000000.,4000000.],
     feeder_usd_route_m=[100.,300.,1000.],traction_motor_converter_usd_kw=[110.,180.,320.],
@@ -128,6 +128,12 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
               +alignment_risk.get('additional_access_walkway_m',0.)*p['station_repair_walkway_usd_m'][i]
               +alignment_risk.get('unverified_bridge_route_m_hypothesis',0.)*p['alignment_bridge_risk_usd_m'][i])*p['foreign_local_rate_transfer'][i] for i in range(3)],
             'Changed corridor ROW, obstruction/survey/access and unverified crossing reserve; a shorter chord does not establish free land, road clearance, water crossing approval or an accessible walking route.',None)
+    if city.get('civil_evidence'):
+        dry=city['civil_evidence']['dry_bridge_reclassified_m']
+        add(capital,'unverified-nonwater-crossing-obstruction-reserve','construction',
+            dict(dry_legacy_bridge_route_m=dry,comparison_only=True),
+            [dry*p['alignment_site_risk_usd_m'][i]*p['foreign_local_rate_transfer'][i] for i in range(3)],
+            'Separate historical-water civil hypothesis: nonzero transferred site/obstruction reserve for dry legacy bridge segments; no survey, clearance, foundation or special-span acceptance. Legacy full bridge cost remains the headline control.',None)
     add(capital,'network-delivered-assembled-fleet','rolling-stock',dict(trainsets=fleet,cars=cars),[fleet*vehicle_unit[c]/fx for c in CASES],
         'Same provisional vehicle inventory at total committed city volume; supplier/owned factories are counted once separately.',l['vehicle_life_years'])
     add(capital,'network-common-installed-interface-reserve','rolling-stock',dict(cars=cars,kg_per_car=d['added_vehicle_mass_kg_per_car']),
@@ -221,24 +227,45 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     add(capital,'unallocated-package-tax-duty','construction',dict(residual_unlanded_fraction=.25),[residual[i]*a['tax_duty_provision_fraction'][i] for i in range(3)],'Bounded duty on unallocated site packages only; no second duty on landed rails, fasteners, vehicle raw materials or modules.')
     before_risk=[fsum(z['costs_usd'][c] for z in capital) for c in CASES]
     add(capital,'city-project-risk-contingency','construction',dict(pre_contingency_usd=before_risk),[before_risk[i]*a['project_contingency_fraction'][i] for i in range(3)],'Explicit remaining quantities/site/interface/development risk; no scope reduction.')
-    years=30;discount=spec['requirements']['real_discount_rate'];annuity=fsum((1+discount)**-y for y in range(1,years+1))
+    years=(policy or {}).get('accounting_horizon_years',spec['requirements']['design_life_years'])
+    discount=(policy or {}).get('real_discount_rate',spec['requirements']['real_discount_rate'])
+    if type(years) is not int or not 1<=years<=100 or type(discount) not in (int,float) or not isfinite(discount) or not 0<=discount<=1:
+        raise ValueError('Explicit bounded accounting horizon and real discount rate required')
+    annuity=fsum((1+discount)**-y for y in range(1,years+1))
     annual_km=fsum(z['service']['train_km_per_day']*z['requirements']['operating_days_per_year'] for z in services)
     annual_energy=[];annual_ops=[];annual_maintenance=[]
     operating_hours=max(z['requirements']['operating_hours_per_day'] for z in services)
     operating_days=max(z['requirements']['operating_days_per_year'] for z in services)
     exposure=operating_hours/18.
+    shifts=2 if operating_hours<=18 else 3
+    wages=[context['assumptions']['benchmark_rates_iqd']['wage_skilled_iqd_per_h']*stat['wage_burden_multipliers'][i]
+        *(1+(stat['second_shift_wage_premium'][i]+(stat['third_shift_wage_premium'][i] if shifts==3 else 0))/shifts)/fx for i in range(3)]
+    local=city_cost_inputs.resolve(city['city'],dict(electricity_usd_per_kwh=[z/fx for z in stat['electricity_iqd_per_kwh']],
+        operations_loaded_paid_wage_usd_h=wages),policy,root)
+    energy_cases={}
     for i,case in enumerate(CASES):
         auxiliary=fsum(z['service']['active_trainsets']*6*z['design']['aux_kw_per_car']*z['requirements']['operating_hours_per_day']*z['requirements']['operating_days_per_year']/z['design']['charge_efficiency'] for z in services)
+        reserve_auxiliary=fsum(z['service']['spare_trainsets']*6*z['design']['aux_kw_per_car']*l['reserve_aux_fraction']
+            *z['requirements']['operating_hours_per_day']*z['requirements']['operating_days_per_year']/z['design']['charge_efficiency'] for z in services)
         station_aux=(access_sites*l['station_aux_kw_each'][i]+l['depot_aux_kw'][i])*operating_hours*operating_days
-        annual_energy.append((drive_energy[case]+auxiliary+station_aux)*stat['electricity_iqd_per_kwh'][i]/fx)
+        total_kwh=drive_energy[case]+auxiliary+reserve_auxiliary+station_aux
+        tariff=local['values']['electricity_usd_per_kwh'][i]
+        annual_energy.append(total_kwh*tariff)
+        energy_cases[case]=dict(traction_grid_kwh=drive_energy[case],active_vehicle_aux_grid_kwh=auxiliary,
+            reserve_vehicle_aux_grid_kwh=reserve_auxiliary,station_and_depot_kwh=station_aux,total_grid_kwh=total_kwh,
+            electricity_usd_per_kwh=tariff,annual_cost_usd=total_kwh*tariff)
         covered=stat['controllers_per_shift'][i]+access_sites*stat['station_staff_per_station_per_shift'][i]
         hours=max(z['requirements']['operating_hours_per_day'] for z in services);shifts=2 if hours<=18 else 3
-        wage=context['assumptions']['benchmark_rates_iqd']['wage_skilled_iqd_per_h']*stat['wage_burden_multipliers'][i]*(1+(stat['second_shift_wage_premium'][i]+(stat['third_shift_wage_premium'][i] if shifts==3 else 0))/shifts)
-        annual_ops.append(covered*hours*operating_days*stat['operations_reliever_multiplier'][i]*wage/fx*transfer[i])
+        wage=local['values']['operations_loaded_paid_wage_usd_h'][i]
+        annual_ops.append(covered*hours*operating_days*stat['operations_reliever_multiplier'][i]*wage*(1. if 'operations_loaded_paid_wage_usd_h' in local['fields_overridden'] else transfer[i]))
         maintained=fsum(z['costs_usd'][case] for z in capital if z['scope'] in ('rolling-stock','guideway','stations-power','land-utilities-depot'))
         annual_maintenance.append(maintained*l['maintenance_fraction'][i]*hours/18)
     for key,scope,annual,basis in [('network-electricity','energy',annual_energy,'Actual line service train-km, launch work or separately labelled powered-axle energy range, auxiliaries and station/depot loads.'),('network-workforce','operations',annual_ops,'Covered controls and unique access-site staff, two/three shifts, employer burden and relief.'),('network-routine-maintenance','maintenance',annual_maintenance,'Routine work/consumables reserve separated from scheduled replacements.'),('network-corrective-disruption','reliability',[annual_km*z/fx for z in stat['reliability_iqd_per_train_km']],'Train-km corrective/disruption reserve, no demonstrated availability.'),('network-recovery-standby','recovery',[rescue*z/fx for z in stat['rescue_standby_iqd_per_year']],'Nonzero standby for separately purchased protected recovery assets.')]:
-        add(life,key,scope,dict(annual_usd=annual,annuity=annuity),[v*annuity for v in annual],basis)
+        quantity=dict(annual_usd=annual,annuity=annuity)
+        if scope=='energy':quantity.update(annual_energy=energy_cases,reserve_auxiliary_fraction=l['reserve_aux_fraction'],
+            active_and_reserve_charger_efficiency_included=True,local_cost_inputs=local,
+            grid_demand_basis='Calculated supply/efficiency hypothesis; not measured or independently qualified grid demand')
+        add(life,key,scope,quantity,[v*annuity for v in annual],basis)
     renewal=[0.,0.,0.];events=[]
     for row in capital:
         if row['life_years'] is None:continue
@@ -255,13 +282,13 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         for e in schedule['events']:
             if e.get('covered_by_parent_replacement',False):continue
             amount=services_account['cost_iqd'][case]/vc['mass_reserve_sensitivity']['case_factors'][case]*fleet/fx/(1+discount)**e['year'];renewal[i]+=amount;events.append(dict(component='service-battery-account',case=case,year=e['year'],present_value_usd=amount))
-    add(life,'disjoint-scheduled-renewals','renewals',dict(events=events),renewal,'Initial disjoint asset lives; full fleet renewal includes one declared equipment/tooling refurbishment reserve, excluding retained factory premises and land; service-account age resets at fleet replacement.')
+    add(life,'disjoint-scheduled-renewals','renewals',dict(events=events,zero_basis='No scheduled replacement occurs within the declared horizon' if not events else None),renewal,'Initial disjoint asset lives; full fleet renewal includes one declared equipment/tooling refurbishment reserve, excluding retained factory premises and land; service-account age resets at fleet replacement.')
     totals={c:fsum(z['costs_usd'][c] for z in capital) for c in CASES}
-    add(life,'final-removal-disposal','disposal',dict(year=30),[totals[c]*l['decommission_fraction'][i]/(1+discount)**30 for i,c in enumerate(CASES)],'Nonzero year-30 removal/disposal; no speculative salvage.')
+    add(life,'final-removal-disposal','disposal',dict(year=years),[totals[c]*l['decommission_fraction'][i]/(1+discount)**years for i,c in enumerate(CASES)],f'Nonzero year-{years} removal/disposal; no speculative salvage.')
     scopes={s:{c:fsum(z['costs_usd'][c] for z in capital+life if z['scope']==s) for c in CASES} for s in model_cost.SCOPES}
-    if any(scopes[s]['base']<=0 for s in model_cost.SCOPES):raise ValueError('All fourteen city cost scopes must be represented')
+    if any(scopes[s]['base']<0 or (scopes[s]['base']==0 and s!='renewals') for s in model_cost.SCOPES):raise ValueError('All fourteen city cost scopes must be represented')
     sources={}
-    maps=[context.get('sources',{}),city.get('source_sha256',{}),civil['source_sha256'],v['source_sha256']]
+    maps=[context.get('sources',{}),city.get('source_sha256',{}),civil['source_sha256'],v['source_sha256'],local['source_sha256']]
     maps.extend(row.get('source_sha256',{}) for row in services)
     maps.append({n:digest(root/n) for n in (PRODUCER,city_civil.PRODUCER,'engineering/outline/city_service.py','engineering/outline/city_inputs.py') if (root/n).is_file()})
     for mapping in maps:
@@ -271,12 +298,17 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     if any(digest(root/name)!=sha for name,sha in sources.items()):raise ValueError('City pricing sources changed during evaluation')
     result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],input_line_services_id=identity(line_services),city=city['city'],capital_lines=capital,lifecycle_lines=life,
         scope_totals_usd=scopes,installed_capital_usd=totals,whole_life_npv_usd={c:totals[c]+fsum(z['costs_usd'][c] for z in life) for c in CASES},
+        energy_ledger=dict(cases=energy_cases,annual=True,reserve_auxiliary_fraction=l['reserve_aux_fraction'],
+            charger_losses_in_active_and_reserve_auxiliaries=True,physical_grid_demand_verified=False,
+            calendar_basis='Each line calendar for traction/vehicle auxiliaries; conservative maximum line hours/days for shared station/depot loads'),
+        local_cost_inputs=local,
         price_per_route_km_usd={c:totals[c]/(route/1000) for c in CASES},
-        resources=dict(network_route_km=route/1000,network_lines=len(ids),radial_lines=sum(z['shape']=='radial' for z in city['lines']),ring_lines=sum(z['shape']=='ring' for z in city['lines']),line_stop_records=station_rows,original_map_stop_records=sum(len(z['stops']) for z in city['lines']),boarding_edges=boarding_edges,additional_berth_edges=extra_edges,access_repair_walkway_m=repair_walkway,access_sites=access_sites,interchanges=interchanges,total_trainsets=fleet,totalcars=cars,depot_area_m2=depot_area,production_positions_per_shift=positions,vehicle_campaign_capital_usd=dict(zip(CASES,vehicle_campaign)),vehicle_setup_equipment_tools_usd=dict(zip(CASES,vehicle_setup)),vehicle_factory_premises_usd=dict(zip(CASES,vehicle_premises)),vehicle_renewal_setup_fraction=p['vehicle_campaign_retool_fraction'],civil_campaign_capital_usd=dict(zip(CASES,civil_campaign)),annual_train_km=annual_km,annual_energy_usd=dict(zip(CASES,annual_energy)),annual_operations_usd=dict(zip(CASES,annual_ops)),production_shifts=2,civil_shifts=2,accounting_years=30),
+        resources=dict(network_route_km=route/1000,network_lines=len(ids),radial_lines=sum(z['shape']=='radial' for z in city['lines']),ring_lines=sum(z['shape']=='ring' for z in city['lines']),line_stop_records=station_rows,original_map_stop_records=sum(len(z['stops']) for z in city['lines']),boarding_edges=boarding_edges,additional_berth_edges=extra_edges,access_repair_walkway_m=repair_walkway,access_sites=access_sites,interchanges=interchanges,total_trainsets=fleet,totalcars=cars,depot_area_m2=depot_area,production_positions_per_shift=positions,vehicle_campaign_capital_usd=dict(zip(CASES,vehicle_campaign)),vehicle_setup_equipment_tools_usd=dict(zip(CASES,vehicle_setup)),vehicle_factory_premises_usd=dict(zip(CASES,vehicle_premises)),vehicle_renewal_setup_fraction=p['vehicle_campaign_retool_fraction'],civil_campaign_capital_usd=dict(zip(CASES,civil_campaign)),annual_train_km=annual_km,annual_energy_usd=dict(zip(CASES,annual_energy)),annual_operations_usd=dict(zip(CASES,annual_ops)),production_shifts=2,civil_shifts=2,accounting_years=years,real_discount_rate=discount),
         assumptions=dict(policy=p,civil=civil['assumptions'],pricing_basis='Class C source-bound Iraq/China material, equipment and process templates with explicit foreign transfer ranges; not verified local city prices or supplier quotes.',
             quantities_derived_from='Mapped line lengths, complete civil classes, actual line service/fleet and explicit interchange platform grouping',costs_borrowed='Current selected vehicle accounts; CSO process/wage/concrete and China finished/material observations; scenario rates remain provisional.',
             station_launch_lines=launch_ids,powered_axle_research_lines=fallback_ids,bounded_chosen_concept_not_global_optimum=True,
             central_depot_connections_unqualified=True,factory_premises_rebuilt_at_fleet_renewal=False,civil_added_mass_kg_per_car_hypothesis=civil_context['spec']['design']['added_vehicle_mass_kg_per_car'],civil_uses_maximum_declared_traction_mass_across_lines=True,no_historical_capacity_or_cost_results_used=True,
-            source_country=city['city'].get('country'),local_rates_verified=False,native_solvers=0),
+            source_country=city['city'].get('country'),local_rates_verified=False,local_cost_inputs=local,
+            accounting_horizon_years=years,real_discount_rate=discount,native_solvers=0),
         civil=civil,production_supply=v,source_sha256=sources,sources=sources,pricing_basis='calculated-outline-Class-C',**FLAGS)
     result['evaluation_id']=identity(result);return result

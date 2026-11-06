@@ -351,6 +351,23 @@ def build(packet, detail, city_context=None, policy=None):
     energy.update(physical_total_grid_kwh_per_day=None,physical_total_grid_kwh_per_year=None,
         electrical_traction_kwh_per_day=None,priced_annual_energy_usd=deepcopy(costs['annual_opex_by_scope_usd']['energy']),
         basis='Mechanical traction and nominal active-fleet auxiliaries are distinct. Priced lifecycle electricity scenarios include assumed efficiencies and site loads; they do not establish a physical grid total.')
+    energy['priced_supply_scenarios']=deepcopy(packet['costs'].get('energy_ledger',{}))
+    local=deepcopy(packet['costs'].get('local_cost_inputs',packet['assumptions'].get('cost',{}).get('local_cost_inputs',{})))
+    costs['local_cost_inputs']=local
+    costs['civil_comparison']=deepcopy(detail.get('civil_comparison'))
+    costs['estimate_review']=dict(estimate_class='C',local_prices_verified=False,
+        surveyed_demand_available=packet['evidence'].get('surveyed_demand_available',False),
+        accounting_horizon_years=packet['resources'].get('accounting_years'),
+        real_discount_rate=packet['resources'].get('real_discount_rate'),
+        country=packet['city'].get('country'),pricing_basis=packet['costs'].get('pricing_basis'),
+        largest_capital_accounts=[dict(key=r['key'],scope=r['scope'],base_usd=r['costs_usd']['base'],
+            capital_share=r['costs_usd']['base']/costs['installed_capital_usd']['base'],basis=r.get('basis','Not supplied in this record'))
+            for r in sorted(packet['costs']['capital_lines'],key=lambda r:-r['costs_usd']['base'])[:5]],
+        civil_classification_basis='Retained mapped planning classes; water evidence alternatives are separate hypotheses, not surveyed structural designs')
+    energy_rows=[dict(case=c,**r,physical_grid_demand_verified=False) for c,r in energy['priced_supply_scenarios'].get('cases',{}).items()]
+    local_rows=[dict(input=k,unit='USD/kWh' if k=='electricity_usd_per_kwh' else 'USD/paid-person-hour',
+        low=v[0],base=v[1],high=v[2],status=local['status'],country=packet['city'].get('country'),local_rates_verified=False)
+        for k,v in local.get('values',{}).items()]
     draft=detail.get('delivery_draft',{});capital=packet['costs']['capital_lines']
     factory=next((r['quantity'] for r in capital if r['key']=='citywide-production-equipment-tools-buildings-yards'),{})
     make_buy=[dict(item=r['item'],selected_route=r.get('selected_route'),comparison_id=r.get('comparison_id'),
@@ -387,6 +404,7 @@ def build(packet, detail, city_context=None, policy=None):
         workforce=workforce,delivery=delivery,finance=finance,access=access,
         evidence=deepcopy(packet['evidence']),missing_evidence=deepcopy(packet['missing_evidence']),
         tables=dict(stations=stations,lines=deepcopy(lines),costs=costrows,workforce=deepcopy(workforce),finance=deepcopy(finance['scenario_rows']),
-            delivery_requirements=deepcopy(reqs),make_buy=deepcopy(make_buy)),**FLAGS)
+            delivery_requirements=deepcopy(reqs),make_buy=deepcopy(make_buy),
+            energy_budget=energy_rows,local_cost_inputs=local_rows),**FLAGS)
     result['analysis_id']=identity(result)
     return result

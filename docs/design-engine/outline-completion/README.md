@@ -18,8 +18,12 @@ Design coverage also includes **112 railway bundles**, **54 body outlines** and 
 | Lyon | 296.5 | 9 | 109 | 337 | 4,754.0 | 16.03 |
 | Agra | 158.5 | 5 | 54 | 191 | 2,709.5 | 17.09 |
 
-Calculation `bf56f4726e6476b1936e7a3ea8d670ce7a3d8894d830685357d4fcd58af44607`; publication `c4d7b76b317dcb9b5f9e9959004d194629655d62c7caa0db785a417c095c9b0a`.
+Calculation `3e69b5419f38bd2a265b110d4fd48366dcb79dc3798964abefdf7905316eccfd`; publication `9b9a69141fc207aca8efa16f598d0b269a15fcdd9e37da6fd0faf94222465cc8`.
 <!-- END calculated outline coverage -->
+
+## City price audit
+
+The [6 November price review](../city-price-review/README.md) records corrected reserve-fleet energy, explicit local operating inputs, and same-route civil alternatives with obstruction reserves and interface holds. The headline retains the mapped civil classes. Every city page exposes its price inputs and largest allowances; local site and demand evidence remain open.
 
 ## Methods
 

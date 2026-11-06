@@ -146,3 +146,47 @@ def test_verified_workflow_adapter_keeps_edited_calculation_without_replay(study
     assert packet['costs']['capital_lines'] == cost['capital_lines']
     assert packet['geometry']['features'][0]['properties']['variant'] == 'edited'
     assert all(packet[k] is False for k in atlas.FLAGS)
+
+
+def test_verified_canonical_execution_avoids_recalculation_and_rejects_other_run(study,tmp_path,monkeypatch):
+    from engineering.outline import coordinator
+    from engineering.station_rail.common import digest
+    detail,geometry,city,services,cost=deepcopy(study)
+    root=tmp_path/'root';state=tmp_path/'state';path=state/'cities/fixture/result.json'
+    path.parent.mkdir(parents=True)
+    full=dict(evaluation_id=detail['evaluation_id'],alignment_geometry=geometry,
+        geometry_and_service=city,service_evaluation=services,cost=cost)
+    path.write_bytes(encoded(full));sha=digest(path)
+    detail['full_result_sha256']=sha
+    detail['planning_seed']=seal(dict(selected_city_input_id=city['input_id'],
+        selected_service_evaluation_id=services['evaluation_id'],source_cost_evaluation_id=cost['evaluation_id'],
+        source_outline_evaluation_id=detail['evaluation_id'],selected_alignment_id=detail['selected_alignment_id'],
+        research_configuration_id=detail['research_configuration_id'],reference_candidate_ids=city['reference_candidate_ids'],
+        source_result_sha256=sha,source_sha256={},rules={}), 'seed_id')
+    base=root/atlas.completion_publication.PUBLICATION
+    atlas._write_gzip(base/'cities/fixture.json.gz',detail);atlas._write_gzip(base/'maps/fixture.geojson.gz',geometry)
+    execution=seal(dict(files_sha256={'cities/fixture/result.json':sha}),'manifest_id')
+    run_id=execution['manifest_id']
+    published=dict(manifest_id='publication',source_sha256={},canonical_run_manifest_id=run_id)
+    catalogue=dict(catalogue_id='catalogue',cities=[dict(city=city['city'])])
+    monkeypatch.setattr(atlas.completion_publication,'verify',lambda **kw:(published,catalogue))
+    (state/'manifest.json').write_bytes(encoded(execution))
+    monkeypatch.setattr(atlas.completion,'verify',lambda *a,**kw:dict(manifest_id=run_id,verified=True))
+    def forbidden(*a,**kw):raise AssertionError('Verified execution must not reconstruct/reprice')
+    monkeypatch.setattr(atlas.planning_adapter,'_reconstruct',forbidden)
+    monkeypatch.setattr(coordinator,'prepare',forbidden)
+    m,s=atlas.compile(tmp_path/'atlas',root,state=state)
+    packet=atlas._read(tmp_path/'atlas/cities/fixture.json.gz')
+    assert packet['costs']['capital_lines']==cost['capital_lines']
+    assert packet['sources']['execution_manifest_id']==run_id
+    assert packet['evidence']['execution']=='verified-completed-outline; no fresh numerical replay'
+    assert atlas.verify(tmp_path/'atlas',root)==(m,s)
+    published['canonical_run_manifest_id']='different'
+    with pytest.raises(ValueError,match='canonical run'):atlas.compile(tmp_path/'other',root,state=state)
+    published['canonical_run_manifest_id']=run_id
+    changed=deepcopy(execution);changed['files_sha256']['cities/fixture/result.json']='different'
+    (state/'manifest.json').write_bytes(encoded(changed))
+    with pytest.raises(ValueError,match='identity differs'):atlas.compile(tmp_path/'stale-manifest-body',root,state=state)
+    (state/'manifest.json').write_bytes(encoded(execution))
+    path.write_text('{}')
+    with pytest.raises(ValueError,match='published full result'):atlas.compile(tmp_path/'tampered',root,state=state)

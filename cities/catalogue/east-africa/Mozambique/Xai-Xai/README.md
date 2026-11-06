@@ -63,11 +63,13 @@ Geometric access scenarios are separate from measured population coverage. Full 
 | Mechanical traction work | 48,435 kWh mechanical | 17.68 GWh mechanical |
 | Nominal auxiliary load | 117,180 kWh | 42.77 GWh |
 | Auxiliary supply including scenario charging losses | 123,347 kWh | 45.02 GWh |
+| Reserve-fleet auxiliary supply scenario | See annual budget | 0.87 GWh |
+| Total priced grid-supply scenario | See annual budget | 71.61 GWh |
 | Physically supported total grid demand | Unestablished | Unestablished |
 
 | Annual electricity budget | Low | Base | High |
 |---|---|---|---|
-| Priced supply/efficiency scenario | $4.55m | $11.71m | $34.62m |
+| Priced supply/efficiency scenario | $4.61m | $11.86m | $35.02m |
 
 Mechanical work is distinct from electricity purchased. The monetary electricity scenarios include declared efficiency and site-load assumptions; they do not establish a measured motor map, solar plant, storage installation or self-sufficient energy supply. Each line retains its candidate-specific launch, braking and recovery requirements in the complete record.
 
@@ -197,8 +199,8 @@ The provisional delivery sequence is: Survey and site investigation → Detailed
 |---|---|---|---|
 | Installed capital | $122.36m | $436.74m | $2.567bn |
 | Installed capital / route-km | $5.44m | $19.40m | $114.03m |
-| 30-year whole-life NPV | $259.96m | $937.05m | $5.549bn |
-| Annual operating provision | $6.39m | $21.83m | $119.22m |
+| 30-year whole-life NPV | $260.96m | $939.55m | $5.556bn |
+| Annual operating provision | $6.45m | $21.97m | $119.62m |
 
 US dollars, 4% real discount rate, 30-year horizon. Low/base/high are assumption cases, not statistical confidence intervals. Transferred sourcing and construction rates require local calibration.
 
@@ -211,7 +213,7 @@ US dollars, 4% real discount rate, 30-year horizon. Low/base/high are assumption
 | Construction | $153.31m | $153.31m |
 | Land utilities depot | $30.76m | $30.76m |
 | Fleet | $9.12m | $9.12m |
-| Energy | $0 | $202.52m |
+| Energy | $0 | $205.01m |
 | Operations | $0 | $26.66m |
 | Maintenance | $0 | $137.20m |
 | Renewals | $0 | $118.84m |
@@ -221,21 +223,56 @@ US dollars, 4% real discount rate, 30-year horizon. Low/base/high are assumption
 
 [Full capital and lifecycle ledger](engineering/outline/costs.csv)
 
+### Price inputs and confidence
+
+These are calculated v0.6-derived outline prices. Country-specific demand, ground conditions, local contracts and supplier quotations are not established by this calculation. The price includes the declared mixed propulsion research configurations shown above; it is not a quotation for an already proven station-powered railway.
+
+| Operating input | Low | Base | High |
+|---|---|---|---|
+| Electricity · US$/kWh | 0.066 | 0.166 | 0.464 |
+| Loaded operating wage · US$/paid hour | 6.21 | 7.82 | 10.93 |
+
+Input status: transferred-reference-estimates. Scoped local tariff/wage overrides can replace those accounts; they do not apply a blanket discount to imported equipment or civil quantities. Reserve-fleet auxiliary consumption and charging losses are included in the electricity budget.
+
+| Largest capital allowance | Base estimate | Share of capital |
+|---|---|---|
+| Network delivered assembled fleet | $90.15m | 20.6% |
+| City project risk contingency | $87.35m | 20.0% |
+| Shared access and transfer complexes | $30.15m | 6.9% |
+| Design prototypes independent review | $25.78m | 5.9% |
+| Pooled depot connections maintenance | $17.66m | 4.0% |
+
+[Annual energy budget](engineering/outline/energy_budget.csv) · [Local operating inputs](engineering/outline/local_cost_inputs.csv)
+
+### Civil classification comparison
+
+The headline retains the mapped civil allowances. A separate alternative uses the retained WorldCover/OSM water evidence to distinguish water crossings from other bridge allowances. Dry land does not establish that a bridge is unnecessary: roads, utilities, clearances and ground conditions remain unsurveyed.
+
+| Same-route, same-service estimate | Low | Base | High |
+|---|---|---|---|
+| Headline installed capital | $122.36m | $436.74m | $2.567bn |
+| Water-evidence alternative capital | $122.36m | $436.74m | $2.567bn |
+| Alternative capital / route-km | $5.44m | $19.40m | $114.03m |
+| Alternative whole-life NPV | $260.96m | $939.55m | $5.556bn |
+| Included non-water obstruction reserve | $0 | $0 | $0 |
+
+0.00 km of legacy bridge allowance is represented as elevated construction plus an explicit obstruction reserve in this alternative. 0 water/civil interface holds require investigation. The reserve is a provisional estimate, not evidence that the crossing work is fully sized. Historical evidence revision: `a0389044828f`. This comparison does not select a new alignment, civil design or physical baseline.
+
 ### Passenger receipts and funding scenarios
 
 The following sensitivities use explicitly assumed daily demand profiles, average trip length, transfers, paid-trip collection and fares. They are calculated planning scenarios, not surveyed ridership or an approved financing plan. Import origin and financing source are distinct: no local/import share or foreign-turnkey saving is asserted without an evidenced procurement allocation.
 
 | Demand sensitivity | Assumed annual paid trips | Fare US$ | Annual receipts | Operating balance | 30-year receipts less costs NPV | Post-grace DSCR |
 |---|---|---|---|---|---|---|
-| 50% | 43.12m | 0.25 | $10.78m | $-11.05m | $-750.66m | -0.39 |
-| 50% | 43.12m | 0.50 | $21.56m | $-269,582 | $-564.27m | -0.01 |
-| 50% | 43.12m | 1.00 | $43.12m | $21.29m | $-191.49m | 0.75 |
-| 75% | 64.67m | 0.25 | $16.17m | $-5.66m | $-657.47m | -0.20 |
-| 75% | 64.67m | 0.50 | $32.34m | $10.51m | $-377.88m | 0.37 |
-| 75% | 64.67m | 1.00 | $64.67m | $42.85m | $181.29m | 1.52 |
-| 100% | 86.23m | 0.25 | $21.56m | $-269,582 | $-564.27m | -0.01 |
-| 100% | 86.23m | 0.50 | $43.12m | $21.29m | $-191.49m | 0.75 |
-| 100% | 86.23m | 1.00 | $86.23m | $64.40m | $554.07m | 2.28 |
+| 50% | 43.12m | 0.25 | $10.78m | $-11.19m | $-753.16m | -0.40 |
+| 50% | 43.12m | 0.50 | $21.56m | $-413,852 | $-566.77m | -0.01 |
+| 50% | 43.12m | 1.00 | $43.12m | $21.14m | $-193.99m | 0.75 |
+| 75% | 64.67m | 0.25 | $16.17m | $-5.80m | $-659.96m | -0.21 |
+| 75% | 64.67m | 0.50 | $32.34m | $10.37m | $-380.38m | 0.37 |
+| 75% | 64.67m | 1.00 | $64.67m | $42.70m | $178.79m | 1.51 |
+| 100% | 86.23m | 0.25 | $21.56m | $-413,852 | $-566.77m | -0.01 |
+| 100% | 86.23m | 0.50 | $43.12m | $21.14m | $-193.99m | 0.75 |
+| 100% | 86.23m | 1.00 | $86.23m | $64.26m | $551.57m | 2.27 |
 
 This table holds the engineering cost case at **base** and varies demand and fare. A negative balance is retained as a financing/design warning. Operating balance excludes scheduled renewal capital and debt service; the whole-life NPV column uses the complete unfinanced cost.
 
@@ -302,17 +339,17 @@ A recalculated local study can be opened, edited and exported in the Workbench. 
 | Identity | Value |
 |---|---|
 | city_input_id | `be456d136082615fd2f160a910f4fd3e3130e03a83216c58ebcb244802e17f6b` |
-| cost_evaluation_id | `003d92c4ad648f6a750d4238f2c196841539fc8baa1a27f0f0da10e2c05075fc` |
-| outline_evaluation_id | `c88707cdf188d52b80ecd69d0cbd8daf5a42464172f627bc2ed03a93e56ec2fc` |
+| cost_evaluation_id | `588b9a49bac985958ffb3ec573ac3e679e0bbc007b3141fbe54e610fe4c5c9b2` |
+| outline_evaluation_id | `11c8e7a49fbbe43ad864b2d2ac1434a71725ca6e501753d64637f805ceb0cfa0` |
 | research_configuration_id | `f4de92b88002ab1607311cfbdcce7a9b540d1aacb10006f6f986488018d5bbdb` |
-| seed_id | `96877aa538bd4638a8dd9fa467ee4862bc66e1ccdab86c9f6e4bd35afcb18b94` |
+| seed_id | `23d57b6f3f82ff7d063af0f7c03069a3fb5ef6cb7ce0ce8e2297a58421b682aa` |
 | selected_alignment_id | `42d7315875b4ffcb3da0f4e227c0e2b55ce2ca3e1f03b16e840d7bc7135f8065` |
 | selected_alignment_kind | `original` |
 | selection_id | `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` |
-| service_evaluation_id | `ba1e2282139e927c37c0d633c4755198476f5d5bb0a99a8b16cd1cf492073260` |
-| source_result_sha256 | `f7e5c4410b0551924806eae11574bd6abf693dcb674ce0d3d691839350f1d1de` |
+| service_evaluation_id | `2522e86d185af492266b2b70d1759ff591caad9cde59982c0a1d75d6f20eb863` |
+| source_result_sha256 | `ece7be4deecc05243ed84b24b1e9f441d601321a2301a8aff4b38c6537801aa2` |
 
-Atlas packet `ed8dad12a188a93de4c741a5c462ce63a71c284a76d1c07f34c37d752fb27de5`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
+Atlas packet `1df0c7157b32f11a04e16130308c63590018d876509fa34b208231a2dab9ef15`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
 
 </details>
 

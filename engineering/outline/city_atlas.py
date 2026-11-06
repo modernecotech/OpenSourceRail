@@ -146,7 +146,7 @@ def build_record(detail, geometry=None, city=None, service=None, cost=None):
         source_result_sha256=detail.get('full_result_sha256', seed.get('source_result_sha256')),
         seed_id=seed.get('seed_id'))
     costs = {k: deepcopy(cost[k]) for k in ('installed_capital_usd', 'whole_life_npv_usd', 'scope_totals_usd',
-        'price_per_route_km_usd', 'capital_lines', 'lifecycle_lines', 'pricing_basis') if k in cost}
+        'price_per_route_km_usd', 'capital_lines', 'lifecycle_lines', 'pricing_basis', 'energy_ledger', 'local_cost_inputs') if k in cost}
     packet = dict(schema=SCHEMA, city=deepcopy(city['city']), identity=identities,
         sources=dict(calculation_sha256=calculation, presentation_sha256=_presentation_sources()),
         geometry=deepcopy(geometry), lines=lines, interchanges=deepcopy(city.get('interchanges', [])),
@@ -226,11 +226,19 @@ def _row(packet):
         whole_life_npv_usd=packet['costs']['whole_life_npv_usd'], **FLAGS)
 
 
-def compile(output, root=ROOT, *, cities=None, maximum_cities=None):
+def compile(output, root=ROOT, *, cities=None, maximum_cities=None, state=None):
     """Resume per-city atomic packets, authenticating the complete catalogue first."""
     from . import city_inputs, coordinator, city_project_cost
     root, output = Path(root).resolve(), Path(output).resolve()
     published, catalogue = completion_publication.verify(root=root)
+    execution=None
+    if state is not None:
+        state=Path(state).resolve()
+        verification=completion.verify(state,root=root)
+        execution=json.loads(completion._ordinary(state/'manifest.json').read_bytes())
+        _sealed(execution,'manifest_id')
+        if execution['manifest_id']!=verification['manifest_id'] or execution['manifest_id']!=published.get('canonical_run_manifest_id'):
+            raise ValueError('Atlas execution differs from the published canonical run')
     available = {r['city']['slug'] for r in catalogue['cities']}
     slugs = sorted(available if cities is None else set(cities))
     if not slugs or set(slugs)-available:
@@ -239,6 +247,7 @@ def compile(output, root=ROOT, *, cities=None, maximum_cities=None):
         raise ValueError('Positive invocation city budget required')
     request = dict(schema=SCHEMA+'/request', cities=slugs, publication_manifest_id=published['manifest_id'],
         catalogue_id=catalogue['catalogue_id'], presentation_sha256=_presentation_sources(), **FLAGS)
+    if execution is not None:request['execution_manifest_id']=execution['manifest_id']
     request['request_id'] = identity(request)
     with completion._locked(output):
         if (output/'request.json').exists():
@@ -261,15 +270,27 @@ def compile(output, root=ROOT, *, cities=None, maximum_cities=None):
             elif maximum_cities is not None and made >= maximum_cities:
                 pending.append(slug); continue
             else:
-                if context is None:
+                if context is None and execution is None:
                     context = dict(engineering=coordinator.prepare(root), geography=city_inputs.prepare(root))
                 try:
                     detail = _read(root/completion_publication.PUBLICATION/'cities'/ (slug+'.json.gz'))
                     geometry = _read(root/completion_publication.PUBLICATION/'maps'/ (slug+'.geojson.gz'))
                     seed = detail['planning_seed']
-                    city, service = planning_adapter._reconstruct(seed, root, context, verify_cost=True)
-                    cost = city_project_cost.evaluate_city_cost(city, service['line_services'], context['engineering'], policy=seed['rules'], root=root)
+                    if execution is None:
+                        city, service = planning_adapter._reconstruct(seed, root, context, verify_cost=True)
+                        cost = city_project_cost.evaluate_city_cost(city, service['line_services'], context['engineering'], policy=seed['rules'], root=root)
+                    else:
+                        full_name='cities/'+slug+'/result.json';full_path=completion._ordinary(state/full_name)
+                        if digest(full_path)!=execution['files_sha256'].get(full_name) or digest(full_path)!=detail['full_result_sha256']:
+                            raise ValueError('Atlas city execution differs from published full result')
+                        full=json.loads(full_path.read_bytes())
+                        if full['evaluation_id']!=detail['evaluation_id'] or full['alignment_geometry']!=geometry:
+                            raise ValueError('Atlas execution outline or geometry differs')
+                        city,service,cost=full['geometry_and_service'],full['service_evaluation'],full['cost']
                     packet = build_record(detail, geometry, city, service, cost)
+                    if execution is not None:
+                        packet['sources']['execution_manifest_id']=execution['manifest_id']
+                        packet['evidence']['execution']='verified-completed-outline; no fresh numerical replay'
                     packet['sources'].update(publication_manifest_id=published['manifest_id'], catalogue_id=catalogue['catalogue_id'])
                     packet.pop('packet_id'); packet['packet_id'] = identity(packet)
                     _write_gzip(path, packet)
@@ -348,9 +369,10 @@ def main(argv=None):
     parser.add_argument('--root', type=Path, default=ROOT)
     parser.add_argument('--city', action='append', dest='cities')
     parser.add_argument('--maximum-cities', type=int)
+    parser.add_argument('--state', type=Path, help='Exact verified canonical execution; reuse completed calculations')
     args = parser.parse_args(argv)
     result = (verify(args.output, args.root) if args.action == 'verify' else
-              compile(args.output, args.root, cities=args.cities, maximum_cities=args.maximum_cities))
+              compile(args.output, args.root, cities=args.cities, maximum_cities=args.maximum_cities,state=args.state))
     print(json.dumps(dict(manifest_id=result[0]['manifest_id'], completed_cities=result[1]['completed_cities'],
         pending_cities=result[1]['pending_cities']), sort_keys=True))
 

@@ -78,12 +78,15 @@ def _locked(state):
             fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
 
 
-def _initialize(root, rules):
+def _initialize(root, rules, evidence_cache=None):
     global _WORKER
     from . import city_inputs
     root = Path(root)
     _WORKER = dict(root=root, rules=rules, engineering=coordinator.prepare(root),
                    geography=city_inputs.prepare(root))
+    if rules.get('civil_water_evidence_comparison',False):
+        from . import civil_evidence
+        _WORKER['civil_evidence']=civil_evidence.prepare(root,evidence_cache)
 
 
 def _city(slug):
@@ -129,6 +132,31 @@ def _city(slug):
     value['retained_alignment_experiments'] = [v for i,v in enumerate(experiments) if i!=chosen]
     value['alignment_geometry'] = _alignment_geometry(proposals,experiments)
     value['source_sha256'] = coordinator.merge_sources(value['source_sha256'],proposals['source_sha256'])
+    if context.get('civil_evidence'):
+        from . import civil_evidence
+        chosen_input=value['geometry_and_service']
+        report=civil_evidence.evaluate(chosen_input,context['civil_evidence'])
+        revised=civil_evidence.revise(chosen_input,report)
+        alternate_service=city_service.evaluate(revised,rules,engineering['spec']['design'],engineering['vehicle'],root=root)
+        alternate_cost=city_project_cost.evaluate_city_cost(revised,alternate_service['line_services'],engineering,policy=rules,root=root)
+        alternate=_assemble_city(revised,alternate_service,alternate_cost,engineering,rules)
+        value['civil_comparison']=dict(
+            status='comparison-only; not selected for the headline estimate',
+            same_route_geometry=True,same_declared_service=True,
+            control_city_input_id=chosen_input['input_id'],control_cost_evaluation_id=value['cost']['evaluation_id'],
+            alternative_city_input_id=revised['input_id'],alternative_cost_evaluation_id=alternate_cost['evaluation_id'],
+            civil_hypothesis_id=revised['civil_hypothesis_id'],
+            historical_revision=report['historical_revision'],evidence_report_id=report['evaluation_id'],
+            dry_bridge_reclassified_m=report['dry_bridge_reclassified_m'],
+            route_m_by_water_status=report['route_m_by_water_status'],
+            interface_hold_count=revised['civil_evidence']['interface_hold_count'],
+            installed_capital_usd=alternate_cost['installed_capital_usd'],whole_life_npv_usd=alternate_cost['whole_life_npv_usd'],
+            price_per_route_km_usd=alternate_cost['price_per_route_km_usd'],
+            obstruction_reserve_usd=next(r['costs_usd'] for r in alternate_cost['capital_lines'] if r['key']=='unverified-nonwater-crossing-obstruction-reserve'),
+            limitations=report['limitations'],**FLAGS)
+        value['civil_evidence_report']=report
+        value['retained_civil_experiment']=alternate
+        value['source_sha256']=coordinator.merge_sources(value['source_sha256'],alternate['source_sha256'],report['source_sha256'])
     return seal(value)
 
 
@@ -226,7 +254,7 @@ def _check_costs(value):
         if any(not isfinite(value[name][case]) or value[name][case] <= 0 for case in CASES):
             raise ValueError('Every city needs finite positive complete project prices')
     scope = value['scope_totals_usd']
-    if set(scope) != set(SCOPES) or any(scope[s]['base'] <= 0 for s in SCOPES):
+    if set(scope) != set(SCOPES) or any(scope[s]['base'] < 0 or (scope[s]['base'] == 0 and s != 'renewals') for s in SCOPES):
         raise ValueError('All fourteen city cost scopes must be represented')
     for case in CASES:
         if abs(fsum(scope[s][case] for s in SCOPES)-value['whole_life_npv_usd'][case]) > .1:
@@ -244,7 +272,7 @@ def _sources(root, geography, engineering):
     names = (PRODUCER, POLICY, 'engineering/outline/city_inputs.py',
         'engineering/outline/city_service.py', 'engineering/outline/city_civil.py',
         'engineering/outline/city_project_cost.py', 'engineering/outline/design_completion.py')
-    names += ('engineering/outline/city_alignment.py',)
+    names += ('engineering/outline/city_alignment.py','engineering/outline/city_cost_inputs.py','engineering/outline/city-cost-inputs.toml','engineering/outline/civil_evidence.py')
     sources = coordinator.merge_sources(geography['source_sha256'], engineering['sources'], design_completion.sources(root),
         {name:digest(Path(root)/name) for name in names})
     # The request binds every city's source bytes, including city-specific route
@@ -307,6 +335,7 @@ def city_summary(value):
         whole_life_npv_usd=costs['whole_life_npv_usd'],
         scope_totals_usd=costs['scope_totals_usd'],
         price_per_route_km_usd=costs['price_per_route_km_usd'],
+        civil_comparison=value.get('civil_comparison'),
         resources=costs.get('resources', {}),
         selected_alignment_kind=value.get('selected_alignment_kind','original'),
         selected_alignment_id=value.get('selected_alignment_id'),
@@ -374,7 +403,7 @@ def run(output, root=ROOT, *, cities=None, workers=2, maximum_cities=None):
             _write(output/'cities'/slug/'result.json', value)
             existing[slug] = city_summary(value)
         if workers == 1:
-            _initialize(root, rules)
+            _initialize(root, rules,output/'civil-evidence-cache')
             for slug in chosen:
                 try:
                     record(slug, _city(slug))
@@ -384,7 +413,7 @@ def run(output, root=ROOT, *, cities=None, workers=2, maximum_cities=None):
             # At most workers outstanding results; avoid materialising the full
             # network campaign in either worker queues or parent memory.
             with ProcessPoolExecutor(max_workers=workers, initializer=_initialize,
-                                     initargs=(str(root),rules)) as pool:
+                                     initargs=(str(root),rules,str(output/'civil-evidence-cache'))) as pool:
                 iterator = iter(chosen)
                 running = {pool.submit(_city,slug):slug for slug in [next(iterator,None) for _ in range(workers)] if slug}
                 while running:
@@ -458,7 +487,7 @@ def verify(output, root=ROOT, *, replay=False):
     if summary['evaluation_id']!=manifest['evaluation_id']:
         raise ValueError('Completion summary identity differs')
     if replay:
-        _initialize(root,request['policy'])
+        _initialize(root,request['policy'],output/'civil-evidence-cache')
         designs,_ = design_completion.evaluate(root=root)
         if encoded(designs)!=(output/'designs.json').read_bytes():
             raise ValueError('Design price completion replay differs')

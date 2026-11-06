@@ -81,6 +81,8 @@ Research may challenge the reference under the [architecture campaign](campaigns
 
 The [3D engineering gallery](docs/engineering-models/README.md) provides **rotatable STL, coloured GLB, editable FreeCAD and STEP models**, source identities and export checks.
 
+The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.md) adds bored clevises, a revised pin, hollow frame members, wheel/axle parts, guards and fasteners, with matching component FEM and fabrication estimates. The [city price audit](docs/design-engine/city-price-review/README.md) explains corrected energy accounts and separate civil-cost alternatives.
+
 | Vehicle and workshop assembly | Rail and running-gear workshop |
 |---|---|
 | [![Exploded 17 m vehicle assembly with roof, seating, doors, passive bogies and proposed fixtures](docs/engineering-models/images/vehicle-fabrication.webp)](docs/engineering-models/README.md) | [![Rail-finishing, wheelset assembly, bearing and passive-bogie inspection workstation](docs/engineering-models/images/rail-running-gear.webp)](docs/engineering-models/README.md) |
