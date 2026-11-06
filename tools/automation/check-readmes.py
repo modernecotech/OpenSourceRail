@@ -60,8 +60,15 @@ def primary_city_readme(path,text):
             errors.append('city package cannot publish route performance or totals')
         for flag in ('engineering_accepted','physical_accepted','installed_mass_complete','manufacturing_release','operating_release'):
             if summary.get(flag) is not False:errors.append('city cannot grant physical release: '+flag)
-        if manifest.get('schema')!='osr-current-city-publication/2':
+        if manifest.get('schema') not in ('osr-current-city-publication/2','osr-current-city-publication/3'):
             errors.append('city package manifest must identify the current v0.6 hold')
+        if manifest.get('schema')=='osr-current-city-publication/3':
+            presentation=manifest.get('presentation',{})
+            dossier=REPO_ROOT/presentation.get('dossier_manifest_path','')
+            value=json.loads(dossier.read_bytes())
+            if (presentation.get('owner')!='engineering.city_reports.publication' or value.get('manifest_id')!=presentation.get('dossier_manifest_id')
+                or value.get('city_frontdoor_sha256')!=manifest.get('city_frontdoor_sha256')):
+                errors.append('city dossier presentation ownership differs')
         if manifest.get('files_sha256',{}).get('README.md')!=sha256((package/'README.md').read_bytes()).hexdigest():
             errors.append('city package README differs from its source-bound manifest')
         if manifest.get('files_sha256',{}).get('summary.json')!=sha256((package/'summary.json').read_bytes()).hexdigest():

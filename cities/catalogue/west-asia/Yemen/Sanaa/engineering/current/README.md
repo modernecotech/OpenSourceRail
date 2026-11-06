@@ -11,3 +11,5 @@ Geographic inputs: [route geometry](../../sanaa.corridor.geojson) · [map contex
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=sanaa) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
 Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `273957de01951b3f560947dfaab2dd59e760274950c23feea165f5a05b3d2aa7`
+
+[Complete city design and cost dossier](../../README.md) includes the calculated network, service, maps, resources, costs and explicit outline scenarios. This physical-evidence record remains a separate hold.

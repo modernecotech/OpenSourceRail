@@ -11,3 +11,5 @@ Geographic inputs: [route geometry](../../kano.corridor.geojson) · [map context
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=kano) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
 Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `24462dc080f78fc0133c1b33837f5c40d4a73c1b7b2f527d50f33a1c191f836a`
+
+[Complete city design and cost dossier](../../README.md) includes the calculated network, service, maps, resources, costs and explicit outline scenarios. This physical-evidence record remains a separate hold.

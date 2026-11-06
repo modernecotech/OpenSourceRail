@@ -11,3 +11,5 @@ Geographic inputs: [route geometry](../../buraidah.corridor.geojson) · [map con
 [Planning workspace](../../../../../../../docs/workbench/planning/index.html?city=buraidah) · [Current engineering status](../../../../../../../docs/design-engine/current/README.md)
 
 Candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3` · selection `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` · evaluation `fbeab05f1ccec6c8e22e592019ac481c1542bee221c7f7f55688ce2d249a6bce`
+
+[Complete city design and cost dossier](../../README.md) includes the calculated network, service, maps, resources, costs and explicit outline scenarios. This physical-evidence record remains a separate hold.

@@ -1,0 +1,134 @@
+{
+  "schema": "osr-city-dossier-planning-policy/1",
+  "version": "CITY-DOSSIER-ILLUSTRATIVE-1",
+  "staffing": {
+    "cost_source": "engineering/design_search/model_cost.py",
+    "cost_source_sha256": "2edd5efb272fe47bc6a7397382a7ccf454620c2c4416927532542e38afad987f",
+    "city_cost_source": "engineering/outline/city_project_cost.py",
+    "city_cost_source_sha256": "5d904c7c39b453e61d1bdf392d31dd1eff20c9375d300d9e41e0019ad6200a3b",
+    "controllers_per_shift": [
+      2,
+      4,
+      8
+    ],
+    "station_staff_per_station_per_shift": [
+      1,
+      2,
+      4
+    ],
+    "operations_reliever_multiplier": [
+      1.1,
+      1.25,
+      1.5
+    ],
+    "fte_paid_hours_per_year": 2000
+  },
+  "delivery": {
+    "source": "engineering/outline/delivery_plan.py",
+    "source_sha256": "fcd846cd4322f7fbb190de7447823dc035513b4b94b75f78b0719c7e85034751",
+    "basis": "New resource envelope using literal delivery-plan hypotheses; the existing city ledger is unchanged.",
+    "production_years": 3,
+    "days_per_year": 250,
+    "shifts_per_day": 2,
+    "hours_per_shift": 8,
+    "utilisation": 0.75,
+    "engineering_workdays": [
+      30,
+      60,
+      120
+    ],
+    "plant_setup_workdays": [
+      30,
+      60,
+      120
+    ],
+    "imported_lead_workdays": [
+      30,
+      60,
+      120
+    ],
+    "final_test_workdays": [
+      10,
+      20,
+      40
+    ],
+    "support_concrete_wait_workdays": [
+      5,
+      10,
+      20
+    ],
+    "support_labour_h_each": [
+      8,
+      24,
+      64
+    ],
+    "erection_labour_h_span": [
+      20,
+      64,
+      180
+    ],
+    "field_crew": 8,
+    "precast_crew": 8,
+    "ancillary_labour_budget_fraction": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "local_loaded_paid_wage_usd_h": [
+      6.208609271523179,
+      7.822847682119205,
+      10.927152317880795
+    ]
+  },
+  "finance": {
+    "enabled": true,
+    "version": "ASSUMED-PEAK-PASSENGER-KM-1",
+    "basis": "Illustrative sensitivity, not surveyed demand, fare policy, financing approval or a business forecast.",
+    "time_profile": [
+      {
+        "fraction_of_service_hours": 0.2222222222222222,
+        "peak_flow_fraction": 1.0
+      },
+      {
+        "fraction_of_service_hours": 0.4444444444444444,
+        "peak_flow_fraction": 0.45
+      },
+      {
+        "fraction_of_service_hours": 0.3333333333333333,
+        "peak_flow_fraction": 0.15
+      }
+    ],
+    "reverse_direction_peak_fraction": 0.6,
+    "mean_section_to_peak_section_load_ratio": 0.5,
+    "average_trip_fraction_of_line_length": 0.35,
+    "boardings_per_linked_trip": 1.25,
+    "collection_fraction": 0.95,
+    "demand_multipliers": [
+      0.5,
+      0.75,
+      1.0
+    ],
+    "fares_usd_per_paid_trip": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "debt_modelled": true,
+    "debt": {
+      "financed_share": 0.7,
+      "real_interest_rate": 0.04,
+      "term_years": 20,
+      "grace_years": 3,
+      "grace_convention": "No payments; interest capitalised annually during grace; level end-year payments over remaining term.",
+      "debt_draw_timing": "Entire illustrative financed amount drawn at year zero; construction draw schedule unavailable."
+    }
+  },
+  "access": {
+    "enabled": true,
+    "illustrative_radii_m": [
+      400,
+      800
+    ],
+    "walking_speed_m_s": 1.0
+  }
+}

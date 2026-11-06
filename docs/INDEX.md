@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **124**.
+Indexed Markdown files: **125**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **124**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 98 |
+| [docs](#docs) | 99 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -54,7 +54,7 @@ Indexed Markdown files: **124**.
 
 | File | Title |
 |---|---|
-| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City geography and planning index |
+| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates
 
@@ -84,6 +84,7 @@ Indexed Markdown files: **124**.
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
 | [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway maps and calculated studies |
+| [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
 | [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
 | [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |

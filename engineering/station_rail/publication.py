@@ -280,8 +280,12 @@ def sources(root,record,index,delivery):
         completion_manifest,_=completion_publication.verify(completion_folder,root)
         maps.append(completion_manifest['source_sha256'])
         names += [p.relative_to(root).as_posix() for p in completion_folder.rglob('*') if p.is_file()]
-    for directory in ('engineering/station_rail','engineering/development_baseline','engineering/outline'):
+    for directory in ('engineering/station_rail','engineering/development_baseline','engineering/outline','engineering/city_reports'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
+    dossier_policy=root/'engineering/city_reports/planning-policy.json'
+    if dossier_policy.is_file():names += [dossier_policy.relative_to(root).as_posix()]
+    city_reports_manifest=root/'docs/design-engine/city-dossiers/manifest.json'
+    if city_reports_manifest.is_file():names += [city_reports_manifest.relative_to(root).as_posix()]
     for directory in ('docs/assets/v0.6','docs/images/v06'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file()]
     followup=root/'docs/design-engine/v06-physical-closure'
@@ -990,7 +994,8 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
         if previous.exists():shutil.rmtree(output)
         else:previous.parent.mkdir(parents=True,exist_ok=True);shutil.move(output,previous)
     output.mkdir(parents=True,exist_ok=True)
-    index=cities.publish_all(root=root)
+    from engineering.city_reports import publication as city_reports
+    index=city_reports.publish_geography(root=root)
     from engineering.development_baseline import planning
     planning.publish_inputs(root)
     delivery,compiled=exports.write(output/'exports',record,root,index,None,return_compiled=True)
@@ -1001,6 +1006,9 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     write(output/'reference-native-provenance.json',encoded(reference_provenance))
     figures.write(record,output)
     for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
+    from engineering.city_reports import publication as city_reports
+    if (root/'docs/design-engine/city-atlas/manifest.json').is_file():
+        city_reports.publish(root=root)
     from engineering import readme_context
     readme_audit=readme_context.audit(root)
     if not readme_audit['current']:raise ValueError('README context: '+'; '.join(readme_audit['errors']))
@@ -1027,7 +1035,8 @@ def verify(output=None,*,root=ROOT,replay=True):
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
     if json.loads(gzip.decompress((output/'evaluation.json.gz').read_bytes()))!=record:raise ValueError('evaluation differs')
-    citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery,compiled=exports.verify(output/'exports',record,root,index,return_compiled=True)
+    from engineering.city_reports import publication as city_reports
+    citycheck=city_reports.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery,compiled=exports.verify(output/'exports',record,root,index,return_compiled=True)
     from engineering.development_baseline import planning
     planning.verify_inputs(root)
     natives,reference_archives,reference_provenance=_retired_native_results(root)

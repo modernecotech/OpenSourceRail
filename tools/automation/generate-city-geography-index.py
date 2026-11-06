@@ -21,40 +21,41 @@ def generate() -> str:
     if register.get("city_count") != len(register.get("cities", [])):
         raise ValueError("city register count is inconsistent")
 
-    candidate = register["candidate_id"]
+    import hashlib
+    report_index = ROOT / "docs/design-engine/city-dossiers/index.json"
+    report_manifest = report_index.with_name("manifest.json")
+    reports = {}
+    if report_index.is_file() and report_manifest.is_file():
+        manifest = json.loads(report_manifest.read_bytes())
+        expected = manifest.get("files_sha256", {}).get(report_index.relative_to(ROOT).as_posix())
+        if hashlib.sha256(report_index.read_bytes()).hexdigest() != expected:
+            raise ValueError("City dossier index differs from its publication")
+        data = json.loads(report_index.read_bytes())
+        reports = {r["city"]["slug"]:r for r in data["cities"]}
+        if set(reports) != {r["slug"] for r in register["cities"]}:
+            raise ValueError("City dossier index coverage differs")
     rows = []
     for city in sorted(register["cities"], key=lambda item: (item["country"], item["name"].casefold())):
-        path = city["path"]
+        # A README target is relative to this catalogue, not repository root.
+        path = Path(city["path"]).relative_to("cities/catalogue").as_posix()
         frontdoor = quote(f"{path}/README.md", safe="/-._")
-        current_hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
-        rows.append(
-            f"| {city['country']} | [{city['name']}]({frontdoor}) "
-            f"| [Engineering status]({current_hold}) "
-            f"| {'available' if city['route_geography_available'] else 'not available'} |"
-        )
+        hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
+        r = reports.get(city["slug"])
+        if r:
+            capital = r["installed_capital_usd"]["base"] / 1e6
+            rows.append(f"| {city['country']} | [{city['name']}]({frontdoor}) | {r['route_km']:,.1f} | {r['lines']} | {r['station_complexes']} | {r['trainsets']} | ${capital:,.1f}m | [Review]({hold}) |")
+        else:
+            rows.append(f"| {city['country']} | [{city['name']}]({frontdoor}) | — | — | — | — | — | [Review]({hold}) |")
+    return "\n".join([
+        "# City railway designs and maps", "",
+        f"Explore **{register['city_count']} city network outlines**. Each city dossier brings together its visible network map, line and station tables, service and fleet, civil and factory quantities, workforce, energy accounting, capital and whole-life costs, finance scenarios, site requirements and downloads.", "",
+        "The figures use the exact selected calculated outline and explicit Class C estimates. A complete outline supports comparison and development; engineering verification and manufacturing or operating approval remain separate.", "",
+        "[Baghdad](west-asia/Iraq/Baghdad/README.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
+        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Capital is the base installed estimate for each standalone city programme. Programme totals do not assume shared factories or imply verified local prices.", "",
+        "| Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |",
+        "|---|---|---:|---:|---:|---:|---:|---|", *rows, "",
+    ])
 
-    lines = [
-        "# City geography and planning index",
-        "",
-        f"The current register contains **{register['city_count']} city geography records** for the selected v0.6 candidate `{candidate}`. Geography is planning context; it does not establish an adopted alignment or service result.",
-        "",
-        "The planning workspace edits route, stop, service and origin-destination proposals. Compile and verify an immutable handoff with:",
-        "",
-        "```bash",
-        "./osr plan compile edits.json --output build/my-plan",
-        "./osr plan verify build/my-plan",
-        "```",
-        "",
-        "A handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. The separate [priced city outlines](../../docs/design-engine/outline-completion/README.md) provide calculated service, budgets and provisional construction programmes with explicit assumptions. Engineering verification, prototype validation and deployment approval remain pending. Planning revisions do not grant movement authority.",
-        "",
-        "[Planning workspace](../../docs/workbench/planning/index.html) · [Current engineering status](../../docs/design-engine/current/README.md) · [Project introduction](../../README.md)",
-        "",
-        "| Country | City | Current packet | Route geography |",
-        "|---|---|---|---|",
-        *rows,
-        "",
-    ]
-    return "\n".join(lines)
 
 
 def main() -> int:

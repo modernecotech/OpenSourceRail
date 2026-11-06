@@ -211,7 +211,7 @@ def bindings(root, names):
         if receipt.is_symlink() or receipt.stat().st_size > 16*1024*1024:
             raise ValueError('bounded ordinary publication receipt required')
         value = json.loads(receipt.read_bytes())
-        if value.get('schema') == 'osr-current-city-publication/2':
+        if value.get('schema') in ('osr-current-city-publication/2','osr-current-city-publication/3'):
             add(root/value.get('city_frontdoor_path', ''), value.get('city_frontdoor_sha256'),
                 receipt, 'current-city-frontdoor')
         for key, payload_relative in (('files_sha256', True), ('source_sha256', False)):
