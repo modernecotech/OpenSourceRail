@@ -315,6 +315,31 @@ pub(super) fn evaluate_with_recovery(
     } else {
         None
     };
+    let quiet_dock_cruise = if quiet_cycle && quiet_dock_target.is_some() {
+        let available = c.berth_tolerance_m - p.position_error_bound_m - p.stopping_margin_m * 0.1;
+        let mut low = 0.;
+        let mut high = (0.25 - p.speed_error_bound_m_s).max(0.);
+        for _ in 0..40 {
+            let speed = (low + high) / 2.;
+            let need = stopping_distance_bound(
+                p,
+                speed + p.speed_error_bound_m_s,
+                f64::INFINITY,
+                c.dt_s,
+                gravity_upper(p) / p.mass_lower_kg,
+            )
+            .unwrap()
+                + p.position_error_bound_m;
+            if need <= available {
+                low = speed;
+            } else {
+                high = speed;
+            }
+        }
+        0.8 * low
+    } else {
+        0.
+    };
     let m0 = c.mass_kg + c.rotating_equivalent_mass_kg;
     let model_mass = (p.mass_lower_kg + p.mass_upper_kg) / 2. + p.rotating_mass_upper_kg;
     let (mut x, mut v, mut t) = (
@@ -511,8 +536,7 @@ pub(super) fn evaluate_with_recovery(
             }
             if docking {
                 let goal_speed = if quiet_cycle {
-                    (0.15 - p.speed_error_bound_m_s)
-                        .max(0.)
+                    quiet_dock_cruise
                         .min(0.3 * (quiet_dock_target.unwrap_or(c.distance_m) - observed_x).max(0.))
                 } else {
                     (0.25 - p.speed_error_bound_m_s).max(0.)
@@ -532,7 +556,16 @@ pub(super) fn evaluate_with_recovery(
                             + p.external_resistance_upper_n
                             + model_mass * G * p.grade_estimate_fraction.max(0.),
                     );
-                if observed_v + upper_a * upper_a / c.comfort_jerk_m_s3 >= goal_speed {
+                let docking_acceleration_upper = if quiet_cycle {
+                    (observed_a + p.acceleration_error_bound_m_s2 + 0.5 * c.comfort_jerk_m_s3 * h0)
+                        .max(0.)
+                } else {
+                    upper_a
+                };
+                if observed_v
+                    + docking_acceleration_upper * docking_acceleration_upper / c.comfort_jerk_m_s3
+                    >= goal_speed
+                {
                     target_traction = 0.;
                 }
             }
