@@ -98,6 +98,7 @@ fn feedback_case() -> Case {
         rolling_resistance_upper_n: 50.,
         external_resistance_upper_n: 0.,
         positive_acceleration_bound_m_s2: 3.,
+        drive_fault_observed: false,
     });
     c
 }
@@ -269,6 +270,147 @@ fn feedback_initial_fault_reports_unattained_traction_bound() {
     assert!(!r.control.unwrap().bounds_valid);
     assert!(r.standstill_holding);
     near(r.traction_work_j, 0., 1e-10);
+}
+
+fn docking_case() -> Case {
+    let mut c = feedback_case();
+    c.mass_kg = 125875.937;
+    c.rotating_equivalent_mass_kg = 7552.556;
+    c.distance_m = 1500.;
+    c.speed_cap_m_s = 50. / 3.6;
+    c.max_time_s = 600.;
+    c.dt_s = 0.05;
+    c.rolling_coefficient = 0.003;
+    c.cd_a_m2 = 8.;
+    c.brake_force_cap_n = 35556.215;
+    c.brake_adhesion_force_cap_n = 100000.;
+    c.brake_latency_s = 0.5;
+    c.brake_rise_s = 1.;
+    c.berth_tolerance_m = 2.;
+    let d = c.drive.as_mut().unwrap();
+    d.points[0].force_n = 60000.;
+    d.points[1].force_n = 60000.;
+    d.mechanical_power_w = 1200000.;
+    d.windows_m = vec![[0., 1500.]];
+    let p = c.control.as_mut().unwrap();
+    p.mass_lower_kg = 110055.445;
+    p.mass_upper_kg = 151666.441;
+    p.rotating_mass_upper_kg = 15166.644;
+    p.brake_force_lower_bound_n = 32000.;
+    p.position_error_bound_m = 0.25;
+    p.speed_error_bound_m_s = 0.1;
+    p.acceleration_error_bound_m_s2 = 0.02;
+    p.reaction_time_bound_s = 0.7;
+    p.brake_rise_time_bound_s = 1.3;
+    p.end_of_authority_m = 1500.;
+    p.stopping_margin_m = 0.5;
+    p.start_traction_lower_bound_n = 14494.;
+    p.rolling_resistance_upper_n = 5950.;
+    p.positive_acceleration_bound_m_s2 = 2.;
+    c
+}
+#[test]
+fn continuous_power_docks_but_finite_cable_window_cannot_creep() {
+    let c = docking_case();
+    let mut finite = c.clone();
+    finite.drive.as_mut().unwrap().windows_m = vec![[0., 1450.]];
+    let a = evaluate(&c).unwrap();
+    let b = evaluate(&finite).unwrap();
+    assert!(
+        a.normal_numerical_arrival,
+        "continuous state{} x{}",
+        a.state, a.final_position_m
+    );
+    assert!(a.control.as_ref().unwrap().docking_attempts > 0);
+    assert!(!b.normal_numerical_arrival);
+    assert_eq!(b.control.unwrap().docking_attempts, 0);
+    let began = a
+        .events
+        .iter()
+        .find(|e| e.kind == "bounded-continuous-drive-docking")
+        .unwrap()
+        .time_s;
+    assert!(
+        a.trace
+            .iter()
+            .filter(|p| p.time_s > began)
+            .all(|p| p.speed_m_s <= 0.5)
+    );
+    assert!(
+        a.trace
+            .iter()
+            .any(|p| p.time_s > began && p.traction_n > 0.)
+    );
+    near(a.energy_residual_j, 0., 1e-4);
+}
+#[test]
+fn observed_fault_or_emergency_never_restarts_for_docking() {
+    let c = docking_case();
+    for mode in 0..3 {
+        let mut q = c.clone();
+        if mode == 0 {
+            q.fault.power_loss_at_s = Some(10.);
+        }
+        if mode == 1 {
+            q.fault.emergency_at_m = Some(750.);
+        }
+        if mode == 2 {
+            q.control.as_mut().unwrap().drive_fault_observed = true;
+        }
+        let r = evaluate(&q).unwrap();
+        assert_eq!(r.control.unwrap().docking_attempts, 0);
+        assert!(!r.normal_numerical_arrival);
+    }
+}
+#[test]
+fn insufficient_docking_observation_resolution_is_not_ignored() {
+    let mut c = docking_case();
+    c.control.as_mut().unwrap().speed_error_bound_m_s = 0.3;
+    let r = evaluate(&c).unwrap();
+    assert_eq!(r.control.unwrap().docking_attempts, 0);
+}
+#[test]
+fn bounded_position_biases_never_authorize_power_past_physical_window() {
+    let c = docking_case();
+    for bias in [-0.25, 0.25] {
+        let mut q = c.clone();
+        q.control.as_mut().unwrap().position_bias_m = bias;
+        let r = evaluate(&q).unwrap();
+        assert!(
+            r.trace
+                .iter()
+                .filter(|p| p.position_m >= 1500.)
+                .all(|p| p.traction_n == 0.)
+        );
+        assert!(!r.control.unwrap().end_of_authority_violated);
+    }
+}
+#[test]
+fn docking_refinement_retains_policy_and_energy() {
+    let a = docking_case();
+    let mut b = a.clone();
+    b.dt_s = 0.025;
+    let x = evaluate(&a).unwrap();
+    let y = evaluate(&b).unwrap();
+    assert!(x.normal_numerical_arrival && y.normal_numerical_arrival);
+    near(x.final_position_m, y.final_position_m, 0.2);
+    near(y.energy_residual_j, 0., 1e-4);
+}
+#[test]
+fn shortened_initial_hill_step_does_not_release_on_unaccepted_torque() {
+    let mut c = feedback_case();
+    c.grade_fraction = 0.01;
+    c.control.as_mut().unwrap().grade_estimate_fraction = 0.01;
+    c.dt_s = 0.05;
+    c.fault.power_loss_at_s = Some(0.075);
+    let r = evaluate(&c).unwrap();
+    assert!(!r.rollback_detected);
+    near(r.final_position_m, 0., 1e-10);
+    assert!(
+        !r.events
+            .iter()
+            .any(|e| e.kind == "bounded-hill-start-release")
+    );
 }
 
 #[test]

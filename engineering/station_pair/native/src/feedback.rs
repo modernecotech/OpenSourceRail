@@ -30,6 +30,8 @@ pub struct FeedbackControl {
     pub rolling_resistance_upper_n: f64,
     pub external_resistance_upper_n: f64,
     pub positive_acceleration_bound_m_s2: f64,
+    #[serde(default)]
+    pub drive_fault_observed: bool,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -47,6 +49,8 @@ pub struct FeedbackDiagnostics {
     pub initial_hold_applied: bool,
     pub protected_service_qualified: bool,
     pub end_of_authority_violated: bool,
+    pub docking_attempts: u64,
+    pub maximum_docking_speed_m_s: f64,
 }
 
 fn gravity_upper(p: &FeedbackControl) -> f64 {
@@ -232,6 +236,8 @@ fn diagnostics(c: &Case, p: &FeedbackControl, d: Option<&Drive>) -> FeedbackDiag
         initial_hold_applied: p.initial_hold_applied,
         protected_service_qualified: false,
         end_of_authority_violated: false,
+        docking_attempts: 0,
+        maximum_docking_speed_m_s: 0.,
     }
 }
 
@@ -262,13 +268,14 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
     let launch_required = p.mass_upper_kg * G * uphill / (1. + uphill * uphill).sqrt()
         + p.rolling_resistance_upper_n
         + p.external_resistance_upper_n;
-    if braking_lower(p) <= 1e-9
+    if p.drive_fault_observed
+        || braking_lower(p) <= 1e-9
         || hold_required > p.brake_force_lower_bound_n
         || p.start_traction_lower_bound_n < launch_required
     {
         r.state = "controller-departure-held".into();
         diag.departure_held = true;
-        r.hold_reason=Some("Declared braking/holding or initial traction lower bound cannot support departure under policy uncertainty".into());
+        r.hold_reason=Some(if p.drive_fault_observed {"Observed drive fault blocks departure"}else{"Declared braking/holding or initial traction lower bound cannot support departure under policy uncertainty"}.into());
         r.standstill_brake_margin_n = if p.initial_hold_applied {
             p.brake_force_lower_bound_n.min(actual_brake_cap) - gravity.abs()
         } else {
@@ -293,6 +300,9 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
     let mut detached = d.external_mass_kg == 0.;
     let mut launched = false;
     let mut braking = false;
+    let mut docking = false;
+    let mut docking_moved = false;
+    let mut docking_started = 0.;
     let mut failed = false;
     let mut emergency = false;
     let mut thermal_trip = false;
@@ -352,6 +362,11 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
         let observed_x = x + p.position_bias_m;
         let observed_v = (v + p.speed_bias_m_s).max(0.);
         let observed_a = previous_a + p.acceleration_bias_m_s2;
+        let planned_window = d.windows_m.iter().find(|w| {
+            (observed_x - p.position_error_bound_m).max(0.) >= w[0]
+                && (observed_x + p.position_error_bound_m).max(0.) < w[1]
+        });
+        let planned_active = planned_window.is_some();
         // Explicit research authority boundary is separate from berth target
         // and its acceptance tolerance. No surveyed/safety authority is implied.
         let remaining = (p.end_of_authority_m - observed_x - p.position_error_bound_m).max(0.);
@@ -393,13 +408,14 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             braking = true;
             event(&mut r, "feedback-normal-brake-command", t, x, v);
         }
-        let hard = margin < 0. && launched;
+        let hard =
+            margin < 0. && launched || docking && observed_v + p.speed_error_bound_m_s >= 0.5;
         if hard {
             diag.supervisory_interventions += 1;
         }
         let h0 = c.dt_s.min(c.max_time_s - t);
         let mut target_traction = 0.;
-        if active && !fault && !braking {
+        if planned_active && !fault && !p.drive_fault_observed && (!braking || docking) {
             let upper_a = traction_command / p.mass_lower_kg + gravity_upper(p) / p.mass_lower_kg;
             let taper_velocity = upper_a * upper_a / c.comfort_jerk_m_s3;
             let speed_gap =
@@ -416,12 +432,25 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             if speed_gap == 0. {
                 target_traction = 0.;
             }
-            let end = d
-                .windows_m
-                .iter()
-                .find(|w| x >= w[0] - 1e-9 && x < w[1] - 1e-9)
-                .unwrap()[1];
-            let time_to_exit = (end - observed_x).max(0.)
+            if docking {
+                let goal_speed = (0.25 - p.speed_error_bound_m_s).max(0.);
+                let goal_acceleration = (0.7 * (goal_speed - observed_v)).clamp(-0.1, 0.1);
+                target_traction = (traction_command
+                    + 0.25 * model_mass * (goal_acceleration - observed_a))
+                    .max(0.)
+                    .min(p.start_traction_lower_bound_n)
+                    .min(
+                        model_mass * 0.1
+                            + p.rolling_resistance_upper_n
+                            + p.external_resistance_upper_n
+                            + model_mass * G * p.grade_estimate_fraction.max(0.),
+                    );
+                if observed_v + upper_a * upper_a / c.comfort_jerk_m_s3 >= goal_speed {
+                    target_traction = 0.;
+                }
+            }
+            let end = planned_window.unwrap()[1];
+            let time_to_exit = (end - observed_x - p.position_error_bound_m).max(0.)
                 / (observed_v + p.positive_acceleration_bound_m_s2 * h0).max(0.1);
             if launched {
                 target_traction =
@@ -434,7 +463,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             -0.5 * p.mass_lower_kg * c.comfort_jerk_m_s3 * h0,
             0.5 * p.mass_lower_kg * c.comfort_jerk_m_s3 * h0,
         );
-        if !active || fault || hard {
+        if !planned_active || fault || p.drive_fault_observed || hard {
             traction_command = 0.;
         }
         if !launched {
@@ -445,10 +474,12 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
                 event(&mut r, "bounded-hill-start-release", t, x, v);
             }
         }
-        let target_brake = if fault || hard {
+        let target_brake = if fault || hard || p.drive_fault_observed {
             p.brake_force_lower_bound_n
         } else if !launched {
             hold_required
+        } else if docking {
+            0.
         } else if braking {
             let rem = (c.distance_m - p.stopping_margin_m * 0.5 - observed_x).max(0.05);
             let target_a =
@@ -505,10 +536,10 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
         for _ in 0..12 {
             traction_command =
                 old_traction + (target_traction - old_traction).clamp(-rate * h, rate * h);
-            if !active || fault || hard {
+            if !planned_active || fault || p.drive_fault_observed || hard {
                 traction_command = 0.;
             }
-            brake_request = if fault || hard {
+            brake_request = if fault || hard || p.drive_fault_observed {
                 target_brake
             } else {
                 old_request + (target_brake - old_request).clamp(-rate * h, rate * h)
@@ -640,12 +671,18 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
                 },
         );
         x += dx;
+        if docking && dx > 1e-6 {
+            docking_moved = true;
+        }
         v = if nv < 1e-9 { 0. } else { nv };
         t += h;
         previous_a = acceleration;
         previous_h = h;
         actual_brake = next_brake;
         r.maximum_speed_m_s = r.maximum_speed_m_s.max(v);
+        if docking {
+            diag.maximum_docking_speed_m_s = diag.maximum_docking_speed_m_s.max(v);
+        }
         if let (Some(z), Some(q)) = (temp, c.thermal.as_ref()) {
             let n = temperature(z, h, (grid - work) / h, q);
             temp = Some(n);
@@ -666,8 +703,42 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             r.state = "stopped".into();
             r.terminal_acceleration_step_m_s2 = -acceleration;
             r.terminal_jerk_resolved = acceleration.abs() < 1e-6;
+            if docking && !docking_moved && !fault && !p.drive_fault_observed {
+                if t - docking_started < 30. {
+                    continue;
+                }
+                r.state = "docking-launch-held".into();
+                r.hold_reason = Some(
+                    "Continuous-drive docking did not establish forward motion within30s".into(),
+                );
+                break;
+            }
             // Apply no imaginary immediate holding force: retain the actual
             // physical brake state already present at this event.
+            let observed_stop = x + p.position_bias_m;
+            let target = c.distance_m - p.stopping_margin_m * 0.5;
+            let coverage = d.windows_m.iter().any(|w| {
+                observed_stop - p.position_error_bound_m >= w[0]
+                    && observed_stop + p.position_error_bound_m < w[1]
+                    && target + p.position_error_bound_m <= w[1]
+                    && target - p.position_error_bound_m >= w[0]
+            });
+            let permitted = !fault
+                && !p.drive_fault_observed
+                && coverage
+                && p.position_error_bound_m * 2. < c.berth_tolerance_m
+                && p.speed_error_bound_m_s < 0.25
+                && target + p.position_error_bound_m <= p.end_of_authority_m
+                && c.distance_m - observed_stop > c.berth_tolerance_m
+                && diag.docking_attempts < 2;
+            if permitted {
+                docking = true;
+                docking_moved = false;
+                docking_started = t;
+                diag.docking_attempts += 1;
+                event(&mut r, "bounded-continuous-drive-docking", t, x, v);
+                continue;
+            }
             break;
         }
         if !launched && t > 30. {
@@ -710,6 +781,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
     r.normal_numerical_arrival = !fault
         && diag.bounds_valid
         && !diag.end_of_authority_violated
+        && diag.maximum_docking_speed_m_s <= 0.5 + 1e-8
         && r.standstill_holding
         && r.maximum_speed_m_s <= c.speed_cap_m_s + 1e-7
         && r.berth_error_m.abs() <= c.berth_tolerance_m;
