@@ -146,3 +146,15 @@ def test_representative_cad_disjoint_wall_volumes(result):
         volume+=p['count']*(L*(b*h-(b-2*s['wall_m'])*(h-2*s['wall_m'])) if s['kind']=='rhs' else L*b*h)
     assert expected==pytest.approx(volume)
     assert case['physical_accepted'] is False
+
+
+
+def test_declared_source_context_is_generic_contained_and_verified(tmp_path):
+    from engineering.station_rail.common import digest
+    (tmp_path/'owned.py').write_text('value=1\n');declared={'owned.py':digest(tmp_path/'owned.py')}
+    (tmp_path/'unrelated.py').write_text('value=2\n')
+    assert export.validate_declared_sources(declared,tmp_path)==declared
+    with pytest.raises(ValueError,match='SHA differs'):export.validate_declared_sources({'owned.py':'0'*64},tmp_path)
+    with pytest.raises(ValueError,match='root-relative'):export.validate_declared_sources({'../escape.py':'0'*64},tmp_path)
+    (tmp_path/'alias.py').symlink_to(tmp_path/'owned.py')
+    with pytest.raises(ValueError,match='ordinary'):export.validate_declared_sources({'alias.py':declared['owned.py']},tmp_path)

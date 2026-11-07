@@ -2,7 +2,7 @@
 from pathlib import Path
 from collections import defaultdict
 from math import sin,cos,pi,sqrt
-import gzip,json,struct,csv,time
+import gzip,json,struct,csv,time,re,stat
 from engineering.station_rail.common import identity,digest,encoded
 from engineering.design_search.craft_backends import native,solidcraft,freecad_reference
 from . import ROOT,FLAGS,model
@@ -149,7 +149,32 @@ def native_cad(result,output,*,case=None,commands=None):
     report['evaluation_id']=identity(report);(folder/'verification.json').write_bytes(encoded(report));return report
 
 
+
+def validate_declared_sources(source_sha256,root=ROOT):
+    """Hash the declared ordinary files, without imposing one producer's glob.
+
+    The record must already be sealed by its producer. This validates integrity
+    of its declared current context; it does not authenticate physical evidence.
+    """
+    root=Path(root).resolve()
+    if not isinstance(source_sha256,dict) or not source_sha256:raise ValueError('Nonempty declared source context required')
+    observed={}
+    for name,expected in source_sha256.items():
+        if not isinstance(name,str) or not name or any(ord(c)<32 for c in name) or not isinstance(expected,str) or re.fullmatch('[0-9a-f]{64}',expected) is None:raise ValueError('Root-relative source path and SHA256 required')
+        relative=Path(name)
+        if relative.is_absolute() or '..' in relative.parts:raise ValueError('Source path must stay root-relative')
+        path=root/relative
+        if path.is_symlink() or not path.resolve().is_relative_to(root):raise ValueError('Declared source must be a contained ordinary file')
+        try:
+            if not stat.S_ISREG(path.lstat().st_mode):raise ValueError('Declared source must be ordinary')
+            actual=digest(path)
+        except OSError as exc:raise ValueError('Declared source unavailable: '+name) from exc
+        if actual!=expected:raise ValueError('Declared source SHA differs: '+name)
+        observed[name]=actual
+    return observed
+
 def write(result,output,*,cad=False):
+    before=validate_declared_sources(result['source_sha256'])
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     (output/'installation.json.gz').write_bytes(gzip.compress(encoded(result),mtime=0))
     (output/'axle-loads.json').write_bytes(encoded(model.axle_loads(result)))
@@ -163,6 +188,6 @@ def write(result,output,*,cad=False):
         except (ValueError,OSError,KeyError,TypeError) as exc:
             failure=dict(status='failed',type=type(exc).__name__,reason=str(exc),candidate_id=result['candidate_id'],**FLAGS)
             (output/'native-failure.json').write_bytes(encoded(failure));meta['native_cad']=failure
-    if model.sources()!=result['source_sha256']:raise ValueError('Source drift during export; retain failed run, regenerate')
+    if validate_declared_sources(result['source_sha256'])!=before:raise ValueError('Source drift during export; retain failed run, regenerate')
     meta['files_sha256']={p.relative_to(output).as_posix():digest(p) for p in output.rglob('*') if p.is_file()}
     meta['manifest_id']=identity(meta);(output/'manifest.json').write_bytes(encoded(meta));return meta
