@@ -13,7 +13,7 @@
   <a class="skip-link" href="#comparison">Skip to comparison</a>
   <header class="site-header">
     <a class="brand" href="../../workbench/current/index.html"><span class="brand-mark" aria-hidden="true">OSR</span><span>OpenSourceRail<small>Design workbench</small></span></a>
-    <nav aria-label="Page"><a href="#comparison">Compare</a><a href="#traces">Motion</a><a href="#evidence">Evidence</a><a href="#downloads">Downloads</a></nav>
+    <nav aria-label="Page"><a href="#comparison">Compare</a><a id="stopping-nav" href="#control-comparison" hidden>Stopping</a><a href="#traces">Motion</a><a href="#evidence">Evidence</a><a href="#downloads">Downloads</a></nav>
     <span class="status-pill">Research comparison</span>
   </header>
   <main>
@@ -48,7 +48,25 @@
           <table class="comparison-table"><caption class="sr-only">Conditional service and cost results. Unknown values are shown explicitly. All designs remain unapproved.</caption><thead><tr><th scope="col">Design / calculation</th><th scope="col">Pilot installed cost</th><th scope="col">Actual / capped speed</th><th scope="col">Journey</th><th scope="col">Actual / requested acceleration</th><th scope="col">Propulsion peak grid power</th><th scope="col">Loaded accounted mass</th><th scope="col">Actual moving jerk</th></tr></thead><tbody id="comparison-body"></tbody></table>
         </div>
         <p class="table-footnote">“Outline screens met” refers only to the declared numerical arrival, hold, energy, journey, moving-jerk and demand screens. Terminal jerk, installed engineering and physical qualification remain open. Powered-wheel variants are research alternatives and do not change the passive-wheel reference.</p>
+        <p id="control-method-note" class="table-footnote"></p>
         <details class="candidate-details" id="candidate-details"><summary>Inspect a candidate’s identities and screen results</summary><div id="candidate-detail-content"><p>Choose “Inspect” in the comparison table.</p></div></details>
+      </section>
+
+      <section id="control-comparison" class="section" aria-labelledby="control-title" hidden>
+        <div class="section-heading"><div><p class="eyebrow">Same designs · Different control evaluation</p><h2 id="control-title">Can the train stop where it should?</h2></div><p>Compare the retained fixed brake point with a common feedback policy. Refusing departure, missing the berth and stopping within the route are different results.</p></div>
+        <div class="control-metrics" aria-label="Nominal control comparison">
+          <article class="panel"><span class="metric-label">Fixed-control arrivals</span><strong id="fixed-arrivals">—</strong><p>Retained nominal calculations</p></article>
+          <article class="panel"><span class="metric-label">Feedback arrivals</span><strong id="feedback-arrivals">—</strong><p>Current nominal calculations</p></article>
+          <article class="panel"><span class="metric-label">Paired adverse cases</span><strong id="control-fault-count">—</strong><p>Same candidate, different evaluation</p></article>
+        </div>
+        <p id="control-policy-note" class="scope-note"></p>
+        <label class="check-picker">Compare cases<select id="control-kind"><option value="fault">Faults and sensitivity</option><option value="normal">Nominal designs</option></select></label>
+        <p id="control-pair-count" class="table-footnote" role="status" aria-live="polite"></p>
+        <div class="table-scroll control-scroll" tabindex="0" role="region" aria-label="Fixed and feedback control comparison">
+          <table class="control-table"><caption>Conditional numerical results with unchanged physical candidates. A controller bound is not a physical qualification.</caption><thead><tr><th scope="col">Design / case</th><th scope="col">Fixed brake point</th><th scope="col">Feedback policy</th><th scope="col">Feedback assumptions</th></tr></thead><tbody id="control-pairs"></tbody></table>
+        </div>
+        <div class="control-notes"><p><strong>One policy, simulated observations.</strong> Position, speed and acceleration observations and their uncertainty bounds are declared inputs. The feedback brake point is not fitted separately to each fault. Out-of-bound inputs remain explicit.</p><p><strong>Control cannot supply missing energy or brake force.</strong> The current cable launchers cannot coast the remaining distance on the sustained +2% climb within the tested caps. Downhill high-mass cases may require lower speed, longer travel or departure refusal.</p></div>
+        <p class="table-footnote">A departure hold is a calculated refusal, not a demonstrated safe stop. No physical acceptance, certified protection or operating authority follows from this comparison. <a id="fixed-control-history" href="../../archives/station-pair-fixed-control-20261107/README.md">Inspect the original fixed-control evidence</a>.</p>
       </section>
 
       <section id="traces" class="section" aria-labelledby="traces-title">
@@ -60,10 +78,10 @@
       </section>
 
       <section id="evidence" class="section" aria-labelledby="evidence-title">
-        <div class="section-heading"><div><p class="eyebrow">Keep the difficult results</p><h2 id="evidence-title">Faults, sensitivity and open work</h2></div><p>Robustness checks keep the nominal controller. They do not secretly refit the brake point for each fault.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">Keep the difficult results</p><h2 id="evidence-title">Faults, sensitivity and open work</h2></div><p>Robustness checks retain the declared policy. No brake point is secretly fitted to each fault.</p></div>
         <label class="check-picker">Inspect finalist<select id="checks-finalist"></select></label>
         <div id="checks-summary" class="scope-note"></div>
-        <div class="table-scroll" tabindex="0" role="region" aria-label="Fixed-controller sensitivity checks"><table class="checks-table"><caption>Numerical outcomes under the same nominal controller; “stop in route” is not a safety approval.</caption><thead><tr><th scope="col">Case</th><th scope="col">Calculated outcome</th><th scope="col">Final position</th><th scope="col">Actual moving jerk</th><th scope="col">Hold / interpretation</th></tr></thead><tbody id="checks-body"></tbody></table></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Declared-controller sensitivity checks"><table class="checks-table"><caption>Numerical outcomes under the same declared policy; “stop in route” is not a safety approval.</caption><thead><tr><th scope="col">Case</th><th scope="col">Calculated outcome</th><th scope="col">Final position</th><th scope="col">Actual moving jerk</th><th scope="col">Hold / interpretation</th></tr></thead><tbody id="checks-body"></tbody></table></div>
         <div class="evidence-grid"><article class="panel"><h3>Mass is an account, not a completed installation</h3><div id="mass-summary"></div><p>Full installed CAD, location, centre of gravity, inertia, axle reactions and service access remain unresolved. Architecture additions that are not quantified remain unknown.</p></article><article class="panel"><h3>Duty and refinement</h3><div id="duty-summary"></div><p>A timestep comparison checks this integrator. The thermal calculation is an uncalibrated lumped proxy; continuous ratings do not establish repeated launch duty.</p></article></div>
         <article class="open-work"><h3>What needs to be established next</h3><ul id="limitations"></ul><p><strong>No physical or engineering acceptance, manufacturing release, operating release or movement authority is granted by this comparison.</strong> City estimates and the selected reference are unchanged.</p></article>
       </section>

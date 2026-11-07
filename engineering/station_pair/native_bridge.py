@@ -1,5 +1,6 @@
 """Content-addressed bounded native runs, separate from report/cost revisions."""
 from pathlib import Path
+from copy import deepcopy
 import fcntl,gzip,json,os,shutil,subprocess,time,platform
 from engineering.station_rail.common import digest,encoded,identity
 from . import ROOT
@@ -41,6 +42,18 @@ def build(state,root=ROOT):
 
 def execute(cases,state,*,root=ROOT,kernel=None):
     if not cases:return []
+    # Different experiment labels may intentionally share exactly the same
+    # request (e.g. an unobserved fault under a controller with no such input).
+    # Evaluate it once, retaining one immutable evidence record for each alias.
+    unique={};ids={};order=[]
+    for c in cases:
+        key=identity(c)
+        if c['id'] in ids and ids[c['id']]!=key:raise ValueError('Conflicting requests share one case ID')
+        ids[c['id']]=key;unique.setdefault(key,c);order.append(key)
+    if len(unique)<len(cases):
+        values=execute(list(unique.values()),state,root=root,kernel=kernel)
+        bykey=dict(zip(unique,values))
+        return [deepcopy(bykey[key]) for key in order]
     state=Path(state).resolve();binary,build_receipt=build(state,root) if kernel is None else kernel
     if digest(binary)!=build_receipt['binary_sha256'] or sources(root)!=build_receipt['source_sha256']:
         raise ValueError('Native kernel/source changed')
@@ -95,6 +108,12 @@ def execute(cases,state,*,root=ROOT,kernel=None):
                 raise ValueError('Native mixed candidate/case')
             if any(row.get(k) is not False for k in ('physical_accepted','engineering_accepted','operating_release','admitted_operating_map')):
                 raise ValueError('Conditional native calculation cannot grant release')
+            contract=case.get('control');control=row.get('control')
+            if contract is None:
+                if control is not None:raise ValueError('Undeclared native feedback controller')
+            elif (not isinstance(control,dict) or control.get('policy_id')!=contract.get('policy_id')
+                  or control.get('protected_service_qualified') is not False):
+                raise ValueError('Native controller policy differs or falsely grants protection qualification')
             row['native_receipt_id']=r['receipt_id'];row['native_input_id']=identity(case)
             row['evaluation_id']=identity(row);results.append(row)
     return results

@@ -4,7 +4,7 @@ from math import ceil,pi,fsum,exp,sqrt
 from pathlib import Path
 import gzip,json,time
 from engineering.station_rail.common import encoded,identity,digest
-from . import ROOT,FLAGS,mass,profiles,economics,native_bridge
+from . import ROOT,FLAGS,mass,profiles,economics,native_bridge,control_policy,history
 
 BRIEF='engineering/station_pair/study.json'
 
@@ -12,8 +12,10 @@ BRIEF='engineering/station_pair/study.json'
 def source_hashes(root=ROOT):
     root=Path(root)
     names=['engineering/station_pair/'+n for n in ('__init__.py','mass.py','mass-policy.json',
-        'profiles.py','economics.py','cost-policy.json','coordinator.py','native_bridge.py','study.json')]
+        'profiles.py','economics.py','cost-policy.json','coordinator.py','native_bridge.py','study.json',
+        'control_policy.py','control-policy.json','history.py')]
     names += [profiles.ABB,profiles.TSA,economics.CIVIL,mass.INPUT,'engineering/station_rail/common.py']
+    names += [history.OUTPUT+'/manifest.json',history.OUTPUT+'/packet-and-declared-sources.tar.gz']
     return {**{n:digest(root/n) for n in names},**native_bridge.sources(root)}
 
 
@@ -37,7 +39,8 @@ def variants(root=ROOT):
     return brief,bundle,reconciliation,out
 
 
-def case_for(v,bundle,reconciliation,brief,*,speed_km_h,mass_case='base',force_case='base',fault=None,grade=0.,wind=0.,dt=None,temperature=None,hotel_W_per_car=None):
+def case_for(v,bundle,reconciliation,brief,*,speed_km_h,mass_case='base',force_case='base',fault=None,grade=0.,wind=0.,dt=None,temperature=None,hotel_W_per_car=None,
+             control_mode='fixed',grade_observation=None,sensor_biases=None,drive_fault_observed=False,root=ROOT):
     m=next(r for r in reconciliation['mass_scenarios'] if r['case']==mass_case)
     if v['onboard_added_mass_kg'] is None:
         added=0.
@@ -73,7 +76,46 @@ def case_for(v,bundle,reconciliation,brief,*,speed_km_h,mass_case='base',force_c
         # Closed-loop rope gravity cancels; tug gradient is explicitly owned here.
         c['drive']['external_resistance_n']+=2500.*9.80665*grade
         if c['drive']['external_resistance_n']<0:raise ValueError('External assisting force requires its own signed model')
+    if control_mode not in ('fixed','feedback'):raise ValueError('Explicit supported controller mode required')
+    if control_mode=='feedback':
+        c['control']=control_policy.prepare(v,reconciliation,brief,force,
+            grade_observation=grade if grade_observation is None else grade_observation,
+            biases=sensor_biases,drive_fault_observed=drive_fault_observed,root=root)
     c['id']=identity(c);return c
+
+
+def followup_requests(variant,bundle,reconciliation,brief,nominal,*,root=ROOT):
+    """Same experiments for both controllers; never fit a per-fault brake point."""
+    speed=nominal['speed_cap_m_s']*3.6;mode='feedback' if nominal.get('control') is not None else 'fixed'
+    p=json.loads((Path(root)/control_policy.POLICY).read_bytes())
+    tasks=[('low-mass',dict(mass_case='low')),('high-mass',dict(mass_case='high')),
+        ('wet',dict(fault='wet')),('power-loss',dict(fault='power-loss')),
+        ('half-drive',dict(fault='half-drive',drive_fault_observed=True)),
+        ('half-drive-unobserved',dict(fault='half-drive')),('emergency-stop',dict(fault='emergency-stop')),
+        ('up-2pct',dict(grade=.02)),('down-2pct',dict(grade=-.02)),('headwind',dict(wind=15.)),
+        ('high-mass-low-force',dict(mass_case='high',force_case='low')),
+        ('hot-hotel',dict(hotel_W_per_car=brief['hot_hotel_control_W_per_car'])),
+        ('compound-downhill-boundary',dict(mass_case='high',grade=-.02-p['grade_error_bound'],grade_observation=-.02,
+             sensor_biases=dict(position_bias_m=-p['position_error_bound_m'],speed_bias_m_s=-p['speed_error_bound_m_s'],
+                                acceleration_bias_m_s2=-p['acceleration_error_bound_m_s2']))),
+        ('outside-brake-bound',{}),('outside-grade-bound',dict(grade=-.025,grade_observation=-.02)),
+        ('tailwind-unsupported',dict(wind=-15.)),
+        ('outside-position-bound',dict(sensor_biases=dict(position_bias_m=-2.))),
+        ('outside-response-bound',{})]
+    out=[]
+    for name,kw in tasks:
+        c=case_for(variant,bundle,reconciliation,brief,speed_km_h=speed,control_mode=mode,root=root,**kw)
+        c['brake_start_m']=nominal['brake_start_m']
+        if name=='compound-downhill-boundary':
+            c['brake_force_cap_n']*=p['brake_force_lower_fraction']
+            c['brake_latency_s']=p['reaction_time_bound_s'];c['brake_rise_s']=p['brake_rise_time_bound_s']
+        if name=='outside-brake-bound':c['brake_force_cap_n']*=.7
+        if name=='outside-response-bound':c['brake_latency_s']=2.;c['brake_rise_s']=2.
+        c['id']=identity({k:v for k,v in c.items() if k!='id'})
+        if nominal.get('control') is not None and not control_policy.same_policy(c['control'],nominal['control']):
+            raise ValueError('A followup silently changed the controller policy')
+        out.append((name,c))
+    return out
 
 
 def fit_brake(cases,state,*,root=ROOT,kernel=None,trials=16):
@@ -103,6 +145,10 @@ def _brief_result(v,c,r,cost,brief):
         declared_journey_time=r['elapsed_s']<=brief['maximum_pair_journey_s'],
         moving_jerk_target=r['maximum_absolute_jerk_m_s3']<=brief['comfort_jerk_target_m_s3']*1.01,
         demand=cost['service']['planning_capacity_pphpd']>=brief['peak_demand_pphpd'])
+    control=r.get('control')
+    if c.get('control') is not None:
+        criteria['controller_bounds_supported']=control is not None and control['bounds_valid']
+        criteria['model_route_boundary']=control is not None and not control['end_of_authority_violated']
     # The moving-jerk study target is screened; the terminal transition remains explicitly unresolved.
     complete=r['normal_numerical_arrival']
     reset=0.
@@ -128,6 +174,11 @@ def _brief_result(v,c,r,cost,brief):
         base_installed_usd=min(x['installed_capital_usd']['base'] for x in cost['methods']),
         base_usd_route_km=min(x['capital_per_route_km_usd']['base'] for x in cost['methods']),
         headway_s=cost['service']['headway_s'],trainsets=cost['service']['total_trainsets'],
+        control_mode='bounded-feedback' if c.get('control') is not None else 'fixed-brake-point' if c['drive'] is not None else 'not-evaluated',
+        control_policy_id=None if control is None else control['policy_id'],
+        control_bounds_supported=None if control is None else control['bounds_valid'],
+        model_route_boundary_exceeded=None if control is None else control['end_of_authority_violated'],
+        departure_held=False if control is None else control['departure_held'],
         operating_map_admitted=False,physical_journey_completed=False,**{k:v for k,v in FLAGS.items() if k!='physical_journey_completed'})
 
 
@@ -177,6 +228,37 @@ def repeated_proxy(variant,request,state,*,root=ROOT,kernel=None,brief=None,cycl
         source_motor_inverter_duty_curve_available=False)
 
 
+def coast_bound(variant,request):
+    if variant['family']!='cable':return None
+    c=request;coast=c['distance_m']-variant['geometry']['powered_front_window_m'][1]
+    kinetic=.5*(c['mass_kg']+c['rotating_equivalent_mass_kg'])*c['speed_cap_m_s']**2
+    necessary=c['mass_kg']*9.80665*(c['rolling_coefficient']+c['grade_fraction'])*coast/sqrt(1+c['grade_fraction']**2)
+    supported=c['headwind_m_s']>=0
+    return dict(maximum_train_kinetic_at_speed_cap_J=kinetic,
+        coast_gravity_and_rolling_J=necessary,aerodynamic_loss_omitted=True,
+        nonnegative_headwind_domain=supported,
+        fails_even_without_aerodynamic_loss=necessary>kinetic if supported else None,
+        scope='Necessary energy bound at declared cap with no forward aerodynamic assistance; excludes detached tug kinetic energy')
+
+
+def choose_experiments(fixed,feedback):
+    """Keep the original control comparison and investigate new nominal fronts.
+
+    Selection uses nominal outcomes only, before executing the fault suite.
+    It is an experiment queue, never an integrated railway adoption.
+    """
+    chosen=[];keys=set()
+    for group,purpose in ((fixed,'retained fixed-cohort comparison'),(feedback,'feedback-screened next experiment')):
+        for family in ('cable','powered-wheel'):
+            cohort=[c for c in group if c['summary']['outline_screen'] and c['variant']['family']==family
+                    and c['request']['distance_m']==1500.]
+            if not cohort:continue
+            best=min(cohort,key=lambda c:(c['summary']['base_installed_usd'],c['summary']['journey_s']))
+            key=(best['variant']['candidate_id'],best['summary']['speed_cap_km_h'])
+            if key not in keys:chosen.append((best,purpose));keys.add(key)
+    return chosen
+
+
 def run(output,*,root=ROOT):
     root=Path(root).resolve();output=Path(output).resolve();output.mkdir(parents=True,exist_ok=True)
     with (output/'coordinator.lock').open('a+') as lock:
@@ -192,69 +274,64 @@ def _run(output,root):
     normal=[];owners=[]
     for v in architectures:
         for speed in brief['speed_caps_km_h']:
-            normal.append(case_for(v,bundle,reconciliation,brief,speed_km_h=speed));owners.append(v)
-    fitted=fit_brake(normal,output,root=root,kernel=kernel,trials=brief['brake_search_trials'])
-    rows=[];full=[]
-    for v,(c,r) in zip(owners,fitted):
-        cost=economics.evaluate(v,r,bundle,reconciliation,brief,root=root)
-        row=_brief_result(v,c,r,cost,brief);rows.append(row);full.append(dict(summary=row,variant=v,request=c,journey=r,cost=cost))
+            normal.append(case_for(v,bundle,reconciliation,brief,speed_km_h=speed,root=root));owners.append(v)
+    fixed_fitted=fit_brake(normal,output,root=root,kernel=kernel,trials=brief['brake_search_trials'])
+    requests=[case_for(v,bundle,reconciliation,brief,speed_km_h=c['speed_cap_m_s']*3.6,
+                      control_mode='feedback',root=root) for v,c in zip(owners,normal)]
+    fitted=list(zip(requests,native_bridge.execute(requests,output,root=root,kernel=kernel)))
+    def collect(pairs):
+        full=[]
+        for v,(c,r) in zip(owners,pairs):
+            cost=economics.evaluate(v,r,bundle,reconciliation,brief,root=root)
+            row=_brief_result(v,c,r,cost,brief)
+            full.append(dict(summary=row,variant=v,request=c,journey=r,cost=cost))
+        return full
+    full=collect(fitted);fixed_full=collect(fixed_fitted);rows=[c['summary'] for c in full]
     # Separate fronts per equal station spacing. Held/failed/unknown objectives never become zero.
     for row in rows:
         cohort=[x for x in rows if x['distance_m']==row['distance_m'] and x['outline_screen']]
         objectives=('base_installed_usd','journey_s','full_grid_kwh')
         row['pareto_for_next_experiment']=row['outline_screen'] and not any(
             all(x[k]<=row[k] for k in objectives) and any(x[k]<row[k] for k in objectives) for x in cohort)
-    eligible=[x for x in full if x['summary']['outline_screen']]
-    finalists=[]
-    for family in ('cable','powered-wheel'):
-        cohort=[x for x in eligible if x['variant']['family']==family and x['request']['distance_m']==1500.]
-        if cohort:finalists.append(min(cohort,key=lambda x:(x['summary']['base_installed_usd'],x['summary']['journey_s'])))
+    finalists=choose_experiments(fixed_full,full)
     followups=[]
-    for finalist in finalists:
-        v=finalist['variant'];speed=finalist['summary']['speed_cap_km_h'];D=finalist['request']['distance_m']
-        tasks=[('low-mass','low',None,0.,0.),('high-mass','high',None,0.,0.),
-            ('wet','base','wet',0.,0.),('power-loss','base','power-loss',0.,0.),
-            ('half-drive','base','half-drive',0.,0.),('emergency-stop','base','emergency-stop',0.,0.),
-            ('up-2pct','base',None,.02,0.),('down-2pct','base',None,-.02,0.),('headwind','base',None,0.,15.)]
-        varied=[case_for(v,bundle,reconciliation,brief,speed_km_h=speed,mass_case=mc,fault=f,grade=g,wind=w) for _,mc,f,g,w in tasks]
-        tasks += [('high-mass-low-force','high',None,0.,0.),('hot-hotel','base',None,0.,0.)]
-        varied += [case_for(v,bundle,reconciliation,brief,speed_km_h=speed,mass_case='high',force_case='low'),
-            case_for(v,bundle,reconciliation,brief,speed_km_h=speed,hotel_W_per_car=brief['hot_hotel_control_W_per_car'])]
-        # Robustness replays retain the nominal controller. Never hide fault
-        # sensitivity by fitting a new brake point with knowledge of its outcome.
-        for c in varied:
-            c['brake_start_m']=finalist['request']['brake_start_m']
-            c['id']=identity({k:v for k,v in c.items() if k!='id'})
-        cases=list(zip(varied,native_bridge.execute(varied,output,root=root,kernel=kernel)))
+    for selected,purpose in finalists:
+        v=selected['variant'];speed=selected['summary']['speed_cap_km_h']
+        old=next(c for c in fixed_full if c['variant']['candidate_id']==v['candidate_id']
+                 and c['summary']['speed_cap_km_h']==speed)
+        finalist=next(c for c in full if c['variant']['candidate_id']==v['candidate_id']
+                      and c['summary']['speed_cap_km_h']==speed)
+        tasks=followup_requests(v,bundle,reconciliation,brief,finalist['request'],root=root)
+        fixed_tasks=followup_requests(v,bundle,reconciliation,brief,old['request'],root=root)
+        results=native_bridge.execute([c for _,c in tasks+fixed_tasks],output,root=root,kernel=kernel)
+        cases=list(zip(tasks,results[:len(tasks)]));fixed_cases=list(zip(fixed_tasks,results[len(tasks):]))
         refined=deepcopy(finalist['request']);refined['dt_s']=brief['refined_dt_s'];refined['id']=identity({k:v for k,v in refined.items() if k!='id'})
         fine=native_bridge.execute([refined],output,root=root,kernel=kernel)[0]
         refined_ok=abs(fine['final_position_m']-finalist['journey']['final_position_m'])<=brief['berth_tolerance_m']
-        detailed=[]
-        for (name,*_),(c,r) in zip(tasks,cases):
-            bound=None
-            if v['family']=='cable':
-                coast=c['distance_m']-v['geometry']['powered_front_window_m'][1]
-                kinetic=.5*(c['mass_kg']+c['rotating_equivalent_mass_kg'])*c['speed_cap_m_s']**2
-                necessary=c['mass_kg']*9.80665*(c['rolling_coefficient']+c['grade_fraction'])*coast/sqrt(1+c['grade_fraction']**2)
-                bound=dict(maximum_train_kinetic_at_speed_cap_J=kinetic,
-                    coast_gravity_and_rolling_J=necessary,aerodynamic_loss_omitted=True,
-                    fails_even_without_aerodynamic_loss=necessary>kinetic,
-                    scope='Necessary energy bound at declared cap; excludes detached tug kinetic energy')
-            detailed.append(dict(name=name,request=c,result=r,unpowered_route_energy_bound=bound))
+        def detailed_cases(cases):
+            return [dict(name=name,request=c,result=r,unpowered_route_energy_bound=coast_bound(v,c))
+                    for (name,c),r in cases]
         followups.append(dict(candidate_id=v['candidate_id'],speed_cap_km_h=speed,
-            cases=detailed,controller_basis='Fixed nominal brake point; no per-fault berth refit',
+            experiment_purpose=purpose,
+            cases=detailed_cases(cases),fixed_control_cases=detailed_cases(fixed_cases),
+            controller_basis='One bounded position/speed/acceleration policy; no offline or per-fault brake-point fitting',
             refinement=dict(coarse_dt_s=finalist['request']['dt_s'],fine_dt_s=refined['dt_s'],result=fine,
                 final_position_change_m=fine['final_position_m']-finalist['journey']['final_position_m'],
-                berth_comparison_within_declared_tolerance=refined_ok),
+                berth_comparison_within_declared_tolerance=refined_ok,
+                scope='Coupled plant timestep and controller-update-cadence sensitivity; not a pure fixed-sample integration convergence proof'),
             repeated_duty_proxy=repeated_proxy(v,finalist['request'],output,root=root,kernel=kernel,brief=brief),
             recovery_between_stations_protected=False,regeneration_credit_J=None,
             periodic_thermal_qualification=False))
     if source_hashes(root)!=before:raise ValueError('Station-pair source changed during execution')
-    result=dict(schema='osr-station-pair-study/1',brief=brief,body_candidate_id=bundle['candidate_id'],
+    result=dict(schema='osr-station-pair-study/2',brief=brief,body_candidate_id=bundle['candidate_id'],
         body_bundle_id=bundle['bundle_id'],mass_evaluation_id=reconciliation['evaluation_id'],
         source_sha256=before,native_build_id=kernel[1]['receipt_id'],native_binary_sha256=kernel[1]['binary_sha256'],
         normal_case_count=len(rows),conditional_arrivals=sum(r['numerical_arrival'] for r in rows),
         outline_screens=sum(r['outline_screen'] for r in rows),rows=rows,cases=full,finalists=followups,
+        fixed_control_cases=fixed_full,parent_fixed_control=history.verify(root),
+        control_method='bounded-distance-feedback/1',feedback_brake_point_fits=0,
+        fixed_nominal_brake_point_fit_trials=brief['brake_search_trials'],
+        experiment_selection_basis='Retained fixed cohorts plus nominal feedback-screened representatives, selected before the common fault suite; no integrated adoption',
         mass_summary=dict(nominal_stock_kg=bundle['nominal_mass_kg'],
             conditional_mass_scenarios=reconciliation['mass_scenarios'],
             located_CG_complete=False,axle_loads_complete=False,rotating_inertia_measured=False),
@@ -263,6 +340,7 @@ def _run(output,root):
         limitations=['Conditional rating envelopes do not establish attainable motor/inverter/transmission duty',
             'Installation reserve and centroid boxes are assumptions; full installed CAD, trim, CG and axle reactions remain open',
             'Pneumatic bore/pressure/pad friction and control response are assumptions, not tested brake curves',
+            'Controller observations, mass/braking/response bounds and initial applied hold are hypotheses; no operating authority or authenticated protection evidence',
             'Jerk discontinuities are reported; validated passenger/protection limits and contact/multibody dynamics remain open',
             'No energy-recovery credit, station storage or rescue hardware performance is invented',
             'Civil geometry quantities are used for cost only; its earlier structural loads and crane admission do not transfer',

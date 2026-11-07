@@ -78,7 +78,7 @@
       validate(data);
       study = data;
       finalists = (Array.isArray(data.finalists) ? data.finalists : []).filter((f) => f && typeof f.candidate_id === 'string');
-      renderBrief(); renderFamilies(); renderTable(); populateFinalists(); renderMass(); renderLimitations(); renderDownloads();
+      renderBrief(); renderFamilies(); renderTable(); renderControlComparison(); populateFinalists(); renderMass(); renderLimitations(); renderDownloads();
       $('study-id').textContent = study.study_id;
       $('study-content').hidden = false;
     } catch (error) {
@@ -141,6 +141,59 @@
       const tr = node('tr'); const td = node('td', 'No scenarios match these filters. Reset filters to retain all four propulsion families.', 'empty-state'); td.colSpan = 8; tr.append(td); $('comparison-body').append(tr);
     }
   }
+  function controlResult(value, distance) {
+    const v = value || {};
+    const state = v.state || v.numerical_state || 'Not evaluated';
+    const arrived = v.numerical_arrival === true || v.normal_numerical_arrival === true;
+    const overrun = number(distance) && number(v.final_position_m) && v.final_position_m > distance + (study.brief.berth_tolerance_m || 0);
+    if (overrun) return {text: 'Overran route boundary', state, issue: true};
+    if (v.departure_held === true) return {text: 'Departure held', state, issue: false};
+    if (arrived) return {text: 'Numerical berth arrival', state, issue: false};
+    if (v.fault_stop_in_route === true) return {text: 'Conditional fault stop in route', state, issue: false};
+    return {text: state, state: v.hold_reason || 'Berth arrival not established', issue: true};
+  }
+  function controllerBounds(value) {
+    const supported = value?.control_bounds_supported ?? value?.bounds_supported;
+    return supported === true ? 'Within declared numerical bounds' : supported === false ? 'Outside declared bounds' : 'Bounds not established';
+  }
+  function renderControlComparison() {
+    const comparison = study.control_comparison;
+    const available = comparison && typeof comparison === 'object';
+    $('control-comparison').hidden = !available;
+    $('stopping-nav').hidden = !available;
+    $('control-method-note').textContent = available ? 'Primary design rows use the feedback evaluation. Compare the original fixed-brake calculations below; physical candidate identities remain unchanged.' : 'This retained packet uses a nominal fixed brake point. Its fault cases are replayed without separate berth fitting.';
+    if (!available) return;
+    $('fixed-arrivals').textContent = unit(comparison.fixed_arrivals, 'arrivals', 0);
+    $('feedback-arrivals').textContent = unit(comparison.feedback_arrivals, 'arrivals', 0);
+    const faultPairs = Array.isArray(comparison.fault_pairs) ? comparison.fault_pairs : [];
+    $('control-fault-count').textContent = fmt(faultPairs.length, 0);
+    $('control-policy-note').textContent = comparison.policy_note || 'A common policy uses explicitly simulated position, speed and acceleration observations with declared uncertainty and response bounds. No separate brake-point fit is performed for each fault.';
+    const kind = $('control-kind').value;
+    const all = kind === 'normal' ? (comparison.normal_pairs || []) : faultPairs;
+    const pairs = all.filter((p) =>
+      ($('distance-filter').value === 'all' || sameNumber(p.distance_m, Number($('distance-filter').value))) &&
+      ($('speed-filter').value === 'all' || sameNumber(p.speed_cap_km_h, Number($('speed-filter').value))) &&
+      ($('family-filter').value === 'all' || p.family === $('family-filter').value));
+    $('control-pair-count').textContent = `${pairs.length} of ${all.length} paired ${kind === 'normal' ? 'nominal' : 'adverse'} cases · spacing, speed and family filters also apply here`;
+    replace('control-pairs', pairs.map((p) => {
+      const before = controlResult(p.fixed, p.distance_m), after = controlResult(p.feedback, p.distance_m);
+      const bounds = controllerBounds(p.feedback);
+      const tr = node('tr', null, after.issue || bounds === 'Outside declared bounds' ? 'problem-row' : '');
+      const design = node('td');
+      design.append(node('strong', p.design_name || (kind === 'normal' ? p.name : familyName(p.family))), node('span', `${fmt(p.distance_m / 1000)} km · ${fmt(p.speed_cap_km_h, 0)} km/h cap`, 'cell-secondary'));
+      if (kind !== 'normal') design.append(node('span', label(p.name || 'Unnamed case'), 'case-label'));
+      design.append(node('span', `Candidate ${short(p.candidate_id)}`, 'cell-secondary'));
+      tr.append(design,
+        cell(before.text, `${unit(p.fixed?.final_position_m, 'm', 2)} · ${before.state}`),
+        cell(after.text, `${unit(p.feedback?.final_position_m, 'm', 2)} · ${after.state}`),
+        cell(bounds, p.feedback?.hold_reason || 'Simulated observations; physical performance not established'));
+      return tr;
+    }));
+    if (!pairs.length) {
+      const tr = node('tr'), td = node('td', 'No paired cases match these filters. Reset the design filters or choose the other comparison.', 'empty-state');
+      td.colSpan = 4; tr.append(td); $('control-pairs').append(tr);
+    }
+  }
   function inspectRow(r) {
     const content = $('candidate-detail-content');
     const range = r.installed_capital_usd || {};
@@ -153,6 +206,7 @@
       ['Berth error', unit(r.berth_error_m, 'm', 3)],
       ['Final-stop acceleration step', unit(r.terminal_acceleration_step_m_s2, 'm/s²', 4)],
       ['Terminal jerk', r.terminal_jerk_resolved === true ? 'Resolution recorded; inspect source scope' : 'Unresolved'],
+      ['Controller bounds', controllerBounds(r)],
       ['Next-experiment Pareto frontier', r.pareto_for_next_experiment ? 'Retained; not an integrated selection' : 'Not on declared frontier']
     ]), dl([
       ['Physical candidate', r.candidate_id], ['Body candidate', r.body_candidate_id || 'Unknown'],
@@ -215,6 +269,7 @@
     chart.append(svg('line', {x1: left, y1: h - bottom, x2: w - right, y2: h - bottom, class: 'axis-line'}), svg('text', {x: (left + w - right) / 2, y: h - 6, 'text-anchor': 'middle'}, 'Distance from departure station (km)'), svg('text', {x: left, y: 12}, metric === 'speed' ? 'km/h' : metric === 'acceleration' ? 'm/s²' : 'kN'));
     selections.forEach((f, i) => {
       const points = normalTrace(f);
+      if (!points.length) return;
       const path = (fn) => points.filter((p) => number(fn(p))).map((p, index) => `${index ? 'L' : 'M'}${X(p.position_m).toFixed(2)},${Y(fn(p)).toFixed(2)}`).join(' ');
       chart.append(svg('path', {d: path(value), class: `curve${i ? ' trace-b' : ''}`}));
       if (metric === 'force') chart.append(svg('path', {d: path((p) => p.brake_n / 1000), class: `curve brake${i ? ' trace-b' : ''}`}));
@@ -248,14 +303,14 @@
       if (overrun) overruns++; else if (miss) missed++;
       const tr = node('tr', null, overrun || miss ? 'problem-row' : '');
       const outcomeText = overrun ? 'Overran station-pair boundary' : c.normal_numerical_arrival ? 'Numerical berth arrival' : c.fault_stop_in_route ? 'Fault stop within route' : c.state || 'Not evaluated';
-      const interpretation = overrun ? `${unit(c.final_position_m - distance, 'm', 1)} beyond route end; fixed controller does not meet this case.` : miss ? 'Missed berth / incomplete under the nominal controller.' : c.fault_stop_in_route ? 'Conditional stopping calculation only; no safety approval.' : 'Inspect the declared model and control assumptions.';
+      const interpretation = overrun ? `${unit(c.final_position_m - distance, 'm', 1)} beyond route end; declared control does not meet this case.` : miss ? 'Missed berth / incomplete under the declared policy.' : c.fault_stop_in_route ? 'Conditional stopping calculation only; no safety approval.' : 'Inspect the declared model and control assumptions.';
       tr.append(cell(label(c.name || 'Unnamed case')), cell(outcomeText, c.state), cell(unit(c.final_position_m, 'm', 2), number(distance) ? `Route ends at ${fmt(distance, 0)} m` : ''), cell(unit(c.maximum_absolute_jerk_m_s3, 'm/s³', 3)), cell(c.hold_reason || interpretation, c.hold_reason ? interpretation : ''));
       return tr;
     }));
     if (!checks.length) {
       const tr = node('tr'), td = node('td', 'No finalist robustness records exported.', 'empty-state'); td.colSpan = 5; tr.append(td); $('checks-body').append(tr);
     }
-    $('checks-summary').textContent = f ? `${overruns} route overrun${overruns === 1 ? '' : 's'}; ${missed} other missed or incomplete berth case${missed === 1 ? '' : 's'}. Fixed-controller results expose redesign needs. Grade, mass, wind, failed drive and braking cases must be resolved before operating claims.` : 'No finalist was admitted to the follow-up calculation. Held alternatives remain available above.';
+    $('checks-summary').textContent = f ? `${overruns} route overrun${overruns === 1 ? '' : 's'}; ${missed} other missed or incomplete berth case${missed === 1 ? '' : 's'}. ${study.control_comparison ? 'Feedback-policy' : 'Fixed-controller'} results expose remaining control and physical limits. Grade, mass, wind, failed drive and braking cases must be resolved before operating claims.` : 'No finalist was admitted to the follow-up calculation. Held alternatives remain available above.';
     renderDuty(f);
   }
   function renderMass() {
@@ -284,7 +339,7 @@
       'Measured motor, inverter, gearbox and engagement force / duty envelopes.',
       'Validated brakes, charger sizing, independent recovery and rescue between stations.',
       'Terminal jerk, cable elasticity, coupling loads and contact / multibody dynamics.',
-      'Fault overruns and missed berths under the retained nominal controller.',
+      'Control robustness, departure holds, missed berths and actual out-of-bound inputs.',
       'Site-specific civil engineering, installation, utilities and cost calibration.'
     ];
     const supplied = Array.isArray(study.limitations) ? study.limitations.filter((v) => typeof v === 'string') : [];
@@ -316,8 +371,9 @@
   }
   $('retry').addEventListener('click', load);
   $('filters').addEventListener('submit', (event) => event.preventDefault());
-  $('filters').addEventListener('change', () => study && renderTable());
-  $('filters').addEventListener('reset', () => setTimeout(() => study && renderTable(), 0));
+  $('filters').addEventListener('change', () => { if (study) { renderTable(); renderControlComparison(); } });
+  $('filters').addEventListener('reset', () => setTimeout(() => { if (study) { renderTable(); renderControlComparison(); } }, 0));
+  $('control-kind').addEventListener('change', () => study && renderControlComparison());
   for (const id of ['trace-a', 'trace-b', 'trace-metric']) $(id).addEventListener('change', renderChart);
   $('checks-finalist').addEventListener('change', renderChecks);
   load();

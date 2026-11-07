@@ -247,6 +247,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
     let mut diag = diagnostics(c, p, c.drive.as_ref());
     r.limitations.push("Position/speed/acceleration observations and policy brake/response bounds are declared hypotheses, not authenticated sensors or protection evidence; the controller does not receive actual plant mass/grade/adhesion".into());
     r.limitations.push("Initial holding brake, when selected, is an already-applied t<0 condition. Idle/standstill motor current and heat remain unmodelled".into());
+    r.limitations.push("Docking uses an ideal standstill-event observation in addition to biased position/speed/acceleration signals; a real zero-speed detector is not authenticated. The 0.25 m/s docking request has a 0.5 m/s model guard, not a measured physical limit".into());
     let Some(d) = &c.drive else {
         r.hold_reason = Some("Available drive profile absent".into());
         r.control = Some(diag);

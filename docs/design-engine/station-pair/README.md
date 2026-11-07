@@ -1,100 +1,120 @@
 # Candidate-linked station-pair comparison
 
-**[Open the interactive comparison](index.html)** · [Results and traces](study.json.gz) ·
-[Mass reconciliation](mass-reconciliation.json.gz) · [Manufacturing/construction draft](delivery-draft.json.gz)
-· [Requirement/evidence assessment](requirement-assessments.json)
+**[Open the interactive comparison](index.html)** · [Full results and traces](study.json.gz) ·
+[Mass reconciliation](mass-reconciliation.json.gz) · [Delivery draft](delivery-draft.json.gz) ·
+[Requirement/evidence assessment](requirement-assessments.json).
 
-This is one executable path from the **605-type, six-car parts proposal** through
-mass scenarios, available-rating hypotheses, Rust force-driven motion, independent
-braking, fleet, civil quantities and a complete scoped budget. It creates no
-movement authority, reference adoption or engineering approval.
+This executable research path connects the **605-type, six-car parts proposal** to
+mass scenarios, source-rating force hypotheses, Rust motion and braking, fleet,
+civil quantities, costs and disabled manufacturing/construction records. It
+compares a fixed nominal braking point with a bounded feedback controller on the
+same physical configurations. No reference adoption or operating authority follows.
 
-## Results under the declared assumptions
+## What changed
 
-The bounded study evaluates **48 cases**, from 16 physical
-system definitions across four architecture families, two spacings and three speed
-caps. **36 nominal conditional runs arrive**; 28
-also meet the declared time, moving-jerk, energy-residual, static-hold and demand
-screens. These are numerical research results, not the missing authenticated
-physical journeys in the historical 112-bundle portfolio.
+The original experiment is [retained with its exact source epoch](../../archives/station-pair-fixed-control-20261107/README.md).
+Its fixed controller remains reproducible. The current packet adds simulated
+position, speed and acceleration observations, explicit uncertainty and response
+bounds, pre-applied holding brakes and continuous distance feedback.
 
-The next-experiment examples below both use a **1.5 km, two-station, two-track pilot**,
-276 normal passenger places, 4,000 peak passengers/hour/direction and 85% planning
-occupancy. The demand-led headway is **200 s**, providing **4,222.8 planning
-places/hour/direction**. This is capacity arithmetic, not protected timetable proof.
+**Feedback braking points are never fitted offline or separately per fault.**
+All mass, wind, grade, force and sensor experiments retain the same policy bounds
+for each architecture. Grade and drive-fault notifications are explicit assumed
+observations. Tests include both notified and unobserved partial drive failure.
+The actual plant values remain separate from the controller's declared bounds;
+posthoc domain diagnostics expose disagreements without passing truth to control.
 
-| Next experiment | Actual peak / cap km/h | Moving time | Conditional loaded mass | Full grid kWh/departure | Pilot installed USD low / base / high |
-|---|---:|---:|---:|---:|---:|
-| Cable / 6 motors / 200 m | 44.4 / 50 | 172.7 s | 115.51 t | 20.08 | $9.05 / $24.96 / $75.50m |
-| Powered wheels / 8 driven axles | 60.0 / 60 | 144.2 s | 125.88 t | 21.75 | $10.05 / $26.89 / $80.59m |
+The model travel boundary is **D**, the declared station target. The existing
+plus/minus 2 m berth accuracy does not grant extra travel beyond D. Histories are
+not snapped to a station. Bounded low-speed docking is permitted only where the
+candidate already has powered hardware at the destination; cable designs receive
+no invented force after their launch window.
 
-Prices include four trainsets for these pilot examples, two accessible stations,
-two-track reference-box concrete quantities, rails/fasteners, shared supports,
-erection allowances, candidate propulsion, grid and hotel chargers, protection,
-depot, assembly/test/setup, integration and contingency. **These are not 30 km city
-prices, supplier quotations or demonstrated mass-purchase discounts.** Purchased
-custom and local-assembly scenarios primarily vary setup allowances; they do not
-establish a make-versus-buy productivity advantage. The report provides all cost
-accounts and 30-year discounted scenarios, including renewal and operating costs.
+## Results under assumptions
 
-## What the comparison revealed
+There are **48 nominal cases**: four propulsion families,
+two station spacings and three speed caps. The fixed method gives
+**36 conditional arrivals**; feedback gives
+**18**. The viewer shows every paired result, including
+short stops, departure holds, authority overruns and out-of-domain assumptions.
+Arrival counts alone do not measure physical feasibility or qualified protection.
 
-- **Mass is reconciled, not measured:** the exact counted catalogue plus explicit
-  2/5/10 t installation reserves gives loaded, architecture-before-additions
-  scenarios of approximately 101.19 / 115.51 / 137.30 t. Driven-wheel equipment is
-  added separately. The 105.25 m body-plus-gap length, 24 service actuators and
-  760 mm wheels belong to this new proposal. Actual installed CG, inertia, axle
-  loads, trim, service access and full CAD assembly remain unresolved.
-- **A speed cap is not a speed requirement.** The cheap six-motor, 200 m cable
-  example peaks near 44 km/h under its 50 km/h cap. Its acceleration is force-limited
-  despite requesting 1 m/s². Longer windows and larger drives remain visible
-  alternatives; neither 72 km/h nor 900 m is prescribed.
-- **Fault replay exposes failure:** mass and wind changes miss the berth with the
-  nominal brake point. The ±2% grade controls expose missing hill-start protection
-  and substantial downhill overrun. Power-loss and emergency-stop examples on
-  level track use independent assumed pneumatic braking. They do not prove safe
-  recovery, wheel-slide protection, brake temperature or an operational controller.
-- **Jerk has two distinct results:** nominal moving jerk is calculated and screened;
-  the final rolling-to-held-stop acceleration transition remains unresolved. The
-  replay does not conceal emergency discontinuities or refit braking per fault.
-- **Auxiliaries matter:** continuous 35 kW/car, a 50 kW/car control, dwell and
-  terminal turn are accounted for, with 90% charging efficiency. Required dwell-only
-  recharge power is shown separately from propulsion peak power; charger curves,
-  battery SOC/temperature and depot/spare conditioning remain open.
-- **No regeneration saving is credited.** Detached tug/rope kinetic energy is
-  exported to a disposal/reset account, never silently donated to coasting. Return
-  energy and reset-time/force allowances are counted. The eight-cycle thermal RC
-  proxy is uncalibrated; reported journey peaks exclude reset-transient peaks and
-  idle motor/copper losses. It is not a thermal qualification.
-- **LIM and hybrid remain in the comparison:** absent candidate-specific available
-  force maps produce explicit holds, unknown energy/power/mass additions and
-  positive provisional cost reserves. They do not become zero-cost failures.
+The original fixed cohorts remain in the paired experiments. Additional nominees
+come from the feedback nominal screens, before inspecting the common fault suite.
+They are next experiments, not an integrated selection. These examples use a **1.5 km,
+two-station, two-track pilot**, 276 passenger places, 4,000 peak passengers/hour/
+direction and 85% planning occupancy. The demand-derived 200 s headway provides
+4,222.8 planning places/hour/direction; timetable protection remains unverified.
 
-## From source to manufacture
+| Paired experiment | Actual peak / cap km/h | Feedback berth result | Pilot installed USD low / base / high |
+|---|---:|---:|---:|
+| Cable / 6 motors / 200 m | 41.9 / 50 | Held or missed berth | $9.05 / $24.96 / $75.50m |
+| Powered wheels / 8 driven axles | 59.3 / 60 | 188.0 s | $10.05 / $26.89 / $80.59m |
+| Cable / 6 motors / 350 m | 49.2 / 50 | 185.8 s | $9.10 / $25.06 / $75.78m |
+| Powered wheels / 12 driven axles | 59.3 / 60 | 171.7 s | $10.37 / $27.51 / $82.15m |
 
-The [parts catalogue](../vehicle-parts/index.html) supplies materials, multiplicity,
-stock/process allowances, joint/fixing proposals, QA and repair methods. The
-candidate-linked delivery draft scales those same parts to the pilot fleet, adds
-architecture equipment, and lists construction quantities and assembly dependencies.
-Its ERPNext-style records are **disabled**; no purchasing, work order or control
-transaction is performed. Production capacity and construction duration remain
-unknown until actual processes, drawings, sites and crews are sized.
+Budgets include rolling stock, stations/access, reference-box concrete quantities,
+rails/fasteners, shared supports, erection, propulsion, grid/hotel chargers,
+protection, depot, assembly/test/setup, integration and contingency. Failed or
+held journeys retain an explicit provisional runtime allowance; their energy and
+whole-life operating totals stay unknown. **These are pilot budgets, not 30 km
+city prices, quotations or demonstrated bulk-purchase discounts.** Local assembly
+versus purchased-custom figures primarily vary setup allowances, not proven
+productivity. Every cost account states its basis and exclusions.
 
-The [civil geometry dossier](../viaduct-backends/README.md) provides the exact
-20 m reference-box geometry for fresh quantity calculations. Earlier FEM loads,
-prestress/reinforcement design, bearings, foundations and crane approval do not
-transfer to this heavier/different candidate. The base lift reserve exceeds a
-nominal 60 t class: configured radius/capacity, rigging and temporary stages need
-an actual lifting study.
+## Findings that remain important
 
-The standalone Rust kernel retains finite drive windows, force/power/contact caps,
-external rope/tug mass, grade, wind, drag, independent brakes, event transitions,
-temperature budget and work-energy residuals. Position is never reset to the berth.
-Native requests, failed trials and resource receipts remain in the private run;
-the portable packet contains all nominal/fault inputs and outputs for replay.
-All source hashes, physical/evaluation identities and cost ownership are checked.
+- A passive train can brake but cannot add energy after leaving its powered
+  window. A short stop is retained as a performance failure; it is not corrected
+  by moving the recorded position. Receiving-side positioning equipment would
+  require its own physical definition, quantities, cost and dynamic evaluation.
+- On a constant +2% climb, the base 6% rotating-mass hypothesis gives at most
+  approximately **653 m coast from 60 km/h**, even ignoring air drag. The current
+  200/350 m launch windows leave 1,150–1,800 m to travel. Better control cannot
+  fix that energy deficit: change propulsion, speed or alignment.
+- The 35.56 kN brake-force and 90% controller-floor assumptions leave little
+  worst-case downhill authority at high mass. Slower running, conservative
+  refusal or a separately engineered brake/architecture change can be necessary.
+  No bound is weakened to make a candidate pass.
+- Simulated sensor biases, weaker-than-assumed brakes, delayed response and
+  unsupported tailwind remain explicit experiments. An arrival outside the
+  declared controller domain never establishes protected operation.
+- Final rolling-to-held-stop jerk, wheel-slide response, flexible-train dynamics,
+  brake heating, engagement and rescue still need appropriate models and evidence.
+  Emergency and supervisory discontinuities retain their calculated jerk.
 
-## Reproduce
+## Same-candidate manufacture, mass and cost
+
+The [parts catalogue](../vehicle-parts/index.html) supplies materials, quantities,
+stock/process allowances, fixings, routes, QA and removal methods. Its 110,404 BOM
+units are reconciled in grouped occurrences, with shared inter-car parts counted
+once. Explicit 2/5/10 t installation reserves produce normal-loaded, before-drive-
+addition scenarios of approximately 101.19 / 115.51 / 137.30 t. These are counted
+stock and allowances, not measured installed weights. Driven-wheel additions are
+separate; installed CG/inertia, actual axle loads, trim and complete CAD remain open.
+
+The body-plus-gap length is 105.25 m. End coupler projection, usable platform
+margin, installed equipment clashes and moving interfaces remain unknown. The
+exact [20 m civil geometry](../viaduct-backends/README.md) feeds fresh quantities,
+without inheriting earlier FEM loads, reinforcement, foundations or crane approval.
+The base lifting reserve exceeds a nominal 60 t class; actual radius, rigging and
+erection stability need a lifting study. Draft records are disabled: no purchasing,
+work order or control transactions occur. Production capacity and construction
+programme duration remain unverified.
+
+Energy includes propulsion, cable return/reset, continuous 35 kW/car auxiliaries,
+dwell, terminal turn and 90% charging efficiency; a 50 kW/car control is retained.
+Charging power is distinct from propulsion peak. Battery/charger limits and
+spare/depot conditioning remain open. No regeneration credit is invented.
+The repeated-duty RC proxy is uncalibrated, excludes idle motor/copper losses,
+and its reported journey peak excludes reset-transient peaks.
+
+The controller uses braking-curve principles described in the
+[ERA introduction, sections 3.1–3.3](https://www.era.europa.eu/system/files/2022-11/Introduction%20to%20ETCS%20braking%20curves.pdf):
+state uncertainty, braking buildup and track characteristics must be explicit.
+This research method is not an ETCS implementation or compliance claim.
+
+## Reproduce and challenge
 
 ```bash
 ./osr design station-pair plan
@@ -102,23 +122,22 @@ All source hashes, physical/evaluation identities and cost ownership are checked
 ./osr design station-pair publish --run /path/to/private/station-pair-run --output /path/to/fresh/publication
 ./osr design station-pair verify
 ./osr design station-pair verify --replay --state /path/to/private/replay
+./osr design station-pair history-verify
 ```
 
-Verification checks current source, candidate, mass, accounting and artifact
-identities. `--replay` separately rebuilds the locked Rust kernel and compares all
-published nominal, fault and timestep-refinement outputs. It requires Cargo's
-locked dependencies to be locally available. Independent tests cover numerical
-energy closure, cap/transition handling, faults and cache integrity. Verification
-does not grant physical acceptance.
+Verification checks source, physical/evaluation identities, identical controller
+policies, mass, cost ownership and every generated artifact. `--replay` rebuilds
+the locked Rust kernel and compares published fixed/feedback nominal, fault and
+refined-timestep outputs. Requests, unsuccessful trials, errors and resource
+receipts remain in the private run. Source development and numerical execution use
+separate directories; the worker process has explicit resource limits, not a
+claimed OS sandbox.
 
-### Evidence and next action
+Outline comparison and scoped pricing: **complete under assumptions**.
+Installed engineering, robust protected service, manufacturing and operation:
+**open**. Resolve measured actuator/brake/charging characteristics, installed
+geometry, axle reactions, receiving/positioning behaviour, civil moving loads and
+prototype correlation before advancing an integrated design.
 
-Outline comparison and scoped pricing: **complete under stated assumptions**.
-Installed engineering, robust protected journey, manufacturing release and
-operation: **open**. There is no integrated selection. Resolve measured hot-duty
-force/brake/charger characteristics, installed equipment and axle reactions,
-adaptive protected stopping/hill starts, coupling/reset/rescue, civil moving loads
-and prototype correlation before advancing a candidate.
-
-Study `cc1ba1bf47f188657d334e7f14ed0adb1ebc8da9176f4880b2b276aa7a8f9061` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
-Canonical source: [engineering/station_pair](../../../engineering/station_pair/).
+Study `5914dc6d539a5757ec5c4027a52d8aeda9ef7c05496d0e46b424afe89890d1f7` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
+[Canonical source](../../../engineering/station_pair/).

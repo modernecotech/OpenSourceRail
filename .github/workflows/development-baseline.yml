@@ -45,6 +45,7 @@ on:
       - "engineering/vehicle_parts/**"
       - "engineering/station_pair/**"
       - "docs/design-engine/station-pair/**"
+      - "docs/archives/station-pair-fixed-control-20261107/**"
       - "tests/test_station_pair*.py"
       - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
@@ -152,6 +153,7 @@ on:
       - "engineering/vehicle_parts/**"
       - "engineering/station_pair/**"
       - "docs/design-engine/station-pair/**"
+      - "docs/archives/station-pair-fixed-control-20261107/**"
       - "tests/test_station_pair*.py"
       - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
@@ -270,6 +272,7 @@ jobs:
           .venv/bin/python -m pytest -q tests/test_station_pair*.py
           cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
           ./osr design station-pair verify --replay --state /tmp/osr-station-pair-replay
+          ./osr design station-pair history-verify
           node tools/automation/tests/verify-station-pair.mjs
       - name: Pinned native GIS interchange and source-preserving city exports
         run: |

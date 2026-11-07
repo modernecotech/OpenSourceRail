@@ -182,6 +182,16 @@ def test_native_cache_reuses_only_the_exact_request_without_executing(tmp_path,m
     assert first[0]['native_input_id']==identity(case)
 
 
+def test_identical_aliases_evaluate_once_without_inventing_different_case_ids(tmp_path,monkeypatch):
+    state,case,kernel,calls=fake_kernel(tmp_path,monkeypatch)
+    rows=native_bridge.execute([case,deepcopy(case)],state,root=ROOT,kernel=kernel)
+    assert len(calls)==1 and len(rows)==2 and rows[0]==rows[1]
+    assert rows[0] is not rows[1]
+    changed=dict(case,candidate_id='b'*64)
+    with pytest.raises(ValueError,match='Conflicting requests'):
+        native_bridge.execute([case,changed],state,root=ROOT,kernel=kernel)
+
+
 @pytest.mark.parametrize('change',['input-bytes','resealed-input','mixed-output','released-output'])
 def test_native_cache_rejects_tampered_input_and_resealed_mixed_outputs(tmp_path,monkeypatch,change):
     state,case,kernel,calls=fake_kernel(tmp_path,monkeypatch)

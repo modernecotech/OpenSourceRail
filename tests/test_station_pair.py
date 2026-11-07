@@ -307,6 +307,8 @@ def test_fault_followups_replay_nominal_brake_point_without_refitting(data,monke
  captured=[];fit_calls=[]
  def record(c):
   r=full_fake_native(v,brief,case=c);r['id']=c['id'];r['final_position_m']=c['distance_m']
+  r['control']=None if c.get('control') is None else dict(policy_id=c['control']['policy_id'],bounds_valid=True,
+      departure_held=False,end_of_authority_violated=False)
   r['evaluation_id']=identity({k:w for k,w in r.items() if k!='evaluation_id'});return r
  def fit(cases,*args,**kwargs):
   fit_calls.append(len(cases));out=[]
@@ -326,7 +328,10 @@ def test_fault_followups_replay_nominal_brake_point_without_refitting(data,monke
  assert fit_calls==[1]  #Only the nominal controller is fitted.
  fault_requests=[c for c in captured if c['fault']['power_loss_at_s'] is not None or c['fault']['failed_drive_fraction'] or c['fault']['emergency_at_m'] is not None]
  assert len(fault_requests)>=3
- assert all(c['brake_start_m']==nominal_brake for c in fault_requests)
- assert result['finalists'][0]['controller_basis']=='Fixed nominal brake point; no per-fault berth refit'
- assert all(x['request']['brake_start_m']==nominal_brake for x in result['finalists'][0]['cases'])
+ assert all(c['brake_start_m']==nominal_brake for c in fault_requests if c.get('control') is None)
+ assert len({c['control']['policy_id'] for c in fault_requests if c.get('control') is not None})==1
+ assert result['feedback_brake_point_fits']==0
+ assert result['finalists'][0]['controller_basis'].startswith('One bounded position/speed/acceleration policy')
+ assert all(x['request']['brake_start_m']==nominal_brake for x in result['finalists'][0]['fixed_control_cases'])
+ assert all(x['request']['control'] is not None for x in result['finalists'][0]['cases'])
  assert result['available_operating_maps_added']==0 and result['regeneration_saving_credited'] is False

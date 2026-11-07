@@ -5,7 +5,7 @@ import gzip,json
 from copy import deepcopy
 from engineering.station_rail.common import digest,encoded,identity
 from engineering.design_search import requirement_policy
-from . import ROOT,FLAGS,coordinator,economics,native_bridge
+from . import ROOT,FLAGS,coordinator,economics,native_bridge,control_policy,history
 
 OUTPUT='docs/design-engine/station-pair'
 
@@ -33,7 +33,8 @@ def summary(study):
     result={k:study[k] for k in ('study_id','brief','body_candidate_id','body_bundle_id','mass_evaluation_id',
         'normal_case_count','conditional_arrivals','outline_screens','mass_summary','limitations',
         'execution_wall_s','native_build_id','native_binary_sha256',*FLAGS)}
-    result['schema']='osr-station-pair-summary/1'
+    result['schema']='osr-station-pair-summary/2'
+    result['control_comparison']=control_comparison(study)
     result['downloads']=dict(study='study.json.gz',mass='mass-reconciliation.json.gz',
         business='delivery-draft.json.gz',manufacturing='delivery-draft.json.gz')
     result['rows']=[]
@@ -49,13 +50,47 @@ def summary(study):
             final_position_m=t['result']['final_position_m'],normal_numerical_arrival=t['result']['normal_numerical_arrival'],
             fault_stop_in_route=t['result']['fault_stop_in_route'],hold_reason=t['result']['hold_reason'],
             maximum_absolute_jerk_m_s3=t['result']['maximum_absolute_jerk_m_s3'],
+            bounds_supported=None if t['result'].get('control') is None else t['result']['control']['bounds_valid'],
+            departure_held=False if t['result'].get('control') is None else t['result']['control']['departure_held'],
+            end_of_authority_violated=None if t['result'].get('control') is None else t['result']['control']['end_of_authority_violated'],
             unpowered_route_energy_bound=t['unpowered_route_energy_bound']) for t in f['cases']]
         result['finalists'].append(dict(candidate_id=f['candidate_id'],speed_cap_km_h=f['speed_cap_km_h'],
+            experiment_purpose=f['experiment_purpose'],
             family=c['variant']['family'],name=c['variant']['name'],trace=c['journey']['trace'],
             request=c['request'],cost=c['cost'],checks=checks,refinement=f['refinement'],
             controller_basis=f['controller_basis'],repeated_duty_proxy=f['repeated_duty_proxy'],
             terminal_jerk_resolved=c['journey']['terminal_jerk_resolved']))
     return result
+
+
+def control_comparison(study):
+    def normal(c):
+        return dict(c['summary'],final_position_m=c['journey']['final_position_m'])
+    def fault(t):
+        r=t['result'];p=r.get('control')
+        return dict(state=r['state'],final_position_m=r['final_position_m'],
+            normal_numerical_arrival=r['normal_numerical_arrival'],fault_stop_in_route=r['fault_stop_in_route'],
+            bounds_supported=None if p is None else p['bounds_valid'],
+            departure_held=False if p is None else p['departure_held'],
+            end_of_authority_violated=None if p is None else p['end_of_authority_violated'],
+            hold_reason=r['hold_reason'])
+    pairs=[];faults=[]
+    for old,new in zip(study['fixed_control_cases'],study['cases']):
+        if old['variant']['candidate_id']!=new['variant']['candidate_id'] or old['summary']['speed_cap_km_h']!=new['summary']['speed_cap_km_h']:
+            raise ValueError('Controller comparison changed physical candidate or speed cap')
+        row=new['summary'];pairs.append(dict(candidate_id=row['candidate_id'],name=row['name'],family=row['family'],
+            distance_m=row['distance_m'],speed_cap_km_h=row['speed_cap_km_h'],fixed=normal(old),feedback=normal(new)))
+    for f in study['finalists']:
+        c=next(c for c in study['cases'] if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h'])
+        for old,new in zip(f['fixed_control_cases'],f['cases']):
+            if old['name']!=new['name']:raise ValueError('Fault comparison names differ')
+            faults.append(dict(candidate_id=f['candidate_id'],name=new['name'],family=c['variant']['family'],
+                design_name=c['variant']['name'],distance_m=c['request']['distance_m'],speed_cap_km_h=f['speed_cap_km_h'],
+                fixed=fault(old),feedback=fault(new)))
+    return dict(parent_study_id=study['parent_fixed_control']['study_id'],
+        fixed_arrivals=sum(c['summary']['numerical_arrival'] for c in study['fixed_control_cases']),
+        feedback_arrivals=study['conditional_arrivals'],normal_pairs=pairs,fault_pairs=faults,
+        policy_note='Common bounded policy and simulated observations; no feedback brake-point fitting. The model boundary stays at D, independent of berth tolerance. Initial applied hold and fault notifications are explicit assumptions. No physical protection qualification.')
 
 
 def delivery(study,bundle):
@@ -105,116 +140,140 @@ def requirements(study):
         category='project_preference',observable='moving_jerk_m_s3',unit='m/s3',operator='max',
         limit=study['brief']['comfort_jerk_target_m_s3'],provenance=None,obligation_kind=None,
         affected_interfaces=['ride-response','controls','contact'])
+    criteria['model.feedback_contract']=dict(id='model.feedback_contract',category='numerical_validity_domain',
+        observable='feedback_contract_supported',unit='1',operator='verified',limit=None,provenance=None,
+        obligation_kind=None,affected_interfaces=['control-model','simulated-observations','braking','route-boundary'])
     return dict(schema='osr-station-pair-requirement-context/1',study_id=study['study_id'],
         criteria=criteria,assessments=[requirement_policy.assess(
             dict(moving_jerk_m_s3=next(c['journey']['maximum_absolute_jerk_m_s3'] for c in study['cases']
-                if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h'])),
+                if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h']),
+                feedback_contract_supported=next(c['summary']['control_bounds_supported'] is True and c['summary']['model_route_boundary_exceeded'] is False
+                for c in study['cases'] if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h'])),
             criteria,candidate_id=f['candidate_id']) for f in study['finalists']],
         scope='Moving-jerk target is advisory; safety, protected service, accessibility and physical limits remain unsupported obligations',**FLAGS)
 
 
 def readme(study):
-    s=summary(study);rows=[]
+    s=summary(study);compare=s['control_comparison'];rows=[]
     for f in s['finalists']:
         r=next(x for x in s['rows'] if x['candidate_id']==f['candidate_id'] and x['speed_cap_km_h']==f['speed_cap_km_h'])
-        p=r['installed_capital_usd']
-        rows.append(f"| {r['name']} | {r['actual_peak_km_h']:.1f} / {r['speed_cap_km_h']:.0f} | {r['journey_s']:.1f} s | {r['mass_kg']/1000:.2f} t | {r['full_grid_kwh']:.2f} | ${p['low']/1e6:.2f} / ${p['base']/1e6:.2f} / ${p['high']/1e6:.2f}m |")
+        prices=r['installed_capital_usd'];arrival=f"{r['journey_s']:.1f} s" if r['journey_s'] is not None else 'Held or missed berth'
+        speed=f"{r['actual_peak_km_h']:.1f}" if r['actual_peak_km_h'] is not None else 'Not run'
+        rows.append(f"| {r['name']} | {speed} / {r['speed_cap_km_h']:.0f} | {arrival} | ${prices['low']/1e6:.2f} / ${prices['base']/1e6:.2f} / ${prices['high']/1e6:.2f}m |")
     return f'''# Candidate-linked station-pair comparison
 
-**[Open the interactive comparison](index.html)** · [Results and traces](study.json.gz) ·
-[Mass reconciliation](mass-reconciliation.json.gz) · [Manufacturing/construction draft](delivery-draft.json.gz)
-· [Requirement/evidence assessment](requirement-assessments.json)
+**[Open the interactive comparison](index.html)** · [Full results and traces](study.json.gz) ·
+[Mass reconciliation](mass-reconciliation.json.gz) · [Delivery draft](delivery-draft.json.gz) ·
+[Requirement/evidence assessment](requirement-assessments.json).
 
-This is one executable path from the **605-type, six-car parts proposal** through
-mass scenarios, available-rating hypotheses, Rust force-driven motion, independent
-braking, fleet, civil quantities and a complete scoped budget. It creates no
-movement authority, reference adoption or engineering approval.
+This executable research path connects the **605-type, six-car parts proposal** to
+mass scenarios, source-rating force hypotheses, Rust motion and braking, fleet,
+civil quantities, costs and disabled manufacturing/construction records. It
+compares a fixed nominal braking point with a bounded feedback controller on the
+same physical configurations. No reference adoption or operating authority follows.
 
-## Results under the declared assumptions
+## What changed
 
-The bounded study evaluates **{study['normal_case_count']} cases**, from 16 physical
-system definitions across four architecture families, two spacings and three speed
-caps. **{study['conditional_arrivals']} nominal conditional runs arrive**; {study['outline_screens']}
-also meet the declared time, moving-jerk, energy-residual, static-hold and demand
-screens. These are numerical research results, not the missing authenticated
-physical journeys in the historical 112-bundle portfolio.
+The original experiment is [retained with its exact source epoch](../../archives/station-pair-fixed-control-20261107/README.md).
+Its fixed controller remains reproducible. The current packet adds simulated
+position, speed and acceleration observations, explicit uncertainty and response
+bounds, pre-applied holding brakes and continuous distance feedback.
 
-The next-experiment examples below both use a **1.5 km, two-station, two-track pilot**,
-276 normal passenger places, 4,000 peak passengers/hour/direction and 85% planning
-occupancy. The demand-led headway is **200 s**, providing **4,222.8 planning
-places/hour/direction**. This is capacity arithmetic, not protected timetable proof.
+**Feedback braking points are never fitted offline or separately per fault.**
+All mass, wind, grade, force and sensor experiments retain the same policy bounds
+for each architecture. Grade and drive-fault notifications are explicit assumed
+observations. Tests include both notified and unobserved partial drive failure.
+The actual plant values remain separate from the controller's declared bounds;
+posthoc domain diagnostics expose disagreements without passing truth to control.
 
-| Next experiment | Actual peak / cap km/h | Moving time | Conditional loaded mass | Full grid kWh/departure | Pilot installed USD low / base / high |
-|---|---:|---:|---:|---:|---:|
+The model travel boundary is **D**, the declared station target. The existing
+plus/minus 2 m berth accuracy does not grant extra travel beyond D. Histories are
+not snapped to a station. Bounded low-speed docking is permitted only where the
+candidate already has powered hardware at the destination; cable designs receive
+no invented force after their launch window.
+
+## Results under assumptions
+
+There are **{study['normal_case_count']} nominal cases**: four propulsion families,
+two station spacings and three speed caps. The fixed method gives
+**{compare['fixed_arrivals']} conditional arrivals**; feedback gives
+**{compare['feedback_arrivals']}**. The viewer shows every paired result, including
+short stops, departure holds, authority overruns and out-of-domain assumptions.
+Arrival counts alone do not measure physical feasibility or qualified protection.
+
+The original fixed cohorts remain in the paired experiments. Additional nominees
+come from the feedback nominal screens, before inspecting the common fault suite.
+They are next experiments, not an integrated selection. These examples use a **1.5 km,
+two-station, two-track pilot**, 276 passenger places, 4,000 peak passengers/hour/
+direction and 85% planning occupancy. The demand-derived 200 s headway provides
+4,222.8 planning places/hour/direction; timetable protection remains unverified.
+
+| Paired experiment | Actual peak / cap km/h | Feedback berth result | Pilot installed USD low / base / high |
+|---|---:|---:|---:|
 '''+ '\n'.join(rows)+f'''
 
-Prices include four trainsets for these pilot examples, two accessible stations,
-two-track reference-box concrete quantities, rails/fasteners, shared supports,
-erection allowances, candidate propulsion, grid and hotel chargers, protection,
-depot, assembly/test/setup, integration and contingency. **These are not 30 km city
-prices, supplier quotations or demonstrated mass-purchase discounts.** Purchased
-custom and local-assembly scenarios primarily vary setup allowances; they do not
-establish a make-versus-buy productivity advantage. The report provides all cost
-accounts and 30-year discounted scenarios, including renewal and operating costs.
+Budgets include rolling stock, stations/access, reference-box concrete quantities,
+rails/fasteners, shared supports, erection, propulsion, grid/hotel chargers,
+protection, depot, assembly/test/setup, integration and contingency. Failed or
+held journeys retain an explicit provisional runtime allowance; their energy and
+whole-life operating totals stay unknown. **These are pilot budgets, not 30 km
+city prices, quotations or demonstrated bulk-purchase discounts.** Local assembly
+versus purchased-custom figures primarily vary setup allowances, not proven
+productivity. Every cost account states its basis and exclusions.
 
-## What the comparison revealed
+## Findings that remain important
 
-- **Mass is reconciled, not measured:** the exact counted catalogue plus explicit
-  2/5/10 t installation reserves gives loaded, architecture-before-additions
-  scenarios of approximately 101.19 / 115.51 / 137.30 t. Driven-wheel equipment is
-  added separately. The 105.25 m body-plus-gap length, 24 service actuators and
-  760 mm wheels belong to this new proposal. Actual installed CG, inertia, axle
-  loads, trim, service access and full CAD assembly remain unresolved.
-- **A speed cap is not a speed requirement.** The cheap six-motor, 200 m cable
-  example peaks near 44 km/h under its 50 km/h cap. Its acceleration is force-limited
-  despite requesting 1 m/s². Longer windows and larger drives remain visible
-  alternatives; neither 72 km/h nor 900 m is prescribed.
-- **Fault replay exposes failure:** mass and wind changes miss the berth with the
-  nominal brake point. The ±2% grade controls expose missing hill-start protection
-  and substantial downhill overrun. Power-loss and emergency-stop examples on
-  level track use independent assumed pneumatic braking. They do not prove safe
-  recovery, wheel-slide protection, brake temperature or an operational controller.
-- **Jerk has two distinct results:** nominal moving jerk is calculated and screened;
-  the final rolling-to-held-stop acceleration transition remains unresolved. The
-  replay does not conceal emergency discontinuities or refit braking per fault.
-- **Auxiliaries matter:** continuous 35 kW/car, a 50 kW/car control, dwell and
-  terminal turn are accounted for, with 90% charging efficiency. Required dwell-only
-  recharge power is shown separately from propulsion peak power; charger curves,
-  battery SOC/temperature and depot/spare conditioning remain open.
-- **No regeneration saving is credited.** Detached tug/rope kinetic energy is
-  exported to a disposal/reset account, never silently donated to coasting. Return
-  energy and reset-time/force allowances are counted. The eight-cycle thermal RC
-  proxy is uncalibrated; reported journey peaks exclude reset-transient peaks and
-  idle motor/copper losses. It is not a thermal qualification.
-- **LIM and hybrid remain in the comparison:** absent candidate-specific available
-  force maps produce explicit holds, unknown energy/power/mass additions and
-  positive provisional cost reserves. They do not become zero-cost failures.
+- A passive train can brake but cannot add energy after leaving its powered
+  window. A short stop is retained as a performance failure; it is not corrected
+  by moving the recorded position. Receiving-side positioning equipment would
+  require its own physical definition, quantities, cost and dynamic evaluation.
+- On a constant +2% climb, the base 6% rotating-mass hypothesis gives at most
+  approximately **653 m coast from 60 km/h**, even ignoring air drag. The current
+  200/350 m launch windows leave 1,150–1,800 m to travel. Better control cannot
+  fix that energy deficit: change propulsion, speed or alignment.
+- The 35.56 kN brake-force and 90% controller-floor assumptions leave little
+  worst-case downhill authority at high mass. Slower running, conservative
+  refusal or a separately engineered brake/architecture change can be necessary.
+  No bound is weakened to make a candidate pass.
+- Simulated sensor biases, weaker-than-assumed brakes, delayed response and
+  unsupported tailwind remain explicit experiments. An arrival outside the
+  declared controller domain never establishes protected operation.
+- Final rolling-to-held-stop jerk, wheel-slide response, flexible-train dynamics,
+  brake heating, engagement and rescue still need appropriate models and evidence.
+  Emergency and supervisory discontinuities retain their calculated jerk.
 
-## From source to manufacture
+## Same-candidate manufacture, mass and cost
 
-The [parts catalogue](../vehicle-parts/index.html) supplies materials, multiplicity,
-stock/process allowances, joint/fixing proposals, QA and repair methods. The
-candidate-linked delivery draft scales those same parts to the pilot fleet, adds
-architecture equipment, and lists construction quantities and assembly dependencies.
-Its ERPNext-style records are **disabled**; no purchasing, work order or control
-transaction is performed. Production capacity and construction duration remain
-unknown until actual processes, drawings, sites and crews are sized.
+The [parts catalogue](../vehicle-parts/index.html) supplies materials, quantities,
+stock/process allowances, fixings, routes, QA and removal methods. Its 110,404 BOM
+units are reconciled in grouped occurrences, with shared inter-car parts counted
+once. Explicit 2/5/10 t installation reserves produce normal-loaded, before-drive-
+addition scenarios of approximately 101.19 / 115.51 / 137.30 t. These are counted
+stock and allowances, not measured installed weights. Driven-wheel additions are
+separate; installed CG/inertia, actual axle loads, trim and complete CAD remain open.
 
-The [civil geometry dossier](../viaduct-backends/README.md) provides the exact
-20 m reference-box geometry for fresh quantity calculations. Earlier FEM loads,
-prestress/reinforcement design, bearings, foundations and crane approval do not
-transfer to this heavier/different candidate. The base lift reserve exceeds a
-nominal 60 t class: configured radius/capacity, rigging and temporary stages need
-an actual lifting study.
+The body-plus-gap length is 105.25 m. End coupler projection, usable platform
+margin, installed equipment clashes and moving interfaces remain unknown. The
+exact [20 m civil geometry](../viaduct-backends/README.md) feeds fresh quantities,
+without inheriting earlier FEM loads, reinforcement, foundations or crane approval.
+The base lifting reserve exceeds a nominal 60 t class; actual radius, rigging and
+erection stability need a lifting study. Draft records are disabled: no purchasing,
+work order or control transactions occur. Production capacity and construction
+programme duration remain unverified.
 
-The standalone Rust kernel retains finite drive windows, force/power/contact caps,
-external rope/tug mass, grade, wind, drag, independent brakes, event transitions,
-temperature budget and work-energy residuals. Position is never reset to the berth.
-Native requests, failed trials and resource receipts remain in the private run;
-the portable packet contains all nominal/fault inputs and outputs for replay.
-All source hashes, physical/evaluation identities and cost ownership are checked.
+Energy includes propulsion, cable return/reset, continuous 35 kW/car auxiliaries,
+dwell, terminal turn and 90% charging efficiency; a 50 kW/car control is retained.
+Charging power is distinct from propulsion peak. Battery/charger limits and
+spare/depot conditioning remain open. No regeneration credit is invented.
+The repeated-duty RC proxy is uncalibrated, excludes idle motor/copper losses,
+and its reported journey peak excludes reset-transient peaks.
 
-## Reproduce
+The controller uses braking-curve principles described in the
+[ERA introduction, sections 3.1–3.3](https://www.era.europa.eu/system/files/2022-11/Introduction%20to%20ETCS%20braking%20curves.pdf):
+state uncertainty, braking buildup and track characteristics must be explicit.
+This research method is not an ETCS implementation or compliance claim.
+
+## Reproduce and challenge
 
 ```bash
 ./osr design station-pair plan
@@ -222,26 +281,25 @@ All source hashes, physical/evaluation identities and cost ownership are checked
 ./osr design station-pair publish --run /path/to/private/station-pair-run --output /path/to/fresh/publication
 ./osr design station-pair verify
 ./osr design station-pair verify --replay --state /path/to/private/replay
+./osr design station-pair history-verify
 ```
 
-Verification checks current source, candidate, mass, accounting and artifact
-identities. `--replay` separately rebuilds the locked Rust kernel and compares all
-published nominal, fault and timestep-refinement outputs. It requires Cargo's
-locked dependencies to be locally available. Independent tests cover numerical
-energy closure, cap/transition handling, faults and cache integrity. Verification
-does not grant physical acceptance.
+Verification checks source, physical/evaluation identities, identical controller
+policies, mass, cost ownership and every generated artifact. `--replay` rebuilds
+the locked Rust kernel and compares published fixed/feedback nominal, fault and
+refined-timestep outputs. Requests, unsuccessful trials, errors and resource
+receipts remain in the private run. Source development and numerical execution use
+separate directories; the worker process has explicit resource limits, not a
+claimed OS sandbox.
 
-### Evidence and next action
-
-Outline comparison and scoped pricing: **complete under stated assumptions**.
-Installed engineering, robust protected journey, manufacturing release and
-operation: **open**. There is no integrated selection. Resolve measured hot-duty
-force/brake/charger characteristics, installed equipment and axle reactions,
-adaptive protected stopping/hill starts, coupling/reset/rescue, civil moving loads
-and prototype correlation before advancing a candidate.
+Outline comparison and scoped pricing: **complete under assumptions**.
+Installed engineering, robust protected service, manufacturing and operation:
+**open**. Resolve measured actuator/brake/charging characteristics, installed
+geometry, axle reactions, receiving/positioning behaviour, civil moving loads and
+prototype correlation before advancing an integrated design.
 
 Study `{study['study_id']}` · body `{study['body_candidate_id']}`.
-Canonical source: [engineering/station_pair](../../../engineering/station_pair/).
+[Canonical source](../../../engineering/station_pair/).
 '''
 
 
@@ -295,34 +353,86 @@ def verify(*,root=ROOT,output=None,replay=False,state=None):
     brief,bundle,reconciliation,variants=coordinator.variants(root)
     if study['brief']!=brief or study['mass_evaluation_id']!=reconciliation['evaluation_id']:
         raise ValueError('Study input or mass evaluation differs')
+    if study.get('schema')!='osr-station-pair-study/2' or study.get('parent_fixed_control')!=history.verify(root):
+        raise ValueError('Feedback study must retain the exact fixed-control source epoch')
+    if study.get('feedback_brake_point_fits')!=0:raise ValueError('Feedback cannot fit per-case brake points')
+    if (study.get('integrated_selection') is not None or study.get('available_operating_maps_added')!=0
+        or study.get('priced_city_models_replaced')!=0 or study.get('regeneration_saving_credited') is not False):
+        raise ValueError('Research control cannot select a railway, add force evidence or silently reprice cities')
     byid={v['candidate_id']:v for v in variants};requests=[];expected=[]
-    for c in study['cases']:
-        v=c['variant'];r=c['journey'];q=c['request'];_sealed(r,'evaluation_id')
-        if v!=byid.get(v['candidate_id']) or q['candidate_id']!=v['candidate_id'] or r['native_input_id']!=identity(q):
-            raise ValueError('Mixed journey physical/request identity')
-        nominal=coordinator.case_for(v,bundle,reconciliation,brief,speed_km_h=c['summary']['speed_cap_km_h'])
-        nominal['brake_start_m']=q['brake_start_m'];nominal['id']=identity({k:v for k,v in nominal.items() if k!='id'})
-        if q!=nominal:raise ValueError('Nominal request differs from declared candidate and brief')
+    def native_record(q,r):
+        _sealed(q,'id');_sealed(r,'evaluation_id')
+        if r['candidate_id']!=q['candidate_id'] or r['id']!=q['id'] or r['native_input_id']!=identity(q):
+            raise ValueError('Mixed native physical/request identity')
         if any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','operating_release','admitted_operating_map')):
             raise ValueError('Native conditional record cannot grant release')
+        p=r.get('control');contract=q.get('control')
+        if contract is None:
+            if p is not None:raise ValueError('Fixed request acquired an undeclared feedback controller')
+        else:
+            if p is None or p['policy_id']!=contract['policy_id'] or p['protected_service_qualified'] is not False:
+                raise ValueError('Feedback policy/qualification identity differs')
+            outside=r['final_position_m']>contract['end_of_authority_m']+1e-8
+            if outside and (not p['end_of_authority_violated'] or r['normal_numerical_arrival'] or r['fault_stop_in_route']):
+                raise ValueError('Travel boundary overrun cannot become successful arrival or fault stop')
+        requests.append(q);expected.append(r)
+    def check_normal(c,mode):
+        v=c['variant'];r=c['journey'];q=c['request']
+        if v!=byid.get(v['candidate_id']) or q['candidate_id']!=v['candidate_id']:
+            raise ValueError('Mixed journey physical/request identity')
+        nominal=coordinator.case_for(v,bundle,reconciliation,brief,
+            speed_km_h=c['summary']['speed_cap_km_h'],control_mode=mode,root=root)
+        if mode=='fixed':
+            if type(q['brake_start_m']) not in (int,float) or not 0<=q['brake_start_m']<=q['distance_m']:
+                raise ValueError('Fixed nominal brake point outside route')
+            nominal['brake_start_m']=q['brake_start_m']
+        nominal['id']=identity({k:v for k,v in nominal.items() if k!='id'})
+        if q!=nominal:raise ValueError('Nominal request differs from declared candidate, controller and brief')
+        native_record(q,r)
         if c['cost']!=economics.evaluate(v,r,bundle,reconciliation,brief,root=root):raise ValueError('Cost replay differs')
         want=coordinator._brief_result(v,q,r,c['cost'],brief)
         if any(c['summary'].get(k)!=val for k,val in want.items()):raise ValueError('Comparison row differs')
-        requests.append(q);expected.append(r)
+    for c in study['cases']:check_normal(c,'feedback')
+    for c in study['fixed_control_cases']:check_normal(c,'fixed')
     if study['rows']!=[c['summary'] for c in study['cases']]:raise ValueError('Study rows differ')
+    case_count=len(variants)*len(brief['speed_caps_km_h'])
+    for group in ('cases','fixed_control_cases'):
+        if len(study[group])!=case_count or len({(c['variant']['candidate_id'],c['summary']['speed_cap_km_h']) for c in study[group]})!=case_count:
+            raise ValueError('Controller comparison omitted or duplicated a nominal case')
+    if study['normal_case_count']!=case_count or study['conditional_arrivals']!=sum(c['journey']['normal_numerical_arrival'] for c in study['cases']):
+        raise ValueError('Nominal counters differ')
+    if study['outline_screens']!=sum(r['outline_screen'] for r in study['rows']):raise ValueError('Outline counter differs')
+    for row in study['rows']:
+        cohort=[x for x in study['rows'] if x['distance_m']==row['distance_m'] and x['outline_screen']]
+        objectives=('base_installed_usd','journey_s','full_grid_kwh')
+        expected_front=row['outline_screen'] and not any(all(x[k]<=row[k] for k in objectives)
+            and any(x[k]<row[k] for k in objectives) for x in cohort)
+        if row['pareto_for_next_experiment'] is not expected_front:raise ValueError('Partial experiment front differs')
+    choices=coordinator.choose_experiments(study['fixed_control_cases'],study['cases'])
+    selected=[c for c,_ in choices]
+    if study['next_experiment_candidate_ids']!=[c['variant']['candidate_id'] for c in selected]:
+        raise ValueError('Experiment selection changed after seeing feedback fault results')
+    if [(f['candidate_id'],f['speed_cap_km_h']) for f in study['finalists']]!=[(c['variant']['candidate_id'],c['summary']['speed_cap_km_h']) for c in selected]:
+        raise ValueError('Selected paired fault experiment was omitted or changed')
+    if [f['experiment_purpose'] for f in study['finalists']]!=[purpose for _,purpose in choices]:raise ValueError('Experiment selection purpose differs')
     for f in study['finalists']:
         nominal=next(c for c in study['cases'] if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h'])
-        for t in f['cases']:
-            q=t['request'];r=t['result'];_sealed(r,'evaluation_id')
-            _sealed(q,'id')
-            if (q['candidate_id']!=f['candidate_id'] or q['brake_start_m']!=nominal['request']['brake_start_m']
-                    or r['candidate_id']!=q['candidate_id'] or r['native_input_id']!=identity(q)):
-                raise ValueError('Fault replay changed candidate or nominal braking setting')
-            requests.append(q);expected.append(r)
+        fixed=next(c for c in study['fixed_control_cases'] if c['variant']['candidate_id']==f['candidate_id'] and c['summary']['speed_cap_km_h']==f['speed_cap_km_h'])
+        for key,base in (('cases',nominal),('fixed_control_cases',fixed)):
+            trials=coordinator.followup_requests(base['variant'],bundle,reconciliation,brief,base['request'],root=root)
+            if len(trials)!=len(f[key]):raise ValueError('Fault comparison omitted a declared trial')
+            for (name,q),t in zip(trials,f[key]):
+                if name!=t['name'] or q!=t['request']:raise ValueError('Fault replay changed the common policy, observations or plant')
+                if t['unpowered_route_energy_bound']!=coordinator.coast_bound(base['variant'],q):raise ValueError('Coast energy bound differs')
+                native_record(q,t['result'])
+                if q.get('control') is not None:
+                    if not control_policy.same_policy(q['control'],nominal['request']['control']):raise ValueError('Fault controller bounds changed')
+                    if (name.startswith('outside-') or name=='tailwind-unsupported') and t['result']['control']['bounds_valid'] is not False:
+                        raise ValueError('Unsupported plant/observation cannot become an in-domain control result')
         q=dict(nominal['request'],dt_s=brief['refined_dt_s']);q['id']=identity({k:v for k,v in q.items() if k!='id'})
-        r=f['refinement']['result'];_sealed(r,'evaluation_id')
-        if r['native_input_id']!=identity(q):raise ValueError('Refined request differs')
-        requests.append(q);expected.append(r)
+        r=f['refinement']['result'];native_record(q,r)
+        change=r['final_position_m']-nominal['journey']['final_position_m']
+        if f['refinement']['final_position_change_m']!=change:raise ValueError('Coupled timestep sensitivity differs')
     for n,raw in artifacts(study,reconciliation,bundle,root).items():
         got=(output/n).read_bytes()
         if n.endswith('.gz'):got=gzip.decompress(got);raw=gzip.decompress(raw)
@@ -338,4 +448,5 @@ def verify(*,root=ROOT,output=None,replay=False,state=None):
     return dict(verified=True,study_id=study['study_id'],manifest_id=m['manifest_id'],
         conditional_arrivals=study['conditional_arrivals'],normal_cases=study['normal_case_count'],
         fault_cases=sum(len(f['cases']) for f in study['finalists']),native_replayed=replay,
-        native_replayed_cases=len(requests) if replay else 0,**FLAGS)
+        native_replayed_cases=len(requests) if replay else 0,
+        unique_native_replayed_cases=len({identity(q) for q in requests}) if replay else 0,**FLAGS)
