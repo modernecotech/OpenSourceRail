@@ -69,6 +69,7 @@ def proposed_parts(bundle,p,battery_layout='thin-distributed'):
         if mass is None:
             mass={c:prod(stock['size_m'])*rho[row['material_id']] for c in CASES}
         row['mass_each_kg']=mass;row['direct_cost_each_usd']=_price(mass,row['material_id'],p)
+        row['cost_basis']='Calculated revision: declared material rate/yield plus process labour, machine/QA and overhead included once; excludes final integration, qualification, delivery and tax; no supplier quotation'
         row['mass_basis']=dict(kind='calculated-stock' if stock and stock['kind']=='box' else 'proposed-allowance',description=reason)
         row['component_definition_id']=identity({k:row[k] for k in ('id','assembly_id','stock','quantity_per_assembly','material_id')})
         revisions.append(dict(source_part_id=old['id'],proposed_part_id=row['id'],old_quantity_per_train=old['quantity_per_train'],new_quantity_per_train=row['quantity_per_train'],
@@ -99,6 +100,7 @@ def proposed_parts(bundle,p,battery_layout='thin-distributed'):
         copper=l['battery_flexible_link_length_m']*l['battery_flexible_link_copper_area_mm2']*1e-6*8960
         row['mass_each_kg']={c: copper*l['battery_flexible_link_insulation_mass_factor']*f for c,f in zip(CASES,(.9,1.,1.2))}
         row['direct_cost_each_usd']=_price(row['mass_each_kg'],row['material_id'],p)
+        row['cost_basis']='Calculated proposal includes material/yield, process labour, machine/QA and overhead once; copper rate conservatively applied to cable assembly mass including insulation; no supplier quotation'
         row['mass_basis']=dict(kind='proposed-allowance',description='Declared copper area/length plus insulation factor; no ampacity or thermal approval')
         row['component_definition_id']=identity({k:row[k] for k in ('id','stock','material_id','quantity_per_assembly')});rows.append(row)
         for label,quantity,size in (('side',30,[1.866,.015,.165]),('end',30,[.015,.266,.165]),('horizontal',30,[1.896,.296,.015])):
@@ -108,6 +110,7 @@ def proposed_parts(bundle,p,battery_layout='thin-distributed'):
             liner['mass_basis']=dict(kind='calculated-proposed-material',description='Unqualified insulation/fire barrier; bounded density, no fire resistance or conductivity credit')
             liner['direct_cost_each_usd']=_price(liner['mass_each_kg'],liner['material_id'],p)
             liner['component_definition_id']=identity({k:liner[k] for k in ('id','stock','material_id','quantity_per_assembly')})
+            liner['cost_basis']='Calculated proposal includes barrier material/yield, cutting/fitting labour, machine/QA and overhead once; no supplier or fire qualification'
             liner['manufacturing']=['Cut separate panels; fit without blocking vents/drains; supplier thermal and fire qualification required']
             liner['joining']='Mechanically captive inside enclosure; adhesive and thermal bridge details remain open'
             liner['maintenance_removal']='Isolate and lower pod; remove lid, modules and liner; inspect/replace after damage'
@@ -506,6 +509,9 @@ def build(root=ROOT,*,battery_layout='thin-distributed'):
         if sum(r['count'] for r in patterns if r['part_id']==part['id'])!=part['quantity_per_train']:raise ValueError('Part quantity expanded more/less than once')
     result=dict(schema='osr-vehicle-installation/1',candidate_id=cid,physical_definition=physical,parent_candidate_id=b['candidate_id'],parent_bundle_id=b['bundle_id'],
         proposed_component_types=len(parts),source_component_types=len(b['parts']),assembly_occurrences=templates,
+        materials=deepcopy(b['materials'])+([dict(id='installation/thermal-barrier',name='Proposed unspecified thermal/fire-barrier panel',
+            density_cases_kg_m3=dict(zip(CASES,p['evaluation']['insulation_density_kg_m3'])),thickness_m=p['layout']['battery_insulation_thickness_m'],
+            thermal_conductivity_W_mK=None,fire_classification=None,scope='Counted outline material hypothesis; supplier composition, conductivity and railway fire qualification are open')] if battery_layout=='thin-distributed' else []),
         patterns=patterns,parts=parts,revisions=revisions,mass_scenarios=scenarios,mass_uncertainty=outer,
         nominal_part_mass_kg=nominal,source_part_mass_kg=b['nominal_mass_kg']['known_leaf_subtotal'],
         direct_parts_process_usd=direct,source_direct_parts_process_usd=b['direct_parts_process_usd']['known_leaf_subtotal'],
