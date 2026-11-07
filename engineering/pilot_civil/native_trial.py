@@ -98,7 +98,9 @@ def trial(spec,folder,*,size_m=.3):
     worker=out/'mesh-worker.py';worker.write_text(fem.GMSH_WORKER.replace("faces=[]","if len(elements)>20000:raise ValueError('Cell budget exceeded; execution retained')\nfaces=[]"))
     req=dict(step=str(step),volume=spec['nominal_quantity']['total_nominal_volume_m3'],size=size_m,output=str(out/'mesh-native/imported.json'),msh=str(out/'mesh-native/imported.msh'))
     native.write(out/'mesh-request.json',req)
-    python=str((ROOT/'.venv/bin/python').resolve());execution=fem.bounded([python,str(worker),str(out/'mesh-request.json')],out/'mesh-native',read_roots=(out,Path(python).parent.parent),timeout_s=58)
+    # Resolve the environment directory, not its Python symlink. Invoking the
+    # system interpreter directly loses the venv's gmsh package discovery.
+    python=str((ROOT/'.venv').resolve()/'bin/python');execution=fem.bounded([python,str(worker),str(out/'mesh-request.json')],out/'mesh-native',read_roots=(out,Path(python).parent.parent),timeout_s=58)
     result=dict(schema='osr-pilot-civil-native-trial/1',input_id=spec['input_id'],candidate_id=spec['candidate_id'],system_candidate_id=spec['system_candidate_id'],size_m=size_m,mesh_execution=execution,**FLAGS)
     if execution['state']!='executed':
         result['failure_reason']='Exact STEP mesh failed; retained without substituted mesh';native.write(out/'result.json',seal(result));return result
