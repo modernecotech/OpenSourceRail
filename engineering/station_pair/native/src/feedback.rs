@@ -335,6 +335,7 @@ pub(super) fn evaluate_with_recovery(
     let mut launched = false;
     let mut braking = false;
     let mut docking = false;
+    let mut quiet_dock_stop = false;
     let mut docking_moved = false;
     let mut docking_started = 0.;
     let mut failed = false;
@@ -442,33 +443,22 @@ pub(super) fn evaluate_with_recovery(
             braking = true;
             event(&mut r, "feedback-normal-brake-command", t, x, v);
         }
-        if quiet_cycle
-            && !docking
-            && braking
-            && !fault
-            && !p.drive_fault_observed
-            && observed_v < 0.3
-            && c.distance_m - observed_x < 5.
-        {
-            if let Some(target) = quiet_dock_target {
-                let covered = d.windows_m.iter().any(|w| {
-                    observed_x - p.position_error_bound_m >= w[0]
-                        && observed_x + p.position_error_bound_m < w[1]
-                        && target + p.position_error_bound_m <= w[1]
-                });
-                if covered {
-                    docking = true;
-                    docking_moved = true;
-                    docking_started = t;
-                    diag.docking_attempts += 1;
-                    event(&mut r, "bounded-brake-preloaded-berth-approach", t, x, v);
-                }
-            }
-        }
         let hard =
             margin < 0. && launched || docking && observed_v + p.speed_error_bound_m_s >= 0.5;
         if hard {
             diag.supervisory_interventions += 1;
+        }
+        if quiet_cycle
+            && docking
+            && !quiet_dock_stop
+            && observed_x
+                >= c.distance_m - c.berth_tolerance_m
+                    + p.position_error_bound_m
+                    + p.stopping_margin_m * 0.1
+            && observed_v <= 0.15
+        {
+            quiet_dock_stop = true;
+            event(&mut r, "bounded-berth-band-brake-settle", t, x, v);
         }
         let h0 = c.dt_s.min(c.max_time_s - t);
         let mut target_traction = 0.;
@@ -523,6 +513,9 @@ pub(super) fn evaluate_with_recovery(
                 target_traction =
                     target_traction.min(0.2 * p.mass_lower_kg * c.comfort_jerk_m_s3 * time_to_exit);
             }
+        }
+        if quiet_cycle && docking && quiet_dock_stop {
+            target_traction = 0.;
         }
         let old_traction = traction_command;
         let old_request = brake_request;
