@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,threading
 from engineering.station_rail.common import digest
-from . import publication
+from . import publication,coordinator
 
 _lock=threading.RLock()
 _verified={}
@@ -21,7 +21,7 @@ def verify_asset(root,relative,target):
             if digest(manifest)!=token:raise ValueError('Station-cycle publication changed while verifying')
             if len(_verified)>=8:_verified.clear()
             _verified[key]=token
-        if (name!='manifest.json' and name not in m['files_sha256']) or publication.sources(root)!=m['source_sha256']:
+        if (name!='manifest.json' and name not in m['files_sha256']) or coordinator.sources(root)!=m['source_sha256']:
             raise ValueError('Station-cycle source changed; regenerate the comparison')
         got={p.relative_to(folder).as_posix():digest(p) for p in folder.rglob('*') if p.is_file() and p!=manifest}
         if got!=m['files_sha256'] or digest(manifest)!=token:raise ValueError('Station-cycle asset changed')
