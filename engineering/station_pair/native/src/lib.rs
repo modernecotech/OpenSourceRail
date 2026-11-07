@@ -7,6 +7,7 @@ const G: f64 = 9.80665;
 pub mod cycle;
 mod cycle_release;
 mod feedback;
+pub mod fleet;
 pub use feedback::{FeedbackControl, FeedbackDiagnostics, stopping_distance_bound};
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]

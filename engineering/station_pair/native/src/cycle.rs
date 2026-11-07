@@ -278,6 +278,26 @@ fn age(states: &mut [StationState], specs: &[Station], dt: f64) -> f64 {
     }
     loss
 }
+#[derive(Debug, Clone)]
+pub(crate) struct MechanicalStep {
+    pub start_s: f64,
+    pub h: f64,
+    pub x: f64,
+    pub v0: f64,
+    pub v1: f64,
+    pub dx: f64,
+    pub traction_n: f64,
+    pub brake_n: f64,
+    pub fault: bool,
+    pub acceleration: f64,
+    pub previous_acceleration: f64,
+    pub previous_h: f64,
+}
+pub(crate) struct RecordedMotion {
+    pub journey: ResultRow,
+    pub steps: Vec<MechanicalStep>,
+    pub arrival_temperature_c: Option<f64>,
+}
 /// Runtime hook is absent from all retained ordinary journey evaluations.
 pub(super) struct Runtime<'a> {
     pub states: &'a mut [StationState],
@@ -290,8 +310,15 @@ pub(super) struct Runtime<'a> {
     pub initial_position_m: f64,
     next_trace_s: f64,
     release_runtime: Option<ReleaseRuntime>,
+    pub recorded_steps: Option<Vec<MechanicalStep>>,
+    pub moving_final_temperature_c: Option<f64>,
 }
 impl<'a> Runtime<'a> {
+    pub fn record_step(&mut self, step: MechanicalStep) {
+        if let Some(v) = self.recorded_steps.as_mut() {
+            v.push(step);
+        }
+    }
     #[allow(clippy::too_many_arguments)]
     pub fn observe_motion(
         &mut self,
@@ -596,6 +623,8 @@ pub fn evaluate(c: &CycleCase) -> Result<CycleResult, String> {
             initial_position_m: initial_x,
             next_trace_s: 0.,
             release_runtime: c.release_control.clone().map(ReleaseRuntime::new),
+            recorded_steps: None,
+            moving_final_temperature_c: None,
         };
         let mut journey = feedback::evaluate_with_recovery(
             &l.journey,
@@ -807,5 +836,93 @@ pub fn execute(q: Request) -> Result<BatchResult, String> {
     Ok(BatchResult {
         schema: "osr-station-cycle-result/1",
         cases,
+    })
+}
+
+/// Full-grid motion does not depend on the future store state in substitution
+/// mode. Record every accepted mechanical step; the fleet engine alone applies
+/// actual shared-store transactions in chronological order.
+pub(crate) fn record_grid_motion(
+    c: &Case,
+    initial_position_m: f64,
+    policy: &ReleaseControl,
+) -> Result<RecordedMotion, String> {
+    valid(c)?;
+    policy.validate()?;
+    let p = c
+        .control
+        .as_ref()
+        .ok_or("Fleet motion requires the bounded feedback policy")?;
+    let station = |id: &str| Station {
+        id: id.into(),
+        initial_energy_j: 0.,
+        store: Store {
+            capacity_j: 0.,
+            capture_efficiency: 1.,
+            release_efficiency: 1.,
+            leakage_per_s: 0.,
+        },
+        capture_stages: vec![Transfer {
+            start_m: 0.,
+            end_m: c.distance_m,
+            max_force_n: 0.,
+            max_power_w: 0.,
+        }],
+        release: Transfer {
+            start_m: 0.,
+            end_m: c.distance_m,
+            max_force_n: 0.,
+            max_power_w: 0.,
+        },
+        reset: Reset {
+            duration_s: 0.,
+            grid_energy_j: 0.,
+            grid_power_w: 0.,
+        },
+    };
+    let specs = vec![station("record-A"), station("record-B")];
+    let mut states: Vec<StationState> = specs
+        .iter()
+        .map(|s| StationState {
+            id: s.id.clone(),
+            energy_j: 0.,
+            ready: true,
+            ready_at_s: 0.,
+            locked_until_s: 0.,
+        })
+        .collect();
+    let leg = Leg {
+        train_id: "mechanical-recording".into(),
+        journey: c.clone(),
+        departure_station_id: specs[0].id.clone(),
+        arrival_station_id: specs[1].id.clone(),
+        departure_time_s: 0.,
+        departure_authorized: true,
+        capture_failed: true,
+        release_failed: true,
+        reset_failed: false,
+    };
+    let mut runtime = Runtime {
+        states: &mut states,
+        specs: &specs,
+        leg: &leg,
+        dep: 0,
+        arr: 1,
+        energy: LegEnergy {
+            capture_stage_work_j: vec![0.],
+            ..Default::default()
+        },
+        events: vec![],
+        initial_position_m,
+        next_trace_s: 0.,
+        release_runtime: Some(ReleaseRuntime::new(policy.clone())),
+        recorded_steps: Some(vec![]),
+        moving_final_temperature_c: None,
+    };
+    let journey = feedback::evaluate_with_recovery(c, p, Some(&mut runtime))?;
+    Ok(RecordedMotion {
+        journey,
+        steps: runtime.recorded_steps.unwrap(),
+        arrival_temperature_c: runtime.moving_final_temperature_c,
     })
 }
