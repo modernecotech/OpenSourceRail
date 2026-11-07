@@ -1,0 +1,30 @@
+{
+  "schema": "osr-station-pair-mass-policy/1",
+  "purpose": "Explicit layout and residual-mass sensitivity; not installed geometry",
+  "maximum_group_rows": 5000,
+  "reserve_allocation": "equal-share-six-cars",
+  "shared_intercar_allocation": "half-to-each-adjacent-car",
+  "gravity_m_s2": 9.80665,
+  "default_centroid_box_m": [[-8.5,8.5],[-1.325,1.325],[0.0,4.5]],
+  "assembly_centroid_boxes_m": {
+    "body/roof": [[-8.5,8.5],[-1.325,1.325],[3.35,4.5]],
+    "services/hvac": [[-8.5,8.5],[-1.325,1.325],[3.35,4.5]],
+    "services/pv": [[-8.5,8.5],[-1.325,1.325],[3.35,4.5]],
+    "services/battery": [[-5.1,5.1],[-1.325,1.325],[0.05,1.0]],
+    "body/door-opening": [[-4.8,4.8],[1.2,1.5],[1.0,3.6]],
+    "body/door-leaf": [[-5.5,5.5],[1.2,1.5],[1.0,3.3]],
+    "services/door-electrical": [[-4.8,4.8],[1.2,1.5],[1.0,3.6]]
+  },
+  "shared_centroid_box_relative_to_connection_m": [[-1.0,1.0],[-1.325,1.325],[0.0,4.5]],
+  "shared_assembly_ids": ["running/intercar-coupler","running/passenger-gangway","services/intercar-electrical","services/gangway-lighting"],
+  "terminal_assembly_ids": ["running/end-rescue-coupler","body/terminal-end","body/terminal-window"],
+  "passage_end_assembly_id": "body/passage-end",
+  "actual_installed_positions_known": false,
+  "centroid_boxes_are_guaranteed_physical_bounds": false,
+  "shared_load_transfer_verified": false,
+  "reserve_covers_all_remaining_unknowns": false,
+  "gross_stock_trim_deductions_allowed": false,
+  "physical_accepted": false,
+  "engineering_accepted": false,
+  "installed_mass_complete": false
+}
