@@ -47,6 +47,11 @@ on:
       - "docs/design-engine/station-pair/**"
       - "docs/archives/station-pair-fixed-control-20261107/**"
       - "tests/test_station_pair*.py"
+      - "engineering/station_cycle/**"
+      - "docs/design-engine/station-cycle/**"
+      - "docs/archives/station-pair-feedback-20261107/**"
+      - "tests/test_station_cycle*.py"
+      - "tools/automation/check-station-cycle-ui.mjs"
       - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
       - "tests/test_rustgis.py"
@@ -155,6 +160,11 @@ on:
       - "docs/design-engine/station-pair/**"
       - "docs/archives/station-pair-fixed-control-20261107/**"
       - "tests/test_station_pair*.py"
+      - "engineering/station_cycle/**"
+      - "docs/design-engine/station-cycle/**"
+      - "docs/archives/station-pair-feedback-20261107/**"
+      - "tests/test_station_cycle*.py"
+      - "tools/automation/check-station-cycle-ui.mjs"
       - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
       - "tests/test_rustgis.py"
@@ -269,10 +279,13 @@ jobs:
           CARGO_BUILD_JOBS: "2"
           CARGO_TARGET_DIR: /tmp/osr-station-pair-test-target
         run: |
-          .venv/bin/python -m pytest -q tests/test_station_pair*.py
+          .venv/bin/python -m pytest -q tests/test_station_pair*.py tests/test_station_cycle*.py
           cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
           ./osr design station-pair verify --replay --state /tmp/osr-station-pair-replay
           ./osr design station-pair history-verify
+          ./osr design station-cycle history-verify
+          ./osr design station-cycle verify --replay --state /tmp/osr-station-cycle-replay
+          node tools/automation/check-station-cycle-ui.mjs
           node tools/automation/tests/verify-station-pair.mjs
       - name: Pinned native GIS interchange and source-preserving city exports
         run: |

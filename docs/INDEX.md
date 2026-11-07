@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **134**.
+Indexed Markdown files: **136**.
 
 ## Sections
 
@@ -23,8 +23,8 @@ Indexed Markdown files: **134**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 108 |
-| [engineering](#engineering) | 10 |
+| [docs](#docs) | 109 |
+| [engineering](#engineering) | 11 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -159,6 +159,7 @@ Indexed Markdown files: **134**.
 | [`docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md`](../docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) | Station-LIM bank RFQ scope drafts — October 2026 |
 | [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
 | [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
+| [`docs/design-engine/station-cycle/README.md`](../docs/design-engine/station-cycle/README.md) | Stateful station capture and relaunch |
 | [`docs/design-engine/station-pair/README.md`](../docs/design-engine/station-pair/README.md) | Candidate-linked station-pair comparison |
 | [`docs/design-engine/station-regenerative-launch/README.md`](../docs/design-engine/station-regenerative-launch/README.md) | Station regenerative capture, mechanical launch and compact booster: design plan |
 | [`docs/design-engine/supply-economics/README.md`](../docs/design-engine/supply-economics/README.md) | Project-volume purchasing and manufacturing |
@@ -197,6 +198,7 @@ Indexed Markdown files: **134**.
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |
+| [`engineering/station_cycle/README.md`](../engineering/station_cycle/README.md) | Station energy capture and controlled relaunch |
 | [`engineering/station_rail/README.md`](../engineering/station_rail/README.md) | v0.6 station-powered freewheeling rail |
 
 ## tools

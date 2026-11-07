@@ -242,3 +242,20 @@ def test_policy_change_produces_new_evaluation_not_new_physical_candidate(cost,b
     assert a['evaluation_id']!=b['evaluation_id']
     assert a['source_sha256'][lifecycle.POLICY]!=b['source_sha256'][lifecycle.POLICY]
     assert b['methods'][0]['installed_capital_usd']['base'] > a['methods'][0]['installed_capital_usd']['base']
+
+
+def test_original_station_and_depot_maintenance_is_not_silently_omitted(cost,brief):
+    # Independently summed synthetic fixture: grid140k + charger160k + signals180k
+    # + stationaccess24k + depotequipment50k. Civil/premises96k+150k.
+    result=lifecycle.evaluate(cost,brief)['methods'][0]['annual_operating']['base']
+    assert result['additional_maintenance_base']['equipment_usd']==554000.
+    assert result['additional_maintenance_base']['buildings_site_usd']==246000.
+    assert result['maintenance_usd']==pytest.approx(40000.+554000.*.04+246000.*.005)
+
+
+def test_new_site_support_uses_civil_maintenance_and_has_no_equipment_renewal(cost,brief):
+    a=lifecycle.evaluate(cost,brief)['methods'][0]
+    row=extra(cost,owner='storage-pad',scope='construction',renewal_class='site')
+    b=lifecycle.evaluate(cost,brief,extra_accounts=[row])['methods'][0]
+    assert b['annual_operating']['base']['maintenance_usd']-a['annual_operating']['base']['maintenance_usd']==pytest.approx(1000.)
+    assert not any(r['owner']=='extra/storage-pad' for r in b['renewal_events'])

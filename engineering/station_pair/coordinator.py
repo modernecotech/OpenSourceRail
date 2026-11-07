@@ -4,7 +4,7 @@ from math import ceil,pi,fsum,exp,sqrt
 from pathlib import Path
 import gzip,json,time
 from engineering.station_rail.common import encoded,identity,digest
-from . import ROOT,FLAGS,mass,profiles,economics,native_bridge,control_policy,history
+from . import ROOT,FLAGS,mass,profiles,economics,native_bridge,control_policy,history,lifecycle
 
 BRIEF='engineering/station_pair/study.json'
 
@@ -16,7 +16,7 @@ def source_hashes(root=ROOT):
         'control_policy.py','control-policy.json','history.py')]
     names += [profiles.ABB,profiles.TSA,economics.CIVIL,mass.INPUT,'engineering/station_rail/common.py']
     names += [history.OUTPUT+'/manifest.json',history.OUTPUT+'/packet-and-declared-sources.tar.gz']
-    return {**{n:digest(root/n) for n in names},**native_bridge.sources(root)}
+    return {**{n:digest(root/n) for n in names},**native_bridge.sources(root),**lifecycle.sources(root)}
 
 
 def inputs(root=ROOT):
@@ -323,6 +323,7 @@ def _run(output,root):
             recovery_between_stations_protected=False,regeneration_credit_J=None,
             periodic_thermal_qualification=False))
     if source_hashes(root)!=before:raise ValueError('Station-pair source changed during execution')
+    for c in full+fixed_full:c['lifecycle']=lifecycle.evaluate(c['cost'],brief,root=root)
     result=dict(schema='osr-station-pair-study/2',brief=brief,body_candidate_id=bundle['candidate_id'],
         body_bundle_id=bundle['bundle_id'],mass_evaluation_id=reconciliation['evaluation_id'],
         source_sha256=before,native_build_id=kernel[1]['receipt_id'],native_binary_sha256=kernel[1]['binary_sha256'],

@@ -254,17 +254,33 @@ def evaluate(cost, brief, *, extra_accounts=(), energy_context=None, root=ROOT):
             additional_energy = (reserve_kwh+depot_kwh)*brief['tariff_usd_kwh'][c]
             energy = None if primary is None else primary+additional_energy
             if energy is None: missing_energy.append(c)
-            extra_maintenance = extra_direct[c]*p['additional_equipment_annual_maintenance_fraction'][i]
+            equipment_rate=p['additional_equipment_annual_maintenance_fraction'][i]
+            civil_rate=p['additional_building_annual_maintenance_fraction'][i]
+            extra_equipment=fsum(r['cost_usd'][c] for r in extras if r.get('renewal_class')!='site')
+            extra_site=fsum(r['cost_usd'][c] for r in extras if r.get('renewal_class')=='site')
+            # Legacy maintenance owns fleet, guideway/supports and propulsion.
+            # These other original owners were never in its maintenance base.
+            access_fraction=p['station_access_equipment_fraction'][i]
+            depot_fraction=p['depot_replaceable_equipment_fraction'][i]
+            other_equipment=fsum(original[o]['cost_usd'][c] for o in
+                ('station-common-grid-feed','station-hotel-battery-chargers','signalling-protection-turnbacks'))
+            other_equipment+=original['station-civil-accessibility']['cost_usd'][c]*access_fraction
+            other_equipment+=original['depot-tools-utilities']['cost_usd'][c]*depot_fraction
+            other_buildings=original['station-civil-accessibility']['cost_usd'][c]*(1-access_fraction)
+            other_buildings+=original['depot-tools-utilities']['cost_usd'][c]*(1-depot_fraction)
+            extra_maintenance=(extra_equipment+other_equipment)*equipment_rate+(extra_site+other_buildings)*civil_rate
             annual[c] = dict(energy_usd=energy,primary_pilot_energy_usd=primary,
                 known_reserve_depot_energy_usd=additional_energy,reserve_auxiliary_grid_kwh=reserve_kwh,
                 depot_auxiliary_grid_kwh=depot_kwh,operations_usd=old['staff_usd'],
                 maintenance_usd=old['maintenance_usd']+extra_maintenance,
+                additional_maintenance_usd=extra_maintenance,
+                additional_maintenance_base=dict(equipment_usd=extra_equipment+other_equipment,buildings_site_usd=extra_site+other_buildings),
                 recovery_usd=p['rescue_standby_usd_year'][i],
                 reliability_usd=train_km*p['nonrepair_disruption_usd_train_km'][i])
         for key,scope,basis in (
             ('energy_usd','energy','Pilot trip/grid electricity plus explicit spare conditioning and depot loads. Unknown journey electricity remains unknown; no invented regeneration credit.'),
             ('operations_usd','operations','Original pilot paid operations/maintenance staffing retained once. No additional unpriced staffing assumed.'),
-            ('maintenance_usd','maintenance','Original routine maintenance retained; added equipment gets a declared routine materials/service reserve. Scheduled renewal excluded.'),
+            ('maintenance_usd','maintenance','Original fleet/guideway/propulsion maintenance retained; disjoint station/access/grid/charger/signalling/depot and added equipment/site reserves cover the previously omitted owners. Labour already in staffing; scheduled renewal excluded.'),
             ('recovery_usd','recovery','Protected rescue standby; excludes routine maintenance or purchase of rescue equipment.'),
             ('reliability_usd','reliability','Nonrepair disruption/replacement-service provision per scheduled train-km. Excludes repair labor/spares and does not establish availability.')):
             values = {c:None if annual[c][key] is None else annual[c][key]*annuity for c in CASES}

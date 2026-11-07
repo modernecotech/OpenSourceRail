@@ -114,6 +114,17 @@ The controller uses braking-curve principles described in the
 state uncertainty, braking buildup and track characteristics must be explicit.
 This research method is not an ETCS implementation or compliance claim.
 
+## Common fourteen-scope accounting
+
+The [expanded lifecycle ledgers](lifecycle-ledgers.json.gz) separately reconcile
+all fourteen scopes, including explicit land/utilities, rescue, reliability,
+component renewals, omitted station/depot maintenance and final disposal.
+These extend the original pilot budget without double-counting its accounts.
+The table above retains that original narrower budget for comparison. Financing,
+taxes, customs and exchange-rate policy remain separate project layers. Missing
+journey electricity keeps complete NPV unknown. The exact earlier feedback
+publication is [retained](../../archives/station-pair-feedback-20261107/README.md).
+
 ## Reproduce and challenge
 
 ```bash
@@ -139,5 +150,5 @@ Installed engineering, robust protected service, manufacturing and operation:
 geometry, axle reactions, receiving/positioning behaviour, civil moving loads and
 prototype correlation before advancing an integrated design.
 
-Study `5914dc6d539a5757ec5c4027a52d8aeda9ef7c05496d0e46b424afe89890d1f7` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
+Study `8505c6dea29f02ea435a62060ea1fba0af9c6a994ca0e5a4e640d62f89aa5ed1` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
 [Canonical source](../../../engineering/station_pair/).

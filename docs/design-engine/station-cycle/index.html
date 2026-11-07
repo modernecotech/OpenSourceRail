@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Compare source-linked railway arrival capture, stationary storage and controlled launch cycles, costs and unresolved service requirements.">
+  <title>Station energy cycle · OpenSourceRail</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#comparison">Skip to comparison</a>
+  <header class="site-header">
+    <a class="brand" href="../../workbench/current/index.html"><span class="brand-mark" aria-hidden="true">OSR</span><span>OpenSourceRail<small>Design workbench</small></span></a>
+    <nav aria-label="Page"><a href="#comparison">Compare</a><a href="#energy">Energy</a><a href="#journey">Journeys</a><a href="#cost">Costs</a><a href="#evidence">Evidence</a></nav>
+    <span class="pill">Conditional research</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">Capture · Hold · Return</p>
+      <h1 id="title">Can arrival energy power<br>the next departure?</h1>
+      <p class="lead">Follow a train between two stations, keeping each station’s stored energy separate. Compare a bare launcher with the same recovery hardware switched on and off, including its costs, losses and unsuccessful journeys.</p>
+      <div class="scope-note"><strong>A calculated cycle, not a qualified railway.</strong> Force sharing, storage properties, engagement and control are research assumptions. Independent brakes remain required; stored energy is released only with declared departure authority.</div>
+    </section>
+    <div id="loading" class="loading" role="status">Loading the source-linked cycle comparison…</div>
+    <section id="load-error" class="error-panel" hidden aria-live="assertive"><h2>Study unavailable</h2><p id="error-message"></p><button id="retry" type="button">Try again</button><p>Serve this viewer together with its exported <code>summary.json</code>.</p></section>
+    <div id="study-content" hidden>
+      <section class="metrics" aria-label="Study scope">
+        <article><span>Station pair</span><strong id="metric-distance">—</strong><small>Two stations · two tracks</small></article>
+        <article><span>Passenger formation</span><strong id="metric-people">—</strong><small>Six 17 m cars · no planned standing</small></article>
+        <article><span>Cycle sequence</span><strong id="metric-legs">—</strong><small>Serial journeys · separate station stores</small></article>
+        <article><span>Initial stored energy</span><strong>0 MJ</strong><small>Cold start · no free launch energy</small></article>
+      </section>
+      <aside id="service-warning" class="warning-note"><strong>Service frequency is still open.</strong> This is a serial shuttle calculation. It does not demonstrate the requested full-fleet headway, parallel operations, charging or station throughput.</aside>
+
+      <section id="comparison" class="section" aria-labelledby="comparison-title">
+        <div class="section-heading"><div><p class="eyebrow">Same transport goal</p><h2 id="comparison-title">Compare complete cycles</h2></div><p>A successful individual berth is distinct from completing the whole sequence or delivering the required passenger service.</p></div>
+        <form id="filters" class="filters" aria-label="Filter cycle comparison">
+          <label>Storage technology<select id="technology-filter"><option value="all">All configurations</option><option value="baseline">Bare launcher</option><option value="steel">Steel spring</option><option value="hydraulic">Hydraulic accumulator</option></select></label>
+          <label>Recovery<select id="recovery-filter"><option value="all">On and off</option><option value="on">Recovery on</option><option value="off">Recovery off</option></select></label>
+          <label>Speed cap<select id="speed-filter"><option value="all">All caps</option></select></label>
+          <button class="quiet" type="reset">Reset filters</button>
+        </form>
+        <div class="table-context"><p id="results-count" role="status" aria-live="polite"></p><p><strong>USD pilot totals.</strong> A two-station research pilot with its declared fleet and provisions. Not a 30 km corridor quotation or transferable city price.</p></div>
+        <div class="table-scroll comparison-scroll" tabindex="0" role="region" aria-label="Cycle comparison"><table class="comparison-table"><caption>Nominal cycles only. Faults and sensitivity cases remain visible below.</caption><thead><tr><th scope="col">Configuration</th><th scope="col">Calculated journeys</th><th scope="col">Capture / return</th><th scope="col">Grid traction / reset</th><th scope="col">Pilot CAPEX</th><th scope="col">Whole-life NPV</th></tr></thead><tbody id="comparison-body"></tbody></table></div>
+        <p class="footnote">“Recovery off” retains and prices the same hardware. The bare-launcher comparison has its own physical identity. No stored energy is borrowed from the destination or a future arrival, and no passive train receives propulsion beyond its declared powered zone.</p>
+      </section>
+
+      <section id="energy" class="section" aria-labelledby="energy-title">
+        <div class="section-heading"><div><p class="eyebrow">Energy must balance</p><h2 id="energy-title">Where does the energy go?</h2></div><p>Capture losses, release losses, storage leakage and reset electricity stay visible. Recovered energy is never credited twice.</p></div>
+        <label class="picker">Inspect configuration<select id="candidate-picker"></select></label>
+        <div id="selected-heading" class="selected-heading"></div>
+        <div id="energy-flow" class="energy-flow" aria-label="Selected cycle energy transfers"></div>
+        <div class="panel-grid"><article class="panel"><h3>Storage and hardware</h3><dl id="storage-details"></dl><p>Active storage material is a subtotal. Transmission, pressure equipment, containment, guards, couplings and installed clearances require their own detailed engineering.</p></article><article class="panel"><h3>Losses and balance checks</h3><dl id="balance-details"></dl><p>The source reports numerical balances. A small residual does not validate the equipment, engagement forces, fatigue or passenger jerk.</p></article></div>
+        <details class="source-details"><summary>Inspect station states and exact candidate identity</summary><p>Each station retains its own store. Actual stop coordinates carry into the next leg; a missed berth is not repaired by resetting the train position.</p><pre id="station-states"></pre><dl id="identities" class="identities"></dl></details>
+      </section>
+
+      <section id="journey" class="section" aria-labelledby="journey-title">
+        <div class="section-heading"><div><p class="eyebrow">Arrival to the next authorised departure</p><h2 id="journey-title">Follow every leg</h2></div><p>Cold start, charge, dwell, lock, controlled release and rearming are one sequence. A held or failed leg keeps its real result.</p></div>
+        <div id="service-details" class="scope-note"></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Individual cycle legs"><table class="legs-table"><thead><tr><th scope="col">Leg / stations</th><th scope="col">Departure</th><th scope="col">Outcome</th><th scope="col">Journey / stop</th><th scope="col">Moving jerk</th><th scope="col">Capture / return</th></tr></thead><tbody id="legs-body"></tbody></table></div>
+        <div class="chart-card"><label class="picker">Inspect leg trace<select id="leg-picker"></select></label><div id="motion-chart" aria-live="polite"></div><p id="chart-description" class="footnote"></p></div>
+        <div class="warning-note"><strong>Independent stopping remains necessary.</strong> The capture mechanism is not a substitute for service and emergency brakes. Ideal force-sharing and standstill-event assumptions do not prove smooth engagement, WSP performance or safe real-world control.</div>
+      </section>
+
+      <section id="cost" class="section" aria-labelledby="cost-title">
+        <div class="section-heading"><div><p class="eyebrow">One candidate · Fourteen accounts</p><h2 id="cost-title">Price the whole declared scope</h2></div><p>Materials, equipment, reserves, routine maintenance, renewals and disposal are calculated allowances. Unknown service energy keeps complete lifecycle cost unknown.</p></div>
+        <div id="cost-cards" class="cost-cards"></div>
+        <p id="cost-coverage" class="footnote"></p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Fourteen cost scopes"><table class="cost-table"><caption>Whole-life account NPV in USD. Values include capital where relevant; this table is not another amount to add to CAPEX.</caption><thead><tr><th scope="col">Account</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th><th scope="col">Known subtotal if incomplete</th></tr></thead><tbody id="cost-body"></tbody></table></div>
+        <p class="footnote">Low / base / high are assumption scenarios, not statistical confidence limits or supplier offers. Financing, taxes, customs, exchange-rate policy and non-fare revenue remain separate project-finance layers. No speculative salvage or future-order discount is applied.</p>
+      </section>
+
+      <section id="evidence" class="section" aria-labelledby="evidence-title">
+        <div class="section-heading"><div><p class="eyebrow">Keep the difficult cases</p><h2 id="evidence-title">Failures, uncertainty and next work</h2></div><p>The same stored-energy design must face empty or full stores, failed capture or release, reset delays, grades and independent braking demands.</p></div>
+        <label class="picker">Fault coverage<select id="fault-filter"><option value="selected">Selected physical configuration</option><option value="all">All physical configurations</option></select></label>
+        <p id="fault-count" class="footnote" role="status" aria-live="polite"></p>
+        <div class="table-scroll fault-scroll" tabindex="0" role="region" aria-label="Retained faults and sensitivities"><table class="fault-table"><thead><tr><th scope="col">Configuration / case</th><th scope="col">Calculated outcome</th><th scope="col">Arrivals / planned legs</th><th scope="col">Reset grid energy</th><th scope="col">Interpretation</th></tr></thead><tbody id="fault-body"></tbody></table></div>
+        <article class="open-work"><h3>What remains to be established</h3><ul id="limitations"></ul><p><strong>No physical acceptance, manufacturing or operating release, certified protection or movement authority is granted.</strong> Propulsion remains unselected; current city estimates are unchanged.</p></article>
+      </section>
+
+      <section id="downloads" class="section downloads"><div><p class="eyebrow">Reproduce and challenge</p><h2>Take the evidence with you</h2><p>Source-linked designs and calculated budgets remain inspectable. Delivery records are disabled drafts, not issued orders or control commands.</p></div><div class="download-links"><a href="summary.json">Comparison data<small>Readable summary and identities</small></a><a href="study.json.gz">Complete study<small>Inputs, outputs and failed cases</small></a><a href="delivery-draft.json.gz">Delivery draft<small>Manufacturing and business records</small></a><a href="../station-pair/">Station-pair comparison<small>Retained propulsion and braking alternatives</small></a><a href="../../archives/station-pair-fixed-control-20261107/README.md">Original fixed-control archive<small>Earlier source-bound evidence</small></a><a href="README.md">Engineering dossier<small>Assumptions, commands and open checks</small></a></div></section>
+      <footer><p>OpenSourceRail · Open design knowledge, local manufacture and repair.</p><p>Study identity <code id="study-id"></code></p></footer>
+    </div>
+  </main>
+  <noscript><p class="error-panel">Enable JavaScript to inspect the comparison, or download <a href="summary.json">summary.json</a>.</p></noscript>
+</body>
+</html>

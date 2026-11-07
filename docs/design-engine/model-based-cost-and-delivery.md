@@ -1,6 +1,6 @@
 # Model-based cost and end-to-end delivery closure
 
-**Implementation status — 1 November 2026.** `engineering/design_search/model_cost.py` prices the coupled railway research bundles, and `engineering/development_baseline/system_cost.py` now adapts the exact selected v0.6 vehicle into a separate candidate-bound system scenario. The selected reference remains the six-car, passive-wheel, station-LIM train. Research alternatives retain their own physical/evaluation/selection identities. Safety, accessibility and engineering qualification are never waived by a cost estimate.
+**Implementation status — 1 November 2026.** `engineering/design_search/model_cost.py` prices the coupled railway research bundles, and `engineering/development_baseline/system_cost.py` now adapts the exact selected v0.6 vehicle into a separate candidate-bound system scenario. The selected vehicle remains six passive-wheel cars with its passive aluminium secondary interface. Installed propulsion remains unselected; powered length, acceleration, speed and headway are candidate-specific design variables. Historical station-LIM studies retain their original assumptions and results. Research alternatives retain their own physical/evaluation/selection identities. Safety, accessibility and engineering qualification are never waived by a cost estimate.
 
 ### First executable model-cost milestone
 

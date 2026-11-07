@@ -5,7 +5,7 @@ import gzip,json
 from copy import deepcopy
 from engineering.station_rail.common import digest,encoded,identity
 from engineering.design_search import requirement_policy
-from . import ROOT,FLAGS,coordinator,economics,native_bridge,control_policy,history
+from . import ROOT,FLAGS,coordinator,economics,native_bridge,control_policy,history,lifecycle
 
 OUTPUT='docs/design-engine/station-pair'
 
@@ -41,6 +41,7 @@ def summary(study):
     for c in study['cases']:
         result['rows'].append(dict(c['summary'],installed_capital_usd=c['cost']['methods'][0]['installed_capital_usd'],
             whole_life_NPV_usd=c['cost']['methods'][0]['whole_life_NPV_usd'],
+            full_scope_lifecycle=c['lifecycle'],
             hotel_charging=c['cost']['hotel_charging']))
     result['finalists']=[]
     for f in study['finalists']:
@@ -273,6 +274,17 @@ The controller uses braking-curve principles described in the
 state uncertainty, braking buildup and track characteristics must be explicit.
 This research method is not an ETCS implementation or compliance claim.
 
+## Common fourteen-scope accounting
+
+The [expanded lifecycle ledgers](lifecycle-ledgers.json.gz) separately reconcile
+all fourteen scopes, including explicit land/utilities, rescue, reliability,
+component renewals, omitted station/depot maintenance and final disposal.
+These extend the original pilot budget without double-counting its accounts.
+The table above retains that original narrower budget for comparison. Financing,
+taxes, customs and exchange-rate policy remain separate project layers. Missing
+journey electricity keeps complete NPV unknown. The exact earlier feedback
+publication is [retained](../../archives/station-pair-feedback-20261107/README.md).
+
 ## Reproduce and challenge
 
 ```bash
@@ -309,7 +321,8 @@ def artifacts(study,reconciliation,bundle,root=ROOT):
         'study.json.gz':gzip.compress(encoded(study),mtime=0),
         'mass-reconciliation.json.gz':gzip.compress(encoded(reconciliation),mtime=0),
         'delivery-draft.json.gz':gzip.compress(encoded(delivery(study,bundle)),mtime=0),
-        'requirement-assessments.json':encoded(requirements(study))}
+        'requirement-assessments.json':encoded(requirements(study)),
+        'lifecycle-ledgers.json.gz':gzip.compress(encoded([dict(candidate_id=c['variant']['candidate_id'],speed_cap_km_h=c['summary']['speed_cap_km_h'],lifecycle=c['lifecycle']) for c in study['cases']]),mtime=0)}
     for n in ('index.html','app.js','app.css'):out[n]=(root/'engineering/station_pair/web'/n).read_bytes()
     return out
 
@@ -390,6 +403,7 @@ def verify(*,root=ROOT,output=None,replay=False,state=None):
         if q!=nominal:raise ValueError('Nominal request differs from declared candidate, controller and brief')
         native_record(q,r)
         if c['cost']!=economics.evaluate(v,r,bundle,reconciliation,brief,root=root):raise ValueError('Cost replay differs')
+        if c.get('lifecycle')!=lifecycle.evaluate(c['cost'],brief,root=root):raise ValueError('Fourteen-scope lifecycle replay differs')
         want=coordinator._brief_result(v,q,r,c['cost'],brief)
         if any(c['summary'].get(k)!=val for k,val in want.items()):raise ValueError('Comparison row differs')
     for c in study['cases']:check_normal(c,'feedback')

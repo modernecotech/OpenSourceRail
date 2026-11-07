@@ -1,0 +1,158 @@
+{
+  "schema": "osr-station-cycle-policy/1",
+  "purpose": "Cold-start and repeated serial station-store energy experiment; no concurrent timetable or physical acceptance",
+  "station_spacing_m": 1500.0,
+  "leg_departure_interval_s": 260.0,
+  "nominal_legs": 8,
+  "fault_legs": 4,
+  "capacities_j": [
+    4000000.0,
+    8000000.0
+  ],
+  "capture_length_m": 250.0,
+  "capture_stages": 5,
+  "stage_force_n": 30000.0,
+  "stage_power_w": 400000.0,
+  "release_window_m": [
+    0.0,
+    200.0
+  ],
+  "release_force_n": 100000.0,
+  "release_power_w": 1000000.0,
+  "reset_duration_s": 15.0,
+  "reset_grid_energy_j": 250000.0,
+  "reset_grid_power_w": 25000.0,
+  "interface_reserve_kg_per_train": {
+    "low": 300.0,
+    "base": 600.0,
+    "high": 1200.0
+  },
+  "steel": {
+    "density_kg_m3": 7850.0,
+    "modulus_pa": 80000000000.0,
+    "allowable_stress_pa": 650000000.0,
+    "utilisation": 0.4,
+    "packing_fraction": 0.45,
+    "capture_efficiency": 0.9,
+    "release_efficiency": 0.9,
+    "leakage_per_s": 1e-06
+  },
+  "hydraulic": {
+    "precharge_pressure_pa": 10000000.0,
+    "min_pressure_pa": 12000000.0,
+    "max_pressure_pa": 30000000.0,
+    "return_pressure_pa": 100000.0,
+    "polytropic_exponent": 1.4,
+    "vessel_mass_kg_per_m3": 4000.0,
+    "fluid_density_kg_m3": 870.0,
+    "packing_fraction": 0.6,
+    "capture_efficiency": 0.85,
+    "release_efficiency": 0.85,
+    "leakage_per_s": 1e-05
+  },
+  "cost": {
+    "material_usd_kg": {
+      "steel": [
+        0.8,
+        1.2,
+        2.0
+      ],
+      "hydraulic": [
+        1.0,
+        1.6,
+        2.8
+      ]
+    },
+    "process_h_kg": {
+      "steel": [
+        0.04,
+        0.08,
+        0.15
+      ],
+      "hydraulic": [
+        0.06,
+        0.12,
+        0.24
+      ]
+    },
+    "loaded_labour_usd_h": [
+      6.0,
+      10.0,
+      16.0
+    ],
+    "machine_QA_consumables_usd_kg": [
+      0.3,
+      0.7,
+      1.5
+    ],
+    "purchase_yield": [
+      0.98,
+      0.95,
+      0.9
+    ],
+    "overhead_fraction": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "housing_support_mass_to_active": [
+      0.15,
+      0.3,
+      0.5
+    ],
+    "fluid_usd_kg": [
+      1.5,
+      2.5,
+      4.0
+    ],
+    "capture_stage_package_usd": [
+      15000.0,
+      35000.0,
+      80000.0
+    ],
+    "release_transmission_guard_package_usd": [
+      40000.0,
+      100000.0,
+      250000.0
+    ],
+    "hydraulic_flow_valves_reservoir_package_usd": [
+      40000.0,
+      100000.0,
+      250000.0
+    ],
+    "control_lock_monitoring_per_station_usd": [
+      20000.0,
+      50000.0,
+      120000.0
+    ],
+    "module_electrical_protection_per_station_usd": [
+      20000.0,
+      40000.0,
+      90000.0
+    ],
+    "module_foundation_support_usd_kg": [
+      0.3,
+      0.7,
+      1.5
+    ],
+    "onboard_interface_installed_usd_kg": [
+      8.0,
+      16.0,
+      32.0
+    ],
+    "module_cooling_wiring_per_station_usd": [
+      12000.0,
+      30000.0,
+      75000.0
+    ]
+  },
+  "confidence": "Calculated material/process quantities and explicit equipment reserves; not quotes or confidence quantiles",
+  "supplier_quotes_received": false,
+  "force_state_characteristics_verified": false,
+  "concurrent_service_verified": false,
+  "cooling_wiring_installed_mass_reserve_kg_per_station": [
+    150.0,
+    300.0,
+    600.0
+  ]
+}

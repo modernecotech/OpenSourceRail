@@ -46,9 +46,11 @@
     if (releaseKeys.some(key => data[key] === true)) throw new Error('This research viewer cannot display an approved or selected operating design. Inspect the original record.');
     for (const row of [...data.rows,...data.faults]) {
       if (!row || !/^[a-f0-9]{64}$/.test(row.candidate_id) || typeof row.name !== 'string'
-        || !Array.isArray(row.legs) || !row.ledger || row.cold_start_zero_energy !== true
-        || row.ledger.initial_store_j !== 0 || releaseKeys.some(key => row[key] === true)) {
-        throw new Error('A cycle lacks its candidate identity, declared empty start or research-only evidence scope.');
+        || !Array.isArray(row.legs) || !row.ledger
+        || !(row.cold_start_zero_energy === true && row.ledger.initial_store_j === 0
+             || row.experiment === 'initially-full' && row.cold_start_zero_energy === false && row.ledger.initial_store_j > 0 && data.faults.includes(row))
+        || releaseKeys.some(key => row[key] === true)) {
+        throw new Error('A cycle lacks its candidate identity, declared initial energy or research-only evidence scope.');
       }
     }
   }
@@ -129,9 +131,10 @@
       ['Technology',typeName(row.technology)],['Recovery',row.storage_enabled ? 'Enabled under declared bounds' : 'Disabled; no capture or release credit'],
       ['Capacity',mj(row.capacity_j)],['Initial energy',mj(e.initial_store_j)],
       ['Active material mass',unit(row.sizing?.active_mass_kg,'kg',0)],
-      ['Active storage volume',unit(row.sizing?.envelope_volume_m3 ?? row.sizing?.volume_m3,'m³',2)],
-      ['Reset electricity',mj(e.reset_grid_energy_j)],['Grid traction',mj(e.grid_traction_energy_j)]]);
-    const balances=[['Capture loss',mj(e.capture_loss_j)],['Release loss',mj(e.release_loss_j)],
+      ['Reserved storage envelope',unit(row.sizing?.reserve_envelope_m3 ?? row.sizing?.envelope_volume_m3 ?? row.sizing?.volume_m3,'m³',2)],
+      ['Reset electricity',mj(e.reset_grid_energy_j)],['Grid traction',mj(e.grid_traction_energy_j)],
+      ['Scoped grid subtotal incl. HVAC/charging and return allowance',mj(row.energy_reconciliation?.known_grid_subtotal_j)]]);
+    const balances=[['Moving-jerk target screen',row.advisory_screen===true ? 'Meets declared nominal targets' : 'Target or journey unresolved'],['Capture loss',mj(e.capture_loss_j)],['Release loss',mj(e.release_loss_j)],
       ['Storage leakage',mj(e.storage_leakage_j)],['Independent friction-brake heat',mj(e.friction_brake_heat_j)],
       ['Storage balance residual',unit(e.storage_balance_residual_j,'J',3)],
       ['Train + store balance residual',unit(e.train_and_storage_balance_residual_j,'J',3)]];
