@@ -5,6 +5,7 @@ pub const MAX_INPUT_BYTES: usize = 8 * 1024 * 1024;
 pub const REQUEST_SCHEMA: &str = "osr-journey-request/1";
 const G: f64 = 9.80665;
 pub mod cycle;
+mod cycle_release;
 mod feedback;
 pub use feedback::{FeedbackControl, FeedbackDiagnostics, stopping_distance_bound};
 #[derive(Debug, Clone, Deserialize, Serialize)]

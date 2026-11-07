@@ -668,7 +668,19 @@ pub(super) fn evaluate_with_recovery(
         }
         let work = force * dx;
         let (store_work, capture_work) = if let Some(q) = recovery.as_deref_mut() {
-            q.commit(x, vm, v.max(nv), dx, h, t + h, force, midpoint_brake, fault)?
+            q.commit(
+                x,
+                vm,
+                v.max(nv),
+                v,
+                nv,
+                dx,
+                h,
+                t + h,
+                force,
+                midpoint_brake,
+                fault,
+            )?
         } else {
             (0., 0.)
         };
@@ -683,9 +695,13 @@ pub(super) fn evaluate_with_recovery(
         r.maximum_traction_n = r.maximum_traction_n.max(force);
         r.maximum_brake_n = r.maximum_brake_n.max(midpoint_brake);
         r.maximum_mechanical_power_w = r.maximum_mechanical_power_w.max(force * (v + nv) / 2.);
+        let grid_peak = recovery
+            .as_ref()
+            .and_then(|q| q.controlled_grid_peak_power_w())
+            .map_or((force - release_cap.min(force)) * (v + nv) / 2., |p| p);
         r.maximum_grid_power_w = r
             .maximum_grid_power_w
-            .max((force - release_cap.min(force)) * (v + nv) / 2. / d.electrical_efficiency);
+            .max(grid_peak / d.electrical_efficiency);
         r.maximum_acceleration_m_s2 = r.maximum_acceleration_m_s2.max(acceleration);
         r.minimum_acceleration_m_s2 = r.minimum_acceleration_m_s2.min(acceleration);
         r.maximum_absolute_jerk_m_s3 = r.maximum_absolute_jerk_m_s3.max(

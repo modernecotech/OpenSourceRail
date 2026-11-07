@@ -67,6 +67,7 @@ fn cycle() -> CycleCase {
         id: "cycle".into(),
         candidate_id: "a".repeat(64),
         stations: vec![station("A"), station("B")],
+        release_control: None,
         legs: (0..4)
             .map(|i| Leg {
                 train_id: "same-point-train".into(),
@@ -377,4 +378,135 @@ fn cold_capture_allocation_does_not_change_the_mechanical_stopping_trace() {
         got.brake_heat_j + r.ledger.capture_work_j,
         baseline.brake_heat_j,
     );
+}
+fn controlled_cycle() -> CycleCase {
+    let mut c = cycle();
+    c.release_control = Some(ReleaseControl {
+        mode: "grid-substitution-slew/1".into(),
+        force_slew_n_s: 100.,
+        maximum_traction_share: 0.8,
+        reserve_factor: 2.,
+    });
+    c.legs = (0..8)
+        .map(|i| {
+            let mut l = c.legs[i % 4].clone();
+            l.journey.id = format!("controlled-leg-{i}");
+            l.departure_time_s = i as f64 * 250.;
+            l
+        })
+        .collect();
+    c
+}
+#[test]
+fn controlled_release_preserves_actual_motion_and_reduces_grid_work_without_boost() {
+    let c = controlled_cycle();
+    let mut disabled = c.clone();
+    for l in &mut disabled.legs {
+        l.capture_failed = true;
+        l.release_failed = true;
+    }
+    let a = osr_journey::cycle::evaluate(&c).unwrap();
+    let b = osr_journey::cycle::evaluate(&disabled).unwrap();
+    assert_eq!(a.arrived_legs, 8);
+    assert_eq!(b.arrived_legs, 8);
+    for (on, off) in a.legs.iter().zip(&b.legs) {
+        assert_eq!(
+            serde_json::to_value(&on.journey.as_ref().unwrap().trace).unwrap(),
+            serde_json::to_value(&off.journey.as_ref().unwrap().trace).unwrap()
+        );
+        near(
+            on.journey.as_ref().unwrap().traction_work_j,
+            off.journey.as_ref().unwrap().traction_work_j,
+        );
+        let d = on.energy.release_control.as_ref().unwrap();
+        assert!(!d.slew_limit_exceeded, "{d:?}");
+        assert_eq!(d.forced_cutoffs, 0);
+        assert!(d.maximum_store_force_rate_n_s <= 100.000001);
+    }
+    assert!(a.ledger.grid_traction_energy_j < b.ledger.grid_traction_energy_j);
+    assert!(a.ledger.delivered_launch_work_j > 0.);
+    near(a.ledger.train_and_storage_balance_residual_j, 0.);
+    near(a.ledger.storage_balance_residual_j, 0.);
+}
+#[test]
+fn controlled_transfer_has_actual_component_ramps_and_finite_release_window() {
+    let mut c = controlled_cycle();
+    c.stations[0].initial_energy_j = 100000.;
+    let r = osr_journey::cycle::evaluate(&c).unwrap();
+    for l in &r.legs {
+        for p in &l.energy.trace {
+            let q = p.release_control.as_ref().unwrap();
+            assert!(q.store_start_force_n >= 0. && q.store_end_force_n >= 0.);
+            assert!(q.grid_start_force_n >= 0. && q.grid_end_force_n >= 0.);
+            assert!(q.store_force_rate_n_s <= 100.000001);
+            if p.position_m > 200.1 {
+                near(q.store_end_force_n, 0.);
+            }
+        }
+        assert!(l.energy.maximum_release_power_w <= 6000. + 1e-6);
+        assert!(l.energy.maximum_release_force_n <= 600. + 1e-6);
+    }
+}
+#[test]
+fn controlled_store_fault_cutoff_is_visible_and_never_provides_emergency_traction() {
+    let mut c = controlled_cycle();
+    c.legs.truncate(1);
+    c.stations[0].initial_energy_j = 100000.;
+    c.legs[0].journey.fault.power_loss_at_s = Some(10.);
+    let r = osr_journey::cycle::evaluate(&c).unwrap();
+    let l = &r.legs[0];
+    assert!(
+        l.energy
+            .trace
+            .iter()
+            .filter(|p| p.time_s > 10.05)
+            .all(|p| p.store_traction_n == 0.)
+    );
+    let d = l.energy.release_control.as_ref().unwrap();
+    assert!(d.forced_cutoffs > 0);
+    assert!(d.slew_limit_exceeded);
+    assert!(!l.journey.as_ref().unwrap().normal_numerical_arrival);
+    near(r.ledger.train_and_storage_balance_residual_j, 0.);
+}
+#[test]
+fn controlled_grid_thermal_receives_only_grid_conversion_loss() {
+    let mut c = controlled_cycle();
+    c.legs.truncate(1);
+    c.stations[0].initial_energy_j = 100000.;
+    c.legs[0].journey.thermal = Some(Thermal {
+        capacity_j_k: 10000.,
+        heat_rejection_w_k: 0.,
+        ambient_c: 10.,
+        initial_c: 10.,
+        maximum_c: 1000.,
+    });
+    let mut off = c.clone();
+    off.legs[0].release_failed = true;
+    let a = osr_journey::cycle::evaluate(&c).unwrap();
+    let b = osr_journey::cycle::evaluate(&off).unwrap();
+    let on = a.legs[0].journey.as_ref().unwrap();
+    let off = b.legs[0].journey.as_ref().unwrap();
+    near(
+        on.final_temperature_c.unwrap() - 10.,
+        on.drive_loss_j / 10000.,
+    );
+    assert!(on.final_temperature_c < off.final_temperature_c);
+    assert!(a.ledger.release_loss_j > 0.);
+}
+#[test]
+fn controlled_input_is_explicit_and_legacy_serialization_omits_new_fields() {
+    let c = cycle();
+    let json = serde_json::to_value(&c).unwrap();
+    assert!(json.get("release_control").is_none());
+    let r = osr_journey::cycle::evaluate(&c).unwrap();
+    let json = serde_json::to_value(&r).unwrap();
+    assert!(json["legs"][0]["energy"].get("release_control").is_none());
+    assert!(
+        json["legs"][0]["energy"]["trace"][0]
+            .get("release_control")
+            .is_none()
+    );
+    let mut c = controlled_cycle();
+    c.release_control.as_mut().unwrap().reserve_factor = 0.5;
+    assert!(osr_journey::cycle::evaluate(&c).is_err());
 }
