@@ -29,6 +29,7 @@ Usage: ./osr [COMMAND] [arguments]
   verify/check      Verify the current source-bound publication
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   city [slug]       Inspect retained city geography and its evaluation hold
+  gis ...           Export selected cities to native RustGIS projects; install/audit the pinned backend
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
   sim [slug]        Report city performance evidence hold (exit status 3)
   catalogue         Read retained city geography and evaluation holds
@@ -42,6 +43,10 @@ The default is a development selection. Physical and operating acceptance remain
 open. Source-bound outputs remain tied to their declared candidate and inputs.
 EOF
     exit 0
+fi
+if [[ "${1:-}" == gis ]]; then
+    shift
+    exec tools/automation/osr-python -m engineering.rustgis "$@"
 fi
 if [[ "${1:-}" == source || "${1:-}" == sourcing ]]; then
     shift

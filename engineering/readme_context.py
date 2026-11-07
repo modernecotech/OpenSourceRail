@@ -93,7 +93,7 @@ def category(name):
                 'engineering/frame_refinement/README.md','engineering/sourcing/README.md',
                 'crates/osr-station-energy/README.md'}:
         return 'candidate-design-method'
-    if name == 'engineering/city_maps/README.md':
+    if name in {'engineering/city_maps/README.md', 'docs/gis/README.md'}:
         return 'city-map-method'
     if name in {'engineering/electropermanent/README.md', 'engineering/magnetic_confirmation/README.md'}:
         return 'magnetic-research-method'

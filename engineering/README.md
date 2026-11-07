@@ -31,6 +31,11 @@ The [vehicle parts and assembly catalogue](../docs/design-engine/vehicle-parts/R
 
 ## Run the current workflow
 
+[Native city GIS](../docs/gis/README.md) exports the exact selected city geometry,
+offline backgrounds, service and cost tables to pinned RustGIS projects. Use
+`./osr gis open --city baghdad` or the city atlas download link. Current mapping
+does not require QGIS; historical project metadata remains readable.
+
 ```bash
 ./osr status
 ./osr build

@@ -58,6 +58,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        from engineering.rustgis.api import handle_api as gis_api
+        if gis_api(self):
+            return
         from engineering.outline.city_atlas_api import handle_api as atlas_api
         if atlas_api(self):
             return
@@ -160,6 +163,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        from engineering.rustgis.api import handle_api as gis_api
+        if gis_api(self):
+            return
         from engineering.outline.city_jobs import handle_api as city_api
         if city_api(self):
             return

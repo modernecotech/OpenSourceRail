@@ -8,7 +8,7 @@ from pathlib import Path
 from xml.etree import ElementTree
 from .config import digest
 
-TOOLS = {'freecad', 'bonsai', 'qgis', 'osr', 'sumo', 'opensees', 'energyplus', 'fds', 'swmm', 'jupedsim', 'cloudcompare', 'blender', 'verification'}
+TOOLS = {'freecad', 'bonsai', 'rustgis', 'qgis', 'osr', 'sumo', 'opensees', 'energyplus', 'fds', 'swmm', 'jupedsim', 'cloudcompare', 'blender', 'verification'}
 
 
 def artifact(root, relative, tool, version):
@@ -36,6 +36,19 @@ def artifact(root, relative, tool, version):
                 doc = ElementTree.fromstring(archive.read(name))
                 result['layers'] = [e.findtext('layername') for e in doc.findall('.//projectlayers/maplayer')]
                 result['crs'] = doc.findtext('.//projectCrs/spatialrefsys/authid')
+    elif path.suffix.lower() == '.rgis':
+        # Inspect saved geometry metadata only; never follow source addresses or execute commands.
+        value = json.loads(raw)
+        if value.get('format') != 1 or not isinstance(value.get('maps'), list):
+            raise ValueError('Supported RustGIS project format required')
+        result['project_name'] = value.get('name')
+        result['maps'] = [{'name': m.get('name'), 'projection': m.get('projection'),
+            'layers': [{'id': layer['id'], 'name': layer['name'],
+                        'features': len(layer.get('dataset', {}).get('features', []))}
+                       for layer in m.get('layers', [])]} for m in value['maps']]
+        result['tables'] = [{'id': t['id'], 'name': t['name'],
+                             'rows': len(t.get('features', []))}
+                            for t in value.get('tables', [])]
     elif path.suffix.lower() == '.gpkg':
         import sqlite3
         with closing(sqlite3.connect(path.as_uri() + '?mode=ro', uri=True)) as db:

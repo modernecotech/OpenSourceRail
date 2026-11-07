@@ -131,6 +131,11 @@
         if (["https:", "http:"].includes(url.protocol)) { const link = node("a", "atlas-download", "Download this source-bound result"); link.href = url.href; root.append(link); }
       } catch (_) { /* The visible result does not require a download URL. */ }
     }
+    if (["127.0.0.1", "localhost", "[::1]"].includes(location.hostname) && !packet.identity?.workflow_evaluation_id && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(packet.city?.slug || "") && /^[a-f0-9]{64}$/.test(packet.packet_id || "")) {
+      const gis = node("a", "atlas-download", "Download editable RustGIS project and source tables");
+      gis.href = `/api/rustgis/${packet.city.slug}/${packet.packet_id}.zip`;
+      gis.download = `${packet.city.slug}-rustgis.zip`; root.append(gis);
+    }
     const metrics = node("div", "atlas-metrics");
     const summaryRoute = first(summary.route_km, finite(summary.route_m) ? summary.route_m / 1000 : null);
     const routeKm = finite(summaryRoute) ? summaryRoute : lines.every(line => finite(line.route_m)) ? lines.reduce((sum, line) => sum + line.route_m, 0) / 1000 : null;

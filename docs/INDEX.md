@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **132**.
+Indexed Markdown files: **133**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **132**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 106 |
+| [docs](#docs) | 107 |
 | [engineering](#engineering) | 10 |
 | [tools](#tools) | 2 |
 
@@ -176,6 +176,7 @@ Indexed Markdown files: **132**.
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-models/README.md`](../docs/engineering-models/README.md) | Engineering models |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
+| [`docs/gis/README.md`](../docs/gis/README.md) | Editable city GIS with RustGIS |
 | [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
