@@ -292,6 +292,9 @@ pub(super) struct Runtime<'a> {
     release_runtime: Option<ReleaseRuntime>,
 }
 impl<'a> Runtime<'a> {
+    pub fn controlled_feedback(&self) -> bool {
+        self.release_runtime.is_some()
+    }
     pub fn controlled_grid_peak_power_w(&self) -> Option<f64> {
         self.release_runtime
             .as_ref()
