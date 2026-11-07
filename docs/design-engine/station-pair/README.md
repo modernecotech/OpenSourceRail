@@ -120,5 +120,5 @@ force/brake/charger characteristics, installed equipment and axle reactions,
 adaptive protected stopping/hill starts, coupling/reset/rescue, civil moving loads
 and prototype correlation before advancing a candidate.
 
-Study `4a6b60ae75a11fb3558be6ff29cfc0405179c9f18217fef78843a3c055112034` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
+Study `cc1ba1bf47f188657d334e7f14ed0adb1ebc8da9176f4880b2b276aa7a8f9061` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
 Canonical source: [engineering/station_pair](../../../engineering/station_pair/).

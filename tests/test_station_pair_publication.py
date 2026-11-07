@@ -15,6 +15,25 @@ from engineering.station_rail.common import digest, encoded, identity
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_generated_cargo_outputs_never_change_source_epoch(tmp_path,monkeypatch):
+    base=tmp_path/'engineering/station_pair';native=base/'native'
+    (native/'src').mkdir(parents=True);(native/'tests').mkdir();(base/'web').mkdir()
+    for name in ('Cargo.toml','Cargo.lock'):(native/name).write_text('fixture source')
+    (native/'src/lib.rs').write_text('// fixture source')
+    before=native_bridge.sources(tmp_path)
+    policy=tmp_path/'engineering/design_search/requirement_policy.py'
+    policy.parent.mkdir(parents=True);policy.write_text('# fixture policy')
+    monkeypatch.setattr(coordinator,'source_hashes',lambda root=ROOT:native_bridge.sources(root))
+    published_before=publication.sources(tmp_path)
+    (native/'target/debug/build/serde/out').mkdir(parents=True)
+    (native/'target/debug/build/serde/out/private.rs').write_text('// generated')
+    (native/'target/.rustc_info.json').write_text('{}')
+    assert native_bridge.sources(tmp_path)==before
+    assert publication.sources(tmp_path)==published_before
+    (native/'src/lib.rs').write_text('// revised real source')
+    assert native_bridge.sources(tmp_path)!=before
+
+
 def seal(value, key):
     value.pop(key, None)
     value[key] = identity(value)

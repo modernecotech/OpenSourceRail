@@ -12,10 +12,11 @@ OUTPUT='docs/design-engine/station-pair'
 
 def sources(root=ROOT):
     root=Path(root)
-    return {**coordinator.source_hashes(root),'engineering/design_search/requirement_policy.py':digest(root/'engineering/design_search/requirement_policy.py'),**{
-        p.relative_to(root).as_posix():digest(p) for p in sorted((root/'engineering/station_pair').rglob('*'))
-        if p.is_file() and p.suffix in ('.py','.json','.html','.js','.css','.rs','.toml','.lock')
-        and '__pycache__' not in p.parts}}
+    base=root/'engineering/station_pair'
+    paths=[p for p in base.iterdir() if p.is_file() and p.suffix in ('.py','.json')]
+    paths.extend(p for p in (base/'web').iterdir() if p.is_file() and p.suffix in ('.html','.js','.css'))
+    return {**coordinator.source_hashes(root),'engineering/design_search/requirement_policy.py':digest(root/'engineering/design_search/requirement_policy.py'),
+            **{p.relative_to(root).as_posix():digest(p) for p in sorted(paths)}}
 
 
 def _sealed(value,key):

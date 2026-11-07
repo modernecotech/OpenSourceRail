@@ -9,8 +9,10 @@ NATIVE='engineering/station_pair/native'
 
 def sources(root=ROOT):
     root=Path(root)
-    return {p.relative_to(root).as_posix():digest(p) for p in sorted((root/NATIVE).rglob('*'))
-            if p.is_file() and p.suffix in ('.toml','.lock','.rs')}
+    base=root/NATIVE
+    paths=[base/'Cargo.toml',base/'Cargo.lock']
+    for name in ('src','tests'):paths.extend(sorted((base/name).rglob('*.rs')))
+    return {p.relative_to(root).as_posix():digest(p) for p in paths}
 
 
 def build(state,root=ROOT):

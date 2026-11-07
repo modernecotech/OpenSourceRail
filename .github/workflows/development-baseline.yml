@@ -265,6 +265,7 @@ jobs:
       - name: Candidate-linked station-pair motion, costs and fault replay
         env:
           CARGO_BUILD_JOBS: "2"
+          CARGO_TARGET_DIR: /tmp/osr-station-pair-test-target
         run: |
           .venv/bin/python -m pytest -q tests/test_station_pair*.py
           cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
