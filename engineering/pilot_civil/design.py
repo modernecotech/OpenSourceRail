@@ -167,7 +167,9 @@ def _moving(s,load,p,dead_mass_kg):
         for j,x in enumerate(xs):moment_max[j]=max(moment_max[j],M(x));moment_min[j]=min(moment_min[j],M(x))
         torques=[(x,Fy*(load['CG_m'][2]+p['railhead_above_deck_m'])+P*p['vertical_load_eccentricity_m']) for x,P,Fy in points]
         TA=fsum(T*max(0.,min(b-x,b-a))/(b-a) for x,T in torques);TB=fsum(T for x,T in torques)-TA
-        def twist(x):return (TA*max(0.,x-a)+TB*max(0.,x-b)-fsum(T*max(0.,x-xp) for xp,T in torques)+fsum(T*max(0.,a-xp) for xp,T in torques))/(Gmod*s['torsion_J_thinwall_m4'])
+        line_torque=p.get('line_equipment_dead_torque_Nm_m',0.)
+        TA+=line_torque*L/2;TB+=line_torque*L/2
+        def twist(x):return (TA*max(0.,x-a)+TB*max(0.,x-b)-fsum(T*max(0.,x-xp) for xp,T in torques)+fsum(T*max(0.,a-xp) for xp,T in torques)-.5*line_torque*(x*x-a*a))/(Gmod*s['torsion_J_thinwall_m4'])
         spacing=abs(p['support']['bearing_lateral_offsets_m'][1]-p['support']['bearing_lateral_offsets_m'][0])
         bearing_min=min(bearing_min,Ra/2-abs(TA)/spacing,Rb/2-abs(TB)/spacing)
         values=dict(moment_Nm=max(M(x) for x in obs),hogging_moment_Nm=max(0.,-min(M(x) for x in obs)),shear_N=max(abs(Ra),abs(Rb)),reaction_N=max(Ra,Rb),
@@ -302,6 +304,14 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
         p['support']['bearing_lateral_offsets_m']=[-.20,.20]
         p['support']['bearing_size_m']=[.45,.25,.18]
     if soil_case not in p['support']['soil_bearing_Pa']:raise ValueError('Named declared soil scenario required')
+    line=deepcopy(train.get('line_equipment'));line_mass=0.
+    if line is not None:
+        for key in ('cross_section_m2','density_kg_m3_hypothesis','insulators_brackets_guards_mass_kg_track_m_hypothesis','lateral_offset_from_track_centre_m'):
+            x=line.get(key)
+            if type(x) not in (int,float) or not isfinite(x) or x<=0:raise ValueError('Explicit positive conductor/support geometry and mass required')
+        kg_m=line['cross_section_m2']*line['density_kg_m3_hypothesis']+line['insulators_brackets_guards_mass_kg_track_m_hypothesis']
+        line_mass=kg_m*p['span_m']
+        p['line_equipment_dead_torque_Nm_m']=kg_m*G*line['lateral_offset_from_track_centre_m']
     s=section(family,revision);rebar=reinforcement(s,p)
     fastening_count=2*ceil(p['span_m']/p['fastener_pitch_m'])
     plate_mass=p['steel_density_kg_m3']*p['fastener_plate_size_m'][0]*p['fastener_plate_size_m'][1]*p['fastener_plate_size_m'][2]
@@ -311,7 +321,7 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
     tend=None;demands=[];previous=None
     for iteration in range(6):
         tendon_mass=0 if tend is None else tend['active_steel_mass_kg']+tend['anchorage_mass_kg']
-        dead=s['quantities']['total_nominal_stock_mass_kg']+rebar['mass_kg']+rail_mass+fastening_mass+tendon_mass+fastening_count*p['fastener_other_hardware_kg_each']+p['drainage_mass_kg_per_beam']+p['walkway_mass_kg_per_beam_share']+p['guard_mass_kg_per_beam']+p['joint_duct_grout_reserve_kg_per_beam']
+        dead=s['quantities']['total_nominal_stock_mass_kg']+rebar['mass_kg']+rail_mass+fastening_mass+tendon_mass+fastening_count*p['fastener_other_hardware_kg_each']+p['drainage_mass_kg_per_beam']+p['walkway_mass_kg_per_beam_share']+p['guard_mass_kg_per_beam']+p['joint_duct_grout_reserve_kg_per_beam']+line_mass
         demands=[dict(name=l['name'],**moving(s,l,p,dead)) for l in train['load_cases']]
         tend=prestress(s,demands,p)
         shear=shear_detail(s,demands,p);changed=not shear['link_screen_passed']
@@ -339,6 +349,7 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
         drainage=dict(pipes=2,diameter_m=.10,material='HDPE candidate',clip_pitch_m=2.),maintenance_walkway=dict(width_m=1.,scope='Inspection path only; passenger evacuation/accessibility unresolved'),
         rail_interface=dict(rails=2,rail_kg_m=p['rail_mass_kg_m'],fastenings=fastening_count,anchors_per_set=p['anchor_count_per_plate']),
         complete_installed_geometry=False,**FLAGS)
+    if line is not None:physical['wayside_conductor_and_supports']=line
     cid=identity(physical)
     screens=dict(gross_vertical_deflection_target=all(d['deflection_model_upper_m']<=p['deflection_target_m'] for d in demands),
         prestress_no_tension=tend['service_no_tension_hypothesis_met'],prestress_compression=tend['compression_targets_met'],duct_cover=tend['duct_cover_target_met'],
@@ -349,6 +360,9 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
     quantities=dict(concrete_beam_m3=s['quantities']['total_nominal_volume_m3'],nominal_concrete_mass_kg=nominal,reinforcement_mass_kg=rebar['mass_kg'],prestress_active_kg=tend['active_steel_mass_kg'],prestress_procurement_kg=tend['strand_procurement_mass_kg'],anchorage_kg=tend['anchorage_mass_kg'],rail_kg=rail_mass,fastener_steel_kg=fastening_mass,
         fastening_other_hardware_kg=fastening_count*p['fastener_other_hardware_kg_each'],drainage_access_misc_reserve_kg=p['drainage_mass_kg_per_beam']+p['walkway_mass_kg_per_beam_share']+p['guard_mass_kg_per_beam'],joint_duct_grout_reserve_kg=p['joint_duct_grout_reserve_kg_per_beam'],accounted_superstructure_kg=dead,complete_installed_mass_kg=None)
     costs=estimate(quantities,foot,segment,p)
+    if line is not None:
+        quantities['line_equipment_dead_mass_kg']=line_mass
+        quantities['line_equipment_cost_owner']='wayside-propulsion in whole-system ledger; not duplicated in civil factory accounts'
     result=dict(schema='osr-pilot-civil-evaluation/1',system_candidate_id=train['candidate_id'],vehicle_candidate_id=train['vehicle_candidate_id'],mass_evaluation_id=train['mass_evaluation_id'],input_load_evaluation_id=train['evaluation_id'],
         civil_candidate_id=cid,physical_definition=physical,parent_geometry_candidate_id=s['parent_geometry_candidate_id'],section=s,reinforcement=rebar,prestress=tend,load_demands=demands,
         foundation=foot,lifting=lifting,shear_detail=shear,quantities=quantities,cost=costs,screens=screens,advisory_screen_passed=all(screens.values()),

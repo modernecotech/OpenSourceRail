@@ -75,6 +75,16 @@ def scene(result,*,gross_beam_only=False):
             add(f'bent-{end+1}/pier','cylinder','research_concrete',at_m=[x,0.,column_bottom],axis=[0.,0.,1.],radius_m=foot['column_diameter_m']/2,length_m=p['support']['column_height_m'])
             add(f'bent-{end+1}/cap','box','research_concrete',at_m=[x-cap[0]/2,-cap[1]/2,column_top],size_m=cap)
         for track,y in enumerate(tracks):
+            line=result['physical_definition'].get('wayside_conductor_and_supports')
+            if line:
+                cy=y+line['lateral_offset_from_track_centre_m'];width=.10
+                add(f'track-{track+1}/conductor','box','aluminium-stock-hypothesis',
+                    at_m=[0.,cy-width/2,.22],size_m=[20.,width,line['cross_section_m2']/width])
+                for j in range(20):
+                    add(f'track-{track+1}/conductor-bracket-{j}','box','steel-stock-proxy',
+                        at_m=[j+.43,cy-.06,.02],size_m=[.14,.12,.02])
+                    add(f'track-{track+1}/conductor-insulator-{j}','box','insulator-envelope',
+                        at_m=[j+.45,cy-.06,.04],size_m=[.12,.12,.18])
             for end,x in enumerate(p['support']['bearing_lines_x_m']):
                 for side,dy in enumerate(p['support']['bearing_lateral_offsets_m']):
                     bx,by,bz=p['support']['bearing_size_m']
@@ -145,5 +155,12 @@ def parts(result):
         part('track/rail',2,'20 m runs','60.21 kg/m rail stock hypothesis','Cut, join with independently designed thermal-movement and electrical-continuity interfaces.','Profile, straightness, rail stress, weld/bolted joint and gauge',scope='each beam',cost_owner='civil/rails'),
         part('support/footing',1,'cast assembly','Reinforced concrete with unlocated 90/130/190 kg/m3 steel reserve','Excavate, verify ground, blinding, cage, cast and cure.','Ground, groundwater, reinforcement, punching, settlement and concrete strength',size_m=[foot['width_m'],foot['width_m'],foot['thickness_m']],scope='each shared bent',cost_owner='civil/shared-pier-foundation'),
         part('support/pier-cap',1,'assembly','Reinforced concrete with positive bar reserve','Reusable formwork; cage, cast/cure and survey.','Connections, local bearing, cracking, lateral/seismic and access',pier_diameter_m=foot['column_diameter_m'],pier_height_m=result['policy']['support']['column_height_m'],cap_size_m=result['policy']['support']['cap_size_m'],scope='each shared bent',cost_owner='civil/shared-pier-foundation')]
+    line=result['physical_definition'].get('wayside_conductor_and_supports')
+    if line:
+        items.append(part('track/wayside-conductor',20,'track-m','Aluminium conductor + positive steel/insulator/guard reserve',
+            'Cut, support on isolated brackets, provide engineered expansion/bonding, guards and sectional isolation.',
+            'Contact clearance, dielectric, bond continuity, ampacity and touch protection remain unverified',
+            conductor_area_m2=line['cross_section_m2'],mass_kg_each_track_m=line['cross_section_m2']*line['density_kg_m3_hypothesis']+line['insulators_brackets_guards_mass_kg_track_m_hypothesis'],
+            scope='each beam; included in civil dead load once',cost_owner='wayside-propulsion in whole-system ledger'))
     return dict(schema='osr-pilot-civil-parts/1',civil_candidate_id=result['civil_candidate_id'],beam_instances=cost['beams'],shared_bent_instances=cost['shared_bents'],items=items,
         additive_mass_or_cost_ledger=False,reason='Manufacturing decomposition references existing quantity and cost owners; adding these rows again would double-count.',controlled_drawings_complete=False,**FLAGS)

@@ -6,6 +6,7 @@ passive bogie. Supplier housings, mounts and clashes remain a separate gate.
 from copy import deepcopy
 from math import fsum, isfinite
 from pathlib import Path
+import json
 
 from engineering.station_rail.common import identity, digest
 from engineering.station_pair import coordinator as pair
@@ -44,6 +45,15 @@ def integrate(body, *, with_recovery=True, root=ROOT):
                   and d['technology'] == ('hydraulic' if with_recovery else None)
                   and (not with_recovery or d['capacity_j'] == 4e6))
     v = deepcopy(parent['variant'])
+    v['geometry']['passive_secondary_retained']=any(p['assembly_id']=='services/secondary' for p in body['parts'])
+    electrical_policy=json.loads((root/'engineering/railway_closure/electrical-policy.json').read_bytes())
+    supply_policy=json.loads((root/'engineering/railway_closure/supply-policy.json').read_bytes())
+    v['grid_power_limit_W_per_train']=supply_policy['grid_power_limit_W_per_train']
+    v['inventory'].append(dict(id='auxiliary-DC-DC-partition',quantity=6,location='train body proposed BOP zones',
+        rating_kw_each=electrical_policy['onboard_converter_rating_kw_per_car'],
+        mass_kg_each=dict(zip(CASES,electrical_policy['onboard_converter_mass_kg'])),
+        included_in='inverter-cooling-mounting-collector-reserve',additional_mass_not_added=True,
+        physical_shape_and_ratings_verified=False))
     terminal = terminal_geometry(brief(root))
     # One driven axle per bogie: supplier shaft/mount geometry remains unknown.
     driven = list(range(0, 24, 2))
@@ -52,6 +62,17 @@ def integrate(body, *, with_recovery=True, root=ROOT):
         propulsion_parent_candidate_id=v['candidate_id'], family='powered-wheel',
         drive_geometry=v['geometry'], drive_inventory=v['inventory'],
         station_energy_module=v['physical_definition'].get('station_energy_module'),
+        auxiliary_feed=dict(continuous_conductor_feed=True,onboard_converter_count=6,
+            converter_rating_kw_each=electrical_policy['onboard_converter_rating_kw_per_car'],
+            converter_mass_is_partition_of_existing_BOP=True,traction_battery=False,
+            battery_modules_and_enclosures='Exact installed body component list; no uncounted Type4 substitution'),
+        line_conductor=dict(material='aluminium procurement hypothesis',cross_section_m2=supply_policy['aluminium_conductor_area_m2'],
+            density_kg_m3_hypothesis=supply_policy['conductor_density_kg_m3_hypothesis'],
+            insulators_brackets_guards_mass_kg_track_m_hypothesis=supply_policy['insulators_brackets_guards_mass_kg_track_m_hypothesis'],
+            lateral_offset_from_track_centre_m=supply_policy['conductor_lateral_offset_from_track_centre_m'],
+            nominal_voltage_V=supply_policy['nominal_feed_V'],track_length_m=terminal['track_quantities']['total_track_m'],
+            grid_power_limit_W_per_train=v['grid_power_limit_W_per_train'],
+            rail_return_in_civil_inventory=True,protection_and_ampacity_verified=False),
         driven_axle_indices=driven,
         placements=dict(motor_and_gear='796 kg at each declared driven axle; proposed centre z=.55 m, y=0',
                         drive_reserve='Equal six-car share at car centre, z=.70 m, y=0; envelope not admitted',
@@ -68,11 +89,12 @@ def integrate(body, *, with_recovery=True, root=ROOT):
     source.update(v['source_sha256'])
     source.update(recovery.sources(root))
     for n in ('engineering/railway_closure/installed.py', 'engineering/railway_closure/brief.json',
-              'engineering/railway_closure/service.py'):
+              'engineering/railway_closure/service.py','engineering/railway_closure/electrical-policy.json',
+              'engineering/railway_closure/supply-policy.json'):
         source[n] = digest(root / n)
     rows = []
     for r in body['mass_scenarios']:
-        c = r['case']; index = CASES.index(c)
+        c = r['case']
         axles = deepcopy(r['axles'])
         if len(axles) != 24:
             raise ValueError('This drive revision requires exactly 24 named axles')
@@ -120,6 +142,7 @@ def axle_packet(installed):
                      vehicle_candidate_id=installed['vehicle_candidate_id'],
                      mass_evaluation_id=installed['evaluation_id'],
                      load_cases=[{k: deepcopy(r[k]) for k in fields} for r in installed['load_cases']],
+                     line_equipment=deepcopy(installed['physical_definition']['line_conductor']),
                      source_sha256=installed['source_sha256'],
                      scope='Static full-axle force across both rails, drive and recovery fittings counted once; no civil dynamic factor or physical acceptance',
                      installed_mass_complete=False, **FLAGS))

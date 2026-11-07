@@ -24,6 +24,7 @@ Usage: ./osr [COMMAND] [arguments]
   design progress ...     Run/replay continuing reference-cell physics and manufacture
   design sourced ...      Generate/replay source-backed hardware and journey alternatives
   design station-cycle ... Stateful capture → storage → controlled relaunch and costs
+  design closure ...       Reconciled installed body, civil, counted fleet and 14-scope costs
   design station-pair ... Parts → mass → Rust motion → fleet, civil and cost comparison
   source ...              Offline material/cost review, explicit feed refresh, studies and Workbench
   trip/twin/plan ...      Run retained trip research, inspect the twin or create route proposals
@@ -49,6 +50,10 @@ fi
 if [[ "${1:-}" == gis ]]; then
     shift
     exec tools/automation/osr-python -m engineering.rustgis "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == closure ]]; then
+    shift 2
+    exec tools/automation/osr-python -m engineering.railway_closure "$@"
 fi
 if [[ "${1:-}" == design && "${2:-}" == station-cycle ]]; then
     shift 2

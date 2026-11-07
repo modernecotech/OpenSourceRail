@@ -40,6 +40,15 @@ def terminal_geometry(p,train_length_m=105.25):
     angle=acos(1-spacing/(2*radius));arc=2*radius*angle
     dx=2*radius*__import__('math').sin(angle)
     curve_accel=p['terminal_speed_cap_m_s']**2/radius
+    speed=p['terminal_speed_cap_m_s'];accel=p['turnaround_acceleration_hypothesis_m_s2']
+    jerk=p['moving_jerk_target_m_s3']
+    # Move the full formation clear of the crossover, allowing symmetric
+    # finite-jerk acceleration/braking. This is a necessary timing bound only.
+    ramp=accel/jerk;accelerating_s=speed/accel+ramp
+    distance=arc+L;accelerating_distance=speed*accelerating_s
+    if distance<accelerating_distance:
+        raise ValueError('Terminal maneuver requires a separate short-move speed solution')
+    maneuver_lower_bound=2*accelerating_s+(distance-accelerating_distance)/speed
     # Two main tracks extend through the terminal platforms beyond both stops.
     main_track_m=2*(p['route_length_m']+platform)
     pocket_track_m=2*p['terminal_pocket_length_m']
@@ -56,12 +65,24 @@ def terminal_geometry(p,train_length_m=105.25):
         crossover=dict(radius_m=radius,angle_rad=angle,arc_length_m=arc,
             longitudinal_projection_m=dx,lateral_acceleration_at_speed_cap_m_s2=curve_accel,
             dynamic_ride_guidance_acceptance=False),
+        turnaround_timing=dict(full_formation_clear_distance_m=distance,
+            finite_jerk_kinematic_lower_bound_s=maneuver_lower_bound,
+            scheduled_maneuver_s=p['turnaround_maneuver_s'],
+            remaining_switch_settle_allowance_s=p['turnaround_maneuver_s']-maneuver_lower_bound,
+            point_locking_and_authority_proved=False),
         track_quantities=dict(main_and_platform_track_m=main_track_m,pocket_track_m=pocket_track_m,
             crossover_track_m=crossover_track_m,total_track_m=main_track_m+pocket_track_m+crossover_track_m),
         turnout_switch_units=4,
         scope='One counted terminal pocket and crossover per station, with two boarding faces. Exact turnout, crossing, clearances, accessibility and structural design remain to be verified.',
         geometry_verified=False,**FLAGS)
-    v['geometry_id']=identity(v);return v
+    physical=dict(schema='osr-pilot-terminal-physical/1',train_length_m=L,
+        platform_length_m=platform,platform_width_m=p['station_platform_width_m'],
+        station_track_centres_m=spacing,pocket_length_m=p['terminal_pocket_length_m'],
+        crossover_radius_m=radius,turnout_switch_units=4,track_quantities=v['track_quantities'])
+    v['physical_definition']=physical
+    v['geometry_id']=identity(physical)
+    v['evaluation_id']=identity(v)
+    return v
 
 
 def _gap(start,duration,bookings):
@@ -82,6 +103,8 @@ def plan(candidate_id,travel_times,p,*,headway_s,phase_b_s,active_trainsets):
     times={s:_number(t,'travel time',True) for s,t in travel_times.items()}
     if max(times.values())>3600:raise ValueError('Travel-time planning domain exceeded')
     n=p['nominal_departures_per_direction'];dwell=p['dwell_s'];turn=p['turnaround_maneuver_s'];clear=p['route_release_allowance_s']
+    terminal=terminal_geometry(p)
+    maneuver_ok=terminal['turnaround_timing']['remaining_switch_settle_allowance_s']>=0
     # These reservations count a conservative shared terminal movement resource.
     # The 30 s departure clearance is a declared hypothesis, not a signalling limit.
     departure_clear=30.
@@ -134,8 +157,8 @@ def plan(candidate_id,travel_times,p,*,headway_s,phase_b_s,active_trainsets):
         terminal_resource_bookings={s:sorted(rows) for s,rows in bookings.items()},peak_parked_trainsets=peak_parked,
         tests=dict(demand=demand,maximum_wait=h<=p['maximum_wait_s'],
             journey_time=max(times.values())<=p['maximum_pair_journey_s'],all_slots_have_counted_ready_train=complete,
-            station_parked_capacity=parked_ok),
-        planned_service_complete=demand and complete and parked_ok and h<=p['maximum_wait_s'] and max(times.values())<=p['maximum_pair_journey_s'],
+            station_parked_capacity=parked_ok,necessary_terminal_maneuver_time=maneuver_ok),
+        planned_service_complete=demand and complete and parked_ok and maneuver_ok and h<=p['maximum_wait_s'] and max(times.values())<=p['maximum_pair_journey_s'],
         hypotheses=dict(travel_times_s=times,dwell_s=dwell,turnaround_maneuver_s=turn,
             route_release_allowance_s=clear,departure_terminal_clearance_s=departure_clear),
         native_force_driven_fleet_replayed=False,station_store_timing_evaluated=False,

@@ -3,6 +3,13 @@ import pytest
 from engineering.railway_closure import service,electrical
 
 
+def test_impossible_terminal_maneuver_cannot_complete_plan():
+    p=service.brief();p['turnaround_maneuver_s']=1.
+    r=service.plan('a'*64,{'A':180.,'B':180.},p,headway_s=210.,phase_b_s=90.,active_trainsets=4)
+    assert r['tests']['necessary_terminal_maneuver_time'] is False
+    assert r['planned_service_complete'] is False
+
+
 def test_counted_fleet_and_departure_phase_change_service_feasibility():
     p=service.brief();times={'A':171.68,'B':171.68}
     sync=service.plan('a'*64,times,p,headway_s=200,phase_b_s=0,active_trainsets=3)
