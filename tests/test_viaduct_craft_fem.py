@@ -42,3 +42,10 @@ class ReactionsAndLoads(unittest.TestCase):
         text='displacements set TIP\n1 0 0 -1\nforces set ROOT\n1 0 0 8\nstresses\n1 1 1 0 0 0 0 0\n'
         r=f.parse_ccx(text,model)
         self.assertEqual(r['reaction_N'],[0.,0.,10.]);self.assertTrue(r['force_equilibrium_passed'])
+
+class CanonicalOrder(unittest.TestCase):
+    def test_numeric_order_survives_canonical_json_sorting(self):
+        import json
+        m={'2':[2],'10':[10],'1':[1]}
+        self.assertEqual(f.numeric_items(m),f.numeric_items(json.loads(json.dumps(m,sort_keys=True))))
+        self.assertEqual([k for k,v in f.numeric_items(m)],['1','2','10'])

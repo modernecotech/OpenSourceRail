@@ -186,7 +186,7 @@ def load_model(spec,model):
     import numpy as np
     validate_elements(model)
     nodes=model['nodes'];forces={int(n):0. for n in nodes};volume=0.
-    for e in model['elements'].values():
+    for _,e in numeric_items(model['elements']):
         p=np.array([nodes[str(n)] for n in e[:4]]);v=abs(float(np.linalg.det((p[1:]-p[0]).T)))/6;volume+=v
         for n,w in zip(e,[-1/20]*4+[1/5]*6):forces[n]-=2500.*9.80665*v*w
     nominal=spec['nominal_quantity']['total_nominal_volume_m3']
@@ -221,9 +221,9 @@ def commands(spec,model,import_path=None):
     cmd=lambda c,**p:dict(command=c,params=p)
     out=[cmd('model.units',system='m-kg-s-N-Pa')]
     if import_path is None:
-        out += [cmd('mesh.node.add',label=int(n),xyz=p) for n,p in model['nodes'].items()]
-        out += [cmd('mesh.element.add',label=int(n),kind='tet10',nodes=e) for n,e in model['elements'].items()]
-        out += [cmd('model.set.create',name='BODY',elements=list(map(int,model['elements']))),
+        out += [cmd('mesh.node.add',label=int(n),xyz=p) for n,p in numeric_items(model['nodes'])]
+        out += [cmd('mesh.element.add',label=int(n),kind='tet10',nodes=e) for n,e in numeric_items(model['elements'])]
+        out += [cmd('model.set.create',name='BODY',elements=sorted(map(int,model['elements']))),
           cmd('model.material.create',name='CONCRETE',elastic=dict(type='isotropic',young=35e9,poisson=.2)),
           cmd('model.section.create',name='Continuum',set='BODY',material='CONCRETE',kind=dict(type='solid'))]
     else:
@@ -245,6 +245,16 @@ def commands(spec,model,import_path=None):
     out += [cmd('model.step.create',name='Research',procedure=dict(type='static'),boundary_conditions=bc,loads=['SelfWeight','ReserveWeight']+['F'+str(n) for n in live]),
       cmd('model.check'),cmd('solve.static',step='Research'),cmd('solve.probe',step='Research',at=model['probe_xyz_m']),
       cmd('results.reactions',step='Research',sets=['UniqueConstraints'],about=[0.,0.,0.]),cmd('model.info')]
+    if import_path is not None:
+        # Pinned file.open starts an empty undo history. The model, mesh, source
+        # journal and definitions survive; snapshots stay bounded before solve.
+        prepared=[]
+        for i,item in enumerate(out[:-5],1):
+            prepared.append(item)
+            if i%8==0:
+                path=Path(import_path).parent/'fieldcraft'/('checkpoint-'+str(i)+'.fieldcraft')
+                prepared += [cmd('file.save',path=str(path),results=False),cmd('file.open',path=str(path))]
+        out=prepared+out[-5:]
     return out
 
 
@@ -270,15 +280,15 @@ def parse_field(rows,model):
 
 def deck(spec,model):
     lines=['*HEADING','Canonical portfolio 20m exact-CAD continuum; SI; not selected beam reference','*NODE']
-    lines += [n+','+','.join(f'{v:.12g}' for v in p) for n,p in model['nodes'].items()]
+    lines += [n+','+','.join(f'{v:.12g}' for v in p) for n,p in numeric_items(model['nodes'])]
     lines+=['*ELEMENT,TYPE=C3D10,ELSET=BODY']
-    lines += [','.join(map(str,[n,*ccx_nodes(e,model['nodes'])])) for n,e in model['elements'].items()]
+    lines += [','.join(map(str,[n,*ccx_nodes(e,model['nodes'])])) for n,e in numeric_items(model['elements'])]
     sets=[('BEARING0',model['support_nodes'][0]),('BEARING1',model['support_nodes'][1]),('ROOT',sorted(set(sum(model['support_nodes'],[])+model['anchor_nodes']))),('TIP',model['probe_nodes'])]
     for name,ns in sets:
         lines+=['*NSET,NSET='+name]+[','.join(map(str,ns[i:i+15])) for i in range(0,len(ns),15)]
     lines+=['*MATERIAL,NAME=CONCRETE','*ELASTIC','35000000000,.2','*SOLID SECTION,ELSET=BODY,MATERIAL=CONCRETE',
       '*BOUNDARY','BEARING0,3,3','BEARING1,3,3',f"{model['anchor_nodes'][0]},1,2",f"{model['anchor_nodes'][1]},2,2",'*STEP','*STATIC','*CLOAD']
-    lines += [f'{n},3,{v[2]:.12g}' for n,v in model['nodal_load_N'].items()]
+    lines += [f'{n},3,{v[2]:.12g}' for n,v in numeric_items(model['nodal_load_N'])]
     return '\n'.join(lines+['*NODE PRINT,NSET=TIP','U','*NODE PRINT,NSET=ROOT','RF','*EL PRINT,ELSET=BODY','S','*END STEP',''])
 
 
@@ -411,7 +421,7 @@ def ccx_nodes(element,nodes):
 
 def validate_elements(model):
     import numpy as np
-    for e in model['elements'].values():
+    for _,e in numeric_items(model['elements']):
         if len(e)!=10 or ccx_nodes(e,model['nodes'])!=e:raise ValueError('FieldCraft tetra10 midside order differs')
         p=np.array([model['nodes'][str(n)] for n in e[:4]])
         if float(np.linalg.det((p[1:]-p[0]).T))<=0:raise ValueError('Nonpositive signed tetrahedral Jacobian')
@@ -419,7 +429,7 @@ def validate_elements(model):
     def find(n):
         while parents[n]!=n:parents[n]=parents[parents[n]];n=parents[n]
         return n
-    for e in model['elements'].values():
+    for _,e in numeric_items(model['elements']):
         for n in e[1:]:parents[find(n)]=find(e[0])
     if len({find(n) for n in parents})!=1:raise ValueError('Imported CAD continuum is disconnected')
     return True
@@ -439,7 +449,7 @@ def live_forces(spec,model):
 def deck_faces(model):
     # FieldCraft face order independently documented in the pinned model/mesh.rs.
     faces=((0,2,1),(0,1,3),(1,2,3),(0,3,2));lookup={}
-    for n,e in model['elements'].items():
+    for n,e in numeric_items(model['elements']):
         for i,f in enumerate(faces,1):
             key=tuple(sorted(e[j] for j in f));lookup.setdefault(key,[]).append(dict(element=int(n),face=i))
     out=[]
@@ -466,3 +476,7 @@ def validate_input(spec,root=ROOT):
         if spec['cad_artifact'][key]!=spec[key]:raise ValueError('CAD identity differs')
     if native.digest(spec['cad_artifact']['step_path'])!=spec['cad_artifact']['step_sha256']:raise ValueError('CAD bytes differ')
     return True
+
+
+def numeric_items(mapping):
+    return sorted(mapping.items(),key=lambda item:int(item[0]))
