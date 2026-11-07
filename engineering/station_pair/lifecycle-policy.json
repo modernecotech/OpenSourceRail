@@ -1,0 +1,44 @@
+{
+  "schema": "osr-station-pair-lifecycle-policy/1",
+  "currency": "USD",
+  "basis": "Calculated outline allowances; scenario ranges are neither quotations nor confidence quantiles. Existing pilot capital and operating accounts are retained, partitioned once, and supplemented by explicitly disjoint provisions.",
+  "supplier_confirmed": false,
+  "site_surveyed": false,
+  "automatic_bulk_discount": false,
+  "land_access_usd_route_m": [50.0, 150.0, 500.0],
+  "utility_risk_usd_route_m": [30.0, 120.0, 400.0],
+  "protected_rescue_equipment_usd": [100000.0, 250000.0, 650000.0],
+  "rescue_standby_usd_year": [8000.0, 18000.0, 40000.0],
+  "nonrepair_disruption_usd_train_km": [0.01, 0.05, 0.20],
+  "reserve_auxiliary_fraction": [0.10, 0.20, 0.35],
+  "depot_auxiliary_kw": [3.0, 8.0, 20.0],
+  "additional_equipment_annual_maintenance_fraction": [0.02, 0.04, 0.07],
+  "disposal_fraction": [0.02, 0.04, 0.08],
+  "vehicle_life_years": [25.0, 20.0, 15.0],
+  "vehicle_retool_fraction_of_original_setup": [0.25, 0.50, 0.75],
+  "vehicle_components": {
+    "service-batteries": {"fraction_of_delivered_fleet": [0.03, 0.05, 0.08], "life_years": [8.0, 6.0, 4.0]},
+    "running-gear": {"fraction_of_delivered_fleet": [0.06, 0.10, 0.15], "life_years": [15.0, 10.0, 7.0]},
+    "doors-interior-hvac": {"fraction_of_delivered_fleet": [0.12, 0.18, 0.25], "life_years": [15.0, 12.0, 8.0]},
+    "vehicle-controls": {"fraction_of_delivered_fleet": [0.03, 0.05, 0.08], "life_years": [12.0, 10.0, 7.0]}
+  },
+  "asset_life_years": {
+    "station-mechanical": [25.0, 20.0, 15.0],
+    "station-storage": [20.0, 12.0, 8.0],
+    "station-electrical": [20.0, 15.0, 10.0],
+    "rail": [30.0, 25.0, 20.0],
+    "rail-fastenings": [25.0, 20.0, 15.0],
+    "rescue-equipment": [25.0, 20.0, 15.0],
+    "depot-equipment": [25.0, 20.0, 15.0]
+  },
+  "depot_replaceable_equipment_fraction": [0.15, 0.25, 0.40],
+  "support_bearing_equipment_fraction": [0.05, 0.08, 0.12],
+  "station_access_equipment_fraction": [0.10, 0.20, 0.30],
+  "project_finance_layers": {
+    "financing": "Excluded from unlevered real economic NPV; requires drawdown, interest, debt and financing policy.",
+    "taxes": "Excluded; tax treatment and recoverability require project-specific policy.",
+    "customs": "Excluded; item origins, tariff classifications and exemptions remain unresolved.",
+    "exchange_rate": "USD scenario accounting; no conversion or exchange-rate hedge has been applied.",
+    "nonfare_revenue": "No revenue or speculative resale/salvage credit applied."
+  }
+}
