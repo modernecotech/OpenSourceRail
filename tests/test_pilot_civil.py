@@ -37,6 +37,21 @@ def test_exact_beam_supports_and_equilibrium():
     assert M(20.)==pytest.approx(0.,abs=1e-9)
 
 
+def test_conductor_and_supports_change_dead_load_and_civil_identity(train,portfolio):
+    linked=deepcopy(train)
+    linked['line_equipment']=dict(cross_section_m2=.004,density_kg_m3_hypothesis=2700.,
+        insulators_brackets_guards_mass_kg_track_m_hypothesis=6.,lateral_offset_from_track_centre_m=.9)
+    linked.pop('evaluation_id');d.seal(linked)
+    r=d.evaluate(linked)
+    old=portfolio['reference_box','source']
+    assert r['quantities']['line_equipment_dead_mass_kg']==pytest.approx(336.)
+    assert r['quantities']['accounted_superstructure_kg']>=old['quantities']['accounted_superstructure_kg']+336.-1e-8
+    assert r['policy']['line_equipment_dead_torque_Nm_m']==pytest.approx(16.8*9.80665*.9)
+    assert r['civil_candidate_id']!=old['civil_candidate_id']
+    assert any('conductor' in e['id'] for e in a.scene(r)['entities'])
+    assert next(p for p in r['parts']['items'] if p['id']=='track/wayside-conductor')['cost_owner']=='wayside-propulsion in whole-system ledger'
+
+
 def test_real_revision_retains_failure(portfolio):
     old=portfolio['folded_plate','source'];new=portfolio['folded_plate','thick-web']
     assert not old['screens']['duct_cover'] and not old['screens']['gross_vertical_deflection_target']
