@@ -4,6 +4,8 @@ use std::collections::HashSet;
 pub const MAX_INPUT_BYTES: usize = 8 * 1024 * 1024;
 pub const REQUEST_SCHEMA: &str = "osr-journey-request/1";
 const G: f64 = 9.80665;
+mod feedback;
+pub use feedback::{FeedbackControl, FeedbackDiagnostics, stopping_distance_bound};
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Request {
@@ -75,6 +77,8 @@ pub struct Case {
     pub drive: Option<Drive>,
     pub fault: Fault,
     pub thermal: Option<Thermal>,
+    #[serde(default)]
+    pub control: Option<FeedbackControl>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct Trace {
@@ -140,6 +144,7 @@ pub struct ResultRow {
     pub physical_accepted: bool,
     pub engineering_accepted: bool,
     pub operating_release: bool,
+    pub control: Option<FeedbackDiagnostics>,
 }
 #[derive(Debug, Serialize)]
 pub struct BatchResult {
@@ -263,7 +268,7 @@ fn valid(c: &Case) -> Result<(), String> {
     Ok(())
 }
 fn base(c: &Case) -> ResultRow {
-    ResultRow{id:c.id.clone(),candidate_id:c.candidate_id.clone(),state:"held".into(),hold_reason:None,final_position_m:0.,final_speed_m_s:0.,elapsed_s:0.,normal_numerical_arrival:false,fault_stop_in_route:false,standstill_holding:false,standstill_brake_margin_n:0.,rollback_detected:false,berth_error_m:-c.distance_m,maximum_speed_m_s:0.,maximum_acceleration_m_s2:0.,minimum_acceleration_m_s2:0.,maximum_absolute_jerk_m_s3:0.,terminal_acceleration_step_m_s2:0.,terminal_jerk_resolved:false,maximum_traction_n:0.,maximum_brake_n:0.,maximum_mechanical_power_w:0.,maximum_grid_power_w:0.,traction_work_j:0.,grid_energy_j:0.,drive_loss_j:0.,auxiliary_energy_j:0.,brake_heat_j:0.,resistance_work_j:0.,grade_work_j:0.,external_resistance_work_j:0.,detached_reset_kinetic_energy_j:0.,final_kinetic_energy_j:0.,energy_residual_j:0.,maximum_temperature_c:None,final_temperature_c:None,journey_plus_dwell_s:0.,headway_minus_journey_plus_dwell_s:0.,events:vec![],trace:vec![],limitations:vec!["Conditional point-train equipment/engagement hypotheses; no measured actuator, adhesion, coupling, flexible train or protected service proof".into(),"Auxiliary energy is separate electrical demand; battery/charger/source and regenerative recovery are not modelled".into(),"Journey+dwelling is not station resource occupation or safe headway; no timetable, controller or movement authority".into(),"Force discontinuities are retained; jerk uses successive moving-step midpoint acceleration times, including shortened event steps. The terminal acceleration step is reported separately: Coulomb/static/hold transitions are not jerk-qualified".into(),"Aggregate thermal RC is a declared drive-loss hypothesis, not component temperatures or repeated-duty qualification".into(),"Traction power loss conditionally commands independent braking with the input latency/rise; actual control, brake supply independence and standstill retention are not authenticated".into()],conditional:true,admitted_operating_map:false,physical_accepted:false,engineering_accepted:false,operating_release:false}
+    ResultRow{id:c.id.clone(),candidate_id:c.candidate_id.clone(),state:"held".into(),hold_reason:None,final_position_m:0.,final_speed_m_s:0.,elapsed_s:0.,normal_numerical_arrival:false,fault_stop_in_route:false,standstill_holding:false,standstill_brake_margin_n:0.,rollback_detected:false,berth_error_m:-c.distance_m,maximum_speed_m_s:0.,maximum_acceleration_m_s2:0.,minimum_acceleration_m_s2:0.,maximum_absolute_jerk_m_s3:0.,terminal_acceleration_step_m_s2:0.,terminal_jerk_resolved:false,maximum_traction_n:0.,maximum_brake_n:0.,maximum_mechanical_power_w:0.,maximum_grid_power_w:0.,traction_work_j:0.,grid_energy_j:0.,drive_loss_j:0.,auxiliary_energy_j:0.,brake_heat_j:0.,resistance_work_j:0.,grade_work_j:0.,external_resistance_work_j:0.,detached_reset_kinetic_energy_j:0.,final_kinetic_energy_j:0.,energy_residual_j:0.,maximum_temperature_c:None,final_temperature_c:None,journey_plus_dwell_s:0.,headway_minus_journey_plus_dwell_s:0.,events:vec![],trace:vec![],limitations:vec!["Conditional point-train equipment/engagement hypotheses; no measured actuator, adhesion, coupling, flexible train or protected service proof".into(),"Auxiliary energy is separate electrical demand; battery/charger/source and regenerative recovery are not modelled".into(),"Journey+dwelling is not station resource occupation or safe headway; no timetable, controller or movement authority".into(),"Force discontinuities are retained; jerk uses successive moving-step midpoint acceleration times, including shortened event steps. The terminal acceleration step is reported separately: Coulomb/static/hold transitions are not jerk-qualified".into(),"Aggregate thermal RC is a declared drive-loss hypothesis, not component temperatures or repeated-duty qualification".into(),"Traction power loss conditionally commands independent braking with the input latency/rise; actual control, brake supply independence and standstill retention are not authenticated".into()],conditional:true,admitted_operating_map:false,physical_accepted:false,engineering_accepted:false,operating_release:false,control:None}
 }
 fn curve(d: &Drive, v: f64) -> f64 {
     if v > d.maximum_speed_m_s {
@@ -298,6 +303,9 @@ fn event(r: &mut ResultRow, k: &str, t: f64, x: f64, v: f64) {
 /// Integrate actual capped force; position is never reset to a target berth.
 pub fn evaluate(c: &Case) -> Result<ResultRow, String> {
     valid(c)?;
+    if let Some(control) = &c.control {
+        return feedback::evaluate(c, control);
+    }
     let mut r = base(c);
     let Some(d) = &c.drive else {
         r.hold_reason = Some("Available source-derived drive profile absent".into());

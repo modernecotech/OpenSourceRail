@@ -54,6 +54,7 @@ fn case() -> Case {
             emergency_at_m: None,
         },
         thermal: None,
+        control: None,
     }
 }
 #[test]
@@ -66,6 +67,208 @@ fn constant_force_closes_energy() {
     near(r.grid_energy_j, 62500., 1e-5);
     near(r.energy_residual_j, 0., 1e-5);
     assert!(!r.physical_accepted && !r.admitted_operating_map);
+}
+
+fn feedback_case() -> Case {
+    let mut c = case();
+    c.max_time_s = 300.;
+    c.speed_cap_m_s = 15.;
+    c.comfort_jerk_m_s3 = 0.5;
+    c.control = Some(FeedbackControl {
+        policy_id: "fixture-policy".into(),
+        mass_lower_kg: 900.,
+        mass_upper_kg: 1200.,
+        rotating_mass_upper_kg: 50.,
+        external_mass_upper_kg: 0.,
+        brake_force_lower_bound_n: 1500.,
+        grade_estimate_fraction: 0.,
+        grade_error_bound: 0.001,
+        position_error_bound_m: 0.05,
+        speed_error_bound_m_s: 0.02,
+        acceleration_error_bound_m_s2: 0.01,
+        position_bias_m: 0.,
+        speed_bias_m_s: 0.,
+        acceleration_bias_m_s2: 0.,
+        reaction_time_bound_s: 0.2,
+        brake_rise_time_bound_s: 0.2,
+        stopping_margin_m: 0.3,
+        end_of_authority_m: c.distance_m,
+        initial_hold_applied: true,
+        start_traction_lower_bound_n: 1000.,
+        rolling_resistance_upper_n: 50.,
+        external_resistance_upper_n: 0.,
+        positive_acceleration_bound_m_s2: 3.,
+    });
+    c
+}
+
+#[test]
+fn feedback_nominal_diagnostic() {
+    let c = feedback_case();
+    let r = evaluate(&c).unwrap();
+
+    assert!(r.normal_numerical_arrival);
+}
+
+#[test]
+fn feedback_curve_matches_zero_response_analytic_limit() {
+    let c = feedback_case();
+    let mut p = c.control.unwrap();
+    p.grade_error_bound = 0.;
+    p.rotating_mass_upper_kg = 0.;
+    p.reaction_time_bound_s = 0.;
+    p.brake_rise_time_bound_s = 0.;
+    p.stopping_margin_m = 0.;
+    near(
+        stopping_distance_bound(&p, 10., f64::INFINITY, 0., 0.).unwrap(),
+        40.,
+        1e-10,
+    );
+}
+#[test]
+fn feedback_curve_grows_with_delay_mass_grade_and_observation_speed() {
+    let c = feedback_case();
+    let p = c.control.unwrap();
+    let distance = stopping_distance_bound(&p, 10., 0.5, 0.05, 0.).unwrap();
+    let mut q = p.clone();
+    q.reaction_time_bound_s += 1.;
+    assert!(stopping_distance_bound(&q, 10., 0.5, 0.05, 0.).unwrap() > distance);
+    q = p.clone();
+    q.mass_upper_kg *= 1.2;
+    assert!(stopping_distance_bound(&q, 10., 0.5, 0.05, 0.).unwrap() > distance);
+    q = p.clone();
+    q.grade_estimate_fraction = -0.02;
+    assert!(stopping_distance_bound(&q, 10., 0.5, 0.05, 0.).unwrap() > distance);
+    assert!(stopping_distance_bound(&p, 11., 0.5, 0.05, 0.).unwrap() > distance);
+}
+#[test]
+fn feedback_same_policy_handles_independent_actual_masses_without_refitting() {
+    let c = feedback_case();
+    for mass in [900., 1000., 1200.] {
+        let mut q = c.clone();
+        q.mass_kg = mass;
+        q.brake_start_m = 0.;
+        let r = evaluate(&q).unwrap();
+        assert!(
+            r.normal_numerical_arrival,
+            "mass {mass}, x{}, state{}",
+            r.final_position_m, r.state
+        );
+        near(r.energy_residual_j, 0., 1e-4);
+    }
+}
+#[test]
+fn feedback_does_not_use_fixed_brake_start() {
+    let a = feedback_case();
+    let mut b = a.clone();
+    b.brake_start_m = 1.;
+    let x = evaluate(&a).unwrap();
+    let y = evaluate(&b).unwrap();
+    near(x.final_position_m, y.final_position_m, 1e-10);
+    near(x.elapsed_s, y.elapsed_s, 1e-10);
+}
+#[test]
+fn feedback_actual_weak_brake_is_reported_outside_policy_not_repaired() {
+    let mut c = feedback_case();
+    c.brake_force_cap_n = 500.;
+    let r = evaluate(&c).unwrap();
+    assert!(!r.control.unwrap().bounds_valid);
+    assert!(!r.normal_numerical_arrival);
+    assert!(r.maximum_brake_n <= 500.);
+}
+#[test]
+fn feedback_outside_sensor_domain_cannot_claim_arrival() {
+    let mut c = feedback_case();
+    c.control.as_mut().unwrap().position_bias_m = 5.;
+    let r = evaluate(&c).unwrap();
+    assert!(!r.control.unwrap().bounds_valid);
+    assert!(!r.normal_numerical_arrival);
+}
+#[test]
+fn feedback_tailwind_domain_is_explicit() {
+    let mut c = feedback_case();
+    c.headwind_m_s = -5.;
+    let r = evaluate(&c).unwrap();
+    assert!(!r.control.unwrap().bounds_valid);
+    assert!(!r.normal_numerical_arrival);
+}
+#[test]
+fn feedback_insufficient_declared_brake_rejects_departure_with_actual_hold_report() {
+    let mut c = feedback_case();
+    let p = c.control.as_mut().unwrap();
+    p.grade_estimate_fraction = -0.08;
+    p.brake_force_lower_bound_n = 500.;
+    let r = evaluate(&c).unwrap();
+    assert!(r.control.unwrap().departure_held);
+    assert_eq!(r.final_position_m, 0.);
+    assert!(!r.normal_numerical_arrival);
+}
+#[test]
+fn feedback_initial_hill_hold_has_no_reverse_energy() {
+    let mut c = feedback_case();
+    c.grade_fraction = 0.01;
+    c.control.as_mut().unwrap().grade_estimate_fraction = 0.01;
+    let r = evaluate(&c).unwrap();
+    assert!(!r.rollback_detected);
+    assert!(r.final_position_m > 0.);
+    near(r.energy_residual_j, 0., 1e-4);
+}
+#[test]
+fn feedback_power_loss_stops_without_propulsive_energy_after_failure() {
+    let mut c = feedback_case();
+    c.fault.power_loss_at_s = Some(10.);
+    let r = evaluate(&c).unwrap();
+    assert!(r.fault_stop_in_route);
+    assert!(!r.normal_numerical_arrival);
+    assert!(
+        r.trace
+            .iter()
+            .filter(|p| p.time_s > 10.1)
+            .all(|p| p.traction_n == 0.)
+    );
+    near(r.energy_residual_j, 0., 1e-4);
+}
+#[test]
+fn feedback_finite_cable_window_never_creeps_after_detachment() {
+    let mut c = feedback_case();
+    c.drive.as_mut().unwrap().windows_m = vec![[0., 100.]];
+    let r = evaluate(&c).unwrap();
+    assert!(
+        r.trace
+            .iter()
+            .filter(|p| p.position_m > 100.001)
+            .all(|p| p.traction_n == 0.)
+    );
+    near(r.energy_residual_j, 0., 1e-4);
+}
+#[test]
+fn feedback_timestep_refinement_retains_unmodified_policy() {
+    let a = feedback_case();
+    let mut b = a.clone();
+    b.dt_s = 0.005;
+    let x = evaluate(&a).unwrap();
+    let y = evaluate(&b).unwrap();
+    assert!(x.normal_numerical_arrival && y.normal_numerical_arrival);
+    near(x.final_position_m, y.final_position_m, 0.2);
+}
+
+#[test]
+fn feedback_explicit_authority_is_not_the_berth_accuracy_window() {
+    let mut c = feedback_case();
+    c.control.as_mut().unwrap().end_of_authority_m = 500.;
+    let r = evaluate(&c).unwrap();
+    assert!(!r.normal_numerical_arrival);
+    assert!(r.final_position_m <= 500.);
+    assert!(!r.control.unwrap().end_of_authority_violated);
+}
+#[test]
+fn feedback_initial_fault_reports_unattained_traction_bound() {
+    let mut c = feedback_case();
+    c.fault.power_loss_at_s = Some(0.);
+    let r = evaluate(&c).unwrap();
+    assert!(!r.control.unwrap().bounds_valid);
+    assert!(r.standstill_holding);
+    near(r.traction_work_j, 0., 1e-10);
 }
 
 #[test]
