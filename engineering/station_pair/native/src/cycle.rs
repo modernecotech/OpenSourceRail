@@ -291,17 +291,6 @@ impl<'a> Runtime<'a> {
                 self.specs[self.dep].release.end_m,
             ]);
         }
-        if !self.leg.capture_failed
-            && self.specs[self.arr].store.capacity_j > 0.
-            && (self.states[self.arr].energy_j < self.specs[self.arr].store.capacity_j
-                || self.specs[self.arr].store.leakage_per_s > 0.)
-        {
-            for s in &self.specs[self.arr].capture_stages {
-                if s.max_force_n > 0. {
-                    v.extend([s.start_m, s.end_m]);
-                }
-            }
-        }
         v
     }
     pub fn release_cap(&self, x: f64, v: f64, h: f64, fault: bool) -> f64 {
@@ -323,33 +312,52 @@ impl<'a> Runtime<'a> {
             .min(q.max_power_w / v.max(1e-12))
             .min(budget / (v * h).max(1e-12))
     }
-    fn capture_cap(&self, x: f64, v: f64, h: f64, brake: f64, time_s: f64) -> (usize, f64, f64) {
-        let s = &self.specs[self.arr];
-        for (i, q) in s.capture_stages.iter().enumerate() {
-            if x >= q.start_m - 1e-9 && x < q.end_m - 1e-9 {
-                let potential = brake.min(q.max_force_n).min(q.max_power_w / v.max(1e-12));
-                if self.leg.capture_failed
-                    || !self.states[self.arr].ready
-                    || self.leg.departure_time_s + time_s - h / 2.
-                        < self.states[self.arr].ready_at_s
-                    || self.leg.departure_time_s + time_s - h / 2.
-                        < self.states[self.arr].locked_until_s
-                {
-                    return (i, 0., potential);
-                }
-                let after_leak =
-                    self.states[self.arr].energy_j * (-s.store.leakage_per_s * h).exp();
-                let room = (s.store.capacity_j - after_leak).max(0.);
-                let force = potential.min(room / (s.store.capture_efficiency * v * h).max(1e-12));
-                return (i, force, potential);
-            }
+    // Capture shares an already-applied total brake force. Integrate its exact
+    // spatial overlap inside the accepted plant step: capture-only boundaries
+    // must not change controller sampling or the mechanical stopping trace.
+    fn capture_plan(
+        &self,
+        x: f64,
+        dx: f64,
+        v_upper: f64,
+        h: f64,
+        brake: f64,
+        time_s: f64,
+    ) -> Vec<(usize, f64, f64, f64)> {
+        if dx <= 0. || brake <= 0. {
+            return vec![];
         }
-        (0, 0., 0.)
+        let s = &self.specs[self.arr];
+        let after_leak = self.states[self.arr].energy_j * (-s.store.leakage_per_s * h).exp();
+        let mut room = (s.store.capacity_j - after_leak).max(0.);
+        let ready = !self.leg.capture_failed
+            && self.states[self.arr].ready
+            && self.leg.departure_time_s + time_s - h >= self.states[self.arr].ready_at_s
+            && self.leg.departure_time_s + time_s - h >= self.states[self.arr].locked_until_s;
+        let mut plan = vec![];
+        for (i, q) in s.capture_stages.iter().enumerate() {
+            let overlap = ((x + dx).min(q.end_m) - x.max(q.start_m)).max(0.);
+            if overlap <= 0. {
+                continue;
+            }
+            let potential = brake
+                .min(q.max_force_n)
+                .min(q.max_power_w / v_upper.max(1e-12));
+            let force = if ready {
+                potential.min(room / (s.store.capture_efficiency * overlap).max(1e-12))
+            } else {
+                0.
+            };
+            room = (room - force * overlap * s.store.capture_efficiency).max(0.);
+            plan.push((i, force, potential, overlap));
+        }
+        plan
     }
     pub fn commit(
         &mut self,
         x: f64,
         v: f64,
+        v_upper: f64,
         dx: f64,
         h: f64,
         time_s: f64,
@@ -358,8 +366,9 @@ impl<'a> Runtime<'a> {
         fault: bool,
     ) -> Result<(f64, f64), String> {
         let release = traction.min(self.release_cap(x, v, h, fault));
-        let (stage, capture, potential) = self.capture_cap(x, v, h, brake, time_s);
-        let capture_work = capture * dx.max(0.);
+        let plan = self.capture_plan(x, dx, v_upper, h, brake, time_s);
+        let capture_work: f64 = plan.iter().map(|(_, f, _, overlap)| f * overlap).sum();
+        let capture = if dx > 0. { capture_work / dx } else { 0. };
         let launch = release * dx.max(0.);
         let draw = launch / self.specs[self.dep].store.release_efficiency;
         let stored = capture_work * self.specs[self.arr].store.capture_efficiency;
@@ -375,27 +384,31 @@ impl<'a> Runtime<'a> {
         self.energy.capture_work_j += capture_work;
         self.energy.stored_capture_j += stored;
         self.energy.capture_loss_j += capture_work - stored;
-        self.energy.bypassed_capture_work_j += (potential - capture) * dx.max(0.);
+        self.energy.bypassed_capture_work_j +=
+            plan.iter().map(|(_, f, p, d)| (p - f) * d).sum::<f64>();
         self.energy.released_from_store_j += draw;
         self.energy.delivered_launch_work_j += launch;
         self.energy.release_loss_j += draw - launch;
-        self.energy.capture_stage_work_j[stage] += capture_work;
-        self.energy.maximum_capture_force_n = self.energy.maximum_capture_force_n.max(capture);
-        self.energy.maximum_capture_power_w = self.energy.maximum_capture_power_w.max(capture * v);
         self.energy.maximum_release_force_n = self.energy.maximum_release_force_n.max(release);
         self.energy.maximum_release_power_w = self.energy.maximum_release_power_w.max(release * v);
         self.energy.maximum_grid_force_n = self.energy.maximum_grid_force_n.max(traction - release);
-        if capture_work > 0.
-            && !self.events.iter().any(|e| {
-                e.kind == "capture-stage-active"
-                    && e.station_id == format!("{}:{stage}", self.specs[self.arr].id)
-            })
-        {
-            self.events.push(CycleEvent {
-                kind: "capture-stage-active".into(),
-                station_id: format!("{}:{stage}", self.specs[self.arr].id),
-                time_s: self.leg.departure_time_s + time_s,
-            });
+        for (stage, force, _, distance) in plan {
+            self.energy.capture_stage_work_j[stage] += force * distance;
+            self.energy.maximum_capture_force_n = self.energy.maximum_capture_force_n.max(force);
+            self.energy.maximum_capture_power_w =
+                self.energy.maximum_capture_power_w.max(force * v_upper);
+            if force * distance > 0.
+                && !self.events.iter().any(|e| {
+                    e.kind == "capture-stage-active"
+                        && e.station_id == format!("{}:{stage}", self.specs[self.arr].id)
+                })
+            {
+                self.events.push(CycleEvent {
+                    kind: "capture-stage-active".into(),
+                    station_id: format!("{}:{stage}", self.specs[self.arr].id),
+                    time_s: self.leg.departure_time_s + time_s,
+                });
+            }
         }
         if launch > 0.
             && !self

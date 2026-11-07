@@ -668,7 +668,7 @@ pub(super) fn evaluate_with_recovery(
         }
         let work = force * dx;
         let (store_work, capture_work) = if let Some(q) = recovery.as_deref_mut() {
-            q.commit(x, vm, dx, h, t + h, force, midpoint_brake, fault)?
+            q.commit(x, vm, v.max(nv), dx, h, t + h, force, midpoint_brake, fault)?
         } else {
             (0., 0.)
         };

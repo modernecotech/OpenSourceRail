@@ -360,3 +360,21 @@ fn timestep_refinement_retains_controller_and_conserves_energy() {
         near(l.energy.storage_balance_residual_j, 0.);
     }
 }
+#[test]
+fn cold_capture_allocation_does_not_change_the_mechanical_stopping_trace() {
+    let mut c = cycle();
+    c.legs.truncate(1);
+    let r = osr_journey::cycle::evaluate(&c).unwrap();
+    let baseline = osr_journey::evaluate(&c.legs[0].journey).unwrap();
+    let got = r.legs[0].journey.as_ref().unwrap();
+    assert_eq!(
+        serde_json::to_value(&got.trace).unwrap(),
+        serde_json::to_value(&baseline.trace).unwrap()
+    );
+    assert_eq!(got.elapsed_s, baseline.elapsed_s);
+    assert_eq!(got.final_position_m, baseline.final_position_m);
+    near(
+        got.brake_heat_j + r.ledger.capture_work_j,
+        baseline.brake_heat_j,
+    );
+}
