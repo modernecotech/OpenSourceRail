@@ -1,0 +1,321 @@
+{
+  "commands": [
+    {
+      "command": "document.units",
+      "params": {
+        "units": "mm"
+      }
+    },
+    {
+      "command": "document.metadata.set",
+      "params": {
+        "values": {
+          "org.opensourcerail.candidate": {
+            "candidate_id": "15edde443c89298b0a359c6bf5113d4fb856a3201e03802c8851735fa956b642",
+            "case_id": "folded_plate--robust",
+            "component_geometry_id": "cde15b576a6226f35bd5a09e4ec6189a037bc867c1320f356a544e165e973be0",
+            "declared_input_units": "m",
+            "display_offsets_applied": false,
+            "engineering_accepted": false,
+            "manufacturing_release": false,
+            "movement_authority": false,
+            "native_geometry_units": "mm",
+            "operating_release": false,
+            "physical_accepted": false,
+            "selected_reference_changed": false,
+            "source_evaluation_id": null,
+            "source_selection_id": null,
+            "source_study_id": null
+          }
+        }
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/bottom-fold",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -350.0,
+            -1437.5
+          ],
+          [
+            350.0,
+            -1437.5
+          ],
+          [
+            350.0,
+            -1269.5
+          ],
+          [
+            -350.0,
+            -1269.5
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/bottom-fold",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.create",
+      "params": {
+        "density_g_cm3": 2.5,
+        "name": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/bottom-fold"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/deck",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -168.0
+          ],
+          [
+            1000.0,
+            -168.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/deck",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/inclined-left-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -800.0,
+            -168.0
+          ],
+          [
+            -350.0,
+            -1269.5
+          ],
+          [
+            -181.99999999999997,
+            -1269.5
+          ],
+          [
+            -632.0,
+            -168.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/inclined-left-web",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/inclined-left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/inclined-right-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            632.0,
+            -168.0
+          ],
+          [
+            181.99999999999997,
+            -1269.5
+          ],
+          [
+            350.0,
+            -1269.5
+          ],
+          [
+            800.0,
+            -168.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/inclined-right-web",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/inclined-right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "inspect.measure",
+      "params": {}
+    }
+  ]
+}

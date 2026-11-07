@@ -1,0 +1,65 @@
+{
+  "candidate_id": "b8b07e994ed204b93ee399940c199a147350d732f76cfc98caf592e42d746184",
+  "case_definition_id": "c5a3d7c170740fbd1c0d4a56e3fdf45656748eadf8c842acf6a96619c5f6fe75",
+  "comparison": {
+    "diagnostic": {
+      "position_m": 0.001,
+      "volume_relative": 0.001
+    },
+    "exact": {
+      "position_m": 1e-07,
+      "volume_relative": 1e-07
+    }
+  },
+  "component_geometry_id": "a3ae2eae90cc7fd54f45ff44e9bce4a81ae7217fc30f027f18a5c690c6b1425f",
+  "engineering_accepted": false,
+  "evaluation_id": "06171392a741eb5b891fa31a00e588caafa11c6385f6021f7b84182908975804",
+  "installed_mass_complete": false,
+  "limits": {
+    "maximum_native_processes": 16,
+    "memory_mb": 2048,
+    "parallel_workers": 1,
+    "timeout_s": 120
+  },
+  "manufacturing_release": false,
+  "movement_authority": false,
+  "operating_release": false,
+  "physical_accepted": false,
+  "schema": "osr-viaduct-craft-evaluation/1",
+  "scope": "Nominal stock CAD and exact STEP comparison; no installed mass, structural load or bond credit",
+  "selected_reference_changed": false,
+  "source_sha256": {
+    "engineering/design_search/civil_shape_geometry.py": "f73fd0793f5ccd870ebe3da530ddd832b76624aecebcf09eaeedf4b73642ef84",
+    "engineering/design_search/craft_backends/__init__.py": "f8c04e529f90c5133ed6ee09860d82025998f87cbbcdb58e94369271c15980f2",
+    "engineering/design_search/craft_backends/cases.py": "408c5a31b97c6951ce6710a293e8a45bd50c63970cca114bd477d7ec00b82819",
+    "engineering/design_search/craft_backends/freecad_reference.py": "2f593f3987f447083eec2b65b33b66633177475f78bc2007e6b2a6ef64919447",
+    "engineering/design_search/craft_backends/native.py": "9f5bbbceb9b5a2f4d896e78ee43817c2761b5008a6f56fe20794c5cbd81a195e",
+    "engineering/design_search/craft_backends/solidcraft.py": "f4c4ea10f1d47d56828da0565c69494b771525b265a27e35d0d0225f6444c7e4",
+    "engineering/design_search/craft_backends/tools.json": "f3a541558712165fd7543d7557b0b8ff2bc7243152992740fb0743512e0e007b",
+    "engineering/design_search/craft_backends/viaduct_cad.py": "9a86f74714fab7435176c7978da84f2111550119aa26198f578fa2357bebb7a1",
+    "engineering/design_search/craft_backends/viaduct_cases.py": "82d3464c4b70dc0f1e550d5116ab329d61d9d544448411976a25117ed09df987",
+    "engineering/station_rail/common.py": "691787a2cd1d5e751c188cf729432f35883a2882cdb1f543e3e49286dc8576ec"
+  },
+  "tools": {
+    "independent_reference": "Existing FreeCAD Flatpak; actual FreeCAD/OpenCASCADE versions recorded at execution",
+    "solidcraft": {
+      "asset": "solidcraft-0.30.1-linux-x86_64.tar.gz",
+      "asset_id": 702551198,
+      "asset_sha256": "2be163c618e7ccd9523d997ebd9f5094c310e968a80560b2840db1e1a8c0d482",
+      "binary": "dist/solidcraft-0.30.1-linux-x86_64/bin/solidcraft-cli",
+      "binary_sha256": "e8a778658ddc43214f253a33255c23d0b0c520ba6e3b283bd913123cda86b243",
+      "bytes": 102988905,
+      "commit": "8e2b0cd60d14b4152b12b8f1fdb2bcfdcd8c52f4",
+      "digest_source": "GitHub release asset API; executable hash measured from the matching SHA-256-verified archive",
+      "directory": "solidcraft-v0.30.1",
+      "github_digest": "sha256:2be163c618e7ccd9523d997ebd9f5094c310e968a80560b2840db1e1a8c0d482",
+      "license": "MIT OR Apache-2.0; third-party notices retained",
+      "purpose": "bounded mechanical/CAD pilot",
+      "release_immutable": false,
+      "release_published_at": "2026-11-02T17:21:52Z",
+      "repository": "tangency-labs/solidcraft",
+      "url": "https://github.com/tangency-labs/solidcraft/releases/download/v0.30.1/solidcraft-0.30.1-linux-x86_64.tar.gz",
+      "version": "v0.30.1"
+    }
+  }
+}

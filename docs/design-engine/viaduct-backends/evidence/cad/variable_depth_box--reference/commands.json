@@ -1,0 +1,5565 @@
+{
+  "commands": [
+    {
+      "command": "document.units",
+      "params": {
+        "units": "mm"
+      }
+    },
+    {
+      "command": "document.metadata.set",
+      "params": {
+        "values": {
+          "org.opensourcerail.candidate": {
+            "candidate_id": "9fe34c1f68c72d257c8306cbee79f165c298c3aad6bc6ad4937d0b168f5717dd",
+            "case_id": "variable_depth_box--reference",
+            "component_geometry_id": "40f71d9cb72a03ea4c9855c8e0dc4deb83cc61acd6ac432dd10d42540a0af8aa",
+            "declared_input_units": "m",
+            "display_offsets_applied": false,
+            "engineering_accepted": false,
+            "manufacturing_release": false,
+            "movement_authority": false,
+            "native_geometry_units": "mm",
+            "operating_release": false,
+            "physical_accepted": false,
+            "selected_reference_changed": false,
+            "source_evaluation_id": null,
+            "source_selection_id": null,
+            "source_study_id": null
+          }
+        }
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/bottom",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -903.625
+          ],
+          [
+            1000.0,
+            -903.625
+          ],
+          [
+            1000.0,
+            -743.625
+          ],
+          [
+            -1000.0,
+            -743.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.create",
+      "params": {
+        "density_g_cm3": 2.5,
+        "name": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/deck",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/left-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -743.625
+          ],
+          [
+            -840.0,
+            -743.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/right-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -743.625
+          ],
+          [
+            1000.0,
+            -743.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-001/bottom",
+        "plane": {
+          "origin": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1002.6250000000001
+          ],
+          [
+            1000.0,
+            -1002.6250000000001
+          ],
+          [
+            1000.0,
+            -842.6250000000001
+          ],
+          [
+            -1000.0,
+            -842.6250000000001
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-001/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-001/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-001/deck",
+        "plane": {
+          "origin": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-001/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-001/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-001/left-web",
+        "plane": {
+          "origin": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -842.6250000000001
+          ],
+          [
+            -840.0,
+            -842.6250000000001
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-001/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-001/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-001/right-web",
+        "plane": {
+          "origin": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -842.6250000000001
+          ],
+          [
+            1000.0,
+            -842.6250000000001
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-001/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-001/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-002/bottom",
+        "plane": {
+          "origin": [
+            2000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1090.625
+          ],
+          [
+            1000.0,
+            -1090.625
+          ],
+          [
+            1000.0,
+            -930.6249999999999
+          ],
+          [
+            -1000.0,
+            -930.6249999999999
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-002/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-002/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-002/deck",
+        "plane": {
+          "origin": [
+            2000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-002/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-002/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-002/left-web",
+        "plane": {
+          "origin": [
+            2000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -930.6249999999999
+          ],
+          [
+            -840.0,
+            -930.6249999999999
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-002/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-002/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-002/right-web",
+        "plane": {
+          "origin": [
+            2000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -930.6249999999999
+          ],
+          [
+            1000.0,
+            -930.6249999999999
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-002/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-002/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-003/bottom",
+        "plane": {
+          "origin": [
+            3000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1167.625
+          ],
+          [
+            1000.0,
+            -1167.625
+          ],
+          [
+            1000.0,
+            -1007.625
+          ],
+          [
+            -1000.0,
+            -1007.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-003/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-003/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-003/deck",
+        "plane": {
+          "origin": [
+            3000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-003/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-003/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-003/left-web",
+        "plane": {
+          "origin": [
+            3000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1007.625
+          ],
+          [
+            -840.0,
+            -1007.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-003/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-003/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-003/right-web",
+        "plane": {
+          "origin": [
+            3000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1007.625
+          ],
+          [
+            1000.0,
+            -1007.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-003/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-003/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-004/bottom",
+        "plane": {
+          "origin": [
+            4000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1233.625
+          ],
+          [
+            1000.0,
+            -1233.625
+          ],
+          [
+            1000.0,
+            -1073.625
+          ],
+          [
+            -1000.0,
+            -1073.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-004/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-004/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-004/deck",
+        "plane": {
+          "origin": [
+            4000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-004/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-004/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-004/left-web",
+        "plane": {
+          "origin": [
+            4000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1073.625
+          ],
+          [
+            -840.0,
+            -1073.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-004/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-004/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-004/right-web",
+        "plane": {
+          "origin": [
+            4000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1073.625
+          ],
+          [
+            1000.0,
+            -1073.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-004/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-004/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-005/bottom",
+        "plane": {
+          "origin": [
+            5000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1288.6250000000002
+          ],
+          [
+            1000.0,
+            -1288.6250000000002
+          ],
+          [
+            1000.0,
+            -1128.6250000000002
+          ],
+          [
+            -1000.0,
+            -1128.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-005/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-005/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-005/deck",
+        "plane": {
+          "origin": [
+            5000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-005/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-005/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-005/left-web",
+        "plane": {
+          "origin": [
+            5000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1128.6250000000002
+          ],
+          [
+            -840.0,
+            -1128.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-005/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-005/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-005/right-web",
+        "plane": {
+          "origin": [
+            5000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1128.6250000000002
+          ],
+          [
+            1000.0,
+            -1128.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-005/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-005/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-006/bottom",
+        "plane": {
+          "origin": [
+            6000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1332.6250000000002
+          ],
+          [
+            1000.0,
+            -1332.6250000000002
+          ],
+          [
+            1000.0,
+            -1172.6250000000002
+          ],
+          [
+            -1000.0,
+            -1172.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-006/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-006/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-006/deck",
+        "plane": {
+          "origin": [
+            6000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-006/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-006/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-006/left-web",
+        "plane": {
+          "origin": [
+            6000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1172.6250000000002
+          ],
+          [
+            -840.0,
+            -1172.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-006/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-006/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-006/right-web",
+        "plane": {
+          "origin": [
+            6000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1172.6250000000002
+          ],
+          [
+            1000.0,
+            -1172.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-006/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-006/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-007/bottom",
+        "plane": {
+          "origin": [
+            7000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1365.625
+          ],
+          [
+            1000.0,
+            -1365.625
+          ],
+          [
+            1000.0,
+            -1205.6250000000002
+          ],
+          [
+            -1000.0,
+            -1205.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-007/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-007/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-007/deck",
+        "plane": {
+          "origin": [
+            7000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-007/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-007/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-007/left-web",
+        "plane": {
+          "origin": [
+            7000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1205.6250000000002
+          ],
+          [
+            -840.0,
+            -1205.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-007/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-007/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-007/right-web",
+        "plane": {
+          "origin": [
+            7000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1205.6250000000002
+          ],
+          [
+            1000.0,
+            -1205.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-007/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-007/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-008/bottom",
+        "plane": {
+          "origin": [
+            8000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1387.625
+          ],
+          [
+            1000.0,
+            -1387.625
+          ],
+          [
+            1000.0,
+            -1227.625
+          ],
+          [
+            -1000.0,
+            -1227.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-008/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-008/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-008/deck",
+        "plane": {
+          "origin": [
+            8000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-008/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-008/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-008/left-web",
+        "plane": {
+          "origin": [
+            8000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1227.625
+          ],
+          [
+            -840.0,
+            -1227.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-008/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-008/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-008/right-web",
+        "plane": {
+          "origin": [
+            8000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1227.625
+          ],
+          [
+            1000.0,
+            -1227.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-008/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-008/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-009/bottom",
+        "plane": {
+          "origin": [
+            9000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1398.625
+          ],
+          [
+            1000.0,
+            -1398.625
+          ],
+          [
+            1000.0,
+            -1238.625
+          ],
+          [
+            -1000.0,
+            -1238.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-009/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-009/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-009/deck",
+        "plane": {
+          "origin": [
+            9000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-009/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-009/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-009/left-web",
+        "plane": {
+          "origin": [
+            9000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1238.625
+          ],
+          [
+            -840.0,
+            -1238.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-009/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-009/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-009/right-web",
+        "plane": {
+          "origin": [
+            9000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1238.625
+          ],
+          [
+            1000.0,
+            -1238.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-009/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-009/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-010/bottom",
+        "plane": {
+          "origin": [
+            10000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1398.625
+          ],
+          [
+            1000.0,
+            -1398.625
+          ],
+          [
+            1000.0,
+            -1238.625
+          ],
+          [
+            -1000.0,
+            -1238.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-010/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-010/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-010/deck",
+        "plane": {
+          "origin": [
+            10000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-010/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-010/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-010/left-web",
+        "plane": {
+          "origin": [
+            10000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1238.625
+          ],
+          [
+            -840.0,
+            -1238.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-010/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-010/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-010/right-web",
+        "plane": {
+          "origin": [
+            10000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1238.625
+          ],
+          [
+            1000.0,
+            -1238.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-010/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-010/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-011/bottom",
+        "plane": {
+          "origin": [
+            11000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1387.625
+          ],
+          [
+            1000.0,
+            -1387.625
+          ],
+          [
+            1000.0,
+            -1227.625
+          ],
+          [
+            -1000.0,
+            -1227.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-011/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-011/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-011/deck",
+        "plane": {
+          "origin": [
+            11000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-011/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-011/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-011/left-web",
+        "plane": {
+          "origin": [
+            11000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1227.625
+          ],
+          [
+            -840.0,
+            -1227.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-011/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-011/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-011/right-web",
+        "plane": {
+          "origin": [
+            11000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1227.625
+          ],
+          [
+            1000.0,
+            -1227.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-011/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-011/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-012/bottom",
+        "plane": {
+          "origin": [
+            12000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1365.625
+          ],
+          [
+            1000.0,
+            -1365.625
+          ],
+          [
+            1000.0,
+            -1205.6250000000002
+          ],
+          [
+            -1000.0,
+            -1205.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-012/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-012/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-012/deck",
+        "plane": {
+          "origin": [
+            12000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-012/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-012/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-012/left-web",
+        "plane": {
+          "origin": [
+            12000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1205.6250000000002
+          ],
+          [
+            -840.0,
+            -1205.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-012/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-012/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-012/right-web",
+        "plane": {
+          "origin": [
+            12000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1205.6250000000002
+          ],
+          [
+            1000.0,
+            -1205.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-012/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-012/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-013/bottom",
+        "plane": {
+          "origin": [
+            13000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1332.625
+          ],
+          [
+            1000.0,
+            -1332.625
+          ],
+          [
+            1000.0,
+            -1172.625
+          ],
+          [
+            -1000.0,
+            -1172.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-013/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-013/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-013/deck",
+        "plane": {
+          "origin": [
+            13000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-013/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-013/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-013/left-web",
+        "plane": {
+          "origin": [
+            13000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1172.625
+          ],
+          [
+            -840.0,
+            -1172.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-013/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-013/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-013/right-web",
+        "plane": {
+          "origin": [
+            13000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1172.625
+          ],
+          [
+            1000.0,
+            -1172.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-013/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-013/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-014/bottom",
+        "plane": {
+          "origin": [
+            14000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1288.6250000000002
+          ],
+          [
+            1000.0,
+            -1288.6250000000002
+          ],
+          [
+            1000.0,
+            -1128.6250000000002
+          ],
+          [
+            -1000.0,
+            -1128.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-014/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-014/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-014/deck",
+        "plane": {
+          "origin": [
+            14000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-014/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-014/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-014/left-web",
+        "plane": {
+          "origin": [
+            14000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1128.6250000000002
+          ],
+          [
+            -840.0,
+            -1128.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-014/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-014/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-014/right-web",
+        "plane": {
+          "origin": [
+            14000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1128.6250000000002
+          ],
+          [
+            1000.0,
+            -1128.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-014/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-014/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-015/bottom",
+        "plane": {
+          "origin": [
+            15000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1233.625
+          ],
+          [
+            1000.0,
+            -1233.625
+          ],
+          [
+            1000.0,
+            -1073.625
+          ],
+          [
+            -1000.0,
+            -1073.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-015/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-015/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-015/deck",
+        "plane": {
+          "origin": [
+            15000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-015/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-015/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-015/left-web",
+        "plane": {
+          "origin": [
+            15000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1073.625
+          ],
+          [
+            -840.0,
+            -1073.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-015/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-015/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-015/right-web",
+        "plane": {
+          "origin": [
+            15000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1073.625
+          ],
+          [
+            1000.0,
+            -1073.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-015/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-015/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-016/bottom",
+        "plane": {
+          "origin": [
+            16000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1167.6250000000002
+          ],
+          [
+            1000.0,
+            -1167.6250000000002
+          ],
+          [
+            1000.0,
+            -1007.6250000000002
+          ],
+          [
+            -1000.0,
+            -1007.6250000000002
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-016/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-016/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-016/deck",
+        "plane": {
+          "origin": [
+            16000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-016/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-016/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-016/left-web",
+        "plane": {
+          "origin": [
+            16000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1007.6250000000002
+          ],
+          [
+            -840.0,
+            -1007.6250000000002
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-016/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-016/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-016/right-web",
+        "plane": {
+          "origin": [
+            16000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -1007.6250000000002
+          ],
+          [
+            1000.0,
+            -1007.6250000000002
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-016/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-016/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-017/bottom",
+        "plane": {
+          "origin": [
+            17000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1090.625
+          ],
+          [
+            1000.0,
+            -1090.625
+          ],
+          [
+            1000.0,
+            -930.6249999999999
+          ],
+          [
+            -1000.0,
+            -930.6249999999999
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-017/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-017/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-017/deck",
+        "plane": {
+          "origin": [
+            17000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-017/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-017/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-017/left-web",
+        "plane": {
+          "origin": [
+            17000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -930.6249999999999
+          ],
+          [
+            -840.0,
+            -930.6249999999999
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-017/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-017/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-017/right-web",
+        "plane": {
+          "origin": [
+            17000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -930.6249999999999
+          ],
+          [
+            1000.0,
+            -930.6249999999999
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-017/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-017/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-018/bottom",
+        "plane": {
+          "origin": [
+            18000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -1002.6249999999999
+          ],
+          [
+            1000.0,
+            -1002.6249999999999
+          ],
+          [
+            1000.0,
+            -842.6249999999999
+          ],
+          [
+            -1000.0,
+            -842.6249999999999
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-018/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-018/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-018/deck",
+        "plane": {
+          "origin": [
+            18000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-018/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-018/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-018/left-web",
+        "plane": {
+          "origin": [
+            18000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -842.6249999999999
+          ],
+          [
+            -840.0,
+            -842.6249999999999
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-018/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-018/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-018/right-web",
+        "plane": {
+          "origin": [
+            18000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -842.6249999999999
+          ],
+          [
+            1000.0,
+            -842.6249999999999
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-018/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-018/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-019/bottom",
+        "plane": {
+          "origin": [
+            19000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -903.625
+          ],
+          [
+            1000.0,
+            -903.625
+          ],
+          [
+            1000.0,
+            -743.625
+          ],
+          [
+            -1000.0,
+            -743.625
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-019/bottom",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-019/bottom"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-019/deck",
+        "plane": {
+          "origin": [
+            19000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-019/deck",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-019/deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-019/left-web",
+        "plane": {
+          "origin": [
+            19000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -743.625
+          ],
+          [
+            -840.0,
+            -743.625
+          ],
+          [
+            -840.0,
+            -160.0
+          ],
+          [
+            -1000.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-019/left-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-019/left-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-019/right-web",
+        "plane": {
+          "origin": [
+            19000.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            840.0,
+            -743.625
+          ],
+          [
+            1000.0,
+            -743.625
+          ],
+          [
+            1000.0,
+            -160.0
+          ],
+          [
+            840.0,
+            -160.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-019/right-web",
+        "distance": 1000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-019/right-web"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "inspect.measure",
+      "params": {}
+    }
+  ]
+}

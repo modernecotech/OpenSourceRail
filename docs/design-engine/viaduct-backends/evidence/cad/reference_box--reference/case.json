@@ -1,0 +1,510 @@
+{
+  "analysis_assumptions_supplied": false,
+  "candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+  "canonical_quantities": {
+    "by_material": {
+      "research_concrete": {
+        "I_y_m4": 0.3036019200000001,
+        "I_z_m4": 0.5510515199999999,
+        "centroid_m": [
+          10.0,
+          0.0,
+          -0.7
+        ],
+        "mass_kg": 54719.99999999999,
+        "material_boundary_surface_m2": 245.3888,
+        "volume_m3": 21.887999999999998
+      }
+    },
+    "candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+    "centroid_m": [
+      10.0,
+      0.0,
+      -0.7
+    ],
+    "complete_installed_mass_kg": null,
+    "concrete_contact_surface_m2": 245.3888,
+    "discretisation_provenance": {
+      "BREP_generated": false,
+      "cell_count": 1,
+      "discretisation_is_physical_stepping": true,
+      "method": "constant closed rectangular box assembled from four disjoint concrete polygons",
+      "representation": "convex polygon sections extruded as exact piecewise prisms",
+      "smooth_surface_equivalence_claimed": false
+    },
+    "engineering_accepted": false,
+    "evaluation_id": "a2262822749cbb8852c442f14266217441ed22362799ac2c002b86ac6b5df13a",
+    "inertia_scope": "gross uncracked geometric section only; no E transformation, steel-concrete bond, reinforcement or structural acceptance",
+    "lifting_mass_kg": 54719.99999999999,
+    "lifting_mass_scope": "nominal stock only; excludes unresolved installed items, lifting points and rigging",
+    "manufacturing_release": false,
+    "minimum_gross_bending_I_y_m4": 0.3036019200000001,
+    "operating_release": false,
+    "physical_accepted": false,
+    "schema": "osr-civil-shape-quantities/1",
+    "section_stations": [
+      {
+        "composite_stiffness_credit": false,
+        "gross_I_y_m4": 0.3036019200000001,
+        "gross_area_m2": 1.0943999999999998,
+        "gross_centroid_yz_m": [
+          0.0,
+          -0.7
+        ],
+        "x_end_m": 20.0,
+        "x_start_m": 0.0
+      }
+    ],
+    "steel_surface_m2": 0.0,
+    "surface_scope": "exact same-material union boundary; interfaces with another material retained; no formwork access/reuse/removal feasibility claimed",
+    "total_nominal_stock_mass_kg": 54719.99999999999,
+    "total_nominal_volume_m3": 21.887999999999998
+  },
+  "case_definition_id": "f36168fdb60c4e1b5d291fd6d376ebe92eab4fd27aa94a516ec2aa4f67cadeb8",
+  "case_id": "reference_box--reference",
+  "component_geometry_id": "ad77a7985e090b49d89ad4e071960371a0c9503a1f4ee7dd303cd070017531c3",
+  "coordinate_frame": {
+    "deck_top_z_m": 0.0,
+    "x": "longitudinal",
+    "y": "transverse",
+    "z": "up"
+  },
+  "deck_width_m": 2.0,
+  "engineering_accepted": false,
+  "entities": [
+    {
+      "basis": "Exact source convex-polygon prism; physical stepping retained",
+      "geometry": {
+        "at_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "length_m": 20.0,
+        "points_yz_m": [
+          [
+            -1.0,
+            -0.18
+          ],
+          [
+            1.0,
+            -0.18
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0
+          ]
+        ]
+      },
+      "id": "cell-000/deck",
+      "material": "research_concrete",
+      "shape": "profile",
+      "source_candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+      "source_cell_id": "cell-000",
+      "source_section_id": "deck"
+    },
+    {
+      "basis": "Exact source convex-polygon prism; physical stepping retained",
+      "geometry": {
+        "at_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "length_m": 20.0,
+        "points_yz_m": [
+          [
+            -1.0,
+            -1.4
+          ],
+          [
+            1.0,
+            -1.4
+          ],
+          [
+            1.0,
+            -1.22
+          ],
+          [
+            -1.0,
+            -1.22
+          ]
+        ]
+      },
+      "id": "cell-000/bottom",
+      "material": "research_concrete",
+      "shape": "profile",
+      "source_candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+      "source_cell_id": "cell-000",
+      "source_section_id": "bottom"
+    },
+    {
+      "basis": "Exact source convex-polygon prism; physical stepping retained",
+      "geometry": {
+        "at_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "length_m": 20.0,
+        "points_yz_m": [
+          [
+            -1.0,
+            -1.22
+          ],
+          [
+            -0.8200000000000001,
+            -1.22
+          ],
+          [
+            -0.8200000000000001,
+            -0.18
+          ],
+          [
+            -1.0,
+            -0.18
+          ]
+        ]
+      },
+      "id": "cell-000/left-web",
+      "material": "research_concrete",
+      "shape": "profile",
+      "source_candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+      "source_cell_id": "cell-000",
+      "source_section_id": "left-web"
+    },
+    {
+      "basis": "Exact source convex-polygon prism; physical stepping retained",
+      "geometry": {
+        "at_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "length_m": 20.0,
+        "points_yz_m": [
+          [
+            0.8200000000000001,
+            -1.22
+          ],
+          [
+            1.0,
+            -1.22
+          ],
+          [
+            1.0,
+            -0.18
+          ],
+          [
+            0.8200000000000001,
+            -0.18
+          ]
+        ]
+      },
+      "id": "cell-000/right-web",
+      "material": "research_concrete",
+      "shape": "profile",
+      "source_candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+      "source_cell_id": "cell-000",
+      "source_section_id": "right-web"
+    }
+  ],
+  "expected": {
+    "centroid_m": [
+      10.0,
+      0.0,
+      -0.7
+    ],
+    "nominal_material_centroid_m": [
+      10.0,
+      0.0,
+      -0.6999999999999998
+    ],
+    "part_count": 4,
+    "part_measures": {
+      "cell-000/bottom": {
+        "bounds_m": [
+          [
+            0.0,
+            -1.0,
+            -1.4
+          ],
+          [
+            20.0,
+            1.0,
+            -1.22
+          ]
+        ],
+        "centroid_m": [
+          10.0,
+          0.0,
+          -1.3099999999999998
+        ],
+        "volume_m3": 7.1999999999999975
+      },
+      "cell-000/deck": {
+        "bounds_m": [
+          [
+            0.0,
+            -1.0,
+            -0.18
+          ],
+          [
+            20.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "centroid_m": [
+          10.0,
+          0.0,
+          -0.08999999999999998
+        ],
+        "volume_m3": 7.199999999999999
+      },
+      "cell-000/left-web": {
+        "bounds_m": [
+          [
+            0.0,
+            -1.0,
+            -1.22
+          ],
+          [
+            20.0,
+            -0.8200000000000001,
+            -0.18
+          ]
+        ],
+        "centroid_m": [
+          10.0,
+          -0.9099999999999999,
+          -0.7000000000000001
+        ],
+        "volume_m3": 3.7440000000000007
+      },
+      "cell-000/right-web": {
+        "bounds_m": [
+          [
+            0.0,
+            0.8200000000000001,
+            -1.22
+          ],
+          [
+            20.0,
+            1.0,
+            -0.18
+          ]
+        ],
+        "centroid_m": [
+          10.0,
+          0.9099999999999999,
+          -0.7000000000000001
+        ],
+        "volume_m3": 3.7440000000000007
+      }
+    },
+    "part_nominal_material_masses_kg": {
+      "cell-000/bottom": 17999.999999999993,
+      "cell-000/deck": 18000.0,
+      "cell-000/left-web": 9360.000000000002,
+      "cell-000/right-web": 9360.000000000002
+    },
+    "total_nominal_stock_mass_kg": 54720.0,
+    "total_volume_m3": 21.887999999999998
+  },
+  "family": "reference_box",
+  "installed_mass_complete": false,
+  "manufacturing_basis": {
+    "boundary_surface_is_not_mould_contact": true,
+    "complete_installed_cost": null,
+    "complete_installed_mass_kg": null,
+    "mould_design_verified": false,
+    "physical_stepping_retained": true,
+    "smooth_surface_equivalence_claimed": false,
+    "stock_geometry_exact": true
+  },
+  "manufacturing_release": false,
+  "materials": {
+    "research_concrete": {
+      "density_kg_m3": 2500.0
+    },
+    "structural_steel": {
+      "density_kg_m3": 7850.0
+    }
+  },
+  "movement_authority": false,
+  "operating_release": false,
+  "physical_accepted": false,
+  "physical_definition": {
+    "candidate_id": "9e37c15a182248d1407f966759e05b7839e278f6f70d4fb99fab7fc08a166ec7",
+    "cells": [
+      {
+        "id": "cell-000",
+        "sections": [
+          {
+            "id": "deck",
+            "material": "research_concrete",
+            "polygon_yz_m": [
+              [
+                -1.0,
+                -0.18
+              ],
+              [
+                1.0,
+                -0.18
+              ],
+              [
+                1.0,
+                0.0
+              ],
+              [
+                -1.0,
+                0.0
+              ]
+            ]
+          },
+          {
+            "id": "bottom",
+            "material": "research_concrete",
+            "polygon_yz_m": [
+              [
+                -1.0,
+                -1.4
+              ],
+              [
+                1.0,
+                -1.4
+              ],
+              [
+                1.0,
+                -1.22
+              ],
+              [
+                -1.0,
+                -1.22
+              ]
+            ]
+          },
+          {
+            "id": "left-web",
+            "material": "research_concrete",
+            "polygon_yz_m": [
+              [
+                -1.0,
+                -1.22
+              ],
+              [
+                -0.8200000000000001,
+                -1.22
+              ],
+              [
+                -0.8200000000000001,
+                -0.18
+              ],
+              [
+                -1.0,
+                -0.18
+              ]
+            ]
+          },
+          {
+            "id": "right-web",
+            "material": "research_concrete",
+            "polygon_yz_m": [
+              [
+                0.8200000000000001,
+                -1.22
+              ],
+              [
+                1.0,
+                -1.22
+              ],
+              [
+                1.0,
+                -0.18
+              ],
+              [
+                0.8200000000000001,
+                -0.18
+              ]
+            ]
+          }
+        ],
+        "x_end_m": 20.0,
+        "x_start_m": 0.0
+      }
+    ],
+    "coordinate_frame": {
+      "deck_top_z_m": 0.0,
+      "x": "longitudinal",
+      "y": "transverse",
+      "z": "up"
+    },
+    "deck_width_m": 2.0,
+    "engineering_accepted": false,
+    "family": "reference_box",
+    "manufacturing_release": false,
+    "materials": {
+      "research_concrete": {
+        "density_kg_m3": 2500.0
+      },
+      "structural_steel": {
+        "density_kg_m3": 7850.0
+      }
+    },
+    "operating_release": false,
+    "physical_accepted": false,
+    "profile": "reference",
+    "provenance": {
+      "BREP_generated": false,
+      "cell_count": 1,
+      "discretisation_is_physical_stepping": true,
+      "method": "constant closed rectangular box assembled from four disjoint concrete polygons",
+      "representation": "convex polygon sections extruded as exact piecewise prisms",
+      "smooth_surface_equivalence_claimed": false
+    },
+    "schema": "osr-civil-shape-physical/1",
+    "span_m": 20.0,
+    "unresolved_installed_items": [
+      "reinforcement/prestress and anchorages",
+      "rail/fastener interfaces",
+      "bearings and restraints",
+      "joints and fasteners",
+      "hybrid shear connectors where applicable",
+      "drainage and maintenance access",
+      "lifting points and rigging"
+    ]
+  },
+  "presentation_offset_applied": false,
+  "profile": "reference",
+  "reinforcement_or_composite_stiffness_credit": false,
+  "schema": "osr-viaduct-craft-case/1",
+  "scope": "Nominal material stock only; separate occurrence sums, not fused installed assembly",
+  "selected_reference_changed": false,
+  "source_sha256": {
+    "engineering/design_search/civil_shape_geometry.py": "f73fd0793f5ccd870ebe3da530ddd832b76624aecebcf09eaeedf4b73642ef84",
+    "engineering/design_search/craft_backends/cases.py": "408c5a31b97c6951ce6710a293e8a45bd50c63970cca114bd477d7ec00b82819",
+    "engineering/design_search/craft_backends/viaduct_cases.py": "82d3464c4b70dc0f1e550d5116ab329d61d9d544448411976a25117ed09df987",
+    "engineering/station_rail/common.py": "691787a2cd1d5e751c188cf729432f35883a2882cdb1f543e3e49286dc8576ec"
+  },
+  "span_m": 20.0,
+  "units": {
+    "density": "kg/m3",
+    "length": "m",
+    "mass": "kg",
+    "volume": "m3"
+  },
+  "unresolved_installed_items": [
+    "reinforcement/prestress and anchorages",
+    "rail/fastener interfaces",
+    "bearings and restraints",
+    "joints and fasteners",
+    "hybrid shear connectors where applicable",
+    "drainage and maintenance access",
+    "lifting points and rigging"
+  ]
+}

@@ -25,7 +25,7 @@ The [sourcing and cost engine](sourcing/README.md) connects dated supplier, mate
 
 The [adaptive variables](../docs/design-engine/v06-adaptive-design/README.md) and [structural grammar](../docs/design-engine/generative-structure/README.md) support physical revisions across materials, load paths and assemblies. Composite qualification, joints, buckling, complete installed geometry and physically driven journeys require their own evidence.
 
-The opt-in [SolidCraft / FieldCraft backend pilot](../docs/design-engine/craft-backends/README.md) compares source-bound CAD subsets and mechanical controls against FreeCAD and CalculiX. It retains the existing BIM, electromagnetic and delivery routes. Run `./osr design backends plan` to inspect its scope.
+The opt-in [SolidCraft / FieldCraft backend pilot](../docs/design-engine/craft-backends/README.md) compares source-bound CAD subsets and mechanical controls against FreeCAD and CalculiX. It retains the existing BIM, electromagnetic and delivery routes. Run `./osr design backends plan` to inspect its scope. The [12-span viaduct comparison](../docs/design-engine/viaduct-backends/README.md) extends this path to reusable CAD/analysis/delivery interfaces, exact STEP readbacks, two matched solid-FEM studies and candidate-specific manufacturing/cost records.
 
 ## Run the current workflow
 

@@ -235,6 +235,10 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_candidate_specific_baseline.py tests/test_retired_station_reference.py tests/test_propulsion_layout_quantities.py
           .venv/bin/python -m engineering.station_rail.retired_station_reference verify
           ./osr design space verify
+      - name: Same-candidate native backend adapters and portable viaduct evidence
+        run: |
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_viaduct*.py tests/test_civil_backend_api.py
+          .venv/bin/python -m engineering.design_search.craft_backends viaduct verify-publication
       - name: Current explicit-model mechanics and interface contracts
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_craft_cases.py tests/test_solidcraft_backend.py tests/test_fieldcraft_backend.py tests/test_craft_calculix_reference.py tests/test_craft_freecad_reference.py tests/test_craft_pilot.py tests/test_craft_handoff.py

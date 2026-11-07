@@ -1,0 +1,535 @@
+{
+  "commands": [
+    {
+      "command": "document.units",
+      "params": {
+        "units": "mm"
+      }
+    },
+    {
+      "command": "document.metadata.set",
+      "params": {
+        "values": {
+          "org.opensourcerail.candidate": {
+            "candidate_id": "f3127afc30283045d2a016f8f8af5dbdf1f54d62bcb550ecd39ca47ac7282be4",
+            "case_id": "hybrid_steel_concrete--robust",
+            "component_geometry_id": "6f740ad562d3db4ff24cf3c842855b592ca67cefe12774a1807684e947805f9b",
+            "declared_input_units": "m",
+            "display_offsets_applied": false,
+            "engineering_accepted": false,
+            "manufacturing_release": false,
+            "movement_authority": false,
+            "native_geometry_units": "mm",
+            "operating_release": false,
+            "physical_accepted": false,
+            "selected_reference_changed": false,
+            "source_evaluation_id": null,
+            "source_selection_id": null,
+            "source_study_id": null
+          }
+        }
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/concrete-deck",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -1000.0,
+            -216.0
+          ],
+          [
+            1000.0,
+            -216.0
+          ],
+          [
+            1000.0,
+            0.0
+          ],
+          [
+            -1000.0,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/concrete-deck",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.create",
+      "params": {
+        "density_g_cm3": 2.5,
+        "name": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/concrete-deck"
+        ],
+        "material": "OSR research_concrete"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/left-bottom-flange",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -850.0000000000001,
+            -1380.0
+          ],
+          [
+            -450.0,
+            -1380.0
+          ],
+          [
+            -450.0,
+            -1349.9999999999998
+          ],
+          [
+            -850.0000000000001,
+            -1349.9999999999998
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/left-bottom-flange",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.create",
+      "params": {
+        "density_g_cm3": 7.85,
+        "name": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/left-bottom-flange"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/left-top-flange",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -800.0,
+            -246.0
+          ],
+          [
+            -500.0,
+            -246.0
+          ],
+          [
+            -500.0,
+            -216.0
+          ],
+          [
+            -800.0,
+            -216.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/left-top-flange",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/left-top-flange"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/left-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            -659.6,
+            -1349.9999999999998
+          ],
+          [
+            -640.4,
+            -1349.9999999999998
+          ],
+          [
+            -640.4,
+            -246.0
+          ],
+          [
+            -659.6,
+            -246.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/left-web",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/left-web"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/right-bottom-flange",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            450.0,
+            -1380.0
+          ],
+          [
+            850.0000000000001,
+            -1380.0
+          ],
+          [
+            850.0000000000001,
+            -1349.9999999999998
+          ],
+          [
+            450.0,
+            -1349.9999999999998
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/right-bottom-flange",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/right-bottom-flange"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/right-top-flange",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            500.0,
+            -246.0
+          ],
+          [
+            800.0,
+            -246.0
+          ],
+          [
+            800.0,
+            -216.0
+          ],
+          [
+            500.0,
+            -216.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/right-top-flange",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/right-top-flange"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "sketch.create",
+      "params": {
+        "name": "OSR section cell-000/right-web",
+        "plane": {
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x_dir": [
+            0,
+            1,
+            0
+          ],
+          "y_dir": [
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "command": "sketch.line",
+      "params": {
+        "closed": true,
+        "infer": false,
+        "points": [
+          [
+            640.4,
+            -1349.9999999999998
+          ],
+          [
+            659.6,
+            -1349.9999999999998
+          ],
+          [
+            659.6,
+            -246.0
+          ],
+          [
+            640.4,
+            -246.0
+          ]
+        ]
+      }
+    },
+    {
+      "command": "sketch.finish",
+      "params": {}
+    },
+    {
+      "command": "solid.extrude",
+      "params": {
+        "body_name": "cell-000/right-web",
+        "distance": 20000.0,
+        "operation": "new"
+      }
+    },
+    {
+      "command": "material.assign",
+      "params": {
+        "bodies": [
+          "cell-000/right-web"
+        ],
+        "material": "OSR structural_steel"
+      }
+    },
+    {
+      "command": "inspect.measure",
+      "params": {}
+    }
+  ]
+}

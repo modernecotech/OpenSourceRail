@@ -104,3 +104,22 @@ Upstream references: [SolidCraft commands](https://docs.solidcraft.io/dev/comman
 ## Detailed launch assembly follow-on
 
 The [R3 launch-shuttle dossier](../launch-detail/README.md) contains dimensioned parts, a counted assembly, native CAD/STEP checks, an actual clevis-ear bearing-load FEM comparison, and a bounded fabrication estimate. It preserves the earlier pin-bending failure and distinguishes local component results from full-shuttle or propulsion qualification.
+
+## Extended same-candidate viaduct workflow
+
+The [12-span CAD, mechanics and manufacturing comparison](../viaduct-backends/README.md)
+now exercises reusable CAD, analysis and delivery interfaces. Download the actual
+SolidCraft/STEP/STL models, inspect independently measured geometry, compare two
+coarse/fine FieldCraft/CalculiX studies, and follow each candidate into its
+quantities, scoped costs and provisional production route. Original failed
+executions and the separate box memory-budget revision remain explicit.
+
+```bash
+./osr design backends providers
+./osr design backends viaduct plan
+./osr design backends viaduct verify-publication
+```
+
+This is an opt-in research path with bounded eligibility. It does not promote
+new tools globally or establish bearing/contact, reinforced-concrete resistance,
+manufacturing release or complete installed bridge cost.

@@ -1,0 +1,805 @@
+[
+  {
+    "kept": [],
+    "units": "mm"
+  },
+  {
+    "changed": [
+      "org.opensourcerail.candidate"
+    ],
+    "metadata": {
+      "org.opensourcerail.candidate": {
+        "candidate_id": "f3127afc30283045d2a016f8f8af5dbdf1f54d62bcb550ecd39ca47ac7282be4",
+        "case_id": "hybrid_steel_concrete--robust",
+        "component_geometry_id": "6f740ad562d3db4ff24cf3c842855b592ca67cefe12774a1807684e947805f9b",
+        "declared_input_units": "m",
+        "display_offsets_applied": false,
+        "engineering_accepted": false,
+        "manufacturing_release": false,
+        "movement_authority": false,
+        "native_geometry_units": "mm",
+        "operating_release": false,
+        "physical_accepted": false,
+        "selected_reference_changed": false,
+        "source_evaluation_id": null,
+        "source_selection_id": null,
+        "source_study_id": null
+      }
+    }
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/concrete-deck",
+    "projected": null,
+    "sketch": 1
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 1
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/concrete-deck"
+    ],
+    "feature": 2,
+    "ms": 0.988336,
+    "name": "Extrude1",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "appearance": null,
+    "density_g_cm3": 2.5,
+    "name": "OSR research_concrete",
+    "user": true
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck"
+    ],
+    "material": "OSR research_concrete"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/left-bottom-flange",
+    "projected": null,
+    "sketch": 3
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 3
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/left-bottom-flange"
+    ],
+    "feature": 4,
+    "ms": 0.7355079999999999,
+    "name": "Extrude2",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "appearance": null,
+    "density_g_cm3": 7.85,
+    "name": "OSR structural_steel",
+    "user": true
+  },
+  {
+    "bodies": [
+      "cell-000/left-bottom-flange"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/left-top-flange",
+    "projected": null,
+    "sketch": 5
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 5
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange",
+      "cell-000/left-top-flange"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/left-top-flange"
+    ],
+    "feature": 6,
+    "ms": 0.485752,
+    "name": "Extrude3",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "bodies": [
+      "cell-000/left-top-flange"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/left-web",
+    "projected": null,
+    "sketch": 7
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 7
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange",
+      "cell-000/left-top-flange",
+      "cell-000/left-web"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/left-web"
+    ],
+    "feature": 8,
+    "ms": 0.5,
+    "name": "Extrude4",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "bodies": [
+      "cell-000/left-web"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/right-bottom-flange",
+    "projected": null,
+    "sketch": 9
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 9
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange",
+      "cell-000/left-top-flange",
+      "cell-000/left-web",
+      "cell-000/right-bottom-flange"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/right-bottom-flange"
+    ],
+    "feature": 10,
+    "ms": 0.595334,
+    "name": "Extrude5",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "bodies": [
+      "cell-000/right-bottom-flange"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/right-top-flange",
+    "projected": null,
+    "sketch": 11
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 11
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange",
+      "cell-000/left-top-flange",
+      "cell-000/left-web",
+      "cell-000/right-bottom-flange",
+      "cell-000/right-top-flange"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/right-top-flange"
+    ],
+    "feature": 12,
+    "ms": 0.437002,
+    "name": "Extrude6",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "bodies": [
+      "cell-000/right-top-flange"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "attachment": "fixed",
+    "created": {
+      "constraints": [],
+      "curves": [],
+      "dimensions": [],
+      "points": []
+    },
+    "frame": "world",
+    "name": "OSR section cell-000/right-web",
+    "projected": null,
+    "sketch": 13
+  },
+  {
+    "constraints": [],
+    "created": {
+      "constraints": [],
+      "curves": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "dimensions": [],
+      "points": [
+        "l1.start",
+        "l1.end",
+        "l2.end",
+        "l3.end"
+      ]
+    },
+    "curves": [
+      "l1",
+      "l2",
+      "l3",
+      "l4"
+    ],
+    "sketch": {
+      "dof": 8,
+      "solved": true
+    }
+  },
+  {
+    "profiles": 1,
+    "sketch": 13
+  },
+  {
+    "bodies": [
+      "cell-000/concrete-deck",
+      "cell-000/left-bottom-flange",
+      "cell-000/left-top-flange",
+      "cell-000/left-web",
+      "cell-000/right-bottom-flange",
+      "cell-000/right-top-flange",
+      "cell-000/right-web"
+    ],
+    "changed_bodies": [],
+    "created_bodies": [
+      "cell-000/right-web"
+    ],
+    "feature": 14,
+    "ms": 0.5528,
+    "name": "Extrude7",
+    "removed_bodies": [],
+    "warning": null
+  },
+  {
+    "bodies": [
+      "cell-000/right-web"
+    ],
+    "material": "OSR structural_steel"
+  },
+  {
+    "bodies": [
+      {
+        "area_mm2": 89504000.0,
+        "bbox": {
+          "max": [
+            20000.0,
+            1000.0,
+            0.0
+          ],
+          "min": [
+            0.0,
+            -1000.0,
+            -216.0
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          0.0,
+          -108.0
+        ],
+        "closed": true,
+        "density_g_cm3": 2.5,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 21600000.0,
+        "material": "OSR research_concrete",
+        "name": "cell-000/concrete-deck",
+        "vertices": 8,
+        "volume_mm3": 8640000000.0
+      },
+      {
+        "area_mm2": 17224000.00000002,
+        "bbox": {
+          "max": [
+            20000.0,
+            -449.9999999999999,
+            -1349.9999999999998
+          ],
+          "min": [
+            0.0,
+            -850.0000000000002,
+            -1380.0
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          -650.0000000000001,
+          -1364.9999999999998
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 1884000.0000000147,
+        "material": "OSR structural_steel",
+        "name": "cell-000/left-bottom-flange",
+        "vertices": 8,
+        "volume_mm3": 240000000.0000019
+      },
+      {
+        "area_mm2": 13218000.0,
+        "bbox": {
+          "max": [
+            20000.0,
+            -500.0,
+            -216.0
+          ],
+          "min": [
+            0.0,
+            -800.0,
+            -246.0
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          -650.0,
+          -231.0
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 1413000.0,
+        "material": "OSR structural_steel",
+        "name": "cell-000/left-top-flange",
+        "vertices": 8,
+        "volume_mm3": 180000000.0
+      },
+      {
+        "area_mm2": 44970393.599999964,
+        "bbox": {
+          "max": [
+            20000.0,
+            -640.4,
+            -246.0
+          ],
+          "min": [
+            0.0,
+            -659.6,
+            -1349.9999999999998
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          -650.0,
+          -797.9999999999999
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 3327897.6000000057,
+        "material": "OSR structural_steel",
+        "name": "cell-000/left-web",
+        "vertices": 8,
+        "volume_mm3": 423936000.0000008
+      },
+      {
+        "area_mm2": 17224000.00000002,
+        "bbox": {
+          "max": [
+            20000.0,
+            850.0000000000002,
+            -1349.9999999999998
+          ],
+          "min": [
+            0.0,
+            449.9999999999999,
+            -1380.0
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          650.0000000000001,
+          -1364.9999999999998
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 1884000.0000000151,
+        "material": "OSR structural_steel",
+        "name": "cell-000/right-bottom-flange",
+        "vertices": 8,
+        "volume_mm3": 240000000.00000194
+      },
+      {
+        "area_mm2": 13218000.0,
+        "bbox": {
+          "max": [
+            20000.0,
+            800.0,
+            -216.0
+          ],
+          "min": [
+            0.0,
+            500.0,
+            -246.0
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          650.0,
+          -231.0
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 1413000.0,
+        "material": "OSR structural_steel",
+        "name": "cell-000/right-top-flange",
+        "vertices": 8,
+        "volume_mm3": 180000000.0
+      },
+      {
+        "area_mm2": 44970393.599999964,
+        "bbox": {
+          "max": [
+            20000.0,
+            659.6,
+            -246.0
+          ],
+          "min": [
+            0.0,
+            640.4,
+            -1349.9999999999998
+          ]
+        },
+        "center_of_mass": [
+          10000.0,
+          650.0,
+          -797.9999999999999
+        ],
+        "closed": true,
+        "density_g_cm3": 7.85,
+        "edges": 12,
+        "face_types": {
+          "plane": 6
+        },
+        "faces": 6,
+        "kernel": {
+          "edges": 12,
+          "faces": 6,
+          "shells": 1,
+          "vertices": 8
+        },
+        "mass_g": 3327897.6000000057,
+        "material": "OSR structural_steel",
+        "name": "cell-000/right-web",
+        "vertices": 8,
+        "volume_mm3": 423936000.0000008
+      }
+    ],
+    "body_count": 7,
+    "total": {
+      "area_mm2": 240328787.19999996,
+      "edges": 84,
+      "faces": 42,
+      "mass_g": 34849795.20000004,
+      "open_bodies_skipped": 0,
+      "vertices": 56,
+      "volume_mm3": 10327872000.000004
+    }
+  }
+]
