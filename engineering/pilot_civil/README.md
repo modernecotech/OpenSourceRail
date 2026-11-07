@@ -76,3 +76,42 @@ drift; the coordinator itself is not an OS read-only source sandbox. Native
 records describe actual Bubblewrap/Flatpak scope and observed outcome. All
 selection is for the next experiment. No reference, safety, construction,
 manufacturing or operating approval is granted.
+
+## Rotation-free final-load verification
+
+The original finite longitudinal support-patch trial remains reproducible. Its
+fixed vertical displacement over a finite longitudinal width can transmit a
+bending couple and is therefore different from the simply supported analytical
+beam. `support_audit` recovers the actual support wrenches; it does not infer a
+pin from a support's label.
+
+A separate final-load experiment explicitly embeds transverse bearing lines at
+the exact support axes and constrains vertical displacement only on those lines.
+This releases the longitudinal bending rotation while retaining transverse
+support intervals. It is a pin-compatible gross comparison, **not** a model of
+finite elastomer stiffness, contact, unilateral lift-off or local bearing stress.
+Legacy `prepare` defaults retain the finite-patch hypothesis; the new experiment
+requests `support_mode='rotation-free-line'` explicitly.
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 RAYON_NUM_THREADS=1 \
+.venv/bin/python -m engineering.pilot_civil.final_trial \
+  --axle-input /private/exact-axle-input.json \
+  --upstream-root /exact/upstream/checkout --output /private/fresh-final-run
+```
+
+The final trial recalculates the civil design from the fresh sealed axle input,
+creates one new gross SolidCraft model, checks its STEP independently in FreeCAD,
+and compares up to three meshes through both FieldCraft and CalculiX. The explicit
+revised numerical budget permits 50,000 cells, 3 GiB and 75 CPU seconds per
+process; an actual 73-second wall timeout keeps the POSIX CPU hard limit within
+75 seconds. Meshing and CalculiX retain the existing stricter 2 GiB process cap.
+The 5% displacement-refinement target remains unchanged. Eight rolling native
+checkpoint slots bound scratch disk use; full commands and retained final bytes
+are recorded. Conductor/support gravity is applied at its declared lateral
+offset in both solvers, rather than being smeared into a centred reserve.
+
+Comparison records distinguish Euler–Bernoulli response, an explicit gross-web
+Timoshenko shear correction and the 3D readback at the same top-deck observation
+point. Agreement or refinement does not establish the real segment joint,
+prestressing, cracking, fatigue, bearing, ground or construction-stage response.
