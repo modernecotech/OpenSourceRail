@@ -135,3 +135,33 @@ def test_cut_stock_and_nonadditive_manufacturing(portfolio):
     assert not r['parts']['additive_mass_or_cost_ledger']
     assert r['shear_detail']['concrete_shear_strength_credit_N']==0
     assert not r['shear_detail']['strength_and_strut_anchorage_verified']
+
+
+def test_support_wrench_distinguishes_patch_clamp_from_pin():
+    from engineering.pilot_civil.native_trial import support_audit
+    # A finite patch with equal/opposite nodal forces can carry a couple even
+    # when the resultant lies outside its geometric footprint.
+    model=dict(nodes={'1':[.2,0,-1.4],'2':[.5,0,-1.4],'3':[19.5,0,-1.4],'4':[19.8,0,-1.4]},support_nodes=[[1,2],[3,4]])
+    readback=dict(reaction_distribution={'1':[0,0,-100],'2':[0,0,200],'3':[0,0,200],'4':[0,0,-100]})
+    audit=support_audit(model,readback,{})
+    assert audit['rows'][0]['equivalent_vertical_resultant_x_m']==pytest.approx(.8)
+    assert not audit['rotation_free_line_definition_resolved']
+    # Collapsing only the longitudinal constraint width permits bending
+    # rotation, while keeping transverse bearing support geometry explicit.
+    for n in ('1','2'):model['nodes'][n][0]=.35
+    for n in ('3','4'):model['nodes'][n][0]=19.65
+    audit=support_audit(model,readback,dict(lines_x_m=[.35,19.65]))
+    assert audit['rotation_free_line_definition_resolved']
+    assert all(abs(row['vertical_reaction_bending_couple_Nm'])<1e-12 for row in audit['rows'])
+
+
+def test_same_pose_shear_reference_and_worker_definition(portfolio):
+    from engineering.pilot_civil.native_trial import analytical_reference,mesh_worker
+    r=portfolio['reference_box','source']
+    ref=analytical_reference(r,dict(live_pose=dict(points=[dict(x_m=10.,force_N=1000.)])))
+    assert ref['shear_correction_m']<0
+    assert ref['declared_Timoshenko_displacement_m']<ref['Euler_Bernoulli_displacement_m']
+    spec=dict(resource_request=dict(max_cells=50000),support_hypothesis=dict(mode='rotation-free-line'))
+    text=mesh_worker(spec)
+    assert '50000' in text and 'bearing_lines_x_m' in text
+    assert 'mesh.embed(1,[edge]' in text
