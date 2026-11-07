@@ -305,6 +305,7 @@ pub fn fixture() -> CycleCase {
             force_slew_n_s: 10000.,
             maximum_traction_share: 0.8,
             reserve_factor: 2.,
+            cutoff_audit: false,
         }),
         legs: (0..8)
             .map(|i| {

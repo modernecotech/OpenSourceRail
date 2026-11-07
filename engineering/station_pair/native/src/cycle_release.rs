@@ -10,6 +10,11 @@ pub struct ReleaseControl {
     pub force_slew_n_s: f64,
     pub maximum_traction_share: f64,
     pub reserve_factor: f64,
+    #[serde(default, skip_serializing_if = "audit_disabled")]
+    pub cutoff_audit: bool,
+}
+fn audit_disabled(v: &bool) -> bool {
+    !*v
 }
 impl ReleaseControl {
     pub(crate) fn validate(&self) -> Result<(), String> {
@@ -42,6 +47,26 @@ pub struct ForceTransition {
     pub brake_n: f64,
     pub point_step_jerk_m_s3: f64,
 }
+#[derive(Debug, Clone, Serialize)]
+pub struct CutoffAudit {
+    pub time_s: f64,
+    pub position_m: f64,
+    pub previous_force_n: f64,
+    pub start_force_n: f64,
+    pub end_force_n: f64,
+    pub active_duration_s: f64,
+    pub step_s: f64,
+    pub energy_at_start_j: f64,
+    pub usable_j: f64,
+    pub unclipped_work_j: f64,
+    pub delivered_work_j: f64,
+    pub commanded_target_n: f64,
+    pub traction_demand_n: f64,
+    pub physical_force_cap_n: f64,
+    pub store_force_rate_n_s: f64,
+    pub forced_cutoff: bool,
+    pub reasons: Vec<String>,
+}
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct ReleaseDiagnostics {
     pub mode: String,
@@ -57,6 +82,10 @@ pub struct ReleaseDiagnostics {
     pub controller_state_observations_assumed: bool,
     pub current_and_flow_dynamics_validated: bool,
     pub maximum_point_step_jerk_transition: Option<ForceTransition>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cutoff_details: Option<Vec<CutoffAudit>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cutoff_details_truncated: Option<usize>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct ReleaseSample {
@@ -111,6 +140,12 @@ impl ReleaseRuntime {
                 mode: policy.mode.clone(),
                 force_slew_limit_n_s: policy.force_slew_n_s,
                 controller_state_observations_assumed: true,
+                cutoff_details_truncated: if policy.cutoff_audit { Some(0) } else { None },
+                cutoff_details: if policy.cutoff_audit {
+                    Some(vec![])
+                } else {
+                    None
+                },
                 ..Default::default()
             },
             policy,
@@ -169,6 +204,7 @@ impl ReleaseRuntime {
         s: &Station,
         l: &Leg,
         energy_j: f64,
+        time_s: f64,
         x: f64,
         v0: f64,
         v1: f64,
@@ -233,12 +269,35 @@ impl ReleaseRuntime {
             self.diagnostics.spatial_reserve_interventions += 1;
         }
         let previous = self.force_n;
+        let mut cutoff_reasons = vec![];
         let mut f0 = previous.min(traction);
         let mut f1 = (previous
             + (target - previous).clamp(-p.force_slew_n_s * h, p.force_slew_n_s * h))
         .min(traction);
         let mut forced = previous - f0 > p.force_slew_n_s * h * (1. + 1e-8);
+        if forced {
+            cutoff_reasons.push(
+                "Total traction demand cannot retain previous store force within declared slew"
+                    .into(),
+            );
+        }
         if !enabled {
+            if previous > 0. {
+                cutoff_reasons.push(
+                    if fault {
+                        "Traction power/emergency/thermal fault"
+                    } else if l.release_failed {
+                        "Release unavailable or shared resource not owned"
+                    } else if !l.departure_authorized {
+                        "Departure not authorized"
+                    } else if x < q.start_m || x >= q.end_m {
+                        "Outside mechanical engagement window"
+                    } else {
+                        "Usable stored energy exhausted"
+                    }
+                    .into(),
+                );
+            }
             forced |= previous > 0.;
             f0 = 0.;
             f1 = 0.;
@@ -255,18 +314,23 @@ impl ReleaseRuntime {
             f1 = 0.;
             if f0 / active_h.max(1e-12) > p.force_slew_n_s * (1. + 1e-8) {
                 forced = true;
+                cutoff_reasons
+                    .push("Engagement exit reached before finite slew can complete".into());
             }
         }
         let active_v1 = v0 + (v1 - v0) * (active_h / h);
         let cap_now = q.max_force_n.min(q.max_power_w / v0.max(v1).max(1e-12));
         if f0 > cap_now || f1 > cap_now {
             forced = true;
+            cutoff_reasons.push("Physical transfer force/power cap below retained command".into());
             f0 = f0.min(cap_now);
             f1 = f1.min(cap_now);
         }
         let mut delivered = work(f0, f1, v0, active_v1, active_h).max(0.);
+        let unclipped_work_j = delivered;
         if delivered > usable_j {
             forced = true;
+            cutoff_reasons.push("Current step ramp work exceeds actual usable store energy".into());
             let scale = if delivered > 0. {
                 usable_j / delivered
             } else {
@@ -307,6 +371,33 @@ impl ReleaseRuntime {
             .max(self.last_grid_peak_power_w);
         self.diagnostics.slew_limit_exceeded |= store_rate > p.force_slew_n_s * (1. + 1e-8);
         self.diagnostics.forced_cutoffs += u64::from(forced);
+        if forced || f0 != previous {
+            if let Some(details) = self.diagnostics.cutoff_details.as_mut() {
+                if details.len() < 256 {
+                    details.push(CutoffAudit {
+                        time_s,
+                        position_m: x,
+                        previous_force_n: previous,
+                        start_force_n: f0,
+                        end_force_n: f1,
+                        active_duration_s: active_h,
+                        step_s: h,
+                        energy_at_start_j: energy_j,
+                        usable_j,
+                        unclipped_work_j,
+                        delivered_work_j: delivered,
+                        commanded_target_n: target,
+                        traction_demand_n: traction,
+                        physical_force_cap_n: cap_now,
+                        store_force_rate_n_s: store_rate,
+                        forced_cutoff: forced,
+                        reasons: cutoff_reasons,
+                    });
+                } else {
+                    *self.diagnostics.cutoff_details_truncated.as_mut().unwrap() += 1;
+                }
+            }
+        }
         self.force_n = f1;
         self.previous_grid_n = grid1;
         self.previous_h = h;

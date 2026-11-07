@@ -444,6 +444,7 @@ impl<'a> Runtime<'a> {
                 &self.specs[self.dep],
                 self.leg,
                 self.states[self.dep].energy_j,
+                time_s - h,
                 x,
                 v0,
                 v1,

@@ -386,6 +386,7 @@ fn controlled_cycle() -> CycleCase {
         force_slew_n_s: 100.,
         maximum_traction_share: 0.8,
         reserve_factor: 2.,
+        cutoff_audit: false,
     });
     c.legs = (0..8)
         .map(|i| {

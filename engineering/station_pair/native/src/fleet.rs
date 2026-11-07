@@ -674,6 +674,7 @@ impl<'a> Engine<'a> {
             &self.input.stations[dep],
             &allocation_leg,
             self.banks[dep].state.energy_j,
+            step.start_s,
             step.x,
             step.v0,
             step.v1,
