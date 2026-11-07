@@ -98,7 +98,7 @@ GMSH_WORKER=r'''
 import gmsh,json,sys,math
 from pathlib import Path
 request=json.loads(Path(sys.argv[1]).read_text());gmsh.initialize();gmsh.option.setNumber('General.NumThreads',1)
-gmsh.option.setNumber('General.Terminal',1);gmsh.option.setNumber('Geometry.OCCTargetUnit','M')
+gmsh.option.setNumber('General.Terminal',1);gmsh.option.setString('Geometry.OCCTargetUnit','M')
 v=gmsh.model.occ.importShapes(request['step']);gmsh.model.occ.synchronize()
 original=sum(gmsh.model.occ.getMass(3,t) for d,t in v if d==3)
 # Fragment exact imported CAD into one conformal, perfectly bonded continuum.
