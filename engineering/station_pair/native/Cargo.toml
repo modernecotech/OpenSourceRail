@@ -1,0 +1,18 @@
+[package]
+name = "osr-journey"
+version = "0.6.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Explicit-input conditional station-pair force and energy integration"
+
+# Independent source epoch: adding this evaluator must not invalidate the
+# preserved station-energy/arrestor calculation archives or workspace lockfile.
+[workspace]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+debug = false
+strip = true

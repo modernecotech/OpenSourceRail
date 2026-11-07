@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Compare conditional railway station-pair designs, service, pilot costs and unresolved engineering checks.">
+  <title>Station-pair comparison · OpenSourceRail</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#comparison">Skip to comparison</a>
+  <header class="site-header">
+    <a class="brand" href="../../workbench/current/index.html"><span class="brand-mark" aria-hidden="true">OSR</span><span>OpenSourceRail<small>Design workbench</small></span></a>
+    <nav aria-label="Page"><a href="#comparison">Compare</a><a href="#traces">Motion</a><a href="#evidence">Evidence</a><a href="#downloads">Downloads</a></nav>
+    <span class="status-pill">Research comparison</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">One station pair · Four propulsion families</p>
+      <h1 id="page-title">What moves the train<br>most effectively?</h1>
+      <p class="lead">Compare mechanical launch, compact linear motors, a hybrid and powered wheels against the same passenger requirement. Inspect the calculated motion, pilot costs and remaining engineering work.</p>
+      <div class="scope-note"><strong>Calculated research outlines.</strong> Equipment ratings and transmission assumptions define conditional force curves. They are not measured operating maps or permission to build or operate a railway.</div>
+    </section>
+    <div id="loading" class="loading" role="status">Loading the source-linked comparison…</div>
+    <section id="load-error" class="error-panel" hidden aria-live="assertive"><h2>Study unavailable</h2><p id="error-message"></p><button type="button" id="retry">Try again</button><p>Serve this directory over HTTP together with its exported <code>summary.json</code>.</p></section>
+    <div id="study-content" hidden>
+      <section class="metrics" aria-label="Common comparison brief">
+        <article><span class="metric-label">Station spacing</span><strong id="brief-distance">—</strong><span>Two-station pilot</span></article>
+        <article><span class="metric-label">Peak demand</span><strong id="brief-demand">—</strong><span>Passengers / hour / direction</span></article>
+        <article><span class="metric-label">Demand-led headway</span><strong id="brief-headway">—</strong><span id="brief-occupancy">Planning occupancy</span></article>
+        <article><span class="metric-label">Passenger formation</span><strong id="brief-people">—</strong><span>Six 17 m cars · no planned standing</span></article>
+      </section>
+
+      <section id="comparison" class="section" aria-labelledby="comparison-title">
+        <div class="section-heading"><div><p class="eyebrow">Equal-service comparison</p><h2 id="comparison-title">Explore the alternatives</h2></div><p>Held concepts stay visible. Missing evidence never becomes a zero cost or a zero force.</p></div>
+        <div class="family-grid" id="families" aria-label="Propulsion family coverage"></div>
+        <form id="filters" class="filters" aria-label="Filter comparison">
+          <label>Spacing<select id="distance-filter"><option value="all">Both spacings</option><option value="1500">1.5 km</option><option value="2000">2 km</option></select></label>
+          <label>Speed cap<select id="speed-filter"><option value="all">All caps</option><option value="40">40 km/h</option><option value="50">50 km/h</option><option value="60">60 km/h</option></select></label>
+          <label>Propulsion<select id="family-filter"><option value="all">All four families</option><option value="cable">Cable / mechanical</option><option value="compact-LIM">Compact LIM</option><option value="hybrid">Mechanical + LIM</option><option value="powered-wheel">Powered wheels</option></select></label>
+          <label>Calculation<select id="state-filter"><option value="all">All outcomes</option><option value="arrived">Numerical arrivals</option><option value="screen">Outline screens met</option><option value="held">Held / incomplete</option></select></label>
+          <button type="reset" class="quiet-button">Reset filters</button>
+        </form>
+        <div class="table-context"><p id="results-count" role="status" aria-live="polite"></p><p><strong>USD pilot totals, low / base / high.</strong> Two stations, fleet and declared site scope; these are not a 30 km city estimate or a transferable city price per kilometre.</p></div>
+        <div class="table-scroll comparison-scroll" tabindex="0" role="region" aria-label="Candidate comparison, scroll for more designs and columns">
+          <table class="comparison-table"><caption class="sr-only">Conditional service and cost results. Unknown values are shown explicitly. All designs remain unapproved.</caption><thead><tr><th scope="col">Design / calculation</th><th scope="col">Pilot installed cost</th><th scope="col">Actual / capped speed</th><th scope="col">Journey</th><th scope="col">Actual / requested acceleration</th><th scope="col">Propulsion peak grid power</th><th scope="col">Loaded accounted mass</th><th scope="col">Actual moving jerk</th></tr></thead><tbody id="comparison-body"></tbody></table>
+        </div>
+        <p class="table-footnote">“Outline screens met” refers only to the declared numerical arrival, hold, energy, journey, moving-jerk and demand screens. Terminal jerk, installed engineering and physical qualification remain open. Powered-wheel variants are research alternatives and do not change the passive-wheel reference.</p>
+        <details class="candidate-details" id="candidate-details"><summary>Inspect a candidate’s identities and screen results</summary><div id="candidate-detail-content"><p>Choose “Inspect” in the comparison table.</p></div></details>
+      </section>
+
+      <section id="traces" class="section" aria-labelledby="traces-title">
+        <div class="section-heading"><div><p class="eyebrow">Follow the actual integration</p><h2 id="traces-title">Launch, coast and stop</h2></div><p>Compare two next-experiment finalists. Curves are conditional point-train calculations, with independently capped braking.</p></div>
+        <div class="trace-controls"><label>Trace A<select id="trace-a"></select></label><label>Trace B<select id="trace-b"></select></label><label>Plot<select id="trace-metric"><option value="speed">Speed versus distance</option><option value="acceleration">Acceleration versus distance</option><option value="force">Traction and brake force versus distance</option></select></label></div>
+        <div class="chart-card"><div id="chart-legend" class="chart-legend"></div><div id="trace-chart" aria-live="polite"></div><p id="chart-description" class="chart-description"></p></div>
+        <div id="trace-summaries" class="trace-summaries"></div>
+        <div class="warning-note"><strong>Terminal jerk is unresolved.</strong> A smooth moving trace does not demonstrate a smooth final stop, contact engagement or passenger comfort. Abrupt power/contact failures retain their actual reported jerk.</div>
+      </section>
+
+      <section id="evidence" class="section" aria-labelledby="evidence-title">
+        <div class="section-heading"><div><p class="eyebrow">Keep the difficult results</p><h2 id="evidence-title">Faults, sensitivity and open work</h2></div><p>Robustness checks keep the nominal controller. They do not secretly refit the brake point for each fault.</p></div>
+        <label class="check-picker">Inspect finalist<select id="checks-finalist"></select></label>
+        <div id="checks-summary" class="scope-note"></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Fixed-controller sensitivity checks"><table class="checks-table"><caption>Numerical outcomes under the same nominal controller; “stop in route” is not a safety approval.</caption><thead><tr><th scope="col">Case</th><th scope="col">Calculated outcome</th><th scope="col">Final position</th><th scope="col">Actual moving jerk</th><th scope="col">Hold / interpretation</th></tr></thead><tbody id="checks-body"></tbody></table></div>
+        <div class="evidence-grid"><article class="panel"><h3>Mass is an account, not a completed installation</h3><div id="mass-summary"></div><p>Full installed CAD, location, centre of gravity, inertia, axle reactions and service access remain unresolved. Architecture additions that are not quantified remain unknown.</p></article><article class="panel"><h3>Duty and refinement</h3><div id="duty-summary"></div><p>A timestep comparison checks this integrator. The thermal calculation is an uncalibrated lumped proxy; continuous ratings do not establish repeated launch duty.</p></article></div>
+        <article class="open-work"><h3>What needs to be established next</h3><ul id="limitations"></ul><p><strong>No physical or engineering acceptance, manufacturing release, operating release or movement authority is granted by this comparison.</strong> City estimates and the selected reference are unchanged.</p></article>
+      </section>
+
+      <section id="downloads" class="section downloads" aria-labelledby="downloads-title"><div><p class="eyebrow">Reproduce and challenge</p><h2 id="downloads-title">Take the evidence with you</h2><p>Source-linked records retain the candidate, evaluation and cost identities. Draft manufacturing and business records are not executed orders.</p></div><div id="download-links" class="download-links"></div></section>
+      <footer><p>OpenSourceRail · Open design knowledge, local manufacture and repair.</p><p>Study identity <code id="study-id"></code></p></footer>
+    </div>
+  </main>
+  <noscript><p class="error-panel">Enable JavaScript to load and compare the exported study. The data is available directly in <a href="summary.json">summary.json</a>.</p></noscript>
+</body>
+</html>

@@ -142,6 +142,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.hold('Current artifact missing; run ./osr build', 404)
                 return
             served_relative = target.relative_to(self.root).as_posix()
+            if served_relative.startswith('docs/design-engine/station-pair/'):
+                from engineering.station_pair.web_assets import verify_asset
+                verify_asset(self.root,served_relative,target)
             if served_relative.startswith('docs/design-engine/vehicle-parts/'):
                 from engineering.vehicle_parts.web_assets import verify_asset
                 verify_asset(self.root,served_relative,target)

@@ -43,6 +43,10 @@ on:
       - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
       - "engineering/vehicle_parts/**"
+      - "engineering/station_pair/**"
+      - "docs/design-engine/station-pair/**"
+      - "tests/test_station_pair*.py"
+      - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
       - "tests/test_rustgis.py"
       - "docs/gis/**"
@@ -146,6 +150,10 @@ on:
       - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
       - "engineering/vehicle_parts/**"
+      - "engineering/station_pair/**"
+      - "docs/design-engine/station-pair/**"
+      - "tests/test_station_pair*.py"
+      - "tools/automation/tests/verify-station-pair.mjs"
       - "engineering/rustgis/**"
       - "tests/test_rustgis.py"
       - "docs/gis/**"
@@ -254,6 +262,14 @@ jobs:
           .venv/bin/python -m pytest -q tests/test_vehicle_parts.py
           .venv/bin/python -m engineering.vehicle_parts verify
           node tools/automation/tests/verify-vehicle-parts.mjs
+      - name: Candidate-linked station-pair motion, costs and fault replay
+        env:
+          CARGO_BUILD_JOBS: "2"
+        run: |
+          .venv/bin/python -m pytest -q tests/test_station_pair*.py
+          cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
+          ./osr design station-pair verify --replay --state /tmp/osr-station-pair-replay
+          node tools/automation/tests/verify-station-pair.mjs
       - name: Pinned native GIS interchange and source-preserving city exports
         run: |
           .venv/bin/python -m engineering.rustgis install
