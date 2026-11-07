@@ -250,6 +250,7 @@ pub(super) fn evaluate_with_recovery(
     mut recovery: Option<&mut cycle::Runtime<'_>>,
 ) -> Result<ResultRow, String> {
     validate(p)?;
+    let quiet_cycle = recovery.as_ref().is_some_and(|q| q.controlled_feedback());
     let mut r = base(c);
     let mut diag = diagnostics(c, p, c.drive.as_ref());
     r.limitations.push("Position/speed/acceleration observations and policy brake/response bounds are declared hypotheses, not authenticated sensors or protection evidence; the controller does not receive actual plant mass/grade/adhesion".into());
@@ -293,6 +294,27 @@ pub(super) fn evaluate_with_recovery(
         r.control = Some(diag);
         return Ok(r);
     }
+    // The optional station-cycle policy uses a target within the functional
+    // berth band. Keep the same independent authority/error/braking bounds.
+    let quiet_dock_target = if quiet_cycle {
+        let zero_speed_bound = stopping_distance_bound(
+            p,
+            p.speed_error_bound_m_s,
+            f64::INFINITY,
+            c.dt_s,
+            gravity_upper(p) / p.mass_lower_kg,
+        )
+        .unwrap()
+            + p.position_error_bound_m;
+        let berth_edge = c.berth_tolerance_m - p.position_error_bound_m;
+        if zero_speed_bound < berth_edge {
+            Some(c.distance_m - (zero_speed_bound + berth_edge) / 2.)
+        } else {
+            None
+        }
+    } else {
+        None
+    };
     let m0 = c.mass_kg + c.rotating_equivalent_mass_kg;
     let model_mass = (p.mass_lower_kg + p.mass_upper_kg) / 2. + p.rotating_mass_upper_kg;
     let (mut x, mut v, mut t) = (
@@ -420,6 +442,29 @@ pub(super) fn evaluate_with_recovery(
             braking = true;
             event(&mut r, "feedback-normal-brake-command", t, x, v);
         }
+        if quiet_cycle
+            && !docking
+            && braking
+            && !fault
+            && !p.drive_fault_observed
+            && observed_v < 0.3
+            && c.distance_m - observed_x < 5.
+        {
+            if let Some(target) = quiet_dock_target {
+                let covered = d.windows_m.iter().any(|w| {
+                    observed_x - p.position_error_bound_m >= w[0]
+                        && observed_x + p.position_error_bound_m < w[1]
+                        && target + p.position_error_bound_m <= w[1]
+                });
+                if covered {
+                    docking = true;
+                    docking_moved = true;
+                    docking_started = t;
+                    diag.docking_attempts += 1;
+                    event(&mut r, "bounded-brake-preloaded-berth-approach", t, x, v);
+                }
+            }
+        }
         let hard =
             margin < 0. && launched || docking && observed_v + p.speed_error_bound_m_s >= 0.5;
         if hard {
@@ -445,8 +490,18 @@ pub(super) fn evaluate_with_recovery(
                 target_traction = 0.;
             }
             if docking {
-                let goal_speed = (0.25 - p.speed_error_bound_m_s).max(0.);
-                let goal_acceleration = (0.7 * (goal_speed - observed_v)).clamp(-0.1, 0.1);
+                let goal_speed = if quiet_cycle {
+                    (0.15 - p.speed_error_bound_m_s)
+                        .max(0.)
+                        .min(0.3 * (quiet_dock_target.unwrap_or(c.distance_m) - observed_x).max(0.))
+                } else {
+                    (0.25 - p.speed_error_bound_m_s).max(0.)
+                };
+                let goal_acceleration = if quiet_cycle {
+                    (0.4 * (goal_speed - observed_v)).clamp(-0.05, 0.05)
+                } else {
+                    (0.7 * (goal_speed - observed_v)).clamp(-0.1, 0.1)
+                };
                 target_traction = (traction_command
                     + 0.25 * model_mass * (goal_acceleration - observed_a))
                     .max(0.)
@@ -491,7 +546,11 @@ pub(super) fn evaluate_with_recovery(
         } else if !launched {
             hold_required
         } else if docking {
-            0.
+            if quiet_cycle {
+                (hold_required + model_mass * 0.04).min(p.brake_force_lower_bound_n)
+            } else {
+                0.
+            }
         } else if braking {
             let rem = (c.distance_m - p.stopping_margin_m * 0.5 - observed_x).max(0.05);
             let target_a =
@@ -758,14 +817,19 @@ pub(super) fn evaluate_with_recovery(
             // Apply no imaginary immediate holding force: retain the actual
             // physical brake state already present at this event.
             let observed_stop = x + p.position_bias_m;
-            let target = c.distance_m - p.stopping_margin_m * 0.5;
+            let target = if quiet_cycle {
+                quiet_dock_target.unwrap_or(c.distance_m - p.stopping_margin_m * 0.5)
+            } else {
+                c.distance_m - p.stopping_margin_m * 0.5
+            };
             let coverage = d.windows_m.iter().any(|w| {
                 observed_stop - p.position_error_bound_m >= w[0]
                     && observed_stop + p.position_error_bound_m < w[1]
                     && target + p.position_error_bound_m <= w[1]
                     && target - p.position_error_bound_m >= w[0]
             });
-            let permitted = !fault
+            let permitted = (!quiet_cycle || quiet_dock_target.is_some())
+                && !fault
                 && !p.drive_fault_observed
                 && coverage
                 && p.position_error_bound_m * 2. < c.berth_tolerance_m
