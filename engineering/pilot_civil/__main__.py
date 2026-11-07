@@ -22,7 +22,7 @@ def main():
         path.write_bytes(encoded(value))
     write('axle-input.json',train);write('source-before.json',before)
     request=seal(dict(schema='osr-pilot-civil-request/1',input_evaluation_id=train['evaluation_id'],system_candidate_id=train['candidate_id'],source_sha256=before,
-        native_requested=args.native,resources=dict(moving_positions_each=501,max_cells=20000,max_cad_jobs=2,max_fem_cases=2,native_cpu_s_each_process=60,native_wall_s_each_process=58,native_memory_mib_each_process=2048),**FLAGS))
+        native_requested=args.native,resources=dict(moving_positions_each=501,max_cells=20000,max_cad_invocations=3,max_fem_cases=2,native_cpu_s_each_process=60,native_wall_s_each_process=58,native_memory_mib_each_process=2048),budget_revision_reason='Coordinator explicitly authorised a third CAD invocation for independent FreeCAD STEP volume measurement; engineering limits unchanged.',**FLAGS))
     write('request.json',request)
     results=evaluate_portfolio(train,upstream_root=args.upstream_root);write('portfolio.json',results)
     eligible=[r for r in results if r['advisory_screen_passed'] and r['foundation']['soil_case']=='base']
@@ -33,6 +33,8 @@ def main():
     trials=[]
     if selected:
         write('assembly.json',scene(selected));write('selected-evaluation.json',selected)
+        from .render import svg
+        (out/'civil-assembly.svg').write_text(svg(selected))
         if args.native:
             cad=generate(selected,out/'gross-beam-cad',gross_beam_only=True)
             generate(selected,out/'located-assembly-cad')
@@ -47,8 +49,11 @@ def main():
                     result=trial(spec,out/('native-'+str(i+1)),size_m=size);trials.append(result)
                     if result.get('failure_reason') or 'calculix' not in result or 'fieldcraft' not in result:break
     after=source_context();write('source-after.json',after)
+    upstream_after={n:digest(args.upstream_root/n) for n in train.get('source_sha256',{})}
+    write('upstream-source-after.json',upstream_after)
+    upstream_unchanged=upstream_after==train.get('source_sha256',{})
     report=seal(dict(schema='osr-pilot-civil-run/1',request_id=request['evaluation_id'],system_candidate_id=train['candidate_id'],source_unchanged=before==after,
-        executions_completed=True,numerical_sampling_converged=False,physical_acceptance=False,selected_for_next_experiment=selection['proposed_civil_id'],
+        executions_completed=True,upstream_source_unchanged=upstream_unchanged,numerical_sampling_converged=False,physical_acceptance=False,selected_for_next_experiment=selection['proposed_civil_id'],
         candidates=len(results),advisory_passes=sum(r['advisory_screen_passed'] for r in results),native_trials=len(trials),
         elapsed_s=time.monotonic()-started,coordinator_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         verifier_isolation='Coordinator source snapshots and before/after hashes; not an OS read-only source sandbox. Native logs report actual requested isolation and process outcomes.',
@@ -57,6 +62,6 @@ def main():
     files={str(path.relative_to(out)):dict(sha256=digest(path),bytes=path.stat().st_size) for path in out.rglob('*') if path.is_file()}
     write('manifest.json',seal(dict(schema='osr-pilot-civil-manifest/1',files=files,total_bytes=sum(v['bytes'] for v in files.values()),**FLAGS)))
     print(json.dumps(dict(output=str(out),run_id=report['evaluation_id'],candidates=len(results),advisory_passes=report['advisory_passes'],source_unchanged=report['source_unchanged'],native_trials=len(trials))))
-    if before!=after:raise SystemExit('Source drift: retained packet held')
+    if before!=after or not upstream_unchanged:raise SystemExit('Source drift: retained packet held')
 
 if __name__=='__main__':main()

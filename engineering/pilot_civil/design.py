@@ -66,6 +66,7 @@ def validate_train(train,root=ROOT):
         for x in [load['train_mass_kg'],load['lateral_acceleration_m_s2'],*load['CG_m'],*[v for a in load['axles'] for v in (a['x_m'],a['vertical_force_N'])]]:
             if type(x) not in (int,float) or not isfinite(x):raise ValueError('Finite SI axle/CG inputs required')
         if load['train_mass_kg']<=0 or min(a['vertical_force_N'] for a in load['axles'])<=0:raise ValueError('Positive masses and full axle loads required')
+        if load['lateral_acceleration_m_s2']<0 or load['CG_m'][2]<0 or min(a['x_m'] for a in load['axles'])<0:raise ValueError('Nonnegative lateral magnitude, railhead CG height and nose-to-tail axle x required')
         residual=fsum(a['vertical_force_N'] for a in load['axles'])-load['train_mass_kg']*G
         if abs(residual)>1e-7*load['train_mass_kg']*G:raise ValueError('Full-axle forces do not conserve supplied train mass')
     if any(train.get(k,False) is not False for k in FLAGS):raise ValueError('Load model cannot grant physical acceptance')
@@ -92,36 +93,39 @@ def section(family,revision='source'):
     q=geometry.quantities(p);z=q['centroid_m'][2];Iy=q['by_material']['research_concrete']['I_y_m4'];Iz=q['by_material']['research_concrete']['I_z_m4'];area=q['total_nominal_volume_m3']/20
     zmin=min(z for c in p['cells'] for s in c['sections'] for _,z in s['polygon_yz_m'])
     if family=='reference_box':
-        wall=.18;bm=2-wall;hm=1.4-wall;J=4*(bm*hm)**2/(2*(bm+hm)/wall);webcover=wall/2-.03
+        wall=.18;bm=2-wall;hm=1.4-wall;J=4*(bm*hm)**2/(2*(bm+hm)/wall);webcover=wall/2-.03;Am=bm*hm;sheararea=2*wall*(1.4-2*wall);thinwall=wall
     else:
         wall=.20 if revision=='thick-web' else .14
         depth=1.4 if revision=='thick-web' else 1.25;flange=.16 if revision=='thick-web' else .14
         web_height=depth-2*flange;web_length=sqrt(.45**2+web_height**2);normal_width=wall*web_height/web_length
         midheight=depth-flange;midtop=1.6-wall;midbottom=.7-wall;Am=(midtop+midbottom)/2*midheight
-        J=4*Am*Am/(midtop/flange+midbottom/flange+2*sqrt(.45**2+midheight**2)/normal_width);webcover=normal_width/2-.03
+        J=4*Am*Am/(midtop/flange+midbottom/flange+2*sqrt(.45**2+midheight**2)/normal_width);webcover=normal_width/2-.03;sheararea=2*normal_width*web_height;thinwall=min(normal_width,flange)
     return dict(physical=p,parent_geometry_candidate_id=parent,quantities=q,area_m2=area,I_y_m4=Iy,I_z_m4=Iz,centroid_z_m=z,zmin_m=zmin,top_distance_m=-z,bottom_distance_m=z-zmin,torsion_J_thinwall_m4=J,
-        duct_normal_cover_m=webcover,torsion_basis='Closed single-cell thin-wall approximation; local distortional/warping response and FEM torsion remain open')
+        duct_normal_cover_m=webcover,torsion_enclosed_median_area_m2=Am,effective_web_shear_area_m2=sheararea,minimum_normal_wall_m=thinwall,torsion_basis='Closed single-cell thin-wall approximation; local distortional/warping response and FEM torsion remain open')
 
 
 def reinforcement(s,p):
     r=p['reinforcement'];span=p['span_m'];depth=-s['zmin_m'];cover=p['prestress']['concrete_cover_m']
-    longlength=r['longitudinal_bars']*(span-2*cover+r['laps_per_longitudinal_bar']*r['lap_length_m'])
+    # Two match-cast segments: each has two overlapping bar pieces. No bar
+    # lap crosses the 2 mm dry/epoxy joint; continuous PT carries that interface.
+    segment_bar_length=span/2-2*cover+r['lap_length_m']
+    longlength=r['longitudinal_bars']*2*segment_bar_length
     count=ceil((span-2*cover)/r['stirrup_pitch_m'])+1
     # Four bends with explicit bend arc and straight legs, two hook tails.
-    R=r['bend_radius_to_diameter']*r['stirrup_diameter_m'];h=depth-2*cover
+    R=r['bend_radius_to_diameter']*r['stirrup_diameter_m'];centre_cover=cover+r['stirrup_diameter_m']/2;h=depth-2*centre_cover
     if s['physical']['family']=='folded_plate':
-        top=1.6-2*cover;bottom=.7-2*cover
+        top=1.6-2*centre_cover;bottom=.7-2*centre_cover
         perimeter=top+bottom+2*sqrt(h*h+((top-bottom)/2)**2)
-        cage=[[-top/2,-cover],[top/2,-cover],[bottom/2,-depth+cover],[-bottom/2,-depth+cover]]
+        cage=[[-top/2,-centre_cover],[top/2,-centre_cover],[bottom/2,-depth+centre_cover],[-bottom/2,-depth+centre_cover]]
     else:
-        w=2-2*cover;perimeter=2*(w+h)
-        cage=[[-w/2,-cover],[w/2,-cover],[w/2,-depth+cover],[-w/2,-depth+cover]]
+        w=2-2*centre_cover;perimeter=2*(w+h)
+        cage=[[-w/2,-centre_cover],[w/2,-centre_cover],[w/2,-depth+centre_cover],[-w/2,-depth+centre_cover]]
     # Fillet allowance is a cut-stock estimate. Exact bend geometry and bar
     # anchorage require a controlled bending schedule before fabrication.
     stirruplength=perimeter-8*R+2*pi*R+2*r['bend_tail_m']
     mass=p['steel_density_kg_m3']*(longlength*pi*r['longitudinal_bar_diameter_m']**2/4+count*stirruplength*pi*r['stirrup_diameter_m']**2/4)
-    return dict(longitudinal_bars=r['longitudinal_bars'],longitudinal_cut_length_m=longlength/r['longitudinal_bars'],longitudinal_total_m=longlength,
-        stirrup_count=count,stirrup_cut_length_m=stirruplength,stirrup_pitch_m=r['stirrup_pitch_m'],bar_bend_radius_m=R,
+    return dict(longitudinal_bars=r['longitudinal_bars'],longitudinal_cut_length_m=segment_bar_length/2,longitudinal_cut_pieces=4*r['longitudinal_bars'],longitudinal_total_m=longlength,
+        stirrup_count=count,stirrup_cut_length_m=stirruplength,stirrup_pitch_m=(span-2*cover)/(count-1),bar_bend_radius_m=R,
         longitudinal_diameter_m=r['longitudinal_bar_diameter_m'],stirrup_diameter_m=r['stirrup_diameter_m'],mass_kg=mass,
         cage_path_yz_m=cage,stock_basis='Cut/bend stock; bar fit, anchorage and congestion not qualified',
         material='B500-class reinforcement research specification; certificates, anchorage, congestion and fatigue open')
@@ -208,13 +212,14 @@ def prestress(s,demands,p,strands=None):
     n=max(ps['minimum_strands'],ceil(need/per/ps['strand_group_multiple'])*ps['strand_group_multiple']) if strands is None else strands
     if n>ps['maximum_strands']:raise ValueError('Prestress strand construction budget exceeded; new family required')
     area=n*ps['strand_area_m2'];jack=area*ps['strand_ultimate_Pa']*ps['jack_fraction'];effective=jack*ps['effective_fraction_of_jack']
-    bottom=[];top=[];top_min=[]
+    bottom=[];bottom_max=[];top=[];top_min=[]
     for d in demands:
         for row in d['moment_envelope_curve']:
             x=row['x_m'];local_e=e*4*x*(p['span_m']-x)/p['span_m']**2;moment=row['moment_Nm']+d['between_sample_upper_allowance']['moment_Nm']
             bottom.append(effective/A+effective*local_e*cb/I-moment*cb/I)
             top.append(effective/A-effective*local_e*ct/I+moment*ct/I)
             top_min.append(effective/A-effective*local_e*ct/I+(row['minimum_moment_Nm']-d['between_sample_upper_allowance']['moment_Nm'])*ct/I)
+            bottom_max.append(effective/A+effective*local_e*cb/I-(row['minimum_moment_Nm']-d['between_sample_upper_allowance']['moment_Nm'])*cb/I)
     sigma_bottom=min(bottom);sigma_top=max(top)
     transfer_force=jack*ps['transfer_fraction_of_jack']
     transfer_values=[]
@@ -232,11 +237,12 @@ def prestress(s,demands,p,strands=None):
     camber=5*(8*effective*e/p['span_m']**2)*p['span_m']**4/(384*p['young_Pa']*I)
     return dict(strands=n,ducts=ps['ducts'],strand_area_m2=ps['strand_area_m2'],jack_force_N=jack,effective_force_N=effective,
         eccentricity_midspan_m=e,profile='z(x)=centroid_z - e*4*x*(L-x)/L²; smooth flexible ducts, chairsat1m',
-        tendon_length_m_each=length,active_steel_mass_kg=mass,anchorage_mass_kg=anchor,
+        tendon_length_m_each=length,strand_stock_cut_length_m_each=length+1.2,strand_procurement_mass_kg=area*(length+1.2)*p['steel_density_kg_m3'],jacking_tail_stock_each_end_m=.6,active_steel_mass_kg=mass,anchorage_mass_kg=anchor,
         service_midspan_bottom_compression_Pa=sigma_bottom,service_midspan_top_compression_Pa=sigma_top,
-        transfer_compression_upper_Pa=transfer,gross_camber_m=camber,
+        service_maximum_bottom_compression_Pa=max(bottom_max),service_minimum_top_compression_Pa=min(top_min),
+        transfer_compression_upper_Pa=transfer,transfer_minimum_compression_Pa=min(transfer_values),gross_camber_m=camber,
         service_no_tension_hypothesis_met=sigma_bottom>=-1e-6 and min(top_min)>=-1e-6,
-        compression_targets_met=max(sigma_bottom,sigma_top)<=p['service_compression_target_Pa'] and transfer<=p['transfer_compression_target_Pa'],
+        compression_targets_met=max(max(bottom_max),sigma_top)<=p['service_compression_target_Pa'] and transfer<=p['transfer_compression_target_Pa'] and min(transfer_values)>=0,
         duct_cover_target_met=s['duct_normal_cover_m']>=ps['concrete_cover_m']-1e-9,
         end_zone_bursting_verified=False,loss_model='25%jacking loss hypothesis; time/creep/shrinkage/relaxation not qualified',
         profile_and_joint_local_stresses_verified=False,prop_restrained_secondary_prestress_verified=False)
@@ -270,6 +276,24 @@ def foundation(demands,beam_mass,p,soil_case,width=None):
     return result
 
 
+def shear_detail(s,demands,p):
+    """Conservative 45 degree truss link sizing without concrete shear credit.
+
+    This is a nominal research link demand, not a code strength calculation.
+    Longitudinal torsion reinforcement, bond and compression struts stay open.
+    """
+    V=max(d['shear_N'] for d in demands);T=max(d['torsion_Nm'] for d in demands)
+    steel=p['reinforcement'];fy=steel['truss_design_stress_hypothesis_Pa'];leg=pi*steel['stirrup_diameter_m']**2/4;z=.9*(-s['zmin_m']-.12)
+    inverse_pitch=V/(2*leg*fy*z)+T/(2*s['torsion_enclosed_median_area_m2']*leg*fy)
+    required=1/inverse_pitch;step=steel['stirrup_pitch_step_m'];chosen=max(steel['minimum_stirrup_pitch_m'],int(required/step)*step)
+    return dict(shear_demand_N=V,torsion_demand_Nm=T,truss_lever_arm_m=z,link_design_stress_hypothesis_Pa=fy,
+        maximum_link_pitch_hypothesis_m=required,proposed_pitch_m=min(steel['stirrup_pitch_m'],chosen),
+        actual_pitch_m=reinforcement(s,p)['stirrup_pitch_m'],link_screen_passed=reinforcement(s,p)['stirrup_pitch_m']<=required,
+        gross_shear_stress_estimate_Pa=1.5*V/s['effective_web_shear_area_m2']+T/(2*s['torsion_enclosed_median_area_m2']*s['minimum_normal_wall_m']),
+        concrete_shear_strength_credit_N=0.,strength_and_strut_anchorage_verified=False,
+        basis='Nominal 45-degree truss shear-plus-torsion link demand; no concrete shear credit, no ultimate-load/code resistance claim')
+
+
 def evaluate(train,*,family='reference_box',revision='source',soil_case='base',foundation_width_m=None,root=ROOT,upstream_root=None):
     validate_train(train,upstream_root or root);p=specification(root)
     # The folded bottom flange is only 700 mm wide. Two 250 mm bearings
@@ -285,13 +309,17 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
     rail_mass=2*p['rail_mass_kg_m']*p['span_m'];fastening_mass=fastening_count*(plate_mass+anchor_mass)
     # Prestress adds gravity; iterate the integer tendon design to fixed point.
     tend=None;demands=[];previous=None
-    for iteration in range(4):
+    for iteration in range(6):
         tendon_mass=0 if tend is None else tend['active_steel_mass_kg']+tend['anchorage_mass_kg']
         dead=s['quantities']['total_nominal_stock_mass_kg']+rebar['mass_kg']+rail_mass+fastening_mass+tendon_mass+fastening_count*p['fastener_other_hardware_kg_each']+p['drainage_mass_kg_per_beam']+p['walkway_mass_kg_per_beam_share']+p['guard_mass_kg_per_beam']+p['joint_duct_grout_reserve_kg_per_beam']
         demands=[dict(name=l['name'],**moving(s,l,p,dead)) for l in train['load_cases']]
         tend=prestress(s,demands,p)
-        if tend['strands']==previous:break
+        shear=shear_detail(s,demands,p);changed=not shear['link_screen_passed']
+        if changed:
+            p['reinforcement']['stirrup_pitch_m']=shear['proposed_pitch_m'];rebar=reinforcement(s,p)
+        if tend['strands']==previous and not changed:break
         previous=tend['strands']
+    else:raise ValueError('Reinforcement/prestress/gravity fixed point did not converge within six revisions')
     foot=foundation(demands,dead,p,soil_case,foundation_width_m)
     nominal=s['quantities']['total_nominal_stock_mass_kg'];lift_mass=nominal+rebar['mass_kg']+tend['active_steel_mass_kg']+tend['anchorage_mass_kg']
     hook_whole=(lift_mass+p['lifting']['rigging_kg'])*(1+p['lifting']['contingency_fraction'])
@@ -314,15 +342,16 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
     cid=identity(physical)
     screens=dict(gross_vertical_deflection_target=all(d['deflection_model_upper_m']<=p['deflection_target_m'] for d in demands),
         prestress_no_tension=tend['service_no_tension_hypothesis_met'],prestress_compression=tend['compression_targets_met'],duct_cover=tend['duct_cover_target_met'],
+        shear_torsion_links=shear['link_screen_passed'],
         lateral_deflection=all(d['lateral_deflection_m']<=p['lateral_deflection_target_m'] for d in demands),torsion=all(d['twist_rad']<=p['twist_target_rad'] for d in demands),
         bearing_no_uplift=all(d['minimum_bearing_compression_N']>=0 for d in demands),soil_scenario=foot['soil_assumption_satisfied'],pier_lateral_deflection=foot['pier_gross_lateral_deflection_m']<=p['support']['pier_deflection_target_m'],
         provisional_erection= lifting['segmented_fits_provisional_chart'] if segment else lifting['whole_fits_provisional_chart'])
-    quantities=dict(concrete_beam_m3=s['quantities']['total_nominal_volume_m3'],nominal_concrete_mass_kg=nominal,reinforcement_mass_kg=rebar['mass_kg'],prestress_active_kg=tend['active_steel_mass_kg'],anchorage_kg=tend['anchorage_mass_kg'],rail_kg=rail_mass,fastener_steel_kg=fastening_mass,
+    quantities=dict(concrete_beam_m3=s['quantities']['total_nominal_volume_m3'],nominal_concrete_mass_kg=nominal,reinforcement_mass_kg=rebar['mass_kg'],prestress_active_kg=tend['active_steel_mass_kg'],prestress_procurement_kg=tend['strand_procurement_mass_kg'],anchorage_kg=tend['anchorage_mass_kg'],rail_kg=rail_mass,fastener_steel_kg=fastening_mass,
         fastening_other_hardware_kg=fastening_count*p['fastener_other_hardware_kg_each'],drainage_access_misc_reserve_kg=p['drainage_mass_kg_per_beam']+p['walkway_mass_kg_per_beam_share']+p['guard_mass_kg_per_beam'],joint_duct_grout_reserve_kg=p['joint_duct_grout_reserve_kg_per_beam'],accounted_superstructure_kg=dead,complete_installed_mass_kg=None)
     costs=estimate(quantities,foot,segment,p)
     result=dict(schema='osr-pilot-civil-evaluation/1',system_candidate_id=train['candidate_id'],vehicle_candidate_id=train['vehicle_candidate_id'],mass_evaluation_id=train['mass_evaluation_id'],input_load_evaluation_id=train['evaluation_id'],
         civil_candidate_id=cid,physical_definition=physical,parent_geometry_candidate_id=s['parent_geometry_candidate_id'],section=s,reinforcement=rebar,prestress=tend,load_demands=demands,
-        foundation=foot,lifting=lifting,quantities=quantities,cost=costs,screens=screens,advisory_screen_passed=all(screens.values()),
+        foundation=foot,lifting=lifting,shear_detail=shear,quantities=quantities,cost=costs,screens=screens,advisory_screen_passed=all(screens.values()),
         fatigue_duty=dict(headway_s=p['headway_s'],passes_per_track_year=3600/p['headway_s']*p['operating_hours_day']*p['operating_days_year'],
             full_axle_cycles_per_track_30years=3600/p['headway_s']*p['operating_hours_day']*p['operating_days_year']*24*p['design_life_years'],fatigue_resistance_verified=False),
         purpose='next-experiment only',source_sha256=sources(root),policy=p,
@@ -332,8 +361,11 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
             'Crane capacity at12mradius is a provisional input, not a measured or manufacturer-confirmed chart',
             'Vehicle axle loads/CG are input hypotheses until installed assembly and dynamic vehicle response verified',
             'Central inspection walkway is not an approved passenger evacuation/accessibility system'],**FLAGS)
-    from .assembly import construction
+    from .assembly import construction,parts
     result['construction']=construction(result)
+    result['screens'].update(handling=result['construction']['handling']['gross_handling_target_met'],temporary_tower_elastic=result['construction']['midspan_tower']['elastic_capacity_screen'])
+    result['advisory_screen_passed']=all(result['screens'].values())
+    result['parts']=parts(result)
     result['interface_feedback']=dict(rail_vertical_displacement_model_m=max(d['deflection_model_upper_m'] for d in demands),rail_lateral_displacement_model_m=max(d['lateral_deflection_m'] for d in demands),rail_twist_model_rad=max(d['twist_rad'] for d in demands),pier_lateral_displacement_model_m=foot['pier_gross_lateral_deflection_m'],magnetic_gap_model_applicable=False,magnetic_gap_reason='Wheel-supported candidate. Any candidate-specific LIM airgap requires actual stator/secondary relative-displacement geometry; no gap clearance inferred from bridge deflection.')
     return seal(result)
 
@@ -343,7 +375,7 @@ def estimate(q,foot,segmented,p):
     def add(owner,quantity,unit,prices,basis):rows.append(dict(owner=owner,quantity=quantity,unit=unit,cost_usd={c:quantity*prices[i] for i,c in enumerate(CASES)},basis=basis))
     factory=[]
     for i in range(3):
-        material=q['concrete_beam_m3']*rates['concrete_usd_m3'][i]+q['reinforcement_mass_kg']*rates['reinforcement_usd_kg'][i]+(q['prestress_active_kg']+q['anchorage_kg'])*rates['prestress_usd_kg'][i]
+        material=q['concrete_beam_m3']*rates['concrete_usd_m3'][i]+q['reinforcement_mass_kg']*rates['reinforcement_usd_kg'][i]+(q['prestress_procurement_kg']+q['anchorage_kg'])*rates['prestress_usd_kg'][i]
         process=q['concrete_beam_m3']*rates['precast_labour_h_m3'][i]*rates['loaded_wage_usd_h'][i]
         tooling=rates['mould_setup_usd'][i]/rates['mould_reuses'][i]
         factory.append((material+process+tooling)*(1+rates['overhead_fraction'][i]))

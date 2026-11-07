@@ -89,3 +89,34 @@ def test_cache_is_exact_and_returns_independent_copy(train,portfolio):
     assert again['moment_Nm']>0
     assert again['dynamic_factor_applied_once']==1.3
     assert again['sampled_translations']==501
+
+
+def test_located_patterns_stay_inside_stock(portfolio):
+    r=portfolio['folded_plate','thick-web'];scene=a.scene(r)
+    plates=[e for e in scene['entities'] if '/fastener-' in e['id']]
+    assert len(plates)==136
+    assert all(0<=e['geometry']['at_m'][0] and e['geometry']['at_m'][0]+e['geometry']['size_m'][0]<=20+1e-12 for e in plates)
+    hoops=[v for v in scene['definition_paths'] if v['kind']=='bending-centreline']
+    assert min(v['x_m'] for v in hoops)>=.06-1e-12
+    assert max(v['x_m'] for v in hoops)<=19.94+1e-12
+    assert r['prestress']['service_maximum_bottom_compression_Pa']>=r['prestress']['service_midspan_bottom_compression_Pa']
+    assert r['prestress']['transfer_minimum_compression_Pa']>0
+
+
+def test_no_authority_and_explicit_lateral_magnitude(train):
+    bad=deepcopy(train);bad['movement_authority']=True;bad.pop('evaluation_id');d.seal(bad)
+    with pytest.raises(ValueError,match='acceptance'):d.validate_train(bad)
+    bad=deepcopy(train);bad['load_cases'][0]['lateral_acceleration_m_s2']=-.5;bad.pop('evaluation_id');d.seal(bad)
+    with pytest.raises(ValueError,match='Nonnegative'):d.validate_train(bad)
+
+
+def test_cut_stock_and_nonadditive_manufacturing(portfolio):
+    r=portfolio['folded_plate','thick-web'];rebar=r['reinforcement'];scene=a.scene(r)
+    bars=[p for p in scene['definition_paths'] if p['kind']=='straight-bar-centreline']
+    assert len(bars)==2*rebar['longitudinal_cut_pieces']
+    assert sum(p['cut_length_m'] for p in bars)/2==pytest.approx(rebar['longitudinal_total_m'])
+    assert all(p['path_xyz_m'][0][0]>10 or p['path_xyz_m'][1][0]<10 for p in bars)
+    assert r['quantities']['prestress_procurement_kg']>r['quantities']['prestress_active_kg']
+    assert not r['parts']['additive_mass_or_cost_ledger']
+    assert r['shear_detail']['concrete_shear_strength_credit_N']==0
+    assert not r['shear_detail']['strength_and_strut_anchorage_verified']
