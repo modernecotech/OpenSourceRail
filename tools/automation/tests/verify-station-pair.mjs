@@ -68,24 +68,54 @@ try {
   assert(await page.locator('#candidate-details').getAttribute('open') !== null);
   assert((await page.locator('#candidate-detail-content').innerText()).includes(summary.rows[0].candidate_id));
   record('Candidate inspection retains full physical and evaluation identities');
+  if (summary.control_comparison) {
+    const comparison=summary.control_comparison;
+    assert.equal(await page.locator('#control-comparison').isVisible(),true);
+    assert((await page.locator('#fixed-arrivals').innerText()).startsWith(String(comparison.fixed_arrivals)));
+    assert((await page.locator('#feedback-arrivals').innerText()).startsWith(String(comparison.feedback_arrivals)));
+    for (const [kind,key] of [['fault','fault_pairs'],['normal','normal_pairs']]) {
+      await page.selectOption('#control-kind',kind);
+      const pairs=comparison[key] || [];
+      assert.equal(await page.locator('#control-pairs tr').count(),Math.max(1,pairs.length));
+      const text=await page.locator('#control-pairs').innerText();
+      if(pairs.some((p)=>(p.feedback?.control_bounds_supported ?? p.feedback?.bounds_supported)===false)) assert(text.includes('Outside declared bounds'));
+      if(pairs.some((p)=>p.feedback?.departure_held===true)) assert(text.includes('Departure held'));
+      if(pairs.some((p)=>p.fixed?.final_position_m>p.distance_m+summary.brief.berth_tolerance_m)) assert(text.includes('Overran route boundary'));
+    }
+    await page.selectOption('#distance-filter','1500');
+    await page.selectOption('#speed-filter','60');
+    const filtered=(comparison.normal_pairs || []).filter((p)=>Math.abs(p.speed_cap_km_h-60)<1e-8 && p.distance_m===1500);
+    assert.equal(await page.locator('#control-pairs tr').count(),Math.max(1,filtered.length));
+    await page.getByRole('button',{name:'Reset filters'}).click();
+    await page.selectOption('#control-kind','fault');
+    const history=await page.locator('#fixed-control-history').getAttribute('href');
+    assert.equal(history,'../../archives/station-pair-fixed-control-20261107/README.md');
+    assert((await page.locator('#control-comparison').innerText()).includes('simulated observations'));
+    assert((await page.locator('#control-comparison').innerText()).includes('not a demonstrated safe stop'));
+    record('Fixed/feedback pairs preserve missed results, holds, unsupported bounds, shared filters and historical evidence');
+  } else assert.equal(await page.locator('#control-comparison').isVisible(),false);
   if (summary.finalists.length) {
     assert.equal(await page.locator('#trace-a option').count(), summary.finalists.length);
     if (summary.finalists.length > 1) await page.selectOption('#trace-b', '1');
+    const chosen=[summary.finalists[0],summary.finalists[summary.finalists.length > 1 ? 1 : 0]];
+    const usable=chosen.filter((f)=>{const p=Array.isArray(f.trace)?f.trace:f.trace?.points;return Array.isArray(p)&&p.some((p)=>Number.isFinite(p.position_m)&&Number.isFinite(p.speed_m_s));}).length;
     for (const metric of ['speed','acceleration','force']) {
       await page.selectOption('#trace-metric', metric);
-      assert.equal(await page.locator('#trace-chart svg').count(), 1);
-      const paths = await page.locator('#trace-chart path').evaluateAll((nodes) => nodes.map((n) => n.getAttribute('d')));
-      assert(paths.length >= 2);
-      assert(paths.every((d) => d && !/NaN|Infinity|undefined/.test(d)));
+      assert.equal(await page.locator('#trace-chart svg').count(), usable ? 1 : 0);
+      if(usable){
+        const paths = await page.locator('#trace-chart path').evaluateAll((nodes) => nodes.map((n) => n.getAttribute('d')));
+        assert.equal(paths.length,usable*(metric==='force'?2:1));
+        assert(paths.every((d) => d && !/NaN|Infinity|undefined/.test(d)));
+      }else assert((await page.locator('#trace-chart').innerText()).includes('No source-linked trace'));
     }
-    record('Two source-linked traces render all three metrics with finite coordinates');
+    record('Available source-linked traces render all metrics; held empty traces never become invented curves');
     for (let i=0;i<summary.finalists.length;i++) {
       await page.selectOption('#checks-finalist', String(i));
       const f = summary.finalists[i], checks=f.checks || [], distance=f.request?.distance_m;
       assert.equal(await page.locator('#checks-body tr').count(), Math.max(1,checks.length));
       if (checks.some((c) => c.final_position_m > distance + summary.brief.berth_tolerance_m)) assert((await page.locator('#checks-body').innerText()).includes('Overran station-pair boundary'));
     }
-    record('Fixed-controller check counts and actual route overruns remain visible');
+    record('Declared-controller check counts and actual route overruns remain visible');
   }
   const links = await page.locator('#download-links a').evaluateAll((nodes) => nodes.map((n) => n.getAttribute('href')));
   assert.equal(links.length,new Set(links).size);

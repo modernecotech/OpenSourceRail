@@ -3,3 +3,27 @@
 .family-card{min-width:0}.family-card .pill{white-space:normal}
 
 .comparison-scroll{max-height:660px}.comparison-table thead th{position:sticky;top:0;z-index:1}@media(max-width:700px){.comparison-scroll{max-height:560px}}
+
+/* Paired control evaluations keep physical outcomes and evidence scope separate. */
+.control-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.25rem 0}
+.control-metrics .panel{min-width:0}
+.control-metrics strong{display:block;font-size:1.6rem;line-height:1.3;color:var(--ink);margin:.35rem 0}
+.control-metrics p{font-size:.78rem;color:var(--muted);margin:.25rem 0 0}
+.control-scroll{max-height:580px}
+.control-table{min-width:850px;width:100%;border-collapse:collapse}
+.control-table thead th{position:sticky;top:0;z-index:1}
+.control-table td:first-child{min-width:200px;max-width:270px}
+.control-table td{vertical-align:top}
+.control-table .problem-row{background:var(--amber-bg)}
+.control-table .problem-row:hover{background:#fff0d3}
+.case-label{display:block;margin:.35rem 0;font-weight:650;color:var(--ink)}
+.control-notes{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.control-notes p{margin:0;padding:1rem;border:1px solid var(--line);border-radius:8px;font-size:.82rem;line-height:1.6;background:#fff}
+@media(max-width:700px){
+  .control-metrics{gap:.5rem}
+  .control-metrics .panel{padding:.7rem}
+  .control-metrics strong{font-size:1.1rem;overflow-wrap:anywhere}
+  .control-metrics p{font-size:.68rem}
+  .control-notes{grid-template-columns:1fr}
+  .control-scroll{max-height:500px}
+}
