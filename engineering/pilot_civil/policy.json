@@ -1,0 +1,235 @@
+{
+  "schema": "osr-pilot-civil-policy/1",
+  "span_m": 20.0,
+  "route_m": 1500.0,
+  "tracks": 2,
+  "track_centres_y_m": [
+    -1.6,
+    1.6
+  ],
+  "dynamic_axle_factor": 1.3,
+  "moving_positions": 501,
+  "observations": 81,
+  "young_Pa": 35000000000.0,
+  "poisson": 0.2,
+  "concrete_density_kg_m3": 2500.0,
+  "steel_density_kg_m3": 7850.0,
+  "research_concrete_strength_Pa": 50000000.0,
+  "service_compression_target_Pa": 15000000.0,
+  "transfer_compression_target_Pa": 20000000.0,
+  "service_tension_target_Pa": 0.0,
+  "deflection_target_m": 0.02,
+  "lateral_deflection_target_m": 0.005,
+  "twist_target_rad": 0.001,
+  "vertical_load_eccentricity_m": 0.1,
+  "railhead_above_deck_m": 0.2,
+  "rail_mass_kg_m": 60.21,
+  "fastener_pitch_m": 0.6,
+  "fastener_plate_size_m": [
+    0.3,
+    0.2,
+    0.02
+  ],
+  "anchor_count_per_plate": 4,
+  "anchor_diameter_m": 0.02,
+  "anchor_length_m": 0.2,
+  "prestress": {
+    "strand_area_m2": 0.00014,
+    "strand_ultimate_Pa": 1860000000.0,
+    "jack_fraction": 0.7,
+    "effective_fraction_of_jack": 0.75,
+    "transfer_fraction_of_jack": 0.95,
+    "minimum_strands": 12,
+    "maximum_strands": 60,
+    "strand_group_multiple": 6,
+    "ducts": 6,
+    "duct_outer_diameter_m": 0.06,
+    "concrete_cover_m": 0.06,
+    "eccentricity_m": 0.4,
+    "anchorage_kg_per_strand": 8.0
+  },
+  "reinforcement": {
+    "longitudinal_bar_diameter_m": 0.02,
+    "longitudinal_bars": 16,
+    "stirrup_diameter_m": 0.012,
+    "stirrup_pitch_m": 0.2,
+    "bend_radius_to_diameter": 4.0,
+    "lap_length_m": 0.8,
+    "laps_per_longitudinal_bar": 1,
+    "bend_tail_m": 0.15
+  },
+  "support": {
+    "column_height_m": 8.0,
+    "column_diameter_m": 1.2,
+    "cap_size_m": [
+      1.5,
+      5.8,
+      0.8
+    ],
+    "bearing_size_m": [
+      0.45,
+      0.4,
+      0.18
+    ],
+    "bearing_longitudinal_offsets_m": [
+      -0.35,
+      0.35
+    ],
+    "bearing_lateral_offsets_m": [
+      -0.7,
+      0.7
+    ],
+    "footing_thickness_m": 1.0,
+    "footing_width_min_m": 3.0,
+    "footing_width_max_m": 12.0,
+    "footing_width_step_m": 0.25,
+    "soil_bearing_Pa": {
+      "weak": 75000.0,
+      "base": 150000.0,
+      "firm": 300000.0
+    },
+    "base_friction_hypothesis": 0.4,
+    "braking_force_fraction": 0.15,
+    "overturning_ratio_target": 1.5,
+    "pier_deflection_target_m": 0.01,
+    "bearing_lines_x_m": [
+      0.35,
+      19.65
+    ]
+  },
+  "lifting": {
+    "radius_m": 12.0,
+    "provisional_capacity_at_radius_kg": 60000.0,
+    "rigging_kg": 1500.0,
+    "contingency_fraction": 0.1,
+    "verified_chart_available": false,
+    "piece_length_m": 10.0,
+    "lifting_factor": 1.3,
+    "transport_payload_kg": 35000.0,
+    "temporary_support_reused_sets": 2
+  },
+  "cost": {
+    "concrete_usd_m3": [
+      55,
+      85,
+      130
+    ],
+    "reinforcement_usd_kg": [
+      0.45,
+      0.62,
+      0.9
+    ],
+    "prestress_usd_kg": [
+      1.2,
+      1.6,
+      2.4
+    ],
+    "fabricated_steel_usd_kg": [
+      2,
+      3.5,
+      6
+    ],
+    "bearing_usd_each": [
+      1200,
+      2500,
+      6000
+    ],
+    "drainage_usd_m": [
+      8,
+      15,
+      30
+    ],
+    "precast_labour_h_m3": [
+      4,
+      7,
+      12
+    ],
+    "loaded_wage_usd_h": [
+      6,
+      10,
+      16
+    ],
+    "mould_setup_usd": [
+      60000,
+      120000,
+      250000
+    ],
+    "mould_reuses": [
+      150,
+      100,
+      50
+    ],
+    "erect_piece_usd": [
+      2500,
+      5000,
+      10000
+    ],
+    "transport_piece_usd": [
+      800,
+      1800,
+      4000
+    ],
+    "temporary_support_set_usd": [
+      15000,
+      30000,
+      65000
+    ],
+    "joint_preparation_usd": [
+      500,
+      1200,
+      3000
+    ],
+    "site_concrete_usd_m3": [
+      90,
+      140,
+      240
+    ],
+    "site_reinforcement_kg_m3": [
+      90,
+      130,
+      190
+    ],
+    "foundation_excavation_usd_m3": [
+      8,
+      16,
+      35
+    ],
+    "overhead_fraction": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "contingency_fraction": [
+      0.15,
+      0.25,
+      0.4
+    ],
+    "fastener_other_hardware_usd_each": [
+      10,
+      25,
+      60
+    ],
+    "walkway_guard_usd_kg": [
+      2,
+      4,
+      7
+    ],
+    "joint_duct_grout_usd_per_beam": [
+      300,
+      600,
+      1500
+    ]
+  },
+  "soil_surveyed": false,
+  "approved_material_limits": false,
+  "source_scope": "Explicit outline hypotheses, not quotations, code allowables, geotechnical evidence or qualified prestress design",
+  "fastener_other_hardware_kg_each": 5.0,
+  "drainage_mass_kg_per_beam": 131.0,
+  "walkway_mass_kg_per_beam_share": 350.0,
+  "guard_mass_kg_per_beam": 103.0,
+  "headway_s": 210.0,
+  "operating_hours_day": 18.0,
+  "operating_days_year": 365.0,
+  "design_life_years": 30,
+  "joint_duct_grout_reserve_kg_per_beam": 750.0
+}
