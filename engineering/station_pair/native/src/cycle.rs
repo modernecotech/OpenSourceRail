@@ -2,6 +2,8 @@
 //! stop offsets retained. Ideal coordinated retarding-force sharing is
 //! an explicit model hypothesis, not a spring/accumulator/contact force law.
 use super::*;
+use crate::cycle_release::ReleaseRuntime;
+pub use crate::cycle_release::{ReleaseControl, ReleaseDiagnostics, ReleaseSample};
 
 pub const REQUEST_SCHEMA: &str = "osr-station-cycle-request/1";
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -63,6 +65,8 @@ pub struct CycleCase {
     pub candidate_id: String,
     pub stations: Vec<Station>,
     pub legs: Vec<Leg>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub release_control: Option<ReleaseControl>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct StationState {
@@ -87,6 +91,8 @@ pub struct RecoveryPoint {
     pub store_traction_n: f64,
     pub departure_store_j: f64,
     pub arrival_store_j: f64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub release_control: Option<ReleaseSample>,
 }
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct LegEnergy {
@@ -108,6 +114,8 @@ pub struct LegEnergy {
     pub maximum_grid_force_n: f64,
     pub capture_stage_work_j: Vec<f64>,
     pub trace: Vec<RecoveryPoint>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub release_control: Option<ReleaseDiagnostics>,
 }
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct Ledger {
@@ -197,6 +205,9 @@ fn validate(c: &CycleCase) -> Result<(), String> {
     if c.stations[0].id.is_empty() || c.stations[0].id == c.stations[1].id {
         return Err("Distinct named station stores required".into());
     }
+    if let Some(p) = &c.release_control {
+        p.validate()?;
+    }
     let mut ids = HashSet::new();
     let train = &c.legs[0].train_id;
     let distance = c.legs[0].journey.distance_m;
@@ -278,9 +289,18 @@ pub(super) struct Runtime<'a> {
     pub events: Vec<CycleEvent>,
     pub initial_position_m: f64,
     next_trace_s: f64,
+    release_runtime: Option<ReleaseRuntime>,
 }
 impl<'a> Runtime<'a> {
+    pub fn controlled_grid_peak_power_w(&self) -> Option<f64> {
+        self.release_runtime
+            .as_ref()
+            .map(|q| q.last_grid_peak_power_w)
+    }
     pub fn boundaries(&self) -> Vec<f64> {
+        if self.release_runtime.is_some() {
+            return vec![];
+        }
         let mut v = vec![];
         if !self.leg.release_failed
             && self.states[self.dep].energy_j > 0.
@@ -294,6 +314,9 @@ impl<'a> Runtime<'a> {
         v
     }
     pub fn release_cap(&self, x: f64, v: f64, h: f64, fault: bool) -> f64 {
+        if self.release_runtime.is_some() {
+            return 0.;
+        }
         let s = &self.specs[self.dep];
         let q = &s.release;
         if fault
@@ -358,6 +381,8 @@ impl<'a> Runtime<'a> {
         x: f64,
         v: f64,
         v_upper: f64,
+        v0: f64,
+        v1: f64,
         dx: f64,
         h: f64,
         time_s: f64,
@@ -365,11 +390,32 @@ impl<'a> Runtime<'a> {
         brake: f64,
         fault: bool,
     ) -> Result<(f64, f64), String> {
-        let release = traction.min(self.release_cap(x, v, h, fault));
+        let allocation = if let Some(q) = self.release_runtime.as_mut() {
+            Some(q.allocate(
+                &self.specs[self.dep],
+                self.leg,
+                self.states[self.dep].energy_j,
+                x,
+                v0,
+                v1,
+                dx,
+                h,
+                traction,
+                fault,
+            ))
+        } else {
+            None
+        };
+        let release = allocation.as_ref().map_or_else(
+            || traction.min(self.release_cap(x, v, h, fault)),
+            |a| a.equivalent_force_n,
+        );
         let plan = self.capture_plan(x, dx, v_upper, h, brake, time_s);
         let capture_work: f64 = plan.iter().map(|(_, f, _, overlap)| f * overlap).sum();
         let capture = if dx > 0. { capture_work / dx } else { 0. };
-        let launch = release * dx.max(0.);
+        let launch = allocation
+            .as_ref()
+            .map_or_else(|| release * dx.max(0.), |a| a.work_j);
         let draw = launch / self.specs[self.dep].store.release_efficiency;
         let stored = capture_work * self.specs[self.arr].store.capture_efficiency;
         self.energy.leakage_j += age(self.states, self.specs, h);
@@ -389,8 +435,14 @@ impl<'a> Runtime<'a> {
         self.energy.released_from_store_j += draw;
         self.energy.delivered_launch_work_j += launch;
         self.energy.release_loss_j += draw - launch;
-        self.energy.maximum_release_force_n = self.energy.maximum_release_force_n.max(release);
-        self.energy.maximum_release_power_w = self.energy.maximum_release_power_w.max(release * v);
+        self.energy.maximum_release_force_n = self
+            .energy
+            .maximum_release_force_n
+            .max(allocation.as_ref().map_or(release, |a| a.peak_force_n));
+        self.energy.maximum_release_power_w = self
+            .energy
+            .maximum_release_power_w
+            .max(allocation.as_ref().map_or(release * v, |a| a.peak_power_w));
         self.energy.maximum_grid_force_n = self.energy.maximum_grid_force_n.max(traction - release);
         for (stage, force, _, distance) in plan {
             self.energy.capture_stage_work_j[stage] += force * distance;
@@ -431,9 +483,14 @@ impl<'a> Runtime<'a> {
                 store_traction_n: release,
                 departure_store_j: self.states[self.dep].energy_j,
                 arrival_store_j: self.states[self.arr].energy_j,
+                release_control: self
+                    .release_runtime
+                    .as_ref()
+                    .and_then(|q| q.last_sample.clone()),
             });
             self.next_trace_s = time_s + 1.;
         }
+        self.energy.release_control = self.release_runtime.as_ref().map(|q| q.diagnostics.clone());
         Ok((launch, capture_work))
     }
 }
@@ -516,6 +573,7 @@ pub fn evaluate(c: &CycleCase) -> Result<CycleResult, String> {
             events: vec![],
             initial_position_m: initial_x,
             next_trace_s: 0.,
+            release_runtime: c.release_control.clone().map(ReleaseRuntime::new),
         };
         let mut journey = feedback::evaluate_with_recovery(
             &l.journey,
