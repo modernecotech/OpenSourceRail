@@ -598,7 +598,9 @@
             "running/local-speed-cable",
             "running/sensor-connector",
             "running/sensor-bracket",
-            "running/sensor-mount-nut"
+            "running/sensor-mount-nut",
+            "running/wsp-feed-manifold",
+            "running/wsp-feed-union"
           ],
           "tools": "gap gauge and torque tools",
           "inspection": "Target runout and sensor clearance"
@@ -612,7 +614,9 @@
             "running/local-temperature-cable",
             "running/sensor-guard-conduit",
             "running/sensor-mount-bolt",
-            "running/sensor-mount-washer"
+            "running/sensor-mount-washer",
+            "running/wsp-feed-tube",
+            "running/wsp-coil-cable"
           ],
           "tools": "crimp tools, cable supports and test box",
           "inspection": "Continuity, insulation, speed/temperature signal plausibility"
@@ -5243,8 +5247,8 @@
     {
       "id": "running/sensor-connector",
       "assembly_id": "running/bogie-wsp",
-      "name": "Bogie local sensor connector pair",
-      "quantity_per_assembly": 6,
+      "name": "Bogie local sensor/WSP connector pair",
+      "quantity_per_assembly": 10,
       "unit": "each",
       "material_id": "running/mixed-module",
       "make_buy": "buy-qualified",
@@ -5255,7 +5259,7 @@
           0.025,
           0.025
         ],
-        "description": "One mated connector pair with contacts/seals; no controller or cable included"
+        "description": "One mated connector pair:2speed,4temperature,4localWSPvalve connections per bogie; no cable/controller included"
       },
       "mass_each_kg": {
         "low": 0.025,
@@ -5440,7 +5444,7 @@
         "Dimensions and surface condition",
         "Recorded fastener torque or pin retention"
       ],
-      "mounting": "Fit at dedicated accessible interface of running/bogie-wsp",
+      "mounting": "2speed brackets x2bolts +4WSPvalves x2bolts +1localmanifold x4bolts per bogie; temperature probes screw into qualified housing bosses",
       "maintenance_removal": "Unload/support assembly; release accessible fixings and remove separately",
       "open_tasks": [
         "Detailed geometry, material evidence, loads, fatigue and assembly access require verification"
@@ -10158,6 +10162,206 @@
       ],
       "source_ids": [
         "running/skf-axlebox"
+      ]
+    },
+    {
+      "id": "running/wsp-feed-manifold",
+      "assembly_id": "running/bogie-wsp",
+      "name": "Local brake-feed four-branch manifold",
+      "quantity_per_assembly": 1,
+      "unit": "each",
+      "material_id": "running/mixed-module",
+      "make_buy": "buy-qualified",
+      "stock": {
+        "kind": "envelope",
+        "size_m": [
+          0.18,
+          0.07,
+          0.055
+        ],
+        "description": "Qualified four-branch pressure manifold with inlet; excludes tubes/unions; services body flexible feed ends at inlet"
+      },
+      "mass_each_kg": {
+        "low": 0.4,
+        "base": 0.7,
+        "high": 1.2
+      },
+      "mass_basis": {
+        "kind": "engineering-allowance",
+        "description": "Proposed engineering mass range for the defined part/envelope; not measured installed mass; dimensions are packaging hypotheses."
+      },
+      "direct_cost_each_usd": {
+        "low": 12,
+        "base": 22,
+        "high": 40
+      },
+      "cost_basis": "Provisional direct factory material, processing/finishing and direct labour allowance; not a supplier quotation; excludes shared factory overhead, vehicle installation, qualification and tax. No assumed Chinese/bulk discount.",
+      "manufacturing": [
+        "Specify pressure-rated manifold, clean internal passages",
+        "Pressure/leak test and identify inlet/outlet ports"
+      ],
+      "joining": "Accessible removable pressure/electrical connection; not a body trunk pipe or controller",
+      "finish": "Compatible corrosion/fire/smoke protection; maintain clean pressure passages",
+      "tolerance_and_fits": "Rated connections/pressure and connector interface require final schematic and supplier instructions",
+      "inspection": [
+        "Traceability and dimensions",
+        "Leak/pressure or electrical function test as applicable"
+      ],
+      "mounting": "Local to bogie between services flexible brake feed/WSP controller harness and separately counted local brake valves",
+      "maintenance_removal": "Isolate brake pressure and electrical controls, restrain train, disconnect labelled local branch",
+      "open_tasks": [
+        "Local pneumatic/electrical schematic, fault response and EMC/pressure qualification unresolved"
+      ],
+      "source_ids": [
+        "running/knorr-actuators"
+      ]
+    },
+    {
+      "id": "running/wsp-feed-tube",
+      "assembly_id": "running/bogie-wsp",
+      "name": "Local WSP manifold-to-valve tube cut length",
+      "quantity_per_assembly": 4,
+      "unit": "each",
+      "material_id": "running/mixed-module",
+      "make_buy": "local-fabricate",
+      "stock": {
+        "kind": "cut-length",
+        "length_m": 0.45,
+        "profile_description": "Proposed10mmoutside-diameter pressure tube; wall and bend radius to qualify"
+      },
+      "mass_each_kg": {
+        "low": 0.08,
+        "base": 0.14,
+        "high": 0.24
+      },
+      "mass_basis": {
+        "kind": "engineering-allowance",
+        "description": "Proposed engineering mass range for the defined part/envelope; not measured installed mass; dimensions are packaging hypotheses."
+      },
+      "direct_cost_each_usd": {
+        "low": 3,
+        "base": 5,
+        "high": 9
+      },
+      "cost_basis": "Provisional direct factory material, processing/finishing and direct labour allowance; not a supplier quotation; excludes shared factory overhead, vehicle installation, qualification and tax. No assumed Chinese/bulk discount.",
+      "manufacturing": [
+        "Cut/deburr and form pressure-rated tube",
+        "Clean passages, install and leak-test"
+      ],
+      "joining": "Accessible removable pressure/electrical connection; not a body trunk pipe or controller",
+      "finish": "Compatible corrosion/fire/smoke protection; maintain clean pressure passages",
+      "tolerance_and_fits": "Rated connections/pressure and connector interface require final schematic and supplier instructions",
+      "inspection": [
+        "Traceability and dimensions",
+        "Leak/pressure or electrical function test as applicable"
+      ],
+      "mounting": "Local to bogie between services flexible brake feed/WSP controller harness and separately counted local brake valves",
+      "maintenance_removal": "Isolate brake pressure and electrical controls, restrain train, disconnect labelled local branch",
+      "open_tasks": [
+        "Local pneumatic/electrical schematic, fault response and EMC/pressure qualification unresolved"
+      ],
+      "source_ids": [
+        "running/knorr-actuators"
+      ]
+    },
+    {
+      "id": "running/wsp-feed-union",
+      "assembly_id": "running/bogie-wsp",
+      "name": "Local WSP feed tube/inlet union",
+      "quantity_per_assembly": 9,
+      "unit": "each",
+      "material_id": "running/mixed-module",
+      "make_buy": "buy-qualified",
+      "stock": {
+        "kind": "envelope",
+        "size_m": [
+          0.032,
+          0.032,
+          0.04
+        ],
+        "description": "Eight tube-end unions plus one services-feed inlet union per manifold"
+      },
+      "mass_each_kg": {
+        "low": 0.035,
+        "base": 0.06,
+        "high": 0.1
+      },
+      "mass_basis": {
+        "kind": "engineering-allowance",
+        "description": "Proposed engineering mass range for the defined part/envelope; not measured installed mass; dimensions are packaging hypotheses."
+      },
+      "direct_cost_each_usd": {
+        "low": 1.5,
+        "base": 3,
+        "high": 5.5
+      },
+      "cost_basis": "Provisional direct factory material, processing/finishing and direct labour allowance; not a supplier quotation; excludes shared factory overhead, vehicle installation, qualification and tax. No assumed Chinese/bulk discount.",
+      "manufacturing": [
+        "Buy qualified pressure-rated matching union",
+        "Receive thread/seal and pressure checks"
+      ],
+      "joining": "Accessible removable pressure/electrical connection; not a body trunk pipe or controller",
+      "finish": "Compatible corrosion/fire/smoke protection; maintain clean pressure passages",
+      "tolerance_and_fits": "Rated connections/pressure and connector interface require final schematic and supplier instructions",
+      "inspection": [
+        "Traceability and dimensions",
+        "Leak/pressure or electrical function test as applicable"
+      ],
+      "mounting": "Local to bogie between services flexible brake feed/WSP controller harness and separately counted local brake valves",
+      "maintenance_removal": "Isolate brake pressure and electrical controls, restrain train, disconnect labelled local branch",
+      "open_tasks": [
+        "Local pneumatic/electrical schematic, fault response and EMC/pressure qualification unresolved"
+      ],
+      "source_ids": [
+        "running/knorr-actuators"
+      ]
+    },
+    {
+      "id": "running/wsp-coil-cable",
+      "assembly_id": "running/bogie-wsp",
+      "name": "Bogie-local WSP valve coil cable cut length",
+      "quantity_per_assembly": 4,
+      "unit": "each",
+      "material_id": "running/mixed-module",
+      "make_buy": "local-fabricate",
+      "stock": {
+        "kind": "cut-length",
+        "length_m": 2.0,
+        "profile_description": "Railway-qualified local two-conductor valve cable; coil requirements/EMC to qualify"
+      },
+      "mass_each_kg": {
+        "low": 0.1,
+        "base": 0.18,
+        "high": 0.3
+      },
+      "mass_basis": {
+        "kind": "engineering-allowance",
+        "description": "Proposed engineering mass range for the defined part/envelope; not measured installed mass; dimensions are packaging hypotheses."
+      },
+      "direct_cost_each_usd": {
+        "low": 4,
+        "base": 7,
+        "high": 13
+      },
+      "cost_basis": "Provisional direct factory material, processing/finishing and direct labour allowance; not a supplier quotation; excludes shared factory overhead, vehicle installation, qualification and tax. No assumed Chinese/bulk discount.",
+      "manufacturing": [
+        "Cut qualified cable, crimp and identify valve circuit",
+        "Continuity/insulation and commanded valve response checks"
+      ],
+      "joining": "Accessible removable pressure/electrical connection; not a body trunk pipe or controller",
+      "finish": "Compatible corrosion/fire/smoke protection; maintain clean pressure passages",
+      "tolerance_and_fits": "Rated connections/pressure and connector interface require final schematic and supplier instructions",
+      "inspection": [
+        "Traceability and dimensions",
+        "Leak/pressure or electrical function test as applicable"
+      ],
+      "mounting": "Local to bogie between services flexible brake feed/WSP controller harness and separately counted local brake valves",
+      "maintenance_removal": "Isolate brake pressure and electrical controls, restrain train, disconnect labelled local branch",
+      "open_tasks": [
+        "Local pneumatic/electrical schematic, fault response and EMC/pressure qualification unresolved"
+      ],
+      "source_ids": [
+        "running/knorr-actuators"
       ]
     }
   ],
