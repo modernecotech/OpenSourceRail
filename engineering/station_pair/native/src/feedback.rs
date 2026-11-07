@@ -242,6 +242,13 @@ fn diagnostics(c: &Case, p: &FeedbackControl, d: Option<&Drive>) -> FeedbackDiag
 }
 
 pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, String> {
+    evaluate_with_recovery(c, p, None)
+}
+pub(super) fn evaluate_with_recovery(
+    c: &Case,
+    p: &FeedbackControl,
+    mut recovery: Option<&mut cycle::Runtime<'_>>,
+) -> Result<ResultRow, String> {
     validate(p)?;
     let mut r = base(c);
     let mut diag = diagnostics(c, p, c.drive.as_ref());
@@ -288,7 +295,11 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
     }
     let m0 = c.mass_kg + c.rotating_equivalent_mass_kg;
     let model_mass = (p.mass_lower_kg + p.mass_upper_kg) / 2. + p.rotating_mass_upper_kg;
-    let (mut x, mut v, mut t) = (0., 0., 0.);
+    let (mut x, mut v, mut t) = (
+        recovery.as_ref().map_or(0., |q| q.initial_position_m),
+        0.,
+        0.,
+    );
     let (mut previous_a, mut previous_h) = (0., 0.);
     let mut traction_command = 0.;
     let mut brake_request = if p.initial_hold_applied {
@@ -528,6 +539,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             .flat_map(|w| w.iter())
             .copied()
             .chain(c.fault.emergency_at_m)
+            .chain(recovery.as_ref().map_or_else(Vec::new, |q| q.boundaries()))
             .filter(|z| *z > x + 1e-8)
             .fold(f64::INFINITY, f64::min);
         let mut acceleration = previous_a;
@@ -575,7 +587,10 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
                 } else {
                     0.
                 };
-                force = traction_command.min(available);
+                let release_cap = recovery
+                    .as_ref()
+                    .map_or(0., |q| q.release_cap(x, vm, h, fault));
+                force = traction_command.min(available + release_cap);
                 let net = if v == 0. {
                     let pre = force + gravity - aero;
                     pre.signum() * (pre.abs() - rolling - ext - midpoint_brake).max(0.)
@@ -642,16 +657,26 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
         } else {
             0.
         };
-        if force > cap + 1e-8 * cap.max(1.) || midpoint_brake > actual_brake_cap + 1e-8 {
+        let release_cap = recovery
+            .as_ref()
+            .map_or(0., |q| q.release_cap(x, vm, h, fault));
+        if force > cap + release_cap + 1e-8 * (cap + release_cap).max(1.)
+            || midpoint_brake > actual_brake_cap + 1e-8
+        {
             r.state = "numerical-rating-held".into();
             break;
         }
         let work = force * dx;
-        let grid = work / d.electrical_efficiency;
+        let (store_work, capture_work) = if let Some(q) = recovery.as_deref_mut() {
+            q.commit(x, vm, dx, h, t + h, force, midpoint_brake, fault)?
+        } else {
+            (0., 0.)
+        };
+        let grid = (work - store_work) / d.electrical_efficiency;
         r.traction_work_j += work;
         r.grid_energy_j += grid;
-        r.drive_loss_j += grid - work;
-        r.brake_heat_j += midpoint_brake * dx.abs();
+        r.drive_loss_j += grid - (work - store_work);
+        r.brake_heat_j += midpoint_brake * dx.abs() - capture_work;
         r.resistance_work_j += rolling * dx.abs() + aero * dx;
         r.external_resistance_work_j += ext * dx.abs();
         r.grade_work_j += gravity * dx;
@@ -660,7 +685,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
         r.maximum_mechanical_power_w = r.maximum_mechanical_power_w.max(force * (v + nv) / 2.);
         r.maximum_grid_power_w = r
             .maximum_grid_power_w
-            .max(force * (v + nv) / 2. / d.electrical_efficiency);
+            .max((force - release_cap.min(force)) * (v + nv) / 2. / d.electrical_efficiency);
         r.maximum_acceleration_m_s2 = r.maximum_acceleration_m_s2.max(acceleration);
         r.minimum_acceleration_m_s2 = r.minimum_acceleration_m_s2.min(acceleration);
         r.maximum_absolute_jerk_m_s3 = r.maximum_absolute_jerk_m_s3.max(
@@ -685,7 +710,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
             diag.maximum_docking_speed_m_s = diag.maximum_docking_speed_m_s.max(v);
         }
         if let (Some(z), Some(q)) = (temp, c.thermal.as_ref()) {
-            let n = temperature(z, h, (grid - work) / h, q);
+            let n = temperature(z, h, (grid - (work - store_work)) / h, q);
             temp = Some(n);
             r.maximum_temperature_c = Some(r.maximum_temperature_c.unwrap().max(n));
         }
@@ -797,6 +822,7 @@ pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, Strin
         - r.resistance_work_j
         - r.external_resistance_work_j
         - r.brake_heat_j
+        - recovery.as_ref().map_or(0., |q| q.energy.capture_work_j)
         - r.detached_reset_kinetic_energy_j
         - r.final_kinetic_energy_j;
     if r.energy_residual_j.abs() > 1e-6 * r.traction_work_j.abs().max(r.grade_work_j.abs()).max(1.)
