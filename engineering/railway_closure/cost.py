@@ -44,7 +44,7 @@ def evaluate(body,installed,civil,service,*,energy=None,root=ROOT):
             or len(energy.get('native_fleet_evaluation_id',''))!=64
             or not service['planned_service_complete']):
             raise ValueError('Failed or mixed service cannot annualize electricity')
-    brief,_,_,_=pair.variants(root)
+    brief=json.loads((root/pair.BRIEF).read_bytes())
     p=json.loads((root/economics.POLICY).read_bytes());extra_p=json.loads((root/POLICY).read_bytes())
     if extra_p.get('automatic_bulk_discount') is not False:
         raise ValueError('No unsubstantiated discount multiplier')

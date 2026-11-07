@@ -7,6 +7,8 @@ fetch('summary.json',{cache:'no-store'}).then(async response=>{
   if(!response.ok)throw new Error('The current source-bound dossier is unavailable.');
   const data=await response.json();
   if(data.schema!=='osr-railway-closure-summary/1'||data.physical_accepted!==false||data.integrated_selection!==null)throw new Error('Unexpected research evidence contract.');
+  const manifest=await fetch('manifest.json',{cache:'no-store'}).then(r=>r.ok?r.json():null);
+  if(manifest?.files_sha256?.['native-cad/solidcraft/assembly.step'])$('#cad-download').hidden=false;
   const base=data.installed_load_cases.find(r=>r.name==='normal-base');
   for(const [value,label] of [[number(data.route_km)+' km','Double-track pilot · two stations'],['276','Normal passenger places / train'],[number(base.train_mass_kg/1000)+' t','Loaded model · counted stock and reserves'],[data.body.proposed_component_types,'Proposed component types']]){
     const n=el('div',null,'metric');n.append(el('b',value),el('span',label));$('#metrics').append(n);

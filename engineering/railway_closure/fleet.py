@@ -16,7 +16,7 @@ class EnergyDomainHold(ValueError):
     """Completed fleet model exceeds a declared electrical/thermal hypothesis."""
 
 
-def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,root=ROOT):
+def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,prepared=None,root=ROOT):
     if (service['candidate_id']!=bundle['candidate_id']
         or service['evaluation_id']!=identity({k:v for k,v in service.items() if k!='evaluation_id'})):
         raise ValueError('Exact canonical timetable required')
@@ -48,7 +48,7 @@ def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,
                       sensor_biases=dict(position_bias_m=-cp['position_error_bound_m'],
                          speed_bias_m_s=-cp['speed_error_bound_m_s'],acceleration_bias_m_s2=-cp['acceleration_error_bound_m_s2']))
     if experiment=='hot-hotel':kwargs['hotel_W_per_car']=50000.
-    base=case(installed,candidate_bundle=bundle,dt=dt,root=root,**kwargs)
+    base=case(installed,candidate_bundle=bundle,dt=dt,prepared=prepared,root=root,**kwargs)
     base['headway_s']=service['headway_s']
     if experiment=='compound-downhill-boundary':
         base['brake_force_cap_n']*=cp['brake_force_lower_fraction']
@@ -73,8 +73,9 @@ def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,
                  reset_failed=experiment=='reset-failed' and i==0)
         if slot.get('train_id'):row['requested_train_id']=slot['train_id']
         departures.append(row)
+    control_mode=json.loads((Path(root)/'engineering/railway_closure/brief.json').read_bytes())['release_control_mode']
     req=dict(candidate_id=bundle['candidate_id'],stations=stations,trains=trains,departures=departures,
-             release_control=dict(mode='grid-substitution-slew/1',force_slew_n_s=10000.,maximum_traction_share=.8,reserve_factor=2.),
+             release_control=dict(mode=control_mode,force_slew_n_s=10000.,maximum_traction_share=.8,reserve_factor=2.),
              turnaround_s=service['hypotheses']['turnaround_maneuver_s'],
              clearance_s=service['hypotheses']['route_release_allowance_s'])
     req['id']=identity(req);return req
@@ -82,10 +83,23 @@ def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,
 
 def screen(result,service,*,maximum_journey_s=210.,maximum_moving_jerk=.5):
     journeys=[d['journey'] for d in result['departures'] if d['journey'] is not None]
+    ledger=result['ledger'];scale=max(1.,ledger['initial_store_j'],ledger['capture_work_j'],ledger['grid_traction_energy_j'])
+    storage=ledger['initial_store_j']+ledger['stored_capture_j']-ledger['released_from_store_j']-ledger['storage_leakage_j']-ledger['final_store_j']
     criteria=dict(counted_schedule=bool(result['schedule_numerical_complete']),
         planning_requirements=service['planned_service_complete'],
         journey_time=bool(journeys) and all(j['elapsed_s']<=maximum_journey_s for j in journeys),
         moving_jerk=bool(journeys) and all(j['maximum_absolute_jerk_m_s3']<=maximum_moving_jerk*1.01 for j in journeys),
+        component_force_slew=bool(journeys) and all(d['energy'].get('release_control') is not None
+            and not d['energy']['release_control']['slew_limit_exceeded']
+            and d['energy']['release_control']['forced_cutoffs']==0
+            for d in result['departures'] if d['journey'] is not None),
+        continuous_release_reserve=bool(journeys) and all(
+            d['energy'].get('release_control',{}).get('continuous_reserve') is not None
+            and d['energy']['release_control']['continuous_reserve']['force_boundary_discontinuities']==0
+            and d['energy']['release_control']['continuous_reserve']['maximum_store_boundary_jump_n']==0.
+            for d in result['departures'] if d['journey'] is not None),
+        energy_conservation=max(abs(storage),abs(ledger['storage_balance_residual_j']),
+            abs(ledger['train_and_storage_balance_residual_j']))<=1e-6*scale,
         stopping_domain=bool(journeys) and all(j['control']['bounds_valid'] and not j['control']['end_of_authority_violated'] for j in journeys),
         terminal_calendar=terminal_check(result,service)['calendar_screen'],
         repeated_thermal_proxy=bool(result['numerical_thermal_limits_met']))
@@ -145,8 +159,9 @@ def energy(result,request,service,*,root=ROOT):
     if (result['native_input_id']!=identity(request) or result['candidate_id']!=service['candidate_id']
         or not screen(result,service)['nominal_model_screen']):
         raise ValueError('Only exact, fulfilled causal fleet service can annualize energy')
-    brief=pair.variants(root)[0]
+    brief=json.loads((Path(root)/pair.BRIEF).read_bytes())
     policy=json.loads((Path(root)/'engineering/railway_closure/supply-policy.json').read_bytes())
+    allowances=json.loads((Path(root)/'engineering/railway_closure/energy-policy.json').read_bytes())
     rows=result['departures'];journeys=[d['journey'] for d in rows if d['journey'] is not None]
     peak=max(j['maximum_grid_power_w'] for j in journeys)
     grid=supply_screen(peak,service['active_trainsets'],service['headway_s'],root=root)
@@ -154,29 +169,35 @@ def energy(result,request,service,*,root=ROOT):
     L=result['ledger'];n=result['requested_departures']
     bank_heat=L['capture_loss_j']+L['release_loss_j']+L['storage_leakage_j']+L['reset_grid_energy_j']
     whole_heat_mean=bank_heat/max(1.,result['simulation_end_time_s'])
-    if whole_heat_mean>policy['station_bank_cooling_capacity_W']:
+    if whole_heat_mean+max(allowances['bank_ambient_heat_W_each_cases'])>policy['station_bank_cooling_capacity_W']:
         raise EnergyDomainHold('Even mean whole-system loss heat exceeds one declared bank cooler; per-bank hot duty unresolved')
     hours=brief['operation_hours_day']*brief['operation_days_year']
+    closed_hours=(24-brief['operation_hours_day'])*brief['operation_days_year']
     departures=2*3600/service['headway_s']*hours
     mean=(L['grid_traction_energy_j']+L['reset_grid_energy_j'])/n/3.6e6
     powers={d['journey']['auxiliary_power_w'] for d in request['departures']}
     if len(powers)!=1:raise ValueError('Mixed auxiliary duties require explicit piecewise integration')
     hotel=powers.pop()/1000
     annual={};breakdown={}
-    # Explicit finite cooler capacity is priced/retained; full-capacity operation
-    # is a conservative electrical allowance, not a solved fluid/chiller model.
-    bank_cooling_kw=2*policy['station_bank_cooling_capacity_W']/policy['station_bank_cooling_COP']/1000
+    storage_present=any(s['store']['capacity_j']>0 for s in request['stations'])
     for i,c in enumerate(('low','base','high')):
         traction=departures*mean
         active_hotel=service['active_trainsets']*hotel*hours/policy['auxiliary_feed_efficiency_cases'][i]
         idle=service['active_trainsets']*policy['drive_idle_electronics_W_per_active_train_cases'][i]/1000*hours
         line_loss=(traction+active_hotel+idle)*grid['rows'][i]['line_loss_fraction_of_delivered_power']
         stations=2*json.loads((Path(root)/'engineering/station_pair/cost-policy.json').read_bytes())['station_auxiliary_W_each'][i]/1000*hours
-        cooling=bank_cooling_kw*hours if any(s['store']['capacity_j']>0 for s in request['stations']) else 0.
-        annual[c]=traction+active_hotel+line_loss+idle+stations+cooling
+        ambient_heat=2*allowances['bank_ambient_heat_W_each_cases'][i]
+        bank_standby=2*allowances['bank_pump_and_standby_electric_W_each_cases'][i]
+        cooling=((whole_heat_mean+ambient_heat)/policy['station_bank_cooling_COP']+bank_standby)/1000*hours if storage_present else 0.
+        closed=(2*allowances['closed_station_essential_W_each_cases'][i]
+            +service['total_trainsets']*allowances['closed_train_essential_and_pack_conditioning_W_each_cases'][i]
+            +allowances['closed_depot_essential_W_cases'][i])/1000*closed_hours
+        if storage_present:closed+=(ambient_heat/policy['station_bank_cooling_COP']+bank_standby)/1000*closed_hours
+        annual[c]=traction+active_hotel+line_loss+idle+stations+cooling+closed
         breakdown[c]=dict(traction_and_reset_kwh=traction,all_active_hotel_kwh=active_hotel,
                           bounded_line_loss_kwh=line_loss,idle_drive_electronics_kwh=idle,
-                          station_auxiliary_kwh=stations,bank_cooling_kwh=cooling)
+                          station_auxiliary_kwh=stations,bank_cooling_kwh=cooling,
+                          closed_hours_essential_and_conditioning_kwh=closed)
     v=dict(schema='osr-railway-closure-service-energy/1',candidate_id=service['candidate_id'],
         service_evaluation_id=service['evaluation_id'],native_fleet_evaluation_id=result['evaluation_id'],
         native_fleet_receipt_id=result['native_receipt_id'],native_fleet_input_id=result['native_input_id'],

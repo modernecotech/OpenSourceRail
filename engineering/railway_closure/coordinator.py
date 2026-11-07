@@ -10,7 +10,7 @@ from engineering.pilot_civil import design as civil_design
 from engineering.pilot_civil import assembly as civil_assembly,render as civil_render
 from engineering.station_pair import coordinator as pair
 from . import ROOT,FLAGS
-from . import installed as installation,service,motion,bundle,fleet,fleet_bridge,cost,electrical
+from . import installed as installation,service,motion,bundle,fleet,fleet_bridge,cost,electrical,civil_reference
 
 PARENT='engineering/railway_closure/data/frozen-installed-parent.json.gz'
 
@@ -38,6 +38,7 @@ def run(output,*,root=ROOT,with_recovery=True):
     root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
     write(out,'source-before.json',before)
+    prepared=motion.prepare(root)
     parent=underframe.load_parent(root/PARENT)
     t=time.monotonic();body=underframe.build(parent,family_id=p['underframe_family_id'])
     timings['body_s']=time.monotonic()-t
@@ -53,10 +54,12 @@ def run(output,*,root=ROOT,with_recovery=True):
                 key=lambda c:c['cost']['scoped_installed_usd']['base'])
     canonical=bundle.combine(i,leading)
     write(out,'bundle.json',canonical);write(out,'civil.json',leading)
+    civil_native=civil_reference.applicable(leading,axles,root=root)
+    write(out,'civil-native-reference.json',civil_native)
     write(out,'civil-assembly.json',civil_assembly.scene(leading))
     write(out,'civil-assembly.svg',civil_render.svg(leading).encode())
     t=time.monotonic()
-    requests=[motion.controlled_cycle(i,candidate_bundle=canonical,count=4,dt=dt,enabled=enabled,root=root)
+    requests=[motion.controlled_cycle(i,candidate_bundle=canonical,count=4,dt=dt,enabled=enabled,prepared=prepared,root=root)
               for dt in (.05,.025,.0125) for enabled in (False,True)]
     serial=cycle_bridge.execute(requests,out/'serial',root=root)
     timings['serial_s']=time.monotonic()-t
@@ -74,13 +77,18 @@ def run(output,*,root=ROOT,with_recovery=True):
         candidates=[s for s in feasible if s['headway_s']==h]
         if candidates:choices.append(min(candidates,key=lambda s:(s['total_trainsets'],abs(s['opposite_phase_s']-90.))))
     if not choices:choices=[feasible[0]]
-    controls=[s for s in feasible if s['active_trainsets']==4 and s['headway_s']==210.]
-    if controls:choices.append(min(controls,key=lambda s:abs(s['opposite_phase_s']-90.)))
+    # Explicit phase alternatives expose shared-store conflicts and counted
+    # readiness margins rather than making90s a hidden operating default.
+    for s in feasible:
+        wanted=(s['headway_s']==210. and s['active_trainsets']==3 and s['opposite_phase_s']==60.)
+        wanted|=(s['active_trainsets']==4 and s['headway_s'] in (200.,210.) and s['opposite_phase_s']==0.)
+        wanted|=(s['active_trainsets']==4 and s['headway_s']==210. and s['opposite_phase_s']==90.)
+        if wanted and s['evaluation_id'] not in {x['evaluation_id'] for x in choices}:choices.append(s)
     write(out,'service-plans.json',plans)
     meta=[]
     def add(s,experiment='nominal',enabled=True,dt=.05):
         meta.append(dict(service=s,experiment=experiment,enabled=enabled,dt_s=dt,
-                         request=fleet.request(i,canonical,s,enabled=enabled,experiment=experiment,dt=dt,root=root)))
+                         request=fleet.request(i,canonical,s,enabled=enabled,experiment=experiment,dt=dt,prepared=prepared,root=root)))
     for s in choices:
         add(s)
         if with_recovery:add(s,experiment='recovery-disabled',enabled=False)
@@ -123,6 +131,7 @@ def run(output,*,root=ROOT,with_recovery=True):
     timings['battery_s']=time.monotonic()-t
     value=dict(schema='osr-railway-closure-study/1',bundle=canonical,body_candidate_id=body['candidate_id'],
                body_evaluation_id=body['evaluation_id'],installed=i,civil=leading,
+               civil_native_reference=civil_native,
                body_summary={k:body[k] for k in ('source_component_types','proposed_component_types','total_occurrences',
                    'nominal_part_mass_kg','direct_parts_process_usd','mass_scenarios','structural_comparison','interface_screens')},
                civil_alternatives=[dict(candidate_id=c['civil_candidate_id'],evaluation_id=c['evaluation_id'],screens=c['screens'],cost=c['cost']) for c in civil],

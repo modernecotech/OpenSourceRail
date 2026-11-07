@@ -4,7 +4,7 @@ from math import fsum
 import pytest
 from engineering.railway_closure.electrical import controlled_thermal
 from engineering.railway_closure.installed import integrate, axle_packet
-from engineering.railway_closure.motion import case
+from engineering.railway_closure.motion import case,prepare
 from engineering.railway_closure import ROOT
 from engineering.vehicle_installation.model import build
 from engineering.station_rail.common import identity
@@ -47,6 +47,13 @@ def test_new_mass_controller_and_driven_adhesion_are_same_candidate(installed):
     p=axle_packet(installed)
     assert p['mass_evaluation_id']==installed['evaluation_id']
     assert p['evaluation_id']==identity({k:v for k,v in p.items() if k!='evaluation_id'})
+
+
+def test_prepared_context_is_equivalent_and_rejects_mutation(installed):
+    context=prepare()
+    assert case(installed,prepared=context)==case(installed)
+    context['values'][0]['normal_people']+=1
+    with pytest.raises(ValueError,match='context changed'):case(installed,prepared=context)
 
 
 def test_cooler_modulates_instead_of_overcooling():

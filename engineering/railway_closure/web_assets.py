@@ -8,16 +8,20 @@ _verified={}
 
 
 def verify_asset(root,relative,target):
-    root=Path(root).resolve();folder=root/publication.OUTPUT
+    root=Path(root).resolve()
+    outputs=(publication.OUTPUT,publication.OUTPUT+'-no-store')
+    prefix=next((p for p in outputs if relative.startswith(p+'/')),None)
+    if prefix is None:raise ValueError('Unregistered closure publication route')
+    folder=root/prefix
     if any(p.is_symlink() for p in (folder,*folder.parents)) or any(p.is_symlink() for p in folder.rglob('*')):
         raise ValueError('Ordinary closure publication files required')
     name=Path(target).resolve().relative_to(folder.resolve()).as_posix()
-    if relative!=publication.OUTPUT+'/'+name:raise ValueError('Closure route identity differs')
+    if relative!=prefix+'/'+name:raise ValueError('Closure route identity differs')
     manifest=folder/'manifest.json'
     with _lock:
-        token=digest(manifest);m=json.loads(manifest.read_bytes());key=str(root)
+        token=digest(manifest);m=json.loads(manifest.read_bytes());key=str(folder)
         if _verified.get(key)!=token:
-            publication.verify(root=root)
+            publication.verify(root=root,output=folder)
             if digest(manifest)!=token:raise ValueError('Closure publication changed while verifying')
             if len(_verified)>=8:_verified.clear()
             _verified[key]=token

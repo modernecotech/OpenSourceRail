@@ -9,10 +9,25 @@ from engineering.station_rail.common import identity, digest
 from . import ROOT
 
 
+def prepare(root=ROOT):
+    """Invocation-scoped immutable-by-check source context, not a global cache."""
+    before=pair.source_hashes(root);values=pair.variants(root)
+    if pair.source_hashes(root)!=before:raise ValueError('Source changed during motion preparation')
+    return dict(root=str(Path(root).resolve()),source_sha256=before,values=values,values_id=identity(values))
+
+
+def _prepared(context,root):
+    if context is None:return pair.variants(root)
+    if (context['root']!=str(Path(root).resolve()) or context['source_sha256']!=pair.source_hashes(root)
+        or context['values_id']!=identity(context['values'])):
+        raise ValueError('Prepared motion context changed')
+    return context['values']
+
+
 def case(installed, *, mass_case='base', force_case='base', speed_km_h=60.,
          grade=0., wind=0., dt=.05, fault=None, hotel_W_per_car=None,
          grade_observation=None, sensor_biases=None, drive_fault_observed=False,
-         candidate_bundle=None,root=ROOT):
+         candidate_bundle=None,prepared=None,root=ROOT):
     if installed['evaluation_id'] != identity({k: v for k, v in installed.items() if k != 'evaluation_id'}):
         raise ValueError('Sealed integrated installed mass required')
     if mass_case not in ('low','base','high'):
@@ -27,7 +42,7 @@ def case(installed, *, mass_case='base', force_case='base', speed_km_h=60.,
             or candidate_bundle['installed_component_candidate_id']!=cid):
             raise ValueError('Native movement belongs to a different canonical bundle')
         cid=candidate_bundle['candidate_id']
-    brief, bundle, old_mass, parents = pair.variants(root)
+    brief, bundle, old_mass, parents = _prepared(prepared,root)
     parent = next(v for v in parents if v['family']=='powered-wheel'
                   and v['geometry']['driven_axles']==12
                   and v['physical_definition']['station_spacing_m']==1500.)
@@ -74,7 +89,8 @@ def controlled_cycle(installed, *, enabled=True, count=8, dt=.05, root=ROOT, **k
     q=case(installed,dt=dt,root=root,**kwargs)
     d=deepcopy(installed['recovery_design']);d['variant']['candidate_id']=q['candidate_id']
     request=cycle.make_request(d,q,p,count=count,enabled=enabled)
-    request['release_control']=dict(mode='grid-substitution-slew/1',force_slew_n_s=10000.,
+    control_mode=json.loads((Path(root)/'engineering/railway_closure/brief.json').read_bytes())['release_control_mode']
+    request['release_control']=dict(mode=control_mode,force_slew_n_s=10000.,
                                     maximum_traction_share=.8,reserve_factor=2.)
     request.pop('id');request['id']=identity(request)
     return request

@@ -36,7 +36,7 @@ See the [adoption path](docs/first-adoptable-product.md), [capabilities](docs/ca
 
 Revisions update one candidate through geometry, mass, checks, quantities and cost. Missing parts, hours and prices remain unknown or bounded.
 
-The [reconciled research pilot](docs/design-engine/railway-closure/README.md) connects a proposed installed vehicle, axle loads, guideway, counted fleet, causal station energy recovery and fourteen-scope costs. It preserves failed structural alternatives and unresolved engineering tests; the passive reference and city prices are unchanged.
+The [reconciled research pilot](docs/design-engine/reconciled-pilot/README.md) connects a proposed installed vehicle, axle loads, guideway, counted fleet, causal station energy recovery and fourteen-scope costs. A [separately identified no-store alternative](docs/design-engine/reconciled-pilot-no-store/README.md) provides a whole-life comparison. Failed structural alternatives and unresolved engineering tests remain visible; the passive reference and city prices are unchanged.
 
 **Calculation, validation and release are separate.** Calculations declare their assumptions. Validation needs physical evidence and independent review; manufacture and operation need their own acceptance.
 
