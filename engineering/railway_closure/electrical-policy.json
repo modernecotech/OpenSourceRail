@@ -1,0 +1,64 @@
+{
+  "schema": "osr-closure-electrical-policy/1",
+  "series_modules": 25,
+  "parallel_options": [
+    1,
+    2,
+    3
+  ],
+  "normal_hotel_kw_per_car": 35.0,
+  "hot_hotel_kw_per_car": 50.0,
+  "external_ambient_C": 50.0,
+  "conditioned_pack_target_C": 35.0,
+  "operating_soc_fraction": 0.8,
+  "capacity_derating_hypothesis": 0.8,
+  "battery_output_efficiency_hypothesis": 0.9,
+  "charging_efficiency_hypothesis": 0.9,
+  "emergency_full_hotel_minutes": 30.0,
+  "auxiliary_converter_outage_intervals": 2,
+  "maximum_interval_run_s": 210.0,
+  "interval_dwell_s": 35.0,
+  "charge_c_rate_request": 0.5,
+  "onboard_converter_rating_kw_per_car": 100.0,
+  "module_current_lower_fraction_hypothesis": 0.5,
+  "pack_resistance_ohm_per_string_hypothesis": 0.06,
+  "module_heat_capacity_J_kgK_hypothesis": 900.0,
+  "insulation_U_W_m2K_cases": [
+    0.8,
+    1.25,
+    2.0
+  ],
+  "pod_external_dimensions_m": {
+    "Type3-20": [
+      1.9,
+      0.3,
+      0.2
+    ],
+    "Type4-23": [
+      2.15,
+      0.3,
+      0.21
+    ]
+  },
+  "modules_per_pod": 5,
+  "conditioner_cooling_kw_hypothesis": 3.0,
+  "conditioner_COP_hypothesis": 1.5,
+  "module_cost_multiplier_vs_Type3_20": {
+    "Type3-20": 1.0,
+    "Type4-23": 1.25
+  },
+  "onboard_converter_cost_usd": [
+    4000.0,
+    10000.0,
+    25000.0
+  ],
+  "onboard_converter_mass_kg": [
+    50.0,
+    100.0,
+    200.0
+  ],
+  "continuous_auxiliary_feed_in_powered_wheel_case": true,
+  "manufacturer_hot_current_curve_received": false,
+  "thermal_R_and_C_measured": false,
+  "physical_accepted": false
+}
