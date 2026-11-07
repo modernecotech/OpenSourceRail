@@ -511,3 +511,72 @@ fn controlled_input_is_explicit_and_legacy_serialization_omits_new_fields() {
     c.release_control.as_mut().unwrap().reserve_factor = 0.5;
     assert!(osr_journey::cycle::evaluate(&c).is_err());
 }
+
+#[test]
+fn continuous_reserve_handles_low_energy_and_engagement_exit_without_literal_force_jumps() {
+    for dt in [0.05, 0.025, 0.0125] {
+        for energy in [1e-8, 29.869729359567003, 100000.] {
+            let mut c = controlled_cycle();
+            c.release_control.as_mut().unwrap().mode = "grid-substitution-slew/2".into();
+            c.release_control.as_mut().unwrap().cutoff_audit = true;
+            c.stations[0].initial_energy_j = energy;
+            for l in &mut c.legs {
+                l.journey.dt_s = dt;
+            }
+            let r = osr_journey::cycle::evaluate(&c).unwrap();
+            assert_eq!(r.arrived_legs, 8, "dt{dt},E{energy}");
+            for l in &r.legs {
+                let d = l.energy.release_control.as_ref().unwrap();
+                assert_eq!(d.forced_cutoffs, 0, "dt{dt},E{energy}: {d:?}");
+                assert!(!d.slew_limit_exceeded, "{d:?}");
+                let v = d.continuous_reserve.as_ref().unwrap();
+                assert_eq!(
+                    v.maximum_store_boundary_jump_n, 0.,
+                    "dt{dt},E{energy}: {d:?}"
+                );
+                assert_eq!(v.force_boundary_discontinuities, 0);
+                assert!(
+                    v.minimum_current_and_future_energy_margin_j >= -1e-10,
+                    "{v:?}"
+                );
+                assert!(l.energy.maximum_release_force_n <= 600.);
+                assert!(l.energy.maximum_release_power_w <= 6000.);
+                for a in d.cutoff_details.as_ref().unwrap() {
+                    assert_eq!(a.start_force_n, a.previous_force_n);
+                    assert!(!a.forced_cutoff);
+                    assert!(a.delivered_work_j <= a.usable_j);
+                    assert!(a.position_m < 200.);
+                }
+            }
+            near(r.ledger.storage_balance_residual_j, 0.);
+            near(r.ledger.train_and_storage_balance_residual_j, 0.);
+        }
+    }
+}
+#[test]
+fn continuous_reserve_failure_cutoffs_remain_visible() {
+    let mut c = controlled_cycle();
+    c.release_control.as_mut().unwrap().mode = "grid-substitution-slew/2".into();
+    c.release_control.as_mut().unwrap().cutoff_audit = true;
+    c.stations[0].initial_energy_j = 100000.;
+    c.legs.truncate(1);
+    c.legs[0].journey.fault.power_loss_at_s = Some(3.);
+    let r = osr_journey::cycle::evaluate(&c).unwrap();
+    let d = r.legs[0].energy.release_control.as_ref().unwrap();
+    assert!(d.forced_cutoffs > 0);
+    assert!(
+        d.continuous_reserve
+            .as_ref()
+            .unwrap()
+            .force_boundary_discontinuities
+            > 0
+    );
+    assert!(
+        d.cutoff_details
+            .as_ref()
+            .unwrap()
+            .iter()
+            .any(|a| a.reasons.iter().any(|v| v.contains("fault")))
+    );
+    near(r.ledger.storage_balance_residual_j, 0.);
+}
