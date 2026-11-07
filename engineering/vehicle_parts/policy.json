@@ -1,0 +1,72 @@
+{
+  "schema": "osr-vehicle-manufacturing-policy/1",
+  "proposal": "Six-car manufacturing detail R1",
+  "parent_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "formation": {
+    "cars": 6,
+    "body_length_m": 17.0,
+    "proposed_intercar_gap_m": 0.65,
+    "reference_intercar_gap_m": 0.5,
+    "body_and_intercar_gap_length_m": 105.25,
+    "reference_body_and_gap_length_m": 104.5,
+    "terminal_coupler_projection_m": null,
+    "stopping_and_platform_margin_m": null,
+    "complete_overall_train_length_m": null,
+    "minimum_usable_platform_length_m": null,
+    "reason": "Gangway/coupler proposal needs a650mm nominal intercar gap. Body-plus-gap length excludes end coupler projection, stopping tolerance and evacuation/access margins. Existing platform/timetable evidence does not transfer."
+  },
+  "physical_electrical_contract": {
+    "service_battery_modules_per_car": 75,
+    "service_battery_series_modules": 25,
+    "service_battery_parallel_strings": 3,
+    "nominal_module_voltage_V": 27.6,
+    "nominal_module_capacity_Ah": 40.0,
+    "gross_service_energy_kWh_per_car": 82.8,
+    "lighting_bus_V": 24.0,
+    "normal_LED_boards_per_car": 16,
+    "normal_LED_board_W": 12.0,
+    "vestibule_lamps_per_car": 4,
+    "vestibule_lamp_W": 6.0,
+    "emergency_lamps_per_car": 4,
+    "emergency_lamp_W": 3.0,
+    "gangway_lamps_per_connection": 2,
+    "gangway_lamp_W": 3.0,
+    "intercar_HV_bus_paralleled": false,
+    "traction_equipment_installed": false
+  },
+  "integration_interfaces": [
+    {"id": "body-bogie", "owners": ["body/underframe", "running/secondary-support"], "physical_contract": "Body-side bolster/joint structure and bogie-side secondary suspension/pivot remain separate counted leaves; shared bearing/kingpin datum and full force transfer require joint design", "verification": "pending"},
+    {"id": "roof-hvac", "owners": ["body/roof", "services/hvac"], "physical_contract": "Per car8 body roof brackets,8 flat dielectric/water-seal pads and32 body-side M10 bolts; services separately owns8 vibration isolators and16 pack-side M10 bolts. They represent distinct physical layers/joints", "verification": "pending grip, compression, support, weather and load-path checks"},
+    {"id": "door-motion", "owners": ["body/door-opening", "body/door-leaf", "services/door-electrical"], "physical_contract": "12 mechanical reducers/belt operators mate to12 bare electrical motors. Body owns24 mechanical closing-edge rubber extrusions; services owns24 monitored sensor inserts only, not duplicate rubber edges. Services owns24 drag-chain carriers and trailing harnesses", "verification": "pending shaft/coupling, leaf sweep, entrapment, interlock and access checks"},
+    {"id": "gangway", "owners": ["running/intercar-coupler", "running/passenger-gangway", "services/intercar-electrical", "services/gangway-lighting"], "physical_contract": "5load-bearing mechanical couplers,5separate passenger bridges/bellows,5electrical jumper sets and5essential-lighting sets. Gangway bridge does not carry train coupler loads or replace bogies", "verification": "pending movement, fatigue, trapping, bridge load and end-connection checks"},
+    {"id": "roof-occupancy", "owners": ["body/roof", "services/hvac", "services/pv"], "physical_contract": "Body roof panels exclude PV and HVAC machinery; separate services leaves count these. Actual occupancy/access/weight and water seals need one installed roof CAD layout", "verification": "pending"}
+  ],
+  "coolant_topology": {
+    "cold_plates_per_car": 15,
+    "modules_per_cold_plate": 5,
+    "parallel_plate_branches": 3,
+    "series_plates_per_branch": 5,
+    "supply_and_return_headers": 2,
+    "short_hose_cuts": 18,
+    "short_hose_end_fittings": 36,
+    "plate_port_adaptors": 30,
+    "header_port_adaptors": 8,
+    "trunk_hose_cuts": 4,
+    "description": "Three branches each link supply header to five series cold plates then return header:6short hoses/branch. Two shared headers each have3branch ports plus1main port. Three trunk cycle links join pump/cold-side exchanger/headers; a fourth branch connects expansion/fill tank at pump inlet. Pressure, flow balance, fittings, hose routes and installed fit remain unverified.",
+    "hydraulic_design_verified": false
+  },
+  "mass_and_cost_policy": {
+    "parent_allocations_added": false,
+    "assembly_parent_weights_added": false,
+    "catalogued_bounded_subtotals_are_complete_installed_totals": false,
+    "supplier_quotation_required_for_outline": false,
+    "engineering_allowances_permitted": true,
+    "invented_bulk_discount": false,
+    "final_factory_assembly_and_qualification_included": false
+  },
+  "engineering_accepted": false,
+  "physical_accepted": false,
+  "manufacturing_release": false,
+  "operating_release": false,
+  "selected_reference_changed": false
+}

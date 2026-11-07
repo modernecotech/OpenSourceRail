@@ -95,6 +95,8 @@ The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.m
 
 ## Delivery and operations tools
 
+The [vehicle parts catalogue](docs/design-engine/vehicle-parts/README.md) breaks a separate six-car detail proposal into **605 named part types and 40 assemblies**: bogies, frames, panels, roofs, chairs, doors, glazing, simple LED lighting, couplers and gangways. Browse materials, counted fixings, fabrication and assembly routes, inspection and scoped estimates through the **Vehicle parts** link in the Workbench. Detailed drawings, installed fit and release evidence remain open.
+
 Candidate exports connect CAD/BIM, BOM, manufacturing, procurement, assembly, civil and controls records. Hours and costs remain provisional. The [detailed guide](docs/platform-guide.md#manufacturing-civil-works-and-affordability) explains process costing, factories, construction and whole-life scope.
 
 **[ERPNext and Frappe HR](deployment/erpnext/README.md)** provide configurable draft project, purchasing, stock, workforce, manufacturing, quality and maintenance workflows. **[FUXA and the gateway](deployment/supervision/README.md)** provide equipment observation, trends, alarms and review-linked lifecycle records through the [integration service](services/integration/osr_integration/). Organisations, calendars, masters, equipment bindings and commissioning need configuration. Generated handoffs remain disabled drafts until reviewed.

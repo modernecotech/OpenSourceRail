@@ -27,6 +27,8 @@ The [adaptive variables](../docs/design-engine/v06-adaptive-design/README.md) an
 
 The opt-in [SolidCraft / FieldCraft backend pilot](../docs/design-engine/craft-backends/README.md) compares source-bound CAD subsets and mechanical controls against FreeCAD and CalculiX. It retains the existing BIM, electromagnetic and delivery routes. Run `./osr design backends plan` to inspect its scope. The [12-span viaduct comparison](../docs/design-engine/viaduct-backends/README.md) extends this path to reusable CAD/analysis/delivery interfaces, exact STEP readbacks, two matched solid-FEM studies and candidate-specific manufacturing/cost records.
 
+The [vehicle parts and assembly catalogue](../docs/design-engine/vehicle-parts/README.md) develops a separate six-car detail proposal into605named leaf types in40assemblies, with material/stock schedules, counted fixings, fabrication/inspection/removal methods and scoped estimates. Use `./osr design parts plan` or open **Vehicle parts** in the Workbench.
+
 ## Run the current workflow
 
 ```bash

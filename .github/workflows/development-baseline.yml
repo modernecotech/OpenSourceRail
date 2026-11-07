@@ -42,6 +42,10 @@ on:
       - "tests/test_retired_station_reference.py"
       - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
+      - "engineering/vehicle_parts/**"
+      - "docs/design-engine/vehicle-parts/**"
+      - "tests/test_vehicle_parts.py"
+      - "tools/automation/tests/verify-vehicle-parts.mjs"
       - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
@@ -138,6 +142,10 @@ on:
       - "tests/test_retired_station_reference.py"
       - "tests/test_candidate_specific_baseline.py"
       - "engineering/outline/**"
+      - "engineering/vehicle_parts/**"
+      - "docs/design-engine/vehicle-parts/**"
+      - "tests/test_vehicle_parts.py"
+      - "tools/automation/tests/verify-vehicle-parts.mjs"
       - "services/integration/osr_integration/city_outline.py"
       - "tests/test_outline_*.py"
       - "docs/design-engine/demand-outline/**"
@@ -235,6 +243,11 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_candidate_specific_baseline.py tests/test_retired_station_reference.py tests/test_propulsion_layout_quantities.py
           .venv/bin/python -m engineering.station_rail.retired_station_reference verify
           ./osr design space verify
+      - name: Vehicle part manufacture, assembly and responsive catalogue
+        run: |
+          .venv/bin/python -m pytest -q tests/test_vehicle_parts.py
+          .venv/bin/python -m engineering.vehicle_parts verify
+          node tools/automation/tests/verify-vehicle-parts.mjs
       - name: Same-candidate native backend adapters and portable viaduct evidence
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_viaduct*.py tests/test_civil_backend_api.py

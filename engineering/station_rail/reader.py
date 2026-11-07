@@ -22,6 +22,7 @@ def _inputs(root):
         'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',
         'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',
         'docs/design-engine/generative-structure/summary.json','docs/design-engine/coupled-railway/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+    names += ['docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/vehicle-parts-stock-detail.json']
     names += [ILLUSTRATIONS,*(image['file'] for image in _illustrations(root))]
     return {name:digest(root/name) for name in names}
 
@@ -304,7 +305,35 @@ def build(root=ROOT,output=None,check=False):
     para('Normal/crowd incompatible-mode solid solves balance forces, moments and work/energy under intact-weld and lumped floor-load hypotheses. The frame\'s first refinement changed same-point deflection and energy materially, automatically triggering an unchanged-body0.425m experiment. Its remaining sensitivity stays open; nodal maxima are not a complete stress or whole-field convergence assessment. Torsion, through-thickness accuracy, local quadratic checks, joint/HAZ strength, fatigue, modes, thermal/fire and physical correlation remain necessary.')
     para(f"The new nonlinear transient magnetic kernel completed {coupled['magnetic_completed']} of {coupled['magnetic_method_cases']} bounded controls. Phase excitation, inverse H(B), net secondary current, Joule/mechanical work, stored energy and backward-Euler dissipation are explicit. Time refinement still changes thrust substantially. The short fixed conductor mask, generic steel and incomplete primary circuit/thermal/3D model cannot supply the actual20m/s operating map.")
     para('Actual launch-coast-arrival runs remain not-run. Required-force profiles, synthetic forward-method tests, native component calculations, independently reviewed engineering evidence and operating qualification remain separate. The next frontier requests model/equipment data and further numerical work without inventing a feasible or cheapest railway.')
-    page('17. Reproduce and inspect')
+    page('17. Part-level vehicle manufacture and assembly')
+    from engineering.vehicle_parts import publication as vehicle_parts_publication
+    vehicle_parts_publication.verify(root)
+    vp=json.loads((root/'docs/design-engine/vehicle-parts/summary.json').read_bytes())
+    para(f"A separate six-car manufacturing detail proposal now contains {vp['counted']['unique_leaf_types']} named leaf-part types in {vp['counted']['assembly_types']} assemblies. Materials, stock dimensions, quantities, individual fixings, fabrication, inspection and maintenance-removal methods are connected under one candidate identity. This does not select a new railway baseline or grant manufacturing release.")
+    table(['Part family','Examples and counts'],[
+        ('Running gear and connections','12 bogies,24 wheelsets,48 axleboxes; brake/suspension parts,5 intercar couplers,5 separate gangways, bellows, frames and fixings;2 end/rescue couplings.'),
+        ('Body and passenger fitout','Frames, floor, panel skins/cores, roofs,264 chairs,12 wheelchair places,12 door openings/24 leaves,110 glazing panes and positive retention.'),
+        ('Services and lighting','Simple replaceable LEDs, door motors/monitoring, battery racks and fittings, active cooling, HVAC/ducts, protected wiring and intercar jumpers.')],[125,365])
+    para('The normal LED load is216W/car, with separate emergency/gangway lamps; declared conversion losses give about1.55kW for the train. The proposed650mm intercar gap gives105.25m body-plus-gap length before end projections and stopping/platform margins. These changed interfaces need their own verification.')
+    cost=vp['direct_parts_process_usd']['known_leaf_subtotal']
+    para(f"Declared low/base/high direct parts and process allowances are USD{cost['low']:,.0f} / {cost['base']:,.0f} / {cost['high']:,.0f} per six-car proposal. They exclude final assembly/commissioning, shared plant/tooling, tax, delivery and qualification. Gross stock and estimated bought masses are not verified installed mass or demonstrated savings. Inspect docs/design-engine/vehicle-parts/ or run ./osr design parts plan/build/verify.")
+    para('Proposed local work uses repeatable frame cuts, controlled welding/bonding, folded5052-H32 service enclosures, panel/core kits and accessible retained joints. Bought wheels, axles, bearings, brake equipment, glazing, elastomers and electronics still need traceable grades, supplier/process evidence and application qualification. Missing quotations do not prevent the outline comparison.')
+    table(['Assembly stage','Inspect before closing'],[
+        ('Frame, floor and roof','Datum jig, bogie/coupler hardpoints, weld/bond preparation, retained service openings and roof mount layers.'),
+        ('Running gear and services','Wheelset/axlebox interfaces, brake/air circuits, electrical isolation, active battery cooling and supported removal routes.'),
+        ('Doors, panels and fitout','Door motor/reducer alignment,24 separate edge sensor inserts, glazing retention, chairs, wheelchair access and light branches.'),
+        ('Intercar assembly','Five independent load-bearing couplers plus passenger bridges/bellows, positive fixings, hoses, jumpers and essential lamps.')],[135,355])
+    page('The manufacturing catalogue: stock and interfaces')
+    cap=json.loads((root/'docs/assets/vehicle-parts-stock-detail.json').read_bytes())
+    if cap['source_html_sha256']!=digest(root/'docs/design-engine/vehicle-parts/index.html') or cap['png_sha256']!=digest(root/'docs/assets/vehicle-parts-stock-detail.png') or cap['candidate_id']!=vp['candidate_id']:
+        raise ValueError('Vehicle part close-up differs from current source catalogue')
+    preview=Image(str(root/'docs/assets/vehicle-parts-stock-detail.png'))
+    preview_height=490*preview.imageHeight/preview.imageWidth
+    preview.drawWidth=490;preview.drawHeight=preview_height
+    story.append(KeepTogether([preview,Spacer(1,7),p('Actual unit record in the source-built catalogue. The shown member is gross hollow stock,180x350x8mm and17m long; hole patterns, end details, joining and installed acceptance remain unresolved. The material/quantity record is not an assembled structural model.','Cell'),Spacer(1,12)]))
+    para('Use the Vehicle parts link in the Workbench to search all605 named types, select one of40 assemblies and inspect materials, stock, manufacture, fixings, proposed tolerances, inspection and removal. Each item carries the same proposal candidate and bundle identity. Business drafts remain disabled; no purchasing, ERP or train-control transaction is performed.')
+    para('Part-level outline completion, detailed installed CAD/fit, prototype validation and manufacturing/operating release are separate statuses. The current city, platform, fleet and physical engineering results do not transfer automatically to this new detail proposal.')
+    page('18. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. Compile and verify planning handoffs with ./osr plan compile and ./osr plan verify.')
     para('The broader design-space comparison adds supplier-bound PET/PVC and directional honeycomb cores, aluminium/GFRP load paths, joints/inserts, motor topologies, glazing and HVAC leads. Run ./osr design space build/verify. Necessary bounds and component fixtures guide the next experiments; they do not establish a complete train or silently change the default.')
     sub('Repository records')

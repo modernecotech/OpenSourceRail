@@ -286,6 +286,11 @@ def reader_cache(packet):
         write_json(root/'docs/design-engine/v06-adaptive-design'/name,dict(scope='Synthetic adaptive cache fixture; no solver evidence'))
     write_json(root/'docs/design-engine/generative-structure/summary.json',dict(scope='Synthetic generative cache fixture; no solver evidence'))
     write_json(root/'docs/design-engine/coupled-railway/summary.json',dict(scope='Synthetic coupled cache fixture; no solver evidence'))
+    # Opaque source-bound inputs for cache validation only, not real part/CAD evidence.
+    for name in ('docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/assets/vehicle-parts-stock-detail.json'):
+        write_json(root/name,dict(scope='Synthetic manufacturing reader cache input; no engineering evidence'))
+    for name in ('docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png'):
+        target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b'Synthetic UI cache image, not a rendered image\n')
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -332,7 +337,10 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
     'docs/design-engine/v06-architecture/native-index.json',
     'docs/design-engine/v06-adaptive-design/summary.json',
     'docs/design-engine/v06-adaptive-design/requirement-policy.json',
-    'docs/design-engine/coupled-railway/summary.json'])
+    'docs/design-engine/coupled-railway/summary.json',
+    'docs/design-engine/vehicle-parts/summary.json',
+    'docs/design-engine/vehicle-parts/manifest.json',
+    'docs/assets/vehicle-parts-stock-detail.json'])
 def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     root,book,_=reader_cache
     write_json(root/relative,dict(scope='Changed synthetic evidence'))
@@ -346,7 +354,9 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     'docs/assets/v0.6/accessible-interior.png',
     'docs/assets/v0.6/vehicle-assembly.png',
     'docs/assets/v0.6/precast-construction.png',
-    'docs/assets/v0.6/station-lim-interface.png'])
+    'docs/assets/v0.6/station-lim-interface.png',
+    'docs/design-engine/vehicle-parts/catalogue-preview.png',
+    'docs/assets/vehicle-parts-stock-detail.png'])
 def test_reader_cache_refuses_changed_illustrations(reader_cache,relative):
     root,book,_=reader_cache
     with (root/relative).open('ab') as handle:handle.write(b'\n')

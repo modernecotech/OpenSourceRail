@@ -249,12 +249,16 @@ def main(argv=None, root=ROOT):
               '  sourced                   Source-backed component alternatives\n'
               '  progress                  Continuing reference-cell analysis\n'
               '  backends plan/install/run/verify  Optional pinned CAD/CAE comparison\n'
+              '  parts plan/build/publish/verify  Proposed vehicle part manufacture and assembly\n'
               'Use ./osr design railway --help or ./osr plan --help for details.')
         return 0
     # design/infrastructure are aliases, including their own status default.
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='parts':
+            from engineering.vehicle_parts.__main__ import main as parts_main
+            return parts_main(rest,root=root)
         if command=='backends':
             from engineering.design_search.craft_backends.__main__ import main as backend_main
             return backend_main(rest,root=root)
