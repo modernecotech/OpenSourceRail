@@ -443,6 +443,36 @@ pub(super) fn evaluate_with_recovery(
             braking = true;
             event(&mut r, "feedback-normal-brake-command", t, x, v);
         }
+        if quiet_cycle
+            && !docking
+            && braking
+            && !fault
+            && !p.drive_fault_observed
+            && observed_v < 0.3
+            && c.distance_m - observed_x < 5.
+            && margin > 0.2
+        {
+            if let Some(target) = quiet_dock_target {
+                let covered = d.windows_m.iter().any(|w| {
+                    observed_x - p.position_error_bound_m >= w[0]
+                        && observed_x + p.position_error_bound_m < w[1]
+                        && target + p.position_error_bound_m <= w[1]
+                });
+                if covered {
+                    docking = true;
+                    docking_moved = true;
+                    docking_started = t;
+                    diag.docking_attempts += 1;
+                    event(
+                        &mut r,
+                        "bounded-continuous-brake-preloaded-approach",
+                        t,
+                        x,
+                        v,
+                    );
+                }
+            }
+        }
         let hard =
             margin < 0. && launched || docking && observed_v + p.speed_error_bound_m_s >= 0.5;
         if hard {
