@@ -241,6 +241,10 @@ fn diagnostics(c: &Case, p: &FeedbackControl, d: Option<&Drive>) -> FeedbackDiag
     }
 }
 
+pub(crate) fn domain_screen(c: &Case, p: &FeedbackControl) -> Result<FeedbackDiagnostics, String> {
+    validate(p)?;
+    Ok(diagnostics(c, p, c.drive.as_ref()))
+}
 pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, String> {
     evaluate_with_recovery(c, p, None)
 }
@@ -820,6 +824,22 @@ pub(super) fn evaluate_with_recovery(
         r.maximum_acceleration_m_s2 = r.maximum_acceleration_m_s2.max(acceleration);
         r.minimum_acceleration_m_s2 = r.minimum_acceleration_m_s2.min(acceleration);
         if let Some(q) = recovery.as_deref_mut() {
+            q.record_step(cycle::MechanicalStep {
+                start_s: t,
+                h,
+                x,
+                v0: v,
+                v1: nv,
+                dx,
+                traction_n: force,
+                brake_n: midpoint_brake,
+                fault,
+                acceleration,
+                previous_acceleration: previous_a,
+                previous_h,
+            });
+        }
+        if let Some(q) = recovery.as_deref_mut() {
             q.observe_motion(
                 t + h,
                 x,
@@ -980,6 +1000,9 @@ pub(super) fn evaluate_with_recovery(
         r.state = "numerical-energy-held".into();
         r.normal_numerical_arrival = false;
         r.fault_stop_in_route = false;
+    }
+    if let Some(q) = recovery.as_deref_mut() {
+        q.moving_final_temperature_c = temp;
     }
     r.journey_plus_dwell_s = t + c.dwell_s;
     r.headway_minus_journey_plus_dwell_s = c.headway_s - r.journey_plus_dwell_s;
