@@ -217,14 +217,18 @@ def load_model(spec,model):
     return model
 
 
-def commands(spec,model):
+def commands(spec,model,import_path=None):
     cmd=lambda c,**p:dict(command=c,params=p)
     out=[cmd('model.units',system='m-kg-s-N-Pa')]
-    out += [cmd('mesh.node.add',label=int(n),xyz=p) for n,p in model['nodes'].items()]
-    out += [cmd('mesh.element.add',label=int(n),kind='tet10',nodes=e) for n,e in model['elements'].items()]
-    out += [cmd('model.set.create',name='Body',elements=list(map(int,model['elements']))),
-      cmd('model.material.create',name='ResearchConcrete',elastic=dict(type='isotropic',young=35e9,poisson=.2)),
-      cmd('model.section.create',name='Continuum',set='Body',material='ResearchConcrete',kind=dict(type='solid'))]
+    if import_path is None:
+        out += [cmd('mesh.node.add',label=int(n),xyz=p) for n,p in model['nodes'].items()]
+        out += [cmd('mesh.element.add',label=int(n),kind='tet10',nodes=e) for n,e in model['elements'].items()]
+        out += [cmd('model.set.create',name='BODY',elements=list(map(int,model['elements']))),
+          cmd('model.material.create',name='CONCRETE',elastic=dict(type='isotropic',young=35e9,poisson=.2)),
+          cmd('model.section.create',name='Continuum',set='BODY',material='CONCRETE',kind=dict(type='solid'))]
+    else:
+        out += [cmd('deck.read',format='abaqus',path=str(import_path),units='m-kg-s-N-Pa'),cmd('model.units',system='m-kg-s-N-Pa')]
+    out += [cmd('model.set.create',name='UniqueConstraints',nodes=constraint_nodes(model))]
     bc=[]
     for i,ns in enumerate(model['support_nodes']):
         name='Bearing'+str(i);out += [cmd('model.set.create',name=name,nodes=ns),
@@ -232,11 +236,15 @@ def commands(spec,model):
     for i,n in enumerate(model['anchor_nodes']):
         name='Anchor'+str(i);out += [cmd('model.set.create',name=name,nodes=[n]),
           cmd('model.boundary_condition.create',name=name,type='displacement',target=dict(set=name),values=[0. if i==0 else None,0.,None,None,None,None])];bc.append(name)
-    for n,f in model['nodal_load_N'].items():
-        out += [cmd('model.set.create',name='N'+n,nodes=[int(n)]),cmd('model.load.create',name='F'+n,type='force',target=dict(set='N'+n),vector=f,distribution='total')]
-    out += [cmd('model.step.create',name='Research',procedure=dict(type='static'),boundary_conditions=bc,loads=['F'+n for n in model['nodal_load_N']]),
+    out += [cmd('model.set.create',name='DeckFaces',faces=deck_faces(model)),
+      cmd('model.load.create',name='SelfWeight',type='body_force',set='BODY',vector=[0.,0.,-2500.*9.80665]),
+      cmd('model.load.create',name='ReserveWeight',type='traction',set='DeckFaces',vector=[0.,0.,-spec['superimposed_mass_kg']*9.80665/40.])]
+    live=live_forces(spec,model)
+    for n,f in live.items():
+        out += [cmd('model.set.create',name='N'+str(n),nodes=[n]),cmd('model.load.create',name='F'+str(n),type='force',target=dict(set='N'+str(n)),vector=[0.,0.,f],distribution='total')]
+    out += [cmd('model.step.create',name='Research',procedure=dict(type='static'),boundary_conditions=bc,loads=['SelfWeight','ReserveWeight']+['F'+str(n) for n in live]),
       cmd('model.check'),cmd('solve.static',step='Research'),cmd('solve.probe',step='Research',at=model['probe_xyz_m']),
-      cmd('results.reactions',step='Research',sets=['Bearing0','Bearing1','Anchor0','Anchor1'],about=[0.,0.,0.]),cmd('model.info')]
+      cmd('results.reactions',step='Research',sets=['UniqueConstraints'],about=[0.,0.,0.]),cmd('model.info')]
     return out
 
 
@@ -288,16 +296,21 @@ def parse_ccx(text,model):
                 xx,yy,zz,xy,xz,yz=map(float,f[2:]);stress.append(sqrt(((xx-yy)**2+(yy-zz)**2+(zz-xx)**2)/2+3*(xy*xy+xz*xz+yz*yz)))
     root=set(sum(model['support_nodes'],[])+model['anchor_nodes'])
     if set(u)!=set(model['probe_nodes']) or set(rf)!=root or not stress:raise ValueError('Independent solver readback coverage differs')
+    raw_rf=deepcopy(rf)
+    # CalculiX RF is external load + reaction, not the reaction alone.
+    rf={n:[v[d]-model['nodal_load_N'][str(n)][d] for d in range(3)] for n,v in rf.items()}
     force=[fsum(v[d] for v in rf.values()) for d in range(3)];moment=[0.,0.,0.]
     for n,v in rf.items():
         x,y,z=model['nodes'][str(n)];moment[0]+=y*v[2]-z*v[1];moment[1]+=z*v[0]-x*v[2];moment[2]+=x*v[1]-y*v[0]
     return dict(displacement_m=u[model['probe_nodes'][0]],reaction_N=force,reaction_moment_Nm=moment,
       integration_point_peak_von_mises_Pa=max(stress),stress_scope='Global integration-point maximum; includes restraint/load-patch concentrations, not the FieldCraft sampled nodal stress',
-      reaction_distribution={str(n):v for n,v in rf.items()},**_residuals(force,moment,model),**FLAGS)
+      raw_external_RF_N={str(n):v for n,v in raw_rf.items()},reaction_definition='RF minus applied CLOAD at each restrained node; CalculiX manual Forces obtained by selecting RF',reaction_distribution={str(n):v for n,v in rf.items()},**_residuals(force,moment,model),**FLAGS)
 
 
 def solve(spec,model,output):
-    folder=Path(output).resolve();folder.mkdir(parents=True,exist_ok=False);cmds=commands(spec,model)
+    folder=Path(output).resolve();folder.mkdir(parents=True,exist_ok=False)
+    meshdeck=folder/'import-mesh.inp';meshdeck.write_text(deck(spec,model).split('*BOUNDARY')[0])
+    cmds=commands(spec,model,meshdeck)
     calls=[('batch',dict(commands=cmds[i:i+4000])) for i in range(0,len(cmds),4000)]
     execution,replies=native.mcp('fieldcraft',calls,folder/'fieldcraft',read_root=folder)
     result=dict(fieldcraft_execution=execution,calculix_executable_sha256=native.digest(shutil.which('ccx')))
@@ -328,6 +341,7 @@ def solve(spec,model,output):
 def run(spec,output):
     folder=Path(output).resolve();folder.mkdir(parents=True,exist_ok=False)
     if spec['input_id']!=identity({k:v for k,v in spec.items() if k!='input_id'}):raise ValueError('Input seal differs')
+    validate_input(spec)
     epoch=sources();native.write(folder/'input.json',spec);(folder/'evaluator-source.py').write_bytes(Path(__file__).read_bytes())
     request=dict(input_id=spec['input_id'],candidate_id=spec['candidate_id'],component_geometry_id=spec['component_geometry_id'],source_sha256=epoch,
       tools={n:native.pin(n) for n in ('solidcraft','fieldcraft')},runtime=platform.python_version(),screens=SCREENS,**FLAGS)
@@ -358,6 +372,28 @@ def verify(output,spec):
     if set(files)!=set(r['artifact_sha256']):raise ValueError('Artifact coverage differs')
     for n,p in files.items():
         if p.is_symlink() or native.digest(p)!=r['artifact_sha256'][n]:raise ValueError('Artifact changed '+n)
+    validate_input(spec)
+    if (folder/'evaluator-source.py').read_bytes()!=Path(__file__).read_bytes():raise ValueError('Evaluator source copy differs')
+    for level,row in r['levels'].items():
+        if 'results' not in row:continue
+        m=json.loads((folder/('mesh-'+level)/'mesh.json').read_text())
+        if m['mesh_id']!=identity({k:v for k,v in m.items() if k!='mesh_id'}) or m['mesh_id']!=row['mesh_id']:raise ValueError('Mesh seal differs')
+        raw=json.loads((folder/('mesh-'+level)/'native/imported-mesh.json').read_text())
+        raw.update(level=level,candidate_id=spec['candidate_id'],component_geometry_id=spec['component_geometry_id'],input_id=spec['input_id'])
+        reproduced=load_model(spec,raw);reproduced['mesh_id']=identity(reproduced)
+        if reproduced!=m:raise ValueError('CAD mesh/load reconstruction differs')
+        path=folder/('solve-'+level);inv=json.loads((path/'fieldcraft/invocation.json').read_text())
+        msgs=[json.loads(l) for l in inv['stdin'].splitlines()]
+        submitted=[c for msg in msgs if msg.get('method')=='tools/call' for c in msg['params']['arguments']['commands']]
+        if submitted!=commands(spec,m,path/'import-mesh.inp'):raise ValueError('Submitted FieldCraft request differs')
+        if (path/'viaduct.inp').read_text()!=deck(spec,m):raise ValueError('Independent solver request differs')
+        if 'fieldcraft' in row['results']:
+            rows=[]
+            for line in (path/'fieldcraft/stdout.jsonl').read_text().splitlines():
+                reply=json.loads(line)
+                if reply.get('id',0)>1:rows.extend(batch_results(native.payload(reply)))
+            if parse_field(rows,m)!=row['results']['fieldcraft']:raise ValueError('FieldCraft readback differs')
+        if 'calculix' in row['results'] and parse_ccx((path/'calculix/viaduct.dat').read_text(),m)!=row['results']['calculix']:raise ValueError('CalculiX readback differs')
     if any(r.get(k) is not False for k in FLAGS):raise ValueError('Research results cannot confer physical acceptance')
     return dict(integrity_verified=True,fresh_native_solve=False,result_id=r['result_id'],scope='Source and immutable byte bindings, not authenticated physical evidence or an OS sandbox',**FLAGS)
 
@@ -379,4 +415,54 @@ def validate_elements(model):
         if len(e)!=10 or ccx_nodes(e,model['nodes'])!=e:raise ValueError('FieldCraft tetra10 midside order differs')
         p=np.array([model['nodes'][str(n)] for n in e[:4]])
         if float(np.linalg.det((p[1:]-p[0]).T))<=0:raise ValueError('Nonpositive signed tetrahedral Jacobian')
+    parents={int(n):int(n) for n in model['nodes']}
+    def find(n):
+        while parents[n]!=n:parents[n]=parents[parents[n]];n=parents[n]
+        return n
+    for e in model['elements'].values():
+        for n in e[1:]:parents[find(n)]=find(e[0])
+    if len({find(n) for n in parents})!=1:raise ValueError('Imported CAD continuum is disconnected')
+    return True
+
+
+def constraint_nodes(model):
+    return sorted(set(sum(model['support_nodes'],[])+model['anchor_nodes']))
+
+def live_forces(spec,model):
+    result={}
+    for p in spec['live_pose']['points']:
+        x=p['x_m']
+        for y in (-.6,.6):
+            for n,v in surface_forces(model,[max(0.,x-.15),min(20.,x+.15),y-.1,y+.1],p['force_N']/2).items():result[n]=result.get(n,0.)+v
+    return {n:v for n,v in sorted(result.items()) if abs(v)>1e-12}
+
+def deck_faces(model):
+    # FieldCraft face order independently documented in the pinned model/mesh.rs.
+    faces=((0,2,1),(0,1,3),(1,2,3),(0,3,2));lookup={}
+    for n,e in model['elements'].items():
+        for i,f in enumerate(faces,1):
+            key=tuple(sorted(e[j] for j in f));lookup.setdefault(key,[]).append(dict(element=int(n),face=i))
+    out=[]
+    for face in model['top_faces']:
+        rows=lookup.get(tuple(sorted(face[:3])),[])
+        if len(rows)!=1:raise ValueError('Unique actual exterior deck triangle required')
+        out.append(rows[0])
+    return out
+
+
+def validate_input(spec,root=ROOT):
+    if spec.get('input_id')!=identity({k:v for k,v in spec.items() if k!='input_id'}):raise ValueError('Input seal differs')
+    p=spec['physical_definition']
+    if p!=geometry.generate(p['family'],p['profile']) or spec['candidate_id']!=p['candidate_id']:raise ValueError('Input physical candidate differs')
+    if spec['material_hypothesis']!=dict(young_Pa=35e9,poisson=.2,density_kg_m3=2500.,scope='Uncracked homogeneous isotropic research concrete; no reinforcement/prestress strength or stiffness credit'):raise ValueError('Unsupported material hypothesis')
+    mechanics._context_binding(spec['load_context'],root)
+    load=next(v for v in spec['load_context']['cases'] if v['name']==spec['load_case']['name'])
+    if load!=spec['load_case'] or spec['live_pose']!=mechanics._representative_pose(20.,tuple(load['offsets_m']),load['force_N_per_full_axle']):raise ValueError('Common source load differs')
+    q=geometry.quantities(p);cost=portfolio.estimate(p,q,portfolio.specification(root),model_cost.assumptions(root))
+    base=next(v for v in cost['cases'] if v['case']=='base')
+    if spec['nominal_quantity']!=q or spec['cost_estimate']!=cost or spec['superimposed_mass_kg']!=base['accounted_delivery_mass_kg']-q['total_nominal_stock_mass_kg']:raise ValueError('Source cost/deadload binding differs')
+    if spec['screens']!=SCREENS or any(spec.get(k) is not False for k in FLAGS):raise ValueError('Research constraints differ')
+    for key in ('candidate_id','component_geometry_id'):
+        if spec['cad_artifact'][key]!=spec[key]:raise ValueError('CAD identity differs')
+    if native.digest(spec['cad_artifact']['step_path'])!=spec['cad_artifact']['step_sha256']:raise ValueError('CAD bytes differ')
     return True

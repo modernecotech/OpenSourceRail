@@ -32,3 +32,13 @@ class ViaductFiniteElementTests(unittest.TestCase):
         self.assertTrue(all(v is False for v in f.FLAGS.values()))
 
 if __name__=='__main__':unittest.main()
+
+class ReactionsAndLoads(unittest.TestCase):
+    def test_overlapping_bearing_anchor_nodes_are_deduplicated(self):
+        self.assertEqual(f.constraint_nodes(dict(support_nodes=[[1,2],[3,4]],anchor_nodes=[1,3])),[1,2,3,4])
+    def test_ccx_external_RF_subtracts_support_CLOAD(self):
+        model=dict(nodes={'1':[0.,0.,0.]},support_nodes=[[1],[1]],anchor_nodes=[1,1],probe_nodes=[1],
+          nodal_load_N={'1':[0.,0.,-2.]},applied_N=[0.,0.,-10.],applied_moment_Nm=[0.,0.,0.])
+        text='displacements set TIP\n1 0 0 -1\nforces set ROOT\n1 0 0 8\nstresses\n1 1 1 0 0 0 0 0\n'
+        r=f.parse_ccx(text,model)
+        self.assertEqual(r['reaction_N'],[0.,0.,10.]);self.assertTrue(r['force_equilibrium_passed'])
