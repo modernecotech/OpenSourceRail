@@ -756,6 +756,20 @@ pub(super) fn evaluate_with_recovery(
             .max(grid_peak / d.electrical_efficiency);
         r.maximum_acceleration_m_s2 = r.maximum_acceleration_m_s2.max(acceleration);
         r.minimum_acceleration_m_s2 = r.minimum_acceleration_m_s2.min(acceleration);
+        if let Some(q) = recovery.as_deref_mut() {
+            q.observe_motion(
+                t + h,
+                x,
+                v,
+                nv,
+                h,
+                previous_h,
+                previous_a,
+                acceleration,
+                force,
+                midpoint_brake,
+            );
+        }
         r.maximum_absolute_jerk_m_s3 = r.maximum_absolute_jerk_m_s3.max(
             (acceleration - previous_a).abs()
                 / if previous_h > 0. {

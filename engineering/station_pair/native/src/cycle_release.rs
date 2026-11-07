@@ -26,6 +26,22 @@ impl ReleaseControl {
         Ok(())
     }
 }
+#[derive(Debug, Clone, Serialize)]
+pub struct ForceTransition {
+    pub time_s: f64,
+    pub position_m: f64,
+    pub entry_speed_m_s: f64,
+    pub exit_speed_m_s: f64,
+    pub previous_acceleration_m_s2: f64,
+    pub acceleration_m_s2: f64,
+    pub previous_step_s: f64,
+    pub step_s: f64,
+    pub previous_traction_n: f64,
+    pub traction_n: f64,
+    pub previous_brake_n: f64,
+    pub brake_n: f64,
+    pub point_step_jerk_m_s3: f64,
+}
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct ReleaseDiagnostics {
     pub mode: String,
@@ -40,6 +56,7 @@ pub struct ReleaseDiagnostics {
     pub spatial_reserve_interventions: u64,
     pub controller_state_observations_assumed: bool,
     pub current_and_flow_dynamics_validated: bool,
+    pub maximum_point_step_jerk_transition: Option<ForceTransition>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct ReleaseSample {
@@ -60,6 +77,8 @@ pub(crate) struct ReleaseRuntime {
     previous_h: f64,
     pub last_sample: Option<ReleaseSample>,
     pub last_grid_peak_power_w: f64,
+    previous_total_force_n: f64,
+    previous_brake_n: f64,
 }
 #[derive(Debug, Clone)]
 pub(crate) struct Allocation {
@@ -99,7 +118,49 @@ impl ReleaseRuntime {
             previous_h: 0.,
             last_sample: None,
             last_grid_peak_power_w: 0.,
+            previous_total_force_n: 0.,
+            previous_brake_n: 0.,
         }
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub fn observe_motion(
+        &mut self,
+        t: f64,
+        x: f64,
+        v0: f64,
+        v1: f64,
+        h: f64,
+        ph: f64,
+        pa: f64,
+        a: f64,
+        force: f64,
+        brake: f64,
+    ) {
+        let jerk = (a - pa).abs() / if ph > 0. { (ph + h) / 2. } else { h };
+        if self
+            .diagnostics
+            .maximum_point_step_jerk_transition
+            .as_ref()
+            .is_none_or(|q| jerk > q.point_step_jerk_m_s3)
+        {
+            self.diagnostics.maximum_point_step_jerk_transition = Some(ForceTransition {
+                time_s: t,
+                position_m: x,
+                entry_speed_m_s: v0,
+                exit_speed_m_s: v1,
+                previous_acceleration_m_s2: pa,
+                acceleration_m_s2: a,
+                previous_step_s: ph,
+                step_s: h,
+                previous_traction_n: self.previous_total_force_n,
+                traction_n: force,
+                previous_brake_n: self.previous_brake_n,
+                brake_n: brake,
+                point_step_jerk_m_s3: jerk,
+            });
+        }
+        self.previous_total_force_n = force;
+        self.previous_brake_n = brake;
     }
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn allocate(
