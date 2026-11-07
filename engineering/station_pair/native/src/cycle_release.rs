@@ -67,6 +67,7 @@ pub struct ReleaseSample {
     pub store_force_rate_n_s: f64,
     pub grid_force_rate_n_s: f64,
     pub forced_cutoff: bool,
+    pub active_duration_s: f64,
 }
 #[derive(Debug, Clone)]
 pub(crate) struct ReleaseRuntime {
@@ -190,14 +191,19 @@ impl ReleaseRuntime {
             (2. * p.force_slew_n_s * usable_j / (p.reserve_factor * speed_upper.max(1e-12))).sqrt();
         let observed_x = x + control.position_bias_m + control.position_error_bound_m;
         let observed_v = (v0 + control.speed_bias_m_s + control.speed_error_bound_m_s).max(0.);
-        let remaining = (q.end_m - observed_x).max(0.);
+        // The next endpoint command reserves its entire following ramp, using
+        // observed position/speed plus declared uncertainty and acceleration.
+        let predicted_end_x = observed_x + observed_v * h + 0.5 * acceleration_upper * h * h;
+        let predicted_end_v = observed_v + acceleration_upper * h;
+        let remaining = (q.end_m - predicted_end_x).max(0.);
         let exit_time = if acceleration_upper > 0. {
             2. * remaining
-                / (observed_v
-                    + (observed_v * observed_v + 2. * acceleration_upper * remaining).sqrt())
+                / (predicted_end_v
+                    + (predicted_end_v * predicted_end_v + 2. * acceleration_upper * remaining)
+                        .sqrt())
                 .max(1e-12)
         } else {
-            remaining / observed_v.max(1e-12)
+            remaining / predicted_end_v.max(1e-12)
         };
         let spatial_cap = p.force_slew_n_s * exit_time / p.reserve_factor;
         // Tie the sharing fraction to the existing normal command slew so a
@@ -237,21 +243,28 @@ impl ReleaseRuntime {
             f0 = 0.;
             f1 = 0.;
         }
-        // Spatial taper normally reaches zero in advance. If a fault or an
-        // out-of-domain observation defeats the reserve, cut force physically
-        // and report its discontinuity; do not supply work beyond the window.
-        if x + dx > q.end_m && f1 > 0. {
-            forced = true;
-            f0 = 0.;
+        // Integrate a literal finite ramp on the part of this accepted step
+        // inside the mechanical window; no whole-step cutoff or post-window work.
+        let mut active_h = h;
+        if enabled && x + dx > q.end_m {
+            let distance = (q.end_m - x).max(0.);
+            let a = (v1 - v0) / h;
+            active_h = (2. * distance
+                / (v0 + (v0 * v0 + 2. * a * distance).max(0.).sqrt()).max(1e-12))
+            .min(h);
             f1 = 0.;
+            if f0 / active_h.max(1e-12) > p.force_slew_n_s * (1. + 1e-8) {
+                forced = true;
+            }
         }
+        let active_v1 = v0 + (v1 - v0) * (active_h / h);
         let cap_now = q.max_force_n.min(q.max_power_w / v0.max(v1).max(1e-12));
         if f0 > cap_now || f1 > cap_now {
             forced = true;
             f0 = f0.min(cap_now);
             f1 = f1.min(cap_now);
         }
-        let mut delivered = work(f0, f1, v0, v1, h).max(0.);
+        let mut delivered = work(f0, f1, v0, active_v1, active_h).max(0.);
         if delivered > usable_j {
             forced = true;
             let scale = if delivered > 0. {
@@ -261,10 +274,10 @@ impl ReleaseRuntime {
             };
             f0 *= scale;
             f1 *= scale;
-            delivered = work(f0, f1, v0, v1, h).max(0.);
+            delivered = work(f0, f1, v0, active_v1, active_h).max(0.);
         }
         let store_rate = ((f1 - previous).abs() / h)
-            .max((f1 - f0).abs() / h)
+            .max((f1 - f0).abs() / active_h.max(1e-12))
             .max((f0 - previous).abs() / h);
         let grid0 = (traction - f0).max(0.);
         let grid1 = (traction - f1).max(0.);
@@ -273,10 +286,13 @@ impl ReleaseRuntime {
         } else {
             h
         };
-        let grid_rate =
-            ((grid1 - grid0).abs() / h).max((grid0 - self.previous_grid_n).abs() / sample_dt);
-        let peak_power = product_peak(f0, f1, v0, v1);
-        self.last_grid_peak_power_w = product_peak(grid0, grid1, v0, v1);
+        let grid_rate = ((grid1 - grid0).abs() / active_h.max(1e-12))
+            .max((grid0 - self.previous_grid_n).abs() / sample_dt);
+        let peak_power = product_peak(f0, f1, v0, active_v1);
+        self.last_grid_peak_power_w = product_peak(grid0, grid1, v0, active_v1);
+        if active_h < h {
+            self.last_grid_peak_power_w = self.last_grid_peak_power_w.max(traction * v1);
+        }
         self.diagnostics.maximum_store_force_rate_n_s = self
             .diagnostics
             .maximum_store_force_rate_n_s
@@ -302,6 +318,7 @@ impl ReleaseRuntime {
             store_force_rate_n_s: store_rate,
             grid_force_rate_n_s: grid_rate,
             forced_cutoff: forced,
+            active_duration_s: active_h,
         });
         Allocation {
             work_j: delivered,
