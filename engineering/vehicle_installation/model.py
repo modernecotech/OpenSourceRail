@@ -51,7 +51,7 @@ def load(root=ROOT):
 
 
 def sources(root=ROOT):
-    root=Path(root);names=[INPUT,POLICY,'engineering/station_rail/common.py','engineering/station_pair/mass.py','engineering/station_rail/vehicle.py']
+    root=Path(root);names=[INPUT,POLICY,'engineering/station_rail/common.py','engineering/station_pair/mass.py','engineering/station_rail/vehicle.py','engineering/design_search/requirement_policy.py']
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/vehicle_installation').glob('*.py')]
     return {n:digest(root/n) for n in sorted(names)}
 

@@ -25,6 +25,12 @@ def _box(size,at=(0.,0.,0.)):
 
 def _mesh(g):
     size=g['size_m'];s=g['source_stock'];kind=g['kind']
+    if 'finished_profile_xz_m' in g:
+        pts=g['finished_profile_xz_m'];a=[[x,-size[1]/2,z] for x,z in pts];b=[[x,size[1]/2,z] for x,z in pts];out=[]
+        for i in range(1,len(pts)-1):out.extend(([a[0],a[i+1],a[i]],[b[0],b[i],b[i+1]]))
+        for i in range(len(pts)):
+            j=(i+1)%len(pts);out.extend(([a[i],a[j],b[j]],[a[i],b[j],b[i]]))
+        return out
     if s and kind=='rhs':
         L,b,h=size;t=s['wall_m'];out=[]
         for side in (-1,1):out+=_box([L,t,h],[0.,side*(b-t)/2,0.]);out+=_box([L,b-2*t,t],[0.,0.,side*(h-t)/2])
@@ -127,9 +133,9 @@ def _compare(case,measured,associate=False):
     return dict(comparison_passed=True,exact_brep=associate,occurrences=matches,native_names_preserved=all(r['source_occurrence']==r['imported_name'] for r in matches),**FLAGS)
 
 
-def native_cad(result,output):
-    folder=Path(output);folder.mkdir(parents=True,exist_ok=False);case=representative_case(result)
-    (folder/'case.json').write_bytes(encoded(case));script=folder/'commands.json';script.write_bytes(encoded(solidcraft.script_for(case)))
+def native_cad(result,output,*,case=None,commands=None):
+    folder=Path(output);folder.mkdir(parents=True,exist_ok=False);case=representative_case(result) if case is None else case
+    (folder/'case.json').write_bytes(encoded(case));script=folder/'commands.json';script.write_bytes(encoded(solidcraft.script_for(case) if commands is None else commands))
     generated=folder/'solidcraft'
     execution=native.run('solidcraft',['run',script,'--save',generated/'assembly.sc','--out',generated/'assembly.step','--results','--json-out',generated/'results.json'],generated,timeout_s=120,memory_mb=2048,read_roots=(folder,))
     if execution['execution']!='executed':raise ValueError('CAD worker failed; immutable execution retained')
