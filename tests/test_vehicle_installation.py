@@ -36,6 +36,8 @@ def test_no_parent_subtotal_or_old_cassette_double_count(result):
         assert isclose(expected,result['nominal_part_mass_kg'][c],abs_tol=1e-7)
     assert not any(p['id']=='services/battery-side-panel' for p in result['parts'])
     assert len([p for p in result['parts'] if p['source_part_id'] is None])==4
+    assert {p['material_id'] for p in result['parts']} <= {m['id'] for m in result['materials']}
+    assert 'overhead included once' in next(p for p in result['parts'] if p['id']=='installation/services/battery-lid-panel')['cost_basis']
 
 
 def test_static_reactions_conserve_force_and_first_moment(result):
