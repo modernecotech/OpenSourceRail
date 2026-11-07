@@ -292,6 +292,25 @@ pub(super) struct Runtime<'a> {
     release_runtime: Option<ReleaseRuntime>,
 }
 impl<'a> Runtime<'a> {
+    #[allow(clippy::too_many_arguments)]
+    pub fn observe_motion(
+        &mut self,
+        t: f64,
+        x: f64,
+        v0: f64,
+        v1: f64,
+        h: f64,
+        ph: f64,
+        pa: f64,
+        a: f64,
+        force: f64,
+        brake: f64,
+    ) {
+        if let Some(q) = self.release_runtime.as_mut() {
+            q.observe_motion(t, x, v0, v1, h, ph, pa, a, force, brake);
+            self.energy.release_control = Some(q.diagnostics.clone());
+        }
+    }
     pub fn controlled_feedback(&self) -> bool {
         self.release_runtime.is_some()
     }
