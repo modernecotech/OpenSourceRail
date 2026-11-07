@@ -92,7 +92,7 @@ def load_model(spec,model):
 
 
 def trial(spec,folder,*,size_m=.3):
-    if size_m not in (.3,.2):raise ValueError('Declared two mesh levels only')
+    if size_m not in (.3,.25,.2):raise ValueError('Declared bounded mesh levels only')
     out=Path(folder).resolve();out.mkdir(parents=True,exist_ok=False);native.write(out/'input.json',spec)
     step=out/'input.step';shutil.copyfile(spec['cad_artifact']['step_path'],step)
     worker=out/'mesh-worker.py';worker.write_text(fem.GMSH_WORKER.replace("faces=[]","if len(elements)>20000:raise ValueError('Cell budget exceeded; execution retained')\nfaces=[]"))
