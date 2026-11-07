@@ -3,9 +3,17 @@ mod common;
 use common::fixture;
 #[test]
 fn six_car_receiver_handles_same_hardware_on_off_and_body_mass_sensitivity_at_all_steps() {
+    receiver("grid-substitution-slew/1");
+}
+#[test]
+fn continuous_reserve_retains_eight_leg_motion_and_literal_slew_at_all_steps() {
+    receiver("grid-substitution-slew/2");
+}
+fn receiver(mode: &str) {
     for dt in [0.05, 0.025, 0.0125] {
         for extra in [0., 1018., 1387.3443] {
             let mut on = fixture();
+            on.release_control.as_mut().unwrap().mode = mode.into();
             for l in &mut on.legs {
                 let old = l.journey.mass_kg;
                 l.journey.mass_kg += extra;
@@ -51,6 +59,16 @@ fn six_car_receiver_handles_same_hardware_on_off_and_body_mass_sensitivity_at_al
                         .unwrap()
                         .slew_limit_exceeded
                 );
+                if let Some(d) = &on
+                    .energy
+                    .release_control
+                    .as_ref()
+                    .unwrap()
+                    .continuous_reserve
+                {
+                    assert_eq!(d.force_boundary_discontinuities, 0);
+                    assert_eq!(d.maximum_store_boundary_jump_n, 0.);
+                }
                 assert_eq!(
                     on.energy.release_control.as_ref().unwrap().forced_cutoffs,
                     0,
