@@ -62,13 +62,13 @@ box whole lifts exceed that trial control after rigging; all alternatives also
 face the declared 35 t transport payload. Segmentation is an actual manufactured
 revision with a priced joint and temporary works, not a weakened lifting limit.
 
-Native mode runs at most two SolidCraft jobs and two mesh/dual-solver cases.
+Native mode runs at most two SolidCraft jobs, one independent FreeCAD STEP measurement and two mesh/dual-solver cases.
 It uses the exact new CAD, candidate loads and fresh FieldCraft/CalculiX results;
 no historical FEM result is inherited. Each process is single-thread requested,
 2 GiB address-space limited, 60 CPU seconds maximum and 58 seconds wall timeout.
 The mesh cap is 20,000 tetrahedra. Failed jobs and exact logs are retained.
 A perfectly bonded gross continuum is not a segment-joint or prestress model.
-FreeCAD independently measures the fresh gross STEP where available.
+The coordinator approved the third CAD invocation for that independent STEP measurement, with no engineering-limit change.
 
 Every run preserves request, input, source hashes, selections, raw native logs,
 resource records, failures and SHA-256 manifest. Source hashes before/after detect

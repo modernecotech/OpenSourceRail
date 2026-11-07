@@ -41,8 +41,12 @@ def generate(result,folder,*,gross_beam_only=False):
 
 
 def prepare(result,train,artifact,load_name):
+    if result['evaluation_id']!=identity({k:v for k,v in result.items() if k!='evaluation_id'}):raise ValueError('Civil evaluation seal changed')
+    if train['evaluation_id']!=identity({k:v for k,v in train.items() if k!='evaluation_id'}):raise ValueError('Axle evaluation seal changed')
+    if artifact['evaluation_id']!=identity({k:v for k,v in artifact.items() if k!='evaluation_id'}):raise ValueError('CAD artifact seal changed')
     if result['system_candidate_id']!=train['candidate_id'] or result['input_load_evaluation_id']!=train['evaluation_id']:raise ValueError('Mixed system or axle evaluation')
     if artifact['candidate_id']!=result['civil_candidate_id'] or not artifact.get('gross_beam_only'):raise ValueError('Exact same-civil gross CAD required')
+    if artifact['component_geometry_id']!=scene(result,gross_beam_only=True)['component_geometry_id']:raise ValueError('Physical CAD projection changed')
     if native.digest(artifact['step_path'])!=artifact['step_sha256']:raise ValueError('Exact STEP bytes changed')
     load=next(l for l in train['load_cases'] if l['name']==load_name);d=next(d for d in result['load_demands'] if d['name']==load_name)
     shift=d['critical_train_translation_m']['deflection_m'];factor=result['policy']['dynamic_axle_factor']

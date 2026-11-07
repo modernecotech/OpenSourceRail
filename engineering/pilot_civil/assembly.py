@@ -89,11 +89,22 @@ def scene(result,*,gross_beam_only=False):
             for i in range(ceil(20/p['fastener_pitch_m'])):
                 for side,dy in enumerate((-.6,.6)):
                     plate=p['fastener_plate_size_m']
-                    add(f'track-{track+1}/fastener-{i+1}-{side+1}/plate','box','steel',at_m=[i*p['fastener_pitch_m'],y+dy-plate[1]/2,0.],size_m=plate)
+                    x=i*(20-plate[0])/(ceil(20/p['fastener_pitch_m'])-1)
+                    add(f'track-{track+1}/fastener-{i+1}-{side+1}/plate','box','steel',at_m=[x,y+dy-plate[1]/2,0.],size_m=plate)
             cage=result['reinforcement']['cage_path_yz_m']
             for i in range(result['reinforcement']['stirrup_count']):
                 definitions.append(dict(id=f'track-{track+1}/stirrup-{i+1}',kind='bending-centreline',x_m=.06+i*result['reinforcement']['stirrup_pitch_m'],path_yz_m=[[yy+y,z] for yy,z in cage],diameter_m=.012,
                     cut_length_m=result['reinforcement']['stirrup_cut_length_m'],placement_verified=False))
+            bottom_z=s['zmin_m']+.08
+            bar_locations=[(yy,-.08) for yy in (-.75,-.25,.25,.75)]+[(yy,bottom_z) for yy in (-.22,-.07,.07,.22)]
+            for side in (-1,1):
+                for z in (-.35,-.60,-.85,-1.10):
+                    yy=side*.91 if s['physical']['family']=='reference_box' else side*(.7-.45*((-z-.16)/1.08))
+                    bar_locations.append((yy,z))
+            for line,(yy,z) in enumerate(bar_locations):
+                for piece,(lo,hi) in enumerate(((.06,5.4),(4.6,9.94),(10.06,15.4),(14.6,19.94))):
+                    definitions.append(dict(id=f'track-{track+1}/longitudinal-{line+1}/cut-{piece+1}',kind='straight-bar-centreline',path_xyz_m=[[lo,y+yy,z],[hi,y+yy,z]],diameter_m=.02,placement_verified=False,
+                        no_bar_crosses_segment_joint=True,cut_length_m=hi-lo))
             for duct in range(6):
                 side=-1 if duct<3 else 1;dz=((duct%3)-1)*.12;path=[]
                 for i in range(21):
@@ -106,7 +117,7 @@ def scene(result,*,gross_beam_only=False):
     projection=dict(schema='osr-pilot-civil-scene/1',civil_candidate_id=cid,system_candidate_id=result['system_candidate_id'],entities=entities,definition_paths=definitions,
         gross_beam_only=gross_beam_only,concrete_duct_and_rebar_voids_subtracted=False,installed_mass_from_cad_permitted=False,
         geometric_scope='Gross material stock, bearing envelopes and rail-envelope projection; bar/tendon definitions are not proven fit. Joint keys, anchors, guards and support reinforcement remain positive BOM/definition reserves.',**FLAGS)
-    projection['component_geometry_id']=identity(projection)
+    projection['component_geometry_id']=identity(dict(schema='osr-pilot-civil-component-geometry/1',units='m',entities=entities,definition_paths=definitions,gross_beam_only=gross_beam_only))
     return seal(projection)
 
 
@@ -114,3 +125,25 @@ def cad_case(result,*,gross_beam_only=False):
     a=scene(result,gross_beam_only=gross_beam_only)
     return dict(case_id='pilot-civil-gross' if gross_beam_only else 'pilot-civil-assembly',candidate_id=result['civil_candidate_id'],component_geometry_id=a['component_geometry_id'],entities=a['entities'],
         source_evaluation_id=result['evaluation_id'],materials={'research_concrete':dict(density_kg_m3=2500.),'steel':dict(density_kg_m3=7850.)},**FLAGS)
+
+
+def parts(result):
+    """Non-additive fabrication and installation schedule tied to cost owners."""
+    r=result['reinforcement'];t=result['prestress'];q=result['quantities'];foot=result['foundation'];cost=result['cost']
+    def part(id,qty,unit,material,process,inspection,**fields):
+        return dict(id=id,quantity_each_beam_or_bent=qty,unit=unit,material=material,process=process,inspection=inspection,**fields)
+    items=[
+        part('beam/precast-segment',2,'pieces','Research C50-class concrete; certificate and release strength pending','Reusable match-cast mould; place cage and ducts; pour/vibrate/cure; survey and inspect before release','Geometry, cover, voids, batch and measured release strength',scope='each beam',gross_concrete_m3=q['concrete_beam_m3'],cost_owner='civil/precast-factory'),
+        part('beam/longitudinal-bar-cut',r['longitudinal_cut_pieces'],'pieces','B500-class steel hypothesis','Cut; two overlapping pieces per line in each segment. No rebar crosses match-cast joint.','Bar identity, cut length, lap/cover and engineer-approved anchorage',cut_length_m=r['longitudinal_cut_length_m'],diameter_m=r['longitudinal_diameter_m'],scope='each beam',cost_owner='civil/precast-factory'),
+        part('beam/stirrup',r['stirrup_count'],'pieces','B500-class steel hypothesis','Cut/bend closed rectangular or trapezoidal hoops; attach to cage.','Bend radius, tails, pitch, cover and congestion',cut_length_m=r['stirrup_cut_length_m'],diameter_m=r['stirrup_diameter_m'],scope='each beam',cost_owner='civil/precast-factory'),
+        part('beam/prestress-strand',t['strands'],'pieces','1860 MPa-class strand hypothesis','Cut with 0.6 m working tail each end; thread, symmetric jack, anchor, trim and grout.','Strand identity, jack calibration, elongation, locking loss, grout coverage',cut_length_m=t['strand_stock_cut_length_m_each'],installed_length_m=t['tendon_length_m_each'],scope='each beam',cost_owner='civil/precast-factory'),
+        part('beam/duct',6,'20 m paths','Corrugated sealed duct candidate','Form curved route, support at 1 m, join and pressure/leak inspect.','Geometry, cover, continuity and tendon clearance',outer_diameter_m=.06,scope='each beam',cost_owner='civil/ducts-grout-chairs-endzone'),
+        part('beam/anchor-group',12,'end groups','Steel wedge/anchor plate system hypothesis','Recess, install plate and local bursting cage; jack and lock strands.','Anchor bearing, bursting, fatigue and cover require independent detailed design',total_mass_reserve_kg=t['anchorage_mass_kg'],scope='each beam',cost_owner='civil/precast-factory'),
+        part('beam/matchcast-joint',1,'interface','Controlled 2 mm epoxy candidate','Matched female/male shear keys, surface preparation, fit and controlled epoxy layer; continuously post-tension.','Fit, key bearing/shear, epoxy cure and joint opening; geometry/detail remains unverified',positive_local_detail_reserve=True,scope='each beam',cost_owner='civil/segment-joints'),
+        part('beam/bearing',4,'assemblies','Elastomer/steel bearing candidate','Prepare level seat, place guided/free/fixed arrangement only after detailed movement study.','Pressure, rotation, shear, restraint and replacement access',size_m=result['physical_definition']['bearing_layout']['size_m'],scope='each beam',cost_owner='civil/bearings'),
+        part('track/fastener',result['physical_definition']['rail_interface']['fastenings'],'sets','Steel plate/anchors; spring clips, elastomer pad, nuts/washers','Drill/place anchors; level rail; torque and mark.','Gauge, alignment, clamp force, torque and pull-out',anchors_each=4,plate_size_m=result['policy']['fastener_plate_size_m'],scope='each beam',cost_owner=['civil/fastening-steel','civil/fastening-clips-pads-nuts-washers']),
+        part('track/rail',2,'20 m runs','60.21 kg/m rail stock hypothesis','Cut, join with independently designed thermal-movement and electrical-continuity interfaces.','Profile, straightness, rail stress, weld/bolted joint and gauge',scope='each beam',cost_owner='civil/rails'),
+        part('support/footing',1,'cast assembly','Reinforced concrete with unlocated 90/130/190 kg/m3 steel reserve','Excavate, verify ground, blinding, cage, cast and cure.','Ground, groundwater, reinforcement, punching, settlement and concrete strength',size_m=[foot['width_m'],foot['width_m'],foot['thickness_m']],scope='each shared bent',cost_owner='civil/shared-pier-foundation'),
+        part('support/pier-cap',1,'assembly','Reinforced concrete with positive bar reserve','Reusable formwork; cage, cast/cure and survey.','Connections, local bearing, cracking, lateral/seismic and access',pier_diameter_m=foot['column_diameter_m'],pier_height_m=result['policy']['support']['column_height_m'],cap_size_m=result['policy']['support']['cap_size_m'],scope='each shared bent',cost_owner='civil/shared-pier-foundation')]
+    return dict(schema='osr-pilot-civil-parts/1',civil_candidate_id=result['civil_candidate_id'],beam_instances=cost['beams'],shared_bent_instances=cost['shared_bents'],items=items,
+        additive_mass_or_cost_ledger=False,reason='Manufacturing decomposition references existing quantity and cost owners; adding these rows again would double-count.',controlled_drawings_complete=False,**FLAGS)
