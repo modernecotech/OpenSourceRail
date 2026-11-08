@@ -16,7 +16,7 @@ class EnergyDomainHold(ValueError):
     """Completed fleet model exceeds a declared electrical/thermal hypothesis."""
 
 
-def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,prepared=None,root=ROOT):
+def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,release_control=None,prepared=None,root=ROOT):
     if (service['candidate_id']!=bundle['candidate_id']
         or service['evaluation_id']!=identity({k:v for k,v in service.items() if k!='evaluation_id'})):
         raise ValueError('Exact canonical timetable required')
@@ -78,6 +78,9 @@ def request(installed,bundle,service,*,enabled=True,experiment='nominal',dt=.05,
              release_control=dict(mode=control_mode,force_slew_n_s=10000.,maximum_traction_share=.8,reserve_factor=2.),
              turnaround_s=service['hypotheses']['turnaround_maneuver_s'],
              clearance_s=service['hypotheses']['route_release_allowance_s'])
+    if release_control is not None:
+        from engineering.recovery_search.configuration import validate_release_control
+        req['release_control']=validate_release_control(release_control)
     req['id']=identity(req);return req
 
 

@@ -83,7 +83,7 @@ def case(installed, *, mass_case='base', force_case='base', speed_km_h=60.,
     return q
 
 
-def controlled_cycle(installed, *, enabled=True, count=8, dt=.05, root=ROOT, **kwargs):
+def controlled_cycle(installed, *, enabled=True, count=8, dt=.05, release_control=None, root=ROOT, **kwargs):
     from engineering.station_cycle import coordinator as cycle, design
     p=design.policy(root)
     q=case(installed,dt=dt,root=root,**kwargs)
@@ -92,5 +92,8 @@ def controlled_cycle(installed, *, enabled=True, count=8, dt=.05, root=ROOT, **k
     control_mode=json.loads((Path(root)/'engineering/railway_closure/brief.json').read_bytes())['release_control_mode']
     request['release_control']=dict(mode=control_mode,force_slew_n_s=10000.,
                                     maximum_traction_share=.8,reserve_factor=2.)
+    if release_control is not None:
+        from engineering.recovery_search.configuration import validate_release_control
+        request['release_control']=validate_release_control(release_control)
     request.pop('id');request['id']=identity(request)
     return request
