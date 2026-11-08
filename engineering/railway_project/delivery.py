@@ -116,6 +116,7 @@ def _validate(bundle, body, civil, station, tracks, service, cost, root):
     _require(owners['rolling-stock-delivered']['quantity'] == fleet, 'Rolling stock account differs from counted fleet')
     for case in model.CASES:
         _require(isclose(owners['rolling-stock-delivered']['cost_usd'][case], fleet*cost['delivered_train_unit_usd'][case], rel_tol=1e-10), 'Delivered train price owner differs')
+    _require(isinstance(full['methods'], list) and bool(full['methods']), 'At least one lifecycle cost method required')
     _unique(full['methods'], 'method', 'cost method')
     for method in full['methods']:
         _require(set(method['scope_totals_usd']) == set(SCOPES), 'Missing method cost scope')

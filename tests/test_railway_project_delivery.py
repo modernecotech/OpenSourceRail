@@ -907,3 +907,14 @@ def test_planning_policy_cannot_promote_unmeasured_hours_or_an_actual_crew(input
     policy['controlled_cycle_times_available']=True
     with pytest.raises(ValueError,match='Unmeasured planning policy'):
         delivery.compile_proposal(*inputs,policy=policy)
+
+
+def test_empty_lifecycle_methods_cannot_claim_fourteen_cost_views(inputs):
+    values=deepcopy(inputs);cost=values[-1];full=cost['full_scope']
+    assert len(full['required_cost_scopes'])==14 and full['methods']
+    full['methods']=[]
+    # Keep the outer records valid: absence of methods must fail independently
+    # of seal checks or the presence of the fourteen scope names.
+    seal(full);seal(cost)
+    with pytest.raises(ValueError,match='At least one lifecycle cost method'):
+        delivery.compile_proposal(*values)
