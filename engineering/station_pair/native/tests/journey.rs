@@ -99,6 +99,7 @@ fn feedback_case() -> Case {
         external_resistance_upper_n: 0.,
         positive_acceleration_bound_m_s2: 3.,
         drive_fault_observed: false,
+        research_v2: None,
     });
     c
 }

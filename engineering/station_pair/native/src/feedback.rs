@@ -2,6 +2,9 @@
 //! It is a controller research model, not an authenticated train-protection system.
 use super::*;
 use std::collections::VecDeque;
+#[path = "feedback_v2.rs"]
+mod v2;
+pub use v2::{ResearchFeedbackV2, ResearchFeedbackV2Diagnostics};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -32,6 +35,8 @@ pub struct FeedbackControl {
     pub positive_acceleration_bound_m_s2: f64,
     #[serde(default)]
     pub drive_fault_observed: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub research_v2: Option<ResearchFeedbackV2>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -51,6 +56,8 @@ pub struct FeedbackDiagnostics {
     pub end_of_authority_violated: bool,
     pub docking_attempts: u64,
     pub maximum_docking_speed_m_s: f64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub research_v2: Option<ResearchFeedbackV2Diagnostics>,
 }
 
 fn gravity_upper(p: &FeedbackControl) -> f64 {
@@ -238,12 +245,19 @@ fn diagnostics(c: &Case, p: &FeedbackControl, d: Option<&Drive>) -> FeedbackDiag
         end_of_authority_violated: false,
         docking_attempts: 0,
         maximum_docking_speed_m_s: 0.,
+        research_v2: None,
     }
 }
 
 pub(crate) fn domain_screen(c: &Case, p: &FeedbackControl) -> Result<FeedbackDiagnostics, String> {
     validate(p)?;
-    Ok(diagnostics(c, p, c.drive.as_ref()))
+    let mut diag = diagnostics(c, p, c.drive.as_ref());
+    if let Some(spec) = &p.research_v2 {
+        let runtime = v2::Runtime::new(c, p, spec)?;
+        diag.mode = "held-docking-speed-governor/2".into();
+        diag.research_v2 = Some(runtime.report(c, p));
+    }
+    Ok(diag)
 }
 pub(super) fn evaluate(c: &Case, p: &FeedbackControl) -> Result<ResultRow, String> {
     evaluate_with_recovery(c, p, None)
@@ -254,9 +268,25 @@ pub(super) fn evaluate_with_recovery(
     mut recovery: Option<&mut cycle::Runtime<'_>>,
 ) -> Result<ResultRow, String> {
     validate(p)?;
+    let mut research_v2 = p
+        .research_v2
+        .as_ref()
+        .map(|spec| v2::Runtime::new(c, p, spec))
+        .transpose()?;
     let quiet_cycle = recovery.as_ref().is_some_and(|q| q.controlled_feedback());
     let mut r = base(c);
     let mut diag = diagnostics(c, p, c.drive.as_ref());
+    if let Some(q) = &research_v2 {
+        diag.mode = "held-docking-speed-governor/2".into();
+        diag.research_v2 = Some(q.report(c, p));
+        r.limitations.push("V2 brake retention/preload/release uses accepted command history under uncalibrated force/response bounds, not authenticated applied-brake or torque observations. Berth target, authority and modeled track domain are explicit distinct inputs.".into());
+        if recovery.is_some() {
+            r.state = "controller-v2-domain-held".into();
+            r.hold_reason=Some("V2 recovery/cycle coupling is unsupported; no storage runtime is implicitly enabled".into());
+            r.control = Some(diag);
+            return Ok(r);
+        }
+    }
     r.limitations.push("Position/speed/acceleration observations and policy brake/response bounds are declared hypotheses, not authenticated sensors or protection evidence; the controller does not receive actual plant mass/grade/adhesion".into());
     r.limitations.push("Initial holding brake, when selected, is an already-applied t<0 condition. Idle/standstill motor current and heat remain unmodelled".into());
     r.limitations.push("Docking uses an ideal standstill-event observation in addition to biased position/speed/acceleration signals; a real zero-speed detector is not authenticated. The 0.25 m/s docking request has a 0.5 m/s model guard, not a measured physical limit".into());
@@ -281,6 +311,24 @@ pub(super) fn evaluate_with_recovery(
     let launch_required = p.mass_upper_kg * G * uphill / (1. + uphill * uphill).sqrt()
         + p.rolling_resistance_upper_n
         + p.external_resistance_upper_n;
+    if let Some(q) = &research_v2 {
+        if !q.holds.is_empty() {
+            r.state = "controller-v2-domain-held".into();
+            diag.departure_held = true;
+            r.hold_reason = Some(q.holds.join("; "));
+            r.standstill_brake_margin_n = if p.initial_hold_applied {
+                hold_required.min(actual_brake_cap) - gravity.abs()
+            } else {
+                -gravity.abs()
+            };
+            r.standstill_holding = p.initial_hold_applied && r.standstill_brake_margin_n >= 0.;
+            r.control = Some(diag);
+            return Ok(r);
+        }
+    }
+    let berth_target = research_v2
+        .as_ref()
+        .map_or(c.distance_m, |q| q.spec.berth_target_m);
     if p.drive_fault_observed
         || braking_lower(p) <= 1e-9
         || hold_required > p.brake_force_lower_bound_n
@@ -426,6 +474,38 @@ pub(super) fn evaluate_with_recovery(
         let observed_x = x + p.position_bias_m;
         let observed_v = (v + p.speed_bias_m_s).max(0.);
         let observed_a = previous_a + p.acceleration_bias_m_s2;
+        if let Some(q) = research_v2.as_mut() {
+            q.guaranteed_brake_n = v2::history_brake_lower(&brake_history, t, p);
+            if !fault && !p.drive_fault_observed {
+                if q.state == v2::State::BrakeHold
+                    && q.guaranteed_brake_n + 1e-8 >= p.brake_force_lower_bound_n
+                {
+                    q.state = v2::State::TractionPreload;
+                    event(&mut r, "v2-full-brake-history-established", t, x, v);
+                } else if q.state == v2::State::TractionPreload
+                    && traction_command + 1e-8 >= q.preload_target_n
+                {
+                    q.state = v2::State::ReleasePending;
+                    launched = true;
+                    event(
+                        &mut r,
+                        "v2-accepted-traction-preload-release-pending",
+                        t,
+                        x,
+                        v,
+                    );
+                } else if q.state == v2::State::ReleasePending
+                    && observed_v > p.speed_error_bound_m_s
+                {
+                    q.state = if docking {
+                        v2::State::Creep
+                    } else {
+                        v2::State::Cruise
+                    };
+                    event(&mut r, "v2-bounded-forward-motion-observed", t, x, v);
+                }
+            }
+        }
         let planned_window = d.windows_m.iter().find(|w| {
             (observed_x - p.position_error_bound_m).max(0.) >= w[0]
                 && (observed_x + p.position_error_bound_m).max(0.) < w[1]
@@ -468,9 +548,37 @@ pub(super) fn evaluate_with_recovery(
         let service_lead = p.reaction_time_bound_s
             + p.brake_rise_time_bound_s
             + 2. * p.brake_force_lower_bound_n / (p.mass_lower_kg * c.comfort_jerk_m_s3);
-        if !braking && launched && remaining - service_required < observed_v * service_lead + 2. {
+        let service_remaining = if research_v2.is_some() {
+            (berth_target - observed_x - p.position_error_bound_m).max(0.)
+        } else {
+            remaining
+        };
+        if !braking
+            && launched
+            && service_remaining - service_required < observed_v * service_lead + 2.
+        {
             braking = true;
+            if let Some(q) = research_v2.as_mut() {
+                q.state = v2::State::BrakeApproach;
+            }
             event(&mut r, "feedback-normal-brake-command", t, x, v);
+        }
+        let mut governing = false;
+        if let Some(q) = research_v2.as_mut() {
+            governing = launched
+                && !braking
+                && !docking
+                && !fault
+                && observed_v
+                    + v2::governor_headroom(p, traction_command, c.comfort_jerk_m_s3, c.dt_s)
+                    >= c.speed_cap_m_s;
+            if governing {
+                q.governor_steps += 1;
+            }
+            if governing && !q.governor_active {
+                event(&mut r, "v2-downhill-service-speed-governor", t, x, v);
+            }
+            q.governor_active = governing;
         }
         if quiet_cycle
             && !docking
@@ -519,6 +627,21 @@ pub(super) fn evaluate_with_recovery(
             quiet_dock_stop = true;
             event(&mut r, "bounded-berth-band-brake-settle", t, x, v);
         }
+        if let Some(q) = research_v2.as_mut() {
+            if docking
+                && q.state == v2::State::Creep
+                && !fault
+                && observed_x
+                    >= berth_target - c.berth_tolerance_m
+                        + p.position_error_bound_m
+                        + p.stopping_margin_m * 0.1
+                && observed_v <= q.spec.creep_speed_m_s + p.speed_error_bound_m_s
+            {
+                q.state = v2::State::FinalHold;
+                quiet_dock_stop = true;
+                event(&mut r, "v2-final-held-berth-settle", t, x, v);
+            }
+        }
         let h0 = c.dt_s.min(c.max_time_s - t);
         let mut target_traction = 0.;
         if planned_active && !fault && !p.drive_fault_observed && (!braking || docking) {
@@ -539,7 +662,11 @@ pub(super) fn evaluate_with_recovery(
                 target_traction = 0.;
             }
             if docking {
-                let goal_speed = if quiet_cycle {
+                let goal_speed = if let Some(q) = &research_v2 {
+                    q.spec
+                        .creep_speed_m_s
+                        .min(0.3 * (berth_target - observed_x).max(0.))
+                } else if quiet_cycle {
                     quiet_dock_cruise
                         .min(0.3 * (quiet_dock_target.unwrap_or(c.distance_m) - observed_x).max(0.))
                 } else {
@@ -558,9 +685,10 @@ pub(super) fn evaluate_with_recovery(
                         model_mass * 0.1
                             + p.rolling_resistance_upper_n
                             + p.external_resistance_upper_n
-                            + model_mass * G * p.grade_estimate_fraction.max(0.),
+                            + model_mass * G * p.grade_estimate_fraction.max(0.)
+                            + research_v2.as_ref().map_or(0., |q| q.spec.brake_floor_n),
                     );
-                let docking_acceleration_upper = if quiet_cycle {
+                let docking_acceleration_upper = if quiet_cycle || research_v2.is_some() {
                     (observed_a + p.acceleration_error_bound_m_s2 + 0.5 * c.comfort_jerk_m_s3 * h0)
                         .max(0.)
                 } else {
@@ -581,7 +709,19 @@ pub(super) fn evaluate_with_recovery(
                     target_traction.min(0.2 * p.mass_lower_kg * c.comfort_jerk_m_s3 * time_to_exit);
             }
         }
-        if quiet_cycle && docking && quiet_dock_stop {
+        if let Some(q) = &research_v2 {
+            match q.state {
+                v2::State::BrakeHold | v2::State::FinalHold => target_traction = 0.,
+                v2::State::TractionPreload | v2::State::ReleasePending => {
+                    target_traction = q.preload_target_n
+                }
+                _ => {}
+            }
+            if governing {
+                target_traction = 0.;
+            }
+        }
+        if (quiet_cycle || research_v2.is_some()) && docking && quiet_dock_stop {
             target_traction = 0.;
         }
         let old_traction = traction_command;
@@ -593,7 +733,7 @@ pub(super) fn evaluate_with_recovery(
         if !planned_active || fault || p.drive_fault_observed || hard {
             traction_command = 0.;
         }
-        if !launched {
+        if !launched && research_v2.is_none() {
             if old_traction >= launch_required && !fault {
                 // This policy explicitly assumes the independent lower traction
                 // bound can deliver the requested initial effort.
@@ -603,6 +743,34 @@ pub(super) fn evaluate_with_recovery(
         }
         let target_brake = if fault || hard || p.drive_fault_observed {
             p.brake_force_lower_bound_n
+        } else if let Some(q) = &research_v2 {
+            match q.state {
+                v2::State::BrakeHold | v2::State::TractionPreload | v2::State::FinalHold => {
+                    p.brake_force_lower_bound_n
+                }
+                v2::State::ReleasePending => {
+                    if docking {
+                        q.spec.brake_floor_n
+                    } else {
+                        0.
+                    }
+                }
+                v2::State::Creep => q.spec.brake_floor_n,
+                v2::State::BrakeApproach => {
+                    let rem = (berth_target - p.stopping_margin_m * 0.5 - observed_x).max(0.05);
+                    let target_a = -(observed_v * observed_v / (2. * rem))
+                        .min(p.positive_acceleration_bound_m_s2);
+                    (brake_request + 0.25 * model_mass * (observed_a - target_a))
+                        .clamp(q.spec.brake_floor_n, p.brake_force_lower_bound_n)
+                }
+                v2::State::Cruise => {
+                    if governing {
+                        p.brake_force_lower_bound_n
+                    } else {
+                        0.
+                    }
+                }
+            }
         } else if !launched {
             hold_required
         } else if docking {
@@ -894,6 +1062,20 @@ pub(super) fn evaluate_with_recovery(
             r.state = "stopped".into();
             r.terminal_acceleration_step_m_s2 = -acceleration;
             r.terminal_jerk_resolved = acceleration.abs() < 1e-6;
+            if let Some(q) = research_v2.as_mut() {
+                q.guaranteed_brake_n = v2::history_brake_lower(&brake_history, t, p);
+                if q.state == v2::State::FinalHold && !fault {
+                    if traction_command > 1e-8
+                        || q.guaranteed_brake_n + 1e-8 < p.brake_force_lower_bound_n
+                    {
+                        // Continue the real actuator/history integration at
+                        // rest; no instantaneous final holding force or reset.
+                        continue;
+                    }
+                    event(&mut r, "v2-final-full-brake-history-established", t, x, v);
+                    break;
+                }
+            }
             if docking && !docking_moved && !fault && !p.drive_fault_observed {
                 if t - docking_started < 30. {
                     continue;
@@ -907,7 +1089,9 @@ pub(super) fn evaluate_with_recovery(
             // Apply no imaginary immediate holding force: retain the actual
             // physical brake state already present at this event.
             let observed_stop = x + p.position_bias_m;
-            let target = if quiet_cycle {
+            let target = if research_v2.is_some() {
+                berth_target
+            } else if quiet_cycle {
                 quiet_dock_target.unwrap_or(c.distance_m - p.stopping_margin_m * 0.5)
             } else {
                 c.distance_m - p.stopping_margin_m * 0.5
@@ -925,9 +1109,23 @@ pub(super) fn evaluate_with_recovery(
                 && p.position_error_bound_m * 2. < c.berth_tolerance_m
                 && p.speed_error_bound_m_s < 0.25
                 && target + p.position_error_bound_m <= p.end_of_authority_m
-                && c.distance_m - observed_stop > c.berth_tolerance_m
+                && (if research_v2.is_some() {
+                    berth_target
+                } else {
+                    c.distance_m
+                }) - observed_stop
+                    > c.berth_tolerance_m
                 && diag.docking_attempts < 2;
             if permitted {
+                if let Some(q) = research_v2.as_mut() {
+                    if q.guaranteed_brake_n + 1e-8 < q.spec.brake_floor_n {
+                        r.state = "controller-v2-brake-retention-held".into();
+                        r.hold_reason=Some("Finite brake command history did not establish the retained floor before standstill".into());
+                        break;
+                    }
+                    q.state = v2::State::BrakeHold;
+                    launched = false;
+                }
                 docking = true;
                 docking_moved = false;
                 docking_started = t;
@@ -937,7 +1135,12 @@ pub(super) fn evaluate_with_recovery(
             }
             break;
         }
-        if !launched && t > 30. {
+        let launch_elapsed = if research_v2.is_some() && docking {
+            t - docking_started
+        } else {
+            t
+        };
+        if !launched && launch_elapsed > 30. {
             r.state = "controller-launch-held".into();
             diag.departure_held = true;
             break;
@@ -964,7 +1167,16 @@ pub(super) fn evaluate_with_recovery(
     r.final_position_m = x;
     r.final_speed_m_s = v;
     r.elapsed_s = t;
-    r.berth_error_m = x - c.distance_m;
+    if let Some(q) = &research_v2 {
+        if q.state == v2::State::FinalHold
+            && (traction_command > 1e-8
+                || q.guaranteed_brake_n + 1e-8 < p.brake_force_lower_bound_n)
+        {
+            r.state = "controller-v2-final-hold-pending".into();
+            r.hold_reason=Some("Final traction rundown and finite guaranteed full-brake history did not settle before the runtime boundary".into());
+        }
+    }
+    r.berth_error_m = x - berth_target;
     r.standstill_brake_margin_n = actual_brake - gravity.abs();
     r.standstill_holding = r.state == "stopped" && r.standstill_brake_margin_n >= -1e-8;
     diag.end_of_authority_violated = x > p.end_of_authority_m + 1e-8;
@@ -1019,6 +1231,9 @@ pub(super) fn evaluate_with_recovery(
         r.state = "thermal-envelope-exceeded".into();
         r.normal_numerical_arrival = false;
         r.fault_stop_in_route = false;
+    }
+    if let Some(q) = &research_v2 {
+        diag.research_v2 = Some(q.report(c, p));
     }
     r.control = Some(diag);
     Ok(r)

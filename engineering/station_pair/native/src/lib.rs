@@ -8,7 +8,10 @@ pub mod cycle;
 mod cycle_release;
 mod feedback;
 pub mod fleet;
-pub use feedback::{FeedbackControl, FeedbackDiagnostics, stopping_distance_bound};
+pub use feedback::{
+    FeedbackControl, FeedbackDiagnostics, ResearchFeedbackV2, ResearchFeedbackV2Diagnostics,
+    stopping_distance_bound,
+};
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Request {
