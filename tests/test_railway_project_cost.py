@@ -100,11 +100,13 @@ def test_failed_service_cannot_annualize_a_positive_electricity_estimate():
 
 def test_bound_energy_closes_accounting_only_and_preserves_core_seal():
     args=list(context());args[5]['native_service_complete']=True
-    args[5]['native_network_evaluation_id']='e'*64;seal(args[5])
+    args[5]['native_network_evaluation_id']='e'*64
+    args[5]['energy_operating_context']=cost.energy_operating_context(args[6]);seal(args[5])
     energy=seal(dict(schema='osr-project-service-energy/1',candidate_id=args[0]['candidate_id'],
         service_evaluation_id=args[5]['evaluation_id'],native_network_evaluation_id='e'*64,
         annual_grid_kwh=dict(low=1e5,base=2e5,high=3e5),
         scope='active-fleet-and-all-stations-excluding-reserve-and-depot',basis='Synthetic accounting control only',
+        energy_operating_context=cost.energy_operating_context(args[6]),
         source_sha256={},**cost.FLAGS))
     r=evaluate(args,energy=energy)
     assert r['core']['evaluation_id']==identity({k:v for k,v in r['core'].items() if k!='evaluation_id'})
@@ -112,3 +114,12 @@ def test_bound_energy_closes_accounting_only_and_preserves_core_seal():
         assert m['whole_life_NPV_usd']['base']>m['installed_capital_usd']['base']
         assert m['annual_operating']['base']['known_reserve_depot_energy_usd']>0
     assert not r['physical_accepted']
+    for key,value in (('operation_hours_day',2.),('operation_days_year',100.),
+                      ('hotel_W_per_car_hypothesis',50000.),('hotel_charge_efficiency_hypothesis',.8)):
+        changed=deepcopy(args);changed[6][key]=value
+        with pytest.raises(ValueError,match='operating context'):
+            evaluate(changed,energy=energy)
+    changed=deepcopy(args);changed[6]['tariff_usd_kwh']['base']*=2
+    repriced=evaluate(changed,energy=energy)
+    assert repriced['full_scope']['methods'][0]['annual_operating']['base']['primary_pilot_energy_usd']==pytest.approx(
+        2*r['full_scope']['methods'][0]['annual_operating']['base']['primary_pilot_energy_usd'])

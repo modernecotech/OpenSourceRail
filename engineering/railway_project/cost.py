@@ -33,6 +33,21 @@ def _positive(value,name):
     return value
 
 
+def energy_operating_context(brief):
+    """Annualization/load context, excluding tariffs and financial discounting.
+
+    Changing this projection requires a fresh cheap annualization record. It
+    need not rerun unchanged native trajectories, geometry or structural solves.
+    """
+    names=('operation_hours_day','operation_days_year','hotel_W_per_car_hypothesis',
+           'hotel_charge_efficiency_hypothesis')
+    result={name:float(_positive(brief.get(name),name)) for name in names}
+    if (result['operation_hours_day']>24 or result['operation_days_year']>366 or
+        result['hotel_charge_efficiency_hypothesis']>1):
+        raise ValueError('Bounded calendar and hotel/charging context required')
+    return dict(schema='osr-project-energy-operating-context/1',**result)
+
+
 def evaluate(bundle,body,civil,station,tracks,service,brief,*,
              turnout_units,station_peak_input_kw,paid_staff_cases,energy=None,root=ROOT):
     """Price one explicit research layout, retaining unresolved design accounts.
@@ -175,12 +190,15 @@ def evaluate(bundle,body,civil,station,tracks,service,brief,*,
     if energy is not None:
         sealed(energy)
         native_id=service.get('native_network_evaluation_id','')
+        context=energy_operating_context(brief)
         if (energy.get('schema')!='osr-project-service-energy/1' or energy['candidate_id']!=bundle['candidate_id'] or
             energy['service_evaluation_id']!=service['evaluation_id'] or not service['native_service_complete'] or
             not isinstance(native_id,str) or len(native_id)!=64 or any(c not in '0123456789abcdef' for c in native_id) or
             energy.get('native_network_evaluation_id')!=native_id or
             energy.get('scope')!='active-fleet-and-all-stations-excluding-reserve-and-depot'):
             raise ValueError('Exact completed native service and disjoint energy scope required')
+        if (service.get('energy_operating_context')!=context or energy.get('energy_operating_context')!=context):
+            raise ValueError('Annual energy and service operating context differs from cost brief')
         lifecycle._cases(energy['annual_grid_kwh'],'annual energy',positive=True)
         energy_context=dict(schema='osr-station-pair-lifecycle-energy/1',candidate_id=bundle['candidate_id'],
             input_cost_evaluation_id=core['evaluation_id'],source_evaluation_id=energy['evaluation_id'],service_fulfilled=True,
@@ -194,6 +212,7 @@ def evaluate(bundle,body,civil,station,tracks,service,brief,*,
         additional_terminal_and_spread_track_m=added_track,additional_legacy_drive_charge_usd=0.,
         zero_is_exact_in_BOM_ownership=True,station_peak_input_kw_hypothesis=peak,
         station_widening_and_turnback_detailed=False,source_sha256=pinned,
+        required_energy_operating_context=energy_operating_context(brief),
         limitations=['Calculated source rates are research assumptions, not current supplier offers; no further blanket bulk discount.',
             'Factory setup is allocated once per project order; future unrelated orders do not subsidize this estimate.',
             'Positive widened-station, terminal, depot, utility and land accounts still require detailed design.',
