@@ -28,6 +28,7 @@ FIXTURES=ROOT/'tools/automation/native-v06'
 sys.path.insert(0,str(FIXTURES))
 from contracts import load_input, validate_input, verify_result, FLAGS, REQUIRED
 import candidate_contracts
+import runner_binding
 IMAGES={'erp':'osr/erpnext:15.121.2-hr15.64.0-osr14','gateway':'osr/integration:0.1.3',
         'fuxa':'frangoteam/fuxa:1.3.4@sha256:3778da3377e7685842495497d13157d1548ccad8708c434dc5d4b99fb5cb25bf',
         'db':'mariadb:10.6.25','redis':'redis:7.2.13-alpine'}
@@ -110,7 +111,7 @@ def preflight(review_pack=None,proposal=None,component_id=None):
         info=invoke([docker,'info','--format','{{json .}}'],check=False)
         report['docker_ready']=info.returncode==0
         info=json.loads(info.stdout) if info.returncode==0 else {}
-        report['cpu_quota_supported']=bool(info.get('CPUCfsQuota'))
+        report['cpu_quota_supported']=bool(info.get('CpuCfsQuota',info.get('CPUCfsQuota'))) if value['schema'].endswith('/2') else bool(info.get('CPUCfsQuota'))
         report['cpu_isolation']='one-CPU quota per container' if report['cpu_quota_supported'] else 'no enforced CPU quota; host Docker reports CFS unavailable'
         for key,name in IMAGES.items():
             report['images'][key]=invoke([docker,'image','inspect',name],check=False).returncode==0
@@ -118,6 +119,7 @@ def preflight(review_pack=None,proposal=None,component_id=None):
     browser=invoke(['node','--input-type=module','-e',
         'import {chromium} from "@playwright/test";import fs from "node:fs";process.exit(fs.existsSync(chromium.executablePath())?0:1)'],check=False) if report['node'] else None
     report['playwright_chromium']=bool(browser is not None and browser.returncode==0)
+    if value['schema'].endswith('/2'):report['resource_supervision_required']=True
     report['ready']=bool(report['playwright_chromium'] and report.get('docker_ready') and all(report['images'].values()) and report['disk_free_bytes']>=8*1024**3)
     return report
 
@@ -132,7 +134,7 @@ def owned_namespace(value):
     return value
 
 
-def verify(folder,review_pack=None,proposal=None,component_id=None):
+def verify_lifecycle(folder,review_pack=None,proposal=None,component_id=None):
     folder=Path(folder);m=json.loads((folder/'manifest.json').read_bytes())
     for name,expected in m['files_sha256'].items():
         path=folder/name
@@ -144,15 +146,24 @@ def verify(folder,review_pack=None,proposal=None,component_id=None):
     return verifier(result,value,sources())
 
 
+def verify(folder,review_pack=None,proposal=None,component_id=None):
+    result=verify_lifecycle(folder,review_pack,proposal,component_id)
+    if result['schema'].endswith('/2'):
+        return runner_binding.verify_supervision(folder,campaign_input(review_pack,proposal,component_id),sources(),result)
+    return result
+
+
 def run(output=None,review_pack=None,proposal=None,component_id=None):
+    value=campaign_input(review_pack,proposal,component_id);source=sources()
+    bound=runner_binding.bind_run(value,source,output)
     pre=preflight(review_pack,proposal,component_id)
     if not pre['ready']:raise RuntimeError('Native preflight hold: require Docker, all pinned images and >=8 GiB free; run preflight for details')
-    source=sources();value=campaign_input(review_pack,proposal,component_id);start=time.monotonic()
+    start=time.monotonic()
     wheel=value['schema'].endswith('/2');required=candidate_contracts.REQUIRED if wheel else REQUIRED
     fixture_file='candidate_fixture.py' if wheel else 'fixture.py'
-    namespace=owned_namespace('osr-v06-'+secrets.token_hex(6));run_id=namespace.removeprefix('osr-v06-')
-    folder=Path(output or ROOT/'build/v06-platform-native'/namespace).absolute()
-    if not folder.resolve().is_relative_to((ROOT/'build').resolve()) or folder.exists():
+    namespace=owned_namespace(bound['owner'] if bound else 'osr-v06-'+secrets.token_hex(6));run_id=namespace.removeprefix('osr-v06-')
+    folder=Path(bound['fixture_dir']) if bound else Path(output or ROOT/'build/v06-platform-native'/namespace).absolute()
+    if (not bound and not folder.resolve().is_relative_to((ROOT/'build').resolve())) or folder.exists():
         raise ValueError('Fresh private directory inside this checkout build/ required')
     folder.mkdir(parents=True,mode=0o700);folder.chmod(0o700)
     log=folder/'native-log.txt';private(log,'Explicit native v06 software acceptance; physical gates remain open.\n')
@@ -161,13 +172,7 @@ def run(output=None,review_pack=None,proposal=None,component_id=None):
     if len(set(ports.values()))!=3:raise RuntimeError('Loopback port collision; rerun with a fresh allocation')
     site=namespace+'.localhost';erp_url='http://127.0.0.1:'+str(ports['erp']);gw_url='http://127.0.0.1:'+str(ports['gateway']);fx_url='http://127.0.0.1:'+str(ports['fuxa'])
     private(folder/'private.env','DB_PASSWORD='+secrets.token_hex(24)+'\nADMIN_PASSWORD='+secrets.token_hex(24)+'\nSITE_NAME='+site+'\nERP_PORT='+str(ports['erp'])+'\n')
-    service_names=('configurator','backend','frontend','websocket','queue-short','queue-long','scheduler','create-site')
-    override='services:\n'
-    for name in (*service_names,'db','redis-cache','redis-queue'):
-        override+='  '+name+':\n    labels:\n      '+LABEL+': '+namespace+'\n'
-        if pre['cpu_quota_supported']:override+='    cpus: 1.0\n'
-        if name in service_names:override+='    environment:\n      OPENBLAS_NUM_THREADS: \"1\"\n      OMP_NUM_THREADS: \"1\"\n      MKL_NUM_THREADS: \"1\"\n    volumes:\n      - '+str(ROOT/'deployment/erpnext/apps/osr_erpnext')+':/home/frappe/frappe-bench/apps/osr_erpnext:ro\n'
-    override+='volumes:\n'+''.join('  '+name+':\n    labels:\n      '+LABEL+': '+namespace+'\n' for name in ('sites','logs','db-data','redis-data'))
+    override=runner_binding.compose_overlay(namespace,ROOT,pre['cpu_quota_supported'],candidate=wheel)
     private(folder/'compose.override.yaml',override)
     base=['docker','compose','--env-file',str(folder/'private.env'),'-f',str(ROOT/'deployment/erpnext/compose.yaml'),'-f',str(folder/'compose.override.yaml'),'-p',namespace]
     def compose(*args,check=True):return invoke([*base,*args],log=log,timeout=600,check=check)
@@ -187,8 +192,8 @@ def run(output=None,review_pack=None,proposal=None,component_id=None):
         if invoke(['docker','ps','-aq','--filter','label=com.docker.compose.project='+namespace]).stdout.strip():
             raise RuntimeError('Refusing namespace collision')
         created=True
-        compose('up','-d','db','redis-cache','redis-queue','configurator','backend','websocket','frontend','queue-short','queue-long','scheduler')
-        compose('run','--rm','create-site');poll(lambda:http(erp_url+'/api/method/ping').get('message')=='pong',180)
+        compose('up',*(['--no-build','--pull','never'] if wheel else []),'-d','db','redis-cache','redis-queue','configurator','backend','websocket','frontend','queue-short','queue-long','scheduler')
+        compose('run',*(['--pull','never'] if wheel else []),'--rm','create-site');poll(lambda:http(erp_url+'/api/method/ping').get('message')=='pong',180)
         backend=container('backend');invoke(['docker','exec',backend,'mkdir','-p','/tmp/osr-native-v06'],log=log)
         for p in [*FIXTURES.glob('*.py'),folder/'input.json']:
             invoke(['docker','cp',str(p),backend+':/tmp/osr-native-v06/'+p.name],log=log)
@@ -286,10 +291,10 @@ def run(output=None,review_pack=None,proposal=None,component_id=None):
             native_records=readback['records'],business_review=readback['review'],qa_binding=readback['binding'],review_context=readback['review_context'],
             outage=dict(before=before,after=after),checks={key:True for key in sorted(required)},uncovered=[],
             scope=value['scope'] if wheel else 'One synthetic HVAC kit conversion; native software/business transactions, no physical manufacturing or railway release',**FLAGS)
-        if wheel:result.update(candidate_mapping=readback['candidate_mapping'],candidate_lifecycle=readback['candidate_lifecycle'],document_coverage=value['review_pack']['coverage'])
+        if wheel:result.update(candidate_mapping=readback['candidate_mapping'],candidate_lifecycle=readback['candidate_lifecycle'],document_coverage=value['review_pack']['coverage'],run_binding=bound,acceptance_state='awaiting-resource-supervision')
         # Deliberately exclude private configuration, user/API credentials,
         # databases, raw state and logs from the reviewable public evidence.
-        print('Native covered lifecycle completed; checking teardown before publishing evidence')
+        print('Native lifecycle executed; checking owned teardown before staging evidence') if wheel else print('Native covered lifecycle completed; checking teardown before publishing evidence')
     except BaseException as exc:
         private(folder/'failure.json',encoded(dict(execution='failed',error_type=type(exc).__name__,elapsed_seconds=round(time.monotonic()-start,3),
             input_id=value['input_id'],source_sha256=source,uncovered=sorted(required),**FLAGS)))
@@ -328,7 +333,11 @@ def run(output=None,review_pack=None,proposal=None,component_id=None):
         evidence=folder/'evidence';evidence.mkdir();private(evidence/'result.json',encoded(result))
         shutil.copyfile(folder/'fuxa.png',evidence/'fuxa.png')
         private(evidence/'manifest.json',encoded(dict(schema='osr-v06-platform-evidence/1',files_sha256={p.name:sha256(p.read_bytes()).hexdigest() for p in evidence.iterdir()})))
-        verify(evidence,review_pack,proposal,component_id);print('PASS native v06 software/business acceptance: '+str(evidence))
+        if wheel:
+            verify_lifecycle(evidence,review_pack,proposal,component_id)
+            print('STAGED candidate lifecycle evidence; completed supervisor receipt and final verify are still required: '+str(evidence))
+        else:
+            verify(evidence,review_pack,proposal,component_id);print('PASS native v06 software/business acceptance: '+str(evidence))
     return result
 
 
@@ -341,6 +350,8 @@ def main():
     elif args.action=='run':run(args.output,*options)
     else:
         if args.output is None:parser.error('verify requires --output <evidence directory>')
-        verify(args.output,*options);print('PASS retained source-bound native evidence; physical gates remain open')
+        verified=verify(args.output,*options)
+        if verified['schema']=='osr-v06-native-candidate-acceptance/1':print(json.dumps(verified,sort_keys=True,indent=2))
+        else:print('PASS retained source-bound native evidence; physical gates remain open')
 
 if __name__=='__main__':main()
