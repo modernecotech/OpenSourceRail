@@ -131,12 +131,24 @@ Physical acceptance, manufacturing and operating release are false.
 '''
 
 
-def artifacts(study,root=ROOT):
-    values={'summary.json':encoded(summary(study)),'study.json.gz':gzip.compress(encoded(study),mtime=0),
+def artifacts(study,root=ROOT,*,include_study=True):
+    values={'summary.json':encoded(summary(study)),
             'README.md':readme(study).encode(),'frontier.json':encoded(frontier(study)),
             'requirements.json':encoded(requirement_context(study))}
+    if include_study:values['study.json.gz']=gzip.compress(encoded(study),mtime=0)
     for name in ('index.html','app.css','app.js'):values[name]=(Path(root)/'engineering/railway_closure/web'/name).read_bytes()
     return values
+
+
+def study_value(raw):
+    """Authenticate canonical JSON independently of the gzip implementation.
+
+    The publication manifest still authenticates the exact compressed bytes.
+    Gzip headers and deflate streams may differ across supported runtimes.
+    """
+    data=gzip.decompress(raw);value=json.loads(data)
+    if data!=encoded(value):raise ValueError('Canonical study encoding differs')
+    return value
 
 
 def publish(run,*,root=ROOT,output=None,native_cad_evidence=None):
@@ -253,7 +265,7 @@ def verify(*,root=ROOT,output=None):
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('Publication manifest differs')
     files={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file() and p!=out/'manifest.json'}
     if files!=m['files_sha256'] or m['source_sha256']!=coordinator.sources(root):raise ValueError('Publication source/artifact changed')
-    study=json.loads(gzip.decompress((out/'study.json.gz').read_bytes()))
+    study=study_value((out/'study.json.gz').read_bytes())
     if study['study_id']!=identity({k:v for k,v in study.items() if k!='study_id'}) or study['study_id']!=m['study_id']:
         raise ValueError('Study seal differs')
     run=json.loads((out/'run-manifest.json').read_bytes())
@@ -270,7 +282,7 @@ def verify(*,root=ROOT,output=None):
             or proof['manifest']['civil_evaluation_id']!=study['civil']['evaluation_id']
             or proof['manifest']['input_load_evaluation_id']!=axles['evaluation_id']):
             raise ValueError('Current civil proof belongs to a different candidate/load evaluation')
-    for name,raw in artifacts(study,root).items():
+    for name,raw in artifacts(study,root,include_study=False).items():
         if (out/name).read_bytes()!=raw:raise ValueError('Generated decision view differs: '+name)
     body=json.loads(gzip.decompress((out/'vehicle/installation.json.gz').read_bytes()))
     if (out/'native-cad').exists():verify_cad(out/'native-cad',body,root)

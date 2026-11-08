@@ -1,11 +1,11 @@
 """Real Workbench routes and native-proof rejection for the public dossier."""
 from copy import deepcopy
 from pathlib import Path
-import gzip,json,threading,urllib.request,urllib.error
+import gzip,json,threading,urllib.request,urllib.error,shutil
 import pytest
 from engineering.development_baseline import server
 from engineering.railway_closure import ROOT,publication,coordinator,web_assets,fleet
-from engineering.station_rail.common import identity
+from engineering.station_rail.common import identity,encoded,digest
 
 
 @pytest.fixture(scope='module')
@@ -58,3 +58,23 @@ def test_abrupt_component_force_cannot_pass_nominal_screen(study):
     next(d for d in result['departures'] if d['journey'])['energy']['release_control']['forced_cutoffs']=1
     assert fleet.screen(result,record['service'])['tests']['component_force_slew'] is False
     assert fleet.screen(result,record['service'])['nominal_model_screen'] is False
+
+
+def test_legal_gzip_repacking_keeps_inner_provenance_and_outer_tamper_guard(tmp_path):
+    out=tmp_path/'repacked';shutil.copytree(ROOT/publication.OUTPUT,out)
+    payload=out/'study.json.gz';raw=bytearray(payload.read_bytes());raw[9]=3 if raw[9]!=3 else 255
+    payload.write_bytes(raw)
+    with pytest.raises(ValueError,match='source/artifact changed'):publication.verify(root=ROOT,output=out)
+    def seal_transport():
+        m=json.loads((out/'manifest.json').read_bytes())
+        m['files_sha256']['study.json.gz']=digest(payload)
+        m.pop('manifest_id');m['manifest_id']=identity(m)
+        (out/'manifest.json').write_bytes(encoded(m))
+        return m
+    m=seal_transport()
+    result=publication.verify(root=ROOT,output=out)
+    assert result['verified'] and result['study_id']==m['study_id']
+    changed=json.loads(gzip.decompress(payload.read_bytes()))
+    changed['records'][0]['result']['normal_arrivals']+=1
+    payload.write_bytes(gzip.compress(encoded(changed),mtime=0));seal_transport()
+    with pytest.raises(ValueError,match='Study seal differs'):publication.verify(root=ROOT,output=out)

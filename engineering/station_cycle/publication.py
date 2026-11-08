@@ -249,7 +249,9 @@ def verify(*,root=ROOT,output=None,replay=False,state=None):
         if record['cost']!=cost or record['row']!=coordinator.row(meta,r,cost,p,brief):raise ValueError('Cycle cost or presentation differs')
     if study.get('financial_evaluations')!=len(costs):raise ValueError('Financial dependency reuse count differs')
     for name,raw in artifacts(study,root).items():
-        if (output/name).read_bytes()!=raw:raise ValueError('Generated cycle file differs: '+name)
+        actual=(output/name).read_bytes()
+        if name.endswith('.gz'):actual=gzip.decompress(actual);raw=gzip.decompress(raw)
+        if actual!=raw:raise ValueError('Generated cycle file differs: '+name)
     count=0
     if replay:
         if state is None:raise ValueError('Private replay directory required')
