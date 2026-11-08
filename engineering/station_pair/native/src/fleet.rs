@@ -2,6 +2,11 @@
 //! traction. Terminal motion and route clearance are explicit assumed budgets.
 use super::*;
 use crate::cycle::{Ledger, LegEnergy, ReleaseControl, Station, StationState};
+#[path = "fleet_network.rs"]
+mod network;
+pub use network::{
+    DirectedRoute, GeometryBinding, NetworkDiagnostics, NetworkPosition, ResearchNetwork,
+};
 
 pub const REQUEST_SCHEMA: &str = "osr-station-fleet-request/1";
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -40,6 +45,8 @@ pub struct Departure {
     pub reset_failed: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub requested_train_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub route_id: Option<String>,
 }
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -52,6 +59,8 @@ pub struct FleetCase {
     pub departures: Vec<Departure>,
     pub turnaround_s: f64,
     pub clearance_s: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub network: Option<ResearchNetwork>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct TrainState {
@@ -64,6 +73,8 @@ pub struct TrainState {
     pub pending_rescue: bool,
     pub drive_temperature_c: Option<f64>,
     pub temperature_time_s: f64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub network_position: Option<NetworkPosition>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct RouteState {
@@ -71,6 +82,8 @@ pub struct RouteState {
     pub arrival_station_id: String,
     pub occupied_until_s: f64,
     pub pending_rescue: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub route_id: Option<String>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct FleetEvent {
@@ -104,6 +117,8 @@ pub struct DepartureResult {
     pub recovery_reasons: Vec<String>,
     pub mechanical_steps: usize,
     pub thermal_result_basis: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub route_id: Option<String>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct FleetResult {
@@ -136,6 +151,8 @@ pub struct FleetResult {
     pub operating_release: bool,
     pub admitted_operating_map: bool,
     pub limitations: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub network: Option<NetworkDiagnostics>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct BatchResult {
@@ -219,6 +236,8 @@ struct LiveLeg {
     train: usize,
     dep: usize,
     arr: usize,
+    route: usize,
+    direction: f64,
     leg: Leg,
     steps: Vec<MechanicalStep>,
     arrival_temperature: Option<f64>,
@@ -298,7 +317,7 @@ fn validate(c: &FleetCase) -> Result<(), String> {
     if c.id.is_empty()
         || c.candidate_id.len() != 64
         || !c.candidate_id.bytes().all(|x| x.is_ascii_hexdigit())
-        || c.stations.len() != 2
+        || (c.network.is_none() && c.stations.len() != 2)
         || c.trains.is_empty()
         || c.trains.len() > 16
         || c.departures.is_empty()
@@ -309,18 +328,33 @@ fn validate(c: &FleetCase) -> Result<(), String> {
         return Err("Explicit same-candidate two-station fleet,1..16trains,1..64departures, turn and positive clearance budgets required".into());
     }
     let distance = c.departures[0].journey.distance_m;
-    if c.stations[0].id == c.stations[1].id
-        || c.stations.iter().any(|s| !station_valid(s, distance))
-    {
-        return Err("Distinct valid explicit station stores and transfer domains required".into());
+    if let Some(network) = &c.network {
+        network.validate(c)?;
+    } else {
+        if c.stations[0].id == c.stations[1].id
+            || c.stations.iter().any(|s| !station_valid(s, distance))
+        {
+            return Err(
+                "Distinct valid explicit station stores and transfer domains required".into(),
+            );
+        }
     }
     let mut ids = HashSet::new();
     for t in &c.trains {
         if t.id.is_empty()
             || !ids.insert(t.id.clone())
             || !c.stations.iter().any(|s| s.id == t.initial_station_id)
-            || !nonneg(t.initial_position_m)
-            || t.initial_position_m > c.departures[0].journey.berth_tolerance_m
+            || if c.network.is_some() {
+                !t.initial_position_m.is_finite()
+                    || t.initial_position_m.abs()
+                        > c.departures
+                            .iter()
+                            .map(|d| d.journey.berth_tolerance_m)
+                            .fold(f64::INFINITY, f64::min)
+            } else {
+                !nonneg(t.initial_position_m)
+                    || t.initial_position_m > c.departures[0].journey.berth_tolerance_m
+            }
             || !nonneg(t.ready_at_s)
             || t.initial_drive_temperature_c
                 .is_some_and(|v| !v.is_finite() || v < -273.15)
@@ -334,7 +368,7 @@ fn validate(c: &FleetCase) -> Result<(), String> {
         if d.id.is_empty()
             || !ids.insert(d.id.clone())
             || d.journey.candidate_id != c.candidate_id
-            || d.journey.distance_m != distance
+            || (c.network.is_none() && (d.journey.distance_m != distance || d.route_id.is_some()))
             || d.journey.control.is_none()
             || !nonneg(d.departure_time_s)
             || d.departure_time_s > 172800.
@@ -421,8 +455,12 @@ impl<'a> Engine<'a> {
             .iter()
             .position(|s| s.id == d.departure_station_id)
             .unwrap();
-        let arr = 1 - dep;
-        let route = &self.routes[dep];
+        let (dep, arr, route_index, direction) = if let Some(n) = &self.input.network {
+            n.indices(self.input, d)
+        } else {
+            (dep, 1 - dep, dep, 1.)
+        };
+        let route = &self.routes[route_index];
         let eligible = |i: usize| {
             let t = &self.trains[i];
             t.role == TrainRole::Active
@@ -459,13 +497,25 @@ impl<'a> Engine<'a> {
         } else {
             None
         };
-        let mut result=DepartureResult{id:d.id.clone(),train_id:selected.map(|i|self.trains[i].id.clone()),state:"departure-held".into(),hold_reason:reason.map(str::to_string),departure_station_id:d.departure_station_id.clone(),arrival_station_id:d.arrival_station_id.clone(),departure_time_s:self.now,arrival_time_s:None,initial_position_m:None,initial_drive_temperature_c:None,actual_applied_case:None,source_domain:None,journey:None,energy:LegEnergy::default(),release_bypassed:false,capture_bypassed:false,recovery_reasons:vec![],mechanical_steps:0,thermal_result_basis:"Conservative full-grid drive-loss RC proxy; actual allocation losses separate; hardware calibration and store thermal limits unverified".into()};
+        let mut result=DepartureResult{id:d.id.clone(),train_id:selected.map(|i|self.trains[i].id.clone()),state:"departure-held".into(),hold_reason:reason.map(str::to_string),departure_station_id:d.departure_station_id.clone(),arrival_station_id:d.arrival_station_id.clone(),departure_time_s:self.now,arrival_time_s:None,initial_position_m:None,initial_drive_temperature_c:None,actual_applied_case:None,source_domain:None,journey:None,energy:LegEnergy::default(),release_bypassed:false,capture_bypassed:false,recovery_reasons:vec![],mechanical_steps:0,thermal_result_basis:"Conservative full-grid drive-loss RC proxy; actual allocation losses separate; hardware calibration and store thermal limits unverified".into(),route_id:d.route_id.clone()};
         if reason.is_some() {
             self.results[index] = result;
             return Ok(());
         }
         let train = selected.unwrap();
-        let initial_x = self.trains[train].initial_position_m;
+        let initial_x = if self.input.network.is_some() {
+            direction * self.trains[train].initial_position_m
+        } else {
+            self.trains[train].initial_position_m
+        };
+        if self.input.network.is_some()
+            && (initial_x < 0. || initial_x > d.journey.berth_tolerance_m)
+        {
+            result.initial_position_m = Some(initial_x);
+            result.hold_reason = Some("Signed outgoing station offset lies outside the retained nonnegative entry domain; physical coordinate-rebase/entry geometry and drive coverage remain unsupported".into());
+            self.results[index] = result;
+            return Ok(());
+        }
         let initial_temp = self.train_temperature_at(train, self.now);
         result.initial_position_m = Some(initial_x);
         result.initial_drive_temperature_c = initial_temp;
@@ -521,7 +571,12 @@ impl<'a> Engine<'a> {
         self.trains[train].station_id = None;
         self.trains[train].drive_temperature_c = initial_temp;
         self.trains[train].temperature_time_s = self.now;
-        self.routes[dep].occupied_until_s = self.now
+        if let Some(p) = self.trains[train].network_position.as_mut() {
+            p.station_offset_m = None;
+            p.route_id = d.route_id.clone();
+            p.route_position_m = Some(initial_x);
+        }
+        self.routes[route_index].occupied_until_s = self.now
             + self.results[index].journey.as_ref().unwrap().elapsed_s
             + self.input.clearance_s;
         let leg = Leg {
@@ -560,6 +615,8 @@ impl<'a> Engine<'a> {
             train,
             dep,
             arr,
+            route: route_index,
+            direction,
             leg,
             steps,
             arrival_temperature: motion.arrival_temperature_c,
@@ -883,9 +940,9 @@ impl<'a> Engine<'a> {
         Ok(())
     }
     fn arrival(&mut self, li: usize) -> Result<(), String> {
-        let (result_index, train, dep, arr) = {
+        let (result_index, train, dep, arr, route, direction) = {
             let l = &self.live[li];
-            (l.result_index, l.train, l.dep, l.arr)
+            (l.result_index, l.train, l.dep, l.arr, l.route, l.direction)
         };
         let live = &mut self.live[li];
         let row = &mut self.results[result_index];
@@ -929,15 +986,24 @@ impl<'a> Engine<'a> {
         if j.normal_numerical_arrival {
             row.state = "arrived".into();
             self.trains[train].station_id = Some(self.input.stations[arr].id.clone());
-            self.trains[train].initial_position_m =
-                (live.leg.journey.distance_m - j.final_position_m).max(0.);
+            self.trains[train].initial_position_m = if self.input.network.is_some() {
+                direction * (j.final_position_m - live.leg.journey.distance_m)
+            } else {
+                (live.leg.journey.distance_m - j.final_position_m).max(0.)
+            };
+            let station_offset = self.trains[train].initial_position_m;
+            if let Some(p) = self.trains[train].network_position.as_mut() {
+                p.station_offset_m = Some(station_offset);
+                p.route_id = None;
+                p.route_position_m = None;
+            }
             self.trains[train].ready_at_s =
                 self.now + live.leg.journey.dwell_s + self.input.turnaround_s;
-            self.routes[dep].occupied_until_s = self.now + self.input.clearance_s;
+            self.routes[route].occupied_until_s = self.now + self.input.clearance_s;
             self.push(
-                self.routes[dep].occupied_until_s,
+                self.routes[route].occupied_until_s,
                 1,
-                Action::RouteClear(dep),
+                Action::RouteClear(route),
             );
             if self.banks[arr]
                 .owner
@@ -960,7 +1026,12 @@ impl<'a> Engine<'a> {
             row.hold_reason=Some("Actual motion failed its declared arrival; dedicated route stays occupied pending rescue".into());
             self.trains[train].pending_rescue = true;
             self.trains[train].station_id = None;
-            self.routes[dep].pending_rescue = true;
+            self.routes[route].pending_rescue = true;
+            if let Some(p) = self.trains[train].network_position.as_mut() {
+                p.station_offset_m = None;
+                p.route_id = row.route_id.clone();
+                p.route_position_m = Some(j.final_position_m);
+            }
             for station in [dep, arr] {
                 if self.banks[station].owner.is_some_and(|o| o.leg == li) {
                     self.ledger.unperformed_reset_grid_energy_j +=
@@ -1020,7 +1091,15 @@ impl<'a> Engine<'a> {
                             self.now,
                             "dedicated-route-clearance-budget-complete",
                             None,
-                            Some(s),
+                            Some(if self.input.network.is_some() {
+                                self.input
+                                    .stations
+                                    .iter()
+                                    .position(|q| q.id == self.routes[s].departure_station_id)
+                                    .unwrap()
+                            } else {
+                                s
+                            }),
                             None,
                             None,
                             None,
@@ -1072,7 +1151,7 @@ impl<'a> Engine<'a> {
             .thermal_model
             .as_ref()
             .is_some_and(|m| self.maximum_temperature.is_some_and(|t| t <= m.maximum_c));
-        Ok(FleetResult{id:self.input.id.clone(),candidate_id:self.input.candidate_id.clone(),state:if !energy_valid{"numerical-energy-held"}else if complete{"schedule-numerically-complete"}else{"schedule-held"}.into(),requested_departures:self.input.departures.len(),dispatched_departures:dispatched,normal_arrivals:arrivals,blocked_departures:self.input.departures.len()-dispatched,active_trains:self.trains.iter().filter(|t|t.role==TrainRole::Active).count(),spare_trains:self.trains.iter().filter(|t|t.role==TrainRole::Spare).count(),departures:self.results,station_states:self.banks.into_iter().map(|b|b.state).collect(),train_states:self.trains,route_states:self.routes,ledger:self.ledger,events:self.events,simulation_end_time_s:self.now,maximum_thermal_proxy_temperature_c:self.maximum_temperature,numerical_thermal_limits_met:thermal,schedule_numerical_complete:complete,terminal_dynamics_supported:false,route_separation_qualified:false,thermal_duty_verified:false,auxiliary_duty_complete:false,conditional:true,physical_accepted:false,engineering_accepted:false,operating_release:false,admitted_operating_map:false,limitations:vec![
+        Ok(FleetResult{id:self.input.id.clone(),candidate_id:self.input.candidate_id.clone(),state:if !energy_valid{"numerical-energy-held"}else if complete{"schedule-numerically-complete"}else{"schedule-held"}.into(),requested_departures:self.input.departures.len(),dispatched_departures:dispatched,normal_arrivals:arrivals,blocked_departures:self.input.departures.len()-dispatched,active_trains:self.trains.iter().filter(|t|t.role==TrainRole::Active).count(),spare_trains:self.trains.iter().filter(|t|t.role==TrainRole::Spare).count(),departures:self.results,station_states:self.banks.into_iter().map(|b|b.state).collect(),train_states:self.trains,route_states:self.routes,ledger:self.ledger,events:self.events,simulation_end_time_s:self.now,maximum_thermal_proxy_temperature_c:self.maximum_temperature,numerical_thermal_limits_met:thermal,schedule_numerical_complete:complete,terminal_dynamics_supported:false,route_separation_qualified:false,thermal_duty_verified:false,auxiliary_duty_complete:false,conditional:true,physical_accepted:false,engineering_accepted:false,operating_release:false,admitted_operating_map:false,network:self.input.network.as_ref().map(ResearchNetwork::diagnostics),limitations:vec![
             "Shared-bank transactions commit at accepted mechanical-step endpoints under exclusive resource ownership. Capture cannot credit an earlier launch; ready/locked/busy recovery bypasses to independent grid/friction".into(),
             "Only grid-substitution mode is supported; exact mechanical steps are generated under independently available grid ratings and conservative full-grid thermal losses before shared-store accounting".into(),
             "Terminal turn/staging and dedicated-route clearance are explicit time budgets, not verified finite-train geometry, interlocking, passenger dwell, manoeuvre dynamics or operating protection".into(),
@@ -1112,6 +1191,11 @@ pub fn evaluate(c: &FleetCase) -> Result<FleetResult, String> {
             pending_rescue: false,
             drive_temperature_c: t.initial_drive_temperature_c,
             temperature_time_s: 0.,
+            network_position: c.network.as_ref().map(|_| NetworkPosition {
+                station_offset_m: Some(t.initial_position_m),
+                route_id: None,
+                route_position_m: None,
+            }),
         })
         .collect();
     let mut engine = Engine {
@@ -1121,20 +1205,35 @@ pub fn evaluate(c: &FleetCase) -> Result<FleetResult, String> {
         serial: 0,
         banks: stations,
         trains,
-        routes: vec![
-            RouteState {
-                departure_station_id: c.stations[0].id.clone(),
-                arrival_station_id: c.stations[1].id.clone(),
-                occupied_until_s: 0.,
-                pending_rescue: false,
-            },
-            RouteState {
-                departure_station_id: c.stations[1].id.clone(),
-                arrival_station_id: c.stations[0].id.clone(),
-                occupied_until_s: 0.,
-                pending_rescue: false,
-            },
-        ],
+        routes: if let Some(n) = &c.network {
+            n.routes
+                .iter()
+                .map(|r| RouteState {
+                    departure_station_id: r.from_station_id.clone(),
+                    arrival_station_id: r.to_station_id.clone(),
+                    occupied_until_s: 0.,
+                    pending_rescue: false,
+                    route_id: Some(r.id.clone()),
+                })
+                .collect()
+        } else {
+            vec![
+                RouteState {
+                    departure_station_id: c.stations[0].id.clone(),
+                    arrival_station_id: c.stations[1].id.clone(),
+                    occupied_until_s: 0.,
+                    pending_rescue: false,
+                    route_id: None,
+                },
+                RouteState {
+                    departure_station_id: c.stations[1].id.clone(),
+                    arrival_station_id: c.stations[0].id.clone(),
+                    occupied_until_s: 0.,
+                    pending_rescue: false,
+                    route_id: None,
+                },
+            ]
+        },
         results: vec![],
         live: vec![],
         events: vec![],
@@ -1170,10 +1269,24 @@ pub fn evaluate(c: &FleetCase) -> Result<FleetResult, String> {
             recovery_reasons: vec![],
             mechanical_steps: 0,
             thermal_result_basis: "Not executed".into(),
+            route_id: c.departures[i].route_id.clone(),
         })
         .collect();
-    for (i, d) in c.departures.iter().enumerate() {
-        engine.push(d.departure_time_s, 4, Action::Departure(i));
+    if c.network.is_some() {
+        let mut order: Vec<_> = (0..c.departures.len()).collect();
+        order.sort_by(|a, b| {
+            c.departures[*a]
+                .departure_time_s
+                .total_cmp(&c.departures[*b].departure_time_s)
+                .then_with(|| c.departures[*a].id.cmp(&c.departures[*b].id))
+        });
+        for i in order {
+            engine.push(c.departures[i].departure_time_s, 4, Action::Departure(i));
+        }
+    } else {
+        for (i, d) in c.departures.iter().enumerate() {
+            engine.push(d.departure_time_s, 4, Action::Departure(i));
+        }
     }
     engine.run()
 }

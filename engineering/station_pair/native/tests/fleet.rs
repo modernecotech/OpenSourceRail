@@ -68,6 +68,7 @@ fn fleet(headway: f64, phase: f64, active: usize) -> FleetCase {
                 release_failed: false,
                 reset_failed: false,
                 requested_train_id: None,
+                route_id: None,
             }
         })
         .collect();
@@ -80,6 +81,7 @@ fn fleet(headway: f64, phase: f64, active: usize) -> FleetCase {
         departures,
         turnaround_s: 45.,
         clearance_s: 3.,
+        network: None,
     }
 }
 #[test]
