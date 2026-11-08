@@ -307,16 +307,74 @@ def zip_bytes(files):
     return data.getvalue()
 
 
+def published_binding(slug, packet, root=ROOT):
+    from engineering.outline import publication_cache
+    detail=publication_cache.json_member('cities/'+slug+'.json.gz',root)
+    seed=detail['planning_seed']
+    return dict(kind='published',city_slug=slug,packet_id=packet['packet_id'],
+        base_seed_id=seed['seed_id'],source_outline_evaluation_id=detail['evaluation_id'],
+        reference_candidate_ids=seed['reference_candidate_ids'])
+
+
+def study_input(study_id, *, root=ROOT, service=None):
+    """Only local verified immutable jobs can become iterative GIS bases."""
+    from engineering.outline import city_workflow,city_atlas_api
+    from engineering.city_reports import maps
+    root=Path(root).resolve()
+    if not re.fullmatch('[a-f0-9]{32}',study_id):raise ValueError('Known immutable city study required')
+    folder=_local(root,'build/city-studies/'+study_id+'/artifacts')
+    if service is not None:
+        if service.status(study_id)['state']!='completed':raise ValueError('Completed city study required')
+        manifest=service._verify(folder)
+    else:manifest=city_workflow.verify(folder,root=root,replay=False)
+    workflow=city_workflow.read_json(folder,'result.json')
+    packet=city_atlas_api.from_verified_study(root,workflow)
+    plan=json.loads((folder/'planning.json').read_bytes())
+    originals={'sources/study-manifest.json':(folder/'manifest.json').read_bytes(),
+        'sources/study-result.json.gz':(folder/'result.json.gz').read_bytes(),
+        'sources/planning.json':(folder/'planning.json').read_bytes(),
+        'sources/atlas.json.gz':gzip.compress(encoded(packet),mtime=0)}
+    source_layers=maps.geojson_layers(packet)
+    originals.update({'sources/gis/'+name+'.geojson.gz':gzip.compress(encoded(layer),mtime=0)
+        for name,layer in source_layers.items()})
+    background=None
+    if packet.get('map_context'):
+        ref=packet['map_context'];path=_local(root,ref['path'])
+        if digest(path)!=ref['sha256']:raise ValueError('Study background source changed')
+        raw=path.read_bytes();originals['sources/map-context.json.gz']=raw
+        with gzip.GzipFile(fileobj=io.BytesIO(raw)) as stream:data=stream.read(32*1024**2+1)
+        if len(data)>32*1024**2:raise ValueError('Bounded city map background required')
+        background=json.loads(data)
+    binding=dict(kind='study',city_slug=packet['city']['slug'],packet_id=packet['packet_id'],
+        base_study_id=study_id,base_manifest_id=manifest['manifest_id'],base_revision_sha256=plan['revision_sha256'],
+        source_outline_evaluation_id=workflow['source_outline_evaluation_id'],
+        reference_candidate_ids=plan['outline_context']['seed']['reference_candidate_ids'])
+    return packet,background,originals,source_layers,manifest,binding
+
+
+def export_study(study_id, *, root=ROOT, service=None, output=None, preview=False):
+    packet,background,originals,layers,dossier,binding=study_input(study_id,root=root,service=service)
+    return _export(packet,background,originals,layers,dossier,binding,
+        root=Path(root).resolve(),output=output,preview=preview)
+
+
 def export(slug, *, root=ROOT, context=None, output=None, preview=False):
     context = inputs(root) if context is None else context
     root = context[0]
     packet, background, originals, source_layers, dossier = city_input(slug, context)
+    return _export(packet,background,originals,source_layers,dossier,published_binding(slug,packet,root),
+        root=root,output=output,preview=preview)
+
+
+def _export(packet,background,originals,source_layers,dossier,binding,*,root,output=None,preview=False):
+    slug=packet['city']['slug']
     expected_inputs = dict(packet_id=packet['packet_id'], city=packet['city'], identity=packet['identity'],
-        dossier_manifest_id=dossier['manifest_id'],
+        dossier_manifest_id=dossier['manifest_id'],revision_binding=binding,
         input_sha256={k:sha256(v).hexdigest() for k,v in originals.items()})
     tool = lock_record();sources = source_hashes(root)
     key = identity(dict(packet_id=packet['packet_id'], dossier=dossier['manifest_id'],
-        sources=sources, tool=tool, original_sha256={k:sha256(v).hexdigest() for k,v in originals.items()}, preview=preview))
+        sources=sources, tool=tool, original_sha256={k:sha256(v).hexdigest() for k,v in originals.items()}, preview=preview,
+        revision_binding=binding))
     folder = (cache_root() if output is None else Path(output).resolve())/slug/key
     folder.mkdir(parents=True, exist_ok=True)
     with (folder/'coordinator.lock').open('a+') as lock:
@@ -332,7 +390,14 @@ def export(slug, *, root=ROOT, context=None, output=None, preview=False):
         # Keep failed/interrupted native executions in separate attempt directories.
         run = Path(tempfile.mkdtemp(prefix='attempt-', dir=folder))
         (run/'layers').mkdir();(run/'roundtrip').mkdir()
-        all_layers = {**context_layers(background), **source_layers}
+        all_layers = {**context_layers(background), **deepcopy(source_layers)}
+        service_by={line['line_id']:line for line in packet['lines']}
+        for feature in all_layers['routes']['features']:
+            line=service_by[feature['properties']['line_id']]
+            feature['properties'].update(shape=line['shape'],headway_s=line['requirements']['headway_s'],
+                design_speed_cap_m_s=line['design']['speed_m_s'])
+        all_layers['_osr_export_context']=dict(type='FeatureCollection',features=[dict(type='Feature',
+            geometry=None,properties=dict(export_key=key,binding_json=encoded(binding).decode().strip(),data_crs='EPSG:4326'))])
         for name, layer in all_layers.items():
             (run/'layers'/str(name+'.geojson')).write_bytes(encoded(prepared(layer)))
         project = slug+'.rgis'
@@ -356,10 +421,12 @@ def export(slug, *, root=ROOT, context=None, output=None, preview=False):
             'Coordinates are WGS84 lon/lat. Display projection is Web Mercator; do not use map pixels for quantities.\n'
             'Sources and tables are the exact selected OSR outline. Nested attributes are JSON text in native tables.\n'
             'Unlocated requirements remain null geometry. No physical, procurement or operating approval.\n'
-            'Cost/service changes require the OSR evaluator; editing the GIS project does not reprice the railway.\n')
+            'After editing routes/stations, import this .rgis in the local OSR city atlas to reprice with the same evaluator.\n'
+            'Editable route fields: shape, headway_s and design_speed_cap_m_s; station dwell_s. All resulting physics/cost remains conditional.\n'
+            'Keep the hidden _osr_export_context table unchanged. Only declared geometry/station/service edits are accepted.\n')
         contents['READ-ME.txt'] = notice.encode()
         m = dict(schema=SCHEMA, city=packet['city'], packet_id=packet['packet_id'],
-            identity=packet['identity'], dossier_manifest_id=dossier['manifest_id'],
+            identity=packet['identity'], dossier_manifest_id=dossier['manifest_id'],revision_binding=binding,
             tool=tool, source_sha256=sources, input_sha256={k:sha256(v).hexdigest() for k,v in originals.items()},
             key=key, project=project, display_projection='EPSG:3857', data_crs='EPSG:4326',
             roundtrip=roundtrips, attribution=(background or {}).get('attribution', []),
@@ -392,17 +459,23 @@ def verify(folder, *, root=ROOT, expected_inputs=None):
             or m.get('railway_calculations_changed') is not False):
         raise ValueError('GIS export cannot grant release')
     if expected_inputs is None:
-        packet, _, originals, _, dossier = city_input(m['city']['slug'], inputs(root))
+        if m.get('revision_binding',{}).get('kind')=='study':
+            packet,_,originals,_,dossier,binding=study_input(m['revision_binding']['base_study_id'],root=root)
+        else:
+            packet, _, originals, _, dossier = city_input(m['city']['slug'], inputs(root))
+            binding=published_binding(m['city']['slug'],packet,root)
         expected_inputs = dict(packet_id=packet['packet_id'], city=packet['city'], identity=packet['identity'],
-            dossier_manifest_id=dossier['manifest_id'],
+            dossier_manifest_id=dossier['manifest_id'],revision_binding=binding,
             input_sha256={k:sha256(v).hexdigest() for k,v in originals.items()})
     if any(m.get(k) != v for k,v in expected_inputs.items()):
         raise ValueError('GIS upstream city changed; rebuild export')
     if any(m['files_sha256'].get(n) != h for n,h in m['input_sha256'].items()):
         raise ValueError('GIS exact source member differs from authenticated input')
-    expected_key = identity(dict(packet_id=m['packet_id'], dossier=m['dossier_manifest_id'],
+    key_fields=dict(packet_id=m['packet_id'], dossier=m['dossier_manifest_id'],
         sources=m['source_sha256'], tool=m['tool'], original_sha256=m['input_sha256'],
-        preview=r['preview_sha256'] is not None))
+        preview=r['preview_sha256'] is not None)
+    if 'revision_binding' in m:key_fields['revision_binding']=m['revision_binding']
+    expected_key=identity(key_fields)
     if m.get('key') != expected_key or folder.name != expected_key:
         raise ValueError('GIS cache request identity differs')
     archive = folder/(m['city']['slug']+'.zip')

@@ -974,7 +974,12 @@ async function displayCityAtlas(packet, epoch, downloadUrl) {
   try {context=await atlasMapContext(packet);}catch(error){contextError=error.message;}
   if(epoch!==cityViewEpoch)return false;
   cityAtlasView?.destroy();
-  cityAtlasView=window.OSRCityAtlas.render(packet,null,{context,contextVerified:!!context,contextSource:packet.map_context,downloadUrl});
+  cityAtlasView=window.OSRCityAtlas.render(packet,null,{context,contextVerified:!!context,contextSource:packet.map_context,downloadUrl,
+    onImported:async job=>{
+      if(byId("city-outline-select").value!==packet.city.slug)return;
+      const revisionEpoch=++cityViewEpoch;
+      await displayMappedCityStudy(job,packet.city.slug,revisionEpoch);
+    }});
   window.OSRCityJourneys.mount(byId("city-atlas"),packet);
   if(contextError) {
     const note=document.createElement("p");note.className="note";note.textContent="Network calculations remain available; geographic background held: "+contextError;
@@ -1017,6 +1022,30 @@ byId("city-outline-load").addEventListener("click", async () => {
   finally {button.disabled = false;}
 });
 byId("city-outline-select").addEventListener("change", event=>showCityOutline(event.target.value));
+async function displayMappedCityStudy(job, slug, epoch) {
+  const selection=byId("city-outline-select"),status=byId("city-study-status");
+  const s=job.summary;
+  if(epoch!==cityViewEpoch || selection.value!==slug)return;
+  const packet=await atlasPacket(slug,job.job_id);
+  if(packet.identity.workflow_evaluation_id!==s.evaluation_id || packet.identity.research_configuration_id!==s.research_configuration_id)throw Error("Calculated map and study identities differ");
+  if(!await displayCityAtlas(packet,epoch,`/api/city-atlas/study/${job.job_id}`))return;
+  byId("city-outline-status").textContent=`${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0,12)}, including its actual geometry, service and costs.`;
+  byId("city-study-outcome").textContent=`${s.city.name}: ${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}. `+
+    `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. `+
+    `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; `+
+    (s.delivery.cases.base.target_met?"within the planning target. ":"the planning target needs revised resources, methods or dates. ")+
+    "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
+  const links=byId("city-study-links");links.replaceChildren();
+  for(const [file,label] of [["result.json","Complete calculated result"],["summary.json","City calculation summary"],["alignments.geojson","Alignment alternatives"],["performance.json","Calculation execution record"],["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
+    ["business-drafts.json","Disabled business-system drafts"],["manifest.json","Sources and artifact identities"]]) {
+    const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);
+  }
+  const edit=document.createElement("a");edit.href=`../planning/?city=${encodeURIComponent(slug)}&pricedRun=${job.job_id}`;
+  edit.textContent="Edit this outline and recalculate";links.prepend(edit);
+  byId("city-study-result").hidden=false;
+  showMaturity(s.outline_acceptance==="accepted",s.city.name);
+  status.textContent=`${job.cache_hit?"Reused the identical verified calculation":"Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0,12)}. Physical approval remains separate.`;
+}
 byId("city-study-options").addEventListener("submit",async event=>{
   event.preventDefault();
   const button=byId("city-study-start"),status=byId("city-study-status");
@@ -1041,27 +1070,7 @@ byId("city-study-options").addEventListener("submit",async event=>{
       job=await request("/api/city-studies/"+job.job_id);
     }
     if(job.state!=="completed")throw Error(job.error||"Calculation did not finish within its budget; artifacts were retained");
-    const s=job.summary;
-    if(epoch!==cityViewEpoch || selection.value!==slug)return;
-    const packet=await atlasPacket(slug,job.job_id);
-    if(packet.identity.workflow_evaluation_id!==s.evaluation_id || packet.identity.research_configuration_id!==s.research_configuration_id)throw Error("Calculated map and study identities differ");
-    if(!await displayCityAtlas(packet,epoch,`/api/city-atlas/study/${job.job_id}`))return;
-    byId("city-outline-status").textContent=`${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0,12)}, including its actual geometry, service and costs.`;
-    byId("city-study-outcome").textContent=`${s.city.name}: ${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}. `+
-      `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. `+
-      `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; `+
-      (s.delivery.cases.base.target_met?"within the planning target. ":"the planning target needs revised resources, methods or dates. ")+
-      "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
-    const links=byId("city-study-links");links.replaceChildren();
-    for(const [file,label] of [["result.json","Complete calculated result"],["summary.json","City calculation summary"],["alignments.geojson","Alignment alternatives"],["performance.json","Calculation execution record"],["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
-      ["business-drafts.json","Disabled business-system drafts"],["manifest.json","Sources and artifact identities"]]) {
-      const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);
-    }
-    const edit=document.createElement("a");edit.href=`../planning/?city=${encodeURIComponent(slug)}&pricedRun=${job.job_id}`;
-    edit.textContent="Edit this outline and recalculate";links.prepend(edit);
-    byId("city-study-result").hidden=false;
-    showMaturity(s.outline_acceptance==="accepted",s.city.name);
-    status.textContent=`${job.cache_hit?"Reused the identical verified calculation":"Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0,12)}. Physical approval remains separate.`;
+    await displayMappedCityStudy(job,slug,epoch);
   } catch(error) {status.textContent=`Unable to calculate this city: ${error.message}. Run the local Workbench with ./osr workbench.`;}
   finally {button.disabled=false;selection.disabled=false;}
 });

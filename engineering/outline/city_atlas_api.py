@@ -71,6 +71,22 @@ def published(root,slug=None):
     return value
 
 
+def from_verified_study(root,workflow):
+    """Presentation for an already authenticated local study, shared by GIS/UI."""
+    from . import city_atlas
+    value=city_atlas.from_study(workflow)
+    value['evidence']['outline_acceptance']=workflow['outline_acceptance']
+    selected=next(c for c in workflow['cases'] if c['alignment_id']==workflow['examined_alignment_id'])
+    value['evidence']['functional_screen']=selected['functional_screen']
+    delivery=workflow['delivery_plan']
+    value['delivery']=dict(plan_id=delivery['plan_id'],task_count=len(delivery['tasks']),
+        schedule_cases=delivery['schedule']['cases'],workforce=delivery['workforce'],
+        cost_reconciliation=delivery['cost_reconciliation'])
+    value['sources']['presentation_sha256'][PRODUCER]=digest(Path(root)/PRODUCER)
+    value.pop('packet_id');value['packet_id']=identity(value)
+    return value
+
+
 def handle_api(handler):
     path=unquote(urlsplit(handler.path).path)
     if path!='/api/city-atlas' and not path.startswith('/api/city-atlas/'):return False
@@ -86,18 +102,8 @@ def handle_api(handler):
             if service is None:raise ValueError('Local city study service unavailable')
             # The study service refuses pending, failed, stale or changed artifacts.
             raw=service.artifact(job_id,'result.json')
-            from . import city_atlas
             workflow=json.loads(raw)
-            value=city_atlas.from_study(workflow)
-            value['evidence']['outline_acceptance']=workflow['outline_acceptance']
-            selected=next(c for c in workflow['cases'] if c['alignment_id']==workflow['examined_alignment_id'])
-            value['evidence']['functional_screen']=selected['functional_screen']
-            delivery=workflow['delivery_plan']
-            value['delivery']=dict(plan_id=delivery['plan_id'],task_count=len(delivery['tasks']),
-                schedule_cases=delivery['schedule']['cases'],workforce=delivery['workforce'],
-                cost_reconciliation=delivery['cost_reconciliation'])
-            value['sources']['presentation_sha256'][PRODUCER]=digest(Path(handler.root)/PRODUCER)
-            value.pop('packet_id');value['packet_id']=identity(value)
+            value=from_verified_study(handler.root,workflow)
         else:
             slug=None if path=='/api/city-atlas' else path.removeprefix('/api/city-atlas/')
             if slug is not None and not re.fullmatch('[a-z0-9]+(?:-[a-z0-9]+)*',slug):raise ValueError('Known city slug required')

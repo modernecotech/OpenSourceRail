@@ -50,7 +50,7 @@ def _numeric(value,name,bounds):
 
 def normalize(value):
     if not isinstance(value,dict) or set(value)-{'schema','city_slug','expected_outline_evaluation_id',
-            'service','alignment','project','selection','base_plan','base_study_id','edit_bundle'}:
+            'service','alignment','project','selection','base_plan','base_study_id','base_seed_id','edit_bundle'}:
         raise ValueError('Typed city study request required')
     v=deepcopy(value)
     if v.get('schema','osr-city-workflow-request/1')!='osr-city-workflow-request/1':
@@ -80,10 +80,13 @@ def normalize(value):
         if factors!=sorted(factors):raise ValueError('Ordered local-rate sensitivity cases required')
     v.setdefault('selection','auto')
     if v['selection'] not in SELECTIONS:raise ValueError('Supported alignment evaluator required')
-    if 'base_plan' in v and 'base_study_id' in v:raise ValueError('Use one planning base source')
+    bases=set(v)&{'base_plan','base_study_id','base_seed_id'}
+    if len(bases)>1:raise ValueError('Use one planning base source')
     if 'base_study_id' in v and not re.fullmatch('[0-9a-f]{32}',v['base_study_id']):
         raise ValueError('Known immutable base study required')
-    if (('base_plan' in v or 'base_study_id' in v)!=('edit_bundle' in v)):
+    if 'base_seed_id' in v and not re.fullmatch('[0-9a-f]{64}',v['base_seed_id']):
+        raise ValueError('Known published planning seed required')
+    if (bool(bases)!=('edit_bundle' in v)):
         raise ValueError('Planning base and edit bundle are required together')
     if len(encoded(v))>2*1024**2:raise ValueError('City study request exceeds its byte budget')
     v['schema']='osr-city-workflow-request/1'
@@ -137,6 +140,9 @@ def evaluate(request,root=ROOT):
     seed=detail['planning_seed'];context=coordinator.prepare(root)
     baseline=planning_adapter.export_plan(seed,root=root)
     revision=None;base_sources={};trusted_base=None;base=v.get('base_plan')
+    if 'base_seed_id' in v:
+        if v['base_seed_id']!=seed['seed_id']:raise ValueError('Published planning seed changed; reload before editing')
+        base=baseline
     if 'base_study_id' in v:
         folder=completion._ordinary(root/'build/city-studies'/v['base_study_id']/'artifacts')
         parent=verify(folder,root=root)

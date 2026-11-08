@@ -4,6 +4,8 @@ import json
 import os
 import subprocess
 import zipfile
+import time
+import shutil
 from pathlib import Path
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded
@@ -12,15 +14,49 @@ from . import adapter
 
 def main(argv=None, root=ROOT):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('install', 'export', 'open', 'verify', 'audit'))
+    parser.add_argument('action', choices=('install', 'export', 'open', 'verify', 'audit','export-study','import','reprice','verify-revision'))
     parser.add_argument('--city', help='Published city slug, for example baghdad')
     parser.add_argument('--all', action='store_true', help='Export every registered city')
     parser.add_argument('--output', type=Path, help='Cache root, or exact cache directory for verify')
     parser.add_argument('--preview', action='store_true', help='Native PNG preview for one city')
+    parser.add_argument('--study', help='Verified local city-study job id for iterative native editing')
+    parser.add_argument('--packet-id', help='Exact displayed city packet identity')
+    parser.add_argument('--project',type=Path,help='Edited native .rgis file (embedded WGS84 data only)')
+    parser.add_argument('--actor',help='Named planning author')
+    parser.add_argument('--reason',help='Reason for the native geometry/service revision')
+    parser.add_argument('--data-crs',help='Explicit native data CRS; supported EPSG:4326')
     args = parser.parse_args(argv)
     if args.action == 'install':
         from .install import install
         result = install()
+    elif args.action=='verify-revision':
+        from .revision import verify_import
+        if args.output is None:parser.error('verify-revision requires --output IMPORT_DIRECTORY')
+        result=verify_import(args.output,root=root)
+    elif args.action=='export-study':
+        if not args.study:parser.error('export-study requires --study JOB_ID')
+        result=adapter.export_study(args.study,root=root,output=args.output,preview=args.preview)
+    elif args.action in ('import','reprice'):
+        from . import revision
+        from engineering.outline.city_jobs import CityStudyService
+        if not all((args.city,args.packet_id,args.project,args.actor,args.reason,args.data_crs)):
+            parser.error('import/reprice requires --city --packet-id --project --actor --reason --data-crs')
+        if not args.project.is_file() or args.project.is_symlink() or args.project.stat().st_size>revision.MAX_PROJECT:
+            parser.error('bounded ordinary native project required')
+        if args.output is not None and args.output.exists():parser.error('Choose a fresh --output evidence directory')
+        service=CityStudyService(root)
+        try:
+            result=revision.import_project(args.project.read_bytes(),args.city,args.packet_id,actor=args.actor,
+                reason=args.reason,data_crs=args.data_crs,root=root,study_id=args.study,service=service)
+            job=result['job'];deadline=time.monotonic()+150
+            while job and job['state']=='running' and time.monotonic()<deadline:
+                time.sleep(.5);job=service.status(job['job_id'])
+            if args.output is not None:
+                shutil.copytree(Path(root)/'build/rustgis-imports'/result['import_id'],args.output)
+            result=dict(import_id=result['import_id'],execution=result['execution'],job=job,
+                retained_input=str(Path(root)/'build/rustgis-imports'/result['import_id']),**revision.FLAGS)
+            if job and job['state']!='completed':raise ValueError('Retained native revision job did not complete: '+str(job))
+        finally:service.close()
     elif args.action == 'verify':
         if args.output is None:parser.error('verify requires --output CACHE_DIRECTORY')
         result = adapter.verify(args.output, root=root)
