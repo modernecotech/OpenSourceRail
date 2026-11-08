@@ -1,6 +1,6 @@
 # Reconciled railway research pilot
 
-[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb)
+[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb) · [Manufacturing tasks and business-review draft](delivery/README.md)
 
 **Calculated outline complete under explicit assumptions. Engineering evidence pending.**
 One physical bundle connects a six-car research body, counted drive/interface additions, axle reactions, civil quantities, terminal layout, counted fleet, causal energy-store simulation and all fourteen lifecycle scopes. The passive v0.6 reference remains unchanged; this powered-wheel research comparison does not select installed propulsion.
@@ -28,6 +28,8 @@ The study has a new whole-railway identity. This variant has no exact matching n
 
 Full installed motor shapes, joints, fatigue, emergency braking, station mechanical force/flow maps, hot electrical characteristics and site conditions remain open.
 
+The body-only mass subtotal and full driven train are separate accounting scopes. The decision view itemises counted body, installation/payload, external drives, remaining BOP and capture-interface reserves; a body subtotal is never presented as the integrated loaded train.
+
 All original part origins are retained or explicitly superseded, with materials, quantities, process/assembly plans, proposed locations and positive reserves. Stock blanks and equipment envelopes are distinguished from finished solids. These are research manufacturing drafts, not released production drawings or work orders.
 
 No city is silently repriced from this pilot. [Remaining engineering tasks](frontier.json) identify the exact work needed before city-specific adoption or physical qualification. [Mandatory requirement context](requirements.json) keeps unsupported obligations open.
@@ -38,5 +40,5 @@ No city is silently repriced from this pilot. [Remaining engineering tasks](fron
 ./osr design closure verify
 ```
 
-Study `e29ce5e61b7c5e142ef37812c119c37d4c94123de15114aeac08b0f72f3f1fc2`. Whole bundle `7c916d9828baa5b694bf8f7e416be4fa8c7f196148174df4aa0474441479026d`.
+Study `d0d6f09818de7ebe301e89add70cb70c81e996a448f4f6918ca54968ba8dbbe9`. Whole bundle `7c916d9828baa5b694bf8f7e416be4fa8c7f196148174df4aa0474441479026d`.
 Physical acceptance, manufacturing and operating release are false.

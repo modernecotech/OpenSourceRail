@@ -1,6 +1,6 @@
 # Reconciled railway research pilot
 
-[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb)
+[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb) · [Manufacturing tasks and business-review draft](delivery/README.md)
 
 **Calculated outline complete under explicit assumptions. Engineering evidence pending.**
 One physical bundle connects a six-car research body, counted drive/interface additions, axle reactions, civil quantities, terminal layout, counted fleet, causal energy-store simulation and all fourteen lifecycle scopes. The passive v0.6 reference remains unchanged; this powered-wheel research comparison does not select installed propulsion.
@@ -30,9 +30,11 @@ The 1.5km pilot has two stations and two running tracks. Additional platform, po
 
 Energy stores start empty in nominal cases. Release substitutes for independently available grid traction with finite slew; it cannot add free force. Shared-bank collisions or unready stores bypass recovery. Actual train identities, reverse stopping offsets, route occupancy and full-grid thermal proxies carry through the timetable. Faults remain visible. Finite-run energy extrapolation, terminal maneuvers, voltage/loss/cooling assumptions and electronics allowances are disclosed in the full study; they do not establish qualified daily operation.
 
-The study has a new whole-railway identity. The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give 13.9141mm fine-mesh deflection, refinement changes 0.0067% / 0.0301%, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-final-load01-proof.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.
+The study has a new whole-railway identity. The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give 13.9141mm fine-mesh deflection, refinement changes 0.0067% / 0.0301%, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-refinement-retained01.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.
 
 Full installed motor shapes, joints, fatigue, emergency braking, station mechanical force/flow maps, hot electrical characteristics and site conditions remain open.
+
+The body-only mass subtotal and full driven train are separate accounting scopes. The decision view itemises counted body, installation/payload, external drives, remaining BOP and capture-interface reserves; a body subtotal is never presented as the integrated loaded train.
 
 All original part origins are retained or explicitly superseded, with materials, quantities, process/assembly plans, proposed locations and positive reserves. Stock blanks and equipment envelopes are distinguished from finished solids. These are research manufacturing drafts, not released production drawings or work orders.
 
@@ -44,5 +46,5 @@ No city is silently repriced from this pilot. [Remaining engineering tasks](fron
 ./osr design closure verify
 ```
 
-Study `abe493fe1533f9b1a200929b7745d84dc710b4b2d6bf2655084cd75f05f5cf83`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
+Study `44cefc1f3a9e33678756af64b515dbb6a3e43e99395d89e6c7c96fa1f0385994`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
 Physical acceptance, manufacturing and operating release are false.

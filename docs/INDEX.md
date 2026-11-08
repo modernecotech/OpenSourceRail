@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **139**.
+Indexed Markdown files: **146**.
 
 ## Sections
 
@@ -23,8 +23,8 @@ Indexed Markdown files: **139**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 111 |
-| [engineering](#engineering) | 12 |
+| [docs](#docs) | 117 |
+| [engineering](#engineering) | 13 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -124,13 +124,19 @@ Indexed Markdown files: **139**.
 | [`docs/design-engine/outline-completion/README.md`](../docs/design-engine/outline-completion/README.md) | Complete calculated city and design outlines |
 | [`docs/design-engine/periodic-thermal-research/README.md`](../docs/design-engine/periodic-thermal-research/README.md) | Conditional repeated-duty thermal sensitivity |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
+| [`docs/design-engine/powered-bogie-detail/README.md`](../docs/design-engine/powered-bogie-detail/README.md) | Powered-bogie research detail — HOLD |
 | [`docs/design-engine/practical-launch/README.md`](../docs/design-engine/practical-launch/README.md) | Practical launch alternatives for v0.6 research |
 | [`docs/design-engine/propulsion-layout/README.md`](../docs/design-engine/propulsion-layout/README.md) | Simpler propulsion: powered bogies and sparse accelerators |
 | [`docs/design-engine/propulsion-layout/comparison-summary.md`](../docs/design-engine/propulsion-layout/comparison-summary.md) | Propulsion layout findings |
 | [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
 | [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
 | [`docs/design-engine/reconciled-pilot/README.md`](../docs/design-engine/reconciled-pilot/README.md) | Reconciled railway research pilot |
+| [`docs/design-engine/reconciled-pilot/delivery/README.md`](../docs/design-engine/reconciled-pilot/delivery/README.md) | Pilot manufacturing and delivery planning draft |
+| [`docs/design-engine/reconciled-pilot-bogie-detail/README.md`](../docs/design-engine/reconciled-pilot-bogie-detail/README.md) | Reconciled railway research pilot |
+| [`docs/design-engine/reconciled-pilot-bogie-detail/delivery/README.md`](../docs/design-engine/reconciled-pilot-bogie-detail/delivery/README.md) | Pilot manufacturing and delivery planning draft |
 | [`docs/design-engine/reconciled-pilot-no-store/README.md`](../docs/design-engine/reconciled-pilot-no-store/README.md) | Reconciled railway research pilot |
+| [`docs/design-engine/reconciled-pilot-no-store/delivery/README.md`](../docs/design-engine/reconciled-pilot-no-store/delivery/README.md) | Pilot manufacturing and delivery planning draft |
+| [`docs/design-engine/recovery-economics/README.md`](../docs/design-engine/recovery-economics/README.md) | Station recovery economics |
 | [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
 | [`docs/design-engine/retained-battery-source-epoch/README.md`](../docs/design-engine/retained-battery-source-epoch/README.md) | Retained source epoch for service-energy migration |
@@ -198,6 +204,7 @@ Indexed Markdown files: **139**.
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
 | [`engineering/pilot_civil/README.md`](../engineering/pilot_civil/README.md) | Candidate-bound pilot civil design |
+| [`engineering/pilot_delivery/README.md`](../engineering/pilot_delivery/README.md) | Pilot manufacturing and delivery proposals |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |
