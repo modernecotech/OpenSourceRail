@@ -54,6 +54,7 @@ fn departure(id: &str, route: &str, time: f64, requested: &str) -> Departure {
         reset_failed: false,
         requested_train_id: Some(requested.into()),
         route_id: Some(route.into()),
+        frame_binding: None,
     }
 }
 fn fixture(id: &str, departures: Vec<Departure>) -> FleetCase {
@@ -92,6 +93,7 @@ fn fixture(id: &str, departures: Vec<Departure>) -> FleetCase {
         to_station_id: b.into(),
         distance_m: distance,
         geometry_record_id: format!("{i:064x}"),
+        entry_frame: None,
     })
     .collect();
     let candidate = base.candidate_id;

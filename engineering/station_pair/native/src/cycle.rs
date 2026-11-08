@@ -312,6 +312,10 @@ pub(super) struct Runtime<'a> {
     release_runtime: Option<ReleaseRuntime>,
     pub recorded_steps: Option<Vec<MechanicalStep>>,
     pub moving_final_temperature_c: Option<f64>,
+    inactive_recording: bool,
+}
+fn controlled_recording_feedback(legacy_allocator: bool, inactive: bool, v2: bool) -> bool {
+    if inactive { !v2 } else { legacy_allocator }
 }
 impl<'a> Runtime<'a> {
     pub fn record_step(&mut self, step: MechanicalStep) {
@@ -339,7 +343,18 @@ impl<'a> Runtime<'a> {
         }
     }
     pub fn controlled_feedback(&self) -> bool {
-        self.release_runtime.is_some()
+        controlled_recording_feedback(
+            self.release_runtime.is_some(),
+            self.inactive_recording,
+            self.leg
+                .journey
+                .control
+                .as_ref()
+                .is_some_and(|p| p.research_v2.is_some()),
+        )
+    }
+    pub fn inactive_recording(&self) -> bool {
+        self.inactive_recording && self.release_runtime.is_none()
     }
     pub fn controlled_grid_peak_power_w(&self) -> Option<f64> {
         self.release_runtime
@@ -545,6 +560,20 @@ impl<'a> Runtime<'a> {
     }
 }
 
+#[cfg(test)]
+mod recorder_helper_tests {
+    use super::controlled_recording_feedback;
+    #[test]
+    fn pure_recorder_controller_selection_keeps_v2_separate_and_legacy_unchanged() {
+        assert!(controlled_recording_feedback(true, false, false));
+        assert!(controlled_recording_feedback(true, false, true));
+        assert!(controlled_recording_feedback(false, true, false));
+        assert!(!controlled_recording_feedback(false, true, true));
+        assert!(!controlled_recording_feedback(true, true, true));
+        assert!(!controlled_recording_feedback(false, false, false));
+    }
+}
+
 pub fn evaluate(c: &CycleCase) -> Result<CycleResult, String> {
     validate(c)?;
     let mut states: Vec<StationState> = c
@@ -626,6 +655,7 @@ pub fn evaluate(c: &CycleCase) -> Result<CycleResult, String> {
             release_runtime: c.release_control.clone().map(ReleaseRuntime::new),
             recorded_steps: None,
             moving_final_temperature_c: None,
+            inactive_recording: false,
         };
         let mut journey = feedback::evaluate_with_recovery(
             &l.journey,
@@ -848,6 +878,27 @@ pub(crate) fn record_grid_motion(
     initial_position_m: f64,
     policy: &ReleaseControl,
 ) -> Result<RecordedMotion, String> {
+    record_grid_motion_mode(c, initial_position_m, policy, false)
+}
+/// Only validated REAL outer zero-storage specs can issue this private permit.
+/// The static exported Case is compared byte-for-byte, never rewritten here.
+pub(crate) fn record_inactive_grid_motion(
+    c: &Case,
+    initial_position_m: f64,
+    policy: &ReleaseControl,
+    permit: &crate::fleet::InactiveRecordingPermit,
+) -> Result<RecordedMotion, String> {
+    if !permit.allows(c) || !nonneg(initial_position_m) || initial_position_m > c.distance_m {
+        return Err("Inactive mechanical recording requires exact exported Case permission and a validated nonnegative native entry".into());
+    }
+    record_grid_motion_mode(c, initial_position_m, policy, true)
+}
+fn record_grid_motion_mode(
+    c: &Case,
+    initial_position_m: f64,
+    policy: &ReleaseControl,
+    inactive_recording: bool,
+) -> Result<RecordedMotion, String> {
     valid(c)?;
     policy.validate()?;
     let p = c
@@ -916,9 +967,14 @@ pub(crate) fn record_grid_motion(
         events: vec![],
         initial_position_m,
         next_trace_s: 0.,
-        release_runtime: Some(ReleaseRuntime::new(policy.clone())),
+        release_runtime: if inactive_recording {
+            None
+        } else {
+            Some(ReleaseRuntime::new(policy.clone()))
+        },
         recorded_steps: Some(vec![]),
         moving_final_temperature_c: None,
+        inactive_recording,
     };
     let journey = feedback::evaluate_with_recovery(c, p, Some(&mut runtime))?;
     Ok(RecordedMotion {

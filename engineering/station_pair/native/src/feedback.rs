@@ -280,7 +280,7 @@ pub(super) fn evaluate_with_recovery(
         diag.mode = "held-docking-speed-governor/2".into();
         diag.research_v2 = Some(q.report(c, p));
         r.limitations.push("V2 brake retention/preload/release uses accepted command history under uncalibrated force/response bounds, not authenticated applied-brake or torque observations. Berth target, authority and modeled track domain are explicit distinct inputs.".into());
-        if recovery.is_some() {
+        if recovery.as_ref().is_some_and(|q| !q.inactive_recording()) {
             r.state = "controller-v2-domain-held".into();
             r.hold_reason=Some("V2 recovery/cycle coupling is unsupported; no storage runtime is implicitly enabled".into());
             r.control = Some(diag);

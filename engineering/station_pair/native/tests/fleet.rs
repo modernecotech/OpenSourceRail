@@ -69,6 +69,7 @@ fn fleet(headway: f64, phase: f64, active: usize) -> FleetCase {
                 reset_failed: false,
                 requested_train_id: None,
                 route_id: None,
+                frame_binding: None,
             }
         })
         .collect();

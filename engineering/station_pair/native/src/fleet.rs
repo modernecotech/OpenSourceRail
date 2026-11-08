@@ -4,8 +4,10 @@ use super::*;
 use crate::cycle::{Ledger, LegEnergy, ReleaseControl, Station, StationState};
 #[path = "fleet_network.rs"]
 mod network;
+pub(crate) use network::InactiveRecordingPermit;
 pub use network::{
-    DirectedRoute, GeometryBinding, NetworkDiagnostics, NetworkPosition, ResearchNetwork,
+    DirectedRoute, EntryFrame, FrameApplication, FrameCaseBinding, FrameGeometry, GeometryBinding,
+    NetworkDiagnostics, NetworkPosition, ResearchNetwork,
 };
 
 pub const REQUEST_SCHEMA: &str = "osr-station-fleet-request/1";
@@ -47,6 +49,8 @@ pub struct Departure {
     pub requested_train_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub frame_binding: Option<FrameCaseBinding>,
 }
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -119,6 +123,8 @@ pub struct DepartureResult {
     pub thermal_result_basis: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub route_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub entry_frame: Option<FrameApplication>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct FleetResult {
@@ -238,6 +244,8 @@ struct LiveLeg {
     arr: usize,
     route: usize,
     direction: f64,
+    origin_route_m: f64,
+    physical_distance_m: f64,
     leg: Leg,
     steps: Vec<MechanicalStep>,
     arrival_temperature: Option<f64>,
@@ -368,7 +376,10 @@ fn validate(c: &FleetCase) -> Result<(), String> {
         if d.id.is_empty()
             || !ids.insert(d.id.clone())
             || d.journey.candidate_id != c.candidate_id
-            || (c.network.is_none() && (d.journey.distance_m != distance || d.route_id.is_some()))
+            || (c.network.is_none()
+                && (d.journey.distance_m != distance
+                    || d.route_id.is_some()
+                    || d.frame_binding.is_some()))
             || d.journey.control.is_none()
             || !nonneg(d.departure_time_s)
             || d.departure_time_s > 172800.
@@ -497,22 +508,51 @@ impl<'a> Engine<'a> {
         } else {
             None
         };
-        let mut result=DepartureResult{id:d.id.clone(),train_id:selected.map(|i|self.trains[i].id.clone()),state:"departure-held".into(),hold_reason:reason.map(str::to_string),departure_station_id:d.departure_station_id.clone(),arrival_station_id:d.arrival_station_id.clone(),departure_time_s:self.now,arrival_time_s:None,initial_position_m:None,initial_drive_temperature_c:None,actual_applied_case:None,source_domain:None,journey:None,energy:LegEnergy::default(),release_bypassed:false,capture_bypassed:false,recovery_reasons:vec![],mechanical_steps:0,thermal_result_basis:"Conservative full-grid drive-loss RC proxy; actual allocation losses separate; hardware calibration and store thermal limits unverified".into(),route_id:d.route_id.clone()};
+        let mut result=DepartureResult{id:d.id.clone(),train_id:selected.map(|i|self.trains[i].id.clone()),state:"departure-held".into(),hold_reason:reason.map(str::to_string),departure_station_id:d.departure_station_id.clone(),arrival_station_id:d.arrival_station_id.clone(),departure_time_s:self.now,arrival_time_s:None,initial_position_m:None,initial_drive_temperature_c:None,actual_applied_case:None,source_domain:None,journey:None,energy:LegEnergy::default(),release_bypassed:false,capture_bypassed:false,recovery_reasons:vec![],mechanical_steps:0,thermal_result_basis:"Conservative full-grid drive-loss RC proxy; actual allocation losses separate; hardware calibration and store thermal limits unverified".into(),route_id:d.route_id.clone(),entry_frame:None};
         if reason.is_some() {
             self.results[index] = result;
             return Ok(());
         }
         let train = selected.unwrap();
-        let initial_x = if self.input.network.is_some() {
-            direction * self.trains[train].initial_position_m
+        let fixed_frame = self
+            .input
+            .network
+            .as_ref()
+            .and_then(|n| n.routes[route_index].entry_frame.as_ref());
+        let station_offset = self.trains[train].initial_position_m;
+        let physical_initial = if self.input.network.is_some() {
+            direction * station_offset
         } else {
-            self.trains[train].initial_position_m
+            station_offset
         };
-        if self.input.network.is_some()
+        let initial_x = if let Some(frame) = fixed_frame {
+            match frame.application(
+                d,
+                d.frame_binding.as_ref().unwrap(),
+                station_offset,
+                direction,
+                format!("{}/{}", d.id, self.trains[train].id),
+            ) {
+                Ok(application) => {
+                    let x = application.native_initial_position_m;
+                    result.entry_frame = Some(application);
+                    x
+                }
+                Err(reason) => {
+                    result.hold_reason = Some(reason);
+                    self.results[index] = result;
+                    return Ok(());
+                }
+            }
+        } else {
+            physical_initial
+        };
+        if fixed_frame.is_none()
+            && self.input.network.is_some()
             && (initial_x < 0. || initial_x > d.journey.berth_tolerance_m)
         {
             result.initial_position_m = Some(initial_x);
-            result.hold_reason = Some("Signed outgoing station offset lies outside the retained nonnegative entry domain; physical coordinate-rebase/entry geometry and drive coverage remain unsupported".into());
+            result.hold_reason=Some("Signed outgoing station offset lies outside the retained nonnegative entry domain; physical coordinate-rebase/entry geometry and drive coverage remain unsupported".into());
             self.results[index] = result;
             return Ok(());
         }
@@ -520,7 +560,9 @@ impl<'a> Engine<'a> {
         result.initial_position_m = Some(initial_x);
         result.initial_drive_temperature_c = initial_temp;
         let mut applied = d.journey.clone();
-        applied.id = format!("{}/{}", d.id, self.trains[train].id);
+        if fixed_frame.is_none() {
+            applied.id = format!("{}/{}", d.id, self.trains[train].id);
+        }
         if let Some(t) = applied.thermal.as_mut() {
             let Some(initial) = initial_temp else {
                 result.hold_reason = Some(
@@ -530,7 +572,15 @@ impl<'a> Engine<'a> {
                 self.results[index] = result;
                 return Ok(());
             };
-            t.initial_c = initial;
+            if fixed_frame.is_some() && t.initial_c != initial {
+                result.actual_applied_case = Some(applied.clone());
+                result.hold_reason=Some("Causal train temperature differs from the immutable exported framed Case; a new canonical applied Case is required".into());
+                self.results[index] = result;
+                return Ok(());
+            }
+            if fixed_frame.is_none() {
+                t.initial_c = initial;
+            }
         }
         result.actual_applied_case = Some(applied.clone());
         let domain = feedback::domain_screen(&applied, applied.control.as_ref().unwrap())?;
@@ -544,7 +594,26 @@ impl<'a> Engine<'a> {
             self.results[index] = result;
             return Ok(());
         }
-        let motion = record_grid_motion(&applied, initial_x, &self.input.release_control)?;
+        let motion = if fixed_frame.is_some() {
+            let permit = self
+                .input
+                .network
+                .as_ref()
+                .unwrap()
+                .inactive_permit(self.input)?;
+            crate::cycle::record_inactive_grid_motion(
+                &applied,
+                initial_x,
+                &self.input.release_control,
+                &permit,
+            )?
+        } else {
+            record_grid_motion(&applied, initial_x, &self.input.release_control)?
+        };
+        if let Some(frame) = result.entry_frame.as_mut() {
+            frame.accepted_mechanical_steps = motion.steps.len();
+        }
+
         if motion
             .journey
             .control
@@ -574,7 +643,9 @@ impl<'a> Engine<'a> {
         if let Some(p) = self.trains[train].network_position.as_mut() {
             p.station_offset_m = None;
             p.route_id = d.route_id.clone();
-            p.route_position_m = Some(initial_x);
+            p.route_position_m = Some(physical_initial);
+            p.native_route_position_m = fixed_frame.map(|_| initial_x);
+            p.frame_context_id = fixed_frame.map(|f| f.context_id.clone());
         }
         self.routes[route_index].occupied_until_s = self.now
             + self.results[index].journey.as_ref().unwrap().elapsed_s
@@ -617,6 +688,9 @@ impl<'a> Engine<'a> {
             arr,
             route: route_index,
             direction,
+            origin_route_m: fixed_frame.map_or(0., |f| f.origin_route_m),
+            physical_distance_m: fixed_frame
+                .map_or(d.journey.distance_m, |f| f.physical_route_distance_m),
             leg,
             steps,
             arrival_temperature: motion.arrival_temperature_c,
@@ -987,7 +1061,7 @@ impl<'a> Engine<'a> {
             row.state = "arrived".into();
             self.trains[train].station_id = Some(self.input.stations[arr].id.clone());
             self.trains[train].initial_position_m = if self.input.network.is_some() {
-                direction * (j.final_position_m - live.leg.journey.distance_m)
+                direction * (j.final_position_m + live.origin_route_m - live.physical_distance_m)
             } else {
                 (live.leg.journey.distance_m - j.final_position_m).max(0.)
             };
@@ -996,6 +1070,7 @@ impl<'a> Engine<'a> {
                 p.station_offset_m = Some(station_offset);
                 p.route_id = None;
                 p.route_position_m = None;
+                p.native_route_position_m = None;
             }
             self.trains[train].ready_at_s =
                 self.now + live.leg.journey.dwell_s + self.input.turnaround_s;
@@ -1030,7 +1105,8 @@ impl<'a> Engine<'a> {
             if let Some(p) = self.trains[train].network_position.as_mut() {
                 p.station_offset_m = None;
                 p.route_id = row.route_id.clone();
-                p.route_position_m = Some(j.final_position_m);
+                p.route_position_m = Some(j.final_position_m + live.origin_route_m);
+                p.native_route_position_m = row.entry_frame.as_ref().map(|_| j.final_position_m);
             }
             for station in [dep, arr] {
                 if self.banks[station].owner.is_some_and(|o| o.leg == li) {
@@ -1195,6 +1271,8 @@ pub fn evaluate(c: &FleetCase) -> Result<FleetResult, String> {
                 station_offset_m: Some(t.initial_position_m),
                 route_id: None,
                 route_position_m: None,
+                native_route_position_m: None,
+                frame_context_id: None,
             }),
         })
         .collect();
@@ -1270,6 +1348,7 @@ pub fn evaluate(c: &FleetCase) -> Result<FleetResult, String> {
             mechanical_steps: 0,
             thermal_result_basis: "Not executed".into(),
             route_id: c.departures[i].route_id.clone(),
+            entry_frame: None,
         })
         .collect();
     if c.network.is_some() {

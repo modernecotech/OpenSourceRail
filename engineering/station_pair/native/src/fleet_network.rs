@@ -1,5 +1,18 @@
 //! Explicit no-storage adjacent-line research domain, never a railway admission.
 use super::*;
+#[path = "fleet_frame.rs"]
+mod frame;
+pub use frame::{EntryFrame, FrameApplication, FrameCaseBinding, FrameGeometry};
+
+/// Private proof from REAL immutable outer specs, never zero scratch stores.
+pub(crate) struct InactiveRecordingPermit {
+    exported_cases: Vec<Vec<u8>>,
+}
+impl InactiveRecordingPermit {
+    pub(crate) fn allows(&self, c: &Case) -> bool {
+        serde_json::to_vec(c).is_ok_and(|raw| self.exported_cases.contains(&raw))
+    }
+}
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -17,6 +30,8 @@ pub struct DirectedRoute {
     pub to_station_id: String,
     pub distance_m: f64,
     pub geometry_record_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub entry_frame: Option<EntryFrame>,
 }
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -33,6 +48,10 @@ pub struct NetworkPosition {
     pub station_offset_m: Option<f64>,
     pub route_id: Option<String>,
     pub route_position_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub native_route_position_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub frame_context_id: Option<String>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct NetworkDiagnostics {
@@ -46,6 +65,8 @@ pub struct NetworkDiagnostics {
     pub geometry_verified: bool,
     pub shared_feed_capacity_verified: bool,
     pub limitations: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub affine_entry_contract_enabled: Option<bool>,
 }
 fn hash(s: &str) -> bool {
     s.len() == 64 && s.bytes().all(|c| c.is_ascii_hexdigit())
@@ -145,12 +166,54 @@ impl ResearchNetwork {
             if r.is_none_or(|r| {
                 r.from_station_id != d.departure_station_id
                     || r.to_station_id != d.arrival_station_id
-                    || r.distance_m != d.journey.distance_m
             }) {
                 return Err("Every network departure must name its exact directed route, stations and unchanged journey distance".into());
             }
+            let r = r.unwrap();
+            match (&r.entry_frame, &d.frame_binding) {
+                (Some(f), Some(b)) => f.validate(r, &self.geometry_binding, d, b)?,
+                (None, None) => {
+                    if r.distance_m != d.journey.distance_m {
+                        return Err("Every network departure must name its exact directed route, stations and unchanged journey distance".into());
+                    }
+                    if d.journey
+                        .control
+                        .as_ref()
+                        .and_then(|p| p.research_v2.as_ref())
+                        .is_some_and(|v| v.berth_target_m != r.distance_m)
+                    {
+                        return Err("No-frame network berth target must equal the physical route endpoint; an early stop is not arrival at the next station".into());
+                    }
+                }
+                _ => return Err(
+                    "Both fixed route frame and per-departure compiled Case binding are required"
+                        .into(),
+                ),
+            }
         }
         Ok(())
+    }
+    pub(super) fn inactive_permit(&self, c: &FleetCase) -> Result<InactiveRecordingPermit, String> {
+        if c.network
+            .as_ref()
+            .is_none_or(|n| serde_json::to_vec(n).ok() != serde_json::to_vec(self).ok())
+        {
+            return Err(
+                "Inactive recorder proof must bind the exact immutable outer network definition"
+                    .into(),
+            );
+        }
+        self.validate(c)?;
+        let mut exported_cases = vec![];
+        for d in &c.departures {
+            if d.frame_binding.is_some() {
+                exported_cases.push(serde_json::to_vec(&d.journey).map_err(|e| e.to_string())?);
+            }
+        }
+        if exported_cases.is_empty() {
+            return Err("Inactive recorder permission requires an explicitly framed, validated outer no-storage network".into());
+        }
+        Ok(InactiveRecordingPermit { exported_cases })
     }
     pub(super) fn indices(&self, c: &FleetCase, d: &Departure) -> (usize, usize, usize, f64) {
         let route = self
@@ -190,11 +253,16 @@ impl ResearchNetwork {
             routes: self.routes.clone(), storage_disabled: true,
             signed_through_entry_supported: false, geometry_verified: false,
             shared_feed_capacity_verified: false,
+            affine_entry_contract_enabled: self.routes.iter().any(|r|r.entry_frame.is_some()).then_some(true),
             limitations: vec![
                 "Explicit geometry identities are provenance references, not native geometry verification or candidate admission".into(),
                 "Each directed adjacent route is an assumed exclusive double-track block; shared single-track, platform, switch and finite-train conflicts are unsupported".into(),
                 "All recorded motion assumes independently available full grid feed; shared supply capacity and line-level interfaces remain external held obligations".into(),
-                "Signed station offsets are retained. Negative outgoing entry is held until a physically bound coordinate-rebase/entry-domain interface exists; no train is teleported to a nominal berth".into(),
+                if self.routes.iter().any(|r|r.entry_frame.is_some()) {
+                    "Fixed affine entry uses declared geometry/envelope/feed context and unchanged physical target/authority; native validation checks projection, not source authentication or physical admission".into()
+                } else {
+                    "Signed station offsets are retained. Negative outgoing entry is held until a physically bound coordinate-rebase/entry-domain interface exists; no train is teleported to a nominal berth".into()
+                },
                 "Arrival, dwell and terminal turnaround are causal time budgets, not protected service or demonstrated station occupation/manoeuvres".into(),
             ],
         }
