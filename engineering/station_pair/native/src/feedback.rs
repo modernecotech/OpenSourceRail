@@ -338,7 +338,13 @@ pub(super) fn evaluate_with_recovery(
         diag.departure_held = true;
         r.hold_reason=Some(if p.drive_fault_observed {"Observed drive fault blocks departure"}else{"Declared braking/holding or initial traction lower bound cannot support departure under policy uncertainty"}.into());
         r.standstill_brake_margin_n = if p.initial_hold_applied {
-            p.brake_force_lower_bound_n.min(actual_brake_cap) - gravity.abs()
+            if research_v2.is_some() {
+                hold_required
+            } else {
+                p.brake_force_lower_bound_n
+            }
+            .min(actual_brake_cap)
+                - gravity.abs()
         } else {
             -gravity.abs()
         };

@@ -2,6 +2,14 @@
 use osr_journey::*;
 use serde_json::{Value, json};
 
+fn ledger(c: &Case) {
+    eprintln!("CASE_LEDGER {}", serde_json::to_string(c).unwrap());
+}
+fn run(c: &Case) -> Result<ResultRow, String> {
+    ledger(c);
+    evaluate(c)
+}
+
 fn fixture(grade: f64) -> Case {
     let mut c: Case = serde_json::from_value(json!({
         "id":"synthetic-v2-method-control","candidate_id":"a".repeat(64),
@@ -76,6 +84,9 @@ fn missing_strategy_reproduces_two_exact_legacy_results() {
     let golden: Value =
         serde_json::from_str(include_str!("data/legacy_corridor_control.json")).unwrap();
     let request: Request = serde_json::from_value(golden["request"].clone()).unwrap();
+    for c in &request.cases {
+        ledger(c);
+    }
     let actual = serde_json::to_value(execute(request).unwrap()).unwrap();
     assert_eq!(actual, golden["expected"]);
 }
@@ -93,7 +104,7 @@ fn original_one_metre_authority_and_uncertainties_are_not_repaired_by_a_v2_tag()
             brake_floor_n: 40000.,
             creep_speed_m_s: 0.2,
         });
-        let r = evaluate(&c).unwrap();
+        let r = run(&c).unwrap();
         assert_eq!(r.state, "controller-v2-domain-held");
         assert!(!r.normal_numerical_arrival);
         let d = r.control.unwrap().research_v2.unwrap();
@@ -110,7 +121,7 @@ fn original_one_metre_authority_and_uncertainties_are_not_repaired_by_a_v2_tag()
 fn explicit_feasible_preload_domain_completes_inclines_and_stops_on_creep_faults() {
     for grade in [0.02, -0.02] {
         let c = fixture(grade);
-        let r = evaluate(&c).unwrap();
+        let r = run(&c).unwrap();
         check_physics(&c, &r);
         println!(
             "nominal grade{grade}: state{}, x{}, maxv{}, jerk{}, attempts{}",
@@ -142,7 +153,7 @@ fn explicit_feasible_preload_domain_completes_inclines_and_stops_on_creep_faults
             .expect("actual redocking movement");
         let mut lost = c.clone();
         lost.fault.power_loss_at_s = Some(creep.time_s + 0.075);
-        let stopped = evaluate(&lost).unwrap();
+        let stopped = run(&lost).unwrap();
         check_physics(&lost, &stopped);
         assert!(stopped.fault_stop_in_route && !stopped.rollback_detected);
         assert!(!stopped.normal_numerical_arrival);
@@ -155,7 +166,7 @@ fn explicit_feasible_preload_domain_completes_inclines_and_stops_on_creep_faults
         );
         let mut emergency = c.clone();
         emergency.fault.emergency_at_m = Some(creep.position_m + 0.1);
-        let stopped = evaluate(&emergency).unwrap();
+        let stopped = run(&emergency).unwrap();
         check_physics(&emergency, &stopped);
         assert!(stopped.fault_stop_in_route && !stopped.rollback_detected);
     }
@@ -169,9 +180,9 @@ fn uncertainty_extremes_never_turn_domain_violations_into_success() {
         c.grade_fraction += sign * 0.001;
         let p = c.control.as_mut().unwrap();
         p.position_bias_m = sign * p.position_error_bound_m;
-        p.speed_bias_m = sign * p.speed_error_bound_m_s;
+        p.speed_bias_m_s = sign * p.speed_error_bound_m_s;
         p.acceleration_bias_m_s2 = sign * p.acceleration_error_bound_m_s2;
-        let r = evaluate(&c).unwrap();
+        let r = run(&c).unwrap();
         check_physics(&c, &r);
         assert!(r.maximum_speed_m_s <= c.speed_cap_m_s + 1e-7);
         assert!(!r.control.as_ref().unwrap().end_of_authority_violated);
@@ -188,7 +199,7 @@ fn timestep_refinement_retains_force_energy_and_stop_interface() {
     for dt in [0.05, 0.025, 0.0125] {
         let mut c = fixture(-0.02);
         c.dt_s = dt;
-        let r = evaluate(&c).unwrap();
+        let r = run(&c).unwrap();
         check_physics(&c, &r);
         assert!(
             r.normal_numerical_arrival,
@@ -207,7 +218,7 @@ fn timestep_refinement_retains_force_energy_and_stop_interface() {
 fn detached_station_launch_cannot_invent_powered_docking() {
     let mut c = fixture(0.02);
     c.drive.as_mut().unwrap().windows_m = vec![[0., 200.]];
-    let r = evaluate(&c).unwrap();
+    let r = run(&c).unwrap();
     check_physics(&c, &r);
     assert!(!r.normal_numerical_arrival);
     assert!(
@@ -229,7 +240,7 @@ fn invalid_explicit_strategy_geometry_and_preload_inputs_fail_closed() {
             1 => v.berth_target_m = 1006.,
             _ => v.strategy = "guess".into(),
         }
-        assert!(evaluate(&c).is_err());
+        assert!(run(&c).is_err());
     }
 }
 
@@ -237,11 +248,11 @@ fn invalid_explicit_strategy_geometry_and_preload_inputs_fail_closed() {
 fn observed_fault_and_subsample_power_loss_do_not_authorize_departure() {
     let mut observed = fixture(0.02);
     observed.control.as_mut().unwrap().drive_fault_observed = true;
-    let r = evaluate(&observed).unwrap();
+    let r = run(&observed).unwrap();
     assert!(!r.normal_numerical_arrival && r.final_position_m == 0.);
     let mut lost = fixture(0.02);
     lost.fault.power_loss_at_s = Some(0.075);
-    let r = evaluate(&lost).unwrap();
+    let r = run(&lost).unwrap();
     check_physics(&lost, &r);
     assert!(r.fault_stop_in_route && r.grid_energy_j == 0. && !r.rollback_detected);
     assert!(r.events.iter().any(
