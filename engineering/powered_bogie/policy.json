@@ -1,0 +1,52 @@
+{
+  "schema": "osr-powered-bogie-policy/1",
+  "parent_candidate_id": "c89556f453e39448a8f3e9bf2d0d4d008f97cd20d252ac417284e40965e261b3",
+  "source_catalogue": "engineering/design_search/data/tsa-type-x-drive-lead.json",
+  "source_page": "https://tsa.at/tsa-referenzen/tsa-traction-drive-for-siemens-type-x-metro-for-wiener-linien-copy/",
+  "primary_evidence": {
+    "manufacturer_id": "TSA018854R1",
+    "motor_type": "TME45-19-4",
+    "motor_mass_kg": 486.0,
+    "gear_type": "GKD1-74-332A",
+    "gear_mass_including_couplings_kg": 310.0,
+    "gear_mounting": "Single reduction helical gearbox for partly suspended drive, horizontal split housing; toothed motor coupling; direct on wheelset shaft",
+    "new_worn_wheel_diameter_m": [0.840, 0.716],
+    "source_observed_2026_11_08": "Public manufacturer motor and drive pages confirm masses, self-ventilated air cooling and drive arrangement. No dimensioned housing or mounting drawing was found. Bounding boxes below are OSR hypotheses, not manufacturer dimensions."
+  },
+  "coordinate_frame": {
+    "units": "m",
+    "axes": "x forward along straight track, y left, z up from nominal rail head plane",
+    "bogie_origin": "axle midpoint x/y, nominal rail head z=0",
+    "axle_centres_x_m": [-1.05, 1.05],
+    "wheel_centres_y_m": [-0.7525, 0.7525],
+    "wheel_axle_z_m": 0.38,
+    "body_support_x_m": 0.0,
+    "inner_face_gauge_m": 1.435,
+    "railhead_width_m": 0.070
+  },
+  "drive_envelopes": {
+    "supplier_dimensions_known": false,
+    "motor": {"centre_m": [-0.48, -0.12, 0.40], "size_m": [0.58, 0.90, 0.58], "mass_kg": 486.0, "mass_owner": "external-installed-drive-inventory", "frame": "bogie-frame", "position_uncertainty_m": [0.05, 0.05, 0.05]},
+    "gear_including_couplings": {"centre_m": [-0.75, 0.48, 0.38], "size_m": [1.20, 0.28, 0.62], "mass_kg": 310.0, "mass_owner": "external-installed-drive-inventory", "frame": "driven-wheelset", "position_uncertainty_m": [0.10, 0.05, 0.05]},
+    "coupling_subenvelope": {"centre_m": [-0.48, 0.335, 0.40], "size_m": [0.20, 0.10, 0.20], "mass_owner": "included-in-the-310kg-gear-and-couplings-item", "frame": "relative-motor-to-gear", "quantity_per_bogie": 1, "mass_separately_known": false},
+    "gear_axle_interface": {"centre_m": [-1.05, 0.48, 0.38], "bearing_count_inside_310kg": 2, "toothed_couplings_inside_310kg": 1, "output_axle_bore_diameter_m": null, "shaft_stress_verified": false},
+    "basis": "Necessary-space hypotheses for retained public catalogue mass/rating only. Failed space and supplier compatibility gates cannot be promoted by changing this envelope silently. All definitions and evaluation identities change if these hypotheses change."
+  },
+  "movement": {
+    "yaw_rad": 0.064,
+    "roll_rad": 0.035,
+    "primary_jounce_m": 0.040,
+    "secondary_jounce_m": 0.040,
+    "lateral_m": 0.020,
+    "relative_gear_roll_rad": 0.020,
+    "pose_grid": {"yaw": [-1, 0, 1], "roll": [-1, 1], "jounce": [-1, 1]},
+    "sample_count": 12,
+    "basis": "Explicit finite research domain, not a measured suspension travel or approved curve speed. Continuous conservative angular-displacement bounds supplement the finite pose list."
+  },
+  "variant_ids": ["retained-frame-control", "extended-cradle-3240"],
+  "frame": {"side_length_m": 3.24, "side_y_m": 1.02, "side_z_m": 0.41, "side_width_m": 0.18, "side_depth_m": 0.26, "side_wall_m": 0.012, "crossmember_x_m": [-1.54, 0.42], "crossmember_length_m": 2.10, "crossmember_width_m": 0.18, "crossmember_depth_m": 0.22, "crossmember_wall_m": 0.012, "end_tie_x_m": [-1.54, 1.54]},
+  "clearance": {"required_research_gap_m": 0.020, "stock_tolerance_m": 0.002, "bogie_ground_allocation_m": 0.100, "tool_socket_radius_m": 0.045, "tool_insertion_m": 0.180, "motor_downward_removal_m": 0.60, "lifting_access_width_m": 1.25, "body_lift_for_drop_m": 0.45},
+  "services": {"power_cable_count_per_bogie": 3, "power_cable_length_m": 2.4, "power_cable_copper_area_m2": 0.00007, "power_cable_outside_diameter_m": 0.020, "power_cable_min_bend_radius_m": 0.160, "bonding_count": 2, "bonding_length_m": 1.2, "bonding_copper_area_m2": 0.000025, "air_duct_count": 1, "air_duct_length_m": 1.40, "air_duct_min_bend_radius_m": 0.150, "air_duct_outer_diameter_m": 0.120, "air_duct_design": "Optional guarded flexible ventilation provision; self-ventilated catalogue motor has no demonstrated OSR hot-weather heat rejection. No unneeded hydraulic cooling loop is assumed."},
+  "limits": {"maximum_variants": 3, "maximum_poses_per_variant": 24, "maximum_solidcraft_regenerations": 1, "maximum_freecad_checks": 1, "native_memory_mib": 2048, "native_wall_s": 120, "native_cpu_s": 122, "FEM_allowed": false},
+  "cost_basis": "Existing vehicle-installation low/base/high Chinese/bulk material-rate hypotheses and explicit gross stock, labour, weld, machining and QA quantities. Not supplier quotation; drive purchase cost and unknown drive BOP remain external and positive."
+}
