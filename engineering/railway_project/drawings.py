@@ -180,6 +180,7 @@ def _svg(row,variant,revision,limits):
     style=_el(root,'style');style.text='''text{font-family:DejaVu Sans,Arial,sans-serif;fill:#173141}.title{font-size:25px;font-weight:700}.label{font-size:16px}.small{font-size:12px}.mono{font-family:DejaVu Sans Mono,monospace;font-size:10px}.warning{font-size:16px;fill:#9a5126;font-weight:600}.outline{fill:#edf3f5;stroke:#173141;stroke-width:2}.hidden{fill:none;stroke:#678796;stroke-width:1.3;stroke-dasharray:8 5}.centre{stroke:#648595;stroke-width:1;stroke-dasharray:12 4 2 4}.dim{stroke:#36596c;stroke-width:1.1;fill:none}.frame{stroke:#b2c3cb;fill:none;stroke-width:1}.profile{fill:url(#hatch);stroke:#173141;stroke-width:2}'''
     defs=_el(root,'defs');pattern=_el(defs,'pattern',id='hatch',width=9,height=9,patternUnits='userSpaceOnUse',patternTransform='rotate(45)');_el(pattern,'line',x1=0,y1=0,x2=0,y2=9,stroke='#bed0d8',stroke_width=2)
     arrow=_el(defs,'marker',id='arrow',viewBox='0 0 10 10',refX=5,refY=5,markerWidth=7,markerHeight=7,orient='auto-start-reverse');_el(arrow,'path',d='M 0 0 L 10 5 L 0 10 Z',fill='#36596c')
+    _el(root,'rect',x=0,y=0,width=1400,height=990,fill='white')
     _el(root,'rect',x=18,y=18,width=1364,height=954,**{'class':'frame'});_el(root,'rect',x=18,y=18,width=1364,height=100,fill='#edf3f5')
     for i,line in enumerate(textwrap.wrap(row['part']['name'],72)[:2]):_text(root,40,52+i*29,line,'title')
     _text(root,40,105,shape['scope'].replace('-',' ').upper(),'warning');_text(root,1355,50,'CONTROLLED RESEARCH DRAFT','label',text_anchor='end');_text(root,1355,80,'NO MANUFACTURING / OPERATING RELEASE','small',text_anchor='end')
@@ -229,7 +230,7 @@ def _svg(row,variant,revision,limits):
     notes=['DIMENSIONS: millimetres. Source geometry: metres. Orthographic projections; view scales independent.',
         'Material: '+row['material'].get('specification',row['material']['id']),
         'Source patterns: '+str(len(variant['pattern_ids']))+' / counted quantity per train: '+str(variant['count_per_train']),
-        'Nominal stock dimensions only; explicit research limits are in inspection JSON.' if not limits else 'Declared research limits: '+str(len(limits))+' source dimensions; see exact inspection JSON.']
+        'Nominal stock only. Inspection limits/process times missing: controlled document scope held.' if not limits else 'Declared research limits: '+str(len(limits))+' source dimensions; see declarations.json. No released tolerances.']
     for i,line in enumerate(notes):_text(root,40,827+i*18,textwrap.shorten(line,165,placeholder=' …'),'small')
     _el(root,'line',x1=35,y1=902,x2=1365,y2=902,**{'class':'frame'})
     _text(root,40,922,'PART: '+row['part']['id']+'   REV: '+revision,'small');_text(root,40,944,'BODY '+row['part']['identities']['body_candidate_id'],'mono');_text(root,40,961,'ENGINEERING '+row['part']['identities']['engineering_revision'],'mono')
@@ -285,6 +286,7 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
         if sum(p.stat().st_size for p in out.rglob('*') if p.is_file())+len(raw)>MAX_BYTES:raise ValueError('Controlled drawing output budget exceeded')
         path=out/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
         return dict(path=name,sha256=digest(path),bytes=len(raw),media_type='image/svg+xml' if name.endswith('.svg') else 'application/json')
+    write('declarations.json',encoded(declared_tolerances_and_process_times))
     for row in scope['selected']:
         pid=row['part']['id'];part_decl=declared_tolerances_and_process_times.get(pid);folder='parts/'+identity(pid)[:16];payloads=[];chars=[];operations=[];holds=[];variant_rows=[];revisions=set();complete=True
         if part_decl is not None and (not isinstance(part_decl.get('variants'),dict) or set(part_decl['variants'])-set(v['variant_id'] for v in row['variants'])):
