@@ -57,6 +57,8 @@ head/contact centres. Its rail profile is an envelope, not a rail drawing; wheel
 tread/flange geometry, back-to-back, cant and clearance qualification remain open.
 The earlier ±600 mm rail/axle-patch projection was incompatible with the vehicle
 gauge and is retained only in its original source-bound trial archive.
+[That earlier proof is preserved at its exact historical revision](https://github.com/modernecotech/OpenSourceRail/blob/63050d68ff/engineering/railway_closure/data/civil-native/civil-final-load01-proof.json);
+it is not evidence for the corrected gauge or current load evaluation.
 Gross concrete includes occupied reinforcement/duct space, so CAD material
 volumes must not be added to stock mass as installed mass. Final installed mass
 remains unknown. The scene is a useful outline, not a fabrication drawing.
