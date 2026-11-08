@@ -86,6 +86,10 @@ These views come from recorded engineering geometry and native analysis results.
 | [![Source-defined two-track viaduct proposal with segments, rails, bearings, piers and footing envelopes](docs/assets/engineering-gallery-v06/civil-assembly.webp)](docs/design-engine/reconciled-pilot-bogie-detail/README.md) | [![Actual FieldCraft displacement field on a 20 metre beam, with 100 times deformation and a millimetre legend](docs/assets/engineering-gallery-v06/civil-fem.webp)](docs/engineering-gallery.md) |
 | Located segment, rail and support proposal; joints and installed fit remain unverified. | Separate continuous elastic beam: **13.9476 mm** midspan vertical displacement; shape exaggerated **100×**. |
 
+[![Native SolidCraft chair frame with mounting feet, paired shell holes, crush sleeves and isolation pads](docs/assets/finished-chair-v06/chair.webp)](docs/engineering-gallery.md#chair-frame)
+
+**Chair-frame detail:** 66 proposed material solids, with independent FreeCAD geometry correspondence. Mounting, access, strength and the seat-height reconciliation remain open. [Download CAD and inspect the checks](docs/engineering-gallery.md#chair-frame).
+
 The [full-resolution FEM image](docs/assets/engineering-gallery-v06/civil-fem.webp) uses the full native nodal field, including quadratic midside nodes, under one declared normal-base load and ideal bearing lines. It does not verify the segmented assembly. [Render recipes, numerical data and reproduction commands](docs/engineering-gallery.md) include the vehicle image’s render-resource hold and preserve the distinction between a calculated result and physical acceptance.
 
 ## The railway in pictures
