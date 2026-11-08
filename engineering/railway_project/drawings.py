@@ -59,6 +59,8 @@ def _authenticate(body,proposal,root):
     parts=_unique(body['parts'],'id');items=_unique(proposal['items'],'id');patterns=_unique(body['patterns'],'id')
     physical=_unique(body['physical_definition']['occurrence_patterns'],'id')
     occurrences=_unique(proposal['occurrence_patterns'],'id');materials=_unique(body['materials'],'id')
+    if 'materials' in proposal and _unique(proposal['materials'],'id')!=materials:
+        raise ValueError('Proposal material definitions differ from source body')
     if set(parts)!=set(items) or set(patterns)!=set(physical) or set(patterns)!=set(occurrences):
         raise ValueError('Complete source part/pattern sets must agree')
     groups=defaultdict(list)
@@ -246,6 +248,8 @@ def _declared(row,variant,part_declaration):
     if not isinstance(research,list) or any(not isinstance(s,str) or not s.strip() for s in research):raise ValueError('Explicit research holds required')
     declaration=part_declaration.get('variants',{}).get(variant['variant_id'])
     if declaration is None:return None,['Missing declarations for geometry variant '+variant['variant_id']]
+    if not isinstance(declaration,dict) or set(declaration)!={'characteristics','operations'}:
+        raise ValueError('Explicit variant inspection and route declarations required')
     chars=[];refs={};dims=variant['shape']['dimensions_m'];covered=set();prefix='v'+variant['variant_id'][:12]+'-'
     for item in declaration.get('characteristics',[]):
         data=deepcopy(item);dimension=data.pop('dimension');unit=data.get('unit')
@@ -278,6 +282,7 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
     review-index coverage. Unknown finished details always remain research holds.
     """
     scope=describe(body,proposal,selected_part_ids,source_root=source_root)
+    model.guard_draft(declared_tolerances_and_process_times)
     if not isinstance(declared_tolerances_and_process_times,dict) or not set(declared_tolerances_and_process_times)<=set(selected_part_ids):raise ValueError('Declarations must belong to selected source parts')
     out=Path(output).absolute()
     if out.exists() or any(p.is_symlink() for p in (out,*out.parents)):raise ValueError('Fresh ordinary output directory required')
@@ -290,6 +295,8 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
     for row in scope['selected']:
         pid=row['part']['id'];part_decl=declared_tolerances_and_process_times.get(pid);folder='parts/'+identity(pid)[:16];payloads=[];chars=[];operations=[];holds=[];variant_rows=[];revisions=set();complete=True
         if part_decl is not None and not isinstance(part_decl,dict):raise ValueError('Structured part declarations required')
+        if part_decl is not None and set(part_decl)!={'revision','research_holds','variants'}:
+            raise ValueError('Only explicit revision, holds and variant declarations are supported')
         if part_decl is not None and (not isinstance(part_decl.get('variants'),dict) or set(part_decl['variants'])-set(v['variant_id'] for v in row['variants'])):
             raise ValueError('Unknown declared geometry variant')
         if len(row['variants'])>MAX_VARIANTS:complete=False;holds.append('More than twelve distinct geometry variants; split into reviewed document scope')
