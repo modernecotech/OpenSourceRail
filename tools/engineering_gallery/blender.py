@@ -5,7 +5,7 @@ are enumerated separately from the untouched source model.
 """
 from pathlib import Path
 from hashlib import sha256
-import argparse, gzip, json, math, sys, time
+import argparse, gzip, json, math, resource, sys, time
 import bpy
 from mathutils import Vector
 
@@ -133,6 +133,8 @@ def main():
     s.render.threads_mode='FIXED';s.render.threads=4;s.render.resolution_x=scene['width'];s.render.resolution_y=scene['height'];s.render.resolution_percentage=100
     s.render.image_settings.file_format='PNG';s.render.image_settings.color_mode='RGBA';s.render.film_transparent=True;s.view_settings.view_transform='AgX';s.view_settings.look='AgX - Medium High Contrast';s.view_settings.exposure=.10
     s.render.filepath=str(out/'raw.png');bpy.ops.render.render(write_still=True)
+    measured=resource.getrusage(resource.RUSAGE_SELF)
+    geometry['worker_usage']=dict(peak_rss_kib=measured.ru_maxrss,user_s=measured.ru_utime,system_s=measured.ru_stime,measurement='Blender process getrusage(RUSAGE_SELF); Linux KiB')
     geometry.update(recipe_id=scene['recipe_id'],candidate_id=scene['candidate_id'],source_bounds_m=[list(lo),list(hi)],
         actual_blender_version=bpy.app.version_string,display_camera=dict(direction=list(direction),target=list(target),ortho_scale_m=cam.ortho_scale),
         rendering_wall_s=time.monotonic()-start,source_geometry_resized=False,studio_floor_is_physical_component=False,

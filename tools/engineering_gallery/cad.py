@@ -147,13 +147,15 @@ def run(recipe,root,output,*,preview=False):
     unchanged=True
     try:validate(recipe,root)
     except ValueError:unchanged=False
-    png=out/'raw.png';usage=read(out/'usage.json') if (out/'usage.json').exists() else None
+    png=out/'raw.png';supervisor_usage=read(out/'usage.json') if (out/'usage.json').exists() else None
+    geometry=read(out/'geometry.json') if (out/'geometry.json').exists() else None
+    usage=(geometry or {}).get('worker_usage') if recipe['kind']!='native' else supervisor_usage
     result=dict(schema='osr-engineering-gallery-cad-result/1',id=recipe['id'],candidate_id=recipe['candidate_id'],recipe_id=recipe['recipe_id'],
         execution='completed' if code==0 and png.is_file() and failure is None and unchanged else 'held',exit_code=code,failure=failure,
-        source_unchanged=unchanged,wall_s=time.monotonic()-start,usage=usage,
+        source_unchanged=unchanged,wall_s=time.monotonic()-start,usage=usage,supervisor_usage=supervisor_usage,
         observed_memory_target_met=bool(usage and usage['peak_rss_kib']<=memory*1024),
         image_sha256=digest(png) if png.exists() else None,width=scene['width'],height=scene['height'],**FLAGS)
-    if (out/'geometry.json').exists():result['geometry']=read(out/'geometry.json')
+    if geometry is not None:result['geometry']=geometry
     result['evaluation_id']=identity(result);write(out/'result.json',result)
     if result['execution']!='completed':raise RuntimeError('Retained failed render: '+str(out))
     return result
@@ -161,4 +163,5 @@ def run(recipe,root,output,*,preview=False):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('id');p.add_argument('--output',type=Path,required=True);p.add_argument('--preview',action='store_true');a=p.parse_args()
-    recipe=next(r for r in recipes() if r['id']==a.id);print(json.dumps(run(recipe,ROOT,a.output,preview=a.preview)))
+    recipe=next(r for r in recipes() if r['id']==a.id);result=run(recipe,ROOT,a.output,preview=a.preview)
+    print(json.dumps({k:v for k,v in result.items() if k!='geometry'}))
