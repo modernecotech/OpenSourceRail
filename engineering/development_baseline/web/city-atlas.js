@@ -309,6 +309,18 @@
     for (const text of ["Whole-life scope", "Low", "Base", "High"]) costHead.append(node("th", "", text)); const costThead = node("thead"); costThead.append(costHead); costTable.append(costThead);
     const costBody = node("tbody"); for (const [scope, value] of Object.entries(costs.scope_totals_usd || {})) { const row = node("tr"); row.append(node("th", "", human(scope))); for (const key of ["low", "base", "high"]) row.append(node("td", "", money(value?.[key]))); costBody.append(row); } costTable.append(costBody);
     const costScroll = node("div", "atlas-table-scroll"); costScroll.append(costTable); costSection.append(costScroll);
+    const reassessment = costs.capital_lines?.find(row => row.key === "revised-alignment-row-access-and-crossing-risk");
+    if (reassessment) {
+      const reserve = node("section", "atlas-disclosure-body"), quantities = reassessment.quantity || {}, facts = node("dl", "atlas-facts");
+      reserve.append(node("h4", "", "Alignment reassessment reserve · already included"));
+      fact(facts, "Reserve · low / base / high", ["low", "base", "high"].map(key => money(reassessment.costs_usd?.[key])).join(" / "));
+      fact(facts, "Corridor under reassessment", unit(finite(quantities.changed_route_m) ? quantities.changed_route_m / 1000 : null, "km", 3));
+      fact(facts, "Right-of-way area allowance", unit(quantities.additional_row_area_m2, "m²"));
+      fact(facts, "Additional access walkway", unit(quantities.additional_access_walkway_m, "m", 1));
+      fact(facts, "Unverified bridge-length hypothesis", unit(quantities.unverified_bridge_route_m_hypothesis, "m", 1));
+      reserve.append(facts, node("p", "atlas-note", "The model marks an edited line's full length for site, right-of-way and crossing reassessment. These quantities and the reserve include earlier alignment assumptions. This allowance is already included in construction totals; the incremental cost of the geometry change remains unestablished pending site evidence."));
+      expandable(reserve, "Reserve calculation and assumptions", reassessment); costSection.append(reserve);
+    }
     evidenceSection.append(node("h4", "", "Evidence and next decisions"), node("p", "atlas-evidence-warning", "Calculated planning evidence. Hardware, operation and procurement release remain pending."));
     const idList = node("dl", "atlas-facts atlas-identities");
     for (const [label, value] of [["Physical research configuration", identity.research_configuration_id], ["Service evaluation", identity.service_evaluation_id], ["Cost evaluation", identity.cost_evaluation_id], ["Alignment identity", identity.selected_alignment_id], ["Selection identity", identity.selection_id]]) if (value) fact(idList, label, short(value)); evidenceSection.append(idList);
