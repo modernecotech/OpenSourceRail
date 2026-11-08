@@ -306,7 +306,7 @@ def plot(output, path):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.colors import Normalize
-    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+    from matplotlib.collections import PolyCollection
     output, path = Path(output), Path(path)
     result=json.loads((output / "result.json").read_bytes()); check_seal(result)
     if not result.get("validation", {}).get("all_nodes_have_result"):
@@ -330,17 +330,28 @@ def plot(output, path):
     fig.text(.40,.815,"maximum displacement magnitude",size=10,color="#426079")
     fig.text(.755,.845,"22,680",size=26,weight="bold",color="#007f89")
     fig.text(.755,.815,"quadratic tetrahedra · 43,340 nodes",size=10,color="#426079")
-    ax=fig.add_axes([.015,.25,.88,.56],projection="3d",computed_zorder=False)
+    ax=fig.add_axes([.055,.32,.82,.45])
     cmap=plt.get_cmap("viridis"); norm=Normalize(0,magnitude.max())
-    coll=Poly3DCollection(deformed[tri],facecolors=cmap(norm(magnitude[tri].mean(axis=1))),
-                          edgecolors="none",antialiased=False,zsort="average")
-    ax.add_collection3d(coll)
-    ax.set(xlim=(-.5,20.5),ylim=(-1.2,1.2),zlim=(deformed[:,2].min()-.2,xyz[:,2].max()+.5))
-    ax.set_box_aspect((20,2.4,3.1),zoom=1.8);ax.view_init(elev=18,azim=-72);ax.set_proj_type("ortho")
+    # Explicit orthographic projection avoids Matplotlib's square 3D viewport
+    # clipping a long beam on a wide scientific plate. All vertices remain
+    # exact native XYZ + 100*U, never a curve inferred from sparse probes.
+    az,el=np.deg2rad([-72,18])
+    right=np.array([-np.sin(az),np.cos(az),0.])
+    up=np.array([-np.sin(el)*np.cos(az),-np.sin(el)*np.sin(az),np.cos(el)])
+    depth=np.array([np.cos(el)*np.cos(az),np.cos(el)*np.sin(az),np.sin(el)])
+    xy=np.column_stack((deformed@right,deformed@up))
+    order=np.argsort((deformed[tri]@depth).mean(axis=1))
+    coll=PolyCollection(xy[tri][order],facecolors=cmap(norm(magnitude[tri].mean(axis=1)[order])),
+                        edgecolors="none",antialiased=False)
+    ax.add_collection(coll)
+    spread=np.ptp(xy,axis=0);lo=xy.min(axis=0)-.04*spread;hi=xy.max(axis=0)+.04*spread
+    ax.set(xlim=(lo[0],hi[0]),ylim=(lo[1],hi[1]));ax.set_aspect("equal")
     ax.set_axis_off();ax.set_facecolor("#f7f9fb")
     for x in (.35,19.65):
         z=float(xyz[:,2].min())
-        ax.plot([x,x],[-.7,.7],[z,z],color="#183a53",linewidth=4,zorder=100)
+        support=np.array([[x,-.7,z],[x,.7,z]])
+        q=np.column_stack((support@right,support@up))
+        ax.plot(q[:,0],q[:,1],color="#183a53",linewidth=4,zorder=100)
     cbax=fig.add_axes([.90,.38,.015,.29])
     cb=fig.colorbar(plt.cm.ScalarMappable(norm=norm,cmap=cmap),cax=cbax)
     cb.set_label("Displacement magnitude |U| (mm)",size=11,labelpad=10)
