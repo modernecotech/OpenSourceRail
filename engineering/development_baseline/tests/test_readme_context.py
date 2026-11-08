@@ -1,6 +1,7 @@
 """Current documentation context preserves historical scope and source identity."""
 from hashlib import sha256
 from pathlib import Path
+import re
 import pytest
 from engineering import readme_context as context
 
@@ -61,6 +62,40 @@ def test_owned_context_cannot_overwrite_source_bound_evidence(tmp_path, monkeypa
     assert target.read_text() == '# Tools\n\nSource-bound original.\n'
 
 
+def assert_current_workflow_labels(text):
+    """Preserve pinned history; prevent old applications becoming current claims."""
+    text=text.lower()
+    assert not any(label in text for label in ('legacy','city studio','sim gui','occ gui'))
+    historical_link=re.compile(
+        r'\[[^\]]+\]\(https://github\.com/modernecotech/opensourcerail/tree/'
+        r'(?:v0\.4\.0|v0\.5\.1)\)')
+    for paragraph in re.split(r'\n\s*\n',text):
+        has_pinned_history=bool(historical_link.search(paragraph))
+        current=historical_link.sub('__pinned_historical_release__',paragraph)
+        if has_pinned_history:
+            assert 'historical' in paragraph, 'Older release links need explicit historical scope'
+            assert not re.search(r'\b(?:selected|current|active|default)\b[^.\n]*__pinned_historical_release__',current), 'Older releases cannot be the current application'
+        assert not any(label in current for label in ('v0.4','v0.5')), 'Unscoped older product label'
+
+
+def test_pinned_release_links_remain_allowed_with_explicit_historical_scope():
+    assert_current_workflow_labels(
+        'The [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0) '
+        'and [v0.5.1 research](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1) '
+        'remain historical foundations.')
+
+
+@pytest.mark.parametrize('text',[
+    'The current reference is v0.4.',
+    'Use [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0).',
+    'Historical [v0.4 release](https://example.invalid/wrong-provenance).',
+    'The selected reference is [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0). Historical data is retained.',
+    'Current City Studio application',
+])
+def test_current_claims_and_unscoped_release_references_still_fail(text):
+    with pytest.raises(AssertionError):assert_current_workflow_labels(text)
+
+
 def test_current_front_door_readmes_describe_current_workflows_without_old_app_labels():
     root = Path(context.__file__).resolve().parents[1]
     paths = (
@@ -74,7 +109,7 @@ def test_current_front_door_readmes_describe_current_workflows_without_old_app_l
         root / 'engineering/trip_dynamics/README.md',
         root / 'docs/archives/pre-comfort-default/README.md',
     )
-    forbidden = ('v0.4', 'v0.5', 'legacy', 'city studio', 'sim gui', 'occ gui')
     for path in paths:
         text = path.read_text().lower()
-        assert not any(label in text for label in forbidden), path.relative_to(root)
+        try:assert_current_workflow_labels(text)
+        except AssertionError as error:raise AssertionError(str(path.relative_to(root))+': '+str(error)) from error
