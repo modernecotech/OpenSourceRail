@@ -89,3 +89,8 @@ def test_project_binds_spread_revision_without_inheriting_narrow_civil_capacity(
     changed=deepcopy(spread);changed['station_evaluation_id']='f'*64;seal(changed)
     with pytest.raises(ValueError,match='different running civil'):
         bundle.combine(b,a,c,s,station_tracks=changed)
+    for key in ('alignment_candidate_id','station_geometry_candidate_id'):
+        changed=deepcopy(spread);changed['physical_definition'][key]='f'*64
+        changed['candidate_id']=identity(changed['physical_definition']);seal(changed)
+        with pytest.raises(ValueError,match='different running civil'):
+            bundle.combine(b,a,c,s,station_tracks=changed)

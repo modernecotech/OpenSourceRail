@@ -111,6 +111,8 @@ def combine(body,alignment,civil,station,*,station_tracks=None,root=ROOT):
             station_tracks['alignment_evaluation_id']!=alignment['evaluation_id'] or
             station_tracks['station_candidate_id']!=station['candidate_id'] or
             station_tracks['station_evaluation_id']!=station['evaluation_id'] or
+            station_tracks['physical_definition']['alignment_candidate_id']!=alignment['candidate_id'] or
+            station_tracks['physical_definition']['station_geometry_candidate_id']!=station['candidate_id'] or
             station_tracks['physical_definition']['running_track_centres_y_m']!=running_centres or
             station_tracks['physical_definition']['station_track_centres_y_m']!=station_centres):
             raise ValueError('Track spread belongs to different running civil, station or alignment revision')
