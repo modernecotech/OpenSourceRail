@@ -9,6 +9,9 @@ import csv
 import gzip
 import io
 import json
+import hashlib
+import re
+import stat
 from pathlib import Path
 import shutil
 import sys
@@ -17,12 +20,197 @@ from html import escape
 from math import fsum
 
 ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT))
-from engineering.station_rail.common import encoded, identity, digest
-from engineering.powered_bogie import FLAGS
+# Standalone verification must neither import current engineering producers nor
+# execute anything retained in an archive. Keep the established byte format
+# local: these three helpers exactly match station_rail.common's JSON contract.
+def encoded(value):return (json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()
+def identity(value):return hashlib.sha256(encoded(value)).hexdigest()
+def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
+           operating_release=False,selected_reference_changed=False,supplier_fit_verified=False)
+
+MAX_FILE_BYTES=16*1024*1024
+MAX_PACKET_BYTES=64*1024*1024
+MAX_ARCHIVE_BYTES=64*1024*1024
+MAX_MEMBER_BYTES=8*1024*1024
+MAX_BODY_BYTES=32*1024*1024
+MAX_MEMBERS=256
+REQUIRED_ARTIFACTS=frozenset(('README.md','assembly.sc','assembly.step','assembly.svg',
+    'body.json.gz','bogie.glb','change-set.json','geometry.json','manufacturing.csv',
+    'native-result.json','native-verification.json','source-and-run.tar.gz','stock-case.json','validation.json'))
+COPY_MAP={'body.json.gz':'body.json.gz','geometry.json':'geometry.json',
+    'change-set.json':'change-set.json','stock-case.json':'stock-case.json','bogie.glb':'bogie.glb',
+    'native-result.json':'native-result.json','native-cad/solidcraft/assembly.step':'assembly.step',
+    'native-cad/solidcraft/assembly.sc':'assembly.sc','native-cad/verification.json':'native-verification.json'}
 
 
 def read(path):return json.loads(path.read_bytes())
+
+
+def _name(name):
+    if (not isinstance(name,str) or not name or len(name)>512 or '\\' in name
+            or any(ord(c)<32 for c in name)):
+        raise ValueError('Ordinary bounded relative artifact name required')
+    p=Path(name)
+    if p.is_absolute() or any(s in ('','..','.') for s in name.split('/')) or p.as_posix()!=name:
+        raise ValueError('Archive/artifact path escapes its declared namespace: '+name)
+    return name
+
+
+def _hashes(value):
+    if not isinstance(value,dict) or not value or len(value)>MAX_MEMBERS:
+        raise ValueError('Nonempty bounded hash inventory required')
+    for name,sha in value.items():
+        _name(name)
+        if not isinstance(sha,str) or re.fullmatch('[0-9a-f]{64}',sha) is None:
+            raise ValueError('SHA256 required for '+name)
+    return value
+
+
+def _json(data):
+    def unique(pairs):
+        value={}
+        for key,item in pairs:
+            if key in value:raise ValueError('Duplicate JSON key: '+key)
+            value[key]=item
+        return value
+    def bad_constant(value):raise ValueError('Nonfinite JSON constant: '+value)
+    return json.loads(data,object_pairs_hook=unique,parse_constant=bad_constant)
+
+
+def _seal(value,key='evaluation_id'):
+    if (not isinstance(value,dict) or key not in value
+            or value[key]!=identity({k:v for k,v in value.items() if k!=key})):
+        raise ValueError('Record seal differs: '+key)
+    return value
+
+
+def _gunzip(data,limit):
+    with gzip.GzipFile(fileobj=io.BytesIO(data),mode='rb') as stream:
+        result=stream.read(limit+1)
+    if len(result)>limit:raise ValueError('Decompressed data exceeds bounded verification budget')
+    return result
+
+
+def _archive(data):
+    """Read bounded ordinary members as data. Never extract or execute them."""
+    raw=_gunzip(data,MAX_ARCHIVE_BYTES);members={}
+    with tarfile.open(fileobj=io.BytesIO(raw),mode='r:') as tar:
+        total=0
+        for member in tar:
+            name=_name(member.name)
+            if (member.type not in (tarfile.REGTYPE,tarfile.AREGTYPE) or member.sparse is not None
+                    or any(k.startswith('GNU.sparse') for k in member.pax_headers)):
+                raise ValueError('Archive member must be an ordinary non-sparse file: '+name)
+            if name in members:raise ValueError('Duplicate archive member: '+name)
+            if member.size<0 or member.size>MAX_MEMBER_BYTES:
+                raise ValueError('Archive member exceeds bounded verification budget: '+name)
+            total+=member.size
+            if total>MAX_ARCHIVE_BYTES or len(members)>=MAX_MEMBERS:
+                raise ValueError('Archive inventory exceeds bounded verification budget')
+            stream=tar.extractfile(member)
+            content=stream.read(member.size+1)
+            if len(content)!=member.size:raise ValueError('Truncated archive member: '+name)
+            members[name]=content
+    return members
+
+
+def verify(packet):
+    """Verify recorded integrity offline, without current source or Git history.
+
+    Content seals establish internal identity/integrity, not a trusted digital
+    signature, measured physical evidence or fresh native solver execution.
+    """
+    packet=Path(packet).absolute()
+    if packet.is_symlink() or not stat.S_ISDIR(packet.lstat().st_mode):
+        raise ValueError('Ordinary packet directory required')
+    actual={};total=0
+    for p in packet.rglob('*'):
+        mode=p.lstat().st_mode;name=p.relative_to(packet).as_posix();_name(name)
+        if stat.S_ISDIR(mode):
+            if not any(n.startswith(name+'/') for n in REQUIRED_ARTIFACTS):
+                raise ValueError('Undeclared artifact directory: '+name)
+            continue
+        if not stat.S_ISREG(mode):raise ValueError('Artifact must be an ordinary file: '+name)
+        size=p.stat().st_size;total+=size
+        if size>MAX_FILE_BYTES or total>MAX_PACKET_BYTES or len(actual)>MAX_MEMBERS:
+            raise ValueError('Packet exceeds bounded verification budget')
+        actual[name]=p.read_bytes()
+    if set(actual)!=REQUIRED_ARTIFACTS|{'packet.json'}:
+        raise ValueError('Complete artifact inventory differs from publication schema')
+    publication=_seal(_json(actual['packet.json']))
+    if publication.get('schema')!='osr-powered-bogie-publication/1':
+        raise ValueError('Unsupported publication schema')
+    hashes=_hashes(publication['files_sha256'])
+    if set(hashes)!=REQUIRED_ARTIFACTS:
+        raise ValueError('Declared artifact inventory differs from publication schema')
+    for name,sha in hashes.items():
+        if hashlib.sha256(actual[name]).hexdigest()!=sha:
+            raise ValueError('Artifact hash differs: '+name)
+    source=_hashes(publication['source_before'])
+    if source!=publication['source_after']:raise ValueError('Publication source snapshots differ')
+    members=_archive(actual['source-and-run.tar.gz'])
+    if 'run/manifest.json' not in members:raise ValueError('Archived run manifest missing')
+    run=_seal(_json(members['run/manifest.json']))
+    if run['evaluation_id']!=publication['run_manifest_id']:raise ValueError('Run manifest identity differs')
+    run_files=_hashes(run['files_sha256'])
+    expected={'run/'+n for n in run_files}|{'source/'+n for n in source}|{'run/manifest.json'}
+    if set(members)!=expected:raise ValueError('Complete archive inventory differs from sealed run/source maps')
+    for name,sha in run_files.items():
+        if hashlib.sha256(members['run/'+name]).hexdigest()!=sha:
+            raise ValueError('Archived run file hash differs: '+name)
+    for name,sha in source.items():
+        if hashlib.sha256(members['source/'+name]).hexdigest()!=sha:
+            raise ValueError('Archived source snapshot hash differs: '+name)
+    summary=run['summary']
+    if (summary['source_before']!=source or summary['source_after']!=source
+            or summary['source_integrity_passed'] is not True
+            or summary['source_commit']!=publication['run_source_commit']
+            or summary['execution']!='completed'):
+        raise ValueError('Run source context differs from publication')
+    if _json(members['run/summary.json'])!=summary:raise ValueError('Archived summary differs')
+    for archived,published in COPY_MAP.items():
+        if members['run/extended-cradle-3240/'+archived]!=actual[published]:
+            raise ValueError('Published artifact differs from archived run: '+published)
+    body=_seal(_json(_gunzip(actual['body.json.gz'],MAX_BODY_BYTES)))
+    geometry=_seal(_json(actual['geometry.json']))
+    native=_seal(_json(actual['native-result.json']))
+    native_receipt=_seal(_json(actual['native-verification.json']))
+    if native_receipt!=native['native_receipt']:raise ValueError('Native proof envelope differs from receipt')
+    cid=publication['candidate_id']
+    if body['candidate_id']!=identity(body['physical_definition']):raise ValueError('Physical body identity differs')
+    for record in (body,geometry,native,native_receipt):
+        if record['candidate_id']!=cid:raise ValueError('Mixed physical candidate identities')
+    if (body['evaluation_id']!=publication['body_evaluation_id']
+            or geometry['evaluation_id']!=publication['geometry_evaluation_id']
+            or native['evaluation_id']!=publication['native_evaluation_id']
+            or body['parent_candidate_id']!=publication['input_candidate_id']
+            or body['parent_evaluation_id']!=publication['input_evaluation_id']):
+        raise ValueError('Candidate/evaluation ancestry differs')
+    for record in (body,geometry):
+        if record['source_sha256']!=source:raise ValueError('Recorded producer source context differs')
+    if native['exact_source_sha256']!=source:raise ValueError('Native enclosing source context differs')
+    case=_json(actual['stock-case.json'])
+    geometry_id=identity(dict(entities=case['entities'],units='m'))
+    if (case['candidate_id']!=cid or geometry_id!=case['component_geometry_id']
+            or geometry_id!=publication['native_component_geometry_id']
+            or geometry_id!=native_receipt['component_geometry_id']
+            or len(case['entities'])!=case['expected']['part_count']):
+        raise ValueError('Native stock geometry identity differs')
+    if (hashes['assembly.step']!=native_receipt['step_sha256']
+            or hashes['assembly.sc']!=native_receipt['native_sha256']
+            or native['status']!='completed'
+            or native_receipt['diagnostic']['comparison_passed'] is not True
+            or native_receipt['independent_exact']['comparison_passed'] is not True):
+        raise ValueError('Recorded native comparison differs')
+    for record in (publication,body,geometry,native,native_receipt):
+        if any(record.get(k) is not False for k in ('physical_accepted','engineering_accepted',
+                'manufacturing_release','operating_release')):
+            raise ValueError('Research evidence cannot confer physical/manufacturing/operating acceptance')
+    return dict(status='verified',publication_id=publication['evaluation_id'],candidate_id=cid,
+        artifact_files=len(hashes),archive_members=len(members),source_snapshots=len(source),
+        archived_code_executed=False,current_producer_or_Git_required=False,
+        verification_scope='Recorded content integrity and identity consistency; no digital-signature authentication, fresh native solve or physical qualification',**FLAGS)
 
 
 def check_run(folder):
@@ -223,8 +411,22 @@ The final six regression tests passed in 35.749 s. The frozen private run comple
     return info
 
 
-if __name__=='__main__':
+def main(argv=None):
+    argv=list(sys.argv[1:] if argv is None else argv)
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('run',type=Path);parser.add_argument('output',type=Path)
-    args=parser.parse_args();p=publish(args.run,args.output)
-    print(json.dumps(dict(candidate_id=p['candidate_id'],publication_id=p['evaluation_id'],files=len(p['files_sha256'])),sort_keys=True))
+    if argv and argv[0]=='verify':
+        parser.add_argument('operation',choices=('verify',))
+        parser.add_argument('--packet',type=Path,required=True)
+        args=parser.parse_args(argv)
+        try:result=verify(args.packet)
+        except (ValueError,OSError,KeyError,TypeError,tarfile.TarError,EOFError,RecursionError) as exc:
+            parser.exit(2,'Packet verification failed: '+str(exc)+'\n')
+    else:
+        # Preserve the original two-positional publication invocation.
+        parser.add_argument('run',type=Path);parser.add_argument('output',type=Path)
+        args=parser.parse_args(argv);p=publish(args.run,args.output)
+        result=dict(candidate_id=p['candidate_id'],publication_id=p['evaluation_id'],files=len(p['files_sha256']))
+    print(json.dumps(result,sort_keys=True))
+
+
+if __name__=='__main__':main()
