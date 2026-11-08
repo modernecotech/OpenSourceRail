@@ -5,6 +5,7 @@ import pytest
 from engineering.railway_project import alignment,bundle,station_tracks as tracks
 from test_railway_project_alignment import corridor,PARAMETERS
 from test_railway_project_bundle import inputs
+from test_railway_project_bundle import civil_control
 from test_railway_project_civil import seal
 
 
@@ -70,3 +71,21 @@ def test_speed_sway_and_evidence_are_evaluations_but_spread_length_changes_geome
     longer=generate(a,s,transition_length_m=200.)
     assert longer['candidate_id']!=first['candidate_id']
     assert longer['numerical']['maximum_curvature_per_m']<first['numerical']['maximum_curvature_per_m']
+
+
+def test_project_binds_spread_revision_without_inheriting_narrow_civil_capacity():
+    b,_=inputs();a,s=controls();spread=generate(a,s)
+    c=civil_control(b,a)
+    c['physical_definition']['track_centres_y_m']=[-1.6,1.6]
+    from engineering.station_rail.common import identity
+    c['candidate_id']=identity(c['physical_definition']);seal(c)
+    with pytest.raises(ValueError,match='explicit track spreading'):
+        bundle.combine(b,a,c,s)
+    project=bundle.combine(b,a,c,s,station_tracks=spread)
+    assert project['physical_definition']['station_track_geometry_candidate_id']==spread['candidate_id']
+    assert not project['widened_station_supports_verified']
+    assert not project['terminal_routes_complete']
+    assert not project['installed_station_complete']
+    changed=deepcopy(spread);changed['station_evaluation_id']='f'*64;seal(changed)
+    with pytest.raises(ValueError,match='different running civil'):
+        bundle.combine(b,a,c,s,station_tracks=changed)

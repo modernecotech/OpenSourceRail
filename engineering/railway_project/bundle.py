@@ -81,7 +81,7 @@ def stations(body,alignment,*,platform_width_m,track_centres_y_m,nominal_boardin
     return result
 
 
-def combine(body,alignment,civil,station,*,root=ROOT):
+def combine(body,alignment,civil,station,*,station_tracks=None,root=ROOT):
     """Bind actual physical revisions; service/price/proof are evaluation context."""
     expected=('osr-vehicle-installation/1','osr-station-straight-alignment/1',
               'osr-project-civil-evaluation/1','osr-project-station-interfaces/1')
@@ -95,19 +95,44 @@ def combine(body,alignment,civil,station,*,root=ROOT):
     if any(v['alignment_candidate_id']!=alignment['candidate_id'] or v['alignment_evaluation_id']!=alignment['evaluation_id'] for v in (civil,station)):
         raise ValueError('Civil/station belongs to a different mapped alignment revision')
     track=body['policy']['track_interface'];declared=civil['physical_definition']['span_geometry']['track_interface']
-    if any(declared[k]!=track[k] for k in declared) or civil['physical_definition']['track_centres_y_m']!=station['physical_definition']['track_centres_y_m']:
+    if any(declared[k]!=track[k] for k in declared):
         raise ValueError('Vehicle, civil and station rail datums disagree')
+    running_centres=civil['physical_definition']['track_centres_y_m']
+    station_centres=station['physical_definition']['track_centres_y_m']
+    components=[body,alignment,civil,station]
+    if station_tracks is None:
+        if running_centres!=station_centres:
+            raise ValueError('Vehicle, civil and station rail datums disagree; explicit track spreading required')
+    else:
+        sealed(station_tracks)
+        if (station_tracks.get('schema')!='osr-station-track-spread-evaluation/1' or
+            station_tracks['candidate_id']!=identity(station_tracks['physical_definition']) or
+            station_tracks['alignment_candidate_id']!=alignment['candidate_id'] or
+            station_tracks['alignment_evaluation_id']!=alignment['evaluation_id'] or
+            station_tracks['station_candidate_id']!=station['candidate_id'] or
+            station_tracks['station_evaluation_id']!=station['evaluation_id'] or
+            station_tracks['physical_definition']['running_track_centres_y_m']!=running_centres or
+            station_tracks['physical_definition']['station_track_centres_y_m']!=station_centres):
+            raise ValueError('Track spread belongs to different running civil, station or alignment revision')
+        components.append(station_tracks)
     physical=dict(schema='osr-mapped-railway-project-physical/1',body_candidate_id=body['candidate_id'],
         alignment_candidate_id=alignment['candidate_id'],civil_layout_candidate_id=civil['candidate_id'],
         station_geometry_candidate_id=station['candidate_id'])
+    if station_tracks is not None:
+        physical['station_track_geometry_candidate_id']=station_tracks['candidate_id']
     result=dict(schema='osr-mapped-railway-project-bundle/1',candidate_id=identity(physical),physical_definition=physical,
         body_evaluation_id=body['evaluation_id'],alignment_evaluation_id=alignment['evaluation_id'],
         civil_evaluation_id=civil['evaluation_id'],station_evaluation_id=station['evaluation_id'],
-        source_sha256=source_union(body,alignment,civil,station,root=root),
+        source_sha256=source_union(*components,root=root),
         purpose='Mapped integrated research candidate; no selected development-reference revision',
         installed_vehicle_complete=body['installed_mass_complete'] and body['layout_definition_complete'],
         installed_station_complete=station['installed_station_assembly_complete'],
         force_driven_project_replayed=False,complete_project_costed=False,**FLAGS)
+    if station_tracks is not None:
+        result.update(station_track_evaluation_id=station_tracks['evaluation_id'],
+            widened_station_supports_verified=False,terminal_routes_complete=False,
+            station_track_horizontal_screen_passed=station_tracks['calculated_horizontal_screen_passed'],
+            station_track_scope='Only horizontal interfaces are bound; no running-span capacity or FEM result is transferred to widened supports or terminal routes.')
     result['source_sha256'][PRODUCER]=digest(Path(root)/PRODUCER)
     result['evaluation_id']=identity(result)
     return result
