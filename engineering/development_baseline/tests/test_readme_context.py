@@ -74,7 +74,8 @@ def assert_current_workflow_labels(text):
         current=historical_link.sub('__pinned_historical_release__',paragraph)
         if has_pinned_history:
             assert 'historical' in paragraph, 'Older release links need explicit historical scope'
-            assert not re.search(r'\b(?:selected|current|active|default)\b[^.\n]*__pinned_historical_release__',current), 'Older releases cannot be the current application'
+            prose=re.sub(r'\[([^\]]+)\]\([^)]+\)',r'\1',paragraph)
+            assert not re.search(r'\b(?:selected|current|active|default)\b',prose), 'Older releases cannot be the current application'
         assert not any(label in current for label in ('v0.4','v0.5')), 'Unscoped older product label'
 
 
@@ -82,7 +83,7 @@ def test_pinned_release_links_remain_allowed_with_explicit_historical_scope():
     assert_current_workflow_labels(
         'The [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0) '
         'and [v0.5.1 research](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1) '
-        'remain historical foundations.')
+        'remain historical foundations; [source archive](../archives/pre-comfort-default/manifest.json).')
 
 
 @pytest.mark.parametrize('text',[
@@ -90,6 +91,8 @@ def test_pinned_release_links_remain_allowed_with_explicit_historical_scope():
     'Use [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0).',
     'Historical [v0.4 release](https://example.invalid/wrong-provenance).',
     'The selected reference is [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0). Historical data is retained.',
+    'The [v0.4 release](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0) is the current selected reference. Historical data is retained.',
+    'Historical [current reference v0.4](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0).',
     'Current City Studio application',
 ])
 def test_current_claims_and_unscoped_release_references_still_fail(text):
