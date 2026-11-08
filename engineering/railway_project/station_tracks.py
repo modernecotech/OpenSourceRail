@@ -79,7 +79,8 @@ def generate(alignment, station, *, running_track_centres_y_m, transition_length
     width=p['train_width_m'];gap=p['nominal_boarding_gap_m']
     clearance=(wide[1]-wide[0])-width-p['platform_width_m']-2*gap-2*lateral_sway_bound_m
     running_clearance=centres[1]-centres[0]-width-2*lateral_sway_bound_m
-    if min(clearance,running_clearance)<0:
+    own_platform_clearance=gap-lateral_sway_bound_m
+    if min(clearance,running_clearance,own_platform_clearance)<0:
         raise ValueError('Declared swept train envelopes conflict at running track or inner platform')
     delta=wide[1]-centres[1]
     coarse=metrics(transition_length_m,delta,128);fine=metrics(transition_length_m,delta,256)
@@ -121,6 +122,7 @@ def generate(alignment, station, *, running_track_centres_y_m, transition_length
             total_track_m=total_track,total_rail_m=2*total_track),
         numerical=dict(**fine,length_refinement_residual_m=abs(fine['length_m']-coarse['length_m']),
             swept_inner_platform_clearance_m=clearance,swept_running_train_clearance_m=running_clearance,
+            swept_own_platform_clearance_m=own_platform_clearance,
             lateral_acceleration_m_s2=a,lateral_jerk_upper_estimate_m_s3=jerk,interval_enclosure_verified=False),
         checks=checks,calculated_horizontal_screen_passed=all(checks.values()),installed_station_complete=False,
         holds=['Track widening changes bearing spacing, transverse caps, pier torsion, foundations and station support quantities; running-span FEM is not inherited.',

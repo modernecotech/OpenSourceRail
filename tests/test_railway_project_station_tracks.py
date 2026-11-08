@@ -40,6 +40,7 @@ def test_station_spread_counts_each_transition_and_terminal_half_platform_once()
     assert q['spread_additional_track_m']>0
     assert q['total_rail_m']==2*q['total_track_m']
     assert r['numerical']['swept_inner_platform_clearance_m']==pytest.approx(.1)
+    assert r['numerical']['swept_own_platform_clearance_m']==pytest.approx(.025)
     assert r['calculated_horizontal_screen_passed']
     assert not r['installed_station_complete'] and not r['physical_accepted']
     assert r['physical_definition']['turnback_definition_complete'] is False
@@ -52,6 +53,10 @@ def test_short_parent_straight_and_dynamic_platform_conflict_are_not_relabelled(
     a,s=controls()
     with pytest.raises(ValueError,match='swept train'):
         generate(a,s,lateral_sway_bound_m=.2)
+    # Independent review found that positive inter-track clearance alone missed
+    # each vehicle's own +Y platform. Preserve this 15 mm intrusion control.
+    with pytest.raises(ValueError,match='swept train'):
+        generate(a,s,lateral_sway_bound_m=.09)
     changed=deepcopy(s);changed['alignment_evaluation_id']='f'*64;seal(changed)
     with pytest.raises(ValueError,match='same-alignment'):
         generate(a,changed)
