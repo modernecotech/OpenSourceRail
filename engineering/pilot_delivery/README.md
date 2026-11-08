@@ -54,9 +54,17 @@ critical paths remain unknown. Two 8-hour production shifts describe equivalent
 resource capacity, not one employee working two shifts. These estimates do not
 add a second labour price to the catalogue's direct material/process allowance.
 
-Legacy source steps that still name removed battery parts are retained as
-provenance with a specific source-route revision hold. Those IDs are excluded
-from current executable-part references; they do not become new orders.
+Source routes are reconciled against the actual current `assembly_id` on every
+part. Removed definitions remain source provenance and receive route-revision
+holds; they are excluded from current executable-part references and quantities.
+New current parts receive their own recorded process proposals, with controlled
+assembly detail and unprovided tooling held. Historical battery-route gaps and
+new running-frame replacements use the same rule.
+
+The source category `make` maps explicitly to a local-fabrication planning
+proposal. `bounded-purchased-or-processed` remains unresolved: process hours and
+the complete vehicle-hour total stay unknown, while the known-hour subtotal is
+reported separately. Neither category implies a qualified production method.
 
 The current body subtotal includes its installation reserve and excludes the
 separately owned drive/BOP/recovery additions. It is never reported as complete
