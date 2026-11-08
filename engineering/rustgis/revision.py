@@ -231,11 +231,16 @@ def build_request(raw,original,base,binding,*,actor,reason,data_crs='EPSG:4326')
     old_by_id={s['properties']['id']:s['properties'] for s in station_old.values()}
     if set(station_new)-set(station_old):raise ValueError('Unknown source station index')
     by_id={line['id']:line for line in base['lines']};new_by_line={k:[] for k in by_id}
-    seen_stops=set();station_changed=set()
+    seen_stops=set();station_changed=set();station_geometry_unchanged=set()
     for index,f in station_new.items():
         old=station_old[index];props=f['properties'];_properties(old['properties'],props,allowed=PROXIES|{'dwell_s'})
         lid=props['line_id'];sid=props['id']
         if lid!=old['properties']['line_id'] or sid!=old['properties']['id']:raise ValueError('Station source identity changed')
+        if adapter._same_numbers(old['geometry'],f['geometry']):
+            # Numerical no-ops must stay exact no-ops in the downstream planner,
+            # which intentionally uses exact geometry for civil reassessment.
+            f=deepcopy(f);f['geometry']=deepcopy(old['geometry'])
+            station_geometry_unchanged.add(sid)
         new_by_line[lid].append(f)
         if not adapter._same_numbers(old['geometry'],f['geometry']) or props.get('dwell_s')!=old['properties'].get('dwell_s'):
             station_changed.add(lid)
@@ -260,7 +265,9 @@ def build_request(raw,original,base,binding,*,actor,reason,data_crs='EPSG:4326')
         headway=props.get('headway_s',line['headway_s'])
         planning_geometry.number(cap,'native route speed cap',.1,80.)
         planning_geometry.number(headway,'native headway',10.,86400.)
-        changed=(not adapter._same_numbers(_line(f['geometry']),coords) or shape!=line['shape'] or cap!=line['design_speed_cap_m_s'])
+        geometry_unchanged=adapter._same_numbers(_line(f['geometry']),coords)
+        if geometry_unchanged:coords=deepcopy(line['coordinates'])
+        changed=(not geometry_unchanged or shape!=line['shape'] or cap!=line['design_speed_cap_m_s'])
         route_chain=planning_geometry.route(coords,shape)
         projections+=len(coords)*len(new_by_line[lid])
         if projections>MAX_PROJECTIONS:raise ValueError('Native station/route projection work exceeds this bounded import; split the revision')
@@ -271,6 +278,8 @@ def build_request(raw,original,base,binding,*,actor,reason,data_crs='EPSG:4326')
             seen_stops.add(sid)
             point=_station(station['geometry']);at=chainage(point,coords,shape,chain=route_chain)
             source=old_by_id.get(sid,{})
+            if geometry_unchanged and shape==line['shape'] and sid in station_geometry_unchanged:
+                at=source['chainage_m']
             for field,want in [('lon',point[0]),('lat',point[1]),('chainage_m',at)]:
                 actual=props.get(field)
                 if actual is not None and actual!=source.get(field) and (type(actual) not in (int,float) or abs(actual-want)>(.02 if field=='chainage_m' else 1e-10)):

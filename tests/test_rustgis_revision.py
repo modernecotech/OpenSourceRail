@@ -113,6 +113,30 @@ def test_native_service_edit_preserves_each_explicit_station_dwell(scene):
     assert last['design_speed_cap_m_s']==15. and last['stops'][1]['dwell_s']==50.
 
 
+def test_service_only_numeric_geometry_noop_cannot_add_whole_line_civil_risk(scene):
+    p=deepcopy(scene[0]);set_value(p,'routes',0,'headway_s',180.)
+    dataset(p,'routes')['features'][0]['geometry']['Line'][0][0]['x']+=5e-13
+    dataset(p,'stations')['features'][1]['geometry']['Point']['x']+=5e-13
+    set_value(p,'stations',1,'lon',.01+5e-13)
+    request,check=build(scene,p);edits=request['edit_bundle']['edits'];old=scene[1]['lines'][0]
+    assert edits[0]['kind']=='set-service' and edits[0]['headway_s']==180.
+    replacement=edits[1]
+    assert replacement['coordinates']==old['coordinates']
+    assert [s['chainage_m'] for s in replacement['stops']]==[s['chainage_m'] for s in old['stops']]
+    # This is the exact predicate used by planning_adapter.apply_edits to count
+    # changed_route_m / ROW and crossing risk. A translated service edit has0.
+    changed_route_m=old['length_m'] if (replacement['coordinates']!=old['coordinates'] or replacement['shape']!=old['shape']) else 0.
+    assert changed_route_m==0. and check['changed_lines']==['L']
+
+
+def test_real_geometry_edit_still_triggers_exact_civil_reassessment(scene):
+    p=deepcopy(scene[0]);set_value(p,'routes',0,'headway_s',180.)
+    dataset(p,'routes')['features'][0]['geometry']['Line'][0][0]['x']+=2e-12
+    request,_=build(scene,p)
+    replacement=request['edit_bundle']['edits'][1]
+    assert replacement['coordinates']!=scene[1]['lines'][0]['coordinates']
+
+
 def test_native_upload_cannot_bypass_existing_city_job_request_budget(scene,monkeypatch):
     from engineering.outline import city_jobs
     monkeypatch.setattr(city_jobs,'MAX_REQUEST',1)
