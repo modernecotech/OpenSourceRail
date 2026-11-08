@@ -96,6 +96,6 @@ requests, physical identities, costs and generated files. Native replay rebuilds
 the pinned Rust protocol under CPU/address-space/wall limits, retaining failures.
 Source read-only instructions are not an OS sandbox.
 
-Study `20685f2177047c97e80483541eaaf4d0e9d962950ea9e95237e21a44855e849e`. Outline experiment and accounting records are complete
+Study `f8d6ec9e644f9e2308274a31cac021e06190cca7b6db712d1f82c452a61b74aa`. Outline experiment and accounting records are complete
 under assumptions. Installed design, concurrent service, measured mechanisms,
 physical acceptance and manufacturing/operating release remain open.
