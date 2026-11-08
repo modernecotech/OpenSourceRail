@@ -1,5 +1,6 @@
 """Canonical whole-railway identity and explicit component evidence bindings."""
 from engineering.station_rail.common import identity
+from engineering.pilot_civil.design import validate_track_interface
 from . import FLAGS
 
 
@@ -16,6 +17,10 @@ def combine(installed,civil):
         raise ValueError('Terminal physical identity mismatch')
     if civil['civil_candidate_id']!=identity(civil['physical_definition']):
         raise ValueError('Civil physical identity mismatch')
+    track=installed['physical_definition']['track_interface']
+    validate_track_interface(track)
+    if track!=civil['physical_definition']['rail_interface']['track_interface']:
+        raise ValueError('Installed vehicle and civil wheel/rail interfaces disagree')
     physical=dict(schema='osr-railway-closure-physical/1',
         installed_vehicle_and_station_candidate_id=installed['candidate_id'],
         body_candidate_id=installed['vehicle_candidate_id'],

@@ -59,6 +59,20 @@ def test_prepared_context_is_equivalent_and_rejects_mutation(installed):
     with pytest.raises(ValueError,match='context changed'):case(installed,prepared=context)
 
 
+def test_whole_bundle_rejects_different_rail_interface(installed):
+    from engineering.railway_closure.bundle import combine
+    from engineering.pilot_civil.design import evaluate
+    civil=evaluate(axle_packet(installed),family='folded_plate',revision='thick-web',upstream_root=ROOT)
+    assert combine(installed,civil)['installed_component_candidate_id']==installed['candidate_id']
+    bad=deepcopy(civil)
+    track=bad['physical_definition']['rail_interface']['track_interface']
+    track['inner_face_gauge_m']=1.2
+    track['nominal_contact_centres_y_m']=[-.635,.635]
+    bad['civil_candidate_id']=identity(bad['physical_definition'])
+    bad.pop('evaluation_id');bad['evaluation_id']=identity(bad)
+    with pytest.raises(ValueError,match='wheel/rail interfaces disagree'):combine(installed,bad)
+
+
 def test_cooler_modulates_instead_of_overcooling():
     r=controlled_thermal([dict(duration_s=36000.,heat_W=100.)],initial_C=35.,ambient_C=50.,
                          capacity_J_K=100000.,conductance_W_K=10.,cooling_capacity_W=3000.,target_C=35.)
