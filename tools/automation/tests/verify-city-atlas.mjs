@@ -61,7 +61,13 @@ try {
   assert((await page.locator('#city-atlas').textContent()).includes(calculated.identity.outline_evaluation_id));
   assert((await page.locator('.atlas-service-table').innerText()).includes('5,200'));
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
-  assert.equal(await page.getByRole('link',{name:'Download editable RustGIS project and source tables'}).count(),0);
+  const revisedGIS=page.getByRole('link',{name:'Download editable RustGIS project and source tables'});
+  assert.equal(await revisedGIS.count(),1);
+  const revisedGISPath=await revisedGIS.getAttribute('href');
+  assert.match(revisedGISPath,new RegExp('^/api/rustgis/study/[a-f0-9]{32}/'+calculated.packet_id+'\\.zip$'));
+  const revisedGISResponse=await page.request.get('http://127.0.0.1:8097'+revisedGISPath);
+  assert.equal(revisedGISResponse.status(),200);
+  assert.equal((await revisedGISResponse.body()).subarray(0,2).toString(),'PK');
   const record=await page.request.get('http://127.0.0.1:8097/api/city-atlas/samawah');assert.equal(record.status(),200);
   const p=await record.json();assert.equal(p.physical_accepted,false);
   await page.setViewportSize({width:390,height:844});
