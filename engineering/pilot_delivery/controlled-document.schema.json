@@ -1,0 +1,257 @@
+{
+  "$comment": "Structural aid only. candidate_delivery_contract.validate_document additionally enforces exact fields, candidate/part source binding, safe paths, finite limits and routing inspection correspondence.",
+  "$id": "https://opensourcerail.invalid/schema/controlled-research-document-1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "document_type": {
+            "const": "inspection"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "characteristics"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "document_type": {
+            "const": "routing"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "operations"
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "characteristics": {
+      "items": {
+        "required": [
+          "id",
+          "name",
+          "unit",
+          "minimum",
+          "maximum",
+          "method",
+          "evidence_maturity"
+        ],
+        "type": "object"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "type": "array"
+    },
+    "component_definition_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "document_type": {
+      "enum": [
+        "drawing",
+        "inspection",
+        "routing"
+      ]
+    },
+    "engineering_accepted": {
+      "const": false
+    },
+    "identities": {
+      "additionalProperties": false,
+      "properties": {
+        "body_candidate_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "bundle_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "candidate_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "civil_candidate_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "civil_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "cost_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "engineering_revision": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "installed_component_candidate_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "installed_mass_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "lifecycle_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "service_evaluation_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_body_bundle_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "study_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_candidate_id",
+        "bundle_evaluation_id",
+        "candidate_id",
+        "civil_candidate_id",
+        "civil_evaluation_id",
+        "cost_evaluation_id",
+        "engineering_revision",
+        "installed_component_candidate_id",
+        "installed_mass_evaluation_id",
+        "lifecycle_evaluation_id",
+        "service_evaluation_id",
+        "source_body_bundle_id",
+        "study_id"
+      ],
+      "type": "object"
+    },
+    "manufacturing_release": {
+      "const": false
+    },
+    "maturity": {
+      "const": "controlled-research-draft"
+    },
+    "movement_authority": {
+      "const": false
+    },
+    "operating_release": {
+      "const": false
+    },
+    "operations": {
+      "items": {
+        "required": [
+          "sequence",
+          "operation",
+          "workstation",
+          "tools",
+          "setup_minutes",
+          "run_minutes_per_unit",
+          "time_basis",
+          "inspection_ids"
+        ],
+        "type": "object"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "type": "array"
+    },
+    "part_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "payloads": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "maximum": 33554432,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "media_type": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "bytes",
+          "media_type"
+        ],
+        "type": "object"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "type": "array"
+    },
+    "physical_accepted": {
+      "const": false
+    },
+    "physical_evidence": {
+      "const": false
+    },
+    "research_holds": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "revision": {
+      "maxLength": 100,
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema": {
+      "const": "osr-controlled-research-document/1"
+    },
+    "source_part_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "document_type",
+    "identities",
+    "part_id",
+    "component_definition_id",
+    "source_part_sha256",
+    "revision",
+    "maturity",
+    "payloads",
+    "research_holds",
+    "physical_accepted",
+    "engineering_accepted",
+    "manufacturing_release",
+    "operating_release",
+    "movement_authority",
+    "physical_evidence"
+  ],
+  "title": "Controlled research document, never manufacturing or operating approval",
+  "type": "object"
+}
