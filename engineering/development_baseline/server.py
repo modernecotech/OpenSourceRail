@@ -142,7 +142,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.hold('Current artifact missing; run ./osr build', 404)
                 return
             served_relative = target.relative_to(self.root).as_posix()
-            if served_relative.startswith(('docs/design-engine/reconciled-pilot/','docs/design-engine/reconciled-pilot-no-store/')):
+            if served_relative.startswith(('docs/design-engine/reconciled-pilot/','docs/design-engine/reconciled-pilot-no-store/','docs/design-engine/reconciled-pilot-bogie-detail/')):
                 from engineering.railway_closure.web_assets import verify_asset
                 verify_asset(self.root,served_relative,target)
             if served_relative.startswith('docs/design-engine/station-cycle/'):

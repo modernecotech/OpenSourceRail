@@ -9,7 +9,7 @@ _verified={}
 
 def verify_asset(root,relative,target):
     root=Path(root).resolve()
-    outputs=(publication.OUTPUT,publication.OUTPUT+'-no-store')
+    outputs=(publication.OUTPUT,publication.OUTPUT+'-no-store',publication.OUTPUT+'-bogie-detail')
     prefix=next((p for p in outputs if relative.startswith(p+'/')),None)
     if prefix is None:raise ValueError('Unregistered closure publication route')
     folder=root/prefix

@@ -38,6 +38,8 @@ Revisions update one candidate through geometry, mass, checks, quantities and co
 
 The [reconciled research pilot](docs/design-engine/reconciled-pilot/README.md) connects a proposed installed vehicle, axle loads, guideway, counted fleet, causal station energy recovery and fourteen-scope costs. A [separately identified no-store alternative](docs/design-engine/reconciled-pilot-no-store/README.md) provides a whole-life comparison. Failed structural alternatives and unresolved engineering tests remain visible; the passive reference and city prices are unchanged.
 
+[Recovery cost comparison](docs/design-engine/recovery-economics/README.md) · [Detailed bogie fit and assembly](docs/design-engine/powered-bogie-detail/README.md) · [Candidate-linked factory tasks](docs/design-engine/reconciled-pilot/delivery/README.md). These research comparisons preserve unresolved physical interfaces and do not change the passive development reference.
+
 **Calculation, validation and release are separate.** Calculations declare their assumptions. Validation needs physical evidence and independent review; manufacture and operation need their own acceptance.
 
 ## Explore a city
