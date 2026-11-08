@@ -113,6 +113,13 @@ def test_native_service_edit_preserves_each_explicit_station_dwell(scene):
     assert last['design_speed_cap_m_s']==15. and last['stops'][1]['dwell_s']==50.
 
 
+def test_native_upload_cannot_bypass_existing_city_job_request_budget(scene,monkeypatch):
+    from engineering.outline import city_jobs
+    monkeypatch.setattr(city_jobs,'MAX_REQUEST',1)
+    with pytest.raises(ValueError,match='bounded city request'):
+        build(scene)
+
+
 @pytest.mark.parametrize('fault',['off-route','duplicate-index','changed-id','derived-layer','source-context','price','wrong-crs','map-metres','bad-ring','bad-attribute','coordinate-proxy','missing-layer'])
 def test_native_edits_cannot_silently_cross_source_units_or_evidence_boundaries(scene,fault):
     p=deepcopy(scene[0]);kwargs={}

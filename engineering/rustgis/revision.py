@@ -292,6 +292,9 @@ def build_request(raw,original,base,binding,*,actor,reason,data_crs='EPSG:4326')
     request['base_study_id' if binding['kind']=='study' else 'base_seed_id']=binding.get('base_study_id',binding.get('base_seed_id'))
     from engineering.outline.city_workflow import normalize
     request=normalize(request)
+    from engineering.outline.city_jobs import MAX_REQUEST
+    if len(encoded(request))>MAX_REQUEST:
+        raise ValueError('Native revision exceeds the bounded city request; split the edits')
     # The existing evaluator checks stop order, OD/access, civil and demand
     # consequences; it remains the only source of quantities and prices.
     return request,dict(changed_lines=list(dict.fromkeys(e['line'] for e in edits)),no_op=not edits,
