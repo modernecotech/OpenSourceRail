@@ -34,10 +34,10 @@ def test_real_workbench_serves_bound_summary_and_head(workbench):
 
 
 def test_warm_workbench_refuses_changed_source(workbench,monkeypatch):
-    with urllib.request.urlopen(workbench+'app.js',timeout=120) as response:assert response.status==200
+    with urllib.request.urlopen(workbench+'summary.json',timeout=120) as response:assert response.status==200
     original=coordinator.sources
     monkeypatch.setattr(coordinator,'sources',lambda root=ROOT:{**original(root),'unexpected-source':'f'*64})
-    with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(workbench+'app.js',timeout=120)
+    with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(workbench+'summary.json',timeout=120)
     assert caught.value.code==503
     assert 'source changed' in json.load(caught.value)['reason']
 

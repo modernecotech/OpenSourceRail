@@ -17,6 +17,12 @@ def verify_asset(root,relative,target):
         raise ValueError('Ordinary closure publication files required')
     name=Path(target).resolve().relative_to(folder.resolve()).as_posix()
     if relative!=prefix+'/'+name:raise ValueError('Closure route identity differs')
+    if name in ('index.html','app.js','app.css'):
+        # Show only the known viewing shell immediately. All numeric evidence,
+        # geometry and proof downloads still wait for full verification below.
+        template=root/'engineering/railway_closure/web'/name
+        if digest(target)!=digest(template):raise ValueError('Closure viewing code changed; regenerate the dossier')
+        return True
     manifest=folder/'manifest.json'
     with _lock:
         token=digest(manifest);m=json.loads(manifest.read_bytes());key=str(folder)

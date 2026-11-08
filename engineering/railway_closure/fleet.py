@@ -188,7 +188,9 @@ def energy(result,request,service,*,root=ROOT):
         stations=2*json.loads((Path(root)/'engineering/station_pair/cost-policy.json').read_bytes())['station_auxiliary_W_each'][i]/1000*hours
         ambient_heat=2*allowances['bank_ambient_heat_W_each_cases'][i]
         bank_standby=2*allowances['bank_pump_and_standby_electric_W_each_cases'][i]
-        cooling=((whole_heat_mean+ambient_heat)/policy['station_bank_cooling_COP']+bank_standby)/1000*hours if storage_present else 0.
+        annual_bank_loss_kwh=bank_heat/n*departures/3.6e6
+        cooling=(annual_bank_loss_kwh/policy['station_bank_cooling_COP']
+            +(ambient_heat/policy['station_bank_cooling_COP']+bank_standby)/1000*hours) if storage_present else 0.
         closed=(2*allowances['closed_station_essential_W_each_cases'][i]
             +service['total_trainsets']*allowances['closed_train_essential_and_pack_conditioning_W_each_cases'][i]
             +allowances['closed_depot_essential_W_cases'][i])/1000*closed_hours
@@ -197,6 +199,7 @@ def energy(result,request,service,*,root=ROOT):
         breakdown[c]=dict(traction_and_reset_kwh=traction,all_active_hotel_kwh=active_hotel,
                           bounded_line_loss_kwh=line_loss,idle_drive_electronics_kwh=idle,
                           station_auxiliary_kwh=stations,bank_cooling_kwh=cooling,
+                          modeled_bank_loss_heat_kwh=annual_bank_loss_kwh if storage_present else 0.,
                           closed_hours_essential_and_conditioning_kwh=closed)
     v=dict(schema='osr-railway-closure-service-energy/1',candidate_id=service['candidate_id'],
         service_evaluation_id=service['evaluation_id'],native_fleet_evaluation_id=result['evaluation_id'],

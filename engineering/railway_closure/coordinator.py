@@ -2,7 +2,7 @@
 from pathlib import Path
 from copy import deepcopy
 from math import fsum
-import gzip,json,time,resource
+import gzip,json,time,resource,subprocess
 from engineering.station_rail.common import identity,encoded,digest
 from engineering.station_cycle import native_bridge as cycle_bridge
 from engineering.vehicle_installation import export
@@ -33,10 +33,25 @@ def write(folder,name,value):
     p.write_bytes(raw)
 
 
-def run(output,*,root=ROOT,with_recovery=True):
+def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
     from engineering.vehicle_installation import underframe
     root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
+    reused_receipts=set()
+    if reuse_native is not None:
+        from engineering.station_pair import native_bridge as bridge
+        origin=Path(reuse_native).resolve()
+        tools={name:subprocess.check_output([name,'--version'],text=True).strip() for name in ('cargo','rustc')}
+        for group in ('serial','fleet'):
+            source=origin/group;receipt=json.loads((source/'native-build.json').read_bytes())
+            if (receipt['receipt_id']!=identity({k:v for k,v in receipt.items() if k!='receipt_id'})
+                or receipt['source_sha256']!=bridge.sources(root) or receipt['tools']!=tools
+                or any(q.is_symlink() for q in source.rglob('*'))):
+                raise ValueError('Reuse requires exact ordinary native source/tool state; request a fresh run')
+            # Independent CoW copies preserve old immutable evidence. Native
+            # bridges still validate binary, input, resource and output hashes.
+            subprocess.run(['cp','--archive','--reflink=auto',str(source),str(out/group)],check=True)
+            reused_receipts.update(digest(q) for q in (out/group).rglob('receipt.json'))
     write(out,'source-before.json',before)
     prepared=motion.prepare(root)
     parent=underframe.load_parent(root/PARENT)
@@ -145,6 +160,8 @@ def run(output,*,root=ROOT,with_recovery=True):
     usage=dict(wall_s=time.monotonic()-start,phase_wall_s=timings,
                coordinator_peak_rss_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                source_unchanged=before==after,fleet_requests=len(meta),serial_requests=len(requests),
+               native_cache_origin=None if reuse_native is None else str(Path(reuse_native).resolve()),
+               unchanged_native_batch_receipts_reused=sum(digest(q) in reused_receipts for q in out.rglob('receipt.json')),
                run_bytes_before_manifest=sum(q.stat().st_size for q in out.rglob('*') if q.is_file()))
     write(out,'usage.json',usage)
     files={q.relative_to(out).as_posix():digest(q) for q in out.rglob('*') if q.is_file()}
