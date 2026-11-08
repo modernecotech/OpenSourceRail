@@ -10,6 +10,10 @@ pub use network::{
     NetworkDiagnostics, NetworkPosition, ResearchNetwork,
 };
 
+#[path = "fleet_decode.rs"]
+mod decode;
+pub use decode::decode_request;
+
 pub const REQUEST_SCHEMA: &str = "osr-station-fleet-request/1";
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]

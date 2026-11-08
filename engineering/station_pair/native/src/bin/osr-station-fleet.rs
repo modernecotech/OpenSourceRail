@@ -7,7 +7,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     if raw.len() > osr_journey::MAX_INPUT_BYTES {
         return Err("Request exceeds8MiB".into());
     }
-    let request = serde_json::from_slice(&raw)?;
+    let request = osr_journey::fleet::decode_request(&raw)?;
     let result = osr_journey::fleet::execute(request)?;
     let mut out = std::io::BufWriter::new(std::io::stdout());
     serde_json::to_writer(&mut out, &result)?;

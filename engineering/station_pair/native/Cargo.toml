@@ -11,7 +11,7 @@ description = "Explicit-input conditional station-pair force and energy integrat
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+serde_json = { version = "1", features = ["arbitrary_precision", "raw_value"] }
 
 [profile.release]
 debug = false
