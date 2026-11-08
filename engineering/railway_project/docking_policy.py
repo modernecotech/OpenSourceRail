@@ -17,6 +17,55 @@ from .route import FLAGS
 PRODUCER = 'engineering/railway_project/docking_policy.py'
 G = 9.80665
 
+# Closed physical schemas. Evidence/status/rates stay in the complete evaluation
+# records even when callers add new metadata. New physical fields must be added
+# here explicitly; a vendor-proof flag is not a selected vendor/model identity.
+DESIGN_PHYSICAL_FIELDS = (
+    'schema','family','platform_length_m','platform_floor_module_length_m',
+    'platform_modules_per_face','transition_length_m','reserved_straight_m',
+    'true_offset_allowance_m','independent_end_budget_m','retained_end_target_m',
+    'physical_target','physical_authority','accepted_actual_arrival_interval_relative_to_station_m',
+    'door_registration','platform_edge_protection','finished_swept_envelope_m',
+    'selected_docking_system_id','selected_docking_model_id')
+HARDWARE_PHYSICAL_FIELDS = (
+    'id','part_id','quantity','material','material_specification','stock_size_m',
+    'dimensions_m','geometry','geometry_id','manufacturing_method_id',
+    'manufacturer','manufacturer_id','vendor','vendor_id','vendor_part_number',
+    'part_number','model','model_id','selected_hardware_id','selected_model_id',
+    'installation','installation_id','mounting','mounting_coordinates_m',
+    'interface','interface_id','interfaces')
+ASSEMBLY_PHYSICAL_FIELDS = (
+    'bridgeplate_x_about_body_x0_m','mounting_side','deployment_geometry',
+    'installation','installation_id','interfaces','selected_hardware_id','selected_model_id')
+
+
+def _physical_fields(value, names):
+    return {k:deepcopy(value[k]) for k in names if k in value}
+
+
+def physical_projection(design, hardware, boarding):
+    """Only geometry, hardware choices and installation/interface requirements.
+
+    Do not blacklist a few known proof flags: completeness/qualification/vendor
+    evidence/test/resource/price metadata must never silently become geometry.
+    Full input records remain in the evaluation, including ignored metadata.
+    """
+    edge = boarding['platform_edge_protection']
+    train = _physical_fields(hardware,ASSEMBLY_PHYSICAL_FIELDS)
+    train['rows'] = [_physical_fields(row,HARDWARE_PHYSICAL_FIELDS) for row in hardware['rows']]
+    protection = dict(schema=boarding['schema'],control_assemblies=edge['control_assemblies'],
+        protected_edge_length_m=edge['protected_edge_length_m'],
+        architecture=deepcopy(edge['selected_PSD_or_equivalent_architecture']),
+        interfaces_with_door_authority_and_plate_control=edge['interfaces_with_door_authority_and_plate_control'],
+        positive_hardware_ownership_required=True)
+    protection.update(_physical_fields(edge,('selected_hardware_id','selected_model_id','vendor_id',
+        'model_id','installation','installation_id','interfaces')))
+    interfaces = _physical_fields(boarding,('nominal_car_floor_above_rail_m',
+        'nominal_platform_tops_above_rail_m','door_enable_requires','departure_enable_requires','fault_response'))
+    return dict(design=_physical_fields(design,DESIGN_PHYSICAL_FIELDS),
+        train_carried_hardware=train,station_passenger_protection=protection,
+        boarding_interfaces=interfaces)
+
 
 def _positive(value, name, zero=False):
     if type(value) not in (int, float) or not isfinite(value) or (value < 0 if zero else value <= 0):
@@ -135,24 +184,30 @@ def hardware_requirements(body):
     panel_mass = 1.4*.35*.012*2700.
     rows = [
         dict(id='docking/bridgeplate-deck', quantity=12, material='aluminium plate research stock',
+            manufacturing_method_id='cut-machined-aluminium-plate',
             stock_size_m=[1.4,.35,.012], mass_kg_each=[panel_mass]*3,
             process='cut, mill non-slip surface, deburr, fixture and inspect; strength/deflection not established',
             direct_cost_usd_each=[120.,220.,400.], peak_power_w_each=[0.,0.,0.], power_basis='passive stock'),
         dict(id='docking/slide-hinge-and-fixings', quantity=12, material='steel guide/hinge/bolts research assembly',
+            manufacturing_method_id='machined-steel-guide-bolted-mount',
             mass_kg_each=[5.,9.,15.], direct_cost_usd_each=[180.,360.,750.], peak_power_w_each=[0.,0.,0.],
             process='machine guide, weld/bolt mounting, alignment and retention inspection', power_basis='passive stock'),
         dict(id='docking/bridgeplate-actuator-and-lock', quantity=12, material='bounded electromechanical equipment',
+            manufacturing_method_id='purchased-electromechanical-assembly',
             mass_kg_each=[6.,10.,16.], direct_cost_usd_each=[300.,650.,1500.], peak_power_w_each=[150.,250.,500.],
             process='mount, wire, prove load retention and emergency retract; no verified capability', power_basis='declared sizing allowance'),
         dict(id='docking/position-interlock-and-harness', quantity=12, material='sensor/connector/harness/protection allowance',
+            manufacturing_method_id='purchased-sensors-protected-harness',
             mass_kg_each=[1.,2.,4.], direct_cost_usd_each=[100.,220.,500.], peak_power_w_each=[5.,10.,20.],
             process='route protected wiring, test isolated position channels and door/brake interlocks', power_basis='declared sizing allowance'),
         dict(id='docking/standstill-brake-interface', quantity=2, material='independent detector/controller/mount/protection allowance',
+            manufacturing_method_id='purchased-detector-controller-mounted-assembly',
             mass_kg_each=[3.,6.,12.], direct_cost_usd_each=[500.,1500.,4000.], peak_power_w_each=[10.,25.,60.],
             process='locate, wire, fault-test retained brake and departure inhibit; original accuracy not improved', power_basis='declared sizing allowance')]
     positions = [layout['car_length_m']/2+i*(layout['car_length_m']+layout['intercar_gap_m'])+x
                  for i in range(6) for x in layout['door_centres_local_x_m']]
     return dict(rows=rows, bridgeplate_x_about_body_x0_m=positions,
+        deployment_geometry=dict(nominal_plate_stock_depth_m=.35,selected_actuator_stroke_m=None),
         mounting_side='+bodyY in both travel directions', deployment='0.35m stock depth; stroke/load/slope/contact geometry unresolved',
         proposed_gross_mass_kg=[sum(r['quantity']*r['mass_kg_each'][i] for r in rows) for i in range(3)],
         direct_component_cost_usd=[sum(r['quantity']*r['direct_cost_usd_each'][i] for r in rows) for i in range(3)],
@@ -256,22 +311,13 @@ def propose(case, manifest, bundle, body, alignment, station, tracks, duty, enve
     physical = dict(schema='osr-continuous-docking-physical-proposal/1',
         parent_project_candidate_id=bundle['candidate_id'], parent_body_candidate_id=body['candidate_id'],
         parent_station_candidate_id=station['candidate_id'], parent_track_candidate_id=tracks['candidate_id'],
-        design=h, train_carried_hardware=hardware,
-        station_passenger_protection=dict(schema=boarding['schema'],
-            control_assemblies=boarding['platform_edge_protection']['control_assemblies'],
-            protected_edge_length_m=boarding['platform_edge_protection']['protected_edge_length_m'],
-            architecture=None,positive_hardware_ownership_required=True),
+        **physical_projection(h,hardware,boarding),
         geometry_changes=dict(platform_length_delta_m=5., reserved_straight_delta_m=5.,
             platform_floor_delta_m2=2*n*5*p['platform_width_m'],
             terminal_track_delta_m=10., terminal_rail_delta_m=20.,
             terminal_feed_reference_length_delta_m=10.,
             feed_circuit_conductor_count_and_cross_section='Recount from actual selected feed; not a free10m electrical capacity',
             old_final_bay_overrun_credit='Reconcile once against terminal civil/rail ledger; not extra authority'))
-    # Rates/capacity/analysis are evaluation context, not a manufactured geometry.
-    physical['train_carried_hardware'] = {k:deepcopy(v) for k,v in hardware.items()
-        if k not in ('proposed_gross_mass_kg','direct_component_cost_usd','simultaneously_active_peak_power_w','exclusions')}
-    for row in physical['train_carried_hardware']['rows']:
-        for key in ('mass_kg_each','direct_cost_usd_each','peak_power_w_each','power_basis'): row.pop(key)
     bounds = necessary_bounds(case, berth_tolerance_m=h['true_offset_allowance_m'],
         brake_floor_n=brake_floor_n, creep_speed_m_s=creep_speed_m_s)
     sources = deepcopy(checked['source_sha256']); sources[PRODUCER] = digest(Path(__file__))
@@ -280,7 +326,8 @@ def propose(case, manifest, bundle, body, alignment, station, tracks, duty, enve
         parent_project_evaluation_id=bundle['evaluation_id'], parent_input_evaluation_id=manifest['evaluation_id'],
         parent_case_id=case['id'], parent_policy_id=case['control']['policy_id'],
         ancestry_frame_context_id=entry['context_id'], source_sha256=sources,
-        hardware_allowances=hardware,boarding_protection_contract=boarding,prepropagation_necessary_bounds=bounds,
+        design_context=deepcopy(h),hardware_allowances=hardware,
+        boarding_protection_contract=boarding,prepropagation_necessary_bounds=bounds,
         full_train_end_budget=end_budget(),
         numerical_scenario=deepcopy(manifest['scenario']), original_case_modified=False,
         physical_authority_extension_m=0., sensor_or_delay_improvement_assumed=False,

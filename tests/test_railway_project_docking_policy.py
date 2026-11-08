@@ -94,6 +94,87 @@ def test_pricing_revision_changes_evaluation_not_physical_geometry(monkeypatch):
     assert a['candidate_id']==b['candidate_id'] and a['evaluation_id']!=b['evaluation_id']
 
 
+@pytest.mark.parametrize('scope,key,value',[
+    ('hardware','installed_BOM_counted',True),
+    ('hardware','installed_mass_or_cost_complete',True),
+    ('hardware','vendor_selected',True),
+    ('hardware','vendor_evidence',{'verified':True,'receipt':'synthetic-proof-only'}),
+    ('row','qualification',{'test_passed':True,'source_id':'synthetic-control'}),
+    ('row','vendor_evidence',{'datasheet_authenticated':True}),
+    ('row','source_proof_status','reviewed'),
+    ('row','test_resources',{'CPU_s':10.,'mesh_cells':1000}),
+    ('design','bridgeplate_load_or_accessibility_qualification',{'passed':True}),
+    ('design','vendor_selected',True),
+    ('design','measured_performance_added',True),
+    ('boarding','boarding_accessibility_verified',True),
+    ('edge','reserve_installed_cost_usd_each',[20000.,50000.,120000.])])
+def test_metadata_changes_only_evaluation_including_exact_review_counterexample(monkeypatch,scope,key,value):
+    args=context();a=proposal(args)
+    if scope in ('hardware','row'):
+        original=docking.hardware_requirements
+        def changed(body):
+            h=original(body);target=h['rows'][0] if scope=='row' else h
+            target[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'hardware_requirements',changed)
+    elif scope=='design':
+        original=docking.hypothesis
+        def changed():
+            h=original();h[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'hypothesis',changed)
+    else:
+        original=docking.boarding_requirements
+        def changed(body,station):
+            h=original(body,station);target=h['platform_edge_protection'] if scope=='edge' else h
+            target[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'boarding_requirements',changed)
+    b=proposal(args)
+    assert a['physical_definition']==b['physical_definition']
+    assert a['candidate_id']==b['candidate_id'] and a['evaluation_id']!=b['evaluation_id']
+    assert not b['native_export_supported'] and not b['conditional_model_journey_admitted']
+
+
+@pytest.mark.parametrize('scope,key,value',[
+    ('row','id','docking/revised-deck-part'),
+    ('row','model_id','explicit-selected-model-B'),
+    ('row','selected_hardware_id','explicit-hardware-choice-B'),
+    ('row','vendor_id','explicit-selected-vendor-B'),
+    ('row','stock_size_m',[1.5,.35,.012]),
+    ('row','quantity',13),
+    ('row','material','steel research plate'),
+    ('row','manufacturing_method_id','cast-and-machined-aluminium'),
+    ('row','installation',{'bracket_id':'revised-mount','coordinates_m':[1.,2.,3.]}),
+    ('row','interfaces',{'bolt_pattern_m':[.1,.2]}),
+    ('hardware','mounting_side','changed-body-side'),
+    ('hardware','bridgeplate_x_about_body_x0_m',[4.1]),
+    ('edge','selected_PSD_or_equivalent_architecture','explicit-selected-edge-design-B'),
+    ('boarding','door_enable_requires',['revised-physical-interlock-interface']),
+    ('design','platform_length_m',135.),
+    ('design','finished_swept_envelope_m',[-54.,54.])])
+def test_actual_hardware_geometry_installation_and_interface_choices_change_physical_identity(monkeypatch,scope,key,value):
+    args=context();a=proposal(args)
+    if scope in ('hardware','row'):
+        original=docking.hardware_requirements
+        def changed(body):
+            h=original(body);target=h['rows'][0] if scope=='row' else h
+            target[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'hardware_requirements',changed)
+    elif scope=='design':
+        original=docking.hypothesis
+        def changed():
+            h=original();h[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'hypothesis',changed)
+    else:
+        original=docking.boarding_requirements
+        def changed(body,station):
+            h=original(body,station);target=h['platform_edge_protection'] if scope=='edge' else h
+            target[key]=deepcopy(value);return h
+        monkeypatch.setattr(docking,'boarding_requirements',changed)
+    b=proposal(args)
+    assert a['physical_definition']!=b['physical_definition']
+    assert a['candidate_id']!=b['candidate_id'] and a['evaluation_id']!=b['evaluation_id']
+    assert not b['native_export_supported'] and not b['conditional_model_journey_admitted']
+
+
 def test_original_sensor_and_redundant_ancestry_replay_guards_are_retained():
     args=list(context());q,m=args[:2]
     q['control']['position_error_bound_m']=.01
