@@ -127,3 +127,19 @@ def test_resealed_redundant_body_and_outer_track_identities_are_checked():
         args[1]['bundle_evaluation_id']=args[2]['evaluation_id'];seal(args[1])
         with pytest.raises(ValueError,match='Contradictory station-track ancestry'):
             compile(args)
+
+
+def test_station_physical_alignment_cannot_disagree_with_all_outer_links():
+    args=list(context());station=args[5];tracks=args[6];project=args[2]
+    station['physical_definition']['alignment_candidate_id']='f'*64
+    station['candidate_id']=identity(station['physical_definition']);seal(station)
+    tracks['station_candidate_id']=station['candidate_id'];tracks['station_evaluation_id']=station['evaluation_id']
+    tracks['physical_definition']['station_geometry_candidate_id']=station['candidate_id']
+    tracks['candidate_id']=identity(tracks['physical_definition']);seal(tracks)
+    project['physical_definition']['station_geometry_candidate_id']=station['candidate_id']
+    project['physical_definition']['station_track_geometry_candidate_id']=tracks['candidate_id']
+    project['candidate_id']=identity(project['physical_definition'])
+    project['station_evaluation_id']=station['evaluation_id'];project['station_track_evaluation_id']=tracks['evaluation_id'];seal(project)
+    args[0],args[1]=motion.compile_case(project,args[3],args[4],args[7],0,args[1]['scenario'])
+    with pytest.raises(ValueError,match='Contradictory station-track ancestry'):
+        compile(args)

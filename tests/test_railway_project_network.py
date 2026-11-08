@@ -97,3 +97,16 @@ def test_unknown_role_time_and_nonboolean_authorization_cannot_be_defaulted():
         evaluate(args)
     with pytest.raises(ValueError,match='clearance'):
         evaluate(inputs(),clearance_s=0.)
+
+
+def test_resealed_export_cannot_contradict_body_or_either_source_case_copy():
+    args=list(inputs());m=args[2][0][1];m['body_candidate_id']='f'*64;seal(m)
+    with pytest.raises(ValueError,match='Canonical same-project'):
+        evaluate(args)
+    for field in ('source_case_id','binding-source-case'):
+        args=list(inputs());m=args[2][0][1]
+        if field=='source_case_id':m['source_case_id']='f'*64
+        else:m['frame_binding']['source_case_id']='f'*64
+        seal(m)
+        with pytest.raises(ValueError,match='Exact compiled frame'):
+            evaluate(args)

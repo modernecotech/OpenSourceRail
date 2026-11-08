@@ -39,6 +39,15 @@ def compile_case(bundle,body,alignment,duty,leg_index,scenario,*,direction=1,roo
         physical['alignment_candidate_id']!=alignment['candidate_id'] or bundle['alignment_evaluation_id']!=alignment['evaluation_id'] or
         duty['candidate_id']!=body['candidate_id'] or duty['body_evaluation_id']!=body['evaluation_id']):
         raise ValueError('Mixed project/body/mass/alignment/drive revision')
+    contract=body.get('compact_drive_contract',{})
+    if (contract.get('candidate_id')!=body['candidate_id'] or
+        contract.get('contract_id')!=identity({k:v for k,v in contract.items() if k!='contract_id'}) or
+        duty.get('body_contract_id')!=contract.get('contract_id')):
+        raise ValueError('Exact canonical body/drive contract link required')
+    # Reproduce this inexpensive available-map definition from its source
+    # requirements. A resealed arbitrary curve is not the drive producer's work.
+    if duty!=drive.evaluate(body,duty['declared'],root=root):
+        raise ValueError('Current source drive producer contract differs')
     if not isinstance(scenario,dict) or set(scenario)!=FIELDS:
         raise ValueError('Complete explicit motion scenario required')
     s=deepcopy(scenario)

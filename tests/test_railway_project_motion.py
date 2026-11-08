@@ -79,3 +79,12 @@ def test_fault_at_departure_is_explicit_and_keeps_independent_brake_bounds():
     assert q['fault']['power_loss_at_s']==0.
     assert q['control']['brake_force_lower_bound_n']>0
     assert q['control']['end_of_authority_m']==q['distance_m']
+
+
+def test_resealed_wrong_drive_contract_or_invented_available_curve_refuses():
+    p,b,a,d=project();changed=deepcopy(d);changed['body_contract_id']='f'*64;seal(changed)
+    with pytest.raises(ValueError,match='body/drive contract'):
+        motion.compile_case(p,b,a,changed,0,scenario())
+    changed=deepcopy(d);changed['model']['rotor_reflected_equivalent_mass_kg']*=.5;seal(changed)
+    with pytest.raises(ValueError,match='drive producer contract'):
+        motion.compile_case(p,b,a,changed,0,scenario())

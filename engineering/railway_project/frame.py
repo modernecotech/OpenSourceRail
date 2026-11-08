@@ -69,6 +69,7 @@ def compile_frame(case,manifest,bundle,body,alignment,station,tracks,duty,envelo
     if (station.get('schema')!='osr-project-station-interfaces/1' or
         tracks.get('schema')!='osr-station-track-spread-evaluation/1' or
         station['alignment_candidate_id']!=alignment['candidate_id'] or
+        station['physical_definition']['alignment_candidate_id']!=alignment['candidate_id'] or
         station['alignment_evaluation_id']!=alignment['evaluation_id'] or
         station['body_candidate_id']!=body['candidate_id'] or station['body_evaluation_id']!=body['evaluation_id'] or
         tracks['alignment_candidate_id']!=alignment['candidate_id'] or

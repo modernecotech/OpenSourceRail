@@ -58,6 +58,7 @@ def compile_network(bundle,alignment,compiled_legs,trains,departures,*,turnaroun
             m.get('case_id')!=case['id'] or m.get('native_input_id')!=identity(case) or
             case['candidate_id']!=bundle['candidate_id'] or m['candidate_id']!=bundle['candidate_id'] or
             m['bundle_evaluation_id']!=bundle['evaluation_id'] or
+            m.get('body_candidate_id')!=p['body_candidate_id'] or
             m['alignment_evaluation_id']!=alignment['evaluation_id'] or
             m['body_evaluation_id']!=bundle['body_evaluation_id'] or m.get('native_method_sha256')!=source):
             raise ValueError('Canonical same-project leg and current native source required')
@@ -83,6 +84,7 @@ def compile_network(bundle,alignment,compiled_legs,trains,departures,*,turnaroun
                 g['station_candidate_id']!=p['station_geometry_candidate_id'] or g['station_evaluation_id']!=bundle['station_evaluation_id'] or
                 g['station_track_candidate_id']!=p.get('station_track_geometry_candidate_id') or g['station_track_evaluation_id']!=bundle.get('station_track_evaluation_id') or
                 g['drive_duty_evaluation_id']!=m['drive_evaluation_id'] or binding['frame_context_id']!=f['context_id'] or
+                binding['source_case_id']!=m.get('source_case_id') or
                 binding['compiled_case_id']!=case['id'] or binding['compiled_policy_id']!=case['control']['policy_id'] or
                 case['distance_m']!=leg['distance_m']-f['origin_route_m'] or
                 case['control']['end_of_authority_m']!=case['distance_m'] or
