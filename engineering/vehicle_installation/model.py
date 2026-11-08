@@ -39,7 +39,20 @@ def policy(root=ROOT):
     visit(p)
     if l['seat_pitch_m']<l['seat_width_m'] or l['battery_modules_per_pod']!=5:raise ValueError('Overlapping seats or unsupported electrical grouping')
     if any(p['evaluation'][k] is not False for k in ('mass_moments_are_measured','material_densities_are_qualified','swept_envelopes_are_certified')):raise ValueError('An outline cannot grant qualification')
+    track_interface(p)
     return p
+
+
+def track_interface(p):
+    """Declared inner-face gauge and nominal contact datums, not a tread profile."""
+    t=p['track_interface'];g=t['inner_face_gauge_m'];w=t['nominal_rail_head_width_m'];ys=t['nominal_contact_centres_y_m']
+    if (t['schema']!='osr-wheel-rail-interface/1' or t['contact_datum']!='nominal rail head centres'
+        or t['real_profile_verified'] is not False or not 0<w<g
+        or len(ys)!=2 or any(not isfinite(y) for y in ys)
+        or abs(ys[0]+(g+w)/2)>1e-12 or abs(ys[1]-(g+w)/2)>1e-12
+        or abs(p['layout']['gauge_m']-g)>1e-12):
+        raise ValueError('Consistent explicit inner-face gauge and nominal rail-head contact datums required')
+    return deepcopy(t)
 
 
 def load(root=ROOT):
@@ -303,7 +316,7 @@ def placement(part,a,j,p,battery_layout):
     elif aid.startswith('running/'):
         local=_grid(j,q,1.9,1.8)
         if aid=='running/wheelset':
-            if n.endswith('/wheel'):local=[0.,(-1 if j==0 else 1)*l['gauge_m']/2,0.];R=RZ90
+            if n.endswith('/wheel'):local=[0.,track_interface(p)['nominal_contact_centres_y_m'][j],0.];R=I
             else:local=[0.,0.,0.];R=RZ90
         elif aid=='running/bogie-frame':
             if n.endswith('frame-side-rhs'):local=[0.,(-1 if j==0 else 1)*1.02,-.12]
@@ -445,6 +458,10 @@ def interfaces(p,battery_layout='thin-distributed'):
     clear=l['car_width_m']-2*.06-2*l['passenger_knee_projection_from_wall_m']
     angle=l['gangway_yaw_envelope_rad'];close=(l['car_width_m']/2)*2*__import__('math').sin(angle/2)
     return dict(battery_layout=battery_layout,battery_pod_checks=checks if battery_layout=='thin-distributed' else [],
+        wheel_rail_interface=dict(contract=track_interface(p),nominal_centre_contact_only=True,
+            wheel_envelope_axle_direction='Y',axlebox_centres_y_m=[-.98,.98],
+            tread_flange_back_to_back_cant_contact_and_swept_envelopes_verified=False,
+            scope='135 mm-wide wheel envelope is centred on the nominal rail-head contact datum. Actual tread/flange profile, lateral contact travel, clearance, back-to-back and hunting require a qualified wheel/rail design.'),
         battery_control_scope='Above-floor legacy envelope control is not fully packed or access verified' if battery_layout!='thin-distributed' else None,
         passive_aluminium_secondary='Source services/secondary parts retained once: active fin z=.02–.18m, neck to.34m, spreader to.352m, hangers to.7245m; additional fixing proxies remain proposed, strength and LIM clearance not admitted',
         module_packaging=dict(modules_per_pod=5,internal_length_margin_m=1.9-.004-.030-(4*l['battery_module_pitch_m']+.361),
@@ -479,6 +496,7 @@ def build(root=ROOT,*,battery_layout='thin-distributed'):
     physical=dict(schema='osr-installed-layout-physical/1',parent_candidate_id=b['candidate_id'],
         parent_physical_definition_id=identity(b['physical_definition']),battery_layout=battery_layout,
         coordinate_frame=dict(length_unit='m',axes=['nose-to-tail','left-to-right','rail-up'],train_origin='nose of first car, railhead z=0',car_origin='body centre at railhead; pitch17.65m'),
+        track_interface=track_interface(p),
         layout=p['layout'],part_revisions=[{k:r[k] for k in ('source_part_id','proposed_part_id','old_quantity_per_train','new_quantity_per_train','reason')} for r in revisions],
         proposed_components=[dict(id=r['id'],source_part_id=r['source_part_id'],component_definition_id=r['component_definition_id'],quantity_per_train=r['quantity_per_train'],material_id=r['material_id'],stock=r['stock']) for r in parts],
         occurrence_patterns=[{k:r[k] for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')} for r in patterns])

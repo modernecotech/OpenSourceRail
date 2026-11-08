@@ -270,7 +270,9 @@ def _scenario(patterns,p,kind,case,additions=False):
 
 def build(parent,*,family_id=None):
     if parent.get('candidate_id')!=PARENT or identity(parent['physical_definition'])!=PARENT or identity({k:v for k,v in parent.items() if k!='evaluation_id'})!=parent['evaluation_id']:raise ValueError('Sealed same-physical parent required')
-    before=model.sources();parent=deepcopy(parent);parent['policy']['layout']['battery_y_m']=[-.975,-.575,.575,.975];parent['policy']['layout']['battery_service_slack_m']=.275;trials=[screen(parent,f) for f in FAMILIES]
+    before=model.sources();parent=deepcopy(parent)
+    parent['policy']['track_interface']=model.track_interface(model.policy())
+    parent['policy']['layout']['battery_y_m']=[-.975,-.575,.575,.975];parent['policy']['layout']['battery_service_slack_m']=.275;trials=[screen(parent,f) for f in FAMILIES]
     if family_id is None:
         eligible=[r for r in trials if r['passed_under_declared_hypotheses']]
         if not eligible:raise ValueError('No screened family: preserve failures and request refinement')
@@ -280,6 +282,15 @@ def build(parent,*,family_id=None):
     f=trial['family'];parts,placements,revisions,removed,detail=definitions(parent,f);new_ids=set(placements)
     deleted={r['old_part_id'] for r in revisions}|{r['part_id'] for r in removed}
     patterns=[deepcopy(r) for r in parent['patterns'] if r['part_id'] not in deleted and r['assembly_id']!='services/battery']
+    # Preserve frozen parent evidence, but explicitly revise its mistaken wheel
+    # envelope orientation and gauge-vs-contact-centre placement in this child.
+    by_part={part['id']:part for part in parts}
+    for i,old in enumerate(patterns):
+        if old['part_id']!='running/wheel':continue
+        part=by_part[old['part_id']]
+        a=next(a for a in parent['assembly_occurrences'][part['assembly_id']] if a['id']==old['assembly_occurrence_id'])
+        wheel=[model.placement(part,a,j,parent['policy'],'thin-distributed') for j in range(part['quantity_per_assembly'])]
+        patterns[i]=model._moments_for_pattern(part,a,[v[0] for v in wheel],wheel[0][1],model.geometry(part),parent['policy'])
     # Explicit25mm outward shift of the two inner pod rows clears the counted
     # joint stud/nut envelopes. No battery/module count or capacity change.
     for part in parts:
@@ -304,6 +315,10 @@ def build(parent,*,family_id=None):
     physical=dict(schema='osr-underframe-revision-physical/1',parent_candidate_id=parent['candidate_id'],
         research_architecture='Powered-wheel body revision, no retained passive aluminium secondary; motor housings/mounts remain outside body admission',
         coordinate_frame=deepcopy(parent['physical_definition']['coordinate_frame']),layout=deepcopy(parent['policy']['layout']),battery_revision='Inner pod rows moved25mm outward, service slack0.3→0.275m; same75modules and fifteenpods/car, connectors/route qualification pending',
+        track_interface=model.track_interface(parent['policy']),
+        running_interface_revision=dict(parent_wheel_centres_y_m=[-.7175,.7175],
+            parent_wheel_rotation=model.RZ90,new_wheel_rotation=model.I,
+            reason='Correct nominal rail-head contact datums and the 135 mm-wide wheel blank axle direction. Actual wheel tread/flange design remains unverified.'),
         structural_family={k:f[k] for k in ('id','b','h','t','material')},
         removed_source_parts=removed,part_revisions=revisions,
         proposed_components=[{k:r[k] for k in ('id','source_part_id','component_definition_id','quantity_per_train','material_id','stock')} for r in parts],
