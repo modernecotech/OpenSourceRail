@@ -107,7 +107,8 @@ def publish(selection, output, *, root=ROOT):
         records[name] = dict(candidate_id=recipe['candidate_id'], recipe_id=recipe['recipe_id'],
             render_evaluation_id=result['evaluation_id'], source_evaluation_id=recipe['input_evaluation_id'],
             image=name+'.webp', raw_image='evidence/'+name+'/native.png', dossier=link,
-            caption=recipe['caption'], layout=layout, **cad.FLAGS)
+            caption=recipe['caption'], layout=layout, observed_usage=result['usage'],
+            observed_memory_target_met=result['observed_memory_target_met'],wall_s=result['wall_s'], **cad.FLAGS)
         records[name]['camera_units']=('Native SolidCraft target/distance: millimetres; yaw/pitch/FOV: radians'
             if recipe['kind']=='native' else 'Source geometry: metres; direction is dimensionless')
     evidence = output/'evidence'/'civil-fem'; evidence.mkdir(parents=True)
