@@ -124,6 +124,31 @@ impl Runtime {
         if c.headwind_m_s != 0. {
             holds.push("v2 standstill wind force lacks a controller upper-bound interface; positive headwind remains unsupported".into());
         }
+        if let Some(d) = &c.drive {
+            // Admission check of the caller's declared map, not a controller
+            // look-ahead at actual force/current/grade during execution.
+            let upper = spec.creep_speed_m_s
+                + p.speed_error_bound_m_s
+                + p.positive_acceleration_bound_m_s2 * c.dt_s;
+            let speeds = std::iter::once(0.).chain(std::iter::once(upper)).chain(
+                d.points
+                    .iter()
+                    .filter(|q| q.speed_m_s > 0. && q.speed_m_s < upper)
+                    .map(|q| q.speed_m_s),
+            );
+            let fraction = 1. - c.fault.failed_drive_fraction;
+            let minimum = speeds
+                .map(|speed| {
+                    (curve(d, speed) * fraction)
+                        .min(d.mechanical_power_w * fraction / speed.max(1e-12))
+                        .min(d.grid_power_w * d.electrical_efficiency / speed.max(1e-12))
+                        .min(d.contact_force_cap_n)
+                })
+                .fold(f64::INFINITY, f64::min);
+            if d.maximum_speed_m_s < upper || minimum + 1e-8 < p.start_traction_lower_bound_n {
+                holds.push("declared drive map does not retain the traction lower bound across the creep observation/sampling interval".into());
+            }
+        }
         Ok(Self {
             spec: spec.clone(),
             state: State::BrakeHold,

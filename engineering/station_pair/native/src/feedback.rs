@@ -421,6 +421,9 @@ pub(super) fn evaluate_with_recovery(
     let mut quiet_dock_stop = false;
     let mut docking_moved = false;
     let mut docking_started = 0.;
+    let mut v2_terminal_step_max: f64 = 0.;
+    let mut v2_terminal_transition_seen = false;
+    let mut v2_terminal_resolved = true;
     let mut failed = false;
     let mut emergency = false;
     let mut thermal_trip = false;
@@ -1039,6 +1042,7 @@ pub(super) fn evaluate_with_recovery(
         if docking && dx > 1e-6 {
             docking_moved = true;
         }
+        let was_moving = v > 0.;
         v = if nv < 1e-9 { 0. } else { nv };
         t += h;
         previous_a = acceleration;
@@ -1066,10 +1070,30 @@ pub(super) fn evaluate_with_recovery(
         }
         if v == 0. && launched && (braking || fault || !active) {
             r.state = "stopped".into();
-            r.terminal_acceleration_step_m_s2 = -acceleration;
-            r.terminal_jerk_resolved = acceleration.abs() < 1e-6;
+            if research_v2.is_some() {
+                if was_moving {
+                    v2_terminal_step_max = v2_terminal_step_max.max(acceleration.abs());
+                    v2_terminal_transition_seen = true;
+                    v2_terminal_resolved &= acceleration.abs() < 1e-6;
+                }
+                r.terminal_acceleration_step_m_s2 = v2_terminal_step_max;
+                r.terminal_jerk_resolved = v2_terminal_transition_seen && v2_terminal_resolved;
+            } else {
+                r.terminal_acceleration_step_m_s2 = -acceleration;
+                r.terminal_jerk_resolved = acceleration.abs() < 1e-6;
+            }
             if let Some(q) = research_v2.as_mut() {
                 q.guaranteed_brake_n = v2::history_brake_lower(&brake_history, t, p);
+                if q.state != v2::State::FinalHold
+                    && !fault
+                    && (x + p.position_bias_m - berth_target).abs()
+                        <= c.berth_tolerance_m - p.position_error_bound_m
+                {
+                    q.state = v2::State::FinalHold;
+                    quiet_dock_stop = true;
+                    event(&mut r, "v2-arrival-full-brake-settle-pending", t, x, v);
+                    continue;
+                }
                 if q.state == v2::State::FinalHold && !fault {
                     if traction_command > 1e-8
                         || q.guaranteed_brake_n + 1e-8 < p.brake_force_lower_bound_n
