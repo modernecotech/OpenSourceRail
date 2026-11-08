@@ -91,7 +91,8 @@ def category(name):
     if name in {'engineering/design_search/README.md','engineering/component_registry/README.md',
                 'engineering/sourced_case/README.md','engineering/sourced_redesign/README.md',
                 'engineering/frame_refinement/README.md','engineering/sourcing/README.md',
-                'crates/osr-station-energy/README.md','engineering/station_cycle/README.md'}:
+                'crates/osr-station-energy/README.md','engineering/station_cycle/README.md',
+                'engineering/pilot_civil/README.md'}:
         return 'candidate-design-method'
     if name in {'engineering/city_maps/README.md', 'docs/gis/README.md'}:
         return 'city-map-method'
