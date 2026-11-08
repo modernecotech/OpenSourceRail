@@ -125,7 +125,7 @@ def decode(raw,*,data_crs):
         if not isinstance(d,dict) or d.get('crs','EPSG:4326') not in ('EPSG:4326','WGS84'):
             raise ValueError('Unsupported native data CRS')
         fields=d.get('fields');features=d.get('features')
-        if not isinstance(fields,list) or not 1<=len(fields)<=256 or not isinstance(features,list):
+        if not isinstance(fields,list) or not 0<=len(fields)<=256 or not isinstance(features,list) or (features and not fields):
             raise ValueError('Bounded native field schema required')
         keys=[f.get('name') if isinstance(f,dict) else None for f in fields]
         if any(not isinstance(k,str) or not k or len(k)>150 for k in keys) or len(set(keys))!=len(keys):

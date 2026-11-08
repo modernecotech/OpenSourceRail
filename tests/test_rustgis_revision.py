@@ -147,6 +147,12 @@ def test_seed_base_is_small_and_mutually_exclusive(scene):
     with pytest.raises(ValueError,match='seed'):city_workflow.normalize(request)
 
 
+def test_empty_native_table_remains_empty_without_inventing_a_row(scene):
+    p=deepcopy(scene[0]);p['tables'].append(dict(name='empty-derived',fields=[],features=[],geometry_type='Unknown'))
+    decoded=revision.decode(encoded(p),data_crs='EPSG:4326')
+    assert decoded['empty-derived']['features']==[]
+
+
 def test_ring_origin_chainage_is_not_false_ambiguity_but_crossing_is():
     ring=[[0.,0.],[.01,0.],[.01,.01],[0.,0.]]
     assert revision.chainage([0.,0.],ring,'ring')==0
