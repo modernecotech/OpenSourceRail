@@ -106,3 +106,18 @@ def test_existing_output_and_path_escape_symlink_refused(tmp_path):
     with pytest.raises(ValueError):d.export(b,p,out,[b['parts'][0]['id']],{})
     link=tmp_path/'link';link.symlink_to(tmp_path,target_is_directory=True)
     with pytest.raises(ValueError):d.export(b,p,link/'new',[b['parts'][0]['id']],{})
+
+
+def test_unsupported_release_and_mixed_material_requests_refused(tmp_path):
+    b,p=fixture_data();ids=[b['parts'][0]['id']];scope=d.describe(b,p,ids);a=declare(scope);a[ids[0]]['manufacturing_release']=True
+    with pytest.raises(ValueError,match='release'):d.export(b,p,tmp_path/'release',ids,a)
+    p['materials']=[dict(id='synthetic/steel',specification='different source material')];seal(p,'proposal_id')
+    with pytest.raises(ValueError,match='material definitions'):d.describe(b,p,ids)
+
+
+def test_large_profile_detail_and_type_scope_remain_explicitly_bounded(tmp_path):
+    from math import cos,sin,pi
+    stock=dict(kind='polygon-prism',points_xz_m=[[cos(2*pi*i/9),sin(2*pi*i/9)] for i in range(9)],thickness_m=.02)
+    b,p=fixture_data([stock]);ids=[b['parts'][0]['id']];scope=d.describe(b,p,ids);m=d.export(b,p,tmp_path/'detail',ids,declare(scope));assert not m['coverage']['documented_part_ids'];assert any('detail sheet' in h for h in m['coverage']['parts'][0]['holds'])
+    b,p=fixture_data([dict(kind='box',size_m=[1.,.2,.01]) for _ in range(13)])
+    with pytest.raises(ValueError,match='twelve'):d.describe(b,p,[x['id'] for x in b['parts']])
