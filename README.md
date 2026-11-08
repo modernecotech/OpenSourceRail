@@ -71,6 +71,23 @@ The [current dossier](docs/design-engine/current/README.md) records open mass, f
 
 Research may challenge the reference under the [architecture campaign](campaigns/whole-railway-architecture-search.toml) and [transport-goal policy](engineering/outline/transport-goal.toml), with separate identities and complete system consequences. The former **120-person/car / 14,400 passengers/hour/direction** comparison and **160-person/car crowd structural control** remain named alternatives; seated service does not remove crowd, evacuation or accidental-load checks.
 
+## Models from CAD and analysis
+
+These views come from recorded engineering geometry and native analysis results. Click a model for its design dossier. They show **separate research candidates**, with proposed stock and equipment envelopes identified; they do not select a combined installed railway.
+
+| Located vehicle cutaway | Bogie frame and drive cradle |
+|---|---|
+| [![One source-defined car with roof and near-side wall hidden to expose its frame, seating and equipment](docs/assets/engineering-gallery-v06/vehicle-car0.webp)](docs/design-engine/reconciled-pilot-bogie-detail/README.md) | [![Native SolidCraft view of the 34-solid bogie frame and drive-cradle stock subset](docs/assets/engineering-gallery-v06/bogie-cradle.webp)](docs/design-engine/powered-bogie-detail/README.md) |
+| Stock and bounded equipment from the located research body; display-only cutaway. | Gross stock, with supplier housings and finished interfaces unresolved; fit **HOLD**. |
+| **Controlled-launch shuttle** | **Coupling subassembly** |
+| [![Native SolidCraft launch-shuttle assembly showing hollow members, guide wheels, bored clevis, pin and fixings](docs/assets/engineering-gallery-v06/launch-assembly.webp)](docs/design-engine/launch-detail/README.md) | [![Native SolidCraft close-up of the bored clevis, pin and retainers, with surrounding stock ghosted](docs/assets/engineering-gallery-v06/launch-clevis.webp)](docs/design-engine/launch-detail/README.md) |
+| Actual 122-region CAD assembly; guards ghosted for inspection. | Pin, ears and retainers; contact, weld and fatigue checks remain open. |
+| **Proposed viaduct assembly** | **FieldCraft structural response** |
+| [![Source-defined two-track viaduct proposal with segments, rails, bearings, piers and footing envelopes](docs/assets/engineering-gallery-v06/civil-assembly.webp)](docs/design-engine/reconciled-pilot-bogie-detail/README.md) | [![Actual FieldCraft displacement field on a 20 metre beam, with 100 times deformation and a millimetre legend](docs/assets/engineering-gallery-v06/civil-fem.webp)](docs/engineering-gallery.md) |
+| Located segment, rail and support proposal; joints and installed fit remain unverified. | Separate continuous elastic beam: **13.9476 mm** midspan vertical displacement; shape exaggerated **100×**. |
+
+The FEM image uses the full native nodal field, including quadratic midside nodes, under one declared normal-base load and ideal bearing lines. It does not verify the segmented assembly. [Render recipes, numerical data and reproduction commands](docs/engineering-gallery.md) preserve the distinction between a calculated result and physical acceptance.
+
 ## The railway in pictures
 
 | Passenger cabin | Modular vehicle assembly |
