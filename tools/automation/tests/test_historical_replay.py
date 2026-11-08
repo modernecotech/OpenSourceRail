@@ -4,7 +4,9 @@ import ast
 from hashlib import sha256
 import importlib.util
 import json
+import os
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import unittest
@@ -15,6 +17,98 @@ HELPER = ROOT / 'tools/automation/prepare-historical-replay.py'
 SPEC = importlib.util.spec_from_file_location('historical_replay', HELPER)
 REPLAY = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(REPLAY)
+WORKFLOW = ROOT / '.github/workflows/historical-v05.yml'
+
+
+def city_publication_views(text):
+    """Both unchanged archived validators must run in their own publication view."""
+    steps = re.split(r'(?=^      - (?:name|uses|run):)', text, flags=re.M)
+    def step(name):
+        found = [s for s in steps if s.startswith('      - name: '+name+'\n')]
+        assert len(found) == 1, name
+        value = found[0]
+        assert not re.search(r'^        (?:if|continue-on-error):', value, re.M)
+        assert '        shell: bash\n' in value
+        assert 'set +e' not in value and '|| true' not in value
+        return value
+    before = step('Validate pristine pinned comfort navigation before replay')
+    after = step('Verify regenerated historical maglev city publication')
+    check = 'python tools/automation/check-readmes.py'
+    assert text.count(check) == 1
+    assert check+' 2>&1 | tee build/historical-pinned-comfort-readmes.log' in before
+    assert 'test "$(git rev-parse HEAD)" = '+REPLAY.PIN in before
+    assert before.count('git diff --exit-code HEAD -- .') == 2
+    assert before.index('git diff --exit-code HEAD -- .') < before.index(check) < before.rindex('git diff --exit-code HEAD -- .')
+    preparation = text.index('python ../current/tools/automation/prepare-historical-replay.py --repository')
+    cycle = text.index('python tools/automation/ferrite-maglev-study.py cycle')
+    assert text.index(before) < preparation < cycle < text.index(after)
+    assert text.index(after) < text.index('python tools/automation/capabilities.py --check')
+    assert "python - <<'PYTHON' 2>&1 | tee build/historical-regenerated-maglev-cities.log" in after
+    assert 'value = cities.verify_index()' in after
+    assert "assert value['current'], value['errors']" in after
+    assert "assert value['city_count'] == value['expected_city_count'] == 266" in after
+    assert "view='regenerated historical maglev publication'" in after
+    for name in ('historical-pinned-comfort-readmes.log', 'historical-regenerated-maglev-cities.log'):
+        assert 'historical/build/'+name in text
+    assert '      - name: Preserve historical replay logs and reports\n' in text
+    assert '        if: always()\n' in text
+    return before, after
+
+
+class HistoricalCityViewOrderTests(unittest.TestCase):
+    def setUp(self):
+        self.text = WORKFLOW.read_text()
+
+    def test_pinned_comfort_and_regenerated_maglev_validators_have_separate_ordered_views(self):
+        city_publication_views(self.text)
+        self.assertIn('Run 42470979160 exposed incompatible archived front-page owners', self.text)
+
+    def test_comfort_check_cannot_move_after_publication_preparation(self):
+        before, _ = city_publication_views(self.text)
+        late = self.text.replace(before, '', 1)
+        cycle_header = '      - name: Prepare runtime-bound publication and reader\n'
+        late = late.replace(cycle_header, before+cycle_header, 1)
+        with self.assertRaises(AssertionError):
+            city_publication_views(late)
+
+    def test_original_checker_cannot_be_removed_or_repeated_on_incompatible_postcycle_view(self):
+        for changed in (self.text.replace('python tools/automation/check-readmes.py', 'true'),
+                        self.text.replace('          python tools/automation/capabilities.py --check',
+                            '          python tools/automation/check-readmes.py\n          python tools/automation/capabilities.py --check')):
+            with self.subTest(changed=changed), self.assertRaises(AssertionError):
+                city_publication_views(changed)
+
+    def test_maglev_errors_counts_and_unconditional_steps_cannot_be_relaxed(self):
+        for old,new in (("assert value['current'], value['errors']", 'pass'),
+                        ("assert value['city_count'] == value['expected_city_count'] == 266", 'pass'),
+                        ('      - name: Verify regenerated historical maglev city publication\n',
+                         '      - name: Verify regenerated historical maglev city publication\n        continue-on-error: true\n'),
+                        ('      - name: Validate pristine pinned comfort navigation before replay\n',
+                         '      - name: Validate pristine pinned comfort navigation before replay\n        if: false\n')):
+            with self.subTest(old=old), self.assertRaises(AssertionError):
+                city_publication_views(self.text.replace(old,new,1))
+
+    def test_both_view_logs_must_be_retained_on_failure(self):
+        for name in ('historical-pinned-comfort-readmes.log', 'historical-regenerated-maglev-cities.log'):
+            with self.subTest(name=name), self.assertRaises(AssertionError):
+                city_publication_views(self.text.replace('            historical/build/'+name+'\n', '', 1))
+
+    def test_view_verifier_failures_survive_tee_and_retain_actual_stdout(self):
+        before,after = city_publication_views(self.text)
+        for index,step in enumerate((before,after)):
+            with self.subTest(view=index), tempfile.TemporaryDirectory(prefix='osr-city-view-shell-') as directory:
+                root=Path(directory);(root/'bin').mkdir();(root/'build').mkdir()
+                git=root/'bin/git';git.write_text('#!/bin/sh\nif [ "$1" = rev-parse ]; then printf "%s\\n" '+REPLAY.PIN+'; fi\n')
+                python=root/'bin/python';python.write_text('#!/bin/sh\necho actual-view-verifier-failure\nexit 9\n')
+                for executable in (git,python):executable.chmod(0o700)
+                body=step.split('        run: |\n',1)[1]
+                body='\n'.join(line[10:] if line.startswith('          ') else line for line in body.splitlines())
+                result=subprocess.run(['bash','-eo','pipefail','-c',body],cwd=root,
+                    env=dict(os.environ,PATH=str(root/'bin')+os.pathsep+os.environ['PATH']),
+                    capture_output=True,text=True,timeout=5)
+                self.assertEqual(result.returncode,9,result.stderr)
+                name=('historical-pinned-comfort-readmes.log','historical-regenerated-maglev-cities.log')[index]
+                self.assertEqual((root/'build'/name).read_text(),'actual-view-verifier-failure\n')
 
 
 class HistoricalReplayTests(unittest.TestCase):

@@ -113,6 +113,18 @@ jobs:
           npx playwright install --with-deps chromium 2>&1 | tee -a build/historical-browser-install.log
       - name: Verify every published source and packet file is tracked
         run: python tools/automation/tests/verify-maglev-sources.py
+      # Run 42470979160 exposed incompatible archived front-page owners:
+      # check-readmes requires the pinned comfort links, while the cycle's
+      # city publisher requires exact maglev fronts. Verify each original
+      # contract in its own view; do not patch or mix their publications.
+      - name: Validate pristine pinned comfort navigation before replay
+        shell: bash
+        run: |
+          mkdir -p build
+          test "$(git rev-parse HEAD)" = 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git diff --exit-code HEAD -- .
+          python tools/automation/check-readmes.py 2>&1 | tee build/historical-pinned-comfort-readmes.log
+          git diff --exit-code HEAD -- .
       - name: Retain the exact old lifecycle output before its inventory can change
         shell: bash
         run: |
@@ -125,6 +137,17 @@ jobs:
         run: |
           mkdir -p build
           python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report 2>&1 | tee build/maglev-historical-cycle.log
+      - name: Verify regenerated historical maglev city publication
+        shell: bash
+        run: |
+          python - <<'PYTHON' 2>&1 | tee build/historical-regenerated-maglev-cities.log
+          import json
+          from engineering.ferrite_maglev import cities
+          value = cities.verify_index()
+          print(json.dumps(dict(view='regenerated historical maglev publication', **value), indent=2, allow_nan=False))
+          assert value['current'], value['errors']
+          assert value['city_count'] == value['expected_city_count'] == 266
+          PYTHON
       - name: Primary deployment and capability configuration
         run: |
           python tools/automation/validate-host-manifests.py
@@ -132,7 +155,6 @@ jobs:
           python tools/automation/catalogue.py index --check
           python tools/automation/generate-design-index.py --check
           python tools/automation/generate-doc-index.py --check
-          python tools/automation/check-readmes.py
       - name: Shared research software unit tests
         run: cargo test --locked --workspace --all-targets
       - run: cargo test --locked -p osr-maglev-control --all-targets
@@ -200,6 +222,8 @@ jobs:
             historical/build/historical-native-preflight.json
             historical/build/historical-native-preflight.log
             historical/build/historical-browser-install.log
+            historical/build/historical-pinned-comfort-readmes.log
+            historical/build/historical-regenerated-maglev-cities.log
             historical/build/historical-replay-retained/
             historical/build/historical-replay-preparation.json
             historical/build/historical-replay-preparation.log
