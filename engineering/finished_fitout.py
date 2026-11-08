@@ -174,7 +174,7 @@ def chair_definition():
                     shell_interface='4 vertical pan bolts at u=+-0.12,v=+-0.1875;4 back bolts along u at v=+-0.1875,z=0.10/0.30',
                     base_interface='4 flange bolt axes along w at u=+-0.1325,v=+-0.12;55mm inboard of leg axes; pedestal holes, underside nut access and strength undefined',
                     tool_access=dict(socket_radius_m=.025, insertion_m=.10, verified=False),
-                    removal_translation_local_m=[[0., 0., .10], [.65, 0., .10]],
+                    removal_translation_local_m=[[0., 0., 0.], [0., 0., .10], [.65, 0., .10]],
                     handling='Remove shells first, support frame; two-hand lift or small rated aid; fixture rating pending',
                     sequence=['Cut11members; deburr and drill8paired shell-wall holes; inspect stock and sleeves',
                         'Jig ring, uprights, tie and4legs/feet; install sleeves before shell fitting; vent closed tubes before welding',
@@ -258,9 +258,55 @@ def _bounds(box, rotation, at, padding=0.):
 
 def _swept_bounds(part):
     # Piecewise linear translation of a rigid part: endpoint AABBs bound all t.
-    boxes = [_bounds(part['local_bounds_m'], I, p) for p in part['installation']['removal_translation_local_m']]
+    path = part['installation']['removal_translation_local_m']
+    if not path or path[0] != [0., 0., 0.]:
+        raise ValueError('Complete removal path must start at the installed pose')
+    boxes = [_bounds(part['local_bounds_m'], I, p) for p in path]
     return [[min(b[0][i] for b in boxes) for i in range(3)],
             [max(b[1][i] for b in boxes) for i in range(3)]]
+
+
+def part_physical_projection(part):
+    """Explicit installed specification; omit tools, trials and workflow.
+
+    Material solids and interfaces, installed joint/finish specification and
+    hardware counts belong to physical identity. Procurement reserves, source
+    rates, tolerances/evidence status, tool choices and removal trials belong
+    to evaluation identity. No cached component ID is hashed recursively.
+    """
+    keys = ('part_id', 'replaces', 'quantity', 'frame', 'entities', 'tube_members',
+            'material_solids_local_bounds_m', 'local_bounds_m',
+            'new_base_flange_count', 'new_cap_count', 'new_crush_sleeves',
+            'new_isolation_pads', 'new_base_bolt_sets', 'centerline_width_m',
+            'centerline_height_m', 'section_m')
+    out = {k:deepcopy(part[k]) for k in keys if k in part}
+    for section, fields in (
+        ('welds', ('joints', 'perimeter_m_each', 'total_length_m', 'fillet_leg_m')),
+        ('finish', ('dry_film_m',)),
+        ('joins', ('count', 'kind', 'adhesive_net_volume_m3')),
+        ('installation', ('base_face_proposal_z_local_m', 'base_interface',
+                          'shell_interface', 'enclosure_gasket_only',
+                          'gangway_bellows', 'nominal_face_gap_m',
+                          'nominal_compression_m', 'retention',
+                          'required_new_compression_stops')),
+        ('hardware_counts', ('joints', 'bearings', 'slides', 'stops',
+                             'new_fastener_pieces', 'wiring', 'cooling_flexes'))):
+        if section in part:
+            out[section] = {k:deepcopy(part[section][k]) for k in fields if k in part[section]}
+    return out
+
+
+def physical_projection(definition, retained_hardware):
+    """Physical identity independent of access tools and evaluation controls."""
+    binding_keys = ('part_id', 'source_pattern_id', 'source_assembly_occurrence_id',
+                    'rotation', 'translation_m')
+    hardware_keys = ('source_part_id', 'component_definition_id',
+                     'retained_quantity_per_train', 'quantity_per_assembly')
+    return dict(schema='osr-finished-fitout-physical-projection/2',
+        parent_body_candidate_id=definition['parent_body_candidate_id'],
+        parts=[part_physical_projection(p) for p in definition['parts']],
+        installed_bindings=[{k:deepcopy(b[k]) for k in binding_keys} for b in definition['installed_bindings']],
+        retained_hardware=[{k:deepcopy(h[k]) for k in hardware_keys} for h in retained_hardware])
 
 
 def verify_inputs(body, ownership):
@@ -304,7 +350,6 @@ def evaluate(body, ownership, *, input_sha256, source_sha256):
     bindings = []
     for part in parts:
         part['component_geometry_id'] = identity(dict(entities=part['entities'], bounds=part['local_bounds_m']))
-        part['component_definition_id'] = identity(part)
         part['removal_swept_local_bounds_m'] = _swept_bounds(part)
         for p in body['patterns']:
             if p['part_id'] == part['replaces']:
@@ -329,7 +374,6 @@ def evaluate(body, ownership, *, input_sha256, source_sha256):
                                                             [max(b[1][i] for b in swept) for i in range(3)]]
     physical = dict(schema='osr-finished-fitout-physical/1', parent_body_candidate_id=BODY_ID,
         parts=parts, installed_bindings=bindings, revisions='Replace two leaf families only; research draft; not full-body propagation')
-    candidate = identity(physical)
     hardware = []
     for source, (n, use) in HARDWARE.items():
         row = rows[source]
@@ -394,13 +438,20 @@ def evaluate(body, ownership, *, input_sha256, source_sha256):
             train_mass_delta_kg={c: qty*(masses[c]-source['mass_each_kg'][c]) for c in CASES},
             train_direct_cost_delta_usd={c: qty*(costs[c]-source['direct_cost_each_usd'][c]) for c in CASES},
             complete_installed_mass=False, complete_installed_cost=False))
-    # Physical identity includes stock accounting, so seal it after completing it.
+    # Full records retain workflow/evaluation details. Hash only their explicit
+    # physical projection; tool selection cannot create another physical part.
     for p in parts:
-        p['component_definition_id'] = identity({k:v for k,v in p.items() if k != 'component_definition_id'})
-    candidate = identity(physical)
+        p['component_definition_id'] = identity(part_physical_projection(p))
+    projected = physical_projection(physical, hardware)
+    candidate = identity(projected)
     for change, p in zip(changes, parts):
         change['proposed_component_definition_id'] = p['component_definition_id']
-    result = dict(schema='osr-finished-fitout-evaluation/1', physical_definition=physical, candidate_id=candidate,
+    result = dict(schema='osr-finished-fitout-evaluation/2', physical_definition=physical,
+        physical_projection=projected, candidate_id=candidate,
+        identity_ancestry=dict(previous_source_commit='5690a45c563481f4f1bd192b4c57cfb7eb066fd4',
+            previous_actual_candidate_id='c2f67890932f163508de18f66a87c638c51e716504c2824e1189316d826f56bf',
+            previous_actual_evaluation_id='b2d341e765a1e9bb418b1b7367ed0612126d46b1d300568eb1a4a15c6bc667fa',
+            reason='Identity projection correction plus complete initial removal sweep; material geometry, cutlist, hardware and mass/cost definitions unchanged'),
         parent_body_candidate_id=BODY_ID, parent_body_evaluation_id=BODY_EVAL, selection_id=None,
         input_sha256=input_sha256, source_sha256=source_sha256, changes=changes, retained_hardware=hardware,
         retained_passage_gaskets=dict(source_part_id='body/passage-end-seal', quantity=10, developed_length_each_m=7.,

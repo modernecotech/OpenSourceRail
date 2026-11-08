@@ -63,6 +63,18 @@ def test_actual_transform_not_policy_lift_and_finite_sweep():
     assert isclose(b['finished_nominal_bounds_m'][0][2],1.31996)
     assert r['source_datums']['added_lift_m']==0
     assert p['removal_swept_local_bounds_m'][1][0]>.8
+    assert p['installation']['removal_translation_local_m'][0]==[0.,0.,0.]
+    assert p['removal_swept_local_bounds_m'][0][2]==p['local_bounds_m'][0][2]
+    # Review's direct counterexample: the recorded sweep must include installed
+    # pose and the entire initial100mm lift for every binding, not just its end.
+    for binding in r['physical_definition']['installed_bindings']:
+        sweep=binding['finished_removal_swept_bounds_m']
+        nominal=binding['finished_nominal_bounds_m']
+        assert all(sweep[0][i]<=nominal[0][i] and sweep[1][i]>=nominal[1][i] for i in range(3))
+        if binding['part_id']==f.CHAIR:
+            for lift in (0.,.025,.05,.075,.10):
+                assert sweep[0][2]<=nominal[0][2]+lift
+                assert sweep[1][2]>=nominal[1][2]+lift
     # Independent signed rotation control: all8corners must remain in AABB.
     R=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]]
     assert f._bounds([[-1,-2,-3],[1,2,3]],R,[4,5,6])==[[2.,4.,3.],[6.,6.,9.]]
@@ -70,7 +82,8 @@ def test_actual_transform_not_policy_lift_and_finite_sweep():
 
 def test_identity_once_only_hardware_and_no_acceptance():
     r=evaluate()
-    assert r['candidate_id']==f.identity(r['physical_definition'])
+    assert r['candidate_id']==f.identity(r['physical_projection'])
+    assert r['physical_projection']==f.physical_projection(r['physical_definition'],r['retained_hardware'])
     assert r['evaluation_id']==f.identity({k:v for k,v in r.items() if k!='evaluation_id'})
     assert all(r[k] is False for k in f.FLAGS)
     assert r['retained_passage_gaskets']['quantity']==10
@@ -79,6 +92,48 @@ def test_identity_once_only_hardware_and_no_acceptance():
     assert all(h['added_again_mass_kg']==h['added_again_cost_usd']==0 for h in r['retained_hardware'])
     assert all(x['proposed_component_mass_each_kg']['base']>0 for x in r['changes'])
     assert r['physical_definition']['parts'][1]['tolerance']['compression_screen_passed'] is False
+
+
+def test_review_tool_only_change_is_evaluation_not_physical(monkeypatch):
+    base=evaluate();original=f.chair_definition
+    def changed_tool_only():
+        part=original();part['installation']['tool_access']['socket_radius_m']=.030
+        return part
+    monkeypatch.setattr(f,'chair_definition',changed_tool_only)
+    other=evaluate()
+    p=base['physical_definition']['parts'][0];q=other['physical_definition']['parts'][0]
+    assert p['entities']==q['entities'] and p['component_geometry_id']==q['component_geometry_id']
+    assert p['component_definition_id']==q['component_definition_id']
+    assert base['physical_definition']['installed_bindings']==other['physical_definition']['installed_bindings']
+    assert base['changes']==other['changes']
+    assert base['candidate_id']==other['candidate_id']
+    assert base['evaluation_id']!=other['evaluation_id']
+
+
+def test_review_price_only_change_keeps_physical_identity():
+    body,own=fixture()
+    args=dict(input_sha256={'synthetic':'0'*64},source_sha256={'synthetic':'1'*64})
+    base=f.evaluate(body,own,**args)
+    body['policy']['rates']['labour_usd_h']=[2*x for x in body['policy']['rates']['labour_usd_h']]
+    changed=f.evaluate(body,own,**args)
+    assert changed['candidate_id']==base['candidate_id']
+    assert changed['evaluation_id']!=base['evaluation_id']
+
+
+@pytest.mark.parametrize('mutate',[
+    lambda p:p['entities'][0]['size_m'].__setitem__(0,.401),
+    lambda p:p['entities'][0].__setitem__('material','another-proposed-material'),
+    lambda p:p['new_base_bolt_sets'].__setitem__('bolts',5),
+])
+def test_real_geometry_material_or_installed_hardware_changes_physical_id(mutate):
+    r=evaluate();definition=deepcopy(r['physical_definition'])
+    mutate(definition['parts'][0])
+    assert f.identity(f.physical_projection(definition,r['retained_hardware']))!=r['candidate_id']
+
+
+def test_missing_installed_pose_rejected():
+    p=f.chair_definition();p['installation']['removal_translation_local_m'].pop(0)
+    with pytest.raises(ValueError,match='installed pose'):f._swept_bounds(p)
 
 
 def test_commands_compile_material_holes_and_profile_without_native():
