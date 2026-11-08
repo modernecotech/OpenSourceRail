@@ -89,15 +89,15 @@ def scene(result,*,gross_beam_only=False):
                 for side,dy in enumerate(p['support']['bearing_lateral_offsets_m']):
                     bx,by,bz=p['support']['bearing_size_m']
                     add(f'track-{track+1}/end-{end+1}/bearing-{side+1}','box','bearing-assembly-envelope',at_m=[x-bx/2,y+dy-by/2,-depth-bz],size_m=[bx,by,bz])
-            for side,dy in enumerate((-.6,.6)):
+            for side,dy in enumerate(p['track_interface']['nominal_contact_centres_y_m']):
                 # Approximate rail profile is geometric, explicitly not a 60E1
                 # manufacturing definition or independent rail-mass evidence.
-                for label,w,h,z in [('foot',.15,.02,.02),('web',.016,.11,.04),('head',.07,.05,.15)]:
+                for label,w,h,z in [('foot',.15,.02,.02),('web',.016,.11,.04),('head',p['track_interface']['nominal_rail_head_width_m'],.05,.15)]:
                     add(f'track-{track+1}/rail-{side+1}/{label}','box','rail-steel-envelope',at_m=[0.,y+dy-w/2,z],size_m=[20.,w,h])
             for side,dy in enumerate((-.91,.91)):
                 add(f'track-{track+1}/drain-{side+1}','tube','HDPE',at_m=[0.,y+dy,-.21],axis=[1.,0.,0.],radius_m=.05,inner_radius_m=.045,length_m=20.)
             for i in range(ceil(20/p['fastener_pitch_m'])):
-                for side,dy in enumerate((-.6,.6)):
+                for side,dy in enumerate(p['track_interface']['nominal_contact_centres_y_m']):
                     plate=p['fastener_plate_size_m']
                     x=i*(20-plate[0])/(ceil(20/p['fastener_pitch_m'])-1)
                     add(f'track-{track+1}/fastener-{i+1}-{side+1}/plate','box','steel',at_m=[x,y+dy-plate[1]/2,0.],size_m=plate)

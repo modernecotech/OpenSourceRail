@@ -48,13 +48,17 @@ def prepare(result,train,artifact,load_name,*,support_mode='patch',resources=Non
     if artifact['candidate_id']!=result['civil_candidate_id'] or not artifact.get('gross_beam_only'):raise ValueError('Exact same-civil gross CAD required')
     if artifact['component_geometry_id']!=scene(result,gross_beam_only=True)['component_geometry_id']:raise ValueError('Physical CAD projection changed')
     if native.digest(artifact['step_path'])!=artifact['step_sha256']:raise ValueError('Exact STEP bytes changed')
+    contract=result['physical_definition']['rail_interface']['track_interface']
+    if train['track_interface']!=contract:raise ValueError('Native vehicle/civil track interface mismatch')
     load=next(l for l in train['load_cases'] if l['name']==load_name);d=next(d for d in result['load_demands'] if d['name']==load_name)
     shift=d['critical_train_translation_m']['deflection_m'];factor=result['policy']['dynamic_axle_factor']
     points=[dict(x_m=a['x_m']+shift,force_N=a['vertical_force_N']*factor) for a in load['axles'] if 0<=a['x_m']+shift<=20]
     if any(not .15<=a['x_m']<=19.85 for a in points):raise ValueError('Critical axle patch clips beam end; request different pose, not invented load')
     spec=dict(schema='osr-pilot-civil-fem/1',candidate_id=result['civil_candidate_id'],system_candidate_id=train['candidate_id'],input_load_evaluation_id=train['evaluation_id'],load_name=load_name,
         component_geometry_id=artifact['component_geometry_id'],cad_artifact=deepcopy(artifact),nominal_quantity=result['section']['quantities'],superimposed_mass_kg=result['quantities']['accounted_superstructure_kg']-result['quantities']['nominal_concrete_mass_kg'],
-        live_pose=dict(points=points,translation_m=shift),support_hypothesis=dict(patches_x_m=[[.125,.575],[19.425,19.875]],patch_y_m=[-.25,.25],scope='Bottom horizontal finite patches centred on actual 0.35/19.65 m bearing lines. Two physical transverse bearings idealised as continuous bottom patch.'),
+        live_pose=dict(points=points,translation_m=shift),track_interface=deepcopy(contract),
+        rail_patch_hypothesis=dict(centres_y_m=contract['nominal_contact_centres_y_m'],length_m=.30,width_m=.20,
+            scope='Concrete load spread over nominal fastener footprint; not wheel tread contact stress or actual rail/fastener load-transfer verification'),support_hypothesis=dict(patches_x_m=[[.125,.575],[19.425,19.875]],patch_y_m=[-.25,.25],scope='Bottom horizontal finite patches centred on actual 0.35/19.65 m bearing lines. Two physical transverse bearings idealised as continuous bottom patch.'),
         material_hypothesis=dict(young_Pa=35e9,poisson=.2,density_kg_m3=2500.),
         evaluation_domain='Perfectly bonded gross continuum, no cracking/prestress/reinforcement/joint/soil stiffness credit. Axle and dead gravity including declared conductor eccentricity; lateral train inertia and handling remain separate analytical screens.',
         resource_request=dict(max_cells=20000,cpu_s_each_process=60,wall_s_each_process=58,memory_mib_each_process=2048),**FLAGS)
@@ -96,8 +100,7 @@ def load_model(spec,model):
         y=line['lateral_y_m'];half=line['spread_width_m']/2
         if not -1<=y-half<y+half<=1:raise ValueError('Conductor load spread lies outside actual deck')
         add([0,20,y-half,y+half],line_mass*G)
-    for a in spec['live_pose']['points']:
-        for y in (-.6,.6):add([a['x_m']-.15,a['x_m']+.15,y-.1,y+.1],a['force_N']/2)
+    for n,f in live_forces(spec,model).items():forces[n]+=f
     depth=min(v[2] for v in nodes.values());supports=[]
     support=spec['support_hypothesis']
     if support.get('mode')=='rotation-free-line':
@@ -143,32 +146,48 @@ def mesh_worker(spec):
     return worker
 
 
+def live_forces(spec,model):
+    """Split each full axle once over explicitly aligned concrete load patches."""
+    from .design import validate_track_interface
+    validate_track_interface(spec['track_interface'])
+    patch=spec['rail_patch_hypothesis'];centres=spec['track_interface']['nominal_contact_centres_y_m']
+    if patch['centres_y_m']!=centres or not 0<patch['length_m']<=.30 or not 0<patch['width_m']<=.20:raise ValueError('Native rail patch differs from declared interface')
+    forces={};hx=patch['length_m']/2;hy=patch['width_m']/2
+    for a in spec['live_pose']['points']:
+        for y in centres:
+            for n,f in fem.surface_forces(model,[a['x_m']-hx,a['x_m']+hx,y-hy,y+hy],a['force_N']/2).items():forces[n]=forces.get(n,0.)+f
+    return forces
+
+
 def commands(spec,model,import_path):
-    """Preserve legacy commands while placing new conductor gravity eccentrically."""
+    """Pilot-local rail loading; historical generic +/-600mm defaults untouched."""
     line=spec.get('line_equipment_gravity',{});mass=line.get('mass_kg',0.)
     adjusted=deepcopy(spec);adjusted['superimposed_mass_kg']-=mass
+    # Generic code retains its historical rail spacing. Suppress its live loads
+    # and install the exact same pilot-local nodal traction used by CalculiX.
+    adjusted['live_pose']['points']=[]
     commands=fem.commands(adjusted,model,import_path)
+    forces=live_forces(spec,model)
     if mass:
         y=line['lateral_y_m'];half=line['spread_width_m']/2
-        forces=fem.surface_forces(model,[0,20,y-half,y+half],mass*G);extra=[];names=[]
-        for n,f in sorted(forces.items()):
-            if abs(f)<1e-12:continue
-            name='LineEquipment'+str(n);names.append(name)
-            extra.extend([dict(command='model.set.create',params=dict(name=name,nodes=[n])),dict(command='model.load.create',params=dict(name=name,type='force',target=dict(set=name),vector=[0.,0.,f],distribution='total'))])
-        index=next(i for i,c in enumerate(commands) if c['command']=='model.step.create')
-        commands[index]['params']['loads']+=names;commands[index:index]=extra
-        # Bound undo snapshots and scratch-disk use. These eight rolling
-        # private checkpoints are scratch state, not immutable result evidence;
-        # full recorded commands and retained final bytes remain reproducible.
-        plain=[c for c in commands[:-5] if c['command'] not in ('file.save','file.open')]
-        prepared=[]
-        for i,c in enumerate(plain,1):
-            prepared.append(c)
-            if i%8==0:
-                path=Path(import_path).parent/'fieldcraft'/('rolling-'+str((i//8)%8)+'.fieldcraft')
-                prepared.extend([dict(command='file.save',params=dict(path=str(path),results=False)),dict(command='file.open',params=dict(path=str(path)))])
-        commands=prepared+commands[-5:]
-    return commands
+        for n,f in fem.surface_forces(model,[0,20,y-half,y+half],mass*G).items():forces[n]=forces.get(n,0.)+f
+    extra=[];names=[]
+    for n,f in sorted(forces.items()):
+        if abs(f)<1e-12:continue
+        name='PilotLoad'+str(n);names.append(name)
+        extra.extend([dict(command='model.set.create',params=dict(name=name,nodes=[n])),dict(command='model.load.create',params=dict(name=name,type='force',target=dict(set=name),vector=[0.,0.,f],distribution='total'))])
+    index=next(i for i,c in enumerate(commands) if c['command']=='model.step.create')
+    commands[index]['params']['loads']+=names;commands[index:index]=extra
+    # Bound undo snapshots and scratch disk use. Only private checkpoints are
+    # overwritten; input commands and final evidence remain immutable.
+    plain=[c for c in commands[:-5] if c['command'] not in ('file.save','file.open')]
+    prepared=[]
+    for i,c in enumerate(plain,1):
+        prepared.append(c)
+        if i%8==0:
+            path=Path(import_path).parent/'fieldcraft'/('rolling-'+str((i//8)%8)+'.fieldcraft')
+            prepared.extend([dict(command='file.save',params=dict(path=str(path),results=False)),dict(command='file.open',params=dict(path=str(path)))])
+    return prepared+commands[-5:]
 
 
 def support_audit(model,readback,support):
