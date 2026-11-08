@@ -1,0 +1,72 @@
+schema = "osr-design-integration-closure-program/1"
+revision = "USER-WAIT-FOR-DESIGN-CLOSURE-20261108"
+purpose = "Close the defined digital design and integration work before a v0.6-series software release"
+reference_changes_allowed = false
+release_unpublished_until_required_work_closed = true
+physical_acceptance_automatic = false
+manufacturing_release_automatic = false
+operating_release_automatic = false
+selected_reference = "engineering/development-baseline.toml"
+umbrella_campaign = "campaigns/whole-railway-architecture-search.toml"
+coordinated_campaign = "campaigns/coupled-railway-design.toml"
+requirement_policy = "engineering/design_search/requirement_policy.py"
+retain_failed_and_unsupported_work = true
+calculated_prices_allowed = true
+unknowns_are_zero = false
+allow_supplier_or_qualification_claims_from_synthetic_tests = false
+
+[ancestry]
+research_body_candidate_id = "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba"
+research_body_evaluation_id = "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272"
+research_study_id = "75cc3e02596c4c35b11dbad0b3da3ff193fab9b8a25087f1b5c9582c1f2f0fd5"
+existing_fit_hold_is_not_inherited_as_success = true
+new_geometry_requires_new_physical_candidate = true
+changed_models_require_distinct_evaluations = true
+
+[[work]]
+id = "installed-vehicle"
+required = true
+outputs = ["located parts/materials/quantities and interfaces", "mass/CG/inertia/axle reactions", "shaft and gear geometry", "brake and suspension retention", "fastener/tool/removal paths", "electrical/cooling/protection installation"]
+closure = "No unexplained quantity/interface mismatch or known geometric contradiction within the declared dimensions and motion domain; major equipment has actual or explicitly bounded source geometry. Force, braking, heat and cost use this same revision."
+qualification = "Supplier conformity, fatigue, dynamics, thermal tests and independent hardware acceptance remain separate."
+
+[[work]]
+id = "controlled-research-documents"
+required = true
+outputs = ["drawing/material/interface/tolerance definitions", "inspection characteristics", "fabrication/routing/tooling/assembly definitions", "part-to-document coverage manifest"]
+closure = "Required component and assembly document coverage is complete at controlled-research-draft maturity; real payload bytes and exact part/candidate/revision identities verify. Missing documents remain missing."
+qualification = "Controlled research drawings are not approved production instructions."
+
+[[work]]
+id = "mapped-corridor"
+required = true
+outputs = ["city and mapped route/station source", "selected detailed candidate binding", "route-class/grade/curve/site assumptions", "protected service/fleet/energy evaluation", "fourteen-scope quantities/costs/delivery"]
+closure = "A mapped Baghdad corridor and smaller-city control use their own geometry, station/service/site assumptions and the detailed vehicle/drive/civil revision. A scalar pilot cost-per-kilometre multiplier is insufficient."
+qualification = "Demand surveys, utilities, land, ground and actual site acceptance remain explicit external evidence."
+
+[[work]]
+id = "native-gis-return-path"
+required = true
+outputs = ["bounded authenticated native project import", "typed edits into the existing planning workflow", "updated geometry/service/fleet/cost/delivery", "verified study export for another native edit"]
+closure = "Published and revised native projects round-trip through the canonical evaluator; equivalent planning and native edits agree. Stale identities, wrong CRS, unsupported/injected fields and resource excess fail explicitly."
+
+[[work]]
+id = "candidate-business-lifecycle"
+required = true
+outputs = ["source-priced reviewed Item/BOM/routing/inspection mapping", "authenticated project/revision review", "disposable native manufacture/QA/serial-install/observation/repair/handback evidence", "permission/outage/mismatch/refusal controls"]
+closure = "The native acceptance scenario consumes the actual sealed candidate and controlled documents with declared component coverage. Synthetic unit fixtures and the retained one-kit scenario do not establish this closure."
+qualification = "Business workflow completion grants no railway movement authority or hardware approval."
+
+[[work]]
+id = "unified-workbench"
+required = true
+outputs = ["city brief to compatible alternatives", "same-candidate journey/cost/delivery comparison", "drawing/BOM/manufacturing inspection", "review and remaining-evidence view", "downloadable reconciled project dossier"]
+closure = "An end user can follow one project through the existing Workbench without manually reconciling candidate IDs or substituting a fixed-outline cost for a different detailed vehicle."
+
+[initial_trial_budget]
+cheap_geometry_trials = 3
+cheap_trial_cpu_s = 60
+cheap_trial_address_space_mib = 1024
+native_geometry_or_fem_before_definition_gate = false
+pending_tasks_survive_invocation_budget = true
+resource_revisions_change_engineering_obligations = false
