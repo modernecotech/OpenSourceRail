@@ -1,4 +1,6 @@
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import json,hashlib,shutil,gzip,tarfile,io,re
 from engineering.station_rail.common import identity,encoded,digest
 from engineering.design_search.craft_backends import native
