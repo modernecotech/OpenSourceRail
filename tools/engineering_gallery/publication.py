@@ -64,7 +64,9 @@ def _gzip_copy(source, target):
 
 def _cad_record(run, root, *, name=None, image='raw.png'):
     run = Path(run)
-    recipe, result = cad.read(run/'recipe.json'), cad.read(run/'result.json')
+    result_file=run/'result.json'
+    if not result_file.exists(): result_file=run/'image-record.json'
+    recipe, result = cad.read(run/'recipe.json'), cad.read(result_file)
     cad.validate(recipe, root)
     fem.check_seal(result)
     expected = {r['id']: r for r in cad.recipes(root)}
@@ -72,8 +74,34 @@ def _cad_record(run, root, *, name=None, image='raw.png'):
         raise ValueError('Render recipe/name differs from declared view')
     for key, value in cad.FLAGS.items():
         if result.get(key) is not value: raise ValueError('Render cannot confer acceptance')
-    if (result['execution'] != 'completed' or result['exit_code'] != 0 or
-            result['candidate_id'] != recipe['candidate_id'] or result['recipe_id'] != recipe['recipe_id'] or
+    held=result.get('schema')=='osr-engineering-gallery-held-image/1'
+    if held:
+        # A known completed image survives a failed supervisor/result writer.
+        # Never relabel that execution as completed or its missing usage as zero.
+        audit=cad.read(run/'failure-audit.json')
+        if audit['audit_id'] != cad.identity({k:v for k,v in audit.items() if k!='audit_id'}): raise ValueError('Held audit changed')
+        geometry=cad.read(run/'geometry.json');scene=cad.read(run/'scene.json')
+        log=(run/'stdout.log').read_text()
+        if (name!='vehicle-car0' or result['execution']!='held' or result['exit_code'] is not None or
+                result['failure']!='runtime-budget' or result.get('image_complete') is not True or
+                result['failure_audit_sha256']!=cad.digest(run/'failure-audit.json') or
+                result['geometry_sha256']!=cad.digest(run/'geometry.json') or
+                audit['retained_image_sha256']!=result['image_sha256'] or
+                audit['retained_geometry_sha256']!=result['geometry_sha256'] or
+                audit['supervisor_timeout_s']!=600 or audit['supervisor_usage_bytes']!=0 or
+                not audit['result_json_absent'] or not audit['source_unchanged'] or
+                audit['execution']!='held' or audit['candidate_id']!=recipe['candidate_id'] or
+                audit['recipe_id']!=recipe['recipe_id'] or
+                geometry['candidate_id']!=recipe['candidate_id'] or geometry['recipe_id']!=recipe['recipe_id'] or
+                scene['candidate_id']!=recipe['candidate_id'] or scene['recipe_id']!=recipe['recipe_id'] or
+                geometry['source_geometry_resized'] or geometry['triangles']>scene['maximum_triangles'] or
+                'Saved:' not in log or 'raw.png' not in log or 'Blender quit' not in log):
+            raise ValueError('Unknown held-image failure contract')
+        for key in cad.FLAGS:
+            if audit.get(key) is not False: raise ValueError('Held render cannot confer acceptance')
+    elif result['execution']!='completed' or result['exit_code']!=0:
+        raise ValueError('Incomplete CAD render')
+    if (result['candidate_id'] != recipe['candidate_id'] or result['recipe_id'] != recipe['recipe_id'] or
             result['image_sha256'] != cad.digest(run/image) or not result['source_unchanged']):
         raise ValueError('Incomplete or mixed CAD render')
     if Image.open(run/image).size != (3000,1900):
@@ -82,7 +110,7 @@ def _cad_record(run, root, *, name=None, image='raw.png'):
 
 
 def publish(selection, output, *, root=ROOT):
-    """Compose selected completed jobs; never invokes CAD or a native solve."""
+    """Compose verified saved images, retaining any explicit execution holds."""
     root, output = Path(root), Path(output)
     if output.exists():
         raise ValueError('Publish to a fresh directory, then review/replace explicitly')
@@ -99,7 +127,7 @@ def publish(selection, output, *, root=ROOT):
     records = {}
     for name, (recipe, result) in checked.items():
         run = Path(selection['cad'][name]); evidence = output/'evidence'/name; evidence.mkdir(parents=True)
-        for file in ('recipe.json','result.json','request.json','scene.json','geometry.json','usage.json','stdout.log','stderr.log'):
+        for file in ('recipe.json','result.json','image-record.json','failure-audit.json','request.json','scene.json','geometry.json','usage.json','stdout.log','stderr.log'):
             if (run/file).is_file(): shutil.copyfile(run/file, evidence/file)
         shutil.copyfile(run/'raw.png', evidence/'native.png')
         title, subtitle, footer, link = CARDS[name]
@@ -108,7 +136,10 @@ def publish(selection, output, *, root=ROOT):
             render_evaluation_id=result['evaluation_id'], source_evaluation_id=recipe['input_evaluation_id'],
             image=name+'.webp', raw_image='evidence/'+name+'/native.png', dossier=link,
             caption=recipe['caption'], layout=layout, observed_usage=result['usage'],
+            render_execution=result['execution'],render_failure=result['failure'],
             observed_memory_target_met=result['observed_memory_target_met'],wall_s=result['wall_s'], **cad.FLAGS)
+        if result['execution']=='held':
+            records[name]['caption']+=' Complete saved image retained from a held 600-second render; runtime and observed memory targets missed, supervisor usage unavailable.'
         records[name]['camera_units']=('Native SolidCraft target/distance: millimetres; yaw/pitch/FOV: radians'
             if recipe['kind']=='native' else 'Source geometry: metres; direction is dimensionless')
     evidence = output/'evidence'/'civil-fem'; evidence.mkdir(parents=True)
@@ -167,8 +198,12 @@ def verify(folder, *, root=ROOT):
         record = manifest['cards'][name]; evidence=folder/'evidence'/name
         recipe, result = _cad_record(evidence,root,name=name,image='native.png')
         if (recipe['candidate_id'] != record['candidate_id'] or recipe['recipe_id'] != record['recipe_id'] or
+                recipe['input_evaluation_id'] != record['source_evaluation_id'] or
                 result['candidate_id'] != record['candidate_id'] or result['recipe_id'] != record['recipe_id'] or
-                result['evaluation_id'] != record['render_evaluation_id'] or result['image_sha256'] != cad.digest(evidence/'native.png')):
+                result['evaluation_id'] != record['render_evaluation_id'] or result['image_sha256'] != cad.digest(evidence/'native.png') or
+                result['execution']!=record['render_execution'] or result['failure']!=record['render_failure'] or
+                result['usage']!=record['observed_usage'] or result['wall_s']!=record['wall_s'] or
+                result['observed_memory_target_met']!=record['observed_memory_target_met']):
             raise ValueError('Mixed gallery candidate or render')
     for record in manifest['cards'].values():
         if Image.open(folder/record['image']).size != (3000,1900): raise ValueError('Gallery dimensions changed')
@@ -199,7 +234,12 @@ def verify(folder, *, root=ROOT):
             figure['deformation_scale'] != 100 or figure['legend_units'] != 'mm'):
         raise ValueError('FEM evidence links differ')
     if (field['candidate_id'] != manifest['cards']['civil-fem']['candidate_id'] or
-            field['civil_evaluation_id'] != manifest['cards']['civil-fem']['source_evaluation_id']):
+            field['civil_evaluation_id'] != manifest['cards']['civil-fem']['source_evaluation_id'] or
+            field['candidate_id']!=fem.EXPECTED['candidate_id'] or
+            field['civil_evaluation_id']!=fem.EXPECTED['civil_evaluation_id'] or
+            field['source_report_id']!=fem.EXPECTED['report_id'] or
+            handoff['candidate_id']!=fem.EXPECTED['candidate_id'] or
+            handoff['civil_evaluation_id']!=fem.EXPECTED['civil_evaluation_id']):
         raise ValueError('Mixed FEM candidate')
     with tempfile.TemporaryDirectory(prefix='osr-gallery-verify-') as temporary:
         _materialize(folder,temporary)

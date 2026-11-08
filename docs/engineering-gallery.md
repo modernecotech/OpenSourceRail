@@ -18,6 +18,8 @@ This is a homogeneous elastic concrete model with ideal bearing lines. Cracking,
 
 The packet includes original CAD PNGs, exact recipes/cameras/styles, native execution receipts, the full native VTU export compressed losslessly, the original mesh, a compact nodal field and figure metadata. The larger results-embedded FieldCraft project remains retained in the original private execution package; the public VTU is sufficient to regenerate the figure without solving again.
 
+The vehicle’s complete 3000×1900 PNG was saved before the supervisor stopped the run at its 600-second limit; its worker reports 603.36 seconds. The saved image and unchanged geometry were independently inspected, but the **execution remains held**. The result writer then failed on an empty supervisor-usage file; that failure is retained. In-worker peak RSS was 3.86 GiB for the vehicle and 3.67 GiB for the completed civil render, exceeding their 3 GiB observed targets during final rendering. Supervisor usage for the held run remains unknown. The gallery records these resource misses instead of claiming successful bounded execution or repeating the renders merely to obtain a passing receipt.
+
 From the repository root:
 
 ```bash

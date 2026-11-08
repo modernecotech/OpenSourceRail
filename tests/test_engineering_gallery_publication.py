@@ -11,7 +11,7 @@ def test_public_gallery_reopens_complete_native_field():
     assert not result['physical_accepted']
 
 
-@pytest.mark.parametrize('fault',['mislabelled-view','failed-render','accepted-render','fem-request','producer-omission'])
+@pytest.mark.parametrize('fault',['mislabelled-view','failed-render','accepted-render','fem-request','producer-omission','held-relabelled','resource-understatement'])
 def test_resealed_packets_cannot_hide_wrong_view_or_failed_evidence(tmp_path,fault):
     packet=tmp_path/'gallery';shutil.copytree(p.ROOT/p.DEST,packet)
     manifest=cad.read(packet/'manifest.json')
@@ -23,6 +23,11 @@ def test_resealed_packets_cannot_hide_wrong_view_or_failed_evidence(tmp_path,fau
         if fault=='failed-render':result['execution']='held';result['exit_code']=1
         else:result['physical_accepted']=True
         p.dump(path,p.sealed({k:v for k,v in result.items() if k!='evaluation_id'}))
+    elif fault=='held-relabelled':
+        path=packet/'evidence'/'vehicle-car0'/'image-record.json';result=cad.read(path);result['execution']='completed'
+        p.dump(path,p.sealed({k:v for k,v in result.items() if k!='evaluation_id'}))
+    elif fault=='resource-understatement':
+        manifest['cards']['vehicle-car0']['observed_usage']['peak_rss_kib']=1
     elif fault=='fem-request':
         path=packet/'evidence'/'civil-fem'/'figure.json';figure=cad.read(path);figure['request_id']='0'*64
         p.dump(path,p.sealed({k:v for k,v in figure.items() if k!='evaluation_id'}))
