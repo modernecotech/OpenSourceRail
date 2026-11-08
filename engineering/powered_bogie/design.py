@@ -250,6 +250,31 @@ def build(body, *, variant_id='extended-cradle-3240', root=ROOT):
     result['assembly_occurrences']['research/powered-bogie']=anchors
     result['revisions']=deepcopy(body.get('revisions',[]))+[dict(old_part_id=r,
         reason='Powered-bogie child replaces frame stock around declared drive envelope; static support interfaces unchanged') for r in sorted(removed)]
+    result['removed_parts']=deepcopy(body.get('removed_parts',[]))+[
+        dict(part_id=r['id'],source_part_id=r['source_part_id'],
+             reason='Original running-frame stock explicitly removed in this research child; replacement stock counted under powered-bogie IDs')
+        for r in body['parts'] if r['id'] in removed]
+    origins={r['source_part_id'] for r in parts if r['source_part_id']}
+    removed_origins={r['source_part_id'] for r in result['removed_parts'] if r.get('source_part_id')}
+    expected={r['source_part_id'] for r in body['parts'] if r['source_part_id']}|{
+        r['source_part_id'] for r in body.get('removed_parts',[]) if r.get('source_part_id')}
+    if origins&removed_origins or origins|removed_origins!=expected:
+        raise ValueError('Source origins must be retained or explicitly removed exactly once')
+    result['source_origins_explicitly_removed']=len(removed_origins)
+    result['assembly_plans']['powered_bogie_revision']=dict(
+        operations=['Keep existing wheelbase, spring seats, axlebox and secondary-support datums in a survey jig',
+            'Cut longer side RHS, fit crossmembers and end plates; inspect accessible seams and preserve open RHS access',
+            'Fabricate removable cradle, torque-reaction plates, bushes and retained stop/strap fixings',
+            'Trial-fit supplier drive only after receiving housing/shaft/foot drawings and resolving current brake/body conflicts',
+            'Install flexible power/bond/ventilation routes with counted clamps, bend radii, insulation and retention checks',
+            'Measure complete bogie mass, CG, interface coordinates and removal/tool paths before any prototype admission'],
+        controls=['Stock/heat traceability, weld coupons and NDT',
+            'Datum survey, dimensional fit and interference record',
+            'Recorded torque, locking, bore/bearing/shaft retention',
+            'Bond/insulation, rotation, brake and service-flexibility checks'],
+        blockers=['Unknown supplier interfaces','Body/brake/mount envelope conflicts',
+            'Unverified frame/mount fatigue and suspension dynamics'],
+        tool_access_verified=False,manufacturing_release=False)
     result['mass_uncertainty']=dict(status='Superseded parent CG/inertia intervals; positive source mass intervals and position uncertainty retained in every pattern; no new verified installed bounds',
         conservative_rebound_required=True)
     result['structural_comparison']=dict(status='Parent body analysis retained only as ancestry; altered running-frame load path has not been stress/fatigue evaluated',

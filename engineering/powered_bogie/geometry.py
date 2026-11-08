@@ -237,6 +237,11 @@ def evaluate(result):
                   'Primary/secondary suspension dynamics, brake interfaces and full body swept clearance']),
         geometry_screen_status='HOLD-required-space-conflicts-and-unverified-supplier-interfaces',
         source_sha256=result['source_sha256'],**FLAGS)
+    if result['physical_definition']['variant_id']=='retained-frame-control':
+        counts=clearances['joins_and_services']['per_bogie']
+        for key in counts:
+            if key not in ('toothed_couplings_in_310kg','gear_internal_bearings_in_310kg','retained_wheelset_bearings'):
+                counts[key]=0
     clearances['evaluation_id']=identity(clearances)
     return clearances
 

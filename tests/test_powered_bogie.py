@@ -49,6 +49,8 @@ class PoweredBogieTests(unittest.TestCase):
         self.assertEqual(b['candidate_id'],identity(b['physical_definition']))
         self.assertEqual(b['evaluation_id'],identity({k:v for k,v in b.items() if k!='evaluation_id'}))
         self.assertEqual(b['parent_candidate_id'],self.parent['candidate_id'])
+        originals={r['source_part_id'] for r in self.parent['parts'] if r['id'] in design.REPLACED}
+        self.assertTrue(originals.issubset({r['source_part_id'] for r in b['removed_parts']}))
         bad=deepcopy(self.parent);bad['patterns'][0]['positions_m'][0][2]+=.1
         with self.assertRaises(ValueError):design.build(bad)
         with self.assertRaises(ValueError):design.build(self.parent,variant_id='shift-motor-until-fit')
