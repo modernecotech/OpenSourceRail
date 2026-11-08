@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -335,7 +336,7 @@ def plot(output, path):
                           edgecolors="none",antialiased=False,zsort="average")
     ax.add_collection3d(coll)
     ax.set(xlim=(-.5,20.5),ylim=(-1.2,1.2),zlim=(deformed[:,2].min()-.2,xyz[:,2].max()+.5))
-    ax.set_box_aspect((20,2.4,3.1));ax.view_init(elev=18,azim=-63);ax.set_proj_type("ortho")
+    ax.set_box_aspect((20,2.4,3.1),zoom=1.8);ax.view_init(elev=18,azim=-72);ax.set_proj_type("ortho")
     ax.set_axis_off();ax.set_facecolor("#f7f9fb")
     for x in (.35,19.65):
         z=float(xyz[:,2].min())
@@ -347,11 +348,13 @@ def plot(output, path):
     fig.text(.055,.30,"DEFORMED SHAPE 100×",size=12,weight="bold")
     fig.text(.055,.274,"Coordinates and displacements in metres; color legend converted to millimetres.",size=10,color="#426079")
     line=fig.add_axes([.07,.12,.84,.115],facecolor="#fff")
-    mask=(np.abs(xyz[:,1])<1e-10)&(np.abs(xyz[:,2])<1e-10)
+    # The exact centreline has only three nodes in this unstructured mesh.
+    # Show actual near-centre deck samples, never a three-point V as a curve.
+    mask=(np.abs(xyz[:,1])<=.05)&(np.abs(xyz[:,2])<1e-10)
     ordered=np.argsort(xyz[mask,0]); xx=xyz[mask,0][ordered];zz=u[mask,2][ordered]*1000
-    line.plot(xx,zz,color="#007f89",linewidth=2.2,marker=".",markersize=3)
+    line.scatter(xx,zz,color="#007f89",s=5,alpha=.8)
     line.axhline(0,color="#bccbd5",linewidth=.8)
-    line.set(xlim=(0,20),xlabel="Position along span (m)",ylabel="Deck Uᶻ (mm)")
+    line.set(xlim=(0,20),xlabel="Position along span (m) · actual top-deck nodes within 50 mm of centre",ylabel="Deck Uᶻ (mm)")
     line.spines[["top","right"]].set_visible(False);line.tick_params(labelsize=9)
     line.grid(axis="y",color="#e1e8ee",linewidth=.6)
     fig.text(.055,.035,"RESEARCH MODEL · gross elastic concrete, ideal bearing lines; cracking, joints, prestress and fatigue unresolved.",size=9,color="#536b7e")
@@ -361,10 +364,31 @@ def plot(output, path):
         field_sha256=result["full_field_sha256"],figure_sha256=digest(path),dimensions_px=[3000,1900],
         deformation_scale=100,field="FieldCraft nodal displacement magnitude",field_units="m",legend_units="mm",
         surface_scalar_method="Arithmetic mean of actual native nodal magnitudes on each rendered triangle",
-        deck_profile="Actual top-centerline nodes; line segments join samples, no invented displacement field",
+        deck_profile="Actual top-deck nodes within 50 mm of centre; unconnected native samples",
         limitations=LIMITATIONS,**FLAGS))
     write(path.with_suffix(".json"),record)
     return record
+
+
+def compact(output, path):
+    """Small reproducible public surface dataset derived from the full VTU."""
+    output, path = Path(output), Path(path)
+    result=json.loads((output / "result.json").read_bytes());check_seal(result)
+    if digest(output / "execution/field.vtu") != result["full_field_sha256"]:
+        raise ValueError("Solved field changed")
+    f=read_vtu(output / "execution/field.vtu");m=json.loads((output / "inputs/mesh.json").read_bytes())
+    validate_field(f,m,expected_probe=(EXPECTED["probe_xyz_m"],EXPECTED["probe_U_m"]))
+    data=sealed(dict(schema="osr-native-fem-gallery-field/1",request_id=result["request_id"],
+        native_vtu_sha256=result["full_field_sha256"],native_mesh_bin_sha256=result["native_mesh_bin_sha256"],
+        candidate_id=EXPECTED["candidate_id"],civil_evaluation_id=EXPECTED["civil_evaluation_id"],
+        node_labels=[int(n) for n in f["node_label"]],points_m=[m["nodes"][str(int(n))] for n in f["node_label"]],
+        displacement_m=f["displacement"].tolist(),nodal_von_mises_Pa=f["von_mises"].tolist(),
+        exterior_triangles_node_labels=exterior_triangles(m),
+        topology_note="Exterior quadratic tetra faces split using their actual midside nodes; original exact mesh coordinates",
+        native_coordinates_ascii_rounding_bound_m=5.1e-11,limitations=LIMITATIONS,**FLAGS))
+    with path.open("wb") as raw:
+        with gzip.GzipFile(filename="",mode="wb",fileobj=raw,mtime=0) as stream:stream.write(encoded(data))
+    return dict(evaluation_id=data["evaluation_id"],path=str(path),sha256=digest(path),bytes=path.stat().st_size)
 
 
 def main():
@@ -373,8 +397,9 @@ def main():
     a=sub.add_parser("run");a.add_argument("output")
     a=sub.add_parser("finalize");a.add_argument("output")
     a=sub.add_parser("plot");a.add_argument("output");a.add_argument("path")
+    a=sub.add_parser("compact");a.add_argument("output");a.add_argument("path")
     a=p.parse_args()
-    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else finalize(a.output) if a.action=="finalize" else plot(a.output,a.path)
+    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else finalize(a.output) if a.action=="finalize" else compact(a.output,a.path) if a.action=="compact" else plot(a.output,a.path)
     print(json.dumps(value,sort_keys=True))
 
 
