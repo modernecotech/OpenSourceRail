@@ -14,6 +14,7 @@ from pathlib import Path
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, identity
 from engineering.station_pair import control_policy, native_bridge
+from . import motion
 from .civil import sealed, source_union
 from .route import FLAGS
 
@@ -65,9 +66,13 @@ def compile_frame(case,manifest,bundle,body,alignment,station,tracks,duty,envelo
         duty['candidate_id']!=body['candidate_id'] or duty['body_evaluation_id']!=body['evaluation_id']):
         raise ValueError('Exact same-project geometry, mass and drive revision required')
     # Check inner ancestry as well as the outer bundle's links.
-    if (station['alignment_candidate_id']!=alignment['candidate_id'] or
+    if (station.get('schema')!='osr-project-station-interfaces/1' or
+        tracks.get('schema')!='osr-station-track-spread-evaluation/1' or
+        station['alignment_candidate_id']!=alignment['candidate_id'] or
         station['alignment_evaluation_id']!=alignment['evaluation_id'] or
         station['body_candidate_id']!=body['candidate_id'] or station['body_evaluation_id']!=body['evaluation_id'] or
+        tracks['alignment_candidate_id']!=alignment['candidate_id'] or
+        tracks['station_candidate_id']!=station['candidate_id'] or
         tracks['physical_definition']['alignment_candidate_id']!=alignment['candidate_id'] or
         tracks['physical_definition']['station_geometry_candidate_id']!=station['candidate_id'] or
         tracks['alignment_evaluation_id']!=alignment['evaluation_id'] or tracks['station_evaluation_id']!=station['evaluation_id']):
@@ -75,6 +80,14 @@ def compile_frame(case,manifest,bundle,body,alignment,station,tracks,duty,envelo
     leg_index=manifest['leg_index'];direction=manifest['direction']
     if type(leg_index) is not int or not 0<=leg_index<len(alignment['legs']) or type(direction) is not int or direction not in (-1,1):
         raise ValueError('Known directed leg required')
+    # A digest proves content integrity, not that the producer supplied these
+    # bounds. Recompile the cheap definition from the exact declared scenario,
+    # body, drive and policy before assigning transformed inputs a new identity.
+    # This invokes no trajectory or native evaluator.
+    expected_case,expected_manifest=motion.compile_case(bundle,body,alignment,duty,
+        leg_index,manifest['scenario'],direction=direction,root=root)
+    if case!=expected_case or manifest!=expected_manifest:
+        raise ValueError('Unframed producer contract differs; source bounds and redundant identities cannot be resealed into admission')
     leg=alignment['legs'][leg_index];D=leg['distance_m']
     a,b=(leg['from_stop'],leg['to_stop']) if direction==1 else (leg['to_stop'],leg['from_stop'])
     if (manifest['from_stop']!=a or manifest['to_stop']!=b or case['distance_m']!=D or

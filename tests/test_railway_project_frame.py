@@ -104,3 +104,26 @@ def test_resealed_mixed_coverage_ancestry_and_stale_source_do_not_export():
     args=list(context());args[1]['case_id']='f'*64;seal(args[1])
     with pytest.raises(ValueError,match='canonical unframed'):
         compile(args)
+
+
+def test_narrower_resealed_sensor_bound_cannot_inherit_the_source_policy():
+    args=list(context());q,m=args[:2]
+    q['control']['position_error_bound_m']=.01
+    q['id']=identity({k:v for k,v in q.items() if k!='id'})
+    m['case_id']=q['id'];m['native_input_id']=identity(q);seal(m)
+    with pytest.raises(ValueError,match='Unframed producer contract differs'):
+        compile(args)
+
+
+def test_resealed_redundant_body_and_outer_track_identities_are_checked():
+    args=list(context());args[1]['body_candidate_id']='f'*64;seal(args[1])
+    with pytest.raises(ValueError,match='Unframed producer contract differs'):
+        compile(args)
+    for field in ('station_candidate_id','alignment_candidate_id'):
+        args=list(context());args[6][field]='f'*64;seal(args[6])
+        # Keep all downstream seals coherent to isolate the actual contradictory
+        # outer ancestry, instead of merely exercising an old receipt failure.
+        args[2]['station_track_evaluation_id']=args[6]['evaluation_id'];seal(args[2])
+        args[1]['bundle_evaluation_id']=args[2]['evaluation_id'];seal(args[1])
+        with pytest.raises(ValueError,match='Contradictory station-track ancestry'):
+            compile(args)
