@@ -1,13 +1,28 @@
 //! Synthetic controller-method controls, never a railway equipment admission.
 use osr_journey::*;
 use serde_json::{Value, json};
+use std::sync::atomic::{AtomicUsize, Ordering};
+static CASE_CALLS: AtomicUsize = AtomicUsize::new(0);
 
 fn ledger(c: &Case) {
+    let count = CASE_CALLS.fetch_add(1, Ordering::SeqCst) + 1;
+    if let Ok(limit) = std::env::var("OSR_V2_CASE_LIMIT") {
+        let limit: usize = limit.parse().expect("explicit bounded case count");
+        assert!(
+            count <= limit,
+            "frozen synthetic case budget exceeded before evaluation"
+        );
+    }
     eprintln!("CASE_LEDGER {}", serde_json::to_string(c).unwrap());
 }
 fn run(c: &Case) -> Result<ResultRow, String> {
     ledger(c);
-    evaluate(c)
+    let result = evaluate(c);
+    match &result {
+        Ok(value) => eprintln!("RESULT_LEDGER {}", serde_json::to_string(value).unwrap()),
+        Err(error) => eprintln!("ERROR_LEDGER {}", serde_json::to_string(error).unwrap()),
+    }
+    result
 }
 
 fn fixture(grade: f64) -> Case {
@@ -89,6 +104,7 @@ fn missing_strategy_reproduces_two_exact_legacy_results() {
         ledger(c);
     }
     let actual = serde_json::to_string(&execute(request).unwrap()).unwrap();
+    eprintln!("LEGACY_RESULT_LEDGER {}", actual);
     assert_eq!(
         actual,
         golden["expected_raw_json"].as_str().unwrap().trim_end()
