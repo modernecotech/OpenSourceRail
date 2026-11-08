@@ -21,7 +21,7 @@ def body():
     for p,delta in (('tare',0.),('normal',20700.),('crowd-control',72000.)):
         for c,base in (('low',100000.),('base',120000.),('high',150000.)):
             m=base+delta
-            rows.append(dict(name=p+'-'+c,train_mass_kg=m,CG_m=[11.5,0.,1.5],
+            rows.append(dict(name=p+'-'+c,case=c,train_mass_kg=m,CG_m=[11.5,0.,1.5],
                 lateral_acceleration_m_s2=.5,
                 axles=[dict(id='axle-'+str(i),x_m=float(i),vertical_force_N=m*civil.G/24) for i in range(24)]))
     return seal(dict(schema='osr-vehicle-installation/1',physical_definition=physical,candidate_id=identity(physical),
