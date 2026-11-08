@@ -47,6 +47,9 @@ def verify(folder=None,*,root=ROOT):
             if q.name in wanted:values[q.name]=json.loads(b''.join(chunks))
     require(wanted<=set(values),'Missing civil proof input/result')
     train=sealed(values['axle-input.json']);civil=sealed(values['civil.json']);native=sealed(values['native-input.json'],'input_id');report=sealed(values['report.json'])
+    contract=train['track_interface']
+    require(contract==civil['physical_definition']['rail_interface']['track_interface']==native['track_interface'],'Civil proof wheel/rail datums differ')
+    require(native['rail_patch_hypothesis']['centres_y_m']==contract['nominal_contact_centres_y_m'],'Civil native rail patches differ from installed interface')
     require(report['system_candidate_id']==train['candidate_id']==native['system_candidate_id']==civil['system_candidate_id'],'Mixed civil proof system')
     require(report['civil_candidate_id']==civil['civil_candidate_id']==native['candidate_id']==identity(civil['physical_definition']),'Mixed civil physical identity')
     require(report['civil_evaluation_id']==civil['evaluation_id']==m['civil_evaluation_id'],'Mixed civil evaluation')
