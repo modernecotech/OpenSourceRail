@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **146**.
+Indexed Markdown files: **147**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **146**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 117 |
+| [docs](#docs) | 118 |
 | [engineering](#engineering) | 13 |
 | [tools](#tools) | 2 |
 
@@ -184,6 +184,7 @@ Indexed Markdown files: **146**.
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
+| [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |
 | [`docs/engineering-models/README.md`](../docs/engineering-models/README.md) | Engineering models |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
 | [`docs/gis/README.md`](../docs/gis/README.md) | Editable city GIS with RustGIS |
