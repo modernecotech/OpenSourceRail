@@ -80,10 +80,11 @@ def requirement_context(study):
 def readme(study):
     s=summary(study);lines=[]
     native=study['civil_native_reference']
+    archive=native.get('archive_file','civil-final-load01-proof.tar.gz')
     if native['applicable']:
         r=native['report'];u=r['results'][-1]['fieldcraft']['displacement_m'][2]*1000
         changes=' / '.join(f"{x*100:.4f}%" for x in native['refinement_changes'])
-        civil_text=f'''The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give {abs(u):.4f}mm fine-mesh deflection, refinement changes {changes}, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-final-load01-proof.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.'''
+        civil_text=f'''The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give {abs(u):.4f}mm fine-mesh deflection, refinement changes {changes}, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/{archive}) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.'''
     else:
         civil_text='This variant has no exact matching native civil result; earlier or different-load FEM is not inherited. Current loads need their own mesh, contact and convergence evidence.'
     for r in s['rows']:
@@ -164,7 +165,11 @@ def publish(run,*,root=ROOT,output=None,native_cad_evidence=None):
     for name,raw in artifacts(study,root).items():(out/name).write_bytes(raw)
     shutil.copytree(run/'vehicle',out/'vehicle')
     if study['civil_native_reference']['applicable']:
-        shutil.copytree(root/civil_reference.FOLDER,out/'civil-native')
+        target=out/'civil-native';target.mkdir()
+        name=study['civil_native_reference'].get('manifest_file',civil_reference.MANIFEST)
+        proof=civil_reference.verify(root=root,manifest_name=name)
+        for filename in (name,proof['manifest']['archive_file']):
+            shutil.copyfile(root/civil_reference.FOLDER/filename,target/filename)
     for group,build_name,runs_name in (('serial','cycle-build.json','native-runs'),('fleet','fleet-build.json','fleet-runs')):
         target=out/'native'/group;target.mkdir(parents=True)
         for name in (build_name,'native-build.json','native-build.log'):
@@ -276,7 +281,8 @@ def verify(*,root=ROOT,output=None):
         raise ValueError('Research publication cannot grant release or integrated selection')
     verify_native(study,out,root)
     if study['civil_native_reference']['applicable']:
-        proof=civil_reference.verify(out/'civil-native',root=root)
+        proof=civil_reference.verify(out/'civil-native',root=root,
+            manifest_name=study['civil_native_reference'].get('manifest_file',civil_reference.MANIFEST))
         axles=json.loads((out/'axle-loads.json').read_bytes())
         if (proof['report']!=study['civil_native_reference']['report']
             or proof['manifest']['civil_evaluation_id']!=study['civil']['evaluation_id']

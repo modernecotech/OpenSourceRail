@@ -9,6 +9,7 @@ from . import ROOT
 
 FOLDER='engineering/railway_closure/data/civil-native'
 MANIFEST='civil-final-load01-proof.json'
+INDEX='index.json'
 
 
 def require(condition,message):
@@ -20,9 +21,22 @@ def sealed(v,key='evaluation_id'):
     return v
 
 
-def verify(folder=None,*,root=ROOT):
+def manifest_names(folder):
+    folder=Path(folder);path=folder/INDEX
+    if not path.exists():return [MANIFEST]
+    registry=sealed(json.loads(path.read_bytes()),'index_id')
+    require(registry['schema']=='osr-civil-proof-registry/1','Unexpected civil proof registry')
+    names=registry['manifests']
+    require(isinstance(names,list) and names and len(names)<=16 and len(names)==len(set(names)),'Bounded unique civil proof manifests required')
+    for name in names:
+        require(isinstance(name,str) and Path(name).name==name and name.endswith('.json') and '..' not in name,'Ordinary civil proof manifest name required')
+    return names
+
+
+def verify(folder=None,*,root=ROOT,manifest_name=MANIFEST):
     folder=Path(root)/FOLDER if folder is None else Path(folder)
-    m=sealed(json.loads((folder/MANIFEST).read_bytes()))
+    require(Path(manifest_name).name==manifest_name and manifest_name.endswith('.json') and '..' not in manifest_name,'Ordinary civil proof manifest name required')
+    m=sealed(json.loads((folder/manifest_name).read_bytes()))
     require(m['schema']=='osr-pilot-civil-native-proof/1','Unexpected civil proof schema')
     archive=folder/m['archive_file']
     require(archive.parent==folder and archive.stat().st_size==m['archive_bytes'] and digest(archive)==m['archive_sha256'],'Civil proof archive changed')
@@ -93,8 +107,15 @@ def verify(folder=None,*,root=ROOT):
 
 
 def applicable(civil,axles,*,root=ROOT):
-    proof=verify(root=root);m=proof['manifest']
-    if (m['civil_evaluation_id']!=civil['evaluation_id'] or m['input_load_evaluation_id']!=axles['evaluation_id']):
-        return dict(applicable=False,reference_manifest_id=m['evaluation_id'],reason='Different candidate/load/source evaluation; native result is not inherited',physical_accepted=False)
-    return dict(applicable=True,reference_manifest_id=m['evaluation_id'],report=proof['report'],
+    folder=Path(root)/FOLDER;seen=[];matches=[]
+    for name in manifest_names(folder):
+        m=sealed(json.loads((folder/name).read_bytes()));seen.append(m['evaluation_id'])
+        require(m['schema']=='osr-pilot-civil-native-proof/1','Unexpected civil proof schema')
+        if m['civil_evaluation_id']==civil['evaluation_id'] and m['input_load_evaluation_id']==axles['evaluation_id']:
+            matches.append(name)
+    require(len(matches)<=1,'Ambiguous exact-load civil proof; revise the registry explicitly')
+    if not matches:
+        return dict(applicable=False,reference_manifest_ids=seen,reason='Different candidate/load/source evaluation; native result is not inherited',physical_accepted=False)
+    name=matches[0];proof=verify(root=root,manifest_name=name);m=proof['manifest']
+    return dict(applicable=True,reference_manifest_id=m['evaluation_id'],manifest_file=name,archive_file=m['archive_file'],report=proof['report'],
                 refinement_changes=proof['refinement_changes'],physical_accepted=False)
