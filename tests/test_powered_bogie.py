@@ -89,7 +89,8 @@ class PoweredBogieTests(unittest.TestCase):
     def test_required_fixings_positive_cost_and_repair_are_explicit(self):
         counts=self.report['joins_and_services']['per_bogie']
         self.assertEqual(counts['motor_foot_M20_bolts']+counts['gear_torque_M20_bolts'],12)
-        self.assertEqual(counts['gear_internal_bearings_in_310kg'],2)
+        self.assertEqual(counts['gear_internal_bearings_in_310kg'],[2,8])
+        self.assertFalse(counts['internal_bearing_counts_supplier_verified'])
         for part in self.body['parts']:
             if part['id'].startswith('powered-bogie/'):
                 self.assertTrue(all(v>0 for v in part['mass_each_kg'].values()))
