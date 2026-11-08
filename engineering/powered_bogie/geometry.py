@@ -204,7 +204,8 @@ def evaluate(result):
         joins_and_services=dict(per_bogie=dict(motor_foot_M20_bolts=8,gear_torque_M20_bolts=4,
             M20_locknuts=12,M20_washers=24,retention_M12_sets=4,
             clamp_M6_sets=8,torque_bushes=2,retention_stops=2,
-            toothed_couplings_in_310kg=1,gear_internal_bearings_in_310kg=2,
+            toothed_couplings_in_310kg=1,gear_internal_bearings_in_310kg=[2,8],
+            motor_internal_bearings_in_486kg=[2,4],internal_bearing_counts_supplier_verified=False,
             retained_wheelset_bearings=4,slides=0,power_cables=3,power_cable_m=7.2,
             bonding_braids=2,bonding_m=2.4,ventilation_ducts=1,duct_m=1.4),
             flexibility=services,
@@ -240,7 +241,7 @@ def evaluate(result):
     if result['physical_definition']['variant_id']=='retained-frame-control':
         counts=clearances['joins_and_services']['per_bogie']
         for key in counts:
-            if key not in ('toothed_couplings_in_310kg','gear_internal_bearings_in_310kg','retained_wheelset_bearings'):
+            if key not in ('toothed_couplings_in_310kg','gear_internal_bearings_in_310kg','motor_internal_bearings_in_486kg','internal_bearing_counts_supplier_verified','retained_wheelset_bearings'):
                 counts[key]=0
     clearances['evaluation_id']=identity(clearances)
     return clearances
