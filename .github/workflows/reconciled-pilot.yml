@@ -61,7 +61,7 @@ jobs:
       - name: Vehicle, wheel/rail, civil, service, costs and real serving contracts
         run: |
           mkdir -p build/reconciled-pilot-ci
-          .venv/bin/python -m pytest -q --junitxml=build/reconciled-pilot-ci/contracts.xml tests/test_vehicle_installation.py tests/test_vehicle_installation_underframe.py tests/test_pilot_civil.py tests/test_railway_closure*.py tests/test_powered_bogie*.py tests/test_recovery_search*.py tests/test_pilot_delivery.py
+          .venv/bin/python -m pytest -q --junitxml=build/reconciled-pilot-ci/contracts.xml tests/test_vehicle_installation.py tests/test_vehicle_installation_underframe.py tests/test_pilot_civil.py tests/test_railway_closure*.py tests/test_powered_bogie*.py tests/test_recovery_search*.py tests/test_pilot_delivery*.py
       - name: Causal fleet, energy conservation and continuous release regressions
         run: cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
       - uses: actions/upload-artifact@v4
