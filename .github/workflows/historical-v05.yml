@@ -8,6 +8,7 @@ on:
       - "docs/archives/v0.5-maglev/**"
       - "tools/automation/historical-native-preflight.py"
       - "tools/automation/install-historical-freecad.py"
+      - "tools/automation/download-pinned-tool.py"
       - "tools/automation/configure-historical-apt.py"
       - "tools/automation/prepare-historical-replay.py"
   pull_request:
@@ -16,6 +17,7 @@ on:
       - "docs/archives/v0.5-maglev/**"
       - "tools/automation/historical-native-preflight.py"
       - "tools/automation/install-historical-freecad.py"
+      - "tools/automation/download-pinned-tool.py"
       - "tools/automation/configure-historical-apt.py"
       - "tools/automation/prepare-historical-replay.py"
   workflow_dispatch:
@@ -42,6 +44,7 @@ jobs:
             /docs/archives/v0.5-maglev/manifest.json
             /tools/automation/historical-native-preflight.py
             /tools/automation/install-historical-freecad.py
+            /tools/automation/download-pinned-tool.py
             /tools/automation/configure-historical-apt.py
             /tools/automation/prepare-historical-replay.py
           sparse-checkout-cone-mode: false
@@ -92,7 +95,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p build/native-download
-          curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/native-download/freecad.AppImage
+          python ../current/tools/automation/download-pinned-tool.py freecad --output build/native-download/freecad.AppImage
           python ../current/tools/automation/install-historical-freecad.py --archive build/native-download/freecad.AppImage --output build/historical-freecad
           echo "$PWD/build/historical-freecad/bin" >> "$GITHUB_PATH"
       - name: Verify the direct headless CAD and solver environment before replay
@@ -191,6 +194,9 @@ jobs:
             historical/build/historical-native-install.log
             historical/build/historical-freecad/install.json
             historical/build/historical-freecad/extract.log
+            historical/build/native-download/*.download.json
+            historical/build/native-download/*.attempts/*.json
+            historical/build/native-download/*.attempts/*.stderr.log
             historical/build/historical-native-preflight.json
             historical/build/historical-native-preflight.log
             historical/build/historical-browser-install.log

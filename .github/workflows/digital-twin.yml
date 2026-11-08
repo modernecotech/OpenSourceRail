@@ -12,6 +12,7 @@ on:
       - "campaigns/station-accelerator-development.toml"
       - "docs/design-engine/digital-twin/**"
       - "osr-twin"
+      - "tools/automation/download-pinned-tool.py"
       - ".github/workflows/digital-twin.yml"
   pull_request:
     paths:
@@ -24,6 +25,7 @@ on:
       - "campaigns/end-to-end-digital-twin.toml"
       - "docs/design-engine/digital-twin/**"
       - "osr-twin"
+      - "tools/automation/download-pinned-tool.py"
       - ".github/workflows/digital-twin.yml"
   workflow_dispatch:
   schedule:
@@ -115,7 +117,7 @@ jobs:
               raise SystemExit('Insufficient workspace space for pinned CAD extraction and replay')
           PYCODE
           mkdir -p build/twin-tools
-          curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/twin-tools/freecad.AppImage
+          .venv/bin/python tools/automation/download-pinned-tool.py freecad --output build/twin-tools/freecad.AppImage
           .venv/bin/python tools/automation/install-historical-freecad.py --archive build/twin-tools/freecad.AppImage --output build/twin-tools/freecad
           test -s build/twin-tools/freecad/install.json
           test -x build/twin-tools/freecad/bin/FreeCADCmd
@@ -142,5 +144,11 @@ jobs:
         if: always()
         with:
           name: v06-digital-twin-methods-not-physical-qualification
-          path: build/twin-ci/
+          path: |
+            build/twin-ci/
+            build/twin-tools/*.download.json
+            build/twin-tools/*.attempts/*.json
+            build/twin-tools/*.attempts/*.stderr.log
+            build/twin-tools/freecad/install.json
+            build/twin-tools/freecad/extract.log
           retention-days: 14

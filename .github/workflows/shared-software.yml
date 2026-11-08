@@ -43,6 +43,8 @@ jobs:
           python tools/automation/tests/test_research_snapshot.py
           python tools/automation/tests/test_historical_apt.py
           python tools/automation/tests/test_historical_replay.py
+      - name: Fail-closed pinned tool download and fallback contracts
+        run: python -m pytest -q tests/test_pinned_tool_download.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
       - name: Source geometry and engineering model export integrity
@@ -180,11 +182,16 @@ jobs:
       - name: Install the pinned bounded verifier
         run: |
           cargo install kani-verifier --version 0.67.0 --locked
-          cargo kani setup
+          python tools/automation/download-pinned-tool.py kani --output build/native-download/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz
+          cargo kani setup --use-local-bundle "$PWD/build/native-download/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz"
       - name: Execute shared authority and retained maglev refusal properties
         run: python -m engineering.ferrite_maglev.pilot_assurance run control-formal
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: control-formal-execution
-          path: engineering/assurance/v052-pilot-profiles/control-formal/
+          path: |
+            engineering/assurance/v052-pilot-profiles/control-formal/
+            build/native-download/*.download.json
+            build/native-download/*.attempts/*.json
+            build/native-download/*.attempts/*.stderr.log

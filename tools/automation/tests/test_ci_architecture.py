@@ -96,7 +96,7 @@ def twin_storage_steps(text):
         assert line in active_cleanup, line
     assert cleanup.count('shutil.rmtree(') == 1
     expected = ('required = 8 * 1024**3', 'sudo apt-get update', 'required = 6 * 1024**3',
-                'curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/twin-tools/freecad.AppImage',
+                '.venv/bin/python tools/automation/download-pinned-tool.py freecad --output build/twin-tools/freecad.AppImage',
                 '.venv/bin/python tools/automation/install-historical-freecad.py --archive build/twin-tools/freecad.AppImage --output build/twin-tools/freecad',
                 'test -s build/twin-tools/freecad/install.json', 'test -x build/twin-tools/freecad/bin/FreeCADCmd',
                 "archive = Path('build/twin-tools/freecad.AppImage')", 'archive.unlink()',
@@ -345,8 +345,8 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert 'tags: ["v0.5.*"]' in historical_text
     triggers = historical_text.split('permissions:', 1)[0]
     path_filters = re.findall(r'^      - "([^"\n]+)"$', triggers, re.M)
-    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/configure-historical-apt.py', 'tools/automation/prepare-historical-replay.py'}
-    assert len(path_filters) == 12  # Same narrow push and PR filters.
+    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/download-pinned-tool.py', 'tools/automation/configure-historical-apt.py', 'tools/automation/prepare-historical-replay.py'}
+    assert len(path_filters) == 14  # Same narrow push and PR filters.
     assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
     assert '  push:\n    branches: [main]\n  pull_request:' in shared_triggers
@@ -362,7 +362,7 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert 'runs-on: ubuntu-24.04' in historical
     assert 'QT_QPA_PLATFORM: offscreen' in historical
     assert 'install -y freecad' not in historical
-    assert 'FreeCAD_1.1.4-Linux-x86_64-py311.AppImage' in historical
+    assert 'download-pinned-tool.py freecad --output build/native-download/freecad.AppImage' in historical
     assert historical.index('install-historical-freecad.py --archive') < historical.index('historical-native-preflight.py --output')
     dependency_step=historical.split('      - name: Install the direct native tools required by the pinned cycle\n',1)[1].split('      - name:',1)[0]
     assert '        shell: bash\n' in dependency_step, 'Dependency tee pipelines require explicit bash -eo pipefail'
@@ -453,6 +453,13 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
                     'test_invalid_beam_assumptions_fail_before_numerics'):
         assert command in shared, command
     assert 'pilot_assurance run control-formal' in jobs['control-formal']
+    formal=jobs['control-formal']
+    pinned_commands=('cargo install kani-verifier --version 0.67.0 --locked',
+        'python tools/automation/download-pinned-tool.py kani --output build/native-download/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz',
+        'cargo kani setup --use-local-bundle "$PWD/build/native-download/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz"',
+        'python -m engineering.ferrite_maglev.pilot_assurance run control-formal')
+    assert all(command in formal for command in pinned_commands)
+    assert [formal.index(command) for command in pinned_commands]==sorted(formal.index(command) for command in pinned_commands)
     assert 'git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164' in shared
     assert 'git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference' in shared
     assert 'test_research_context.py' in shared and 'test_research_portability.py' in shared
@@ -637,6 +644,11 @@ class ArchitectureRoutingTests(unittest.TestCase):
                  self.archive if archive is None else archive,
                  self.sourced if sourced is None else sourced,
                  self.geometry if geometry is None else geometry)
+
+    def test_control_verifier_requires_the_verified_local_bundle(self):
+        self.check()
+        command='cargo kani setup --use-local-bundle "$PWD/build/native-download/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz"'
+        with self.assertRaises(AssertionError):self.check(shared=self.shared.replace(command,'cargo kani setup'))
 
     def test_digital_twin_storage_guards_and_pinned_cad_order(self):
         text = DIGITAL_TWIN_WORKFLOW.read_text()
