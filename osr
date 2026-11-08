@@ -51,6 +51,14 @@ if [[ "${1:-}" == gis ]]; then
     shift
     exec tools/automation/osr-python -m engineering.rustgis "$@"
 fi
+if [[ "${1:-}" == design && "${2:-}" == recovery-economics ]]; then
+    shift 2
+    exec tools/automation/osr-python -m engineering.recovery_search "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == pilot-delivery ]]; then
+    shift 2
+    exec tools/automation/osr-python -m engineering.pilot_delivery "$@"
+fi
 if [[ "${1:-}" == design && "${2:-}" == closure ]]; then
     shift 2
     exec tools/automation/osr-python -m engineering.railway_closure "$@"

@@ -18,7 +18,7 @@ PARENT='engineering/railway_closure/data/frozen-installed-parent.json.gz'
 def sources(root=ROOT):
     root=Path(root)
     value=pair.source_hashes(root)
-    for folder in ('engineering/railway_closure','engineering/vehicle_installation','engineering/pilot_civil','engineering/station_cycle'):
+    for folder in ('engineering/railway_closure','engineering/vehicle_installation','engineering/pilot_civil','engineering/station_cycle','engineering/powered_bogie','engineering/recovery_search','engineering/pilot_delivery'):
         for p in (root/folder).rglob('*'):
             if p.is_file() and p.suffix in ('.py','.json','.gz','.html','.css','.js'):
                 value[p.relative_to(root).as_posix()]=digest(p)
@@ -33,7 +33,7 @@ def write(folder,name,value):
     p.write_bytes(raw)
 
 
-def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
+def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=False):
     from engineering.vehicle_installation import underframe
     root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
@@ -57,9 +57,15 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
     prepared=motion.prepare(root)
     parent=underframe.load_parent(root/PARENT)
     t=time.monotonic();body=underframe.build(parent,family_id=p['underframe_family_id'])
+    if bogie_detail:
+        from engineering.powered_bogie.design import build as revise_bogie
+        body=revise_bogie(body,root=root)
     timings['body_s']=time.monotonic()-t
     export.write(body,out/'vehicle')
     i=installation.integrate(body,with_recovery=with_recovery,root=root);axles=installation.axle_packet(i)
+    if bogie_detail:
+        from engineering.powered_bogie.geometry import evaluate as bogie_geometry
+        write(out,'powered-bogie-geometry.json',bogie_geometry(body))
     write(out,'installed.json',i);write(out,'axle-loads.json',axles)
     t=time.monotonic();civil=civil_design.evaluate_portfolio(axles,root=root,upstream_root=root)
     timings['civil_s']=time.monotonic()-t

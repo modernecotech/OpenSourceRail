@@ -43,6 +43,13 @@ def summary(study):
     return dict(schema='osr-railway-closure-summary/1',study_id=study['study_id'],bundle=study['bundle'],
                 route_km=1.5,stations=2,rows=rows,body=study['body_summary'],
                 installed_load_cases=study['installed']['load_cases'],
+                mass_scopes=[dict(load_case=r['name'],body_stock_and_equipment_kg=study['body_summary']['nominal_part_mass_kg'][r['name'].split('-')[-1]],
+                    body_with_payload_and_installation_reserve_kg=r['body_mass_kg'],
+                    external_known_drives_kg=r['added_known_drive_kg'],
+                    remaining_external_drive_reserve_kg=r['added_drive_reserve_kg'],
+                    capture_interface_reserve_kg=r['added_capture_interface_kg'],
+                    integrated_mass_kg=r['train_mass_kg']) for r in study['installed']['load_cases']],
+                packaging_screen=study['installed']['packaging_screen'],
                 civil=dict(candidate_id=study['civil']['civil_candidate_id'],screens=study['civil']['screens'],
                     cost=study['civil']['cost'],lifting=study['civil']['lifting'],quantities=study['civil']['quantities'],
                     native_reference=study['civil_native_reference']),
@@ -94,7 +101,7 @@ def readme(study):
         lines.append(f"| {r['headway_s']:g}s / phase{r['opposite_phase_s']:g}s | {'on' if r['recovery_enabled'] else 'off'} | {r['active_trainsets']}+{r['spare_trainsets']} | {r['arrivals']}/{r['requested']} | {jerk} | ${price:.2f}m | {'pass' if r['model_screen'] else 'held'} |")
     return f'''# Reconciled railway research pilot
 
-[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb)
+[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb) · [Manufacturing tasks and business-review draft](delivery/README.md)
 
 **Calculated outline complete under explicit assumptions. Engineering evidence pending.**
 One physical bundle connects a six-car research body, counted drive/interface additions, axle reactions, civil quantities, terminal layout, counted fleet, causal energy-store simulation and all fourteen lifecycle scopes. The passive v0.6 reference remains unchanged; this powered-wheel research comparison does not select installed propulsion.
@@ -116,6 +123,8 @@ Energy stores start empty in nominal cases. Release substitutes for independentl
 The study has a new whole-railway identity. {civil_text}
 
 Full installed motor shapes, joints, fatigue, emergency braking, station mechanical force/flow maps, hot electrical characteristics and site conditions remain open.
+
+The body-only mass subtotal and full driven train are separate accounting scopes. The decision view itemises counted body, installation/payload, external drives, remaining BOP and capture-interface reserves; a body subtotal is never presented as the integrated loaded train.
 
 All original part origins are retained or explicitly superseded, with materials, quantities, process/assembly plans, proposed locations and positive reserves. Stock blanks and equipment envelopes are distinguished from finished solids. These are research manufacturing drafts, not released production drawings or work orders.
 
@@ -193,7 +202,12 @@ def publish(run,*,root=ROOT,output=None,native_cad_evidence=None):
                'independent-freecad/command.json','independent-freecad/resource.json','independent-freecad/worker.py']
         for name in names:
             p=target/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source/name,p)
-    for n in ('civil.json','civil-assembly.json','civil-assembly.svg','bundle.json','axle-loads.json','usage.json'):
+    from engineering.pilot_delivery.export import compile_run
+    plans=[r for r in study['records'] if r['experiment']=='nominal' and r['assessment']['nominal_model_screen']]
+    if plans:
+        chosen=min(plans,key=lambda r:(abs(r['service']['headway_s']-200.),abs(r['service']['opposite_phase_s']-90.)))
+        compile_run(out/'study.json.gz',out/'vehicle/installation.json.gz',chosen['service']['evaluation_id'],out/'delivery',root=root)
+    for n in ('civil.json','civil-assembly.json' ,'civil-assembly.svg','bundle.json','axle-loads.json','usage.json'):
         shutil.copyfile(run/n,out/n)
     files={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()}
     manifest=dict(schema='osr-railway-closure-publication/1',study_id=study['study_id'],
@@ -292,6 +306,9 @@ def verify(*,root=ROOT,output=None):
         if (out/name).read_bytes()!=raw:raise ValueError('Generated decision view differs: '+name)
     body=json.loads(gzip.decompress((out/'vehicle/installation.json.gz').read_bytes()))
     if (out/'native-cad').exists():verify_cad(out/'native-cad',body,root)
+    if (out/'delivery').exists():
+        from engineering.pilot_delivery.export import verify_run
+        verify_run(out/'delivery',root=root)
     for record in study['records']:
         q,r,s=record['request'],record['result'],record['service']
         if r['native_input_id']!=identity(q) or r['candidate_id']!=study['bundle']['candidate_id']:

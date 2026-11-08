@@ -81,13 +81,18 @@ def evaluate(body,installed,civil,service,*,energy=None,root=ROOT):
         reserve=body['policy']['evaluation']['unlocated_installation_reserve_kg'][c]
         direct=body['direct_parts_process_usd'][c]+reserve*p['uncatalogued_installation_usd_per_reserved_kg'][i]
         final=p['train_final_assembly_h'][i]*p['fabrication_loaded_wage_usd_h'][i]+p['train_whole_vehicle_test_allowance_usd'][i]
-        drive=12*p['powered_axle_drive_unit_usd'][i]+p['train_traction_inverter_collector_cooling_usd'][i]
+        explicit_BOP=fsum(r['quantity_per_train']*r['direct_cost_each_usd'][c]
+                           for r in body['parts'] if r.get('BOP_partition'))
+        remaining_BOP=p['train_traction_inverter_collector_cooling_usd'][i]-explicit_BOP
+        if remaining_BOP<=6*extra_p['continuous_auxiliary_converter_per_car_usd'][i]:
+            raise ValueError('Detailed BOP cost must leave positive converter and unknown equipment provision')
+        drive=12*p['powered_axle_drive_unit_usd'][i]+remaining_BOP
         # DC/DC is a declared partition, not a second charge for the same drive BOP.
         remaining=p['train_traction_inverter_collector_cooling_usd'][i]-6*extra_p['continuous_auxiliary_converter_per_car_usd'][i]
         if remaining<=0:raise ValueError('Auxiliary partition consumes the whole drive allowance')
         vehicle[c]=(direct+final+drive)*(1+p['train_delivery_and_spares_fraction'][i])
     add('rolling-stock-delivered',fleet,'six-car trainsets',{c:fleet*vehicle[c] for c in CASES},
-        'New counted body direct parts/process + positive installation reserve + final assembly/test + 12 drive units + BOP (including six auxiliary DC/DC partitions) + delivery/spares once; recovery fittings separate')
+        'New counted body direct parts/process (explicit BOP replaces the same cost allowance once) + positive installation reserve + final assembly/test + 12 drive units + BOP (including six auxiliary DC/DC partitions) + delivery/spares once; recovery fittings separate')
     def rate(owner,q,unit,key,basis):add(owner,q,unit,{c:q*p[key][i] for i,c in enumerate(CASES)},basis)
     rate('station-civil-accessibility',2,'stations','station_civil_accessibility_usd','Two 125m proposed stations, access/lifts/egress allowances; actual site design open')
     # Price the same installed feed limit in faults and nominal runs; a favourable

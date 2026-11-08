@@ -67,6 +67,27 @@ def integrate(body, *, with_recovery=True, recovery_design=None, root=ROOT):
         mass_kg_each=dict(zip(CASES,electrical_policy['onboard_converter_mass_kg'])),
         included_in='inverter-cooling-mounting-collector-reserve',additional_mass_not_added=True,
         physical_shape_and_ratings_verified=False))
+    detail = body.get('BOP_partition')
+    drives = body.get('external_drive_placements')
+    if bool(detail) != bool(drives):
+        raise ValueError('Detailed drive placements and BOP partition must travel together')
+    if detail:
+        counted = {c: fsum(r['quantity_per_train'] * r['mass_each_kg'][c]
+                          for r in body['parts'] if r.get('BOP_partition')) for c in CASES}
+        reserve_row = next(r for r in v['inventory'] if r['id']=='inverter-cooling-mounting-collector-reserve')
+        gross = reserve_row['mass_hypothesis_kg']
+        if (detail['previous_external_reserve_kg'] != gross
+                or detail['explicit_parts_already_in_body_kg'] != counted
+                or any(abs(detail['remaining_unknown_external_reserve_kg'][c]-(gross[c]-counted[c]))>1e-8
+                       or gross[c]<=counted[c] for c in CASES)):
+            raise ValueError('Counted BOP must replace the positive external reserve exactly once')
+        reserve_row.update(deepcopy(detail))
+        reserve_row['mass_hypothesis_kg']=deepcopy(detail['remaining_unknown_external_reserve_kg'])
+        for c in CASES: v['onboard_added_mass_kg'][c]-=counted[c]
+        if (len(drives)!=24 or len({d['id'] for d in drives})!=24
+                or any(d['body_BOM_contains_mass'] for d in drives)
+                or any(abs(fsum(d['mass_kg'][c] for d in drives)-9552.)>1e-8 for c in CASES)):
+            raise ValueError('Exactly twelve externally mass-owned motor/gear pairs required')
     terminal = terminal_geometry(brief(root))
     # One driven axle per bogie: supplier shaft/mount geometry remains unknown.
     driven = list(range(0, 24, 2))
@@ -94,6 +115,9 @@ def integrate(body, *, with_recovery=True, recovery_design=None, root=ROOT):
         terminal_geometry_id=terminal['geometry_id'],
         control_hardware='Existing independent grid drive and service/emergency brakes retained; recovery replaces grid effort only',
         selected_reference_changed=False)
+    if detail:
+        physical['placements']['motor_and_gear']=deepcopy(drives)
+        physical['drive_reserve_partition']=deepcopy(detail)
     cid = identity(physical)
     v['parent_candidate_id'] = v['candidate_id']
     v['candidate_id'] = cid
@@ -117,23 +141,43 @@ def integrate(body, *, with_recovery=True, recovery_design=None, root=ROOT):
         reserve = v['onboard_added_mass_kg'][c] - known - interface
         if reserve <= 0:
             raise ValueError('Missing drive balance-of-plant mass cannot become zero')
-        additions = [(796., [axles[i]['x_m'], 0., .55], [i]) for i in driven]
+        if drives:
+            additions=[]
+            for d in drives:
+                bi=d['bogie_index'];indices=[2*bi,2*bi+1]
+                x0,x1=[axles[j]['x_m'] for j in indices];x=d['centroid_m'][0]
+                if not x0-1e-9<=x<=x1+1e-9:
+                    raise ValueError('Drive centre lies outside declared bogie supports')
+                weights=[(x1-x)/(x1-x0),(x-x0)/(x1-x0)]
+                additions.append((d['mass_kg'][c],d['centroid_m'],list(zip(indices,weights))))
+        else:
+            additions = [(796., [axles[i]['x_m'], 0., .55], [(i,1.)]) for i in driven]
         for car in range(6):
             cx = 8.5 + 17.65 * car
-            additions.extend([(reserve / 6, [cx, 0., .70], list(range(4*car, 4*car+4))),
-                              (interface / 6, [cx, 0., .45], list(range(4*car, 4*car+4)))])
+            additions.extend([(reserve / 6, [cx, 0., .70], [(j,.25) for j in range(4*car, 4*car+4)]),
+                              (interface / 6, [cx, 0., .45], [(j,.25) for j in range(4*car, 4*car+4)])])
         for mass, position, indices in additions:
             # Centre-of-car additions split equally over symmetric supports;
             # axle-mounted additions pass straight into their named axle.
-            for i in indices:
-                axles[i]['vertical_force_N'] += mass * G / len(indices)
+            for i, fraction in indices:
+                axles[i]['vertical_force_N'] += mass * G * fraction
         total = r['train_mass_kg'] + fsum(m for m, _, _ in additions)
         cg = [(r['train_mass_kg'] * r['CG_m'][a] + fsum(m*x[a] for m, x, _ in additions)) / total for a in range(3)]
         force_residual = fsum(a['vertical_force_N'] for a in axles) - total * G
         moment_residual = fsum(a['vertical_force_N'] * a['x_m'] for a in axles) - total * G * cg[0]
         if not all(isfinite(x) for x in [total, *cg]) or abs(force_residual) > 1e-7 or abs(moment_residual) > 1e-6:
             raise ValueError('Added drive/interface masses do not conserve support transfer')
-        rows.append(dict(name=r['name'], train_mass_kg=total, CG_m=cg, axles=axles,
+        inertia=deepcopy(r['inertia_about_CG_kg_m2'])
+        # External housings remain point-mass hypotheses, with no invented
+        # internal inertia. Body inertia and every shifted first moment survive.
+        for mass,position in [(r['train_mass_kg'],r['CG_m']),
+                              *((m,x) for m,x,_ in additions)]:
+            delta=[position[a]-cg[a] for a in range(3)]
+            for a in range(3):
+                for b in range(3):
+                    inertia[a][b]+=mass*((fsum(t*t for t in delta) if a==b else 0.)-delta[a]*delta[b])
+        rows.append(dict(name=r['name'], inertia_about_CG_kg_m2=inertia,
+                         external_intrinsic_inertia_verified=False, train_mass_kg=total, CG_m=cg, axles=axles,
                          lateral_acceleration_m_s2=r['lateral_acceleration_m_s2'],
                          force_residual_N=force_residual, moment_residual_Nm=moment_residual,
                          body_mass_kg=r['train_mass_kg'], added_known_drive_kg=known,
@@ -143,7 +187,8 @@ def integrate(body, *, with_recovery=True, recovery_design=None, root=ROOT):
                   physical_definition=physical, vehicle_candidate_id=body['candidate_id'],
                   body_evaluation_id=body['evaluation_id'], variant=v, recovery_design=dict(parent, variant=v),
                   terminal_geometry=terminal, load_cases=rows, source_sha256=source,
-                  packaging_screen='hold: proposed powered bogie motor envelopes intersect retained passive frame; actual mount revision required',
+                  packaging_screen=('hold: detailed drive envelopes still conflict with retained brakes, underframe and mounting stock; supplier interfaces and movement remain unresolved'
+                      if detail else 'hold: proposed powered bogie motor envelopes intersect retained passive frame; actual mount revision required'),
                   installed_mass_complete=False, **FLAGS)
     return seal(result)
 

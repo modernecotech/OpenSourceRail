@@ -24,6 +24,18 @@ fetch('summary.json',{cache:'no-store'}).then(async response=>{
   };
   $('#faults').addEventListener('change',render);render();
   for(const [value,label] of [[number(data.body.total_occurrences,0),'located proposed occurrences'],[number(data.body.nominal_part_mass_kg.base/1000)+' t','body stock and equipment subtotal; installation and drive reserves separate'],[money(data.body.direct_parts_process_usd.base),'direct body parts/process estimate; delivered train cost is separate']])$('#body').append(el('p',value+' — '+label));
+  const scope=data.mass_scopes?.find(r=>r.load_case==='normal-base');
+  if(scope){
+    for(const [key,label] of [['body_with_payload_and_installation_reserve_kg','Body with normal passengers and body installation reserve'],['external_known_drives_kg','External motors and gears'],['remaining_external_drive_reserve_kg','Remaining external drive equipment reserve'],['capture_interface_reserve_kg','Capture interface reserve'],['integrated_mass_kg','Complete integrated loaded model']])
+      $('#body').append(el('p',number(scope[key]/1000,3)+' t — '+label));
+  }
+  $('#body').append(el('p',data.packaging_screen,'held'));
+  const delivery=await fetch('delivery/summary.json',{cache:'no-store'}).then(r=>r.ok?r.json():null);
+  if(delivery){
+    const counts=delivery.summary.task_status_counts;
+    $('#delivery').append(el('p',Object.entries(counts).map(([k,v])=>number(v,0)+' '+k.replaceAll('-',' ')).join(' · ')),
+      el('small','Local planning drafts only. Supplier mappings, controlled drawings and approval remain required.'));
+  }
   for(const t of data.frontier.tasks){const n=el('div',null,'task');n.append(el('b',t.id.replaceAll('-',' ')),el('p',t.task),el('small',t.dependency));$('#frontier').append(n);}
   $('#identity').textContent='Physical bundle '+data.bundle.candidate_id+' · Study '+data.study_id;
   $('#loading').hidden=true;$('#content').hidden=false;
