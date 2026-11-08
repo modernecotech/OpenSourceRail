@@ -243,7 +243,12 @@ def _line_input(original,current,baseline_duty):
             if oldring and offset<-original['route_m']/2:offset+=original['route_m']
             at=stop['chainage_m']+offset
             if ring:at%=length
-            elif not 0<=at<=length:raise planning.PlanningError('Relocated station complex exceeds the route envelope')
+            else:
+                # Raw and operational endpoint chainages can differ by binary64
+                # accumulation. Preserve the existing representation-only rule
+                # after re-expansion as well as when constructing the base.
+                at=_endpoint(at,length)
+                if not 0<=at<=length:raise planning.PlanningError('Relocated station complex exceeds the route envelope')
             item=deepcopy(raw.get(member,stop));item.update(id=member,chainage_m=at)
             # Preserve raw dwell defaults for exact no-edit replay; only a
             # changed visible dwell deliberately revises the underlying request.

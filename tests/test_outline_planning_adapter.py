@@ -120,6 +120,23 @@ def test_editable_route_accumulation_epsilon_does_not_rescale_source_geometry(fi
     assert restored['route_m']==actual+1e-8 and restored['stops']==city['lines'][0]['stops'] and walk==0
 
 
+def test_reexpanded_terminal_offset_uses_only_existing_binary64_endpoint_rule(fixture):
+    _,_,city,services,base=fixture
+    original=city['lines'][0];duty=deepcopy(services['line_services'][0])
+    current=deepcopy(base['lines'][0]);current['coordinates'][-1][0]+=.001
+    chain=geometry.route(current['coordinates'],current['shape']);length=chain[-1]
+    current['stops'][-1].update(chainage_m=length,lon=current['coordinates'][-1][0])
+    duty['operational_stops'][-1]['chainage_m']=original['route_m']-1e-8
+    before=deepcopy((original,current,duty))
+    expanded,_,_=adapter._line_input(original,current,duty)
+    assert expanded['stops'][-1]['chainage_m']==length
+    assert (original,current,duty)==before
+    assert adapter.CHAINAGE_EPSILON_M==1e-7
+    duty['operational_stops'][-1]['chainage_m']=original['route_m']-.001
+    with pytest.raises(planning.PlanningError,match='route envelope'):
+        adapter._line_input(original,current,duty)
+
+
 def test_move_complex_adds_declared_access_cost_and_preserves_original_marker_sources(fixture):
     root,_,original,_,base=fixture
     result=adapter.apply_edits(base,bundle(base,[dict(kind='move-stop',line='L',stop='complex-ab',chainage_m=100.)]),root)
