@@ -1,0 +1,69 @@
+name: Reconciled railway research pilot
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "engineering/**"
+      - "docs/design-engine/reconciled-pilot*/**"
+      - "docs/design-engine/vehicle-parts/**"
+      - "tests/test_railway_closure*.py"
+      - "tests/test_vehicle_installation*.py"
+      - "tests/test_pilot_civil.py"
+      - "osr"
+      - ".github/workflows/reconciled-pilot.yml"
+  pull_request:
+    paths:
+      - "engineering/**"
+      - "docs/design-engine/reconciled-pilot*/**"
+      - "docs/design-engine/vehicle-parts/**"
+      - "tests/test_railway_closure*.py"
+      - "tests/test_vehicle_installation*.py"
+      - "tests/test_pilot_civil.py"
+      - "osr"
+      - ".github/workflows/reconciled-pilot.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reconciled-pilot-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  research-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CARGO_BUILD_JOBS: "2"
+      CARGO_TARGET_DIR: /tmp/osr-closure-test-target
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engineering/requirements.txt
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install --no-cache-dir pytest numpy==2.3.5 --requirement engineering/requirements.txt
+      - name: Vehicle, wheel/rail, civil, service, costs and real serving contracts
+        run: |
+          mkdir -p build/reconciled-pilot-ci
+          .venv/bin/python -m pytest -q --junitxml=build/reconciled-pilot-ci/contracts.xml tests/test_vehicle_installation.py tests/test_vehicle_installation_underframe.py tests/test_pilot_civil.py tests/test_railway_closure_integration.py tests/test_railway_closure_service.py tests/test_railway_closure_serving.py
+      - name: Causal fleet, energy conservation and continuous release regressions
+        run: cargo test --manifest-path engineering/station_pair/native/Cargo.toml --locked
+      - name: Authenticate both complete research dossiers without new CAD or FEM
+        run: |
+          ./osr design closure verify
+          ./osr design closure verify --output docs/design-engine/reconciled-pilot-no-store
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reconciled-pilot-test-report
+          path: build/reconciled-pilot-ci/contracts.xml
+          if-no-files-found: ignore
