@@ -80,6 +80,9 @@ class PoweredBogieTests(unittest.TestCase):
         self.assertTrue(any(r['continuous_body_or_battery_holds'] for r in self.report['drives']))
         self.assertFalse(self.report['maintenance']['removal_path_verified'])
         self.assertFalse(self.report['supplier_fit_verified'])
+        self.assertTrue(any(r['relative_frame_swept_holds'] for r in self.report['drives']))
+        self.assertEqual(len(self.report['joins_and_services']['flexibility']),2)
+        self.assertTrue(all(not r['route_and_terminal_clash_verified'] for r in self.report['joins_and_services']['flexibility']))
 
     def test_required_fixings_positive_cost_and_repair_are_explicit(self):
         counts=self.report['joins_and_services']['per_bogie']

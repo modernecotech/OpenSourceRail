@@ -132,7 +132,9 @@ def evaluate(result):
     for e in result['external_drive_placements'][:2]:
         nominal=box(e['centroid_m'],e['size_m'])
         swept=continuous_bound(nominal,origin,m,gear=e['hardware']!='motor')
-        nominal_conflicts=[];sweep_holds=[]
+        nominal_conflicts=[];sweep_holds=[];relative_holds=[]
+        relative=dict(m,yaw_rad=0.,roll_rad=0.,secondary_jounce_m=0.)
+        relative_swept=continuous_bound(nominal,origin,relative,gear=True) if e['hardware']!='motor' else nominal
         for other in keepouts:
             # Axle bore/coupling is intended and separately recorded. Brake,
             # bolster and frame intersections are never excluded as mating.
@@ -141,6 +143,8 @@ def evaluate(result):
                     interpretation='Required-space conflict; actual housing/contact unknown'))
             if other['category'] in ('body-underframe','battery') and intersects(swept,other['bounds_m']):
                 sweep_holds.append(dict(**other,interpretation='Continuous swept-box overlap; narrow-phase proof required'))
+            if other['category'] in ('new-frame-or-mount','retained-frame','retained-secondary-bolster') and intersects(relative_swept,other['bounds_m']):
+                relative_holds.append(dict(**other,interpretation='Gear/primary movement versus frame and mounts is not resolved'))
         # Every sample must lie inside the analytic superset. This is a bound
         # integrity test, not a sampled-only collision clearance assertion.
         sample_bounds=[]
@@ -152,6 +156,7 @@ def evaluate(result):
         checked.append(dict(hardware=e['hardware'],nominal_box_m=nominal,
             continuous_swept_outer_box_m=swept,poses_checked=len(poses),sample_boxes_m=sample_bounds,
             required_space_conflicts=nominal_conflicts,continuous_body_or_battery_holds=sweep_holds,
+            relative_frame_swept_outer_box_m=relative_swept,relative_frame_swept_holds=relative_holds,
             minimum_ground_z_m=swept[0][2],
             ground_allocation_satisfied=swept[0][2]>=p['clearance']['bogie_ground_allocation_m'],
             actual_hardware_fit_status='HOLD-supplier-dimensions-and-mating-interfaces-unknown'))
@@ -165,7 +170,23 @@ def evaluate(result):
             bounds=box(centre,size)
             tool.append(dict(centre_m=centre,box_m=bounds,
                 drive_envelope_conflict=any(intersects(bounds,r['nominal_box_m']) for r in checked),
+                stock_or_body_conflict_ids=[k['id'] for k in keepouts if intersects(bounds,k['bounds_m'])],
                 access_verified=False))
+    services=[]
+    for name,length,radius,body_at,moving_at in (
+        ('power',p['services']['power_cable_length_m'],p['services']['power_cable_min_bend_radius_m'],[2.35,-.60,.82],[1.62,-.58,.48]),
+        ('ventilation',p['services']['air_duct_length_m'],p['services']['air_duct_min_bend_radius_m'],[2.35,-.48,.82],[1.62,-.48,.58])):
+        straight=sqrt(sum((body_at[i]-moving_at[i])**2 for i in range(3)))
+        r=sqrt(sum((moving_at[i]-origin[i])**2 for i in range(3)))
+        travel=r*(m['yaw_rad']+m['roll_rad'])+m['secondary_jounce_m']+m['lateral_m']
+        necessary=straight+travel+pi*radius
+        services.append(dict(service=name,fixed_body_anchor_m=body_at,bogie_anchor_m=moving_at,
+            straight_separation_m=straight,continuous_endpoint_travel_bound_m=travel,
+            minimum_bend_radius_m=radius,declared_cut_length_m=length,
+            necessary_length_with_one180deg_loop_m=necessary,length_margin_m=length-necessary,
+            necessary_length_screen=length>=necessary,
+            route_and_terminal_clash_verified=False,thermal_or_ampacity_verified=False,
+            scope='Conservative endpoint travel plus explicit half-circle loop only; routed finite hose/cable volume and connector rotation remain open'))
     clearances=dict(schema='osr-powered-bogie-geometry-evaluation/1',candidate_id=result['candidate_id'],
         body_evaluation_id=result['evaluation_id'],input_policy_id=identity(p),
         coordinate_frames=dict(track='x forward, y left, z up; railheadz0',
@@ -186,6 +207,10 @@ def evaluate(result):
             toothed_couplings_in_310kg=1,gear_internal_bearings_in_310kg=2,
             retained_wheelset_bearings=4,slides=0,power_cables=3,power_cable_m=7.2,
             bonding_braids=2,bonding_m=2.4,ventilation_ducts=1,duct_m=1.4),
+            flexibility=services,
+            coupling_motion=dict(primary_vertical_travel_m=m['primary_jounce_m'],
+                angular_misalignment_hypothesis_rad=m['relative_gear_roll_rad'],
+                lateral_motion_hypothesis_m=m['lateral_m'],supplier_capability_known=False),
             count_basis='New revision only; retained original bogie fasteners/brakes/secondary suspension stay in original counted body. Retained control has no new mount hardware.'),
         maintenance=dict(motor_removal_swept_box_m=drop,removal_path_verified=False,
             requires_workshop_drop_table=True,tool_proposals=tool,
