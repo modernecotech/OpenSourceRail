@@ -8,6 +8,7 @@ import signal
 import subprocess
 import sys
 import time
+import textwrap
 import pytest
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -225,16 +226,107 @@ def test_native_leader_exit_does_not_leave_observed_host_grandchildren(tmp_path,
     result=m.supervise(OWNER,folder,limits(),[sys.executable,'-c',code],backend=backend)
     assert result['host_process_cleanup']['verified'] and result['host_process_cleanup']['descendants']['verified']
     pid=int((folder/'child.stdout').read_text())
+    reaped=next(row for row in result['host_process_cleanup']['adoption']['adopted_reaped'] if row['pid']==pid)
     try:row=m.process_stat(pid)
     except FileNotFoundError:return
-    assert row['state']=='Z'  # Kernel reaping may lag; no live CPU/RSS remains.
+    assert row['start']!=reaped['start']
 
 
 def test_reused_or_unrelated_pid_birth_is_never_signalled(monkeypatch):
     current=m.process_stat(os.getpid())
     monkeypatch.setattr(m.signal,'pidfd_send_signal',lambda *a:(_ for _ in ()).throw(AssertionError('Unrelated PID signalled')))
-    result=m.stop_known({os.getpid():current['start']+1},.1)
-    assert result['verified'] and not result['remaining_active']
+    with pytest.raises(m.Hold,match='birth/adoption'):
+        m._signal_child(dict(current,start=current['start']+1),signal.SIGTERM)
+
+
+@pytest.mark.parametrize('new_session,double_fork',[(False,False),(True,False),(True,True)])
+def test_native_exit_before_first_sample_adopts_kills_and_reaps_every_orphan(tmp_path,monkeypatch,new_session,double_fork):
+    popen_factory(monkeypatch);folder=tmp_path/'early-orphan';backend=FakeDocker(folder)
+    original=backend.metrics;calls=[]
+    def delayed(**kwargs):
+        if not calls:
+            deadline=time.monotonic()+2
+            while time.monotonic()<deadline:
+                report=folder/'child-reaper.json'
+                try:
+                    if json.loads(report.read_bytes()).get('native_reaped'):break
+                except (FileNotFoundError,json.JSONDecodeError):pass
+                time.sleep(.01)
+            assert report.is_file() and json.loads(report.read_bytes())['native_reaped']
+        calls.append(True);return original(**kwargs)
+    backend.metrics=delayed
+    code=textwrap.dedent('''
+        import json,os,sys,time
+        sys.path.insert(0,MODPATH)
+        from resource_supervisor import require_binding,process_stat
+        require_binding(os.environ['OSR_NATIVE_OWNER'],os.environ['OSR_NATIVE_PRIVATE_DIR'])
+        read,write=os.pipe()
+        first=os.fork()
+        if first==0:
+            os.close(read)
+            if NEWSESSION:os.setsid()
+            if DOUBLEFORK:
+                second=os.fork()
+                if second:os._exit(0)
+            row=process_stat(os.getpid())
+            os.write(write,(json.dumps({'pid':row['pid'],'start':row['start']})+'\\n').encode())
+            os.close(write)
+            time.sleep(20)
+            os._exit(0)
+        os.close(write)
+        result=b''
+        while not result.endswith(b'\\n'):result+=os.read(read,1024)
+        os.close(read)
+        print(result.decode().strip(),flush=True)
+        os._exit(0)
+    ''').replace('MODPATH',repr(str(ROOT/'tools/automation/native-v06'))).replace('NEWSESSION',str(new_session)).replace('DOUBLEFORK',str(double_fork))
+    result=m.supervise(OWNER,folder,limits(),[sys.executable,'-c',code],backend=backend)
+    orphan=json.loads((folder/'child.stdout').read_text());adoption=result['host_process_cleanup']['adoption']
+    assert result['execution']=='completed' and result['child_exit']==0
+    assert adoption['capabilities']['verified_before_launch'] and adoption['native_reaped']
+    assert result['host_process_cleanup']['worker_reaped']
+    assert not adoption['remaining_direct_children']
+    reaped=next(row for row in adoption['adopted_reaped'] if row['pid']==orphan['pid'] and row['start']==orphan['start'])
+    assert os.WIFSIGNALED(reaped['wait_status'])
+    try:remaining=m.process_stat(orphan['pid'])
+    except FileNotFoundError:return
+    assert remaining['start']!=orphan['start']  # Reaped, never merely a zombie.
+
+
+def test_dedicated_reaper_cannot_consume_unrelated_or_probe_popen_wait_status(tmp_path,monkeypatch):
+    popen_factory(monkeypatch);folder=tmp_path/'unrelated';backend=FakeDocker(folder);original=backend.metrics;probes=[]
+    def metrics(**kwargs):
+        probes.append(subprocess.run([sys.executable,'-c','raise SystemExit(23)']).returncode)
+        return original(**kwargs)
+    backend.metrics=metrics
+    unrelated=subprocess.Popen([sys.executable,'-c','import time;time.sleep(.1);raise SystemExit(17)'])
+    try:
+        result=m.supervise(OWNER,folder,limits(),child(sleep=.25),backend=backend)
+        assert result['execution']=='completed' and unrelated.wait(timeout=2)==17
+        assert probes and all(code==23 for code in probes)
+    finally:
+        if unrelated.poll() is None:unrelated.terminate();unrelated.wait(timeout=2)
+
+
+def test_subreaper_capability_failure_is_closed_before_launch(monkeypatch):
+    monkeypatch.setattr(m.sys,'platform','unsupported')
+    with pytest.raises(m.Hold,match='Verified Linux'):m._reaper_capabilities(os.getpid(),m.process_stat(os.getpid())['start'])
+    monkeypatch.setattr(m.sys,'platform','linux');calls=[]
+    monkeypatch.setattr(m,'_prctl',lambda *a:calls.append(a))  # GET deliberately leaves flags unset.
+    with pytest.raises(m.Hold,match='could not be verified'):m._reaper_capabilities(os.getpid(),m.process_stat(os.getpid())['start'])
+    assert calls
+
+
+def test_worker_capability_refusal_launches_no_native_command(tmp_path,monkeypatch):
+    m.write(tmp_path/'reaper-config.json',dict(owner=OWNER,parent_pid=os.getpid(),parent_birth=m.process_stat(os.getpid())['start'],
+        source_sha256='a'*64,command=['must-not-run'],shutdown_seconds=1))
+    monkeypatch.setattr(m,'_direct_children',lambda:[])
+    monkeypatch.setattr(m,'_reaper_capabilities',lambda *a:(_ for _ in ()).throw(m.Hold('Unsupported adoption')))
+    monkeypatch.setattr(m.signal,'signal',lambda *a:None)
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *a,**kw:(_ for _ in ()).throw(AssertionError('Native launch occurred')))
+    assert m.child_reaper(tmp_path)==125
+    report=json.loads((tmp_path/'child-reaper.json').read_bytes())
+    assert report['native_pid'] is None and not report['verified'] and report['capabilities'] is None
 
 
 @pytest.mark.parametrize('mode',['child-failure','budget','cleanup'])

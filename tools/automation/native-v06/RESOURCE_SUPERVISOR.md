@@ -25,11 +25,16 @@ started by those checks.
   are checked. Missing/inaccessible telemetry holds the run. PID births are
   retained through exits, execs and restarts. The supervisor, native child,
   Python/Node/browser descendants, event reader and probe clients are included.
-  Observed native descendants remain tracked after their leader exits, including
-  a child-created session. Teardown verifies their births and uses PID-fd
-  signalling for individual descendants; a reused unrelated PID is preserved.
-  An unobserved/ambiguous orphan group holds cleanup instead of risking a signal
-  to an unrelated process. This does not contain malicious session escapes.
+  A dedicated Linux child-reaper process enables and verifies
+  `PR_SET_CHILD_SUBREAPER`, parent-death signalling and PID-fd capability before
+  launching the native command. Ordinary forked descendants are kernel-adopted
+  there even when they exit/setsid/double-fork before the first resource sample.
+  Adoption ownership does not depend on earlier observation or a process group.
+  Every adopted child's birth and direct parent are checked before PID-fd
+  signalling or exact-PID waiting. Native Popen status is handled by its own
+  Popen handle. The worker launches no other programs; outer Docker probes and
+  event-reader Popen children remain with the outer supervisor and are not
+  globally reaped.
 - CPU is a deliberately conservative **charge**: sampled self and reaped-child
   counters may overlap; container-exit gaps, complete Docker exec intervals,
   volume-measurement helpers and final cleanup gaps are also charged at all host
@@ -59,8 +64,10 @@ The default observation interval is 0.5 seconds, with a 10-second whole-probe
 deadline. Disk/image probes occur at least every five seconds plus probe time.
 Normal-operation detection delay can therefore reach interval + probe deadline
 (10.5 seconds for CPU/RSS/elapsed, longer for disk/image refresh). Child shutdown
-allows 20 seconds before a verified process-group SIGKILL; owned teardown has a
-60-second command deadline. There is **no finite enforced byte-overshoot bound**
+allows 20 seconds before the child reaper uses PID-fd SIGKILL; owned Docker
+teardown has a 60-second command deadline. The adoption anchor is retained if
+children have not actually died/reaped, and the outer result stays held. There
+is **no finite enforced byte-overshoot bound**
 for transient RSS/disk growth on this host. Blocking OS I/O, supervisor SIGKILL,
 host loss or daemon failure can prevent cleanup. The coordinator must audit the
 recorded owner in those cases. Never describe this as kernel resource isolation.
@@ -138,8 +145,18 @@ checks and verified absence of owned containers/volumes/networks permit
 `supervisor-result.json` to say `execution="completed"`. All physical and release
 flags remain false. The coordinator must then verify the separate native ERP
 receipt and retain the two source-bound records together before publication.
-The separate host-process cleanup record must also verify no observed native
-descendants remain active; Docker teardown alone cannot satisfy that condition.
+The separate host-process cleanup record requires a verified adoption capability,
+the native command's actual wait status, exact waits for adopted children, and
+an empty final kernel child-list rescan. A zombie is reaped, not accepted as
+clean. A missing/crashed reaper or incomplete adoption report holds the result.
+The reaper process itself is waited through its outer Popen handle. Docker
+teardown alone cannot satisfy this condition.
+
+Adoption covers ordinary Linux descendant ancestry. It does not capture a
+process created by an external service broker or establish containment of
+malicious code. Docker daemon workloads still use the separate label/PID
+checks. Supervisor/reaper SIGKILL, kernel/host failure or deliberate ancestry
+escape remains a limitation; missing cleanup evidence never becomes success.
 
 Tests use scripted Docker responses and tiny local Python children, not native
 ERP or containers:
@@ -153,3 +170,12 @@ Docker exec-event identity handling follows the primary Moby
 [exit-event](https://github.com/moby/moby/blob/master/daemon/monitor.go) sources;
 actual runtime telemetry remains mandatory and cannot be replaced by those
 interface descriptions.
+
+The adoption model uses the Linux
+[child-subreaper](https://man7.org/linux/man-pages/man2/PR_SET_CHILD_SUBREAPER.2const.html),
+[verification](https://man7.org/linux/man-pages/man2/PR_GET_CHILD_SUBREAPER.2const.html)
+and [parent-death signal](https://man7.org/linux/man-pages/man2/PR_SET_PDEATHSIG.2const.html)
+interfaces. Regression tests delay the first resource sample until after native
+leader exit, including a new session and a double fork, then require the child
+to be dead and reaped before accepting cleanup. Another test preserves an
+unrelated Popen child's exit status and outer probe-command statuses.
