@@ -131,10 +131,51 @@
         if (["https:", "http:"].includes(url.protocol)) { const link = node("a", "atlas-download", "Download this source-bound result"); link.href = url.href; root.append(link); }
       } catch (_) { /* The visible result does not require a download URL. */ }
     }
-    if (["127.0.0.1", "localhost", "[::1]"].includes(location.hostname) && !packet.identity?.workflow_evaluation_id && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(packet.city?.slug || "") && /^[a-f0-9]{64}$/.test(packet.packet_id || "")) {
+    const localGIS = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+    const studyId = options.studyId || /^\/api\/city-atlas\/study\/([a-f0-9]{32})$/.exec(options.downloadUrl || "")?.[1];
+    if (localGIS && (!packet.identity?.workflow_evaluation_id || /^[a-f0-9]{32}$/.test(studyId || "")) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(packet.city?.slug || "") && /^[a-f0-9]{64}$/.test(packet.packet_id || "")) {
       const gis = node("a", "atlas-download", "Download editable RustGIS project and source tables");
-      gis.href = `/api/rustgis/${packet.city.slug}/${packet.packet_id}.zip`;
+      gis.href = studyId ? `/api/rustgis/study/${studyId}/${packet.packet_id}.zip` : `/api/rustgis/${packet.city.slug}/${packet.packet_id}.zip`;
       gis.download = `${packet.city.slug}-rustgis.zip`; root.append(gis);
+      const panel = node("details", "atlas-disclosure"), form = node("form", "atlas-native-import");
+      panel.append(node("summary", "", "Import native GIS edits and recalculate"));
+      form.append(node("p", "atlas-note", "Upload the edited .rgis from this export. Routes, stations and declared service fields become a new priced outline; published results are preserved. Embedded coordinates must remain WGS84 longitude/latitude."));
+      const input = (title, name, type, value, maximum) => {
+        const label = node("label", "", title), field = node("input");field.name = name;field.type = type;field.required = true;
+        if (value) field.value = value;if (maximum) field.maxLength = maximum;label.append(field);form.append(label);return field;
+      };
+      const file = input("Edited native project", "project", "file");file.accept = ".rgis,application/json";
+      const actor = input("Planning author", "actor", "text", "", 150);
+      const reason = input("Reason for this change", "reason", "text", "Native GIS route/station revision", 1000);
+      const submit = node("button", "", "Import and recalculate");submit.type = "submit";
+      const progress = node("p", "atlas-note");progress.setAttribute("role", "status");form.append(submit, progress);panel.append(form);root.append(panel);
+      form.addEventListener("submit", async event => {
+        event.preventDefault();submit.disabled = true;
+        try {
+          const upload = file.files?.[0];if (!upload || !/\.rgis$/i.test(upload.name) || upload.size > 32 * 1024 * 1024) throw Error("Choose one .rgis JSON project no larger than 32 MiB");
+          const query = new URLSearchParams({actor: actor.value, reason: reason.value, data_crs: "EPSG:4326"});
+          if (studyId) query.set("base_study_id", studyId);
+          progress.textContent = "Checking native geometry and its source base…";
+          const response = await fetch(`/api/rustgis/import/${packet.city.slug}/${packet.packet_id}?${query}`, {method: "POST", headers: {"Content-Type": "application/json"}, body: upload, signal});
+          const imported = await response.json();if (!response.ok) throw Error(imported.error || "Native revision was refused");
+          if (imported.state === "no-op") {progress.textContent = "Geometry and service are unchanged. Styling/camera edits require no new railway calculation.";return;}
+          let job = imported.job;const deadline = Date.now() + 150000;
+          while (job?.state === "running" && Date.now() < deadline) {
+            progress.textContent = "Recalculating route quantities, service, fleet, all costs and delivery drafts…";
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const poll = await fetch(`/api/city-studies/${job.job_id}`, {signal});job = await poll.json();
+            if (!poll.ok) throw Error(job.error || "Calculation status unavailable");
+          }
+          if (job?.state !== "completed") throw Error(job?.error || "Calculation did not finish within its budget; inputs and logs remain retained");
+          if (typeof options.onImported === "function") await options.onImported(job);
+          else {
+            const update = await fetch(`/api/city-atlas/study/${job.job_id}`, {signal});const revised = await update.json();
+            if (!update.ok || revised.identity?.workflow_evaluation_id !== job.summary?.evaluation_id || revised.city?.slug !== packet.city.slug) throw Error("Revised map and calculation identities differ");
+            render(revised, null, {...options, container: root, studyId: job.job_id, downloadUrl: `/api/city-atlas/study/${job.job_id}`});
+          }
+        } catch (error) {if (!destroyed) progress.textContent = `Unable to import: ${error.message}`;}
+        finally {submit.disabled = false;}
+      }, {signal});
     }
     const metrics = node("div", "atlas-metrics");
     const summaryRoute = first(summary.route_km, finite(summary.route_m) ? summary.route_m / 1000 : null);
@@ -268,6 +309,18 @@
     for (const text of ["Whole-life scope", "Low", "Base", "High"]) costHead.append(node("th", "", text)); const costThead = node("thead"); costThead.append(costHead); costTable.append(costThead);
     const costBody = node("tbody"); for (const [scope, value] of Object.entries(costs.scope_totals_usd || {})) { const row = node("tr"); row.append(node("th", "", human(scope))); for (const key of ["low", "base", "high"]) row.append(node("td", "", money(value?.[key]))); costBody.append(row); } costTable.append(costBody);
     const costScroll = node("div", "atlas-table-scroll"); costScroll.append(costTable); costSection.append(costScroll);
+    const reassessment = costs.capital_lines?.find(row => row.key === "revised-alignment-row-access-and-crossing-risk");
+    if (reassessment) {
+      const reserve = node("section", "atlas-disclosure-body"), quantities = reassessment.quantity || {}, facts = node("dl", "atlas-facts");
+      reserve.append(node("h4", "", "Alignment reassessment reserve · already included"));
+      fact(facts, "Reserve · low / base / high", ["low", "base", "high"].map(key => money(reassessment.costs_usd?.[key])).join(" / "));
+      fact(facts, "Corridor under reassessment", unit(finite(quantities.changed_route_m) ? quantities.changed_route_m / 1000 : null, "km", 3));
+      fact(facts, "Right-of-way area allowance", unit(quantities.additional_row_area_m2, "m²"));
+      fact(facts, "Additional access walkway", unit(quantities.additional_access_walkway_m, "m", 1));
+      fact(facts, "Unverified bridge-length hypothesis", unit(quantities.unverified_bridge_route_m_hypothesis, "m", 1));
+      reserve.append(facts, node("p", "atlas-note", "The model marks an edited line's full length for site, right-of-way and crossing reassessment. These quantities and the reserve include earlier alignment assumptions. This allowance is already included in construction totals; the incremental cost of the geometry change remains unestablished pending site evidence."));
+      expandable(reserve, "Reserve calculation and assumptions", reassessment); costSection.append(reserve);
+    }
     evidenceSection.append(node("h4", "", "Evidence and next decisions"), node("p", "atlas-evidence-warning", "Calculated planning evidence. Hardware, operation and procurement release remain pending."));
     const idList = node("dl", "atlas-facts atlas-identities");
     for (const [label, value] of [["Physical research configuration", identity.research_configuration_id], ["Service evaluation", identity.service_evaluation_id], ["Cost evaluation", identity.cost_evaluation_id], ["Alignment identity", identity.selected_alignment_id], ["Selection identity", identity.selection_id]]) if (value) fact(idList, label, short(value)); evidenceSection.append(idList);

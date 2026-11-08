@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **147**.
+Indexed Markdown files: **150**.
 
 ## Sections
 
@@ -24,8 +24,8 @@ Indexed Markdown files: **147**.
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 118 |
-| [engineering](#engineering) | 13 |
-| [tools](#tools) | 2 |
+| [engineering](#engineering) | 14 |
+| [tools](#tools) | 4 |
 
 ## .github
 
@@ -206,6 +206,7 @@ Indexed Markdown files: **147**.
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
 | [`engineering/pilot_civil/README.md`](../engineering/pilot_civil/README.md) | Candidate-bound pilot civil design |
 | [`engineering/pilot_delivery/README.md`](../engineering/pilot_delivery/README.md) | Pilot manufacturing and delivery proposals |
+| [`engineering/pilot_delivery/REVIEW_PROTOCOL.md`](../engineering/pilot_delivery/REVIEW_PROTOCOL.md) | Candidate-linked research delivery review |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |
@@ -217,4 +218,6 @@ Indexed Markdown files: **147**.
 | File | Title |
 |---|---|
 | [`tools/README.md`](../tools/README.md) | OpenSourceRail development tools |
+| [`tools/automation/native-v06/RESOURCE_SUPERVISOR.md`](../tools/automation/native-v06/RESOURCE_SUPERVISOR.md) | Disposable native resource supervisor |
+| [`tools/automation/native-v06/RUNNER_BINDING.md`](../tools/automation/native-v06/RUNNER_BINDING.md) | Actual-candidate native acceptance |
 | [`tools/reference-ma/README.md`](../tools/reference-ma/README.md) | reference-ma — Python reference interpreter for `osr-interlocking` |

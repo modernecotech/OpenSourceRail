@@ -365,7 +365,7 @@ A recalculated local study can be opened, edited and exported in the Workbench. 
 | service_evaluation_id | `93a082cb6758a3e3ea682f87ceb8a1586a15c983b747d4154f00c2f7e246dd96` |
 | source_result_sha256 | `7a78b148d7ad79e4f9238cc53fb2daf8fd2f7fa042015c79a72dbe24cbc948ed` |
 
-Atlas packet `7adbf130198e45951016578ccd82d4e79c0867a4e57b4640d06e0e1ee5c30a4f`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
+Atlas packet `b8f5a209faafc45a3ea13f299937d960eed5fc78cd4547cb814981a842687d98`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
 
 </details>
 
