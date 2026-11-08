@@ -89,7 +89,7 @@ def process_stat(pid,proc=Path('/proc')):
     """Linux counters, with birth tick preventing PID-reuse attribution."""
     raw=(proc/str(pid)/'stat').read_text();end=raw.rfind(')');fields=raw[end+2:].split()
     if end<0 or int(raw[:raw.index(' ')])!=pid or len(fields)<22:raise Hold('Unverifiable process stat')
-    values=dict(pid=pid,ppid=int(fields[1]),ticks=sum(int(fields[i]) for i in (11,12,13,14)),
+    values=dict(pid=pid,ppid=int(fields[1]),pgrp=int(fields[2]),session=int(fields[3]),state=fields[0],ticks=sum(int(fields[i]) for i in (11,12,13,14)),
         start=int(fields[19]),rss_pages=int(fields[21]))
     if min(values['ticks'],values['start'],values['rss_pages'])<0:raise Hold('Invalid process counters')
     return values
@@ -107,6 +107,72 @@ def process_tree(root,proc=Path('/proc')):
     while changed:
         added={pid for pid,row in rows.items() if row['ppid'] in selected}-selected;changed=bool(added);selected|=added
     return {pid:rows[pid] for pid in selected}
+
+
+def process_group(leader,birth,known,proc=Path('/proc')):
+    """Authenticate surviving members even after their native leader exits.
+
+    Once the leader is absent, a previously unseen PID is an ambiguity and
+    holds teardown rather than risking a signal to a reused process group.
+    """
+    rows={}
+    for entry in proc.iterdir():
+        if not entry.name.isdigit():continue
+        try:row=process_stat(int(entry.name),proc)
+        except (FileNotFoundError,PermissionError):continue
+        if row['pgrp']==leader and row['state'] not in ('Z','X'):rows[row['pid']]=row
+    alive=leader in rows
+    if alive and rows[leader]['start']!=birth:raise Hold('Native session leader PID was reused; refusing group signal')
+    for pid,row in rows.items():
+        if row['session']!=leader or row['start']<birth or (not alive and known.get(pid)!=row['start']):
+            raise Hold('Surviving native process-group identity cannot be authenticated')
+    if alive:known.update({pid:r['start'] for pid,r in rows.items()})
+    return rows
+
+
+def stop_group(child,birth,known,seconds):
+    rows=process_group(child.pid,birth,known)
+    if rows:
+        os.killpg(child.pid,signal.SIGTERM);deadline=time.monotonic()+seconds
+        while rows and time.monotonic()<deadline:
+            time.sleep(.05);rows=process_group(child.pid,birth,known)
+        if rows:
+            os.killpg(child.pid,signal.SIGKILL);deadline=time.monotonic()+5
+            while rows and time.monotonic()<deadline:
+                time.sleep(.05);rows=process_group(child.pid,birth,known)
+    if child.poll() is None:child.wait(timeout=1)
+    return dict(process_group=child.pid,remaining_active=[dict(pid=p['pid'],start=p['start']) for p in rows.values()],verified=not rows)
+
+
+def known_processes(known):
+    result={}
+    for pid,birth in known.items():
+        try:row=process_stat(pid)
+        except FileNotFoundError:continue
+        if row['start']==birth and row['state'] not in ('Z','X'):result[pid]=row
+    return result
+
+
+def stop_known(known,seconds):
+    """Also close authenticated descendants that created a separate session."""
+    def send(row,signum):
+        if not hasattr(os,'pidfd_open') or not hasattr(signal,'pidfd_send_signal'):raise Hold('PID-fd signalling unavailable; refusing unsafe descendant signal')
+        try:fd=os.pidfd_open(row['pid'])
+        except ProcessLookupError:return
+        try:
+            current=process_stat(row['pid'])
+            if current['start']!=row['start']:return  # A reused unrelated PID is preserved.
+            signal.pidfd_send_signal(fd,signum)
+        except (FileNotFoundError,ProcessLookupError):pass
+        finally:os.close(fd)
+    rows=known_processes(known)
+    for row in rows.values():send(row,signal.SIGTERM)
+    deadline=time.monotonic()+seconds
+    while rows and time.monotonic()<deadline:time.sleep(.05);rows=known_processes(known)
+    for row in rows.values():send(row,signal.SIGKILL)
+    deadline=time.monotonic()+5
+    while rows and time.monotonic()<deadline:time.sleep(.05);rows=known_processes(known)
+    return dict(remaining_active=[dict(pid=r['pid'],start=r['start']) for r in rows.values()],verified=not rows)
 
 
 def allocated(path,*,deadline=None):
@@ -355,7 +421,7 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
     write(folder/'supervisor-binding.json',binding);write(folder/'command.json',dict(argv=command,**FLAGS))
     child=None;events=None;event_err=None;cleanup=None;failure=None;returncode=None;buffer=b'';observed={};last_disk=0;disk_at=-math.inf
     event_ledger=Events(owner);exit_seen=False
-    cleanup_authority=False;last_native_sample=None
+    cleanup_authority=False;last_native_sample=None;known_group={};known_native={};host_cleanup=dict(verified=True,remaining_active=[])
     old_handlers={};interruption=[];images={};filesystems=Filesystems([folder])
     def interrupted(signum,_):
         interruption.append(dict(signal=signum,at_elapsed_s=time.monotonic()-started));raise Hold('Supervisor interrupted by signal '+str(signum))
@@ -376,6 +442,8 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
             stdout=subprocess.PIPE,stderr=event_err)
         child=subprocess.Popen(command,env=env,start_new_session=True,stdout=(folder/'child.stdout').open('wb'),stderr=(folder/'child.stderr').open('wb'))
         child_birth=process_stat(child.pid)['start'];write(folder/'child-process.json',dict(pid=child.pid,start=child_birth,process_group=child.pid))
+        known_group[child.pid]=child_birth
+        known_native[child.pid]=child_birth
         while True:
             docker.deadline=time.monotonic()+limits.probe_seconds
             lines,buffer=_event_lines(events,buffer,deadline=docker.deadline)
@@ -389,7 +457,18 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
             if measure_disk:
                 last_disk=snapshot['owned_docker_disk_bytes'];disk_at=time.monotonic()
                 if docker.images()!=images:raise Hold('Shared image cache changed; impact is unattributed and no image will be deleted')
-            rows=process_tree(os.getpid());host=dict(ticks=sum(r['ticks'] for r in rows.values()),rss_pages=sum(r['rss_pages'] for r in rows.values()),processes=list(rows.values()))
+            rows=process_tree(os.getpid());rows.update(process_group(child.pid,child_birth,known_group))
+            survivors=known_processes(known_native);rows.update(survivors)
+            for pid,row in survivors.items():
+                if row['ppid'] not in survivors:
+                    subtree=process_tree(pid)
+                    if subtree[pid]['start']!=row['start']:raise Hold('Native descendant root PID changed during observation')
+                    rows.update(subtree)
+            selected=set(survivors)|({child.pid} if child.pid in rows else set());changed=True
+            while changed:
+                added={pid for pid,row in rows.items() if row['ppid'] in selected}-selected;changed=bool(added);selected|=added
+            known_native.update({pid:rows[pid]['start'] for pid in selected})
+            host=dict(ticks=sum(r['ticks'] for r in rows.values()),rss_pages=sum(r['rss_pages'] for r in rows.values()),processes=list(rows.values()))
             if child.poll() is None and (child.pid not in rows or rows[child.pid]['start']!=child_birth):
                 raise Hold('Required native child process telemetry cannot be authenticated')
             if {p['pid'] for g in snapshot['groups'].values() for p in g['processes']}.intersection(rows):raise Hold('Container and supervisor PID ownership overlap')
@@ -419,15 +498,20 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
         for sig in old_handlers:signal.signal(sig,lambda number,_:interruption.append(dict(signal=number,during='cleanup')))
         # The child was started in its own session. PID birth/group are checked
         # before signalling; no unrelated PID or process group is targeted.
-        if child is not None and child.poll() is None:
+        if child is not None:
+            shutdown_deadline=time.monotonic()+limits.shutdown_seconds
             try:
-                current=process_stat(child.pid)
-                if current['start']!=child_birth or os.getpgid(child.pid)!=child.pid:raise Hold('Child PID/group identity changed; refusing signal')
-                os.killpg(child.pid,signal.SIGTERM)
-                try:child.wait(timeout=limits.shutdown_seconds)
-                except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=5)
+                host_cleanup=stop_group(child,child_birth,known_group,limits.shutdown_seconds)
             except BaseException as exc:
                 failure=failure or dict(type=type(exc).__name__,reason=str(exc));append(folder/'shutdown-errors.jsonl',failure)
+                host_cleanup=dict(verified=False,reason=str(exc),remaining_active=None)
+            try:
+                descendants=stop_known(known_native,max(.05,shutdown_deadline-time.monotonic()))
+                host_cleanup.update(descendants=descendants,verified=host_cleanup['verified'] and descendants['verified'])
+            except BaseException as exc:
+                failure=failure or dict(type=type(exc).__name__,reason=str(exc));append(folder/'shutdown-errors.jsonl',failure)
+                host_cleanup.update(verified=False,descendants=dict(verified=False,reason=str(exc)))
+            write(folder/'host-process-cleanup.json',host_cleanup)
         if child is not None:returncode=child.poll()
         if events is not None:
             events.terminate()
@@ -465,12 +549,12 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
     except BaseException as exc:failure=failure or dict(type=type(exc).__name__,reason='Final accounting:'+str(exc))
     if sha256(Path(__file__).read_bytes()).hexdigest()!=source_sha256:
         failure=failure or dict(type='Hold',reason='Resource supervisor source changed during execution')
-    result=dict(schema='osr-native-resource-supervision/1',owner=owner,execution='completed' if failure is None and cleanup['verified'] else 'held',
+    result=dict(schema='osr-native-resource-supervision/1',owner=owner,execution='completed' if failure is None and cleanup['verified'] and host_cleanup['verified'] else 'held',
         supervisor_source_sha256=source_sha256,command_sha256=sha256(encoded(command)).hexdigest(),binding_sha256=sha256(encoded(binding)).hexdigest(),
         child_exit=returncode,failure=failure,limits=asdict(limits),elapsed_s=time.monotonic()-started,
         observed_peak_rss_bytes=account.peak_rss,observed_peak_disk_bytes=account.peak_disk,
         final_accounting=final if 'final' in locals() else None,
-        cleanup=cleanup,image_baseline_sha256=sha256(encoded(images)).hexdigest(),
+        cleanup=cleanup,host_process_cleanup=host_cleanup,image_baseline_sha256=sha256(encoded(images)).hexdigest(),
         mechanism='Sampled process/RSS/disk observation and exact-owner termination; no kernel aggregate quotas',
         limitations=['Detection delay includes interval plus probe deadline and shutdown latency; RSS/disk transient byte overshoot has no finite enforced bound',
             'Exited-container CPU gaps and volume-measurement exec intervals are conservatively charged at all host CPUs',

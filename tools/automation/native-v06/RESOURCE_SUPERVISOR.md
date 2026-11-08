@@ -25,6 +25,11 @@ started by those checks.
   are checked. Missing/inaccessible telemetry holds the run. PID births are
   retained through exits, execs and restarts. The supervisor, native child,
   Python/Node/browser descendants, event reader and probe clients are included.
+  Observed native descendants remain tracked after their leader exits, including
+  a child-created session. Teardown verifies their births and uses PID-fd
+  signalling for individual descendants; a reused unrelated PID is preserved.
+  An unobserved/ambiguous orphan group holds cleanup instead of risking a signal
+  to an unrelated process. This does not contain malicious session escapes.
 - CPU is a deliberately conservative **charge**: sampled self and reaped-child
   counters may overlap; container-exit gaps, complete Docker exec intervals,
   volume-measurement helpers and final cleanup gaps are also charged at all host
@@ -133,6 +138,8 @@ checks and verified absence of owned containers/volumes/networks permit
 `supervisor-result.json` to say `execution="completed"`. All physical and release
 flags remain false. The coordinator must then verify the separate native ERP
 receipt and retain the two source-bound records together before publication.
+The separate host-process cleanup record must also verify no observed native
+descendants remain active; Docker teardown alone cannot satisfy that condition.
 
 Tests use scripted Docker responses and tiny local Python children, not native
 ERP or containers:

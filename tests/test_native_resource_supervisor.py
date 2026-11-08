@@ -218,6 +218,25 @@ def test_wrapper_records_stdout_exit_own_metrics_and_requires_verified_cleanup(t
     assert all(result[k] is False for k in m.FLAGS)
 
 
+@pytest.mark.parametrize('separate_session',[False,True])
+def test_native_leader_exit_does_not_leave_observed_host_grandchildren(tmp_path,monkeypatch,separate_session):
+    popen_factory(monkeypatch);folder=tmp_path/'orphan';backend=FakeDocker(folder)
+    code="import os,sys,time,subprocess;sys.path.insert(0,"+repr(str(ROOT/'tools/automation/native-v06'))+");from resource_supervisor import require_binding;require_binding(os.environ['OSR_NATIVE_OWNER'],os.environ['OSR_NATIVE_PRIVATE_DIR']);p=subprocess.Popen([sys.executable,'-c','import time;time.sleep(20)'],start_new_session="+str(separate_session)+");print(p.pid,flush=True);time.sleep(.35)"
+    result=m.supervise(OWNER,folder,limits(),[sys.executable,'-c',code],backend=backend)
+    assert result['host_process_cleanup']['verified'] and result['host_process_cleanup']['descendants']['verified']
+    pid=int((folder/'child.stdout').read_text())
+    try:row=m.process_stat(pid)
+    except FileNotFoundError:return
+    assert row['state']=='Z'  # Kernel reaping may lag; no live CPU/RSS remains.
+
+
+def test_reused_or_unrelated_pid_birth_is_never_signalled(monkeypatch):
+    current=m.process_stat(os.getpid())
+    monkeypatch.setattr(m.signal,'pidfd_send_signal',lambda *a:(_ for _ in ()).throw(AssertionError('Unrelated PID signalled')))
+    result=m.stop_known({os.getpid():current['start']+1},.1)
+    assert result['verified'] and not result['remaining_active']
+
+
 @pytest.mark.parametrize('mode',['child-failure','budget','cleanup'])
 def test_failure_budget_or_cleanup_cannot_publish_success(tmp_path,monkeypatch,mode):
     popen_factory(monkeypatch);folder=tmp_path/mode;backend=FakeDocker(folder,cleanup_ok=mode!='cleanup')
