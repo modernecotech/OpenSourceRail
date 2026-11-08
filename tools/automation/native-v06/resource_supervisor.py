@@ -29,6 +29,66 @@ FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_rele
 class Hold(RuntimeError):pass
 
 
+def waitability(*,reset=False):
+    """Prove an exact owned exit status; never change the outer caller policy."""
+    if sys.platform!='linux':raise Hold('Verified Linux SIGCHLD waitability is required')
+    if reset:signal.signal(signal.SIGCHLD,signal.SIG_DFL)  # Dedicated worker only.
+    if signal.getsignal(signal.SIGCHLD)!=signal.SIG_DFL:
+        raise Hold('Outer SIGCHLD must be default and waitable; ignored/custom handlers are preserved and refused')
+    try:
+        status={line.split(':',1)[0]:line.split(':',1)[1].strip() for line in Path('/proc/self/status').read_text().splitlines() if ':' in line}
+        bit=1<<(int(signal.SIGCHLD)-1);nondefault=any(int(status[key],16)&bit for key in ('SigIgn','SigCgt'))
+    except (OSError,KeyError,ValueError) as exc:raise Hold('Kernel SIGCHLD disposition cannot be authenticated') from exc
+    if nondefault:
+        raise Hold('Kernel SIGCHLD disposition is ignored/custom; caller policy is preserved and refused')
+    expected=73;pid=os.fork()
+    if pid==0:os._exit(expected)
+    reaped=False
+    try:
+        deadline=time.monotonic()+2
+        while time.monotonic()<deadline:
+            try:waited,status=os.waitpid(pid,os.WNOHANG)
+            except ChildProcessError as exc:raise Hold('SIGCHLD auto-reaped the owned status probe; SA_NOCLDWAIT or another waiter is unsupported') from exc
+            if waited:
+                reaped=True
+                if waited!=pid or not os.WIFEXITED(status) or os.WEXITSTATUS(status)!=expected:
+                    raise Hold('Kernel waitability probe did not preserve the exact owned exit status')
+                return dict(verified=True,probe_exit=expected,probe_wait_status=status,worker_reset=reset)
+            time.sleep(.001)
+        raise Hold('Owned SIGCHLD waitability probe timed out')
+    finally:
+        if not reaped:
+            try:
+                row=process_stat(pid)
+                if row['ppid']==os.getpid():_signal_child(row,signal.SIGKILL)
+                deadline=time.monotonic()+1
+                while time.monotonic()<deadline:
+                    if os.waitpid(pid,os.WNOHANG)[0]==pid:break
+                    time.sleep(.001)
+            except (FileNotFoundError,ProcessLookupError,ChildProcessError):pass
+
+
+def exact_poll(child):
+    """Own one Popen PID's genuine wait status; ECHILD is never exit zero."""
+    if hasattr(child,'_osr_wait_status'):return child.returncode
+    if child.returncode is not None:raise Hold('Popen exit lacks an authenticated exact wait status')
+    try:waited,status=os.waitpid(child.pid,os.WNOHANG)
+    except ChildProcessError as exc:raise Hold('Owned child wait status was lost or auto-reaped; refusing Popen ECHILD fallback') from exc
+    if not waited:return None
+    if waited!=child.pid or not(os.WIFEXITED(status) or os.WIFSIGNALED(status)):raise Hold('Exact child wait status differs')
+    child._osr_wait_status=status;child.returncode=os.waitstatus_to_exitcode(status)
+    return child.returncode
+
+
+def exact_wait(child,timeout):
+    deadline=time.monotonic()+timeout
+    while True:
+        result=exact_poll(child)
+        if result is not None:return result
+        if time.monotonic()>=deadline:raise subprocess.TimeoutExpired(child.args,timeout)
+        time.sleep(.01)
+
+
 def _prctl(option,value):
     if sys.platform!='linux':raise Hold('Verified Linux child-subreaper support is required')
     libc=ctypes.CDLL(None,use_errno=True)
@@ -38,6 +98,7 @@ def _prctl(option,value):
 
 def _reaper_capabilities(parent_pid,parent_birth):
     """Called only in a fresh dedicated worker, never in the outer supervisor."""
+    child_waitability=waitability(reset=True)
     _prctl(36,ctypes.c_ulong(1))  # PR_SET_CHILD_SUBREAPER
     enabled=ctypes.c_int();_prctl(37,ctypes.byref(enabled))  # PR_GET_CHILD_SUBREAPER
     _prctl(1,ctypes.c_ulong(signal.SIGTERM))  # PR_SET_PDEATHSIG
@@ -51,7 +112,8 @@ def _reaper_capabilities(parent_pid,parent_birth):
     except OSError as exc:raise Hold('PID-fd capability could not be verified before native launch') from exc
     if os.getppid()!=parent_pid or process_stat(parent_pid)['start']!=parent_birth:raise Hold('Outer supervisor vanished before native child launch')
     if len(list(Path('/proc/self/task').iterdir()))!=1:raise Hold('The dedicated child reaper must be single-threaded')
-    return dict(subreaper=True,parent_death_signal=int(signal.SIGTERM),pidfd_verified=True,verified_before_launch=True)
+    return dict(subreaper=True,parent_death_signal=int(signal.SIGTERM),pidfd_verified=True,
+        waitability=child_waitability,verified_before_launch=True)
 
 
 def _direct_children():
@@ -90,7 +152,8 @@ def child_reaper(folder):
         value=dict(schema='osr-native-child-reaper/1',worker_pid=os.getpid(),worker_birth=process_stat(os.getpid())['start'],
             owner=config['owner'],source_sha256=config['source_sha256'],capabilities=capabilities,
             native_pid=native.pid if native else None,native_birth=native_birth,native_exit=native_exit,
-            native_reaped=native is not None and native.returncode is not None,adopted_reaped=reaped,
+            native_reaped=native is not None and hasattr(native,'_osr_wait_status'),
+            native_wait_status=getattr(native,'_osr_wait_status',None),adopted_reaped=reaped,
             remaining_direct_children=remaining,stop_signals=requested,failure=failure,verified=verified,**FLAGS)
         write(folder/'child-reaper.json',value);return value
     try:
@@ -102,7 +165,7 @@ def child_reaper(folder):
         native_birth=process_stat(native.pid)['start']
         write(folder/'native-process.json',dict(pid=native.pid,start=native_birth,worker_pid=os.getpid(),capabilities=capabilities))
         while True:
-            native_exit=native.poll()  # Preserve the actual Popen handle's wait status.
+            native_exit=exact_poll(native)
             rows=[]
             for pid in _direct_children():
                 row=process_stat(pid)
@@ -143,7 +206,10 @@ def child_reaper(folder):
         # have actually died/reaped; the outer supervisor will hold on timeout.
         while native is not None:
             try:
-                native_exit=native.poll();remaining=[]
+                lost_status=False
+                try:native_exit=exact_poll(native)
+                except Hold:native_exit=None;lost_status=True
+                remaining=[]
                 for pid in _direct_children():
                     row=process_stat(pid)
                     if row['ppid']!=os.getpid():raise Hold('Emergency child adoption differs')
@@ -156,7 +222,7 @@ def child_reaper(folder):
                     if row['state'] not in ('Z','X'):_signal_child(row,signal.SIGKILL)
                     remaining.append(dict(pid=pid,start=row['start'],state=row['state']))
                 report(False,remaining)
-                if native_exit is not None and not remaining and not _direct_children():return 125
+                if (native_exit is not None or lost_status) and not remaining and not _direct_children():return 125
             except BaseException:
                 pass  # Keep the anchor; no false success or unrelated waitpid.
             time.sleep(.05)
@@ -165,23 +231,27 @@ def child_reaper(folder):
 
 def stop_reaper(child,birth,folder,seconds,owner,source_sha256):
     """Never kill the adoption anchor merely because its leader already exited."""
-    if child.poll() is None:
+    if exact_poll(child) is None:
         row=process_stat(child.pid)
         if row['start']!=birth or row['ppid']!=os.getpid():raise Hold('Dedicated reaper PID identity changed')
         _signal_child(row,signal.SIGTERM)
-        try:child.wait(timeout=seconds+7)
+        try:exact_wait(child,seconds+7)
         except subprocess.TimeoutExpired:
             return dict(verified=False,reason='Dedicated reaper still owns unreaped children; anchor retained',anchor_pid=child.pid,anchor_birth=birth)
     path=Path(folder)/'child-reaper.json'
     if not path.is_file():return dict(verified=False,reason='Dedicated reaper exited without a verified adoption/reap receipt')
     record=json.loads(path.read_bytes())
     capability=record.get('capabilities') or {}
+    raw=record.get('native_wait_status')
+    authenticated_exit=(type(raw) is int and (os.WIFEXITED(raw) or os.WIFSIGNALED(raw)) and
+        os.waitstatus_to_exitcode(raw)==record.get('native_exit'))
     verified=(record.get('verified') is True and record.get('worker_pid')==child.pid and record.get('worker_birth')==birth and
         record.get('owner')==owner and record.get('source_sha256')==source_sha256 and record.get('native_reaped') is True and
-        record.get('remaining_direct_children')==[] and child.returncode is not None and
+        record.get('remaining_direct_children')==[] and hasattr(child,'_osr_wait_status') and
         capability.get('verified_before_launch') is True and capability.get('subreaper') is True and
-        capability.get('pidfd_verified') is True and capability.get('parent_death_signal')==signal.SIGTERM)
-    return dict(verified=verified,worker_reaped=child.returncode is not None,adoption=record,
+        capability.get('pidfd_verified') is True and capability.get('parent_death_signal')==signal.SIGTERM and
+        capability.get('waitability',{}).get('verified') is True and authenticated_exit)
+    return dict(verified=verified,worker_reaped=hasattr(child,'_osr_wait_status'),worker_wait_status=getattr(child,'_osr_wait_status',None),adoption=record,
         descendants=dict(verified=verified,remaining_active=record.get('remaining_direct_children')))
 
 
@@ -503,11 +573,13 @@ def _event_lines(process,buffer,*,deadline=None):
 
 def supervise(owner,private_dir,limits,command,*,backend=None):
     """Run once, retain failure evidence, publish success only after cleanup."""
-    owner_id(owner);folder=Path(private_dir).absolute();source_sha256=sha256(Path(__file__).read_bytes()).hexdigest()
+    started=time.monotonic();owner_id(owner);folder=Path(private_dir).absolute();source_sha256=sha256(Path(__file__).read_bytes()).hexdigest()
     if folder.exists() or any(p.is_symlink() for p in folder.parents):raise Hold('Fresh ordinary private output directory required')
     if not command or not all(isinstance(v,str) and v for v in command):raise Hold('Explicit child argv required')
+    outer_waitability=waitability()  # Before directory writes, Popen or Docker resources; do not reset caller SIGCHLD.
     folder.mkdir(parents=True,mode=0o700);folder.chmod(0o700)
-    docker=backend or Docker(owner,folder);account=Accounting(limits);started=time.monotonic()
+    docker=backend or Docker(owner,folder);account=Accounting(limits)
+    write(folder/'outer-waitability.json',outer_waitability)
     binding=dict(owner=owner,private_dir=str(folder),limits=asdict(limits),token=os.urandom(24).hex(),**FLAGS)
     write(folder/'supervisor-binding.json',binding);write(folder/'command.json',dict(argv=command,**FLAGS))
     child=None;events=None;event_err=None;cleanup=None;failure=None;returncode=None;buffer=b'';observed={};last_disk=0;disk_at=-math.inf
@@ -551,7 +623,7 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
                 if docker.images()!=images:raise Hold('Shared image cache changed; impact is unattributed and no image will be deleted')
             rows=process_tree(os.getpid())
             host=dict(ticks=sum(r['ticks'] for r in rows.values()),rss_pages=sum(r['rss_pages'] for r in rows.values()),processes=list(rows.values()))
-            if child.poll() is None and (child.pid not in rows or rows[child.pid]['start']!=child_birth):
+            if exact_poll(child) is None and (child.pid not in rows or rows[child.pid]['start']!=child_birth):
                 raise Hold('Required native child process telemetry cannot be authenticated')
             if {p['pid'] for g in snapshot['groups'].values() for p in g['processes']}.intersection(rows):raise Hold('Container and supervisor PID ownership overlap')
             groups=dict(snapshot['groups'],supervisor_and_child=host)
@@ -561,7 +633,7 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
             append(folder/'metrics.jsonl',dict(sample,inventory=snapshot['inventory'],process_groups=groups,filesystems=storage))
             last_native_sample=time.monotonic()
             if sample['violations']:raise Hold('Aggregate resource budget exceeded: '+','.join(sample['violations']))
-            returncode=child.poll()
+            returncode=exact_poll(child)
             if returncode is not None:
                 if returncode:raise Hold('Native child exited '+str(returncode))
                 if not exit_seen:
@@ -587,7 +659,10 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
                 failure=failure or dict(type=type(exc).__name__,reason=str(exc));append(folder/'shutdown-errors.jsonl',failure)
                 host_cleanup=dict(verified=False,reason=str(exc),remaining_active=None)
             write(folder/'host-process-cleanup.json',host_cleanup)
-        if child is not None:returncode=child.poll()
+        if child is not None:
+            try:returncode=exact_poll(child)
+            except Hold as exc:
+                returncode=None;failure=failure or dict(type='Hold',reason=str(exc))
         if events is not None:
             events.terminate()
             try:events.wait(timeout=3)
@@ -624,6 +699,8 @@ def supervise(owner,private_dir,limits,command,*,backend=None):
     except BaseException as exc:failure=failure or dict(type=type(exc).__name__,reason='Final accounting:'+str(exc))
     if sha256(Path(__file__).read_bytes()).hexdigest()!=source_sha256:
         failure=failure or dict(type='Hold',reason='Resource supervisor source changed during execution')
+    if child is not None and host_cleanup.get('adoption',{}).get('native_exit')!=0:
+        failure=failure or dict(type='Hold',reason='Native command has no authenticated zero exit status')
     result=dict(schema='osr-native-resource-supervision/1',owner=owner,execution='completed' if failure is None and cleanup['verified'] and host_cleanup['verified'] else 'held',
         supervisor_source_sha256=source_sha256,command_sha256=sha256(encoded(command)).hexdigest(),binding_sha256=sha256(encoded(binding)).hexdigest(),
         child_exit=host_cleanup.get('adoption',{}).get('native_exit'),reaper_exit=returncode,

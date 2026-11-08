@@ -13,6 +13,12 @@ started by those checks.
 
 ## What is measured and stopped
 
+- Before campaign directories, Popen handles or Docker resources are created,
+  the outer supervisor requires default Python and kernel SIGCHLD disposition.
+  It preserves and refuses ignored/custom caller policies. A tiny owned fork
+  exits with a known sentinel and is waited by exact PID to prove actual kernel
+  waitability; this also detects `SA_NOCLDWAIT` hidden behind Python's handler
+  view. It does not reset the outer caller's handlers or reap other children.
 - One exact fresh `osr-v06-[a-f0-9]{12}` owner is supplied before launch.
   Existing resources with that owner cause a hold **without cleanup authority**.
 - Containers and volumes need the exact `osr.native.owner` label and the owner's
@@ -35,6 +41,10 @@ started by those checks.
   Popen handle. The worker launches no other programs; outer Docker probes and
   event-reader Popen children remain with the outer supervisor and are not
   globally reaped.
+  The dedicated worker resets its own SIGCHLD to default and repeats the owned
+  kernel waitability probe before native launch. Native and worker statuses use
+  exact `waitpid` receipts. `ECHILD`, auto-reaping or an exit value without a raw
+  owned wait status holds the result; Popen's fallback zero is never accepted.
 - CPU is a deliberately conservative **charge**: sampled self and reaped-child
   counters may overlap; container-exit gaps, complete Docker exec intervals,
   volume-measurement helpers and final cleanup gaps are also charged at all host
@@ -151,6 +161,8 @@ an empty final kernel child-list rescan. A zombie is reaped, not accepted as
 clean. A missing/crashed reaper or incomplete adoption report holds the result.
 The reaper process itself is waited through its outer Popen handle. Docker
 teardown alone cannot satisfy this condition.
+Raw native and worker wait statuses are retained separately from their decoded
+exit codes; a requested native exit 7 must remain 7 and hold the campaign.
 
 Adoption covers ordinary Linux descendant ancestry. It does not capture a
 process created by an external service broker or establish containment of
@@ -179,3 +191,12 @@ interfaces. Regression tests delay the first resource sample until after native
 leader exit, including a new session and a double fork, then require the child
 to be dead and reaped before accepting cleanup. Another test preserves an
 unrelated Popen child's exit status and outer probe-command statuses.
+
+SIGCHLD controls follow the Linux
+[sigaction](https://man7.org/linux/man-pages/man2/sigaction.2.html) and
+[exact wait-status](https://man7.org/linux/man-pages/man2/waitpid.2.html) semantics.
+Tests install real `SA_NOCLDWAIT` with a small C helper built against the host's
+headers in an isolated Python process, without a production C dependency. They
+also test ignored/custom policies, unchanged outer handlers, dedicated-worker
+reset and exact exit-7 reporting. The actual owned kernel probe remains required
+at runtime even when these offline tests pass.

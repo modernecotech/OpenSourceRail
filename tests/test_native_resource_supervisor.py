@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import sys
 import time
@@ -309,6 +310,7 @@ def test_dedicated_reaper_cannot_consume_unrelated_or_probe_popen_wait_status(tm
 
 
 def test_subreaper_capability_failure_is_closed_before_launch(monkeypatch):
+    monkeypatch.setattr(m,'waitability',lambda **kwargs:dict(verified=True))
     monkeypatch.setattr(m.sys,'platform','unsupported')
     with pytest.raises(m.Hold,match='Verified Linux'):m._reaper_capabilities(os.getpid(),m.process_stat(os.getpid())['start'])
     monkeypatch.setattr(m.sys,'platform','linux');calls=[]
@@ -327,6 +329,70 @@ def test_worker_capability_refusal_launches_no_native_command(tmp_path,monkeypat
     assert m.child_reaper(tmp_path)==125
     report=json.loads((tmp_path/'child-reaper.json').read_bytes())
     assert report['native_pid'] is None and not report['verified'] and report['capabilities'] is None
+
+
+@pytest.fixture(scope='module')
+def sigchld_library(tmp_path_factory):
+    compiler=shutil.which('cc')
+    if sys.platform!='linux' or not compiler:pytest.skip('Linux C headers/compiler required for actual SA_NOCLDWAIT control')
+    folder=tmp_path_factory.mktemp('sigchld-control');library=folder/'sigchld.so'
+    source='''#include <signal.h>
+#include <string.h>
+int set_autoreap(void) { struct sigaction a; memset(&a,0,sizeof(a));
+  a.sa_handler=SIG_DFL; a.sa_flags=SA_NOCLDWAIT; sigemptyset(&a.sa_mask);
+  return sigaction(SIGCHLD,&a,0); }
+int is_autoreap(void) { struct sigaction a; if(sigaction(SIGCHLD,0,&a)) return -1;
+  return (a.sa_flags & SA_NOCLDWAIT)!=0; }
+'''
+    result=subprocess.run([compiler,'-shared','-fPIC','-x','c','-o',str(library),'-'],input=source,text=True,capture_output=True)
+    assert result.returncode==0,result.stderr
+    return library
+
+
+def signal_setup(disposition,library):
+    code="import ctypes,signal\nlib=ctypes.CDLL("+repr(str(library))+")\n"
+    if disposition=='ignored':code+='signal.signal(signal.SIGCHLD,signal.SIG_IGN)\n'
+    elif disposition=='custom':code+='signal.signal(signal.SIGCHLD,lambda *args:None)\n'
+    elif disposition=='autoreap':code+='assert lib.set_autoreap()==0\nassert signal.getsignal(signal.SIGCHLD)==signal.SIG_DFL and lib.is_autoreap()==1\n'
+    return code
+
+
+@pytest.mark.parametrize('disposition',['ignored','custom','autoreap'])
+def test_outer_refuses_nonwaitable_policy_without_popen_resources_or_handler_changes(tmp_path,sigchld_library,disposition):
+    folder=tmp_path/'must-not-exist'
+    code="import sys,json\nsys.path.insert(0,"+repr(str(ROOT/'tools/automation/native-v06'))+")\nimport resource_supervisor as m\n"
+    code+=signal_setup(disposition,sigchld_library)
+    code+='before=signal.getsignal(signal.SIGCHLD);before_auto=lib.is_autoreap();calls=[]\n'
+    code+="m.subprocess.Popen=lambda *a,**kw:calls.append('forbidden-popen')\n"
+    code+='held=None\ntry:\n m.supervise('+repr(OWNER)+','+repr(str(folder))+',m.Limits(100,10,100000000,1000000,1),["must-not-run"],backend=object())\nexcept m.Hold as exc:\n held=str(exc)\n'
+    code+='assert held and not calls\nassert signal.getsignal(signal.SIGCHLD) is before and lib.is_autoreap()==before_auto\nassert not m.Path('+repr(str(folder))+').exists()\nprint(json.dumps(dict(held=held,handler_preserved=True,autoreap=before_auto,popen_calls=len(calls))))\n'
+    result=subprocess.run([sys.executable,'-c',code],text=True,capture_output=True,timeout=5)
+    assert result.returncode==0,result.stderr
+    proof=json.loads(result.stdout);assert proof['handler_preserved'] and proof['popen_calls']==0
+    if disposition=='autoreap':assert proof['autoreap']==1 and 'auto-reaped' in proof['held']
+
+
+@pytest.mark.parametrize('disposition',['default','ignored','custom','autoreap'])
+def test_dedicated_worker_resets_waitability_and_preserves_actual_exit_seven(tmp_path,sigchld_library,disposition):
+    folder=tmp_path/'worker';folder.mkdir()
+    code="import sys,json,os\nsys.path.insert(0,"+repr(str(ROOT/'tools/automation/native-v06'))+")\nimport resource_supervisor as m\n"
+    code+=signal_setup(disposition,sigchld_library)
+    code+='folder=m.Path('+repr(str(folder))+')\n'
+    code+="m.write(folder/'reaper-config.json',dict(owner="+repr(OWNER)+",parent_pid=os.getppid(),parent_birth=m.process_stat(os.getppid())['start'],source_sha256=m.sha256(m.Path(m.__file__).read_bytes()).hexdigest(),command=[sys.executable,'-c','raise SystemExit(7)'],shutdown_seconds=1))\n"
+    code+="actual=m.child_reaper(folder)\nrecord=json.loads((folder/'child-reaper.json').read_bytes())\nassert actual==7 and record['native_exit']==7 and record['native_wait_status']==7<<8\nassert record['verified'] and record['native_reaped']\nassert record['capabilities']['waitability']['probe_exit']==73\nassert signal.getsignal(signal.SIGCHLD)==signal.SIG_DFL and lib.is_autoreap()==0\nprint(json.dumps(record))\n"
+    result=subprocess.run([sys.executable,'-c',code],text=True,capture_output=True,timeout=5)
+    assert result.returncode==0,result.stderr
+    assert json.loads(result.stdout)['native_exit']==7
+
+
+def test_lost_exact_child_wait_status_never_becomes_popen_zero(monkeypatch):
+    class Child:pid=123;returncode=None
+    monkeypatch.setattr(m.os,'waitpid',lambda *a:(_ for _ in ()).throw(ChildProcessError('ECHILD')))
+    child=Child()
+    with pytest.raises(m.Hold,match='ECHILD fallback'):m.exact_poll(child)
+    assert child.returncode is None
+    child.returncode=0
+    with pytest.raises(m.Hold,match='lacks an authenticated'):m.exact_poll(child)
 
 
 @pytest.mark.parametrize('mode',['child-failure','budget','cleanup'])
