@@ -181,19 +181,36 @@ def _binding(study, body, record):
         lifecycle_evaluation_id=record['cost']['full_scope']['evaluation_id'])
 
 
+def _make_buy_mapping(source):
+    mappings = {
+        'local-fabricate': ('local-fabricate', False),
+        'buy-standard': ('buy-standard', False),
+        'buy-qualified': ('buy-qualified', False),
+        'make': ('local-fabricate', True),
+        'bounded-purchased-or-processed': ('unresolved-buy-or-process', True),
+    }
+    if source not in mappings:
+        raise ValueError('Unclassified make/buy route: ' + source)
+    route, review = mappings[source]
+    return dict(source_category=source, planning_route=route, requires_route_review=review,
+                basis='Explicit planning-category conversion only; no supplier, process qualification or release inferred')
+
+
 def _hours(part, patterns, fleet, policy):
     q = part['quantity_per_train'] * fleet
-    if part['make_buy'] == 'local-fabricate':
+    route = _make_buy_mapping(part['make_buy'])['planning_route']
+    if route == 'local-fabricate':
         values = {c: policy['fabricate_setup_person_h_per_type'][c]
                   + fleet * fsum(r['mass_kg'][c] for r in patterns) * policy['fabricate_person_h_per_gross_kg'][c]
                   + q * policy['fabricate_handling_person_h_per_piece'][c] for c in CASES}
-    elif part['make_buy'] in ('buy-standard', 'buy-qualified'):
+    elif route in ('buy-standard', 'buy-qualified'):
         values = {c: policy['purchased_setup_person_h_per_type'][c]
                   + q * policy['purchased_inspect_handle_person_h_per_piece'][c] for c in CASES}
     else:
-        raise ValueError('Unclassified make/buy route: ' + part['make_buy'])
+        return dict(provisional_person_h=None, validated_person_h=None, additive_cost=False,
+            basis=policy['basis'], hold_reason='Bounded component mass/cost does not determine whether it is purchased or processed, or establish process hours; review route first')
     return dict(provisional_person_h=ranges(values), validated_person_h=None,
-                additive_cost=False, basis=policy['basis'])
+                additive_cost=False, basis=policy['basis'], hold_reason=None)
 
 
 def _task(binding, task_id, kind, subject, operation, holds=()):
@@ -227,7 +244,7 @@ def _parts(body, binding, fleet, policy):
             stock=deepcopy(p['stock']), mass_basis=deepcopy(p['mass_basis']),
             counted_pattern_mass_kg_per_train={c:fsum(r['mass_kg'][c] for r in rows) for c in CASES},
             counted_direct_parts_process_usd_per_train={c:fsum(r['direct_cost_usd'][c] for r in rows) for c in CASES},
-            make_buy=p['make_buy'], manufacturing=deepcopy(p['manufacturing']),
+            make_buy=p['make_buy'], make_buy_mapping=_make_buy_mapping(p['make_buy']), manufacturing=deepcopy(p['manufacturing']),
             inspection=deepcopy(p['inspection']), joining=p['joining'], mounting=p['mounting'],
             maintenance_removal=p['maintenance_removal'], finish=p['finish'], tolerance_and_fits=p['tolerance_and_fits'],
             source_ids=deepcopy(p['source_ids']), open_tasks=deepcopy(p['open_tasks']),
@@ -241,6 +258,10 @@ def _parts(body, binding, fleet, policy):
                 lot_number=None, serial_number_assigned=False, installation_accepted=False),
             BOP_partition=bool(p.get('BOP_partition',False)))
         items.append(item)
+        if item['capacity']['provisional_person_h'] is None:
+            tasks.append(_task(binding,'hold/time-route/'+p['id'],'process-time-review',p['id'],
+                'Resolve make/buy/process route and obtain bounded process-time evidence',
+                [item['capacity']['hold_reason']]))
         tasks.append(_task(binding,'review/part/'+p['id'],'manufacturing-planning',p['id'],
             'Review stock, local make/buy route, process, inspection and supplier evidence request; no order issue'))
         tasks.append(_task(binding,'hold/part/'+p['id'],'manufacturing-release',p['id'],
@@ -263,44 +284,85 @@ def _parts(body, binding, fleet, policy):
 
 
 def _assemblies(body, binding, fleet, policy):
-    rows=[];tasks=[];part_ids={p['id'] for p in body['parts']}
-    for source in body['assembly_plans']['plans']:
-        if not set(source['component_type_ids']) <= part_ids:
-            raise ValueError('Assembly contains missing part definitions')
-        source_steps=deepcopy(source['source_assembly_steps'])
+    rows=[]; tasks=[]
+    parts_by_assembly=defaultdict(list)
+    for part in body['parts']:
+        parts_by_assembly[part['assembly_id']].append(part)
+    original_routes={r['assembly_id']: r for r in body['assembly_plans']['plans']}
+    if len(original_routes)!=len(body['assembly_plans']['plans']):
+        raise ValueError('Repeated source assembly route')
+    all_part_ids={p['id'] for p in body['parts']}
+    for assembly_id, current_parts in parts_by_assembly.items():
+        source=original_routes.get(assembly_id)
+        current_ids=sorted(p['id'] for p in current_parts)
+        source_ids=[] if source is None else deepcopy(source['component_type_ids'])
+        source_steps=[] if source is None else deepcopy(source['source_assembly_steps'])
+        pattern_assembly_ids=sorted({p['assembly_occurrence_id'] for p in body['patterns']
+                                     if p['part_id'] in current_ids})
+        anchors=body['assembly_occurrences'].get(assembly_id,[])
+        occurrences=sorted(a['id'] for a in anchors)
+        if not occurrences or len(occurrences)!=len(set(occurrences)) or not pattern_assembly_ids:
+            raise ValueError('Current assembly requires explicit unique body anchors and counted patterns')
+        missing=sorted((set(source_ids)|{i for step in source_steps for i in step.get('part_ids',[])})-all_part_ids)
         steps=deepcopy(source_steps)
-        missing=sorted({i for step in steps for i in step.get('part_ids',[]) if i not in part_ids})
         for step in steps:
             named=step.get('part_ids',[])
             step['source_part_ids']=deepcopy(named)
-            step['part_ids']=[i for i in named if i in part_ids]
-            step['unresolved_source_part_ids']=[i for i in named if i not in part_ids]
+            step['part_ids']=[i for i in named if i in current_ids]
+            step['unresolved_source_part_ids']=[i for i in named if i not in current_ids]
             step['route_status']='held-source-route-needs-revision' if step['unresolved_source_part_ids'] else 'proposed-source-route'
-        # These are explicit source proposals, not a newly inferred NC or weld program.
-        route=dict(id=source['assembly_id'], identities=binding,
-            occurrences_per_train=source['occurrences'], occurrences_project=source['occurrences']*fleet,
-            component_type_ids=source['component_type_ids'], operations=steps, source_operations=source_steps,
-            source_route_unresolved_part_ids=missing,
-            workstation_proposal='Dedicated assembly cell for '+source['assembly_id'],
-            tools_and_fixtures_proposal=deepcopy([step['tools'] for step in steps]),
-            interfaces=deepcopy(source['interfaces']), inventory_categories=deepcopy(source['inventory_categories']),
-            removal_sequence=deepcopy(source.get('source_removal_sequence',[])),
-            tool_and_lifting_access=deepcopy(source.get('tool_and_lifting_access')),
-            open_tasks=deepcopy(source['open_tasks']), controlled_route_reference=None,
-            validated_person_h=None,
-            provisional_person_h={c:source['occurrences']*fleet*policy['assembly_person_h_per_occurrence'][c] for c in CASES},
+        added=sorted(set(current_ids)-set(source_ids))
+        # New current definitions receive preparation proposals from their own
+        # process records. They do not inherit approval from an ancestral route.
+        part_byid={p['id']:p for p in current_parts}
+        for part_id in added:
+            part=part_byid[part_id]
+            steps.append(dict(sequence=len(steps)+1,part_ids=[part_id],source_part_ids=[],
+                unresolved_source_part_ids=[],operation='Prepare and review the current component process proposal',
+                process_proposal=deepcopy(part['manufacturing']),inspection=deepcopy(part['inspection']),
+                tools=None,route_status='held-current-part-route-needs-detail'))
+        open_tasks=sorted({t for p in current_parts for t in p['open_tasks']})
+        if source is not None:
+            open_tasks=sorted(set(open_tasks)|set(source['open_tasks']))
+        source_categories={} if source is None else deepcopy(source['inventory_categories'])
+        categories={}
+        for key, category in source_categories.items():
+            category=deepcopy(category)
+            category['part_ids']=[i for i in category.get('part_ids',[]) if i in current_ids]
+            category['quantity_per_train']=sum(p['quantity_per_train'] for p in current_parts if p['id'] in category['part_ids'])
+            categories[key]=category
+        route=dict(id=assembly_id,identities=binding,occurrences_per_train=len(occurrences),
+            occurrences_project=len(occurrences)*fleet,assembly_occurrence_ids=occurrences,
+            source_pattern_assembly_ids=pattern_assembly_ids,
+            occurrence_basis='Explicit sealed-body assembly anchors; constructive pattern groups are retained separately, not counted as extra assemblies',
+            source_occurrences_per_train=None if source is None else source['occurrences'],
+            component_type_ids=current_ids,source_component_type_ids=source_ids,
+            operations=steps,source_operations=source_steps,source_route_unresolved_part_ids=missing,
+            current_part_ids_needing_route_detail=added,
+            workstation_proposal='Dedicated assembly cell for '+assembly_id,
+            tools_and_fixtures_proposal=deepcopy([step.get('tools') for step in steps]),
+            interfaces=[] if source is None else deepcopy(source['interfaces']),
+            inventory_categories=categories,source_inventory_categories=source_categories,
+            component_removal_proposals={p['id']:p['maintenance_removal'] for p in current_parts},
+            removal_sequence=[] if source is None else deepcopy(source.get('source_removal_sequence',[])),
+            tool_and_lifting_access=None if source is None else deepcopy(source.get('tool_and_lifting_access')),
+            open_tasks=open_tasks,controlled_route_reference=None,validated_person_h=None,
+            provisional_person_h={c:len(occurrences)*fleet*policy['assembly_person_h_per_occurrence'][c] for c in CASES},
             capacity_scope='Assembly-cell allowance in addition to part processing; not an additive price or critical-path duration',
             installation_accepted=False)
         rows.append(route)
-        if missing:
-            tasks.append(_task(binding,'hold/source-route/'+route['id'],'source-route-revision',route['id'],
-                'Revise legacy source assembly steps against the exact current component definitions',
-                ['Source-only part IDs absent from current body: '+', '.join(missing)]))
-        tasks.append(_task(binding,'review/assembly/'+route['id'],'assembly-planning',route['id'],
+        if missing or added or source is None:
+            holds=[]
+            if missing: holds.append('Source-only part IDs absent from current body: '+', '.join(missing))
+            if added: holds.append('Current definitions need controlled route detail: '+', '.join(added))
+            if source is None: holds.append('No source assembly route exists for this current assembly group')
+            tasks.append(_task(binding,'hold/source-route/'+assembly_id,'source-route-revision',assembly_id,
+                'Revise source assembly steps against the exact current component definitions',holds))
+        tasks.append(_task(binding,'review/assembly/'+assembly_id,'assembly-planning',assembly_id,
             'Review source operations, fixtures, material flow, isolation/removal and inspection hold points'))
-        tasks.append(_task(binding,'hold/assembly/'+route['id'],'installation-release',route['id'],
+        tasks.append(_task(binding,'hold/assembly/'+assembly_id,'installation-release',assembly_id,
             'Issue controlled assembly instructions only after interface, movement and access checks',
-            ['Qualified joints, fits, tooling capacity, mating drawing and approved inspection plan required',*source['open_tasks']]))
+            ['Qualified joints, fits, tooling capacity, mating drawing and approved inspection plan required',*open_tasks]))
     return rows,tasks
 
 
@@ -342,7 +404,7 @@ def _external(study, items, binding, fleet):
                 remainder={c:gross[c]-partition[c] for c in CASES}
                 if any(abs(accounting['remaining_unknown_external_reserve_kg'][c]-remainder[c])>1e-6 for c in CASES):
                     raise ValueError('External BOP remainder is not gross minus counted body stock')
-                if p['mass_hypothesis_kg'] not in (gross,remainder):
+                if not any(all(abs(p['mass_hypothesis_kg'][c]-option[c])<=1e-6 for c in CASES) for option in (gross,remainder)):
                     raise ValueError('Inventory BOP mass is neither declared gross nor residual')
             else:
                 gross=ranges(p['mass_hypothesis_kg']);remainder=dict(gross)
@@ -408,8 +470,10 @@ def compile_proposal(study, body, service_id, *, root=ROOT, policy=None):
     tasks.append(_task(binding,'hold/ERP-conversion','business-review','ERPNext conversion',
         'Supply actual reviewed ERP Item codes, unit conversion, inspection references and controlled drawings',
         ['Generic engineering.execution_proposal intentionally refuses this draft until reviewed native mappings exist']))
-    person={c:fsum(p['capacity']['provisional_person_h'][c] for p in items)
-            +fsum(a['provisional_person_h'][c] for a in assemblies) for c in CASES}
+    incomplete_time_ids=[p['id'] for p in items if p['capacity']['provisional_person_h'] is None]
+    known_person={c:fsum(p['capacity']['provisional_person_h'][c] for p in items if p['capacity']['provisional_person_h'] is not None)
+                  +fsum(a['provisional_person_h'][c] for a in assemblies) for c in CASES}
+    person=None if incomplete_time_ids else known_person
     material_requirements=[]
     for material in materials:
         matched=[p for p in items if p['material_id']==material['id']]
@@ -430,8 +494,11 @@ def compile_proposal(study, body, service_id, *, root=ROOT, policy=None):
         status='DRAFT',docstatus=0,source_sha256=source_map,policy=policy,policy_id=identity(policy),
         materials=materials,material_requirements=material_requirements,items=items,occurrence_patterns=occurrences,assembly_routes=assemblies,
         external_inventory=external,civil_requirements=civil,construction_route=construction,tasks=tasks,cost_views=cost_views,
-        capacity=dict(provisional_vehicle_person_h=person,validated_vehicle_person_h=None,
-            equivalent_16h_resource_days={c:person[c]/(policy['shifts_per_day']*policy['hours_per_shift']*policy['productive_fraction'][c]) for c in CASES},
+        assembly_revision_proposals=deepcopy({k:v for k,v in body['assembly_plans'].items() if k!='plans'}),
+        retired_source_routes=deepcopy([r for r in body['assembly_plans']['plans'] if r['assembly_id'] not in {p['assembly_id'] for p in body['parts']}]),
+        capacity=dict(provisional_vehicle_person_h=person,known_provisional_vehicle_person_h_subtotal=known_person,
+            part_process_hours_complete=not incomplete_time_ids,unknown_part_process_hour_ids=incomplete_time_ids,validated_vehicle_person_h=None,
+            equivalent_16h_resource_days=None if person is None else {c:person[c]/(policy['shifts_per_day']*policy['hours_per_shift']*policy['productive_fraction'][c]) for c in CASES},
             basis='Vehicle part processing + assembly proxy only; not elapsed days. Actual crew, parallel cells, shifts per worker, procurement, cure, site, external packages and critical path remain unresolved.',
             actual_crew_count=None,calendar_duration_days=None,external_and_civil_hours_unknown=True),
         execution_mapping_draft=dict(identities=binding,review_reference=None,engineering_sha256=None,
@@ -448,7 +515,7 @@ def compile_proposal(study, body, service_id, *, root=ROOT, policy=None):
         cost_scopes=len(ledgers['required_cost_scopes']),task_status_counts=dict(Counter(t['status'] for t in tasks)),
         make_buy_counts=dict(Counter(p['make_buy'] for p in items)),
         direct_part_process_usd_per_train=deepcopy(body['direct_parts_process_usd']),
-        engineering_release_held=True,ERP_mapping_ready=False)
+        unknown_process_time_types=len(incomplete_time_ids),engineering_release_held=True,ERP_mapping_ready=False)
     seal(result,'proposal_id');validate_proposal(result)
     return result
 
@@ -487,11 +554,25 @@ def validate_proposal(proposal):
             raise ValueError('Draft cannot assign serial or lot identities')
         if counts.pop(row['id'],None)!=row['quantity_per_train'] or row['quantity_project']!=row['quantity_per_train']*fleet:
             raise ValueError('Part/project quantity differs from counted patterns')
-        ranges(row['capacity']['provisional_person_h'])
+        proposed=row['capacity']['provisional_person_h']
+        if proposed is None:
+            if not row['capacity'].get('hold_reason'):
+                raise ValueError('Unknown hours require explicit route/time hold')
+        else:
+            ranges(proposed)
+        if row['make_buy_mapping']!=_make_buy_mapping(row['make_buy']):
+            raise ValueError('Make/buy mapping differs from explicit source category')
         if row['capacity']['validated_person_h'] is not None:
             raise ValueError('Proxy hours cannot become validated process times')
     if counts:
         raise ValueError('Orphan exported occurrence')
+    unknown=[p['id'] for p in proposal['items'] if p['capacity']['provisional_person_h'] is None]
+    if proposal['capacity']['unknown_part_process_hour_ids']!=unknown or (unknown and proposal['capacity']['provisional_vehicle_person_h'] is not None):
+        raise ValueError('Unknown process times cannot become a complete or zero-hour total')
+    for route in proposal['assembly_routes']:
+        expected={p['id'] for p in proposal['items'] if p['assembly_id']==route['id']}
+        if set(route['component_type_ids'])!=expected or any(i not in expected for step in route['operations'] for i in step['part_ids']):
+            raise ValueError('Assembly route uses removed or different-assembly part definitions')
     if proposal['summary']['task_status_counts']!=dict(Counter(t['status'] for t in proposal['tasks'])):
         raise ValueError('Task completion summary differs')
     return True
