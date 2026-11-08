@@ -301,12 +301,6 @@ def exterior_triangles(mesh):
 
 def plot(output, path):
     """Scientific plate from native full U, with explicit 100x deformation."""
-    import numpy as np
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    from matplotlib.colors import Normalize
-    from matplotlib.collections import PolyCollection
     output, path = Path(output), Path(path)
     result=json.loads((output / "result.json").read_bytes()); check_seal(result)
     if not result.get("validation", {}).get("all_nodes_have_result"):
@@ -316,8 +310,20 @@ def plot(output, path):
     field=read_vtu(output / "execution/field.vtu")
     mesh=json.loads((output / "inputs/mesh.json").read_bytes())
     validate_field(field, mesh, expected_probe=(EXPECTED["probe_xyz_m"], EXPECTED["probe_U_m"]))
+    return _plot_field(field, exterior_triangles(mesh), result, path)
+
+
+def _plot_field(field, triangles, result, path):
+    """Shared renderer: the native VTU and compact route use identical arrays."""
+    import numpy as np
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import Normalize
+    from matplotlib.collections import PolyCollection
+    path=Path(path)
     labels={int(n):i for i,n in enumerate(field["node_label"])}
-    tri=np.array([[labels[n] for n in row] for row in exterior_triangles(mesh)])
+    tri=np.array([[labels[n] for n in row] for row in triangles])
     xyz=field["points"]; u=field["displacement"]; magnitude=np.linalg.norm(u,axis=1)*1000
     deformed=xyz+100*u
     plt.rcParams.update({"font.family":"DejaVu Sans","text.color":"#14344d","axes.labelcolor":"#14344d"})
@@ -374,6 +380,7 @@ def plot(output, path):
     record=sealed(dict(schema="osr-civil-gallery-figure/1",request_id=result["request_id"],
         field_sha256=result["full_field_sha256"],figure_sha256=digest(path),dimensions_px=[3000,1900],
         deformation_scale=100,field="FieldCraft nodal displacement magnitude",field_units="m",legend_units="mm",
+        surface_geometry="Each exterior tetra10 face split into four planar display triangles through its three actual corner and three actual midside nodes, each using its native U",
         surface_scalar_method="Arithmetic mean of actual native nodal magnitudes on each rendered triangle",
         deck_profile="Actual top-deck nodes within 50 mm of centre; unconnected native samples",
         limitations=LIMITATIONS,**FLAGS))
@@ -385,21 +392,57 @@ def compact(output, path):
     """Small reproducible public surface dataset derived from the full VTU."""
     output, path = Path(output), Path(path)
     result=json.loads((output / "result.json").read_bytes());check_seal(result)
+    request=json.loads((output / "request.json").read_bytes());check_seal(request)
     if digest(output / "execution/field.vtu") != result["full_field_sha256"]:
         raise ValueError("Solved field changed")
     f=read_vtu(output / "execution/field.vtu");m=json.loads((output / "inputs/mesh.json").read_bytes())
     validate_field(f,m,expected_probe=(EXPECTED["probe_xyz_m"],EXPECTED["probe_U_m"]))
-    data=sealed(dict(schema="osr-native-fem-gallery-field/1",request_id=result["request_id"],
+    data=sealed(dict(schema="osr-native-fem-gallery-field/2",request_id=result["request_id"],
+        native_result_id=result["evaluation_id"],source_report_id=EXPECTED["report_id"],
+        source_input_sha256={str(Path(p).relative_to(request["source"])):v for p,v in request["source_inputs_sha256"].items()},
+        tool_pin=request["tool_pin"],resource_request=request["resources"],
+        probe=dict(xyz_m=EXPECTED["probe_xyz_m"],displacement_m=EXPECTED["probe_U_m"]),
+        validation=result["validation"],exporter_sha256=digest(__file__),
         native_vtu_sha256=result["full_field_sha256"],native_mesh_bin_sha256=result["native_mesh_bin_sha256"],
         candidate_id=EXPECTED["candidate_id"],civil_evaluation_id=EXPECTED["civil_evaluation_id"],
         node_labels=[int(n) for n in f["node_label"]],points_m=[m["nodes"][str(int(n))] for n in f["node_label"]],
+        points_vtu_ascii_m=f["points"].tolist(),
         displacement_m=f["displacement"].tolist(),nodal_von_mises_Pa=f["von_mises"].tolist(),
         exterior_triangles_node_labels=exterior_triangles(m),
-        topology_note="Exterior quadratic tetra faces split using their actual midside nodes; original exact mesh coordinates",
+        topology_note="Each exterior quadratic face split into four planar display triangles using all six actual face nodes and each node's native U; not corner-linearized or an exact curved-patch rendering",
+        rerender=dict(module="tools.engineering_gallery.fem",command="plot-compact",arguments=[path.name,"civil-fieldcraft-displacement.png"],
+                      public_command="python -m tools.engineering_gallery.fem plot-compact "+path.name+" civil-fieldcraft-displacement.png",
+                      dependency="Repository Python environment with NumPy and Matplotlib; no native solve or private VTU required"),
         native_coordinates_ascii_rounding_bound_m=5.1e-11,limitations=LIMITATIONS,**FLAGS))
     with path.open("wb") as raw:
         with gzip.GzipFile(filename="",mode="wb",fileobj=raw,mtime=0) as stream:stream.write(encoded(data))
     return dict(evaluation_id=data["evaluation_id"],path=str(path),sha256=digest(path),bytes=path.stat().st_size)
+
+
+def read_compact(path):
+    """Reopen a sealed public dataset without access to private native files."""
+    import numpy as np
+    data=json.loads(gzip.decompress(Path(path).read_bytes()));check_seal(data)
+    if data.get("schema") != "osr-native-fem-gallery-field/2" or not data.get("validation",{}).get("all_nodes_have_result"):
+        raise ValueError("Complete validated native compact field required")
+    labels=np.asarray(data["node_labels"],dtype=int);n=len(labels)
+    points=np.asarray(data["points_vtu_ascii_m"],dtype=float);u=np.asarray(data["displacement_m"],dtype=float)
+    vm=np.asarray(data["nodal_von_mises_Pa"],dtype=float)
+    label_set=set(labels.tolist())
+    if len(label_set)!=n or points.shape!=(n,3) or u.shape!=(n,3) or vm.shape!=(n,):
+        raise ValueError("Compact nodal coverage changed")
+    if not all(np.isfinite(v).all() for v in (points,u,vm)) or n!=data["validation"]["nodes"]:
+        raise ValueError("Compact native field invalid")
+    triangles=data["exterior_triangles_node_labels"]
+    if any(len(t)!=3 or any(int(v) not in label_set for v in t) for t in triangles):
+        raise ValueError("Compact display topology changed")
+    return data,dict(node_label=labels,points=points,displacement=u,von_mises=vm),triangles
+
+
+def plot_compact(source, path):
+    data,field,triangles=read_compact(source)
+    result=dict(request_id=data["request_id"],full_field_sha256=data["native_vtu_sha256"])
+    return _plot_field(field,triangles,result,path)
 
 
 def main():
@@ -409,8 +452,9 @@ def main():
     a=sub.add_parser("finalize");a.add_argument("output")
     a=sub.add_parser("plot");a.add_argument("output");a.add_argument("path")
     a=sub.add_parser("compact");a.add_argument("output");a.add_argument("path")
+    a=sub.add_parser("plot-compact");a.add_argument("output");a.add_argument("path")
     a=p.parse_args()
-    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else finalize(a.output) if a.action=="finalize" else compact(a.output,a.path) if a.action=="compact" else plot(a.output,a.path)
+    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else finalize(a.output) if a.action=="finalize" else compact(a.output,a.path) if a.action=="compact" else plot_compact(a.output,a.path) if a.action=="plot-compact" else plot(a.output,a.path)
     print(json.dumps(value,sort_keys=True))
 
 

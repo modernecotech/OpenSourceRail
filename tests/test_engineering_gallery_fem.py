@@ -1,10 +1,11 @@
 """Small parser/integrity tests; these synthetic values are not FEM evidence."""
 from copy import deepcopy
+import gzip
 import json
 import numpy as np
 import pytest
 from tools.engineering_gallery.fem import (check_seal, exterior_triangles,
-    original_tail, sealed, validate_field)
+    original_tail, read_compact, sealed, validate_field, encoded)
 
 
 def field():
@@ -21,6 +22,8 @@ def test_full_native_field_and_quadratic_surface():
     f,m=field();v=validate_field(f,m)
     assert v["all_nodes_have_result"] and v["nodes"]==10 and v["cells"]==1
     assert len(exterior_triangles(m))==16
+    assert set(n for t in exterior_triangles(m) for n in t)==set(range(1,11))
+    assert all(sum(n>4 for n in t)>=2 for t in exterior_triangles(m))
 
 
 def test_documented_ascii_rounding_is_separate_from_mesh_identity():
@@ -28,6 +31,19 @@ def test_documented_ascii_rounding_is_separate_from_mesh_identity():
     assert validate_field(f,m)["ascii_coordinate_max_residual_m"]==5e-11
     f["points"][0,0]=5e-10
     with pytest.raises(ValueError):validate_field(f,m)
+
+
+def test_compact_rerender_has_exact_native_arrays_and_midside_topology(tmp_path):
+    f,m=field();p=tmp_path/'field.json.gz'
+    data=sealed(dict(schema='osr-native-fem-gallery-field/2',validation=dict(all_nodes_have_result=True,nodes=10),
+        node_labels=f['node_label'].tolist(),points_vtu_ascii_m=f['points'].tolist(),
+        displacement_m=f['displacement'].tolist(),nodal_von_mises_Pa=f['von_mises'].tolist(),
+        exterior_triangles_node_labels=exterior_triangles(m)))
+    p.write_bytes(gzip.compress(encoded(data)))
+    _,g,tri=read_compact(p)
+    assert np.array_equal(g['displacement'],f['displacement'])
+    assert np.array_equal(g['points'],f['points'])
+    assert tri==[list(t) for t in exterior_triangles(m)]
 
 
 @pytest.mark.parametrize("fault",["missing-result","nan","node","xyz","cell","connectivity","probe"])
