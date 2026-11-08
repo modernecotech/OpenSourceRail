@@ -16,7 +16,11 @@ def test_current_archive_matches_only_exact_evaluation():
     out=ROOT/'docs/design-engine/reconciled-pilot'
     civil=json.loads((out/'civil.json').read_bytes());axles=json.loads((out/'axle-loads.json').read_bytes())
     result=proof.applicable(civil,axles)
-    assert result['applicable'] and result['manifest_file']==proof.MANIFEST
+    assert result['applicable']
+    assert result['manifest_file']==json.loads((out/'summary.json').read_bytes())['civil']['native_reference']['manifest_file']
+    registered=json.loads((ROOT/proof.FOLDER/result['manifest_file']).read_bytes())
+    assert registered['civil_evaluation_id']==civil['evaluation_id']
+    assert registered['input_load_evaluation_id']==axles['evaluation_id']
     assert result['physical_accepted'] is False
     changed=dict(axles,evaluation_id='0'*64)
     assert proof.applicable(civil,changed)['applicable'] is False
