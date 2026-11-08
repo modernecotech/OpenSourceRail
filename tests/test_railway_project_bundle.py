@@ -11,7 +11,7 @@ from test_railway_project_civil import body,seal
 def inputs():
     b=body();b['layout_definition_complete']=False;b['compact_drive_contract']['body_lift_m']=.1
     b['policy']['layout']=dict(cars=6,car_length_m=17.,intercar_gap_m=.65,car_width_m=2.65,
-        door_centres_local_x_m=[-4.5,4.5],door_clear_width_m=1.4,floor_top_m=1.1)
+        door_centres_local_x_m=[-4.5,4.5],door_clear_width_m=1.4,floor_top_m=1.2)
     seal(b)
     a=alignment.generate(corridor([[44.,33.],[44.,33.02],[44.,33.04]]),**PARAMETERS)
     return b,a

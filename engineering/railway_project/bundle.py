@@ -12,7 +12,7 @@ PRODUCER='engineering/railway_project/bundle.py'
 
 
 def stations(body,alignment,*,platform_width_m,track_centres_y_m,nominal_boarding_gap_m,
-             stopping_tolerance_m,root=ROOT):
+             stopping_tolerance_m,boarding_length_m=None,root=ROOT):
     """Explicit one-sided boarding interfaces; no mirror-image train assumption.
 
     All formations keep the same physical+route orientation after reversal.
@@ -24,7 +24,9 @@ def stations(body,alignment,*,platform_width_m,track_centres_y_m,nominal_boardin
     if (body.get('schema')!='osr-vehicle-installation/1' or alignment.get('schema')!='osr-station-straight-alignment/1'
         or body['candidate_id']!=identity(body['physical_definition']) or alignment['candidate_id']!=identity(alignment['physical_definition'])):
         raise ValueError('Exact installed body and designed alignment required')
-    layout=body['policy']['layout'];lift=body['compact_drive_contract']['body_lift_m']
+    # Installed layout datums already include the body revision's lift. The
+    # compact-drive ancestry delta is not another platform-height increment.
+    layout=body['policy']['layout']
     for v in (platform_width_m,nominal_boarding_gap_m,stopping_tolerance_m):
         if type(v) not in (int,float) or not isfinite(v) or v<=0:
             raise ValueError('Explicit positive station interface dimensions required')
@@ -33,7 +35,10 @@ def stations(body,alignment,*,platform_width_m,track_centres_y_m,nominal_boardin
         track_centres_y_m[1]<=track_centres_y_m[0]):
         raise ValueError('Two ordered explicit track centres required')
     length=layout['cars']*layout['car_length_m']+(layout['cars']-1)*layout['intercar_gap_m']
-    p=alignment['physical_definition']['platform_straight_m']
+    straight=alignment['physical_definition']['platform_straight_m']
+    p=straight if boarding_length_m is None else boarding_length_m
+    if type(p) not in (int,float) or not isfinite(p) or p<=0 or p>straight:
+        raise ValueError('Boarding length must lie within the actual alignment straight')
     if p<length+2*stopping_tolerance_m or abs(alignment['requirements']['train_length_m']-length)>1e-9:
         raise ValueError('Same formation must fit declared straight platform with stop tolerance')
     width=layout['car_width_m'];spacing=track_centres_y_m[1]-track_centres_y_m[0]
@@ -50,7 +55,7 @@ def stations(body,alignment,*,platform_width_m,track_centres_y_m,nominal_boardin
             near=y+width/2+nominal_boarding_gap_m
             faces.append(dict(track=i,boarding_side_body_y='+Y',vehicle_body_orientation='+route in both travel directions',
                 platform_polygon_local_xy_m=[[-p/2,near],[p/2,near],[p/2,near+platform_width_m],[-p/2,near+platform_width_m]],
-                nominal_platform_top_above_rail_m=layout['floor_top_m']+lift,
+                nominal_platform_top_above_rail_m=layout['floor_top_m'],
                 door_landing_centres_local_xy_m=[[x,near] for x in door_x],door_clear_width_m=layout['door_clear_width_m']))
         sites.append(dict(id=stop['id'],longitude=stop['longitude'],latitude=stop['latitude'],
             chainage_m=stop['chainage_m'],tangent_xy=deepcopy(stop['tangent_xy']),boarding_faces=faces))
