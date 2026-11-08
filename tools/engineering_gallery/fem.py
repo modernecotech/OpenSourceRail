@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
+import zipfile
 
 
 SCHEMA = "osr-civil-gallery-replay/1"
@@ -171,7 +172,11 @@ def validate_field(field, mesh, *, expected_probe=None):
     for name in ("points", "displacement", "von_mises"):
         if not np.isfinite(field[name]).all():
             raise ValueError("Non-finite native field: " + name)
-    if not np.array_equal(field["points"], np.asarray([nodes[str(n)] for n in labels])):
+    # FieldCraft's ASCII Points writer rounds to ten decimal places in metres.
+    # This is an exchange-format precision check, not a physical tolerance.
+    original_xyz = np.asarray([nodes[str(n)] for n in labels])
+    coordinate_residual = float(np.abs(field["points"] - original_xyz).max())
+    if coordinate_residual > 5.1e-11:
         raise ValueError("Native mesh coordinates changed")
     cell_labels = [int(v) for v in field["element_label"]]
     if len(cell_labels) != len(elements) or set(cell_labels) != {int(n) for n in elements}:
@@ -194,7 +199,9 @@ def validate_field(field, mesh, *, expected_probe=None):
             raise ValueError("Fresh full-field probe differs from retained result")
     return dict(nodes=len(nodes), cells=len(elements), all_nodes_have_result=True,
                 max_displacement_m=float(np.linalg.norm(field["displacement"], axis=1).max()),
-                max_nodal_von_mises_Pa=float(field["von_mises"].max()))
+                max_nodal_von_mises_Pa=float(field["von_mises"].max()),
+                ascii_coordinate_max_residual_m=coordinate_residual,
+                ascii_coordinate_rounding_bound_m=5.1e-11)
 
 
 def run(output):
@@ -231,6 +238,32 @@ def run(output):
             payload = native.payload(reply)
             write(output / "native-payload.json", payload)
             batch_results(payload, len(commands))
+    return finalize(output)
+
+
+def finalize(output):
+    """Validate already exported results without issuing any native solve."""
+    output = Path(output).resolve()
+    request = json.loads((output / "request.json").read_bytes()); check_seal(request)
+    result = json.loads((output / "result.json").read_bytes()); check_seal(result)
+    result.pop("evaluation_id")
+    if result["execution"]["execution"] != "executed":
+        raise ValueError("A completed native execution is required")
+    # The binary saved mesh is a stronger exact-geometry check than the
+    # deliberately rounded ASCII coordinate export.
+    with zipfile.ZipFile(output / "inputs/rolling-4.fieldcraft") as before, zipfile.ZipFile(output / "execution/solved.fieldcraft") as after:
+        original = before.read("mesh.bin"); fresh = after.read("mesh.bin")
+        if original != fresh:
+            raise ValueError("Saved native mesh bytes changed")
+        if "results.bin" not in after.namelist():
+            raise ValueError("Full native solved results were not saved")
+        meta = json.loads(after.read("fieldcraft.json"))
+        for name, record in meta["parts"].items():
+            value = after.read(name)
+            if len(value) != record["bytes"] or hashlib.sha256(value).hexdigest() != record["sha256"]:
+                raise ValueError("Native saved-project part integrity failed")
+        result["native_mesh_bin_sha256"] = hashlib.sha256(fresh).hexdigest()
+        result["native_mesh_byte_identical"] = True
     field = read_vtu(output / "execution/field.vtu")
     mesh = json.loads((output / "inputs/mesh.json").read_bytes())
     validation = validate_field(field, mesh, expected_probe=(EXPECTED["probe_xyz_m"], EXPECTED["probe_U_m"]))
@@ -240,7 +273,8 @@ def run(output):
     result.update(validation=validation, source_unchanged=True,
         full_field_sha256=digest(output / "execution/field.vtu"),
         saved_results_sha256=digest(output / "execution/solved.fieldcraft"),
-        probe_U_m=EXPECTED["probe_U_m"], limitations=LIMITATIONS)
+        probe_U_m=EXPECTED["probe_U_m"], limitations=LIMITATIONS,
+        postprocessor_sha256=digest(__file__))
     write(output / "result.json", sealed(result))
     return result
 
@@ -337,9 +371,10 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest="action",required=True)
     a=sub.add_parser("prepare");a.add_argument("source");a.add_argument("output")
     a=sub.add_parser("run");a.add_argument("output")
+    a=sub.add_parser("finalize");a.add_argument("output")
     a=sub.add_parser("plot");a.add_argument("output");a.add_argument("path")
     a=p.parse_args()
-    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else plot(a.output,a.path)
+    value=prepare(a.source,a.output) if a.action=="prepare" else run(a.output) if a.action=="run" else finalize(a.output) if a.action=="finalize" else plot(a.output,a.path)
     print(json.dumps(value,sort_keys=True))
 
 

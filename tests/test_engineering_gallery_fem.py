@@ -23,6 +23,13 @@ def test_full_native_field_and_quadratic_surface():
     assert len(exterior_triangles(m))==16
 
 
+def test_documented_ascii_rounding_is_separate_from_mesh_identity():
+    f,m=field();f["points"][0,0]=5e-11
+    assert validate_field(f,m)["ascii_coordinate_max_residual_m"]==5e-11
+    f["points"][0,0]=5e-10
+    with pytest.raises(ValueError):validate_field(f,m)
+
+
 @pytest.mark.parametrize("fault",["missing-result","nan","node","xyz","cell","connectivity","probe"])
 def test_no_silent_unknown_or_changed_field(fault):
     f,m=field();probe=None
