@@ -28,6 +28,9 @@ pub struct ResearchFeedbackV2Diagnostics {
     pub full_brake_required_for_preload_n: f64,
     pub final_state: String,
     pub speed_governor_steps: u64,
+    pub maximum_internal_jerk_m_s3: Option<f64>,
+    pub normal_jerk_target_met: Option<bool>,
+    pub terminal_jerk_resolved: Option<bool>,
     pub conditional_only: bool,
 }
 
@@ -178,6 +181,9 @@ impl Runtime {
             full_brake_required_for_preload_n: self.preload_hold,
             final_state: self.state.name().into(),
             speed_governor_steps: self.governor_steps,
+            maximum_internal_jerk_m_s3: None,
+            normal_jerk_target_met: None,
+            terminal_jerk_resolved: None,
             conditional_only: true,
         }
     }

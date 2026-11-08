@@ -1263,7 +1263,14 @@ pub(super) fn evaluate_with_recovery(
         r.fault_stop_in_route = false;
     }
     if let Some(q) = &research_v2 {
-        diag.research_v2 = Some(q.report(c, p));
+        let mut report = q.report(c, p);
+        report.maximum_internal_jerk_m_s3 = Some(r.maximum_absolute_jerk_m_s3);
+        report.terminal_jerk_resolved = Some(r.terminal_jerk_resolved);
+        report.normal_jerk_target_met = Some(
+            r.maximum_absolute_jerk_m_s3 <= c.comfort_jerk_m_s3 * (1. + 1e-6)
+                && r.terminal_jerk_resolved,
+        );
+        diag.research_v2 = Some(report);
     }
     r.control = Some(diag);
     Ok(r)

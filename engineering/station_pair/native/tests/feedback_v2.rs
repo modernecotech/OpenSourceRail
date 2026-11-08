@@ -147,6 +147,14 @@ fn explicit_feasible_preload_domain_completes_inclines_and_stops_on_creep_faults
         assert_eq!(d.final_state, "FinalHold");
         assert!(d.command_history_guaranteed_brake_n >= 1500. - 1e-7);
         assert!(!d.brake_force_observed);
+        assert_eq!(
+            d.maximum_internal_jerk_m_s3,
+            Some(r.maximum_absolute_jerk_m_s3)
+        );
+        assert_eq!(d.terminal_jerk_resolved, Some(r.terminal_jerk_resolved));
+        if r.maximum_absolute_jerk_m_s3 > c.comfort_jerk_m_s3 * (1. + 1e-6) {
+            assert_eq!(d.normal_jerk_target_met, Some(false));
+        }
         if grade < 0. {
             assert!(d.speed_governor_steps > 0 && r.brake_heat_j > 0.);
         }
@@ -249,6 +257,42 @@ fn invalid_explicit_strategy_geometry_and_preload_inputs_fail_closed() {
         }
         assert!(run(&c).is_err());
     }
+}
+
+#[test]
+fn wind_and_weak_low_speed_drive_do_not_inherit_an_unavailable_preload_guarantee() {
+    let mut wind = fixture(0.02);
+    wind.headwind_m_s = 5.;
+    let r = run(&wind).unwrap();
+    assert_eq!(r.state, "controller-v2-domain-held");
+    assert!(
+        r.control
+            .unwrap()
+            .research_v2
+            .unwrap()
+            .domain_holds
+            .iter()
+            .any(|q| q.contains("wind"))
+    );
+    let mut weak = fixture(0.02);
+    weak.drive.as_mut().unwrap().points.insert(
+        1,
+        ForcePoint {
+            speed_m_s: 0.1,
+            force_n: 100.,
+        },
+    );
+    let r = run(&weak).unwrap();
+    assert_eq!(r.state, "controller-v2-domain-held");
+    assert!(
+        r.control
+            .unwrap()
+            .research_v2
+            .unwrap()
+            .domain_holds
+            .iter()
+            .any(|q| q.contains("creep observation"))
+    );
 }
 
 #[test]
