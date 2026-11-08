@@ -13,7 +13,9 @@ COLORS={'stock':('91a8b4',.55,.31,1.),'steel':('4d6978',.68,.26,1.),
         'seat':('1c8994',.10,.38,.84),'envelope':('d5b273',.05,.42,.22),
         'panel':('dbe6e9',.25,.35,.44),'rubber':('34434b',.02,.66,1.),
         'concrete':('cad3ce',.0,.66,1.),'aluminium':('b1c3ce',.72,.25,1.),
-        'electrical':('c29856',.20,.40,.36),'ground':('edf1ee',.0,.75,1.)}
+        'electrical':('c29856',.20,.40,.36),'gfrp':('e1e9e4',.03,.52,1.),
+        'foam':('d7caae',0.,.78,1.),'polymer':('c5cece',.02,.58,1.),
+        'glass':('79a4ad',.02,.21,.48),'copper':('b4774b',.80,.30,1.),'ground':('edf1ee',.0,.75,1.)}
 MATERIALS={}
 
 
@@ -28,7 +30,7 @@ def material(name):
     m=bpy.data.materials.new(name);m.use_nodes=True;bs=m.node_tree.nodes.get('Principled BSDF')
     bs.inputs['Base Color'].default_value=(*rgb,1);bs.inputs['Metallic'].default_value=metal;bs.inputs['Roughness'].default_value=rough
     bs.inputs['Alpha'].default_value=alpha;m.diffuse_color=(*rgb,alpha)
-    if name not in ('rubber','ground','envelope','panel','electrical','seat'):
+    if name in ('stock','steel','aluminium','concrete','copper'):
         bevel=m.node_tree.nodes.new('ShaderNodeBevel');bevel.inputs['Radius'].default_value=.0025;bevel.samples=2
         m.node_tree.links.new(bevel.outputs['Normal'],bs.inputs['Normal'])
     MATERIALS[name]=m;return m
@@ -59,9 +61,16 @@ def vehicle(scene):
               or (assembly in ('body/cladding','body/sideframe','body/fixed-window') and y<-.65))
         if omit:hidden.append(p['id']);continue
         shown.append(p['id']);count+=p['count'];g=p['geometry'];key=p['part_id']
-        mat=('stock' if g['exact_stock'] else 'seat' if assembly in ('body/chair','body/wheelchair') else
-             'rubber' if any(s in key for s in ('rubber','wheel','bellows','gasket')) else
-             'panel' if assembly.startswith('body/') else 'electrical' if assembly.startswith('services/') else 'envelope')
+        source_material=p['material_id'].split('/')[-1]
+        if not g['exact_stock']:
+            mat='seat' if assembly in ('body/chair','body/wheelchair') else 'panel' if assembly.startswith('body/') else 'electrical' if assembly.startswith('services/') else 'envelope'
+        else:
+            mat=('gfrp' if source_material in ('gfrp','fabric','coating') else
+                 'foam' if source_material in ('core','foam','thermal-barrier') else
+                 'rubber' if source_material in ('rubber','elastomer','rail-elastomer','belt','brake-friction') else
+                 'polymer' if source_material in ('polymer','rail-polymer','adhesive') else
+                 'glass' if source_material=='glass' else 'copper' if source_material=='copper' else
+                 'aluminium' if source_material.startswith('al') else 'stock')
         if key not in grouped:grouped[key]=[mat,[]]
         if key not in cached:cached[key]=_mesh(g)
         R=p['rotation'];tris=cached[key]
@@ -84,9 +93,9 @@ def civil(scene):
     source=read(scene['input_path']);objects=[];ids=[]
     for e in source['entities']:
         value=dict(e['geometry'],id=e['id'],shape=e['shape'],material='steel')
-        o=module.make(value);o.data.materials.clear()
+        o=module.make(value)
         m=e['material'];mat='concrete' if 'concrete' in m else 'rubber' if 'bearing' in m else 'aluminium' if 'aluminium' in m else 'steel'
-        o.data.materials.append(material(mat));objects.append(o);ids.append(e['id'])
+        o.material_slots[0].link='OBJECT';o.material_slots[0].material=material(mat);objects.append(o);ids.append(e['id'])
     triangles=sum(len(o.data.polygons)*2 for o in objects)
     if triangles>scene['maximum_triangles'] or len(objects)>scene['maximum_mesh_groups']:raise ValueError('Civil presentation budget exceeded')
     return objects,dict(shown_source_entity_ids=ids,hidden_source_entity_ids=[],source_entities=len(objects),
