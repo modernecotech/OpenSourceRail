@@ -56,6 +56,7 @@ def summary(study):
 def frontier(study):
     tasks=[
         ('powered-bogie','Detail real motor/gear housings, shaft offsets, revised bogie frame and mounts; resolve clashes before installed admission','geometry and supplier interface'),
+        ('wheel-rail-profile','Verify actual wheel tread/flange profiles, contact, clearances, wear and derailment protection; nominal rail-head-centre alignment is a declared geometry hypothesis','running gear analysis and physical tests'),
         ('body-joints','Independently evaluate tapered underframe, welds, local buckling, fatigue, crash and load-transfer joints','native analysis and physical tests'),
         ('civil-bearing-detail','Verify real bearing contact, segment joints, cracking, prestress, fatigue and construction stages; an elastic method comparison does not establish these','native analysis and physical tests'),
         ('terminal-control','Resolve actual turnout geometry, single-sided platform access, interlocking, standstill jerk, brake/adhesion/WSP and degraded rescue','dynamics and physical tests'),
@@ -82,7 +83,7 @@ def readme(study):
     if native['applicable']:
         r=native['report'];u=r['results'][-1]['fieldcraft']['displacement_m'][2]*1000
         changes=' / '.join(f"{x*100:.4f}%" for x in native['refinement_changes'])
-        civil_text=f'''The **exact current normal-base load** has a source-bound three-mesh elastic comparison. Correcting the unintended support clamp gives {abs(u):.4f}mm fine-mesh deflection, refinement changes {changes}, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-final-load01-proof.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier biased support-patch results and their failed6.99% refinement remain retained. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.'''
+        civil_text=f'''The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give {abs(u):.4f}mm fine-mesh deflection, refinement changes {changes}, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-final-load01-proof.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.'''
     else:
         civil_text='This variant has no exact matching native civil result; earlier or different-load FEM is not inherited. Current loads need their own mesh, contact and convergence evidence.'
     for r in s['rows']:
@@ -98,6 +99,8 @@ def readme(study):
 One physical bundle connects a six-car research body, counted drive/interface additions, axle reactions, civil quantities, terminal layout, counted fleet, causal energy-store simulation and all fourteen lifecycle scopes. The passive v0.6 reference remains unchanged; this powered-wheel research comparison does not select installed propulsion.
 
 The underframe batch retains both failures and alternatives. A constant-depth girder clashed with the bogies. Shallow-end revisions were recalculated; the aluminium option failed its declared crowd roll target, so this packet details the eligible steel family. Joint stiffness/material properties and functional allocations remain provisional. No roof stiffness is credited. Every removed passive-secondary component is explicit in this separate research body.
+
+The wheel/rail interface now carries an explicit inner-face gauge, nominal rail-head width and common contact-centre datum through vehicle placements, civil rails, fasteners and numerical load patches. Wheel envelopes have their axle direction along the track's transverse axis. These definitions correct the earlier inconsistent rail spacing and wheel-envelope orientation; actual tread/flange profiles and contact behaviour still require engineering verification.
 
 ![Calculated civil assembly](civil-assembly.svg)
 

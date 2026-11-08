@@ -46,6 +46,9 @@ def test_new_mass_controller_and_driven_adhesion_are_same_candidate(installed):
     assert q['control']['end_of_authority_m']==1500.
     p=axle_packet(installed)
     assert p['mass_evaluation_id']==installed['evaluation_id']
+    assert p['track_interface']==installed['physical_definition']['track_interface']
+    assert p['track_interface']['inner_face_gauge_m']==1.435
+    assert p['track_interface']['nominal_contact_centres_y_m']==[-.7525,.7525]
     assert p['evaluation_id']==identity({k:v for k,v in p.items() if k!='evaluation_id'})
 
 

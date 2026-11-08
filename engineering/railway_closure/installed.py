@@ -40,6 +40,12 @@ def integrate(body, *, with_recovery=True, root=ROOT):
     """Keep static force and first moment exact; apply no dynamic factor here."""
     root = Path(root)
     _validate_body(body, root)
+    track = deepcopy(body['physical_definition']['track_interface'])
+    half_contact = (track['inner_face_gauge_m'] + track['nominal_rail_head_width_m']) / 2
+    if (track['schema'] != 'osr-wheel-rail-interface/1'
+            or len(track['nominal_contact_centres_y_m']) != 2
+            or any(abs(a-b) > 1e-12 for a,b in zip(track['nominal_contact_centres_y_m'],[-half_contact, half_contact]))):
+        raise ValueError('Wheel/rail gauge and contact datums disagree')
     parent = next(d for d in recovery.variants(root)[3]
                   if d['variant']['family'] == 'powered-wheel'
                   and d['technology'] == ('hydraulic' if with_recovery else None)
@@ -59,6 +65,7 @@ def integrate(body, *, with_recovery=True, root=ROOT):
     driven = list(range(0, 24, 2))
     physical = dict(
         schema='osr-installed-railway-research/1', body_candidate_id=body['candidate_id'],
+        track_interface=track,
         propulsion_parent_candidate_id=v['candidate_id'], family='powered-wheel',
         drive_geometry=v['geometry'], drive_inventory=v['inventory'],
         station_energy_module=v['physical_definition'].get('station_energy_module'),
@@ -141,6 +148,7 @@ def axle_packet(installed):
     return seal(dict(schema='osr-pilot-axle-loads/1', candidate_id=installed['candidate_id'],
                      vehicle_candidate_id=installed['vehicle_candidate_id'],
                      mass_evaluation_id=installed['evaluation_id'],
+                     track_interface=deepcopy(installed['physical_definition']['track_interface']),
                      load_cases=[{k: deepcopy(r[k]) for k in fields} for r in installed['load_cases']],
                      line_equipment=deepcopy(installed['physical_definition']['line_conductor']),
                      source_sha256=installed['source_sha256'],
