@@ -37,7 +37,7 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
     from engineering.vehicle_installation import underframe
     root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
-    reused_receipts=set()
+    reused_receipts=set();prior_receipt_ids=set()
     if reuse_native is not None:
         from engineering.station_pair import native_bridge as bridge
         origin=Path(reuse_native).resolve()
@@ -52,6 +52,7 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
             # bridges still validate binary, input, resource and output hashes.
             subprocess.run(['cp','--archive','--reflink=auto',str(source),str(out/group)],check=True)
             reused_receipts.update(digest(q) for q in (out/group).rglob('receipt.json'))
+            prior_receipt_ids.update(json.loads(q.read_bytes())['receipt_id'] for q in (out/group).rglob('receipt.json'))
     write(out,'source-before.json',before)
     prepared=motion.prepare(root)
     parent=underframe.load_parent(root/PARENT)
@@ -153,15 +154,19 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None):
                service_plans=plans,records=records,battery_alternatives=battery,battery_thermal_proxies=thermal,
                serial_requests=requests,serial_results=serial,source_sha256=before,
                priced_cities_replaced=False,integrated_selection=None,
-               scope='Calculated research outline and disjoint manufacturing/cost records; native FEM at an earlier exact load revision is comparison evidence only, not inherited by this candidate.',**FLAGS)
+               scope='Calculated research outline and disjoint manufacturing/cost records; exact native FEM applicability is reported per candidate and evaluation, without inherited physical qualification.',**FLAGS)
     value['study_id']=identity(value)
     write(out,'study.json.gz',gzip.compress(encoded(value),mtime=0))
     after=sources(root);write(out,'source-after.json',after)
+    used_receipt_ids={r['native_receipt_id'] for r in [*serial,*results]}
     usage=dict(wall_s=time.monotonic()-start,phase_wall_s=timings,
                coordinator_peak_rss_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                source_unchanged=before==after,fleet_requests=len(meta),serial_requests=len(requests),
                native_cache_origin=None if reuse_native is None else str(Path(reuse_native).resolve()),
-               unchanged_native_batch_receipts_reused=sum(digest(q) in reused_receipts for q in out.rglob('receipt.json')),
+               prior_native_batch_receipts_retained=sum(digest(q) in reused_receipts for q in out.rglob('receipt.json')),
+               native_batches_used=len(used_receipt_ids),
+               unchanged_native_batch_receipts_reused=len(used_receipt_ids & prior_receipt_ids),
+               native_batches_executed=len(used_receipt_ids-prior_receipt_ids),
                run_bytes_before_manifest=sum(q.stat().st_size for q in out.rglob('*') if q.is_file()))
     write(out,'usage.json',usage)
     files={q.relative_to(out).as_posix():digest(q) for q in out.rglob('*') if q.is_file()}
