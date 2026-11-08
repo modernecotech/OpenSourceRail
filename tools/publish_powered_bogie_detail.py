@@ -50,7 +50,7 @@ def svg(body,report,case):
         '<rect width="1280" height="1190" fill="#f8fafc"/>',
         '<style>text{font-family:Arial,sans-serif;fill:#102a43} .title{font-size:28px;font-weight:700}.label{font-size:16px}.small{font-size:13px}.dim{font-size:15px;fill:#486581}</style>',
         '<text class="title" x="52" y="54">Powered-bogie research assembly</text>',
-        '<rect x="1000" y="24" width="225" height="42" rx="8" fill="#b91c1c"/><text x="1021" y="52" fill="white" style="fill:white;font-size:20px;font-weight:700">HOLD · fit unresolved</text>',
+        '<rect x="970" y="24" width="255" height="42" rx="8" fill="#b91c1c"/><text x="990" y="52" fill="white" style="fill:white;font-size:20px;font-weight:700">HOLD · fit unresolved</text>',
         '<text class="label" x="52" y="88">Fixed 2.1 m wheelbase · 1,435 mm inner-face gauge · 760 mm nominal new wheel</text>',
         '<text class="small" x="52" y="115">Blue: counted fabricated stock. Hatched amber: assumed drive space. Red: retained body space conflicts.</text>',
         '<text class="label" x="52" y="149">PLAN · same scale in x and y · forward →</text>']
@@ -79,9 +79,9 @@ def svg(body,report,case):
             out.append(f'<path d="M170 {base}H1110" stroke="#334155" stroke-width="2"/>')
             out.append(f'<path d="M170 {base-.9595*scale}H1110" stroke="#b91c1c" stroke-dasharray="8 6"/>')
         out.append('</g>')
-    out += ['<text class="small" x="715" y="464">Motor 486 kg · external mass owner</text>',
-        '<text class="small" x="390" y="289">Gear + couplings 310 kg · external owner</text>',
-        '<text class="small" x="52" y="724">3.24 m side rails replace 2.80 m stock. Crossmember locations: x = −1.54 m and +0.42 m.</text>',
+    out += ['<rect x="459" y="431" width="125" height="44" rx="4" fill="white" fill-opacity=".9"/><text class="small" x="521" y="449" text-anchor="middle">Motor 486 kg</text><text class="small" x="521" y="466" text-anchor="middle">external owner</text>',
+        '<rect x="335" y="295" width="235" height="45" rx="4" fill="white" fill-opacity=".9"/><text class="small" x="452" y="313" text-anchor="middle">Gear + couplings 310 kg</text><text class="small" x="452" y="330" text-anchor="middle">external owner · housing unknown</text>',
+        '<text class="small" x="52" y="737">3.24 m side rails replace 2.80 m stock. Crossmember locations: x = −1.54 m and +0.42 m.</text>',
         '<path d="M377.5 753H902.5 M377.5 745V761 M902.5 745V761" stroke="#486581"/>',
         '<text class="dim" x="548" y="778">2,100 mm wheelbase</text>',
         '<text class="label" x="52" y="813">SIDE · same scale in x and z · railhead datum z = 0</text>',
