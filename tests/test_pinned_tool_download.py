@@ -44,6 +44,7 @@ def test_api_fallback_retains_failed_attempt_and_publishes_only_verified_bytes(t
     assert calls[1][-1]=='https://github.com/owner/repo/releases/download/vfixture/fixture.tar.gz'
     assert receipt['attempts'][0]['returncode']==22 and receipt['attempts'][1]['sha256']==pin['sha256']
     assert receipt['credentials_sent'] is False
+    assert calls[0][:2]==['curl','--disable']
     assert (tmp_path/'archive.attempts/attempt-01.stderr.log').read_bytes()==b'fixture response\n'
     assert json.loads((tmp_path/'archive.download.json').read_text())==receipt
     assert '--location' in calls[0] and calls[0][calls[0].index('--max-time')+1]=='180'

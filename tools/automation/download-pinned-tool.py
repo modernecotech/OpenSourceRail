@@ -73,7 +73,9 @@ def download(tool,output,*,runner=subprocess.run,sleep=time.sleep):
         if shutil.disk_usage(output.parent).free < pin['bytes']+MIN_FREE_BYTES:
             raise RuntimeError('Insufficient disk reserve for bounded tool download')
         partial=attempts/f'attempt-{index:02d}.part';log=attempts/f'attempt-{index:02d}.stderr.log'
-        command=['curl','--proto','=https','--proto-redir','=https','--fail','--location',
+        # --disable must be first: an inherited .curlrc must not add credentials,
+        # alternate URLs, unbounded retries or TLS-verification bypasses.
+        command=['curl','--disable','--proto','=https','--proto-redir','=https','--fail','--location',
             '--silent','--show-error','--retry','0','--connect-timeout','20',
             '--max-time',str(ATTEMPT_WALL_S),'--max-filesize',str(pin['bytes']),
             '--header','Accept: application/octet-stream','--header','Cache-Control: no-cache',
