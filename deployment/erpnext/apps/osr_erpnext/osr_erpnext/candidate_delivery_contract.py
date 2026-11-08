@@ -237,6 +237,11 @@ def validate_context(value):
     if value.get('schema')!='osr-wheel-delivery-project/1' or value['environment']!='simulation':raise ValueError('Simulation project context required')
     for key in ('project','company','city'):text(value[key],key,150)
     hash_id(value['proposal_id']);hash_id(value['proposal_sha256'])
+    if type(value['project_trainsets']) is not int or value['project_trainsets']<1:raise ValueError('Explicit project fleet required')
+    for name,row in value['source_patterns'].items():
+        text(name,'source pattern')
+        if row['part_id'] not in value['source_parts'] or type(row['count_per_train']) is not int or row['count_per_train']<1:
+            raise ValueError('Counted source pattern required')
     return value
 
 

@@ -1,0 +1,524 @@
+"""Authenticated, immutable wheel-candidate research delivery in native ERP.
+
+The adapter creates reviewed drafts only. It never submits purchasing,
+manufacturing, installation or movement authority. Native campaign transactions
+are separate explicit actions in a disposable simulation site.
+"""
+from copy import deepcopy
+from hashlib import sha256
+import json
+from pathlib import Path
+import re
+
+import frappe
+from . import candidate_delivery_contract as contract
+
+
+def _role(name):
+    if name not in frappe.get_roles():frappe.throw(name+' required',frappe.PermissionError)
+
+
+def _json(value):
+    return frappe.parse_json(value) if isinstance(value,str) else value
+
+
+def _write(path,value):
+    with path.open('x') as stream:json.dump(value,stream,sort_keys=True,separators=(',',':'),allow_nan=False)
+
+
+def _context(project, *, write=False):
+    if frappe.session.user=='Guest':frappe.throw('Authenticated project access required',frappe.PermissionError)
+    doc=frappe.get_doc('Project',project);doc.check_permission('write' if write else 'read')
+    folder=Path(frappe.get_site_path('private','files','osr-wheel-delivery',contract.digest(project)))
+    context=contract.validate_context(json.loads((folder/'context.json').read_text()))
+    if context['project']!=doc.name or context['company']!=doc.company or context['city']!=doc.custom_osr_city:
+        frappe.throw('Controlled project/city/company binding changed')
+    if frappe.session.user!='Administrator':
+        policy=(frappe.conf.get('osr_integration_users') or {}).get(frappe.session.user,{})
+        if (context['city'] not in policy.get('cities',[]) or context['environment'] not in policy.get('environments',[]) or
+                project not in policy.get('projects',[])):
+            frappe.throw('City, project and simulation environment access required',frappe.PermissionError)
+    if write:
+        # Serialise mutable software indexes and draft creation through the
+        # authoritative native project transaction, not a browser revision.
+        frappe.db.sql('SELECT name FROM `tabProject` WHERE name=%s FOR UPDATE',(project,))
+    return doc,context,folder
+
+
+def provision_project(project,context):
+    """Explicit administrator provisioning, not a public candidate-selection API.
+
+    The caller obtains this context from the verified source proposal compiler.
+    A different candidate/revision requires a separate reviewed project; no
+    existing orders or mappings are migrated by changing a current pointer.
+    """
+    if frappe.session.user!='Administrator':frappe.throw('Explicit administrator provisioning required',frappe.PermissionError)
+    context=contract.validate_context(_json(context));doc=frappe.get_doc('Project',project);doc.check_permission('write')
+    if (context['project']!=project or context['company']!=doc.company or context['city']!=doc.custom_osr_city):
+        frappe.throw('Provisioned source must match native project/company/city')
+    folder=Path(frappe.get_site_path('private','files','osr-wheel-delivery',contract.digest(project)))
+    folder.mkdir(parents=True,exist_ok=True);target=folder/'context.json'
+    if target.exists():
+        if json.loads(target.read_text())!=context:frappe.throw('Project source binding is immutable; create a separately reviewed revision project')
+    else:_write(target,context)
+    return dict(context_sha256=context['sha256'],**contract.FLAGS)
+
+
+def _files(project, pack, file_map):
+    """Read actual native private File content, never client hash assertions."""
+    wanted={r['path']:r for r in pack['artifacts']}
+    if not isinstance(file_map,dict) or set(file_map)!=set(wanted):frappe.throw('Exact controlled artifact File mapping required')
+    records=[];definitions={e['path']:e['definition'] for c in pack['components'] for e in c['documents'].values()}
+    for name in sorted(wanted):
+        entry=wanted[name];doc=frappe.get_doc('File',file_map[name]);doc.check_permission('read')
+        if doc.attached_to_doctype!='Project' or doc.attached_to_name!=project or not doc.is_private:
+            frappe.throw('Controlled artifacts must be private Files attached to this exact project')
+        raw=doc.get_content();raw=raw.encode() if isinstance(raw,str) else raw
+        if len(raw)!=entry['bytes'] or sha256(raw).hexdigest()!=entry['sha256']:
+            frappe.throw('Controlled native artifact bytes differ: '+name)
+        if name in definitions and json.loads(raw)!=definitions[name]:frappe.throw('Controlled sidecar differs from review pack')
+        records.append(dict(path=name,name=doc.name,sha256=entry['sha256'],bytes=len(raw),modified=str(doc.modified)))
+    return records
+
+
+@frappe.whitelist(methods=['POST'])
+def register_pack(project,pack,files):
+    """Propose an exact source/file set; independent review remains required."""
+    _role('Manufacturing Manager');doc,context,folder=_context(project,write=True)
+    pack=contract.validate_pack(_json(pack));contract.bind_pack(pack,context);files=_json(files)
+    observations=_files(project,pack,files)
+    record=contract.seal(dict(schema='osr-wheel-native-review-registration/1',project=project,
+        context_sha256=context['sha256'],pack=pack,files=files,file_snapshot=observations,
+        proposed_by=frappe.session.user,**contract.FLAGS))
+    target=folder/('pack-'+pack['sha256']+'.json')
+    if target.exists():
+        old=json.loads(target.read_text());contract.sealed(old)
+        if any(old[k]!=record[k] for k in ('pack','files','file_snapshot','context_sha256')):
+            frappe.throw('Registered candidate/artifact set cannot be overwritten')
+        return dict(registered=False,pack_sha256=pack['sha256'],proposed_by=old['proposed_by'],**contract.FLAGS)
+    _write(target,record)
+    return dict(registered=True,pack_sha256=pack['sha256'],proposed_by=record['proposed_by'],**contract.FLAGS)
+
+
+def _pack(project,pack_sha256,write=False):
+    contract.hash_id(pack_sha256);doc,context,folder=_context(project,write=write)
+    record=contract.sealed(json.loads((folder/('pack-'+pack_sha256+'.json')).read_text()))
+    if record['context_sha256']!=context['sha256']:frappe.throw('Registered project revision differs')
+    contract.bind_pack(record['pack'],context)
+    current=_files(project,record['pack'],record['files'])
+    if current!=record['file_snapshot']:frappe.throw('Controlled artifact changed after registration; propose a new reviewed revision')
+    return doc,context,folder,record
+
+
+def _specs(project,pack,item_group):
+    group=frappe.get_doc('Item Group',item_group);group.check_permission('read')
+    if group.is_group:frappe.throw('Select a leaf Item Group')
+    prefix='SIM-WD-'+contract.digest([project.name,pack['sha256']])[:12].upper()
+    items=[];boms=[];stations=[];operations=[];routes=[];components=[]
+    for component in pack['components']:
+        source=component['source_part'];short=contract.digest(source['id'])[:10].upper();base=prefix+'-'+short
+        provenance=json.dumps(dict(schema='osr-wheel-native-source/1',pack_sha256=pack['sha256'],
+            component_id=source['id'],component_definition_id=source['component_definition_id'],
+            source_part_sha256=component['source_part_sha256'],identities=pack['identities'],
+            cost_basis=source['cost_basis'],valuation_mode=component['conversion']['valuation_mode'],
+            maturity='controlled-research-draft',research_holds=sorted({hold for entry in component['documents'].values()
+                for hold in entry['definition']['research_holds']}),
+            native_routing_cost='non-additive source-account allocation; no zero-labour claim',**contract.FLAGS),sort_keys=True)
+        raw=[]
+        for i,line in enumerate(component['stock_lines']):
+            code=base+'-R'+str(i+1)
+            items.append(dict(doctype='Item',item_code=code,item_name=('SIM stock '+source['name'])[:140],
+                item_group=item_group,stock_uom=line['uom'],is_stock_item=1,is_purchase_item=1,
+                inspection_required_before_purchase=1,description=provenance))
+            raw.append(dict(item_code=code,qty=line['quantity'],rate=line['rate'],uom=line['uom']))
+        fg=base+'-FG';items.append(dict(doctype='Item',item_code=fg,item_name=('SIM '+source['name'])[:140],
+            item_group=item_group,stock_uom=contract.UNIT_MAP[source['unit']],is_stock_item=1,
+            has_serial_no=1,has_batch_no=1,description=provenance))
+        route_rows=[];steps=component['documents']['routing']['definition']['operations']
+        process_allowance=(component['conversion']['direct_process_allowance_usd']
+            if component['conversion']['valuation_mode']=='quantified-source-stock' else 0.)
+        total_minutes=sum(s['setup_minutes']+s['run_minutes_per_unit'] for s in steps)
+        process_hour_rate=process_allowance*60/total_minutes
+        for i,step in enumerate(steps):
+            station=base+'-WS'+str(i+1);operation=base+'-OP'+str(i+1)
+            stations.append(dict(doctype='Workstation',workstation_name=station,description=step['workstation'],
+                production_capacity=1,hour_rate_labour=process_hour_rate))
+            operations.append(dict(doctype='Operation',name=operation,description=step['operation'],workstation=station))
+            # Cost already resides in source-priced inputs or a separately
+            # declared process allowance. Time is resource information; no
+            # extra price is added to the existing project ledger here.
+            route_rows.append(dict(operation=operation,workstation=station,
+                time_in_mins=step['setup_minutes']+step['run_minutes_per_unit'],hour_rate=process_hour_rate,description=step['operation']))
+        routing=base+'-ROUTE';routes.append(dict(doctype='Routing',routing_name=routing,operations=route_rows))
+        boms.append(dict(doctype='BOM',item=fg,company=project.company,quantity=1,currency='USD',
+            with_operations=1,routing=routing,items=raw,operations=route_rows))
+        components.append(dict(part_id=source['id'],finished_item=fg,raw_items=[r['item_code'] for r in raw],
+            routing=routing,quantity_per_train=source['quantity_per_train'],quantity_project=source['quantity_project'],
+            source_unit=source['unit'],source_direct_usd_per_unit=source['counted_direct_parts_process_usd_per_train']['base']/source['quantity_per_train'],
+            native_stock_usd_per_unit=sum(r['qty']*r['rate'] for r in raw),
+            native_direct_process_allowance_usd_per_unit=process_allowance,
+            documents=component['documents']))
+    return dict(items=items,workstations=stations,operations=operations,routings=routes,boms=boms,components=components)
+
+
+def _required_permissions(*,create):
+    for dt in ('Item','BOM','Workstation','Operation','Routing'):
+        frappe.has_permission(dt,'read',throw=True)
+        if create:frappe.has_permission(dt,'create',throw=True)
+
+
+def _named(spec):
+    return spec.get('item_code',spec.get('workstation_name',spec.get('routing_name',spec.get('name'))))
+
+
+def _fields(value,template):
+    """Retain selected native fields without mutable child-row bookkeeping."""
+    if isinstance(template,list):
+        if len(value)!=len(template):frappe.throw('Native child-row count differs')
+        return [_fields(row,mask) for row,mask in zip(value,template)]
+    if isinstance(template,dict):return {k:_fields(value.get(k),mask) for k,mask in template.items()}
+    return deepcopy(value)
+
+
+def _snapshot(specs):
+    result=[]
+    for key in ('items','workstations','operations','routings'):
+        for spec in specs[key]:
+            name=_named(spec);dt=spec['doctype']
+            if frappe.db.exists(dt,name):
+                doc=frappe.get_doc(dt,name);doc.check_permission('read')
+                result.append(dict(doctype=dt,name=name,modified=str(doc.modified),docstatus=doc.docstatus,
+                    fields={k:_fields(doc.get(k),v) for k,v in spec.items() if k not in ('doctype','name')}))
+            else:result.append(dict(doctype=dt,name=name,missing=True))
+    return result
+
+
+def _prepare(project,pack_sha256,item_group,*,create=True):
+    doc,context,folder,record=_pack(project,pack_sha256,write=True);_required_permissions(create=create)
+    specs=_specs(doc,record['pack'],item_group)
+    for key in ('items','workstations','operations','routings','boms'):
+        for spec in specs[key]:
+            meta=frappe.get_meta(spec['doctype'])
+            if any(not meta.has_field(k) for k in spec if k not in ('doctype','name')):
+                frappe.throw('Pinned native schema does not support the declared '+spec['doctype']+' fields')
+    native=_snapshot(specs)
+    if any(not row.get('missing') for row in native):frappe.throw('Fresh controlled Item/routing namespace required; existing records cannot be relabelled')
+    value=dict(project=project,context_sha256=context['sha256'],registration_sha256=record['sha256'],
+        item_group=item_group,specifications=specs,native_snapshot=native)
+    return doc,context,folder,record,value
+
+
+@frappe.whitelist(methods=['POST'])
+def preview(project,pack_sha256,item_group):
+    _role('Manufacturing Manager')
+    _,_,_,_,value=_prepare(project,pack_sha256,item_group)
+    return dict(**value,fingerprint=contract.digest(value),state='independent-review-required',**contract.FLAGS)
+
+
+@frappe.whitelist(methods=['POST'])
+def review(project,pack_sha256,item_group,fingerprint):
+    _role('Projects Manager')
+    doc,context,folder,record,value=_prepare(project,pack_sha256,item_group,create=False)
+    if record['proposed_by']==frappe.session.user:frappe.throw('The proposer cannot independently review their own candidate conversion',frappe.PermissionError)
+    if contract.digest(value)!=fingerprint:frappe.throw('Native prerequisites or controlled documents changed after preview')
+    review_id=contract.digest([context['sha256'],pack_sha256,fingerprint,frappe.session.user]);target=folder/('review-'+review_id+'.json')
+    if target.exists():
+        old=contract.sealed(json.loads(target.read_text()));_review_record(old,doc)
+        return dict(review_id=review_id,task=old['task'],created=False,**contract.FLAGS)
+    body=dict(schema='osr-wheel-authenticated-business-review/1',project=project,pack_sha256=pack_sha256,
+        context_sha256=context['sha256'],fingerprint=fingerprint,item_group=item_group,
+        proposed_by=record['proposed_by'],reviewed_by=frappe.session.user,
+        scope='Simulation business conversion only; physical manufacture and railway handback remain held',**contract.FLAGS)
+    task=frappe.get_doc(dict(doctype='Task',project=project,subject='SIM independent wheel delivery review '+review_id[:12],
+        description=json.dumps(body,sort_keys=True),status='Completed')).insert()
+    result=contract.seal(dict(**body,task=task.name,task_description_sha256=sha256(task.description.encode()).hexdigest(),review_id=review_id))
+    _write(target,result)
+    return dict(review_id=review_id,task=task.name,created=True,**contract.FLAGS)
+
+
+def _review_record(record,project):
+    contract.sealed(record)
+    task=frappe.get_doc('Task',record['task']);task.check_permission('read')
+    if (task.project!=project.name or task.status!='Completed' or task.owner!=record['reviewed_by'] or
+            task.modified_by!=record['reviewed_by'] or record['reviewed_by']==record['proposed_by'] or
+            sha256(task.description.encode()).hexdigest()!=record['task_description_sha256']):
+        frappe.throw('Authenticated independent native review record changed')
+    return task
+
+
+@frappe.whitelist(methods=['POST'])
+def apply(project,pack_sha256,review_id):
+    """Create native drafts after current independent review; never submit."""
+    _role('Manufacturing Manager');contract.hash_id(review_id)
+    doc,context,folder,registration=_pack(project,pack_sha256,write=True);_required_permissions(create=True)
+    reviewed=contract.sealed(json.loads((folder/('review-'+review_id+'.json')).read_text()));_review_record(reviewed,doc)
+    if reviewed['context_sha256']!=context['sha256'] or reviewed['pack_sha256']!=pack_sha256:frappe.throw('Review belongs to another project or pack')
+    applied=folder/('applied-'+pack_sha256+'.json')
+    if applied.exists():
+        result=contract.sealed(json.loads(applied.read_text()))
+        if result['review_id']!=review_id:frappe.throw('Applied conversion cannot be replaced by another review')
+        _read_created(result,doc)
+        return dict(applied=result,created=False,**contract.FLAGS)
+    _,_,_,_,value=_prepare(project,pack_sha256,reviewed['item_group'])
+    if contract.digest(value)!=reviewed['fingerprint']:frappe.throw('Native prerequisites changed after independent review')
+    specs=value['specifications'];records=[];component_boms={}
+    for key in ('items','workstations','operations','routings','boms'):
+        for spec in specs[key]:
+            payload=deepcopy(spec)
+            native=frappe.get_doc(payload).insert()
+            if native.docstatus!=0:frappe.throw('New business records must remain drafts')
+            fields={k:_fields(native.get(k),v) for k,v in spec.items() if k not in ('doctype','name')}
+            expected={k:deepcopy(v) for k,v in spec.items() if k not in ('doctype','name')}
+            if fields!=expected:frappe.throw('Native defaults changed reviewed source quantity, price or route fields; review a supported conversion')
+            records.append(dict(doctype=native.doctype,name=native.name,expected_fields=fields))
+            if key=='boms':component_boms[native.item]=native.name
+    components=[]
+    for row in specs['components']:
+        components.append(dict(row,bom=component_boms[row['finished_item']]))
+    result=contract.seal(dict(schema='osr-wheel-native-applied-drafts/1',project=project,company=doc.company,
+        context_sha256=context['sha256'],pack_sha256=pack_sha256,review_id=review_id,
+        authenticated_actor=frappe.session.user,records=records,components=components,
+        automatic_order_release=False,created=True,**contract.FLAGS))
+    _write(applied,result)
+    return dict(applied=result,created=True,**contract.FLAGS)
+
+
+def _read_created(result,project):
+    observed=[]
+    for row in result['records']:
+        doc=frappe.get_doc(row['doctype'],row['name']);doc.check_permission('read')
+        if doc.docstatus==2 or (doc.get('company') and doc.company!=project.company):frappe.throw('Applied native document cancelled or moved company')
+        for field,expected in row['expected_fields'].items():
+            actual=_fields(doc.get(field),expected)
+            if actual!=expected:frappe.throw('Applied native source/quantity/routing fields changed: '+row['name']+'/'+field)
+        observed.append(dict(doctype=doc.doctype,name=doc.name,docstatus=doc.docstatus,modified=str(doc.modified)))
+    return observed
+
+
+@frappe.whitelist(methods=['GET'])
+def status(project,pack_sha256):
+    doc,context,folder,record=_pack(project,pack_sha256)
+    path=folder/('applied-'+pack_sha256+'.json')
+    result=contract.sealed(json.loads(path.read_text())) if path.exists() else None
+    native=_read_created(result,doc) if result else []
+    return dict(project=project,context_sha256=context['sha256'],pack_sha256=pack_sha256,
+        coverage=record['pack']['coverage'],proposed_by=record['proposed_by'],
+        state='reviewed-native-business-mapping' if result else 'independent-review-required',applied=result,native_records=native,**contract.FLAGS)
+
+
+def _native(doctype,name,project,*,submitted=False):
+    doc=frappe.get_doc(doctype,name);doc.check_permission('read')
+    if doc.get('company') and doc.company!=project.company:frappe.throw('Native '+doctype+' belongs to another company')
+    if doc.get('project') and doc.project!=project.name:frappe.throw('Native '+doctype+' belongs to another project')
+    if submitted and doc.docstatus!=1:frappe.throw('Submitted native '+doctype+' required')
+    return doc
+
+
+def _serial_row(stock,item,project,direction):
+    rows=[r for r in stock.items if r.item_code==item and r.project==project.name]
+    if len(rows)!=1:frappe.throw('Exactly one project-bound finished row required')
+    row=rows[0]
+    if row.qty!=1 or not row.serial_and_batch_bundle:frappe.throw('One individually serialised native stock row required')
+    bundle=_native('Serial and Batch Bundle',row.serial_and_batch_bundle,project)
+    serials=[r.serial_no for r in bundle.entries if r.serial_no]
+    if (bundle.item_code!=item or bundle.company!=project.company or bundle.is_cancelled or
+            bundle.type_of_transaction!=direction or len(serials)!=1):
+        frappe.throw('Native serial/batch bundle differs from source Item or custody direction')
+    serial=_native('Serial No',serials[0],project)
+    if serial.item_code!=item:frappe.throw('Native serial belongs to another source Item')
+    return row,bundle,serial.name
+
+
+def _asset_position(folder,asset):
+    index=contract.sealed(json.loads((folder/('asset-'+contract.digest(asset)+'.json')).read_text()))
+    value=contract.sealed(json.loads((folder/('position-'+index['position_id']+'.json')).read_text()))
+    if value['asset']!=asset or index['context_sha256']!=value['context_sha256']:
+        frappe.throw('Current Asset/position index differs')
+    return value
+
+
+def _index_asset(folder,record):
+    path=folder/('asset-'+contract.digest(record['asset'])+'.json')
+    index=contract.seal(dict(asset=record['asset'],position_id=record['position_id'],context_sha256=record['context_sha256']))
+    if path.exists():
+        if json.loads(path.read_text())!=index:frappe.throw('Asset cannot move to another source position implicitly')
+    else:_write(path,index)
+
+
+@frappe.whitelist(methods=['POST'])
+def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,ordinal,train_index,
+                          work_order,manufacture_stock,installation_stock,repair=None,removal_stock=None):
+    """Record read-back stock custody for a proposed research occurrence.
+
+    This does not mark a physical installation accepted. A replacement must
+    have an actual same-serial native return/removal and condition repair.
+    """
+    _role('Asset Manager');doc,context,folder,registration=_pack(project,pack_sha256,write=True)
+    applied=contract.sealed(json.loads((folder/('applied-'+pack_sha256+'.json')).read_text()));_read_created(applied,doc)
+    component=next((r for r in applied['components'] if r['part_id']==part_id),None)
+    pattern=context['source_patterns'].get(source_pattern_id)
+    if any(type(v) not in (int,str) or re.fullmatch('[0-9]{1,6}',str(v)) is None for v in (ordinal,train_index)):
+        frappe.throw('Bounded nonnegative integer occurrence indices required')
+    ordinal=int(ordinal);train_index=int(train_index)
+    if (component is None or pattern is None or pattern['part_id']!=part_id or ordinal<0 or ordinal>=pattern['count_per_train'] or
+            train_index<0 or train_index>=context['project_trainsets']):frappe.throw('Exact counted source occurrence and train index required')
+    position=contract.digest(dict(context_sha256=context['sha256'],source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index))
+    asset_doc=_native('Asset',asset,doc,submitted=True)
+    if asset_doc.custom_osr_asset_id!='SIM-WD-'+position[:24]:frappe.throw('Native Asset differs from the counted source occurrence')
+    wo=_native('Work Order',work_order,doc,submitted=True)
+    if wo.production_item!=component['finished_item'] or wo.bom_no!=component['bom'] or wo.produced_qty<1:frappe.throw('Manufacture must use the exact reviewed source BOM')
+    made=_native('Stock Entry',manufacture_stock,doc,submitted=True)
+    installed=_native('Stock Entry',installation_stock,doc,submitted=True)
+    if made.work_order!=wo.name or made.stock_entry_type!='Manufacture' or installed.stock_entry_type!='Material Issue':
+        frappe.throw('Native manufacturing and outward installation custody required')
+    finished,made_bundle,serial=_serial_row(made,component['finished_item'],doc,'Inward')
+    installed_row,installed_bundle,installed_serial=_serial_row(installed,component['finished_item'],doc,'Outward')
+    if serial!=installed_serial:frappe.throw('Installed serial differs from manufactured serial')
+    pointer=folder/('position-'+position+'.json');prior=contract.sealed(json.loads(pointer.read_text())) if pointer.exists() else None
+    if prior is not None and prior['installed_serial']==serial:
+        expected=dict(source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index,part_id=part_id,
+            asset=asset,work_order=wo.name,manufacture_stock=made.name,installation_record=installed.name,repair=repair,removal_stock=removal_stock)
+        if any(prior.get(k)!=v for k,v in expected.items()):frappe.throw('A serial installation cannot be rebound to different native custody')
+        _index_asset(folder,prior)
+        return dict(installation=prior,created=False,**contract.FLAGS)
+    if prior is not None and prior['installed_serial']!=serial:
+        if not repair or not removal_stock:frappe.throw('Replacement requires native repair and exact old-serial removal')
+        repair_doc=_native('Asset Repair',repair,doc,submitted=True)
+        removal=_native('Stock Entry',removal_stock,doc,submitted=True)
+        if (repair_doc.asset!=asset or repair_doc.custom_osr_environment!='simulation' or repair_doc.repair_status!='Completed' or
+                not repair_doc.custom_osr_handback_required or removal.stock_entry_type!='Material Receipt'):
+            frappe.throw('Completed condition repair and inward removed-serial custody required')
+        _,_,removed=_serial_row(removal,component['finished_item'],doc,'Inward')
+        if removed!=prior['installed_serial']:frappe.throw('Removal does not identify the exact previously installed serial')
+    record=contract.seal(dict(schema='osr-wheel-native-installation/1',project=project,company=doc.company,
+        context_sha256=context['sha256'],pack_sha256=pack_sha256,identities=context['identities'],
+        position_id=position,source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index,
+        part_id=part_id,asset=asset,work_order=wo.name,manufacture_stock=made.name,finished_row=finished.name,
+        installation_record=installed.name,installed_serial=serial,manufactured_serial=serial,
+        manufacture_bundle=made_bundle.name,installation_bundle=installed_bundle.name,repair=repair,removal_stock=removal_stock,
+        previous_installation_sha256=prior['sha256'] if prior and prior['installed_serial']!=serial else None,
+        authenticated_actor=frappe.session.user,installation_accepted=False,**contract.FLAGS))
+    event=folder/('installation-'+record['sha256']+'.json')
+    if event.exists():return dict(installation=record,created=False,**contract.FLAGS)
+    _write(event,record)
+    # The pointer is merely a current software index; immutable events retain
+    # every source-bound predecessor and never confer physical acceptance.
+    temporary=folder/('position-'+position+'.next');_write(temporary,record);temporary.replace(pointer)
+    _index_asset(folder,record)
+    return dict(installation=record,created=True,**contract.FLAGS)
+
+
+def _handback_observation(project,context,folder,registration,asset):
+    current=_asset_position(folder,asset)
+    if current['context_sha256']!=context['sha256'] or current['pack_sha256']!=registration['pack']['sha256']:
+        frappe.throw('Installed source revision differs')
+    made=_native('Stock Entry',current['manufacture_stock'],project,submitted=True)
+    installed_stock=_native('Stock Entry',current['installation_record'],project,submitted=True)
+    applied=contract.sealed(json.loads((folder/('applied-'+current['pack_sha256']+'.json')).read_text()));_read_created(applied,project)
+    component=next(r for r in applied['components'] if r['part_id']==current['part_id'])
+    row,_,serial=_serial_row(made,component['finished_item'],project,'Inward')
+    _,_,installed_serial=_serial_row(installed_stock,component['finished_item'],project,'Outward')
+    if serial!=current['installed_serial'] or installed_serial!=serial:frappe.throw('Native serial custody changed')
+    if not current['repair']:frappe.throw('Repair lifecycle evidence required before repair handback')
+    repair=_native('Asset Repair',current['repair'],project,submitted=True)
+    issue=_native('Issue',repair.custom_osr_issue,project)
+    if (repair.asset!=asset or issue.project!=project.name or issue.custom_osr_erp_asset!=asset or
+            issue.custom_osr_environment!='simulation' or repair.custom_osr_environment!='simulation'):
+        frappe.throw('Condition event, repair and installed source position differ')
+    # Include pending and cancelled later inspections: neither can revive an
+    # earlier pass merely because it was the latest submitted accepted row.
+    latest=frappe.get_all('Quality Inspection',filters=dict(reference_type='Stock Entry',reference_name=made.name,
+        item_code=component['finished_item'],child_row_reference=row.name),pluck='name',order_by='creation desc, name desc',limit_page_length=1)
+    if len(latest)!=1:frappe.throw('Latest native inspection required')
+    qa=_native('Quality Inspection',latest[0],project)
+    return dict(project=project.name,company=project.company,identities=context['identities'],
+        reviewer=frappe.session.user,inspector=qa.inspected_by,proposer=registration['proposed_by'],
+        latest_qa=qa.name,latest_qa_docstatus=qa.docstatus,latest_qa_status=qa.status,
+        repair=repair.name,repair_docstatus=repair.docstatus,repair_status=repair.repair_status,
+        physical_handback_required=bool(repair.custom_osr_handback_required),
+        installation_record=installed_stock.name,installation_docstatus=installed_stock.docstatus,
+        installed_serial=installed_serial,manufactured_serial=serial,
+        review_task='not-yet-created',installation_sha256=current['sha256'],
+        native_modifications=dict(inspection=str(qa.modified),repair=str(repair.modified),
+            manufacture=str(made.modified),installation=str(installed_stock.modified))),current
+
+
+@frappe.whitelist(methods=['POST'])
+def review_handback(project,pack_sha256,asset):
+    """Independent authenticated business review of actual latest native state."""
+    _role('Projects Manager');doc,context,folder,registration=_pack(project,pack_sha256,write=True)
+    observed,current=_handback_observation(doc,context,folder,registration,asset)
+    contract.business_handback(context,observed,actor=frappe.session.user)
+    key=contract.digest(observed);path=folder/('handback-'+key+'.json')
+    if path.exists():
+        record=contract.sealed(json.loads(path.read_text()))
+        _handback_task(record,doc)
+        return dict(handback=record,created=False,**contract.FLAGS)
+    task=frappe.get_doc(dict(doctype='Task',project=project,status='Completed',subject='SIM independent business handback '+key[:12],
+        description=json.dumps(dict(native_readback=observed,physical_handback='still-required',**contract.FLAGS),sort_keys=True))).insert()
+    observed['review_task']=task.name
+    guarded=contract.business_handback(context,observed,actor=frappe.session.user)
+    result=contract.seal(dict({k:v for k,v in guarded.items() if k!='sha256'},
+        native_review_task_sha256=sha256(task.description.encode()).hexdigest()))
+    _write(path,result)
+    return dict(handback=result,created=True,**contract.FLAGS)
+
+
+def _handback_task(record,project):
+    task=_native('Task',record['native_readback']['review_task'],project)
+    if (task.status!='Completed' or task.owner!=record['authenticated_actor'] or task.modified_by!=record['authenticated_actor'] or
+            task.project!=project.name or sha256(task.description.encode()).hexdigest()!=record['native_review_task_sha256']):
+        frappe.throw('Independent business handback Task changed')
+    return task
+
+
+@frappe.whitelist(methods=['GET'])
+def lifecycle_status(project,pack_sha256,asset):
+    doc,context,folder,registration=_pack(project,pack_sha256)
+    observed,current=_handback_observation(doc,context,folder,registration,asset)
+    matches=[]
+    for path in folder.glob('handback-*.json'):
+        record=contract.sealed(json.loads(path.read_text()));prior=record['native_readback']
+        if (prior['installation_sha256']==current['sha256'] and prior['latest_qa']==observed['latest_qa'] and
+                prior['native_modifications']==observed['native_modifications']):
+            _handback_task(record,doc);matches.append(record)
+    ready=observed['latest_qa_docstatus']==1 and observed['latest_qa_status']=='Accepted' and bool(matches)
+    return dict(project=project,pack_sha256=pack_sha256,installation=current,
+        state='simulation-business-reviewed' if ready else 'business-handback-held',
+        latest_native_inspection=dict(name=observed['latest_qa'],status=observed['latest_qa_status'],docstatus=observed['latest_qa_docstatus']),
+        physical_handback_required=True,**contract.FLAGS)
+
+
+def guard_condition_event(event):
+    """Called by existing ingress only for an explicitly bound wheel project."""
+    project=event['project']
+    folder=Path(frappe.get_site_path('private','files','osr-wheel-delivery',contract.digest(project)))
+    if not (folder/'context.json').is_file():return False  # Retained ingress contract unchanged.
+    doc,context,folder=_context(project)
+    if (event.get('engineering_revision')!=context['identities']['engineering_revision'] or
+            event.get('environment')!=context['environment'] or event.get('city')!=context['city'] or event.get('company')!=context['company']):
+        frappe.throw('Condition event differs from authoritative wheel project revision')
+    asset=_native('Asset',event.get('erp_asset_id'),doc,submitted=True)
+    current=_asset_position(folder,asset.name)
+    if (asset.custom_osr_asset_id!=event.get('asset_id') or current['context_sha256']!=context['sha256'] or
+            event.get('physical_serial_id')!=current['installed_serial']):
+        frappe.throw('Condition event differs from current counted position/installed serial')
+    # Recheck the exact component's registered drawing/inspection/routing and
+    # native mapping before permitting a provisional defect/Issue side effect.
+    _,_,_,registration=_pack(project,current['pack_sha256'])
+    applied=contract.sealed(json.loads((folder/('applied-'+current['pack_sha256']+'.json')).read_text()));_read_created(applied,doc)
+    component=next((r for r in registration['pack']['components'] if r['source_part']['id']==current['part_id']),None)
+    if component is None:frappe.throw('Installed source component is no longer bound')
+    mapped=next((r for r in applied['components'] if r['part_id']==current['part_id']),None)
+    if mapped is None:frappe.throw('Current source Item mapping is absent')
+    wo=_native('Work Order',current['work_order'],doc,submitted=True)
+    made=_native('Stock Entry',current['manufacture_stock'],doc,submitted=True)
+    installed=_native('Stock Entry',current['installation_record'],doc,submitted=True)
+    if (wo.production_item!=mapped['finished_item'] or wo.bom_no!=mapped['bom'] or wo.produced_qty<1 or
+            made.work_order!=wo.name or made.stock_entry_type!='Manufacture' or installed.stock_entry_type!='Material Issue'):
+        frappe.throw('Current native manufacturing or installation custody changed')
+    _,_,made_serial=_serial_row(made,mapped['finished_item'],doc,'Inward')
+    _,_,installed_serial=_serial_row(installed,mapped['finished_item'],doc,'Outward')
+    if made_serial!=current['installed_serial'] or installed_serial!=made_serial:
+        frappe.throw('Current installed native serial custody differs')
+    return True

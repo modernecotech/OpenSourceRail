@@ -27,6 +27,8 @@ def condition_event(event):
     if not isinstance(event, dict) or any(not event.get(k) for k in required):
         frappe.throw('Incomplete condition event')
     _scope(event['city'], event['environment'], event['project'], event['company'])
+    from osr_erpnext.candidate_delivery import guard_condition_event
+    guard_condition_event(event)  # Only explicitly provisioned wheel projects add this contract.
     if event['condition'] not in ('active', 'cleared') or type(event['occurrence']) is not int or event['occurrence'] < 1:
         frappe.throw('Invalid condition occurrence')
     priority = event.get('priority', 'medium')

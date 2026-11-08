@@ -525,6 +525,8 @@ class Store:
             erp_asset_id=a['erp_asset_id'], rule=rule['id'], response=rule['response'], priority=rule.get('priority', 'medium'),
             engineering_revision=a['engineering_revision'], occurrence=occurrence, condition=condition,
             observed_at=now, evidence=f'/docs/lifecycle/?city={a["city"]}&asset={a["asset_id"]}&environment={a["environment"]}')
+        if a.get('physical_serial_id'):
+            body['physical_serial_id']=a['physical_serial_id']
         db.execute('INSERT OR IGNORE INTO outbox(id,incident,body,city,environment,asset_id) VALUES(?,?,?,?,?,?)',
                    (eid, incident, json.dumps(body), a['city'], a['environment'], a['asset_id']))
 

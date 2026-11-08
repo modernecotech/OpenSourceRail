@@ -116,7 +116,10 @@ def source_context(proposal, *, city, project, company):
     validate_proposal(proposal)
     result=contract.seal(dict(schema='osr-wheel-delivery-project/1',environment='simulation',city=city,
         project=project,company=company,identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],
-        proposal_sha256=identity(proposal),source_parts={p['id']:identity(p) for p in proposal['items']},**FLAGS))
+        proposal_sha256=identity(proposal),source_parts={p['id']:identity(p) for p in proposal['items']},
+        project_trainsets=proposal['summary']['project_trainsets'],
+        source_patterns={p['id']:dict(part_id=p['part_id'],count_per_train=p['count_per_train'],
+            assembly_occurrence_id=p['assembly_occurrence_id']) for p in proposal['occurrence_patterns']},**FLAGS))
     contract.validate_context(result);return result
 
 
@@ -143,3 +146,18 @@ def export_review_pack(pack, artifact_root, output):
     verify_artifacts(pack,out)
     return dict(pack_sha256=pack['sha256'],components=len(pack['components']),
         complete_document_coverage=pack['coverage']['complete'],output=str(out),**FLAGS)
+
+
+def main():
+    import argparse
+    from .export import load
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--proposal',required=True);p.add_argument('--documents',required=True)
+    p.add_argument('--conversions',required=True);p.add_argument('--artifact-root',required=True)
+    p.add_argument('--city',required=True);p.add_argument('--output',required=True)
+    a=p.parse_args()
+    value=compile_review_pack(load(a.proposal),load(a.documents),load(a.conversions),artifact_root=a.artifact_root,city=a.city)
+    print(json.dumps(export_review_pack(value,a.artifact_root,a.output),sort_keys=True))
+
+
+if __name__=='__main__':main()

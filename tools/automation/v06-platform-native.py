@@ -27,6 +27,7 @@ ROOT=Path(__file__).resolve().parents[2]
 FIXTURES=ROOT/'tools/automation/native-v06'
 sys.path.insert(0,str(FIXTURES))
 from contracts import load_input, validate_input, verify_result, FLAGS, REQUIRED
+import candidate_contracts
 IMAGES={'erp':'osr/erpnext:15.121.2-hr15.64.0-osr14','gateway':'osr/integration:0.1.3',
         'fuxa':'frangoteam/fuxa:1.3.4@sha256:3778da3377e7685842495497d13157d1548ccad8708c434dc5d4b99fb5cb25bf',
         'db':'mariadb:10.6.25','redis':'redis:7.2.13-alpine'}
@@ -42,6 +43,7 @@ def encoded(value):
 def sources():
     paths=[Path(__file__),*FIXTURES.glob('*'),ROOT/'tools/automation/tests/browser-launch.mjs',ROOT/'deployment/erpnext/compose.yaml',ROOT/'deployment/erpnext/Dockerfile',ROOT/'deployment/erpnext/configure-nginx.py',
            ROOT/'deployment/supervision/Dockerfile',ROOT/'package.json',ROOT/'package-lock.json']
+    paths += [p for p in (ROOT/'engineering/pilot_delivery').glob('*') if p.is_file() and p.suffix in {'.py','.json'}]
     paths += [p for folder in ('deployment/erpnext/apps/osr_erpnext','services/integration/osr_integration')
               for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in {'.py','.json','.js','.html','.toml','.txt'} and '__pycache__' not in p.parts]
     return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths)) if p.is_file()}
@@ -94,8 +96,14 @@ def refused(callback,statuses=(401,403)):
     raise AssertionError('Unauthorised native request accepted')
 
 
-def preflight():
-    value=validate_input(load_input(ROOT));docker=shutil.which('docker')
+def campaign_input(review_pack=None,proposal=None,component_id=None):
+    supplied=(review_pack is not None,proposal is not None,component_id is not None)
+    if any(supplied) and not all(supplied):raise ValueError('review-pack, proposal and component-id must be supplied together')
+    return candidate_contracts.load_input(ROOT,review_pack,proposal,component_id) if all(supplied) else validate_input(load_input(ROOT))
+
+
+def preflight(review_pack=None,proposal=None,component_id=None):
+    value=campaign_input(review_pack,proposal,component_id);docker=shutil.which('docker')
     report=dict(schema='osr-v06-platform-preflight/1',input_id=value['input_id'],identities=value['identities'],
         disk_free_bytes=shutil.disk_usage(ROOT).free,cpu_count=os.cpu_count(),docker=bool(docker),images={},**FLAGS)
     if docker:
@@ -124,20 +132,24 @@ def owned_namespace(value):
     return value
 
 
-def verify(folder):
+def verify(folder,review_pack=None,proposal=None,component_id=None):
     folder=Path(folder);m=json.loads((folder/'manifest.json').read_bytes())
     for name,expected in m['files_sha256'].items():
         path=folder/name
         if path.is_symlink() or not path.resolve().is_relative_to(folder.resolve()) or sha256(path.read_bytes()).hexdigest()!=expected:
             raise ValueError('Native evidence file changed')
     result=json.loads((folder/'result.json').read_bytes())
-    return verify_result(result,load_input(ROOT),sources())
+    value=campaign_input(review_pack,proposal,component_id)
+    verifier=candidate_contracts.verify_result if value['schema'].endswith('/2') else verify_result
+    return verifier(result,value,sources())
 
 
-def run(output=None):
-    pre=preflight()
+def run(output=None,review_pack=None,proposal=None,component_id=None):
+    pre=preflight(review_pack,proposal,component_id)
     if not pre['ready']:raise RuntimeError('Native preflight hold: require Docker, all pinned images and >=8 GiB free; run preflight for details')
-    source=sources();value=load_input(ROOT);start=time.monotonic()
+    source=sources();value=campaign_input(review_pack,proposal,component_id);start=time.monotonic()
+    wheel=value['schema'].endswith('/2');required=candidate_contracts.REQUIRED if wheel else REQUIRED
+    fixture_file='candidate_fixture.py' if wheel else 'fixture.py'
     namespace=owned_namespace('osr-v06-'+secrets.token_hex(6));run_id=namespace.removeprefix('osr-v06-')
     folder=Path(output or ROOT/'build/v06-platform-native'/namespace).absolute()
     if not folder.resolve().is_relative_to((ROOT/'build').resolve()) or folder.exists():
@@ -167,7 +179,7 @@ def run(output=None):
             private(folder/'event.json',encoded(event));invoke(['docker','cp',str(folder/'event.json'),backend+':/tmp/osr-native-v06/event.json'],log=log)
             invoke(['docker','exec','--user','root',backend,'chown','frappe:frappe','/tmp/osr-native-v06/event.json'],log=log)
         invoke(['docker','exec','-e','OSR_TEST_SITE='+site,'-e','OSR_TEST_RUN='+run_id,backend,
-                '/home/frappe/frappe-bench/env/bin/python','/tmp/osr-native-v06/fixture.py',phase],log=log,timeout=240)
+                '/home/frappe/frappe-bench/env/bin/python','/tmp/osr-native-v06/'+fixture_file,phase],log=log,timeout=240)
         name='readback.json' if phase=='readback' else 'state.json'
         invoke(['docker','cp',backend+':/tmp/osr-native-v06/'+name,str(folder/name)],log=log)
         (folder/name).chmod(0o600);return json.loads((folder/name).read_bytes())
@@ -181,17 +193,26 @@ def run(output=None):
         for p in [*FIXTURES.glob('*.py'),folder/'input.json']:
             invoke(['docker','cp',str(p),backend+':/tmp/osr-native-v06/'+p.name],log=log)
         invoke(['docker','exec','--user','root',backend,'chown','-R','frappe:frappe','/tmp/osr-native-v06'],log=log)
+        if wheel:
+            from engineering.pilot_delivery import review as source_review
+            source_review.verify_artifacts(value['review_pack'],review_pack)
+            artifact_folder=folder/'artifacts';artifact_folder.mkdir()
+            for row in value['artifact_inventory']:
+                src=source_review.ordinary(review_pack,row['path']);dst=artifact_folder/row['path'];dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
+            invoke(['docker','cp',str(artifact_folder),backend+':/tmp/osr-native-v06/artifacts'],log=log)
+            invoke(['docker','exec','--user','root',backend,'chown','-R','frappe:frappe','/tmp/osr-native-v06/artifacts'],log=log)
         state=fixture('bootstrap')
         sys.path.insert(0,str(ROOT/'services/integration'))
         from osr_integration import config,fuxa
-        generic=dict(template_revision='v06-native-1',rolling_stock_family='v06-passive-wheel',historian=dict(owner='osr-integration',retention_days=1,sampling_seconds=2),
-            templates=dict(condition=dict(label='SIM HVAC record',asset_types=['fixture'],component_type_id=value['source_occurrence']['id'],
+        generic=dict(template_revision='v06-native-1',rolling_stock_family='wheel-candidate-research' if wheel else 'v06-passive-wheel',historian=dict(owner='osr-integration',retention_days=1,sampling_seconds=2),
+            templates=dict(condition=dict(label='SIM controlled research component' if wheel else 'SIM HVAC record',asset_types=['fixture'],component_type_id=value['source_occurrence']['id'],
                 measurements=dict(condition_code=dict(min=0,max=1,unit='simulation-code',stale_seconds=180)),
                 alarms=[dict(id='synthetic-fault',measurement='condition_code',high=1,clear_below=.5,delay_seconds=0,repeat_seconds=600,
                     maintenance=True,response='SIM software fault; no physical condition inferred')],commands={})))
         package=config.build_package(generic,dict(city=value['city'],company=state['company'],erp_project=state['project']),
-            [dict(asset_id='SIM-V06-HVAC',asset_type='fixture',name='SIM source-bound HVAC fixture')],value['identities']['candidate_id'])
+            [dict(asset_id=state['asset_id'] if wheel else 'SIM-V06-HVAC',asset_type='fixture',name='SIM source-bound research component' if wheel else 'SIM source-bound HVAC fixture')],value['identities']['engineering_revision'] if wheel else value['identities']['candidate_id'])
         asset=package['equipment'][0];asset.update(asset_id=state['asset_id'],erp_asset_id=state['asset'],erp_item_code=state['finished_item'])
+        if wheel:asset['physical_serial_id']=state['old']['serial']
         package['sha256']=config.digest({k:v for k,v in package.items() if k!='sha256'});config.validate_package(package)
         tokens={r:secrets.token_hex(24) for r in ('engineer','operator','controller')}
         observer=state['users']['observer'];cfg=dict(principals=[dict(subject='simulator' if r=='controller' else 'v06-'+r,role=r,token=t,cities=[value['city']],environments=['simulation']) for r,t in tokens.items()],
@@ -233,7 +254,7 @@ def run(output=None):
             'import sqlite3,sys;db=sqlite3.connect("file:/data/integration.sqlite?mode=ro",uri=True);print(db.execute("SELECT body FROM outbox WHERE id=?",(sys.argv[1],)).fetchone()[0])',eventrow['id']]).stdout)
         response=eventrow['response'];response=json.loads(response) if isinstance(response,str) else response
         state=fixture('repair',dict(issue=response['issue'],event_id=body['event_id'],body=body))
-        http(erp_url+'/api/resource/Task/'+quote(state['review_task'],safe=''),dict(status='Completed'),auth('reviewer'),method='PUT')
+        if not wheel:http(erp_url+'/api/resource/Task/'+quote(state['review_task'],safe=''),dict(status='Completed'),auth('reviewer'),method='PUT')
         readback=fixture('readback')
         # Native FUXA, fresh appdata and changed default credentials.
         passwords={r:secrets.token_hex(20) for r in ('admin','operator')}
@@ -260,17 +281,18 @@ def run(output=None):
         invoke(['node',str(FIXTURES/'browser.mjs'),str(folder/'browser.json')],log=log,timeout=120)
         image_ids={key:invoke(['docker','image','inspect','--format','{{.Id}}',name]).stdout.decode().strip() for key,name in IMAGES.items()}
         if source!=sources():raise ValueError('Source changed during native execution')
-        result=dict(schema='osr-v06-native-platform-result/1',execution='executed',input_id=value['input_id'],identities=value['identities'],
+        result=dict(schema='osr-v06-native-platform-result/2' if wheel else 'osr-v06-native-platform-result/1',execution='executed',input_id=value['input_id'],identities=value['identities'],
             source_sha256=source,namespace=namespace,elapsed_seconds=round(time.monotonic()-start,3),images=image_ids,resource_preflight=pre,
             native_records=readback['records'],business_review=readback['review'],qa_binding=readback['binding'],review_context=readback['review_context'],
-            outage=dict(before=before,after=after),checks={key:True for key in sorted(REQUIRED)},uncovered=[],
-            scope='One synthetic HVAC kit conversion; native software/business transactions, no physical manufacturing or railway release',**FLAGS)
+            outage=dict(before=before,after=after),checks={key:True for key in sorted(required)},uncovered=[],
+            scope=value['scope'] if wheel else 'One synthetic HVAC kit conversion; native software/business transactions, no physical manufacturing or railway release',**FLAGS)
+        if wheel:result.update(candidate_mapping=readback['candidate_mapping'],candidate_lifecycle=readback['candidate_lifecycle'],document_coverage=value['review_pack']['coverage'])
         # Deliberately exclude private configuration, user/API credentials,
         # databases, raw state and logs from the reviewable public evidence.
         print('Native covered lifecycle completed; checking teardown before publishing evidence')
     except BaseException as exc:
         private(folder/'failure.json',encoded(dict(execution='failed',error_type=type(exc).__name__,elapsed_seconds=round(time.monotonic()-start,3),
-            input_id=value['input_id'],source_sha256=source,uncovered=sorted(REQUIRED),**FLAGS)))
+            input_id=value['input_id'],source_sha256=source,uncovered=sorted(required),**FLAGS)))
         print('Native execution failed; retained private diagnostics: '+str(folder),file=sys.stderr)
         raise
     finally:
@@ -306,18 +328,19 @@ def run(output=None):
         evidence=folder/'evidence';evidence.mkdir();private(evidence/'result.json',encoded(result))
         shutil.copyfile(folder/'fuxa.png',evidence/'fuxa.png')
         private(evidence/'manifest.json',encoded(dict(schema='osr-v06-platform-evidence/1',files_sha256={p.name:sha256(p.read_bytes()).hexdigest() for p in evidence.iterdir()})))
-        verify(evidence);print('PASS native v06 software/business acceptance: '+str(evidence))
+        verify(evidence,review_pack,proposal,component_id);print('PASS native v06 software/business acceptance: '+str(evidence))
     return result
 
 
 def main():
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(SystemExit('Native runner terminated')))
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['preflight','run','verify']);parser.add_argument('--output',type=Path)
-    args=parser.parse_args()
-    if args.action=='preflight':print(json.dumps(preflight(),indent=2))
-    elif args.action=='run':run(args.output)
+    parser.add_argument('--review-pack',type=Path);parser.add_argument('--proposal',type=Path);parser.add_argument('--component-id')
+    args=parser.parse_args();options=(args.review_pack,args.proposal,args.component_id)
+    if args.action=='preflight':print(json.dumps(preflight(*options),indent=2))
+    elif args.action=='run':run(args.output,*options)
     else:
         if args.output is None:parser.error('verify requires --output <evidence directory>')
-        verify(args.output);print('PASS retained source-bound native evidence; physical gates remain open')
+        verify(args.output,*options);print('PASS retained source-bound native evidence; physical gates remain open')
 
 if __name__=='__main__':main()
