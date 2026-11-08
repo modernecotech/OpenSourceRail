@@ -7,23 +7,34 @@ import pytest
 from engineering.vehicle_installation import model,underframe,export,FLAGS
 from engineering.station_rail.common import identity
 
-PARENT=Path('/home/hayder/.local/state/opensourcerail/runs/closure-installed-20261107/frozen02/analytical/installation.json.gz')
+PARENT=Path(__file__).resolve().parents[1]/'engineering/railway_closure/data/frozen-installed-parent.json.gz'
 
 
 @pytest.fixture(scope='module')
 def parent():
-    # Ordinary CI can reproduce exactly the parent physical record without
-    # depending on a developer's private numerical run directory.
-    if PARENT.is_file():return underframe.load_parent(PARENT)
-    r=model.build()
-    assert r['candidate_id']==underframe.PARENT
-    # CI tests use the same physical parent under its actual current-source
-    # evaluation. Never substitute the historical evaluation seal.
-    return r
+    # This revision retains an exact historical parent; a new implementation
+    # must not relabel a reconstructed different physical record as that parent.
+    return underframe.load_parent(PARENT)
 
 
 @pytest.fixture(scope='module')
 def result(parent):return underframe.build(parent)
+
+
+def test_wheel_interface_revision_preserves_parent_and_mass(parent,result):
+    contract=result['physical_definition']['track_interface']
+    assert contract==model.track_interface(model.policy())
+    assert result['policy']['track_interface']==contract
+    for p in result['patterns']:
+        if p['part_id']=='running/wheel':
+            assert p['rotation']==model.I
+            assert [a[1] for a in p['positions_m']]==[-.7525,.7525]
+            assert model.transformed_size(p['geometry']['size_m'],p['rotation'])==[.76,.135,.76]
+    old=[p for p in parent['patterns'] if p['part_id']=='running/wheel']
+    assert all(p['rotation']==model.RZ90 and [a[1] for a in p['positions_m']]==[-.7175,.7175] for p in old)
+    assert not result['interface_screens']['wheel_rail_interface']['tread_flange_back_to_back_cant_contact_and_swept_envelopes_verified']
+    # A coordinate/orientation revision changes moments, never stock counts/mass.
+    assert fsum(p['mass_kg']['base'] for p in result['patterns'] if p['part_id']=='running/wheel')==fsum(p['mass_kg']['base'] for p in old)
 
 
 def test_four_trials_keep_failure_and_pareto(result):

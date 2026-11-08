@@ -19,6 +19,24 @@ def test_pinned_source_and_new_ancestry(result):
     assert all(result[k] is False for k in FLAGS)
 
 
+def test_inner_face_gauge_contact_datum_and_wheel_axle_orientation(result):
+    t=result['physical_definition']['track_interface']
+    assert t['inner_face_gauge_m']==pytest.approx(1.435)
+    centres=t['nominal_contact_centres_y_m'];w=t['nominal_rail_head_width_m']
+    assert centres[1]-w/2-(centres[0]+w/2)==pytest.approx(1.435)
+    assert t['real_profile_verified'] is False
+    for p in result['patterns']:
+        if p['part_id']=='running/wheel':
+            assert p['rotation']==model.I
+            assert [q[1] for q in p['positions_m']]==centres
+            assert model.transformed_size(p['geometry']['size_m'],p['rotation'])==[.76,.135,.76]
+        elif p['part_id']=='running/axle':assert p['rotation']==model.RZ90
+    axleboxes=result['assembly_occurrences']['running/axlebox']
+    assert set(a['at_m'][1] for a in axleboxes)=={-.98,.98}
+    bad=deepcopy(result['policy']);bad['track_interface']['nominal_contact_centres_y_m']=[-.6,.6]
+    with pytest.raises(ValueError,match='gauge'):model.track_interface(bad)
+
+
 def test_exact_source_origins_counted_once(result):
     original=model.load()['parts'];new=result['parts'];patterns=result['patterns']
     assert len([p for p in new if p['source_part_id']])==605
