@@ -31,6 +31,7 @@ DATASHEET = dict(
     coolant_max_c=50., coolant_min_l_min_each=6.,
     rotor_airflow_m3_min_per_kw=.4,
     winding_sensor_limit_c=100., rotor_surface_limit_c=80.,
+    rotor_inertia_kg_m2=.0949,
     constants_are_catalogue_not_identified_installed_parameters=True)
 
 # Every capacity is either explicitly supplied or stays unknown.  A declaration
@@ -71,6 +72,19 @@ def _positive(value, name):
     return float(value)
 
 
+def _verify_sources(source, root):
+    root=Path(root).resolve()
+    if not isinstance(source,dict) or not source:
+        raise ValueError('Exact duty/body source epoch required')
+    for name,want in source.items():
+        path=Path(name)
+        if (path.is_absolute() or '..' in path.parts or path.as_posix()!=name
+                or not (root/path).resolve().is_relative_to(root)):
+            raise ValueError('Ordinary in-root duty source path required')
+        if digest(root/path)!=want:
+            raise ValueError('Exact duty/body source epoch required')
+
+
 def _verify(value, root=ROOT):
     if value.get('schema') != SCHEMA or value.get('evaluation_id') != identity(
             {k: v for k, v in value.items() if k != 'evaluation_id'}):
@@ -78,8 +92,7 @@ def _verify(value, root=ROOT):
     if any(value.get(k) is not False for k in FLAGS):
         raise ValueError('Conditional sizing cannot grant physical admission')
     source=value.get('source_sha256', {})
-    if not source or any(digest(Path(root)/n)!=h for n,h in source.items()):
-        raise ValueError('Exact duty/body source epoch required for export/audit')
+    _verify_sources(source,root)
     return value
 
 
@@ -98,8 +111,7 @@ def evaluate(body, requirements, *, root=ROOT):
             {k: v for k, v in contract.items() if k != 'contract_id'}):
         raise ValueError('Body and compact-drive contract identity differ')
     source = deepcopy(body.get('source_sha256', {}))
-    if not source or any(digest(root / n) != h for n, h in source.items()):
-        raise ValueError('Exact body source epoch required')
+    _verify_sources(source,root)
     before = {**source, 'engineering/railway_project/drive.py': digest(root / 'engineering/railway_project/drive.py')}
     parts = {r['id']: r for r in body['parts']}
     if len(parts) != len(body['parts']):
@@ -216,7 +228,7 @@ def evaluate(body, requirements, *, root=ROOT):
                          fixed_loss_reservation_is_not_measured_loss=True,
                          copper_reservation_adds_to_efficiency_loss_allowance=True,
                          base_speed_m_s=min(vmax, power/force),
-                         rotor_reflected_equivalent_mass_kg=24.*.0949*ratio**2/r**2,
+                         rotor_reflected_equivalent_mass_kg=24.*DATASHEET['rotor_inertia_kg_m2']*ratio**2/r**2,
                          other_rotating_inertia_unknown=True,
                          torque_output_cap_nm_each=torque*ratio*eg,
                          shaft_output_power_cap_w_each=output_each)

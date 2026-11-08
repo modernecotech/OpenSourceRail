@@ -59,10 +59,18 @@ def test_continuous_envelope_uses_real_ratio_current_and_power_caps():
     assert m['maximum_speed_m_s']==pytest.approx(4500*2*pi/60/7.37*.34)
     assert m['torque_output_cap_nm_each']==pytest.approx(205*7.37*.9)
     assert m['mechanical_power_w']<=24*91000*.9
+    assert m['rotor_reflected_equivalent_mass_kg']==pytest.approx(24*.0949*7.37**2/.34**2)
     assert r['installed_operating_map_admission']=='held'
     assert all(r[k] is False for k in drive.FLAGS)
     assert r['source_catalogue']['peak_torque_nm']==500.
     assert r['source_catalogue']['peak_not_used'] is True
+
+
+@pytest.mark.parametrize('name',['/etc/passwd','../outside.json'])
+def test_external_source_paths_are_refused_before_reading(name):
+    b=body_fixture();b['source_sha256'][name]='0'*64
+    with pytest.raises(ValueError,match='in-root'):
+        drive.evaluate(seal(b),declared())
 
 
 def test_native_shape_has_exact_counted_mass_and_acknowledgement_required():
