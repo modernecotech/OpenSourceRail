@@ -14,6 +14,18 @@ The FEM replay retained the exact binary mesh and reproduced the earlier **13.94
 
 This is a homogeneous elastic concrete model with ideal bearing lines. Cracking, prestress, segment joints, fatigue, contact, erection and physical qualification remain unresolved. The located assembly image must not inherit this continuous-beam result. Geometry agreement and numerical convergence do not grant manufacturing or operating approval.
 
+## Chair frame
+
+[![Native SolidCraft chair-frame material model](assets/finished-chair-v06/chair.webp)](assets/finished-chair-v06/chair.sc)
+
+The proposed frame contains **66 separate material solids**, including hollow members, mounting feet, paired shell holes, crush sleeves and isolation pads. SolidCraft generated the model and reopened both its native file and STEP export. The independent FreeCAD import contains 66 valid, closed solids with the same individual volumes and bounds; their summed material volume is **0.000814637045 m³**. Weld beads, finish and purchased fastener shapes are separately accounted allowances.
+
+FreeCAD renamed the imported parts. The original strict identity check therefore remains **failed**. A separate readback records 66 unique geometric matches using the original volume and bounds tolerances; this establishes geometry correspondence, without claiming persistent imported names. Mounting lands, access, seat-height reconciliation, strength, fatigue and fire qualification remain open. This local part is not installed in the selected reference; the sibling terminal-seal proposal still fails its compression screen.
+
+Download [SolidCraft](assets/finished-chair-v06/chair.sc), [STEP](assets/finished-chair-v06/chair.step), [recorded commands](assets/finished-chair-v06/commands.json), [exact geometry correspondence](assets/finished-chair-v06/geometry-reassessment.json) and the [evidence manifest](assets/finished-chair-v06/manifest.json). The 3000×1900 image is a native SolidCraft snapshot of that saved model. The packet retains the failed strict import result alongside the geometry comparison; rendering changes no physical geometry or acceptance.
+
+Audit the retained files and geometric correspondence with `python3 docs/assets/finished-chair-v06/verify.py`. This reads existing results and starts no CAD application or solver.
+
 ## Inspect and reproduce
 
 The packet includes original CAD PNGs, exact recipes/cameras/styles, native execution receipts, the full native VTU export compressed losslessly, the original mesh, a compact nodal field and figure metadata. The larger results-embedded FieldCraft project remains retained in the original private execution package; the public VTU is sufficient to regenerate the figure without solving again.
