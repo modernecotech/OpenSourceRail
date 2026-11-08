@@ -36,7 +36,7 @@ def _validate_body(body, root):
             raise ValueError('Body upstream source changed: ' + name)
 
 
-def integrate(body, *, with_recovery=True, root=ROOT):
+def integrate(body, *, with_recovery=True, recovery_design=None, root=ROOT):
     """Keep static force and first moment exact; apply no dynamic factor here."""
     root = Path(root)
     _validate_body(body, root)
@@ -46,10 +46,17 @@ def integrate(body, *, with_recovery=True, root=ROOT):
             or len(track['nominal_contact_centres_y_m']) != 2
             or any(abs(a-b) > 1e-12 for a,b in zip(track['nominal_contact_centres_y_m'],[-half_contact, half_contact]))):
         raise ValueError('Wheel/rail gauge and contact datums disagree')
-    parent = next(d for d in recovery.variants(root)[3]
-                  if d['variant']['family'] == 'powered-wheel'
-                  and d['technology'] == ('hydraulic' if with_recovery else None)
-                  and (not with_recovery or d['capacity_j'] == 4e6))
+    if recovery_design is None:
+        parent = next(d for d in recovery.variants(root)[3]
+                      if d['variant']['family'] == 'powered-wheel'
+                      and d['technology'] == ('hydraulic' if with_recovery else None)
+                      and (not with_recovery or d['capacity_j'] == 4e6))
+    else:
+        from engineering.recovery_search.configuration import validate
+        validate(recovery_design,root=root)
+        if bool(recovery_design['recovery_hardware']) is not with_recovery:
+            raise ValueError('Recovery presence and configured hardware disagree')
+        parent=deepcopy(recovery_design)
     v = deepcopy(parent['variant'])
     v['geometry']['passive_secondary_retained']=any(p['assembly_id']=='services/secondary' for p in body['parts'])
     electrical_policy=json.loads((root/'engineering/railway_closure/electrical-policy.json').read_bytes())
