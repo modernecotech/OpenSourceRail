@@ -4,7 +4,10 @@ This executable outline compares the 20 m box, original folded plate and a
 physical deeper/thicker folded revision for the same 1.5 km, double-track pilot.
 It consumes sealed `osr-pilot-axle-loads/1` input: a whole-system candidate ID,
 vehicle/mass evaluation IDs, named static full-axle forces and located CG.
-Axle forces must conserve the supplied train mass. Added propulsion and recovery
+Axle forces must conserve the supplied train mass. The packet must also carry
+the same explicit wheel/rail datum contract as the civil policy: 1.435 m between
+inner railhead faces, 70 mm nominal railhead width and nominal head/contact
+centres at ±752.5 mm. A mismatched or missing contract is rejected. Added propulsion and recovery
 hardware belongs in the caller's axle packet; it is never assumed weightless.
 
 ```python
@@ -49,7 +52,11 @@ chair, fixing and access detail. Rates are explicit preliminary procurement and
 manufacturing assumptions, not supplier observations or verified Chinese prices.
 
 A located scene separates concrete/metal solids, equipment envelopes, bar/tendon
-paths and quantity reserves. Its rail profile is an envelope, not a rail drawing.
+paths and quantity reserves. Rails and fastener plates use the declared
+head/contact centres. Its rail profile is an envelope, not a rail drawing; wheel
+tread/flange geometry, back-to-back, cant and clearance qualification remain open.
+The earlier ±600 mm rail/axle-patch projection was incompatible with the vehicle
+gauge and is retained only in its original source-bound trial archive.
 Gross concrete includes occupied reinforcement/duct space, so CAD material
 volumes must not be added to stock mass as installed mass. Final installed mass
 remains unknown. The scene is a useful outline, not a fabrication drawing.
@@ -110,6 +117,10 @@ The 5% displacement-refinement target remains unchanged. Eight rolling native
 checkpoint slots bound scratch disk use; full commands and retained final bytes
 are recorded. Conductor/support gravity is applied at its declared lateral
 offset in both solvers, rather than being smeared into a centred reserve.
+Pilot-local axle load patches follow the declared nominal railhead centres in
+both solvers; their 300×200 mm concrete footprint is a fastener load-spread
+hypothesis, not a wheel/rail contact-stress model. The generic historical
+viaduct evaluator retains its original load definition for replay.
 
 Comparison records distinguish Euler–Bernoulli response, an explicit gross-web
 Timoshenko shear correction and the 3D readback at the same top-deck observation

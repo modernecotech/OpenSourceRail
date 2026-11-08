@@ -34,11 +34,21 @@ def specification(root=ROOT):
             for k,y in x.items():check(y,path+"/"+k)
         elif isinstance(x,list):
             for y in x:check(y,path)
-        elif type(x) in (float,int) and (not isfinite(x) or x<0 and not path.endswith(('bearing_longitudinal_offsets_m','bearing_lateral_offsets_m'))):raise ValueError('Finite nonnegative civil hypothesis required')
+        elif type(x) in (float,int) and (not isfinite(x) or x<0 and not path.endswith(('bearing_longitudinal_offsets_m','bearing_lateral_offsets_m','nominal_contact_centres_y_m'))):raise ValueError('Finite nonnegative civil hypothesis required')
     # Coordinates may be signed; all other dimensions/rates are nonnegative.
     check({k:v for k,v in p.items() if k!='track_centres_y_m'})
     if not 0<p['prestress']['effective_fraction_of_jack']<=p['prestress']['transfer_fraction_of_jack']<=1:raise ValueError('Explicit prestress losses required')
+    validate_track_interface(p['track_interface'])
     return p
+
+
+def validate_track_interface(v):
+    expected={'schema','inner_face_gauge_m','nominal_rail_head_width_m','nominal_contact_centres_y_m','contact_datum','real_profile_verified'}
+    if not isinstance(v,dict) or set(v)!=expected or v['schema']!='osr-wheel-rail-interface/1' or v['contact_datum']!='nominal rail head centres' or v['real_profile_verified'] is not False:raise ValueError('Explicit unqualified wheel/rail datum required')
+    gauge=v['inner_face_gauge_m'];width=v['nominal_rail_head_width_m'];ys=v['nominal_contact_centres_y_m']
+    if not isinstance(ys,list) or len(ys)!=2:raise ValueError('Two declared nominal rail contact centres required')
+    if any(type(x) not in (int,float) or not isfinite(x) for x in [gauge,width,*ys]) or gauge<=0 or width<=0 or len(ys)!=2 or any(abs(a-b)>1e-12 for a,b in zip(ys,[-(gauge+width)/2,(gauge+width)/2])):raise ValueError('Gauge, head width and nominal contact centres disagree')
+    return True
 
 
 def baseline_train(root=ROOT):
@@ -51,7 +61,7 @@ def baseline_train(root=ROOT):
         total=row['conditional_accounted_train_mass_kg']+brief['normal_people']*brief['passenger_mass_kg']+v['onboard_added_mass_kg'][name]
         axles=[dict(id=f'car-{c+1}/bogie-{b+1}/axle-{a+1}',x_m=8.5+17.65*c+centre+offset,vertical_force_N=total*G/24) for c in range(6) for b,centre in enumerate((-6.4,6.4)) for a,offset in enumerate((-1.05,1.05))]
         loads.append(dict(name='normal-'+name,train_mass_kg=total,axles=axles,CG_m=[52.625,0.,1.8],lateral_acceleration_m_s2=.5))
-    return seal(dict(schema='osr-pilot-axle-loads/1',candidate_id=v['candidate_id'],vehicle_candidate_id=bundle['candidate_id'],mass_evaluation_id=mass['evaluation_id'],load_cases=loads,
+    return seal(dict(schema='osr-pilot-axle-loads/1',candidate_id=v['candidate_id'],vehicle_candidate_id=bundle['candidate_id'],mass_evaluation_id=mass['evaluation_id'],load_cases=loads,track_interface=deepcopy(specification(root)['track_interface']),
         axle_force_basis='Static full axle across both rails; equal share is a provisional baseline only',CG_basis='Explicit1.8m lateral torque sensitivity; not located CG',source_sha256=pair.source_hashes(root),**FLAGS))
 
 
@@ -59,6 +69,7 @@ def validate_train(train,root=ROOT):
     if train.get('schema')!='osr-pilot-axle-loads/1' or train.get('evaluation_id')!=identity({k:v for k,v in train.items() if k!='evaluation_id'}):raise ValueError('Sealed same-candidate axle input required')
     for key in ('candidate_id','vehicle_candidate_id','mass_evaluation_id'):
         if not isinstance(train.get(key),str) or len(train[key])!=64 or any(c not in '0123456789abcdef' for c in train[key]):raise ValueError('Exact candidate and mass IDs required')
+    validate_track_interface(train.get('track_interface'))
     if not train['load_cases']:raise ValueError('Named load cases required')
     if len({l['name'] for l in train['load_cases']})!=len(train['load_cases']):raise ValueError('Unique load case names required')
     for load in train['load_cases']:
@@ -298,6 +309,7 @@ def shear_detail(s,demands,p):
 
 def evaluate(train,*,family='reference_box',revision='source',soil_case='base',foundation_width_m=None,root=ROOT,upstream_root=None):
     validate_train(train,upstream_root or root);p=specification(root)
+    if train['track_interface']!=p['track_interface']:raise ValueError('Vehicle/civil track interface mismatch')
     # The folded bottom flange is only 700 mm wide. Two 250 mm bearings
     # centred at +/-200 mm fit; copying the box's +/-700 mm layout does not.
     if family=='folded_plate':
@@ -347,7 +359,10 @@ def evaluate(train,*,family='reference_box',revision='source',soil_case='base',f
         bearing_layout=dict(each_beam_end=2,size_m=p['support']['bearing_size_m'],offset_y_m=p['support']['bearing_lateral_offsets_m']),
         support_geometry=dict(column_height_m=p['support']['column_height_m'],column_diameter_m=foot['column_diameter_m'],cap_size_m=p['support']['cap_size_m'],footing_width_m=foot['width_m'],footing_thickness_m=foot['thickness_m']),
         drainage=dict(pipes=2,diameter_m=.10,material='HDPE candidate',clip_pitch_m=2.),maintenance_walkway=dict(width_m=1.,scope='Inspection path only; passenger evacuation/accessibility unresolved'),
-        rail_interface=dict(rails=2,rail_kg_m=p['rail_mass_kg_m'],fastenings=fastening_count,anchors_per_set=p['anchor_count_per_plate']),
+        rail_interface=dict(rails=2,rail_kg_m=p['rail_mass_kg_m'],fastenings=fastening_count,anchors_per_set=p['anchor_count_per_plate'],
+            track_interface=deepcopy(p['track_interface']),fastener_plate_size_m=p['fastener_plate_size_m'],
+            rail_head_envelope_height_m=.05,rail_foot_envelope_width_m=.15,rail_web_envelope_width_m=.016,
+            profile_scope='Nominal railhead/fastener alignment envelope only; real taper, flange clearance, cant and profile qualification held'),
         complete_installed_geometry=False,**FLAGS)
     if line is not None:physical['wayside_conductor_and_supports']=line
     cid=identity(physical)

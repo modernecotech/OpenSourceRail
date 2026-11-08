@@ -165,3 +165,50 @@ def test_same_pose_shear_reference_and_worker_definition(portfolio):
     text=mesh_worker(spec)
     assert '50000' in text and 'bearing_lines_x_m' in text
     assert 'mesh.embed(1,[edge]' in text
+
+
+def test_gauge_datum_and_installed_rail_fastener_alignment(train,portfolio):
+    r=portfolio['folded_plate','thick-web'];contract=r['physical_definition']['rail_interface']['track_interface']
+    assert contract==train['track_interface']
+    assert contract['nominal_contact_centres_y_m']==[-.7525,.7525]
+    scene=a.scene(r)
+    for track,centre in enumerate(r['policy']['track_centres_y_m'],1):
+        heads=[e for e in scene['entities'] if e['id'].startswith(f'track-{track}/rail-') and e['id'].endswith('/head')]
+        head_centres=sorted(e['geometry']['at_m'][1]+e['geometry']['size_m'][1]/2-centre for e in heads)
+        assert head_centres==pytest.approx(contract['nominal_contact_centres_y_m'])
+        inner=[e['geometry']['at_m'][1]+(e['geometry']['size_m'][1] if j==0 else 0) for j,e in enumerate(heads)]
+        assert inner[1]-inner[0]==pytest.approx(1.435)
+        plates=[e for e in scene['entities'] if e['id'].startswith(f'track-{track}/fastener-')]
+        assert sorted({round(e['geometry']['at_m'][1]+e['geometry']['size_m'][1]/2-centre,8) for e in plates})==[-.7525,.7525]
+    bad=deepcopy(train);bad['track_interface']['inner_face_gauge_m']=1.2
+    bad['track_interface']['nominal_contact_centres_y_m']=[-.635,.635];bad.pop('evaluation_id');d.seal(bad)
+    with pytest.raises(ValueError,match='interface mismatch'):d.evaluate(bad)
+    missing=deepcopy(train);missing.pop('track_interface');missing.pop('evaluation_id');d.seal(missing)
+    with pytest.raises(ValueError,match='datum'):d.validate_train(missing)
+
+
+def test_native_patch_moments_match_both_solver_loads(tmp_path):
+    from engineering.pilot_civil import native_trial as n
+    # One exact quadratic triangular deck face covering the small central
+    # patches. Its interpolation reproduces force, first and second moments.
+    nodes={'1':[0.,-2.,0.],'2':[20.,-2.,0.],'3':[10.,3.,0.],
+           '4':[10.,-2.,0.],'5':[15.,.5,0.],'6':[5.,.5,0.],
+           '7':[10.,0.,-1.],'8':[5.,-1.,-.5],'9':[15.,-1.,-.5],'10':[10.,1.5,-.5]}
+    model=dict(nodes=nodes,top_faces=[[1,2,3,4,5,6]],elements={'1':[1,2,3,7,4,5,6,8,9,10]},support_nodes=[[1],[2]],anchor_nodes=[1,2],probe_nodes=[4],probe_xyz_m=[[10.,0.,0.]])
+    contract=d.specification()['track_interface']
+    spec=dict(track_interface=contract,rail_patch_hypothesis=dict(centres_y_m=contract['nominal_contact_centres_y_m'],length_m=.30,width_m=.20),
+              live_pose=dict(points=[dict(x_m=10.,force_N=1000.)]),superimposed_mass_kg=0.)
+    forces=n.live_forces(spec,model)
+    assert sum(forces.values())==pytest.approx(-1000.)
+    assert sum(nodes[str(k)][1]*f for k,f in forces.items())==pytest.approx(0.,abs=1e-9)
+    assert sum(nodes[str(k)][1]**2*f for k,f in forces.items())==pytest.approx(-1000*(.7525**2+.2**2/12))
+    cmds=n.commands(spec,model,tmp_path/'import.inp')
+    loads={int(c['params']['name'].removeprefix('PilotLoad')):c['params']['vector'][2] for c in cmds if c['command']=='model.load.create' and c['params']['name'].startswith('PilotLoad')}
+    assert loads==pytest.approx(forces)
+    assert not any(c['command']=='model.load.create' and c['params']['name'].startswith('F') for c in cmds)
+    model['nodal_load_N']={str(k):[0.,0.,f] for k,f in forces.items()}
+    deck=n.fem.deck(spec,model).split('*CLOAD\n',1)[1].split('*NODE PRINT',1)[0]
+    ccx={int(row.split(',')[0]):float(row.split(',')[2]) for row in deck.splitlines()}
+    assert ccx==pytest.approx(forces)
+    bad=deepcopy(spec);bad['rail_patch_hypothesis']['centres_y_m']=[-.6,.6]
+    with pytest.raises(ValueError,match='patch differs'):n.live_forces(bad,model)
