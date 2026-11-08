@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **136**.
+Indexed Markdown files: **139**.
 
 ## Sections
 
@@ -23,8 +23,8 @@ Indexed Markdown files: **136**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 109 |
-| [engineering](#engineering) | 11 |
+| [docs](#docs) | 111 |
+| [engineering](#engineering) | 12 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -129,6 +129,8 @@ Indexed Markdown files: **136**.
 | [`docs/design-engine/propulsion-layout/comparison-summary.md`](../docs/design-engine/propulsion-layout/comparison-summary.md) | Propulsion layout findings |
 | [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
 | [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
+| [`docs/design-engine/reconciled-pilot/README.md`](../docs/design-engine/reconciled-pilot/README.md) | Reconciled railway research pilot |
+| [`docs/design-engine/reconciled-pilot-no-store/README.md`](../docs/design-engine/reconciled-pilot-no-store/README.md) | Reconciled railway research pilot |
 | [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
 | [`docs/design-engine/retained-battery-source-epoch/README.md`](../docs/design-engine/retained-battery-source-epoch/README.md) | Retained source epoch for service-energy migration |
@@ -195,6 +197,7 @@ Indexed Markdown files: **136**.
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | OpenSourceRail design search |
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
+| [`engineering/pilot_civil/README.md`](../engineering/pilot_civil/README.md) | Candidate-bound pilot civil design |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |

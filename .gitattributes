@@ -5,3 +5,6 @@ docs/design-engine/retained-service-energy-extra/original/materializer-streaming
 
 # Generated PDF readers are binary artifacts, even when their streams are ASCII.
 *.pdf binary
+
+# Generated BOM CSVs retain their CRLF record endings and exact evidence hashes.
+docs/design-engine/reconciled-pilot*/vehicle/bom.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
