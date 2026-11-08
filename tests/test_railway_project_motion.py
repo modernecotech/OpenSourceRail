@@ -1,5 +1,6 @@
 """Mass/energy ownership, controller bounds and strict candidate propagation."""
 from copy import deepcopy
+from math import copysign
 import pytest
 
 from engineering.railway_project import bundle,drive,motion
@@ -88,3 +89,22 @@ def test_resealed_wrong_drive_contract_or_invented_available_curve_refuses():
     changed=deepcopy(d);changed['model']['rotor_reflected_equivalent_mass_kg']*=.5;seal(changed)
     with pytest.raises(ValueError,match='drive producer contract'):
         motion.compile_case(p,b,a,changed,0,scenario())
+
+
+def test_native_numeric_types_are_explicit_before_policy_and_case_hashes():
+    s=scenario();s.update(grade_fraction=0,grade_observation_fraction=0,cd_a_m2=10,dwell_s=35)
+    q,m=motion.compile_case(*project(),0,s)
+    assert type(q['grade_fraction']) is type(q['cd_a_m2']) is type(q['dwell_s']) is float
+    assert type(q['control']['grade_estimate_fraction']) is float
+    assert type(q['control']['initial_hold_applied']) is bool
+    assert q['id']==identity({k:v for k,v in q.items() if k!='id'})
+    assert m['native_input_id']==identity(q)
+    assert type(m['scenario']['cd_a_m2']) is int  # original assumption retained
+    original=dict(a=2**53,b=-0.0,c=True,d=None)
+    out=motion.native_numbers(original)
+    assert out==original and type(out['a']) is float and out['c'] is True and out['d'] is None
+    assert copysign(1.,out['b'])==-1.
+    with pytest.raises(ValueError,match='exactly as binary64'):
+        motion.native_numbers(2**53+1)
+    with pytest.raises(ValueError,match='Finite binary64'):
+        motion.native_numbers(float('inf'))

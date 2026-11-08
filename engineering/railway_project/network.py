@@ -13,6 +13,7 @@ from engineering.station_rail.common import digest,identity
 from engineering.station_pair import native_bridge
 from .civil import sealed,source_union
 from .route import FLAGS
+from .motion import native_numbers
 
 PRODUCER='engineering/railway_project/network.py'
 TRAIN_FIELDS={'id','initial_station_id','initial_position_m','ready_at_s','role','initial_drive_temperature_c'}
@@ -148,6 +149,7 @@ def compile_network(bundle,alignment,compiled_legs,trains,departures,*,turnaroun
         routes=[routes[k] for k in sorted(routes)])
     request=dict(candidate_id=bundle['candidate_id'],stations=inactive,release_control=deepcopy(release_control),trains=deepcopy(trains),
         departures=ds,turnaround_s=turnaround_s,clearance_s=clearance_s,network=network)
+    request=native_numbers(request)
     request['id']=identity(request)
     sources=source_union(*packets,root=root);sources[PRODUCER]=digest(Path(root)/PRODUCER)
     manifest=dict(schema='osr-project-network-input/1',candidate_id=bundle['candidate_id'],bundle_evaluation_id=bundle['evaluation_id'],

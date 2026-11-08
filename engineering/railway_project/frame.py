@@ -138,6 +138,7 @@ def compile_frame(case,manifest,bundle,body,alignment,station,tracks,duty,envelo
         station_track_reference_domain_m=rail_domain,
         operating_envelope_reference_domain_m=deepcopy(domains['operating-envelope']),
         continuous_feed_reference_domain_m=deepcopy(domains['continuous-feed']),geometry=geometry)
+    frame=motion.native_numbers(frame)
     frame['context_id']=identity(frame)
     q=deepcopy(case);control=q['control'];old_policy=control['policy_id']
     q['distance_m']=D-origin_route_m;q['brake_start_m']=case['brake_start_m']-origin_route_m
@@ -157,6 +158,7 @@ def compile_frame(case,manifest,bundle,body,alignment,station,tracks,duty,envelo
         if control['research_v2']['berth_target_m']!=D:
             raise ValueError('Source controller target differs from physical route end')
         control['research_v2']['berth_target_m']=D-origin_route_m
+    control=motion.native_numbers(control);q['control']=control
     sources=source_union(*packets,root=root)
     sources[PRODUCER]=digest(Path(root)/PRODUCER)
     policy_parameters={k:v for k,v in control.items() if k not in control_policy.OBSERVATIONS and k!='policy_id'}

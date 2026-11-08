@@ -26,6 +26,28 @@ FIELDS={'load_state','mass_case','grade_fraction','grade_observation_fraction','
     'brake_independence_hypothesis','power_loss_at_s','failed_drive_fraction','emergency_at_m'}
 
 
+def native_numbers(value):
+    """Project a native all-f64 record before hashing, preserving exact values.
+
+    Case, EntryFrame and FleetCase numeric leaves are f64; booleans, strings and
+    nulls retain their types. Source inventories/counts are not this interface.
+    Refuse integer rounding instead of quietly changing a declared input. This
+    does not repair an imprecise native decoder or claim canonical Rust JSON.
+    """
+    if type(value) is int:
+        try:converted=float(value)
+        except OverflowError:raise ValueError('Native integer is outside finite binary64') from None
+        if not isfinite(converted) or int(converted)!=value:
+            raise ValueError('Native integer cannot be represented exactly as binary64')
+        return converted
+    if type(value) is float:
+        if not isfinite(value):raise ValueError('Finite binary64 native value required')
+        return value
+    if isinstance(value,dict):return {k:native_numbers(v) for k,v in value.items()}
+    if isinstance(value,list):return [native_numbers(v) for v in value]
+    return value
+
+
 def compile_case(bundle,body,alignment,duty,leg_index,scenario,*,direction=1,root=ROOT):
     for v in (bundle,body,alignment,duty):sealed(v)
     if (bundle.get('schema')!='osr-mapped-railway-project-bundle/1' or
@@ -106,6 +128,7 @@ def compile_case(bundle,body,alignment,duty,leg_index,scenario,*,direction=1,roo
         drive_fault_observed=False)
     if s['brake_latency_s']>control['reaction_time_bound_s']:
         raise ValueError('Plant brake latency exceeds the declared controller bound')
+    control=native_numbers(control)
     static={k:v for k,v in control.items() if k not in control_policy.OBSERVATIONS}
     control['policy_id']=identity(dict(candidate_id=bundle['candidate_id'],parameters=static,
         policy_sha256=digest(Path(root)/control_policy.POLICY),producer_sha256=digest(Path(root)/PRODUCER),
@@ -121,6 +144,7 @@ def compile_case(bundle,body,alignment,duty,leg_index,scenario,*,direction=1,roo
         dt_s=s['dt_s'],max_time_s=s['max_time_s'],dwell_s=s['dwell_s'],headway_s=s['headway_s'],
         auxiliary_power_w=hotel+fixed,drive=native_drive,
         fault={k:s[k] for k in ('power_loss_at_s','failed_drive_fraction','emergency_at_m')},thermal=None,control=control)
+    case=native_numbers(case)
     case['id']=identity(case)
     sources=source_union(bundle,body,alignment,duty,root=root)
     sources.update({PRODUCER:digest(Path(root)/PRODUCER),control_policy.POLICY:digest(Path(root)/control_policy.POLICY)})
