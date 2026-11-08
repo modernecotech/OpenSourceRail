@@ -289,6 +289,7 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
     write('declarations.json',encoded(declared_tolerances_and_process_times))
     for row in scope['selected']:
         pid=row['part']['id'];part_decl=declared_tolerances_and_process_times.get(pid);folder='parts/'+identity(pid)[:16];payloads=[];chars=[];operations=[];holds=[];variant_rows=[];revisions=set();complete=True
+        if part_decl is not None and not isinstance(part_decl,dict):raise ValueError('Structured part declarations required')
         if part_decl is not None and (not isinstance(part_decl.get('variants'),dict) or set(part_decl['variants'])-set(v['variant_id'] for v in row['variants'])):
             raise ValueError('Unknown declared geometry variant')
         if len(row['variants'])>MAX_VARIANTS:complete=False;holds.append('More than twelve distinct geometry variants; split into reviewed document scope')
@@ -321,7 +322,7 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
             for kind,document in documents.items():
                 review.contract.validate_document(document,row['part'],proposal['identities']);name=folder+'/'+kind+'-metadata.json';write(name,encoded(document));mapping[kind]=name
             components.append(mapping);conversions[pid]=dict(valuation_mode='source-priced-workpiece',source_part_sha256=identity(row['part']),stock_inputs=[],direct_process_allowance_usd=None)
-        coverage.append(dict(part_id=pid,source_pattern_ids=sorted(p for v in row['variants'] for p in v['pattern_ids']),variants=variant_rows,controlled_research_documents_complete=complete,finished_fabrication_drawing_complete=False,holds=list(dict.fromkeys(holds))))
+        coverage.append(dict(part_id=pid,source_pattern_ids=sorted(p for v in row['variants'] for p in v['pattern_ids']),variants=variant_rows,controlled_research_documents_complete=complete,finished_fabrication_drawing_complete=False,finished_geometry_and_fit_status='held',holds=list(dict.fromkeys(holds))))
     index=dict(schema='osr-controlled-research-documents/1',identities=deepcopy(proposal['identities']),components=components);write('documents.json',encoded(index));write('conversions.json',encoded(conversions))
     source=dict(scope['source_sha256'])
     for name,path in ((PRODUCER,Path(__file__)),(review.CONTRACT,review.ROOT/review.CONTRACT),
@@ -331,6 +332,6 @@ def export(body,proposal,output,selected_part_ids,declared_tolerances_and_proces
         source[name]=actual
     manifest=dict(schema=SCHEMA,identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],body_evaluation_id=body['evaluation_id'],source_sha256=source,
         coverage=dict(source_part_ids=sorted(p['id'] for p in proposal['items']),selected_part_ids=list(selected_part_ids),documented_part_ids=sorted(p['part_id'] for p in components),unselected_part_ids=sorted(set(p['id'] for p in proposal['items'])-set(selected_part_ids)),parts=coverage,all_selected_stock_documents_complete=all(p['controlled_research_documents_complete'] for p in coverage),whole_vehicle_finished_drawing_coverage_complete=False),
-        declarations_sha256=identity(declared_tolerances_and_process_times),cost_scope='Source direct part/process price retained once; routing times are non-additive declared planning inputs',
+        declarations_sha256=identity(declared_tolerances_and_process_times),manufacturing_readiness='held',cost_scope='Source direct part/process price retained once; routing times are non-additive declared planning inputs',
         files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()},**FLAGS)
     manifest['manifest_id']=identity(manifest);write('manifest.json',encoded(manifest));return manifest
