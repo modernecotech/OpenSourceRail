@@ -3,6 +3,7 @@ from pathlib import Path
 from copy import deepcopy
 import gzip,json,platform,shutil,subprocess,time
 from engineering.station_pair import native_bridge as journey
+from engineering.station_pair import native_products
 from engineering.station_rail.common import encoded,identity,digest
 from . import ROOT
 
@@ -10,9 +11,7 @@ from . import ROOT
 def execute(cases,state,*,root=ROOT):
     if not cases:return []
     state=Path(state).resolve();state.mkdir(parents=True,exist_ok=True)
-    binary,base=journey.build(state,root)
-    binary=binary.parent/'osr-station-fleet'
-    if not binary.is_file():raise ValueError('Explicit fleet binary required')
+    binary,base=native_products.build(state,'osr-station-fleet',root=root)
     build=dict(base,protocol='osr-station-fleet-request/1',binary_sha256=digest(binary))
     build.pop('receipt_id');build['receipt_id']=identity(build)
     (state/'fleet-build.json').write_bytes(encoded(build))

@@ -13,6 +13,7 @@ def sources(root=ROOT):
     paths=[p for p in (root/'engineering/station_cycle').rglob('*') if p.is_file()
         and p.suffix in ('.py','.json','.html','.css','.js')]
     return {**pair.source_hashes(root),**lifecycle.sources(root),**design.sources(root),
+        'engineering/station_pair/native_products.py':digest(root/'engineering/station_pair/native_products.py'),
         'engineering/design_search/requirement_policy.py':digest(root/'engineering/design_search/requirement_policy.py'),
         **{p.relative_to(root).as_posix():digest(p) for p in paths},
         history.OUTPUT+'/manifest.json':digest(root/history.OUTPUT/'manifest.json'),

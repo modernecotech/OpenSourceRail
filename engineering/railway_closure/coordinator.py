@@ -18,6 +18,7 @@ PARENT='engineering/railway_closure/data/frozen-installed-parent.json.gz'
 def sources(root=ROOT):
     root=Path(root)
     value=pair.source_hashes(root)
+    name='engineering/station_pair/native_products.py';value[name]=digest(root/name)
     for folder in ('engineering/railway_closure','engineering/vehicle_installation','engineering/pilot_civil','engineering/station_cycle','engineering/powered_bogie','engineering/recovery_search','engineering/pilot_delivery'):
         for p in (root/folder).rglob('*'):
             if p.is_file() and p.suffix in ('.py','.json','.gz','.html','.css','.js'):

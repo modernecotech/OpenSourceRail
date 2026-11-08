@@ -4,7 +4,7 @@ from copy import deepcopy
 import fcntl,gzip,json,os,shutil,subprocess,time,platform
 from engineering.station_rail.common import digest,encoded,identity
 from . import ROOT
-from engineering.station_pair import native_bridge as journey_bridge
+from engineering.station_pair import native_products
 
 NATIVE='engineering/station_pair/native'
 
@@ -18,9 +18,7 @@ def sources(root=ROOT):
 
 
 def build(state,root=ROOT):
-    binary,base=journey_bridge.build(state,root)
-    cycle=binary.parent/'osr-station-cycle'
-    if not cycle.is_file():raise ValueError('Cycle binary missing from native package build')
+    cycle,base=native_products.build(state,'osr-station-cycle',root=root)
     own=Path(state)/'cycle-build.json'
     if own.exists():
         previous=json.loads(own.read_bytes())
@@ -28,7 +26,7 @@ def build(state,root=ROOT):
             and (previous.get('receipt_id')!=identity({k:v for k,v in previous.items() if k!='receipt_id'})
                  or previous.get('binary_sha256')!=digest(cycle))):
             raise ValueError('Cycle binary or build receipt changed')
-    r=dict(base,journey_binary_sha256=base['binary_sha256'],binary_sha256=digest(cycle),protocol='osr-station-cycle-request/1')
+    r=dict(base,protocol='osr-station-cycle-request/1')
     r.pop('receipt_id',None);r['receipt_id']=identity(r)
     (Path(state)/'cycle-build.json').write_bytes(encoded(r))
     return cycle,r
