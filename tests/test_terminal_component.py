@@ -123,3 +123,15 @@ def test_self_intersecting_profile_and_broken_ordered_stack_fail_truthfully(monk
  src=fixture();src['component_proposal']['actual_joint_contracts']=[dict(id='SYNTHETIC/badstack',kind='ordered-through-stack',axis=0,direction=1,origin_m=[0,0,0],stack=dict(layers=[dict(start_m=.001,end_m=.003)]))]
  raw,pin=frozen(src,monkeypatch)
  with pytest.raises(ValueError,match='Ordered'):t.normalize(raw,pin=pin,request_id='b'*64)
+
+def test_unsupported_drawing_parameters_survive_identity_even_while_held(monkeypatch):
+ src=fixture();e=src['component_proposal']['entities'][1];e['physical_drawing']=dict(kind='revolved-frustum',height_m=.0024,small_radius_m=.002,large_radius_m=.004)
+ a=run(src,monkeypatch);e['physical_drawing']['large_radius_m']=.0042;b=run(src,monkeypatch)
+ assert a['canonical_draft']['definition_id']!=b['canonical_draft']['definition_id']
+ assert b['canonical_draft']['entities'][1]['finished_spec']['normalized_material_graph'] is None
+ assert any('frustum' in w['required_work'] for w in b['canonical_draft']['unsupported_work'])
+
+def test_boolean_joint_direction_is_not_a_rigid_axis_value(monkeypatch):
+ src=fixture();src['component_proposal']['actual_joint_contracts']=[dict(id='SYNTHETIC/bool',kind='ordered-through-stack',axis=0,direction=True,origin_m=[0,0,0])]
+ raw,pin=frozen(src,monkeypatch)
+ with pytest.raises(ValueError,match='axis'):t.normalize(raw,pin=pin,request_id='b'*64)

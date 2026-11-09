@@ -146,7 +146,7 @@ def joint_record(j):
  finite(j);kind=j.get('kind');status='held-exact-counterpart-member-binding-required'
  if not isinstance(j.get('id'),str) or not j['id']:raise ValueError('Named source joint required')
  if kind in ('ordered-through-stack','blind-threaded-boss','blind-threaded-endplate'):
-  if type(j['axis']) is not int or j['axis'] not in (0,1,2) or j['direction'] not in (-1,1):raise ValueError('Explicit joint axis/direction required')
+  if type(j['axis']) is not int or j['axis'] not in (0,1,2) or type(j['direction']) is not int or j['direction'] not in (-1,1):raise ValueError('Explicit joint axis/direction required')
   vector(j['origin_m']);s=j['stack'];at=0.
   for layer in s['layers']:
    a=scalar(layer['start_m']);b=scalar(layer['end_m'])
