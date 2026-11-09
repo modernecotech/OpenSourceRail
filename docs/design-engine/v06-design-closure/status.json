@@ -3,7 +3,7 @@
   "campaign_sha256": "3731528a682811dc3cc98df371764682b203c186cec3a1626ed2c4c98ec9024a",
   "gates": {
     "all-city-outline-reconciliation": {
-      "blocker": "The evaluator now accepts exact per-line demand inputs, but the published 266-city catalogue still uses shared 4,000 pphpd/200 s controls and transferred reference rates. No surveyed city/line demand, final alignment, China-volume versus local-manufacture scenario set or same-candidate recomputation has been added across the catalogue; a separate Samawah compact-drive outline does not close this gate.",
+      "blocker": "The evaluator accepts exact per-line demand inputs, and a source-bound five-line Samawah sensitivity propagates them through fleet and fourteen-scope costs. The 1,200 pphpd perturbations are planning sensitivities, not surveyed demand. The published 266-city catalogue still uses shared 4,000 pphpd/200 s controls and transferred reference rates; city forecasts, final alignments, China-volume versus local-manufacture cases and same-candidate recomputation across the catalogue remain open.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/all-city-baseline-audit/audit-summary.json",
@@ -12,6 +12,14 @@
         {
           "path": "docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json",
           "sha256": "3e335b5fd226c7dbb293237798f890b3229829e27eb89b2778d53c6da9e2ed4b"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity.md",
+          "sha256": "799354f5cdd3c690eaef877ccae1ca3d786c915164a44d6301eb97469d2fc03a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity-run-03/manifest.json",
+          "sha256": "b216776c1a3daa0dbbcb8b6dd764d7a7152399d12e25fb0684b54bf5c1f650ad"
         }
       ],
       "state": "open"
@@ -151,7 +159,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "980b6704a737fe984dbae334b78d846ba75604d78839369400a628703d8db750"
+          "sha256": "6612feead8af351228b494558d06b9acb4cd3365c56447eb0ca66646e154d6c2"
         }
       ],
       "state": "partial"

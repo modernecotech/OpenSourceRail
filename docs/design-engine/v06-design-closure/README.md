@@ -16,6 +16,8 @@
 
 [Samawah close-station consolidation study](samawah-station-consolidation.md)
 
+[Samawah per-line demand and whole-city cost sensitivity](samawah-line-demand-sensitivity.md)
+
 [Erratum for the sealed all-city audit packet](all-city-audit-errata.md)
 
 The machine-readable gate ledger is [status.json](status.json). Run
@@ -54,7 +56,7 @@ not implied by closure of this work.
 | Native GIS return path | Open | Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype now prevents normal project-bytecode loading and fixes preflight result-file boundary failures; its 20 importer tests, 21 bootstrap tests and five earlier-bootstrap regression probes passed. No GIS project was opened or round-tripped, and the run-07 proposal is still unexecuted and not admitted. See the [prototype review](native-gis-source-only-prototype.md). |
 | Candidate business lifecycle | Open | The available ERPNext delivery proposal is bound to an older body. A new compact-drive candidate was correctly refused as a mixed identity. No candidate-matched controlled documents, review pack or native lifecycle evidence exist yet. See the [candidate lifecycle audit](../v06-business-lifecycle-audit/README.md). |
 | Unified Workbench | Partial | A source-bound view covers the reconciled 1.5 km pilot, with its own candidate identity. It does not yet cover the closure campaign's full city-brief-to-compatible-alternatives path, same-candidate journey/cost/delivery, drawing/BOM/manufacturing review or reconciled downloadable dossier. See [`campaigns/v06-design-integration-closure.toml`](../../../campaigns/v06-design-integration-closure.toml). |
-| All-city outline reconciliation | Open | The service evaluator now accepts exact per-line demand inputs and derives each line's headway and evaluation identity independently, but the published 266-city catalogue still uses the shared 4,000 pphpd / 200 s study control and transferred reference rates. No surveyed city/line demand, final alignment, China-volume versus local-manufacture scenario set or same-candidate recomputation has been added across the catalogue. The Samawah compact-drive recalculation is still a separate candidate. |
+| All-city outline reconciliation | Open | The evaluator accepts exact per-line demand inputs, and a source-bound five-line Samawah sensitivity now propagates those inputs through fleet and fourteen-scope costs. Its 1,200 pphpd perturbations are planning sensitivities, not surveyed demand. The published 266-city catalogue still uses the shared 4,000 pphpd / 200 s study control and transferred reference rates; city forecasts, final alignments, China-volume versus local-manufacture cases and same-candidate recomputation across the catalogue remain open. See the [Samawah sensitivity](samawah-line-demand-sensitivity.md). |
 
 The all-city audit confirmed the catalogue and v0.4 front-door field coverage,
 not the correctness of local demand, rates or physical alignments. The
