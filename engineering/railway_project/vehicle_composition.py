@@ -521,6 +521,53 @@ def _machining_features(old, new, features):
             raise ValueError('Unowned/duplicate machining geometry change')
 
 
+def layout_datums(parent_layout, rows, revisions):
+    """Correct a declared seat datum from counted box faces, without moving stock.
+
+    Older source can carry a1.45m policy alongside already located1.60m pans.
+    All explicitly tagged pan faces need exact geometry references. This narrow
+    definition check establishes no occupant CG, comfort limit, measured
+    tolerance or installed clearance. Other layout changes need their own
+    physical/evaluator contract rather than this datum correction.
+    """
+    layout=deepcopy(parent_layout);receipts=[]
+    tagged={key for key,row in rows.items() if 'seat-pan-datum' in row['functions']}
+    if not isinstance(revisions,list) or len(revisions)>1:
+        raise ValueError('At most one explicit supported layout datum correction')
+    if tagged and not revisions:
+        raise ValueError('Counted seat datum owners require explicit face bindings')
+    for revision in revisions:
+        if not isinstance(revision,dict) or set(revision)!={'field','from_m','to_m','basis','face_bindings'} or revision['field']!='seat_pan_z_m':
+            raise ValueError('Unsupported physical layout datum correction')
+        old=_scalar(revision['from_m'],positive=True);new=_scalar(revision['to_m'],positive=True)
+        if layout.get('seat_pan_z_m')!=old or not isinstance(revision['basis'],str) or not revision['basis'].strip():
+            raise ValueError('Exact previous datum and explicit correction basis required')
+        if not _scalar(layout.get('floor_top_m'),positive=True)<new<_scalar(layout.get('roof_z_m'),positive=True):
+            raise ValueError('Seat datum outside explicit floor/roof domain')
+        bindings=revision['face_bindings']
+        if not isinstance(bindings,list) or not tagged or len(bindings)!=len(tagged):
+            raise ValueError('Every counted seat datum owner needs one face binding')
+        seen=set();residuals=[]
+        for b in bindings:
+            if not isinstance(b,dict) or set(b)!={'entity_id','geometry_sha256','face'} or b['entity_id'] in seen or b['entity_id'] not in tagged or b['face'] not in ('z-min','z-max'):
+                raise ValueError('Unique exact counted seat box face required')
+            seen.add(b['entity_id']);row=rows[b['entity_id']];g=row['geometry']
+            if g['kind']!='box' or g.get('holes') or b['geometry_sha256']!=identity(g):
+                raise ValueError('Exact unbored seat datum box geometry required')
+            if abs(abs(row['rotation'][2][2])-1.)>1e-10:
+                raise ValueError('Seat datum face is not horizontal in body coordinates')
+            local=[0.,0.,(-1 if b['face']=='z-min' else 1)*g['size_m'][2]/2]
+            z=transform(local,row['at_m'],row['rotation'])[2];residual=z-new
+            if abs(residual)>1e-10:
+                raise ValueError('Counted seat face differs from corrected datum')
+            residuals.append(dict(entity_id=b['entity_id'],face_z_m=z,residual_m=residual))
+        if seen!=tagged:raise ValueError('Missing counted seat datum owner')
+        layout['seat_pan_z_m']=new
+        receipts.append(dict(revision=deepcopy(revision),face_residuals=residuals,
+            stock_translation_m=0.,occupant_CG_inferred=False,physical_measurement=False))
+    return layout,receipts
+
+
 def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
     """Construct one research bundle only after explicit external input review.
 
@@ -620,7 +667,9 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
     installed=sorted(rows.values(),key=lambda r:r['id'])
     for r in installed:
         row_domain(r,parent['policy']['layout']['cars'])
-    physical=dict(schema='osr-composed-vehicle-physical/1',units='m',layout=deepcopy(parent['policy']['layout']),
+    layout,datum_receipts=layout_datums(parent['policy']['layout'],rows,integration.get('layout_datum_revisions',[]))
+    policy=deepcopy(parent['policy']);policy['layout']=layout
+    physical=dict(schema='osr-composed-vehicle-physical/1',units='m',layout=deepcopy(layout),
         track_interface=deepcopy(parent['physical_definition'].get('track_interface')),
         occurrences=[entity_physical(r)|dict(car_allocation=r['car_allocation'],bogie_index=r['bogie_index']) for r in installed],
         physical_interfaces=[interface_physical(c) for c in contracts])
@@ -659,7 +708,7 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
         assembly_plans=dict(status='Current swept/tool/lift/removal evaluation required',
             source_plan_ancestry_sha256=identity(parent.get('assembly_plans')),installations=deepcopy(insts),
             declared_sequences=[dict(definition_id=d['definition_id'],sequences=deepcopy(d.get('assembly_sequences',[]))) for d in definitions],accepted=False),
-        tare_mass_properties=totals,mass_scenarios=[],policy=deepcopy(parent['policy']),selection_id=None,
+        tare_mass_properties=totals,mass_scenarios=[],policy=policy,layout_datum_corrections=datum_receipts,selection_id=None,
         source_inputs=dict(parent=deepcopy(parent_pin),integration=reviewed_map_id,definitions=integration['definitions']),
         source_sha256=before,parent_source_sha256=deepcopy(parent.get('source_sha256',{})),
         cost_acceptance=False,fit_validation=None,journey_validation=None,native_validation=None,

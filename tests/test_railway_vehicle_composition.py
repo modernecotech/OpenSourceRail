@@ -9,6 +9,67 @@ from engineering.railway_project import vehicle_composition as v
 from engineering.station_rail.common import identity, encoded
 
 
+def datum_inputs():
+    data=inputs()
+    b,ds,m,pin=data
+    b['policy']['layout'].update(seat_pan_z_m=1.45,roof_z_m=3.55)
+    b=v.seal(b);pin={k:b[k] for k in ('candidate_id','evaluation_id')}
+    m['parent']=pin
+    data=(b,ds,v.seal(m),pin)
+    data=change_definition(data,lambda d:d['entities'][0].update(
+        at_m=[0.,0.,.70],functions=['support','seat-pan-datum']))
+    b,ds,m,pin=data
+    g=ds[0]['entities'][0]['geometry']
+    revision=dict(field='seat_pan_z_m',from_m=1.45,to_m=1.60,
+        basis='SYNTHETIC declared lower pan face; no measured anatomy or CG',
+        face_bindings=[dict(entity_id='module/0/new',geometry_sha256=identity(g),face='z-min')])
+    m['layout_datum_revisions']=[revision]
+    return b,ds,v.seal(m),pin
+
+
+def test_explicit_counted_seat_datum_correction_moves_no_stock_or_mass():
+    data=datum_inputs();b,ds,m,pin=data
+    result=run(data)
+    assert result['policy']['layout']['seat_pan_z_m']==1.60
+    assert result['physical_definition']['layout']['seat_pan_z_m']==1.60
+    assert result['policy']['layout'] is not result['physical_definition']['layout']
+    assert next(p for p in result['patterns'] if p['id']=='module/0/new')['at_m']==[ -1.,0.,1.70]
+    note=result['layout_datum_corrections'][0]
+    assert note['stock_translation_m']==0. and note['occupant_CG_inferred'] is False
+    assert note['physical_measurement'] is False
+    assert result['mass_scenarios']==[] and result['nominal_part_mass_kg']==cs(5.)
+    assert abs(note['face_residuals'][0]['residual_m'])<1e-10
+
+
+@pytest.mark.parametrize('mutate',[
+    lambda m:m.pop('layout_datum_revisions'),
+    lambda m:m['layout_datum_revisions'][0].update(from_m=1.4),
+    lambda m:m['layout_datum_revisions'][0].update(to_m=1.75),
+    lambda m:m['layout_datum_revisions'][0].update(to_m=True),
+    lambda m:m['layout_datum_revisions'][0].update(field='car_length_m'),
+    lambda m:m['layout_datum_revisions'][0].update(basis=''),
+    lambda m:m['layout_datum_revisions'][0].update(face_bindings=[]),
+    lambda m:m['layout_datum_revisions'][0]['face_bindings'][0].update(entity_id='missing'),
+    lambda m:m['layout_datum_revisions'][0]['face_bindings'][0].update(geometry_sha256='substituted'),
+    lambda m:m['layout_datum_revisions'][0]['face_bindings'][0].update(face='z-max'),
+    lambda m:m['layout_datum_revisions'].append(deepcopy(m['layout_datum_revisions'][0])),
+])
+def test_stale_unbound_or_wrong_seat_datum_correction_refused(mutate):
+    with pytest.raises(ValueError):run(change_map(datum_inputs(),mutate))
+
+
+def test_corrected_datum_changes_physical_id_but_reason_changes_only_evaluation():
+    a=run(datum_inputs())
+    b=run(change_map(datum_inputs(),lambda m:m['layout_datum_revisions'][0].update(basis='SYNTHETIC reviewed reason, same physical face')))
+    assert a['candidate_id']==b['candidate_id'] and a['evaluation_id']!=b['evaluation_id']
+    raw=datum_inputs()
+    raw=change_definition(raw,lambda d:d['entities'][0].update(functions=['support']))
+    raw=change_map(raw,lambda m:m.pop('layout_datum_revisions'))
+    c=run(raw)
+    assert a['candidate_id']!=c['candidate_id']
+    assert a['tare_mass_properties']==c['tare_mass_properties']
+
+
 @pytest.fixture(autouse=True)
 def prohibit_producers(monkeypatch):
     """No shell/native launch or historical body/catalogue producer in fixtures."""
