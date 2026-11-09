@@ -1,0 +1,61 @@
+from pathlib import Path
+import json,hashlib,math,ast
+P=Path(__file__).resolve().parent;R=P.parent;D=R/'terminal-frame-native-recipe-plan-02';N=R/'terminal-frame-native-prefix-01';W=Path('/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108')
+def enc(v):return(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def put(n,v):(P/n).write_bytes(enc(v))
+def cross(a,b):return[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]
+def dot(a,b):return sum(x*y for x,y in zip(a,b))
+case=json.loads((D/'case.json').read_bytes());nr=json.loads((N/'result.json').read_bytes());assert nr['execution']=='completed' and nr['native_calls']==3 and nr['source_inputs_tool_unchanged']
+records=[];count=0
+for e in case['entities']:
+ probes=[]
+ def q(kind,p,inside):
+  assert all(math.isfinite(v) for v in p);probes.append(dict(id=str(len(probes)),kind=kind,point_m=p,expected_inside=inside))
+ if e['kind']=='profile-prism':
+  o=e['origin_m'];a=e['plane_x_dir'];b=e['plane_y_dir'];n=cross(a,b);L=e['distance_m'];verts=[[o[i]+x*a[i]+y*b[i]+t*n[i] for i in range(3)] for x,y in e['points_m'] for t in [0,L]]
+  uv=[dot([e['centroid_m'][i]-o[i] for i in range(3)],v) for v in [a,b]]
+  sections=[uv]+[[.7*uv[i]+.3*v[i] for i in range(2)] for v in e['points_m']]
+  for v in sections:
+   for t in [.2,.5,.8]:q('profile-interior',[o[i]+v[0]*a[i]+v[1]*b[i]+L*t*n[i] for i in range(3)],True)
+  for t in [-.00025,L+.00025]:q('beyond-end-face',[o[i]+uv[0]*a[i]+uv[1]*b[i]+t*n[i] for i in range(3)],False)
+ else:
+  assert e['kind']=='box-minus-disjoint-cylinders';c=e['centre_m'];d=e['size_m'];verts=[[c[i]+d[i]*s[i]/2 for i in range(3)] for s in __import__('itertools').product([-1,1],repeat=3)]
+  q('endplate-interior',e['centroid_m'],True)
+  for h in e['holes']:
+   for f in [.2,.5,.8]:q('original-machining-void',[h['base_m'][i]+h['axis'][i]*h['length_m']*f for i in range(3)],False)
+   # Material beside each bore; offset safely beyond its radius and inside the20mm cap.
+   p=[h['base_m'][i]+h['axis'][i]*h['length_m']*.5 for i in range(3)];p[1]+=.004;q('material-beside-machining-void',p,True)
+  q('outside-endplate',[c[0]+d[0]/2+.00025,c[1],c[2]],False)
+ bbox=dict(min=[min(v[i] for v in verts) for i in range(3)],max=[max(v[i] for v in verts) for i in range(3)])
+ records.append(dict(id=e['id'],volume_m3=e['volume_m3'],centroid_m=e['centroid_m'],bbox_m=bbox,probes=probes));count+=len(probes)
+plan=dict(schema='osr-terminal-frame-BRep-finite-probe-plan/1',geometry_case_id=case['case_geometry_id'],source_case_sha256=sha(D/'case.json'),source_step_sha256=sha(N/'generate/assembly.step'),source_native_result_id=nr['evaluation_id'],body_count=26,records=records,probe_count=count,tolerance=dict(volume_abs_m3=1e-13,volume_rel=1e-7,coordinate_abs_m=1e-7,point_classification_mm=1e-5),scope='Finite per-solid tests and exact B-rep metrics; no full shape equivalence, machining threadhelix, WPS, fatigue, strength, wholevehicle fit or installed acceptance.',physical_accepted=False)
+plan['evaluation_id']=hashlib.sha256(enc(plan)).hexdigest();put('probe-plan.json',plan)
+base=W/'engineering/design_search/craft_backends/freecad_reference.py';tree=ast.parse(base.read_text());worker=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='WORKER' for t in n.targets))
+instrument=r'''
+    plan = request['probe_plan']
+    mapping = {}; issues = []; used = set(); tol = plan['tolerance']
+    by_name = {o.Name:o for o in doc.Objects if o.isDerivedFrom('Part::Feature') and hasattr(o,'Shape') and not o.Shape.isNull()}
+    for row in plan['records']:
+        matches = [b for b in bodies if math.isclose(b['volume_m3'],row['volume_m3'],rel_tol=tol['volume_rel'],abs_tol=tol['volume_abs_m3']) and all(abs(b['center_of_mass_m'][i]-row['centroid_m'][i])<=tol['coordinate_abs_m'] for i in range(3)) and all(abs(b['bbox_m'][s][i]-row['bbox_m'][s][i])<=tol['coordinate_abs_m'] for s in ['min','max'] for i in range(3))]
+        if len(matches)!=1 or matches[0]['native_name'] in used:
+            issues.append(dict(source_id=row['id'],native_matches=[x['native_name'] for x in matches])); continue
+        match=matches[0];used.add(match['native_name']);mapping[row['id']]=dict(native_name=match['native_name'],native_label=match['id'])
+    results=[]
+    if not issues:
+        for row in plan['records']:
+            shape=by_name[mapping[row['id']]['native_name']].Shape
+            for probe in row['probes']:
+                actual=bool(shape.isInside(App.Vector(*[v*1000 for v in probe['point_m']]),tol['point_classification_mm'],True))
+                results.append(dict(source_id=row['id'],probe_id=probe['id'],point_m=probe['point_m'],expected_inside=probe['expected_inside'],actual_inside=actual,passed=actual is probe['expected_inside']))
+    strict=sorted(x['id'] for x in bodies)==sorted(x['id'] for x in plan['records'])
+    result['point_probes']=dict(plan_id=plan['evaluation_id'],mapping=mapping,mapping_issues=issues,results=results,mismatches=[x for x in results if not x['passed']],expected_probe_count=plan['probe_count'],executed_probe_count=len(results),strict_native_name_identity='passed' if strict else 'failed',strict_name_failure=None if strict else 'Imported literal labels differ from exact source IDs; no rename/bijection by names established.',geometry_verification='passed' if not issues and len(results)==plan['probe_count'] and all(x['passed'] for x in results) else 'held')
+'''
+needle="    bodies.sort(key=lambda row: row['id'])";assert worker.count(needle)==1
+worker=worker.replace(needle,needle+'\n'+instrument).replace('started = time.monotonic()',"resource.setrlimit(resource.RLIMIT_CPU,(120,120))\nstarted = time.monotonic()",1)
+compile(worker,'terminal-frame-instrumented-worker','exec');(P/'worker.py').write_text(worker)
+req=dict(schema='osr-terminal-frame-independent-reference-request/1',state='UNEXECUTED; exact root authorization after source/data review',source_native_result_id=nr['evaluation_id'],geometry_case_id=case['case_geometry_id'],step=dict(path=str(N/'generate/assembly.step'),sha256=sha(N/'generate/assembly.step')),plan_sha256=sha(P/'probe-plan.json'),worker_sha256=sha(P/'worker.py'),base_worker_source_sha256=sha(base),maximum_FreeCAD_processes=1,actual_native_builds=0,retries=0,source_native_name_contract='Strict native source names evaluated separately; exact original labels and mismatch retained; geometry metric mapping does not replace source identity.',limits=dict(per_process_CPU_s=120,per_process_AS_bytes=2*1024**3,wall_s=180,global_output_bytes=100*1024**2,minimum_disk_and_MemAvailable_bytes=8*1024**3),render_calls_authorized=0,body_operations_authorized=0,physical_accepted=False)
+req['evaluation_id']=hashlib.sha256(enc(req)).hexdigest();put('request-UNEXECUTED.json',req)
+put('preparation-result.json',dict(schema='osr-terminal-frame-reference-preparation/1',request_id=req['evaluation_id'],probe_plan_id=plan['evaluation_id'],probe_count=count,planned_FreeCAD_processes=1,actual_FreeCAD_processes=0,native_builds=0,source_helpers=0,geometry_revision=False,physical_accepted=False))
+files=[dict(path=p.name,sha256=sha(p),bytes=p.stat().st_size) for p in sorted(P.iterdir()) if p.is_file() and p.name!='manifest.json'];m=dict(schema='osr-private-packet/1',files=files,actual_native_calls=0);m['evaluation_id']=hashlib.sha256(enc(m)).hexdigest();put('manifest.json',m)
+print(json.dumps(dict(request=req['evaluation_id'],plan=plan['evaluation_id'],probes=count,manifest_raw=sha(P/'manifest.json'))))

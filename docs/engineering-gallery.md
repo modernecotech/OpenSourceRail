@@ -14,6 +14,47 @@ The FEM replay retained the exact binary mesh and reproduced the earlier **13.94
 
 This is a homogeneous elastic concrete model with ideal bearing lines. Cracking, prestress, segment joints, fatigue, contact, erection and physical qualification remain unresolved. The located assembly image must not inherit this continuous-beam result. Geometry agreement and numerical convergence do not grant manufacturing or operating approval.
 
+## Terminal frame fabrication
+
+| Fabricated member | End-joint detail |
+|---|---|
+| [![Native terminal side-frame fabrication assembly](assets/terminal-frame-v06/fabrication.webp)](assets/terminal-frame-v06/frame.sc) | [![Finite weld deposits and blind bores with plates ghosted](assets/terminal-frame-v06/end-joint.webp)](assets/terminal-frame-v06/frame.step) |
+
+This local terminal side-frame proposal uses **four aluminium 5083 plates and two endplates**, with twelve finite weld-deposit regions. The hollow member is 635 × 20 × 120 mm; its endplates increase the overall length to 651 mm. Colour separates plates, endplates and filler for inspection; all use the same declared aluminium material. The close-up ghosts the plates without moving or enlarging any component.
+
+| Physical piece | Quantity | Nominal finished stock |
+|---|---:|---|
+| Side plate | 2 | 635 × 120 × 3 mm, with joint-edge preparation |
+| Top/bottom plate | 2 | 635 × 14 × 3 mm, with joint-edge preparation |
+| Front endplate | 1 | 12 × 20 × 120 mm; two blind major/pilot bore envelopes |
+| Rear endplate | 1 | 4 × 20 × 120 mm |
+
+The four longitudinal grooves are 2 mm wide and 2 mm deep, with 2 mm runouts at each end. Each cap has four internal 2 mm fillet-deposit regions. Splitting each long plate into three contiguous CAD regions represents the finite runouts; it creates **no additional plate purchases or assembly joints**. The 26 CAD regions retain six existing stock-account owners, including the filler accounts. They are not 26 purchased components. Original paid blanks remain counted once.
+
+SolidCraft 0.30.1 built and reopened the native and STEP files. FreeCAD 1.1.4 / OpenCASCADE 7.8.1 independently imported **26 valid, closed, positive single solids**, with a unique match by volume, centroid and bounds. All **416 finite material and void probes** agree. Maximum measured coordinate discrepancy was approximately 10⁻¹⁰ m. FreeCAD's literal source-name check remains **failed** because the importer renamed the solids; geometric matching does not repair that identity contract.
+
+These are nominal research shapes. Cylindrical major/pilot envelopes do not constitute manufactured thread helices. Torch access and assembly sequence, weld procedure and penetration, tolerances, heat effects, loads, fatigue and full-vehicle fit remain unresolved. The local result does not validate the complete terminal, the other frame variants or the installed train. It also carries no complete train cost or manufacturing release.
+
+Download [SolidCraft](assets/terminal-frame-v06/frame.sc), [STEP](assets/terminal-frame-v06/frame.step), [recorded commands](assets/terminal-frame-v06/commands.json), [source material regions](assets/terminal-frame-v06/case.json), [independent measurements](assets/terminal-frame-v06/FreeCAD.json), and the [evidence manifest](assets/terminal-frame-v06/manifest.json). The packet retains the source returns, original PNGs, cameras, native tool pin and independent reviews. Run the saved-data audit without a CAD tool:
+
+The [review provenance clarification](assets/terminal-frame-review-note.json) distinguishes the final supplement's three explicit status checks from the original geometry-roster checks. Both review epochs and the original presentation-binding record remain preserved.
+
+```bash
+python3 docs/assets/terminal-frame-v06/verify.py
+```
+
+To regenerate the exact CAD with the [pinned SolidCraft executable](assets/terminal-frame-v06/tool-pin.json), use a fresh output directory:
+
+```bash
+mkdir /tmp/osr-terminal-frame
+solidcraft-cli run docs/assets/terminal-frame-v06/commands.json \
+  --save /tmp/osr-terminal-frame/frame.sc \
+  --out /tmp/osr-terminal-frame/frame.step \
+  --results --json-out /tmp/osr-terminal-frame/results.json
+```
+
+This replays the recorded geometry commands; a fresh verification or render must record its own tool, inputs and resource context.
+
 ## Revised direct-floor chair
 
 | Chair and anchor coupon | Anchor underside |

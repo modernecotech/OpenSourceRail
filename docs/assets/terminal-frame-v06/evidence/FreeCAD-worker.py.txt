@@ -1,0 +1,84 @@
+import json, math, resource, time, traceback
+from pathlib import Path
+import FreeCAD as App
+import Part, Import
+
+root = Path(__file__).resolve().parent
+request = json.loads((root/'input.json').read_text())
+resource.setrlimit(resource.RLIMIT_CPU,(120,120))
+started = time.monotonic()
+doc = None
+result = dict(schema='osr-freecad-step-reference/1', execution='failed',
+              FreeCAD_version=list(App.Version()),
+              OpenCASCADE_version=str(getattr(Part, 'OCC_VERSION', 'unknown')),
+              native_units=dict(length='mm', area='mm2', volume='mm3'),
+              units=dict(length='m', area='m2', volume='m3'),
+              measurement_method='Exact imported OpenCASCADE B-rep; no tessellation',
+              display_offsets_applied=False, installed_mass_complete=False,
+              physical_accepted=False, engineering_accepted=False,
+              manufacturing_release=False, operating_release=False,
+              selected_reference_changed=False, movement_authority=False)
+try:
+    doc = App.newDocument('IndependentSTEPReference')
+    Import.insert(str(root/'input.step'), doc.Name)
+    doc.recompute()
+    bodies = []
+    imported = []
+    for obj in doc.Objects:
+        imported.append(dict(name=obj.Name, label=obj.Label, type_id=obj.TypeId))
+        if not obj.isDerivedFrom('Part::Feature') or not hasattr(obj, 'Shape'):
+            continue
+        shape = obj.Shape
+        if shape.isNull():
+            continue
+        solids = shape.Solids
+        conservative_box = shape.BoundBox
+        box = shape.optimalBoundingBox(False, False)
+        center = shape.CenterOfMass
+        bodies.append(dict(id=obj.Label, native_name=obj.Name, type_id=obj.TypeId,
+            shape_type=shape.ShapeType, solid_count=len(solids),
+            valid=bool(shape.isValid()), closed=bool(shape.isClosed()),
+            all_solids_closed_valid=bool(solids) and all(s.isClosed() and s.isValid() and s.Volume > 0 for s in solids),
+            volume_m3=shape.Volume*1e-9, area_m2=shape.Area*1e-6,
+            center_of_mass_m=[center.x*.001, center.y*.001, center.z*.001],
+            bbox_m=dict(min=[box.XMin*.001, box.YMin*.001, box.ZMin*.001],
+                        max=[box.XMax*.001, box.YMax*.001, box.ZMax*.001]),
+            bbox_method='OpenCASCADE optimalBoundingBox(False, False); no triangulation',
+            conservative_bbox_m=dict(
+                min=[conservative_box.XMin*.001, conservative_box.YMin*.001, conservative_box.ZMin*.001],
+                max=[conservative_box.XMax*.001, conservative_box.YMax*.001, conservative_box.ZMax*.001]),
+            mass_kg=None))
+    bodies.sort(key=lambda row: row['id'])
+
+    plan = request['probe_plan']
+    mapping = {}; issues = []; used = set(); tol = plan['tolerance']
+    by_name = {o.Name:o for o in doc.Objects if o.isDerivedFrom('Part::Feature') and hasattr(o,'Shape') and not o.Shape.isNull()}
+    for row in plan['records']:
+        matches = [b for b in bodies if math.isclose(b['volume_m3'],row['volume_m3'],rel_tol=tol['volume_rel'],abs_tol=tol['volume_abs_m3']) and all(abs(b['center_of_mass_m'][i]-row['centroid_m'][i])<=tol['coordinate_abs_m'] for i in range(3)) and all(abs(b['bbox_m'][s][i]-row['bbox_m'][s][i])<=tol['coordinate_abs_m'] for s in ['min','max'] for i in range(3))]
+        if len(matches)!=1 or matches[0]['native_name'] in used:
+            issues.append(dict(source_id=row['id'],native_matches=[x['native_name'] for x in matches])); continue
+        match=matches[0];used.add(match['native_name']);mapping[row['id']]=dict(native_name=match['native_name'],native_label=match['id'])
+    results=[]
+    if not issues:
+        for row in plan['records']:
+            shape=by_name[mapping[row['id']]['native_name']].Shape
+            for probe in row['probes']:
+                actual=bool(shape.isInside(App.Vector(*[v*1000 for v in probe['point_m']]),tol['point_classification_mm'],True))
+                results.append(dict(source_id=row['id'],probe_id=probe['id'],point_m=probe['point_m'],expected_inside=probe['expected_inside'],actual_inside=actual,passed=actual is probe['expected_inside']))
+    strict=sorted(x['id'] for x in bodies)==sorted(x['id'] for x in plan['records'])
+    result['point_probes']=dict(plan_id=plan['evaluation_id'],mapping=mapping,mapping_issues=issues,results=results,mismatches=[x for x in results if not x['passed']],expected_probe_count=plan['probe_count'],executed_probe_count=len(results),strict_native_name_identity='passed' if strict else 'failed',strict_name_failure=None if strict else 'Imported literal labels differ from exact source IDs; no rename/bijection by names established.',geometry_verification='passed' if not issues and len(results)==plan['probe_count'] and all(x['passed'] for x in results) else 'held')
+
+    result.update(execution='completed', bodies=bodies, imported_objects=imported,
+                  body_count=len(bodies), total_volume_m3=sum(b['volume_m3'] for b in bodies))
+except BaseException as error:
+    result.update(error=dict(type=type(error).__name__, message=str(error)),
+                  traceback=traceback.format_exc())
+finally:
+    result['native_wall_seconds'] = time.monotonic()-started
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    result['native_process_usage'] = dict(peak_rss_kib=usage.ru_maxrss,
+        user_cpu_seconds=usage.ru_utime, system_cpu_seconds=usage.ru_stime,
+        actual_address_space_limit_bytes=list(resource.getrlimit(resource.RLIMIT_AS)))
+    if doc is not None:
+        App.closeDocument(doc.Name)
+    (root/'measurement.json').write_text(json.dumps(result, sort_keys=True, indent=2, allow_nan=False)+'\n')

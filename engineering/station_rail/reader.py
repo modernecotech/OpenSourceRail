@@ -25,6 +25,7 @@ def _inputs(root):
     names += ['docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/vehicle-parts-stock-detail.json']
     names += ['docs/assets/terminal-parts-v06/'+name for name in ('manifest.json','corner.webp','bracket.webp')]
     names += ['docs/assets/chair-installation-r4-v06/'+name for name in ('manifest.json','chair.webp','anchor.webp')]
+    names += ['docs/assets/terminal-frame-v06/'+name for name in ('manifest.json','fabrication.webp','end-joint.webp')]
     names += [ILLUSTRATIONS,*(image['file'] for image in _illustrations(root))]
     return {name:digest(root/name) for name in names}
 
@@ -129,6 +130,11 @@ def build(root=ROOT,output=None,check=False):
     story.append(Image(str(root/'docs/assets/terminal-parts-v06/corner.webp'),width=430,height=430*1900/3000))
     story.append(Image(str(root/'docs/assets/terminal-parts-v06/bracket.webp'),width=430,height=430*1900/3000))
     para('Surrounding sections are ghosted for visibility. Unknown hardware and the free gasket are excluded. Sealing response, joint strength, fatigue and installed fit remain open. Test-piece volumes are not extra installed vehicle stock. See docs/engineering-gallery.md for native files, commands, provenance and the read-only audit.')
+    page('Terminal frame fabrication from native CAD')
+    para('One local aluminium 5083 side-frame proposal uses four long plates and two endplates, with twelve finite weld-deposit regions. The hollow member is 635 x 20 x 120 mm; overall length is 651 mm. Its 26 CAD regions preserve six existing stock-account owners, including filler, and introduce no extra plate purchases. Colours distinguish plates, endplates and filler; ghosting exposes the actual joints without moving them.')
+    story.append(Image(str(root/'docs/assets/terminal-frame-v06/fabrication.webp'),width=360,height=360*1900/3000))
+    story.append(Image(str(root/'docs/assets/terminal-frame-v06/end-joint.webp'),width=360,height=360*1900/3000))
+    para('SolidCraft generated and reopened native/STEP geometry. FreeCAD independently measured 26 valid, closed, positive single solids with unique volume, centroid and bounding-box correspondence; all 416 finite material/void probes agree. Literal imported source names failed their separate identity check and remain failed. Blind major/pilot bore envelopes are not manufactured thread helices. Weld procedure, torch access, assembly sequence, tolerances, loads, fatigue and full-body installation remain unresolved. The local research model grants no manufacturing or operating approval. Native files, source regions, original PNGs, camera recipes and a read-only saved-evidence audit are linked from docs/engineering-gallery.md.')
     page('Chair and anchor hardware from native CAD')
     para('One local direct-floor chair proposal contains 275 material solids: aluminium frame and mounting plates, sandwich shells, cushions/covers, insulating liners and nominal fixing blanks. SolidCraft generated and reopened the native and STEP models. An independent FreeCAD import uniquely matches all 275 positive, valid, closed solids by volume, centroid and bounds; all 2,427 finite material/void probes agree. Imported part names failed their separate strict check and remain recorded as failed.')
     story.append(Image(str(root/'docs/assets/chair-installation-r4-v06/chair.webp'),width=390,height=390*1900/3000))

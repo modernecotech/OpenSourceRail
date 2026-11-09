@@ -88,6 +88,9 @@ These views come from recorded engineering geometry and native analysis results.
 | **Terminal seal joint** | **Body attachment bracket** |
 | [![Native SolidCraft terminal corner showing sealing lands, retainers, sleeves and panel fixings with surrounding sections ghosted](docs/assets/terminal-parts-v06/corner.webp)](docs/engineering-gallery.md#terminal-joint-coupons) | [![Native SolidCraft folded body attachment bracket with bored sleeves and fixings between ghosted frame sections](docs/assets/terminal-parts-v06/bracket.webp)](docs/engineering-gallery.md#terminal-joint-coupons) |
 | 35 known parts represented by 43 material solids; seal and hardware details remain open. | Nine known parts represented by 11 material solids; joint strength and installed fit remain open. |
+| **Terminal frame fabrication** | **Welds and blind-bore detail** |
+| [![Native SolidCraft terminal side-frame member made from four plates and two endplates](docs/assets/terminal-frame-v06/fabrication.webp)](docs/engineering-gallery.md#terminal-frame-fabrication) | [![Native SolidCraft close-up showing finite weld deposits and original endplate bores through ghosted plates](docs/assets/terminal-frame-v06/end-joint.webp)](docs/engineering-gallery.md#terminal-frame-fabrication) |
+| Six physical plates; 635 mm hollow member, 651 mm overall. | Exact local geometry checked in FreeCAD; welding access, strength and full-body installation remain open. |
 | **Revised direct-floor chair** | **Anchor hardware from below** |
 | [![Native SolidCraft chair proposal showing aluminium frame, sandwich shells, cushions, shared armrest and mounting feet](docs/assets/chair-installation-r4-v06/chair.webp)](docs/engineering-gallery.md#revised-direct-floor-chair) | [![Native SolidCraft underside view exposing four anchor sleeves, insulating liners, backing pads and captive nut retainers](docs/assets/chair-installation-r4-v06/anchor.webp)](docs/engineering-gallery.md#revised-direct-floor-chair) |
 

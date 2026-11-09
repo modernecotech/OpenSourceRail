@@ -1,0 +1,89 @@
+"""One data-only CAD recipe projection from exact retained local definitions.
+
+This is a numerical input package, not an admitted body/geometry backend. The
+four fabricated plates are split into CAD regions only to retain finite weld
+runouts. No extra plate stock, cut, assembly or purchase is introduced.
+"""
+from pathlib import Path
+import json,gzip,hashlib,math,resource,time
+P=Path(__file__).resolve().parent;B=P.parent;RUN=B/'terminal-weld-subset-definition-run-01';TARGET='side-stiffener/1/0/front'
+E=lambda v:hashlib.sha256((json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()).hexdigest()
+H=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def read(p):
+ b=Path(p).read_bytes();return json.loads(gzip.decompress(b) if b[:2]==b'\x1f\x8b' else b)
+def save(n,v):
+ with (P/n).open('x') as f:json.dump(v,f,sort_keys=True,indent=2,allow_nan=False);f.write('\n')
+def sealed(v):return v['evaluation_id']==E({k:x for k,x in v.items() if k!='evaluation_id'})
+def near(a,b):return abs(a-b)<1e-11
+def local(p):return [p[k]-T[k] for k in range(3)]
+def add(a,b):return [a[k]+b[k] for k in range(3)]
+def sub(a,b):return [a[k]-b[k] for k in range(3)]
+def dot(a,b):return sum(a[k]*b[k] for k in range(3))
+def cross(a,b):return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]
+def unit(v):
+ L=math.sqrt(dot(v,v));assert L>0;return [x/L for x in v],L
+def polygon(points):
+ A=sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(points,points[1:]+points[:1]))/2
+ if A<0:return polygon(list(reversed(points)))
+ assert A>0
+ C=[sum((a[k]+b[k])*(a[0]*b[1]-a[1]*b[0]) for a,b in zip(points,points[1:]+points[:1]))/(6*A) for k in range(2)]
+ return points,A,C
+result=read(RUN/'outputs/definition-result.json');assert sealed(result) and result['evaluation_id']=='7077165d3de358fa3753fb77c0cf0dbcf0a29d3722d130d841011403320193bc'
+src_path=B/'terminal-two-end-definition-run-03/definition.json.gz';assert H(src_path)=='cdef7bfebda549f45a4e1c160c58b07f584c610782c56528c541bf8e43bcb82c';src=read(src_path);es={e['id']:e for e in src['component_proposal']['entities']};gs={g['id']:g for g in src['component_proposal']['stock_groups']}
+summary=next(x for x in result['parents'] if x['parent_id']==TARGET);source_path=RUN/summary['stored']['path'];assert H(source_path)==summary['stored']['sha256'];proposal=read(source_path);assert sealed(proposal) and proposal['physical_definition_id']==E(proposal['physical_definition'])
+parent=proposal['source_parent'];new=proposal['replacement_parent_entity'];T=parent['at_m'];I=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
+assert parent['rotation']==I and new['rotation']==I
+g=parent['geometry'];L,b,h=g['size_m'];t=g['wall_m'];start=proposal['physical_definition']['trim_start_m'];end=proposal['physical_definition']['trim_end_m']
+assert set(g)<=set(('kind','size_m','wall_m','corner_bevels','holes')) and g['kind']=='rhs' and g['corner_bevels']['leg_m']==.002 and start==end==.002
+assert set(new['geometry'])<=set(('kind','size_m','wall_m','finite_void_prisms','holes')) and len(new['geometry']['finite_void_prisms'])==4 and not g.get('holes')
+assert near(L,.635) and near(b,.020) and near(h,.120) and near(t,.003)
+a=.001;d=.002;ym=-b/2+t;yp=b/2-t;zl=-h/2+t;zh=h/2-t
+polys={
+ 'side-minus':[[-b/2,-h/2],[ym-a,-h/2],[ym,-h/2+d],[ym,h/2-d],[ym-a,h/2],[-b/2,h/2]],
+ 'side-plus':[[yp,-h/2+d],[yp+a,-h/2],[b/2,-h/2],[b/2,h/2],[yp+a,h/2],[yp,h/2-d]],
+ 'top':[[ym,zh],[yp,zh],[yp,h/2-d],[yp-a,h/2],[ym+a,h/2],[ym,h/2-d]],
+ 'bottom':[[ym,-zh],[yp,-zh],[yp,-h/2+d],[yp-a,-h/2],[ym+a,-h/2],[ym,-h/2+d]],
+}
+rects={'side-minus':[[-b/2,-h/2],[ym,-h/2],[ym,h/2],[-b/2,h/2]],'side-plus':[[yp,-h/2],[b/2,-h/2],[b/2,h/2],[yp,h/2]],'top':[[ym,zh],[yp,zh],[yp,h/2],[ym,h/2]],'bottom':[[ym,-h/2],[yp,-h/2],[yp,-zh],[ym,-zh]]}
+entities=[];commands=[];proof=[]
+def command(name,p):commands.append(dict(command=name,params=p))
+def profile(name,points,origin,xdir,ydir,length,owner,role,reference_vertices=None):
+ pts,A,C=polygon(points);axis=cross(xdir,ydir);cent=add(add(origin,[xdir[k]*C[0]+ydir[k]*C[1] for k in range(3)]),[axis[k]*length/2 for k in range(3)])
+ e=dict(id=name,kind='profile-prism',origin_m=origin,plane_x_dir=xdir,plane_y_dir=ydir,points_m=pts,distance_m=length,volume_m3=A*length,centroid_m=cent,stock_owner=owner,material_id='al5083',role=role)
+ if reference_vertices is not None:e['reference_vertices_m']=reference_vertices
+ entities.append(e)
+ command('sketch.create',dict(plane=dict(origin=[x*1000 for x in origin],x_dir=xdir,y_dir=ydir),name='OSR '+name));command('sketch.line',dict(points=[[x*1000 for x in p] for p in pts],closed=True,infer=False));command('sketch.finish',{});command('solid.extrude',dict(distance=length*1000,operation='new',body_name=name));command('material.assign',dict(bodies=[name],material='OSR terminal al5083'))
+ return e
+def prism(name,vertices,owner,role,expected_V):
+ v=[local(x) for x in vertices];axis,length=unit(sub(v[3],v[0]));xdir,_=unit(sub(v[1],v[0]));ydir=cross(axis,xdir);points=[[dot(sub(p,v[0]),xdir),dot(sub(p,v[0]),ydir)] for p in v[:3]]
+ e=profile(name,points,v[0],xdir,ydir,length,owner,role,v);assert near(e['volume_m3'],expected_V)
+ for p,q in zip(v[:3],v[3:]):assert all(near(q[k]-p[k],axis[k]*length) for k in range(3))
+ return e
+command('document.units',dict(units='mm'));command('material.create',dict(name='OSR terminal al5083',density_g_cm3=2.66))
+for name in polys:
+ owner=proposal['accounting']['parent_old_owner_id']
+ for label,x,length,poly in [('middle',-L/2+start,L-start-end,polys[name]),('end-minus',-L/2,start,rects[name]),('end-plus',L/2-end,end,rects[name])]:profile('plate/'+name+'/'+label,poly,[x,0.,0.],[0.,1.,0.],[0.,0.,1.],length,owner,'one-source-plate-CAD-region')
+parentV=sum(e['volume_m3'] for e in entities);assert near(parentV,proposal['parent_new_volume_m3'])
+for i,q in enumerate(proposal['grooves']):prism('deposit/long/'+str(i),q['vertices_m'],proposal['accounting']['weld_old_owner_id'],'longitudinal-groove-filler',q['volume_m3'])
+assert near(sum(e['volume_m3'] for e in entities if e['role']=='longitudinal-groove-filler'),proposal['filler_new_volume_m3'])
+caps=[];cavities=[]
+for end_index in (0,1):
+ cap=es[TARGET+'/endplate'+str(end_index)];cg=cap['geometry'];assert cg['kind']=='box' and cap['rotation']==I and set(cg)<=set(('kind','size_m','holes'))
+ name='endplate/'+str(end_index);c=local(cap['at_m']);size=cg['size_m'];V=math.prod(size);M=[V*x for x in c];owner=next(s['id'] for s in gs.values() if cap['id'] in s['entity_ids']);command('solid.box',dict(length=size[0]*1000,width=size[1]*1000,height=size[2]*1000,corner=[(c[k]-size[k]/2)*1000 for k in range(3)],operation='new',body_name=name))
+ cuts=[]
+ for hole in cg.get('holes',[]):
+  assert set(hole)=={'axis','centre_m','radius_m','length_m'} and hole['axis']==0
+  centre=add(c,hole['centre_m']);base=centre[:];base[0]-=hole['length_m']/2;cutV=math.pi*hole['radius_m']**2*hole['length_m'];V-=cutV;M=[M[k]-cutV*centre[k] for k in range(3)];cuts.append(dict(base_m=base,axis=[1.,0.,0.],radius_m=hole['radius_m'],length_m=hole['length_m'],source_cut=hole));command('solid.cylinder',dict(radius=hole['radius_m']*1000,height=hole['length_m']*1000,base=[x*1000 for x in base],axis=[1.,0.,0.],operation='cut',targets=[name]))
+ command('material.assign',dict(bodies=[name],material='OSR terminal al5083'));entities.append(dict(id=name,kind='box-minus-disjoint-cylinders',centre_m=c,size_m=size,holes=cuts,volume_m3=V,centroid_m=[x/V for x in M],stock_owner=owner,material_id='al5083',role='original-endplate-with-original-voids'));caps.append(dict(id=cap['id'],source_sha256=E(cap),stock_owner=owner))
+ summary=next(x for x in result['cavities'] if x['weld_id']==TARGET+'/weld'+str(end_index));path=RUN/summary['definition']['stored']['path'];assert H(path)==summary['definition']['stored']['sha256'];cv=read(path);assert sealed(cv) and E(cv['physical_definition'])==cv['physical_definition_id'];cavities.append(dict(path=str(path),sha256=H(path),evaluation_id=cv['evaluation_id'],physical_definition_id=cv['physical_definition_id']))
+ for i,q in enumerate(cv['beads']):prism('deposit/end-'+str(end_index)+'/'+str(i),q['poly']['vertices'],cv['accounting']['old_owner_id'],'internal-endplate-fillet',q['volume_m3'])
+ assert near(sum(e['volume_m3'] for e in entities if e['id'].startswith('deposit/end-'+str(end_index)+'/')),cv['net_volume_m3'])
+assert len(entities)==len({e['id'] for e in entities})==26
+assert len({e['stock_owner'] for e in entities})==6
+drawing_entities=[{k:v for k,v in e.items() if k not in ('volume_m3','centroid_m')} for e in entities]
+physical=dict(schema='osr-terminal-fabrication-native-region-case/2',units='m',source_terminal_member_id=TARGET,placement_in_terminal=dict(at_m=T,rotation=I),CAD_region_partition='Each physical sourceplate is partitioned into3contiguous CADregions to retain exact2mm weld runouts; not3purchases/cuts or plate assemblies',entities=drawing_entities)
+cid=E(physical);metadata=dict(component_geometry_id=cid,source_execution_id=result['evaluation_id'],source_parent_proposal_id=proposal['evaluation_id'],source_parent_physical_id=proposal['physical_definition_id'],source_cavity_definitions=cavities,source_model_scope='One terminal side-frame rail fabrication subassembly; exact declared nominalmaterial, not a fullvehicle/qualifiedweld',physical_accepted=False,engineering_accepted=False,selected_reference_changed=False,display_offsets_applied=False,canonical_body_generated=False)
+commands.insert(1,dict(command='document.metadata.set',params=dict(values={'org.opensourcerail.terminal-fabrication':metadata})));command('inspect.measure',{})
+case=dict(physical_definition=physical,case_geometry_id=cid,entities=entities,source_metadata=metadata);case['evaluation_id']=E(case);save('case.json',case);save('commands.json',dict(commands=commands,geometry_case_id=cid,units='mm',conversion='Every SI length multiplied by1000exactly once; no source secondlift or display displacement'))
+expected=dict(schema='osr-terminal-fabrication-native-expected/1',case_geometry_id=cid,body_count=26,source_physical_plate_count=6,longitudinal_source_plate_count=4,original_endplate_count=2,deposit_solid_count=12,paid_source_member_owner_count=1,extra_plate_purchase_count=0,body_metrics=[dict(id=e['id'],volume_m3=e['volume_m3'],centroid_m=e['centroid_m'],stock_owner=e['stock_owner']) for e in entities],total_volume_m3=sum(e['volume_m3'] for e in entities),parent_material_volume_m3=parentV,scope='Exact declared material CADregions, not an installedmass or manufacture/physical release',physical_accepted=False);expected['evaluation_id']=E(expected);save('expected.json',expected)
+report=dict(schema='osr-terminal-fabrication-CAD-recipe-preparation/1',source_raw_sha256=H(src_path),source_subset_execution_id=result['evaluation_id'],source_parent_return=dict(path=str(source_path),sha256=H(source_path),evaluation_id=proposal['evaluation_id']),source_cavities=cavities,case_geometry_id=cid,native_commands=len(commands),expected_bodies=26,source_helper_calls=0,upstream_producer_calls=0,actual_CAD_recipe_projection_calls=1,actual_native_calls=0,actual_body_operations=0,independent_recipe_review_pending=True,physical_accepted=False,release_created=False,CPU_s=time.process_time(),peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss);report['evaluation_id']=E(report);save('preparation-result.json',report);print(json.dumps(dict(preparation_id=report['evaluation_id'],geometry_case_id=cid,bodies=26,commands=len(commands))))

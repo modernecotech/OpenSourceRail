@@ -53,6 +53,8 @@ jobs:
         run: python -m pytest -q --import-mode=importlib tests/test_engineering_gallery_cad.py tests/test_engineering_gallery_fem.py tests/test_engineering_gallery_publication.py
       - name: Chair material geometry, independent feature probes and saved native evidence
         run: python -m pytest -q --import-mode=importlib tests/test_chair_installation.py tests/test_chair_native_geometry.py tests/test_chair_native_probes.py tests/test_chair_r4_publication.py
+      - name: Terminal fabrication material and saved native evidence
+        run: python -m pytest -q --import-mode=importlib tests/test_terminal_frame_publication.py
       - name: Installed research assembly, material ownership and counterpart contracts
         run: >-
           python -m pytest -q --import-mode=importlib

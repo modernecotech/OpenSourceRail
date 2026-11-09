@@ -1,0 +1,71 @@
+from pathlib import Path
+import sys,json,hashlib,resource,shutil,subprocess,signal,os,time,traceback
+P=Path(__file__).resolve().parent;R=P.parent;D=R/'terminal-frame-native-recipe-plan-02';W=Path('/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108')
+sys.path.insert(0,str(W))
+from engineering.design_search.craft_backends import native,solidcraft
+resource.setrlimit(resource.RLIMIT_CPU,(120,180));resource.setrlimit(resource.RLIMIT_AS,(1024**3,2*1024**3));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+raw=lambda v:(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+put=lambda n,v:(P/n).write_bytes(raw(v))
+def state(p):
+ s=p.stat();return [sha(p),s.st_ino,s.st_mtime_ns,s.st_size]
+def available():return int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemAvailable:')))*1024
+def usage_bytes():return sum(p.stat().st_size for p in P.rglob('*') if p.is_file())
+request_path=D/'native-request-UNEXECUTED.json';request=json.loads(request_path.read_bytes())
+assert request['evaluation_id']=='83923548e55cceb8e6d72e5793aa33f3eb2e339b1e99295c9e152711a53dd5b1'
+assert sha(D/'manifest.json')=='34abc68d207d07bed7d38315178d0b3e09b1f40e89781aa7e5304a076f3e3603'
+reviewdir=R/'terminal-frame-native-recipe-independent-review-02'
+assert sha(reviewdir/'manifest.json')=='a3f46cff64a07e539b212d0e268adf7ef2df68e5ea355ebd4d7d5c632c7f1fe8'
+for name in ('case','commands','expected'):assert sha(D/(name+'.json'))==request[name+'_sha256']
+case=json.loads((D/'case.json').read_bytes());assert len(case['entities'])==26 and case['case_geometry_id']==request['geometry_case_id']
+binary=native.executable('solidcraft');assert sha(binary)==request['tool_executable']['sha256'];install=binary.parent.parent
+watched=list(D.glob('*'))+list(reviewdir.glob('*'))+[Path(native.__file__),Path(solidcraft.__file__),native.LOCK,binary]
+watched=[p for p in watched if p.is_file()];before={str(p):state(p) for p in watched}
+assert shutil.disk_usage(P).free>=8*1024**3 and available()>=8*1024**3
+approval=dict(schema='osr-terminal-frame-native-prefix-root-authorization/1',original_request_id=request['evaluation_id'],source_independent_review='6985bd3b4d2c07314ea91ce77684f50e36cad5cef14e971ff2fa83099c7f3827',geometry_case_id=case['case_geometry_id'],authorized_stages=['native-build','reopen-SC','reopen-STEP'],maximum_calls_each=1,FreeCAD_calls_authorized=0,render_or_publication_authorized=False,no_retry=True,physical_accepted=False,scope=request['scope'],source_input_tool_SHA_inode_mtime=before,global_output_bytes=100*1024**2,minimum_free_bytes=8*1024**3,supervisor_source_sha256=sha(Path(__file__)),limits=request['limits'])
+approval['evaluation_id']=hashlib.sha256(raw(approval)).hexdigest();put('authorization.json',approval)
+shutil.copyfile(D/'commands.json',P/'commands.json');(P/'commands.json').chmod(0o444)
+for d in ('generate','reopen-sc','reopen-step','config','cache','data','tmp'):(P/d).mkdir()
+result=dict(schema='osr-terminal-frame-native-prefix-execution/1',authorization_id=approval['evaluation_id'],original_request_id=request['evaluation_id'],geometry_case_id=case['case_geometry_id'],stages=[],physical_accepted=False,engineering_accepted=False,installed_vehicle_admitted=False,render_authorized=False)
+start=time.monotonic()
+try:
+ for stage in request['stages']:
+  name=stage['id'];cpu=request['limits']['per_process_CPU_s'];mem=request['limits']['per_process_AS_bytes'];wall=request['limits']['wall_s_each']
+  assert shutil.disk_usage(P).free>=8*1024**3 and available()>=8*1024**3
+  assert before=={str(p):state(p) for p in watched}
+  argv=['bwrap','--die-with-parent','--unshare-net','--unshare-pid','--ro-bind','/','/','--tmpfs','/home','--tmpfs','/root','--dev','/dev','--ro-bind',str(install),str(install),'--bind',str(P),str(P),'--chdir',str(P),'--',str(binary),*stage['argv']]
+  env={**os.environ,'SOLIDCRAFT_GPU':'cpu','FIELDCRAFT_GPU':'cpu','OMP_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','MKL_NUM_THREADS':'1','RAYON_NUM_THREADS':'2','XDG_CONFIG_HOME':str(P/'config'),'XDG_CACHE_HOME':str(P/'cache'),'XDG_DATA_HOME':str(P/'data'),'TMPDIR':str(P/'tmp')}
+  def limits():
+   resource.setrlimit(resource.RLIMIT_CPU,(cpu,cpu));resource.setrlimit(resource.RLIMIT_AS,(mem,mem));resource.setrlimit(resource.RLIMIT_FSIZE,(100*1024**2,100*1024**2));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+  record=dict(stage=name,argv=argv,limits=dict(per_process_CPU_s=cpu,per_process_AS_bytes=mem,wall_s=wall,FSIZE_bytes=100*1024**2),isolation='Bubblewrap PID/network unshared, host read-only, hidden home/root and exact native install read-only; private output writable. No cgroup aggregate-memory or aggregate-CPU claim.')
+  put(name+'-request.json',record);t=time.monotonic();u0=resource.getrusage(resource.RUSAGE_CHILDREN)
+  with (P/(name+'-stdout.log')).open('wb') as out,(P/(name+'-stderr.log')).open('wb') as err:
+   proc=subprocess.Popen(argv,cwd=P,env=env,stdout=out,stderr=err,start_new_session=True,preexec_fn=limits)
+   breach=None
+   while proc.poll() is None:
+    if time.monotonic()-t>wall:breach='wall-budget'
+    elif usage_bytes()>100*1024**2:breach='output-budget'
+    elif shutil.disk_usage(P).free<8*1024**3:breach='host-free-reserve'
+    elif available()<8*1024**3:breach='host-memory-reserve'
+    if breach:
+     try:os.killpg(proc.pid,signal.SIGKILL)
+     except ProcessLookupError:pass
+     break
+    time.sleep(.1)
+   rc=proc.wait()
+  u1=resource.getrusage(resource.RUSAGE_CHILDREN)
+  record.update(returncode=rc,budget_breach=breach,wall_s=time.monotonic()-t,observed_waited_CPU_s=(u1.ru_utime+u1.ru_stime-u0.ru_utime-u0.ru_stime),peak_waited_child_RSS_KiB=u1.ru_maxrss)
+  result['stages'].append(record);put(name+'-execution.json',record)
+  assert rc==0 and breach is None,(name,rc,breach)
+  target=P/('generate/results.json' if name=='native-build' else 'reopen-sc/measure.json' if name=='reopen-SC' else 'reopen-step/measure.json')
+  value=json.loads(target.read_bytes());metrics=solidcraft.parse_measurements(value)
+  assert len(metrics['bodies'])==26 and all(b['volume_m3']>0 for b in metrics['bodies'])
+  record['measurement_bodies']=len(metrics['bodies']);record['measurement_sha256']=sha(target)
+  put(name+'-measurement-summary.json',dict(bodies=len(metrics['bodies']),raw_sha256=sha(target),interpretation='Native tessellation diagnostics only; no B-rep or shape qualification',physical_accepted=False))
+ result['execution']='completed'
+except BaseException as exc:
+ result.update(execution='held',error=dict(type=type(exc).__name__,message=str(exc)),traceback=traceback.format_exc())
+finally:
+ result.update(wall_s=time.monotonic()-start,native_calls=len(result['stages']),source_inputs_tool_unchanged=before=={str(p):state(p) for p in watched},output_bytes=usage_bytes())
+ result['evaluation_id']=hashlib.sha256(raw(result)).hexdigest();put('result.json',result)
+ print(json.dumps({k:v for k,v in result.items() if k not in ('stages','traceback')}),flush=True)
