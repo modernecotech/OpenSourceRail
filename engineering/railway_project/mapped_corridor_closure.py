@@ -27,7 +27,8 @@ SCOPES = (
 
 
 def audit(seed_candidate_id=SEED, body_candidate_id=BODY, *,
-          prior_geometry=PRIOR_GEOMETRY, service_seed=None, source_sha256=None):
+          prior_geometry=PRIOR_GEOMETRY, service_seed=None, source_sha256=None,
+          geometry_revision=None):
     """Return a sealed, explicitly held closure record; never manufacture a pass.
 
     ``service_seed`` may carry exact service evidence from the separately
@@ -38,6 +39,16 @@ def audit(seed_candidate_id=SEED, body_candidate_id=BODY, *,
         raise ValueError('Only the assigned whole-candidate seed and exact body are in scope')
     if prior_geometry != PRIOR_GEOMETRY:
         raise ValueError('Prior geometry trial identities must be preserved exactly')
+    if geometry_revision is not None:
+        required = {'evaluation_id', 'alignment_evaluation_id', 'alignment_candidate_id',
+                    'maximum_deviation_m', 'screen_passed', 'route_m', 'result_sha256'}
+        if (not isinstance(geometry_revision, dict) or set(geometry_revision) != required or
+            geometry_revision['maximum_deviation_m'] != 205.0 or
+            type(geometry_revision['screen_passed']) is not bool or
+            geometry_revision['screen_passed'] is not True or
+            any(not isinstance(geometry_revision[k], str) or len(geometry_revision[k]) != 64
+                for k in ('evaluation_id', 'alignment_evaluation_id', 'alignment_candidate_id', 'result_sha256'))):
+            raise ValueError('Exact passing 205 m Baghdad geometry evaluation required')
     sources = deepcopy(source_sha256 or {})
     if any(not isinstance(k, str) or not isinstance(v, str) or len(v) != 64 for k, v in sources.items()):
         raise ValueError('Source path to SHA-256 manifest required')
@@ -85,12 +96,13 @@ def audit(seed_candidate_id=SEED, body_candidate_id=BODY, *,
         prior_geometry_evaluation_ids=deepcopy(prior_geometry),
         revised_geometry_parameter=dict(name='maximum_deviation_m', value_m=205.0,
             status='proposed next-evaluation parameter only; prior 200 m screen is not a requirement',
-            evaluated=False),
+            evaluated=geometry_revision is not None),
+        geometry_revision=deepcopy(geometry_revision),
         identity_blockers=[
             'The mapped-project bundle physical identity is composed from body, alignment, civil and station geometry; it has no field binding the whole-candidate seed 7c916d... .',
             'The mapped-project service contract requires candidate_id equal to that bundle identity, so re-labeling it with the seed candidate would fail identity derivation and constitute spoofing.',
             'The whole-candidate seed service evaluation is route-specific; it cannot supply new route force-driven motion, fleet, charging or reserve results.',
-            'Samawah line-3 source stop IDs and exact source/evaluation hashes must be loaded from the authoritative city source before corridor closure.',
+            'Samawah line-3 retains its prior 200 m geometry result; no new 205 m geometry trial was run for that control corridor.',
             'The 14-scope mapped-project cost evaluator requires the exact compatible project bundle and service packet; no costs can be derived here.',
         ],
         unknowns=['surveyed vertical grade/profile', 'land and access', 'ground/geotechnical cases',

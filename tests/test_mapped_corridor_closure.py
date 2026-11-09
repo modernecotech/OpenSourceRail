@@ -35,6 +35,20 @@ def test_audit_rejects_candidate_substitution_and_prior_geometry_rewrite():
         closure.audit(prior_geometry=changed)
 
 
+def test_geometry_revision_is_an_explicit_screen_only_ancestry():
+    revision = dict(evaluation_id='a' * 64, alignment_evaluation_id='b' * 64,
+        alignment_candidate_id='c' * 64, maximum_deviation_m=205.0,
+        screen_passed=True, route_m=6405.581584798581, result_sha256='d' * 64)
+    packet = closure.audit(geometry_revision=revision)
+    assert closure.verify(packet)
+    assert packet['revised_geometry_parameter']['evaluated'] is True
+    assert packet['geometry_revision'] == revision
+    assert packet['physical_accepted'] is False
+    revision['screen_passed'] = False
+    with pytest.raises(ValueError, match='Exact passing 205 m'):
+        closure.audit(geometry_revision=revision)
+
+
 def test_integrity_check_rejects_false_release_or_mutation():
     packet = closure.audit()
     packet['operating_release'] = True
