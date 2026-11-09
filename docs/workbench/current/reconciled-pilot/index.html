@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenSourceRail · Reconciled pilot review</title>
+  <link rel="stylesheet" href="review.css">
+  <script src="review.js" defer></script>
+</head>
+<body>
+  <header><a href="/">OpenSourceRail</a><nav><a href="/">Design Workbench</a><a id="city-atlas" href="/?outlineCity=baghdad">Baghdad city atlas</a></nav></header>
+  <main>
+    <p class="eyebrow">PROJECT REVIEW · SOURCE-BOUND RESEARCH</p>
+    <h1>Two-station pilot review</h1>
+    <p class="lead">A 1.5 km, two-station research pilot with its own reconciled vehicle, civil works, service and cost record.</p>
+    <p class="notice"><strong>This is not the Baghdad corridor.</strong> The city atlas and the Baghdad brief are separate planning products. Their route, fleet and prices have not been integrated with this pilot.</p>
+    <p id="loading" role="status">Checking published source identities…</p>
+    <p id="error" role="alert" hidden></p>
+    <div id="content" hidden>
+      <section class="status" aria-label="Engineering and release status"><div><b id="status-outline"></b><span>Outline</span></div><div><b id="status-engineering"></b><span>Engineering</span></div><div><b id="status-prototype"></b><span>Prototype</span></div><div><b id="status-release"></b><span>Release</span></div></section>
+      <p class="hold">No rail movement authority. Physical acceptance, engineering acceptance, manufacturing release and operating release remain false.</p>
+
+      <section><p class="eyebrow">CANDIDATE IDENTITY</p><h2>One physical bundle, with its component records visible</h2><dl id="identities" class="identities"></dl><p id="source-identity" class="small"></p></section>
+
+      <section><p class="eyebrow">SAME-CANDIDATE JOURNEYS AND COSTS</p><h2>Service cases from the reconciled study</h2><p>Every row is checked against the same physical bundle candidate. “Model screen pass” means only the stated model checks passed under their assumptions.</p><p class="note"><b>Recovery-disabled rows bypass recovery in the journey model; they do not remove the recovery hardware.</b> The hardware-free control is a different physical candidate in the comparison below.</p>
+        <label class="toggle"><input id="faults" type="checkbox"> Include fault and sensitivity cases</label>
+        <div class="table-wrap"><table><thead><tr><th>Case</th><th>Headway / phase</th><th>Trains active + reserve</th><th>Arrivals</th><th>Journey</th><th>Grid traction</th><th>Installed capital, base</th><th>Known lifecycle subtotal, base</th><th>Whole-life NPV, base</th><th>Model screen</th><th>Journey evaluation</th><th>Cost evaluation</th></tr></thead><tbody id="journeys"></tbody></table></div>
+      </section>
+
+      <section><p class="eyebrow">SEPARATE PHYSICAL CANDIDATES</p><h2>With-store pilot and no-store control</h2><p id="recovery-description"></p><div class="table-wrap"><table><thead><tr><th>Published candidate</th><th>Candidate / bundle evaluation</th><th>Journey evaluation</th><th>Cost evaluation</th><th>Grid traction</th><th>Captured / relaunched energy</th><th>Installed capital, base</th><th>Known lifecycle subtotal, base</th></tr></thead><tbody id="recovery"></tbody></table></div><p class="small">The no-store control is a separate source-published physical candidate. It is not produced by switching off recovery on the with-store candidate.</p></section>
+
+      <section class="two"><div><p class="eyebrow">DRAWINGS AND MANUFACTURING</p><h2>Available research artifacts</h2><div id="gallery" class="gallery"></div><p id="manufacturing-state"></p><a href="/docs/design-engine/reconciled-pilot/delivery/summary.json">Manufacturing task summary</a> · <a href="/docs/design-engine/reconciled-pilot/delivery/README.md">Factory and delivery review draft</a></div><div><p class="eyebrow">MASS AND ASSUMPTIONS</p><h2>What the current estimate covers</h2><div id="mass"></div><p id="price-maturity"></p><p>The dossier distinguishes body mass from the loaded train and drive reserves. Unknown installed scope remains unknown; these estimates are not supplier quotations.</p></div></section>
+
+      <section><p class="eyebrow">DOWNLOADS</p><h2>Source-pinned project dossier</h2><ul id="downloads"></ul><details><summary>Compare source-pinned with-store and separate no-store packet links</summary><ul id="packet-links"></ul></details><details><summary>Producer source SHA-256 pins</summary><pre id="producer-pins"></pre></details></section>
+      <section><p class="eyebrow">OPEN EVIDENCE</p><h2>Remaining work</h2><p>These items remain open. The page does not convert calculated screens or draft manufacturing records into physical qualification.</p><ul id="unresolved"></ul></section>
+      <section class="city"><p class="eyebrow">CITY PLANNING · SEPARATE SCOPE</p><h2>Baghdad planning links</h2><p>The published Baghdad city outline covers a distinct, much larger network; it is not recalculated from this pilot. Open the city atlas for planning context or the city brief for its own assumptions and evidence.</p><a id="city-brief">Baghdad city brief</a> · <a href="/?outlineCity=baghdad">Open Baghdad atlas in the Workbench</a></section>
+      <footer id="footer"></footer>
+    </div>
+  </main>
+</body>
+</html>
