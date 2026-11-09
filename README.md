@@ -85,6 +85,9 @@ These views come from recorded engineering geometry and native analysis results.
 | **Proposed viaduct assembly** | **FieldCraft structural response** |
 | [![Source-defined two-track viaduct proposal with segments, rails, bearings, piers and footing envelopes](docs/assets/engineering-gallery-v06/civil-assembly.webp)](docs/design-engine/reconciled-pilot-bogie-detail/README.md) | [![Actual FieldCraft displacement field on a 20 metre beam, with 100 times deformation and a millimetre legend](docs/assets/engineering-gallery-v06/civil-fem.webp)](docs/engineering-gallery.md) |
 | Located segment, rail and support proposal; joints and installed fit remain unverified. | Separate continuous elastic beam: **13.9476 mm** midspan vertical displacement; shape exaggerated **100×**. |
+| **Terminal seal joint** | **Body attachment bracket** |
+| [![Native SolidCraft terminal corner showing sealing lands, retainers, sleeves and panel fixings with surrounding sections ghosted](docs/assets/terminal-parts-v06/corner.webp)](docs/engineering-gallery.md#terminal-joint-coupons) | [![Native SolidCraft folded body attachment bracket with bored sleeves and fixings between ghosted frame sections](docs/assets/terminal-parts-v06/bracket.webp)](docs/engineering-gallery.md#terminal-joint-coupons) |
+| 35 known parts represented by 43 material solids; seal and hardware details remain open. | Nine known parts represented by 11 material solids; joint strength and installed fit remain open. |
 
 [![Native SolidCraft chair frame with mounting feet, paired shell holes, crush sleeves and isolation pads](docs/assets/finished-chair-v06/chair.webp)](docs/engineering-gallery.md#chair-frame)
 

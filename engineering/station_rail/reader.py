@@ -23,6 +23,7 @@ def _inputs(root):
         'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',
         'docs/design-engine/generative-structure/summary.json','docs/design-engine/coupled-railway/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     names += ['docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/vehicle-parts-stock-detail.json']
+    names += ['docs/assets/terminal-parts-v06/'+name for name in ('manifest.json','corner.webp','bracket.webp')]
     names += [ILLUSTRATIONS,*(image['file'] for image in _illustrations(root))]
     return {name:digest(root/name) for name in names}
 
@@ -122,6 +123,11 @@ def build(root=ROOT,output=None,check=False):
     para('Concept illustrations connect repeated civil works with wheel-supported rail. The schematic LIM alternative is not an installed propulsion selection; motor clearances, supports and powered lengths require the candidate engineering records.')
     illustration(3,220)
     illustration(4,220)
+    page('Terminal joint details from native CAD')
+    para('Two separate local research assemblies: a sealing-land corner and a folded body attachment bracket. SolidCraft generated and reopened both native and STEP files; FreeCAD independently checked 54 valid closed solids by individual volume, centroid and bounds. Imported part names failed the strict identity check and remain recorded as failed.')
+    story.append(Image(str(root/'docs/assets/terminal-parts-v06/corner.webp'),width=430,height=430*1900/3000))
+    story.append(Image(str(root/'docs/assets/terminal-parts-v06/bracket.webp'),width=430,height=430*1900/3000))
+    para('Surrounding sections are ghosted for visibility. Unknown hardware and the free gasket are excluded. Sealing response, joint strength, fatigue and installed fit remain open. Test-piece volumes are not extra installed vehicle stock. See docs/engineering-gallery.md for native files, commands, provenance and the read-only audit.')
     page('1. Preserve the ethos; change the support')
     para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. Propulsion architecture, safe stopping and the cost of the complete railway still require candidate-specific evidence.')
     figure('vehicle-overview.svg',190,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')

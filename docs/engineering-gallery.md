@@ -20,11 +20,31 @@ This is a homogeneous elastic concrete model with ideal bearing lines. Cracking,
 
 The proposed frame contains **66 separate material solids**, including hollow members, mounting feet, paired shell holes, crush sleeves and isolation pads. SolidCraft generated the model and reopened both its native file and STEP export. The independent FreeCAD import contains 66 valid, closed solids with the same individual volumes and bounds; their summed material volume is **0.000814637045 m³**. Weld beads, finish and purchased fastener shapes are separately accounted allowances.
 
-FreeCAD renamed the imported parts. The original strict identity check therefore remains **failed**. A separate readback records 66 unique geometric matches using the original volume and bounds tolerances; this establishes geometry correspondence, without claiming persistent imported names. Mounting lands, access, seat-height reconciliation, strength, fatigue and fire qualification remain open. This local part is not installed in the selected reference; the sibling terminal-seal proposal still fails its compression screen.
+FreeCAD renamed the imported parts. The original strict identity check therefore remains **failed**. A separate readback records 66 unique geometric matches using the original volume and bounds tolerances; this establishes geometry correspondence, without claiming persistent imported names. Mounting lands, access, seat-height reconciliation, strength, fatigue and fire qualification remain open. This local part is not installed in the selected reference. The original sibling terminal-seal proposal's failed compression screen is retained; the separate, more detailed joint below does not erase that result.
 
 Download [SolidCraft](assets/finished-chair-v06/chair.sc), [STEP](assets/finished-chair-v06/chair.step), [recorded commands](assets/finished-chair-v06/commands.json), [exact geometry correspondence](assets/finished-chair-v06/geometry-reassessment.json) and the [evidence manifest](assets/finished-chair-v06/manifest.json). The 3000×1900 image is a native SolidCraft snapshot of that saved model. The packet retains the failed strict import result alongside the geometry comparison; rendering changes no physical geometry or acceptance.
 
 Audit the retained files and geometric correspondence with `python3 docs/assets/finished-chair-v06/verify.py`. This reads existing results and starts no CAD application or solver.
+
+## Terminal joint coupons
+
+| Terminal seal corner | Body attachment bracket |
+|---|---|
+| [![Terminal sealing lands, retainers and crush sleeves in native SolidCraft](assets/terminal-parts-v06/corner.webp)](assets/terminal-parts-v06/corner.sc) | [![Folded body bracket and bored sleeves in native SolidCraft](assets/terminal-parts-v06/bracket.webp)](assets/terminal-parts-v06/bracket.sc) |
+
+These are two local research assemblies from the [terminal joint definition](../engineering/terminal_enclosure_joint.py). The corner represents **35 known parts as 43 material solids**; the bracket represents **nine known parts as 11 material solids**. A nominal bolt shank and head can occupy separate solids. Surrounding hollow sections are ghosted for visibility; material colours are display choices.
+
+SolidCraft generated both models and reopened their native and STEP files. Independent FreeCAD imports contain **54 valid, closed solids**, with unique correspondence by individual volume, centroid and bounds. Imported names failed the original strict check in both cases; the unchanged failure records accompany the separate geometry comparison. The first native attempt also remains recorded: a duplicate arc point differing by one floating-point step produced a zero-length line. The corrected serializer removes only the registered duplicate points, reproduces the original nominal geometric oracles and moves no finite feature.
+
+The views exclude **12 unknown corner entities**, **eight unknown bracket entities**, and the corner's free, uncompressed gasket. Purchased threads, sealing response, tolerances, preload, joint strength, fatigue, fire behaviour and complete installed fit remain open. Individual-solid agreement is not an assembly interference check. The surrounding test-piece volumes are not additional installed vehicle stock. These local definitions have not been installed in the selected reference or priced as a complete vehicle.
+
+Download the corner's [SolidCraft](assets/terminal-parts-v06/corner.sc), [STEP](assets/terminal-parts-v06/corner.step) and [commands](assets/terminal-parts-v06/corner.commands.json), or the bracket's [SolidCraft](assets/terminal-parts-v06/bracket.sc), [STEP](assets/terminal-parts-v06/bracket.step) and [commands](assets/terminal-parts-v06/bracket.commands.json). The [manifest](assets/terminal-parts-v06/manifest.json) binds the source geometry, analytical oracles, native executions, independent checks, original PNGs and image composition recipes. Both images retain the native camera view without cropping or stretching.
+
+```bash
+python3 docs/assets/terminal-parts-v06/verify.py
+```
+
+This read-only audit reproduces the source oracles and command serialization, checks the retained geometry results and preserves the failed name checks. It starts no CAD application or solver.
 
 ## Inspect and reproduce
 
