@@ -203,3 +203,14 @@ def test_thread_stock_depth_runout_and_source_joinery_credits_remain_explicit():
 def test_geometrically_impossible_strength_areas_are_not_accepted_as_hypotheses():
     ctx,kw=fixture();kw['strengths']['effective_bolt_thread_area_m2']=.001
     with pytest.raises(ValueError,match='majorstock'):j.outline(ctx,**kw)
+
+
+def test_unordered_material_bounds_do_not_publish_false_low_high_quantities():
+    ctx,kw=fixture();kw['material_policy']={'labour_USD_h':[16,10,6]}
+    with pytest.raises(ValueError,match='Ordered'):j.outline(ctx,**kw)
+
+
+def test_declared_actions_are_not_authenticated_real_header_demands():
+    ctx,kw=fixture();kw['actions'].update(header_force_N=[1,2,3],header_moment_Nm=[0,0,0],one_fastener_shear_N=4,one_fastener_tension_N=2,preload_each_N=10)
+    o=j.outline(ctx,**kw)
+    assert o['capacity']['declared_action_vectors_complete'] and not o['capacity']['actual_header_demands_known']

@@ -226,6 +226,7 @@ def materials_account(parts,policy):
             if v is not None:
                 if len(v)!=3:raise ValueError('Three explicit material/process bounds required')
                 for x in v:number(x,positive=True)
+                if list(v)!=sorted(v):raise ValueError('Ordered low/base/high material/process bounds required')
         vols=[p['net_volume_bounds_m3'][0],sum(p['net_volume_bounds_m3'])/2,p['net_volume_bounds_m3'][1]]
         rows.append(dict(part_id=p['id'],mass_bounds_kg=None if rho is None else [v*d for v,d in zip(vols,rho)],
           gross_material_USD=None if rho is None or price is None else [p['gross_volume_m3']*d*r for d,r in zip(rho,price)],
