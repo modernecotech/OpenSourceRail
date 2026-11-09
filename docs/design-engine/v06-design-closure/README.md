@@ -2,6 +2,16 @@
 
 [Vehicle manufacturing-document coverage draft](vehicle-document-coverage.json)
 
+[Compact-drive corridor attempt and retained evidence](compact-drive-corridor/README.md)
+
+[Erratum for the sealed all-city audit packet](all-city-audit-errata.md)
+
+The machine-readable gate ledger is [status.json](status.json). Run
+`python3 tools/verify-v06-release-closure.py` to check source-bound evidence
+and release readiness. It currently reports seven open/partial gates; software
+packaging must remain withheld. The verifier checks ledger completeness and
+hash integrity, not the engineering meaning of a closure claim.
+
 This is a supplementary, source-linked audit. It does not modify the frozen
 reconciled-pilot publication packet. The audit checks controlled references in
 that packet's delivery mapping; “missing” does not mean a repository-wide

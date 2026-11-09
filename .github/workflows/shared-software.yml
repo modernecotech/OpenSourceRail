@@ -47,6 +47,13 @@ jobs:
         run: python -m pytest -q tests/test_pinned_tool_download.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
+      - name: v0.6 design-closure ledger, package integrity and fail-closed release gate
+        run: >-
+          python -m pytest -q --import-mode=importlib
+          tests/test_v06_closure_evidence_packages.py
+          tests/test_v06_release_gate.py
+          tests/test_compact_drive_corridor.py
+          tests/test_mapped_corridor_closure.py
       - name: Source geometry and engineering model export integrity
         run: python -m pytest -q --import-mode=importlib engineering/visual_models/tests
       - name: CAD gallery identity and complete native FEM field integrity

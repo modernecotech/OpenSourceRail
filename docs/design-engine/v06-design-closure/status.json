@@ -1,0 +1,85 @@
+{
+  "campaign_path": "campaigns/v06-design-integration-closure.toml",
+  "campaign_sha256": "3731528a682811dc3cc98df371764682b203c186cec3a1626ed2c4c98ec9024a",
+  "gates": {
+    "all-city-outline-reconciliation": {
+      "blocker": "All 266 city outlines still use shared service controls and transferred reference rates; no detailed-candidate per-city recomputation exists.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/all-city-baseline-audit/audit-summary.json",
+          "sha256": "d8b8ea73d0bccbc58a4f5c8b350b0135cf15cf355953d6bd200af5c6fd7f48a0"
+        }
+      ],
+      "state": "open"
+    },
+    "candidate-business-lifecycle": {
+      "blocker": "The old proposal and the new body candidate have different identities; no candidate-matched controlled-document ERP lifecycle evidence exists.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-business-lifecycle-audit/README.md",
+          "sha256": "a6c06e0241c23e8fb406530322e55d11b44a84275ae3032ca6b1e2e865b45c0c"
+        }
+      ],
+      "state": "open"
+    },
+    "controlled-research-documents": {
+      "blocker": "The part and assembly document coverage audit still reports required controlled document slots missing.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/vehicle-document-coverage.json",
+          "sha256": "45749633f1a145b688f989d35a678a105971da389cb0d0b9d424c4390765198b"
+        }
+      ],
+      "state": "open"
+    },
+    "installed-vehicle": {
+      "blocker": "Located equipment, body/bogie interfaces, installed mass and downstream forces are not reconciled for one candidate.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/README.md",
+          "sha256": "4902a7aa141c13a990792c3745dc80d311fc44360e97bd06234ba7a458757ea7"
+        }
+      ],
+      "state": "open"
+    },
+    "mapped-corridor": {
+      "blocker": "The compact-drive attempt stopped before route geometry; no candidate-bound service, fleet, energy or fourteen-scope corridor cost exists.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/result.json",
+          "sha256": "f7d06c245b940681fbf4e869f6c5aed3a947859c1ad3ed3a09d7b5ff5c654877"
+        }
+      ],
+      "state": "open"
+    },
+    "native-gis-return-path": {
+      "blocker": "The previous native attempt failed before application launch; the corrected plan lacks an exact current-source runtime review and has not been executed.",
+      "evidence": [],
+      "state": "open"
+    },
+    "unified-workbench": {
+      "blocker": "The Workbench covers a pilot view, not the full city brief to same-candidate design, pricing, delivery and downloadable dossier.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/README.md",
+          "sha256": "bbb36f467b6c1df5345dd7c172456cac9763be27fd4ffb2efa5c8c46464581d5"
+        }
+      ],
+      "state": "partial"
+    }
+  },
+  "record_note": "Hash and identity checks show evidence integrity only. A gate remains open until its declared closure result is independently reviewed.",
+  "release_flags": {
+    "engineering_accepted": false,
+    "manufacturing_release": false,
+    "movement_authority": false,
+    "operating_release": false,
+    "physical_accepted": false
+  },
+  "release_ready": false,
+  "release_review": {
+    "blocker": "Independent final release review has not been produced.",
+    "state": "pending"
+  },
+  "schema": "osr-v06-design-closure-status/1"
+}

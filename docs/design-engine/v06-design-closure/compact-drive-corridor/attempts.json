@@ -1,0 +1,50 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "command": "ulimit -t 60; ulimit -v 1048576; /usr/bin/time -v python3 - (design.build then git show sparse docs source)",
+      "cpu_seconds": 18.98,
+      "exit_code": 1,
+      "failure": "git fatal: packfile cannot be mapped under address-space limit while fetching docs/design-engine/current/cities.json; candidate body had already been written.",
+      "peak_rss_kib": 387100,
+      "status": "failed-after-body-build-during-source-prefetch",
+      "wall_seconds": 19.34
+    },
+    {
+      "attempt": 2,
+      "command": "ulimit -t 60; ulimit -v 1048576; /usr/bin/time -v python3 /tmp/osr_compact_corridor_probe.py",
+      "exit_code": 1,
+      "failure": "ModuleNotFoundError: No module named 'engineering'; PYTHONPATH was missing; no pipeline stage ran.",
+      "status": "launcher-failure"
+    },
+    {
+      "attempt": 3,
+      "command": "ulimit -t 60; ulimit -v 1048576; PYTHONPATH=/home/hayder/.local/state/opensourcerail/worktrees/pilot-workbench-20261109 /usr/bin/time -v python3 /tmp/osr_compact_corridor_probe.py",
+      "cpu_seconds": 2.67,
+      "downstream_calls": {
+        "cost.evaluate": false,
+        "drive.evaluate": false,
+        "motion.compile_case": false,
+        "native_bridge": false
+      },
+      "exit_code": 0,
+      "geometry_trials_run": 0,
+      "peak_rss_kib": 294100,
+      "route_failures": {
+        "baghdad": "missing overlay input cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz",
+        "samawah": "missing overlay input cities/catalogue/west-asia/Iraq/Samawah/map-context.json.gz"
+      },
+      "status": "route-source-failure",
+      "wall_seconds": 2.91
+    }
+  ],
+  "body_candidate_id": "75075df9247dfff7082a78eadc273d3a99f37e5486450621536c43b1bfa2f797",
+  "body_evaluation_id": "fdac4907a6a867f0b4f27e0876a772d1b54d526ec323beb3b6d9a155e0e00b21",
+  "corrected_package_02_sha256": {
+    "manifest.json": "ad5106b263f3c1fefeac0bc222ece8ce96bd0bf2ceee0b512b6dbbdea6155615",
+    "request.json": "93c5aff9858b0267cf455ff62ad02ebc8859e4cc89213461364c7d53d56c67f8",
+    "result.json": "6e1a5019c92a933dc6e600121450fcdef010c360b407b57e785947a22b6be11e"
+  },
+  "correction": "Package 02 is retained unchanged. Its manifest trial count is not the actual execution count; attempt 03 stopped before geometry, drive, motion, native and cost.",
+  "schema": "osr-compact-drive-corridor-attempt-ledger/1"
+}
