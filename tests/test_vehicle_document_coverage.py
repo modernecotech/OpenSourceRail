@@ -21,6 +21,9 @@ def test_inventory_binds_frozen_candidate_and_real_payloads():
     assert report["identity"]["delivery_proposal_id"] == "7b88d05f9e0a16ada127d60e51d8ebfdc23b0dcb90ba0c906b2050d4e65a5775"
     assert report["identity"]["engineering_revision"] == report["identity"]["vehicle_evaluation_id"]
     assert report["identity"]["service_evaluation_id"] == "830ee18500b3c4c192f74fb61a9f8079adc1ef7eb3e3f3a9db96cdee8bf4a4c2"
+    assert report["generator"]["path"] == "tools/vehicle_document_coverage.py"
+    assert report["generator"]["sha256"] == hashlib.sha256(SCRIPT.read_bytes()).hexdigest()
+    assert COVERAGE.DEFAULT_OUTPUT == Path("docs/design-engine/v06-design-closure/vehicle-document-coverage.json")
     assert report["counts"]["parts"] == report["counts"]["delivery_mapping_items"] == 668
     assert report["counts"]["assemblies"] == 41
     for source in report["source_payloads"].values():

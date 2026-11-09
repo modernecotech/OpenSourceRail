@@ -14,6 +14,7 @@ from typing import Any
 
 
 PACKET = Path("docs/design-engine/reconciled-pilot-bogie-detail")
+DEFAULT_OUTPUT = Path("docs/design-engine/v06-design-closure/vehicle-document-coverage.json")
 EXPECTED_SCHEMA = "osr-vehicle-document-coverage/1"
 CONTROLLED_PART_DOCUMENTS = (
     "controlled_drawing",
@@ -242,6 +243,10 @@ def build_report(repo_root: Path) -> dict[str, Any]:
     return {
         "schema": EXPECTED_SCHEMA,
         "purpose": "Source-linked manufacturing-document coverage draft; records gaps and does not release manufacture.",
+        "generator": {
+            "path": "tools/vehicle_document_coverage.py",
+            "sha256": sha256(repo_root / "tools/vehicle_document_coverage.py"),
+        },
         "identity": {
             "vehicle_candidate_id": candidate_id,
             "vehicle_evaluation_id": evaluation_id,
@@ -303,7 +308,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("docs/design-engine/reconciled-pilot-bogie-detail/vehicle/document-coverage.json"),
+        default=DEFAULT_OUTPUT,
     )
     args = parser.parse_args()
     report = build_report(args.repo_root.resolve())

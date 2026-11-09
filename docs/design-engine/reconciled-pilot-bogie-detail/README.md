@@ -1,6 +1,6 @@
 # Reconciled railway research pilot
 
-[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb) · [Manufacturing tasks and business-review draft](delivery/README.md) · [Controlled-document coverage draft](vehicle/document-coverage.json)
+[Open the decision view](index.html) · [Download complete calculated study](study.json.gz) · [Manufacturing BOM](vehicle/bom.csv) · [Installed assembly model](vehicle/assembly.glb) · [Manufacturing tasks and business-review draft](delivery/README.md)
 
 **Calculated outline complete under explicit assumptions. Engineering evidence pending.**
 One physical bundle connects a six-car research body, counted drive/interface additions, axle reactions, civil quantities, terminal layout, counted fleet, causal energy-store simulation and all fourteen lifecycle scopes. The passive v0.6 reference remains unchanged; this powered-wheel research comparison does not select installed propulsion.
@@ -35,8 +35,6 @@ Full installed motor shapes, joints, fatigue, emergency braking, station mechani
 The body-only mass subtotal and full driven train are separate accounting scopes. The decision view itemises counted body, installation/payload, external drives, remaining BOP and capture-interface reserves; a body subtotal is never presented as the integrated loaded train.
 
 All original part origins are retained or explicitly superseded, with materials, quantities, process/assembly plans, proposed locations and positive reserves. Stock blanks and equipment envelopes are distinguished from finished solids. These are research manufacturing drafts, not released production drawings or work orders.
-
-The [document coverage draft](vehicle/document-coverage.json) inventories all 668 BOM parts and 41 assemblies against the frozen vehicle candidate and evaluation. It pins the source BOM, installation, assembly model and delivery mapping. “Missing” means absent from the checked controlled-reference schema; this is not a repository-wide search. Controlled per-part drawings, production BOMs, conversion rules, material/interface/tolerance records, inspection records, fabrication/routing/tooling instructions and assembly instructions remain missing from that schema; this audit does not change the held delivery status or authorize ERP or manufacturing release.
 
 No city is silently repriced from this pilot. [Remaining engineering tasks](frontier.json) identify the exact work needed before city-specific adoption or physical qualification. [Mandatory requirement context](requirements.json) keeps unsupported obligations open.
 
