@@ -338,6 +338,16 @@ def test_inputs_are_not_mutated():
     data=inputs();before=deepcopy(data);run(data);assert data==before
 
 
+def test_exact_runtime_sources_are_sealed_and_midcall_change_refused(monkeypatch):
+    r=run();assert r['source_sha256']==v.sources()
+    initial=v.sources();calls=[]
+    def changing():
+        calls.append(1)
+        return initial if len(calls)==1 else dict(initial,changed='new epoch')
+    monkeypatch.setattr(v,'sources',changing)
+    with pytest.raises(ValueError,match='changed during'):run()
+
+
 @pytest.mark.parametrize('bad',[diag(-.1),[[.1,.2,0.],[.2,.1,0.],[0.,0.,.1]],diag(1.,.1,.1)])
 def test_nonphysical_inertia_refused(bad):
     with pytest.raises(ValueError):run(change_definition(inputs(),lambda d:d['entities'][0].update(shape_I_per_kg=bad)))

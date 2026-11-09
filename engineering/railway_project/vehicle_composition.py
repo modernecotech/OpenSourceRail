@@ -28,6 +28,13 @@ FLAGS = dict(physical_accepted=False, engineering_accepted=False,
              native_eligible=False, installed_assembly_accepted=False)
 
 
+def sources():
+    root=Path(__file__).resolve().parents[2]
+    names=('engineering/railway_project/vehicle_composition.py',
+           'engineering/vehicle_installation/model.py','engineering/station_rail/common.py')
+    return {n:digest(root/n) for n in names}
+
+
 def seal(value):
     value = deepcopy(value)
     value.pop('evaluation_id', None)
@@ -359,6 +366,7 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
     modifications, exact context bindings and every required joint contract.
     This callable contains no permission mechanism and invokes no upstream job.
     """
+    before=sources()
     authenticated(parent,parent_pin)
     authenticated(integration,{'evaluation_id':reviewed_map_id},physical=False)
     if integration['schema']!='osr-vehicle-integration-map/1' or integration['units']!='m' or integration['parent']!=parent_pin:
@@ -474,6 +482,7 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
         parts[pid]['quantity_per_train']+=1
         patterns.append(dict(r,part_id=pid,source_part_id=parts[pid]['source_part_id'],count=1,positions_m=[r['at_m']],
             assembly_id='composition',assembly_occurrence_id=r['id']))
+    if sources()!=before:raise ValueError('Composition implementation changed during execution')
     return seal(dict(schema='osr-vehicle-installation/1',composition_schema='osr-occurrence-ledger-composition/1',candidate_id=cid,physical_definition=physical,
         parent_candidate_id=parent['candidate_id'],parent_evaluation_id=parent['evaluation_id'],integration_map_id=reviewed_map_id,
         component_evaluation_ids=integration['definitions'],patterns=patterns,parts=list(parts.values()),total_occurrences=len(patterns),
@@ -486,6 +495,7 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
             declared_sequences=[dict(definition_id=d['definition_id'],sequences=deepcopy(d.get('assembly_sequences',[]))) for d in definitions],accepted=False),
         tare_mass_properties=totals,mass_scenarios=[],policy=deepcopy(parent['policy']),selection_id=None,
         source_inputs=dict(parent=deepcopy(parent_pin),integration=reviewed_map_id,definitions=integration['definitions']),
+        source_sha256=before,parent_source_sha256=deepcopy(parent.get('source_sha256',{})),
         cost_acceptance=False,fit_validation=None,journey_validation=None,native_validation=None,
         inherited_validations=False,definition_complete=True,loaded_evaluations_complete=False,
         holds=deepcopy(integration['holds'])+['Occupant/reserve scenarios, loaded reactions, actual joint loads, finite swept/tool/removal/lifting access, supplier/qualification and canonical catalogue/CAD/BIM/BOM adapters remain separate.',
@@ -498,6 +508,7 @@ def evaluate_static_loads(bundle, scenario_rows, *, scenario_id, policy):
     Reuses the rigid two-stage vertical helper only within its six-car domain.
     Extra positive reserve/passenger rows are explicit and have disjoint IDs.
     """
+    before=sources()
     authenticated(bundle,dict(candidate_id=bundle['candidate_id'],evaluation_id=bundle['evaluation_id']))
     fixed=dict(cars=6,car_length_m=17.,intercar_gap_m=.65,bogie_centres_local_x_m=[-6.4,6.4],bogie_wheelbase_m=2.1)
     if policy['layout']!=bundle['policy']['layout'] or any(policy['layout'].get(k)!=x for k,x in fixed.items()):
@@ -511,9 +522,11 @@ def evaluate_static_loads(bundle, scenario_rows, *, scenario_id, policy):
     for r in scenario_rows:
         cases(r['mass_kg'],positive=True);vector(r['centroid_m']);tensor(r['shape_I_per_kg']);allocation(r['car_allocation'])
         if not r.get('basis'):raise ValueError('Explicit load meaning required')
+    results={k:dict(mass_properties=mass_properties(rows,k),reactions=reactions(rows,k,policy)) for k in CASES}
+    if sources()!=before:raise ValueError('Static implementation changed during execution')
     return seal(dict(schema='osr-composed-static-loads/1',candidate_id=bundle['candidate_id'],body_evaluation_id=bundle['evaluation_id'],
         scenario_id=scenario_id,scenario_rows=scenario_rows,policy=policy,
-        cases={k:dict(mass_properties=mass_properties(rows,k),reactions=reactions(rows,k,policy)) for k in CASES},
+        cases=results,source_sha256=before,
         scope='Rigid static vertical transfer only; supplied mass/inertia approximations retained, no dynamics/strength/lateral qualification',**FLAGS))
 
 
