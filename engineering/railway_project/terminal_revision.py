@@ -629,3 +629,205 @@ def plan_revision(terminal, weld, hardware, *, input_pin, request_id,
         lifecycle_allocations=dict(terminal=deepcopy(terminal['lifecycle_workshop']), hardware=deepcopy(lifecycle),
             scope='Original project/train/workshop/event scopes retained once; never local installed material or two-end multiplier'),
         source_transactions_applied=False, complete_installed_mass=False, complete_installed_cost=False, **FLAGS))
+
+
+def _bounds(value, positive=False):
+    if not isinstance(value, list) or len(value) != 2:
+        raise ValueError('Explicit marginal interval required')
+    lo, hi = [_number(x) for x in value]
+    if lo > hi or positive and lo <= 0:
+        raise ValueError('Ordered positive material interval required')
+    return [lo, hi]
+
+
+def _finished_properties(value):
+    """Validate the consumer contract, without inventing correlated scenarios."""
+    V = _bounds(value['net_volume_interval_m3'], True)
+    mass = _bounds(value['mass_interval_kg'], True)
+    rho = _number(value['uniform_density_research_kg_m3'], True)
+    if rho <= 0 or any(abs(mass[i] - rho * V[i]) > 1e-11 * max(1., mass[i]) for i in range(2)):
+        raise ValueError('Finished mass/volume/density context differs')
+    for mode in ('nominal_datum', 'with_source_position_uncertainty'):
+        p = value[mode]
+        if p['exact_point_CG_m'] is not None or p['centroidal_tensor_kg_m2'] is not None:
+            raise ValueError('Marginal material bounds cannot become point properties')
+        for key in ('first_moment_interval_kg_m', 'centroid_interval_m'):
+            if not isinstance(p[key], list) or len(p[key]) != 3:
+                raise ValueError('Three bounded moment coordinates required')
+            for x in p[key]:
+                _bounds(x)
+        tensor = p['inertia_about_terminal_origin_interval_kg_m2']
+        if not isinstance(tensor, list) or len(tensor) != 3 or any(not isinstance(r, list) or len(r) != 3 for r in tensor):
+            raise ValueError('Explicit bounded origin tensor required')
+        for i in range(3):
+            for j in range(3):
+                b = _bounds(tensor[i][j])
+                transpose = _bounds(tensor[j][i])
+                if max(b[0], transpose[0]) > min(b[1], transpose[1]) or i == j and b[0] < 0:
+                    raise ValueError('Compatible symmetric nonnegative-diagonal origin tensor required')
+    if any(x < 0 for x in _vector(value['source_position_uncertainty_m'])):
+        raise ValueError('Nonnegative source placement uncertainty required')
+    return deepcopy(value)
+
+
+def apply_finishing(local_plan, finishing, *, input_pin, request_id):
+    """Replace complete local material bounds once, retaining both paid blanks.
+
+    This pure consumer never calls a geometry evaluator or changes a P1 source.
+    It accepts the source-specific finisher's independently reviewed material
+    packet, not an incremental mass debit. Raw-file/source authentication belongs
+    to the caller's pinned execution. Remaining source, process, physical and
+    whole-vehicle obligations stay open.
+    """
+    _hex(request_id)
+    for x in (local_plan, finishing, input_pin):
+        identity(x)
+    if set(input_pin) != {'schema', 'sources'} or input_pin['schema'] != 'osr-terminal-local-finishing-input-pin/1' or set(input_pin['sources']) != {'local_plan', 'finishing'}:
+        raise ValueError('Exact local-plan/finishing input pin required')
+    for key, value, schema in (
+            ('local_plan', local_plan, 'osr-terminal-local-revision-plan/1'),
+            ('finishing', finishing, 'osr-terminal-finishing-material-rebuild/1')):
+        _digest(value, key)
+        pin = input_pin['sources'][key]
+        if set(pin) != {'evaluation_id', 'raw_sha256'} or pin['evaluation_id'] != value['evaluation_id'] or value['schema'] != schema:
+            raise ValueError('Mixed local finishing schema/evaluation pin')
+        _hex(pin['raw_sha256'])
+        if any(value.get(flag) is not False for flag in FLAGS) or value['source_transactions_applied'] is not False:
+            raise ValueError('Explicit unapplied research dispositions required')
+    if local_plan.get('finishing_application') is not None or local_plan['deployment_quantity_multiplier_applied'] != 1:
+        raise ValueError('Finishing is once-local, never a second application/deployment')
+    if local_plan['overlay_conflicts']:
+        raise ValueError('A combined weld/finishing material evaluator is required')
+    if finishing['source_local_epoch'] != local_plan['source_local_epoch'] or any(
+            finishing['source_' + key + '_evaluation_id'] != local_plan['ancestry'][key + '_evaluation_id']
+            for key in ('terminal', 'weld', 'hardware')):
+        raise ValueError('Finishing and local-plan source ancestry differ')
+    physical = local_plan['physical_definition']
+    if identity(physical) != local_plan['local_component_geometry_id'] or local_plan['canonical_local_draft']['material_projection'] != physical:
+        raise ValueError('Local material physical projection differs')
+    fp = finishing['physical_definition']
+    if identity(fp) != finishing['component_geometry_id'] or fp['frame'] != FRAME or fp['units'] != 'm':
+        raise ValueError('Finished physical geometry/frame differs')
+    E = _index(local_plan['canonical_local_draft']['entities'], 'local material')
+    G = _index(local_plan['canonical_local_draft']['stock_groups'], 'local paid owner')
+    owners = _ownership(G, E, 'local finished input')
+    P = _index(physical['material_occurrences'], 'local physical material')
+    if set(P) != set(E) or physical['material_owner_graph'] != [dict(owner_id=k, entity_ids=sorted(G[k]['entity_ids'])) for k in sorted(G)]:
+        raise ValueError('Complete local physical material/ownership projection required')
+    F = {r['source_entity_id']:r for r in finishing['pending_draft_replacements']}
+    if len(F) != len(finishing['pending_draft_replacements']):
+        raise ValueError('Duplicate complete finishing material replacement')
+    FR = _index(fp['parents'], 'finished physical parent')
+    required = {r['source_entity_id']:r for r in local_plan['source_finishing_records']}
+    if len(required) != len(local_plan['source_finishing_records']) or set(required) != set(F) or set(FR) != set(F):
+        raise ValueError('Complete one-operation/one-material finishing coverage required')
+    OG = {r['source_owner_id']:r for r in finishing['source_owner_conservation']}
+    if len(OG) != len(finishing['source_owner_conservation']) or set(OG) != set(local_plan['finishing_paid_owner_ids']):
+        raise ValueError('Complete existing paid-owner finishing coverage required')
+    expected = dict(finishing_operations=len(F), material_occurrences=len(F),
+                    hardpoints=sum(r['complete_material_rebuild']['kind'] == 'hardpoint-stopped-thread' for r in F.values()),
+                    backing_rings=sum(r['complete_material_rebuild']['kind'] == 'ring-through-ports' for r in F.values()),
+                    paid_owner_groups=len(OG), new_stock_purchases=0)
+    for value in finishing['counts'].values():
+        _count(value)
+    if finishing['counts'] != expected or len(F) != local_plan['counts']['finishing_operations'] or len(OG) != local_plan['counts']['finishing_paid_groups']:
+        raise ValueError('Exact finishing/owner count contract differs')
+    result = deepcopy(local_plan)
+    result.pop('evaluation_id')
+    newE, newG, newP = deepcopy(E), deepcopy(G), deepcopy(P)
+    operation_ids = set()
+    for eid, row in F.items():
+        before, old, req = E[eid], E[eid]['source_material_before_finishing'], required[eid]
+        opid = req['operation_id']; operation_ids.add(opid)
+        oid = owners[eid]
+        if row['transaction_applied'] is not False or row['old_incremental_H_removal_is_not_debited'] is not True or row['source_stock_owner_id'] != oid or oid not in OG or row['frame'] != FRAME or row['material_id'] != old['material_id']:
+            raise ValueError('Mixed/reapplied source finishing material/owner')
+        if row['source_entity_ancestry'] != old or row['source_entity_sha256'] != identity(old) or row['source_finishing_operation'] != req['source_record']:
+            raise ValueError('Finished material source or complete machining operation differs')
+        if row['source_owner_sha256'] != identity(G[oid]['source_paid_group_before_finishing']):
+            raise ValueError('Finished material paid-source context differs')
+        if row['source_pose'] != dict(at_m=old['at_m'], rotation=old['rotation']) or before['at_m'] != old['at_m'] or before['rotation'] != old['rotation']:
+            raise ValueError('Finished material source placement differs')
+        nominal = FR[eid]
+        source_geometry = dict(material_id=old['material_id'], geometry=deepcopy(old['exact_CSG_entity']['geometry']), holes=deepcopy(old['exact_CSG_entity']['holes']))
+        if set(nominal) != {'id', 'material_id', 'source_pose', 'source_declared_finishing', 'nominal_source_geometry'} or nominal['source_declared_finishing'] != req['physical_operation'] or nominal['source_pose'] != row['source_pose'] or nominal['material_id'] != row['material_id'] or nominal['nominal_source_geometry'] != source_geometry:
+            raise ValueError('Finished nominal physical/operation projection differs')
+        model = row['complete_material_rebuild']
+        if model['kind'] not in ('hardpoint-stopped-thread', 'ring-through-ports') or model['complete_source_void_union'] != req['source_record']['source_complete_void_union']:
+            raise ValueError('Complete source finishing void union required')
+        props = _finished_properties(model['bounded_properties'])
+        source_rho = G[oid]['source_paid_group_before_finishing']['source_account']['density_cases_kg_m3']
+        if not isinstance(source_rho, list) or len(source_rho) != 3 or any(_number(x) != props['uniform_density_research_kg_m3'] for x in source_rho) or props['source_position_uncertainty_m'] != old['uncertainty_m']:
+            raise ValueError('Finished material parent density/placement uncertainty differs')
+        newP[eid] = dict(id=eid, material_id=row['material_id'], domain='bounded-complete-finished-source-material', physical_record=deepcopy(nominal))
+        newE[eid] = dict(deepcopy(before), material_set_definition=deepcopy(newP[eid]),
+            complete_material_rebuild=deepcopy(model), bounded_properties=props,
+            mass_kg=None, center_of_gravity_m=None, inertia_kg_m2=None,
+            properties_status='Complete marginal material/moment bounds; no correlated scenarios or exact point properties',
+            finishing_source_evaluation_id=finishing['evaluation_id'])
+    for oid, row in OG.items():
+        group = G[oid]; original = group['source_paid_group_before_finishing']
+        if row['transaction_applied'] is not False or row['source_owner_ancestry'] != original or row['source_owner_sha256'] != identity(original) or sorted(row['source_occurrence_ids']) != sorted(group['entity_ids']) or set(group['entity_ids']) != {eid for eid in F if owners[eid] == oid}:
+            raise ValueError('Complete source paid-owner constituent map differs')
+        if row['paid_blank_group_count'] != 1 or type(row['paid_blank_group_count']) is not int or row['new_stock_purchase_count'] != 0 or type(row['new_stock_purchase_count']) is not int or any(row[k] is not False for k in ('new_material_charge', 'source_price_credit')):
+            raise ValueError('Retain original paid blank once; no purchase/price credit')
+        if row['paid_gross_mass_kg'] != original['gross_mass_kg'] or row['source_direct_price_retained_once'] != original['direct_cost_usd'] or group['direct_cost_usd'] != original['direct_cost_usd']:
+            raise ValueError('Original gross stock and direct price must remain once')
+        net = _bounds(row['complete_rebuilt_net_mass_interval_kg'], True)
+        scrap = _bounds(row['rebuilt_scrap_mass_interval_kg'])
+        sums = [fsum(newE[eid]['bounded_properties']['mass_interval_kg'][i] for eid in group['entity_ids']) for i in range(2)]
+        gross = original['gross_mass_kg']
+        if any(abs(net[i]-sums[i]) > 1e-11 * max(1., net[i]) for i in range(2)) or scrap[0] < 0 or any(abs(scrap[i] - (gross['base'] - net[1-i])) > 1e-11 * max(1., gross['base']) for i in range(2)):
+            raise ValueError('Complete constituent net/gross/scrap conservation differs')
+        newG[oid] = dict(deepcopy(group), net_mass_kg=None, scrap_mass_kg=None,
+            net_mass_interval_kg=net, scrap_mass_interval_kg=scrap,
+            complete_finished_owner_record=deepcopy(row),
+            finished_material_property_status='Complete constituent material bounds; original paid gross/direct price retained once')
+    updated = deepcopy(physical)
+    updated['material_occurrences'] = [newP[k] for k in sorted(newP)]
+    result['physical_definition'] = updated
+    result['local_component_geometry_id'] = identity(updated)
+    result['canonical_local_draft'].update(entities=[newE[k] for k in sorted(newE)], stock_groups=[newG[k] for k in sorted(newG)], material_projection=deepcopy(updated))
+    # A source finished-price/process split is unknown. Keep an explicit possible
+    # additional allowance, never sum the H process row as a second paid invoice.
+    price_rows = result['pricing']['rows']
+    by_price = {p['owner_id']:p for p in price_rows}
+    if len(by_price) != len(price_rows):
+        raise ValueError('Duplicate payable owner in local ledger')
+    for oid in OG:
+        if by_price[oid]['source_group'] != G[oid]:
+            raise ValueError('Paid source price row does not match its group')
+        by_price[oid]['source_group'] = deepcopy(newG[oid])
+    for opid in operation_ids:
+        p = by_price['finishing-operation/' + opid]
+        allowance = _cases(p['direct_cost_label_cases_USD'])
+        source_allowance = required[next(eid for eid in required if required[eid]['operation_id'] == opid)]['source_record']['source_operation']['cost_USD']
+        if p['source_operation_id'] != opid or allowance != source_allowance:
+            raise ValueError('Source finishing allowance/operation price differs')
+        p.update(additive_to_paid_source_owner=False, charge_status='Scope overlap unresolved; source allowance is not an additional approved invoice',
+                 possible_additional_cost_interval_USD=None if allowance is None else [0., allowance['high']],
+                 lower_bound_basis='Complete overlap is possible; zero is a bound, not an assumed actual operation price')
+    removed = []
+    pending = []
+    for hold in result['pending_contracts']:
+        if hold['kind'] in ('finishing-material-properties-pending', 'density-context-unresolved') and hold['subject'] in operation_ids:
+            removed.append(deepcopy(hold))
+        else:
+            pending.append(hold)
+    pending.append(dict(id='bounded-finishing-source-and-process-evidence', kind='bounded-finishing-source-and-process-evidence', subject='local', resolved=False, detail=deepcopy(finishing['pending_contracts'])))
+    result['pending_contracts'] = pending
+    for r in result['source_finishing_records']:
+        r.update(mass_moment_application='complete marginal bounds applied to local research material ledger only',
+                 complete_material_evaluation_id=finishing['evaluation_id'])
+    result['request_id'] = request_id
+    result['finishing_application'] = dict(schema='osr-terminal-local-finishing-application/1',
+        input_pin=deepcopy(input_pin), parent_local_plan_evaluation_id=local_plan['evaluation_id'],
+        parent_local_geometry_id=local_plan['local_component_geometry_id'], finishing_evaluation_id=finishing['evaluation_id'],
+        finishing_component_geometry_id=finishing['component_geometry_id'], material_occurrences=len(F), paid_owners=len(OG),
+        cleared_calculation_holds=removed, new_stock_purchases=0, new_P1_retirements=0,
+        new_deployments=0, source_transactions_applied=False)
+    result['mass_properties']['reason'] = 'Finishing material bounds retained; other source/geometry/moment domains and whole-vehicle integration still require their own evidence'
+    result['pricing']['finishing_process_overlap_hold'] = True
+    # No exact or physical admission flags change merely because a local material
+    # enclosure was calculated; all inherited holds remain unless named above.
+    return seal(result)
