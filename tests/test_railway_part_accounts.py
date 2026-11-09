@@ -128,6 +128,23 @@ def test_partial_stock_case_bounds_remain_unknown_not_zero_or_finished_mass():
     assert r['status']=='held' and r['stock']['gross_each_kg']['high'] is None
 
 
+def test_varying_occurrence_cost_cannot_silently_use_nominal_each_price():
+    b=body();b['patterns']=[dict(id='pattern/'+p['id'],part_id=p['id'],count=p['quantity_per_train'],
+        direct_cost_usd=cases(270. if p['id']=='sheet' else 100.)) for p in b['parts']];seal(b)
+    r=compiled(b)
+    assert r['held_part_ids']==['sheet'] and r['rows'][0]['project_direct_cost_usd'] is None
+    assert r['rows'][0]['source_pattern_cost_per_train_usd']==cases(270.)
+    assert r['rows'][1]['project_direct_cost_usd']==cases(400.)
+
+
+def test_matching_occurrence_cost_is_preserved_and_count_mismatch_rejected():
+    b=body();b['patterns']=[dict(id='pattern/'+p['id'],part_id=p['id'],count=p['quantity_per_train'],
+        direct_cost_usd={c:p['quantity_per_train']*p['direct_cost_each_usd'][c] for c in a.CASES})for p in b['parts']];seal(b)
+    assert compiled(b)['all_source_parts_mapped']
+    b['patterns'][0]['count']=2;seal(b)
+    with pytest.raises(ValueError,match='pattern quantity'):compiled(b)
+
+
 @pytest.mark.parametrize('price',[None,cases(None),cases(0.)])
 def test_unknown_or_zero_price_never_becomes_zero_value(price):
     b=body();b['parts'][0]['direct_cost_each_usd']=price;seal(b);r=compiled(b)

@@ -70,7 +70,8 @@ def source_cost_identity(body, part, cost_evaluation_id):
         source_part_sha256=identity(part), cost_evaluation_id=_hash(cost_evaluation_id, 'source cost evaluation'),
         part_id=part['id'], component_definition_id=part['component_definition_id'], currency='USD',
         source_unit=part['unit'], quantity_per_train=part['quantity_per_train'],
-        direct_cost_each_usd=part.get('direct_cost_each_usd'), cost_basis=part.get('cost_basis'), source_ids=part.get('source_ids')))
+        direct_cost_each_usd=part.get('direct_cost_each_usd'), cost_basis=part.get('cost_basis'), source_ids=part.get('source_ids'),
+        pattern_costs=[{k:p.get(k) for k in ('id','count','direct_cost_usd')} for p in body.get('patterns',[]) if p.get('part_id') == part['id']]))
 
 
 def _stock(value, holds):
@@ -110,6 +111,8 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
     for key, expected in (('body_candidate_id', body['candidate_id']), ('body_evaluation_id', body['evaluation_id']), ('cost_evaluation_id', cost_evaluation_id), ('fleet', fleet)):
         _require(contract.get(key) == expected, 'Mixed part contract '+key)
     parts = _index(body['parts'], 'id', 'source part')
+    patterns = _index(body.get('patterns',[]), 'id', 'source pattern')
+    _require(all(p.get('part_id') in parts for p in patterns.values()), 'Orphan source cost pattern')
     mapping = _index(contract.get('rows'), 'part_id', 'part mapping')
     _require(not (set(mapping)-set(parts)), 'Orphan mapped part')
     rows = []
@@ -199,6 +202,21 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
                             row['project_direct_cost_usd'] = {c:quantity*fleet*rates[c] for c in CASES}
                             _require(all(isclose(row['target_quantity_project'][c]*row['target_unit_rate_usd'][c],row['project_direct_cost_usd'][c],rel_tol=1e-12) for c in CASES), 'Quantity-price conversion does not conserve cost')
                 row['conversion'] = deepcopy(conversion)
+        if patterns:
+            counted = [p for p in patterns.values() if p['part_id'] == pid]
+            _require(all(type(p.get('count')) is int and p['count'] > 0 for p in counted) and
+                     sum(p['count'] for p in counted) == quantity, 'Source cost pattern quantity differs: '+pid)
+            if any(p.get('direct_cost_usd') is None for p in counted):
+                pattern_cost = None
+            else:
+                values = [_cases(p['direct_cost_usd'],'source pattern price',unknown=True) for p in counted]
+                pattern_cost = None if any(v[c] is None for v in values for c in CASES) else {c:fsum(v[c] for v in values) for c in CASES}
+            row['source_pattern_cost_per_train_usd'] = pattern_cost
+            if pattern_cost is None or (row['project_direct_cost_usd'] is not None and
+                any(not isclose(row['project_direct_cost_usd'][c],fleet*pattern_cost[c],rel_tol=1e-10,abs_tol=1e-6) for c in CASES)):
+                holds.append('Part each price and counted pattern subtotal unresolved; explicit cost allocation revision required')
+                row['project_direct_cost_usd'] = None
+                row['target_unit_rate_usd'] = None
         row['holds'] = holds; row['status'] = 'held' if holds else 'ready-for-planning-review'
         row['account_id'] = identity(row); rows.append(row)
     held = [r['part_id'] for r in rows if r['holds']]

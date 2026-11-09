@@ -176,6 +176,10 @@ def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, roo
         by_part = {r['part_id']:r for r in part_ledger['rows']}
         for item in items:
             item['part_account'] = deepcopy(by_part[item['id']])
+            mapped_cost = item['part_account']['project_direct_cost_usd']
+            if mapped_cost is not None:
+                _require(all(isclose(mapped_cost[c],fleet*item['counted_direct_parts_process_usd_per_train'][c],rel_tol=1e-10,abs_tol=1e-6)
+                             for c in model.CASES), 'Part conversion differs from counted delivery cost')
             for reason in item['part_account']['holds']:
                 tasks.append(model._task(binding,'hold/part-account/'+item['id']+'/'+identity(reason),
                     'part-account-review',item['id'],'Resolve the explicit source unit, make/buy, stock and price coverage contract',[reason]))
