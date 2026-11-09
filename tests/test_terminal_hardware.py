@@ -119,15 +119,15 @@ def synthetic_interfaces():
         holes.append(dict(at_m=[.0455,y,z],axis=[1.,0.,0.],diameter_m=.0055,length_m=.006,kind='cylinder-cut',purpose='SYNTHETIC'))
         hp=dict(geometry=dict(kind='box',at_m=[.0395,y,z],size_m=[.012,.025,.025],rotation=deepcopy(h.I)),material='al5083',holes=[dict(kind='cylinder-cut',at_m=[.0335,y,z],axis=[1.,0.,0.],diameter_m=.006,length_m=.012,purpose='SYNTHETIC')],insert_pocket_max_depth_m=.009,insert_pocket_max_diameter_m=.010)
         es.append(dict(id='legacy/glazing-hardpoint/'+str(n),exact_CSG_entity=hp))
-    ring=dict(geometry=dict(kind='difference',outer=dict(kind='box',at_m=[.0485,0.,0.],size_m=[.006,1.7,1.2],rotation=deepcopy(h.I)),void=dict(kind='box',at_m=[.0485,0.,0.],size_m=[.006,1.56,1.06],rotation=deepcopy(h.I))),holes=holes)
+    ring=dict(material='al5083',geometry=dict(kind='difference',outer=dict(kind='box',at_m=[.0485,0.,0.],size_m=[.006,1.7,1.2],rotation=deepcopy(h.I)),void=dict(kind='box',at_m=[.0485,0.,0.],size_m=[.006,1.56,1.06],rotation=deepcopy(h.I))),holes=holes)
     es.append(dict(id='legacy/glazing-backing-ring',exact_CSG_entity=ring))
     return es
 
 
 def test_source_cut_keeps_through_void_and_positive_new_machining_in_contained_stock():
     es=synthetic_interfaces();before=deepcopy(es);ops=h._source_volume_geometry(es)
-    assert es == before and len(ops) == 12
-    for op in ops:
+    assert es == before and len(ops) == 13
+    for op in ops[:12]:
         old,new=op['complete_void_union']['pieces']
         assert old['length_m'] == .012 and old['at_m'][0] == .0335 and old['axis'] == [1.,0.,0.]
         assert op['unchanged_original_through_void']
@@ -137,6 +137,12 @@ def test_source_cut_keeps_through_void_and_positive_new_machining_in_contained_s
         assert op['minimum_annular_rear_web_m'] == pytest.approx(.003)
         assert op['source_credit_USD'] == 0 and op['original_paid_blank_retained']
         assert op['incremental_removed_volume_bounds_m3'][0] > 0
+    ring=ops[-1]
+    assert ring['blank_owner_count']==1 and ring['new_stock_purchase_count']==0 and ring['cut_count']==12
+    assert len(ring['complete_void_union']['pieces'])==25
+    assert ring['complete_void_union']['pieces'][0]==es[-1]['exact_CSG_entity']['geometry']['void']
+    assert ring['complete_void_union']['pieces'][1:13]==es[-1]['exact_CSG_entity']['holes']
+    assert all(x['diameter_m']==.012 for x in ring['complete_void_union']['pieces'][13:])
 
 
 @pytest.mark.parametrize('mutation', [
@@ -190,3 +196,165 @@ def test_unreviewed_actual_raw_and_missing_guard_variant_fail_without_producers(
     with pytest.raises(ValueError,match='retained'):h.propose_local(b'not retained',request_id='a'*64)
     with pytest.raises(ValueError,match='guard size'):h.prototype('thread-guard')
     with pytest.raises(ValueError):h.finite_sweep_bounds(h.prototype('M6-nut'),dict(at_m=[0,0,0],rotation=[[-1.,0,0],[0,1.,0],[0,0,1.]]),[[0,0,0],[1,0,0]])
+
+
+def test_retained_h1_positive_material_witness_fails_old_ports_and_is_void_after_counted_enlargement():
+    old=h.front_service_screen(access_diameter_m=.0055,diameter_tolerance_m=0.)
+    new=h.front_service_screen()
+    assert not old['necessary_port_screen_passed'] and new['necessary_port_screen_passed']
+    assert old['radial_residuals_m']['insert_major_envelope']==pytest.approx(-.00235)
+    assert old['radial_residuals_m']['retained_two_mm_fork_corner'] < -.0028
+    for y,z in h.glazing_axes():
+        p=[.0485,y+.00325,z]
+        assert .0455 < p[0] < .0515 and abs(p[1]) < .85 and abs(p[2]) < .6
+        assert not(abs(p[1])<.78 and abs(p[2])<.53)
+        assert .00275+.0001 < .00325 < .0035-.0001  #0.1mm ball in both old materials
+        assert .00325+.0001 < (.012-.00005)/2  #same entire ball now in an explicitly cut void
+    assert new['inner_ligament_m']==pytest.approx(.018875)
+    assert new['outer_ligament_m']==pytest.approx(.038875)
+    assert new['radial_residuals_m']['own_hollow_fork_shaft_with_tolerance']==pytest.approx(.0001)
+    assert all(v>0 for v in new['radial_residuals_m'].values())
+
+
+def test_rear_and_captive_staging_are_not_claimed_repair_passes():
+    c=h.support_topology_comparison()
+    assert not c['rear_unmodified']['necessary_screen_passed']
+    assert c['rear_unmodified']['radial_residual_including_1mm_m']==pytest.approx(-.002)
+    assert not c['captive_pre_ring']['nondestructive_retained_ring_repair_demonstrated']
+    assert c['front_enlarged_ports']['necessary_port_screen_passed']
+
+
+def test_one_ring_owner_twelve_cuts_volume_bounds_and_original_void_union_retained():
+    es=synthetic_interfaces();ops=h._source_volume_geometry(es);r=ops[-1]
+    assert r['kind']=='ring-access-port-enlargement' and r['blank_owner_count']==1
+    assert r['new_stock_purchase_count']==0 and r['cut_count']==12
+    assert r['original_paid_blank_retained'] and r['unchanged_original_voids']
+    for volume,D in zip(r['incremental_removed_volume_bounds_m3'],(.01195,.01205)):
+        assert volume==pytest.approx(12*math.pi/4*(D**2-.0055**2)*.006)
+    assert r['nominal_removed_centroid_m']==[.0485,0.,0.]
+    for row,expected in zip(r['incremental_removed_centroid_box_m'],[[.0485,-.811125,-.561125],[.0485,.811125,.561125]]):
+        assert row==pytest.approx(expected,abs=1e-12)
+    assert len(r['complete_void_union']['pieces'][13:])==12
+    assert min(r['person_process_h'])>0 and min(r['person_QA_h'])>0
+    b=r['process_time_basis']
+    assert r['person_process_h']==pytest.approx([a+12*c for a,c in zip(b['one_setup_h'],b['each_of_12_bores_h'])])
+    assert r['person_QA_h']==pytest.approx([a+12*c for a,c in zip(b['one_QA_setup_h'],b['each_of_12_bores_QA_h'])])
+
+
+def test_captured_service_tool_real_material_gross_net_and_staged_square_key_geometry():
+    kit=h.front_service_toolkit();assert kit['piece_count']==12 and len(kit['parts'])==12
+    assert kit['count_per_train']==1 and not kit['qualified']
+    assert kit['tool_torque_capacity_Nm'] is None and kit['capture_capacity_N'] is None
+    for p in kit['parts']:
+        assert 0 < p['net_volume_bounds_m3'][0] <= p['net_volume_bounds_m3'][1] <= p['gross_blank_volume_m3']
+        assert p['cost_USD']['low']>0 and p['mass_kg']['low']>0
+    b=kit['necessary_mating_bounds'];g=kit['geometry']
+    assert b['prong_root_inner_ligament_m']>0 and b['prong_root_outer_ligament_m']>0
+    assert b['minimum_prong_root_inner_ligament_m']>0 and b['minimum_prong_root_outer_ligament_m']>0
+    assert b['minimum_notch_side_clearance_m']>0 and b['minimum_notch_depth_clearance_m']>0
+    assert b['collar_nearest_U_m']-b['ring_front_U_m']==pytest.approx(.019)
+    assert b['capture_full_thread_minimum_hypothesis_m']==pytest.approx(.0051)
+    assert g['key_square_AF_m']>g['square_AF_m']
+    assert b['stud_square_to_bore_radial_clearance_bound_m']>0
+    assert b['key_square_face_clearance_bound_m']>0 and b['M3_bottom_clearance_minimum_m']>0
+    assert g['square_axial_span_X_m'][0] < g['key_axial_span_X_m'][0] < g['key_axial_span_X_m'][1] < g['square_axial_span_X_m'][1]
+    assert b['nut_to_standoff_nominal_gap_m']>0
+    assert g['headless_stud_tip_X_m']-.053==pytest.approx(g['square_axial_span_X_m'][1])
+    assert g['M3_tip_X_m']-g['M3_pilot_bottom_X_m']==pytest.approx(-.001)
+
+
+def test_twenty_proper_unthread_poses_then_free_extraction_not_engaged_linear_translation():
+    s=h.front_service_screen();m=s['screw_motion']
+    assert m['finite_pose_count']==len(m['proper_rotation_U'])==20
+    for turns,d,R in zip(m['turns'],m['translation_m'],m['proper_rotation_U']):
+        assert d==pytest.approx(turns*.001)
+        for i in range(3):
+            for j in range(3):
+                assert sum(R[k][i]*R[k][j] for k in range(3))==pytest.approx(1. if i==j else 0.,abs=1e-12)
+        assert R[1][1]*R[2][2]-R[1][2]*R[2][1]==pytest.approx(1.)
+    assert m['translation_m'][-1]==pytest.approx(.009)
+    assert not s['exact_thread_contact_verified'] and not s['complete_vehicle_sweep_verified']
+
+
+def compile_tiny(monkeypatch,*,service_controls=None):
+    monkeypatch.setattr(h,'FAMILIES',{'M6-washer':('SYNTHETIC/washer',1)})
+    monkeypatch.setattr(h,'_source_volume_geometry',lambda es:[])
+    e=dict(id='SYNTHETIC/front-washer',part_id='SYNTHETIC/washer',scope='installed',at_m=[0.,0.,0.],mass_kg=dict(low=.01,base=.02,high=.03),exact_CSG_entity=dict(geometry=None))
+    owner=dict(id='SYNTHETIC/source-owner',entity_ids=[e['id']],direct_cost_usd=dict(low=100.,base=200.,high=300.))
+    s=dict(component_proposal=dict(entities=[e],stock_groups=[owner],source_account_coverage={'SYNTHETIC-c999':'retained'}),source_accounting_retained={'SYNTHETIC-old-account':'retained'})
+    return h._compile(s,'c'*64,rates=h.RATES,materials=h.MATERIALS,service_controls=service_controls)
+
+
+def test_h2_tool_radius_clearance_and_motion_evidence_are_evaluation_only(monkeypatch):
+    a=compile_tiny(monkeypatch)
+    controls=deepcopy(h.SERVICE_CONTROLS);controls['tool_envelope_radius_m']=.016
+    b=compile_tiny(monkeypatch,service_controls=controls)
+    assert a['candidate_id']==b['candidate_id'] and a['physical_definition']==b['physical_definition']
+    assert a['evaluation_id']!=b['evaluation_id']
+    assert a['service_evaluation']['evaluation_id']!=b['service_evaluation']['evaluation_id']
+    assert a['shared_workshop_service_kit']['lifecycle_definition_id']==b['shared_workshop_service_kit']['lifecycle_definition_id']
+    controls.update(required_clearance_m=.0011,tool_insertion_m=.12)
+    c=compile_tiny(monkeypatch,service_controls=controls)
+    assert a['candidate_id']==c['candidate_id'] and a['evaluation_id']!=c['evaluation_id']
+    assert all('tool_envelope' not in p and 'finite_motion_poses_part_m' not in p and 'required_clearance_m' not in p for p in a['physical_definition']['placements'])
+    before=h._hash(a['physical_definition']);a['shared_workshop_service_kit']['parts'][0]['geometry']['cuts'].append({'kind':'SYNTHETIC-tool-only-cut'})
+    assert h._hash(a['physical_definition'])==before
+
+
+def test_installed_ring_cut_revision_changes_physical_identity_and_keeps_one_paid_owner(monkeypatch):
+    monkeypatch.setattr(h,'FAMILIES',{'M6-washer':('SYNTHETIC/washer',1)})
+    es=synthetic_interfaces()
+    for e in es:e['part_id']='SYNTHETIC/context/'+e['id']
+    es.append(dict(id='SYNTHETIC/front-washer',part_id='SYNTHETIC/washer',scope='installed',at_m=[0.,0.,0.],mass_kg=dict(low=.01,base=.02,high=.03),exact_CSG_entity=dict(geometry=None)))
+    groups=[dict(id='SYNTHETIC/paid/'+e['id'],entity_ids=[e['id']],direct_cost_usd=dict(low=1.,base=2.,high=3.)) for e in es]
+    source=dict(component_proposal=dict(entities=es,stock_groups=groups,source_account_coverage={}),source_accounting_retained={})
+    a=h._compile(source,'e'*64,rates=h.RATES,materials=h.MATERIALS)
+    monkeypatch.setattr(h,'RING_ACCESS_DIAMETER_M',.013)
+    b=h._compile(source,'e'*64,rates=h.RATES,materials=h.MATERIALS)
+    assert a['candidate_id']!=b['candidate_id']
+    ring=[o for o in a['source_machining'] if o['kind']=='ring-access-port-enlargement']
+    assert len(ring)==1 and ring[0]['source_stock_owner_id']=='SYNTHETIC/paid/legacy/glazing-backing-ring'
+    assert ring[0]['blank_owner_count']==1 and ring[0]['new_stock_purchase_count']==0
+    assert len(ring[0]['complete_void_union']['pieces'][13:])==12
+    assert ring[0]['source_stock_owner_id'] in a['source_machining_stock_owners']
+    assert all(o['cost_USD']['low']>0 for o in a['source_machining'])
+    assert ring[0]['incremental_removed_first_moment_bounds_kg_m'][1][0]<0<ring[0]['incremental_removed_first_moment_bounds_kg_m'][1][1]
+    assert a['source_machining_stock_owners'][ring[0]['source_stock_owner_id']]['id']==ring[0]['source_stock_owner_id']
+
+
+def test_fork_service_tool_fields_are_not_installed_prototype_material():
+    p=h.prototype('M5-glazing-insert')
+    assert 'fork_driver' in p['mating'][0] and 'fork_driver' not in p['physical_definition']['mating'][0]
+
+
+def test_tolerance_or_clearance_failure_is_not_relabelled_a_screen_pass():
+    assert not h.front_service_screen(required_clearance_m=.002)['necessary_port_screen_passed']
+    assert not h.front_service_screen(coaxial_offset_bound_m=.001)['necessary_port_screen_passed']
+    with pytest.raises(ValueError):h.front_service_screen(access_diameter_m=.012,diameter_tolerance_m=.013)
+
+
+def test_initial_keyed_head_trap_preserved_and_headless_staged_setup_has_clearance():
+    #Oldhead enters fixed key whenunderheadX=-50mm;47.5mm shaft still
+    #ends2.5mm before insert. At first thread engagement,2.5mm of head
+    #is already keyed, contradicting required independent bolt rotation.
+    assert -.050+.0475<0
+    first_thread_underhead=-.0475
+    assert first_thread_underhead-(-.050)==pytest.approx(.0025)
+    kit=h.front_service_toolkit();g=kit['geometry'];b=kit['necessary_mating_bounds']
+    assert (g['square_AF_m']+.000025)*math.sqrt(2)<g['through_bore_m']-.00005
+    assert b['stud_square_to_bore_radial_clearance_bound_m']>0
+    assert g['key_axial_span_X_m'][0]>g['square_axial_span_X_m'][0]
+    assert g['key_axial_span_X_m'][1]<g['square_axial_span_X_m'][1]
+    assert b['square_clocking_axial_allowance_m']==pytest.approx(.0008*.125)
+    #Rear key is fitted only after stud/nutclocking, so no early fixedkey.
+    assert kit['assembly'][1].startswith('Seat unkeyed fork body')
+    assert kit['assembly'][3].startswith('Slide rear3.6mm square-key plate')
+
+
+def test_a1_duplicate_stock_owner_ids_and_rosters_fail_before_any_emission(monkeypatch):
+    monkeypatch.setattr(h,'_source_volume_geometry',lambda es:(_ for _ in ()).throw(AssertionError('must preflight before geometry')))
+    e=lambda name:dict(id=name)
+    for groups in ([dict(id='duplicate',entity_ids=['a']),dict(id='duplicate',entity_ids=['b'])],
+                   [dict(id='one',entity_ids=['a']),dict(id='two',entity_ids=['a','b'])]):
+        s=dict(component_proposal=dict(entities=[e('a'),e('b')],stock_groups=groups))
+        with pytest.raises(ValueError,match='stock owner'):h._compile(s,'d'*64,rates=h.RATES,materials=h.MATERIALS)
