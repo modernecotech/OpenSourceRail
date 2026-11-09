@@ -561,4 +561,94 @@ class LegacyProxyFrameTests(unittest.TestCase):
     def test_missing_proxy_stays_unknown_not_zero(self):
         p=w.legacy_parent_view(legacy_fixture(),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256);self.assertIsNone(p['centroid_local_m']);self.assertNotIn('shape_I_per_kg',p)
 
+
+
+
+def connector_fixture(sign=1,z=3.):
+    policy=fixture()[4];rho=[2580.2,2660.,2739.8];R=deepcopy(w.I);rootV=2.;rootlo=1.01;platefront=1.;parents=[];stocks=[]
+    for label,size,T in [('root',[.1505,.07,.006],[rootlo+.1505/2,rootV,z]),('plate',[.012,.02,.12],[platefront-.006,rootV+sign*.025,z])]:
+        V=size[0]*size[1]*size[2];p=dict(id='invented/'+label,part_id='invented/'+label,material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=T,rotation=deepcopy(R),geometry=dict(kind='box',size_m=size),mass_kg={c:V*rho[j] for j,c in enumerate(w.CASES)},centroid_local_m=[0.,0.,0.]);g=dict(id='stock/'+p['id'],entity_ids=[p['id']],quantity=1,net_m3=V,gross_m3=V*1.2);parents.append(p);stocks.append(g)
+    old=deepcopy(fixture()[0]);old['at_m']=[rootlo,rootV+sign*.025,z];old['physical_drawing']['local_segments_m']=[[[0.,-.05,0.],[0.,.05,0.]]];old['physical_drawing']['leg_m']=.003;V=.5*.003**2*.1;wg=deepcopy(fixture()[1]);wg.update(net_m3=V,gross_m3=V*1.2)
+    for j,c in enumerate(w.CASES):wg['net_mass_kg'][c]=V*rho[j];wg['gross_mass_kg'][c]=V*1.2*rho[j];wg['scrap_mass_kg'][c]=V*.2*rho[j];wg['direct_cost_usd'][c]=V*1.2*rho[j]*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j]
+    root,plate=parents;rg,pg=stocks;bb=lambda p:[[p['at_m'][k]-p['geometry']['size_m'][k]/2,p['at_m'][k]+p['geometry']['size_m'][k]/2] for k in range(3)];rb=bb(root);eb=bb(plate);over=[max(rb[1][0],eb[1][0]),min(rb[1][1],eb[1][1])];cid='invented/connector';uncut=.01*.07*.006;cut=.001*.002*.066;leftV=2*.5*.003**2*.016;filler=2*cut+leftV;delta=uncut-2*cut+filler-V
+    desc=lambda p,g:dict(id=p['id'],sha256=w.identity(p),stock_id=g['id'],stock_sha256=w.identity(g))
+    row=dict(id=cid,source_root=desc(root,rg),source_endplate=desc(plate,pg),old_weld_to_replace_once=desc(old,wg),source_face_bounds=dict(root=rb,endplate=eb),new_connector_stock_proposal=dict(id=cid,geometry=dict(kind='box',size_m=[.01,.07,.006]),at_m=[(rootlo+platefront)/2,rootV,z],rotation=deepcopy(R),material_id='al5083',paid_blank_size_m=[.012,.072,.006],paid_blank_volume_m3=.012*.072*.006,finished_gross_volume_m3=uncut,net_volume_m3=uncut-cut,connector_new_cut_volume_m3=cut,existing_stock_credit_USD=0.,stock_owner_count=1,procurement_required=True),new_left_fillets=[dict(id=cid+'/left/'+str(s),contact_parent_ids=[plate['id'],cid],leg_m=.003,flat_runout_each_m=.002,outward_face_normals=[[1.,0.,0.],[0.,0.,float(s)]],root_line_m=[[platefront,over[0]+.002,z+s*.003],[platefront,over[1]-.002,z+s*.003]]) for s in (-1,1)],new_right_opposed_butt_grooves=[dict(id=cid+'/right/'+str(s),half_cut_parent_ids=[cid,root['id']],section_axes=[0,2],extrusion_axis=1,prior_void_credit=0.,nominal_root_between_opposed_grooves_m=.002,vertices_UW_m=[[rootlo-.001,z+s*.003],[rootlo+.001,z+s*.003],[rootlo,z+s*.001]],interval_m=[rb[1][0]+.002,rb[1][1]-.002]) for s in (-1,1)],new_filler_volume_m3=filler,retained_root_new_cut_volume_m3=cut,net_material_delta_vs_old_weld_kg={c:delta*rho[j] for j,c in enumerate(w.CASES)},manufacturing_estimate_inputs=dict(connector_cut_and_deburr_person_h=[.02,.04,.08],new_joint_setup_person_h=[.02,.04,.08],additional_QA_person_h=[.005,.01,.02],machine_rate_USD_h=None),known_source_tool_bounds=[dict(source_joint_id='invented/M4/'+str(j),source_joint_sha256=('a' if j==0 else 'b')*64,tool_radius_m=.01,insertion_m=.08,minimum_radial_projection_separation_m=.004) for j in (0,1)])
+    return [row,root,rg,plate,pg,old,wg,policy]
+
+def connector_run(f):return w.side_front_connector_revision(*f,binding_data_id=w.identity({'synthetic':True,'row':f[0]}))
+
+
+class ConnectorTests(unittest.TestCase):
+    def test_fixed_outline_geometry_four_beads_and_two_parent_debits(self):
+        f=connector_fixture();before=deepcopy(f);r=connector_run(f);self.assertEqual(f,before);self.assertEqual(len(r['filler_pieces']),4);self.assertEqual(len(r['parent_machining']),2);self.assertAlmostEqual(r['filler_net_volume_m3'],4.08e-7);self.assertAlmostEqual(r['new_connector_stock']['net_m3'],4.068e-6);self.assertEqual(r['new_connector_stock']['paid_blank_size_m'],[.012,.072,.006]);self.assertFalse(r['physical_accepted']);self.assertFalse(r['native_eligible'])
+
+    def test_exact_six_piece_mass_delta_no_percar_multiplier(self):
+        sums={c:0. for c in w.CASES}
+        for sign in (-1,1):
+            for z in (3.,4.,5.):
+                r=connector_run(connector_fixture(sign,z))
+                for c in w.CASES:sums[c]+=r['net_mass_delta_kg'][c]
+                self.assertIn('train multiplicity not applied',r['quantity_scope'])
+        for c,expected in zip(w.CASES,[.0602837928,.06214824,.0640126872]):self.assertAlmostEqual(sums[c],expected,places=10)
+
+    def test_filler_one_owner_and_paid_connector_once(self):
+        r=connector_run(connector_fixture());a=r['accounting'];self.assertEqual(a['new_stock_owner_count'],1);self.assertTrue(a['retire_old_weld_once']);self.assertTrue(a['one_combined_filler_owner']);self.assertTrue(a['right_geometry_method_price_is_not_another_charge']);self.assertIsNone(a['machine_rate_USD_h']);self.assertFalse(a['complete_installed_cost']);self.assertIsNone(r['new_connector_stock']['QA_h']);self.assertEqual(r['new_connector_stock']['QA_owner_id'],a['old_weld_owner_id'])
+
+    def test_physical_identity_excludes_QA_and_prices(self):
+        f=connector_fixture();a=connector_run(f);f[0]['manufacturing_estimate_inputs']['additional_QA_person_h']=[.01,.02,.04];b=connector_run(f);self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id'])
+
+    def test_bad_owner_hash_or_duplicate_quantity_refused(self):
+        for field in ('hash','quantity'):
+            f=connector_fixture()
+            if field=='hash':f[0]['source_root']['sha256']='a'*64
+            else:f[2]['quantity']=2;f[0]['source_root']['stock_sha256']=w.identity(f[2])
+            with self.assertRaisesRegex(ValueError,'paid-owner'):connector_run(f)
+
+    def test_changed_gap_or_blank_requires_drawing_revision(self):
+        for field in ('gap','blank','width'):
+            f=connector_fixture()
+            if field=='gap':f[1]['at_m'][0]+=.001;f[0]['source_root']['sha256']=w.identity(f[1])
+            elif field=='blank':f[0]['new_connector_stock_proposal']['paid_blank_size_m'][0]+=.001
+            else:f[0]['new_connector_stock_proposal']['geometry']['size_m'][1]=.02
+            with self.assertRaises(ValueError):connector_run(f)
+
+    def test_left_contact_and_right_cut_vertices_must_be_exact(self):
+        for field in ('left','right'):
+            f=connector_fixture()
+            if field=='left':f[0]['new_left_fillets'][0]['root_line_m'][0][1]+=.001
+            else:f[0]['new_right_opposed_butt_grooves'][0]['vertices_UW_m'][0][0]+=.001
+            with self.assertRaises(ValueError):connector_run(f)
+
+    def test_existing_endplate_bores_stay_separate_from_new_filler(self):
+        f=connector_fixture();p=f[3];V0=p['geometry']['size_m'][0]*p['geometry']['size_m'][1]*p['geometry']['size_m'][2];holes=[dict(axis=0,centre_m=[.00225,0.,z],radius_m=.002,length_m=.0075) for z in (-.020,.020)];p['geometry']['holes']=holes;p['centroid_local_m']=[-sum(math.pi*h['radius_m']**2*h['length_m']*h['centre_m'][k] for h in holes)/(V0-sum(math.pi*h['radius_m']**2*h['length_m'] for h in holes)) for k in range(3)];p['mass_kg']={c:(V0-sum(math.pi*h['radius_m']**2*h['length_m'] for h in holes))*rho for c,rho in zip(w.CASES,[2580.2,2660.,2739.8])};f[0]['source_endplate']['sha256']=w.identity(p);r=connector_run(f);self.assertEqual(r['source_endplate']['geometry']['holes'],holes);self.assertEqual(len(r['known_source_tool_projection_controls']),2)
+
+    def test_tool_projection_bounds_not_silently_changed(self):
+        f=connector_fixture();f[0]['known_source_tool_bounds'][0]['tool_radius_m']=.011
+        with self.assertRaisesRegex(ValueError,'radial projection'):connector_run(f)
+
+    def test_net_mass_or_paid_stock_budget_mismatch_refused(self):
+        for field in ('net','stock'):
+            f=connector_fixture()
+            if field=='net':f[0]['net_material_delta_vs_old_weld_kg']['base']+=.001
+            else:f[0]['new_connector_stock_proposal']['paid_blank_volume_m3']*=2
+            with self.assertRaises(ValueError):connector_run(f)
+
+    def test_boolean_count_or_unpriced_machine_is_explicit(self):
+        f=connector_fixture();f[0]['new_connector_stock_proposal']['stock_owner_count']=True
+        with self.assertRaises(ValueError):connector_run(f)
+        f=connector_fixture();f[0]['manufacturing_estimate_inputs']['machine_rate_USD_h']=0.
+        with self.assertRaisesRegex(ValueError,'unknown machine rate'):connector_run(f)
+
+
+
+
+class ConnectorOwnerTests(unittest.TestCase):
+    def test_derived_subtotal_is_two_payable_rows_not_an_extra_charge(self):
+        r=connector_run(connector_fixture());a=r['accounting'];self.assertEqual(len(a['payable_rows']),2);self.assertEqual(len({x['owner_id'] for x in a['payable_rows']}),2);self.assertTrue(a['known_cases_are_derived_subtotals_not_extra_payable_rows']);self.assertEqual(len(r['replacement_weld_stock']['entity_ids']),4)
+        for c in w.CASES:self.assertAlmostEqual(sum(x['direct_cost_usd'][c] for x in a['payable_rows']),a['known_cases'][c]['calculated_known_component_subtotal_USD'])
+
+    def test_duplicate_filler_names_cannot_hide_occurrences(self):
+        f=connector_fixture();f[0]['new_left_fillets'][1]['id']=f[0]['new_left_fillets'][0]['id']
+        with self.assertRaisesRegex(ValueError,'Duplicate new finite filler'):connector_run(f)
+
 if __name__=='__main__':unittest.main()
