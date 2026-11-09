@@ -38,6 +38,27 @@ def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _read_gzip_json(path: Path) -> dict[str, Any]:
+    with gzip.open(path, "rt", encoding="utf-8") as stream:
+        return json.load(stream)
+
+
+def _check_identity(actual: dict[str, Any], expected: dict[str, str], label: str) -> None:
+    for key, value in expected.items():
+        if actual.get(key) != value:
+            raise ValueError(f"{label} identity {key} does not match the frozen pilot identity")
+
+
+def _check_pin(path: Path, digest: str, pins: list[tuple[str, str | None]]) -> list[str]:
+    if not pins or any(value is None for _, value in pins):
+        missing = [name for name, value in pins if value is None] or ["manifest pin"]
+        raise ValueError(f"{path.name} is missing required manifest pin(s): {', '.join(missing)}")
+    for name, value in pins:
+        if value != digest:
+            raise ValueError(f"{path.name} SHA-256 does not match {name} pin")
+    return [name for name, _ in pins]
+
+
 def _glb_inventory(path: Path) -> dict[str, Any]:
     data = path.read_bytes()
     if len(data) < 20:
@@ -71,36 +92,91 @@ def build_report(repo_root: Path) -> dict[str, Any]:
         raise ValueError("vehicle manifest has unexpected acceptance or release state")
     if pilot_manifest.get("schema") != "osr-railway-closure-publication/1":
         raise ValueError("unexpected top-level pilot publication schema")
-    if bundle.get("body_evaluation_id") != evaluation_id:
-        raise ValueError("top-level pilot bundle does not reference the frozen vehicle evaluation")
+    delivery_manifest = _read_json(folder / "delivery/manifest.json")
+    delivery = _read_json(folder / "delivery/execution-mapping-draft.json")
+    proposal = _read_gzip_json(folder / "delivery/proposal.json.gz")
+    delivery_body = _read_gzip_json(folder / "delivery/inputs/body.json.gz")
+    delivery_study = _read_gzip_json(folder / "delivery/inputs/study.json.gz")
 
-    source_specs = [
+    frozen_bundle_candidate = "cde8e4595d365b31d169cf452d1efc1b9f0c96225ca3bbccf8bf51b5a2480c7f"
+    frozen_bundle_evaluation = "b0d332a0fe3883e5a0783057bf0bc93f99f5235fc9b9af3e83a5cb7cc7909c78"
+    frozen_study_id = "abc42ebe77496d5c16fe30622ade179b02141bde5feacadd7497abe0b83cc710"
+    frozen_service_evaluation = "830ee18500b3c4c192f74fb61a9f8079adc1ef7eb3e3f3a9db96cdee8bf4a4c2"
+    if pilot_manifest.get("study_id") != frozen_study_id:
+        raise ValueError("top-level pilot study identity does not match the frozen study")
+    _check_identity(
+        bundle,
+        {"candidate_id": frozen_bundle_candidate, "evaluation_id": frozen_bundle_evaluation, "body_evaluation_id": evaluation_id},
+        "bundle",
+    )
+    _check_identity(
+        bundle.get("physical_definition", {}),
+        {"body_candidate_id": candidate_id},
+        "bundle physical definition",
+    )
+    expected_delivery_ids = {
+        "body_candidate_id": candidate_id,
+        "bundle_evaluation_id": frozen_bundle_evaluation,
+        "candidate_id": frozen_bundle_candidate,
+        "engineering_revision": evaluation_id,
+        "service_evaluation_id": frozen_service_evaluation,
+        "study_id": frozen_study_id,
+    }
+    _check_identity(delivery.get("identities", {}), expected_delivery_ids, "delivery mapping")
+    _check_identity(delivery_manifest.get("identities", {}), expected_delivery_ids, "delivery manifest")
+    _check_identity(proposal.get("identities", {}), expected_delivery_ids, "delivery proposal")
+    if delivery_manifest.get("identities") != delivery.get("identities") or proposal.get("identities") != delivery.get("identities"):
+        raise ValueError("delivery manifest, proposal and execution mapping carry different identity sets")
+    if delivery_body.get("candidate_id") != candidate_id or delivery_body.get("evaluation_id") != evaluation_id:
+        raise ValueError("delivery body input candidate/evaluation does not match the frozen vehicle identity")
+    if delivery_study.get("study_id") != frozen_study_id:
+        raise ValueError("delivery study input does not match the frozen pilot study identity")
+    delivery_inputs = {item.get("path"): item.get("content_identity") for item in delivery_manifest.get("inputs", [])}
+    if delivery_inputs.get("inputs/body.json.gz") != evaluation_id:
+        raise ValueError("delivery manifest body input identity does not match the frozen vehicle evaluation")
+    if delivery_inputs.get("inputs/study.json.gz") != frozen_study_id:
+        raise ValueError("delivery manifest study input identity does not match the frozen pilot study")
+    if delivery_manifest.get("proposal_id") != proposal.get("proposal_id"):
+        raise ValueError("delivery manifest proposal identity does not match its proposal payload")
+
+    source_manifest_specs = [
         ("pilot_publication_manifest", "manifest.json", None),
-        ("vehicle_manifest", "vehicle/manifest.json", None),
-        ("vehicle_bom", "vehicle/bom.csv", "bom.csv"),
-        ("vehicle_installation", "vehicle/installation.json.gz", "installation.json.gz"),
-        ("vehicle_assembly_glb", "vehicle/assembly.glb", "assembly.glb"),
-        ("delivery_mapping", "delivery/execution-mapping-draft.json", None),
-        ("pilot_bundle", "bundle.json", None),
+        ("vehicle_manifest", "vehicle/manifest.json", "vehicle/manifest.json"),
+        ("delivery_manifest", "delivery/manifest.json", "delivery/manifest.json"),
     ]
-    payloads: dict[str, dict[str, str]] = {}
-    for key, relpath, manifest_key in source_specs:
+    source_manifests: dict[str, dict[str, str]] = {}
+    for key, relpath, top_pin_key in source_manifest_specs:
         path = folder / relpath
         digest = sha256(path)
-        pinned_digest = (
-            manifest["files_sha256"].get(manifest_key)
-            if manifest_key
-            else pilot_manifest.get("files_sha256", {}).get(relpath)
-        )
-        if pinned_digest is not None and pinned_digest != digest:
-            raise ValueError(f"{relpath} does not match its published manifest SHA-256 pin")
-        payloads[key] = {"path": str(PACKET / relpath), "sha256": digest}
+        pins = [] if top_pin_key is None else [("top publication manifest", pilot_manifest.get("files_sha256", {}).get(top_pin_key))]
+        pin_sources = _check_pin(path, digest, pins) if pins else []
+        source_manifests[key] = {
+            "path": str(PACKET / relpath),
+            "sha256": digest,
+            "pin_sources": pin_sources,
+            "pin_state": "root anchor; no self-pin expected" if key == "pilot_publication_manifest" else "pinned",
+        }
+
+    payload_specs = [
+        ("vehicle_bom", "vehicle/bom.csv", [("top publication manifest", "vehicle/bom.csv", pilot_manifest.get("files_sha256", {}).get("vehicle/bom.csv")), ("vehicle manifest", "bom.csv", manifest.get("files_sha256", {}).get("bom.csv"))]),
+        ("vehicle_installation", "vehicle/installation.json.gz", [("top publication manifest", "vehicle/installation.json.gz", pilot_manifest.get("files_sha256", {}).get("vehicle/installation.json.gz")), ("vehicle manifest", "installation.json.gz", manifest.get("files_sha256", {}).get("installation.json.gz")), ("delivery manifest", "inputs/body.json.gz", delivery_manifest.get("files_sha256", {}).get("inputs/body.json.gz"))]),
+        ("vehicle_assembly_glb", "vehicle/assembly.glb", [("top publication manifest", "vehicle/assembly.glb", pilot_manifest.get("files_sha256", {}).get("vehicle/assembly.glb")), ("vehicle manifest", "assembly.glb", manifest.get("files_sha256", {}).get("assembly.glb"))]),
+        ("delivery_mapping", "delivery/execution-mapping-draft.json", [("top publication manifest", "delivery/execution-mapping-draft.json", pilot_manifest.get("files_sha256", {}).get("delivery/execution-mapping-draft.json")), ("delivery manifest", "execution-mapping-draft.json", delivery_manifest.get("files_sha256", {}).get("execution-mapping-draft.json"))]),
+        ("delivery_proposal", "delivery/proposal.json.gz", [("top publication manifest", "delivery/proposal.json.gz", pilot_manifest.get("files_sha256", {}).get("delivery/proposal.json.gz")), ("delivery manifest", "proposal.json.gz", delivery_manifest.get("files_sha256", {}).get("proposal.json.gz"))]),
+        ("delivery_body_input", "delivery/inputs/body.json.gz", [("top publication manifest", "delivery/inputs/body.json.gz", pilot_manifest.get("files_sha256", {}).get("delivery/inputs/body.json.gz")), ("delivery manifest", "inputs/body.json.gz", delivery_manifest.get("files_sha256", {}).get("inputs/body.json.gz"))]),
+        ("delivery_study_input", "delivery/inputs/study.json.gz", [("top publication manifest", "delivery/inputs/study.json.gz", pilot_manifest.get("files_sha256", {}).get("delivery/inputs/study.json.gz")), ("delivery manifest", "inputs/study.json.gz", delivery_manifest.get("files_sha256", {}).get("inputs/study.json.gz"))]),
+        ("pilot_bundle", "bundle.json", [("top publication manifest", "bundle.json", pilot_manifest.get("files_sha256", {}).get("bundle.json"))]),
+    ]
+    payloads: dict[str, dict[str, Any]] = {}
+    for key, relpath, pin_specs in payload_specs:
+        path = folder / relpath
+        digest = sha256(path)
+        pin_sources = _check_pin(path, digest, [(f"{label} ({pin_path})", pin_value) for label, pin_path, pin_value in pin_specs])
+        payloads[key] = {"path": str(PACKET / relpath), "sha256": digest, "pin_sources": pin_sources}
 
     with (folder / "vehicle/bom.csv").open(newline="", encoding="utf-8") as stream:
         bom_rows = list(csv.DictReader(stream))
-    with gzip.open(folder / "vehicle/installation.json.gz", "rt", encoding="utf-8") as stream:
-        installation = json.load(stream)
-    delivery = _read_json(folder / "delivery/execution-mapping-draft.json")
+    installation = _read_gzip_json(folder / "vehicle/installation.json.gz")
     if installation.get("candidate_id") != candidate_id or installation.get("evaluation_id") != evaluation_id:
         raise ValueError("installation payload identity does not match the frozen vehicle packet")
 
@@ -176,7 +252,15 @@ def build_report(repo_root: Path) -> dict[str, Any]:
             "bundle_candidate_id": bundle["candidate_id"],
             "bundle_evaluation_id": bundle["evaluation_id"],
             "bundle_body_evaluation_id": bundle["body_evaluation_id"],
+            "delivery_manifest_id": delivery_manifest["manifest_id"],
+            "delivery_proposal_id": proposal["proposal_id"],
+            "body_candidate_id": delivery_body["candidate_id"],
+            "body_evaluation_id": delivery_body["evaluation_id"],
+            "engineering_revision": delivery["identities"]["engineering_revision"],
+            "service_evaluation_id": delivery["identities"]["service_evaluation_id"],
         },
+        "delivery_identity_set": delivery["identities"],
+        "source_manifests": source_manifests,
         "source_payloads": payloads,
         "source_payload_interpretation": "These are engineering BOM, installation, mapping and visualization payloads. Their presence does not make them controlled manufacturing documents.",
         "assembly_visualization_inventory": _glb_inventory(folder / "vehicle/assembly.glb"),
@@ -193,6 +277,7 @@ def build_report(repo_root: Path) -> dict[str, Any]:
             "controlled_part_documents": list(CONTROLLED_PART_DOCUMENTS),
             "controlled_assembly_documents": list(CONTROLLED_ASSEMBLY_DOCUMENTS),
             "rule": "Only explicit controlled document payload references count. BOM prose, installation declarations, assembly mesh geometry, and null or invented references do not count.",
+            "scope": "Missing means no controlled reference is present in the checked delivery mapping schema for this frozen packet. This is not a repository-wide search for other document payloads.",
         },
         "closure": {
             "manufacturing_documentation_complete": False,

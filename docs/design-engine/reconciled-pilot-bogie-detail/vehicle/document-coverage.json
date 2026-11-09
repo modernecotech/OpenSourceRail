@@ -807,12 +807,33 @@
     "per_assembly_missing_controlled_document_slots": 82,
     "per_part_missing_controlled_document_slots": 4676
   },
+  "delivery_identity_set": {
+    "body_candidate_id": "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba",
+    "bundle_evaluation_id": "b0d332a0fe3883e5a0783057bf0bc93f99f5235fc9b9af3e83a5cb7cc7909c78",
+    "candidate_id": "cde8e4595d365b31d169cf452d1efc1b9f0c96225ca3bbccf8bf51b5a2480c7f",
+    "civil_candidate_id": "5bab407d93e079c02eaf8a0399cb1707d421fa8976c631524df534ad74d0bb97",
+    "civil_evaluation_id": "79ced43bd512115a7e21a4361f55e39404f64412e64b45866250e0b81db30361",
+    "cost_evaluation_id": "87088277e60299bb4e9c395c0e7b5435f0de67abed025bd99375fb762094b236",
+    "engineering_revision": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
+    "installed_component_candidate_id": "0a0512e5fb9a7fffa2c00457db23147e750877b56477632fce46962e018cbde8",
+    "installed_mass_evaluation_id": "4d5537fce8718f07734bb8d3c32a7ebdcd964d7195e81bd441918972823ff63a",
+    "lifecycle_evaluation_id": "2df74a8e07eee1cce6a35f803c59928e97a2d7c7b0ad587c10c64feae970c1c9",
+    "service_evaluation_id": "830ee18500b3c4c192f74fb61a9f8079adc1ef7eb3e3f3a9db96cdee8bf4a4c2",
+    "source_body_bundle_id": "bc43edc029e8d4acf44df281dcdb640c71dccdb8a0f244f9de82644672aef6f1",
+    "study_id": "abc42ebe77496d5c16fe30622ade179b02141bde5feacadd7497abe0b83cc710"
+  },
   "identity": {
+    "body_candidate_id": "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba",
+    "body_evaluation_id": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
     "bundle_body_evaluation_id": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
     "bundle_candidate_id": "cde8e4595d365b31d169cf452d1efc1b9f0c96225ca3bbccf8bf51b5a2480c7f",
     "bundle_evaluation_id": "b0d332a0fe3883e5a0783057bf0bc93f99f5235fc9b9af3e83a5cb7cc7909c78",
+    "delivery_manifest_id": "e35411fcbd64304bf770d395149d66de55b863399a0b6ca6e3b0a5f486ed0e59",
+    "delivery_proposal_id": "7b88d05f9e0a16ada127d60e51d8ebfdc23b0dcb90ba0c906b2050d4e65a5775",
+    "engineering_revision": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
     "pilot_publication_manifest_id": "b16892f0ffed69174223b73e2555e8fe4a31a905e9534a1a51328618675f51fe",
     "pilot_run_manifest_id": "d75da6b965c266d52521bebaa6897af8c1d8c6c1608b374418376c2840fe867f",
+    "service_evaluation_id": "830ee18500b3c4c192f74fb61a9f8079adc1ef7eb3e3f3a9db96cdee8bf4a4c2",
     "study_id": "abc42ebe77496d5c16fe30622ade179b02141bde5feacadd7497abe0b83cc710",
     "vehicle_candidate_id": "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba",
     "vehicle_evaluation_id": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
@@ -832,7 +853,8 @@
       "inspection_and_acceptance_record",
       "fabrication_routing_and_tooling_instruction"
     ],
-    "rule": "Only explicit controlled document payload references count. BOM prose, installation declarations, assembly mesh geometry, and null or invented references do not count."
+    "rule": "Only explicit controlled document payload references count. BOM prose, installation declarations, assembly mesh geometry, and null or invented references do not count.",
+    "scope": "Missing means no controlled reference is present in the checked delivery mapping schema for this frozen packet. This is not a repository-wide search for other document payloads."
   },
   "parts": [
     {
@@ -34906,35 +34928,95 @@
   ],
   "purpose": "Source-linked manufacturing-document coverage draft; records gaps and does not release manufacture.",
   "schema": "osr-vehicle-document-coverage/1",
-  "source_payload_interpretation": "These are engineering BOM, installation, mapping and visualization payloads. Their presence does not make them controlled manufacturing documents.",
-  "source_payloads": {
-    "delivery_mapping": {
-      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/execution-mapping-draft.json",
-      "sha256": "12c323f57bb20efdc027ef1b27fe824d278424f0e3c3233b09bb3d110268b31f"
-    },
-    "pilot_bundle": {
-      "path": "docs/design-engine/reconciled-pilot-bogie-detail/bundle.json",
-      "sha256": "a2b1917bfdf645df26bfff89863e58594a0b253c390c9f4fc51707b282cc1324"
+  "source_manifests": {
+    "delivery_manifest": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/manifest.json",
+      "pin_sources": [
+        "top publication manifest"
+      ],
+      "pin_state": "pinned",
+      "sha256": "24658f8e00977beb6c202979f6cd62556640bc33caccea0ccfc8d228ef328142"
     },
     "pilot_publication_manifest": {
       "path": "docs/design-engine/reconciled-pilot-bogie-detail/manifest.json",
+      "pin_sources": [],
+      "pin_state": "root anchor; no self-pin expected",
       "sha256": "3232f4e153b5b1fd30dc1a0fa84230cd1e92cf8f87b6c2b9580d42d2b8cefd62"
+    },
+    "vehicle_manifest": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/manifest.json",
+      "pin_sources": [
+        "top publication manifest"
+      ],
+      "pin_state": "pinned",
+      "sha256": "66824f9542c36bdc830c6a5903db5b08943e02b3d61a7f10e6e68fa8c22ffb47"
+    }
+  },
+  "source_payload_interpretation": "These are engineering BOM, installation, mapping and visualization payloads. Their presence does not make them controlled manufacturing documents.",
+  "source_payloads": {
+    "delivery_body_input": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/inputs/body.json.gz",
+      "pin_sources": [
+        "top publication manifest (delivery/inputs/body.json.gz)",
+        "delivery manifest (inputs/body.json.gz)"
+      ],
+      "sha256": "111077d3fd5f4ab1008089f362f7f777bdf547cc8369b2444acf070bf5499493"
+    },
+    "delivery_mapping": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/execution-mapping-draft.json",
+      "pin_sources": [
+        "top publication manifest (delivery/execution-mapping-draft.json)",
+        "delivery manifest (execution-mapping-draft.json)"
+      ],
+      "sha256": "12c323f57bb20efdc027ef1b27fe824d278424f0e3c3233b09bb3d110268b31f"
+    },
+    "delivery_proposal": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz",
+      "pin_sources": [
+        "top publication manifest (delivery/proposal.json.gz)",
+        "delivery manifest (proposal.json.gz)"
+      ],
+      "sha256": "1b091c4875b2945cc344edcd11932d265514f193fbce2ef6d5429e76d392d90c"
+    },
+    "delivery_study_input": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/delivery/inputs/study.json.gz",
+      "pin_sources": [
+        "top publication manifest (delivery/inputs/study.json.gz)",
+        "delivery manifest (inputs/study.json.gz)"
+      ],
+      "sha256": "613a51585b1f0f061459921f41ce0594118a0bd77b15d018ff02cab087c76c52"
+    },
+    "pilot_bundle": {
+      "path": "docs/design-engine/reconciled-pilot-bogie-detail/bundle.json",
+      "pin_sources": [
+        "top publication manifest (bundle.json)"
+      ],
+      "sha256": "a2b1917bfdf645df26bfff89863e58594a0b253c390c9f4fc51707b282cc1324"
     },
     "vehicle_assembly_glb": {
       "path": "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/assembly.glb",
+      "pin_sources": [
+        "top publication manifest (vehicle/assembly.glb)",
+        "vehicle manifest (assembly.glb)"
+      ],
       "sha256": "ba3b1ae6967587bc2bba628ffc6257f4bea4c50d981dd85551c242a755038af8"
     },
     "vehicle_bom": {
       "path": "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/bom.csv",
+      "pin_sources": [
+        "top publication manifest (vehicle/bom.csv)",
+        "vehicle manifest (bom.csv)"
+      ],
       "sha256": "4aeebf5164d7c0d840f5f9daa603ddb77cc9d2dad129e8ee8b417114d9f8d0cf"
     },
     "vehicle_installation": {
       "path": "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/installation.json.gz",
+      "pin_sources": [
+        "top publication manifest (vehicle/installation.json.gz)",
+        "vehicle manifest (installation.json.gz)",
+        "delivery manifest (inputs/body.json.gz)"
+      ],
       "sha256": "111077d3fd5f4ab1008089f362f7f777bdf547cc8369b2444acf070bf5499493"
-    },
-    "vehicle_manifest": {
-      "path": "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/manifest.json",
-      "sha256": "66824f9542c36bdc830c6a5903db5b08943e02b3d61a7f10e6e68fa8c22ffb47"
     }
   }
 }
