@@ -4,7 +4,7 @@ import pytest
 from engineering.compact_drive import gears,kinematics
 from engineering.compact_drive.common import policy,vendor,parent
 from engineering.compact_drive.design import stock_volume,build,SUPPORT_FAMILY,SUPPORT_VARIANTS
-from engineering.compact_drive.evaluate import evaluate
+from engineering.compact_drive.evaluate import evaluate,_coverage_status
 from engineering.station_rail.common import identity
 import gzip,json
 from pathlib import Path
@@ -81,8 +81,17 @@ def test_split_lane_support_family_has_distinct_candidates_and_reports_all_scree
     assert screen['candidate_id']==a['candidate_id']
     assert screen['all_12_bogies_screened'] is True
     assert screen['support_occurrences']>0 and screen['support_nominal_clearance_rows']>=0
+    assert screen['support_ground_pose_rows']>0
+    assert report['ground_samples'] and any(r['entity'].split('@')[0].startswith('compact-drive/') for r in report['ground_samples'])
+    assert screen['support_continuous_bound_rows']>0
     assert set(screen['screens'])=={'candidate_identity','support_occurrence_accounting','nominal_support_clearance','continuous_support_envelope','sampled_support_ground','support_load_path_and_joint_strength','support_stiffness_fatigue_and_retention','supplier_and_finished_geometry','finite_removal_and_service','physical_acceptance'}
     assert all(v in ('PASS','HOLD','PASS_WITHIN_DECLARED_GROSS_STOCK_SCREEN','PASS_WITHIN_DECLARED_CONTINUOUS_BOUND','PASS_WITHIN_SAMPLED_POSES') for v in screen['screens'].values())
     assert screen['screens']['support_load_path_and_joint_strength']=='HOLD'
     assert screen['screens']['support_stiffness_fatigue_and_retention']=='HOLD'
     assert screen['screens']['physical_acceptance']=='HOLD'
+
+
+def test_support_coverage_never_passes_when_empty_or_failing():
+    assert _coverage_status([], 'PASS_WITHIN_SAMPLED_POSES')=='HOLD'
+    assert _coverage_status([False], 'PASS_WITHIN_SAMPLED_POSES')=='HOLD'
+    assert _coverage_status([True], 'PASS_WITHIN_SAMPLED_POSES')=='PASS_WITHIN_SAMPLED_POSES'

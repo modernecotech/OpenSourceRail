@@ -26,6 +26,11 @@ def transformed(b,T):
     return [[min(p[i] for p in points) for i in range(3)],[max(p[i] for p in points) for i in range(3)]]
 
 
+def _coverage_status(passed_rows, pass_label):
+    """A PASS requires at least one evaluated row and no failing rows."""
+    return pass_label if passed_rows and all(passed_rows) else 'HOLD'
+
+
 def _retained(body,bi):
     car=bi//2;bx=8.5+car*17.65+(-6.4 if bi%2==0 else 6.4);out=[]
     critical=('underframe/','body/floor','body/body-bolster','running/frame','running/wheel','running/axle','running/bearing','running/primary','running/bolster','running/secondary','running/brake','running/caliper','running/service-actuator','running/parking-actuator','running/disc-guard','services/battery')
@@ -47,7 +52,7 @@ def _retained(body,bi):
 
 def evaluate(body,*,root=None):
     validate(body);p=policy() if root is None else policy(root);c=body['compact_drive_contract'];sample=poses(p);findings=[];repetition=[];nominal=[];ground=[];tools=[]
-    bypart={r['id']:r for r in body['parts']};entities=c['assembly_entities']
+    bypart={r['id']:r for r in body['parts']};entities=c['assembly_entities'];support_continuous_checked=0
     for bi in range(12):
         old,bx=_retained(body,bi);own=[r for r in entities if r['bogie']==bi and r['role']!='allocation']
         repetition.append(dict(bogie=bi,entities=len(own),retained_regions=len(old),all_actual_world_positions_checked=True))
@@ -73,13 +78,20 @@ def evaluate(body,*,root=None):
                     tree=frame_tree(bx,-1.05 if e['axle']%2==0 else 1.05,pose,c['body_lift_m'],gear_pitch=p['movement']['gear_pitch_rad'])
                     key='gear' if e['frame']=='gear' else e['frame'];zmin=min(zmin,transformed(b,tree[key])[0][2])
                 ground.append(dict(entity=e['id'],frame=e['frame'],sample_min_z_m=zmin,required_ground_m=p['ground_allocation_m'],passed_sample=zmin>=p['ground_allocation_m']+e['uncertainty_m'],continuous_ground_verified=False))
+            elif e['group']=='support':
+                zmin=1e9
+                for pose in sample:
+                    tree=frame_tree(bx,0.0,pose,c['body_lift_m'],gear_pitch=p['movement']['gear_pitch_rad'])
+                    zmin=min(zmin,transformed(b,tree['body'])[0][2])
+                ground.append(dict(entity=e['id'],frame='body',sample_min_z_m=zmin,required_ground_m=p['ground_allocation_m'],passed_sample=zmin>=p['ground_allocation_m']+e['uncertainty_m'],continuous_ground_verified=False))
         # Continuous broadphase padding is conservative, not a clearance proof.
         # Pair count is bounded spatially; allnearby typed interfaces retained.
         for e in own:
-            if e['group'] not in ('motor','case','guard','coupling'):continue
+            if e['group'] not in ('motor','case','guard','coupling','support'):continue
             b=bounds(e['at_m'],e['geometry']['size_m'],e['rotation'])
             for r in old:
                 if r['frame']==e['frame'] or gap(b,r['bounds'])>.35:continue
+                if e['group']=='support':support_continuous_checked+=1
                 pad=continuous_padding(e['geometry']['size_m'],'body-gear' if r['frame']=='body' and e['frame']=='gear' else 'relative',p,e['uncertainty_m']+r['uncertainty'])
                 if gap(inflated(b,pad),r['bounds'])<p['gap_m']:
                     findings.append(dict(kind='continuous-relative-bound-hold',entity=e['id'],other=r['id'],relative_frames=[e['frame'],r['frame']],padding_m=pad,bogie=bi,interpretation='Conservative broadphase overlap; interval/narrowphase needed, not actual supplier contact'))
@@ -129,8 +141,8 @@ def evaluate(body,*,root=None):
                 'candidate_identity':'PASS' if body['candidate_id']==body['compact_drive_contract']['candidate_id'] else 'HOLD',
                 'support_occurrence_accounting':'PASS' if sum(r['count'] for r in support_patterns)>0 else 'HOLD',
                 'nominal_support_clearance':'HOLD' if support_rows else 'PASS_WITHIN_DECLARED_GROSS_STOCK_SCREEN',
-                'continuous_support_envelope':'HOLD' if continuous_support else 'PASS_WITHIN_DECLARED_CONTINUOUS_BOUND',
-                'sampled_support_ground':'HOLD' if any(not r['passed_sample'] for r in ground_support) else 'PASS_WITHIN_SAMPLED_POSES',
+                'continuous_support_envelope':_coverage_status([support_continuous_checked>0 and not continuous_support], 'PASS_WITHIN_DECLARED_CONTINUOUS_BOUND'),
+                'sampled_support_ground':_coverage_status([r['passed_sample'] for r in ground_support], 'PASS_WITHIN_SAMPLED_POSES'),
                 'support_load_path_and_joint_strength':'HOLD',
                 'support_stiffness_fatigue_and_retention':'HOLD',
                 'supplier_and_finished_geometry':'HOLD',
