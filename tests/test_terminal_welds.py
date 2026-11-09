@@ -498,8 +498,15 @@ def butt_fixture():
     for j,c in enumerate(w.CASES):g['net_mass_kg'][c]=V*rho[j];g['gross_mass_kg'][c]=V*1.2*rho[j];g['scrap_mass_kg'][c]=V*.2*rho[j];g['direct_cost_usd'][c]=V*1.2*rho[j]*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j]
     return [ps[0],ps[1],gs[0],gs[1],weld,g,policy]
 
+def invented_mass_context(parent,stock,policy):
+    """Authored analytical fixture hypothesis, never inferred for retained data."""
+    if not isinstance(parent.get('mass_kg'),dict) or parent.get('centroid_local_m') is None:return None
+    m=policy['materials'][parent['material_id']];rho=dict(zip(w.CASES,[m['density_bounds_kg_m3'][0],m['density_kg_m3'],m['density_bounds_kg_m3'][1]]))
+    return w.declared_parent_mass_context(parent,stock,density_cases_kg_m3=rho,nominal_net_volume_m3=parent['mass_kg']['base']/rho['base'],basis='Invented analytical fixture explicit uniform nominal density/volume/CG hypothesis')
+
+
 def butt_run(f,**changes):
-    kw=dict(root_segments_terminal_m=[[[-.025,.003,0.],[.025,.003,0.]]],joint_direction_m=[0.,0.,1.],surface_normals_m=[[0.,1.,0.]],half_width_m=.001,depth_m=.002,trim_start_m=.002,trim_end_m=.002,additional_process_h=.2,additional_QA_h=.1);kw.update(changes);return w.finite_surface_butt_revision(*f,**kw)
+    kw=dict(root_segments_terminal_m=[[[-.025,.003,0.],[.025,.003,0.]]],joint_direction_m=[0.,0.,1.],surface_normals_m=[[0.,1.,0.]],half_width_m=.001,depth_m=.002,trim_start_m=.002,trim_end_m=.002,additional_process_h=.2,additional_QA_h=.1,parent_mass_contexts={p['id']:invented_mass_context(p,g,f[6]) for p,g in zip(f[:2],f[2:4])});kw.update(changes);return w.finite_surface_butt_revision(*f,**kw)
 
 
 class ButtTests(unittest.TestCase):
@@ -575,7 +582,7 @@ def connector_fixture(sign=1,z=3.):
     row=dict(id=cid,source_root=desc(root,rg),source_endplate=desc(plate,pg),old_weld_to_replace_once=desc(old,wg),source_face_bounds=dict(root=rb,endplate=eb),new_connector_stock_proposal=dict(id=cid,geometry=dict(kind='box',size_m=[.01,.07,.006]),at_m=[(rootlo+platefront)/2,rootV,z],rotation=deepcopy(R),material_id='al5083',paid_blank_size_m=[.012,.072,.006],paid_blank_volume_m3=.012*.072*.006,finished_gross_volume_m3=uncut,net_volume_m3=uncut-cut,connector_new_cut_volume_m3=cut,existing_stock_credit_USD=0.,stock_owner_count=1,procurement_required=True),new_left_fillets=[dict(id=cid+'/left/'+str(s),contact_parent_ids=[plate['id'],cid],leg_m=.003,flat_runout_each_m=.002,outward_face_normals=[[1.,0.,0.],[0.,0.,float(s)]],root_line_m=[[platefront,over[0]+.002,z+s*.003],[platefront,over[1]-.002,z+s*.003]]) for s in (-1,1)],new_right_opposed_butt_grooves=[dict(id=cid+'/right/'+str(s),half_cut_parent_ids=[cid,root['id']],section_axes=[0,2],extrusion_axis=1,prior_void_credit=0.,nominal_root_between_opposed_grooves_m=.002,vertices_UW_m=[[rootlo-.001,z+s*.003],[rootlo+.001,z+s*.003],[rootlo,z+s*.001]],interval_m=[rb[1][0]+.002,rb[1][1]-.002]) for s in (-1,1)],new_filler_volume_m3=filler,retained_root_new_cut_volume_m3=cut,net_material_delta_vs_old_weld_kg={c:delta*rho[j] for j,c in enumerate(w.CASES)},manufacturing_estimate_inputs=dict(connector_cut_and_deburr_person_h=[.02,.04,.08],new_joint_setup_person_h=[.02,.04,.08],additional_QA_person_h=[.005,.01,.02],machine_rate_USD_h=None),known_source_tool_bounds=[dict(source_joint_id='invented/M4/'+str(j),source_joint_sha256=('a' if j==0 else 'b')*64,tool_radius_m=.01,insertion_m=.08,minimum_radial_projection_separation_m=.004) for j in (0,1)])
     return [row,root,rg,plate,pg,old,wg,policy]
 
-def connector_run(f):return w.side_front_connector_revision(*f,binding_data_id=w.identity({'synthetic':True,'row':f[0]}))
+def connector_run(f):return w.side_front_connector_revision(*f,binding_data_id=w.identity({'synthetic':True,'row':f[0]}),parent_mass_contexts={p['id']:invented_mass_context(p,g,f[-1]) for p,g in((f[1],f[2]),(f[3],f[4]))})
 
 
 class ConnectorTests(unittest.TestCase):
@@ -717,7 +724,7 @@ def routed_fixture(two_jobs=False,gap=False):
 def routed_run(f):
     src,byid,owners,groups,welds,routes=f
     with patch.object(w,'route_record',side_effect=lambda e,p:deepcopy(routes[e['id']])):
-        return w._compile_routed_source(src,byid,owners,groups,welds,pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=len(welds))
+        return w._compile_routed_source(src,byid,owners,groups,welds,pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=len(welds),parent_mass_contexts={k:invented_mass_context(p,owners[k],dict(materials=src['materials'],process=src['process_and_QA'])) for k,p in byid.items() if isinstance(p.get('mass_kg'),dict)})
 
 
 class FullRoutingTests(unittest.TestCase):
@@ -744,7 +751,7 @@ class FullRoutingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Exact SHA256'):w.compile_full_definition(b'{}',pin=w.SOURCE,connector_binding={},cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id=True)
 
     def test_aggregate_duplicate_epoch_volume_and_overlap_refusals(self):
-        f=butt_fixture();j=butt_run(f);p=f[0];g=f[2];cs=[dict(source_parent_sha256=w.identity(p),source_stock_sha256=w.identity(g),source_weld_id=f[4]['id'],cuts=w._extract_new_cuts(j,p))];a=w.aggregate_parent_cuts(p,g,cs,f[6]);self.assertAlmostEqual(a['new_removed_volume_m3'],j['parent_machining'][0]['new_removed_volume_m3'])
+        f=butt_fixture();j=butt_run(f);p=f[0];g=f[2];cs=[dict(source_parent_sha256=w.identity(p),source_stock_sha256=w.identity(g),source_weld_id=f[4]['id'],cuts=w._extract_new_cuts(j,p))];a=w.aggregate_parent_cuts(p,g,cs,f[6],mass_context=invented_mass_context(p,g,f[6]));self.assertAlmostEqual(a['new_removed_volume_m3'],j['parent_machining'][0]['new_removed_volume_m3'])
         for change in ('duplicate','epoch','volume','overlap'):
             q=deepcopy(cs)
             if change=='duplicate':q+=deepcopy(q)
@@ -854,7 +861,7 @@ def invented_post_wrapper_fixture():
     for side in(-1,1):
         p,g=invented_post_fixture(side);posts.append(p)
         e,stock,*_=fixture();e['id']='upper-frame/'+str(side)+'/0/boss-weld';e['part_id']='invented/weld';stock['id']='stock/'+e['id'];stock['entity_ids']=[e['id']];boss=dict(id='upper-frame/'+str(side)+'/0/boss',part_id='invented/boss',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.02,.02,.02]));bg=dict(id='stock/'+boss['id'],entity_ids=[boss['id']],net_mass_kg={c:1. for c in w.CASES},gross_mass_kg={c:1. for c in w.CASES});es.extend([p,boss,e]);groups.extend([bg,stock])
-    groups.append(g);by={e['id']:e for e in es};owners={eid:g for g in groups for eid in g['entity_ids']};welds=[e for e in es if e.get('physical_drawing')];policy=fixture()[4];return dict(src=dict(fixture='invented',materials=policy['materials'],process_and_QA=policy['process']),byid=by,owners=owners,groups={g['id']:g for g in groups},welds=welds,pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=2)
+    groups.append(g);by={e['id']:e for e in es};owners={eid:g for g in groups for eid in g['entity_ids']};welds=[e for e in es if e.get('physical_drawing')];policy=fixture()[4];policy['materials']['al6005a']=dict(density_kg_m3=2700.,density_bounds_kg_m3=[2619.,2781.],rate_USD_kg=[3.,4.,5.]);return dict(src=dict(fixture='invented',materials=policy['materials'],process_and_QA=policy['process']),byid=by,owners=owners,groups={g['id']:g for g in groups},welds=welds,pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=2)
 
 
 class PostWrapperPropagationTests(unittest.TestCase):
@@ -892,7 +899,7 @@ class PostRevisionInterfaceTests(unittest.TestCase):
             for h in p['geometry']['holes'][14:]:self.assertAlmostEqual(abs(w.world(h['centre_m'],p['at_m'],p['rotation'])[1]),1.213)
         self.assertEqual(r['held_weld_count'],2)
     def test_failed_later_preparation_retains_base_post_no_orphan_cut(self):
-        f=invented_post_wrapper_fixture();side=1;post=f['byid']['legacy/post/1'];sourceweld=f['welds'][1];sourceweld['id']='floor/post-bottom/1/post-closure-weld';oldstock=f['owners'].pop('upper-frame/1/0/boss-weld');oldstock['entity_ids']=[sourceweld['id']];oldstock['id']='invented/closure-weld-stock';closure=dict(id='floor/post-bottom/1/closure',part_id='invented/closure',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.1,.1,.01]));cg=dict(id='invented/closure-stock',entity_ids=[closure['id']]);f.update(byid={sourceweld['id']:sourceweld,closure['id']:closure,post['id']:post},owners={sourceweld['id']:oldstock,closure['id']:cg,post['id']:f['owners'][post['id']]},groups={g['id']:g for g in(oldstock,cg,f['owners'][post['id']])},welds=[sourceweld],expected_records=1);seen=[]
+        f=invented_post_wrapper_fixture();side=1;post=f['byid']['legacy/post/1'];sourceweld=f['welds'][1];sourceweld['id']='floor/post-bottom/1/post-closure-weld';oldstock=f['owners'].pop('upper-frame/1/0/boss-weld');oldstock['entity_ids']=[sourceweld['id']];oldstock['id']='invented/closure-weld-stock';closure=dict(id='floor/post-bottom/1/closure',part_id='invented/closure',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.1,.1,.01]),mass_kg={c:.0001*r for c,r in zip(w.CASES,[2580.2,2660.,2739.8])},centroid_local_m=[0.,0.,0.]);cg=dict(id='invented/closure-stock',entity_ids=[closure['id']]);f.update(byid={sourceweld['id']:sourceweld,closure['id']:closure,post['id']:post},owners={sourceweld['id']:oldstock,closure['id']:cg,post['id']:f['owners'][post['id']]},groups={g['id']:g for g in(oldstock,cg,f['owners'][post['id']])},welds=[sourceweld],expected_records=1,parent_mass_contexts={closure['id']:invented_mass_context(closure,cg,dict(materials=f['src']['materials'],process=f['src']['process_and_QA']))});seen=[]
         def prep(*args,**kw):seen.append(args[1]);raise w.DefinitionHold('invented later prep held')
         with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)),patch.object(w,'finite_surface_butt_revision',side_effect=prep):r=w._compile_routed_source(**f)
         self.assertEqual(len(seen),1);self.assertIn('prospective_post_revision',seen[0]);self.assertIn(post['id'],r['final_changed_parent_entities']);self.assertFalse(r['accounting']['filler_replacement_owners']);self.assertFalse(r['parent_cut_unions']);self.assertEqual(r['held_weld_count'],1);self.assertEqual(len(r['accounting']['source_post_owner_dispositions']),1)
@@ -957,3 +964,126 @@ class FillerCollisionCacheTests(unittest.TestCase):
     def test_duplicate_occurrence_names_not_silently_collapsed_here(self):
         # Full wrapper retains its earlier unique-ID rejection before this helper.
         a=collision_box('same',[-1.]*3,[1.]*3);self.assertEqual(self.assertEquivalent([a,deepcopy(a)]),[['invented/same','invented/same']])
+
+
+def closure_union_fixture(side=1):
+    policy=deepcopy(fixture()[4]);policy['materials']['al6005a']=dict(density_kg_m3=2700.,density_bounds_kg_m3=[2619.,2781.],rate_USD_kg=[3.,4.,5.])
+    R=[[0.,1.,0.],[0.,0.,1.],[1.,0.,0.]];T=[-.05,side*1.165,.005];pv=2.19*(.1**2-.092**2);cv=.1*.1*.01
+    post=dict(id='invented/closure-post',part_id='invented/post',material_id='al6005a',frame='terminal-local-UVW',scope='installed',at_m=T,rotation=R,geometry=dict(kind='rhs',size_m=[2.19,.1,.1],wall_m=.004),mass_kg={c:pv*2710. for c in w.CASES},centroid_local_m=[0.,0.,0.],uncertainty_m=[.02]*3)
+    cap=dict(id='invented/closure-cap',part_id='invented/cap',material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=[-.05,side*1.165,-1.095],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.1,.1,.01]),mass_kg={c:cv*r for c,r in zip(w.CASES,[2580.2,2660.,2739.8])},centroid_local_m=[0.,0.,0.])
+    groups=[dict(id='stock/'+p['id'],entity_ids=[p['id']],quantity=1,net_m3=v,gross_m3=1.2*v) for p,v in((cap,cv),(post,pv))]
+    e,g,*_=fixture();e['id']='invented/post-closure-weld';g['id']='stock/'+e['id'];g['entity_ids']=[e['id']];paths=[[[-.1,side*1.165-.047,-1.09],[-.1,side*1.165+.047,-1.09]],[[-.1,side*1.165-.05,-1.09],[-.003,side*1.165-.05,-1.09]],[[-.1,side*1.165+.05,-1.09],[-.003,side*1.165+.05,-1.09]]];e['at_m']=[0.,0.,0.];e['physical_drawing'].update(leg_m=.003,local_segments_m=paths);V=.5*.003**2*.288;g.update(net_m3=V,gross_m3=1.2*V)
+    for j,c in enumerate(w.CASES):
+        rho=[2580.2,2660.,2739.8][j];g['net_mass_kg'][c]=V*rho;g['gross_mass_kg'][c]=1.2*V*rho;g['scrap_mass_kg'][c]=.2*V*rho;g['direct_cost_usd'][c]=1.2*V*rho*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j]
+    contexts={cap['id']:invented_mass_context(cap,groups[0],policy),post['id']:w.declared_parent_mass_context(post,groups[1],density_cases_kg_m3={c:2710. for c in w.CASES},nominal_net_volume_m3=pv,basis='Invented source post uniform nominal2710, not global policy density')}
+    return [cap,post,*groups,e,g,policy],dict(root_segments_terminal_m=paths,joint_direction_m=[0.,0.,1.],surface_normals_m=[[-1.,0.,0.],[0.,-1.,0.],[0.,1.,0.]],half_width_m=.001,depth_m=.002,trim_start_m=.002,trim_end_m=.002,additional_process_h=.04,additional_QA_h=.02,parent_mass_contexts=contexts)
+
+
+def union_query_fixture():
+    e=closure_union_fixture()[0][1];p=w._parent(e);points=[w.world([-.5*2.19,u,v],p['T'],p['R']) for u,v in[(-.048,-.05),(.045,-.05),(-.048,-.048),(.045,-.048)]]
+    return e,p,[0.,0.,-1.],points
+
+
+class CoplanarPatchUnionTests(unittest.TestCase):
+    def test_three_original_paths_both_signs_full_area_and_once_owner(self):
+        for side in(-1,1):
+            f,kw=closure_union_fixture(side);before=deepcopy((f,kw));r=w.finite_surface_butt_revision(*f,**kw);self.assertEqual((f,kw),before);self.assertEqual(len(r['filler_pieces']),3);self.assertAlmostEqual(r['filler_net_volume_m3'],5.52e-7);self.assertEqual(len(r['accounting']['source_parent_owners']),2);self.assertEqual(r['accounting']['additional_preparation_process_h'],.04);self.assertEqual(r['accounting']['additional_preparation_QA_h'],.02)
+            end=[x['source_end_faces'][1] for x in r['oriented_contact_receipts']];self.assertNotIn('kind',end[0]);self.assertEqual([x['kind'] for x in end[1:]],['oriented-coplanar-material-patch-union']*2)
+            for x in end[1:]:
+                c=x['patch_union_certificate'];self.assertNotIn('cell_id',x);self.assertEqual(len(c['complete_source_patch_roster']),4);self.assertEqual(len(c['source_patch_covered_area_m2']),2);self.assertAlmostEqual(c['query_area_m2'],186e-6);self.assertAlmostEqual(c['covered_area_m2'],186e-6);self.assertEqual(c['uncovered_area_m2'],0.);self.assertEqual(c['overlapping_patch_area_m2'],0.);self.assertAlmostEqual(c['query_perimeter_m'],.190);self.assertEqual(c['EPS_LENGTH_m'],w.EPS);self.assertLess(abs(c['area_residual_m2']),c['numerical_area_roundoff_bound_m2'])
+            self.assertFalse(r['physical_accepted']);self.assertFalse(r['native_eligible'])
+    def test_four_solid_corners_cannot_fill_hollow_middle(self):
+        e,p,N,_=union_query_fixture();points=[w.world([-1.095,u,v],p['T'],p['R']) for u,v in[(-.048,-.048),(-.048,.048),(.048,-.048),(.048,.048)]]
+        with self.assertRaisesRegex(w.DefinitionHold,'uncovered-real-material-area'):w._face_normal_points(p,N,points)
+    def test_internal_through_hole_rejects_even_solid_corners(self):
+        e,p,N,points=union_query_fixture();e['geometry']['holes']=[dict(axis=0,centre_m=[-1.094,0.,-.049],radius_m=.0002,length_m=.002)];p=w._parent(e)
+        with self.assertRaisesRegex(w.DefinitionHold,'source-void'):w._face_normal_points(p,N,points)
+    def test_source_missing_duplicate_and_overlap_patches_refuse(self):
+        for mode in('missing','duplicate','overlap'):
+            e,p,N,points=union_query_fixture()
+            if mode=='missing':p['cells'].pop()
+            elif mode=='duplicate':p['cells'].append(deepcopy(p['cells'][0]))
+            else:p['cells'][0]['hi'][1]+=.001
+            with self.assertRaisesRegex(w.DefinitionHold,'source-patch-roster'):w._coplanar_rhs_end_union(p,N,points)
+    def test_wrong_plane_normal_or_incomplete_rectangle_refuses(self):
+        e,p,N,points=union_query_fixture()
+        for ns,qs in[([1.,0.,0.],points),(N,[[x+.001 if k==2 else x for k,x in enumerate(v)] for v in points]),(N,points[:3]),(N,[points[0],points[1],points[2],points[2]])]:
+            with self.assertRaises(w.DefinitionHold):w._coplanar_rhs_end_union(p,ns,qs)
+    def test_proper_signed_rotation_translation_preserves_areas(self):
+        e,p,N,points=union_query_fixture();a=w._coplanar_rhs_end_union(p,N,points)['patch_union_certificate'];R=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]];T=[.3,-.7,1.2];e['at_m']=w.world(e['at_m'],T,R);e['rotation']=[[sum(R[i][k]*e['rotation'][k][j] for k in range(3)) for j in range(3)] for i in range(3)];b=w._coplanar_rhs_end_union(w._parent(e),w.world(N,[0.,0.,0.],R),[w.world(v,T,R) for v in points])['patch_union_certificate'];self.assertAlmostEqual(a['query_area_m2'],b['query_area_m2']);self.assertNotEqual(a['parent_physical_id'],b['parent_physical_id'])
+    def test_reflection_is_not_a_proper_frame(self):
+        e,p,N,points=union_query_fixture();e['rotation'][0]=[-x for x in e['rotation'][0]]
+        with self.assertRaises(ValueError):w._parent(e)
+    def test_no_sub_EPS_uncovered_strip_waiver(self):
+        e,p,N,points=union_query_fixture();# A finite cavity extension much greater than numerical EPS must remain a hold.
+        qs=[w.world([-1.095,u,v],p['T'],p['R']) for u,v in[(-.048,-.05),(.045,-.05),(-.048,-.045),(.045,-.045)]]
+        with self.assertRaisesRegex(w.DefinitionHold,'uncovered-real-material-area'):w._face_normal_points(p,N,qs)
+
+
+class ParentCutDensityContextTests(unittest.TestCase):
+    def test_post2710_debit_not_global_policy_all_cases_and_retained_uncertainty(self):
+        f,kw=closure_union_fixture();before=deepcopy(f[6]);r=w.finite_surface_butt_revision(*f,**kw);self.assertEqual(f[6],before);post=r['parent_machining'][1];ctx=post['parent_cut_mass_context'];self.assertEqual(ctx['selected_density_cases_kg_m3'],{c:2710. for c in w.CASES});self.assertEqual(ctx['global_material_policy_density_cases_kg_m3'],dict(zip(w.CASES,[2619.,2700.,2781.])));self.assertEqual(ctx['selected_context']['prior_declared_spatial_uncertainty_m'],[.02]*3);self.assertIsNone(ctx['physical_CG_bounds'])
+        for c in w.CASES:self.assertAlmostEqual(post['removed_mass_kg'][c],2.76e-7*2710.)
+        self.assertEqual(r['replacement_parent_entities'][1]['uncertainty_m'],[.02]*3)
+    def test_original_Al5083_context_unchanged(self):
+        f,kw=closure_union_fixture();r=w.finite_surface_butt_revision(*f,**kw)
+        for c,rho in zip(w.CASES,[2580.2,2660.,2739.8]):self.assertAlmostEqual(r['parent_machining'][0]['removed_mass_kg'][c],2.76e-7*rho)
+    def test_nominal_mass_and_first_moment_conservation_uses_parent_context(self):
+        f,kw=closure_union_fixture();r=w.finite_surface_butt_revision(*f,**kw)
+        for i,old in enumerate(f[:2]):
+            op=r['parent_machining'][i];new=r['replacement_parent_entities'][i];C=w.world(old['centroid_local_m'],old['at_m'],old['rotation'])
+            for c in w.CASES:
+                rho=op['parent_cut_mass_context']['selected_density_cases_kg_m3'][c];self.assertAlmostEqual(new['mass_kg'][c]+op['removed_mass_kg'][c],old['mass_kg'][c])
+                for k in range(3):self.assertAlmostEqual(new['mass_kg'][c]*new['centroid_terminal_cases_m'][c][k]+rho*op['new_removed_first_volume_moment_m4'][k],old['mass_kg'][c]*C[k])
+    def test_missing_context_is_named_hold_not_global_density_inference(self):
+        f,kw=closure_union_fixture();kw['parent_mass_contexts']={}
+        with self.assertRaisesRegex(w.DefinitionHold,'explicit-parent-cut-density'):w.finite_surface_butt_revision(*f,**kw)
+    def test_wrong_parent_owner_and_selfseal_refuse(self):
+        for mode in('parent','owner','seal'):
+            f,kw=closure_union_fixture();c=kw['parent_mass_contexts'][f[1]['id']]
+            if mode=='parent':c['source_parent_sha256']='a'*64
+            elif mode=='owner':c['source_owner_sha256']='b'*64
+            else:c['basis']='tampered'
+            if mode!='seal':c['evaluation_id']=w.identity({k:v for k,v in c.items() if k!='evaluation_id'})
+            with self.assertRaisesRegex(ValueError,'Mass context'):w.finite_surface_butt_revision(*f,**kw)
+    def test_inconsistent_parent_mass_cannot_use_declared_uniform_context(self):
+        f,kw=closure_union_fixture();f[1]['mass_kg']['base']+=.01
+        with self.assertRaisesRegex(w.DefinitionHold,'context-inconsistent'):w.declared_parent_mass_context(f[1],f[3],density_cases_kg_m3={c:2710. for c in w.CASES},nominal_net_volume_m3=kw['parent_mass_contexts'][f[1]['id']]['nominal_net_volume_m3'],basis='Invented contradiction')
+    def test_legacy_proxy_or_unknown_nominal_mass_never_uniformized(self):
+        for mode in('legacy','Retained unknown source reserve','Unknown context','missingmass','missingCG'):
+            f,kw=closure_union_fixture();p=f[1]
+            if mode=='legacy':p['legacy_source_view']={'id':'invented/prior-proxy'}
+            elif mode=='missingmass':p.pop('mass_kg')
+            elif mode=='missingCG':p['centroid_local_m']=None
+            else:p['mass_basis']=mode
+            with self.assertRaises(w.DefinitionHold):w.declared_parent_mass_context(p,f[3],density_cases_kg_m3={c:2710. for c in w.CASES},nominal_net_volume_m3=kw['parent_mass_contexts'][p['id']]['nominal_net_volume_m3'],basis='Invented unsupported proxy')
+    def test_context_basis_policy_density_evaluation_only_not_physical_geometry(self):
+        f,kw=closure_union_fixture();a=w.finite_surface_butt_revision(*f,**kw);f[6]['materials']['al6005a']['density_kg_m3']=2690.;b=w.finite_surface_butt_revision(*f,**kw);self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id']);f,kw=closure_union_fixture();kw['parent_mass_contexts'][f[1]['id']]['basis']+=' revised evidence rationale';c=kw['parent_mass_contexts'][f[1]['id']];c['evaluation_id']=w.identity({k:v for k,v in c.items() if k!='evaluation_id'});d=w.finite_surface_butt_revision(*f,**kw);self.assertEqual(a['physical_definition_id'],d['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],d['evaluation_id'])
+    def test_aggregate_uses_same_context_one_owner_and_mass_debit(self):
+        f,kw=closure_union_fixture();r=w.finite_surface_butt_revision(*f,**kw);p=f[1];g=f[3];cs=[dict(source_parent_sha256=w.identity(p),source_stock_sha256=w.identity(g),source_weld_id=f[4]['id'],cuts=w._extract_new_cuts(r,p))];a=w.aggregate_parent_cuts(p,g,cs,f[6],mass_context=kw['parent_mass_contexts'][p['id']]);self.assertEqual(len(a['contributions']),1)
+        for c in w.CASES:self.assertAlmostEqual(a['replacement_parent_entity']['mass_kg'][c],r['replacement_parent_entities'][1]['mass_kg'][c])
+
+
+def closure_wrapper_fixture():
+    f,kw=closure_union_fixture();cap=deepcopy(f[0]);cap['id']='floor/post-bottom/1/closure';cap['mass_basis']='New calculated gross stock/cut/process, no supplier quote';cg=deepcopy(f[2]);cg.update(id='stock/'+cap['id'],entity_ids=[cap['id']],basis=cap['mass_basis'],net_mass_kg=deepcopy(cap['mass_kg']),gross_mass_kg={c:1.2*cap['mass_kg'][c] for c in w.CASES},scrap_mass_kg={c:.2*cap['mass_kg'][c] for c in w.CASES},direct_cost_usd={c:20. for c in w.CASES})
+    post,pg=invented_post_fixture()
+    for c in w.CASES:
+        ratio=2710./dict(zip(w.CASES,[2600.,2700.,2800.]))[c]
+        post['mass_kg'][c]*=ratio
+        for key in('net_mass_kg','gross_mass_kg','scrap_mass_kg'):pg[key][c]*=ratio
+    pg['source_account']['density_cases_kg_m3']=[2710.]*3
+    e=deepcopy(f[4]);e['id']='floor/post-bottom/1/post-closure-weld';wg=deepcopy(f[5]);wg.update(id='stock/'+e['id'],entity_ids=[e['id']]);entities=[cap,post,e];groups=[cg,pg,wg];by={x['id']:x for x in entities};owners={i:g for g in groups for i in g['entity_ids']}
+    return dict(src=dict(fixture='invented',materials=f[6]['materials'],process_and_QA=f[6]['process']),byid=by,owners=owners,groups={g['id']:g for g in groups},welds=[e],pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=1)
+
+
+class ClosureWrapperDensityTests(unittest.TestCase):
+    def test_new_source_post_and_complete_stock_contexts_enable_once_union(self):
+        f=closure_wrapper_fixture();before=deepcopy(f)
+        with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)):r=w._compile_routed_source(**f)
+        self.assertEqual(f,before);self.assertEqual(r['held'],[]);self.assertEqual(r['defined_weld_count'],1);self.assertEqual(r['filler_occurrence_count'],3);self.assertEqual(len(r['parent_cut_unions']),2);self.assertEqual(len(r['accounting']['filler_replacement_owners']),1);self.assertEqual(len(r['accounting']['source_post_owner_dispositions']),1);self.assertEqual(len(r['accounting']['parent_stock_owner_revisions']),2)
+        for pid,ctx in r['parent_cut_mass_contexts'].items():self.assertEqual(ctx['density_cases_kg_m3'],{c:2710. for c in w.CASES} if pid.startswith('legacy/post/') else dict(zip(w.CASES,[2580.2,2660.,2739.8])))
+        p=r['final_changed_parent_entities']['legacy/post/1'];self.assertEqual(len(p['geometry']['holes']),16);self.assertEqual(len(p['geometry']['finite_void_prisms']),3);self.assertIsNone(p['shape_I_per_kg']);self.assertEqual(p['uncertainty_m'],[.02]*3);self.assertFalse(r['physical_accepted'])
+    def test_unsupported_stock_context_preserves_post_and_no_orphan_cuts(self):
+        f=closure_wrapper_fixture();f['owners']['floor/post-bottom/1/closure']['basis']='Unknown prior reserve'
+        with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)):r=w._compile_routed_source(**f)
+        self.assertEqual(r['defined_weld_count'],0);self.assertEqual(r['held_weld_count'],1);self.assertIn('context-required',r['held'][0]['reason']);self.assertFalse(r['parent_cut_unions']);self.assertFalse(r['accounting']['filler_replacement_owners']);self.assertEqual(set(r['final_changed_parent_entities']),{'legacy/post/1'});self.assertNotIn('finite_void_prisms',r['final_changed_parent_entities']['legacy/post/1']['geometry'])
