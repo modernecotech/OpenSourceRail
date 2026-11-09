@@ -4,6 +4,10 @@
 
 [Compact-drive corridor attempt and retained evidence](compact-drive-corridor/README.md)
 
+[Samawah detailed-candidate recalculation](samawah-city-recalculation.md)
+
+[Samawah acceleration sensitivity](samawah-acceleration-sensitivity.md)
+
 [Erratum for the sealed all-city audit packet](all-city-audit-errata.md)
 
 The machine-readable gate ledger is [status.json](status.json). Run
@@ -38,11 +42,11 @@ not implied by closure of this work.
 | --- | --- | --- |
 | Installed vehicle | Open | The detailed 9f6d research candidate still needs one reconciled, complete located installed inventory with interfaces, clearances, mass properties and downstream force/civil consequences. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. The compact-drive build is a further unselected candidate with no matching canonical railway study. |
 | Controlled research documents | Open | The supplementary audit of the retained 668-part delivery map finds 41 assemblies with 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references are null. It does not assert a repository-wide search. No manufacturing release is authorized. |
-| Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation route has a passing geometry screen, but no corridor-specific protected service, fleet, energy, site quantities or fourteen-scope costs. Samawah retains its earlier geometry-only result. |
-| Native GIS return path | Open | The last one-shot attempt failed before application launch because the sealed wrapper referenced absent overlay files. The consumed authorization and failed run are retained; a corrected attempt needs a new sealed plan, independent review and fresh resource preflight. |
+| Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations, but force/braking/grade, detailed civil loads and all fourteen complete prices remain unknown. One pair of station markers is only 79.977 m apart against a 120 m platform request. |
+| Native GIS return path | Open | The last one-shot attempt failed before application launch because the sealed wrapper referenced absent overlay files. Amendment 06 also fails its independent integrity checker: two canonical request/manifest IDs are stale and 233 pinned project `__pycache__` snapshots are missing or changed (152 paths are absent). `-B` only prevents writes; a successor must also prevent loading unreviewed project bytecode while preserving the exact source/import checks. No run 07 authorization or execution exists. |
 | Candidate business lifecycle | Open | The available ERPNext delivery proposal is bound to an older body. A new compact-drive candidate was correctly refused as a mixed identity. No candidate-matched controlled documents, review pack or native lifecycle evidence exist yet. See the [candidate lifecycle audit](../v06-business-lifecycle-audit/README.md). |
 | Unified Workbench | Partial | A source-bound view covers the reconciled 1.5 km pilot, with its own candidate identity. It does not yet cover the closure campaign's full city-brief-to-compatible-alternatives path, same-candidate journey/cost/delivery, drawing/BOM/manufacturing review or reconciled downloadable dossier. See [`campaigns/v06-design-integration-closure.toml`](../../../campaigns/v06-design-integration-closure.toml). |
-| All-city outline reconciliation | Open | Current manifests cover 266 cities, 1,565 lines and 13,580 station-table rows, but all lines use the shared 4,000 pphpd / 200 s study control and local rates are transferred reference estimates. City-specific service, alignment choices, China-volume versus local-manufacture scenarios and same-candidate recomputation remain required. |
+| All-city outline reconciliation | Open | Current manifests cover 266 cities, 1,565 lines and 13,580 station-table rows, but all catalogue lines use the shared 4,000 pphpd / 200 s study control and local rates are transferred reference estimates. One separate Samawah compact-drive candidate has a bounded recalculation; it has not replaced or reconciled the catalogue study. The remaining city-specific service, alignment choices, China-volume versus local-manufacture scenarios and same-candidate recomputation remain required. |
 
 The all-city audit confirmed the catalogue and v0.4 front-door field coverage,
 not the correctness of local demand, rates or physical alignments. The
@@ -82,6 +86,11 @@ and ordered city-manifest-set digest
 `a6f85d8f4ee021261962db872ca30bdb458ce6f0885840a8288276800384c402`.
 
 ## Research images
+
+The Samawah acceleration sensitivity keeps the 0.4 m/s² reference control and
+evaluates 0.6 and 0.8 m/s² as unselected hypotheses. The larger values raise
+the calculated inertial force and power terms; no available drive map or
+achieved-acceleration evidence is present. See the [separate calculation note](samawah-acceleration-sensitivity.md).
 
 The [root README](../../../README.md#models-from-cad-and-analysis)
 already includes renderings from the SolidCraft and FieldCraft engineering
