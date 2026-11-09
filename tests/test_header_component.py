@@ -243,3 +243,67 @@ def test_known_geometry_cannot_silently_inherit_contradictory_material_quantitie
         raw,p=fixture();part=next(x for x in raw['parts'] if x['id']==name);part['net_volume_bounds_m3']=[x*.9 for x in part['net_volume_bounds_m3']]
         p=reseal(raw)
         with pytest.raises(ValueError,match='material volume'):h.normalize(raw,pin=p,request_id='a'*64)
+
+
+@pytest.mark.parametrize('change',['feature','profile','leg','nonfinite-endpoint','extra-endpoint'])
+def test_weld_conversion_cannot_erase_new_physical_features_or_mismatched_sections(change):
+    raw,_=fixture();w=next(x for x in raw['parts'] if x['id']=='weld/0')['geometry']
+    if change=='feature':w['future_root_slot']={'depth_m':.002}
+    elif change=='profile':
+        w['profiles'][0]['future_root_slot']={'depth_m':.002}
+        raw['welds'][0]['profiles'][0]['future_root_slot']={'depth_m':.002}
+    elif change=='leg':
+        w['leg_m']*=2;raw['welds'][0]['leg_m']=w['leg_m']
+    elif change=='nonfinite-endpoint':
+        # A boolean is finite JSON but cannot define a physical endpoint.
+        w['profiles'][0]['interval_m'][0]=True
+        raw['welds'][0]['profiles'][0]['interval_m'][0]=True
+    else:
+        w['profiles'][0]['interval_m'].append(.1)
+        raw['welds'][0]['profiles'][0]['interval_m'].append(.1)
+    p=reseal(raw);before=deepcopy(raw)
+    with pytest.raises(ValueError):h.normalize(raw,pin=p,request_id='a'*64)
+    assert raw==before
+
+
+@pytest.mark.parametrize('field',['mass_bounds_kg','gross_material_USD','process_QA_USD','density_kg_m3'])
+@pytest.mark.parametrize('values',[[-1.,-1.,-1.],[1.,3.,2.],[1.,True,3.]])
+def test_unknown_price_does_not_hide_invalid_other_known_quantities(field,values):
+    raw,_=fixture();row=raw['materials']['rows'][0]
+    if field=='gross_material_USD':row['process_QA_USD']=None
+    else:row['gross_material_USD']=None
+    if field=='density_kg_m3':
+        part=next(x for x in raw['parts'] if x['id']==row['part_id'])
+        raw['materials']['price_policy'][part['material']][field]=values
+    else:row[field]=values
+    p=reseal(raw);before=deepcopy(raw)
+    with pytest.raises(ValueError):h.normalize(raw,pin=p,request_id='a'*64)
+    assert raw==before
+
+
+@pytest.mark.parametrize('side',[-1,1])
+@pytest.mark.parametrize('field',['local_centroid_interval_m','local_volume_first_moment_interval_m4',
+    'source_frame_centroid_interval_m','source_frame_mass_first_moment_interval_kg_m'])
+@pytest.mark.parametrize('values',[[99.,100.],[1.,-1.],[False,1.]])
+def test_finished_blank_intervals_are_bound_to_conserved_shape_and_source_transform(side,field,values):
+    raw,_=fixture(side);raw['source_finished_successors'][0]['material_properties'][field][0]=values
+    p=reseal(raw);before=deepcopy(raw)
+    with pytest.raises(ValueError):h.normalize(raw,pin=p,request_id='a'*64)
+    assert raw==before
+
+
+@pytest.mark.parametrize('value',[-.1,True])
+def test_negative_or_boolean_placement_uncertainty_cannot_invert_finished_mass_bounds(value):
+    raw,_=fixture();raw['source_finished_successors'][0]['material_properties']['placement_uncertainty_m']=value
+    p=reseal(raw)
+    with pytest.raises(ValueError):h.normalize(raw,pin=p,request_id='a'*64)
+
+
+def test_unknown_placement_stays_unknown_without_claiming_source_frame_moments():
+    raw,_=fixture();m=raw['source_finished_successors'][0]['material_properties'];m['placement_uncertainty_m']=None
+    with pytest.raises(ValueError):h.normalize(raw,pin=reseal(raw),request_id='a'*64)
+    m['source_frame_centroid_interval_m']=[None]*3;m['source_frame_mass_first_moment_interval_kg_m']=[None]*3
+    o=h.normalize(raw,pin=reseal(raw),request_id='a'*64)
+    e=next(e for e in o['canonical_draft']['entities'] if e.get('source_id')==raw['source_finished_successors'][0]['source_id'])
+    assert e['normal_form_mass_properties']['placement_unknown']
+    assert e['normal_form_mass_properties']['mass_first_moment_interval_kg_m'] is None

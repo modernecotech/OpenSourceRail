@@ -49,6 +49,14 @@ def cases(v):
     for x in v.values():number(x,True)
     return v
 
+
+def _known_labels(value,*,positive=False):
+    if value is None:return None
+    if not isinstance(value,(list,tuple)) or len(value)!=3:raise ValueError('Three explicit known stock labels required')
+    out=[number(x,positive) for x in value]
+    if min(out)<0 or out!=sorted(out):raise ValueError('Ordered nonnegative known stock labels required')
+    return out
+
 def hexid(v):
     if not isinstance(v,str) or len(v)!=64 or any(c not in '0123456789abcdef' for c in v):raise ValueError('Exact64hex identity required')
 
@@ -102,6 +110,23 @@ def _same_union(a,b):
     return True
 
 
+def _interval_vector(value):
+    if not isinstance(value,(list,tuple)) or len(value)!=3:
+        raise ValueError('Three explicit bounded coordinate intervals required')
+    out=[]
+    for pair in value:
+        if not isinstance(pair,(list,tuple)) or len(pair)!=2:
+            raise ValueError('Finite ordered interval required')
+        lo,hi=(number(x) for x in pair)
+        if lo>hi:raise ValueError('Inverted interval refused')
+        out.append([lo,hi])
+    return out
+
+
+def _contains(interval,value):
+    return interval[0]-1e-14<=value<=interval[1]+1e-14
+
+
 def _finished(row):
     g=row['geometry']
     if g.get('kind')!='bounded-box-minus-sourceY-circular-union' or g.get('complete_void_model') is not True:raise ValueError('Complete explicit bounded finished source required')
@@ -119,6 +144,37 @@ def _finished(row):
     for b,v,moment in zip(m['bounding_shape_conservation'],(vl,vh),(ml,mh)):
         if not close(b['void_volume_m3'],v) or not close(b['net_volume_m3']+v,gross) or not close(b['mass_kg'],rho*(gross-v)):raise ValueError('Finished mass conservation differs')
         if any(not close(x,-y) for x,y in zip(vector(b['net_local_first_moment_m4']),moment)) or any(not close(x,-rho*y) for x,y in zip(vector(b['net_local_mass_first_moment_kg_m']),moment)):raise ValueError('Finished firstmoment conservation differs')
+    cg=_interval_vector(m['local_centroid_interval_m'])
+    fm=_interval_vector(m['local_volume_first_moment_interval_m4'])
+    unc=m['placement_uncertainty_m']
+    if unc is not None and number(unc)<0:raise ValueError('Negative placement uncertainty refused')
+    # This adapter binds the declared621 interval model, not a universal upper
+    # limit on conservative intervals. A different valid enclosure needs its
+    # own source/evaluation contract rather than a false physical failure.
+    delta=vh-vl;volumes=[gross-vh,gross-vl]
+    expectedfm=[[-ml[k]-delta*size[k]/2,-ml[k]+delta*size[k]/2] for k in range(3)]
+    expectedcg=[[min(a/v for a in expectedfm[k] for v in volumes),max(a/v for a in expectedfm[k] for v in volumes)] for k in range(3)]
+    for k in range(3):
+        if any(not close(a,b) for a,b in zip(fm[k],expectedfm[k])) or any(not close(a,b) for a,b in zip(cg[k],expectedcg[k])):
+            raise ValueError('Source centroid/moment enclosure differs from declared621 model')
+        for endpoint in m['bounding_shape_conservation']:
+            moment=endpoint['net_local_first_moment_m4'][k]
+            if not _contains(fm[k],moment) or not _contains(cg[k],moment/endpoint['net_volume_m3']):
+                raise ValueError('Source intervals omit conserved shape endpoint')
+    if unc is not None:
+        pose=vector(row['at_m']);R=proper(row['rotation'])
+        worldcg=_interval_vector(m['source_frame_centroid_interval_m'])
+        worldfm=_interval_vector(m['source_frame_mass_first_moment_interval_kg_m'])
+        for k in range(3):
+            cs=[fsum(R[k][j]*v[j] for j in range(3)) for v in product(*cg)]
+            ms=[fsum(R[k][j]*v[j] for j in range(3)) for v in product(*fm)]
+            av=[pose[k]*v for v in volumes]
+            expectedcgworld=[pose[k]+min(cs)-unc,pose[k]+max(cs)+unc]
+            expectedfmworld=[(min(ms)+min(av)-volumes[1]*unc)*rho,(max(ms)+max(av)+volumes[1]*unc)*rho]
+            if any(not close(a,b) for a,b in zip(worldcg[k],expectedcgworld)) or any(not close(a,b) for a,b in zip(worldfm[k],expectedfmworld)):
+                raise ValueError('Source-frame intervals differ from declared621 transform')
+    elif m['source_frame_centroid_interval_m']!=[None]*3 or m['source_frame_mass_first_moment_interval_kg_m']!=[None]*3:
+        raise ValueError('Unknown source placement cannot confer known world intervals')
     if row['prior_physical_cut_roster'] is not None or row['measured_hole_free'] is not False or not row['complete_future_drawing']:raise ValueError('New drawing cannot authenticate old hardware')
     budget=row['gross_budget'];cases(budget['mass_kg']);cases(budget['direct_allowance_USD']);cases(budget['total_successor_direct_USD'])
     if not close(number(budget['volume_m3'],True),gross):raise ValueError('Source gross blank budget volume differs')
@@ -139,11 +195,17 @@ def _round(g,R):
 def _weld_pieces(p):
     g=p['geometry'];out=[]
     if g.get('kind')!='finite-triangular-weld-drawing' or len(g.get('profiles',[]))!=3:raise ValueError('Three finite weld profiles required')
+    if set(g)-{'kind','leg_m','paths_m','profiles','units'}:raise ValueError('Unsupported weld physical field cannot be discarded')
     for n,q in enumerate(g['profiles']):
+        if set(q)!={'extrusion_axis','interval_m','section_axes','vertices_m'}:raise ValueError('Unsupported weld profile field cannot be discarded')
         ax=q['extrusion_axis'];a,b=q['section_axes'];interval=q['interval_m'];tri=q['vertices_m']
         if any(type(v) is not int for v in (ax,a,b)) or sorted([ax,a,b])!=[0,1,2] or len(tri)!=3 or any(len(x)!=2 for x in tri):raise ValueError('Explicit weld extrusion frame required')
-        L=number(interval[1]-interval[0],True);pts=[[number(v) for v in t] for t in tri];area=abs(sum(x[0]*y[1]-x[1]*y[0] for x,y in zip(pts,pts[1:]+pts[:1])))/2
+        if not isinstance(interval,(list,tuple)) or len(interval)!=2:raise ValueError('Two finite weld extrusion endpoints required')
+        lo,hi=(number(v) for v in interval)
+        L=number(hi-lo,True);pts=[[number(v) for v in t] for t in tri];area=abs(sum(x[0]*y[1]-x[1]*y[0] for x,y in zip(pts,pts[1:]+pts[:1])))/2
         if not area:raise ValueError('Positive weld triangle required')
+        leg=number(g['leg_m'],True)
+        if not close(area,.5*leg*leg):raise ValueError('Weld section area/declared leg differs')
         columns=[[float(k==v) for k in range(3)] for v in (a,b,ax)];Q=transpose(columns)
         try:proper(Q);flip=1.
         except ValueError:columns[1]=[-v for v in columns[1]];Q=transpose(columns);proper(Q);flip=-1.
@@ -183,7 +245,8 @@ def _interval_pose(m,at,R):
     """Conservative interval transformation; no fabricated pointCG/tensor."""
     mass=m['mass_interval_kg'];rho=m['density_hypothesis_kg_m3'];unc=m['placement_uncertainty_m']
     if unc is None:return dict(frame='joint-local-UVW',centroid_interval_m=None,mass_first_moment_interval_kg_m=None,placement_unknown=True)
-    number(unc);cg=m['local_centroid_interval_m'];mom=m['local_volume_first_moment_interval_m4']
+    if number(unc)<0:raise ValueError('Negative placement uncertainty refused')
+    cg=_interval_vector(m['local_centroid_interval_m']);mom=_interval_vector(m['local_volume_first_moment_interval_m4'])
     outcg=[];outmom=[]
     for k in range(3):
         cs=[sum(R[k][q]*v[q] for q in range(3)) for v in product(*cg)]
@@ -316,14 +379,15 @@ def normalize(raw,*,pin,request_id):
             # pointcentroid or zero inertia for an unfamiliar supplier form.
             converted=[dict(id=name,geometry=dict(kind='unresolved-material-graph',source_geometry=deepcopy(g),source_role=x['role']),at_m=at,rotation=RR,owner_fraction=1.)]
             holds.append(dict(code='unsupported-part-material-graph',entity=name,source_kind=g['kind'],reason='Source physical fields preserved in full; no filled primitive or invented exact centroid/inertia'))
-        a=accounts[name];mass=a['mass_bounds_kg'];cost=None if a['gross_material_USD'] is None or a['process_QA_USD'] is None else [u+v for u,v in zip(a['gross_material_USD'],a['process_QA_USD'])]
+        a=accounts[name];mass=_known_labels(a['mass_bounds_kg'],positive=True)
+        material_cost=_known_labels(a['gross_material_USD']);process_cost=_known_labels(a['process_QA_USD'])
+        cost=None if material_cost is None or process_cost is None else _known_labels([u+v for u,v in zip(material_cost,process_cost)],positive=True)
         rho=None if policy is None or policy.get(x['material']) is None else policy[x['material']]['density_kg_m3']
+        rho=_known_labels(rho,positive=True)
         if mass is None or cost is None or rho is None:holds.append(dict(code='unknown-stock-price-or-density',entity=name,reason='Unknown staysNone; no zero price/mass substitution'))
-        else:
-            if len(mass)!=3 or len(cost)!=3 or len(rho)!=3:raise ValueError('Three explicit stock labels required')
+        if mass is not None and rho is not None:
             vs=[x['net_volume_bounds_m3'][0],sum(x['net_volume_bounds_m3'])/2,x['net_volume_bounds_m3'][1]]
             if any(not close(number(v,True),vs[i]*number(rho[i],True)) for i,v in enumerate(mass)):raise ValueError('Source material account netmass differs')
-            for v in cost:number(v,True)
         ids=[]
         for e in converted:
             frac=e.pop('owner_fraction');ids.append(e['id']);e.update(material_id=x['material'],frame='joint-local-UVW',scope='installed',functions=['header-attachment-material'],source_owner_id=name,owner_fraction=frac,mass_label_cases_kg=None if mass is None else dict(zip(CASES,[v*frac for v in mass])),mass_properties=dict(method='Declared source material/geometry domain; exact or interval details retained, not measured',centroid_local_m=None,inertia_exact=False),source_net_volume_bounds_m3=deepcopy(x['net_volume_bounds_m3']),geometry_model_is_not_native_admission=True);entities.append(e)
