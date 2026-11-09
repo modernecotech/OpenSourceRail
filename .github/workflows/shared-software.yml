@@ -53,6 +53,13 @@ jobs:
         run: python -m pytest -q --import-mode=importlib tests/test_engineering_gallery_cad.py tests/test_engineering_gallery_fem.py tests/test_engineering_gallery_publication.py
       - name: Chair material geometry, independent feature probes and saved native evidence
         run: python -m pytest -q --import-mode=importlib tests/test_chair_installation.py tests/test_chair_native_geometry.py tests/test_chair_native_probes.py tests/test_chair_r4_publication.py
+      - name: Installed research assembly, material ownership and counterpart contracts
+        run: >-
+          python -m pytest -q --import-mode=importlib
+          tests/test_railway_vehicle_composition.py
+          tests/test_terminal_installation.py tests/test_terminal_component.py
+          tests/test_chair_p6_counterparts.py
+          tests/test_header_steel_joint.py tests/test_header_component.py
       - name: Current city atlas identity and journey contracts
         run: |
           python -m pytest -q tests/test_city_atlas.py tests/test_city_atlas_api.py tests/test_city_dossier_analysis.py tests/test_city_dossier_maps.py tests/test_city_report_publication.py
