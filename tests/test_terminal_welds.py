@@ -15,7 +15,7 @@ def fixture(paths=None):
     L=sum(math.dist(*line) for line in paths);V=.5*.003**2*L;rho=[2580.2,2660.,2739.8]
     stock=dict(id='stock/'+entity['id'],entity_ids=[entity['id']],quantity=1,net_m3=V,gross_m3=V*1.2,process_h=.1,QA_h=.05,net_mass_kg={c:V*rho[j] for j,c in enumerate(w.CASES)},gross_mass_kg={c:V*1.2*rho[j] for j,c in enumerate(w.CASES)},scrap_mass_kg={c:V*.2*rho[j] for j,c in enumerate(w.CASES)},direct_cost_usd={c:V*1.2*rho[j]*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j] for j,c in enumerate(w.CASES)})
     contacts=[dict(parent_id=parents[0]['id'],source_parent_sha256=w.identity(parents[0]),cell_id='solid',axis=2,sign=1),dict(parent_id=parents[1]['id'],source_parent_sha256=w.identity(parents[1]),cell_id='solid',axis=0,sign=1)]
-    assignment=dict(source_entity_id=entity['id'],source_entity_sha256=w.identity(entity),source_stock_sha256=w.identity(stock),parent_preparations=[],seams=[dict(source_segment_index=i,root_offset_m=[0.,0.,0.],contacts=deepcopy(contacts),end_treatment=dict(kind='flat-positive-runout',trim_start_m=.001,trim_end_m=.001)) for i in range(len(paths))])
+    assignment=dict(source_entity_id=entity['id'],source_entity_sha256=w.identity(entity),source_stock_sha256=w.identity(stock),parent_preparations=[],joint_domain='external-orthogonal-fillet',seams=[dict(source_segment_index=i,root_offset_m=[0.,0.,0.],contacts=deepcopy(contacts),end_treatment=dict(kind='flat-positive-runout',trim_start_m=.001,trim_end_m=.001)) for i in range(len(paths))])
     return [entity,stock,assignment,parents,policy]
 
 def reseal(f):
@@ -336,5 +336,65 @@ class GrooveTests(unittest.TestCase):
         f=groove_fixture();f[0]['rotation'][0][0]=-1.
         with self.assertRaisesRegex(ValueError,'Reflection'):groove_run(f)
         with self.assertRaises(ValueError):w.fabricated_butt_revision(*groove_fixture(),trim_start_m=float('nan'),trim_end_m=.001)
+
+
+
+
+def cavity_fixture(end=0,revised=False):
+    f=groove_fixture();tube=deepcopy(f[0]);tube['id']='side-stiffener/invented/0/front';L,b,h=tube['geometry']['size_m'];t=tube['geometry']['wall_m'];T=tube['at_m'];R=tube['rotation'];side=1 if end==0 else -1
+    if revised:
+        ff=deepcopy(f);ff[0]['id']=tube['id'];ff[1]['id']='stock/'+tube['id'];ff[1]['entity_ids']=[tube['id']];ff[2]['id']=tube['id']+'/long-seams';ff[3]['id']='stock/'+ff[2]['id'];ff[3]['entity_ids']=[ff[2]['id']];tube=groove_run(ff)['replacement_parent_entity']
+    plate=dict(id=tube['id']+'/endplate'+str(end),material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=w.world([side*(L/2+.004),0.,0.],T,R),rotation=deepcopy(R),geometry=dict(kind='box',size_m=[.008,b,h]))
+    corners=[[side*L/2,y,z] for y,z in [(-(b/2-t),-(h/2-t)),(b/2-t,-(h/2-t)),(b/2-t,h/2-t),(-(b/2-t),h/2-t)]];paths=[[corners[j],corners[(j+1)%4]] for j in range(4)]
+    e=deepcopy(f[2]);e.update(id=tube['id']+'/weld'+str(end),geometry=dict(kind='envelope',size_m=[.004,b,h]));e['physical_drawing']['local_segments_m']=paths
+    V=.5*.002**2*sum(math.dist(*line) for line in paths);rho=[2580.2,2660.,2739.8];policy=f[4];stock=deepcopy(f[3]);stock.update(id='stock/'+e['id'],entity_ids=[e['id']],net_m3=V,gross_m3=V*1.2)
+    for j,c in enumerate(w.CASES):stock['net_mass_kg'][c]=V*rho[j];stock['gross_mass_kg'][c]=V*1.2*rho[j];stock['scrap_mass_kg'][c]=V*.2*rho[j];stock['direct_cost_usd'][c]=V*1.2*rho[j]*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j]
+    a=w.endplate_cavity_binding(e,stock,tube,plate,trim_m=.002)
+    return [e,stock,a,[tube,plate],policy]
+
+
+class CavityTests(unittest.TestCase):
+    def test_two_real_endplate_interfaces_both_ends(self):
+        for end in (0,1):
+            f=cavity_fixture(end);r=run(f);self.assertEqual(len(r['beads']),4);self.assertTrue(r['net_volume_m3']>0.);self.assertEqual(r['source_assignment']['joint_domain'],'existing-source-cavity-fillet');self.assertFalse(r['physical_accepted']);self.assertFalse(r['canonical_admitted'])
+
+    def test_revision_hash_and_voids_propagate_to_endplate(self):
+        a=run(cavity_fixture(0,False));f=cavity_fixture(0,True);b=run(f)
+        self.assertNotEqual(a['physical_definition_id'],b['physical_definition_id']);p=b['physical_definition']['parent_material'][0];self.assertIn('finite_void_prisms',p['geometry']);self.assertNotIn('corner_bevels',p['geometry'])
+        self.assertEqual(f[2]['seams'][0]['contacts'][0]['source_parent_sha256'],w.identity(f[3][0]));self.assertEqual(len(p['finite_source_void_prisms']),4)
+
+    def test_revised_parent_keeps_paid_blank_once(self):
+        f=groove_fixture();r=groove_run(f);p=r['replacement_parent_entity'];g=r['replacement_parent_stock'];self.assertEqual(g['gross_m3'],f[1]['gross_m3']);self.assertNotIn('corner_bevel_removal_m3',g);self.assertEqual(g['source_void_credit_m3'],f[1]['corner_bevel_removal_m3']);self.assertEqual(g['new_void_removal_m3'],r['filler_new_volume_m3']);self.assertAlmostEqual(g['net_m3'],r['parent_new_volume_m3']);self.assertFalse(p['physical_accepted']);self.assertFalse(g['new_complete_cost_known'])
+
+    def test_original_corner_voids_expanded_not_omitted(self):
+        f=cavity_fixture();r=run(f);p=next(p for p in r['physical_definition']['parent_material'] if p['id']==f[3][0]['id']);self.assertEqual(len(p['finite_source_void_prisms']),4)
+
+    def test_stale_old_parent_hash_cannot_reuse_new_parent(self):
+        a=cavity_fixture(0,False);b=cavity_fixture(0,True);b[2]=a[2]
+        with self.assertRaisesRegex(ValueError,'parent epoch'):run(b)
+
+    def test_cavity_flag_cannot_waive_actual_contact(self):
+        f=fixture();f[0]['physical_drawing']['in_prepared_grooves']=True;f[2]['joint_domain']='existing-source-cavity-fillet';reseal(f)
+        with self.assertRaisesRegex(w.DefinitionHold,'actual-source-inner-wall'):run(f)
+
+    def test_wrong_endplate_mapping_or_gap_refused(self):
+        f=cavity_fixture();f[3][1]['id']=f[3][1]['id'].replace('endplate0','endplate1')
+        with self.assertRaisesRegex(ValueError,'mapping'):w.endplate_cavity_binding(f[0],f[1],*f[3],trim_m=.002)
+        f=cavity_fixture();f[3][1]['at_m'][0]+=.001;f[2]=w.endplate_cavity_binding(f[0],f[1],*f[3],trim_m=.002)
+        with self.assertRaisesRegex(w.DefinitionHold,'contact-plane'):run(f)
+
+    def test_short_runout_exposes_overlap_not_waived(self):
+        f=cavity_fixture();f[2]=w.endplate_cavity_binding(f[0],f[1],*f[3],trim_m=.001)
+        with self.assertRaisesRegex(w.DefinitionHold,'interior-overlap'):run(f)
+
+    def test_old_corner_and_new_rosters_cannot_both_subtract(self):
+        f=cavity_fixture(0,True);f[3][0]['geometry']['corner_bevels']=dict(count=4,leg_m=.002,length_m=f[3][0]['geometry']['size_m'][0],separately_owned_filler=True)
+        with self.assertRaisesRegex(w.DefinitionHold,'exact-source-corner'):w.endplate_cavity_binding(f[0],f[1],*f[3],trim_m=.002)
+
+    def test_finite_void_outside_or_ambiguous_cavity_refused(self):
+        for mode in ('outside','inner'):
+            f=cavity_fixture(0,True);cut=f[3][0]['geometry']['finite_void_prisms'][0]
+            for v in cut['vertices_m']:v[2]+=.1 if mode=='outside' else -.010
+            with self.assertRaises(w.DefinitionHold):w.endplate_cavity_binding(f[0],f[1],*f[3],trim_m=.002)
 
 if __name__=='__main__':unittest.main()
