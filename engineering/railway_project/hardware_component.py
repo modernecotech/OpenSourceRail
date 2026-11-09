@@ -222,6 +222,44 @@ def _mates_physical(mates):
     return out
 
 
+def _cost_components(part,prototype):
+    """Reconcile each known subaccount, retaining explicit partial unknowns.
+
+    A correct sum cannot conceal negative QA or reallocated material/process.
+    Expected values are diagnostics, never replacements for missing reports.
+    """
+    fields=('material','process','machine','QA','overhead');total=labels(part.get('cost_USD'));reported=part.get('cost_breakdown_USD');gross=number(part['gross_blank_volume_m3'],True)
+    material=prototype['materials'][part['material']];rates=prototype['rates'];rho=triple(material['density_kg_m3'],positive=True);price=triple(material['USD_kg']);ph=triple(part.get('person_process_h'));qh=triple(part.get('person_QA_h'));mh=triple(part.get('machine_h'));labour=triple(rates['labour_USD_h']);machine=triple(rates['machine_USD_h']);qa=triple(rates['QA_USD_h']);overhead=triple(rates['overhead_fraction'])
+    if reported is not None and (not isinstance(reported,dict) or set(reported)!=set(CASES)):raise ValueError('Exact low/base/high cost breakdown cases required')
+    rows={};unknown=[];unverified=[]
+    for i,c in enumerate(CASES):
+        row=None if reported is None else reported[c]
+        if row is not None and (not isinstance(row,dict) or set(row)!=set(fields)):raise ValueError('Exact five material/process/machine/QA/overhead breakdown keys required')
+        actual={}
+        for key in fields:
+            value=None if row is None else row[key]
+            if value is not None:
+                value=number(value)
+                if value<0:raise ValueError('Known cost component must be nonnegative: '+c+'/'+key)
+            else:unknown.append(c+'/'+key)
+            actual[key]=value
+        expected=dict(material=None if rho is None or price is None else gross*rho[i]*price[i],process=None if ph is None or labour is None else ph[i]*labour[i],machine=None if mh is None or machine is None else mh[i]*machine[i],QA=None if qh is None or qa is None else qh[i]*qa[i])
+        base_known=all(v is not None for v in expected.values());expected['overhead']=None if overhead is None or not base_known else fsum(expected.values())*overhead[i]
+        verified=[]
+        for key in fields:
+            if actual[key] is None:continue
+            if expected[key] is None:unverified.append(c+'/'+key);continue
+            if not close(actual[key],expected[key]):raise ValueError('Known cost component differs from its stock/rate/hour inputs: '+c+'/'+key)
+            verified.append(key)
+        known_sum=fsum(v for v in actual.values() if v is not None);all_reported=all(v is not None for v in actual.values())
+        if total is not None:
+            if all_reported and not close(known_sum,total[i]):raise ValueError('Part cost component sum differs from declared total')
+            if not all_reported and known_sum>total[i]+1e-13+1e-9*max(abs(known_sum),abs(total[i])):raise ValueError('Known nonnegative cost components exceed declared partial total')
+            if all(v is not None for v in expected.values()) and not close(total[i],fsum(expected.values())):raise ValueError('Calculated material/process/machine/QA/overhead total differs')
+        rows[c]=dict(reported=deepcopy(actual),expected_from_known_inputs=expected,verified_components=verified,component_sum_reconciled=total is not None and all_reported,reported_total=None if total is None else total[i])
+    return dict(cases=rows,unknown_reported_components=unknown,reported_components_with_unknown_inputs=unverified,all_reported_components_reconciled=not unknown and not unverified,scope='Declared direct part material/process/machine/QA/overhead only; no complete installed-cost claim',unknown_reports_filled=False)
+
+
 def _check_prototype(p):
     source_seal(p)
     if set(p)!=PROTO_FIELDS:raise ValueError('Unsupported unconsumed prototype wrapper fields')
@@ -253,12 +291,7 @@ def _check_prototype(p):
             free=exact_simple_volume(part['free_shape'])
             if free is not None and not close(free,part['free_net_volume_m3']):raise ValueError('Cellular free shape/material volume differs')
         for key in ('person_process_h','person_QA_h','machine_h'):triple(part.get(key))
-        cost=labels(part.get('cost_USD'));breakdown=part.get('cost_breakdown_USD')
-        if cost is not None and breakdown is not None:
-            if set(breakdown)!=set(CASES) or any(not close(cost[i],fsum(number(x) for x in breakdown[c].values())) for i,c in enumerate(CASES)):raise ValueError('Part cost breakdown ownership differs')
-        ph=triple(part.get('person_process_h'));qh=triple(part.get('person_QA_h'));mh=triple(part.get('machine_h'));material_rate=triple(p['materials'][part['material']]['USD_kg']);labour=triple(p['rates']['labour_USD_h']);machine=triple(p['rates']['machine_USD_h']);qa=triple(p['rates']['QA_USD_h']);overhead=triple(p['rates']['overhead_fraction'])
-        if cost is not None and all(x is not None for x in (ph,qh,mh,density,material_rate,labour,machine,qa,overhead)):
-            if any(not close(cost[i],(gross*density[i]*material_rate[i]+ph[i]*labour[i]+mh[i]*machine[i]+qh[i]*qa[i])*(1+overhead[i])) for i in range(3)):raise ValueError('Calculated material/process/machine/QA/overhead differs')
+        _cost_components(part,p)
         material_bounds(part['geometry'])
     for field,child in (('mass_kg','mass_kg'),('cost_USD','cost_USD')):
         known=[labels(x.get(child),positive=field=='mass_kg') for x in parts];total=labels(p.get(field),positive=field=='mass_kg')
@@ -399,10 +432,12 @@ def normalize(raw,*,pin,request_id):
         for part in p['parts']:
             eid=o['id']+'/'+part['id'];ids.append(eid);box=material_bounds(part['geometry']);mass=labels(part.get('mass_kg'),positive=True);cost=labels(part.get('cost_USD'));mi=None if mass is None else [mass[0],mass[2]]
             localmp=containment_moments(box,mi);worldmp=containment_moments(box,mi,T,R)
+            account_check=_cost_components(part,p)
+            if not account_check['all_reported_components_reconciled']:holds.append(dict(code='partial-cost-component-evidence',entity_id=eid,unknown_components=account_check['unknown_reported_components'],unverified_components=account_check['reported_components_with_unknown_inputs'],reason='None/partial decomposition or unknown rate/hour inputs preserved; no zero or invented allocation'))
             if box is None:holds.append(dict(code='unsupported-material-graph-bound',entity_id=eid,source_kind=part['geometry']['kind'],reason='Full source graph preserved; bound unknown, no filled packaging'))
             if mass is None or cost is None:holds.append(dict(code='unknown-material-or-price',entity_id=eid,reason='None retained; no zero substitution'))
             state={k:deepcopy(part[k]) for k in ('mass_volume_factor','free_shape','free_net_volume_m3','installed_bulk_density_multiplier','finish') if k in part}
-            e=dict(id=eid,scope='installed',frame='terminal-local-UVW',material_id=part['material'],at_m=T,rotation=R,geometry=dict(kind='source-bounded-CSG-material',source_graph=deepcopy(part['geometry']),units='m',not_filled_packaging=True),material_state=state,source_part_id=part['id'],source_occurrence_id=o['id'],source_prototype_key=o['prototype_key'],source_stock_owner_id='new/'+o['id'],mass_label_cases_kg=deepcopy(part.get('mass_kg')),mass_properties_part_frame=localmp,mass_properties_terminal_frame=worldmp,source_part=deepcopy(part),**FLAGS);entities.append(e);piece_rows.append(dict(entity_id=eid,part_id=part['id'],source_account=deepcopy(part),mass_label_cases_kg=deepcopy(part.get('mass_kg')),direct_cost_label_cases_USD=deepcopy(part.get('cost_USD'))))
+            e=dict(id=eid,scope='installed',frame='terminal-local-UVW',material_id=part['material'],at_m=T,rotation=R,geometry=dict(kind='source-bounded-CSG-material',source_graph=deepcopy(part['geometry']),units='m',not_filled_packaging=True),material_state=state,source_part_id=part['id'],source_occurrence_id=o['id'],source_prototype_key=o['prototype_key'],source_stock_owner_id='new/'+o['id'],mass_label_cases_kg=deepcopy(part.get('mass_kg')),mass_properties_part_frame=localmp,mass_properties_terminal_frame=worldmp,source_part=deepcopy(part),cost_component_verification=account_check,**FLAGS);entities.append(e);piece_rows.append(dict(entity_id=eid,part_id=part['id'],source_account=deepcopy(part),mass_label_cases_kg=deepcopy(part.get('mass_kg')),direct_cost_label_cases_USD=deepcopy(part.get('cost_USD')),cost_component_verification=account_check))
         if len(set(ids))!=len(ids):raise ValueError('Duplicate occurrence piece identity')
         pm=labels(p.get('mass_kg'),positive=True);pc=labels(p.get('cost_USD'));known_mass &= pm is not None;known_cost &= pc is not None
         for i,c in enumerate(CASES):

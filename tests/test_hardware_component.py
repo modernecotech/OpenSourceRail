@@ -174,4 +174,55 @@ class AdditionalOwnershipTests(unittest.TestCase):
         for R in (h.I,[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]],[[0.,0.,1.],[0.,1.,0.],[-1.,0.,0.]]):
             g=ann();g['rotation']=R;b=h.material_bounds(g);self.assertAlmostEqual(sorted(y-x for x,y in b)[0],.004);self.assertEqual(h.exact_simple_volume(g),h.exact_simple_volume(ann()))
 
+class CostComponentGuardTests(unittest.TestCase):
+    def test_HC_C1_negative_QA_equal_process_offset_refused(self):
+        r=fixture();part=r['prototypes']['M6-washer']['parts'][0];q=part['cost_breakdown_USD']['base'];oldq=q['QA'];q['QA']=-1.;q['process']+=oldq+1.
+        with self.assertRaisesRegex(ValueError,'nonnegative'):run(reseal_all(r))
+
+    def test_HC_C2_positive_material_to_process_shift_refused(self):
+        r=fixture();part=r['prototypes']['M6-washer']['parts'][0];q=part['cost_breakdown_USD']['base'];delta=q['material']/2;q['material']-=delta;q['process']+=delta
+        with self.assertRaisesRegex(ValueError,'component differs'):run(reseal_all(r))
+
+    def test_exact_five_keys_and_no_missing_or_extra_component(self):
+        for mode in ('missing','extra','renamed'):
+            r=fixture();q=r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']['base']
+            if mode=='missing':q.pop('QA')
+            elif mode=='extra':q['rebate']=0.
+            else:q['qa']=q.pop('QA')
+            with self.subTest(mode=mode),self.assertRaisesRegex(ValueError,'Exact five'):run(reseal_all(r))
+
+    def test_each_known_component_finite_nonboolean_nonnegative(self):
+        for key in ('material','process','machine','QA','overhead'):
+            for value in (-.1,False,float('nan'),float('inf')):
+                p=prototype();p['parts'][0]['cost_breakdown_USD']['base'][key]=value
+                with self.subTest(key=key,value=value),self.assertRaises(ValueError):h._cost_components(p['parts'][0],p)
+
+    def test_each_known_positive_component_reconciled_even_if_total_retained(self):
+        for key in ('process','machine','QA','overhead'):
+            r=fixture();q=r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']['base'];q[key]+=1e-6;q['material']-=1e-6
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'component differs'):run(reseal_all(r))
+
+    def test_single_unknown_component_keptNone_and_named_partial_hold(self):
+        r=fixture();before=run(r);r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']['base']['QA']=None;after=run(reseal_all(r));account=after['canonical_draft']['stock_groups'][0]['part_account_rows'][0];v=account['cost_component_verification'];self.assertIsNone(v['cases']['base']['reported']['QA']);self.assertGreater(v['cases']['base']['expected_from_known_inputs']['QA'],0.);self.assertFalse(v['unknown_reports_filled']);self.assertIn('base/QA',v['unknown_reported_components']);self.assertEqual(before['component_geometry_id'],after['component_geometry_id']);self.assertEqual(before['known_new_hardware_direct_cost_label_cases_USD'],after['known_new_hardware_direct_cost_label_cases_USD']);self.assertTrue(any(x['code']=='partial-cost-component-evidence' for x in after['held_facts']))
+
+    def test_whole_missing_breakdown_and_partial_case_retained(self):
+        for value in (None,{'low':None,'base':None,'high':None}):
+            r=fixture();r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']=value;q=run(reseal_all(r));a=q['canonical_draft']['entities'][0]['cost_component_verification'];self.assertEqual(len(a['unknown_reported_components']),15);self.assertFalse(a['all_reported_components_reconciled']);self.assertIsNone(a['cases']['base']['reported']['material'])
+
+    def test_unknown_QA_hours_retains_unverified_report_notzero(self):
+        r=fixture();r['prototypes']['M6-washer']['parts'][0]['person_QA_h']=None;q=run(reseal_all(r));a=q['canonical_draft']['entities'][0]['cost_component_verification'];self.assertIn('base/QA',a['reported_components_with_unknown_inputs']);self.assertIsNone(a['cases']['base']['expected_from_known_inputs']['QA']);self.assertGreater(a['cases']['base']['reported']['QA'],0.);self.assertTrue(any(x['code']=='partial-cost-component-evidence' for x in q['held_facts']))
+
+    def test_unknown_component_does_not_mask_another_known_wrong_component(self):
+        r=fixture();part=r['prototypes']['M6-washer']['parts'][0];part['cost_breakdown_USD']['base']['QA']=None;part['cost_breakdown_USD']['base']['material']*=2
+        with self.assertRaisesRegex(ValueError,'component differs'):run(reseal_all(r))
+
+    def test_known_partial_components_cannot_exceed_declared_total(self):
+        p=prototype();part=p['parts'][0];part['person_process_h']=None;part['cost_breakdown_USD']['base']={k:None for k in ('material','process','machine','QA','overhead')};part['cost_breakdown_USD']['base']['process']=part['cost_USD']['base']+1
+        with self.assertRaisesRegex(ValueError,'exceed'):h._cost_components(part,p)
+
+    def test_original_component_values_unchanged_and_refusal_nonmutating(self):
+        r=fixture();p=run(r);row=p['canonical_draft']['stock_groups'][0]['part_account_rows'][0];self.assertEqual(row['source_account']['cost_breakdown_USD'],r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']);self.assertTrue(row['cost_component_verification']['all_reported_components_reconciled']);self.assertEqual(row['cost_component_verification']['cases']['base']['verified_components'],['material','process','machine','QA','overhead']);r['prototypes']['M6-washer']['parts'][0]['cost_breakdown_USD']['base']['material']=-1;reseal_all(r);old=deepcopy(r)
+        with self.assertRaises(ValueError):run(r)
+        self.assertEqual(old,r)
+
 if __name__=='__main__':unittest.main()
