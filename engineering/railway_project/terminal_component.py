@@ -162,10 +162,37 @@ def joint_record(j):
  return dict(id='terminal-source-joint/'+j['id'],schema='osr-terminal-unresolved-source-contract/1',source_joint_id=j['id'],source_contract=deepcopy(j),status=status,
   validation_scope='Finite scalar/ordered-layer sanity only; complete real member/void/contact/tool/load contract still required',resolved=False,physical_accepted=False)
 
+# Explicit source-specific annotations, not a geometry whitelist. Unknown keys
+# survive: an unsupported drawing/unknown physical dimension must remain bound.
+# Complete originals remain in draft/evaluation; only this projection is filtered.
+EVALUATION_ANNOTATIONS=frozenset({
+ 'holds','geometry_hold','validation_scope','status','resolved','required_work',
+ 'unsupported_work','remaining_obligations','domain','coordinate_domain',
+ 'old_entity_sha256','source_sha256','source_commit','source_evaluation_id',
+ 'physical_accepted','engineering_accepted','manufacturing_release','operating_release',
+ 'native_eligible','canonical_admitted','installed_assembly_accepted','selected_reference_changed',
+ 'qualified','strength_qualified','supplier_or_strength_qualified','source_eligibility',
+ 'compound_and_creep_qualified','penetration_runout_WPS_qualified',
+ 'remaining_netsection_qualification','supplier_profile_qualified',
+ 'thread_compound_and_creep_qualified','exact_triangle_orientation_and_runout_resolved',
+ 'compound_mitres_and_welds_unqualified','declared_not_authenticated',
+ 'actual_grade_geometry_and_grip_unknown','actual_insert_geometry_held',
+ 'supplier_drawing_grade_and_thread_held','supplier_shape_and_retention_held',
+ 'supplier_geometry_grade_load_unknown','physical_geometry_adapter',
+ 'process_h','QA_h','person_process_h','person_QA_h','machine_h',
+ 'direct_cost_usd','cost_USD','price_USD','cost_basis','basis',
+})
+
+def physical_facts(x):
+ """Strip only named assessment/account notes; keep all physical unknowns."""
+ if isinstance(x,dict):return {k:physical_facts(v) for k,v in x.items() if k not in EVALUATION_ANNOTATIONS}
+ if isinstance(x,list):return [physical_facts(v) for v in x]
+ return deepcopy(x)
+
 def physical_projection(d):
- return dict(schema='osr-terminal-canonical-draft-physical/1',units='m',bindings=deepcopy(d['bindings']),
-  entities=[{k:deepcopy(e[k]) for k in ('id','part_id','material_id','at_m','rotation','frame','scope','functions','finished_spec')} for e in d['entities']],
-  required_counterpart_obligations=deepcopy(d['required_counterpart_obligations']))
+ return dict(schema='osr-terminal-canonical-draft-physical/2',units='m',bindings=physical_facts(d['bindings']),
+  entities=[{k:physical_facts(e[k]) for k in ('id','part_id','material_id','at_m','rotation','frame','scope','functions','finished_spec')} for e in d['entities']],
+  required_counterpart_obligations=physical_facts(d['required_counterpart_obligations']))
 
 def normalize(raw,*,pin,request_id):
  """Future singleton actual adapter; source phase permits invented fixtures only."""

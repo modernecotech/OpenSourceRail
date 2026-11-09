@@ -135,3 +135,40 @@ def test_boolean_joint_direction_is_not_a_rigid_axis_value(monkeypatch):
  src=fixture();src['component_proposal']['actual_joint_contracts']=[dict(id='SYNTHETIC/bool',kind='ordered-through-stack',axis=0,direction=True,origin_m=[0,0,0])]
  raw,pin=frozen(src,monkeypatch)
  with pytest.raises(ValueError,match='axis'):t.normalize(raw,pin=pin,request_id='b'*64)
+
+def test_hold_and_geometry_hold_notes_are_evaluation_only_with_complete_originals(monkeypatch):
+ src=fixture();src['component_proposal']['entities'][0]['exact_CSG_entity']['geometry_hold']='SYNTHETIC assessment'
+ a=run(src,monkeypatch);src['component_proposal']['entities'][0]['exact_CSG_entity']['geometry_hold']=None
+ b=run(src,monkeypatch)
+ assert a['canonical_draft']['definition_id']==b['canonical_draft']['definition_id']
+ assert a['evaluation_id']!=b['evaluation_id']
+ d=deepcopy(a['canonical_draft']);before=t.identity(t.physical_projection(d))
+ d['entities'][0]['finished_spec']['holds']=[]
+ assert t.identity(t.physical_projection(d))==before
+ assert a['canonical_draft']['entities'][0]['finished_spec']['source_exact_CSG_entity']['geometry_hold']=='SYNTHETIC assessment'
+
+def test_joint_status_and_strength_review_do_not_change_declared_physical_contract(monkeypatch):
+ src=fixture();src['component_proposal']['actual_joint_contracts']=[dict(id='SYNTHETIC/blind',kind='blind-threaded-endplate',axis=0,direction=-1,origin_m=[0,0,0],stack=dict(layers=[dict(start_m=0.,end_m=.005)],pilot_depth_m=.009,thread_engagement_m=.007,remaining_pilot_bound_m=.001,liner_ID_m=.0045,liner_OD_m=.006,strength_qualified=False))]
+ a=run(src,monkeypatch);src['component_proposal']['actual_joint_contracts'][0]['stack']['strength_qualified']=True;b=run(src,monkeypatch)
+ assert a['canonical_draft']['definition_id']==b['canonical_draft']['definition_id'] and a['evaluation_id']!=b['evaluation_id']
+ d=deepcopy(a['canonical_draft']);before=t.identity(t.physical_projection(d));j=d['required_counterpart_obligations'][0]
+ j.update(status='SYNTHETIC reviewed',validation_scope='changed assessment',resolved=True,physical_accepted=True)
+ assert t.identity(t.physical_projection(d))==before
+ j['source_contract']['stack']['thread_engagement_m']-=.0001
+ assert t.identity(t.physical_projection(d))!=before
+
+def test_process_price_source_hash_changes_are_evaluation_only(monkeypatch):
+ src=fixture();e=src['component_proposal']['entities'][0]['exact_CSG_entity'];e.update(old_entity_sha256='1'*64,process_h=.1,QA_h=.05,price_USD=2.)
+ a=run(src,monkeypatch);e.update(old_entity_sha256='2'*64,process_h=.2,QA_h=.1,price_USD=3.);b=run(src,monkeypatch)
+ assert a['canonical_draft']['definition_id']==b['canonical_draft']['definition_id'] and a['evaluation_id']!=b['evaluation_id']
+
+@pytest.mark.parametrize('mutation',[
+ lambda e:e['finished_spec']['source_exact_CSG_entity']['geometry']['size_m'].__setitem__(0,.021),
+ lambda e:e['finished_spec']['source_exact_CSG_entity']['holes'][0].update(diameter_m=.003),
+ lambda e:e.update(material_id='SYNTHETIC-steel'),
+ lambda e:e['finished_spec']['source_exact_CSG_entity'].update(unknown_physical_port_geometry={'kind':'unsupported-but-required','size_m':None}),
+ lambda e:e['finished_spec'].update(source_physical_drawing={'kind':'unsupported','root_faces_m':None,'nominal_edge_m':.007}),
+])
+def test_known_and_unknown_physical_facts_stay_in_projection(monkeypatch,mutation):
+ d=run(fixture(),monkeypatch)['canonical_draft'];before=t.identity(t.physical_projection(d));mutation(d['entities'][0])
+ assert t.identity(t.physical_projection(d))!=before
