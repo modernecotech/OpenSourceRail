@@ -83,7 +83,12 @@ def fixture(retained_geometry=None):
         deployment_data_unapplied=bindings,canonical_local_draft=dict(schema='osr-terminal-local-material-draft/1',
             entities=es,stock_groups=gs,material_projection=projection),
         P1_old_leaf_retirement_ledger_owned_once_by_terminal=retire,
-        inherited_P1_retirements=[dict(new_P1_retirement_count=0,inherited_price_metadata_added_as_new_hardware_charge=False,source_keys=keys)],
+        inherited_P1_retirements=[dict(owner='terminal-old-leaf-replacement-only',source_part_id='old-end',
+            new_P1_retirement_count=0,inherited_price_metadata_added_as_new_hardware_charge=False,
+            inherited_retained_original_price_once=True,source_keys=keys,
+            price_scope='Inherited old-local-group price provenance only; replaced local owner removed, new hardware groups paid once'),
+            dict(owner='local-terminal-research-only',source_part_id='research/local-guard',
+                source_keys=[],new_P1_retirement_count=0)],
         source_finishing_records=finishes,finishing_paid_owner_ids=['paid-a','paid-b'],counts=counts,
         pricing=pricing,lifecycle_allocations=dict(shared_tools=dict(piece_count=12,count_per_train=1),
             workshop=dict(quantity_scope='workshop'),events=dict(quantity_scope='per event',count=None)),
@@ -788,6 +793,87 @@ class FinishedSupplementTests(unittest.TestCase):
         data,fin,pin=finished_fixture();fin['source_input_pin']['sources']['weld']['source_commit']='a'*40
         with self.assertRaisesRegex(ValueError,'source commits'):
             run_finished(refresh_finished(data,fin,pin))
+
+
+class InheritedHardwareSchemaTests(unittest.TestCase):
+    def test_actual_typed_body_and_local_research_forms_are_valid(self):
+        d=fixture();body,research=d[2]['inherited_P1_retirements']
+        self.assertEqual(body['owner'],'terminal-old-leaf-replacement-only')
+        self.assertIs(body['inherited_price_metadata_added_as_new_hardware_charge'],False)
+        self.assertIs(body['inherited_retained_original_price_once'],True)
+        self.assertEqual(research,dict(owner='local-terminal-research-only',
+            source_part_id='research/local-guard',source_keys=[],new_P1_retirement_count=0))
+        before=deepcopy(d);r=run(d);self.assertEqual(d,before)
+        self.assertEqual(r['candidate_id'],'203a96a3ccb2a86a3af31a2e075b063671b77cf986efbb0e63c39185de52f904')
+        self.assertEqual(r['additional_hardware_P1_retirements'],0)
+        self.assertEqual(len(r['p1_retirement_ledger']),2)
+        self.assertEqual(r['pricing']['known_additive_subtotal_usd'],dict.fromkeys(t.CASES,70.))
+        self.assertEqual(r['deployment_count'],2);self.assertEqual(r['geometry_lift_to_apply_m'],0.)
+        for flag in t.FLAGS:self.assertIs(r[flag],False)
+
+    def test_research_optional_false_price_flag_does_not_change_physics_cost_or_counts(self):
+        a=run();d=fixture();d[2]['inherited_P1_retirements'][1]['inherited_price_metadata_added_as_new_hardware_charge']=False
+        b=run(refresh_plan(d))
+        for key in ['candidate_id','physical_definition','counts','pricing','p1_retirement_ledger',
+                    'source_machining_train_once','lifecycle_allocations','terminal_material_occurrences']:
+            self.assertEqual(a[key],b[key])
+        self.assertNotEqual(a['evaluation_id'],b['evaluation_id'])
+
+    def test_body_price_flag_is_required_and_strict_false(self):
+        for value in ['MISSING',True,0,None]:
+            d=fixture();row=d[2]['inherited_P1_retirements'][0]
+            if value=='MISSING':row.pop('inherited_price_metadata_added_as_new_hardware_charge')
+            else:row['inherited_price_metadata_added_as_new_hardware_charge']=value
+            with self.subTest(value=value),self.assertRaisesRegex(ValueError,'another invoice'):
+                run(refresh_plan(d))
+
+    def test_body_price_basis_is_required_boolean_and_matches_retirement(self):
+        for value in ['MISSING',0,None,False]:
+            d=fixture();row=d[2]['inherited_P1_retirements'][0]
+            if value=='MISSING':row.pop('inherited_retained_original_price_once')
+            else:row['inherited_retained_original_price_once']=value
+            with self.subTest(value=value),self.assertRaisesRegex(ValueError,'matching inherited body price basis'):
+                run(refresh_plan(d))
+        d=fixture();d[1]['old_leaf_replacements_train_once'][0]['retained_original_price_once']=False
+        d[2]['P1_old_leaf_retirement_ledger_owned_once_by_terminal'][0]['retained_original_price_once']=False
+        d[2]['inherited_P1_retirements'][0]['inherited_retained_original_price_once']=False
+        self.assertEqual(run(refresh_terminal(d))['pricing']['known_additive_subtotal_usd'],dict.fromkeys(t.CASES,70.))
+
+    def test_research_price_flag_never_defaults_true_falseish_or_unknown(self):
+        for value in [True,0,None,'false']:
+            d=fixture();d[2]['inherited_P1_retirements'][1]['inherited_price_metadata_added_as_new_hardware_charge']=value
+            with self.subTest(value=value),self.assertRaisesRegex(ValueError,'Local research metadata'):
+                run(refresh_plan(d))
+        d=fixture();d[2]['inherited_P1_retirements'][1]['inherited_retained_original_price_once']=False
+        with self.assertRaisesRegex(ValueError,'no inherited P1 price basis'):run(refresh_plan(d))
+
+    def test_research_has_no_P1_keys_and_owner_type_cannot_be_swapped(self):
+        d=fixture();d[2]['inherited_P1_retirements'][1]['source_keys']=list(d[2]['inherited_P1_retirements'][0]['source_keys'])
+        with self.assertRaises(ValueError):run(refresh_plan(d))
+        for index,owner in [(0,'local-terminal-research-only'),(1,'terminal-old-leaf-replacement-only'),(1,'unknown-owner')]:
+            d=fixture();d[2]['inherited_P1_retirements'][index]['owner']=owner
+            with self.subTest(index=index,owner=owner),self.assertRaises(ValueError):run(refresh_plan(d))
+        d=fixture();d[2]['inherited_P1_retirements'][1]['source_part_id']='beam'
+        with self.assertRaisesRegex(ValueError,'no P1 predecessor'):run(refresh_plan(d))
+
+    def test_zero_count_and_unique_typed_part_source_keys_are_strict(self):
+        for index in [0,1]:
+            for value in [False,True,0.,1,None]:
+                d=fixture();d[2]['inherited_P1_retirements'][index]['new_P1_retirement_count']=value
+                with self.subTest(index=index,value=value),self.assertRaisesRegex(ValueError,'another P1 retirement'):
+                    run(refresh_plan(d))
+        d=fixture();row=d[2]['inherited_P1_retirements'][0];row['source_keys']=list(row['source_keys'])+[row['source_keys'][0]]
+        with self.assertRaisesRegex(ValueError,'Duplicate inherited'):run(refresh_plan(d))
+        d=fixture();d[2]['inherited_P1_retirements'].append(deepcopy(d[2]['inherited_P1_retirements'][1]))
+        with self.assertRaisesRegex(ValueError,'Unique typed inherited'):run(refresh_plan(d))
+
+    def test_body_lineage_requires_exact_part_and_complete_key_set(self):
+        d=fixture();d[2]['inherited_P1_retirements'][0]['source_part_id']='beam'
+        with self.assertRaisesRegex(ValueError,'exact P1 retirement part'):run(refresh_plan(d))
+        d=fixture();d[2]['inherited_P1_retirements'][0]['source_keys']=[d[2]['inherited_P1_retirements'][0]['source_keys'][0]]
+        with self.assertRaisesRegex(ValueError,'exact P1 retirement part'):run(refresh_plan(d))
+        d=fixture();d[2]['inherited_P1_retirements'][0]['source_keys']=['not-a-source-key']
+        with self.assertRaisesRegex(ValueError,'canonical inherited source key'):run(refresh_plan(d))
 
 
 if __name__ == '__main__':
