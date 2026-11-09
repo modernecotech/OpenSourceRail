@@ -55,7 +55,7 @@ class SourceOnlyEntryTests(unittest.TestCase):
         return path
 
     def invoke(self, *, argv=None, module=None, function="main", loader_hash=None, loader_path=LOADER,
-               manifest_extra=b"", flags=("-I", "-B"), raw_manifest=None, result=None):
+               manifest_extra=b"", flags=("-I", "-B"), raw_manifest=None, result=None, cwd="/"):
         self.count += 1
         manifest_path = self.base / ("manifest-" + str(self.count) + ".json")
         raw = encoded(self.manifest) if raw_manifest is None else raw_manifest
@@ -68,14 +68,18 @@ class SourceOnlyEntryTests(unittest.TestCase):
             "--argv-json", json.dumps(["first", "two words"] if argv is None else argv),
             "--result", str(output)]
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
-        run = subprocess.run(command, cwd="/", env=env, text=True,
+        run = subprocess.run(command, cwd=cwd, env=env, text=True,
                              capture_output=True, timeout=10, check=False)
         self.assertTrue(run.stdout, run.stderr)
         report = json.loads(run.stdout)
         self.assertEqual(report["evaluation_id"],
                          sha(encoded({k: v for k, v in report.items() if k != "evaluation_id"})))
-        if result is None:
+        if result is None and output.exists():
             self.assertEqual(output.read_bytes(), encoded(report))
+        if result is None and not output.exists():
+            self.assertEqual(run.returncode, 2)
+            self.assertEqual(report["imports"], [])
+        self.assertNotIn("Traceback", run.stderr)
         return run, report
 
     def expected_imports(self, worker_status="completed"):
@@ -214,6 +218,60 @@ class SourceOnlyEntryTests(unittest.TestCase):
         self.assertEqual(run.returncode, 2)
         self.assertEqual(report["imports"], [])
         self.assertEqual(result.read_bytes(), b"original evidence\n")
+
+    def test_relative_result_path_is_canonical_stdout_failure_only(self):
+        run, report = self.invoke(result=Path("relative-result.json"), cwd=self.base)
+        self.assertEqual(run.returncode, 2)
+        self.assertEqual(report["error"]["type"], "ValueError")
+        self.assertEqual(report["imports"], [])
+        self.assertFalse((self.base / "relative-result.json").exists())
+
+    def test_in_root_result_is_not_created_on_loader_or_argv_preflight_failure(self):
+        for change in (dict(loader_hash="0" * 64), dict(argv={"invalid": "argv"})):
+            with self.subTest(change=change):
+                output = self.repo / "must-not-create.json"
+                run, report = self.invoke(result=output, **change)
+                self.assertEqual(run.returncode, 2)
+                self.assertEqual(report["imports"], [])
+                self.assertFalse(output.exists())
+
+    def test_in_root_result_is_refused_after_manifest_authentication(self):
+        output = self.repo / "must-not-create.json"
+        run, report = self.invoke(result=output)
+        self.assertEqual(run.returncode, 2)
+        self.assertIn("outside the controlled source root", report["error"]["message"])
+        self.assertEqual(report["imports"], [])
+        self.assertFalse(output.exists())
+
+    def test_symlink_root_alias_is_refused_before_output_reservation(self):
+        alias = self.base / "source-alias"
+        alias.symlink_to(self.repo, target_is_directory=True)
+        self.manifest["repo_root"] = str(alias)
+        output = self.repo / "alias-must-not-create.json"
+        run, report = self.invoke(result=output)
+        self.assertEqual(run.returncode, 2)
+        self.assertEqual(report["imports"], [])
+        self.assertFalse(output.exists())
+
+    def test_symlink_output_parent_cannot_alias_the_source_root(self):
+        alias = self.base / "output-alias"
+        alias.symlink_to(self.repo, target_is_directory=True)
+        run, report = self.invoke(result=alias / "must-not-create.json")
+        self.assertEqual(run.returncode, 2)
+        self.assertEqual(report["imports"], [])
+        self.assertFalse((self.repo / "must-not-create.json").exists())
+        self.assertTrue(alias.is_symlink())
+
+    def test_symlink_result_file_and_existing_target_are_preserved(self):
+        protected = self.repo / "protected-evidence.json"
+        protected.write_bytes(b"retained evidence\n")
+        alias = self.base / "result-alias.json"
+        alias.symlink_to(protected)
+        run, report = self.invoke(result=alias)
+        self.assertEqual(run.returncode, 2)
+        self.assertEqual(report["imports"], [])
+        self.assertTrue(alias.is_symlink())
+        self.assertEqual(protected.read_bytes(), b"retained evidence\n")
 
 
 if __name__ == "__main__":

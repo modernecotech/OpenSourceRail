@@ -9,7 +9,9 @@ The external SHA256-bound manifest has schema osr-source-only-entry-manifest/1
 and exactly these fields: repo_root, namespaces, source_sha256, entrypoints
 ([{module, function}]), loader ({path, sha256}), and max_source_bytes.
 The named function receives one list of strings and returns a bounded JSON value.
-The exclusive result file is the authoritative record; stdout also receives it.
+After its boundary is authenticated, the exclusive result file is the
+authoritative record; stdout also receives it. Earlier failures use stdout only
+and create no result file. No project import precedes result reservation.
 Hash pins require a separately trusted caller. This is not an OS sandbox and
 cannot preserve a final report after SIGKILL, interpreter crash or storage loss.
 """
@@ -51,16 +53,27 @@ def absolute(value):
     return path
 
 
-def open_file(path, *, create=False):
-    """No-follow descriptor walk; never resolve away symlinks or overwrite output."""
+def open_directory(path):
+    """Open an ordinary absolute directory without resolving away symlinks."""
     path = absolute(path)
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
     parent = os.open(path.anchor, flags)
     try:
-        for part in path.parts[1:-1]:
+        for part in path.parts[1:]:
             nxt = os.open(part, flags, dir_fd=parent)
             os.close(parent)
             parent = nxt
+        return parent
+    except BaseException:
+        os.close(parent)
+        raise
+
+
+def open_file(path, *, create=False):
+    """No-follow descriptor walk; never resolve away symlinks or overwrite output."""
+    path = absolute(path)
+    parent = open_directory(path.parent)
+    try:
         mode = os.O_WRONLY | os.O_CREAT | os.O_EXCL if create else os.O_RDONLY | os.O_NONBLOCK
         return os.open(path.name, mode | os.O_NOFOLLOW | os.O_CLOEXEC,
                        0o600, dir_fd=parent)
@@ -151,7 +164,6 @@ def main(argv=None):
         parser.add_argument("--" + name, required=True)
     args = parser.parse_args(argv)
     finder, result_fd = None, None
-    result_attempted, result_allowed = False, True
     report = dict(schema="osr-source-only-entry-result/1", execution="failed", phase="preflight",
         entrypoint=dict(module=args.module, function=args.function), bindings={}, imports=[],
         interpreter=dict(executable=sys.executable, isolated=sys.flags.isolated,
@@ -159,6 +171,7 @@ def main(argv=None):
                          dont_write_bytecode_flag=sys.flags.dont_write_bytecode),
         return_value=None, error=None)
     try:
+        result_path = absolute(args.result)
         if sys.flags.isolated != 1 or sys.flags.dont_write_bytecode != 1 or sys.dont_write_bytecode is not True:
             raise RuntimeError("Invoke the pinned entrypoint with python -I -B")
         if len(args.argv_json.encode()) > MAX_ARGV_BYTES:
@@ -176,11 +189,12 @@ def main(argv=None):
         manifest = read_json(manifest_raw)
         root = manifest_contract(manifest, args)
         report["repo_root"] = str(root)
-        if absolute(args.result).is_relative_to(root):
-            result_allowed = False
+        # The authenticated spelling alone is insufficient: a symlink root
+        # could otherwise make an apparently external output alias its source.
+        os.close(open_directory(root))
+        if result_path.is_relative_to(root):
             raise ValueError("Result must be outside the controlled source root")
-        result_attempted = True
-        result_fd = open_file(args.result, create=True)
+        result_fd = open_file(result_path, create=True)
         report["phase"] = "install-source-policy"
         if BOOTSTRAP_NAME in sys.modules:
             raise RuntimeError("Bootstrap loader module was already imported")
@@ -206,11 +220,9 @@ def main(argv=None):
         # Do not remove the finder or purge modules: it stays active until exit.
         if finder is not None:
             report["imports"] = list(finder.records)
-        if not result_attempted and result_allowed:
-            try:
-                result_fd = open_file(args.result, create=True)
-            except OSError as exc:
-                report["result_write_error"] = dict(type=type(exc).__name__, message=str(exc)[:4096])
+        # Before this fd was reserved, neither the authenticated source root nor
+        # the requested output boundary may have been known. Never open a file
+        # from this failure path; the caller can retain canonical stdout.
         report["evaluation_id"] = sha(encoded(report))
         raw = encoded(report)
         if result_fd is not None:
