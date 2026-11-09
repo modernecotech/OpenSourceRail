@@ -33,6 +33,14 @@ SOURCE_KINDS = frozenset(('box', 'rhs', 'annulus', 'cylinder', 'envelope',
     'ring-access-port-enlargement', 'hardpoint-thread-pocket',
     'box-minus-2revolvedcounterbores', 'box-minus-6revolvedcounterbores',
     'two-explicit-extruded-triangular-weld-profiles', 'open-round-ended-slot'))
+# These are retained parent definitions, not newly admitted material/CSG models.
+# Recognition is confined to authenticated parent-pattern geometry. Their full
+# records stay in the physical definition; no solid, volume or mass is inferred.
+RETAINED_PARENT_KINDS = {
+    'cut-length': 'retained-source-stock-or-route-allowance',
+    'proposed-equipment-zone': 'retained-source-equipment-allowance',
+    'u_channel': 'retained-source-channel-stock',
+}
 DOMAINS = frozenset(('source-material-record', 'source-unresolved-finished-material',
     'finite-source-weld-polyhedron', 'revised-source-parent',
     'hardware-source-bounded-material', 'prospective-finished-source-material-set',
@@ -159,17 +167,27 @@ def _authenticated(value, pin, schema, physical_key=None, identity_key=None):
         raise ValueError('Only non-admitted research sources with actual boolean False flags accepted')
 
 
-def _grammar(value, depth=0):
+def _grammar(value, depth=0, *, retained_parent=False, retained_nodes=None, path=()):
     if depth > 48:
         raise ValueError('Finite source material grammar depth exceeded')
     if isinstance(value, dict):
         if 'kind' in value and value['kind'] not in SOURCE_KINDS:
-            raise ValueError('Unknown source geometry kind: ' + str(value['kind']))
-        for child in value.values():
-            _grammar(child, depth+1)
+            kind = value['kind']
+            if not retained_parent or kind not in RETAINED_PARENT_KINDS:
+                raise ValueError('Unknown source geometry kind: ' + str(kind))
+            if retained_nodes is not None:
+                retained_nodes.append(dict(kind=kind, node_path=list(path),
+                    source_node_sha256=identity(value), domain=RETAINED_PARENT_KINDS[kind],
+                    finished_geometry_supported=False, geometry_operations_performed=False,
+                    mass_properties_derived=False, native_eligible=False,
+                    reason='Authenticated parent source record retained in full; stock/routing/equipment or gross-channel definition is not verified finished material, a filled box or a new mass model'))
+        for key, child in value.items():
+            _grammar(child, depth+1, retained_parent=retained_parent,
+                     retained_nodes=retained_nodes, path=path+(key,))
     elif isinstance(value, list):
-        for child in value:
-            _grammar(child, depth+1)
+        for i, child in enumerate(value):
+            _grammar(child, depth+1, retained_parent=retained_parent,
+                     retained_nodes=retained_nodes, path=path+(i,))
 
 
 def _interval(x):
@@ -461,15 +479,28 @@ def _finishing_supplement(terminal, plan, es, gs, phys, owners, finishing, pin):
         source_pending_contracts=deepcopy(finishing['pending_contracts']))
 
 
-def _source_refs(parent, wanted):
+def _source_refs(parent, wanted, wanted_part_ids=None):
+    """Validate every source occurrence, hashing predecessor keys where needed.
+
+    None retains the unfiltered reference path. A supplied part set is an exact
+    predecessor scope, not permission to skip unrelated pattern validation.
+    Part hashes are reused only within this invocation of the filtered path.
+    """
     parts = _index(parent['parts'], 'parent parts', 10000)
     patterns = _index(parent['patterns'], 'parent patterns', 50000)
+    if wanted_part_ids is not None:
+        if not isinstance(wanted_part_ids, (set, frozenset)):
+            raise ValueError('Explicit predecessor source-part set required')
+        wanted_part_ids = {_name(x) for x in wanted_part_ids}
+        if not wanted_part_ids <= set(parts):
+            raise ValueError('Unknown predecessor source part')
     physical = parent['physical_definition']
     pp = _index(physical['parts'], 'physical parts', 10000)
     pats = _index(physical['occurrence_patterns'], 'physical patterns', 50000)
     if set(parts) != set(pp) or set(patterns) != set(pats):
         raise ValueError('Physical/source catalogue coverage differs')
-    out = {}; total = 0; part_counts = dict.fromkeys(parts, 0)
+    out = {}; total = 0; part_counts = dict.fromkeys(parts, 0); source_domains = []
+    part_hashes = {}
     for pid, pat in patterns.items():
         part = parts[pat['part_id']]
         for key, value in pp[part['id']].items():
@@ -481,10 +512,27 @@ def _source_refs(parent, wanted):
         q = pat['count']
         if type(q) is not int or q <= 0 or q != len(pat['positions_m']):
             raise ValueError('Source pattern count differs')
-        _rotation(pat['rotation']); _grammar(pat['geometry']); _cases(pat['direct_cost_usd'])
-        ph, sh = identity(pat), identity(part)
+        _rotation(pat['rotation']); nodes = []
+        _grammar(pat['geometry'], retained_parent=True, retained_nodes=nodes, path=('geometry',))
+        _cases(pat['direct_cost_usd'])
+        ph = identity(pat)
+        if wanted_part_ids is None:
+            sh = identity(part)
+        else:
+            if part['id'] not in part_hashes:
+                part_hashes[part['id']] = identity(part)
+            sh = part_hashes[part['id']]
+        geometry_hash = identity(pat['geometry']) if nodes else None
+        nodes.sort(key=lambda row: json.dumps(row['node_path'], separators=(',', ':')))
+        source_domains.extend(dict(node, pattern_id=pid, part_id=part['id'],
+            source_pattern_sha256=ph, source_part_sha256=sh,
+            source_geometry_sha256=geometry_hash, original_pattern_count=q)
+            for node in nodes)
+        match_keys = wanted_part_ids is None or part['id'] in wanted_part_ids
         for j, position in enumerate(pat['positions_m']):
             _vector(position)
+            if not match_keys:
+                continue
             key = 'source/' + identity([parent['candidate_id'], pid, j])
             if key in wanted:
                 ref = dict(parent_candidate_id=parent['candidate_id'], pattern_id=pid,
@@ -499,7 +547,9 @@ def _source_refs(parent, wanted):
         raise ValueError('Parent catalogue/pattern quantity conservation differs')
     if set(out) != set(wanted):
         raise ValueError('Missing canonical predecessor source key')
-    return out, patterns, total
+    if wanted_part_ids is not None and {r['part_id'] for r in out.values()} != wanted_part_ids:
+        raise ValueError('Requested predecessor parts differ from matched source keys')
+    return out, patterns, total, source_domains
 
 
 def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=None, finishing_pin=None):
@@ -596,7 +646,8 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
     mids = [x['source_id'] for x in machining]
     if len(mids) != len(set(mids)) or set(mids)&set(retiring):
         raise ValueError('Overlapping/reused source machining/retirement')
-    refs, patterns, parent_count = _source_refs(parent, set(retiring)|set(mids))
+    wanted_parts = {_name(r['source_part_id']) for r in retirements + machining}
+    refs, patterns, parent_count, parent_domains = _source_refs(parent, set(retiring)|set(mids), wanted_parts)
     retirement_ledger = []
     for row in retirements:
         _hex(row['source_part_sha256'])
@@ -679,6 +730,10 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
         if n:
             payable.append(dict(owner_id='parent-pattern/'+pid, scope='retained-parent-pattern-once',
                 amount_usd=None if price is None else {c:price[c]*n/p['count'] for c in CASES}))
+    retained_counts = {p['pattern_id']:p['retained_count'] for p in retained}
+    parent_domains = [dict(row, retained_pattern_count=retained_counts[row['pattern_id']],
+        count_scope='One source-kind node in one pattern; node counts are not material, stock or purchase quantities')
+        for row in parent_domains]
     for b in bindings:
         for gid in sorted(gs):
             r=group_prices[gid]; expected_price=gs[gid].get('direct_cost_usd',gs[gid].get('direct_cost_label_cases_USD'))
@@ -723,6 +778,7 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
         terminal_material_occurrences=instances,terminal_evaluated_properties=evaluated,
         local_material_evaluation_records=deepcopy(draft['entities']),
         terminal_stock_owners=stock,retained_parent_patterns=retained,
+        retained_parent_source_domains=parent_domains,
         p1_retirement_ledger=retirement_ledger,additional_hardware_P1_retirements=0,
         source_machining_train_once=machine_ledger,source_machining_geometry_applied=False,
         lifecycle_allocations=deepcopy(local_plan['lifecycle_allocations']),lifecycle_deployment_multiplier=1,
@@ -737,6 +793,7 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
             source_prices_not_credited_twice=True,part_subtotals_added=False,finishing_additivity_pending=True,
             lifecycle_scopes_preserved_train_once=True,complete_installed_cost=False),
         unresolved_obligations=dict(finishing=finishing_contract,source_machining='Exact predecessor dispositions retained; finished geometry/moments/QA/access unproved',
+            retained_parent_geometry_domains=[deepcopy(row) for row in parent_domains if row['retained_pattern_count']>0],
             inherited_local_contracts=deepcopy(local_plan['pending_contracts']),floor_wear_patch=deepcopy(terminal['floor_wear_patch_unapplied']),
             fourteen_scope_cost='Direct owner ledger only; integrate assembly, tooling, civil, construction, power, site/depot, fleet, electricity, operations, maintenance, renewals, recovery/reliability and disposal without double counting'),
         aggregate_mass_properties=None,complete_installed_mass=False,complete_installed_cost=False,
