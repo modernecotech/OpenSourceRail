@@ -639,9 +639,40 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
         retiring.extend(row['source_ids'])
     if len(retiring) != len(set(retiring)):
         raise ValueError('Duplicate P1 retirement')
+    retirement_parts = {r['source_part_id']:r for r in retirements}
+    if len(retirement_parts) != len(retirements):
+        raise ValueError('Duplicate P1 retirement part lineage')
+    inherited_parts = set(); inherited_keys = set()
     for row in local_plan['inherited_P1_retirements']:
-        if type(row['new_P1_retirement_count']) is not int or row['new_P1_retirement_count'] != 0 or row['inherited_price_metadata_added_as_new_hardware_charge'] is not False or not set(row['source_keys']) <= set(retiring):
-            raise ValueError('Hardware ancestry cannot add another P1 retirement/price')
+        if type(row['new_P1_retirement_count']) is not int or row['new_P1_retirement_count'] != 0:
+            raise ValueError('Hardware ancestry cannot add another P1 retirement')
+        part_id = _name(row['source_part_id']); keys = row['source_keys']
+        if part_id in inherited_parts or not isinstance(keys,list):
+            raise ValueError('Unique typed inherited part/key roster required')
+        for key in keys:
+            if not isinstance(key,str) or not key.startswith('source/'):
+                raise ValueError('Explicit canonical inherited source key required')
+            _hex(key[7:])
+        if len(keys) != len(set(keys)) or inherited_keys & set(keys):
+            raise ValueError('Duplicate inherited P1 source key')
+        owner = row['owner']
+        if owner == 'terminal-old-leaf-replacement-only':
+            if not keys or part_id not in retirement_parts or part_id.startswith('research/') or set(keys) != set(retirement_parts[part_id]['source_ids']):
+                raise ValueError('Inherited body keys must bind their exact P1 retirement part')
+            if 'inherited_price_metadata_added_as_new_hardware_charge' not in row or row['inherited_price_metadata_added_as_new_hardware_charge'] is not False:
+                raise ValueError('Inherited body price metadata cannot become another invoice')
+            if 'inherited_retained_original_price_once' not in row or type(row['inherited_retained_original_price_once']) is not bool or row['inherited_retained_original_price_once'] != retirement_parts[part_id]['retained_original_price_once']:
+                raise ValueError('Explicit matching inherited body price basis required')
+        elif owner == 'local-terminal-research-only':
+            if keys or not part_id.startswith('research/') or part_id in retirement_parts:
+                raise ValueError('Local research hardware has no P1 predecessor')
+            if 'inherited_price_metadata_added_as_new_hardware_charge' in row and row['inherited_price_metadata_added_as_new_hardware_charge'] is not False:
+                raise ValueError('Local research metadata cannot add an inherited P1 price')
+            if 'inherited_retained_original_price_once' in row:
+                raise ValueError('Local research hardware has no inherited P1 price basis')
+        else:
+            raise ValueError('Unsupported inherited hardware owner type')
+        inherited_parts.add(part_id); inherited_keys.update(keys)
     machining = terminal['source_machining_train_once']
     mids = [x['source_id'] for x in machining]
     if len(mids) != len(set(mids)) or set(mids)&set(retiring):
