@@ -1,0 +1,53 @@
+{
+  "schema": "osr-mechanical-fit-policy/1",
+  "contract_id": "f10eb2c0c288a67afa2552700cd9317551ba1ee790d69690ae76fd121b5721ec",
+  "contract_source": {
+    "path": "/home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/mechanical-audit/implementation-contract.json",
+    "sha256": "52fce0d5a542ebf6dc35008c55e4097f566eeca2c2e8a0f59214f7209e326af4"
+  },
+  "study_id": "75cc3e02596c4c35b11dbad0b3da3ff193fab9b8a25087f1b5c9582c1f2f0fd5",
+  "parent": {
+    "body_candidate_id": "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba",
+    "body_evaluation_id": "dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272",
+    "pilot_candidate_id": "cde8e4595d365b31d169cf452d1efc1b9f0c96225ca3bbccf8bf51b5a2480c7f"
+  },
+  "limits": {"variants": 3, "poses_per_variant": 24, "cpu_seconds_per_variant": 60, "memory_mib": 1024, "private_disk_mib": 50},
+  "domain": {
+    "gauge_m": 1.435,
+    "wheel_diameter_m": [0.68, 0.76],
+    "wheelbase_m": 2.1,
+    "yaw_rad": 1.064,
+    "roll_rad": 1.035,
+    "primary_jounce_m": 0.04,
+    "secondary_jounce_m": 0.04,
+    "lateral_m": 0.02,
+    "gear_relative_roll_rad": 1.02,
+    "clearance_m": 0.02,
+    "tolerance_m": 0.002
+  },
+  "official_motor_source_claim": {
+    "model": "EMRAX 268-C v1.7 MV LC",
+    "diameter_m": 0.268,
+    "casing_length_m": 0.094,
+    "mass_kg": 22.3,
+    "continuous_power_kW": 91,
+    "continuous_torque_Nm": 205,
+    "peak_torque_Nm": 500,
+    "peak_duration_s": 30,
+    "maximum_rpm": 4500,
+    "coolant_min_l_min": 6,
+    "coolant_max_C": 50,
+    "rotor_airflow_required": true,
+    "datasheet_url": "https://emrax.com/wp-content/uploads/2026/08/EMRAX_268_datasheet_v1.7_version-C.pdf",
+    "step_url": "https://emrax.com/wp-content/uploads/2025/09/268_MVHV_1UVW_LC_SS_PP_SE268P_B.step",
+    "source_bytes_frozen": false,
+    "admission": "HOLD: source bytes, revision validation, shaft/pilot, 6xM10/16xM8 mount, terminal and cooling geometry unavailable locally; network/download prohibited by task"
+  },
+  "variants": [
+    {"variant_id":"parent-typed-reevaluation","physical_change":false,"body_lift_m":0.0,"motor":"inherited parent allocation; not supplier admitted","ratio":null},
+    {"variant_id":"compact268-ratio7.37-lift100","physical_change":true,"body_lift_m":0.1,"motor":"EMRAX 268-C v1.7 MV LC source claim only","ratio":7.37},
+    {"variant_id":"compact268-ratio7.37-lift150","physical_change":true,"body_lift_m":0.15,"motor":"identical complete physical definition except body support lift","ratio":7.37}
+  ],
+  "preserve": ["all brake and suspension stock", "service stock", "positive mass/cost/reserve allowances", "unknown tolerances as holds"],
+  "prohibited": ["CAD", "FEM", "native calls", "downloads", "physical acceptance", "engineering acceptance", "manufacturing release", "operating release"]
+}
