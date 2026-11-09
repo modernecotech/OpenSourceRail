@@ -180,7 +180,7 @@ def test_bridge_nodes_share_bolts_without_double_counting_adjacent_spans():
     assert sum(n["backing_plate_count"] for n in p["nodes"]) == 2
     assert p["nodes"][1]["connected_sides"] == ["left","right"]
     assert all(n["sleeve_length_m"] == .1 for n in p["nodes"])
-    assert p["spans"][0]["rail_length_m"] == pytest.approx(.388)
+    assert p["spans"][0]["rail_length_m"] == pytest.approx(.380)
 
 
 @pytest.mark.parametrize("x", [-.2, .5, 1.2, .06])
@@ -274,3 +274,114 @@ def test_geometry_fingerprint_excludes_qa_prices_and_acceptance_metadata():
     assert before == ci.identity(ci.coupon_geometry_projection(coupon))
     coupon["entities"][0]["size_m"][0] += .001
     assert before != ci.identity(ci.coupon_geometry_projection(coupon))
+
+
+def test_r3_exact_positive_cap_backer_witness_and_r4_separation():
+    # Exact independent witness: cap X[node+.0756,+.0766], R6mm,
+    # Z1.0535; backer X[node+.075,+.095], Z1.0445..1.0485.
+    old_overlap=.001*ci.circle_segment_area(.006,.001)
+    assert old_overlap == pytest.approx(4.501555612680434e-9)
+    assert old_overlap > 0
+    for depth in (.100,.120):
+        new=ci.node_neighbor_bounds(ci.node_interface(1.0725,depth),.085)
+        assert new["largest_node_ring_to_floor_backer_y_gap_m"] == pytest.approx(.006)
+        assert new["cap_to_floor_sleeve_y_gap_m"] == pytest.approx(.027)
+        assert new["node_socket_to_rail_y_gap_m"] == pytest.approx(.010)
+        assert new["endplate_to_floor_backer_x_gap_m"] >= .005-1e-12
+        assert new["source_endcap_to_rail_x_gap_m"] == .010
+        assert new["zero_acceptance"]
+
+
+@pytest.mark.parametrize("depth",[.100,.120])
+def test_counterpart_depth_derives_sleeve_grip_thread_and_cap_tolerance(depth):
+    p=ci.node_interface(-1.0725,depth)
+    assert p["bolt_column_y_m"] == pytest.approx(-1.0325)
+    assert p["sleeve_length_m"] == depth
+    assert p["counterpart_wall_m"] == (.006 if depth == .100 else .008)
+    t=p["plate_thickness_m"]
+    stack=ci.hardware_stack("node-fixture",0,[-depth/2-t-.0021,0.,0.],1,
+        [("iso-a",.0005),("plate-a",t),("source",depth),("plate-b",t),("iso-b",.0005)],
+        p["bolt_underhead_length_m"],.008,.0053,.0065)
+    assert sum(s["length_m"] for s in stack["grip_layers_m"]) == pytest.approx(p["grip_m"])
+    assert stack["nominal_thread_projection_m"] == pytest.approx(.0093)
+    assert p["minimum_thread_projection_m"] >= .002
+    assert p["minimum_cap_tip_space_m"] >= .001
+    assert p["cap_wall_length_m"]-.0093-.003-.0005-.00025 == pytest.approx(.00295)
+    assert not p["qualified"]
+    assert p["counterpart_mating_resolved"]
+    if depth == .120:
+        assert p["counterpart_weld_relief_required"]
+        assert "full-through" in p["counterpart_weld_detail"]
+        assert p["plate_size_m"][1] == pytest.approx(.0775)
+        assert p["plate_outboard_notch_width_m"] == pytest.approx(.0225)
+        assert p["internal_diaphragm_required"]
+
+
+def test_mixed_depth_support_faces_cannot_inherit100mm_endpoints():
+    p=ci.bridge_plan([dict(id="toy",at_m=[.5,1.,1.15])],[0.,1.],1.,{1.:.120})
+    s=p["spans"][0]
+    assert s["support_face_x_m"] == pytest.approx([.060,.930])
+    assert s["rail_length_m"] == pytest.approx(.870)
+    assert s["rail_center_m"][0] == pytest.approx(.495)
+    assert p["nodes"][1]["interface"]["sleeve_length_m"] == .120
+    with pytest.raises(ValueError,match="reviewed station"):
+        ci.bridge_plan([dict(id="toy",at_m=[.5,1.,1.15])],[0.,1.],1.,{.2:.120})
+
+
+def test_reactions_preserve_forces_at_actual_support_levers():
+    p=ci.bridge_plan([dict(id="a",at_m=[.25,1.,1.15]),dict(id="b",at_m=[.75,1.,1.15])],[0.,1.],1.)
+    reactions=ci.bridge_reactions([p],100.,30.,20.)
+    assert sum(r["vertical_N"] for r in reactions) == pytest.approx(200.)
+    assert sum(r["longitudinal_N"] for r in reactions) == pytest.approx(60.)
+    assert sum(r["lateral_N"] for r in reactions) == pytest.approx(40.)
+    assert reactions[0]["vertical_N"] == pytest.approx(100.)
+
+
+def test_offset_plate_failure_requires_counted_stock_not_relaxed_load():
+    # Synthetic reaction fixture; source audit separately retains exact raw
+    # P1/P6 necessary envelopes. Same forces/material limit for both thicknesses.
+    old=ci.endplate_band_bound(2500.,2500/3,2500/3,.006)
+    revised=ci.endplate_band_bound(2500.,2500/3,2500/3,.010)
+    assert old["stress_residual_Pa"] < 0 and not old["necessary_screen_passed"]
+    assert revised["stress_residual_Pa"] > 0 and revised["necessary_screen_passed"]
+    assert old["vertical_reaction_N"] == revised["vertical_reaction_N"]
+    assert old["offset_m"] == revised["offset_m"] == .040
+    assert not revised["qualified"]
+
+
+def test_weld_relief_is_one_plate_with_paid_notch_scrap_and_intact_load_band():
+    # The old full-width plate contains the positive-X half of a vertical
+    # actual radius4mm weld over this40mm Zsubsegment; bores are57.5mm away.
+    old_guaranteed_overlap=.5*pi*.004**2*.040
+    assert old_guaranteed_overlap == pytest.approx(1.0053096491487339e-6)
+    assert old_guaranteed_overlap > 0
+    p=ci.node_interface(1.0725,.120)
+    center=p["plate_center_y_m"];width=p["plate_size_m"][1]
+    assert center+width/2 == pytest.approx(1.080)
+    assert 1.090-.004-(center+width/2) == pytest.approx(.006)
+    assert center-width/2 < p["bolt_column_y_m"] < 1.0725 < center+width/2
+    e=ci.box("one-notched-blank",[0.,center,0.],p["plate_size_m"],"al5083")
+    stock=ci.stock_row("one-purchase",[e],.010*.104*.084,.18,.055,"single full-through edge notch")
+    assert stock["scrap_volume_m3"] > .0225*.080*.010
+    assert stock["net_volume_m3"] == pytest.approx(.0775*.080*.010)
+
+
+def test_diaphragm_placement_avoids_real_sleeve_and_backer_weld_halos():
+    toy=dict(support_face_x_m=[.070,.730],anchors=[dict(id="a",at_m=[.085,1.,1.15]),
+                                                       dict(id="b",at_m=[.185,1.,1.15])])
+    d=ci.diaphragm_station(toy,-1)
+    assert d["min_sleeve_weld_gap_m"] >= .005
+    assert d["min_backer_weld_plan_gap_m"] >= .005
+    other=ci.diaphragm_station(toy,1,[d["x_m"]])
+    assert abs(other["x_m"]-d["x_m"]) >= .020
+    impossible=dict(support_face_x_m=[0.,.050],anchors=[dict(id="a",at_m=[.025,1.,1.15])])
+    with pytest.raises(ValueError,match="no12mm"):
+        ci.diaphragm_station(impossible,-1)
+
+
+def test_added_diaphragm_carries_full_declared_reaction_in_its_own_bound():
+    b=ci.diaphragm_band_bound(2500.,2500/3,2500/3)
+    assert b["necessary_screen_passed"] and not b["qualified"]
+    overloaded=ci.diaphragm_band_bound(5000.,5000/3,5000/3)
+    assert not overloaded["necessary_screen_passed"]
+    assert overloaded["equivalent_comparison_Pa"] == pytest.approx(2*b["equivalent_comparison_Pa"])

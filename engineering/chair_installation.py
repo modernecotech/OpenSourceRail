@@ -9,7 +9,7 @@ rotation, w points up. All fabrication geometry and properties are hypotheses.
 from copy import deepcopy
 from hashlib import sha256
 from itertools import product
-from math import isclose, isfinite, pi, prod
+from math import acos, isclose, isfinite, pi, prod, sqrt
 from pathlib import Path
 import gzip
 import json
@@ -30,7 +30,14 @@ R1 = {
     "r2_frozen_source_commit": "f0f72a38aaf28399b2af7aaf23d25d0d22727539",
     "r2_band_source_commit": "2f90439e79596b9dd07ca8611ad23e619f3b29cb",
     "r2_failed_band_evaluation_id": "7810c5bd7c8fc0e33bf2ec46008993c98b46f4d88081363d496e782e74c6f9eb",
+    "r3_frozen_source_commit": "1eb05e4e10f2f2029d881c65d43e6f758fcb3dbb",
+    "r3_independent_review_id": "62a1cbd9772962107dbd96fd154793e97cb8e74681eb9529ad64c06dd87a4ef8",
+    "r3_cap_overlap_witness_sha256": "4bf888e07e76deb771f140c4a1fe398705e439c3a9ac2029ca2b2f7e73448046",
 }
+P6_COUNTERPART = dict(candidate_id="ce1b8b222b06a6479f7738d9409d74a5333514b79b7baf5dffc7c8510b73e044",
+    evaluation_id="3202ebbf3b6ca827bde78466c5047734fdc3b53fb8a70330744026b9f280467a",
+    raw_sha256="b8637bce668ff07ab5b1c7378cbfc308981c1d91d2a07c6a41e1a7b4dde00d40",
+    admitted=False)
 I = [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]
 CASES = ("low", "base", "high")
 OLD_PARTS = tuple("body/chair-" + n for n in (
@@ -305,20 +312,186 @@ def choose_anchor_rows(origin, rotation, stub_x, pad_half_x=.010, margin=.005):
     return selected
 
 
-def bridge_plan(anchors, stub_x, lane_y):
+def node_interface(lane_y, counterpart_depth_m=.100):
+    """Typed100/120mm interface recipe; no body or geometry producer.
+
+    The bolt column is40mm inboard of the rail. Node hardware is accessible
+    beside the closed RHS rather than penetrating its bottom wall/nearby floor
+    backers. A120mm P6 counterpart does NOT inherit100mm sleeve/stack geometry.
+    """
+    if counterpart_depth_m not in (.100,.120) or lane_y == 0:
+        raise ValueError("explicit100/120mm paired floor counterpart required")
+    sign=1 if lane_y > 0 else -1
+    relief=counterpart_depth_m == .120 and abs(lane_y)+.030 > 1.080
+    inner=lane_y-sign*.070
+    outer=sign*1.080 if relief else lane_y+sign*.030
+    width=abs(outer-inner);center=(inner+outer)/2
+    return dict(counterpart_depth_m=counterpart_depth_m,
+        counterpart_wall_m=.006 if counterpart_depth_m == .100 else .008,
+        counterpart_source=deepcopy(PARENT if counterpart_depth_m == .100 else P6_COUNTERPART),
+        counterpart_mating_resolved=True,
+        counterpart_weld_relief_required=relief,
+        counterpart_weld_detail="full-through outboard edge notch at absY1.080,6mm clear of actual radius4mm weld; counted internal12mm diaphragm restores outer-wall transfer before partial end weld" if relief else "outside actual P6 endcap weld Yrange or retained P1 counterpart",
+        bridge_lane_y_m=lane_y,bolt_column_y_m=lane_y-sign*.040,
+        plate_center_y_m=center,plate_size_m=[.010,width,.080],
+        plate_gross_blank_size_m=[.010,.104,.084],
+        plate_outboard_notch_width_m=.100-width,
+        weld_to_plate_y_gap_m=.006 if relief else None,
+        internal_diaphragm_required=relief,
+        plate_thickness_m=.010,bolt_z_m=[1.0535,1.0855],
+        sleeve_length_m=counterpart_depth_m,
+        bolt_underhead_length_m=counterpart_depth_m+.040,
+        grip_m=counterpart_depth_m+.021,
+        thread_projection_m=.0093,cap_wall_length_m=.016,
+        dimensional_hypotheses=dict(bolt_length_m=.001,counterpart_depth_m=.001,
+            two_plates_m=.0005,two_isolators_m=.0001,two_washers_m=.0002,nut_m=.0002,
+            total_projection_m=.003,cap_length_m=.0005,cap_installation_m=.00025),
+        minimum_thread_projection_m=.0063,minimum_cap_tip_space_m=.00295,
+        node_tool=dict(head_radius_m=.010,head_length_m=.040,hex_across_flats_m=.0132,
+            stem_radius_m=.005,stem_length_m=.050,workshop_quantity=2,
+            positive_procurement_allowance_usd=[10.,24.,60.],
+            interface="source-sized socket hypothesis, tool strength/torque and supplier dimensions unverified; not installed mass"),
+        qualified=False)
+
+
+def endplate_band_bound(vertical_N, longitudinal_N, lateral_N, thickness_m,
+                       offset_m=.040, allowable_Pa=60e6):
+    """Necessary elastic net-band/bolt-group comparison at unchanged loads.
+
+    Actual simple-support reaction envelopes must be supplied. Both9mm plate
+    bores are deducted from the80mm band. The rail/bolt-group10mm Z eccentricity
+    is taken as an axial bolt-group moment, not discarded or replaced by a load
+    reduction. Local prying/contact/HAZ/fatigue remain outside this model.
+    """
+    _positive([thickness_m,offset_m,allowable_Pa])
+    if min(vertical_N,longitudinal_N,lateral_N) < 0:
+        raise ValueError("nonnegative reaction envelope required")
+    h=.080-2*.009; z_ecc=.010; spacing=.032
+    plane=6*vertical_N*offset_m/(thickness_m*h*h)
+    normal=6*longitudinal_N*offset_m/(h*thickness_m**2)
+    direct=(longitudinal_N+lateral_N)/(h*thickness_m)
+    shear=(vertical_N**2+lateral_N**2)**.5/(h*thickness_m)
+    equivalent=((plane+normal+direct)**2+3*shear**2)**.5
+    couple=(vertical_N*offset_m+lateral_N*z_ecc)/spacing
+    bolt_shear=((vertical_N/2)**2+(lateral_N/2+couple)**2)**.5
+    bolt_axial=longitudinal_N/2+longitudinal_N*z_ecc/spacing
+    bolt_shear_stress=bolt_shear/36.6e-6;bolt_axial_stress=bolt_axial/36.6e-6
+    interaction=(bolt_shear_stress/160e6)**2+(bolt_axial_stress/240e6)**2
+    plate_bearing=bolt_shear/(.009*thickness_m)
+    return dict(vertical_reaction_N=vertical_N,longitudinal_reaction_N=longitudinal_N,
+        lateral_reaction_N=lateral_N,offset_m=offset_m,net_band_height_m=h,thickness_m=thickness_m,
+        in_plane_bending_Pa=plane,normal_bending_Pa=normal,direct_Pa=direct,
+        equivalent_comparison_Pa=equivalent,stress_residual_Pa=allowable_Pa-equivalent,
+        bolt_shear_each_N=bolt_shear,bolt_axial_each_N=bolt_axial,
+        bolt_interaction_ratio=interaction,plate_bearing_Pa=plate_bearing,
+        necessary_screen_passed=equivalent <= allowable_Pa and plate_bearing <= allowable_Pa and interaction <= 1.,
+        bolt_allowable_hypothesis="160MPa shear/240MPa axial on36.6mm2root area, not authenticated8.8hardware or railway qualification",
+        model_domain="net-band elastic plate plus declared bolt-group equilibrium; local stress/plate contact/prying/HAZ/crash/fatigue not qualified",qualified=False)
+
+
+def circle_segment_area(radius_m, height_m):
+    """Exact circular segment; used to retain the positive R3 failure witness."""
+    _positive([radius_m])
+    if not 0 <= height_m <= 2*radius_m:
+        raise ValueError("segment outside circle")
+    return radius_m**2*acos((radius_m-height_m)/radius_m)-(radius_m-height_m)*sqrt(max(0.,2*radius_m*height_m-height_m**2))
+
+
+def node_neighbor_bounds(interface, anchor_from_node_m):
+    """Necessary nominal intervals; no mate exemption or installed acceptance."""
+    half=interface["counterpart_depth_m"]/2;t=interface["plate_thickness_m"]
+    return dict(node_column_inboard_m=.040,
+        largest_node_ring_to_floor_backer_y_gap_m=.040-.009-.025,
+        cap_to_floor_sleeve_y_gap_m=.040-.006-.007,
+        largest_node_ring_to_rail_y_gap_m=.040-.009-.020,
+        node_socket_to_rail_y_gap_m=.040-interface["node_tool"]["head_radius_m"]-.020,
+        endplate_to_floor_backer_x_gap_m=anchor_from_node_m-.010-half-t,
+        source_endcap_to_rail_x_gap_m=t,
+        P6_actual_endcap_weld_to_endplate_nominal_residual_m=interface["weld_to_plate_y_gap_m"],
+        frame_relative_proposed_margin_m=.005,
+        zero_acceptance=True,
+        external_weld_halo_m=.003,
+        weld_floor_gap_at_85mm_anchor_m=.085-.010-half-t-.003,
+        tolerance_domain="5mm proposed global sum retained; local weld/anchor shared-jig tolerances and actual bead/tool/removal geometry require explicit downstream verification, no clearance waiver")
+
+
+def diaphragm_station(span, side, occupied=()):
+    """A single necessary gap placement, not an architecture/parameter search."""
+    a,b=span["support_face_x_m"]
+    intervals=[(a+.020,b-.020)]
+    blocked=[(h["at_m"][0]-.024,h["at_m"][0]+.024) for h in span["anchors"]]
+    blocked += [(x-.020,x+.020) for x in occupied]
+    for left,right in sorted(blocked):
+        remaining=[]
+        for lo,hi in intervals:
+            if right <= lo or left >= hi:remaining.append((lo,hi))
+            else:
+                if lo < left:remaining.append((lo,min(hi,left)))
+                if right < hi:remaining.append((max(lo,right),hi))
+        intervals=remaining
+    intervals=[(lo,hi) for lo,hi in intervals if hi-lo>.000002]
+    if not intervals:raise ValueError("no12mmdiaphragm gap clears actual floor sleeves,weld halo and end tools")
+    target=a+.050 if side < 0 else b-.050
+    choices=[max(lo+.000001,min(hi-.000001,target)) for lo,hi in intervals]
+    at=min(choices,key=lambda x:(abs(x-target),x))
+    return dict(x_m=at,thickness_m=.012,
+        min_sleeve_weld_gap_m=min(abs(at-h["at_m"][0])-.006-.003-.0071 for h in span["anchors"]),
+        min_backer_weld_plan_gap_m=min(abs(at-h["at_m"][0])-.006-.003-.010 for h in span["anchors"]),
+        source_anchor_ids=[h["id"] for h in span["anchors"]],
+        datum="actual rail faces; avoid actual anchor sleeve/backer plus6mmhalfplate+3mmweld+5mmmargin")
+
+
+def diaphragm_band_bound(vertical_N,longitudinal_N,lateral_N):
+    """Conservative full node reaction assigned to each added12mm diaphragm."""
+    width,height,t=.034,.054,.012
+    inplane=6*vertical_N*width/(t*height**2)
+    normal=6*longitudinal_N*width/(height*t*t)
+    direct=(longitudinal_N+lateral_N)/(width*t)
+    shear=vertical_N/(width*t)
+    eq=((inplane+normal+direct)**2+3*shear**2)**.5
+    return dict(thickness_m=t,equivalent_comparison_Pa=eq,residual_Pa=60e6-eq,
+        necessary_screen_passed=eq<=60e6,qualified=False,
+        model_domain="full node reaction on simple34x54mm net plate band, no local contact/HAZ/fatigue qualification")
+
+
+def bridge_reactions(plans, vertical_per_anchor_N, longitudinal_per_anchor_N, lateral_per_anchor_N):
+    """Exact statics in the declared pin-support domain at source anchor poses."""
+    out={}
+    for plan in plans:
+        for span in plan["spans"]:
+            a,b=span["support_face_x_m"]
+            for h in span["anchors"]:
+                x=h["at_m"][0]
+                if not a <= x <= b:
+                    raise ValueError("anchor outside actual counterpart/plate support faces")
+                for node_x,fraction in ((span["left_stub_x_m"],(b-x)/(b-a)),
+                                        (span["right_stub_x_m"],(x-a)/(b-a))):
+                    key=(span["lane_y_m"],node_x)
+                    row=out.setdefault(key,dict(lane_y_m=key[0],node_x_m=key[1],vertical_N=0.,longitudinal_N=0.,lateral_N=0.))
+                    for name,force in (("vertical_N",vertical_per_anchor_N),("longitudinal_N",longitudinal_per_anchor_N),("lateral_N",lateral_per_anchor_N)):
+                        row[name]+=force*fraction
+    return [out[k] for k in sorted(out)]
+
+
+def bridge_plan(anchors, stub_x, lane_y, counterpart_depths=None):
     """Source-owned span/node plan. Nodes share two bolts across adjacent spans.
 
     ``stub_x`` are centres of the source 100mm-wide members. An anchor above a
     stub needs a separately designed direct insert; this family rejects it.
     """
     stations = sorted(set(stub_x))
+    depths={x:.100 for x in stations}
+    for x,d in (counterpart_depths or {}).items():
+        if x not in depths or d not in (.100,.120):
+            raise ValueError("counterpart depth requires exact reviewed station binding")
+        depths[x]=d
     if len(stations) < 2:
         raise ValueError("two physical supports required")
     spans = {}
     for anchor in anchors:
         x = anchor["at_m"][0]
-        left = [p for p in stations if p+.05 < x-.010-.005]
-        right = [p for p in stations if p-.05 > x+.010+.005]
+        left = [p for p in stations if p+depths[p]/2 < x-.010-.005]
+        right = [p for p in stations if p-depths[p]/2 > x+.010+.005]
         if not left or not right:
             raise ValueError("anchor has no adjacent supported bridge bay")
         a, b = max(left), min(right)
@@ -329,28 +502,30 @@ def bridge_plan(anchors, stub_x, lane_y):
     nodes = {}
     out = []
     for (a, b), loads in sorted(spans.items()):
-        length = b-a-.100-.012
+        a_face=a+depths[a]/2+.010;b_face=b-depths[b]/2-.010
+        length = b_face-a_face
         if length <= .05:
-            raise ValueError("bridge bay cannot fit two 6mm endplates")
-        if any(min(h["at_m"][0]-(a+.056), (b-.056)-h["at_m"][0]) < .0141 for h in loads):
+            raise ValueError("bridge bay cannot fit two10mm endplates")
+        if any(min(h["at_m"][0]-a_face,b_face-h["at_m"][0]) < .0121-1e-10 for h in loads):
             raise ValueError("anchor bore lacks proposed bridge-end ligament")
         out.append(dict(id=f"bridge/{lane_y:.7f}/{a:.7f}/{b:.7f}", lane_y_m=lane_y,
                         left_stub_x_m=a, right_stub_x_m=b, rail_length_m=length,
-                        rail_center_m=[(a+b)/2, lane_y, 1.0795],
+                        rail_center_m=[(a_face+b_face)/2, lane_y, 1.0795],
+                        support_face_x_m=[a_face,b_face],left_counterpart_depth_m=depths[a],right_counterpart_depth_m=depths[b],
                         anchors=loads, section_m=[.040, .060, .003]))
         nodes.setdefault(a, set()).add("right")
         nodes.setdefault(b, set()).add("left")
-    return dict(spans=out, nodes=[dict(stub_x_m=x, lane_y_m=lane_y,
+    return dict(spans=out, nodes=[dict(stub_x_m=x, lane_y_m=lane_y,interface=node_interface(lane_y,depths[x]),
                 connected_sides=sorted(sides), through_bolt_sets=2,
                 backing_plate_count=2-len(sides), compression_sleeves=2,
                 bore_diameter_m=.0142, sleeve_outer_m=.014, sleeve_inner_m=.009,
-                sleeve_length_m=.100, hole_world_z_m=[1.0535, 1.0855])
+                sleeve_length_m=depths[x], hole_world_z_m=[1.0535, 1.0855])
                 for x, sides in sorted(nodes.items())])
 
 
 def recipe_input():
     """Frozen input proposal only; returning it performs no candidate definition."""
-    return dict(schema=SCHEMA, family="research/direct-floor-chair-r3", parent=deepcopy(PARENT),
+    return dict(schema=SCHEMA, family="research/direct-floor-chair-r4", parent=deepcopy(PARENT),
                 ancestry=deepcopy(R1), units="m, kg, N, Pa, person-hour, USD",
                 fixed=dict(cars=6, car_length_m=17., chairs=264, wheelchair_places=12,
                     floor_top_m=1.15, chair_origin_m=1.60, extra_body_lift_m=0.,
@@ -368,7 +543,13 @@ def recipe_input():
                     seat_foam_depth_m=.4365, back_foam_height_m=.558,
                     foam_gross_cutset_m=[.460, 1.050, .045], trim_thickness_m=.001,
                     trim_retaining_strap_width_m=.025, trim_retaining_strap_u_m=.080,
-                    bridge_section_m=[.040, .060, .003]),
+                    bridge_section_m=[.040, .060, .003],node_column_inboard_m=.040,
+                    node_plate_size_m=[.010,.100,.080],P6_weld_relief_abs_y_m=1.080,
+                    P6_internal_diaphragm_size_m=[.012,.034,.054]),
+                counterpart_variants=dict(P1_depth_m=.100,P6_depth_m=.120,P6_source=deepcopy(P6_COUNTERPART),
+                    P6_header_ids="header/{ysign}/{hx}, hx=-0.4/+0.5; exact48counterpart mapping required",
+                    P6_header_endcap_y_abs_m=[1.090,1.098],P6_header_z_m=[.9295,1.1095],
+                    P6_transform="front T; rear T@diag(-1,-1,1); no additional body lift; source-local gate not admitted"),
                 materials=dict(
                     al6005a=dict(density_kg_m3=2710., E_Pa=69e9, allowable_Pa=60e6,
                         rate_usd_kg=[2.5, 4., 6.5], basis="parent aluminium rates; 60MPa provisional welded necessary screen, not certified HAZ allowable"),
@@ -715,7 +896,9 @@ def chair_coupon(recipe, row_v=(-.05, .05), armrest_sign=0):
 
 def bridge_definition(plans, recipe):
     """Future actual bridge definition: world-frame solids + typed source bores."""
-    entities, stock, stacks, source_bores, welds = [], [], [], [], []
+    if any(not n["interface"]["counterpart_mating_resolved"] for p in plans for n in p["nodes"]):
+        raise ValueError("P6 actual endcap weld/endplate mating is unresolved; typed120mm statics do not admit geometry generation")
+    entities, stock, stacks, source_bores, welds, diaphragms = [], [], [], [], [], []
     def add(name, solids, gross=None, process=.06, qa=.02):
         if isinstance(solids, dict):
             solids = [solids]
@@ -735,66 +918,118 @@ def bridge_definition(plans, recipe):
             holes = [bore(2, h["at_m"], .0142) for h in span["anchors"]]
             add(name, tube(name, 0, center, length, [.040, .060], .003, "al6005a", holes),
                 (.040*.060-.034*.054)*(length+.013), .12, .035)
+            occupied_diaphragms=[]
             for sign in (-1, 1):
-                x = span["left_stub_x_m"]+.053 if sign < 0 else span["right_stub_x_m"]-.053
-                c = [x, span["lane_y_m"], 1.0695]
-                holes = [bore(0, [x, c[1], z], .009) for z in (1.0535, 1.0855)]
+                depth=span["left_counterpart_depth_m"] if sign < 0 else span["right_counterpart_depth_m"]
+                interface=node_interface(span["lane_y_m"],depth);t=interface["plate_thickness_m"]
+                x = span["left_stub_x_m"]+depth/2+t/2 if sign < 0 else span["right_stub_x_m"]-depth/2-t/2
+                c = [x, interface["plate_center_y_m"], 1.0695]
+                holes = [bore(0, [x, interface["bolt_column_y_m"], z], .009) for z in (1.0535, 1.0855)]
                 add(f"{name}/endplate-{sign}", box(f"{name}/endplate-{sign}", c,
-                    [.006, .060, .080], "al5083", holes), .006*.064*.084)
-                welds.append(dict(id=f"{name}/end-weld-{sign}", count=1, length_m=.200,
-                                  fillet_m=.003, centroid_m=[x, c[1], 1.0795]))
+                    interface["plate_size_m"], "al5083", holes), t*.104*.084,
+                    .18 if interface["counterpart_weld_relief_required"] else .10,
+                    .055 if interface["counterpart_weld_relief_required"] else .03)
+                overlap=min(span["lane_y_m"]+.020,c[1]+interface["plate_size_m"][1]/2)-max(span["lane_y_m"]-.020,c[1]-interface["plate_size_m"][1]/2)
+                seam=.060+2*overlap if interface["counterpart_weld_relief_required"] else .200
+                wy=span["lane_y_m"]
+                if interface["counterpart_weld_relief_required"]:
+                    ysign=1 if wy>0 else -1
+                    edge=(c[1]+ysign*interface["plate_size_m"][1]/2)
+                    rail_inner=wy-ysign*.020
+                    wy=(.060*rail_inner+2*overlap*(rail_inner+edge)/2)/seam
+                wx=span["support_face_x_m"][0]+.001 if sign<0 else span["support_face_x_m"][1]-.001
+                welds.append(dict(id=f"{name}/end-weld-{sign}", count=1, length_m=seam,
+                                  fillet_m=.003, centroid_m=[wx, wy, 1.0795],
+                                  centroid_basis="declared3mmtriangular joint bead; proposed path, not recovered weld geometry"))
+                if interface["internal_diaphragm_required"]:
+                    location=diaphragm_station(span,sign,occupied_diaphragms)
+                    occupied_diaphragms.append(location["x_m"])
+                    dname=f"{name}/relief-diaphragm-{sign}"
+                    add(dname,box(dname,[location["x_m"],span["lane_y_m"],1.0795],
+                        [.012,.034,.054],"al5083"),.012*.038*.058,.15,.04)
+                    welds.append(dict(id=dname+"/internal-weld",count=1,length_m=2*(.034+.054),
+                        fillet_m=.003,centroid_m=[location["x_m"]+(-.007 if sign<0 else .007),span["lane_y_m"],1.0795],
+                        centroid_basis="one accessible face of12mmplate plus1mmtriangular bead centroid; inspect before endplate attachment"))
+                    diaphragms.append(dict(id=dname,span_id=span["id"],lane_y_m=span["lane_y_m"],
+                        node_x_m=span["left_stub_x_m"] if sign < 0 else span["right_stub_x_m"],
+                        location=location,sequence="fit and weld diaphragm through open end before partial endplate weld; inspect internal full perimeter; open outboard end pocket remains drained/inspectable",qualified=False))
             # Each chair supplies two anchors/lane; assigning each a quarter
             # full vertical load is deliberately conservative for this bound.
             beam_results.append(dict(bridge=name, **beam_bound(length, [chair_vertical/4]*len(span["anchors"]),
                 recipe["materials"]["al6005a"]["E_Pa"], .040, .060, .003,
                 recipe["materials"]["al6005a"]["allowable_Pa"])))
         for node in plan["nodes"]:
-            x, y = node["stub_x_m"], node["lane_y_m"]
-            name = f"node/{y:.7f}/{x:.7f}"
+            x, lane = node["stub_x_m"], node["lane_y_m"]
+            interface=node["interface"];y=interface["bolt_column_y_m"]
+            depth=interface["counterpart_depth_m"];half=depth/2;t=interface["plate_thickness_m"]
+            name = f"node/{lane:.7f}/{x:.7f}"
             for side in ("left", "right"):
                 sign = -1 if side == "left" else 1
                 if side not in node["connected_sides"]:
-                    c = [x+sign*.053, y, 1.0695]
+                    c = [x+sign*(half+t/2), interface["plate_center_y_m"], 1.0695]
                     add(name+"/backing-"+side, box(name+"/backing-"+side, c,
-                        [.006, .060, .080], "al5083",
-                        [bore(0, [c[0], y, z], .009) for z in node["hole_world_z_m"]]), .006*.064*.084)
+                        interface["plate_size_m"], "al5083",
+                        [bore(0, [c[0], y, z], .009) for z in node["hole_world_z_m"]]), t*.104*.084,
+                        .18 if interface["counterpart_weld_relief_required"] else .10,
+                        .055 if interface["counterpart_weld_relief_required"] else .03)
             for j, z in enumerate(node["hole_world_z_m"]):
                 add(f"{name}/sleeve-{j}", cylinder(f"{name}/sleeve-{j}", 0,
-                    [x-.05, y, z], .100, .007, "al6005a", .0045))
-                source_bores.append(dict(part_id="underframe/floor-crossmember-stub",
-                    source_stub_x_m=x, source_lane_y_m=y, axis=0, center_m=[x, y, z],
-                    diameter_m=.0142, actual_wall_planes_x_m=[x-.050, x+.050],
-                    wall_thickness_m=.006, sleeve_length_m=.100,
-                    note="two actual source walls bored; sleeve spans full100mm, no imaginary inner-only sleeve"))
+                    [x-half, y, z], depth, .007, "al6005a", .0045))
+                source_bores.append(dict(part_id="underframe/floor-crossmember-stub" if depth == .100 else "compact-joint/header",
+                    counterpart_source=interface["counterpart_source"],source_stub_x_m=x, bridge_lane_y_m=lane,
+                    actual_bore_y_m=y,axis=0, center_m=[x, y, z],
+                    diameter_m=.0142, actual_wall_planes_x_m=[x-half, x+half],
+                    wall_thickness_m=interface["counterpart_wall_m"], sleeve_length_m=depth,
+                    note="two actual counterpart walls bored; sleeve spans full reviewed100/120mm, no inner-only sleeve"))
                 for s in (-1, 1):
-                    at = [x+s*.056, y, z]
+                    at = [x+s*(half+t), y, z]
                     if s < 0:
                         at[0] -= .0005
                     add(f"{name}/isolation-{j}-{s}", cylinder(f"{name}/isolation-{j}-{s}",
                         0, at, .0005, .009, "gfrp", .0045))
-                st = hardware_stack(f"{name}/M8-{j}", 0, [x-.0581, y, z], 1,
-                    [("left-isolation", .0005), ("left-endplate-or-backer", .006),
-                     ("source-stub", .100), ("right-endplate-or-backer", .006),
-                     ("right-isolation", .0005)], .130, .008, .0053, .0065)
+                st = hardware_stack(f"{name}/M8-{j}", 0, [x-half-t-.0021, y, z], 1,
+                    [("left-isolation", .0005), ("left-endplate-or-backer", t),
+                     ("source-counterpart", depth), ("right-endplate-or-backer", t),
+                     ("right-isolation", .0005)], interface["bolt_underhead_length_m"], .008, .0053, .0065)
+                st["tool_envelope"]["socket_radius_m"]=interface["node_tool"]["head_radius_m"]
+                st["tool_envelope"]["insertion_m"]=interface["node_tool"]["head_length_m"]
+                st["stack_tolerance_hypotheses"]=interface["dimensional_hypotheses"]
                 stacks.append(st); add(st["id"], st["entities"], process=.035, qa=.03)
+                nut_end=x+half+t+.0086
+                cap_length=interface["cap_wall_length_m"]
                 add(f"{name}/tip-cap-{j}", [cylinder(f"{name}/tip-cap-{j}/wall", 0,
-                    [x+.0646, y, z], .011, .006, "elastomer", .0045),
+                    [nut_end, y, z], cap_length, .006, "elastomer", .0045),
                     cylinder(f"{name}/tip-cap-{j}/closed-end", 0,
-                    [x+.0756, y, z], .001, .006, "elastomer")])
+                    [nut_end+cap_length, y, z], .001, .006, "elastomer")])
+                add(f"{name}/cap-retention-bond-{j}",cylinder(f"{name}/cap-retention-bond-{j}",0,
+                    [nut_end,y,z],.002,.0045,"adhesive",.004),process=.04,qa=.02)
+    reactions=bridge_reactions(plans,chair_vertical/4,
+        (load["occupant_kg"]+load["provisional_chair_kg"])*load["gravity_m_s2"]*load["longitudinal_factor"]/4,
+        (load["occupant_kg"]+load["provisional_chair_kg"])*load["gravity_m_s2"]*load["lateral_factor"]/4)
+    plate_bounds=[dict(node=dict(lane_y_m=r["lane_y_m"],x_m=r["node_x_m"]),
+        failed_6mm_control=endplate_band_bound(r["vertical_N"],r["longitudinal_N"],r["lateral_N"],.006),
+        counted_10mm_revision=endplate_band_bound(r["vertical_N"],r["longitudinal_N"],r["lateral_N"],.010)) for r in reactions]
+    by_node={(r["lane_y_m"],r["node_x_m"]):r for r in reactions}
+    for diaphragm in diaphragms:
+        r=by_node[(diaphragm["lane_y_m"],diaphragm["node_x_m"])]
+        diaphragm["necessary_bound"]=diaphragm_band_bound(r["vertical_N"],r["longitudinal_N"],r["lateral_N"])
     return dict(frame="body world; identity rigid transform", entities=entities, stock=stock,
         stacks=stacks, source_stub_bores=source_bores, welds=welds, beam_bounds=beam_results,
+        node_reactions=reactions,eccentric_endplate_bounds=plate_bounds,
+        internal_relief_diaphragms=diaphragms,
         structural_load_path=["foot/strip", "97.5mm isolated compression sleeve through structural floor and bridge RHS",
-            "backing pad and retained M8", "bridge rail walls", "welded6mm endplates",
-            "two shared M8/full-width sleeves per actual stub/lane node", "actual100x180x6Al source stub",
+            "backing pad and retained M8", "bridge rail walls", "welded10mm offset endplates",
+            "two shared M8/full-width sleeves per actual100/120mm counterpart node", "actual counterpart walls",
             "parent stub cleat and primary load path; additional loads must be verified"],
-        preliminary_joint_domains=dict(bolt_shear_grade="8.8 hypothesis, not authenticated", stub_bearing_model="elastic mean V/(2bolts*2walls*6mm*14mm)",
+        preliminary_joint_domains=dict(bolt_shear_grade="8.8 hypothesis, not authenticated", stub_bearing_model="use actual6/8mmcounterpart walls and eccentric bolt-group loads; local wall/contact model pending",
             prying=False, fatigue=False, weld_HAZ=False, floor_skin_or_core_strength_credited=False),
         hardware_counts=dict(shared_node_count=sum(len(p["nodes"]) for p in plans),
             through_node_M8_sets=2*sum(len(p["nodes"]) for p in plans),
             compression_sleeves=2*sum(len(p["nodes"]) for p in plans),
             endplates=2*sum(len(p["spans"]) for p in plans),
             backing_plates=sum(n["backing_plate_count"] for p in plans for n in p["nodes"])),
-        finite_service=dict(node_socket_radius_m=.025, insertion_m=.10,
+        shared_node_tools=node_interface(1.,.100)["node_tool"],
+        finite_service=dict(node_socket_radius_m=.010, insertion_m=.040,
             bridge_removal="unload and support floor/chairs; remove panels, release shared nodes, lower rail60mm then translate to hatch",
             rail_removal_path_world_delta_m=[[0.,0.,0.],[0.,0.,-.060],[.200,0.,-.060]],
             underside_projection_min_z_m=1.0264, P6_header_endcap_interface="explicitly pending actual P6 geometry and swept tools; no R1 inheritance",
@@ -997,7 +1232,7 @@ def replacement_credits(body):
             quantity=p["quantity_per_train"], removed_mass_kg={c:p["mass_each_kg"][c]*p["quantity_per_train"] for c in CASES},
             removed_direct_cost_usd={c:p["direct_cost_each_usd"][c]*p["quantity_per_train"] for c in CASES},
             removed_mass_moment_kg_m={c:[sum(x["mass_kg"][c]*x["centroid_m"][k] for x in patterns) for k in range(3)] for c in CASES},
-            replacement_owner="research/direct-floor-chair-r3; detailed stock and shared structural bridges, no parent purchased kit"))
+            replacement_owner="research/direct-floor-chair-r4; detailed stock and shared structural bridges, no parent purchased kit"))
     return out
 
 
@@ -1104,9 +1339,9 @@ def trial_requests():
                   native_CAD=False, FEM=False, body_producer=False, city=False, pricing_run=False,
                   business=False, automatic_admission=False, max_memory_bytes=1024**3,
                   preserve_all_failures=True, physical_acceptance=False)
-    return [dict(id="chair-r3-one-coupon-definition", entrypoint="chair_coupon", max_cpu_s=45, max_output_bytes=8*1024**2,
+    return [dict(id="chair-r4-one-coupon-definition", entrypoint="chair_coupon", max_cpu_s=45, max_output_bytes=8*1024**2,
                  parameters=dict(row_v=[-.05,.05], armrest_sign=1),
                  outputs=["named material solids, gross/net stock,8shell/8trim/4floor/2armrest bolt stacks", "nominal interfaces, mass moments and partial cost basis"], **common),
-            dict(id="chair-r3-all264-necessary-definition", entrypoint="compile_proposal", max_cpu_s=75, max_output_bytes=22*1024**2,
+            dict(id="chair-r4-all264-necessary-definition", entrypoint="compile_proposal", max_cpu_s=75, max_output_bytes=22*1024**2,
                  outputs=["actual264pose/stock necessary bounds,228rest owners, bridge/stub ownership", "typed fullbody patch proposal, failures/holds and partial mass moments"],
                  checks=["one coupon material/stock ownership first", "all floor hardpoints and source stub bores", "door/WC/aisle/wall and P6 actual swept interfaces remain separate acceptance gate"], **common)]
