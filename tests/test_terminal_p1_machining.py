@@ -370,3 +370,146 @@ def test_finished_local_physical_pin_and_duplicate_json_fields_refuse():
     pin = dict(raw_sha256=sha256(bad).hexdigest(), evaluation_id='0'*64)
     with pytest.raises(ValueError, match='Duplicate JSON'):
         t._load(bad, pin)
+
+
+def exact_point_properties(local, rotation, position):
+    """Independent homogeneous-moment congruence at a point, never interval code."""
+    from fractions import Fraction as F
+    volume, first, second = local
+    moment4 = [[F(second[i][j]) for j in range(3)]+[F(first[i])] for i in range(3)]
+    moment4.append([F(v) for v in first]+[F(volume)])
+    transform4 = [[F(v) for v in rotation[i]]+[position[i]] for i in range(3)]
+    transform4.append([F(0), F(0), F(0), F(1)])
+    moved = [[sum(transform4[i][a]*moment4[a][b]*transform4[j][b] for a in range(4) for b in range(4))
+              for j in range(4)] for i in range(4)]
+    # Direct Cartesian integral identities, independent of source interval transforms.
+    inertia = [[F(2710)*(moved[1][1]+moved[2][2]), -F(2710)*moved[0][1], -F(2710)*moved[0][2]],
+               [-F(2710)*moved[1][0], F(2710)*(moved[0][0]+moved[2][2]), -F(2710)*moved[1][2]],
+               [-F(2710)*moved[2][0], -F(2710)*moved[2][1], F(2710)*(moved[0][0]+moved[1][1])]]
+    return [moved[i][3] for i in range(3)], [row[:3] for row in moved[:3]], inertia
+
+
+@pytest.mark.parametrize('coordinate', [2.25, 17., 105.25, -105.25, 1e12, -1e12, 1e20])
+@pytest.mark.parametrize('rotation', ROTATIONS)
+def test_fraction_corner_oracle_encloses_without_endpoint_epsilon(coordinate, rotation):
+    from fractions import Fraction as F
+    import itertools
+    local = (.7, [.01, -.02, .03], [[.5, .02, -.01], [.02, .4, .03], [-.01, .03, .3]])
+    position, uncertainty = [coordinate, -.1, 2.25], [.002, .003, .004]
+    bounds = t._pose_bounds(local, rotation, position, uncertainty)
+    for signs in itertools.product((-1, 1), repeat=3):
+        exact_position = [F(x)+s*F(u) for x, s, u in zip(position, signs, uncertainty)]
+        first, second, inertia = exact_point_properties(local, rotation, exact_position)
+        for i in range(3):
+            lo, hi = bounds['first_volume_moment_m4'][i]
+            assert F(lo) <= first[i] <= F(hi)
+            for name, expected in [('second_volume_moment_m5', second), ('origin_inertia_kg_m2', inertia)]:
+                for j in range(3):
+                    lo, hi = bounds[name][i][j]
+                    assert F(lo) <= expected[i][j] <= F(hi)
+    assert 'rounded nominal' in bounds['coefficient_domain']
+
+
+def test_exact_binary_unit_witness_and_correlated_square_interior():
+    from fractions import Fraction as F
+    local = (1., [0., 0., 0.], [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]])
+    for coordinate in (2.25, 17., 105.25):
+        bounds = t._pose_bounds(local, I, [coordinate, 0., 0.], [.002, .002, .002])
+        lo, hi = bounds['first_volume_moment_m4'][0]
+        assert F(lo) <= F(coordinate)-F(.002)
+        assert F(hi) >= F(coordinate)+F(.002)
+    centered = t._pose_bounds(local, I, [0., 0., 0.], [1., 2., 3.])
+    for i, upper in enumerate((1., 4., 9.)):
+        assert centered['second_volume_moment_m5'][i][i] == [0., upper]
+    # Off-diagonal may be negative, while a correlated same-coordinate square cannot.
+    assert centered['second_volume_moment_m5'][0][1] == [-2., 2.]
+
+
+@pytest.mark.parametrize('argument,index,value', [
+    ('local', 0, True), ('local_first', 0, False), ('local_second', 0, True),
+    ('position', 0, True), ('uncertainty', 0, False), ('uncertainty', 0, -.002),
+    ('rotation', 0, True), ('position', 0, math.inf), ('uncertainty', 0, math.nan),
+])
+def test_pose_bounds_refuse_boolean_nonfinite_and_negative_inputs(argument, index, value):
+    local = [1., [0., 0., 0.], [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]]
+    rotation, position, uncertainty = deepcopy(I), [105.25, 0., 0.], [.002]*3
+    if argument == 'local_first':
+        local[1][index] = value
+    elif argument == 'local_second':
+        local[2][index][index] = value
+    elif argument == 'rotation':
+        rotation[index][index] = value
+    else:
+        {'local': local, 'position': position, 'uncertainty': uncertainty}[argument][index] = value
+    with pytest.raises(ValueError):
+        t._pose_bounds(local, rotation, position, uncertainty)
+
+
+def boundary_row(hole, size, wall):
+    row = deepcopy(fixture()[1]['source_machining_train_once'][0])
+    row['at_m'], row['rotation'] = [105.25, 0., 2.25], I
+    row['remaining_geometry'] = dict(kind='rhs', size_m=size, wall_m=wall, holes=[deepcopy(hole)])
+    world = [x+y for x, y in zip(hole['centre_m'], row['at_m'])]
+    row['operations'] = [dict(hole, id='invented/boundary-bore', source_id=row['source_id'],
+        centre_world_m=world, material='body/al6005a', source_stock_retained=True,
+        edge_strength_qualified=False, removed_volume_m3=math.pi*hole['radius_m']**2*hole['length_m'],
+        nominal_minimum_edge_ligament_m=min(size[k]/2-abs(hole['centre_m'][k])-hole['radius_m'] for k in range(3) if k != hole['axis']))]
+    return row
+
+
+@pytest.mark.parametrize('sign', (-1, 1))
+def test_numerical_boundary_protrusion_retains_source_and_bounds_actual_cap(sign):
+    from fractions import Fraction as F
+    size, wall = [2., .125, .25], .03125
+    shifted = math.nextafter(sign*.046875, sign*math.inf)
+    h = dict(axis=1, centre_m=[.01, shifted, .02], radius_m=.001953125, length_m=wall)
+    before = deepcopy(h)
+    row = boundary_row(h, size, wall)
+    assert t._holes(row, size, wall) == [h]
+    bound = t._wall_truncation(h, size, wall, I, row['at_m'])
+    assert h == before
+    displacement = abs(F(shifted)-F(sign*.046875))
+    # Independent high-precision decimal pi reference for the tiny excluded cap.
+    pi_reference = F('3.141592653589793238462643383279502884197169399375105820974944592307816406286')
+    actual_volume = pi_reference*F(h['radius_m'])**2*displacement
+    upper = bound['material_error_absolute_upper_local']
+    assert 0 < actual_volume <= F(upper['volume_m3'])
+    assert displacement <= F(bound['outside_wall_axial_length_m_upper'])
+    assert displacement <= F(bound['uncovered_wall_axial_length_m_upper'])
+    assert not bound['full_cylinder_subtraction_exact_in_binary_geometry']
+    assert not bound['nominal_binary_interval_covers_wall']
+    assert bound['through_wall_manufacturing_accepted'] is False
+    # Every cap lies within the full cylinder box, independently checked at corners.
+    for i in range(3):
+        extent_i = F(h['length_m'])/2 if i == h['axis'] else F(h['radius_m'])
+        max_i = abs(F(h['centre_m'][i]))+extent_i
+        assert actual_volume*max_i <= F(upper['first_volume_moment_m4'][i])
+        for j in range(3):
+            extent_j = F(h['length_m'])/2 if j == h['axis'] else F(h['radius_m'])
+            max_j = abs(F(h['centre_m'][j]))+extent_j
+            assert actual_volume*max_i*max_j <= F(upper['second_volume_moment_m5'][i][j])
+
+
+def test_short_bore_does_not_claim_complete_wall_and_large_protrusion_refuses():
+    size, wall = [2., .125, .25], .03125
+    short = dict(axis=1, centre_m=[.01, .046875, .02], radius_m=.001953125,
+                 length_m=math.nextafter(wall, 0.))
+    row = boundary_row(short, size, wall)
+    assert t._holes(row, size, wall) == [short]
+    bound = t._wall_truncation(short, size, wall, I, row['at_m'])
+    assert bound['full_cylinder_subtraction_exact_in_binary_geometry']
+    assert not bound['nominal_binary_interval_covers_wall']
+    assert bound['uncovered_wall_axial_length_m_upper'] > 0
+    assert bound['material_error_absolute_upper_local']['volume_m3'] == 0.
+    protruding = dict(short, length_m=wall+.000001)
+    with pytest.raises(ValueError, match='nominal complete wall'):
+        t._holes(boundary_row(protruding, size, wall), size, wall)
+
+
+def test_proposal_exposes_residual_contract_separately_from_conditional_pose_bounds():
+    for row in run()['proposed_finished_replacements']:
+        assert len(row['wall_boundary_numerical_residuals']) == len(row['geometry']['holes'])
+        assert 'not exact clipped-set properties' in row['nominal_integration_contract']
+        assert row['complete_material_property_bounds'] is None
+        assert row['stock_tolerance_m'] is None and row['bore_tolerance_m'] is None
+        assert all(b['through_wall_manufacturing_accepted'] is False for b in row['wall_boundary_numerical_residuals'])

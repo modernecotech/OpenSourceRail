@@ -1,16 +1,19 @@
 """Proposed P1 terminal RHS finishing; analytic material only, never admission.
 
 The narrow domain is the three retained square-corner RHS stock families, with
-disjoint, centred, finite cardinal bores through one complete wall. No source
+disjoint, centred, finite cardinal bores at one nominal complete wall. No source
 proxy tensor or previously subtracted mass enters the set difference. The saved
 normalization owns machining; the finished local plan supplies ancestry only.
+Numerical wall-boundary consistency is not a manufacturing tolerance: any tiny
+accepted axial protrusion has an explicit geometric truncation-error bound.
 This module performs no file I/O, body composition, native work or selection.
 """
 from copy import deepcopy
+from fractions import Fraction
 from hashlib import sha256
 import gzip
 import json
-from math import fsum, isclose, isfinite, pi, sqrt
+from math import fsum, inf, isclose, isfinite, nextafter, pi
 
 CASES = ('low', 'base', 'high')
 FAMILIES = {
@@ -164,7 +167,7 @@ def _properties(material):
 
 
 def _add(*xs):
-    return [fsum(x[0] for x in xs), fsum(x[1] for x in xs)]
+    return [sum(x[0] for x in xs), sum(x[1] for x in xs)]
 
 
 def _mul(a, b):
@@ -172,12 +175,44 @@ def _mul(a, b):
     return [min(xs), max(xs)]
 
 
+def _outward(pair):
+    """Convert exact rational endpoints once, toward the outside of the set."""
+    result = []
+    for value, direction in zip(pair, (-inf, inf)):
+        try:
+            rounded = float(value)
+        except OverflowError as exc:
+            raise ValueError('Finite interval endpoint required') from exc
+        _require(isfinite(rounded), 'Finite interval endpoint required')
+        represented = Fraction(rounded)
+        if (direction == -inf and represented > value) or (direction == inf and represented < value):
+            rounded = nextafter(rounded, direction)
+        _require(isfinite(rounded), 'Finite outward interval endpoint required')
+        result.append(rounded)
+    return result
+
+
 def _pose_bounds(local, R, T, uncertainty):
-    """Conservative marginal intervals for source translation alone, not tolerance completion."""
+    """Exact interval arithmetic conditional on the supplied rounded nominal V/F/Q.
+
+    Fractions denote the *binary inputs*, not exact CAD integration coefficients.
+    Stock/bore tolerances and nominal integration roundoff are not enclosed here.
+    """
+    _require(isinstance(local, (list, tuple)) and len(local) == 3, 'Nominal V/F/Q required')
     V, F, Q = local
-    RF = _mv(R, F)
-    world_zero = _world(local, R, [0., 0., 0.])[2]
-    t = [[x-u, x+u] for x, u in zip(T, uncertainty)]
+    _require(_number(V) and V > 0 and _vector(F) and isinstance(Q, list) and
+             len(Q) == 3 and all(_vector(row) for row in Q), 'Finite nonboolean nominal V/F/Q required')
+    _rotation(R)
+    _require(_vector(T) and _vector(uncertainty) and all(u >= 0 for u in uncertainty),
+             'Finite nonboolean translation and nonnegative uncertainty required')
+    V = Fraction(V)
+    F = [Fraction(x) for x in F]
+    Q = [[Fraction(x) for x in row] for row in Q]
+    R = [[Fraction(x) for x in row] for row in R]
+    RF = [sum(R[i][j]*F[j] for j in range(3)) for i in range(3)]
+    world_zero = [[sum(R[i][a]*Q[a][b]*R[j][b] for a in range(3) for b in range(3))
+                   for j in range(3)] for i in range(3)]
+    t = [[Fraction(x)-Fraction(u), Fraction(x)+Fraction(u)] for x, u in zip(T, uncertainty)]
     Fw = [_add([x, x], _mul([V, V], p)) for x, p in zip(RF, t)]
     Qw = []
     for i in range(3):
@@ -185,14 +220,58 @@ def _pose_bounds(local, R, T, uncertainty):
         for j in range(3):
             tt = _mul(t[i], t[j])
             if i == j:
-                tt = [0. if t[i][0] <= 0 <= t[i][1] else min(x*x for x in t[i]), max(x*x for x in t[i])]
+                tt = [Fraction(0) if t[i][0] <= 0 <= t[i][1] else min(x*x for x in t[i]), max(x*x for x in t[i])]
             row.append(_add([world_zero[i][j]]*2, _mul([RF[i]]*2, t[j]),
                             _mul([RF[j]]*2, t[i]), _mul([V]*2, tt)))
         Qw.append(row)
-    J = [[_mul([2710.]*2, _add(*(Qw[k][k] for k in range(3) if k != i))) if i == j
-          else _mul([-2710.]*2, Qw[i][j]) for j in range(3)] for i in range(3)]
-    return dict(first_volume_moment_m4=Fw, second_volume_moment_m5=Qw, origin_inertia_kg_m2=J,
-                basis='Translation-only conservative marginal intervals; stock/bore tolerances excluded and unknown')
+    J = [[_mul([Fraction(2710)]*2, _add(*(Qw[k][k] for k in range(3) if k != i))) if i == j
+          else _mul([Fraction(-2710)]*2, Qw[i][j]) for j in range(3)] for i in range(3)]
+    return dict(first_volume_moment_m4=[_outward(x) for x in Fw],
+                second_volume_moment_m5=[[_outward(x) for x in row] for row in Qw],
+                origin_inertia_kg_m2=[[_outward(x) for x in row] for row in J],
+                coefficient_domain='Exact binary values of supplied rounded nominal V/F/Q/R/T/uncertainty; not exact CAD coefficients',
+                basis='Translation-only outward-rounded marginal intervals conditional on rounded nominal coefficients; stock/bore tolerances, integration roundoff and wall truncation excluded and unknown/separate')
+
+
+def _wall_truncation(h, size, wall, R, T):
+    """Bound full-cylinder subtraction error without snapping saved bore geometry.
+
+    The existing _close gate is a numerical-consistency gate only. If accepted
+    cylinder ends extend outside the exact binary-input wall slab, that material
+    is not in the RHS and cannot be exactly subtracted. Its volume is bounded by
+    4*r^2*outside_length (pi < 4). Moment bounds use its containing cylinder box.
+    These are geometric truncation bounds only, not integration-roundoff bounds.
+    """
+    a = h['axis']
+    c = [Fraction(x) for x in h['centre_m']]
+    r, length = Fraction(h['radius_m']), Fraction(h['length_m'])
+    edge, wall = Fraction(size[a])/2, Fraction(wall)
+    slab = [edge-wall, edge] if c[a] > 0 else [-edge, -edge+wall]
+    cut = [c[a]-length/2, c[a]+length/2]
+    inside = max(Fraction(0), min(cut[1], slab[1])-max(cut[0], slab[0]))
+    outside = length-inside
+    uncovered = wall-inside
+    volume_bound = 4*r*r*outside
+    local_max = [abs(c[k])+(length/2 if k == a else r) for k in range(3)]
+    world_max = [abs(Fraction(T[i]))+sum(abs(Fraction(R[i][k]))*local_max[k] for k in range(3)) for i in range(3)]
+    def bounds(maxima):
+        F = [volume_bound*x for x in maxima]
+        Q = [[volume_bound*x*y for y in maxima] for x in maxima]
+        J = [[Fraction(2710)*(sum(Q[k][k] for k in range(3) if k != i) if i == j else Q[i][j])
+              for j in range(3)] for i in range(3)]
+        upper = lambda x: _outward([Fraction(0), x])[1]
+        return dict(volume_m3=upper(volume_bound), mass_kg=upper(2710*volume_bound),
+            first_volume_moment_m4=[upper(x) for x in F],
+            second_volume_moment_m5=[[upper(x) for x in row] for row in Q],
+            origin_inertia_kg_m2=[[upper(x) for x in row] for row in J])
+    return dict(full_cylinder_subtraction_exact_in_binary_geometry=(outside == 0),
+        nominal_binary_interval_covers_wall=(cut[0] <= slab[0] and cut[1] >= slab[1]),
+        outside_wall_axial_length_m_upper=_outward([0, outside])[1],
+        uncovered_wall_axial_length_m_upper=_outward([0, uncovered])[1],
+        material_error_absolute_upper_local=bounds(local_max),
+        material_error_absolute_upper_world_nominal_pose=bounds(world_max),
+        basis='Exact binary wall/cylinder intervals; pi<4 cap bound. Full-cylinder nominal subtraction may over-remove only within these explicit residual bounds; stock/bore tolerances and integration roundoff are not bounded here.',
+        through_wall_manufacturing_accepted=False)
 
 
 def _stock(part, pattern):
@@ -224,8 +303,10 @@ def _holes(row, size, wall):
         a, c, r, length = h['axis'], h['centre_m'], h['radius_m'], h['length_m']
         _require(type(a) is int and a in (1, 2) and _vector(c) and _number(r) and r > 0 and
                  _number(length) and length > 0, 'Finite cardinal non-end wall bore required')
-        _require(_close(length, wall) and _close(abs(c[a]), size[a]/2-wall/2), 'Bore must cross exactly one complete wall')
-        _require(all(size[k]/2-abs(c[k])-r > 0 for k in range(3) if k != a), 'Bore exits stock edge')
+        _require(_close(length, wall) and _close(abs(c[a]), size[a]/2-wall/2), 'Bore must numerically match one nominal complete wall')
+        # No rounded edge/overlap predicates may admit material outside the RHS.
+        fc, fr, fl = [Fraction(x) for x in c], Fraction(r), Fraction(length)
+        _require(all(Fraction(size[k])/2-abs(fc[k])-fr > 0 for k in range(3) if k != a), 'Bore exits stock edge')
         _require(all(op.get(k) == h[k] for k in h) and op.get('source_id') == row['source_id'] and
                  op.get('material') == 'body/al6005a' and op.get('source_stock_retained') is True and
                  op.get('edge_strength_qualified') is False, 'Operation/material/qualification differs')
@@ -234,12 +315,13 @@ def _holes(row, size, wall):
         _require(_close(op.get('removed_volume_m3'), pi*r*r*length), 'Removed cylinder volume differs')
         ligand = min(size[k]/2-abs(c[k])-r for k in range(3) if k != a)
         _require(_close(op.get('nominal_minimum_edge_ligament_m'), ligand), 'Edge ligament differs')
-        extent = [length/2 if k == a else r for k in range(3)]
-        box = [[c[k]-extent[k], c[k]+extent[k]] for k in range(3)]
+        extent = [fl/2 if k == a else fr for k in range(3)]
+        box = [[fc[k]-extent[k], fc[k]+extent[k]] for k in range(3)]
         for old, oldbox in zip(holes[:len(boxes)], boxes):
             if old['axis'] == a:
-                radial = sqrt(fsum((c[k]-old['centre_m'][k])**2 for k in range(3) if k != a))
-                overlap = radial < r+old['radius_m'] and abs(c[a]-old['centre_m'][a]) < (length+old['length_m'])/2
+                radial_squared = sum((fc[k]-Fraction(old['centre_m'][k]))**2 for k in range(3) if k != a)
+                overlap = (radial_squared < (fr+Fraction(old['radius_m']))**2 and
+                           abs(fc[a]-Fraction(old['centre_m'][a])) < (fl+Fraction(old['length_m']))/2)
             else:
                 # Conservative refusal rather than an unsupported skew cut-union calculation.
                 overlap = all(min(box[k][1], oldbox[k][1]) > max(box[k][0], oldbox[k][0]) for k in range(3))
@@ -306,6 +388,7 @@ def propose(parent_raw, normalization_raw, finished_local_raw, *, request):
         _require(_vector(uncertainty) and all(_close(x, .002) for x in uncertainty), 'Explicit source 2 mm pose bounds required')
         size, wall = _stock(part, pattern)
         holes = _holes(row, size, wall)
+        truncation = [_wall_truncation(h, size, wall, row['rotation'], row['at_m']) for h in holes]
         _require(row['kind'] == 'machine_in_place' and row['gross_paid_source_retained'] is True and
                  _cases(row['paid_source_cost_usd']) and row['paid_source_cost_usd'] == part['direct_cost_each_usd'], 'Gross paid source owner must remain once')
         _require(_number(row['additional_process_h']) and _close(row['additional_process_h'], len(holes)*.05) and
@@ -331,6 +414,8 @@ def propose(parent_raw, normalization_raw, finished_local_raw, *, request):
             car_allocation=deepcopy(row['car_allocation']), material_id='body/al6005a',
             material_properties_local_nominal=_properties(finished), material_properties_world_nominal=_properties(world),
             pose_only_marginal_bounds=_pose_bounds(finished, row['rotation'], row['at_m'], uncertainty),
+            wall_boundary_numerical_residuals=truncation,
+            nominal_integration_contract='Rounded nominal outer-box minus cavity minus full cylinders. Any accepted axial wall-boundary protrusion is separately bounded per bore; these nominal coefficients are not exact clipped-set properties.',
             source_pose_uncertainty_m=deepcopy(uncertainty), stock_tolerance_m=None, bore_tolerance_m=None,
             complete_material_property_bounds=None, gross_stock_volume_m3=gross[0], removed_volume_m3=cut_V,
             gross_paid_source_retained_once=True, source_record=deepcopy(row),
