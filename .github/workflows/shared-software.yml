@@ -45,6 +45,12 @@ jobs:
           python tools/automation/tests/test_historical_replay.py
       - name: Fail-closed pinned tool download and fallback contracts
         run: python -m pytest -q tests/test_pinned_tool_download.py
+      - name: Source-only importer and pinned Python bootstrap contracts
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python -B -m pytest -q -p no:cacheprovider engineering/rustgis/tests/test_source_only_import.py
+          python -B tools/automation/tests/test_source_only_entry.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
       - name: v0.6 design-closure ledger, package integrity and fail-closed release gate
