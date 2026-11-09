@@ -128,6 +128,24 @@ The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.m
 
 *The gallery distinguishes source geometry, equipment envelopes and proposed tooling. CAD agreement does not establish complete installed mass or physical acceptance.*
 
+### Generated CAD and structural results
+
+These views come from native SolidCraft span models and the matched FieldCraft / CalculiX
+comparison. The box image is the 54.720 t four-wall portfolio geometry; it is not the
+55.704 t six-part beam with end diaphragms. The FEM plot compares two mesh levels for
+uncracked, perfectly bonded elastic models. It is a sensitivity comparison, not mesh
+independence or bridge qualification.
+
+| SolidCraft reference box | SolidCraft folded plate |
+|---|---|
+| [![Native SolidCraft four-wall reference box span](docs/design-engine/viaduct-backends/box.png)](docs/design-engine/viaduct-backends/README.md) | [![Native SolidCraft folded-plate span](docs/design-engine/viaduct-backends/folded-plate.png)](docs/design-engine/viaduct-backends/README.md) |
+
+[![Recorded FieldCraft and CalculiX coarse/fine displacement comparison, with model limits](docs/design-engine/viaduct-backends/fem-deflection.png)](docs/design-engine/viaduct-backends/README.md)
+
+The [CAD, FEM and manufacturing dossier](docs/design-engine/viaduct-backends/README.md)
+includes editable `.sc` and STEP files, source identities, scoped costs and the full
+analysis limits.
+
 ## Delivery and operations tools
 
 The [vehicle parts catalogue](docs/design-engine/vehicle-parts/README.md) breaks a separate six-car detail proposal into **605 named part types and 40 assemblies**: bogies, frames, panels, roofs, chairs, doors, glazing, simple LED lighting, couplers and gangways. Browse materials, counted fixings, fabrication and assembly routes, inspection and scoped estimates through the **Vehicle parts** link in the Workbench. Detailed drawings, installed fit and release evidence remain open.
