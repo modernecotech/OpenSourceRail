@@ -6,6 +6,8 @@ The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventi
 
 **Start here:** [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html) · [3D engineering gallery](docs/engineering-models/README.md) · [illustrated reader](OpenSourceRail-Book.pdf) · [detailed platform guide](docs/platform-guide.md).
 
+The [v0.6 design-closure and release-gate status](docs/design-engine/v06-design-closure/README.md) tracks the remaining integration work separately from physical qualification.
+
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
 *Concept. The [source-bound vehicle geometry](docs/design-engine/current/vehicle-overview.svg) and [engineering models](docs/engineering-models/README.md) carry the detailed geometry and its limits.*
