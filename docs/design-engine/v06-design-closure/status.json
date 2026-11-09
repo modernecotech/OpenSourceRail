@@ -3,7 +3,7 @@
   "campaign_sha256": "3731528a682811dc3cc98df371764682b203c186cec3a1626ed2c4c98ec9024a",
   "gates": {
     "all-city-outline-reconciliation": {
-      "blocker": "The 266-city catalogue still uses shared 4,000 pphpd/200 s controls and transferred reference rates. A separate Samawah compact-drive outline is candidate-bound but does not replace or reconcile the catalogue; city/line-specific demand, alignment alternatives, local-manufacturing comparisons and candidate propagation remain open.",
+      "blocker": "The evaluator now accepts exact per-line demand inputs, but the published 266-city catalogue still uses shared 4,000 pphpd/200 s controls and transferred reference rates. No surveyed city/line demand, final alignment, China-volume versus local-manufacture scenario set or same-candidate recomputation has been added across the catalogue; a separate Samawah compact-drive outline does not close this gate.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/all-city-baseline-audit/audit-summary.json",
@@ -37,7 +37,7 @@
       "state": "open"
     },
     "installed-vehicle": {
-      "blocker": "The 9f6d parent still has incomplete installed mass, no inertia in its mass cases, unverified supplier motor/gearbox fits, and missing shaft/bearing, access and removal closure. Three separate compact-drive child geometry configurations were screened; all remain HOLD with thousands of nominal/interface findings and cannot close the parent.",
+      "blocker": "The 9f6d parent still has incomplete installed mass, no inertia in its mass cases, unverified supplier motor/gearbox fits, and missing shaft/bearing, access and removal closure. Five child geometry configurations have now been screened, including two corrected split-lane support variants; all remain HOLD with thousands of nominal/interface findings and cannot close the parent.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/README.md",
@@ -54,6 +54,22 @@
         {
           "path": "docs/design-engine/v06-design-closure/installed-vehicle-review.md",
           "sha256": "6208f90c297e7214ed8d2c9e29b9b2b2b9dbc982e782e0bc89be9f29b2c28609"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-support-family/README.md",
+          "sha256": "c0fdd87b3dd024bbdbf5b8f1b103f6bfe1e804354a62d94f996c04bdb22ab09a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-support-family/run-01/manifest.json",
+          "sha256": "6fd62ccfb2a85d6aa87f98a85e2bd4b94d6fffb90a1cc59824ea42a707e9bb6f"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-support-family/run-02/manifest.json",
+          "sha256": "0062e6ef5b59ea9a7617d18374c663f5cd34ab8438ec077b289939a36b4b4fad"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-support-family/independent-review-run-02/manifest.json",
+          "sha256": "8f4f765f6c48cd01709430877eb1989d2256ecf1abb52e88f0424c2d60a2979a"
         }
       ],
       "state": "open"
@@ -105,8 +121,29 @@
       "state": "open"
     },
     "native-gis-return-path": {
-      "blocker": "Amendment 06 has no run-07 authorization or execution and fails its independent integrity checker: two canonical IDs are stale, and 233 project __pycache__ snapshots are pinned (152 paths are absent). -B prevents bytecode writes but not reads; a reviewed successor must also prevent loading unreviewed project bytecode while preserving exact source/import checks.",
-      "evidence": [],
+      "blocker": "Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype passes focused code tests and avoids normal project-bytecode reads, but no GIS project was opened or round-tripped. The run-07 proposal remains unexecuted and not admitted; live runtime containment and the full edit/recalculation/export loop remain open.",
+      "evidence": [
+        {
+          "path": "docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md",
+          "sha256": "ceccae851e30b87ffe8013810ed09d0fc2c63ab0d6c7c965e0fee1b52faa262b"
+        },
+        {
+          "path": "tools/automation/source-only-entry.py",
+          "sha256": "f8cf2ed625ea9fb8836e48e3acf4ad11afbc09f75efb2884aad14a83756dd1bf"
+        },
+        {
+          "path": "engineering/rustgis/source_only_import.py",
+          "sha256": "224ec888d94780b0f53428cd684e6689e7e69a37b3eca1f1a39315f81d5c2634"
+        },
+        {
+          "path": "engineering/rustgis/tests/test_source_only_import.py",
+          "sha256": "a5973f44d71f470fbbc218715629cbd76f4a2f8e22b2fac1d90cda9f11a81603"
+        },
+        {
+          "path": "tools/automation/tests/test_source_only_entry.py",
+          "sha256": "7da30efb73c8e1975acfd60e782f1dfce2ab117be0e44d9b1a59dfd558e12a31"
+        }
+      ],
       "state": "open"
     },
     "unified-workbench": {
@@ -114,7 +151,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "00fb17ef050a316672e4a292265e963dc880b65b359c755fa95d0d18e5194140"
+          "sha256": "50931a989b44f2d4e43a078b01218ae7253f5dab7dc20031df473e971f592d72"
         }
       ],
       "state": "partial"

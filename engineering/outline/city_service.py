@@ -194,13 +194,23 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
     if d['reserve_fraction']>1 or d['charge_efficiency']>1:raise ValueError('Bounded reserve/efficiency required')
     places=6*46;quantum=r.get('headway_quantum_s',10.)
     _number(quantum,'headway quantum')
-    headway=floor(min(r['maximum_headway_s'],places*3600*r['planning_occupancy']*r['planning_availability_assumption']/r['peak_demand_pphpd'])/quantum)*quantum
-    if headway<=0:raise ValueError('Demand cannot be represented by positive headway quantum')
+    demand_map=r.get('line_peak_demand_pphpd')
+    if demand_map is not None:
+        if not isinstance(demand_map,dict) or set(demand_map)!={line['line_id'] for line in city_input['lines']}:
+            raise ValueError('Line peak demand mapping must match exact city line IDs')
+        for line_id,demand in demand_map.items():
+            _number(demand,'line peak demand')
+            if demand>100000.:
+                raise ValueError('Line peak demand exceeds the declared city-service bound')
     base_mass=vehicle['mass']['accounted_cap_loaded_kg_per_car']+d['added_vehicle_mass_kg_per_car']
     rotor=braking.rotating_stock(vehicle)['equivalent_inertial_mass_kg_per_car']
     train_length=6*17+5*.5;fin_offset=4.;records=[]
     geography={}
+    line_requirements={k:v for k,v in r.items() if k!='line_peak_demand_pphpd'}
     for original_line in city_input['lines']:
+        line_demand=(demand_map[original_line['line_id']] if demand_map is not None else r['peak_demand_pphpd'])
+        headway=floor(min(r['maximum_headway_s'],places*3600*r['planning_occupancy']*r['planning_availability_assumption']/line_demand)/quantum)*quantum
+        if headway<=0:raise ValueError('Demand cannot be represented by positive headway quantum')
         line_design=deepcopy(d)
         if 'design_speed_cap_m_s' in original_line:
             line_design['speed_m_s']=min(d['speed_m_s'],_number(original_line['design_speed_cap_m_s'],'line geometry speed cap'))
@@ -253,7 +263,7 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             actual_available_force_map=None,physical_reference_changed=False,
             interpretation='New calculated research equipment/mass/energy configuration; no reference propulsion qualification inherited' if fallback else 'Conditional station launch requirements; actual drive and braking still unknown')
         config['research_configuration_id']=identity(config)
-        req={**r,'route_km':line['route_m']/1000,'alignment_id':identity(dict(city_input_id=city_input['input_id'],line_id=line['line_id'],station_revision=repair['revision_id'])),
+        req={**line_requirements,'peak_demand_pphpd':line_demand,'route_km':line['route_m']/1000,'alignment_id':identity(dict(city_input_id=city_input['input_id'],line_id=line['line_id'],station_revision=repair['revision_id'])),
             'stations':n,'trackways':2,'cars_per_train':6,
             'fixed_seats_per_car':44,'wheelchair_places_per_car':2,'headway_s':headway,'dwell_s':max(stop_dwell)}
         chosen={**line_design,'terminal_turnback_s':turnback,'research_traction_added_mass_kg_per_car':extra_mass}
@@ -306,7 +316,7 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             source_schedule_used_as_demand=False,physical_accepted=False)
         record['evaluation_id']=identity(record);records.append(record)
     result=dict(schema='osr-city-service-outline/1',city_input_id=city_input['input_id'],line_services=records,
-        assumptions=dict(peak_demand_pphpd_per_line=r['peak_demand_pphpd'],demand_source=r.get('demand_source','declared-planning-example-not-surveyed'),
+        assumptions=dict(peak_demand_pphpd_per_line=({x['line_id']:x['requirements']['peak_demand_pphpd'] for x in records} if demand_map is not None else r['peak_demand_pphpd']),demand_source=r.get('demand_source','declared-planning-example-not-surveyed'),
             planning_occupancy=r['planning_occupancy'],planning_availability_assumption=r['planning_availability_assumption'],
             survey_demand_available=False,proposed_OD_rows=len(city_input['od']),OD_used_as_surveyed_demand=False,availability_achieved=False,
             level_track_zero_wind_only=True,actual_grades_unknown=True,adaptive_dwell_and_turnback_for_nominal_hotel_balance=True),

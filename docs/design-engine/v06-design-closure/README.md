@@ -6,6 +6,10 @@
 
 [Installed-vehicle review and compact-drive geometry results](installed-vehicle-review.md)
 
+[Compact-drive split-lane support-family trials and independent review](compact-drive-support-family/README.md)
+
+[Native GIS source-only import prototype and remaining gate work](native-gis-source-only-prototype.md)
+
 [Samawah detailed-candidate recalculation](samawah-city-recalculation.md)
 
 [Samawah acceleration sensitivity](samawah-acceleration-sensitivity.md)
@@ -44,13 +48,13 @@ not implied by closure of this work.
 
 | Required work | Current state | Evidence / remaining closure |
 | --- | --- | --- |
-| Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, supplier-fit interfaces, inertia, tool/removal paths and downstream force/civil consequences. The separate compact-drive child has three bounded analytical geometry screens; all remain on HOLD with repeated nominal and interface checks unresolved, and it has no matched journey/civil study. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. |
+| Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, supplier-fit interfaces, inertia, tool/removal paths and downstream force/civil consequences. Five child geometry configurations have been screened, including two corrected split-lane support variants; all remain on HOLD with thousands of nominal/interface findings unresolved, and no matched journey/civil study closes the parent. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. See the [split-lane support-family record](compact-drive-support-family/README.md). |
 | Controlled research documents | Open | The supplementary audit of the retained 668-part delivery map finds 41 assemblies with 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references are null. It does not assert a repository-wide search. No manufacturing release is authorized. |
 | Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations. A separate midpoint scenario consolidates the 79.977 m marker pair and updates the shared interchange; force/braking/grade, access, detailed civil loads and all fourteen complete prices remain unknown. |
-| Native GIS return path | Open | The last one-shot attempt failed before application launch because the sealed wrapper referenced absent overlay files. Amendment 06 also fails its independent integrity checker: two canonical request/manifest IDs are stale and 233 pinned project `__pycache__` snapshots are missing or changed (152 paths are absent). `-B` only prevents writes; a successor must also prevent loading unreviewed project bytecode while preserving the exact source/import checks. No run 07 authorization or execution exists. |
+| Native GIS return path | Open | Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype now prevents normal project-bytecode loading and fixes preflight result-file boundary failures; its 20 importer tests, 21 bootstrap tests and five earlier-bootstrap regression probes passed. No GIS project was opened or round-tripped, and the run-07 proposal is still unexecuted and not admitted. See the [prototype review](native-gis-source-only-prototype.md). |
 | Candidate business lifecycle | Open | The available ERPNext delivery proposal is bound to an older body. A new compact-drive candidate was correctly refused as a mixed identity. No candidate-matched controlled documents, review pack or native lifecycle evidence exist yet. See the [candidate lifecycle audit](../v06-business-lifecycle-audit/README.md). |
 | Unified Workbench | Partial | A source-bound view covers the reconciled 1.5 km pilot, with its own candidate identity. It does not yet cover the closure campaign's full city-brief-to-compatible-alternatives path, same-candidate journey/cost/delivery, drawing/BOM/manufacturing review or reconciled downloadable dossier. See [`campaigns/v06-design-integration-closure.toml`](../../../campaigns/v06-design-integration-closure.toml). |
-| All-city outline reconciliation | Open | Current manifests cover 266 cities, 1,565 lines and 13,580 station-table rows, but all catalogue lines use the shared 4,000 pphpd / 200 s study control and local rates are transferred reference estimates. One separate Samawah compact-drive candidate has a bounded recalculation; it has not replaced or reconciled the catalogue study. The remaining city-specific service, alignment choices, China-volume versus local-manufacture scenarios and same-candidate recomputation remain required. |
+| All-city outline reconciliation | Open | The service evaluator now accepts exact per-line demand inputs and derives each line's headway and evaluation identity independently, but the published 266-city catalogue still uses the shared 4,000 pphpd / 200 s study control and transferred reference rates. No surveyed city/line demand, final alignment, China-volume versus local-manufacture scenario set or same-candidate recomputation has been added across the catalogue. The Samawah compact-drive recalculation is still a separate candidate. |
 
 The all-city audit confirmed the catalogue and v0.4 front-door field coverage,
 not the correctness of local demand, rates or physical alignments. The
@@ -102,3 +106,13 @@ work: vehicle and bogie assemblies, launch shuttle and coupling, viaduct
 assembly and a FieldCraft displacement result, plus manufacturable component
 details. Those images support inspection of the research models; they are not
 manufacturing drawings or qualification evidence.
+
+### Native GIS prototype status
+
+The source-only importer and bootstrap regressions are now part of the shared
+software workflow, with local and independent checks recorded in the
+[prototype report](native-gis-source-only-prototype.md). This is code-level
+evidence only. There is no run-07 GIS authorization or execution, and the
+native-GIS return-path gate remains open until the complete project edit and
+recalculation round trip is generated, independently checked and reconciled to
+the same candidate.

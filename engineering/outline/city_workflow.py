@@ -62,8 +62,19 @@ def normalize(value):
         raise ValueError('Expected outline evaluation identity required')
     for group,bounds in (('service',SERVICE_BOUNDS),('alignment',ALIGNMENT_BOUNDS)):
         values=v.setdefault(group,{})
-        if not isinstance(values,dict) or set(values)-set(bounds):raise ValueError('Unknown '+group+' option')
-        for key,number in values.items():_numeric(number,key,bounds[key])
+        if not isinstance(values,dict):raise ValueError('Unknown '+group+' option')
+        if group=='service' and 'line_peak_demand_pphpd' in values:
+            demand_map=values['line_peak_demand_pphpd']
+            if not isinstance(demand_map,dict) or not demand_map:
+                raise ValueError('Nonempty line peak demand mapping required')
+            for line_id,demand in demand_map.items():
+                if not isinstance(line_id,str) or not line_id:
+                    raise ValueError('Exact line IDs required for line peak demand')
+                _numeric(demand,'line peak demand',SERVICE_BOUNDS['peak_demand_pphpd'])
+        allowed=set(bounds)|({'line_peak_demand_pphpd'} if group=='service' else set())
+        if set(values)-allowed:raise ValueError('Unknown '+group+' option')
+        for key,number in values.items():
+            if key!='line_peak_demand_pphpd':_numeric(number,key,bounds[key])
     if 'corner_samples' in v['alignment'] and type(v['alignment']['corner_samples']) is not int:
         raise ValueError('Integer corner sampling budget required')
     p=v.setdefault('project',{})
@@ -156,6 +167,13 @@ def evaluate(request,root=ROOT):
     # An iterative edit inherits the verified study's demand, pricing and
     # operating policy; an empty request must not revert it to the seed defaults.
     rules=_rules(base['outline_context']['study_rules'] if base is not None else seed['rules'],v)
+    if 'line_peak_demand_pphpd' in rules:
+        mapped_input=(base['city_input'] if base is not None else city_inputs.load(v['city_slug'],root=root))
+        expected_line_ids={line['line_id'] for line in mapped_input['lines']}
+        actual_line_ids=set(rules['line_peak_demand_pphpd'])
+        if actual_line_ids!=expected_line_ids:
+            raise ValueError('Line peak demand mapping must match exact city line IDs; missing='+
+                repr(sorted(expected_line_ids-actual_line_ids))+' extra='+repr(sorted(actual_line_ids-expected_line_ids)))
     if base is not None:
         revision=planning_adapter.apply_edits(base,v['edit_bundle'],root=root,trusted_base_sha256=trusted_base)
         revision=deepcopy(revision);revision['requirements']=rules

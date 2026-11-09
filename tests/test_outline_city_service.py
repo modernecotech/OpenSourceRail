@@ -6,7 +6,7 @@ import pytest
 from engineering.development_baseline import selection
 from engineering.design_search import line_benchmark as budget
 from engineering.design_search import line_benchmark_service as helper
-from engineering.outline import city_inputs,city_service
+from engineering.outline import city_inputs,city_service,city_workflow
 from engineering.station_rail.common import identity
 
 
@@ -67,6 +67,63 @@ def test_unequal_legs_are_evaluated_separately_and_demand_derives_headway(inputs
     assert line['requirements']['design_life_years']==30
     assert line['requirements']['real_discount_rate']==.04
     assert 'alignment_id' in line['requirements']
+
+
+def test_line_demand_mapping_changes_only_corresponding_service(inputs):
+    city,spec,vehicle,_=inputs
+    first=synthetic(city,[2000,2000]);second=deepcopy(first['lines'][0]);second['line_id']='synthetic-second'
+    second['stops']=[dict(x,id='second-'+x['id']) for x in second['stops']]
+    second['legs']=[dict(x,from_stop='second-'+x['from_stop'],to_stop='second-'+x['to_stop']) for x in second['legs']]
+    first['lines'].append(second);first['input_id']=identity({k:v for k,v in first.items() if k!='input_id'})
+    baseline=city_service.evaluate(first,{'line_peak_demand_pphpd':{
+        first['lines'][0]['line_id']:2000.,'synthetic-second':4000.}},spec['design'],vehicle)
+    changed=city_service.evaluate(first,{'line_peak_demand_pphpd':{first['lines'][0]['line_id']:2000.,'synthetic-second':8000.}},spec['design'],vehicle)
+    before={x['line_id']:x for x in baseline['line_services']};after={x['line_id']:x for x in changed['line_services']}
+    assert after[first['lines'][0]['line_id']]['requirements']['headway_s']==before[first['lines'][0]['line_id']]['requirements']['headway_s']
+    assert after['synthetic-second']['requirements']['headway_s']<before['synthetic-second']['requirements']['headway_s']
+    for field in ('total_trainsets','train_km_per_day','departures_per_day','mechanical_work_kwh_per_direction_trip'):
+        assert after[first['lines'][0]['line_id']]['service'][field]==before[first['lines'][0]['line_id']]['service'][field]
+    assert after['synthetic-second']['service']['total_trainsets']>before['synthetic-second']['service']['total_trainsets']
+    assert after[first['lines'][0]['line_id']]['evaluation_id']==before[first['lines'][0]['line_id']]['evaluation_id']
+    assert after['synthetic-second']['evaluation_id']!=before['synthetic-second']['evaluation_id']
+    assert 'line_peak_demand_pphpd' not in after[first['lines'][0]['line_id']]['requirements']
+    assert changed['assumptions']['peak_demand_pphpd_per_line']=={first['lines'][0]['line_id']:2000.,'synthetic-second':8000.}
+
+
+def test_legacy_global_demand_output_shape_is_preserved(inputs):
+    city,spec,vehicle,_=inputs
+    result=city_service.evaluate(synthetic(city,[2000,2000]),{},spec['design'],vehicle)
+    assert result['assumptions']['peak_demand_pphpd_per_line']==4000.
+
+
+def test_line_demand_request_normalizes_only_bounded_mapping():
+    result=city_workflow.normalize({'city_slug':'samawah','service':{
+        'line_peak_demand_pphpd':{'line-1':1200.,'line-2':2400.}}})
+    assert result['service']['line_peak_demand_pphpd']=={'line-1':1200.,'line-2':2400.}
+    for service in (
+        {'line_peak_demand_pphpd':[]},
+        {'line_peak_demand_pphpd':{}},
+        {'line_peak_demand_pphpd':{'line-1':0.}},
+        {'line_peak_demand_pphpd':{'line-1':float('nan')}},
+        {'line_peak_demand_pphpd':{'line-1':float('inf')}},
+        {'line_peak_demand_pphpd':{'line-1':100001.}},
+        [],
+    ):
+        with pytest.raises(ValueError):city_workflow.normalize({'city_slug':'samawah','service':service})
+
+
+def test_line_demand_mapping_rejects_missing_and_extra_keys(inputs):
+    city,spec,vehicle,_=inputs
+    c=synthetic(city,[2000,2000]);line_id=c['lines'][0]['line_id']
+    for mapping in ({},{'wrong':4000.},{line_id:4000.,'extra':5000.}):
+        with pytest.raises(ValueError):city_service.evaluate(c,{'line_peak_demand_pphpd':mapping},spec['design'],vehicle)
+
+
+@pytest.mark.parametrize('demand',[0.,float('nan'),float('inf'),100001.])
+def test_line_demand_mapping_rejects_unbounded_values(inputs,demand):
+    city,spec,vehicle,_=inputs
+    c=synthetic(city,[2000,2000]);line_id=c['lines'][0]['line_id']
+    with pytest.raises(ValueError):city_service.evaluate(c,{'line_peak_demand_pphpd':{line_id:demand}},spec['design'],vehicle)
 
 
 def test_short_leg_uses_exact_smaller_scurve_and_retains_platform_hold(inputs):

@@ -1,0 +1,13 @@
+{
+ "schema":"osr-compact-drive-policy/1",
+ "configs":[{"id":"compact-737-h100","body_lift_m":0.1,"teeth":[[20,67],[20,44]],"modules_m":[0.005,0.006],"faces_m":[0.06,0.10]}, {"id":"compact-737-h150","body_lift_m":0.15,"teeth":[[20,67],[20,44]],"modules_m":[0.005,0.006],"faces_m":[0.06,0.10]}, {"id":"compact-980-h150","body_lift_m":0.15,"teeth":[[20,70],[20,56]],"modules_m":[0.0045,0.005],"faces_m":[0.07,0.10]}],
+ "movement":{"yaw_rad":0.064,"frame_roll_rad":0.035,"track_cant_rad":0.035,"primary_heave_m":0.04,"secondary_heave_m":0.04,"lateral_m":0.02,"gear_pitch_rad":0.02},
+ "wheel_diameter_m":[0.76,0.68],"gauge_m":1.435,"wheelbase_m":2.1,
+ "gap_m":0.02,"stock_tolerance_m":0.002,"own_position_uncertainty_m":0.01,"supplier_terminal_uncertainty_m":0.02,"ground_allocation_m":0.1,
+ "foot_socket_radius_m":0.018,"foot_tool_insertion_m":0.12,"torque_socket_radius_m":0.035,"torque_tool_insertion_m":0.18,"removal_stroke_m":0.60,"workshop_body_lift_m":0.45,
+ "gear_efficiency_sizing_hypothesis":0.90,"gear_steel_density_kg_m3":7850,"case_density_kg_m3":2700,"gear_dynamic_factor_hypothesis":1.5,"gear_allowable_bending_Pa":null,"bearing_capacity_known":false,
+ "positive_integration_reserve_train_kg":{"low":1200,"base":2400,"high":4800},
+ "reserve_cost_train_usd":{"low":24000,"base":60000,"high":150000},
+ "reserve_scope":"Remaining inverter/chiller/control/collector/protection/installation equipment not contained in counted components; root thermal/integration adapter must replace partitions exactly once. No traction battery added.",
+ "limits":{"maximum_trials":3,"CPU_s_each":60,"memory_mib_each":1024,"maximum_pose_samples":24,"CAD":0,"FEM":0}
+}
