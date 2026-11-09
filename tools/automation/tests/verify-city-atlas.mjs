@@ -3,6 +3,11 @@ import {spawn} from 'node:child_process';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {launchBrowser} from './browser-launch.mjs';
+if(process.argv[2]==='--cached-native-upload-only'){
+  assert.equal(process.argv.length,4,'Provide one private authenticated case descriptor');
+  const {runCachedNativeUpload}=await import('./cached-native-upload.mjs');
+  await runCachedNativeUpload({root:process.env.OSR_ROOT||process.cwd(),python:process.env.OSR_PYTHON||'/home/hayder/Documents/OpenSourceRail/.venv/bin/python',descriptorPath:resolve(process.argv[3])});
+}else{
 const root=process.env.OSR_ROOT||process.cwd(),python=process.env.OSR_PYTHON||'/home/hayder/Documents/OpenSourceRail/.venv/bin/python';
 const out=resolve(root,'build/city-atlas-browser');await mkdir(out,{recursive:true});
 const server=spawn(python,['-u','tools/automation/default-design-workbench.py','--port','8097'],{cwd:root,stdio:['ignore','pipe','pipe']});
@@ -102,4 +107,6 @@ try {
 } finally {
   await writeFile(out+'/server.log',log);
   if(browser)await browser.close();server.kill('SIGTERM');
+}
+
 }
