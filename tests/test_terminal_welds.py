@@ -775,3 +775,124 @@ class FullRoutingTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+def invented_post_fixture(side=1):
+    """Construct new tiny-account fixtures; never read a retained definition."""
+    R=[[0.,1.,0.],[0.,0.,1.],[1.,0.,0.]];T=[-.050,side*1.165,.005];holes=[]
+    for z in(-.85,-.51,-.17,.17,.51,.85):
+        holes.extend([dict(kind='cylinder-cut',at_m=[-.004,side*1.2,z],axis=[1.,0.,0.],diameter_m=.0142,length_m=.004,purpose='invented sleeve-entry'),dict(kind='cylinder-cut',at_m=[-.100,side*1.2,z],axis=[1.,0.,0.],diameter_m=.0065,length_m=.004,purpose='invented opposite-wall')])
+    for z in(-.95,.95):holes.append(dict(kind='cylinder-cut',at_m=[-.050,side*1.115,z],axis=[0.,float(side),0.],diameter_m=.003,length_m=.004,purpose='invented vent'))
+    for u in(-.070,-.030):holes.append(dict(kind='cylinder-cut',at_m=[u,side*1.213,1.020],axis=[0.,float(side),0.],diameter_m=.0082,length_m=.004,purpose='owned detachable upper-frame bore,outer postwall only'))
+    c=dict(id='invented/original-post',part_id='invented/post',material='al6005a',geometry=dict(kind='rhs',at_m=T,rotation=R,size_m=[2.190,.100,.100],wall_m=.004),geometry_hold=None,holes=holes,old_entity_sha256='a'*64,source_machining_list=[dict(diameter_m=.0142,length_m=.004,quantity=6),dict(diameter_m=.0065,length_m=.004,quantity=6),dict(diameter_m=.003,length_m=.004,quantity=2,purpose='invented prior vents')])
+    V=2.190*(.1**2-.092**2)-sum(math.pi*(h['diameter_m']/2)**2*h['length_m'] for h in holes);rho=[2600.,2700.,2800.]
+    e=dict(id='legacy/post/'+str(side),part_id='invented/post',material_id='al6005a',frame='terminal-local-UVW',scope='installed',at_m=T,rotation=deepcopy(w.I),geometry=dict(kind='envelope',size_m=[.1,.1,2.190]),mass_kg={k:V*rho[i] for i,k in enumerate(w.CASES)},centroid_local_m=[0.,0.,0.],shape_I_per_kg=None,uncertainty_m=[.02]*3,exact_CSG_entity=c)
+    stock=dict(id='invented/shared-post-owner',entity_ids=['legacy/post/-1','legacy/post/1'],net_mass_kg={k:2*V*rho[i] for i,k in enumerate(w.CASES)},gross_mass_kg={k:2*2.35*(.1**2-.092**2)*rho[i] for i,k in enumerate(w.CASES)},scrap_mass_kg={k:2*(2.35*(.1**2-.092**2)-V)*rho[i] for i,k in enumerate(w.CASES)},direct_cost_usd={k:10.+i for i,k in enumerate(w.CASES)},additional_process_h=.4,additional_QA_h=None,source_account=dict(quantity=2,density_cases_kg_m3=rho))
+    return e,stock
+
+
+def invented_post_run(f):return w._post_bore_revision(*f,cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256)
+
+
+class NewPostDrawingTests(unittest.TestCase):
+    def test_signed_BASE_two_sides_fullwall_not_old_reinterpretation(self):
+        for side in(-1,1):
+            f=invented_post_fixture(side);old=deepcopy(f);r=invented_post_run(f);self.assertEqual(f,old)
+            for q,u in zip(r['new_cut_drawing_records'],(-.070,-.030)):
+                self.assertEqual(q['historical_signed_BASE']['at_m'],[u,side*1.213,1.020]);self.assertAlmostEqual(q['new_signed_BASE']['at_m'][1],side*1.211);self.assertAlmostEqual(q['BASE_translation_m'][1],-side*.002);self.assertAlmostEqual(q['actual_old_wall_overlap_m'],.002);self.assertAlmostEqual(q['new_actual_wall_removed_volume_m3'],2*q['old_actual_wall_removed_volume_m3'])
+            p=r['replacement_parent_entity'];self.assertEqual(len(p['geometry']['holes']),16);self.assertEqual(len(r['inherited_cut_records']),14);self.assertEqual(len(r['inherited_machining_summary']),3);self.assertEqual(r['new_cut_drawing_records'][0]['new_signed_BASE']['axis'],[0.,float(side),0.]);self.assertFalse(r['physical_accepted']);self.assertIsNone(p['shape_I_per_kg'])
+    def test_exact_nominal_integral_and_retained_uncertainty(self):
+        f=invented_post_fixture();r=invented_post_run(f);m=r['nominal_material'];self.assertAlmostEqual(m['net_volume_m3'],m['gross_finished_rhs_volume_m3']-sum(x['volume_m3'] for x in m['cut_regions']))
+        for k in range(3):self.assertAlmostEqual(m['centroid_intrinsic_m'][k],-sum(x['first_volume_moment_m4'][k] for x in m['cut_regions'])/m['net_volume_m3'])
+        for c in w.CASES:
+            self.assertAlmostEqual(r['accounting']['new_minus_previous_declared_mass_kg'][c],0.);self.assertGreater(r['accounting']['old_partial_wall_hypothesis_mass_kg'][c],r['accounting']['new_nominal_mass_kg'][c])
+            for k in range(3):self.assertAlmostEqual(m['first_moment_bounds_kg_m'][c][k][0],r['accounting']['new_nominal_mass_kg'][c]*m['centroid_terminal_bounds_m'][k][0])
+        self.assertEqual(m['source_spatial_uncertainty_m'],[.02]*3)
+    def test_shared_paid_stock_allowance_and_originals_once(self):
+        f=invented_post_fixture();r=invented_post_run(f);a=r['accounting'];self.assertEqual(a['source_owner'],f[1]);self.assertEqual(a['existing_shared_process_allowance_h'],.4);self.assertIsNone(a['per_hole_process_or_QA_split_h']);self.assertIsNone(a['new_BASE_location_fixture_tool_QA_USD']);self.assertEqual(a['additional_purchase_USD'],0.);self.assertTrue(a['new_mass_not_a_weight_saving_claim']);self.assertEqual(r['original_source_entity'],f[0])
+    def test_exact_public_source_binding_refuses_invented_records(self):
+        with self.assertRaisesRegex(ValueError,'Exact prospective'):w.prospective_post_revision(*invented_post_fixture(),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256)
+    def test_wrong_authority(self):
+        with self.assertRaisesRegex(ValueError,'authority'):w._post_bore_revision(*invented_post_fixture(),cut_authority_sha256='f'*64)
+    def test_extra_record_not_dropped(self):
+        f=invented_post_fixture();f[0]['exact_CSG_entity']['holes'].append(deepcopy(f[0]['exact_CSG_entity']['holes'][-1]))
+        with self.assertRaisesRegex(w.DefinitionHold,'14-plus2'):invented_post_run(f)
+    def test_missing_extra_record_not_filled(self):
+        f=invented_post_fixture();f[0]['exact_CSG_entity']['holes'].pop()
+        with self.assertRaises(w.DefinitionHold):invented_post_run(f)
+    def test_changed_addition_axis_radius_length_U_rejected(self):
+        for key,value in [('axis',[0.,-1.,0.]),('diameter_m',.009),('length_m',.003),('at_m',[-.071,1.213,1.020])]:
+            f=invented_post_fixture();f[0]['exact_CSG_entity']['holes'][14][key]=value
+            with self.assertRaisesRegex(w.DefinitionHold,'exact-two'):invented_post_run(f)
+    def test_missing_machining_summary_not_inferred(self):
+        f=invented_post_fixture();f[0]['exact_CSG_entity']['source_machining_list'][0]['quantity']=5
+        with self.assertRaisesRegex(w.DefinitionHold,'14-post'):invented_post_run(f)
+    def test_duplicate_inherited_cylinder_refused(self):
+        f=invented_post_fixture();f[0]['exact_CSG_entity']['holes'][2]=deepcopy(f[0]['exact_CSG_entity']['holes'][0])
+        with self.assertRaises(w.DefinitionHold):invented_post_run(f)
+    def test_wrong_datum_material_stock_dimensions(self):
+        for mutate in (lambda e:e.update(material_id='steel'),lambda e:e['exact_CSG_entity']['geometry']['at_m'].__setitem__(1,1.166),lambda e:e['exact_CSG_entity']['geometry']['size_m'].__setitem__(1,.101)):
+            f=invented_post_fixture();mutate(f[0])
+            with self.assertRaises(w.DefinitionHold):invented_post_run(f)
+    def test_allowance_not_doubled_or_zeroed(self):
+        for v in(0.,.8):
+            f=invented_post_fixture();f[1]['additional_process_h']=v
+            with self.assertRaisesRegex(w.DefinitionHold,'already-priced'):invented_post_run(f)
+    def test_unsupported_price_source_mass_or_uncertainty_refused(self):
+        f=invented_post_fixture();f[0]['mass_kg']['base']*=1.001
+        with self.assertRaisesRegex(w.DefinitionHold,'already-debited'):invented_post_run(f)
+        f=invented_post_fixture();f[0].pop('uncertainty_m')
+        with self.assertRaisesRegex(w.DefinitionHold,'uncertainty'):invented_post_run(f)
+    def test_price_or_uncertainty_evaluation_only(self):
+        f=invented_post_fixture();a=invented_post_run(f);f[1]['direct_cost_usd']['base']+=1.;b=invented_post_run(f);self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id']);f[0]['uncertainty_m']=[.03]*3;c=invented_post_run(f);self.assertEqual(b['physical_definition_id'],c['physical_definition_id']);self.assertNotEqual(b['evaluation_id'],c['evaluation_id'])
+    def test_historical_legacy_view_still_holds_14_vs16(self):
+        with self.assertRaisesRegex(w.DefinitionHold,'machining-count'):w.legacy_parent_view(invented_post_fixture()[0],cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256)
+
+
+def invented_post_wrapper_fixture():
+    es=[];groups=[];posts=[]
+    for side in(-1,1):
+        p,g=invented_post_fixture(side);posts.append(p)
+        e,stock,*_=fixture();e['id']='upper-frame/'+str(side)+'/0/boss-weld';e['part_id']='invented/weld';stock['id']='stock/'+e['id'];stock['entity_ids']=[e['id']];boss=dict(id='upper-frame/'+str(side)+'/0/boss',part_id='invented/boss',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.02,.02,.02]));bg=dict(id='stock/'+boss['id'],entity_ids=[boss['id']],net_mass_kg={c:1. for c in w.CASES},gross_mass_kg={c:1. for c in w.CASES});es.extend([p,boss,e]);groups.extend([bg,stock])
+    groups.append(g);by={e['id']:e for e in es};owners={eid:g for g in groups for eid in g['entity_ids']};welds=[e for e in es if e.get('physical_drawing')];policy=fixture()[4];return dict(src=dict(fixture='invented',materials=policy['materials'],process_and_QA=policy['process']),byid=by,owners=owners,groups={g['id']:g for g in groups},welds=welds,pin=dict(candidate_id='a'*64),connector_binding=dict(rows=[]),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256,request_id='b'*64,expected_records=2)
+
+
+class PostWrapperPropagationTests(unittest.TestCase):
+    def test_two_corrected_post_entities_and_one_shared_owner_even_weldsheld(self):
+        f=invented_post_wrapper_fixture()
+        with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)) as provider:r=w._compile_routed_source(**f)
+        self.assertEqual(provider.call_count,2);self.assertEqual(len(r['source_post_revisions']),2);self.assertEqual(len(r['final_changed_parent_entities']),2);self.assertEqual(len(r['physical_definition']['changed_parents']),2);self.assertEqual(len(r['accounting']['source_post_owner_dispositions']),1);self.assertEqual(len(r['accounting']['parent_stock_owner_revisions']),1)
+        owner=next(iter(r['accounting']['parent_stock_owner_revisions'].values()));self.assertEqual(owner['paid_gross_count'],1);self.assertEqual(owner['replacement_owner']['direct_cost_usd'],owner['source_owner']['direct_cost_usd']);self.assertEqual(r['held_weld_count'],2);self.assertFalse(r['installed_assembly_accepted']);self.assertEqual(len(r['accounting']['old_weld_dispositions']),2)
+    def test_failed_material_view_memo_preserves_each_dependent_hold(self):
+        f=invented_post_wrapper_fixture()
+        for e in f['welds']:e['id']=e['id'].replace('/0/','/1/')
+        # Use two records sharing one legacyheader, with distinct paid oldowners.
+        es=[];gs=[]
+        for i in(0,1):
+            e,g,*_=fixture();e['id']='roof/standoff-weld/'+str(i);e['part_id']='invented/weld';g['id']='stock/'+e['id'];g['entity_ids']=[e['id']];p=dict(id='roof/standoff/'+str(i),part_id='invented/stand',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.02,.02,.02]));es.extend([e,p]);gs.extend([g,dict(id='stock/'+p['id'],entity_ids=[p['id']])])
+        h=dict(id='legacy/header/0',part_id='invented/header');es.append(h);gs.append(dict(id='invented/headerowner',entity_ids=[h['id']]));f.update(byid={e['id']:e for e in es},owners={eid:g for g in gs for eid in g['entity_ids']},groups={g['id']:g for g in gs},welds=[e for e in es if e.get('physical_drawing')])
+        with patch.object(w,'legacy_parent_view',side_effect=w.DefinitionHold('invented deterministic held view')) as view:r=w._compile_routed_source(**f)
+        self.assertEqual(view.call_count,1);self.assertEqual(len(r['held']),2);self.assertEqual({h['reason'] for h in r['held']},{'invented deterministic held view'});self.assertEqual(len(r['failed_parent_view_memo']),1);self.assertEqual(len(r['accounting']['old_weld_dispositions']),2);self.assertEqual(r['defined_weld_count'],0)
+
+
+class PostRevisionInterfaceTests(unittest.TestCase):
+    def test_public_binding_exact_both_entity_and_owner(self):
+        f=invented_post_fixture();bindings={f[0]['id']:dict(entity_sha256=w.identity(f[0]),owner_sha256=w.identity(f[1]))}
+        with patch.object(w,'POST_SOURCE_BINDINGS',bindings):
+            r=w.prospective_post_revision(*f,cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256);self.assertEqual(len(r['new_cut_drawing_records']),2);f[1]['direct_cost_usd']['base']+=.01
+            with self.assertRaisesRegex(ValueError,'shared-owner'):w.prospective_post_revision(*f,cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256)
+    def test_final_fillet_receives_revised_source_post(self):
+        f=invented_post_wrapper_fixture();seen=[]
+        def final_check(e,g,parents,**kw):
+            post=next(p for p in parents if p['id'].startswith('legacy/post/'));seen.append(deepcopy(post));raise w.DefinitionHold('invented final geometry check')
+        with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)),patch.object(w,'propose_bound_faces',side_effect=final_check):r=w._compile_routed_source(**f)
+        self.assertEqual(len(seen),2)
+        for p in seen:
+            self.assertEqual(len(p['geometry']['holes']),16);self.assertIn('prospective_post_revision',p);self.assertNotIn('exact_CSG_entity',p)
+            for h in p['geometry']['holes'][14:]:self.assertAlmostEqual(abs(w.world(h['centre_m'],p['at_m'],p['rotation'])[1]),1.213)
+        self.assertEqual(r['held_weld_count'],2)
+    def test_failed_later_preparation_retains_base_post_no_orphan_cut(self):
+        f=invented_post_wrapper_fixture();side=1;post=f['byid']['legacy/post/1'];sourceweld=f['welds'][1];sourceweld['id']='floor/post-bottom/1/post-closure-weld';oldstock=f['owners'].pop('upper-frame/1/0/boss-weld');oldstock['entity_ids']=[sourceweld['id']];oldstock['id']='invented/closure-weld-stock';closure=dict(id='floor/post-bottom/1/closure',part_id='invented/closure',material_id='al5083',frame='terminal-local-UVW',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.1,.1,.01]));cg=dict(id='invented/closure-stock',entity_ids=[closure['id']]);f.update(byid={sourceweld['id']:sourceweld,closure['id']:closure,post['id']:post},owners={sourceweld['id']:oldstock,closure['id']:cg,post['id']:f['owners'][post['id']]},groups={g['id']:g for g in(oldstock,cg,f['owners'][post['id']])},welds=[sourceweld],expected_records=1);seen=[]
+        def prep(*args,**kw):seen.append(args[1]);raise w.DefinitionHold('invented later prep held')
+        with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)),patch.object(w,'finite_surface_butt_revision',side_effect=prep):r=w._compile_routed_source(**f)
+        self.assertEqual(len(seen),1);self.assertIn('prospective_post_revision',seen[0]);self.assertIn(post['id'],r['final_changed_parent_entities']);self.assertFalse(r['accounting']['filler_replacement_owners']);self.assertFalse(r['parent_cut_unions']);self.assertEqual(r['held_weld_count'],1);self.assertEqual(len(r['accounting']['source_post_owner_dispositions']),1)

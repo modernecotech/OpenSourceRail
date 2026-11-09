@@ -505,6 +505,94 @@ def legacy_parent_view(entity,*,cut_authority_sha256):
     return e
 
 
+# New unmanufactured-post drawing. The immutable fe2 inputs remain historical.
+POST_BORE_REVISION='terminal-post-full-wall-additions/r1'
+POST_SOURCE_BINDINGS={
+ 'legacy/post/-1':dict(entity_sha256='0bd407718786a72c6a9ed297dfd183ea3b1865b833f9a32eaec5c9920662c10e',owner_sha256='1bdc1d456f37c7834c5fb1de4a92bada1514eda32bbced7e76166877c4d12b19'),
+ 'legacy/post/1':dict(entity_sha256='2785bfb7f5c944ac37c7a968cc28943e477d04ae77bafdfd15c89322cd800184',owner_sha256='1bdc1d456f37c7834c5fb1de4a92bada1514eda32bbced7e76166877c4d12b19')}
+
+
+def prospective_post_revision(entity,stock,*,cut_authority_sha256):
+    """Authenticated NEW hardware drawing, never reinterpret historical BASE.
+
+    A two-post shared owner already debits these two cylinders/post at their
+    full4mm length. Original signedBASE starts2mm into the wall and exits2mm
+    outside. Move only the two new BASEs inward2mm, preserving the inherited14,
+    dimensions/material/axes and counted group price. Actual old partial cuts,
+    original mass proxy and failure remain visible; no native proof inherited.
+    """
+    pid=entity.get('id');binding=POST_SOURCE_BINDINGS.get(pid)
+    if binding is None or identity(entity)!=binding['entity_sha256'] or identity(stock)!=binding['owner_sha256']:raise ValueError('Exact prospective post occurrence/shared-owner source binding required')
+    return _post_bore_revision(entity,stock,cut_authority_sha256=cut_authority_sha256)
+
+
+def _post_bore_revision(entity,stock,*,cut_authority_sha256):
+    """Pure finite fixed-interface kernel; invented fixtures test this domain."""
+    if cut_authority_sha256!=SOURCE_CUT_AUTHORITY_SHA256:raise ValueError('Exact signed-BASE authority required')
+    old=deepcopy(entity);owner=deepcopy(stock);pid=name(old['id'])
+    if pid not in ('legacy/post/-1','legacy/post/1') or old.get('frame')!='terminal-local-UVW' or old.get('scope')!='installed' or old.get('material_id')!='al6005a':raise DefinitionHold('fixed-new-post-source-frame-material-domain')
+    side=int(pid.rsplit('/',1)[1]);c=deepcopy(old.get('exact_CSG_entity'));g=c.get('geometry') if isinstance(c,dict) else None
+    if not isinstance(g,dict) or c.get('geometry_hold') is not None or c.get('material')!='al6005a' or g.get('kind')!='rhs' or set(g)!={'kind','at_m','rotation','size_m','wall_m'}:raise DefinitionHold('complete-known-post-source-drawing-required')
+    T=vector(g['at_m']);R=rotation(g['rotation']);size=vector(g['size_m']);wall=scalar(g['wall_m'],True)
+    expectedR=[[0.,1.,0.],[0.,0.,1.],[1.,0.,0.]]
+    if norm(sub(T,[-.050,side*1.165,.005]))>EPS or any(abs(a-b)>EPS for a,b in zip(size,[2.190,.100,.100])) or abs(wall-.004)>EPS or R!=expectedR:raise DefinitionHold('fixed-post-outer-stock-datum-domain')
+    hs=c.get('holes');decl=c.get('source_machining_list')
+    if not isinstance(hs,list) or len(hs)!=16 or not isinstance(decl,list) or len(decl)!=3:raise DefinitionHold('exact-inherited14-plus2-post-cut-roster-required')
+    inherited=hs[:14];additions=hs[14:];observed={};stated={}
+    for h in inherited:
+        if set(h)!={'kind','at_m','axis','diameter_m','length_m','purpose'} or h['kind']!='cylinder-cut':raise DefinitionHold('complete-inherited-post-cylinder-required')
+        key=(scalar(h['diameter_m'],True),scalar(h['length_m'],True));observed[key]=observed.get(key,0)+1
+    for row in decl:
+        if set(row)-{'diameter_m','length_m','quantity','purpose'} or type(row.get('quantity')) is not int or row['quantity']<=0:raise DefinitionHold('inherited-post-operation-summary-domain')
+        key=(scalar(row['diameter_m'],True),scalar(row['length_m'],True));stated[key]=stated.get(key,0)+row['quantity']
+    if observed!=stated or observed!={(.0142,.004):6,(.0065,.004):6,(.003,.004):2}:raise DefinitionHold('inherited14-post-cut-operation-difference')
+    expected_ids=['legacy/post/-1','legacy/post/1']
+    if owner.get('entity_ids')!=expected_ids or owner.get('source_account',{}).get('quantity')!=2 or owner.get('additional_process_h')!=.4 or owner.get('additional_QA_h') is not None:raise DefinitionHold('one-shared-post-owner-already-priced-rework-domain')
+    rho=[scalar(x,True) for x in owner['source_account']['density_cases_kg_m3']]
+    if len(rho)!=3 or rho!=sorted(rho):raise ValueError('Explicit source density cases required')
+    for case in CASES:
+        if scalar(owner['direct_cost_usd'][case],True)<=0 or scalar(owner['gross_mass_kg'][case],True)<=0:raise ValueError('Known positive shared post stock/price required')
+    proposed=deepcopy(old);pc=proposed['exact_CSG_entity'];changes=[]
+    outer=abs(T[1])+size[2]/2;inner=outer-wall
+    for j,(h,u) in enumerate(zip(additions,(-.070,-.030))):
+        expected=dict(kind='cylinder-cut',diameter_m=.0082,length_m=.004,at_m=[u,side*1.213,1.020],axis=[0.,float(side),0.],purpose='owned detachable upper-frame bore,outer postwall only')
+        if h!=expected:raise DefinitionHold('exact-two-prospective-post-addition-cuts-required')
+        new=deepcopy(h);new['at_m']=[u,side*inner,1.020];pc['holes'][14+j]=new
+        oldlo=abs(h['at_m'][1]);oldhi=oldlo+h['length_m'];overlap=max(0.,min(oldhi,outer)-max(oldlo,inner));A=3.141592653589793*(h['diameter_m']/2)**2
+        if abs(overlap-.002)>EPS:raise DefinitionHold('historical-partial-post-cut-domain-changed')
+        changes.append(dict(source_hole_index=14+j,source_hole_sha256=identity(h),historical_signed_BASE=deepcopy(h),new_signed_BASE=deepcopy(new),BASE_translation_m=sub(new['at_m'],h['at_m']),actual_old_wall_overlap_m=overlap,old_declared_removed_volume_m3=A*h['length_m'],old_actual_wall_removed_volume_m3=A*overlap,new_actual_wall_removed_volume_m3=A*wall,new_through_wall=True))
+    # The material adapter's geometry-region cover is explicitly proposed. It
+    # does NOT replace the inherited operation ledger or add an invoice row.
+    pc['source_machining_list']=deepcopy(decl)+[dict(diameter_m=.0082,length_m=.004,quantity=2,purpose='NEW physical drawing regions; already within shared0.4h PEREND allowance; process split/QA unknown')]
+    material=legacy_parent_view(proposed,cut_authority_sha256=cut_authority_sha256)
+    material['prospective_post_material_view']=material.pop('legacy_source_view')
+    mp=_parent(material);regions=[];voidV=0.;voidM=[0.,0.,0.];voidbounds=[]
+    for i,h in enumerate(material['geometry']['holes']):
+        axis=h['axis'];C=vector(h['centre_m']);r=scalar(h['radius_m'],True);L=scalar(h['length_m'],True);lo=[C[k]-(L/2 if k==axis else r) for k in range(3)];hi=[C[k]+(L/2 if k==axis else r) for k in range(3)]
+        if not any(all(lo[k]>=cell['lo'][k]-EPS and hi[k]<=cell['hi'][k]+EPS for k in range(3)) for cell in mp['cells']):raise DefinitionHold('corrected-post-cylinder-not-contained-in-one-real-wall')
+        bb=list(zip(lo,hi))
+        if any(bounds_may_touch(bb,v) for v in voidbounds):raise DefinitionHold('post-cylinder-union-not-separated')
+        voidbounds.append(bb);V=3.141592653589793*r*r*L;voidV+=V;voidM=add(voidM,scale(C,V));regions.append(dict(index=i,volume_m3=V,centre_intrinsic_m=C,first_volume_moment_m4=scale(C,V)))
+    fullV=size[0]*(size[1]*size[2]-(size[1]-2*wall)*(size[2]-2*wall));net=fullV-voidV
+    if net<=0:raise DefinitionHold('positive-new-post-material-required')
+    C=scale(voidM,-1/net);CW=world(C,T,R);nominal={case:net*rho[i] for i,case in enumerate(CASES)}
+    for case in CASES:
+        if abs(scalar(old['mass_kg'][case],True)-nominal[case])>max(1e-9,nominal[case]*1e-9):raise DefinitionHold('new-full-wall-post-material-does-not-match-already-debited-source-mass')
+    uncertainty=old.get('uncertainty_m')
+    if uncertainty is None:raise DefinitionHold('unknown-post-position-uncertainty-must-remain-open')
+    U=vector(uncertainty)
+    if min(U)<0:raise ValueError('Nonnegative source spatial bounds required')
+    material['mass_kg']=nominal;material['centroid_local_m']=C;material['centroid_terminal_cases_m']={case:deepcopy(CW) for case in CASES};material['shape_I_per_kg']=None
+    material['mass_basis']='New nominal complete RHS-minus16-disjoint-cylinder drawing under retained source density hypotheses; not weighed installed mass'
+    material['inertia_basis']='Revised finite cut positions require new inertia evaluation; no old tensor inherited'
+    material['mass_centroid_basis']='Exact nominal uniform-material cut integral; inherited20mm/source uncertainty remains, not a measured installed CG'
+    physical=dict(schema='osr-prospective-post-through-wall-physical/1',revision=POST_BORE_REVISION,source_occurrence_id=pid,material=_parent(material)['physical'],inherited_cut_count=14,new_corrected_cut_count=2)
+    actual_old_extra=fsum(x['old_actual_wall_removed_volume_m3'] for x in changes);declared_extra=fsum(x['old_declared_removed_volume_m3'] for x in changes)
+    accounting=dict(source_owner_id=owner['id'],source_owner_sha256=identity(owner),shared_occurrence_ids=expected_ids,owner_quantity_scope='ONE shared source post owner/PEREND; two source occurrences, not two purchases',paid_gross_and_direct_source_price_retained_once=True,source_owner=owner,prior_declared_mass_kg=deepcopy(old['mass_kg']),new_nominal_mass_kg=nominal,new_minus_previous_declared_mass_kg={case:nominal[case]-old['mass_kg'][case] for case in CASES},old_partial_wall_vs_declared_overdebit_m3=declared_extra-actual_old_extra,old_partial_wall_hypothesis_mass_kg={case:nominal[case]+(declared_extra-actual_old_extra)*rho[i] for i,case in enumerate(CASES)},new_mass_not_a_weight_saving_claim=True,additional_purchase_USD=0.,existing_shared_process_allowance_h=.4,allowance_applied_once_per_shared_owner=True,per_hole_process_or_QA_split_h=None,new_BASE_location_fixture_tool_QA_h=None,new_BASE_location_fixture_tool_QA_USD=None,complete_installed_cost=False,transaction_applied=False)
+    material['prospective_post_revision']=dict(revision=POST_BORE_REVISION,original_source_entity_sha256=identity(old),original_source_owner_sha256=identity(owner),new_physical_definition_id=identity(physical),original_cut_records_retained_in_receipt=True)
+    return seal(dict(schema='osr-prospective-post-through-wall-revision/1',physical_definition=physical,physical_definition_id=identity(physical),original_source_entity=old,original_source_owner=owner,replacement_parent_entity=material,inherited_machining_summary=deepcopy(decl),inherited_cut_records=deepcopy(inherited),new_cut_drawing_records=changes,proposed_geometry_region_roster=deepcopy(pc['source_machining_list']),geometry_region_roster_is_not_a_second_process_charge=True,nominal_material=dict(gross_finished_rhs_volume_m3=fullV,all_void_volume_m3=voidV,net_volume_m3=net,cut_regions=regions,centroid_intrinsic_m=C,centroid_terminal_m=CW,first_moment_kg_m={case:scale(CW,nominal[case]) for case in CASES},source_spatial_uncertainty_m=U,centroid_terminal_bounds_m=[[CW[k]-U[k],CW[k]+U[k]] for k in range(3)],first_moment_bounds_kg_m={case:[[nominal[case]*(CW[k]-U[k]),nominal[case]*(CW[k]+U[k])] for k in range(3)] for case in CASES},source_density_kg_m3=dict(zip(CASES,rho)),uniform_material_is_research_hypothesis=True),accounting=accounting,holds=['NEW unmanufactured post drawing; original signedBASE failure and source retained without reinterpretation','Existing0.4h/PEREND shared allowance retained once; extra fixture/tool/QA allocation unknown, not zero or an additional invoice','Bore/sleeve/isolation/tolerance/tool/swept assembly/removal and neighbouring contacts still require own evidence','Source material grade/density/CG uncertainty, loads/strength/WPS/HAZ/fatigue/fire and physical tests unqualified','No original native/body/canonical/installed evidence inherited'],**FLAGS))
+
+
 def _all_faces(parent):
     g=parent['physical']['geometry'];out=[]
     for cell in parent['cells']:
@@ -783,7 +871,7 @@ def upper_tie_parent_view(entity):
 # These are prospective drawing revisions, not a source-producer rerun. All
 # dimensions are SI and all roots below are in the unchanged terminal frame.
 CONNECTOR_BINDING_ID='97fbb0ad76e27cec67f15b9c64cb7316d596521150b0272f6da6e8536cddf8a6'
-FULL_REVISION='terminal-finite-183/r1'
+FULL_REVISION='terminal-finite-183/post-through-bore-r2'
 
 
 def _terminal_paths(e):
@@ -987,19 +1075,29 @@ def _compile_routed_source(src,byid,owners,groups,welds,*,pin,connector_binding,
     """
     if type(expected_records) is not int or expected_records<1 or len(welds)!=expected_records:raise ValueError('Explicit exact source record count required')
     policy=dict(materials=deepcopy(src['materials']),process=deepcopy(src['process_and_QA']));rowmap={r['old_weld_to_replace_once']['id']:r for r in connector_binding['rows']}
-    parents={};views=[];routes={};held={};proposals={};contributions={};base_revisions={};new_stock={};failed_parents=set();new_parts={};job_receipts=[];parent_replacements={}
+    parents={};views=[];routes={};held={};proposals={};contributions={};base_revisions={};new_stock={};failed_parents=set();new_parts={};job_receipts=[];parent_replacements={};post_revisions={};failed_views={}
     # Only named source material parents are adapted. Unknown equipment/envelopes
     # are retained context; they are never filled or silently promoted to solids.
     def getparent(pid):
         if pid in parents:return parents[pid]
         if pid not in byid:raise DefinitionHold('source-parent-missing:'+pid)
-        e=byid[pid]
-        if pid.startswith('legacy/'):
-            p=legacy_parent_view(e,cut_authority_sha256=cut_authority_sha256);views.append(dict(id=pid,method='legacy-signed-base-material-view',source_sha256=identity(e),view_sha256=identity(p)))
-        elif re.fullmatch(r'upper/(-1|1)/frame-tie',pid):
-            p=upper_tie_parent_view(e);views.append(dict(id=pid,method='exact-rounded-slot-material-view',source_sha256=identity(e),view_sha256=identity(p)))
-        else:p=deepcopy(e);_parent(p)
-        if pid not in owners:raise ValueError('Source parent lacks explicit paid owner:'+pid)
+        e=byid[pid];owner=owners.get(pid)
+        key=(pid,identity(e),identity(owner),cut_authority_sha256,POST_BORE_REVISION)
+        if key in failed_views:raise DefinitionHold(failed_views[key])
+        try:
+            if pid in POST_SOURCE_BINDINGS:
+                if owner is None:raise ValueError('Source post lacks exact paid owner')
+                revision=prospective_post_revision(e,owner,cut_authority_sha256=cut_authority_sha256);p=revision['replacement_parent_entity'];post_revisions[pid]=revision;views.append(dict(id=pid,method='NEW-post-through-wall-drawing',source_sha256=identity(e),view_sha256=identity(p),revision_id=revision['evaluation_id']))
+            elif pid.startswith('legacy/'):
+                p=legacy_parent_view(e,cut_authority_sha256=cut_authority_sha256);views.append(dict(id=pid,method='legacy-signed-base-material-view',source_sha256=identity(e),view_sha256=identity(p)))
+            elif re.fullmatch(r'upper/(-1|1)/frame-tie',pid):
+                p=upper_tie_parent_view(e);views.append(dict(id=pid,method='exact-rounded-slot-material-view',source_sha256=identity(e),view_sha256=identity(p)))
+            else:p=deepcopy(e);_parent(p)
+            if pid not in owners:raise ValueError('Source parent lacks explicit paid owner:'+pid)
+        except DefinitionHold as error:
+            # Exact immutable source/owner/authority/revision failed-view memo.
+            # Every route still gets its own identical hold and disposition.
+            failed_views[key]=str(error);raise
         parents[pid]=p;return p
     # Resolve routing using lazy, explicit parent lookup, not all unknown source
     # entities. This also makes missing dependencies concrete and auditable.
@@ -1096,12 +1194,17 @@ def _compile_routed_source(src,byid,owners,groups,welds,*,pin,connector_binding,
     # Parent owner net deltas are grouped once, including a shared legacy owner.
     # Paid gross/rate/process entries are copied unchanged; additional prep is
     # owned by the one source weld replacement, never repeated on each parent.
-    changed={pid:final[pid] for pid in set(base_revisions)|set(parent_replacements)|set(unions) if pid not in failed_parents};parent_owner_rows={}
+    changed={pid:final[pid] for pid in set(base_revisions)|set(parent_replacements)|set(unions) if pid not in failed_parents}
+    # Later held weld preparations cannot resurrect the historical partial bore.
+    # Retain the new basepost but discard its failed downstream cut/filler.
+    for pid,revision in post_revisions.items():
+        if pid not in changed:changed[pid]=deepcopy(revision['replacement_parent_entity'])
+    parent_owner_rows={}
     for pid,p in changed.items():
         owner=owners[pid];oid=owner['id']
         if oid not in parent_owner_rows:parent_owner_rows[oid]=dict(source_owner=deepcopy(owner),source_owner_sha256=identity(owner),changed_parent_ids=[],net_mass_delta_kg={c:0. for c in CASES})
         row=parent_owner_rows[oid];row['changed_parent_ids'].append(pid)
-        for c in CASES:row['net_mass_delta_kg'][c]+=p['mass_kg'][c]-parents[pid]['mass_kg'][c]
+        for c in CASES:row['net_mass_delta_kg'][c]+=p['mass_kg'][c]-(byid[pid]['mass_kg'][c] if pid in post_revisions else parents[pid]['mass_kg'][c])
     for row in parent_owner_rows.values():
         old=row['source_owner'];row['replacement_owner']=deepcopy(old);row['paid_gross_count']=1;row['material_purchase_delta_USD']={c:0. for c in CASES};row['machining_credit_USD']=0.;row['additional_machining_cost_unknown']=True
         for c in CASES:
@@ -1114,4 +1217,4 @@ def _compile_routed_source(src,byid,owners,groups,welds,*,pin,connector_binding,
     dispositions=[dict(source_weld_id=e['id'],old_owner_id=owners[e['id']]['id'],old_owner_sha256=identity(owners[e['id']]),status='defined-one-for-one-replacement' if e['id'] in defined else 'held-original-retained',replacement_owner_id=filler_owners[e['id']]['id'] if e['id'] in defined else None) for e in welds]
     if len(dispositions)!=expected_records or len({x['old_owner_id'] for x in dispositions})!=expected_records or len(defined)+len(held)!=expected_records:raise AssertionError('Original weld owner conservation failed')
     physical=dict(schema='osr-terminal-finite-full-revision-physical/1',revision=FULL_REVISION,parent_candidate_id=pin['candidate_id'],changed_parents=[_parent(p)['physical'] for _,p in sorted(changed.items())],new_parts=[_parent(p)['physical'] for _,p in sorted(new_parts.items())],filler=[dict(id=p['id'],material_id='al5083',vertices_terminal_m=p['poly']['vertices']) for p in allpieces],unresolved_original_weld_ids=sorted(held),interpart_domain='Individual declared mating faces and new finite filler/cut unions only; full surrounding assembly not evaluated')
-    return seal(dict(schema='osr-terminal-finite-full-revision-proposal/1',source_pin=deepcopy(pin),request_id=request_id,source_proposal=src,source_connector_binding=deepcopy(connector_binding),source_policy=policy,source_material_views=views,source_routes=routes,preparation_job_receipts=job_receipts,parent_preparation_receipts=proposals,parent_cut_unions=unions,final_changed_parent_entities=changed,new_part_entities=new_parts,defined_welds=sorted(defined),held=list(held.values()),source_weld_count=expected_records,defined_weld_count=len(defined),held_weld_count=len(held),filler_occurrence_count=len(allpieces),cross_record_filler_intersections=collisions,complete_finite_weld_definition=not held and not collisions,physical_definition=physical,physical_definition_id=identity(physical),accounting=dict(old_weld_dispositions=dispositions,filler_replacement_owners=filler_owners,parent_stock_owner_revisions=parent_owner_rows,new_stock_owners=new_stock,untouched_source_owner_ids=sorted(set(groups)-{owners[eid]['id'] for eid in defined}-{x for x in parent_owner_rows}),process_QA_basis='One old weld baseline retained per original owner; multi-butt internal calculations are geometry receipts, not additional payable rows; explicit butt0.04h+QA0.02h per record, connector declared case bounds once; other additional work unknown',complete_installed_cost=False,transaction_applied=False),canonical_definition=None,holds=['Prospective finite drawing/material/accounting definition only; no integrated body acceptance','Original historical source, failed paths and exact material/price provenance preserved','Unknown additional setup/tool/machine/torch access/inspection and neighbouring equipment domains remain open','Reduced or relocated welds,1mm roots, thread HAZ and discontinuous runouts require actual loads/WPS/HAZ/fatigue/corrosion/fire and physical evidence','Prior062 subset/native geometry is not inherited by this changed whole-source request','Full terminal/canonical vehicle assembly, installed inertia,qualification and release are separate tasks'],**FLAGS))
+    return seal(dict(schema='osr-terminal-finite-full-revision-proposal/1',source_pin=deepcopy(pin),request_id=request_id,source_proposal=src,source_connector_binding=deepcopy(connector_binding),source_policy=policy,source_material_views=views,source_post_revisions=post_revisions,failed_parent_view_memo=[dict(source_id=k[0],source_entity_sha256=k[1],source_owner_sha256=k[2],cut_authority_sha256=k[3],revision=k[4],reason=v) for k,v in failed_views.items()],source_routes=routes,preparation_job_receipts=job_receipts,parent_preparation_receipts=proposals,parent_cut_unions=unions,final_changed_parent_entities=changed,new_part_entities=new_parts,defined_welds=sorted(defined),held=list(held.values()),source_weld_count=expected_records,defined_weld_count=len(defined),held_weld_count=len(held),filler_occurrence_count=len(allpieces),cross_record_filler_intersections=collisions,complete_finite_weld_definition=not held and not collisions,physical_definition=physical,physical_definition_id=identity(physical),accounting=dict(old_weld_dispositions=dispositions,filler_replacement_owners=filler_owners,parent_stock_owner_revisions=parent_owner_rows,source_post_owner_dispositions={oid:dict(source_owner_sha256=row['source_owner_sha256'],source_occurrence_ids=sorted(pid for pid in row['changed_parent_ids'] if pid in post_revisions),paid_gross_count=1,old_shared_owner_replaced_once=True,additional_material_invoice=False,additional_process_QA_split_h=None) for oid,row in parent_owner_rows.items() if any(pid in post_revisions for pid in row['changed_parent_ids'])},new_stock_owners=new_stock,untouched_source_owner_ids=sorted(set(groups)-{owners[eid]['id'] for eid in defined}-{x for x in parent_owner_rows}),process_QA_basis='One old weld baseline retained per original owner; multi-butt internal calculations are geometry receipts, not additional payable rows; explicit butt0.04h+QA0.02h per record, connector declared case bounds once; other additional work unknown',complete_installed_cost=False,transaction_applied=False),canonical_definition=None,holds=['Prospective finite drawing/material/accounting definition only; no integrated body acceptance','Original historical source, failed paths and exact material/price provenance preserved','Unknown additional setup/tool/machine/torch access/inspection and neighbouring equipment domains remain open','Reduced or relocated welds,1mm roots, thread HAZ and discontinuous runouts require actual loads/WPS/HAZ/fatigue/corrosion/fire and physical evidence','Prior062 subset/native geometry is not inherited by this changed whole-source request','Full terminal/canonical vehicle assembly, installed inertia,qualification and release are separate tasks'],**FLAGS))
