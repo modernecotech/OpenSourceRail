@@ -97,7 +97,7 @@ def _parent(parent):
     if parent.get('frame')!='terminal-local-UVW':raise DefinitionHold('parent-frame-unsupported:'+pid)
     if parent.get('exact_CSG_entity') is not None or parent.get('physical_drawing') is not None:raise DefinitionHold('parent-finished-CSG-needs-independent-face-adapter:'+pid)
     if not isinstance(g,dict) or g.get('kind') not in ('box','rhs'):raise DefinitionHold('parent-material-domain-unsupported:'+pid)
-    allowed={'kind','size_m','holes','finite_void_prisms'}|({'wall_m','corner_bevels'} if g['kind']=='rhs' else set())
+    allowed={'kind','size_m','holes','finite_void_prisms','open_round_slot_voids'}|({'wall_m','corner_bevels'} if g['kind']=='rhs' else set())
     if set(g)-allowed:raise DefinitionHold('unconsumed-parent-geometry-fields:'+pid)
     size=vector(g['size_m'])
     if min(size)<1e-5:raise DefinitionHold('parent-dimension-below-10um-model-domain:'+pid)
@@ -141,11 +141,22 @@ def _parent(parent):
         vb=bounds([world(v,T,R) for v in cut['vertices_m']])
         if any(bounds_may_touch(vb,other) for other in voids):raise DefinitionHold('source-void-union-requires-explicit-disjoint-domain:'+pid)
         voids.append(vb)
+    slots=g.get('open_round_slot_voids',[])
+    if slots and g['kind']!='box':raise DefinitionHold('open-round-slot-material-provider-is-box-only')
+    for slot in slots:
+        if set(slot)!={'id','kind','U_centre_m','V_entry_face_m','face_sign','depth_m','W_open_m','W_round_centre_m','radius_m'} or slot['kind']!='open-round-ended-slot' or type(slot['face_sign']) is not int or slot['face_sign'] not in (-1,1):raise ValueError('Explicit source round-ended slot required')
+        name(slot['id']);u=scalar(slot['U_centre_m']);entry=scalar(slot['V_entry_face_m']);depth=scalar(slot['depth_m'],True);bottom=scalar(slot['W_open_m']);centre=scalar(slot['W_round_centre_m']);r=scalar(slot['radius_m'],True);side=slot['face_sign']
+        if abs(entry-side*size[1]/2)>EPS or abs(bottom+size[2]/2)>EPS or not 0<depth<size[1] or centre<=bottom or centre+r>=size[2]/2 or abs(u)+r>size[0]/2:raise DefinitionHold('contained-open-bottom-round-slot-domain')
+        vr=sorted([entry,entry-side*depth]);vb=bounds(_box([u-r,vr[0],bottom],[u+r,vr[1],centre+r],T,R)['vertices'])
+        if any(bounds_overlap(vb,old) for old in voids):raise DefinitionHold('slot-void-union-needs-explicit-disjoint-domain')
+        voids.append(vb)
     for h in g.get('holes',[]):
         if set(h)!={'axis','centre_m','radius_m','length_m'} or type(h['axis']) is not int or h['axis'] not in (0,1,2):raise DefinitionHold('parent-bore-domain-unsupported:'+pid)
         c=vector(h['centre_m']);radius=scalar(h['radius_m'],True);L=scalar(h['length_m'],True);a=[c[k]-(L/2 if k==h['axis'] else radius) for k in range(3)];b=[c[k]+(L/2 if k==h['axis'] else radius) for k in range(3)]
         # This conservative cut bounding box is an exclusion, never a cylinder filled as material.
-        voids.append(bounds(_box(a,b,T,R)['vertices']))
+        hb=bounds(_box(a,b,T,R)['vertices'])
+        if slots and any(bounds_overlap(hb,old) for old in voids):raise DefinitionHold('bore-slot-union-needs-explicit-disjoint-domain')
+        voids.append(hb)
     physical=dict(id=pid,material_id=mat,geometry=deepcopy(g),at_m=T,rotation=deepcopy(R))
     if void_prisms:physical['finite_source_void_prisms']=deepcopy(void_prisms)
     return dict(id=pid,material_id=mat,T=T,R=R,source_hash=identity(parent),physical=physical,cells=cells,void_bounds=voids)
@@ -156,10 +167,14 @@ def _face(contact,parents):
     p=parents[name(contact['parent_id'])]
     if digest(contact['source_parent_sha256'])!=p['source_hash']:raise ValueError('Source parent epoch mismatch')
     if type(contact['axis']) is not int or contact['axis'] not in (0,1,2) or type(contact['sign']) is not int or contact['sign'] not in (-1,1):raise ValueError('Signed source face axis required')
-    cell=next((c for c in p['cells'] if c['id']==contact['cell_id']),None)
+    cell=next((c for c in p['cells'] if c['id']==contact['cell_id']),None);material_depth=None
+    if contact['cell_id'] in ('outer-z-','outer-z+'):
+        g=p['physical']['geometry'];sgn=-1 if contact['cell_id'].endswith('-') else 1
+        if g['kind']!='rhs' or contact['axis']!=2 or contact['sign']!=sgn:raise ValueError('Explicit continuous RHS outerface required')
+        size=g['size_m'];cell=dict(id=contact['cell_id'],lo=scale(size,-.5),hi=scale(size,.5));material_depth=g['wall_m']
     if cell is None:raise ValueError('Unknown parent material cell')
     axis=contact['axis'];sgn=contact['sign'];normal=[0.,0.,0.];normal[axis]=sgn
-    return dict(parent=p,cell=cell,axis=axis,sign=sgn,plane=cell['hi' if sgn==1 else 'lo'][axis],normal=direction(normal,p['R']))
+    return dict(parent=p,cell=cell,axis=axis,sign=sgn,plane=cell['hi' if sgn==1 else 'lo'][axis],normal=direction(normal,p['R']),material_depth_m=material_depth if material_depth is not None else cell['hi'][axis]-cell['lo'][axis])
 
 def _on_face(points,face):
     for p in points:
@@ -491,7 +506,28 @@ def legacy_parent_view(entity,*,cut_authority_sha256):
 
 
 def _all_faces(parent):
-    return [dict(parent_id=parent['id'],source_parent_sha256=parent['source_hash'],cell_id=cell['id'],axis=axis,sign=sign) for cell in parent['cells'] for axis in range(3) for sign in (-1,1)]
+    g=parent['physical']['geometry'];out=[]
+    for cell in parent['cells']:
+        for axis in range(3):
+            for sign in (-1,1):
+                plane=cell['hi' if sign>0 else 'lo'][axis]
+                # A real RHS outer flat face continues across disjoint-cell
+                # bookkeeping boundaries. Do not expose it as duplicate partial
+                # alternatives or invent a filled hollow END face.
+                if g['kind']=='rhs' and axis==2 and abs(plane-sign*g['size_m'][2]/2)<EPS:continue
+                out.append(dict(parent_id=parent['id'],source_parent_sha256=parent['source_hash'],cell_id=cell['id'],axis=axis,sign=sign))
+    if g['kind']=='rhs':
+        for sign in (-1,1):out.append(dict(parent_id=parent['id'],source_parent_sha256=parent['source_hash'],cell_id='outer-z'+('+' if sign>0 else '-'),axis=2,sign=sign))
+    return out
+
+
+def _contained_in_RHS_material_union(points,parent):
+    g=parent['physical']['geometry']
+    if g['kind']!='rhs':return False
+    cb=bounds(points);size=g['size_m'];t=g['wall_m']
+    if any(cb[k][0]<-size[k]/2-EPS or cb[k][1]>size[k]/2+EPS for k in range(3)):return False
+    inner=[[-size[0]/2,size[0]/2],[-size[1]/2+t,size[1]/2-t],[-size[2]/2+t,size[2]/2-t]]
+    return not bounds_may_touch(cb,inner)
 
 
 def propose_bound_faces(weld,stock,parent_entities,*,root_offsets_m,trim_start_m,trim_end_m,joint_domain):
@@ -615,18 +651,19 @@ def finite_surface_butt_revision(parent_negative,parent_positive,stock_negative,
         for side,mp in zip((-1,1),material):
             end_faces.append(_face_normal_points(mp,scale(J,-side),[p,q,add(p,scale(N,-depth)),add(q,scale(N,-depth))]))
             surface_faces.append(_face_normal_points(mp,N,[p,q,add(p,scale(J,side*hw)),add(q,scale(J,side*hw))]))
+        if any(f['material_depth_m']-depth<=EPS for f in surface_faces):raise DefinitionHold('positive-remaining-parent-root-outside-this-groove-model-domain')
         full_vertices=[sub(p,scale(J,hw)),add(p,scale(J,hw)),sub(p,scale(N,depth)),sub(q,scale(J,hw)),add(q,scale(J,hw)),sub(q,scale(N,depth))]
         fullpoly=_poly(full_vertices,[(0,2,1),(3,4,5),(0,1,4,3),(1,2,5,4),(2,0,3,5)]);V=hw*depth*(L-start-end);C=sub(mid,scale(N,depth/3))
         for number,(side,mp) in enumerate(zip((-1,1),material)):
             tri=[add(p,scale(J,side*hw)),p,sub(p,scale(N,depth))];tri_end=[add(q,scale(J,side*hw)),q,sub(q,scale(N,depth))];vertices=tri+tri_end;poly=_poly(vertices,fullpoly['faces']);local_vertices=[local(v,mp['T'],mp['R']) for v in vertices]
-            if not any(all(cell['lo'][k]-EPS<=v[k]<=cell['hi'][k]+EPS for v in local_vertices for k in range(3)) for cell in mp['cells']):raise DefinitionHold('half-groove-not-contained-in-one-real-source-material-cell')
+            if not any(all(cell['lo'][k]-EPS<=v[k]<=cell['hi'][k]+EPS for v in local_vertices for k in range(3)) for cell in mp['cells']) and not _contained_in_RHS_material_union(local_vertices,mp):raise DefinitionHold('half-groove-not-contained-in-real-source-material-union')
             if any(bounds_may_touch(bounds(vertices),vb) for vb in mp['void_bounds']):raise DefinitionHold('half-groove-source-void-union-outside-conservative-domain')
             if any(interiors_overlap(poly,previous['poly']) for previous in cuts[number]):raise DefinitionHold('new-parent-half-groove-interiors-overlap')
             halfC=add(sub(mid,scale(N,depth/3)),scale(J,side*hw/3))
             cuts[number].append(dict(id=wa['id']+'/new-half-groove/'+str(index)+'/'+str(side),kind='triangular-prism',vertices_m=local_vertices,vertices_terminal_m=vertices,poly=poly,volume_m3=V/2,centroid_terminal_m=halfC))
         if any(interiors_overlap(fullpoly,previous['poly']) for previous in pieces):raise DefinitionHold('new-finite-butt-filler-interiors-overlap')
         pieces.append(dict(id=wa['id']+'/finite-butt/'+str(index),poly=fullpoly,vertices_m=full_vertices,volume_m3=V,centroid_terminal_m=C))
-        contacts.append(dict(source_end_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in end_faces],source_surface_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in surface_faces],new_root_remaining_m=[f['cell']['hi'][f['axis']]-f['cell']['lo'][f['axis']]-depth for f in surface_faces]))
+        contacts.append(dict(source_end_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in end_faces],source_surface_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in surface_faces],new_root_remaining_m=[f['material_depth_m']-depth for f in surface_faces]))
     replacements=[];machining=[];owner_records={}
     for source,mp,oldgroup,parent_cuts in zip(parents,material,raw_groups,cuts):
         cutV=fsum(c['volume_m3'] for c in parent_cuts);cutM=[fsum(c['volume_m3']*c['centroid_terminal_m'][k] for c in parent_cuts) for k in range(3)];prho,_,_,_=_policy(policy,source['material_id'])
@@ -714,3 +751,367 @@ def side_front_connector_revision(row,root,root_stock,endplate,endplate_stock,ol
     if any(abs(sum(p['direct_cost_usd'][c] for p in payable)-cases[c]['calculated_known_component_subtotal_USD'])>1e-10 for c in CASES):raise AssertionError('Connector derived subtotal/payable rows conservation')
     physical=dict(schema='osr-terminal-side-front-connector-physical/1',connector_geometry=deepcopy(final_connector['geometry']),connector_at_m=T,connector_rotation=deepcopy(I),connector_material_id='al5083',retained_root_material=deepcopy(final_root['geometry']),retained_root_at_m=deepcopy(final_root['at_m']),retained_root_rotation=deepcopy(final_root['rotation']),retained_root_material_id=root['material_id'],endplate_material=_parent(endplate)['physical'],filler_material_id=old_weld['material_id'],filler_vertices_m=[deepcopy(x['vertices_m']) for x in fillers])
     return seal(dict(schema='osr-terminal-six-connector-leaf-proposal/1',physical_definition=physical,physical_definition_id=identity(physical),source_binding_data_id=binding_data_id,source_row=deepcopy(row),source_policy=deepcopy(policy),source_root=deepcopy(root),source_endplate=deepcopy(endplate),source_old_weld=deepcopy(old_weld),new_connector_entity=final_connector,new_connector_stock=cg,replacement_weld_stock=filler_stock,replacement_root_entity=final_root,parent_machining=debits,filler_pieces=fillers,filler_net_volume_m3=V,filler_centroid_terminal_m=C,nominal_remaining_root_between_opposed_grooves_m=.002,remaining_root_strength_qualified=False,net_mass_delta_kg=mass_delta,accounting=dict(new_stock_owner_count=1,new_connector_stock_id=cg['id'],old_weld_owner_id=old_weld_stock['id'],old_weld_owner_sha256=identity(old_weld_stock),retire_old_weld_once=True,one_combined_filler_owner=True,old_endplate_owner_retained_once=endplate_stock['id'],old_root_owner_retained_once=root_stock['id'],known_cases=cases,known_cases_are_derived_subtotals_not_extra_payable_rows=True,payable_rows=payable,additional_QA_scope=additional_QA_scope,right_geometry_method_price_is_not_another_charge=True,machine_rate_USD_h=None,complete_installed_cost=False,transaction_applied=False),known_source_tool_projection_controls=deepcopy(row['known_source_tool_bounds']),quantity_scope='One of six connectors per terminal-local template; train multiplicity not applied',holds=['Source-defined nominal finite contact/cut/material/stock only','Tool4mm radial projection separation is a declared bound, not a full assembly/swept tool/path approval','Old weld is geometrically replaced, no WPS/load equivalence inferred from source hours or path lengths','New machine/tool/disposal/final assembly costs unknown; known component subtotal not a quotation or complete installed cost','Fullbody/native/canonical/HAZ/fatigue/crash/fire/testing approval remains separate'],**FLAGS))
+
+
+def upper_tie_parent_view(entity):
+    """Lossless fixed source tie box minus two bores and four rounded slots.
+
+    It preserves the already-counted material and price; it does not subtract
+    those slots again. Only the declared source drawing is supported, never an
+    arbitrary envelope with a conveniently empty contact region.
+    """
+    e=deepcopy(entity);match=re.fullmatch(r'upper/(-1|1)/frame-tie',e['id']);d=e.get('physical_drawing')
+    if match is None or e.get('frame')!='terminal-local-UVW' or e['rotation']!=I or e['material_id']!='al5083':raise DefinitionHold('fixed-upper-tie-source-frame-required')
+    keys={'kind','original_box_size_m','bores','slot_spec','slot_U_centres_local_m','bolt_W_local_m','opening','removed_centroids_local_m','remaining_netsection_qualification'}
+    if not isinstance(d,dict) or set(d)!=keys or d['kind']!='tie-with-two-bores-and-four-open-roundended-extractor-slots' or d['original_box_size_m']!=[.070,.006,.120] or set(e['geometry'])!={'kind','size_m','holes'} or e['geometry']['kind']!='envelope' or e['geometry']['size_m']!=d['original_box_size_m'] or e['geometry']['holes']!=d['bores']:raise DefinitionHold('exact-known-tie-source-drawing-required')
+    side=int(match.group(1));slot=d['slot_spec'];known={'width_m','depth_m','bottom_W_m','round_end_centre_W_m','closed_end_W_m','end_radius_m','section_area_m2','removed_volume_m3','removed_centroid_W_m','tool','remaining_tie_depth_m','source_bore_radial_ligament_m','local_wall_strength_qualified','slot_process_h_each','slot_QA_h_each','added_finish_surface_upper_reference_m2'}
+    if set(slot)!=known or len(d['bores'])!=2 or (len(d['slot_U_centres_local_m'])!=4 or any(abs(scalar(a)-b)>EPS for a,b in zip(d['slot_U_centres_local_m'],[-.026,-.014,.014,.026]))) or d['bolt_W_local_m']!=-.030:raise DefinitionHold('unconsumed-or-revised-tie-slot-definition')
+    width=scalar(slot['width_m'],True);depth=scalar(slot['depth_m'],True);bottom=scalar(slot['bottom_W_m']);centre=scalar(slot['round_end_centre_W_m']);radius=scalar(slot['end_radius_m'],True)
+    if any(abs(a-b)>EPS for a,b in zip([width,depth,bottom,centre,radius],[.003,.0024,-.030,.0015,.0015])):raise DefinitionHold('fixed-source-round-slot-profile-changed')
+    pi=3.141592653589793;A=width*(centre-bottom)+pi*radius*radius/2;cw=(width*(centre-bottom)*(bottom+centre)/2+(pi*radius*radius/2)*(centre+4*radius/(3*pi)))/A
+    if any(abs(scalar(slot[k])-v)>EPS for k,v in [('closed_end_W_m',centre+radius),('section_area_m2',A),('removed_volume_m3',A*depth),('removed_centroid_W_m',cw),('remaining_tie_depth_m',.006-depth),('source_bore_radial_ligament_m',.0004)]):raise ValueError('Source slot section/volume/centroid arithmetic differs')
+    if sorted(h['centre_m'][0] for h in d['bores'])!=[-.020,.020]:raise ValueError('Exact two source bore stations required')
+    for h in d['bores']:
+        if set(h)!={'axis','centre_m','radius_m','length_m'} or type(h['axis']) is not int or h['axis']!=1 or any(abs(a-b)>EPS for a,b in zip(vector(h['centre_m'])[1:],[0.,-.030])) or scalar(h['radius_m'],True)!=.0041 or scalar(h['length_m'],True)!=.006:raise DefinitionHold('exact-source-throughbores-required')
+    expected=[[u,side*(.003-depth/2),-.030+cw] for u in d['slot_U_centres_local_m']]
+    if len(d['removed_centroids_local_m'])!=4 or any(abs(vector(v)[k]-x[k])>EPS for v,x in zip(d['removed_centroids_local_m'],expected) for k in range(3)):raise ValueError('Source slot sign/frame/centroid disagrees')
+    slots=[dict(id=e['id']+'/source-slot/'+str(i),kind='open-round-ended-slot',U_centre_m=u,V_entry_face_m=side*.003,face_sign=side,depth_m=depth,W_open_m=-.030+bottom,W_round_centre_m=-.030+centre,radius_m=radius) for i,u in enumerate(d['slot_U_centres_local_m'])]
+    e['geometry']=dict(kind='box',size_m=[.070,.006,.120],holes=deepcopy(d['bores']),open_round_slot_voids=slots);e.pop('physical_drawing');e['source_drawing_material_view']=dict(source_entity_sha256=identity(entity),source_drawing=deepcopy(d),already_counted_voids_preserved_once=True,new_removal_or_price_charge=False);e.update(FLAGS);_parent(e)
+    return e
+
+
+# These are prospective drawing revisions, not a source-producer rerun. All
+# dimensions are SI and all roots below are in the unchanged terminal frame.
+CONNECTOR_BINDING_ID='97fbb0ad76e27cec67f15b9c64cb7316d596521150b0272f6da6e8536cddf8a6'
+FULL_REVISION='terminal-finite-183/r1'
+
+
+def _terminal_paths(e):
+    d=e['physical_drawing']
+    if d.get('kind')!='triangular-weld-seams':raise DefinitionHold('explicit-source-weld-paths-required')
+    return [[world(vector(v),vector(e['at_m']),rotation(e['rotation'])) for v in line] for line in d['local_segments_m']]
+
+
+def _axis_bounds(e):
+    p=_parent(e);s=p['physical']['geometry']['size_m']
+    return bounds(_box(scale(s,-.5),scale(s,.5),p['T'],p['R'])['vertices'])
+
+
+def _rectangle(axis,a,b,ranges):
+    # Four explicit sides; endpoint ordering is preserved, not an inferred miter.
+    other=[k for k in range(3) if k!=axis];out=[]
+    corners=[]
+    for x,y in ((0,0),(1,0),(1,1),(0,1)):
+        q=[0.,0.,0.];q[axis]=a;q[other[0]]=ranges[0][x];q[other[1]]=ranges[1][y];corners.append(q)
+    for i in range(4):out.append([corners[i],corners[(i+1)%4]])
+    return out
+
+
+def route_record(weld,parents):
+    """Explicit27-pattern source routing; no wildcard best-fit parent search.
+
+    The caller supplies authenticated material views. This method does not run a
+    native kernel, create material across voids or infer adequate weld strength.
+    The original paths and nominal owner remain available even when revised.
+    """
+    eid=name(weld['id']);p=pattern_for(eid);t=eid.split('/');old=_terminal_paths(weld)
+    def member(k):
+        if k not in parents:raise DefinitionHold('explicit-source-parent-missing:'+k)
+        return parents[k]
+    def spec(kind,ids,paths=None,domain='external-orthogonal-fillet',trim=.002,reason=None,**extra):
+        for k in ids:member(k)
+        return dict(source_weld_id=eid,pattern=p,method=kind,parent_ids=ids,segments_terminal_m=deepcopy(old if paths is None else paths),joint_domain=domain,trim_start_m=trim,trim_end_m=trim,reason=reason,**extra)
+    if p in ('floor/support/*/long-seams','side-stiffener/*/*/front/long-seams','side-stiffener/*/*/rear/long-seams'):
+        return spec('fabricated-four-plate-butt',[eid.rsplit('/',1)[0]])
+    if p in ('side-stiffener/*/*/front/weld0','side-stiffener/*/*/front/weld1','side-stiffener/*/*/rear/weld0','side-stiffener/*/*/rear/weld1'):
+        base=eid.rsplit('/',1)[0];return spec('endplate-cavity',[base,base+'/endplate'+t[-1][-1]],domain='existing-source-cavity-fillet')
+    if p=='side-front-root/*/*/weld':
+        return spec('counted-gap-connector',[eid.rsplit('/',1)[0]],reason='Explicit10mm gap: new counted connector, no unsupported bead spanning empty space')
+    if p=='floor/boss/*/*/weld':
+        boss=eid.rsplit('/',1)[0];b=member(boss)
+        if b['geometry']['kind']!='box' or any(abs(x-y)>EPS for x,y in zip(b['geometry']['size_m'],[.020,.014,.006])):raise DefinitionHold('retained14mm-floor-boss-drawing-required')
+        if len(old)!=4:raise ValueError('Four original floor boss paths required')
+        return spec('fillet',[boss,'floor/support/'+t[2]],paths=[old[1],old[3]],domain='existing-source-cavity-fillet',reason='Retain14mm boss/thread/axis/paidblank; replace four unsupported top paths by two supported U-end fillets. Rejected10mm width would reduce lateral thread ligament. Reduced weld/load/HAZ remains unqualified',nominal_thread_geometry=dict(major_diameter_m=.004,major_depth_m=.00485,pilot_diameter_m=.0033,pilot_depth_m=.00065,bottom_web_m=.0005,lateral_major_ligament_m=.005,nearest_end_fillet_to_major_m=.008))
+    if p=='floor/hanger/*/cap-frame-weld':
+        block='floor/hanger/'+t[2]+'/block';b=member(block);side=1 if b['at_m'][1]>0 else -1
+        other='floor/post-bottom/'+str(side)+'/closure' if abs(b['geometry']['size_m'][1]-.14)<EPS else 'legacy/lower-rail/0'
+        if len(old)!=4:raise ValueError('Four original hanger paths required')
+        return spec('fillet',[block,other],paths=old[:3],trim=.003,reason='Drop unsupported flush rear-U perimeter side; three real backed sides retained, reduced weld/load unqualified')
+    if p=='floor/post-bottom/*/post-closure-weld':
+        return spec('butt',['floor/post-bottom/'+t[2]+'/closure','legacy/post/'+t[2]],joint_direction_m=[0.,0.,1.],surface_normals_m=[[-1.,0.,0.],[0.,-1.,0.],[0.,1.,0.]],reason='Three explicit counted plate/post grooves replace unbacked perimeter fillets')
+    if p=='floor/support/*/root-end-weld':
+        j=int(t[2]);return spec('fillet',['floor/support/'+t[2],'floor/hanger/'+str(1 if j==0 else 13 if j==14 else j)+'/block'],domain='existing-source-cavity-fillet',trim=.003)
+    if p in ('post-clamp/*/*/front-web-weld','post-clamp/*/*/rear-web-weld'):
+        label=t[-1].split('-')[0];prefix='/'.join(t[:3]);offset=-.002 if label=='front' else .002
+        paths=[[add(v,[offset,0.,0.]) for v in line] for line in old]
+        return spec('fillet',[prefix+'/'+label,prefix+'/outer-web'],paths=paths,reason='Root moved from plate centre to its actual inner-U face')
+    if p=='roof/fascia-underlap-seam':
+        return spec('fillet',['fascia/central','roof/underlap'],paths=[[add(v,[0.,0.,-.001]) for v in line] for line in old],trim=.0015,reason='Root on actual underlap bottom, not plate midplane')
+    if p=='roof/standoff-weld/*':return spec('fillet',['roof/standoff/'+t[2],'legacy/header/0'],trim=.003)
+    if p=='roof/outrigger-weld/*':
+        tube=member('roof/outrigger/'+t[2]);b=_axis_bounds(tube);wall=scalar(tube['geometry']['wall_m'],True)
+        paths=_rectangle(0,b[0][0],None,[[b[k][0]+wall,b[k][1]-wall] for k in (1,2)])
+        return spec('fillet',['roof/outrigger/'+t[2],'roof/standoff/'+t[2]],paths=paths,domain='existing-source-cavity-fillet',trim=.003,reason='Inner24x54 cavity perimeter has actual standoff backing; old outer perimeter does not')
+    if p=='roof/outrigger-fascia-joint/*':
+        tube=member('roof/outrigger/'+t[2]);b=_axis_bounds(tube);fb=_axis_bounds(member('roof/fascia-stiffener'));wall=scalar(tube['geometry']['wall_m'],True);w=[max(b[2][0]+wall,fb[2][0]),min(b[2][1]-wall,fb[2][1])]
+        paths=[[[b[0][1],v,w[0]],[b[0][1],v,w[1]]] for v in (b[1][0]+wall,b[1][1]-wall)]
+        return spec('fillet',['roof/outrigger/'+t[2],'roof/fascia-stiffener'],paths=paths,domain='existing-source-cavity-fillet',trim=.003,reason='Two vertical inner-sidewall roots on real fascia backing; no fictitious RHS endcap')
+    if p=='side-front-root/*/*/stiffener-weld':return spec('fillet',[eid.rsplit('/',1)[0],'side-front-stiffener/'+t[1]])
+    if p=='side-front-cap-root/*/stiffener-weld':
+        cap=eid.rsplit('/',1)[0];e=member(cap);b=_axis_bounds(e);wall=scalar(e['geometry']['wall_m'],True)
+        paths=_rectangle(0,b[0][1],None,[[b[k][0]+wall,b[k][1]-wall] for k in (1,2)])
+        return spec('fillet',[cap,'side-front-stiffener/'+t[1]],paths=paths,domain='existing-source-cavity-fillet',reason='Inner34x34 cavity perimeter replaces unsupported outer cap perimeter')
+    if p=='side-outrigger/*/*/weld':
+        side=int(t[1]);bracket=eid.rsplit('/',1)[0];b=_axis_bounds(member(bracket));v=b[1][0] if side==1 else b[1][1]
+        paths=[[[b[0][1],v,b[2][0]],[b[0][1],v,b[2][1]]]]
+        return spec('fillet',[bracket,'legacy/post/'+t[1]],paths=paths,trim=.003,reason='One actual vertical plate/post contact replaces30mm-wide root on6mm plate; reduced load capacity unresolved')
+    if p in ('side-stiffener/*/*/front/tab-weld','side-stiffener/*/*/rear/tab-weld'):
+        side=int(t[1]);base=eid.rsplit('/',1)[0];tab=base+'/clamp-weld-tab';web='/'.join(['post-clamp',t[1],t[2],'outer-web']);label=t[3];ep=base+('/endplate1' if label=='front' else '/endplate0');b=_axis_bounds(member(tab));v=b[1][1] if side==1 else b[1][0]
+        pairs=[[web,tab],[tab,ep]] if label=='front' else [[ep,tab],[tab,web]]
+        paths=[[[u,v,b[2][0]],[u,v,b[2][1]]] for u in (b[0][0],b[0][1])]
+        return spec('two-butt-jobs',[tab,web,ep],paths=paths,pairs=pairs,joint_direction_m=[1.,0.,0.],surface_normals_m=[[0.,float(side),0.]]*2,reason='Two counted2mm-deep outer-V grooves replace2mm fillets with only1mm backing; retain stock/pads and1mm nominal tab root, unqualified WPS/load')
+    if p=='upper-frame/*/*/boss-weld':return spec('fillet',[eid.rsplit('/',1)[0]+'/boss','legacy/post/'+t[1]],domain='existing-source-cavity-fillet')
+    if p in ('upper/*/tie-lug-seams','upper/*/backbone-lug-seams/*','upper/*/cap-backbone-weld'):
+        side=int(t[1]);pre='upper/'+t[1];v=side*1.221
+        if p=='upper/*/tie-lug-seams':
+            ids=[pre+'/frame-tie',pre+'/0/lug'];b=_axis_bounds(member(ids[1]));z=b[2][0];paths=[[[b[0][0],v,z],[b[0][1],v,z]]];J=[0.,0.,1.]
+        elif p=='upper/*/backbone-lug-seams/*':
+            k=int(t[-1]);ids=[pre+'/0/lug',pre+'/backbone'] if k==0 else [pre+'/backbone',pre+'/1/lug'];b=_axis_bounds(member(pre+'/backbone'));z=b[2][0] if k==0 else b[2][1];paths=[[[b[0][0],v,z],[b[0][1],v,z]]];J=[0.,0.,1.]
+        else:
+            ids=[pre+'/backbone',pre+'/cap-inner-arm'];a=_axis_bounds(member(ids[0]));b=_axis_bounds(member(ids[1]));u=a[0][1];paths=[[[u,v,max(a[2][0],b[2][0])],[u,v,min(a[2][1],b[2][1])]]];J=[1.,0.,0.]
+        return spec('butt',ids,paths=paths,joint_direction_m=J,surface_normals_m=[[0.,float(side),0.]],reason='Counted finite common outer-V butt groove; no unbacked edge fillet or additional unowned stock')
+    raise DefinitionHold('unimplemented-source-pattern:'+p)
+
+
+def aggregate_parent_cuts(parent,stock,contributions,policy):
+    """Union separately proposed DISJOINT new cuts against one original owner.
+
+    Never debit sequential replacement parents or duplicate a shared paid blank.
+    Source centroid/proxy is retained as a declared starting estimate, not proved
+    by exact new cut integrals. Existing holes/slots/voids remain counted once.
+    """
+    source=deepcopy(parent);mp=_parent(source)
+    if source['id'] not in stock['entity_ids']:raise ValueError('Source parent/stock ownership mismatch')
+    if not contributions:raise ValueError('Explicit nonempty parent cut contributions required')
+    existing=deepcopy(mp['physical'].get('finite_source_void_prisms',[]));existing_ids={c['id'] for c in existing};cuts=[];seen=set()
+    for contribution in contributions:
+        if set(contribution)!={'source_parent_sha256','source_stock_sha256','source_weld_id','cuts'} or contribution['source_parent_sha256']!=identity(source) or contribution['source_stock_sha256']!=identity(stock):raise ValueError('Aggregate cut source epoch mismatch')
+        name(contribution['source_weld_id'])
+        for cut in contribution['cuts']:
+            if set(cut)!={'id','kind','vertices_m','volume_m3','centroid_terminal_m'} or cut['kind']!='triangular-prism':raise ValueError('Complete finite new cut measure required')
+            cid=name(cut['id'])
+            if cid in seen or cid in existing_ids:raise ValueError('Duplicate new/existing cut ownership')
+            seen.add(cid);vs=[vector(v) for v in cut['vertices_m']]
+            if len(vs)!=6:raise ValueError('Six explicit half-prism vertices required')
+            V=abs(dot(cross(sub(vs[1],vs[0]),sub(vs[2],vs[0])),sub(vs[3],vs[0])))/2;C=world([fsum(v[k] for v in vs)/6 for k in range(3)],mp['T'],mp['R'])
+            if V<=1e-18 or abs(V-scalar(cut['volume_m3'],True))>max(1e-15,V*1e-9) or norm(sub(C,vector(cut['centroid_terminal_m'])))>EPS:raise ValueError('New cut analytic volume/first moment mismatch')
+            poly=_poly([world(v,mp['T'],mp['R']) for v in vs],[(0,2,1),(3,4,5),(0,1,4,3),(1,2,5,4),(2,0,3,5)])
+            if any(bounds_may_touch(bounds(poly['vertices']),v) for v in mp['void_bounds']):raise DefinitionHold('aggregate-new-cut-near-existing-source-void-outside-conservative-domain')
+            if any(interiors_overlap(poly,c['poly']) for c in cuts):raise DefinitionHold('aggregate-new-parent-cut-interior-overlap')
+            cuts.append(dict(**deepcopy(cut),poly=poly))
+    result=deepcopy(source);result['geometry'].pop('corner_bevels',None);result['geometry']['finite_void_prisms']=existing+[{k:deepcopy(c[k]) for k in ('id','kind','vertices_m')} for c in cuts];_parent(result)
+    V=fsum(c['volume_m3'] for c in cuts);M=[fsum(c['volume_m3']*c['centroid_terminal_m'][k] for c in cuts) for k in range(3)];rho,_,_,_=_policy(policy,source['material_id']);oldC=world(vector(source['centroid_local_m']),mp['T'],mp['R']);cases={}
+    for j,c in enumerate(CASES):
+        m=scalar(source['mass_kg'][c],True);net=m-rho[j]*V
+        if net<=0:raise DefinitionHold('aggregate-cut-exceeds-positive-source-parent-mass')
+        cases[c]=dict(mass_kg=net,centroid_terminal_m=[(m*oldC[k]-rho[j]*M[k])/net for k in range(3)],removed_mass_kg=rho[j]*V,removed_first_moment_kg_m=scale(M,rho[j]))
+    result['mass_kg']={c:cases[c]['mass_kg'] for c in CASES};result['centroid_local_m']=local(cases['base']['centroid_terminal_m'],mp['T'],mp['R']);result['centroid_terminal_cases_m']={c:cases[c]['centroid_terminal_m'] for c in CASES};result['mass_centroid_basis']='Declared original source proxy minus union of exact disjoint new cut integrals; not independently measured installed CG';result['shape_I_per_kg']=None;result['inertia_basis']='Changed finite cuts require a new inertia approximation/qualification; old tensor not silently inherited';result['source_preparation_revision']=dict(source_entity_sha256=identity(source),source_stock_owner_id=stock['id'],cut_owner_ids=[c['id'] for c in cuts],new_removed_volume_m3=V,new_removed_first_volume_moment_m4=M);result.update(FLAGS)
+    return seal(dict(schema='osr-terminal-parent-cut-union/1',source_parent=source,source_stock=deepcopy(stock),contributions=deepcopy(contributions),replacement_parent_entity=result,new_removed_volume_m3=V,new_removed_first_volume_moment_m4=M,cases=cases,paid_gross_retained_once=True,additional_material_purchase_m3=0.,scrap_credit_USD=0.,**FLAGS))
+
+
+def _filler_owner(old,policy,pieces,*,extra_process_h=0.,extra_QA_h=0.,unknown_additional_work=True):
+    """One authoritative old filler owner, irrespective of internal joint count."""
+    if len({p['id'] for p in pieces})!=len(pieces) or not pieces:raise ValueError('Unique positive finite filler occurrences required')
+    rho,rates,labour,factor=_policy(policy,'al5083');V=fsum(scalar(p['volume_m3'],True) for p in pieces);M=[fsum(p['volume_m3']*p['centroid_terminal_m'][k] for p in pieces) for k in range(3)];ph=scalar(old['process_h']);qh=scalar(old['QA_h']);extra_process_h=scalar(extra_process_h);extra_QA_h=scalar(extra_QA_h)
+    if min(ph,qh,extra_process_h,extra_QA_h)<0 or ph+qh<=0:raise ValueError('Original process/QA ownership and nonnegative explicit revision hours required')
+    return dict(id=old['id'],source_owner_sha256=identity(old),entity_ids=[p['id'] for p in pieces],quantity=1,net_m3=V,gross_m3=V*factor,scrap_m3=V*(factor-1),net_mass_kg={c:V*rho[j] for j,c in enumerate(CASES)},gross_mass_kg={c:V*factor*rho[j] for j,c in enumerate(CASES)},scrap_mass_kg={c:V*(factor-1)*rho[j] for j,c in enumerate(CASES)},direct_cost_usd={c:V*factor*rho[j]*rates[j]+(ph+qh+extra_process_h+extra_QA_h)*labour[j] for j,c in enumerate(CASES)},process_h=ph+extra_process_h,QA_h=qh+extra_QA_h,retained_original_process_h=ph,retained_original_QA_h=qh,additional_process_h=extra_process_h,additional_QA_h=extra_QA_h,extra_setup_tool_machine_disposal_USD=None if unknown_additional_work else 'Declared joint process only; machine/tool/disposal still unknown',first_moment_kg_m={c:scale(M,rho[j]) for j,c in enumerate(CASES)},complete_installed_cost=False,old_owner_retired_once=True)
+
+
+def _extract_new_cuts(job,parent):
+    """Extract only newly owned cuts from a supported two-parent revision."""
+    pid=parent['id'];rep=next(p for p in job['replacement_parent_entities'] if p['id']==pid);base=_parent(parent);prior={c['id'] for c in base['physical'].get('finite_source_void_prisms',[])};out=[]
+    for c in rep['geometry']['finite_void_prisms']:
+        if c['id'] in prior:continue
+        vs=c['vertices_m'];worldvs=[world(v,base['T'],base['R']) for v in vs];V=abs(dot(cross(sub(vs[1],vs[0]),sub(vs[2],vs[0])),sub(vs[3],vs[0])))/2;C=[fsum(v[k] for v in worldvs)/6 for k in range(3)];out.append(dict(**deepcopy(c),volume_m3=V,centroid_terminal_m=C))
+    return out
+
+
+def _decode_full_source(raw,pin):
+    if pin!=SOURCE or not isinstance(raw,bytes) or len(raw)>64*1024**2 or sha256(raw).hexdigest()!=pin['raw_sha256']:raise ValueError('Exact full terminal source raw/pin required')
+    if raw[:2]==b'\x1f\x8b':
+        decoder=zlib.decompressobj(31);data=decoder.decompress(raw,64*1024**2+1)
+        if len(data)>64*1024**2 or decoder.unconsumed_tail or not decoder.eof or decoder.unused_data:raise ValueError('Bounded single source gzip member required')
+    else:data=raw
+    src=json.loads(data)
+    if src['evaluation_id']!=pin['evaluation_id'] or identity({k:v for k,v in src.items() if k!='evaluation_id'})!=pin['evaluation_id'] or src['candidate_id']!=pin['candidate_id'] or identity(src['physical_definition'])!=pin['candidate_id'] or src['source_sha256']['engineering/terminal_installation.py']!=SOURCE_MODULE_SHA256:raise ValueError('Full source physical/evaluation/source epoch mismatch')
+    cp=src['component_proposal']
+    if cp['units']!='m' or cp['local_axes']!=['u outward','v lateral','w up']:raise ValueError('Unchanged terminal metre frame required')
+    entities=cp['entities'];byid={e['id']:e for e in entities};owners={};groups={}
+    if len(byid)!=len(entities):raise ValueError('Duplicate original source occurrence')
+    for g in cp['stock_groups']:
+        if g['id'] in groups or len(set(g['entity_ids']))!=len(g['entity_ids']):raise ValueError('Duplicate original stock owner/occurrence')
+        groups[g['id']]=g
+        for eid in g['entity_ids']:
+            if eid not in byid or eid in owners:raise ValueError('Missing or duplicate original paid-stock occurrence')
+            owners[eid]=g
+    welds=[e for e in entities if e.get('physical_drawing',{}).get('kind')=='triangular-weld-seams'];inventory={p:0 for p,_ in PATTERNS}
+    for e in welds:
+        inventory[pattern_for(e['id'])]+=1
+        if e['id'] not in owners or owners[e['id']]['entity_ids']!=[e['id']] or type(owners[e['id']]['quantity']) is not int or owners[e['id']]['quantity']!=1:raise ValueError('One original filler stock owner per weld required')
+    if inventory!=dict(PATTERNS):raise ValueError('Exact183 records/27 source patterns required')
+    return src,byid,owners,groups,welds
+
+
+def compile_full_definition(raw,*,pin,connector_binding,cut_authority_sha256,request_id):
+    """One prospective183-record terminal definition, never canonical admission.
+
+    Parent preparations run first against original material views. New cuts are
+    aggregated once before any dependent cavity/fillet is evaluated. Unsupported
+    definitions are preserved as named holds, never old-parent fallback passes.
+    No prior062 native/subset output is consumed by this new whole-source call.
+    """
+    digest(request_id)
+    if cut_authority_sha256!=SOURCE_CUT_AUTHORITY_SHA256:raise ValueError('Exact signed-BASE source authority required')
+    src,byid,owners,groups,welds=_decode_full_source(raw,pin)
+    if connector_binding.get('evaluation_id')!=CONNECTOR_BINDING_ID or identity({k:v for k,v in connector_binding.items() if k!='evaluation_id'})!=CONNECTOR_BINDING_ID:raise ValueError('Exact six-connector read-only binding data required')
+    rows=connector_binding['rows'];rowmap={r['old_weld_to_replace_once']['id']:r for r in rows}
+    if len(rows)!=6 or len(rowmap)!=6:raise ValueError('Six distinct connector source owners required')
+    return _compile_routed_source(src,byid,owners,groups,welds,pin=pin,connector_binding=connector_binding,cut_authority_sha256=cut_authority_sha256,request_id=request_id,expected_records=183)
+
+
+def _compile_routed_source(src,byid,owners,groups,welds,*,pin,connector_binding,cut_authority_sha256,request_id,expected_records):
+    """Internal assembly stage; fixtures may exercise small invented rosters.
+
+    Public entry authenticates the exact183 source and six binding rows BEFORE
+    reaching here. A small fixture roster cannot relax that public contract.
+    """
+    if type(expected_records) is not int or expected_records<1 or len(welds)!=expected_records:raise ValueError('Explicit exact source record count required')
+    policy=dict(materials=deepcopy(src['materials']),process=deepcopy(src['process_and_QA']));rowmap={r['old_weld_to_replace_once']['id']:r for r in connector_binding['rows']}
+    parents={};views=[];routes={};held={};proposals={};contributions={};base_revisions={};new_stock={};failed_parents=set();new_parts={};job_receipts=[];parent_replacements={}
+    # Only named source material parents are adapted. Unknown equipment/envelopes
+    # are retained context; they are never filled or silently promoted to solids.
+    def getparent(pid):
+        if pid in parents:return parents[pid]
+        if pid not in byid:raise DefinitionHold('source-parent-missing:'+pid)
+        e=byid[pid]
+        if pid.startswith('legacy/'):
+            p=legacy_parent_view(e,cut_authority_sha256=cut_authority_sha256);views.append(dict(id=pid,method='legacy-signed-base-material-view',source_sha256=identity(e),view_sha256=identity(p)))
+        elif re.fullmatch(r'upper/(-1|1)/frame-tie',pid):
+            p=upper_tie_parent_view(e);views.append(dict(id=pid,method='exact-rounded-slot-material-view',source_sha256=identity(e),view_sha256=identity(p)))
+        else:p=deepcopy(e);_parent(p)
+        if pid not in owners:raise ValueError('Source parent lacks explicit paid owner:'+pid)
+        parents[pid]=p;return p
+    # Resolve routing using lazy, explicit parent lookup, not all unknown source
+    # entities. This also makes missing dependencies concrete and auditable.
+    class ParentViews(dict):
+        def __contains__(self,k):return k in byid
+        def __getitem__(self,k):return getparent(k)
+    roster=ParentViews()
+    for weld in welds:
+        eid=weld['id']
+        try:routes[eid]=route_record(weld,roster)
+        except DefinitionHold as error:held[eid]=dict(source_weld_id=eid,phase='source-route',reason=str(error),old_source_retained=True)
+    def hold(eid,phase,error,ids):
+        held[eid]=dict(source_weld_id=eid,phase=phase,reason=str(error),parent_ids=deepcopy(ids),old_source_retained=True);failed_parents.update(ids)
+    def contribute(job,p,eid):
+        contributions.setdefault(p['id'],[]).append(dict(source_parent_sha256=identity(p),source_stock_sha256=identity(owners[p['id']]),source_weld_id=eid,cuts=_extract_new_cuts(job,p)))
+    # Preparations are evaluated against original source views, not another
+    # joint's replacement. Union/mass/stock debit happens once below.
+    for weld in welds:
+        eid=weld['id'];r=routes.get(eid)
+        if r is None:continue
+        method=r['method'];ids=r['parent_ids']
+        if method not in ('fabricated-four-plate-butt','butt','two-butt-jobs','counted-gap-connector'):continue
+        try:
+            if method=='fabricated-four-plate-butt':
+                p=getparent(ids[0]);j=fabricated_butt_revision(p,owners[p['id']],weld,owners[eid],policy,trim_start_m=.002,trim_end_m=.002);base_revisions[p['id']]=j;pieces=[dict(id=g['id']+'/filler',poly=deepcopy(g['poly']),vertices_m=deepcopy(g['vertices_m']),volume_m3=g['volume_m3'],centroid_terminal_m=g['centroid_m']) for g in j['grooves']];proposals[eid]=dict(method=method,jobs=[j],pieces=pieces,extra_process_h=0.,extra_QA_h=0.)
+            elif method=='counted-gap-connector':
+                if eid not in rowmap:raise ValueError('Missing exact source connector data row')
+                row=rowmap[eid];root=getparent(row['source_root']['id']);ep=getparent(row['source_endplate']['id']);j=side_front_connector_revision(row,root,owners[root['id']],ep,owners[ep['id']],weld,owners[eid],policy,binding_data_id=CONNECTOR_BINDING_ID)
+                if j['new_connector_entity']['id'] in byid or j['new_connector_entity']['id'] in new_parts or j['new_connector_stock']['id'] in groups or j['new_connector_stock']['id'] in new_stock:raise ValueError('New connector occurrence/paid-stock identity collision')
+                parent_replacements[root['id']]=j['replacement_root_entity'];new_parts[j['new_connector_entity']['id']]=j['new_connector_entity'];new_stock[j['new_connector_stock']['id']]=j['new_connector_stock'];proposals[eid]=dict(method=method,jobs=[j],pieces=j['filler_pieces'],authoritative_owner=j['replacement_weld_stock'])
+            else:
+                pairs=r.get('pairs',[ids]);jobs=[];pieces=[]
+                for n,pair in enumerate(pairs):
+                    a,b=[getparent(k) for k in pair];paths=[r['segments_terminal_m'][n]] if method=='two-butt-jobs' else r['segments_terminal_m'];normals=[r['surface_normals_m'][n]] if method=='two-butt-jobs' else r['surface_normals_m'];j=finite_surface_butt_revision(a,b,owners[a['id']],owners[b['id']],weld,owners[eid],policy,root_segments_terminal_m=paths,joint_direction_m=r['joint_direction_m'],surface_normals_m=normals,half_width_m=.001,depth_m=.002,trim_start_m=.002,trim_end_m=.002,additional_process_h=.04,additional_QA_h=.02)
+                    # Internal multi-joint measures are not multiple filler or
+                    # old process owners. Give each finite piece a unique ID.
+                    joint_pieces=deepcopy(j['filler_pieces'])
+                    if method=='two-butt-jobs':
+                        for q in joint_pieces:q['id']+='/joint'+str(n)
+                    jobs.append(j);pieces+=joint_pieces
+                for j in jobs:
+                    for p in j['source_parents']:contribute(j,p,eid)
+                proposals[eid]=dict(method=method,jobs=jobs,pieces=pieces,extra_process_h=.04,extra_QA_h=.02)
+            job_receipts.append(dict(source_weld_id=eid,method=method,job_ids=[j['evaluation_id'] for j in proposals[eid]['jobs']]))
+        except DefinitionHold as error:hold(eid,'parent-preparation',error,ids)
+    # A shared parent with incompatible preparation modes must be redesigned,
+    # not silently selected by dictionary overwrite.
+    if set(base_revisions)&(set(contributions)|set(parent_replacements)) or set(contributions)&set(parent_replacements):raise DefinitionHold('shared-parent-mixed-preparation-routes-require-explicit-union')
+    final=deepcopy(parents);unions={}
+    for pid,j in base_revisions.items():final[pid]=j['replacement_parent_entity']
+    for pid,p in parent_replacements.items():final[pid]=p
+    for pid,cs in contributions.items():
+        try:unions[pid]=aggregate_parent_cuts(parents[pid],owners[pid],cs,policy);final[pid]=unions[pid]['replacement_parent_entity']
+        except DefinitionHold as error:
+            failed_parents.add(pid)
+            for c in cs:hold(c['source_weld_id'],'parent-cut-union',error,[pid])
+    # Every prepared joint bound to a failed parent is held as well. No orphaned
+    # filler is admitted while its intended material revision failed.
+    propagate=True
+    while propagate:
+        before=len(failed_parents);propagate=False
+        for eid,r in routes.items():
+            if set(r['parent_ids'])&failed_parents:
+                if eid not in held:held[eid]=dict(source_weld_id=eid,phase='dependency',reason='required-parent-preparation-held',parent_ids=r['parent_ids'],old_source_retained=True)
+                if r['method'] in ('butt','two-butt-jobs','fabricated-four-plate-butt','counted-gap-connector'):failed_parents.update(r['parent_ids'])
+        propagate=len(failed_parents)!=before
+    for weld in welds:
+        eid=weld['id'];r=routes.get(eid)
+        if eid in held or eid in proposals:continue
+        ids=r['parent_ids']
+        try:
+            ps=[final[k] for k in ids];e=weld;g=owners[eid];revision=None
+            if r['method']=='endplate-cavity':a=endplate_cavity_binding(e,g,ps[0],ps[1],trim_m=.002)
+            else:
+                if r['segments_terminal_m']!=_terminal_paths(e) or r['joint_domain']=='existing-source-cavity-fillet' and not e['physical_drawing']['in_prepared_grooves']:
+                    revision=revise_source_paths(e,g,policy,segments_terminal_m=r['segments_terminal_m'],joint_domain=r['joint_domain'],reason=r['reason'] or 'Explicit source contact-domain revision');e=revision['replacement_entity'];g=revision['replacement_stock']
+                a=propose_bound_faces(e,g,ps,root_offsets_m=[[0.,0.,0.] for _ in e['physical_drawing']['local_segments_m']],trim_start_m=r['trim_start_m'],trim_end_m=r['trim_end_m'],joint_domain=r['joint_domain'])
+            j=define_record(e,g,a,ps,policy);pieces=[dict(id=b['id'],poly=b['poly'],vertices_m=b['poly']['vertices'],volume_m3=b['volume_m3'],centroid_terminal_m=b['centroid_m']) for b in j['beads']];proposals[eid]=dict(method=r['method'],jobs=[j],path_revision=revision,pieces=pieces,extra_process_h=0.,extra_QA_h=0.)
+        except DefinitionHold as error:held[eid]=dict(source_weld_id=eid,phase='final-parent-fillet',reason=str(error),parent_ids=ids,old_source_retained=True)
+    # Final callable receipts and original context are returned even on partial
+    # definition success. No failed owner is turned into zero or billed twice.
+    defined={k:v for k,v in proposals.items() if k not in held};filler_owners={};allpieces=[]
+    # A held connector never becomes a new payable/installed part merely because
+    # its local geometry method returned before another dependency held it.
+    allowed_new_ids={p['jobs'][0]['new_connector_entity']['id'] for p in defined.values() if p['method']=='counted-gap-connector'}
+    new_parts={k:v for k,v in new_parts.items() if k in allowed_new_ids};new_stock={k:v for k,v in new_stock.items() if set(v['entity_ids'])<=allowed_new_ids}
+    for eid,p in defined.items():
+        filler_owners[eid]=deepcopy(p['authoritative_owner']) if 'authoritative_owner' in p else _filler_owner(owners[eid],policy,p['pieces'],extra_process_h=p['extra_process_h'],extra_QA_h=p['extra_QA_h']);allpieces+=p['pieces']
+    if len({p['id'] for p in allpieces})!=len(allpieces):raise ValueError('Duplicate finite filler occurrence across original owners')
+    collisions=[]
+    for i,a in enumerate(allpieces):
+        for b in allpieces[i+1:]:
+            if bounds_overlap(bounds(a['poly']['vertices']),bounds(b['poly']['vertices'])) and interiors_overlap(a['poly'],b['poly']):collisions.append([a['id'],b['id']])
+    # Parent owner net deltas are grouped once, including a shared legacy owner.
+    # Paid gross/rate/process entries are copied unchanged; additional prep is
+    # owned by the one source weld replacement, never repeated on each parent.
+    changed={pid:final[pid] for pid in set(base_revisions)|set(parent_replacements)|set(unions) if pid not in failed_parents};parent_owner_rows={}
+    for pid,p in changed.items():
+        owner=owners[pid];oid=owner['id']
+        if oid not in parent_owner_rows:parent_owner_rows[oid]=dict(source_owner=deepcopy(owner),source_owner_sha256=identity(owner),changed_parent_ids=[],net_mass_delta_kg={c:0. for c in CASES})
+        row=parent_owner_rows[oid];row['changed_parent_ids'].append(pid)
+        for c in CASES:row['net_mass_delta_kg'][c]+=p['mass_kg'][c]-parents[pid]['mass_kg'][c]
+    for row in parent_owner_rows.values():
+        old=row['source_owner'];row['replacement_owner']=deepcopy(old);row['paid_gross_count']=1;row['material_purchase_delta_USD']={c:0. for c in CASES};row['machining_credit_USD']=0.;row['additional_machining_cost_unknown']=True
+        for c in CASES:
+            net=scalar(old['net_mass_kg'][c],True)+row['net_mass_delta_kg'][c]
+            if net<=0 or net>scalar(old['gross_mass_kg'][c],True)+EPS:raise DefinitionHold('aggregate-parent-stock-net-outside-paid-gross')
+            row['replacement_owner']['net_mass_kg'][c]=net;row['replacement_owner']['scrap_mass_kg'][c]=old['gross_mass_kg'][c]-net
+        if old.get('net_m3') is not None:
+            base_mass=scalar(old['net_mass_kg']['base'],True);rho=base_mass/scalar(old['net_m3'],True);dv=row['net_mass_delta_kg']['base']/rho;row['replacement_owner']['net_m3']=old['net_m3']+dv
+            if old.get('gross_m3') is not None:row['replacement_owner']['scrap_m3']=old['gross_m3']-row['replacement_owner']['net_m3']
+    dispositions=[dict(source_weld_id=e['id'],old_owner_id=owners[e['id']]['id'],old_owner_sha256=identity(owners[e['id']]),status='defined-one-for-one-replacement' if e['id'] in defined else 'held-original-retained',replacement_owner_id=filler_owners[e['id']]['id'] if e['id'] in defined else None) for e in welds]
+    if len(dispositions)!=expected_records or len({x['old_owner_id'] for x in dispositions})!=expected_records or len(defined)+len(held)!=expected_records:raise AssertionError('Original weld owner conservation failed')
+    physical=dict(schema='osr-terminal-finite-full-revision-physical/1',revision=FULL_REVISION,parent_candidate_id=pin['candidate_id'],changed_parents=[_parent(p)['physical'] for _,p in sorted(changed.items())],new_parts=[_parent(p)['physical'] for _,p in sorted(new_parts.items())],filler=[dict(id=p['id'],material_id='al5083',vertices_terminal_m=p['poly']['vertices']) for p in allpieces],unresolved_original_weld_ids=sorted(held),interpart_domain='Individual declared mating faces and new finite filler/cut unions only; full surrounding assembly not evaluated')
+    return seal(dict(schema='osr-terminal-finite-full-revision-proposal/1',source_pin=deepcopy(pin),request_id=request_id,source_proposal=src,source_connector_binding=deepcopy(connector_binding),source_policy=policy,source_material_views=views,source_routes=routes,preparation_job_receipts=job_receipts,parent_preparation_receipts=proposals,parent_cut_unions=unions,final_changed_parent_entities=changed,new_part_entities=new_parts,defined_welds=sorted(defined),held=list(held.values()),source_weld_count=expected_records,defined_weld_count=len(defined),held_weld_count=len(held),filler_occurrence_count=len(allpieces),cross_record_filler_intersections=collisions,complete_finite_weld_definition=not held and not collisions,physical_definition=physical,physical_definition_id=identity(physical),accounting=dict(old_weld_dispositions=dispositions,filler_replacement_owners=filler_owners,parent_stock_owner_revisions=parent_owner_rows,new_stock_owners=new_stock,untouched_source_owner_ids=sorted(set(groups)-{owners[eid]['id'] for eid in defined}-{x for x in parent_owner_rows}),process_QA_basis='One old weld baseline retained per original owner; multi-butt internal calculations are geometry receipts, not additional payable rows; explicit butt0.04h+QA0.02h per record, connector declared case bounds once; other additional work unknown',complete_installed_cost=False,transaction_applied=False),canonical_definition=None,holds=['Prospective finite drawing/material/accounting definition only; no integrated body acceptance','Original historical source, failed paths and exact material/price provenance preserved','Unknown additional setup/tool/machine/torch access/inspection and neighbouring equipment domains remain open','Reduced or relocated welds,1mm roots, thread HAZ and discontinuous runouts require actual loads/WPS/HAZ/fatigue/corrosion/fire and physical evidence','Prior062 subset/native geometry is not inherited by this changed whole-source request','Full terminal/canonical vehicle assembly, installed inertia,qualification and release are separate tasks'],**FLAGS))
