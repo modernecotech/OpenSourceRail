@@ -1,9 +1,15 @@
 """Local transaction controls on invented material data; no retained producer."""
 from copy import deepcopy
+import importlib.util
+from pathlib import Path
 import unittest
 
 from engineering.railway_project import terminal_revision as m
-from test_terminal_revision import fixture, refresh, run, H
+_spec = importlib.util.spec_from_file_location('terminal_revision_invented_fixture', Path(__file__).with_name('test_terminal_revision.py'))
+_fixture_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_fixture_module)
+fixture, refresh, run, H = (_fixture_module.fixture, _fixture_module.refresh,
+                          _fixture_module.run, _fixture_module.H)
 
 
 def seal(v):
