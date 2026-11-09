@@ -13,6 +13,9 @@ import json
 BASE='823b2b25afddb8e429d0adf99f72f766f311b2fa'
 FINDING='f9cd493337fdee43e4cb1a0d5f6fa8cba9624b15617b8b28fe764bae158b4487'
 FAMILY='research/header-Al-endplate-isolated-blind-steel-joint/1'
+NOMINAL_ENGAGEMENT_M=.006
+COMBINED_AXIAL_TOLERANCE_M=.0003
+MINIMUM_ENGAGEMENT_M=NOMINAL_ENGAGEMENT_M-COMBINED_AXIAL_TOLERANCE_M
 P6=dict(physical_id='ce1b8b222b06a6479f7738d9409d74a5333514b79b7baf5dffc7c8510b73e044',evaluation_id='8fffa3254dab9b737e8785de7d781325dde3cec028a89b14a3e8371b04cc6289',raw_sha256='3984b2a7ad9966b8d74fec2da9d0530cea66d3557071e964816f55fefebb9df5')
 I=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
 HEADER_R=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]]
@@ -180,7 +183,7 @@ def capacity(actions,strengths,welds):
         if shear is not None and shear+1e-9<sqrt(F[0]**2+F[2]**2) or tension is not None and tension+1e-9<abs(F[1]):raise ValueError('No unearned per-fastener load sharing')
     Athread=strengths['effective_bolt_thread_area_m2'];Athreadshear=strengths['minimum_receiver_thread_shear_area_m2']
     if Athread is not None and Athread>pi*.004**2:raise ValueError('Bolt effectivearea exceeds declaredmajorstock')
-    if Athreadshear is not None and Athreadshear>pi*.008*.006:raise ValueError('Receiverthreadsheararea exceeds engagementsurface envelope')
+    if Athreadshear is not None and Athreadshear>pi*.008*MINIMUM_ENGAGEMENT_M:raise ValueError('Receiverthreadsheararea exceeds toleranced minimum engagement surface envelope')
     for x in strengths.values():
         if x is not None:number(x,positive=True)
     checks=[]
@@ -196,7 +199,7 @@ def capacity(actions,strengths,welds):
     add('Alendplate projectedbore bearing',shear,.012*.025,strengths['Al_bearing_Pa'])
     add('GFRPbush projectedbearing',shear,.008*.025,strengths['GFRP_bearing_Pa'])
     add('Alendplate singleedge shearout',shear,(.100-.080-.0061)*.025,strengths['Al_shear_Pa'])
-    add('steelreceiver projectedbearing',shear,.008*.006,strengths['steel_bearing_Pa'])
+    add('steelreceiver projectedbearing',shear,.008*MINIMUM_ENGAGEMENT_M,strengths['steel_bearing_Pa'])
     add('steelcleat singleedge shearout',shear,(.100-.080-.004)*.010,strengths['steel_shear_Pa'])
     add('GFRPisolation compression,no loadspread credit',combined,pi*(.008**2-.0061**2),strengths['GFRP_compression_Pa'])
     rootM=[None]*3 if any(x is None for x in F+M) else [M[0]+.0365*F[2],M[1],M[2]-.0365*F[0]]
@@ -205,6 +208,8 @@ def capacity(actions,strengths,welds):
         bound['allowable_hypothesis_Pa']=strengths[key];bound['residual_Pa']=None if strengths[key] is None or bound['stress_bound_Pa'] is None else strengths[key]-bound['stress_bound_Pa']
     return dict(fastener_checks=checks,weld_bounds=bounds,header_actions=deepcopy(actions),grade_and_strength_hypotheses=deepcopy(strengths),
       bolt_count=4,friction_credit=0.,fastener_load_divisor=1,diaphragm_loadsharing_credit=False,
+      nominal_receiver_engagement_m=NOMINAL_ENGAGEMENT_M,combined_axial_tolerance_hypothesis_m=COMBINED_AXIAL_TOLERANCE_M,
+      minimum_receiver_engagement_hypothesis_m=MINIMUM_ENGAGEMENT_M,minimum_engagement_physically_verified=False,
       declared_action_vectors_complete=all(x is not None for x in F+M),actual_header_demands_known=False,caller_fastener_moment_reaction_bound_validated=False,
       mainwall_local_bending_buckling_rootweld_and_preload_loss='held-fullstructural/evidence model required; no averagearea qualification',
       engineering_screen='held',**FLAGS)
@@ -333,6 +338,7 @@ def outline(ctx,*,existing_cuts,actions,strengths,material_policy,source_binding
         joinery_overlap_scope='Unknownunlocatedaggregatejoineryreservemayoverlap;needs source-specificreconciliation,no exactinstalledsaving orzeroreserveclaim',global_credit_keys=[x['source_credit_key'] for x in mach]),
       stack=dict(bolt_count=4,nut_count=0,nut_absence_reason='Fourblindsteelreceivers; no phantomnut orrearaccess assumed',
         bearing_layer_intervals_m=layers,grip_m=.034,bolt_underhead_m=.040,nominal_engagement_m=.006,usable_thread_m=.007,
+        minimum_engagement_after_0p3mm_budget_m=MINIMUM_ENGAGEMENT_M,
         pilot_depth_m=.009,combined_depth_bolt_pad_washer_tolerance_m=.0003,threadmill_cutting_head_axial_m=.001,
         nominal_threadmill_bottom_clearance_m=.001,threadmill_bottom_clearance_after_budget_m=.0007,pilot_tip='Flatbottom6mmendmill interpolatedto6.8mm,then5mmthreadmill; no twister-tip assumption',
         thread_bottom_clearance_m=.001,thread_bottom_clearance_after_0p3mm_budget_m=.0007,

@@ -220,3 +220,22 @@ def test_declared_actions_are_not_authenticated_real_header_demands():
 def test_force_frame_and_eccentricity_reference_cannot_be_silently_inferred(key,value):
     ctx,kw=fixture();kw['actions'][key]=value
     with pytest.raises(ValueError,match='joint-local'):j.outline(ctx,**kw)
+
+
+def test_nominal_sixmm_thread_area_cannot_be_used_as_toleranced_minimum():
+    ctx,kw=fixture()
+    kw['strengths']['minimum_receiver_thread_shear_area_m2']=pi*.008*.00585
+    assert pi*.008*.0057<kw['strengths']['minimum_receiver_thread_shear_area_m2']<pi*.008*.006
+    with pytest.raises(ValueError,match='minimum engagement'):j.outline(ctx,**kw)
+
+
+def test_receiver_bearing_and_strip_envelope_use_same_5p7mm_minimum_hypothesis():
+    ctx,kw=fixture();kw['strengths']['minimum_receiver_thread_shear_area_m2']=pi*.008*(.006-.0003)
+    out=j.outline(ctx,**kw);cap=out['capacity']
+    assert out['stack']['minimum_engagement_after_0p3mm_budget_m']==pytest.approx(.0057)
+    assert cap['minimum_receiver_engagement_hypothesis_m']==pytest.approx(.0057)
+    bearing=next(r for r in cap['fastener_checks'] if r['name']=='steelreceiver projectedbearing')
+    strip=next(r for r in cap['fastener_checks'] if r['name'].startswith('steel blindthread strip'))
+    assert bearing['area_m2']==pytest.approx(.008*.0057)
+    assert strip['area_m2']==pytest.approx(pi*.008*.0057)
+    assert cap['minimum_engagement_physically_verified'] is False
