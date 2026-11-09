@@ -37,6 +37,7 @@ jobs:
     timeout-minutes: 15
     env:
       CARGO_BUILD_JOBS: "2"
+      RUSTUP_TOOLCHAIN: "1.92.0"
       CARGO_TARGET_DIR: /tmp/osr-closure-test-target
       OMP_NUM_THREADS: "1"
       OPENBLAS_NUM_THREADS: "1"
@@ -48,7 +49,15 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: engineering/requirements.txt
+      - name: Initialize isolated Rust paths
+        run: |
+          test -n "${RUNNER_TEMP:-}"
+          test -n "${GITHUB_ENV:-}"
+          printf 'RUSTUP_HOME=%s\n' "$RUNNER_TEMP/osr-pilot-rustup" >> "$GITHUB_ENV"
+          printf 'CARGO_HOME=%s\n' "$RUNNER_TEMP/osr-pilot-cargo" >> "$GITHUB_ENV"
       - uses: dtolnay/rust-toolchain@1.92.0
+        with:
+          components: rustfmt,clippy
       - run: python -m venv .venv
       - run: .venv/bin/pip install --no-cache-dir pytest numpy==2.3.5 --requirement engineering/requirements.txt
       - name: Authenticate both complete research dossiers without new CAD or FEM
