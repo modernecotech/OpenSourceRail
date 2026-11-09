@@ -10,6 +10,21 @@ KEEP_POWERED={'powered-bogie/side-rhs','powered-bogie/transom-rhs','powered-bogi
 RY=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]]
 RNEG=[[0.,1.,0.],[-1.,0.,0.],[0.,0.,1.]]
 
+# A separate support geometry family. The four lateral lanes fit between the
+# retained longitudinal stringers with the evaluator's 34 mm nominal-stock
+# allocation. The two emergency standoffs are moved away from the bolster
+# joint and into the inner floor-stringer lanes. Neither layout nor support
+# strength is qualified by this definition.
+SUPPORT_FAMILY = 'split-lane-bypass-v1'
+SUPPORT_VARIANTS = {
+    'offset-380mm': {'emergency_x_offset_m': .38},
+    'offset-420mm': {'emergency_x_offset_m': .42},
+}
+SUPPORT_LANES = (
+    {'name': 'inner', 'centre_m': .27, 'cap_width_m': .24, 'wall_width_m': .23},
+    {'name': 'outer', 'centre_m': .72, 'cap_width_m': .22, 'wall_width_m': .218},
+)
+
 
 def stock_volume(s):
     if s['kind']=='box':return prod(s['size_m'])
@@ -18,7 +33,7 @@ def stock_volume(s):
     raise ValueError('Uncounted stock shape')
 
 
-def build(parent=None,config_id='compact-737-h100',*,root=ROOT):
+def build(parent=None,config_id='compact-737-h100',*,root=ROOT,support_family=None):
     p=policy(root);v=vendor(root);before=sources(root);old=deepcopy(parent or load_parent(root))
     if old['candidate_id']!=PARENT:raise ValueError('Exact powered-body ancestry required')
     validate(old);config=next((c for c in p['configs'] if c['id']==config_id),None)
@@ -175,11 +190,43 @@ def build(parent=None,config_id='compact-737-h100',*,root=ROOT):
     add('new-case-weld',dict(kind='box',size_m=[.68,bead,bead]),places([[cx,cy+dy,cz+dz] for dy in (-.125,.125) for dz in (-.18,.18)]),material='running/aluminium',frame='gear',group='weld',metadata=dict(splitcase_accessible_seam_hypothesis=True,strength_not_verified=True))
     # New body supports bridge the exact100/150mm rise without changing spring travel.
     bogies=[dict(car=bi//2,bogie=bi,axle=None,side=1,bx=8.5+(bi//2)*17.65+(-6.4 if bi%2==0 else 6.4)) for bi in range(12)]
-    for name,size,z,ys in [('pedestal-cap',[.46,.46,.010],.76+lift-.005,(-.75,.75)),('pedestal-base',[.46,.46,.010],.765,(-.75,.75)),('emergency-cap',[.20,.20,.010],.76+lift-.005,(-.40,.40))]:
-        add(name,dict(kind='box',size_m=size),places([[0.,y,z] for y in ys],bogies),material='body/al5083',frame='body',group='support')
-    add('pedestal-X-wall',dict(kind='box',size_m=[.46,.006,lift-.020]),places([[0.,y+dy,.76+lift/2] for y in (-.75,.75) for dy in (-.227,.227)],bogies),material='body/al5083',frame='body',group='support')
-    add('pedestal-Y-wall',dict(kind='box',size_m=[.006,.448,lift-.020]),places([[dx,y,.76+lift/2] for y in (-.75,.75) for dx in (-.227,.227)],bogies),material='body/al5083',frame='body',group='support')
-    add('emergency-riser',dict(kind='rhs',length_m=lift-.010,width_m=.20,depth_m=.20,wall_m=.006),places([[0.,y,.76+(lift-.01)/2] for y in (-.40,.40)],bogies),material='body/al5083',R=model.ZAXIS,frame='body',group='support')
+    if support_family is None:
+        # Keep the three historical configurations byte-for-byte in their
+        # declared geometry and component ownership.
+        for name,size,z,ys in [('pedestal-cap',[.46,.46,.010],.76+lift-.005,(-.75,.75)),('pedestal-base',[.46,.46,.010],.765,(-.75,.75)),('emergency-cap',[.20,.20,.010],.76+lift-.005,(-.40,.40))]:
+            add(name,dict(kind='box',size_m=size),places([[0.,y,z] for y in ys],bogies),material='body/al5083',frame='body',group='support')
+        add('pedestal-X-wall',dict(kind='box',size_m=[.46,.006,lift-.020]),places([[0.,y+dy,.76+lift/2] for y in (-.75,.75) for dy in (-.227,.227)],bogies),material='body/al5083',frame='body',group='support')
+        add('pedestal-Y-wall',dict(kind='box',size_m=[.006,.448,lift-.020]),places([[dx,y,.76+lift/2] for y in (-.75,.75) for dx in (-.227,.227)],bogies),material='body/al5083',frame='body',group='support')
+        add('emergency-riser',dict(kind='rhs',length_m=lift-.010,width_m=.20,depth_m=.20,wall_m=.006),places([[0.,y,.76+(lift-.01)/2] for y in (-.40,.40)],bogies),material='body/al5083',R=model.ZAXIS,frame='body',group='support')
+        support_definition=None
+    else:
+        if support_family not in SUPPORT_VARIANTS:
+            raise ValueError('Unknown compact-drive support family variant: '+str(support_family))
+        variant=deepcopy(SUPPORT_VARIANTS[support_family]);xoff=variant['emergency_x_offset_m']
+        support_definition=dict(family=SUPPORT_FAMILY,variant=support_family,variables=variant,
+            lane_definitions=deepcopy(SUPPORT_LANES),mass_basis='same gross-stock volume as the historical pedestal cap/base and Y-wall sets; counts and material remain positive',
+            unresolved=['support load path and joint strength','pedestal and emergency support stiffness/fatigue','bearing, retention and removal capability','full swept-envelope and finished-geometry verification'])
+        # Split the original two wide pads into four pads in the clear lanes
+        # between stringers. Their widths sum to the original 0.92 m total;
+        # the Y-wall widths sum to the original 0.896 m total. Counts and gross
+        # stock volume are preserved, while load transfer remains a hold.
+        for lane in SUPPORT_LANES:
+            y=lane['centre_m'];w=lane['cap_width_m'];yw=lane['wall_width_m']
+            add('pedestal-cap-'+lane['name'],dict(kind='box',size_m=[.46,w,.010]),
+                places([[0.,s*y,.76+lift-.005] for s in (-1,1)],bogies),material='body/al5083',frame='body',group='support')
+            add('pedestal-base-'+lane['name'],dict(kind='box',size_m=[.46,w,.010]),
+                places([[0.,s*y,.765] for s in (-1,1)],bogies),material='body/al5083',frame='body',group='support')
+            add('pedestal-Y-wall-'+lane['name'],dict(kind='box',size_m=[.006,yw,lift-.020]),
+                places([[dx,s*y,.76+lift/2] for s in (-1,1) for dx in (-.227,.227)],bogies),material='body/al5083',frame='body',group='support')
+        add('pedestal-X-wall',dict(kind='box',size_m=[.46,.006,lift-.020]),
+            places([[0.,s*lane['centre_m'],.76+lift/2] for lane in SUPPORT_LANES for s in (-1,1)],bogies),material='body/al5083',frame='body',group='support')
+        # Move the two retained emergency supports outboard of the transverse
+        # bolster joint and into the clear inner stringer lanes. They are still
+        # counted at full stock size/mass; new attachment/load paths are open.
+        emergency=[[-xoff,-.18,.76+lift-.005],[xoff,.18,.76+lift-.005]]
+        add('emergency-cap',dict(kind='box',size_m=[.20,.20,.010]),places(emergency,bogies),material='body/al5083',frame='body',group='support')
+        emergency_risers=[[-xoff,-.18,.76+(lift-.01)/2],[xoff,.18,.76+(lift-.01)/2]]
+        add('emergency-riser',dict(kind='rhs',length_m=lift-.010,width_m=.20,depth_m=.20,wall_m=.006),places(emergency_risers,bogies),material='body/al5083',R=model.ZAXIS,frame='body',group='support')
     add('kingpin-extension',dict(kind='cylinder',radius_m=.05,length_m=lift),places([[0.,0.,.70+lift/2]],bogies),R=model.ZAXIS,frame='body',group='support',metadata=dict(load_fit_retention_unknown=True))
     add('body-anti-lift-extension',dict(kind='box',size_m=[.08,.012,lift+.08]),places([[0.,y,.72+lift/2] for y in (-.9,.9)],bogies),frame='body',group='retention')
     support_bolts=[[dx,y+dy,.76+lift/2] for y in (-.75,.75) for dx in (-.15,.15) for dy in (-.15,.15)]
@@ -264,9 +311,13 @@ def build(parent=None,config_id='compact-737-h100',*,root=ROOT):
         retained_brake_count_per_bogie={name:sum(q['count'] for q in patterns if q['bogie_index']==0 and q['part_id']=='running/'+name) for name in ('brake-disc','caliper-body','service-actuator','parking-actuator','friction-pad')},
         changes=changes,mass_ownership=dict(all_new_drive_components_in_body_BOM=True,additional_external_drive_mass_kg=0.,zero_is_exact_no_external_addition_not_unknown_equipment=True,legacy_external_motor_gear9552kg_superseded=True,legacy_BOP_partition_and_reserve_superseded=True,remaining_unknown_mass_positive=True,original_body_installation_reserve_retained=True),
         residual_issues=['SupplierSTEP modelB/datasheetC andshaft/mount/terminal compatibility notverified','Actual contact/curve/wheelprofiles, suspension and bearing capacities open','Gear flanks, keys, tooth/contactfatigue, lubrication andcasebearing seats unqualified','Body pedestal/kingpin/endstop/anti-lift loadpaths, welding and fatigue open','Inverter,50Ccooling/chiller repeated duty and actual availableforce map require coordinator model','Finite tool/removal/service paths are hypotheses, not physical access acceptance'])
+    if support_definition is not None:
+        contract['support_package']=deepcopy(support_definition)
     physical=dict(schema='osr-compact-drive-body-physical/1',parent_candidate_id=old['candidate_id'],track_interface=deepcopy(old['physical_definition']['track_interface']),layout=deepcopy(pol['layout']),config=config,geartrain=gear,vendor_source=v,part_revisions=changes,
         replaced_part_ids=sorted(removed),parts=[{k:r[k] for k in ('id','source_part_id','component_definition_id','quantity_per_train','material_id','stock','mass_each_kg')} for r in parts],
         occurrence_patterns=[{k:q[k] for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')} for q in patterns],compact_assembly_entities=entities,mass_ownership=contract['mass_ownership'])
+    if support_definition is not None:
+        physical['support_package']=deepcopy(support_definition)
     result['physical_definition']=physical;result['candidate_id']=model.identity(physical);contract['candidate_id']=result['candidate_id'];contract['contract_id']=model.identity(contract);result['compact_drive_contract']=contract
     scenarios=[]
     for kind in ('tare','normal','crowd-control'):

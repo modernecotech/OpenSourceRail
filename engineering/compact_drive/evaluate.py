@@ -111,4 +111,30 @@ def evaluate(body,*,root=None):
             sequence=['Isolate/prove dead andsupportbody/bogie/wheelsets','Drain/isolatecoolant anddisconnectlabelledpower/bonds/hoses','Remove retainedsplitshaft guard andcoupling beforemotorfoot tools','Supportmotor andcradle independently, release6M10face joints, lower through600mm protecteddrop stroke','Keepgear torque link supported; wheelset/gear removal requiresaxle/shaftretention andcontrolled bearing tools'],loads_and_eyes_verified=False),
         service_counts=dict(motors=24,gearboxes=24,gear_bearings=144,power_cables=72,coolant_hoses=48,motor_bonds=24,rotor_air_ducts=24,inverters=24,positive_unknown_integration_reserve_kg={c:sum(r['mass_kg'][c] for r in body['patterns'] if r['part_id']=='compact-drive/integration-reserve') for c in model.CASES}),
         upstream_stiffness_thermal_force_and_physical_evidence_invalidated=True,**FLAGS)
+    support=c.get('support_package')
+    if support:
+        support_ids={r['id'] for r in body['parts'] if r['id'].startswith('compact-drive/pedestal-') or r['id'] in ('compact-drive/emergency-cap','compact-drive/emergency-riser')}
+        support_patterns=[r for r in body['patterns'] if r['part_id'] in support_ids]
+        support_mass={case:fsum(r['mass_kg'][case] for r in support_patterns) for case in model.CASES}
+        support_rows=[r for r in nominal if r.get('part_id') in support_ids or r.get('other_part_id') in support_ids]
+        continuous_support=[r for r in findings if r.get('entity','').split('@')[0] in support_ids]
+        ground_support=[r for r in ground if r.get('entity','').split('@')[0] in support_ids]
+        result['support_package_screen']=dict(
+            family=support['family'],variant=support['variant'],candidate_id=body['candidate_id'],
+            unique_support_part_types=len(support_ids),support_occurrences=sum(r['count'] for r in support_patterns),
+            support_mass_kg=support_mass,all_12_bogies_screened=len(repetition)==12,
+            support_nominal_clearance_rows=len(support_rows),support_continuous_bound_rows=len(continuous_support),
+            support_ground_pose_rows=len(ground_support),
+            screens={
+                'candidate_identity':'PASS' if body['candidate_id']==body['compact_drive_contract']['candidate_id'] else 'HOLD',
+                'support_occurrence_accounting':'PASS' if sum(r['count'] for r in support_patterns)>0 else 'HOLD',
+                'nominal_support_clearance':'HOLD' if support_rows else 'PASS_WITHIN_DECLARED_GROSS_STOCK_SCREEN',
+                'continuous_support_envelope':'HOLD' if continuous_support else 'PASS_WITHIN_DECLARED_CONTINUOUS_BOUND',
+                'sampled_support_ground':'HOLD' if any(not r['passed_sample'] for r in ground_support) else 'PASS_WITHIN_SAMPLED_POSES',
+                'support_load_path_and_joint_strength':'HOLD',
+                'support_stiffness_fatigue_and_retention':'HOLD',
+                'supplier_and_finished_geometry':'HOLD',
+                'finite_removal_and_service':'HOLD',
+                'physical_acceptance':'HOLD'},
+            interpretation='Clearance flags remain analytic gross-stock/envelope evidence. Support loads, joints, stiffness, fatigue, retention, finished geometry and removal are not qualified.')
     return seal(result)

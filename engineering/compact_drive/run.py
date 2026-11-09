@@ -4,16 +4,18 @@ from pathlib import Path
 from engineering.station_rail.common import identity,digest
 from . import ROOT,FLAGS
 from .common import policy,parent,sources,write,read
-from .design import build
+from .design import build,SUPPORT_VARIANTS
 from .evaluate import evaluate
 
 
-def trial(output,config_id,*,root=ROOT):
+def trial(output,config_id,*,root=ROOT,support_family=None):
     out=Path(output);out.mkdir(parents=True,exist_ok=False);before=sources(root);p=policy(root);started=time.monotonic()
-    write(out/'input.json',dict(schema='osr-compact-drive-trial-input/1',config=next(c for c in p['configs'] if c['id']==config_id),source_sha256=before,parent_candidate_id=parent(root)['candidate_id'],limits=p['limits'],**FLAGS))
+    request=dict(schema='osr-compact-drive-trial-input/1',config=next(c for c in p['configs'] if c['id']==config_id),source_sha256=before,parent_candidate_id=parent(root)['candidate_id'],limits=p['limits'],**FLAGS)
+    if support_family is not None:request['support_family']=support_family
+    write(out/'input.json',request)
     result=dict(schema='osr-compact-drive-trial-result/1',config_id=config_id,execution='failed',**FLAGS)
     try:
-        body=build(config_id=config_id,root=root);write(out/'body.json.gz',body)
+        body=build(config_id=config_id,root=root,support_family=support_family);write(out/'body.json.gz',body)
         write(out/'interface-contract.json',body['compact_drive_contract'])
         report=evaluate(body,root=root);write(out/'geometry.json',report)
         result.update(execution='completed',candidate_id=body['candidate_id'],body_evaluation_id=body['evaluation_id'],geometry_evaluation_id=report['evaluation_id'],nominal_mass_kg=body['nominal_part_mass_kg'],direct_parts_process_usd=body['direct_parts_process_usd'],nominal_findings=len(report['nominal_findings']),continuous_interface_holds=len(report['continuous_and_interface_holds']),geometry_screen=report['geometry_screen'],known_geometry_screen_pass=report['known_geometry_screen_pass'])
@@ -48,6 +50,7 @@ def campaign(output,*,root=ROOT):
 
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser();a.add_argument('--output',required=True,type=Path);a.add_argument('--trial');args=a.parse_args()
-    r=trial(args.output,args.trial) if args.trial else campaign(args.output)
+    a=argparse.ArgumentParser();a.add_argument('--output',required=True,type=Path);a.add_argument('--trial');a.add_argument('--support-family',choices=sorted(SUPPORT_VARIANTS));args=a.parse_args()
+    if args.support_family is not None and args.trial is None:a.error('--support-family requires --trial')
+    r=trial(args.output,args.trial,support_family=args.support_family) if args.trial else campaign(args.output)
     print(json.dumps({k:r[k] for k in ('evaluation_id','execution','config_id') if k in r}))
