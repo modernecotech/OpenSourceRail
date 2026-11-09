@@ -1,5 +1,5 @@
 schema = "osr-design-integration-closure-program/1"
-revision = "USER-WAIT-FOR-DESIGN-CLOSURE-20261108"
+revision = "USER-WAIT-FOR-DESIGN-CLOSURE-AND-ALL-CITIES-20261109"
 purpose = "Close the defined digital design and integration work before a v0.6-series software release"
 reference_changes_allowed = false
 release_unpublished_until_required_work_closed = true
@@ -58,6 +58,13 @@ closure = "The native acceptance scenario consumes the actual sealed candidate a
 qualification = "Business workflow completion grants no railway movement authority or hardware approval."
 
 [[work]]
+id = "all-city-outline-reconciliation"
+required = true
+outputs = ["all 266 city maps, line/station details and v0.4 front-door fields retained", "city/line-specific demand, calendar, headway, dwell and bounded uncertainty", "alignment alternatives with straightness/deviation and close-station consolidation evidence", "candidate-bound route, service, fleet, energy, civil and fourteen-scope cost updates", "Chinese-volume-procurement versus local-manufacture and funding scenarios", "source and candidate identities with incremental recomputation records"]
+closure = "All 266 cities retain their mapped line-level outline, energy, capital/funding and local-evidence content. City/line calculations replace the universal 4,000 pphpd/200 s profile with sourced local inputs or explicit bounded scenarios. Routes are compared for directness and station proximity with access, curvature, land and service constraints recorded; ring-like networks include a square-loop alternative when applicable. Every edit propagates through the exact candidate bundle to quantities, service, fleet, energy, civil and all fourteen cost scopes; no scalar pilot cost-per-kilometre multiplier or inherited candidate result is used. China bulk-purchase discounts and establishing local manufacturing are comparable calculated scenarios with stated assumptions."
+qualification = "City demand, land, utility, ground, supplier, tariff, tax, funding and local-price evidence may remain bounded assumptions; they are never presented as surveyed or quoted facts."
+
+[[work]]
 id = "unified-workbench"
 required = true
 outputs = ["city brief to compatible alternatives", "same-candidate journey/cost/delivery comparison", "drawing/BOM/manufacturing inspection", "review and remaining-evidence view", "downloadable reconciled project dossier"]
@@ -70,3 +77,17 @@ cheap_trial_address_space_mib = 1024
 native_geometry_or_fem_before_definition_gate = false
 pending_tasks_survive_invocation_budget = true
 resource_revisions_change_engineering_obligations = false
+
+[all_city_baseline_audit]
+source_head = "edfbff55ff20303ce0ea244ac645251d89eec28d"
+city_count = 266
+line_count = 1565
+station_table_rows = 13580
+declared_payload_hash_count = 5586
+declared_payload_bytes = 492192548
+ordered_city_manifest_set_sha256 = "a6f85d8f4ee021261962db872ca30bdb458ce6f0885840a8288276800384c402"
+shared_peak_demand_pphpd = 4000
+shared_headway_s = 200
+shared_normal_places_per_train = 276
+local_rate_status = "transferred-reference-estimates"
+executable_schedules = 0
