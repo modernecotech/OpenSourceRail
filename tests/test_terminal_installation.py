@@ -301,3 +301,165 @@ def test_unreviewed_reflection_or_geometry_cannot_silently_materialize():
 def test_all_stock_remains_terminal_local_until_explicit_proper_binding():
     s=t.Stock(t.recipe());s.box('SYNTHETIC/local',[.1,.1,.1],[0.,0.,0.])
     assert s.entities[0]['frame']=='terminal-local-UVW'
+
+
+def bounds(e):
+    half=[sum(abs(e['rotation'][i][j])*e['geometry']['size_m'][j] for j in range(3))/2 for i in range(3)]
+    return [[e['at_m'][i]-half[i] for i in range(3)],[e['at_m'][i]+half[i] for i in range(3)]]
+
+
+@pytest.mark.parametrize('y',[0.,1.2,-1.2])
+def test_TF1_old6mm_gap_and_real_hanger_contact_material(y):
+    assert 1.190-.080/2-(1.129+.030/2)==pytest.approx(.006)
+    s=t.Stock(t.recipe());d=t.floor_root_stock(s,'SYNTHETIC/hanger',y)
+    block=next(e for e in s.entities if e['id']=='SYNTHETIC/hanger/block');b=bounds(block)
+    assert b[0][0]==pytest.approx(-.100) and b[0][2]+2.25==pytest.approx(1.114)
+    assert b[1][2]+2.25==pytest.approx(1.150)
+    #The moving support touches the full block at U=-.100 over all30mm of
+    #its root height; it cannot acquire a fixed boundary via a6mm airgap.
+    assert d['tube_face_Z_m'][0]>=b[0][2]+2.25-1e-12 and d['tube_face_Z_m'][1]<=b[1][2]+2.25
+    assert d['frame_contact']['Z_m']==1.150
+    assert d['frame_contact']['owner']==('new10mm postbottom closure' if abs(y)>1.15 else 'fixed lowerrail4mm bottomwall')
+    #The floorcover occupies U<=-.100,Z1.144..1.150. Boundary contact only.
+    assert min(-.100,b[1][0])-max(-.220,b[0][0])<=1e-12
+    assert len(s.joints)==1 and s.joints[0]['owned_members']==['SYNTHETIC/hanger/block']
+    assert all(g['gross_m3']>g['net_m3']>0 for g in s.groups)
+
+
+def test_TF1_actual_tube_end_welds_are_finite_on_root_and_inside_cover():
+    s=t.Stock(t.recipe());e=t.floor_tube_root_weld(s,'SYNTHETIC/root',0.)
+    paths=e['physical_drawing']['local_segments_m']
+    total=sum(sum((a[i]-b[i])**2 for i in range(3))**.5 for a,b in paths)
+    assert total==pytest.approx(.076)
+    for line in paths:
+        for p in line:
+            q=t.transform(p,e['at_m'],e['rotation'])
+            assert q[0]==pytest.approx(-.100)
+            assert 1.114<q[2]+2.25<1.144
+    b=bounds(e);assert b[1][0]==pytest.approx(-.100) and b[1][2]+2.25==pytest.approx(1.144)
+    assert e['at_m'][0]+e['centroid_local_m'][0]==pytest.approx(-.101)
+    assert s.welds[0]['leg_m']==.003
+
+
+def test_TF1_unchanged_force_and_longer_span_with_root_stock_and_weld_bounds():
+    b=t.necessary_bounds(t.recipe());f=b['floor_support'];root=b['floor_root']
+    assert f['span_m']==pytest.approx(.116) and root['outer_hanger_reaction_N']==1000.
+    assert f['tip_deflection_m']>t.section_bound(.020,.030,.003,.110,500.,69e9,60e6)['tip_deflection_m']
+    assert 0<root['ideal_stock_deflection_sum_m']<.001
+    assert root['root_end_weld_equivalent_Pa']<60e6 and root['root_end_weld_leg_m']==.003
+    #At2mm the same real internal endseams exceed the declared60MPa
+    #research comparison; the new3mm seam is real added material,not a limit change.
+    old_equivalent=root['root_end_weld_equivalent_Pa']*3/2
+    assert old_equivalent>60e6
+    assert t.recipe()['hypotheses']['floor_point_force_N']==500.
+    assert t.recipe()['hypotheses']['deflection_m']==.001
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_TF1_postbottom_closure_matches_shortened_actual_post_and_finite_seams(sign):
+    s=t.Stock(t.recipe());e=t.post_bottom_stock(s,'SYNTHETIC/post',sign);bb=bounds(e)
+    assert bb[0][2]+2.25==pytest.approx(1.150) and bb[1][2]+2.25==pytest.approx(1.160)
+    assert t.recipe()['geometry']['floor']['post_bottom_Z_m']==1.160
+    assert s.joints[0]['post_length_m']==pytest.approx(2.190)
+    for line in s.welds[0]['local_segments_m']:
+        for p in line:
+            assert -.050<=p[0]<=.047 and abs(p[1])<=.050 and p[2]==0.
+    assert s.welds[0]['length_m']==pytest.approx(.288)
+
+
+def test_TF2_old_guard_cage_actual_point_conflict_is_preserved_and_new_regions_disjoint():
+    old_point=(.0315,.0045)
+    assert .0305<old_point[0]<.036 and .0033<old_point[1]<.0048 and old_point[1]>.0085/2
+    s=t.Stock(t.recipe());d=t.upper_cage_stock(s,'SYNTHETIC/cage',[0.,0.,0.],1)
+    plate,hood,cap=[next(e for e in s.entities if e['id'].endswith('/'+suffix)) for suffix in ('plate','hood','closed-end')]
+    assert bounds(plate)[1][1]==pytest.approx(bounds(hood)[0][1])
+    assert bounds(hood)[1][1]==pytest.approx(bounds(cap)[0][1])
+    assert d['tip_clearance_bound_m']>0 and d['radial_clearance_bound_m']>0 and d['nut_retention_radial_bound_m']>0
+    assert d['M3_tool_hood_radial_clearance_bound_m']>0
+    assert all(e['material_id']=='gfrp' for e in s.entities)
+    assert len(s.groups)==1 and s.groups[0]['quantity']==1
+    assert s.groups[0]['net_m3']==pytest.approx(sum(e['mass_kg']['base']/1900. for e in s.entities))
+
+
+def test_TF2_integral_rigid_hood_eliminates_upper_elastomer_guard_without_dropping_hardware():
+    s=t.Stock(t.recipe());j=t.upper_joint()
+    t._fastener(s,'SYNTHETIC/M6',1,[0.,0.,0.],1,j,.006,tip_guard=False)
+    t.upper_cage_stock(s,'SYNTHETIC/cage',[0.,0.,0.],1)
+    assert not any(e['id'].endswith('/tip-guard') for e in s.entities)
+    assert len([e for e in s.entities if '/washer/' in e['id']])==4
+    assert any(e['id']=='SYNTHETIC/M6/nut' for e in s.entities)
+    assert any(e['id']=='SYNTHETIC/cage/closed-end' for e in s.entities)
+    owned=[x for g in s.groups for x in g['entity_ids']];assert len(owned)==len(set(owned))
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_TF3_tab_paths_are_two40mm_mating_edges_not_one80mm_line(sign):
+    paths=t.tab_weld_segments(sign);assert len(paths)==2
+    for line in paths:
+        assert sum((line[0][i]-line[1][i])**2 for i in range(3))**.5==pytest.approx(.040)
+        for p in line:assert abs(p[0])==.002 and p[1]==-sign*.0015 and abs(p[2])==.020
+    assert .080/2>.040/2 #Old single line exceeded each finite tab end20mm.
+    s=t.Stock(t.recipe());s.weld('SYNTHETIC/tab',.080,[0.,0.,0.],leg=.002,segments=paths,process_h=.20,qa_h=.10)
+    g=s.groups[0];assert g['net_m3']==pytest.approx(.5*.002**2*.080)
+    assert g['process_h']==.20 and g['QA_h']==.10
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_TF3_cap_paths_are_two20mm_real_joint_edges(sign):
+    paths=t.cap_connector_segments(sign);assert len(paths)==2
+    assert paths[0]==[[0.,0.,-.010],[0.,0.,.010]]
+    assert paths[1]==[[.003,sign*.0045,-.010],[.003,sign*.0045,.010]]
+    #Joint1 innerarm/crossarm atUV(.002,sign*1.221),joint2 crossarm/cap
+    #atUV(.005,sign*1.2255); each finite arm is20mm high.
+    for line in paths:assert sum((line[0][i]-line[1][i])**2 for i in range(3))**.5==pytest.approx(.020)
+    s=t.Stock(t.recipe());s.weld('SYNTHETIC/cap',.040,[0.,0.,0.],segments=paths,process_h=.20,qa_h=.10)
+    assert s.groups[0]['net_m3']==pytest.approx(.5*.003**2*.040)
+
+
+def test_TF4_collar_replaces_half_washer_without_changing_grip_or_pilot():
+    j=t.upper_frame_joint();s=t.Stock(t.recipe())
+    t._blind_fastener(s,'SYNTHETIC/M6',1,[0.,0.,0.],-1,j,.006)
+    assert j['layers'][-1]['end_m']==pytest.approx(.0125)
+    assert j['thread_engagement_m']==.0125 and j['remaining_pilot_bound_m']==.0012
+    stem=next(e for e in s.entities if e['id'].endswith('/liner'))
+    collar=next(e for e in s.entities if e['id'].endswith('/liner-collar'))
+    assert bounds(stem)[1][1]==pytest.approx(bounds(collar)[0][1])
+    assert len(next(g for g in s.groups if g['id'].endswith('/liner-kit'))['entity_ids'])==2
+    assert next(e for e in s.entities if e['id'].endswith('/washer/1'))['geometry']['size_m'][0]==pytest.approx(.0005)
+
+
+def test_TF4_pocket_material_is_finite_disjoint_from_bore_and_tool_has_pull_clearance():
+    d=t.upper_liner_removal_contract();assert d['minimum_stem_clearance_after_pull_m']>.0005
+    assert d['tool_gap_bound_m']>0 and d['collar_engagement_bound_m']>0 and d['cantrail_tool_vertical_clearance_bound_m']>0
+    assert min(abs(x) for r in d['recess_U_from_bolt_axis_m'] for x in r)>.0082/2
+    assert d['recess_W_m']==[-.012,.002] and d['extractor_tip_path_m'][0][2]==-.014
+    assert d['extractor_tip_path_m'][-1][1]==.0202
+    tool=d['workshop_extractor'];assert tool['quantity_per_train']==1 and not tool['installed']
+    assert tool['gross_volume_m3']>tool['net_volume_m3']>0
+
+
+def test_TF4_no_lift_with_one_missing_duplicate_or_unidentified_liner_kit():
+    good=[f'upper-frame/{y}/{j}/M6/liner-kit' for y in (-1,1) for j in range(2)]
+    assert t.assert_frame_lift_ready(good)
+    for bad in ([],good[:-1],good+[good[0]],good[:-1]+['unidentified']):
+        with pytest.raises(ValueError,match='four bridging'):t.assert_frame_lift_ready(bad)
+    p=t.assembly_plan(t.recipe());assert p['paths']['floorcover']==[[0.,0.,0.],[0.,0.,.020],[.100,0.,.020]]
+    assert any('all four integral10mm' in x for x in p['maintenance'])
+
+
+def test_TF3_asymmetric_cap_seam_bounds_and_mass_moment_use_both_real_seams():
+    s=t.Stock(t.recipe());e=s.weld('SYNTHETIC/cap',.040,[0.,0.,0.],segments=t.cap_connector_segments(1))
+    assert e['at_m']==pytest.approx([.0015,.00225,0.])
+    assert [e['at_m'][i]+e['centroid_local_m'][i] for i in range(3)]==pytest.approx([.0015,.00225,0.])
+    assert s.welds[0]['local_segments_m']==t.cap_connector_segments(1)
+    for line in e['physical_drawing']['local_segments_m']:
+        for p in line:
+            q=t.transform(p,e['at_m'],e['rotation']);assert all(bounds(e)[0][i]<=q[i]<=bounds(e)[1][i] for i in range(3))
+
+
+def test_TF1_post_cut_and_new_closure_do_not_silently_move_top_datum():
+    p=dict(id='post/0',part_id='SYNTHETIC/post',geometry=dict(kind='rhs',at_m=[-.05,1.175,0.],size_m=[2.2,.1,.1],rotation=t.ZAXIS),holes=[])
+    out=t.revise_local(dict(entities=[p]),t.recipe())[0]['geometry']
+    assert out['size_m'][0]==pytest.approx(2.190) and out['at_m'][2]==pytest.approx(.005)
+    assert out['at_m'][2]+out['size_m'][0]/2==pytest.approx(1.10)
+    assert out['at_m'][2]-out['size_m'][0]/2+2.25==pytest.approx(1.160)

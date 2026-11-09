@@ -17,7 +17,10 @@ I=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
 RX180=[[-1.,0.,0.],[0.,-1.,0.],[0.,0.,1.]]
 YAXIS=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]]
 ZAXIS=[[0.,0.,-1.],[0.,1.,0.],[1.,0.,0.]]
-FAMILY='research/terminal-installed-end-r2'
+FAMILY='research/terminal-installed-end-r3'
+SOURCE_ANCESTRY=dict(commit='dec0268f613480eb462f9229b86784b892eaa3d9',
+ review_id='2818719424c557578457c7c735e59bb1a1e91c6cc04e009d0a5e5424c3119d87',
+ held_source_report_id='08dc835abced822f993237a753ccbe73bc519fc2da2873d8ebf9ad9419f598f6')
 PARENT=dict(candidate_id='5a3a6cd74fd33ab6d85e0a264afc899a5fff319e16e7fd94189637a6bfba44f3',
  evaluation_id='d1339473c06dd9dc5a6187b9aed70aa025b4a0c0d2caa33ccd430a939f28f9ea',
  raw_sha256='f639405395242bd5987651a1e61a8a7fd4264cf23f2a5494825ca495381c4b23')
@@ -62,7 +65,7 @@ def inverse(p,at,R):return [fsum(R[i][j]*(p[i]-at[i]) for i in range(3)) for j i
 
 def recipe():
     """Input proposal only; does not read P1 or materialize a terminal."""
-    return dict(schema='osr-terminal-installation-input/1',family=FAMILY,units='m',parent=deepcopy(PARENT),local=deepcopy(LOCAL),
+    return dict(schema='osr-terminal-installation-input/1',family=FAMILY,units='m',source_ancestry=deepcopy(SOURCE_ANCESTRY),parent=deepcopy(PARENT),local=deepcopy(LOCAL),
       fixed=dict(cars=6,car_length_m=17.,body_width_m=2.65,seal_frame_width_m=2.45,floor_Z_m=1.15,roof_skin_bottom_Z_m=3.55,
         formation_pitch_m=17.65,train_structural_length_m=105.25,body_lift_already_applied_m=.15),
       bindings=[dict(id='terminal/front',source_end='body/terminal-end/end-0',car=0,at_m=[0.,0.,2.25],rotation=RX180),
@@ -80,11 +83,17 @@ def recipe():
           sill_weather_flange_Z_m=1.113,sill_weather_flange_absV_m=[1.205,1.285]),
         floor=dict(bridge_X_m=[.100,.260],bridge_width_m=2.644,plate_gross_t_m=.006,
           gap_X_m=[.100,.220],rear_lap_X_m=[.220,.260],rear_lap_net_t_m=.00275,lap_sealant_m=.00025,
-          support_X_m=[.106,.216],support_YZ_m=[.020,.030],support_wall_m=.003,
-          support_top_Z_m=1.144,support_lanes_Y_m=[-1.30]+[j/5 for j in range(-6,7)]+[1.30]),
+          support_X_m=[.100,.216],support_YZ_m=[.020,.030],support_wall_m=.003,
+          support_top_Z_m=1.144,support_lanes_Y_m=[-1.30]+[j/5 for j in range(-6,7)]+[1.30],
+          root_cap_U_m=[-.100,-.050],root_cap_Z_m=[1.138,1.150],root_web_U_m=[-.100,-.050],root_web_Z_m=[1.114,1.138],
+          root_route='One solid Al5083 billet block50mmU x36mmZ;40mm/140mmV width,no web-cap weld or separate purchases',
+          post_bottom_closure_t_m=.010,post_bottom_Z_m=1.160),
         upper=dict(cantrail_X_stations_m=[.050],cantrail_Z_stations_m=[3.390,3.490],cantrail_inner_absY_m=1.225,
           cantrail_wall_m=.0045,lug_absY_m=[1.215,1.221],spacer_m=.003,pad_m=.001,backer_m=.004,
-          endcap_u_m=[.002,.008],endcap_YZ_m=[.099,.249],endcap_center_Z_m=3.430),
+          endcap_u_m=[.002,.008],endcap_YZ_m=[.099,.249],endcap_center_Z_m=3.430,
+          tip_protection='one-piece machined GFRPcage with rigid hood',hood_outer_radius_m=.0066,hood_bore_m=.0085,
+          hood_annular_V_from_underhead_m=[.0325,.0375],hood_closed_end_V_from_underhead_m=[.0375,.0385],
+          detachable_liner_collar_t_m=.0005,detachable_liner_collar_OD_m=.011,pull_recess_depth_m=.0005),
         lower=dict(beam_size_m=[2.29,.14,.25],beam_wall_m=.008,beam_center_uvw_m=[-.1,0.,-1.2655],
           mount_v_m=[-.83,-.77,-.43,-.37,.37,.43,.77,.83],mount_w_m=-1.18,
           entry_u_m=-.170,entry_bore_m=.0182,rear_u_m=-.038,rear_bore_m=.0085,sleeve_length_m=.132)),
@@ -119,7 +128,7 @@ def recipe():
 
 
 def physical_projection(r):
-    return dict(schema='osr-terminal-installed-input-physical/1',family=r['family'],fixed=deepcopy(r['fixed']),
+    return dict(schema='osr-terminal-installed-input-physical/1',family=r['family'],source_ancestry=deepcopy(r['source_ancestry']),fixed=deepcopy(r['fixed']),
       bindings=deepcopy(r['bindings']),geometry=deepcopy(r['geometry']),
       materials={k:dict(material=k) for k in r['materials']},parent_candidate_id=r['parent']['candidate_id'],
       local_physical_definition_id=r['local']['physical_definition_id'])
@@ -174,11 +183,77 @@ def upper_frame_joint():
     """Detachable tie into an owned internal Al boss; not a source-wall tap."""
     return dict(kind='blind-threaded-boss',bolt_length_m=.025,underhead_absV_m=1.2235,
       layers=[dict(part=n,start_m=a,end_m=b) for n,a,b in (
-        ('steel washer',0.,.0015),('GFRPwasher',.0015,.0025),('Al tie',.0025,.0085),('Al postwall',.0085,.0125))],
+        ('steel washer',0.,.0015),('GFRPwasher',.0015,.002),('GFRPcollar',.002,.0025),('Al tie',.0025,.0085),('Al postwall',.0085,.0125))],
       liner_length_m=.010,liner_OD_m=.008,liner_ID_m=.0065,bore_m=.0082,
+      liner_collar_t_m=.0005,liner_collar_OD_m=.011,liner_collar_from_underhead_m=[.002,.0025],
       boss_front_absV_m=1.211,boss_back_absV_m=1.191,bolt_tip_absV_m=1.1985,
       thread_engagement_m=.0125,pilot_depth_m=.014,remaining_pilot_m=.0015,remaining_boss_web_m=.006,
       combined_depth_length_tolerance_m=.0003,remaining_pilot_bound_m=.0012,strength_qualified=False)
+
+
+def floor_root_spec(y):
+    """One continuous hanger, behind the floorcover leading plane U=-.100."""
+    outer=abs(y)>1.15;sign=1 if y>0 else -1;cy=sign*1.25 if outer else y;width=.140 if outer else .040
+    return dict(outer=outer,centre_V_m=cy,width_m=width,
+      block=dict(size_m=[.050,width,.036],at_m=[-.075,cy,1.132-2.25]),
+      frame_contact=dict(U_m=[-.100,-.050],V_m=[sign*1.1975-.0175,sign*1.1975+.0175] if outer else [cy-.020,cy+.020],Z_m=1.150,
+        owner='new10mm postbottom closure' if outer else 'fixed lowerrail4mm bottomwall'),
+      tube_face_U_m=-.100,tube_face_Z_m=[1.114,1.144],
+      floorcover_overlap_volume_m3=0.,post_endcap_required=outer,load_qualified=False)
+
+
+def floor_root_stock(s,name,y):
+    """Tiny leaf builder, also used by invented-fixture tests; no P1 builder."""
+    d=floor_root_spec(y);cy=d['centre_V_m'];w=d['width_m'];fc=d['frame_contact']
+    s.box(name+'/block',d['block']['size_m'],d['block']['at_m'],process=.25,qa=.12,
+      basis='One solidAl5083billet with faced top/root planes,positive kerf/trim/reserve; upper/lower regions are continuous material,not welded sheet')
+    v=sum(fc['V_m'])/2;vw=fc['V_m'][1]-fc['V_m'][0]
+    s.weld(name+'/cap-frame-weld',2*(.050+vw),[-.075,v,1.150-2.25],axes=(0,1),profile=(.050,vw))
+    s.joints.append(dict(id=name,kind='continuous underframe hanger',geometry=d,
+      owned_members=[name+'/block'],counterpart='fixed-post-bottom closure' if d['outer'] else 'fixed-lowerrail bottomwall',
+      sequence='Weld solidblock top to actual frame bottom material; weld RHS end internally through open side before closing fabricated tube',
+      remaining_obligations=['Framewall/endplate/weld local loads,HAZ/fatigue/joint rotation','Actual coupled floor/service/crowd loads'],qualified=False))
+    return d
+
+
+def floor_tube_root_weld(s,name,y):
+    #Internal end welds are applied through the open longitudinal wall BEFORE
+    #closing the fabricated tube. They do not protrude into the floorcover.
+    e=s.weld(name,2*(.014+.024),[-.100,y,1.129-2.25],leg=.003,axes=(1,2),profile=(.014,.024))
+    e['at_m'][0]-=.0015;e['geometry']['size_m'][0]=.003;e['centroid_local_m'][0]=.0005
+    #Rectangle vertices are shared by adjacent seam records. Rebuild points
+    #instead of mutating each occurrence (which would shift corners twice).
+    e['physical_drawing']['local_segments_m']=[[[p[0]+.0015,p[1],p[2]] for p in line] for line in e['physical_drawing']['local_segments_m']]
+    a,b,c=e['geometry']['size_m'];e['shape_I_per_kg']=[[(b*b+c*c)/12,0.,0.],[0.,(a*a+c*c)/12,0.],[0.,0.,(a*a+b*b)/12]]
+    e['physical_drawing'].update(fillet_axis=0,fillet_direction=-1,centroid_from_joint_plane_U_m=-.001,
+      deposition='Inside RHS void before closing wall; no rootblock/plate material is added twice')
+    s.joints.append(dict(id=name,kind='internal RHS-to-composite-root endweld',tube_end_U_m=-.100,
+      root_block_Z_m=[1.114,1.150],tube_end_Z_m=[1.114,1.144],
+      corner='Inner14x24mm perimeter at the end plane; deposited fillets lie in the tube void,not the floorcover',
+      sequence='Apply before the last longitudinal plate closes access; inspect weld then close tube',strength_qualified=False))
+    return e
+
+
+def post_bottom_stock(s,name,sign):
+    cy=sign*1.165
+    e=s.box(name+'/closure',[.100,.100,.010],[-.050,cy,1.155-2.25])
+    #Three external sides; stop3mm before the front land. These real paths
+    #touch the postend/closure,not a fabricated full bottom of a hollow tube.
+    paths=[[[-.050,-.047,0.],[-.050,.047,0.]],
+      [[-.050,-.050,0.],[.047,-.050,0.]],[[.047,.050,0.],[-.050,.050,0.]]]
+    s.weld(name+'/post-closure-weld',.288,[-.050,cy,1.160-2.25],segments=paths)
+    s.joints.append(dict(id=name,kind='new closed postbottom',post_bottom_Z_m=1.160,post_top_Z_m=3.350,
+      post_length_m=2.190,closure_Z_m=[1.150,1.160],closure_id=e['id'],post_stock_removed_m=.010,
+      contact='Three finite outer postwall/endplate seams; no imaginary solid across the open RHS end',strength_qualified=False))
+    return e
+
+
+def tab_weld_segments(sign):
+    return [[[u,-sign*.0015,-.020],[u,-sign*.0015,.020]] for u in (-.002,.002)]
+
+
+def cap_connector_segments(sign):
+    return [[[0.,0.,-.010],[0.,0.,.010]],[[.003,sign*.0045,-.010],[.003,sign*.0045,.010]]]
 
 
 def side_frame_joint():
@@ -187,6 +262,52 @@ def side_frame_joint():
       liner_length_m=.010,liner_OD_m=.006,liner_ID_m=.0045,bore_m=.0062,
       thread_engagement_m=.0075,pilot_depth_m=.0085,remaining_pilot_m=.001,remaining_boss_web_m=.0035,
       combined_depth_length_tolerance_m=.0003,remaining_pilot_bound_m=.0007,strength_qualified=False)
+
+
+def upper_cage_contract():
+    st=upper_joint();nut_end=st['nut_m'][1];cage=[.0305,.0325];hood=[.0325,.0375];end=[.0375,.0385]
+    radial=(.0085-.0001-(.006+.00005))/2
+    axial=end[0]-st['bolt_tip_m']-.0007
+    retention=(.006*.92*2-.0001-(.0085+.0001))/2
+    if min(radial,axial,retention)<=0 or abs(nut_end-cage[0])>1e-12:raise ValueError('Upper rigid cap/retention interference')
+    return dict(kind='rigid machined GFRPcage/hood',cage_V_from_underhead_m=cage,hood_V_from_underhead_m=hood,end_V_from_underhead_m=end,
+      bore_m=.0085,hood_outer_radius_m=.0066,bolt_diameter_m=.006,
+      tip_axial_clearance_m=end[0]-st['bolt_tip_m'],tip_clearance_bound_m=axial,radial_clearance_bound_m=radial,
+      nut_retention_radial_bound_m=retention,M3_tool_radius_m=.0035,M3_tool_axis_U_m=[-.013,.013],
+      M3_tool_hood_radial_clearance_bound_m=.013-.0035-.0066-.0002,
+      tolerance_domain='Relative joint stack/bolt length/cap depth0.7mm axial; bores0.1mm diametral,bolt0.05mm,nutOD0.1mm. Proposed manufacturing values,not measurements or independent wholebody position errors.',
+      retention='Rigid annular shoulder catches nut end after bolt release; two existing M3 retainers hold integral cage. Hood cap is positively closed,not compressed elastomer.',
+      unknowns=['Exact nut hex/counterhold and GFRPcompound strength/fire/creep','Extraction forces and real tool capability'],physical_accepted=False)
+
+
+def upper_liner_removal_contract():
+    return dict(quantity_per_end=4,kit='upper-frame/{side}/{station}/M6/liner-kit',
+      material_entities=['upper-frame/{side}/{station}/M6/liner','upper-frame/{side}/{station}/M6/liner-collar'],
+      installed_stem_absV_m=[1.211,1.221],collar_absV_m=[1.221,1.2215],collar_OD_m=.011,stem_OD_m=.008,bore_m=.0082,
+      stages=['Keep body-side cantrailM6 restraints/ties/caps engaged; support bareframe','Remove/capture4blindM6 bolts and steel/GFRPwashers/end',
+        'Insert0.30mm split extractor into two0.50mm-deep tie-face pockets at eachcollar; engage collar lip and pull20mm outward along signedV',
+        'Capture each integral collar/stem kit separately; inspect all4bodyties/postbores visibly empty and log4kits before allowing90mm frame lift'],
+      relative_path_m=[[0.,0.,0.],[0.,.020,0.]],direction='sign(side) alongV,not a reflection of the assembly frame',
+      extractor_tip_path_m=[[0.,0.,-.014],[0.,0.,0.],[0.,.0002,0.],[0.,.0202,0.]],
+      extractor_motion='First insert alongW at the relative tip datum inside pockets,then takeup0.2mm clearance outward to contact collar,then pull20mm and capture; Vmotion follows side sign',
+      minimum_stem_clearance_after_pull_m=1.211+.020-1.221,
+      recess_U_from_bolt_axis_m=[[-.0075,-.0045],[.0045,.0075]],recess_W_m=[-.012,.002],recess_absV_m=[1.2205,1.221],
+      recess_depth_m=.0005,extractor_tip_t_m=.0003,tool_gap_bound_m=.0005-.0003-.0001,
+      collar_engagement_bound_m=.0055-.0045-.0002,cantrail_tool_vertical_clearance_bound_m=3.305-(3.270+.008)-.00234,
+      capture_retention='Integral flange is clamped by separate washer in service; no stem/bolt bond or interference grip assumed',
+      workshop_extractor=dict(quantity_per_train=1,installed=False,material='stainless',blank_size_m=[.060,.016,.003],
+        drawing='One machined stepped fork:48x16x0.8mm handle,2tips12x3x0.3mm atU+/-6mm,2continuous3x1x2mmstepwebs at the handle/tip boundary;2faces blended from the singleblank,not four purchased pieces',
+        net_volume_m3=.048*.016*.0008+2*.012*.003*.0003+2*.003*.001*.002,
+        gross_volume_m3=.071*.020*.003,process_h=.5,QA_h=.2,
+        envelope_m=[.060,.016,.003],tip_nominal_V_clearance_m=.0002,maximum_proposed_pull_N=20.,pull_capability_measured=False),
+      lift_preconditions=['4 bolts captured','4 steel+GFRPwasher pairs captured','4 integral liner kits captured','all8tie/postwall passages inspected empty'],
+      qualification='Pullforce/collarstrength and actual tool capability unqualified; nominal clearance path only',physical_accepted=False)
+
+
+def assert_frame_lift_ready(captured):
+    expected={f'upper-frame/{y}/{j}/M6/liner-kit' for y in (-1,1) for j in range(2)}
+    if set(captured)!=expected or len(captured)!=4:raise ValueError('All four bridging upper liner kits must be captured before frame lift')
+    return True
 
 
 def removal_bounds(r):
@@ -223,7 +344,21 @@ def necessary_bounds(r):
     current['span_m']=L
     previous=section_bound(.020,.040,.003,.591,h['side_support_point_force_N'],h['Al_E_Pa'],h['Al_stress_Pa'],uniform_N_m=h['side_pressure_Pa']*.90)
     failed80=section_bound(.020,.080,.003,.591,h['side_support_point_force_N'],h['Al_E_Pa'],h['Al_stress_Pa'],uniform_N_m=h['side_pressure_Pa']*.90)
-    floor=section_bound(.020,.030,.003,.110,h['floor_point_force_N'],h['Al_E_Pa'],h['Al_stress_Pa'])
+    span=g['floor']['support_X_m'][1]-g['floor']['support_X_m'][0]
+    floor=section_bound(.020,.030,.003,span,h['floor_point_force_N'],h['Al_E_Pa'],h['Al_stress_Pa']);floor['span_m']=span
+    #Outer widehanger carries two500N support reactions; only the outer500N
+    #has85mm overhang beyond the postcap. Conservatively take no stiffness
+    #credit for its continuous24mm lower billet region when screening only
+    #the upper12mm wing. This is deliberately a conservative stock bound.
+    capI=.050*.012**3/12;Lwing=1.300-1.215;F=h['floor_point_force_N']
+    wing_def=F*Lwing**3/(3*h['Al_E_Pa']*capI);wing_stress=F*Lwing/(capI/(.012/2))
+    #10mm postbottom closure,100mm simple span/50mm effective strip,
+    #1000N centre load. Edge/weld flexibility remains an explicit extra hold.
+    endI=.050*.010**3/12;end_def=(2*F)*.100**3/(48*h['Al_E_Pa']*endI)
+    end_stress=((2*F)*.100/4)/(endI/(.010/2))
+    root_leg=.003;throat=root_leg/sqrt(2);weld_L=2*(.014+.024)
+    weld_I=throat*(2*.014*(.024/2)**2+2*.024**3/12)
+    weld_bending=(F*span)*(.024/2)/weld_I;weld_shear=F/(weld_L*throat)
     # 200mm support pitch,120mm strip,6mm stepped plate; no credit to soft core.
     plate_I=.120*.006**3/12;plate_def=h['floor_point_force_N']*.2**3/(48*h['Al_E_Pa']*plate_I)
     plate_stress=(h['floor_point_force_N']*.2/4)/(.120*.006**2/6)
@@ -231,7 +366,13 @@ def necessary_bounds(r):
       source_gap_target_m=h['minimum_clearance_m'],side_stiffener=current,retained_failed_40mm_stiffener=previous,retained_failed_80mm_stiffener=failed80,
       side_stock_pass=current['stress_residual_Pa']>=0 and current['tip_deflection_m']<=h['deflection_m'],floor_support=floor,
       floor_plate_deflection_m=plate_def,floor_plate_stress_Pa=plate_stress,
-      floor_stock_pass=floor['stress_residual_Pa']>=0 and plate_def<=h['deflection_m'] and plate_stress<=h['Al_stress_Pa'],
+      floor_root=dict(outer_hanger_reaction_N=2*F,outer_wing_load_N=F,overhang_m=Lwing,cap_thickness_m=.012,
+        cap_wing_deflection_m=wing_def,cap_wing_stress_Pa=wing_stress,post_closure_deflection_m=end_def,post_closure_stress_Pa=end_stress,
+        root_end_weld_leg_m=root_leg,root_end_weld_bending_Pa=weld_bending,root_end_weld_shear_Pa=weld_shear,
+        root_end_weld_equivalent_Pa=sqrt(weld_bending**2+3*weld_shear**2),
+        ideal_stock_deflection_sum_m=floor['tip_deflection_m']+plate_def+wing_def+end_def,
+        model_domain='Ideal represented RHS/billet-upper12mm/closure stock only under unchanged500N point forces. Actual framewall,weld/slip/HAZ/localbearing and floor coupled loads remain unqualified; not installed acceptance'),
+      floor_stock_pass=floor['stress_residual_Pa']>=0 and floor['tip_deflection_m']+plate_def+wing_def+end_def<=h['deflection_m'] and max(plate_stress,wing_stress,end_stress,sqrt(weld_bending**2+3*weld_shear**2))<=h['Al_stress_Pa'],
       deflection_allocation_domain='1mmideal-stock allocation for seal/closure support at1000Pa/500N hypotheses,not a universal body limit. Joint slip/rotation,source/finish errors and gasket compression remain additional budgets.',
       finished_side_panel_absY_with_bounds_m=1.322+source_and_new,
       body_halfwidth_m=r['fixed']['body_width_m']/2,geometry_screen_is_targeted_hypothesis=True,physical_accepted=False)
@@ -291,7 +432,7 @@ class Stock:
     def box(self,name,size,at,material='al5083',**kw):return self.add(name,'box',size,at,material,**kw)
     def rhs(self,name,L,w,h,t,at,material='al6005a',**kw):return self.add(name,'rhs',[L,w,h],at,material,wall=t,**kw)
     def ann(self,name,L,ro,ri,at,material='stainless',**kw):return self.add(name,'annulus',[L,2*ro,2*ro],at,material,ro=ro,ri=ri,**kw)
-    def weld(self,name,L,at,leg=.003,*,axes=(0,),profile=None,in_groove=False,segments=None):
+    def weld(self,name,L,at,leg=.003,*,axes=(0,),profile=None,in_groove=False,segments=None,process_h=.10,qa_h=.05):
         """Explicit centreline segments, positive deposited material and reserve.
 
         Triangle orientation/runout still needs drawing/CAD adaptation; the
@@ -314,14 +455,21 @@ class Stock:
             length,w,h=profile
             if abs(4*length-L)>1e-9:raise ValueError('Four-seam/length disagreement')
             paths=[[[-length/2,y*w/2,z*h/2],[length/2,y*w/2,z*h/2]] for y in (-1,1) for z in (-1,1)]
-        size=[max(p[i] for line in paths for p in line)-min(p[i] for line in paths for p in line) for i in range(3)]
+        lo=[min(p[i] for line in paths for p in line) for i in range(3)];hi=[max(p[i] for line in paths for p in line) for i in range(3)]
+        centre=[(lo[i]+hi[i])/2 for i in range(3)];size=[hi[i]-lo[i] for i in range(3)]
+        line_lengths=[sqrt(fsum((b[i]-a[i])**2 for i in range(3))) for a,b in paths]
+        centroid=[fsum(length*(a[i]+b[i])/2 for (a,b),length in zip(paths,line_lengths))/L for i in range(3)]
         size=[max(leg,x+(0. if in_groove else 2*leg)) for x in size];V=.5*leg*leg*L
-        e=self.add(name,'box',size,at,'al5083',net=V,gross=V*self.r['process']['weld_procurement_factor'],process=.10,qa=.05,
+        e=self.add(name,'box',size,_add(at,centre),'al5083',net=V,gross=V*self.r['process']['weld_procurement_factor'],process=process_h,qa=qa_h,
           basis='Declared triangular depositedAlweld; separate positive filler/trim reserve, exact seam paths retained')
-        e['geometry']['kind']='envelope';e['physical_drawing']=dict(kind='triangular-weld-seams',local_segments_m=paths,leg_m=leg,
+        e['centroid_local_m']=[centroid[i]-centre[i] for i in range(3)]
+        localpaths=[[[p[i]-centre[i] for i in range(3)] for p in line] for line in paths]
+        e['geometry']['kind']='envelope';e['physical_drawing']=dict(kind='triangular-weld-seams',local_segments_m=localpaths,leg_m=leg,
           in_prepared_grooves=in_groove,exact_triangle_orientation_and_runout_resolved=False)
-        e['uncertainty_m']=[.0003]*3
+        e['uncertainty_m']=[.0003]*3;e['centroid_model_uncertainty_m']=[leg]*3
+        e['centroid_basis']='Length-weighted real seam centroid with explicit +/-leg cross-section model uncertainty; exact triangular orientation/runout requires normalizing adapter'
         self.welds.append(dict(id=name,length_m=L,leg_m=leg,volume_m3=V,at_uvw_m=list(at),local_segments_m=paths,
+          centreline_centroid_from_station_m=centroid,process_h=process_h,QA_h=qa_h,
           geometry_scope='Exact centreline paths/deposited volume; triangle orientation/runout and WPS/HAZ remain explicit drawing/adapter qualification holds',WPS_HAZ_fatigue_qualified=False));return e
     def one_fastener_blank(self,name,ids,length,ro):
         selected=[g for g in self.groups if set(g['entity_ids'])&set(ids)]
@@ -335,6 +483,22 @@ class Stock:
           basis='Oneproposed turned/threadedblank or onepurchasedfinishedallowance; split head/shank are analytical material entities,never separate purchases',
           cost_basis='Calculated oneblank/process/QA, no quotation; supplier shape/grade and alternate finished procurement remain unknown',quantity=1,
           cutting=dict(net_envelope_length_m=length,kerf_m=.003,trim_m=.004,reserve_m=.004))
+        for e in es:e['cost_share']=e['mass_kg']['base']/group['net_mass_kg']['base']
+        self.groups=[g for g in self.groups if g not in selected]+[group]
+    def one_machined_blank(self,name,ids,size,process=.35,qa=.15):
+        """One purchased blank owns every disjoint material piece exactly once."""
+        selected=[g for g in self.groups if set(g['entity_ids'])&set(ids)]
+        if {x for g in selected for x in g['entity_ids']}!=set(ids):raise ValueError('Machined blank ownership mismatch')
+        es=[e for e in self.entities if e['id'] in ids]
+        if len({e['material_id'] for e in es})!=1:raise ValueError('One blank cannot silently join dissimilar materials')
+        V=fsum(g['net_m3'] for g in selected);a,b,t=sorted(size,reverse=True);gross=(a+.011)*(b+.004)*t
+        if gross<=V:raise ValueError('Insufficient positive machined blank/scrap allowance')
+        mat=self.r['materials'][es[0]['material_id']];rho=_cases([mat['density_bounds_kg_m3'][0],mat['density_kg_m3'],mat['density_bounds_kg_m3'][1]])
+        group=dict(id='stock/'+name,quantity=1,entity_ids=list(ids),net_m3=V,gross_m3=gross,scrap_m3=gross-V,
+          net_mass_kg={c:V*rho[c] for c in CASES},gross_mass_kg={c:gross*rho[c] for c in CASES},scrap_mass_kg={c:(gross-V)*rho[c] for c in CASES},
+          direct_cost_usd={c:gross*rho[c]*mat['rate_USD_kg'][i]+(process+qa)*self.r['process']['labour_USD_h'][i] for i,c in enumerate(CASES)},
+          blank_size_m=list(size),process_h=process,QA_h=qa,basis='One machined integral blank; separate analytical material regions are not separate purchases',
+          cost_basis='Positive calculated material/process/QA hypothesis,not a supplier quote',cutting=dict(kerf_m=.003,trim_m=.004,reserve_m=.004,edge_m=.002))
         for e in es:e['cost_share']=e['mass_kg']['base']/group['net_mass_kg']['base']
         self.groups=[g for g in self.groups if g not in selected]+[group]
     def fabricated(self,e,cuts):
@@ -360,7 +524,7 @@ class Stock:
 def _hole(axis,at,D,L):return dict(axis=axis,centre_m=list(at),radius_m=D/2,length_m=L)
 
 
-def _fastener(s,name,axis,origin,sign,stack,diameter,*,head_height=.006):
+def _fastener(s,name,axis,origin,sign,stack,diameter,*,head_height=.006,tip_guard=True):
     """Count every layer and derive poses from ordered planes."""
     R=I if axis==0 else YAXIS if axis==1 else ZAXIS
     def at(t):
@@ -374,7 +538,7 @@ def _fastener(s,name,axis,origin,sign,stack,diameter,*,head_height=.006):
         if 'washer' in text:
             material='gfrp' if 'GFRP' in text else 'stainless'
             s.ann(name+'/washer/'+str(j),t,diameter*1.25,diameter*.55,at(mid),material,R=R)
-    s.ann(name+'/tip-guard',stack['projection_m']+.001,diameter*.8,diameter*.55,at(nut_end+(stack['projection_m']+.001)/2),'elastomer',R=R)
+    if tip_guard:s.ann(name+'/tip-guard',stack['projection_m']+.001,diameter*.8,diameter*.55,at(nut_end+(stack['projection_m']+.001)/2),'elastomer',R=R)
     s.joints.append(dict(id=name,kind='ordered-through-stack',axis=axis,origin_m=list(origin),direction=sign,stack=deepcopy(stack),supplier_geometry_grade_load_unknown=True))
 
 
@@ -393,9 +557,28 @@ def _blind_fastener(s,name,axis,origin,sign,j,diameter):
         s.ann(name+'/washer/'+str(k),x['end_m']-x['start_m'],diameter*1.25,diameter*.55,at((x['start_m']+x['end_m'])/2),
           'stainless' if k==0 else 'gfrp',R=R)
     s.ann(name+'/liner',j['liner_length_m'],j['liner_OD_m']/2,j['liner_ID_m']/2,at(.0025+j['liner_length_m']/2),'gfrp',R=R)
+    if 'liner_collar_t_m' in j:
+        collar=j['liner_collar_from_underhead_m'];e=s.ann(name+'/liner-collar',j['liner_collar_t_m'],j['liner_collar_OD_m']/2,j['liner_ID_m']/2,at(sum(collar)/2),'gfrp',R=R)
+        s.one_machined_blank(name+'/liner-kit',[name+'/liner',e['id']],[.011,.011,.0105],process=.12,qa=.08)
     s.joints.append(dict(id=name,kind=j['kind'],axis=axis,origin_m=list(origin),direction=sign,stack=deepcopy(j),
       tool=dict(insertion_m=.080 if diameter==.004 else .100,radius_m=.010 if diameter==.004 else .015),
       all_fixings_front_accessible=True,thread_compound_and_creep_qualified=False))
+
+
+def upper_cage_stock(s,name,origin,sign):
+    """One rigid, disjoint GFRP cage/hood blank, at an arbitrary joint origin."""
+    d=upper_cage_contract()
+    def at(v):
+        p=list(origin);p[1]+=sign*v;return p
+    hs=[_hole(1,[0.,0.,0.],.0085,.002)]
+    for u in (-.013,.013):hs.extend([_hole(1,[u,sign*.0002,0.],.0062,.0016),_hole(1,[u,-sign*.0008,0.],.0034,.0004)])
+    plate=s.box(name+'/plate',[.040,.002,.024],at(.0315),'gfrp',holes=hs)
+    hood=s.ann(name+'/hood',.005,.0066,.00425,at(.035),'gfrp',R=YAXIS)
+    cap=s.ann(name+'/closed-end',.001,.0066,0.,at(.038),'gfrp',R=YAXIS)
+    s.one_machined_blank(name+'/integral-blank',[plate['id'],hood['id'],cap['id']],[.040,.024,.008],process=.45,qa=.20)
+    s.joints.append(dict(id=name,kind='rigid nut-retaining cage/closed tip hood',origin_m=list(origin),direction=sign,contract=d,
+      removal='Release existing two M3 cage retainers only after bolt unloading; withdraw/capture integral cage/hood. Main bolt is serviced from its other head; hood is not a socket-access opening.'))
+    return d
 
 
 def blind_panel_fixing(s,name,u,v,w):
@@ -515,7 +698,8 @@ def added_stock(r):
                     s.weld(f'side-stiffener/{y}/{row}/{label}/weld{j}',2*(.014+H-.006),[-(a+ft if j==0 else c-.004),y*1.3095,z-2.25],leg=.002,axes=(1,2),profile=(.014,H-.006),in_groove=True)
             for label,x in (('front',.763),('rear',.837)):
                 s.box(f'side-stiffener/{y}/{row}/{label}/clamp-weld-tab',[.004,.003,.040],[-x,y*1.318,z-2.25])
-                s.weld(f'side-stiffener/{y}/{row}/{label}/tab-weld',.080,[-x,y*1.318,z-2.25],leg=.002,axes=(2,))
+                s.weld(f'side-stiffener/{y}/{row}/{label}/tab-weld',.080,[-x,y*1.318,z-2.25],leg=.002,
+                  segments=tab_weld_segments(y),process_h=.20,qa_h=.10)
             s.box(f'side-outrigger/{y}/{row}',[.006,.111,.080],[-.103,y*1.2645,z-2.25],
               holes=[_hole(0,[0.,y*.045,dz],.0062,.006) for dz in (-.020,.020)])
             s.box(f'side-outrigger/{y}/{row}/isolation-pad',[.004,.020,.080],[-.108,y*1.3095,z-2.25],'gfrp',
@@ -539,16 +723,20 @@ def added_stock(r):
             for xx in (-.013,.013):bh.extend([_hole(1,[xx,y*.00045,0.],.003,.0031),_hole(1,[xx,-y*.0013,0.],.0025,.0004)])
             s.box(f'upper/{y}/{j}/backer',[.040,.004,.040],[-.050,y*1.2315,z-2.25],holes=bh)
             s.ann(f'upper/{y}/{j}/liner',.0185,.004,.00325,[-.050,y*1.22425,z-2.25],'gfrp',R=YAXIS)
-            _fastener(s,f'upper/{y}/{j}/M6',1,[-.050,y*1.2115,z-2.25],y,upper_joint(),.006)
-            ch=[_hole(1,[0.,0.,0.],.0085,.002)]
-            for xx in (-.013,.013):ch.extend([_hole(1,[xx,y*.0002,0.],.0062,.0016),_hole(1,[xx,-y*.0008,0.],.0034,.0004)])
-            s.box(f'upper/{y}/{j}/captive-nut-cage',[.040,.002,.024],[-.050,y*1.243,z-2.25],'gfrp',holes=ch,process=.08,qa=.05)
+            _fastener(s,f'upper/{y}/{j}/M6',1,[-.050,y*1.2115,z-2.25],y,upper_joint(),.006,tip_guard=False)
+            upper_cage_stock(s,f'upper/{y}/{j}/captive-nut-cage',[-.050,y*1.2115,z-2.25],y)
             for xx in (-.013,.013):
                 s.box(f'upper/{y}/{j}/cage-leg/{xx}',[.008,.0085,.020],[-.050+xx,y*1.23775,z-2.25],'gfrp',holes=[_hole(1,[0.,0.,0.],.0034,.0085)])
                 s.ann(f'upper/{y}/{j}/cage-M3/{xx}',.012,.0015,0.,[-.050+xx,y*1.2364,z-2.25],'stainless',R=YAXIS,process=.05,qa=.04)
                 s.ann(f'upper/{y}/{j}/cage-M3-head/{xx}',.0016,.00275,0.,[-.050+xx,y*1.2432,z-2.25],'stainless',R=YAXIS)
-        s.box(f'upper/{y}/frame-tie',[.070,.006,.120],[-.050,y*1.218,3.300-2.25],
+        tie=s.box(f'upper/{y}/frame-tie',[.070,.006,.120],[-.050,y*1.218,3.300-2.25],
           holes=[_hole(1,[du,0.,-.030],.0082,.006) for du in (-.020,.020)])
+        recesses=[(.003*.0005*.014,[du+off,y*.00275,-.035]) for du in (-.020,.020) for off in (-.006,.006)]
+        _remove_drawing_material(s,tie,recesses,dict(kind='tie-with-two-bores-and-four-rectangular-extractor-pockets',
+          original_box_size_m=[.070,.006,.120],bores=deepcopy(tie['geometry']['holes']),
+          pocket_size_UVW_m=[.003,.0005,.014],pocket_centres_local_m=[c for v,c in recesses]))
+        tg=next(a for a in s.groups if a['entity_ids']==[tie['id']]);tg['QA_h']+=.08
+        for i,c in enumerate(CASES):tg['direct_cost_usd'][c]+=.08*r['process']['labour_USD_h'][i]
         s.box(f'upper/{y}/backbone',[.070,.006,.040],[-.050,y*1.218,3.440-2.25])
         # Thetie/lugs/backbone/cap stay with the body when these four/end
         #blind bolts are removed. No dissimilar metal weld or hidden nut.
@@ -563,7 +751,8 @@ def added_stock(r):
         s.box(f'upper/{y}/cantrail-endcap',[.006,.099,.249],[.005,y*1.275,3.430-2.25])
         s.box(f'upper/{y}/cap-inner-arm',[.017,.006,.020],[-.0065,y*1.218,3.440-2.25])
         s.box(f'upper/{y}/cap-cross-arm',[.006,.0045,.020],[.005,y*1.22325,3.440-2.25])
-        s.weld(f'upper/{y}/cap-connector-weld',.040,[.002,y*1.2255,3.440-2.25],axes=(2,))
+        s.weld(f'upper/{y}/cap-connector-weld',.040,[.002,y*1.221,3.440-2.25],
+          segments=cap_connector_segments(y),process_h=.20,qa_h=.10)
         s.weld(f'upper/{y}/cap-backbone-weld',.052,[-.015,y*1.218,3.440-2.25],leg=.002,axes=(1,2),profile=(.006,.020))
         for k,(dv,dz,w,h0) in enumerate(((0.,-.12275,.099,.0035),(0.,.12275,.099,.0035),(-.04775,0.,.0035,.242),(.04775,0.,.0035,.242))):
             s.box(f'upper/{y}/cap-seal/{k}',[.002,w,h0],[.001,y*1.275+dv,3.430-2.25+dz],'elastomer')
@@ -573,19 +762,17 @@ def added_stock(r):
     floor_e['geometry']=dict(kind='poly-prism',size_m=[.160,W,.006],finished_profile_xz_m=[[-.080,.00025],[-.040,.00025],[-.040,-.003],[.080,-.003],[.080,.003],[-.080,.003]])
     floor_e['centroid_local_m']=[(.120*.006*.020+.040*.00275*(-.060))/(.120*.006+.040*.00275),0.,(.040*.00275*.001625)/(.120*.006+.040*.00275)]
     s.box('floor/lap-film',[.040,2.41,.00025],[-.240,0.,1.147125-2.25],'sealant')
+    for y in (-1,1):post_bottom_stock(s,f'floor/post-bottom/{y}',y)
     for j,y in enumerate(floor['support_lanes_Y_m']):
-        tube=s.rhs(f'floor/support/{j}',.110,.020,.030,.003,[-.161,y,1.129-2.25],'al5083',
-          holes=[_hole(2,[.161-x,0.,.0135],.0045,.003) for x in (.14,.20)])
+        tube=s.rhs(f'floor/support/{j}',.116,.020,.030,.003,[-.158,y,1.129-2.25],'al5083',
+          holes=[_hole(2,[.158-x,0.,.0135],.0045,.003) for x in (.14,.20)])
         tube['fabrication']=dict(route='Fourdisjoint5083plates; weld threadedbosses to upperplate BEFORE closing box; open tube ends prevent trappedweld pressure',
-          cuts_m=[[.110,.030,.003],[.110,.030,.003],[.110,.014,.003],[.110,.014,.003]])
+          cuts_m=[[.116,.030,.003],[.116,.030,.003],[.116,.014,.003],[.116,.014,.003]])
         s.fabricated(tube,tube['fabrication']['cuts_m'])
-        s.weld(f'floor/support/{j}/long-seams',4*.110,[-.161,y,1.129-2.25],leg=.002,profile=(.110,.020,.030),in_groove=True)
+        s.weld(f'floor/support/{j}/long-seams',4*.116,[-.158,y,1.129-2.25],leg=.002,profile=(.116,.020,.030),in_groove=True)
+        floor_tube_root_weld(s,f'floor/support/{j}/root-end-weld',y)
         if abs(y)<1.25:
-            outer=abs(y)>1.15;cy=(1 if y>0 else -1)*1.25 if outer else y;width=.140 if outer else .040
-            s.box(f'floor/root-angle/{j}',[.006,width,.080],[-.103,cy,1.190-2.25])
-            d=.005 if outer else .015
-            s.weld(f'floor/root-angle/{j}/frame-weld',.160,[-.100,(1 if y>0 else -1)*1.2 if outer else y,1.190-2.25],
-              segments=[[[0.,v,-.040],[0.,v,.040]] for v in (-d,d)])
+            floor_root_stock(s,f'floor/hanger/{j}',y)
         for x in (.14,.20):
             s.box(f'floor/boss/{j}/{x}',[.020,.014,.006],[-x,y,1.138-2.25],holes=[_hole(2,[0.,0.,.000575],.004,.00485),_hole(2,[0.,0.,-.002175],.0033,.00065)])
             s.weld(f'floor/boss/{j}/{x}/weld',.068,[-x,y,1.141-2.25],leg=.002,axes=(0,1),profile=(.020,.014))
@@ -730,6 +917,7 @@ def revise_local(local,r):
         if name=='source-body-end-beam':e['scope']='context';continue
         if name.startswith('post/'):
             sign=1 if g['at_m'][1]>0 else -1;g['at_m'][1]=sign*r['geometry']['fixed_post_absV_m']
+            g['size_m'][0]-=.010;g['at_m'][2]+=.005
             for h in e.get('holes',[]):
                 if 'vent' in h.get('purpose',''):h['at_m'][1]-=sign*.010
             e.setdefault('holes',[]).extend(dict(kind='cylinder-cut',diameter_m=.0082,length_m=.004,
@@ -802,7 +990,8 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None):
         deltaV=0.
         if pid.endswith(('/header','/lower-rail')):deltaV=-.020*(.100*.100-.092*.092)
         if pid.endswith('/frame-land-ring'):deltaV=-2*.006*.010*.150
-        if any(e['id'].startswith('post/') for e in members):deltaV=-2*pi*(.0082/2)**2*.004
+        post_group=any(e['id'].startswith('post/') for e in members)
+        if post_group:deltaV=-2*pi*(.0082/2)**2*.004-.010*(.100*.100-.092*.092)
         source_net=row.get('net_volume_interval_each_m3')
         if source_net:
             lo,hi=source_net;volumes=[lo,(lo+hi)/2,hi]
@@ -814,7 +1003,7 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None):
         else:
             grossmass=deepcopy(mass);scrap=_cases(0.)
         if deltaV:
-            cost={c:cost[c]+.25*r['process']['labour_USD_h'][i] for i,c in enumerate(CASES)}
+            cost={c:cost[c]+(.25+(.15 if post_group else 0.))*r['process']['labour_USD_h'][i] for i,c in enumerate(CASES)}
         ids=[]
         for x in members:
             g,at,basis=_legacy_geometry(x);a,b,c=g['size_m'];name='legacy/'+x['id'];ids.append(name)
@@ -828,6 +1017,9 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None):
           basis='Source complete estimated part-group allowance retained once; raw cut/scrap intervals remain in source_account, not fabricated zero loss',
           cost_basis='Authenticated local finished direct allowance once, no added raw-material charge or discount',source_account=deepcopy(row),
           revised_net_material_delta_m3=deltaV*q,
+          additional_post_cut=dict(length_m=.010,section_area_m2=.100*.100-.092*.092,cut_centroid_w_m=-1.095,
+            cut_first_moment_per_member_uw_m4=[-.010*(.100*.100-.092*.092)*(-.050),-.010*(.100*.100-.092*.092)*(-1.095)],
+            true_CSG_centroid_adapter_required=True) if post_group else None,
           procurement_scope='Known stock uses exact retained gross/cut source; purchased rows use finished-item gross=installed mass,no raw scrap claimed. Packaging/spares remain separate unknowns,not zero allocations.'))
     es.extend(added.entities);groups.extend(added.groups)
     out=dict(schema='osr-terminal-component-proposal/1',target_schema='osr-composition-component/1',units='m',quantity_scope='one terminal-local module; install once at each of the two explicit proper bindings,never as already global body coordinates',
@@ -869,6 +1061,9 @@ def consumable_accounting(added,account,r):
       source_bore_repair_volume_m3=32*.020*.020*r['hypotheses']['finish_m'],
       mask='Precision seal/stop/sleeve bearing surfaces uncoated; corrosion compound at stainless/Althreads and repaired source holes is unqualified but positive counted coverage',
       coat_chemistry_fire_creep_qualified=False,exact_coated_area_known=False,
+      shared_extractor=dict(upper_liner_removal_contract()['workshop_extractor'],
+        net_mass_kg={c:upper_liner_removal_contract()['workshop_extractor']['net_volume_m3']*rho for c,rho in zip(CASES,[7760.,8000.,8240.])},
+        gross_cost_USD={c:upper_liner_removal_contract()['workshop_extractor']['gross_volume_m3']*rho*r['materials']['stainless']['rate_USD_kg'][i]+.7*r['process']['labour_USD_h'][i] for i,(c,rho) in enumerate(zip(CASES,[7760.,8000.,8240.]))}),
       shared_fixture=dict(quantity=1,installed=False,mass_bounds_kg=r['process']['shared_fixture_mass_kg'],cost_bounds_USD=r['process']['shared_fixture_cost_USD']))
 
 
@@ -876,7 +1071,8 @@ def assembly_plan(r):
     return dict(sequence=[
       'Survey exact terminal beam,cantrail,firstpost,roof/floor surfaces; verify source identity/walls and existing bores before cutting',
       'Machine32terminal beam wall bores plus8cantrail/24sidepostwall bores using supported jigs; capture swarf,deburr,inspect and repair finish',
-      'Fabricate revised frame with10mm post setback,shorterheader/lowerrail and150mm uppercorner reliefs; weld internal upperblind bosses before closing post; install floor roots and roof standoffs; weld AltoAl only',
+      'Fabricate revised frame with10mm post setback,shorterheader/lowerrail and150mm uppercorner reliefs; shorten postbottoms10mm for counted closureplates,topunchanged; weld internal upperblind bosses before closing post; weld solid billet hangers below frame; install roof standoffs; weld AltoAl only',
+      'Fit each116mm floorRHS end to the real hanger face atU-.100,Z1.114..1.144; apply counted internal endseams through the open longitudinalwall before closing the fabricated tube; install threaded bosses then close remaining wall',
       'Face/lap existing seal/stop lands after welding; verify all24station datums against declared hypotheses,not assumed achieved accuracy',
       'Fit lower M8sets,upperM6backers/liners/captive cages and sidepost Uclamps before weathercapsclose the accessible source tube ends',
       'Install side stiffeners/endbay panels and steppedfloorplate with shared wear-layer recess mapping; source body stock is owned once',
@@ -885,12 +1081,14 @@ def assembly_plan(r):
         'Support exterior covers; release counted weather fixings,remove fascia/sidefront fillers and underlap before any main panel motion',
         'Fit rated glass/panel support; remove/capture24M6clamps,washers,nuts,guards,stops and service parts; keep unknown glazing hardware with panel',
         'Panel path starts installed: outward150mm then up100mm; no lift while trapped behind fascia',
-        'For frame service,remove floorbridge and both sideendbay panels; release four upper-frame blind M6 and12side-frame blind M4 bolts/end; upper cantrail ties/caps and sidepost clamps/stiffeners stay on body',
+        'For frame service,remove floorbridge by20mm lift before100mm outward movement,then remove both sideendbay panels; release four upper-frame blind M6 and12side-frame blind M4 bolts/end; upper cantrail ties/caps and sidepost clamps/stiffeners stay on body',
+        'Remove/capture upperM6steel+GFRPwashers; insert split extractor through counted tie-face pockets,withdraw all four integral10mm stem/collar liner kits20mm outward along signedV and capture them; inspect all eight tie/postwall passages empty before frame lift',
         'Capture all lowerM8 hardware and sleeves; support bareframe, lift90mm first then withdraw300mm outward; outward-first failed beam-wall witness remains ancestry',
         'For separate body-side framework repair,remove cantrail caps/backers through open ends; remove firstpost M6 hardware/sleeves, then dismantle owned clamp plates/tabs with counted cut/weld/coat repair; no wholeframe extraction assumed for body-side stock'],
       paths=dict(covers=[[0.,0.,0.],[.100,0.,0.],[.100,0.,.250]],panel=[[0.,0.,0.],[.150,0.,0.],[.150,0.,.100]],
-        frame=[[0.,0.,0.],[0.,0.,.090],[.300,0.,.090]],sidepanel_positive=[[0.,0.,0.],[0.,.100,0.]],sidepanel_negative=[[0.,0.,0.],[0.,-.100,0.]]),
+        frame=[[0.,0.,0.],[0.,0.,.090],[.300,0.,.090]],floorcover=[[0.,0.,0.],[0.,0.,.020],[.100,0.,.020]],sidepanel_positive=[[0.,0.,0.],[0.,.100,0.]],sidepanel_negative=[[0.,0.,0.],[0.,-.100,0.]]),
       necessary_removal_bounds=removal_bounds(r),
+      upper_liner_detachment=upper_liner_removal_contract(),frame_lift_guard='assert_frame_lift_ready(exact four captured kit IDs)',
       repair_consumables='Body-side welded tabs are replaceable: each repair uses new owned tab blanks,positive80mmAlweld/tab and coat/QA; recurring quantities/cost separate from initial installed stock',
       tools=dict(M8_socket_radius_m=.025,M8_insertion_m=.120,M8_withdrawal_m=.200,M6_socket_radius_m=.015,
         M6_insertion_m=.100,M4_socket_radius_m=.010,M4_insertion_m=.080,source_cantrail_end_access_m=[.091,.241]),
@@ -945,10 +1143,10 @@ def requests(r,*,source_commit,source_sha256):
     if r['parent']!=PARENT or r['local']!=LOCAL:raise ValueError('Only exact actual source ancestors may be requested')
     common=dict(execution_authorized=False,source_commit=source_commit,source_sha256=source_sha256,
       parent=deepcopy(PARENT),local=deepcopy(LOCAL),recipe_input_id=identity(r),native_jobs=0,body_jobs=0,price_business_jobs=0,independent_review_required=True,**FLAGS)
-    return [seal(dict(common,id='terminal-installed-r2-matched-joints',entry_point='engineering.terminal_installation.matched_joint_proposal',CPU_s=30,address_space_bytes=int(1.5*1024**3),wall_s=45,output_bytes=15*1024**2,
+    return [seal(dict(common,id='terminal-installed-r3-matched-joints',entry_point='engineering.terminal_installation.matched_joint_proposal',CPU_s=30,address_space_bytes=int(1.5*1024**3),wall_s=45,output_bytes=15*1024**2,
       scope='One matched lowerM8/upperM6/sidepostM6/upper-frameM6/side-frameM4 analytical contract packet and closure necessary controls; exact source wall/bore/grip/bearing/edge/tolerance failures preserved',
       completion=['Exact source/geometry/stock IDs','Ordered layers,actual sleeve/bore/remainingwall checks','Net/Gross/Scrap/process and offvehiclefixture scopes','Known failures and unknown qualification separated'])),
-      seal(dict(common,id='terminal-installed-r2-two-ends',entry_point='engineering.terminal_installation.compile_proposal',CPU_s=90,address_space_bytes=int(1.5*1024**3),wall_s=120,output_bytes=40*1024**2,
+      seal(dict(common,id='terminal-installed-r3-two-ends',entry_point='engineering.terminal_installation.compile_proposal',CPU_s=90,address_space_bytes=int(1.5*1024**3),wall_s=120,output_bytes=40*1024**2,
       scope='One two-outer-end definition/typed ownership proposal only, not a vehicle body or native gate',
       completion=['Exactly2retained beams/4cantrails/4firstposts machined once','32+8+24sourcewall operations and removed moments','Oldcomplete leaves/newstock/legacyprices/consumables once','All closure/support/tool/removal/datum/cost-coverage artifacts','Widercladding and supplier/load/fire/creep/WPS/fit holds explicit']))]
 
@@ -959,7 +1157,7 @@ def matched_joint_proposal(r,body):
     out=seal(dict(schema='osr-terminal-installed-matched-contract-proposal/1',parent=deepcopy(r['parent']),source_sha256=before,
       physical_input_id=identity(physical_projection(r)),counterparts=[{k:v for k,v in x.items() if k!='part'} for x in cp],
       lower_M8=matched_lower_joint(),cantrail_M6=upper_joint(),sidepost_M6=post_joint(),
-      detachable_upper_M6=upper_frame_joint(),detachable_side_M4=side_frame_joint(),
+      detachable_upper_M6=upper_frame_joint(),detachable_side_M4=side_frame_joint(),upper_cage=upper_cage_contract(),upper_liner_removal=upper_liner_removal_contract(),
       bounds=necessary_bounds(r),removal=removal_bounds(r),physical_accepted=False,definition_only=True))
     if before!=sources():raise ValueError('Source epoch changed')
     return out
