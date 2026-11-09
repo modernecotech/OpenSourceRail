@@ -2,9 +2,15 @@
 
 ## Result
 
-**HOLD: the existing native delivery path cannot yet consume the compact-drive
+**HOLD: the audited inputs contain no sealed candidate-matched delivery
+proposal, review pack, or native lifecycle packet for the compact-drive
 candidate.** The available sealed railway study and 668-part delivery proposal
-are bound to the original body candidate. The bounded `engineering.compact_drive.design.build()` result has a different physical candidate and evaluation. The proposal compiler correctly rejects the mixed pair before creating a delivery proposal. No candidate-specific controlled documents, review pack, native ERPNext transaction, or lifecycle evidence were generated for the compact-drive candidate.
+are bound to the original body candidate. The bounded
+`engineering.compact_drive.design.build()` result has a different physical
+candidate and evaluation. The proposal compiler correctly rejects the mixed
+pair before creating a delivery proposal. No candidate-specific controlled
+documents, review pack, native ERPNext transaction, or lifecycle evidence were
+generated for the compact-drive candidate.
 
 The repository already has the needed software path in principle: the pure
 proposal compiler preserves source-part quantities and direct prices;
@@ -45,6 +51,11 @@ The current compact-drive build (default config `compact-737-h100`) produced:
 - Evaluation `fdac4907a6a867f0b4f27e0876a772d1b54d526ec323beb3b6d9a155e0e00b21`.
 - Exact ancestry requirement: body candidate `9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba`,
   body evaluation `dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272`.
+
+The design output declares `installed_mass_complete=false`, an interface screen
+of `HOLD`, structural comparison invalidated, and selection purpose unselected.
+The identity refusal below confirms fail-closed candidate handling; it does not
+establish that this candidate is viable.
 
 Attempting to combine that build with the available study and service evaluation
 raised `ValueError: Mixed body candidate or engineering revision`. This is the
@@ -89,3 +100,7 @@ release, and movement authority remain false.
 
 Report SHA-256 is recorded by the producing commit once integrated; this report
 is an audit note, not a sealed business or qualification receipt.
+
+The command results and 15-test pass above are producer-reported in this note.
+This audit directory does not include an immutable execution transcript or a
+complete hash manifest for the compact-drive sources and test runner.
