@@ -26,6 +26,12 @@ def _text(value, name):
     return value
 
 
+def _unit(value, name):
+    _text(value, name)
+    _require(value == value.strip(), 'Trimmed explicit '+name+' required')
+    return value
+
+
 def _hash(value, name):
     _require(isinstance(value, str) and len(value) == 64 and all(c in '0123456789abcdef' for c in value), 'Exact '+name+' identity required')
     return value
@@ -113,10 +119,15 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
     parts = _index(body['parts'], 'id', 'source part')
     patterns = _index(body.get('patterns',[]), 'id', 'source pattern')
     _require(all(p.get('part_id') in parts for p in patterns.values()), 'Orphan source cost pattern')
+    _require(type(body.get('total_occurrences')) is int and body['total_occurrences'] > 0 and
+             all(type(p.get('quantity_per_train')) is int and p['quantity_per_train'] > 0 for p in parts.values()) and
+             sum(p['quantity_per_train'] for p in parts.values()) == body['total_occurrences'], 'Source body aggregate count differs')
+    source_direct = _cases(body.get('direct_parts_process_usd'), 'source body direct subtotal', unknown=True)
     mapping = _index(contract.get('rows'), 'part_id', 'part mapping')
     _require(not (set(mapping)-set(parts)), 'Orphan mapped part')
     rows = []
     for pid, part in parts.items():
+        _unit(part.get('unit'), 'source UOM')
         _hash(part.get('candidate_id'), 'component candidate'); _hash(part.get('component_definition_id'), 'component definition')
         quantity = part.get('quantity_per_train')
         _require(type(quantity) is int and quantity > 0, 'Positive integer counted part quantity required')
@@ -167,6 +178,7 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
                 _require(isinstance(conversion,dict) and conversion.get('source_unit') == part['unit'], 'Mixed conversion source unit')
                 _text(conversion.get('basis'), 'unit conversion basis'); _text(conversion.get('source_reference'), 'unit conversion source')
                 target = conversion.get('target_unit')
+                _unit(target, 'target UOM')
                 _require(target in UNITS, 'Unsupported explicit target UOM')
                 factor = conversion.get('target_per_source')
                 if factor is None:
@@ -219,15 +231,86 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
                 row['target_unit_rate_usd'] = None
         row['holds'] = holds; row['status'] = 'held' if holds else 'ready-for-planning-review'
         row['account_id'] = identity(row); rows.append(row)
+    source_totals = {}; aggregate_holds = []
+    for c in CASES:
+        if patterns:
+            amounts = [p.get('direct_cost_usd',{}).get(c) if p.get('direct_cost_usd') is not None else None for p in patterns.values()]
+        else:
+            amounts = [None if p.get('direct_cost_each_usd') is None or p['direct_cost_each_usd'].get(c) in (None,0) else
+                       p['quantity_per_train']*p['direct_cost_each_usd'][c] for p in parts.values()]
+        source_totals[c] = None if any(v is None for v in amounts) else fsum(amounts)
+        if source_totals[c] is None or source_direct[c] is None:
+            aggregate_holds.append('Source direct subtotal reconciliation unknown: '+c)
+        else:
+            _require(isclose(source_totals[c],source_direct[c],rel_tol=1e-10,abs_tol=1e-6), 'Source body aggregate direct cost differs: '+c)
     held = [r['part_id'] for r in rows if r['holds']]
     result = dict(schema='osr-part-account-evaluation/1', body_candidate_id=body['candidate_id'],
         body_evaluation_id=body['evaluation_id'], parent_candidate_id=body.get('parent_candidate_id'),
-        cost_evaluation_id=cost_evaluation_id, fleet=fleet, contract_id=identity(contract), rows=rows,
-        all_source_parts_mapped=not held, held_part_ids=held, cost_addition_authorized=False,
+        cost_evaluation_id=cost_evaluation_id, fleet=fleet, contract_id=identity(contract), source_contract=deepcopy(contract), rows=rows,
+        source_total_occurrences=body['total_occurrences'],source_direct_parts_process_usd=deepcopy(source_direct),
+        reconciled_source_direct_usd=source_totals,source_aggregate_holds=aggregate_holds,
+        all_source_parts_mapped=not held and not aggregate_holds, held_part_ids=held, cost_addition_authorized=False,
         physical_accepted=False, manufacturing_release=False, operating_release=False,
         source_sha256={PRODUCER:digest(Path(__file__))})
     result['evaluation_id'] = identity(result)
     return result
+
+
+def validate_accounts(accounts, *, body=None):
+    """Validate typed redundant fields, then replay against required source data.
+
+    The body and embedded explicit contract are necessary source context, not
+    authenticated measurements. Resealing a container or row cannot replace
+    quantity/price conservation or the exact source/contract replay.
+    """
+    _sealed(accounts, 'part account evaluation')
+    _require(accounts.get('schema') == 'osr-part-account-evaluation/1', 'Exact part account schema required')
+    fleet=accounts.get('fleet')
+    _require(type(fleet) is int and fleet > 0, 'Typed positive part account fleet required')
+    for k in ('body_candidate_id','body_evaluation_id','cost_evaluation_id','contract_id'):
+        _hash(accounts.get(k), k)
+    rows=_index(accounts.get('rows'),'part_id','part account')
+    held=[]
+    for pid,row in rows.items():
+        _require(row.get('account_id') == identity({k:v for k,v in row.items() if k!='account_id'}), 'Part row account identity differs: '+pid)
+        for k in ('source_part_sha256','source_cost_id','component_definition_id','component_candidate_id'):
+            _hash(row.get(k), k)
+        _unit(row.get('source_unit'),'source UOM')
+        _require(row.get('currency') == 'USD' and row.get('valuation_basis') == 'existing-direct-parts-process-only', 'Part currency or valuation scope differs')
+        q=row.get('quantity_per_train');project=row.get('source_quantity_project')
+        _require(type(q) is int and q > 0 and type(project) is int and project == q*fleet, 'Part source/project quantity differs')
+        holds=row.get('holds')
+        _require(isinstance(holds,list) and all(isinstance(v,str) and bool(v.strip()) for v in holds) and len(holds)==len(set(holds)), 'Explicit typed part holds required')
+        _require(row.get('status') == ('held' if holds else 'ready-for-planning-review'), 'Part status contradicts holds')
+        if holds:held.append(pid)
+        values=row.get('project_direct_cost_usd'); quantities=row.get('target_quantity_project'); rates=row.get('target_unit_rate_usd')
+        if row.get('target_unit') is not None:_unit(row['target_unit'],'target UOM')
+        if quantities is not None:
+            _require(row.get('target_unit') in UNITS and isinstance(row.get('conversion'),dict), 'Explicit target UOM conversion required')
+            _cases(quantities,'target quantity',positive=True)
+            factor=_cases(row['conversion'].get('target_per_source'),'target conversion factor',positive=True)
+            _require(row['conversion'].get('source_unit')==row['source_unit'] and row['conversion'].get('target_unit')==row['target_unit'], 'Row conversion units differ')
+            _require(all(isclose(quantities[c],project*factor[c],rel_tol=1e-12,abs_tol=1e-9) for c in CASES), 'Target quantity does not conserve source quantity')
+        if values is not None:
+            _require(quantities is not None and rates is not None, 'Priced row lacks quantity or rate')
+            _cases(values,'project direct cost',positive=True);_cases(rates,'target unit rate',positive=True)
+            _require(all(isclose(values[c],quantities[c]*rates[c],rel_tol=1e-12,abs_tol=1e-6) for c in CASES), 'Part quantity times rate does not conserve cost')
+            counted=row.get('source_pattern_cost_per_train_usd')
+            if counted is not None:
+                _cases(counted,'counted source cost',positive=True)
+                _require(all(isclose(values[c],fleet*counted[c],rel_tol=1e-10,abs_tol=1e-6) for c in CASES), 'Part price differs from source pattern subtotal')
+        else:
+            _require(rates is None and bool(holds), 'Unknown row price requires unknown rate and an explicit hold')
+    aggregate_holds=accounts.get('source_aggregate_holds')
+    _require(isinstance(aggregate_holds,list) and all(isinstance(v,str) and bool(v.strip()) for v in aggregate_holds), 'Explicit aggregate holds required')
+    _require(accounts.get('held_part_ids')==held and type(accounts.get('all_source_parts_mapped')) is bool and
+             accounts['all_source_parts_mapped']==(not held and not aggregate_holds), 'Part coverage/status summary differs')
+    _require(body is not None, 'Source body context required to validate part account ownership and prices')
+    contract=accounts.get('source_contract')
+    _require(isinstance(contract,dict) and identity(contract)==accounts['contract_id'], 'Exact embedded source contract required')
+    expected=compile_accounts(body,contract,fleet,cost_evaluation_id=accounts['cost_evaluation_id'])
+    _require(identity(accounts)==identity(expected), 'Part account source/contract replay differs')
+    return True
 
 
 def planning_body(body, accounts):
@@ -239,7 +322,7 @@ def planning_body(body, accounts):
     evaluation_id as a source engineering-revision alias for serial planning;
     this labelled projection has no physical candidate and is never resealed.
     """
-    _sealed(accounts, 'part account evaluation')
+    validate_accounts(accounts,body=body)
     _require(accounts['body_candidate_id'] == body['candidate_id'] and accounts['body_evaluation_id'] == body['evaluation_id'], 'Mixed planning body revision')
     mapping = _index(accounts['rows'], 'part_id', 'part account')
     _require(set(mapping) == {p['id'] for p in body['parts']}, 'Complete planning projection required')
@@ -254,7 +337,7 @@ def planning_body(body, accounts):
     return projected
 
 
-def bridge_accounts(accounts, legacy, replacements, *, additions=()):
+def bridge_accounts(accounts, legacy, replacements, *, additions=(), body=None):
     """Return a declared disjoint research ledger, never apply an implicit credit.
 
     Legacy accounts are sealed, project-quantity USD accounts with explicit
@@ -263,7 +346,7 @@ def bridge_accounts(accounts, legacy, replacements, *, additions=()):
     ownership coverage and explicit low/base/high amounts. Unrelated candidates,
     reused credits or overlapping uncredited owners are rejected.
     """
-    _sealed(accounts, 'part accounts'); _sealed(legacy, 'legacy account ledger')
+    validate_accounts(accounts,body=body); _sealed(legacy, 'legacy account ledger')
     _hash(legacy.get('candidate_id'), 'legacy candidate')
     _require(legacy['candidate_id'] == accounts['body_candidate_id'] or
              (accounts.get('parent_candidate_id') is not None and legacy['candidate_id'] == accounts['parent_candidate_id']),
@@ -273,7 +356,7 @@ def bridge_accounts(accounts, legacy, replacements, *, additions=()):
     old = _index(legacy['accounts'], 'account_id', 'legacy account')
     credits = _index(replacements, 'legacy_account_id', 'replacement credit')
     _require(not (set(credits)-set(old)), 'Unknown legacy replacement account')
-    coverage = {}; old_total = {}; holds = []
+    coverage = {}; old_total = {}; holds = list(accounts['source_aggregate_holds'])
     for aid, row in old.items():
         _cases(row['cost_usd'], 'legacy account cost', unknown=True)
         coverage[aid] = _owners(row.get('coverage_owner_ids'), 'legacy coverage owners')

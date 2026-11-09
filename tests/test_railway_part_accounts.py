@@ -73,6 +73,10 @@ def addition(result, old):
         basis='Synthetic motor is explicitly outside all listed legacy account coverage',source_reference='SYNTHETIC/disjoint-ownership')
 
 
+def _bridge(accounts, old, replacements, *, additions=(), source=None):
+    return a.bridge_accounts(accounts,old,replacements,additions=additions,body=body() if source is None else source)
+
+
 def test_full_mapping_conserves_count_times_rate_without_mutating_source():
     b=body();before=deepcopy(b);r=compiled(b)
     assert b==before and r['all_source_parts_mapped']
@@ -130,7 +134,8 @@ def test_partial_stock_case_bounds_remain_unknown_not_zero_or_finished_mass():
 
 def test_varying_occurrence_cost_cannot_silently_use_nominal_each_price():
     b=body();b['patterns']=[dict(id='pattern/'+p['id'],part_id=p['id'],count=p['quantity_per_train'],
-        direct_cost_usd=cases(270. if p['id']=='sheet' else 100.)) for p in b['parts']];seal(b)
+        direct_cost_usd=cases(270. if p['id']=='sheet' else 100.)) for p in b['parts']]
+    b['direct_parts_process_usd']=cases(370.);seal(b)
     r=compiled(b)
     assert r['held_part_ids']==['sheet'] and r['rows'][0]['project_direct_cost_usd'] is None
     assert r['rows'][0]['source_pattern_cost_per_train_usd']==cases(270.)
@@ -183,7 +188,7 @@ def test_ambiguous_conversion_coverage_and_invalid_numbers_rejected(fault):
 
 
 def test_disjoint_bridge_keeps_explicit_reserve_and_conserves_price():
-    r=compiled();old=legacy(r);v=a.bridge_accounts(r,old,[credit(r,old)],additions=[addition(r,old)])
+    r=compiled();old=legacy(r);v=_bridge(r,old,[credit(r,old)],additions=[addition(r,old)])
     assert v['project_direct_cost_usd']==cases(3600.)
     assert v['known_named_cost_subtotal_usd']==cases(1600.)
     assert v['credits'][0]['retained_cost_usd']==cases(2000.)
@@ -192,14 +197,14 @@ def test_disjoint_bridge_keeps_explicit_reserve_and_conserves_price():
 
 def test_direct_parent_revision_requires_explicit_ancestry_and_credit():
     r=compiled();old=legacy(r,parent=True)
-    assert a.bridge_accounts(r,old,[credit(r,old)],additions=[addition(r,old)])['project_direct_cost_usd']==cases(3600.)
+    assert _bridge(r,old,[credit(r,old)],additions=[addition(r,old)])['project_direct_cost_usd']==cases(3600.)
     bad=credit(r,old);bad['ancestry']='same-candidate'
-    with pytest.raises(ValueError,match='ancestry'):a.bridge_accounts(r,old,[bad])
+    with pytest.raises(ValueError,match='ancestry'):_bridge(r,old,[bad])
 
 
 def test_named_parts_cannot_be_added_on_top_of_legacy_residual():
     r=compiled()
-    with pytest.raises(ValueError,match='uncredited legacy residual'):a.bridge_accounts(r,legacy(r),[])
+    with pytest.raises(ValueError,match='uncredited legacy residual'):_bridge(r,legacy(r),[])
 
 
 @pytest.mark.parametrize('fault',['unrelated','legacy-source','source-evaluation','part','duplicate-part','ownership','reserve','credit-too-large','credit-erases-reserve','wrong-fleet'])
@@ -215,19 +220,19 @@ def test_mixed_or_duplicate_replacement_cannot_create_a_discount(fault):
     if fault=='credit-too-large':x['replacement_credit_usd']=cases(4000.)
     if fault=='credit-erases-reserve':x['replacement_credit_usd']=cases(3000.)
     if fault=='wrong-fleet':old['fleet']=8;seal(old);x=credit(r,old)
-    with pytest.raises(ValueError):a.bridge_accounts(r,old,[x])
+    with pytest.raises(ValueError):_bridge(r,old,[x])
 
 
 def test_unknown_legacy_rate_retains_hold_not_fake_complete_total():
     r=compiled();old=legacy(r);old['accounts'][0]['cost_usd']=cases(None);seal(old)
-    v=a.bridge_accounts(r,old,[credit(r,old)])
+    v=_bridge(r,old,[credit(r,old)])
     assert v['project_direct_cost_usd']==cases(None) and v['holds']
     assert v['known_named_cost_subtotal_usd']==cases(1600.)
 
 
 def test_different_owner_name_alone_does_not_authorize_adding_new_bom_to_residual():
     r=compiled();old=legacy(r)
-    v=a.bridge_accounts(r,old,[credit(r,old)])
+    v=_bridge(r,old,[credit(r,old)])
     assert v['project_direct_cost_usd']==cases(None)
     assert any('explicit disjoint addition' in h for h in v['holds'])
 
@@ -239,11 +244,99 @@ def test_addition_requires_whole_legacy_scope_and_unique_disjoint_parts(fault):
     if fault=='overlap':x['part_ids']=['sheet']
     if fault=='repeat':x['part_ids']=['motor','motor']
     if fault=='revision':x['body_evaluation_id']=identity('different')
-    with pytest.raises(ValueError):a.bridge_accounts(r,old,[credit(r,old)],additions=[x])
+    with pytest.raises(ValueError):_bridge(r,old,[credit(r,old)],additions=[x])
 
 
 def test_overlapping_legacy_owners_and_duplicate_credits_rejected():
     r=compiled();old=legacy(r);old['accounts'].append({**deepcopy(old['accounts'][0]),'account_id':'duplicate-owner'});seal(old)
-    with pytest.raises(ValueError,match='Overlapping'):a.bridge_accounts(r,old,[])
+    with pytest.raises(ValueError,match='Overlapping'):_bridge(r,old,[])
     old=legacy(r);x=credit(r,old)
-    with pytest.raises(ValueError,match='Duplicate'):a.bridge_accounts(r,old,[x,x])
+    with pytest.raises(ValueError,match='Duplicate'):_bridge(r,old,[x,x])
+
+
+def reseal_row(row):
+    row.pop('account_id',None)
+    row['account_id']=identity(row)
+
+
+@pytest.mark.parametrize('reseal_inner',[False,True])
+def test_review_f1_one_dollar_resealed_counterexample_is_rejected(reseal_inner):
+    r=compiled();old=legacy(r)
+    assert _bridge(r,old,[credit(r,old)],additions=[addition(r,old)])['project_direct_cost_usd']==cases(3600.)
+    bad=deepcopy(r);prior_source=bad['rows'][0]['source_cost_id']
+    bad['rows'][0]['project_direct_cost_usd']=cases(1.)
+    if reseal_inner:reseal_row(bad['rows'][0])
+    seal(bad)
+    assert bad['rows'][0]['source_cost_id']==prior_source
+    assert bad['rows'][0]['target_quantity_project']['base']*bad['rows'][0]['target_unit_rate_usd']['base']==1200.
+    with pytest.raises(ValueError,match='account identity|conserve cost'):
+        _bridge(bad,old,[credit(bad,old)],additions=[addition(bad,old)])
+
+
+def test_resealed_arithmetically_consistent_forged_rate_still_requires_source_replay():
+    r=compiled();old=legacy(r);bad=deepcopy(r)
+    bad['rows'][0]['project_direct_cost_usd']=cases(1.)
+    bad['rows'][0]['target_unit_rate_usd']=cases(1/12)
+    reseal_row(bad['rows'][0]);seal(bad)
+    with pytest.raises(ValueError,match='source/contract replay'):
+        _bridge(bad,old,[credit(bad,old)],additions=[addition(bad,old)])
+
+
+@pytest.mark.parametrize('fault',['schema','owner','source-cost','component','status','holds','coverage','quantity','bool-price','missing-row'])
+def test_consumers_reject_resealed_schema_type_status_and_ownership_changes(fault):
+    r=compiled();bad=deepcopy(r);row=bad['rows'][0]
+    if fault=='schema':bad['schema']='unrelated-schema/1'
+    if fault=='owner':row['account_owner']='unrelated-owner'
+    if fault=='source-cost':row['source_cost_id']=identity('forged-source-cost')
+    if fault=='component':row['component_definition_id']=identity('unrelated-component')
+    if fault=='status':row['status']='held'
+    if fault=='holds':row['holds']='not-a-list'
+    if fault=='coverage':bad['all_source_parts_mapped']=False
+    if fault=='quantity':row['source_quantity_project']=True
+    if fault=='bool-price':row['project_direct_cost_usd']=cases(True)
+    if fault=='missing-row':bad['rows'].pop()
+    reseal_row(row);seal(bad)
+    with pytest.raises(ValueError):a.validate_accounts(bad,body=body())
+    with pytest.raises(ValueError):a.planning_body(body(),bad)
+
+
+def test_missing_source_context_cannot_promote_a_self_resealed_cost_packet():
+    r=compiled();old=legacy(r)
+    with pytest.raises(ValueError,match='Source body context required'):
+        a.bridge_accounts(r,old,[credit(r,old)],additions=[addition(r,old)])
+
+
+@pytest.mark.parametrize('unit',[None,'','   ',' item ',True,17])
+@pytest.mark.parametrize('side',['source','target'])
+def test_review_f2_missing_untyped_or_untrimmed_units_never_become_nos(unit,side):
+    b=body()
+    if side=='source':b['parts'][0]['unit']=unit;seal(b)
+    c=contract(b)
+    if side=='target':c['rows'][0]['conversion']['target_unit']=unit
+    with pytest.raises(ValueError,match='UOM'):compiled(b,c)
+
+
+@pytest.mark.parametrize('fault',['count','cost','both'])
+def test_review_standalone_aggregate_count_and_cost_counterexamples_rejected(fault):
+    b=body();b['patterns']=[dict(id='toy-pattern/'+p['id'],part_id=p['id'],count=p['quantity_per_train'],
+        direct_cost_usd={c:p['quantity_per_train']*p['direct_cost_each_usd'][c] for c in a.CASES})for p in b['parts']]
+    if fault in ('count','both'):b['total_occurrences']=1
+    if fault in ('cost','both'):b['direct_parts_process_usd']=cases(1.)
+    seal(b)
+    with pytest.raises(ValueError,match='aggregate'):compiled(b)
+
+
+def test_unknown_source_aggregate_stays_held_with_no_complete_bridge_price():
+    b=body();b['direct_parts_process_usd']=cases(None);seal(b);r=compiled(b);old=legacy(r)
+    assert not r['all_source_parts_mapped'] and r['source_aggregate_holds']
+    v=_bridge(r,old,[credit(r,old)],additions=[addition(r,old)],source=b)
+    assert v['project_direct_cost_usd']==cases(None) and v['holds']
+
+
+def test_explicit_revised_contract_can_produce_a_new_valid_evaluation():
+    b=body();first=compiled(b);c=contract(b);c['rows'][0]['make_buy']['planning_route']='buy-standard'
+    revised=compiled(b,c)
+    assert revised['evaluation_id']!=first['evaluation_id']
+    assert a.validate_accounts(revised,body=b)
+    old=legacy(revised)
+    assert _bridge(revised,old,[credit(revised,old)],additions=[addition(revised,old)],source=b)['project_direct_cost_usd']==cases(3600.)
