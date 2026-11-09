@@ -24,6 +24,7 @@ def _inputs(root):
         'docs/design-engine/generative-structure/summary.json','docs/design-engine/coupled-railway/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     names += ['docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/vehicle-parts-stock-detail.json']
     names += ['docs/assets/terminal-parts-v06/'+name for name in ('manifest.json','corner.webp','bracket.webp')]
+    names += ['docs/assets/chair-installation-r4-v06/'+name for name in ('manifest.json','chair.webp','anchor.webp')]
     names += [ILLUSTRATIONS,*(image['file'] for image in _illustrations(root))]
     return {name:digest(root/name) for name in names}
 
@@ -128,6 +129,11 @@ def build(root=ROOT,output=None,check=False):
     story.append(Image(str(root/'docs/assets/terminal-parts-v06/corner.webp'),width=430,height=430*1900/3000))
     story.append(Image(str(root/'docs/assets/terminal-parts-v06/bracket.webp'),width=430,height=430*1900/3000))
     para('Surrounding sections are ghosted for visibility. Unknown hardware and the free gasket are excluded. Sealing response, joint strength, fatigue and installed fit remain open. Test-piece volumes are not extra installed vehicle stock. See docs/engineering-gallery.md for native files, commands, provenance and the read-only audit.')
+    page('Chair and anchor hardware from native CAD')
+    para('One local direct-floor chair proposal contains 275 material solids: aluminium frame and mounting plates, sandwich shells, cushions/covers, insulating liners and nominal fixing blanks. SolidCraft generated and reopened the native and STEP models. An independent FreeCAD import uniquely matches all 275 positive, valid, closed solids by volume, centroid and bounds; all 2,427 finite material/void probes agree. Imported part names failed their separate strict check and remain recorded as failed.')
+    story.append(Image(str(root/'docs/assets/chair-installation-r4-v06/chair.webp'),width=390,height=390*1900/3000))
+    story.append(Image(str(root/'docs/assets/chair-installation-r4-v06/anchor.webp'),width=390,height=390*1900/3000))
+    para('The underside view exposes sleeves, backing pads and captive retainers; the upper chair is ghosted. The mating structural floor and support bridge are absent. Weld, finish, seam and sealant quantities remain separately bounded. Finite probes do not establish complete geometric equivalence, interpart fit, load capacity, ergonomics or physical qualification. This coupon is not installed in the selected reference; different mounting variants need applicable evidence. Download CAD, source dimensions, material assumptions and checks from docs/engineering-gallery.md.')
     page('1. Preserve the ethos; change the support')
     para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. Propulsion architecture, safe stopping and the cost of the complete railway still require candidate-specific evidence.')
     figure('vehicle-overview.svg',190,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')

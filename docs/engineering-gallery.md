@@ -14,6 +14,26 @@ The FEM replay retained the exact binary mesh and reproduced the earlier **13.94
 
 This is a homogeneous elastic concrete model with ideal bearing lines. Cracking, prestress, segment joints, fatigue, contact, erection and physical qualification remain unresolved. The located assembly image must not inherit this continuous-beam result. Geometry agreement and numerical convergence do not grant manufacturing or operating approval.
 
+## Revised direct-floor chair
+
+| Chair and anchor coupon | Anchor underside |
+|---|---|
+| [![Revised chair with shells, cushions, frame, armrest and anchor hardware](assets/chair-installation-r4-v06/chair.webp)](assets/chair-installation-r4-v06/chair.sc) | [![Anchor sleeves and captive retainers with the upper chair ghosted](assets/chair-installation-r4-v06/anchor.webp)](assets/chair-installation-r4-v06/chair.sc) |
+
+This local R4 proposal contains **275 separate material solids**: aluminium frame and mounting plates, sandwich shells, foam/fabric covers, steel fixing blanks and insulating liners. Its four feet are 20 mm thick. Separate sleeves, backing pads, nut cages and soft bolt-tip caps represent the floor anchors. The [top view](assets/chair-installation-r4-v06/anchor-top.webp) shows the mounting plates and recessed strips. Colours and transparency are presentation choices; dimensions and positions are unchanged.
+
+SolidCraft generated the model and reopened its native and STEP files. An independent FreeCAD 1.1.4 / OpenCASCADE 7.8.1 import has **275 positive, valid, closed solids**, uniquely matched by individual volume, centroid and bounds. All **2,427 finite material/void probes** agree, including blind-bore ends, annular sleeves and adjacent material. These are diagnostic samples, not proof of complete geometric equivalence. FreeCAD renamed the imported solids: the original strict name-identity check remains failed and is retained separately.
+
+The mating structural floor and support bridge are **absent from this coupon**. The long anchor sleeves are shown exposed. Weld, finish, seam and sealant quantities remain separately bounded; they are not included as invented native solids. Purchased threads are nominal blanks, and tolerances, preload, installed clearance, structural loads, fatigue, fire behaviour and ergonomics still need their own checks. This exact local recipe has not been installed in the selected reference. Other mounting-row and handedness variants require applicable geometry and fit evidence; the image does not validate all train seats.
+
+Download [SolidCraft](assets/chair-installation-r4-v06/chair.sc), [STEP](assets/chair-installation-r4-v06/chair.step), [recorded commands](assets/chair-installation-r4-v06/commands.json), [parts and stock definition](assets/chair-installation-r4-v06/source/coupon.json), [source recipe and material assumptions](assets/chair-installation-r4-v06/source/recipe.json), and the [evidence manifest](assets/chair-installation-r4-v06/manifest.json). The packet retains native outputs, exact STEP measurements, probe records, the explicitly instrumented measurement worker, original PNGs and all three camera/style recipes. The previous chair frame below remains available.
+
+```bash
+python3 docs/assets/chair-installation-r4-v06/verify.py
+```
+
+This read-only audit rechecks the saved source oracles, command serialization, original evidence hashes and recorded probe outcomes. It starts no CAD application or solver and grants no physical acceptance.
+
 ## Chair frame
 
 [![Native SolidCraft chair-frame material model](assets/finished-chair-v06/chair.webp)](assets/finished-chair-v06/chair.sc)

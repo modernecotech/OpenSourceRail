@@ -88,10 +88,14 @@ These views come from recorded engineering geometry and native analysis results.
 | **Terminal seal joint** | **Body attachment bracket** |
 | [![Native SolidCraft terminal corner showing sealing lands, retainers, sleeves and panel fixings with surrounding sections ghosted](docs/assets/terminal-parts-v06/corner.webp)](docs/engineering-gallery.md#terminal-joint-coupons) | [![Native SolidCraft folded body attachment bracket with bored sleeves and fixings between ghosted frame sections](docs/assets/terminal-parts-v06/bracket.webp)](docs/engineering-gallery.md#terminal-joint-coupons) |
 | 35 known parts represented by 43 material solids; seal and hardware details remain open. | Nine known parts represented by 11 material solids; joint strength and installed fit remain open. |
+| **Revised direct-floor chair** | **Anchor hardware from below** |
+| [![Native SolidCraft chair proposal showing aluminium frame, sandwich shells, cushions, shared armrest and mounting feet](docs/assets/chair-installation-r4-v06/chair.webp)](docs/engineering-gallery.md#revised-direct-floor-chair) | [![Native SolidCraft underside view exposing four anchor sleeves, insulating liners, backing pads and captive nut retainers](docs/assets/chair-installation-r4-v06/anchor.webp)](docs/engineering-gallery.md#revised-direct-floor-chair) |
+
+The revised local chair contains **275 material solids**, independently checked with FreeCAD and **2,427 material/void probes**. The views include nominal fastener blanks; the mating vehicle floor and support bridge are absent. Complete installed fit, loads and manufacturing approval remain open. [Download the CAD, parts definition and reproducible checks](docs/engineering-gallery.md#revised-direct-floor-chair).
 
 [![Native SolidCraft chair frame with mounting feet, paired shell holes, crush sleeves and isolation pads](docs/assets/finished-chair-v06/chair.webp)](docs/engineering-gallery.md#chair-frame)
 
-**Chair-frame detail:** 66 proposed material solids, with independent FreeCAD geometry correspondence. Mounting, access, strength and the seat-height reconciliation remain open. [Download CAD and inspect the checks](docs/engineering-gallery.md#chair-frame).
+**Retained earlier chair-frame detail:** 66 proposed material solids, with independent FreeCAD geometry correspondence. Its mounting, access, strength and seat-height reconciliation remain open. [Download CAD and inspect the checks](docs/engineering-gallery.md#chair-frame).
 
 The [full-resolution FEM image](docs/assets/engineering-gallery-v06/civil-fem.webp) uses the full native nodal field, including quadratic midside nodes, under one declared normal-base load and ideal bearing lines. It does not verify the segmented assembly. [Render recipes, numerical data and reproduction commands](docs/engineering-gallery.md) include the vehicle image’s render-resource hold and preserve the distinction between a calculated result and physical acceptance.
 

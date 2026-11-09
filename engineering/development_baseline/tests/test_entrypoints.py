@@ -287,9 +287,9 @@ def reader_cache(packet):
     write_json(root/'docs/design-engine/generative-structure/summary.json',dict(scope='Synthetic generative cache fixture; no solver evidence'))
     write_json(root/'docs/design-engine/coupled-railway/summary.json',dict(scope='Synthetic coupled cache fixture; no solver evidence'))
     # Opaque source-bound inputs for cache validation only, not real part/CAD evidence.
-    for name in ('docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/assets/vehicle-parts-stock-detail.json','docs/assets/terminal-parts-v06/manifest.json'):
+    for name in ('docs/design-engine/vehicle-parts/summary.json','docs/design-engine/vehicle-parts/manifest.json','docs/assets/vehicle-parts-stock-detail.json','docs/assets/terminal-parts-v06/manifest.json','docs/assets/chair-installation-r4-v06/manifest.json'):
         write_json(root/name,dict(scope='Synthetic manufacturing reader cache input; no engineering evidence'))
-    for name in ('docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/terminal-parts-v06/corner.webp','docs/assets/terminal-parts-v06/bracket.webp'):
+    for name in ('docs/design-engine/vehicle-parts/catalogue-preview.png','docs/assets/vehicle-parts-stock-detail.png','docs/assets/terminal-parts-v06/corner.webp','docs/assets/terminal-parts-v06/bracket.webp','docs/assets/chair-installation-r4-v06/chair.webp','docs/assets/chair-installation-r4-v06/anchor.webp'):
         target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b'Synthetic UI cache image, not a rendered image\n')
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
@@ -341,7 +341,8 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
     'docs/design-engine/vehicle-parts/summary.json',
     'docs/design-engine/vehicle-parts/manifest.json',
     'docs/assets/vehicle-parts-stock-detail.json',
-    'docs/assets/terminal-parts-v06/manifest.json'])
+    'docs/assets/terminal-parts-v06/manifest.json',
+    'docs/assets/chair-installation-r4-v06/manifest.json'])
 def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     root,book,_=reader_cache
     write_json(root/relative,dict(scope='Changed synthetic evidence'))
@@ -359,7 +360,9 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     'docs/design-engine/vehicle-parts/catalogue-preview.png',
     'docs/assets/vehicle-parts-stock-detail.png',
     'docs/assets/terminal-parts-v06/corner.webp',
-    'docs/assets/terminal-parts-v06/bracket.webp'])
+    'docs/assets/terminal-parts-v06/bracket.webp',
+    'docs/assets/chair-installation-r4-v06/chair.webp',
+    'docs/assets/chair-installation-r4-v06/anchor.webp'])
 def test_reader_cache_refuses_changed_illustrations(reader_cache,relative):
     root,book,_=reader_cache
     with (root/relative).open('ab') as handle:handle.write(b'\n')
