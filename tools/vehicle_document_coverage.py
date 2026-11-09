@@ -87,8 +87,13 @@ def build_report(repo_root: Path) -> dict[str, Any]:
     for key, relpath, manifest_key in source_specs:
         path = folder / relpath
         digest = sha256(path)
-        if manifest_key and manifest["files_sha256"].get(manifest_key) != digest:
-            raise ValueError(f"{relpath} does not match the vehicle manifest SHA-256 pin")
+        pinned_digest = (
+            manifest["files_sha256"].get(manifest_key)
+            if manifest_key
+            else pilot_manifest.get("files_sha256", {}).get(relpath)
+        )
+        if pinned_digest is not None and pinned_digest != digest:
+            raise ValueError(f"{relpath} does not match its published manifest SHA-256 pin")
         payloads[key] = {"path": str(PACKET / relpath), "sha256": digest}
 
     with (folder / "vehicle/bom.csv").open(newline="", encoding="utf-8") as stream:
