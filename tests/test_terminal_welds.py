@@ -1,0 +1,252 @@
+"""Invented local member fixtures only; never load a retained candidate."""
+from copy import deepcopy
+import json
+import math
+import unittest
+from unittest.mock import patch
+from engineering import terminal_welds as w
+
+
+def fixture(paths=None):
+    paths=deepcopy(paths or [[[0.,-.010,0.],[0.,.010,0.]]])
+    entity=dict(id='roof/standoff-weld/0',part_id='invented/weld',material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=[0.,0.,0.],rotation=deepcopy(w.I),geometry=dict(kind='envelope',size_m=[.006,.026,.006]),physical_drawing=dict(kind='triangular-weld-seams',leg_m=.003,local_segments_m=paths,in_prepared_grooves=False,exact_triangle_orientation_and_runout_resolved=False))
+    parents=[dict(id='invented/base',material_id='al5083',frame='terminal-local-UVW',at_m=[.015,0.,-.005],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.030,.040,.010])),dict(id='invented/upright',material_id='al5083',frame='terminal-local-UVW',at_m=[-.005,0.,.015],rotation=deepcopy(w.I),geometry=dict(kind='box',size_m=[.010,.040,.030]))]
+    policy=dict(materials=dict(al5083=dict(density_kg_m3=2660.,density_bounds_kg_m3=[2580.2,2739.8],rate_USD_kg=[3.5,5.,8.])),process=dict(labour_USD_h=[6.,10.,16.],weld_procurement_factor=1.2))
+    L=sum(math.dist(*line) for line in paths);V=.5*.003**2*L;rho=[2580.2,2660.,2739.8]
+    stock=dict(id='stock/'+entity['id'],entity_ids=[entity['id']],quantity=1,net_m3=V,gross_m3=V*1.2,process_h=.1,QA_h=.05,net_mass_kg={c:V*rho[j] for j,c in enumerate(w.CASES)},gross_mass_kg={c:V*1.2*rho[j] for j,c in enumerate(w.CASES)},scrap_mass_kg={c:V*.2*rho[j] for j,c in enumerate(w.CASES)},direct_cost_usd={c:V*1.2*rho[j]*policy['materials']['al5083']['rate_USD_kg'][j]+.15*policy['process']['labour_USD_h'][j] for j,c in enumerate(w.CASES)})
+    contacts=[dict(parent_id=parents[0]['id'],source_parent_sha256=w.identity(parents[0]),cell_id='solid',axis=2,sign=1),dict(parent_id=parents[1]['id'],source_parent_sha256=w.identity(parents[1]),cell_id='solid',axis=0,sign=1)]
+    assignment=dict(source_entity_id=entity['id'],source_entity_sha256=w.identity(entity),source_stock_sha256=w.identity(stock),parent_preparations=[],seams=[dict(source_segment_index=i,root_offset_m=[0.,0.,0.],contacts=deepcopy(contacts),end_treatment=dict(kind='flat-positive-runout',trim_start_m=.001,trim_end_m=.001)) for i in range(len(paths))])
+    return [entity,stock,assignment,parents,policy]
+
+def reseal(f):
+    e,s,a,ps,p=f;a['source_entity_sha256']=w.identity(e);a['source_stock_sha256']=w.identity(s)
+    for seam in a['seams']:
+        for c in seam['contacts']:c['source_parent_sha256']=w.identity(next(x for x in ps if x['id']==c['parent_id']))
+    return f
+
+def run(f):return w.define_record(*f)
+
+
+class WeldTests(unittest.TestCase):
+    def test_external_volume_centroid_first_moment(self):
+        f=fixture();before=deepcopy(f);r=run(f);self.assertEqual(f,before);self.assertAlmostEqual(r['net_volume_m3'],.5*.003**2*.018)
+        for a,b in zip(r['centroid_m'],[.001,0.,.001]):self.assertAlmostEqual(a,b)
+        for a,b in zip(r['first_volume_moment_m4'],[r['net_volume_m3']*.001,0.,r['net_volume_m3']*.001]):self.assertAlmostEqual(a,b)
+        self.assertEqual(r['physical_definition_id'],w.identity(r['physical_definition']))
+        self.assertFalse(r['canonical_admitted']);self.assertFalse(r['physical_accepted']);self.assertFalse(r['native_eligible'])
+
+    def test_all_material_process_cases_once(self):
+        r=run(fixture());a=r['accounting'];V=r['net_volume_m3'];self.assertEqual(a['quantity'],1);self.assertEqual(len(a['replacement_entity_ids']),1)
+        for c,rho in zip(w.CASES,[2580.2,2660.,2739.8]):
+            self.assertAlmostEqual(a['cases'][c]['net_mass_kg'],V*rho)
+            self.assertAlmostEqual(a['cases'][c]['gross_procured_mass_kg']-a['cases'][c]['noninstalled_reserve_mass_kg'],V*rho)
+            self.assertAlmostEqual(a['cases'][c]['direct_USD'],a['cases'][c]['material_USD']+a['cases'][c]['process_QA_USD'])
+        self.assertEqual(a['process_h'],.1);self.assertEqual(a['QA_h'],.05);self.assertIsNone(a['extra_setup_rework_QA_h']);self.assertFalse(a['complete_installed_cost'])
+        self.assertLess(a['net_volume_delta_vs_old_m3'],0.)
+
+    def test_pattern_inventory(self):
+        t=w.family_templates();self.assertEqual(sum(x['source_quantity'] for x in t['patterns']),183);self.assertEqual(len(t['patterns']),27);self.assertEqual(len({x['family'] for x in t['patterns']}),9)
+        for p,q in w.PATTERNS:self.assertEqual(w.pattern_for(p.replace('*','0')),p)
+        with self.assertRaises(w.DefinitionHold):w.pattern_for('roof/unreviewed-anything')
+
+    def test_proper_pose_no_second_lift(self):
+        f=fixture();R=[[-1.,0.,0.],[0.,-1.,0.],[0.,0.,1.]];T=[2.,3.,4.]
+        for e in [f[0]]+f[3]:e['at_m']=w.world(e['at_m'],T,R);e['rotation']=deepcopy(R)
+        r=run(reseal(f))
+        for a,b in zip(r['centroid_m'],[1.999,3.,4.001]):self.assertLess(abs(a-b),1e-12)
+
+    def test_price_changes_only_evaluation(self):
+        f=fixture();a=run(f);f[4]['materials']['al5083']['rate_USD_kg']=[4.,6.,9.]
+        for j,c in enumerate(w.CASES):f[1]['direct_cost_usd'][c]=f[1]['gross_mass_kg'][c]*f[4]['materials']['al5083']['rate_USD_kg'][j]+.15*f[4]['process']['labour_USD_h'][j]
+        b=run(reseal(f));self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id'])
+
+    def test_QA_changes_only_evaluation(self):
+        f=fixture();a=run(f);f[1]['QA_h']=.15
+        for j,c in enumerate(w.CASES):f[1]['direct_cost_usd'][c]+=.10*f[4]['process']['labour_USD_h'][j]
+        b=run(reseal(f));self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id'])
+
+    def test_trim_changes_physical(self):
+        f=fixture();a=run(f);f[2]['seams'][0]['end_treatment']['trim_end_m']=.002;b=run(f);self.assertNotEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertLess(b['net_volume_m3'],a['net_volume_m3'])
+
+    def test_parent_material_changes_physical(self):
+        f=fixture();a=run(f);f[3][0]['material_id']='al5754';b=run(reseal(f));self.assertNotEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertTrue(b['holds'])
+
+    def test_unknown_geometry_cannot_be_envelope(self):
+        f=fixture();f[3][0]['geometry']['kind']='envelope'
+        with self.assertRaisesRegex(w.DefinitionHold,'parent-material-domain'):run(reseal(f))
+
+    def test_exact_source_parent_needs_own_adapter(self):
+        f=fixture();f[3][0]['exact_CSG_entity']={'geometry':{'kind':'rhs'}}
+        with self.assertRaisesRegex(w.DefinitionHold,'finished-CSG'):run(reseal(f))
+
+    def test_unconsumed_parent_geometry_refused(self):
+        f=fixture();f[3][0]['geometry']['hidden_cut']={'kind':'cylinder'}
+        with self.assertRaisesRegex(w.DefinitionHold,'unconsumed-parent'):run(reseal(f))
+
+    def test_steel_material_route_not_assumed(self):
+        f=fixture();f[3][0]['material_id']='running/steel-s355'
+        with self.assertRaisesRegex(w.DefinitionHold,'dissimilar'):run(reseal(f))
+
+    def test_real_face_plane_gap_refused(self):
+        f=fixture();f[3][0]['at_m'][2]-=.0005
+        with self.assertRaisesRegex(w.DefinitionHold,'contact-plane'):run(reseal(f))
+
+    def test_finite_contact_strip_edges_refused(self):
+        f=fixture();f[3][0]['geometry']['size_m'][0]=.001;f[3][0]['at_m'][0]=.0005
+        with self.assertRaisesRegex(w.DefinitionHold,'exceeds-real-parent-face'):run(reseal(f))
+
+    def test_root_offset_is_explicit_and_checked(self):
+        f=fixture();f[2]['seams'][0]['root_offset_m']=[0.,0.,.001]
+        with self.assertRaisesRegex(w.DefinitionHold,'contact-plane'):run(f)
+
+    def test_missing_face_and_segment_refused(self):
+        f=fixture();f[2]['seams']=[]
+        with self.assertRaisesRegex(w.DefinitionHold,'missing-segment'):run(f)
+
+    def test_duplicate_segment_refused(self):
+        f=fixture([[[0.,-.01,0.],[0.,0.,0.]],[[0.,0.,0.],[0.,.01,0.]]]);f[2]['seams'][1]['source_segment_index']=0
+        with self.assertRaisesRegex(ValueError,'exactly once'):run(f)
+
+    def test_distinct_members_required(self):
+        f=fixture();f[2]['seams'][0]['contacts'][1]=deepcopy(f[2]['seams'][0]['contacts'][0]);f[3]=f[3][:1]
+        with self.assertRaisesRegex(w.DefinitionHold,'distinct-member'):run(f)
+
+    def test_parent_identity_mismatch(self):
+        f=fixture();f[3][0]['geometry']['size_m'][0]+=.001
+        with self.assertRaisesRegex(ValueError,'epoch'):run(f)
+
+    def test_source_weld_identity_mismatch(self):
+        f=fixture();f[0]['at_m'][1]=.001
+        with self.assertRaisesRegex(ValueError,'identity mismatch'):run(f)
+
+    def test_source_stock_identity_mismatch(self):
+        f=fixture();f[1]['process_h']=.2
+        with self.assertRaisesRegex(ValueError,'identity mismatch'):run(f)
+
+    def test_original_volume_mismatch(self):
+        f=fixture();f[1]['net_m3']*=2
+        with self.assertRaisesRegex(ValueError,'volume/procurement'):run(reseal(f))
+
+    def test_original_mass_mismatch(self):
+        f=fixture();f[1]['net_mass_kg']['base']*=2
+        with self.assertRaisesRegex(ValueError,'mass ownership'):run(reseal(f))
+
+    def test_original_price_mismatch(self):
+        f=fixture();f[1]['direct_cost_usd']['base']+=1
+        with self.assertRaisesRegex(ValueError,'cost basis'):run(reseal(f))
+
+    def test_no_reused_or_boolean_quantity(self):
+        for quantity in [2,True]:
+            f=fixture();f[1]['quantity']=quantity
+            with self.assertRaisesRegex(ValueError,'once-only'):run(reseal(f))
+
+    def test_positive_runout_required(self):
+        for value in [0.,-.001,True,float('nan'),float('inf')]:
+            f=fixture();f[2]['seams'][0]['end_treatment']['trim_start_m']=value
+            with self.assertRaises(ValueError):run(f)
+
+    def test_too_much_trim_refused(self):
+        f=fixture();f[2]['seams'][0]['end_treatment']['trim_end_m']=.020
+        with self.assertRaisesRegex(w.DefinitionHold,'remaining-seam'):run(f)
+
+    def test_unmodelled_miter_refused(self):
+        f=fixture();f[2]['seams'][0]['end_treatment']['kind']='arbitrary-miter'
+        with self.assertRaisesRegex(w.DefinitionHold,'miter-not-supported'):run(f)
+
+    def test_prepared_groove_is_held_not_imagined(self):
+        f=fixture();f[0]['physical_drawing']['in_prepared_grooves']=True
+        with self.assertRaisesRegex(w.DefinitionHold,'counted-parent-groove'):run(reseal(f))
+
+    def test_new_bevel_cut_is_not_free(self):
+        f=fixture();f[2]['parent_preparations']=[{'new_bevel':'not-counted'}]
+        with self.assertRaisesRegex(w.DefinitionHold,'counted-parent-groove'):run(f)
+
+    def test_bore_contact_cannot_be_filled(self):
+        f=fixture();f[3][0]['geometry']['holes']=[dict(axis=2,centre_m=[-.014,0.,0.],radius_m=.001,length_m=.010)]
+        with self.assertRaisesRegex(w.DefinitionHold,'source-bore'):run(reseal(f))
+
+    def test_far_bore_conservative_domain(self):
+        f=fixture();f[3][0]['geometry']['holes']=[dict(axis=2,centre_m=[.01,0.,0.],radius_m=.001,length_m=.010)]
+        self.assertGreater(run(reseal(f))['net_volume_m3'],0.)
+
+    def test_boolean_bore_axis_refused(self):
+        f=fixture();f[3][0]['geometry']['holes']=[dict(axis=True,centre_m=[0.,0.,0.],radius_m=.001,length_m=.010)]
+        with self.assertRaisesRegex(w.DefinitionHold,'bore-domain'):run(reseal(f))
+
+    def test_rhs_real_material_cell(self):
+        f=fixture();f[3][0]['geometry']=dict(kind='rhs',size_m=[.040,.040,.020],wall_m=.005);f[3][0]['at_m']=[.020,0.,-.010];f[2]['seams'][0]['contacts'][0]['cell_id']='z+'
+        self.assertGreater(run(reseal(f))['net_volume_m3'],0.)
+
+    def test_rhs_wall_interior_face_not_parent_free_space(self):
+        f=fixture();f[3][0]['geometry']=dict(kind='rhs',size_m=[.040,.040,.020],wall_m=.005);f[3][0]['at_m']=[.020,0.,-.010];f[2]['seams'][0]['contacts'][0]['cell_id']='y+'
+        with self.assertRaises(w.DefinitionHold):run(reseal(f))
+
+    def test_overlapping_beads_refused(self):
+        f=fixture([[[0.,-.010,0.],[0.,.010,0.]],[[0.,.010,0.],[0.,-.010,0.]]])
+        with self.assertRaisesRegex(w.DefinitionHold,'interior-overlap'):run(f)
+
+    def test_two_separated_beads_counted(self):
+        f=fixture([[[0.,-.010,0.],[0.,0.,0.]],[[0.,0.,0.],[0.,.010,0.]]]);r=run(f);self.assertEqual(len(r['beads']),2);self.assertAlmostEqual(r['net_volume_m3'],.5*.003**2*.016)
+
+    def test_reflection_refused(self):
+        f=fixture();f[0]['rotation'][0][0]=-1.
+        with self.assertRaisesRegex(ValueError,'Reflection'):run(reseal(f))
+
+    def test_nonboolean_units_and_ids(self):
+        f=fixture();f[2]['source_entity_sha256']='short'
+        with self.assertRaisesRegex(ValueError,'SHA256'):run(f)
+        f=fixture();f[0]['at_m'][0]=True
+        with self.assertRaises(ValueError):run(reseal(f))
+
+    def test_rate_and_density_unknowns_not_zero(self):
+        for field,value in [('rate_USD_kg',[0.,1.,2.]),('density_bounds_kg_m3',[2600.]),('density_kg_m3',None),('rate_USD_kg',[True,5.,8.])]:
+            f=fixture();f[4]['materials']['al5083'][field]=value
+            with self.assertRaises((ValueError,TypeError)):run(f)
+
+    def test_refusals_do_not_mutate_inputs(self):
+        f=fixture();f[3][0]['geometry']['kind']='unknown';reseal(f);before=deepcopy(f)
+        with self.assertRaises(w.DefinitionHold):run(f)
+        self.assertEqual(f,before)
+
+    def test_raw_source_pin_refusal_before_definition(self):
+        with self.assertRaisesRegex(ValueError,'source raw/pin'):w.compile_definition(b'{}',pin=w.SOURCE,assignments={},request_id='a'*64)
+        with self.assertRaisesRegex(ValueError,'SHA256'):w.compile_definition(b'{}',pin=w.SOURCE,assignments={},request_id='short')
+
+    def synthetic_source(self, fs):
+        entities=[];groups=[];parents={}
+        for f in fs:
+            entities.append(deepcopy(f[0]));groups.append(deepcopy(f[1]));parents.update({p['id']:deepcopy(p) for p in f[3]})
+        entities.extend(parents.values())
+        physical={'synthetic':True,'parts':[e['id'] for e in entities]}
+        src=dict(candidate_id=w.identity(physical),physical_definition=physical,source_sha256={'engineering/terminal_installation.py':w.SOURCE_MODULE_SHA256},component_proposal=dict(units='m',local_axes=['u outward','v lateral','w up'],entities=entities,stock_groups=groups),materials=deepcopy(fs[0][4]['materials']),process_and_QA=deepcopy(fs[0][4]['process']))
+        src=w.seal(src);raw=(json.dumps(src,sort_keys=True,separators=(',',':'))+'\n').encode();pin=dict(candidate_id=src['candidate_id'],evaluation_id=src['evaluation_id'],raw_sha256=w.sha256(raw).hexdigest());return src,raw,pin
+
+    def test_tiny_source_orchestration_preserves_held_owner(self):
+        f=fixture();src,raw,pin=self.synthetic_source([f]);before=deepcopy(src)
+        with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',1),)):
+            r=w.compile_definition(raw,pin=pin,assignments={},request_id='b'*64)
+        self.assertEqual(r['source_proposal_unchanged'],before);self.assertEqual(r['defined_welds'],0);self.assertFalse(r['complete_finite_weld_definition']);self.assertTrue(r['held'][0]['old_source_retained']);self.assertEqual(r['held'][0]['old_stock_owner_id'],f[1]['id']);self.assertIsNone(r['canonical_definition'])
+
+    def test_tiny_source_orchestration_single_definition(self):
+        f=fixture();src,raw,pin=self.synthetic_source([f])
+        with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',1),)):
+            r=w.compile_definition(raw,pin=pin,assignments={f[0]['id']:f[2]},request_id='b'*64)
+        self.assertEqual(r['defined_welds'],1);self.assertTrue(r['complete_finite_weld_definition']);self.assertFalse(r['physical_accepted']);self.assertFalse(r['canonical_admitted']);self.assertEqual(r['source_proposal_unchanged'],src)
+
+    def test_cross_record_geometry_overlap_holds_definition(self):
+        f=fixture();g=fixture();g[0]['id']='roof/standoff-weld/1';g[1]['id']='stock/'+g[0]['id'];g[1]['entity_ids']=[g[0]['id']];g[2]['source_entity_id']=g[0]['id'];reseal(g);src,raw,pin=self.synthetic_source([f,g])
+        with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',2),)):
+            r=w.compile_definition(raw,pin=pin,assignments={f[0]['id']:f[2],g[0]['id']:g[2]},request_id='b'*64)
+        self.assertEqual(r['defined_welds'],2);self.assertEqual(len(r['cross_record_intersections']),1);self.assertFalse(r['complete_finite_weld_definition'])
+
+    def test_tiny_source_duplicate_stock_owner_refused(self):
+        f=fixture();src,raw,pin=self.synthetic_source([f]);src.pop('evaluation_id');src['component_proposal']['stock_groups'].append(deepcopy(f[1]));src=w.seal(src);raw=(json.dumps(src,sort_keys=True,separators=(',',':'))+'\n').encode();pin.update(evaluation_id=src['evaluation_id'],raw_sha256=w.sha256(raw).hexdigest())
+        with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',1),)):
+            with self.assertRaisesRegex(ValueError,'Duplicate source stock'):w.compile_definition(raw,pin=pin,assignments={},request_id='b'*64)
+
+    def test_tiny_source_units_refused(self):
+        f=fixture();src,raw,pin=self.synthetic_source([f]);src.pop('evaluation_id');src['component_proposal']['units']='mm';src=w.seal(src);raw=(json.dumps(src,sort_keys=True,separators=(',',':'))+'\n').encode();pin.update(evaluation_id=src['evaluation_id'],raw_sha256=w.sha256(raw).hexdigest())
+        with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',1),)):
+            with self.assertRaisesRegex(ValueError,'metre terminal axes'):w.compile_definition(raw,pin=pin,assignments={},request_id='b'*64)
+
+if __name__=='__main__':unittest.main()
