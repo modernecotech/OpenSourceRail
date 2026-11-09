@@ -239,6 +239,32 @@ def _nominal_contract(raw,parts,finished,frame):
         if not _same_union(_union(base+minimum,size),x['geometry']['minimum_void_union']) or not _same_union(_union(base+cuts+majors,size),x['geometry']['maximum_void_union']):raise ValueError('Complete future void/corner/thread union differs')
 
 
+def _physical_geometry(value):
+    """Keep material geometry; source verification labels are evaluation data.
+
+    These three keys describe the provenance/verification of the source stock,
+    not its dimensions, voids, material, or placement. Unknown geometry keys
+    remain physical. Complete received records are retained in the draft and
+    evaluation; this projection does not edit or authenticate the source.
+    """
+    if isinstance(value,dict):
+        # Only the declared source-stock records have these annotation fields.
+        # The same names in an opaque future physical record stay physical.
+        stock=value.get('kind') in ('box','drilled-box','rhs')
+        out={}
+        for k,v in value.items():
+            if stock and k in ('finished_geometry_verified','exact_stock'):
+                if type(v) is not bool:raise ValueError('Source stock evidence flag must be boolean')
+                continue
+            if stock and k=='definition_basis':
+                if not isinstance(v,str):raise ValueError('Source stock evidence basis must be text')
+                continue
+            out[k]=_physical_geometry(v)
+        return out
+    if isinstance(value,list):return [_physical_geometry(v) for v in value]
+    return deepcopy(value)
+
+
 def normalize(raw,*,pin,request_id):
     """Return a sealed normal form and deliberately non-admitted component draft.
 
@@ -320,7 +346,7 @@ def normalize(raw,*,pin,request_id):
         stack_shape={k:deepcopy(stack[k]) for k in ('bearing_layer_intervals_m','grip_m','bolt_underhead_m','nominal_engagement_m','usable_thread_m','pilot_depth_m','backweb_m')}
         interfaces.append(dict(id='blind-M8/'+suffix,schema='osr-header-blind-isolated-stack/1',units='m',part_ids=ids,frame='joint-local-UVW',axis=[0.,1.,0.],point_m=[u,0.,w],physical_specification=dict(bolt_underhead_m=.040,underhead_plane_v_m=.034,tip_v_m=-.006,receiver_depth_m=.009,thread_envelope_depth_m=.007,nominal_engagement_m=.006,minimum_engagement_hypothesis_m=.0057,isolation_bush_interval_v_m=[0.,.0265],receiver_interval_v_m=[-.010,0.],bush_does_not_span_blind_receiver=True,source_stack=stack_shape),source_stack_evidence=deepcopy(stack),status='required-unresolved-contract',counterpart_substrate_bindings_pending=True,physical_qualified=False))
     for i,weld in enumerate(raw['welds']):interfaces.append(dict(id='weld-substrates/'+str(i),schema='osr-header-finite-compatible-weld/1',units='m',part_ids=mapping['weld/'+str(i)]+[contexts[x] for x in weld['parents']],frame='joint-local-UVW',physical_specification={k:deepcopy(weld[k]) for k in ('material','parents','profiles','paths_m','leg_m')},status='required-unresolved-substrate-contract',physical_qualified=False))
-    physical=dict(schema='osr-header-component-normalform-physical/1',units='m',placement_in_source_frame=dict(frame='body',at_m=origin,rotation=R),entities=[{k:deepcopy(e[k]) for k in ('id','scope','material_id','frame','at_m','rotation','geometry','functions')} for e in entities],interfaces=[{k:deepcopy(c[k]) for k in ('id','schema','units','part_ids','frame','axis','point_m','physical_specification') if k in c} for c in interfaces])
+    physical=dict(schema='osr-header-component-normalform-physical/2',units='m',placement_in_source_frame=dict(frame='body',at_m=origin,rotation=R),entities=[{k:(_physical_geometry(e[k]) if k=='geometry' else deepcopy(e[k])) for k in ('id','scope','material_id','frame','at_m','rotation','geometry','functions')} for e in entities],interfaces=[{k:deepcopy(c[k]) for k in ('id','schema','units','part_ids','frame','axis','point_m','physical_specification') if k in c} for c in interfaces])
     holds.append(dict(code='lifecycle-tools-fixture',reason='Shared family/workshop tools and fixture stay separate; unknown supplier price/geometry/WLL is not zero or an installed charge'))
     packet=dict(schema='osr-header-component-normalization/1',units='m',component_geometry_id=identity(physical),physical_definition=physical,source_pin=deepcopy(pin),source_evaluation_id=raw['evaluation_id'],source_physical_id=raw['physical_definition_id'],request_id=request_id,canonical_definition=None,canonical_draft=dict(schema='osr-header-component-nonadmitted-draft/1',entities=entities,stock_groups=stocks,physical_interfaces=interfaces,required_counterpart_ids=[x['id'] for x in interfaces],all_required_interfaces_resolved=False,placement_in_source_frame=deepcopy(physical['placement_in_source_frame'])),source_finished_budget_transfers_applied=False,held_facts=holds,shared_workshop_allocations=deepcopy(raw['tools_and_sequence'].get('shared_fixture')),shared_tools=deepcopy(raw['tools_and_sequence'].get('shared_tools')),source_material_account=deepcopy(raw['materials']),source_machining=deepcopy(raw['machining']),source_manufacturing_definition=deepcopy(mfg),source_ownership=deepcopy(raw['source_ownership']),source_service_and_removal_obligations=deepcopy(raw['tools_and_sequence']),source_preservation=deepcopy(raw['source_preservation']),source_holds=deepcopy(raw['holds']),unlocated_old_joinery_credit=deepcopy(raw['source_ownership'].get('old_joinery_mass_credit')),upstream_validation_inherited=False,**FLAGS)
     packet['lifecycle_allocations']=[dict(id='header-family/shared-fixture',scope='lifecycle',quantity_per_family=1,source_allocation=deepcopy(raw['tools_and_sequence'].get('shared_fixture')),charged_in_installed_stock=False),dict(id='header-family/shared-tools',scope='lifecycle',source_allocation=deepcopy(raw['tools_and_sequence'].get('shared_tools')),charged_in_installed_stock=False,deduplicate_by_family_owner_before_any_project_cost=True)]
