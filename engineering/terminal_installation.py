@@ -462,6 +462,8 @@ def added_stock(r):
         s.ann(f'roof/crush/{j}',.016,.004,.00225,[.064,v,3.400-2.25],'al5083')
         s.ann(f'roof/liner/{j}',.0255,.006,.0041,[.06675,v,3.400-2.25],'gfrp')
         _fastener(s,f'roof/M4/{j}',0,[.081,v,3.400-2.25],-1,roof_stack,.004,head_height=.004)
+    for j,v in enumerate((-1.,-.5,0.,.5,1.)):
+        s.weld(f'roof/outrigger-fascia-joint/{j}',.140,[.054,v,3.400-2.25],axes=(1,2),profile=(.030,.040))
     for side_sign in (-1,1):
         y=side_sign
         s.box(f'side/front/{y}',[.002,.097,2.400],[.075,y*1.2735,.10],'al5754',basis='100mmdeveloped side closure strip,97mmfinished metal and3mmtrim/setback to surveyed endbay outerface; no free gasket span')
@@ -475,6 +477,10 @@ def added_stock(r):
         for row,z in enumerate(side['clamp_rows_Z_m']):
             for q,x in (('front',-.767),('rear',-.833)):
                 s.box(f'post-clamp/{y}/{row}/{q}',[.004,.0705,.040],[x,y*1.28025,z-2.25],holes=[_hole(0,[0.,-y*.00525,0.],.0182,.004)])
+                px=-.7695 if q=='front' else -.8305
+                s.box(f'post-clamp/{y}/{row}/{q}-pad',[.001,.0705,.040],[px,y*1.28025,z-2.25],'gfrp',
+                  holes=[_hole(0,[0.,-y*.00525,0.],.0182,.001)])
+                s.weld(f'post-clamp/{y}/{row}/{q}-web-weld',.040,[x,y*1.3155,z-2.25],leg=.002,axes=(2,))
             webholes=[]
             for du in (-.020,.020):
                 webholes.extend([_hole(1,[du,y*.0005,0.],.004,.003),_hole(1,[du,-y*.00125,0.],.0033,.0005)])
@@ -552,10 +558,13 @@ def added_stock(r):
             s.weld(f'upper-frame/{y}/{k}/boss-weld',.120,[u,y*1.211,3.270-2.25],leg=.002,axes=(0,2),profile=(.030,.030))
             _blind_fastener(s,f'upper-frame/{y}/{k}/M6',1,[u,y*1.2235,3.270-2.25],-y,upper_frame_joint(),.006)
         s.weld(f'upper/{y}/tie-lug-seams',.152,[-.050,y*1.218,3.360-2.25],leg=.002,axes=(0,1),profile=(.070,.006))
+        for k,z in enumerate((3.420,3.460)):
+            s.weld(f'upper/{y}/backbone-lug-seams/{k}',.152,[-.050,y*1.218,z-2.25],leg=.002,axes=(0,1),profile=(.070,.006))
         s.box(f'upper/{y}/cantrail-endcap',[.006,.099,.249],[.005,y*1.275,3.430-2.25])
         s.box(f'upper/{y}/cap-inner-arm',[.017,.006,.020],[-.0065,y*1.218,3.440-2.25])
         s.box(f'upper/{y}/cap-cross-arm',[.006,.0045,.020],[.005,y*1.22325,3.440-2.25])
         s.weld(f'upper/{y}/cap-connector-weld',.040,[.002,y*1.2255,3.440-2.25],axes=(2,))
+        s.weld(f'upper/{y}/cap-backbone-weld',.052,[-.015,y*1.218,3.440-2.25],leg=.002,axes=(1,2),profile=(.006,.020))
         for k,(dv,dz,w,h0) in enumerate(((0.,-.12275,.099,.0035),(0.,.12275,.099,.0035),(-.04775,0.,.0035,.242),(.04775,0.,.0035,.242))):
             s.box(f'upper/{y}/cap-seal/{k}',[.002,w,h0],[.001,y*1.275+dv,3.430-2.25+dz],'elastomer')
     # Stepped floorblank: its rear40mm is milled to2.75mm, paid6mm gross retained.
@@ -604,6 +613,7 @@ def added_stock(r):
         for z in side['clamp_rows_Z_m']:
             s.box(f'side-front-root/{y}/{z}',[.1505,.070,.006],[-.02475,y*1.2845,z-2.25])
             s.weld(f'side-front-root/{y}/{z}/weld',.100,[-.100,y*1.3095,z-2.25],axes=(1,))
+            s.weld(f'side-front-root/{y}/{z}/stiffener-weld',.092,[.0505,y*1.275,z-2.25],leg=.002,axes=(1,2),profile=(.040,.006))
         s.rhs(f'side-front-cap-root/{y}',.040,.040,.040,.003,[.0305,y*1.275,3.45-2.25],'al5083')
         s.weld(f'side-front-cap-root/{y}/stiffener-weld',.160,[.0505,y*1.275,3.45-2.25],leg=.002,axes=(1,2),profile=(.040,.040))
         #2.5mm nominal gap to body-owned cantrailcap; no weld to that cap.
