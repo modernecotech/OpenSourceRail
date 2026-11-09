@@ -187,16 +187,84 @@ EVALUATION_ANNOTATIONS=frozenset({
  'direct_cost_usd','cost_USD','price_USD','cost_basis','basis',
 })
 
+def _notes(record,names):
+ """Only known annotation locations/types. Structured values are not notes."""
+ def annotation(k,v):
+  if k=='holds' or k=='remaining_obligations':return isinstance(v,list) and all(isinstance(h,str) for h in v)
+  return v is None or type(v) in (bool,int,float,str)
+ return {k:deepcopy(v) for k,v in record.items() if not(k in names and annotation(k,v))}
+
+SOURCE_ENTITY_NOTES=EVALUATION_ANNOTATIONS-{'domain','basis','coordinate_domain','holds','status','resolved','validation_scope','remaining_obligations'}
+DRAWING_NOTES={'compound_and_creep_qualified','penetration_runout_WPS_qualified','remaining_netsection_qualification','supplier_profile_qualified','exact_triangle_orientation_and_runout_resolved'}
+KNOWN_DRAWINGS={'two-explicit-extruded-triangular-weld-profiles','triangular-weld-seams','revolved-frustum','nested-revolved-frusta','box-minus-6revolvedcounterbores','box-minus-2revolvedcounterbores','tie-with-two-bores-and-four-open-roundended-extractor-slots'}
+KNOWN_JOINTS={'ordered-through-stack','blind-threaded-boss','blind-threaded-endplate','blind tapped removablepanel joint','internal RHS-to-composite-root endweld','continuous underframe hanger','rigid nut-retaining cage/closed tip hood','finite exposedface connector weld','new closed postbottom'}
+
 def physical_facts(x):
- """Strip only named assessment/account notes; keep all physical unknowns."""
- if isinstance(x,dict):return {k:physical_facts(v) for k,v in x.items() if k not in EVALUATION_ANNOTATIONS}
- if isinstance(x,list):return [physical_facts(v) for v in x]
+ """Opaque physical facts are lossless; no recursive annotation-key deletion."""
  return deepcopy(x)
 
+def _geometry_facts(g):
+ if not isinstance(g,dict):return deepcopy(g)
+ # Unknown material graphs/drawings may use any field name physically, even
+ # 'domain', 'basis', 'holds' or 'strength_qualified'. Keep them byte-structurally.
+ if g.get('kind') not in {'box','rhs','annulus','profile-prism','poly-prism','difference','union-material','six-vertex-triangle-prism','finite-cylinder-void','envelope'}:return deepcopy(g)
+ out=deepcopy(g)
+ for key in ('outer','void'):
+  if key in out:out[key]=_geometry_facts(out[key])
+ if 'pieces' in out:out['pieces']=[_geometry_facts(v) for v in out['pieces']]
+ if isinstance(out.get('curve_approximation'),dict):
+  out['curve_approximation']=_notes(out['curve_approximation'],{'actual_bend_geometry_unknown','native_curve_or_bend_verified'})
+ return out
+
+def _entity_facts(e):
+ if e is None:return None
+ out=_notes(e,SOURCE_ENTITY_NOTES)
+ if 'geometry' in out:out['geometry']=_geometry_facts(out['geometry'])
+ if 'additional_voids' in out:out['additional_voids']=[_geometry_facts(v) for v in out['additional_voids']]
+ return out
+
+def _drawing_facts(d):
+ if not isinstance(d,dict) or d.get('kind') not in KNOWN_DRAWINGS:return deepcopy(d)
+ return _notes(d,DRAWING_NOTES)
+
+def _material_graph_facts(g):
+ if not isinstance(g,dict):return deepcopy(g)
+ if 'kind' in g:return _geometry_facts(g)
+ # The normalizer's explicit base/void wrapper, not an arbitrary opaque tree.
+ if 'base' not in g:return deepcopy(g)
+ out=deepcopy(g);out['base']=_geometry_facts(g['base'])
+ for key in ('voids','additional_voids'):
+  if key in out:out[key]=[_geometry_facts(v) for v in out[key]]
+ return out
+
+def _finished_facts(s):
+ if s.get('schema')!='osr-terminal-source-finished-material/1':return deepcopy(s)
+ out=_notes(s,{'holds','domain'})
+ out['source_exact_CSG_entity']=_entity_facts(s['source_exact_CSG_entity'])
+ out['source_physical_drawing']=_drawing_facts(s['source_physical_drawing'])
+ out['normalized_material_graph']=_material_graph_facts(s['normalized_material_graph'])
+ out['source_packaging_proxy']=_geometry_facts(s['source_packaging_proxy'])
+ if s['drawing_record'] is not None:
+  record=_notes(s['drawing_record'],{'coordinate_domain'})
+  record['source']=_drawing_facts(record['source'])
+  record['material_graph']=_material_graph_facts(record['material_graph'])
+  out['drawing_record']=record
+ return out
+
+def _joint_facts(j):
+ if j.get('schema')!='osr-terminal-unresolved-source-contract/1':return deepcopy(j)
+ out=_notes(j,{'status','validation_scope','resolved','physical_accepted'})
+ source=j['source_contract']
+ if source.get('kind') in KNOWN_JOINTS:
+  out['source_contract']=_notes(source,{'qualified','strength_qualified','supplier_or_strength_qualified','source_eligibility','thread_compound_and_creep_qualified','supplier_geometry_grade_load_unknown','physical_geometry_adapter','remaining_obligations','process_h','QA_h'})
+  if isinstance(source.get('stack'),dict):
+   out['source_contract']['stack']=_notes(source['stack'],{'strength_qualified'})
+ return out
+
 def physical_projection(d):
- return dict(schema='osr-terminal-canonical-draft-physical/2',units='m',bindings=physical_facts(d['bindings']),
-  entities=[{k:physical_facts(e[k]) for k in ('id','part_id','material_id','at_m','rotation','frame','scope','functions','finished_spec')} for e in d['entities']],
-  required_counterpart_obligations=physical_facts(d['required_counterpart_obligations']))
+ return dict(schema='osr-terminal-canonical-draft-physical/3',units='m',bindings=deepcopy(d['bindings']),
+  entities=[{k:(_finished_facts(e[k]) if k=='finished_spec' else deepcopy(e[k])) for k in ('id','part_id','material_id','at_m','rotation','frame','scope','functions','finished_spec')} for e in d['entities']],
+  required_counterpart_obligations=[_joint_facts(j) for j in d['required_counterpart_obligations']])
 
 def normalize(raw,*,pin,request_id):
  """Future singleton actual adapter; source phase permits invented fixtures only."""

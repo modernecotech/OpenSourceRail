@@ -191,3 +191,31 @@ def test_ambiguous_source_cut_position_conventions_are_held_not_inferred():
  with pytest.raises(ValueError,match='BASE'):t.source_cuts([h],[0,0,0],t.I,schema='SYNTHETIC-centre')
  h['centre_m']=[.006,0,0]
  with pytest.raises(ValueError,match='schema'):t.source_cuts([h],[0,0,0],t.I)
+
+@pytest.mark.parametrize('key,value',[('domain',{'port_m':[.004,0.,0.],'material_id':'steel','engagement_m':.006}),('basis',{'axis':[1.,0.,0.],'origin_m':[.001,0.,0.]}),('domain','physical-port-domain-A'),('basis','physical-axis-A'),('strength_qualified',{'physical_shape':'SYNTHETIC opaque key collision'})])
+def test_opaque_drawing_annotation_key_collisions_preserve_physical_values(monkeypatch,key,value):
+ d=run(fixture(),monkeypatch)['canonical_draft'];e=d['entities'][0]
+ e['finished_spec']['source_physical_drawing']={'kind':'SYNTHETIC-unknown-drawing',key:deepcopy(value)}
+ a=t.identity(t.physical_projection(d));e['finished_spec']['source_physical_drawing'][key]=None
+ assert t.identity(t.physical_projection(d))!=a
+
+def test_unknown_geometry_and_structured_known_annotation_values_are_never_erased(monkeypatch):
+ d=run(fixture(),monkeypatch)['canonical_draft'];s=d['entities'][0]['finished_spec']
+ s['source_exact_CSG_entity']['geometry']={'kind':'SYNTHETIC-opaque','domain':{'port_m':[.002,0,0]},'holds':{'material_id':'steel'}}
+ a=t.identity(t.physical_projection(d));s['source_exact_CSG_entity']['geometry']['domain']['port_m'][0]=.003
+ assert t.identity(t.physical_projection(d))!=a
+ s['source_exact_CSG_entity']['geometry_hold']={'physical_port_m':[.002,0,0]}
+ a=t.identity(t.physical_projection(d));s['source_exact_CSG_entity']['geometry_hold']['physical_port_m'][0]=.004
+ assert t.identity(t.physical_projection(d))!=a
+ s['holds']={'physical_port_m':[.002,0,0]}
+ a=t.identity(t.physical_projection(d));s['holds']['physical_port_m'][0]=.004
+ assert t.identity(t.physical_projection(d))!=a
+
+def test_known_joint_neighboring_unknown_domain_basis_survive_review_status_changes(monkeypatch):
+ d=run(fixture(),monkeypatch)['canonical_draft'];j=t.joint_record(dict(id='SYNTHETIC/blind',kind='blind-threaded-endplate',axis=0,direction=1,origin_m=[0,0,0],stack=dict(layers=[dict(start_m=0.,end_m=.005)],pilot_depth_m=.009,thread_engagement_m=.007,remaining_pilot_bound_m=.001,liner_ID_m=.0045,liner_OD_m=.006,strength_qualified=False,domain={'port_m':[.001,0,0]},basis='physical-thread-basis')))
+ d['required_counterpart_obligations']=[j];a=t.identity(t.physical_projection(d));j['source_contract']['stack']['strength_qualified']=True
+ assert t.identity(t.physical_projection(d))==a
+ j['source_contract']['stack']['domain']['port_m'][0]=.002
+ assert t.identity(t.physical_projection(d))!=a
+ a=t.identity(t.physical_projection(d));j['source_contract']['stack']['basis']='physical-thread-basis-B'
+ assert t.identity(t.physical_projection(d))!=a
