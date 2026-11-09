@@ -1,21 +1,26 @@
 """Saved native chair evidence cannot be promoted by resealing the outer packet."""
 from pathlib import Path
-import gzip,hashlib,importlib.util,json,shutil
+import gzip,hashlib,json,shutil,types
 import pytest
 
 PACKET=Path(__file__).resolve().parents[1]/'docs/assets/chair-installation-r4-v06'
 
 def auditor(path):
-    spec=importlib.util.spec_from_file_location('chair_r4_packet_auditor',PACKET/'verify.py')
-    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);module.P=path
+    # A filesystem import loader can write verify.py's bytecode before its
+    # read-only guard executes. Load the audit without mutating its packet.
+    source=PACKET/'verify.py';module=types.ModuleType('chair_r4_packet_auditor')
+    module.__file__=str(source)
+    exec(compile(source.read_bytes(),str(source),'exec'),module.__dict__);module.P=path
     return module
 
 def encoded(value):return (json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()
 
 def test_saved_native_geometry_and_point_evidence():
+    before={p.relative_to(PACKET).as_posix() for p in PACKET.rglob('*') if p.is_file()}
     result=auditor(PACKET).verify()
     assert result['positive_closed_valid_solids']==275 and result['material_and_void_point_checks']==2427
     assert result['strict_import_identity']=='failed; retained separately' and result['physical_accepted'] is False
+    assert {p.relative_to(PACKET).as_posix() for p in PACKET.rglob('*') if p.is_file()}==before
 
 @pytest.mark.parametrize('fault',['measured-point','source-part','approval'])
 def test_resealing_outer_manifest_cannot_replace_native_evidence_or_acceptance(tmp_path,fault):
