@@ -107,6 +107,122 @@ def run(data=None):
     return t.compose(p,t0,plan,input_pin=pin,request_id='2'*64)
 
 
+def finished_fixture():
+    """Two synthetic finished members/two paid owners, with separate other stock.
+
+    This is a miniature consumption contract, not a substitute finisher or an
+    actual hardpoint/ring geometry evaluation. Both moment reports are broad
+    supplied bounds. No root apply_finishing/rebuild helper is called.
+    """
+    p,terminal,plan,pin=fixture()
+    plan['ancestry'].update(weld_evaluation_id='3'*64,hardware_evaluation_id='4'*64)
+    for name,ev in [('weld','3'*64),('hardware','4'*64)]:
+        plan['source_input_pin']['sources'][name]=dict(evaluation_id=ev,raw_sha256='5'*64,source_commit='6'*40)
+    es={e['id']:e for e in plan['canonical_local_draft']['entities']}
+    gs={g['id']:g for g in plan['canonical_local_draft']['stock_groups']}
+    gs['paid-a']['entity_ids']=['finish-a'];gs['paid-b']['entity_ids']=['finish-b']
+    gs['other']=dict(id='other',entity_ids=['point','bounded'],direct_cost_usd=dict.fromkeys(t.CASES,5.))
+    plan['canonical_local_draft']['stock_groups']=list(gs.values())
+    plan['physical_definition']['material_owner_graph']=[dict(owner_id=k,entity_ids=sorted(g['entity_ids'])) for k,g in sorted(gs.items())]
+    plan['counts'].update(local_stock_groups=3,finishing_operations=2)
+    pin['expected_counts']['local_stock_groups']=3
+    plan['pricing']['rows'].append(dict(owner_id='other',scope='one-local-terminal-group',direct_cost_label_cases_USD=[5.,5.,5.]))
+    phys={x['id']:x for x in plan['physical_definition']['material_occurrences']}
+    replacements=[];parents=[];owner_rows=[]
+    outer=dict(kind='box',size_m=[2.,1.,1.]);cut=dict(kind='box',size_m=[1.,1.,1.],at_m=[-.5,0.,0.])
+    union=dict(kind='union',pieces=[cut])
+    report=dict(first_moment_interval_kg_m=[[-20.,20.]]*3,centroid_interval_m=[[-10.,10.]]*3,
+        inertia_about_terminal_origin_interval_kg_m2=[[[0.,100.] if i==j else [-100.,100.] for j in range(3)] for i in range(3)],
+        exact_point_CG_m=None,centroidal_tensor_kg_m2=None)
+    broad=deepcopy(report);broad['first_moment_interval_kg_m']=[[-21.,21.]]*3
+    broad['inertia_about_terminal_origin_interval_kg_m2']=[[[0.,200.] if i==j else [-200.,200.] for j in range(3)] for i in range(3)]
+    props=dict(net_volume_interval_m3=[1.,1.],mass_interval_kg=[2.,2.],nominal_datum=report,
+        with_source_position_uncertainty=broad,source_position_uncertainty_m=[.02]*3,
+        method='Synthetic bounded consumer fixture; no geometry solver result',uniform_density_research_kg_m3=2.,physical_mass_CG_qualification=None)
+    for i,req in enumerate(plan['source_finishing_records']):
+        eid=req['source_entity_id'];oid=req['paid_owner_id'];g=gs[oid]
+        g.update(direct_cost_usd=dict.fromkeys(t.CASES,10. if i==0 else 15.),gross_mass_kg=dict.fromkeys(t.CASES,10.))
+        oldg=dict(id=oid,entity_ids=[eid],gross_mass_kg=deepcopy(g['gross_mass_kg']),direct_cost_usd=deepcopy(g['direct_cost_usd']),source_account=dict(density_cases_kg_m3=[2.,2.,2.]))
+        old=dict(id=eid,at_m=[1.+i,2.,3.],rotation=t.I,material_id='al5083',uncertainty_m=[.02]*3,
+            exact_CSG_entity=dict(geometry=deepcopy(outer),holes=[]))
+        e=es[eid];e.update(at_m=old['at_m'],rotation=t.I,material_id='al5083',source_material_before_finishing=old)
+        req['source_record']=dict(id=req['operation_id'],source_complete_void_union=deepcopy(union))
+        req['physical_operation']=dict(kind='hardpoint-thread-pocket' if i==0 else 'ring-access-port-enlargement',complete_void_union=deepcopy(union))
+        model=dict(kind='hardpoint-stopped-thread' if i==0 else 'ring-through-ports',
+            minimum_material_graph=dict(kind='difference',outer=deepcopy(outer),cuts=[deepcopy(cut)]),
+            maximum_material_graph=dict(kind='difference',outer=deepcopy(outer),cuts=[deepcopy(cut)]),
+            complete_source_void_union=deepcopy(union),bounded_properties=deepcopy(props))
+        nominal=dict(id=eid,material_id='al5083',source_pose=dict(at_m=old['at_m'],rotation=t.I),
+            source_declared_finishing=deepcopy(req['physical_operation']),
+            nominal_source_geometry=dict(material_id='al5083',geometry=deepcopy(outer),holes=[]))
+        parents.append(nominal)
+        replacements.append(dict(source_entity_id=eid,source_stock_owner_id=oid,
+            source_entity_sha256=t.identity(old),source_owner_sha256=t.identity(oldg),
+            source_entity_ancestry=deepcopy(old),source_finishing_operation=deepcopy(req['source_record']),
+            material_id='al5083',frame='terminal-local-UVW',source_pose=deepcopy(nominal['source_pose']),
+            old_incremental_H_removal_is_not_debited=True,transaction_applied=False,complete_material_rebuild=model))
+        owner_rows.append(dict(source_owner_id=oid,source_owner_sha256=t.identity(oldg),source_owner_ancestry=deepcopy(oldg),
+            source_occurrence_ids=[eid],paid_blank_group_count=1,new_stock_purchase_count=0,
+            paid_gross_mass_kg=deepcopy(oldg['gross_mass_kg']),source_direct_price_retained_once=deepcopy(oldg['direct_cost_usd']),
+            complete_rebuilt_net_mass_interval_kg=[2.,2.],rebuilt_scrap_mass_interval_kg=[8.,8.],
+            new_material_charge=False,source_price_credit=False,transaction_applied=False))
+        g.update(source_paid_group_before_finishing=oldg)
+    # Authenticate an invented pre-application local epoch, before replacing its
+    # material domain. This is provenance only, not a producer execution.
+    terminal['canonical_draft']=dict(entities=[deepcopy(r['source_entity_ancestry']) for r in replacements],
+        stock_groups=[deepcopy(r['source_owner_ancestry']) for r in owner_rows])
+    p,terminal,plan,pin=refresh_terminal((p,terminal,plan,pin))
+    before_eval,before_geometry=plan['evaluation_id'],plan['local_component_geometry_id']
+    es={e['id']:e for e in plan['canonical_local_draft']['entities']}
+    gs={g['id']:g for g in plan['canonical_local_draft']['stock_groups']}
+    phys={x['id']:x for x in plan['physical_definition']['material_occurrences']}
+    fp=dict(schema='osr-terminal-complete-finishing-material-physical/1',units='m',frame='terminal-local-UVW',parents=parents)
+    fin=sealed(dict(schema='osr-terminal-finishing-material-rebuild/1',source_input_pin=dict(schema='osr-terminal-finishing-input-pin/1',
+        sources={name:{k:row[k] for k in ('evaluation_id','raw_sha256')} for name,row in plan['source_input_pin']['sources'].items()}),
+        source_local_epoch=deepcopy(plan['source_local_epoch']),source_terminal_evaluation_id=terminal['evaluation_id'],
+        source_weld_evaluation_id=plan['ancestry']['weld_evaluation_id'],source_hardware_evaluation_id=plan['ancestry']['hardware_evaluation_id'],
+        physical_definition=fp,component_geometry_id=t.identity(fp),pending_draft_replacements=replacements,
+        source_owner_conservation=owner_rows,counts=dict(finishing_operations=2,material_occurrences=2,hardpoints=1,backing_rings=1,paid_owner_groups=2,new_stock_purchases=0),
+        source_transactions_applied=False,canonical_definition=None,pending_contracts=['Process and physical evidence remain open'],**t.FLAGS))
+    fpin=dict(evaluation_id=fin['evaluation_id'],raw_sha256='7'*64,component_geometry_id=fin['component_geometry_id'],source_commit='8'*40)
+    for r,nominal in zip(replacements,parents):
+        eid=r['source_entity_id'];e=es[eid];owner=gs[r['source_stock_owner_id']]
+        phys[eid]=dict(id=eid,material_id='al5083',domain='bounded-complete-finished-source-material',physical_record=deepcopy(nominal))
+        e.update(material_set_definition=deepcopy(phys[eid]),complete_material_rebuild=deepcopy(r['complete_material_rebuild']),
+            bounded_properties=deepcopy(props),mass_kg=None,center_of_gravity_m=None,inertia_kg_m2=None,finishing_source_evaluation_id=fin['evaluation_id'])
+        owner.update(complete_finished_owner_record=deepcopy(next(x for x in owner_rows if x['source_owner_id']==owner['id'])),
+            net_mass_interval_kg=[2.,2.],scrap_mass_interval_kg=[8.,8.],net_mass_kg=None,scrap_mass_kg=None)
+    plan['physical_definition']['material_occurrences']=[phys[k] for k in sorted(phys)]
+    for req in plan['source_finishing_records']:req['complete_material_evaluation_id']=fin['evaluation_id']
+    cleared=[dict(kind=kind,subject=req['operation_id'],resolved=False) for kind in ('finishing-material-properties-pending','density-context-unresolved') for req in plan['source_finishing_records']]
+    plan['pending_contracts']=[dict(kind='bounded-finishing-source-and-process-evidence',resolved=False),dict(kind='other-source-obligation',resolved=False)]
+    plan['finishing_application']=dict(schema='osr-terminal-local-finishing-application/1',
+        input_pin=dict(schema='osr-terminal-local-finishing-input-pin/1',sources=dict(local_plan=dict(evaluation_id=before_eval,raw_sha256='9'*64),finishing={k:fpin[k] for k in ('evaluation_id','raw_sha256')})),
+        parent_local_plan_evaluation_id=before_eval,parent_local_geometry_id=before_geometry,
+        finishing_evaluation_id=fin['evaluation_id'],finishing_component_geometry_id=fin['component_geometry_id'],
+        material_occurrences=2,paid_owners=2,cleared_calculation_holds=cleared,new_stock_purchases=0,new_P1_retirements=0,new_deployments=0,source_transactions_applied=False)
+    data=refresh_plan((p,terminal,plan,pin))
+    return data,fin,fpin
+
+
+def refresh_finished(data,fin,fpin):
+    fin['component_geometry_id']=t.identity(fin['physical_definition']);fin=sealed(fin)
+    fpin['evaluation_id']=fin['evaluation_id'];fpin['component_geometry_id']=fin['component_geometry_id']
+    plan=data[2];app=plan['finishing_application']
+    app['finishing_evaluation_id']=fin['evaluation_id'];app['finishing_component_geometry_id']=fin['component_geometry_id']
+    app['input_pin']['sources']['finishing']={k:fpin[k] for k in ('evaluation_id','raw_sha256')}
+    for e in plan['canonical_local_draft']['entities']:
+        if e['id'].startswith('finish-'):e['finishing_source_evaluation_id']=fin['evaluation_id']
+    for req in plan['source_finishing_records']:req['complete_material_evaluation_id']=fin['evaluation_id']
+    return refresh_plan(data),fin,fpin
+
+
+def run_finished(data=None):
+    data,fin,fpin=finished_fixture() if data is None else data
+    parent,terminal,plan,pin=data
+    return t.compose(parent,terminal,plan,input_pin=pin,request_id='2'*64,finishing=fin,finishing_pin=fpin)
+
+
 class TerminalOccurrenceTests(unittest.TestCase):
     def test_two_exact_placements_unknown_and_bounded_properties(self):
         r=run(); poses={x['id']:x for x in r['terminal_evaluated_properties']}
@@ -336,6 +452,136 @@ class TerminalOccurrenceTests(unittest.TestCase):
                 d=fixture();d[2]['physical_accepted']=value
                 with self.assertRaisesRegex(ValueError,'actual boolean False'):
                     run(refresh_plan(d))
+
+
+class FinishedSupplementTests(unittest.TestCase):
+    def test_explicit_complete_supplement_propagates_bounds_not_point_properties(self):
+        r=run_finished();c=r['finishing_supplement_contract']
+        self.assertTrue(c['resolved']);self.assertTrue(r['finishing_consumption']['calculation_supplement_resolved'])
+        self.assertEqual(c['accepted_supplement_schema'],'osr-terminal-finishing-material-rebuild/1')
+        rows={x['id']:x for x in r['terminal_evaluated_properties']}
+        front=rows['terminal/front/finish-a']
+        self.assertEqual(front['world_entity_pose']['at_m'],[-1.,-2.,5.25])
+        props=front['properties'];self.assertEqual(props['kind'],'bounded')
+        self.assertEqual(props['mass_interval_kg'],[2.,2.]);self.assertFalse(props['finishing_supplement_required'])
+        self.assertEqual(props['source_position_uncertainty_terminal_axes_m'],[.02]*3)
+        self.assertEqual(props['first_moment_about_body_origin_interval_kg_m'][2],[-16.5,25.5])
+        self.assertEqual(props['body_frame_finishing_bounds']['nominal_datum']['first_moment_about_body_origin_interval_kg_m'][2],[-15.5,24.5])
+        self.assertIsNone(props['exact_point_CG_m']);self.assertIsNone(props['centroidal_inertia'])
+        self.assertIn('minimum_material_graph',props['source_property_record']['complete_material_rebuild'])
+        self.assertEqual(r['pricing']['known_additive_subtotal_usd'],dict.fromkeys(t.CASES,80.))
+        self.assertEqual(r['additional_hardware_P1_retirements'],0);self.assertEqual(len(r['p1_retirement_ledger']),2)
+        self.assertEqual(r['lifecycle_deployment_multiplier'],1);self.assertEqual(r['geometry_lift_to_apply_m'],0.)
+        self.assertTrue(r['accounting_coverage']['finishing_additivity_pending'])
+        self.assertFalse(r['complete_installed_mass']);self.assertFalse(r['complete_installed_cost'])
+        for key in t.FLAGS:self.assertIs(r[key],False)
+        self.assertTrue(r['unresolved_obligations']['inherited_local_contracts'])
+
+    def test_revised_plan_requires_packet_and_closed_pin_not_status_flag(self):
+        data,fin,fpin=finished_fixture()
+        with self.assertRaisesRegex(ValueError,'Explicit finishing packet'):
+            run(data)
+        fpin['unexpected']=True
+        with self.assertRaisesRegex(ValueError,'Closed finishing pin'):
+            run_finished((data,fin,fpin))
+        data,fin,fpin=finished_fixture();data[2].pop('finishing_application')
+        data=refresh_plan(data)
+        with self.assertRaisesRegex(ValueError,'required together'):
+            run_finished((data,fin,fpin))
+
+    def test_mixed_finisher_source_epochs_or_raw_refs_refused(self):
+        for mode in ('ancestry','raw','epoch'):
+            data,fin,fpin=finished_fixture()
+            if mode=='ancestry':fin['source_hardware_evaluation_id']='a'*64
+            elif mode=='raw':fin['source_input_pin']['sources']['weld']['raw_sha256']='a'*64
+            else:fin['source_local_epoch']['candidate_id']='a'*64
+            with self.assertRaisesRegex(ValueError,'Mixed'):
+                run_finished(refresh_finished(data,fin,fpin))
+
+    def test_original_source_entities_bind_finishing_not_just_identity_labels(self):
+        data,fin,fpin=finished_fixture()
+        # Change the old member consistently inside new plan/finisher, retaining
+        # the authenticated original terminal normalization. It must still fail.
+        old=fin['pending_draft_replacements'][0]['source_entity_ancestry'];old['at_m']=[9.,9.,9.]
+        row=fin['pending_draft_replacements'][0];row['source_entity_sha256']=t.identity(old)
+        entity=next(e for e in data[2]['canonical_local_draft']['entities'] if e['id']=='finish-a')
+        entity['source_material_before_finishing']=deepcopy(old)
+        with self.assertRaisesRegex(ValueError,'original source record/hash'):
+            run_finished(refresh_finished(data,fin,fpin))
+
+    def test_mixed_owners_and_new_blank_dispositions_refused(self):
+        data,fin,fpin=finished_fixture();fin['pending_draft_replacements'][0]['source_stock_owner_id']='paid-b'
+        with self.assertRaisesRegex(ValueError,'source material/owner'):
+            run_finished(refresh_finished(data,fin,fpin))
+        data,fin,fpin=finished_fixture();fin['source_owner_conservation'][0]['new_stock_purchase_count']=1
+        g=next(x for x in data[2]['canonical_local_draft']['stock_groups'] if x['id']=='paid-a')
+        g['complete_finished_owner_record']=deepcopy(fin['source_owner_conservation'][0])
+        with self.assertRaisesRegex(ValueError,'without purchase/credit'):
+            run_finished(refresh_finished(data,fin,fpin))
+
+    def test_material_model_and_nominal_physical_mismatches_refused(self):
+        data,fin,fpin=finished_fixture()
+        fin['pending_draft_replacements'][0]['complete_material_rebuild']['minimum_material_graph']['outer']['size_m'][0]=99.
+        with self.assertRaisesRegex(ValueError,'graph/bounds differ'):
+            run_finished(refresh_finished(data,fin,fpin))
+        data,fin,fpin=finished_fixture();fin['physical_definition']['parents'][0]['nominal_source_geometry']['geometry']['size_m'][0]=99.
+        with self.assertRaisesRegex(ValueError,'nominal material/pose'):
+            run_finished(refresh_finished(data,fin,fpin))
+
+    def test_invalid_or_false_point_material_bounds_refused(self):
+        for mode in ('mass','point','uncertainty'):
+            data,fin,fpin=finished_fixture();model=fin['pending_draft_replacements'][0]['complete_material_rebuild']
+            if mode=='mass':model['bounded_properties']['mass_interval_kg']=[3.,3.]
+            elif mode=='point':model['bounded_properties']['nominal_datum']['exact_point_CG_m']=[0.,0.,0.]
+            else:model['bounded_properties']['source_position_uncertainty_m']=[.01]*3
+            entity=next(e for e in data[2]['canonical_local_draft']['entities'] if e['id']=='finish-a')
+            entity['complete_material_rebuild']=deepcopy(model);entity['bounded_properties']=deepcopy(model['bounded_properties'])
+            with self.assertRaises(ValueError):
+                run_finished(refresh_finished(data,fin,fpin))
+
+    def test_owner_bound_conservation_is_required(self):
+        data,fin,fpin=finished_fixture();owner=fin['source_owner_conservation'][0]
+        owner['complete_rebuilt_net_mass_interval_kg']=[3.,3.]
+        group=next(x for x in data[2]['canonical_local_draft']['stock_groups'] if x['id']=='paid-a')
+        group['complete_finished_owner_record']=deepcopy(owner);group['net_mass_interval_kg']=[3.,3.]
+        with self.assertRaisesRegex(ValueError,'constituent/gross conservation'):
+            run_finished(refresh_finished(data,fin,fpin))
+
+    def test_only_exact_calculation_holds_clear_and_other_evidence_stays_open(self):
+        data,fin,fpin=finished_fixture();data[2]['finishing_application']['cleared_calculation_holds'].append(dict(kind='other-source-obligation',subject='local'))
+        data=refresh_plan(data)
+        with self.assertRaisesRegex(ValueError,'Only exact covered'):
+            run_finished((data,fin,fpin))
+        data,fin,fpin=finished_fixture();data[2]['pending_contracts'][0]['resolved']=True
+        data=refresh_plan(data)
+        with self.assertRaisesRegex(ValueError,'evidence must remain open'):
+            run_finished((data,fin,fpin))
+
+    def test_supplement_preserves_all_inputs(self):
+        case=finished_fixture();before=deepcopy(case)
+        r=run_finished(case);self.assertEqual(case,before)
+        self.assertEqual(r,run_finished(case))
+
+    def test_bounded_evaluation_revision_does_not_change_nominal_physical_identity(self):
+        case=finished_fixture();original=run_finished(case)
+        data,fin,pin=finished_fixture();model=fin['pending_draft_replacements'][0]['complete_material_rebuild']
+        model['bounded_properties']['with_source_position_uncertainty']['first_moment_interval_kg_m']=[[-22.,22.]]*3
+        e=next(e for e in data[2]['canonical_local_draft']['entities'] if e['id']=='finish-a')
+        e['complete_material_rebuild']=deepcopy(model);e['bounded_properties']=deepcopy(model['bounded_properties'])
+        revised=run_finished(refresh_finished(data,fin,pin))
+        self.assertEqual(original['candidate_id'],revised['candidate_id'])
+        self.assertNotEqual(original['evaluation_id'],revised['evaluation_id'])
+
+    def test_unknown_material_grammar_and_conflicting_optional_source_commit_refused(self):
+        data,fin,pin=finished_fixture();model=fin['pending_draft_replacements'][0]['complete_material_rebuild']
+        model['minimum_material_graph']['kind']='unreviewed-filled-solid'
+        e=next(e for e in data[2]['canonical_local_draft']['entities'] if e['id']=='finish-a')
+        e['complete_material_rebuild']=deepcopy(model)
+        with self.assertRaisesRegex(ValueError,'Unknown source geometry'):
+            run_finished(refresh_finished(data,fin,pin))
+        data,fin,pin=finished_fixture();fin['source_input_pin']['sources']['weld']['source_commit']='a'*40
+        with self.assertRaisesRegex(ValueError,'source commits'):
+            run_finished(refresh_finished(data,fin,pin))
 
 
 if __name__ == '__main__':

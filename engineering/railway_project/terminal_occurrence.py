@@ -36,7 +36,7 @@ SOURCE_KINDS = frozenset(('box', 'rhs', 'annulus', 'cylinder', 'envelope',
 DOMAINS = frozenset(('source-material-record', 'source-unresolved-finished-material',
     'finite-source-weld-polyhedron', 'revised-source-parent',
     'hardware-source-bounded-material', 'prospective-finished-source-material-set',
-    'new-source-connector'))
+    'new-source-connector', 'bounded-complete-finished-source-material'))
 
 
 def identity(value):
@@ -112,6 +112,8 @@ def _bound_entity_pose(e, physical, binding):
     by its outer binding, even when it has no singleton entity-pose model.
     """
     record = physical.get('physical_record')
+    if physical.get('domain') == 'bounded-complete-finished-source-material':
+        record = record.get('source_pose') if isinstance(record, dict) else None
     if isinstance(record, dict) and 'at_m' in record and 'rotation' in record:
         _vector(record['at_m']); _rotation(record['rotation'])
         if 'at_m' in e or 'rotation' in e:
@@ -241,13 +243,13 @@ def _affine_moments(mass, fm, J, b):
     return [_outward(x) for x in world_fm], [[_outward(x) for x in row] for row in world_J]
 
 
-def _properties(e, b, finishing):
+def _properties(e, b, finishing, completed=None):
     """Preserve supplied hypotheses; only explicit origin-moment intervals are transformed."""
     keys = ('mass_kg', 'mass_label_cases_kg', 'centroid_local_m', 'shape_I_per_kg',
         'centroid_terminal_cases_m', 'uncertainty_m', 'centroid_model_uncertainty_m',
         'mass_properties', 'mass_properties_part_frame', 'mass_properties_terminal_frame',
         'mass_basis', 'inertia_basis', 'mass_centroid_basis', 'properties_status',
-        'cut_mass_model_evaluation')
+        'cut_mass_model_evaluation', 'complete_material_rebuild', 'bounded_properties')
     source = {k:deepcopy(e[k]) for k in keys if k in e}
     result = dict(kind='unknown', mass_interval_kg=None,
         first_moment_about_body_origin_interval_kg_m=None,
@@ -255,6 +257,24 @@ def _properties(e, b, finishing):
         exact_point_CG_m=None, centroidal_inertia=None,
         source_property_record=source, finishing_supplement_required=finishing,
         physical_measurement=False, correlated_scenarios=False)
+    if completed is not None:
+        mass = completed['mass_interval_kg']
+        reports = {}
+        for mode in ('nominal_datum', 'with_source_position_uncertainty'):
+            p = completed[mode]
+            fm, J = _affine_moments(mass, p['first_moment_interval_kg_m'],
+                p['inertia_about_terminal_origin_interval_kg_m2'], b)
+            reports[mode] = dict(first_moment_about_body_origin_interval_kg_m=fm,
+                inertia_about_body_origin_interval_kg_m2=J,
+                exact_point_CG_m=None, centroidal_inertia=None)
+        uncertain = reports['with_source_position_uncertainty']
+        result.update(kind='bounded',mass_interval_kg=deepcopy(mass),
+            first_moment_about_body_origin_interval_kg_m=uncertain['first_moment_about_body_origin_interval_kg_m'],
+            inertia_about_body_origin_interval_kg_m2=uncertain['inertia_about_body_origin_interval_kg_m2'],
+            body_frame_finishing_bounds=reports,
+            source_position_uncertainty_terminal_axes_m=deepcopy(completed['source_position_uncertainty_m']),
+            finishing_supplement_required=False)
+        return result
     if finishing:
         return result
     mass = _cases(e.get('mass_label_cases_kg', e.get('mass_kg')))
@@ -276,6 +296,169 @@ def _properties(e, b, finishing):
         # material moments. Keep it tagged; no inferred tensor or point CG.
         result['kind'] = 'source-model-only'
     return result
+
+
+def _finishing_properties(props):
+    _closed(props, ('net_volume_interval_m3','mass_interval_kg','nominal_datum',
+        'with_source_position_uncertainty','source_position_uncertainty_m','method',
+        'uniform_density_research_kg_m3','physical_mass_CG_qualification'), 'finishing properties')
+    V = _interval(props['net_volume_interval_m3']); m = _interval(props['mass_interval_kg'])
+    rho = _number(props['uniform_density_research_kg_m3'])
+    if V[0] <= 0 or m[0] <= 0 or rho <= 0 or props['physical_mass_CG_qualification'] is not None:
+        raise ValueError('Positive unqualified finishing material bounds required')
+    if Fraction(m[0]) > Fraction(rho)*Fraction(V[0]) or Fraction(m[1]) < Fraction(rho)*Fraction(V[1]):
+        raise ValueError('Finished mass does not enclose volume/density context')
+    if min(_vector(props['source_position_uncertainty_m'])) < 0:
+        raise ValueError('Nonnegative finishing source uncertainty required')
+    for mode in ('nominal_datum','with_source_position_uncertainty'):
+        p = props[mode]
+        _closed(p, ('first_moment_interval_kg_m','centroid_interval_m',
+            'inertia_about_terminal_origin_interval_kg_m2','exact_point_CG_m','centroidal_tensor_kg_m2'), 'finishing moment report')
+        if p['exact_point_CG_m'] is not None or p['centroidal_tensor_kg_m2'] is not None:
+            raise ValueError('Finishing intervals cannot become exact point properties')
+        for key in ('first_moment_interval_kg_m','centroid_interval_m'):
+            if not isinstance(p[key],list) or len(p[key]) != 3:
+                raise ValueError('Three finishing moment/centroid intervals required')
+            for x in p[key]: _interval(x)
+        J = p['inertia_about_terminal_origin_interval_kg_m2']
+        if not isinstance(J,list) or len(J) != 3 or any(not isinstance(r,list) or len(r) != 3 for r in J):
+            raise ValueError('Explicit finishing origin tensor intervals required')
+        for i in range(3):
+            for j in range(3):
+                a, z = _interval(J[i][j]), _interval(J[j][i])
+                if max(a[0],z[0]) > min(a[1],z[1]) or i == j and a[0] < 0:
+                    raise ValueError('Compatible symmetric finishing origin bounds required')
+    for key in ('first_moment_interval_kg_m','centroid_interval_m','inertia_about_terminal_origin_interval_kg_m2'):
+        nominal=props['nominal_datum'][key]; uncertain=props['with_source_position_uncertainty'][key]
+        pairs = ((nominal[i][j],uncertain[i][j]) for i in range(3) for j in range(3)) if key.startswith('inertia_') else zip(nominal,uncertain)
+        if any(b[0] > a[0] or b[1] < a[1] for a,b in pairs):
+            raise ValueError('Source uncertainty bounds must enclose nominal report')
+    return deepcopy(props)
+
+
+def _finishing_supplement(terminal, plan, es, gs, phys, owners, finishing, pin):
+    """Bind the reviewed finisher and local application; never run a rebuild."""
+    application = plan.get('finishing_application')
+    updated = {k for k,p in phys.items() if p['domain'] == 'bounded-complete-finished-source-material'}
+    if finishing is None and pin is None:
+        if application is not None or updated:
+            raise ValueError('Explicit finishing packet/pin required for revised material domain')
+        return {}, None
+    if finishing is None or pin is None or application is None:
+        raise ValueError('Finishing packet/pin and revised local application are required together')
+    _closed(pin, ('evaluation_id','raw_sha256','component_geometry_id','source_commit'), 'finishing pin')
+    _hex(pin['source_commit'],40)
+    _authenticated(finishing,pin,'osr-terminal-finishing-material-rebuild/1','physical_definition','component_geometry_id')
+    if finishing['source_transactions_applied'] is not False or finishing['canonical_definition'] is not None:
+        raise ValueError('Unapplied non-admitted finishing source required')
+    _closed(application, ('schema','input_pin','parent_local_plan_evaluation_id',
+        'parent_local_geometry_id','finishing_evaluation_id','finishing_component_geometry_id',
+        'material_occurrences','paid_owners','cleared_calculation_holds','new_stock_purchases',
+        'new_P1_retirements','new_deployments','source_transactions_applied'), 'finishing application')
+    if application['schema'] != 'osr-terminal-local-finishing-application/1' or application['finishing_evaluation_id'] != finishing['evaluation_id'] or application['finishing_component_geometry_id'] != finishing['component_geometry_id']:
+        raise ValueError('Mixed finishing application identity')
+    for key in ('parent_local_plan_evaluation_id','parent_local_geometry_id'): _hex(application[key])
+    ap = application['input_pin']
+    _closed(ap, ('schema','sources'), 'local finishing application pin')
+    _closed(ap['sources'], ('local_plan','finishing'), 'local finishing application sources')
+    for p in ap['sources'].values():
+        _closed(p, ('evaluation_id','raw_sha256'), 'application source pin')
+        for v in p.values(): _hex(v)
+    if ap['schema'] != 'osr-terminal-local-finishing-input-pin/1' or ap['sources']['finishing'] != {k:pin[k] for k in ('evaluation_id','raw_sha256')} or ap['sources']['local_plan']['evaluation_id'] != application['parent_local_plan_evaluation_id']:
+        raise ValueError('Exact finisher/original-local application pin differs')
+    for key in ('new_stock_purchases','new_P1_retirements','new_deployments'):
+        if type(application[key]) is not int or application[key] != 0:
+            raise ValueError('Finishing cannot buy blanks, retire P1 or deploy ends')
+    if application['source_transactions_applied'] is not False or finishing['source_local_epoch'] != plan['source_local_epoch']:
+        raise ValueError('Mixed/applied finishing local epoch')
+    upstream = finishing['source_input_pin']
+    _closed(upstream, ('schema','sources'), 'finisher source pin')
+    _closed(upstream['sources'], ('terminal','weld','hardware'), 'finisher original source triple')
+    if upstream['schema'] != 'osr-terminal-finishing-input-pin/1':
+        raise ValueError('Unsupported original finisher source pin')
+    for name in ('terminal','weld','hardware'):
+        a = upstream['sources'][name]; b = plan['source_input_pin']['sources'][name]
+        _closed(a, ('evaluation_id','raw_sha256') + (('source_commit',) if 'source_commit' in a else ()), 'finisher upstream pin')
+        for key in ('evaluation_id','raw_sha256'):
+            _hex(a[key]); _hex(b[key])
+            if a[key] != b[key]: raise ValueError('Mixed original finishing source refs')
+        for row in (a,b):
+            if 'source_commit' in row: _hex(row['source_commit'],40)
+        if 'source_commit' in a and 'source_commit' in b and a['source_commit'] != b['source_commit']:
+            raise ValueError('Mixed original finishing source commits')
+        if finishing['source_'+name+'_evaluation_id'] != plan['ancestry'][name+'_evaluation_id'] or a['evaluation_id'] != plan['ancestry'][name+'_evaluation_id']:
+            raise ValueError('Mixed original finishing source ancestry')
+    fp = finishing['physical_definition']
+    _closed(fp, ('schema','units','frame','parents'), 'finished physical definition')
+    if fp['schema'] != 'osr-terminal-complete-finishing-material-physical/1' or fp['units'] != 'm' or fp['frame'] != 'terminal-local-UVW':
+        raise ValueError('Finished physical frame/schema differs')
+    parents = _index(fp['parents'],'finished nominal parents')
+    terminal_entities = _index(terminal['canonical_draft']['entities'],'original terminal material')
+    terminal_groups = _index(terminal['canonical_draft']['stock_groups'],'original terminal paid owners')
+    rows = {r['source_entity_id']:r for r in finishing['pending_draft_replacements']}
+    required = {r['source_entity_id']:r for r in plan['source_finishing_records']}
+    paid = {r['source_owner_id']:r for r in finishing['source_owner_conservation']}
+    if len(rows) != len(finishing['pending_draft_replacements']) or len(required) != len(plan['source_finishing_records']) or len(paid) != len(finishing['source_owner_conservation']) or set(rows) != set(required) or set(rows) != set(parents) or updated != set(rows) or set(paid) != set(plan['finishing_paid_owner_ids']) or len(paid) != 2:
+        raise ValueError('Complete finishing material/two-owner coverage differs')
+    completed = {}
+    for eid,r in rows.items():
+        e = es[eid]; req = required[eid]; oid = owners[eid]; old = e['source_material_before_finishing']
+        nominal = parents[eid]; g = gs[oid]['source_paid_group_before_finishing']
+        if r['source_stock_owner_id'] != oid or oid not in paid or r['transaction_applied'] is not False or r['old_incremental_H_removal_is_not_debited'] is not True or r['frame'] != 'terminal-local-UVW':
+            raise ValueError('Mixed finishing source material/owner disposition')
+        if terminal_entities.get(eid) != old or terminal_groups.get(oid) != g or r['source_entity_ancestry'] != old or r['source_entity_sha256'] != identity(old) or r['source_owner_sha256'] != identity(g) or r['source_finishing_operation'] != req['source_record']:
+            raise ValueError('Finishing original source record/hash differs')
+        pose = dict(at_m=old['at_m'],rotation=old['rotation'])
+        expected_nominal = dict(id=eid,material_id=old['material_id'],source_pose=pose,
+            source_declared_finishing=req['physical_operation'],nominal_source_geometry=dict(
+                material_id=old['material_id'],geometry=old['exact_CSG_entity']['geometry'],holes=old['exact_CSG_entity']['holes']))
+        expected_physical = dict(id=eid,material_id=old['material_id'],domain='bounded-complete-finished-source-material',physical_record=nominal)
+        if nominal != expected_nominal or phys[eid] != expected_physical or e['material_set_definition'] != phys[eid] or r['source_pose'] != pose or e['at_m'] != old['at_m'] or e['rotation'] != old['rotation'] or r['material_id'] != old['material_id']:
+            raise ValueError('Finishing nominal material/pose physical projection differs')
+        model = r['complete_material_rebuild']
+        if model['kind'] not in ('hardpoint-stopped-thread','ring-through-ports') or model['complete_source_void_union'] != req['source_record']['source_complete_void_union'] or e['complete_material_rebuild'] != model or e['bounded_properties'] != model['bounded_properties']:
+            raise ValueError('Complete finishing material graph/bounds differ')
+        for key in ('minimum_material_graph','maximum_material_graph'): _grammar(model[key])
+        props = _finishing_properties(model['bounded_properties'])
+        rho = g['source_account']['density_cases_kg_m3']
+        if not isinstance(rho,list) or len(rho) != 3 or any(_number(x) != props['uniform_density_research_kg_m3'] for x in rho) or props['source_position_uncertainty_m'] != old['uncertainty_m']:
+            raise ValueError('Finishing density/source uncertainty differs')
+        if e['finishing_source_evaluation_id'] != finishing['evaluation_id'] or req['complete_material_evaluation_id'] != finishing['evaluation_id'] or any(e[k] is not None for k in ('mass_kg','center_of_gravity_m','inertia_kg_m2')):
+            raise ValueError('Finishing supplement cannot fabricate exact installed properties')
+        completed[eid] = props
+    for oid,r in paid.items():
+        g = gs[oid]; old = g['source_paid_group_before_finishing']; ids = sorted(g['entity_ids'])
+        if r['source_owner_ancestry'] != old or r['source_owner_sha256'] != identity(old) or sorted(r['source_occurrence_ids']) != ids or set(ids) != {eid for eid in rows if owners[eid] == oid} or g['complete_finished_owner_record'] != r:
+            raise ValueError('Finishing complete paid-owner constituents differ')
+        if type(r['paid_blank_group_count']) is not int or r['paid_blank_group_count'] != 1 or type(r['new_stock_purchase_count']) is not int or r['new_stock_purchase_count'] != 0 or any(r[k] is not False for k in ('new_material_charge','source_price_credit','transaction_applied')):
+            raise ValueError('Finishing retains paid blanks once without purchase/credit')
+        if r['paid_gross_mass_kg'] != old['gross_mass_kg'] or r['source_direct_price_retained_once'] != old['direct_cost_usd'] or g['direct_cost_usd'] != old['direct_cost_usd'] or g['gross_mass_kg'] != old['gross_mass_kg']:
+            raise ValueError('Finishing original gross/price ownership differs')
+        net = _interval(r['complete_rebuilt_net_mass_interval_kg']); scrap = _interval(r['rebuilt_scrap_mass_interval_kg'])
+        if net[0] <= 0 or scrap[0] < 0 or g['net_mass_interval_kg'] != net or g['scrap_mass_interval_kg'] != scrap or g['net_mass_kg'] is not None or g['scrap_mass_kg'] is not None:
+            raise ValueError('Finishing owner mass/scrap interval record differs')
+        sums = [sum(Fraction(completed[eid]['mass_interval_kg'][i]) for eid in ids) for i in range(2)]
+        gross = Fraction(_cases(old['gross_mass_kg'])['base'])
+        if Fraction(net[0]) > sums[0] or Fraction(net[1]) < sums[1] or Fraction(scrap[0]) > gross-Fraction(net[1]) or Fraction(scrap[1]) < gross-Fraction(net[0]):
+            raise ValueError('Finished owner bounds do not enclose constituent/gross conservation')
+    counts = dict(finishing_operations=len(rows),material_occurrences=len(rows),
+        hardpoints=sum(r['complete_material_rebuild']['kind']=='hardpoint-stopped-thread' for r in rows.values()),
+        backing_rings=sum(r['complete_material_rebuild']['kind']=='ring-through-ports' for r in rows.values()),
+        paid_owner_groups=2,new_stock_purchases=0)
+    if finishing['counts'] != counts or any(type(x) is not int for x in finishing['counts'].values()) or plan['counts']['finishing_operations'] != len(rows) or application['material_occurrences'] != len(rows) or type(application['material_occurrences']) is not int or application['paid_owners'] != 2 or type(application['paid_owners']) is not int:
+        raise ValueError('Finishing calculation count contract differs')
+    opids = {r['operation_id'] for r in required.values()}
+    allowed = {'finishing-material-properties-pending','density-context-unresolved'}
+    cleared = application['cleared_calculation_holds']
+    if len(cleared) != 2*len(opids) or {(h['kind'],h['subject']) for h in cleared} != {(kind,opid) for kind in allowed for opid in opids} or any(h['kind'] in allowed and h['subject'] in opids for h in plan['pending_contracts']):
+        raise ValueError('Only exact covered finishing calculation holds may clear')
+    if not any(h['kind']=='bounded-finishing-source-and-process-evidence' and h['resolved'] is False for h in plan['pending_contracts']):
+        raise ValueError('Finishing source/process evidence must remain open')
+    return completed, dict(schema='osr-terminal-occurrence-finishing-consumption/1',
+        finishing_pin=deepcopy(pin),application=deepcopy(application),
+        material_occurrences=len(rows),paid_owner_groups=2,
+        calculation_supplement_resolved=True,physical_evidence_accepted=False,
+        source_pending_contracts=deepcopy(finishing['pending_contracts']))
 
 
 def _source_refs(parent, wanted):
@@ -319,16 +502,16 @@ def _source_refs(parent, wanted):
     return out, patterns, total
 
 
-def compose(parent, terminal, local_plan, *, input_pin, request_id):
+def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=None, finishing_pin=None):
     """Make a non-admitted TWO-END research ledger from three sealed records.
 
     Raw hashes are expected file-boundary pins, NOT checked from parsed objects.
     An original or subsequently revised same-schema local plan may be supplied;
-    this first adapter has no finishing-packet consumer and never clears that
-    supplement obligation by a status flag. Tiny fixtures use the same API.
+    a revised finishing plan additionally requires its exact finishing packet
+    and closed pin. No supplement is admitted by a status flag alone.
     """
     _hex(request_id)
-    for value in (parent, terminal, local_plan, input_pin):
+    for value in (parent, terminal, local_plan, input_pin, finishing, finishing_pin):
         identity(value)  # JSON/finite check before any traversal.
     _closed(input_pin, ('schema', 'sources', 'expected_counts'), 'input pin')
     if input_pin['schema'] != 'osr-terminal-occurrence-input-pin/1':
@@ -389,6 +572,7 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id):
             owners[eid] = gid
     if set(owners) != set(es) or sorted(projection['material_owner_graph'],key=lambda x:x['owner_id']) != [dict(owner_id=k,entity_ids=sorted(gs[k]['entity_ids'])) for k in sorted(gs)]:
         raise ValueError('Physical paid owner coverage differs')
+    completed, finishing_consumption = _finishing_supplement(terminal,local_plan,es,gs,phys,owners,finishing,finishing_pin)
     for eid, p in phys.items():
         if p.get('domain') not in DOMAINS:
             raise ValueError('Unknown source material domain')
@@ -468,7 +652,7 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id):
             world_pose, pose_status = _bound_entity_pose(e, phys[eid], b)
             evaluated.append(dict(id=oid, source_entity_sha256=identity(e),
                 world_entity_pose=world_pose, world_entity_pose_status=pose_status,
-                properties=_properties(e,b,eid in fids)))
+                properties=_properties(e,b,eid in fids,completed.get(eid))))
         stock.extend(dict(id=b['id']+'/'+g, source_owner_id=g,
             entity_ids=[b['id']+'/'+x for x in gs[g]['entity_ids']],
             source_group=deepcopy(gs[g]), procurement_multiplicity=1,
@@ -525,7 +709,11 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id):
         parent_entity_ids=sorted(fids),paid_owner_ids=sorted(paid),
         operation_bindings=[dict(operation_id=f['operation_id'],source_entity_id=f['source_entity_id'],paid_owner_id=f['paid_owner_id'],source_record_sha256=identity(f)) for f in finishes],
         accepted_supplement_schema=None,
-        reason='Source-specific supplement consumer not implemented; do not infer final material properties from status flags')
+        reason='Explicit source-specific finishing packet not supplied; do not infer final material properties from status flags')
+    if finishing_consumption is not None:
+        finishing_contract.update(resolved=True,accepted_supplement_schema='osr-terminal-finishing-material-rebuild/1',
+            finishing_evaluation_id=finishing['evaluation_id'],
+            reason='Exact source-specific finishing calculation supplement consumed; process/source/physical evidence remains open')
     return seal(dict(schema='osr-terminal-body-research-occurrence-ledger/1',request_id=request_id,
         candidate_id=identity(physical),physical_definition=physical,selection_id=None,
         source_inputs=deepcopy(pins),raw_hash_verification='Required at execution file boundary; this pure parsed API checks content seals only',
@@ -539,6 +727,7 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id):
         source_machining_train_once=machine_ledger,source_machining_geometry_applied=False,
         lifecycle_allocations=deepcopy(local_plan['lifecycle_allocations']),lifecycle_deployment_multiplier=1,
         finishing_supplement_contract=finishing_contract,
+        finishing_consumption=finishing_consumption,
         pricing=dict(payable_owner_rows=payable,known_additive_subtotal_usd={c:fsum(r['amount_usd'][c] for r in payable if r['amount_usd'] is not None) for c in CASES},
             unknown_payable_owner_ids=unknown_prices,non_additive_process_allowances=allowances,
             source_residual_account=deepcopy(local_plan['pricing']['common_source_residual_account']),
