@@ -124,6 +124,15 @@ def _rules(previous,request):
     return rules
 
 
+def _validate_line_demand_mapping(rules,city_input):
+    if 'line_peak_demand_pphpd' not in rules:return
+    expected={line['line_id'] for line in city_input['lines']}
+    actual=set(rules['line_peak_demand_pphpd'])
+    if actual!=expected:
+        raise ValueError('Line peak demand mapping must match exact city line IDs; missing='+
+            repr(sorted(expected-actual))+' extra='+repr(sorted(actual-expected)))
+
+
 def _functional(record,access):
     failures=[]
     if not record['outline_complete']:failures.append('A necessary braking, interface or nominal energy bound fails')
@@ -168,12 +177,9 @@ def evaluate(request,root=ROOT):
     # operating policy; an empty request must not revert it to the seed defaults.
     rules=_rules(base['outline_context']['study_rules'] if base is not None else seed['rules'],v)
     if 'line_peak_demand_pphpd' in rules:
-        mapped_input=(base['city_input'] if base is not None else city_inputs.load(v['city_slug'],root=root))
-        expected_line_ids={line['line_id'] for line in mapped_input['lines']}
-        actual_line_ids=set(rules['line_peak_demand_pphpd'])
-        if actual_line_ids!=expected_line_ids:
-            raise ValueError('Line peak demand mapping must match exact city line IDs; missing='+
-                repr(sorted(expected_line_ids-actual_line_ids))+' extra='+repr(sorted(actual_line_ids-expected_line_ids)))
+        mapped_input=(base['outline_context']['city_input_template'] if base is not None
+            else city_inputs.load(v['city_slug'],root=root))
+        _validate_line_demand_mapping(rules,mapped_input)
     if base is not None:
         revision=planning_adapter.apply_edits(base,v['edit_bundle'],root=root,trusted_base_sha256=trusted_base)
         revision=deepcopy(revision);revision['requirements']=rules

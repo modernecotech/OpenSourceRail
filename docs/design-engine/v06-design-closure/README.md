@@ -48,7 +48,7 @@ not implied by closure of this work.
 
 | Required work | Current state | Evidence / remaining closure |
 | --- | --- | --- |
-| Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, supplier-fit interfaces, inertia, tool/removal paths and downstream force/civil consequences. Five child geometry configurations have been screened, including two corrected split-lane support variants; all remain on HOLD with thousands of nominal/interface findings unresolved, and no matched journey/civil study closes the parent. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. See the [split-lane support-family record](compact-drive-support-family/README.md). |
+| Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, verified supplier-fit interfaces, measured or verified installed inertia, tool/removal paths and downstream force/civil consequences. Five child geometry configurations have been screened, including two corrected split-lane support variants; all remain on HOLD with thousands of nominal/interface findings unresolved, and no matched journey/civil study closes the parent. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. See the [split-lane support-family record](compact-drive-support-family/README.md). |
 | Controlled research documents | Open | The supplementary audit of the retained 668-part delivery map finds 41 assemblies with 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references are null. It does not assert a repository-wide search. No manufacturing release is authorized. |
 | Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations. A separate midpoint scenario consolidates the 79.977 m marker pair and updates the shared interchange; force/braking/grade, access, detailed civil loads and all fourteen complete prices remain unknown. |
 | Native GIS return path | Open | Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype now prevents normal project-bytecode loading and fixes preflight result-file boundary failures; its 20 importer tests, 21 bootstrap tests and five earlier-bootstrap regression probes passed. No GIS project was opened or round-tripped, and the run-07 proposal is still unexecuted and not admitted. See the [prototype review](native-gis-source-only-prototype.md). |
@@ -66,7 +66,7 @@ UI upload alone would not close the GIS round-trip gate.
 ### All-city baseline audit
 
 The read-only audit was bound to closure commit
-`edfbff55ff20303ce0ea244ac645251d89eec28d`. It found 266 city outlines,
+`ebeb3b769a9b416180c64124debc1f23317ca277`. It found 266 city outlines,
 1,565 lines, 13,580 station-table rows, 14 cost scopes and priced energy cases
 for all 266 cities. The v0.4 front-door categories—maps, line/service, energy,
 capital/funding, local-evidence and regeneration headings—are present in all

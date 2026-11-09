@@ -36,6 +36,13 @@ def project(service,request,requirements):
     value.pop('evaluation_id');value['evaluation_id']=identity(value);return value
 
 
+def _capacity_check(row,requirements):
+    demand=row['requirements']['peak_demand_pphpd']
+    return dict(line_id=row['line_id'],capacity_pass=row['service']['planning_usable_capacity_pphpd']>=demand,
+        headway_pass=row['requirements']['headway_s']<=requirements.get('maximum_headway_s',300.),
+        demand_pphpd=demand,requested_headway_s=row['requirements']['headway_s'],actual_availability_proven=False)
+
+
 def evaluate(revision,design,vehicle,root=ROOT):
     if revision.get('evaluation_id')!=identity({k:v for k,v in revision.items() if k!='evaluation_id'}):raise ValueError('Sealed planning revision required')
     sources=planning_adapter.merge_sources(revision['source_sha256'],_LOADED)
@@ -50,11 +57,8 @@ def evaluate(revision,design,vehicle,root=ROOT):
             calculated_stop_dwell_s=deepcopy(row['service'].get('stop_dwell_s',[])),
             automatic_adjustment_applied=any(x>requested['dwell_s'] for x in row['service'].get('stop_dwell_s',[])),
             basis='Explicit calculated amendment for declared reference and nominal hotel charging; not a validated timetable')
-        demand=revision['requirements'].get('peak_demand_pphpd',4000.)
-        check=dict(line_id=row['line_id'],capacity_pass=row['service']['planning_usable_capacity_pphpd']>=demand,
-            headway_pass=row['requirements']['headway_s']<=revision['requirements'].get('maximum_headway_s',300.),
-            requested_headway_s=requested['headway_s'],actual_availability_proven=False)
-        checks.append(check);row['source_sha256']=planning_adapter.merge_sources(row['source_sha256'],_LOADED)
+        checks.append(_capacity_check(row,revision['requirements']))
+        row['source_sha256']=planning_adapter.merge_sources(row['source_sha256'],_LOADED)
         row.pop('evaluation_id');row['evaluation_id']=identity(row)
     result['summary'].update(total_trainsets=sum(r['service']['total_trainsets'] for r in result['line_services']),
         totalcars=sum(r['service']['totalcars'] for r in result['line_services']))

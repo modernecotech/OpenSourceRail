@@ -4,7 +4,7 @@
 
 The closure-campaign body is `9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba`, evaluation `dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272`. Its installation manifest covers 668 part types, 9,804 patterns and 122,422 occurrences. It records nine tare/normal/crowd mass cases, CG coordinates and 24 static axle reactions per case.
 
-The installation artifact still marks installed mass incomplete and supplier fit unverified. It has no inertia values in those mass cases. The 12 motor and 12 gearbox/coupling locations are envelopes; shaft/bearing fit, fastening interfaces, maintenance tool access and removal paths are not established. Its static axle results exclude dynamic civil factors. Electrical, cooling and protection quantities from the separate compact-drive child cannot be inherited into this parent candidate.
+The installation artifact still marks installed mass incomplete and supplier fit unverified. Nine mass scenarios contain calculated inertia tensors from proposed mass-weighted geometry and zone distributions; equipment envelopes use uniform-box inertia proxies, so these are not measured or verified installed inertias. The 12 motor and 12 gearbox/coupling locations are envelopes; shaft/bearing fit, fastening interfaces, maintenance tool access and removal paths are not established. Its static axle results exclude dynamic civil factors. Electrical, cooling and protection quantities from the separate compact-drive child cannot be inherited into this parent candidate.
 
 ## Separate compact-drive child: bounded geometry campaign
 
@@ -26,6 +26,6 @@ This campaign does not change the six-car passive-wheel development reference, s
 
 ## Independent review disposition
 
-A bounded read-only review found no new contradiction in the parent candidate's recorded mass and axle loads; it found the installation gate still open for the missing interfaces, inertia, supplier-fit, service access and removal evidence above. This review used instructions only; it was not OS-enforced isolation and ran no analysis or solver.
+A bounded read-only review found no new contradiction in the parent candidate's recorded mass and axle loads; it found the installation gate still open for missing interfaces, measured or verified installed inertia, supplier-fit, service access and removal evidence above. This review used instructions only; it was not OS-enforced isolation and ran no analysis or solver.
 
 The closure campaign's installed-vehicle gate remains **open**. A child geometry screen cannot close the parent candidate's required installed inventory, and neither screen is physical or manufacturing qualification.

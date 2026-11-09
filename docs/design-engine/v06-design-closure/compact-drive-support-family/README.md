@@ -61,7 +61,8 @@ enforcement or bytecode-cache custody.
 ## Closure effect
 
 This corrects a missing-row-coverage defect and adds two more research geometry
-children. It does not resolve the parent vehicle's installed mass, inertia,
+children. It does not resolve the parent vehicle's complete installed mass or
+measured/verified installed inertia,
 motor/gearbox fit, shaft and bearing arrangement, finite joint strength,
 fatigue, protection, service access or removal path. The installed-vehicle
 gate therefore remains **open**; no candidate is selected or released.

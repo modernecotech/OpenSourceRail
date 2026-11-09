@@ -200,8 +200,8 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             raise ValueError('Line peak demand mapping must match exact city line IDs')
         for line_id,demand in demand_map.items():
             _number(demand,'line peak demand')
-            if demand>100000.:
-                raise ValueError('Line peak demand exceeds the declared city-service bound')
+            if not 1.<=demand<=100000.:
+                raise ValueError('Line peak demand is outside the declared city-service bounds')
     base_mass=vehicle['mass']['accounted_cap_loaded_kg_per_car']+d['added_vehicle_mass_kg_per_car']
     rotor=braking.rotating_stock(vehicle)['equivalent_inertial_mass_kg_per_car']
     train_length=6*17+5*.5;fin_offset=4.;records=[]

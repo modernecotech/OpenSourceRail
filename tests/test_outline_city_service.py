@@ -6,7 +6,7 @@ import pytest
 from engineering.development_baseline import selection
 from engineering.design_search import line_benchmark as budget
 from engineering.design_search import line_benchmark_service as helper
-from engineering.outline import city_inputs,city_service,city_workflow
+from engineering.outline import city_inputs,city_service,city_workflow,revision_service
 from engineering.station_rail.common import identity
 
 
@@ -112,6 +112,24 @@ def test_line_demand_request_normalizes_only_bounded_mapping():
         with pytest.raises(ValueError):city_workflow.normalize({'city_slug':'samawah','service':service})
 
 
+def test_line_demand_mapping_matches_base_plan_template(inputs):
+    city=inputs[0]
+    rules={'line_peak_demand_pphpd':{line['line_id']:2000. for line in city['lines']}}
+    city_workflow._validate_line_demand_mapping(rules,city)
+    for mapping in ({},dict(rules['line_peak_demand_pphpd'],extra=2000.)):
+        with pytest.raises(ValueError,match='exact city line IDs'):
+            city_workflow._validate_line_demand_mapping({'line_peak_demand_pphpd':mapping},city)
+
+
+def test_revision_capacity_check_uses_each_line_demand():
+    row=dict(line_id='line-a',requirements=dict(peak_demand_pphpd=4000.,headway_s=180.),
+        service=dict(planning_usable_capacity_pphpd=3500.))
+    check=revision_service._capacity_check(row,{'peak_demand_pphpd':1000.,'maximum_headway_s':300.})
+    assert check['demand_pphpd']==4000.
+    assert check['capacity_pass'] is False
+    assert check['headway_pass'] is True
+
+
 def test_line_demand_mapping_rejects_missing_and_extra_keys(inputs):
     city,spec,vehicle,_=inputs
     c=synthetic(city,[2000,2000]);line_id=c['lines'][0]['line_id']
@@ -119,7 +137,7 @@ def test_line_demand_mapping_rejects_missing_and_extra_keys(inputs):
         with pytest.raises(ValueError):city_service.evaluate(c,{'line_peak_demand_pphpd':mapping},spec['design'],vehicle)
 
 
-@pytest.mark.parametrize('demand',[0.,float('nan'),float('inf'),100001.])
+@pytest.mark.parametrize('demand',[0.,.5,float('nan'),float('inf'),100001.])
 def test_line_demand_mapping_rejects_unbounded_values(inputs,demand):
     city,spec,vehicle,_=inputs
     c=synthetic(city,[2000,2000]);line_id=c['lines'][0]['line_id']
