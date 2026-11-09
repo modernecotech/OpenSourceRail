@@ -127,7 +127,8 @@ HARDPOINT_CSG_FIELDS=COMMON_CSG_FIELDS|{'actual_insert_geometry_held','insert_po
 RING_CSG_FIELDS=COMMON_CSG_FIELDS|{'compound_mitres_and_welds_unqualified'}
 COMMON_OPERATION_FIELDS={'id','kind','material','source_entity_id','source_stock_owner_id','source_geometry','complete_void_union','cost_USD','mode','operations','person_process_h','person_QA_h','source_credit_USD','original_paid_blank_retained','independent_cut_union_and_mass_update_required','stock_mass_application','incremental_removed_volume_bounds_m3','incremental_removed_mass_bounds_kg','incremental_removed_first_moment_bounds_kg_m','incremental_removed_centroid_box_m'}
 HARDPOINT_OPERATION_FIELDS=COMMON_OPERATION_FIELDS|{'maximum_pocket_depth_m','minimum_annular_rear_web_m','removed_centroid_basis','source_cylinder_position_convention','unchanged_original_through_void'}
-RING_OPERATION_FIELDS=COMMON_OPERATION_FIELDS|{'access_diameter_m','diameter_tolerance_m','axis_position_tolerance_m','blank_owner_count','new_stock_purchase_count','cut_count','moment_basis','nominal_removed_centroid_m','process_time_basis','unchanged_original_voids'}
+SOURCE_CYLINDER_POSITION_CONVENTION='at_m is base; signed axis points into cut'
+RING_OPERATION_FIELDS=COMMON_OPERATION_FIELDS|{'source_cylinder_position_convention','access_diameter_m','diameter_tolerance_m','axis_position_tolerance_m','blank_owner_count','new_stock_purchase_count','cut_count','moment_basis','nominal_removed_centroid_m','process_time_basis','unchanged_original_voids'}
 COMMON_PHYSICAL_FIELDS={'id','kind','source_entity_id','source_stock_owner_id','complete_void_union','source_material_geometry'}
 
 
@@ -166,6 +167,7 @@ def bind_physical_operation(op,physical):
     if kind not in ('hardpoint-thread-pocket','ring-access-port-enlargement'):raise ValueError('Unsupported finishing operation kind')
     allowed=HARDPOINT_OPERATION_FIELDS if hard else RING_OPERATION_FIELDS
     if set(source)-allowed:raise ValueError('Unconsumed source operation field/domain')
+    if (not hard or 'source_cylinder_position_convention' in source) and source.get('source_cylinder_position_convention')!=SOURCE_CYLINDER_POSITION_CONVENTION:raise ValueError('Explicit signed-BASE source cylinder convention required')
     required={'id','kind','material','source_entity_id','source_stock_owner_id','source_geometry','complete_void_union','cost_USD'}
     if not required<=set(source):raise ValueError('Complete source-operation identity/void contract required')
     for key in ('id','source_entity_id','source_stock_owner_id'):
