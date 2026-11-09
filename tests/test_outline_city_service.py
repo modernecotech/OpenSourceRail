@@ -90,6 +90,16 @@ def test_line_demand_mapping_changes_only_corresponding_service(inputs):
     assert changed['assumptions']['peak_demand_pphpd_per_line']=={first['lines'][0]['line_id']:2000.,'synthetic-second':8000.}
 
 
+def test_demand_source_label_does_not_change_line_physics_identity(inputs):
+    city,spec,vehicle,_=inputs
+    c=synthetic(city,[2000,2000]);mapping={c['lines'][0]['line_id']:2000.}
+    first=city_service.evaluate(c,{'line_peak_demand_pphpd':mapping,'demand_source':'scenario A'},spec['design'],vehicle)
+    second=city_service.evaluate(c,{'line_peak_demand_pphpd':mapping,'demand_source':'scenario B'},spec['design'],vehicle)
+    assert first['assumptions']['demand_source']=='scenario A'
+    assert second['assumptions']['demand_source']=='scenario B'
+    assert first['line_services'][0]['evaluation_id']==second['line_services'][0]['evaluation_id']
+
+
 def test_legacy_global_demand_output_shape_is_preserved(inputs):
     city,spec,vehicle,_=inputs
     result=city_service.evaluate(synthetic(city,[2000,2000]),{},spec['design'],vehicle)

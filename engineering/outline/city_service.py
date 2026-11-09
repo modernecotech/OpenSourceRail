@@ -206,7 +206,9 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
     rotor=braking.rotating_stock(vehicle)['equivalent_inertial_mass_kg_per_car']
     train_length=6*17+5*.5;fin_offset=4.;records=[]
     geography={}
-    line_requirements={k:v for k,v in r.items() if k!='line_peak_demand_pphpd'}
+    # Demand-source provenance belongs to the scenario record. Per-line service
+    # identities bind the numeric line demand, not a report-level label.
+    line_requirements={k:v for k,v in r.items() if k not in ('line_peak_demand_pphpd','demand_source')}
     for original_line in city_input['lines']:
         line_demand=(demand_map[original_line['line_id']] if demand_map is not None else r['peak_demand_pphpd'])
         headway=floor(min(r['maximum_headway_s'],places*3600*r['planning_occupancy']*r['planning_availability_assumption']/line_demand)/quantum)*quantum
