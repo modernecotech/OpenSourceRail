@@ -8,7 +8,7 @@ SI metres, kg and USD are explicit. Existing cost/mass bounds retain their basis
 from copy import deepcopy
 import gzip
 import json
-from math import fsum, isfinite
+from math import fsum, isfinite, pi
 from pathlib import Path
 
 from engineering.station_rail.common import identity, digest
@@ -66,7 +66,7 @@ def read_authenticated(path, pin):
 
 
 def vector(value, n=3):
-    if len(value) != n or any(isinstance(x, bool) or not isinstance(x, (int, float)) or not isfinite(x) for x in value):
+    if not isinstance(value,(list,tuple)) or len(value) != n or any(isinstance(x, bool) or not isinstance(x, (int, float)) or not isfinite(x) for x in value):
         raise ValueError('Finite SI vector required')
     return list(value)
 
@@ -129,12 +129,29 @@ def source_key(cid, pattern_id, index):
     return 'source/'+identity([cid, pattern_id, index])
 
 
-def allocation(value):
-    if not value or any(not isinstance(c, int) or c < 0 or not isfinite(f) or f <= 0 for c, f in value):
+def allocation(value, *, cars=None):
+    if not isinstance(value,list) or not value or any(not isinstance(row,(list,tuple)) or len(row)!=2 for row in value):
+        raise ValueError('Explicit car allocation required')
+    if any(isinstance(c,bool) or not isinstance(c,int) or c<0 or
+           isinstance(f,bool) or not isinstance(f,(int,float)) or not isfinite(f) or f<=0 for c,f in value):
         raise ValueError('Explicit car allocation required')
     if len({c for c, f in value}) != len(value) or abs(fsum(f for c, f in value)-1.) > 1e-10:
         raise ValueError('Car allocation must close once')
+    if cars is not None:
+        if isinstance(cars,bool) or not isinstance(cars,int) or cars<=0 or any(c>=cars for c,f in value):
+            raise ValueError('Car allocation outside supported domain')
     return value
+
+
+def row_domain(row, cars):
+    """No installed/scenario mass may vanish outside the support domain."""
+    allocation(row['car_allocation'],cars=cars)
+    bi=row['bogie_index']
+    if bi is not None and (isinstance(bi,bool) or not isinstance(bi,int) or not 0<=bi<2*cars or row['car_allocation']!=[[bi//2,1.]]):
+        raise ValueError('Bogie allocation outside/inconsistent with support domain')
+    cases(row['mass_kg'],positive=True);vector(row['centroid_m']);tensor(row['shape_I_per_kg'])
+    if 'uncertainty_m' in row and min(vector(row['uncertainty_m']))<0:
+        raise ValueError('Negative position uncertainty')
 
 
 def parent_occurrences(parent, frame_map, functions):
@@ -195,18 +212,101 @@ def interface_physical(c):
     return p
 
 
+def _scalar(x, *, positive=False, nonnegative=False):
+    if isinstance(x,bool) or not isinstance(x,(int,float)) or not isfinite(x) or (positive and x<=0) or (nonnegative and x<0):
+        raise ValueError('Finite physical primitive parameter required')
+    return x
+
+
+def _same_extent(actual,declared):
+    # Equivalent normalization only; not manufacturing clearance/tolerance.
+    if not isfinite(actual) or not isfinite(declared):return False
+    return abs(actual-declared)<=1e-10*max(1.,abs(actual),abs(declared))
+
+
+def _polygon(points):
+    if not isinstance(points,list) or not 3<=len(points)<=256:
+        raise ValueError('Supported finite polygon requires3..256vertices')
+    ps=[vector(p,2) for p in points]
+    if ps[0]==ps[-1]:ps=ps[:-1]
+    if len(ps)<3 or len({tuple(p) for p in ps})!=len(ps):
+        raise ValueError('Degenerate polygon vertices')
+    area=fsum(a[0]*b[1]-a[1]*b[0] for a,b in zip(ps,ps[1:]+ps[:1]))
+    if not isfinite(area) or area==0:raise ValueError('Nonzero polygon area required')
+    def orient(a,b,c):return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+    edges=list(zip(ps,ps[1:]+ps[:1]))
+    for i,(a,b) in enumerate(edges):
+        for j,(c,d) in enumerate(edges):
+            if j<=i or j==i+1 or (i==0 and j==len(edges)-1):continue
+            overlap=all(max(min(a[k],b[k]),min(c[k],d[k]))<=min(max(a[k],b[k]),max(c[k],d[k])) for k in range(2))
+            if overlap and orient(a,b,c)*orient(a,b,d)<=0 and orient(c,d,a)*orient(c,d,b)<=0:
+                raise ValueError('Self-intersecting polygon refused')
+    return ps
+
+
 def geometry(g):
-    """Finite sized research geometry; no stock-to-finished fallback."""
-    if g.get('kind') not in ('box','rhs','annulus','cylinder','envelope','route','poly-prism','triangle-prism','annular-sector','bounded-deposit'):
-        raise ValueError('Unsupported finished geometry schema')
-    size=vector(g['size_m'])
+    """Supported SI primitives, with explicit parameters consistent with bounds.
+
+    Unknown equipment may remain an explicit positive envelope with bounded
+    mass/inertia. An unfamiliar solid/deposit is not repaired into a primitive.
+    Full-cylinder bounds are the normalization for round/sector primitives;
+    route bounds are point extents plus radius. Polygon extrusion is alongY;
+    a triangle-prism has two parallelXYtriangles extruded alongZ.
+    """
+    kinds=('box','rhs','annulus','cylinder','envelope','route','poly-prism','triangle-prism','annular-sector')
+    if not isinstance(g,dict) or g.get('kind') not in kinds or g.get('units','m')!='m':
+        raise ValueError('Unsupported finished geometry schema/units')
+    k=g['kind'];size=vector(g.get('size_m'))
     if min(size)<=0:raise ValueError('Positive finite geometry size required')
-    if g['kind']=='rhs' and not 0<2*g['wall_m']<min(size[1:]):raise ValueError('Invalid RHS material')
-    if g['kind']=='annulus' and not 0<g['inner_radius_m']<g['outer_radius_m']:raise ValueError('Invalid annular material')
-    if g['kind']=='route':
-        if len(g['path_m'])<2 or g['radius_m']<=0:raise ValueError('Finite route required')
-        for p in g['path_m']:vector(p)
-    identity(g)  # Recursively refuses NaN/nonserializable geometry/features.
+    allowed={'box':set(),'envelope':set(),'rhs':{'wall_m'},'annulus':{'outer_radius_m','inner_radius_m'},
+        'cylinder':{'radius_m'},'annular-sector':{'outer_radius_m','inner_radius_m','start_rad','end_rad'},
+        'route':{'radius_m','path_m'},'poly-prism':{'finished_profile_xz_m'},'triangle-prism':{'vertices_m'}}[k]
+    if allowed-set(g):raise ValueError('Required physical primitive parameters missing')
+    declared=set(g)&(set(GEOMETRY_KEYS)-{'kind','size_m','source_stock','length_m','width_m','depth_m','holes'})
+    if declared-allowed:raise ValueError('Unsupported physical primitive parameters')
+    for key,n in (('length_m',0),('width_m',1),('depth_m',2)):
+        if key in g and (not _same_extent(_scalar(g[key],positive=True),size[n])):
+            raise ValueError('Primitive dimension/bounds inconsistency')
+    if k=='rhs' and not 0<2*_scalar(g['wall_m'],positive=True)<min(size[1:]):
+        raise ValueError('Invalid RHS material')
+    if k in ('cylinder','annulus','annular-sector'):
+        ro=_scalar(g['radius_m'] if k=='cylinder' else g['outer_radius_m'],positive=True)
+        if k!='cylinder' and not 0<=_scalar(g['inner_radius_m'],nonnegative=True)<ro:
+            raise ValueError('Invalid annular material')
+        if any(not _same_extent(x,2*ro) for x in size[1:]):
+            raise ValueError('Radius/size bounds inconsistency')
+        if k=='annular-sector':
+            a=_scalar(g['start_rad']);b=_scalar(g['end_rad'])
+            if not 0<b-a<=2*pi:raise ValueError('Invalid annular sector angles')
+    if k=='route':
+        r=_scalar(g['radius_m'],positive=True);path=g['path_m']
+        if not isinstance(path,list) or len(path)<2:raise ValueError('Finite route required')
+        ps=[vector(p) for p in path]
+        if any(a==b for a,b in zip(ps,ps[1:])):raise ValueError('Degenerate route segment')
+        if any(not _same_extent(max(p[i] for p in ps)-min(p[i] for p in ps)+2*r,size[i]) for i in range(3)):
+            raise ValueError('Route path/radius bounds inconsistency')
+    if k=='poly-prism':
+        ps=_polygon(g['finished_profile_xz_m'])
+        if not _same_extent(max(p[0] for p in ps)-min(p[0] for p in ps),size[0]) or not _same_extent(max(p[1] for p in ps)-min(p[1] for p in ps),size[2]):
+            raise ValueError('Profile/size bounds inconsistency')
+    if k=='triangle-prism':
+        vs=g['vertices_m']
+        if not isinstance(vs,list) or len(vs)!=6:raise ValueError('Six triangle-prism vertices required')
+        ps=[vector(p) for p in vs];a=[ps[1][i]-ps[0][i] for i in range(3)];b=[ps[2][i]-ps[0][i] for i in range(3)]
+        n=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];offset=[ps[3][i]-ps[0][i] for i in range(3)]
+        vector(n);vector(offset)
+        if any(not _same_extent(p[2],ps[0][2]) for p in ps[:3]) or any(not _same_extent(offset[i],0.) for i in (0,1)):
+            raise ValueError('Unsupported triangle extrusion normalization')
+        if not all(_same_extent(ps[j+3][i]-ps[j][i],offset[i]) for j in range(3) for i in range(3)) or fsum(n[i]*offset[i] for i in range(3))==0:
+            raise ValueError('Degenerate/inconsistent triangle extrusion')
+        if any(not _same_extent(max(p[i] for p in ps)-min(p[i] for p in ps),size[i]) for i in range(3)):
+            raise ValueError('Triangle profile/size bounds inconsistency')
+    if not isinstance(g.get('holes',[]),list):raise ValueError('Explicit normalized bore list required')
+    for h in g.get('holes',[]):
+        if not isinstance(h,dict) or set(h)!={'axis','centre_m','radius_m','length_m'} or isinstance(h['axis'],bool) or not isinstance(h['axis'],int) or h['axis'] not in (0,1,2):
+            raise ValueError('Unsupported bore normalization')
+        vector(h['centre_m']);_scalar(h['radius_m'],positive=True);_scalar(h['length_m'],positive=True)
+    identity(g)  # Recursively refuses NaN/nonserializable annotation/features.
     return g
 
 
@@ -259,6 +359,7 @@ def validate_definition(d):
                 raise ValueError('Declared material/inertia/uncertainty/cost model required')
             if e['id'] not in owned:
                 raise ValueError('Unowned installed/lifecycle material')
+    _component_contracts(d)
     return d
 
 
@@ -296,16 +397,27 @@ def _coaxial_contract(c, rows):
     """
     if c.get('schema') != 'osr-coaxial-through-stack/1' or c.get('units') != 'm':
         raise ValueError('Unsupported/unresolved counterpart schema')
-    a = c['axis_world']; axis = [float(j == a) for j in range(3)]
-    if a not in (0,1,2):
+    a = c['axis_world']
+    if isinstance(a,bool) or not isinstance(a,int) or a not in (0,1,2):
         raise ValueError('Counterpart axis required')
+    layers=c.get('layers')
+    if not isinstance(layers,list) or not layers or any(not isinstance(x,dict) or not isinstance(x.get('entity_id'),str) or not x['entity_id'].strip() or x['entity_id'] not in rows for x in layers):
+        raise ValueError('Nonempty actual counterpart layers required')
+    if len({x['entity_id'] for x in layers})!=len(layers) or not isinstance(c.get('sleeve_id'),str) or not c['sleeve_id'].strip() or c['sleeve_id'] not in rows or c['sleeve_id'] in {x['entity_id'] for x in layers}:
+        raise ValueError('Unique distinct counterpart layer/sleeve references required')
+    if 'part_ids' in c and (not isinstance(c['part_ids'],list) or not c['part_ids'] or len(set(c['part_ids']))!=len(c['part_ids']) or any(x not in rows for x in c['part_ids'])):
+        raise ValueError('Actual unique counterpart part references required')
+    if 'part_ids' in c and not {c['sleeve_id'],*(x['entity_id'] for x in layers)}<=set(c['part_ids']):
+        raise ValueError('Counterpart part binding omits actual stack member')
     sleeve = rows[c['sleeve_id']];g = sleeve['geometry']
+    geometry(g)
     if g['kind'] != 'annulus' or abs(abs(sleeve['rotation'][a][0])-1.) > 1e-10:
         raise ValueError('Actual coaxial annular sleeve required')
     L = g['size_m'][0];lo=sleeve['at_m'][a]-L/2;hi=sleeve['at_m'][a]+L/2
     if L <= 0 or not 0 < g['inner_radius_m'] < g['outer_radius_m']:
         raise ValueError('Positive sleeve material required')
-    for layer in c['layers']:
+    intervals=[]
+    for layer in layers:
         r = rows[layer['entity_id']];gg = r['geometry']
         if gg['kind'] not in ('box','rhs'):
             raise ValueError('Unsupported counterpart primitive')
@@ -313,20 +425,70 @@ def _coaxial_contract(c, rows):
         if direction is None or min(size) <= 0:
             raise ValueError('Axis-aligned counterpart required')
         left=r['at_m'][a]-size[direction]/2;right=r['at_m'][a]+size[direction]/2
-        if abs((right-left)-layer['expected_depth_m'])>1e-10:
+        intervals.append((left,right))
+        if abs((right-left)-_scalar(layer['expected_depth_m'],positive=True))>1e-10:
             raise ValueError('Counterpart width/identity substitution')
-        hole=gg['holes'][layer['bore_index']]
+        bore=layer['bore_index']
+        if isinstance(bore,bool) or not isinstance(bore,int) or not 0<=bore<len(gg.get('holes',[])):
+            raise ValueError('Actual counterpart bore index required')
+        hole=gg['holes'][bore]
         if set(hole) != {'axis','centre_m','radius_m','length_m'}:
             raise ValueError('Unsupported bore schema; explicit normalization required')
         j=hole['axis'];vector(hole['centre_m']);centre=transform(hole['centre_m'],r['at_m'],R)
-        if j not in (0,1,2) or abs(abs(R[a][j])-1.)>1e-10 or hole['length_m'] <= 0:
+        if isinstance(j,bool) or not isinstance(j,int) or j not in (0,1,2) or abs(abs(R[a][j])-1.)>1e-10 or _scalar(hole['length_m'],positive=True) <= 0:
             raise ValueError('Bore axis/length differs')
+        _scalar(hole['radius_m'],positive=True)
         if any(abs(centre[k]-sleeve['at_m'][k])>1e-10 for k in range(3) if k!=a):
             raise ValueError('Noncoaxial bore')
         if hole['radius_m'] < g['outer_radius_m'] or centre[a]-hole['length_m']/2>left+1e-10 or centre[a]+hole['length_m']/2<right-1e-10:
             raise ValueError('Bore continuity/diameter failed')
         if lo>left+1e-10 or hi<right-1e-10:
             raise ValueError('Sleeve does not span actual counterpart')
+    intervals.sort()
+    if any(a[1]>b[0]+1e-10 for a,b in zip(intervals,intervals[1:])):
+        raise ValueError('Overlapping through-stack layer intervals; explicit material adapter required')
+
+
+def _component_contracts(d):
+    """Resolved status must refer to actual validated local physical contracts."""
+    interfaces=d.get('physical_interfaces',[])
+    if not isinstance(interfaces,list) or any(not isinstance(x,dict) or not isinstance(x.get('id'),str) or not x['id'].strip() for x in interfaces):
+        raise ValueError('Named physical counterpart interfaces required')
+    if len({x['id'] for x in interfaces})!=len(interfaces):
+        raise ValueError('Duplicate physical interface ID')
+    by={x['id']:x for x in interfaces};required=d.get('required_counterpart_ids',[])
+    if not isinstance(required,list) or len(set(required))!=len(required) or any(x not in by for x in required):
+        raise ValueError('Missing/duplicate physical counterpart obligation')
+    rows={x['id']:x for x in d['entities']}
+    for cid in required:_coaxial_contract(by[cid],rows)
+    for jid,claim in d.get('joint_dispositions',{}).items():
+        if claim['status']!='resolved-explicit-contract':continue
+        physical=claim.get('physical_interface_ids');counterpart=claim.get('counterpart_ids')
+        if any(not isinstance(xs,list) or not xs or len(set(xs))!=len(xs) for xs in (physical,counterpart)):
+            raise ValueError('Resolved joint needs linked physical/counterpart contracts')
+        if not set(counterpart)<=set(required) or set(physical)!=set(counterpart):
+            raise ValueError('Resolved joint counterpart obligation/link differs')
+        expected=d.get('source_joint_part_ids',{}).get(jid)
+        if not isinstance(expected,list) or not expected or len(set(expected))!=len(expected) or any(x not in rows for x in expected):
+            raise ValueError('Resolved joint needs exact source part binding')
+        for cid in physical:
+            if cid not in by or by[cid].get('source_joint_id')!=jid or set(by[cid].get('part_ids',[]))!=set(expected):
+                raise ValueError('Resolved physical contract/source counterpart binding differs')
+    return by
+
+
+def _bound_contract(c, inst, context_bindings):
+    out=interface_physical(c);out['id']=inst['id']+'/'+c['id']
+    def ref(name):
+        return context_bindings.get((inst['id'],name),inst['id']+'/'+name)
+    out['sleeve_id']=ref(c['sleeve_id'])
+    out['layers']=[dict(x,entity_id=ref(x['entity_id'])) for x in out['layers']]
+    if 'part_ids' in out:out['part_ids']=[ref(x) for x in out['part_ids']]
+    axis=c['axis_world'];R=inst['rotation']
+    mapped=next((i for i in range(3) if abs(abs(R[i][axis])-1.)<1e-10),None)
+    if mapped is None:raise ValueError('Unsupported rotated counterpart axis normalization')
+    out['axis_world']=mapped
+    return out
 
 
 def _machining_features(old, new, features):
@@ -446,14 +608,18 @@ def compose(parent, definitions, integration, *, parent_pin, reviewed_map_id):
     contracts=integration['counterparts']
     if {c['id'] for c in contracts}!=set(integration['required_counterpart_ids']) or len({c['id'] for c in contracts})!=len(contracts):
         raise ValueError('Missing/duplicate resolved counterpart contract')
+    bycontract={c['id']:c for c in contracts}
+    contextrefs={(x['installation_id'],x['local_id']):x['source_id'] for x in integration['context_bindings']}
+    for inst in insts:
+        d=ds[inst['definition_id']];localcontracts={c['id']:c for c in d.get('physical_interfaces',[])}
+        for cid in d.get('required_counterpart_ids',[]):
+            expected=_bound_contract(localcontracts[cid],inst,contextrefs)
+            if expected!=interface_physical(bycontract[expected['id']]):
+                raise ValueError('Installed counterpart differs from bound physical definition')
     for c in contracts:_coaxial_contract(c,rows)
     installed=sorted(rows.values(),key=lambda r:r['id'])
     for r in installed:
-        if any(c>=parent['policy']['layout']['cars'] for c,f in r['car_allocation']) or min(r['uncertainty_m'])<0:
-            raise ValueError('Invalid car allocation/uncertainty')
-        bi=r['bogie_index']
-        if bi is not None and (isinstance(bi,bool) or not isinstance(bi,int) or not 0<=bi<2*parent['policy']['layout']['cars'] or bi//2 not in {c for c,f in r['car_allocation']}):
-            raise ValueError('Bogie support allocation differs')
+        row_domain(r,parent['policy']['layout']['cars'])
     physical=dict(schema='osr-composed-vehicle-physical/1',units='m',layout=deepcopy(parent['policy']['layout']),
         track_interface=deepcopy(parent['physical_definition'].get('track_interface')),
         occurrences=[entity_physical(r)|dict(car_allocation=r['car_allocation'],bogie_index=r['bogie_index']) for r in installed],
@@ -513,14 +679,13 @@ def evaluate_static_loads(bundle, scenario_rows, *, scenario_id, policy):
     fixed=dict(cars=6,car_length_m=17.,intercar_gap_m=.65,bogie_centres_local_x_m=[-6.4,6.4],bogie_wheelbase_m=2.1)
     if policy['layout']!=bundle['policy']['layout'] or any(policy['layout'].get(k)!=x for k,x in fixed.items()):
         raise ValueError('Static helper supports explicit unchanged six-car layout only')
-    if not isfinite(policy['evaluation']['gravity_m_s2']) or policy['evaluation']['gravity_m_s2']<=0:
-        raise ValueError('Positive finite gravity required')
+    _scalar(policy['evaluation']['gravity_m_s2'],positive=True)
     if not scenario_id or not scenario_rows:
         raise ValueError('Explicit reviewed load/reserve scenario required')
     rows=deepcopy(bundle['patterns'])+deepcopy(scenario_rows)
     if len({r['id'] for r in rows})!=len(rows):raise ValueError('Load/reserve counted twice')
+    for r in rows:row_domain(r,6)
     for r in scenario_rows:
-        cases(r['mass_kg'],positive=True);vector(r['centroid_m']);tensor(r['shape_I_per_kg']);allocation(r['car_allocation'])
         if not r.get('basis'):raise ValueError('Explicit load meaning required')
     results={k:dict(mass_properties=mass_properties(rows,k),reactions=reactions(rows,k,policy)) for k in CASES}
     if sources()!=before:raise ValueError('Static implementation changed during execution')
@@ -538,11 +703,14 @@ def adapt_p6_export(prototype, pin, component_map):
     groups. Source quantity!=1, unfamiliar counterpart/bore normalization and
     procurement allocation require an upstream adapter rather than expansion.
     """
+    before=sources()
     authenticated(prototype,pin)
     cs={c['id']:c for c in prototype['components']}
     if len(cs)!=len(prototype['components']) or set(component_map['entities'])!=set(cs) or component_map['units']!='m':
         raise ValueError('Complete exact P6 component ownership map required')
     source_joints={j['id'] for j in prototype.get('typed_fixing_joints',[])}
+    if len(source_joints)!=len(prototype.get('typed_fixing_joints',[])):
+        raise ValueError('Duplicate P6 source fixing joint identity')
     if set(component_map.get('joint_dispositions',{}))!=source_joints or any(not x.get('reason') or x.get('status') not in ('resolved-explicit-contract','qualification-hold-only','context-only') for x in component_map.get('joint_dispositions',{}).values()):
         raise ValueError('Complete explicit P6 joint/counterpart disposition required')
     hardware=prototype.get('hardware',{})
@@ -586,6 +754,9 @@ def adapt_p6_export(prototype, pin, component_map):
         physical_interfaces=deepcopy(component_map['physical_interfaces']),source_inputs=dict(candidate_id=pin['candidate_id'],evaluation_id=pin['evaluation_id']),
         required_counterpart_ids=deepcopy(component_map.get('required_counterpart_ids',[])),
         joint_dispositions=deepcopy(component_map.get('joint_dispositions',{})),
+        source_joint_part_ids={j['id']:deepcopy(j.get('part_ids')) for j in prototype.get('typed_fixing_joints',[])},
         geometry_status=component_map['geometry_status'],upstream_validation_inherited=False)
+    d['source_sha256']=before
     d['definition_id']=identity(definition_physical(d));d=seal(d);validate_definition(d)
+    if sources()!=before:raise ValueError('P6 adapter implementation changed during execution')
     return d

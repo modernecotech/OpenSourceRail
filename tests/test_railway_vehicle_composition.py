@@ -263,8 +263,197 @@ def test_counterpart_width_substitution_and_unknown_schema_refused():
 def test_incomplete_or_omitted_counterpart_obligation_refused():
     with pytest.raises(ValueError,match='counterpart'):
         run(change_map(stack_inputs(),lambda m:m.update(counterparts=[])))
-    with pytest.raises(ValueError,match='obligation omitted'):
+    with pytest.raises(ValueError,match='counterpart obligation'):
         run(change_definition(inputs(),lambda d:d.update(required_counterpart_ids=['new-joint'])))
+
+
+def test_review_F1_resolved_claim_requires_actual_linked_contract():
+    p,pin,m=p6_hardware_input()
+    m['joint_dispositions']['joint0']=dict(status='resolved-explicit-contract',reason='Exact independently reproduced empty-link claim')
+    with pytest.raises(ValueError,match='linked physical/counterpart'):
+        v.adapt_p6_export(p,pin,m)
+
+
+def test_review_F1_empty_layers_cannot_erase_100_vs_120_failure():
+    data=change_map(stack_inputs(.100),lambda m:m['counterparts'][0].update(layers=[]))
+    with pytest.raises(ValueError,match='Nonempty actual'):run(data)
+
+
+def linked_p6_inputs():
+    _,ds,_,_=stack_inputs();d=ds[0];components=[]
+    fields=('scope','functions','mass_basis','centroid_local_m','shape_I_per_kg','inertia_basis','uncertainty_m','cost_share')
+    for e in d['entities']:
+        components.append(dict(e,quantity=1,mass_each_kg=e['mass_kg']))
+    phys=dict(schema='SYNTHETIC-P6-LINKED-STACK',entities=[v.entity_physical(e) for e in components])
+    p=v.seal(dict(candidate_id=identity(phys),physical_definition=phys,components=components,
+        typed_fixing_joints=[dict(id='joint0',part_ids=['new','sleeve'])]))
+    pin={k:p[k] for k in ('candidate_id','evaluation_id')}
+    contract=dict(id='node',schema='osr-coaxial-through-stack/1',units='m',axis_world=0,sleeve_id='sleeve',
+        layers=[dict(entity_id='new',bore_index=0,expected_depth_m=.120)],source_joint_id='joint0',part_ids=['new','sleeve'])
+    m=dict(units='m',entities={e['id']:{k:e[k] for k in fields} for e in components},stock_groups=deepcopy(d['stock_groups']),
+        physical_interfaces=[contract],required_counterpart_ids=['node'],geometry_status='Synthetic nominal only; qualification held',
+        joint_dispositions=dict(joint0=dict(status='resolved-explicit-contract',reason='Tiny actual local stack',physical_interface_ids=['node'],counterpart_ids=['node'])))
+    return p,pin,m
+
+
+def linked_composition():
+    p,pin,m=linked_p6_inputs();d=v.adapt_p6_export(p,pin,m);b,_,mp,pin_body=stack_inputs()
+    mp['definitions']={d['definition_id']:d['evaluation_id']};mp['installations'][0]['definition_id']=d['definition_id']
+    c=deepcopy(m['physical_interfaces'][0]);c['id']='module/0/node';c['sleeve_id']='module/0/sleeve';c['layers'][0]['entity_id']='module/0/new';c['part_ids']=['module/0/new','module/0/sleeve']
+    mp['counterparts']=[c]
+    return b,[d],v.seal(mp),pin_body
+
+
+def test_actual_linked_stack_survives_adapter_and_bound_composition():
+    p,pin,m=linked_p6_inputs();d=v.adapt_p6_export(p,pin,m)
+    assert d['joint_dispositions']['joint0']['counterpart_ids']==['node']
+    assert run(linked_composition())['definition_complete']
+
+
+@pytest.mark.parametrize('change',[
+    lambda m:m.update(physical_interfaces=[]),
+    lambda m:m.update(required_counterpart_ids=[]),
+    lambda m:m['physical_interfaces'][0].update(source_joint_id='other-joint'),
+    lambda m:m['physical_interfaces'][0].update(part_ids=['sleeve']),
+    lambda m:m['physical_interfaces'][0].update(layers=[]),
+    lambda m:m['physical_interfaces'][0]['layers'].append(deepcopy(m['physical_interfaces'][0]['layers'][0])),
+    lambda m:m['physical_interfaces'][0]['layers'][0].update(entity_id='missing'),
+    lambda m:m['joint_dispositions']['joint0'].update(physical_interface_ids=['missing']),
+    lambda m:m['joint_dispositions']['joint0'].update(counterpart_ids=['missing']),
+])
+def test_linked_resolution_rejects_missing_or_substituted_physical_obligations(change):
+    p,pin,m=linked_p6_inputs();change(m)
+    with pytest.raises(ValueError):v.adapt_p6_export(p,pin,m)
+
+
+def test_installed_map_cannot_substitute_validated_local_counterpart():
+    with pytest.raises(ValueError,match='bound physical definition'):
+        run(change_map(linked_composition(),lambda m:m['counterparts'][0].update(layers=[])))
+    with pytest.raises(ValueError,match='bound physical definition'):
+        run(change_map(linked_composition(),lambda m:m['counterparts'][0]['layers'][0].update(expected_depth_m=.100)))
+
+
+def test_linked_contract_proper_axis_transform():
+    data=change_map(linked_composition(),lambda m:m['installations'][0].update(rotation=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]]))
+    data=change_map(data,lambda m:m['counterparts'][0].update(axis_world=1))
+    assert run(data)['definition_complete']
+
+
+def test_review_F2_adapter_binds_sources_and_refuses_midcall_epoch_change(monkeypatch):
+    p,pin,m=p6_hardware_input();d=v.adapt_p6_export(p,pin,m)
+    assert d['source_sha256']==v.sources()
+    first=v.sources();calls=[]
+    def changed():
+        calls.append(1);return first if len(calls)==1 else dict(first,changed='review source epoch witness')
+    monkeypatch.setattr(v,'sources',changed)
+    with pytest.raises(ValueError,match='adapter implementation changed'):v.adapt_p6_export(p,pin,m)
+    assert len(calls)==2
+
+
+def test_adapter_source_epoch_is_evaluation_not_physical(monkeypatch):
+    p,pin,m=p6_hardware_input();a=v.adapt_p6_export(p,pin,m);epoch=v.sources()
+    monkeypatch.setattr(v,'sources',lambda:dict(epoch,synthetic_epoch='new'))
+    b=v.adapt_p6_export(p,pin,m)
+    assert a['definition_id']==b['definition_id'] and a['evaluation_id']!=b['evaluation_id']
+
+
+def load_row(**changes):
+    r=dict(id='review-positive-load',mass_kg=cs(1.),centroid_m=[8.5,0.,1.7],shape_I_per_kg=diag(0.),
+        car_allocation=[[0,1.]],bogie_index=None,basis='Tiny synthetic positive load, not occupant evidence')
+    r.update(changes);return r
+
+
+@pytest.mark.parametrize('alloc',[[[99,1.]],[[True,1.]],[[False,1.]],[[1.0,1.]],[[0,True]],[[6,1.]],[[0,.5],[99,.5]]])
+def test_review_F3_and_A1_no_scenario_load_outside_integer_car_domain(alloc):
+    b=run()
+    with pytest.raises(ValueError,match='allocation'):
+        v.evaluate_static_loads(b,[load_row(car_allocation=alloc)],scenario_id='review-car99-or-type',policy=b['policy'])
+
+
+@pytest.mark.parametrize('bi',[True,False,99,-1,0.0,2])
+def test_scenario_bogie_domain_and_car_consistency(bi):
+    b=run()
+    with pytest.raises(ValueError,match='Bogie allocation'):
+        v.evaluate_static_loads(b,[load_row(bogie_index=bi)],scenario_id='review-bogie-domain',policy=b['policy'])
+
+
+def test_static_domain_guard_applies_to_installed_rows_too():
+    b=run();b['patterns'][0]['car_allocation']=[[99,1.]];b=v.seal(b)
+    with pytest.raises(ValueError,match='outside supported domain'):
+        v.evaluate_static_loads(b,[load_row()],scenario_id='review-installed-row',policy=b['policy'])
+
+
+def test_review_boolean_installed_allocation_refused():
+    with pytest.raises(ValueError,match='car allocation'):
+        run(change_map(inputs(),lambda m:m['installations'][0]['frames']['body'].update(car_allocation=[[True,1.]])))
+
+
+def test_valid_car5_load_is_not_lost():
+    b=run();r=load_row(car_allocation=[[5,1.]],centroid_m=[96.75,0.,1.7])
+    out=v.evaluate_static_loads(b,[r],scenario_id='positive-car5-control',policy=b['policy'])
+    for case in v.CASES:
+        assert out['cases'][case]['mass_properties']['mass_kg']==6.
+        assert out['cases'][case]['reactions']['force_residual_N']==pytest.approx(0.,abs=1e-10)
+        assert out['cases'][case]['reactions']['moment_residual_Nm']==pytest.approx(0.,abs=1e-10)
+
+
+def test_review_F4_negative_cylinder_radius_cannot_seal_definition():
+    with pytest.raises(ValueError,match='primitive parameter'):
+        run(change_definition(inputs(),lambda d:d['entities'][0]['geometry'].update(kind='cylinder',radius_m=-.1)))
+
+
+VALID_PRIMITIVES=[
+    dict(kind='box',size_m=[1.,2.,3.]),
+    dict(kind='rhs',size_m=[1.,.1,.2],wall_m=.004),
+    dict(kind='cylinder',size_m=[1.,.2,.2],radius_m=.1),
+    dict(kind='annulus',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=.05),
+    dict(kind='annulus',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=0.),
+    dict(kind='annular-sector',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=0.,start_rad=0.,end_rad=3.141592653589793),
+    dict(kind='route',size_m=[1.2,.2,.2],radius_m=.1,path_m=[[0.,0.,0.],[1.,0.,0.]]),
+    dict(kind='poly-prism',size_m=[1.,.1,.5],finished_profile_xz_m=[[0.,0.],[1.,0.],[1.,.5],[0.,.5]]),
+    dict(kind='triangle-prism',size_m=[1.,1.,1.],vertices_m=[[0.,0.,0.],[1.,0.,0.],[0.,1.,0.],[0.,0.,1.],[1.,0.,1.],[0.,1.,1.]]),
+]
+
+
+@pytest.mark.parametrize('g',VALID_PRIMITIVES)
+def test_supported_primitive_normalizations_preserved(g):
+    assert v.geometry(g)==g
+
+
+@pytest.mark.parametrize('g',[
+    dict(kind='cylinder',size_m=[1.,.2,.2],radius_m=-.1),
+    dict(kind='cylinder',size_m=[1.,.2,.2],radius_m=float('nan')),
+    dict(kind='cylinder',size_m=[1.,.2,.2],radius_m=True),
+    dict(kind='cylinder',size_m=[1.,.2,.2],radius_m=.2),
+    dict(kind='cylinder',size_m=[1.,1e308,1e308],radius_m=1e308),
+    dict(kind='cylinder',size_m=[1.,.2,.2]),
+    dict(kind='rhs',size_m=[1.,.1,.2],wall_m=.05),
+    dict(kind='rhs',size_m=[1.,.1,.2],wall_m=float('inf')),
+    dict(kind='annulus',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=.1),
+    dict(kind='annular-sector',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=.05,start_rad=1.,end_rad=0.),
+    dict(kind='annular-sector',size_m=[1.,.2,.2],outer_radius_m=.1,inner_radius_m=.05,start_rad=0.,end_rad=7.),
+    dict(kind='route',size_m=[1.,.2,.2],radius_m=.1,path_m=[[0.,0.,0.],[1.,0.,0.]]),
+    dict(kind='route',size_m=[.2,.2,.2],radius_m=.1,path_m=[[0.,0.,0.],[0.,0.,0.]]),
+    dict(kind='poly-prism',size_m=[1.,.1,.5],finished_profile_xz_m=[[0.,0.],[1.,1.],[1.,0.],[0.,1.]]),
+    dict(kind='poly-prism',size_m=[1.,.1,.5],finished_profile_xz_m=[[0.,0.],[1.,0.],[1.,1.],[0.,1.]]),
+    dict(kind='triangle-prism',size_m=[1.,1.,1.],vertices_m=[[0.,0.,0.]]*6),
+    dict(kind='triangle-prism',size_m=[1e308,1e308,1.],vertices_m=[[0.,0.,0.],[1e308,0.,0.],[0.,1e308,0.],[0.,0.,1.],[1e308,0.,1.],[0.,1e308,1.]]),
+    dict(kind='triangle-prism',size_m=[2.,1.,1.],vertices_m=[[0.,0.,0.],[1.,0.,0.],[0.,1.,0.],[1.,0.,1.],[2.,0.,1.],[1.,1.,1.]]),
+    dict(kind='box',size_m=[1.,1.,1.],units='mm'),
+    dict(kind='box',size_m=[1.,1.,1.],holes=[dict(axis=True,centre_m=[0.,0.,0.],radius_m=.1,length_m=1.)]),
+    dict(kind='bounded-deposit',size_m=[1.,1.,1.]),
+    dict(kind='unfamiliar-supplier-solid',size_m=[1.,1.,1.]),
+])
+def test_malformed_or_unsupported_geometry_refused(g):
+    with pytest.raises((ValueError,KeyError)):v.geometry(g)
+
+
+def test_explicit_unknown_equipment_envelope_remains_bounded():
+    data=change_definition(inputs(),lambda d:d['entities'][0].update(geometry=dict(kind='envelope',size_m=[.2,.3,.4],supplier_geometry_unknown=True),
+        inertia_basis='Explicit uniform-envelope proxy; actual supplier inertia unknown',mass_basis='Positive synthetic bounded purchased assembly'))
+    r=run(data);e=next(x for x in r['patterns'] if x['id']=='module/0/new')
+    assert e['geometry']['kind']=='envelope' and min(e['mass_kg'].values())>0
+    assert not r['physical_accepted'] and not r['native_eligible']
 
 
 def test_in_place_requires_features_and_single_old_new_owner():
