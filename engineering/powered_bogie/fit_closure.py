@@ -1,11 +1,14 @@
 """Bounded phase-1 mechanical fit gate; output is research-only and immutable."""
 from hashlib import sha256
+import gzip
 import json
+import math
 from pathlib import Path
 from .drive_geometry import compact_drive, axis_aligned_sweep
 
 ROOT = Path(__file__).resolve().parents[2]
 POLICY_PATH = ROOT / "engineering/powered_bogie/fit-closure-policy.json"
+IDENTITY_ROTATION = [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]
 
 
 def canonical_bytes(value):
@@ -64,7 +67,67 @@ def _variant_candidate(policy, v):
     return identity(definition), definition
 
 
-def evaluate_variant(variant_id):
+def bind_vehicle_packet(source_root):
+    """Bind exact reconciled-pilot records and all twelve bogie placements."""
+    p = load_policy()
+    root = Path(source_root)
+    expected = p["parent"]["vehicle_packet"]
+    base = root / expected["root_relative_directory"]
+    paths = {name: base / name for name in ("installation.json.gz", "bom.csv",
+                                             "axle-loads.json", "assembly.glb")}
+    source_hashes = {str(path.relative_to(root)): sha256(path.read_bytes()).hexdigest()
+                     for path in paths.values()}
+    for name, path in paths.items():
+        if source_hashes[str(path.relative_to(root))] != expected[name]:
+            raise ValueError(f"frozen vehicle packet digest mismatch: {name}")
+    with gzip.open(paths["installation.json.gz"], "rb") as f:
+        installation = json.load(f)
+    if (installation.get("candidate_id") != p["parent"]["body_candidate_id"] or
+            installation.get("evaluation_id") != p["parent"]["body_evaluation_id"]):
+        raise ValueError("vehicle installation packet identity mismatch")
+    by_occurrence = installation.get("assembly_occurrences", {}).get("running/bogie-frame")
+    if not isinstance(by_occurrence, list) or len(by_occurrence) != 12:
+        raise ValueError("expected exactly twelve running/bogie-frame occurrences")
+    patterns = installation.get("patterns", [])
+    slots = []
+    for occ in sorted(by_occurrence, key=lambda row: row["bogie_index"]):
+        oi = occ["bogie_index"]
+        occurrence_id = occ["id"]
+        matching = [row for row in patterns if row.get("assembly_occurrence_id") == occurrence_id
+                    and row.get("part_id") == "running/frame-primary-seat"]
+        if len(matching) != 1:
+            raise ValueError(f"expected one running/frame-primary-seat pattern for {occurrence_id}")
+        pattern = matching[0]
+        origin = occ["at_m"]
+        centroid = pattern["centroid_m"]
+        if (len(origin) != 3 or len(centroid) != 3 or
+                not math.isclose(origin[1], 0., abs_tol=1e-12) or
+                not math.isclose(origin[2], .53, abs_tol=1e-12) or
+                not math.isclose(centroid[0], origin[0], abs_tol=1e-12) or
+                not math.isclose(centroid[1], 0., abs_tol=1e-12) or
+                not math.isclose(centroid[2], .50, abs_tol=1e-12)):
+            raise ValueError(f"bogie placement/centroid mismatch: {occurrence_id}")
+        slots.append({"slot_id": occurrence_id, "bogie_index": oi,
+            "car_allocation": occ["car_allocation"],
+            "installation_frame": {"name": "vehicle-installation", "units": "m",
+                "world_origin_m": [0.,0.,0.], "world_rotation": IDENTITY_ROTATION},
+            "assembly_occurrence": {"id": occurrence_id, "parent_frame": "vehicle-installation",
+                "origin_in_installation_frame_m": origin,
+                "local_origin_in_car_m": occ["local_origin_m"],
+                "rotation_in_installation_frame": IDENTITY_ROTATION,
+                "rotation_basis": "phase-2 contract; occurrence packet stores no rotation field"},
+            "part_pattern": {"id": pattern["id"], "part_id": pattern["part_id"],
+                "centroid_in_installation_frame_m": centroid,
+                "definition_basis": pattern["geometry"]["definition_basis"],
+                "finished_geometry_verified": pattern["geometry"]["finished_geometry_verified"]},
+            "location_status": "bound-from-frozen-installation-packet"})
+    if [s["bogie_index"] for s in slots] != list(range(12)):
+        raise ValueError("bogie indices must cover exactly 0..11")
+    return {"source_sha256": source_hashes, "body_candidate_id": installation["candidate_id"],
+            "body_evaluation_id": installation["evaluation_id"], "slots": slots}
+
+
+def evaluate_variant(variant_id, *, parent_packet_root=None):
     p = load_policy()
     matches = [v for v in p["variants"] if v["variant_id"] == variant_id]
     if len(matches) != 1:
@@ -74,6 +137,9 @@ def evaluate_variant(variant_id):
                     Path(__file__).with_name("drive_geometry.py"))
     sources = {x.relative_to(ROOT).as_posix(): sha256(x.read_bytes()).hexdigest()
                for x in source_files}
+    vehicle_packet = bind_vehicle_packet(parent_packet_root) if parent_packet_root else None
+    if vehicle_packet:
+        sources.update(vehicle_packet["source_sha256"])
     c = _variant_candidate(p, v)
     candidate_id, physical_definition = c if isinstance(c, tuple) else (c, None)
     drive = compact_drive(v["ratio"]) if v["ratio"] else None
@@ -94,11 +160,13 @@ def evaluate_variant(variant_id):
         raise ValueError("pose budget exceeded")
     evaluation_input = {"candidate_id": candidate_id, "variant": v, "policy": p,
                         "sources": sources, "pose_roster": poses,
-                        "case_swept_outer_box_m": case_sweep}
+                        "case_swept_outer_box_m": case_sweep,
+                        "vehicle_occurrence_slots": vehicle_packet["slots"] if vehicle_packet else None}
     holds = ["Official STEP/drawing bytes and exact motor mounting/shaft/terminal geometry not frozen",
              "Tolerance and fabrication/assembly clearances unknown; nominal envelope cannot accept fit",
              "Only drive case envelope screened; actual wheel, brake, suspension, body and service solids unavailable to this isolated gate",
-             "All twelve bogies are enumerated but cannot be individually located from a source-bound parent occurrence map in this task packet",
+             ("Bogie occurrence locations not bound from a frozen parent packet" if not vehicle_packet else
+              "Twelve occurrence locations are bound; location records do not prove complete bogie solids, motion, clearance or fit"),
              "Finite 24-pose roster is representative; analytic radius sweep is conservative and may be excessively broad",
              "Body-lift pedestal load path, emergency support, anti-lift and kingpin redesign not sized",
              "Retained brake/suspension/service stock identities and masses not re-imported; parent occurrence ledger preserved by reference only",
@@ -108,6 +176,7 @@ def evaluate_variant(variant_id):
         holds.append("Gear ratio or pitch-centre geometry mismatch")
     result = {"schema": "osr-mechanical-fit-result/1", "contract_id": p["contract_id"],
         "study_id": p["study_id"], "candidate_id": candidate_id,
+        "study_binding_status": "HOLD: study identity is not bound by the frozen vehicle packet",
         "contract_source": p["contract_source"],
         "physical_definition": physical_definition,
         "parent_body_candidate_id": p["parent"]["body_candidate_id"],
@@ -120,8 +189,8 @@ def evaluate_variant(variant_id):
         "physical_accepted": False, "engineering_accepted": False,
         "manufacturing_release": False, "operating_release": False,
         "poses_checked": len(poses), "poses": poses,
-        "bogie_coverage": [{"bogie_index": i, "status": "HOLD-exact-parent-transform-unavailable"}
-                           for i in range(12)],
+        "bogie_coverage": (vehicle_packet["slots"] if vehicle_packet else
+            [{"bogie_index": i, "status": "HOLD-exact-parent-transform-unavailable"} for i in range(12)]),
         "continuous_swept_outer_box_m": case_sweep,
         "relative_motion_sweeps": {"gear_case_track_frame_m": case_sweep,
             "motor_casing_track_frame_m": motor_sweep,
@@ -202,6 +271,7 @@ def evaluate_variant(variant_id):
     return result
 
 
-def evaluate_all():
+def evaluate_all(*, parent_packet_root=None):
     p = load_policy()
-    return [evaluate_variant(v["variant_id"]) for v in p["variants"]]
+    return [evaluate_variant(v["variant_id"], parent_packet_root=parent_packet_root)
+            for v in p["variants"]]

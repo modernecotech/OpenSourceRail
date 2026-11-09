@@ -1,8 +1,10 @@
+import os
+from pathlib import Path
 import pytest
 
 from engineering.powered_bogie.drive_geometry import compact_drive, axis_aligned_sweep
 from engineering.powered_bogie.kinematic_tree import canonical_frames, compose, rigid
-from engineering.powered_bogie.fit_closure import evaluate_all, evaluate_variant
+from engineering.powered_bogie.fit_closure import bind_vehicle_packet, evaluate_all, evaluate_variant
 
 
 def test_typed_transform_composition_maps_intended_frame():
@@ -49,3 +51,21 @@ def test_exact_three_variants_are_held_and_identity_disciplined():
     assert all(r["physical_accepted"] is False for r in results)
     with pytest.raises(ValueError):
         evaluate_variant("unlisted-variant")
+
+
+def test_frozen_packet_separates_all_twelve_occurrences_from_centroids():
+    root = Path(os.environ.get("OSR_MECHANICAL_PACKET_ROOT", Path(__file__).resolve().parents[2]))
+    if not (root / "docs/design-engine/reconciled-pilot-bogie-detail/vehicle/installation.json.gz").exists():
+        pytest.skip("sparse worktree omits pinned vehicle packet; set OSR_MECHANICAL_PACKET_ROOT")
+    packet = bind_vehicle_packet(root)
+    slots = packet["slots"]
+    assert [row["slot_id"] for row in slots] == [
+        f"running/bogie-frame/{car}-{end}" for car in range(6) for end in range(2)]
+    assert len({row["assembly_occurrence"]["origin_in_installation_frame_m"][0] for row in slots}) == 12
+    for row in slots:
+        origin = row["assembly_occurrence"]["origin_in_installation_frame_m"]
+        centroid = row["part_pattern"]["centroid_in_installation_frame_m"]
+        assert origin[2] == pytest.approx(.53)
+        assert centroid == pytest.approx([origin[0], 0., .50])
+        assert row["assembly_occurrence"]["rotation_in_installation_frame"] == [
+            [1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]
