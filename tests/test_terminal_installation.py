@@ -140,8 +140,22 @@ def source_fixture():
         count=2 if pid.endswith('header') else 10
         parts.append(dict(id=pid,stock=None,material_id='synthetic/retained',quantity_per_train=count,mass_each_kg=cases(1.),direct_cost_each_usd=cases(2.)))
         patterns.append(dict(id='SYNTHETIC/'+pid,part_id=pid,count=count,positions_m=[[j,0.,2.] for j in range(count)],rotation=t.I,car_allocation=[[0,1.]]))
-    physical=dict(schema='SYNTHETIC-terminal-source',parts=parts,patterns=patterns)
-    b=t.seal(dict(candidate_id=identity(physical),physical_definition=physical,parts=parts,patterns=patterns,materials=[],policy=dict(layout=dict(body_width_m=2.65,floor_top_m=1.15))))
+    # The names/types/projection keys follow the actual P1 schema; this remains
+    # a tiny invented catalogue with four posts/car rather than actual24.
+    for p in parts:
+        p['component_definition_id']=identity(dict(synthetic_part=p['id']))
+        p['source_part_id']=p['id']
+    for p in patterns:
+        part=next(q for q in parts if q['id']==p['part_id'])
+        p['bogie_index']=None
+        p['geometry']=dict(kind='rhs',size_m=[part['stock'][k] for k in ('length_m','width_m','depth_m')],source_stock=deepcopy(part['stock'])) if part['stock'] else dict(kind='unknown-envelope')
+    layout=dict(cars=6,car_length_m=17.,car_width_m=2.65,intercar_gap_m=.65,floor_top_m=1.15,roof_z_m=3.55,gauge_m=1.435)
+    track=dict(schema='osr-wheel-rail-interface/1',inner_face_gauge_m=1.435,nominal_contact_centres_y_m=[-.7525,.7525],nominal_rail_head_width_m=.07,contact_datum='nominal rail head centres',real_profile_verified=False)
+    part_keys=('component_definition_id','id','mass_each_kg','material_id','quantity_per_train','source_part_id','stock')
+    pattern_keys=('bogie_index','car_allocation','count','geometry','id','part_id','positions_m','rotation')
+    physical=dict(schema='SYNTHETIC-terminal-source',layout=deepcopy(layout),config=dict(body_lift_m=.15),track_interface=deepcopy(track),
+        parts=[deepcopy({k:p[k] for k in part_keys}) for p in parts],occurrence_patterns=[deepcopy({k:p[k] for k in pattern_keys}) for p in patterns])
+    b=t.seal(dict(schema='osr-vehicle-installation/1',candidate_id=identity(physical),physical_definition=physical,parts=parts,patterns=patterns,materials=[],policy=dict(layout=deepcopy(layout),track_interface=deepcopy(track),rates=dict(synthetic_rate=1.),evaluation=dict(advisory_only=True))))
     r=t.recipe();r['parent']=dict(candidate_id=b['candidate_id'],evaluation_id=b['evaluation_id'],raw_sha256='SYNTHETIC')
     return b,r
 
@@ -153,6 +167,93 @@ def test_exact_source_counterparts_no_couponsegment_or_internal_beam_duplication
     assert sum(x['part_id']=='body/cantrail' for x in m)==4
     assert sum(x['part_id']=='body/side-post' for x in m)==4
     assert all(x['part']['stock']['length_m']==2.29 for x in m if x['part_id']=='body/end-beam')
+
+
+def rebind_fixture(b,r):
+    b['candidate_id']=identity(b['physical_definition']);b=t.seal(b)
+    r['parent'].update(candidate_id=b['candidate_id'],evaluation_id=b['evaluation_id'])
+    return b,r
+
+
+def test_explicit_physical_width_binding_uses_real_key_without_alias_or_second_lift():
+    b,r=source_fixture();old=deepcopy(b);c=t.source_dimension_contract(b,r)
+    assert 'body_width_m' not in b['policy']['layout']
+    assert c['physical_layout_fields']['car_width_m']==2.65
+    assert c['authoritative_source_paths']['car_width_m']=='physical_definition.layout.car_width_m'
+    assert c['declared_crosscheck_paths']['car_width_m']=='policy.layout.car_width_m'
+    assert c['geometry_lift_to_apply_m']==0. and c['physical_accepted'] is False
+    assert b==old
+
+
+def test_lookup_only_fix_preserves_exact_frozen_recipe_identity():
+    assert identity(t.recipe())=='66809a859c6c69154cf0ca05b81ae489c8c88bc302c3b8d5c79e619173fd04e4'
+
+
+@pytest.mark.parametrize('where,mutation',[
+    ('physical',lambda x:x.pop('car_width_m')),
+    ('policy',lambda x:x.pop('car_width_m')),
+    ('physical',lambda x:x.update(car_width_m=2.60)),
+    ('policy',lambda x:x.update(car_width_m=2.60)),
+    ('physical',lambda x:x.update(car_width_m=True)),
+    ('physical',lambda x:x.update(cars=6.)),
+    ('policy',lambda x:x.update(floor_top_m=float('inf'))),
+    ('policy',lambda x:x.update(roof_z_m=3.70)),
+    ('physical',lambda x:x.update(intercar_gap_m=.50)),
+])
+def test_missing_malformed_or_disagreeing_dimension_refuses_without_input_patch(where,mutation):
+    b,r=source_fixture();layout=b['physical_definition']['layout'] if where=='physical' else b['policy']['layout']
+    mutation(layout);before=deepcopy(b)
+    with pytest.raises(ValueError):t.source_dimension_contract(b,r)
+    assert b==before
+
+
+def test_alias_only_source_refuses_instead_of_guessing_recipe_width():
+    b,r=source_fixture()
+    for x in (b['physical_definition']['layout'],b['policy']['layout']):x['body_width_m']=x.pop('car_width_m')
+    with pytest.raises(ValueError,match='car_width_m'):t.source_dimension_contract(b,r)
+
+
+@pytest.mark.parametrize('target',('source-lift','physical-track','policy-track','units'))
+def test_lift_track_and_unit_contracts_are_explicit(target):
+    b,r=source_fixture()
+    if target=='source-lift':b['physical_definition']['config']['body_lift_m']=.30
+    elif target=='units':r['units']='mm'
+    elif target=='physical-track':b['physical_definition']['track_interface']['nominal_contact_centres_y_m']=[-.7175,.7175]
+    else:b['policy']['track_interface']['inner_face_gauge_m']=1.50
+    with pytest.raises(ValueError):t.source_dimension_contract(b,r)
+
+
+def test_advisory_prices_evaluation_and_verification_do_not_change_dimension_identity():
+    b,r=source_fixture();first=t.source_dimension_contract(b,r)
+    b['policy']['rates']['synthetic_rate']=99.;b['policy']['evaluation']['advisory_only']='changed'
+    b['policy']['track_interface']['real_profile_verified']=True
+    b['parts'][0]['direct_cost_each_usd']=cases(999.)
+    b,r=rebind_fixture(b,r);second=t.source_dimension_contract(b,r)
+    assert first['physical_field_binding_id']==second['physical_field_binding_id']
+    assert second['verification_flags_are_not_qualification'] and not second['physical_accepted']
+    assert len(t.counterpart_map(b,r))==10
+
+
+@pytest.mark.parametrize('mutation',[
+    lambda b:b['patterns'][0]['positions_m'][0].__setitem__(2,1.1345),
+    lambda b:b['patterns'][0]['geometry']['size_m'].__setitem__(1,.150),
+    lambda b:b['parts'][0].update(quantity_per_train=13),
+    lambda b:b['patterns'][0].update(count=True),
+])
+def test_outer_counterpart_schema_cannot_diverge_from_physical_identity(mutation):
+    b,r=source_fixture();mutation(b);b,r=rebind_fixture(b,r)
+    with pytest.raises(ValueError):t.counterpart_map(b,r)
+
+
+@pytest.mark.parametrize('kind',('second-lift','reflection'))
+def test_resealed_counterpart_placement_or_proper_rotation_failure_still_refuses(kind):
+    b,r=source_fixture();p=b['patterns'][0]
+    if kind=='second-lift':p['positions_m'][0][2]+=.150
+    else:p['rotation']=[[-1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
+    physical=next(q for q in b['physical_definition']['occurrence_patterns'] if q['id']==p['id'])
+    physical.update(positions_m=deepcopy(p['positions_m']),rotation=deepcopy(p['rotation']))
+    b,r=rebind_fixture(b,r)
+    with pytest.raises(ValueError):t.counterpart_map(b,r)
 
 
 def test_exact64wall_operations_conserve_net_removed_moments_by_case():

@@ -894,11 +894,70 @@ def added_stock(r):
 def source_key(cid,pid,index):return 'source/'+identity([cid,pid,index])
 
 
+def source_dimension_contract(body,r):
+    """Physical source dimensions, cross-checked against policy; no aliases.
+
+    P1 names the width ``car_width_m`` in both records. The old terminal
+    recipe's ``body_width_m`` is a consumer requirement, not a source key.
+    Rates, evaluation settings and verification flags confer no dimensions or
+    qualification. Already-applied source lift is ancestry, never a transform.
+    """
+    physical=body.get('physical_definition',{});layout=physical.get('layout')
+    declared=body.get('policy',{}).get('layout');config=physical.get('config')
+    if not all(isinstance(v,dict) for v in (layout,declared,config)):
+        raise ValueError('Explicit physical layout/config and policy layout required')
+    if r.get('units')!='m':raise ValueError('Source dimension contract uses explicit metres')
+    expected=dict(cars=r['fixed']['cars'],car_length_m=r['fixed']['car_length_m'],
+        car_width_m=r['fixed']['body_width_m'],intercar_gap_m=.65,
+        floor_top_m=r['fixed']['floor_Z_m'],roof_z_m=r['fixed']['roof_skin_bottom_Z_m'],gauge_m=1.435)
+    for key,wanted in expected.items():
+        if key not in layout or key not in declared:
+            raise ValueError('Missing exact physical/policy source field: '+key)
+        values=[layout[key],declared[key]]
+        if any(type(v) not in (int,float) or not isfinite(v) for v in values):
+            raise ValueError('Finite nonboolean source dimension required: '+key)
+        if key=='cars' and any(type(v) is not int for v in values):
+            raise ValueError('Integer physical/policy source car count required')
+        if values[0]!=values[1] or any(abs(v-wanted)>1e-10 for v in values):
+            raise ValueError('Physical/policy source dimension disagreement: '+key)
+    if abs(layout['car_length_m']+layout['intercar_gap_m']-r['fixed']['formation_pitch_m'])>1e-10 or abs(layout['cars']*layout['car_length_m']+(layout['cars']-1)*layout['intercar_gap_m']-r['fixed']['train_structural_length_m'])>1e-10:
+        raise ValueError('Source formation/datum differs from terminal binding')
+    lift=config.get('body_lift_m')
+    if type(lift) not in (int,float) or not isfinite(lift) or abs(lift-r['fixed']['body_lift_already_applied_m'])>1e-10:
+        raise ValueError('Explicit already-applied physical source lift required')
+    track=physical.get('track_interface');policy_track=body.get('policy',{}).get('track_interface')
+    if not isinstance(track,dict) or not isinstance(policy_track,dict):raise ValueError('Explicit physical/policy track datums required')
+    required=dict(schema='osr-wheel-rail-interface/1',inner_face_gauge_m=1.435,
+        nominal_contact_centres_y_m=[-.7525,.7525],nominal_rail_head_width_m=.070,contact_datum='nominal rail head centres')
+    for key,wanted in required.items():
+        for actual in (track,policy_track):
+            if key not in actual or actual[key]!=wanted:raise ValueError('Physical/policy track datum differs: '+key)
+            if isinstance(wanted,(int,float)) and type(actual[key]) not in (int,float):raise ValueError('Nonboolean SI track datum required')
+            if isinstance(wanted,list) and any(type(v) not in (int,float) or not isfinite(v) for v in actual[key]):raise ValueError('Finite SI contact datums required')
+    return dict(schema='osr-terminal-source-dimension-contract/1',physical_layout_fields={k:layout[k] for k in expected},
+        authoritative_source_paths={k:'physical_definition.layout.'+k for k in expected},
+        declared_crosscheck_paths={k:'policy.layout.'+k for k in expected},
+        physical_field_binding_id=identity(dict(layout={k:layout[k] for k in expected},track=required,body_lift_already_applied_m=lift)),
+        geometry_lift_to_apply_m=0.,verification_flags_are_not_qualification=True,physical_accepted=False)
+
+
 def source_occurrences(body,part_id):
     parts={p['id']:p for p in body['parts']};p=parts[part_id];out=[]
+    if len(parts)!=len(body['parts']):raise ValueError('Duplicate source part identity')
+    physical=body['physical_definition']
+    source_parts=[x for x in physical.get('parts',[]) if x['id']==part_id]
+    part_keys=('component_definition_id','id','mass_each_kg','material_id','quantity_per_train','source_part_id','stock')
+    if len(source_parts)!=1 or any(k not in p for k in part_keys) or source_parts[0]!={k:p[k] for k in part_keys}:
+        raise ValueError('Source section/material/quantity differs from physical part identity')
+    patterns={x['id']:x for x in physical.get('occurrence_patterns',[])}
+    if len(patterns)!=len(physical.get('occurrence_patterns',[])):raise ValueError('Duplicate physical occurrence pattern')
+    pattern_keys=('bogie_index','car_allocation','count','geometry','id','part_id','positions_m','rotation')
     for pat in body['patterns']:
         if pat['part_id']!=part_id:continue
-        if pat['count']!=len(pat['positions_m']):raise ValueError('Source count/pose differs')
+        if any(k not in pat for k in pattern_keys) or patterns.get(pat['id'])!={k:pat[k] for k in pattern_keys}:
+            raise ValueError('Source pattern geometry/placement differs from physical identity')
+        if type(pat['count']) is not int or pat['count']!=len(pat['positions_m']):raise ValueError('Source count/pose differs')
+        if any(len(at)!=3 or any(type(v) not in (int,float) or not isfinite(v) for v in at) for at in pat['positions_m']):raise ValueError('Finite nonboolean source positions required')
         for j,at in enumerate(pat['positions_m']):
             out.append(dict(id=source_key(body['candidate_id'],pat['id'],j),part_id=part_id,part=p,
               pattern_id=pat['id'],position_index=j,at_m=at,rotation=pat['rotation'],car_allocation=pat['car_allocation'],
@@ -912,8 +971,7 @@ def counterpart_map(body,r):
     _sealed(body)
     if body['candidate_id']!=r['parent']['candidate_id'] or body['evaluation_id']!=r['parent']['evaluation_id'] or identity(body['physical_definition'])!=body['candidate_id']:
         raise ValueError('Exact source parent required')
-    if body['policy']['layout']['body_width_m']!=2.65 or body['policy']['layout']['floor_top_m']!=1.15:
-        raise ValueError('Fixed actual body width/floor mismatch')
+    source_dimension_contract(body,r)
     sets={p:source_occurrences(body,p) for p in ('body/end-beam','body/cantrail','body/side-post')}
     expected={'body/end-beam':dict(kind='rhs',length_m=2.29,width_m=.14,depth_m=.25,wall_m=.008),
       'body/cantrail':dict(kind='rhs',length_m=17.,width_m=.10,depth_m=.25,wall_m=.0045),
@@ -929,6 +987,10 @@ def counterpart_map(body,r):
                 if not relevant:continue
                 if row['part']['stock']!=expected[pid] or row['part']['material_id']!='body/al6005a':
                     raise ValueError('Actual source counterpart section/material differs: '+pid)
+                expected_R=YAXIS if pid=='body/end-beam' else I if pid=='body/cantrail' else [[0.,1.,0.],[0.,0.,1.],[1.,0.,0.]]
+                if row['rotation']!=expected_R or any(type(v) not in (int,float) or not isfinite(v) for rr in row['rotation'] for v in rr):raise ValueError('Actual source counterpart proper rotation differs')
+                target=([-.1,0.,-1.2655] if pid=='body/end-beam' else [-8.5,(-1 if local[1]<0 else 1)*1.275,1.18] if pid=='body/cantrail' else [-.8,(-1 if local[1]<0 else 1)*1.275,.075])
+                if any(abs(a-b)>1e-8 for a,b in zip(local,target)):raise ValueError('Actual source counterpart full placement/datum differs')
                 out.append(dict(row,terminal_id=binding['id'],binding=binding,local_center_m=local))
     if len(out)!=10 or len({x['id'] for x in out})!=10:raise ValueError('Exactly2beams+4cantrails+4firstposts required')
     return out
