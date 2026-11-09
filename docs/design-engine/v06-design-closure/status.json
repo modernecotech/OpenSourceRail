@@ -8,6 +8,10 @@
         {
           "path": "docs/design-engine/v06-design-closure/all-city-baseline-audit/audit-summary.json",
           "sha256": "d8b8ea73d0bccbc58a4f5c8b350b0135cf15cf355953d6bd200af5c6fd7f48a0"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json",
+          "sha256": "3e335b5fd226c7dbb293237798f890b3229829e27eb89b2778d53c6da9e2ed4b"
         }
       ],
       "state": "open"
@@ -33,11 +37,23 @@
       "state": "open"
     },
     "installed-vehicle": {
-      "blocker": "Located equipment, body/bogie interfaces, installed mass and downstream forces are not reconciled for one candidate.",
+      "blocker": "The 9f6d parent still has incomplete installed mass, no inertia in its mass cases, unverified supplier motor/gearbox fits, and missing shaft/bearing, access and removal closure. Three separate compact-drive child geometry configurations were screened; all remain HOLD with thousands of nominal/interface findings and cannot close the parent.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/README.md",
           "sha256": "4902a7aa141c13a990792c3745dc80d311fc44360e97bd06234ba7a458757ea7"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-geometry-closure/manifest.json",
+          "sha256": "ef322685a479eb6f45b3dbba429d69c6ff7569841b152bd8309a9978584387ee"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-geometry-closure/summary.json",
+          "sha256": "bd812903071295b80fe9f78769ce9172530b7c71285e5313c7d979f1e7a7616d"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/installed-vehicle-review.md",
+          "sha256": "6208f90c297e7214ed8d2c9e29b9b2b2b9dbc982e782e0bc89be9f29b2c28609"
         }
       ],
       "state": "open"
@@ -50,24 +66,24 @@
           "sha256": "f7d06c245b940681fbf4e869f6c5aed3a947859c1ad3ed3a09d7b5ff5c654877"
         },
         {
-          "path": "docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json",
-          "sha256": "3e335b5fd226c7dbb293237798f890b3229829e27eb89b2778d53c6da9e2ed4b"
-        },
-        {
-          "path": "docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity/result.json",
-          "sha256": "dec4752d1faf037431a90ca5c8fd942b5a20122d62f48df1511d5a6779ff6ed8"
+          "path": "docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md",
+          "sha256": "f20b9d0efa47df790c734b34c16ade14a56fa60f70d5ded7e98933ea89474bc1"
         },
         {
           "path": "docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity/manifest.json",
           "sha256": "eccd7048f1452d6ca2c1a75dd05a186c8f239e17f92815448a430fd056ead96d"
         },
         {
-          "path": "docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md",
-          "sha256": "f20b9d0efa47df790c734b34c16ade14a56fa60f70d5ded7e98933ea89474bc1"
+          "path": "docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity/result.json",
+          "sha256": "dec4752d1faf037431a90ca5c8fd942b5a20122d62f48df1511d5a6779ff6ed8"
         },
         {
           "path": "docs/design-engine/v06-design-closure/samawah-city-recalculation.md",
           "sha256": "0097c72d6e6bfba44ba462bec59a03efcfac369df8ff3b043c0cc9892dd00a9e"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json",
+          "sha256": "3e335b5fd226c7dbb293237798f890b3229829e27eb89b2778d53c6da9e2ed4b"
         }
       ],
       "state": "open"
@@ -82,7 +98,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "467ce4ada48ec9957b04cb437df15cf0352cdccb441c15073612d9e80c1e33c9"
+          "sha256": "1197bd5cb7c3957c1a7d4a236ed5bf5730a48c56d610495416119c0bbeeee1ef"
         }
       ],
       "state": "partial"

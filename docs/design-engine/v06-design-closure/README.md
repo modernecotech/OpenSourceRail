@@ -4,6 +4,8 @@
 
 [Compact-drive corridor attempt and retained evidence](compact-drive-corridor/README.md)
 
+[Installed-vehicle review and compact-drive geometry results](installed-vehicle-review.md)
+
 [Samawah detailed-candidate recalculation](samawah-city-recalculation.md)
 
 [Samawah acceleration sensitivity](samawah-acceleration-sensitivity.md)
@@ -40,7 +42,7 @@ not implied by closure of this work.
 
 | Required work | Current state | Evidence / remaining closure |
 | --- | --- | --- |
-| Installed vehicle | Open | The detailed 9f6d research candidate still needs one reconciled, complete located installed inventory with interfaces, clearances, mass properties and downstream force/civil consequences. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. The compact-drive build is a further unselected candidate with no matching canonical railway study. |
+| Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, supplier-fit interfaces, inertia, tool/removal paths and downstream force/civil consequences. The separate compact-drive child has three bounded analytical geometry screens; all remain on HOLD with repeated nominal and interface checks unresolved, and it has no matched journey/civil study. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. |
 | Controlled research documents | Open | The supplementary audit of the retained 668-part delivery map finds 41 assemblies with 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references are null. It does not assert a repository-wide search. No manufacturing release is authorized. |
 | Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations, but force/braking/grade, detailed civil loads and all fourteen complete prices remain unknown. One pair of station markers is only 79.977 m apart against a 120 m platform request. |
 | Native GIS return path | Open | The last one-shot attempt failed before application launch because the sealed wrapper referenced absent overlay files. Amendment 06 also fails its independent integrity checker: two canonical request/manifest IDs are stale and 233 pinned project `__pycache__` snapshots are missing or changed (152 paths are absent). `-B` only prevents writes; a successor must also prevent loading unreviewed project bytecode while preserving the exact source/import checks. No run 07 authorization or execution exists. |
