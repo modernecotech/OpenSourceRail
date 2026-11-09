@@ -918,3 +918,46 @@ def test_empty_lifecycle_methods_cannot_claim_fourteen_cost_views(inputs):
     seal(full);seal(cost)
     with pytest.raises(ValueError,match='At least one lifecycle cost method'):
         delivery.compile_proposal(*values)
+
+
+def explicit_part_contract(packets):
+    """Synthetic decisions for the synthetic three-part software control only."""
+    from engineering.railway_project import part_accounts
+    b=packets[1]; cost_id=packets[-1]['core']['evaluation_id']; fleet=packets[-2]['total_trainsets']
+    rows=[]
+    for p in b['parts']:
+        rows.append(dict(part_id=p['id'],source_part_sha256=identity(p),source_cost_id=part_accounts.source_cost_identity(b,p,cost_id),
+            component_definition_id=p['component_definition_id'],component_candidate_id=p['candidate_id'],account_owner='synthetic/'+p['id'],
+            valuation_basis='existing-direct-parts-process-only',make_buy=dict(planning_route='buy-qualified',basis='Synthetic explicit buy decision',source_reference='TEST-ONLY'),
+            conversion=dict(source_unit=p['unit'],target_unit='Nos',target_per_source=dict(low=1.,base=1.,high=1.),measurement_basis='count',basis='Synthetic one-to-one unit declaration',source_reference='TEST-ONLY'),
+            cost_coverage=dict(included=['declared direct part and process'],excluded=['final integration','qualification'],unknown=[]),
+            stock=dict(quantity_basis='bounded-component',gross_each_kg=dict(low=2.,base=2.,high=2.),net_each_kg=dict(low=1.,base=1.,high=1.),
+                scrap_each_kg=dict(low=1.,base=1.,high=1.),basis='Synthetic unit test stock; not measured source equipment geometry',source_reference='TEST-ONLY')))
+    return dict(schema='osr-part-account-contract/1',body_candidate_id=b['candidate_id'],body_evaluation_id=b['evaluation_id'],cost_evaluation_id=cost_id,fleet=fleet,rows=rows)
+
+
+def test_explicit_part_contract_admits_actual_category_shape_without_changing_source():
+    packets=mapped_inputs(fixture_body(unsupported_category=True)); before=deepcopy(packets[1])
+    contract=explicit_part_contract(packets)
+    result=delivery.compile_proposal(*packets,account_contract=contract)
+    assert packets[1]==before
+    assert result['part_accounts']['all_source_parts_mapped']
+    assert result['delivery_context']['part_accounts_evaluation_id']==result['part_accounts']['evaluation_id']
+    assert result['summary']['direct_part_process_usd_per_train']==before['direct_parts_process_usd']
+    assert all(p['unit']=='item' and p['part_account']['source_make_buy']=='bounded-purchase-or-process' for p in result['items'])
+    assert all(p['uom']=='Nos' and p['conversion_rule']['source_unit']=='item' for p in result['execution_mapping_draft']['items'])
+    assert result['summary']['part_account_mapping_complete'] and not result['summary']['ERP_mapping_ready']
+    assert not result['manufacturing_release'] and model.validate_proposal(result)
+
+
+def test_missing_explicit_unit_or_route_is_a_held_delivery_not_a_nos_or_make_default():
+    packets=mapped_inputs(fixture_body(unsupported_category=True)); contract=explicit_part_contract(packets)
+    first=contract['rows'][0];first['conversion']=None;first['make_buy']=None;first['stock']=None
+    result=delivery.compile_proposal(*packets,account_contract=contract)
+    p=result['items'][0]
+    assert p['part_account']['status']=='held' and p['part_account']['planning_route'] is None
+    assert p['capacity']['provisional_person_h'] is None
+    assert result['execution_mapping_draft']['items'][0]['uom'] is None
+    assert result['capacity']['provisional_vehicle_person_h'] is None
+    assert not result['summary']['part_account_mapping_complete']
+    assert any(t['kind']=='part-account-review' and t['status']=='held' for t in result['tasks'])

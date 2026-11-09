@@ -18,10 +18,11 @@ from engineering.design_search.model_cost import SCOPES
 from engineering.station_pair.lifecycle import OWNER_SCOPES, _cases
 from .civil import sealed, source_union
 from .cost import GROUPS
+from . import part_accounts
 
 PRODUCER = 'engineering/railway_project/delivery.py'
 DEPENDENCIES = ('engineering/railway_project/cost.py', 'engineering/station_pair/lifecycle.py',
-                'engineering/design_search/model_cost.py')
+                'engineering/design_search/model_cost.py', part_accounts.PRODUCER)
 SCHEMAS = ('osr-mapped-railway-project-bundle/1', 'osr-vehicle-installation/1',
            'osr-project-civil-evaluation/1', 'osr-project-station-interfaces/1',
            'osr-station-track-spread-evaluation/1', 'osr-project-network-service/1',
@@ -147,7 +148,7 @@ def _validate(bundle, body, civil, station, tracks, service, cost, root):
     return dict(sorted(sources.items()))
 
 
-def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, root=ROOT, policy=None):
+def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, root=ROOT, policy=None, account_contract=None):
     """Return proposal/1 and its typed mapped context, without external execution."""
     root = Path(root); sources = _validate(bundle,body,civil,station,tracks,service,cost,root)
     policy = deepcopy(policy if policy is not None else json.loads((root/model.POLICY).read_bytes()))
@@ -156,17 +157,28 @@ def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, roo
              'Unmeasured planning policy cannot claim controlled times or actual crews')
     for value in policy.values():
         if isinstance(value,dict): model.ranges(value)
+    fleet = service['total_trainsets']
+    part_ledger = None if account_contract is None else part_accounts.compile_accounts(
+        body,account_contract,fleet,cost_evaluation_id=cost['core']['evaluation_id'])
     context = dict(schema='osr-mapped-project-delivery-context/1',candidate_id=bundle['candidate_id'],
         inputs={name:packet['evaluation_id'] for name,packet in zip(('bundle','body','civil','station','tracks','service','cost'),(bundle,body,civil,station,tracks,service,cost))},
-        source_sha256=sources,scope='Mapped project manufacturing-planning context; not a closure study or native execution receipt',**FLAGS)
+        source_sha256=sources,part_accounts_evaluation_id=None if part_ledger is None else part_ledger['evaluation_id'],
+        scope='Mapped project manufacturing-planning context; not a closure study or native execution receipt',**FLAGS)
     context['context_id'] = identity(context)
     binding = dict(candidate_id=bundle['candidate_id'],bundle_evaluation_id=bundle['evaluation_id'],study_id=context['context_id'],
         engineering_revision=body['evaluation_id'],body_candidate_id=body['candidate_id'],source_body_bundle_id=body['parent_bundle_id'],
         installed_component_candidate_id=body['candidate_id'],installed_mass_evaluation_id=body['evaluation_id'],
         civil_candidate_id=civil['candidate_id'],civil_evaluation_id=civil['evaluation_id'],service_evaluation_id=service['evaluation_id'],
         cost_evaluation_id=cost['core']['evaluation_id'],lifecycle_evaluation_id=cost['full_scope']['evaluation_id'])
-    fleet = service['total_trainsets']
-    items, occurrences, tasks, materials = model._parts(body,binding,fleet,policy)
+    planning = body if part_ledger is None else part_accounts.planning_body(body,part_ledger)
+    items, occurrences, tasks, materials = model._parts(planning,binding,fleet,policy)
+    if part_ledger is not None:
+        by_part = {r['part_id']:r for r in part_ledger['rows']}
+        for item in items:
+            item['part_account'] = deepcopy(by_part[item['id']])
+            for reason in item['part_account']['holds']:
+                tasks.append(model._task(binding,'hold/part-account/'+item['id']+'/'+identity(reason),
+                    'part-account-review',item['id'],'Resolve the explicit source unit, make/buy, stock and price coverage contract',[reason]))
     for case in model.CASES:
         _require(isclose(fsum(p['counted_pattern_mass_kg_per_train'][case] for p in items),body['nominal_part_mass_kg'][case],rel_tol=1e-10), 'Body counted stock mass does not reconcile')
     assemblies, extra_tasks = model._assemblies(body,binding,fleet,policy); tasks += extra_tasks
@@ -211,7 +223,7 @@ def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, roo
     material_requirements = [dict(id=m['id'],identities=binding,counted_body_mass_kg_project={c:fleet*fsum(p['counted_pattern_mass_kg_per_train'][c] for p in items if p['material_id']==m['id']) for c in model.CASES},
         procurement_stock_mass_kg=None,basis='Counted body stock only; raw-material yield and purchased-package allocation unresolved') for m in materials]
     tasks.sort(key=lambda t:t['id'])
-    result = dict(schema='osr-pilot-delivery-proposal/1',identities=binding,delivery_context=context,status='DRAFT',docstatus=0,
+    result = dict(schema='osr-pilot-delivery-proposal/1',identities=binding,delivery_context=context,part_accounts=part_ledger,status='DRAFT',docstatus=0,
         planning_selection=dict(purpose='Mapped manufacturing planning only',selected_service_evaluation_id=service['evaluation_id'],selection_id=identity(dict(identities=binding,purpose='manufacturing-planning-review'))),
         source_sha256=sources,policy=policy,policy_id=identity(policy),materials=deepcopy(materials),material_requirements=material_requirements,
         items=items,occurrence_patterns=occurrences,assembly_routes=assemblies,external_inventory=external,civil_requirements=civil_rows,
@@ -223,12 +235,16 @@ def compile_proposal(bundle, body, civil, station, tracks, service, cost, *, roo
             unknown_part_process_hour_ids=unknown,validated_vehicle_person_h=None,equivalent_16h_resource_days=None,actual_crew_count=None,calendar_duration_days=None,external_and_civil_hours_unknown=True,
             basis='Part and assembly proxies only. External equipment, station/civil processes, yields, curing, labour capacity and critical path remain unknown.'),
         execution_mapping_draft=dict(identities=binding,review_reference=None,engineering_sha256=None,status='held',automatic_order_release=False,
-            items=[dict(component_type_id=p['component_definition_id'],source_part_id=p['id'],erp_item_code=None,uom=p['unit'],inspection_reference=None,drawing_reference=None,production_bom=None,conversion_rule=None) for p in items]),
+            items=[dict(component_type_id=p['component_definition_id'],source_part_id=p['id'],erp_item_code=None,
+                uom=p['unit'] if part_ledger is None else p['part_account']['target_unit'],
+                inspection_reference=None,drawing_reference=None,production_bom=None,
+                conversion_rule=None if part_ledger is None else deepcopy(p['part_account']['conversion'])) for p in items]),
         manufacturing_drawings_complete=False,qualified_factory_route=False,measured_installed_mass=False,
         limitations=[*model.LIMITATIONS,'Mapped context replaces the study field only at the protocol boundary; no historical study or installed-drive reserve is fabricated.',*cost['limitations'],*civil.get('holds',[]),*station.get('holds',[]),*tracks.get('holds',[])],**FLAGS)
     result['summary'] = dict(component_types=len(items),occurrence_patterns=len(occurrences),body_occurrences_per_train=sum(p['quantity_per_train'] for p in items),body_occurrences_project=sum(p['quantity_project'] for p in items),
         project_trainsets=fleet,assembly_types=len(assemblies),source_routes_with_missing_parts=sum(bool(a['source_route_unresolved_part_ids']) for a in assemblies),external_inventory_owners=len(external),civil_requirement_types=len(civil_rows),
         cost_scopes=len(SCOPES),task_status_counts=dict(Counter(t['status'] for t in tasks)),make_buy_counts=dict(Counter(p['make_buy'] for p in items)),direct_part_process_usd_per_train=deepcopy(body['direct_parts_process_usd']),
-        unknown_process_time_types=len(unknown),engineering_release_held=True,ERP_mapping_ready=False)
+        unknown_process_time_types=len(unknown),part_account_mapping_complete=part_ledger is not None and part_ledger['all_source_parts_mapped'],
+        engineering_release_held=True,ERP_mapping_ready=False)
     model.seal(result,'proposal_id'); model.validate_proposal(result)
     return result
