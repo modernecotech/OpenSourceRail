@@ -544,6 +544,21 @@ class ButtTests(unittest.TestCase):
     def test_unknown_mass_or_boolean_profile_refused(self):
         f=butt_fixture();f[0].pop('mass_kg')
         with self.assertRaisesRegex(w.DefinitionHold,'source-mass'):butt_run(f)
+        f=butt_fixture();f[0]['centroid_local_m']=None
+        with self.assertRaisesRegex(w.DefinitionHold,'centroid-proxy'):butt_run(f)
         with self.assertRaises(ValueError):butt_run(butt_fixture(),half_width_m=True)
+
+
+
+
+class LegacyProxyFrameTests(unittest.TestCase):
+    def test_declared_offcentre_proxy_preserved_in_world_frame(self):
+        e=legacy_fixture();e.update(centroid_local_m=[.01,.02,.03],shape_I_per_kg=[[1.,0.,0.],[0.,2.,0.],[0.,0.,3.]],centroid_model_uncertainty_m=[.001,.002,.003]);before=deepcopy(e);p=w.legacy_parent_view(e,cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256)
+        expected=w.world(e['centroid_local_m'],e['at_m'],e['rotation']);actual=w.world(p['centroid_local_m'],p['at_m'],p['rotation'])
+        for a,b in zip(expected,actual):self.assertLess(abs(a-b),1e-13)
+        self.assertEqual(p['shape_I_per_kg'],[[2.,0.,0.],[0.,1.,0.],[0.,0.,3.]]);self.assertEqual(p['centroid_model_uncertainty_m'],[.002,.001,.003]);self.assertEqual(e,before);self.assertTrue(p['legacy_source_view']['proxy_frame_reexpressed']);self.assertFalse(p['physical_accepted'])
+
+    def test_missing_proxy_stays_unknown_not_zero(self):
+        p=w.legacy_parent_view(legacy_fixture(),cut_authority_sha256=w.SOURCE_CUT_AUTHORITY_SHA256);self.assertIsNone(p['centroid_local_m']);self.assertNotIn('shape_I_per_kg',p)
 
 if __name__=='__main__':unittest.main()

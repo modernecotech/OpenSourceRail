@@ -470,8 +470,22 @@ def legacy_parent_view(entity,*,cut_authority_sha256):
     for h in c['holes']:
         key=(h['diameter_m'],h['length_m']);observed[key]=observed.get(key,0)+1
     if declared!=observed:raise DefinitionHold('legacy-actual-hole-and-machining-count-disagreement')
+    oldT=vector(e['at_m']);oldR=rotation(e['rotation']);Q=[[fsum(R[k][i]*oldR[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+    if e.get('centroid_local_m') is not None:e['centroid_local_m']=local(world(vector(e['centroid_local_m']),oldT,oldR),T,R)
+    else:e['centroid_local_m']=None
+    for key in ('uncertainty_m','centroid_model_uncertainty_m','centroid_uncertainty_m'):
+        if e.get(key) is not None:
+            u=vector(e[key])
+            if min(u)<0:raise ValueError('Nonnegative explicit source proxy bounds required')
+            e[key]=[fsum(abs(Q[i][j])*u[j] for j in range(3)) for i in range(3)]
+    inertia=e.get('shape_I_per_kg')
+    if inertia is not None:
+        if not isinstance(inertia,list) or len(inertia)!=3:raise ValueError('Explicit source inertia proxy tensor required')
+        for row in inertia:vector(row)
+        e['shape_I_per_kg']=[[fsum(Q[i][k]*inertia[k][l]*Q[j][l] for k in range(3) for l in range(3)) for j in range(3)] for i in range(3)]
+        e['inertia_basis']='Same declared source proxy tensor rigidly re-expressed; no new model, physical measurement or validation inherited'
     e.pop('exact_CSG_entity');e['geometry']={k:deepcopy(g[k]) for k in ('kind','size_m','wall_m') if k in g};e['geometry']['holes']=holes;e['at_m']=T;e['rotation']=deepcopy(R)
-    e['legacy_source_view']=dict(source_entity_sha256=identity(entity),exact_CSG_entity=deepcopy(c),source_cut_at_m='signed-base',cut_authority_sha256=cut_authority_sha256,body_placement_or_stock_changed=False)
+    e['legacy_source_view']=dict(source_entity_sha256=identity(entity),exact_CSG_entity=deepcopy(c),source_cut_at_m='signed-base',cut_authority_sha256=cut_authority_sha256,body_placement_or_stock_changed=False,source_proxy_T_m=oldT,source_proxy_rotation=deepcopy(oldR),source_proxy_centroid_local_m=deepcopy(entity.get('centroid_local_m')),source_proxy_inertia_per_kg=deepcopy(entity.get('shape_I_per_kg')),proxy_frame_reexpressed=True)
     e.update(FLAGS);_parent(e) # supported material domain, no renderer/native call
     return e
 
@@ -615,7 +629,9 @@ def finite_surface_butt_revision(parent_negative,parent_positive,stock_negative,
         contacts.append(dict(source_end_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in end_faces],source_surface_faces=[dict(parent_id=f['parent']['id'],cell_id=f['cell']['id'],axis=f['axis'],sign=f['sign']) for f in surface_faces],new_root_remaining_m=[f['cell']['hi'][f['axis']]-f['cell']['lo'][f['axis']]-depth for f in surface_faces]))
     replacements=[];machining=[];owner_records={}
     for source,mp,oldgroup,parent_cuts in zip(parents,material,raw_groups,cuts):
-        cutV=fsum(c['volume_m3'] for c in parent_cuts);cutM=[fsum(c['volume_m3']*c['centroid_terminal_m'][k] for c in parent_cuts) for k in range(3)];prho,_,_,_=_policy(policy,source['material_id']);oldC=world(vector(source['centroid_local_m']),mp['T'],mp['R']);mass=source.get('mass_kg')
+        cutV=fsum(c['volume_m3'] for c in parent_cuts);cutM=[fsum(c['volume_m3']*c['centroid_terminal_m'][k] for c in parent_cuts) for k in range(3)];prho,_,_,_=_policy(policy,source['material_id'])
+        if source.get('centroid_local_m') is None:raise DefinitionHold('explicit-source-mass-and-centroid-proxy-required-before-debit')
+        oldC=world(vector(source['centroid_local_m']),mp['T'],mp['R']);mass=source.get('mass_kg')
         if not isinstance(mass,dict) or set(mass)!=set(CASES):raise DefinitionHold('explicit-source-mass-and-centroid-proxy-required-before-debit')
         new=deepcopy(source);new['geometry']=deepcopy(source['geometry']);existing=deepcopy(mp['physical'].get('finite_source_void_prisms',[]));new['geometry'].pop('corner_bevels',None);new['geometry']['finite_void_prisms']=existing+[{k:deepcopy(c[k]) for k in ('id','kind','vertices_m')} for c in parent_cuts];new_mass={};new_C={}
         for j,case in enumerate(CASES):
