@@ -788,3 +788,129 @@ def test_residual_paths_preserve_proper_handed_frames_and_capture_before_lift():
     assert t.assert_frame_lift_ready(ids)
     with pytest.raises(ValueError):t.assert_frame_lift_ready(ids[:-1])
     assert t.necessary_bounds(t.recipe())['floor_root']['outer_hanger_reaction_N']==1000.
+
+
+def synthetic_contour_parts(s,prefix='SYNTHETIC'):
+    """Eight tiny leaves, matching only the real caller multiplicities."""
+    rows=[]
+    for kind,count,cuts in (('panel',2,6),('pad',6,4)):
+        for j in range(count):
+            e=s.box(f'{prefix}/{kind}/{j}',[.010,.020,.030],[0.,0.,0.],'gfrp' if kind=='pad' else 'al5754')
+            group=next(g for g in s.groups if g['entity_ids']==[e['id']]);before=deepcopy((e,group))
+            cc=[(1e-9,[.001*(k%2),0.,0.]) for k in range(cuts)]
+            t._remove_drawing_material(s,e,cc,dict(kind='SYNTHETIC-contour',cut_count=cuts))
+            rows.append((kind,cuts,before,e,group))
+    return rows
+
+
+def synthetic_onepiece_fasteners(s,count):
+    for j in range(count):
+        a=s.ann(f'SYNTHETIC-fastener/{j}/shank',.012,.002,0.,[0.,0.,0.])
+        b=s.ann(f'SYNTHETIC-fastener/{j}/head',.003,.004,0.,[-.0075,0.,0.])
+        s.one_fastener_blank(f'SYNTHETIC-fastener/{j}',[a['id'],b['id']],.015,.004)
+
+
+def test_contour_helper_records_each_alreadypriced_cut_hour_without_price_QA_or_geometry_changes():
+    r=t.recipe();s=t.Stock(r);rows=synthetic_contour_parts(s)
+    assert len(rows)==8 and sum(x[1] for x in rows)==36
+    assert sum(g['contour_process_h'] for _,_,_,_,g in rows)==pytest.approx(3.6)
+    for kind,n,(old,paid),e,g in rows:
+        assert g['process_h']==pytest.approx(paid['process_h']+.10*n)
+        assert g['QA_h']==paid['QA_h'] and g['contour_cut_count']==n
+        assert g['net_m3']==pytest.approx(paid['net_m3']-n*1e-9)
+        assert g['gross_m3']==paid['gross_m3'] and g['gross_mass_kg']==paid['gross_mass_kg']
+        assert e['at_m']==old['at_m'] and e['rotation']==old['rotation']
+        for i,c in enumerate(t.CASES):
+            assert g['direct_cost_usd'][c]==paid['direct_cost_usd'][c]+.10*n*r['process']['labour_USD_h'][i]
+            assert e['mass_kg'][c]==pytest.approx(old['mass_kg'][c]*(paid['net_m3']-n*1e-9)/paid['net_m3'])
+    assert sum(g['contour_process_h'] for kind,n,old,e,g in rows if kind=='panel')==pytest.approx(1.2)
+    assert sum(g['contour_process_h'] for kind,n,old,e,g in rows if kind=='pad')==pytest.approx(2.4)
+
+
+def test_tie_caller_keeps_alreadycounted_point4h_and_QA_once_on_both_sides():
+    s=t.Stock(t.recipe())
+    for side in (-1,1):
+        t.upper_liner_tie_stock(s,f'SYNTHETIC-tie/{side}',side)
+        g=s.groups[-1];mat=s.r['materials']['al5083']
+        assert g['process_h']==pytest.approx(.05+.4) and g['contour_process_h']==pytest.approx(.4)
+        assert g['QA_h']==pytest.approx(.03+.16) and g['contour_cut_count']==4
+        for i,c in enumerate(t.CASES):
+            rho=[mat['density_bounds_kg_m3'][0],mat['density_kg_m3'],mat['density_bounds_kg_m3'][1]][i]
+            assert g['direct_cost_usd'][c]==pytest.approx(g['gross_m3']*rho*mat['rate_USD_kg'][i]+(.05+.03+.4+.16)*s.r['process']['labour_USD_h'][i])
+    assert sum(g['contour_process_h'] for g in s.groups)==pytest.approx(.8)
+
+
+def test_repeated_contour_removal_accumulates_paid_hour_metadata_once_per_cut():
+    s=t.Stock(t.recipe());e=s.box('SYNTHETIC/two-ops',[.01,.02,.03],[0.,0.,0.])
+    for j in range(2):t._remove_drawing_material(s,e,[(1e-9,[j*.001,0,0])],{'kind':'SYNTHETIC'})
+    assert s.groups[0]['contour_process_h']==pytest.approx(.2)
+    assert s.groups[0]['contour_cut_count']==2 and s.groups[0]['process_h']==pytest.approx(.25)
+
+
+def test_53_onepiece_owners_expose_existing7point95h_unsplit_without_child_labour():
+    r=t.recipe();s=t.Stock(r);synthetic_onepiece_fasteners(s,53)
+    ledger=t.person_hours_ledger(s.groups,s.groups,[],r);stock=ledger['new_stock_per_end']
+    assert len(s.entities)==106 and len(s.groups)==53 and stock['combined_group_count']==53
+    assert stock['unsplit_combined_process_QA_h']==pytest.approx(7.95)
+    assert stock['known_person_h_subtotal']==pytest.approx(7.95)
+    assert stock['known_process_h']==0. and stock['known_QA_h']==0. # no split assigned
+    assert all(g['process_h'] is None and g['QA_h'] is None and g['process_QA_split'] is None for g in s.groups)
+    for g in s.groups:
+        assert len(g['entity_ids'])==2 and g['combined_process_QA_h']==.15
+        for i,c in enumerate(t.CASES):
+            mat=r['materials']['stainless'];rho=[mat['density_bounds_kg_m3'][0],mat['density_kg_m3'],mat['density_bounds_kg_m3'][1]][i]
+            assert g['direct_cost_usd'][c]==g['gross_m3']*rho*mat['rate_USD_kg'][i]+.15*r['process']['labour_USD_h'][i]
+    assert ledger['machine_hours'] is None and ledger['team_size'] is None and not ledger['complete_installed_person_hours']
+
+
+def test_personhour_ledger_refuses_double_owner_child_hours_and_unknown_hours_are_held():
+    r=t.recipe();s=t.Stock(r);synthetic_onepiece_fasteners(s,1)
+    with pytest.raises(ValueError,match='twice'):t.person_hours_ledger(s.groups+s.groups,s.groups,[],r)
+    bad=deepcopy(s.groups);bad[0]['process_h']=.15
+    with pytest.raises(ValueError,match='also'):t.person_hours_ledger(bad,bad,[],r)
+    unknown=deepcopy(s.groups);unknown[0].pop('combined_process_QA_h')
+    out=t.person_hours_ledger(unknown,unknown,[],r)
+    assert out['new_stock_per_end']['unknown_hour_group_ids']==[unknown[0]['id']]
+    assert not out['new_stock_per_end']['complete_for_declared_priced_stock_groups']
+    assert out['new_stock_per_end']['records'][0]['known_person_h'] is None
+
+
+def test_retained_source64_operations_expose3point2_trainonce_hours_at_unchanged_prices():
+    b,r=source_fixture();old=deepcopy(b);groups=t.source_machining(t.counterpart_map(b,r),r)
+    assert sum(g['additional_process_h'] for g in groups)==pytest.approx(3.2)
+    for g in groups:
+        assert g['additional_process_h']==pytest.approx(.05*len(g['operations']))
+        for i,c in enumerate(t.CASES):assert g['additional_process_USD'][c]==g['additional_process_h']*r['process']['labour_USD_h'][i]
+        assert g['additional_QA_h'] is None and 'TRAIN-ONCE' in g['person_hours_scope']
+    assert b==old
+    ledger=t.person_hours_ledger([],[],groups,r)
+    assert ledger['two_end_known_parts_rework_person_h_excluding_common_workshop']==pytest.approx(3.2)
+
+
+@pytest.mark.parametrize('suffix,name,q,hours',[('header','header/0',1,.25),('lower-rail','lower/0',1,.25),('frame-land-ring','ring/0',1,.25),('post','post/0',2,.40),('other','other/0',1,0.)])
+def test_legacy_rework_hours_are_once_per_priced_group_not_entity(suffix,name,q,hours):
+    r=t.recipe();pid='research/SYNTHETIC/'+suffix
+    geom=dict(kind='rhs',size_m=[.2,.1,.1],wall_m=.004,at_m=[0,0,0],rotation=t.I)
+    es=[dict(id=name+str(i),part_id=pid,material='al6005a',geometry=geom,holes=[]) for i in range(q)]
+    row=dict(part_id=pid,quantity=q,mass_kg=cases(10.),direct_usd=cases(100.),net_volume_interval_each_m3=[.003456,.003456],gross_each_m3=.004,density_cases_kg_m3=[2700.]*3)
+    account=dict(rows=[row]);added=t.Stock(r);before=deepcopy((es,account,r))
+    out=t.component_export(es,added,account,r);g=out['stock_groups'][0]
+    assert g['additional_process_h']==hours and g['original_source_account_person_h'] is None and g['additional_QA_h'] is None
+    for i,c in enumerate(t.CASES):assert g['direct_cost_usd'][c]==100.+hours*r['process']['labour_USD_h'][i]
+    ledger=t.person_hours_ledger([],out['stock_groups'],[],r)
+    assert ledger['legacy_supplemental_per_end']['known_process_h']==hours
+    assert ledger['two_end_known_parts_rework_person_h_excluding_common_workshop']==2*hours
+    assert (es,account,r)==before
+
+
+def test_downstream_disjoint_hour_scopes_add_missing11point55_perend_without_QA_or_price_doublecount():
+    r=t.recipe();s=t.Stock(r);synthetic_onepiece_fasteners(s,53);synthetic_contour_parts(s)
+    for side in (-1,1):t.upper_liner_tie_stock(s,f'SYNTHETIC-tie/{side}',side)
+    legacy=[dict(id='legacy-account/SYNTHETIC',entity_ids=['legacy'],additional_process_h=.25)]
+    machining=[dict(source_id='SYNTHETIC-source',operations=list(range(64)),additional_process_h=3.2)]
+    ledger=t.person_hours_ledger(s.groups,legacy+s.groups,machining,r)
+    stock=ledger['new_stock_per_end'];old_reported=8*(.05+.03)+2*(.05+.4+.03+.16)
+    assert stock['known_person_h_subtotal']-old_reported==pytest.approx(3.6+7.95)
+    assert ledger['two_end_known_parts_rework_person_h_excluding_common_workshop']==pytest.approx(2*(stock['known_person_h_subtotal']+.25)+3.2)
+    assert ledger['declared_common_per_end']['fixture_setup_h']==8. and not ledger['declared_common_per_end']['included_in_parts_rework_subtotal']
+    assert ledger['shared_workshop_extractor']['quantity_train_once']==1 and not ledger['shared_workshop_extractor']['included_in_parts_rework_subtotal']

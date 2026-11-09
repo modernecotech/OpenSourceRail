@@ -440,7 +440,7 @@ def upper_liner_tie_stock(s,name,sign):
       slot_spec=slot,slot_U_centres_local_m=[du+off for du in (-.020,.020) for off in (-.006,.006)],
       bolt_W_local_m=-.030,opening='Eachslot meets actual tie bottomW=-.060; millfromoutsideexistingbottom',
       removed_centroids_local_m=[c for v,c in recesses],remaining_netsection_qualification=False))
-    tg=next(a for a in s.groups if a['entity_ids']==[tie['id']]);tg['QA_h']+=4*slot['slot_QA_h_each'];tg['process_h']+=4*slot['slot_process_h_each']
+    tg=next(a for a in s.groups if a['entity_ids']==[tie['id']]);tg['QA_h']+=4*slot['slot_QA_h_each']
     for i,c in enumerate(CASES):tg['direct_cost_usd'][c]+=4*slot['slot_QA_h_each']*r['process']['labour_USD_h'][i]
     tg['contour_process_basis']='Existing contour-removal helper charges0.10h/cut once; mirrored inprocess_h,not chargedagain. Extra0.04hQA/slot explicit.'
     tie['additional_finish_surface_reference_m2']=4*slot['added_finish_surface_upper_reference_m2']
@@ -673,6 +673,9 @@ class Stock:
           scrap_mass_kg={c:(gross-V)*rho[c] for c in CASES},direct_cost_usd={c:gross*rho[c]*mat['rate_USD_kg'][i]+.15*self.r['process']['labour_USD_h'][i] for i,c in enumerate(CASES)},
           basis='Oneproposed turned/threadedblank or onepurchasedfinishedallowance; split head/shank are analytical material entities,never separate purchases',
           cost_basis='Calculated oneblank/process/QA, no quotation; supplier shape/grade and alternate finished procurement remain unknown',quantity=1,
+          combined_process_QA_h=.15,process_h=None,QA_h=None,
+          person_hours_basis='Existing0.15h combined oneblank process/QA price allowance once; replaces childhead/shank accounts,not extra labour',
+          process_QA_split=None,process_QA_split_measured=False,team_machine_and_manufacturing_route_unknown=True,
           cutting=dict(net_envelope_length_m=length,kerf_m=.003,trim_m=.004,reserve_m=.004))
         for e in es:e['cost_share']=e['mass_kg']['base']/group['net_mass_kg']['base']
         self.groups=[g for g in self.groups if g not in selected]+[group]
@@ -804,7 +807,10 @@ def _remove_drawing_material(s,e,cuts,drawing):
     for i,c in enumerate(CASES):
         rho=e['mass_kg'][c]/oldV;e['mass_kg'][c]=newV*rho;group['net_mass_kg'][c]=newV*rho;group['scrap_mass_kg'][c]=group['gross_mass_kg'][c]-newV*rho
         group['direct_cost_usd'][c]+=.10*len(cuts)*s.r['process']['labour_USD_h'][i]
-    group.update(net_m3=newV,scrap_m3=group['gross_m3']-newV,contour_swarf_m3=loss)
+    group.update(net_m3=newV,scrap_m3=group['gross_m3']-newV,contour_swarf_m3=loss,
+      process_h=group['process_h']+.10*len(cuts),
+      contour_process_h=group.get('contour_process_h',0.)+.10*len(cuts),contour_cut_count=group.get('contour_cut_count',0)+len(cuts),
+      contour_process_basis='Existing0.10h/cut directprice charge mirrored in personhours; no second charge or QA assumption')
     e['physical_drawing']=drawing;e['geometry']['kind']='envelope'
     e['inertia_basis']='Explicit contour-defined finished part; plain envelope inertia retained as bounded proxy,not filled material'
 
@@ -1149,6 +1155,8 @@ def source_machining(counterparts,r):
           remaining_centroid_world_m=C,remaining_geometry=dict(kind='rhs',size_m=[stock['length_m'],stock['width_m'],stock['depth_m']],wall_m=stock['wall_m'],
             holes=[{k:x[k] for k in ('axis','centre_m','radius_m','length_m')} for x in operations]),at_m=cp['at_m'],rotation=cp['rotation'],car_allocation=cp['car_allocation'],
           paid_source_cost_usd=deepcopy(cp['part']['direct_cost_each_usd']),additional_process_USD={c:len(operations)*.05*r['process']['labour_USD_h'][i] for i,c in enumerate(CASES)},
+          additional_process_h=len(operations)*.05,person_hours_scope='TRAIN-ONCE retainedsource machining;0.05h per actualwall operation alreadypriced,not perend',
+          additional_QA_h=None,QA_hours_scope='Existing source survey/commonQA remains separate; no additional measured machine/team split inferred',
           density_basis='Effective source allowance density for proportional removal, not measured material or an installed saving',
           hole_QA='Survey actual source position/wall/old bores first; fixture and drill from accessible face; capture swarf; inspect diameter/location and coating repair'))
     return groups
@@ -1358,6 +1366,10 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None,source_
           basis='Source complete estimated part-group allowance retained once; raw cut/scrap intervals remain in source_account, not fabricated zero loss',
           cost_basis='Authenticated local finished direct allowance once, no added raw-material charge or discount',source_account=deepcopy(row),
           revised_net_material_delta_m3=deltaV*q,
+          additional_process_h=(.25+(.15 if post_group else 0.)) if deltaV else 0.,
+          person_hours_scope='PEREND one sourcepartgroup rework allowance alreadypriced;0.25h/group plus0.15h/postgroup,not per entity',
+          original_source_account_person_h=None,additional_QA_h=None,
+          person_hours_basis='Supplemental process charge only; original finished sourceaccount and commonassembly/QA retained separately,unknown hours not zero',
           additional_post_cut=dict(length_m=.010,section_area_m2=.100*.100-.092*.092,cut_centroid_w_m=-1.095,
             cut_first_moment_per_member_uw_m4=[-.010*(.100*.100-.092*.092)*(-.050),-.010*(.100*.100-.092*.092)*(-1.095)],
             true_CSG_centroid_adapter_required=True) if post_group else None,
@@ -1407,6 +1419,49 @@ def consumable_accounting(added,account,r):
         net_mass_kg={c:upper_liner_removal_contract()['workshop_extractor']['net_volume_m3']*rho for c,rho in zip(CASES,[7760.,8000.,8240.])},
         gross_cost_USD={c:upper_liner_removal_contract()['workshop_extractor']['gross_volume_m3']*rho*r['materials']['stainless']['rate_USD_kg'][i]+(upper_liner_removal_contract()['workshop_extractor']['process_h']+upper_liner_removal_contract()['workshop_extractor']['QA_h'])*r['process']['labour_USD_h'][i] for i,(c,rho) in enumerate(zip(CASES,[7760.,8000.,8240.]))}),
       shared_fixture=dict(quantity=1,installed=False,mass_bounds_kg=r['process']['shared_fixture_mass_kg'],cost_bounds_USD=r['process']['shared_fixture_cost_USD']))
+
+
+def person_hours_ledger(stock_groups,component_groups,source_machining,r):
+    """Evaluation-only known person-hours with disjoint ownership/scopes.
+
+    Group prices already include these hours. Head/shank child accounts have
+    been retired by one_fastener_blank. Unknown process/QA split, source finished
+    account hours and machine/team capacity never become a measured zero.
+    Common assembly and shared workshop declarations remain separate from this
+    parts/rework subtotal; no price is computed or amended here.
+    """
+    def hours(x):
+        if isinstance(x,bool) or not isinstance(x,(int,float)) or not isfinite(x) or x<0:raise ValueError('Finite nonnegative declared personhours required')
+        return float(x)
+    ids=set();entities=set();records=[];separate_process=[];separate_QA=[];combined=[];unknown=[]
+    for g in stock_groups:
+        if g['id'] in ids or entities.intersection(g['entity_ids']):raise ValueError('Personhours owner/child entity counted twice')
+        ids.add(g['id']);entities.update(g['entity_ids'])
+        if 'combined_process_QA_h' in g:
+            if g.get('process_h') is not None or g.get('QA_h') is not None:raise ValueError('Unsplit combinedhours cannot also carry separatelycounted hours')
+            total=hours(g['combined_process_QA_h']);combined.append(total)
+            records.append(dict(id=g['id'],entity_ids=list(g['entity_ids']),combined_process_QA_h=total,process_h=None,QA_h=None,known_person_h=total,split_known=False))
+        elif g.get('process_h') is not None and g.get('QA_h') is not None:
+            p=hours(g['process_h']);q=hours(g['QA_h']);separate_process.append(p);separate_QA.append(q)
+            records.append(dict(id=g['id'],entity_ids=list(g['entity_ids']),process_h=p,QA_h=q,known_person_h=p+q,split_known=True))
+        else:unknown.append(g['id']);records.append(dict(id=g['id'],entity_ids=list(g['entity_ids']),known_person_h=None,split_known=False))
+    legacy=[g for g in component_groups if g['id'].startswith('legacy-account/')]
+    if len({g['id'] for g in legacy})!=len(legacy):raise ValueError('Legacy supplemental personhours owner repeated')
+    extra=[dict(id=g['id'],additional_process_h=hours(g['additional_process_h']),source_account_person_h=None,additional_QA_h=None) for g in legacy]
+    if len({g['source_id'] for g in source_machining})!=len(source_machining):raise ValueError('Trainonce source machining owner repeated')
+    machining=[dict(source_id=g['source_id'],operations=len(g['operations']),additional_process_h=hours(g['additional_process_h']),additional_QA_h=None) for g in source_machining]
+    stock_total=fsum(separate_process+separate_QA+combined);legacy_total=fsum(x['additional_process_h'] for x in extra);source_total=fsum(x['additional_process_h'] for x in machining)
+    return seal(dict(schema='osr-terminal-person-hours-ledger/1',evaluation_only=True,
+      new_stock_per_end=dict(known_process_h=fsum(separate_process),known_QA_h=fsum(separate_QA),unsplit_combined_process_QA_h=fsum(combined),known_person_h_subtotal=stock_total,
+        priced_group_count=len(stock_groups),combined_group_count=len(combined),records=records,unknown_hour_group_ids=unknown,complete_for_declared_priced_stock_groups=not unknown),
+      legacy_supplemental_per_end=dict(known_process_h=legacy_total,groups=extra,original_source_finished_hours=None,complete_source_hours_known=False),
+      retained_source_machining_train_once=dict(known_process_h=source_total,groups=machining,apply_once_for_train=True),
+      two_end_known_parts_rework_person_h_excluding_common_workshop=2*(stock_total+legacy_total)+source_total,
+      declared_common_per_end=dict(fixture_setup_h=r['process']['fixture_setup_h_per_end'],survey_QA_h=r['process']['survey_QA_h_per_end'],land_face_lap_h=r['process']['land_face_lap_h_per_end'],
+        included_in_parts_rework_subtotal=False,coverage='Retained separate recipe/commonassembly scope; not another partprice charge'),
+      shared_workshop_extractor=dict(process_h=upper_liner_removal_contract()['workshop_extractor']['process_h'],QA_h=upper_liner_removal_contract()['workshop_extractor']['QA_h'],quantity_train_once=1,included_in_parts_rework_subtotal=False),
+      machine_hours=None,team_size=None,throughput_capacity=None,complete_installed_person_hours=False,
+      basis='Known alreadypriced personhours only; group totals once. Planning allowances,not measured shop times. Unknown source/supplier/team/machine/route/splits remain held. No price change.',physical_accepted=False))
 
 
 def assembly_plan(r):
@@ -1474,6 +1529,7 @@ def compile_proposal(r,body,local,account):
       retained_passage_seals=dict(quantity=10,part_id='body/passage-end-seal',source_patterns=[dict(id=p['id'],sha256=identity(p)) for p in body['patterns'] if p['part_id']=='body/passage-end-seal'],changed=False),
       wider_cladding_context=cladding,source_accounting_retained=deepcopy(account),new_stock_groups=added.groups,new_welds=added.welds,
       consumables=consumables,materials=deepcopy(r['materials']),source_materials=deepcopy(body['materials']),
+      person_hours=person_hours_ledger(added.groups,component['stock_groups'],machining,r),
       new_material_cost_coverage='Positive newgrossmaterial/process/QA only; legacy finished account once. Sharedfixture/finish/sealant and installation coverage explicitly held below.',
       process_and_QA=deepcopy(r['process']),old_compression_failure=r['old_compression_failure'],bounds=necessary_bounds(r),
       combined_seal_budget=combined_seal_budget(r,support_deflection_m=necessary_bounds(r)['side_stiffener']['tip_deflection_m']),assembly=assembly_plan(r),
