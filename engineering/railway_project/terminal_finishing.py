@@ -121,13 +121,85 @@ def identity_frame(R):
     return R
 
 
+BOX_FIELDS={'kind','size_m','at_m','rotation'}
+COMMON_CSG_FIELDS={'id','part_id','material','geometry','holes','geometry_hold','old_entity_sha256'}
+HARDPOINT_CSG_FIELDS=COMMON_CSG_FIELDS|{'actual_insert_geometry_held','insert_pocket_max_depth_m','insert_pocket_max_diameter_m'}
+RING_CSG_FIELDS=COMMON_CSG_FIELDS|{'compound_mitres_and_welds_unqualified'}
+COMMON_OPERATION_FIELDS={'id','kind','material','source_entity_id','source_stock_owner_id','source_geometry','complete_void_union','cost_USD','mode','operations','person_process_h','person_QA_h','source_credit_USD','original_paid_blank_retained','independent_cut_union_and_mass_update_required','stock_mass_application','incremental_removed_volume_bounds_m3','incremental_removed_mass_bounds_kg','incremental_removed_first_moment_bounds_kg_m','incremental_removed_centroid_box_m'}
+HARDPOINT_OPERATION_FIELDS=COMMON_OPERATION_FIELDS|{'maximum_pocket_depth_m','minimum_annular_rear_web_m','removed_centroid_basis','source_cylinder_position_convention','unchanged_original_through_void'}
+RING_OPERATION_FIELDS=COMMON_OPERATION_FIELDS|{'access_diameter_m','diameter_tolerance_m','axis_position_tolerance_m','blank_owner_count','new_stock_purchase_count','cut_count','moment_basis','nominal_removed_centroid_m','process_time_basis','unchanged_original_voids'}
+COMMON_PHYSICAL_FIELDS={'id','kind','source_entity_id','source_stock_owner_id','complete_void_union','source_material_geometry'}
+
+
+def supported_box(g):
+    if not isinstance(g,dict) or set(g)!=BOX_FIELDS or g['kind']!='box':raise ValueError('Closed source box geometry grammar required; unknown physical feature unsupported')
+    size=vector(g['size_m']);vector(g['at_m']);identity_frame(g['rotation'])
+    if min(size)<=0:raise ValueError('Positive explicit source box dimensions required')
+
+
+def source_geometry_contract(c,kind):
+    allowed=HARDPOINT_CSG_FIELDS if kind=='hardpoint' else RING_CSG_FIELDS
+    if not isinstance(c,dict) or set(c)-allowed or not {'id','material','geometry','holes'}<=set(c):raise ValueError('Closed source material/geometry wrapper required')
+    if not isinstance(c['id'],str) or not c['id'] or c['material']!='al5083' or not isinstance(c['holes'],list):raise ValueError('Explicit source material/void roster required')
+    if 'old_entity_sha256' in c:hexid(c['old_entity_sha256'])
+    if 'part_id' in c and (not isinstance(c['part_id'],str) or not c['part_id']):raise ValueError('Explicit source part identity required')
+    for key in ('actual_insert_geometry_held','compound_mitres_and_welds_unqualified'):
+        if key in c and type(c[key]) is not bool:raise ValueError('Typed historical source assessment required')
+    for key in ('insert_pocket_max_depth_m','insert_pocket_max_diameter_m'):
+        if key in c:number(c[key],True) # prior unknown-reserve ancestry, not an extra physical void
+    g=c['geometry']
+    if kind=='hardpoint':supported_box(g)
+    else:
+        if not isinstance(g,dict) or set(g)!={'kind','outer','void'} or g['kind']!='difference':raise ValueError('Closed ring difference geometry required')
+        supported_box(g['outer']);supported_box(g['void'])
+    if c.get('geometry_hold') is not None:raise ValueError('Unsupported source geometry/domain hold')
+    return dict(material_id=c['material'],geometry=deepcopy(g),holes=deepcopy(c['holes']))
+
+
+def bind_physical_operation(op,physical):
+    """Authenticate evaluated bounds to every accepted physical declaration.
+
+    Known administrative fields stay evaluation-bound at this exact wrapper.
+    Unknown fields are refused, never erased by a recursive denylist.
+    """
+    source=op['source_operation'];kind=source['kind'];hard=kind=='hardpoint-thread-pocket'
+    if kind not in ('hardpoint-thread-pocket','ring-access-port-enlargement'):raise ValueError('Unsupported finishing operation kind')
+    allowed=HARDPOINT_OPERATION_FIELDS if hard else RING_OPERATION_FIELDS
+    if set(source)-allowed:raise ValueError('Unconsumed source operation field/domain')
+    required={'id','kind','material','source_entity_id','source_stock_owner_id','source_geometry','complete_void_union','cost_USD'}
+    if not required<=set(source):raise ValueError('Complete source-operation identity/void contract required')
+    for key in ('id','source_entity_id','source_stock_owner_id'):
+        if source[key]!=op[key] or physical[key]!=op[key]:raise ValueError('Physical/evaluated operation source identity differs')
+    if source['complete_void_union']!=op['source_complete_void_union'] or physical['complete_void_union']!=op['source_complete_void_union'] or physical['kind']!=kind:raise ValueError('Physical/evaluated complete void union differs')
+    if source['material']!='al5083':raise ValueError('Physical/evaluated source material differs')
+    keys={'maximum_pocket_depth_m','minimum_annular_rear_web_m'} if hard else {'access_diameter_m','diameter_tolerance_m','axis_position_tolerance_m'}
+    expected=COMMON_PHYSICAL_FIELDS|keys|({'material'} if not hard else set())
+    optional={'cut_count','blank_owner_count','new_stock_purchase_count'} if not hard else set()
+    if set(physical)-expected-optional or not expected<=set(physical):raise ValueError('Closed physical finishing grammar required')
+    for key in keys:
+        if number(physical[key],True)!=number(source[key],True):raise ValueError('Physical/evaluated bound-driving parameter differs:'+key)
+    if 'material' in physical and physical['material']!=source['material']:raise ValueError('Physical source material differs')
+    for key in optional:
+        if key in physical and integer(physical[key])!=integer(source[key]):raise ValueError('Physical/evaluated operation count differs')
+    c=source['source_geometry'];source_geometry_contract(c,'hardpoint' if hard else 'ring');pg=physical['source_material_geometry']
+    if not isinstance(pg,dict) or set(pg)-{'geometry','holes','material','insert_pocket_max_depth_m','insert_pocket_max_diameter_m'} or not {'geometry','holes'}<=set(pg):raise ValueError('Closed physical source-material projection required')
+    if pg['geometry']!=c['geometry'] or pg['holes']!=c['holes']:raise ValueError('Physical/evaluated nominal source geometry/holes differ')
+    if 'material' in pg and pg['material']!=c['material']:raise ValueError('Physical/evaluated nominal material differs')
+    for key in ('insert_pocket_max_depth_m','insert_pocket_max_diameter_m'):
+        if key in pg and (key not in c or number(pg[key],True)!=number(c[key],True)):raise ValueError('Physical/source prior pocket-bound ancestry differs')
+
+
 def source_outer(e,kind):
     identity_frame(e['rotation'])
     if e['frame']!=FRAME or e['material_id']!='al5083' or e['rotation']!=I:raise ValueError('Supported source-specific local Al5083/I frame required')
-    c=e['exact_CSG_entity'];g=c['geometry'];outer=g if kind=='hardpoint' else g['outer']
+    c=e['exact_CSG_entity'];source_geometry_contract(c,kind);g=c['geometry'];outer=g if kind=='hardpoint' else g['outer']
     identity_frame(outer['rotation'])
     if outer['kind']!='box' or outer['rotation']!=I:raise ValueError('Explicit source box pose required')
     T=vector(outer['at_m']);size=vector(outer['size_m']);same(T,e['at_m'])
+    if 'geometry' in e:
+        packaging=e['geometry']
+        if not isinstance(packaging,dict) or set(packaging)!={'kind','size_m'} or packaging['kind']!='envelope':raise ValueError('Closed canonical packaging descriptor required; never interpreted as material')
+        same(vector(packaging['size_m']),size)
     if min(size)<=0 or c.get('geometry_hold') is not None:raise ValueError('Unsupported source geometry/domain hold')
     if c.get('material')!='al5083':raise ValueError('Exact sourceCSG material must be Al5083')
     U=vector(e['uncertainty_m'])
@@ -169,7 +241,9 @@ def hardpoint(e,op,rho):
     if set(h)!=keys or h['kind']!='thread-bounded-cut' or vector(h['axis'])!=[-1.,0.,0.] or h['flat_bottom'] is not True:raise ValueError('Exact stopped-thread cut domain required')
     same(vector(h['at_m']),[T[0]+size[0]/2,T[1],T[2]])
     same([h['major_diameter_m'],h['pilot_diameter_m'],h['pitch_m'],h['depth_m'],h['depth_tolerance_m'],h['full_thread_depth_m']],[.008,.007,.001,.0087,.0003,.0077])
-    dmin=h['depth_m']-h['depth_tolerance_m'];dmax=h['depth_m']+h['depth_tolerance_m'];x0=T[0]-size[0]/2;x1=T[0]+size[0]/2
+    dmin=h['depth_m']-h['depth_tolerance_m'];dmax=h['depth_m']+h['depth_tolerance_m'];
+    same([op['source_operation']['maximum_pocket_depth_m'],op['source_operation']['minimum_annular_rear_web_m']],[dmax,size[0]-dmax])
+    x0=T[0]-size[0]/2;x1=T[0]+size[0]/2
     def pieces(d,radius):return [canon_piece(size[0]-d,r,[x0+(size[0]-d)/2,T[1],T[2]]),canon_piece(d,radius,[x1-d/2,T[1],T[2]])]
     lo=pieces(dmin,.0035);hi=pieces(dmax,.004);compare_circular(op['minimum_circular_cut_union'],lo);compare_circular(op['maximum_circular_cut_union'],hi)
     base=box_moments(size,corner_C(T));small=canonical_moments(lo);large=canonical_moments(hi);Mmax=subtract(base,small);Mmin=subtract(base,large)
@@ -255,6 +329,7 @@ def rebuild(terminal,weld,hardware,*,input_pin,request_id):
             if e['exact_CSG_entity']!=op['source_operation']['source_geometry'] or op['paid_blank_retained_once'] is not True or op['remaining_net_mass_and_CG'] is not None or op['source_complete_void_union']!=physicalops[opid]['complete_void_union'] or physicalops[opid]['source_entity_id']!=eid or physicalops[opid]['source_stock_owner_id']!=oid:raise ValueError('Complete finishing source CSG/void/properties differ')
             account_cases(op['source_operation']['cost_USD']);
             if op['source_operation'].get('material')!='al5083':raise ValueError('Finishing/source parent material mismatch')
+            bind_physical_operation(op,physicalops[opid])
             kind=op['source_operation']['kind'];material=hardpoint(e,op,2660.) if kind=='hardpoint-thread-pocket' else ring(e,op,2660.) if kind=='ring-access-port-enlargement' else None
             if material is None:raise ValueError('Unsupported source finishing family')
             if material['kind'].startswith('hardpoint'):
@@ -275,6 +350,7 @@ def rebuild(terminal,weld,hardware,*,input_pin,request_id):
     # ambiguous axis-position interpretation above remain evaluation evidence.
     physical=dict(schema='osr-terminal-complete-finishing-material-physical/1',units='m',frame=FRAME,
         parents=[dict(id=r['source_entity_id'],material_id='al5083',source_pose=r['source_pose'],
+            nominal_source_geometry=dict(material_id='al5083',geometry=deepcopy(r['source_entity_ancestry']['exact_CSG_entity']['geometry']),holes=deepcopy(r['source_entity_ancestry']['exact_CSG_entity']['holes'])),
             source_declared_finishing=deepcopy(physicalops[r['source_finishing_operation']['id']]))
             for r in sorted(rows,key=lambda r:r['source_entity_id'])])
     return seal(dict(schema='osr-terminal-finishing-material-rebuild/1',request_id=request_id,source_input_pin=deepcopy(input_pin),source_local_epoch=deepcopy(common),source_terminal_evaluation_id=terminal['evaluation_id'],source_weld_evaluation_id=weld['evaluation_id'],source_hardware_evaluation_id=hardware['evaluation_id'],physical_definition=physical,component_geometry_id=identity(physical),pending_draft_replacements=rows,source_owner_conservation=ownerrecords,counts=dict(finishing_operations=13,material_occurrences=13,hardpoints=12,backing_rings=1,paid_owner_groups=2,new_stock_purchases=0),manufacturing_accounts=dict(source_finished_owner_prices_retained_once=True,H_finishing_allowance_records=price_records,complete_installed_cost=False,process_overlap_hold=True,shared_tools_lifecycle_reference=deepcopy(hardware['lifecycle_allocations'])),pending_contracts=['Complete analytic material/moment hypotheses require independent numerical/source review','Unknown helix phase,manufacturing tolerance correlations,compound grade,20mm sourceposeuncertainty and actual drilling/access/tool/WPS/strength/thermal qualification remainopen','Existing finished-price and additional Hprocess/QA/machine scopes may overlap; oldsplit unknown, no assumed double invoice/discount','Current b8weld overlap is authenticated/refused if changed; wholeterminal/body integration and canonical transactions remainseparate'],canonical_definition=None,source_transactions_applied=False,complete_installed_cost=False,complete_installed_mass=False,**FLAGS))

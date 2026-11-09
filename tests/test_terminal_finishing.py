@@ -18,6 +18,13 @@ def fixture():
  T=[.0485,0.,0.];o=dict(kind='box',at_m=T,rotation=deepcopy(m.I),size_m=[.006,1.7,1.2]);ap=dict(kind='box',at_m=T,rotation=deepcopy(m.I),size_m=[.006,1.56,1.06]);holes=[dict(kind='cylinder-cut',at_m=[.0455,y,z],axis=[1.,0.,0.],diameter_m=.0055,length_m=.006,purpose='INVENTED oldport') for y,z in PTS];g=dict(id='INVENTED/ring',material='al5083',geometry=dict(kind='difference',outer=o,void=ap),holes=holes,geometry_hold=None);es.append(dict(id=g['id'],material_id='al5083',frame=m.FRAME,at_m=T,rotation=deepcopy(m.I),exact_CSG_entity=g,uncertainty_m=[.02]*3));u=dict(kind='union',pieces=[ap]+holes+[dict(h,diameter_m=.012,purpose='INVENTED newport') for h in holes]);op=dict(id='INVENTED/ringop',source_entity_id=g['id'],source_stock_owner_id=rg,frame=m.FRAME,units='m',paid_blank_retained_once=True,remaining_net_mass_and_CG=None,source_complete_void_union=u,minimum_circular_cut_union=[cyl(.006,.005975,[.0485,y,z]) for y,z in PTS],maximum_circular_cut_union=[cyl(.006,.006025,[.0485,y,z]) for y,z in PTS],source_operation=dict(kind='ring-access-port-enlargement',material='al5083',source_geometry=deepcopy(g),cost_USD=C(.1),access_diameter_m=.012,diameter_tolerance_m=.00005,axis_position_tolerance_m=.0001,blank_owner_count=1,new_stock_purchase_count=0,cut_count=12));ops.append(op);ps.append(dict(id=op['id'],source_entity_id=g['id'],source_stock_owner_id=rg,complete_void_union=deepcopy(u),diameter_tolerance_m=.00005,axis_position_tolerance_m=.0001))
  V=.012*.025**2-math.pi*.003**2*.012;r=4.523893421169303e-7;R=.006*(1.7*1.2-1.56*1.06)-12*math.pi*.00275**2*.006
  gs=[dict(id=hg,entity_ids=hp,net_mass_kg=C((V-r)*2660*12,(V-r/2)*2660*12,V*2660*12),gross_mass_kg=C(.029**2*.012*2660*12),direct_cost_usd=C(1,2,3),original_source_account_person_h=None,source_account=dict(quantity=12,density_cases_kg_m3=[2660]*3,net_before_extra_machining_each_m3=V,additional_drill_removal_each_m3=dict(insert_pocket_extra_unknown_interval_m3=[0.,r]))),dict(id=rg,entity_ids=['INVENTED/ring'],net_mass_kg=C(R*2660),gross_mass_kg=C(6.6),direct_cost_usd=C(10,20,30),original_source_account_person_h=None,source_account=dict(quantity=1,density_cases_kg_m3=[2660]*3))]
+ for entity in es:
+  source=entity['exact_CSG_entity']['geometry'];outer=source['outer'] if source['kind']=='difference' else source;entity['geometry']=dict(kind='envelope',size_m=deepcopy(outer['size_m']))
+ for operation,physical in zip(ops,ps):
+  source=operation['source_operation'];source.update(id=operation['id'],source_entity_id=operation['source_entity_id'],source_stock_owner_id=operation['source_stock_owner_id'],complete_void_union=deepcopy(operation['source_complete_void_union']))
+  physical.update(kind=source['kind'],source_material_geometry=dict(geometry=deepcopy(source['source_geometry']['geometry']),holes=deepcopy(source['source_geometry']['holes'])))
+  if source['kind']=='hardpoint-thread-pocket':source.update(maximum_pocket_depth_m=.009,minimum_annular_rear_web_m=.003);physical.update(maximum_pocket_depth_m=.009,minimum_annular_rear_web_m=.003)
+  else:physical.update(material='al5083',access_diameter_m=source['access_diameter_m'],diameter_tolerance_m=source['diameter_tolerance_m'],axis_position_tolerance_m=source['axis_position_tolerance_m'])
  phy=dict(INVENTED=True,entities=[e['exact_CSG_entity'] for e in es]);raw=m.seal(dict(candidate_id=m.identity(phy),physical_definition=deepcopy(phy)));common=dict(candidate_id=raw['candidate_id'],evaluation_id=raw['evaluation_id'],raw_sha256=H('INVENTEDraw'));t=dict(schema='osr-terminal-canonical-normalization-packet/1',source_pin=deepcopy(common),source_physical_definition=phy,canonical_draft=dict(entities=es,stock_groups=gs));w=dict(schema='osr-terminal-finite-full-revision-proposal/1',source_pin=deepcopy(common),source_proposal=raw,physical_definition=dict(INVENTED=True),final_changed_parent_entities={},accounting=dict(parent_stock_owner_revisions={},transaction_applied=False));orig=srcseal(dict(candidate_id=m.noLF({'INVENTED':True}),physical_definition={'INVENTED':True},parent=deepcopy(common),prototypes=dict(INVENTED=dict(materials={'al5083':[2580.2,2660.,2739.8]}))));h=dict(schema='osr-terminal-hardware-component-normalization/1',source_original_definition=orig,source_candidate_id=orig['candidate_id'],source_evaluation_id=orig['evaluation_id'],physical_definition=dict(source_finishing=ps),canonical_draft=dict(required_source_finishing=ops,source_finishing_owner_dispositions=[dict(source_owner_id=g['id'],source=deepcopy(g),operation_ids=[x['id'] for x in ops if x['source_stock_owner_id']==g['id']],paid_blank_count=1,stock_purchase_count=0,source_mass_and_moment_update_applied=False) for g in gs]),source_owner_transactions_applied=False,lifecycle_allocations=[dict(id='INVENTED/tools',count_per_train=1,piece_count=12)])
  return refresh(t,w,h)
 
@@ -28,6 +35,9 @@ def refresh(t,w,h):
 def run(f):return m.rebuild(*f[:3],input_pin=f[3],request_id=H('INVENTEDrequest'))
 def change(f,fn):t,w,h,p=deepcopy(f);fn(t,w,h,p);return refresh(t,w,h)
 def inside(x,b):return b[0]<=x<=b[1]
+
+def revised_geometry(f,which,edit):
+ t,w,h,p=deepcopy(f);edit(t['canonical_draft']['entities'][which]['exact_CSG_entity']);c=t['canonical_draft']['entities'][which]['exact_CSG_entity'];phy=deepcopy(t['source_physical_definition']);phy['entities'][which]=deepcopy(c);raw=m.seal(dict(candidate_id=m.identity(phy),physical_definition=deepcopy(phy)));common=dict(candidate_id=raw['candidate_id'],evaluation_id=raw['evaluation_id'],raw_sha256=H('INVENTED-revised-geometry'));t['source_physical_definition']=phy;t['source_pin']=deepcopy(common);w['source_pin']=deepcopy(common);w['source_proposal']=raw;h['source_original_definition']['parent']=deepcopy(common);h['canonical_draft']['required_source_finishing'][which]['source_operation']['source_geometry']=deepcopy(c);h['physical_definition']['source_finishing'][which]['source_material_geometry']=dict(geometry=deepcopy(c['geometry']),holes=deepcopy(c['holes']));return refresh(t,w,h)
 
 class FinishingTests(unittest.TestCase):
  def bad(self,fn):
@@ -100,6 +110,47 @@ class FinishingTests(unittest.TestCase):
  def test_nonboolean_paid_flag_refuses(self):self.bad(lambda t,w,h,p:h['canonical_draft']['required_source_finishing'][0].update(paid_blank_retained_once=1))
  def test_nonboolean_rotation_refuses(self):
   self.bad(lambda t,w,h,p:t['canonical_draft']['entities'][0]['rotation'][0].__setitem__(0,True))
+ def test_physical_ring_diameter_tolerance_reviewer_witness_refused(self):
+  f=change(fixture(),lambda t,w,h,p:h['physical_definition']['source_finishing'][-1].update(diameter_tolerance_m=.001));before=deepcopy(f)
+  with self.assertRaisesRegex(ValueError,'bound-driving parameter'):run(f)
+  self.assertEqual(f,before)
+ def test_all_declared_physical_tolerances_bind_evaluated_domain(self):
+  for index,field,value in [(-1,'access_diameter_m',.014),(-1,'axis_position_tolerance_m',.001),(0,'maximum_pocket_depth_m',.010),(0,'minimum_annular_rear_web_m',.002)]:
+   f=change(fixture(),lambda t,w,h,p:h['physical_definition']['source_finishing'][index].update({field:value}))
+   with self.subTest(field=field),self.assertRaisesRegex(ValueError,'bound-driving parameter'):run(f)
+ def test_physical_counts_bind_source_counts(self):
+  for field,value in [('cut_count',13),('blank_owner_count',2),('new_stock_purchase_count',1)]:
+   f=change(fixture(),lambda t,w,h,p:h['physical_definition']['source_finishing'][-1].update({field:value}))
+   with self.subTest(field=field),self.assertRaisesRegex(ValueError,'count differs'):run(f)
+ def test_unhandled_physical_operation_field_refused(self):self.bad(lambda t,w,h,p:h['physical_definition']['source_finishing'][-1].update(extra_physical_feature={'kind':'slot'}))
+ def test_evaluated_tolerance_with_unchangedphysical_refused(self):self.bad(lambda t,w,h,p:h['canonical_draft']['required_source_finishing'][-1]['source_operation'].update(diameter_tolerance_m=.001))
+ def test_consistent_but_unsupported_tolerance_domain_refused(self):
+  def edit(t,w,h,p):h['physical_definition']['source_finishing'][-1]['diameter_tolerance_m']=.001;h['canonical_draft']['required_source_finishing'][-1]['source_operation']['diameter_tolerance_m']=.001
+  self.bad(edit)
+ def test_resealed_unknown_outer_void_reviewer_witness_refused(self):
+  f=revised_geometry(fixture(),0,lambda c:c['geometry'].update(extra_physical_void=dict(kind='finite-cylinder-void',radius_m=.002,length_m=.012)));before=deepcopy(f)
+  with self.assertRaisesRegex(ValueError,'Closed source box'):run(f)
+  self.assertEqual(f,before)
+ def test_unknown_source_geometry_fields_refused_at_alllevels(self):
+  variants=[(0,lambda c:c.update(extra_physical_void={})),(-1,lambda c:c['geometry']['outer'].update(extra_physical_void={})),(-1,lambda c:c['geometry']['void'].update(features=[{'kind':'bore'}])),(-1,lambda c:c['geometry'].update(extra_physical_void={}))]
+  for i,edit in variants:
+   f=revised_geometry(fixture(),i,edit)
+   with self.subTest(index=i),self.assertRaises(ValueError):run(f)
+ def test_unknown_source_operation_geometry_declaration_refused(self):self.bad(lambda t,w,h,p:h['canonical_draft']['required_source_finishing'][0]['source_operation'].update(extra_physical_void={}))
+ def test_physical_source_geometry_mismatch_refused(self):self.bad(lambda t,w,h,p:h['physical_definition']['source_finishing'][0]['source_material_geometry']['geometry']['size_m'].__setitem__(0,.02))
+ def test_complete_nominal_source_geometry_binds_physicalID(self):
+  f=fixture();r=run(f)
+  for row in r['physical_definition']['parents']:
+   e=next(e for e in f[0]['canonical_draft']['entities'] if e['id']==row['id']);self.assertEqual(row['nominal_source_geometry'],dict(material_id='al5083',geometry=e['exact_CSG_entity']['geometry'],holes=e['exact_CSG_entity']['holes']))
+ def test_valid_relocated_material_changes_nominal_physical_identity(self):
+  f=fixture();a=run(f)
+  def edit(c):
+   c['geometry']['at_m'][1]+=.01;c['holes'][0]['at_m'][1]+=.01
+  # The source geometry is valid but operation/pose remains stale; refusal proves no silent relocation.
+  g=revised_geometry(f,0,edit)
+  with self.assertRaises(ValueError):run(g)
+ def test_unknown_physical_feature_in_packaging_not_silently_used(self):self.bad(lambda t,w,h,p:t['canonical_draft']['entities'][0]['geometry'].update(extra_physical_void={}))
+ def test_contradictory_packaging_size_refused(self):self.bad(lambda t,w,h,p:t['canonical_draft']['entities'][0]['geometry']['size_m'].__setitem__(0,.02))
  def test_outward_arithmetic(self):
   a=m.times([.1,.2],[-3.,4.]);self.assertLessEqual(a[0],-.6);self.assertGreaterEqual(a[1],.8)
 
