@@ -81,8 +81,13 @@ def _box(lo,hi,T,R):
 def _edges(poly):return [sub(poly['vertices'][b],poly['vertices'][a]) for face in poly['faces'] for a,b in zip(face,face[1:]+face[:1])]
 def _normals(poly):return [cross(sub(poly['vertices'][f[1]],poly['vertices'][f[0]]),sub(poly['vertices'][f[2]],poly['vertices'][f[0]])) for f in poly['faces']]
 def interiors_overlap(a,b):
-    """Convex polyhedron SAT; numerical1e-10m separation domain, no native claim."""
+    """Same convex SAT/EPS domain; public pair path computes its own bounds."""
     if not bounds_overlap(bounds(a['vertices']),bounds(b['vertices'])):return False
+    return _interiors_overlap_sat(a,b)
+
+
+def _interiors_overlap_sat(a,b):
+    """Unchanged narrow phase; caller must first pass the exact AABB screen."""
     axes=_normals(a)+_normals(b)+[cross(e,f) for e in _edges(a) for f in _edges(b)]
     for axis in axes:
         length=norm(axis)
@@ -90,6 +95,31 @@ def interiors_overlap(a,b):
         axis=scale(axis,1/length);x=[dot(v,axis) for v in a['vertices']];y=[dot(v,axis) for v in b['vertices']]
         if min(max(x),max(y))-max(min(x),min(y))<=EPS:return False
     return True
+
+
+def _filler_intersections(pieces):
+    """Equivalent ordered filler pairs with one finite AABB per occurrence.
+
+    Sweep along terminal U only as a necessary broad phase. Existing >EPS
+    three-axis bounds and exact unchanged SAT remain the final predicate. Sort
+    successful original indices to reproduce the prior nested-loop pair order;
+    never deduplicate geometry/IDs or waive an intended contact. The full caller
+    keeps its existing unique-occurrence check before this diagnostic.
+    """
+    boxes=[bounds(p['poly']['vertices']) for p in pieces]
+    if any(not isfinite(x) for b in boxes for axis in b for x in axis):raise ValueError('Finite filler bounds required')
+    ordered=sorted(range(len(pieces)),key=lambda i:(boxes[i][0][0],i));active=[];hits=[]
+    for j in ordered:
+        low=boxes[j][0][0]
+        # With previous.low<=current.low, previous.high-current.low<=EPS
+        # implies the original min(high)-max(low)<=EPS. No SAT hit is lost.
+        active=[i for i in active if boxes[i][0][1]-low>EPS]
+        for i in active:
+            if bounds_overlap(boxes[i],boxes[j]) and _interiors_overlap_sat(pieces[i]['poly'],pieces[j]['poly']):hits.append((min(i,j),max(i,j)))
+        active.append(j)
+    hits.sort()
+    return [[pieces[i]['id'],pieces[j]['id']] for i,j in hits]
+
 
 def _parent(parent):
     """Only authenticated local box/RHS material; no filled allowance envelope."""
@@ -1187,10 +1217,7 @@ def _compile_routed_source(src,byid,owners,groups,welds,*,pin,connector_binding,
     for eid,p in defined.items():
         filler_owners[eid]=deepcopy(p['authoritative_owner']) if 'authoritative_owner' in p else _filler_owner(owners[eid],policy,p['pieces'],extra_process_h=p['extra_process_h'],extra_QA_h=p['extra_QA_h']);allpieces+=p['pieces']
     if len({p['id'] for p in allpieces})!=len(allpieces):raise ValueError('Duplicate finite filler occurrence across original owners')
-    collisions=[]
-    for i,a in enumerate(allpieces):
-        for b in allpieces[i+1:]:
-            if bounds_overlap(bounds(a['poly']['vertices']),bounds(b['poly']['vertices'])) and interiors_overlap(a['poly'],b['poly']):collisions.append([a['id'],b['id']])
+    collisions=_filler_intersections(allpieces)
     # Parent owner net deltas are grouped once, including a shared legacy owner.
     # Paid gross/rate/process entries are copied unchanged; additional prep is
     # owned by the one source weld replacement, never repeated on each parent.

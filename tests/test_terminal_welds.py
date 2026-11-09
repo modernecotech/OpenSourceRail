@@ -896,3 +896,64 @@ class PostRevisionInterfaceTests(unittest.TestCase):
         def prep(*args,**kw):seen.append(args[1]);raise w.DefinitionHold('invented later prep held')
         with patch.object(w,'prospective_post_revision',side_effect=lambda e,g,**kw:w._post_bore_revision(e,g,**kw)),patch.object(w,'finite_surface_butt_revision',side_effect=prep):r=w._compile_routed_source(**f)
         self.assertEqual(len(seen),1);self.assertIn('prospective_post_revision',seen[0]);self.assertIn(post['id'],r['final_changed_parent_entities']);self.assertFalse(r['accounting']['filler_replacement_owners']);self.assertFalse(r['parent_cut_unions']);self.assertEqual(r['held_weld_count'],1);self.assertEqual(len(r['accounting']['source_post_owner_dispositions']),1)
+
+
+def independent_collision_pairs(pieces):
+    """Scalar brute-force old predicate, no source bounds/SAT helper calls."""
+    def sub(a,b):return[a[k]-b[k] for k in range(3)]
+    def dot(a,b):return math.fsum(a[k]*b[k] for k in range(3))
+    def cross(a,b):return[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]
+    def bbox(p):return[[min(v[k] for v in p['vertices']),max(v[k] for v in p['vertices'])] for k in range(3)]
+    def edges(p):return[sub(p['vertices'][b],p['vertices'][a]) for f in p['faces'] for a,b in zip(f,f[1:]+f[:1])]
+    def normals(p):return[cross(sub(p['vertices'][f[1]],p['vertices'][f[0]]),sub(p['vertices'][f[2]],p['vertices'][f[0]])) for f in p['faces']]
+    def intersects(a,b):
+        A=bbox(a);B=bbox(b)
+        if not all(min(A[k][1],B[k][1])-max(A[k][0],B[k][0])>1e-10 for k in range(3)):return False
+        for axis in normals(a)+normals(b)+[cross(e,f) for e in edges(a) for f in edges(b)]:
+            L=math.sqrt(dot(axis,axis))
+            if L<1e-18:continue
+            q=[x/L for x in axis];pa=[dot(v,q) for v in a['vertices']];pb=[dot(v,q) for v in b['vertices']]
+            if min(max(pa),max(pb))-max(min(pa),min(pb))<=1e-10:return False
+        return True
+    return[[a['id'],b['id']] for i,a in enumerate(pieces) for b in pieces[i+1:] if intersects(a['poly'],b['poly'])]
+
+
+def collision_box(name,lo,hi,T=None,R=None):return dict(id='invented/'+name,poly=w._box(lo,hi,T or[0.,0.,0.],R or deepcopy(w.I)))
+
+
+class FillerCollisionCacheTests(unittest.TestCase):
+    def assertEquivalent(self,pieces):
+        before=deepcopy(pieces);expected=independent_collision_pairs(pieces);actual=w._filler_intersections(pieces);self.assertEqual(actual,expected);self.assertEqual(pieces,before);return actual
+    def test_empty_and_one(self):
+        self.assertEqual(self.assertEquivalent([]),[]);self.assertEqual(self.assertEquivalent([collision_box('a',[-1.]*3,[1.]*3)]),[])
+    def test_separated_and_exact_touching(self):
+        for distance in(2.,3.):
+            a=collision_box('a',[-1.]*3,[1.]*3);b=collision_box('b',[-1.]*3,[1.]*3,T=[distance,0.,0.]);self.assertEqual(self.assertEquivalent([a,b]),[])
+    def test_EPS_threshold_and_nextafter_strict_screen(self):
+        # Kernel numeric boundary fixture, not a subnanometre manufacturing claim.
+        for overlap in(0.,.5e-10,1e-10,math.nextafter(1e-10,math.inf),2e-10):
+            a=collision_box('a',[-1.,-1.,-1.],[0.,1.,1.]);b=collision_box('b',[-overlap,-1.,-1.],[1.,1.,1.]);r=self.assertEquivalent([a,b]);self.assertEqual(bool(r),overlap>1e-10)
+    def test_rotated_AABB_overlap_can_still_be_SAT_separated(self):
+        q=math.sqrt(.5);R=[[q,-q,0.],[q,q,0.],[0.,0.,1.]];a=collision_box('a',[-.5,-.05,-.05],[.5,.05,.05],R=R);b=collision_box('b',[-.5,-.05,-.05],[.5,.05,.05],T=[-.16,.16,0.],R=R);self.assertTrue(w.bounds_overlap(w.bounds(a['poly']['vertices']),w.bounds(b['poly']['vertices'])));self.assertEqual(self.assertEquivalent([a,b]),[])
+    def test_rotated_actual_intersection(self):
+        q=math.sqrt(.5);R=[[q,-q,0.],[q,q,0.],[0.,0.,1.]];a=collision_box('a',[-.5,-.05,-.05],[.5,.05,.05],R=R);b=collision_box('b',[-.5,-.05,-.05],[.5,.05,.05],T=[-.035,.035,0.],R=R);self.assertEqual(self.assertEquivalent([a,b]),[['invented/a','invented/b']])
+    def test_triangular_filler_and_box_mixed(self):
+        p=w._prism([0.,0.,0.],[0.,.02,0.],[1.,0.,0.],[0.,0.,1.],.003)['poly'];a=dict(id='invented/triangle',poly=p);b=collision_box('inside',[-.0001,.005,-.0001],[.0005,.015,.0005]);c=collision_box('far',[.1,.1,.1],[.2,.2,.2]);self.assertEqual(self.assertEquivalent([a,b,c]),[['invented/triangle','invented/inside']])
+    def test_original_pair_order_even_when_sweep_order_reversed(self):
+        pieces=[collision_box('z-last',[-1.]*3,[1.]*3,T=[.4,0.,0.]),collision_box('a-first',[-1.]*3,[1.]*3,T=[-.4,0.,0.]),collision_box('m-middle',[-1.]*3,[1.]*3)]
+        self.assertEqual(self.assertEquivalent(pieces),[['invented/z-last','invented/a-first'],['invented/z-last','invented/m-middle'],['invented/a-first','invented/m-middle']])
+    def test_equal_bounds_and_reused_poly_not_deduplicated(self):
+        p=collision_box('unused',[-1.]*3,[1.]*3)['poly'];ps=[dict(id='invented/'+x,poly=p) for x in('c','a','b')];self.assertEqual(self.assertEquivalent(ps),[['invented/c','invented/a'],['invented/c','invented/b'],['invented/a','invented/b']])
+    def test_single_cached_bounds_per_occurrence(self):
+        ps=[collision_box(str(i),[-1.]*3,[1.]*3,T=[i*.2,0.,0.]) for i in range(8)];expected=independent_collision_pairs(ps)
+        with patch.object(w,'bounds',wraps=w.bounds) as box:self.assertEqual(w._filler_intersections(ps),expected)
+        self.assertEqual(box.call_count,len(ps))
+    def test_separated_roster_skips_SAT_without_changing_pairs(self):
+        ps=[collision_box(str(i),[-.01]*3,[.01]*3,T=[float(i),0.,0.]) for i in range(40)]
+        with patch.object(w,'_interiors_overlap_sat',wraps=w._interiors_overlap_sat) as sat:self.assertEqual(w._filler_intersections(ps),independent_collision_pairs(ps))
+        self.assertEqual(sat.call_count,0)
+    def test_public_SAT_unchanged_against_independent_oracle(self):
+        ps=[collision_box(str(i),[-.1,-.2,-.15],[.1,.2,.15],T=[x,y,z]) for i,(x,y,z) in enumerate(((0.,0.,0.),(.15,.1,.05),(.2,0.,0.),(.5,0.,0.)))];expected=independent_collision_pairs(ps);actual=[[a['id'],b['id']] for i,a in enumerate(ps) for b in ps[i+1:] if w.interiors_overlap(a['poly'],b['poly'])];self.assertEqual(actual,expected)
+    def test_duplicate_occurrence_names_not_silently_collapsed_here(self):
+        # Full wrapper retains its earlier unique-ID rejection before this helper.
+        a=collision_box('same',[-1.]*3,[1.]*3);self.assertEqual(self.assertEquivalent([a,deepcopy(a)]),[['invented/same','invented/same']])
