@@ -479,15 +479,28 @@ def _finishing_supplement(terminal, plan, es, gs, phys, owners, finishing, pin):
         source_pending_contracts=deepcopy(finishing['pending_contracts']))
 
 
-def _source_refs(parent, wanted):
+def _source_refs(parent, wanted, wanted_part_ids=None):
+    """Validate every source occurrence, hashing predecessor keys where needed.
+
+    None retains the unfiltered reference path. A supplied part set is an exact
+    predecessor scope, not permission to skip unrelated pattern validation.
+    Part hashes are reused only within this invocation of the filtered path.
+    """
     parts = _index(parent['parts'], 'parent parts', 10000)
     patterns = _index(parent['patterns'], 'parent patterns', 50000)
+    if wanted_part_ids is not None:
+        if not isinstance(wanted_part_ids, (set, frozenset)):
+            raise ValueError('Explicit predecessor source-part set required')
+        wanted_part_ids = {_name(x) for x in wanted_part_ids}
+        if not wanted_part_ids <= set(parts):
+            raise ValueError('Unknown predecessor source part')
     physical = parent['physical_definition']
     pp = _index(physical['parts'], 'physical parts', 10000)
     pats = _index(physical['occurrence_patterns'], 'physical patterns', 50000)
     if set(parts) != set(pp) or set(patterns) != set(pats):
         raise ValueError('Physical/source catalogue coverage differs')
     out = {}; total = 0; part_counts = dict.fromkeys(parts, 0); source_domains = []
+    part_hashes = {}
     for pid, pat in patterns.items():
         part = parts[pat['part_id']]
         for key, value in pp[part['id']].items():
@@ -502,15 +515,24 @@ def _source_refs(parent, wanted):
         _rotation(pat['rotation']); nodes = []
         _grammar(pat['geometry'], retained_parent=True, retained_nodes=nodes, path=('geometry',))
         _cases(pat['direct_cost_usd'])
-        ph, sh = identity(pat), identity(part)
+        ph = identity(pat)
+        if wanted_part_ids is None:
+            sh = identity(part)
+        else:
+            if part['id'] not in part_hashes:
+                part_hashes[part['id']] = identity(part)
+            sh = part_hashes[part['id']]
         geometry_hash = identity(pat['geometry']) if nodes else None
         nodes.sort(key=lambda row: json.dumps(row['node_path'], separators=(',', ':')))
         source_domains.extend(dict(node, pattern_id=pid, part_id=part['id'],
             source_pattern_sha256=ph, source_part_sha256=sh,
             source_geometry_sha256=geometry_hash, original_pattern_count=q)
             for node in nodes)
+        match_keys = wanted_part_ids is None or part['id'] in wanted_part_ids
         for j, position in enumerate(pat['positions_m']):
             _vector(position)
+            if not match_keys:
+                continue
             key = 'source/' + identity([parent['candidate_id'], pid, j])
             if key in wanted:
                 ref = dict(parent_candidate_id=parent['candidate_id'], pattern_id=pid,
@@ -525,6 +547,8 @@ def _source_refs(parent, wanted):
         raise ValueError('Parent catalogue/pattern quantity conservation differs')
     if set(out) != set(wanted):
         raise ValueError('Missing canonical predecessor source key')
+    if wanted_part_ids is not None and {r['part_id'] for r in out.values()} != wanted_part_ids:
+        raise ValueError('Requested predecessor parts differ from matched source keys')
     return out, patterns, total, source_domains
 
 
@@ -622,7 +646,8 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id, finishing=No
     mids = [x['source_id'] for x in machining]
     if len(mids) != len(set(mids)) or set(mids)&set(retiring):
         raise ValueError('Overlapping/reused source machining/retirement')
-    refs, patterns, parent_count, parent_domains = _source_refs(parent, set(retiring)|set(mids))
+    wanted_parts = {_name(r['source_part_id']) for r in retirements + machining}
+    refs, patterns, parent_count, parent_domains = _source_refs(parent, set(retiring)|set(mids), wanted_parts)
     retirement_ledger = []
     for row in retirements:
         _hex(row['source_part_sha256'])

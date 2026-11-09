@@ -2,8 +2,11 @@
 from copy import deepcopy
 from fractions import Fraction
 import unittest
+from unittest.mock import patch
 
 from engineering.railway_project import terminal_occurrence as t
+
+PERF_OPERATION_COUNTS = {}
 
 
 def sealed(v):
@@ -208,6 +211,106 @@ class RetainedParentDomainTests(unittest.TestCase):
         r=run();self.assertEqual(r['candidate_id'],'203a96a3ccb2a86a3af31a2e075b063671b77cf986efbb0e63c39185de52f904')
         self.assertEqual(r['retained_parent_source_domains'],[])
         self.assertEqual(r['unresolved_obligations']['retained_parent_geometry_domains'],[])
+
+
+def source_ref_trial_parent():
+    """Many irrelevant invented positions, retaining source-domain coverage."""
+    parent=fixture(retained_geometry('cut-length'))[0]
+    template=deepcopy(parent['patterns'][-1])
+    parent['patterns'].pop()
+    for j in range(8):
+        row=deepcopy(template);row.update(id='irrelevant/'+str(j),count=250,
+            positions_m=[[3.+i/100.,j/100.,1.] for i in range(250)])
+        parent['patterns'].append(row)
+    parent['parts'][-1]['quantity_per_train']=2000
+    parent['candidate_id']=t.identity(parent['physical_definition'])
+    return sealed(parent)
+
+
+def wanted_predecessor_keys(parent):
+    return {'source/'+t.identity([parent['candidate_id'],'old',j]) for j in range(2)}|{
+        'source/'+t.identity([parent['candidate_id'],'beam',0])}
+
+
+class SourcePartFilterTests(unittest.TestCase):
+    def test_filtered_reference_parity_and_measured_hash_call_reduction(self):
+        parent=source_ref_trial_parent();before=deepcopy(parent);wanted=wanted_predecessor_keys(parent)
+        identity=t.identity;pattern_ids={p['id'] for p in parent['patterns']};part_objects={id(p) for p in parent['parts']}
+        counts={}
+        results={}
+        for label,part_filter in [('unfiltered',None),('filtered',{'old-end','beam'})]:
+            counter=dict(all_identity_calls=0,occurrence_key_hashes=0,part_record_hashes=0)
+            def tracked(value):
+                counter['all_identity_calls']+=1
+                if isinstance(value,list) and len(value)==3 and value[0]==parent['candidate_id'] and value[1] in pattern_ids and type(value[2]) is int:
+                    counter['occurrence_key_hashes']+=1
+                if id(value) in part_objects:counter['part_record_hashes']+=1
+                return identity(value)
+            with patch.object(t,'identity',side_effect=tracked):
+                results[label]=t._source_refs(parent,wanted,part_filter)
+            counts[label]=counter
+        self.assertEqual(parent,before)
+        self.assertEqual(results['filtered'],results['unfiltered'])
+        self.assertEqual(results['filtered'][2],2003)
+        self.assertEqual(len(results['filtered'][0]),3)
+        self.assertEqual(len(results['filtered'][3]),16)
+        self.assertEqual(counts['unfiltered']['occurrence_key_hashes'],2003)
+        self.assertEqual(counts['filtered']['occurrence_key_hashes'],3)
+        self.assertEqual(counts['unfiltered']['part_record_hashes'],10)
+        self.assertEqual(counts['filtered']['part_record_hashes'],3)
+        self.assertEqual(counts['unfiltered']['all_identity_calls']-counts['filtered']['all_identity_calls'],2007)
+        PERF_OPERATION_COUNTS.update(input_parent_occurrences=2003,input_parent_patterns=10,
+            input_parent_parts=3,wanted_source_keys=3,counts=counts,
+            exact_refs_patterns_counts_and_domain_notes_equal=True,wall_speedup_claimed=False)
+
+    def test_compose_results_are_exactly_equal_to_unfiltered_helper_path(self):
+        original=t._source_refs
+        def unfiltered(parent,wanted,wanted_part_ids=None):return original(parent,wanted,None)
+        for data in [fixture(),fixture(retained_geometry('cut-length'))]:
+            filtered=run(deepcopy(data))
+            with patch.object(t,'_source_refs',side_effect=unfiltered):reference=run(deepcopy(data))
+            self.assertEqual(filtered,reference)
+        data=finished_fixture();filtered=run_finished(deepcopy(data))
+        with patch.object(t,'_source_refs',side_effect=unfiltered):reference=run_finished(deepcopy(data))
+        self.assertEqual(filtered,reference)
+
+    def test_irrelevant_positions_patterns_prices_and_domains_are_still_validated(self):
+        changes=[
+            ('SI vector',lambda p:p['patterns'][-1]['positions_m'].__setitem__(0,[1.,2.])),
+            ('Source pattern count',lambda p:p['patterns'][-1].update(count=0)),
+            ('Unknown source geometry',lambda p:p['patterns'][-1]['geometry'].update(kind='unknown-stock-solid')),
+            ('Ordered nonnegative',lambda p:p['patterns'][-1].update(direct_cost_usd=dict.fromkeys(t.CASES,-1.))),
+            ('quantity conservation',lambda p:p['parts'][-1].update(quantity_per_train=1999)),
+        ]
+        for message,change in changes:
+            parent=source_ref_trial_parent();change(parent);wanted=wanted_predecessor_keys(parent)
+            with self.subTest(message=message),self.assertRaisesRegex(ValueError,message):
+                t._source_refs(parent,wanted,{'old-end','beam'})
+
+    def test_unknown_wrong_and_overbroad_requested_part_sets_refuse(self):
+        parent=source_ref_trial_parent();wanted=wanted_predecessor_keys(parent)
+        for part_filter in [{'missing-part'},{'old-end'},{'old-end','beam','retained-stock'},['old-end','beam'],{0}]:
+            with self.subTest(part_filter=part_filter),self.assertRaises(ValueError):
+                t._source_refs(parent,wanted,part_filter)
+        with self.assertRaisesRegex(ValueError,'Missing canonical predecessor'):
+            t._source_refs(parent,{'source/'+'0'*64},{'old-end','beam'})
+
+    def test_empty_requested_scope_skips_key_hashing_without_skipping_source_coverage(self):
+        parent=source_ref_trial_parent()
+        filtered=t._source_refs(parent,set(),set());reference=t._source_refs(parent,set())
+        self.assertEqual(filtered,reference)
+        self.assertEqual(filtered[0],{});self.assertEqual(filtered[2],2003)
+        self.assertEqual(len(filtered[3]),16)
+
+    def test_part_identity_cache_is_invocation_local(self):
+        parent=source_ref_trial_parent();a=t._source_refs(parent,wanted_predecessor_keys(parent),{'old-end','beam'})
+        revised=deepcopy(parent);revised['parts'][0]['source_revision']='invented-next-source'
+        revised['candidate_id']=t.identity(revised['physical_definition']);revised=sealed(revised)
+        b=t._source_refs(revised,wanted_predecessor_keys(revised),{'old-end','beam'})
+        old=next(v for v in a[0].values() if v['part_id']=='old-end')
+        new=next(v for v in b[0].values() if v['part_id']=='old-end')
+        self.assertNotEqual(old['source_ref']['source_part_sha256'],new['source_ref']['source_part_sha256'])
+        self.assertEqual(new['source_ref']['source_part_sha256'],t.identity(revised['parts'][0]))
 
 
 def finished_fixture():
