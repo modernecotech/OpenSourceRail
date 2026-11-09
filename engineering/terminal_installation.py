@@ -28,6 +28,110 @@ LOCAL=dict(physical_definition_id='1260c73b38176f79e6913c2323af538248df3ba9a1d0c
  result_evaluation_id='d826397b3c85344a3ff0e1283b5f01579dab20030debbff069e8b1a22e3474a8',
  geometry_evaluation_id='edf0fc9ace4008cf5ad8d4eb61a5b2013a6d65bffcc9704f3917d8adabfaac08',
  accounting_evaluation_id='9f142abd32f70d7694f4a3debbebf4dfbbbc7618ec0a22f10d35142a74cb828d')
+# Exact read-only provenance38239f/rootb515: financial row key differs from
+# its explicitly referenced LOCAL physical part, not from P1sevenmetre material.
+LOCAL_GASKET_ACCOUNT_BINDING = {'account_part_id': 'research/terminal-enclosure-land-and-stop-r1/retained-main-gasket-material',
+ 'bounded_adhesive_scope': 'Existing source component mass includes bounded4mitre adhesive once; '
+                           'neither a second gasket/adhesive/material charge nor an exact measured '
+                           'compound solid',
+ 'entity_id': 'main-gasket-free',
+ 'geometry': {'kind': 'difference',
+              'outer': {'at_m': [0.0151, 0, 0],
+                        'kind': 'box',
+                        'rotation': [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+                        'size_m': [0.018, 2.362, 2.112]},
+              'void': {'at_m': [0.0151, 0, 0],
+                       'kind': 'box',
+                       'rotation': [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+                       'size_m': [0.018, 2.338, 2.088]}},
+ 'geometry_part_id': 'research/terminal-perimeter-gasket-r1',
+ 'local_geometry_evaluation_id': 'edf0fc9ace4008cf5ad8d4eb61a5b2013a6d65bffcc9704f3917d8adabfaac08',
+ 'local_physical_definition_id': '1260c73b38176f79e6913c2323af538248df3ba9a1d0c0c53bcef4835bb44ebe',
+ 'local_physical_recipe_id': 'b34783ff9992238cfb3f79e2f2bf260b57fed170ee7bf8a3da7da783c7c15475',
+ 'material': 'elastomer',
+ 'original_P1_leaf': {'component_definition_id': '70dad861b9dc8f52aae1b839e7c59b6c7cdec86c97f0fd28bf079773b7962eb8',
+                      'developed_length_m': 7.0,
+                      'part_id': 'body/terminal-end-seal',
+                      'quantity_per_train': 2,
+                      'retire_once': True},
+ 'physical_accepted': False,
+ 'quantity_per_end': 1,
+ 'recipe_stock_spec_sha256': '15419649a7c449bd79057a818faf0c039572e466af67506268e7f2dd77d6b8bd',
+ 'root_provenance_review_id': 'b515c96211673b10b3973f42d0c37acb9a44c178109e2d291aa457adadf0760c',
+ 'schema': 'osr-exact-local-gasket-ledger-binding/1',
+ 'source_account_row_sha256': 'f8fc41e9e8f53d0175cb53a1cbe46f1baab914c3b987698b58d43070fc827d9b',
+ 'source_component_definition_id': 'c999f75defaeb4485e246674847727e9939e67278fd985e4c625895fc628faa1',
+ 'source_component_geometry_id': '0462f4b9c8adb4d9ac481239bf7f2f4c9f2a874d6245ad1e1e85f9844a234dc6',
+ 'source_cost_and_mass_cases': {'base': {'added_mitre_process_h': 0.25,
+                                         'additional_adhesive_consumables_USD': 2.0,
+                                         'bounded_adhesive_installed_kg': 0.00026881371393587793,
+                                         'computed_direct_USD': 49.739999999999995,
+                                         'computed_total_mass_kg': 2.307148813713931,
+                                         'elastomer_density_kg_m3': 1200,
+                                         'elastomer_solid_mass_kg': 2.306879999999995,
+                                         'labour_USD_h': 10,
+                                         'retained_source_composite_USD_m': 5.0,
+                                         'source_price_matches': True},
+                                'high': {'added_mitre_process_h': 0.5,
+                                         'additional_adhesive_consumables_USD': 5.0,
+                                         'bounded_adhesive_installed_kg': 0.00026881371393587793,
+                                         'computed_direct_USD': 129.33142857142855,
+                                         'computed_total_mass_kg': 2.4993888137139306,
+                                         'elastomer_density_kg_m3': 1300,
+                                         'elastomer_solid_mass_kg': 2.4991199999999947,
+                                         'labour_USD_h': 16,
+                                         'retained_source_composite_USD_m': 12.857142857142858,
+                                         'source_price_matches': True},
+                                'low': {'added_mitre_process_h': 0.12,
+                                        'additional_adhesive_consumables_USD': 1.0,
+                                        'bounded_adhesive_installed_kg': 0.00026881371393587793,
+                                        'computed_direct_USD': 21.108571428571423,
+                                        'computed_total_mass_kg': 2.1149088137139316,
+                                        'elastomer_density_kg_m3': 1100,
+                                        'elastomer_solid_mass_kg': 2.1146399999999956,
+                                        'labour_USD_h': 6,
+                                        'retained_source_composite_USD_m': 2.142857142857143,
+                                        'source_price_matches': True}},
+ 'source_entity_sha256': 'bff4abdcce9615e313727ccd569019533de618da37cb72fed5245b3def547001',
+ 'source_fitout_candidate_id': '104972006cfeb390e8b191c26c103b57f8905997cf673ddf2f20141ccc8b01f3',
+ 'source_fitout_evaluation_id': '0b062be71b049dd8e3a9ee3f1b61456469642f2503cf8e5d0eb11f3959de6cbf',
+ 'source_fitout_report_sha256': 'e55bd41466e5a11684c469037bc11a81ef67776d446a95574643f2263aa8cbd8',
+ 'source_stock': {'cut_rules': [{'kerf_m': 0.002,
+                                 'longest_mitre_tip_to_tip_m': 2.362,
+                                 'net_m': 2.35,
+                                 'piece': 'top',
+                                 'quantity': 1,
+                                 'reserve_m': 0.025,
+                                 'section': '12mm radial x18mm axial solid rectangular elastomer',
+                                 'trim_m': 0.01},
+                                {'kerf_m': 0.002,
+                                 'longest_mitre_tip_to_tip_m': 2.112,
+                                 'net_m': 2.1,
+                                 'piece': 'right',
+                                 'quantity': 1,
+                                 'reserve_m': 0.025,
+                                 'section': '12mm radial x18mm axial solid rectangular elastomer',
+                                 'trim_m': 0.01},
+                                {'kerf_m': 0.002,
+                                 'longest_mitre_tip_to_tip_m': 2.362,
+                                 'net_m': 2.35,
+                                 'piece': 'bottom',
+                                 'quantity': 1,
+                                 'reserve_m': 0.025,
+                                 'section': '12mm radial x18mm axial solid rectangular elastomer',
+                                 'trim_m': 0.01},
+                                {'kerf_m': 0.002,
+                                 'longest_mitre_tip_to_tip_m': 2.112,
+                                 'net_m': 2.1,
+                                 'piece': 'left',
+                                 'quantity': 1,
+                                 'reserve_m': 0.025,
+                                 'section': '12mm radial x18mm axial solid rectangular elastomer',
+                                 'trim_m': 0.01}],
+                  'gross_profile_m': 9.048,
+                  'net_profile_m': 8.9,
+                  'section_m': [0.018, 0.012]}}
+
 FLAGS=dict(physical_accepted=False,engineering_accepted=False,manufacturing_release=False,
  operating_release=False,selected_reference_changed=False,movement_authority=False,native_eligible=False)
 
@@ -1111,14 +1215,108 @@ def _legacy_geometry(e):
     return dict(kind='envelope',size_m=size),at,'Known source CSG retained separately; plain-envelope inertia/clearance proxy only'
 
 
-def component_export(legacy,added,account,r,*,retained_source_parts=None):
+def _gasket_evidence_arithmetic(policy,row):
+    """Check declared source stock/cost arithmetic; no kernel or material test."""
+    g=policy['geometry'];stock=policy['source_stock']
+    if g.get('kind')!='difference' or g['outer'].get('kind')!='box' or g['void'].get('kind')!='box':raise ValueError('Explicit source gasket ring required')
+    outer=g['outer'];void=g['void'];a=outer['size_m'];b=void['size_m'];section=stock['section_m']
+    _positive(a+b+section+[stock['net_profile_m'],stock['gross_profile_m']])
+    if outer['at_m']!=void['at_m'] or outer['rotation']!=I or void['rotation']!=I or abs(a[0]-b[0])>1e-12 or abs(a[0]-section[0])>1e-12 or any(abs(a[k]-b[k]-2*section[1])>1e-12 for k in (1,2)):
+        raise ValueError('Source gasket section/translated shape disagreement')
+    net=2*((a[1]+b[1])/2+(a[2]+b[2])/2)
+    cuts=stock['cut_rules']
+    if len(cuts)!=4 or any(type(c['quantity']) is not int or c['quantity']!=1 for c in cuts):raise ValueError('Four source mitre cuts required')
+    for c in cuts:_positive([c['net_m'],c['kerf_m'],c['trim_m'],c['reserve_m']])
+    gross=fsum(c['net_m']+c['kerf_m']+c['trim_m']+c['reserve_m'] for c in cuts)
+    if abs(net-stock['net_profile_m'])>1e-10 or abs(gross-stock['gross_profile_m'])>1e-10 or gross<net:raise ValueError('Source gasket paid stock/net/cut rules disagree')
+    V=section[0]*section[1]*net
+    for c in CASES:
+        basis=policy['source_cost_and_mass_cases'][c]
+        _positive([basis[k] for k in ('elastomer_density_kg_m3','bounded_adhesive_installed_kg','retained_source_composite_USD_m','added_mitre_process_h','labour_USD_h','additional_adhesive_consumables_USD')])
+        mass=V*basis['elastomer_density_kg_m3']+basis['bounded_adhesive_installed_kg']
+        price=gross*basis['retained_source_composite_USD_m']+basis['added_mitre_process_h']*basis['labour_USD_h']+basis['additional_adhesive_consumables_USD']
+        if abs(mass-row['mass_kg'][c])>1e-10 or abs(price-row['direct_usd'][c])>1e-10:raise ValueError('Source gasket existing adhesive/mass/price provenance differs')
+
+
+def legacy_account_coverage(legacy,account,r,*,source_local=None):
+    """Total once-only ledger coverage, with one pinned LOCAL gasket rekey.
+
+    No generic aliases, similar-mass matching or P1sevenmetre price inheritance.
+    The evidence is evaluation metadata, never part of material-solid identity.
+    This cheap check runs before new stock construction in compile_proposal.
+    """
+    if not isinstance(legacy,list) or any(not isinstance(e,dict) or not isinstance(e.get('id'),str) or not isinstance(e.get('part_id'),str) for e in legacy):raise ValueError('Explicit local material identities required')
+    if len({e['id'] for e in legacy})!=len(legacy):raise ValueError('Duplicate local material entity identity')
+    by={}
+    for e in legacy:
+        if e['id']!='source-body-end-beam':by.setdefault(e['part_id'],[]).append(e)
+    if not isinstance(account.get('rows'),list) or any(not isinstance(x,dict) or not isinstance(x.get('part_id'),str) for x in account['rows']):raise ValueError('Explicit source account row identities required')
+    rows={x['part_id']:x for x in account['rows']}
+    if len(rows)!=len(account['rows']):raise ValueError('Duplicate source accounting row identity')
+    for row in rows.values():
+        if type(row.get('quantity')) is not int or row['quantity']<=0:raise ValueError('Positive integer source accounting quantity required')
+        for name in ('mass_kg','direct_usd'):
+            values=row.get(name)
+            if not isinstance(values,dict) or set(values)!=set(CASES) or any(type(v) not in (int,float) or not isfinite(v) or v<=0 for v in values.values()):raise ValueError('Positive bounded source mass/cost cases required')
+    policy=LOCAL_GASKET_ACCOUNT_BINDING;geometry_key=policy['geometry_part_id'];account_key=policy['account_part_id']
+    aliases={};bindings=[]
+    if geometry_key in by:
+        if geometry_key in rows or account_key not in rows:raise ValueError('Exact LOCAL gasket ledger key required; no alias fallback')
+        if source_local is None:raise ValueError('Authenticated original LOCAL gasket definition required')
+        _sealed(source_local);_sealed(account)
+        if (source_local['evaluation_id']!=r['local']['geometry_evaluation_id'] or
+            source_local['evaluation_id']!=policy['local_geometry_evaluation_id'] or
+            source_local['physical_definition_id']!=policy['local_physical_definition_id'] or
+            source_local['physical_definition_id']!=r['local']['physical_definition_id'] or
+            source_local['physical_recipe_input_id']!=policy['local_physical_recipe_id'] or
+            account['evaluation_id']!=r['local']['accounting_evaluation_id']):raise ValueError('Stale/mixed LOCAL gasket source epoch')
+        original=[e for e in source_local['entities'] if e['part_id']==geometry_key]
+        members=by[geometry_key];row=rows[account_key]
+        if len(original)!=1 or len(members)!=1 or type(row['quantity']) is not int or row['quantity']!=1:raise ValueError('LOCAL gasket one-to-one quantity differs')
+        src=original[0];member=members[0]
+        if (src['id']!=policy['entity_id'] or src.get('material')!=policy['material'] or
+            src.get('geometry')!=policy['geometry'] or identity(src)!=policy['source_entity_sha256']):raise ValueError('LOCAL gasket material/profile/translated shape differs')
+        current={k:v for k,v in member.items() if k!='old_entity_sha256'}
+        if current!=src or member.get('old_entity_sha256',identity(src))!=identity(src):raise ValueError('Revised gasket is not the same LOCAL physical part')
+        if row.get('source_component_definition_id')!=policy['source_component_definition_id'] or row.get('material',policy['material'])!=policy['material']:
+            raise ValueError('LOCAL gasket source component/material differs; P1seal cannot substitute')
+        if identity(row)!=policy['source_account_row_sha256']:raise ValueError('LOCAL gasket price/mass/ownership provenance differs')
+        _gasket_evidence_arithmetic(policy,row)
+        aliases[geometry_key]=account_key
+        bindings.append(dict(geometry_part_id=geometry_key,account_part_id=account_key,quantity=1,
+            source_component_definition_id=policy['source_component_definition_id'],source_component_geometry_id=policy['source_component_geometry_id'],
+            source_fitout_candidate_id=policy['source_fitout_candidate_id'],source_fitout_evaluation_id=policy['source_fitout_evaluation_id'],
+            source_fitout_report_sha256=policy['source_fitout_report_sha256'],source_row_sha256=identity(row),
+            binding_evidence_id=identity(policy),source_geometry_translation_u_m=policy['geometry']['outer']['at_m'][0],
+            material_and_bounded_adhesive_scope=policy['bounded_adhesive_scope'],source_stock=deepcopy(policy['source_stock']),
+            original_P1_leaf=deepcopy(policy['original_P1_leaf']),price_retained_once=True,material_charged_again=False,physical_accepted=False))
+    mapped={};used=set()
+    for pid,members in by.items():
+        key=aliases.get(pid,pid)
+        if key not in rows:raise ValueError('Missing explicit source accounting row: '+pid)
+        if key in used:raise ValueError('Source accounting row reused by multiple physical groups')
+        row=rows[key];used.add(key)
+        if type(row['quantity']) is not int or row['quantity']!=len(members):raise ValueError('Local source part/physical count differs')
+        for name in ('mass_kg','direct_usd'):
+            values=row[name]
+            if not isinstance(values,dict) or set(values)!=set(CASES) or any(type(v) not in (int,float) or not isfinite(v) or v<=0 for v in values.values()):raise ValueError('Positive bounded source mass/cost cases required')
+        mapped[pid]=row
+    if set(rows)!=used:raise ValueError('Extra/unused source accounting rows are not silent zero-cost context')
+    receipt=dict(schema='osr-terminal-local-account-coverage/1',physical_groups=len(by),account_rows=len(rows),
+        each_row_used_once=True,bindings=bindings,source_account_evaluation_id=account.get('evaluation_id'),
+        complete_account_retained_unchanged=True,consumables_process_overhead_residual_recomputed=False,physical_accepted=False)
+    receipt['evaluation_id']=identity(receipt)
+    return mapped,receipt
+
+
+def component_export(legacy,added,account,r,*,retained_source_parts=None,source_local=None):
     """Local typed draft with complete positive stock ownership and CSG ancestry.
 
     Known exact CSG is not erased: it remains the physical definition and CAD
     source. The plain component exposes conservative packaging/proxy inertia;
     unsupported fitted joint schemas explicitly prevent automatic composition.
     """
-    rows={x['part_id']:x for x in account['rows']};es=[];groups=[];by={}
+    rows,coverage=legacy_account_coverage(legacy,account,r,source_local=source_local);es=[];groups=[];by={}
     for e in legacy:
         if e['id']=='source-body-end-beam':continue
         by.setdefault(e['part_id'],[]).append(e)
@@ -1126,6 +1324,8 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None):
         row=rows[pid];mass=_cases(row['mass_kg']);cost=_cases(row['direct_usd']);q=len(members)
         if q!=row['quantity']:raise ValueError('Local source part/physical count differs')
         if min(mass.values())<=0:raise ValueError('Unknown legacy mass cannot become zero')
+        if pid==LOCAL_GASKET_ACCOUNT_BINDING['geometry_part_id'] and retained_source_parts is not None and pid in retained_source_parts:
+            raise ValueError('LOCAL c999 gasket cannot inherit a P1 source-part override')
         if retained_source_parts is not None and pid in retained_source_parts:
             source=retained_source_parts[pid];mass={c:q*source['mass_each_kg'][c] for c in CASES};cost={c:q*source['direct_cost_each_usd'][c] for c in CASES}
         deltaV=0.
@@ -1166,6 +1366,7 @@ def component_export(legacy,added,account,r,*,retained_source_parts=None):
     out=dict(schema='osr-terminal-component-proposal/1',target_schema='osr-composition-component/1',units='m',quantity_scope='one terminal-local module; install once at each of the two explicit proper bindings,never as already global body coordinates',
       local_axes=['u outward','v lateral','w up'],required_bindings=deepcopy(r['bindings']),entities=es,stock_groups=groups,physical_interfaces=[],required_counterpart_ids=[],
       actual_joint_contracts=deepcopy(added.joints),source_csg_and_unknown_preserved=True,
+      source_account_coverage=coverage,
       unsupported_counterpart_schemas=['osr-stepped-RHS-bearing-sleeve/1','osr-one-wall-backed-liner/1','terminal glazing retention/blind insert supplier profile'],
       composition_admitted=False,capability_hold='A reviewed exact CSG/joint/consumable/canonical ownership adapter is still required; this draft does not claim final installed fit.')
     out['definition_id']=identity(dict(entities=[{k:e[k] for k in ('id','part_id','material_id','geometry','at_m','rotation','frame','functions')} for e in es],
@@ -1243,8 +1444,11 @@ def compile_proposal(r,body,local,account):
     before=sources();validate_fixed_recipe(r);_sealed(local);_sealed(account)
     if local['evaluation_id']!=r['local']['geometry_evaluation_id'] or local['physical_definition_id']!=r['local']['physical_definition_id'] or account['evaluation_id']!=r['local']['accounting_evaluation_id']:
         raise ValueError('Exact retained local inputs required')
+    # Resolve all cheap legacy/account ownership failures before new stock,
+    # source machining or revised geometry is constructed.
+    _,account_coverage=legacy_account_coverage(local['entities'],account,r,source_local=local)
     cp=counterpart_map(body,r);machining=source_machining(cp,r);legacy=revise_local(local,r);added=added_stock(r)
-    component=component_export(legacy,added,account,r,retained_source_parts={p['id']:p for p in body['parts']})
+    component=component_export(legacy,added,account,r,retained_source_parts={p['id']:p for p in body['parts']},source_local=local)
     consumables=consumable_accounting(added,account,r)
     replacements=[]
     for p in body['parts']:
@@ -1265,6 +1469,7 @@ def compile_proposal(r,body,local,account):
     return seal(dict(schema='osr-terminal-installation-definition-proposal/1',candidate_id=identity(physical),physical_definition=physical,
       parent=deepcopy(r['parent']),local=deepcopy(r['local']),source_sha256=before,selection_id=None,
       component_proposal=component,component_bindings=deepcopy(r['bindings']),stock_scope='Local component/newstock/consumables are per end; instantiate two proper bindings. Source machining/replacements cover the train once. Shared workshop fixture one off vehicle.',composer_automatically_applicable=False,source_machining=machining,old_leaf_replacements=replacements,
+      local_account_coverage=account_coverage,
       source_counterparts=[{k:v for k,v in c.items() if k not in ('part',)} for c in cp],
       retained_passage_seals=dict(quantity=10,part_id='body/passage-end-seal',source_patterns=[dict(id=p['id'],sha256=identity(p)) for p in body['patterns'] if p['part_id']=='body/passage-end-seal'],changed=False),
       wider_cladding_context=cladding,source_accounting_retained=deepcopy(account),new_stock_groups=added.groups,new_welds=added.welds,

@@ -189,6 +189,124 @@ def test_lookup_only_fix_preserves_exact_frozen_recipe_identity():
     assert identity(t.recipe())=='66809a859c6c69154cf0ca05b81ae489c8c88bc302c3b8d5c79e619173fd04e4'
 
 
+def test_default_gasket_binding_is_pinned_local_provenance_not_P1_alias():
+    # Inspect recorded constants only; never call a producer on actual inputs.
+    p=t.LOCAL_GASKET_ACCOUNT_BINDING
+    assert p['source_component_definition_id']=='c999f75defaeb4485e246674847727e9939e67278fd985e4c625895fc628faa1'
+    assert p['source_fitout_candidate_id']=='104972006cfeb390e8b191c26c103b57f8905997cf673ddf2f20141ccc8b01f3'
+    assert p['original_P1_leaf']['component_definition_id']=='70dad861b9dc8f52aae1b839e7c59b6c7cdec86c97f0fd28bf079773b7962eb8'
+    assert p['source_stock']['gross_profile_m']==9.048 and p['source_stock']['net_profile_m']==8.9
+    assert p['source_cost_and_mass_cases']['base']['elastomer_solid_mass_kg']==pytest.approx(2.30688)
+    assert p['source_cost_and_mass_cases']['base']['computed_direct_USD']==pytest.approx(49.74)
+
+
+def synthetic_gasket_account(monkeypatch):
+    """Invented centimetre-scale two-group input; replace evidence only in test."""
+    p=deepcopy(t.LOCAL_GASKET_ACCOUNT_BINDING);G=p['geometry_part_id'];A=p['account_part_id'];r=t.recipe()
+    w,h,radial,axial=.020,.030,.001,.004
+    g=dict(kind='difference',outer=dict(kind='box',size_m=[axial,w+radial,h+radial],at_m=[.003,0.,0.],rotation=t.I),
+        void=dict(kind='box',size_m=[axial,w-radial,h-radial],at_m=[.003,0.,0.],rotation=t.I))
+    gasket=dict(id=p['entity_id'],part_id=G,material='elastomer',geometry=g,holes=[],assembly_state='SYNTHETIC free shape')
+    plain=dict(id='SYNTHETIC/plain',part_id='SYNTHETIC/plain',material='al5083',geometry=dict(kind='box',size_m=[.010,.020,.030],at_m=[0.,0.,0.],rotation=t.I),holes=[])
+    physical=identity(dict(schema='SYNTHETIC-local-gasket',entities=[gasket,plain]))
+    local=t.seal(dict(schema='SYNTHETIC-local-gasket',physical_definition_id=physical,physical_recipe_input_id=identity(dict(synthetic_recipe=True)),entities=[gasket,plain]))
+    cuts=[dict(piece=str(i),quantity=1,net_m=L,kerf_m=.001,trim_m=.001,reserve_m=.001) for i,L in enumerate((w,h,w,h))]
+    net=2*(w+h);gross=sum(x['net_m']+.003 for x in cuts);basis={};mass={};price={}
+    for i,c in enumerate(t.CASES):
+        mass[c]=net*axial*radial*(1000+i)+.0000001;price[c]=gross*(2+i)+.01*3+.01
+        basis[c]=dict(elastomer_density_kg_m3=1000+i,bounded_adhesive_installed_kg=.0000001,retained_source_composite_USD_m=2+i,added_mitre_process_h=.01,labour_USD_h=3.,additional_adhesive_consumables_USD=.01)
+    row=dict(part_id=A,quantity=1,mass_kg=mass,direct_usd=price,source_component_definition_id=identity(dict(SYNTHETIC_component=g)))
+    other=dict(part_id='SYNTHETIC/plain',quantity=1,mass_kg=cases(.001),direct_usd=cases(.10))
+    account=t.seal(dict(rows=[row,other],consumables=dict(SYNTHETIC='one retained residual'),totals={c:dict(local_direct_scope_usd=price[c]+.10+7.) for c in t.CASES}))
+    r['local'].update(physical_definition_id=physical,geometry_evaluation_id=local['evaluation_id'],accounting_evaluation_id=account['evaluation_id'])
+    p.update(source_component_definition_id=row['source_component_definition_id'],source_fitout_candidate_id=identity(dict(SYNTHETIC_fitout=True)),source_fitout_evaluation_id=identity(dict(SYNTHETIC_eval=True)),local_physical_definition_id=physical,local_geometry_evaluation_id=local['evaluation_id'],local_physical_recipe_id=local['physical_recipe_input_id'],source_entity_sha256=identity(gasket),source_account_row_sha256=identity(row),geometry=deepcopy(g),source_stock=dict(net_profile_m=net,gross_profile_m=gross,section_m=[axial,radial],cut_rules=cuts),source_cost_and_mass_cases=basis)
+    monkeypatch.setattr(t,'LOCAL_GASKET_ACCOUNT_BINDING',p)
+    return local,account,r,p
+
+
+def test_tiny_local_rekey_keeps_every_row_price_and_existing_adhesive_once(monkeypatch):
+    local,account,r,p=synthetic_gasket_account(monkeypatch);before=deepcopy((local,account,r));added=t.Stock(r)
+    out=t.component_export(local['entities'],added,account,r,source_local=local)
+    assert (local,account,r)==before and len(out['stock_groups'])==2
+    assert out['stock_groups'][0]['source_account']==account['rows'][0]
+    assert out['stock_groups'][1]['source_account']==account['rows'][1]
+    assert out['stock_groups'][0]['direct_cost_usd']==account['rows'][0]['direct_usd']
+    assert out['stock_groups'][0]['net_mass_kg']==account['rows'][0]['mass_kg']
+    coverage=out['source_account_coverage'];assert coverage['each_row_used_once']
+    assert len(coverage['bindings'])==1 and not coverage['bindings'][0]['material_charged_again']
+    assert t.consumable_accounting(added,account,r)['legacy_process_consumable_overhead_residual_USD']==pytest.approx(cases(7.))
+    assert not out['composition_admitted']
+
+
+@pytest.mark.parametrize('mutation',[
+    lambda l,a:a['rows'].append(deepcopy(a['rows'][0])),
+    lambda l,a:a['rows'].pop(0),
+    lambda l,a:a['rows'].pop(1),
+    lambda l,a:a['rows'].append(dict(part_id='SYNTHETIC/extra',quantity=1,mass_kg=cases(.1),direct_usd=cases(1.))),
+    lambda l,a:a['rows'][0].update(source_component_definition_id='0'*64),
+    lambda l,a:a['rows'][0].update(quantity=2),
+    lambda l,a:a['rows'][0].update(material='steel'),
+    lambda l,a:a['rows'][0].update(part_id=l['entities'][0]['part_id']),
+    lambda l,a:l['entities'][0].update(material='steel'),
+    lambda l,a:l['entities'][0]['geometry']['outer']['at_m'].__setitem__(0,.004),
+    lambda l,a:a['rows'][0]['direct_usd'].update(base=99.),
+    lambda l,a:a['rows'][1]['mass_kg'].update(base=True),
+    lambda l,a:l['entities'].append(dict(id='SYNTHETIC/reused',part_id=a['rows'][0]['part_id'],material='elastomer',geometry=None)),
+    lambda l,a:l['entities'].append(deepcopy(l['entities'][0])),
+])
+def test_local_gasket_mismatch_or_unowned_rows_refuse_before_addedstock(monkeypatch,mutation):
+    local,account,r,p=synthetic_gasket_account(monkeypatch);b,_=source_fixture();mutation(local,account)
+    local=t.seal(local);account=t.seal(account);r['parent']=dict(candidate_id=b['candidate_id'],evaluation_id=b['evaluation_id'],raw_sha256='SYNTHETIC')
+    r['local'].update(geometry_evaluation_id=local['evaluation_id'],accounting_evaluation_id=account['evaluation_id'])
+    # Keep the synthetic epoch aligned so shape/material/reuse controls reach
+    # their actual ownership checks instead of only failing an old seal.
+    p['local_geometry_evaluation_id']=local['evaluation_id']
+    calls=[]
+    def must_not_construct(*a,**k):calls.append(1);raise AssertionError('Cheap failure must precede newstock')
+    monkeypatch.setattr(t,'added_stock',must_not_construct)
+    before=deepcopy((local,account))
+    with pytest.raises(ValueError):t.compile_proposal(r,b,local,account)
+    assert not calls and (local,account)==before
+
+
+def test_rekey_requires_original_context_and_cannot_use_P1_gasket_override(monkeypatch):
+    local,account,r,p=synthetic_gasket_account(monkeypatch);added=t.Stock(r)
+    with pytest.raises(ValueError,match='original LOCAL'):t.component_export(local['entities'],added,account,r)
+    with pytest.raises(ValueError,match='P1 source-part override'):
+        t.component_export(local['entities'],added,account,r,source_local=local,retained_source_parts={p['geometry_part_id']:dict(component_definition_id='70dad-not-c999')})
+
+
+def test_binding_and_price_change_evaluation_without_changing_material_geometry(monkeypatch):
+    local,account,r,p=synthetic_gasket_account(monkeypatch);added=t.Stock(r)
+    first=t.component_export(local['entities'],added,account,r,source_local=local)
+    p=deepcopy(p);p['root_provenance_review_id']='f'*64;monkeypatch.setattr(t,'LOCAL_GASKET_ACCOUNT_BINDING',p)
+    second=t.component_export(local['entities'],added,account,r,source_local=local)
+    assert first['definition_id']==second['definition_id'] and first['evaluation_id']!=second['evaluation_id']
+    before_geometry=identity(t.physical_projection(r));account=deepcopy(account)
+    for c in t.CASES:
+        basis=p['source_cost_and_mass_cases'][c];basis['retained_source_composite_USD_m']+=1.
+        new_price=p['source_stock']['gross_profile_m']*basis['retained_source_composite_USD_m']+basis['added_mitre_process_h']*basis['labour_USD_h']+basis['additional_adhesive_consumables_USD']
+        account['rows'][0]['direct_usd'][c]=new_price;account['totals'][c]['local_direct_scope_usd']=new_price+.1+7.
+    account=t.seal(account);r['local']['accounting_evaluation_id']=account['evaluation_id'];p['source_account_row_sha256']=identity(account['rows'][0])
+    monkeypatch.setattr(t,'LOCAL_GASKET_ACCOUNT_BINDING',p)
+    third=t.component_export(local['entities'],added,account,r,source_local=local)
+    assert identity(t.physical_projection(r))==before_geometry
+    assert third['definition_id']==first['definition_id'] and third['evaluation_id']!=second['evaluation_id']
+    assert t.consumable_accounting(added,account,r)['legacy_process_consumable_overhead_residual_USD']==pytest.approx(cases(7.))
+
+
+def test_true_geometry_change_changes_physical_definition_not_price_alias(monkeypatch):
+    local,account,r,p=synthetic_gasket_account(monkeypatch);added=t.Stock(r)
+    first=t.component_export(local['entities'],added,account,r,source_local=local)
+    local=deepcopy(local);local['entities'][1]['geometry']['size_m'][0]+=.001
+    local['physical_definition_id']=identity(dict(SYNTHETIC_changed_geometry=local['entities']));local=t.seal(local)
+    r['local'].update(physical_definition_id=local['physical_definition_id'],geometry_evaluation_id=local['evaluation_id'])
+    p=deepcopy(p);p.update(local_physical_definition_id=local['physical_definition_id'],local_geometry_evaluation_id=local['evaluation_id'])
+    monkeypatch.setattr(t,'LOCAL_GASKET_ACCOUNT_BINDING',p)
+    second=t.component_export(local['entities'],added,account,r,source_local=local)
+    assert second['definition_id']!=first['definition_id']
+
+
 @pytest.mark.parametrize('where,mutation',[
     ('physical',lambda x:x.pop('car_width_m')),
     ('policy',lambda x:x.pop('car_width_m')),
