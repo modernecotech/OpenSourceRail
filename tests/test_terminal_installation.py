@@ -408,9 +408,9 @@ def test_TF3_tab_paths_are_two40mm_mating_edges_not_one80mm_line(sign):
 def test_TF3_cap_paths_are_two20mm_real_joint_edges(sign):
     paths=t.cap_connector_segments(sign);assert len(paths)==2
     assert paths[0]==[[0.,0.,-.010],[0.,0.,.010]]
-    assert paths[1]==[[.003,sign*.0045,-.010],[.003,sign*.0045,.010]]
+    assert paths[1]==[[.006,sign*.0045,-.010],[.006,sign*.0045,.010]]
     #Joint1 innerarm/crossarm atUV(.002,sign*1.221),joint2 crossarm/cap
-    #atUV(.005,sign*1.2255); each finite arm is20mm high.
+    #atUV(.008,sign*1.2255); each finite arm is20mm high.
     for line in paths:assert sum((line[0][i]-line[1][i])**2 for i in range(3))**.5==pytest.approx(.020)
     s=t.Stock(t.recipe());s.weld('SYNTHETIC/cap',.040,[0.,0.,0.],segments=paths,process_h=.20,qa_h=.10)
     assert s.groups[0]['net_m3']==pytest.approx(.5*.003**2*.040)
@@ -432,7 +432,7 @@ def test_TF4_pocket_material_is_finite_disjoint_from_bore_and_tool_has_pull_clea
     d=t.upper_liner_removal_contract();assert d['minimum_stem_clearance_after_pull_m']>.0005
     assert d['tool_gap_bound_m']>0 and d['collar_engagement_bound_m']>0 and d['cantrail_tool_vertical_clearance_bound_m']>0
     assert min(abs(x) for r in d['recess_U_from_bolt_axis_m'] for x in r)>.0082/2
-    assert d['recess_W_m']==[-.012,.002] and d['extractor_tip_path_m'][0][2]==-.014
+    assert d['recess_W_m']==[-.030,.003] and d['extractor_tip_path_m'][0][2]==-.032
     assert d['extractor_tip_path_m'][-1][1]==.0202
     tool=d['workshop_extractor'];assert tool['quantity_per_train']==1 and not tool['installed']
     assert tool['gross_volume_m3']>tool['net_volume_m3']>0
@@ -449,8 +449,8 @@ def test_TF4_no_lift_with_one_missing_duplicate_or_unidentified_liner_kit():
 
 def test_TF3_asymmetric_cap_seam_bounds_and_mass_moment_use_both_real_seams():
     s=t.Stock(t.recipe());e=s.weld('SYNTHETIC/cap',.040,[0.,0.,0.],segments=t.cap_connector_segments(1))
-    assert e['at_m']==pytest.approx([.0015,.00225,0.])
-    assert [e['at_m'][i]+e['centroid_local_m'][i] for i in range(3)]==pytest.approx([.0015,.00225,0.])
+    assert e['at_m']==pytest.approx([.003,.00225,0.])
+    assert [e['at_m'][i]+e['centroid_local_m'][i] for i in range(3)]==pytest.approx([.003,.00225,0.])
     assert s.welds[0]['local_segments_m']==t.cap_connector_segments(1)
     for line in e['physical_drawing']['local_segments_m']:
         for p in line:
@@ -463,3 +463,109 @@ def test_TF1_post_cut_and_new_closure_do_not_silently_move_top_datum():
     assert out['size_m'][0]==pytest.approx(2.190) and out['at_m'][2]==pytest.approx(.005)
     assert out['at_m'][2]+out['size_m'][0]/2==pytest.approx(1.10)
     assert out['at_m'][2]-out['size_m'][0]/2+2.25==pytest.approx(1.160)
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_residual_cap_bead_is_on_exposed_faces_and_triangles_avoid_actual_parents(sign):
+    s=t.Stock(t.recipe());e=t.cap_connector_stock(s,'SYNTHETIC/cap',[.002,sign*1.221,0.],sign)
+    profiles=e['physical_drawing']['profile_vertices_UV_from_station_m']
+    #Source parent cross-sections, written independently from the emitter.
+    parents=[((-.015,.002),(1.215,1.221)),((.002,.008),(1.221,1.2255)),((.002,.008),(1.2255,1.3245))]
+    def inside(P):
+        U,V=P[0],sign*P[1]
+        return any(a[0]+1e-12<U<a[1]-1e-12 and b[0]+1e-12<V<b[1]-1e-12 for a,b in parents)
+    area=[]
+    for tri in profiles:
+        A=abs(sum(tri[i][0]*tri[(i+1)%3][1]-tri[(i+1)%3][0]*tri[i][1] for i in range(3)))/2;area.append(A)
+        for a in (.1,.3,.5):
+            for b in (.1,.3):
+                if a+b>=1:continue
+                q=[.002+a*tri[0][0]+b*tri[1][0]+(1-a-b)*tri[2][0],sign*1.221+a*tri[0][1]+b*tri[1][1]+(1-a-b)*tri[2][1]]
+                assert not inside(q)
+    assert area==pytest.approx([.5*.003**2]*2)
+    assert s.groups[0]['net_m3']==pytest.approx(sum(area)*.020)
+    assert s.groups[0]['process_h']==.25 and s.groups[0]['QA_h']==.15
+    assert e['at_m'][0]+e['centroid_local_m'][0]==pytest.approx(.005)
+    assert e['at_m'][1]+e['centroid_local_m'][1]==pytest.approx(sign*1.22375)
+    assert not s.joints[0]['added_groove_or_parentcut']
+    assert e['physical_drawing']['penetration_runout_WPS_qualified'] is False
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_residual_open_slots_have_exact_cut_centroids_and_paid_blank_once(sign):
+    s=t.Stock(t.recipe());e=t.upper_liner_tie_stock(s,'SYNTHETIC/tie',sign);g=s.groups[0];sp=t.upper_liner_slot_spec()
+    original=.070*.006*.120
+    bores=2*3.141592653589793*(.0082/2)**2*.006
+    removal=4*(.003*.0315+.5*3.141592653589793*.0015**2)*.0024
+    assert g['net_m3']==pytest.approx(original-bores-removal)
+    assert g['gross_m3']>original and g['gross_m3']-g['net_m3']==pytest.approx(g['scrap_m3'])
+    assert g['process_h']==pytest.approx(.05+4*.10) and g['QA_h']==pytest.approx(.03+4*.04)
+    assert sp['removed_volume_m3']*4==pytest.approx(removal)
+    assert sp['bottom_W_m']-.030==pytest.approx(-.060) #Actual tiebottom.
+    assert sp['remaining_tie_depth_m']==pytest.approx(.0036)
+    assert sp['source_bore_radial_ligament_m']==pytest.approx(.0004)
+    assert e['mass_kg']['base']==pytest.approx(g['net_m3']*2660.)
+    assert e['physical_drawing']['remaining_netsection_qualification'] is False
+    assert e['additional_finish_surface_reference_m2']>0
+    matcost=g['gross_m3']*2660.*5.
+    assert g['direct_cost_usd']['base']==pytest.approx(matcost+(g['process_h']+g['QA_h'])*10.)
+    #Cuts are lower than the original tieCG, so remaining centre rises.
+    assert e['centroid_local_m'][2]>0
+
+
+def tool_bounds(part,delta):
+    return [[part['at_m'][i]+delta[i]-part['size_m'][i]/2 for i in range(3)],
+            [part['at_m'][i]+delta[i]+part['size_m'][i]/2 for i in range(3)]]
+
+
+def test_residual_complete_tool_entry_takeup_pull_uses_only_actual_open_slot_voids():
+    d=t.upper_liner_removal_contract();parts=d['workshop_extractor']['parts_m'];sp=d['slot']
+    #Tie relative tobolt hasW[-30,+90]mm,V[-6,0]mm. Slots meet bottom,
+    #and full-width straightregion reachesW+1.5mm above every insertedpart.
+    for phase in range(3):
+        for j in range(33):
+            if phase==0:delta=[0.,0.,-.032+j*.001]
+            elif phase==1:delta=[0.,j/32*.0002,0.]
+            else:delta=[0.,.0002+j/32*.020,0.]
+            for part in parts:
+                lo,hi=tool_bounds(part,delta)
+                overlapW=max(lo[2],-.030)<min(hi[2],.090)-1e-12
+                overlapV=max(lo[1],-.006)<min(hi[1],0.)-1e-12
+                if overlapW and overlapV:
+                    assert part['name']!='handle'
+                    assert lo[1]>=-sp['depth_m']-1e-12
+                    assert min(hi[2],.090)<=sp['round_end_centre_W_m']+1e-12
+                    assert any(a<=lo[0]+1e-12 and hi[0]<=b+1e-12 for a,b in d['recess_U_from_bolt_axis_m'])
+    #Two early material-crossing witnesses from4c8 now lie in real cutslot.
+    assert d['extractor_tip_path_m'][0]==[0.,0.,-.032]
+    assert all(tool_bounds(p,[0,0,-.032])[1][2]<=-.032+1e-12 for p in parts)
+    assert d['tool_gap_bound_m']>0 and d['tool_U_side_clearance_bound_m']>0
+    assert d['minimum_stem_clearance_after_pull_m']==pytest.approx(.010)
+
+
+def test_residual_tool_onepiece_regions_have_real_contacts_no_double_material_and_positive_stock():
+    d=t.upper_liner_removal_contract();tool=d['workshop_extractor'];parts=tool['parts_m']
+    for i,a in enumerate(parts):
+        A,B=tool_bounds(a,[0,0,0])
+        for b in parts[i+1:]:
+            C,D=tool_bounds(b,[0,0,0]);assert min(min(B[k],D[k])-max(A[k],C[k]) for k in range(3))<=1e-12
+    for side in (-1,1):
+        tip=next(x for x in parts if x['name']==f'tip/{side}');step=next(x for x in parts if x['name']==f'step/{side}');handle=parts[0]
+        assert tool_bounds(tip,[0,0,0])[0][2]==pytest.approx(tool_bounds(step,[0,0,0])[1][2])
+        assert tool_bounds(step,[0,0,0])[0][2]==pytest.approx(tool_bounds(handle,[0,0,0])[1][2])
+    assert tool['net_volume_m3']==pytest.approx(sum(__import__('math').prod(x['size_m']) for x in parts))
+    assert tool['gross_volume_m3']>tool['net_volume_m3']>0 and tool['quantity_per_train']==1 and not tool['installed']
+    b=tool['necessary_tip_bound'];assert b['force_per_tip_N']==20 and not b['loadsharing_credit']
+    assert b['stress_residual_Pa']>0 and b['deflection_m']<.0001
+    assert not tool['pull_capability_measured']
+
+
+def test_residual_paths_preserve_proper_handed_frames_and_capture_before_lift():
+    d=t.upper_liner_removal_contract()
+    assert d['tool_frame']['positive_rotation']==t.I and d['tool_frame']['negative_rotation']==t.RX180
+    assert t.upper_frame_joint()['layers'][-1]['end_m']==.0125
+    assert d['stem_OD_m']==.008 and d['bore_m']==.0082 and d['collar_OD_m']==.011
+    ids=[f'upper-frame/{y}/{j}/M6/liner-kit' for y in (-1,1) for j in range(2)]
+    assert t.assert_frame_lift_ready(ids)
+    with pytest.raises(ValueError):t.assert_frame_lift_ready(ids[:-1])
+    assert t.necessary_bounds(t.recipe())['floor_root']['outer_hanger_reaction_N']==1000.
