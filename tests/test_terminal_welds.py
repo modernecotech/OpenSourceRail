@@ -249,4 +249,92 @@ class WeldTests(unittest.TestCase):
         with patch.object(w,'SOURCE',pin),patch.object(w,'PATTERNS',(('roof/standoff-weld/*',1),)):
             with self.assertRaisesRegex(ValueError,'metre terminal axes'):w.compile_definition(raw,pin=pin,assignments={},request_id='b'*64)
 
+
+
+
+def groove_fixture(with_bore=False):
+    L,b,h,t=.090,.024,.040,.0032;T=[.2,.3,.4];g=dict(kind='rhs',size_m=[L,b,h],wall_m=t,corner_bevels=dict(count=4,leg_m=.002,length_m=L,separately_owned_filler=True));holesV=0.;holeM=[0.,0.,0.]
+    if with_bore:
+        c=[-.020,0.,h/2-t/2];g['holes']=[dict(axis=2,centre_m=c,radius_m=.001,length_m=t)];holesV=math.pi*.001**2*t;holeM=w.scale(c,holesV)
+    fullV=L*(b*h-(b-2*t)*(h-2*t));oldRemoved=4*.5*.002**2*L
+    p=dict(id='floor/support/invented',material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=T,rotation=deepcopy(w.I),geometry=g,centroid_local_m=w.scale(holeM,-1/(fullV-holesV)))
+    policy=fixture()[4];rho=[2580.2,2660.,2739.8];rates=policy['materials']['al5083']['rate_USD_kg'];lab=policy['process']['labour_USD_h'];cuts=[[L,h,t],[L,h,t],[L,b-2*t,t],[L,b-2*t,t]];gross=sum((a+.011)*(bb+.004)*c for a,bb,c in cuts)
+    def stock(eid,V,gv):
+        return dict(id='stock/'+eid,entity_ids=[eid],quantity=1,net_m3=V,gross_m3=gv,process_h=.1,QA_h=.05,net_mass_kg={c:V*rho[j] for j,c in enumerate(w.CASES)},gross_mass_kg={c:gv*rho[j] for j,c in enumerate(w.CASES)},scrap_mass_kg={c:(gv-V)*rho[j] for j,c in enumerate(w.CASES)},direct_cost_usd={c:gv*rho[j]*rates[j]+.15*lab[j] for j,c in enumerate(w.CASES)})
+    pg=stock(p['id'],fullV-holesV-oldRemoved,gross);pg.update(individual_plate_cuts_m=cuts,corner_bevel_removal_m3=oldRemoved)
+    e=dict(id=p['id']+'/long-seams',material_id='al5083',frame='terminal-local-UVW',scope='installed',at_m=T,rotation=deepcopy(w.I),physical_drawing=dict(kind='triangular-weld-seams',leg_m=.002,in_prepared_grooves=True,local_segments_m=[[[-L/2,sy*b/2,sz*h/2],[L/2,sy*b/2,sz*h/2]] for sy in (-1,1) for sz in (-1,1)]))
+    return [p,pg,e,stock(e['id'],oldRemoved,1.2*oldRemoved),policy]
+
+def groove_run(f,**kw):return w.fabricated_butt_revision(*f,trim_start_m=.001,trim_end_m=.001,**kw)
+
+
+class GrooveTests(unittest.TestCase):
+    def test_joint_centred_grooves_replace_credit_once(self):
+        f=groove_fixture();before=deepcopy(f);r=groove_run(f);a=r['accounting'];self.assertEqual(f,before);self.assertEqual(len(r['grooves']),4);self.assertEqual(a['source_paid_gross_count'],1);self.assertFalse(a['old_removal_charge_repeated']);self.assertEqual(a['parent_new_gross_m3'],f[1]['gross_m3']);self.assertEqual(a['new_parent_material_purchase_m3'],0.)
+        self.assertAlmostEqual(a['net_parent_volume_delta_m3']+a['net_filler_volume_delta_m3'],0.,places=16);self.assertAlmostEqual(r['combined_volume_conservation_residual_m3'],0.,places=16)
+        self.assertTrue(all(abs(x)<1e-16 for x in r['combined_first_moment_residual_m4']));self.assertIsNone(a['additional_groove_tool_setup_process_QA_h']);self.assertFalse(r['physical_accepted']);self.assertFalse(r['native_eligible'])
+
+    def test_two_actual_plate_half_grooves_each(self):
+        r=groove_run(groove_fixture());p=r['source_parent'];b,h=p['geometry']['size_m'][1:];t=p['geometry']['wall_m']
+        for q in r['grooves']:
+            self.assertEqual(len(q['source_cells']),2);self.assertAlmostEqual(sum(q['half_groove_volumes_m3']),q['volume_m3']);self.assertAlmostEqual(abs(q['centroid_local_m'][1]),b/2-t);self.assertAlmostEqual(abs(q['centroid_local_m'][2]),h/2-.002/3)
+            self.assertEqual(len(q['vertices_m']),6)
+
+    def test_existing_top_wall_bore_and_corrected_first_moment(self):
+        f=groove_fixture(True);r=groove_run(f);self.assertGreater(max(abs(x) for x in r['source_parent_centroid_model_residual_m']),0.)
+        self.assertTrue(all(abs(x)<1e-16 for x in r['combined_first_moment_residual_m4']));self.assertEqual(r['physical_definition']['source_bores'],f[0]['geometry']['holes'])
+
+    def test_asymmetric_trim_mass_and_first_moment(self):
+        f=groove_fixture(True);r=w.fabricated_butt_revision(*f,trim_start_m=.001,trim_end_m=.002);self.assertAlmostEqual(r['filler_new_centroid_local_m'][0],-.0005);self.assertAlmostEqual(r['combined_volume_conservation_residual_m3'],0.,places=16);self.assertTrue(all(abs(x)<1e-16 for x in r['combined_first_moment_residual_m4']))
+
+    def test_all_three_mass_cases_cancel_parent_filler_delta(self):
+        f=groove_fixture();r=groove_run(f)
+        for c in w.CASES:
+            expected=f[1]['net_mass_kg'][c]+f[3]['net_mass_kg'][c];actual=r['accounting']['cases'][c]['parent_net_kg']+r['accounting']['cases'][c]['filler_net_kg'];self.assertAlmostEqual(expected,actual,places=12)
+
+    def test_cost_policy_changes_eval_only(self):
+        f=groove_fixture();a=groove_run(f);f[4]['materials']['al5083']['rate_USD_kg']=[4.,6.,9.]
+        for g in [f[1],f[3]]:
+            for j,c in enumerate(w.CASES):g['direct_cost_usd'][c]=g['gross_mass_kg'][c]*f[4]['materials']['al5083']['rate_USD_kg'][j]+.15*f[4]['process']['labour_USD_h'][j]
+        b=groove_run(f);self.assertEqual(a['physical_definition_id'],b['physical_definition_id']);self.assertNotEqual(a['evaluation_id'],b['evaluation_id'])
+
+    def test_changed_trim_changes_geometry_id(self):
+        f=groove_fixture();a=groove_run(f);b=w.fabricated_butt_revision(*f,trim_start_m=.002,trim_end_m=.002);self.assertNotEqual(a['physical_definition_id'],b['physical_definition_id'])
+
+    def test_changed_source_removed_budget_refused(self):
+        f=groove_fixture();f[1]['corner_bevel_removal_m3']*=2
+        with self.assertRaisesRegex(ValueError,'Prior corner'):groove_run(f)
+
+    def test_changed_old_filler_paths_not_relabelled(self):
+        f=groove_fixture();f[2]['physical_drawing']['local_segments_m'][0][0][1]+=.001
+        with self.assertRaisesRegex(ValueError,'source seam'):groove_run(f)
+
+    def test_parent_or_weld_material_mismatch_refused(self):
+        f=groove_fixture();f[2]['material_id']='stainless'
+        with self.assertRaisesRegex(ValueError,'Same-material'):groove_run(f)
+
+    def test_unconsumed_source_cut_refused(self):
+        f=groove_fixture();f[0]['geometry']['unresolved_cut']={'kind':'arbitrary'}
+        with self.assertRaisesRegex(w.DefinitionHold,'complete-fabricated'):groove_run(f)
+
+    def test_bad_prior_price_refused_without_zero(self):
+        f=groove_fixture();f[1]['direct_cost_usd']['base']=0.
+        with self.assertRaisesRegex(ValueError,'cost policy'):groove_run(f)
+
+    def test_plate_cut_roster_and_reused_stock_refused(self):
+        for mode in ['cuts','owner']:
+            f=groove_fixture()
+            if mode=='cuts':f[1]['individual_plate_cuts_m'][0][1]+=.001
+            else:f[1]['entity_ids'].append('another-owner')
+            with self.assertRaisesRegex(ValueError,'paid plate cuts'):groove_run(f)
+
+    def test_wrong_bore_domain_refused(self):
+        f=groove_fixture(True);f[0]['geometry']['holes'][0]['centre_m'][1]=f[0]['geometry']['size_m'][1]/2-f[0]['geometry']['wall_m']
+        with self.assertRaisesRegex(w.DefinitionHold,'contained-in-one'):groove_run(f)
+
+    def test_reflection_and_nan_trim_refused(self):
+        f=groove_fixture();f[0]['rotation'][0][0]=-1.
+        with self.assertRaisesRegex(ValueError,'Reflection'):groove_run(f)
+        with self.assertRaises(ValueError):w.fabricated_butt_revision(*groove_fixture(),trim_start_m=float('nan'),trim_end_m=.001)
+
 if __name__=='__main__':unittest.main()

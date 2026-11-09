@@ -270,3 +270,88 @@ def compile_definition(raw,*,pin,assignments,request_id):
                     if interiors_overlap(x['poly'],y['poly']):cross_record_intersections.append([x['id'],y['id']])
     physical=dict(schema='osr-terminal-weld-revision-physical/1',parent_candidate_id=pin['candidate_id'],proposed_welds=[p['physical_definition'] for p in proposals],unresolved_source_weld_ids=[h['source_weld_id'] for h in held])
     return seal(dict(schema='osr-terminal-weld-definition-proposal/1',source_pin=deepcopy(pin),source_request_id=request_id,physical_definition=physical,physical_definition_id=identity(physical),source_proposal_unchanged=src,source_assignments=deepcopy(assignments),proposals=proposals,held=held,cross_record_intersections=cross_record_intersections,source_welds=expected_count,defined_welds=len(proposals),complete_finite_weld_definition=not held and not cross_record_intersections,old_owner_disposition='No ledger changes applied. Each resolved proposal names one old owner replacement; held owners retained without inferred zero or extra charge.',canonical_definition=None,hold='Research family only; full parent cuts, unsupported interfaces, assembly/access, WPS and independent review still required',**FLAGS))
+
+
+def fabricated_butt_revision(parent,parent_stock,old_weld,old_weld_stock,policy,*,trim_start_m,trim_end_m):
+    """Propose joint-centred finite V grooves for four already-paid plates.
+
+    The source removes four triangles at OUTER RHS corners. Those2mm triangles
+    stay in the full-height3mm sideplate and do not reach its mate. This revision
+    restores that old void budget, then places equal-area grooves on the actual
+    plate butt lines. It does not buy another blank or subtract the prior removal
+    twice. Positive trimmed ends make parent and filler deltas explicit. The
+    proposed2mm-deep/2mm-wide groove is a geometric hypothesis, not a WPS.
+    """
+    p=deepcopy(parent);pg=deepcopy(parent_stock);w=deepcopy(old_weld);wg=deepcopy(old_weld_stock);g=p['geometry'];pid=name(p['id'])
+    if not (re.fullmatch(r'floor/support/[^/]+',pid) or re.fullmatch(r'side-stiffener/[^/]+/[^/]+/(front|rear)',pid)):raise DefinitionHold('fabricated-source-family-unsupported')
+    if set(g)-{'kind','size_m','wall_m','corner_bevels','holes'} or g.get('kind')!='rhs':raise DefinitionHold('complete-fabricated-RHS-source-geometry-required')
+    if p.get('physical_drawing') is not None or p.get('exact_CSG_entity') is not None:raise DefinitionHold('unconsumed-fabricated-source-CSG')
+    L,width,height=vector(g['size_m']);wall=scalar(g['wall_m'],True);bevel=g['corner_bevels'];leg=.002
+    if bevel!={'count':4,'leg_m':leg,'length_m':L,'separately_owned_filler':True}:raise ValueError('Exact already-counted source corner bevel required')
+    if not 0<leg<wall<min(width,height)/2:raise DefinitionHold('source-bevel-to-joint-line-domain')
+    cuts=[[L,height,wall],[L,height,wall],[L,width-2*wall,wall],[L,width-2*wall,wall]]
+    if pg['entity_ids']!=[pid] or type(pg.get('quantity')) is not int or pg['quantity']!=1 or pg['individual_plate_cuts_m']!=cuts:raise ValueError('Four disjoint original paid plate cuts required')
+    old_removed=4*.5*leg*leg*L
+    if abs(scalar(pg['corner_bevel_removal_m3'],True)-old_removed)>1e-14:raise ValueError('Prior corner void/removal budget mismatch')
+    if w['id']!=pid+'/long-seams' or wg['entity_ids']!=[w['id']] or type(wg.get('quantity')) is not int or wg['quantity']!=1 or w['material_id']!=p['material_id'] or p['material_id']!='al5083':raise ValueError('Same-material original weld/parent ownership required')
+    if w.get('frame')!='terminal-local-UVW' or p.get('frame')!='terminal-local-UVW' or p.get('scope')!='installed' or w.get('scope')!='installed':raise ValueError('Explicit local installed source frames required')
+    T=vector(p['at_m']);R=rotation(p['rotation']);WT=vector(w['at_m']);WR=rotation(w['rotation']);d=w['physical_drawing']
+    if d.get('kind')!='triangular-weld-seams' or d.get('leg_m')!=leg or d.get('in_prepared_grooves') is not True or len(d['local_segments_m'])!=4:raise ValueError('Exact original unresolved four longitudinal seams required')
+    expected=[(world([-L/2,sy*width/2,sz*height/2],T,R),world([L/2,sy*width/2,sz*height/2],T,R)) for sy in (-1,1) for sz in (-1,1)]
+    actual=[tuple(world(vector(v),WT,WR) for v in line) for line in d['local_segments_m']]
+    matched=[]
+    for a,b in actual:
+        candidates=[j for j,(x,y) in enumerate(expected) if (norm(sub(a,x))<EPS and norm(sub(b,y))<EPS) or (norm(sub(a,y))<EPS and norm(sub(b,x))<EPS)]
+        if len(candidates)!=1 or candidates[0] in matched:raise ValueError('Old source seam does not match its counted outer-corner void')
+        matched.append(candidates[0])
+    start=scalar(trim_start_m,True);finish=scalar(trim_end_m,True)
+    if min(start,finish)<1e-6 or start+finish>=L-1e-5:raise DefinitionHold('finite-butt-groove-runout-domain')
+    # Equal area to each prior right triangle: base2mm,depth2mm =2mm².
+    half_width=leg/2;depth=leg;net_length=L-start-finish
+    if half_width>=min(wall,width/2-wall) or depth>=wall:raise DefinitionHold('joint-centred-groove-exceeds-one-of-its-two-source-plates')
+    base=deepcopy(p);base['geometry']=deepcopy(g);base['geometry'].pop('corner_bevels');material=_parent(base)
+    hole_volume=0.;hole_moment=[0.,0.,0.];hole_bounds=[]
+    for h in g.get('holes',[]):
+        axis=h['axis'];centre=vector(h['centre_m']);radius=scalar(h['radius_m'],True);length=scalar(h['length_m'],True)
+        lo=[centre[k]-(length/2 if k==axis else radius) for k in range(3)];hi=[centre[k]+(length/2 if k==axis else radius) for k in range(3)]
+        if not any(all(lo[k]>=c['lo'][k]-EPS and hi[k]<=c['hi'][k]+EPS for k in range(3)) for c in material['cells']):raise DefinitionHold('source-bore-not-contained-in-one-source-material-plate')
+        hb=bounds(_box(lo,hi,T,R)['vertices'])
+        if any(bounds_may_touch(hb,other) for other in hole_bounds):raise DefinitionHold('source-bore-union-needs-independent-domain')
+        hole_bounds.append(hb);V=3.141592653589793*radius*radius*length;hole_volume+=V;hole_moment=add(hole_moment,scale(centre,V))
+    fullV=L*(width*height-(width-2*wall)*(height-2*wall));beforeV=fullV-hole_volume-old_removed
+    if abs(scalar(pg['net_m3'],True)-beforeV)>max(1e-14,beforeV*1e-9):raise ValueError('Original net material differs from holes and once-only corner removal')
+    if abs(scalar(wg['net_m3'],True)-old_removed)>1e-14:raise ValueError('Original separately paid filler volume differs')
+    grooves=[]
+    for sy in (-1,1):
+        for sz in (-1,1):
+            y=sy*(width/2-wall);z=sz*height/2
+            # First three points at one end; next three at the other. The butt
+            # line y is common to the half-grooves cut from two separate plates.
+            tri=[[y-half_width,z],[y+half_width,z],[y,z-sz*depth]]
+            vertices=[world([x,yy,zz],T,R) for x in (-L/2+start,L/2-finish) for yy,zz in tri]
+            poly=_poly(vertices,[(0,2,1),(3,4,5),(0,1,4,3),(1,2,5,4),(2,0,3,5)])
+            gb=bounds(vertices)
+            if any(bounds_may_touch(gb,hb) for hb in hole_bounds):raise DefinitionHold('new-groove-intersects-or-touches-source-bore-bound')
+            V=half_width*depth*net_length;cl=[(start-finish)/2,y,z-sz*depth/3];cw=world(cl,T,R)
+            grooves.append(dict(id=pid+'/joint-centred-groove/'+str(sy)+'/'+str(sz),source_cells=['y'+('+' if sy>0 else '-'),'z'+('+' if sz>0 else '-')],vertices_m=vertices,poly=poly,volume_m3=V,centroid_local_m=cl,centroid_m=cw,half_groove_volumes_m3=[V/2,V/2],contact_domain='Two sloped finite groove faces on the actual listed plates, not a centreline or original outer corner'))
+    for j,a in enumerate(grooves):
+        for b in grooves[j+1:]:
+            if interiors_overlap(a['poly'],b['poly']):raise DefinitionHold('finite-joint-groove-interiors-overlap')
+    new_removed=fsum(q['volume_m3'] for q in grooves);cutM=[fsum(q['volume_m3']*q['centroid_local_m'][k] for q in grooves) for k in range(3)];net=fullV-hole_volume-new_removed;C=scale(add(scale(hole_moment,-1.),scale(cutM,-1.)),1/net);fillerC=scale(cutM,1/new_removed)
+    rho,rates,labour,factor=_policy(policy,p['material_id']);gross=scalar(pg['gross_m3'],True)
+    if gross<max(net,beforeV):raise ValueError('Restoring old void cannot exceed its owned gross material')
+    for j,c in enumerate(CASES):
+        for group,netV in [(pg,beforeV),(wg,old_removed)]:
+            if abs(scalar(group['net_mass_kg'][c])-netV*rho[j])>1e-9:raise ValueError('Source material mass policy mismatch')
+            gv=scalar(group['gross_m3'],True);ph=scalar(group['process_h']);qh=scalar(group['QA_h'])
+            if min(ph,qh)<0 or ph+qh<=0:raise ValueError('Positive original process/QA scope required')
+            expected_cost=gv*rho[j]*rates[j]+(ph+qh)*labour[j]
+            if abs(scalar(group['direct_cost_usd'][c])-expected_cost)>max(1e-8,expected_cost*1e-9):raise ValueError('Source material/rate/process cost policy mismatch')
+            if abs(scalar(group['gross_mass_kg'][c])-gv*rho[j])>1e-9 or abs(scalar(group['scrap_mass_kg'][c])-(gv-netV)*rho[j])>1e-9:raise ValueError('Source gross/net/scrap ownership mismatch')
+        if abs(scalar(wg['gross_m3'],True)-old_removed*factor)>1e-14:raise ValueError('Source filler procurement ownership differs')
+    physical=dict(schema='osr-terminal-four-plate-butt-groove-revision/1',parent_id=pid,material_id=p['material_id'],frame='terminal-local-UVW',at_m=T,rotation=deepcopy(R),source_plate_cuts_m=cuts,retired_source_corner_bevels=deepcopy(bevel),source_bores=deepcopy(g.get('holes',[])),new_voids=[{k:deepcopy(q[k]) for k in ('id','source_cells','vertices_m')} for q in grooves],new_filler_material_id=w['material_id'],new_filler_vertices_m=[deepcopy(q['vertices_m']) for q in grooves],trim_start_m=start,trim_end_m=finish,root_face_remaining_thickness_m=wall-depth,parent_geometry_mode='Replace four old voids, preserve all four paid plate blanks, apply only new void geometry; do not subtract both rosters')
+    accounting=dict(parent_old_owner_id=pg['id'],weld_old_owner_id=wg['id'],old_parent_stock_sha256=identity(pg),old_filler_stock_sha256=identity(wg),source_paid_parent_gross_m3=gross,source_paid_gross_count=1,parent_new_gross_m3=gross,parent_old_net_m3=beforeV,parent_new_net_m3=net,restore_old_removed_volume_m3=old_removed,new_removed_volume_m3=new_removed,net_parent_volume_delta_m3=net-beforeV,old_filler_net_m3=old_removed,new_filler_net_m3=new_removed,net_filler_volume_delta_m3=new_removed-old_removed,old_removal_charge_repeated=False,new_parent_material_purchase_m3=0.,additional_groove_tool_setup_process_QA_h=None,complete_installed_cost=False,source_parent_account=pg,source_filler_account=wg,policy_unchanged=deepcopy(policy),cases={c:dict(parent_net_kg=net*rho[j],filler_net_kg=new_removed*rho[j],parent_gross_kg=gross*rho[j],filler_procured_kg=new_removed*factor*rho[j],filler_material_cost_delta_USD=(new_removed-old_removed)*factor*rho[j]*rates[j],parent_material_cost_delta_USD=0.,parent_first_moment_kg_m=scale(world(C,T,R),net*rho[j]),filler_first_moment_kg_m=scale(world(fillerC,T,R),new_removed*rho[j])) for j,c in enumerate(CASES)})
+    combinedC=scale(hole_moment,-1/(fullV-hole_volume));combinedM=scale(world(combinedC,T,R),fullV-hole_volume)
+    # Report, never silently inherit, the old supplied proxy centroid residual.
+    declaredC=vector(p['centroid_local_m']);correct_old_C=scale(hole_moment,-1/beforeV)
+    return seal(dict(schema='osr-terminal-fabricated-butt-revision-proposal/1',physical_definition=physical,physical_definition_id=identity(physical),source_parent=p,source_weld=w,grooves=grooves,parent_new_volume_m3=net,parent_new_centroid_local_m=C,filler_new_volume_m3=new_removed,filler_new_centroid_local_m=fillerC,combined_net_volume_m3=net+new_removed,combined_first_volume_moment_m4=combinedM,combined_volume_conservation_residual_m3=net+new_removed-(fullV-hole_volume),combined_first_moment_residual_m4=sub(add(scale(world(C,T,R),net),scale(world(fillerC,T,R),new_removed)),combinedM),source_parent_centroid_model_residual_m=sub(declaredC,correct_old_C),accounting=accounting,holds=['Joint-centred groove is a new physical drawing; no original native/body/FEM evidence inherited','Proposed cutter/WPS/root penetration/HAZ/fatigue/static/crash/fire and prototype evidence unresolved','1mm nominal root thickness for3mm wall is not a strength or penetration qualification','Trimmed bead/groove ends and their load transfer require joint-specific review','Source gross material and old process/QA ownership retained once; revised tool/setup/additional QA hours unknown, not zero','No canonical material-kernel, neighbouring terminal fit, tool access, full-body or installed cost admission'],**FLAGS))
