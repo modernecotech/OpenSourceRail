@@ -11,7 +11,7 @@ def sealed(v):
     return t.seal(v)
 
 
-def fixture():
+def fixture(retained_geometry=None):
     g = dict(kind='box', size_m=[.2,.3,.4], custom_machined_notch_m=.001)
     parts = [dict(id='old-end',material_id='al',quantity_per_train=2,stock=deepcopy(g)),
              dict(id='beam',material_id='al',quantity_per_train=1,stock=deepcopy(g))]
@@ -19,6 +19,12 @@ def fixture():
         rotation=t.I,geometry=deepcopy(g),direct_cost_usd=dict.fromkeys(t.CASES,100.)),
         dict(id='beam',part_id='beam',count=1,positions_m=[[1.,0.,1.]],rotation=t.I,
              geometry=deepcopy(g),direct_cost_usd=dict.fromkeys(t.CASES,20.))]
+    if retained_geometry is not None:
+        parts.append(dict(id='retained-stock',material_id='al',quantity_per_train=1,
+                          stock=deepcopy(retained_geometry.get('source_stock'))))
+        patterns.append(dict(id='retained-stock',part_id='retained-stock',count=1,
+            positions_m=[[3.,0.,1.]],rotation=t.I,geometry=deepcopy(retained_geometry),
+            direct_cost_usd=dict.fromkeys(t.CASES,11.)))
     layout = dict(cars=6,car_length_m=17.,car_width_m=2.65,intercar_gap_m=.65,floor_top_m=1.15,roof_z_m=3.55)
     physical = dict(layout=layout,config=dict(body_lift_m=.15),parts=parts,occurrence_patterns=patterns)
     parent = sealed(dict(schema='osr-vehicle-installation/1',candidate_id=t.identity(physical),
@@ -105,6 +111,103 @@ def refresh_plan(data):
 def run(data=None):
     p,t0,plan,pin=fixture() if data is None else data
     return t.compose(p,t0,plan,input_pin=pin,request_id='2'*64)
+
+
+def retained_geometry(kind):
+    if kind == 'cut-length':
+        return dict(kind=kind,size_m=[1.2,.035,.035],exact_stock=False,
+            finished_geometry_verified=False,definition_basis='proposed-route-zone',
+            source_stock=dict(kind=kind,length_m=1.2,profile_description='Invented tube; wall and pressure rating unknown'))
+    if kind == 'proposed-equipment-zone':
+        return dict(kind=kind,size_m=[.2,.15,.12],exact_stock=False,
+            finished_geometry_verified=False,definition_basis='proposed-bounded-component-zone',source_stock=None)
+    return dict(kind='u_channel',size_m=[1.5,.035,.015],exact_stock=True,
+        finished_geometry_verified=False,definition_basis='exact-gross-stock',
+        source_stock=dict(kind='u_channel',length_m=1.5,width_m=.035,depth_m=.015,wall_m=.0015))
+
+
+class RetainedParentDomainTests(unittest.TestCase):
+    def test_parent_source_types_remain_complete_unadmitted_definitions(self):
+        for kind in t.RETAINED_PARENT_KINDS:
+            with self.subTest(kind=kind):
+                g=retained_geometry(kind);d=fixture(g);before=deepcopy(d);r=run(d)
+                self.assertEqual(d,before)
+                self.assertEqual(r['physical_definition']['parent_physical_definition'],d[0]['physical_definition'])
+                p=next(p for p in r['retained_parent_patterns'] if p['pattern_id']=='retained-stock')
+                self.assertEqual(p['original_pattern_evaluation_record']['geometry'],g)
+                self.assertEqual(p['retained_count'],1)
+                self.assertIsNone(r['aggregate_mass_properties'])
+                for flag in t.FLAGS:self.assertIs(r[flag],False)
+                self.assertFalse(r['complete_installed_mass'])
+                self.assertEqual(r['geometry_lift_to_apply_m'],0.)
+                self.assertEqual(r['deployment_count'],2)
+
+    def test_exact_source_node_paths_hashes_and_counts_do_not_become_material_quantities(self):
+        for kind in t.RETAINED_PARENT_KINDS:
+            with self.subTest(kind=kind):
+                g=retained_geometry(kind);d=fixture(g);r=run(d)
+                notes=r['retained_parent_source_domains'];self.assertEqual(len(notes),2 if kind!='proposed-equipment-zone' else 1)
+                pat=next(p for p in d[0]['patterns'] if p['id']=='retained-stock')
+                part=next(p for p in d[0]['parts'] if p['id']=='retained-stock')
+                for note in notes:
+                    self.assertEqual(note['pattern_id'],'retained-stock');self.assertEqual(note['part_id'],'retained-stock')
+                    self.assertEqual(note['source_pattern_sha256'],t.identity(pat))
+                    self.assertEqual(note['source_part_sha256'],t.identity(part))
+                    self.assertEqual(note['source_geometry_sha256'],t.identity(g))
+                    node=pat
+                    for key in note['node_path']:node=node[key]
+                    self.assertEqual(note['source_node_sha256'],t.identity(node))
+                    self.assertEqual(note['original_pattern_count'],1);self.assertEqual(note['retained_pattern_count'],1)
+                    self.assertIs(note['finished_geometry_supported'],False)
+                    self.assertIs(note['geometry_operations_performed'],False)
+                    self.assertIs(note['mass_properties_derived'],False)
+                    self.assertIs(note['native_eligible'],False)
+                    self.assertIn('node counts are not material',note['count_scope'])
+                self.assertEqual(r['unresolved_obligations']['retained_parent_geometry_domains'],notes)
+                self.assertEqual(r['counts']['parent_source_occurrences'],4)
+                self.assertEqual(r['counts']['parent_retained_occurrences'],2)
+
+    def test_parent_source_prices_and_train_once_accounts_are_not_recounted_per_node(self):
+        baseline=run()
+        for kind in t.RETAINED_PARENT_KINDS:
+            with self.subTest(kind=kind):
+                r=run(fixture(retained_geometry(kind)))
+                self.assertEqual(r['pricing']['known_additive_subtotal_usd'],dict.fromkeys(t.CASES,81.))
+                self.assertEqual(len(r['pricing']['payable_owner_rows']),6)
+                # Parent-key hashes change with the source definition; their
+                # once-only counts and shared lifecycle scope do not.
+                self.assertEqual(r['lifecycle_allocations'],baseline['lifecycle_allocations'])
+                self.assertEqual(len(r['p1_retirement_ledger']),2)
+                self.assertEqual(len(r['source_machining_train_once']),1)
+                self.assertEqual(r['additional_hardware_P1_retirements'],0)
+                self.assertEqual(r['lifecycle_deployment_multiplier'],1)
+                self.assertFalse(r['source_machining_geometry_applied'])
+                self.assertEqual(r['pricing']['non_additive_process_allowances'][-1]['amount_usd'],dict.fromkeys(t.CASES,7.))
+
+    def test_retained_source_graph_changes_are_identity_bound_without_new_geometry_claims(self):
+        a=retained_geometry('cut-length');b=deepcopy(a)
+        b['source_stock']['profile_description']='Different declared source tube; still unknown wall'
+        ra,rb=run(fixture(a)),run(fixture(b))
+        self.assertNotEqual(ra['candidate_id'],rb['candidate_id'])
+        self.assertEqual(ra['pricing']['known_additive_subtotal_usd'],rb['pricing']['known_additive_subtotal_usd'])
+        self.assertEqual(ra['terminal_material_occurrences'],rb['terminal_material_occurrences'])
+        self.assertIsNone(ra['aggregate_mass_properties']);self.assertIsNone(rb['aggregate_mass_properties'])
+
+    def test_retained_vocabulary_is_not_admitted_in_new_local_material_or_nested_unknowns(self):
+        for kind in t.RETAINED_PARENT_KINDS:
+            d=fixture();d[2]['physical_definition']['material_occurrences'][0]['physical_record']['geometry']=retained_geometry(kind)
+            with self.subTest(new_local=kind),self.assertRaisesRegex(ValueError,'Unknown source geometry'):
+                run(refresh_plan(d))
+        g=retained_geometry('cut-length');g['new_feature']=dict(kind='unknown-milled-feature',depth_m=.001)
+        with self.assertRaisesRegex(ValueError,'Unknown source geometry'):run(fixture(g))
+        with self.assertRaisesRegex(ValueError,'Unknown source geometry'):run(fixture(dict(kind='unreviewed-equipment-zone',size_m=[1.,1.,1.])))
+
+    def test_existing_supported_fixture_geometry_identity_is_unchanged(self):
+        # Retained source-domain recognition changes evaluation coverage, not the
+        # physical definition of this pre-existing independently reviewed control.
+        r=run();self.assertEqual(r['candidate_id'],'203a96a3ccb2a86a3af31a2e075b063671b77cf986efbb0e63c39185de52f904')
+        self.assertEqual(r['retained_parent_source_domains'],[])
+        self.assertEqual(r['unresolved_obligations']['retained_parent_geometry_domains'],[])
 
 
 def finished_fixture():
