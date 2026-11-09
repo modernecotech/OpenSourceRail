@@ -15,6 +15,7 @@ replacement for the published Samawah city study.
 - Independent read-only review SHA-256: `a94086d603c7ff6b8d6aab23c30a67229f2d62b28109292d6c2c5dd4ad933697`.
 - Four calculations: **2.72 s wall**, **2.71 s process CPU**, **269,572 KiB maximum RSS**; 60 s CPU, 1 GiB address-space and 120 s wall limits.
 - The sealed packet contains 9 payloads and 60 source-file hashes. Captured shell logs and the mutable status file are outside the manifest.
+- The independent review checked 80 canonical identities and 204 cost-ledger/route-kilometre arithmetic relations; all survey, achieved-performance and release flags remain false.
 - No CAD, FEM, GIS edits or external business transactions ran. Acceptance and release flags remain false.
 
 The 4,000 passengers/hour/direction value is the existing shared outline
