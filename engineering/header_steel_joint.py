@@ -169,6 +169,7 @@ def capacity(actions,strengths,welds):
     envelopes are caller-owned and must include all moment reactions. A weld
     line bound cannot qualify the unsupported whole-wall/diaphragm load path.
     """
+    if actions.get('frame')!='joint-local-UVW' or actions.get('reference_point_m')!=[0.,.0265,0.]:raise ValueError('Explicit joint-local actions atactualAlweldplane reference required')
     F=actions['header_force_N'];M=actions['header_moment_Nm']
     if len(F)!=3 or len(M)!=3:raise ValueError('Explicit force/moment vectors required')
     if any(v is not None and (type(v) not in (int,float) or not __import__('math').isfinite(v)) for v in F+M):raise ValueError('Finite declared actions orNone unknown required')
@@ -321,7 +322,7 @@ def outline(ctx,*,existing_cuts,actions,strengths,material_policy,source_binding
       planned_source_machining=[{k:deepcopy(x[k]) for k in ('part_id','new_pilots_or_through_cuts','major_thread_envelopes')} for x in mach],welds=[{k:deepcopy(w[k]) for k in ('material','parents','paths_m','profiles','leg_m')} for w in welds])
     source_process_hours=sum(r['process_h']+r['QA_h'] for r in mach)
     source_process_USD=None if material_policy is None or material_policy.get('labour_USD_h') is None else [source_process_hours*number(v,positive=True) for v in material_policy['labour_USD_h']]
-    value=dict(schema='osr-header-isolated-blind-joint-source-outline/1',source_context_id=identity(ctx),source_binding=deepcopy(source_binding),source_p6=deepcopy(P6),
+    value=dict(schema='osr-header-isolated-blind-joint-source-outline/1',units='m,kg,N,Nm,Pa,USD',actual_source_machining_applied=False,source_context_id=identity(ctx),source_binding=deepcopy(source_binding),source_p6=deepcopy(P6),
       physical_definition=physical,physical_definition_id=identity(physical),parts=parts,machining=mach,welds=welds,materials=materials_account(parts,material_policy),capacity=cap,source_machining_process=dict(hours=source_process_hours,cost_USD=source_process_USD,paid_rawstock_again=False),
       source_ownership=dict(retained_endplate_once=True,retained_header_cleat_mainwall_anddiaphragm_once=True,no_new_Alshoe=True,
         source_material_mass_price_copied_to_newstock=False,source_credit_application=False,

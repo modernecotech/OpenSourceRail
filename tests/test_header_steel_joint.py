@@ -18,7 +18,7 @@ def fixture(side=1,hx=-.4):
       diaphragm=c('diaphragm','box',[.008,.63,.32],[hx,0.,.9395],'body/steel'))
     ctx['source_record_ids']={ctx[k]['id']:j.identity(ctx[k]) for k in ('header','endplate','cleat','main_wall','diaphragm')}
     existing={ctx[k]['id']:[] for k in ('endplate','cleat')}
-    a=dict(header_force_N=[None,None,None],header_moment_Nm=[None,None,None],one_fastener_shear_N=None,one_fastener_tension_N=None,preload_each_N=None)
+    a=dict(frame='joint-local-UVW',reference_point_m=[0.,.0265,0.],header_force_N=[None,None,None],header_moment_Nm=[None,None,None],one_fastener_shear_N=None,one_fastener_tension_N=None,preload_each_N=None)
     s={k:None for k in ('effective_bolt_thread_area_m2','minimum_receiver_thread_shear_area_m2','bolt_shear_Pa','bolt_tension_Pa','steel_thread_shear_Pa','Al_bearing_Pa','GFRP_bearing_Pa','Al_shear_Pa','steel_shear_Pa','steel_bearing_Pa','GFRP_compression_Pa','Al_weld_Pa','steel_weld_Pa')}
     binding=dict(base_commit=j.BASE,context_id=j.identity(ctx),finding_id=j.FINDING,request_id='b'*64)
     return ctx,dict(existing_cuts=existing,actions=a,strengths=s,material_policy=None,source_binding=binding)
@@ -214,3 +214,9 @@ def test_declared_actions_are_not_authenticated_real_header_demands():
     ctx,kw=fixture();kw['actions'].update(header_force_N=[1,2,3],header_moment_Nm=[0,0,0],one_fastener_shear_N=4,one_fastener_tension_N=2,preload_each_N=10)
     o=j.outline(ctx,**kw)
     assert o['capacity']['declared_action_vectors_complete'] and not o['capacity']['actual_header_demands_known']
+
+
+@pytest.mark.parametrize('key,value',[('frame','body-world'),('reference_point_m',[0.,0.,0.])])
+def test_force_frame_and_eccentricity_reference_cannot_be_silently_inferred(key,value):
+    ctx,kw=fixture();kw['actions'][key]=value
+    with pytest.raises(ValueError,match='joint-local'):j.outline(ctx,**kw)
