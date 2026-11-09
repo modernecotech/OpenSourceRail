@@ -618,7 +618,13 @@ def _source_volume_geometry(source_entities):
                         unchanged_original_through_void=True,
                         incremental_removed_volume_bounds_m3=[math.pi/4*(.007**2-.006**2)*.0084,
                                                                math.pi/4*(.008**2-.006**2)*.009],
-                        incremental_removed_centroid_box_m=[[.041,y,z],[.0413,y,z]],
+                        # A shorter thread envelope can move the removed mass
+                        # centre away from the full-depth pilot midpoint.
+                        # Unknown helix phase cannot establish radial-zero
+                        # moments. Bound every removed point in this model.
+                        incremental_removed_centroid_box_m=[[.0455-.009,y-.004,z-.004],
+                                                            [.0455,y+.004,z+.004]],
+                        removed_centroid_basis='Convex support of complete maximum pocket, including unknown thread phase; conservative marginal bounds, not a correlated actual thread model',
                         maximum_pocket_depth_m=.009, minimum_annular_rear_web_m=.003,
                         operations=['Enlarge known6mm through-bore locally with7mm flat-bottom pilot8.7+/-0.3mm',
                                     'M8x1 stopped thread,7.7mm nominal full-thread region; retain full original6mm through-void',
@@ -783,7 +789,7 @@ def _compile(source, request_id, *, rates, materials, service_controls=None):
                               op['person_QA_h'][i]*rates['QA_USD_h'][i])*(1+rates['overhead_fraction'][i]) for i, c in enumerate(CASES)}
     physical_ops = []
     for op in ops:
-        own = {k:copy.deepcopy(op[k]) for k in ('id','kind','source_entity_id','source_stock_owner_id','complete_void_union','incremental_removed_volume_bounds_m3','incremental_removed_centroid_box_m')}
+        own = {k:copy.deepcopy(op[k]) for k in ('id','kind','source_entity_id','source_stock_owner_id','complete_void_union')}
         keys=('geometry','holes','material','insert_pocket_max_depth_m','insert_pocket_max_diameter_m') if op['kind']=='hardpoint-thread-pocket' else ('geometry','holes')
         own['source_material_geometry'] = {k:copy.deepcopy(op['source_geometry'][k]) for k in keys}
         if op['kind']=='hardpoint-thread-pocket':
@@ -791,7 +797,7 @@ def _compile(source, request_id, *, rates, materials, service_controls=None):
         else:own.update(access_diameter_m=op['access_diameter_m'],diameter_tolerance_m=op['diameter_tolerance_m'],
                         axis_position_tolerance_m=op['axis_position_tolerance_m'],material='al5083')
         physical_ops.append(own)
-    physical = dict(schema='osr-terminal-hardware-local-physical/1', parent_candidate_id=SOURCE['candidate_id'],
+    physical = dict(schema='osr-terminal-hardware-local-physical/2', parent_candidate_id=SOURCE['candidate_id'],
                     fixed_source_interfaces=['retained-glass', 'backing-ring outer/aperture/pose (bores explicitly revised)', 'body frame'],
                     new_prototypes={k: v['physical_definition'] for k, v in prototypes.items()},
                     placements=[{k:copy.deepcopy(o[k]) for k in ('id','prototype_key','placement','old_entity_id','source_part_id')} for o in occurrences],

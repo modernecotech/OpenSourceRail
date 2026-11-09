@@ -358,3 +358,45 @@ def test_a1_duplicate_stock_owner_ids_and_rosters_fail_before_any_emission(monke
                    [dict(id='one',entity_ids=['a']),dict(id='two',entity_ids=['a','b'])]):
         s=dict(component_proposal=dict(entities=[e('a'),e('b')],stock_groups=groups))
         with pytest.raises(ValueError,match='stock owner'):h._compile(s,'d'*64,rates=h.RATES,materials=h.MATERIALS)
+
+
+def test_h3_removed_thread_endpoint_and_unknown_phase_fit_complete_support_enclosure():
+    op=h._source_volume_geometry(synthetic_interfaces())[0];cut=op['complete_void_union']['pieces'][1]
+    base=cut['at_m'][0];pilot=cut['depth_m'];thread=cut['full_thread_depth_m']
+    v1=math.pi/4*(cut['pilot_diameter_m']**2-.006**2)*pilot
+    v2=math.pi/4*(cut['major_diameter_m']**2-cut['pilot_diameter_m']**2)*thread
+    centroid=(v1*(base-pilot/2)+v2*(base-thread/2))/(v1+v2)
+    assert centroid==pytest.approx(.04140262467191601)
+    lo,hi=op['incremental_removed_centroid_box_m']
+    assert lo[0]<=centroid<=hi[0]
+    assert lo[0]==pytest.approx(.0365) and hi[0]==pytest.approx(.0455)
+    for k in (1,2):
+        assert lo[k]==pytest.approx(cut['at_m'][k]-.004)
+        assert hi[k]==pytest.approx(cut['at_m'][k]+.004)
+    assert 'unknown thread phase' in op['removed_centroid_basis']
+
+
+def test_h4_refined_derived_enclosures_change_evaluation_only(monkeypatch):
+    monkeypatch.setattr(h,'FAMILIES',{'M6-washer':('SYNTHETIC/washer',1)})
+    es=synthetic_interfaces()
+    for e in es:e['part_id']='SYNTHETIC/context/'+e['id']
+    es.append(dict(id='SYNTHETIC/front-washer',part_id='SYNTHETIC/washer',scope='installed',at_m=[0,0,0],mass_kg=dict(low=.01,base=.02,high=.03),exact_CSG_entity=dict(geometry=None)))
+    source=dict(component_proposal=dict(entities=es,stock_groups=[dict(id='SYNTHETIC/paid/'+e['id'],entity_ids=[e['id']],direct_cost_usd=dict(low=1.,base=2.,high=3.)) for e in es],source_account_coverage={}),source_accounting_retained={})
+    before=deepcopy(source);a=h._compile(source,'e'*64,rates=h.RATES,materials=h.MATERIALS)
+    producer=h._source_volume_geometry
+    def wider_enclosures(values):
+        rows=producer(values)
+        for op in rows:
+            op['incremental_removed_volume_bounds_m3'][0]*=.99
+            op['incremental_removed_volume_bounds_m3'][1]*=1.01
+            op['incremental_removed_centroid_box_m'][0]=[x-.0001 for x in op['incremental_removed_centroid_box_m'][0]]
+            op['incremental_removed_centroid_box_m'][1]=[x+.0001 for x in op['incremental_removed_centroid_box_m'][1]]
+        return rows
+    monkeypatch.setattr(h,'_source_volume_geometry',wider_enclosures)
+    b=h._compile(source,'e'*64,rates=h.RATES,materials=h.MATERIALS)
+    assert source==before
+    assert a['physical_definition']==b['physical_definition'] and a['candidate_id']==b['candidate_id']
+    assert a['evaluation_id']!=b['evaluation_id']
+    assert all(x['complete_void_union']==y['complete_void_union'] for x,y in zip(a['source_machining'],b['source_machining']))
+    assert all('incremental_removed_volume_bounds_m3' not in x and 'incremental_removed_centroid_box_m' not in x for x in a['physical_definition']['source_machining'])
+    assert a['physical_definition']['schema']=='osr-terminal-hardware-local-physical/2'
