@@ -238,6 +238,9 @@ def plan_revision(terminal, weld, hardware, *, input_pin, request_id,
         raise ValueError('Stale original no-LF hardware source identity')
     if original_hardware['candidate_id'] != hardware['source_candidate_id'] or original_hardware['evaluation_id'] != hardware['source_evaluation_id']:
         raise ValueError('Hardware original source ancestry differs')
+    hardware_physical_id = sha256(json.dumps(original_hardware['physical_definition'], sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
+    if hardware_physical_id != original_hardware['candidate_id']:
+        raise ValueError('Original hardware no-LF physical candidate identity differs')
     common = terminal['source_pin']
     if not isinstance(common, dict) or set(common) != {'candidate_id', 'evaluation_id', 'raw_sha256'}:
         raise ValueError('Exact original local source epoch required')
@@ -247,6 +250,10 @@ def plan_revision(terminal, weld, hardware, *, input_pin, request_id,
         raise ValueError('Mixed local candidate/source epochs refused')
     if weld['source_proposal']['candidate_id'] != common['candidate_id'] or weld['source_proposal']['evaluation_id'] != common['evaluation_id']:
         raise ValueError('Weld original source ancestry differs')
+    if identity(terminal['source_physical_definition']) != common['candidate_id']:
+        raise ValueError('Terminal physical projection differs from common local candidate')
+    if terminal['source_physical_definition'] != weld['source_proposal']['physical_definition']:
+        raise ValueError('Terminal and original weld source physical projections differ')
     if identity(weld['physical_definition']) != weld['physical_definition_id'] or identity(hardware['physical_definition']) != hardware['component_geometry_id']:
         raise ValueError('Upstream physical projection identity differs')
     draft = terminal['canonical_draft']
@@ -423,10 +430,17 @@ def plan_revision(terminal, weld, hardware, *, input_pin, request_id,
             used_placements.add('hardware/' + g['old_occurrence_id']); new_groups[gid] = deepcopy(g)
         pid = groups[oid]['source_account']['part_id']
         if pid.startswith('body/'):
-            if pid not in leaf or leaf[pid]['retained_original_price_once']:
-                raise ValueError('Inherited P1 retirement must already belong to terminal once')
+            if pid not in leaf or type(leaf[pid]['retained_original_price_once']) is not bool:
+                raise ValueError('Explicit inherited P1 retirement/price-basis metadata required')
+            # True records the old local owner's borrowed P1 price basis. That
+            # old local owner is removed below and each new H group is paid once.
+            # The inherited P1 metadata stays intact, never a second invoice or
+            # another P1 retirement. False is also valid provenance, not a waiver.
             inheritance = dict(source_part_id=pid, source_keys=deepcopy(leaf[pid]['source_ids']),
-                               owner='terminal-old-leaf-replacement-only', new_P1_retirement_count=0)
+                owner='terminal-old-leaf-replacement-only', new_P1_retirement_count=0,
+                inherited_retained_original_price_once=leaf[pid]['retained_original_price_once'],
+                inherited_price_metadata_added_as_new_hardware_charge=False,
+                price_scope='Inherited old-local-group price provenance only; replaced local owner removed, new hardware groups paid once')
         elif pid.startswith('research/'):
             if pid in leaf:
                 raise ValueError('Local research group cannot invent a P1 predecessor')

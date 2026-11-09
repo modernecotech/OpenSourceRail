@@ -8,7 +8,8 @@ from engineering.railway_project import terminal_revision as m
 I = [[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
 def H(s):return sha256(s.encode()).hexdigest()
 def cases(x):return dict(low=x,base=x,high=x)
-def source_seal(x):return dict(deepcopy(x),evaluation_id=sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest())
+def source_identity(x):return sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def source_seal(x):return dict(deepcopy(x),evaluation_id=source_identity(x))
 def entity(eid,pid=None):
  csg=dict(id=eid.removeprefix('legacy/'),geometry=dict(kind='box',size_m=[.01,.01,.01],at_m=[0.,0.,0.],rotation=deepcopy(I)),holes=[])
  return dict(id=eid,part_id=pid or 'research/'+eid,material_id='al5083',at_m=[0.,0.,0.],rotation=deepcopy(I),frame=m.FRAME,scope='installed',geometry=dict(kind='box',size_m=[.01,.01,.01]),exact_CSG_entity=csg,mass_kg=cases(.00266),unknown_finished_geometry=False)
@@ -21,12 +22,12 @@ def fixture(conflict=False):
  parent='legacy/P' if conflict else 'B'
  es=[entity('legacy/P'),entity('legacy/Q'),entity('B'),entity('legacy/N','body/nut'),entity('legacy/G','research/guard'),entity('W1'),entity('W2')]
  E={e['id']:e for e in es};G={e['id']:group('g/'+e['id'],e) for e in es}
- raw=m.seal(dict(candidate_id=H('localphysical'),units='m',invented=True))
- common=dict(candidate_id=raw['candidate_id'],evaluation_id=raw['evaluation_id'],raw_sha256=H('tiny-raw'))
  source_physical=dict(exact_legacy_CSG=[deepcopy(e['exact_CSG_entity']) for e in es if e['id'].startswith('legacy/')],added_entities=[dict(physical(e),part_id=e['part_id']) for e in es if not e['id'].startswith('legacy/')])
+ raw=m.seal(dict(candidate_id=m.identity(source_physical),physical_definition=deepcopy(source_physical),units='m',invented=True))
+ common=dict(candidate_id=raw['candidate_id'],evaluation_id=raw['evaluation_id'],raw_sha256=H('tiny-raw'))
  t=dict(schema=m.SCHEMAS['terminal'],source_pin=common,source_parent=dict(candidate_id=H('P1'),evaluation_id=H('P1-eval'),raw_sha256=H('P1-raw')),
   canonical_draft=dict(entities=es,stock_groups=list(G.values()),bindings=[dict(id='terminal/front',car=0,source_end='body/terminal-end/end-0',at_m=[0.,0.,2.25],rotation=[[-1.,0.,0.],[0.,-1.,0.],[0.,0.,1.]]),dict(id='terminal/rear',car=5,source_end='body/terminal-end/end-5',at_m=[105.25,0.,2.25],rotation=deepcopy(I))],source_account_coverage=dict(complete_account_retained_unchanged=True,residual_unknown=True)),
-  source_physical_definition=source_physical,old_leaf_replacements_train_once=[dict(source_part_id='body/nut',source_ids=['source/'+H('P1frontnut'),'source/'+H('P1rearnut')],old_count=2,retained_original_price_once=False)],lifecycle_workshop=dict(fixture=dict(quantity=1,scope='project',unknown_machine_time=None)),source_holds=['tiny inherited terminal hold'],canonical_admitted=False)
+  source_physical_definition=source_physical,old_leaf_replacements_train_once=[dict(source_part_id='body/nut',source_ids=['source/'+H('P1frontnut'),'source/'+H('P1rearnut')],old_count=2,retained_original_price_once=True)],lifecycle_workshop=dict(fixture=dict(quantity=1,scope='project',unknown_machine_time=None)),source_holds=['tiny inherited terminal hold'],canonical_admitted=False)
  filler=dict(id='F1',material_id='al5083',vertices_terminal_m=[[0.,0.,0.],[.001,0.,0.],[0.,.001,0.],[0.,0.,.01],[.001,0.,.01],[0.,.001,.01]])
  revised=deepcopy(E[parent]);revised['geometry']['finite_void_prisms']=[dict(kind='triangle',vertices_m=[[0.,0.,0.],[.001,0.,0.],[0.,.001,0.]])]
  rg=deepcopy(G[parent]);rg['net_mass_kg']=cases(.00265)
@@ -55,7 +56,8 @@ def fixture(conflict=False):
   op=dict(id=opid,source_entity_id=eid,source_stock_owner_id=oid,frame=m.FRAME,units='m',paid_blank_retained_once=True,remaining_net_mass_and_CG=None,source_complete_void_union=void,incremental_removed_mass_bounds_kg=[1e-5,2e-5],incremental_removed_volume_bounds_m3=[1e-9,2e-9],source_operation=dict(kind=kind,material='al5083',source_geometry=deepcopy(E[eid]['exact_CSG_entity']),cost_USD=cases(.1)))
   fin.append(op);pfin.append(dict(id=opid,source_entity_id=eid,source_stock_owner_id=oid,complete_void_union=deepcopy(void),kind=kind))
   fowners.append(dict(source_owner_id=oid,source=deepcopy(G[eid]),operation_ids=[opid],paid_blank_count=1,stock_purchase_count=0,source_mass_and_moment_update_applied=False))
- original=source_seal(dict(candidate_id=H('hardwarephysical'),parent=common,prototypes={'fixture':dict(materials={'al5083':dict(density_kg_m3=[2580.2,2660.,2739.8])})}))
+ hardware_physical=dict(material_pieces=deepcopy(hparts),source_finishing=deepcopy(pfin),frame=m.FRAME,units='m')
+ original=source_seal(dict(candidate_id=source_identity(hardware_physical),physical_definition=hardware_physical,parent=common,prototypes={'fixture':dict(materials={'al5083':dict(density_kg_m3=[2580.2,2660.,2739.8])})}))
  h=dict(schema=m.SCHEMAS['hardware'],source_original_definition=original,source_candidate_id=original['candidate_id'],source_evaluation_id=original['evaluation_id'],source_owner_transactions_applied=False,
   canonical_draft=dict(entities=deepcopy(hparts),stock_groups=hgroups,old_stock_owner_dispositions=oldrows,required_source_finishing=fin,source_finishing_owner_dispositions=fowners),
   physical_definition=dict(entities=deepcopy(hparts),source_finishing=pfin,frame=m.FRAME,units='m',interfaces=[]),mapping=mapping,
@@ -81,6 +83,28 @@ def change(f,fn):
 
 
 class TerminalRevisionTests(unittest.TestCase):
+ def test_original_physical_projection_seals_match_real_conventions(self):
+  t,w,h,p=fixture();self.assertEqual(m.identity(t['source_physical_definition']),t['source_pin']['candidate_id']);self.assertEqual(t['source_physical_definition'],w['source_proposal']['physical_definition']);original=h['source_original_definition'];self.assertEqual(source_identity(original['physical_definition']),original['candidate_id']);self.assertNotEqual(m.identity(original['physical_definition']),original['candidate_id']);run((t,w,h,p))
+ def test_resealed_terminal_projection_cannot_change_common_candidate(self):
+  f=fixture();t,w,h,p=deepcopy(f);t['source_physical_definition']['exact_legacy_CSG'][1]['geometry']['size_m'][0]=10.;g=refresh(t,w,h);before=deepcopy(g)
+  with self.assertRaisesRegex(ValueError,'Terminal physical projection'):run(g)
+  self.assertEqual(g,before)
+ def test_terminal_and_weld_original_physical_projections_must_agree(self):
+  t,w,h,p=deepcopy(fixture());t['source_physical_definition']['exact_legacy_CSG'][1]['geometry']['size_m'][0]=10.;common=deepcopy(t['source_pin']);common['candidate_id']=m.identity(t['source_physical_definition']);raw=deepcopy(w['source_proposal']);raw.pop('evaluation_id');raw['candidate_id']=common['candidate_id'];raw=m.seal(raw);common['evaluation_id']=raw['evaluation_id'];t['source_pin']=deepcopy(common);w['source_pin']=deepcopy(common);w['source_proposal']=raw;h['source_original_definition']['parent']=deepcopy(common);g=refresh(t,w,h);before=deepcopy(g)
+  with self.assertRaisesRegex(ValueError,'physical projections differ'):run(g)
+  self.assertEqual(g,before)
+ def test_resealed_original_hardware_physical_candidate_cannot_lie(self):
+  f=fixture();t,w,h,p=deepcopy(f);h['source_original_definition']['physical_definition']['material_pieces'][0]['part_definition']['geometry']['size_m'][0]=10.;g=refresh(t,w,h);before=deepcopy(g)
+  with self.assertRaisesRegex(ValueError,'no-LF physical candidate'):run(g)
+  self.assertEqual(g,before)
+ def test_original_hardware_candidate_uses_noLF_not_adapter_LF(self):
+  t,w,h,p=deepcopy(fixture());original=h['source_original_definition'];original['candidate_id']=m.identity(original['physical_definition']);h['source_candidate_id']=original['candidate_id'];g=refresh(t,w,h)
+  with self.assertRaisesRegex(ValueError,'no-LF physical candidate'):run(g)
+ def test_true_inherited_price_basis_kept_without_extra_hardware_invoice(self):
+  f=fixture();r=run(f);x=next(x for x in r['inherited_P1_retirements'] if x['source_part_id']=='body/nut');self.assertIs(x['inherited_retained_original_price_once'],True);self.assertIs(x['inherited_price_metadata_added_as_new_hardware_charge'],False);self.assertIs(r['P1_old_leaf_retirement_ledger_owned_once_by_terminal'][0]['retained_original_price_once'],True);prices={x['owner_id']:x for x in r['pricing']['rows']};self.assertNotIn('g/legacy/N',prices);self.assertEqual(prices['new/hardware/legacy/N']['direct_cost_label_cases_USD'],cases(.25));self.assertFalse(any(k.startswith('source/') for k in prices))
+ def test_false_and_true_price_basis_change_evaluation_not_counts_geometry_or_cost(self):
+  f=fixture();a=run(f);g=change(f,lambda t,w,h,p:t['old_leaf_replacements_train_once'][0].update(retained_original_price_once=False));b=run(g);self.assertNotEqual(a['evaluation_id'],b['evaluation_id']);self.assertEqual(a['local_component_geometry_id'],b['local_component_geometry_id']);self.assertEqual(a['counts'],b['counts']);self.assertEqual(a['pricing'],b['pricing']);self.assertIs(b['P1_old_leaf_retirement_ledger_owned_once_by_terminal'][0]['retained_original_price_once'],False)
+ def test_nonboolean_inherited_price_basis_refused(self):self.bad(lambda t,w,h,p:t['old_leaf_replacements_train_once'][0].update(retained_original_price_once=1))
  def test_local_conservation_counts(self):
   r=run(fixture());self.assertEqual(r['counts']['local_material_occurrences'],9);self.assertEqual(r['counts']['local_stock_groups'],8);self.assertEqual(r['deployment_quantity_multiplier_applied'],1)
  def test_inputs_unmodified(self):
