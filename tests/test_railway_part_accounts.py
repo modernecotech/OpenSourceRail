@@ -122,6 +122,12 @@ def test_source_price_basis_and_evidence_cannot_be_implicit():
     assert 'sheet' in compiled(b)['held_part_ids']
 
 
+def test_partial_stock_case_bounds_remain_unknown_not_zero_or_finished_mass():
+    b=body();c=contract(b);c['rows'][0]['stock']['gross_each_kg']['high']=None
+    r=compiled(b,c)['rows'][0]
+    assert r['status']=='held' and r['stock']['gross_each_kg']['high'] is None
+
+
 @pytest.mark.parametrize('price',[None,cases(None),cases(0.)])
 def test_unknown_or_zero_price_never_becomes_zero_value(price):
     b=body();b['parts'][0]['direct_cost_each_usd']=price;seal(b);r=compiled(b)

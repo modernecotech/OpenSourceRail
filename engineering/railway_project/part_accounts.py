@@ -86,7 +86,10 @@ def _stock(value, holds):
         holds.append('Gross/net/scrap stock relationship unknown; no yield inferred')
         return result
     for k in fields:
-        _cases(value[k], k, positive=k != 'scrap_each_kg')
+        _cases(value[k], k, positive=k != 'scrap_each_kg', unknown=True)
+    if any(value[k][c] is None for k in fields for c in CASES):
+        holds.append('Gross/net/scrap stock relationship has unknown case bounds; no yield inferred')
+        return result
     _require(all(isclose(value['gross_each_kg'][c], value['net_each_kg'][c]+value['scrap_each_kg'][c], rel_tol=1e-10, abs_tol=1e-9) for c in CASES), 'Gross stock must equal net stock plus scrap')
     return result
 
@@ -174,6 +177,8 @@ def compile_accounts(body, contract, fleet, *, cost_evaluation_id):
                         stock = row['stock']
                         if stock is None or stock.get(field) is None:
                             holds.append('Mass conversion lacks its declared gross/net stock evidence')
+                        elif any(stock[field][c] is None for c in CASES):
+                            holds.append('Mass conversion has unknown declared stock case bounds')
                         else:
                             _require(all(isclose(factor[c],stock[field][c],rel_tol=1e-10) for c in CASES), 'Mass conversion differs from declared stock basis')
                     else:
