@@ -239,3 +239,216 @@ def test_receiver_bearing_and_strip_envelope_use_same_5p7mm_minimum_hypothesis()
     assert bearing['area_m2']==pytest.approx(.008*.0057)
     assert strip['area_m2']==pytest.approx(pi*.008*.0057)
     assert cap['minimum_engagement_physically_verified'] is False
+
+
+def new_build_fixture(side=1,hx=-.4):
+    ctx,kw=fixture(side,hx)
+    for key,rho,cost in [('endplate',2660.,[8.,19.,43.]),('cleat',7850.,[4.,11.,29.])]:
+        c=ctx[key];V=__import__('math').prod(c['geometry']['size_m']);c.update(quantity=1,mass_each_kg={k:V*rho for k in ('low','base','high')},direct_cost_each_usd=dict(zip(('low','base','high'),cost)),uncertainty_m=.01)
+    ctx['source_record_ids']={ctx[k]['id']:j.identity(ctx[k]) for k in ('header','endplate','cleat','main_wall','diaphragm')};kw['source_binding']['context_id']=j.identity(ctx)
+    kw['existing_cuts']={ctx[k]['id']:None for k in ('endplate','cleat')}
+    kw['material_policy']={'labour_USD_h':[6.,10.,16.]}
+    kw['manufacturing']=dict(mode='new-build-drawing',state='budget-only, unmanufactured',prior_physical_cut_roster=None,measured_hole_free=False,thread_specification=j.thread_drawing(),
+        targets={ctx[k]['id']:dict(source_record_id=ctx['source_record_ids'][ctx[k]['id']],gross_geometry_id=j.identity(ctx[k]['geometry']),complete_future_roster=True,base_voids=[],base_void_process_h=0.,base_void_QA_h=0.) for k in ('endplate','cleat')})
+    return ctx,kw
+
+
+def test_existing_cut_identity_defect_is_fixed_without_claiming_inventory_authentication():
+    ctx,kw=fixture();before=deepcopy((ctx,kw));empty=j.outline(ctx,**kw)
+    name=ctx['endplate']['id'];kw['existing_cuts'][name]=[dict(axis=1,at_m=[0.,0.,0.],radius_m=.001,length_m=.025)]
+    cut=j.outline(ctx,**kw)
+    assert empty['physical_definition_id']!=cut['physical_definition_id']
+    a=empty['source_finished_successors'][0]['material_properties'];b=cut['source_finished_successors'][0]['material_properties']
+    assert a['net_volume_interval_m3'][0]-b['net_volume_interval_m3'][0]==pytest.approx(pi*.001**2*.025)
+    assert not cut['manufacturing_definition']['prior_inventory_authenticated']
+    assert 'held' in cut['manufacturing_definition']['state']
+    assert before[0]==ctx and before[1]['existing_cuts'][name]==[]
+
+
+@pytest.mark.parametrize('side,hx',[(s,x) for s in (-1,1) for x in (-.4,.5)])
+def test_new_build_completes_future_voids_without_surveying_old_hardware(side,hx):
+    ctx,kw=new_build_fixture(side,hx);before=deepcopy((ctx,kw));out=j.outline(ctx,**kw)
+    assert (ctx,kw)==before and len(out['parts'])==38 and len(out['source_finished_successors'])==2
+    m=out['manufacturing_definition'];assert m['mode']=='new-build-drawing' and m['prior_physical_cut_roster'] is None and m['measured_hole_free'] is False
+    for row in out['source_finished_successors']:
+        assert row['complete_future_drawing'] and row['geometry']['complete_void_model']
+        assert row['prior_physical_cut_roster'] is None and not row['measured_hole_free']
+        assert row['disposition']=='finish-new-source-blank-once' and not row['canonical_composition_applied']
+        assert row['gross_budget']['quantity_transferred']==1 and row['gross_budget']['additional_raw_material_purchase_USD']==0
+        assert row['material_properties']['placement_uncertainty_m']==.01
+        assert not row['native_geometry_supported']
+    assert out['stack']['minimum_engagement_after_0p3mm_budget_m']==pytest.approx(.0057)
+    assert out['stack']['backweb_after_0p3mm_budget_m']==pytest.approx(.0007)
+    assert out['source_machining_process']['hours']==pytest.approx(1.1)
+    assert out['source_machining_process']['cost_USD']==pytest.approx([6.6,11.,17.6])
+
+
+def test_new_build_transfers_source_blank_and_direct_budget_once_and_only_adds_process():
+    ctx,kw=new_build_fixture();out=j.outline(ctx,**kw)
+    for row,key,V,m in zip(out['source_finished_successors'],('endplate','cleat'),(.0009,.00036),(2.394,2.826)):
+        b=row['gross_budget'];assert b['volume_m3']==pytest.approx(V);assert b['mass_kg']['base']==pytest.approx(m)
+        assert b['direct_allowance_USD']==ctx[key]['direct_cost_each_usd']
+        assert b['physical_refund_or_salvage_credit_USD']==0 and not b['transfer_applied_to_live_body']
+        assert b['total_successor_direct_USD']=={k:ctx[key]['direct_cost_each_usd'][k]+b['additional_process_QA_USD'][i] for i,k in enumerate(('low','base','high'))}
+    assert set(x['part_id'] for x in out['materials']['rows'])==set(x['id'] for x in out['parts'])
+    assert all(x['id'] not in {ctx['endplate']['id'],ctx['cleat']['id']} for x in out['parts'])
+    assert out['source_ownership']['old_joinery_mass_credit'] is None
+
+
+def test_complete_new_base_feature_requires_its_positive_process_and_changes_physical_identity():
+    ctx,kw=new_build_fixture();a=j.outline(ctx,**kw);name=ctx['endplate']['id'];t=kw['manufacturing']['targets'][name]
+    t['base_voids']=[dict(axis=1,at_m=[.020,0.,.010],radius_m=.001,length_m=.025)]
+    with pytest.raises(ValueError,match='positive'):j.outline(ctx,**kw)
+    t.update(base_void_process_h=.05,base_void_QA_h=.02);b=j.outline(ctx,**kw)
+    assert a['physical_definition_id']!=b['physical_definition_id'] and a['manufacturing_definition_id']!=b['manufacturing_definition_id']
+    V=pi*.001**2*.025;m=b['source_finished_successors'][0]['material_properties']
+    assert m['local_volume_first_moment_interval_m4'][0]==pytest.approx([-V*.020]*2)
+    assert m['local_volume_first_moment_interval_m4'][2]==pytest.approx([-V*.010]*2)
+    assert b['source_machining_process']['hours']-a['source_machining_process']['hours']==pytest.approx(.07)
+
+
+def test_void_union_order_duplicates_and_redundant_coaxial_cuts_have_one_physical_identity():
+    ctx,kw=new_build_fixture();t=kw['manufacturing']['targets'][ctx['endplate']['id']]
+    a=dict(axis=1,at_m=[.020,0.,.010],radius_m=.002,length_m=.025);small=deepcopy(a);small['radius_m']=.001
+    t.update(base_voids=[a,small,a],base_void_process_h=.05,base_void_QA_h=.02);x=j.outline(ctx,**kw)
+    t['base_voids']=[small,a];y=j.outline(ctx,**kw)
+    assert x['physical_definition_id']==y['physical_definition_id']
+    assert j.normalize_void_union([a,small,a],[.2,.025,.18])==j.normalize_void_union([small,a],[.2,.025,.18])
+    assert j.normalize_void_union(j.normalize_void_union([a,small,a],[.2,.025,.18]),[.2,.025,.18])==j.normalize_void_union([a],[.2,.025,.18])
+
+
+def test_unknown_existing_roster_is_distinct_from_complete_future_drawing():
+    ctx,kw=new_build_fixture();future=j.outline(ctx,**kw);kw.pop('manufacturing');old=j.outline(ctx,**kw)
+    assert old['physical_definition_id']!=future['physical_definition_id']
+    assert all(r['material_properties'] is None and not r['geometry']['complete_void_model'] for r in old['source_finished_successors'])
+    assert all(r['prior_physical_cut_roster'] is None for r in future['source_finished_successors'])
+    assert old['source_machining_process']['hours']==future['source_machining_process']['hours']
+
+
+def test_new_build_finite_corner_is_not_inherited_by_existing_hardware_mode():
+    ctx,kw=new_build_fixture();new=j.outline(ctx,**kw)
+    kw['existing_cuts']={ctx[k]['id']:[] for k in ('endplate','cleat')}
+    inventory={n:dict(source_record_id=ctx['source_record_ids'][n],prior_void_union_id=j.identity([]),inventory_revision_id='a'*64,evidence_origin_id='c'*64,complete=True) for n in kw['existing_cuts']}
+    kw['manufacturing']=dict(mode='modify-authenticated-existing',prior_inventory_binding=inventory,thread_specification=j.thread_drawing());existing=j.outline(ctx,**kw)
+    assert existing['manufacturing_definition']['prior_inventory_authenticated']
+    assert existing['physical_definition_id']!=new['physical_definition_id']
+    assert existing['source_finished_successors'][1]['material_properties']['finite_corner_hypothesis_applied'] is False
+    assert existing['manufacturing_definition_id']!=new['manufacturing_definition_id'] and existing['evaluation_id']!=new['evaluation_id']
+    assert not existing['physical_accepted'] and not new['physical_accepted']
+
+
+@pytest.mark.parametrize('change',['state','measured','prior','target','stale','incomplete','pitch','fit','runout','extra','oldroster','mass','quantity','price'])
+def test_new_drawing_contract_mismatch_refuses_without_input_mutation(change):
+    ctx,kw=new_build_fixture();m=kw['manufacturing'];t=m['targets'][ctx['endplate']['id']]
+    if change=='state':m['state']='installed'
+    elif change=='measured':m['measured_hole_free']=True
+    elif change=='prior':m['prior_physical_cut_roster']=[]
+    elif change=='target':m['targets']['phantom']=deepcopy(t)
+    elif change=='stale':t['source_record_id']='a'*64
+    elif change=='incomplete':t['complete_future_roster']=False
+    elif change=='pitch':m['thread_specification']['pitch_m']=.001
+    elif change=='fit':m['thread_specification']['internal_fit_hypothesis']='unknown'
+    elif change=='runout':m['thread_specification']['runout_depth_interval_m']=[.007,.009]
+    elif change=='extra':m['waive_old_holes']=True
+    elif change=='oldroster':kw['existing_cuts'][ctx['endplate']['id']]=[]
+    else:
+        c=ctx['endplate']
+        if change=='mass':c['mass_each_kg']['base']+=1
+        elif change=='quantity':c['quantity']=2
+        else:c['direct_cost_each_usd']['base']=0
+        ctx['source_record_ids'][c['id']]=j.identity(c);kw['source_binding']['context_id']=j.identity(ctx);t['source_record_id']=ctx['source_record_ids'][c['id']]
+    before=deepcopy((ctx,kw))
+    with pytest.raises(ValueError):j.outline(ctx,**kw)
+    assert (ctx,kw)==before
+
+
+@pytest.mark.parametrize('change',['missing','unknown','stale','revision','extra'])
+def test_existing_inventory_binding_cannot_be_replaced_by_new_build_evidence(change):
+    ctx,kw=new_build_fixture();kw['existing_cuts']={ctx[k]['id']:[] for k in ('endplate','cleat')}
+    inv={n:dict(source_record_id=ctx['source_record_ids'][n],prior_void_union_id=j.identity([]),inventory_revision_id='a'*64,evidence_origin_id='b'*64,complete=True) for n in kw['existing_cuts']}
+    kw['manufacturing']=dict(mode='modify-authenticated-existing',prior_inventory_binding=inv,thread_specification=j.thread_drawing());name=ctx['endplate']['id']
+    if change=='missing':inv.pop(name)
+    elif change=='unknown':kw['existing_cuts'][name]=None
+    elif change=='stale':inv[name]['prior_void_union_id']='0'*64
+    elif change=='revision':inv[name]['inventory_revision_id']='assumed'
+    else:kw['manufacturing']['state']='budget-only, unmanufactured'
+    before=deepcopy((ctx,kw))
+    with pytest.raises(ValueError):j.outline(ctx,**kw)
+    assert (ctx,kw)==before
+
+
+@pytest.mark.parametrize('cut',[dict(axis=True,at_m=[0.,0.,0.],radius_m=.001,length_m=.01),dict(axis=1,at_m=[True,0.,0.],radius_m=.001,length_m=.01),dict(axis=1,at_m=[0.,0.,0.],radius_m=float('nan'),length_m=.01),dict(axis=1,at_m=[.100,0.,0.],radius_m=.001,length_m=.025),dict(axis=0,at_m=[0.,0.,0.],radius_m=.001,length_m=.01)])
+def test_future_void_domain_bool_nonfinite_escape_and_wrong_axis_fail(cut):
+    before=deepcopy(cut)
+    with pytest.raises(ValueError):j.normalize_void_union([cut],[.2,.025,.18])
+    #NaN equality is not an integrity test; serialised representation is.
+    assert repr(cut)==repr(before)
+
+
+def test_complete_material_union_and_moment_bounds_use_pilot_plus_nonoverlapping_major_region():
+    ctx,kw=new_build_fixture(-1);out=j.outline(ctx,**kw);al,steel=out['source_finished_successors'];g=steel['geometry'];m=steel['material_properties']
+    vp=4*pi*.0034**2*.009;corner=.00005;vlow=4*pi*(.0034**2*(.009-corner)+(.0034-corner)**2*corner);extra=4*pi*(.004**2-.0034**2)*.007
+    assert m['minimum_void_volume_m3']==pytest.approx(vlow) and m['maximum_void_volume_m3']==pytest.approx(vp+extra)
+    assert m['net_volume_interval_m3']==pytest.approx([.00036-vp-extra,.00036-vlow])
+    assert m['mass_interval_kg']==pytest.approx([(.00036-vp-extra)*7850,(.00036-vlow)*7850])
+    assert m['minimum_void_volume_m3']<sum(pi*c['radius_m']**2*c['length_m'] for c in g['minimum_void_union']+g['maximum_void_union'])
+    assert 'not independent realizable' in m['interval_method'] and not m['exact_helix_or_thread_centroid_claimed']
+    assert all(a<=b for a,b in m['local_volume_first_moment_interval_m4'])
+    assert m['source_frame_centroid_interval_m'][1][0]<ctx['cleat']['at_m'][1]<m['source_frame_centroid_interval_m'][1][1]
+    assert 'not exact finished tensor' in m['inertia_proxy_about_source_origin']['method']
+
+
+def test_pure_rates_qualifications_and_inventory_origins_do_not_change_physical_identity():
+    ctx,kw=new_build_fixture();a=j.outline(ctx,**kw);kw['material_policy']['labour_USD_h']=[7.,11.,17.];b=j.outline(ctx,**kw)
+    assert a['physical_definition_id']==b['physical_definition_id'] and a['evaluation_id']!=b['evaluation_id']
+    assert a['manufacturing_definition_id']==b['manufacturing_definition_id']
+    assert all(not x['canonical_composition_applied'] for x in b['source_finished_successors'])
+
+
+@pytest.mark.parametrize('side',[-1,1])
+def test_finite_corner_lower_steps_and_unchanged_upper_cylinder_conserve_both_moments(side):
+    ctx,kw=new_build_fixture(side);out=j.outline(ctx,**kw);r=out['source_finished_successors'][1];m=r['material_properties'];g=r['geometry'];rho=7850.
+    assert g['thread_specification']['flat_bottom_corner_radius_hypothesis_m']==.00005
+    assert len(g['minimum_void_union'])==8 and len(out['machining'][1]['new_pilots_or_through_cuts'])==4
+    assert out['machining'][1]['new_pilots_or_through_cuts'][0]['length_m']==.009
+    assert m['finite_corner_hypothesis_applied'] and not m['tool_corner_authenticated']
+    for bound,cuts in zip(m['bounding_shape_conservation'],(g['minimum_void_union'],g['maximum_void_union'])):
+        volume=sum(pi*c['radius_m']**2*c['length_m'] for c in cuts)
+        moment=[sum(pi*c['radius_m']**2*c['length_m']*c['at_m'][k] for c in cuts) for k in range(3)]
+        assert bound['void_volume_m3']==pytest.approx(volume)
+        assert bound['net_volume_m3']+volume==pytest.approx(.00036)
+        assert bound['net_local_first_moment_m4']==pytest.approx([-x for x in moment])
+        assert bound['net_local_mass_first_moment_kg_m']==pytest.approx([-rho*x for x in moment])
+        assert bound['mass_kg']==pytest.approx(bound['net_volume_m3']*rho)
+    assert m['minimum_void_volume_m3']<out['machining'][1]['nominal_ideal_cylinder_incremental_removed_bounds_m3'][0]
+    for row in out['machining']:assert sum(row['process_breakdown_h'].values())==pytest.approx(row['process_h'])
+
+
+def test_provenance_only_inventory_evidence_change_preserves_geometry_identity():
+    ctx,kw=new_build_fixture();kw['existing_cuts']={ctx[k]['id']:[] for k in ('endplate','cleat')}
+    inv={n:dict(source_record_id=ctx['source_record_ids'][n],prior_void_union_id=j.identity([]),inventory_revision_id='a'*64,evidence_origin_id='b'*64,complete=True) for n in kw['existing_cuts']}
+    kw['manufacturing']=dict(mode='modify-authenticated-existing',prior_inventory_binding=inv,thread_specification=j.thread_drawing())
+    a=j.outline(ctx,**kw);inv[ctx['endplate']['id']]['evidence_origin_id']='c'*64;b=j.outline(ctx,**kw)
+    assert a['physical_definition_id']==b['physical_definition_id']
+    assert a['manufacturing_definition_id']!=b['manufacturing_definition_id'] and a['evaluation_id']!=b['evaluation_id']
+
+
+def test_unrecognised_gross_geometry_features_and_unordered_budget_refuse_new_build():
+    for what in ('unknown-feature','source-stock','unordered-budget'):
+        ctx,kw=new_build_fixture();c=ctx['endplate']
+        if what=='unknown-feature':c['geometry']['hidden_void']=dict(radius_m=.001)
+        elif what=='source-stock':c['geometry']['source_stock']=dict(kind='box',size_m=[.2,.01,.18])
+        else:c['direct_cost_each_usd']={'low':43.,'base':19.,'high':8.}
+        ctx['source_record_ids'][c['id']]=j.identity(c);kw['source_binding']['context_id']=j.identity(ctx)
+        t=kw['manufacturing']['targets'][c['id']];t.update(source_record_id=ctx['source_record_ids'][c['id']],gross_geometry_id=j.identity(c['geometry']))
+        with pytest.raises(ValueError):j.outline(ctx,**kw)
+
+
+def test_QA_method_is_not_physical_geometry_and_nominal_tolerance_scope_is_explicit(monkeypatch):
+    ctx,kw=new_build_fixture();a=j.outline(ctx,**kw);spec=deepcopy(j.THREAD_DRAWING);spec['inspection']['method']='Different research QA documentation; no shape change'
+    monkeypatch.setattr(j,'THREAD_DRAWING',spec);kw['manufacturing']['thread_specification']=deepcopy(spec);b=j.outline(ctx,**kw)
+    assert a['physical_definition_id']==b['physical_definition_id']
+    assert a['manufacturing_definition_id']!=b['manufacturing_definition_id']
+    for x in b['source_finished_successors']:
+        assert x['material_properties']['nominal_dimensions_only']
+        assert x['material_properties']['manufacturing_dimensional_tolerances_in_material_interval'] is False
