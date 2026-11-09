@@ -7,9 +7,10 @@ is an explicit, UNAPPLIED proposal: the original material stays live. Unknown
 properties and process-account overlap stay unknown rather than becoming zero.
 """
 from copy import deepcopy
+from fractions import Fraction
 from hashlib import sha256
 import json
-from math import fsum, isfinite
+from math import fsum, isfinite, nextafter
 
 CASES = ('low', 'base', 'high')
 I = [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]
@@ -103,6 +104,24 @@ def _pose(p, b):
                    for j in range(3)] for i in range(3)])
 
 
+def _bound_entity_pose(e, physical, binding):
+    """Only a physical-record pose can yield an installed entity pose.
+
+    Legacy evaluation/packaging locations are not an authoritative substitute
+    for vertex/CSG placement. The complete physical graph is always deployed
+    by its outer binding, even when it has no singleton entity-pose model.
+    """
+    record = physical.get('physical_record')
+    if isinstance(record, dict) and 'at_m' in record and 'rotation' in record:
+        _vector(record['at_m']); _rotation(record['rotation'])
+        if 'at_m' in e or 'rotation' in e:
+            if e.get('at_m') != record['at_m'] or e.get('rotation') != record['rotation']:
+                raise ValueError('Evaluated entity pose differs from physical source record')
+            _vector(e['at_m']); _rotation(e['rotation'])
+        return _pose(record, binding), 'bound-to-complete-physical-record-pose'
+    return None, 'No authoritative singleton physical pose; evaluation/packaging proxy is not an installed pose'
+
+
 def _cases(x):
     if x is None:
         return None
@@ -134,8 +153,8 @@ def _authenticated(value, pin, schema, physical_key=None, identity_key=None):
         _hex(pin[identity_key])
         if value[identity_key] != pin[identity_key] or identity(value[physical_key]) != pin[identity_key]:
             raise ValueError('Physical source identity differs')
-    if any(value.get(k) is True for k in FLAGS):
-        raise ValueError('Only non-admitted research sources accepted')
+    if any(k in value and (type(value[k]) is not bool or value[k] is not False) for k in FLAGS):
+        raise ValueError('Only non-admitted research sources with actual boolean False flags accepted')
 
 
 def _grammar(value, depth=0):
@@ -161,16 +180,41 @@ def _interval(x):
 
 
 def _plus(*xs):
-    return [fsum(x[0] for x in xs), fsum(x[1] for x in xs)]
+    return [sum((Fraction(x[0]) for x in xs), Fraction(0)),
+            sum((Fraction(x[1]) for x in xs), Fraction(0))]
 
 
 def _times(a, x):
-    vs = [a*v for v in x]
+    vs = [Fraction(a)*Fraction(v) for v in x]
     return [min(vs), max(vs)]
 
 
+def _outward(x):
+    """Round exact binary-input rational bounds outwards to finite floats."""
+    result = []
+    for i, exact in enumerate(x):
+        try:
+            rounded = float(exact)
+        except OverflowError as exc:
+            raise ValueError('Origin moment exceeds finite output interval domain') from exc
+        if not isfinite(rounded):
+            raise ValueError('Origin moment exceeds finite output interval domain')
+        represented = Fraction(rounded)
+        if (i == 0 and represented > exact) or (i == 1 and represented < exact):
+            rounded = nextafter(rounded, float('-inf') if i == 0 else float('inf'))
+        if not isfinite(rounded):
+            raise ValueError('Outward origin moment exceeds finite output interval domain')
+        result.append(rounded)
+    return result
+
+
 def _affine_moments(mass, fm, J, b):
-    """Marginal interval transform about frame origin, retaining correlations as unknown."""
+    """Conservative marginal intervals, exact coefficient arithmetic then outward rounding.
+
+    Every supplied float denotes its exact binary value. All endpoint products,
+    sums, rotation/translation coefficients and cancellation use rationals;
+    only final bounds are rounded, outwards. Correlations remain unknown.
+    """
     mass = _interval(mass)
     if mass[0] < 0:
         raise ValueError('Negative source mass bound')
@@ -179,7 +223,9 @@ def _affine_moments(mass, fm, J, b):
     if not isinstance(fm, list) or len(fm) != 3 or not isinstance(J, list) or len(J) != 3 or any(not isinstance(r,list) or len(r)!=3 for r in J):
         raise ValueError('Explicit first moment/origin tensor bounds required')
     fm = [_interval(x) for x in fm]; J = [[_interval(x) for x in row] for row in J]
-    R, T = b['rotation'], b['at_m']
+    _rotation(b['rotation']); _vector(b['at_m'])
+    R = [[Fraction(x) for x in row] for row in b['rotation']]
+    T = [Fraction(x) for x in b['at_m']]
     q = [_plus(*[_times(R[i][k], fm[k]) for k in range(3)]) for i in range(3)]
     world_fm = [_plus(q[i], _times(T[i], mass)) for i in range(3)]
     dot = _plus(*[_times(T[k], q[k]) for k in range(3)])
@@ -188,11 +234,11 @@ def _affine_moments(mass, fm, J, b):
         row = []
         for j in range(3):
             rotated = _plus(*[_times(R[i][k]*R[j][l], J[k][l]) for k in range(3) for l in range(3)])
-            shift = _times((fsum(v*v for v in T) if i == j else 0.)-T[i]*T[j], mass)
+            shift = _times((sum(v*v for v in T) if i == j else 0)-T[i]*T[j], mass)
             row.append(_plus(rotated, shift, _times(2. if i == j else 0., dot),
                              _times(-T[i], q[j]), _times(-T[j], q[i])))
         world_J.append(row)
-    return world_fm, world_J
+    return [_outward(x) for x in world_fm], [[_outward(x) for x in row] for row in world_J]
 
 
 def _properties(e, b, finishing):
@@ -419,8 +465,9 @@ def compose(parent, terminal, local_plan, *, input_pin, request_id):
                 material_definition=deepcopy(phys[eid]), deployment=deepcopy(b),
                 car_allocation=[[b['car'],1.]], bogie_index=None,
                 stock_owner_id=b['id']+'/'+owners[eid]))
+            world_pose, pose_status = _bound_entity_pose(e, phys[eid], b)
             evaluated.append(dict(id=oid, source_entity_sha256=identity(e),
-                world_entity_pose=None if 'at_m' not in e else _pose(e,b),
+                world_entity_pose=world_pose, world_entity_pose_status=pose_status,
                 properties=_properties(e,b,eid in fids)))
         stock.extend(dict(id=b['id']+'/'+g, source_owner_id=g,
             entity_ids=[b['id']+'/'+x for x in gs[g]['entity_ids']],

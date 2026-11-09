@@ -1,5 +1,6 @@
 """Invented miniature source records only; no retained candidate/evaluator calls."""
 from copy import deepcopy
+from fractions import Fraction
 import unittest
 
 from engineering.railway_project import terminal_occurrence as t
@@ -275,6 +276,66 @@ class TerminalOccurrenceTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Closed'):run(d)
         d=fixture();d[2]['native_eligible']=True
         with self.assertRaisesRegex(ValueError,'non-admitted'):run(refresh_plan(d))
+
+    def test_outward_rounding_contains_binary_mass_translation_product(self):
+        # Review witness: float(.1)*float(105.25) is not a singleton exact
+        # rational endpoint. Compare with exact *binary-input* arithmetic.
+        zero=[0.,0.];J=[[zero[:] for _ in range(3)] for _ in range(3)]
+        fm,origin=t._affine_moments([.1,.1],[zero[:],zero[:],zero[:]],J,
+            dict(rotation=t.I,at_m=[105.25,0.,0.]))
+        exact=Fraction(.1)*Fraction(105.25)
+        self.assertLessEqual(Fraction(fm[0][0]),exact)
+        self.assertGreaterEqual(Fraction(fm[0][1]),exact)
+        self.assertNotEqual(fm[0][0],fm[0][1])
+        square=Fraction(.1)*Fraction(105.25)**2
+        for k in (1,2):
+            self.assertLessEqual(Fraction(origin[k][k][0]),square)
+            self.assertGreaterEqual(Fraction(origin[k][k][1]),square)
+
+    def test_outward_coefficients_and_cancellation_use_exact_binary_inputs(self):
+        # Closed-form origin moments for decimal translation/first moments;
+        # coefficients (.2**2+.3**2) and off-diagonals must not round early.
+        mass=.1;T=[.1,.2,.3];p=[.4,.5,.6]
+        z=[0.,0.];J=[[z[:] for _ in range(3)] for _ in range(3)]
+        fm,origin=t._affine_moments([mass,mass],[[v,v] for v in p],J,
+            dict(rotation=t.I,at_m=T))
+        m=Fraction(mass);q=list(map(Fraction,p));a=list(map(Fraction,T))
+        for i in range(3):
+            exact=q[i]+m*a[i]
+            self.assertLessEqual(Fraction(fm[i][0]),exact)
+            self.assertGreaterEqual(Fraction(fm[i][1]),exact)
+            for j in range(3):
+                if i==j:
+                    exact=m*sum(a[k]**2 for k in range(3) if k!=i)+2*sum(a[k]*q[k] for k in range(3) if k!=i)
+                else:exact=-m*a[i]*a[j]-a[i]*q[j]-a[j]*q[i]
+                self.assertLessEqual(Fraction(origin[i][j][0]),exact)
+                self.assertGreaterEqual(Fraction(origin[i][j][1]),exact)
+
+    def test_evaluated_pose_cannot_override_unchanged_physical_graph(self):
+        d=fixture();before=d[2]['local_component_geometry_id']
+        by={e['id']:e for e in d[2]['canonical_local_draft']['entities']}
+        by['point']['at_m']=[20.,30.,40.]
+        d=refresh_plan(d)
+        self.assertEqual(before,d[2]['local_component_geometry_id'])
+        with self.assertRaisesRegex(ValueError,'pose differs from physical'):
+            run(d)
+
+    def test_unbound_packaging_pose_is_not_reported_as_installed_pose(self):
+        d=fixture();p=next(x for x in d[2]['physical_definition']['material_occurrences'] if x['id']=='point')
+        p['physical_record'].pop('at_m');p['physical_record'].pop('rotation')
+        r=run(refresh_plan(d))
+        e=next(x for x in r['terminal_evaluated_properties'] if x['id']=='terminal/front/point')
+        self.assertIsNone(e['world_entity_pose'])
+        self.assertIn('packaging proxy is not an installed pose',e['world_entity_pose_status'])
+        original=next(x for x in r['local_material_evaluation_records'] if x['id']=='point')
+        self.assertEqual(original['at_m'],[1.,2.,3.])
+
+    def test_present_flags_require_actual_boolean_false(self):
+        for value in (0,1,None,'false',[],True):
+            with self.subTest(value=value):
+                d=fixture();d[2]['physical_accepted']=value
+                with self.assertRaisesRegex(ValueError,'actual boolean False'):
+                    run(refresh_plan(d))
 
 
 if __name__ == '__main__':
