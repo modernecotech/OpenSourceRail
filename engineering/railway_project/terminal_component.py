@@ -19,6 +19,8 @@ SOURCE_FILES={'engineering/terminal_installation.py':'f1b83a2ee0c13e14b2bb72a321
 I=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
 CASES=('low','base','high')
 FLAGS=dict(canonical_admitted=False,installed_assembly_accepted=False,native_eligible=False,physical_accepted=False,manufacturing_release=False,operating_release=False,selected_reference_changed=False)
+SOURCE_CUT_SCHEMA='osr-terminal-legacy-cylinder-base/1'
+SOURCE_CUT_AUTHORITY=dict(path='terminal-joint-local-worker-02/src/core.py',sha256='a8473d0bb627122c8721f7be33726dd4da14cd1af5a5f944e54d5a8268a355d1',definition_lines=[62,63],CAD_application_line=123,at_m_convention='cylinder base; axis points from base to far end')
 
 def identity(x):return sha256((json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()).hexdigest()
 def seal(x):return dict(deepcopy(x),evaluation_id=identity(x))
@@ -89,14 +91,16 @@ def geometry(g,T,R,*,absolute,depth=0):
   vector(h['centre_m']);scalar(h['radius_m'],True);scalar(h['length_m'],True)
  return out
 
-def source_cuts(cuts,T,R):
+def source_cuts(cuts,T,R,*,schema=SOURCE_CUT_SCHEMA):
+ if schema!=SOURCE_CUT_SCHEMA:raise ValueError('Explicit supported source-cylinder BASE convention required')
  out=[]
  for h in cuts:
-  if h.get('kind')!='cylinder-cut':raise ValueError('Unsupported source cut')
+  if set(h)!={'kind','at_m','axis','diameter_m','length_m','purpose'} or h.get('kind')!='cylinder-cut':raise ValueError('Unsupported explicit source-cylinder base schema')
   p=vector(h['at_m']);axis=vector(h['axis'])
   if abs(fsum(x*x for x in axis)-1)>1e-10:raise ValueError('Unit source cut axis required')
   D=scalar(h['diameter_m'],True);L=scalar(h['length_m'],True)
-  out.append(dict(kind='finite-cylinder-void',centre_m=local(p,T,R),axis=[fsum(R[k][j]*axis[k] for k in range(3)) for j in range(3)],radius_m=D/2,length_m=L,source_cut=deepcopy(h)))
+  centre=[p[k]+axis[k]*L/2 for k in range(3)]
+  out.append(dict(kind='finite-cylinder-void',centre_m=local(centre,T,R),base_m=local(p,T,R),axis=[fsum(R[k][j]*axis[k] for k in range(3)) for j in range(3)],radius_m=D/2,length_m=L,source_cut_schema=schema,source_cut=deepcopy(h)))
  return out
 
 def drawing_record(e,weld):
@@ -253,7 +257,7 @@ def normalize(raw,*,pin,request_id):
   required_counterpart_ids=[j['id'] for j in contracts],joint_dispositions={j['source_joint_id']:dict(status='unresolved-normalization',reason=j['status']) for j in contracts},
   source_account_coverage=deepcopy(src['local_account_coverage']),source_person_hours=deepcopy(src['person_hours']),unsupported_work=work,admission='Not accepted by current composer schema; explicit reviewed finite-CSG/contract support and unresolved facts required',**FLAGS)
  draft['definition_id']=identity(physical_projection(draft));draft=seal(draft)
- value=dict(schema='osr-terminal-canonical-normalization-packet/1',source_pin=deepcopy(pin),source_parent=deepcopy(src['parent']),source_request_id=request_id,canonical_draft=draft,
+ value=dict(schema='osr-terminal-canonical-normalization-packet/1',source_pin=deepcopy(pin),source_parent=deepcopy(src['parent']),source_request_id=request_id,source_cut_authority=deepcopy(SOURCE_CUT_AUTHORITY),canonical_draft=draft,
   source_physical_definition=deepcopy(src['physical_definition']),source_machining_train_once=deepcopy(src['source_machining']),old_leaf_replacements_train_once=deepcopy(src['old_leaf_replacements']),
   floor_wear_patch_unapplied=deepcopy(src['floor_wear_patch']),applied_body_operations=[],source_bindings=deepcopy(src['component_bindings']),
   lifecycle_workshop=dict(quantity_scope='Train-once separately; never per installed end',shared_fixture=deepcopy(src['consumables']['shared_fixture']),shared_extractor=deepcopy(src['consumables']['shared_extractor'])),

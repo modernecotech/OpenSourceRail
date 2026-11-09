@@ -36,7 +36,8 @@ def run(src,monkeypatch):
 def test_finite_csg_points_bores_frames_roundtrip_without_replacing_material_with_proxy(monkeypatch):
  out=run(fixture(),monkeypatch);d=out['canonical_draft'];e=d['entities'][0];s=e['finished_spec'];base=s['normalized_material_graph']['base'];void=s['normalized_material_graph']['voids'][0]
  assert base['at_m']==pytest.approx([0,0,0]) and base['rotation']==t.I
- assert void['centre_m']==pytest.approx([.005,0,0]) and void['axis']==pytest.approx([1,0,0])
+ assert void['centre_m']==pytest.approx([.015,0,0]) and void['axis']==pytest.approx([1,0,0])
+ assert void['base_m']==pytest.approx([.005,0,0]) and void['source_cut_schema']==t.SOURCE_CUT_SCHEMA
  assert s['source_exact_CSG_entity']['holes'][0]['at_m']==[.1,.205,.3]
  assert s['normalized_material_graph']['base']['kind']=='box' and s['source_packaging_proxy']['kind']=='envelope'
  assert s['packaging_is_finished_material'] is False
@@ -172,3 +173,21 @@ def test_process_price_source_hash_changes_are_evaluation_only(monkeypatch):
 def test_known_and_unknown_physical_facts_stay_in_projection(monkeypatch,mutation):
  d=run(fixture(),monkeypatch)['canonical_draft'];before=t.identity(t.physical_projection(d));mutation(d['entities'][0])
  assert t.identity(t.physical_projection(d))!=before
+
+@pytest.mark.parametrize('axis',[[1.,0.,0.],[-1.,0.,0.],[0.,1.,0.],[0.,-1.,0.],[0.,0.,1.],[0.,0.,-1.]])
+def test_cylinder_base_signed_axis_to_centre_and_proper_frame_endpoints(axis):
+ base=[.11,.22,.33];T=[.1,.2,.3];R=[[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]];L=.012
+ h=dict(kind='cylinder-cut',at_m=base,axis=axis,diameter_m=.006,length_m=L,purpose='SYNTHETIC through wall base')
+ g=t.source_cuts([h],T,R,schema=t.SOURCE_CUT_SCHEMA)[0]
+ assert g['base_m']==pytest.approx(t.local(base,T,R))
+ assert g['centre_m']==pytest.approx(t.local([base[k]+axis[k]*L/2 for k in range(3)],T,R))
+ far=t.local([base[k]+axis[k]*L for k in range(3)],T,R)
+ assert [g['centre_m'][k]+g['axis'][k]*L/2 for k in range(3)]==pytest.approx(far)
+ assert [g['centre_m'][k]-g['axis'][k]*L/2 for k in range(3)]==pytest.approx(g['base_m'])
+ assert g['source_cut']==h
+
+def test_ambiguous_source_cut_position_conventions_are_held_not_inferred():
+ h=dict(kind='cylinder-cut',at_m=[0.,0.,0.],axis=[1.,0.,0.],diameter_m=.006,length_m=.012,purpose='SYNTHETIC')
+ with pytest.raises(ValueError,match='BASE'):t.source_cuts([h],[0,0,0],t.I,schema='SYNTHETIC-centre')
+ h['centre_m']=[.006,0,0]
+ with pytest.raises(ValueError,match='schema'):t.source_cuts([h],[0,0,0],t.I)
