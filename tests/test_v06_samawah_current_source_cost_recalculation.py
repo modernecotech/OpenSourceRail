@@ -69,6 +69,17 @@ def test_city_verifier_success_is_bound_to_returned_manifest_identity():
         MODULE._replay_verified({'evaluation_id': 'a'}, {'evaluation_id': 'b'}, True)
 
 
+def test_baseline_plan_binds_published_seed_and_new_study_evaluation():
+    candidate_ids = {'candidate_id': 'candidate', 'body_candidate_id': 'body'}
+    seed = {'seed_id': 'seed', 'reference_candidate_ids': candidate_ids}
+    plan = dict(official_seed_id='seed', source_outline_evaluation_id='study-eval',
+        outline_context={'seed': {'reference_candidate_ids': candidate_ids}})
+    summary = {'outline_evaluation_id': 'study-eval'}
+    assert MODULE._validate_base_plan(plan, seed, summary)
+    with pytest.raises(ValueError, match='published vehicle or seed'):
+        MODULE._validate_base_plan(plan, seed, {'outline_evaluation_id': 'wrong'})
+
+
 def test_china_cost_label_does_not_claim_unmodeled_volume_discounts():
     description = MODULE.PRICING_DESCRIPTIONS['china-bulk-buy'].lower()
     assert 'no negotiated or blanket volume discount is applied' in description

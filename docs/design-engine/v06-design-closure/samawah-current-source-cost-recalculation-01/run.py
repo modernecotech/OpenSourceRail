@@ -225,6 +225,15 @@ def _replay_verified(manifest, record, replay_requested):
     return True
 
 
+def _validate_base_plan(plan, seed, baseline_summary):
+    if (plan.get('official_seed_id') != seed['seed_id']
+            or plan.get('source_outline_evaluation_id') != baseline_summary['outline_evaluation_id']
+            or plan.get('outline_context', {}).get('seed', {}).get('reference_candidate_ids')
+            != seed['reference_candidate_ids']):
+        raise ValueError('Baseline study planning record differs from published vehicle or seed')
+    return True
+
+
 def _run_study(label, request, root, output, workflow, *, replay=True):
     study_id = workflow.identity(request)[:32]
     artifacts = root / 'build/city-studies' / study_id / 'artifacts'
@@ -320,10 +329,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
         base_request, root, output, city_workflow)
     base_local = results['baseline-project-make-buy']
     base_plan = _load(base_local['artifacts'] / 'planning.json')
-    if (base_plan['official_seed_id'] != seed['seed_id']
-            or base_plan['source_outline_evaluation_id'] != seed['source_outline_evaluation_id']
-            or base_plan['outline_context']['seed']['reference_candidate_ids'] != refs):
-        raise ValueError('Baseline study planning record differs from published vehicle or seed')
+    _validate_base_plan(base_plan, seed, base_local['summary'])
     edits, geometry_diagnostics = _build_geometry_edits(base_plan, packet_manifest['packet_id'],
         request['geometry_proposal']['scenario_sha256'], planning_geometry,
         request['geometry_proposal']['maximum_deviation_m'])
