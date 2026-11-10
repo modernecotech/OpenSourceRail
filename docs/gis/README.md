@@ -30,8 +30,20 @@ create no railway revision or recalculation.
 ./osr gis export-study --study LOCAL_JOB_ID
 ./osr gis import --city samawah --packet-id DISPLAYED_PACKET_ID --project edited.rgis \
   --actor "Planning author" --reason "Declared route revision" --data-crs EPSG:4326
+./osr gis reprice --city samawah --packet-id DISPLAYED_PACKET_ID --project edited.rgis \
+  --actor "Planning author" --reason "Declared route revision" --data-crs EPSG:4326 \
+  --refreshed-output /path/to/fresh-updated-gis
 ./osr gis verify-revision --output /path/to/retained-import
 ```
+
+`reprice --refreshed-output` verifies the retained native edit and its canonical
+request, waits for the bounded city study, then exports and verifies a new
+RustGIS project bound to that exact completed study. The input
+receipt remains in `build/rustgis-imports`; the refreshed editable project is
+written beneath the requested fresh directory. A no-op edit does not create a
+child study or refreshed export. This returns edited planning geometry and its
+recalculated outline costs; it does not establish revised railway physics or
+engineering acceptance.
 
 The installer checks the pinned release archive and both executable SHA256s.
 Linux x86_64 is the currently tested installation target. It uses about 170 MiB

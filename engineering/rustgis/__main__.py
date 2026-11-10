@@ -18,6 +18,8 @@ def main(argv=None, root=ROOT):
     parser.add_argument('--city', help='Published city slug, for example baghdad')
     parser.add_argument('--all', action='store_true', help='Export every registered city')
     parser.add_argument('--output', type=Path, help='Cache root, or exact cache directory for verify')
+    parser.add_argument('--refreshed-output', type=Path,
+        help='For reprice, export and verify the completed edited city study into a fresh cache root')
     parser.add_argument('--preview', action='store_true', help='Native PNG preview for one city')
     parser.add_argument('--study', help='Verified local city-study job id for iterative native editing')
     parser.add_argument('--packet-id', help='Exact displayed city packet identity')
@@ -26,6 +28,11 @@ def main(argv=None, root=ROOT):
     parser.add_argument('--reason',help='Reason for the native geometry/service revision')
     parser.add_argument('--data-crs',help='Explicit native data CRS; supported EPSG:4326')
     args = parser.parse_args(argv)
+    if args.refreshed_output is not None:
+        if args.action != 'reprice':
+            parser.error('--refreshed-output is only valid with reprice')
+        if args.refreshed_output.exists():
+            parser.error('--refreshed-output must name a fresh directory')
     if args.action == 'install':
         from .install import install
         result = install()
@@ -51,10 +58,21 @@ def main(argv=None, root=ROOT):
             job=result['job'];deadline=time.monotonic()+150
             while job and job['state']=='running' and time.monotonic()<deadline:
                 time.sleep(.5);job=service.status(job['job_id'])
+            import_verification=revision.verify_import(
+                Path(root)/'build/rustgis-imports'/result['import_id'],root=root)
+            if import_verification.get('verified') is not True:
+                raise ValueError('Retained native edit did not reproduce its canonical planning request')
             if args.output is not None:
                 shutil.copytree(Path(root)/'build/rustgis-imports'/result['import_id'],args.output)
+            refreshed=None
+            if args.refreshed_output is not None and job and job.get('state')=='completed':
+                refreshed=adapter.export_study(job['job_id'],root=root,service=service,
+                    output=args.refreshed_output)
+                if refreshed.get('verified') is not True:
+                    raise ValueError('Refreshed study GIS export did not pass its source-bound reopen verification')
             result=dict(import_id=result['import_id'],execution=result['execution'],job=job,
-                retained_input=str(Path(root)/'build/rustgis-imports'/result['import_id']),**revision.FLAGS)
+                retained_input=str(Path(root)/'build/rustgis-imports'/result['import_id']),
+                import_verification=import_verification,refreshed_project=refreshed,**revision.FLAGS)
             if job and job['state']!='completed':raise ValueError('Retained native revision job did not complete: '+str(job))
         finally:service.close()
     elif args.action == 'verify':
