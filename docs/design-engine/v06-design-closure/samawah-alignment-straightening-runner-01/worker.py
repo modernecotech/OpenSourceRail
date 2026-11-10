@@ -316,6 +316,7 @@ try:
 
     bodyraw = checked('docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/body.json.gz')
     body = json.loads(gzip.decompress(bodyraw))
+    BODY = body
     policyraw = checked(adapter.POLICY)
     POLICY = json.loads(policyraw)
     require(POLICY['acceleration_m_s2'] == 0.4, 'The named 0.4 m/s² study control changed')
