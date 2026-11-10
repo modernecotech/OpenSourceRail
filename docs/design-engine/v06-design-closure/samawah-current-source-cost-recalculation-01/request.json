@@ -1,0 +1,27 @@
+{
+  "schema": "osr-samawah-current-source-cost-comparison-request/1",
+  "source_commit": "897e36510812966bcef0e04fddebdd98bedee4af",
+  "city_slug": "samawah",
+  "planning_seed_id": "ce5d696dc7947da7c73881a15d143ae99b80001ecf640287e2e36f47c56dc9ae",
+  "source_outline_evaluation_id": "907e3c9d26af3e2fd7f73124022829ed56a772382f513fe326fd2b766663e0e6",
+  "reference_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "reference_body_candidate_id": "9489e4f2666fd3b3c73232c86df3f12adf42a5531eb27373834cf3fecb1a3117",
+  "baseline_alignment": "original",
+  "geometry_proposal": {
+    "packet_path": "docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03",
+    "packet_id": "a63934bd6d7b7cefbc45c4196a140c4b7451ceef9ffee80d55dd48fdfd13d32a",
+    "packet_manifest_sha256": "dff094595e3015f1eb04e96ba9f6887e09e2f15156f7f9a73d61cf897a65e6f5",
+    "scenario_path": "scenarios/tolerance-025m/derived-city.json",
+    "scenario_sha256": "ecac19b431f56599780cbd6413ef1ddc84c642e5810089b26f3223a106bc02af",
+    "maximum_deviation_m": 20.0,
+    "use_as": "tolerance context only; independently regenerate from the exact published canonical plan and recalculate service and costs"
+  },
+  "pricing_scenarios": ["project-make-buy", "china-bulk-buy"],
+  "service_policy": "Use the exact published Samawah planning seed without demand or timetable overrides.",
+  "open_assumptions": [
+    "The route screen is unsurveyed and does not establish right-of-way, crossings, utilities, ground, access or buildability.",
+    "Existing civil classes are proportionally transferred and require route-specific reassessment.",
+    "The city's demand and operating plan remain planning assumptions from the published outline.",
+    "Class C calculations are not supplier quotations, physical validation or project-finance approval."
+  ]
+}
