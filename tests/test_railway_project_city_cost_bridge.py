@@ -51,6 +51,41 @@ def test_candidate_cost_bridge_prices_only_matched_quantity_fragments():
     assert result["physical_accepted"] is False
 
 
+def test_annual_energy_and_reliability_are_separate_class_c_sensitivities():
+    city, cost, china_cost, manifest, source = _inputs()
+    result = build(city, cost, china_cost, manifest, source_sha256=source)
+    fragments = result["annual_operating_sensitivity_fragments"]
+    auxiliary = fragments["vehicle-auxiliary-electricity-only"]
+    reliability = fragments["corrective-disruption-reserve-only"]
+
+    assert auxiliary["period"] == "annual"
+    assert auxiliary["quantity_unit"] == "vehicle_auxiliary_grid_kWh_per_year"
+    assert auxiliary["local_rates_verified"] is False
+    assert auxiliary["cost_usd_per_year"] == pytest.approx({
+        "low": 3347058.91, "base": 12022481.70, "high": 51369659.81,
+    })
+    assert "Excludes traction" in auxiliary["limitations"][0]
+
+    assert reliability["period"] == "annual"
+    assert reliability["quantity_unit"] == "train_km_per_year"
+    assert reliability["measured_availability"] is None
+    assert reliability["cost_usd_per_year"] == pytest.approx({
+        "low": 151083.68, "base": 1133127.56, "high": 8367711.24,
+    })
+    assert "not a reliability or availability result" in reliability["limitations"][0]
+
+    # Operating sensitivities are not silently added to the partial capital sum.
+    assert result["partial_priced_fragment_sum_usd"] == pytest.approx({
+        case: result["known_candidate_bom_subtotal_usd"][case] +
+        result["partial_matched_guideway_subtotal_usd"][case]
+        for case in ("low", "base", "high")
+    })
+    assert result["scope_status"]["energy"].startswith("conditional_vehicle_auxiliary")
+    assert result["scope_status"]["reliability"].startswith("corrective_disruption")
+    assert result["installed_capex_usd"] is None
+    assert result["whole_life_npv_usd"] is None
+
+
 def test_ratebook_is_integrity_checked_before_use():
     packet = ROOT / RATE_PACKET
     manifest = _verify_packet(packet)

@@ -151,8 +151,69 @@ def build(city_result: dict, old_cost: dict, china_cost: dict, old_manifest: dic
         "rolling-stock": {case: fleet[case]["active_trainsets"] * direct_per_train[case] for case in CASES},
         "fleet": {case: fleet[case]["spare_trainsets"] * direct_per_train[case] for case in CASES},
     }
+
+    # Keep annual operating sensitivities separate from the partial capital
+    # sum. These transfer only unit rates, not a different candidate's annual
+    # energy, service or reliability totals.
+    scope_rows = {row["scope"]: row for row in city_result["scope_accounts"]}
+    energy_row = scope_rows["energy"]
+    aux_kwh = energy_row["quantities"].get("conditional_vehicle_auxiliary_grid_kwh_cases")
+    if not isinstance(aux_kwh, dict) or any(type(aux_kwh.get(case)) not in (int, float) or aux_kwh[case] <= 0 for case in CASES):
+        raise ValueError("Current candidate conditional auxiliary energy quantities are unavailable")
+    tariffs = old_cost.get("local_cost_inputs", {}).get("values", {}).get("electricity_usd_per_kwh")
+    if not isinstance(tariffs, list) or len(tariffs) != 3 or any(type(v) not in (int, float) or v <= 0 for v in tariffs):
+        raise ValueError("Transferred Samawah tariff sensitivity is missing or malformed")
+    auxiliary_rates = dict(zip(CASES, tariffs))
+    auxiliary_cost = {case: aux_kwh[case] * auxiliary_rates[case] for case in CASES}
+
+    reliability_row = scope_rows["reliability"]
+    if reliability_row["quantities"].get("measured_availability") is not None:
+        raise ValueError("This bridge only admits an unmeasured reliability sensitivity")
+    annual_train_km = {case: fleet[case]["annual_train_km"] for case in CASES}
+    historical_train_km = old_cost.get("resources", {}).get("annual_train_km")
+    reliability_line = next((row for row in old_cost.get("lifecycle_lines", [])
+                             if row.get("key") == "network-corrective-disruption" and row.get("scope") == "reliability"), None)
+    historical_annual_reserve = None if reliability_line is None else reliability_line.get("quantity", {}).get("annual_usd")
+    if (type(historical_train_km) not in (int, float) or historical_train_km <= 0 or
+            not isinstance(historical_annual_reserve, list) or len(historical_annual_reserve) != 3 or
+            any(type(v) not in (int, float) or v <= 0 for v in historical_annual_reserve)):
+        raise ValueError("Transferred corrective/disruption rate basis is missing or malformed")
+    reliability_rates = {case: historical_annual_reserve[i] / historical_train_km for i, case in enumerate(CASES)}
+    reliability_cost = {case: annual_train_km[case] * reliability_rates[case] for case in CASES}
+    annual_sensitivity_fragments = {
+        "vehicle-auxiliary-electricity-only": {
+            "scope": "energy", "period": "annual", "quantity_unit": "vehicle_auxiliary_grid_kWh_per_year",
+            "quantity_by_case": aux_kwh, "rate_unit": "USD_per_kWh",
+            "rate_by_case": auxiliary_rates, "cost_usd_per_year": auxiliary_cost,
+            "rate_source": "transferred Samawah Class-C local_cost_inputs electricity rate",
+            "local_rates_verified": False,
+            "limitations": ["Excludes traction, station, depot and drive-cooling energy.",
+                            "Conditional auxiliary energy includes the source model's charger-loss treatment; physical grid demand is not verified.",
+                            "Not a complete energy scope or lifecycle cost."],
+        },
+        "corrective-disruption-reserve-only": {
+            "scope": "reliability", "period": "annual", "quantity_unit": "train_km_per_year",
+            "quantity_by_case": annual_train_km, "rate_unit": "USD_per_train_km",
+            "rate_by_case": reliability_rates, "cost_usd_per_year": reliability_cost,
+            "rate_source_line_id": reliability_line["line_id"],
+            "rate_source_candidate_id": old_manifest.get("candidate_ids", {}).get("candidate_id"),
+            "rate_source_body_candidate_id": old_manifest.get("candidate_ids", {}).get("body_candidate_id"),
+            "rate_source_annual_train_km": historical_train_km,
+            "rate_source_annual_reserve_usd": dict(zip(CASES, historical_annual_reserve)),
+            "rate_class": "C", "measured_availability": None,
+            "limitations": ["Transferred corrective/disruption reserve only; not a reliability or availability result.",
+                            "No failure, delay, or availability observations are represented.",
+                            "Not a complete reliability scope or lifecycle cost."],
+        },
+    }
     all_scope_status = {scope: "unpriced_or_incomplete" for scope in old_cost["scope_totals_usd"]}
-    all_scope_status.update({"rolling-stock": "counted_BOM_process_subtotal_only", "fleet": "counted_BOM_process_subtotal_only", "guideway": "selected_quantity_fragments_only"})
+    all_scope_status.update({
+        "rolling-stock": "counted_BOM_process_subtotal_only",
+        "fleet": "counted_spare_train_BOM_process_subtotal_only",
+        "guideway": "selected_quantity_fragments_only",
+        "energy": "conditional_vehicle_auxiliary_annual_sensitivity_only; traction_and_station_energy_unpriced",
+        "reliability": "corrective_disruption_annual_reserve_sensitivity_only; availability_unmeasured",
+    })
     result = {
         "schema": "osr-samawah-candidate-cost-bridge/1",
         "city_candidate_id": city_result["candidate_id"],
@@ -187,6 +248,7 @@ def build(city_result: dict, old_cost: dict, china_cost: dict, old_manifest: dic
         "partial_matched_guideway_subtotal_usd": fragment_totals,
         "partial_priced_fragment_sum_usd": {case: bom[case] + fragment_totals[case] for case in CASES},
         "partial_scope_fragments_usd": priced_scope_fragments,
+        "annual_operating_sensitivity_fragments": annual_sensitivity_fragments,
         "scope_status": all_scope_status,
         "installed_capex_usd": None,
         "whole_life_npv_usd": None,
@@ -202,7 +264,7 @@ def build(city_result: dict, old_cost: dict, china_cost: dict, old_manifest: dic
             "Support, foundation, ground, land, utilities, depot, station access, power, charging and protection quantities.",
             "Local wage/material rates, import duties/customs, tax treatment, exchange rate and current supplier quotations.",
             "Production tooling/factory scale, final assembly, test/commissioning, staffing and construction programme.",
-            "Traction energy, operations, maintenance, renewals, recovery, reliability, disposal and financing inputs.",
+            "Traction and station/depot energy, operations, maintenance, renewals, recovery, measured reliability, disposal and financing inputs.",
             "Potential mismatch between historical 20 m beam design and current body loads; the rate does not validate the beam selection.",
             "Construction haul/crane/erection rates are not transferred because the retained line mixes mainline and station track quantities absent from this candidate quantity set.",
             "China-bulk source comparison for these matched infrastructure rows is identical to project make/buy; the current body BOM has no candidate-matched China reprice.",
