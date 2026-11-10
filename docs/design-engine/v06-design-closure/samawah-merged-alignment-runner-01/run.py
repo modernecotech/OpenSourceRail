@@ -25,6 +25,7 @@ MERGED_PACKET_DIR = "docs/design-engine/v06-design-closure/samawah-station-conso
 PRESERVED = [
     "docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/manifest.json",
     "docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/manifest.json",
+    "docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/manifest.json",
     "docs/design-engine/v06-design-closure/compact-drive-source-replay-01/manifest.json",
     "docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source/manifest.json",
     "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03/manifest.json",
@@ -65,6 +66,14 @@ def render_readme(request: dict, summary: dict, execution: dict) -> str:
             f"| {scenario['definition_failure_count']} | {scenario['geometry_points']} ({scenario['point_reduction_percent']:.1f}% fewer) "
             f"| {scenario['fleet_low_base_high']} | {scenario['line1_runtime_s']:.1f} |"
         )
+    hold_sets = [baseline["holds"], *(row["holds"] for row in summary["scenarios"])]
+    shared_holds = hold_sets[0] if all(rows == hold_sets[0] for rows in hold_sets) else None
+    hold_section = (
+        "Each of the merged-stop parent and three route screens retains the same evaluator holds:\n\n"
+        + "\n".join(f"- {hold}" for hold in shared_holds)
+        if shared_holds is not None else
+        "Evaluator holds by scenario remain in `summary.json` and each exact city evaluation."
+    )
     quantity_names = {
         "standard_beams": "Reference 20 m beam units",
         "standard_shared_bents": "Shared bent positions",
@@ -117,6 +126,13 @@ chainages are proportionally transferred to the revised route length only as a
 planning assumption and require reassessment; no civil loads are calculated.
 
 {platform_note}
+
+## Remaining evaluator holds
+
+{hold_section}
+
+These are separate from the zero platform-envelope definition failures. The
+evaluator has not declared the candidate complete or accepted.
 
 The evaluator's 0.4 m/s² acceleration remains a shared study control, not a
 selected train capability. Available propulsion force, braking, curvature,

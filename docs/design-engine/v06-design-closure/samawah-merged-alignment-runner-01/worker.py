@@ -384,6 +384,7 @@ try:
             line1_runtime_s=next(row['assumed_one_way_runtime_s'] for row in result['lines'] if row['line_id'] == 'line-1'),
             definition_failures=result['definition_failures'],
             definition_failure_count=len(result['definition_failures']),
+            holds=result['holds'],
             line_runtime_by_id={line_id: row['assumed_one_way_runtime_s'] for line_id, row in routes_by_id.items()},
             max_deviation_m_by_line={row['line_id']: row['maximum_sampled_deviation_m'] for row in details},
             all_station_coordinates_fixed=all(row['stop_coordinates_fixed'] for row in details),
@@ -412,6 +413,7 @@ try:
             fleet_low_base_high=[baseline['fleet_request_cases'][case]['total_trainsets'] for case in ('low', 'base', 'high')],
             line1_runtime_s=next(row['assumed_one_way_runtime_s'] for row in baseline['lines'] if row['line_id'] == 'line-1'),
             definition_failure_count=len(baseline['definition_failures']),
+            holds=baseline['holds'],
             guideway_quantity_screen={key: baseline['quantities'][key] for key in
                 ('standard_beams', 'standard_shared_bents', 'running_rail_m', 'running_fastening_sets')},
         ),
