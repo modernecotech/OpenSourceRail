@@ -258,13 +258,17 @@ def _canonical_bytes(value):
     return (json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)+'\n').encode()
 
 
+def _cache_request_matches(cached_request, request, normalize):
+    return _canonical_bytes(cached_request) == _canonical_bytes(normalize(request))
+
+
 def _run_study(label, request, root, output, workflow, *, replay=True):
     study_id = workflow.identity(request)[:32]
     artifacts = root / 'build/city-studies' / study_id / 'artifacts'
     reused = artifacts.exists()
     if reused:
         cached_request = workflow.read_json(artifacts, 'request.json')
-        if _canonical_bytes(cached_request) != _canonical_bytes(request):
+        if not _cache_request_matches(cached_request, request, workflow.normalize):
             raise ValueError('Existing city study identity is occupied by different request bytes')
     else:
         artifacts.parent.mkdir(parents=True, exist_ok=True)

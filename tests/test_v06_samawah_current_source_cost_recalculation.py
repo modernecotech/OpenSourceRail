@@ -97,6 +97,16 @@ def test_supply_price_labels_do_not_count_as_changed_service_physics():
     assert MODULE._service_semantics(local) != MODULE._service_semantics(imported)
 
 
+def test_cached_city_study_compares_normalized_request_bytes():
+    request = {'city_slug': 'samawah', 'project': {'pricing_scenario': 'project-make-buy'}}
+    cached = {'city_slug': 'samawah', 'project': {'pricing_scenario': 'project-make-buy'},
+              'service': {}, 'alignment': {}}
+    normalize = lambda value: {**value, 'service': {}, 'alignment': {}}
+    assert MODULE._cache_request_matches(cached, request, normalize)
+    assert not MODULE._cache_request_matches(cached, request,
+        lambda value: {**normalize(value), 'project': {'pricing_scenario': 'china-bulk-buy'}})
+
+
 def test_china_cost_label_does_not_claim_unmodeled_volume_discounts():
     description = MODULE.PRICING_DESCRIPTIONS['china-bulk-buy'].lower()
     assert 'no negotiated or blanket volume discount is applied' in description
