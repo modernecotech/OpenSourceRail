@@ -7,10 +7,14 @@ from datetime import datetime, timedelta, timezone
 import json
 import math
 import os
+import platform
 from pathlib import Path
 import shutil
 import stat
 import subprocess
+import tempfile
+import time
+import sys
 
 from engineering.station_rail import ROOT
 
@@ -316,6 +320,201 @@ def cleanup_bytecode(root=ROOT, *, minimum_age_days=DEFAULT_CACHE_AGE_DAYS,
     }
 
 
+def _git_snapshot(root):
+    try:
+        revision = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            capture_output=True, text=True, check=True, timeout=30,
+        ).stdout.strip()
+        status = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain=v1", "-z",
+             "--untracked-files=normal"],
+            capture_output=True, check=True, timeout=60,
+        ).stdout
+        return {"revision": revision, "dirty_path_count": status.count(b"\0")}
+    except (OSError, subprocess.SubprocessError):
+        return {"revision": None, "dirty_path_count": None}
+
+
+def measure_command(command, *, workspace, report_path, root=ROOT) -> tuple[dict, int]:
+    """Run one command under GNU time and retain comparable process metrics.
+
+    The command is invoked as an argv vector, without a shell. Workspace sizes
+    are before/after allocated-byte snapshots; peak workspace disk and cache
+    or solver counts are not inferred from those snapshots.
+    """
+    if (not isinstance(command, (list, tuple)) or not command
+            or any(not isinstance(arg, str) or not arg for arg in command)):
+        raise ValueError("a nonempty command argument vector is required")
+    workspace = Path(workspace).resolve()
+    report_path = Path(report_path).resolve()
+    root = Path(root).resolve()
+    if report_path == workspace or workspace in report_path.parents:
+        raise ValueError("performance report must be outside the measured workspace")
+    if workspace.is_symlink():
+        raise ValueError("measured workspace must not be a symlink")
+    workspace.mkdir(parents=True, exist_ok=True)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    timer = Path("/usr/bin/time")
+    if not timer.is_file():
+        raise OSError("GNU /usr/bin/time is required for reproducible process metrics")
+
+    before_disk = shutil.disk_usage(workspace)
+    before_sizes, before_errors = _du([str(workspace)])
+    before_size = before_sizes.get(str(workspace))
+    source_before = _git_snapshot(root)
+    format_string = (
+        "elapsed_seconds=%e user_seconds=%U system_seconds=%S max_rss_kib=%M "
+        "minor_page_faults=%R major_page_faults=%F "
+        "filesystem_input_operations=%I filesystem_output_operations=%O exit_status=%x"
+    )
+    started_at = datetime.now(timezone.utc).isoformat()
+    started = time.monotonic()
+    with tempfile.TemporaryDirectory(prefix="osr-perf-measure-") as temp:
+        metrics_path = Path(temp) / "time.txt"
+        completed = subprocess.run(
+            [str(timer), "-f", format_string, "-o", str(metrics_path), "--", *command],
+            check=False,
+        )
+        elapsed = time.monotonic() - started
+        raw_metrics = metrics_path.read_text(errors="replace") if metrics_path.exists() else ""
+    after_disk = shutil.disk_usage(workspace)
+    after_sizes, after_errors = _du([str(workspace)])
+    after_size = after_sizes.get(str(workspace))
+    source_after = _git_snapshot(root)
+    metrics = {}
+    for token in raw_metrics.split():
+        if "=" not in token:
+            continue
+        key, value = token.split("=", 1)
+        try:
+            metrics[key] = float(value) if key.endswith(("seconds", "kib")) else int(value)
+        except ValueError:
+            metrics[key] = value
+    result = {
+        "schema": "osr-performance-measurement/1",
+        "command": list(command),
+        "workspace": str(workspace),
+        "report_path": str(report_path),
+        "started_at_utc": started_at,
+        "wall_seconds_observed": elapsed,
+        "command_exit_status": completed.returncode,
+        "source_context": {
+            "revision_before": source_before["revision"],
+            "revision_after": source_after["revision"],
+            "unchanged_during_measurement": (
+                source_before["revision"] is not None
+                and source_before["revision"] == source_after["revision"]
+            ),
+            "dirty_path_count_before": source_before["dirty_path_count"],
+            "dirty_path_count_after": source_after["dirty_path_count"],
+        },
+        "environment": {
+            "python_version": sys.version.split()[0],
+            "platform": platform.platform(),
+        },
+        "process_metrics": metrics,
+        "filesystem": {
+            "total_bytes": after_disk.total,
+            "free_bytes_before": before_disk.free,
+            "free_bytes_after": after_disk.free,
+            "workspace_allocated_bytes_before": before_size,
+            "workspace_allocated_bytes_after": after_size,
+            "workspace_allocated_bytes_delta": (
+                after_size - before_size if before_size is not None and after_size is not None else None
+            ),
+            "workspace_du_errors": before_errors + after_errors,
+        },
+        "not_observed": [
+            "peak temporary workspace bytes",
+            "cache hits and misses",
+            "native solver execution count",
+            "retry count",
+        ],
+        "measurement_notes": [
+            "GNU time reports CPU, sampled peak RSS and filesystem operation counts for the command process tree.",
+            "Workspace size is an allocated-byte before/after snapshot, not a peak measurement.",
+            "Filesystem free-space changes can include concurrent unrelated activity.",
+        ],
+    }
+    fd, pending_name = tempfile.mkstemp(prefix="." + report_path.name + ".",
+                                        suffix=".pending", dir=report_path.parent)
+    pending = Path(pending_name)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as output:
+            output.write(json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n")
+            output.flush()
+            os.fsync(output.fileno())
+        pending.replace(report_path)
+    except OSError:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        pending.unlink(missing_ok=True)
+        raise
+    return result, completed.returncode
+
+
+def compare_measurements(before_path, after_path) -> dict:
+    """Compare two compatible measurement reports without asserting a win."""
+    def read(path):
+        path = Path(path)
+        info = path.lstat()
+        if not stat.S_ISREG(info.st_mode) or info.st_size > 16 * 1024**2:
+            raise ValueError("measurement input must be an ordinary JSON report below 16 MiB")
+        value = json.loads(path.read_bytes())
+        if value.get("schema") != "osr-performance-measurement/1":
+            raise ValueError("performance measurement schema differs")
+        return value
+
+    before, after = read(before_path), read(after_path)
+    fields = {
+        "wall_seconds": ("wall_seconds_observed",),
+        "user_seconds": ("process_metrics", "user_seconds"),
+        "system_seconds": ("process_metrics", "system_seconds"),
+        "max_rss_kib": ("process_metrics", "max_rss_kib"),
+        "filesystem_input_operations": ("process_metrics", "filesystem_input_operations"),
+        "filesystem_output_operations": ("process_metrics", "filesystem_output_operations"),
+        "workspace_allocated_bytes_delta": ("filesystem", "workspace_allocated_bytes_delta"),
+    }
+    comparisons = {}
+    for name, path in fields.items():
+        left, right = before, after
+        for key in path:
+            left = left.get(key) if isinstance(left, dict) else None
+            right = right.get(key) if isinstance(right, dict) else None
+        if (not isinstance(left, (int, float)) or isinstance(left, bool)
+                or not isinstance(right, (int, float)) or isinstance(right, bool)
+                or not math.isfinite(left) or not math.isfinite(right)):
+            comparisons[name] = {"before": left, "after": right,
+                                 "delta": None, "relative_change_percent": None}
+            continue
+        delta = right - left
+        comparisons[name] = {
+            "before": left,
+            "after": right,
+            "delta": delta,
+            "relative_change_percent": delta / abs(left) * 100 if left != 0 else None,
+        }
+    return {
+        "schema": "osr-performance-comparison/1",
+        "before_report": str(Path(before_path).resolve()),
+        "after_report": str(Path(after_path).resolve()),
+        "same_command": before.get("command") == after.get("command"),
+        "same_source_revision": (
+            before.get("source_context", {}).get("revision_before") is not None
+            and before.get("source_context", {}).get("revision_before")
+            == after.get("source_context", {}).get("revision_before")
+        ),
+        "same_environment": before.get("environment") == after.get("environment"),
+        "before_command": before.get("command"),
+        "after_command": after.get("command"),
+        "comparisons": comparisons,
+        "note": "Comparable command inputs, candidate identity and execution environment must be checked by the caller; this report does not assert engineering validity.",
+    }
+
+
 def main(argv=None, *, root=ROOT) -> int:
     parser = argparse.ArgumentParser(prog="./osr perf")
     commands = parser.add_subparsers(dest="action", required=True)
@@ -325,17 +524,40 @@ def main(argv=None, *, root=ROOT) -> int:
     cleanup = commands.add_parser("cleanup", help="Dry-run or remove stale source-tree bytecode caches")
     cleanup.add_argument("--minimum-age-days", type=float, default=DEFAULT_CACHE_AGE_DAYS)
     cleanup.add_argument("--apply", action="store_true", help="Remove only stale ordinary .pyc caches in the reported source roots")
+    measure = commands.add_parser("measure", help="Run an argv command and record process/resource metrics")
+    measure.add_argument("--workspace", type=Path, required=True,
+                         help="Dedicated job workspace whose allocated bytes are measured before and after")
+    measure.add_argument("--report", type=Path, required=True,
+                         help="JSON report path outside the measured workspace")
+    measure.add_argument("command", nargs=argparse.REMAINDER)
+    compare = commands.add_parser("compare", help="Compare two recorded process measurements")
+    compare.add_argument("--before", type=Path, required=True)
+    compare.add_argument("--after", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
         if args.action == "storage":
             value = storage_report(root, minimum_free_gib=args.minimum_free_gib)
-        else:
+            exit_code = 0
+        elif args.action == "cleanup":
             value = cleanup_bytecode(root, minimum_age_days=args.minimum_age_days,
                                      apply=args.apply)
+            exit_code = 0
+        elif args.action == "measure":
+            command = args.command[1:] if args.command[:1] == ["--"] else args.command
+            value, exit_code = measure_command(command, workspace=args.workspace,
+                                               report_path=args.report, root=root)
+        else:
+            value = compare_measurements(args.before, args.after)
+            exit_code = 0
         print(json.dumps(value, indent=2, sort_keys=True, allow_nan=False))
-        return 0
+        return exit_code
     except (OSError, ValueError, subprocess.SubprocessError) as error:
-        schema = "osr-performance-cleanup/1" if args.action == "cleanup" else "osr-performance-storage-inventory/1"
+        schema = {
+            "storage": "osr-performance-storage-inventory/1",
+            "cleanup": "osr-performance-cleanup/1",
+            "measure": "osr-performance-measurement/1",
+            "compare": "osr-performance-comparison/1",
+        }[args.action]
         print(json.dumps({"schema": schema,
                           "execution": "held", "reason": str(error)},
                          indent=2, sort_keys=True))

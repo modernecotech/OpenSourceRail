@@ -4,6 +4,7 @@ import subprocess
 from types import SimpleNamespace
 from datetime import datetime, timezone
 import os
+import sys
 
 from engineering import performance
 
@@ -115,3 +116,50 @@ def test_cleanup_cli_defaults_to_dry_run(tmp_path, capsys):
     report = __import__("json").loads(capsys.readouterr().out)
     assert report["mode"] == "dry-run"
     assert report["mutation_performed"] is False
+
+
+def test_perf_measure_records_process_metrics_and_workspace_delta(tmp_path, capsys):
+    import json
+    workspace = tmp_path / "job-workspace"
+    report_path = tmp_path / "measurement.json"
+    output = workspace / "artifact.bin"
+    code = "import pathlib,sys; pathlib.Path(sys.argv[1]).write_bytes(b'x'*4096)"
+    assert performance.main(["measure", "--workspace", str(workspace),
+                              "--report", str(report_path), "--", sys.executable,
+                              "-c", code, str(output)], root=tmp_path) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["schema"] == "osr-performance-measurement/1"
+    assert result["process_metrics"]["exit_status"] == 0
+    assert result["process_metrics"]["max_rss_kib"] > 0
+    assert result["filesystem"]["workspace_allocated_bytes_delta"] >= 4096
+    assert "peak temporary workspace bytes" in result["not_observed"]
+    assert report_path.is_file()
+    assert output.stat().st_size == 4096
+
+
+def test_perf_compare_reports_deltas_without_claiming_compatibility(tmp_path, capsys):
+    import json
+    before = {
+        "schema": "osr-performance-measurement/1",
+        "command": ["python", "case.py"],
+        "wall_seconds_observed": 100.0,
+        "process_metrics": {"user_seconds": 20.0, "system_seconds": 10.0,
+                            "max_rss_kib": 4096, "filesystem_input_operations": 9,
+                            "filesystem_output_operations": 4},
+        "filesystem": {"workspace_allocated_bytes_delta": 512},
+    }
+    after = json.loads(json.dumps(before))
+    after["wall_seconds_observed"] = 80.0
+    after["process_metrics"]["user_seconds"] = 15.0
+    after_path = tmp_path / "after.json"
+    before_path = tmp_path / "before.json"
+    before_path.write_text(json.dumps(before))
+    after_path.write_text(json.dumps(after))
+
+    assert performance.main(["compare", "--before", str(before_path),
+                             "--after", str(after_path)], root=tmp_path) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["same_command"] is True
+    assert result["comparisons"]["wall_seconds"]["relative_change_percent"] == -20.0
+    assert result["comparisons"]["user_seconds"]["relative_change_percent"] == -25.0
+    assert "does not assert engineering validity" in result["note"]
