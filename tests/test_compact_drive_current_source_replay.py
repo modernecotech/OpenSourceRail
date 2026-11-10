@@ -37,7 +37,7 @@ def test_bounded_source_replay_is_intact_and_selected_body_is_exact():
     assert selected['source_before'] == selected['source_after']
 
     body = json.loads(gzip.decompress((PACKET / 'compact-737-h100/body.json.gz').read_bytes()))
-    assert validate(body) is None
+    validate(body)
     assert body['candidate_id'] == selected['candidate_id']
     assert body['evaluation_id'] == selected['body_evaluation_id']
     assert body['source_sha256'] == request['source_sha256']
