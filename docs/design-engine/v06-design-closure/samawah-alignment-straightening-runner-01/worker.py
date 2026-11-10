@@ -38,7 +38,8 @@ def require(condition: bool, message: str) -> None:
 
 
 reader = subprocess.Popen(
-    ['/usr/bin/git', '-C', str(ROOT), 'cat-file', '--batch'],
+    ['/usr/bin/git', '-c', 'core.packedGitWindowSize=16m',
+     '-c', 'core.packedGitLimit=32m', '-C', str(ROOT), 'cat-file', '--batch'],
     stdin=subprocess.PIPE, stdout=subprocess.PIPE,
 )
 
