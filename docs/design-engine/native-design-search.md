@@ -100,6 +100,47 @@ RSS of about 2.67 GiB for both. This is a single machine/run pair, not a general
 speed guarantee; measure the target workload and retain Python parity checks
 before changing any default.
 
+### Samawah city-completion canonical encoder check
+
+At revision `b5e39f8f9f5c1e3d4b5682700e3bc6be6caaf68f`, I measured the bounded
+Samawah outline completion with one worker and one requested city. Three paired
+runs alternated Python-first, Rust-first, then Python-first order. Both backends
+produced the same request, evaluation and manifest IDs, and the same hashes for
+the manifest, request, designs and summary. Python replay of one package and Rust
+replay of another both passed.
+
+| Measurement | Python median | Rust median | Rust change |
+|---|---:|---:|---:|
+| Wall time | 38.02 s | 35.65 s | 6.23% lower |
+| User CPU | 34.55 s | 32.30 s | 6.51% lower |
+| Peak RSS | 431,012 KiB | 432,996 KiB | 0.46% higher |
+
+The shared manifest is `25a5de966e3ed7e75001848d40f2b2cfd14fdfb3ec36d44b971d2e759d935f54`,
+request `f3d40f83d1fb246912a70bf0fce98c216b17d9894bafd5ba91ec4002a1dd803a`, and
+evaluation `74342c33e2ff84ab25f2a4f0d41f88c66e4bb1eb9c125b64fd38eb383c485566`.
+The completion compared two alignment hypotheses and recorded zero native solver
+calls. The Rust extension receipt is
+`65d44dd159f49fe88e5e44836b601ea898a13c0631313d8e70353f2628ef4767` with binary
+SHA-256 `323169073b8cd57fe8b337aa33fe6279922e994c0208389a7a6874de465ab965`.
+
+This is an end-to-end result for one city on one host; filesystem operation
+counters varied between repetitions and do not support a disk-I/O conclusion.
+The completion is a local planning calculation, not engineering or physical
+acceptance. Python remains the default pending measurements across more city
+requests and other engineering workloads. The six raw process reports and
+three-pair summary are retained locally under
+`build/performance/baselines/samawah-canonical-*-20261110.json`.
+
+A separate instrumented Python profile took 75.1 s, so its wall time is not
+comparable with the uninstrumented runs. `design_completion.evaluate` took
+36.94 s cumulative. The profile recorded 535 Git subprocess reads for immutable
+evidence blobs (3.09 s cumulative), 23.75 s cumulative in deep copying, 17.05 s
+in JSON parsing and 10.62 s in canonical encoding; these inclusive times overlap.
+This points to batched blob retrieval and reduced repeated copying/serialization
+as profiling candidates. Any evaluator-source
+change must preserve the existing blob and result checks, then regenerate
+affected source-bound current packets before publication.
+
 Rust key ordering also uses UTF-8 strings for ordinary keys instead of allocating
 four-byte codepoint vectors. Lone surrogates retain explicit codepoint handling,
 including comparisons against valid Unicode keys. Isolated, matching-toolchain
