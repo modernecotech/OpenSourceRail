@@ -335,7 +335,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
         request['geometry_proposal']['maximum_deviation_m'])
     edit_bundle = dict(schema=planning_adapter.EDIT_SCHEMA, city=request['city_slug'],
         base_revision_sha256=base_plan['revision_sha256'], seed_id=seed['seed_id'],
-        source_outline_evaluation_id=seed['source_outline_evaluation_id'],
+        source_outline_evaluation_id=base_plan['source_outline_evaluation_id'],
         actor='OpenSourceRail v0.6 current-source planning comparison', edits=edits)
     _write(output / 'route-generation.json', dict(
         schema='osr-samawah-current-source-route-simplification/1',
