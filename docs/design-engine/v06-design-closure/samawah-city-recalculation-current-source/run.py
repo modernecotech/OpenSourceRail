@@ -1,5 +1,6 @@
 from pathlib import Path
 import hashlib,json,resource,shutil,subprocess,sys,time
+sys.path.insert(0,str(Path.cwd()))
 from engineering.outline import city_inputs
 from engineering.railway_project import city_recalculation as adapter
 from engineering.station_rail.common import encoded,identity
