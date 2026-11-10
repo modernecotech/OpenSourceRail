@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[4]
+ROOT = HERE.parents[3]
 sys.path.insert(0, str(ROOT))
 
 from engineering.railway_project.city_cost_bridge import (  # noqa: E402
