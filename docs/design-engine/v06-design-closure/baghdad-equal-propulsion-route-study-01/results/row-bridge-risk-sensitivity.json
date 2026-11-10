@@ -1,0 +1,118 @@
+{
+  "all_nonreserve_inputs_held_fixed_in_sensitivity": true,
+  "assumptions_are_site_evidence": false,
+  "attempt_manifest_id": "fe2717b4d53a406e15f14d595378bee34751f6478ef2fb1d95bd2ace288037cb",
+  "base_parameters": {
+    "additional_access_walkway_m": 0.0,
+    "bridge_risk_usd_per_bridge_route_m": 6000.0,
+    "exchange_iqd_per_usd": 1510.0,
+    "foreign_local_transfer_multiplier": 1.0,
+    "land_iqd_per_m2": 75000.0,
+    "site_risk_usd_per_changed_route_m": 500.0,
+    "station_repair_walkway_usd_per_m": 800.0
+  },
+  "baseline_construction_reserve_line_id": "5e9fd3ebcba665ce8a3927989c56fb77af4481fe94e84a08f6f779c5bc41a9a8",
+  "baseline_cost_evaluation_id": "4f6693e4ddec479a9e7553d3b73c42c8f63dae0629e7dca2fe11b23f6e4b2af7",
+  "baseline_study_id": "27fba762275d0e63d57a7b4bcf6483b7",
+  "comparison_id": "e66df4f4a78b32a0c98e7d6c24056c9ee0215906d11ac8e53a26c0b703166a2d",
+  "engineering_accepted": false,
+  "existing_baseline_reserve_usd": {
+    "base": 340609034.9810692,
+    "high": 2119932508.185945,
+    "low": 73748275.53414947
+  },
+  "formula": "(additional_row_area_m2 * land_iqd_per_m2 / exchange_iqd_per_usd + changed_route_m * site_risk_usd_per_changed_route_m + additional_access_walkway_m * station_repair_walkway_usd_per_m + unverified_bridge_route_m * bridge_risk_usd_per_bridge_route_m) * foreign_local_rate_transfer",
+  "geometry_runtime_shapely": "2.2.0",
+  "incremental_reserve_usd": {
+    "base": 704132453.0199103,
+    "high": 4336473037.385359,
+    "low": 156401650.8461876
+  },
+  "manufacturing_release": false,
+  "movement_authority": false,
+  "new_assumed_bridge_route_m_at_base": 19631.462408789965,
+  "new_assumed_right_of_way_area_m2_at_base": 7852584.963515987,
+  "new_geometry_changed_route_m": 392629.2481757993,
+  "not_city_recalculation": true,
+  "operating_release": false,
+  "physical_accepted": false,
+  "revised_construction_reserve_line_id": "cf42503215b1c8aceee7770bbb5cf6745431292aaa6adbab35e1761b4d78f95b",
+  "revised_cost_evaluation_id": "6e8c2bbe407327b7cfb3dd637a5f1971eab9e42ea9e08229a8a0f9f4468031f6",
+  "revised_study_id": "c8cbb21fc69edce7d84b89b58cf00093",
+  "revised_total_reserve_usd": {
+    "base": 1044741488.0009795,
+    "high": 6456405545.571304,
+    "low": 230149926.38033706
+  },
+  "route_generation_id": "ec9f4d9ca4eceda0670ecf72757f64ef66667715f15ca48159e4faa03f9959aa",
+  "schema": "osr-baghdad-row-bridge-risk-parameter-sensitivity/1",
+  "sensitivity": [
+    {
+      "bridge_cases": [
+        {
+          "bridge_fraction": 0.0,
+          "including_existing_baseline_reserve_usd": 634430922.688787,
+          "incremental_reserve_usd": 293821887.707717
+        },
+        {
+          "bridge_fraction": 0.025,
+          "including_existing_baseline_reserve_usd": 693325309.915156,
+          "incremental_reserve_usd": 352716274.934087
+        },
+        {
+          "bridge_fraction": 0.05,
+          "including_existing_baseline_reserve_usd": 752219697.141526,
+          "incremental_reserve_usd": 411610662.160457
+        }
+      ],
+      "row_width_m": 5.0
+    },
+    {
+      "bridge_cases": [
+        {
+          "bridge_fraction": 0.0,
+          "including_existing_baseline_reserve_usd": 731938186.308604,
+          "incremental_reserve_usd": 391329151.327535
+        },
+        {
+          "bridge_fraction": 0.025,
+          "including_existing_baseline_reserve_usd": 790832573.534974,
+          "incremental_reserve_usd": 450223538.553905
+        },
+        {
+          "bridge_fraction": 0.05,
+          "including_existing_baseline_reserve_usd": 849726960.761344,
+          "incremental_reserve_usd": 509117925.780275
+        }
+      ],
+      "row_width_m": 10.0
+    },
+    {
+      "bridge_cases": [
+        {
+          "bridge_fraction": 0.0,
+          "including_existing_baseline_reserve_usd": 926952713.54824,
+          "incremental_reserve_usd": 586343678.567171
+        },
+        {
+          "bridge_fraction": 0.025,
+          "including_existing_baseline_reserve_usd": 985847100.77461,
+          "incremental_reserve_usd": 645238065.79354
+        },
+        {
+          "bridge_fraction": 0.05,
+          "including_existing_baseline_reserve_usd": 1044741488.00098,
+          "incremental_reserve_usd": 704132453.01991
+        }
+      ],
+      "row_width_m": 20.0
+    }
+  ],
+  "sensitivity_id": "d68a08196edf3febf4ffe7a40fe5b9cc6fdc7c0a7994e3f0a9361a2425690579",
+  "source_archive_sha256": "db6cc59ec2309353cb7e69dae31beded0f878c33dd3ebf623e845581b7c00e71",
+  "source_commit": "bfa3cbd3abb8336e3c35981cf5991811662b1065",
+  "source_files_sha256": {
+    "engineering/outline/city_project_cost.py": "c219b086c0b216c7680df466f2f989fbe6d96a1236f17438040d105ae9ccf469",
+    "engineering/outline/planning_adapter.py": "0bb984d0d24733dc679d668726113999559baadb3253f059f360cdf9c9f01e73"
+  }
+}

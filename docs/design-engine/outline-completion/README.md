@@ -18,7 +18,7 @@ Design coverage also includes **112 railway bundles**, **54 body outlines** and 
 | Lyon | 296.5 | 9 | 109 | 337 | 4,754.0 | 16.03 |
 | Agra | 158.5 | 5 | 54 | 191 | 2,709.5 | 17.09 |
 
-Calculation `3e69b5419f38bd2a265b110d4fd48366dcb79dc3798964abefdf7905316eccfd`; publication `9b9a69141fc207aca8efa16f598d0b269a15fcdd9e37da6fd0faf94222465cc8`.
+Calculation `189b3a612fb07a41255511346603b9dc398119de9d4701a61d80fef69a3e7fb8`; publication `332e3362c179462fd000af41965dfc1b75096ff11d00b7c109521d5c6bd166b5`.
 <!-- END calculated outline coverage -->
 
 ## City price audit
@@ -29,7 +29,7 @@ The [6 November price review](../city-price-review/README.md) records corrected 
 
 Every city retains its own mapped route coordinates, stop markers, line topology, interchange identities and civil alignment classes. Each line is recalculated over its actual stop gaps, including ring closure. Close stop markers are assigned to compact operational station complexes, with standard 120 m platforms, nonoverlapping boarding intervals and priced access connectors. Transitive chains of nearby markers are retained as rejected diagnostics rather than creating long platforms or walks. Distinct access markers may share one boarding location. Source maps remain available unchanged.
 
-The alignment portfolio compares the original, anchor-preserving straighter corridors and, where applicable, rounded square/rectangular rings with a station on each side and required transfer connections. Altered land, access, crossings and site risk have nonzero prices. Square proposals failing the declared access screen remain priced, visible alternatives; they do not win by dropping inconvenient passengers. Corners have an explicit radius and conservative speed hypothesis. Quieter running is not demonstrated by a different shape alone.
+The published 623-scenario alignment portfolio gives every city an original and an anchor-preserving chord comparison; 91 ring networks also have a rounded four-edge ring concept. The chord is shorter in 263 cities and equal within 1 μm in three. The scenarios include calculated low/base/high capital and lifecycle estimates. They are geometry and cost hypotheses, not surveyed routes, local demand forecasts or verified site prices. Altered land, access, crossings and site risk have nonzero prices. Ring proposals failing the declared access screen remain priced, visible alternatives; they do not win by dropping inconvenient passengers. Corners have an explicit radius and conservative speed hypothesis. Quieter running is not demonstrated by a different shape alone.
 
 The common starting demand is **4,000 peak passengers/hour/direction per line**, 85% planning occupancy, 99% assumed availability and a maximum five-minute headway. These are editable planning hypotheses, not city-specific passenger forecasts. Empty origin–destination data is not reconstructed from historical train capacities. Population retained in the geographic source is not treated as an authenticated forecast. Service, fleet, reserve trains, dwell/charging and nominal energy balance are calculated for each network.
 

@@ -1,0 +1,36 @@
+{
+  "schema": "osr-samawah-equal-propulsion-route-study-request/1",
+  "source_commit": "bfa3cbd3ab",
+  "city_slug": "samawah",
+  "planning_seed_id": "d11009e11222e27968cd797e949fbdc853358d38c35ef37c66ac3ea0e6228dba",
+  "source_outline_evaluation_id": "dc3aceda741bd04176e824fa2d5ee8c4e7f92767220cf0098e5b25ed4a9a79b2",
+  "outline_publication_manifest_id": "332e3362c179462fd000af41965dfc1b75096ff11d00b7c109521d5c6bd166b5",
+  "superseded_outline_publication_manifest_id": "9b9a69141fc207aca8efa16f598d0b269a15fcdd9e37da6fd0faf94222465cc8",
+  "reference_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "reference_body_candidate_id": "9489e4f2666fd3b3c73232c86df3f12adf42a5531eb27373834cf3fecb1a3117",
+  "baseline_alignment": "original",
+  "propulsion_policy_by_line": {
+    "line-1": "powered-axle-continuous-research",
+    "line-2": "powered-axle-continuous-research",
+    "line-3": "powered-axle-continuous-research",
+    "line-4": "powered-axle-continuous-research",
+    "line-5": "powered-axle-continuous-research"
+  },
+  "geometry_proposal": {
+    "context_packet_id": "a63934bd6d7b7cefbc45c4196a140c4b7451ceef9ffee80d55dd48fdfd13d32a",
+    "context_packet_manifest_sha256": "dff094595e3015f1eb04e96ba9f6887e09e2f15156f7f9a73d61cf897a65e6f5",
+    "context_scenario_sha256": "ecac19b431f56599780cbd6413ef1ddc84c642e5810089b26f3223a106bc02af",
+    "maximum_sampled_deviation_m": 20.0,
+    "use_as": "tolerance context only; regenerate from exact current canonical plan, retain all stops, and recalculate service and costs"
+  },
+  "pricing_scenario": "project-make-buy",
+  "service_basis": "Published Samawah planning seed; no demand, dwell, service, alignment selection or price overrides other than the explicitly fixed per-line propulsion family.",
+  "open_assumptions": [
+    "The route simplification is an unsurveyed geometry experiment, not a surveyed alignment or right-of-way proposal.",
+    "All five lines use the same 1000 kg/car powered-axle research mass allowance, 100 kg/car rotating-equivalent allowance, four motors per car and continuous-feed route model; the model does not provide a physically supported available-force map.",
+    "The physical vehicle and body candidate identities are held fixed. Route-dependent service, fleet, energy, civil quantities and costs are recalculated.",
+    "The demand, occupancy, availability, speed, acceleration, dwell, charging and other service values remain planning-seed assumptions.",
+    "Civil classes and prices are Class C modeled estimates, not supplier quotations, route-specific engineering, procurement approval or project-finance approval.",
+    "No physical, engineering, manufacturing, operating or movement-authority acceptance is claimed."
+  ]
+}

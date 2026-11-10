@@ -1,0 +1,42 @@
+{
+  "schema": "osr-city-equal-propulsion-route-study-request/1",
+  "source_commit": "bfa3cbd3abb8336e3c35981cf5991811662b1065",
+  "city_slug": "baghdad",
+  "planning_seed_id": "53f0cc845e2e67e8c164885829e3d4e3cf4e782ba08a02d92fdf75453e3dc649",
+  "source_outline_evaluation_id": "f1715c1fc8212bb0d107a0e06cf8fbb8fbada7fe7889b5aa8182d8e21c585561",
+  "outline_publication_manifest_id": "332e3362c179462fd000af41965dfc1b75096ff11d00b7c109521d5c6bd166b5",
+  "reference_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "reference_body_candidate_id": "9489e4f2666fd3b3c73232c86df3f12adf42a5531eb27373834cf3fecb1a3117",
+  "baseline_alignment": "anchor-preserving-chord-research",
+  "propulsion_policy_by_line": {
+    "line-1": "powered-axle-continuous-research",
+    "line-2": "powered-axle-continuous-research",
+    "line-3": "powered-axle-continuous-research",
+    "line-4": "powered-axle-continuous-research",
+    "line-5": "powered-axle-continuous-research",
+    "line-6": "powered-axle-continuous-research",
+    "line-7": "powered-axle-continuous-research",
+    "line-8": "powered-axle-continuous-research",
+    "line-9": "powered-axle-continuous-research",
+    "line-10": "powered-axle-continuous-research",
+    "line-11": "powered-axle-continuous-research",
+    "line-12": "powered-axle-continuous-research",
+    "line-13": "powered-axle-continuous-research",
+    "line-14": "powered-axle-continuous-research"
+  },
+  "geometry_proposal": {
+    "maximum_sampled_deviation_m": 20.0,
+    "sample_step_m": 5.0,
+    "use_as": "unsurveyed sensitivity from the current published anchor-preserving chord selection; retain operational stops and recalculate service and costs; the existing ring line is held unchanged for a separate square-ring study"
+  },
+  "pricing_scenario": "project-make-buy",
+  "service_basis": "Current source-published Baghdad planning seed; apply the same service optimizer, demand and cost method to both cases, and explicitly apply the same powered-axle research family to all fourteen lines. Derived runtime, dwell, fleet, quantities and cost may differ.",
+  "open_assumptions": [
+    "The city demand, population and route inputs are planning estimates, not a surveyed forecast or right-of-way.",
+    "All fourteen lines use the same powered-axle research family. The model has no physically supported available-force map, so no physical journey or propulsion acceptance is demonstrated.",
+    "The 20 m value is a route-geometry screening tolerance only; it is not a clearance, survey or engineering limit.",
+    "Thirteen radial routes are simplified while preserving their operational stops; the closed ring line is unchanged and is not evaluated as a square-ring candidate.",
+    "Civil classes, right-of-way, crossings, utilities, ground conditions and prices are Class C model assumptions, not site evidence or quotations.",
+    "The baseline is the current published anchor-preserving chord selection, not the seed's original 513 km geometry. No route, station, propulsion system, physical candidate, engineering, manufacturing, operating or movement-authority selection is made."
+  ]
+}

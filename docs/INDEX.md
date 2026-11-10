@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **150**.
+Indexed Markdown files: **212**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **150**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 118 |
+| [docs](#docs) | 180 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -173,6 +173,68 @@ Indexed Markdown files: **150**.
 | [`docs/design-engine/supply-economics/README.md`](../docs/design-engine/supply-economics/README.md) | Project-volume purchasing and manufacturing |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
+| [`docs/design-engine/v06-business-lifecycle-audit/README.md`](../docs/design-engine/v06-business-lifecycle-audit/README.md) | v0.6 candidate business lifecycle audit |
+| [`docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/README.md) | v0.6 design closure |
+| [`docs/design-engine/v06-design-closure/all-city-audit-errata.md`](../docs/design-engine/v06-design-closure/all-city-audit-errata.md) | Erratum for the sealed all-city audit packet |
+| [`docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md) | All-city coverage audit |
+| [`docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md) | v0.6 design closure |
+| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/README.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/README.md) | Baghdad equal-propulsion route sensitivity |
+| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/RESULTS.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/RESULTS.md) | Baghdad route sensitivity from the current published geometry |
+| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/results/independent-audit-summary.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/results/independent-audit-summary.md) | Independent Baghdad route-study audit — attempt 05 |
+| [`docs/design-engine/v06-design-closure/compact-drive-corridor/README.md`](../docs/design-engine/v06-design-closure/compact-drive-corridor/README.md) | Compact-drive mapped-corridor attempt |
+| [`docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/README.md`](../docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/README.md) | Compact-drive downstream delivery attempt |
+| [`docs/design-engine/v06-design-closure/compact-drive-source-replay-01.md`](../docs/design-engine/v06-design-closure/compact-drive-source-replay-01.md) | Compact-drive current-source body replay |
+| [`docs/design-engine/v06-design-closure/compact-drive-support-family/README.md`](../docs/design-engine/v06-design-closure/compact-drive-support-family/README.md) | Compact-drive split-lane support family |
+| [`docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/README.md`](../docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/README.md) | Candidate 9f6d source-stock drawings — bounded research packet |
+| [`docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md`](../docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md) | Door motion coordinate correction — current installation model |
+| [`docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md`](../docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md) | 9f6d door-motion coordinate correction |
+| [`docs/design-engine/v06-design-closure/door-subassembly-audit-01/README.md`](../docs/design-engine/v06-design-closure/door-subassembly-audit-01/README.md) | Door-system inventory audit — research candidate 9f6d |
+| [`docs/design-engine/v06-design-closure/installed-vehicle-review.md`](../docs/design-engine/v06-design-closure/installed-vehicle-review.md) | Installed-vehicle closure review |
+| [`docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md`](../docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md) | Native GIS refresh command audit |
+| [`docs/design-engine/v06-design-closure/native-gis-run07-readiness.md`](../docs/design-engine/v06-design-closure/native-gis-run07-readiness.md) | Native GIS run07 readiness audit |
+| [`docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md`](../docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md) | Native GIS source-only import prototype |
+| [`docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md`](../docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md) | Samawah acceleration sensitivity |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md) | Samawah stop-preserving route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md) | Preserved run history |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/independent-review.md) | Independent artifact and calculation review |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/README.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/README.md) | Samawah stop-preserving route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/attempt-history.md) | Preserved run history |
+| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/independent-review.md) | Independent artifact and calculation review |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source/README.md) | Samawah detailed-candidate cost bridge |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01/README.md) | Samawah detailed-candidate cost bridge |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01.md) | Samawah current-source bridge — first run |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-02/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-02/README.md) | Samawah detailed-candidate cost bridge |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03/README.md) | Samawah detailed-candidate cost bridge |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt-01/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt-01/README.md) | Samawah detailed-candidate cost bridge |
+| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt.md) | Samawah candidate cost bridge — prior attempt |
+| [`docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md`](../docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md) | Samawah China bulk purchase vs project make/buy — bounded cost case |
+| [`docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/analysis.md`](../docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/analysis.md) | Samawah make-or-buy sensitivity: Chinese bulk purchase vs project manufacturing |
+| [`docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source.md`](../docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source.md) | Samawah outline recalculation — current body source |
+| [`docs/design-engine/v06-design-closure/samawah-city-recalculation.md`](../docs/design-engine/v06-design-closure/samawah-city-recalculation.md) | Samawah detailed-candidate outline recalculation — historical source snapshot |
+| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/README.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/README.md) | Samawah current-source cost comparison |
+| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/RESULTS.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/RESULTS.md) | Samawah current-source route and cost comparison |
+| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/results/README.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/results/README.md) | Replaying the Samawah comparison packet |
+| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/README.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/README.md) | Samawah equal-propulsion route study |
+| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/RESULTS.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/RESULTS.md) | Samawah route geometry comparison — fixed propulsion and service |
+| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/results/independent-audit-summary.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/results/independent-audit-summary.md) | Independent packet audit |
+| [`docs/design-engine/v06-design-closure/samawah-fourteen-scope-cost-audit.md`](../docs/design-engine/v06-design-closure/samawah-fourteen-scope-cost-audit.md) | Samawah candidate cost scope audit |
+| [`docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity.md`](../docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity.md) | Samawah line-demand sensitivity |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/README.md) | Samawah merged-stop route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history/attempt-01-label-correction/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history/attempt-01-label-correction/README.md) | Samawah stop-preserving route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history.md) | Retained run history |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/independent-review.md) | Independent artifact and calculation review |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/README.md) | Samawah merged-stop route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/README.md) | Samawah merged-stop route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history/attempt-01-label-correction/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history/attempt-01-label-correction/README.md) | Samawah stop-preserving route-straightening screens |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history.md) | Retained run history |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/independent-review.md) | Independent artifact and calculation review |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history.md) | Retained run history |
+| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/independent-review.md) | Independent review — attempt 03 |
+| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-02-incomplete-manifest/README.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-02-incomplete-manifest/README.md) | Samawah close-stop planning alternative — current body source |
+| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/README.md) | Samawah close-stop planning alternative — current body source |
+| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/independent-review.md) | Independent artifact review |
+| [`docs/design-engine/v06-design-closure/samawah-station-consolidation.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation.md) | Samawah close-station consolidation study |
+| [`docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md`](../docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md) | Vehicle lighting, inter-car and gangway audit |
 | [`docs/design-engine/v06-design-space/README.md`](../docs/design-engine/v06-design-space/README.md) | Broader v0.6 design space |
 | [`docs/design-engine/v06-optimisation/README.md`](../docs/design-engine/v06-optimisation/README.md) | Failure-driven v0.6 design campaign |
 | [`docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md`](../docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md) | Wheel-rail known-stock research twin |
