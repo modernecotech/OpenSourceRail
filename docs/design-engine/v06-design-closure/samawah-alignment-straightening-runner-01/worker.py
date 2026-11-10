@@ -194,15 +194,11 @@ def simplify_line(line, tolerance_m, geometry, baseline_chain):
     origin = (sum(p[0] for p in coordinates) / len(coordinates),
               sum(p[1] for p in coordinates) / len(coordinates))
     simplified = []
-    new_stop_chainages = []
     worst_deviation = 0.0
     source_count = 0
     anchors = [0.0] + [stop['chainage_m'] for stop in stops] + [baseline_chain[-1]]
-    cumulative = 0.0
     for index, (start_m, end_m) in enumerate(zip(anchors, anchors[1:])):
         if end_m - start_m <= 1e-9:
-            if index < len(stops):
-                new_stop_chainages.append(cumulative)
             continue
         original_segment = source_interval(coordinates, baseline_chain, start_m, end_m, geometry)
         metric_segment = [project_point(point, origin) for point in original_segment]
@@ -215,9 +211,6 @@ def simplify_line(line, tolerance_m, geometry, baseline_chain):
         else:
             require(simplified[-1] == selected[0], 'Simplification changed a stop anchor')
             simplified.extend(selected[1:])
-        cumulative += segment_chain[-1]
-        if index < len(stops):
-            new_stop_chainages.append(cumulative)
         deviation = max_deviation_m(sampled_points(coordinates, baseline_chain, start_m,
             end_m, geometry), selected, origin)
         worst_deviation = max(worst_deviation, deviation)
@@ -225,6 +218,14 @@ def simplify_line(line, tolerance_m, geometry, baseline_chain):
     require(worst_deviation <= tolerance_m + 0.05,
             f'Sampled route deviation {worst_deviation:.4f} m exceeds tolerance {tolerance_m:.2f} m')
     new_stops = deepcopy(stops)
+    new_stop_chainages = []
+    next_vertex = 0
+    for stop in stops:
+        target = [stop['lon'], stop['lat']]
+        vertex = next((i for i in range(next_vertex, len(simplified)) if simplified[i] == target), None)
+        require(vertex is not None, 'Fixed station coordinate is missing from simplified route: ' + stop['id'])
+        new_stop_chainages.append(new_chain[vertex])
+        next_vertex = vertex + 1
     for stop, chainage in zip(new_stops, new_stop_chainages):
         stop['chainage_m'] = chainage
         mapped = geometry.point(simplified, new_chain, chainage)
