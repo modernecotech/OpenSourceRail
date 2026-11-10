@@ -42,15 +42,24 @@ def identity(value: object) -> str:
 
 def render_readme(request: dict, summary: dict, execution: dict) -> str:
     baseline = summary["baseline"]
+    first = summary["scenarios"][0]
+    first_failure = first["definition_failures"][0] if first["definition_failures"] else None
+    close_gap = None if first_failure is None else first_failure["legs"][0]["distance_m"]
+    platform_note = (
+        f"All three alternatives still have one 120 m platform-envelope definition failure. "
+        f"The close line-1 stop pair is {close_gap:.3f} m apart after simplification; route straightening alone does not resolve it."
+        if close_gap is not None else
+        "No platform-envelope screen failure remains in these alternatives; this still does not establish a buildable station."
+    )
     rows = [
-        "| Map | Route km | Geometry points | Conditional total trainsets low/base/high | Line-1 runtime request (s) |",
-        "|---|---:|---:|---:|---:|",
-        f"| Current source | {baseline['route_km']:.3f} | {baseline['geometry_points']} | {baseline['fleet_low_base_high']} | {baseline['line1_runtime_s']:.1f} |",
+        "| Map | Route km | 120 m platform-envelope failures | Geometry points | Conditional total trainsets low/base/high | Line-1 runtime request (s) |",
+        "|---|---:|---:|---:|---:|---:|",
+        f"| Current source | {baseline['route_km']:.3f} | {baseline['definition_failure_count']} | {baseline['geometry_points']} | {baseline['fleet_low_base_high']} | {baseline['line1_runtime_s']:.1f} |",
     ]
     for scenario in summary["scenarios"]:
         rows.append(
             f"| {scenario['tolerance_m']:.0f} m maximum-deviation screen | {scenario['route_km']:.3f} "
-            f"| {scenario['geometry_points']} ({scenario['point_reduction_percent']:.1f}% fewer) "
+            f"| {scenario['definition_failure_count']} | {scenario['geometry_points']} ({scenario['point_reduction_percent']:.1f}% fewer) "
             f"| {scenario['fleet_low_base_high']} | {scenario['line1_runtime_s']:.1f} |"
         )
     return f"""# Samawah stop-preserving route-straightening screens
@@ -78,6 +87,8 @@ land ownership, road crossings, full building records, utilities, ground,
 accessibility paths or local construction constraints. The current civil-class
 chainages are proportionally transferred to the revised route length only as a
 planning assumption and require reassessment; no civil loads are calculated.
+
+{platform_note}
 
 The evaluator's 0.4 m/s² acceleration remains a shared study control, not a
 selected train capability. Available propulsion force, braking, curvature,
