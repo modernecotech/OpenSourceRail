@@ -1,9 +1,52 @@
 """Run or verify an immutable, demand-led railway outline study."""
 import argparse
 import json
+import re
 from pathlib import Path
 from engineering.station_rail import ROOT
 from . import coordinator
+
+_CITY_SLUG = re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*\Z')
+
+
+def _disk_reserve_hold(root, action):
+    from engineering.performance import disk_admission
+    admission = disk_admission(root)
+    if admission['admitted']:
+        return False
+    print(json.dumps(dict(schema='osr-performance-disk-admission/1',
+        execution='held', requested_action=action,
+        resource_admission=admission, **coordinator.FLAGS), sort_keys=True))
+    return True
+
+
+def _complete_results_exist(output, cities):
+    """Avoid reserving compute space for a complete, reusable worker state."""
+    output = Path(output).resolve()
+    request_path, designs_path = output/'request.json', output/'designs.json'
+    if not request_path.is_file() or not designs_path.is_file():
+        return False
+    try:
+        request = json.loads(request_path.read_bytes())
+        if (not isinstance(request, dict)
+                or request.get('schema') != 'osr-outline-completion-request/1'):
+            return False
+        stored_cities = request.get('cities')
+        if (not isinstance(stored_cities, list) or not stored_cities
+                or any(not isinstance(slug, str) or not _CITY_SLUG.fullmatch(slug)
+                       for slug in stored_cities)
+                or stored_cities != sorted(set(stored_cities))):
+            return False
+        cities = stored_cities if cities is None else sorted(set(cities))
+        if (not isinstance(cities, list) or not cities
+                or any(not isinstance(slug, str) or not _CITY_SLUG.fullmatch(slug)
+                       for slug in cities)
+                or cities != stored_cities):
+            return False
+        return all((output/'cities'/slug/'result.json').is_file() for slug in cities)
+    except (OSError, ValueError, TypeError):
+        return False
+
 
 def main(argv=None,root=ROOT):
     parser=argparse.ArgumentParser(description=__doc__)
@@ -29,12 +72,17 @@ def main(argv=None,root=ROOT):
             value=json.loads(args.request.read_bytes()) if args.request else {}
             if args.city:value['city_slug']=args.city
             if 'city_slug' not in value:parser.error('--city or a city request is required')
+            if _disk_reserve_hold(root,'outline-city'):
+                return 3
             result=city_workflow.run(value,args.output,root=root)
         else:result=city_workflow.verify(args.output,root=root,replay=args.replay)
         print(json.dumps(result,sort_keys=True));return
     if args.action.startswith('complete'):
         from . import completion
         if args.action=='complete':
+            reusable = args.workers > 1 and _complete_results_exist(args.output,args.cities)
+            if not reusable and _disk_reserve_hold(root,'outline-complete'):
+                return 3
             result=completion.run(args.output,root=root,cities=args.cities,workers=args.workers,
                 maximum_cities=args.maximum_cities)
         elif args.action=='complete-verify':
@@ -50,6 +98,8 @@ def main(argv=None,root=ROOT):
         print(json.dumps(result,sort_keys=True));return
     if args.action=='verify': result=coordinator.verify(args.output,root=root)
     else:
+        if _disk_reserve_hold(root,'outline-run'):
+            return 3
         inputs=json.loads(args.brief.read_bytes()) if args.brief else {}
         result=coordinator.run(args.output,brief=inputs.get('brief'),variables=inputs.get('variables'),pricing_scenario=inputs.get('pricing_scenario'),root=root)
     print(json.dumps(result,sort_keys=True))
