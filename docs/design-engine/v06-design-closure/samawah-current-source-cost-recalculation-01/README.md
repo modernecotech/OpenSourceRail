@@ -30,6 +30,13 @@ amortize modeled setup and tooling at the project quantity. Therefore this
 comparison does not yet measure the deeper discounts a confirmed multi-city or
 fleet purchase could obtain.
 
+The route comparison also is not a fixed-propulsion experiment. The evaluator
+selects propulsion from conditional line motion: line 1 uses a powered-axle
+research case with traction mass and continuous-feed equipment on the published
+route, then changes to station launch on the simplified route. Neither has an
+available force map. See [results and interpretation](RESULTS.md); the cost
+difference is not a route-straightening saving or penalty.
+
 Both price cases are calculated Class C estimates, not supplier quotations.
 Each route edit proportionally transfers existing civil-class
 chainage intervals and flags them for reassessment. It does not verify surveyed

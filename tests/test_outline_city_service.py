@@ -122,6 +122,22 @@ def test_line_demand_request_normalizes_only_bounded_mapping():
         with pytest.raises(ValueError):city_workflow.normalize({'city_slug':'samawah','service':service})
 
 
+def test_explicit_propulsion_policy_is_normalized_and_line_identity_bound(inputs):
+    city=inputs[0]
+    policy={line['line_id']:'powered-axle-continuous-research' for line in city['lines']}
+    request=city_workflow.normalize({'city_slug':'samawah','service':{
+        'propulsion_policy_by_line':policy}})
+    assert request['service']['propulsion_policy_by_line']==policy
+    city_workflow._validate_line_propulsion_policy(request['service'],city)
+    for bad in ({},dict(policy,extra='station-launch-reference')):
+        with pytest.raises(ValueError,match='exact city line IDs'):
+            city_workflow._validate_line_propulsion_policy({'propulsion_policy_by_line':bad},city)
+    for bad in ({},[],{'line-1':'unverified-motor'}):
+        with pytest.raises(ValueError):
+            city_workflow.normalize({'city_slug':'samawah','service':{
+                'propulsion_policy_by_line':bad}})
+
+
 def test_line_demand_mapping_matches_base_plan_template(inputs):
     city=inputs[0]
     rules={'line_peak_demand_pphpd':{line['line_id']:2000. for line in city['lines']}}
@@ -205,6 +221,35 @@ def test_long_coast_failure_generates_new_mass_energy_and_feed_hypothesis(inputs
     assert service['provisional_normal_mass_kg_per_car']==pytest.approx(inputs[2]['mass']['accounted_cap_loaded_kg_per_car']+250+1000)
     assert service['mechanical_work_kwh_per_departure']>0 and service['actual_available_force_map'] is None
     assert h['research_configuration_id']==identity({k:v for k,v in h.items() if k!='research_configuration_id'})
+
+
+def test_fixed_powered_axle_policy_does_not_depend_on_route_coast_fallback(inputs):
+    city,spec,vehicle,_=inputs
+    short=synthetic(city,[2000,2000])
+    line_id=short['lines'][0]['line_id']
+    policy={line_id:'powered-axle-continuous-research'}
+    result=city_service.evaluate(short,{'propulsion_policy_by_line':policy},spec['design'],vehicle)
+    row=result['line_services'][0];h=row['propulsion_hypothesis'];service=row['service']
+    assert h['kind']=='powered-axle-continuous-research'
+    assert h['policy_basis']=='explicit-per-line-policy'
+    assert h['automatic_fallback_selected'] is False and h['reference_coast_failures']==0
+    assert h['added_traction_mass_kg_per_car']==1000 and h['traction_motors_per_car']==4
+    assert h['continuous_feed_route_m']==pytest.approx(short['lines'][0]['route_m'])
+    assert service['provisional_normal_mass_kg_per_car']==pytest.approx(
+        vehicle['mass']['accounted_cap_loaded_kg_per_car']+
+        spec['design']['added_vehicle_mass_kg_per_car']+1000)
+    assert row['legs'][0]['powered_cruise_distance_m']>=0
+    assert result['assumptions']['propulsion_policy_by_line']==policy
+    assert service['actual_available_force_map'] is None
+
+
+def test_explicit_station_launch_policy_holds_instead_of_switching_when_coast_fails(inputs):
+    city,spec,vehicle,_=inputs
+    long=synthetic(city,[7003.100240351595])
+    line_id=long['lines'][0]['line_id']
+    with pytest.raises(ValueError,match='automatic propulsion substitution is disabled'):
+        city_service.evaluate(long,{'propulsion_policy_by_line':{
+            line_id:'station-launch-reference'}},spec['design'],vehicle)
 
 
 def test_ring_fleet_counts_both_directions_without_terminal_turnback(inputs):

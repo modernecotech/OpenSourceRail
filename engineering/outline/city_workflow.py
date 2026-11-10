@@ -71,10 +71,16 @@ def normalize(value):
                 if not isinstance(line_id,str) or not line_id:
                     raise ValueError('Exact line IDs required for line peak demand')
                 _numeric(demand,'line peak demand',SERVICE_BOUNDS['peak_demand_pphpd'])
-        allowed=set(bounds)|({'line_peak_demand_pphpd'} if group=='service' else set())
+        allowed=set(bounds)|({'line_peak_demand_pphpd','propulsion_policy_by_line'} if group=='service' else set())
         if set(values)-allowed:raise ValueError('Unknown '+group+' option')
         for key,number in values.items():
-            if key!='line_peak_demand_pphpd':_numeric(number,key,bounds[key])
+            if key=='propulsion_policy_by_line':
+                if not isinstance(number,dict) or not number:
+                    raise ValueError('Nonempty per-line propulsion policy mapping required')
+                if any(not isinstance(line_id,str) or not line_id or kind not in city_service.PROPULSION_KINDS
+                       for line_id,kind in number.items()):
+                    raise ValueError('Exact line IDs and supported propulsion policies required')
+            elif key!='line_peak_demand_pphpd':_numeric(number,key,bounds[key])
     if 'corner_samples' in v['alignment'] and type(v['alignment']['corner_samples']) is not int:
         raise ValueError('Integer corner sampling budget required')
     p=v.setdefault('project',{})
@@ -133,6 +139,16 @@ def _validate_line_demand_mapping(rules,city_input):
             repr(sorted(expected-actual))+' extra='+repr(sorted(actual-expected)))
 
 
+def _validate_line_propulsion_policy(rules,city_input):
+    mapping=rules.get('propulsion_policy_by_line')
+    if mapping is None:return
+    expected={line['line_id'] for line in city_input['lines']}
+    actual=set(mapping)
+    if actual!=expected:
+        raise ValueError('Per-line propulsion policy must match exact city line IDs; missing='+
+            repr(sorted(expected-actual))+' extra='+repr(sorted(actual-expected)))
+
+
 def _functional(record,access):
     failures=[]
     if not record['outline_complete']:failures.append('A necessary braking, interface or nominal energy bound fails')
@@ -180,6 +196,10 @@ def evaluate(request,root=ROOT):
         mapped_input=(base['outline_context']['city_input_template'] if base is not None
             else city_inputs.load(v['city_slug'],root=root))
         _validate_line_demand_mapping(rules,mapped_input)
+    if 'propulsion_policy_by_line' in rules:
+        mapped_input=(base['outline_context']['city_input_template'] if base is not None
+            else city_inputs.load(v['city_slug'],root=root))
+        _validate_line_propulsion_policy(rules,mapped_input)
     if base is not None:
         revision=planning_adapter.apply_edits(base,v['edit_bundle'],root=root,trusted_base_sha256=trusted_base)
         revision=deepcopy(revision);revision['requirements']=rules

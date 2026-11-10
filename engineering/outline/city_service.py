@@ -11,6 +11,7 @@ from . import city_inputs
 
 PRODUCER='engineering/outline/city_service.py'
 FLAGS=city_inputs.FLAGS
+PROPULSION_KINDS=('station-launch-reference','powered-axle-continuous-research')
 _LOADED={PRODUCER:digest(__file__),city_inputs.PRODUCER:digest(city_inputs.__file__),
     helper.PRODUCER:digest(helper.__file__),'engineering/station_rail/operations.py':digest(operations.__file__),
     'engineering/station_rail/braking.py':digest(braking.__file__),
@@ -202,13 +203,21 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             _number(demand,'line peak demand')
             if not 1.<=demand<=100000.:
                 raise ValueError('Line peak demand is outside the declared city-service bounds')
+    propulsion_policy=r.get('propulsion_policy_by_line')
+    if propulsion_policy is not None:
+        expected={line['line_id'] for line in city_input['lines']}
+        if not isinstance(propulsion_policy,dict) or set(propulsion_policy)!=expected:
+            raise ValueError('Per-line propulsion policy must match exact city line IDs')
+        if any(kind not in PROPULSION_KINDS for kind in propulsion_policy.values()):
+            raise ValueError('Unsupported per-line propulsion policy')
     base_mass=vehicle['mass']['accounted_cap_loaded_kg_per_car']+d['added_vehicle_mass_kg_per_car']
     rotor=braking.rotating_stock(vehicle)['equivalent_inertial_mass_kg_per_car']
     train_length=6*17+5*.5;fin_offset=4.;records=[]
     geography={}
     # Demand-source provenance belongs to the scenario record. Per-line service
     # identities bind the numeric line demand, not a report-level label.
-    line_requirements={k:v for k,v in r.items() if k not in ('line_peak_demand_pphpd','demand_source')}
+    line_requirements={k:v for k,v in r.items() if k not in
+        ('line_peak_demand_pphpd','propulsion_policy_by_line','demand_source')}
     for original_line in city_input['lines']:
         line_demand=(demand_map[original_line['line_id']] if demand_map is not None else r['peak_demand_pphpd'])
         headway=floor(min(r['maximum_headway_s'],places*3600*r['planning_occupancy']*r['planning_availability_assumption']/line_demand)/quantum)*quantum
@@ -226,7 +235,14 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
         line,repair=_repair_stops(original_line,max(train_length,d.get('platform_length_m',120.)),coordinates)
         reference=[_leg(x['distance_m'],base_mass,rotor,line_design) for x in line['legs']]
         failed=[dict(leg_index=i,**x) for i,x in enumerate(reference) if x['status']!='conditional-targets-complete']
-        fallback=bool(failed);extra_mass=_number(d.get('research_traction_added_mass_kg_per_car',1000.),'traction added mass') if fallback else 0.
+        automatic_fallback=bool(failed)
+        selected_kind=(propulsion_policy[line['line_id']] if propulsion_policy is not None else
+            ('powered-axle-continuous-research' if automatic_fallback else 'station-launch-reference'))
+        fallback=selected_kind=='powered-axle-continuous-research'
+        if selected_kind=='station-launch-reference' and failed:
+            raise ValueError('Explicit station-launch-reference cannot satisfy the passive coast bound for '+
+                line['line_id']+'; automatic propulsion substitution is disabled')
+        extra_mass=_number(d.get('research_traction_added_mass_kg_per_car',1000.),'traction added mass') if fallback else 0.
         extra_rotor=_number(d.get('research_traction_equivalent_rotating_mass_kg_per_car',100.),'traction rotating inertia') if fallback else 0.
         mass=base_mass+extra_mass
         legs=[_leg(x['distance_m'],mass,rotor+extra_rotor,line_design,True) for x in line['legs']] if fallback else reference
@@ -253,8 +269,10 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
         max_launch=max(x['launch_distance_m'] for x in legs)
         tail=max(helper._tail_clearance(train_length,x['adaptive_speed_cap_m_s'],d['acceleration_m_s2'],d['jerk_m_s3']) for x in legs)
         resource=max(x['braking_time_s']+max(stop_dwell)+tail for x in legs)
-        mechanisms=['powered-axle-continuous-research'] if fallback else ['station-launch-reference']
-        config=dict(kind=mechanisms[0],reference_vehicle_candidate_id=vehicle['candidate_id'],
+        config=dict(kind=selected_kind,policy_basis=('explicit-per-line-policy' if propulsion_policy is not None
+                else 'automatic-reference-coast-screen'),
+            reference_coast_failures=len(failed),automatic_fallback_selected=(propulsion_policy is None and automatic_fallback),
+            reference_vehicle_candidate_id=vehicle['candidate_id'],
             city_input_id=city_input['input_id'],line_id=line['line_id'],
             added_traction_mass_kg_per_car=extra_mass,added_rotating_equivalent_mass_kg_per_car=extra_rotor,
             added_traction_mass_bounds_kg_per_car=[.7*extra_mass,extra_mass,1.5*extra_mass],
@@ -331,4 +349,7 @@ def evaluate(city_input,requirements,design,vehicle,root=ROOT):
             additional_access_walkway_m=fsum(x['station_repair']['additional_access_walkway_m'] for x in records),
             additional_shared_platform_length_m=fsum(x['station_repair']['additional_shared_platform_length_m'] for x in records)),
         source_sha256=dict(sorted(sources.items())),**FLAGS)
+    if propulsion_policy is not None:
+        result['assumptions']['propulsion_policy_by_line']=deepcopy(propulsion_policy)
+        result['assumptions']['propulsion_policy_basis']='Explicit candidate-specific per-line policy; no automatic switching between propulsion families'
     result['evaluation_id']=identity(result);return result

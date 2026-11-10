@@ -7,6 +7,8 @@
 
 This is a current-source **Samawah planning comparison**, not a completed repricing of Iraq's other 265 city studies. Four city studies were replay-verified: the published route and a new 20 m simplification, each under the local project make/buy case and the repository's internal `china-bulk-buy` case. Every study has the same 14 whole-life cost scopes, each with low/base/high values. None changes the selected vehicle or grants engineering, procurement, manufacturing or operating approval.
 
+The route cases are **not like-for-like propulsion designs**. The evaluator automatically changes line 1 from `powered-axle-continuous-research` on the published route (1,000 kg/car of added traction mass, four traction motors per car and continuous-feed equipment) to `station-launch-reference` on the simplified route (no added traction mass). Neither mode has an available force map. The route-cost and fleet differences below therefore combine geometry and a propulsion-configuration switch; they must not be interpreted as the cost effect of straightening the route.
+
 ## Calculated city totals
 
 Amounts are USD millions. CAPEX is installed capital; NPV is the modeled 30-year whole-life total. These are wide Class C planning estimates, not bids.
@@ -57,7 +59,7 @@ USD millions; all 14 scope totals are shown so the main cost shifts are visible.
 | Rolling stock | 223.65 | 228.68 | 203.55 | 208.70 |
 | Stations and power | 223.23 | 223.23 | 271.95 | 271.95 |
 
-This is a joint route-and-service recalculation, not an isolated geometry experiment. Along with the route edit, the study's planning revision changes line 1's propulsion mode from `powered-axle-continuous-research` to `station-launch-reference`; its resulting service calculation changes line 1 from 28 to 33 trainsets. The physical vehicle candidate is held constant, but this configuration change means the route cost delta cannot be attributed to straightening alone.
+This is a joint route-and-service recalculation, not an isolated geometry experiment. Along with the route edit, the evaluator changes line 1's propulsion mode from `powered-axle-continuous-research` to `station-launch-reference`. The first case carries 1,000 kg/car of added traction mass, four traction motors per car and continuous-feed equipment; the second carries no added traction mass. The physical vehicle candidate ID is held constant, but the research-configuration ID changes. Line 1's calculated fleet changes from 28 to 33 trainsets. These effects are conditional model outputs without available-force maps, so the route cost and fleet deltas cannot be attributed to straightening.
 
 On the local make/buy basis, the simplified-route scenario increases base CAPEX by $157.25m (13.78%) and base NPV by $151.67m (6.72%); modeled fleet rises by two trainsets overall. The city cost adapter adds a $97.93m base reserve for changed corridor access, right-of-way and unverified crossings because the geometry has no site evidence. The old civil classes are also transferred by route-length proportion and marked for reassessment.
 
