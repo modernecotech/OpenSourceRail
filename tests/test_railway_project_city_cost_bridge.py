@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from engineering.railway_project.city_cost_bridge import (
-    CITY_RESULT, RATE_PACKET, ROOT, _verify_packet, build,
+    BODY_FILE, CITY_RESULT, RATE_PACKET, ROOT, _verify_packet, build,
 )
 from engineering.station_rail.common import digest, identity
 
@@ -144,4 +144,34 @@ def test_first_current_source_bridge_packet_remains_source_bound():
     bridge = json.loads((packet / "bridge.json").read_bytes())
     assert request["ratebook_scenario"].endswith("five matching infrastructure quantities")
     assert bridge["body_evaluation_id"] == "c6c5efe577bd302c507756af53238a8f162c6e2cbeaefd2aa11fecd343b93fb3"
+
+
+def test_corrected_current_source_packet_hashes_the_body_used_for_bom_cost():
+    packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03"
+    manifest = json.loads((packet / "manifest.json").read_bytes())
+    bridge = json.loads((packet / "bridge.json").read_bytes())
+    readme = (packet / "README.md").read_text(encoding="utf-8")
+
+    assert manifest["manifest_id"] == identity({k: v for k, v in manifest.items() if k != "manifest_id"})
+    assert bridge["evaluation_id"] == manifest["evaluation_id"]
+    for name, expected in manifest["files_sha256"].items():
+        assert digest(packet / name) == expected
+    assert bridge["source_sha256"][BODY_FILE.as_posix()] == digest(ROOT / BODY_FILE)
+    assert BODY_FILE.as_posix() in readme
+    assert "samawah-candidate-cost-bridge-current-source-attempt-03/run.py" in readme
+    assert bridge["installed_capex_usd"] is None
+    assert bridge["whole_life_npv_usd"] is None
+
+
+def test_superseded_bridge_provenance_defect_is_retained_and_corrected():
+    old_packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source"
+    old_bridge = json.loads((old_packet / "bridge.json").read_bytes())
+    corrected_packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03"
+    corrected = json.loads((corrected_packet / "bridge.json").read_bytes())
+
+    historical_body = "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz"
+    assert historical_body in old_bridge["source_sha256"]
+    assert BODY_FILE.as_posix() not in old_bridge["source_sha256"]
+    assert BODY_FILE.as_posix() in corrected["source_sha256"]
+    assert old_bridge["evaluation_id"] != corrected["evaluation_id"]
 

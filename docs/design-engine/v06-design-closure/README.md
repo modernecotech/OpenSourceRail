@@ -26,7 +26,7 @@
 
 [Latest post-cleanup disk and memory sample (not execution authorization)](native-gis-resource-preflight-20261110-012922Z.json)
 
-[Samawah historical recalculation](samawah-city-recalculation.md) and its [current-source body/map recalculation](samawah-city-recalculation-current-source.md), with the [current-source candidate-linked cost bridge](samawah-candidate-cost-bridge-current-source/README.md)
+[Samawah historical recalculation](samawah-city-recalculation.md) and its [current-source body/map recalculation](samawah-city-recalculation-current-source.md), with the [corrected source-bound candidate cost bridge](samawah-candidate-cost-bridge-current-source-attempt-03/README.md) and [fourteen-scope cost audit](samawah-fourteen-scope-cost-audit.md)
 
 [Samawah acceleration sensitivity](samawah-acceleration-sensitivity.md)
 
@@ -191,13 +191,17 @@ volume discount or binding supplier offer supports a lower-price claim. The
 scenario uses planning demand and cannot be transferred to the remaining city
 studies. See the [complete source-pinned packet](samawah-china-supply-cost-04/README.md).
 
-A regenerated compact-drive body reproduces the 75075 physical candidate ID
-under current source pins with a distinct evaluation ID. The current-source
-city adapter now accepts that exact evaluation and emits a held Samawah outline
-plus partial cost bridge; it does not close service, installed mass, civil
-loads, complete delivery or lifecycle pricing. The geometry screen remains
-HOLD. The earlier city packet and its source-refusal log remain preserved as
-historical evidence. See the [body replay](compact-drive-source-replay-01.md),
+[A regenerated compact-drive body](compact-drive-source-replay-01.md) reproduces
+the 75075 physical candidate ID under current source pins with a distinct
+evaluation ID. The current-source city adapter accepts that exact evaluation
+and emits a held Samawah outline. The corrected [cost bridge](samawah-candidate-cost-bridge-current-source-attempt-03/README.md)
+prices candidate BOM/guideway fragments and separate auxiliary-energy and
+corrective/disruption sensitivities. The fourteen-scope audit records what
+remains unpriced. An earlier bridge source map pointed to a historical body;
+that packet and its correction trail remain preserved. None of this closes
+service, installed mass, civil loads, complete delivery or lifecycle pricing.
+The geometry screen remains HOLD. The earlier city packet and its source-refusal
+log remain preserved as historical evidence. See the [body replay](compact-drive-source-replay-01.md),
 [current-source city report](samawah-city-recalculation-current-source.md),
 [current-source cost bridge](samawah-candidate-cost-bridge-current-source/README.md)
 and [retained earlier delivery audit](compact-drive-delivery-audit-01/README.md).
