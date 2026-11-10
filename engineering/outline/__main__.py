@@ -10,13 +10,11 @@ _CITY_SLUG = re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*\Z')
 
 
 def _disk_reserve_hold(root, action):
-    from engineering.performance import disk_admission
-    admission = disk_admission(root)
-    if admission['admitted']:
+    from engineering.performance import disk_hold_record
+    value = disk_hold_record(root, action, coordinator.FLAGS)
+    if value is None:
         return False
-    print(json.dumps(dict(schema='osr-performance-disk-admission/1',
-        execution='held', requested_action=action,
-        resource_admission=admission, **coordinator.FLAGS), sort_keys=True))
+    print(json.dumps(value, sort_keys=True))
     return True
 
 

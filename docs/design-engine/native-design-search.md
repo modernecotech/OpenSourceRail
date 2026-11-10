@@ -160,7 +160,10 @@ request, design record and every requested city result; that path reuses results
 without starting a worker. The trip-dynamics CLI applies the same reserve before
 its output-producing, worker and campaign actions, including `simulate`,
 `execute-job`, `setup-tools`, validation, `run`, `benchmark-worker` and `evaluate`.
-These are CLI admission checks, not aggregate per-job disk quotas; direct Python
+The development front door also gates conditional journey, candidate, generative,
+adaptive, architecture and topology runs, plus railway progress, vehicle-parts
+generation and optional CAD/CAE backend installation and runs. These are shared
+filesystem CLI admission checks, not aggregate per-job disk quotas; direct Python
 library calls and other research adapters remain outside these guards.
 
 A separate instrumented Python profile took 75.1 s, so its wall time is not

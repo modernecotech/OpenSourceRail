@@ -208,6 +208,20 @@ def disk_admission(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> d
     }
 
 
+def disk_hold_record(root, action: str, dispositions: dict) -> dict | None:
+    """Return a CLI hold record when the shared free-space reserve is unmet."""
+    admission = disk_admission(root)
+    if admission["admitted"]:
+        return None
+    return {
+        "schema": "osr-performance-disk-admission/1",
+        "execution": "held",
+        "requested_action": action,
+        "resource_admission": admission,
+        **dispositions,
+    }
+
+
 def cleanup_bytecode(root=ROOT, *, minimum_age_days=DEFAULT_CACHE_AGE_DAYS,
                      apply=False, now=None) -> dict:
     """Report or remove stale, ordinary Python bytecode caches in source roots.

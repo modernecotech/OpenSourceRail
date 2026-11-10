@@ -434,6 +434,9 @@ def test_generative_cli_dispatches_explicit_research_contract_without_legacy(pac
     def publish(*,root):calls.append(('publish',root));return dict(published=True,physical_accepted=False)
     def verify(*,root):calls.append(('verify',root));return dict(verified=True,physical_accepted=False)
     campaign.specification=spec;campaign.run=run;publication.build=publish;publication.verify=verify
+    if action=='run':
+        from engineering import performance
+        monkeypatch.setattr(performance,'disk_admission',lambda root:dict(admitted=True))
     monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
     import engineering.design_search as package
     monkeypatch.setattr(package,'generative_campaign',campaign,raising=False);monkeypatch.setattr(package,'generative_publication',publication,raising=False)
@@ -464,6 +467,8 @@ def test_generative_cli_does_not_mask_an_accepted_result_as_research(packet,monk
     root,_,_=packet;campaign=ModuleType('engineering.design_search.generative_campaign');publication=ModuleType('engineering.design_search.generative_publication')
     campaign.run=lambda **kwargs:dict(campaign_id='7'*64,candidates=[],executed_rewrites=[],integrated_selection=None,
         selected_reference_changed=False,configuration_adopted=False,**{**FLAGS,'physical_accepted':True})
+    from engineering import performance
+    monkeypatch.setattr(performance,'disk_admission',lambda root:dict(admitted=True))
     monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
     import engineering.design_search as package
     monkeypatch.setattr(package,'generative_campaign',campaign,raising=False);monkeypatch.setattr(package,'generative_publication',publication,raising=False)
@@ -521,10 +526,9 @@ def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monke
     monkeypatch.setitem(sys.modules,publication.__name__,publication)
     monkeypatch.setattr(package,'railway_campaign',campaign,raising=False)
     monkeypatch.setattr(package,'railway_publication',publication,raising=False)
-    perf=ModuleType('engineering.performance')
+    from engineering import performance as perf
     perf.disk_admission=lambda root:dict(schema='osr-performance-disk-admission/1',admitted=False,
         execution='held',reason='below reserve',enforcement='admission only')
-    monkeypatch.setitem(sys.modules,perf.__name__,perf)
 
     assert cli.main(['design','railway','run','--native-jobs','1'],root=root)==3
     value=json.loads(capsys.readouterr().out)

@@ -12,6 +12,11 @@ def main(argv=None,*,root=ROOT):
     p.add_argument('--port',type=int,default=8771);args=p.parse_args(argv)
     if args.action=='plan':r=coordinator.plan()
     elif args.action=='run':
+        from engineering.development_baseline import FLAGS
+        from engineering.performance import disk_hold_record
+        hold=disk_hold_record(root,'railway-progress-run',FLAGS)
+        if hold is not None:
+            print(json.dumps(hold,sort_keys=True,indent=2));return 3
         value=coordinator.run(args.state,root=root,max_cases=args.max_cases,maximum_seconds=args.maximum_seconds)
         r=dict(run_id=value['run_id'],cases=len(value['cases']),pending=len(value['pending']),new_cases=value['new_cases'])
     elif args.action=='verify':r=coordinator.verify(args.state,root=root)

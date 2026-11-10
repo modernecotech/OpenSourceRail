@@ -15,6 +15,11 @@ def main(argv=None,*,root=ROOT):
     if args.command=='verify':value=publication.verify(root,args.output)
     elif args.command=='publish':value=publication.publish(root,args.output)
     else:
+        from engineering.development_baseline import FLAGS
+        from engineering.performance import disk_hold_record
+        hold=disk_hold_record(root,'vehicle-parts-'+args.command,FLAGS)
+        if hold is not None:
+            print(json.dumps(hold,sort_keys=True,indent=2,allow_nan=False));return 3
         bundle=catalogue.build(root);value=publication.summary(bundle)
         if args.command=='build':
             if args.output.exists():raise ValueError('Fresh immutable parts run required')

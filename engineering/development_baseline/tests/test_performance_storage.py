@@ -76,6 +76,26 @@ def test_disk_admission_holds_below_reserve_and_disclaims_quota(tmp_path, monkey
     assert "quota is not enforced" in report["enforcement"]
 
 
+def test_disk_hold_record_preserves_action_resource_and_acceptance_dispositions(
+        tmp_path, monkeypatch):
+    admission = dict(schema="osr-performance-disk-admission/1", root=str(tmp_path),
+        filesystem_free_bytes=1, minimum_free_reserve_bytes=20*performance.GIB,
+        minimum_free_reserve_gib=20.0, admitted=False, execution="held",
+        reason="below reserve", enforcement="shared reserve only")
+    monkeypatch.setattr(performance, "disk_admission", lambda root: admission)
+    record = performance.disk_hold_record(tmp_path, "example-run",
+        {"physical_accepted": False, "selected_reference_changed": False})
+    assert record == dict(schema="osr-performance-disk-admission/1",
+        execution="held", requested_action="example-run", resource_admission=admission,
+        physical_accepted=False, selected_reference_changed=False)
+
+
+def test_disk_hold_record_returns_none_when_admitted(tmp_path, monkeypatch):
+    monkeypatch.setattr(performance, "disk_admission",
+        lambda root: dict(admitted=True, execution="ready"))
+    assert performance.disk_hold_record(tmp_path, "example-run", {}) is None
+
+
 def test_bytecode_cleanup_is_dry_run_by_default_and_excludes_evidence_trees(tmp_path):
     now = datetime(2026, 11, 10, 12, tzinfo=timezone.utc)
     old = tmp_path / "engineering" / "pkg" / "__pycache__"

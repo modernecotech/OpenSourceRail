@@ -223,12 +223,11 @@ def hold(root, action, reason):
 
 
 def _disk_reserve_hold(root, action):
-    from engineering.performance import disk_admission
-    admission = disk_admission(root)
-    if admission['admitted']:
+    from engineering.performance import disk_hold_record
+    value = disk_hold_record(root, action, FLAGS)
+    if value is None:
         return None
-    emit(dict(schema='osr-performance-disk-admission/1', execution='held',
-              requested_action=action, resource_admission=admission, **FLAGS))
+    emit(value)
     return 3
 
 
@@ -284,7 +283,10 @@ def main(argv=None, root=ROOT):
             if action=='verify':options.add_argument('--replay',action='store_true')
             parsed=options.parse_args(rest[1:] if rest else [])
             from engineering.design_search import conditional_journey_study as study,conditional_journey_publication as publication
-            if action=='run':emit(study.run(root));return 0
+            if action=='run':
+                held=_disk_reserve_hold(root,'journey-study-run')
+                if held is not None:return held
+                emit(study.run(root));return 0
             if action=='publish':emit(publication.build(root));return 0
             if action=='verify':emit(publication.verify(root,replay=parsed.replay));return 0
             raise ValueError('Use journey-study run, publish, or verify [--replay]')
@@ -417,6 +419,8 @@ def main(argv=None, root=ROOT):
             if rest==['publish']:emit(generative_publication.build(root=root));return 0
             if rest==['verify']:emit(generative_publication.verify(root=root));return 0
             if rest==['run']:
+                held=_disk_reserve_hold(root,'generative-campaign')
+                if held is not None:return held
                 result=generative_campaign.run(root=root)
                 if result.get('integrated_selection') is not None or result.get('selected_reference_changed') is not False or any(result.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
                     raise ValueError('Generative research cannot select or release an integrated design')
@@ -437,6 +441,8 @@ def main(argv=None, root=ROOT):
                 if len(rest)==3:
                     if rest[1]!='--max-jobs':raise ValueError('Use --max-jobs N')
                     limit=int(rest[2])
+                held=_disk_reserve_hold(root,'adaptive-campaign')
+                if held is not None:return held
                 r=adaptive_campaign.run(root,maximum_new_jobs=limit)
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],new_native_jobs=r['new_native_jobs'],reused_native_jobs=r['reused_native_jobs'],
                     frontier_items=len(r['frontier']),search_status=r['search_status'],integrated_selection=None,physical_accepted=False));return 0
@@ -450,6 +456,8 @@ def main(argv=None, root=ROOT):
                 if len(rest)==3:
                     if rest[1]!='--max-cases':raise ValueError('Use --max-cases N')
                     limit=int(rest[2])
+                held=_disk_reserve_hold(root,'architecture-campaign')
+                if held is not None:return held
                 result=architecture.evaluate_campaign(root,max_new_cases=limit)
                 if result.get('state')=='interrupted':
                     from engineering.station_rail.common import encoded
@@ -467,8 +475,12 @@ def main(argv=None, root=ROOT):
             values = options.parse_args(rest)
             if values.action=='plan': result=civil_topology.plan(root)
             elif values.action=='run':
+                held=_disk_reserve_hold(root,'civil-topology-run')
+                if held is not None:return held
                 result=civil_topology.run(values.state or root/'build/civil-topology', root=root, max_trials=values.max_trials)
             elif values.action=='revise':
+                held=_disk_reserve_hold(root,'civil-topology-revision')
+                if held is not None:return held
                 from engineering.design_search import topology_revision_campaign
                 result=topology_revision_campaign.run(values.state or root/'build/civil-topology-revisions',
                     root=root, parent_state=values.parent_state or root/'build/civil-topology', max_trials=values.max_trials)
@@ -520,6 +532,8 @@ def main(argv=None, root=ROOT):
                 if len(rest)==4:
                     if rest[2]!='--max-jobs':raise ValueError('Use --max-jobs N')
                     limit=int(rest[3])
+                held=_disk_reserve_hold(root,'candidate-campaign')
+                if held is not None:return held
                 journal=campaign.run(rest[1],max_jobs=limit);emit(journal);return 0 if journal['state']=='completed' else 3
             if action=='compare' and len(rest)==2:
                 result=campaign.compare(rest[1]);emit(dict(campaign_id=rest[1],candidate_count=len(result['candidates']),primary_jobs=len(result['results']),next_experiment=result['next_experiment'],integrated_baseline=result['integrated_baseline']));return 0

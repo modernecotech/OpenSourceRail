@@ -24,6 +24,14 @@ def main(argv=None, *, root=pilot.ROOT):
     p=group.add_parser('publish');p.add_argument('--state',required=True);p.add_argument('--evidence',required=True);p.add_argument('--output',required=True)
     p=group.add_parser('verify-publication');p.add_argument('--output')
     args=parser.parse_args(argv)
+    resource_action = ('backend-'+args.command if args.command in ('install','run') else
+        'backend-viaduct-run' if args.command=='viaduct' and args.action=='run' else None)
+    if resource_action is not None:
+        from engineering.development_baseline import FLAGS
+        from engineering.performance import disk_hold_record
+        hold=disk_hold_record(root,resource_action,FLAGS)
+        if hold is not None:
+            print(json.dumps(hold,sort_keys=True,indent=2,allow_nan=False));return 3
     if args.command=='providers':
         from . import backend_api
         value=backend_api.registry()
