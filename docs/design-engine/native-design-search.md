@@ -197,6 +197,13 @@ speedup or a guarantee for other machines and source epochs. Focused cache and
 outline regressions:
 `PYTHONPATH=. pytest -q tests/test_outline_design_cache.py tests/test_outline_completion.py`
 passed 15 tests.
+The full `completion.run` path was also invoked twice into separate temporary
+Samawah states and each was checked with `completion.verify`: both returned
+manifest `7a1e5670e60f9be4026f613d180e480e678a4d66212139d501d162d92056469f`;
+the first recorded a cache miss and the second a hit, with one completed city,
+zero failures and zero native solver calls in each. These temporary software
+integration runs are not a new engineering-evidence or physical-acceptance
+release.
 
 Rust key ordering also uses UTF-8 strings for ordinary keys instead of allocating
 four-byte codepoint vectors. Lone surrogates retain explicit codepoint handling,
