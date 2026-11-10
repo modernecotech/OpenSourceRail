@@ -80,6 +80,23 @@ def test_baseline_plan_binds_published_seed_and_new_study_evaluation():
         MODULE._validate_base_plan(plan, seed, {'outline_evaluation_id': 'wrong'})
 
 
+def test_supply_price_labels_do_not_count_as_changed_service_physics():
+    def city(pricing, service_hash='service'):
+        requirements = {'pricing_basis': pricing, 'project': {'pricing_scenario': pricing},
+                        'headway_s': 200.0}
+        row_service = {'evaluation_id': service_hash, 'acceleration_m_s2': 1.0,
+                       'requirements': dict(requirements)}
+        return {'service_evaluation': {'evaluation_id': service_hash,
+            'line_services': [{'evaluation_id': service_hash, 'requirements': requirements,
+                               'service': row_service}]}}
+
+    local = city('project-make-buy', 'local-id')
+    imported = city('china-bulk-buy', 'china-id')
+    assert MODULE._service_semantics(local) == MODULE._service_semantics(imported)
+    imported['service_evaluation']['line_services'][0]['service']['acceleration_m_s2'] = 1.2
+    assert MODULE._service_semantics(local) != MODULE._service_semantics(imported)
+
+
 def test_china_cost_label_does_not_claim_unmodeled_volume_discounts():
     description = MODULE.PRICING_DESCRIPTIONS['china-bulk-buy'].lower()
     assert 'no negotiated or blanket volume discount is applied' in description

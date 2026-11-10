@@ -234,15 +234,44 @@ def _validate_base_plan(plan, seed, baseline_summary):
     return True
 
 
+def _service_semantics(city):
+    """Ignore only evaluation hashes and price-basis labels between price runs."""
+    value = deepcopy(city['service_evaluation'])
+    value.pop('evaluation_id', None)
+    for row in value['line_services']:
+        row.pop('evaluation_id', None)
+        service = row.get('service', {})
+        service.pop('evaluation_id', None)
+        for requirements in (row.get('requirements', {}), service.get('requirements', {})):
+            requirements.pop('pricing_basis', None)
+            project = requirements.get('project')
+            if isinstance(project, dict):
+                project.pop('pricing_scenario', None)
+    return value
+
+
+def _canonical_identity(value):
+    encoded = json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)+'\n'
+    return hashlib.sha256(encoded.encode()).hexdigest()
+
+
 def _run_study(label, request, root, output, workflow, *, replay=True):
     study_id = workflow.identity(request)[:32]
     artifacts = root / 'build/city-studies' / study_id / 'artifacts'
-    if artifacts.exists():
-        raise ValueError('Immutable city study destination already exists: ' + study_id)
-    artifacts.parent.mkdir(parents=True, exist_ok=True)
+    reused = artifacts.exists()
+    if reused:
+        cached_request = workflow.read_json(artifacts, 'request.json')
+        if encoded(cached_request) != encoded(request):
+            raise ValueError('Existing city study identity is occupied by different request bytes')
+    else:
+        artifacts.parent.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
-    manifest = workflow.run(request, artifacts, root=root)
-    verified = workflow.verify(artifacts, root=root, replay=replay)
+    if reused:
+        manifest = workflow.verify(artifacts, root=root, replay=replay)
+        verified = manifest
+    else:
+        manifest = workflow.run(request, artifacts, root=root)
+        verified = workflow.verify(artifacts, root=root, replay=replay)
     elapsed = time.perf_counter() - started
     destination = output / 'studies' / label
     shutil.copytree(artifacts, destination)
@@ -258,8 +287,10 @@ def _run_study(label, request, root, output, workflow, *, replay=True):
     line_services = city['service_evaluation']['line_services']
     summary = dict(label=label, study_id=study_id, manifest_id=manifest['manifest_id'],
         replay_verified=_replay_verified(verified, record, replay), elapsed_s=elapsed,
+        exact_cached_study_reused=reused,
         city_input_id=city['input_id'], outline_evaluation_id=city['evaluation_id'],
         service_evaluation_id=city['service_evaluation']['evaluation_id'],
+        service_semantics_id=_canonical_identity(_service_semantics(city)),
         cost_evaluation_id=costs['evaluation_id'],
         candidate_id=city['reference_candidate_ids']['candidate_id'],
         body_candidate_id=city['reference_candidate_ids']['body_candidate_id'],
@@ -363,7 +394,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
     for prefix in ('baseline', 'route-20m'):
         local = summaries[prefix + '-project-make-buy']
         china = summaries[prefix + '-china-bulk-buy']
-        for field in ('city_input_id', 'service_evaluation_id', 'candidate_id', 'body_candidate_id'):
+        for field in ('city_input_id', 'service_semantics_id', 'candidate_id', 'body_candidate_id'):
             if local[field] != china[field]:
                 raise ValueError(f'{prefix}: supply-price cases differ physically or in service: {field}')
     if (summaries['baseline-project-make-buy']['city_input_id'] ==
@@ -382,7 +413,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
         studies=summaries, all_fourteen_scopes_present=True,
         all_studies_replayed=True,
         pricing_scenario_notes=PRICING_DESCRIPTIONS,
-        pricing_comparison_purpose='Calculated Class C make/buy and China bulk sensitivity; not a supplier quote',
+        pricing_comparison_purpose='Calculated Class C local make/buy vs China benchmark/forced-purchase sensitivity; no confirmed supplier quote or project-volume discount',
         route_comparison_purpose='The 20 m geometry is freshly simplified from the exact current plan with fixed station anchors; service and cost are recalculated under the published v0.6 vehicle',
         limitations=request['open_assumptions'],
         physical_accepted=False, engineering_accepted=False,
@@ -393,6 +424,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
         source_root=str(root), source_commit=request['source_commit'],
         study_count=len(results), study_results={k:{'study_id':v['study_id'],
             'manifest_id':v['manifest']['manifest_id'], 'replay_verified':v['summary']['replay_verified'],
+            'exact_cached_study_reused':v['summary']['exact_cached_study_reused'],
             'elapsed_s':v['summary']['elapsed_s']} for k,v in results.items()},
         os_sandbox_enforced=False, external_network_or_transactions=False)
     _write(output / 'execution.json', execution, encoded)
