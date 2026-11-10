@@ -15,6 +15,13 @@ import time
 
 HERE = Path(__file__).resolve().parent
 REQUEST_PATH = HERE / 'request.json'
+PRICING_DESCRIPTIONS = {
+    'project-make-buy': ('Class-C modeled make/buy at the city project quantity, including modeled '
+        'factory setup/tooling allocation; not a local supplier quotation.'),
+    'china-bulk-buy': ('Internal adapter scenario label. This is a Class-C benchmark/forced-purchase '
+        'sensitivity using China-origin benchmarks for selected manufactured stock plus assumed '
+        'landing costs; some civil purchases use local-contractor proxies. Main item groups do not '
+        'use project-volume price-break tiers, and no negotiated or blanket volume discount is applied.')}
 
 
 def _sha(path):
@@ -252,6 +259,8 @@ def _run_study(label, request, root, output, workflow, *, replay=True):
         research_configuration_id=city['research_configuration_id'],
         selected_alignment_id=city.get('selected_alignment_id'),
         selected_alignment_kind=city.get('selected_alignment_kind'),
+        pricing_scenario=city['policy']['project']['pricing_scenario'],
+        pricing_description=PRICING_DESCRIPTIONS[city['policy']['project']['pricing_scenario']],
         outline_acceptance=record['outline_acceptance'],
         route_km=round(sum(line['route_m'] for line in city['geometry_and_service']['lines'])/1000, 6),
         total_trainsets=sum(row['service']['total_trainsets'] for row in line_services),
@@ -363,6 +372,7 @@ def run(root, output_dir, request_path=REQUEST_PATH):
         route_generation_id=route_generation_id,
         studies=summaries, all_fourteen_scopes_present=True,
         all_studies_replayed=True,
+        pricing_scenario_notes=PRICING_DESCRIPTIONS,
         pricing_comparison_purpose='Calculated Class C make/buy and China bulk sensitivity; not a supplier quote',
         route_comparison_purpose='The 20 m geometry is freshly simplified from the exact current plan with fixed station anchors; service and cost are recalculated under the published v0.6 vehicle',
         limitations=request['open_assumptions'],

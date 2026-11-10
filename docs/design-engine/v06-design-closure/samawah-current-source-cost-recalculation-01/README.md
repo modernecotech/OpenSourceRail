@@ -1,8 +1,8 @@
 # Samawah current-source cost comparison
 
 This run recalculates two Samawah map cases under the exact published v0.6
-vehicle and planning seed, with both the project make/buy and China bulk-buy
-price bases:
+vehicle and planning seed, with both the project make/buy and the repository's
+internal `china-bulk-buy` benchmark/forced-purchase sensitivity:
 
 1. The published `original` alignment.
 2. An unselected 20 m route simplification freshly generated from the exact current
@@ -19,8 +19,17 @@ projection. The canonical plan supplies stop identities, dwell values and the
 design-speed cap. Each city workflow is replay-verified, and the cost evaluator
 must return all fourteen low/base/high scope totals.
 
-The price comparison is a calculated Class C estimate, not a supplier
-quotation. Each route edit proportionally transfers existing civil-class
+The China scenario label overstates what the current adapter actually prices.
+It uses China-origin benchmark inputs for selected manufactured items and
+assumed landed costs, while some civil purchases use local contractor proxies.
+Main item groups do not select project-quantity purchase tiers, and no
+negotiated or blanket volume discount is applied. The local make/buy case does
+amortize modeled setup and tooling at the project quantity. Therefore this
+comparison does not yet measure the deeper discounts a confirmed multi-city or
+fleet purchase could obtain.
+
+Both price cases are calculated Class C estimates, not supplier quotations.
+Each route edit proportionally transfers existing civil-class
 chainage intervals and flags them for reassessment. It does not verify surveyed
 right-of-way, access, crossings, utilities, ground, civil loads or buildability.
 The study is restricted to Samawah and does not reprice the other 265 cities.

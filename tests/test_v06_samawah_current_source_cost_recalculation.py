@@ -68,3 +68,9 @@ def test_city_verifier_success_is_bound_to_returned_manifest_identity():
     with pytest.raises(ValueError, match='returned manifest'):
         MODULE._replay_verified({'evaluation_id': 'a'}, {'evaluation_id': 'b'}, True)
 
+
+def test_china_cost_label_does_not_claim_unmodeled_volume_discounts():
+    description = MODULE.PRICING_DESCRIPTIONS['china-bulk-buy'].lower()
+    assert 'no negotiated or blanket volume discount is applied' in description
+    assert 'local-contractor proxies' in description
+
