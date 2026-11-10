@@ -120,6 +120,8 @@ The [3D engineering gallery](docs/engineering-models/README.md) provides **rotat
 
 The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.md) adds bored clevises, a revised pin, hollow frame members, wheel/axle parts, guards and fasteners, with matching component FEM and fabrication estimates. The [city price audit](docs/design-engine/city-price-review/README.md) explains corrected energy accounts and separate civil-cost alternatives.
 
+The [lighting, inter-car services, coupler and rubber gangway audit](docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md) traces the counted parts and provisional mass/cost rows. Their CAD fit, full-motion clearances, electrical flex duty and controlled drawings remain open.
+
 | Vehicle and workshop assembly | Rail and running-gear workshop |
 |---|---|
 | [![Exploded 17 m vehicle assembly with roof, seating, doors, passive bogies and proposed fixtures](docs/engineering-models/images/vehicle-fabrication.webp)](docs/engineering-models/README.md) | [![Rail-finishing, wheelset assembly, bearing and passive-bogie inspection workstation](docs/engineering-models/images/rail-running-gear.webp)](docs/engineering-models/README.md) |
