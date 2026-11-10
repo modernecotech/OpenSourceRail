@@ -3,7 +3,7 @@
   "campaign_sha256": "3731528a682811dc3cc98df371764682b203c186cec3a1626ed2c4c98ec9024a",
   "gates": {
     "all-city-outline-reconciliation": {
-      "blocker": "The evaluator accepts exact per-line demand inputs, and a source-bound five-line Samawah sensitivity propagates them through fleet and fourteen-scope costs. The 1,200 pphpd perturbations are planning sensitivities, not surveyed demand. The published 266-city catalogue still uses shared 4,000 pphpd/200 s controls and transferred reference rates; city forecasts, final alignments, China-volume versus local-manufacture cases and same-candidate recomputation across the catalogue remain open.",
+      "blocker": "A source-bound five-line Samawah sensitivity now supports exact line-specific demand and fourteen-scope make/buy costing. Its 1,200/4,000 pphpd inputs are planning assumptions, not surveys. The source-matched China-bulk case is +$5.224m base CAPEX/+9.448m base NPV versus project make/buy under unquoted Class C price/logistics assumptions; no project-specific volume discount is evidenced. The published 266-city catalogue still uses shared controls and transferred rates; city forecasts, final alignments, local-vs-import cases and same-candidate recomputation across all cities remain open.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/all-city-baseline-audit/audit-summary.json",
@@ -20,22 +20,58 @@
         {
           "path": "docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity-run-03/manifest.json",
           "sha256": "b216776c1a3daa0dbbcb8b6dd764d7a7152399d12e25fb0684b54bf5c1f650ad"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md",
+          "sha256": "327b6e92ed028e2dc1c1e811170af8ce4b751b8a1cf38446a0dcac836c16415d"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/manifest.json",
+          "sha256": "81230f52c8051c30c27ae6219f48b31031555e3fa910250e08fd81ea5708b080"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/summary.json",
+          "sha256": "a19e565cd826dd13187aca0e7c08d19d930e2bbc2ef52a9e80dfda14deba1b87"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/execution.json",
+          "sha256": "39b74d128e1f5c12613607ed21cfb1473f6b26fdad3aaaa60f66ea7e96d07bac"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/analysis.md",
+          "sha256": "840b6bf6a5fc2ddc3539931cca7fec536fabc89b28c86b8ce9f6d3a0fe3327cf"
         }
       ],
       "state": "open"
     },
     "candidate-business-lifecycle": {
-      "blocker": "A sealed delivery proposal exists for the 9f6d body and matches its candidate/revision, but it has no complete controlled document set/review pack or native lifecycle evidence. The distinct 75075 compact-drive child cannot inherit that proposal and still needs its own canonical downstream bundle.",
+      "blocker": "A sealed proposal exists for the 9f6d parent only. The compact-drive 75075 child was regenerated from current source and retains the same physical ID, but its geometry screen remains HOLD (5,940 nominal findings, 3,942 interface holds) and installed mass is incomplete. Retained/regenerated bodies are rejected by the city adapter for stale source pins or evaluation identity; no matched study/cost/civil/delivery bundle, full controlled document set, review pack or native lifecycle evidence exists.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-business-lifecycle-audit/README.md",
           "sha256": "a6c06e0241c23e8fb406530322e55d11b44a84275ae3032ca6b1e2e865b45c0c"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/README.md",
+          "sha256": "541ebbbf00d62e96b10632e172b2a292a0a7cc2acf672cd68fb2d17557776a61"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/execution-manifest.json",
+          "sha256": "b0521abcdeb8c361c29cb595b2992b714e7c332bdcee4c29a391450be8b5ec11"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/current-source-trial/output/body.json.gz",
+          "sha256": "173cfe2b383acd955561c7fc27fdccdf99fd6e909c6f6614c5a3d8048141b741"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/current-source-trial/output/result.json",
+          "sha256": "6dd2c3e87f532baaf08b3cf6b30e8c3b7770b8703fbf3ceda57866a6522423a7"
         }
       ],
       "state": "open"
     },
     "controlled-research-documents": {
-      "blocker": "The audit of the retained 668-part delivery map still finds 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched source-stock SVGs now exist for bogie seat, bolster RHS and coupler clevis blanks, but finished geometry, inspection limits, routing times, assembly documents and whole-vehicle coverage are not established. This packet is not a manufacturing release.",
+      "blocker": "The retained 668-part delivery map has 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched gross-stock SVGs cover only three parts. A new 9f6d door inventory audit covers 93 part types/10,296 pieces, but all 93 lack finished geometry, controlled drawings and inspection-release references; the static GLB is not a kinematic CAD assembly. Whole-vehicle document coverage and manufacturing release remain open.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-document-coverage.json",
@@ -64,6 +100,18 @@
         {
           "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/export/parts/5b1b225627821d2c/38363ce88184b3ee.svg",
           "sha256": "cfd366937ea046766a4b5441a032e7dc4aea1eb7776ccc1b2c92d23e5e4a8083"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-subassembly-audit-01/README.md",
+          "sha256": "bd13ad69601d250fdd7a6f17ce369de3bdde00d8b8a415d251cf52a1cbe14d38"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-subassembly-audit-01/audit.json",
+          "sha256": "144d0fd96db4966699c223b3b47a0ddcf509d07d7b6eb167ba2796b1585ffb1a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-subassembly-audit-01/execution-boundary.json",
+          "sha256": "deb815df379ca65bd819792b157d8968a45314a77957578a97edbc4bf4fd47eb"
         }
       ],
       "state": "open"
@@ -107,7 +155,7 @@
       "state": "open"
     },
     "mapped-corridor": {
-      "blocker": "The Samawah package-07 scenario now has a distinct midpoint-planning candidate that consolidates one 79.977 m marker pair and rebinds the shared interchange; it does not revise the published map or close access/catchment checks. The city's candidate-specific propulsion force, independent braking, grades, complete service, detailed civil loads, and all fourteen complete prices remain unknown. Baghdad still has no corridor-specific service or price.",
+      "blocker": "The Samawah package-07 scenario has a distinct midpoint-planning candidate that consolidates one 79.977 m marker pair and rebinds the shared interchange; it does not revise the published map or close access/catchment checks. A separate five-line Samawah sensitivity now has low/base/high provisional estimates across all fourteen scopes, including China-bulk and project make/buy. Inputs are unquoted Class C assumptions and do not provide verified site prices. Candidate-specific available propulsion force, independent braking, grades, access and detailed civil loads remain unknown. Baghdad still lacks a corridor-specific service and price.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/result.json",
@@ -148,6 +196,18 @@
         {
           "path": "docs/design-engine/v06-design-closure/samawah-station-consolidation/comparison.json",
           "sha256": "fea9320abccfb94120f1ed970ec4e34238257380d6789e03e54c26f008b7682d"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md",
+          "sha256": "327b6e92ed028e2dc1c1e811170af8ce4b751b8a1cf38446a0dcac836c16415d"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/manifest.json",
+          "sha256": "81230f52c8051c30c27ae6219f48b31031555e3fa910250e08fd81ea5708b080"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/summary.json",
+          "sha256": "a19e565cd826dd13187aca0e7c08d19d930e2bbc2ef52a9e80dfda14deba1b87"
         }
       ],
       "state": "open"
@@ -195,7 +255,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "9b132c7253f15507d932d3853c91119bdbdeefe09bd8cd3dba7978c76b2c7a09"
+          "sha256": "581111d8b1236c63f591f7c0675cdf707291d2c17cebea271c772d5fbf585e8f"
         }
       ],
       "state": "partial"

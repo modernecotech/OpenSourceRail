@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/railway_project/city_recalculation.py", line 348, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/railway_project/city_recalculation.py", line 341, in main
+    args = parser.parse_args(); result = from_catalogue(body_path=args.body)
+                                         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/railway_project/city_recalculation.py", line 335, in from_catalogue
+    return evaluate(city,body,p,trusted_city_input_id=city['input_id'],root=root)
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/railway_project/city_recalculation.py", line 140, in evaluate
+    raise ValueError('Exact package-07 body candidate and evaluation required')
+ValueError: Exact package-07 body candidate and evaluation required
+Command exited with non-zero status 1
+	Command being timed: "timeout 30s bash -c ulimit -v 1048576; PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m engineering.railway_project.city_recalculation --body /home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/compact-drive-delivery-audit-01/current-source-trial/output/body.json.gz --output /home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/compact-drive-delivery-audit-01/recalculated-samawah.json"
+	User time (seconds): 2.77
+	System time (seconds): 0.25
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.02
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 304692
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 110639
+	Voluntary context switches: 3
+	Involuntary context switches: 6
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

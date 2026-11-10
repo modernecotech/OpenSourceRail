@@ -4,6 +4,12 @@
 
 [Three candidate-matched bogie/coupler source-stock drawings](controlled-stock-drawings-run-01/README.md)
 
+[Door-system inventory and assembly-gap audit](door-subassembly-audit-01/README.md)
+
+[Compact-drive current-source regeneration and delivery holds](compact-drive-delivery-audit-01/README.md)
+
+[Samawah Chinese-bulk vs project make/buy costing packet](samawah-china-supply-cost-04/analysis.md)
+
 [Compact-drive corridor attempt and retained evidence](compact-drive-corridor/README.md)
 
 [Installed-vehicle review and compact-drive geometry results](installed-vehicle-review.md)
@@ -60,7 +66,7 @@ not implied by closure of this work.
 | --- | --- | --- |
 | Installed vehicle | Open | The detailed 9f6d research candidate still lacks complete installed mass, verified supplier-fit interfaces, measured or verified installed inertia, tool/removal paths and downstream force/civil consequences. Five child geometry configurations have been screened, including two corrected split-lane support variants; all remain on HOLD with thousands of nominal/interface findings unresolved, and no matched journey/civil study closes the parent. The six-car passive-wheel development reference in `engineering/development-baseline.toml` remains unchanged. See the [split-lane support-family record](compact-drive-support-family/README.md). |
 | Controlled research documents | Open | The supplementary audit of the retained 668-part delivery map finds 41 assemblies with 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references are null. Three source-bound gross-stock SVGs now cover a bogie seat blank, bolster RHS blank and coupler clevis blank, but they have no finished geometry, inspection limits or process times and are not controlled part documents. Whole-vehicle document coverage and manufacturing release remain open. |
-| Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations. A separate midpoint scenario consolidates the 79.977 m marker pair and updates the shared interchange; force/braking/grade, access, detailed civil loads and all fourteen complete prices remain unknown. |
+| Mapped corridors | Open | Baghdad's revised 205 m maximum-deviation geometry pass is still on the older candidate and has no candidate-specific service or price. Samawah has a five-line, 57.873 km quantity and conditional fleet outline bound to the package-07 body; 0.4/0.6/0.8 m/s² acceleration hypotheses now have separate evaluations. A separate midpoint scenario consolidates the 79.977 m marker pair and updates the shared interchange; force/braking/grade, access and detailed civil loads remain unknown. A separate five-line planning sensitivity now has low/base/high provisional costs across all fourteen scopes, including China-bulk and project make/buy cases; these are unquoted Class C assumptions, not complete site prices. |
 | Native GIS return path | Open | Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype now prevents normal project-bytecode loading and fixes preflight result-file boundary failures; its 20 importer tests, 21 bootstrap tests and five earlier-bootstrap regression probes passed. The retained run07 proposal is bound to an older source epoch, has six Git-source differences plus one explicit overlay delta, lacks a reviewed supervisor, and fails its 8 GiB disk reserve; it remains unexecuted. It covers cached browser upload/re-export only, not the complete current-source GIS edit/reprice loop. See the [prototype review](native-gis-source-only-prototype.md) and [run07 readiness audit](native-gis-run07-readiness.md). |
 | Candidate business lifecycle | Open | A sealed delivery proposal exists for the 9f6d body and is identity-matched to that body. The distinct 75075 compact-drive child cannot inherit it and was correctly refused as a mixed identity; it still needs its own canonical downstream bundle. The 9f6d proposal has no complete controlled document set/review pack or native lifecycle evidence. See the [candidate lifecycle audit](../v06-business-lifecycle-audit/README.md). |
 | Unified Workbench | Partial | A source-bound view covers the reconciled 1.5 km pilot, with its own candidate identity. It does not yet cover the closure campaign's full city-brief-to-compatible-alternatives path, same-candidate journey/cost/delivery, drawing/BOM/manufacturing review or reconciled downloadable dossier. See [`campaigns/v06-design-integration-closure.toml`](../../../campaigns/v06-design-integration-closure.toml). |
@@ -140,3 +146,31 @@ recalculation round trip is generated, independently checked and reconciled to
 the same candidate. The retained browser-upload proposal is not a substitute:
 it is stale against the closure source tree, has no admitted supervisor, and
 does not exercise the native editor. See the [readiness audit](native-gis-run07-readiness.md).
+
+### Door-system inventory audit
+
+A candidate-matched read-only review covers 93 proposed part types and 10,296
+listed pieces across the door openings, leaves, glazing and electrical operator
+sets. Its counted six-car allowance is 1,180.332 kg and $33,260 base direct
+parts/process cost, with substantial low/high bounds. Finished geometry is
+unverified for every item; the existing GLB is static presentation geometry,
+with no door kinematics or service/removal study. See the [part-level audit and
+source hashes](door-subassembly-audit-01/README.md). This advances component
+accounting while leaving the installed-vehicle and controlled-document gates
+open.
+
+### Candidate-specific procurement sensitivity
+
+A source-matched Samawah five-line scenario compares project make/buy and
+Chinese bulk purchase across fourteen cost scopes. Under unquoted Class C rate,
+freight, duty, QA and factory assumptions, the China-bulk case is +$5.224m
+base CAPEX and +$9.448m base NPV relative to project make/buy. No project
+volume discount or binding supplier offer supports a lower-price claim. The
+scenario uses planning demand and cannot be transferred to the remaining city
+studies. See the [complete source-pinned packet](samawah-china-supply-cost-04/README.md).
+
+A regenerated compact-drive body reproduces the 75075 physical candidate ID
+under current source pins, but its geometry screen remains HOLD and the city
+adapter refuses the different evaluation identity. No compatible downstream
+city/delivery bundle exists yet. See the [retained output and refusal
+logs](compact-drive-delivery-audit-01/README.md).
