@@ -58,7 +58,7 @@ def render_readme(result: dict, run: dict) -> str:
         "",
         "## Chinese supply and mass-purchase treatment",
         "",
-        "The retained Samawah make/buy and China-bulk cost packets have identical low/base/high rates for these five infrastructure rows. The current detailed body’s own BOM is not re-priced from the older vehicle’s China scenario. No China supplier quotation, project volume tier, negotiated discount, import contract or local market validation is available in this candidate packet, so no additional mass-purchase discount is assumed.",
+        "Rail mass uses the retained 60E1 profile coefficient of 60.21 kg/m from `engineering/outline/city_civil.py`. The retained Samawah make/buy and China-bulk cost packets have identical low/base/high rates for these five infrastructure rows. The current detailed body’s own BOM is not re-priced from the older vehicle’s China scenario. No China supplier quotation, project volume tier, negotiated discount, import contract or local market validation is available in this candidate packet, so no additional mass-purchase discount is assumed.",
         "",
         "## Explicitly unpriced",
         "",
@@ -99,16 +99,19 @@ def main():
     rate_dir = ROOT / RATE_PACKET
     rate_manifest = _verify_packet(rate_dir)
     cost = _read_json(rate_dir / "cost-project-make-buy.json")
+    china_cost = _read_json(rate_dir / "cost-china-bulk-buy.json")
     bridge_sources = {
         CITY_RESULT.as_posix(): hashlib.sha256((ROOT / CITY_RESULT).read_bytes()).hexdigest(),
         (RATE_PACKET / "manifest.json").as_posix(): hashlib.sha256((rate_dir / "manifest.json").read_bytes()).hexdigest(),
         (RATE_PACKET / "cost-project-make-buy.json").as_posix(): hashlib.sha256((rate_dir / "cost-project-make-buy.json").read_bytes()).hexdigest(),
         "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz": hashlib.sha256((ROOT / "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz").read_bytes()).hexdigest(),
+        "engineering/outline/city_civil.py": hashlib.sha256((ROOT / "engineering/outline/city_civil.py").read_bytes()).hexdigest(),
         "engineering/railway_project/city_cost_bridge.py": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "engineering/railway_project/city_recalculation.py": hashlib.sha256((ROOT / "engineering/railway_project/city_recalculation.py").read_bytes()).hexdigest(),
         "engineering/station_rail/common.py": hashlib.sha256((ROOT / "engineering/station_rail/common.py").read_bytes()).hexdigest(),
     }
-    result = build(city, cost, rate_manifest, source_sha256=bridge_sources)
+    bridge_sources[(RATE_PACKET / "cost-china-bulk-buy.json").as_posix()] = hashlib.sha256((rate_dir / "cost-china-bulk-buy.json").read_bytes()).hexdigest()
+    result = build(city, cost, china_cost, rate_manifest, source_sha256=bridge_sources)
     (out / "bridge.json").write_bytes(encoded(result))
     request = {
         "schema": "osr-samawah-candidate-cost-bridge-request/1",

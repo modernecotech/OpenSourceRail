@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CITY_RESULT = Path("docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json")
 RATE_PACKET = Path("docs/design-engine/v06-design-closure/samawah-china-supply-cost-04")
 CASES = ("low", "base", "high")
+RAIL_KG_PER_M = 60.21
 
 # These mappings retain both the rate source's engineering basis and the new
 # quantity unit. They are scenario rates, not offers or locally verified data.
@@ -52,23 +53,28 @@ def _verify_packet(packet: Path, *, manifest_override: dict | None = None) -> di
     return manifest
 
 
-def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha256: dict) -> dict:
+def build(city_result: dict, old_cost: dict, china_cost: dict, old_manifest: dict, *, source_sha256: dict) -> dict:
     verify_city(city_result)
     if old_cost.get("evaluation_id") != identity({k: v for k, v in old_cost.items() if k != "evaluation_id"}):
         raise ValueError("Retained ratebook cost identity mismatch")
+    if china_cost.get("evaluation_id") != identity({k: v for k, v in china_cost.items() if k != "evaluation_id"}):
+        raise ValueError("Retained China-bulk cost identity mismatch")
     city_id = city_result["source_city_input_id"]
-    if old_cost.get("city_input_id") != city_id:
-        raise ValueError("Ratebook and candidate must share the exact authenticated city input")
+    if old_cost.get("city_input_id") != city_id or china_cost.get("city_input_id") != city_id:
+        raise ValueError("Ratebooks and candidate must share the exact authenticated city input")
+    if old_cost.get("source_sha256") != china_cost.get("source_sha256"):
+        raise ValueError("Supply scenarios must share the same source epoch")
     old_candidate_ids = old_manifest.get("candidate_ids", {})
     if old_candidate_ids.get("candidate_id") == city_result["candidate_id"] or old_candidate_ids.get("body_candidate_id") == city_result["body_candidate_id"]:
         raise ValueError("Ratebook candidate identity must remain distinct from the priced candidate")
 
     old_rows = {r.get("key"): r for r in old_cost.get("capital_lines", [])}
+    china_rows = {r.get("key"): r for r in china_cost.get("capital_lines", [])}
     current_q = city_result["quantities"]
     # 60E1 is the explicit source rail profile. The input route quantities are
     # four rail rows per mapped route metre (two tracks, two running rails).
     rail_length_m = current_q["running_rail_m"]
-    rail_mass_kg = rail_length_m * 60.0
+    rail_mass_kg = rail_length_m * RAIL_KG_PER_M
     quantities = {
         "route-running-rails": (rail_mass_kg, "kg"),
         "route-complete-fasteners": (current_q["running_fastening_sets"], "sets"),
@@ -115,6 +121,21 @@ def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha25
             ],
         })
 
+    china_rate_comparison = []
+    for key in RATE_LINES:
+        project_row = old_rows[key]
+        china_row = china_rows.get(key)
+        if (china_row is None or china_row.get("quantity") != project_row.get("quantity") or
+                china_row.get("scope") != project_row.get("scope") or china_row.get("source_class") != "C"):
+            raise ValueError("China-bulk ratebook quantity differs for " + key)
+        china_rate_comparison.append({
+            "key": key,
+            "project_make_buy_cost_usd": project_row["costs_usd"],
+            "china_bulk_buy_cost_usd": china_row["costs_usd"],
+            "same_costs": project_row["costs_usd"] == china_row["costs_usd"],
+            "source_unit": RATE_LINES[key][1],
+        })
+
     fragment_totals = {case: sum(line["cost_usd"][case] for line in lines) for case in CASES}
     bom = city_result["known_counted_BOM_process_subtotal_usd"]
     # Use the exact previously sealed per-train direct-BOM figure, rather than
@@ -139,6 +160,7 @@ def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha25
         "city_input_id": city_id,
         "source_city_recalculation_evaluation_id": city_result["evaluation_id"],
         "ratebook_packet_id": old_manifest["manifest_id"],
+        "china_bulk_ratebook_evaluation_id": china_cost["evaluation_id"],
         "ratebook_source_candidate_id": old_candidate_ids["candidate_id"],
         "ratebook_source_body_candidate_id": old_candidate_ids["body_candidate_id"],
         "ratebook_is_physical_parent": False,
@@ -147,7 +169,7 @@ def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha25
         "quantity_basis": {
             "route_m": current_q["route_m"],
             "running_rail_m": rail_length_m,
-            "rail_mass_kg_at_60E1_60kg_per_m": rail_mass_kg,
+            "rail_mass_kg_at_60E1_60_21kg_per_m": rail_mass_kg,
             "fastening_sets": current_q["running_fastening_sets"],
             "20m_beam_units": current_q["standard_beams"],
             "double_track_installation_track_m": 2.0 * current_q["route_m"],
@@ -155,6 +177,11 @@ def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha25
             "all_from_exact_candidate_recalculation": True,
         },
         "matched_rate_lines": lines,
+        "china_bulk_rate_comparison": {
+            "rows": china_rate_comparison,
+            "all_selected_rows_identical_to_project_make_buy": all(row["same_costs"] for row in china_rate_comparison),
+            "additional_volume_discount_applied": False,
+        },
         "known_candidate_bom_subtotal_usd": bom,
         "partial_matched_guideway_subtotal_usd": fragment_totals,
         "partial_priced_fragment_sum_usd": {case: bom[case] + fragment_totals[case] for case in CASES},
@@ -177,6 +204,7 @@ def build(city_result: dict, old_cost: dict, old_manifest: dict, *, source_sha25
             "Traction energy, operations, maintenance, renewals, recovery, reliability, disposal and financing inputs.",
             "Potential mismatch between historical 20 m beam design and current body loads; the rate does not validate the beam selection.",
             "Construction haul/crane/erection rates are not transferred because the retained line mixes mainline and station track quantities absent from this candidate quantity set.",
+            "China-bulk source comparison for these matched infrastructure rows is identical to project make/buy; the current body BOM has no candidate-matched China reprice.",
         ],
         "source_sha256": dict(sorted(source_sha256.items())),
     }
@@ -192,16 +220,19 @@ def main():
     packet = ROOT / RATE_PACKET
     manifest = _verify_packet(packet)
     old_cost = _read_json(packet / "cost-project-make-buy.json")
+    china_cost = _read_json(packet / "cost-china-bulk-buy.json")
     sources = {
         CITY_RESULT.as_posix(): digest(ROOT / CITY_RESULT),
         (RATE_PACKET / "manifest.json").as_posix(): digest(packet / "manifest.json"),
         (RATE_PACKET / "cost-project-make-buy.json").as_posix(): digest(packet / "cost-project-make-buy.json"),
+        (RATE_PACKET / "cost-china-bulk-buy.json").as_posix(): digest(packet / "cost-china-bulk-buy.json"),
         "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz": digest(ROOT / "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz"),
+        "engineering/outline/city_civil.py": digest(ROOT / "engineering/outline/city_civil.py"),
         "engineering/railway_project/city_cost_bridge.py": digest(ROOT / "engineering/railway_project/city_cost_bridge.py"),
         "engineering/railway_project/city_recalculation.py": digest(ROOT / "engineering/railway_project/city_recalculation.py"),
         "engineering/station_rail/common.py": digest(ROOT / "engineering/station_rail/common.py"),
     }
-    result = build(city_result, old_cost, manifest, source_sha256=sources)
+    result = build(city_result, old_cost, china_cost, manifest, source_sha256=sources)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("xb") as f:
         f.write(encoded(result))
