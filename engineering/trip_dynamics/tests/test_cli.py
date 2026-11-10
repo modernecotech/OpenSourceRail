@@ -21,6 +21,8 @@ def test_module_default_is_status_and_case_list_is_available(monkeypatch,capsys)
 
 
 def test_selected_cli_constructs_only_bounded_request(tmp_path,monkeypatch,capsys):
+    from engineering import performance
+    monkeypatch.setattr(performance,'disk_admission',lambda root:dict(admitted=True))
     seen=[]
     def execute(request,output,root):seen.append((request,output,root));return {'execution_status':'refused'}
     monkeypatch.setattr(experiments,'execute',execute)
@@ -43,11 +45,42 @@ def test_cli_rejects_unsupported_controls_before_execution(tmp_path,arguments):
 
 
 def test_execute_job_loads_only_request_and_passes_inline_models(tmp_path,monkeypatch,capsys):
+    from engineering import performance
+    monkeypatch.setattr(performance,'disk_admission',lambda root:dict(admitted=True))
     request=dict(action='validate-modal',parameters=dict(vehicle_id='a'*64,model_data={'source_sha256':{'do-not-open':'0'*64}}))
     path=tmp_path/'request.json';path.write_text(json.dumps(request));seen=[]
     monkeypatch.setattr(experiments,'execute',lambda request,output,root:seen.append(request) or {'valid':False})
     assert cli.main(['execute-job','--request',str(path),'--output',str(tmp_path/'job')])==0
     assert seen==[request]
+
+
+@pytest.mark.parametrize('command,arguments,target',[
+    ('simulate',['simulate','--output','OUT'],experiments),
+    ('run',['run','--output','OUT'],None),
+    ('benchmark-worker',['benchmark-worker','--input','IN','--output','OUT'],None),
+])
+def test_resource_actions_hold_before_execution_below_disk_reserve(
+        tmp_path,monkeypatch,capsys,command,arguments,target):
+    from engineering import performance
+    from engineering.trip_dynamics import campaign
+
+    admission=dict(schema='osr-performance-disk-admission/1',admitted=False,
+        execution='held',reason='below reserve',enforcement='admission only')
+    monkeypatch.setattr(performance,'disk_admission',lambda root:admission)
+    if command=='simulate':
+        monkeypatch.setattr(target,'execute',lambda *args,**kwargs:
+            pytest.fail('trip calculation must not start below the reserve'))
+    elif command=='run':
+        monkeypatch.setattr(campaign,'run',lambda *args,**kwargs:
+            pytest.fail('trip campaign must not start below the reserve'))
+
+    replacements={'OUT':str(tmp_path/'out'),'IN':str(tmp_path/'in')}
+    argv=[replacements.get(item,item) for item in arguments]
+    assert cli.main(argv)==3
+    value=json.loads(capsys.readouterr().out)
+    assert value['schema']=='osr-performance-disk-admission/1'
+    assert value['requested_action']=='trip-'+command
+    assert value['resource_admission']['admitted'] is False
 
 
 @pytest.fixture

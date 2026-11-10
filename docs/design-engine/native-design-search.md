@@ -153,12 +153,15 @@ file hashes as the earlier verified Samawah package; `./osr outline complete-ver
 workload-specific. Its cold and warm reports plus comparison are retained under
 `build/performance/baselines/samawah-incremental-*-20261110.json`.
 
-The outline CLI now checks the shared 20 GiB free-space reserve before starting
+The outline CLI checks the shared 20 GiB free-space reserve before starting
 `run`, `city` or new `complete` calculations. A `complete` request may proceed
 below that reserve only when it uses multiple workers and already has the design
 request, design record and every requested city result; that path reuses results
-without starting a worker. This is admission control, not an aggregate per-job
-disk quota, and direct Python library calls remain outside the CLI guard.
+without starting a worker. The trip-dynamics CLI applies the same reserve before
+its output-producing, worker and campaign actions, including `simulate`,
+`execute-job`, `setup-tools`, validation, `run`, `benchmark-worker` and `evaluate`.
+These are CLI admission checks, not aggregate per-job disk quotas; direct Python
+library calls and other research adapters remain outside these guards.
 
 A separate instrumented Python profile took 75.1 s, so its wall time is not
 comparable with the uninstrumented runs. `design_completion.evaluate` took

@@ -48,6 +48,17 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.command is None:
         args.command='status';args.source_root=source_root
+    resource_actions = {'simulate','fixture','execute-job','setup-tools','validate-map',
+        'validate-modal','epm','magnetic-confirmation','run','benchmark-worker','evaluate'}
+    if args.command in resource_actions:
+        from engineering.performance import disk_admission
+        admission = disk_admission(args.source_root if hasattr(args,'source_root') else source_root)
+        if not admission['admitted']:
+            from engineering.development_baseline import FLAGS
+            print(json.dumps(dict(schema='osr-performance-disk-admission/1',
+                execution='held',requested_action='trip-'+args.command,
+                resource_admission=admission,**FLAGS),sort_keys=True,indent=2,allow_nan=False))
+            return 3
     if args.command in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal','epm','magnetic-confirmation'):
         from . import experiments
         if args.command in ('status','catalogue'):
