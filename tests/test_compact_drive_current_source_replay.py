@@ -21,7 +21,7 @@ def test_bounded_source_replay_is_intact_and_selected_body_is_exact():
 
     request = json.loads((PACKET / 'request.json').read_bytes())
     summary = json.loads((PACKET / 'summary.json').read_bytes())
-    assert request['maximum_trials'] == 3
+    assert request['limits']['maximum_trials'] == 3
     assert request['native_jobs'] == 0
     assert summary['source_unchanged'] is True
     assert summary['evaluation_id'] == manifest['evaluation_id']
