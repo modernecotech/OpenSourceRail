@@ -209,6 +209,15 @@ def _study_request(request, pricing_scenario, *, base_study_id=None, edit_bundle
     return value
 
 
+def _replay_verified(manifest, record, replay_requested):
+    """The city verifier returns its sealed manifest; successful replay returns normally."""
+    if not replay_requested:
+        return False
+    if manifest.get('evaluation_id') != record.get('evaluation_id'):
+        raise ValueError('Replayed city study identity differs from its returned manifest')
+    return True
+
+
 def _run_study(label, request, root, output, workflow, *, replay=True):
     study_id = workflow.identity(request)[:32]
     artifacts = root / 'build/city-studies' / study_id / 'artifacts'
@@ -232,7 +241,7 @@ def _run_study(label, request, root, output, workflow, *, replay=True):
         raise ValueError('A missing price must remain an explicit hold, not a zero')
     line_services = city['service_evaluation']['line_services']
     summary = dict(label=label, study_id=study_id, manifest_id=manifest['manifest_id'],
-        replay_verified=bool(verified['replayed']), elapsed_s=elapsed,
+        replay_verified=_replay_verified(verified, record, replay), elapsed_s=elapsed,
         city_input_id=city['input_id'], outline_evaluation_id=city['evaluation_id'],
         service_evaluation_id=city['service_evaluation']['evaluation_id'],
         cost_evaluation_id=costs['evaluation_id'],

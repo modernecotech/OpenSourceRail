@@ -61,3 +61,10 @@ def test_request_uses_screen_only_as_geometry_tolerance_context():
     assert request['geometry_proposal']['maximum_deviation_m'] == 20.0
     assert 'tolerance context only' in request['geometry_proposal']['use_as']
 
+
+def test_city_verifier_success_is_bound_to_returned_manifest_identity():
+    assert MODULE._replay_verified({'evaluation_id': 'a'}, {'evaluation_id': 'a'}, True)
+    assert MODULE._replay_verified({'evaluation_id': 'a'}, {'evaluation_id': 'b'}, False) is False
+    with pytest.raises(ValueError, match='returned manifest'):
+        MODULE._replay_verified({'evaluation_id': 'a'}, {'evaluation_id': 'b'}, True)
+
