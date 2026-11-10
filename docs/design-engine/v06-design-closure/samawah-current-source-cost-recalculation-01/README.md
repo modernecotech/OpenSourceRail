@@ -1,5 +1,7 @@
 # Samawah current-source cost comparison
 
+[Current replayed results and interpretation](RESULTS.md)
+
 This run recalculates two Samawah map cases under the exact published v0.6
 vehicle and planning seed, with both the project make/buy and the repository's
 internal `china-bulk-buy` benchmark/forced-purchase sensitivity:
