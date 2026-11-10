@@ -79,7 +79,7 @@ def render_readme(request: dict, summary: dict, execution: dict) -> str:
         ) + " |"
         for key, label in quantity_names.items()
     ]
-    return f"""# Samawah stop-preserving route-straightening screens
+    return f"""# Samawah merged-stop route-straightening screens
 
 This packet compares three **unselected planning geometries** against the
 source-bound close-stop consolidation alternative and exact package-07 vehicle body. Each route is
@@ -100,7 +100,7 @@ stop IDs are held fixed. The active map is unchanged.
 
 ### Recalculated guideway quantity screen
 
-| Quantity (not priced) | Current map | 25 m | 50 m | 100 m |
+| Quantity (not priced) | Merged-stop parent | 25 m | 50 m | 100 m |
 |---|---:|---:|---:|---:|
 {chr(10).join(quantity_rows)}
 
