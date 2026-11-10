@@ -62,6 +62,20 @@ def render_readme(request: dict, summary: dict, execution: dict) -> str:
             f"| {scenario['definition_failure_count']} | {scenario['geometry_points']} ({scenario['point_reduction_percent']:.1f}% fewer) "
             f"| {scenario['fleet_low_base_high']} | {scenario['line1_runtime_s']:.1f} |"
         )
+    quantity_names = {
+        "standard_beams": "Reference 20 m beam units",
+        "standard_shared_bents": "Shared bent positions",
+        "running_rail_m": "Running rail metres",
+        "running_fastening_sets": "Complete fastening sets",
+    }
+    quantity_columns = [baseline, *summary["scenarios"]]
+    quantity_rows = [
+        f"| {label} | " + " | ".join(
+            f"{item['guideway_quantity_screen'][key]:,.0f}"
+            for item in quantity_columns
+        ) + " |"
+        for key, label in quantity_names.items()
+    ]
     return f"""# Samawah stop-preserving route-straightening screens
 
 This packet compares three **unselected planning geometries** against the current
@@ -79,6 +93,16 @@ stop IDs are held fixed. The active map is unchanged.
 ## Recalculated planning comparison
 
 {chr(10).join(rows)}
+
+### Recalculated guideway quantity screen
+
+| Quantity (not priced) | Current map | 25 m | 50 m | 100 m |
+|---|---:|---:|---:|---:|
+{chr(10).join(quantity_rows)}
+
+These reference quantities are not a complete civil takeoff. Foundations,
+joints, reinforcement, bearings, station interfaces and construction quantities
+remain unverified.
 
 The results are conditional geometry/runtime/fleet calculations. Route and stop
 locations remain within the declared mapped corridor band, but the source OSM
