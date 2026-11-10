@@ -199,9 +199,13 @@ def main() -> None:
     derivation = json.loads((out / "derivation.json").read_bytes())
     (out / "README.md").write_text(render_readme(request, result, comparison, derivation,
         json.loads((out / "execution.json").read_bytes())), encoding="utf-8")
-    files = {p.name: digest(p) for p in sorted(out.iterdir()) if p.is_file() and p.name != "manifest.json"}
+    files = {
+        p.relative_to(out).as_posix(): digest(p)
+        for p in sorted(out.rglob("*"))
+        if p.is_file() and p.name != "manifest.json"
+    }
     manifest = {
-        "schema": "osr-samawah-current-source-station-consolidation-packet/1",
+        "schema": "osr-samawah-current-source-station-consolidation-packet/2",
         "source_commit": source_commit,
         "request_id": request["request_id"],
         "candidate_id": result["candidate_id"],
@@ -210,6 +214,7 @@ def main() -> None:
         "evaluation_id": result["evaluation_id"],
         "files_sha256": files,
         "file_count": len(files),
+        "integrity_scope": "All regular files recursively below this packet, using relative POSIX paths; manifest excludes itself.",
         "physical_accepted": False,
         "gate_closed": False,
     }
