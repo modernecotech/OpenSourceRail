@@ -25,7 +25,7 @@
       "state": "open"
     },
     "candidate-business-lifecycle": {
-      "blocker": "The old proposal and the new body candidate have different identities; no candidate-matched controlled-document ERP lifecycle evidence exists.",
+      "blocker": "A sealed delivery proposal exists for the 9f6d body and matches its candidate/revision, but it has no complete controlled document set/review pack or native lifecycle evidence. The distinct 75075 compact-drive child cannot inherit that proposal and still needs its own canonical downstream bundle.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-business-lifecycle-audit/README.md",
@@ -35,11 +35,35 @@
       "state": "open"
     },
     "controlled-research-documents": {
-      "blocker": "The part and assembly document coverage audit still reports required controlled document slots missing.",
+      "blocker": "The audit of the retained 668-part delivery map still finds 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched source-stock SVGs now exist for bogie seat, bolster RHS and coupler clevis blanks, but finished geometry, inspection limits, routing times, assembly documents and whole-vehicle coverage are not established. This packet is not a manufacturing release.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-document-coverage.json",
           "sha256": "45749633f1a145b688f989d35a678a105971da389cb0d0b9d424c4390765198b"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/README.md",
+          "sha256": "ef0c19ab91ae6e2ab5a8ebbd12b76892e413efd580f6ad62359fd15bd93a7740"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/execution.json",
+          "sha256": "7c570858620d6a5b320dc84d172f882e1e1e2158de54d9903c9f8c76e9429fd1"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/export/manifest.json",
+          "sha256": "e876a0ab9eed045dc89d0750c123503e4debced537025e9b561b0b23ee6aed0e"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/export/parts/c119a6115ace79a6/a97667805445e7de.svg",
+          "sha256": "5961fd0185de68daa43cbbe200a19db1af1a7ca6a2c54dfb2f0b132d81abd276"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/export/parts/9f207e598220a866/d14cfd39fb1ff452.svg",
+          "sha256": "4fbe68cb4ad86ead5f3b3c3c0612cd7e8cd7e1b83e4501f9573702f92a6afaf1"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/export/parts/5b1b225627821d2c/38363ce88184b3ee.svg",
+          "sha256": "cfd366937ea046766a4b5441a032e7dc4aea1eb7776ccc1b2c92d23e5e4a8083"
         }
       ],
       "state": "open"
@@ -129,7 +153,7 @@
       "state": "open"
     },
     "native-gis-return-path": {
-      "blocker": "Amendment 06 remains a failed historical attempt. A corrected, independently reviewed source-only import/bootstrap prototype passes focused code tests and avoids normal project-bytecode reads, but no GIS project was opened or round-tripped. The run-07 proposal remains unexecuted and not admitted; live runtime containment and the full edit/recalculation/export loop remain open.",
+      "blocker": "Amendment 06 remains a failed historical attempt. The source-only importer/bootstrap code and tests pass, but no GIS project has been opened or round-tripped. The retained run07 proposal targets source 897e365 rather than this closure source; six Git source files differ and one packaged browser-helper overlay is an explicit source-tree delta. The request lacks a reviewed supervisor/checker and fresh source/tool/runtime reviews. The post-cleanup resource preflight at 2026-11-10T00:20:56Z still fails the required 8 GiB disk reserve (5778313216 bytes free; available memory passes). Its cached upload/re-export scope would still not exercise a native editor or current-source full edit/recalculation/export loop. It remains unexecuted and not admitted.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md",
@@ -150,6 +174,18 @@
         {
           "path": "tools/automation/tests/test_source_only_entry.py",
           "sha256": "7da30efb73c8e1975acfd60e782f1dfce2ab117be0e44d9b1a59dfd558e12a31"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/native-gis-run07-readiness.md",
+          "sha256": "c033f0f875b7eee2746aa6787ebb1b42c8bee89692a2611fce45611b808747c0"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/native-gis-run07-preflight-20261110.json",
+          "sha256": "cdb5b990fce5b97eaece162e92c4178f0b8549752316336c3d044a7e5d054f5f"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/native-gis-run07-preflight-20261110-post-cleanup.json",
+          "sha256": "2243eec91b09a4629d2c19ca34da235929b44070032bafc73e5a3c3bda69ece2"
         }
       ],
       "state": "open"
@@ -159,7 +195,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "6612feead8af351228b494558d06b9acb4cd3365c56447eb0ca66646e154d6c2"
+          "sha256": "9b132c7253f15507d932d3853c91119bdbdeefe09bd8cd3dba7978c76b2c7a09"
         }
       ],
       "state": "partial"
