@@ -587,7 +587,9 @@ def assembly_plans(bundle,parts,p,battery_layout):
             for side in (-1,1):
                 start=cx+side*.38;end=start+side*l['door_slide_m']
                 doors.append(dict(id=f'car-{car}/door-{d}/leaf-{side}',joint='bounded-prismatic-slide',axis=[1,0,0],
-                    travel_m=[0.,side*l['door_slide_m']],closed_center_m=[start,1.315,2.08],
+                    motion_vector_frame='vehicle-global-xyz',
+                    travel_m=[side*l['door_slide_m'],0.,0.],
+                    closed_center_m=[start,1.315,2.08],open_center_m=[end,1.315,2.08],
                     swept_zone_m=[[min(start,end)-.38,1.27,1.],[max(start,end)+.38,1.36,3.16]],
                     header_end_margin_m=1.5-(.38+l['door_slide_m']+.38),
                     removal_sequence=['Isolate door drive and interlock; fit physical restraint','Remove header cover and support leaf on rated lifting table',

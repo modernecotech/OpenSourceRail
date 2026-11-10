@@ -71,7 +71,7 @@
       "state": "open"
     },
     "controlled-research-documents": {
-      "blocker": "The retained 668-part delivery map has 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched gross-stock SVGs cover only three parts. A new 9f6d door inventory audit covers 93 part types/10,296 pieces, but all 93 lack finished geometry, controlled drawings and inspection-release references; the static GLB is not a kinematic CAD assembly. Whole-vehicle document coverage and manufacturing release remain open. The source-pinned 9f6d subassembly audit confirms counted LED, coupler, gangway and flexible-service parts but no controlled finished drawings or inspection-release evidence for these groups; whole-vehicle document coverage remains open.",
+      "blocker": "The retained 668-part delivery map has 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched gross-stock SVGs cover only three parts. A new 9f6d door inventory audit covers 93 part types/10,296 pieces, but all 93 lack finished geometry, controlled drawings and inspection-release references; the static GLB is not a kinematic CAD assembly. Whole-vehicle document coverage and manufacturing release remain open. A separate 907da source-body installation evaluation now records consistent door travel vectors, but it still has envelope geometry and no controlled door drawings or inspection limits. The source-pinned 9f6d subassembly audit confirms counted LED, coupler, gangway and flexible-service parts but no controlled finished drawings or inspection-release evidence for these groups; whole-vehicle document coverage remains open.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-document-coverage.json",
@@ -136,12 +136,36 @@
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md",
           "sha256": "8b1abd41c896a03450d0643ec9d4c8fb805ae6cb53bc358057ede60d7a4f0bbf"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md",
+          "sha256": "20595994389e4cd3df1ef6c86f12679aa23ac62ff15b74c15fdf4c34df2aef9c"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/execution.json",
+          "sha256": "8bcfc0ac6aa59aa0516c328c64ab649f780d33b9a645eff9f2e9d4585cd86e5f"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/manifest.json",
+          "sha256": "193389359f32b2050849aacd640b06f9d677d506897beae32683a5f4553850c7"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/installation.json.gz",
+          "sha256": "07d70d66f51858a733823dfe8424c8b8b842d41e4e611bf4d6166f626fd3bc04"
+        },
+        {
+          "path": "engineering/vehicle_installation/model.py",
+          "sha256": "a68c6a14f3094c037413021305d929099762cc095cbd36349216b3f909d12340"
+        },
+        {
+          "path": "tests/test_vehicle_installation.py",
+          "sha256": "c7d39de67f8eb7c78ed73947bf1946888726a45d0f3da9a557cd24dd5f0c0b15"
         }
       ],
       "state": "open"
     },
     "installed-vehicle": {
-      "blocker": "The 9f6d parent has incomplete installed mass and unverified supplier motor/gearbox fits. Nine mass scenarios carry calculated inertia tensors from proposed distributions, with uniform-box proxies for equipment envelopes; installed inertia is not measured or verified. Shaft/bearing fit, access and removal closure remain open. Five child geometry configurations have now been screened, including two corrected split-lane support variants; all remain HOLD with thousands of nominal/interface findings and cannot close the parent. The source-pinned LED/inter-car/coupler/gangway audit records 98 BOM types and 10,474 listed occurrences, but all remain provisional. Dynamic articulation, flexible-service duty, installed fit, removal access and matched CAD/FEM evidence remain open.",
+      "blocker": "The 9f6d parent has incomplete installed mass and unverified supplier motor/gearbox fits. Nine mass scenarios carry calculated inertia tensors from proposed distributions, with uniform-box proxies for equipment envelopes; installed inertia is not measured or verified. Shaft/bearing fit, access and removal closure remain open. Five child geometry configurations have now been screened, including two corrected split-lane support variants; all remain HOLD with thousands of nominal/interface findings and cannot close the parent. The source-pinned LED/inter-car/coupler/gangway audit records 98 BOM types and 10,474 listed occurrences, but all remain provisional. Dynamic articulation, flexible-service duty, installed fit, removal access and matched CAD/FEM evidence remain open. A separate current-bundle 907da source-body installation run (candidate 17ce, evaluation 037627) corrected a door-leaf translation vector and reproduced byte-identically from the prior generator commit; it is not inherited by or a closure result for 9f6d.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/README.md",
@@ -198,6 +222,30 @@
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md",
           "sha256": "8b1abd41c896a03450d0643ec9d4c8fb805ae6cb53bc358057ede60d7a4f0bbf"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md",
+          "sha256": "20595994389e4cd3df1ef6c86f12679aa23ac62ff15b74c15fdf4c34df2aef9c"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/execution.json",
+          "sha256": "8bcfc0ac6aa59aa0516c328c64ab649f780d33b9a645eff9f2e9d4585cd86e5f"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/manifest.json",
+          "sha256": "193389359f32b2050849aacd640b06f9d677d506897beae32683a5f4553850c7"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-01/installation.json.gz",
+          "sha256": "07d70d66f51858a733823dfe8424c8b8b842d41e4e611bf4d6166f626fd3bc04"
+        },
+        {
+          "path": "engineering/vehicle_installation/model.py",
+          "sha256": "a68c6a14f3094c037413021305d929099762cc095cbd36349216b3f909d12340"
+        },
+        {
+          "path": "tests/test_vehicle_installation.py",
+          "sha256": "c7d39de67f8eb7c78ed73947bf1946888726a45d0f3da9a557cd24dd5f0c0b15"
         }
       ],
       "state": "open"
@@ -317,7 +365,7 @@
         },
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "e8578b5c71203d69e8f09768f7a24c28ad76f4c82bde9e84f9a46b791d294fc0"
+          "sha256": "05b1dd10ed6e38fa14f48bf7f1060c81631ef90b481226197549f90a165ac1b5"
         }
       ],
       "state": "open"
@@ -327,7 +375,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "e8578b5c71203d69e8f09768f7a24c28ad76f4c82bde9e84f9a46b791d294fc0"
+          "sha256": "05b1dd10ed6e38fa14f48bf7f1060c81631ef90b481226197549f90a165ac1b5"
         }
       ],
       "state": "partial"

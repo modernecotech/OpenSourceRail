@@ -1,0 +1,59 @@
+{
+  "schema": "osr-door-motion-vector-correction-execution/1",
+  "source_commit_before_change": "68fb0abc181e793c59c5628c08dc2bb0e231966d",
+  "candidate": {
+    "source_body_candidate_id": "907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a",
+    "installation_candidate_id": "17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4",
+    "installation_evaluation_id": "037627d412bbda73ccf4149fbedb36ecd865c57652fcad8020d04bb606c716fb",
+    "run_manifest_id": "6a3e3d9fd394f8d0f47c603b5d661e1c5724d665996be0296e56b6d429b0c004"
+  },
+  "change": {
+    "previous_travel_m": "[0, +/-0.72]",
+    "corrected_travel_m": "[+/-0.72, 0, 0]",
+    "axis": [1, 0, 0],
+    "frame": "vehicle-global-xyz",
+    "affected_door_leaves": 24,
+    "geometry_identity_changed": false,
+    "evaluation_identity_changed": true
+  },
+  "verification": {
+    "command": "tools/automation/osr-python -m pytest -q tests/test_vehicle_installation.py",
+    "result": "15 passed",
+    "generator_command": "tools/automation/osr-python -m engineering.vehicle_installation --output <fresh-private-directory>",
+    "application_wall_seconds": 12.908152666990645,
+    "process_wall_seconds": 13.05,
+    "maximum_rss_kib": 141404,
+    "timeout_seconds": 120,
+    "native_cad_or_fem_run": false,
+    "network_used": false
+  },
+  "first_attempt": {
+    "result": "failed-before-generation",
+    "cause": "The caller created the output directory although the exporter requires a fresh, nonexistent output path.",
+    "preserved_log": "execution-logs/attempts.stderr.log"
+  },
+  "historical_source_replay": {
+    "base_commit": "2af9058b372fdc3e4f26e45d41f7615e796d0381",
+    "workspace": "isolated sparse Git worktree",
+    "source_model_sha256_after_same_correction": "a68c6a14f3094c037413021305d929099762cc095cbd36349216b3f909d12340",
+    "candidate_id_matches": true,
+    "evaluation_id_matches": true,
+    "all_output_file_hashes_match": true,
+    "run_manifest_id": "fc8fc75c39191fb578de810e6270cd296409de23c4baa96959d34bb855058589",
+    "focused_test_result": "15 passed",
+    "os_sandbox_enforced": false
+  },
+  "boundary": {
+    "os_sandbox_enforced": false,
+    "source_hashes_and_output_hashes": "manifest.json",
+    "physical_accepted": false,
+    "engineering_accepted": false,
+    "manufacturing_release": false,
+    "operating_release": false,
+    "movement_authority": false
+  },
+  "payload_sha256": {
+    "manifest.json": "193389359f32b2050849aacd640b06f9d677d506897beae32683a5f4553850c7",
+    "installation.json.gz": "07d70d66f51858a733823dfe8424c8b8b842d41e4e611bf4d6166f626fd3bc04"
+  }
+}

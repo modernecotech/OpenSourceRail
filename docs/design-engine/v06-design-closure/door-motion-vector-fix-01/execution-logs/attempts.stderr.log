@@ -1,0 +1,63 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/vehicle_installation/__main__.py", line 13, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/vehicle_installation/__main__.py", line 8, in main
+    start=time.monotonic();result=model.build(battery_layout=a.battery_layout);out=export.write(result,a.output,cad=a.cad)
+                                                                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/vehicle_installation/export.py", line 178, in write
+    output=Path(output);output.mkdir(parents=True,exist_ok=False)
+                        ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileExistsError: [Errno 17] File exists: '/home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/door-kinematic-vector-fix-01'
+Command exited with non-zero status 1
+	Command being timed: "timeout 120s tools/automation/osr-python -m engineering.vehicle_installation --output /home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/door-kinematic-vector-fix-01"
+	User time (seconds): 10.59
+	System time (seconds): 0.11
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:10.70
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 141672
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 42526
+	Voluntary context switches: 13
+	Involuntary context switches: 121
+	Swaps: 0
+	File system inputs: 88
+	File system outputs: 80
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+	Command being timed: "timeout 120s tools/automation/osr-python -m engineering.vehicle_installation --output /home/hayder/.local/state/opensourcerail/runs/v06-design-closure-20261108/door-kinematic-vector-fix-01/output"
+	User time (seconds): 12.86
+	System time (seconds): 0.18
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:13.05
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 141404
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 71041
+	Voluntary context switches: 11
+	Involuntary context switches: 140
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 11504
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -120,6 +120,19 @@ def test_seating_and_door_sweeps_are_proposals(result):
     assert i['aisle_target_passed'] and i['access_and_swept_envelopes_verified'] is False
     doors=result['assembly_plans']['door_motion'];assert len(doors)==24
     assert all(d['header_end_margin_m']>0 for d in doors)
+    slide=model.policy()['layout']['door_slide_m']
+    for door in doors:
+        closed=door['closed_center_m'];opened=door['open_center_m'];travel=door['travel_m'];axis=door['axis']
+        side=1 if door['id'].endswith('/leaf-1') else -1
+        assert door['motion_vector_frame']=='vehicle-global-xyz'
+        assert len(travel)==len(axis)==3
+        assert opened==pytest.approx([closed[j]+travel[j] for j in range(3)])
+        assert travel==pytest.approx([side*slide,0.,0.])
+        assert travel[1]==pytest.approx(0.) and travel[2]==pytest.approx(0.)
+        bounds=door['swept_zone_m']
+        leaf_half_width=.38
+        assert bounds[0][0]==pytest.approx(min(closed[0],opened[0])-leaf_half_width)
+        assert bounds[1][0]==pytest.approx(max(closed[0],opened[0])+leaf_half_width)
     assert all(d['entrapment_and_emergency_release_verified'] is False for d in doors)
     assert 'retained once' in i['passive_aluminium_secondary']
 
