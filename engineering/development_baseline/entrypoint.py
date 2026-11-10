@@ -281,10 +281,13 @@ def main(argv=None, root=ROOT):
         if command=='progress':
             from engineering.railway_progress.cli import main as progress_main
             return progress_main(rest,root=root)
+        if command=='perf':
+            from engineering.performance import main as perf_main
+            return perf_main(rest,root=root)
         if command=='railway':
             if rest in (['-h'], ['--help'], ['help']):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
-                      '  plan, run [--max-bundles N] [--native-jobs N], publish, verify\n'
+                      '  plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify\n'
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current/refine-current-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current-fine/refine-current-fine-verify --parent-result PATH --candidate-id ID\n'
@@ -375,11 +378,12 @@ def main(argv=None, root=ROOT):
                 emit(evaluator.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
             if rest and rest[0]=='run':
                 options=argparse.ArgumentParser(prog='./osr design railway run');options.add_argument('--max-bundles',type=int);options.add_argument('--native-jobs',type=int,default=0)
-                parsed=options.parse_args(rest[1:]);r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs)
+                options.add_argument('--stream-aggregate',action='store_true',help='Write the large aggregate incrementally; use a verified filesystem reflink when available')
+                parsed=options.parse_args(rest[1:]);r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs,stream_aggregate=parsed.stream_aggregate)
                 if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
                     new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0
-            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish, verify, refinement commands, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
+            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify, refinement commands, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
         if command=='generative':
             from engineering.design_search import generative_campaign,generative_publication
             if rest==['plan']:emit(generative_campaign.specification());return 0

@@ -465,4 +465,36 @@ def test_coordinated_cli_routes_to_shared_research_engine_without_running_native
     monkeypatch.setattr(package,'railway_campaign',campaign,raising=False);monkeypatch.setattr(package,'railway_publication',publication,raising=False)
     assert cli.main(['design','railway',action],root=root)==0
     value=json.loads(capsys.readouterr().out);assert value['physical_accepted'] is False
-    if action=='run':assert calls==[dict(maximum_new_bundles=None,native_jobs=0)]
+    if action=='run':assert calls==[dict(maximum_new_bundles=None,native_jobs=0,stream_aggregate=False)]
+
+
+def test_coordinated_cli_exposes_stream_aggregate_as_explicit_opt_in(packet,monkeypatch,capsys):
+    from types import ModuleType
+    import engineering.design_search as package
+    root,_,_=packet;campaign=ModuleType('engineering.design_search.railway_campaign');publication=ModuleType('engineering.design_search.railway_publication');calls=[]
+    campaign.EDGES=[]
+    def run(root,**kwargs):
+        calls.append(kwargs);return dict(campaign_id='7'*64,contract_id='8'*64,bodies=[{}],rows=[{}],frontier=[],new_bundles=0,reused_bundles=1,
+            integrated_selection=None,selected_reference_changed=False,configuration_adopted=False,**FLAGS)
+    campaign.run=run;publication.build=lambda root:dict(published=True,physical_accepted=False);publication.verify=lambda root:dict(verified=True,physical_accepted=False)
+    monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    monkeypatch.setattr(package,'railway_campaign',campaign,raising=False);monkeypatch.setattr(package,'railway_publication',publication,raising=False)
+    assert cli.main(['design','railway','run','--max-bundles','0','--stream-aggregate'],root=root)==0
+    value=json.loads(capsys.readouterr().out)
+    assert value['physical_accepted'] is False
+    assert calls==[dict(maximum_new_bundles=0,native_jobs=0,stream_aggregate=True)]
+
+
+def test_perf_storage_cli_routes_to_read_only_inventory(packet,monkeypatch,capsys):
+    from types import ModuleType
+    root,_,_=packet
+    perf=ModuleType('engineering.performance')
+    def main(arguments,*,root):
+        print(json.dumps(dict(schema='osr-performance-storage-inventory/1',root=str(root),deletion_performed=False)))
+        return 0
+    perf.main=main
+    monkeypatch.setitem(sys.modules,perf.__name__,perf)
+    assert cli.main(['perf','storage'],root=root)==0
+    value=json.loads(capsys.readouterr().out)
+    assert value['schema']=='osr-performance-storage-inventory/1'
+    assert value['deletion_performed'] is False
