@@ -14,7 +14,7 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[4]
+ROOT = HERE.parents[3]
 CASES = ("low", "base", "high")
 BODY_FILE = "docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/body.json.gz"
 BODY_ID = "75075df9247dfff7082a78eadc273d3a99f37e5486450621536c43b1bfa2f797"
