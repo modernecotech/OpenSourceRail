@@ -166,6 +166,12 @@ generation and optional CAD/CAE backend installation and runs. These are shared
 filesystem CLI admission checks, not aggregate per-job disk quotas; direct Python
 library calls and other research adapters remain outside these guards.
 
+`./osr perf storage` now includes a read-only cleanup review for clean worktrees
+whose commits are reachable from the inventory checkout. It reports ignored
+paths separately: a merged source tree with ignored build or research payloads
+is held for evidence review. Even review-ready worktrees still require explicit
+approval before removal; inventory and proposal generation do not delete data.
+
 A separate instrumented Python profile took 75.1 s, so its wall time is not
 comparable with the uninstrumented runs. `design_completion.evaluate` took
 36.94 s cumulative. The profile recorded 535 Git subprocess reads for immutable

@@ -94,20 +94,48 @@ def _worktree_status(row: dict) -> dict:
         return {"status": "missing", "dirty_file_count": None, "dirty_paths": []}
     try:
         result = subprocess.run(
-            ["git", "-C", str(path), "status", "--porcelain=v1", "--untracked-files=normal"],
+            ["git", "-C", str(path), "status", "--porcelain=v1", "--ignored",
+             "--untracked-files=normal"],
             capture_output=True, timeout=MAX_STATUS_SECONDS,
         )
     except (OSError, subprocess.TimeoutExpired) as error:
         return {"status": "unavailable", "dirty_file_count": None,
-                "dirty_paths": [], "status_error": str(error)}
+                "dirty_paths": [], "ignored_path_count": None,
+                "ignored_paths": [], "ignored_paths_truncated": False,
+                "status_error": str(error)}
     if result.returncode:
         return {"status": "unavailable", "dirty_file_count": None,
                 "dirty_paths": [],
+                "ignored_path_count": None, "ignored_paths": [],
+                "ignored_paths_truncated": False,
                 "status_error": result.stderr.decode(errors="replace")[:500]}
     lines = result.stdout.decode(errors="replace").splitlines()
-    return {"status": "dirty" if lines else "clean",
-            "dirty_file_count": len(lines), "dirty_paths": lines[:20],
-            "dirty_paths_truncated": len(lines) > 20}
+    ignored = [line[3:] for line in lines if line.startswith("!!")]
+    dirty = [line for line in lines if not line.startswith("!!")]
+    return {"status": "dirty" if dirty else "clean",
+            "dirty_file_count": len(dirty), "dirty_paths": dirty[:20],
+            "dirty_paths_truncated": len(dirty) > 20,
+            "ignored_path_count": len(ignored), "ignored_paths": ignored[:20],
+            "ignored_paths_truncated": len(ignored) > 20}
+
+
+def _merged_into_root_head(root: Path, row: dict, root_head: str | None) -> bool | None:
+    if not root_head or not row.get("head"):
+        return None
+    if Path(row["path"]).resolve() == root:
+        return True
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "merge-base", "--is-ancestor",
+             row["head"], root_head], capture_output=True, timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    return None
 
 
 def storage_report(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> dict:
@@ -124,14 +152,19 @@ def storage_report(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> d
     root_sizes, root_errors = _du([str(path) for path in children])
 
     worktrees = _worktrees(root)
+    root_head = next((row["head"] for row in worktrees
+                      if Path(row["path"]).resolve() == root), None)
     status_rows: list[dict]
     with ThreadPoolExecutor(max_workers=MAX_STATUS_WORKERS) as pool:
         status_rows = list(pool.map(_worktree_status, worktrees))
+        merged_rows = list(pool.map(
+            lambda row: _merged_into_root_head(root, row, root_head), worktrees))
 
     external_paths = [row["path"] for row in worktrees if Path(row["path"]).is_dir()]
     worktree_sizes, worktree_errors = _du(external_paths)
-    for row, status in zip(worktrees, status_rows):
+    for row, status, merged in zip(worktrees, status_rows, merged_rows):
         row.update(status)
+        row["merged_into_root_head"] = merged
         row["path_exists"] = Path(row["path"]).is_dir()
         row["allocated_bytes"] = worktree_sizes.get(row["path"])
         try:
@@ -150,6 +183,22 @@ def storage_report(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> d
     )
     free_threshold = int(minimum_free_gib * GIB)
     direct_child_bytes = sum(row["allocated_bytes"] or 0 for row in directories)
+    review_candidates = []
+    for row in worktrees:
+        if (Path(row["path"]).resolve() == root or not row["path_exists"]
+                or row["status"] != "clean" or row["locked"]
+                or row["merged_into_root_head"] is not True):
+            continue
+        ignored = row["ignored_paths"]
+        review_candidates.append({
+            "path": row["path"], "head": row["head"], "branch": row["branch"],
+            "allocated_bytes": row["allocated_bytes"],
+            "disposition": "held-ignored-data-review" if ignored else "review-ready",
+            "ignored_paths": ignored,
+            "ignored_paths_truncated": row["ignored_paths_truncated"],
+            "requires_user_approval": True,
+            "deletion_performed": False,
+        })
     return {
         "schema": "osr-performance-storage-inventory/1",
         "collected_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -169,9 +218,23 @@ def storage_report(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> d
         "registered_worktrees": sorted(
             worktrees, key=lambda row: row["allocated_bytes"] or 0, reverse=True,
         ),
+        "cleanup_review": {
+            "schema": "osr-performance-worktree-cleanup-review/1",
+            "candidate_count": len(review_candidates),
+            "review_ready_count": sum(row["disposition"] == "review-ready"
+                                       for row in review_candidates),
+            "held_ignored_data_count": sum(
+                row["disposition"] == "held-ignored-data-review"
+                for row in review_candidates),
+            "items": review_candidates,
+            "deletion_performed": False,
+            "note": "Only clean worktrees whose commits are reachable from the inventory root are listed. Ignored payloads require separate preservation review; every removal still requires explicit approval.",
+        },
         "measurement": {
             "directory_sizes": "GNU du allocated-byte counts; reflink sharing may be counted per path",
             "uncommitted_status_scanned": True,
+            "ignored_paths_scanned": True,
+            "worktree_commit_ancestry_scanned": root_head is not None,
             "deletion_performed": False,
             "admission_enforced": False,
             "root_du_errors": root_errors,
