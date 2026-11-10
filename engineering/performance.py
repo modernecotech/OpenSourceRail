@@ -3,18 +3,21 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 import math
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 
 from engineering.station_rail import ROOT
 
 GIB = 1024 ** 3
 DEFAULT_MINIMUM_FREE_GIB = 20.0
+DEFAULT_CACHE_AGE_DAYS = 7
+CACHE_SOURCE_ROOTS = (".venv", "engineering", "tools", "tests", "services", "scripts")
 MAX_STATUS_WORKERS = 8
 MAX_STATUS_SECONDS = 20
 
@@ -173,19 +176,167 @@ def storage_report(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> d
     }
 
 
+def disk_admission(root=ROOT, *, minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB) -> dict:
+    """Check the shared-filesystem reserve before dispatching native work.
+
+    This is an admission check only. It does not impose an aggregate per-job
+    output quota, and callers must report that distinction accurately.
+    """
+    if (isinstance(minimum_free_gib, bool)
+            or not isinstance(minimum_free_gib, (int, float))
+            or not math.isfinite(minimum_free_gib)
+            or not 1 <= minimum_free_gib <= 1024):
+        raise ValueError("minimum free-space threshold must be between 1 and 1024 GiB")
+    root = Path(root).resolve()
+    usage = shutil.disk_usage(root)
+    required = int(minimum_free_gib * GIB)
+    admitted = usage.free >= required
+    return {
+        "schema": "osr-performance-disk-admission/1",
+        "root": str(root),
+        "filesystem_free_bytes": usage.free,
+        "minimum_free_reserve_bytes": required,
+        "minimum_free_reserve_gib": minimum_free_gib,
+        "admitted": admitted,
+        "execution": "ready" if admitted else "held",
+        "reason": None if admitted else "Free space is below the configured reserve",
+        "enforcement": "Shared-filesystem free-space admission only; aggregate per-job disk quota is not enforced",
+    }
+
+
+def cleanup_bytecode(root=ROOT, *, minimum_age_days=DEFAULT_CACHE_AGE_DAYS,
+                     apply=False, now=None) -> dict:
+    """Report or remove stale, ordinary Python bytecode caches in source roots.
+
+    Research, build outputs, Git history, city data, general caches, virtual
+    environments outside the checkout and all non-bytecode files are excluded.
+    The default is a read-only dry run; deletion requires ``apply=True``.
+    """
+    if (isinstance(minimum_age_days, bool)
+            or not isinstance(minimum_age_days, (int, float))
+            or not math.isfinite(minimum_age_days)
+            or not 0 <= minimum_age_days <= 3650):
+        raise ValueError("cache age must be between 0 and 3650 days")
+    if type(apply) is not bool:
+        raise ValueError("explicit boolean cleanup mode required")
+    root = Path(root).resolve()
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        raise ValueError("cleanup reference time must include a timezone")
+    cutoff = now.timestamp() - minimum_age_days * 86400
+    candidates = []
+    errors = []
+    for relative in CACHE_SOURCE_ROOTS:
+        source = root / relative
+        if source.is_symlink() or not source.is_dir():
+            continue
+        for directory, names, _ in os.walk(source, topdown=True, followlinks=False):
+            for name in tuple(names):
+                if name != "__pycache__":
+                    continue
+                names.remove(name)
+                cache = Path(directory) / name
+                try:
+                    cache_info = cache.lstat()
+                    if not stat.S_ISDIR(cache_info.st_mode):
+                        continue
+                    entries = list(cache.iterdir())
+                    if not entries:
+                        continue
+                    file_rows = []
+                    held_reason = None
+                    for entry in entries:
+                        info = entry.lstat()
+                        if not stat.S_ISREG(info.st_mode) or entry.suffix != ".pyc":
+                            held_reason = "cache contains a non-ordinary or non-bytecode entry"
+                            break
+                        if info.st_nlink != 1:
+                            held_reason = "cache contains a multiply-linked bytecode file"
+                            break
+                        if info.st_mtime > cutoff:
+                            held_reason = "cache contains recently used bytecode"
+                            break
+                        file_rows.append((entry, info))
+                    relative_path = cache.relative_to(root).as_posix()
+                    if held_reason:
+                        candidates.append({"path": relative_path, "status": "held",
+                                           "reason": held_reason, "file_count": len(entries),
+                                           "reclaimable_bytes": 0})
+                        continue
+                    reclaimable = sum((info.st_blocks * 512) or info.st_size
+                                       for _, info in file_rows)
+                    row = {"path": relative_path, "status": "eligible",
+                           "file_count": len(file_rows), "reclaimable_bytes": reclaimable}
+                    if apply:
+                        removed = 0
+                        removed_bytes = 0
+                        try:
+                            for entry, original in file_rows:
+                                current = entry.lstat()
+                                if (not stat.S_ISREG(current.st_mode)
+                                        or current.st_ino != original.st_ino
+                                        or current.st_dev != original.st_dev
+                                        or current.st_mtime_ns != original.st_mtime_ns
+                                        or current.st_size != original.st_size):
+                                    raise OSError("bytecode cache changed after inventory")
+                                entry.unlink()
+                                removed += 1
+                                removed_bytes += (original.st_blocks * 512) or original.st_size
+                            cache.rmdir()
+                            row.update(status="removed", removed_file_count=removed,
+                                       reclaimed_bytes=removed_bytes)
+                        except OSError as error:
+                            row.update(status="partial-or-held", removed_file_count=removed,
+                                       reclaimed_bytes=removed_bytes, error=str(error))
+                            errors.append(f"{relative_path}: {error}")
+                    candidates.append(row)
+                except OSError as error:
+                    errors.append(f"{cache}: {error}")
+                    candidates.append({"path": cache.relative_to(root).as_posix(),
+                                       "status": "unavailable", "reason": str(error),
+                                       "file_count": None, "reclaimable_bytes": 0})
+    eligible = [row for row in candidates if row["status"] in ("eligible", "removed")]
+    return {
+        "schema": "osr-performance-cleanup/1",
+        "root": str(root),
+        "mode": "apply" if apply else "dry-run",
+        "minimum_age_days": minimum_age_days,
+        "candidate_directory_count": len(candidates),
+        "eligible_directory_count": len(eligible),
+        "eligible_bytes": sum(row["reclaimable_bytes"] for row in eligible),
+        "removed_directory_count": sum(row["status"] == "removed" for row in candidates),
+        "reclaimed_bytes": sum(row.get("reclaimed_bytes", 0) for row in candidates),
+        "scope": list(CACHE_SOURCE_ROOTS),
+        "excluded": [".git", "build", "var", "cities", "docs", ".cache", "node_modules", "all non-bytecode files"],
+        "mutation_performed": apply and any(
+            row["status"] == "removed" or row.get("removed_file_count", 0) > 0
+            for row in candidates),
+        "errors": errors,
+        "candidates": candidates,
+    }
+
+
 def main(argv=None, *, root=ROOT) -> int:
     parser = argparse.ArgumentParser(prog="./osr perf")
     commands = parser.add_subparsers(dest="action", required=True)
     storage = commands.add_parser("storage", help="Read-only disk and worktree inventory")
     storage.add_argument("--minimum-free-gib", type=float,
                          default=DEFAULT_MINIMUM_FREE_GIB)
+    cleanup = commands.add_parser("cleanup", help="Dry-run or remove stale source-tree bytecode caches")
+    cleanup.add_argument("--minimum-age-days", type=float, default=DEFAULT_CACHE_AGE_DAYS)
+    cleanup.add_argument("--apply", action="store_true", help="Remove only stale ordinary .pyc caches in the reported source roots")
     args = parser.parse_args(argv)
     try:
-        print(json.dumps(storage_report(root, minimum_free_gib=args.minimum_free_gib),
-                         indent=2, sort_keys=True, allow_nan=False))
+        if args.action == "storage":
+            value = storage_report(root, minimum_free_gib=args.minimum_free_gib)
+        else:
+            value = cleanup_bytecode(root, minimum_age_days=args.minimum_age_days,
+                                     apply=args.apply)
+        print(json.dumps(value, indent=2, sort_keys=True, allow_nan=False))
         return 0
     except (OSError, ValueError, subprocess.SubprocessError) as error:
-        print(json.dumps({"schema": "osr-performance-storage-inventory/1",
+        schema = "osr-performance-cleanup/1" if args.action == "cleanup" else "osr-performance-storage-inventory/1"
+        print(json.dumps({"schema": schema,
                           "execution": "held", "reason": str(error)},
                          indent=2, sort_keys=True))
         return 3

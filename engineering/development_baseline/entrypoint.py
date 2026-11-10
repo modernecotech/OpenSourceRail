@@ -222,6 +222,16 @@ def hold(root, action, reason):
     return 3
 
 
+def _disk_reserve_hold(root, action):
+    from engineering.performance import disk_admission
+    admission = disk_admission(root)
+    if admission['admitted']:
+        return None
+    emit(dict(schema='osr-performance-disk-admission/1', execution='held',
+              requested_action=action, resource_admission=admission, **FLAGS))
+    return 3
+
+
 def _module(name):
     return importlib.import_module('engineering.development_baseline.' + name)
 
@@ -370,6 +380,8 @@ def main(argv=None, root=ROOT):
                             root, parent_result=parent_result, candidate_id=parsed.candidate_id))
                     return 0
                 if action in ('refine','refine-current','refine-current-fine','refine-current-ultrafine','refine-next','refine-next-resource'):
+                    held = _disk_reserve_hold(root, 'railway-' + action)
+                    if held is not None:return held
                     emit(evaluator.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
                 if action=='refine-current-verify':
                     from engineering.design_search import railway_refinement_current_verifier
@@ -379,7 +391,11 @@ def main(argv=None, root=ROOT):
             if rest and rest[0]=='run':
                 options=argparse.ArgumentParser(prog='./osr design railway run');options.add_argument('--max-bundles',type=int);options.add_argument('--native-jobs',type=int,default=0)
                 options.add_argument('--stream-aggregate',action='store_true',help='Write the large aggregate incrementally; use a verified filesystem reflink when available')
-                parsed=options.parse_args(rest[1:]);r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs,stream_aggregate=parsed.stream_aggregate)
+                parsed=options.parse_args(rest[1:])
+                if parsed.native_jobs:
+                    held = _disk_reserve_hold(root, 'railway-native-campaign')
+                    if held is not None:return held
+                r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs,stream_aggregate=parsed.stream_aggregate)
                 if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
                     new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0

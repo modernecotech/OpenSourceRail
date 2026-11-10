@@ -485,6 +485,32 @@ def test_coordinated_cli_exposes_stream_aggregate_as_explicit_opt_in(packet,monk
     assert calls==[dict(maximum_new_bundles=0,native_jobs=0,stream_aggregate=True)]
 
 
+def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monkeypatch,capsys):
+    from types import ModuleType
+    import engineering.design_search as package
+    root,_,_=packet
+    campaign=ModuleType('engineering.design_search.railway_campaign')
+    publication=ModuleType('engineering.design_search.railway_publication')
+    campaign.EDGES=[]
+    campaign.run=lambda *args,**kwargs:pytest.fail('native work must not dispatch below disk reserve')
+    publication.build=lambda root:dict(published=True,physical_accepted=False)
+    publication.verify=lambda root:dict(verified=True,physical_accepted=False)
+    monkeypatch.setitem(sys.modules,campaign.__name__,campaign)
+    monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    monkeypatch.setattr(package,'railway_campaign',campaign,raising=False)
+    monkeypatch.setattr(package,'railway_publication',publication,raising=False)
+    perf=ModuleType('engineering.performance')
+    perf.disk_admission=lambda root:dict(schema='osr-performance-disk-admission/1',admitted=False,
+        execution='held',reason='below reserve',enforcement='admission only')
+    monkeypatch.setitem(sys.modules,perf.__name__,perf)
+
+    assert cli.main(['design','railway','run','--native-jobs','1'],root=root)==3
+    value=json.loads(capsys.readouterr().out)
+    assert value['schema']=='osr-performance-disk-admission/1'
+    assert value['execution']=='held'
+    assert value['resource_admission']['admitted'] is False
+
+
 def test_perf_storage_cli_routes_to_read_only_inventory(packet,monkeypatch,capsys):
     from types import ModuleType
     root,_,_=packet

@@ -2,6 +2,8 @@
 from pathlib import Path
 import subprocess
 from types import SimpleNamespace
+from datetime import datetime, timezone
+import os
 
 from engineering import performance
 
@@ -59,3 +61,57 @@ def test_storage_report_inventories_without_changing_worktree_files(tmp_path, mo
     assert linked_row["dirty_file_count"] == 1
     assert report["measurement"]["deletion_performed"] is False
     assert before == after
+
+
+def test_disk_admission_holds_below_reserve_and_disclaims_quota(tmp_path, monkeypatch):
+    monkeypatch.setattr(performance.shutil, "disk_usage",
+                        lambda path: SimpleNamespace(total=100 * performance.GIB,
+                                                     used=81 * performance.GIB,
+                                                     free=19 * performance.GIB))
+    report = performance.disk_admission(tmp_path)
+    assert report["execution"] == "held"
+    assert report["admitted"] is False
+    assert report["filesystem_free_bytes"] == 19 * performance.GIB
+    assert "quota is not enforced" in report["enforcement"]
+
+
+def test_bytecode_cleanup_is_dry_run_by_default_and_excludes_evidence_trees(tmp_path):
+    now = datetime(2026, 11, 10, 12, tzinfo=timezone.utc)
+    old = tmp_path / "engineering" / "pkg" / "__pycache__"
+    fresh = tmp_path / "engineering" / "recent" / "__pycache__"
+    excluded = tmp_path / "build" / "run" / "__pycache__"
+    for cache in (old, fresh, excluded):
+        cache.mkdir(parents=True)
+    old_file = old / "old.cpython-313.pyc"
+    fresh_file = fresh / "fresh.cpython-313.pyc"
+    excluded_file = excluded / "evidence.pyc"
+    old_file.write_bytes(b"old-bytecode")
+    fresh_file.write_bytes(b"new-bytecode")
+    excluded_file.write_bytes(b"keep-build-cache")
+    os.utime(old_file, (now.timestamp() - 8 * 86400,) * 2)
+    os.utime(fresh_file, (now.timestamp() - 2 * 86400,) * 2)
+    os.utime(excluded_file, (now.timestamp() - 30 * 86400,) * 2)
+
+    dry_run = performance.cleanup_bytecode(tmp_path, minimum_age_days=7, now=now)
+    assert dry_run["mode"] == "dry-run"
+    assert dry_run["eligible_directory_count"] == 1
+    assert dry_run["mutation_performed"] is False
+    assert old_file.exists() and fresh_file.exists() and excluded_file.exists()
+    by_path = {row["path"]: row for row in dry_run["candidates"]}
+    assert by_path["engineering/pkg/__pycache__"]["status"] == "eligible"
+    assert by_path["engineering/recent/__pycache__"]["status"] == "held"
+    assert "build/run/__pycache__" not in by_path
+
+    applied = performance.cleanup_bytecode(tmp_path, minimum_age_days=7,
+                                            apply=True, now=now)
+    assert applied["removed_directory_count"] == 1
+    assert applied["mutation_performed"] is True
+    assert not old.exists()
+    assert fresh_file.exists() and excluded_file.exists()
+
+
+def test_cleanup_cli_defaults_to_dry_run(tmp_path, capsys):
+    assert performance.main(["cleanup"], root=tmp_path) == 0
+    report = __import__("json").loads(capsys.readouterr().out)
+    assert report["mode"] == "dry-run"
+    assert report["mutation_performed"] is False
