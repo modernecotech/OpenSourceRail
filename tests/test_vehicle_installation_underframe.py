@@ -37,6 +37,37 @@ def test_wheel_interface_revision_preserves_parent_and_mass(parent,result):
     assert fsum(p['mass_kg']['base'] for p in result['patterns'] if p['part_id']=='running/wheel')==fsum(p['mass_kg']['base'] for p in old)
 
 
+def test_inherited_door_motion_is_vehicle_global_and_keeps_candidate_identity(parent,result):
+    from engineering.powered_bogie import design
+
+    # Frozen ancestry remains byte-for-byte represented by the input fixture;
+    # the revised child evaluation carries a new, internally consistent plan.
+    assert parent['assembly_plans']['door_motion'][0]['travel_m']==[0.0,-0.72]
+    assert result['candidate_id']=='c89556f453e39448a8f3e9bf2d0d4d008f97cd20d252ac417284e40965e261b3'
+    assert identity(result['physical_definition'])==result['candidate_id']
+    assert result['evaluation_id']!='cf732ddac06d8ba607223a91bdf4658ca7eab9387c128dfc8b40a8e5da5776d5'
+    doors=result['assembly_plans']['door_motion']
+    assert len(doors)==24
+    for door in doors:
+        side=int(door['id'].rsplit('/leaf-',1)[1])
+        closed=door['closed_center_m'];opened=door['open_center_m'];travel=door['travel_m']
+        assert door['axis']==[1,0,0]
+        assert door['motion_vector_frame']=='vehicle-global-xyz'
+        assert travel==pytest.approx([side*.72,0.0,0.0])
+        assert opened==pytest.approx([closed[i]+travel[i] for i in range(3)])
+        lo,hi=door['swept_zone_m']
+        assert lo[0] <= min(closed[0],opened[0])-.38
+        assert hi[0] >= max(closed[0],opened[0])+.38
+        assert door['entrapment_and_emergency_release_verified'] is False
+
+    child=design.build(result,variant_id='extended-cradle-3240')
+    assert child['candidate_id']=='9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba'
+    assert child['parent_candidate_id']==result['candidate_id']
+    assert child['parent_evaluation_id']==result['evaluation_id']
+    assert child['evaluation_id']!='dfb48ca3fac6ee9b702ae13b2e5e4e0c112d734263750deefb25ad5718fdb272'
+    assert all(child[k] is False for k in FLAGS)
+
+
 def test_four_trials_keep_failure_and_pareto(result):
     s=result['structural_comparison'];assert len(s['trials'])==4
     by={r['family']['id']:r for r in s['trials']}

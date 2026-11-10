@@ -463,6 +463,32 @@ def cad_script(case):
 
 def revised_plans(parent,parts,revisions):
     plans=deepcopy(parent['assembly_plans']);mapping={r['old_part_id']:r['new_part_id'] for r in revisions}
+    # The frozen b7/c895 ancestry contains a legacy two-coordinate door
+    # translation even though its prismatic joint and swept envelope are in
+    # vehicle-global X. Normalize that evaluation record in the child plan;
+    # never rewrite the frozen parent or alter its physical definition.
+    doors=plans.get('door_motion')
+    if not isinstance(doors,list) or len(doors)!=24:
+        raise ValueError('Exact six-car door-motion inventory required')
+    for door in doors:
+        if door.get('joint')!='bounded-prismatic-slide' or door.get('axis')!=[1,0,0]:
+            raise ValueError('Door joint must use the declared vehicle-global X axis')
+        try:
+            side=int(door['id'].rsplit('/leaf-',1)[1])
+            slide=float(door['flex_harness_travel_m'])
+            closed=door['closed_center_m']
+            travel=door['travel_m']
+        except (KeyError,TypeError,ValueError,IndexError) as exc:
+            raise ValueError('Complete door motion source record required') from exc
+        if side not in (-1,1) or len(closed)!=3 or not 0.0<slide<2.0:
+            raise ValueError('Door side, centre and travel must be finite vehicle-global data')
+        expected=[side*slide,0.0,0.0]
+        legacy=[0.0,side*slide]
+        if travel not in (legacy,expected):
+            raise ValueError('Door travel differs from the source flex-harness travel or is already inconsistent')
+        door['motion_vector_frame']='vehicle-global-xyz'
+        door['travel_m']=expected
+        door['open_center_m']=[closed[i]+expected[i] for i in range(3)]
     plans['plans']=[p for p in plans['plans'] if p['assembly_id']!='services/secondary']
     for plan in plans['plans']:
         selected=[p for p in parts if p['assembly_id']==plan['assembly_id']]
