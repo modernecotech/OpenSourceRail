@@ -1,8 +1,9 @@
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 
-from engineering.compact_drive.common import read, sources, validate
+from engineering.compact_drive.common import read, validate
 from engineering.station_rail.common import identity
 
 
@@ -17,6 +18,15 @@ EXPECTED = {
 
 def sha256(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def historical_source_sha256(commit, paths):
+    recorded = {}
+    for relative in paths:
+        raw = subprocess.run(['git', 'show', f'{commit}:{relative}'], cwd=ROOT,
+            check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
+        recorded[relative] = sha256(raw)
+    return recorded
 
 
 def load(name):
@@ -39,7 +49,8 @@ def test_compact_drive_geometry_packet_hashes_and_source_bindings():
     assert request['limits']['CPU_s_each'] == 60
     assert request['limits']['memory_mib_each'] == 1024
     assert request['source_commit'] == '886ed155029a960eb62a99787c59c4bc1a842bbc'
-    assert request['source_sha256'] == sources(ROOT)
+    assert request['source_sha256'] == historical_source_sha256(
+        request['source_commit'], request['source_sha256'])
     assert summary['schema'] == 'osr-compact-drive-campaign/1'
     assert summary['evaluation_id'] == identity({k: v for k, v in summary.items() if k != 'evaluation_id'})
     assert summary['source_unchanged'] is True

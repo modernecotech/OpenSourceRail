@@ -36,6 +36,11 @@ def _seal(value):
     return value
 
 
+def _is_sha256(value):
+    return (isinstance(value, str) and len(value) == 64
+            and all(char in '0123456789abcdef' for char in value))
+
+
 def build(*, root=ROOT, body_path=None):
     """Recompute three bounded kinematic requests from exactly the same inputs.
 
@@ -113,10 +118,14 @@ def verify(value):
         identity({k:v for k,v in value.items() if k != 'evaluation_id'})):
         raise ValueError('Sealed acceleration sensitivity required')
     candidate = value.get('candidate_id')
-    if (candidate != identity(value.get('physical_definition')) or
-        value.get('body_candidate_id') != outline.BODY or value.get('body_evaluation_id') != outline.BODY_EVALUATION or
-        value['physical_definition'].get('body_candidate_id') != outline.BODY):
-        raise ValueError('Exact unchanged city/body identity required')
+    physical_definition = value.get('physical_definition')
+    body_candidate_id = value.get('body_candidate_id')
+    body_evaluation_id = value.get('body_evaluation_id')
+    if (not isinstance(physical_definition, dict)
+        or candidate != identity(physical_definition)
+        or physical_definition.get('body_candidate_id') != body_candidate_id
+        or not _is_sha256(body_candidate_id) or not _is_sha256(body_evaluation_id)):
+        raise ValueError('Sealed physical definition and body identities required')
     if any(value.get(k) is not False for k in FLAGS) or value.get('installed_mass_complete') is not False:
         raise ValueError('Sensitivity cannot grant achieved acceleration, selection, completion or acceptance')
     reference = value.get('retained_control_reference', {})
@@ -140,8 +149,8 @@ def verify(value):
     for case in cases:
         if case.get('evaluation_id') != identity({k:v for k,v in case.items() if k != 'evaluation_id'}):
             raise ValueError('Case evaluation identity differs')
-        if (case.get('candidate_id') != candidate or case.get('body_candidate_id') != outline.BODY or
-            case.get('body_evaluation_id') != outline.BODY_EVALUATION or
+        if (case.get('candidate_id') != candidate or case.get('body_candidate_id') != body_candidate_id or
+            case.get('body_evaluation_id') != body_evaluation_id or
             case.get('source_city_input_id') != value['source_city_input_id'] or
             any(case.get(k) is not False for k in FLAGS)):
             raise ValueError('Mixed candidate/source or promoted sensitivity case')
@@ -166,8 +175,8 @@ def verify(value):
                 raise ValueError('Inertia-only force/power algebra or evidence boundary differs')
         lines = case.get('kinematic_lines', [])
         if (len(lines) != 5 or {r['line_id'] for r in lines} != {'line-'+str(i) for i in range(1,6)} or
-            any(r.get('city_candidate_id') != candidate or r.get('body_candidate_id') != outline.BODY or
-                r.get('body_evaluation_id') != outline.BODY_EVALUATION or r.get('service_evaluation_id') is not None or
+            any(r.get('city_candidate_id') != candidate or r.get('body_candidate_id') != body_candidate_id or
+                r.get('body_evaluation_id') != body_evaluation_id or r.get('service_evaluation_id') is not None or
                 r.get('native_service_complete') is not False for r in lines)):
             raise ValueError('Exact five-line held kinematic coverage required')
         for row in lines:

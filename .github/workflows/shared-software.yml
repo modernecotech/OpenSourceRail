@@ -25,6 +25,12 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin 578ee3950b872bf30fbf9e4207b2bda85951bdd7
           git cat-file -e 578ee3950b872bf30fbf9e4207b2bda85951bdd7^{commit}
+      - name: Fetch exact historical source revisions for v0.6 packet verification
+        run: |
+          git fetch --no-tags --depth=1 origin 615f50fd6a6a73db32a0dffa4682a86d83920224
+          git cat-file -e 615f50fd6a6a73db32a0dffa4682a86d83920224^{commit}
+          git fetch --no-tags --depth=1 origin 886ed155029a960eb62a99787c59c4bc1a842bbc
+          git cat-file -e 886ed155029a960eb62a99787c59c4bc1a842bbc^{commit}
       - name: Fetch the exact retired demonstrator reference for offline integrity checks
         run: |
           git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference
