@@ -131,6 +131,28 @@ requests and other engineering workloads. The six raw process reports and
 three-pair summary are retained locally under
 `build/performance/baselines/samawah-canonical-*-20261110.json`.
 
+#### Warm city-result reuse
+
+A cold/warm pair used the same command, environment, source revision and
+temporary output state. The cold run attempted one Samawah calculation; the warm
+run attempted zero and reused the stored result. Both recorded zero native
+solver and CAD jobs.
+
+| Measurement | Cold | Warm reuse |
+|---|---:|---:|
+| Wall time | 37.83 s | 5.30 s |
+| User CPU | 35.78 s | 4.81 s |
+| Peak RSS | 435,576 KiB | 279,484 KiB |
+| City calculations attempted | 1 | 0 |
+| City results reused | 0 | 1 |
+
+`./osr perf compare` reported matching command, environment and source revision.
+The warm package retained the same request, evaluation, manifest and four core
+file hashes as the earlier verified Samawah package; `./osr outline complete-verify
+--output /tmp/osr-samawah-incremental-run --replay` passed. The one-pair result is
+workload-specific. Its cold and warm reports plus comparison are retained under
+`build/performance/baselines/samawah-incremental-*-20261110.json`.
+
 A separate instrumented Python profile took 75.1 s, so its wall time is not
 comparable with the uninstrumented runs. `design_completion.evaluate` took
 36.94 s cumulative. The profile recorded 535 Git subprocess reads for immutable
