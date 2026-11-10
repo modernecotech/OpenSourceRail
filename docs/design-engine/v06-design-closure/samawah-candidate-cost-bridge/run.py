@@ -58,7 +58,7 @@ def render_readme(result: dict, run: dict) -> str:
         "",
         "## Chinese supply and mass-purchase treatment",
         "",
-        "The retained Samawah make/buy and China-bulk cost packets have identical low/base/high rates for these six infrastructure rows. The current detailed body’s own BOM is not re-priced from the older vehicle’s China scenario. No China supplier quotation, project volume tier, negotiated discount, import contract or local market validation is available in this candidate packet, so no additional mass-purchase discount is assumed.",
+        "The retained Samawah make/buy and China-bulk cost packets have identical low/base/high rates for these five infrastructure rows. The current detailed body’s own BOM is not re-priced from the older vehicle’s China scenario. No China supplier quotation, project volume tier, negotiated discount, import contract or local market validation is available in this candidate packet, so no additional mass-purchase discount is assumed.",
         "",
         "## Explicitly unpriced",
         "",

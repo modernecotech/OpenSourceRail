@@ -69,3 +69,15 @@ def test_cost_bridge_refuses_a_mismatched_geography_or_candidate_rate_identity()
     with pytest.raises(ValueError, match="exact authenticated city input"):
         build(city, changed, manifest, source_sha256=source)
 
+
+def test_published_bridge_packet_integrity():
+    packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge"
+    manifest = json.loads((packet / "manifest.json").read_bytes())
+    assert manifest["manifest_id"] == identity({k: v for k, v in manifest.items() if k != "manifest_id"})
+    assert manifest["file_count"] == len(manifest["files_sha256"])
+    for name, expected in manifest["files_sha256"].items():
+        assert digest(packet / name) == expected
+    bridge = json.loads((packet / "bridge.json").read_bytes())
+    assert bridge["evaluation_id"] == identity({k: v for k, v in bridge.items() if k != "evaluation_id"})
+    assert bridge["evaluation_id"] == manifest["evaluation_id"]
+
