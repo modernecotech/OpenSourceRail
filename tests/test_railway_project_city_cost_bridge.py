@@ -88,7 +88,7 @@ def test_published_bridge_packet_integrity():
 
 
 def test_prior_bridge_packet_is_retained_with_its_metadata_discrepancy():
-    packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge"
+    packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt-01"
     manifest = json.loads((packet / "manifest.json").read_bytes())
     assert manifest["manifest_id"] == identity({k: v for k, v in manifest.items() if k != "manifest_id"})
     for name, expected in manifest["files_sha256"].items():
@@ -97,4 +97,16 @@ def test_prior_bridge_packet_is_retained_with_its_metadata_discrepancy():
     bridge = json.loads((packet / "bridge.json").read_bytes())
     assert len(bridge["matched_rate_lines"]) == 5
     assert "six matching" in request["ratebook_scenario"]
+
+
+def test_first_current_source_bridge_packet_remains_source_bound():
+    packet = ROOT / "docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01"
+    manifest = json.loads((packet / "manifest.json").read_bytes())
+    assert manifest["manifest_id"] == identity({k: v for k, v in manifest.items() if k != "manifest_id"})
+    for name, expected in manifest["files_sha256"].items():
+        assert digest(packet / name) == expected
+    request = json.loads((packet / "request.json").read_bytes())
+    bridge = json.loads((packet / "bridge.json").read_bytes())
+    assert request["ratebook_scenario"].endswith("five matching infrastructure quantities")
+    assert bridge["body_evaluation_id"] == "c6c5efe577bd302c507756af53238a8f162c6e2cbeaefd2aa11fecd343b93fb3"
 

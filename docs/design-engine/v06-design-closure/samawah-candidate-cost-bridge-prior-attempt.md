@@ -1,6 +1,6 @@
 # Samawah candidate cost bridge — prior attempt
 
-The packet in [`samawah-candidate-cost-bridge/`](samawah-candidate-cost-bridge/)
+The packet in [`samawah-candidate-cost-bridge-prior-attempt-01/`](samawah-candidate-cost-bridge-prior-attempt-01/)
 is retained byte-for-byte as the first completed bridge attempt. Its arithmetic
 contains five matched infrastructure lines, but its sealed request describes
 six. The request text is inconsistent with the five output rows, so this packet

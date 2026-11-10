@@ -61,7 +61,8 @@ def test_samawah_result_exposes_conditional_design_and_unresolved_costs():
     assert result['fleet_request_cases']['base']['total_trainsets'] == 59
     assert result['body_evaluation_id'] == city_recalculation.BODY_EVALUATION
     assert result['known_counted_BOM_process_subtotal_usd']['base'] == pytest.approx(
-        sum(row['known_counted_BOM_process_subtotal_usd']['base'] or 0 for row in result['scope_accounts'])
+        sum((row.get('known_counted_BOM_process_subtotal_usd') or {}).get('base') or 0
+            for row in result['scope_accounts'])
     )
     assert result['cost_complete'] is False and result['service_complete'] is False
     assert result['scope_totals_usd']['rolling-stock'] == {'low': None, 'base': None, 'high': None}
