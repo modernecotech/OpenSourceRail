@@ -308,14 +308,6 @@ def run(root, output_dir, request_path=REQUEST_PATH):
     # Validate the earlier screen packet for provenance. Its station coordinates
     # differ from the current canonical plan, so its geometry is not transferred.
     _load(scenario_path)
-    canonical_plan = planning_adapter.export_plan(seed, root=root)
-    edits, geometry_diagnostics = _build_geometry_edits(canonical_plan, packet_manifest['packet_id'],
-        request['geometry_proposal']['scenario_sha256'], planning_geometry,
-        request['geometry_proposal']['maximum_deviation_m'])
-    edit_bundle = dict(schema=planning_adapter.EDIT_SCHEMA, city=request['city_slug'],
-        base_revision_sha256=canonical_plan['revision_sha256'], seed_id=canonical_plan['outline_context']['seed']['seed_id'],
-        source_outline_evaluation_id=canonical_plan['source_outline_evaluation_id'],
-        actor='OpenSourceRail v0.6 current-source planning comparison', edits=edits)
     output.mkdir(parents=True)
     _write(output / 'request.json', request, encoded)
     shutil.copy2(request_path, output / 'source-request.json')
@@ -323,24 +315,35 @@ def run(root, output_dir, request_path=REQUEST_PATH):
     shutil.copy2(HERE / 'README.md', output / 'method.md')
 
     results = {}
-    for scenario in request['pricing_scenarios']:
-        label = 'baseline-' + scenario
-        base_request = _study_request(request, scenario)
-        results[label] = _run_study(label, base_request, root, output, city_workflow)
-
+    base_request = _study_request(request, 'project-make-buy')
+    results['baseline-project-make-buy'] = _run_study('baseline-project-make-buy',
+        base_request, root, output, city_workflow)
     base_local = results['baseline-project-make-buy']
     base_plan = _load(base_local['artifacts'] / 'planning.json')
-    if base_plan['revision_sha256'] != canonical_plan['revision_sha256']:
-        raise ValueError('Published city workflow baseline plan differs from current canonical export')
+    if (base_plan['official_seed_id'] != seed['seed_id']
+            or base_plan['source_outline_evaluation_id'] != seed['source_outline_evaluation_id']
+            or base_plan['outline_context']['seed']['reference_candidate_ids'] != refs):
+        raise ValueError('Baseline study planning record differs from published vehicle or seed')
+    edits, geometry_diagnostics = _build_geometry_edits(base_plan, packet_manifest['packet_id'],
+        request['geometry_proposal']['scenario_sha256'], planning_geometry,
+        request['geometry_proposal']['maximum_deviation_m'])
+    edit_bundle = dict(schema=planning_adapter.EDIT_SCHEMA, city=request['city_slug'],
+        base_revision_sha256=base_plan['revision_sha256'], seed_id=seed['seed_id'],
+        source_outline_evaluation_id=seed['source_outline_evaluation_id'],
+        actor='OpenSourceRail v0.6 current-source planning comparison', edits=edits)
     _write(output / 'route-generation.json', dict(
         schema='osr-samawah-current-source-route-simplification/1',
-        source_plan_revision_sha256=canonical_plan['revision_sha256'],
+        source_baseline_study_id=base_local['study_id'],
+        source_plan_revision_sha256=base_plan['revision_sha256'],
         geometry_method=('Douglas-Peucker independently recomputed per canonical adjacent-stop interval; '
             'local spherical azimuthal-equidistant projection; symmetric 5 m sampled deviations'),
         tolerance_m=request['geometry_proposal']['maximum_deviation_m'], sample_step_m=5.0,
         prior_packet_geometry_reused=False, fixed_operational_stop_coordinates=True,
         lines=geometry_diagnostics, selected=False), encoded)
     route_generation_id = identity(_load(output / 'route-generation.json'))
+    scenario = 'china-bulk-buy'
+    label = 'baseline-' + scenario
+    results[label] = _run_study(label, _study_request(request, scenario), root, output, city_workflow)
     for scenario in request['pricing_scenarios']:
         label = 'route-20m-' + scenario
         study_request = _study_request(request, scenario,
