@@ -85,6 +85,21 @@ original Python fragment assembly for comparison; this policy is recorded in the
 evaluation contract. Python remains the default, and mixed nested backend scopes
 are rejected to prevent an inaccurate provenance declaration.
 
+The same source-bound Rust encoder can be selected for read-only coordinated
+railway publication verification after an explicit extension build:
+
+```bash
+python -m engineering.design_search.native_canonical build
+./osr design railway verify --canonical-backend rust
+```
+
+Python remains the default. One local paired check on the 112-bundle publication
+at revision `6464235a823d` returned the same campaign and manifest identities:
+Python took 37.76 s and Rust 31.98 s (15.3% lower observed wall time), with peak
+RSS of about 2.67 GiB for both. This is a single machine/run pair, not a general
+speed guarantee; measure the target workload and retain Python parity checks
+before changing any default.
+
 Rust key ordering also uses UTF-8 strings for ordinary keys instead of allocating
 four-byte codepoint vectors. Lone surrogates retain explicit codepoint handling,
 including comparisons against valid Unicode keys. Isolated, matching-toolchain

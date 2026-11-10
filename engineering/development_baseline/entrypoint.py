@@ -297,7 +297,7 @@ def main(argv=None, root=ROOT):
         if command=='railway':
             if rest in (['-h'], ['--help'], ['help']):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
-                      '  plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify\n'
+                      '  plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify [--canonical-backend python|rust]\n'
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current/refine-current-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current-fine/refine-current-fine-verify --parent-result PATH --candidate-id ID\n'
@@ -336,7 +336,18 @@ def main(argv=None, root=ROOT):
             if rest==['plan']:
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
-            if rest==['verify']:emit(railway_publication.verify(root));return 0
+            if rest and rest[0]=='verify':
+                options=argparse.ArgumentParser(prog='./osr design railway verify')
+                options.add_argument('--canonical-backend',choices=('python','rust'),default='python',
+                    help='Use the reference Python encoder or an explicitly built, source-bound Rust encoder')
+                parsed=options.parse_args(rest[1:])
+                if parsed.canonical_backend=='rust':
+                    from engineering.design_search.native_canonical import campaign_backend
+                    with campaign_backend('rust',root=root):
+                        result=railway_publication.verify(root)
+                else:
+                    result=railway_publication.verify(root)
+                emit(result);return 0
             if rest and rest[0] in ('refine','refine-verify','refine-current','refine-current-verify','refine-current-fine','refine-current-fine-verify','refine-current-ultrafine','refine-current-ultrafine-verify','refine-current-ultrafine-recover','refine-current-fine-reconcile','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
                 action=rest[0]
                 options=argparse.ArgumentParser(prog='./osr design railway '+action)
@@ -399,7 +410,7 @@ def main(argv=None, root=ROOT):
                 if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
                     new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0
-            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify, refinement commands, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
+            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N] [--stream-aggregate], publish, verify [--canonical-backend python|rust], refinement commands, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
         if command=='generative':
             from engineering.design_search import generative_campaign,generative_publication
             if rest==['plan']:emit(generative_campaign.specification());return 0

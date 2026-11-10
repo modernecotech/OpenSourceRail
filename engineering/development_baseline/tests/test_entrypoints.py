@@ -1,4 +1,5 @@
 """Meaningful default/front-door regressions, with synthetic contract fixtures."""
+from contextlib import contextmanager
 from copy import deepcopy
 from hashlib import sha256
 import gzip
@@ -116,6 +117,27 @@ def test_root_help_exposes_current_workflows_without_historical_checkout_command
     assert 'city studio' not in result.stdout.lower()
     assert 'sim gui' not in result.stdout.lower()
     assert 'occ gui' not in result.stdout.lower()
+
+
+def test_railway_verify_rust_backend_is_explicit_and_keeps_python_as_default(tmp_path, capsys, monkeypatch):
+    from engineering.design_search import railway_publication, native_canonical
+    calls=[]
+
+    @contextmanager
+    def backend(mode, *, root):
+        calls.append((mode, Path(root)))
+        yield {'mode': mode}
+
+    monkeypatch.setattr(native_canonical, 'campaign_backend', backend)
+    monkeypatch.setattr(railway_publication, 'verify', lambda root: {'verified': True, 'root': str(root)})
+    assert cli.main(['design', 'railway', 'verify'], root=tmp_path) == 0
+    assert json.loads(capsys.readouterr().out)['verified'] is True
+    assert calls == []
+
+    assert cli.main(['design', 'railway', 'verify', '--canonical-backend', 'rust'], root=tmp_path) == 0
+    value=json.loads(capsys.readouterr().out)
+    assert value == {'verified': True, 'root': str(tmp_path)}
+    assert calls == [('rust', tmp_path)]
 
 
 def test_current_workbench_exposes_verified_factory_draft_and_hides_other_candidate_delivery_link():
