@@ -1,0 +1,32 @@
+{
+  "schema": "osr-native-gis-run-preflight/1",
+  "observed_at_utc": "2026-11-10T01:29:22Z",
+  "source_head": "901726c6f0702bfce4a33a0a2044dd2e4021e5ba",
+  "working_directory": "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108",
+  "commands": {
+    "disk": "df -B1 -P /home",
+    "memory": "awk '/^MemAvailable:/ {print}' /proc/meminfo"
+  },
+  "disk": {
+    "available_bytes": 9039503360,
+    "required_reserve_bytes": 8589934592,
+    "passes": true
+  },
+  "memory": {
+    "available_kib": 12892832,
+    "available_bytes": 13202259968,
+    "required_reserve_bytes": 8589934592,
+    "passes": true
+  },
+  "raw_outputs": {
+    "disk": "Filesystem         1-blocks         Used         Available Capacity Mounted on\n/dev/nvme0n1p4 484712644608 473445834752 9039503360      99% /home",
+    "memory": "MemAvailable:   12892832 kB"
+  },
+  "decision": "HOLD",
+  "note": "Resource thresholds pass narrowly (disk margin 449568768 bytes) but run07 is stale and unadmitted. No current-source run08 plan, reviewed supervisor/checker, independent review, or coordinator authorization exists; this snapshot is not execution approval. Disk availability recently fluctuated during worktree setup; recheck immediately before any later execution.",
+  "run07_directory_created": false,
+  "run08_directory_created": false,
+  "workload_launched": false,
+  "authorization_created": false,
+  "os_sandbox_enforced_for_preflight": false
+}

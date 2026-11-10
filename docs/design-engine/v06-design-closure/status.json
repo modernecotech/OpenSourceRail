@@ -71,7 +71,7 @@
       "state": "open"
     },
     "controlled-research-documents": {
-      "blocker": "The retained 668-part delivery map has 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched gross-stock SVGs cover only three parts. A new 9f6d door inventory audit covers 93 part types/10,296 pieces, but all 93 lack finished geometry, controlled drawings and inspection-release references; the static GLB is not a kinematic CAD assembly. Whole-vehicle document coverage and manufacturing release remain open. A separate 907da source-body installation evaluation now records consistent door travel vectors, but it still has envelope geometry and no controlled door drawings or inspection limits. The source-pinned 9f6d subassembly audit confirms counted LED, coupler, gangway and flexible-service parts but no controlled finished drawings or inspection-release evidence for these groups; whole-vehicle document coverage remains open.",
+      "blocker": "The retained 668-part delivery map has 82 missing assembly-document slots and 4,676 missing part-document slots; all delivery document references remain null. Three candidate-matched gross-stock SVGs cover only three parts. A new 9f6d door inventory audit covers 93 part types/10,296 pieces, but all 93 lack finished geometry, controlled drawings and inspection-release references; the static GLB is not a kinematic CAD assembly. Whole-vehicle document coverage and manufacturing release remain open. The original 9f6d receipt remains unchanged; a corrected source-bound child evaluation now records consistent travel vectors, but it still has envelope geometry, no kinematic CAD assembly, no controlled door drawings and no inspection limits. A separate 907da source-body installation evaluation remains a distinct candidate. The source-pinned 9f6d subassembly audit confirms counted LED, coupler, gangway and flexible-service parts but no controlled finished drawings or inspection-release evidence for these groups; whole-vehicle document coverage remains open.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/vehicle-document-coverage.json",
@@ -160,12 +160,36 @@
         {
           "path": "tests/test_vehicle_installation.py",
           "sha256": "c7d39de67f8eb7c78ed73947bf1946888726a45d0f3da9a557cd24dd5f0c0b15"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md",
+          "sha256": "1c9502606c9fbdcb0450ea56a4282e8b0e99a6695989fd377ddaed7840bd9f62"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/manifest.json",
+          "sha256": "686710c8f794ae82f495c6e357aac3053022953b764603de74585ebb9cf7757a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/request.json",
+          "sha256": "5516acdf4d48e051db5b18e2132017a4f4e29908d6a9448314b7e987904f403a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/summary.json",
+          "sha256": "f5322aa86bd3f463646f2db665ab241682cd732f12d536779fa7f861630d2181"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/extended-cradle-3240/body.json.gz",
+          "sha256": "b5d08b188ecb8f14ca116933b26765deb09a40e8382575df2a9b7569507ca25d"
+        },
+        {
+          "path": "engineering/vehicle_installation/underframe.py",
+          "sha256": "4dfdd5e7021c0e92b3a69dd61578927c95f916ff4ae2aab29c672271079d2324"
         }
       ],
       "state": "open"
     },
     "installed-vehicle": {
-      "blocker": "The 9f6d parent has incomplete installed mass and unverified supplier motor/gearbox fits. Nine mass scenarios carry calculated inertia tensors from proposed distributions, with uniform-box proxies for equipment envelopes; installed inertia is not measured or verified. Shaft/bearing fit, access and removal closure remain open. Five child geometry configurations have now been screened, including two corrected split-lane support variants; all remain HOLD with thousands of nominal/interface findings and cannot close the parent. The source-pinned LED/inter-car/coupler/gangway audit records 98 BOM types and 10,474 listed occurrences, but all remain provisional. Dynamic articulation, flexible-service duty, installed fit, removal access and matched CAD/FEM evidence remain open. A separate current-bundle 907da source-body installation run (candidate 17ce, evaluation 037627) corrected a door-leaf translation vector and reproduced byte-identically from the prior generator commit; it is not inherited by or a closure result for 9f6d.",
+      "blocker": "The 9f6d parent has incomplete installed mass and unverified supplier motor/gearbox fits. Nine mass scenarios carry calculated inertia tensors from proposed distributions, with uniform-box proxies for equipment envelopes; installed inertia is not measured or verified. Shaft/bearing fit, access and removal closure remain open. Five child geometry configurations have now been screened, including two corrected split-lane support variants; all remain HOLD with thousands of nominal/interface findings and cannot close the parent. The source-pinned LED/inter-car/coupler/gangway audit records 98 BOM types and 10,474 listed occurrences, but all remain provisional. Dynamic articulation, flexible-service duty, installed fit, removal access and matched CAD/FEM evidence remain open. The original 9f6d door-motion vector inconsistency has a corrected source-bound child evaluation (`a7a9ee09`): the physical candidate remains `9f6d2230`, the frozen parent is unchanged, and all 24 travel vectors now agree with the declared X axis. The geometry screen remains HOLD; this is evaluation-data correction, not clearance, supplier-fit or installed-vehicle closure. A separate current-bundle 907da source-body installation evaluation (`17ce` / `037627`) remains distinct and is not inherited by 9f6d.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/compact-drive-corridor/README.md",
@@ -246,6 +270,34 @@
         {
           "path": "tests/test_vehicle_installation.py",
           "sha256": "c7d39de67f8eb7c78ed73947bf1946888726a45d0f3da9a557cd24dd5f0c0b15"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md",
+          "sha256": "1c9502606c9fbdcb0450ea56a4282e8b0e99a6695989fd377ddaed7840bd9f62"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/manifest.json",
+          "sha256": "686710c8f794ae82f495c6e357aac3053022953b764603de74585ebb9cf7757a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/request.json",
+          "sha256": "5516acdf4d48e051db5b18e2132017a4f4e29908d6a9448314b7e987904f403a"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/summary.json",
+          "sha256": "f5322aa86bd3f463646f2db665ab241682cd732f12d536779fa7f861630d2181"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/run/extended-cradle-3240/body.json.gz",
+          "sha256": "b5d08b188ecb8f14ca116933b26765deb09a40e8382575df2a9b7569507ca25d"
+        },
+        {
+          "path": "engineering/vehicle_installation/underframe.py",
+          "sha256": "4dfdd5e7021c0e92b3a69dd61578927c95f916ff4ae2aab29c672271079d2324"
+        },
+        {
+          "path": "tests/test_vehicle_installation_underframe.py",
+          "sha256": "11e34d18c627fec7a3666b40f1a96e7df1004441d74ce718736d30db6a2034c1"
         }
       ],
       "state": "open"
@@ -309,7 +361,7 @@
       "state": "open"
     },
     "native-gis-return-path": {
-      "blocker": "A current-source reprice --refreshed-output CLI now verifies the retained import/request, runs the bounded city study, and verifies a study-bound RustGIS export; 29 synthetic CLI and revision tests pass. The complete native edit/recalculate/export loop remains unexecuted. RustGIS 0.5.0 is installed and pinned, but the latest disk sample had 5,683,367,936 bytes free, below the 8 GiB reserve. Run07 is source-stale and unadmitted. A fresh current-source native round trip and independent review are still required; GIS planning edits do not establish revised physical railway engineering.",
+      "blocker": "A current-source reprice --refreshed-output CLI now verifies the retained import/request, runs the bounded city study, and verifies a study-bound RustGIS export; 29 synthetic CLI and revision tests pass. The complete native edit/recalculate/export loop remains unexecuted. RustGIS 0.5.0 is installed and pinned. A new post-cleanup sample has 9,039,503,360 bytes free (8.42 GiB), only 449,568,768 bytes over the reserve; filesystem availability has fluctuated. Run07 is source-stale and unadmitted, and no current-source run08 package or authorization exists. A fresh current-source native round trip and independent review are still required; GIS planning edits do not establish revised physical railway engineering.",
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md",
@@ -365,7 +417,11 @@
         },
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "05b1dd10ed6e38fa14f48bf7f1060c81631ef90b481226197549f90a165ac1b5"
+          "sha256": "6cddd8502c8e2242539be21525bfb1baee86e93885bdd0d836a9a36a1799bf5c"
+        },
+        {
+          "path": "docs/design-engine/v06-design-closure/native-gis-resource-preflight-20261110-012922Z.json",
+          "sha256": "5da21b0450566122581bf7a2e871e2de8b5a66e21266d87666b1f1b18ab25081"
         }
       ],
       "state": "open"
@@ -375,7 +431,7 @@
       "evidence": [
         {
           "path": "docs/design-engine/v06-design-closure/README.md",
-          "sha256": "05b1dd10ed6e38fa14f48bf7f1060c81631ef90b481226197549f90a165ac1b5"
+          "sha256": "6cddd8502c8e2242539be21525bfb1baee86e93885bdd0d836a9a36a1799bf5c"
         }
       ],
       "state": "partial"
