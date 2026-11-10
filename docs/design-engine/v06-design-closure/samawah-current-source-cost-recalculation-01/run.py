@@ -251,8 +251,11 @@ def _service_semantics(city):
 
 
 def _canonical_identity(value):
-    encoded = json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)+'\n'
-    return hashlib.sha256(encoded.encode()).hexdigest()
+    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+
+
+def _canonical_bytes(value):
+    return (json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)+'\n').encode()
 
 
 def _run_study(label, request, root, output, workflow, *, replay=True):
@@ -261,7 +264,7 @@ def _run_study(label, request, root, output, workflow, *, replay=True):
     reused = artifacts.exists()
     if reused:
         cached_request = workflow.read_json(artifacts, 'request.json')
-        if encoded(cached_request) != encoded(request):
+        if _canonical_bytes(cached_request) != _canonical_bytes(request):
             raise ValueError('Existing city study identity is occupied by different request bytes')
     else:
         artifacts.parent.mkdir(parents=True, exist_ok=True)
