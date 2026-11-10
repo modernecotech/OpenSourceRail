@@ -182,6 +182,22 @@ as profiling candidates. Any evaluator-source
 change must preserve the existing blob and result checks, then regenerate
 affected source-bound current packets before publication.
 
+The shared design-pricing stage now has a persistent, local cache keyed by the
+exact input source hashes, source-manifest identities and pricing-policy
+identity. Each warm read revalidates the cached result against current sources;
+the cache is capped at eight entries and 256 MiB, with in-use entries skipped
+during eviction. On the same 10 November checkout, the 184 shared records (112
+railway bundles, 54 vehicle bodies and 18 civil spans) took 27.423 s cold and
+0.231 s warm (27.417 s and 0.231 s process CPU). The 940,921-byte payload
+reduced this repeated stage's wall time by 99.2% in that run. The warm
+measurement includes policy/source identity checks and result validation; peak
+RSS and physical disk I/O were not instrumented. No native solver or CAD job
+ran. This is a local workload measurement, not an end-to-end city completion
+speedup or a guarantee for other machines and source epochs. Focused cache and
+outline regressions:
+`PYTHONPATH=. pytest -q tests/test_outline_design_cache.py tests/test_outline_completion.py`
+passed 15 tests.
+
 Rust key ordering also uses UTF-8 strings for ordinary keys instead of allocating
 four-byte codepoint vectors. Lone surrogates retain explicit codepoint handling,
 including comparisons against valid Unicode keys. Isolated, matching-toolchain

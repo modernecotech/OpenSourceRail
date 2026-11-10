@@ -271,7 +271,8 @@ def _sources(root, geography, engineering):
     from . import design_completion
     names = (PRODUCER, POLICY, 'engineering/outline/city_inputs.py',
         'engineering/outline/city_service.py', 'engineering/outline/city_civil.py',
-        'engineering/outline/city_project_cost.py', 'engineering/outline/design_completion.py')
+        'engineering/outline/city_project_cost.py', 'engineering/outline/design_completion.py',
+        'engineering/outline/design_cache.py')
     names += ('engineering/outline/city_alignment.py','engineering/outline/city_cost_inputs.py','engineering/outline/city-cost-inputs.toml','engineering/outline/civil_evidence.py')
     sources = coordinator.merge_sources(geography['source_sha256'], engineering['sources'], design_completion.sources(root),
         {name:digest(Path(root)/name) for name in names})
@@ -377,10 +378,16 @@ def run(output, root=ROOT, *, cities=None, workers=2, maximum_cities=None):
         else:
             _write(request_path, request)
         design_path = output/'designs.json'
+        design_cache = dict(cache_hit=False, design_evaluation_performed=False,
+            source='existing execution state')
         if not design_path.exists():
-            design_value, timing = design_completion.evaluate(root=root)
+            from . import design_cache as design_pricing_cache
+            design_value, timing = design_pricing_cache.evaluate_cached(root,
+                design_completion_module=design_completion)
             _write(design_path, design_value)
             _write(output/'design-performance.json', timing)
+            design_cache = {key:timing[key] for key in (
+                'cache_hit','design_evaluation_performed','cache_key','cache_bytes')}
         designs = json.loads(_ordinary(design_path).read_bytes())
         design_completion.validate(designs,root=root)
         if any(sources.get(n)!=sha for n,sha in designs['source_sha256'].items()):
@@ -447,7 +454,8 @@ def run(output, root=ROOT, *, cities=None, workers=2, maximum_cities=None):
         _write(output/'manifest.json', manifest)
         _write(output/('performance-'+uuid4().hex+'.json'),dict(elapsed_s=time.perf_counter()-started,
             workers=workers,reused_cities=len(rows)-len(chosen)+len(failures),
-            attempted_cities=len(chosen),failures=failures,native_solver_calls=0,CAD_jobs=0))
+            attempted_cities=len(chosen),failures=failures,native_solver_calls=0,CAD_jobs=0,
+            design_cache=design_cache))
         return manifest
 
 
