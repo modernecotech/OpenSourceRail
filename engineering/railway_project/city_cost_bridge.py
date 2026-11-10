@@ -15,7 +15,8 @@ from engineering.station_rail.common import digest, encoded, identity
 from engineering.railway_project.city_recalculation import verify as verify_city
 
 ROOT = Path(__file__).resolve().parents[2]
-CITY_RESULT = Path("docs/design-engine/v06-design-closure/samawah-city-recalculation/result.json")
+CITY_RESULT = Path("docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source/result.json")
+BODY_FILE = Path("docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/body.json.gz")
 RATE_PACKET = Path("docs/design-engine/v06-design-closure/samawah-china-supply-cost-04")
 CASES = ("low", "base", "high")
 RAIL_KG_PER_M = 60.21
@@ -140,7 +141,7 @@ def build(city_result: dict, old_cost: dict, china_cost: dict, old_manifest: dic
     bom = city_result["known_counted_BOM_process_subtotal_usd"]
     # Use the exact previously sealed per-train direct-BOM figure, rather than
     # deriving a cross-case average from a different scenario's train count.
-    body_path = ROOT / "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz"
+    body_path = ROOT / BODY_FILE
     body = json.loads(gzip.decompress(body_path.read_bytes()))
     if body.get("candidate_id") != city_result["body_candidate_id"] or body.get("evaluation_id") != city_result["body_evaluation_id"]:
         raise ValueError("Candidate BOM source does not match city recalculation body identity")
@@ -226,7 +227,7 @@ def main():
         (RATE_PACKET / "manifest.json").as_posix(): digest(packet / "manifest.json"),
         (RATE_PACKET / "cost-project-make-buy.json").as_posix(): digest(packet / "cost-project-make-buy.json"),
         (RATE_PACKET / "cost-china-bulk-buy.json").as_posix(): digest(packet / "cost-china-bulk-buy.json"),
-        "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz": digest(ROOT / "docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz"),
+        BODY_FILE.as_posix(): digest(ROOT / BODY_FILE),
         "engineering/outline/city_civil.py": digest(ROOT / "engineering/outline/city_civil.py"),
         "engineering/railway_project/city_cost_bridge.py": digest(ROOT / "engineering/railway_project/city_cost_bridge.py"),
         "engineering/railway_project/city_recalculation.py": digest(ROOT / "engineering/railway_project/city_recalculation.py"),

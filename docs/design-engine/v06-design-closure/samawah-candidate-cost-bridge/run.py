@@ -86,7 +86,7 @@ def render_readme(result: dict, run: dict) -> str:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output-dir", type=Path, default=HERE)
+    parser.add_argument("--output-dir", type=Path, default=HERE.with_name("samawah-candidate-cost-bridge-current-source"))
     args = parser.parse_args()
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -120,8 +120,8 @@ def main():
         "body_candidate_id": result["body_candidate_id"],
         "body_evaluation_id": result["body_evaluation_id"],
         "ratebook_packet_id": rate_manifest["manifest_id"],
-        "ratebook_scenario": "project-make-buy Class-C unit rates for six matching infrastructure quantities",
-        "request_id": identity({"city_candidate_id": result["city_candidate_id"], "body_candidate_id": result["body_candidate_id"], "body_evaluation_id": result["body_evaluation_id"], "ratebook_packet_id": rate_manifest["manifest_id"], "ratebook_scenario": "project-make-buy Class-C unit rates for six matching infrastructure quantities"}),
+        "ratebook_scenario": "project-make-buy Class-C unit rates for five matching infrastructure quantities",
+        "request_id": identity({"city_candidate_id": result["city_candidate_id"], "body_candidate_id": result["body_candidate_id"], "body_evaluation_id": result["body_evaluation_id"], "ratebook_packet_id": rate_manifest["manifest_id"], "ratebook_scenario": "project-make-buy Class-C unit rates for five matching infrastructure quantities"}),
     }
     (out / "request.json").write_bytes(encoded(request))
     source_commit = subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip()

@@ -20,9 +20,9 @@ from engineering.station_rail.common import digest, encoded, identity
 
 PRODUCER = 'engineering/railway_project/city_recalculation.py'
 POLICY = 'engineering/railway_project/city-recalculation-policy.json'
-BODY_FILE = 'docs/design-engine/v06-design-closure/compact-drive-corridor/body.json.gz'
+BODY_FILE = 'docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/body.json.gz'
 BODY = '75075df9247dfff7082a78eadc273d3a99f37e5486450621536c43b1bfa2f797'
-BODY_EVALUATION = 'fdac4907a6a867f0b4f27e0876a772d1b54d526ec323beb3b6d9a155e0e00b21'
+BODY_EVALUATION = 'c6c5efe577bd302c507756af53238a8f162c6e2cbeaefd2aa11fecd343b93fb3'
 PARENT = '9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba'
 CASES = ('low', 'base', 'high')
 FLAGS = dict(physical_accepted=False, engineering_accepted=False,

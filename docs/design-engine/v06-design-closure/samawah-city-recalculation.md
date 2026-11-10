@@ -1,9 +1,14 @@
-# Samawah detailed-candidate outline recalculation
+# Samawah detailed-candidate outline recalculation — historical source snapshot
 
-This bounded study applies the package-07 compact-drive body to Samawah's
-existing five-line outline. It is a useful **held planning result**, not a
-service or project-cost closure. It does not replace or edit the earlier city
-publication.
+This is the original bounded study applying the package-07 compact-drive body
+to Samawah's existing five-line outline. Its source-bound result and inputs
+remain preserved as historical evidence. The body evaluator later changed;
+this packet is not silently relabelled as current. A regenerated calculation
+using a current-source child body is documented in
+[the current-source study](samawah-city-recalculation-current-source.md).
+
+This historical result is a **held planning result**, not service or project-
+cost closure. It did not replace or edit the earlier city publication.
 
 ## Candidate and scenario result
 
