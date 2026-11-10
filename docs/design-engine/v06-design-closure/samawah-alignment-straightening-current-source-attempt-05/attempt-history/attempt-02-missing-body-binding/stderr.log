@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/osr-samawah-alignment-screen-02/worker.py", line 341, in <module>
+    derived, result, details = make_scenario(city, tolerance, planning_geometry, adapter)
+                               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/osr-samawah-alignment-screen-02/worker.py", line 296, in make_scenario
+    result = adapter.evaluate(derived, BODY, POLICY, trusted_city_input_id=derived['input_id'], root=ROOT)
+                                       ^^^^
+NameError: name 'BODY' is not defined

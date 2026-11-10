@@ -1,0 +1,23 @@
+fatal: packfile /home/hayder/Documents/OpenSourceRail/.git/objects/pack/pack-52df46d265a143fddf812f9ba1caa09b517d2ddf.pack cannot be mapped, check sys.vm.max_map_count and/or RLIMIT_DATA: Cannot allocate memory
+Traceback (most recent call last):
+  File "/tmp/osr-samawah-alignment-screen-01/worker.py", line 313, in <module>
+    from engineering.railway_project import city_recalculation as adapter
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/railway_project/city_recalculation.py", line 15, in <module>
+    from engineering.compact_drive.common import validate as validate_body
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/compact_drive/common.py", line 4, in <module>
+    from engineering.station_rail.common import identity,digest,encoded
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1340, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+  File "/tmp/osr-samawah-alignment-screen-01/worker.py", line 85, in source_code
+    raw = checked(name)
+  File "/tmp/osr-samawah-alignment-screen-01/worker.py", line 61, in checked
+    expected, _ = blob(name)
+                  ~~~~^^^^^^
+  File "/tmp/osr-samawah-alignment-screen-01/worker.py", line 52, in blob
+    require(len(header) == 3 and header[1] == 'blob', 'Missing committed source blob: ' + name)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/osr-samawah-alignment-screen-01/worker.py", line 37, in require
+    raise ValueError(message)
+ValueError: Missing committed source blob: engineering/station_rail/common.py

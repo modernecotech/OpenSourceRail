@@ -8,7 +8,7 @@ from engineering.station_rail.common import identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKET = ROOT / 'docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05'
+PACKET = ROOT / 'docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06'
 RUNNER = ROOT / 'docs/design-engine/v06-design-closure/samawah-alignment-straightening-runner-01'
 
 
@@ -61,6 +61,11 @@ def test_samawah_alignment_screen_is_recursively_sealed_and_nonselecting():
     assert summary['baseline']['route_km'] == 57.873249527151515
 
     expected_fleets = ([41, 57, 85], [41, 57, 85], [41, 57, 85])
+    expected_quantities = [
+        {'standard_beams': 5458, 'standard_shared_bents': 2734, 'running_rail_m': 218073.22166319558, 'running_fastening_sets': 363458},
+        {'standard_beams': 5426, 'standard_shared_bents': 2718, 'running_rail_m': 216810.706, 'running_fastening_sets': 361353},
+        {'standard_beams': 5406, 'standard_shared_bents': 2708, 'running_rail_m': 215970.213, 'running_fastening_sets': 359952},
+    ]
     for index, row in enumerate(summary['scenarios']):
         key = f"tolerance-{int(row['tolerance_m']):03d}m"
         city = read_json(PACKET / 'scenarios' / key / 'derived-city.json')
@@ -84,6 +89,11 @@ def test_samawah_alignment_screen_is_recursively_sealed_and_nonselecting():
         for key, value in row['guideway_quantity_screen'].items():
             assert result['quantities'][key] == value
             assert value < baseline['quantities'][key]
+            expected = expected_quantities[index][key]
+            if isinstance(expected, float):
+                assert abs(value - expected) < 0.001
+            else:
+                assert value == expected
         assert city['straightening_hypothesis']['selected'] is False
         alternative_lines = {item['line_id']: item for item in result['physical_definition']['mapped_lines']}
         for line_id, alternative in alternative_lines.items():

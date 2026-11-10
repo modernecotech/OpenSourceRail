@@ -156,6 +156,8 @@ one marker-envelope definition failure, while access, catchment, transfer paths,
 site feasibility and full corridor cost remain open. Attempt 02 is retained with
 an explicit warning because its manifest omitted nested input snapshots.
 
+A separate [stop-preserving alignment screen](samawah-alignment-straightening-current-source-attempt-06/README.md) tests 25, 50 and 100 m simplification tolerances on all five Samawah lines. The route requests shorten from 57.873 km to 54.518–53.993 km, with stop coordinates fixed; conditional fleet requests fall from 42/59/88 to 41/57/85. Its unpriced guideway quantity screen reduces reference 20 m beam units from 5,794 to 5,458/5,426/5,406, shared bent positions from 2,902 to 2,734/2,718/2,708, running rail from 231,493 m to 218,073/216,811/215,970 m, and fastening sets from 385,825 to 363,458/361,353/359,952. Every alternative still has the 120 m platform-envelope hold (56.552 m stop gap); civil classes are proportionally transferred only as a planning assumption. The options are unselected; complete city costs and site feasibility remain open.
+
 ### Native GIS prototype status
 
 The source-only importer and bootstrap regressions are now part of the shared

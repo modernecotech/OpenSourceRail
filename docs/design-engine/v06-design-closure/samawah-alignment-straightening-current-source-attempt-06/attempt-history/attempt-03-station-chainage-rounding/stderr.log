@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/tmp/osr-samawah-alignment-screen-03/worker.py", line 342, in <module>
+    derived, result, details = make_scenario(city, tolerance, planning_geometry, adapter)
+                               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/osr-samawah-alignment-screen-03/worker.py", line 254, in make_scenario
+    new_coords, new_chain, new_stops, metrics = simplify_line(original, tolerance_m, geometry, old_chain)
+                                                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/osr-samawah-alignment-screen-03/worker.py", line 230, in simplify_line
+    mapped = geometry.point(simplified, new_chain, chainage)
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/outline/planning_geometry.py", line 32, in point
+    at=number(at,'stop chainage',0,chain[-1]);i=min(len(chain)-2,max(0,bisect_right(chain,at)-1))
+  File "/home/hayder/.local/state/opensourcerail/worktrees/v06-design-closure-20261108/engineering/outline/planning_geometry.py", line 13, in number
+    raise planning.PlanningError('Bounded finite '+name+' required')
+engineering.development_baseline.planning.PlanningError: Bounded finite stop chainage required
