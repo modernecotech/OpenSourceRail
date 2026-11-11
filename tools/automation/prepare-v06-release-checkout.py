@@ -112,6 +112,22 @@ def allocated_bytes(root: Path) -> int:
 SOURCE_FIELDS = ("source_sha256", "calculation_sha256", "presentation_sha256")
 
 
+def _release_smoke_patterns(root: Path) -> set[str]:
+    """Include every explicitly selected release test in the sparse checkout."""
+    manifest = root / ".github/release-smoke-tests.txt"
+    patterns = set()
+    for line_number, line in enumerate(manifest.read_text(encoding="utf-8").splitlines(), 1):
+        source = line.strip()
+        if not source or source.startswith("#"):
+            continue
+        path = PurePosixPath(source)
+        if (path.is_absolute() or ".." in path.parts or path.as_posix() != source
+                or "\\" in source or any(char in source for char in "*?[]")):
+            raise ValueError(f"unsafe release smoke path on line {line_number}")
+        patterns.add("/" + source)
+    return patterns
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[2]
     dirty = subprocess.run(
@@ -128,6 +144,7 @@ def main() -> int:
         )
 
     patterns = set(BASE_PATTERNS)
+    patterns.update(_release_smoke_patterns(root))
     manifests = []
     for relative in SEED_MANIFESTS:
         value = json.loads((root / relative).read_bytes())
