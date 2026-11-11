@@ -98,7 +98,7 @@ def test_baghdad_service_comparison_replays_and_reprices_same_published_network(
     workflow.run(original_request,original_folder)
     original_manifest=workflow.verify(original_folder,replay=True)
     original=workflow.read_json(original_folder,'result.json')
-    original_plan=original['planning_revision']
+    original_plan=original['planning_base']
     line=original_plan['lines'][0]
     alternative_edits=bundle(original_plan,[dict(kind='set-service',line=line['id'],
         headway_s=300.,dwell_s=35.)])
