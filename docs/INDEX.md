@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **213**.
+Indexed Markdown files: **214**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **213**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 181 |
+| [docs](#docs) | 182 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -122,6 +122,7 @@ Indexed Markdown files: **213**.
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
 | [`docs/design-engine/native-design-search.md`](../docs/design-engine/native-design-search.md) | Rust generative design search |
 | [`docs/design-engine/outline-completion/README.md`](../docs/design-engine/outline-completion/README.md) | Complete calculated city and design outlines |
+| [`docs/design-engine/performance/city-cost-copy-benchmark-20261111.md`](../docs/design-engine/performance/city-cost-copy-benchmark-20261111.md) | City cost copy reduction benchmark |
 | [`docs/design-engine/periodic-thermal-research/README.md`](../docs/design-engine/periodic-thermal-research/README.md) | Conditional repeated-duty thermal sensitivity |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
 | [`docs/design-engine/powered-bogie-detail/README.md`](../docs/design-engine/powered-bogie-detail/README.md) | Powered-bogie research detail — HOLD |
