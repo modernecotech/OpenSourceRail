@@ -172,6 +172,19 @@ paths separately: a merged source tree with ignored build or research payloads
 is held for evidence review. Even review-ready worktrees still require explicit
 approval before removal; inventory and proposal generation do not delete data.
 
+`./osr perf cleanup-git-packs` reviews stale Git incoming-pack fragments; it is
+a dry run by default. `--apply` removes only current-user-owned, single-link
+`tmp_pack_*` files older than 24 hours whose pack checksum is invalid or whose
+file header is invalid or incomplete, and only while no Git process or pack
+lock is present. It holds
+checksum-consistent packs and never prunes named Git packs, refs or unreachable
+objects. On 11 November 2026, six nonempty fragments failed `git index-pack`
+with `early EOF`; 49 more were empty. Removing those 55 abandoned fragments
+reclaimed 3,322,806,272 bytes of temporary pack data. `git fsck --connectivity-only
+--no-reflogs --no-progress` then exited successfully and reported dangling
+objects; those objects were retained. The focused storage regression suite
+passed 13 tests.
+
 A separate instrumented Python profile took 75.1 s, so its wall time is not
 comparable with the uninstrumented runs. `design_completion.evaluate` took
 36.94 s cumulative. The profile recorded 535 Git subprocess reads for immutable

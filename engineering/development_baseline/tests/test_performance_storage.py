@@ -3,7 +3,9 @@ from pathlib import Path
 import subprocess
 from types import SimpleNamespace
 from datetime import datetime, timezone
+import hashlib
 import os
+import struct
 import sys
 
 from engineering import performance
@@ -155,6 +157,110 @@ def test_bytecode_cleanup_is_dry_run_by_default_and_excludes_evidence_trees(tmp_
 def test_cleanup_cli_defaults_to_dry_run(tmp_path, capsys):
     assert performance.main(["cleanup"], root=tmp_path) == 0
     report = __import__("json").loads(capsys.readouterr().out)
+    assert report["mode"] == "dry-run"
+    assert report["mutation_performed"] is False
+
+
+def _git_pack_cleanup_fixture(root):
+    root.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["git", "init", "--quiet", "--object-format=sha1", str(root)],
+                   check=True)
+    return root / ".git" / "objects" / "pack"
+
+
+def _pack_checksum_consistent_empty():
+    header = b"PACK" + struct.pack(">II", 2, 0)
+    return header + hashlib.sha1(header).digest()
+
+
+def test_git_temp_pack_cleanup_dry_run_holds_recent_and_checksum_consistent(
+        tmp_path, monkeypatch):
+    now = datetime(2026, 11, 11, 12, tzinfo=timezone.utc)
+    pack_dir = _git_pack_cleanup_fixture(tmp_path / "repo")
+    old_invalid = pack_dir / "tmp_pack_old"
+    old_invalid.write_bytes(b"PACK" + struct.pack(">II", 2, 1) + b"x" * 64)
+    old_valid_checksum = pack_dir / "tmp_pack_valid"
+    old_valid_checksum.write_bytes(_pack_checksum_consistent_empty())
+    recent_invalid = pack_dir / "tmp_pack_recent"
+    recent_invalid.write_bytes(b"incomplete")
+    old_time = now.timestamp() - 48 * 3600
+    for path in (old_invalid, old_valid_checksum):
+        os.utime(path, (old_time, old_time))
+    monkeypatch.setattr(performance, "_active_git_processes", lambda: [])
+
+    report = performance.cleanup_git_temp_packs(
+        tmp_path / "repo", minimum_age_hours=24, now=now,
+    )
+
+    assert report["mode"] == "dry-run"
+    assert report["mutation_performed"] is False
+    rows = {Path(row["path"]).name: row for row in report["candidates"]}
+    assert rows["tmp_pack_old"]["status"] == "eligible"
+    assert rows["tmp_pack_old"]["validation"] == "checksum-mismatch"
+    assert rows["tmp_pack_valid"]["status"] == "held"
+    assert rows["tmp_pack_valid"]["validation"] == "checksum-consistent"
+    assert rows["tmp_pack_recent"]["status"] == "held"
+    assert old_invalid.exists() and old_valid_checksum.exists() and recent_invalid.exists()
+
+
+def test_git_temp_pack_cleanup_apply_removes_only_stale_invalid_fragments(
+        tmp_path, monkeypatch):
+    now = datetime(2026, 11, 11, 12, tzinfo=timezone.utc)
+    root = tmp_path / "repo"
+    pack_dir = _git_pack_cleanup_fixture(root)
+    invalid = pack_dir / "tmp_pack_interrupted"
+    invalid.write_bytes(b"PACK" + struct.pack(">II", 2, 2) + b"partial" * 20)
+    empty = pack_dir / "tmp_pack_empty"
+    empty.touch()
+    complete_checksum = pack_dir / "tmp_pack_complete"
+    complete_checksum.write_bytes(_pack_checksum_consistent_empty())
+    old_time = now.timestamp() - 48 * 3600
+    for path in (invalid, empty, complete_checksum):
+        os.utime(path, (old_time, old_time))
+    monkeypatch.setattr(performance, "_active_git_processes", lambda: [])
+
+    report = performance.cleanup_git_temp_packs(
+        root, minimum_age_hours=24, apply=True, now=now,
+    )
+
+    rows = {Path(row["path"]).name: row for row in report["candidates"]}
+    assert report["removed_count"] == 2
+    assert report["mutation_performed"] is True
+    assert rows["tmp_pack_interrupted"]["status"] == "removed"
+    assert rows["tmp_pack_empty"]["status"] == "removed"
+    assert rows["tmp_pack_complete"]["status"] == "held"
+    assert not invalid.exists() and not empty.exists() and complete_checksum.exists()
+
+
+def test_git_temp_pack_cleanup_holds_all_candidates_while_git_is_active(
+        tmp_path, monkeypatch):
+    now = datetime(2026, 11, 11, 12, tzinfo=timezone.utc)
+    root = tmp_path / "repo"
+    pack_dir = _git_pack_cleanup_fixture(root)
+    candidate = pack_dir / "tmp_pack_old"
+    candidate.write_bytes(b"truncated")
+    os.utime(candidate, (now.timestamp() - 48 * 3600,) * 2)
+    monkeypatch.setattr(performance, "_active_git_processes",
+                        lambda: ["123:git-fetch"])
+
+    report = performance.cleanup_git_temp_packs(
+        root, minimum_age_hours=24, apply=True, now=now,
+    )
+
+    assert report["removed_count"] == 0
+    assert report["mutation_performed"] is False
+    assert report["candidates"][0]["status"] == "held"
+    assert candidate.exists()
+
+
+def test_git_temp_pack_cleanup_cli_defaults_to_dry_run(tmp_path, monkeypatch, capsys):
+    _git_pack_cleanup_fixture(tmp_path)
+    monkeypatch.setattr(performance, "_active_git_processes", lambda: [])
+
+    assert performance.main(["cleanup-git-packs"], root=tmp_path) == 0
+    report = __import__("json").loads(capsys.readouterr().out)
+
+    assert report["schema"] == "osr-performance-git-temp-pack-cleanup/1"
     assert report["mode"] == "dry-run"
     assert report["mutation_performed"] is False
 

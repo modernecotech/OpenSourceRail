@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 import math
 import os
@@ -11,6 +12,7 @@ import platform
 from pathlib import Path
 import shutil
 import stat
+import struct
 import subprocess
 import tempfile
 import time
@@ -21,6 +23,7 @@ from engineering.station_rail import ROOT
 GIB = 1024 ** 3
 DEFAULT_MINIMUM_FREE_GIB = 20.0
 DEFAULT_CACHE_AGE_DAYS = 7
+DEFAULT_GIT_TEMP_PACK_AGE_HOURS = 24.0
 CACHE_SOURCE_ROOTS = (".venv", "engineering", "tools", "tests", "services", "scripts")
 MAX_STATUS_WORKERS = 8
 MAX_STATUS_SECONDS = 20
@@ -397,6 +400,201 @@ def cleanup_bytecode(root=ROOT, *, minimum_age_days=DEFAULT_CACHE_AGE_DAYS,
     }
 
 
+def _active_git_processes() -> list[str] | None:
+    """Return active Git process command names, or None when /proc is unavailable."""
+    proc_root = Path("/proc")
+    if not proc_root.is_dir():
+        return None
+    active = []
+    for process in proc_root.iterdir():
+        if not process.name.isdigit():
+            continue
+        try:
+            command = (process / "comm").read_text(errors="replace").strip()
+        except FileNotFoundError:
+            continue
+        except OSError:
+            # Fail closed: an unreadable process could be writing an incoming pack.
+            return None
+        if command == "git" or command.startswith("git-"):
+            active.append(f"{process.name}:{command}")
+    return active
+
+
+def _git_pack_directory(root: Path) -> tuple[Path, str]:
+    top_level = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
+        check=True, capture_output=True, text=True, timeout=30,
+    ).stdout.strip()
+    if Path(top_level).resolve() != root:
+        raise ValueError("cleanup root must be the Git worktree root")
+    pack_dir = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--git-path", "objects/pack"],
+        check=True, capture_output=True, text=True, timeout=30,
+    ).stdout.strip()
+    common_dir = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--git-common-dir"],
+        check=True, capture_output=True, text=True, timeout=30,
+    ).stdout.strip()
+    object_format = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--show-object-format"],
+        check=True, capture_output=True, text=True, timeout=30,
+    ).stdout.strip()
+    path = Path(pack_dir)
+    if not path.is_absolute():
+        path = root / path
+    common = Path(common_dir)
+    if not common.is_absolute():
+        common = root / common
+    expected = (common / "objects" / "pack").resolve()
+    path = path.resolve()
+    if path != expected:
+        raise ValueError("custom or relocated Git object directory is held for review")
+    return path, object_format
+
+
+def _git_temp_pack_checksum(path: Path, object_format: str, info: os.stat_result) -> str:
+    """Check a temporary pack's header and trailing object-format checksum."""
+    try:
+        digest = hashlib.new(object_format)
+    except ValueError as error:
+        raise ValueError(f"unsupported Git object format: {object_format}") from error
+    trailer_size = digest.digest_size
+    if info.st_size == 0:
+        return "empty"
+    if info.st_size < 12 + trailer_size:
+        return "truncated"
+    with path.open("rb") as source:
+        header = source.read(12)
+        if len(header) != 12 or header[:4] != b"PACK":
+            return "invalid-header"
+        version, _object_count = struct.unpack(">II", header[4:12])
+        if version not in (2, 3):
+            return "unsupported-pack-version"
+        remaining = info.st_size - trailer_size
+        source.seek(0)
+        while remaining:
+            block = source.read(min(8 * 1024 * 1024, remaining))
+            if not block:
+                return "truncated"
+            digest.update(block)
+            remaining -= len(block)
+        trailer = source.read(trailer_size)
+        if len(trailer) != trailer_size:
+            return "truncated"
+    current = path.lstat()
+    if (current.st_dev != info.st_dev or current.st_ino != info.st_ino
+            or current.st_size != info.st_size
+            or current.st_mtime_ns != info.st_mtime_ns):
+        return "changed-during-inspection"
+    return "checksum-consistent" if digest.digest() == trailer else "checksum-mismatch"
+
+
+def cleanup_git_temp_packs(root=ROOT, *, minimum_age_hours=DEFAULT_GIT_TEMP_PACK_AGE_HOURS,
+                           apply=False, now=None) -> dict:
+    """Review or remove stale, incomplete Git incoming pack fragments.
+
+    Only Git's unindexed ``tmp_pack_*`` files are considered. Complete packs,
+    named ``*.pack`` objects, indexes, refs, worktrees, and research artifacts
+    are outside scope. Deletion is opt-in and requires an idle Git process set.
+    """
+    if (isinstance(minimum_age_hours, bool)
+            or not isinstance(minimum_age_hours, (int, float))
+            or not math.isfinite(minimum_age_hours)
+            or not 0 <= minimum_age_hours <= 8760):
+        raise ValueError("temporary pack age must be between 0 and 8760 hours")
+    if type(apply) is not bool:
+        raise ValueError("explicit boolean cleanup mode required")
+    root = Path(root).resolve()
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        raise ValueError("cleanup reference time must include a timezone")
+    pack_dir, object_format = _git_pack_directory(root)
+    if object_format not in ("sha1", "sha256"):
+        raise ValueError(f"unsupported Git object format: {object_format}")
+    active = _active_git_processes()
+    locks = sorted(path.name for path in pack_dir.glob("*.lock")) if pack_dir.is_dir() else []
+    cutoff = now.timestamp() - minimum_age_hours * 3600
+    candidates = []
+    errors = []
+    if pack_dir.is_dir():
+        paths = sorted(pack_dir.glob("tmp_pack_*"))
+    else:
+        paths = []
+    for path in paths:
+        try:
+            info = path.lstat()
+            allocated = (info.st_blocks * 512) or info.st_size
+            age_hours = max(0.0, (now.timestamp() - info.st_mtime) / 3600)
+            row = {"path": str(path), "size_bytes": info.st_size,
+                   "allocated_bytes": allocated, "age_hours": round(age_hours, 3),
+                   "validation": None, "status": "held", "reason": None}
+            if not stat.S_ISREG(info.st_mode) or path.is_symlink():
+                row["reason"] = "entry is not an ordinary regular file"
+            elif info.st_uid != os.geteuid():
+                row["reason"] = "entry is not owned by the current user"
+            elif info.st_nlink != 1:
+                row["reason"] = "entry has multiple hard links"
+            elif active is None:
+                row["reason"] = "could not establish whether Git is active"
+            elif active:
+                row["reason"] = "Git process is active"
+            elif locks:
+                row["reason"] = "Git pack lock file is present"
+            elif info.st_mtime > cutoff:
+                row["reason"] = "temporary pack is newer than the configured age"
+            else:
+                validation = _git_temp_pack_checksum(path, object_format, info)
+                row["validation"] = validation
+                if validation == "checksum-consistent":
+                    row["reason"] = "checksum-consistent pack requires full Git review"
+                elif validation == "unsupported-pack-version":
+                    row["reason"] = "unrecognized pack version; retained for review"
+                elif validation == "changed-during-inspection":
+                    row["reason"] = "temporary pack changed during inspection"
+                else:
+                    row["status"] = "eligible"
+                    row["reason"] = "stale empty or checksum-invalid Git temporary pack"
+                    if apply:
+                        current = path.lstat()
+                        if (not stat.S_ISREG(current.st_mode)
+                                or current.st_dev != info.st_dev
+                                or current.st_ino != info.st_ino
+                                or current.st_size != info.st_size
+                                or current.st_mtime_ns != info.st_mtime_ns):
+                            row.update(status="held",
+                                       reason="temporary pack changed before removal")
+                        else:
+                            path.unlink()
+                            row["status"] = "removed"
+                            row["reclaimed_bytes"] = allocated
+            candidates.append(row)
+        except OSError as error:
+            errors.append(f"{path}: {error}")
+            candidates.append({"path": str(path), "status": "unavailable",
+                               "reason": str(error), "allocated_bytes": 0})
+    removed = [row for row in candidates if row["status"] == "removed"]
+    eligible = [row for row in candidates if row["status"] in ("eligible", "removed")]
+    return {
+        "schema": "osr-performance-git-temp-pack-cleanup/1",
+        "root": str(root), "pack_directory": str(pack_dir),
+        "object_format": object_format,
+        "mode": "apply" if apply else "dry-run",
+        "minimum_age_hours": minimum_age_hours,
+        "active_git_processes": active,
+        "pack_lock_files": locks,
+        "candidate_count": len(candidates),
+        "eligible_count": len(eligible),
+        "eligible_bytes": sum(row.get("allocated_bytes", 0) for row in eligible),
+        "removed_count": len(removed),
+        "reclaimed_bytes": sum(row.get("reclaimed_bytes", 0) for row in removed),
+        "mutation_performed": bool(removed),
+        "scope": "Only stale checksum-invalid or empty Git tmp_pack_* files; checksum-consistent and unrecognized packs are held.",
+        "errors": errors,
+        "candidates": candidates,
+    }
+
+
 def _git_snapshot(root):
     try:
         revision = subprocess.run(
@@ -601,6 +799,14 @@ def main(argv=None, *, root=ROOT) -> int:
     cleanup = commands.add_parser("cleanup", help="Dry-run or remove stale source-tree bytecode caches")
     cleanup.add_argument("--minimum-age-days", type=float, default=DEFAULT_CACHE_AGE_DAYS)
     cleanup.add_argument("--apply", action="store_true", help="Remove only stale ordinary .pyc caches in the reported source roots")
+    git_cleanup = commands.add_parser(
+        "cleanup-git-packs",
+        help="Dry-run or remove stale incomplete Git incoming pack fragments",
+    )
+    git_cleanup.add_argument("--minimum-age-hours", type=float,
+                             default=DEFAULT_GIT_TEMP_PACK_AGE_HOURS)
+    git_cleanup.add_argument("--apply", action="store_true",
+                             help="Remove only stale empty or checksum-invalid tmp_pack_* files")
     measure = commands.add_parser("measure", help="Run an argv command and record process/resource metrics")
     measure.add_argument("--workspace", type=Path, required=True,
                          help="Dedicated job workspace whose allocated bytes are measured before and after")
@@ -619,6 +825,11 @@ def main(argv=None, *, root=ROOT) -> int:
             value = cleanup_bytecode(root, minimum_age_days=args.minimum_age_days,
                                      apply=args.apply)
             exit_code = 0
+        elif args.action == "cleanup-git-packs":
+            value = cleanup_git_temp_packs(
+                root, minimum_age_hours=args.minimum_age_hours, apply=args.apply,
+            )
+            exit_code = 0
         elif args.action == "measure":
             command = args.command[1:] if args.command[:1] == ["--"] else args.command
             value, exit_code = measure_command(command, workspace=args.workspace,
@@ -632,6 +843,7 @@ def main(argv=None, *, root=ROOT) -> int:
         schema = {
             "storage": "osr-performance-storage-inventory/1",
             "cleanup": "osr-performance-cleanup/1",
+            "cleanup-git-packs": "osr-performance-git-temp-pack-cleanup/1",
             "measure": "osr-performance-measurement/1",
             "compare": "osr-performance-comparison/1",
         }[args.action]
