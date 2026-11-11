@@ -13,6 +13,9 @@ import subprocess
 BASE_PATTERNS = (
     "/.gitignore",
     "/.github/release-smoke-tests.txt",
+    "/Cargo.lock",
+    "/Cargo.toml",
+    "/crates/**",
     "/LICENSES/**",
     "/engineering/*.py",
     "/engineering/development_baseline/**",
@@ -50,6 +53,7 @@ BASE_PATTERNS = (
     "/tools/automation/tests/verify-v06-software-journey-a.mjs",
     "/package.json",
     "/package-lock.json",
+    "/rust-toolchain.toml",
 )
 MIN_FREE_BYTES = 8 * 1024**3
 MIN_POST_EXPANSION_FREE_BYTES = 6 * 1024**3
