@@ -90,3 +90,32 @@ def test_output_tamper_is_detected_before_reuse(study):
         path.write_bytes(raw+b' ')
         with pytest.raises(ValueError,match='artifact differs'):workflow.verify(folder)
     finally:path.write_bytes(raw)
+
+
+def test_baghdad_service_comparison_replays_and_reprices_same_published_network(tmp_path):
+    original_folder=tmp_path/'baghdad-original'/'artifacts'
+    original_request=dict(city_slug='baghdad')
+    workflow.run(original_request,original_folder)
+    original_manifest=workflow.verify(original_folder,replay=True)
+    original=workflow.read_json(original_folder,'result.json')
+    original_plan=original['planning_revision']
+    line=original_plan['lines'][0]
+    alternative_request=dict(city_slug='baghdad',
+        base_seed_id=original_plan['official_seed_id'],
+        edit_bundle=bundle(original_plan,[dict(kind='set-service',line=line['id'],
+            headway_s=300.,dwell_s=35.)]))
+    alternative_folder=tmp_path/'baghdad-alternative'/'artifacts'
+    workflow.run(alternative_request,alternative_folder)
+    alternative_manifest=workflow.verify(alternative_folder,replay=True)
+    alternative=workflow.read_json(alternative_folder,'result.json')
+
+    assert original_manifest['source_sha256']==alternative_manifest['source_sha256']
+    assert original['source_outline_evaluation_id']==alternative['source_outline_evaluation_id']
+    assert original['city']['slug']==alternative['city']['slug']=='baghdad'
+    assert original['evaluation_id']!=alternative['evaluation_id']
+    assert len(original['city_outline']['cost']['scope_totals_usd'])==14
+    assert len(alternative['city_outline']['cost']['scope_totals_usd'])==14
+    assert original['city_outline']['cost']['whole_life_npv_usd']!=alternative['city_outline']['cost']['whole_life_npv_usd']
+    assert alternative['outline_acceptance'] in ('accepted','requires-revision')
+    assert all(alternative.get(flag) is False for flag in workflow.FLAGS)
+    assert not alternative['business_drafts']['external_transactions_performed']

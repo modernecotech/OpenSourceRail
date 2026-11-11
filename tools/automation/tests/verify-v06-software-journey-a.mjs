@@ -376,7 +376,10 @@ try {
     ui_status: warm.ui_status,
   };
 
-  const changed = await submit(page, 180);
+  await page
+    .locator('#city-study-options input[name="peak_demand_pphpd"]')
+    .fill("5200");
+  const changed = await submit(page, 120);
   assert.equal(changed.submitted.cache_hit, false);
   assert.equal(changed.submitted.resource_admission.admitted, true);
   assert.notEqual(changed.submitted.job_id, coldId);
@@ -397,7 +400,8 @@ try {
     context,
     `/api/city-atlas/study/${changedId}`,
   );
-  assert.equal(changedResult.request.service.maximum_headway_s, 180);
+  assert.equal(changedResult.request.service.maximum_headway_s, 120);
+  assert.equal(changedResult.request.service.peak_demand_pphpd, 5200);
   assert.notEqual(changedSummary.evaluation_id, coldSummary.evaluation_id);
   assert.notEqual(changedManifest.manifest_id, coldManifest.manifest_id);
   assert.equal(
@@ -408,10 +412,20 @@ try {
     job_id: changedId,
     manifest_id: changedManifest.manifest_id,
     evaluation_id: changedSummary.evaluation_id,
-    request_headway_s: 180,
+    request_headway_s: 120,
+    request_peak_demand_pphpd: 5200,
     distinct_from_cold:
       changedSummary.evaluation_id !== coldSummary.evaluation_id,
     cost_scope_count: changedSummary.scope_totals_usd.length,
+    scope_totals_usd: changedSummary.scope_totals_usd,
+    whole_life_npv_delta_usd: Object.fromEntries(
+      Object.entries(changedResult.city_outline.cost.whole_life_npv_usd).map(
+        ([caseName, amount]) => [
+          caseName,
+          amount - coldResult.city_outline.cost.whole_life_npv_usd[caseName],
+        ],
+      ),
+    ),
     physical_accepted: changedSummary.physical_accepted,
   };
   report.city_study_posts = submissions.length;
