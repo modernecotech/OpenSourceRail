@@ -16,6 +16,8 @@ BASE_PATTERNS = (
     "/engineering/development_baseline/**",
     "/engineering/design_search/contracts.py",
     "/engineering/design_search/storage.py",
+    "/engineering/outline/**",
+    "/engineering/performance.py",
     "/engineering/trip_dynamics/__init__.py",
     "/engineering/trip_dynamics/interactive.py",
     "/tests/test_v06_software_release_gate.py",
