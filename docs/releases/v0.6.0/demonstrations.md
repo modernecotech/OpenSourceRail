@@ -11,7 +11,7 @@ flags remain false in every example.
 3. Submit one baseline service request and inspect its fleet, energy assumptions,
    civil quantity classes and 14-scope cost result.
 4. Repeat the identical request and confirm the same sealed result is reused.
-5. Change peak demand to 5,200 passengers/hour/direction and confirm a distinct
+5. Change peak demand from 4,000 to 9,000 passengers/hour/direction and confirm a distinct
    evaluation identity and visible cost/service differences.
 6. Open the summary, result, manifest, performance, delivery-plan and disabled
    business-draft exports; run the independent result replay.
