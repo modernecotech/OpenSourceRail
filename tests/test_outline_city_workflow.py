@@ -100,10 +100,12 @@ def test_baghdad_service_comparison_replays_and_reprices_same_published_network(
     original=workflow.read_json(original_folder,'result.json')
     original_plan=original['planning_revision']
     line=original_plan['lines'][0]
+    alternative_edits=bundle(original_plan,[dict(kind='set-service',line=line['id'],
+        headway_s=300.,dwell_s=35.)])
+    alternative_edits['seed_id']=original_plan['outline_context']['seed']['seed_id']
     alternative_request=dict(city_slug='baghdad',
-        base_seed_id=original_plan['official_seed_id'],
-        edit_bundle=bundle(original_plan,[dict(kind='set-service',line=line['id'],
-            headway_s=300.,dwell_s=35.)]))
+        base_seed_id=original_plan['outline_context']['seed']['seed_id'],
+        edit_bundle=alternative_edits)
     alternative_folder=tmp_path/'baghdad-alternative'/'artifacts'
     workflow.run(alternative_request,alternative_folder)
     alternative_manifest=workflow.verify(alternative_folder,replay=True)
