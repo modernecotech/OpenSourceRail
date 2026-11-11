@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **214**.
+Indexed Markdown files: **213**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **214**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 182 |
+| [docs](#docs) | 181 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -83,7 +83,6 @@ Indexed Markdown files: **214**.
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
-| [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway maps and calculated studies |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
 | [`docs/design-engine/city-price-review/README.md`](../docs/design-engine/city-price-review/README.md) | City price review — 6 November 2026 |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
