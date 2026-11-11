@@ -74,6 +74,45 @@ def test_new_active_source_and_current_dossier_do_not_rewrite_old_evidence(fixtu
     assert r.verify(root)['verified']
 
 
+def test_evolved_coupled_packet_is_checked_separately_from_retired_git_bytes(fixture,monkeypatch):
+    root,_=fixture
+    folder=root/'docs/design-engine/coupled-railway'
+    write(root,'docs/design-engine/coupled-railway/README.md',b'original coupled packet\n')
+    old_packet=sealed(dict(schema='fixture-coupled/1',source_sha256={},
+        files_sha256={'README.md':r._hash(folder/'README.md')},
+        **{k:False for k in ('physical_accepted','engineering_accepted','manufacturing_release','operating_release')}),'manifest_id')
+    write(root,'docs/design-engine/coupled-railway/manifest.json',old_packet)
+    subprocess.run(['git','add','.'],cwd=root,check=True)
+    subprocess.run(['git','commit','-q','-m','Pinned coupled packet'],cwd=root,check=True)
+    commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    monkeypatch.setattr(r,'COMMIT',commit)
+    monkeypatch.setattr(r,'PACKETS',{
+        'research':('source_sha256','files_sha256','manifest_id',('result.json','portfolio_id')),
+        'coupled-railway':('source_sha256','files_sha256','manifest_id',None),
+    })
+    retired=r._snapshot(root)
+    monkeypatch.setattr(r,'EXPECTED_RECEIPT_ID',retired['retention_id'])
+    write(root,r.OUTPUT+'/manifest.json',retired)
+
+    # The live packet advances, while the exact old bytes remain in COMMIT.
+    addition=folder/'native/current.tar.gz';addition.parent.mkdir(parents=True,exist_ok=True);addition.write_bytes(b'new source-bound packet\n')
+    current=json.loads((folder/'manifest.json').read_bytes())
+    current['files_sha256']['native/current.tar.gz']=r._hash(addition)
+    current.pop('manifest_id');current['manifest_id']=r.identity(current)
+    write(root,'docs/design-engine/coupled-railway/manifest.json',current)
+    def verify_current(root_arg):
+        manifest=json.loads((Path(root_arg)/'docs/design-engine/coupled-railway/manifest.json').read_bytes())
+        assert manifest['manifest_id']==r.identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+        assert r._hash(Path(root_arg)/'docs/design-engine/coupled-railway/native/current.tar.gz')==manifest['files_sha256']['native/current.tar.gz']
+        return dict(verified=True,manifest_id=manifest['manifest_id']),list((Path(root_arg)/'docs/design-engine/coupled-railway').rglob('*'))
+    monkeypatch.setattr(r,'_verify_current_coupled_packet',verify_current)
+    r._cache.clear()
+    result=r.verify(root)
+    assert result['verified'] and result['historical_payloads_verified_from_pinned_git'] is True
+    assert result['active_packet_manifest_ids']=={'coupled-railway':current['manifest_id']}
+    assert 'docs/design-engine/coupled-railway/README.md' not in result['dependency_sha256']
+
+
 def test_retired_packet_payload_tampering_is_not_accepted(fixture):
     root,_=fixture;r.verify(root);write(root,'docs/design-engine/research/result.json',b'changed\n')
     with pytest.raises(ValueError,match='payload changed'):r.verify(root)

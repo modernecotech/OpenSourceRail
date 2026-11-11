@@ -59,6 +59,10 @@ The earlier ±600 mm rail/axle-patch projection was incompatible with the vehicl
 gauge and is retained only in its original source-bound trial archive.
 [That earlier proof is preserved at its exact historical revision](https://github.com/modernecotech/OpenSourceRail/blob/63050d68ff/engineering/railway_closure/data/civil-native/civil-final-load01-proof.json);
 it is not evidence for the corrected gauge or current load evaluation.
+The corrected-gauge, current-load three-mesh comparison is recorded in the
+[current civil proof manifest](../railway_closure/data/civil-native/civil-native-current-6c4a9d6e5886.json).
+It remains gross elastic numerical evidence and does not qualify the bridge or
+grant physical, construction, manufacturing or operating acceptance.
 Gross concrete includes occupied reinforcement/duct space, so CAD material
 volumes must not be added to stock mass as installed mass. Final installed mass
 remains unknown. The scene is a useful outline, not a fabrication drawing.

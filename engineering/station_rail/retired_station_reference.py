@@ -1,8 +1,8 @@
 """Verify the retired station-LIM reference without admitting it as an active design.
 
-The exact published 3bf38a5 Git tree is the archive. Only compact immutable pins
-are added. Sources, native archives and the old current dossier are checked from
-that tree; retired comparison packets additionally remain byte-checked in place.
+The exact published 3bf38a5 Git tree is the archive. Sources and old packets are
+read from pinned Git blobs. A packet that has since advanced is checked by its
+own current publisher, while the original bytes remain retrievable by commit.
 No lazy fetch, solver replay, current-evaluator admission or physical approval.
 Shared-filesystem integrity checks are not an OS security sandbox.
 """
@@ -233,6 +233,19 @@ def _verify_blobs(root,records):
     while len(_cache)>2:_cache.popitem(last=False)
 
 
+def _verify_current_coupled_packet(root):
+    """Verify the active coupled-railway publication independently of its old pin."""
+    folder=_path(root,'docs/design-engine/coupled-railway')
+    paths=list(folder.rglob('*'))
+    if any(p.is_symlink() for p in paths):
+        raise RetiredReferenceHold('Linked active coupled-railway evidence is not allowed')
+    from engineering.design_search.railway_publication import verify as verify_publication
+    result=verify_publication(root,output=folder)
+    if result.get('verified') is not True:
+        raise RetiredReferenceHold('Current coupled-railway publication did not verify')
+    return result,paths
+
+
 def verify(root=ROOT):
     root=Path(root).resolve()
     if _hash(_path(root,PRODUCER))!=_LOADED_SHA:raise RetiredReferenceHold('Loaded retired-reference verifier source differs')
@@ -243,12 +256,25 @@ def verify(root=ROOT):
     _verify_blobs(root,m['git_files'])
     deps={PRODUCER:_hash(_path(root,PRODUCER)),OUTPUT+'/manifest.json':sha256(raw).hexdigest()}
     stamps={path:_stamp(path),_path(root,PRODUCER):_stamp(_path(root,PRODUCER))}
+    active_packets={};evolved_packets=set()
     for name,packet in m['packets'].items():
         folder=_path(root,'docs/design-engine/'+name);paths=list(folder.rglob('*'))
         if any(p.is_symlink() for p in paths):raise RetiredReferenceHold('Linked retired evidence is not allowed')
+        if name=='coupled-railway':
+            manifest_path=folder/'manifest.json'
+            if not manifest_path.is_file():raise RetiredReferenceHold('Current coupled-railway manifest is missing')
+            current_manifest_sha=sha256(manifest_path.read_bytes()).hexdigest()
+            if current_manifest_sha!=packet['manifest_sha256']:
+                result,paths=_verify_current_coupled_packet(root)
+                evolved_packets.add(name)
+                active_packets[name]=result['manifest_id']
+                stamps.update({p:_stamp(p) for p in paths if p.is_file()})
+                continue
         if {p.relative_to(root).as_posix() for p in paths if p.is_file()}!=set(packet['files_sha256']):
             raise RetiredReferenceHold('Retired comparison file inventory changed: '+name)
     for name,wanted in m['current_path_files_sha256'].items():
+        if any(name.startswith('docs/design-engine/'+packet+'/') for packet in evolved_packets):
+            continue
         p=_path(root,name)
         if not p.is_file() or _hash(p)!=wanted:raise RetiredReferenceHold('Retired comparison payload changed: '+name)
         deps[name]=wanted;stamps[p]=_stamp(p)
@@ -258,7 +284,8 @@ def verify(root=ROOT):
         reference_selection_id=m['reference_selection_id'],reference_evaluation_id=m['reference_evaluation_id'],
         reference_candidate_ids=m['reference_candidate_ids'],retired_manifest_ids={k:v['manifest_id'] for k,v in m['packets'].items()},
         packet_count=len(m['packets']),git_file_count=len(m['git_files']),
-        dependency_sha256=dict(sorted(deps.items())),scope=m['scope'],**FLAGS)
+        dependency_sha256=dict(sorted(deps.items())),active_packet_manifest_ids=active_packets,
+        historical_payloads_verified_from_pinned_git=True,scope=m['scope'],**FLAGS)
 
 
 def reference_bytes(relative,root=ROOT):

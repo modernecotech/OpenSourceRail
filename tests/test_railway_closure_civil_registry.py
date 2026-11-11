@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 import pytest
-from engineering.railway_closure import ROOT,civil_reference as proof
+from engineering.railway_closure import ROOT,civil_reference as proof,civil_package
 from engineering.station_rail.common import encoded,identity
 
 
@@ -10,6 +10,20 @@ def registry(folder,names):
     folder.mkdir(parents=True,exist_ok=True)
     value={'schema':'osr-civil-proof-registry/1','manifests':names}
     value['index_id']=identity(value);(folder/proof.INDEX).write_bytes(encoded(value))
+
+
+def test_civil_proof_compaction_keeps_results_and_records_recoverable_scratch(tmp_path):
+    assert civil_package._omission_reason('case-1/fieldcraft/rolling-1.fieldcraft')
+    assert civil_package._omission_reason('case-1/fieldcraft/rolling-1.fieldcraft.bak')
+    assert civil_package._omission_reason('case-1/mesh-native/imported.msh')
+    assert civil_package._omission_reason('case-1/input.step')
+    assert civil_package._omission_reason('case-1/result.json') is None
+    assert civil_package._omission_reason('case-1/mesh.json') is None
+    source=tmp_path/'input.json';source.write_text('{"same":true}\n')
+    first=tmp_path/'first.tar.gz';second=tmp_path/'second.tar.gz'
+    civil_package._stable_tar(first,{'proof/input.json':source})
+    civil_package._stable_tar(second,{'proof/input.json':source})
+    assert first.read_bytes()==second.read_bytes()
 
 
 def test_current_archive_matches_only_exact_evaluation():
