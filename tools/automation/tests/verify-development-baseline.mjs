@@ -133,16 +133,17 @@ try {
     await portfolioRequestPaused;
     await route.continue();
   });
-  const portfolioResponsePromise = page.waitForResponse(
-    (response) => response.url().endsWith("/api/portfolios/current"),
-    { timeout: 120000 },
-  );
+  let portfolioResponsePromise;
   const firstRenderStartedAt = Date.now();
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
   report.workbench_first_render_seconds = (Date.now() - firstRenderStartedAt) / 1000;
   await portfolioRequestSeen;
   assert.match(await page.locator("#portfolio-status").innerText(), /Checking source-bound/);
+  portfolioResponsePromise = page.waitForResponse(
+    (response) => response.url().endsWith("/api/portfolios/current"),
+    { timeout: 120000 },
+  );
   releasePortfolioRequest();
   assert(page.url().endsWith("/docs/workbench/current/"));
   const costResponse = await context.request.get(
@@ -345,6 +346,7 @@ try {
   await waitForPortfolioStatus(page);
   assert.equal(portfolioResponse.status(), 200, await portfolioResponse.text());
   const portfolios = await portfolioResponse.json();
+  await page.unroute("**/api/portfolios/current");
   assert.equal(
     portfolios.selected_reference_context.candidate_id,
     current.candidate_id,

@@ -606,14 +606,25 @@ async function start() {
     const baghdad = cities.Baghdad || cities.baghdad || {};
     fact(nf,"Baghdad","Priced outline available in the city workspace; engineering verification pending");
     renderGates(packet.gates || packet.readiness?.gates);
-    try {
-      await renderPortfolios(current);
-    } catch (error) {
+    for (const key of identityKeys)
+      fact(byId("identities"), key==="propulsion_component_id"?"reference passive interface ID":key.replaceAll("_", " "), current[key]);
+    byId("native-scope").textContent =
+      "Native evidence scope: " +
+      readable(
+        packet.native?.methodscope ||
+          packet.native?.method_scope ||
+          packet.native?.scope ||
+          packet.native ||
+          "See the current engineering report.",
+      );
+    byId("loading").hidden = true;
+    byId("design").hidden = false;
+    void renderPortfolios(current).catch((error) => {
       byId("portfolio-status").textContent = "Held: " + error.message;
       byId("portfolio-controls").hidden = true;
       byId("portfolio-detail").hidden = true;
       byId("portfolio-rows").replaceChildren();
-    }
+    });
     try {
       const campaign = await request("/api/campaigns/current");
       if (
@@ -775,19 +786,6 @@ async function start() {
       byId("railway-status").textContent =
         "No current source-bound coordinated publication is available.";
     }
-    for (const key of identityKeys)
-      fact(byId("identities"), key==="propulsion_component_id"?"reference passive interface ID":key.replaceAll("_", " "), current[key]);
-    byId("native-scope").textContent =
-      "Native evidence scope: " +
-      readable(
-        packet.native?.methodscope ||
-          packet.native?.method_scope ||
-          packet.native?.scope ||
-          packet.native ||
-          "See the current engineering report.",
-      );
-    byId("loading").hidden = true;
-    byId("design").hidden = false;
     try {
       const catalogue = validated(await request("/api/cities"), current);
       const rows = Array.isArray(catalogue)
