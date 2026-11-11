@@ -21,7 +21,7 @@ def inputs(context,shape='radial',fallback=False):
     return c,[dict(line_id='A',shape=shape,requirements=r,design=d,service=s,propulsion_hypothesis=h)]
 
 
-def cost(city,rows,context):
+def seal_inputs(city,rows,context):
     # Explicit independent sealed fixtures; production calls must supply their
     # genuine city/service/configuration receipts without this test helper.
     city['input_id']=identity({k:v for k,v in city.items() if k!='input_id'})
@@ -33,6 +33,10 @@ def cost(city,rows,context):
         service.update(requirements=deepcopy(req),design=deepcopy(row['design']),reference_vehicle_candidate_id=context['vehicle']['candidate_id'],reference_vehicle_evaluation_id=context['vehicle']['evaluation_id'])
         service['evaluation_id']=identity({k:v for k,v in service.items() if k!='evaluation_id'})
         row['evaluation_id']=identity({k:v for k,v in row.items() if k!='evaluation_id'})
+
+
+def cost(city,rows,context):
+    seal_inputs(city,rows,context)
     return city_project_cost.evaluate_city_cost(city,rows,context)
 
 
@@ -48,6 +52,26 @@ def test_complete_city_all_fourteen_scopes_and_accounting_identity(context):
     assert v['evaluation_id']==identity({k:z for k,z in v.items() if k!='evaluation_id'})
     assert all(v[k] is False for k in city_project_cost.FLAGS)
     assert v['assumptions']['local_rates_verified'] is False
+    assert v['city'] == c['city'] and v['city'] is not c['city']
+    v['city']['slug']='changed-result-copy'
+    assert c['city']['slug']=='fixture'
+
+
+def test_operational_access_graph_remaps_complexes_without_mutating_inputs(context):
+    c,s=inputs(context)
+    c['interchanges']=[dict(id='X',platforms=['a','b']),dict(id='Y',platforms=['b','c'])]
+    s[0]['operational_stops']=[dict(id='complex-ab',chainage_m=0.),dict(id='c',chainage_m=6000.)]
+    s[0]['station_repair']={'complexes':[dict(original_stop_ids=['a','b'],operational_stop_id='complex-ab')]}
+    seal_inputs(c,s,context)
+    original=deepcopy((c,s))
+    value=city_project_cost.evaluate_city_cost(c,s,context)
+    assert (c,s)==original
+    assert value['resources']['line_stop_records']==2
+    assert value['resources']['original_map_stop_records']==3
+    assert value['resources']['access_sites']==1
+    assert value['resources']['interchanges']==2
+    value['city']['name']='changed-result-copy'
+    assert c['city']['slug']=='fixture'
 
 
 def test_reserve_auxiliary_electricity_and_supply_ledger_reconcile(context):

@@ -83,7 +83,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     Unknown locality and detailed engineering remain bounded transferred planning
     hypotheses. Neither historical passenger capacity nor old city cost is used.
     """
-    root=Path(root);p=_settings(policy);city=deepcopy(city_input);services=deepcopy(line_services)
+    root=Path(root);p=_settings(policy);city=city_input;services=line_services
     ids=[z['line_id'] for z in city['lines']]
     if set(ids)!={z['line_id'] for z in services} or len(services)!=len(ids):raise ValueError('Exactly one service per mapped line required')
     if any(z.get('city_input_id',city['input_id'])!=city['input_id'] for z in services):raise ValueError('Mixed city/service identities')
@@ -91,9 +91,10 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     by={z['line_id']:z for z in services};spec=deepcopy(context['spec']);d=spec['design'];a=spec['capital'];l=spec['lifecycle'];fx=spec['currency']['iqd_per_usd']
     fleet=sum(z['service']['total_trainsets'] for z in services);cars=sum(z['service']['totalcars'] for z in services)
     if type(fleet) is not int or fleet<=0 or cars!=fleet*6:raise ValueError('Explicit positive six-car network fleet required')
-    access_city=deepcopy(city);aliases={};station_rows=0;boarding_edges=0;extra_edges=0;repair_walkway=0.;platform_area=0.;line_extra={}
-    for line in access_city['lines']:
-        row=by[line['line_id']];service=row['service'];stops=row.get('operational_stops',line['stops']);line['stops']=deepcopy(stops)
+    access_lines=[];aliases={};station_rows=0;boarding_edges=0;extra_edges=0;repair_walkway=0.;platform_area=0.;line_extra={}
+    for line in city['lines']:
+        row=by[line['line_id']];service=row['service'];stops=row.get('operational_stops',line['stops'])
+        access_lines.append(dict(line_id=line['line_id'],shape=line['shape'],stops=stops))
         n=len(stops);parallel=max(1,int(service.get('minimum_parallel_berth_resources',1)))
         terminal_extra=int(service.get('terminal_additional_positions',0)) if line['shape']=='radial' else 0
         extra=2*n*(parallel-1)+terminal_extra;edges=2*n+extra;line_extra[line['line_id']]=extra
@@ -103,8 +104,8 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         for stop in stops:aliases[stop['id']]=stop['id']
         for complex in repair.get('complexes',[]):
             for original in complex['original_stop_ids']:aliases[original]=complex['operational_stop_id']
-    for interchange in access_city.get('interchanges',[]):
-        interchange['platforms']=list(dict.fromkeys(aliases.get(x,x) for x in interchange.get('platforms',[])))
+    access_interchanges=[dict(id=row['id'],platforms=list(dict.fromkeys(aliases.get(x,x) for x in row.get('platforms',[]))))
+        for row in city.get('interchanges',[])]
     cost_policy=deepcopy(policy or {});cost_policy.setdefault('civil',{})
     cost_policy['civil']['additional_station_track_m']=extra_edges*(d['platform_length_m']+100.)
     cost_policy['civil']['additional_station_track_runs']=float(extra_edges)
@@ -139,7 +140,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
     add(capital,'network-common-installed-interface-reserve','rolling-stock',dict(cars=cars,kg_per_car=d['added_vehicle_mass_kg_per_car']),
         [cars*d['added_vehicle_mass_kg_per_car']*z/fx for z in a['vehicle_interface_iqd_per_kg']],
         'Retained common installation/coupler/protection mass reserve priced once; no unverified removal credit.',l['vehicle_life_years'])
-    access_sites,interchanges=_access_sites(access_city)
+    access_sites,interchanges=_access_sites(dict(lines=access_lines,interchanges=access_interchanges))
     stat=context['assumptions']['assumptions'];transfer=p['foreign_local_rate_transfer']
     add(capital,'line-platform-structures','stations-power',dict(platform_edges=boarding_edges,area_m2=platform_area),
         [platform_area*stat['station_platform_iqd_per_m2'][i]/fx*transfer[i] for i in range(3)],'Current 120 m platform planning envelope per line/direction; old short platform sizes are not inherited.',[40.,30.,20.])
@@ -151,12 +152,12 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
         'Nonzero accessible relocated-stop links and protected bypass/turnout/interface packages; extra track/deck/piers/rails are included in civil quantities. Walking routes, station throats and signalling remain unqualified.',[40.,30.,20.])
     launch_ids=[];fallback_ids=[];drive_sources={};drive_energy={c:0. for c in CASES};fleet_mass_t=6*(context['vehicle']['mass']['accounted_cap_loaded_kg_per_car']+d['added_vehicle_mass_kg_per_car'])/1000
     for line in city['lines']:
-        row=by[line['line_id']];service=row['service'];ss=deepcopy(spec);ss['requirements']=deepcopy(row['requirements']);ss['design']=deepcopy(row['design']);kind=row.get('propulsion_hypothesis',{}).get('kind','station-launch-reference')
+        row=by[line['line_id']];service=dict(row['service']);ss=deepcopy(spec);ss['requirements']=deepcopy(row['requirements']);ss['design']=deepcopy(row['design']);kind=row.get('propulsion_hypothesis',{}).get('kind','station-launch-reference')
         prefix=line['line_id']+'/'
         if kind=='station-launch-reference':
             launch_ids.append(line['line_id']);service.setdefault('jerk_bound',compact_launch.jerk_bound(ss['design']['speed_m_s'],ss['design']['acceleration_m_s2'],ss['design']['jerk_m_s3']))
             revised,drive=supply_economics._electrical(ss,service,p['station_launch_mode'],root,civil['unit_rates'])
-            equipment_service=deepcopy(service);equipment_service['departure_sites']*=max(1,int(service.get('minimum_parallel_berth_resources',1)))
+            equipment_service=dict(service);equipment_service['departure_sites']*=max(1,int(service.get('minimum_parallel_berth_resources',1)))
             lines,_=budget._drive(revised,equipment_service,civil['unit_rates'],p['station_launch_mode'])
             for z in lines:add(capital,prefix+z['key'],z['scope'],z['quantity'],[z['costs_iqd'][c]/fx for c in CASES],z['basis'],z['life_years'])
             departures=service['departure_sites']*3600/ss['requirements']['headway_s']*ss['requirements']['operating_hours_per_day']*ss['requirements']['operating_days_per_year']
@@ -296,7 +297,7 @@ def evaluate_city_cost(city_input,line_services,context,policy=None,root=ROOT):
             if name in sources and sources[name]!=sha:raise ValueError('Mixed city pricing source epochs: '+name)
             sources[name]=sha
     if any(digest(root/name)!=sha for name,sha in sources.items()):raise ValueError('City pricing sources changed during evaluation')
-    result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],input_line_services_id=identity(line_services),city=city['city'],capital_lines=capital,lifecycle_lines=life,
+    result=dict(schema='osr-city-project-cost/1',city_input_id=city['input_id'],input_line_services_id=identity(line_services),city=deepcopy(city['city']),capital_lines=capital,lifecycle_lines=life,
         scope_totals_usd=scopes,installed_capital_usd=totals,whole_life_npv_usd={c:totals[c]+fsum(z['costs_usd'][c] for z in life) for c in CASES},
         energy_ledger=dict(cases=energy_cases,annual=True,reserve_auxiliary_fraction=l['reserve_aux_fraction'],
             charger_losses_in_active_and_reserve_auxiliaries=True,physical_grid_demand_verified=False,
