@@ -1057,7 +1057,8 @@ class ArchitectureRoutingTests(unittest.TestCase):
         for path in ('engineering/readme_context.py', 'engineering/maglev_research/readme_context.py',
                      'install.sh', '.github/repository-metadata.yml', 'engineering/requirements.txt',
         'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py',
-                     'engineering/development_baseline/**'):
+                     'engineering/development_baseline/**',
+                    'docs/design-engine/v06-design-closure/**'):
             with self.subTest(path=path):
                 with self.assertRaises(AssertionError):
                     # Removing only the PR entry must fail even when main pushes still cover it.
