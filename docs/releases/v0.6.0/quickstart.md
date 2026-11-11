@@ -16,7 +16,8 @@ git sparse-checkout set --no-cone \
   /docs/design-engine/outline-completion/manifest.json \
   /docs/design-engine/city-atlas/manifest.json \
   /docs/design-engine/coupled-railway/manifest.json \
-  /docs/workbench/city-atlas-assets.json
+  /docs/workbench/city-atlas-assets.json \
+  /docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/body.json.gz
 python3 tools/automation/prepare-v06-release-checkout.py
 ```
 
