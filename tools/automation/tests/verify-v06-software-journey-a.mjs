@@ -391,7 +391,7 @@ try {
 
   await page
     .locator('#city-study-options input[name="peak_demand_pphpd"]')
-    .fill("5200");
+    .fill("9000");
   const changed = await submit(page, 120);
   assert.equal(changed.submitted.cache_hit, false);
   assert.equal(changed.submitted.resource_admission.admitted, true);
@@ -414,9 +414,19 @@ try {
     `/api/city-atlas/study/${changedId}`,
   );
   assert.equal(changedResult.request.service.maximum_headway_s, 120);
-  assert.equal(changedResult.request.service.peak_demand_pphpd, 5200);
+  assert.equal(changedResult.request.service.peak_demand_pphpd, 9000);
   assert.notEqual(changedSummary.evaluation_id, coldSummary.evaluation_id);
   assert.notEqual(changedManifest.manifest_id, coldManifest.manifest_id);
+  assert(
+    changedSummary.trainsets !== coldSummary.trainsets ||
+      Object.entries(changedSummary.scope_totals_usd).some(([scope, cases]) =>
+        Object.keys(cases).some(
+          (caseName) =>
+            cases[caseName] !== coldSummary.scope_totals_usd[scope][caseName],
+        ),
+      ),
+    "The changed demand case must expose a fleet or cost effect",
+  );
   assert.equal(
     changedPacket.identity.workflow_evaluation_id,
     changedSummary.evaluation_id,
@@ -426,10 +436,19 @@ try {
     manifest_id: changedManifest.manifest_id,
     evaluation_id: changedSummary.evaluation_id,
     request_headway_s: 120,
-    request_peak_demand_pphpd: 5200,
+    request_peak_demand_pphpd: 9000,
+    trainsets: changedSummary.trainsets,
     distinct_from_cold:
       changedSummary.evaluation_id !== coldSummary.evaluation_id,
     cost_scope_count: Object.keys(changedSummary.scope_totals_usd).length,
+    changed_cost_scopes: Object.entries(changedSummary.scope_totals_usd)
+      .filter(([scope, cases]) =>
+        Object.keys(cases).some(
+          (caseName) =>
+            cases[caseName] !== coldSummary.scope_totals_usd[scope][caseName],
+        ),
+      )
+      .map(([scope]) => scope),
     scope_totals_usd: changedSummary.scope_totals_usd,
     whole_life_npv_delta_usd: Object.fromEntries(
       Object.entries(changedResult.city_outline.cost.whole_life_npv_usd).map(
