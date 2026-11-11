@@ -37,7 +37,8 @@ def project(service,request,requirements):
 
 
 def _capacity_check(row,requirements):
-    demand=row['requirements']['peak_demand_pphpd']
+    demand=row['requirements'].get('peak_demand_pphpd',requirements.get('peak_demand_pphpd'))
+    if demand is None:raise ValueError('Explicit line or revision demand required')
     return dict(line_id=row['line_id'],capacity_pass=row['service']['planning_usable_capacity_pphpd']>=demand,
         headway_pass=row['requirements']['headway_s']<=requirements.get('maximum_headway_s',300.),
         demand_pphpd=demand,requested_headway_s=row['requirements']['headway_s'],actual_availability_proven=False)

@@ -111,3 +111,23 @@ def test_repeat_evaluation_and_cache_location_do_not_change_identity(prepared,tm
     assert ce.evaluate(city(),second)==a
     wrong=deepcopy(a);wrong['evaluation_id']='0'*64
     with pytest.raises(ValueError):ce.revise(city(),wrong)
+
+
+def test_prepare_batches_uncached_small_git_objects_and_reuses_verified_cache(prepared,tmp_path,monkeypatch):
+    original=ce.subprocess.check_output
+    batches=[]
+    def observed(args,**kwargs):
+        if args[-2:]==['cat-file','--batch']:
+            batches.append(kwargs['input'].decode('ascii').splitlines())
+        return original(args,**kwargs)
+    monkeypatch.setattr(ce.subprocess,'check_output',observed)
+
+    cache=tmp_path/'batch-cache'
+    cold=ce.prepare(prepared['root'],cache)
+    assert len(batches)==1 and len(batches[0])==2
+    assert cold['context_id']==prepared['context_id']
+
+    batches.clear()
+    warm=ce.prepare(prepared['root'],cache)
+    assert batches==[]
+    assert warm['context_id']==prepared['context_id']

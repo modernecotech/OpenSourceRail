@@ -17,6 +17,7 @@ from engineering.station_rail.common import digest, identity
 PRODUCER = 'engineering/outline/civil_evidence.py'
 PINNED_REVISION = 'a0389044828f661fe74ff314aed7fbe26748638a'
 MAX_MASK_BYTES = 64 * 1024 * 1024
+MAX_BLOB_BATCH_BYTES = 8 * 1024 * 1024
 FLAGS = dict(physical_accepted=False, engineering_accepted=False, manufacturing_release=False,
              operating_release=False, selected_reference_changed=False, movement_authority=False)
 LIMITATIONS = [
@@ -52,6 +53,74 @@ def _blob(root, obj, cache):
     return data
 
 
+def _cache_blobs(root, objects, cache):
+    """Fetch small immutable evidence blobs in bounded cat-file batches."""
+    unique = {obj['oid']: obj for obj in objects}
+    missing = []
+    for oid, obj in sorted(unique.items()):
+        if obj['size'] > MAX_MASK_BYTES:
+            raise ValueError('Historical blob exceeds evidence resource budget')
+        path = cache / oid
+        if path.exists():
+            _blob(root, obj, cache)
+        else:
+            missing.append(obj)
+
+    batches = []
+    batch = []
+    batch_bytes = 0
+    for obj in missing:
+        if batch and batch_bytes + obj['size'] > MAX_BLOB_BATCH_BYTES:
+            batches.append(batch)
+            batch, batch_bytes = [], 0
+        batch.append(obj)
+        batch_bytes += obj['size']
+    if batch:
+        batches.append(batch)
+
+    for batch in batches:
+        raw = subprocess.check_output(
+            ['git', '-C', str(root), '-c', 'core.deltaBaseCacheLimit=8m',
+             '-c', 'core.packedGitWindowSize=8m', '-c', 'core.packedGitLimit=64m',
+             'cat-file', '--batch'],
+            input=''.join(obj['oid']+'\n' for obj in batch).encode('ascii'))
+        offset = 0
+        for obj in batch:
+            end = raw.find(b'\n', offset)
+            if end < 0:
+                raise ValueError('Truncated historical Git batch header')
+            header = raw[offset:end].split()
+            if len(header) != 3 or header[0].decode('ascii') != obj['oid'] or header[1] != b'blob':
+                raise ValueError('Historical Git batch object identity differs')
+            try:
+                size = int(header[2])
+            except ValueError as exc:
+                raise ValueError('Historical Git batch size is invalid') from exc
+            if size != obj['size'] or size > MAX_MASK_BYTES:
+                raise ValueError('Historical Git batch object size differs')
+            start, stop = end+1, end+1+size
+            if stop >= len(raw) or raw[stop:stop+1] != b'\n':
+                raise ValueError('Truncated historical Git batch object')
+            data = raw[start:stop]
+            if sha1(b'blob '+str(size).encode()+b'\0'+data).hexdigest() != obj['oid']:
+                raise ValueError('Historical Git batch object checksum differs')
+            path = cache/obj['oid']
+            with tempfile.NamedTemporaryFile(dir=cache, delete=False) as stream:
+                stream.write(data)
+                temporary = Path(stream.name)
+            try:
+                temporary.chmod(0o444)
+                try:
+                    os.link(temporary, path)
+                except FileExistsError:
+                    pass
+            finally:
+                temporary.unlink(missing_ok=True)
+            offset = stop+1
+        if offset != len(raw):
+            raise ValueError('Unexpected bytes after historical Git batch objects')
+
+
 def prepare(root=ROOT, cache=None):
     """Index retained Git objects without downloads; cache is a private run folder.
 
@@ -67,12 +136,19 @@ def prepare(root=ROOT, cache=None):
         header, path = row.split('\t', 1); _, kind, oid, size = header.split()
         if kind == 'blob' and '/engineering/alignment/' in path: entries[path] = dict(oid=oid, size=int(size))
     cities = {}
-    for path in sorted(entries):
-        if not path.endswith('/engineering/alignment/water-source-receipt.json'): continue
+    payload_objects = []
+    receipt_paths = [path for path in sorted(entries)
+        if path.endswith('/engineering/alignment/water-source-receipt.json')]
+    city_objects = []
+    for path in receipt_paths:
         directory = path.rsplit('/', 1)[0]
         names = {k: directory + '/' + n for k, n in [('receipt', 'water-source-receipt.json'),
             ('grid', 'planning-grid.json'), ('mask', 'planning-water-mask.bin.gz')]}
         if any(n not in entries for n in names.values()): raise ValueError('Incomplete historical evidence triplet')
+        payload_objects.extend(entries[names[k]] for k in ('receipt', 'grid'))
+        city_objects.append((path, names))
+    _cache_blobs(root, payload_objects, cache)
+    for path, names in city_objects:
         payload = {k: _blob(root, entries[n], cache) for k, n in names.items() if k != 'mask'}
         receipt, grid = json.loads(payload['receipt']), json.loads(payload['grid'])
         if receipt.get('schema_version') != 2: raise ValueError('Unsupported historical receipt')

@@ -190,10 +190,26 @@ comparable with the uninstrumented runs. `design_completion.evaluate` took
 36.94 s cumulative. The profile recorded 535 Git subprocess reads for immutable
 evidence blobs (3.09 s cumulative), 23.75 s cumulative in deep copying, 17.05 s
 in JSON parsing and 10.62 s in canonical encoding; these inclusive times overlap.
-This points to batched blob retrieval and reduced repeated copying/serialization
-as profiling candidates. Any evaluator-source
-change must preserve the existing blob and result checks, then regenerate
-affected source-bound current packets before publication.
+
+The profile led to bounded batched reads in `civil_evidence.prepare`. On 11
+November 2026, a cold run indexed the 266 pinned city records and retrieved 532
+receipt/grid blobs in one `git cat-file --batch` process, instead of 532
+individual blob processes. The cold prepare took 2.525 s wall time. The batch
+uses an 8 MiB target and retains the existing per-object 64 MiB limit, SHA-1
+checks, size checks and immutable cache writes. Large water masks remain lazy
+per city. This is a cold indexed-source measurement, not an end-to-end city
+completion speedup; city results still require regeneration whenever the
+evaluator source identity changes.
+
+The resulting 11 November source-bound completion finished all 266 cities and
+623 alignment scenarios in 290.71 s elapsed on two workers, with no failures,
+native solver jobs or CAD jobs. Its design-price stage reused the verified
+940,921-byte local cache. This measurement includes the complete city workflow
+and is specific to this checkout and host; it is not a controlled comparison
+with the earlier 224.28 s campaign result. The run manifest is
+`8c5c8758aa7817876ca02ce73c0fd56798432ac9f7e6c7e6637a6d77b8822ba9`; the
+refreshed publication manifest is
+`0e81f66d9e473fec5c639679107ec4d031bf4095d5d346d4dd10632d2fe6f3d1`.
 
 The shared design-pricing stage now has a persistent, local cache keyed by the
 exact input source hashes, source-manifest identities and pricing-policy
