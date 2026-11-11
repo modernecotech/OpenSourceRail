@@ -46,5 +46,5 @@ No city is silently repriced from this pilot. [Remaining engineering tasks](fron
 ./osr design closure verify
 ```
 
-Study `9342bc3f3dbd976b1cd46a3013c04cda53b89cf312f420bdcd7e933eeece7337`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
+Study `1957d34bae126b086ba29ca94c6934a189ee86f3e259ab51079d4b3be277a5c7`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
 Physical acceptance, manufacturing and operating release are false.

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **212**.
+Indexed Markdown files: **213**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **212**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 180 |
+| [docs](#docs) | 181 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -193,6 +193,7 @@ Indexed Markdown files: **212**.
 | [`docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md`](../docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md) | Native GIS refresh command audit |
 | [`docs/design-engine/v06-design-closure/native-gis-run07-readiness.md`](../docs/design-engine/v06-design-closure/native-gis-run07-readiness.md) | Native GIS run07 readiness audit |
 | [`docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md`](../docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md) | Native GIS source-only import prototype |
+| [`docs/design-engine/v06-design-closure/reconciled-pilot-exact-native-reuse-20261111.md`](../docs/design-engine/v06-design-closure/reconciled-pilot-exact-native-reuse-20261111.md) | Reconciled pilot refresh and exact native reuse |
 | [`docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md`](../docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md) | Samawah acceleration sensitivity |
 | [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md) | Samawah stop-preserving route-straightening screens |
 | [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md) | Preserved run history |
