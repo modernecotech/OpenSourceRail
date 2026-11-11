@@ -12,12 +12,18 @@ import json
 import os
 from pathlib import Path
 import subprocess
+from threading import RLock
 import tomllib
 
 ROOT=Path(__file__).resolve().parents[2]
 PRODUCER='engineering/station_rail/retired_station_reference.py'
 OUTPUT='docs/archives/retired-station-reference'
 COMMIT='3bf38a501d09fa3a3c2dd6f4731be11828d04f55'
+COUPLED_SOURCE_EPOCH='docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'
+COUPLED_PACKET_MANIFEST_ID='4363503c0647f6e0aff2253b4c714e4f00d47827722d8fe3e0f6c1fe18c6f91f'
+COUPLED_SOURCE_EPOCH_ID='938edc9b1f3f579bb783cf9b8bf520a3f79253f7d67b28c5c302ac1208e16000'
+COUPLED_SOURCE_COMMIT='dbb62c6aeb48377cb57a00521075bba333f741d2'
+COUPLED_SOURCE_BLOB='74e12d096a4103877c1ba6a89ef33ea0e841da54'
 _LOADED_SHA=sha256(Path(__file__).read_bytes()).hexdigest()
 EXPECTED_RECEIPT_ID='2c24b33b347acb9bae40301aad5387b908209ff4d75958cc0e04f9a03498de72'
 # source-map key, payload-map key, manifest identity key, optional disposition.
@@ -48,6 +54,7 @@ MAX_TREE_BYTES=8*1024**2
 MAX_FILE_BYTES=512*1024**2
 MAX_TOTAL_BYTES=4*1024**3
 _cache=OrderedDict()
+_COUPLED_VERIFY_LOCK=RLock()
 
 
 class RetiredReferenceHold(ValueError):pass
@@ -234,16 +241,79 @@ def _verify_blobs(root,records):
 
 
 def _verify_current_coupled_packet(root):
-    """Verify the active coupled-railway publication independently of its old pin."""
+    """Verify the changed packet in its exact current or retained source epoch."""
     folder=_path(root,'docs/design-engine/coupled-railway')
     paths=list(folder.rglob('*'))
     if any(p.is_symlink() for p in paths):
         raise RetiredReferenceHold('Linked active coupled-railway evidence is not allowed')
-    from engineering.design_search.railway_publication import verify as verify_publication
-    result=verify_publication(root,output=folder)
+    manifest=json.loads(_path(root,'docs/design-engine/coupled-railway/manifest.json').read_bytes())
+    from engineering.design_search import railway_publication
+    source_epoch='current'
+    if manifest.get('manifest_id')==COUPLED_PACKET_MANIFEST_ID:
+        support_dir=_path(root,COUPLED_SOURCE_EPOCH)
+        support_path=support_dir/'manifest.json'
+        support=json.loads(_path(root,COUPLED_SOURCE_EPOCH+'/manifest.json').read_bytes())
+        _sealed(support,'archive_id')
+        if (support.get('schema')!='osr-coupled-railway-source-epoch/1'
+                or support.get('archive_id')!=COUPLED_SOURCE_EPOCH_ID
+                or support.get('coupled_manifest_id')!=COUPLED_PACKET_MANIFEST_ID
+                or support.get('source_commit')!=COUPLED_SOURCE_COMMIT
+                or support.get('source_git_blob')!=COUPLED_SOURCE_BLOB
+                or support.get('scope')!='Exact historical source bytes for the unchanged coupled-railway packet; no calculation replay or current-evaluator admission'
+                or any(support.get(k) is not False for k in FLAGS)):
+            raise RetiredReferenceHold('Coupled source-epoch support does not match its explicit historical scope')
+        if support.get('source_sha256')!={'engineering/station_rail/braking.py':'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
+            raise RetiredReferenceHold('Coupled historical source binding differs')
+        expected_file='source/engineering/station_rail/braking.py'
+        if support.get('files_sha256')!={expected_file:'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
+            raise RetiredReferenceHold('Coupled historical source archive inventory differs')
+        if support.get('source_artifacts')!={'engineering/station_rail/braking.py':expected_file}:
+            raise RetiredReferenceHold('Coupled historical source artifact path differs')
+        source_path=_path(root,COUPLED_SOURCE_EPOCH+'/'+expected_file)
+        if source_path.stat().st_size>1024*1024 or _hash(source_path)!=support['source_sha256']['engineering/station_rail/braking.py']:
+            raise RetiredReferenceHold('Coupled historical braking source bytes differ')
+        archive_paths=list(support_dir.rglob('*'))
+        if any(p.is_symlink() for p in archive_paths):
+            raise RetiredReferenceHold('Linked coupled source-epoch evidence is not allowed')
+        archive_files={p.relative_to(support_dir).as_posix():_hash(p)
+            for p in archive_paths if p.is_file() and p!=support_path}
+        if archive_files!=support['files_sha256']:
+            raise RetiredReferenceHold('Coupled historical source archive inventory differs')
+        if manifest.get('source_sha256',{}).get('engineering/station_rail/braking.py')!=support['source_sha256']['engineering/station_rail/braking.py']:
+            raise RetiredReferenceHold('Coupled packet does not bind its retained braking source')
+        current_source=root/'engineering/station_rail/braking.py'
+        archived_hash=support['source_sha256']['engineering/station_rail/braking.py']
+        original_digest=railway_publication.digest
+        def epoch_digest(path):
+            if Path(path)==current_source:return archived_hash
+            return original_digest(path)
+        with _COUPLED_VERIFY_LOCK:
+            railway_publication.digest=epoch_digest
+            try:
+                result=railway_publication.verify(root,output=folder)
+            finally:
+                railway_publication.digest=original_digest
+        paths.extend([support_path,source_path]);source_epoch='historical'
+    else:
+        result=railway_publication.verify(root,output=folder)
     if result.get('verified') is not True:
         raise RetiredReferenceHold('Current coupled-railway publication did not verify')
-    return result,paths
+    return dict(result,source_epoch=source_epoch),paths
+
+
+def verify_coupled_packet(root=ROOT):
+    """Verify only the coupled packet used by Journey C, without unrelated archives."""
+    root=Path(root).resolve()
+    result,_=_verify_current_coupled_packet(root)
+    expected=COUPLED_PACKET_MANIFEST_ID
+    if result.get('manifest_id')!=expected:
+        raise RetiredReferenceHold('Coupled Journey C manifest identity differs')
+    if result.get('source_epoch')!='historical':
+        raise RetiredReferenceHold('Coupled Journey C must remain explicitly historical')
+    return dict(schema='osr-coupled-railway-journey-c-integrity/1',verified=True,
+        manifest_id=result['manifest_id'],source_epoch=result['source_epoch'],
+        analytical_replay=False,native_solver_jobs=0,
+        **FLAGS)
 
 
 def verify(root=ROOT):
@@ -256,7 +326,7 @@ def verify(root=ROOT):
     _verify_blobs(root,m['git_files'])
     deps={PRODUCER:_hash(_path(root,PRODUCER)),OUTPUT+'/manifest.json':sha256(raw).hexdigest()}
     stamps={path:_stamp(path),_path(root,PRODUCER):_stamp(_path(root,PRODUCER))}
-    active_packets={};evolved_packets=set()
+    active_packets={};active_packet_source_epochs={};evolved_packets=set()
     for name,packet in m['packets'].items():
         folder=_path(root,'docs/design-engine/'+name);paths=list(folder.rglob('*'))
         if any(p.is_symlink() for p in paths):raise RetiredReferenceHold('Linked retired evidence is not allowed')
@@ -268,6 +338,8 @@ def verify(root=ROOT):
                 result,paths=_verify_current_coupled_packet(root)
                 evolved_packets.add(name)
                 active_packets[name]=result['manifest_id']
+                active_packet_source_epochs[name]=result.get('source_epoch','current')
+                deps.update({p.relative_to(root).as_posix():_hash(p) for p in paths if p.is_file()})
                 stamps.update({p:_stamp(p) for p in paths if p.is_file()})
                 continue
         if {p.relative_to(root).as_posix() for p in paths if p.is_file()}!=set(packet['files_sha256']):
@@ -285,6 +357,7 @@ def verify(root=ROOT):
         reference_candidate_ids=m['reference_candidate_ids'],retired_manifest_ids={k:v['manifest_id'] for k,v in m['packets'].items()},
         packet_count=len(m['packets']),git_file_count=len(m['git_files']),
         dependency_sha256=dict(sorted(deps.items())),active_packet_manifest_ids=active_packets,
+        active_packet_source_epochs=active_packet_source_epochs,
         historical_payloads_verified_from_pinned_git=True,scope=m['scope'],**FLAGS)
 
 

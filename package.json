@@ -6,7 +6,8 @@
   "scripts": {
     "workbench": "tools/automation/osr-python tools/automation/default-design-workbench.py --port 8090",
     "frontend:build": "tools/automation/osr-python tools/automation/default-design.py build",
-    "test:frontend": "node tools/automation/tests/verify-development-baseline.mjs",
+    "test:frontend": "node tools/automation/tests/verify-v06-release-workbench.mjs",
+    "test:frontend:full-current": "node tools/automation/tests/verify-development-baseline.mjs",
     "format:design": "prettier --write \"engineering/development_baseline/web/*.{js,css,html}\"",
     "format:design:check": "prettier --check \"engineering/development_baseline/web/*.{js,css,html}\""
   },

@@ -11,7 +11,7 @@ from urllib.parse import unquote, urlsplit
 import webbrowser
 
 from . import ROOT, FLAGS, WORKBENCH
-from .entrypoint import (CurrentUnavailable, checked_path, check_identity, digest,
+from .entrypoint import (CurrentUnavailable, IDS, checked_path, check_identity, digest,
                          read_packet, selected, status)
 
 
@@ -81,9 +81,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             if path == '/api/default-design':
-                # Refuse a stale packet even though CLI status may usefully
-                # report its selected identity alongside a publication hold.
-                read_packet(self.root)
+                # The selected bundle is independently source checked. A
+                # stale integrated publication remains a visible hold, while
+                # the Workbench can still expose current, city-scoped inputs.
                 self.respond(200, status(self.root))
                 return
             if path == '/api/portfolios/current':
@@ -111,15 +111,20 @@ class Handler(BaseHTTPRequestHandler):
                 self.respond(200,value)
                 return
             if path == '/api/cities':
-                read_packet(self.root)
                 from . import cities
-                value = cities.read_catalogue(root=self.root)
-                check_identity(value, selected(self.root))
+                baseline = selected(self.root)
+                value = dict(schema='osr-workbench-city-options/1',
+                    family='wheel_rail_vehicle_reference',
+                    selection_id=baseline['selection_id'],
+                    **{key: baseline['vehicle'][key] for key in IDS},
+                    development_default=True, execution='source-geography',
+                    performance_evaluated=False, cities=cities.catalogue(root=self.root),
+                    **FLAGS)
                 self.respond(200, value)
                 return
             if path.startswith('/api/city/'):
-                read_packet(self.root)
                 value = self.city_summary(path.removeprefix('/api/city/'))
+                check_identity(value, selected(self.root))
                 self.respond(503 if value.get('execution') == 'held' else 200, value)
                 return
             if path.startswith('/api/'):
@@ -159,14 +164,18 @@ class Handler(BaseHTTPRequestHandler):
             # Current templates/assets are publication outputs. Validate them
             # before serving so modified scripts cannot masquerade as current.
             if relative.startswith(WORKBENCH + '/'):
-                _, manifest = read_packet(self.root)
-                bindings = manifest.get('workbench_files_sha256', {})
-                expected = bindings.get(target.name) or bindings.get(str(target.relative_to(self.root)))
                 from engineering.outline.city_atlas_api import ASSETS,verify_asset
                 if target.name in ASSETS:
                     verify_asset(self.root,target.name,target)
-                elif not expected or digest(target) != expected:
-                    raise CurrentUnavailable('Current Workbench asset changed')
+                else:
+                    # Static application files are mirrored from this
+                    # authoritative source tree. Their integrity does not
+                    # depend on the unrelated engineering dossier being
+                    # current, but both copies must match exactly.
+                    source=checked_path(self.root,'engineering/development_baseline/web/'+target.name)
+                    if (target.name not in ('index.html','app.js','app.css')
+                            or not source.is_file() or digest(target)!=digest(source)):
+                        raise CurrentUnavailable('Workbench asset differs from its authoritative source')
             self.respond(200, target.read_bytes(), mimetypes.guess_type(str(target))[0] or 'application/octet-stream')
         except (OSError, ValueError, KeyError) as exc:
             self.hold(exc)

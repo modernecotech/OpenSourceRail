@@ -151,20 +151,27 @@ def _packet_paths(root, output, manifest_bytes):
             tuple(str(p) for p in sorted(files)), tuple(checks))
 
 
-def _packet_stamps(inventory):
-    """Inspect every unique ancestor and ordinary leaf anew, without resolving each path."""
-    directories, files, _ = inventory
-    signatures = {}
-    for paths, required_kind in ((directories, stat.S_ISDIR), (files, stat.S_ISREG)):
-        for path in paths:
-            info = os.lstat(path)
-            if stat.S_ISLNK(info.st_mode):
-                raise CurrentUnavailable('Symlinks are not evidence paths: ' + path)
-            if not required_kind(info.st_mode):
-                raise CurrentUnavailable('Expected ordinary evidence ' + ('directory: ' if paths is directories else 'file: ') + path)
-            if paths is files:
-                signatures[path] = _stat_stamp(info)
-    return signatures
+def _bound_file_digest(root, path):
+    """Check one bound path and its ancestors without touching later bindings."""
+    root = Path(root)
+    target = Path(path)
+    try:
+        relative = target.relative_to(root)
+    except ValueError as exc:
+        raise CurrentUnavailable('Evidence path escapes repository: ' + str(path)) from exc
+    current = root
+    parts = relative.parts
+    for index, part in enumerate(parts):
+        current = current / part
+        info = os.lstat(current)
+        if stat.S_ISLNK(info.st_mode):
+            raise CurrentUnavailable('Symlinks are not evidence paths: ' + str(current))
+        required = stat.S_ISREG if index == len(parts) - 1 else stat.S_ISDIR
+        if not required(info.st_mode):
+            kind = 'file' if required is stat.S_ISREG else 'directory'
+            raise CurrentUnavailable('Expected ordinary evidence ' + kind + ': ' + str(current))
+    signature = _stat_stamp(info)
+    return _digest(str(target), signature)
 
 
 def read_packet(root=ROOT, output=OUTPUT):
@@ -178,9 +185,8 @@ def read_packet(root=ROOT, output=OUTPUT):
     manifest = json.loads(manifest_bytes)
     check_identity(manifest, baseline)
     inventory = _packet_paths(str(root), str(output), manifest_bytes)
-    signatures = _packet_stamps(inventory)
     for path, expected, message in inventory[2]:
-        if _digest(path, signatures[path]) != expected:
+        if _bound_file_digest(root, path) != expected:
             raise CurrentUnavailable(message)
     summary_bytes = (directory / 'summary.json').read_bytes()
     if sha256(summary_bytes).hexdigest() != manifest['files_sha256']['summary.json']:

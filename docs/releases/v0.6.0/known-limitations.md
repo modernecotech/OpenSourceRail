@@ -12,6 +12,11 @@
   finance.
 - The 266-city catalogue is a planning portfolio. It is not 266 independently
   surveyed and engineered railway designs.
+- The integrated current engineering dossier currently has a source-binding
+  hold. The Workbench shows the selected reference and city geography, but
+  keeps global engineering cost and portfolio views held and does not treat the
+  stale dossier as current evidence. The Samawah software journey binds and
+  verifies its own city inputs and calculation.
 - CAD/IFC stock agreement and structural screens do not establish complete
   installed mass, manufacturability, fatigue life or construction approval.
 - ERPNext, Frappe HR, FUXA and gateway workflows are configurable software

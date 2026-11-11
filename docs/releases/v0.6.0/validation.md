@@ -52,3 +52,10 @@ The current dashboard deliberately remains pending until those authentic
 records exist. A passing local unit-test fixture cannot substitute for actual
 CI receipts, three demonstrations, clean-install measurements or reviewer
 signoff. Do not create a release tag while any of these steps is missing.
+
+The reviewed source currently reports a source-binding hold for the integrated
+`docs/design-engine/current` dossier. The Workbench makes that hold visible,
+omits stale global cost and portfolio cards, and serves current city geography
+and Samawah calculations through their own input identities. This behavior
+does not close SR-01: retain the dossier as held until its exact provenance is
+resolved. Do not rerun the broad 266-city publication path to clear this hold.

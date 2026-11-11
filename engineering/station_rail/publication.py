@@ -105,18 +105,33 @@ def _linked_packet_sources(root,folder,contract):
 
 def linked_publication_sources(root=ROOT):
     """Fail early on stale current packets; retain their exact dependency maps."""
-    from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch,line_benchmark
+    from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch_retained,line_benchmark_retained
     from . import closure_retention,retired_station_reference
     historical=retained_publication.verify(root)
     followup=closure_retention.verify(root)
     thermal=retained_periodic_thermal.verify(root)
-    compact_launch.verify(Path(root)/'docs/design-engine/compact-launch',root=root)
-    benchmark=line_benchmark.active_baseline(root)
-    benchmark_sources={**benchmark['source_sha256'],**{
+    compact_launch_retained.verify(root)
+    benchmark=line_benchmark_retained.verify(root)
+    benchmark_sources={name:sha for name,sha in benchmark['source_sha256'].items()
+        if name not in benchmark['historical_source_paths']}
+    benchmark_sources.update({
         'docs/design-engine/line30-benchmark/'+name:digest(Path(root)/'docs/design-engine/line30-benchmark'/name)
-        for name in ('result.json','README.md','manifest.json')}}
+        for name in ('result.json','README.md','manifest.json')})
     retired=retired_station_reference.verify(root)
+    retained_epoch_files=(
+        'engineering/design_search/compact_launch_retained.py',
+        'engineering/design_search/line_benchmark_retained.py',
+        'docs/archives/compact-launch-source-epochs/README.md',
+        'docs/archives/compact-launch-source-epochs/manifest.json',
+        'docs/archives/line30-benchmark-source-epochs/README.md',
+        'docs/archives/line30-benchmark-source-epochs/manifest.json',
+        'docs/archives/coupled-railway-source-epochs/README.md',
+        'docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510/manifest.json',
+        'docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510/source/engineering/station_rail/braking.py',
+    )
+    retained_epoch_sources={name:digest(Path(root)/name) for name in retained_epoch_files}
     return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],benchmark_sources,
+        retained_epoch_sources,
         retired['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
         for folder,contract in LINKED_PUBLICATIONS.items() if folder not in retired_station_reference.PACKETS])
 
@@ -126,7 +141,8 @@ def linked_publication_scope():
     return dict(current_source_and_declared_payload=sorted(set(LINKED_PUBLICATIONS)-set(retired_station_reference.PACKETS)),
         retired_fixed_reference_integrity_only=sorted(retired_station_reference.PACKETS),
         retired_reference_commit=retired_station_reference.COMMIT,
-        replayed_analytical_research=['compact-launch','line30-benchmark'],
+        replayed_analytical_research=[],
+        historical_source_epoch_integrity_only=['compact-launch','coupled-railway','line30-benchmark'],
         original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure','periodic-thermal-research'],
         numerical_or_physical_validation_by_this_check=False)
 
@@ -260,6 +276,7 @@ def sources(root,record,index,delivery):
     names += ['engineering/mass_ledger_audit.py',
         'docs/design-engine/mass-reconciliation/current/README.md',
         'docs/design-engine/mass-reconciliation/current/mass-ledger.json.gz',
+        'docs/design-engine/mass-reconciliation/current/mass-closure-worksheet.json.gz',
         'docs/design-engine/mass-reconciliation/current/summary.json',
         'docs/design-engine/mass-reconciliation/current/manifest.json']
     outline_folder=root/'docs/design-engine/demand-outline'

@@ -84,6 +84,8 @@ def category(name):
         return 'project-frontdoor'
     if name == 'docs/images/v06/README.md':
         return 'concept-illustration-brief'
+    if name == 'docs/releases/v0.6.0/README.md':
+        return 'versioned-release-guide'
     if name == 'docs/engineering-models/README.md':
         return 'source-bound-engineering-model-gallery'
     if name in {'engineering/development_baseline/README.md','engineering/station_rail/README.md'}:

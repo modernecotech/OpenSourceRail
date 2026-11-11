@@ -20,12 +20,17 @@ git sparse-checkout set --no-cone \
 python3 tools/automation/prepare-v06-release-checkout.py
 ```
 
-The helper expands the clone to the current source, the published city packets,
-Samawah's inputs, the browser verifier and exact source paths named by the
-publication manifests. It includes about 521 MiB of catalogue files at the
-reviewed source epoch, rather than the full 4.6 GiB catalogue tree. It omits
-optional native solvers and unrelated research archives. Git fetches the
-required blobs on demand.
+The helper expands the clone to the selected release sources, the outline and
+city-atlas inputs, Samawah's data, the browser verifier and the source paths
+needed by the pinned Baghdad and candidate examples. It omits the unrelated
+source paths in the held global current-dossier manifest, optional native
+solvers and unrelated research archives. Git fetches required blobs on demand;
+the helper reports the allocated checkout size and remaining free disk.
+
+The global current dossier remains explicitly held at this reviewed source
+epoch. The Workbench reports that hold and does not use its stale global costs
+or portfolios. The Samawah calculation has a separate source and evaluation
+identity and does not require a full 266-city publication refresh.
 
 ## Install the small software-demo environment
 

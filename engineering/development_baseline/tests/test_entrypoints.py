@@ -168,6 +168,20 @@ def test_mixed_or_modified_packets_are_rejected(packet, mutation):
         cli.read_packet(root)
 
 
+def test_packet_validation_stops_at_first_mismatch_in_sparse_checkout(packet):
+    root, _, manifest = packet
+    first = root/'a-changed.txt'
+    first.write_text('original source')
+    manifest['source_sha256'] = {
+        'a-changed.txt': sha256(first.read_bytes()).hexdigest(),
+        'z-unchecked.txt': '0'*64,
+    }
+    write_json(root/OUTPUT/'manifest.json', manifest)
+    first.write_text('changed source')
+    with pytest.raises(cli.CurrentUnavailable, match='Current source changed: a-changed.txt'):
+        cli.read_packet(root)
+
+
 def test_unsupported_current_journey_holds_with_selected_ids(packet, capsys):
     root, summary, _ = packet
     assert cli.main(['trip', 'run', '2km'], root=root) == 3
@@ -193,10 +207,12 @@ def test_server_is_read_only_and_refuses_tampering(packet):
                 urllib.request.urlopen(urllib.request.Request(base+path, method=method))
             assert caught.value.code == status
         (root/'source.txt').write_text('changed after initial API read')
-        with pytest.raises(urllib.error.HTTPError) as caught:
-            urllib.request.urlopen(base+'/api/default-design')
-        assert caught.value.code == 503
-        assert 'source changed' in json.load(caught.value)['reason']
+        with urllib.request.urlopen(base+'/api/default-design') as response:
+            held = json.load(response)
+        assert held['publication_state'] == 'hold'
+        assert 'source changed' in held['hold_reason']
+        assert held['candidate_id'] == summary['candidate_id']
+        assert all(held[key] is False for key in FLAGS)
     finally:
         server.shutdown(); server.server_close(); thread.join(timeout=2)
 

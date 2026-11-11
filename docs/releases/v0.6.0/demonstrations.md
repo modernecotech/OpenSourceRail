@@ -36,6 +36,13 @@ identity. Inspect the linked evidence, source revision, tools and numerical
 limits. Retain the installation, force, thermal, braking and physical-validation
 holds shown by the source packet. Do not transfer results between candidates.
 
+Verify the coupled comparison with
+`python -m engineering.station_rail.retired_station_reference verify`. Its
+published braking source belongs to the retained historical epoch recorded in
+[`docs/archives/coupled-railway-source-epochs`](../../archives/coupled-railway-source-epochs/README.md);
+the packet is not admitted as a current braking evaluation. No campaign or
+native solver is run for this demonstration.
+
 ## Export and evidence locations
 
 Journey A writes `journey-a.json`, screenshots and result artifacts under the

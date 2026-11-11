@@ -1,7 +1,9 @@
 "use strict";
 const byId = (id) => document.getElementById(id);
-const format = (n) => typeof n === "number" && Number.isFinite(n)
-  ? n.toLocaleString("en-GB", { maximumFractionDigits: 2 }) : "Not defined";
+const format = (n) =>
+  typeof n === "number" && Number.isFinite(n)
+    ? n.toLocaleString("en-GB", { maximumFractionDigits: 2 })
+    : "Not defined";
 const identityKeys = [
   "selection_id",
   "candidate_id",
@@ -138,60 +140,127 @@ async function renderVehicleCost(expected) {
   }
 }
 function activePropulsionPolicy(record) {
-  const value=record.active_propulsion_policy;
-  if (!value || value.schema!=="osr-candidate-specific-propulsion-policy/1" ||
-      !/^[a-f0-9]{64}$/.test(value.policy_id||"") ||
-      value.policy?.selection_mode!=="candidate-specific" ||
-      value.policy?.prescribed_powered_length!==false ||
-      value.policy?.automatic_hardware_adoption!==false ||
-      value.reference_vehicle_is_installed_drive_selection!==false ||
-      value.kinematic_distance_is_powered_hardware_length!==false)
+  const value = record.active_propulsion_policy;
+  if (
+    !value ||
+    value.schema !== "osr-candidate-specific-propulsion-policy/1" ||
+    !/^[a-f0-9]{64}$/.test(value.policy_id || "") ||
+    value.policy?.selection_mode !== "candidate-specific" ||
+    value.policy?.prescribed_powered_length !== false ||
+    value.policy?.automatic_hardware_adoption !== false ||
+    value.reference_vehicle_is_installed_drive_selection !== false ||
+    value.kinematic_distance_is_powered_hardware_length !== false
+  )
     throw Error("Candidate-specific active propulsion policy required.");
-  if(value.reference_vehicle_candidate_id!==record.candidate_id || value.reference_passive_interface_id!==record.propulsion_component_id)
-    throw Error("Active policy uses a mixed reference vehicle or passive interface.");
-  for (const key of ["selected_installed_propulsion_id","selected_architecture",
-      "selected_powered_length_m","selected_acceleration_m_s2","selected_braking_m_s2","selected_headway_s"])
-    if(value[key]!==null)throw Error("The active baseline cannot prescribe an installed propulsion selection: "+key);
-  for(const key of ["physical_accepted","engineering_accepted","manufacturing_release","operating_release","movement_authority"])
-    if(value[key]!==false)throw Error("Propulsion policy cannot grant release: "+key);
+  if (
+    value.reference_vehicle_candidate_id !== record.candidate_id ||
+    value.reference_passive_interface_id !== record.propulsion_component_id
+  )
+    throw Error(
+      "Active policy uses a mixed reference vehicle or passive interface.",
+    );
+  for (const key of [
+    "selected_installed_propulsion_id",
+    "selected_architecture",
+    "selected_powered_length_m",
+    "selected_acceleration_m_s2",
+    "selected_braking_m_s2",
+    "selected_headway_s",
+  ])
+    if (value[key] !== null)
+      throw Error(
+        "The active baseline cannot prescribe an installed propulsion selection: " +
+          key,
+      );
+  for (const key of [
+    "physical_accepted",
+    "engineering_accepted",
+    "manufacturing_release",
+    "operating_release",
+    "movement_authority",
+  ])
+    if (value[key] !== false)
+      throw Error("Propulsion policy cannot grant release: " + key);
   return value;
 }
-function showMaturity(complete,label) {
-  byId("maturity-outline").textContent=complete ? "Outline complete · "+label : "Revision or further definition needed";
-  byId("maturity-engineering").textContent="Verification pending";
-  byId("maturity-prototype").textContent="Not validated";
-  byId("maturity-release").textContent="Not approved";
+function showMaturity(complete, label) {
+  byId("maturity-outline").textContent = complete
+    ? "Outline complete · " + label
+    : "Revision or further definition needed";
+  byId("maturity-engineering").textContent = "Verification pending";
+  byId("maturity-prototype").textContent = "Not validated";
+  byId("maturity-release").textContent = "Not approved";
 }
 async function sourceBoundOutlineSummary(expected) {
-  const name="docs/design-engine/demand-outline/summary.json";
-  const response=await fetch("/"+name,{cache:"no-store"});
-  if(!response.ok)throw Error("Current outline comparison unavailable");
-  const raw=await response.arrayBuffer();
-  const actual=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",raw)),b=>b.toString(16).padStart(2,"0")).join("");
-  const manifest=validated(await request("/docs/design-engine/current/manifest.json"),expected);
-  if(manifest.source_sha256?.[name]!==actual)throw Error("Outline comparison lacks its current source binding");
-  const value=JSON.parse(new TextDecoder().decode(raw));
-  if(value.schema!=="osr-demand-outline-summary/1")throw Error("Current demand-led outline summary required");
-  for(const key of [...qualificationKeys,"movement_authority","procurement_ready"])if(value[key]!==false)throw Error("Outline comparison cannot grant qualification or release");
+  const name = "docs/design-engine/demand-outline/summary.json";
+  const response = await fetch("/" + name, { cache: "no-store" });
+  if (!response.ok) throw Error("Current outline comparison unavailable");
+  const raw = await response.arrayBuffer();
+  const actual = Array.from(
+    new Uint8Array(await crypto.subtle.digest("SHA-256", raw)),
+    (b) => b.toString(16).padStart(2, "0"),
+  ).join("");
+  const manifest = validated(
+    await request("/docs/design-engine/current/manifest.json"),
+    expected,
+  );
+  if (manifest.source_sha256?.[name] !== actual)
+    throw Error("Outline comparison lacks its current source binding");
+  const value = JSON.parse(new TextDecoder().decode(raw));
+  if (value.schema !== "osr-demand-outline-summary/1")
+    throw Error("Current demand-led outline summary required");
+  for (const key of [
+    ...qualificationKeys,
+    "movement_authority",
+    "procurement_ready",
+  ])
+    if (value[key] !== false)
+      throw Error("Outline comparison cannot grant qualification or release");
   return value;
 }
 async function renderSystemCost(expected) {
-  const cost=validated(await request("/docs/design-engine/current/exports/selected-system-cost.json"),expected);
-  if(cost.schema!=="osr-selected-v06-whole-system-class-c-cost/1" ||
-      cost.selection_role!=="retired-reference-control-comparison" ||
-      cost.active_installed_propulsion_selected!==false ||
-      cost.vehicle_evaluation_id!==(expected.publication?.evaluation_id||expected.evaluation_id))
-    throw Error("Reference-control comparison must not become the active budget.");
-  const value=await sourceBoundOutlineSummary(expected);
-  renderOutlineRows(value,"../../design-engine/demand-outline/");
-  byId("system-capex").textContent="Compare outlines";
-  byId("system-whole-life").textContent="Candidate-specific";
-  byId("system-cost-status").textContent="Current calculated corridor alternatives · no installed propulsion selected. Use the requirement form above to generate a new comparison.";
-  const facts=byId("system-cost-facts");facts.replaceChildren();
-  fact(facts,"Calculated example",`${value.brief.route_km} km · ${value.brief.stations} stations · ${format(value.brief.peak_demand_pphpd)} peak passengers/hour/direction`);
-  fact(facts,"Compared approaches",value.outlines.map(row=>launchNames[row.mechanism]||row.mechanism).join(" · "));
-  fact(facts,"Scope","Fourteen whole-life cost scopes per outline; assumptions remain inspectable. Engineering, prototype and release are separate.");
-  outlineStatus.textContent=`${value.outlines.length} calculated outlines for the starting brief. Change the requirements above to generate and compare alternatives.`;
+  const cost = validated(
+    await request(
+      "/docs/design-engine/current/exports/selected-system-cost.json",
+    ),
+    expected,
+  );
+  if (
+    cost.schema !== "osr-selected-v06-whole-system-class-c-cost/1" ||
+    cost.selection_role !== "retired-reference-control-comparison" ||
+    cost.active_installed_propulsion_selected !== false ||
+    cost.vehicle_evaluation_id !==
+      (expected.publication?.evaluation_id || expected.evaluation_id)
+  )
+    throw Error(
+      "Reference-control comparison must not become the active budget.",
+    );
+  const value = await sourceBoundOutlineSummary(expected);
+  renderOutlineRows(value, "../../design-engine/demand-outline/");
+  byId("system-capex").textContent = "Compare outlines";
+  byId("system-whole-life").textContent = "Candidate-specific";
+  byId("system-cost-status").textContent =
+    "Current calculated corridor alternatives · no installed propulsion selected. Use the requirement form above to generate a new comparison.";
+  const facts = byId("system-cost-facts");
+  facts.replaceChildren();
+  fact(
+    facts,
+    "Calculated example",
+    `${value.brief.route_km} km · ${value.brief.stations} stations · ${format(value.brief.peak_demand_pphpd)} peak passengers/hour/direction`,
+  );
+  fact(
+    facts,
+    "Compared approaches",
+    value.outlines
+      .map((row) => launchNames[row.mechanism] || row.mechanism)
+      .join(" · "),
+  );
+  fact(
+    facts,
+    "Scope",
+    "Fourteen whole-life cost scopes per outline; assumptions remain inspectable. Engineering, prototype and release are separate.",
+  );
+  outlineStatus.textContent = `${value.outlines.length} calculated outlines for the starting brief. Change the requirements above to generate and compare alternatives.`;
 }
 
 async function renderPortfolios(expected) {
@@ -222,11 +291,17 @@ async function renderPortfolios(expected) {
     )
   )
     throw Error("Portfolio source or selected-reference context differs.");
-  if (view.current_evaluator_admission !== false || view.numerical_reexecuted !== false ||
-      view.reference_comparison?.selection_role !== "retired-reference-control-comparison" ||
-      view.reference_comparison.current_evaluator_admission !== false ||
-      view.reference_comparison.numerical_reexecuted !== false)
-    throw Error("Retired component comparison cannot claim current evaluator admission.");
+  if (
+    view.current_evaluator_admission !== false ||
+    view.numerical_reexecuted !== false ||
+    view.reference_comparison?.selection_role !==
+      "retired-reference-control-comparison" ||
+    view.reference_comparison.current_evaluator_admission !== false ||
+    view.reference_comparison.numerical_reexecuted !== false
+  )
+    throw Error(
+      "Retired component comparison cannot claim current evaluator admission.",
+    );
   for (const portfolio of view.portfolios) {
     const ids = new Set();
     for (const row of portfolio.rows) {
@@ -293,7 +368,8 @@ async function renderPortfolios(expected) {
       facts,
       portfolio.process_hours_label + " · low / base / high",
       row.process_hours === null
-        ? row.process_hours_status || "Unknown; not present in the published summary"
+        ? row.process_hours_status ||
+            "Unknown; not present in the published summary"
         : ["low", "base", "high"]
             .map((key) => format(row.process_hours[key]))
             .join(" / "),
@@ -382,7 +458,9 @@ async function renderPortfolios(expected) {
         format(row.cost_iqd.base / 1e6),
         row.quantity_retained === null
           ? "Not ranked separately"
-          : row.quantity_retained ? "Retained" : "Outside partial front",
+          : row.quantity_retained
+            ? "Retained"
+            : "Outside partial front",
         row.mechanics_retained === null
           ? "Unknown / not run"
           : row.mechanics_retained
@@ -500,13 +578,21 @@ async function showCity(slug) {
       null,
       2,
     );
+    if (city.execution === "held" && city.geography?.map_context_available) {
+      byId("city-link").hidden = false;
+      byId("city-link").href =
+        "/docs/workbench/planning/?city=" + encodeURIComponent(slug);
+      byId("city-link").textContent = "Open mapped planning workspace";
+    }
     const path =
       city.summary_path ||
       city.current_summary_path ||
       cityRecords.find((row) => row.slug === slug)?.summary_path;
     if (path) byId("city-link").href = "/" + path;
   } catch (error) {
-    byId("city-status").textContent = "Outline available above. Engineering verification pending: " + error.message;
+    byId("city-status").textContent =
+      "Outline available above. Engineering verification pending: " +
+      error.message;
     const record = error.record;
     byId("city-link").hidden = !record?.geography?.map_context_available;
     if (record?.geography) {
@@ -525,34 +611,53 @@ async function showCity(slug) {
 async function start() {
   try {
     current = validated(await request("/api/default-design"));
-    if (current.publication_state !== "current")
-      throw Error("The selected publication is not current.");
     if (current.family !== "wheel_rail_vehicle_reference")
-      throw Error(
-        "The current family is not the v0.6 vehicle reference.",
-      );
-    const packet = validated(current.publication, current),
+      throw Error("The current family is not the v0.6 vehicle reference.");
+    const publicationCurrent =
+      current.publication_state === "current" && current.publication;
+    const packet = publicationCurrent
+        ? validated(current.publication, current)
+        : current,
       v = current.vehicle,
       s = current.service;
-    const policy=activePropulsionPolicy(current),publishedPolicy=activePropulsionPolicy(packet);
-    if(policy.policy_id!==publishedPolicy.policy_id || current.reference_service_values_are_active_requirements!==false)
+    const policy = activePropulsionPolicy(current),
+      publishedPolicy = activePropulsionPolicy(packet);
+    if (
+      policy.policy_id !== publishedPolicy.policy_id ||
+      current.reference_service_values_are_active_requirements !== false
+    )
       throw Error("Active policy and reference controls are mixed.");
-    if(v.normal_passengers_per_car!==46 || v.standing_passengers_per_car!==0)
+    if (
+      v.normal_passengers_per_car !== 46 ||
+      v.standing_passengers_per_car !== 0
+    )
       throw Error("Reference vehicle passenger policy differs.");
-    byId("speed").textContent="Variable";
-    byId("headway").textContent="Optimised";
-    byId("capacity").textContent="Demand-led";
-    byId("active-propulsion-status").textContent="No installed propulsion architecture, powered length or operating headway is selected. Compare candidates against passenger needs, physics and complete cost.";
-    try {
-      await renderVehicleCost(current);
-    } catch (error) {
-      byId("vehicle-cost-status").textContent = "Held: " + error.message;
+    byId("speed").textContent = "Variable";
+    byId("headway").textContent = "Optimised";
+    byId("capacity").textContent = "Demand-led";
+    byId("active-propulsion-status").textContent =
+      "No installed propulsion architecture, powered length or operating headway is selected. Compare candidates against passenger needs, physics and complete cost." +
+      (publicationCurrent
+        ? ""
+        : ` Integrated engineering publication held: ${current.hold_reason || "source identity requires review"}. City studies below use their own current source identities.`);
+    if (publicationCurrent) {
+      try {
+        await renderVehicleCost(current);
+      } catch (error) {
+        byId("vehicle-cost-status").textContent = "Held: " + error.message;
+        byId("vehicle-cost-lines").replaceChildren();
+      }
+      try {
+        await renderSystemCost(current);
+      } catch (error) {
+        byId("system-cost-status").textContent = "Held: " + error.message;
+      }
+    } else {
+      byId("vehicle-cost-status").textContent =
+        "Held: the integrated engineering publication is not current.";
       byId("vehicle-cost-lines").replaceChildren();
-    }
-    try {
-      await renderSystemCost(current);
-    } catch (error) {
-      byId("system-cost-status").textContent = "Held: " + error.message;
+      byId("system-cost-status").textContent =
+        "Held: the integrated engineering publication is not current.";
     }
     const vf = byId("vehicle-facts");
     fact(vf, "Formation", v.cars + " × " + v.body_length_m + " m");
@@ -591,10 +696,26 @@ async function start() {
     );
     const nf = byId("network-facts");
     fact(nf, "Retained stop spacing", "Existing city stops retained");
-    fact(nf,"Active propulsion","Not selected; candidate-specific architectures remain open");
-    fact(nf,"Powered hardware length","Not prescribed; derive and count each candidate's actual sections");
-    fact(nf,"Grid, branches and thermal duty","Counted for each candidate; independent engineering verification pending");
-    fact(nf,"Reference controls only",`${format(typeof s.launch_speed_cap_m_s==="number"?s.launch_speed_cap_m_s*3.6:null)} km/h · ${format(s.headway_s)} s · ${format(s.normal_capacity_pphpd_arithmetic)} places/hour/direction; not active requirements`);
+    fact(
+      nf,
+      "Active propulsion",
+      "Not selected; candidate-specific architectures remain open",
+    );
+    fact(
+      nf,
+      "Powered hardware length",
+      "Not prescribed; derive and count each candidate's actual sections",
+    );
+    fact(
+      nf,
+      "Grid, branches and thermal duty",
+      "Counted for each candidate; independent engineering verification pending",
+    );
+    fact(
+      nf,
+      "Reference controls only",
+      `${format(typeof s.launch_speed_cap_m_s === "number" ? s.launch_speed_cap_m_s * 3.6 : null)} km/h · ${format(s.headway_s)} s · ${format(s.normal_capacity_pphpd_arithmetic)} places/hour/direction; not active requirements`,
+    );
     fact(
       vf,
       "Accounted cap-loaded / car",
@@ -604,10 +725,20 @@ async function start() {
     );
     const cities = packet.cities || {};
     const baghdad = cities.Baghdad || cities.baghdad || {};
-    fact(nf,"Baghdad","Priced outline available in the city workspace; engineering verification pending");
+    fact(
+      nf,
+      "Baghdad",
+      "Priced outline available in the city workspace; engineering verification pending",
+    );
     renderGates(packet.gates || packet.readiness?.gates);
     for (const key of identityKeys)
-      fact(byId("identities"), key==="propulsion_component_id"?"reference passive interface ID":key.replaceAll("_", " "), current[key]);
+      fact(
+        byId("identities"),
+        key === "propulsion_component_id"
+          ? "reference passive interface ID"
+          : key.replaceAll("_", " "),
+        current[key],
+      );
     byId("native-scope").textContent =
       "Native evidence scope: " +
       readable(
@@ -809,7 +940,9 @@ async function start() {
       );
       await showCity("baghdad");
     } catch (error) {
-      byId("city-status").textContent = "Outline available above. Engineering verification pending: " + error.message;
+      byId("city-status").textContent =
+        "Outline available above. Engineering verification pending: " +
+        error.message;
       byId("city-link").hidden = true;
     }
   } catch (error) {
@@ -827,15 +960,22 @@ async function start() {
 // to start it instead of substituting historical results.
 const outlineForm = document.getElementById("outline-form");
 const outlineStatus = document.getElementById("outline-status");
-const launchNames = {"cable-capstan":"Cable / capstan", "common-drive-rollers":"Common-drive rollers", "compact-launch-LIM":"Compact LIM"};
-const moneyMillions = value => `$${(value / 1e6).toFixed(1)}m`;
-function outlineInspect(row,open=true) {
+const launchNames = {
+  "cable-capstan": "Cable / capstan",
+  "common-drive-rollers": "Common-drive rollers",
+  "compact-launch-LIM": "Compact LIM",
+};
+const moneyMillions = (value) => `$${(value / 1e6).toFixed(1)}m`;
+function outlineInspect(row, open = true) {
   const area = document.getElementById("outline-evidence");
   area.replaceChildren();
   const title = document.createElement("h3");
-  title.textContent = `${launchNames[row.mechanism]||row.mechanism} · ${row.maturity === "accepted" ? "Outline accepted" : row.maturity}`;
+  title.textContent = `${launchNames[row.mechanism] || row.mechanism} · ${row.maturity === "accepted" ? "Outline accepted" : row.maturity}`;
   area.append(title);
-  showMaturity(row.maturity==="accepted",launchNames[row.mechanism]||row.mechanism);
+  showMaturity(
+    row.maturity === "accepted",
+    launchNames[row.mechanism] || row.mechanism,
+  );
   for (const assumption of row.assumptions) {
     const paragraph = document.createElement("p");
     paragraph.textContent = `${assumption.id}: ${assumption.purpose} Bounds: ${JSON.stringify(assumption.bounds)}. Source: ${assumption.source}`;
@@ -843,72 +983,137 @@ function outlineInspect(row,open=true) {
   }
   for (const task of row.tasks) {
     const paragraph = document.createElement("p");
-    paragraph.textContent = task.explanation || task.reason || task.action || JSON.stringify(task);
+    paragraph.textContent =
+      task.explanation || task.reason || task.action || JSON.stringify(task);
     area.append(paragraph);
   }
   document.getElementById("outline-detail").open = open;
 }
-function renderOutlineRows(value,artifactBase) {
-  if(!Array.isArray(value.outlines)||!value.outlines.length)throw Error("No calculated outline alternatives available");
-  for(const row of value.outlines) {
-    for(const field of ["headway_s","speed_kmh","acceleration_m_s2","journey_minutes","trainsets"])
-      if(typeof row[field]!=="number"||!Number.isFinite(row[field])||row[field]<=0)throw Error("Finite outline service value required: "+field);
-    for(const field of ["installed_capital_usd","whole_life_npv_usd","price_per_route_km_usd"]) {
-      const prices=[row[field]?.low,row[field]?.base,row[field]?.high];
-      if(prices.some(x=>typeof x!=="number"||!Number.isFinite(x)||x<=0)||prices[0]>prices[1]||prices[1]>prices[2])throw Error("Bounded ordered outline costs required");
+function renderOutlineRows(value, artifactBase) {
+  if (!Array.isArray(value.outlines) || !value.outlines.length)
+    throw Error("No calculated outline alternatives available");
+  for (const row of value.outlines) {
+    for (const field of [
+      "headway_s",
+      "speed_kmh",
+      "acceleration_m_s2",
+      "journey_minutes",
+      "trainsets",
+    ])
+      if (
+        typeof row[field] !== "number" ||
+        !Number.isFinite(row[field]) ||
+        row[field] <= 0
+      )
+        throw Error("Finite outline service value required: " + field);
+    for (const field of [
+      "installed_capital_usd",
+      "whole_life_npv_usd",
+      "price_per_route_km_usd",
+    ]) {
+      const prices = [row[field]?.low, row[field]?.base, row[field]?.high];
+      if (
+        prices.some(
+          (x) => typeof x !== "number" || !Number.isFinite(x) || x <= 0,
+        ) ||
+        prices[0] > prices[1] ||
+        prices[1] > prices[2]
+      )
+        throw Error("Bounded ordered outline costs required");
     }
   }
-    const body = document.getElementById("outline-rows");
-    body.replaceChildren();
-    for (const row of value.outlines) {
-      const tr = document.createElement("tr");
-      const values = [launchNames[row.mechanism]||row.mechanism,`${row.headway_s}s · ${row.speed_kmh.toFixed(0)} km/h · ${row.acceleration_m_s2} m/s²`,
-        `${row.journey_minutes.toFixed(1)} min`,row.trainsets,
-        moneyMillions(row.price_per_route_km_usd.base),moneyMillions(row.whole_life_npv_usd.base),
-        row.maturity === "accepted" ? "Outline accepted" : row.maturity];
-      for (const text of values) { const td=document.createElement("td"); td.textContent=text; tr.append(td); }
-      const td=document.createElement("td"), inspect=document.createElement("button");
-      inspect.textContent="Inspect outline"; inspect.addEventListener("click",()=>outlineInspect(row)); td.append(inspect); tr.append(td); body.append(tr);
+  const body = document.getElementById("outline-rows");
+  body.replaceChildren();
+  for (const row of value.outlines) {
+    const tr = document.createElement("tr");
+    const values = [
+      launchNames[row.mechanism] || row.mechanism,
+      `${row.headway_s}s · ${row.speed_kmh.toFixed(0)} km/h · ${row.acceleration_m_s2} m/s²`,
+      `${row.journey_minutes.toFixed(1)} min`,
+      row.trainsets,
+      moneyMillions(row.price_per_route_km_usd.base),
+      moneyMillions(row.whole_life_npv_usd.base),
+      row.maturity === "accepted" ? "Outline accepted" : row.maturity,
+    ];
+    for (const text of values) {
+      const td = document.createElement("td");
+      td.textContent = text;
+      tr.append(td);
     }
-    const selected=value.outlines.find(row=>row.outline_id===value.recommended_outline_id);
-    document.getElementById("outline-recommendation").textContent = selected
-      ? `Lowest central whole-life estimate in this bounded search: ${launchNames[selected.mechanism]||selected.mechanism}. Installed range ${moneyMillions(selected.installed_capital_usd.low)}–${moneyMillions(selected.installed_capital_usd.high)}; these are sensitivity cases, not confidence limits.`
-      : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
-    const links=document.getElementById("outline-artifacts"); links.replaceChildren();
-    for (const [file,label] of [["result.json","Complete study and evidence"],["manifest.json","Source and artifact identities"],["performance.json","Execution measurements"]]) {
-      const link=document.createElement("a"); link.href=artifactBase+file; link.textContent=label; links.append(link);
-    }
-    document.getElementById("outline-results").hidden=false;
+    const td = document.createElement("td"),
+      inspect = document.createElement("button");
+    inspect.textContent = "Inspect outline";
+    inspect.addEventListener("click", () => outlineInspect(row));
+    td.append(inspect);
+    tr.append(td);
+    body.append(tr);
+  }
+  const selected = value.outlines.find(
+    (row) => row.outline_id === value.recommended_outline_id,
+  );
+  document.getElementById("outline-recommendation").textContent = selected
+    ? `Lowest central whole-life estimate in this bounded search: ${launchNames[selected.mechanism] || selected.mechanism}. Installed range ${moneyMillions(selected.installed_capital_usd.low)}–${moneyMillions(selected.installed_capital_usd.high)}; these are sensitivity cases, not confidence limits.`
+    : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
+  const links = document.getElementById("outline-artifacts");
+  links.replaceChildren();
+  for (const [file, label] of [
+    ["result.json", "Complete study and evidence"],
+    ["manifest.json", "Source and artifact identities"],
+    ["performance.json", "Execution measurements"],
+  ]) {
+    const link = document.createElement("a");
+    link.href = artifactBase + file;
+    link.textContent = label;
+    links.append(link);
+  }
+  document.getElementById("outline-results").hidden = false;
 
-  showMaturity(value.outlines.some(row=>row.maturity==="accepted"),`${value.brief.route_km} km example`);
-  if(selected)outlineInspect(selected,false);
+  showMaturity(
+    value.outlines.some((row) => row.maturity === "accepted"),
+    `${value.brief.route_km} km example`,
+  );
+  if (selected) outlineInspect(selected, false);
 }
-outlineForm.addEventListener("submit", async event => {
+outlineForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const button = document.getElementById("outline-generate");
   button.disabled = true;
-  outlineStatus.textContent = "Screening service choices and recalculating fleet, production and fourteen cost scopes…";
+  outlineStatus.textContent =
+    "Screening service choices and recalculating fleet, production and fourteen cost scopes…";
   document.getElementById("outline-results").hidden = true;
   try {
     const fields = new FormData(outlineForm);
     const brief = {
-      route_km: Number(fields.get("route_km")), stations: Number(fields.get("stations")),
+      route_km: Number(fields.get("route_km")),
+      stations: Number(fields.get("stations")),
       peak_demand_pphpd: Number(fields.get("peak_demand_pphpd")),
       maximum_one_way_minutes: Number(fields.get("maximum_one_way_minutes")),
       maximum_headway_s: Number(fields.get("maximum_headway_s")),
       planning_occupancy: Number(fields.get("occupancy_percent")) / 100,
       operating_hours_per_day: Number(fields.get("operating_hours_per_day")),
-      availability_target: .99, planning_availability_assumption: .99,
-      demand_source: "User-entered planning brief; survey evidence not attached"
+      availability_target: 0.99,
+      planning_availability_assumption: 0.99,
+      demand_source:
+        "User-entered planning brief; survey evidence not attached",
     };
-    const response = await fetch("/api/outline-study", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({brief, pricing_scenario:fields.get("pricing_scenario")})});
+    const response = await fetch("/api/outline-study", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        brief,
+        pricing_scenario: fields.get("pricing_scenario"),
+      }),
+    });
     const value = await response.json();
-    if (!response.ok) throw Error(value.error || "Outline calculation unavailable");
-    renderOutlineRows(value,value.artifact_url);
-    outlineStatus.textContent=`${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0,12)}.`;
-  } catch(error) {
-    outlineStatus.textContent=`Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;
-  } finally {button.disabled=false;}
+    if (!response.ok)
+      throw Error(value.error || "Outline calculation unavailable");
+    renderOutlineRows(value, value.artifact_url);
+    outlineStatus.textContent = `${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0, 12)}.`;
+  } catch (error) {
+    outlineStatus.textContent = `Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;
+  } finally {
+    button.disabled = false;
+  }
 });
 
 // Published completion is a separate outline scenario, never the selected
@@ -918,206 +1123,435 @@ let completionCatalogue;
 const completionBase = "../../design-engine/outline-completion/";
 async function completionRecord(file, api) {
   const local = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
-  const response = await fetch(local ? api : completionBase + file, {cache:"no-store"});
-  const value = !local && file.endsWith(".gz")
-    ? await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).json()
-    : await response.json();
+  const response = await fetch(local ? api : completionBase + file, {
+    cache: "no-store",
+  });
+  const value =
+    !local && file.endsWith(".gz")
+      ? await new Response(
+          response.body.pipeThrough(new DecompressionStream("gzip")),
+        ).json()
+      : await response.json();
   if (!response.ok) throw Error(value.error || "Published outline unavailable");
   for (const key of qualificationKeys)
-    if (value[key] !== false) throw Error("Unexpected outline qualification: " + key);
+    if (value[key] !== false)
+      throw Error("Unexpected outline qualification: " + key);
   return value;
 }
 let cityViewEpoch = 0;
 let cityAtlasView;
 const atlasBase = "../../design-engine/city-atlas/";
 async function atlasDigest(raw) {
-  return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",raw)),b=>b.toString(16).padStart(2,"0")).join("");
+  return Array.from(
+    new Uint8Array(await crypto.subtle.digest("SHA-256", raw)),
+    (b) => b.toString(16).padStart(2, "0"),
+  ).join("");
 }
-async function atlasPacket(slug, studyId=null) {
-  const local=["127.0.0.1","localhost","[::1]"].includes(location.hostname);
-  if(studyId || local) {
-    const value=await request(studyId ? `/api/city-atlas/study/${studyId}` : `/api/city-atlas/${slug}`);
-    if(value.city?.slug!==slug)throw Error("City map belongs to another calculation");
+async function atlasPacket(slug, studyId = null) {
+  const local = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+  if (studyId || local) {
+    const value = await request(
+      studyId ? `/api/city-atlas/study/${studyId}` : `/api/city-atlas/${slug}`,
+    );
+    if (value.city?.slug !== slug)
+      throw Error("City map belongs to another calculation");
     return value;
   }
-  const response=await fetch(atlasBase+"manifest.json",{cache:"no-store"});
-  if(!response.ok)throw Error("Calculated city atlas unavailable");
-  const manifest=await response.json(),name=`cities/${slug}.json.gz`;
-  const member=await fetch(atlasBase+name,{cache:"no-store"});
-  if(!member.ok)throw Error("Calculated city dossier unavailable");
-  const raw=new Uint8Array(await member.arrayBuffer());
-  if(raw.length>16*1024*1024 || await atlasDigest(raw)!==manifest.files_sha256?.[name])throw Error("City map payload differs from its manifest");
-  const value=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
-  if(value.city?.slug!==slug || value.sources?.publication_manifest_id!==manifest.publication_manifest_id)throw Error("City map source identity differs");
+  const response = await fetch(atlasBase + "manifest.json", {
+    cache: "no-store",
+  });
+  if (!response.ok) throw Error("Calculated city atlas unavailable");
+  const manifest = await response.json(),
+    name = `cities/${slug}.json.gz`;
+  const member = await fetch(atlasBase + name, { cache: "no-store" });
+  if (!member.ok) throw Error("Calculated city dossier unavailable");
+  const raw = new Uint8Array(await member.arrayBuffer());
+  if (
+    raw.length > 16 * 1024 * 1024 ||
+    (await atlasDigest(raw)) !== manifest.files_sha256?.[name]
+  )
+    throw Error("City map payload differs from its manifest");
+  const value = await new Response(
+    new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip")),
+  ).json();
+  if (
+    value.city?.slug !== slug ||
+    value.sources?.publication_manifest_id !== manifest.publication_manifest_id
+  )
+    throw Error("City map source identity differs");
   return value;
 }
 async function atlasMapContext(packet) {
-  const ref=packet.map_context;
-  if(!ref)return null;
-  if(!/^cities\/catalogue\/[^/]+\/[^/]+\/[^/]+\/map-context\.json\.gz$/.test(ref.path||"") ||
-      !/^[a-f0-9]{64}$/.test(ref.sha256||"") || packet.sources?.calculation_sha256?.[ref.path]!==ref.sha256)
+  const ref = packet.map_context;
+  if (!ref) return null;
+  if (
+    !/^cities\/catalogue\/[^/]+\/[^/]+\/[^/]+\/map-context\.json\.gz$/.test(
+      ref.path || "",
+    ) ||
+    !/^[a-f0-9]{64}$/.test(ref.sha256 || "") ||
+    packet.sources?.calculation_sha256?.[ref.path] !== ref.sha256
+  )
     throw Error("Geographic context is not bound to this city calculation");
-  const url=new URL(ref.path.split("/").map(encodeURIComponent).join("/"),new URL("../../../",document.baseURI));
-  const response=await fetch(url,{cache:"no-store"});
-  if(!response.ok)throw Error("Geographic context unavailable");
-  const raw=new Uint8Array(await response.arrayBuffer());
-  if(raw.length>32*1024*1024 || await atlasDigest(raw)!==ref.sha256)throw Error("Geographic context differs from its source");
-  const value=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
-  if(!value.layers || !Array.isArray(value.bounds_wsen))throw Error("Invalid geographic context");
+  const url = new URL(
+    ref.path.split("/").map(encodeURIComponent).join("/"),
+    new URL("../../../", document.baseURI),
+  );
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw Error("Geographic context unavailable");
+  const raw = new Uint8Array(await response.arrayBuffer());
+  if (raw.length > 32 * 1024 * 1024 || (await atlasDigest(raw)) !== ref.sha256)
+    throw Error("Geographic context differs from its source");
+  const value = await new Response(
+    new Blob([raw]).stream().pipeThrough(new DecompressionStream("gzip")),
+  ).json();
+  if (!value.layers || !Array.isArray(value.bounds_wsen))
+    throw Error("Invalid geographic context");
   return value;
 }
 async function displayCityAtlas(packet, epoch, downloadUrl) {
-  if(packet.schema!=="osr-city-atlas/1" || qualificationKeys.some(k=>packet[k]!==false))throw Error("Unaccepted calculated city map required");
-  let context=null,contextError=null;
-  try {context=await atlasMapContext(packet);}catch(error){contextError=error.message;}
-  if(epoch!==cityViewEpoch)return false;
+  if (
+    packet.schema !== "osr-city-atlas/1" ||
+    qualificationKeys.some((k) => packet[k] !== false)
+  )
+    throw Error("Unaccepted calculated city map required");
+  let context = null,
+    contextError = null;
+  try {
+    context = await atlasMapContext(packet);
+  } catch (error) {
+    contextError = error.message;
+  }
+  if (epoch !== cityViewEpoch) return false;
   cityAtlasView?.destroy();
-  cityAtlasView=window.OSRCityAtlas.render(packet,null,{context,contextVerified:!!context,contextSource:packet.map_context,downloadUrl,
-    onImported:async job=>{
-      if(byId("city-outline-select").value!==packet.city.slug)return;
-      const revisionEpoch=++cityViewEpoch;
-      await displayMappedCityStudy(job,packet.city.slug,revisionEpoch);
-    }});
-  window.OSRCityJourneys.mount(byId("city-atlas"),packet);
-  if(contextError) {
-    const note=document.createElement("p");note.className="note";note.textContent="Network calculations remain available; geographic background held: "+contextError;
+  cityAtlasView = window.OSRCityAtlas.render(packet, null, {
+    context,
+    contextVerified: !!context,
+    contextSource: packet.map_context,
+    downloadUrl,
+    onImported: async (job) => {
+      if (byId("city-outline-select").value !== packet.city.slug) return;
+      const revisionEpoch = ++cityViewEpoch;
+      await displayMappedCityStudy(job, packet.city.slug, revisionEpoch);
+    },
+  });
+  window.OSRCityJourneys.mount(byId("city-atlas"), packet);
+  if (contextError) {
+    const note = document.createElement("p");
+    note.className = "note";
+    note.textContent =
+      "Network calculations remain available; geographic background held: " +
+      contextError;
     byId("city-atlas").append(note);
   }
   return true;
 }
 async function showCityOutline(slug) {
-  const epoch=++cityViewEpoch,status=byId("city-outline-status");
-  cityAtlasView?.destroy();cityAtlasView=null;
-  document.querySelector(".city-outline-legacy").hidden=true;
-  byId("city-study-result").hidden=true;
-  byId("city-atlas").hidden=true;
-  status.textContent="Loading the city's source-bound map, service, energy, quantities and whole-life costs…";
+  const epoch = ++cityViewEpoch,
+    status = byId("city-outline-status");
+  cityAtlasView?.destroy();
+  cityAtlasView = null;
+  document.querySelector(".city-outline-legacy").hidden = true;
+  byId("city-study-result").hidden = true;
+  byId("city-atlas").hidden = true;
+  status.textContent =
+    "Loading the city's source-bound map, service, energy, quantities and whole-life costs…";
   try {
-    const packet=await atlasPacket(slug);
-    if(epoch!==cityViewEpoch)return;
-    const published=completionCatalogue.cities.find(row=>row.city.slug===slug);
-    if(packet.identity.outline_evaluation_id!==published.evaluation_id)throw Error("City calculations changed; regenerate the map dossier");
-    if(!await displayCityAtlas(packet,epoch,atlasBase+`cities/${slug}.json.gz`))return;
-    byId("city-outline-download").href=atlasBase+`cities/${slug}.json.gz`;
-    status.textContent=`${packet.city.name}, ${packet.city.country} · Complete calculated outline with Class C estimates. Physical verification remains separate. Calculation ${packet.identity.outline_evaluation_id.slice(0,12)}.`;
-  } catch(error) {if(epoch===cityViewEpoch)status.textContent="City outline unavailable: "+error.message;}
+    const packet = await atlasPacket(slug);
+    if (epoch !== cityViewEpoch) return;
+    const published = completionCatalogue.cities.find(
+      (row) => row.city.slug === slug,
+    );
+    if (packet.identity.outline_evaluation_id !== published.evaluation_id)
+      throw Error("City calculations changed; regenerate the map dossier");
+    if (
+      !(await displayCityAtlas(
+        packet,
+        epoch,
+        atlasBase + `cities/${slug}.json.gz`,
+      ))
+    )
+      return;
+    byId("city-outline-download").href = atlasBase + `cities/${slug}.json.gz`;
+    status.textContent = `${packet.city.name}, ${packet.city.country} · Complete calculated outline with Class C estimates. Physical verification remains separate. Calculation ${packet.identity.outline_evaluation_id.slice(0, 12)}.`;
+  } catch (error) {
+    if (epoch === cityViewEpoch)
+      status.textContent = "City outline unavailable: " + error.message;
+  }
 }
 byId("city-outline-load").addEventListener("click", async () => {
-  const button = byId("city-outline-load"); button.disabled = true;
+  const button = byId("city-outline-load");
+  button.disabled = true;
   try {
-    completionCatalogue = await completionRecord("summary.json", "/api/outline-completion");
-    const select = byId("city-outline-select"); select.replaceChildren();
+    completionCatalogue = await completionRecord(
+      "summary.json",
+      "/api/outline-completion",
+    );
+    const select = byId("city-outline-select");
+    select.replaceChildren();
     for (const row of completionCatalogue.cities) {
-      const option = document.createElement("option"); option.value = row.city.slug;
-      option.textContent = `${row.city.name} · ${row.city.country}`; select.append(option);
+      const option = document.createElement("option");
+      option.value = row.city.slug;
+      option.textContent = `${row.city.name} · ${row.city.country}`;
+      select.append(option);
     }
-    const requested = new URLSearchParams(location.search).get("outlineCity") || "baghdad";
-    select.value = completionCatalogue.cities.some(r=>r.city.slug===requested) ? requested : completionCatalogue.cities[0].city.slug;
+    const requested =
+      new URLSearchParams(location.search).get("outlineCity") || "baghdad";
+    select.value = completionCatalogue.cities.some(
+      (r) => r.city.slug === requested,
+    )
+      ? requested
+      : completionCatalogue.cities[0].city.slug;
     byId("city-outline-results").hidden = false;
     renderDesignPrices();
     await showCityOutline(select.value);
-  } catch (error) {byId("city-outline-status").textContent = "Published outlines unavailable: " + error.message;}
-  finally {button.disabled = false;}
-});
-byId("city-outline-select").addEventListener("change", event=>showCityOutline(event.target.value));
-async function displayMappedCityStudy(job, slug, epoch) {
-  const selection=byId("city-outline-select"),status=byId("city-study-status");
-  const s=job.summary;
-  if(epoch!==cityViewEpoch || selection.value!==slug)return;
-  const packet=await atlasPacket(slug,job.job_id);
-  if(packet.identity.workflow_evaluation_id!==s.evaluation_id || packet.identity.research_configuration_id!==s.research_configuration_id)throw Error("Calculated map and study identities differ");
-  if(!await displayCityAtlas(packet,epoch,`/api/city-atlas/study/${job.job_id}`))return;
-  byId("city-outline-status").textContent=`${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0,12)}, including its actual geometry, service and costs.`;
-  byId("city-study-outcome").textContent=`${s.city.name}: ${s.outline_acceptance==="accepted"?"Outline accepted":"Priced proposal requires revision"}. `+
-    `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. `+
-    `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; `+
-    (s.delivery.cases.base.target_met?"within the planning target. ":"the planning target needs revised resources, methods or dates. ")+
-    "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
-  const links=byId("city-study-links");links.replaceChildren();
-  for(const [file,label] of [["result.json","Complete calculated result"],["summary.json","City calculation summary"],["alignments.geojson","Alignment alternatives"],["performance.json","Calculation execution record"],["planning.json","Editable planning base"],["delivery-plan.json","Production and construction schedule"],
-    ["business-drafts.json","Disabled business-system drafts"],["manifest.json","Sources and artifact identities"]]) {
-    const a=document.createElement("a");a.href=job.artifact_url+file;a.textContent=label;links.append(a);
+  } catch (error) {
+    byId("city-outline-status").textContent =
+      "Published outlines unavailable: " + error.message;
+  } finally {
+    button.disabled = false;
   }
-  const edit=document.createElement("a");edit.href=`../planning/?city=${encodeURIComponent(slug)}&pricedRun=${job.job_id}`;
-  edit.textContent="Edit this outline and recalculate";links.prepend(edit);
-  byId("city-study-result").hidden=false;
-  showMaturity(s.outline_acceptance==="accepted",s.city.name);
-  status.textContent=`${job.cache_hit?"Reused the identical verified calculation":"Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0,12)}. Physical approval remains separate.`;
+});
+byId("city-outline-select").addEventListener("change", (event) =>
+  showCityOutline(event.target.value),
+);
+async function displayMappedCityStudy(job, slug, epoch) {
+  const selection = byId("city-outline-select"),
+    status = byId("city-study-status");
+  const s = job.summary;
+  if (epoch !== cityViewEpoch || selection.value !== slug) return;
+  const packet = await atlasPacket(slug, job.job_id);
+  if (
+    packet.identity.workflow_evaluation_id !== s.evaluation_id ||
+    packet.identity.research_configuration_id !== s.research_configuration_id
+  )
+    throw Error("Calculated map and study identities differ");
+  if (
+    !(await displayCityAtlas(
+      packet,
+      epoch,
+      `/api/city-atlas/study/${job.job_id}`,
+    ))
+  )
+    return;
+  byId("city-outline-status").textContent =
+    `${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0, 12)}, including its actual geometry, service and costs.`;
+  byId("city-study-outcome").textContent =
+    `${s.city.name}: ${s.outline_acceptance === "accepted" ? "Outline accepted" : "Priced proposal requires revision"}. ` +
+    `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. ` +
+    `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; ` +
+    (s.delivery.cases.base.target_met
+      ? "within the planning target. "
+      : "the planning target needs revised resources, methods or dates. ") +
+    "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
+  const links = byId("city-study-links");
+  links.replaceChildren();
+  for (const [file, label] of [
+    ["result.json", "Complete calculated result"],
+    ["summary.json", "City calculation summary"],
+    ["alignments.geojson", "Alignment alternatives"],
+    ["performance.json", "Calculation execution record"],
+    ["planning.json", "Editable planning base"],
+    ["delivery-plan.json", "Production and construction schedule"],
+    ["business-drafts.json", "Disabled business-system drafts"],
+    ["manifest.json", "Sources and artifact identities"],
+  ]) {
+    const a = document.createElement("a");
+    a.href = job.artifact_url + file;
+    a.textContent = label;
+    links.append(a);
+  }
+  const edit = document.createElement("a");
+  edit.href = `../planning/?city=${encodeURIComponent(slug)}&pricedRun=${job.job_id}`;
+  edit.textContent = "Edit this outline and recalculate";
+  links.prepend(edit);
+  byId("city-study-result").hidden = false;
+  showMaturity(s.outline_acceptance === "accepted", s.city.name);
+  status.textContent = `${job.cache_hit ? "Reused the identical verified calculation" : "Calculation complete"} · ${s.service_lines.length} lines · ${s.research_configuration_id.slice(0, 12)}. Physical approval remains separate.`;
 }
-byId("city-study-options").addEventListener("submit",async event=>{
+byId("city-study-options").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const button=byId("city-study-start"),status=byId("city-study-status");
-  button.disabled=true;byId("city-study-result").hidden=true;
-  const selection=byId("city-outline-select"),epoch=++cityViewEpoch;selection.disabled=true;
+  const button = byId("city-study-start"),
+    status = byId("city-study-status");
+  button.disabled = true;
+  byId("city-study-result").hidden = true;
+  const selection = byId("city-outline-select"),
+    epoch = ++cityViewEpoch;
+  selection.disabled = true;
   try {
-    const fields=new FormData(event.target),slug=byId("city-outline-select").value;
-    const original=completionCatalogue.cities.find(row=>row.city.slug===slug);
-    const payload={city_slug:slug,expected_outline_evaluation_id:original.evaluation_id,
-      service:{peak_demand_pphpd:Number(fields.get("peak_demand_pphpd")),
-        maximum_headway_s:Number(fields.get("maximum_headway_s")),operating_hours_per_day:Number(fields.get("operating_hours_per_day"))},
-      alignment:{maximum_added_walk_m:Number(fields.get("maximum_added_walk_m"))},
-      project:{pricing_scenario:fields.get("pricing_scenario")},selection:fields.get("selection")};
-    status.textContent="Starting a bounded mapped-city calculation…";
-    const response=await fetch("/api/city-studies",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-    let job=await response.json();
-    if (!response.ok) throw Error(job.error||"Another calculation is running; retry after it finishes");
-    const deadline=Date.now()+150000;
-    while(job.state==="running" && Date.now()<deadline) {
-      status.textContent="Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";
-      await new Promise(resolve=>setTimeout(resolve,1000));
-      job=await request("/api/city-studies/"+job.job_id);
+    const fields = new FormData(event.target),
+      slug = byId("city-outline-select").value;
+    const original = completionCatalogue.cities.find(
+      (row) => row.city.slug === slug,
+    );
+    const payload = {
+      city_slug: slug,
+      expected_outline_evaluation_id: original.evaluation_id,
+      service: {
+        peak_demand_pphpd: Number(fields.get("peak_demand_pphpd")),
+        maximum_headway_s: Number(fields.get("maximum_headway_s")),
+        operating_hours_per_day: Number(fields.get("operating_hours_per_day")),
+      },
+      alignment: {
+        maximum_added_walk_m: Number(fields.get("maximum_added_walk_m")),
+      },
+      project: { pricing_scenario: fields.get("pricing_scenario") },
+      selection: fields.get("selection"),
+    };
+    status.textContent = "Starting a bounded mapped-city calculation…";
+    const response = await fetch("/api/city-studies", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    let job = await response.json();
+    if (!response.ok)
+      throw Error(
+        job.error || "Another calculation is running; retry after it finishes",
+      );
+    const deadline = Date.now() + 150000;
+    while (job.state === "running" && Date.now() < deadline) {
+      status.textContent =
+        "Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      job = await request("/api/city-studies/" + job.job_id);
     }
-    if(job.state!=="completed")throw Error(job.error||"Calculation did not finish within its budget; artifacts were retained");
-    await displayMappedCityStudy(job,slug,epoch);
-  } catch(error) {status.textContent=`Unable to calculate this city: ${error.message}. Run the local Workbench with ./osr workbench.`;}
-  finally {button.disabled=false;selection.disabled=false;}
+    if (job.state !== "completed")
+      throw Error(
+        job.error ||
+          "Calculation did not finish within its budget; artifacts were retained",
+      );
+    await displayMappedCityStudy(job, slug, epoch);
+  } catch (error) {
+    status.textContent = `Unable to calculate this city: ${error.message}. Run the local Workbench with ./osr workbench.`;
+  } finally {
+    button.disabled = false;
+    selection.disabled = false;
+  }
 });
 function renderDesignPrices() {
   if (!completionCatalogue) return;
-  const kind=byId("design-price-kind").value;
-  const prices=completionCatalogue.designs,fx=prices.pricing_policy.iqd_per_usd;
-  const keys={"railway-bundle":["installed_capital","whole_life_npv"],"vehicle-body":["repeat_body_factory_gate","one_time_tooling_setup"],"civil-span":["scoped_installed","scoped_whole_life_npv"]}[kind];
-  const body=byId("design-price-rows");body.replaceChildren();
-  for (const row of prices.rows.filter(r=>r.kind===kind)) for (const key of keys) {
-    const tr=document.createElement("tr");
-    for (const text of [row.physical_candidate_id.slice(0,12),key.replaceAll("_"," "),(row.prices_iqd[key].base/fx).toLocaleString("en-GB",{maximumFractionDigits:0})]) {
-      const td=document.createElement("td");td.textContent=text;tr.append(td);
+  const kind = byId("design-price-kind").value;
+  const prices = completionCatalogue.designs,
+    fx = prices.pricing_policy.iqd_per_usd;
+  const keys = {
+    "railway-bundle": ["installed_capital", "whole_life_npv"],
+    "vehicle-body": ["repeat_body_factory_gate", "one_time_tooling_setup"],
+    "civil-span": ["scoped_installed", "scoped_whole_life_npv"],
+  }[kind];
+  const body = byId("design-price-rows");
+  body.replaceChildren();
+  for (const row of prices.rows.filter((r) => r.kind === kind))
+    for (const key of keys) {
+      const tr = document.createElement("tr");
+      for (const text of [
+        row.physical_candidate_id.slice(0, 12),
+        key.replaceAll("_", " "),
+        (row.prices_iqd[key].base / fx).toLocaleString("en-GB", {
+          maximumFractionDigits: 0,
+        }),
+      ]) {
+        const td = document.createElement("td");
+        td.textContent = text;
+        tr.append(td);
+      }
+      const td = document.createElement("td"),
+        button = document.createElement("button");
+      button.textContent = "Inspect";
+      button.addEventListener("click", () => {
+        byId("design-price-detail").textContent = JSON.stringify(row, null, 2);
+        byId("design-price-inspection").open = true;
+      });
+      td.append(button);
+      tr.append(td);
+      body.append(tr);
     }
-    const td=document.createElement("td"),button=document.createElement("button");button.textContent="Inspect";
-    button.addEventListener("click",()=>{byId("design-price-detail").textContent=JSON.stringify(row,null,2);byId("design-price-inspection").open=true;});
-    td.append(button);tr.append(td);body.append(tr);
-  }
 }
-byId("design-price-kind").addEventListener("change",renderDesignPrices);
+byId("design-price-kind").addEventListener("change", renderDesignPrices);
 function drawOutlineMap(geometry) {
-  const svg = byId("city-outline-map"); svg.replaceChildren();
-  const lines = geometry.features.filter(f=>f.geometry?.type==="LineString");
-  const points = lines.flatMap(f=>f.geometry.coordinates);
+  const svg = byId("city-outline-map");
+  svg.replaceChildren();
+  const lines = geometry.features.filter(
+    (f) => f.geometry?.type === "LineString",
+  );
+  const points = lines.flatMap((f) => f.geometry.coordinates);
   if (!points.length) return;
-  const latitude = points.reduce((s,p)=>s+p[1],0)/points.length;
-  const longitudeScale = Math.cos(latitude*Math.PI/180);
-  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
-  for (const p of points) {minX=Math.min(minX,p[0]*longitudeScale);maxX=Math.max(maxX,p[0]*longitudeScale);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1]);}
-  const scale=Math.min(860/Math.max(1e-9,maxX-minX),480/Math.max(1e-9,maxY-minY));
-  const projected=p=>[20+(p[0]*longitudeScale-minX)*scale,500-(p[1]-minY)*scale];
-  for (const feature of lines) {
-    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
-    const kind=feature.properties.variant;
-    path.setAttribute("d",feature.geometry.coordinates.map((p,i)=>`${i?"L":"M"}${projected(p).join(" ")}`).join(" "));
-    path.setAttribute("fill","none");path.setAttribute("stroke",kind==="original"?"#83918d":kind.includes("ring")?"#bc6a18":"#08735a");
-    path.setAttribute("stroke-width",kind==="original"?"4":"2");
-    const title=document.createElementNS("http://www.w3.org/2000/svg","title");title.textContent=`${feature.properties.line_id||feature.properties.name||"Route"} · ${kind}`;
-    path.append(title);svg.append(path);
+  const latitude = points.reduce((s, p) => s + p[1], 0) / points.length;
+  const longitudeScale = Math.cos((latitude * Math.PI) / 180);
+  let minX = Infinity,
+    maxX = -Infinity,
+    minY = Infinity,
+    maxY = -Infinity;
+  for (const p of points) {
+    minX = Math.min(minX, p[0] * longitudeScale);
+    maxX = Math.max(maxX, p[0] * longitudeScale);
+    minY = Math.min(minY, p[1]);
+    maxY = Math.max(maxY, p[1]);
   }
-  for (const feature of geometry.features.filter(f=>f.geometry?.type==="Point")) {
-    const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
-    const point=projected(feature.geometry.coordinates),kind=feature.properties.variant;
-    circle.setAttribute("cx",point[0]);circle.setAttribute("cy",point[1]);circle.setAttribute("r","2.5");
-    circle.setAttribute("fill",kind==="original"?"#65736e":kind.includes("ring")?"#bc6a18":"#08735a");
-    const title=document.createElementNS("http://www.w3.org/2000/svg","title");title.textContent=`${feature.properties.stop_id} · ${kind}`;
-    circle.append(title);svg.append(circle);
+  const scale = Math.min(
+    860 / Math.max(1e-9, maxX - minX),
+    480 / Math.max(1e-9, maxY - minY),
+  );
+  const projected = (p) => [
+    20 + (p[0] * longitudeScale - minX) * scale,
+    500 - (p[1] - minY) * scale,
+  ];
+  for (const feature of lines) {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const kind = feature.properties.variant;
+    path.setAttribute(
+      "d",
+      feature.geometry.coordinates
+        .map((p, i) => `${i ? "L" : "M"}${projected(p).join(" ")}`)
+        .join(" "),
+    );
+    path.setAttribute("fill", "none");
+    path.setAttribute(
+      "stroke",
+      kind === "original"
+        ? "#83918d"
+        : kind.includes("ring")
+          ? "#bc6a18"
+          : "#08735a",
+    );
+    path.setAttribute("stroke-width", kind === "original" ? "4" : "2");
+    const title = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "title",
+    );
+    title.textContent = `${feature.properties.line_id || feature.properties.name || "Route"} · ${kind}`;
+    path.append(title);
+    svg.append(path);
+  }
+  for (const feature of geometry.features.filter(
+    (f) => f.geometry?.type === "Point",
+  )) {
+    const circle = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle",
+    );
+    const point = projected(feature.geometry.coordinates),
+      kind = feature.properties.variant;
+    circle.setAttribute("cx", point[0]);
+    circle.setAttribute("cy", point[1]);
+    circle.setAttribute("r", "2.5");
+    circle.setAttribute(
+      "fill",
+      kind === "original"
+        ? "#65736e"
+        : kind.includes("ring")
+          ? "#bc6a18"
+          : "#08735a",
+    );
+    const title = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "title",
+    );
+    title.textContent = `${feature.properties.stop_id} · ${kind}`;
+    circle.append(title);
+    svg.append(circle);
   }
 }
-if (new URLSearchParams(location.search).has("outlineCity")) byId("city-outline-load").click();
+if (new URLSearchParams(location.search).has("outlineCity"))
+  byId("city-outline-load").click();
 
 start();

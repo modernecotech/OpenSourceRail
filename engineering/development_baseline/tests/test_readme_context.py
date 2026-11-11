@@ -28,6 +28,10 @@ def test_separate_magnetic_method_entrypoint_uses_current_context_without_archiv
     assert updated.endswith('Original method details.\n')
 
 
+def test_v06_release_readme_has_an_explicit_inventory_class():
+    assert context.category('docs/releases/v0.6.0/README.md') == 'versioned-release-guide'
+
+
 def test_legacy_import_is_the_same_module_and_keeps_monkeypatch_compatibility(monkeypatch):
     from engineering.maglev_research import readme_context as old
     assert old is context

@@ -121,6 +121,30 @@ on:
       - '!docs/design-engine/city-atlas/**'
       - '!docs/design-engine/demand-outline/**'
       - '!docs/design-engine/supply-economics/**'
+      # The v0.6 release workflows provide the bounded source, API and browser
+      # coverage for these release-only changes; avoid rerunning the complete
+      # historical engineering campaign on the same diff.
+      - '!engineering/development_baseline/server.py'
+      - '!engineering/development_baseline/tests/test_entrypoints.py'
+      - '!engineering/development_baseline/tests/test_readme_context.py'
+      - '!engineering/development_baseline/web/app.js'
+      - '!engineering/readme_context.py'
+      - '!engineering/station_rail/publication.py'
+      - '!engineering/station_rail/retired_station_reference.py'
+      - '!engineering/station_rail/tests/test_retired_coupled_source_epoch.py'
+      - '!engineering/design_search/compact_launch_retained.py'
+      - '!engineering/design_search/line_benchmark_retained.py'
+      - '!engineering/design_search/tests/test_compact_launch_source_epoch.py'
+      - '!engineering/design_search/tests/test_line_benchmark_source_epoch.py'
+      - '!docs/archives/compact-launch-source-epochs/**'
+      - '!docs/archives/coupled-railway-source-epochs/**'
+      - '!docs/archives/line30-benchmark-source-epochs/**'
+      - '!docs/design-engine/mass-reconciliation/current/**'
+      - '!docs/workbench/current/app.js'
+      - '!tools/automation/prepare-v06-release-checkout.py'
+      - '!tools/automation/tests/verify-v06-release-workbench.mjs'
+      - '!package.json'
+      - '!.github/workflows/development-baseline.yml'
   push:
     branches: [main]
     paths:
@@ -239,6 +263,30 @@ on:
       - '!docs/design-engine/city-atlas/**'
       - '!docs/design-engine/demand-outline/**'
       - '!docs/design-engine/supply-economics/**'
+      # The v0.6 release workflows provide the bounded source, API and browser
+      # coverage for these release-only changes; avoid rerunning the complete
+      # historical engineering campaign on the same diff.
+      - '!engineering/development_baseline/server.py'
+      - '!engineering/development_baseline/tests/test_entrypoints.py'
+      - '!engineering/development_baseline/tests/test_readme_context.py'
+      - '!engineering/development_baseline/web/app.js'
+      - '!engineering/readme_context.py'
+      - '!engineering/station_rail/publication.py'
+      - '!engineering/station_rail/retired_station_reference.py'
+      - '!engineering/station_rail/tests/test_retired_coupled_source_epoch.py'
+      - '!engineering/design_search/compact_launch_retained.py'
+      - '!engineering/design_search/line_benchmark_retained.py'
+      - '!engineering/design_search/tests/test_compact_launch_source_epoch.py'
+      - '!engineering/design_search/tests/test_line_benchmark_source_epoch.py'
+      - '!docs/archives/compact-launch-source-epochs/**'
+      - '!docs/archives/coupled-railway-source-epochs/**'
+      - '!docs/archives/line30-benchmark-source-epochs/**'
+      - '!docs/design-engine/mass-reconciliation/current/**'
+      - '!docs/workbench/current/app.js'
+      - '!tools/automation/prepare-v06-release-checkout.py'
+      - '!tools/automation/tests/verify-v06-release-workbench.mjs'
+      - '!package.json'
+      - '!.github/workflows/development-baseline.yml'
   workflow_dispatch:
     inputs:
       native_methods:

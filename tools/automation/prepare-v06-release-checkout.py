@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import gzip
 import os
 from pathlib import Path, PurePosixPath
 import shutil
@@ -13,17 +14,28 @@ import subprocess
 BASE_PATTERNS = (
     "/.gitignore",
     "/.github/release-smoke-tests.txt",
+    "/.github/workflows/development-baseline.yml",
+    "/README.md",
     "/Cargo.lock",
     "/Cargo.toml",
     "/crates/**",
+    "/campaigns/v06-software-release.toml",
+    "/campaigns/mass-reserve-sensitivity.toml",
     "/LICENSES/**",
     "/engineering/*.py",
+    "/engineering/compact_drive/**",
     "/engineering/development_baseline/**",
     "/engineering/design_search/*.py",
+    "/engineering/design_search/tests/test_compact_launch_source_epoch.py",
+    "/engineering/maglev_research/readme_context.py",
     "/engineering/outline/**",
+    "/engineering/railway_project/**",
     "/engineering/rustgis/**",
     "/engineering/station_rail/**",
+    "/engineering/v06_software_release/**",
+    "/engineering/vehicle_optimisation/equipment.py",
     "/engineering/trip_dynamics/__init__.py",
+    "/engineering/trip_dynamics/__main__.py",
     "/engineering/trip_dynamics/interactive.py",
     "/tests/test_v06_software_release_gate.py",
     "/tests/test_city_recalculation.py",
@@ -31,7 +43,14 @@ BASE_PATTERNS = (
     "/tests/test_outline_completion_cli_admission.py",
     "/cities/catalogue/west-asia/Iraq/Samawah/**",
     "/docs/design-engine/current/**",
+    "/docs/design-engine/mass-reconciliation/current/**",
+    "/docs/archives/compact-launch-source-epochs/**",
+    "/docs/archives/coupled-railway-source-epochs/**",
+    "/docs/archives/line30-benchmark-source-epochs/**",
+    "/docs/design-engine/compact-launch/**",
+    "/docs/design-engine/line30-benchmark/**",
     "/docs/design-engine/v06-software-release/**",
+    "/docs/capabilities/directory.md",
     "/docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/**",
     "/docs/design-engine/powered-bogie-detail/body.json.gz",
     "/docs/design-engine/outline-completion/**",
@@ -59,7 +78,6 @@ BASE_PATTERNS = (
 MIN_FREE_BYTES = 8 * 1024**3
 MIN_POST_EXPANSION_FREE_BYTES = 6 * 1024**3
 SEED_MANIFESTS = (
-    "docs/design-engine/current/manifest.json",
     "docs/design-engine/outline-completion/manifest.json",
     "docs/design-engine/city-atlas/manifest.json",
     "docs/design-engine/coupled-railway/manifest.json",
@@ -114,6 +132,27 @@ def main() -> int:
                         or any(char in source for char in "*?[]\n\r")):
                     raise ValueError(f"unsafe source path in {relative}: {source!r}")
                 patterns.add("/" + source)
+
+    # Journey A binds a separate compressed body package rather than a city
+    # manifest. Expand its declared producer inputs as part of the same exact
+    # source checkout so local and CI evaluation runs do not fail on omissions.
+    body_record = (
+        "docs/design-engine/v06-design-closure/compact-drive-source-replay-01/"
+        "compact-737-h100/body.json.gz"
+    )
+    body = json.loads(gzip.decompress((root / body_record).read_bytes()))
+    body_sources = body.get("source_sha256", {})
+    if not isinstance(body_sources, dict) or not body_sources:
+        raise ValueError("Samawah body package requires an explicit source map")
+    for source, expected in body_sources.items():
+        path = PurePosixPath(source)
+        if (not isinstance(source, str) or not isinstance(expected, str)
+                or len(expected) != 64 or not source or path.is_absolute()
+                or ".." in path.parts or path.as_posix() != source
+                or "\\" in source or any(char in source for char in "*?[]\n\r")):
+            raise ValueError(f"unsafe body source path: {source!r}")
+        patterns.add("/" + source)
+    manifests.append((body_record, body.get("candidate_id")))
 
     subprocess.run(
         ["git", "sparse-checkout", "set", "--no-cone", "--stdin"],
