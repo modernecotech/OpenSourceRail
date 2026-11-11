@@ -50,10 +50,16 @@ class CityStudyService:
             raise ValueError('Explicit city-study store must be outside the source checkout')
         self.lock=threading.RLock();self.jobs={};self.closed=False
         self.verified_runs={}
+        self.completed_by_key={};self.indexed_key_by_job={}
         self._lease=completion._locked(self.store);self._lease.__enter__()
         self.stop=threading.Event()
-        self.watcher=threading.Thread(target=self._watch,name='osr-city-study-supervisor',daemon=True)
-        self.watcher.start()
+        try:
+            self._rebuild_completed_index()
+            self.watcher=threading.Thread(target=self._watch,name='osr-city-study-supervisor',daemon=True)
+            self.watcher.start()
+        except BaseException:
+            self._lease.__exit__(*sys.exc_info())
+            raise
 
     def _watch(self):
         while not self.stop.wait(.5):
@@ -78,8 +84,47 @@ class CityStudyService:
                 if p.is_file():total+=p.stat().st_size
         return total
 
+    def _set_index(self,job_id,status):
+        previous=self.indexed_key_by_job.pop(job_id,None)
+        if previous is not None:
+            jobs=self.completed_by_key.get(previous,[])
+            jobs=[value for value in jobs if value!=job_id]
+            if jobs:self.completed_by_key[previous]=jobs
+            else:self.completed_by_key.pop(previous,None)
+        key=status.get('request_key')
+        if (status.get('state')!='completed' or not isinstance(key,str)
+                or not re.fullmatch('[0-9a-f]{64}',key)):
+            return
+        self.completed_by_key.setdefault(key,[]).append(job_id)
+        self.indexed_key_by_job[job_id]=key
+
+    def _rebuild_completed_index(self):
+        if not self.store.exists():return
+        for path in sorted(self.store.glob('*/status.json')):
+            job_id=path.parent.name
+            self._job(job_id)
+            try:
+                status=json.loads(completion._ordinary(path).read_bytes())
+                if (not isinstance(status,dict) or status.get('job_id')!=job_id
+                        or status.get('state') not in ('running','completed','stale','interrupted',
+                            'failed','failed-integrity','failed-output-budget','timed-out')):
+                    raise ValueError('Invalid retained city job status')
+            except (ValueError,KeyError,TypeError,OSError):
+                # Use the normal integrity path so malformed records are retained
+                # and surfaced exactly as they are during status polling.
+                self._poll(job_id)
+                continue
+            if status['state']=='running':
+                # A new coordinator has no process handle for an old worker.
+                self._poll(job_id)
+            else:
+                # Completed records are only hints here. Their artifacts and
+                # source bindings are verified again when a matching key is used.
+                self._set_index(job_id,status)
+
     def _write(self,folder,status):
         completion._write(folder/'status.json',status)
+        self._set_index(folder.name,status)
 
     def _verify(self,folder):
         raw=completion._ordinary(folder/'manifest.json').read_bytes();manifest=json.loads(raw)
@@ -117,6 +162,7 @@ class CityStudyService:
                 raise ValueError('Invalid retained city job status')
         except (ValueError,KeyError,TypeError) as exc:
             return self._failed_integrity(job_id,str(exc))
+        self._set_index(job_id,status)
         if status['state']!='running':
             if status['state']=='completed':
                 try:self._verify(folder/'artifacts')
@@ -158,13 +204,17 @@ class CityStudyService:
             request.setdefault('expected_outline_evaluation_id',detail['evaluation_id'])
             key=identity(dict(request=request,seed_id=detail['planning_seed']['seed_id'],
                 sources=city_workflow._sources(self.root)))
-            for p in self.store.glob('*/status.json'):
-                status=self._poll(p.parent.name)
+            for job_id in tuple(self.completed_by_key.get(key,())):
+                status=self._poll(job_id)
                 if status.get('request_key')==key and status['state']=='completed':
                     try:
-                        self._verify(p.parent/'artifacts')
+                        self._verify(self._job(job_id)/'artifacts')
                         return dict(status,cache_hit=True)
                     except (ValueError,KeyError,TypeError,OSError):pass
+            for job_id,record in self.jobs.items():
+                if record.get('finished'):continue
+                status=self._poll(job_id)
+                record['finished']=status['state']!='running'
                 if status['state']=='running':return dict(status,busy=True)
             # The source checkout and the job store may be on different mounts.
             # Admit against the filesystem that will receive the generated data.

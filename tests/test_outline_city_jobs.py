@@ -112,7 +112,10 @@ def test_timeout_and_output_budget_preserve_requests(service,monkeypatch):
 def test_restarted_coordinator_marks_orphan_interrupted(service):
     s,_=service;job='d'*32;folder=s._job(job);folder.mkdir(parents=True)
     (folder/'status.json').write_bytes(encoded(dict(job_id=job,state='running')))
-    assert s.status(job)['state']=='interrupted'
+    s.close()
+    replacement=jobs.CityStudyService(s.root)
+    try:assert replacement.status(job)['state']=='interrupted'
+    finally:replacement.close()
     with pytest.raises(ValueError):s.status('../outside')
 
 
@@ -130,6 +133,50 @@ def test_complete_cache_hit_requires_verified_artifacts(service,monkeypatch):
     assert s.status(a['job_id'])['state']=='stale'
     monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:dict(admitted=True))
     assert s.submit(request)['job_id']!=a['job_id'] and len(ps)==2
+
+
+def test_restarted_completed_index_is_only_a_hint_and_skips_store_scans(service,monkeypatch):
+    s,ps=service;request=dict(city_slug='samawah');started=s.submit(request)
+    folder=s._job(started['job_id'])/'artifacts';folder.mkdir()
+    (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
+    monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
+    ps[0][0].returncode=0
+    assert s.status(started['job_id'])['state']=='completed'
+    s.close()
+    replacement=jobs.CityStudyService(s.root)
+    monkeypatch.setattr(replacement,'_verify',lambda p:dict(manifest_id='f'*64))
+    monkeypatch.setattr(replacement,'_usage',lambda:pytest.fail('cache hit must not scan store usage'))
+    original_glob=jobs.Path.glob
+    def no_status_scan(path,pattern):
+        if path==replacement.store and pattern=='*/status.json':
+            raise AssertionError('cache hit must use the rebuilt request-key index')
+        return original_glob(path,pattern)
+    monkeypatch.setattr(jobs.Path,'glob',no_status_scan)
+    try:
+        hit=replacement.submit(request)
+        assert hit['job_id']==started['job_id'] and hit['cache_hit'] is True
+        assert len(ps)==1
+    finally:replacement.close()
+
+
+def test_restarted_completed_index_rechecks_tampered_artifacts(service,monkeypatch):
+    s,ps=service;request=dict(city_slug='samawah');started=s.submit(request)
+    folder=s._job(started['job_id'])/'artifacts';folder.mkdir()
+    (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
+    monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
+    ps[0][0].returncode=0
+    assert s.status(started['job_id'])['state']=='completed'
+    s.close()
+    replacement=jobs.CityStudyService(s.root)
+    monkeypatch.setattr(replacement,'_verify',lambda p:(_ for _ in ()).throw(ValueError('artifact changed')))
+    monkeypatch.setattr(replacement,'_usage',lambda:0)
+    try:
+        next_job=replacement.submit(request)
+        assert next_job['state']=='running' and next_job['job_id']!=started['job_id']
+        retained=json.loads((s._job(started['job_id'])/'status.json').read_bytes())
+        assert retained['state']=='stale'
+        assert len(ps)==2
+    finally:replacement.close()
 
 
 def test_store_full_refuses_new_worker_without_deleting_runs(service,monkeypatch):
