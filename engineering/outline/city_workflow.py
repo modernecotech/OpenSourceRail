@@ -5,7 +5,13 @@ import gzip
 from math import isfinite
 from pathlib import Path
 import re
+import sys
 import time
+
+try:
+    import resource
+except ImportError:  # pragma: no cover - city worker resource limits are Unix-only
+    resource=None
 
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest,encoded,identity
@@ -169,7 +175,7 @@ def _functional(record,access):
 def evaluate(request,root=ROOT):
     from . import planning_adapter,revision_service,delivery_plan
     from services.integration.osr_integration import city_outline
-    root=Path(root);start=time.perf_counter();v=normalize(request)
+    root=Path(root);start=time.perf_counter();cpu_start=time.process_time();v=normalize(request)
     detail=publication_cache.json_member('cities/'+v['city_slug']+'.json.gz',root)
     if v.get('expected_outline_evaluation_id',detail['evaluation_id'])!=detail['evaluation_id']:
         raise ValueError('The selected published outline changed; reload the city before recalculating')
@@ -264,7 +270,10 @@ def evaluate(request,root=ROOT):
         calculation_complete=True,delivery_plan=delivery,business_drafts=business,
         source_sha256=sources,**FLAGS))
     if any(digest(root/n)!=sha for n,sha in sources.items()):raise ValueError('City study inputs changed during execution')
-    return value,dict(elapsed_s=time.perf_counter()-start,native_solver_jobs=0,CAD_jobs=0,
+    usage=resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
+    peak_rss=(int(usage.ru_maxrss*(1 if sys.platform=='darwin' else 1024)) if usage else None)
+    return value,dict(elapsed_s=time.perf_counter()-start,cpu_s=time.process_time()-cpu_start,
+        peak_rss_bytes=peak_rss,native_solver_jobs=0,CAD_jobs=0,
         cases=len(cases),external_transactions=0)
 
 
@@ -293,13 +302,13 @@ def summary(value):
 
 
 def run(request,output,root=ROOT):
-    root=Path(root).resolve();output=Path(output)
+    root=Path(root).resolve();output=Path(output);run_start=time.perf_counter();run_cpu_start=time.process_time()
     output=completion._ordinary(output if output.is_absolute() else root/output)
     if output.exists():raise ValueError('Fresh immutable mapped-city study output required')
     value,timing=evaluate(request,root=root);output.mkdir(parents=True)
     records={'request.json':value['request'],'result.json':value,'summary.json':summary(value),
         'planning.json':value['planning_revision'],'delivery-plan.json':value['delivery_plan'],
-        'business-drafts.json':value['business_drafts'],'performance.json':timing}
+        'business-drafts.json':value['business_drafts']}
     variants=dict(variants=[dict(kind=c['kind'],alignment_id=c['alignment_id'],
         geometry_geojson=dict(type='FeatureCollection',features=[dict(type='Feature',
             properties=dict(line_id=line['line_id']),geometry=dict(type='LineString',coordinates=line['coordinates']))
@@ -311,7 +320,21 @@ def run(request,output,root=ROOT):
         (output/stored_name(name)).write_bytes(_gzip_member(raw) if name in GZIP_ARTIFACTS else raw)
     from services.integration.osr_integration import city_outline
     city_outline.export_drafts(value['business_drafts'],output/'business',root=Path(root).resolve())
+    timing['worker_elapsed_s']=time.perf_counter()-run_start
+    timing['worker_cpu_s']=time.process_time()-run_cpu_start
+    usage=resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
+    timing['peak_rss_bytes']=int(usage.ru_maxrss*(1 if sys.platform=='darwin' else 1024)) if usage else None
+    # Report the logical artifact write volume, including the performance record
+    # itself but excluding the manifest and job-control metadata. Resolve the
+    # small self-size dependency to a stable integer before writing the record.
+    artifact_payload_bytes=sum(p.stat().st_size for p in output.rglob('*')
+        if p.is_file() and p.name!='performance.json')
+    timing['artifact_payload_bytes']=artifact_payload_bytes
+    for _ in range(4):
+        timing['artifact_payload_bytes']=artifact_payload_bytes+len(encoded(timing))
+    (output/'performance.json').write_bytes(encoded(timing))
     files={stored_name(n):digest(output/stored_name(n)) for n in records}
+    files['performance.json']=digest(output/'performance.json')
     files.update({p.relative_to(output).as_posix():digest(p) for p in (output/'business').iterdir() if p.is_file()})
     manifest=completion.seal(dict(schema='osr-mapped-city-workflow-publication/1',
         evaluation_id=value['evaluation_id'],source_sha256=value['source_sha256'],

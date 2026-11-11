@@ -15,6 +15,7 @@ from urllib.parse import unquote,urlsplit
 from uuid import uuid4
 
 from engineering.station_rail.common import encoded,digest,identity
+from engineering.performance import disk_admission
 from engineering.trip_dynamics.interactive import _loopback
 from . import completion,city_workflow,publication_cache
 
@@ -22,6 +23,7 @@ MAX_REQUEST=2*1024**2
 MAX_JOB_BYTES=64*1024**2
 MAX_STORE_BYTES=512*1024**2
 WALL_SECONDS=120
+MINIMUM_FREE_GIB=4.0
 FLAGS=city_workflow.FLAGS
 STORE='build/city-studies'
 
@@ -38,8 +40,14 @@ def _json(raw):
 
 
 class CityStudyService:
-    def __init__(self,root):
-        self.root=Path(root).resolve();self.store=self.root/STORE
+    def __init__(self,root,*,store=None):
+        self.root=Path(root).resolve()
+        requested_store=Path(store).expanduser() if store is not None else self.root/STORE
+        if not requested_store.is_absolute():requested_store=self.root/requested_store
+        completion._ordinary(requested_store)
+        self.store=requested_store.resolve()
+        if store is not None and self.store.is_relative_to(self.root):
+            raise ValueError('Explicit city-study store must be outside the source checkout')
         self.lock=threading.RLock();self.jobs={};self.closed=False
         self.verified_runs={}
         self._lease=completion._locked(self.store);self._lease.__enter__()
@@ -158,6 +166,18 @@ class CityStudyService:
                         return dict(status,cache_hit=True)
                     except (ValueError,KeyError,TypeError,OSError):pass
                 if status['state']=='running':return dict(status,busy=True)
+            # The source checkout and the job store may be on different mounts.
+            # Admit against the filesystem that will receive the generated data.
+            admission=disk_admission(self.store,minimum_free_gib=MINIMUM_FREE_GIB)
+            if not admission['admitted']:
+                return dict(schema='osr-city-study-job/1',state='held',
+                    error=admission['reason'],cache_hit=False,
+                    resource_admission=admission,
+                    resource_budget=dict(worker_processes=1,wall_seconds=WALL_SECONDS,
+                        cpu_seconds=90,address_space_bytes=3*1024**3,
+                        maximum_output_bytes=MAX_JOB_BYTES,
+                        minimum_free_reserve_gib=MINIMUM_FREE_GIB,native_solver_jobs=0),
+                    **FLAGS)
             if self._usage()+MAX_JOB_BYTES>MAX_STORE_BYTES:
                 raise ValueError('City study storage budget reached; preserve/export finished runs before cleanup')
             job_id=uuid4().hex;folder=self._job(job_id);folder.mkdir()
@@ -172,7 +192,8 @@ class CityStudyService:
             status=dict(schema='osr-city-study-job/1',job_id=job_id,state='running',request_key=key,
                 cache_hit=False,resource_budget=dict(worker_processes=1,wall_seconds=WALL_SECONDS,
                     cpu_seconds=90,address_space_bytes=3*1024**3,maximum_output_bytes=MAX_JOB_BYTES,
-                    native_solver_jobs=0),**FLAGS)
+                    minimum_free_reserve_gib=MINIMUM_FREE_GIB,native_solver_jobs=0),
+                resource_admission=admission,**FLAGS)
             self.jobs[job_id]=dict(process=process,log=log,started=time.monotonic())
             self._write(folder,status);return status
 

@@ -103,6 +103,23 @@ def alive(pid):
         return False
 
 
+def test_explicit_trip_output_root_is_external_and_rejects_linked_paths(tmp_path):
+    source=tmp_path/'source';source.mkdir()
+    output=tmp_path/'private-trip-output'
+    service=api.TripService(source,output_root=output)
+    try:
+        assert service.output_root==output
+        assert not service.output_root.is_relative_to(source)
+        assert (output/'.service.lock').is_file()
+    finally:service.close()
+    with pytest.raises(api.RequestError,match='outside the source checkout'):
+        api.TripService(source,output_root=source/'build'/'workbench-trips')
+    target=tmp_path/'target';target.mkdir()
+    linked=source/'linked';linked.symlink_to(target,target_is_directory=True)
+    with pytest.raises(api.RequestError,match='linked trip output'):
+        api.TripService(source,output_root=linked/'workbench-trips')
+
+
 def test_real_subprocess_refusal_is_completed_calculation_and_durable(repository):
     service = api.TripService(repository)
     try:

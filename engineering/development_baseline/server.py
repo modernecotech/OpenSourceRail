@@ -192,15 +192,17 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class WorkbenchHTTPServer(ThreadingHTTPServer):
-    def __init__(self, address, handler, *, root):
+    def __init__(self, address, handler, *, root, city_study_store=None,
+                 trip_store=None):
         from engineering.trip_dynamics.interactive import TripService
         from engineering.outline.city_jobs import CityStudyService
         self.root = Path(root).resolve()
         self.trip_service = None
         self.city_studies = None
         try:
-            self.trip_service = TripService(self.root)
-            self.city_studies = CityStudyService(self.root)
+            self.trip_service = TripService(self.root) if trip_store is None else TripService(
+                self.root,output_root=trip_store)
+            self.city_studies = CityStudyService(self.root,store=city_study_store)
             super().__init__(address, handler)
         except BaseException:
             try:
@@ -225,12 +227,16 @@ class WorkbenchHTTPServer(ThreadingHTTPServer):
                 service.close()
 
 
-def make_server(root=ROOT, host='127.0.0.1', port=8090):
-    return WorkbenchHTTPServer((host, port), partial(Handler, root=root), root=root)
+def make_server(root=ROOT, host='127.0.0.1', port=8090,
+                city_study_store=None, trip_store=None):
+    return WorkbenchHTTPServer((host, port), partial(Handler, root=root), root=root,
+        city_study_store=city_study_store,trip_store=trip_store)
 
 
-def serve(root=ROOT, host='127.0.0.1', port=8090, open_browser=False):
-    server = make_server(root=root, host=host, port=port)
+def serve(root=ROOT, host='127.0.0.1', port=8090, open_browser=False,
+          city_study_store=None, trip_store=None):
+    server = make_server(root=root, host=host, port=port,
+        city_study_store=city_study_store,trip_store=trip_store)
     origin = 'http://%s:%s' % server.server_address
     print(origin, flush=True)
     if open_browser:
@@ -251,8 +257,15 @@ def main(argv=None, root=ROOT):
     parser.add_argument('--open', action='store_true')
     parser.add_argument('--no-browser', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--root', type=Path, default=Path(root), help=argparse.SUPPRESS)
+    parser.add_argument('--city-study-store', type=Path,
+        help='Optional bounded city-study output directory outside the source checkout')
+    parser.add_argument('--trip-store', type=Path,
+        help='Optional trip-research output directory outside the source checkout')
     args = parser.parse_args(argv)
-    return serve(root=args.root, host=args.host, port=args.port, open_browser=args.open and not args.no_browser)
+    return serve(root=args.root, host=args.host, port=args.port,
+                 open_browser=args.open and not args.no_browser,
+                 city_study_store=args.city_study_store,
+                 trip_store=args.trip_store)
 
 
 if __name__ == '__main__':

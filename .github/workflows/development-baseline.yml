@@ -110,6 +110,7 @@ on:
       - "cities/**/engineering/current/**"
       - "tools/automation/default-design*.py"
       - "tools/automation/tests/verify-development-baseline.mjs"
+      - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "osr"
       - "package.json"
       - ".github/workflows/development-baseline.yml"
@@ -213,6 +214,7 @@ on:
       - "tools/automation/generative-native-benchmarks.py"
       - "tools/automation/coupled-native-benchmarks.py"
       - "tools/automation/moving-lim-benchmarks.py"
+      - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
@@ -339,11 +341,22 @@ jobs:
           .venv/bin/python tools/automation/check-readmes.py
           .venv/bin/python tools/automation/generate-doc-index.py --check
           npm run test:frontend
+      - name: Reproduce editable Samawah city journey, warm cache and exports
+        env:
+          OSR_PYTHON: .venv/bin/python
+        run: node tools/automation/tests/verify-v06-software-journey-a.mjs "$RUNNER_TEMP/osr-v06-samawah-journey-a-$GITHUB_RUN_ID"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: selected-development-workbench
           path: build/development-baseline-browser/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-samawah-journey-a
+          path: ${{ runner.temp }}/osr-v06-samawah-journey-a-${{ github.run_id }}/
+          if-no-files-found: ignore
+          retention-days: 14
 
   retired-reference-methods:
     name: Retired fixed-service research methods at pinned 3bf38a5

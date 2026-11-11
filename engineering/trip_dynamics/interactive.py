@@ -79,6 +79,18 @@ def _ordinary(path, parent):
     return path
 
 
+def _external_output(path, root):
+    path = Path(path).expanduser()
+    if not path.is_absolute():
+        path = Path(root) / path
+    path = Path(os.path.abspath(path))
+    if any(parent.is_symlink() for parent in (path, *path.parents)):
+        raise RequestError('linked trip output is not permitted')
+    if path == Path(path.anchor) or path.is_relative_to(Path(root).resolve()):
+        raise RequestError('explicit trip output must be a directory outside the source checkout')
+    return path
+
+
 def _read(path, parent, limit=MAX_RESULT):
     path = _ordinary(path, parent)
     if not path.is_file() or path.stat().st_size > limit:
@@ -330,8 +342,13 @@ class TripService:
         self.root = Path(root).resolve()
         if type(max_workers) is not int or not 1 <= max_workers <= 2:
             raise ValueError('one or two local workers required')
-        self.output_root = _ordinary(Path(output_root or self.root / 'build/workbench-trips').absolute(), self.root / 'build')
+        self.output_root = (
+            _ordinary((self.root / 'build/workbench-trips').absolute(), self.root / 'build')
+            if output_root is None else _external_output(output_root, self.root)
+        )
         self.output_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+        if output_root is not None:
+            self.output_root = _external_output(self.output_root, self.root)
         proposed = self.root / '.venv/bin/python'
         # Preserve venv invocation: resolving bin/python before launching would
         # silently discard pyvenv.cfg and its installed worker dependencies.

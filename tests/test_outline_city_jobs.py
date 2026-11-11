@@ -25,6 +25,9 @@ def service(tmp_path,monkeypatch):
     monkeypatch.setattr(jobs.os,'killpg',lambda *a:None)
     monkeypatch.setattr(jobs.publication_cache,'json_member',lambda *a,**kw:
         dict(evaluation_id='a'*64,planning_seed=dict(seed_id='b'*64)))
+    monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:dict(
+        schema='osr-performance-disk-admission/1',admitted=True,
+        minimum_free_reserve_gib=kw.get('minimum_free_gib')))
     monkeypatch.setattr(workflow,'_sources',lambda root:{'worker.py':'c'*64})
     s=jobs.CityStudyService(tmp_path)
     try:yield s,processes
@@ -39,7 +42,62 @@ def test_one_worker_at_a_time_and_bounded_environment(service):
     assert kw['env']['OPENBLAS_NUM_THREADS']=='1' and kw['start_new_session']
     assert isinstance(args[0],list) and 'shell' not in kw
     assert a['resource_budget']['maximum_output_bytes']==jobs.MAX_JOB_BYTES
+    assert a['resource_budget']['minimum_free_reserve_gib']==jobs.MINIMUM_FREE_GIB
+    assert a['resource_admission']['admitted'] is True
     assert all(a[k] is False for k in jobs.FLAGS)
+
+
+def test_city_job_store_can_be_placed_in_an_explicit_workspace(tmp_path,monkeypatch):
+    root=tmp_path/'source';root.mkdir()
+    store=tmp_path/'separate-output'/'city-studies'
+    checked=[]
+    monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:(checked.append(root) or dict(admitted=True)))
+    class Process:
+        pid=987654321
+        returncode=None
+        def poll(self):return None if self.returncode is None else self.returncode
+        def wait(self,timeout=None):self.returncode=0;return 0
+    monkeypatch.setattr(jobs.subprocess,'Popen',lambda *a,**kw:Process())
+    monkeypatch.setattr(jobs.os,'killpg',lambda *a:None)
+    service=jobs.CityStudyService(root,store=store)
+    try:
+        assert service.store==store.resolve()
+        assert service.store.is_dir()
+        assert not service.store.is_relative_to(service.root)
+        monkeypatch.setattr(jobs.publication_cache,'json_member',lambda *a,**kw:
+            dict(evaluation_id='a'*64,planning_seed=dict(seed_id='b'*64)))
+        monkeypatch.setattr(workflow,'_sources',lambda root:{'worker.py':'c'*64})
+        status=service.submit(dict(city_slug='samawah'))
+        assert status['resource_admission']['admitted'] is True
+        assert checked==[service.store], 'admission must inspect the job-output filesystem'
+    finally:service.close()
+
+
+def test_city_job_store_rejects_symlinked_destination(tmp_path,monkeypatch):
+    root=tmp_path/'source';root.mkdir()
+    outside=tmp_path/'outside';outside.mkdir()
+    link=root/'linked';link.symlink_to(outside,target_is_directory=True)
+    with pytest.raises(ValueError,match='Linked completion artifacts'):
+        jobs.CityStudyService(root,store=link/'city-studies')
+
+
+def test_explicit_city_job_store_cannot_write_into_source_checkout(tmp_path):
+    root=tmp_path/'source';root.mkdir()
+    with pytest.raises(ValueError,match='outside the source checkout'):
+        jobs.CityStudyService(root,store=root/'build/city-studies')
+
+
+def test_low_disk_holds_before_city_worker_without_deleting_or_creating_a_run(service,monkeypatch):
+    s,ps=service
+    denial=dict(schema='osr-performance-disk-admission/1',admitted=False,
+        reason='Free space is below the configured reserve',filesystem_free_bytes=1,
+        minimum_free_reserve_gib=jobs.MINIMUM_FREE_GIB)
+    monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:denial)
+    status=s.submit(dict(city_slug='samawah'))
+    assert status['state']=='held' and status['resource_admission']==denial
+    assert status['physical_accepted'] is False
+    assert ps==[]
+    assert list(s.store.glob('*/request.json'))==[]
 
 
 def test_timeout_and_output_budget_preserve_requests(service,monkeypatch):
@@ -65,10 +123,12 @@ def test_complete_cache_hit_requires_verified_artifacts(service,monkeypatch):
     monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
     ps[0][0].returncode=0
     assert s.status(a['job_id'])['state']=='completed'
+    monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:dict(admitted=False))
     assert s.submit(request)['cache_hit'] is True and len(ps)==1
     def stale(p):raise ValueError('source changed')
     monkeypatch.setattr(s,'_verify',stale)
     assert s.status(a['job_id'])['state']=='stale'
+    monkeypatch.setattr(jobs,'disk_admission',lambda root,**kw:dict(admitted=True))
     assert s.submit(request)['job_id']!=a['job_id'] and len(ps)==2
 
 
