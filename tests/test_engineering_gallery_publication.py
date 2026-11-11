@@ -24,7 +24,9 @@ def test_resealed_packets_cannot_hide_wrong_view_or_failed_evidence(tmp_path,fau
         else:result['physical_accepted']=True
         p.dump(path,p.sealed({k:v for k,v in result.items() if k!='evaluation_id'}))
     elif fault=='held-relabelled':
-        path=packet/'evidence'/'vehicle-car0'/'image-record.json';result=cad.read(path);result['execution']='completed'
+        path=packet/'evidence'/'vehicle-car0'/'result.json'
+        if not path.is_file():path=packet/'evidence'/'vehicle-car0'/'image-record.json'
+        result=cad.read(path);result['execution']='completed' if result['execution']=='held' else 'held'
         p.dump(path,p.sealed({k:v for k,v in result.items() if k!='evaluation_id'}))
     elif fault=='resource-understatement':
         manifest['cards']['vehicle-car0']['observed_usage']['peak_rss_kib']=1
