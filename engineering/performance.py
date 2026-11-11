@@ -17,6 +17,7 @@ import subprocess
 import tempfile
 import time
 import sys
+from threading import Event, Thread
 
 from engineering.station_rail import ROOT
 
@@ -611,16 +612,22 @@ def _git_snapshot(root):
         return {"revision": None, "dirty_path_count": None}
 
 
-def measure_command(command, *, workspace, report_path, root=ROOT) -> tuple[dict, int]:
+def measure_command(command, *, workspace, report_path, root=ROOT,
+                    sampling_interval_seconds=1.0) -> tuple[dict, int]:
     """Run one command under GNU time and retain comparable process metrics.
 
-    The command is invoked as an argv vector, without a shell. Workspace sizes
-    are before/after allocated-byte snapshots; peak workspace disk and cache
-    or solver counts are not inferred from those snapshots.
+    The command is invoked as an argv vector, without a shell. Workspace usage
+    is sampled while it runs. Sampling can miss files created and removed
+    between samples; it does not enforce a quota or observe writes elsewhere.
     """
     if (not isinstance(command, (list, tuple)) or not command
             or any(not isinstance(arg, str) or not arg for arg in command)):
         raise ValueError("a nonempty command argument vector is required")
+    if (isinstance(sampling_interval_seconds, bool)
+            or not isinstance(sampling_interval_seconds, (int, float))
+            or not math.isfinite(sampling_interval_seconds)
+            or not 0.05 <= sampling_interval_seconds <= 60):
+        raise ValueError("workspace sampling interval must be between 0.05 and 60 seconds")
     workspace = Path(workspace).resolve()
     report_path = Path(report_path).resolve()
     root = Path(root).resolve()
@@ -647,15 +654,38 @@ def measure_command(command, *, workspace, report_path, root=ROOT) -> tuple[dict
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="osr-perf-measure-") as temp:
         metrics_path = Path(temp) / "time.txt"
-        completed = subprocess.run(
-            [str(timer), "-f", format_string, "-o", str(metrics_path), "--", *command],
-            check=False,
+        stop_sampling = Event()
+        sampled_sizes = [before_size] if before_size is not None else []
+        sample_errors: list[str] = []
+
+        def sample_workspace() -> None:
+            while not stop_sampling.wait(sampling_interval_seconds):
+                sizes, errors = _du([str(workspace)])
+                sample_errors.extend(errors)
+                size = sizes.get(str(workspace))
+                if size is not None:
+                    sampled_sizes.append(size)
+
+        sampler = Thread(
+            target=sample_workspace, name="osr-workspace-sampler", daemon=True,
         )
+        sampler.start()
+        try:
+            completed = subprocess.run(
+                [str(timer), "-f", format_string, "-o", str(metrics_path), "--", *command],
+                check=False,
+            )
+        finally:
+            stop_sampling.set()
+            sampler.join()
         elapsed = time.monotonic() - started
         raw_metrics = metrics_path.read_text(errors="replace") if metrics_path.exists() else ""
     after_disk = shutil.disk_usage(workspace)
     after_sizes, after_errors = _du([str(workspace)])
     after_size = after_sizes.get(str(workspace))
+    if after_size is not None:
+        sampled_sizes.append(after_size)
+    peak_workspace_size = max(sampled_sizes) if sampled_sizes else None
     source_after = _git_snapshot(root)
     metrics = {}
     for token in raw_metrics.split():
@@ -698,17 +728,21 @@ def measure_command(command, *, workspace, report_path, root=ROOT) -> tuple[dict
             "workspace_allocated_bytes_delta": (
                 after_size - before_size if before_size is not None and after_size is not None else None
             ),
-            "workspace_du_errors": before_errors + after_errors,
+            "workspace_allocated_bytes_peak_sampled": peak_workspace_size,
+            "workspace_sample_interval_seconds": sampling_interval_seconds,
+            "workspace_size_sample_count": len(sampled_sizes),
+            "workspace_du_errors": before_errors + sample_errors + after_errors,
         },
         "not_observed": [
-            "peak temporary workspace bytes",
+            "peak disk use outside the measured workspace",
             "cache hits and misses",
             "native solver execution count",
             "retry count",
         ],
         "measurement_notes": [
             "GNU time reports CPU, sampled peak RSS and filesystem operation counts for the command process tree.",
-            "Workspace size is an allocated-byte before/after snapshot, not a peak measurement.",
+            "Workspace peak is the highest allocated-byte du sample; short-lived files between samples can be missed.",
+            "Sampling observes only the declared workspace and does not enforce a disk quota or constrain writes elsewhere.",
             "Filesystem free-space changes can include concurrent unrelated activity.",
         ],
     }
@@ -752,6 +786,7 @@ def compare_measurements(before_path, after_path) -> dict:
         "filesystem_input_operations": ("process_metrics", "filesystem_input_operations"),
         "filesystem_output_operations": ("process_metrics", "filesystem_output_operations"),
         "workspace_allocated_bytes_delta": ("filesystem", "workspace_allocated_bytes_delta"),
+        "workspace_allocated_bytes_peak_sampled": ("filesystem", "workspace_allocated_bytes_peak_sampled"),
     }
     comparisons = {}
     for name, path in fields.items():
@@ -812,6 +847,8 @@ def main(argv=None, *, root=ROOT) -> int:
                          help="Dedicated job workspace whose allocated bytes are measured before and after")
     measure.add_argument("--report", type=Path, required=True,
                          help="JSON report path outside the measured workspace")
+    measure.add_argument("--sample-interval", type=float, default=1.0,
+                         help="Workspace size sampling interval in seconds (0.05–60)")
     measure.add_argument("command", nargs=argparse.REMAINDER)
     compare = commands.add_parser("compare", help="Compare two recorded process measurements")
     compare.add_argument("--before", type=Path, required=True)
@@ -833,7 +870,8 @@ def main(argv=None, *, root=ROOT) -> int:
         elif args.action == "measure":
             command = args.command[1:] if args.command[:1] == ["--"] else args.command
             value, exit_code = measure_command(command, workspace=args.workspace,
-                                               report_path=args.report, root=root)
+                                               report_path=args.report, root=root,
+                                               sampling_interval_seconds=args.sample_interval)
         else:
             value = compare_measurements(args.before, args.after)
             exit_code = 0

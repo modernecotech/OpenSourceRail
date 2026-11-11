@@ -1,4 +1,5 @@
 """Read-only performance/storage inventory contracts."""
+import json
 from pathlib import Path
 import subprocess
 from types import SimpleNamespace
@@ -7,6 +8,8 @@ import hashlib
 import os
 import struct
 import sys
+
+import pytest
 
 from engineering import performance
 
@@ -272,14 +275,18 @@ def test_perf_measure_records_process_metrics_and_workspace_delta(tmp_path, caps
     output = workspace / "artifact.bin"
     code = "import pathlib,sys; pathlib.Path(sys.argv[1]).write_bytes(b'x'*4096)"
     assert performance.main(["measure", "--workspace", str(workspace),
-                              "--report", str(report_path), "--", sys.executable,
+                              "--report", str(report_path), "--sample-interval", "0.05",
+                              "--", sys.executable,
                               "-c", code, str(output)], root=tmp_path) == 0
     result = json.loads(capsys.readouterr().out)
     assert result["schema"] == "osr-performance-measurement/1"
     assert result["process_metrics"]["exit_status"] == 0
     assert result["process_metrics"]["max_rss_kib"] > 0
     assert result["filesystem"]["workspace_allocated_bytes_delta"] >= 4096
-    assert "peak temporary workspace bytes" in result["not_observed"]
+    assert (result["filesystem"]["workspace_allocated_bytes_peak_sampled"]
+            >= result["filesystem"]["workspace_allocated_bytes_after"])
+    assert result["filesystem"]["workspace_sample_interval_seconds"] == 0.05
+    assert "peak disk use outside the measured workspace" in result["not_observed"]
     assert report_path.is_file()
     assert output.stat().st_size == 4096
 
@@ -293,11 +300,13 @@ def test_perf_compare_reports_deltas_without_claiming_compatibility(tmp_path, ca
         "process_metrics": {"user_seconds": 20.0, "system_seconds": 10.0,
                             "max_rss_kib": 4096, "filesystem_input_operations": 9,
                             "filesystem_output_operations": 4},
-        "filesystem": {"workspace_allocated_bytes_delta": 512},
+        "filesystem": {"workspace_allocated_bytes_delta": 512,
+                       "workspace_allocated_bytes_peak_sampled": 2048},
     }
     after = json.loads(json.dumps(before))
     after["wall_seconds_observed"] = 80.0
     after["process_metrics"]["user_seconds"] = 15.0
+    after["filesystem"]["workspace_allocated_bytes_peak_sampled"] = 1024
     after_path = tmp_path / "after.json"
     before_path = tmp_path / "before.json"
     before_path.write_text(json.dumps(before))
@@ -309,4 +318,38 @@ def test_perf_compare_reports_deltas_without_claiming_compatibility(tmp_path, ca
     assert result["same_command"] is True
     assert result["comparisons"]["wall_seconds"]["relative_change_percent"] == -20.0
     assert result["comparisons"]["user_seconds"]["relative_change_percent"] == -25.0
+    assert (result["comparisons"]["workspace_allocated_bytes_peak_sampled"]["delta"]
+            == -1024)
     assert "does not assert engineering validity" in result["note"]
+
+
+def test_measure_command_records_sampled_peak_workspace_bytes(tmp_path):
+    workspace = tmp_path / "job"
+    report = tmp_path / "measurement.json"
+    payload = workspace / "transient.bin"
+    script = (
+        "from pathlib import Path; import sys, time; "
+        "p=Path(sys.argv[1]); p.parent.mkdir(parents=True, exist_ok=True); "
+        "p.write_bytes(b'x' * (4 * 1024 * 1024)); time.sleep(0.8); p.unlink()"
+    )
+
+    result, exit_code = performance.measure_command(
+        [sys.executable, "-c", script, str(payload)], workspace=workspace,
+        report_path=report, root=tmp_path, sampling_interval_seconds=0.05,
+    )
+
+    assert exit_code == 0
+    assert result["filesystem"]["workspace_allocated_bytes_after"] == 0
+    assert result["filesystem"]["workspace_allocated_bytes_peak_sampled"] >= 4 * 1024**2
+    assert result["filesystem"]["workspace_size_sample_count"] >= 3
+    assert "peak disk use outside the measured workspace" in result["not_observed"]
+    assert json.loads(report.read_text()) == result
+
+
+def test_measure_command_rejects_invalid_workspace_sampling_interval(tmp_path):
+    with pytest.raises(ValueError, match="sampling interval"):
+        performance.measure_command(
+            [sys.executable, "-c", "pass"], workspace=tmp_path / "job",
+            report_path=tmp_path / "measurement.json", root=tmp_path,
+            sampling_interval_seconds=0.01,
+        )
