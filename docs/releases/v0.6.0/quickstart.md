@@ -12,6 +12,7 @@ git clone --filter=blob:none --sparse --branch main \
   https://github.com/modernecotech/OpenSourceRail.git
 cd OpenSourceRail
 git sparse-checkout set --no-cone \
+  /.github/release-smoke-tests.txt \
   /tools/automation/prepare-v06-release-checkout.py \
   /docs/design-engine/outline-completion/manifest.json \
   /docs/design-engine/city-atlas/manifest.json \
