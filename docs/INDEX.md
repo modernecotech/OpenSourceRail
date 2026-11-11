@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **213**.
+Indexed Markdown files: **214**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **213**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 181 |
+| [docs](#docs) | 182 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -245,6 +245,7 @@ Indexed Markdown files: **213**.
 | [`docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md`](../docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
+| [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | v0.6 software-release readiness |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |
