@@ -111,7 +111,7 @@ This read-only audit reproduces the source oracles and command serialization, ch
 
 The packet includes original CAD PNGs, exact recipes/cameras/styles, native execution receipts, the full native VTU export compressed losslessly, the original mesh, a compact nodal field and figure metadata. The larger results-embedded FieldCraft project remains retained in the original private execution package; the public VTU is sufficient to regenerate the figure without solving again.
 
-The vehicle’s complete 3000×1900 PNG and geometry receipt survived the supervisor’s 600-second timeout; its worker reports 603.36 seconds. The saved image and unchanged geometry were independently inspected, but the **execution remains held**. The result writer then failed on an empty supervisor-usage file; that failure is retained. In-worker peak RSS was 3.86 GiB for the vehicle and 3.67 GiB for the completed civil render, exceeding their 3 GiB observed targets during final rendering. Supervisor usage for the held run remains unknown. The gallery records these resource misses instead of claiming successful bounded execution or repeating the renders merely to obtain a passing receipt.
+The current vehicle PNG was rendered from the exact current door-motion installation input in 472.60 seconds; its source remained unchanged and the render completed. Blender measured 4,037,616 KiB (3.85 GiB) peak worker RSS, above the 3 GiB target; the Flatpak supervisor measured 18,648 KiB. The memory target was not met. The earlier 603.36-second held render and its missing supervisor measurement remain in the prior publication and run record. The current image is presentation evidence only and does not qualify the installation.
 
 From the repository root:
 

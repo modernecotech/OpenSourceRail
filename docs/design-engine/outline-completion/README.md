@@ -18,7 +18,7 @@ Design coverage also includes **112 railway bundles**, **54 body outlines** and 
 | Lyon | 296.5 | 9 | 109 | 337 | 4,754.0 | 16.03 |
 | Agra | 158.5 | 5 | 54 | 191 | 2,709.5 | 17.09 |
 
-Calculation `3dca7d41aebf05bfa8335aaf394e61e7fcdb48fd02c87c531809a93005e7f86d`; publication `0e81f66d9e473fec5c639679107ec4d031bf4095d5d346d4dd10632d2fe6f3d1`.
+Calculation `07d2902deb7c6d26639de837bda058f6fb64664dfef4020e64b1dd7102832ecb`; publication `0483f68255c2a00e7f1cd93617a0d5ff2bbea78c565dc09dda1dbc809aa5b762`.
 <!-- END calculated outline coverage -->
 
 ## City price audit
