@@ -227,6 +227,10 @@ on:
         description: Run expensive retired-reference native method fixtures, without current admission
         type: boolean
         default: false
+      retired_methods:
+        description: Run the 45-minute pinned fixed-service research regression
+        type: boolean
+        default: false
   schedule:
     - cron: "45 3 * * *"
 permissions:
@@ -341,6 +345,7 @@ jobs:
 
   retired-reference-methods:
     name: Retired fixed-service research methods at pinned 3bf38a5
+    if: (github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -537,9 +542,16 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Require source, engineering and browser contracts
+        env:
+          REQUIRE_RETIRED_REFERENCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule' }}
+          RETIRED_REFERENCE_RESULT: ${{ needs.retired-reference-methods.result }}
         run: |
           test '${{ needs.current-contracts.result }}' = success
-          test '${{ needs.retired-reference-methods.result }}' = success
+          if [ "$REQUIRE_RETIRED_REFERENCE" = "true" ]; then
+            test "$RETIRED_REFERENCE_RESULT" = success
+          else
+            test "$RETIRED_REFERENCE_RESULT" = skipped
+          fi
           test '${{ needs.independent-search.result }}' = success
           test '${{ needs.retained-packet-reconstruction.result }}' = success
           test '${{ needs.retained-service-energy-extra.result }}' = success

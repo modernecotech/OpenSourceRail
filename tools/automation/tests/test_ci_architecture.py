@@ -231,7 +231,11 @@ def validate_retained_periodic_route(current):
     if current_methods:
         required[:2] = ['.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_source_epoch.py engineering/design_search/tests/test_periodic_thermal_research.py']
     assert lines[-len(required):] == required, 'Pinned thermal tests and replay must execute in order'
-    assert not re.search(r'^    (?:if|continue-on-error):', current, re.M)
+    job_conditions = re.findall(r'^    if: (.+)$', current, re.M)
+    if current_methods:
+        assert job_conditions == []
+    else:
+        assert job_conditions == ["(github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule'"]
 
 
 def validate_retired_reference_job(block):
@@ -242,7 +246,9 @@ def validate_retired_reference_job(block):
     checkout = block.split('uses: actions/checkout@v4', 1)[1].split('      - ', 1)[0]
     assert not re.search(r'^\s+path:', checkout, re.M)
     assert not re.search(r'^\s+(?:- )?(?:working-directory|continue-on-error):', block, re.M)
-    assert re.findall(r'^\s+(?:- )?if: (.+)$', block, re.M) == ['always()']
+    assert re.findall(r'^    if: (.+)$', block, re.M) == [
+        "(github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule'"]
+    assert re.findall(r'^        if: (.+)$', block, re.M) == ['always()']
     commands = []
     for step in re.split(r'(?=^      - )', block, flags=re.M):
         match = re.search(r'^(?:      - |        )run: (.*)$', step, re.M)
@@ -498,16 +504,22 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     required_jobs = {'current-contracts', 'retired-reference-methods', 'independent-search', 'retained-packet-reconstruction',
                      'retained-service-energy-extra', 'vehicle-runtime-reproducibility'}
     assert required_jobs | {'required-engineering'} <= current_jobs.keys()
+    dispatch = current_text.split('  workflow_dispatch:\n', 1)[1].split('  schedule:\n', 1)[0]
+    assert re.search(r'^      retired_methods:\n        description: Run the 45-minute pinned fixed-service research regression\n        type: boolean\n        default: false$', dispatch, re.M)
     gate = current_jobs['required-engineering']
     needs = re.search(r'^    needs: \[([^\]\n]+)\]$', gate, re.M)
     assert needs, 'The current engineering gate must declare its required jobs'
     listed = [name.strip() for name in needs[1].split(',')]
     assert len(listed) == len(set(listed)) and set(listed) == required_jobs
     assert re.search(r'^    if: always\(\)$', gate, re.M)
-    for name in required_jobs:
+    for name in required_jobs - {'retired-reference-methods'}:
         check = "test '${{ needs." + name + ".result }}' = success"
         assert re.search(r'^ {10}' + re.escape(check) + r' *$', gate, re.M), name
-    for name in required_jobs:
+    for check in ('test "$RETIRED_REFERENCE_RESULT" = success', 'test "$RETIRED_REFERENCE_RESULT" = skipped'):
+        assert re.search(r'^ {12}' + re.escape(check) + r' *$', gate, re.M), check
+    assert "REQUIRE_RETIRED_REFERENCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule' }}" in gate
+    assert 'RETIRED_REFERENCE_RESULT: ${{ needs.retired-reference-methods.result }}' in gate
+    for name in required_jobs - {'retired-reference-methods'}:
         assert not re.search(r'^    (if|continue-on-error):', current_jobs[name], re.M), name
     validate_retired_reference_job(current_jobs['retired-reference-methods'])
     validate_retained_periodic_route(current_jobs['retired-reference-methods'])
@@ -836,12 +848,21 @@ class ArchitectureRoutingTests(unittest.TestCase):
         for before, after in (
                 ('ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55', 'ref: main'),
                 ('run: ./osr verify', 'run: echo skipped'),
-                ('      - run: ./osr verify', '      - if: false\n        run: ./osr verify'),
+                ('      - run: ./osr verify', '      - run: ./osr verify\n        if: false'),
                 ('      - run: ./osr verify', '      - continue-on-error: true\n        run: ./osr verify'),
                 ('          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55',
                  '          ref: 3bf38a501d09fa3a3c2dd6f4731be11828d04f55\n          path: other-source')):
             with self.subTest(changed=before), self.assertRaises(AssertionError):
                 validate_retired_reference_job(block.replace(before, after, 1))
+
+    def test_retired_reference_regression_is_opt_in_and_required_when_selected(self):
+        condition="if: (github.event_name == 'workflow_dispatch' && inputs.retired_methods) || github.event_name == 'schedule'"
+        gate_success='test "$RETIRED_REFERENCE_RESULT" = success'
+        gate_skipped='test "$RETIRED_REFERENCE_RESULT" = skipped'
+        for before,after in ((condition,'if: always()'),(gate_success,'true'),(gate_skipped,'true'),
+                ('default: false\n  schedule:','default: true\n  schedule:')):
+            with self.subTest(changed=before), self.assertRaises(AssertionError):
+                self.check(current=self.current.replace(before,after,1))
 
     def test_retained_periodic_route_cannot_be_removed_skipped_or_reordered(self):
         block = job_blocks(self.current)['retired-reference-methods']
@@ -904,9 +925,15 @@ class ArchitectureRoutingTests(unittest.TestCase):
         line = 'needs: [' + match[1] + ']'
         for name in required:
             reduced = 'needs: [' + ', '.join(x.strip() for x in match[1].split(',') if x.strip()!=name) + ']'
-            check = "test '${{ needs." + name + ".result }}' = success"
-            for mutated in (self.current.replace(line, reduced, 1), self.current.replace(check, 'true', 1)):
-                with self.subTest(name=name), self.assertRaises(AssertionError):
+            if name == 'retired-reference-methods':
+                checks = ('test "$RETIRED_REFERENCE_RESULT" = success',
+                          'test "$RETIRED_REFERENCE_RESULT" = skipped')
+            else:
+                checks = ("test '${{ needs." + name + ".result }}' = success",)
+            mutations = [self.current.replace(line, reduced, 1)]
+            mutations.extend(self.current.replace(check, 'true', 1) for check in checks)
+            for mutated in mutations:
+                with self.subTest(name=name, mutated=mutated != self.current), self.assertRaises(AssertionError):
                     self.check(current=mutated)
         for name, command in (
                 ('independent-search', 'civil_shape_portfolio audit-optimizers'),
