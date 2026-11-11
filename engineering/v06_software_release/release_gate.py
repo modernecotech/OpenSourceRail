@@ -71,17 +71,26 @@ def _ordinary_file(root: Path, relative: str, label: str) -> Path:
     return path
 
 
-def _read_ordinary_file(root: Path, relative: str, *, label: str) -> tuple[bytes, str]:
-    _ordinary_file(root, relative, label)
-    parts = PurePosixPath(relative).parts
-    directory_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+def _relative_parts(relative: str, label: str) -> tuple[str, ...]:
+    if (not isinstance(relative, str) or not relative or "\\" in relative
+            or PurePosixPath(relative).is_absolute()
+            or ".." in PurePosixPath(relative).parts
+            or PurePosixPath(relative).as_posix() != relative):
+        raise ValueError(f"unsafe {label} path")
+    return PurePosixPath(relative).parts
+
+
+def _read_ordinary_file_at(directory_fd: int, relative: str, *,
+                           label: str) -> tuple[bytes, str]:
+    parts = _relative_parts(relative, label)
+    current_fd = os.dup(directory_fd)
     try:
         for part in parts[:-1]:
             next_fd = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
-                              dir_fd=directory_fd)
-            os.close(directory_fd)
-            directory_fd = next_fd
-        file_fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory_fd)
+                              dir_fd=current_fd)
+            os.close(current_fd)
+            current_fd = next_fd
+        file_fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW, dir_fd=current_fd)
         try:
             if not stat.S_ISREG(os.fstat(file_fd).st_mode):
                 raise ValueError(f"ordinary in-tree {label} file required: {relative}")
@@ -91,15 +100,30 @@ def _read_ordinary_file(root: Path, relative: str, *, label: str) -> tuple[bytes
             raw = b"".join(chunks)
         finally:
             os.close(file_fd)
+    except OSError as exc:
+        raise ValueError(f"ordinary in-tree {label} file required: {relative}") from exc
     finally:
-        os.close(directory_fd)
+        os.close(current_fd)
     return raw, sha256(raw)
 
 
-def _read_verified_file(root: Path, row: dict, *, label: str) -> tuple[bytes, str]:
+def _read_ordinary_file(root: Path, relative: str, *, label: str) -> tuple[bytes, str]:
+    _ordinary_file(root, relative, label)
+    parts = _relative_parts(relative, label)
+    directory_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        return _read_ordinary_file_at(directory_fd, "/".join(parts), label=label)
+    finally:
+        os.close(directory_fd)
+
+
+def _read_verified_file(root: Path | int, row: dict, *, label: str) -> tuple[bytes, str]:
     if not isinstance(row, dict) or not {"path", "sha256"}.issubset(row):
         raise ValueError(f"proof reference required for {label}")
-    raw, actual_hash = _read_ordinary_file(root, row.get("path"), label=label)
+    if isinstance(root, int):
+        raw, actual_hash = _read_ordinary_file_at(root, row.get("path"), label=label)
+    else:
+        raw, actual_hash = _read_ordinary_file(root, row.get("path"), label=label)
     expected_hash = row.get("sha256")
     if not isinstance(expected_hash, str) or not _SHA256.fullmatch(expected_hash):
         raise ValueError(f"valid SHA-256 required for {label}")
@@ -213,7 +237,7 @@ def _require_clean_checkout(root: Path) -> None:
         raise ValueError("full checkout without assume-unchanged or sparse index flags required")
 
 
-def _bundle_directory(source_root: Path, supplied: str | Path) -> Path:
+def _bundle_directory(source_root: Path, supplied: str | Path) -> tuple[Path, int]:
     candidate = Path(supplied).expanduser()
     if not candidate.is_absolute():
         candidate = source_root / candidate
@@ -222,18 +246,27 @@ def _bundle_directory(source_root: Path, supplied: str | Path) -> Path:
         if part.is_symlink():
             raise ValueError("symlink in external release attestation path")
     try:
+        candidate_stat = candidate.stat(follow_symlinks=False)
         bundle_root = candidate.resolve(strict=True)
     except OSError as exc:
         raise ValueError("external release attestation directory is unavailable") from exc
-    if not bundle_root.is_dir():
+    if not stat.S_ISDIR(candidate_stat.st_mode):
         raise ValueError("external release attestation directory required")
     if (bundle_root.is_relative_to(source_root)
             or source_root.is_relative_to(bundle_root)):
         raise ValueError("release attestation bundle must be separate from the source checkout")
-    return bundle_root
+    try:
+        directory_fd = os.open(bundle_root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    except OSError as exc:
+        raise ValueError("external release attestation directory changed during verification") from exc
+    opened_stat = os.fstat(directory_fd)
+    if (candidate_stat.st_dev, candidate_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
+        os.close(directory_fd)
+        raise ValueError("external release attestation directory changed during verification")
+    return bundle_root, directory_fd
 
 
-def _verify_proof(root: Path, row: dict, *, label: str, schema: str,
+def _verify_proof(root: Path | int, row: dict, *, label: str, schema: str,
                   expected: dict) -> dict:
     raw, _ = _read_verified_file(root, row, label=label)
     proof = _json_object(raw, label)
@@ -287,10 +320,27 @@ def _verify_external_attestation(source_root: Path, supplied: str | Path, *,
                                  by_id: dict, expected_repository: str | None,
                                  trusted_reviewer: str | None,
                                  trusted_reviewer_key_sha256: str | None) -> dict:
-    bundle_root = _bundle_directory(source_root, supplied)
+    bundle_root, bundle_fd = _bundle_directory(source_root, supplied)
+    try:
+        return _verify_external_attestation_in_directory(
+            source_root, bundle_root, bundle_fd, contract=contract,
+            contract_hash=contract_hash, source_commit=source_commit,
+            source_tree=source_tree, by_id=by_id,
+            expected_repository=expected_repository, trusted_reviewer=trusted_reviewer,
+            trusted_reviewer_key_sha256=trusted_reviewer_key_sha256,
+        )
+    finally:
+        os.close(bundle_fd)
+
+
+def _verify_external_attestation_in_directory(
+        source_root: Path, bundle_root: Path, bundle_fd: int, *, contract: dict,
+        contract_hash: str, source_commit: str, source_tree: str, by_id: dict,
+        expected_repository: str | None, trusted_reviewer: str | None,
+        trusted_reviewer_key_sha256: str | None) -> dict:
     _require_clean_checkout(source_root)
-    manifest_bytes, manifest_hash = _read_ordinary_file(
-        bundle_root, "attestation.json", label="release attestation manifest")
+    manifest_bytes, manifest_hash = _read_ordinary_file_at(
+        bundle_fd, "attestation.json", label="release attestation manifest")
     manifest = _json_object(manifest_bytes, "release attestation manifest")
     required_fields = {
         "schema", "repository", "release", "source_commit", "source_tree", "contract_sha256",
@@ -350,7 +400,7 @@ def _verify_external_attestation(source_root: Path, supplied: str | Path, *,
             if not isinstance(kind, str) or kind not in expected_kinds or kind in seen_kinds:
                 raise ValueError(f"unexpected or duplicate external proof kind for {gate_id}")
             proof = _verify_proof(
-                bundle_root, proof_row, label=f"{gate_id} evidence", schema=GATE_PROOF_SCHEMA,
+                bundle_fd, proof_row, label=f"{gate_id} evidence", schema=GATE_PROOF_SCHEMA,
                 expected={"gate_id": gate_id, "source_commit": source_commit,
                           "contract_sha256": contract_hash, "result": "pass",
                           "evidence_kind": kind},
@@ -379,7 +429,7 @@ def _verify_external_attestation(source_root: Path, supplied: str | Path, *,
             or not _SHA256.fullmatch(trusted_reviewer_key_sha256)):
         raise ValueError("trusted reviewer public-key SHA-256 fingerprint is required")
     evidence_raw, evidence_hash = _read_verified_file(
-        bundle_root, review.get("evidence"), label="software release review")
+        bundle_fd, review.get("evidence"), label="software release review")
     proof = _json_object(evidence_raw, "software release review proof")
     if proof.get("schema") != AUTHENTICATED_REVIEW_SCHEMA:
         raise ValueError("authenticated software release review proof required")
@@ -392,11 +442,11 @@ def _verify_external_attestation(source_root: Path, supplied: str | Path, *,
     if proof != expected_review | {"schema": AUTHENTICATED_REVIEW_SCHEMA}:
         raise ValueError("software release review proof does not bind the exact attestation")
     public_key, key_file_hash = _read_verified_file(
-        bundle_root, review.get("public_key"), label="release reviewer public key")
+        bundle_fd, review.get("public_key"), label="release reviewer public key")
     if review.get("public_key", {}).get("sha256") != key_file_hash:
         raise ValueError("release reviewer public-key file hash differs")
     signature, _ = _read_verified_file(
-        bundle_root, review.get("signature"), label="release reviewer signature")
+        bundle_fd, review.get("signature"), label="release reviewer signature")
     key_fingerprint = _verify_ed25519(public_key, evidence_raw, signature)
     if key_fingerprint != trusted_reviewer_key_sha256:
         raise ValueError("release reviewer key does not match the out-of-band trusted fingerprint")

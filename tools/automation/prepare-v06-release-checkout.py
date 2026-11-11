@@ -4,15 +4,16 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path, PurePosixPath
+import shutil
 import subprocess
 
 
 BASE_PATTERNS = (
     "/.gitignore",
     "/.github/release-smoke-tests.txt",
-    "/campaigns/**",
-    "/engineering/**",
+    "/engineering/development_baseline/**",
     "/tests/test_v06_software_release_gate.py",
     "/tests/test_city_recalculation.py",
     "/tests/test_outline_city_jobs.py",
@@ -37,16 +38,34 @@ BASE_PATTERNS = (
     "/tools/automation/osr-python",
     "/tools/automation/prepare-v06-release-checkout.py",
     "/tools/automation/tests/browser-launch.mjs",
+    "/tools/automation/tests/verify-development-baseline.mjs",
     "/tools/automation/tests/verify-v06-software-journey-a.mjs",
     "/package.json",
     "/package-lock.json",
 )
+MIN_FREE_BYTES = 8 * 1024**3
+MIN_POST_EXPANSION_FREE_BYTES = 6 * 1024**3
 SEED_MANIFESTS = (
     "docs/design-engine/outline-completion/manifest.json",
     "docs/design-engine/city-atlas/manifest.json",
     "docs/design-engine/coupled-railway/manifest.json",
     "docs/workbench/city-atlas-assets.json",
 )
+
+
+def allocated_bytes(root: Path) -> int:
+    total = 0
+    pending = [root]
+    while pending:
+        directory = pending.pop()
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                if entry.is_dir(follow_symlinks=False):
+                    pending.append(Path(entry.path))
+                elif entry.is_file(follow_symlinks=False):
+                    metadata = entry.stat(follow_symlinks=False)
+                    total += getattr(metadata, "st_blocks", 0) * 512 or metadata.st_size
+    return total
 SOURCE_FIELDS = ("source_sha256", "calculation_sha256", "presentation_sha256")
 
 
@@ -58,6 +77,12 @@ def main() -> int:
     ).stdout
     if dirty:
         raise RuntimeError("release source expansion requires a clean checkout")
+    available_before = shutil.disk_usage(root).free
+    if available_before < MIN_FREE_BYTES:
+        raise RuntimeError(
+            f"release source expansion requires {MIN_FREE_BYTES} free bytes; "
+            f"found {available_before}"
+        )
 
     patterns = set(BASE_PATTERNS)
     manifests = []
@@ -88,11 +113,21 @@ def main() -> int:
     if dirty_after:
         raise RuntimeError("manifest source expansion changed the checkout: " + dirty_after)
 
+    available_after = shutil.disk_usage(root).free
+    if available_after < MIN_POST_EXPANSION_FREE_BYTES:
+        raise RuntimeError(
+            "release source expansion left less than the 6 GiB setup reserve: "
+            f"{available_after} bytes remain"
+        )
     print(json.dumps({
         "checkout": "v0.6-software-release-evaluation",
         "seed_manifests": manifests,
         "exact_source_paths_added": len(patterns) - len(BASE_PATTERNS),
         "sparse_patterns": len(patterns),
+        "expanded_checkout_allocated_bytes": allocated_bytes(root),
+        "available_disk_bytes_after_expansion": available_after,
+        "minimum_free_disk_bytes": MIN_FREE_BYTES,
+        "minimum_post_expansion_free_disk_bytes": MIN_POST_EXPANSION_FREE_BYTES,
         "native_solver_packages_included": False,
     }, sort_keys=True))
     return 0

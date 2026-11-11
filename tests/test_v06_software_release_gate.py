@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import tomllib
@@ -272,6 +273,22 @@ def test_external_bundle_inside_checkout_is_rejected(tmp_path):
     inside.mkdir()
     with pytest.raises(ValueError, match="separate from the source checkout"):
         _inspect_attestation(root, inside)
+
+
+def test_external_bundle_reads_stay_anchored_if_path_is_replaced(tmp_path):
+    root, _, bundle_root, _, _ = _attestation_fixture(tmp_path)
+    anchored_path, directory_fd = release_gate._bundle_directory(root, bundle_root)
+    original_manifest = (anchored_path / "attestation.json").read_bytes()
+    moved_path = anchored_path.with_name(anchored_path.name + "-moved")
+    anchored_path.rename(moved_path)
+    anchored_path.mkdir()
+    (anchored_path / "attestation.json").write_text("{}\n", encoding="utf-8")
+    try:
+        raw, _ = release_gate._read_ordinary_file_at(
+            directory_fd, "attestation.json", label="release attestation manifest")
+    finally:
+        os.close(directory_fd)
+    assert raw == original_manifest
 
 
 def test_external_proof_paths_reject_traversal_and_symlinks(tmp_path):

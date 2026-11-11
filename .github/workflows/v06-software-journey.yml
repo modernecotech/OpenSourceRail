@@ -20,11 +20,13 @@ on:
       - "docs/design-engine/ferrite-maglev/comfort-design/**"
       - "docs/workbench/city-atlas-assets.json"
       - "docs/workbench/current/**"
+      - "engineering/development_baseline/**"
       - "docs/releases/v0.6.0/**"
       - "tools/automation/default-design-workbench.py"
       - "tools/automation/osr-python"
       - "tools/automation/prepare-v06-release-checkout.py"
       - "tools/automation/tests/browser-launch.mjs"
+      - "tools/automation/tests/verify-development-baseline.mjs"
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "package.json"
       - "package-lock.json"
@@ -47,11 +49,13 @@ on:
       - "docs/design-engine/ferrite-maglev/comfort-design/**"
       - "docs/workbench/city-atlas-assets.json"
       - "docs/workbench/current/**"
+      - "engineering/development_baseline/**"
       - "docs/releases/v0.6.0/**"
       - "tools/automation/default-design-workbench.py"
       - "tools/automation/osr-python"
       - "tools/automation/prepare-v06-release-checkout.py"
       - "tools/automation/tests/browser-launch.mjs"
+      - "tools/automation/tests/verify-development-baseline.mjs"
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "package.json"
       - "package-lock.json"
@@ -94,6 +98,8 @@ jobs:
           .venv/bin/python -m pip install --disable-pip-version-check scipy==1.16.3
           npm ci
           npx playwright install --with-deps chromium
+      - name: Run the Workbench frontend contract
+        run: npm run test:frontend
       - name: Run the fresh, warm and changed Samawah journey twice
         run: |
           first="$RUNNER_TEMP/osr-v06-samawah-journey-a-1"
