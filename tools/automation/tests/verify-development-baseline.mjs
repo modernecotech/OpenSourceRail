@@ -15,6 +15,15 @@ async function waitForPortfolioStatus(page) {
   }, null, { timeout: 120000 });
 }
 
+async function waitForCityNavigation(page) {
+  await page.waitForFunction(() => {
+    const status = document.querySelector("#city-status")?.textContent || "";
+    return status.startsWith("Outline available above. Engineering verification pending:") &&
+      document.querySelectorAll("#city option").length > 1 &&
+      document.querySelector("#city-link")?.textContent === "Open city planning";
+  }, null, { timeout: 120000 });
+}
+
 const root = resolve(
   process.env.OSR_ROOT || fileURLToPath(new URL("../../../", import.meta.url)),
 );
@@ -144,6 +153,7 @@ try {
     (response) => response.url().endsWith("/api/portfolios/current"),
     { timeout: 120000 },
   );
+  void portfolioResponsePromise.catch(() => {});
   releasePortfolioRequest();
   assert(page.url().endsWith("/docs/workbench/current/"));
   const costResponse = await context.request.get(
@@ -231,6 +241,7 @@ try {
   );
   assert((await page.locator("#gates tr").count()) >= 1);
   assert.match(await page.locator("#gates").innerText(), /unknown|fail/);
+  await waitForCityNavigation(page);
   assert.match(
     await page.locator("#city-status").innerText(),
     /Outline available above.*Engineering verification pending/s,
@@ -486,6 +497,7 @@ try {
   await waitForPortfolioStatus(page);
   assert.equal(await page.locator("#portfolio-rows tr").count(), 54);
   await page.unroute("**/api/portfolios/current");
+  await waitForCityNavigation(page);
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();
@@ -636,6 +648,7 @@ try {
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
   await waitForPortfolioStatus(page);
+  await waitForCityNavigation(page);
   await page.unroute("**/api/portfolios/current");
   await page.screenshot({ path: output + "/desktop.png", fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
