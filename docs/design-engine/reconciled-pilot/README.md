@@ -30,7 +30,7 @@ The 1.5km pilot has two stations and two running tracks. Additional platform, po
 
 Energy stores start empty in nominal cases. Release substitutes for independently available grid traction with finite slew; it cannot add free force. Shared-bank collisions or unready stores bypass recovery. Actual train identities, reverse stopping offsets, route occupancy and full-grid thermal proxies carry through the timetable. Faults remain visible. Finite-run energy extrapolation, terminal maneuvers, voltage/loss/cooling assumptions and electronics allowances are disclosed in the full study; they do not establish qualified daily operation.
 
-The study has a new whole-railway identity. The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give 13.9141mm fine-mesh deflection, refinement changes 0.0067% / 0.0301%, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-refinement-retained01.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.
+The study has a new whole-railway identity. This variant has no exact matching native civil result; earlier or different-load FEM is not inherited. Current loads need their own mesh, contact and convergence evidence.
 
 Full installed motor shapes, joints, fatigue, emergency braking, station mechanical force/flow maps, hot electrical characteristics and site conditions remain open.
 
@@ -46,5 +46,5 @@ No city is silently repriced from this pilot. [Remaining engineering tasks](fron
 ./osr design closure verify
 ```
 
-Study `607515fdfbb3a863e183bad49fd52f3ac9bf6099a5c68fa44f57a14702726a3b`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
+Study `9342bc3f3dbd976b1cd46a3013c04cda53b89cf312f420bdcd7e933eeece7337`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
 Physical acceptance, manufacturing and operating release are false.
