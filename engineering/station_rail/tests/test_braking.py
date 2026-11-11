@@ -1,4 +1,5 @@
 from copy import deepcopy
+from math import fsum
 import pytest
 from engineering.station_rail import braking,vehicle
 
@@ -10,6 +11,11 @@ def test_rotating_material_is_inertia_not_extra_weight(car):
     assert r['equivalent_inertial_mass_kg_per_car']==pytest.approx(1770.386589,rel=1e-6)
     assert not r['static_axle_load_uses_equivalent_inertial_mass']
     assert .5*r['I_kg_m2_per_car']*(20/r['radius_m'])**2>350000
+
+def test_rotating_stock_uses_version_stable_float_accumulation(car):
+    r=braking.rotating_stock(car)
+    assert r['I_kg_m2_per_car']==fsum(part['I_axial_kg_m2'] for part in r['parts'])
+    assert r['counted_rotating_mass_kg_per_car']==fsum(part['mass_kg'] for part in r['parts'])
 
 def test_lim_thrust_is_not_wheel_adhesion_limited(car):
     d=braking.definition(car)

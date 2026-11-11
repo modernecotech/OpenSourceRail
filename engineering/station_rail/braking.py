@@ -5,7 +5,7 @@ hypotheses, not WSP qualification. No supplier friction/fade curve is available.
 Wayside LIM body force is independent of wheel adhesion; rolling contact force
 and brake torque must be evaluated separately.
 """
-from math import isfinite,pi,sqrt,exp
+from math import fsum,isfinite,pi,sqrt,exp
 from pathlib import Path
 import json,subprocess
 from . import ROOT,FLAGS
@@ -28,10 +28,13 @@ def rotating_stock(vehicle):
             rows.append(dict(part_id=name,mass_kg=p['mass_kg'],I_axial_kg_m2=inertia))
     if not rows:raise ValueError('Actual rotating stock required')
     radius=vehicle['physical_definition']['support']['wheel_new_diameter_m']/2
-    I=sum(r['I_axial_kg_m2'] for r in rows)
+    # ``sum`` changed its float accumulation algorithm in Python 3.12. A few
+    # ulps here alter every downstream source-bound service identity across the
+    # supported Python 3.11+ range. ``fsum`` fixes the accumulation contract.
+    I=fsum(r['I_axial_kg_m2'] for r in rows)
     return dict(schema='osr-counted-wheel-inertia/1',radius_m=radius,parts=rows,I_kg_m2_per_car=I,
         equivalent_inertial_mass_kg_per_car=I/radius**2,
-        counted_rotating_mass_kg_per_car=sum(r['mass_kg'] for r in rows),
+        counted_rotating_mass_kg_per_car=fsum(r['mass_kg'] for r in rows),
         static_axle_load_uses_equivalent_inertial_mass=False,
         scope='Counted wheel, axle and disc material; bearings, seals and unlocated drive-free hardware rotation unresolved')
 
