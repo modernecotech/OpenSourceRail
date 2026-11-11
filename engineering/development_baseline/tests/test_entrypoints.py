@@ -527,8 +527,9 @@ def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monke
     monkeypatch.setattr(package,'railway_campaign',campaign,raising=False)
     monkeypatch.setattr(package,'railway_publication',publication,raising=False)
     from engineering import performance as perf
-    perf.disk_admission=lambda root:dict(schema='osr-performance-disk-admission/1',admitted=False,
-        execution='held',reason='below reserve',enforcement='admission only')
+    monkeypatch.setattr(perf, 'disk_admission', lambda root: dict(
+        schema='osr-performance-disk-admission/1', admitted=False,
+        execution='held', reason='below reserve', enforcement='admission only'))
 
     assert cli.main(['design','railway','run','--native-jobs','1'],root=root)==3
     value=json.loads(capsys.readouterr().out)
