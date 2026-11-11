@@ -476,7 +476,7 @@ EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
 
 def test_actual_current_evidence_preflight_subprocess(tmp_path):
     """Real pinned vehicle/magnetic readers; no ideal mechanics or fake fields."""
-    output = EVIDENCE_ROOT / 'build/workbench-trips' / ('test-' + tmp_path.name)
+    output = tmp_path / ('trip-output-' + tmp_path.name)
     service = api.TripService(EVIDENCE_ROOT, output_root=output)
     try:
         job = submit(service, 'experiment', dict(mode='evidence', distance_m=1500, load_case='AW3', temperature_C=20, mechanical_step_s=.001))
