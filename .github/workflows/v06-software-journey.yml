@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
     paths:
+      - ".github/release-smoke-tests.txt"
       - ".github/workflows/v06-software-journey.yml"
       - "campaigns/**"
       - "engineering/**"
@@ -32,6 +33,7 @@ on:
       - "package-lock.json"
   pull_request:
     paths:
+      - ".github/release-smoke-tests.txt"
       - ".github/workflows/v06-software-journey.yml"
       - "campaigns/**"
       - "engineering/**"
@@ -78,6 +80,7 @@ jobs:
           filter: blob:none
           sparse-checkout-cone-mode: false
           sparse-checkout: |
+            /.github/release-smoke-tests.txt
             /docs/design-engine/outline-completion/manifest.json
             /docs/design-engine/city-atlas/manifest.json
             /docs/design-engine/coupled-railway/manifest.json
