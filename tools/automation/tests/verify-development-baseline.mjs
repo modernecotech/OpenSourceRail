@@ -7,6 +7,14 @@ import { fileURLToPath } from "node:url";
 import { gunzipSync } from "node:zlib";
 import { launchBrowser } from "./browser-launch.mjs";
 
+async function waitForPortfolioStatus(page) {
+  await page.locator("#portfolio-status").waitFor({ state: "visible" });
+  await page.waitForFunction(() => {
+    const status = document.querySelector("#portfolio-status")?.textContent || "";
+    return status.startsWith("Held:") || status.startsWith("Retired component comparisons");
+  }, null, { timeout: 120000 });
+}
+
 const root = resolve(
   process.env.OSR_ROOT || fileURLToPath(new URL("../../../", import.meta.url)),
 );
@@ -112,8 +120,30 @@ try {
     "operating_release",
   ])
     assert.equal(current[key], false);
-  await page.goto(origin + "/", { waitUntil: "networkidle" });
+  let releasePortfolioRequest;
+  let markPortfolioRequestSeen;
+  const portfolioRequestPaused = new Promise((resolve) => {
+    releasePortfolioRequest = resolve;
+  });
+  const portfolioRequestSeen = new Promise((resolve) => {
+    markPortfolioRequestSeen = resolve;
+  });
+  await page.route("**/api/portfolios/current", async (route) => {
+    markPortfolioRequestSeen();
+    await portfolioRequestPaused;
+    await route.continue();
+  });
+  const portfolioResponsePromise = page.waitForResponse(
+    (response) => response.url().endsWith("/api/portfolios/current"),
+    { timeout: 120000 },
+  );
+  const firstRenderStartedAt = Date.now();
+  await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
+  report.workbench_first_render_seconds = (Date.now() - firstRenderStartedAt) / 1000;
+  await portfolioRequestSeen;
+  assert.match(await page.locator("#portfolio-status").innerText(), /Checking source-bound/);
+  releasePortfolioRequest();
   assert(page.url().endsWith("/docs/workbench/current/"));
   const costResponse = await context.request.get(
     origin + "/docs/design-engine/current/exports/selected-vehicle-cost.json",
@@ -311,9 +341,8 @@ try {
   assert.match(await page.locator("#railway-status").innerText(), /112/);
   report.coupled_railway_bundles = railway.evaluated_bundle_count;
   report.coupled_native_body_cases = railway.native_body_case_count;
-  const portfolioResponse = await context.request.get(
-    origin + "/api/portfolios/current",
-  );
+  const portfolioResponse = await portfolioResponsePromise;
+  await waitForPortfolioStatus(page);
   assert.equal(portfolioResponse.status(), 200, await portfolioResponse.text());
   const portfolios = await portfolioResponse.json();
   assert.equal(
@@ -432,8 +461,9 @@ try {
       body: JSON.stringify(forged),
     });
   });
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
+  await waitForPortfolioStatus(page);
   assert.match(
     await page.locator("#portfolio-status").innerText(),
     /Held:.*dispositions differ/,
@@ -442,9 +472,18 @@ try {
   assert.equal(await page.locator("#portfolio-rows tr").count(), 0);
   assert.equal(await page.locator("#portfolio-detail").isVisible(), false);
   await page.unroute("**/api/portfolios/current");
-  await page.reload({ waitUntil: "networkidle" });
+  await page.route("**/api/portfolios/current", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(portfolios),
+    }),
+  );
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
+  await waitForPortfolioStatus(page);
   assert.equal(await page.locator("#portfolio-rows tr").count(), 54);
+  await page.unroute("**/api/portfolios/current");
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();
@@ -466,7 +505,7 @@ try {
   report.baghdad_performance_state = "held";
   report.city_performance_packages_written = 0;
   await page.goto(origin + "/docs/workbench/planning/", {
-    waitUntil: "networkidle",
+    waitUntil: "domcontentloaded",
   });
   await page.locator("#status").waitFor({ state: "visible" });
   await page.waitForFunction(() =>
@@ -585,8 +624,17 @@ try {
     route_performance_evaluated: false,
     physical_accepted: false,
   };
-  await page.goto(origin + "/", { waitUntil: "networkidle" });
+  await page.route("**/api/portfolios/current", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(portfolios),
+    }),
+  );
+  await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
   await page.locator("#design").waitFor({ state: "visible" });
+  await waitForPortfolioStatus(page);
+  await page.unroute("**/api/portfolios/current");
   await page.screenshot({ path: output + "/desktop.png", fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
@@ -633,7 +681,8 @@ try {
         body: JSON.stringify(value),
       });
     });
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.locator("#error").waitFor({ state: "visible" });
     assert.equal(await page.locator("#error").isVisible(), true);
     assert.equal(await page.locator("#design").isVisible(), false);
     assert.match(await page.locator("#error").innerText(), /held/);
@@ -649,7 +698,8 @@ try {
       }),
     }),
   );
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator("#error").waitFor({ state: "visible" });
   assert.equal(await page.locator("#design").isVisible(), false);
   assert.match(
     await page.locator("#error").innerText(),
