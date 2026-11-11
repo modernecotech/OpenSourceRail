@@ -54,6 +54,7 @@ BASE_PATTERNS = (
     "/package.json",
     "/package-lock.json",
     "/rust-toolchain.toml",
+    "/**/README*.md",
 )
 MIN_FREE_BYTES = 8 * 1024**3
 MIN_POST_EXPANSION_FREE_BYTES = 6 * 1024**3
