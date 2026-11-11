@@ -1,6 +1,6 @@
-> **Superseded evidence packet — do not use as a sealed result.** The city calculation completed, but its manifest hashed only top-level files and omitted the nested `inputs/` snapshots. A corrected recursive-manifest run is required and will be published separately. This packet is retained to preserve the successful first calculation and its packaging defect.
-
 # Samawah close-stop planning alternative — current body source
+
+> **Superseded evidence packet — do not use as a sealed result.** The city calculation completed, but its manifest hashed only top-level files and omitted the nested `inputs/` snapshots. A corrected recursive-manifest run is required and will be published separately. This packet is retained to preserve the successful first calculation and its packaging defect.
 
 This is a source-bound planning alternative that merges the line-1 station markers
 `line-1-0485-0464-s009300` and `line-1-0487-0466-s009380` at their along-route midpoint. It leaves the
