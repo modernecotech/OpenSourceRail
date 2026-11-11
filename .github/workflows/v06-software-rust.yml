@@ -1,0 +1,52 @@
+name: v0.6 Rust software contracts
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/v06-software-rust.yml"
+      - ".github/workflows/v06-software-release.yml"
+      - ".github/workflows/v06-software-journey.yml"
+      - "campaigns/v06-software-release.toml"
+      - "engineering/v06_software_release/**"
+      - "tests/test_v06_software_release_gate.py"
+      - "docs/releases/v0.6.0/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - "crates/**"
+  pull_request:
+    paths:
+      - ".github/workflows/v06-software-rust.yml"
+      - ".github/workflows/v06-software-release.yml"
+      - ".github/workflows/v06-software-journey.yml"
+      - "campaigns/v06-software-release.toml"
+      - "engineering/v06_software_release/**"
+      - "tests/test_v06_software_release_gate.py"
+      - "docs/releases/v0.6.0/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - "crates/**"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rust-control-contracts:
+    name: Rust control contract tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CARGO_TERM_COLOR: never
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /Cargo.toml
+            /Cargo.lock
+            /rust-toolchain.toml
+            /crates/**
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - name: Test safety, interlocking, doors, train control and station SCADA
+        run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada

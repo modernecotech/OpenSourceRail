@@ -36,6 +36,16 @@ on:
       - "docs/cities/**"
       - "docs/design-engine/**"
       - "!docs/design-engine/*.md"
+      - '!campaigns/v06-software-release.toml'
+      - '!engineering/v06_software_release/**'
+      - '!tests/test_v06_software_release_gate.py'
+      - '!docs/design-engine/v06-software-release/**'
+      - '!docs/releases/v0.6.0/**'
+      - '!docs/design-engine/outline-completion/**'
+      - '!docs/design-engine/city-atlas/**'
+      - '!docs/design-engine/demand-outline/**'
+      - '!docs/design-engine/supply-economics/**'
+      - '!.github/workflows/shared-software.yml'
   pull_request:
     paths:
       - ".github/local-processing.json"
@@ -71,6 +81,16 @@ on:
       - "docs/cities/**"
       - "docs/design-engine/**"
       - "!docs/design-engine/*.md"
+      - '!campaigns/v06-software-release.toml'
+      - '!engineering/v06_software_release/**'
+      - '!tests/test_v06_software_release_gate.py'
+      - '!docs/design-engine/v06-software-release/**'
+      - '!docs/releases/v0.6.0/**'
+      - '!docs/design-engine/outline-completion/**'
+      - '!docs/design-engine/city-atlas/**'
+      - '!docs/design-engine/demand-outline/**'
+      - '!docs/design-engine/supply-economics/**'
+      - '!.github/workflows/shared-software.yml'
   workflow_dispatch:
 permissions:
   contents: read

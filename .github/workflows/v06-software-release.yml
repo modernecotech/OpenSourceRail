@@ -1,0 +1,80 @@
+name: v0.6 software release fast lane
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/release-smoke-tests.txt"
+      - ".github/workflows/v06-software-release.yml"
+      - "campaigns/v06-software-release.toml"
+      - "engineering/v06_software_release/**"
+      - "tests/test_v06_software_release_gate.py"
+      - "tests/test_city_recalculation.py"
+      - "tests/test_outline_city_jobs.py"
+      - "tests/test_outline_completion_cli_admission.py"
+      - "docs/design-engine/v06-software-release/**"
+      - "docs/releases/v0.6.0/**"
+      - "README.md"
+      - "docs/ROADMAP.md"
+      - "docs/first-adoptable-product.md"
+  pull_request:
+    paths:
+      - ".github/release-smoke-tests.txt"
+      - ".github/workflows/v06-software-release.yml"
+      - "campaigns/v06-software-release.toml"
+      - "engineering/v06_software_release/**"
+      - "tests/test_v06_software_release_gate.py"
+      - "tests/test_city_recalculation.py"
+      - "tests/test_outline_city_jobs.py"
+      - "tests/test_outline_completion_cli_admission.py"
+      - "docs/design-engine/v06-software-release/**"
+      - "docs/releases/v0.6.0/**"
+      - "README.md"
+      - "docs/ROADMAP.md"
+      - "docs/first-adoptable-product.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release-fast-tests:
+    name: Selected v0.6 software and resource contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/release-smoke-tests.txt
+            /campaigns/**
+            /engineering/**
+            /tests/test_v06_software_release_gate.py
+            /tests/test_city_recalculation.py
+            /tests/test_outline_city_jobs.py
+            /tests/test_outline_completion_cli_admission.py
+            /cities/catalogue/west-asia/Iraq/Samawah/**
+            /docs/design-engine/v06-software-release/**
+            /docs/design-engine/current/**
+            /docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/**
+            /docs/design-engine/powered-bogie-detail/body.json.gz
+            /docs/design-engine/outline-completion/**
+            /docs/design-engine/demand-outline/**
+            /docs/design-engine/supply-economics/**
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: engineering/requirements.txt
+      - name: Install the small Python test environment
+        run: python -m pip install --disable-pip-version-check pytest==9.2.0 scipy==1.16.3
+      - name: Run the versioned selected-test manifest
+        shell: bash
+        run: |
+          mapfile -t selected < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' .github/release-smoke-tests.txt)
+          test "${#selected[@]}" -gt 0
+          python -B -m pytest -q --import-mode=importlib -p no:cacheprovider "${selected[@]}"

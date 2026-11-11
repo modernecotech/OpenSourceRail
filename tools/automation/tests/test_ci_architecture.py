@@ -524,7 +524,10 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     validate_retired_reference_job(current_jobs['retired-reference-methods'])
     validate_retained_periodic_route(current_jobs['retired-reference-methods'])
     validate_retained_periodic_route(current_jobs['current-contracts'])
-    assert re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs['current-contracts'], re.M) == ['always()']
+    # Both browser evidence bundles upload even after a failed journey. These
+    # are artifact-upload conditions; required checks themselves stay fail-fast.
+    assert re.findall(r'^\s+(?:- )?if: (.+)$', current_jobs['current-contracts'], re.M) == [
+        'always()', 'always()']
     assert not re.search(r'^\s+(?:- )?continue-on-error:', current_jobs['current-contracts'], re.M)
     validate_retained_periodic_test_contract(RETAINED_PERIODIC_HELPER.read_text())
     assert re.search(r'^          \./osr design space verify$', current_jobs['current-contracts'], re.M)

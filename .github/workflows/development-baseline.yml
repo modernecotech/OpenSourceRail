@@ -114,6 +114,13 @@ on:
       - "osr"
       - "package.json"
       - ".github/workflows/development-baseline.yml"
+      - '!README.md'
+      - '!docs/ROADMAP.md'
+      - '!docs/first-adoptable-product.md'
+      - '!docs/design-engine/outline-completion/**'
+      - '!docs/design-engine/city-atlas/**'
+      - '!docs/design-engine/demand-outline/**'
+      - '!docs/design-engine/supply-economics/**'
   push:
     branches: [main]
     paths:
@@ -225,6 +232,13 @@ on:
       - "docs/workbench/current/**"
       - "osr"
       - ".github/workflows/development-baseline.yml"
+      - '!README.md'
+      - '!docs/ROADMAP.md'
+      - '!docs/first-adoptable-product.md'
+      - '!docs/design-engine/outline-completion/**'
+      - '!docs/design-engine/city-atlas/**'
+      - '!docs/design-engine/demand-outline/**'
+      - '!docs/design-engine/supply-economics/**'
   workflow_dispatch:
     inputs:
       native_methods:

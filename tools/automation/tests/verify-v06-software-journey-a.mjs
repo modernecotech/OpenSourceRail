@@ -54,6 +54,16 @@ const env = {
   PYTHONPATH: [root, process.env.PYTHONPATH].filter(Boolean).join(delimiter),
   PYTHONDONTWRITEBYTECODE: "1",
 };
+const sourceStatusBefore = execFileSync(
+  "git",
+  ["status", "--porcelain", "--untracked-files=all"],
+  { cwd: root, encoding: "utf8" },
+).trim();
+assert.equal(
+  sourceStatusBefore,
+  "",
+  "Journey evidence must be produced from a clean source checkout",
+);
 const server = spawn(
   python,
   [
@@ -464,6 +474,16 @@ try {
       join(evidence, name, "artifacts"),
     );
   }
+  const artifactBytes = {};
+  for (const name of ["cold", "changed"]) {
+    artifactBytes[name] = await allocatedBytes(
+      join(evidence, name, "artifacts"),
+    );
+    assert(
+      artifactBytes[name] <= 64 * 1024 * 1024,
+      `${name} artifacts exceed the 64 MiB output budget`,
+    );
+  }
   await browser.close();
   browser = undefined;
   await stopServer();
@@ -508,15 +528,28 @@ try {
   assert.deepEqual(await readdir(tripStore), [".service.lock"]);
   await rm(store, { recursive: true, force: false });
   await rm(tripStore, { recursive: true, force: false });
+  const sourceStatusAfter = execFileSync(
+    "git",
+    ["status", "--porcelain", "--untracked-files=all"],
+    { cwd: root, encoding: "utf8" },
+  ).trim();
+  assert.equal(
+    sourceStatusAfter,
+    "",
+    "Journey must leave no tracked or visible untracked files in the source checkout",
+  );
   const freeAfter = await freeBytes(output);
   report.storage = {
     output_filesystem_free_before_bytes: freeBefore,
     output_filesystem_free_after_bytes: freeAfter,
     peak_worker_store_allocated_bytes: peakStoreAllocatedBytes,
     preserved_verified_artifact_allocated_bytes: await allocatedBytes(evidence),
+    verified_job_artifact_allocated_bytes: artifactBytes,
     worker_store_removed_after_independent_verification: true,
     trip_service_store_removed_after_shutdown: true,
-    source_checkout_generated_files: [],
+    source_checkout_generated_files: sourceStatusAfter
+      ? sourceStatusAfter.split("\n")
+      : [],
   };
   report.software_journey_result = "pass-for-Journey-A-only";
   await writeFile(

@@ -1,0 +1,111 @@
+name: v0.6 Samawah Workbench journey
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/v06-software-journey.yml"
+      - "campaigns/**"
+      - "engineering/**"
+      - "cities/catalogue/**"
+      - "docs/design-engine/current/**"
+      - "docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/**"
+      - "docs/design-engine/powered-bogie-detail/body.json.gz"
+      - "docs/design-engine/outline-completion/**"
+      - "docs/design-engine/city-atlas/**"
+      - "docs/design-engine/demand-outline/**"
+      - "docs/design-engine/supply-economics/**"
+      - "docs/design-engine/breadth-first-shape-portfolio/**"
+      - "docs/design-engine/civil-shape-portfolio/**"
+      - "docs/design-engine/coupled-railway/**"
+      - "docs/design-engine/ferrite-maglev/comfort-design/**"
+      - "docs/workbench/city-atlas-assets.json"
+      - "docs/workbench/current/**"
+      - "docs/releases/v0.6.0/**"
+      - "tools/automation/default-design-workbench.py"
+      - "tools/automation/osr-python"
+      - "tools/automation/prepare-v06-release-checkout.py"
+      - "tools/automation/tests/browser-launch.mjs"
+      - "tools/automation/tests/verify-v06-software-journey-a.mjs"
+      - "package.json"
+      - "package-lock.json"
+  pull_request:
+    paths:
+      - ".github/workflows/v06-software-journey.yml"
+      - "campaigns/**"
+      - "engineering/**"
+      - "cities/catalogue/**"
+      - "docs/design-engine/current/**"
+      - "docs/design-engine/v06-design-closure/compact-drive-source-replay-01/compact-737-h100/**"
+      - "docs/design-engine/powered-bogie-detail/body.json.gz"
+      - "docs/design-engine/outline-completion/**"
+      - "docs/design-engine/city-atlas/**"
+      - "docs/design-engine/demand-outline/**"
+      - "docs/design-engine/supply-economics/**"
+      - "docs/design-engine/breadth-first-shape-portfolio/**"
+      - "docs/design-engine/civil-shape-portfolio/**"
+      - "docs/design-engine/coupled-railway/**"
+      - "docs/design-engine/ferrite-maglev/comfort-design/**"
+      - "docs/workbench/city-atlas-assets.json"
+      - "docs/workbench/current/**"
+      - "docs/releases/v0.6.0/**"
+      - "tools/automation/default-design-workbench.py"
+      - "tools/automation/osr-python"
+      - "tools/automation/prepare-v06-release-checkout.py"
+      - "tools/automation/tests/browser-launch.mjs"
+      - "tools/automation/tests/verify-v06-software-journey-a.mjs"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  samawah-workbench-journey:
+    name: Samawah Workbench journey and bounded exports
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /docs/design-engine/outline-completion/manifest.json
+            /docs/design-engine/city-atlas/manifest.json
+            /docs/design-engine/coupled-railway/manifest.json
+            /docs/workbench/city-atlas-assets.json
+            /tools/automation/prepare-v06-release-checkout.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.16"
+      - name: Expand to manifest-declared evaluation sources
+        run: python tools/automation/prepare-v06-release-checkout.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.21.0"
+          cache: npm
+      - name: Install the small Workbench runtime
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check scipy==1.16.3
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Run the fresh, warm and changed Samawah journey twice
+        run: |
+          first="$RUNNER_TEMP/osr-v06-samawah-journey-a-1"
+          second="$RUNNER_TEMP/osr-v06-samawah-journey-a-2"
+          node tools/automation/tests/verify-v06-software-journey-a.mjs "$first"
+          node tools/automation/tests/verify-v06-software-journey-a.mjs "$second"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-samawah-workbench-journey
+          path: |
+            ${{ runner.temp }}/osr-v06-samawah-journey-a-1/
+            ${{ runner.temp }}/osr-v06-samawah-journey-a-2/
+          if-no-files-found: warn
+          retention-days: 14

@@ -14,6 +14,43 @@ software gates. The second returns a failing exit status until every gate has
 source-bound passing proof and an independent release review. The readiness
 report derives its result; the status file cannot set `software_release_ready`.
 
+Passing proofs are kept outside the source checkout so they can attest to an
+immutable release candidate without changing its commit. After freezing a
+candidate and generating the evidence bundle, inspect it with:
+
+```sh
+./osr release software readiness \
+  --attestation-bundle /path/to/v0.6.0-attestation \
+  --expected-repository modernecotech/OpenSourceRail \
+  --trusted-reviewer <reviewer-name-confirmed-out-of-band> \
+  --trusted-reviewer-key-sha256 <fingerprint-confirmed-out-of-band>
+./osr release software readiness --require-ready \
+  --attestation-bundle /path/to/v0.6.0-attestation \
+  --expected-repository modernecotech/OpenSourceRail \
+  --trusted-reviewer <reviewer-name-confirmed-out-of-band> \
+  --trusted-reviewer-key-sha256 <fingerprint-confirmed-out-of-band>
+```
+
+The bundle directory contains `attestation.json` and its referenced proof
+files. The evaluator requires a clean Git checkout, matches both the full
+commit and tree identities, checks the contract hash, and verifies every
+required proof hash and identity. An accepted release review includes an
+Ed25519 signature over a review record that binds the repository, exact
+source commit/tree, contract and attestation identity. The verifier compares
+that signing key with the SHA-256 fingerprint, reviewer identity and canonical
+repository supplied out of band; obtain those values through an independently
+authenticated channel. The reviewer must also be independent of the release
+author/operator and must inspect the CI runs and proof semantics. The SR-02
+proof names all three required Actions workflow files, run IDs, check names,
+attempts, conclusions and tested commit; the signed reviewer must verify those
+run references on GitHub. The checker validates their structure but does not
+contact GitHub or evaluate whether the human review was adequate. OpenSSL 3 is
+required to verify the Ed25519 signature.
+
+The committed status remains a truthful pending dashboard; readiness is
+derived only while inspecting the external bundle. `--source-commit`, when
+supplied, is an expected value and must match the actual Git `HEAD`.
+
 | Gate | Required evidence |
 |---|---|
 | SR-01 — Source and artifact integrity | Publication hashes, manifest replay and tamper rejection |
@@ -23,17 +60,20 @@ report derives its result; the status file cannot set `software_release_ready`.
 | SR-05 — Install and resource contract | Clean setup, disk admission, bounded outputs, warm replay and low-space refusal |
 | SR-06 — Release communication | README, quickstart, release notes, maturity table, demo outputs and known limits |
 
-All proof records must be ordinary in-tree files with SHA-256 identities. A
-passing record must bind the exact candidate source commit, contract hash, gate
-ID and required evidence kind. A changed source commit invalidates that record.
-The final independent review is also source-bound.
+Evidence files in an external bundle must be ordinary files with SHA-256
+identities. A passing record binds the exact candidate commit, its Git tree,
+contract hash, gate ID and required evidence kind. The detached reviewer
+signature binds the complete gate-proof set to the same source identity and
+canonical repository name. Attach the bundle to the frozen candidate's release
+artifacts; do not commit passing proofs or change the pending dashboard.
 
 ## Current result
 
-The six software gates are pending, so software-release readiness is false. The
-`release_commit` is not pinned. Current browser and source-publication checks
-are useful evidence, but they do not yet prove all three packaged journeys or
-the clean-install resource contract.
+The committed dashboard remains pending and `release_commit` is not pinned.
+Without a valid external bundle, software-release readiness is false. Current
+browser and source-publication checks are useful evidence, but they do not yet
+prove a fresh Samawah journey, the source-pinned Baghdad and candidate examples,
+or the clean-install resource contract.
 
 Engineering closure is evaluated separately by
 [`docs/design-engine/v06-design-closure/status.json`](../v06-design-closure/status.json).
@@ -44,8 +84,9 @@ Software proof integrity is not engineering-semantic review or physical
 qualification. A software release therefore cannot authorize a vehicle,
 manufacturing, construction, or railway operation.
 
-The evidence-record format protects integrity and identities; reviewers still
-must judge whether test results and demonstrations satisfy their stated
-acceptance criteria. The evaluator does not execute the journeys or query a
-remote CI service. CI receipts must first be retained as source-bound proof
-files and then reviewed for the exact frozen commit.
+The evidence-record format protects file integrity and identities. The
+signature authenticates the review record against an externally trusted key
+fingerprint and reviewer identity; it cannot prove the reviewer is independent
+or correctly judged the tests and demonstrations. The evaluator requires
+structured CI run references but leaves their authenticity and semantics to
+the independent reviewer. It does not execute journeys or query GitHub.

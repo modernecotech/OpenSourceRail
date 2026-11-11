@@ -9,6 +9,15 @@ The proposed v0.6.0 software release has a separate SR-01–SR-06 readiness
 contract. Software readiness does not close the seven engineering gates or
 assert physical acceptance; see the [software-release ledger](design-engine/v06-software-release/README.md).
 
+The proposed v0.6 software-release scope is limited to three journeys: one fresh
+Samawah calculation and source-pinned read-only Baghdad and candidate examples.
+The 266-city portfolio and existing engineering evidence remain available; new
+broad campaigns, native sweeps and historical archive migration are v0.7+ work
+unless a specific release journey is blocked. No frozen release candidate is
+pinned yet. See the [release package](releases/v0.6.0/README.md) for maturity,
+setup and validation instructions. Software release does not assert that the
+railway is accepted or authorized for manufacture, movement or operation.
+
 OpenSourceRail continues to develop three connected products: railway design
 and engineering, manufacturing/delivery and maintenance, and city planning and
 service. Local manufacture, repairability, open knowledge, business/workforce
