@@ -70,6 +70,15 @@ def job_blocks(text):
             for i, m in enumerate(matches)}
 
 
+def path_filters_include(path, patterns):
+    included = False
+    for pattern in patterns:
+        excluded = pattern.startswith('!')
+        if fnmatchcase(path, pattern[1:] if excluded else pattern):
+            included = not excluded
+    return included
+
+
 def twin_storage_steps(text):
     """Require disk preparation while preserving the pinned CAD verification."""
     block = job_blocks(text)['contracts-and-semantic-replay']
@@ -349,8 +358,25 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert len(path_filters) == 14  # Same narrow push and PR filters.
     assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
-    assert '  push:\n    branches: [main]\n  pull_request:' in shared_triggers
-    assert not re.search(r'^\s+(paths|tags):', shared_triggers, re.M)
+    assert '  push:\n    branches: [main]\n    paths:\n' in shared_triggers
+    push_block = shared_triggers.split('  push:\n', 1)[1].split('  pull_request:\n', 1)[0]
+    pull_block = shared_triggers.split('  pull_request:\n', 1)[1].split('  workflow_dispatch:\n', 1)[0]
+    push_paths = re.findall(r'^      - "([^"\n]+)"$', push_block, re.M)
+    pull_paths = re.findall(r'^      - "([^"\n]+)"$', pull_block, re.M)
+    assert push_paths and push_paths == pull_paths
+    for required in ('.github/workflows/shared-software.yml', '.github/local-processing.json',
+                     'engineering/**', 'tests/**', 'tools/**', 'services/**', 'crates/**',
+                     'campaigns/**', 'cities/catalogue/**', 'docs/archives/**',
+                     'docs/assets/chair-installation-r4-v06/**',
+                     'docs/assets/terminal-frame-v06/**', 'docs/workbench/current/**',
+                     'docs/design-engine/**', '!docs/design-engine/*.md', 'osr', 'osr-*'):
+        assert required in push_paths, required
+    assert path_filters_include('docs/design-engine/v06-design-closure/status.json', push_paths)
+    assert not path_filters_include('docs/design-engine/native-design-search.md', push_paths), \
+        'Unrelated root-level design narrative should not launch the shared suite'
+    assert not path_filters_include('docs/open-source-rail-overview.md', push_paths)
+    assert 'docs/**' not in push_paths
+    assert not re.search(r'^\s+tags:', shared_triggers, re.M)
     historical = historical_jobs['primary-study']
     assert 'working-directory: historical' in historical
     assert re.findall(r'^          ref: (.+)$', historical, re.M) == [archive['revision']]
