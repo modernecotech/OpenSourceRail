@@ -58,6 +58,7 @@ BASE_PATTERNS = (
 MIN_FREE_BYTES = 8 * 1024**3
 MIN_POST_EXPANSION_FREE_BYTES = 6 * 1024**3
 SEED_MANIFESTS = (
+    "docs/design-engine/current/manifest.json",
     "docs/design-engine/outline-completion/manifest.json",
     "docs/design-engine/city-atlas/manifest.json",
     "docs/design-engine/coupled-railway/manifest.json",
