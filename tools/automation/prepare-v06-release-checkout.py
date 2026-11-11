@@ -32,6 +32,8 @@ BASE_PATTERNS = (
     "/engineering/railway_project/**",
     "/engineering/rustgis/**",
     "/engineering/station_rail/**",
+    "/services/integration/osr_integration/__init__.py",
+    "/services/integration/osr_integration/city_outline.py",
     "/engineering/v06_software_release/**",
     "/engineering/vehicle_optimisation/equipment.py",
     "/engineering/trip_dynamics/__init__.py",

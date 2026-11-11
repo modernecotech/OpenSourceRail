@@ -314,9 +314,12 @@ try {
     coldSummary.source_outline_evaluation_id,
     report.published_outline_evaluation_id,
   );
-  assert.equal(coldSummary.scope_totals_usd.length, 14);
+  assert.equal(Object.keys(coldSummary.scope_totals_usd).length, 14);
   assert.equal(coldResult.request.service.maximum_headway_s, 120);
-  assert.equal(coldResult.city_outline.cost.scope_totals_usd.length, 14);
+  assert.equal(
+    Object.keys(coldResult.city_outline.cost.scope_totals_usd).length,
+    14,
+  );
   assert.equal(
     coldDelivery.city_record_evaluation_id,
     coldResult.city_outline.evaluation_id,
@@ -354,7 +357,7 @@ try {
     artifact_payload_bytes: coldPerformance.artifact_payload_bytes,
     preflight: cold.submitted.resource_admission,
     budget: cold.submitted.resource_budget,
-    cost_scope_count: coldSummary.scope_totals_usd.length,
+    cost_scope_count: Object.keys(coldSummary.scope_totals_usd).length,
     service_line_count: coldSummary.service_lines.length,
     delivery_plan_id: coldDelivery.plan_id,
     physical_accepted: coldSummary.physical_accepted,
@@ -426,7 +429,7 @@ try {
     request_peak_demand_pphpd: 5200,
     distinct_from_cold:
       changedSummary.evaluation_id !== coldSummary.evaluation_id,
-    cost_scope_count: changedSummary.scope_totals_usd.length,
+    cost_scope_count: Object.keys(changedSummary.scope_totals_usd).length,
     scope_totals_usd: changedSummary.scope_totals_usd,
     whole_life_npv_delta_usd: Object.fromEntries(
       Object.entries(changedResult.city_outline.cost.whole_life_npv_usd).map(
