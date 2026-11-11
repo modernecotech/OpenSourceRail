@@ -2,7 +2,7 @@
 from pathlib import Path
 from copy import deepcopy
 from math import fsum
-import gzip,json,time,resource,subprocess,shutil
+import gzip,json,time,resource,subprocess
 from engineering.station_rail.common import identity,encoded,digest
 from engineering.station_cycle import native_bridge as cycle_bridge
 from engineering.vehicle_installation import export
@@ -34,79 +34,51 @@ def write(folder,name,value):
     p.write_bytes(raw)
 
 
-def _prune_unreferenced_native_reuse(output, copied_runs, used_receipt_ids):
-    """Keep only copied native batches referenced by this study.
-
-    The source publication remains untouched. Incompatible or unreferenced
-    copies are not evidence for the new run and must not be included in its
-    publication manifest.
-    """
-    discarded={'batches':0,'allocated_bytes':0,'by_group':{}}
-    for group,build_name,runs_name in (
-            ('serial','cycle-build.json','native-runs'),
-            ('fleet','fleet-build.json','fleet-runs')):
-        run_root=Path(output)/group/runs_name
-        paths=copied_runs.get(group,set())
-        if not paths:continue
-        build=json.loads((Path(output)/group/build_name).read_bytes())
-        build_id=build.get('receipt_id')
-        if build_id!=identity({k:v for k,v in build.items() if k!='receipt_id'}):
-            raise ValueError('Current native build identity differs during cache reconciliation')
-        for path in sorted(paths):
-            path=Path(path)
-            if path.parent!=run_root:raise ValueError('Copied native cache escaped its run directory')
-            if path.is_symlink():raise ValueError('Copied native cache cannot be a symlink')
-            if not path.exists():continue
-            if not path.is_dir() or not path.resolve().is_relative_to(run_root.resolve()):
-                raise ValueError('Copied native cache must remain an ordinary in-run directory')
-            receipt_path=path/'receipt.json'
-            if receipt_path.is_symlink():raise ValueError('Copied native receipt cannot be a symlink')
-            receipt_id=None
-            if receipt_path.is_file():
-                receipt=json.loads(receipt_path.read_bytes())
-                if receipt.get('receipt_id')==identity(
-                        {k:v for k,v in receipt.items() if k!='receipt_id'}):
-                    receipt_id=receipt['receipt_id']
-            if receipt_id in used_receipt_ids.get(group,set()):
-                receipt=json.loads(receipt_path.read_bytes())
-                if receipt.get('build_receipt_id')!=build_id:
-                    raise ValueError('Referenced native cache belongs to a different build')
-                continue
-            entries=list(path.rglob('*'))
-            if any(entry.is_symlink() for entry in entries):
-                raise ValueError('Copied native cache contains a symlink')
-            allocated=sum((entry.stat().st_blocks*512) or entry.stat().st_size
-                          for entry in entries if entry.is_file())
-            shutil.rmtree(path)
-            discarded['batches']+=1;discarded['allocated_bytes']+=allocated
-            group_result=discarded['by_group'].setdefault(
-                group,{'batches':0,'allocated_bytes':0})
-            group_result['batches']+=1;group_result['allocated_bytes']+=allocated
-    return discarded
-
-
 def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=False):
     from engineering.vehicle_installation import underframe
     root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
-    copied_native_runs={'serial':set(),'fleet':set()};prior_receipt_ids=set()
+    reuse_groups={};origin_manifest_id=None;origin_manifest_files=None
     if reuse_native is not None:
         from engineering.station_pair import native_bridge as bridge
         origin=Path(reuse_native).resolve()
+        manifest_path=origin.parent/'manifest.json'
+        if manifest_path.is_file() and not manifest_path.is_symlink():
+            origin_manifest=json.loads(manifest_path.read_bytes())
+            if origin_manifest.get('manifest_id')!=identity(
+                    {k:v for k,v in origin_manifest.items() if k!='manifest_id'}):
+                raise ValueError('Native cache source publication manifest is not sealed')
+            origin_manifest_id=origin_manifest['manifest_id']
+            origin_manifest_files=origin_manifest.get('files_sha256')
+            if not isinstance(origin_manifest_files,dict):
+                raise ValueError('Native cache source publication lacks its file inventory')
         tools={name:subprocess.check_output([name,'--version'],text=True).strip() for name in ('cargo','rustc')}
-        for group in ('serial','fleet'):
-            source=origin/group;receipt=json.loads((source/'native-build.json').read_bytes())
-            if (receipt['receipt_id']!=identity({k:v for k,v in receipt.items() if k!='receipt_id'})
-                or receipt['source_sha256']!=bridge.sources(root) or receipt['tools']!=tools
-                or any(q.is_symlink() for q in source.rglob('*'))):
-                raise ValueError('Reuse requires exact ordinary native source/tool state; request a fresh run')
-            # Independent CoW copies preserve old immutable evidence. Native
-            # bridges still validate binary, input, resource and output hashes.
-            subprocess.run(['cp','--archive','--reflink=auto',str(source),str(out/group)],check=True)
-            runs_name='native-runs' if group=='serial' else 'fleet-runs'
-            run_root=out/group/runs_name
-            if run_root.is_dir():copied_native_runs[group]={q for q in run_root.iterdir() if q.is_dir()}
-            prior_receipt_ids.update(json.loads(q.read_bytes())['receipt_id'] for q in (out/group).rglob('receipt.json'))
+        for group,build_name,runs_name,product,protocol in (
+                ('serial','cycle-build.json','native-runs','osr-station-cycle','osr-station-cycle-request/1'),
+                ('fleet','fleet-build.json','fleet-runs','osr-station-fleet','osr-station-fleet-request/1')):
+            source=origin/group;build_path=source/build_name
+            if (source.is_symlink() or not source.is_dir() or build_path.is_symlink()
+                    or not build_path.is_file()):
+                raise ValueError('Native cache source must contain ordinary sealed build records')
+            previous_build=json.loads(build_path.read_bytes())
+            if (previous_build.get('receipt_id')!=identity(
+                    {k:v for k,v in previous_build.items() if k!='receipt_id'})
+                    or previous_build.get('source_sha256')!=bridge.sources(root)
+                    or previous_build.get('tools')!=tools
+                    or previous_build.get('product')!=product
+                    or previous_build.get('protocol')!=protocol):
+                raise ValueError('Reuse requires exact ordinary native source/tool/product state; request a fresh run')
+            if origin_manifest_files is not None:
+                prefix=f'native/{group}'
+                if origin_manifest_files.get(f'{prefix}/{build_name}')!=digest(build_path):
+                    raise ValueError('Native cache build differs from its source publication manifest')
+            source_runs=source/runs_name
+            if source_runs.is_symlink() or not source_runs.is_dir():
+                raise ValueError('Native cache source run directory must be ordinary')
+            reuse_groups[group]=dict(source_runs=source_runs,previous_build=previous_build,
+                manifest_files=origin_manifest_files,
+                manifest_prefix=f'native/{group}',
+                origin_manifest_id=origin_manifest_id)
     write(out,'source-before.json',before)
     prepared=motion.prepare(root)
     parent=underframe.load_parent(root/PARENT)
@@ -137,7 +109,8 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
     t=time.monotonic()
     requests=[motion.controlled_cycle(i,candidate_bundle=canonical,count=4,dt=dt,enabled=enabled,prepared=prepared,root=root)
               for dt in (.05,.025,.0125) for enabled in (False,True)]
-    serial=cycle_bridge.execute(requests,out/'serial',root=root)
+    serial=cycle_bridge.execute(requests,out/'serial',root=root,
+                                 reuse_cache=reuse_groups.get('serial'))
     timings['serial_s']=time.monotonic()-t
     write(out,'serial-requests.json',requests)
     write(out,'serial-results.json.gz',gzip.compress(encoded(serial),mtime=0))
@@ -179,7 +152,8 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
         add(preferred,experiment)
     if len(meta)>64:raise ValueError('Declared fleet campaign exceeds64requests')
     write(out,'fleet-requests.json',meta)
-    t=time.monotonic();results=fleet_bridge.execute([m['request'] for m in meta],out/'fleet',root=root)
+    t=time.monotonic();results=fleet_bridge.execute([m['request'] for m in meta],out/'fleet',root=root,
+                                                    reuse_cache=reuse_groups.get('fleet'))
     timings['fleet_s']=time.monotonic()-t
     records=[]
     for m,r in zip(meta,results):
@@ -222,23 +196,22 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
         'serial':{r['native_receipt_id'] for r in serial},
         'fleet':{r['result']['native_receipt_id'] for r in records},
     }
-    discarded_native_cache=_prune_unreferenced_native_reuse(
-        out,copied_native_runs,used_native_receipts)
     used_receipt_ids=used_native_receipts['serial']|used_native_receipts['fleet']
-    retained_prior_receipts=sum(
-        json.loads(q.read_bytes())['receipt_id'] in prior_receipt_ids
-        for q in out.rglob('receipt.json'))
+    reused_native_receipts={group:{
+        json.loads((path/'receipt.json').read_bytes())['receipt_id']
+        for path in (out/group/('native-runs' if group=='serial' else 'fleet-runs')).iterdir()
+        if json.loads((path/'receipt.json').read_bytes()).get('cache_reuse') is not None}
+        for group in ('serial','fleet')}
+    reused_receipt_ids=reused_native_receipts['serial']|reused_native_receipts['fleet']
     usage=dict(wall_s=time.monotonic()-start,phase_wall_s=timings,
                coordinator_peak_rss_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                source_unchanged=before==after,fleet_requests=len(meta),serial_requests=len(requests),
                native_cache_origin=None if reuse_native is None else str(Path(reuse_native).resolve()),
-               prior_native_batch_receipts_retained=retained_prior_receipts,
-               unreferenced_native_cache_batches_discarded=discarded_native_cache['batches'],
-               unreferenced_native_cache_allocated_bytes_discarded=discarded_native_cache['allocated_bytes'],
-               unreferenced_native_cache_discarded_by_group=discarded_native_cache['by_group'],
+               native_cache_origin_manifest_id=origin_manifest_id,
+               native_cache_batches_reused_by_group={group:len(ids) for group,ids in reused_native_receipts.items()},
                native_batches_used=len(used_receipt_ids),
-               unchanged_native_batch_receipts_reused=len(used_receipt_ids & prior_receipt_ids),
-               native_batches_executed=len(used_receipt_ids-prior_receipt_ids),
+               unchanged_native_batch_receipts_reused=len(used_receipt_ids & reused_receipt_ids),
+               native_batches_executed=len(used_receipt_ids-reused_receipt_ids),
                run_bytes_before_manifest=sum(q.stat().st_size for q in out.rglob('*') if q.is_file()))
     write(out,'usage.json',usage)
     files={q.relative_to(out).as_posix():digest(q) for q in out.rglob('*') if q.is_file()}

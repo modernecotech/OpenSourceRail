@@ -1,76 +1,169 @@
+import gzip
 import json
 
 import pytest
 
-from engineering.railway_closure.coordinator import _prune_unreferenced_native_reuse
-from engineering.station_rail.common import identity
+from engineering.station_pair.native_reuse import seed_exact_batch
+from engineering.station_rail.common import digest, encoded, identity
 
 
-def sealed(value, key='receipt_id'):
-    value[key] = identity(value)
+def sealed(value):
+    value['receipt_id'] = identity(value)
     return value
 
 
-def test_native_reuse_keeps_only_receipts_used_by_the_new_study(tmp_path):
-    output = tmp_path / 'run'
-    serial = output / 'serial'
-    runs = serial / 'native-runs'
-    runs.mkdir(parents=True)
-    build = sealed({'schema': 'osr-cycle-build-test/1'})
-    (serial / 'cycle-build.json').write_text(json.dumps(build))
+def fixture_cache(tmp_path):
+    source_runs = tmp_path / 'source' / 'native-runs'
+    source_runs.mkdir(parents=True)
+    source = source_runs / 'old-key'
+    source.mkdir()
+    request = {'schema': 'osr-test-request/1', 'cases': [{'id': 'case-1'}]}
+    raw = encoded(request)
+    input_path = source / 'input.json.gz'
+    input_path.write_bytes(gzip.compress(raw, mtime=0))
+    output_path = source / 'output.json.gz'
+    output_path.write_bytes(gzip.compress(encoded({'result': 7}), mtime=0))
+    execution = {'exit_code': 0, 'failure': None, 'wall_s': 0.125}
+    (source / 'execution.json').write_bytes(encoded(execution))
+    (source / 'stderr.log').write_bytes(b'')
 
-    source = tmp_path / 'old-publication'
-    copied_stale = runs / 'old-build'
-    copied_stale.mkdir()
-    stale = sealed({'schema': 'osr-native-test/1', 'build_receipt_id': 'old-build'})
-    (copied_stale / 'receipt.json').write_text(json.dumps(stale))
-    (copied_stale / 'output.json.gz').write_bytes(b'old cached output')
-    original_stale = source / 'native-runs' / 'old-build'
-    original_stale.mkdir(parents=True)
-    (original_stale / 'receipt.json').write_text(json.dumps(stale))
+    previous_build = sealed({
+        'schema': 'osr-test-build/1', 'source_sha256': {'source.rs': 'a' * 64},
+        'tools': {'rustc': 'rustc test'}, 'product': 'test', 'protocol': 'test/1',
+        'binary_sha256': 'b' * 64, 'build_location': '/old/run',
+    })
+    current_build = sealed({
+        'schema': 'osr-test-build/1', 'source_sha256': {'source.rs': 'a' * 64},
+        'tools': {'rustc': 'rustc test'}, 'product': 'test', 'protocol': 'test/1',
+        'binary_sha256': 'b' * 64, 'build_location': '/new/run',
+    })
+    context = {
+        'bridge_sha256': 'c' * 64,
+        'resources': {'cpu_s': 10, 'memory_bytes': 1024},
+        'platform': 'test-platform', 'machine': 'test-machine',
+    }
+    receipt = sealed({
+        'schema': 'osr-test-execution/1', 'request_sha256': identity(request),
+        'build_receipt_id': previous_build['receipt_id'],
+        'output_sha256': digest(output_path), 'input_gzip_sha256': digest(input_path),
+        'resources': context['resources'], 'context': context, **execution,
+    })
+    receipt_path = source / 'receipt.json'
+    receipt_path.write_bytes(encoded(receipt))
+    manifest_files = {
+        f'native/serial/native-runs/old-key/{path.name}': digest(path)
+        for path in source.iterdir()
+    }
+    return source_runs, request, raw, previous_build, current_build, context, receipt, manifest_files
 
-    copied_incomplete = runs / 'interrupted-build'
-    copied_incomplete.mkdir()
-    (copied_incomplete / 'execution.json').write_text('{"exit_code":null}')
 
-    copied_used = runs / 'used-build'
-    copied_used.mkdir()
-    used = sealed({'schema': 'osr-native-test/1', 'build_receipt_id': build['receipt_id']})
-    (copied_used / 'receipt.json').write_text(json.dumps(used))
+def test_exact_native_batch_rebinds_build_receipt_and_preserves_origin(tmp_path):
+    (source_runs, request, raw, previous_build, current_build, context,
+     old_receipt, manifest_files) = fixture_cache(tmp_path)
+    target = tmp_path / 'new' / 'native-runs' / 'new-key'
+    target.parent.mkdir(parents=True)
+    origin_bytes = (source_runs / 'old-key' / 'receipt.json').read_bytes()
 
-    new_uncopied = runs / 'new-build'
-    new_uncopied.mkdir()
-    (new_uncopied / 'receipt.json').write_text('{}')
-
-    discarded = _prune_unreferenced_native_reuse(
-        output,
-        {'serial': {copied_stale, copied_incomplete, copied_used}, 'fleet': set()},
-        {'serial': {used['receipt_id']}, 'fleet': set()},
+    rebound = seed_exact_batch(
+        source_runs=source_runs, target=target, request=request, raw_request=raw,
+        previous_build=previous_build, current_build=current_build,
+        current_context=context, input_hash_field='input_gzip_sha256',
+        manifest_files=manifest_files, manifest_prefix='native/serial',
+        run_name='native-runs', origin_manifest_id='d' * 64,
     )
 
-    assert discarded['batches'] == 2
-    assert discarded['allocated_bytes'] >= len(b'old cached output')
-    assert not copied_stale.exists()
-    assert not copied_incomplete.exists()
-    assert copied_used.is_dir()
-    assert new_uncopied.is_dir()
-    assert (original_stale / 'receipt.json').read_text() == json.dumps(stale)
+    assert rebound['build_receipt_id'] == current_build['receipt_id']
+    assert rebound['receipt_id'] != old_receipt['receipt_id']
+    assert rebound['cache_reuse']['origin_receipt_id'] == old_receipt['receipt_id']
+    assert rebound['cache_reuse']['origin_manifest_id'] == 'd' * 64
+    assert (source_runs / 'old-key' / 'receipt.json').read_bytes() == origin_bytes
+    assert json.loads((target / 'receipt.json').read_bytes()) == rebound
+    assert gzip.decompress((target / 'input.json.gz').read_bytes()) == raw
+    assert digest(target / 'output.json.gz') == old_receipt['output_sha256']
 
 
-def test_native_reuse_fails_closed_if_a_referenced_receipt_uses_another_build(tmp_path):
-    output = tmp_path / 'run'
-    serial = output / 'serial'
-    runs = serial / 'native-runs'
-    runs.mkdir(parents=True)
-    build = sealed({'schema': 'osr-cycle-build-test/1'})
-    (serial / 'cycle-build.json').write_text(json.dumps(build))
-    copied = runs / 'mismatch'
-    copied.mkdir()
-    receipt = sealed({'schema': 'osr-native-test/1', 'build_receipt_id': 'other-build'})
-    (copied / 'receipt.json').write_text(json.dumps(receipt))
+@pytest.mark.parametrize('change', ['request', 'runtime', 'binary'])
+def test_native_cache_rejects_incompatible_requests_and_context(tmp_path, change):
+    (source_runs, request, raw, previous_build, current_build, context,
+     _, manifest_files) = fixture_cache(tmp_path)
+    if change == 'request':
+        request = {'schema': 'osr-test-request/1', 'cases': [{'id': 'different'}]}
+        raw = encoded(request)
+    elif change == 'runtime':
+        context = {**context, 'resources': {'cpu_s': 11, 'memory_bytes': 1024}}
+    else:
+        current_build = sealed({**{k: v for k, v in current_build.items() if k != 'receipt_id'},
+                                'binary_sha256': 'e' * 64})
+    target = tmp_path / 'new' / 'native-runs' / 'new-key'
+    target.parent.mkdir(parents=True)
 
-    with pytest.raises(ValueError, match='different build'):
-        _prune_unreferenced_native_reuse(
-            output, {'serial': {copied}, 'fleet': set()},
-            {'serial': {receipt['receipt_id']}, 'fleet': set()},
+    assert seed_exact_batch(
+        source_runs=source_runs, target=target, request=request, raw_request=raw,
+        previous_build=previous_build, current_build=current_build,
+        current_context=context, input_hash_field='input_gzip_sha256',
+        manifest_files=manifest_files, manifest_prefix='native/serial',
+        run_name='native-runs',
+    ) is None
+    assert not target.exists()
+
+
+def test_native_cache_fails_closed_when_manifest_disagrees(tmp_path):
+    (source_runs, request, raw, previous_build, current_build, context,
+     _, manifest_files) = fixture_cache(tmp_path)
+    manifest_files['native/serial/native-runs/old-key/output.json.gz'] = 'f' * 64
+    target = tmp_path / 'new' / 'native-runs' / 'new-key'
+    target.parent.mkdir(parents=True)
+
+    with pytest.raises(ValueError, match='source publication manifest'):
+        seed_exact_batch(
+            source_runs=source_runs, target=target, request=request, raw_request=raw,
+            previous_build=previous_build, current_build=current_build,
+            current_context=context, input_hash_field='input_gzip_sha256',
+            manifest_files=manifest_files, manifest_prefix='native/serial',
+            run_name='native-runs',
         )
+    assert not target.exists()
+
+
+def test_exact_batch_can_cross_bridge_revision_and_records_both_hashes(tmp_path):
+    (source_runs, request, raw, previous_build, current_build, context,
+     _, manifest_files) = fixture_cache(tmp_path)
+    context = {**context, 'bridge_sha256': 'e' * 64}
+    target = tmp_path / 'new' / 'native-runs' / 'new-key'
+    target.parent.mkdir(parents=True)
+
+    rebound = seed_exact_batch(
+        source_runs=source_runs, target=target, request=request, raw_request=raw,
+        previous_build=previous_build, current_build=current_build,
+        current_context=context, input_hash_field='input_gzip_sha256',
+        manifest_files=manifest_files, manifest_prefix='native/serial',
+        run_name='native-runs',
+    )
+
+    assert rebound['cache_reuse']['origin_bridge_sha256'] == 'c' * 64
+    assert rebound['cache_reuse']['current_bridge_sha256'] == 'e' * 64
+
+
+def test_fleet_receipt_uses_context_as_resource_binding(tmp_path):
+    (source_runs, request, raw, previous_build, current_build, context,
+     old_receipt, manifest_files) = fixture_cache(tmp_path)
+    path = source_runs / 'old-key' / 'receipt.json'
+    fleet_receipt = {key: value for key, value in old_receipt.items()
+                     if key not in ('receipt_id', 'resources', 'input_gzip_sha256')}
+    fleet_receipt['input_sha256'] = digest(source_runs / 'old-key' / 'input.json.gz')
+    fleet_receipt = sealed(fleet_receipt)
+    path.write_bytes(encoded(fleet_receipt))
+    manifest_files['native/serial/native-runs/old-key/receipt.json'] = digest(path)
+    target = tmp_path / 'new' / 'fleet-runs' / 'new-key'
+    target.parent.mkdir(parents=True)
+
+    rebound = seed_exact_batch(
+        source_runs=source_runs, target=target, request=request, raw_request=raw,
+        previous_build=previous_build, current_build=current_build,
+        current_context=context, input_hash_field='input_sha256',
+        manifest_files=manifest_files, manifest_prefix='native/serial',
+        run_name='native-runs',
+    )
+
+    assert rebound is not None
+    assert rebound['input_sha256'] == fleet_receipt['input_sha256']

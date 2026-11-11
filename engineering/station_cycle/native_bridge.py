@@ -5,6 +5,7 @@ import fcntl,gzip,json,os,shutil,subprocess,time,platform
 from engineering.station_rail.common import digest,encoded,identity
 from . import ROOT
 from engineering.station_pair import native_products
+from engineering.station_pair.native_reuse import seed_exact_batch
 
 NATIVE='engineering/station_pair/native'
 
@@ -32,7 +33,7 @@ def build(state,root=ROOT):
     return cycle,r
 
 
-def execute(cases,state,*,root=ROOT,kernel=None):
+def execute(cases,state,*,root=ROOT,kernel=None,reuse_cache=None):
     if not cases:return []
     # Different experiment labels may intentionally share exactly the same
     # request (e.g. an unobserved fault under a controller with no such input).
@@ -60,8 +61,10 @@ def execute(cases,state,*,root=ROOT,kernel=None):
         request=dict(schema='osr-station-cycle-request/1',cases=cases[start:start+16]);raw=encoded(request)
         if len(raw)>8*1024**2:raise ValueError('Native request byte budget exceeded')
         key=identity(dict(request=request,build_receipt_id=build_receipt['receipt_id'],context=context))
-        folder=state/'native-runs'/key;folder.mkdir(parents=True,exist_ok=True)
+        folder=state/'native-runs'/key
         output=folder/'output.json.gz';receipt=folder/'receipt.json'
+        if folder.exists() and (folder.is_symlink() or not folder.is_dir()):
+            raise ValueError('Native run path must be an ordinary directory')
         if receipt.exists() and output.exists():
             r=json.loads(receipt.read_bytes())
             if (r.get('request_sha256')!=identity(request) or r.get('build_receipt_id')!=build_receipt['receipt_id']
@@ -73,26 +76,46 @@ def execute(cases,state,*,root=ROOT,kernel=None):
                 raise ValueError('Native cached result changed')
             value=json.loads(gzip.decompress(output.read_bytes()))
         else:
-            (folder/'input.json.gz').write_bytes(gzip.compress(raw,mtime=0))
-            t=time.monotonic()
-            failure=None;p=None
-            with (folder/'stderr.log').open('wb') as err:
-                try:
-                    p=subprocess.run([limiter,'--cpu=60','--as=1073741824','--',str(binary)],input=raw,
-                        stdout=subprocess.PIPE,stderr=err,timeout=75,cwd=folder)
-                except (OSError,subprocess.TimeoutExpired) as exc:failure=exc
-            execution=dict(exit_code=None if p is None else p.returncode,wall_s=time.monotonic()-t,
-                failure=None if failure is None else str(failure))
-            (folder/'execution.json').write_bytes(encoded(execution))
-            if failure or p.returncode:raise ValueError('Native run failed; preserved '+str(folder))
-            if len(p.stdout)>128*1024**2:raise ValueError('Native output byte budget exceeded; execution retained')
-            value=json.loads(p.stdout)
-            output.write_bytes(gzip.compress(p.stdout,mtime=0))
-            r=dict(schema='osr-journey-execution/1',request_sha256=identity(request),
-                build_receipt_id=build_receipt['receipt_id'],output_sha256=digest(output),
-                input_gzip_sha256=digest(folder/'input.json.gz'),
-                resources=resources,context=context,**execution)
-            r['receipt_id']=identity(r);receipt.write_bytes(encoded(r))
+            if folder.exists():
+                if any(folder.iterdir()):
+                    raise ValueError('Interrupted native package retained; use a fresh run directory')
+                folder.rmdir()
+            folder.parent.mkdir(parents=True,exist_ok=True)
+            r=None
+            if reuse_cache is not None:
+                r=seed_exact_batch(
+                    source_runs=reuse_cache['source_runs'],target=folder,request=request,
+                    raw_request=raw,previous_build=reuse_cache['previous_build'],
+                    current_build=build_receipt,current_context=context,
+                    input_hash_field='input_gzip_sha256',
+                    manifest_files=reuse_cache.get('manifest_files'),
+                    manifest_prefix=reuse_cache.get('manifest_prefix'),
+                    run_name='native-runs',
+                    origin_manifest_id=reuse_cache.get('origin_manifest_id'))
+            if r is not None:
+                value=json.loads(gzip.decompress(output.read_bytes()))
+            else:
+                folder.mkdir()
+                (folder/'input.json.gz').write_bytes(gzip.compress(raw,mtime=0))
+                t=time.monotonic()
+                failure=None;p=None
+                with (folder/'stderr.log').open('wb') as err:
+                    try:
+                        p=subprocess.run([limiter,'--cpu=60','--as=1073741824','--',str(binary)],input=raw,
+                            stdout=subprocess.PIPE,stderr=err,timeout=75,cwd=folder)
+                    except (OSError,subprocess.TimeoutExpired) as exc:failure=exc
+                execution=dict(exit_code=None if p is None else p.returncode,wall_s=time.monotonic()-t,
+                    failure=None if failure is None else str(failure))
+                (folder/'execution.json').write_bytes(encoded(execution))
+                if failure or p.returncode:raise ValueError('Native run failed; preserved '+str(folder))
+                if len(p.stdout)>128*1024**2:raise ValueError('Native output byte budget exceeded; execution retained')
+                value=json.loads(p.stdout)
+                output.write_bytes(gzip.compress(p.stdout,mtime=0))
+                r=dict(schema='osr-journey-execution/1',request_sha256=identity(request),
+                    build_receipt_id=build_receipt['receipt_id'],output_sha256=digest(output),
+                    input_gzip_sha256=digest(folder/'input.json.gz'),
+                    resources=resources,context=context,**execution)
+                r['receipt_id']=identity(r);receipt.write_bytes(encoded(r))
         if value.get('schema')!='osr-station-cycle-result/1' or len(value['cases'])!=len(request['cases']):
             raise ValueError('Native batch shape differs')
         for row,case in zip(value['cases'],request['cases']):
