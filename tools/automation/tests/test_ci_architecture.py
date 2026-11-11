@@ -576,6 +576,7 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py',
         'engineering/development_baseline/tests/test_install_contract.py',
         'engineering/development_baseline/tests/test_readme_context.py',
+        'docs/design-engine/v06-design-closure/status.json',
     )
     # Both PRs and main pushes must exercise the selected publication/installer contracts.
     for event in ('pull_request', 'push'):
