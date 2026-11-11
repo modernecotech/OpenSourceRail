@@ -133,7 +133,7 @@ async function apiJson(context, pathname) {
 async function submit(page, expectedHeadway, timeout = 150000) {
   const status = page.locator("#city-study-status");
   await page
-    .locator('input[name="maximum_headway_s"]')
+    .locator('#city-study-options input[name="maximum_headway_s"]')
     .fill(String(expectedHeadway));
   const responsePromise = page.waitForResponse(
     (response) =>

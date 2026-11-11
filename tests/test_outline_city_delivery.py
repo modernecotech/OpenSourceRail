@@ -106,6 +106,24 @@ def test_export_roundtrip_inventory_tampering_and_no_overwrite(tmp_path):
     with pytest.raises(ValueError,match='Artifact differs'):delivery.verify_export(folder)
 
 
+def test_export_may_use_an_explicit_private_job_workspace(tmp_path):
+    root=tmp_path/'repository';root.mkdir()
+    source=root/'fixture.json';source.write_bytes(b'fixture source\n')
+    adapter=root/delivery.PRODUCER;adapter.parent.mkdir(parents=True)
+    adapter.write_bytes(MODULE.read_bytes())
+    p=plan();p['source_sha256']={
+        'fixture.json':delivery.sha256(source.read_bytes()).hexdigest(),
+        delivery.PRODUCER:delivery.sha256(adapter.read_bytes()).hexdigest()}
+    seal(p)
+    value=delivery.delivery_drafts(p)
+    workspace=tmp_path/'external-job-store';workspace.mkdir()
+    output=workspace/'artifacts'/'business'
+    manifest=delivery.export_drafts(value,output,root=root,output_root=workspace)
+    assert delivery.verify_export(output)==(manifest,value)
+    with pytest.raises(ValueError,match='Private job workspace'):
+        delivery.export_drafts(value,tmp_path/'outside'/'business',root=root,output_root=workspace)
+
+
 def test_refuses_symlink_parent_and_path_escape(tmp_path):
     target=tmp_path/'target';target.mkdir();(tmp_path/'linked').symlink_to(target,target_is_directory=True)
     with pytest.raises(ValueError,match='Ordinary'):delivery.export_drafts(delivery.delivery_drafts(plan()),tmp_path/'linked'/'run')

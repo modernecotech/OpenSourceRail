@@ -448,11 +448,17 @@ def validate(value, root=None):
     return value
 
 
-def export_drafts(value, output, root=None):
+def export_drafts(value, output, root=None, *, output_root=None):
     validate(value, root)
     if len(encoded(value)) > MAX_BYTES: raise ValueError('Bounded local export required')
     output = _ordinary(output)
-    if root is not None:
+    if output_root is not None:
+        workspace = _ordinary(output_root)
+        try: relative_output = output.relative_to(workspace)
+        except ValueError as exc: raise ValueError('Private job workspace output required') from exc
+        if relative_output == Path('.'):
+            raise ValueError('Fresh child output inside the private job workspace required')
+    elif root is not None:
         try: output.relative_to(_ordinary(Path(root)/'build'))
         except ValueError as exc: raise ValueError('Private repository build output required') from exc
     if output.exists(): raise ValueError('Fresh local draft output required')

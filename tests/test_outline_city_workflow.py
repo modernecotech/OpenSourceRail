@@ -42,7 +42,7 @@ def test_complete_study_has_exact_child_bindings_and_source_verified_exports(stu
     assert timing['elapsed_s']>0 and timing['cpu_s']>=0
     assert timing['native_solver_jobs']==0 and timing['external_transactions']==0
     assert timing['artifact_payload_bytes']==sum(p.stat().st_size for p in folder.rglob('*')
-        if p.is_file() and p.name!='manifest.json')
+        if p.is_file() and p.relative_to(folder).as_posix()!='manifest.json')
     assert 'performance.json' in m['files_sha256']
     if timing['peak_rss_bytes'] is not None:assert timing['peak_rss_bytes']>0
     assert all(x is False for k,x in value.items() if k in workflow.FLAGS)

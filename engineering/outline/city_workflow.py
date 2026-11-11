@@ -319,7 +319,8 @@ def run(request,output,root=ROOT):
         raw=encoded(record)
         (output/stored_name(name)).write_bytes(_gzip_member(raw) if name in GZIP_ARTIFACTS else raw)
     from services.integration.osr_integration import city_outline
-    city_outline.export_drafts(value['business_drafts'],output/'business',root=Path(root).resolve())
+    city_outline.export_drafts(value['business_drafts'],output/'business',root=Path(root).resolve(),
+        output_root=output)
     timing['worker_elapsed_s']=time.perf_counter()-run_start
     timing['worker_cpu_s']=time.process_time()-run_cpu_start
     usage=resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
@@ -338,7 +339,8 @@ def run(request,output,root=ROOT):
     files.update({p.relative_to(output).as_posix():digest(p) for p in (output/'business').iterdir() if p.is_file()})
     manifest=completion.seal(dict(schema='osr-mapped-city-workflow-publication/1',
         evaluation_id=value['evaluation_id'],source_sha256=value['source_sha256'],
-        files_sha256=files,artifact_paths={n:stored_name(n) for n in records},**FLAGS),'manifest_id')
+        files_sha256=files,
+        artifact_paths={n:stored_name(n) for n in ARTIFACTS-{'manifest.json'}},**FLAGS),'manifest_id')
     (output/'manifest.json').write_bytes(encoded(manifest));return manifest
 
 
