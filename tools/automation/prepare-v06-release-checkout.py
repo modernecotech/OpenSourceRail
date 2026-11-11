@@ -13,6 +13,7 @@ import subprocess
 BASE_PATTERNS = (
     "/.gitignore",
     "/.github/release-smoke-tests.txt",
+    "/LICENSES/**",
     "/engineering/*.py",
     "/engineering/development_baseline/**",
     "/engineering/design_search/*.py",
