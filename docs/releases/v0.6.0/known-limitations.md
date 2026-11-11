@@ -15,8 +15,10 @@
 - The integrated current engineering dossier currently has a source-binding
   hold. The Workbench shows the selected reference and city geography, but
   keeps global engineering cost and portfolio views held and does not treat the
-  stale dossier as current evidence. The Samawah software journey binds and
-  verifies its own city inputs and calculation.
+  stale dossier as current evidence. The dossier is excluded from supported
+  v0.6 results and release evidence until its exact provenance is resolved.
+  The Samawah software journey binds and verifies its own city inputs and
+  calculation.
 - CAD/IFC stock agreement and structural screens do not establish complete
   installed mass, manufacturability, fatigue life or construction approval.
 - ERPNext, Frappe HR, FUXA and gateway workflows are configurable software

@@ -30,8 +30,10 @@ the helper reports the allocated checkout size and remaining free disk.
 
 The global current dossier remains explicitly held at this reviewed source
 epoch. The Workbench reports that hold and does not use its stale global costs
-or portfolios. The Samawah calculation has a separate source and evaluation
-identity and does not require a full 266-city publication refresh.
+or portfolios. It is excluded from supported v0.6 results and release evidence
+until its exact source provenance is resolved. The Samawah calculation has a
+separate source and evaluation identity and does not require a full 266-city
+publication refresh.
 
 ## Install the small software-demo environment
 
