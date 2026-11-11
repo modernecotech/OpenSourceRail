@@ -1,0 +1,50 @@
+{
+  "schema": "osr-v06-software-release-status/1",
+  "contract_path": "campaigns/v06-software-release.toml",
+  "contract_sha256": "8761a84283217cf54be7602cf30b6891d75042fe4992454c0c1d191928745aa1",
+  "release_commit": null,
+  "engineering_design_complete": false,
+  "release_flags": {
+    "engineering_accepted": false,
+    "physical_accepted": false,
+    "manufacturing_release": false,
+    "movement_authority": false,
+    "operating_release": false
+  },
+  "gates": {
+    "SR-01": {
+      "state": "pending",
+      "blocker": "Initial source-bound integrity proof has not been sealed for a release candidate.",
+      "evidence": []
+    },
+    "SR-02": {
+      "state": "pending",
+      "blocker": "Mandatory release-lane CI has not yet passed for a frozen candidate commit.",
+      "evidence": []
+    },
+    "SR-03": {
+      "state": "pending",
+      "blocker": "Samawah, Baghdad and candidate research journeys are not yet each packaged and reproduced on the supported clean-install path.",
+      "evidence": []
+    },
+    "SR-04": {
+      "state": "pending",
+      "blocker": "The Workbench smoke proves core browser behavior but not yet the complete guided city-to-cost/export journey.",
+      "evidence": []
+    },
+    "SR-05": {
+      "state": "pending",
+      "blocker": "A clean-install demo profile with measured cache, output, disk admission and low-space refusal is not yet sealed.",
+      "evidence": []
+    },
+    "SR-06": {
+      "state": "pending",
+      "blocker": "Release quickstart, maturity table and known-limitations review are not yet sealed against the release candidate.",
+      "evidence": []
+    }
+  },
+  "release_review": {
+    "state": "pending",
+    "blocker": "Independent software-release review is pending completion of SR-01 through SR-06."
+  }
+}

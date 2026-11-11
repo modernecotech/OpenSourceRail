@@ -1,0 +1,47 @@
+schema = "osr-v06-software-release-contract/1"
+release = "v0.6.0"
+status_path = "docs/design-engine/v06-software-release/status.json"
+release_commit_must_be_pinned = true
+independent_release_review_required = true
+
+[[gate]]
+id = "SR-01"
+name = "Source and artifact integrity"
+required = true
+acceptance = "Pinned source and publication hashes plus manifest replay pass; tamper tests reject corrupted or stale inputs."
+required_evidence_kinds = ["source-publication-integrity", "manifest-replay", "tamper-rejection"]
+
+[[gate]]
+id = "SR-02"
+name = "Core tests"
+required = true
+acceptance = "Required Python, Rust, frontend and mandatory release-lane checks pass for the frozen source commit."
+required_evidence_kinds = ["same-commit-required-ci"]
+
+[[gate]]
+id = "SR-03"
+name = "Representative user journeys"
+required = true
+acceptance = "Samawah editable city case, Baghdad portfolio comparison and candidate engineering research each pass on a clean supported installation with reproducible results."
+required_evidence_kinds = ["journey-a-samawah", "journey-b-baghdad", "journey-c-candidate"]
+
+[[gate]]
+id = "SR-04"
+name = "Workbench usability"
+required = true
+acceptance = "City selection, edit or comparison, compute/status, same-candidate cost and export complete without manual identity reconciliation."
+required_evidence_kinds = ["workbench-user-journey"]
+
+[[gate]]
+id = "SR-05"
+name = "Install and resource contract"
+required = true
+acceptance = "Documented clean setup and safe output/disk admission pass; repeat demo shows bounded cache/output use and safe low-space refusal."
+required_evidence_kinds = ["clean-install-resource-contract"]
+
+[[gate]]
+id = "SR-06"
+name = "Release communication"
+required = true
+acceptance = "README, quickstart, release notes, capability maturity table, demo outputs and limitations match shipped behavior."
+required_evidence_kinds = ["release-documentation-review"]

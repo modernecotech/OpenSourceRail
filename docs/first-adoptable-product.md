@@ -2,6 +2,10 @@
 
 OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current v0.6 front end provides city-planning proposals, calculated city/design outlines, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations. Calculated completion is distinct from approved construction and live railway operation.
 
+The v0.6 software-release checklist is tracked separately from engineering
+closure. Current readiness and its six source-bound software gates are in the
+[software-release ledger](design-engine/v06-software-release/README.md).
+
 ## Who can use it
 
 A public owner can edit geographic, route, stop, service and origin-destination proposals, then hand them to candidate-specific engineering review. A local builder can inspect candidate CAD/IFC, bill of materials, process, assembly and procurement drafts. An organisation can configure ERPNext/Frappe HR and FUXA/gateway workflows for its own project and equipment. Universities and reviewers can reproduce source-bound numerical methods and identify measurements needed for a prototype.

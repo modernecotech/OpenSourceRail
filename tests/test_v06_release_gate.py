@@ -24,7 +24,7 @@ def test_current_v06_release_is_withheld_by_all_required_open_gates():
         'native-gis-return-path', 'candidate-business-lifecycle',
         'all-city-outline-reconciliation', 'unified-workbench',
     }
-    with pytest.raises(ValueError, match='remains withheld'):
+    with pytest.raises(ValueError, match='design closure remains incomplete'):
         release_gate.require_ready(ROOT)
 
 

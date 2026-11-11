@@ -5,6 +5,10 @@ passenger requirements through vehicle, stations, civil works, manufacturing,
 service and whole-life cost. A useful calculated outline can be complete while
 its installed engineering and physical acceptance remain open.
 
+The proposed v0.6.0 software release has a separate SR-01–SR-06 readiness
+contract. Software readiness does not close the seven engineering gates or
+assert physical acceptance; see the [software-release ledger](design-engine/v06-software-release/README.md).
+
 OpenSourceRail continues to develop three connected products: railway design
 and engineering, manufacturing/delivery and maintenance, and city planning and
 service. Local manufacture, repairability, open knowledge, business/workforce

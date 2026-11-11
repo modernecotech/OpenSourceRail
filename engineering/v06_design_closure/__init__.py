@@ -1,1 +1,1 @@
-"""Digital v0.6 design-closure and software-release gates."""
+"""Digital v0.6 engineering design-closure gates."""

@@ -38,8 +38,10 @@
 
 The machine-readable gate ledger is [status.json](status.json). Run
 `python3 tools/verify-v06-release-closure.py` to check source-bound evidence
-and release readiness. It currently reports seven open/partial gates; software
-packaging must remain withheld. The verifier checks ledger completeness and
+and engineering design-closure readiness. It currently reports seven
+open/partial design gates. This ledger does not decide software-release
+readiness; that is evaluated separately by `./osr release software readiness`
+against the SR-01–SR-06 contract. The verifier checks ledger completeness and
 hash integrity, not the engineering meaning of a closure claim.
 
 This is a supplementary, source-linked audit. It does not modify the frozen

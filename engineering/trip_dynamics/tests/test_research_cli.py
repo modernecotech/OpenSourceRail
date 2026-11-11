@@ -113,9 +113,12 @@ def test_incomplete_case_collection_cannot_claim_completed_confirmation(tmp_path
 @pytest.mark.parametrize('command,action',[('epm','epm-screen'),('magnetic-confirmation','magnetic-confirmation')])
 def test_research_cli_constructs_only_empty_parameter_action(tmp_path,monkeypatch,capsys,command,action):
     seen=[]
+    source_root=tmp_path/'source';source_root.mkdir()
+    from engineering import performance
+    monkeypatch.setattr(performance,'disk_admission',lambda root:dict(admitted=True))
     monkeypatch.setattr(e,'execute',lambda request,output,root:seen.append((request,output,root))or{'ok':True})
-    assert cli.main([command,'--output',str(tmp_path/'fresh'),'--source-root',str(tmp_path/'source')])==0
-    assert seen==[(dict(action=action,parameters={}),tmp_path/'fresh',tmp_path/'source')]
+    assert cli.main([command,'--output',str(tmp_path/'fresh'),'--source-root',str(source_root)])==0
+    assert seen==[(dict(action=action,parameters={}),tmp_path/'fresh',source_root)]
     assert json.loads(capsys.readouterr().out)=={'ok':True}
     with pytest.raises(SystemExit) as error:cli.main([command,'--output',str(tmp_path/'fresh'),'--getdp','/bin/sh'])
     assert error.value.code==2

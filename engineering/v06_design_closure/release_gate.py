@@ -149,5 +149,5 @@ def require_ready(root: str | Path) -> dict:
     report = inspect(root)
     if not report['release_ready']:
         ids = ', '.join(item['id'] for item in report['open_gates']) or 'independent release review'
-        raise ValueError(f'v0.6 software/research release remains withheld: {ids}')
+        raise ValueError(f'v0.6 engineering design closure remains incomplete: {ids}')
     return report

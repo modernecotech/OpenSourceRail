@@ -26,6 +26,7 @@ Usage: ./osr [COMMAND] [arguments]
   design station-cycle ... Stateful capture → storage → controlled relaunch and costs
   design closure ...       Reconciled installed body, civil, counted fleet and 14-scope costs
   design station-pair ... Parts → mass → Rust motion → fleet, civil and cost comparison
+  release software readiness  Verify the independent SR-01..SR-06 software release gates
   source ...              Offline material/cost review, explicit feed refresh, studies and Workbench
   trip/twin/plan ...      Run retained trip research, inspect the twin or create route proposals
   infrastructure ... Alias for the same selected design
@@ -51,6 +52,10 @@ The default is a development selection. Physical and operating acceptance remain
 open. Source-bound outputs remain tied to their declared candidate and inputs.
 EOF
     exit 0
+fi
+if [[ "${1:-}" == release && "${2:-}" == software && "${3:-}" == readiness ]]; then
+    shift 3
+    exec tools/automation/osr-python -m engineering.v06_software_release readiness "$@"
 fi
 if [[ "${1:-}" == gis ]]; then
     shift
