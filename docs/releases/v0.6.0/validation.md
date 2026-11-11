@@ -51,7 +51,9 @@ On the exact release-candidate commit, perform and retain:
 The current dashboard deliberately remains pending until those authentic
 records exist. A passing local unit-test fixture cannot substitute for actual
 CI receipts, three demonstrations, clean-install measurements or reviewer
-signoff. Do not create a release tag while any of these steps is missing.
+signoff. Do not create a new release tag while any of these steps is missing.
+The pre-existing annotated `v0.6.0` development tag is not the release
+candidate; preserve it and resolve the final release tag/version name separately.
 
 The reviewed source currently reports a source-binding hold for the integrated
 `docs/design-engine/current` dossier. The Workbench makes that hold visible,

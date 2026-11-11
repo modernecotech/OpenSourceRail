@@ -15,6 +15,11 @@ the [software-release ledger](../../design-engine/v06-software-release/README.md
 | [Release notes](release-notes.md) | Proposed v0.6 scope and known compatibility boundaries |
 | [Validation](validation.md) | Selected fast tests and frozen-candidate acceptance steps |
 
-Do not publish a version tag until SR-01 through SR-06 pass on one frozen
-commit and the external review signature verifies against a reviewer key
-fingerprint obtained through an independent trusted channel.
+The repository already contains the annotated `v0.6.0` development-baseline
+tag `e3e42dabd28b39235b73b0c625b2167919ff3ea4`, pointing to commit
+`61080cafc6998e587772810707dc552524df5306`. No GitHub Release is attached to
+that tag. It is not the reviewed release candidate. Do not move or replace it.
+The release coordinator must resolve the future release tag/version name after
+SR-01 through SR-06 pass on one frozen commit and an independent reviewer signs
+the external attestation with a key fingerprint obtained through a trusted
+out-of-band channel.

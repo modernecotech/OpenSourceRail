@@ -2,6 +2,11 @@
 
 **Status: draft for a frozen release candidate; no public release is authorized.**
 
+The existing annotated `v0.6.0` tag points to an earlier development baseline
+(commit `61080cafc6998e587772810707dc552524df5306`); no GitHub Release is
+attached. This draft does not move or replace that tag. The final release name
+must be resolved separately after the software gates and independent review.
+
 ## Scope
 
 v0.6 packages the OpenSourceRail planning, engineering-research and delivery
