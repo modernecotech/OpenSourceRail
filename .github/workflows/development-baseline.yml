@@ -121,6 +121,9 @@ on:
       - '!docs/design-engine/city-atlas/**'
       - '!docs/design-engine/demand-outline/**'
       - '!docs/design-engine/supply-economics/**'
+      # The design-closure ledger is checked by the bounded v0.6 release lane;
+      # changing its pointers does not require the full vehicle research suite.
+      - '!docs/design-engine/v06-design-closure/status.json'
       # The v0.6 release workflows provide the bounded source, API and browser
       # coverage for these release-only changes; avoid rerunning the complete
       # historical engineering campaign on the same diff.
@@ -263,6 +266,9 @@ on:
       - '!docs/design-engine/city-atlas/**'
       - '!docs/design-engine/demand-outline/**'
       - '!docs/design-engine/supply-economics/**'
+      # The design-closure ledger is checked by the bounded v0.6 release lane;
+      # changing its pointers does not require the full vehicle research suite.
+      - '!docs/design-engine/v06-design-closure/status.json'
       # The v0.6 release workflows provide the bounded source, API and browser
       # coverage for these release-only changes; avoid rerunning the complete
       # historical engineering campaign on the same diff.
