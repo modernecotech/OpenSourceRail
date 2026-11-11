@@ -339,7 +339,11 @@ def verify(root=ROOT):
                 evolved_packets.add(name)
                 active_packets[name]=result['manifest_id']
                 active_packet_source_epochs[name]=result.get('source_epoch','current')
-                deps.update({p.relative_to(root).as_posix():_hash(p) for p in paths if p.is_file()})
+                # README bytes remain covered by the publication verifier and
+                # mutation stamps, but do not enter the calculation dependency
+                # identity for an evolved packet.
+                deps.update({p.relative_to(root).as_posix():_hash(p) for p in paths
+                    if p.is_file() and p.name!='README.md'})
                 stamps.update({p:_stamp(p) for p in paths if p.is_file()})
                 continue
         if {p.relative_to(root).as_posix() for p in paths if p.is_file()}!=set(packet['files_sha256']):
