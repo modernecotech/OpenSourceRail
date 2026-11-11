@@ -9,6 +9,7 @@ import subprocess
 
 
 BASE_PATTERNS = (
+    "/.gitignore",
     "/.github/release-smoke-tests.txt",
     "/campaigns/**",
     "/engineering/**",
