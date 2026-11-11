@@ -17,6 +17,7 @@ BASE_PATTERNS = (
     "/engineering/development_baseline/**",
     "/engineering/design_search/*.py",
     "/engineering/outline/**",
+    "/engineering/rustgis/**",
     "/engineering/station_rail/**",
     "/engineering/trip_dynamics/__init__.py",
     "/engineering/trip_dynamics/interactive.py",
