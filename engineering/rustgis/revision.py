@@ -10,6 +10,7 @@ from pathlib import Path
 import fcntl
 import gzip
 import json
+import os
 import re
 import time
 import zipfile
@@ -311,13 +312,49 @@ def build_request(raw,original,base,binding,*,actor,reason,data_crs='EPSG:4326')
         base_revision_sha256=base['revision_sha256'],data_crs=data_crs,**FLAGS)
 
 
+def import_store(root=ROOT, store=None):
+    """Resolve an external ordinary custody directory without creating it."""
+    root=Path(root).resolve()
+    if store is None:
+        store=os.environ.get('OSR_RUSTGIS_IMPORT_STORE')
+    if store is None:
+        state=Path(os.environ.get('XDG_STATE_HOME',str(Path.home()/'.local/state')))
+        store=state/'opensourcerail/rustgis-imports'/sha256(os.fsencode(root)).hexdigest()[:24]
+    path=Path(store).expanduser()
+    if not path.is_absolute():raise ValueError('Absolute external native import store required')
+    # Refuse symlinks before resolving, including an existing parent redirect.
+    for part in (path,*path.parents):
+        if part.is_symlink():raise ValueError('Ordinary native import store without symlinks required')
+    path=path.resolve()
+    if path.is_relative_to(root) or root.is_relative_to(path):
+        raise ValueError('Native import store must be outside the source checkout')
+    if path.exists() and not path.is_dir():raise ValueError('Native import store must be a directory')
+    return path
+
+
+def import_directory(import_id, *, root=ROOT, store=None):
+    """Locate new custody or retained legacy records, without migrating bytes."""
+    if not isinstance(import_id,str) or not re.fullmatch('[a-f0-9]{32}',import_id):
+        raise ValueError('Known native import identifier required')
+    root=Path(root).resolve()
+    candidates=[import_store(root,store)/import_id]
+    legacy=adapter._local(root,'build/rustgis-imports/'+import_id)
+    candidates.append(legacy)
+    found=[]
+    for folder in candidates:
+        if any(part.is_symlink() for part in (folder,*folder.parents)):
+            raise ValueError('Ordinary retained native import directory required')
+        if folder.is_dir():found.append(folder)
+    if len(found)!=1:raise ValueError('Known unambiguous retained native import required')
+    return found[0]
+
+
 def authoritative(slug,packet_id,*,root=ROOT,study_id=None,service=None,output=None):
     """Resolve base and original project from server-owned records, not uploads."""
     root=Path(root).resolve()
     if study_id is not None:
-        packet,_,_,_,_,binding=adapter.study_input(study_id,root=root,service=service)
-        folder=root/'build/city-studies'/study_id/'artifacts'
-        base=json.loads((folder/'planning.json').read_bytes())
+        packet,_,originals,_,_,binding=adapter.study_input(study_id,root=root,service=service)
+        base=json.loads(originals['sources/planning.json'])
         result=adapter.export_study(study_id,root=root,service=service,output=output)
     else:
         context=adapter.inputs(root);packet,*_=adapter.city_input(slug,context)
@@ -333,10 +370,11 @@ def authoritative(slug,packet_id,*,root=ROOT,study_id=None,service=None,output=N
     return base,binding,original,manifest
 
 
-def import_project(raw,slug,packet_id,*,actor,reason,data_crs,root=ROOT,study_id=None,service=None):
+def import_project(raw,slug,packet_id,*,actor,reason,data_crs,root=ROOT,study_id=None,service=None,store=None):
     """Retain original input/failure, then submit only canonical typed changes."""
-    root=Path(root).resolve();store=root/'build/rustgis-imports';adapter._local(root,'build/rustgis-imports')
+    root=Path(root).resolve();store=import_store(root,store)
     store.mkdir(parents=True,exist_ok=True)
+    if (store/'coordinator.lock').is_symlink():raise ValueError('Ordinary native import lock required')
     with (store/'coordinator.lock').open('a+') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
         paths=list(store.rglob('*'))
@@ -383,7 +421,10 @@ def import_project(raw,slug,packet_id,*,actor,reason,data_crs,root=ROOT,study_id
 
 def verify_import(folder,*,root=ROOT):
     """Check retained custody and typed translation; no solver or transaction."""
-    folder=Path(folder).resolve();m=read_json((folder/'manifest.json').read_bytes())
+    folder=Path(folder).absolute()
+    if any(part.is_symlink() for part in (folder,*folder.parents)):
+        raise ValueError('Ordinary retained native import directory required')
+    folder=folder.resolve();m=read_json((folder/'manifest.json').read_bytes())
     if m.get('evaluation_id')!=identity({k:v for k,v in m.items() if k!='evaluation_id'}) or m.get('schema')!=SCHEMA:
         raise ValueError('Native import manifest changed')
     if any(m.get(k) is not v for k,v in FLAGS.items()):raise ValueError('Native import cannot grant release')

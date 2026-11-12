@@ -21,6 +21,8 @@ def main(argv=None, root=ROOT):
     parser.add_argument('--refreshed-output', type=Path,
         help='For reprice, export and verify the completed edited city study into a fresh cache root')
     parser.add_argument('--preview', action='store_true', help='Native PNG preview for one city')
+    parser.add_argument('--import-store',type=Path,help='External native import custody directory')
+    parser.add_argument('--study-store',type=Path,help='External verified city-study store')
     parser.add_argument('--study', help='Verified local city-study job id for iterative native editing')
     parser.add_argument('--packet-id', help='Exact displayed city packet identity')
     parser.add_argument('--project',type=Path,help='Edited native .rgis file (embedded WGS84 data only)')
@@ -42,7 +44,13 @@ def main(argv=None, root=ROOT):
         result=verify_import(args.output,root=root)
     elif args.action=='export-study':
         if not args.study:parser.error('export-study requires --study JOB_ID')
-        result=adapter.export_study(args.study,root=root,output=args.output,preview=args.preview)
+        if args.study_store is None:
+            result=adapter.export_study(args.study,root=root,output=args.output,preview=args.preview)
+        else:
+            from engineering.outline.city_jobs import CityStudyService
+            service=CityStudyService(root,store=args.study_store)
+            try:result=adapter.export_study(args.study,root=root,service=service,output=args.output,preview=args.preview)
+            finally:service.close()
     elif args.action in ('import','reprice'):
         from . import revision
         from engineering.outline.city_jobs import CityStudyService
@@ -51,19 +59,19 @@ def main(argv=None, root=ROOT):
         if not args.project.is_file() or args.project.is_symlink() or args.project.stat().st_size>revision.MAX_PROJECT:
             parser.error('bounded ordinary native project required')
         if args.output is not None and args.output.exists():parser.error('Choose a fresh --output evidence directory')
-        service=CityStudyService(root)
+        service=CityStudyService(root,store=args.study_store) if args.study_store is not None else CityStudyService(root)
         try:
             result=revision.import_project(args.project.read_bytes(),args.city,args.packet_id,actor=args.actor,
-                reason=args.reason,data_crs=args.data_crs,root=root,study_id=args.study,service=service)
+                reason=args.reason,data_crs=args.data_crs,root=root,study_id=args.study,service=service,store=args.import_store)
             job=result['job'];deadline=time.monotonic()+150
             while job and job['state']=='running' and time.monotonic()<deadline:
                 time.sleep(.5);job=service.status(job['job_id'])
-            import_verification=revision.verify_import(
-                Path(root)/'build/rustgis-imports'/result['import_id'],root=root)
+            retained=revision.import_store(root,args.import_store)/result['import_id']
+            import_verification=revision.verify_import(retained,root=root)
             if import_verification.get('verified') is not True:
                 raise ValueError('Retained native edit did not reproduce its canonical planning request')
             if args.output is not None:
-                shutil.copytree(Path(root)/'build/rustgis-imports'/result['import_id'],args.output)
+                shutil.copytree(retained,args.output)
             refreshed=None
             if args.refreshed_output is not None and job and job.get('state')=='completed':
                 refreshed=adapter.export_study(job['job_id'],root=root,service=service,
@@ -71,13 +79,18 @@ def main(argv=None, root=ROOT):
                 if refreshed.get('verified') is not True:
                     raise ValueError('Refreshed study GIS export did not pass its source-bound reopen verification')
             result=dict(import_id=result['import_id'],execution=result['execution'],job=job,
-                retained_input=str(Path(root)/'build/rustgis-imports'/result['import_id']),
+                retained_input=str(retained),
                 import_verification=import_verification,refreshed_project=refreshed,**revision.FLAGS)
             if job and job['state']!='completed':raise ValueError('Retained native revision job did not complete: '+str(job))
         finally:service.close()
     elif args.action == 'verify':
         if args.output is None:parser.error('verify requires --output CACHE_DIRECTORY')
-        result = adapter.verify(args.output, root=root)
+        if args.study_store is None:result=adapter.verify(args.output,root=root)
+        else:
+            from engineering.outline.city_jobs import CityStudyService
+            service=CityStudyService(root,store=args.study_store)
+            try:result=adapter.verify(args.output,root=root,service=service)
+            finally:service.close()
     elif args.action == 'audit':
         result = dict(tool=adapter.lock_record(), executable=str(adapter.executable()),
                       cache=str(adapter.cache_root()), qgis_required=False)

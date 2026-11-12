@@ -27,7 +27,9 @@ def handle_api(handler):
     retained=re.fullmatch(r'/api/rustgis/imports/([a-f0-9]{32})/(manifest|comparison|failure)\.json',path)
     if retained:
         try:
-            folder=adapter._local(Path(handler.root),'build/rustgis-imports/'+retained[1])
+            from . import revision
+            folder=revision.import_directory(retained[1],root=handler.root,
+                store=getattr(handler.server,'rustgis_import_store',None))
             file=adapter._local(folder,retained[2]+'.json')
             if not file.is_file() or file.stat().st_size>2*1024**2:raise ValueError('Known retained native import record required')
             handler.respond(200,file.read_bytes(),'application/json')
@@ -89,7 +91,8 @@ def _import(handler,path):
         if len(raw)!=int(length):raise ValueError('Complete native project upload required')
         record=revision.import_project(raw,slug,packet_id,root=handler.root,
             actor=fields['actor'][0],reason=fields['reason'][0],data_crs=fields['data_crs'][0],
-            study_id=fields.get('base_study_id',[None])[0],service=service)
+            study_id=fields.get('base_study_id',[None])[0],service=service,
+            store=getattr(handler.server,'rustgis_import_store',None))
         result=dict(import_id=record['import_id'],import_evaluation_id=record['evaluation_id'],
             state=record['execution'],comparison=record['comparison'],job=record['job'],
             evidence_url='/api/rustgis/imports/'+record['import_id']+'/manifest.json',**revision.FLAGS)

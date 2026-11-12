@@ -322,11 +322,14 @@ def study_input(study_id, *, root=ROOT, service=None):
     from engineering.city_reports import maps
     root=Path(root).resolve()
     if not re.fullmatch('[a-f0-9]{32}',study_id):raise ValueError('Known immutable city study required')
-    folder=_local(root,'build/city-studies/'+study_id+'/artifacts')
     if service is not None:
+        if Path(service.root).resolve()!=root:raise ValueError('City study service source checkout differs')
         if service.status(study_id)['state']!='completed':raise ValueError('Completed city study required')
+        folder=service._job(study_id)/'artifacts'
         manifest=service._verify(folder)
-    else:manifest=city_workflow.verify(folder,root=root,replay=False)
+    else:
+        folder=_local(root,'build/city-studies/'+study_id+'/artifacts')
+        manifest=city_workflow.verify(folder,root=root,replay=False)
     workflow=city_workflow.read_json(folder,'result.json')
     packet=city_atlas_api.from_verified_study(root,workflow)
     plan=json.loads((folder/'planning.json').read_bytes())
@@ -450,7 +453,7 @@ def _export(packet,background,originals,source_layers,dossier,binding,*,root,out
         return result
 
 
-def verify(folder, *, root=ROOT, expected_inputs=None):
+def verify(folder, *, root=ROOT, expected_inputs=None, service=None):
     folder = Path(folder);r = json.loads((folder/'manifest.json').read_bytes());m = r['manifest']
     _sealed(m, 'manifest_id')
     if m['schema'] != SCHEMA or m['source_sha256'] != source_hashes(root) or m['tool'] != lock_record():
@@ -460,7 +463,7 @@ def verify(folder, *, root=ROOT, expected_inputs=None):
         raise ValueError('GIS export cannot grant release')
     if expected_inputs is None:
         if m.get('revision_binding',{}).get('kind')=='study':
-            packet,_,originals,_,dossier,binding=study_input(m['revision_binding']['base_study_id'],root=root)
+            packet,_,originals,_,dossier,binding=study_input(m['revision_binding']['base_study_id'],root=root,service=service)
         else:
             packet, _, originals, _, dossier = city_input(m['city']['slug'], inputs(root))
             binding=published_binding(m['city']['slug'],packet,root)

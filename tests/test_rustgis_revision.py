@@ -196,9 +196,10 @@ def test_import_retains_exact_raw_and_reproduces_typed_request(scene,tmp_path,mo
     for name in ['engineering/rustgis/revision.py','engineering/rustgis/adapter.py','engineering/outline/city_workflow.py']:
         target=tmp_path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((source/name).read_bytes())
     monkeypatch.setattr(revision,'authoritative',lambda *a,**k:(base,binding,encoded(p),{'manifest_id':'2'*64}))
-    result=revision.import_project(encoded(p),'fixture',binding['packet_id'],actor='Planner',reason='Native style control',data_crs='EPSG:4326',root=tmp_path)
-    folder=tmp_path/'build/rustgis-imports'/result['import_id']
+    result=revision.import_project(encoded(p),'fixture',binding['packet_id'],actor='Planner',reason='Native style control',data_crs='EPSG:4326',root=tmp_path,store=tmp_path.parent/(tmp_path.name+'-imports'))
+    folder=revision.import_directory(result['import_id'],root=tmp_path,store=tmp_path.parent/(tmp_path.name+'-imports'))
     assert (folder/'project.rgis').read_bytes()==encoded(p) and result['job'] is None
+    assert not (tmp_path/'build').exists()
     assert revision.verify_import(folder,root=tmp_path)['verified']
     (folder/'project.rgis').write_bytes(b'{}')
     with pytest.raises(ValueError,match='inventory'):revision.verify_import(folder,root=tmp_path)
@@ -208,8 +209,8 @@ def test_failed_import_input_is_retained_with_identity(scene,tmp_path,monkeypatc
     p,base,binding=scene
     monkeypatch.setattr(revision,'authoritative',lambda *a,**k:(base,binding,encoded(p),{'manifest_id':'2'*64}))
     with pytest.raises(revision.RetainedImportError) as error:
-        revision.import_project(b'{"format":1,"maps":[]}', 'fixture',binding['packet_id'],actor='Planner',reason='Fail control',data_crs='EPSG:4326',root=tmp_path)
-    folder=tmp_path/'build/rustgis-imports'/error.value.import_id
+        revision.import_project(b'{"format":1,"maps":[]}', 'fixture',binding['packet_id'],actor='Planner',reason='Fail control',data_crs='EPSG:4326',root=tmp_path,store=tmp_path.parent/(tmp_path.name+'-imports'))
+    folder=revision.import_directory(error.value.import_id,root=tmp_path,store=tmp_path.parent/(tmp_path.name+'-imports'))
     assert (folder/'failure.json').is_file() and (folder/'project.rgis').read_bytes()==b'{"format":1,"maps":[]}'
 
 
