@@ -199,20 +199,6 @@ def geometry(part):
         source_stock=deepcopy(s))
 
 
-def cut_length_proxy_audit(patterns):
-    """Report stock length absent from a straight display proxy, without changing geometry."""
-    rows=[]
-    for pattern in patterns:
-        g=pattern['geometry'];stock=g['source_stock']
-        if not stock or stock['kind']!='cut-length':continue
-        length=stock['length_m'];proxy=g['size_m'][0]
-        rows.append(dict(pattern_id=pattern['id'],part_id=pattern['part_id'],
-            declared_cut_length_m=length,straight_proxy_length_m=proxy,
-            length_not_represented_by_proxy_m=max(0.,length-proxy),
-            full_route_fit_verified=False))
-    return rows
-
-
 def _grid(j,n,sx,sy=0.):
     if n==1:return [0.,0.,0.]
     if sy==0:return [(j-(n-1)/2)*sx/max(1,n-1),0.,0.]
@@ -513,9 +499,7 @@ def build(root=ROOT,*,battery_layout='thin-distributed'):
         track_interface=track_interface(p),
         layout=p['layout'],part_revisions=[{k:r[k] for k in ('source_part_id','proposed_part_id','old_quantity_per_train','new_quantity_per_train','reason')} for r in revisions],
         proposed_components=[dict(id=r['id'],source_part_id=r['source_part_id'],component_definition_id=r['component_definition_id'],quantity_per_train=r['quantity_per_train'],material_id=r['material_id'],stock=r['stock']) for r in parts],
-        occurrence_patterns=[{k:r[k]
-            for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')}
-            for r in patterns])
+        occurrence_patterns=[{k:r[k] for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')} for r in patterns])
     cid=identity(physical);scenarios=[];outer={}
     for kind in ('tare','normal','crowd-control'):
         rows=_scenario_rows(patterns,'crowd' if kind=='crowd-control' else kind,p)
@@ -546,8 +530,7 @@ def build(root=ROOT,*,battery_layout='thin-distributed'):
         materials=deepcopy(b['materials'])+([dict(id='installation/thermal-barrier',name='Proposed unspecified thermal/fire-barrier panel',
             density_cases_kg_m3=dict(zip(CASES,p['evaluation']['insulation_density_kg_m3'])),thickness_m=p['layout']['battery_insulation_thickness_m'],
             thermal_conductivity_W_mK=None,fire_classification=None,scope='Counted outline material hypothesis; supplier composition, conductivity and railway fire qualification are open')] if battery_layout=='thin-distributed' else []),
-        patterns=patterns,cut_length_proxy_audit=cut_length_proxy_audit(patterns),
-        parts=parts,revisions=revisions,mass_scenarios=scenarios,mass_uncertainty=outer,
+        patterns=patterns,parts=parts,revisions=revisions,mass_scenarios=scenarios,mass_uncertainty=outer,
         nominal_part_mass_kg=nominal,source_part_mass_kg=b['nominal_mass_kg']['known_leaf_subtotal'],
         direct_parts_process_usd=direct,source_direct_parts_process_usd=b['direct_parts_process_usd']['known_leaf_subtotal'],
         interface_screens=interfaces(p,battery_layout),assembly_plans=assembly_plans(b,parts,p,battery_layout),layout_definition_complete=True,source_part_coverage_complete=True,

@@ -150,26 +150,23 @@ page cache was uncontrolled, and no optimization or all-workload claim is
 made. The failed probe initialization is preserved; both attempts used
 35.98 seconds and about 24.65 MB, with no builds or native solves.
 
-## Door route proxy and current analytical child
+## Door route proxy and retained analytical child
 
-The selected `body/door-opening` audit keeps the physical installation geometry
-unchanged. A new evaluation-only section reports 830 cut-length pattern proxies,
-including 24 door guide/belt patterns. The declared guide stock is 2.9 m and
-belt cut length is 5.8 m; both retain their 2 m straight display proxies.
-The audit records how much cut length that proxy does not represent and marks
-full route fit unverified. The belt loop must not be treated as a straight part.
+A read-only audit of the existing sealed installation packet found 830
+cut-length patterns, including 24 door guide/belt patterns. The guide's
+2.9 m stock and belt's 5.8 m cut length each appear as a 2 m straight display
+proxy. The stock lengths remain in source data, but the proxy does not show
+that a routed part fits, clears adjacent hardware or can be removed.
+The belt loop must not be interpreted as a straight 5.8 m part.
 
-The [fresh analytical receipt](evidence-index.json) at source `457461c5fc`
-preserves exact physical definition and candidate
-`17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`.
-Its evaluation is `36c32885f5efbc56372d99bb91312d89a022ecf934a8c15f8f59a8fe9d976fce`;
-all eleven source bindings match the earlier control except the installation
-model. The result is 21,960,353 canonical bytes. A downstream frozen counted
-body was regenerated and retained its exact parent candidate and seal.
-The first experimental runs remain in the evidence index with their original
-source identities. The earlier one-opening attachment still refers to its old
-evaluation and is held for regeneration. No native CAD, solver, installed fit,
-controlled mating dimension or physical acceptance follows from this audit.
+The [audit receipt](evidence-index.json) verifies the original packet seal,
+physical candidate `17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`,
+evaluation `123896d4014fd00bc11fc755f132aa8769ebfd217f06d6f34b2fe8342d62c4f1`,
+and all eleven current source bindings. The installed model's original bytes
+remain in use. Intermediate experiments with changed model sources are retained
+in the evidence index under their own historical identities; their outputs are
+not current installation evidence. The mated positions, controlled dimensions,
+full route fit, installed mass and physical acceptance remain open.
 
 ## Integration still required
 
