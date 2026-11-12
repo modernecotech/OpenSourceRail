@@ -17,6 +17,8 @@ BASE_PATTERNS = (
     "/.github/**",
     "/campaigns/**",
     "/docs/plans/v0.7-agent-delivery-plan.md",
+    "/docs/guides/delivery-scheduler.md",
+    "/docs/integration/v07-assembly-lifecycle.md",
     "/docs/design-engine/v07-execution/**",
     "/.gitignore",
     "/.github/repository-metadata.yml",
