@@ -64,6 +64,17 @@ actual source revision. The Samawah failed attempts
 (dwell projection and parent lookup) and Baghdad terminal-chainage failure
 remain preserved alongside the fixes and successful runs.
 
+The [current-source revalidation](native-gis-current.json) then repeated both
+journeys on `7516359c40`: sixteen fresh native calls, six legitimate new studies
+and exact offline replay of both final children. Historical baseline numerical
+controls and all fourteen cost-scope totals matched exactly. The work took
+352.11 seconds and retained about 325 MiB. All other complete line records,
+route coordinates and protected stop IDs/chainages/dwell inputs remained exact.
+Twelve unedited Baghdad stops on the selected line reconstruct latitude by
+1–3 float ULP; the same differences exist in the earlier run. Exact before/after
+values are recorded, rather than claiming byte-identical derived coordinates
+or changing a tolerance.
+
 ## CAD and mechanics controls
 
 The door definition counts 694 pieces per opening and twelve openings per train.
@@ -175,7 +186,7 @@ The later [software checkpoint](software-ci-952b7d9.json) passed all five requir
 and retained workflows on exact source `952b7d953f`: 387 selected Python tests,
 Rust contracts, Workbench journeys, shared contracts and reconciled research.
 The reconciled lane passed 158 tests plus 13 subtests. The subsequent Rust CLI
-and assembly lifecycle additions require their own final CI run; earlier green
+and assembly lifecycle additions have their own checkpoints below; earlier green
 checks are not relabelled as evidence for those additions.
 
 Checkpoint `a41c280544` then passed 430 selected Python contracts (four optional
@@ -187,7 +198,9 @@ every policy value are unchanged; only the current policy's producer hash was
 refreshed. No historical packet or receipt was rewritten. Sixteen analysis and
 five routing checks pass. Exact standalone policy/test edits now run in the
 bounded Python lane; mixed engineering edits still trigger retained workflows.
-The routing change itself triggers a full final Shared run.
+The existing Shared filter excludes edits to its own workflow file. The explicit
+final-source Shared run `43229288557` passed on `7516359c40`; no duplicate run
+was launched.
 
 The owned evaluation working tree was then reduced from 8.45 GiB to about
 0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
@@ -228,6 +241,32 @@ The result distinguishes `retained_verified` from `current_source_valid`.
 The wrapper refuses oversized/tampered inputs, replacement Git objects, foreign
 project imports and native subprocess execution. Its import/process guards are
 cooperative controls, not an operating-system sandbox.
+
+Three other retained publications bind the earlier braking implementation.
+Their unchanged original checkers were run against source epoch
+`946f1772540d07af85b57b0d13cac08a3293b140`: twin analytical/materialisation replay
+covered six non-native cases; reference-cell replay covered ten cases; motor
+verification checked the recorded tool/source/payload/trace without a new field
+solve. All passed in 81.65, 190.27 and 5.58 seconds respectively. Two earlier
+cell attempts hit their 120/150-second CPU limits and remain preserved. The
+successful cell request explicitly used 300 CPU/360 wall seconds; no model,
+tolerance or original input changed.
+
+The coordinator lives outside calculation-source discovery at
+`tools/automation/verify_retained_publications.py`. It authenticates the exact
+original manifests, declared payloads and source/import closure, stages private
+copies and invokes the unchanged checker. Unindexed historical twin/native
+archives remain untouched and outside the claim. Current strict readers still
+refuse these stale publications; the result records `current_source_valid=false`.
+An independent review matched 95 source bindings, authenticated all three
+receipt/manifest pairs and passed 21 boundary tests in 1.56 seconds. It checked
+resource guards, retained failures and staging cleanup without rerunning the
+historical methods. No CAD/native/field processes ran. Read the retained packet explicitly with:
+
+```sh
+python -m tools.automation.verify_retained_publications prefetch twin
+python -m tools.automation.verify_retained_publications verify twin --state /external/fresh-twin-check
+```
 
 In a partial clone, the separate CI prefetch selects object IDs without asking
 Git for sizes of absent blobs. It fetches only those selected objects explicitly;
