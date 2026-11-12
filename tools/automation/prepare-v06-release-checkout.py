@@ -110,6 +110,7 @@ BASE_PATTERNS = (
     "/osr",
     "/tools/automation/osr-python",
     "/tools/automation/prepare-v06-release-checkout.py",
+    "/tools/automation/verify_retained_publications.py",
     "/tools/automation/tests/browser-launch.mjs",
     "/tools/automation/tests/verify-development-baseline.mjs",
     "/tools/automation/tests/verify-v06-release-workbench.mjs",
