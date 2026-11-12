@@ -401,6 +401,13 @@ class CityStudyService:
             if self.queuing:self._dispatch()
             return self._poll(job_id)
 
+    def capacity(self):
+        """Observe owned live processes and accepted pending requests, without dispatch."""
+        with self.lock:
+            return dict(current_worker_processes=sum(
+                not record.get('finished') and record['process'].poll() is None
+                for record in self.jobs.values()),pending_requests=len(self.pending))
+
     def corridor_proposal(self):
         from . import corridor_revision
         with self.lock:return corridor_revision.proposal(self.root)
@@ -507,7 +514,7 @@ def handle_api(handler):
             handler.respond(200,dict(schema='osr-city-study-options/1',selections=list(city_workflow.SELECTIONS),
                 service_bounds=city_workflow.SERVICE_BOUNDS,alignment_bounds=city_workflow.ALIGNMENT_BOUNDS,
                 maximum_request_bytes=MAX_REQUEST,maximum_worker_processes=service.max_workers,
-                maximum_pending_requests=4 if service.queuing else 0,**FLAGS))
+                maximum_pending_requests=4 if service.queuing else 0,**service.capacity(),**FLAGS))
         else:
             parts=path.removeprefix('/api/city-studies/').split('/')
             if len(parts)==1:handler.respond(200,service.status(parts[0]))

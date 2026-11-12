@@ -193,3 +193,19 @@ def test_large_escaped_parent_cannot_cross_host_reserve(pool,monkeypatch):
     status=s._submit_queued(request,key,parent)
     assert status['state']=='held' and status['request_accepted'] is False
     assert not processes and list(s.store.glob('*/request.json'))==[]
+
+
+def test_capacity_observes_live_processes_and_pending_without_dispatch(pool):
+    make,processes=pool;s=make('a')
+    assert s.capacity()==dict(current_worker_processes=0,pending_requests=0)
+    a=s.submit(dict(city_slug='samawah'));s.submit(dict(city_slug='baghdad'))
+    c=s.submit(dict(city_slug='basra'))
+    assert s.capacity()==dict(current_worker_processes=2,pending_requests=1)
+    # Child exits before status publication/watcher update. Observation must
+    # reflect its actual process state without launching the queued request.
+    s.jobs[a['job_id']]['process'].returncode=-9
+    assert s.capacity()==dict(current_worker_processes=1,pending_requests=1)
+    assert len(processes)==2 and s.status(c['job_id'])['state']=='running'
+    assert s.capacity()==dict(current_worker_processes=2,pending_requests=0)
+    s.close()
+    assert s.capacity()==dict(current_worker_processes=0,pending_requests=0)
