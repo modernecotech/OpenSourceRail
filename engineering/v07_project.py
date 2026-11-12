@@ -77,3 +77,35 @@ def compose(candidate_id, records):
                   physical_accepted=False, manufacturing_release=False)
     result['project_id'] = identity(result)
     return result
+
+
+def from_comparison(comparison):
+    """Expose verified corridor artifacts as an incomplete, same-candidate project.
+
+    Caller authenticates the comparison at CityStudyService's artifact boundary.
+    Manufacturing/lifecycle stages stay missing until actual matching packets
+    exist; no catalogue child is attached under the reference candidate ID.
+    """
+    if comparison.get('comparison_id') != identity({k:v for k,v in comparison.items() if k != 'comparison_id'}):
+        raise ValueError('Sealed corridor comparison required')
+    if comparison.get('schema') != 'osr-corridor-revision-comparison/1':
+        raise ValueError('Current corridor comparison schema required')
+    candidate = comparison['reference_candidate_ids']['candidate_id']
+    sources = comparison['source_sha256']
+    cases = {}
+    for side in ('before', 'after'):
+        ids = comparison['identities'][side]
+        if ids['reference_candidate_ids'] != comparison['reference_candidate_ids']:
+            raise ValueError('Mixed reference candidate in project comparison')
+        records = {}
+        artifacts = {'vehicle': ids['reference_candidate_ids']['body_candidate_id'],
+                     'geometry': ids['city_input_id'], 'service': ids['service_evaluation_id'],
+                     'civil': ids['civil_quantity_id']}
+        for stage, artifact in artifacts.items():
+            records[stage] = stage_record(stage, candidate, artifact, source_sha256=sources,
+                dependencies={key:records[key]['stage_id'] for key in DEPENDENCIES[stage]})
+        cases[side] = compose(candidate, records)
+    return dict(schema='osr-v07-corridor-projects/1', comparison_id=comparison['comparison_id'],
+                cases=cases, station_edit_affected=affected(['geometry']),
+                rate_edit_affected=affected(['cost']),
+                hold='Matching manufacturing, costing, delivery and maintenance project stages still required; corridor cost results remain available in their existing verified dossier.')
