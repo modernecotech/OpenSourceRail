@@ -17,9 +17,10 @@ assert.equal(git('status', '--porcelain', '--untracked-files=all'), '', 'Clean s
 const started = performance.now();
 const source = git('rev-parse', 'HEAD');
 const python = process.env.OSR_PYTHON || join(root, '.venv/bin/python');
+const studyStore = resolve(process.env.OSR_CITY_STUDY_STORE || join(output, 'city-studies'));
 const server = spawn(python, ['-B', '-u', '-m', 'engineering.development_baseline.server',
   '--root', root, '--host', '127.0.0.1', '--port', '0', '--no-browser',
-  '--city-study-store', join(output, 'city-studies'), '--trip-store', join(output, 'trip-studies')],
+  '--city-study-store', studyStore, '--trip-store', join(output, 'trip-studies')],
   {cwd: root, env: {...process.env, PYTHONPATH: root, PYTHONDONTWRITEBYTECODE: '1',
     OPENBLAS_NUM_THREADS: '1', OMP_NUM_THREADS: '1', MKL_NUM_THREADS: '1'}, stdio: ['ignore', 'pipe', 'pipe']});
 let log = '', origin, browser, page;
@@ -83,7 +84,8 @@ try {
   assert.equal(git('status', '--porcelain', '--untracked-files=all'), '');
   await writeFile(join(output, 'journey.json'), JSON.stringify({schema: 'osr-v07-samawah-corridor-browser/1',
     source_commit: source, source_tree: git('rev-parse', 'HEAD^{tree}'), comparison_id: report.comparison_id,
-    before_job_id: before, after_job_id: after, cold_browser_seconds: coldSeconds, warm_browser_seconds: warmSeconds,
+    before_job_id: before, after_job_id: after, first_browser_seconds: coldSeconds, warm_browser_seconds: warmSeconds,
+    study_store: studyStore, reused_prior_store: Boolean(process.env.OSR_CITY_STUDY_STORE),
     same_verified_jobs_reused: true, total_wall_seconds: (performance.now() - started) / 1000,
     metrics: report.metrics, native_solver_jobs: 0, browser: browser.osrRendering,
     page_errors: errors, external_requests: external, result: 'pass-for-first-Samawah-corridor-milestone'}, null, 2) + '\n');

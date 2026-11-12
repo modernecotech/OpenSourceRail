@@ -102,6 +102,19 @@ def test_proposal_uses_existing_raw_consolidation_edit_and_keeps_base_unchanged(
     assert base == original
 
 
+def test_proposal_survives_browser_integral_number_serialization(scenario):
+    proposed, _ = scenario
+    edit = proposed['revised_request']['edit_bundle']['edits'][0]
+    # Browser JSON.stringify sends these as 20, 0 and 35, rather than 20.0,
+    # 0.0 and 35.0. The comparison must retain an exact request-byte check.
+    assert type(edit['design_speed_cap_m_s']) is int
+    assert type(edit['coordinates'][0][0]) is int
+    assert type(edit['stops'][0]['dwell_s']) is int
+    assert edit['coordinates'][1][0] == .05
+    assert revision._wire_numbers({'unknown': None, 'enabled': False, 'position': 1.0000000000000002}) == {
+        'unknown': None, 'enabled': False, 'position': 1.0000000000000002}
+
+
 def test_public_proposal_requires_its_loaded_source_bytes(tmp_path):
     path = tmp_path / revision.PRODUCER; path.parent.mkdir(parents=True)
     path.write_text('source changed')

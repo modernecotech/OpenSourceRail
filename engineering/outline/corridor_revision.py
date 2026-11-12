@@ -22,6 +22,21 @@ FLAGS = {**city_workflow.FLAGS}
 CASES = ('low', 'base', 'high')
 
 
+def _wire_numbers(value):
+    """Keep exact requests stable across JSON.stringify's integral numbers.
+
+    Only exactly representable bounded integers change JSON representation;
+    fractional geometry coordinates and unknown values are never rounded.
+    """
+    if isinstance(value, dict):
+        return {k: _wire_numbers(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_wire_numbers(v) for v in value]
+    if type(value) is float and isfinite(value) and value.is_integer() and abs(value) <= 2**53 - 1:
+        return int(value)
+    return value
+
+
 def _seal(value, key):
     value[key] = identity(value)
     return value
@@ -62,12 +77,12 @@ def _build_proposal(detail, base, actor, producer_sha):
                 reason='Consolidate the retained close markers at their along-route midpoint')
 
     def request(edits):
-        return city_workflow.normalize(dict(city_slug='samawah',
+        return city_workflow.normalize(_wire_numbers(dict(city_slug='samawah',
             expected_outline_evaluation_id=detail['evaluation_id'], base_seed_id=seed['seed_id'],
             edit_bundle=dict(schema=planning_adapter.EDIT_SCHEMA, city='samawah',
                 base_revision_sha256=base['revision_sha256'], seed_id=seed['seed_id'],
                 source_outline_evaluation_id=base['source_outline_evaluation_id'],
-                actor=actor, edits=edits)))
+                actor=actor, edits=edits))))
 
     return _seal(dict(schema='osr-corridor-revision-proposal/1', scenario=SCENARIO,
         title='Samawah: retain close markers or consolidate at their midpoint',
