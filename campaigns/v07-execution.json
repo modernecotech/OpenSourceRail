@@ -48,10 +48,22 @@
       ],
       "completion": "Measure source verification, decoding, geometry, service, civil, cost, delivery, sealing, writing and browser stages. Produce ranked hotspots, cold/warm/build costs and baseline receipts.",
       "budget_class": "benchmark",
-      "status": "partial-measured",
-      "resource_request": null,
+      "status": "complete-bounded-corridor-baseline",
+      "resource_request": {
+        "benchmark_supervisor_wall_seconds": 180,
+        "worker_wall_seconds": 120,
+        "worker_cpu_soft_seconds": 90,
+        "worker_cpu_hard_seconds": 95,
+        "worker_address_space_mib": 3072,
+        "new_output_budget_mib": 128,
+        "host_free_reserve_gib": 20,
+        "analytic_workers": 1,
+        "native_solver_jobs": 0,
+        "new_builds": 0,
+        "scope": "Ordinary-host limits and observed inventories; no aggregate filesystem quota/OS sandbox claim."
+      },
       "resource_admission": "Per-execution receipts in docs/design-engine/v07-execution/evidence-index.json; no standing permission for new native runs.",
-      "outcome": "Actual stage profile and fresh browser timings captured. Three instrumented warm repetitions deferred after excessive profiling overhead; interrupted attempt retained."
+      "outcome": "Scoped retained-Samawah baseline is measured and peer-reviewed. One genuine fresh job under original worker limits produced exact encoded result parity with the751 control (25,623,859 decompressed bytes;65source hashes match). Local selected-code monitoring partitions a16.580334s publication envelope; three post-warmup cache hits66.478/65.443/65.496ms start no workers. Ranked phases and combined read/decode, writing/orchestration categories are explicit. Prior browser/build receipts retain original epochs. No per-stage RSS/physical-I/O or aggregate disk-highwater guarantee; no full-railway/nativeFEA/266city extrapolation or measured-optimization claim. Failed probe initialization and earlier profiling attempts retained; no source edits/builds/native solves."
     },
     {
       "task_id": "T01",
@@ -105,7 +117,7 @@
       "status": "deferred-no-measured-hotspot",
       "resource_request": null,
       "resource_admission": "Per-execution receipts in docs/design-engine/v07-execution/evidence-index.json; no standing permission for new native runs.",
-      "outcome": "Existing RustGIS reused. No new geometry kernel commissioned without a measured bottleneck."
+      "outcome": "Existing RustGIS reused. No new geometry kernel commissioned without a measured bottleneck. Bounded phase baseline measures analytic geometry0.216s and planning geometry0.754s exclusive versus delivery4.058s and serialization3.602s; no additional geometry kernel justified by this workload."
     },
     {
       "task_id": "S01",
@@ -280,16 +292,17 @@
       "status": "partial-clean-software-scope-verified",
       "resource_request": null,
       "resource_admission": "Per-execution receipts in docs/design-engine/v07-execution/evidence-index.json; no standing permission for new native runs.",
-      "outcome": "All three required workflows pass3ba09cf9ac, including clean sparse install,311Python tests, Rust contracts andtwoJourneyA cases plusfreshv07comparison. Complete installed module lifecycle/railway scope remains open. Groupeddelivery+flatcompat/routing60checks pass; compactprofile53checks+realSamawahbrowserreplay+Baghdadexistingartifactverification pass. NoactualnativeERPassemblylifecycle claim. Retained-source regressions corrected:threeoriginaldossiers replayedonlyunderwholepinnedsourceepochs; original7gatefindings preservedviaauthenticatedarchive; currentstrictverificationstillrefusesstaleinputs. Allfive required/retained workflows pass exact952b7d953f (387selected Python tests;reconciled158+13subtests); laterR03/L01 code is checked at the a41 checkpoint below. Coordinator51delivery/scheduler/realpacket checks pass;4CIpathguards pass afterfixingmissing sparse testpatterns;3strengthened parity/refusal checks pass. R03/L01checkpointa41c280544 passes430Pythoncontracts(4optional skips),Rust48differential/compilationchecks(3optionalpacket skips),Workbench,ReconciledandnativeflatERPcompatibility. Sharedfoundstale currentpresentationpolicy deliveryproducerpin;entireDEFAULTS ASTandallpolicyvalues unchanged, pinrefreshedwithoutchanginghistoricalpackets.16analysis+5routingcheckspass. The presentation-policy Shared rerun is recorded below; exactpresentation-only edits now avoidunrelated retainedworkflows. FinalSharedmanualrun43229288557 passes7516359c40. Retainedtwin/motor/cellpublications haveonechangedbrakingbinding;all69/73/91originalsourcescooccurat946f1772540d07af85b57b0d13cac08a3293b140. Originalcheckerspass5.58/81.65/190.27s with0nativeprocesses;cell120/150CPUholds preservedbeforeexplicit300CPUretry. Currentstrictreadersunchanged; originalsource verification remainscurrent_source_valid=false."
+      "outcome": "All three required workflows pass3ba09cf9ac, including clean sparse install,311Python tests, Rust contracts andtwoJourneyA cases plusfreshv07comparison. Complete installed module lifecycle/railway scope remains open. Groupeddelivery+flatcompat/routing60checks pass; compactprofile53checks+realSamawahbrowserreplay+Baghdadexistingartifactverification pass. NoactualnativeERPassemblylifecycle claim. Retained-source regressions corrected:threeoriginaldossiers replayedonlyunderwholepinnedsourceepochs; original7gatefindings preservedviaauthenticatedarchive; currentstrictverificationstillrefusesstaleinputs. Allfive required/retained workflows pass exact952b7d953f (387selected Python tests;reconciled158+13subtests); laterR03/L01 code is checked at the a41 checkpoint below. Coordinator51delivery/scheduler/realpacket checks pass;4CIpathguards pass afterfixingmissing sparse testpatterns;3strengthened parity/refusal checks pass. R03/L01checkpointa41c280544 passes430Pythoncontracts(4optional skips),Rust48differential/compilationchecks(3optionalpacket skips),Workbench,ReconciledandnativeflatERPcompatibility. Sharedfoundstale currentpresentationpolicy deliveryproducerpin;entireDEFAULTS ASTandallpolicyvalues unchanged, pinrefreshedwithoutchanginghistoricalpackets.16analysis+5routingcheckspass. The presentation-policy Shared rerun is recorded below; exactpresentation-only edits now avoidunrelated retainedworkflows. FinalSharedmanualrun43229288557 passes7516359c40. Retainedtwin/motor/cellpublications haveonechangedbrakingbinding;all69/73/91originalsourcescooccurat946f1772540d07af85b57b0d13cac08a3293b140. Originalcheckerspass5.58/81.65/190.27s with0nativeprocesses;cell120/150CPUholds preservedbeforeexplicit300CPUretry. Currentstrictreadersunchanged; originalsource verification remainscurrent_source_valid=false. Checkpoint e2a7ef8055 passed 470 Python contracts (four optional skips), Rust, Workbench, reconciled research and twin/native placement controls. Its CI caught the pinned retired job command change and a stale variant replay. The retired block is restored byte-for-byte; 42 architecture tests pass. All three variants verify under the same 946 epoch in 24.43s; 29 boundary tests pass and current strict verification still refuses stale results. Correction checkpoint bce9d27892 passed 478 Python contracts (four optional skips); affected broader CI is tracked in the execution record. All five correction workflows pass exact bce9d27892. Final code8d1833f74c passes480 Python contracts (four optional skips) and full wheel/station current-contracts including its actual Samawah journey. Rust passes4f0a0ace7a; Workbench/reconciled pass e2a7ef8055; unchanged production Git objects are recorded, not relabelled. Known excluded-dossier hold is asserted early with payload integrity checked; strict verifier unchanged. Documentation index236maintainedfiles and771README checks pass; browser dependencies precede frontend tests. R01 bounded corridor baseline closed after exact byte/source and phase-accounting review; physical/module/nativeERP gaps remain."
     }
   ],
   "inventory": {
-    "free_bytes": 23848345600,
+    "free_bytes": 23306379264,
     "host_reserve_bytes": 21474836480,
     "threads_per_session": 3,
     "maximum_native_workers": 1,
-    "source_worktree": "Compact isolated evaluation working tree, about0.91GiB per-path allocation; sharedGit history separate; numerical outputs external and unrelated main edits preserved",
-    "maximum_analytic_workers": 2
+    "source_worktree": "About0.94GiB per-path allocated isolated source with small additional README-check inputs; sharedGit separate; numerical outputs external; unrelated main edits preserved.",
+    "maximum_analytic_workers": 2,
+    "free_bytes_source": "storage-closing-8d.json in the evidence index; point-in-time host observation, not reserved filesystem quota"
   },
   "candidate_boundary": {
     "published_reference": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",

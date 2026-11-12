@@ -5,6 +5,15 @@ research controls and remaining holds separately. v0.7 is in development; these
 results do not constitute a completed installed railway or a released v0.7.
 The [agent plan](../../plans/v0.7-agent-delivery-plan.md) remains the scope.
 
+The [closing software verification record](software-ci-final.json) pins code
+`8d1833f74c`: 480 selected Python tests pass (four optional skips), and the full
+wheel/station workflow passes its supported browser and Samawah journey. All
+five retained-method/shared correction workflows pass `bce9d27892`; earlier
+Rust, Workbench and reconciled results retain their own source identities, with
+unchanged production objects verified. R01 now has a reviewed bounded corridor
+baseline. The isolated source tree is about 0.94 GiB and the closing host reading
+has 21.71 GiB free; shared Git storage is separate.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
@@ -116,6 +125,24 @@ and independent stopping methods. Named 2,000 m controls require approximately
 current/voltage limits and repeated-duty temperature remain unknown. Valid
 synthetic map samples do not establish installed propulsion performance.
 
+The [bounded Samawah performance baseline](performance-baseline.json) now
+covers a fresh ordinary worker and three steady API cache hits. Its complete
+25,623,859-byte encoded result matches the retained control without exclusions;
+all 65 source bindings match. Read-only peer review confirmed the ordinary
+job status flow, untouched function implementations and exact phase accounting.
+The publication envelope took 16.58 seconds; exclusive delivery, serialization
+and business-draft time were 4.06, 3.60 and 2.72 seconds. Three post-warmup
+cache hits took 66.48, 65.44 and 65.50 ms with no additional worker starts.
+These are API retrievals, not full browser timings or recomputations.
+
+R01 is closed for this bounded corridor inventory. Read/decode and
+write/orchestration remain combined categories; per-stage RSS/physical I/O
+and aggregate scratch highwater are not established. Browser/build receipts
+retain their original epochs. Monitoring overhead is uncalibrated, the OS
+page cache was uncontrolled, and no optimization or all-workload claim is
+made. The failed probe initialization is preserved; both attempts used
+35.98 seconds and about 24.65 MB, with no builds or native solves.
+
 ## Integration still required
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
@@ -204,10 +231,44 @@ final-source Shared run `43229288557` passed on `7516359c40`; no duplicate run
 was launched. The same `7516359c40` checkpoint passed 447 Python tests
 (four optional skips), Rust contracts, Workbench and reconciled research.
 
+The later `e2a7ef8055` checkpoint passed 470 selected Python contracts (four
+optional skips), Rust contracts, Workbench, reconciled research and the twin
+workflow, including actual native placement controls. Its Shared guard caught
+an unintended edit to the pinned retired job; that entire job is restored byte
+for byte, preserving its original ordered command hash. The current-checkout
+job alone uses historical compact/line integrity checks. The twin architecture
+guard now checks the exact historical commands and separately requires native
+placement export/reopen tests after the pinned CAD install. All 42 architecture
+tests pass. A subsequent variant-publication hold is resolved by the explicit
+same-epoch check below; no original result was rewritten.
+The [production source comparison](production-source-e2-bce.json) confirms that
+the Rust, outline, Workbench, integration and GIS runner objects are unchanged
+between that checkpoint and `bce9d27892`. Prior CI retains its original commit.
+
+The later wheel-reference job passed its numerical, native-adapter and comparison
+contracts, then stopped because strict `./osr verify` correctly holds the
+excluded integrated dossier. Current CI now explicitly checks the documented
+workflow-source hold, all five false authority flags and absence of a published
+result. The reader verifies every declared payload before that first source
+hold; this does not claim currency or authenticate later source bindings. The
+actual packet check passed, and six unrelated/tampered/current/authority cases
+were rejected. The strict verifier remains unchanged.
+
+Those checks, documentation and frontend contracts now precede expensive
+wheel tests. The generated index was rebuilt for 236 maintained documents;
+the local README check passes for 771 materialized files. Index-only changes run in the bounded lane before
+dependency installation, using the existing Markdown policy and one batched
+sparse expansion. A fresh local-Git test used 2,072,576 allocated bytes and
+0.40 seconds; no cold-network timing claim is made. Seven routing and 42
+architecture tests pass. [Production source objects](production-source-e2-4f.json)
+remain unchanged from `e2a7ef8055` through correction `4f0a0ace7a`.
+
 The owned evaluation working tree was then reduced from 8.45 GiB to about
 0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
 city inputs. Shared Git storage is separate. Reflink sharing kept host free space
-around 22.4 GiB. In that compact tree, 53 focused tests and the actual Samawah
+around 22.4 GiB during that checkpoint. The final owned bytecode cleanup removed
+83 generated files (2.22 MiB logical bytes), leaving 21.81 GiB free; this does not
+claim exclusive physical reclamation for shared/reflink data. In that compact tree, 53 focused tests and the actual Samawah
 browser replay passed; Baghdad's existing source-bound packet also verified with
 zero new calculations. The browser reused eligible jobs: its 11.22-second first
 click is not a cold calculation, and its warm repeat took 1.69 seconds.
@@ -253,6 +314,13 @@ solve. All passed in 81.65, 190.27 and 5.58 seconds respectively. Two earlier
 cell attempts hit their 120/150-second CPU limits and remain preserved. The
 successful cell request explicitly used 300 CPU/360 wall seconds; no model,
 tolerance or original input changed.
+
+The same original epoch also verifies the three retained wayside variants.
+All 73 declared source bindings and three payloads were independently
+authenticated. The unchanged original variant checker passed in 24.43 seconds;
+the current strict reader still rejects the stale reference result. There was
+no field/native solve or new operating-map evidence. Twenty-nine boundary
+tests pass after integration.
 
 The coordinator lives outside calculation-source discovery at
 `tools/automation/verify_retained_publications.py`. It authenticates the exact
