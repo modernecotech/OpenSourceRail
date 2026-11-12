@@ -40,3 +40,20 @@ def test_dwell_change_does_not_move_geometry_and_duplicate_stop_is_refused():
     assert feature['attrs'][-1]=={'Float':36.}
     native['maps'][0]['layers'][0]['dataset']['features']*=2
     with pytest.raises(ValueError,match='once'):runner.edit_station(native,base,'midpoint','dwell',None)
+
+
+def test_generic_corridor_selection_uses_its_own_interior_station():
+    native,base=fixture()
+    base['lines'][0]['id']='baghdad-corridor'
+    base['lines'][0]['stops']=[{'id':'start','chainage_m':0.,'dwell_s':35.},
+        {'id':'midpoint','chainage_m':10.,'dwell_s':35.},{'id':'end','chainage_m':20.,'dwell_s':35.}]
+    assert runner.select_station(base,'baghdad','baghdad-corridor')=='midpoint'
+    edited,change=runner.edit_station(native,base,'midpoint','dwell',None,'baghdad-corridor')
+    stops=deepcopy(base['lines'][0]['stops']);stops[1]['dwell_s']=36.
+    request={'edit_bundle':{'edits':[{'kind':'replace-line-geometry','line':'baghdad-corridor',
+        'coordinates':base['lines'][0]['coordinates'],'stops':stops}]}}
+    runner.validate_edit(request,base,'midpoint','dwell',change,'baghdad-corridor')
+    request['edit_bundle']['edits'][0]['line']='unrelated-line'
+    with pytest.raises(ValueError,match='alignment'):runner.validate_edit(request,base,'midpoint','dwell',change,'baghdad-corridor')
+    with pytest.raises(ValueError,match='corridor'):runner.select_station(base,'baghdad','wrong-line')
+    with pytest.raises(ValueError,match='station'):runner.select_station(base,'baghdad','baghdad-corridor','wrong-stop')

@@ -4,10 +4,10 @@ from copy import deepcopy
 import hashlib,json,os,resource,shutil,subprocess,sys,time,zipfile
 from pathlib import Path
 
-def edit_station(project,base,stop,kind,point_at):
+def edit_station(project,base,stop,kind,point_at,line_id="line-1"):
     """Change one actual native station, with source proxies kept consistent."""
     project=deepcopy(project)
-    line=next(x for x in base['lines'] if x['id']=='line-1')
+    line=next(x for x in base['lines'] if x['id']==line_id)
     station=next(x for x in line['stops'] if x['id']==stop)
     if kind=='station-move':
         chainage=station['chainage_m']+1.
@@ -29,12 +29,12 @@ def edit_station(project,base,stop,kind,point_at):
     return project,dict(kind=kind,stop=stop,values=values)
 
 
-def validate_edit(request,base,stop,kind,change):
+def validate_edit(request,base,stop,kind,change,line_id="line-1"):
     """Require unchanged alignment and all other station fields."""
     edits=request['edit_bundle']['edits']
     if len(edits)!=1:raise ValueError('Exactly one native station revision required')
-    edit=edits[0];line=next(x for x in base['lines'] if x['id']=='line-1')
-    if edit['kind']!='replace-line-geometry' or edit['coordinates']!=line['coordinates']:
+    edit=edits[0];line=next(x for x in base['lines'] if x['id']==line_id)
+    if edit.get('line',line_id)!=line_id or edit['kind']!='replace-line-geometry' or edit['coordinates']!=line['coordinates']:
         raise ValueError('Station-only edit must preserve alignment coordinates')
     expected=[{k:x[k] for k in ('id','chainage_m','dwell_s')} for x in line['stops']]
     actual=deepcopy(edit['stops'])
@@ -49,11 +49,28 @@ def validate_edit(request,base,stop,kind,change):
     if actual!=expected:raise ValueError('Only the chosen station field may change')
 
 
+def select_station(base,city,line_id,stop=None):
+    line=next((x for x in base['lines'] if x['id']==line_id),None)
+    if line is None:raise ValueError('Exact selected corridor line required')
+    stops=line['stops']
+    if stop is not None:
+        if stop not in {x['id'] for x in stops}:raise ValueError('Exact selected station required')
+        return stop
+    midpoint='line-1-midpoint-s009339'
+    if city=='samawah' and midpoint in {x['id'] for x in stops}:return midpoint
+    candidates=[x for i,x in enumerate(stops[1:-1],1)
+                if stops[i+1]['chainage_m']-x['chainage_m']>1.1]
+    if not candidates:raise ValueError('Interior station with room for bounded one-metre move required')
+    return candidates[len(candidates)//2]['id']
+
+
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--root',type=Path,required=True);p.add_argument('--study-store',type=Path,required=True)
     p.add_argument('--study',required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--stop',default='line-1-midpoint-s009339');args=p.parse_args(argv)
+    p.add_argument('--city',default='samawah');p.add_argument('--line',default='line-1')
+    p.add_argument('--stop');p.add_argument('--budget-root',type=Path,help='Owned external run root for aggregate payload accounting')
+    args=p.parse_args(argv)
     root=args.root.resolve();out=args.output.absolute()
     assert not out.exists(),'Use a fresh output; preserve previous attempts'
     assert not out.resolve().is_relative_to(root),'External output required'
@@ -74,7 +91,8 @@ def main(argv=None):
     def budget():
         assert time.monotonic()-start<=600,'Native cycle total wall budget exhausted'
         assert shutil.disk_usage(out).free>=20*1024**3,'Host disk reserve exhausted'
-        size=allocated_payload(out)+max(0,allocated_payload(args.study_store)-prior_store_bytes)
+        size=(allocated_payload(args.budget_root) if args.budget_root is not None else
+              allocated_payload(out)+max(0,allocated_payload(args.study_store)-prior_store_bytes))
         assert size<=512*1024**2,'Native cycle output budget exceeded'
 
     def measured_native(arguments,directory,label):
@@ -83,7 +101,7 @@ def main(argv=None):
         value=original_native(arguments,directory,label);budget();return value
 
     adapter.native=measured_native
-    service=None;steps=[]
+    service=None;steps=[];chosen_stop=args.stop
     try:
         source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
         tool=adapter.lock_record();adapter.executable() # checksum admission, no install/download
@@ -96,20 +114,22 @@ def main(argv=None):
             with zipfile.ZipFile(result['archive']) as z:
                 manifest=json.loads(z.read('manifest.json'));raw=z.read(manifest['project'])
             packet,_,originals,_,_,binding=adapter.study_input(current,root=root,service=service)
+            assert packet['city']['slug']==args.city
             if steps:assert binding['reference_candidate_ids']==steps[0]['binding']['reference_candidate_ids']
             step=dict(study=current,export=result,packet_id=packet['packet_id'],binding=binding)
             steps.append(step)
             if index==2:break
             base=json.loads(originals['sources/planning.json'])
             from engineering.development_baseline import planning
+            if chosen_stop is None:chosen_stop=select_station(base,args.city,args.line)
             kind='station-move' if index==0 else 'dwell'
-            project,change=edit_station(json.loads(raw),base,args.stop,kind,planning._point_at)
+            project,change=edit_station(json.loads(raw),base,chosen_stop,kind,planning._point_at,args.line)
             edited=encoded(project);(out/f'edit-{index+1}.rgis').write_bytes(edited)
             reason='Bounded native midpoint '+kind+' sensitivity'
             request,check=revision.build_request(edited,raw,base,binding,actor='v07-native-cycle',
                 reason=reason,data_crs='EPSG:4326')
-            validate_edit(request,base,args.stop,kind,change)
-            assert not check['no_op'] and check['changed_lines']==['line-1']
+            validate_edit(request,base,chosen_stop,kind,change,args.line)
+            assert not check['no_op'] and check['changed_lines']==[args.line]
             # The edit is programmatic .rgis data, not a GUI interaction. Prove
             # the actual native reader can reopen it before canonical import.
             native_check_dir=out/f'edited-reopen-{index+1}';native_check_dir.mkdir()
@@ -121,7 +141,7 @@ def main(argv=None):
             expected=[dict(feature,properties={k:v for k,v in feature['properties'].items() if k!=adapter.INDEX})
                 for feature in sorted(decoded['features'],key=lambda x:x['properties'][adapter.INDEX])]
             edited_roundtrip=adapter.check_roundtrip({'features':expected},json.loads(station_file.read_bytes()))
-            record=revision.import_project(edited,'samawah',packet['packet_id'],actor='v07-native-cycle',
+            record=revision.import_project(edited,args.city,packet['packet_id'],actor='v07-native-cycle',
                 reason=reason,data_crs='EPSG:4326',
                 root=root,study_id=current,service=service,store=out/'imports')
             verified=revision.verify_import(out/'imports'/record['import_id'],root=root)
@@ -135,11 +155,11 @@ def main(argv=None):
         assert len(steps)==3 and len({x['study'] for x in steps})==3
         assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()==source,'Source revision changed during native run'
         assert not subprocess.check_output(['git','status','--porcelain'],cwd=root).strip(),'Source checkout changed during native run'
-        report=dict(schema='osr-v07-native-gis-cycle/1',source_commit=source,runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),tool=tool,steps=steps,
+        report=dict(schema='osr-v07-native-gis-cycle/1',city=args.city,line_id=args.line,stop_id=chosen_stop,source_commit=source,runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),tool=tool,steps=steps,
             native_calls=native_calls,total_wall_s=time.monotonic()-start,
             maximum_child_rss_kib=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,
             actual_isolation='Existing adapter prlimit CPU/address-space and subprocess timeout; no aggregate filesystem quota or added OS sandbox',
-            physical_accepted=False,result='pass-for-native-two-edit-Samawah-cycle')
+            physical_accepted=False,result='pass-for-native-two-edit-'+args.city+'-cycle')
         (out/'report.json').write_bytes(encoded(report));print(json.dumps({'result':report['result'],'native_calls':len(native_calls),'output':str(out)}))
     except BaseException as exc:
         (out/'failure.json').write_bytes(encoded(dict(error=type(exc).__name__+': '+str(exc),
