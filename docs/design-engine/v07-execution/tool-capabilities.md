@@ -18,6 +18,13 @@ The door blank is not an installed operator: mating transforms, holes, controlle
 
 The JSON records actual process limits and their scope. Disk admission and observations are not aggregate filesystem quotas. Native runs require separate admission, a 20 GiB reserve and immutable inputs/outputs. This documentation caused no new native execution, download or installation change.
 
-Archive sizes are **102,988,905 bytes SolidCraft**, **88,085,070 bytes FieldCraft** and **62,384,470 bytes RustGIS**. These are download sizes. Installed sizes remain unmeasured, except the existing FreeCAD receipt reports approximately 1.3 GB for the app; its shared KDE runtime is additional and unmeasured. No blanket installation-size comparison is justified.
+Archive sizes are **102,988,905 bytes SolidCraft**, **88,085,070 bytes FieldCraft** and **62,384,470 bytes RustGIS**. These are download sizes. Read-only, hash-verified distribution inventories measured the installed regular files below. Retained archives, launcher registrations and system/shared runtimes are excluded. Allocation means `stat.st_blocks × 512`, which is not exclusive physical ownership on reflink filesystems. The existing FreeCAD receipt reports approximately 1.3 GB for the app; its shared KDE runtime is additional and unmeasured. Other tool footprints remain unknown.
+
+| Tool | Installed logical bytes | Allocated regular-file bytes |
+| --- | ---: | ---: |
+| solidcraft | 257,120,051 | 257,159,168 |
+| fieldcraft | 232,049,616 | 232,083,456 |
+| rustgis | 177,305,749 | 177,328,128 |
+
 
 Retirement gates are operation-specific: inventory active consumers, demonstrate compatible replacement semantics and independent controls, preserve historical retrieval/replay, update installation instructions, then remove only the obsolete consumer or installer. The existing inventory contains textual references, which alone do not prove a mandatory dependency. T01/D01 remain partial until the unknown operation domains, footprints and consumer migrations are closed.

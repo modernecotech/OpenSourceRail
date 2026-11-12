@@ -65,6 +65,12 @@
       "sha256": "74fc9fbcd21028ce48c410a3c11fbe7badc282203b00baa9a323163089eeb49d",
       "bytes": 71814,
       "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "footprints": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-execution-20261112/tool-footprints-01.json",
+      "sha256": "031ed13e74cc735e4e9d7d8bc8cddac0d55908714f9ac10206eda3284b9d1f75",
+      "bytes": 25094,
+      "retrieval": "Existing local read-only footprint receipt; not a release asset"
     }
   },
   "paths": [
@@ -105,14 +111,17 @@
       },
       "footprint": {
         "download_archive_bytes": 102988905,
-        "installed_bytes": null,
-        "installed_reported": null,
+        "installed_bytes": 257120051,
+        "installed_reported": "Read-only hashed distribution inventory; regular-file bytes only; retained archives and external/shared runtimes excluded",
         "shared_runtime_bytes": null,
-        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+        "measurement": "Regular-file logical and stat.st_blocks*512 bytes; per-path and unique-inode allocation are not exclusive physical ownership on reflink/compressed filesystems. Directory and symlink metadata is listed separately and excluded from regular-file totals.",
+        "installed_allocated_bytes": 257159168,
+        "installed_per_path_allocated_bytes": 257159168
       },
       "evidence": [
         "door",
-        "door_freecad"
+        "door_freecad",
+        "footprints"
       ],
       "deprecation_decision": "Use for this scoped path; do not remove other CAD consumers",
       "outstanding_gates": [
@@ -161,15 +170,18 @@
       },
       "footprint": {
         "download_archive_bytes": 88085070,
-        "installed_bytes": null,
-        "installed_reported": null,
+        "installed_bytes": 232049616,
+        "installed_reported": "Read-only hashed distribution inventory; regular-file bytes only; retained archives and external/shared runtimes excluded",
         "shared_runtime_bytes": null,
-        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+        "measurement": "Regular-file logical and stat.st_blocks*512 bytes; per-path and unique-inode allocation are not exclusive physical ownership on reflink/compressed filesystems. Directory and symlink metadata is listed separately and excluded from regular-file totals.",
+        "installed_allocated_bytes": 232083456,
+        "installed_per_path_allocated_bytes": 232083456
       },
       "evidence": [
         "fea_plan",
         "fea_result",
-        "fea_supervision"
+        "fea_supervision",
+        "footprints"
       ],
       "deprecation_decision": "Retain opt-in; no global replacement of structural consumers",
       "outstanding_gates": [
@@ -373,15 +385,18 @@
       },
       "footprint": {
         "download_archive_bytes": 62384470,
-        "installed_bytes": null,
-        "installed_reported": null,
+        "installed_bytes": 177305749,
+        "installed_reported": "Read-only hashed distribution inventory; regular-file bytes only; retained archives and external/shared runtimes excluded",
         "shared_runtime_bytes": null,
-        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+        "measurement": "Regular-file logical and stat.st_blocks*512 bytes; per-path and unique-inode allocation are not exclusive physical ownership on reflink/compressed filesystems. Directory and symlink metadata is listed separately and excluded from regular-file totals.",
+        "installed_allocated_bytes": 177328128,
+        "installed_per_path_allocated_bytes": 177328128
       },
       "evidence": [
         "gis_samawah",
         "gis_baghdad",
-        "inventory"
+        "inventory",
+        "footprints"
       ],
       "deprecation_decision": "Select this demonstrated route; retain QGZ interchange readers; no generic GIS retirement claim",
       "outstanding_gates": [
