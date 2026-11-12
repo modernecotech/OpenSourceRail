@@ -57,6 +57,10 @@ The remaining workstreams below remain open.
 The [agent delivery and tool migration plan](plans/v0.7-agent-delivery-plan.md)
 assigns bounded work to agents and subagents, with Rust migration benchmarks,
 CAD/FEA/GIS promotion criteria, legacy retirement gates and resource budgets.
+The [execution record](design-engine/v07-execution/README.md) now contains the
+verified two-worker improvement, opt-in Rust scheduler, fresh CAD/FEA controls,
+native Samawah/Baghdad cycles and clean-install CI evidence. Its task ledger
+keeps the remaining installed-candidate, detailed module and lifecycle work open.
 
 ## v0.7 delivery workstreams
 

@@ -86,7 +86,9 @@ does not label it cold execution. Stores inside the source checkout are refused.
 
 ## Next integrated work
 
-This closes the first comparison milestone, not the v0.7 programme. Next bind
+This closes the first comparison milestone, not the v0.7 programme. Subsequent
+native city cycles, project invalidation, counted door views and performance
+work are recorded in the [execution update](../v07-execution/README.md). Next bind
 one installed six-car candidate, representative civil/station assembly and door
 operator to this project, then complete their detailed interfaces, controlled
 manufacturing/QA/removal package, native GIS return path, ERPNext/FUXA lifecycle

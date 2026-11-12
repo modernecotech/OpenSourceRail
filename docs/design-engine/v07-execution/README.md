@@ -22,6 +22,10 @@ seconds with one worker, a 32.27% reduction. Exact numerical metrics and all
 fourteen cost scopes matched. Warm repeats took about 1.7 seconds. This is one
 pair per mode on one host, not a general performance guarantee. Reservations
 are cooperative; they are not an aggregate filesystem quota.
+Nine retained engineering workflow filters now exclude isolated changes to the
+new force-gap report and execution receipts. Core vehicle/physics changes still
+trigger their existing jobs; mixed report/core changes are covered by regression
+checks. No solver job definition was removed.
 
 The profiled delivery scheduling kernel has a source/tool/binary-verified Rust
 implementation. Twenty-four actual before/after low/base/high comparisons
@@ -35,7 +39,12 @@ Native GIS uses external import custody and verified parent planning snapshots.
 Samawah and Baghdad each completed a headless native station edit, canonical
 import, repricing, refreshed native export and second dwell edit. These are
 programmatic `.rgis` edits reopened by the native application, not GUI tests.
-Each record retains its actual source revision. The Samawah failed attempts
+The final acceptance used source `3ba09cf9ac` for both cities: eight native calls
+each, 41.18 seconds for Samawah and 103.67 seconds for Baghdad. Eligible city
+calculations were reused with their original identities; native executions and
+export receipts were fresh. All other four Samawah and thirteen Baghdad lines
+retained exact protected geometry and assumptions. Each record retains its
+actual source revision. The Samawah failed attempts
 (dwell projection and parent lookup) and Baghdad terminal-chainage failure
 remain preserved alongside the fixes and successful runs.
 
@@ -47,6 +56,17 @@ SolidCraft generated and reopened a representative header stock blank, including
 STEP export; independent FreeCAD import reproduced the solid geometry. The
 blank is not a fully detailed, installed door operator. STEP lost material/source
 metadata, so the source sidecar remains required.
+
+The existing installed-layout generator was also run analytically against current
+sources. Physical child `17ce7a…` stayed unchanged; evaluation
+`123896d4014fd00bc11fc755f132aa8769ebfd217f06d6f34b2fe8342d62c4f1` is new.
+All 74 operator definitions and expanded counts match the manufacturing parent.
+A compact one-opening attachment retains proposed transforms and instructions.
+Eleven operator types still occupy the same generic header-centre zone, and a
+2 m route envelope does not represent the full 2.9 m guide stock. These are
+specific assembly-design gaps; copying those coordinates into accepted installed
+fields would not resolve them. The regeneration took 12.59 seconds, used about
+133 MiB peak RSS and executed no native tool.
 
 Civil controls derive 24 axle positions from the six-car reference and keep
 normal 46-person and crowd 160-person cases distinct. The fresh normal 3D
@@ -106,6 +126,18 @@ records exact receipt bytes, hashes and locations; it is not an online artifact
 store. Existing source-bound records retain their original identities. Failed
 and interrupted attempts are retained. Repository changes were integrated from
 isolated worktrees while preserving unrelated user changes in the main checkout.
+
+All three required software workflows passed on `3ba09cf9ac`:
+[311 Python tests](https://github.com/modernecotech/OpenSourceRail/actions/runs/43202814038),
+[Rust contracts and scheduler parity](https://github.com/modernecotech/OpenSourceRail/actions/runs/43202813880),
+and the [clean Workbench installation and journeys](https://github.com/modernecotech/OpenSourceRail/actions/runs/43202814101).
+That clean sparse checkout installed SciPy, npm dependencies and Chromium;
+it ran frontend contracts, two retained Journey A cases and the new station
+comparison. Its new comparison took 16.84 seconds cold and 0.94 seconds warm on
+the CI host, which is separate from the controlled local worker comparison.
+The [CI record](clean-software-ci.json) includes artifact IDs and download digests.
+This verifies the supported software slice, not the missing module lifecycle
+or a complete v0.7 release.
 
 Use the existing [Samawah comparison instructions](../v07-project-continuity/README.md)
 for the browser entry point. New bounded native runs require a clean source
