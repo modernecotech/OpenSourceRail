@@ -156,6 +156,11 @@ def test_literal_assumptions_match_pinned_producers():
         found=[n.value for n in ast.walk(tree) if isinstance(n,ast.keyword) and n.arg==key]
         assert len(found)==1
         assert ast.literal_eval(found[0])==p['staffing'][key]
+    from engineering.outline.delivery_plan import DEFAULTS
+    for key, value in p['delivery'].items():
+        if key not in ('source', 'source_sha256', 'basis'):
+            assert key in DEFAULTS
+            assert value == DEFAULTS[key]
 
 
 def test_current_samawah_authenticated_fixture_sample():
