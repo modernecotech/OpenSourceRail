@@ -152,8 +152,11 @@ jobs:
           PYCODE
           df -h "$GITHUB_WORKSPACE"
           echo "$PWD/build/twin-tools/freecad/bin" >> "$GITHUB_PATH"
-      - name: Verify current semantic packets and reopen published IFC, CAD and STEP
-        run: ./osr-twin verify-publication
+      - name: Authenticate retained twin in its original source epoch; no native replay
+        run: |
+          git fetch --no-tags --depth=1 --filter=blob:none origin 946f1772540d07af85b57b0d13cac08a3293b140
+          .venv/bin/python -m engineering.railway_twin.retained prefetch twin
+          .venv/bin/python -m engineering.railway_twin.retained verify twin --state "$RUNNER_TEMP/osr-retained-twin-check"
       - name: Exercise native translation and single-object placement regressions
         run: OSR_RUN_NATIVE_TWIN_TEST=1 .venv/bin/python -m pytest -q engineering/railway_twin/tests/test_geometry.py -k actual_native
       - name: Execute a fresh bounded candidate request
@@ -163,6 +166,9 @@ jobs:
         with:
           name: v06-digital-twin-methods-not-physical-qualification
           path: |
+            ${{ runner.temp }}/osr-retained-twin-check/receipt.json
+            ${{ runner.temp }}/osr-retained-twin-check/stdout.json
+            ${{ runner.temp }}/osr-retained-twin-check/stderr.txt
             build/twin-ci/
             build/twin-tools/*.download.json
             build/twin-tools/*.attempts/*.json
