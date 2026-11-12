@@ -56,6 +56,8 @@ jobs:
       MKL_NUM_THREADS: "1"
     steps:
       - uses: actions/checkout@v4
+        with:
+          filter: blob:none
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -72,11 +74,42 @@ jobs:
           components: rustfmt,clippy
       - run: python -m venv .venv
       - run: .venv/bin/pip install --no-cache-dir pytest numpy==2.3.5 --requirement engineering/requirements.txt
-      - name: Authenticate both complete research dossiers without new CAD or FEM
+      - name: Fetch only pinned retained source epochs
         run: |
-          ./osr design closure verify
-          ./osr design closure verify --output docs/design-engine/reconciled-pilot-no-store
-          ./osr design closure verify --output docs/design-engine/reconciled-pilot-bogie-detail
+          git fetch --no-tags --depth=1 --filter=blob:none origin f990fc24ba9c1c2adcd8afb4456ded5c4753209a
+          git fetch --no-tags --depth=1 --filter=blob:none origin 49e095ba5751706c4dcd51f25dfd8f1b728bd20e
+          git fetch --no-tags --depth=1 --filter=blob:none origin e254e4d3a70c82c54964a5f54df140e92d53fb5d
+      - name: Prefetch bounded source and publication blobs explicitly
+        run: |
+          .venv/bin/python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          from engineering.railway_closure.retained import tree, MAX_SOURCE_BYTES
+          packets = (
+              ('reconciled-pilot', 'f990fc24ba9c1c2adcd8afb4456ded5c4753209a'),
+              ('reconciled-pilot-no-store', '49e095ba5751706c4dcd51f25dfd8f1b728bd20e'),
+              ('reconciled-pilot-bogie-detail', 'e254e4d3a70c82c54964a5f54df140e92d53fb5d'),
+          )
+          for packet, revision in packets:
+              prefix = 'docs/design-engine/' + packet + '/'
+              entries = tree(Path.cwd(), revision)
+              sources = json.loads(Path(prefix, 'manifest.json').read_bytes())['source_sha256']
+              delivery = Path(prefix, 'delivery/manifest.json')
+              if delivery.is_file():
+                  sources.update(json.loads(delivery.read_bytes())['source_sha256'])
+              names = set(sources) | {n for n in entries if n.startswith(prefix) or
+                  (n.endswith('.py') and n.startswith(('engineering/', 'services/integration/')))}
+              names.update(n for n in ('engineering/design_search/craft_backends/tools.json',) if n in entries)
+              assert sum(entries[n][3] for n in names) <= MAX_SOURCE_BYTES
+              subprocess.run(['git', 'cat-file', '--batch'],
+                  input=('\n'.join(entries[n][2] for n in sorted(names))+'\n').encode(),
+                  stdout=subprocess.DEVNULL, check=True, timeout=120)
+          PY
+      - name: Authenticate retained research dossiers in their original source epochs without new CAD or FEM
+        run: |
+          ./osr design closure verify --retained-source f990fc24ba9c1c2adcd8afb4456ded5c4753209a
+          ./osr design closure verify --output docs/design-engine/reconciled-pilot-no-store --retained-source 49e095ba5751706c4dcd51f25dfd8f1b728bd20e
+          ./osr design closure verify --output docs/design-engine/reconciled-pilot-bogie-detail --retained-source e254e4d3a70c82c54964a5f54df140e92d53fb5d
           .venv/bin/python tools/publish_recovery_economics.py verify --packet docs/design-engine/recovery-economics
           .venv/bin/python tools/publish_powered_bogie_detail.py verify --packet docs/design-engine/powered-bogie-detail
       - name: Vehicle, wheel/rail, civil, service, costs and real serving contracts

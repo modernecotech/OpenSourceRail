@@ -13,9 +13,14 @@ def main():
     pub=sub.add_parser('publish');pub.add_argument('--run',type=Path,required=True);pub.add_argument('--output',type=Path)
     pub.add_argument('--native-cad-evidence',type=Path)
     check=sub.add_parser('verify');check.add_argument('--output',type=Path)
+    check.add_argument('--retained-source',help='Explicit original full Git commit; historical verification only, never current-valid')
+    check.add_argument('--state',type=Path,help='External temporary source replay parent')
     args=p.parse_args()
     if args.command=='run':result=coordinator.run(args.output,with_recovery=not args.without_recovery,reuse_native=args.reuse_native,bogie_detail=args.bogie_detail)
     elif args.command=='publish':result=publication.publish(args.run,output=args.output,native_cad_evidence=args.native_cad_evidence)
+    elif args.retained_source:
+        from . import ROOT,retained
+        result=retained.verify(root=ROOT,output=ROOT/publication.OUTPUT if args.output is None else args.output,source_revision=args.retained_source,state=args.state)
     else:result=publication.verify(output=args.output)
     print(json.dumps(result,indent=2))
 
