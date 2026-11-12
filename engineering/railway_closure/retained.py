@@ -10,6 +10,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -128,7 +129,11 @@ def verify(*, root, output, source_revision, state=None):
             raise ValueError('Original retained artifact bytes/size differ')
     for name, data in blobs(root, entries, payload_names):
         relative = name[len(prefix)+1:]
-        with (out / relative).open('rb') as stream:
+        descriptor = os.open(out / relative, os.O_RDONLY | os.O_NOFOLLOW)
+        with os.fdopen(descriptor, 'rb') as stream:
+            info = os.fstat(stream.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_size != len(data):
+                raise ValueError('Original retained artifact bytes/size differ')
             if stream.read(len(data)+1) != data:
                 raise ValueError('Original retained artifact bytes differ')
         if relative in ('manifest.json', 'delivery/manifest.json'):
