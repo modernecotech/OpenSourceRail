@@ -206,7 +206,7 @@ class Handler(BaseHTTPRequestHandler):
 
 class WorkbenchHTTPServer(ThreadingHTTPServer):
     def __init__(self, address, handler, *, root, city_study_store=None,
-                 trip_store=None,city_study_workers=1,city_resource_ledger=None):
+                 trip_store=None,city_study_workers=2,city_resource_ledger=None):
         from engineering.trip_dynamics.interactive import TripService
         from engineering.outline.city_jobs import CityStudyService
         from engineering.outline.city_resources import DEFAULT_LEDGER
@@ -243,14 +243,14 @@ class WorkbenchHTTPServer(ThreadingHTTPServer):
 
 
 def make_server(root=ROOT, host='127.0.0.1', port=8090,
-                city_study_store=None, trip_store=None,city_study_workers=1,city_resource_ledger=None):
+                city_study_store=None, trip_store=None,city_study_workers=2,city_resource_ledger=None):
     return WorkbenchHTTPServer((host, port), partial(Handler, root=root), root=root,
         city_study_store=city_study_store,trip_store=trip_store,
         city_study_workers=city_study_workers,city_resource_ledger=city_resource_ledger)
 
 
 def serve(root=ROOT, host='127.0.0.1', port=8090, open_browser=False,
-          city_study_store=None, trip_store=None,city_study_workers=1,city_resource_ledger=None):
+          city_study_store=None, trip_store=None,city_study_workers=2,city_resource_ledger=None):
     server = make_server(root=root, host=host, port=port,
         city_study_store=city_study_store,trip_store=trip_store,
         city_study_workers=city_study_workers,city_resource_ledger=city_resource_ledger)
@@ -276,7 +276,7 @@ def main(argv=None, root=ROOT):
     parser.add_argument('--root', type=Path, default=Path(root), help=argparse.SUPPRESS)
     parser.add_argument('--city-study-store', type=Path,
         help='Optional bounded city-study output directory outside the source checkout')
-    parser.add_argument('--city-study-workers',type=int,choices=(1,2),default=1,
+    parser.add_argument('--city-study-workers',type=int,choices=(1,2),default=2,
         help='Maximum simultaneous bounded analytic city workers')
     parser.add_argument('--city-resource-ledger',type=Path,
         help='Optional shared external analytic-worker reservation ledger')

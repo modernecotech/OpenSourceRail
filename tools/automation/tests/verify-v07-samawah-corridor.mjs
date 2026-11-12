@@ -18,7 +18,7 @@ const started = performance.now();
 const source = git('rev-parse', 'HEAD');
 const python = process.env.OSR_PYTHON || join(root, '.venv/bin/python');
 const studyStore = resolve(process.env.OSR_CITY_STUDY_STORE || join(output, 'city-studies'));
-const maximumWorkers = process.env.OSR_CITY_STUDY_WORKERS || '1';
+const maximumWorkers = process.env.OSR_CITY_STUDY_WORKERS || '2';
 assert(['1', '2'].includes(maximumWorkers), 'One or two analytic workers required');
 const server = spawn(python, ['-B', '-u', '-m', 'engineering.development_baseline.server',
   '--root', root, '--host', '127.0.0.1', '--port', '0', '--no-browser',
