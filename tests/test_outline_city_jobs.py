@@ -122,6 +122,7 @@ def test_restarted_coordinator_marks_orphan_interrupted(service):
 def test_complete_cache_hit_requires_verified_artifacts(service,monkeypatch):
     s,ps=service;request=dict(city_slug='samawah');a=s.submit(request)
     folder=s._job(a['job_id'])/'artifacts';folder.mkdir()
+    (folder/'request.json').write_bytes((s._job(a['job_id'])/'request.json').read_bytes())
     (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
     monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
     ps[0][0].returncode=0
@@ -138,6 +139,7 @@ def test_complete_cache_hit_requires_verified_artifacts(service,monkeypatch):
 def test_restarted_completed_index_is_only_a_hint_and_skips_store_scans(service,monkeypatch):
     s,ps=service;request=dict(city_slug='samawah');started=s.submit(request)
     folder=s._job(started['job_id'])/'artifacts';folder.mkdir()
+    (folder/'request.json').write_bytes((s._job(started['job_id'])/'request.json').read_bytes())
     (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
     monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
     ps[0][0].returncode=0
@@ -156,6 +158,36 @@ def test_restarted_completed_index_is_only_a_hint_and_skips_store_scans(service,
         hit=replacement.submit(request)
         assert hit['job_id']==started['job_id'] and hit['cache_hit'] is True
         assert len(ps)==1
+    finally:replacement.close()
+
+
+def test_tampered_status_key_cannot_retarget_a_completed_artifact(service,monkeypatch):
+    s,ps=service
+    samawah=s.submit(dict(city_slug='samawah'))
+    folder=s._job(samawah['job_id'])/'artifacts';folder.mkdir()
+    (folder/'request.json').write_bytes((s._job(samawah['job_id'])/'request.json').read_bytes())
+    (folder/'summary.json').write_bytes(encoded(dict(calculation_complete=True)))
+    monkeypatch.setattr(s,'_verify',lambda p:dict(manifest_id='f'*64))
+    ps[0][0].returncode=0
+    assert s.status(samawah['job_id'])['state']=='completed'
+
+    baghdad=s.submit(dict(city_slug='baghdad'))
+    status_path=s._job(samawah['job_id'])/'status.json'
+    status=json.loads(status_path.read_bytes())
+    status['request_key']=baghdad['request_key']
+    status_path.write_bytes(encoded(status))
+    s.close()
+
+    replacement=jobs.CityStudyService(s.root)
+    monkeypatch.setattr(replacement,'_verify',lambda p:dict(manifest_id='f'*64))
+    try:
+        restarted=replacement.submit(dict(city_slug='baghdad'))
+        assert restarted['state']=='running'
+        assert restarted['job_id'] not in (samawah['job_id'],baghdad['job_id'])
+        assert restarted.get('cache_hit') is False
+        assert len(ps)==3
+        retained=json.loads(status_path.read_bytes())
+        assert retained['state']=='failed-integrity'
     finally:replacement.close()
 
 

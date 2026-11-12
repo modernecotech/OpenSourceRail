@@ -208,9 +208,14 @@ class CityStudyService:
                 status=self._poll(job_id)
                 if status.get('request_key')==key and status['state']=='completed':
                     try:
-                        self._verify(self._job(job_id)/'artifacts')
+                        artifacts=self._job(job_id)/'artifacts'
+                        self._verify(artifacts)
+                        retained_request=city_workflow.read_json(artifacts,'request.json')
+                        if encoded(retained_request)!=encoded(request):
+                            raise ValueError('Completed city study request does not match its indexed cache identity')
                         return dict(status,cache_hit=True)
-                    except (ValueError,KeyError,TypeError,OSError):pass
+                    except (ValueError,KeyError,TypeError,OSError) as exc:
+                        self._failed_integrity(job_id,str(exc))
             for job_id,record in self.jobs.items():
                 if record.get('finished'):continue
                 status=self._poll(job_id)

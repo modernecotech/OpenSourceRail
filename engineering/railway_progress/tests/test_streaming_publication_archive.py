@@ -1,7 +1,9 @@
 """The continuing publication archive is deterministic and streamed to disk."""
 import hashlib
 import fcntl
+import gzip
 import io
+import json
 import os
 import stat
 import tarfile
@@ -45,6 +47,30 @@ def test_streaming_archive_round_trips_deterministically(tmp_path, monkeypatch):
         assert all(member.mtime==member.uid==member.gid==0 and member.mode==0o644 for member in members)
         assert hashlib.sha256(tar.extractfile('cases/result.json.gz').read()).digest()==hashlib.sha256(payload).digest()
         assert tar.extractfile('latest.json').read()==b'{"schema":"fixture"}\n'
+
+
+def _consume_tar_and_finish(compressed_bytes):
+    with gzip.GzipFile(fileobj=io.BytesIO(compressed_bytes),mode='rb') as stream:
+        bounded=archive.BoundedReader(stream,1024**2)
+        with tarfile.open(fileobj=bounded,mode='r|') as tar:
+            assert list(tar)==[]
+        bounded.finish()
+
+
+def test_bounded_reader_requires_both_tar_end_blocks():
+    with pytest.raises(ValueError,match='Second TAR terminator block'):
+        _consume_tar_and_finish(gzip.compress(bytes(512),mtime=0))
+
+
+def test_bounded_reader_rejects_nonzero_bytes_after_tar_end_blocks():
+    with pytest.raises(ValueError,match='Nonzero data follows TAR end markers'):
+        _consume_tar_and_finish(gzip.compress(bytes(1024)+b'unsigned',mtime=0))
+
+
+def test_bounded_reader_consumes_and_checks_the_gzip_trailer():
+    damaged=bytearray(gzip.compress(bytes(1024),mtime=0));damaged[-8]^=1
+    with pytest.raises(gzip.BadGzipFile,match='CRC check failed'):
+        _consume_tar_and_finish(bytes(damaged))
 
 
 @pytest.mark.parametrize('target_kind',['file','directory'])
@@ -262,6 +288,18 @@ def test_publish_and_publication_reader_use_the_streamed_archive(tmp_path,monkey
 
     assert result['verified'] is True
     assert publication['files_sha256']['continuing-cell.tar.gz']
+
+    archive_path=output/'continuing-cell.tar.gz'
+    with archive_path.open('rb') as stream:raw=gzip.decompress(stream.read())
+    archive_path.write_bytes(gzip.compress(raw+b'unsigned trailing data',mtime=0))
+    manifest_path=output/'manifest.json'
+    manifest=json.loads(manifest_path.read_bytes())
+    with archive_path.open('rb') as stream:
+        manifest['files_sha256']['continuing-cell.tar.gz']=hashlib.sha256(stream.read()).hexdigest()
+    manifest['publication_id']=coordinator.identity({k:v for k,v in manifest.items() if k!='publication_id'})
+    manifest_path.write_bytes(coordinator.encoded(manifest))
+    with pytest.raises(ValueError,match='Nonzero data follows TAR end markers'):
+        coordinator.verify_publication(root=tmp_path,output=output)
 
 
 def test_publish_rejects_output_inside_run_before_creating_it(tmp_path,monkeypatch):

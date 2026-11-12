@@ -43,7 +43,8 @@ class BoundedReader:
     """Inspect TAR headers before tarfile can materialize control extensions."""
     def __init__(self,stream,maximum,maximum_read=1024**2):
         self.stream=stream;self.maximum=maximum;self.maximum_read=maximum_read
-        self.read_bytes=0;self.payload_remaining=0;self.member_bytes=0;self.ended=False
+        self.read_bytes=0;self.payload_remaining=0;self.member_bytes=0
+        self.ended=False;self.terminator_blocks=0;self.finished=False
     def _read_up_to(self,size):
         blocks=[];remaining=size
         while remaining:
@@ -63,6 +64,7 @@ class BoundedReader:
         self._account(header)
         if header==bytes(512):
             self.ended=True
+            self.terminator_blocks=1
             return header
         if header[156:157] not in (b'\0',b'0'):
             raise ValueError('TAR control or special member headers are not supported')
@@ -90,6 +92,25 @@ class BoundedReader:
                 if not block:raise ValueError('Truncated ordinary TAR member data')
                 self._account(block);output.extend(block);self.payload_remaining-=len(block)
         return bytes(output)
+    def finish(self):
+        """Require a complete TAR terminator and consume gzip through its trailer."""
+        if self.finished:return
+        if not self.ended or self.terminator_blocks!=1:
+            raise ValueError('TAR end marker was not observed')
+        second=self._read_up_to(512)
+        if len(second)!=512:
+            raise ValueError('Second TAR terminator block is missing or truncated')
+        self._account(second)
+        if second!=bytes(512):
+            raise ValueError('Second TAR terminator block is not zero-filled')
+        self.terminator_blocks=2
+        while True:
+            block=self.stream.read(self.maximum_read)
+            if not block:break
+            self._account(block)
+            if any(block):
+                raise ValueError('Nonzero data follows TAR end markers')
+        self.finished=True
 
 
 class BundleRollbackError(RuntimeError):

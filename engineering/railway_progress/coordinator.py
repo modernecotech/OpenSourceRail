@@ -316,6 +316,7 @@ def _verify_publication_locked(*,root,target):
                             if copied>member.size:raise ValueError('Bounded ordinary continuing archive required')
                             output_file.write(block)
                         if copied!=member.size:raise ValueError('Bounded ordinary continuing archive required')
+            bounded.finish()
         result=verify(temp,root=root)
         if result!=r['validation']:raise ValueError('Continuing publication semantic replay differs')
         index=_read(Path(temp)/'latest.json');expected=dict(schema='osr-continuing-cell-workbench/1',run_id=index['run_id'],cases=[x['summary'] for x in index['cases']],pending=index['pending'],**FLAGS)
