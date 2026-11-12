@@ -58,3 +58,14 @@ def test_workflow_uses_same_full_pins_for_fetch_prefetch_and_verify():
     pins=re.findall(r"[0-9a-f]{35,40}",workflow)
     assert len(pins)==9 and len(set(pins))==3
     assert all(len(pin)==40 and pins.count(pin)==3 for pin in pins)
+
+
+@pytest.mark.parametrize('filename',['manifest.json','payload'])
+def test_sparse_oversized_tamper_refused_before_payload_reads(packet,monkeypatch,filename):
+    root,out,rev=packet
+    with (out/filename).open('r+b') as stream:
+        stream.truncate(1024**4)
+    def forbidden(*args,**kwargs):raise AssertionError('Unbounded payload read')
+    monkeypatch.setattr(Path,'read_bytes',forbidden)
+    with pytest.raises(ValueError,match='bytes/size'):
+        r.verify(root=root,output=out,source_revision=rev)

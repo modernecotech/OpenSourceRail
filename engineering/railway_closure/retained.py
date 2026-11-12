@@ -105,14 +105,6 @@ def verify(*, root, output, source_revision, state=None):
     out = Path(output).absolute()
     if any(p.is_symlink() for p in (out, *out.parents)) or not out.is_dir():
         raise ValueError('Ordinary retained publication required')
-    manifest = json.loads((out / 'manifest.json').read_bytes())
-    sources = dict(manifest['source_sha256'])
-    delivery_manifest = out / 'delivery/manifest.json'
-    if delivery_manifest.is_file():
-        for name, digest in json.loads(delivery_manifest.read_bytes())['source_sha256'].items():
-            if name in sources and sources[name] != digest:
-                raise ValueError('Nested historical source epoch conflicts')
-            sources[name] = digest
     # The caller's explicit Git pin is the trust input, never a live-file fallback.
     entries = tree(root, source_revision)
     try:
@@ -128,9 +120,26 @@ def verify(*, root, output, source_revision, state=None):
             actual_payload.add(path.relative_to(out).as_posix())
     if actual_payload != expected_payload:
         raise ValueError('Original retained artifact inventory differs')
-    for name, data in blobs(root, entries, [prefix + '/' + n for n in actual_payload]):
-        if (out / name[len(prefix)+1:]).read_bytes() != data:
-            raise ValueError('Original retained artifact bytes differ')
+    authenticated = {}
+    payload_names = [prefix + '/' + n for n in actual_payload]
+    # Refuse oversized/sparse tampering before reading any working-tree payload.
+    for name in payload_names:
+        if (out / name[len(prefix)+1:]).stat().st_size != entries[name][3]:
+            raise ValueError('Original retained artifact bytes/size differ')
+    for name, data in blobs(root, entries, payload_names):
+        relative = name[len(prefix)+1:]
+        with (out / relative).open('rb') as stream:
+            if stream.read(len(data)+1) != data:
+                raise ValueError('Original retained artifact bytes differ')
+        if relative in ('manifest.json', 'delivery/manifest.json'):
+            authenticated[relative] = data
+    manifest = json.loads(authenticated['manifest.json'])
+    sources = dict(manifest['source_sha256'])
+    if 'delivery/manifest.json' in authenticated:
+        for name, digest in json.loads(authenticated['delivery/manifest.json'])['source_sha256'].items():
+            if name in sources and sources[name] != digest:
+                raise ValueError('Nested historical source epoch conflicts')
+            sources[name] = digest
     # Recover import closure only from this same commit. Every declared source,
     # including data and Rust files, is independently checked against its SHA256.
     names = set(sources)
@@ -170,6 +179,6 @@ def verify(*, root, output, source_revision, state=None):
         **{k: False for k in AUTHORITY_FLAGS},
         source_revision=source_revision, source_files=len(sources),
         recovered_context_files=len(names), recovered_context_bytes=size,
-        original_manifest_sha256=hashlib.sha256((out/'manifest.json').read_bytes()).hexdigest(),
+        original_manifest_sha256=hashlib.sha256(authenticated['manifest.json']).hexdigest(),
         verification_scope='original artifact bytes, whole source epoch and unchanged original checker; no new native execution',
         isolation='isolated Python imports, resource limits and cooperative process guard; not an OS sandbox')
