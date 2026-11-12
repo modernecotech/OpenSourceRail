@@ -124,7 +124,9 @@ without claiming physical qualification.
 ## Tool migration and replay
 
 The [consumer inventory](tool-inventory.json) records pinned tools and source
-consumers. The light door CAD path uses SolidCraft; FreeCAD is an optional
+consumers. The [operation matrix](tool-capabilities.md) records supported,
+unsupported and untested domains, entry points, resource limits, installation
+size unknowns and individual retirement decisions. The light door CAD path uses SolidCraft; FreeCAD is an optional
 independent control. RustGIS supplies the demonstrated native return path.
 QGIS is not required to run that path; retained lightweight project readers
 remain useful. Gmsh is still required for the demonstrated conformal meshes,
