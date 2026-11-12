@@ -9,8 +9,10 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path, PurePosixPath
 import re
+import stat
 import subprocess
 
 from .release_gate import STATUS
@@ -30,10 +32,11 @@ def _path(value: str) -> str:
 
 def _git(root: Path, revision: str, path: str) -> bytes:
     spec = f'{revision}:{_path(path)}'
-    size = int(subprocess.check_output(['git', '-C', str(root), 'cat-file', '-s', spec]))
+    environment = dict(os.environ, GIT_NO_REPLACE_OBJECTS='1', GIT_NO_LAZY_FETCH='1')
+    size = int(subprocess.check_output(['git', '-C', str(root), 'cat-file', '-s', spec], env=environment))
     if size > MAX_FILE:
         raise ValueError('ledger artifact exceeds retention file bound')
-    return subprocess.check_output(['git', '-C', str(root), 'show', spec])
+    return subprocess.check_output(['git', '-C', str(root), 'show', spec], env=environment)
 
 
 def _hash(raw: bytes) -> str:
@@ -44,13 +47,28 @@ def _json(value: dict) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True) + '\n').encode()
 
 
+def _ordinary_bytes(root: Path, path: Path) -> bytes:
+    if (not path.is_relative_to(root) or path == root
+            or any(p.is_symlink() for p in (path, *path.parents) if p != root)):
+        raise ValueError('ordinary in-tree status/evidence required')
+    with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK), 'rb') as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_size > MAX_FILE:
+            raise ValueError('ordinary bounded status/evidence required')
+        raw = stream.read(MAX_FILE + 1)
+    if len(raw) > MAX_FILE:
+        raise ValueError('status/evidence exceeds retention file bound')
+    return raw
+
+
 def retain(root: str | Path, source_revision: str, *, status_path: str = STATUS,
            write: bool = False) -> dict:
     root = Path(root).resolve()
     if not re.fullmatch(r'[0-9a-f]{40}', source_revision):
         raise ValueError('full immutable source revision required')
     status_file = root / _path(status_path)
-    original = status_file.read_bytes()
+    original = _ordinary_bytes(root, status_file)
+    status_mode = stat.S_IMODE(status_file.stat(follow_symlinks=False).st_mode)
     status = json.loads(original)
     if status.get('source_retention'):
         # Idempotence must still verify retained bytes and identity metadata.
@@ -80,7 +98,7 @@ def retain(root: str | Path, source_revision: str, *, status_path: str = STATUS,
                 raise ValueError('ordinary in-tree evidence required')
             if current_file.stat().st_size > MAX_FILE:
                 raise ValueError('ledger artifact exceeds retention file bound')
-            current = current_file.read_bytes()
+            current = _ordinary_bytes(root, current_file)
         else:
             current = _git(root, 'HEAD', path)
         observed = _hash(current)
@@ -121,11 +139,25 @@ def retain(root: str | Path, source_revision: str, *, status_path: str = STATUS,
         if destination.exists() and destination.read_bytes() != raw:
             raise ValueError(f'immutable archive differs: {path}')
     if write:
+        if _ordinary_bytes(root, status_file) != original:
+            raise ValueError('status changed during source retention')
         for path, raw in payloads.items():
             destination = root / path
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(raw)
-        status_file.write_bytes(_json(proposed))
+        # Replacing a same-directory temporary file never follows a final
+        # status-file symlink. Recheck ordinary parents and concurrent edits.
+        if _ordinary_bytes(root, status_file) != original:
+            raise ValueError('status changed during source retention')
+        import tempfile
+        descriptor, temporary = tempfile.mkstemp(prefix='.retained-status-', dir=status_file.parent)
+        try:
+            os.fchmod(descriptor, status_mode)
+            with os.fdopen(descriptor, 'wb') as stream:
+                stream.write(_json(proposed))
+            os.replace(temporary, status_file)
+        finally:
+            Path(temporary).unlink(missing_ok=True)
     return {'changed': True, 'written': write, 'retained': retained, 'inventory': inventory}
 
 

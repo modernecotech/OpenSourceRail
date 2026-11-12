@@ -191,3 +191,42 @@ def test_current_retention_keeps_all_original_engineering_findings():
             k: v for k, v in status['gates'][name].items() if k != 'evidence'}
     for key in ('release_flags', 'release_ready', 'release_review', 'record_note'):
         assert status[key] == original[key]
+
+
+@pytest.mark.parametrize('kind', ['file-symlink', 'parent-symlink', 'oversized'])
+def test_retention_status_cannot_escape_root_or_exceed_read_budget(tmp_path, kind):
+    from engineering.v06_design_closure.retain_sources import retain, MAX_FILE
+    root, _, status_path, revision = _retention_fixture(tmp_path / 'repo')
+    status = root / status_path
+    outside = tmp_path / 'outside.json'
+    outside.write_bytes(status.read_bytes())
+    original = outside.read_bytes()
+    if kind == 'file-symlink':
+        status.unlink()
+        status.symlink_to(outside)
+    elif kind == 'parent-symlink':
+        linked = root / 'linked'
+        linked.symlink_to(tmp_path, target_is_directory=True)
+        status_path = 'linked/outside.json'
+    else:
+        with status.open('wb') as stream:
+            stream.truncate(MAX_FILE + 1)
+    with pytest.raises(ValueError, match='ordinary|bounded|bound'):
+        retain(root, revision, status_path=status_path, write=True)
+    assert outside.read_bytes() == original
+    assert not (root / 'docs/archives').exists()
+
+
+def test_retention_uses_original_git_objects_not_replacement_refs(tmp_path):
+    import subprocess
+    from engineering.v06_design_closure.retain_sources import retain
+    root, _, status_path, revision = _retention_fixture(tmp_path)
+    expected = json.loads((root / status_path).read_bytes())['gates']['alpha']['evidence'][0]['sha256']
+    subprocess.run(['git', '-C', str(root), 'add', '.'], check=True)
+    subprocess.run(['git', '-C', str(root), '-c', 'user.name=Synthetic test', '-c',
+        'user.email=test@example.invalid', 'commit', '-qm', 'Synthetic replacement'], check=True)
+    replacement = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+    subprocess.run(['git', '-C', str(root), 'replace', revision, replacement], check=True)
+    result = retain(root, revision, status_path=status_path, write=True)
+    assert result['retained'][0]['sha256'] == expected
+    assert digest((root / result['retained'][0]['path']).read_bytes()) == expected
