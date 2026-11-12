@@ -142,6 +142,25 @@ def validate_document(value, source_part, binding):
     return value
 
 
+def validate_assembly_document(value, node, binding):
+    """Typed assembly documents never masquerade as child part documents."""
+    if value.get('schema')!='osr-controlled-research-assembly-document/1':
+        raise ValueError('Explicit typed assembly document required')
+    if {'part_id','component_definition_id','source_part_sha256'} & set(value):raise ValueError('Mixed part and assembly document identities forbidden')
+    translated=deepcopy(value)
+    translated['schema']='osr-controlled-research-document/1'
+    for old,new in [('assembly_id','part_id'),('assembly_definition_id','component_definition_id'),
+                    ('source_assembly_sha256','source_part_sha256')]:
+        if old not in translated:raise ValueError('Typed assembly document identity required')
+        translated[new]=translated.pop(old)
+    source=dict(node,component_definition_id=node['definition_id'])
+    # Validate all shared document controls against the actual full node hash.
+    if value['source_assembly_sha256']!=engineering_digest(node):raise ValueError('Assembly document source hash differs')
+    translated['source_part_sha256']=engineering_digest(source)
+    validate_document(translated,source,binding)
+    return value
+
+
 def stock_lines(mapping, source_part=None):
     """One source-priced workpiece or explicitly quantified cut-stock rows.
 
@@ -192,6 +211,22 @@ def stock_lines(mapping, source_part=None):
     return rows
 
 
+def validate_document_entries(documents, source, binding, artifact_closure, *, assembly=False):
+    if set(documents)!=DOCUMENT_TYPES:raise ValueError('Drawing/inspection/routing documents required per covered component')
+    for kind,entry in documents.items():
+        safe_path(entry['path']);hash_id(entry['sha256']);(validate_assembly_document if assembly else validate_document)(entry['definition'],source,binding)
+        if entry['definition']['document_type']!=kind:raise ValueError('Document kind differs')
+        if type(entry['bytes']) is not int or not 0<entry['bytes']<=2*1024**2:raise ValueError('Bounded sidecar bytes required')
+        additions=[dict(path=entry['path'],sha256=entry['sha256'],bytes=entry['bytes'],media_type='application/json',role='controlled-'+kind+'-metadata')]
+        additions += [dict(item,role=kind+'-payload') for item in entry['definition']['payloads']]
+        for item in additions:
+            if item['path'] in artifact_closure and artifact_closure[item['path']]!=item:raise ValueError('Conflicting artifact ownership')
+            artifact_closure[item['path']]=item
+    chars={r['id'] for r in documents['inspection']['definition']['characteristics']}
+    if any(not set(op['inspection_ids'])<=chars for op in documents['routing']['definition']['operations']):
+        raise ValueError('Routing references missing inspection characteristic')
+
+
 def validate_pack(value):
     sealed(value);flags(value);identities(value['identities'])
     if value.get('schema')!='osr-wheel-delivery-review-pack/1' or value.get('environment')!='simulation':
@@ -206,25 +241,17 @@ def validate_pack(value):
         if part in seen or source['identities']!=value['identities'] or row['source_part_sha256']!=engineering_digest(source):
             raise ValueError('Mixed, changed or duplicate source component')
         seen.add(part);hash_id(source['component_definition_id'])
-        if set(row['documents'])!=DOCUMENT_TYPES:raise ValueError('Drawing/inspection/routing documents required per covered component')
-        for kind,entry in row['documents'].items():
-            safe_path(entry['path']);hash_id(entry['sha256']);validate_document(entry['definition'],source,value['identities'])
-            if entry['definition']['document_type']!=kind:raise ValueError('Document kind differs')
-            if type(entry['bytes']) is not int or not 0<entry['bytes']<=2*1024**2:raise ValueError('Bounded sidecar bytes required')
-            additions=[dict(path=entry['path'],sha256=entry['sha256'],bytes=entry['bytes'],media_type='application/json',role='controlled-'+kind+'-metadata')]
-            additions += [dict(item,role=kind+'-payload') for item in entry['definition']['payloads']]
-            for item in additions:
-                if item['path'] in artifact_closure and artifact_closure[item['path']]!=item:raise ValueError('Conflicting artifact ownership')
-                artifact_closure[item['path']]=item
-        chars={r['id'] for r in row['documents']['inspection']['definition']['characteristics']}
-        if any(not set(op['inspection_ids'])<=chars for op in row['documents']['routing']['definition']['operations']):
-            raise ValueError('Routing references missing inspection characteristic')
+        validate_document_entries(row['documents'],source,value['identities'],artifact_closure)
         if row['stock_lines']!=stock_lines(row['conversion'],source):raise ValueError('Native stock conversion changed')
         if row['conversion']['source_part_sha256']!=engineering_digest(source):raise ValueError('Conversion belongs to another source part')
         for flag in ('native_orders_released','physical_manufacture_validated'):
             if row.get(flag) is not False:raise ValueError('Review pack cannot release production')
     if 'assemblies' in value:
         validate_assemblies(value['assemblies'],{r['source_part']['id']:r['source_part'] for r in components},value['identities'],value['proposal_id'])
+    assembly_by_id={node['id']:node for node in value.get('assemblies',[])}
+    for name, documents in value.get('assembly_documents',{}).items():
+        if name not in assembly_by_id:raise ValueError('Documented assembly is not in reviewed source hierarchy')
+        validate_document_entries(documents,assembly_by_id[name],value['identities'],artifact_closure,assembly=True)
     coverage=value['coverage']
     missing=sorted(set(coverage['source_part_ids'])-seen)
     if (coverage['covered_part_ids']!=sorted(seen) or coverage['uncovered_part_ids']!=missing or
@@ -250,6 +277,10 @@ def validate_context(value):
         validate_assemblies(list(value['source_assemblies'].values()),{k:{'quantity_per_train':v} for k,v in quantities.items()},value['identities'],value['proposal_id'])
         if any(k!=v['id'] for k,v in value['source_assemblies'].items()):raise ValueError('Source assembly dictionary identity differs')
         if value.get('assembly_patterns')!=assembly_patterns(value['source_assemblies']):raise ValueError('Counted assembly patterns differ')
+    if 'assembly_document_hashes' in value:
+        for name, digest in value['assembly_document_hashes'].items():
+            if name not in value.get('source_assemblies',{}):raise ValueError('Unknown authoritative assembly documents')
+            hash_id(digest)
     return value
 
 
@@ -264,6 +295,9 @@ def bind_pack(pack, context):
     for node in pack.get('assemblies',[]):
         if context.get('source_assemblies',{}).get(node['id'])!=node:
             raise ValueError('Assembly differs from authoritative native project source')
+    for name, docs in pack.get('assembly_documents',{}).items():
+        if context.get('assembly_document_hashes',{}).get(name)!=engineering_digest(docs):
+            raise ValueError('Assembly documents differ from authoritative project provision')
     return True
 
 

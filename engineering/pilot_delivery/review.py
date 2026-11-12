@@ -47,7 +47,7 @@ def _payload(root, row, definition):
         expected='osr-controlled-research-'+('inspection' if kind=='inspection' else 'route')+'/1'
         field='characteristics' if kind=='inspection' else 'operations'
         if (value.get('schema')!=expected or value.get('identities')!=definition['identities'] or
-                value.get('part_id')!=definition['part_id'] or value.get(field)!=definition[field]):
+                value.get('assembly_id' if 'assembly_id' in definition else 'part_id')!=definition.get('assembly_id',definition.get('part_id')) or value.get(field)!=definition[field]):
             raise ValueError('Inspection/routing payload differs from its controlled definition')
     else:raise ValueError('Machine-readable inspection/routing JSON required')
     return dict(row)
@@ -96,6 +96,23 @@ def source_assemblies(proposal, groups):
     return nodes
 
 
+def _compile_documents(mapping, source, binding, artifact_root, artifacts, *, assembly=False):
+    owned={}
+    for kind in sorted(contract.DOCUMENT_TYPES):
+        name=contract.safe_path(mapping[kind]);path=ordinary(artifact_root,name,maximum=2*1024**2)
+        definition=json.loads(path.read_bytes());(contract.validate_assembly_document if assembly else contract.validate_document)(definition,source,binding)
+        if definition['document_type']!=kind:raise ValueError('Sidecar document type differs')
+        entry=dict(path=name,sha256=digest(path),bytes=path.stat().st_size,definition=definition)
+        owned[kind]=entry
+        artifacts[name]=dict(path=name,sha256=digest(path),bytes=path.stat().st_size,media_type='application/json',role='controlled-'+kind+'-metadata')
+        for row in definition['payloads']:
+            item=_payload(artifact_root,row,definition)
+            if item['path'] in artifacts and any(artifacts[item['path']][k]!=item[k] for k in ('sha256','bytes','media_type')):
+                raise ValueError('Conflicting controlled artifact definitions')
+            artifacts[item['path']]=dict(item,role=kind+'-payload')
+    return owned
+
+
 def compile_review_pack(proposal, documents, conversions, *, artifact_root, city,
                         source_root=ROOT, selected_part_ids=None, assembly_groups=None):
     """Pure bounded compiler API consumed by drawing producers and business adapters.
@@ -124,19 +141,7 @@ def compile_review_pack(proposal, documents, conversions, *, artifact_root, city
     for part_id in selected:
         part=parts[part_id];mapping=by_id[part_id]
         if set(mapping)!={'part_id',*contract.DOCUMENT_TYPES}:raise ValueError('Every covered part needs drawing/inspection/routing sidecars')
-        owned={}
-        for kind in sorted(contract.DOCUMENT_TYPES):
-            name=contract.safe_path(mapping[kind]);path=ordinary(artifact_root,name,maximum=2*1024**2)
-            definition=json.loads(path.read_bytes());contract.validate_document(definition,part,proposal['identities'])
-            if definition['document_type']!=kind:raise ValueError('Sidecar document type differs')
-            entry=dict(path=name,sha256=digest(path),bytes=path.stat().st_size,definition=definition)
-            owned[kind]=entry
-            artifacts[name]=dict(path=name,sha256=digest(path),bytes=path.stat().st_size,media_type='application/json',role='controlled-'+kind+'-metadata')
-            for row in definition['payloads']:
-                item=_payload(artifact_root,row,definition)
-                if item['path'] in artifacts and any(artifacts[item['path']][k]!=item[k] for k in ('sha256','bytes','media_type')):
-                    raise ValueError('Conflicting controlled artifact definitions')
-                artifacts[item['path']]=dict(item,role=kind+'-payload')
+        owned=_compile_documents(mapping,part,proposal['identities'],artifact_root,artifacts)
         conversion=deepcopy(conversions[part_id])
         if conversion.get('source_part_sha256')!=identity(part):raise ValueError('Conversion source part changed')
         stocks=contract.stock_lines(conversion,part)
@@ -147,6 +152,17 @@ def compile_review_pack(proposal, documents, conversions, *, artifact_root, city
         nodes=source_assemblies(proposal,assembly_groups)
         contract.validate_assemblies(list(nodes.values()),{r['source_part']['id']:r['source_part'] for r in components},proposal['identities'],proposal['proposal_id'])
         extra['assemblies']=list(nodes.values())
+        declared=documents.get('assemblies',[])
+        if not isinstance(declared,list) or len(declared)>contract.MAX_ASSEMBLIES:raise ValueError('Bounded assembly document index required')
+        owned_assemblies={}
+        for mapping in declared:
+            if set(mapping)!={'assembly_id',*contract.DOCUMENT_TYPES}:raise ValueError('Own assembly drawing/inspection/routing required')
+            name=mapping['assembly_id']
+            if name not in nodes or name in owned_assemblies:raise ValueError('Unknown or duplicate assembly document source')
+            owned_assemblies[name]=_compile_documents(mapping,nodes[name],proposal['identities'],artifact_root,artifacts,assembly=True)
+        if owned_assemblies:extra['assembly_documents']=owned_assemblies
+    elif documents.get('assemblies'):
+        raise ValueError('Assembly documents require source-derived assembly groups')
     result=contract.seal(dict(schema='osr-wheel-delivery-review-pack/1',environment='simulation',city=city,
         identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],proposal_sha256=identity(proposal),
         components=components,artifacts=[artifacts[k] for k in sorted(artifacts)],
@@ -159,13 +175,20 @@ def compile_review_pack(proposal, documents, conversions, *, artifact_root, city
     return result
 
 
-def source_context(proposal, *, city, project, company, assembly_groups=None):
+def source_context(proposal, *, city, project, company, assembly_groups=None, assembly_documents=None):
     """Trusted administrator provisioning input; not a client-selected candidate."""
     validate_proposal(proposal)
     extra={}
     if assembly_groups is not None:
         nodes=source_assemblies(proposal,assembly_groups)
         extra=dict(source_assemblies=nodes,assembly_patterns=contract.assembly_patterns(nodes))
+        if assembly_documents is not None:
+            for name, docs in assembly_documents.items():
+                if name not in nodes:raise ValueError('Unknown authoritative assembly documents')
+                contract.validate_document_entries(docs,nodes[name],proposal['identities'],{},assembly=True)
+            extra['assembly_document_hashes']={name:identity(docs) for name,docs in assembly_documents.items()}
+    elif assembly_documents:
+        raise ValueError('Assembly documents require authoritative source groups')
     result=contract.seal(dict(schema='osr-wheel-delivery-project/1',environment='simulation',city=city,
         project=project,company=company,identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],
         proposal_sha256=identity(proposal),source_parts={p['id']:identity(p) for p in proposal['items']},
@@ -180,8 +203,9 @@ def verify_artifacts(pack, root):
     for row in pack['artifacts']:
         path=ordinary(root,row['path'])
         if path.stat().st_size!=row['bytes'] or digest(path)!=row['sha256']:raise ValueError('Review artifact changed: '+row['path'])
-    for component in pack['components']:
-        for entry in component['documents'].values():
+    document_sets=[component['documents'] for component in pack['components']]+list(pack.get('assembly_documents',{}).values())
+    for documents in document_sets:
+        for entry in documents.values():
             definition=json.loads(ordinary(root,entry['path']).read_bytes())
             if definition!=entry['definition']:raise ValueError('Controlled sidecar definition differs')
             for row in definition['payloads']:_payload(root,row,definition)

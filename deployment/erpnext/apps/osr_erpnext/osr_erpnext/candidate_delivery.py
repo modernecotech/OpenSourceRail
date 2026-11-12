@@ -68,7 +68,8 @@ def _files(project, pack, file_map):
     """Read actual native private File content, never client hash assertions."""
     wanted={r['path']:r for r in pack['artifacts']}
     if not isinstance(file_map,dict) or set(file_map)!=set(wanted):frappe.throw('Exact controlled artifact File mapping required')
-    records=[];definitions={e['path']:e['definition'] for c in pack['components'] for e in c['documents'].values()}
+    records=[];document_sets=[c['documents'] for c in pack['components']]+list(pack.get('assembly_documents',{}).values())
+    definitions={e['path']:e['definition'] for docs in document_sets for e in docs.values()}
     for name in sorted(wanted):
         entry=wanted[name];doc=frappe.get_doc('File',file_map[name]);doc.check_permission('read')
         if doc.attached_to_doctype!='Project' or doc.attached_to_name!=project or not doc.is_private:
@@ -185,6 +186,16 @@ def _specs(project,pack,item_group):
                 rate=mapped[(edge['kind'],edge['id'])][1],uom='Nos',do_not_explode=1) for edge in node['children']]
             boms.append(dict(doctype='BOM',item=code,company=project.company,quantity=1,currency='USD',with_operations=0,items=children))
             links[code]=[r['item_code'] for r in children]
+            documents=pack.get('assembly_documents',{}).get(node['id'])
+            if documents:
+                route_rows=[]
+                for i,step in enumerate(documents['routing']['definition']['operations']):
+                    station=code+'-WS'+str(i+1);operation=code+'-OP'+str(i+1)
+                    stations.append(dict(doctype='Workstation',workstation_name=station,description=step['workstation'],production_capacity=1,hour_rate_labour=0.))
+                    operations.append(dict(doctype='Operation',name=operation,description=step['operation'],workstation=station))
+                    route_rows.append(dict(operation=operation,workstation=station,time_in_mins=step['setup_minutes']+step['run_minutes_per_unit'],hour_rate=0.,description=step['operation']))
+                routing=code+'-ROUTE';routes.append(dict(doctype='Routing',routing_name=routing,operations=route_rows))
+                boms[-1].update(with_operations=1,routing=routing,operations=route_rows)
             subtotal=sum(r['qty']*r['rate'] for r in children)
             mapped['assembly',node['id']]=(code,native_valuation)
             engineering_rates['assembly',node['id']]=exact_subtotal
@@ -195,6 +206,7 @@ def _specs(project,pack,item_group):
                 native_child_direct_subtotal_usd=subtotal,native_valuation_rate_usd=native_valuation,
                 assembly_process_cost_usd=None,complete_assembly_cost=False,physical_placement_verified=False,
                 costing_scope='Hierarchical non-additive child subtotal; do not sum parent and descendant prices'))
+            if documents:assemblies[-1]['documents']=documents
         owned={e['id'] for node in ordered for e in node['children'] if e['kind']=='assembly'}
         extra=dict(assemblies=assemblies,assembly_bom_links=links,assembly_roots=[node['id'] for node in ordered if node['id'] not in owned])
     return dict(items=items,workstations=stations,operations=operations,routings=routes,boms=boms,components=components,**extra)
@@ -402,9 +414,136 @@ def _index_asset(folder,record):
     else:_write(path,index)
 
 
+def _source_mapping(pack, context, applied, kind, source_id):
+    if kind=='part':
+        mapped=next((r for r in applied['components'] if r['part_id']==source_id),None)
+        source=next((r for r in pack['components'] if r['source_part']['id']==source_id),None)
+        if mapped is None or source is None:frappe.throw('Exact reviewed part mapping required')
+        return mapped,source['source_part']['component_definition_id']
+    if kind!='assembly':frappe.throw('Typed part or assembly source required')
+    node=context.get('source_assemblies',{}).get(source_id)
+    mapped=next((r for r in applied.get('assemblies',[]) if r['assembly_id']==source_id),None)
+    docs=pack.get('assembly_documents',{}).get(source_id)
+    if (node is None or mapped is None or mapped['definition_id']!=node['definition_id'] or not docs
+            or context.get('assembly_document_hashes',{}).get(source_id)!=contract.engineering_digest(docs)
+            or mapped.get('documents')!=docs):
+        frappe.throw('Own authoritative assembly drawing, inspection, routing and exact definition required')
+    return mapped,node['definition_id']
+
+
+def _current_mapping(current, pack, context, applied):
+    kind=current.get('source_kind','part')
+    mapped,definition=_source_mapping(pack,context,applied,kind,current.get('source_id',current.get('part_id')))
+    if kind=='assembly' and (current.get('assembly_id')!=current['source_id'] or current.get('assembly_definition_id')!=definition):
+        frappe.throw('Installed typed assembly definition differs')
+    return mapped
+
+
+def _latest_qa(made, item, row, project):
+    latest=frappe.get_all('Quality Inspection',filters=dict(reference_type='Stock Entry',reference_name=made.name,
+        item_code=item,child_row_reference=row.name),pluck='name',order_by='creation desc, name desc',limit_page_length=1)
+    if len(latest)!=1:frappe.throw('Latest native inspection required')
+    return _native('Quality Inspection',latest[0],project)
+
+
+def _bundle_voucher(bundle, stock, row):
+    if (bundle.get('voucher_type')!='Stock Entry' or bundle.get('voucher_no')!=stock.name
+            or bundle.get('voucher_detail_no')!=row.name):
+        frappe.throw('Assembly serial bundle belongs to another native voucher row')
+
+
+def _assembly_custody(project, pack, context, applied, assembly_id, made, provenance):
+    """Read exact consumed child serials recursively; never infer child custody."""
+    if len(contract.encoded(provenance))>contract.MAX_PACK_BYTES:frappe.throw('Assembly provenance byte budget exceeded')
+    work=[0];uses=[];observations=[]
+    def visit(name, parent_stock, rows, depth):
+        if depth>contract.MAX_ASSEMBLY_DEPTH:frappe.throw('Assembly custody depth exceeded')
+        node=context['source_assemblies'][name]
+        if any(r.project!=project.name for r in parent_stock.items):frappe.throw('Assembly stock contains another project row')
+        if not isinstance(rows,list) or len(rows)!=len(node['children']):frappe.throw('Exact typed child provenance required')
+        expected={(edge['kind'],edge['id']):edge['quantity'] for edge in node['children']}
+        seen=set();items=set()
+        for edge in rows:
+            if not isinstance(edge,dict) or set(edge)!={'kind','id','units'}:frappe.throw('Typed child provenance fields required')
+            key=(edge['kind'],edge['id'])
+            if key not in expected or key in seen:frappe.throw('Typed source child identity differs')
+            seen.add(key);units=edge['units']
+            if not isinstance(units,list) or len(units)!=expected[key]:frappe.throw('Exact child quantities required')
+            work[0]+=len(units)
+            if work[0]>4096:frappe.throw('Assembly serial custody budget exceeded')
+            mapped,_=_source_mapping(pack,context,applied,*key);item=mapped['finished_item'];items.add(item)
+            if key[0]=='part':
+                source=next(c['source_part'] for c in pack['components'] if c['source_part']['id']==key[1])
+                if source.get('make_buy') not in ('local-fabricate','make'):
+                    frappe.throw('Assembly custody currently supports manufactured individually serialized children only; purchased or lot custody remains held')
+            consumed=[r for r in parent_stock.items if r.item_code==item and r.project==project.name]
+            if len(consumed)!=1 or consumed[0].qty!=len(units) or not consumed[0].serial_and_batch_bundle:
+                frappe.throw('Parent manufacture must consume exact counted child row')
+            bundle=_native('Serial and Batch Bundle',consumed[0].serial_and_batch_bundle,project)
+            _bundle_voucher(bundle,parent_stock,consumed[0])
+            serials=[r.serial_no for r in bundle.entries if r.serial_no]
+            if (bundle.item_code!=item or bundle.company!=project.company or bundle.is_cancelled or
+                    bundle.type_of_transaction!='Outward' or len(serials)!=len(units) or len(set(serials))!=len(serials)):
+                frappe.throw('Child consumption serial bundle differs')
+            supplied=[]
+            for unit in units:
+                if not isinstance(unit,dict) or set(unit)!={'serial','work_order','manufacture_stock','children'}:
+                    frappe.throw('Exact child manufacturing provenance required')
+                wo=_native('Work Order',unit['work_order'],project,submitted=True)
+                child=_native('Stock Entry',unit['manufacture_stock'],project,submitted=True)
+                bom=_native('BOM',mapped['bom'],project,submitted=True)
+                if (bom.item!=item or wo.production_item!=item or wo.bom_no!=bom.name or wo.produced_qty<1
+                        or child.work_order!=wo.name or child.stock_entry_type!='Manufacture'):
+                    frappe.throw('Child manufacture differs from exact reviewed submitted BOM')
+                row,child_bundle,serial=_serial_row(child,item,project,'Inward')
+                _bundle_voucher(child_bundle,child,row)
+                if serial!=unit['serial']:frappe.throw('Child manufactured serial differs')
+                qa=_latest_qa(child,item,row,project)
+                if qa.docstatus!=1 or qa.status!='Accepted':frappe.throw('Latest child native QA must be accepted')
+                supplied.append(serial);uses.append(dict(serial=serial,item=item,parent_stock=parent_stock.name))
+                observations.append(dict(kind=key[0],source_id=key[1],serial=serial,item=item,
+                    parent_stock=parent_stock.name,work_order=wo.name,bom=bom.name,manufacture_stock=child.name,
+                    latest_qa=dict(name=qa.name,status=qa.status,docstatus=qa.docstatus,modified=str(qa.modified),inspector=qa.inspected_by),
+                    native_modifications=dict(work_order=str(wo.modified),bom=str(bom.modified),manufacture=str(child.modified),
+                        consumption_bundle=str(bundle.modified),manufacture_bundle=str(child_bundle.modified))))
+                if key[0]=='assembly':visit(key[1],child,unit['children'],depth+1)
+                elif unit['children']:frappe.throw('Part cannot claim assembly child provenance')
+            if set(supplied)!=set(serials) or len(set(supplied))!=len(supplied):frappe.throw('Consumed and manufactured child serials differ')
+        outgoing={r.item_code for r in parent_stock.items if r.project==project.name and not getattr(r,'is_finished_item',False)}
+        if outgoing!=items:frappe.throw('Parent manufacture has unaccounted source children')
+    visit(assembly_id,made,provenance,1)
+    if len({u['serial'] for u in uses})!=len(uses):frappe.throw('Child serial has duplicate hierarchy ownership')
+    return dict(uses=uses,observations=observations)
+
+
+def _assembly_readback(current, pack, context, applied, made, project):
+    if current.get('source_kind')=='assembly':
+        mapped=_current_mapping(current,pack,context,applied)
+        wo=_native('Work Order',current['work_order'],project,submitted=True)
+        bom=_native('BOM',mapped['bom'],project,submitted=True)
+        if (wo.production_item!=mapped['finished_item'] or wo.bom_no!=bom.name or wo.produced_qty<1
+                or made.work_order!=wo.name or made.stock_entry_type!='Manufacture'):
+            frappe.throw('Assembly manufacturing custody changed')
+        return _assembly_custody(project,pack,context,applied,current['source_id'],made,current['child_provenance'])
+    return []
+
+
+@frappe.whitelist(methods=['POST'])
+def register_assembly_installation(project,pack_sha256,assembly_id,asset,source_pattern_id,ordinal,train_index,
+                                  work_order,manufacture_stock,installation_stock,child_provenance,repair=None,removal_stock=None):
+    """Research software custody for made, individually serialized children only.
+
+    Purchased/lot-managed children remain outside this admitted domain.
+    """
+    return register_installation(project,pack_sha256,assembly_id,asset,source_pattern_id,ordinal,train_index,
+        work_order,manufacture_stock,installation_stock,repair,removal_stock,
+        source_kind='assembly',child_provenance=_json(child_provenance))
+
+
 @frappe.whitelist(methods=['POST'])
 def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,ordinal,train_index,
-                          work_order,manufacture_stock,installation_stock,repair=None,removal_stock=None):
+                          work_order,manufacture_stock,installation_stock,repair=None,removal_stock=None,
+                          source_kind='part',child_provenance=None):
     """Record read-back stock custody for a proposed research occurrence.
 
     This does not mark a physical installation accepted. A replacement must
@@ -412,14 +551,15 @@ def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,or
     """
     _role('Asset Manager');doc,context,folder,registration=_pack(project,pack_sha256,write=True)
     applied=contract.sealed(json.loads((folder/('applied-'+pack_sha256+'.json')).read_text()));_read_created(applied,doc)
-    component=next((r for r in applied['components'] if r['part_id']==part_id),None)
-    pattern=context['source_patterns'].get(source_pattern_id)
+    component,definition_id=_source_mapping(registration['pack'],context,applied,source_kind,part_id)
+    pattern=context['source_patterns' if source_kind=='part' else 'assembly_patterns'].get(source_pattern_id)
     if any(type(v) not in (int,str) or re.fullmatch('[0-9]{1,6}',str(v)) is None for v in (ordinal,train_index)):
         frappe.throw('Bounded nonnegative integer occurrence indices required')
     ordinal=int(ordinal);train_index=int(train_index)
-    if (component is None or pattern is None or pattern['part_id']!=part_id or ordinal<0 or ordinal>=pattern['count_per_train'] or
+    if (component is None or pattern is None or pattern.get('part_id' if source_kind=='part' else 'assembly_id')!=part_id or (source_kind=='assembly' and pattern['definition_id']!=definition_id) or ordinal<0 or ordinal>=pattern['count_per_train'] or
             train_index<0 or train_index>=context['project_trainsets']):frappe.throw('Exact counted source occurrence and train index required')
     position=contract.digest(dict(context_sha256=context['sha256'],source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index))
+    if source_kind=='assembly':position=contract.digest(dict(context_sha256=context['sha256'],source_kind=source_kind,source_id=part_id,definition_id=definition_id,source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index))
     asset_doc=_native('Asset',asset,doc,submitted=True)
     if asset_doc.custom_osr_asset_id!='SIM-WD-'+position[:24]:frappe.throw('Native Asset differs from the counted source occurrence')
     wo=_native('Work Order',work_order,doc,submitted=True)
@@ -431,10 +571,25 @@ def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,or
     finished,made_bundle,serial=_serial_row(made,component['finished_item'],doc,'Inward')
     installed_row,installed_bundle,installed_serial=_serial_row(installed,component['finished_item'],doc,'Outward')
     if serial!=installed_serial:frappe.throw('Installed serial differs from manufactured serial')
+    if source_kind=='assembly':_native('BOM',component['bom'],doc,submitted=True)
+    if source_kind=='assembly':
+        _bundle_voucher(made_bundle,made,finished);_bundle_voucher(installed_bundle,installed,installed_row)
+    custody=_assembly_custody(doc,registration['pack'],context,applied,part_id,made,child_provenance) if source_kind=='assembly' else {'uses':[],'observations':[]}
+    child_uses=custody['uses']
+    serial_index=folder/('serial-position-'+contract.digest(serial)+'.json')
+    if (folder/('consumed-serial-'+contract.digest(serial)+'.json')).exists():frappe.throw('Consumed child serial cannot also be installed independently')
+    serial_binding=contract.seal(dict(serial=serial,position_id=position,context_sha256=context['sha256']))
+    if serial_index.exists() and contract.sealed(json.loads(serial_index.read_text()))!=serial_binding:frappe.throw('Serial already belongs to another counted position')
+    for use in child_uses:
+        if (folder/('serial-position-'+contract.digest(use['serial'])+'.json')).exists():frappe.throw('Installed serial cannot also be consumed as an assembly child')
+        used=folder/('consumed-serial-'+contract.digest(use['serial'])+'.json')
+        if used.exists() and contract.sealed(json.loads(used.read_text()))!=contract.seal(use):frappe.throw('Child serial is already consumed by another assembly')
     pointer=folder/('position-'+position+'.json');prior=contract.sealed(json.loads(pointer.read_text())) if pointer.exists() else None
     if prior is not None and prior['installed_serial']==serial:
         expected=dict(source_pattern_id=source_pattern_id,ordinal=ordinal,train_index=train_index,part_id=part_id,
             asset=asset,work_order=wo.name,manufacture_stock=made.name,installation_record=installed.name,repair=repair,removal_stock=removal_stock)
+        if source_kind=='assembly':
+            expected.pop('part_id');expected.update(source_kind='assembly',source_id=part_id,assembly_definition_id=definition_id,child_provenance=child_provenance)
         if any(prior.get(k)!=v for k,v in expected.items()):frappe.throw('A serial installation cannot be rebound to different native custody')
         _index_asset(folder,prior)
         return dict(installation=prior,created=False,**contract.FLAGS)
@@ -445,7 +600,8 @@ def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,or
         if (repair_doc.asset!=asset or repair_doc.custom_osr_environment!='simulation' or repair_doc.repair_status!='Completed' or
                 not repair_doc.custom_osr_handback_required or removal.stock_entry_type!='Material Receipt'):
             frappe.throw('Completed condition repair and inward removed-serial custody required')
-        _,_,removed=_serial_row(removal,component['finished_item'],doc,'Inward')
+        removed_row,removed_bundle,removed=_serial_row(removal,component['finished_item'],doc,'Inward')
+        if source_kind=='assembly':_bundle_voucher(removed_bundle,removal,removed_row)
         if removed!=prior['installed_serial']:frappe.throw('Removal does not identify the exact previously installed serial')
     record=contract.seal(dict(schema='osr-wheel-native-installation/1',project=project,company=doc.company,
         context_sha256=context['sha256'],pack_sha256=pack_sha256,identities=context['identities'],
@@ -455,8 +611,15 @@ def register_installation(project,pack_sha256,part_id,asset,source_pattern_id,or
         manufacture_bundle=made_bundle.name,installation_bundle=installed_bundle.name,repair=repair,removal_stock=removal_stock,
         previous_installation_sha256=prior['sha256'] if prior and prior['installed_serial']!=serial else None,
         authenticated_actor=frappe.session.user,installation_accepted=False,**contract.FLAGS))
+    if source_kind=='assembly':
+        record.pop('sha256');record.pop('part_id');record.update(source_kind=source_kind,source_id=part_id,assembly_id=part_id,assembly_definition_id=definition_id,child_provenance=child_provenance)
+        record=contract.seal(record)
     event=folder/('installation-'+record['sha256']+'.json')
     if event.exists():return dict(installation=record,created=False,**contract.FLAGS)
+    if not serial_index.exists():_write(serial_index,serial_binding)
+    for use in child_uses:
+        used=folder/('consumed-serial-'+contract.digest(use['serial'])+'.json')
+        if not used.exists():_write(used,contract.seal(use))
     _write(event,record)
     # The pointer is merely a current software index; immutable events retain
     # every source-bound predecessor and never confer physical acceptance.
@@ -472,9 +635,12 @@ def _handback_observation(project,context,folder,registration,asset):
     made=_native('Stock Entry',current['manufacture_stock'],project,submitted=True)
     installed_stock=_native('Stock Entry',current['installation_record'],project,submitted=True)
     applied=contract.sealed(json.loads((folder/('applied-'+current['pack_sha256']+'.json')).read_text()));_read_created(applied,project)
-    component=next(r for r in applied['components'] if r['part_id']==current['part_id'])
-    row,_,serial=_serial_row(made,component['finished_item'],project,'Inward')
-    _,_,installed_serial=_serial_row(installed_stock,component['finished_item'],project,'Outward')
+    component=_current_mapping(current,registration['pack'],context,applied)
+    child_readback=_assembly_readback(current,registration['pack'],context,applied,made,project)
+    row,manufacture_bundle,serial=_serial_row(made,component['finished_item'],project,'Inward')
+    installed_row,installed_bundle,installed_serial=_serial_row(installed_stock,component['finished_item'],project,'Outward')
+    if current.get('source_kind')=='assembly':
+        _bundle_voucher(manufacture_bundle,made,row);_bundle_voucher(installed_bundle,installed_stock,installed_row)
     if serial!=current['installed_serial'] or installed_serial!=serial:frappe.throw('Native serial custody changed')
     if not current['repair']:frappe.throw('Repair lifecycle evidence required before repair handback')
     repair=_native('Asset Repair',current['repair'],project,submitted=True)
@@ -484,11 +650,8 @@ def _handback_observation(project,context,folder,registration,asset):
         frappe.throw('Condition event, repair and installed source position differ')
     # Include pending and cancelled later inspections: neither can revive an
     # earlier pass merely because it was the latest submitted accepted row.
-    latest=frappe.get_all('Quality Inspection',filters=dict(reference_type='Stock Entry',reference_name=made.name,
-        item_code=component['finished_item'],child_row_reference=row.name),pluck='name',order_by='creation desc, name desc',limit_page_length=1)
-    if len(latest)!=1:frappe.throw('Latest native inspection required')
-    qa=_native('Quality Inspection',latest[0],project)
-    return dict(project=project.name,company=project.company,identities=context['identities'],
+    qa=_latest_qa(made,component['finished_item'],row,project)
+    observed=dict(project=project.name,company=project.company,identities=context['identities'],
         reviewer=frappe.session.user,inspector=qa.inspected_by,proposer=registration['proposed_by'],
         latest_qa=qa.name,latest_qa_docstatus=qa.docstatus,latest_qa_status=qa.status,
         repair=repair.name,repair_docstatus=repair.docstatus,repair_status=repair.repair_status,
@@ -497,7 +660,11 @@ def _handback_observation(project,context,folder,registration,asset):
         installed_serial=installed_serial,manufactured_serial=serial,
         review_task='not-yet-created',installation_sha256=current['sha256'],
         native_modifications=dict(inspection=str(qa.modified),repair=str(repair.modified),
-            manufacture=str(made.modified),installation=str(installed_stock.modified))),current
+            manufacture=str(made.modified),installation=str(installed_stock.modified)))
+    if current.get('source_kind')=='assembly':
+        observed['child_observations']=child_readback['observations']
+        observed['native_modifications']['child_observations']=contract.digest(child_readback['observations'])
+    return observed,current
 
 
 @frappe.whitelist(methods=['POST'])
@@ -564,18 +731,18 @@ def guard_condition_event(event):
     # native mapping before permitting a provisional defect/Issue side effect.
     _,_,_,registration=_pack(project,current['pack_sha256'])
     applied=contract.sealed(json.loads((folder/('applied-'+current['pack_sha256']+'.json')).read_text()));_read_created(applied,doc)
-    component=next((r for r in registration['pack']['components'] if r['source_part']['id']==current['part_id']),None)
-    if component is None:frappe.throw('Installed source component is no longer bound')
-    mapped=next((r for r in applied['components'] if r['part_id']==current['part_id']),None)
-    if mapped is None:frappe.throw('Current source Item mapping is absent')
+    mapped=_current_mapping(current,registration['pack'],context,applied)
     wo=_native('Work Order',current['work_order'],doc,submitted=True)
     made=_native('Stock Entry',current['manufacture_stock'],doc,submitted=True)
     installed=_native('Stock Entry',current['installation_record'],doc,submitted=True)
+    _assembly_readback(current,registration['pack'],context,applied,made,doc)
     if (wo.production_item!=mapped['finished_item'] or wo.bom_no!=mapped['bom'] or wo.produced_qty<1 or
             made.work_order!=wo.name or made.stock_entry_type!='Manufacture' or installed.stock_entry_type!='Material Issue'):
         frappe.throw('Current native manufacturing or installation custody changed')
-    _,_,made_serial=_serial_row(made,mapped['finished_item'],doc,'Inward')
-    _,_,installed_serial=_serial_row(installed,mapped['finished_item'],doc,'Outward')
+    made_row,made_bundle,made_serial=_serial_row(made,mapped['finished_item'],doc,'Inward')
+    installed_row,installed_bundle,installed_serial=_serial_row(installed,mapped['finished_item'],doc,'Outward')
+    if current.get('source_kind')=='assembly':
+        _bundle_voucher(made_bundle,made,made_row);_bundle_voucher(installed_bundle,installed,installed_row)
     if made_serial!=current['installed_serial'] or installed_serial!=made_serial:
         frappe.throw('Current installed native serial custody differs')
     return True

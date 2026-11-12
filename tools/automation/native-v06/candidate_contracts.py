@@ -66,6 +66,7 @@ def contract_module():
 
 def validate_input(value):
     c=contract_module()
+    if value.get('source_kind','part')!='part':raise ValueError('Native v2 fixture admits one documented part only; assembly lifecycle is not native-qualified')
     if value.get('schema')!='osr-v06-platform-fixture/2' or value.get('environment')!='simulation':raise ValueError('Explicit wheel simulation fixture required')
     if value.get('input_id')!=digest({k:v for k,v in value.items() if k!='input_id'}):raise ValueError('Fixture input changed')
     c.flags(value);pack=c.validate_pack(value['review_pack'])
@@ -124,7 +125,7 @@ def verify_result(result,current_input,sources):
             qa.get('docstatus')!=1 or qa.get('values',{}).get('status')!='Accepted' or
             qa.get('values',{}).get('inspected_by')!=observed['inspector']):raise ValueError('Authenticated task/latest inspection readback differs')
     mapped=next((r for r in status['applied']['components'] if r['part_id']==current_input['component_id']),None)
-    if mapped is None or lifecycle['installation']['part_id']!=current_input['component_id']:raise ValueError('Native lifecycle component differs')
+    if mapped is None or lifecycle['installation'].get('source_kind','part')!='part' or lifecycle['installation'].get('part_id')!=current_input['component_id']:raise ValueError('Native lifecycle component differs')
     if observed['installed_serial']!=lifecycle['installation']['installed_serial']:raise ValueError('Native installed serial differs')
     work=[r for r in records if r['doctype']=='Work Order'];serials=[r['name'] for r in records if r['doctype']=='Serial No']
     if (len(work)!=2 or len(set(serials))!=2 or observed['installed_serial'] not in serials or
