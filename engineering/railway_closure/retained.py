@@ -86,6 +86,7 @@ def blobs(repository, entries, names):
 
 CHILD = r'''
 import json, os, resource, sys
+from pathlib import Path
 resource.setrlimit(resource.RLIMIT_AS, (3*1024**3, 3*1024**3))
 resource.setrlimit(resource.RLIMIT_CPU, (120, 120))
 resource.setrlimit(resource.RLIMIT_FSIZE, (1024**2, 1024**2))
@@ -94,10 +95,33 @@ def guard(event, args):
     if event in ('subprocess.Popen', 'os.system', 'os.posix_spawn', 'os.fork', 'os.exec'):
         raise RuntimeError('Retained verification cannot launch native processes')
 sys.addaudithook(guard)
+def require_project_origins():
+    epoch = Path(sys.argv[1]).resolve()
+    origins = {}
+    for name, module in tuple(sys.modules.items()):
+        filename = getattr(module, '__file__', None)
+        project = (name == 'engineering' or name.startswith('engineering.')
+            or name == 'osr_integration' or name.startswith('osr_integration.')
+            or name == 'services.integration' or name.startswith('services.integration.')
+            or (filename and any(p in str(filename).replace('\\', '/') for p in
+                ('/engineering/', '/services/integration/'))))
+        if not project:
+            continue
+        paths = ([filename] if filename else []) + list(getattr(module, '__path__', ()))
+        if not paths:
+            raise ValueError('Project module has no authenticated source origin: ' + name)
+        for path in paths:
+            try:
+                relative = Path(path).resolve().relative_to(epoch).as_posix()
+            except ValueError:
+                raise ValueError('Project module import escaped historical epoch: ' + name) from None
+            origins.setdefault(name, []).append(relative)
+    return origins
+require_project_origins()
 from engineering.railway_closure import publication
 assert os.path.realpath(publication.__file__).startswith(os.path.realpath(sys.argv[1])+os.sep)
 result = publication.verify(root=sys.argv[1], output=sys.argv[2])
-print(json.dumps(result, sort_keys=True))
+print(json.dumps(dict(original_checker_result=result, project_module_origins=require_project_origins()), sort_keys=True))
 '''
 
 
@@ -174,7 +198,8 @@ def verify(*, root, output, source_revision, state=None):
         env.update(PYTHONDONTWRITEBYTECODE='1', OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1')
         run = subprocess.run([sys.executable, '-I', '-B', '-c', CHILD, str(epoch), str(out)],
             cwd=epoch, env=env, capture_output=True, text=True, timeout=150, check=True)
-        result = json.loads(run.stdout)
+        child = json.loads(run.stdout)
+        result = child['original_checker_result']
     if any(result.get(k, False) is not False for k in AUTHORITY_FLAGS):
         raise ValueError('Historical verification cannot grant acceptance or authority')
     if result.get('verified') is not True:
@@ -183,6 +208,7 @@ def verify(*, root, output, source_revision, state=None):
         source_status='historical', current_source_valid=False, original_checker_result=result,
         **{k: False for k in AUTHORITY_FLAGS},
         source_revision=source_revision, source_files=len(sources),
+        project_module_origins=child['project_module_origins'],
         recovered_context_files=len(names), recovered_context_bytes=size,
         original_manifest_sha256=hashlib.sha256(authenticated['manifest.json']).hexdigest(),
         verification_scope='original artifact bytes, whole source epoch and unchanged original checker; no new native execution',

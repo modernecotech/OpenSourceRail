@@ -69,3 +69,17 @@ def test_sparse_oversized_tamper_refused_before_payload_reads(packet,monkeypatch
     monkeypatch.setattr(Path,'read_bytes',forbidden)
     with pytest.raises(ValueError,match='bytes/size'):
         r.verify(root=root,output=out,source_revision=rev)
+
+
+@pytest.mark.parametrize('position',['pre','post'])
+def test_foreign_project_module_import_origin_is_rejected(packet,monkeypatch,position):
+    root,out,rev=packet
+    poison="import types\nforeign=types.ModuleType('engineering.foreign')\nforeign.__file__='/foreign/current/engineering/foreign.py'\nsys.modules['engineering.foreign']=foreign\n"
+    if position=='pre':
+        child=r.CHILD.replace('require_project_origins()\nfrom engineering',poison+'require_project_origins()\nfrom engineering')
+    else:
+        child=r.CHILD.replace('print(json.dumps(dict(original_checker_result=',poison+'print(json.dumps(dict(original_checker_result=')
+    monkeypatch.setattr(r,'CHILD',child)
+    with pytest.raises(subprocess.CalledProcessError) as exc:
+        r.verify(root=root,output=out,source_revision=rev)
+    assert 'import escaped historical epoch' in exc.value.stderr
