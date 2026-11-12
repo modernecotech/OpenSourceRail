@@ -1,29 +1,96 @@
-# v0.6 engineering and delivery roadmap
+# v0.7 corridor-to-lifecycle roadmap
 
-The next milestone is one reconciled, prototype-ready **research dossier** from
-passenger requirements through vehicle, stations, civil works, manufacturing,
-service and whole-life cost. A useful calculated outline can be complete while
-its installed engineering and physical acceptance remain open.
+[v0.6.1 — Open Engineering Platform](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1)
+is the published v0.6-series software release at
+`5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea`. Use its
+[installation route, downloads and known limitations](releases/v0.6.1/README.md).
+The existing `v0.6.0` and `v0.6.1` tags stay at their recorded commits.
 
-The proposed v0.6.1 software release has a separate SR-01–SR-06 readiness
-contract. Software readiness does not close the seven engineering gates or
-assert physical acceptance; see the [software-release ledger](design-engine/v06-software-release/README.md).
+OpenSourceRail continues to connect railway design and engineering,
+manufacturing/delivery and maintenance, and city planning and service. Local
+manufacture, repairability, open knowledge, ERPNext/Frappe HR and FUXA/gateway
+integration remain part of the platform's purpose.
 
-The proposed v0.6 software-release scope is limited to three journeys: one fresh
-Samawah calculation and source-pinned read-only Baghdad and candidate examples.
-The 266-city portfolio and existing engineering evidence remain available; new
-broad campaigns, native sweeps and historical archive migration are v0.7+ work
-unless a specific release journey is blocked. No frozen release candidate is
-pinned yet. See the [release package](releases/v0.6.1/README.md) for maturity,
-setup and validation instructions. Software release does not assert that the
-railway is accepted or authorized for manufacture, movement or operation.
+## Finish the v0.6 handover
 
-OpenSourceRail continues to develop three connected products: railway design
-and engineering, manufacturing/delivery and maintenance, and city planning and
-service. Local manufacture, repairability, open knowledge, business/workforce
-integration and equipment observation remain part of that purpose.
+The handover has a finite exit condition: repository instructions agree with
+what shipped, and a clean environment follows the published installation asset,
+verifies SHA256SUMS and completes the documented Samawah journey against the
+tag. Record exact commands, output identities, timings and any failing step.
+Repair the retained readiness-browser harness by using an external temporary
+output directory, then rerun that maintenance job.
 
-## What the integrated pilot now provides
+The [older design-closure campaign](../campaigns/v06-design-integration-closure.toml)
+is superseded only where it controlled software publication. Its seven
+open/partial engineering findings remain visible in the
+[engineering ledger](design-engine/v06-design-closure/README.md). The retained
+[authenticated-review profile](design-engine/v06-software-release/README.md)
+keeps its truthful pending records; it is not a reason to repeat publication
+checks or withhold the already published release.
+
+## First v0.7 milestone: the Samawah station merge
+
+Open the published Samawah example, apply the retained station-merge intent,
+and produce a side-by-side report of station count, service assumptions, fleet,
+civil quantities, fourteen-scope costs and unresolved inputs. Each difference
+must trace to the edit and its dependent calculation. Reuse unaffected vehicle
+and manufacturing outputs rather than rerunning them.
+
+The retained engineering case found two station markers **79.977 m apart**
+against a **120 m platform assumption**. Its
+[midpoint merge packet](design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/README.md)
+provides the before/after edit and provenance. Carry both cases through the new
+workflow. That packet belongs to its declared candidate/source epoch: applying
+the edit to the published example must produce and identify the matching new
+revision, not silently transfer old compact-drive results to another vehicle.
+Access, catchment, platform fit, route feasibility and unpriced work remain
+explicit inputs or findings.
+
+## v0.7 delivery workstreams
+
+| Workstream | Required integrated result |
+|---|---|
+| Project continuity | One project entry point binds corridor revision, vehicle candidate, civil option, quantities, cost and dossier. A station edit invalidates its dependants; the Workbench shows changed results and verified reuse of unaffected work. |
+| Installed vehicle | Select one six-car candidate for detailed integration. Resolve recurring geometry definitions, door motion, equipment access/removal and mass bounds. Keep the passive reference and propulsion alternatives separate; supplier and measurement dependencies remain explicit. |
+| Civil works and station | Carry one span, support and station interface through bearing assumptions, moving loads, construction sequence and lifting checks. Establish crane capacity at the actual installation radius. Retain SolidCraft/FieldCraft and independent FreeCAD/CalculiX evidence. |
+| GIS and economics | Complete a fresh native GIS edit–export–import–reprice cycle for the selected Samawah revision. Trace station count, fleet, guideway quantities and all fourteen cost scopes; identify transferred rates and unpriced quantities. Check the implementation on one Baghdad corridor afterward. |
+| Manufacture and lifecycle | Use the door operator as the representative module. Bind drawings, tolerances, BOM, assembly/tooling and QA criteria to its geometry and revision; exercise removal/replacement, wiring and motion clearance. Run that actual candidate-linked module through the existing ERPNext/FUXA lifecycle rather than inheriting the synthetic one-unit kit result. |
+| Workbench and release | Guide one corridor edit through service, cost and revised dossier, with links to calculations, drawings and open findings. Open the same module for manufacture planning, QA and maintenance. Preserve before/after outputs and replay the full journey from a clean install. |
+
+## Delivery order and acceptance evidence
+
+1. **Handover and baseline:** finish the finite v0.6 installation/documentation
+   checks; identify the Samawah before/after cases, one vehicle candidate, one
+   civil assembly and the door operator. Capture baseline outputs and timings.
+2. **Project continuity:** get the station edit through service, fleet and a
+   preliminary quantity/cost delta in the existing Workbench early. Every result
+   has a source identity, and missing interfaces are visible.
+3. **Engineering and native GIS:** develop the vehicle, civil and module evidence
+   against those fixed interfaces; complete the native return path and reconcile
+   costs from actual quantity changes.
+4. **Lifecycle and generalisation:** connect the module BOM to the ERP lifecycle,
+   compile the dossier and replay one Baghdad corridor.
+5. **Release acceptance:** resolve defects exposed by both journeys, run the
+   clean-install v0.7 acceptance case, and publish supported scope and remaining
+   engineering limitations.
+
+The indicative small-team sequence is baseline/handover first, continuity in
+weeks 1–2, engineering and GIS in weeks 3–6, lifecycle/Baghdad in weeks 7–8, and
+acceptance in weeks 9–10. These are planning estimates. Supplier inputs, physical
+measurements and unresolved structural assumptions have separate milestones;
+software can show exactly which conclusions depend on them.
+
+## Consolidate existing computation
+
+Use selected-city source binding, verified caches and incremental publication
+checks already in the repository. Measure wall time by stage at the corridor
+entry point. If a station edit launches an unchanged vehicle analysis, repair
+the dependency first. Benchmark an expensive required kernel before extending
+Rust or vectorisation. Avoid broad rewrites, all-city regeneration and duplicate
+calculation pipelines for this milestone. Preserve failed, interrupted and
+out-of-domain evidence and maintain the project disk reserve during execution.
+
+## Retained engineering foundation
 
 The [reconciled recovery pilot](design-engine/reconciled-pilot/README.md) and
 [no-store control](design-engine/reconciled-pilot-no-store/README.md) connect an
@@ -42,57 +109,13 @@ exclude external motors, gearboxes, drive BOP and recovery interfaces; integrate
 mass and cost must come from the same candidate. A child revision must propagate
 through all affected evaluations rather than inherit its parent's results.
 
-## Active work sequence
 
-1. **Optimise equal-service alternatives.** Compare no storage, smaller recovery
-   modules, capture/release timing, operating speed, grade and station spacing.
-   Preserve the powered-wheel control and station-powered alternatives. Rank
-   whole-life cost, energy, reliability and service together; the current store
-   adds cost for limited simulated grid-energy savings. No free recovery energy,
-   assumed procurement discount or mandatory 900 m LIM is permitted.
-2. **Close the installed vehicle.** Resolve motor/gear mounts, bogie and wheel
-   geometry, joints, suspension movement, wiring/cooling/protection, access and
-   component removal. Reconcile counted body stock, external equipment and
-   remaining positive reserves once. Keep failed designs and measured versus
-   proposed mass/CG/inertia clearly distinguished.
-3. **Extend structural and electrical evidence.** Progress body/running-gear
-   fatigue, joints and exceptional loads; civil cracking, prestress losses,
-   segment joints, bearings, moving loads and erection. Establish actual
-   battery, charger, converter and HVAC duty at hot-weather conditions. Preserve
-   exact CAD/FEM source, load, mesh and resource identities and independent
-   comparisons; do not transfer numerical proof across physical revisions.
-4. **Complete manufacturing and construction definition.** Use the
-   [pilot delivery compiler](../engineering/pilot_delivery/README.md) to prepare
-   candidate-linked stock/material, make/buy, source process, workstation/tool,
-   assembly, inspection, installation/removal and serial/lot planning drafts.
-   Replace provisional routes with controlled mating drawings, qualified
-   processes, real factory capacities and actual crane/transport configurations.
-   Price terminal structures, tooling, temporary works and site scope explicitly.
-   Validated hours and missing equipment detail remain unknown, not zero.
-5. **Review business and operating handoffs.** Convert reviewed engineering
-   quantities through actual ERPNext Item, drawing and inspection mappings;
-   preserve approval in ERPNext and workforce planning in Frappe HR. Exercise
-   revision → BOM → work → inspection → installation → observation → defect →
-   repair → reviewed handback with the new candidate. Retain FUXA/gateway as an
-   observation/review interface; draft exports never authorise train movement.
-6. **Apply the candidate to a real corridor.** Start with a representative
-   Baghdad alignment and one smaller pilot. Replace shared assumptions with
-   declared route gradients, access, utilities, ground, demand and local rates.
-   Recalculate each cost owner from route quantities instead of multiplying a
-   pilot cost/km. Keep editable GIS proposals and validated engineering return
-   paths distinguishable.
-7. **Consolidate the Workbench and prepare prototypes.** Make requirements,
-   alternative comparisons, selected research configuration, costs, confidence,
-   manufacturing drafts and next tests visible in one journey. Build the
-   highest-risk mechanism and structural rigs first. Correlate measurements
-   before independent engineering review and subsequent release decisions.
-
-Coordinated work starts with
-[`./osr design railway`](design-engine/coupled-railway/README.md). The
-[current dossier](design-engine/current/README.md),
-[cost and delivery method](design-engine/model-based-cost-and-delivery.md) and
-[capability register](capabilities/README.md) distinguish current reference
-outputs from new research workflows. Keep the
+Coordinated work continues through
+[`./osr design railway`](design-engine/coupled-railway/README.md), the
+[cost and delivery method](design-engine/model-based-cost-and-delivery.md),
+[pilot delivery compiler](../engineering/pilot_delivery/README.md),
+[ERPNext/FUXA lifecycle](integration/v06-platform.md) and
+[capability register](capabilities/README.md). Retain the
 [v0.4 platform](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0),
 [v0.5.1 research](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1)
 and [source-bound archives](archives/pre-comfort-default/manifest.json)
@@ -100,7 +123,7 @@ independently reproducible.
 
 ## Cost, resource and production assumptions
 
-Keep inexpensive Rust screening ahead of detailed CAD/FEM. Reuse numerical work
+Keep inexpensive screening ahead of detailed CAD/FEM. Reuse numerical work
 only for the exact source, tool, physical candidate, load, mesh and resource
 request. Run independent cases within measured memory budgets, preserve failed
 runs and benchmark useful candidates per compute-hour. Python remains useful
@@ -119,7 +142,7 @@ must reconcile without counting the delivery decomposition or capacity proxies
 again. China sourcing, bulk procurement and local manufacture can be compared
 using explicit production/supply evidence; an automatic discount is not evidence.
 
-## Physical and release gates
+## Open physical engineering gates
 
 | Area | Required next evidence |
 |---|---|

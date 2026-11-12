@@ -4,7 +4,7 @@
 |---|---|---|
 | Available | City atlas, mapped outlines and planning proposals | Geography and proposals are inspectable; survey and route acceptance remain open |
 | Available | Workbench, source-bound result views and export manifests | Supported digital workflows expose identity, status and holds |
-| Preview | Samawah bounded city study | The verifier supports a fresh case, unchanged warm replay and one changed-input case; a frozen-candidate run and attached evidence are still required |
+| Available | Samawah bounded city study | Published exact-tag evidence contains two complete runs: fresh case, identical warm replay, changed-input case and exports |
 | Available | Fourteen-scope cost and delivery drafts | Calculated assumptions and uncertainty are visible; unquoted prices remain provisional |
 | Available | Rust protection/control research and deterministic simulations | Research and refusal checks only; no certified live control |
 | Preview | Baghdad atlas comparison | Published route, service and cost evidence is read-only; native RustGIS export is held because GIS and outline publication epochs differ |

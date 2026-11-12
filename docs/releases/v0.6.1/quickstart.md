@@ -1,16 +1,20 @@
-# v0.6.1 evaluation quickstart
+# Install and run the published v0.6.1 release
 
-This guide uses the repository's Linux development path. Native CAD, GIS, FEA,
-SUMO and business-system services are optional and are not required for the
-Samawah software demonstration. The v0.6.1 release is still withheld until its
-software gates and independent review pass.
+[v0.6.1 is published](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1).
+The authoritative release installation asset is
+[INSTALL-v0.6.1.md](https://github.com/modernecotech/OpenSourceRail/releases/download/v0.6.1/INSTALL-v0.6.1.md).
+Use the attached SHA256SUMS to verify downloads before installation. This guide
+uses the same Linux route. Native CAD, GIS, FEA, SUMO and business-system
+services are optional for the Samawah software demonstration.
 
-## Get the evaluation files
+## Get the tagged software
 
 ```sh
-git clone --filter=blob:none --sparse --branch main \
+git clone --filter=blob:none --sparse --branch v0.6.1 \
   https://github.com/modernecotech/OpenSourceRail.git
 cd OpenSourceRail
+test "$(git rev-parse HEAD)" = 5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea
+test "$(git rev-parse 'HEAD^{tree}')" = 58ba4411d502a166b3a14000bc1e09b733b65cbd
 git sparse-checkout set --no-cone \
   /.github/release-smoke-tests.txt \
   /tools/automation/prepare-v06-release-checkout.py \
@@ -40,7 +44,7 @@ publication refresh.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install pytest scipy==1.16.3
+.venv/bin/python -m pip install pytest==9.2.0 scipy==1.16.3
 npm ci
 npx playwright install chromium
 ```
@@ -54,14 +58,15 @@ running their declared methods. See [the broader project setup guide](../../../t
 ## Run the browser demonstration
 
 With the project environment and browser dependencies installed, use a new
-output directory outside the checkout. The script runs twice as a complete
+output directory outside the checkout. Run the script twice as a complete
 demonstration, including an identical warm request inside each run:
 
 ```sh
+run_root="$(mktemp -d /tmp/osr-v061-demo.XXXXXX)"
 node tools/automation/tests/verify-v06-software-journey-a.mjs \
-  /tmp/osr-v06-samawah-journey-a-1
+  "$run_root/journey-a-1"
 node tools/automation/tests/verify-v06-software-journey-a.mjs \
-  /tmp/osr-v06-samawah-journey-a-2
+  "$run_root/journey-a-2"
 ```
 
 Each run starts a loopback Workbench, calculates the default Samawah case,

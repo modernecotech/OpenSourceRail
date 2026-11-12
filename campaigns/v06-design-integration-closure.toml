@@ -1,8 +1,8 @@
 schema = "osr-design-integration-closure-program/1"
-revision = "USER-WAIT-FOR-DESIGN-CLOSURE-AND-ALL-CITIES-20261109"
-purpose = "Close the defined digital design and integration work before a v0.6-series software release"
+revision = "V07-ENGINEERING-CONTINUATION-20261112"
+purpose = "Retain open engineering and integration requirements for v0.7 after the published v0.6.1 software release"
 reference_changes_allowed = false
-release_unpublished_until_required_work_closed = true
+release_unpublished_until_required_work_closed = false
 physical_acceptance_automatic = false
 manufacturing_release_automatic = false
 operating_release_automatic = false
@@ -14,6 +14,15 @@ retain_failed_and_unsupported_work = true
 calculated_prices_allowed = true
 unknowns_are_zero = false
 allow_supplier_or_qualification_claims_from_synthetic_tests = false
+
+# The engineering work below remains required. Only software-publication control
+# is superseded by the published Open Engineering Platform release.
+[software_publication]
+control_superseded = true
+published_release = "v0.6.1"
+published_source_commit = "5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea"
+published_release_url = "https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1"
+engineering_findings_remain_open = true
 
 [ancestry]
 research_body_candidate_id = "9f6d223074b3438a546d5b3d71cd9b970807387ef0542023bed79bef46dbdeba"

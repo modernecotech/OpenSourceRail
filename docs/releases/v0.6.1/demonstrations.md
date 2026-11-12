@@ -1,6 +1,6 @@
 # v0.6.1 demonstrations
 
-The three mandatory software examples use one fresh city calculation and two
+The published software verification examples use one fresh city calculation and two
 existing source-pinned evidence sets. The physical and operational release
 flags remain false in every example.
 
@@ -34,7 +34,7 @@ this release journey.
 ## Journey C — candidate research (precomputed evidence)
 
 Open the declared passive steel-wheel development reference in the Workbench.
-At this source commit, the Workbench candidate-portfolio selector is held and
+At the frozen v0.6.1 source commit, the Workbench candidate-portfolio selector is held and
 hidden because its current dossier binding reports
 `Current source changed: .github/workflows/development-baseline.yml`. Do not
 describe the hidden selector as an available interactive comparison.

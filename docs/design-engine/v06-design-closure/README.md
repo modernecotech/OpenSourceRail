@@ -1,4 +1,10 @@
-# v0.6 design closure
+# Retained v0.6 engineering findings for v0.7
+
+**v0.6.1 is [published](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1).**
+The old campaign is superseded only where it controlled software publication.
+All six open engineering gates and the partial Workbench gate remain visible
+below and feed the [v0.7 Samawah integration milestone](../../ROADMAP.md).
+No finding or engineering evidence is closed by this documentation handover.
 
 [Vehicle manufacturing-document coverage draft](vehicle-document-coverage.json)
 
@@ -39,9 +45,9 @@
 The machine-readable gate ledger is [status.json](status.json). Run
 `python3 tools/verify-v06-release-closure.py` to check source-bound evidence
 and engineering design-closure readiness. It currently reports seven
-open/partial design gates. This ledger does not decide software-release
-readiness; that is evaluated separately by `./osr release software readiness`
-against the SR-01–SR-06 contract. The verifier checks ledger completeness and
+open/partial design gates. This ledger does not decide whether software is published. The separate
+`./osr release software readiness` command inspects the retained authenticated
+review profile; its pending state does not undo the published v0.6.1 release. The verifier checks ledger completeness and
 hash integrity, not the engineering meaning of a closure claim.
 
 This is a supplementary, source-linked audit. It does not modify the frozen
@@ -56,15 +62,13 @@ Regenerate the report from the repository root with:
 python3 tools/vehicle_document_coverage.py
 ```
 
-## Release gate status
+## Engineering gate status
 
-The v0.6-series release remains withheld until the required digital design and
-integration work below is complete. The closure campaign includes the six
-candidate-integration gates plus an all-city outline reconciliation gate,
-reflecting the requirement to preserve and update the complete city catalogue.
-This is a software/design release gate;
-physical qualification and operating approval remain separate gates and are
-not implied by closure of this work.
+The campaign retains six candidate-integration gates plus an all-city outline
+reconciliation gate. These are engineering continuation requirements for v0.7,
+not prerequisites that withhold the published software release. The complete
+city catalogue and all open findings remain retained. Physical qualification
+and operating approval remain separate from closure of this digital work.
 
 | Required work | Current state | Evidence / remaining closure |
 | --- | --- | --- |
