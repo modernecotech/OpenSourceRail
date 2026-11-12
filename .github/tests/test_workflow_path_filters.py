@@ -167,3 +167,17 @@ def test_presentation_policy_keeps_fast_contracts_without_retained_physics_repla
         assert _matches(member,checkout),member
     # Source-bound retained publication checks stay strict: these exclusions
     # do not relabel old presentation receipts or grant current validity.
+
+
+def test_generated_documentation_index_uses_fast_check_without_physics_replay():
+    fast=ROOT/'.github/workflows/v06-software-release.yml'
+    shared=ROOT/'.github/workflows/shared-software.yml'
+    for event in ('push','pull_request'):
+        assert _matches('docs/INDEX.md', _event_paths(fast,event))
+        assert not _matches('docs/INDEX.md', _event_paths(shared,event))
+        assert _matches(SOURCE_CONTROL, _event_paths(shared,event))
+    text=fast.read_text()
+    assert text.index('Verify the maintained documentation index') < text.index('Install the small Python test environment')
+    assert 'python tools/automation/generate-doc-index.py --check' in text
+    assert '/tools/automation/doc_index_policy.py' in text
+    assert "['git', 'sparse-checkout', 'add', '--stdin']" in text

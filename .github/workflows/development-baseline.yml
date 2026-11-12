@@ -358,6 +358,22 @@ jobs:
       - name: Pin NumPy for exact source-bound evaluator replay
         run: .venv/bin/pip install --no-cache-dir numpy==2.3.5
       - run: npm ci
+      - name: Supported front-door hold, documentation and frontend contracts
+        run: |
+          .venv/bin/python - <<'PYCODE'
+          import json
+          from engineering.development_baseline import FLAGS
+          from engineering.development_baseline.entrypoint import status
+          state = status()
+          assert state['schema'] == 'osr-default-entrypoint/1'
+          assert state['publication_state'] == 'hold'
+          assert state['hold_reason'] == 'Current source changed: .github/workflows/development-baseline.yml'
+          assert 'publication' not in state and all(state.get(key) is False for key in FLAGS)
+          print(json.dumps(state, sort_keys=True))
+          PYCODE
+          .venv/bin/python tools/automation/check-readmes.py
+          .venv/bin/python tools/automation/generate-doc-index.py --check
+          npm run test:frontend
       - run: npx playwright install --with-deps chromium
       - name: Current vehicle, policy, planning and reference-integrity contracts
         run: |
@@ -423,12 +439,6 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_equipped_candidates.py engineering/design_search/tests/test_moving_lim.py engineering/design_search/tests/test_lim_transport.py engineering/design_search/tests/test_lim_critical_mesh.py engineering/design_search/tests/test_moving_lim_publication.py engineering/design_search/tests/test_fault_response.py engineering/design_search/tests/test_test_readiness.py engineering/design_search/tests/test_lim_static_benchmark.py engineering/design_search/tests/test_lim_static_publication.py::test_numeric_verification_tolerance_never_accepts_nonfinite_or_engineering_claims engineering/design_search/tests/test_lim_static_publication.py::test_resealed_nested_case_cannot_claim_acceptance_or_release
           .venv/bin/python -m engineering.design_search.moving_lim_publication verify
-      - name: Current source-bound publication and user journey
-        run: |
-          ./osr verify
-          .venv/bin/python tools/automation/check-readmes.py
-          .venv/bin/python tools/automation/generate-doc-index.py --check
-          npm run test:frontend
       - name: Reproduce editable Samawah city journey, warm cache and exports
         env:
           OSR_PYTHON: .venv/bin/python

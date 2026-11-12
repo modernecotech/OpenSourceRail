@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **214**.
+Indexed Markdown files: **236**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **214**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 182 |
+| [docs](#docs) | 204 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -78,11 +78,12 @@ Indexed Markdown files: **214**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
-| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and delivery roadmap |
+| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
 | [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
+| [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway atlas |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
 | [`docs/design-engine/city-price-review/README.md`](../docs/design-engine/city-price-review/README.md) | City price review — 6 November 2026 |
 | [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
@@ -174,7 +175,7 @@ Indexed Markdown files: **214**.
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
 | [`docs/design-engine/v06-business-lifecycle-audit/README.md`](../docs/design-engine/v06-business-lifecycle-audit/README.md) | v0.6 candidate business lifecycle audit |
-| [`docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/README.md) | v0.6 design closure |
+| [`docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/README.md) | Retained v0.6 engineering findings for v0.7 |
 | [`docs/design-engine/v06-design-closure/all-city-audit-errata.md`](../docs/design-engine/v06-design-closure/all-city-audit-errata.md) | Erratum for the sealed all-city audit packet |
 | [`docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md) | All-city coverage audit |
 | [`docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md) | v0.6 design closure |
@@ -245,17 +246,38 @@ Indexed Markdown files: **214**.
 | [`docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md`](../docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
-| [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | v0.6 software-release readiness |
+| [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | Retained authenticated software-review profile |
+| [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
+| [`docs/design-engine/v07-execution/tool-capabilities.md`](../docs/design-engine/v07-execution/tool-capabilities.md) | v0.7 tool selection and retirement boundaries |
+| [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |
 | [`docs/engineering-models/README.md`](../docs/engineering-models/README.md) | Engineering models |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
 | [`docs/gis/README.md`](../docs/gis/README.md) | Editable city GIS with RustGIS |
+| [`docs/guides/delivery-scheduler.md`](../docs/guides/delivery-scheduler.md) | Direct delivery compilation |
 | [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
+| [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
+| [`docs/plans/v0.7-agent-delivery-plan.md`](../docs/plans/v0.7-agent-delivery-plan.md) | v0.7 agent delivery and tool migration plan |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
+| [`docs/releases/v0.6.0/README.md`](../docs/releases/v0.6.0/README.md) | OpenSourceRail v0.6.0 software release package |
+| [`docs/releases/v0.6.0/demonstrations.md`](../docs/releases/v0.6.0/demonstrations.md) | v0.6.0 demonstrations |
+| [`docs/releases/v0.6.0/feature-maturity.md`](../docs/releases/v0.6.0/feature-maturity.md) | v0.6.0 feature maturity |
+| [`docs/releases/v0.6.0/known-limitations.md`](../docs/releases/v0.6.0/known-limitations.md) | Known limitations for v0.6.0 |
+| [`docs/releases/v0.6.0/quickstart.md`](../docs/releases/v0.6.0/quickstart.md) | v0.6.0 evaluation quickstart |
+| [`docs/releases/v0.6.0/release-notes.md`](../docs/releases/v0.6.0/release-notes.md) | Proposed v0.6.0 release notes |
+| [`docs/releases/v0.6.0/validation.md`](../docs/releases/v0.6.0/validation.md) | v0.6.0 validation |
+| [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
+| [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
+| [`docs/releases/v0.6.1/feature-maturity.md`](../docs/releases/v0.6.1/feature-maturity.md) | v0.6.1 feature maturity |
+| [`docs/releases/v0.6.1/installation-verification.md`](../docs/releases/v0.6.1/installation-verification.md) | Published v0.6.1 installation verified |
+| [`docs/releases/v0.6.1/known-limitations.md`](../docs/releases/v0.6.1/known-limitations.md) | Known limitations for v0.6.1 |
+| [`docs/releases/v0.6.1/quickstart.md`](../docs/releases/v0.6.1/quickstart.md) | Install and run the published v0.6.1 release |
+| [`docs/releases/v0.6.1/release-notes.md`](../docs/releases/v0.6.1/release-notes.md) | v0.6.1 — Open Engineering Platform |
+| [`docs/releases/v0.6.1/validation.md`](../docs/releases/v0.6.1/validation.md) | v0.6.1 validation |
 | [`docs/workbench/planning/README.md`](../docs/workbench/planning/README.md) | City planning proposals |
 
 ## engineering
