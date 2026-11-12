@@ -30,6 +30,9 @@ on:
       - "tools/automation/tests/browser-launch.mjs"
       - "tools/automation/tests/verify-development-baseline.mjs"
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
+      - "tools/automation/tests/verify-v07-samawah-corridor.mjs"
+      - "engineering/outline/corridor_revision.py"
+      - "tests/test_corridor_revision*.py"
       - "package.json"
       - "package-lock.json"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
@@ -62,6 +65,9 @@ on:
       - "tools/automation/tests/browser-launch.mjs"
       - "tools/automation/tests/verify-development-baseline.mjs"
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
+      - "tools/automation/tests/verify-v07-samawah-corridor.mjs"
+      - "engineering/outline/corridor_revision.py"
+      - "tests/test_corridor_revision*.py"
       - "package.json"
       - "package-lock.json"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
@@ -114,6 +120,8 @@ jobs:
           second="$RUNNER_TEMP/osr-v061-samawah-journey-a-2"
           node tools/automation/tests/verify-v06-software-journey-a.mjs "$first"
           node tools/automation/tests/verify-v06-software-journey-a.mjs "$second"
+      - name: Compare the v0.7 Samawah station-merge revision
+        run: node tools/automation/tests/verify-v07-samawah-corridor.mjs "$RUNNER_TEMP/osr-v07-samawah-corridor"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -121,5 +129,13 @@ jobs:
           path: |
             ${{ runner.temp }}/osr-v061-samawah-journey-a-1/
             ${{ runner.temp }}/osr-v061-samawah-journey-a-2/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v07-samawah-corridor-comparison
+          path: ${{ runner.temp }}/osr-v07-samawah-corridor/
           if-no-files-found: warn
           retention-days: 14

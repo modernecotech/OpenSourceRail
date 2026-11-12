@@ -255,6 +255,36 @@ class CityStudyService:
     def status(self,job_id):
         with self.lock:return self._poll(job_id)
 
+    def corridor_proposal(self):
+        from . import corridor_revision
+        with self.lock:return corridor_revision.proposal(self.root)
+
+    def corridor_comparison(self,before_id,after_id):
+        from . import corridor_revision
+        with self.lock:
+            before_status=self._poll(before_id);after_status=self._poll(after_id)
+            if before_status['state']!='completed' or after_status['state']!='completed':
+                raise ValueError('Two completed, source-verified city studies are required')
+            proposal=corridor_revision.proposal(self.root)
+            load=lambda job,name:json.loads(self.artifact(job,name))
+            # Retained status records are hints; bind reuse to the verified
+            # artifact manifests, not a mutable status manifest_id field.
+            before_manifest=load(before_id,'manifest.json');after_manifest=load(after_id,'manifest.json')
+            key=identity(dict(proposal=proposal,before=before_manifest['manifest_id'],
+                after=after_manifest['manifest_id'],jobs=[before_id,after_id]))
+            cache=getattr(self,'corridor_comparisons',{})
+            if key in cache:return dict(cache[key],cache_hit=True)
+            report=corridor_revision.compare(proposal,
+                load(before_id,'result.json'),load(after_id,'result.json'),
+                before_manifest,after_manifest,
+                performance=dict(before=load(before_id,'performance.json'),after=load(after_id,'performance.json')))
+            value=dict(schema='osr-corridor-comparison-response/1',report=report,
+                jobs=dict(before=dict(job_id=before_id,manifest_id=before_manifest['manifest_id']),
+                          after=dict(job_id=after_id,manifest_id=after_manifest['manifest_id'])))
+            if len(cache)>=4:cache.pop(next(iter(cache)))
+            cache[key]=value;self.corridor_comparisons=cache
+            return dict(value,cache_hit=False)
+
     def artifact(self,job_id,name):
         with self.lock:
             status=self._poll(job_id)
@@ -306,7 +336,12 @@ def handle_api(handler):
     try:
         service=getattr(handler.server,'city_studies',None)
         if service is None:raise ValueError('Mapped-city job service is not configured')
-        if post:
+        comparison=re.fullmatch('/api/city-studies/comparisons/([0-9a-f]{32})/([0-9a-f]{32})',path)
+        if not post and path=='/api/city-studies/scenarios/samawah-station-merge':
+            handler.respond(200,service.corridor_proposal())
+        elif not post and comparison:
+            handler.respond(200,service.corridor_comparison(*comparison.groups()))
+        elif post:
             if path!='/api/city-studies':raise ValueError('POST the mapped-city study endpoint')
             length=handler.headers.get('Content-Length','')
             if (handler.headers.get('Content-Type','').split(';')[0]!='application/json'

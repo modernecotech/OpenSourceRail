@@ -132,6 +132,73 @@
       } catch (_) { /* The visible result does not require a download URL. */ }
     }
     const localGIS = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+    if (localGIS && packet.city?.slug === "samawah" && !identity.workflow_evaluation_id) {
+      const comparison = node("section", "atlas-revision-comparison"); comparison.id = "samawah-station-merge";
+      comparison.append(node("h4", "atlas-section-title", "Compare the proposed station merge"));
+      comparison.append(node("p", "atlas-note", "Recalculate the published network and the midpoint consolidation of the 79.977 m marker pair under the same vehicle and service assumptions."));
+      const compare = button("Compare Samawah station merge", async () => {
+        compare.disabled = true; result.replaceChildren();
+        const read = async (url, options = {}) => {
+          const response = await fetch(url, { ...options, signal }); const value = await response.json();
+          if (!response.ok) throw Error(value.error || "The comparison request failed");
+          return value;
+        };
+        const calculate = async (request, label) => {
+          progress.textContent = `${label} · checking verified results`;
+          let job = await read("/api/city-studies", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
+          const reused = job.cache_hit === true; const deadline = performance.now() + 140000;
+          while (job.state === "running" && performance.now() < deadline) {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            job = await read(`/api/city-studies/${job.job_id}`);
+          }
+          if (job.state !== "completed") throw Error(job.error || `${label} did not complete within its budget`);
+          return { ...job, reused };
+        };
+        try {
+          progress.textContent = "Preparing the source-bound station edit";
+          const proposal = await read("/api/city-studies/scenarios/samawah-station-merge");
+          const before = await calculate(proposal.baseline_request, "Published-marker control");
+          const after = await calculate(proposal.revised_request, "Midpoint consolidation");
+          progress.textContent = "Comparing verified quantities and costs";
+          const url = `/api/city-studies/comparisons/${before.job_id}/${after.job_id}`;
+          const response = await read(url); const report = response.report;
+          comparison.dataset.baselineJob = before.job_id; comparison.dataset.revisedJob = after.job_id;
+          comparison.dataset.cacheReused = String(before.reused && after.reused);
+          const table = node("table", "samawah-merge-metrics"), head = node("thead"), labels = node("tr");
+          for (const title of ["Measure", "Before", "Proposed merge", "Change"]) labels.append(node("th", "", title));
+          head.append(labels); table.append(head); const rows = node("tbody");
+          const metric = (value, measure) => !finite(value) ? "Not established" : measure.unit === "USD" ? money(value) : number(value, 4);
+          for (const measure of report.metrics) {
+            const row = node("tr"); row.dataset.metric = measure.key;
+            row.append(node("th", "", `${measure.label}${measure.unit ? ` (${measure.unit})` : ""}`));
+            for (const field of ["before", "after", "delta"]) row.append(node("td", "", metric(measure[field], measure)));
+            rows.append(row);
+          }
+          table.append(rows); const scroll = node("div", "atlas-table-scroll"); scroll.append(table); result.append(scroll);
+          const costs = node("table", "samawah-merge-costs"), costHead = node("tr");
+          for (const title of ["Cost scope", "Before: low / base / high", "After: low / base / high", "Base change"]) costHead.append(node("th", "", title));
+          const costHeader = node("thead"); costHeader.append(costHead); costs.append(costHeader); const costRows = node("tbody");
+          const cases = value => ["low", "base", "high"].map(key => money(value?.[key])).join(" / ");
+          for (const [scope, values] of Object.entries(report.cost_scopes)) {
+            const row = node("tr"); row.append(node("th", "", human(scope)), node("td", "", cases(values.before)), node("td", "", cases(values.after)), node("td", "", money(values.delta?.base))); costRows.append(row);
+          }
+          costs.append(costRows); const costScroll = node("div", "atlas-table-scroll"); costScroll.append(costs); result.append(node("h4", "atlas-section-title", "Fourteen cost scopes"), costScroll);
+          const findings = node("details", "atlas-disclosure"); findings.append(node("summary", "", "Changed quantities, assumptions and unresolved inputs"));
+          findings.append(node("pre", "atlas-comparison-details", JSON.stringify({ quantities: report.quantities, lines: report.lines, unresolved_inputs: report.unresolved_inputs }, null, 2))); result.append(findings);
+          const trace = node("details", "atlas-disclosure"); trace.append(node("summary", "", "Design and result identities")); trace.append(node("pre", "atlas-comparison-details", JSON.stringify(report.identities, null, 2))); result.append(trace);
+          const downloads = node("div", "atlas-comparison-downloads");
+          for (const [label, href] of [["Download comparison", url], ["Before dossier", `/api/city-studies/${before.job_id}/artifacts/result.json`], ["Revised dossier", `/api/city-studies/${after.job_id}/artifacts/result.json`], ["Revised delivery draft", `/api/city-studies/${after.job_id}/artifacts/delivery-plan.json`]]) {
+            const link = node("a", "atlas-download", label); link.href = href; link.download = label.toLowerCase().replaceAll(" ", "-") + ".json"; downloads.append(link);
+          }
+          result.append(downloads);
+          progress.textContent = `Comparison complete · ${before.reused && after.reused ? "both verified calculations reused" : "calculated and verified"}`;
+        } catch (error) { if (!destroyed) progress.textContent = `Unable to compare: ${error.message}`; }
+        finally { compare.disabled = false; }
+      });
+      compare.id = "samawah-merge-compare";
+      const progress = node("p", "atlas-note", "The original mapped markers and published results are preserved."); progress.id = "samawah-merge-status"; progress.setAttribute("aria-live", "polite");
+      const result = node("div", "atlas-comparison-results"); comparison.append(compare, progress, result); root.append(comparison);
+    }
     const studyId = options.studyId || /^\/api\/city-atlas\/study\/([a-f0-9]{32})$/.exec(options.downloadUrl || "")?.[1];
     if (localGIS && (!packet.identity?.workflow_evaluation_id || /^[a-f0-9]{32}$/.test(studyId || "")) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(packet.city?.slug || "") && /^[a-f0-9]{64}$/.test(packet.packet_id || "")) {
       const gis = node("a", "atlas-download", "Download editable RustGIS project and source tables");

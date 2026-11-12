@@ -85,6 +85,7 @@ BASE_PATTERNS = (
     "/tools/automation/tests/verify-development-baseline.mjs",
     "/tools/automation/tests/verify-v06-release-workbench.mjs",
     "/tools/automation/tests/verify-v06-software-journey-a.mjs",
+    "/tools/automation/tests/verify-v07-samawah-corridor.mjs",
     "/package.json",
     "/package-lock.json",
     "/rust-toolchain.toml",
