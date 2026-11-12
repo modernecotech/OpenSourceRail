@@ -54,7 +54,7 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 --filter=blob:none origin 946f1772540d07af85b57b0d13cac08a3293b140
           .venv/bin/python -m tools.automation.verify_retained_publications prefetch cell
-          .venv/bin/python -m tools.automation.verify_retained_publications verify cell --state "$RUNNER_TEMP/osr-retained-cell-check"
+          .venv/bin/python -m tools.automation.verify_retained_publications verify cell --cell-extended-budget --diagnostics --state "$RUNNER_TEMP/osr-retained-cell-check"
       - name: Preserve exact original motor bytes without current-source admission
         run: |
           .venv/bin/python - <<'PY'

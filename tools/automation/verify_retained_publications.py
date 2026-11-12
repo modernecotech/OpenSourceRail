@@ -76,8 +76,9 @@ def prefetch(root,domain):
     return epoch.prefetch_selected(root,REVISION,names)
 
 
-def verify(root,domain,state,*,source_revision=REVISION):
+def verify(root,domain,state,*,source_revision=REVISION,extended_cell_budget=False,diagnostics=False):
     if source_revision!=REVISION:raise ValueError('Exact pinned historical source revision required')
+    if domain!='cell' and (extended_cell_budget or diagnostics):raise ValueError('Extended diagnostic budget is CELL-only')
     root=Path(root).resolve();state=Path(state).absolute()
     if state.exists() or state.is_symlink() or state==root or root in state.resolve().parents:
         raise ValueError('Fresh external retained verification state required')
@@ -87,16 +88,19 @@ def verify(root,domain,state,*,source_revision=REVISION):
     if shutil.disk_usage(probe).free-MAX_TEMP<epoch.MIN_FREE_BYTES:raise ValueError('Historical verification disk reserve unavailable')
     state.mkdir(parents=True,exist_ok=False);work=state/'epoch';scratch=state/'scratch';scratch.mkdir()
     child_code=CHILD
-    cpu_seconds=150 if domain=='cell' else 120
-    if domain=='cell':child_code=child_code.replace('resource.RLIMIT_CPU, (120, 120)','resource.RLIMIT_CPU, (150, 150)')
+    cpu_seconds=(300 if extended_cell_budget else 150) if domain=='cell' else 120
+    wall_seconds=360 if extended_cell_budget else 180
+    if domain=='cell':child_code=child_code.replace('resource.RLIMIT_CPU, (120, 120)',f'resource.RLIMIT_CPU, ({cpu_seconds}, {cpu_seconds})')
+    if diagnostics:
+        child_code=child_code.replace("if sys.argv[3]=='twin':","import faulthandler\nfaulthandler.dump_traceback_later(30, repeat=True)\nif sys.argv[3]=='twin':")
     started=time.monotonic();receipt=dict(schema='osr-retained-twin-motor-check/1',domain=domain,
         source_revision=REVISION,current_source_valid=False,retained_verified=False,
         method_replay_completed=False,native_solver_executions=0,native_processes=0,
-        resource_request=dict(cpu_seconds=cpu_seconds,wall_seconds=180,address_space_bytes=3*1024**3,
+        resource_request=dict(cpu_seconds=cpu_seconds,wall_seconds=wall_seconds,address_space_bytes=3*1024**3,
             maximum_selected_input_bytes=epoch.MAX_SOURCE_BYTES,maximum_temporary_bytes=MAX_TEMP,
             per_file_limit_bytes=MAX_FILE,minimum_free_disk_bytes=epoch.MIN_FREE_BYTES),
         isolation='Isolated Python imports and cooperative process guard plus child rlimits; not an OS sandbox or aggregate filesystem quota',
-        guard_sha256=hashlib.sha256(child_code.encode()).hexdigest(),**{k:False for k in FLAGS})
+        guard_sha256=hashlib.sha256(child_code.encode()).hexdigest(),diagnostic_stack_interval_seconds=30 if diagnostics else None,**{k:False for k in FLAGS})
     try:
         cfg,entries,manifest,raw,payload,sources,names=selection(root,domain)
         total=epoch.selected_size(entries,names)
@@ -129,7 +133,7 @@ def verify(root,domain,state,*,source_revision=REVISION):
         env.update(PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(scratch),OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
         with (state/'stdout.json').open('wb') as out,(state/'stderr.txt').open('wb') as err:
             run=subprocess.run([sys.executable,'-I','-B','-c',child_code,str(work),str(work/cfg['folder']),domain],
-                cwd=work,env=env,stdout=out,stderr=err,timeout=180)
+                cwd=work,env=env,stdout=out,stderr=err,timeout=wall_seconds)
         receipt['original_checker_exit_code']=run.returncode
         if run.returncode:raise ValueError('Original checker failed; original source/input copies and logs retained at '+str(state))
         with os.fdopen(os.open(state/'stdout.json',os.O_RDONLY|os.O_NOFOLLOW),'rb') as stream:
@@ -162,9 +166,11 @@ def verify(root,domain,state,*,source_revision=REVISION):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('prefetch','verify'))
     p.add_argument('domain',choices=tuple(CATALOG));p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--state',type=Path)
+    p.add_argument('--cell-extended-budget',action='store_true',help='Explicit CELL-only300CPU/360wall verification request')
+    p.add_argument('--diagnostics',action='store_true',help='CELL-only30-second faulthandler stack snapshots')
     a=p.parse_args()
     if a.action=='verify' and a.state is None:p.error('--state fresh external directory required')
-    result=prefetch(a.root,a.domain) if a.action=='prefetch' else verify(a.root,a.domain,a.state)
+    result=prefetch(a.root,a.domain) if a.action=='prefetch' else verify(a.root,a.domain,a.state,extended_cell_budget=a.cell_extended_budget,diagnostics=a.diagnostics)
     print(json.dumps(result,sort_keys=True))
 
 
