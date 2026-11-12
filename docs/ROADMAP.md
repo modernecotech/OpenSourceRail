@@ -54,6 +54,10 @@ sides retain the same vehicle candidate and unchanged civil quantity identity;
 the report exposes actual service, access and fourteen-scope cost changes.
 The remaining workstreams below remain open.
 
+The [agent delivery and tool migration plan](plans/v0.7-agent-delivery-plan.md)
+assigns bounded work to agents and subagents, with Rust migration benchmarks,
+CAD/FEA/GIS promotion criteria, legacy retirement gates and resource budgets.
+
 ## v0.7 delivery workstreams
 
 | Workstream | Required integrated result |
