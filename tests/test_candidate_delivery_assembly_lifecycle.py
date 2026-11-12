@@ -6,6 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace as Row
 import pytest
 from engineering.pilot_delivery import review
+from engineering.pilot_delivery.model import _make_buy_mapping
 from engineering.station_rail.common import identity,encoded
 c=review.contract
 
@@ -15,9 +16,12 @@ def helper(name):
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 
 
-def inputs(folder):
+def inputs(folder, *, bought=False):
     h=helper('test_pilot_delivery_review');proposal=h.synthetic_proposal()
     part=proposal['items'][0];old=part['assembly_id'];part['assembly_id']='synthetic/source-one-piece-assembly'
+    if bought:
+        part['make_buy']='buy-qualified'
+        part['make_buy_mapping']=_make_buy_mapping(part['make_buy'])
     for route in proposal['assembly_routes']:
         if route['id']==old:
             route['component_type_ids'].remove(part['id'])
@@ -48,12 +52,12 @@ def inputs(folder):
 
 
 @pytest.fixture
-def native(tmp_path,monkeypatch):
+def native(tmp_path,monkeypatch,request):
     h=helper('test_candidate_delivery_adapter');b=h.Backend(tmp_path/'site');monkeypatch.setitem(sys.modules,'frappe',b)
     monkeypatch.syspath_prepend(str(review.ROOT/'deployment/erpnext/apps/osr_erpnext'))
     name='osr_erpnext.candidate_delivery';monkeypatch.delitem(sys.modules,name,raising=False);m=importlib.import_module(name)
     b.add('Company','C',default_currency='USD');b.add('Project','P',company='C',custom_osr_city='baghdad');b.add('Item Group','Products',is_group=0)
-    folder=tmp_path/'artifacts';folder.mkdir();pack,context,node=inputs(folder)
+    folder=tmp_path/'artifacts';folder.mkdir();pack,context,node=inputs(folder,bought=getattr(request,'param',False))
     m.provision_project('P',context);files={}
     for i,r in enumerate(pack['artifacts']):
         name='File-'+str(i);b.add('File',name,attached_to_doctype='Project',attached_to_name='P',is_private=1,content=(folder/r['path']).read_bytes());files[r['path']]=name
@@ -133,15 +137,11 @@ def test_typed_assembly_manufacture_install_replace_handback(native):
     with pytest.raises(ValueError,match='child native QA'):m.lifecycle_status('P',p['sha256'],'ASSET')
 
 
+@pytest.mark.parametrize('native',[True],indirect=True)
 @pytest.mark.parametrize('fault',[None,'pending-receipt','wrong-receipt-row','wrong-batch','pending-qa','rejected-qa','wrong-origin','duplicate-serial'])
 def test_purchased_child_receipt_and_lot_custody(native,fault):
     b,m,p,context,part,assembly,args,make=native
-    original=m._pack
-    def purchased_pack(*a,**kw):
-        d,ctx,folder,reg=original(*a,**kw)
-        reg=deepcopy(reg);reg['pack']['components'][0]['source_part']['make_buy']='buy-qualified'
-        return d,ctx,folder,reg
-    m._pack=purchased_pack
+    assert p['components'][0]['source_part']['make_buy']=='buy-qualified'
     serial='BOUGHT-OLD';batch='LOT-OLD';item=part['finished_item']
     b.add('Serial No',serial,company='C',item_code=item)
     b.add('Batch',batch,company='C',item=item)

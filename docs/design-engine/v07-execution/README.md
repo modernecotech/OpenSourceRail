@@ -232,8 +232,9 @@ QA record invalidates the previous handback review. Twenty new assembly tests
 and 56 compatibility tests passed for the prior manufactured-only scope.
 The purchased extension checks submitted receipt row, inward serial-and-batch
 bundle, parent outward consumption, item/serial/batch identity and latest
-accepted Incoming QA. Its synthetic cases and independent source/schema review
-do not establish native ERP transaction success or pooled batch-only custody. A
+accepted Incoming QA. Eight synthetic cases now use a sealed, reviewed
+bought-source one-child pack; they and independent source/schema review do not
+establish native ERP transaction success or pooled batch-only custody. A
 matching candidate package and controlled document coverage are still required
 for the actual door run. Controlled research documents can support software tests
 without claiming physical qualification.

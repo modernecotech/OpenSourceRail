@@ -56,9 +56,10 @@ failed inspection and changed review Tasks invalidate business handback. Serial
 position and child-consumption indices prevent silent duplicate allocation.
 
 No API submits a draft BOM or grants physical manufacturing, installation,
-operating or movement authority. The purchased route has synthetic contract
-tests but has not been demonstrated in a live ERPNext transaction or against a
-sealed, reviewed bought-source module pack. Assembly process cost remains unknown;
+operating or movement authority. The purchased route has a sealed and reviewed
+synthetic one-child bought-source pack in the contract tests, but has not been
+demonstrated in a live ERPNext transaction or a complete door-module pack.
+Assembly process cost remains unknown;
 zero native operation rates are conversion placeholders, not a zero engineering
 process estimate. Actual door lifecycle execution remains held until matching
 source identities, assembly/child documents and admitted custody inputs exist.
