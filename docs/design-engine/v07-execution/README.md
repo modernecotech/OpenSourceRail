@@ -164,7 +164,8 @@ A fresh analytic calculation preserved the exact physical definition and
 candidate `17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`.
 Its new evaluation is `cf40dbb70e043ec282f627ab3c677f94c9b8112e2cd95471e3d64a7edba1720a`;
 all eleven declared source bindings match the earlier run except the changed
-installation model. It has 24 affected door patterns, a 21,857,238-byte
+installation model. The audit fields cover 830 cut-length patterns across the
+vehicle, including 24 door guide/belt patterns. The 21,857,238-byte
 canonical result and no native CAD or solver execution. The earlier one-opening
 attachment remains bound to its original evaluation and is held for regeneration
 before use as current evidence. Controlled placement, finished route and
