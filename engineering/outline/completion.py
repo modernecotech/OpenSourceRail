@@ -267,8 +267,15 @@ def _check_costs(value):
                 raise ValueError('City disjoint capital/lifecycle ledger differs')
 
 
-def _sources(root, geography, engineering):
+def _sources(root, geography, engineering, cities=None):
     from . import design_completion
+    rows = geography['rows']
+    if cities is not None:
+        selected = set(cities)
+        by_slug = {row['slug']: row for row in rows}
+        if not selected or selected - by_slug.keys():
+            raise ValueError('Known, nonempty city set required for source binding')
+        rows = [by_slug[slug] for slug in sorted(selected)]
     names = (PRODUCER, POLICY, 'engineering/outline/city_inputs.py',
         'engineering/outline/city_service.py', 'engineering/outline/city_civil.py',
         'engineering/outline/city_project_cost.py', 'engineering/outline/design_completion.py',
@@ -276,9 +283,10 @@ def _sources(root, geography, engineering):
     names += ('engineering/outline/city_alignment.py','engineering/outline/city_cost_inputs.py','engineering/outline/city-cost-inputs.toml','engineering/outline/civil_evidence.py')
     sources = coordinator.merge_sources(geography['source_sha256'], engineering['sources'], design_completion.sources(root),
         {name:digest(Path(root)/name) for name in names})
-    # The request binds every city's source bytes, including city-specific route
-    # files. Completion never silently switches to geography from a newer epoch.
-    for row in geography['rows']:
+    # Bind source bytes only for requested cities. The catalogue and its global
+    # selection manifests remain in the common map above, while unrelated city
+    # payloads need not be read or decompressed for a bounded subset run.
+    for row in rows:
         for key in ('geography_path', 'route_geography_path', 'plan_path'):
             name = row.get(key)
             if name:
@@ -368,7 +376,7 @@ def run(output, root=ROOT, *, cities=None, workers=2, maximum_cities=None):
             raise ValueError('Known, nonempty city set required')
         engineering = coordinator.prepare(root)
         rules = policy(root)
-        sources = _sources(root, geography, engineering)
+        sources = _sources(root, geography, engineering, slugs)
         request = seal(dict(schema='osr-outline-completion-request/1',cities=slugs,
             policy=rules, source_sha256=sources, **FLAGS),'request_id')
         request_path = output/'request.json'
