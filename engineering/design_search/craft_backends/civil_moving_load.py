@@ -178,3 +178,38 @@ def build(root,steps=(.5,.25),*,producer_source=None):
         source_sha256=sources,command='build(root, steps=(0.5,0.25))',native_solver_jobs=0,
         physical_accepted=False,engineering_accepted=False,manufacturing_release=False)
     result['evaluation_id']=identity(result);return result
+
+
+def main(argv=None):
+    """Write a fresh immutable external analytical package without native solves."""
+    import argparse,json,sys,time,resource,shutil,subprocess
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    args=p.parse_args(argv);root=args.root.resolve();out=args.output.absolute();source=Path(__file__).resolve()
+    if out.exists() or out.resolve().is_relative_to(root) or out.resolve().is_relative_to(source.parents[3]):
+        raise ValueError('Fresh external result directory required')
+    if any(path.is_symlink() for path in (out,*out.parents)):raise ValueError('Ordinary result path required')
+    out.parent.mkdir(parents=True,exist_ok=True)
+    if shutil.disk_usage(out.parent).free<21*1024**3:raise ValueError('20 GiB reserve plus 1 GiB request unavailable')
+    out.mkdir();started=time.perf_counter()
+    try:
+        result=build(root,producer_source=source)
+        for name,sha in result['source_sha256'].items():
+            if digest(source if name==PRODUCER else root/name)!=sha:raise ValueError('Analytical source changed during execution')
+        raw=(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+        (out/'result.json').write_bytes(raw)
+        receipt=dict(schema='osr-v07-civil-analytical-run/1',evaluation_id=result['evaluation_id'],
+            result_sha256=__import__('hashlib').sha256(raw).hexdigest(),command=[sys.executable,*sys.argv],
+            producer_source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=source.parents[3],text=True).strip(),
+            runtime_source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+            runtime_dirty_state=subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True),
+            wall_seconds=time.perf_counter()-started,peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+            source_sha256=result['source_sha256'],native_solver_jobs=0,
+            resource_enforcement='Host disk admission and bounded sample grid; no OS sandbox or aggregate quota',physical_accepted=False)
+        (out/'receipt.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+        print(json.dumps({'evaluation_id':result['evaluation_id'],'output':str(out),'wall_seconds':receipt['wall_seconds']}))
+    except BaseException as exc:
+        (out/'failure.json').write_text(json.dumps({'type':type(exc).__name__,'reason':str(exc)})+'\n');raise
+
+
+if __name__=='__main__':main()
