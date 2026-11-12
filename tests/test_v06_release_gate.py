@@ -183,9 +183,15 @@ def test_current_retention_keeps_all_original_engineering_findings():
     status = json.loads((ROOT / release_gate.STATUS).read_text())
     manifest = json.loads((ROOT / status['source_retention']['path']).read_text())
     original = json.loads((ROOT / manifest['original_ledger']['path']).read_text())
-    assert len(manifest['inventory']) == 197
-    assert len(manifest['retained_sources']) == 3
+    assert len(manifest['inventory']) == 199
+    assert len(manifest['retained_sources']) == 5
     assert manifest['source_revision'] == '5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea'
+    model_rows = [row for row in manifest['retained_sources']
+                  if row['original_path'] == 'engineering/vehicle_installation/model.py']
+    assert {row['gate'] for row in model_rows} == {
+        'installed-vehicle', 'controlled-research-documents'}
+    assert {row['sha256'] for row in model_rows} == {
+        'a68c6a14f3094c037413021305d929099762cc095cbd36349216b3f909d12340'}
     for name, record in original['gates'].items():
         assert {k: v for k, v in record.items() if k != 'evidence'} == {
             k: v for k, v in status['gates'][name].items() if k != 'evidence'}
