@@ -298,6 +298,8 @@ def evaluate(city_record,policy=None,root=ROOT,*,scheduler_backend="python",sche
             sources[name]=sha
         schedules={c:engine.schedule(tasks,resources,c) for c in CASES}
         engine.verify()
+        backend['completed_helper_jobs']=engine.completed_helper_jobs
+        if engine.completed_helper_jobs!=3:raise ValueError('Complete delivery requires exactly three verified helper jobs')
     else:
         backend=dict(backend='python',schema='osr-delivery-scheduler/1',
             source_sha256={PRODUCER:digest(__file__)},native_solver_jobs=0,native_helper_jobs=0)
@@ -385,7 +387,9 @@ def evaluate(city_record,policy=None,root=ROOT,*,scheduler_backend="python",sche
 
 def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',scheduler_binary=None):
     """Supported uncached direct compilation; never enters zero-helper city workers."""
-    import os,stat
+    import os,stat,time,resource
+    started=time.perf_counter();own_cpu_started=time.process_time()
+    before_children=resource.getrusage(resource.RUSAGE_CHILDREN)
     root=Path(root).resolve();out=Path(output).absolute()
     if out==root or root in out.resolve().parents:raise ValueError('External fresh delivery output required')
     if out.exists() or out.is_symlink():raise ValueError('Fresh delivery output required')
@@ -406,10 +410,16 @@ def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',sche
         payload=encoded(plan)
         if len(payload)>64*1024**2:raise ValueError('Delivery plan output budget exceeded')
         (out/'delivery-plan.json').write_bytes(payload)
+        own=resource.getrusage(resource.RUSAGE_SELF);children=resource.getrusage(resource.RUSAGE_CHILDREN)
+        measurements=dict(wall_seconds=time.perf_counter()-started,own_cpu_seconds=time.process_time()-own_cpu_started,
+            child_cpu_seconds=(children.ru_utime+children.ru_stime)-(before_children.ru_utime+before_children.ru_stime),
+            process_lifetime_peak_rss_kib=own.ru_maxrss,children_lifetime_peak_rss_kib=children.ru_maxrss,
+            peak_rss_scope='Separate cumulative process-lifetime high-water marks; not per-job or simultaneous aggregate RSS')
         receipt=dict(schema='osr-direct-delivery-run/1',input_sha256=sha256(raw).hexdigest(),
             city_record_evaluation_id=record['evaluation_id'],plan_id=plan['plan_id'],
             output_sha256=sha256(payload).hexdigest(),scheduler_backend=plan['scheduler_backend'],
-            persistent_cache=False,native_solver_jobs=0,native_helper_jobs=3 if scheduler_backend=='rust' else 0,
+            persistent_cache=False,native_solver_jobs=0,
+            native_helper_jobs=plan['scheduler_backend'].get('completed_helper_jobs',0),measurements=measurements,
             engineering_accepted=False,physical_accepted=False)
         seal(receipt,'receipt_id');(out/'receipt.json').write_bytes(encoded(receipt))
         return receipt

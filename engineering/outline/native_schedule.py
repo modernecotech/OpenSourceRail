@@ -20,7 +20,8 @@ SOURCES=('Cargo.toml','Cargo.lock','rust-toolchain.toml','crates/osr-design-sear
     'engineering/outline/__main__.py')
 MAX_BYTES=16*1024**2
 HELPER_LIMITS=dict(cpu_seconds=30,wall_seconds=45,address_space_bytes=512*1024**2,
-    maximum_output_file_bytes=32*1024**2,maximum_temporary_output_bytes=64*1024**2,
+    maximum_output_file_bytes=32*1024**2,maximum_temporary_output_bytes=96*1024**2,
+    disk_enforcement="Per-file RLIMIT_FSIZE plus post-process aggregate observation; not an aggregate quota",
     maximum_parallel_helpers=1,maximum_request_bytes=MAX_BYTES)
 _LOADED_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
@@ -94,6 +95,7 @@ class NativeSchedule:
     def __init__(self,root,binary):
         self.root,self.binary=Path(root).resolve(),Path(binary).absolute()
         self.receipt=json.loads(_read(self.binary.with_suffix('.receipt.json')))
+        self.completed_helper_jobs=0
         self.verify()
 
     def verify(self):
@@ -135,12 +137,15 @@ class NativeSchedule:
             with (folder/'stdout.json').open('wb') as out,(folder/'stderr.txt').open('wb') as err:
                 result=subprocess.run(command,input=raw,stdout=out,stderr=err,
                     timeout=HELPER_LIMITS['wall_seconds'])
+            aggregate=sum(p.stat().st_size for p in folder.iterdir() if p.is_file())
+            if aggregate>HELPER_LIMITS['maximum_temporary_output_bytes']:raise ValueError('Observed scheduler scratch exceeds declared aggregate budget')
             self.verify()
             stdout=_read(folder/'stdout.json',32*1024**2)
             stderr=_read(folder/'stderr.txt',1024**2)
             if result.returncode:raise ValueError(stderr.decode(errors='replace').strip() or 'Rust scheduler failed')
             value=json.loads(stdout)
             if value.get('engineering_release') is not False:raise ValueError('Conditional scheduling result required')
+            self.completed_helper_jobs+=1
             succeeded=True
             return value
         except Exception as exc:
