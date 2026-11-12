@@ -6,9 +6,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
 pub mod canonical;
-pub mod scheduling;
 #[cfg(feature = "python-extension")]
 mod python_canonical;
+pub mod scheduling;
 
 pub const REQUEST_SCHEMA: &str = "osr-search-kernel-request/1";
 pub const RESULT_SCHEMA: &str = "osr-search-kernel-result/1";
