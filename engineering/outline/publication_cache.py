@@ -12,6 +12,7 @@ import io
 import json
 import os
 from pathlib import Path
+import stat
 from threading import RLock
 
 from engineering.station_rail import ROOT
@@ -30,22 +31,23 @@ def _signature(root,folder,manifest):
             if path.is_absolute() or '..' in path.parts:
                 raise ValueError('Repository-relative publication evidence required')
             paths.append(base/path)
-    # Check every unique path component once. Calling _ordinary for each file
-    # repeats the same ancestor symlink checks thousands of times in the full
-    # city publication, while this preserves the same check on every component.
-    checked=set()
+    # Check each unique directory once. Calling _ordinary for each file repeats
+    # the same ancestor symlink checks thousands of times in the full publication.
+    directories=set()
     for path in paths:
-        current=os.fspath(path)
+        current=os.path.dirname(os.fspath(path))
         while current:
-            checked.add(current)
+            directories.add(current)
             parent=os.path.dirname(current)
             if parent==current or not parent:break
             current=parent
-    if any(os.path.islink(path) for path in checked):
+    if any(os.path.islink(path) for path in directories):
         raise ValueError('Linked completion artifacts are not permitted')
     values=[]
     for path in paths:
-        s=os.stat(path)
+        s=os.stat(path,follow_symlinks=False)
+        if stat.S_ISLNK(s.st_mode):
+            raise ValueError('Linked completion artifacts are not permitted')
         values.append((str(path),s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns))
     return tuple(values)
 
