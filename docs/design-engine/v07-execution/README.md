@@ -162,6 +162,34 @@ and the initial missing-default-browser-cache failure. The successful run used
 the existing shared Chromium installation. The grouped/flat delivery and CI
 routing checks separately passed 60 tests after integration.
 
+Retained-research CI found two source-epoch mismatches after these changes.
+The older engineering ledger now references exact archived bytes for three
+implementation files authenticated against published `5cfe894`; all seven gate
+states, blockers and authority flags are preserved. The original ledger and
+relocation manifest remain in
+[the source-context archive](../../archives/v06-closure-source-context/README.md).
+
+The three reconciled dossiers now have explicit historical verification. It
+authenticates each complete publication and its source/input union against one
+original Git commit, then runs the unchanged original checker in a bounded
+source context. All three checks passed in 52.56, 42.24 and 49.20 seconds, with
+no new native solver executions. This authenticates source, data and methods;
+it uses the installed Python/scientific environment and does not restore the
+historical operating system. Current strict verification remains unchanged and
+refuses these source-stale dossiers. Their numerical Workbench routes stay held.
+
+In a research checkout with the original publication and pinned Git objects
+available, the reference dossier can be checked explicitly:
+
+```sh
+./osr design closure verify --retained-source f990fc24ba9c1c2adcd8afb4456ded5c4753209a
+```
+
+The result distinguishes `retained_verified` from `current_source_valid`.
+The wrapper refuses oversized/tampered inputs, replacement Git objects, foreign
+project imports and native subprocess execution. Its import/process guards are
+cooperative controls, not an operating-system sandbox.
+
 Use the existing [Samawah comparison instructions](../v07-project-continuity/README.md)
 for the browser entry point. New bounded native runs require a clean source
 checkout, explicit source/tool/candidate/load/resource identity and a fresh
