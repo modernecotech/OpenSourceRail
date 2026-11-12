@@ -75,3 +75,23 @@ def test_storage_resource_contract_runs_only_in_bounded_fast_lane():
     assert "/.github/tests/test_workflow_path_filters.py" in workflow_text
     for relative in (*HEAVY_WORKFLOWS, ".github/workflows/v06-software-release.yml"):
         assert f"/{relative}" in workflow_text, f"fast lane sparse checkout omits {relative}"
+
+
+def test_every_selected_test_is_available_in_fast_lane_sparse_checkout():
+    workflow = ROOT / ".github/workflows/v06-software-release.yml"
+    lines = workflow.read_text().splitlines()
+    start = lines.index("          sparse-checkout: |")
+    patterns = []
+    for line in lines[start + 1:]:
+        if not line.startswith("            "):
+            break
+        patterns.append(line.strip().lstrip("/"))
+    selected = [line.strip() for line in
+                (ROOT / ".github/release-smoke-tests.txt").read_text().splitlines()
+                if line.strip() and not line.lstrip().startswith("#")]
+    missing = [path for path in selected if not _matches(path, patterns)]
+    assert not missing, f"Selected tests missing from sparse checkout: {missing}"
+    for event in ("push", "pull_request"):
+        for path in ("tests/test_corridor_revision.py", "tests/test_corridor_revision_api.py",
+                     "engineering/outline/corridor_revision.py", "engineering/outline/city_jobs.py"):
+            assert _matches(path, _event_paths(workflow, event))
