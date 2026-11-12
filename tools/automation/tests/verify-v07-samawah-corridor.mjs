@@ -26,7 +26,7 @@ const server = spawn(python, ['-B', '-u', '-m', 'engineering.development_baselin
   {cwd: root, env: {...process.env, PYTHONPATH: root, PYTHONDONTWRITEBYTECODE: '1',
     OPENBLAS_NUM_THREADS: '1', OMP_NUM_THREADS: '1', MKL_NUM_THREADS: '1'}, stdio: ['ignore', 'pipe', 'pipe']});
 let log = '', origin, browser, page;
-let monitoringCapacity = false, capacityTask; const capacitySamples = [];
+let monitoringCapacity = false, capacityTask, capacityError; const capacitySamples = [];
 const errors = [], external = [];
 server.stdout.on('data', b => {log += b; origin ||= log.match(/http:\/\/127\.0\.0\.1:\d+/)?.[0];});
 server.stderr.on('data', b => {log += b;});
@@ -56,17 +56,18 @@ try {
       if (response.ok()) {
         const value = await response.json();
         assert.equal(value.maximum_worker_processes, Number(maximumWorkers));
+        assert(Number.isInteger(value.current_worker_processes));
         capacitySamples.push({elapsed_seconds: (performance.now() - coldStart) / 1000,
           running: value.current_worker_processes, pending: value.pending_requests});
       }
       await new Promise(resolve => setTimeout(resolve, 500));
     }
-  })();
+  })().catch(error => {capacityError = error; monitoringCapacity = false;});
   await page.locator('#samawah-merge-compare').click();
   await page.waitForFunction(() => /Comparison complete|Unable to compare/.test(document.querySelector('#samawah-merge-status')?.textContent || ''), null, {timeout: 300000});
   assert.match(await page.locator('#samawah-merge-status').innerText(), /^Comparison complete/);
   const coldSeconds = (performance.now() - coldStart) / 1000;
-  monitoringCapacity = false; await capacityTask;
+  monitoringCapacity = false; await capacityTask; if (capacityError) throw capacityError;
   const before = await page.locator('#samawah-station-merge').getAttribute('data-baseline-job');
   const after = await page.locator('#samawah-station-merge').getAttribute('data-revised-job');
   const url = `${origin}/api/city-studies/comparisons/${before}/${after}`;
