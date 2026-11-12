@@ -52,7 +52,7 @@ def main(argv=None,root=ROOT):
         'complete','complete-verify','complete-publish','city','city-verify','delivery'))
     parser.add_argument('--output',type=Path)
     parser.add_argument('--brief',type=Path)
-    parser.add_argument('--request',type=Path,help='Mapped-city scenario or typed planning revision request')
+    parser.add_argument('--request',type=Path,help='Scenario JSON; delivery action requires a verified mapped-city study directory')
     parser.add_argument('--city',help='Mapped city slug for a new study')
     parser.add_argument('--state',type=Path,help='Verified full execution state for compact publication')
     parser.add_argument('--cities',nargs='+',help='City slugs; omit to complete every mapped city')
@@ -68,7 +68,7 @@ def main(argv=None,root=ROOT):
         print(json.dumps(catalogue(root=root),sort_keys=True));return
     if args.output is None:parser.error('--output is required for run and verify')
     if args.action=='delivery':
-        if args.request is None:parser.error('--request sealed current city-record JSON is required')
+        if args.request is None:parser.error('--request verified mapped-city study directory is required')
         from .delivery_plan import run_delivery
         result=run_delivery(args.request,args.output,root=root,
             scheduler_backend=args.scheduler,scheduler_binary=args.scheduler_binary)

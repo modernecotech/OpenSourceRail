@@ -397,16 +397,31 @@ def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',sche
     if not (root/PRODUCER).is_file() or digest(root/PRODUCER)!=digest(__file__):raise ValueError('Loaded delivery evaluator differs from bound root')
     from engineering.performance import disk_admission
     if not disk_admission(out.parent,minimum_free_gib=20.25)['admitted']:raise ValueError('Delivery disk reserve unavailable')
-    path=Path(request_path)
-    with os.fdopen(os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK),'rb') as stream:
-        info=os.fstat(stream.fileno())
-        if not stat.S_ISREG(info.st_mode) or info.st_size>32*1024**2:raise ValueError('Bounded ordinary city record required')
-        raw=stream.read(32*1024**2+1)
-    if len(raw)>32*1024**2:raise ValueError('City record byte budget exceeded')
-    record=json.loads(raw);_sealed(record,'evaluation_id')
-    out.mkdir(parents=True,exist_ok=False);(out/'request.json').write_bytes(raw)
+    path=Path(request_path).absolute()
+    if path.is_symlink() or not path.is_dir():raise ValueError('Verified mapped-city study directory required; raw records are not accepted')
+    out.mkdir(parents=True,exist_ok=False)
+    upstream=None
     try:
+        manifest_path=path/'manifest.json'
+        with os.fdopen(os.open(manifest_path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK),'rb') as stream:
+            info=os.fstat(stream.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_size>2*1024**2:raise ValueError('Bounded ordinary study manifest required')
+            manifest_raw=stream.read(2*1024**2+1)
+        if len(manifest_raw)>2*1024**2:raise ValueError('Study manifest exceeds byte budget')
+        (out/'upstream-manifest.json').write_bytes(manifest_raw)
+        from . import city_workflow
+        manifest=city_workflow.verify(path,root=root)
+        if digest(manifest_path)!=sha256(manifest_raw).hexdigest():raise ValueError('Upstream city study changed during verification')
+        upstream=dict(manifest_id=manifest['manifest_id'],manifest_sha256=sha256(manifest_raw).hexdigest(),
+            study_evaluation_id=manifest['evaluation_id'],source_path=str(path))
+        record=city_workflow.read_json(path,'result.json')['city_outline']
+        raw=encoded(record)
+        if len(raw)>32*1024**2:raise ValueError('City record byte budget exceeded')
+        _sealed(record,'evaluation_id');(out/'request.json').write_bytes(raw)
         plan=evaluate(record,root=root,scheduler_backend=scheduler_backend,scheduler_binary=scheduler_binary)
+        # Recheck the existing upstream boundary and all compiler bindings before sealing output.
+        if city_workflow.verify(path,root=root)['manifest_id']!=manifest['manifest_id']:raise ValueError('Upstream city study changed during compilation')
+        if any(digest(root/name)!=sha for name,sha in plan['source_sha256'].items()):raise ValueError('Delivery sources changed during compilation')
         payload=encoded(plan)
         if len(payload)>64*1024**2:raise ValueError('Delivery plan output budget exceeded')
         (out/'delivery-plan.json').write_bytes(payload)
@@ -416,7 +431,7 @@ def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',sche
             process_lifetime_peak_rss_kib=own.ru_maxrss,children_lifetime_peak_rss_kib=children.ru_maxrss,
             peak_rss_scope='Separate cumulative process-lifetime high-water marks; not per-job or simultaneous aggregate RSS')
         receipt=dict(schema='osr-direct-delivery-run/1',input_sha256=sha256(raw).hexdigest(),
-            city_record_evaluation_id=record['evaluation_id'],plan_id=plan['plan_id'],
+            upstream=upstream,city_record_evaluation_id=record['evaluation_id'],plan_id=plan['plan_id'],
             output_sha256=sha256(payload).hexdigest(),scheduler_backend=plan['scheduler_backend'],
             persistent_cache=False,native_solver_jobs=0,
             native_helper_jobs=plan['scheduler_backend'].get('completed_helper_jobs',0),measurements=measurements,
@@ -425,5 +440,5 @@ def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',sche
         return receipt
     except Exception as exc:
         (out/'failure.json').write_bytes(encoded(dict(execution='failed',reason=str(exc),
-            input_sha256=sha256(raw).hexdigest(),physical_accepted=False)))
+            upstream=upstream,requested_study_path=str(path),physical_accepted=False)))
         raise

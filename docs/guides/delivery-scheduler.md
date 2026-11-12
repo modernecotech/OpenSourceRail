@@ -1,13 +1,13 @@
 # Direct delivery compilation
 
-Python remains the default scheduler. Compile a sealed, current city-record JSON through the supported uncached CLI:
+Python remains the default scheduler. Compile a current verified mapped-city study directory through the supported uncached CLI:
 
 ```sh
-./osr outline delivery --request /external/current-city-record.json --output /external/new-python-run
-./osr outline delivery --request /external/current-city-record.json --output /external/new-rust-run --scheduler rust --scheduler-binary /external/target/release/osr-delivery-schedule
+./osr outline delivery --request /external/current-city-study --output /external/new-python-run
+./osr outline delivery --request /external/current-city-study --output /external/new-rust-run --scheduler rust --scheduler-binary /external/target/release/osr-delivery-schedule
 ```
 
-The record is the `city_outline` member of a freshly verified city-study result. Its candidate, geometry/service/cost identities and all declared source hashes must match. Historical records are refused as stale. The output directory must be fresh and outside the source checkout; input is bounded to32 MiB and plan JSON to64 MiB. Failed compilation retains the exact input and a failure record.
+The existing `city_workflow.verify` checker validates the complete packet before and after compilation; raw self-sealed records are refused. The compiler extracts its `city_outline` member. Its candidate, geometry/service/cost identities and all declared source hashes must match. Historical records are refused as stale. The output directory must be fresh and outside the source checkout; input is bounded to32 MiB and plan JSON to64 MiB. Failed compilation retains the upstream manifest snapshot where available, any extracted input and a failure record. Successful receipts bind the upstream manifest identity and bytes.
 
 Build explicitly using `engineering.outline.native_schedule.build(root, external_target)` in a separate admitted operation. It uses offline, locked Cargo, two build threads, a180-second limit, a768-MiB observed target cap and a20.75-GiB disk preflight. Scheduling never builds, downloads or falls back. A mismatched source, tool or executable receipt is an error.
 
