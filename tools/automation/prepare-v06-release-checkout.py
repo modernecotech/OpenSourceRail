@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Expand a blob-filtered clone to exact inputs for the v0.6 release demo."""
+"""Select source inputs for the v0.6 demo and v0.7 corridor workflows."""
 
 from __future__ import annotations
 
@@ -67,6 +67,9 @@ BASE_PATTERNS = (
     "/tests/test_outline_city_jobs.py",
     "/tests/test_outline_completion_cli_admission.py",
     "/cities/catalogue/west-asia/Iraq/Samawah/**",
+    "/cities/catalogue/west-asia/Iraq/Baghdad/baghdad.corridor.geojson",
+    "/cities/catalogue/west-asia/Iraq/Baghdad/city.json",
+    "/cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz",
     "/docs/design-engine/current/**",
     "/docs/design-engine/mass-reconciliation/current/**",
     "/docs/archives/compact-launch-source-epochs/**",
@@ -104,6 +107,7 @@ BASE_PATTERNS = (
     "/tools/automation/tests/verify-v06-release-workbench.mjs",
     "/tools/automation/tests/verify-v06-software-journey-a.mjs",
     "/tools/automation/tests/verify-v07-samawah-corridor.mjs",
+    "/tools/automation/tests/verify-v07-native-gis.py",
     "/package.json",
     "/package-lock.json",
     "/rust-toolchain.toml",
