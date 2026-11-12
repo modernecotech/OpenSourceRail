@@ -84,6 +84,15 @@ try {
   assert.equal(door.installed_mass_kg_per_opening, null);
   assert.equal(door.fleet, null); assert.equal(door.manufacturing_release, false);
   await writeFile(join(output, 'door-module.json'), await doorResponse.body());
+  await page.locator('#samawah-door-open').click();
+  await page.waitForFunction(id => document.querySelector('#samawah-door-module')?.dataset.moduleId === id, door.module_id);
+  assert.equal(await page.locator('#samawah-door-part option').count(), door.parts.length);
+  assert.match(await page.locator('.atlas-door-part').innerText(), /Removal and maintenance/);
+  assert.match(await page.locator('#samawah-door-module').innerText(), /Installed mass and centre of gravity remain unknown/);
+  const electrical = door.parts.find(part => part.assembly_id === 'services/door-electrical');
+  await page.locator('#samawah-door-part').selectOption(electrical.id);
+  assert.match(await page.locator('.atlas-door-part').innerText(), /approved limit and observed result required/);
+
   await page.locator('#samawah-station-merge').screenshot({path: join(output, 'comparison-desktop.png')});
   const warmStart = performance.now();
   await page.locator('#samawah-merge-compare').click();
