@@ -1,20 +1,16 @@
 """Thin integration coverage; force maps and brake equations retain their tests."""
 from copy import deepcopy
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
 
 from engineering.station_rail import ROOT
-import engineering.station_rail
 from engineering.station_rail.common import digest, identity
 from engineering.development_baseline.selection import load
 from engineering.trip_dynamics import magnetic_maps
 
-# A sparse source worker reuses the coordinator's frozen runtime, not a second
-# multi-GiB checkout. Normal full-checkout discovery follows the same import.
-SOURCE = Path(__file__).resolve().parents[1]/'engineering/station_rail'
-engineering.station_rail.__path__.insert(0, str(SOURCE))
 from engineering.station_rail import force_evidence as f
 
 
@@ -129,3 +125,30 @@ def test_bound_mass_cannot_be_overridden(vehicle):
     scenario['profile']['mass_kg_per_car'] = 1.
     with pytest.raises(ValueError, match='candidate-bound'):
         f.audit(vehicle, [scenario])
+
+
+def test_cli_retains_exact_map_input_for_reproduction(vehicle, tmp_path):
+    source = tmp_path/'map.json'
+    raw = json.dumps(request(vehicle), indent=2).encode() + b'\n'
+    source.write_bytes(raw)
+    output = tmp_path/'packet'
+    f.main(['--root', str(ROOT), '--map-request', str(source), '--output', str(output)])
+    source.unlink()
+    value = json.loads((output/'result.json').read_bytes())
+    assert (output/'map-request.json').read_bytes() == raw
+    assert value['retained_inputs']['map-request.json']['sha256'] == digest(output/'map-request.json')
+    repeated = f.audit(vehicle, value['input_scenarios'], map_request=json.loads((output/'map-request.json').read_bytes()))
+    assert repeated['model_force_samples'] == value['model_force_samples']
+    assert '  map-request.json\n' in (output/'SHA256SUMS').read_text()
+
+
+def test_loaded_source_epoch_and_requested_root_are_checked(vehicle, monkeypatch):
+    original = f._LOADED_SHA.copy()
+    monkeypatch.setitem(f._LOADED_SHA, f.DEPENDENCIES[0], '0'*64)
+    with pytest.raises(ValueError, match='Loaded source changed'):
+        f.audit(vehicle, f.controls())
+    monkeypatch.setattr(f, '_LOADED_SHA', original)
+    original_digest = f.digest
+    monkeypatch.setattr(f, 'digest', lambda path: '0'*64 if Path(path) == ROOT/f.PRODUCER else original_digest(path))
+    with pytest.raises(ValueError, match='Loaded source changed|Requested root differs'):
+        f.audit(vehicle, f.controls())

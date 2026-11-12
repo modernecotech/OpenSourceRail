@@ -1,0 +1,116 @@
+# v0.7 execution and evidence
+
+The [task ledger](../../../campaigns/v07-execution.json) records implementation,
+research controls and remaining holds separately. v0.7 is in development; these
+results do not constitute a completed installed railway or a released v0.7.
+The [agent plan](../../plans/v0.7-agent-delivery-plan.md) remains the scope.
+
+## Implemented and exercised
+
+The Workbench compares the Samawah station merge, preserves all fourteen cost
+scopes and exposes a project envelope that rejects mixed candidates and stale
+upstream stages. Station changes preserve unrelated vehicle/manufacturing
+results; cost-rate changes invalidate costs, delivery and dossier. Missing
+installed stages stay visible. A source-bound door panel exposes the 74 part
+definitions, assembly proposals, inspection gaps and removal/maintenance basis.
+
+City workers now share cooperative CPU, memory and disk reservations, use a
+resumable bounded queue and admit at most two analytic workers. The server
+retains a 20 GiB host disk reserve. The [controlled comparison](analytic-capacity.json)
+observed real two-worker overlap: a fresh pair took 31.02 seconds versus 45.80
+seconds with one worker, a 32.27% reduction. Exact numerical metrics and all
+fourteen cost scopes matched. Warm repeats took about 1.7 seconds. This is one
+pair per mode on one host, not a general performance guarantee. Reservations
+are cooperative; they are not an aggregate filesystem quota.
+
+The profiled delivery scheduling kernel has a source/tool/binary-verified Rust
+implementation. Twenty-four actual before/after low/base/high comparisons
+matched canonical output exactly. Measured kernel reductions were 43–59%,
+including the boundary cost. It remains opt-in; no end-to-end Rust pipeline
+speedup is claimed. The canonical encoder benchmark made 48 exact byte/identity
+comparisons but gained only 1.72% in the guarded warm batch. That result does
+not justify moving more production callers to Rust.
+
+Native GIS uses external import custody and verified parent planning snapshots.
+Samawah and Baghdad each completed a headless native station edit, canonical
+import, repricing, refreshed native export and second dwell edit. These are
+programmatic `.rgis` edits reopened by the native application, not GUI tests.
+Each record retains its actual source revision. The Samawah failed attempts
+(dwell projection and parent lookup) and Baghdad terminal-chainage failure
+remain preserved alongside the fixes and successful runs.
+
+## CAD and mechanics controls
+
+The door definition counts 694 pieces per opening and twelve openings per train.
+Its nominal 50.433 kg stock/allowance subtotal per opening is not installed mass.
+SolidCraft generated and reopened a representative header stock blank, including
+STEP export; independent FreeCAD import reproduced the solid geometry. The
+blank is not a fully detailed, installed door operator. STEP lost material/source
+metadata, so the source sidecar remains required.
+
+Civil controls derive 24 axle positions from the six-car reference and keep
+normal 46-person and crowd 160-person cases distinct. The fresh normal 3D
+experiment ran seven native processes: one geometry import, two fresh meshes
+and FieldCraft/CalculiX solves on each mesh. Fine FieldCraft displacement was
+−9.989130 mm; relative cross-solver disagreement was about 1.01×10⁻⁸. The
+2.7255% displacement refinement passes the declared 5% diagnostic but does not
+establish mesh independence. Offline verification exactly reconstructed both
+mesh/load records and both solvers' raw readbacks.
+
+That FEM control includes a 1.3 dynamic multiplier, an explicit non-CAD reserve
+and finite bearing patches. Its ±0.6 m load-spreading patches are an unverified
+hypothesis, not the selected 1.435 m rail interface. It is not a direct numerical
+comparison with the different static analytical moving-load model. Old crowd
+mesh/load replay did not match exactly and remains held; no old solve was reused.
+
+The force/braking compiler reuses existing interpolation, counted rotating stock
+and independent stopping methods. Named 2,000 m controls require approximately
+11.10 kN/car normal and 14.73 kN/car crowd launch force. Actual installed thrust,
+current/voltage limits and repeated-duty temperature remain unknown. Valid
+synthetic map samples do not establish installed propulsion performance.
+
+## Integration still required
+
+The published reference `756a…` and manufacturing child `907d…` differ physically,
+including intercar gap. The child cannot inherit the reference's fleet, costs,
+installed vehicle or engineering results. The project needs a matching installed
+child evaluation, civil/station interfaces and lifecycle package before those
+stages can be composed into a complete dossier.
+
+Door installed transforms, clearances, mating datums, tolerances, inspection
+limits and maintenance intervals remain incomplete. Actual drive/brake/thermal
+data, bearings, foundations, construction stability and a crane chart at the
+installation radius are also missing. These are specific engineering inputs,
+not permission to invent zero mass, prices, limits or passing test results.
+
+The existing disposable ERPNext/FUXA fixture exercises a discrete workpiece.
+It does not yet demonstrate the counted 694-piece module assembly lifecycle.
+The existing candidate-delivery path must receive a matching candidate package
+and assembly mapping; no second business protocol or fabricated inspection is
+introduced here. Controlled research documents can support software tests
+without claiming physical qualification.
+
+## Tool migration and replay
+
+The [consumer inventory](tool-inventory.json) records pinned tools and source
+consumers. The light door CAD path uses SolidCraft; FreeCAD is an optional
+independent control. RustGIS supplies the demonstrated native return path.
+QGIS is not required to run that path; retained lightweight project readers
+remain useful. Gmsh is still required for the demonstrated conformal meshes,
+and CalculiX supplies an independent mechanics comparison. Other active native
+consumers have not passed the retirement gates. No global tool uninstall,
+historical evidence deletion or Git history rewrite has occurred.
+
+Raw numerical outputs stay outside Git. The [local evidence index](evidence-index.json)
+records exact receipt bytes, hashes and locations; it is not an online artifact
+store. Existing source-bound records retain their original identities. Failed
+and interrupted attempts are retained. Repository changes were integrated from
+isolated worktrees while preserving unrelated user changes in the main checkout.
+
+Use the existing [Samawah comparison instructions](../v07-project-continuity/README.md)
+for the browser entry point. New bounded native runs require a clean source
+checkout, explicit source/tool/candidate/load/resource identity and a fresh
+external output directory. The headless GIS runner is
+`tools/automation/tests/verify-v07-native-gis.py`; force requirements use
+`python -m engineering.station_rail.force_evidence --help`. Heavy native tools
+are optional for the analytic browser workflow.

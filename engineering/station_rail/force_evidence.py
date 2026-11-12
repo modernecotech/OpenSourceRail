@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+from hashlib import sha256
 import json
 from math import isfinite
 from pathlib import Path
 import subprocess
+import sys
 
 from . import ROOT, FLAGS
 from .common import digest, encoded, identity
@@ -24,6 +26,18 @@ PRODUCER = 'engineering/station_rail/force_evidence.py'
 DEPENDENCIES = ('engineering/station_rail/operations.py',
     'engineering/station_rail/braking.py', 'engineering/station_rail/common.py',
     'engineering/station_rail/__init__.py', 'engineering/trip_dynamics/magnetic_maps.py')
+_LOADED_PATHS = {name: Path(sys.modules[name[:-3].replace('/', '.') if not name.endswith('/__init__.py')
+    else name[:-12].replace('/', '.')].__file__).resolve() for name in DEPENDENCIES}
+_LOADED_PATHS[PRODUCER] = Path(__file__).resolve()
+_LOADED_SHA = {name: digest(path) for name, path in _LOADED_PATHS.items()}
+
+
+def _verify_source_epoch(root):
+    for name, path in _LOADED_PATHS.items():
+        if digest(path) != _LOADED_SHA[name]:
+            raise ValueError('Loaded source changed during this process: ' + name)
+        if digest(root/name) != _LOADED_SHA[name]:
+            raise ValueError('Requested root differs from loaded source: ' + name)
 MISSING = {
     'installed_force_speed_current_envelope': [
         'Candidate-specific installed propulsion geometry, fixed groups, powered length, overlap and phase registration',
@@ -92,6 +106,7 @@ def audit(vehicle, scenarios, *, root=ROOT, map_request=None):
     queries. No body/material identity is inferred from a component or vehicle.
     """
     root = Path(root).resolve()
+    _verify_source_epoch(root)
     _vehicle(vehicle, root)
     if not scenarios:
         raise ValueError('At least one explicit named scenario required')
@@ -166,7 +181,7 @@ def audit(vehicle, scenarios, *, root=ROOT, map_request=None):
         scope='Published passive-wheel reference; capstan/powered-axle research excluded',
         units=dict(force='N', speed='m/s', current='A', voltage='V', time='s', mass='kg', temperature='degC'),
         source_sha256={**vehicle['source_sha256'], **{p: digest(root/p) for p in DEPENDENCIES}},
-        producer_sha256=digest(__file__), input_scenarios=deepcopy(scenarios),
+        producer_sha256=_LOADED_SHA[PRODUCER], input_scenarios=deepcopy(scenarios),
         accounted_mass=deepcopy(vehicle['mass']), rotating_stock=rotor, scenarios=rows,
         force_map_metadata=metadata, model_force_samples=samples,
         model_samples_establish_installed_force=False, actual_installed_force_available_N=None,
@@ -177,6 +192,7 @@ def audit(vehicle, scenarios, *, root=ROOT, map_request=None):
             'Force-map samples alone do not close moving group overlap, phase, current/voltage or repeated thermal duty',
             'Friction-only stopping requirement credits neither regeneration nor resistance; assumptions are not approved limits'],
         **FLAGS)
+    _verify_source_epoch(root)
     result['evaluation_id'] = identity(result)
     return result
 
@@ -192,17 +208,30 @@ def main(argv=None):
     if output == root or root in output.parents:
         parser.error('Evidence output must be outside the source checkout')
     from engineering.development_baseline.selection import load
-    scenarios = json.loads(args.scenarios.read_text()) if args.scenarios else controls()
-    request = json.loads(args.map_request.read_text()) if args.map_request else None
+    inputs = {}
+    for name, path in (('scenarios.json', args.scenarios), ('map-request.json', args.map_request)):
+        if path is not None:
+            with path.open('rb') as stream:
+                raw = stream.read(32*1024**2 + 1)
+            if len(raw) > 32*1024**2:
+                parser.error('Input exceeds 32 MiB budget: ' + name)
+            inputs[name] = raw
+    scenarios = json.loads(inputs['scenarios.json']) if args.scenarios else controls()
+    request = json.loads(inputs['map-request.json']) if args.map_request else None
     value = audit(load(root)['vehicle'], scenarios, root=root, map_request=request)
     value['runtime_source_commit'] = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
     value['producer_source_commit'] = subprocess.check_output(['git', '-C', str(Path(__file__).parent), 'rev-parse', 'HEAD'], text=True).strip()
     value['command_arguments'] = dict(root=str(root), scenarios=str(args.scenarios), map_request=str(args.map_request), output=str(output))
+    value['retained_inputs'] = {name: dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+        for name, raw in inputs.items()}
     value.pop('evaluation_id')
     value['evaluation_id'] = identity(value)
     output.mkdir(parents=True, exist_ok=False)
+    for name, raw in inputs.items():
+        (output/name).write_bytes(raw)
     (output/'result.json').write_bytes(encoded(value))
-    (output/'SHA256SUMS').write_text(digest(output/'result.json') + '  result.json\n')
+    (output/'SHA256SUMS').write_text(''.join(digest(output/name) + '  ' + name + '\n'
+        for name in ['result.json', *sorted(inputs)]))
     print(json.dumps(dict(evaluation_id=value['evaluation_id'], engineering_screen='held', output=str(output))))
 
 

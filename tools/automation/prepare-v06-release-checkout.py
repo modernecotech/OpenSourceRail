@@ -45,6 +45,8 @@ BASE_PATTERNS = (
     "/engineering/trip_dynamics/__init__.py",
     "/engineering/trip_dynamics/__main__.py",
     "/engineering/trip_dynamics/interactive.py",
+    "/engineering/trip_dynamics/magnetic_maps.py",
+    "/engineering/trip_dynamics/tests/test_magnetic_maps.py",
     "/engineering/v06_design_closure/**",
     "/tests/test_v06_software_release_gate.py",
     "/tests/test_city_recalculation.py",
