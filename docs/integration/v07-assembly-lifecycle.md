@@ -30,18 +30,23 @@ held.
 
 ## Admitted custody domain
 
-This first assembly route admits made, individually serialized discrete children
-only. Purchased, unresolved buy/process or lot-only custody is refused. A real
-purchase receipt or lot contract must be implemented before those children can
-enter this route. A missing Work Order is never replaced with a fabricated one.
+This assembly route admits made, individually serialized discrete children and
+receipt-backed purchased children with one serial and batch per unit. Unresolved
+buy/process routes and pooled batch-only lots are refused. Purchased custody
+requires a submitted Purchase Receipt and exact item/project/quantity row,
+submitted inward serial-and-batch bundle, matching outward parent consumption,
+and the latest submitted accepted Incoming Quality Inspection. A missing Work
+Order or receipt is never replaced with a fabricated one.
 
 `child_provenance` is a bounded list of `{kind, id, units}` entries matching every
-source child edge and exact count. Each unit contains `serial`, `work_order`,
-`manufacture_stock` and `children` (empty for a part). The native parent
+source child edge and exact count. A made unit contains `serial`, `work_order`,
+`manufacture_stock` and `children`. A purchased unit contains `serial`, `batch`,
+`purchase_receipt`, `receipt_row` and empty `children`. The native parent
 Manufacture Stock Entry must consume exactly those child serials and quantities.
-Each child must have its own submitted reviewed BOM, submitted Work Order and
-manufacture entry, and latest submitted accepted inspection. Nested assemblies
-repeat these checks within the existing depth and work bounds.
+Each made child must have its own submitted reviewed BOM, submitted Work Order
+and manufacture entry, and latest submitted accepted inspection. Purchased
+children instead require the receipt and Incoming QA above. Nested assemblies
+repeat applicable checks within the existing depth and work bounds.
 
 The parent serial must match manufacture and outward installation custody.
 Replacement requires a completed condition repair and inward removal of the
@@ -51,7 +56,9 @@ failed inspection and changed review Tasks invalidate business handback. Serial
 position and child-consumption indices prevent silent duplicate allocation.
 
 No API submits a draft BOM or grants physical manufacturing, installation,
-operating or movement authority. Assembly process cost remains unknown;
+operating or movement authority. The purchased route has synthetic contract
+tests but has not been demonstrated in a live ERPNext transaction or against a
+sealed, reviewed bought-source module pack. Assembly process cost remains unknown;
 zero native operation rates are conversion placeholders, not a zero engineering
 process estimate. Actual door lifecycle execution remains held until matching
 source identities, assembly/child documents and admitted custody inputs exist.

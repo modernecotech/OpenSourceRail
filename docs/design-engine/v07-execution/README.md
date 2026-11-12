@@ -180,8 +180,9 @@ travel establish a layout frame, not an accepted installation datum.
 
 One opening has 694 pieces: 97 locally fabricated, 568 bought to standard and
 29 bought to qualification. Thus 597 purchased pieces across 35 part types need
-receipt and lot/serial custody. Current assembly lifecycle code supports only
-manufactured individually serialized children. The handoff identifies the
+receipt and lot/serial custody. The assembly API now has a narrow software
+contract for receipt-backed, individually serialized purchased children; this
+has not been exercised on the full door module in native ERPNext. The handoff identifies the
 header/body, rail/carriage, belt/pulley, motor/reducer, leaf/stop and sensor
 interfaces that need controlled datums and dimensions. Every part's installed
 transform, mating datum and approved inspection limit remains unknown. The
@@ -195,7 +196,8 @@ changes. The compiler checks both records against the same sealed installed cand
 current source bindings. It rejects mixed candidate/counts, a broken attachment
 seal, missing source bindings and an asserted accepted transform. The first next engineering input is a
 controlled header-to-body datum and guide/carriage/drive mating definition;
-the first software input is typed purchased receipt/lot custody and incoming QA.
+the next software input is a sealed bought-source module pack and native receipt,
+QA, consumption and maintenance replay.
 
 ## Integration still required
 
@@ -227,8 +229,11 @@ now adds installation, replacement, condition events and business handback for
 manufactured, individually serialized children. It checks own assembly documents,
 native voucher/serial provenance and latest child QA. A different accepted child
 QA record invalidates the previous handback review. Twenty new assembly tests
-and 56 compatibility tests passed; an independent reviewer reproduced the new
-twenty. Purchased/lot custody remains unsupported. A
+and 56 compatibility tests passed for the prior manufactured-only scope.
+The purchased extension checks submitted receipt row, inward serial-and-batch
+bundle, parent outward consumption, item/serial/batch identity and latest
+accepted Incoming QA. Its synthetic cases and independent source/schema review
+do not establish native ERP transaction success or pooled batch-only custody. A
 matching candidate package and controlled document coverage are still required
 for the actual door run. Controlled research documents can support software tests
 without claiming physical qualification.

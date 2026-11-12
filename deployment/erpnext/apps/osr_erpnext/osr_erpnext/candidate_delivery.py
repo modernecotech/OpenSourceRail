@@ -439,8 +439,8 @@ def _current_mapping(current, pack, context, applied):
     return mapped
 
 
-def _latest_qa(made, item, row, project):
-    latest=frappe.get_all('Quality Inspection',filters=dict(reference_type='Stock Entry',reference_name=made.name,
+def _latest_qa(made, item, row, project, reference_type='Stock Entry'):
+    latest=frappe.get_all('Quality Inspection',filters=dict(reference_type=reference_type,reference_name=made.name,
         item_code=item,child_row_reference=row.name),pluck='name',order_by='creation desc, name desc',limit_page_length=1)
     if len(latest)!=1:frappe.throw('Latest native inspection required')
     return _native('Quality Inspection',latest[0],project)
@@ -450,6 +450,50 @@ def _bundle_voucher(bundle, stock, row):
     if (bundle.get('voucher_type')!='Stock Entry' or bundle.get('voucher_no')!=stock.name
             or bundle.get('voucher_detail_no')!=row.name):
         frappe.throw('Assembly serial bundle belongs to another native voucher row')
+
+
+def _purchased_child(project, item, unit, parent_stock, consumed_bundle):
+    """Read a received serial and lot; the source mapping stays a research draft."""
+    if not isinstance(unit,dict) or set(unit)!={'serial','batch','purchase_receipt','receipt_row','children'}:
+        frappe.throw('Exact purchased child receipt/lot provenance required')
+    if unit['children']:frappe.throw('Purchased part cannot claim assembly child provenance')
+    if not all(isinstance(unit[k],str) and unit[k].strip() for k in ('serial','batch','purchase_receipt','receipt_row')):
+        frappe.throw('Purchased child receipt/lot identity required')
+    receipt=_native('Purchase Receipt',unit['purchase_receipt'],project,submitted=True)
+    rows=[r for r in receipt.items if r.name==unit['receipt_row']]
+    if len(rows)!=1:frappe.throw('Exact purchased child receipt row required')
+    row=rows[0]
+    if (row.item_code!=item or row.project!=project.name or row.qty!=1 or not row.serial_and_batch_bundle):
+        frappe.throw('Purchased child receipt row differs from counted source Item')
+    item_doc=_native('Item',item,project)
+    if not item_doc.has_serial_no or not item_doc.has_batch_no:
+        frappe.throw('Purchased child native Item must declare serial and batch custody')
+    received=_native('Serial and Batch Bundle',row.serial_and_batch_bundle,project,submitted=True)
+    if (received.get('voucher_type')!='Purchase Receipt' or received.get('voucher_no')!=receipt.name or
+            received.get('voucher_detail_no')!=row.name or received.company!=project.company or
+            received.item_code!=item or received.is_cancelled or received.type_of_transaction!='Inward' or
+            len(received.entries)!=1):
+        frappe.throw('Purchased child incoming bundle differs from receipt row')
+    entry=received.entries[0]
+    if (entry.serial_no!=unit['serial'] or entry.batch_no!=unit['batch'] or entry.qty!=1):
+        frappe.throw('Purchased child serial/lot differs from receipt bundle')
+    serial=_native('Serial No',unit['serial'],project)
+    batch=_native('Batch',unit['batch'],project)
+    if serial.item_code!=item or batch.item!=item:
+        frappe.throw('Purchased child serial/lot belongs to another Item')
+    outward=[r for r in consumed_bundle.entries if r.serial_no==unit['serial']]
+    if len(outward)!=1 or outward[0].batch_no!=unit['batch'] or outward[0].qty!=-1:
+        frappe.throw('Purchased child serial/lot differs from parent consumption')
+    qa=_latest_qa(receipt,item,row,project,'Purchase Receipt')
+    if qa.docstatus!=1 or qa.status!='Accepted' or qa.inspection_type!='Incoming':
+        frappe.throw('Latest purchased child incoming QA must be accepted')
+    return dict(serial=unit['serial'],item=item,parent_stock=parent_stock.name,
+        purchase_receipt=receipt.name,receipt_row=row.name,batch=unit['batch']),dict(
+        kind='part',serial=unit['serial'],batch=unit['batch'],item=item,parent_stock=parent_stock.name,
+        purchase_receipt=receipt.name,receipt_row=row.name,receipt_bundle=received.name,
+        latest_qa=dict(name=qa.name,status=qa.status,docstatus=qa.docstatus,modified=str(qa.modified),inspector=qa.inspected_by),
+        native_modifications=dict(receipt=str(receipt.modified),receipt_bundle=str(received.modified),
+            consumption_bundle=str(consumed_bundle.modified),serial=str(serial.modified),batch=str(batch.modified)))
 
 
 def _assembly_custody(project, pack, context, applied, assembly_id, made, provenance):
@@ -472,10 +516,13 @@ def _assembly_custody(project, pack, context, applied, assembly_id, made, proven
             work[0]+=len(units)
             if work[0]>4096:frappe.throw('Assembly serial custody budget exceeded')
             mapped,_=_source_mapping(pack,context,applied,*key);item=mapped['finished_item'];items.add(item)
+            purchase=False
             if key[0]=='part':
                 source=next(c['source_part'] for c in pack['components'] if c['source_part']['id']==key[1])
-                if source.get('make_buy') not in ('local-fabricate','make'):
-                    frappe.throw('Assembly custody currently supports manufactured individually serialized children only; purchased or lot custody remains held')
+                route=source.get('make_buy')
+                if route in ('buy-standard','buy-qualified'):purchase=True
+                elif route not in ('local-fabricate','make'):
+                    frappe.throw('Unresolved make/buy child cannot establish native custody')
             consumed=[r for r in parent_stock.items if r.item_code==item and r.project==project.name]
             if len(consumed)!=1 or consumed[0].qty!=len(units) or not consumed[0].serial_and_batch_bundle:
                 frappe.throw('Parent manufacture must consume exact counted child row')
@@ -483,10 +530,16 @@ def _assembly_custody(project, pack, context, applied, assembly_id, made, proven
             _bundle_voucher(bundle,parent_stock,consumed[0])
             serials=[r.serial_no for r in bundle.entries if r.serial_no]
             if (bundle.item_code!=item or bundle.company!=project.company or bundle.is_cancelled or
-                    bundle.type_of_transaction!='Outward' or len(serials)!=len(units) or len(set(serials))!=len(serials)):
+                    bundle.docstatus!=1 or bundle.type_of_transaction!='Outward' or len(bundle.entries)!=len(units) or
+                    len(serials)!=len(units) or len(set(serials))!=len(serials) or
+                    any(r.qty!=-1 for r in bundle.entries)):
                 frappe.throw('Child consumption serial bundle differs')
             supplied=[]
             for unit in units:
+                if purchase:
+                    use,observation=_purchased_child(project,item,unit,parent_stock,bundle)
+                    supplied.append(use['serial']);uses.append(use);observations.append(dict(observation,source_id=key[1]))
+                    continue
                 if not isinstance(unit,dict) or set(unit)!={'serial','work_order','manufacture_stock','children'}:
                     frappe.throw('Exact child manufacturing provenance required')
                 wo=_native('Work Order',unit['work_order'],project,submitted=True)
@@ -531,9 +584,9 @@ def _assembly_readback(current, pack, context, applied, made, project):
 @frappe.whitelist(methods=['POST'])
 def register_assembly_installation(project,pack_sha256,assembly_id,asset,source_pattern_id,ordinal,train_index,
                                   work_order,manufacture_stock,installation_stock,child_provenance,repair=None,removal_stock=None):
-    """Research software custody for made, individually serialized children only.
+    """Research custody for made or receipt-backed, serialized children.
 
-    Purchased/lot-managed children remain outside this admitted domain.
+    Pooled lots and unresolved make/buy routes remain outside this domain.
     """
     return register_installation(project,pack_sha256,assembly_id,asset,source_pattern_id,ordinal,train_index,
         work_order,manufacture_stock,installation_stock,repair,removal_stock,

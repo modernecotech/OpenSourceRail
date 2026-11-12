@@ -63,7 +63,7 @@ def native(tmp_path,monkeypatch):
     assembly=next(a for a in applied['assemblies'] if a['assembly_id']==node['id'])
     for x in (part,assembly):b.get_doc('BOM',x['bom']).docstatus=1
     def bundle(name,item,serial,direction,stock,line):
-        b.add('Serial and Batch Bundle',name,company='C',item_code=item,is_cancelled=False,type_of_transaction=direction,entries=[Row(serial_no=serial)],voucher_type='Stock Entry',voucher_no=stock,voucher_detail_no=line)
+        b.add('Serial and Batch Bundle',name,company='C',docstatus=1,item_code=item,is_cancelled=False,type_of_transaction=direction,entries=[Row(serial_no=serial,qty=-1 if direction=='Outward' else 1)],voucher_type='Stock Entry',voucher_no=stock,voucher_detail_no=line)
     def make(serial):
         child='CHILD-'+serial
         for sn,source in [(child,part),(serial,assembly)]:
@@ -133,6 +133,45 @@ def test_typed_assembly_manufacture_install_replace_handback(native):
     with pytest.raises(ValueError,match='child native QA'):m.lifecycle_status('P',p['sha256'],'ASSET')
 
 
+@pytest.mark.parametrize('fault',[None,'pending-receipt','wrong-receipt-row','wrong-batch','pending-qa','rejected-qa','wrong-origin','duplicate-serial'])
+def test_purchased_child_receipt_and_lot_custody(native,fault):
+    b,m,p,context,part,assembly,args,make=native
+    original=m._pack
+    def purchased_pack(*a,**kw):
+        d,ctx,folder,reg=original(*a,**kw)
+        reg=deepcopy(reg);reg['pack']['components'][0]['source_part']['make_buy']='buy-qualified'
+        return d,ctx,folder,reg
+    m._pack=purchased_pack
+    serial='BOUGHT-OLD';batch='LOT-OLD';item=part['finished_item']
+    b.add('Serial No',serial,company='C',item_code=item)
+    b.add('Batch',batch,company='C',item=item)
+    outward=b.get_doc('Serial and Batch Bundle','CONSUME-OLD')
+    outward.entries=[Row(serial_no=serial,batch_no=batch,qty=-1)]
+    row=Row(name='RECEIPT-ROW',item_code=item,project='P',qty=1,serial_and_batch_bundle='RECEIPT-BUNDLE')
+    receipt=b.add('Purchase Receipt','RECEIPT',company='C',docstatus=1,items=[row])
+    incoming=b.add('Serial and Batch Bundle','RECEIPT-BUNDLE',company='C',docstatus=1,item_code=item,
+        is_cancelled=False,type_of_transaction='Inward',voucher_type='Purchase Receipt',voucher_no='RECEIPT',
+        voucher_detail_no=row.name,entries=[Row(serial_no=serial,batch_no=batch,qty=1)])
+    qa=b.add('Quality Inspection','INCOMING-QA',company='C',inspection_type='Incoming',reference_type='Purchase Receipt',
+        reference_name=receipt.name,item_code=item,child_row_reference=row.name,status='Accepted',docstatus=1,
+        creation='001',inspected_by='inspector')
+    args['child_provenance']=[dict(kind='part',id=part['part_id'],units=[dict(
+        serial=serial,batch=batch,purchase_receipt=receipt.name,receipt_row=row.name,children=[])])]
+    if fault=='pending-receipt':receipt.docstatus=0
+    elif fault=='wrong-receipt-row':args['child_provenance'][0]['units'][0]['receipt_row']='OTHER'
+    elif fault=='wrong-batch':incoming.entries[0].batch_no='OTHER'
+    elif fault=='pending-qa':qa.docstatus=0
+    elif fault=='rejected-qa':qa.status='Rejected'
+    elif fault=='wrong-origin':incoming.voucher_type='Stock Entry'
+    elif fault=='duplicate-serial':incoming.entries.append(Row(serial_no=serial,batch_no=batch,qty=1))
+    if fault:
+        with pytest.raises(ValueError):m.register_assembly_installation(**args)
+    else:
+        result=m.register_assembly_installation(**args)['installation']
+        assert not result['installation_accepted']
+        assert result['child_provenance'][0]['units'][0]['batch']==batch
+
+
 @pytest.mark.parametrize('fault',['quantity','kind','serial','work-order','stock','child-qa','assembly-definition','unsubmitted-child','wrong-revision','purchased','lot-only','voucher'])
 def test_assembly_refuses_wrong_native_custody_or_source(native,fault):
     b,m,p,context,part,assembly,args,make=native
@@ -196,7 +235,7 @@ def test_child_serial_cannot_be_consumed_twice(native):
     m.register_assembly_installation(**args)
     provenance=make('NEW')
     provenance[0]['units'][0]=deepcopy(args['child_provenance'][0]['units'][0])
-    b.get_doc('Serial and Batch Bundle','CONSUME-NEW').entries=[Row(serial_no='CHILD-OLD')]
+    b.get_doc('Serial and Batch Bundle','CONSUME-NEW').entries=[Row(serial_no='CHILD-OLD',qty=-1)]
     b.add('Asset Repair','R',company='C',project='P',asset='ASSET',docstatus=1,custom_osr_environment='simulation',repair_status='Completed',custom_osr_handback_required=1)
     return_stock(b,'RETURN',assembly['finished_item'],'OLD')
     with pytest.raises(ValueError,match='already consumed'):
