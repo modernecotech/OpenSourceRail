@@ -13,6 +13,7 @@ import pytest
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded, identity
 from engineering.outline import coordinator, interactive
+from engineering.design_search import line_benchmark_retained
 from engineering.development_baseline.server import Handler
 
 
@@ -55,7 +56,11 @@ def test_recommendation_uses_common_brief_whole_life_cost_not_hardware_selection
     selected=next(o for o in value['outlines'] if o['outline_id']==value['recommended_outline_id'])
     assert selected['cost']['whole_life_npv_usd']['base']==min(o['cost']['whole_life_npv_usd']['base'] for o in value['outlines'])
     assert value['selection_is_physical_adoption'] is False
-    assert value['requirements_id']!=coordinator.budget.active_baseline(ROOT)['requirements_id']
+    # This is the retained named120-second control, not a current-source cost baseline.
+    retained=line_benchmark_retained.verify(ROOT)
+    assert retained['source_epoch']=='historical' and retained['current_source_valid'] is False
+    assert retained['analytical_replay'] is False and retained['current_evaluator_admission'] is False
+    assert value['requirements_id']!=retained['requirements_id']
     assert all(value[k] is False for k in coordinator.FLAGS)
     assert value['reference_library']['rea_executed'] is False
     assert value['reference_library']['physical_plant_observed'] is False

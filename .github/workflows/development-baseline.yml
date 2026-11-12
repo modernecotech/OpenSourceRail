@@ -401,11 +401,11 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py tests/test_grammar_structure.py
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_breadth_first_portfolio.py engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py engineering/design_search/tests/test_architecture_reach_closure.py::test_constant_resistance_matches_work_energy_and_rotational_inertia engineering/design_search/tests/test_architecture_reach_closure.py::test_positive_quadratic_drag_has_a_shorter_exact_coast_than_the_bound engineering/design_search/tests/test_architecture_reach_closure.py::test_reachable_booster_active_power_downhill_and_rounding_cannot_prove_failure
           .venv/bin/python -m engineering.station_rail.closure_retention verify
-      - name: Current affordable comparisons, outlined designs and pricing
+      - name: Current comparison contracts and retained publication integrity
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_compact_launch.py tests/test_line_benchmark.py tests/test_line_benchmark_service.py tests/test_line_benchmark_civil.py tests/test_outline_*.py
-          .venv/bin/python -m engineering.design_search.compact_launch --verify --output docs/design-engine/compact-launch
-          .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
+          .venv/bin/python -c 'import json; from engineering.design_search.compact_launch_retained import verify; print(json.dumps(verify(), sort_keys=True))'
+          .venv/bin/python -m engineering.design_search.line_benchmark_retained --output docs/design-engine/line30-benchmark
           .venv/bin/python -c 'from engineering.outline.completion_publication import verify; verify()'
       - name: Current civil, material, lifecycle and numerical-kernel mathematics
         run: |
@@ -492,14 +492,14 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_retained_publication.py engineering/design_search/tests/test_architecture_publication_retention.py
       - run: .venv/bin/python -m engineering.station_rail.closure_retention verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_architecture_reach_closure.py
-      - name: Compact acceleration and alternative launch comparison
+      - name: Current compact-launch contracts and retained publication integrity
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_compact_launch.py
-          .venv/bin/python -m engineering.design_search.compact_launch --verify --output docs/design-engine/compact-launch
-      - name: Equal-service 30 km budget benchmark
+          .venv/bin/python -c 'import json; from engineering.design_search.compact_launch_retained import verify; print(json.dumps(verify(), sort_keys=True))'
+      - name: Current line-budget contracts and retained publication integrity
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_line_benchmark.py tests/test_line_benchmark_service.py tests/test_line_benchmark_civil.py
-          .venv/bin/python -m engineering.design_search.line_benchmark --verify --output docs/design-engine/line30-benchmark
+          .venv/bin/python -m engineering.design_search.line_benchmark_retained --output docs/design-engine/line30-benchmark
       - name: Demand-driven outline, maturity and reference contracts
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib tests/test_outline_*.py

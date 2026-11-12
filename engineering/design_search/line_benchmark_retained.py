@@ -5,6 +5,7 @@ its original identities and financial ledger without replaying the calculation.
 """
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -112,8 +113,19 @@ def verify(root=ROOT, output=None):
     if historical_sources != [SOURCE]:
         raise ValueError('Line-30 historical source inventory differs')
     return dict(verified=True, manifest_id=PACKAGE_MANIFEST_ID,
-        evaluation_id=EVALUATION_ID, source_epoch='historical',
+        evaluation_id=EVALUATION_ID,requirements_id=result['requirements_id'],
+        source_epoch='historical',current_source_valid=False,
         source_sha256=result['source_sha256'],
         historical_source_paths=historical_sources, analytical_replay=False,
         native_solver_jobs=0,
         **{key: False for key in FLAGS})
+
+
+def main(argv=None):
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,help='Only the pinned line-30 publication directory is supported')
+    args=parser.parse_args(argv)
+    print(json.dumps(verify(output=args.output),sort_keys=True))
+
+
+if __name__=='__main__':main()
