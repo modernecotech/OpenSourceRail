@@ -14,6 +14,10 @@ import subprocess
 BASE_PATTERNS = (
     "/AGENTS.md",
     "/.codex/**",
+    "/.github/**",
+    "/campaigns/**",
+    "/docs/plans/v0.7-agent-delivery-plan.md",
+    "/docs/design-engine/v07-execution/**",
     "/.gitignore",
     "/.github/repository-metadata.yml",
     "/.github/release-smoke-tests.txt",
