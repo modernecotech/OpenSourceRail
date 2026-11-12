@@ -22,11 +22,21 @@ def workbench():
 
 
 def test_real_workbench_serves_bound_summary_and_head(workbench):
-    with urllib.request.urlopen(workbench+'summary.json',timeout=120) as response:v=json.load(response)
-    assert v['schema']=='osr-railway-closure-summary/1'
-    assert v['physical_accepted'] is False and v['integrated_selection'] is None
-    assert len(v['rows'])>=6
-    assert v['civil']['native_reference']['applicable'] is True
+    manifest=json.loads((ROOT/publication.OUTPUT/'manifest.json').read_bytes())
+    if coordinator.sources(ROOT)==manifest['source_sha256']:
+        with urllib.request.urlopen(workbench+'summary.json',timeout=120) as response:v=json.load(response)
+        assert v['schema']=='osr-railway-closure-summary/1'
+        assert v['physical_accepted'] is False and v['integrated_selection'] is None
+        assert len(v['rows'])>=6
+        assert v['civil']['native_reference']['applicable'] is True
+    else:
+        with pytest.raises(urllib.error.HTTPError) as caught:
+            urllib.request.urlopen(workbench+'summary.json',timeout=120)
+        assert caught.value.code==503
+        held=json.load(caught.value)
+        assert 'source' in held['reason'].lower() and 'changed' in held['reason'].lower()
+        assert held['physical_accepted'] is False
+    # The byte-checked viewer shell remains available while numeric evidence is held.
     request=urllib.request.Request(workbench,method='HEAD')
     with urllib.request.urlopen(request,timeout=120) as response:
         assert response.status==200 and int(response.headers['Content-Length'])>0
@@ -34,12 +44,23 @@ def test_real_workbench_serves_bound_summary_and_head(workbench):
 
 
 def test_warm_workbench_refuses_changed_source(workbench,monkeypatch):
-    with urllib.request.urlopen(workbench+'summary.json',timeout=120) as response:assert response.status==200
+    folder=(ROOT/publication.OUTPUT).resolve();manifest=folder/'manifest.json'
+    recorded=json.loads(manifest.read_bytes())
     original=coordinator.sources
-    monkeypatch.setattr(coordinator,'sources',lambda root=ROOT:{**original(root),'unexpected-source':'f'*64})
-    with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(workbench+'summary.json',timeout=120)
-    assert caught.value.code==503
-    assert 'source changed' in json.load(caught.value)['reason']
+    if original(ROOT)==recorded['source_sha256']:
+        with urllib.request.urlopen(workbench+'summary.json',timeout=120) as response:assert response.status==200
+        monkeypatch.setattr(coordinator,'sources',lambda root=ROOT:{**original(root),'unexpected-source':'f'*64})
+    else:
+        # A token left from a previously verified epoch must not bypass source checks.
+        # This does not grant the stale packet a current-source verification result.
+        with web_assets._lock:web_assets._verified[str(folder)]=digest(manifest)
+    try:
+        with pytest.raises(urllib.error.HTTPError) as caught:
+            urllib.request.urlopen(workbench+'summary.json',timeout=120)
+        assert caught.value.code==503
+        assert 'source changed' in json.load(caught.value)['reason'].lower()
+    finally:
+        with web_assets._lock:web_assets._verified.pop(str(folder),None)
 
 
 def test_resealed_fabricated_native_outcome_is_rejected(study):
@@ -62,8 +83,16 @@ def test_abrupt_component_force_cannot_pass_nominal_screen(study):
 
 def test_legal_gzip_repacking_keeps_inner_provenance_and_outer_tamper_guard(tmp_path):
     out=tmp_path/'repacked';shutil.copytree(ROOT/publication.OUTPUT,out)
-    payload=out/'study.json.gz';raw=bytearray(payload.read_bytes());raw[9]=3 if raw[9]!=3 else 255
+    payload=out/'study.json.gz'
+    original=publication.study_value(payload.read_bytes());original_transport=digest(payload)
+    original_manifest=json.loads((out/'manifest.json').read_bytes())
+    source_current=coordinator.sources(ROOT)==original_manifest['source_sha256']
+    raw=bytearray(payload.read_bytes());raw[9]=3 if raw[9]!=3 else 255
     payload.write_bytes(raw)
+    assert digest(payload)!=original_transport
+    decoded=publication.study_value(payload.read_bytes())
+    assert decoded==original
+    assert identity({k:v for k,v in decoded.items() if k!='study_id'})==decoded['study_id']
     with pytest.raises(ValueError,match='source/artifact changed'):publication.verify(root=ROOT,output=out)
     def seal_transport():
         m=json.loads((out/'manifest.json').read_bytes())
@@ -72,9 +101,21 @@ def test_legal_gzip_repacking_keeps_inner_provenance_and_outer_tamper_guard(tmp_
         (out/'manifest.json').write_bytes(encoded(m))
         return m
     m=seal_transport()
-    result=publication.verify(root=ROOT,output=out)
-    assert result['verified'] and result['study_id']==m['study_id']
-    changed=json.loads(gzip.decompress(payload.read_bytes()))
-    changed['records'][0]['result']['normal_arrivals']+=1
+    if source_current:
+        result=publication.verify(root=ROOT,output=out)
+        assert result['verified'] and result['study_id']==m['study_id']
+    else:
+        # Repacking authenticated inner bytes never repairs stale producer bindings.
+        with pytest.raises(ValueError,match='source/artifact changed'):
+            publication.verify(root=ROOT,output=out)
+    changed=deepcopy(decoded);native=changed['records'][0]['result']
+    native['normal_arrivals']+=1
+    native.pop('evaluation_id');native['evaluation_id']=identity(native)
     payload.write_bytes(gzip.compress(encoded(changed),mtime=0));seal_transport()
-    with pytest.raises(ValueError,match='Study seal differs'):publication.verify(root=ROOT,output=out)
+    tampered=publication.study_value(payload.read_bytes())
+    assert identity({k:v for k,v in tampered.items() if k!='study_id'})!=tampered['study_id']
+    # Even a resealed fabricated native result must resolve to preserved execution bytes.
+    with pytest.raises(ValueError,match='preserved execution output'):
+        publication.verify_native(tampered,out,ROOT)
+    with pytest.raises(ValueError,match='Study seal differs' if source_current else 'source/artifact changed'):
+        publication.verify(root=ROOT,output=out)
