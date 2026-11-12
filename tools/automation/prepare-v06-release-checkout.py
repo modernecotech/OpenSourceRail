@@ -12,6 +12,8 @@ import subprocess
 
 
 BASE_PATTERNS = (
+    "/AGENTS.md",
+    "/.codex/**",
     "/.gitignore",
     "/.github/repository-metadata.yml",
     "/.github/release-smoke-tests.txt",
