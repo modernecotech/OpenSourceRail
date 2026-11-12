@@ -8,14 +8,20 @@ import json
 import os
 from pathlib import Path
 import stat
+import shutil
+import tempfile
 import subprocess
 import time
 
 SOURCES=('Cargo.toml','Cargo.lock','rust-toolchain.toml','crates/osr-design-search/Cargo.toml',
     'crates/osr-design-search/src/lib.rs','crates/osr-design-search/src/canonical.rs',
     'crates/osr-design-search/src/scheduling.rs','crates/osr-design-search/src/bin/osr-delivery-schedule.rs',
-    'engineering/outline/native_schedule.py')
+    'engineering/outline/native_schedule.py','engineering/outline/delivery_plan.py',
+    'engineering/outline/__main__.py')
 MAX_BYTES=16*1024**2
+HELPER_LIMITS=dict(cpu_seconds=30,wall_seconds=45,address_space_bytes=512*1024**2,
+    maximum_output_file_bytes=32*1024**2,maximum_temporary_output_bytes=64*1024**2,
+    maximum_parallel_helpers=1,maximum_request_bytes=MAX_BYTES)
 _LOADED_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
@@ -96,12 +102,48 @@ class NativeSchedule:
             raise ValueError('Scheduler source/tool receipt differs')
         if hashlib.sha256(_read(self.binary)).hexdigest()!=r['binary_sha256']:raise ValueError('Scheduler executable differs')
 
+    def evaluation_identity(self):
+        """Stable evaluator provenance, separate from physical candidate identity."""
+        self.verify()
+        r=self.receipt
+        return dict(backend='rust',schema='osr-delivery-scheduler/1',
+            source_sha256=dict(r['source_sha256']),tools=dict(r['tools']),
+            binary_sha256=r['binary_sha256'],resource_limits=dict(HELPER_LIMITS),
+            native_solver_jobs=0,native_helper_jobs=3)
+
     def schedule(self,tasks,resources,case):
         raw=request(tasks,resources,case);self.verify()
-        result=subprocess.run([str(self.binary)],input=raw,capture_output=True,timeout=60)
-        self.verify()
-        if result.returncode:raise ValueError(result.stderr.decode(errors='replace').strip())
-        if len(result.stdout)>32*1024**2:raise ValueError('Scheduling response exceeds budget')
-        value=json.loads(result.stdout)
-        if value.get('engineering_release') is not False:raise ValueError('Conditional scheduling result required')
-        return value
+        limiter=shutil.which('prlimit')
+        if not limiter:raise ValueError('prlimit required for explicit bounded Rust scheduling')
+        from engineering.performance import disk_admission
+        base=Path(os.environ.get('XDG_STATE_HOME',str(Path.home()/'.local/state')))/'opensourcerail/delivery-schedule-attempts'
+        if base==self.root or self.root in base.resolve().parents:raise ValueError('External scheduler scratch required')
+        base.mkdir(parents=True,exist_ok=True)
+        if any(p.is_symlink() for p in (base,*base.parents)):raise ValueError('Ordinary scheduler scratch required')
+        if not disk_admission(base,minimum_free_gib=20.1)['admitted']:
+            raise ValueError('Rust scheduling disk reserve unavailable')
+        folder=Path(tempfile.mkdtemp(prefix='attempt-',dir=base))
+        succeeded=False
+        try:
+            (folder/'request.json').write_bytes(raw)
+            (folder/'attempt.json').write_bytes(_encoded(dict(case=case,
+                request_sha256=hashlib.sha256(raw).hexdigest(),
+                binary_sha256=self.receipt['binary_sha256'],resource_limits=HELPER_LIMITS)))
+            command=[limiter,'--cpu='+str(HELPER_LIMITS['cpu_seconds']),
+                '--as='+str(HELPER_LIMITS['address_space_bytes']),
+                '--fsize='+str(HELPER_LIMITS['maximum_output_file_bytes']),'--',str(self.binary)]
+            with (folder/'stdout.json').open('wb') as out,(folder/'stderr.txt').open('wb') as err:
+                result=subprocess.run(command,input=raw,stdout=out,stderr=err,
+                    timeout=HELPER_LIMITS['wall_seconds'])
+            self.verify()
+            stdout=_read(folder/'stdout.json',32*1024**2)
+            stderr=_read(folder/'stderr.txt',1024**2)
+            if result.returncode:raise ValueError(stderr.decode(errors='replace').strip() or 'Rust scheduler failed')
+            value=json.loads(stdout)
+            if value.get('engineering_release') is not False:raise ValueError('Conditional scheduling result required')
+            succeeded=True
+            return value
+        except Exception as exc:
+            raise ValueError('Rust scheduling failed; immutable attempt retained at '+str(folder)+': '+str(exc)) from exc
+        finally:
+            if succeeded:shutil.rmtree(folder)

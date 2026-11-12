@@ -49,7 +49,7 @@ def _complete_results_exist(output, cities):
 def main(argv=None,root=ROOT):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action',choices=('run','verify','approaches','supply','supply-verify',
-        'complete','complete-verify','complete-publish','city','city-verify'))
+        'complete','complete-verify','complete-publish','city','city-verify','delivery'))
     parser.add_argument('--output',type=Path)
     parser.add_argument('--brief',type=Path)
     parser.add_argument('--request',type=Path,help='Mapped-city scenario or typed planning revision request')
@@ -59,11 +59,20 @@ def main(argv=None,root=ROOT):
     parser.add_argument('--workers',type=int,default=2,help='Bounded independent calculation processes (1–4)')
     parser.add_argument('--maximum-cities',type=int,help='Invocation budget; unprocessed cities remain resumable')
     parser.add_argument('--replay',action='store_true',help='Independently recalculate stored city and design results')
+    parser.add_argument('--scheduler',choices=('python','rust'),default='python',help='Explicit delivery-only backend; city workers remain Python')
+    parser.add_argument('--scheduler-binary',type=Path,help='Prebuilt verified Rust delivery scheduler; never built implicitly')
     args=parser.parse_args(argv)
+    if args.action!='delivery' and (args.scheduler!='python' or args.scheduler_binary is not None):parser.error('Scheduler options require the explicit delivery action')
     if args.action=='approaches':
         from .approaches import catalogue
         print(json.dumps(catalogue(root=root),sort_keys=True));return
     if args.output is None:parser.error('--output is required for run and verify')
+    if args.action=='delivery':
+        if args.request is None:parser.error('--request sealed current city-record JSON is required')
+        from .delivery_plan import run_delivery
+        result=run_delivery(args.request,args.output,root=root,
+            scheduler_backend=args.scheduler,scheduler_binary=args.scheduler_binary)
+        print(json.dumps(result,sort_keys=True));return
     if args.action in ('city','city-verify'):
         from . import city_workflow
         if args.action=='city':

@@ -106,9 +106,13 @@ def _schedule(tasks,resources,case):
     return dict(tasks=sorted(done.values(),key=lambda z:(z['start_workday'],z['task_id'])),finish_workday=max(z['finish_workday'] for z in done.values()),capacity_pass=capacity_pass,duration_is_conditional_bound=True,engineering_release=False)
 
 
-def evaluate(city_record,policy=None,root=ROOT):
+def evaluate(city_record,policy=None,root=ROOT,*,scheduler_backend="python",scheduler_binary=None):
     """Create a complete provisional plan without changing the city price ledger."""
     root=Path(root);p=_policy(policy);_sealed(city_record,'evaluation_id')
+    if (root/PRODUCER).is_file() and digest(root/PRODUCER)!=digest(__file__):raise ValueError('Loaded delivery evaluator differs from bound root')
+    if scheduler_backend not in ('python','rust'):raise ValueError('Known explicit delivery scheduler backend required')
+    if scheduler_backend=='python' and scheduler_binary is not None:raise ValueError('Python scheduler does not accept a Rust binary')
+    if scheduler_backend=='rust' and scheduler_binary is None:raise ValueError('Explicit prebuilt Rust scheduler binary required')
     record=city_record;cost=record['cost'];_sealed(cost,'evaluation_id')
     geometry=record['geometry_and_service'];_sealed(geometry,'input_id')
     if (record['input_id']!=cost['city_input_id'] or record['input_id']!=geometry['input_id']):raise ValueError('Mixed city cost and geometry identities')
@@ -285,7 +289,19 @@ def evaluate(city_record,policy=None,root=ROOT):
             [dict(resource_id=installer,units=install_crew[1],units_by_case=dict(zip(CASES,install_crew)))],[z['line_id'] for z in ancillary],labour_estimate_is_budget_share_not_measured=True))
     final=task('final-test','Integrated trials, accessibility/fire/protection and independent review planning gate','engineering',1,'network',installation_tasks+assembly_tasks,p['final_test_workdays'],[],[capital_by['design-prototypes-independent-review']['line_id']],gate_executed=False,movement_authority=False)
     if len(tasks)>p['maximum_tasks']:raise ValueError('Quantity-conserving lot coarsening did not meet task budget')
-    schedules={c:_schedule(tasks,resources,c) for c in CASES}
+    if scheduler_backend=='rust':
+        from .native_schedule import NativeSchedule
+        engine=NativeSchedule(root,scheduler_binary)
+        backend=engine.evaluation_identity()
+        for name,sha in backend['source_sha256'].items():
+            if name in sources and sources[name]!=sha:raise ValueError('Mixed scheduler source epoch')
+            sources[name]=sha
+        schedules={c:engine.schedule(tasks,resources,c) for c in CASES}
+        engine.verify()
+    else:
+        backend=dict(backend='python',schema='osr-delivery-scheduler/1',
+            source_sha256={PRODUCER:digest(__file__)},native_solver_jobs=0,native_helper_jobs=0)
+        schedules={c:_schedule(tasks,resources,c) for c in CASES}
     for c,case in schedules.items():
         case['target_workdays']=horizon;case['target_met']=case['finish_workday']<=horizon
         if not case['capacity_pass'] or not case['target_met']:next_tasks.append(dict(kind='provisional-resource-or-programme-redesign',case=c,computed_completion_workday=case['finish_workday'],priced_target_workday=horizon,priced_capacity_changed=False,additional_cost_added=False))
@@ -362,5 +378,42 @@ def evaluate(city_record,policy=None,root=ROOT):
                 'Cell/machine/crew definitions and supplier throughput are explicit planning hypotheses, not measured factory performance.',
                 'Worker positions are peak timeboxed demand; retaining a full fixed payroll through idle programme extensions needs additional review.',
                 'A delayed programme requires revised resources, methods or dates; this plan does not add unpriced capacity or costs.']),
+        scheduler_backend=backend,
         next_tasks=next_tasks+[dict(kind='engineering-and-site-release-evidence',status='pending',automatically_satisfied=False)],source_sha256=sources,**FLAGS)
     return seal(value,'plan_id')
+
+
+def run_delivery(request_path,output,*,root=ROOT,scheduler_backend='python',scheduler_binary=None):
+    """Supported uncached direct compilation; never enters zero-helper city workers."""
+    import os,stat
+    root=Path(root).resolve();out=Path(output).absolute()
+    if out==root or root in out.resolve().parents:raise ValueError('External fresh delivery output required')
+    if out.exists() or out.is_symlink():raise ValueError('Fresh delivery output required')
+    if any(p.is_symlink() for p in out.parents):raise ValueError('Ordinary external output parent required')
+    if not (root/PRODUCER).is_file() or digest(root/PRODUCER)!=digest(__file__):raise ValueError('Loaded delivery evaluator differs from bound root')
+    from engineering.performance import disk_admission
+    if not disk_admission(out.parent,minimum_free_gib=20.25)['admitted']:raise ValueError('Delivery disk reserve unavailable')
+    path=Path(request_path)
+    with os.fdopen(os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK),'rb') as stream:
+        info=os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_size>32*1024**2:raise ValueError('Bounded ordinary city record required')
+        raw=stream.read(32*1024**2+1)
+    if len(raw)>32*1024**2:raise ValueError('City record byte budget exceeded')
+    record=json.loads(raw);_sealed(record,'evaluation_id')
+    out.mkdir(parents=True,exist_ok=False);(out/'request.json').write_bytes(raw)
+    try:
+        plan=evaluate(record,root=root,scheduler_backend=scheduler_backend,scheduler_binary=scheduler_binary)
+        payload=encoded(plan)
+        if len(payload)>64*1024**2:raise ValueError('Delivery plan output budget exceeded')
+        (out/'delivery-plan.json').write_bytes(payload)
+        receipt=dict(schema='osr-direct-delivery-run/1',input_sha256=sha256(raw).hexdigest(),
+            city_record_evaluation_id=record['evaluation_id'],plan_id=plan['plan_id'],
+            output_sha256=sha256(payload).hexdigest(),scheduler_backend=plan['scheduler_backend'],
+            persistent_cache=False,native_solver_jobs=0,native_helper_jobs=3 if scheduler_backend=='rust' else 0,
+            engineering_accepted=False,physical_accepted=False)
+        seal(receipt,'receipt_id');(out/'receipt.json').write_bytes(encoded(receipt))
+        return receipt
+    except Exception as exc:
+        (out/'failure.json').write_bytes(encoded(dict(execution='failed',reason=str(exc),
+            input_sha256=sha256(raw).hexdigest(),physical_accepted=False)))
+        raise
