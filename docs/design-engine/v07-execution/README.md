@@ -152,24 +152,24 @@ made. The failed probe initialization is preserved; both attempts used
 
 ## Door route proxy and current analytical child
 
-The [new analytical installation receipt](../../../campaigns/v07-execution.json)
-records the reviewed `body/door-opening` source correction at `c76609cd06`.
-The full declared guide stock is 2.9 m and the belt cut length is 5.8 m;
-each had been shown by a 2 m straight display proxy. The generated patterns
-now state the declared cut length, the length absent from that display proxy,
-and `full_route_fit_verified=false`. A belt loop must not be treated as a
-5.8 m straight part. The change does not supply mating holes or a routed sweep.
+The selected `body/door-opening` audit keeps the physical installation geometry
+unchanged. A new evaluation-only section reports 830 cut-length pattern proxies,
+including 24 door guide/belt patterns. The declared guide stock is 2.9 m and
+belt cut length is 5.8 m; both retain their 2 m straight display proxies.
+The audit records how much cut length that proxy does not represent and marks
+full route fit unverified. The belt loop must not be treated as a straight part.
 
-A fresh analytic calculation preserved the exact physical definition and
-candidate `17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`.
-Its new evaluation is `cf40dbb70e043ec282f627ab3c677f94c9b8112e2cd95471e3d64a7edba1720a`;
-all eleven declared source bindings match the earlier run except the changed
-installation model. The audit fields cover 830 cut-length patterns across the
-vehicle, including 24 door guide/belt patterns. The 21,857,238-byte
-canonical result and no native CAD or solver execution. The earlier one-opening
-attachment remains bound to its original evaluation and is held for regeneration
-before use as current evidence. Controlled placement, finished route and
-installed mass are still open.
+The [fresh analytical receipt](evidence-index.json) at source `457461c5fc`
+preserves exact physical definition and candidate
+`17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`.
+Its evaluation is `36c32885f5efbc56372d99bb91312d89a022ecf934a8c15f8f59a8fe9d976fce`;
+all eleven source bindings match the earlier control except the installation
+model. The result is 21,960,353 canonical bytes. A downstream frozen counted
+body was regenerated and retained its exact parent candidate and seal.
+The first experimental runs remain in the evidence index with their original
+source identities. The earlier one-opening attachment still refers to its old
+evaluation and is held for regeneration. No native CAD, solver, installed fit,
+controlled mating dimension or physical acceptance follows from this audit.
 
 ## Integration still required
 
