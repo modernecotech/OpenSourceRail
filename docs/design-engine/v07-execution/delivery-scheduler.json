@@ -1,0 +1,63 @@
+{
+  "schema": "osr-direct-delivery-end-to-end-benchmark/1",
+  "scope": "Full new production CLI invocation, verified current-study input, complete delivery compilation and output writing; no kernel-only timing",
+  "comparison_context": "Three fresh CLI processes per backend on unchanged input; no OS page-cache flush or whole-city speedup claim",
+  "runtime_commit": "aaa5ca7280b1bd8aa694b2c16803e36b599c8cda",
+  "source_commit": "449379a17ad4bfae6e6ca9cbc474f8bb0bdadef1",
+  "input_manifest_id": "dd915e6e11071d80a876f2a9818e94def4a1d47d5a84d7f737ca763b82b0fcd7",
+  "input_manifest_sha256": "f5c51263f3d60728712407bd84083a04dae9b71197f7737ad9f2ef0c1cf0234f",
+  "input_city_record_evaluation_id": "81ecb0f3f96f42d88b5f9b7a203089fabbf37fb4cce9e5e78ff67284480c8429",
+  "physical_candidate_ids": {
+    "body_candidate_id": "9489e4f2666fd3b3c73232c86df3f12adf42a5531eb27373834cf3fecb1a3117",
+    "candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+    "propulsion_component_id": "67e2bfc4ef429a6c49e6d07095bc298c4eb76b8386e4ee316c440ff128c30fa9",
+    "support_component_id": "3e9aef846e6ec55bac013512163394618b37cf8c74b1100d6f8e5450ae5479d7"
+  },
+  "research_configuration_id": "ab5dcce11364df661e53a613b88fb4c742ae50deff88ab3f3f2b20608dc8940f",
+  "medians_seconds": {
+    "python": 12.494928159023402,
+    "rust": 10.79101262599579
+  },
+  "rust_wall_reduction_fraction": 0.13636857381985856,
+  "paired_exact_parity": [
+    true,
+    true,
+    true
+  ],
+  "parity_exclusions": [
+    "plan_id",
+    "scheduler_backend",
+    "source_sha256"
+  ],
+  "source_map_parity": {
+    "all_common_source_hashes_equal": true,
+    "all_extra_bindings_declared_by_rust_backend": true,
+    "common_bindings": 65,
+    "rust_only_bindings": [
+      "Cargo.lock",
+      "Cargo.toml",
+      "crates/osr-design-search/Cargo.toml",
+      "crates/osr-design-search/src/bin/osr-delivery-schedule.rs",
+      "crates/osr-design-search/src/canonical.rs",
+      "crates/osr-design-search/src/lib.rs",
+      "crates/osr-design-search/src/scheduling.rs",
+      "engineering/outline/__main__.py",
+      "engineering/outline/native_schedule.py",
+      "rust-toolchain.toml"
+    ]
+  },
+  "total_completed_rust_helper_jobs": 9,
+  "native_solver_jobs": 0,
+  "total_wall_seconds": 72.92234536499018,
+  "retained_output_bytes": 21408440,
+  "resources": {
+    "maximum_address_space_bytes": 2147483648,
+    "maximum_parallel_cli_jobs": 1,
+    "maximum_retained_output_bytes": 268435456,
+    "native_solver_jobs": 0,
+    "total_wall_seconds": 180
+  },
+  "promotion": "Python default retained; explicit Rust production CLI available",
+  "benchmark_sha256": "f8adf6d93d5b6460020e95c532874f40d32112f90f266e47fdfb700d8d26d9ac",
+  "physical_accepted": false
+}

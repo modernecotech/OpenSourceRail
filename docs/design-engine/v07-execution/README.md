@@ -35,7 +35,19 @@ The profiled delivery scheduling kernel has a source/tool/binary-verified Rust
 implementation. Twenty-four actual before/after low/base/high comparisons
 matched canonical output exactly. Measured kernel reductions were 43–59%,
 including the boundary cost. It remains opt-in; no end-to-end Rust pipeline
-speedup is claimed. The canonical encoder benchmark made 48 exact byte/identity
+speedup was claimed for that kernel experiment. The production compiler now
+offers an explicit Rust backend through
+[the delivery CLI](../../guides/delivery-scheduler.md). It verifies an existing
+current city-study publication before and after compilation, uses a prebuilt
+source/tool/binary-bound executable and records three bounded helper calls with
+zero solver jobs. The analytic city workers retain their zero-helper Python path.
+A fresh Samawah study produced 4,170 tasks with the same physical candidate and
+configuration. Three full CLI pairs matched all numerical and policy output:
+median time fell from 12.49 to 10.79 seconds, or 13.64%. This includes input
+verification, complete compilation, sealing and writing; it excludes building
+the executable and is not a whole-city speedup. Python remains the default.
+The [comparison record](delivery-scheduler.json) lists the exact source/evaluation
+metadata exclusions and all additional Rust bindings. The canonical encoder benchmark made 48 exact byte/identity
 comparisons but gained only 1.72% in the guarded warm batch. That result does
 not justify moving more production callers to Rust.
 
@@ -116,7 +128,14 @@ provenance. The conversion uses reviewed source estimates, USD-company and
 precision guards, and leaves assembly process cost unknown. See the
 [API and conversion limits](../../../engineering/pilot_delivery/README.md#counted-assembly-drafts).
 Twenty-three focused synthetic tests and independent review cover the extension;
-actual native persistence and the full module lifecycle remain unverified. A
+actual native persistence and the full module lifecycle remain unverified. The
+[typed assembly lifecycle API](../../integration/v07-assembly-lifecycle.md)
+now adds installation, replacement, condition events and business handback for
+manufactured, individually serialized children. It checks own assembly documents,
+native voucher/serial provenance and latest child QA. A different accepted child
+QA record invalidates the previous handback review. Twenty new assembly tests
+and 56 compatibility tests passed; an independent reviewer reproduced the new
+twenty. Purchased/lot custody remains unsupported. A
 matching candidate package and controlled document coverage are still required
 for the actual door run. Controlled research documents can support software tests
 without claiming physical qualification.
@@ -151,6 +170,13 @@ the CI host, which is separate from the controlled local worker comparison.
 The [CI record](clean-software-ci.json) includes artifact IDs and download digests.
 This verifies the supported software slice, not the missing module lifecycle
 or a complete v0.7 release.
+
+The later [software checkpoint](software-ci-952b7d9.json) passed all five required
+and retained workflows on exact source `952b7d953f`: 387 selected Python tests,
+Rust contracts, Workbench journeys, shared contracts and reconciled research.
+The reconciled lane passed 158 tests plus 13 subtests. The subsequent Rust CLI
+and assembly lifecycle additions require their own final CI run; earlier green
+checks are not relabelled as evidence for those additions.
 
 The owned evaluation working tree was then reduced from 8.45 GiB to about
 0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
