@@ -9,7 +9,7 @@ from tools.automation import verify_retained_publications as r
 def git(root,*args):return subprocess.check_output(['git','-C',str(root),*args]).decode().strip()
 
 
-@pytest.fixture(params=['twin','motor','cell'])
+@pytest.fixture(params=['twin','motor','cell','variants'])
 def packet(request,tmp_path,monkeypatch):
     domain=request.param;root=tmp_path/'repo';root.mkdir()
     git(root,'init','-q');git(root,'config','user.name','Test');git(root,'config','user.email','test@example.invalid')
@@ -20,7 +20,7 @@ def packet(request,tmp_path,monkeypatch):
         raw=b'{"fixture":true}\n';member=tarfile.TarInfo('fixture.json');member.size=len(raw);archive.addfile(member,io.BytesIO(raw))
     manifest=dict(schema=cfg['schema'],source_sha256={cfg['producer']:hashlib.sha256(method.read_bytes()).hexdigest()})
     sha=hashlib.sha256(payload.read_bytes()).hexdigest()
-    if domain in ('twin','cell'):manifest['files_sha256']={payload.name:sha}
+    if domain in ('twin','cell','variants'):manifest['files_sha256']={payload.name:sha}
     else:manifest.update(archive=payload.name,archive_sha256=sha)
     (folder/cfg['manifest']).write_text(json.dumps(manifest))
     git(root,'add','.');git(root,'commit','-qm','original fixture')
@@ -87,3 +87,8 @@ def test_foreign_import_is_refused(packet,monkeypatch):
     monkeypatch.setattr(r,'CHILD',r.CHILD.replace("if sys.argv[3]=='twin':",poison+"if sys.argv[3]=='twin':"))
     with pytest.raises(ValueError,match='Original checker failed'):check(packet)
     assert 'import escaped historical epoch' in (packet[3]/'stderr.txt').read_text()
+
+
+def test_arbitrary_module_domain_is_not_an_entry_point(tmp_path):
+    with pytest.raises(ValueError,match='Known retained domain required'):
+        r.selection(tmp_path,'arbitrary.module')

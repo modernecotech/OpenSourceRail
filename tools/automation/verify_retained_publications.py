@@ -1,6 +1,6 @@
 """Explicit historical twin/motor rechecks; current readers remain strict.
 
-Only three pinned publications are supported. Git/source/guard primitives are
+Only four pinned publications are supported. Git/source/guard primitives are
 shared with railway_closure.retained; its domain-specific verify is never used.
 """
 from pathlib import Path
@@ -12,6 +12,7 @@ REVISION='946f1772540d07af85b57b0d13cac08a3293b140'
 CATALOG={
     'twin':dict(folder='docs/design-engine/digital-twin',manifest='manifest.json',producer='engineering/railway_twin/pipeline.py',schema='osr-end-to-end-twin-publication/1'),
     'cell':dict(folder='docs/design-engine/reference-cell',manifest='manifest.json',producer='engineering/reference_cell/coordinator.py',schema='osr-reference-cell-publication/1'),
+    'variants':dict(folder='docs/design-engine/engineering-closure',manifest='variant-design-manifest.json',producer='engineering/railway_completion/variant_design.py',schema='osr-coupled-wayside-variant-publication/1'),
     'motor':dict(folder='docs/design-engine/engineering-closure',manifest='motor-manifest.json',producer='engineering/railway_completion/experiments.py',schema='osr-current-motor-experiment-publication/1'),
 }
 FLAGS=tuple(dict.fromkeys((*epoch.AUTHORITY_FLAGS,'configuration_adopted','physical_journey_completed','native_evaluator_admission')))
@@ -28,6 +29,9 @@ if sys.argv[3]=='twin':
 elif sys.argv[3]=='cell':
     from engineering.reference_cell import coordinator as original
     result=original.verify_publication(root=sys.argv[1],output=sys.argv[2])
+elif sys.argv[3]=='variants':
+    from engineering.railway_completion import variant_design as original
+    result=original.verify_publication(sys.argv[2],root=sys.argv[1])
 elif sys.argv[3]=='motor':
     from engineering.railway_completion import experiments as original
     result=original.verify_publication(sys.argv[2],root=sys.argv[1])
@@ -61,7 +65,7 @@ def selection(root,domain,*,sizes=True):
     _read_exact(root/manifest_name,raw)
     manifest=json.loads(raw)
     if manifest.get('schema')!=cfg['schema']:raise ValueError('Historical publication schema differs')
-    files=manifest.get('files_sha256') if domain in ('twin','cell') else {manifest['archive']:manifest['archive_sha256']}
+    files=manifest.get('files_sha256') if domain in ('twin','cell','variants') else {manifest['archive']:manifest['archive_sha256']}
     if not isinstance(files,dict) or not files:raise ValueError('Declared historical payloads required')
     payload={cfg['folder']+'/'+epoch.safe_name(n):sha for n,sha in files.items()}
     sources=manifest['source_sha256']
@@ -149,6 +153,7 @@ def verify(root,domain,state,*,source_revision=REVISION,extended_cell_budget=Fal
             project_module_origins=result['project_module_origins'],verification_scope=(
                 'Original twin analytical/materialisation/serialized-artifact recheck; no native generation/reopen' if domain=='twin' else
                 'Original reference-cell analytical/materialisation and serialized-artifact recheck; no native execution' if domain=='cell' else
+                'Original coupled variant stock/brake/motion/civil/delivery analytical replay; no native execution' if domain=='variants' else
                 'Original motor recorded-tool/source/payload/trace verification; no field solve or exact numerical replay'))
         observed=sum(p.stat().st_size for p in state.rglob('*') if p.is_file())
         if observed>MAX_TEMP:raise ValueError('Observed historical temporary budget exceeded')
