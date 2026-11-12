@@ -97,15 +97,15 @@ def from_comparison(comparison):
         ids = comparison['identities'][side]
         if ids['reference_candidate_ids'] != comparison['reference_candidate_ids']:
             raise ValueError('Mixed reference candidate in project comparison')
-        records = {}
-        artifacts = {'vehicle': ids['reference_candidate_ids']['body_candidate_id'],
-                     'geometry': ids['city_input_id'], 'service': ids['service_evaluation_id'],
-                     'civil': ids['civil_quantity_id']}
-        for stage, artifact in artifacts.items():
-            records[stage] = stage_record(stage, candidate, artifact, source_sha256=sources,
-                dependencies={key:records[key]['stage_id'] for key in DEPENDENCIES[stage]})
-        cases[side] = compose(candidate, records)
+        # A body definition ID is not an installed-vehicle evaluation. Keep
+        # verified corridor references visible without manufacturing a vehicle
+        # stage that would allow downstream integrated claims.
+        project = compose(candidate, {})
+        project['corridor_artifact_references'] = deepcopy(ids)
+        project['reference_component_ids'] = deepcopy(comparison['reference_candidate_ids'])
+        project['project_id'] = identity({k:v for k,v in project.items() if k != 'project_id'})
+        cases[side] = project
     return dict(schema='osr-v07-corridor-projects/1', comparison_id=comparison['comparison_id'],
                 cases=cases, station_edit_affected=affected(['geometry']),
                 rate_edit_affected=affected(['cost']),
-                hold='Matching manufacturing, costing, delivery and maintenance project stages still required; corridor cost results remain available in their existing verified dossier.')
+                hold='Matching installed vehicle, civil, manufacturing and lifecycle project stages still required; corridor cost results remain available in their existing verified dossier.')

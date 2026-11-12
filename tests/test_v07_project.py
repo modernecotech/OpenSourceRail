@@ -56,7 +56,7 @@ def test_corridor_projection_preserves_missing_manufacturing_boundary():
                 source_sha256={'solver.py':'f'*64},identities={'before':ids,'after':ids})
     report['comparison_id']=identity(report)
     projection=from_comparison(report)
-    assert projection['cases']['after']['missing_stages']==['manufacturing','cost','delivery','maintenance','dossier']
+    assert projection['cases']['after']['missing_stages']==list(DEPENDENCIES)
     assert projection['cases']['after']['composition_complete'] is False
     report['identities']['after']['city_input_id']='0'*64
     with pytest.raises(ValueError,match='Sealed'):from_comparison(report)
