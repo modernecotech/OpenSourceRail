@@ -1,12 +1,29 @@
 """Continuing numerical cell development, separate from frozen regression cells."""
 from pathlib import Path
 from copy import deepcopy
+from contextlib import contextmanager
 import gzip,json,time,fcntl
+import os
+import shutil
 from engineering.reference_cell import vehicles,bundle as vehicle_adapter,physics
 from engineering.railway_twin import pipeline
 from . import ROOT,FLAGS,identity,encoded,digest
+from .archive import (ensure_directory as _ensure_publication_directory,
+    MAX_ARCHIVE_MEMBERS as _MAX_ARCHIVE_MEMBERS,
+    MAX_ARCHIVE_TAR_STREAM_BYTES as _MAX_ARCHIVE_TAR_STREAM_BYTES,
+    BoundedReader as _BoundedArchiveReader,
+    BundleRollbackError as _PublicationRollbackError,
+    MAX_ARCHIVE_UNCOMPRESSED_BYTES as _MAX_ARCHIVE_UNCOMPRESSED_BYTES,
+    MAX_COMPRESSED_ARCHIVE_BYTES as _MAX_COMPRESSED_ARCHIVE_BYTES,
+    open_lock_file as _open_publication_lock,
+    replace_file_bundle as _replace_publication_bundle,
+    sha256_file as _sha256_publication_file,
+    validate_destinations as _validate_publication_destinations,
+    validate_tar_member_name as _validate_tar_member_name,
+    write_atomic_bytes as _write_publication_bytes,
+    write_streaming_archive as _write_streaming_archive)
 from . import alternatives,journey,production,intake
-import io,tarfile,tempfile
+import tarfile,tempfile
 
 OUTPUT='docs/design-engine/continuing-cell'
 
@@ -212,33 +229,102 @@ def verify(state,*,root=ROOT,replay=True):
         conditional_numerical_arrivals=sum(x['summary']['conditional_numerical_arrivals'] for x in r['cases']),qualified_numerical_arrivals=0,**FLAGS)
 
 
+@contextmanager
+def _held_publication_lock(descriptor,message):
+    acquired=False
+    try:
+        try:fcntl.flock(descriptor,fcntl.LOCK_EX|fcntl.LOCK_NB);acquired=True
+        except BlockingIOError as exc:raise ValueError(message) from exc
+        yield
+    finally:
+        if acquired:
+            try:fcntl.flock(descriptor,fcntl.LOCK_UN)
+            finally:os.close(descriptor)
+        else:os.close(descriptor)
+
+
+def _open_target_publication_lock(root,target):
+    cache_home=Path(os.environ.get('XDG_CACHE_HOME',Path.home()/'.cache'))
+    directory=_ensure_publication_directory(cache_home/'opensourcerail/publication-locks')
+    key=identity(dict(schema='osr-publication-target-lock/1',target=str(target)))
+    return _open_publication_lock(directory,key+'.lock')
+
+
 def publish(state,*,root=ROOT,output=None):
-    validation=verify(state,root=root);folder=Path(state);target=Path(output or Path(root)/OUTPUT);target.mkdir(parents=True,exist_ok=True)
-    stream=io.BytesIO()
-    with tarfile.open(fileobj=stream,mode='w') as a:
-        for path in sorted(folder.rglob('*')):
-            if path.is_file() and path.name!='.coordinator.lock':
-                raw=path.read_bytes();info=tarfile.TarInfo(path.relative_to(folder).as_posix());info.size=len(raw);info.mode=0o644;info.mtime=0
-                a.addfile(info,io.BytesIO(raw))
-    (target/'continuing-cell.tar.gz').write_bytes(gzip.compress(stream.getvalue(),mtime=0))
-    index=_read(folder/'latest.json');summary=dict(schema='osr-continuing-cell-workbench/1',run_id=index['run_id'],cases=[x['summary'] for x in index['cases']],pending=index['pending'],**FLAGS)
-    _write(target/'summary.json',summary)
-    r=dict(schema='osr-continuing-cell-publication/1',source_sha256=sources(root),run_id=index['run_id'],validation=validation,
-        files_sha256={n:digest(target/n) for n in ('continuing-cell.tar.gz','summary.json')},**FLAGS)
-    r['publication_id']=identity(r);_write(target/'manifest.json',r);return r
+    folder=Path(os.path.abspath(state));target=Path(os.path.abspath(output or Path(root)/OUTPUT))
+    if target==folder or target.is_relative_to(folder):raise ValueError('Publication output must be outside the run state')
+    state_lock_fd=_open_publication_lock(folder,'.coordinator.lock')
+    with _held_publication_lock(state_lock_fd,'Continuing coordinator owns this run state'):
+        validation=verify(folder,root=root)
+        target=_ensure_publication_directory(target)
+        target_lock_fd=_open_target_publication_lock(root,target)
+        with _held_publication_lock(target_lock_fd,'Another continuing publisher owns this destination'):
+            names=('continuing-cell.tar.gz','summary.json','manifest.json')
+            _validate_publication_destinations(target,names)
+            staging=Path(tempfile.mkdtemp(prefix='.osr-publication-',dir=target))
+            try:
+                _write_streaming_archive(folder,staging/'continuing-cell.tar.gz')
+                index=_read(folder/'latest.json');summary=dict(schema='osr-continuing-cell-workbench/1',run_id=index['run_id'],cases=[x['summary'] for x in index['cases']],pending=index['pending'],**FLAGS)
+                _write_publication_bytes(staging,'summary.json',encoded(summary))
+                files={name:_sha256_publication_file(staging,name) for name in ('continuing-cell.tar.gz','summary.json')}
+                r=dict(schema='osr-continuing-cell-publication/1',source_sha256=sources(root),run_id=index['run_id'],validation=validation,
+                    files_sha256=files,**FLAGS)
+                r['publication_id']=identity(r);_write_publication_bytes(staging,'manifest.json',encoded(r))
+                _replace_publication_bundle(staging,target,names)
+            except _PublicationRollbackError:
+                # The staging directory contains the only recoverable copy of
+                # any old file whose rollback failed. Keep it and expose its path.
+                raise
+            except BaseException:
+                shutil.rmtree(staging,ignore_errors=True)
+                raise
+            shutil.rmtree(staging)
+            return r
 
 
-def verify_publication(*,root=ROOT,output=None):
-    target=Path(output or Path(root)/OUTPUT);r=_read(target/'manifest.json')
+def _verify_publication_locked(*,root,target):
+    _validate_publication_destinations(target,('continuing-cell.tar.gz','summary.json','manifest.json'))
+    r=_read(target/'manifest.json')
     if r.get('schema')!='osr-continuing-cell-publication/1' or r.get('publication_id')!=identity({k:v for k,v in r.items() if k!='publication_id'}) or r['source_sha256']!=sources(root) or any(r.get(k) is not False for k in FLAGS):raise ValueError('Continuing publication source/identity/disposition differs')
-    if set(r['files_sha256'])!={'continuing-cell.tar.gz','summary.json'} or any(digest(target/n)!=h for n,h in r['files_sha256'].items()):raise ValueError('Continuing payload inventory differs')
+    if (set(r['files_sha256'])!={'continuing-cell.tar.gz','summary.json'}
+            or _sha256_publication_file(target,'continuing-cell.tar.gz',maximum_bytes=_MAX_COMPRESSED_ARCHIVE_BYTES)!=r['files_sha256']['continuing-cell.tar.gz']
+            or _sha256_publication_file(target,'summary.json')!=r['files_sha256']['summary.json']):
+        raise ValueError('Continuing payload inventory differs')
     with tempfile.TemporaryDirectory(prefix='osr-progress-replay-') as temp:
-        with tarfile.open(target/'continuing-cell.tar.gz','r:gz') as a:
-            members=a.getmembers();names=[m.name for m in members]
-            if len(names)!=len(set(names)) or len(names)>12 or sum(m.size for m in members)>512*1024**2 or any(not m.isfile() or Path(m.name).is_absolute() or '..' in Path(m.name).parts for m in members):raise ValueError('Bounded ordinary continuing archive required')
-            a.extractall(temp,filter='data')
+        seen=set();total_bytes=0
+        with gzip.open(target/'continuing-cell.tar.gz','rb') as compressed:
+            bounded=_BoundedArchiveReader(compressed,_MAX_ARCHIVE_TAR_STREAM_BYTES)
+            with tarfile.open(fileobj=bounded,mode='r|') as a:
+                for member in a:
+                    try:_validate_tar_member_name(member.name)
+                    except ValueError as exc:raise ValueError('Bounded ordinary continuing archive required') from exc
+                    if (member.name in seen or not member.isreg() or member.size<0
+                            or len(seen)>=_MAX_ARCHIVE_MEMBERS
+                            or total_bytes+member.size>_MAX_ARCHIVE_UNCOMPRESSED_BYTES):
+                        raise ValueError('Bounded ordinary continuing archive required')
+                    seen.add(member.name);total_bytes+=member.size
+                    source=a.extractfile(member)
+                    if source is None:raise ValueError('Bounded ordinary continuing archive required')
+                    destination=Path(temp).joinpath(*member.name.split('/'))
+                    destination.parent.mkdir(parents=True,exist_ok=True)
+                    with source,destination.open('xb') as output_file:
+                        copied=0
+                        while True:
+                            block=source.read(1024*1024)
+                            if not block:break
+                            copied+=len(block)
+                            if copied>member.size:raise ValueError('Bounded ordinary continuing archive required')
+                            output_file.write(block)
+                        if copied!=member.size:raise ValueError('Bounded ordinary continuing archive required')
         result=verify(temp,root=root)
         if result!=r['validation']:raise ValueError('Continuing publication semantic replay differs')
         index=_read(Path(temp)/'latest.json');expected=dict(schema='osr-continuing-cell-workbench/1',run_id=index['run_id'],cases=[x['summary'] for x in index['cases']],pending=index['pending'],**FLAGS)
         if _read(target/'summary.json')!=expected:raise ValueError('Continuing workbench summary differs from evaluations')
     return dict(result,publication_id=r['publication_id'])
+
+
+def verify_publication(*,root=ROOT,output=None):
+    target=Path(os.path.abspath(output or Path(root)/OUTPUT))
+    target_lock_fd=_open_target_publication_lock(root,target)
+    with _held_publication_lock(target_lock_fd,'Another continuing publisher owns this destination'):
+        return _verify_publication_locked(root=root,target=target)
