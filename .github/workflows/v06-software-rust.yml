@@ -15,6 +15,9 @@ on:
       - "Cargo.lock"
       - "rust-toolchain.toml"
       - "crates/**"
+      - "engineering/outline/native_schedule.py"
+      - "engineering/outline/delivery_plan.py"
+      - "tests/test_native_schedule.py"
   pull_request:
     paths:
       - ".github/workflows/v06-software-rust.yml"
@@ -29,6 +32,9 @@ on:
       - "Cargo.lock"
       - "rust-toolchain.toml"
       - "crates/**"
+      - "engineering/outline/native_schedule.py"
+      - "engineering/outline/delivery_plan.py"
+      - "tests/test_native_schedule.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -49,6 +55,26 @@ jobs:
             /Cargo.lock
             /rust-toolchain.toml
             /crates/**
+            /engineering/__init__.py
+            /engineering/outline/__init__.py
+            /engineering/outline/native_schedule.py
+            /engineering/outline/delivery_plan.py
+            /engineering/station_rail/__init__.py
+            /engineering/performance.py
+            /tests/test_native_schedule.py
       - uses: dtolnay/rust-toolchain@1.92.0
       - name: Test safety, interlocking, doors, train control and station SCADA
-        run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada
+        run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada -p osr-design-search
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.16"
+      - name: Build explicit Rust scheduler and verify Python differential contracts
+        env:
+          OSR_SCHEDULE_ROOT: ${{ github.workspace }}
+          OSR_SCHEDULE_BINARY: ${{ runner.temp }}/osr-scheduler-target/release/osr-delivery-schedule
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python -m pip install --disable-pip-version-check pytest==9.2.0
+          python -B -c 'import os; from pathlib import Path; from engineering.outline.native_schedule import build; build(Path.cwd(), Path(os.environ["RUNNER_TEMP"]) / "osr-scheduler-target")'
+          python -B -m pytest -q --import-mode=importlib -p no:cacheprovider tests/test_native_schedule.py
