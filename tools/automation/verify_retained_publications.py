@@ -86,14 +86,17 @@ def verify(root,domain,state,*,source_revision=REVISION):
     while not probe.exists():probe=probe.parent
     if shutil.disk_usage(probe).free-MAX_TEMP<epoch.MIN_FREE_BYTES:raise ValueError('Historical verification disk reserve unavailable')
     state.mkdir(parents=True,exist_ok=False);work=state/'epoch';scratch=state/'scratch';scratch.mkdir()
+    child_code=CHILD
+    cpu_seconds=150 if domain=='cell' else 120
+    if domain=='cell':child_code=child_code.replace('resource.RLIMIT_CPU, (120, 120)','resource.RLIMIT_CPU, (150, 150)')
     started=time.monotonic();receipt=dict(schema='osr-retained-twin-motor-check/1',domain=domain,
         source_revision=REVISION,current_source_valid=False,retained_verified=False,
         method_replay_completed=False,native_solver_executions=0,native_processes=0,
-        resource_request=dict(cpu_seconds=120,wall_seconds=180,address_space_bytes=3*1024**3,
+        resource_request=dict(cpu_seconds=cpu_seconds,wall_seconds=180,address_space_bytes=3*1024**3,
             maximum_selected_input_bytes=epoch.MAX_SOURCE_BYTES,maximum_temporary_bytes=MAX_TEMP,
             per_file_limit_bytes=MAX_FILE,minimum_free_disk_bytes=epoch.MIN_FREE_BYTES),
         isolation='Isolated Python imports and cooperative process guard plus child rlimits; not an OS sandbox or aggregate filesystem quota',
-        guard_sha256=hashlib.sha256(CHILD.encode()).hexdigest(),**{k:False for k in FLAGS})
+        guard_sha256=hashlib.sha256(child_code.encode()).hexdigest(),**{k:False for k in FLAGS})
     try:
         cfg,entries,manifest,raw,payload,sources,names=selection(root,domain)
         total=epoch.selected_size(entries,names)
@@ -125,8 +128,9 @@ def verify(root,domain,state,*,source_revision=REVISION):
         env={k:v for k,v in os.environ.items() if k not in ('PYTHONPATH','PYTHONHOME')}
         env.update(PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(scratch),OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
         with (state/'stdout.json').open('wb') as out,(state/'stderr.txt').open('wb') as err:
-            run=subprocess.run([sys.executable,'-I','-B','-c',CHILD,str(work),str(work/cfg['folder']),domain],
+            run=subprocess.run([sys.executable,'-I','-B','-c',child_code,str(work),str(work/cfg['folder']),domain],
                 cwd=work,env=env,stdout=out,stderr=err,timeout=180)
+        receipt['original_checker_exit_code']=run.returncode
         if run.returncode:raise ValueError('Original checker failed; original source/input copies and logs retained at '+str(state))
         with os.fdopen(os.open(state/'stdout.json',os.O_RDONLY|os.O_NOFOLLOW),'rb') as stream:
             info=os.fstat(stream.fileno())

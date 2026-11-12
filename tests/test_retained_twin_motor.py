@@ -3,7 +3,7 @@ import hashlib,io,json,subprocess,tarfile
 from pathlib import Path
 from types import SimpleNamespace
 import pytest
-from engineering.railway_twin import retained as r
+from tools.automation import verify_retained_publications as r
 
 
 def git(root,*args):return subprocess.check_output(['git','-C',str(root),*args]).decode().strip()

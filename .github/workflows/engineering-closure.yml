@@ -29,8 +29,8 @@ jobs:
         run: |
           ./osr-complete verify-publication
           git fetch --no-tags --depth=1 --filter=blob:none origin 946f1772540d07af85b57b0d13cac08a3293b140
-          .venv/bin/python -m engineering.railway_twin.retained prefetch motor
-          .venv/bin/python -m engineering.railway_twin.retained verify motor --state "$RUNNER_TEMP/osr-retained-motor-check"
+          .venv/bin/python -m tools.automation.verify_retained_publications prefetch motor
+          .venv/bin/python -m tools.automation.verify_retained_publications verify motor --state "$RUNNER_TEMP/osr-retained-motor-check"
           ./osr-complete variants-verify-publication
       - name: Execute fresh zero-voltage control with this runner's source and numerical tools
         run: ./osr-complete motor-run --state build/completion-ci --max-new-runs 1
