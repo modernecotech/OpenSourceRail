@@ -120,9 +120,10 @@ synthetic map samples do not establish installed propulsion performance.
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
 including intercar gap. The child cannot inherit the reference's fleet, costs,
-installed vehicle or engineering results. The project needs a matching installed
-child evaluation, civil/station interfaces and lifecycle package before those
-stages can be composed into a complete dossier.
+installed vehicle or engineering results. The current analytical child evaluation
+is recorded above; a complete mated installation, matching civil/station
+interfaces and lifecycle package are still needed before those stages can be
+composed into a complete dossier.
 
 Door installed transforms, clearances, mating datums, tolerances, inspection
 limits and maintenance intervals remain incomplete. Actual drive/brake/thermal
@@ -200,7 +201,8 @@ five routing checks pass. Exact standalone policy/test edits now run in the
 bounded Python lane; mixed engineering edits still trigger retained workflows.
 The existing Shared filter excludes edits to its own workflow file. The explicit
 final-source Shared run `43229288557` passed on `7516359c40`; no duplicate run
-was launched.
+was launched. The same `7516359c40` checkpoint passed 447 Python tests
+(four optional skips), Rust contracts, Workbench and reconciled research.
 
 The owned evaluation working tree was then reduced from 8.45 GiB to about
 0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
