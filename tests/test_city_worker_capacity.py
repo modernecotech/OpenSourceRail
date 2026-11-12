@@ -124,3 +124,16 @@ def test_unknown_crashed_launch_is_reserved_until_reconciled(pool,monkeypatch,tm
     status=s.submit(dict(city_slug='samawah'))
     assert status['state']=='queued' and not processes
     assert status['resource_admission']['unreconciled_launches']==['orphan-launch']
+
+
+def test_close_stops_all_owned_workers_even_if_ledger_is_corrupt(pool):
+    make,processes=pool;s=make('a')
+    jobs_started=[s.submit(dict(city_slug=x)) for x in ('samawah','baghdad')]
+    s.reservations.path.write_text('corrupted-ledger')
+    s.close()
+    assert all(p.poll() is not None for p in processes)
+    assert len(s.reservation_errors)==2
+    for job in jobs_started:
+        state=json.loads((s._job(job['job_id'])/'status.json').read_bytes())
+        assert state['state']=='interrupted'
+        assert (s._job(job['job_id'])/'request.json').exists()

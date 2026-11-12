@@ -61,7 +61,7 @@ class CityStudyService:
             ledger=Path(resource_ledger or DEFAULT_LEDGER).expanduser().resolve()
             if ledger.is_relative_to(self.root):raise ValueError('Worker reservation ledger must be outside source')
             self.reservations=Reservations(ledger)
-        self.lock=threading.RLock();self.jobs={};self.closed=False
+        self.lock=threading.RLock();self.jobs={};self.closed=False;self.reservation_errors={}
         self.verified_runs={}
         self.completed_by_key={};self.indexed_key_by_job={}
         self._lease=completion._locked(self.store);self._lease.__enter__()
@@ -155,6 +155,13 @@ class CityStudyService:
         self.verified_runs[str(folder)]=(stamp,actual)
         return actual
 
+    def _release_reservation(self,job_id):
+        try:self.reservations.release(job_id,self.store)
+        except (ValueError,KeyError,TypeError,OSError) as exc:
+            # Failed accounting must not prevent stopping other owned workers.
+            # The ledger remains held for reconciliation, never silently cleared.
+            self.reservation_errors[job_id]=str(exc)
+
     def _failed_integrity(self,job_id,error):
         folder=self._job(job_id);record=self.jobs.get(job_id)
         if record is not None:
@@ -164,11 +171,12 @@ class CityStudyService:
                 except ProcessLookupError:pass
             process.wait(timeout=5);record['log'].close();record['finished']=True
         if job_id in self.pending:self.pending.remove(job_id)
-        if self.reservations:self.reservations.release(job_id,self.store)
+        if self.reservations:self._release_reservation(job_id)
         old=completion._ordinary(folder/'status.json')
         if old.exists():old.replace(folder/('status.invalid-'+uuid4().hex+'.json'))
         status=dict(schema='osr-city-study-job/1',job_id=job_id,state='failed-integrity',
-            error=error,request_and_logs_retained=True,**FLAGS)
+            error=error,request_and_logs_retained=True,
+            resource_release_warning=self.reservation_errors.get(job_id),**FLAGS)
         self._write(folder,status);return status
 
     def _poll(self,job_id):
@@ -214,7 +222,8 @@ class CityStudyService:
             except (ValueError,KeyError,TypeError,OSError) as exc:
                 status.update(state='failed-integrity',error=str(exc))
         record['log'].close();record['finished']=True
-        if self.reservations:self.reservations.release(job_id,self.store)
+        if self.reservations:self._release_reservation(job_id)
+        if job_id in self.reservation_errors:status['resource_release_warning']=self.reservation_errors[job_id]
         self._write(folder,status);return status
 
     def submit(self,request):
@@ -295,7 +304,7 @@ class CityStudyService:
                 stdin=subprocess.DEVNULL,start_new_session=True)
         except BaseException:
             log.close()
-            if self.reservations:self.reservations.release(job_id,self.store)
+            if self.reservations:self._release_reservation(job_id)
             raise
         self.jobs[job_id]=dict(process=process,log=log,started=time.monotonic())
         if self.reservations:self.reservations.attach(job_id,self.store,process.pid)
@@ -426,7 +435,7 @@ class CityStudyService:
                                 self._failed_integrity(job_id,str(exc))
                     finally:
                         record['log'].close()
-                        if self.reservations:self.reservations.release(job_id,self.store)
+                        if self.reservations:self._release_reservation(job_id)
         finally:
             self.watcher.join(timeout=3)
             self._lease.__exit__(None,None,None)
