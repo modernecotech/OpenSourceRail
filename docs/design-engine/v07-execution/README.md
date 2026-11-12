@@ -14,6 +14,13 @@ unchanged production objects verified. R01 now has a reviewed bounded corridor
 baseline. The isolated source tree is about 0.94 GiB and the closing host reading
 has 21.71 GiB free; shared Git storage is separate.
 
+The subsequent repository review confirmed main `88f5ecc88b` and the successful
+[Workbench journey on that exact commit](https://github.com/modernecotech/OpenSourceRail/actions/runs/43254678158).
+The agent plan now prioritises P01/C01 mated door integration, M01 controlled
+manufacturing data and L01 actual module custody/persistence. Completed GIS,
+profiling and reservation work is retained; Rust changes must follow the measured
+hotspots. Original plan and execution identities remain in the ledger.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
