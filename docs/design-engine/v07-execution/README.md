@@ -150,6 +150,26 @@ page cache was uncontrolled, and no optimization or all-workload claim is
 made. The failed probe initialization is preserved; both attempts used
 35.98 seconds and about 24.65 MB, with no builds or native solves.
 
+## Door route proxy and current analytical child
+
+The [new analytical installation receipt](../../../campaigns/v07-execution.json)
+records the reviewed `body/door-opening` source correction at `c76609cd06`.
+The full declared guide stock is 2.9 m and the belt cut length is 5.8 m;
+each had been shown by a 2 m straight display proxy. The generated patterns
+now state the declared cut length, the length absent from that display proxy,
+and `full_route_fit_verified=false`. A belt loop must not be treated as a
+5.8 m straight part. The change does not supply mating holes or a routed sweep.
+
+A fresh analytic calculation preserved the exact physical definition and
+candidate `17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4`.
+Its new evaluation is `cf40dbb70e043ec282f627ab3c677f94c9b8112e2cd95471e3d64a7edba1720a`;
+all eleven declared source bindings match the earlier run except the changed
+installation model. It has 24 affected door patterns, a 21,857,238-byte
+canonical result and no native CAD or solver execution. The earlier one-opening
+attachment remains bound to its original evaluation and is held for regeneration
+before use as current evidence. Controlled placement, finished route and
+installed mass are still open.
+
 ## Integration still required
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
