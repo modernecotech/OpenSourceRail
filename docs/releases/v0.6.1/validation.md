@@ -77,3 +77,6 @@ keeps the dossier excluded from supported v0.6 results and SR-01 evidence until
 its exact provenance is resolved. SR-01 evidence is limited to the independently
 verified publications and packets used by the supported journeys. Do not rerun
 the broad 266-city publication path to clear this hold.
+
+The [published installation verification](installation-verification.md) records
+the completed clean installation and two Samawah journeys against the tag.

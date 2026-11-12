@@ -14,11 +14,14 @@ def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
-def test_current_v06_release_is_withheld_by_all_required_open_gates():
+def test_open_engineering_gates_remain_visible_after_software_publication():
     report = release_gate.inspect(ROOT)
     assert report['required_gate_count'] == 7
     assert report['closed_gate_count'] == 0
     assert report['release_ready'] is False
+    assert report['engineering_design_complete'] is False
+    assert report['controls_software_publication'] is False
+    assert report['published_software_release'] == 'v0.6.1'
     assert {item['id'] for item in report['open_gates']} == {
         'installed-vehicle', 'controlled-research-documents', 'mapped-corridor',
         'native-gis-return-path', 'candidate-business-lifecycle',
@@ -93,4 +96,17 @@ def test_changed_evidence_or_physical_release_claim_fails_closed(tmp_path):
     status['release_flags']['physical_accepted'] = True
     path.write_text(json.dumps(status), encoding='utf-8')
     with pytest.raises(ValueError, match='cannot assert physical'):
+        release_gate.inspect(root, campaign_path=campaign_path, status_path=status_path)
+
+
+def test_false_publication_control_requires_explicit_supersession(tmp_path):
+    root, campaign_path, status_path = _closed_fixture(tmp_path)
+    path = root / campaign_path
+    raw = path.read_bytes().replace(b'release_unpublished_until_required_work_closed = true',
+                                  b'release_unpublished_until_required_work_closed = false')
+    path.write_bytes(raw)
+    status = json.loads((root / status_path).read_text())
+    status['campaign_sha256'] = digest(raw)
+    (root / status_path).write_text(json.dumps(status))
+    with pytest.raises(ValueError, match='Superseded software-publication control'):
         release_gate.inspect(root, campaign_path=campaign_path, status_path=status_path)

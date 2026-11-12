@@ -39,3 +39,6 @@ The earlier annotated `v0.6.0` development tag remains at
 documents](../v0.6.0/README.md) are retained. Neither release tag is moved by
 this handover. Physical, manufacturing, movement and operating acceptance
 remain separate from software publication.
+
+The [published installation verification](installation-verification.md) records
+the completed clean installation and two Samawah journeys against the tag.

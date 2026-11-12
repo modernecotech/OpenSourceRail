@@ -92,8 +92,18 @@ def inspect(root: str | Path, *, campaign_path: str = CAMPAIGN,
         raise ValueError('duplicate required campaign work ID')
     required = set(required_ids)
     records = status.get('gates')
-    if (not required or not isinstance(records, dict) or set(records) != required
-            or campaign.get('release_unpublished_until_required_work_closed') is not True):
+    controls_publication = campaign.get('release_unpublished_until_required_work_closed')
+    if type(controls_publication) is not bool:
+        raise ValueError('Explicit software-publication control required')
+    publication = campaign.get('software_publication', {})
+    if controls_publication is False and (
+            publication.get('control_superseded') is not True
+            or publication.get('engineering_findings_remain_open') is not True
+            or not publication.get('published_release')
+            or not publication.get('published_source_commit')
+            or not publication.get('published_release_url')):
+        raise ValueError('Superseded software-publication control needs its published source and retained engineering findings')
+    if (not required or not isinstance(records, dict) or set(records) != required):
         raise ValueError('closure ledger must cover each and only each required campaign work ID')
 
     open_gates = []
@@ -142,6 +152,9 @@ def inspect(root: str | Path, *, campaign_path: str = CAMPAIGN,
     return dict(schema='osr-v06-release-readiness/1', campaign_sha256=campaign_digest,
                 required_gate_count=len(required), closed_gate_count=len(required)-len(open_gates),
                 open_gates=open_gates, release_ready=ready,
+                engineering_design_complete=ready,
+                controls_software_publication=controls_publication,
+                published_software_release=publication.get('published_release'),
                 release_flags={name: False for name in RELEASE_FLAGS})
 
 
