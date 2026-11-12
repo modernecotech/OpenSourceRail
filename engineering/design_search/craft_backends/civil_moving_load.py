@@ -3,6 +3,7 @@
 Gross uncracked beam theory is not local deck, bearing, reinforced-concrete,
 foundation, handling or installed railway qualification.
 """
+from copy import deepcopy
 from math import fsum,isfinite
 from pathlib import Path
 from engineering.station_rail.common import identity,digest
@@ -53,6 +54,7 @@ def dead_response(length,x,segments):
 def response(length,x,shift,axles,axle_N,segments=()):
     """Exact influence ordinates for centered point loads and prism dead loads."""
     positive(length,'span');positive(axle_N,'axle load')
+    if not 0<=x<=length or not isfinite(shift):raise ValueError('Section and train placement within finite domain required')
     z=[shift+a for a in axles if 0<=shift+a<=length]
     dl,dr,dm=dead_response(length,x,segments)
     left=fsum(axle_N*(length-a)/length for a in z)
@@ -65,6 +67,7 @@ def response(length,x,shift,axles,axle_N,segments=()):
 
 def envelope(length,axles,axle_N,segments,step_m):
     positive(step_m,'section sample spacing')
+    if not axles or len(axles)>100 or any(type(a) not in (int,float) or not isfinite(a) for a in axles):raise ValueError('Bounded explicit axle stations required')
     n=round(length/step_m)
     if not 2<=n<=400 or abs(n*step_m-length)>1e-10:raise ValueError('Bounded exact section grid required')
     peak=None;left=right=0.;residual=0.
@@ -113,8 +116,11 @@ def crane_at_radius(*,installed_lift_mass_kg,rigging_mass_kg,radius_m,hoist_fact
         chart_authentication_and_ground_outrigger_wind_review_required=True,physical_accepted=False)
 
 
-def build(root,steps=(.5,.25)):
-    root=Path(root);selected=selection.load(root);vehicle=selected['vehicle']
+def build(root,steps=(.5,.25),*,producer_source=None):
+    root=Path(root);producer_source=Path(producer_source) if producer_source is not None else root/PRODUCER
+    if digest(producer_source)!=digest(__file__):raise ValueError('Loaded analytical producer source required')
+    if len(steps)!=2 or not steps[1]<steps[0]:raise ValueError('Two ordered coarse/fine section grids required')
+    selected=selection.load(root);vehicle=selected['vehicle']
     case=viaduct_cases.build('reference_box','reference',root=root)
     cells=case['physical_definition']['cells']
     if len(cells)!=1:raise ValueError('This analytical control requires the explicitly uniform reference box')
@@ -135,10 +141,12 @@ def build(root,steps=(.5,.25)):
         delta=abs(samples[-1]['max_moment']['moment_Nm']-samples[0]['max_moment']['moment_Nm'])
         cases[label]=dict(people_per_car=people,accounted_mass_kg_per_car=mass,axle_force_N=load,
             levels=samples,relative_moment_change=delta/samples[-1]['max_moment']['moment_Nm'],
+            convergence_scope='Section sampling diagnostic, not native or engineering convergence',
             diagnostic_trigger=.01,diagnostic_trigger_is_not_engineering_limit=True)
-    sources={**selected['source_sha256'],**case['source_sha256'],
+    sources={**selected['source_sha256'],**vehicle['source_sha256'],**case['source_sha256'],
+        'engineering/development_baseline/selection.py':digest(root/'engineering/development_baseline/selection.py'),
         'engineering/station_rail/vehicle.py':digest(root/'engineering/station_rail/vehicle.py'),
-        PRODUCER:digest(root/PRODUCER)}
+        PRODUCER:digest(producer_source)}
     config=dict(vehicle_candidate_id=vehicle['candidate_id'],civil_candidate_id=case['candidate_id'],
         component_geometry_id=case['component_geometry_id'],load_policy='accounted-tare/equal-four-axles/static/no-dynamic-factor',
         support='bilateral simply supported gross uniform box',steps_m=list(steps),young_Pa=35e9)
@@ -149,6 +157,10 @@ def build(root,steps=(.5,.25)):
         section=dict(gross_area_m2=area,centroid_z_m=center,gross_I_y_m4=inertia,young_Pa_hypothesis=35e9),
         cases=cases,unlocated_accounted_mass_kg_per_car=vehicle['mass']['unlocated_or_reference_account_kg'],
         complete_installed_mass_kg_per_car=None,unknown_additional_installed_mass_kg=None,
+        accounted_mass_is_not_a_guaranteed_installed_bound=True,
+        vehicle_residual_overlap_unresolved=vehicle['residual_overlap_unresolved'],
+        unresolved_civil_installed_items=deepcopy(case['unresolved_installed_items']),
+        route_quantities=dict(span_count=None,support_count=None,transport_cycles=None,erection_cycles=None,installed_cost=None),
         ideal_centered_static_torsion_Nm=0.,actual_torsion_envelope_Nm=None,
         crane=crane_at_radius(installed_lift_mass_kg=None,rigging_mass_kg=None,radius_m=None,hoist_factor=None,chart=None,configuration=None),
         open_findings=[
