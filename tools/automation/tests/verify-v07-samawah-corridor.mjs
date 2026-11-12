@@ -18,9 +18,11 @@ const started = performance.now();
 const source = git('rev-parse', 'HEAD');
 const python = process.env.OSR_PYTHON || join(root, '.venv/bin/python');
 const studyStore = resolve(process.env.OSR_CITY_STUDY_STORE || join(output, 'city-studies'));
+const maximumWorkers = process.env.OSR_CITY_STUDY_WORKERS || '1';
+assert(['1', '2'].includes(maximumWorkers), 'One or two analytic workers required');
 const server = spawn(python, ['-B', '-u', '-m', 'engineering.development_baseline.server',
   '--root', root, '--host', '127.0.0.1', '--port', '0', '--no-browser',
-  '--city-study-store', studyStore, '--trip-store', join(output, 'trip-studies')],
+  '--city-study-store', studyStore, '--city-study-workers', maximumWorkers, '--trip-store', join(output, 'trip-studies')],
   {cwd: root, env: {...process.env, PYTHONPATH: root, PYTHONDONTWRITEBYTECODE: '1',
     OPENBLAS_NUM_THREADS: '1', OMP_NUM_THREADS: '1', MKL_NUM_THREADS: '1'}, stdio: ['ignore', 'pipe', 'pipe']});
 let log = '', origin, browser, page;

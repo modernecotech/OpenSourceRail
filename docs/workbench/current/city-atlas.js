@@ -219,7 +219,7 @@
           label.append(select); doorDetails.append(label); const detail = node("div", "atlas-door-part"); doorDetails.append(detail);
           const showPart = () => {
             const part = module.parts.find(p => p.id === select.value); detail.replaceChildren();
-            detail.append(node("p", "", `${part.quantity_per_opening} per opening · ${part.quantity_per_train} per train · ${human(part.make_buy)}`));
+            detail.append(node("p", "", `${part.quantity_per_opening} per opening · ${part.quantity_per_train} per train · ${part.make_buy === "buy-qualified" ? "Purchase proposal; supplier qualification required" : "Proposed " + human(part.make_buy)}`));
             detail.append(node("h5", "", "Manufacturing route")); const route = node("ol");
             for (const operation of part.manufacturing) route.append(node("li", "", operation)); detail.append(route);
             detail.append(node("p", "", `Fit and tolerance basis: ${part.tolerance_and_fits}`));
