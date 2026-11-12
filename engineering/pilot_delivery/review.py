@@ -53,8 +53,51 @@ def _payload(root, row, definition):
     return dict(row)
 
 
+def source_assemblies(proposal, groups):
+    """Derive logical research kits from existing source routes, never client BOMs.
+
+    Grouping is a trusted compiler selection, not installed mating/placement
+    evidence or an asserted hash of the separate door-module compiler output.
+    """
+    if not isinstance(groups,list) or not 1<=len(groups)<=contract.MAX_ASSEMBLIES:raise ValueError('Bounded source assembly group selection required')
+    routes={r['id']:r for r in proposal['assembly_routes']};parts={p['id']:p for p in proposal['items']}
+    nodes={};binding=proposal['identities'];group_ids=set()
+    def node(name,quantity,occ,children,refs):
+        value=dict(id=name,identities=deepcopy(binding),quantity_per_train=quantity,occurrence_ids=deepcopy(occ),children=children,
+            source_reference=dict(proposal_id=proposal['proposal_id'],scope='source-authoritative-proposal-reference-only',physical_module_id=None,**refs),
+            research_holds=['Logical counted research kit; installed mating, placement, assembly process cost and physical qualification remain unresolved'])
+        value['definition_id']=identity(value);return value
+    for group in groups:
+        if not isinstance(group,dict) or set(group)!={'id','assembly_ids'}:raise ValueError('Select existing source assembly routes only')
+        name=contract.text(group['id'],'group id',150);ids=group['assembly_ids']
+        if name in group_ids or name in routes or name in parts:raise ValueError('Duplicate source assembly group')
+        group_ids.add(name)
+        if not isinstance(ids,list) or not ids or len(set(ids))!=len(ids) or any(i not in routes for i in ids):raise ValueError('Unique known source assembly routes required')
+        quantities={routes[i]['occurrences_per_train'] for i in ids}
+        if len(quantities)!=1:raise ValueError('Grouped source assemblies require matched per-train occurrence counts')
+        count=next(iter(quantities))
+        if type(count) is not int or not 1<=count<=100000:raise ValueError('Bounded positive source assembly count required')
+        for rid in ids:
+            occ=routes[rid]['assembly_occurrence_ids']
+            if not isinstance(occ,list) or len(occ)!=count or len(set(occ))!=count:raise ValueError('Exact source assembly occurrence inventory required')
+            for item in occ:contract.text(item,'source assembly occurrence',500)
+        for rid in ids:
+            route=routes[rid];children=[]
+            for part_id in route['component_type_ids']:
+                part=parts[part_id];q=part['quantity_per_train']/count
+                if type(part['quantity_per_train']) is not int or not q.is_integer():raise ValueError('Integral source pieces per assembly required')
+                children.append(dict(kind='part',id=part_id,quantity=int(q)))
+            value=node(rid,count,route['assembly_occurrence_ids'],children,dict(source_route_sha256=identity(route)))
+            if rid in nodes:raise ValueError('Source assembly cannot belong to two groups')
+            nodes[rid]=value
+        occurrences=['research-kit-'+identity(dict(group=name,source_occurrences=[routes[i]['assembly_occurrence_ids'][j] for i in ids])) for j in range(count)]
+        nodes[name]=node(name,count,occurrences,[dict(kind='assembly',id=i,quantity=1) for i in ids],dict(source_routes={i:identity(routes[i]) for i in ids}))
+    contract.validate_assemblies(list(nodes.values()),parts,binding,proposal['proposal_id'])
+    return nodes
+
+
 def compile_review_pack(proposal, documents, conversions, *, artifact_root, city,
-                        source_root=ROOT, selected_part_ids=None):
+                        source_root=ROOT, selected_part_ids=None, assembly_groups=None):
     """Pure bounded compiler API consumed by drawing producers and business adapters.
 
     documents: osr-controlled-research-documents/1 {identities, components:[
@@ -99,6 +142,11 @@ def compile_review_pack(proposal, documents, conversions, *, artifact_root, city
         stocks=contract.stock_lines(conversion,part)
         components.append(dict(source_part=deepcopy(part),source_part_sha256=identity(part),documents=owned,
             conversion=conversion,stock_lines=stocks,native_orders_released=False,physical_manufacture_validated=False))
+    extra={}
+    if assembly_groups is not None:
+        nodes=source_assemblies(proposal,assembly_groups)
+        contract.validate_assemblies(list(nodes.values()),{r['source_part']['id']:r['source_part'] for r in components},proposal['identities'],proposal['proposal_id'])
+        extra['assemblies']=list(nodes.values())
     result=contract.seal(dict(schema='osr-wheel-delivery-review-pack/1',environment='simulation',city=city,
         identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],proposal_sha256=identity(proposal),
         components=components,artifacts=[artifacts[k] for k in sorted(artifacts)],
@@ -106,20 +154,24 @@ def compile_review_pack(proposal, documents, conversions, *, artifact_root, city
         source_sha256={**proposal['source_sha256'],CONTRACT:digest(ROOT/CONTRACT),
             'engineering/pilot_delivery/review.py':digest(__file__)},
         scope='Controlled research-document and quantified business-conversion review only; no manufacturing, engineering or operating acceptance',
-        cost_scope='Existing source direct part/process account is retained once; this is not an additive project cost ledger',**FLAGS))
+        cost_scope='Existing source direct part/process account is retained once; this is not an additive project cost ledger',**extra,**FLAGS))
     contract.validate_pack(result)
     return result
 
 
-def source_context(proposal, *, city, project, company):
+def source_context(proposal, *, city, project, company, assembly_groups=None):
     """Trusted administrator provisioning input; not a client-selected candidate."""
     validate_proposal(proposal)
+    extra={}
+    if assembly_groups is not None:
+        nodes=source_assemblies(proposal,assembly_groups)
+        extra=dict(source_assemblies=nodes,assembly_patterns=contract.assembly_patterns(nodes))
     result=contract.seal(dict(schema='osr-wheel-delivery-project/1',environment='simulation',city=city,
         project=project,company=company,identities=deepcopy(proposal['identities']),proposal_id=proposal['proposal_id'],
         proposal_sha256=identity(proposal),source_parts={p['id']:identity(p) for p in proposal['items']},
         project_trainsets=proposal['summary']['project_trainsets'],
         source_patterns={p['id']:dict(part_id=p['part_id'],count_per_train=p['count_per_train'],
-            assembly_occurrence_id=p['assembly_occurrence_id']) for p in proposal['occurrence_patterns']},**FLAGS))
+            assembly_occurrence_id=p['assembly_occurrence_id']) for p in proposal['occurrence_patterns']},**extra,**FLAGS))
     contract.validate_context(result);return result
 
 

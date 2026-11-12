@@ -223,6 +223,8 @@ def validate_pack(value):
         if row['conversion']['source_part_sha256']!=engineering_digest(source):raise ValueError('Conversion belongs to another source part')
         for flag in ('native_orders_released','physical_manufacture_validated'):
             if row.get(flag) is not False:raise ValueError('Review pack cannot release production')
+    if 'assemblies' in value:
+        validate_assemblies(value['assemblies'],{r['source_part']['id']:r['source_part'] for r in components},value['identities'],value['proposal_id'])
     coverage=value['coverage']
     missing=sorted(set(coverage['source_part_ids'])-seen)
     if (coverage['covered_part_ids']!=sorted(seen) or coverage['uncovered_part_ids']!=missing or
@@ -242,6 +244,12 @@ def validate_context(value):
         text(name,'source pattern')
         if row['part_id'] not in value['source_parts'] or type(row['count_per_train']) is not int or row['count_per_train']<1:
             raise ValueError('Counted source pattern required')
+    if 'source_assemblies' in value:
+        quantities={}
+        for row in value['source_patterns'].values():quantities[row['part_id']]=quantities.get(row['part_id'],0)+row['count_per_train']
+        validate_assemblies(list(value['source_assemblies'].values()),{k:{'quantity_per_train':v} for k,v in quantities.items()},value['identities'],value['proposal_id'])
+        if any(k!=v['id'] for k,v in value['source_assemblies'].items()):raise ValueError('Source assembly dictionary identity differs')
+        if value.get('assembly_patterns')!=assembly_patterns(value['source_assemblies']):raise ValueError('Counted assembly patterns differ')
     return value
 
 
@@ -253,6 +261,9 @@ def bind_pack(pack, context):
     for row in pack['components']:
         if context['source_parts'].get(row['source_part']['id'])!=row['source_part_sha256']:
             raise ValueError('Part differs from authoritative native project source')
+    for node in pack.get('assemblies',[]):
+        if context.get('source_assemblies',{}).get(node['id'])!=node:
+            raise ValueError('Assembly differs from authoritative native project source')
     return True
 
 
@@ -273,3 +284,84 @@ def business_handback(context, observed, *, actor):
     return seal(dict(schema='osr-wheel-business-handback/1',context_sha256=context['sha256'],
         native_readback=deepcopy(observed),authenticated_actor=actor,
         business_state='simulation-business-reviewed',**FLAGS))
+
+
+MAX_ASSEMBLIES=128
+MAX_ASSEMBLY_EDGES=4000
+MAX_ASSEMBLY_DEPTH=8
+
+
+def validate_assemblies(nodes,parts,binding,proposal_id):
+    """Validate a bounded, disjoint counted hierarchy; return child-first order.
+
+    Parts are already source-verified review components (or counted context
+    projections). Assembly definitions do not establish installed placement.
+    """
+    if not isinstance(nodes,list) or len(nodes)>MAX_ASSEMBLIES:raise ValueError('Bounded assembly hierarchy required')
+    if len(encoded(nodes))>MAX_PACK_BYTES:raise ValueError('Assembly hierarchy byte budget exceeded')
+    by_id={};owners={};edge_count=0
+    for node in nodes:
+        if set(node)!={'id','identities','quantity_per_train','occurrence_ids','children','source_reference','research_holds','definition_id'}:
+            raise ValueError('Explicit source assembly definition required')
+        name=text(node['id'],'assembly id',150)
+        if name in by_id or name in parts:raise ValueError('Duplicate assembly/part ownership')
+        if node['identities']!=binding or node['definition_id']!=engineering_digest({k:v for k,v in node.items() if k!='definition_id'}):
+            raise ValueError('Mixed or changed assembly definition')
+        ref=node['source_reference']
+        if (not isinstance(ref,dict) or ref.get('proposal_id')!=proposal_id or
+            ref.get('scope')!='source-authoritative-proposal-reference-only' or ref.get('physical_module_id') is not None):
+            raise ValueError('Source proposal assembly reference required; no physical module identity inferred')
+        q=node['quantity_per_train'];occ=node['occurrence_ids']
+        if type(q) is not int or q<1 or not isinstance(occ,list) or len(occ)!=q or len(set(occ))!=len(occ):
+            raise ValueError('Exact counted assembly occurrences required')
+        for item in occ:text(item,'assembly occurrence',500)
+        if not isinstance(node['research_holds'],list) or not node['research_holds'] or any(not isinstance(x,str) or not x.strip() for x in node['research_holds']):
+            raise ValueError('Explicit research assembly holds required')
+        if not isinstance(node['children'],list) or not node['children']:raise ValueError('Nonempty counted assembly children required')
+        for edge in node['children']:
+            if set(edge)!={'kind','id','quantity'} or edge['kind'] not in ('part','assembly') or type(edge['quantity']) is not int or edge['quantity']<1:
+                raise ValueError('Typed positive integer assembly edge required')
+            key=(edge['kind'],text(edge['id'],'child id',150));edge_count+=1
+            if key in owners:raise ValueError('Duplicate assembly child ownership')
+            owners[key]=name
+        by_id[name]=node
+    if edge_count>MAX_ASSEMBLY_EDGES:raise ValueError('Assembly edge work budget exceeded')
+    order=[];active=set();done=set();height={}
+    def visit(name,depth):
+        if depth>MAX_ASSEMBLY_DEPTH:raise ValueError('Assembly depth budget exceeded')
+        if name in active:raise ValueError('Cyclic assembly hierarchy')
+        if name in done:
+            if depth+height[name]-1>MAX_ASSEMBLY_DEPTH:raise ValueError('Assembly depth budget exceeded')
+            return
+        active.add(name);node=by_id[name]
+        for edge in node['children']:
+            if edge['kind']=='assembly':
+                if edge['id'] not in by_id:raise ValueError('Missing child assembly')
+                child=by_id[edge['id']]
+                if child['quantity_per_train']!=node['quantity_per_train']*edge['quantity']:raise ValueError('Nested assembly source count differs')
+                visit(edge['id'],depth+1)
+            else:
+                part=parts.get(edge['id'])
+                if part is None:raise ValueError('Assembly child lacks reviewed source component')
+                if part['quantity_per_train']!=node['quantity_per_train']*edge['quantity']:raise ValueError('Assembly source part count differs')
+                if 'unit' in part and UNIT_MAP.get(part['unit'])!='Nos':raise ValueError('Counted assembly leaves require discrete workpieces')
+        height[name]=1+max((height[e['id']] for e in node['children'] if e['kind']=='assembly'),default=0)
+        if depth+height[name]-1>MAX_ASSEMBLY_DEPTH:raise ValueError('Assembly depth budget exceeded')
+        active.remove(name);done.add(name);order.append(node)
+    for name in by_id:visit(name,1)
+    return order
+
+
+def assembly_patterns(nodes):
+    return {digest(dict(assembly_id=name,definition_id=node['definition_id'],occurrence_id=occ)):
+        dict(assembly_id=name,definition_id=node['definition_id'],occurrence_id=occ,count_per_train=1)
+        for name,node in nodes.items() for occ in node['occurrence_ids']}
+
+
+def native_valuation_rate(value):
+    """Reviewed source estimate rounded to existing USD six-decimal policy."""
+    number(value,'source valuation rate',positive=True)
+    try:rate=float(Decimal(str(value)).quantize(Decimal('.000001'),rounding=ROUND_HALF_UP))
+    except (ArithmeticError,ValueError,OverflowError) as exc:raise ValueError('Representable source valuation rate required') from exc
+    if not math.isfinite(rate) or rate<=0:raise ValueError('Positive source rate cannot round to zero or nonfinite valuation')
+    return rate

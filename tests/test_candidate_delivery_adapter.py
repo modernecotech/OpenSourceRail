@@ -26,6 +26,11 @@ class Doc:
     def get_content(self):return self.content
     def insert(self):
         b=self._backend;b.has_permission(self.doctype,'create',throw=True)
+        if self.doctype=='BOM':
+            for row in self.items:
+                if row.get('bom_no') and b.get_doc('BOM',row['bom_no']).docstatus!=1:
+                    raise ValueError('ERPNext requires submitted child BOM')
+                row['rate']=b.get_doc('Item',row['item_code']).get('valuation_rate',0)
         name=self.get('name') or self.get('item_code') or self.get('workstation_name') or self.get('routing_name') or self.doctype+'-'+str(len(b.documents)+1)
         self.name=name;self.owner=b.session.user;self.modified_by=b.session.user;self.modified='time-'+str(len(b.documents)+1)
         if (self.doctype,name) in b.documents:raise ValueError('duplicate native record')
@@ -68,11 +73,12 @@ def native(tmp_path,monkeypatch):
     monkeypatch.syspath_prepend(str(review.ROOT/'deployment/erpnext/apps/osr_erpnext'))
     name='osr_erpnext.candidate_delivery';monkeypatch.delitem(sys.modules,name,raising=False)
     module=importlib.import_module(name)
+    backend.add('Company','C',default_currency='USD')
     backend.add('Project','P',company='C',custom_osr_city='baghdad')
     backend.add('Item Group','Products',is_group=0)
-    proposal=json.loads(gzip.decompress((review.ROOT/'docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz').read_bytes()))
     spec=importlib.util.spec_from_file_location('review_fixture_helpers',Path(__file__).with_name('test_pilot_delivery_review.py'))
     helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
+    proposal=helper.synthetic_proposal()
     artifacts=tmp_path/'artifacts';artifacts.mkdir();pack=helper.pack(artifacts,proposal)
     context=review.source_context(proposal,city='baghdad',project='P',company='C')
     module.provision_project('P',context)
@@ -141,7 +147,7 @@ def test_reviewed_item_quantity_or_route_mutation_cannot_be_reused(native):
 def test_native_default_cannot_silently_replace_reviewed_rate(native,monkeypatch):
     b,m,p,_,_=native;_,r=approved(native);b.session.user='engineer';original=Doc.insert
     def altered(doc):
-        if doc.doctype=='BOM':doc.items[0]['rate']=1.
+        if doc.doctype=='BOM':b.get_doc('Item',doc.items[0]['item_code']).valuation_rate=1.
         return original(doc)
     monkeypatch.setattr(Doc,'insert',altered)
     with pytest.raises(ValueError,match='Native defaults changed'):m.apply('P',p['sha256'],r['review_id'])

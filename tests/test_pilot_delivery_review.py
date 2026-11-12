@@ -1,4 +1,4 @@
-"""Controlled business review contracts; synthetic documents are not CAD evidence."""
+"""Synthetic software contract fixtures; no CAD, ERP or physical evidence."""
 from copy import deepcopy
 import gzip
 import json
@@ -11,9 +11,30 @@ from engineering.station_rail.common import identity, encoded
 c=review.contract
 
 
+def synthetic_proposal():
+    """Copy historical values into an explicitly new software-only input fixture.
+
+    The retained receipt stays unchanged; refreshed test source bindings are not
+    a regenerated engineering calculation or a historical evidence migration.
+    """
+    original=json.loads(gzip.decompress((review.ROOT/'docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz').read_bytes()))
+    value=deepcopy(original)
+    value['software_fixture']=dict(schema='osr-unit-test-input/1',historical_source_proposal_id=original['proposal_id'],
+        purpose='Synthetic current-software contract fixture copied from retained field values; no engineering recalculation or native execution',native_executed=False)
+    # Bind only this synthetic fixture producer, its copied input and software
+    # consumers. Do not vouch for a newly executed historical engineering tree.
+    names=['tests/test_pilot_delivery_review.py','engineering/pilot_delivery/review.py',
+        'engineering/pilot_delivery/model.py',review.CONTRACT,
+        'docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz']
+    value['source_sha256']={name:review.digest(review.ROOT/name) for name in names}
+    value['proposal_id']=identity({k:v for k,v in value.items() if k!='proposal_id'})
+    assert value['proposal_id']!=original['proposal_id']
+    return value
+
+
 @pytest.fixture(scope='module')
 def proposal():
-    return json.loads(gzip.decompress((review.ROOT/'docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz').read_bytes()))
+    return synthetic_proposal()
 
 
 def documents(tmp_path, proposal):
@@ -45,7 +66,7 @@ def pack(tmp_path,proposal):
     return review.compile_review_pack(proposal,docs,conversions,artifact_root=tmp_path,city='baghdad')
 
 
-def test_real_source_part_cost_quantity_and_partial_coverage_retained(tmp_path,proposal):
+def test_synthetic_source_part_cost_quantity_and_partial_coverage_retained(tmp_path,proposal):
     p=pack(tmp_path,proposal);part=proposal['items'][0]
     assert c.validate_pack(p)==p and review.verify_artifacts(p,tmp_path)
     assert p['coverage']['complete'] is False and len(p['coverage']['uncovered_part_ids'])==len(proposal['items'])-1
@@ -127,3 +148,13 @@ def test_business_handback_uses_latest_native_state_and_independent_authenticate
         altered=deepcopy(observed);altered[key]=value
         with pytest.raises(ValueError):c.business_handback(context,altered,actor=altered['reviewer'])
     with pytest.raises(ValueError):c.business_handback(context,observed,actor='forged-client-role')
+
+
+def test_original_historical_proposal_remains_source_held_and_unchanged(tmp_path):
+    path=review.ROOT/'docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz'
+    before=path.read_bytes();old=json.loads(gzip.decompress(before))
+    assert old['source_sha256']['engineering/pilot_delivery/review.py']!=review.digest(Path(review.__file__))
+    index,conversion=documents(tmp_path,old)
+    with pytest.raises((ValueError,OSError)):
+        review.compile_review_pack(old,index,conversion,artifact_root=tmp_path,city='baghdad')
+    assert path.read_bytes()==before and 'software_fixture' not in old

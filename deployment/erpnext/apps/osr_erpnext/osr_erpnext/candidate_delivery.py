@@ -111,6 +111,8 @@ def _pack(project,pack_sha256,write=False):
 
 
 def _specs(project,pack,item_group):
+    company=frappe.get_doc('Company',project.company);company.check_permission('read')
+    if company.default_currency!='USD':frappe.throw('Reviewed USD source requires a USD company; explicit reviewed FX conversion is unavailable')
     group=frappe.get_doc('Item Group',item_group);group.check_permission('read')
     if group.is_group:frappe.throw('Select a leaf Item Group')
     prefix='SIM-WD-'+contract.digest([project.name,pack['sha256']])[:12].upper()
@@ -129,11 +131,11 @@ def _specs(project,pack,item_group):
             code=base+'-R'+str(i+1)
             items.append(dict(doctype='Item',item_code=code,item_name=('SIM stock '+source['name'])[:140],
                 item_group=item_group,stock_uom=line['uom'],is_stock_item=1,is_purchase_item=1,
-                inspection_required_before_purchase=1,description=provenance))
+                inspection_required_before_purchase=1,valuation_rate=contract.native_valuation_rate(line['rate']),description=provenance))
             raw.append(dict(item_code=code,qty=line['quantity'],rate=line['rate'],uom=line['uom']))
         fg=base+'-FG';items.append(dict(doctype='Item',item_code=fg,item_name=('SIM '+source['name'])[:140],
             item_group=item_group,stock_uom=contract.UNIT_MAP[source['unit']],is_stock_item=1,
-            has_serial_no=1,has_batch_no=1,description=provenance))
+            has_serial_no=1,has_batch_no=1,valuation_rate=contract.native_valuation_rate(source['counted_direct_parts_process_usd_per_train']['base']/source['quantity_per_train']),description=provenance))
         route_rows=[];steps=component['documents']['routing']['definition']['operations']
         process_allowance=(component['conversion']['direct_process_allowance_usd']
             if component['conversion']['valuation_mode']=='quantified-source-stock' else 0.)
@@ -156,9 +158,46 @@ def _specs(project,pack,item_group):
             routing=routing,quantity_per_train=source['quantity_per_train'],quantity_project=source['quantity_project'],
             source_unit=source['unit'],source_direct_usd_per_unit=source['counted_direct_parts_process_usd_per_train']['base']/source['quantity_per_train'],
             native_stock_usd_per_unit=sum(r['qty']*r['rate'] for r in raw),
+            native_fg_valuation_rate_usd=contract.native_valuation_rate(source['counted_direct_parts_process_usd_per_train']['base']/source['quantity_per_train']),
             native_direct_process_allowance_usd_per_unit=process_allowance,
             documents=component['documents']))
-    return dict(items=items,workstations=stations,operations=operations,routings=routes,boms=boms,components=components)
+    extra={}
+    if pack.get('assemblies'):
+        source_parts={r['source_part']['id']:r['source_part'] for r in pack['components']}
+        ordered=contract.validate_assemblies(pack['assemblies'],source_parts,pack['identities'],pack['proposal_id'])
+        mapped={('part',r['part_id']):(r['finished_item'],r['native_fg_valuation_rate_usd']) for r in components}
+        engineering_rates={('part',r['part_id']):r['source_direct_usd_per_unit'] for r in components}
+        assemblies=[];links={}
+        fleets={p['quantity_project']/p['quantity_per_train'] for p in source_parts.values()}
+        if len(fleets)!=1 or not next(iter(fleets)).is_integer():frappe.throw('Exact shared project fleet required')
+        fleet=int(next(iter(fleets)))
+        for node in ordered:
+            code=prefix+'-A'+contract.digest(node['id'])[:10].upper()
+            provenance=json.dumps(dict(schema='osr-wheel-native-assembly-source/1',identities=pack['identities'],
+                assembly_definition=node,maturity='controlled-research-draft',
+                costing='Counted child direct subtotal only; assembly process cost remains unknown, not zero',**contract.FLAGS),sort_keys=True)
+            native_subtotal=sum(edge['quantity']*mapped[(edge['kind'],edge['id'])][1] for edge in node['children'])
+            exact_subtotal=sum(edge['quantity']*engineering_rates[(edge['kind'],edge['id'])] for edge in node['children'])
+            native_valuation=contract.native_valuation_rate(native_subtotal)
+            items.append(dict(doctype='Item',item_code=code,item_name=('SIM assembly '+node['id'])[:140],item_group=item_group,
+                stock_uom='Nos',is_stock_item=1,has_serial_no=1,has_batch_no=1,valuation_rate=native_valuation,description=provenance))
+            children=[dict(item_code=mapped[(edge['kind'],edge['id'])][0],qty=edge['quantity'],
+                rate=mapped[(edge['kind'],edge['id'])][1],uom='Nos',do_not_explode=1) for edge in node['children']]
+            boms.append(dict(doctype='BOM',item=code,company=project.company,quantity=1,currency='USD',with_operations=0,items=children))
+            links[code]=[r['item_code'] for r in children]
+            subtotal=sum(r['qty']*r['rate'] for r in children)
+            mapped['assembly',node['id']]=(code,native_valuation)
+            engineering_rates['assembly',node['id']]=exact_subtotal
+            assemblies.append(dict(assembly_id=node['id'],definition_id=node['definition_id'],finished_item=code,
+                children=deepcopy(node['children']),child_items=[r['item_code'] for r in children],
+                source_occurrence_ids=node['occurrence_ids'],quantity_per_train=node['quantity_per_train'],
+                quantity_project=node['quantity_per_train']*fleet,counted_child_direct_subtotal_usd=exact_subtotal,
+                native_child_direct_subtotal_usd=subtotal,native_valuation_rate_usd=native_valuation,
+                assembly_process_cost_usd=None,complete_assembly_cost=False,physical_placement_verified=False,
+                costing_scope='Hierarchical non-additive child subtotal; do not sum parent and descendant prices'))
+        owned={e['id'] for node in ordered for e in node['children'] if e['kind']=='assembly'}
+        extra=dict(assemblies=assemblies,assembly_bom_links=links,assembly_roots=[node['id'] for node in ordered if node['id'] not in owned])
+    return dict(items=items,workstations=stations,operations=operations,routings=routes,boms=boms,components=components,**extra)
 
 
 def _required_permissions(*,create):
@@ -265,25 +304,43 @@ def apply(project,pack_sha256,review_id):
     for key in ('items','workstations','operations','routings','boms'):
         for spec in specs[key]:
             payload=deepcopy(spec)
+            if key=='boms' and payload['item'] in specs.get('assembly_bom_links',{}):
+                for row in payload['items']:
+                    if row['item_code'] not in component_boms:frappe.throw('Reviewed child BOM must be created before parent assembly')
+                    # ERPNext refuses bom_no links to draft children. Keep
+                    # exact links in controlled metadata without submitting or
+                    # implicitly exploding any child BOM.
+                    if row.get('do_not_explode')!=1:frappe.throw('Draft assembly child must not be exploded')
             native=frappe.get_doc(payload).insert()
             if native.docstatus!=0:frappe.throw('New business records must remain drafts')
-            fields={k:_fields(native.get(k),v) for k,v in spec.items() if k not in ('doctype','name')}
-            expected={k:deepcopy(v) for k,v in spec.items() if k not in ('doctype','name')}
+            fields={k:_fields(native.get(k),v) for k,v in payload.items() if k not in ('doctype','name')}
+            expected={k:deepcopy(v) for k,v in payload.items() if k not in ('doctype','name')}
             if fields!=expected:frappe.throw('Native defaults changed reviewed source quantity, price or route fields; review a supported conversion')
             records.append(dict(doctype=native.doctype,name=native.name,expected_fields=fields))
             if key=='boms':component_boms[native.item]=native.name
     components=[]
     for row in specs['components']:
         components.append(dict(row,bom=component_boms[row['finished_item']]))
+    extra={}
+    if 'assemblies' in specs:
+        extra['assemblies']=[dict(row,bom=component_boms[row['finished_item']],
+            child_bom_links=[dict(item_code=code,bom=component_boms[code]) for code in row['child_items']],
+            native_bom_no_links_created=False) for row in specs['assemblies']]
+        extra['assembly_roots']=specs['assembly_roots']
     result=contract.seal(dict(schema='osr-wheel-native-applied-drafts/1',project=project,company=doc.company,
         context_sha256=context['sha256'],pack_sha256=pack_sha256,review_id=review_id,
         authenticated_actor=frappe.session.user,records=records,components=components,
-        automatic_order_release=False,created=True,**contract.FLAGS))
+        automatic_order_release=False,created=True,**extra,**contract.FLAGS))
     _write(applied,result)
     return dict(applied=result,created=True,**contract.FLAGS)
 
 
 def _read_created(result,project):
+    for assembly in result.get('assemblies',[]):
+        if assembly.get('native_bom_no_links_created') is not False:frappe.throw('Draft assembly cannot claim native child BOM links')
+        for link in assembly['child_bom_links']:
+            child=frappe.get_doc('BOM',link['bom']);child.check_permission('read')
+            if child.item!=link['item_code'] or child.docstatus==2:frappe.throw('Draft assembly child BOM provenance changed')
     observed=[]
     for row in result['records']:
         doc=frappe.get_doc(row['doctype'],row['name']);doc.check_permission('read')
