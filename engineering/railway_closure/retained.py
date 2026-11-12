@@ -20,7 +20,7 @@ MIN_FREE_BYTES = 20 * 1024**3
 AUTHORITY_FLAGS = ("physical_accepted", "engineering_accepted", "manufacturing_release",
     "operating_release", "movement_authority", "selected_reference_changed")
 MAX_FILES = 10000
-GIT_ENV = dict(os.environ, GIT_NO_LAZY_FETCH="1")
+GIT_ENV = dict(os.environ, GIT_NO_LAZY_FETCH="1", GIT_NO_REPLACE_OBJECTS="1")
 
 
 def safe_name(name):

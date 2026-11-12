@@ -83,3 +83,17 @@ def test_foreign_project_module_import_origin_is_rejected(packet,monkeypatch,pos
     with pytest.raises(subprocess.CalledProcessError) as exc:
         r.verify(root=root,output=out,source_revision=rev)
     assert 'import escaped historical epoch' in exc.value.stderr
+
+
+def test_git_replacement_cannot_relabel_another_artifact_epoch(packet):
+    root,out,original=packet
+    data=root/'input.json';data.write_text('different producer')
+    manifest=json.loads((out/'manifest.json').read_bytes())
+    manifest['source_sha256']['input.json']=hashlib.sha256(data.read_bytes()).hexdigest()
+    (out/'manifest.json').write_text(json.dumps(manifest))
+    git(root,'add','.');git(root,'commit','-qm','replacement epoch')
+    replacement=git(root,'rev-parse','HEAD')
+    git(root,'replace',original,replacement)
+    with pytest.raises(ValueError,match='artifact bytes'):
+        r.verify(root=root,output=out,source_revision=original)
+    assert r.verify(root=root,output=out,source_revision=replacement)['retained_verified']
