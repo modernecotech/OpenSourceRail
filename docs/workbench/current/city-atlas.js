@@ -197,7 +197,45 @@
       });
       compare.id = "samawah-merge-compare";
       const progress = node("p", "atlas-note", "The original mapped markers and published results are preserved."); progress.id = "samawah-merge-status"; progress.setAttribute("aria-live", "polite");
-      const result = node("div", "atlas-comparison-results"); comparison.append(compare, progress, result); root.append(comparison);
+      const result = node("div", "atlas-comparison-results"); comparison.append(compare, progress, result);
+      const doorPanel = node("section", "atlas-door-module"); doorPanel.id = "samawah-door-module";
+      const doorStatus = node("p", "atlas-note"); const doorDetails = node("div");
+      const openDoor = node("button", "", "Open door operator manufacturing proposal"); openDoor.id = "samawah-door-open";
+      openDoor.addEventListener("click", async () => {
+        openDoor.disabled = true; doorStatus.textContent = "Loading the candidate-linked module…";
+        try {
+          const response = await fetch("/api/v07/door-module", {signal}); const module = await response.json();
+          if (!response.ok) throw Error(module.reason || module.error || "Module unavailable");
+          if (destroyed) return;
+          doorDetails.replaceChildren(); doorPanel.dataset.moduleId = module.module_id;
+          doorDetails.append(node("h4", "", "Door operator manufacturing and maintenance"));
+          const quantities = Object.values(module.assembly_quantities);
+          doorDetails.append(node("p", "", `${quantities.reduce((n, q) => n + q.distinct_parts, 0)} part types · ${quantities.reduce((n, q) => n + q.pieces_per_opening, 0)} pieces per opening · ${module.opening_count_per_train} openings per train`));
+          doorDetails.append(node("p", "atlas-note", `Known gross stock and allowance subtotal: ${module.nominal_mass.base.known_subtotal_kg_per_opening.toFixed(3)} kg/opening. Installed mass and centre of gravity remain unknown.`));
+          doorStatus.textContent = "Research child proposal · installation, approved fits and inspection evidence remain open";
+          doorDetails.append(node("p", "atlas-note", `Module candidate ${module.candidate_id.slice(0, 12)} descends from corridor reference ${module.parent_candidate_id.slice(0, 12)}. Corridor fleet and cost results do not transfer to this child.`));
+          const label = node("label", "", "Inspect a part and its removal route "); const select = node("select"); select.id = "samawah-door-part";
+          for (const part of module.parts) { const option = node("option", "", part.name); option.value = part.id; select.append(option); }
+          label.append(select); doorDetails.append(label); const detail = node("div", "atlas-door-part"); doorDetails.append(detail);
+          const showPart = () => {
+            const part = module.parts.find(p => p.id === select.value); detail.replaceChildren();
+            detail.append(node("p", "", `${part.quantity_per_opening} per opening · ${part.quantity_per_train} per train · ${human(part.make_buy)}`));
+            detail.append(node("h5", "", "Manufacturing route")); const route = node("ol");
+            for (const operation of part.manufacturing) route.append(node("li", "", operation)); detail.append(route);
+            detail.append(node("p", "", `Fit and tolerance basis: ${part.tolerance_and_fits}`));
+            detail.append(node("h5", "", "Inspection and QA")); const inspections = node("ul");
+            for (const check of part.inspection_plan) inspections.append(node("li", "", `${check.criterion} — approved limit and observed result required`)); detail.append(inspections);
+            detail.append(node("h5", "", "Removal and maintenance"), node("p", "", part.maintenance_removal), node("p", "atlas-note", part.maintenance_plan.interval_basis));
+            const trace = node("details", "atlas-disclosure"); trace.append(node("summary", "", "Part source identity"), node("p", "", part.component_definition_id)); detail.append(trace);
+          };
+          select.addEventListener("change", showPart); showPart();
+          const missing = node("details", "atlas-disclosure"); missing.append(node("summary", "", "Evidence needed for this module")); const list = node("ul");
+          for (const finding of module.unresolved_inputs) list.append(node("li", "", `${finding.needed}. Affects: ${finding.affects.join(", ")}.`)); missing.append(list); doorDetails.append(missing);
+          const link = node("a", "atlas-download", "Download source-bound module package"); link.href = "/api/v07/door-module"; link.download = "door-module.json"; doorDetails.append(link);
+        } catch (error) { if (!destroyed) doorStatus.textContent = `Unable to open module: ${error.message}`; }
+        finally { openDoor.disabled = false; }
+      });
+      doorPanel.append(openDoor, doorStatus, doorDetails); comparison.append(doorPanel); root.append(comparison);
     }
     const studyId = options.studyId || /^\/api\/city-atlas\/study\/([a-f0-9]{32})$/.exec(options.downloadUrl || "")?.[1];
     if (localGIS && (!packet.identity?.workflow_evaluation_id || /^[a-f0-9]{32}$/.test(studyId || "")) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(packet.city?.slug || "") && /^[a-f0-9]{64}$/.test(packet.packet_id || "")) {
