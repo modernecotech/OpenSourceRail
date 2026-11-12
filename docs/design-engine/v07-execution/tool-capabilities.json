@@ -1,0 +1,628 @@
+{
+  "schema": "osr-v07-tool-capabilities/1",
+  "reviewed_repository_commit": "952b7d953fb6e43ba4285165d8e25c58579ab8f3",
+  "inventory_source_commit": "8e42a979f88d3f961e2f8647364400ad4618c09e",
+  "scope": "Operation-specific software/native research capabilities; no physical acceptance or global provider promotion",
+  "status_semantics": {
+    "supported": "Demonstrated only for listed operation/domain and exact evidence epoch",
+    "unsupported": "Not admitted by OpenSourceRail for the stated claim; not a claim about all upstream tool features",
+    "untested": "No applicable operation evidence established in this review"
+  },
+  "evidence_retrieval": "Local immutable receipt locations are indexed with hashes; no new payloads copied or published here",
+  "footprint_policy": "Download archives, installed application bytes and shared runtimes are distinct; null means unmeasured",
+  "current_choices": [
+    "door-stock",
+    "corridor-native-edit"
+  ],
+  "global_provider_promotion": false,
+  "engineering_accepted": false,
+  "physical_accepted": false,
+  "evidence": {
+    "door": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-door-cad-20261112/run-01/result.json",
+      "sha256": "a32e23938d55c0313e804c1478d006ea87986d50aca7773feb3969b9e8b7cbcf",
+      "bytes": 10678,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "door_freecad": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-door-cad-20261112/independent-01/review.json",
+      "sha256": "bac1d7d1ba037e64655adfc0bd50e0f427d294a126862af1fd1f295263f8a9e6",
+      "bytes": 11079,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "fea_plan": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-normal-fem-20261112/run-01/plan.json",
+      "sha256": "dfb377346a3c151324a767dcf74750281d652791d63b4771594d370d087857c9",
+      "bytes": 31513,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "fea_result": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-normal-fem-20261112/run-01/result.json",
+      "sha256": "134e09a6b064724335156365632f0ee45a5b0ba9d405509e0351af46f92678b9",
+      "bytes": 48792,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "fea_supervision": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-normal-fem-20261112/run-01-supervision/receipt.json",
+      "sha256": "e02361444c2b320af6e7b7ecda76177d44764016f66c228444d8d273d5d4b449",
+      "bytes": 4002,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "gis_samawah": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-native-final-20261112/samawah/run-01/report.json",
+      "sha256": "c6f43f684fd9538d2faf1f66ff6116c3927b750bc3f5665d4ddf7f1b6684feae",
+      "bytes": 74786,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "gis_baghdad": {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-native-final-20261112/baghdad/run-01/report.json",
+      "sha256": "cb75ecb1aa20400ecd1f95d6a65ccb1e220674245c50e575592ef25b5d9f5a4e",
+      "bytes": 80344,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    },
+    "inventory": {
+      "path": "/home/hayder/Documents/OpenSourceRail/docs/design-engine/v07-execution/tool-inventory.json",
+      "sha256": "74fc9fbcd21028ce48c410a3c11fbe7badc282203b00baa9a323163089eeb49d",
+      "bytes": 71814,
+      "retrieval": "Existing local receipt; not an independently hosted release asset"
+    }
+  },
+  "paths": [
+    {
+      "id": "door-stock",
+      "tool": "SolidCraft",
+      "selection": "current for demonstrated door stock blank only",
+      "pin": {
+        "version": "v0.30.1",
+        "commit": "8e2b0cd60d14b4152b12b8f1fdb2bcfdcd8c52f4",
+        "binary_sha256": "e8a778658ddc43214f253a33255c23d0b0c520ba6e3b283bd913123cda86b243",
+        "asset_sha256": "2be163c618e7ccd9523d997ebd9f5094c310e968a80560b2840db1e1a8c0d482"
+      },
+      "headless_entrypoint": "engineering.vehicle_parts.door_cad.run -> pinned solidcraft-cli run commands.json; native.mcp open/measure",
+      "units": "Geometry m; volume m3; material supplied separately",
+      "formats": [
+        "command JSON",
+        ".sc",
+        "STEP",
+        "measurement JSON"
+      ],
+      "supported": [
+        "3.0 x 0.22 x 0.008 m blank generation; native/STEP reopen; analytic volume/centroid/bounds agreement"
+      ],
+      "unsupported": [
+        "Installed operator qualification; holes/datums/tolerances; inferred STEP material or installed mass"
+      ],
+      "untested": [
+        "Full operator assembly; door motion/removal; assembly mating transforms"
+      ],
+      "recorded_limits": {
+        "maximum_processes": 2,
+        "wall_seconds_per_process": 120,
+        "memory_mib_per_process": 2048,
+        "maximum_output_bytes": 268435456,
+        "minimum_free_disk_bytes": 21474836480,
+        "enforcement": "Existing native adapter process limits; output observation, not aggregate quota"
+      },
+      "footprint": {
+        "download_archive_bytes": 102988905,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "door",
+        "door_freecad"
+      ],
+      "deprecation_decision": "Use for this scoped path; do not remove other CAD consumers",
+      "outstanding_gates": [
+        "Mated transforms, controlled holes/dimensions, motion/removal envelopes, inspection limits; retain material sidecar: STEP reimport used Default"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "elastic-reference",
+      "tool": "FieldCraft",
+      "selection": "opt-in admitted research control",
+      "pin": {
+        "version": "v0.7.5",
+        "commit": "6b613217851b4c5ddf2d315930db12e9e25354dc",
+        "binary_sha256": "06db1aa29bfdfa10d99746be952012acc4f66b943cebbd8b7fc48ba3fe837c9c",
+        "asset_sha256": "f07b957e79c22ed2bebaedf883f50085ef2aa81d477d7cf6bb839da94c72653e"
+      },
+      "headless_entrypoint": "Existing craft_backends.native.mcp with model.check / solve.static / solve.probe batches",
+      "units": "SI m,N,Pa; displacement m",
+      "formats": [
+        "MCP JSON",
+        "mesh JSON",
+        "static result JSON"
+      ],
+      "supported": [
+        "Fresh coarse/fine uncracked isotropic reference-box normal-load control; comparison with CalculiX"
+      ],
+      "unsupported": [
+        "General nonlinear/contact/rebar admission; mesh-independent or physically accepted bridge"
+      ],
+      "untested": [
+        "Actual bearing/rail interface, joints, reinforcement, nonlinear materials, coupled installed assembly"
+      ],
+      "recorded_limits": {
+        "maximum_native_processes_for_complete_control": 7,
+        "total_wall_seconds": 900,
+        "per_process_wall_seconds": 120,
+        "fieldcraft_memory_mib": [
+          2048,
+          3072
+        ],
+        "maximum_output_bytes": 536870912,
+        "minimum_free_disk_bytes": 21474836480,
+        "enforcement": "Per-process limits and between-process disk observations; no aggregate quota"
+      },
+      "footprint": {
+        "download_archive_bytes": 88085070,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "fea_plan",
+        "fea_result",
+        "fea_supervision"
+      ],
+      "deprecation_decision": "Retain opt-in; no global replacement of structural consumers",
+      "outstanding_gates": [
+        "2.725534% displacement refinement change; mesh independence false; domain controls and interface limits remain open"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "independent-cad",
+      "tool": "FreeCAD/OCC",
+      "selection": "optional independent verification; active legacy consumers retained",
+      "pin": {
+        "version": "FreeCAD1.1.4 / OCC7.8.1",
+        "flatpak_commit": "e63d66825c4daf9adb09283488c2bc2ace92ed8b24bcf81666933226ed082fd4"
+      },
+      "headless_entrypoint": "Existing Flatpak org.freecad.FreeCAD with headless Python STEP readback (method hash in receipt)",
+      "units": "BRep kernel mm/mm3 converted explicitly to m/m3",
+      "formats": [
+        "STEP",
+        "BRep measurement JSON"
+      ],
+      "supported": [
+        "Independent single-stock STEP valid/closed solid; exact geometry agreement"
+      ],
+      "unsupported": [
+        "Imported label as preserved canonical identity; material/strength transfer qualification"
+      ],
+      "untested": [
+        "Full installed-door CAD parity; broad format/feature parity"
+      ],
+      "recorded_limits": {
+        "maximum_processes": 1,
+        "wall_seconds": 120,
+        "memory_mib": 2048,
+        "maximum_output_bytes": 67108864,
+        "minimum_free_disk_bytes": 21474836480,
+        "enforcement": "Receipt records actual Flatpak base permissions/overrides and launcher restrictions plus address-space limit; not blanket sandbox equivalence"
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": "flatpak info reports1.3GB app installed; precision and shared KDE runtime bytes unmeasured",
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "door_freecad",
+        "inventory"
+      ],
+      "deprecation_decision": "Keep optional for the demonstrated stock path; do not uninstall while other active CAD/reference consumers remain",
+      "outstanding_gates": [
+        "Names lost on import: geometric correspondence only; preserve source IDs/material sidecars; migrate remaining consumers individually"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "independent-structural",
+      "tool": "CalculiX",
+      "selection": "optional independent solve for this control; active structural defaults elsewhere",
+      "pin": {
+        "version": null,
+        "executable_sha256": "373f7ef4c118a1b5e1b53041fe4f7ef1f1f854051326e0d3f1eeb890ec34885b",
+        "version_status": "Executable pinned by SHA256; version string absent from reviewed v0.7 plan"
+      },
+      "headless_entrypoint": "Existing craft_backends.calculix_reference / viaduct_fem deck runner (ccx)",
+      "units": "SI m,N,Pa",
+      "formats": [
+        "INP",
+        "DAT/FRD",
+        "parsed JSON"
+      ],
+      "supported": [
+        "Independent same-mesh normal-load comparison with FieldCraft"
+      ],
+      "unsupported": [
+        "General replacement parity or full structural acceptance"
+      ],
+      "untested": [
+        "Contact/nonlinear/rebar admission and other retained structural families in this matrix"
+      ],
+      "recorded_limits": {
+        "per_process_wall_seconds": 120,
+        "memory_mib": 2048,
+        "shared_control_budget": "elastic-reference limits"
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "fea_plan",
+        "fea_result",
+        "inventory"
+      ],
+      "deprecation_decision": "Retain optional verification and existing solver consumers; removal blocked",
+      "outstanding_gates": [
+        "Alternative independent verifier, version metadata, consumer-by-consumer parity and reproducibility"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "conformal-meshing",
+      "tool": "Gmsh",
+      "selection": "required conformal meshing dependency in demonstrated FEA control",
+      "pin": {
+        "version": "4.14.1",
+        "component_sha256": {
+          "gmsh_library": "9b6ba60833668f0b36ed503904a6c14032f8885916449d5fe70b43ca3cff4631",
+          "gmsh_python": "eaee8517730909251be9e79a1773244e81674a0831c4b3eea66a5deab43f2dc1"
+        }
+      },
+      "headless_entrypoint": "Existing Python gmsh API through viaduct_fem meshing worker",
+      "units": "m; tetrahedral mesh coordinates and indexed connectivity",
+      "formats": [
+        "STEP",
+        "mesh JSON / native mesh intermediates"
+      ],
+      "supported": [
+        "Fresh coarse and fine conformal meshes used by both static solvers"
+      ],
+      "unsupported": [
+        "Removal without equivalent conformal mesh/physical-group/load mapping"
+      ],
+      "untested": [
+        "Alternative mesher parity across actual joints/interfaces"
+      ],
+      "recorded_limits": {
+        "per_process_wall_seconds": 120,
+        "memory_mib": 2048,
+        "shared_control_budget": "elastic-reference limits"
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "fea_plan",
+        "fea_result"
+      ],
+      "deprecation_decision": "Keep; not replaced by SolidCraft/FieldCraft",
+      "outstanding_gates": [
+        "Independent replacement must retain topology, material groups, boundary/load mapping and convergence controls"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "corridor-native-edit",
+      "tool": "RustGIS",
+      "selection": "current demonstrated native GIS return path",
+      "pin": {
+        "version": "0.5.0",
+        "source_revision": "a5603d1b2906b1c204b6b97c2eb01ac094a20adf",
+        "executables_sha256": {
+          "rustgis": "0cf61f555a8f53fcfe4a1d5d9be2d206ebc364edc1a217a3f4f0905a9bc5b37a",
+          "rustgis-cli": "dd8b363cf93ce9591a0cf489620726b192c2cd930c4f90a3ab0442038a364c45"
+        },
+        "archive_sha256": "a14e6bed30059ab8fb1c026c71bdb46891b2b4195e0d0ea39cc1f903b64fa9bf"
+      },
+      "headless_entrypoint": "engineering.rustgis.adapter.native -> pinned rustgis-cli (build/reopen/edit validation; exact argv in call receipts)",
+      "units": "GeoJSON longitude/latitude EPSG:4326; project display EPSG:3857; engineering distances explicitly m",
+      "formats": [
+        "GeoJSON",
+        "native RustGIS project",
+        "sealed export/import and study manifests"
+      ],
+      "supported": [
+        "Two native edits with export/import/reprice/reopen on selected Samawah and Baghdad corridors; stable source/candidate bindings"
+      ],
+      "unsupported": [
+        "Generic QGIS parity; installed vehicle/civil qualification inherited from GIS edits"
+      ],
+      "untested": [
+        "Raster analysis, topology repair, survey-grade reprojection, arbitrary plugins and broad cartographic parity"
+      ],
+      "recorded_limits": {
+        "cpu_seconds_per_process": 60,
+        "wall_seconds_per_process": 75,
+        "address_space_bytes": 2147483648,
+        "native_calls_per_city": 8,
+        "maximum_output_bytes": null,
+        "minimum_free_disk_bytes": 21474836480,
+        "enforcement": "prlimit CPU/address space plus subprocess timeout; no aggregate filesystem quota",
+        "observed_city_wall_seconds": {
+          "samawah": 41.176608478010166,
+          "baghdad": 103.6723901469959
+        },
+        "observed_maximum_child_rss_kib": {
+          "samawah": 292540,
+          "baghdad": 628188
+        }
+      },
+      "footprint": {
+        "download_archive_bytes": 62384470,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "gis_samawah",
+        "gis_baghdad",
+        "inventory"
+      ],
+      "deprecation_decision": "Select this demonstrated route; retain QGZ interchange readers; no generic GIS retirement claim",
+      "outstanding_gates": [
+        "Other CRSs/geometries/operations require controls; preserve candidate changes and unpriced quantities explicitly"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "legacy-gis-desktop",
+      "tool": "QGIS",
+      "selection": "desktop not required by demonstrated RustGIS/analytic path",
+      "pin": null,
+      "headless_entrypoint": "No QGIS process required here; retain existing lightweight QGZ readers",
+      "units": "CRS must remain explicit; no inferred unit conversion",
+      "formats": [
+        "QGZ interchange retained"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Claim that RustGIS has full QGIS parity"
+      ],
+      "untested": [
+        "Desktop workflows/plugins and remaining external integrations"
+      ],
+      "recorded_limits": {
+        "native_executions_in_reviewed_v07_path": 0
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory",
+        "gis_samawah",
+        "gis_baghdad"
+      ],
+      "deprecation_decision": "Deprecate unnecessary mandatory desktop installation on supported path; remove only inventoried obsolete installer references, not readers or active consumers",
+      "outstanding_gates": [
+        "Audit exact active consumers and installation instructions; prove any replacement operation before deletion"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "solidcraft-release-candidate",
+      "tool": "SolidCraft RC",
+      "selection": "compatibility probe, not selected over proven0.30.1",
+      "pin": {
+        "version": "v0.40.0-rc.2",
+        "commit": "777f960999cbd256ae8f53b3a042cccd19703ba6",
+        "binary_sha256": "dc3e655db990fd38864d45417fe519f7f2f4d3f34020e520d3f5c1bd3d25dd28",
+        "asset_sha256": "187479a4bf107ceead34f2e99f09cb8fc939accae5ae5073fc9501546bfa34af"
+      },
+      "headless_entrypoint": "Separate pinned probe adapter only",
+      "units": "Explicit SI per probe contract",
+      "formats": [
+        "Version-dependent command/native formats"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Silent replacement of proven door-stock version"
+      ],
+      "untested": [
+        "This RC on the final door-stock/native-reopen acceptance path"
+      ],
+      "recorded_limits": {
+        "new_trials": 0
+      },
+      "footprint": {
+        "download_archive_bytes": 129152570,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory"
+      ],
+      "deprecation_decision": "Do not promote or require additional installation for current scoped journey",
+      "outstanding_gates": [
+        "Version/schema/geometry/exchange controls and footprint measurements before adoption"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "getdp",
+      "tool": "GetDP",
+      "selection": "specialist retained; outside demonstrated replacement domain",
+      "pin": null,
+      "headless_entrypoint": "Existing electromagnetic specialist adapters",
+      "units": "Units/domains defined by individual retained consumer; not newly validated here",
+      "formats": [
+        "solver decks",
+        "field results"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Removal or parity claim based on unrelated CAD/GIS control"
+      ],
+      "untested": [
+        "electromagnetics full operation/domain matrix and current pinned runtime in this documentation slice"
+      ],
+      "recorded_limits": {
+        "new_trials": 0,
+        "execution_limits": null
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory"
+      ],
+      "deprecation_decision": "Retain specialist consumers; no replacement admitted",
+      "outstanding_gates": [
+        "Record exact pin, operations, resource contract and independent evidence before any new execution or replacement"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "chrono",
+      "tool": "Chrono",
+      "selection": "specialist retained; outside demonstrated replacement domain",
+      "pin": null,
+      "headless_entrypoint": "Existing trip_dynamics.chrono_runner",
+      "units": "Units/domains defined by individual retained consumer; not newly validated here",
+      "formats": [
+        "scenario/results"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Removal or parity claim based on unrelated CAD/GIS control"
+      ],
+      "untested": [
+        "multibody dynamics full operation/domain matrix and current pinned runtime in this documentation slice"
+      ],
+      "recorded_limits": {
+        "new_trials": 0,
+        "execution_limits": null
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory"
+      ],
+      "deprecation_decision": "Retain specialist consumers; no replacement admitted",
+      "outstanding_gates": [
+        "Record exact pin, operations, resource contract and independent evidence before any new execution or replacement"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "sumo",
+      "tool": "SUMO",
+      "selection": "specialist retained; outside demonstrated replacement domain",
+      "pin": null,
+      "headless_entrypoint": "Existing SUMO specialist runners",
+      "units": "Units/domains defined by individual retained consumer; not newly validated here",
+      "formats": [
+        "network/routes/results"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Removal or parity claim based on unrelated CAD/GIS control"
+      ],
+      "untested": [
+        "network simulation full operation/domain matrix and current pinned runtime in this documentation slice"
+      ],
+      "recorded_limits": {
+        "new_trials": 0,
+        "execution_limits": null
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory"
+      ],
+      "deprecation_decision": "Retain specialist consumers; no replacement admitted",
+      "outstanding_gates": [
+        "Record exact pin, operations, resource contract and independent evidence before any new execution or replacement"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    },
+    {
+      "id": "ifcopenshell",
+      "tool": "IfcOpenShell",
+      "selection": "specialist retained; outside demonstrated replacement domain",
+      "pin": null,
+      "headless_entrypoint": "Existing IFC Python adapters",
+      "units": "Units/domains defined by individual retained consumer; not newly validated here",
+      "formats": [
+        "IFC"
+      ],
+      "supported": [],
+      "unsupported": [
+        "Removal or parity claim based on unrelated CAD/GIS control"
+      ],
+      "untested": [
+        "IFC interoperability full operation/domain matrix and current pinned runtime in this documentation slice"
+      ],
+      "recorded_limits": {
+        "new_trials": 0,
+        "execution_limits": null
+      },
+      "footprint": {
+        "download_archive_bytes": null,
+        "installed_bytes": null,
+        "installed_reported": null,
+        "shared_runtime_bytes": null,
+        "measurement": "null means not measured in reviewed receipts; download size is not installed size"
+      },
+      "evidence": [
+        "inventory"
+      ],
+      "deprecation_decision": "Retain BIM interoperability; no replacement admitted",
+      "outstanding_gates": [
+        "Record exact pin, operations, resource contract and independent evidence before any new execution or replacement"
+      ],
+      "engineering_accepted": false,
+      "physical_accepted": false
+    }
+  ]
+}
