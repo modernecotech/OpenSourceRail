@@ -154,6 +154,9 @@ on:
       - "!tests/test_force_evidence.py"
       - "!campaigns/v07-execution.json"
       - "!docs/design-engine/v07-execution/**"
+      # Pure dossier presentation policy contracts run in the bounded Python lane.
+      - "!engineering/city_reports/planning-policy.json"
+      - "!tests/test_city_dossier_analysis.py"
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   push:
     branches: [main]
@@ -306,6 +309,9 @@ on:
       - "!tests/test_force_evidence.py"
       - "!campaigns/v07-execution.json"
       - "!docs/design-engine/v07-execution/**"
+      # Pure dossier presentation policy contracts run in the bounded Python lane.
+      - "!engineering/city_reports/planning-policy.json"
+      - "!tests/test_city_dossier_analysis.py"
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   workflow_dispatch:
     inputs:

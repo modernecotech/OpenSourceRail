@@ -136,3 +136,34 @@ def test_force_contract_keeps_fast_and_supported_journey_coverage():
         for path in ('engineering/station_rail/force_evidence.py', 'tests/test_force_evidence.py'):
             assert _matches(path, _event_paths(fast, event)), (event, path)
         assert _matches('engineering/station_rail/force_evidence.py', _event_paths(journey, event))
+
+
+def test_presentation_policy_keeps_fast_contracts_without_retained_physics_replays():
+    presentation=('engineering/city_reports/planning-policy.json','tests/test_city_dossier_analysis.py')
+    core='engineering/station_rail/vehicle.py'
+    for relative in V07_UNRELATED_RETAINED_WORKFLOWS:
+        for event in ('push','pull_request'):
+            patterns=_event_paths(ROOT/relative,event)
+            assert not any(_matches(p,patterns) for p in presentation),(relative,event)
+            assert _matches(core,patterns),(relative,event)
+            assert any(_matches(p,patterns) for p in (*presentation,core)),(relative,event)
+    fast=ROOT/'.github/workflows/v06-software-release.yml'
+    shared=ROOT/'.github/workflows/shared-software.yml'
+    for event in ('push','pull_request'):
+        assert all(_matches(p,_event_paths(fast,event)) for p in presentation)
+        for producer in ('engineering/city_reports/analysis.py','engineering/city_reports/render.py'):
+            assert _matches(producer,_event_paths(shared,event)),producer
+            assert _matches(producer,_event_paths(fast,event)),producer
+    smoke=(ROOT/'.github/release-smoke-tests.txt').read_text().splitlines()
+    assert 'tests/test_city_dossier_analysis.py' in smoke
+    lines=fast.read_text().splitlines();start=lines.index('          sparse-checkout: |');checkout=[]
+    for line in lines[start+1:]:
+        if not line.startswith('            '):break
+        checkout.append(line.strip().lstrip('/'))
+    for member in ('docs/design-engine/city-atlas/cities/samawah.json.gz',
+                   'docs/design-engine/outline-completion/cities/samawah.json.gz',
+                   'engineering/city_reports/planning-policy.json',
+                   'engineering/city_reports/analysis.py','engineering/city_reports/render.py'):
+        assert _matches(member,checkout),member
+    # Source-bound retained publication checks stay strict: these exclusions
+    # do not relabel old presentation receipts or grant current validity.
