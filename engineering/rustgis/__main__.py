@@ -64,7 +64,7 @@ def main(argv=None, root=ROOT):
             result=revision.import_project(args.project.read_bytes(),args.city,args.packet_id,actor=args.actor,
                 reason=args.reason,data_crs=args.data_crs,root=root,study_id=args.study,service=service,store=args.import_store)
             job=result['job'];deadline=time.monotonic()+150
-            while job and job['state']=='running' and time.monotonic()<deadline:
+            while job and job['state'] in ('queued','running') and time.monotonic()<deadline:
                 time.sleep(.5);job=service.status(job['job_id'])
             retained=revision.import_store(root,args.import_store)/result['import_id']
             import_verification=revision.verify_import(retained,root=root)

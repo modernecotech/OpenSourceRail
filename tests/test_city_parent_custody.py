@@ -88,6 +88,7 @@ def test_worker_receives_only_server_owned_snapshot_path(tmp_path,monkeypatch):
     root=tmp_path/'source';root.mkdir();store=tmp_path/'external';store.mkdir()
     service=jobs.CityStudyService.__new__(jobs.CityStudyService)
     service.root=root;service.store=store;service.closed=False;service.lock=RLock()
+    service.queuing=False;service.minimum_free_gib=4.0;service.max_workers=1;service.reservations=None
     service.completed_by_key={};service.jobs={};service._poll=lambda jid:{'state':'completed'}
     service._verify=lambda path:{'manifest_id':'c'*64};service._usage=lambda:0
     service._write=lambda *a:None

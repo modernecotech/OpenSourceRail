@@ -146,8 +146,9 @@
         const calculate = async (request, label) => {
           progress.textContent = `${label} · checking verified results`;
           let job = await read("/api/city-studies", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
-          const reused = job.cache_hit === true; const deadline = performance.now() + 140000;
-          while (job.state === "running" && performance.now() < deadline) {
+          const reused = job.cache_hit === true; const deadline = performance.now() + 600000;
+          while (["queued", "running"].includes(job.state) && performance.now() < deadline) {
+            progress.textContent = job.state === "queued" ? `${label} · waiting for reserved resources` : `${label} · calculating`;
             await new Promise(resolve => setTimeout(resolve, 400));
             job = await read(`/api/city-studies/${job.job_id}`);
           }

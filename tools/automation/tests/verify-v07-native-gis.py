@@ -147,7 +147,7 @@ def main(argv=None):
             verified=revision.verify_import(out/'imports'/record['import_id'],root=root)
             assert verified['verified'] and record['canonical_request_id']==identity(request)
             job=record['job'];deadline=time.monotonic()+150
-            while job['state']=='running' and time.monotonic()<deadline:
+            while job['state'] in ('queued','running') and time.monotonic()<deadline:
                 time.sleep(.25);job=service.status(job['job_id']);budget()
             assert job['state']=='completed',job
             step.update(edit=change,edited_native_reopen=edited_native,edited_station_roundtrip=edited_roundtrip,import_record=record,import_verification=verified,completed_job=job)
