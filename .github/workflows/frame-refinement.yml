@@ -20,6 +20,7 @@ on:
       - "tools/automation/tests/test_audit_frame_states.py"
       - "docs/design-engine/frame-refinement/**"
       - ".github/workflows/frame-refinement.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
       - "engineering/frame_refinement/**"
@@ -39,6 +40,7 @@ on:
       - "tools/automation/tests/test_audit_frame_states.py"
       - "docs/design-engine/frame-refinement/**"
       - ".github/workflows/frame-refinement.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
 permissions:
   contents: read

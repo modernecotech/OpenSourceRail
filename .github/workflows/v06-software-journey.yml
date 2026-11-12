@@ -31,6 +31,7 @@ on:
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "package.json"
       - "package-lock.json"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
       - ".github/release-smoke-tests.txt"
@@ -61,6 +62,7 @@ on:
       - "tools/automation/tests/verify-v06-software-journey-a.mjs"
       - "package.json"
       - "package-lock.json"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
 permissions:
   contents: read

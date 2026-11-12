@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - ".github/release-smoke-tests.txt"
+      - ".github/tests/test_workflow_path_filters.py"
       - ".github/workflows/v06-software-release.yml"
       - "campaigns/v06-software-release.toml"
       - "engineering/v06_software_release/**"
@@ -20,6 +21,7 @@ on:
       - "engineering/design_search/tests/test_line_benchmark_source_epoch.py"
       - "engineering/development_baseline/tests/test_readme_context.py"
       - "engineering/development_baseline/tests/test_entrypoints.py"
+      - "engineering/development_baseline/tests/test_performance_storage.py"
       - "campaigns/compact-affordable-launch.toml"
       - "docs/README.md"
       - "docs/ARCHITECTURE.md"
@@ -46,6 +48,7 @@ on:
   pull_request:
     paths:
       - ".github/release-smoke-tests.txt"
+      - ".github/tests/test_workflow_path_filters.py"
       - ".github/workflows/v06-software-release.yml"
       - "campaigns/v06-software-release.toml"
       - "engineering/v06_software_release/**"
@@ -62,6 +65,7 @@ on:
       - "engineering/design_search/tests/test_line_benchmark_source_epoch.py"
       - "engineering/development_baseline/tests/test_readme_context.py"
       - "engineering/development_baseline/tests/test_entrypoints.py"
+      - "engineering/development_baseline/tests/test_performance_storage.py"
       - "campaigns/compact-affordable-launch.toml"
       - "docs/README.md"
       - "docs/ARCHITECTURE.md"
@@ -105,6 +109,16 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /.github/release-smoke-tests.txt
+            /.github/tests/test_workflow_path_filters.py
+            /.github/workflows/v06-software-release.yml
+            /.github/workflows/v06-software-journey.yml
+            /.github/workflows/digital-twin.yml
+            /.github/workflows/frame-refinement.yml
+            /.github/workflows/reference-cell.yml
+            /.github/workflows/engineering-closure.yml
+            /.github/workflows/reconciled-pilot.yml
+            /.github/workflows/development-baseline.yml
+            /.github/workflows/shared-software.yml
             /campaigns/**
             /engineering/**
             /tests/test_v06_software_release_gate.py

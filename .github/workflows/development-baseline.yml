@@ -149,6 +149,7 @@ on:
       - '!tools/automation/tests/verify-v06-release-workbench.mjs'
       - '!package.json'
       - '!.github/workflows/development-baseline.yml'
+      - '!engineering/development_baseline/tests/test_performance_storage.py'
   push:
     branches: [main]
     paths:
@@ -295,6 +296,7 @@ on:
       - '!tools/automation/tests/verify-v06-release-workbench.mjs'
       - '!package.json'
       - '!.github/workflows/development-baseline.yml'
+      - '!engineering/development_baseline/tests/test_performance_storage.py'
   workflow_dispatch:
     inputs:
       native_methods:

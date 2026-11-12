@@ -13,6 +13,7 @@ on:
       - "tests/test_pilot_civil.py"
       - "osr"
       - ".github/workflows/reconciled-pilot.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
       - "engineering/**"
@@ -23,6 +24,7 @@ on:
       - "tests/test_pilot_civil.py"
       - "osr"
       - ".github/workflows/reconciled-pilot.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
 
 permissions:
   contents: read

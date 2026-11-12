@@ -14,6 +14,7 @@ on:
       - "osr-twin"
       - "tools/automation/download-pinned-tool.py"
       - ".github/workflows/digital-twin.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
       - "engineering/railway_twin/**"
@@ -27,6 +28,7 @@ on:
       - "osr-twin"
       - "tools/automation/download-pinned-tool.py"
       - ".github/workflows/digital-twin.yml"
+      - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
   schedule:
     - cron: "45 4 * * 0"
