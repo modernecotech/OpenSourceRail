@@ -1,0 +1,103 @@
+{
+  "schema": "osr-v07-execution-evidence/1",
+  "rust_scheduler": {
+    "status": "opt-in-verified",
+    "benchmark_source_commit": "e8349b56ca5857eed7f4c9253470f2298239fab3",
+    "cases": [
+      {
+        "side": "before",
+        "case": "low",
+        "trials": 4,
+        "python_median_seconds": 1.915524098498281,
+        "rust_median_including_boundary_seconds": 0.8185736019950127,
+        "reduction_fraction": 0.5726633757117687,
+        "exact_canonical_parity": true
+      },
+      {
+        "side": "before",
+        "case": "base",
+        "trials": 4,
+        "python_median_seconds": 1.391384119502618,
+        "rust_median_including_boundary_seconds": 0.7964540435059462,
+        "reduction_fraction": 0.4275814763570416,
+        "exact_canonical_parity": true
+      },
+      {
+        "side": "before",
+        "case": "high",
+        "trials": 4,
+        "python_median_seconds": 1.3578318405052414,
+        "rust_median_including_boundary_seconds": 0.5567911179969087,
+        "reduction_fraction": 0.5899410358577761,
+        "exact_canonical_parity": true
+      },
+      {
+        "side": "after",
+        "case": "low",
+        "trials": 4,
+        "python_median_seconds": 1.8817767500149785,
+        "rust_median_including_boundary_seconds": 0.785594728498836,
+        "reduction_fraction": 0.5825250107417987,
+        "exact_canonical_parity": true
+      },
+      {
+        "side": "after",
+        "case": "base",
+        "trials": 4,
+        "python_median_seconds": 1.492215316495276,
+        "rust_median_including_boundary_seconds": 0.7962047065084334,
+        "reduction_fraction": 0.4664277348536692,
+        "exact_canonical_parity": true
+      },
+      {
+        "side": "after",
+        "case": "high",
+        "trials": 4,
+        "python_median_seconds": 1.365692304505501,
+        "rust_median_including_boundary_seconds": 0.572359266487183,
+        "reduction_fraction": 0.5809017414838353,
+        "exact_canonical_parity": true
+      }
+    ],
+    "end_to_end_speedup_established": false
+  },
+  "profile": {
+    "complete_invocation": false,
+    "completed_pair": true,
+    "deferred": "Three warm cProfile recomputations deferred after instrumented overhead; interruption retained honestly."
+  },
+  "artifacts": [
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-schedule-20261112/benchmark-01/benchmark.json",
+      "sha256": "3e0c36e2744b584a4bcf713d0410bb5f68129a0ac1aeeea6d9dab1228670d41e",
+      "bytes": 10467
+    },
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-schedule-20261112/independent-review-01.json",
+      "sha256": "1c4990da7e6000ba6d547ef921d3218c8214fe8ff634769c6a5f17ea44068b68",
+      "bytes": 1084
+    },
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-profiling-20261112/run-01/receipt.json",
+      "sha256": "4b506838c86a955a46f3dd5eb41affb7f785c99bc3f2ab41f26bca28a301f81f",
+      "bytes": 685
+    },
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-profiling-20261112/run-01/profile.json",
+      "sha256": "c96a3425d7ccebb56e843e49910085873df737f4a3ee0342a4c98fc0f8046f65",
+      "bytes": 68389
+    },
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-execution-20261112/browser-02/journey.json",
+      "sha256": "8c63caa5bc7560823c15ec1eaf16909fd88d551ad5819945836fd21cec7e5c78",
+      "bytes": 2119
+    },
+    {
+      "path": "/home/hayder/.local/state/opensourcerail/v07-execution-20261112/browser-02/comparison.json",
+      "sha256": "cf8e234f6ea2f07dafb8fffd2c1d69c797424ebc5c7466b6b2f729e304074908",
+      "bytes": 149946
+    }
+  ],
+  "software_release_complete": false,
+  "engineering_accepted": false
+}
