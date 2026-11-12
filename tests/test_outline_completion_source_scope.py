@@ -54,6 +54,8 @@ def test_source_binding_reads_only_requested_city_payloads(tmp_path, monkeypatch
 
     assert selected_plan_path in sources
     assert selected_source in sources
+    assert 'geography/samawah.json' in sources
+    assert 'geography/samawah-route.json' in sources
     assert 'planning/baghdad.json.gz' not in sources
     assert 'geography/baghdad.json' not in sources
 
