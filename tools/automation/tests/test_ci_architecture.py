@@ -93,8 +93,9 @@ def twin_storage_steps(text):
     cleanup = one('name: Reserve disk on the disposable GitHub-hosted runner')
     checkout = one('uses: actions/checkout@v4')
     install = one('name: Install the pinned headless CAD tool for actual file reopening')
-    verify = one('name: Verify current semantic packets and reopen published IFC, CAD and STEP')
-    assert steps.index(cleanup) < steps.index(checkout) < steps.index(install) < steps.index(verify)
+    verify = one('name: Authenticate retained twin in its original source epoch; no native replay')
+    native = one('name: Exercise native translation and single-object placement regressions')
+    assert steps.index(cleanup) < steps.index(checkout) < steps.index(install) < steps.index(verify) < steps.index(native)
     assert re.search(r'^        run: \|$', cleanup, re.M) and re.search(r'^        run: \|$', install, re.M)
     active_cleanup = [line.strip() for line in cleanup.splitlines() if not line.lstrip().startswith('#')]
     for line in ('test "${RUNNER_ENVIRONMENT:-}" = github-hosted', 'test "${RUNNER_OS:-}" = Linux',
@@ -115,7 +116,14 @@ def twin_storage_steps(text):
     positions = [lines.index(line) for line in expected]
     assert positions == sorted(positions) and install.count('archive.unlink()') == 1
     assert lines.count('if free < required:') == 2
-    assert re.search(r'^        run: \./osr-twin verify-publication$', verify, re.M)
+    assert re.search(r'^        run: \|$', verify, re.M)
+    commands = [line[10:] for line in verify.splitlines() if line.startswith('          ')]
+    assert commands == [
+        'git fetch --no-tags --depth=1 --filter=blob:none origin 946f1772540d07af85b57b0d13cac08a3293b140',
+        '.venv/bin/python -m tools.automation.verify_retained_publications prefetch twin',
+        '.venv/bin/python -m tools.automation.verify_retained_publications verify twin --state \"$RUNNER_TEMP/osr-retained-twin-check\"',
+    ]
+    assert re.search(r'^        run: OSR_RUN_NATIVE_TWIN_TEST=1 \.venv/bin/python -m pytest -q engineering/railway_twin/tests/test_geometry\.py -k actual_native$', native, re.M)
     return cleanup, install
 
 
@@ -704,7 +712,10 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 ('required = 8 * 1024**3', 'required = 0'),
                 ('required = 6 * 1024**3', 'required = 0'),
                 ('archive.unlink()', '# archive retained'),
-                ('run: ./osr-twin verify-publication', 'run: true')):
+                ('prefetch twin', 'prefetch motor'),
+                ('verify twin --state', 'verify motor --state'),
+                ('OSR_RUN_NATIVE_TWIN_TEST=1', 'OSR_RUN_NATIVE_TWIN_TEST=0'),
+                ('-k actual_native', '-k skipped_native')):
             with self.subTest(removed=original), self.assertRaises(AssertionError):
                 twin_storage_steps(text.replace(original, replacement, 1))
 
