@@ -193,10 +193,24 @@ def geometry(part):
     else:
         m=part['mass_each_kg']['base'];size=[.06,.04,.03] if m<1 else [.20,.15,.12] if m<30 else [.4,.3,.25]
     if any(not isfinite(x) or x<=0 for x in size):raise ValueError('Positive proposed dimensions required')
+    # Cut-length routes may bend around the opening. A shortened display box
+    # cannot demonstrate that the full stock length fits or can be removed.
+    cut_length_m=s['length_m'] if s and s['kind']=='cut-length' else None
+    unrepresented_length_m=max(0.,cut_length_m-size[0]) if cut_length_m is not None else None
+    route_evidence=(dict(declared_cut_length_m=cut_length_m,
+                         length_not_represented_by_proxy_m=unrepresented_length_m,
+                         full_route_fit_verified=False)
+                    if cut_length_m is not None else {})
     return dict(kind=s['kind'] if s else 'proposed-equipment-zone',size_m=size,
         definition_basis='exact-gross-stock' if exact else 'catalogue-equipment-envelope' if s and s['kind']=='envelope' else 'proposed-route-zone' if s else 'proposed-bounded-component-zone',
         exact_stock=exact,finished_geometry_verified=False,
-        source_stock=deepcopy(s))
+        source_stock=deepcopy(s),**route_evidence)
+
+
+def physical_geometry(geometry_record):
+    """Keep route-proxy audit findings in the evaluation, not candidate geometry."""
+    audit_fields=('declared_cut_length_m','length_not_represented_by_proxy_m','full_route_fit_verified')
+    return {key:value for key,value in geometry_record.items() if key not in audit_fields}
 
 
 def _grid(j,n,sx,sy=0.):
@@ -499,7 +513,9 @@ def build(root=ROOT,*,battery_layout='thin-distributed'):
         track_interface=track_interface(p),
         layout=p['layout'],part_revisions=[{k:r[k] for k in ('source_part_id','proposed_part_id','old_quantity_per_train','new_quantity_per_train','reason')} for r in revisions],
         proposed_components=[dict(id=r['id'],source_part_id=r['source_part_id'],component_definition_id=r['component_definition_id'],quantity_per_train=r['quantity_per_train'],material_id=r['material_id'],stock=r['stock']) for r in parts],
-        occurrence_patterns=[{k:r[k] for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')} for r in patterns])
+        occurrence_patterns=[{k:(physical_geometry(r['geometry']) if k=='geometry' else r[k])
+            for k in ('id','part_id','count','positions_m','rotation','geometry','car_allocation','bogie_index')}
+            for r in patterns])
     cid=identity(physical);scenarios=[];outer={}
     for kind in ('tare','normal','crowd-control'):
         rows=_scenario_rows(patterns,'crowd' if kind=='crowd-control' else kind,p)
