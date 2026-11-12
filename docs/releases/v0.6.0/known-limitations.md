@@ -17,8 +17,17 @@
   keeps global engineering cost and portfolio views held and does not treat the
   stale dossier as current evidence. The dossier is excluded from supported
   v0.6 results and release evidence until its exact provenance is resolved.
+  At this source commit, the portfolio hold identifies
+  `.github/workflows/development-baseline.yml` as changed from the dossier's
+  recorded source hash. The Workbench therefore hides its candidate-portfolio
+  selector; use the source-pinned archive described in the demonstrations
+  document for read-only research comparison.
   The Samawah software journey binds and verifies its own city inputs and
   calculation.
+- The city atlas currently refuses native RustGIS ZIP export because the
+  published GIS and outline epochs differ. The source-bound Baghdad result and
+  its read-only atlas view remain available; a native GIS export/import round
+  trip is not included in v0.6.
 - CAD/IFC stock agreement and structural screens do not establish complete
   installed mass, manufacturability, fatigue life or construction approval.
 - ERPNext, Frappe HR, FUXA and gateway workflows are configurable software

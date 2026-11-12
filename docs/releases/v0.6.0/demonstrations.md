@@ -22,32 +22,50 @@ artifact size and clean source tree, and invokes no native solver.
 
 ## Journey B — Baghdad (precomputed comparison)
 
-Open the published Baghdad portfolio, inspect the selected scenario and its
-assumptions, then compare the source-pinned route/service or civil alternative
-provided by that packet. Keep generic demand, right-of-way allowances and
-unsurveyed site inputs visible. Do not describe allowances as survey quantities
-or vendor prices. Export the existing dossier without recalculating Baghdad.
+Open the published Baghdad city atlas in the Workbench and inspect its
+source-bound route/service and cost comparison. The frozen packet contains 14
+lines and a calculated route sensitivity; keep generic demand, right-of-way
+allowances and unsurveyed site inputs visible. Do not describe allowances as
+survey quantities or vendor prices. Download the existing source-bound result
+without recalculating Baghdad. The editable RustGIS ZIP endpoint is currently
+held because its GIS and outline publication epochs differ; it is not part of
+this release journey.
 
 ## Journey C — candidate research (precomputed evidence)
 
-Open the declared passive steel-wheel development reference and one separate
-propulsion/energy candidate. Confirm each physical candidate and evaluation
-identity. Inspect the linked evidence, source revision, tools and numerical
-limits. Retain the installation, force, thermal, braking and physical-validation
-holds shown by the source packet. Do not transfer results between candidates.
+Open the declared passive steel-wheel development reference in the Workbench.
+At this source commit, the Workbench candidate-portfolio selector is held and
+hidden because its current dossier binding reports
+`Current source changed: .github/workflows/development-baseline.yml`. Do not
+describe the hidden selector as an available interactive comparison.
+
+For the source-pinned research comparison, inspect the precomputed
+[coupled-railway packet](../../design-engine/coupled-railway/README.md), its
+`comparison.json.gz` and `manifest.json`. Compare the declared P1 station-LIM
+case with P6 onboard-wheel-traction research as separate physical candidates.
+This packet is verified only in its recorded historical source epoch; the
+current `./osr design railway verify` command holds with
+`Coordinated source epoch changed`.
+The P6 record is definition research: it has no available-force map, its
+propulsion model reports `model-development-required`, and its additional
+installed mass and price remain unknown. Confirm candidate and evaluation IDs,
+source epoch, tools and numerical limits in the packet. Do not transfer results
+between candidates or promote either alternative to the integrated reference.
 
 Verify the coupled comparison with
 `python -m engineering.station_rail.retired_station_reference verify`. Its
-published braking source belongs to the retained historical epoch recorded in
+check verifies retained packet bytes against their original source epoch; it
+does not replay the calculation. The published braking source belongs to the
+retained historical epoch recorded in
 [`docs/archives/coupled-railway-source-epochs`](../../archives/coupled-railway-source-epochs/README.md);
-the packet is not admitted as a current braking evaluation. No campaign or
-native solver is run for this demonstration.
+the verifier checks retained source-pinned packets, but does not admit them as
+current evaluations or braking evidence. No campaign or native solver is run
+for this demonstration.
 
 ## Export and evidence locations
 
 Journey A writes `journey-a.json`, screenshots and result artifacts under the
-external output directory. Baghdad and candidate research exports remain
-source-bound to their committed manifests; the release dossier records their
-exact manifest IDs after the frozen-candidate review. A demonstration is not
-complete until those IDs and replay results are recorded for the exact candidate
-commit.
+external output directory. Baghdad and candidate research records remain
+source-bound to their committed manifests. Record their exact manifest,
+candidate and evaluation IDs, plus the visible Workbench holds, for the frozen
+candidate. A source-pinned archive check is not a fresh engineering evaluation.
