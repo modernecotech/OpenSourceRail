@@ -5,7 +5,7 @@ passenger requirements through vehicle, stations, civil works, manufacturing,
 service and whole-life cost. A useful calculated outline can be complete while
 its installed engineering and physical acceptance remain open.
 
-The proposed v0.6.0 software release has a separate SR-01–SR-06 readiness
+The proposed v0.6.1 software release has a separate SR-01–SR-06 readiness
 contract. Software readiness does not close the seven engineering gates or
 assert physical acceptance; see the [software-release ledger](design-engine/v06-software-release/README.md).
 
@@ -14,7 +14,7 @@ Samawah calculation and source-pinned read-only Baghdad and candidate examples.
 The 266-city portfolio and existing engineering evidence remain available; new
 broad campaigns, native sweeps and historical archive migration are v0.7+ work
 unless a specific release journey is blocked. No frozen release candidate is
-pinned yet. See the [release package](releases/v0.6.0/README.md) for maturity,
+pinned yet. See the [release package](releases/v0.6.1/README.md) for maturity,
 setup and validation instructions. Software release does not assert that the
 railway is accepted or authorized for manufacture, movement or operation.
 

@@ -1,6 +1,6 @@
 # v0.6 software-release readiness
 
-The v0.6.0 software release has its own versioned contract in
+The v0.6.1 software release has its own versioned contract in
 [`campaigns/v06-software-release.toml`](../../../campaigns/v06-software-release.toml)
 and a machine-readable status in [status.json](status.json). Run:
 
@@ -20,12 +20,12 @@ candidate and generating the evidence bundle, inspect it with:
 
 ```sh
 ./osr release software readiness \
-  --attestation-bundle /path/to/v0.6.0-attestation \
+  --attestation-bundle /path/to/v0.6.1-attestation \
   --expected-repository modernecotech/OpenSourceRail \
   --trusted-reviewer <reviewer-name-confirmed-out-of-band> \
   --trusted-reviewer-key-sha256 <fingerprint-confirmed-out-of-band>
 ./osr release software readiness --require-ready \
-  --attestation-bundle /path/to/v0.6.0-attestation \
+  --attestation-bundle /path/to/v0.6.1-attestation \
   --expected-repository modernecotech/OpenSourceRail \
   --trusted-reviewer <reviewer-name-confirmed-out-of-band> \
   --trusted-reviewer-key-sha256 <fingerprint-confirmed-out-of-band>

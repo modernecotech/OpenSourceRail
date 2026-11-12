@@ -166,6 +166,10 @@ def _rewrite_bundle(bundle_root, bundle):
 
 
 def test_current_software_release_status_is_truthfully_pending_and_separate():
+    assert tomllib.loads((ROOT / release_gate.CONTRACT).read_text())["release"] == "v0.6.1"
+    assert (ROOT / "docs/releases/v0.6.1/validation.md").is_file()
+    from engineering import readme_context
+    assert readme_context.category("docs/releases/v0.6.1/README.md") == "versioned-release-guide"
     report = release_gate.inspect(ROOT)
     assert report["required_gate_count"] == 6
     assert report["passed_gate_count"] == 0

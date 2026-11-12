@@ -169,8 +169,8 @@ See the [capability register](docs/capabilities/README.md) for current functions
 ## Run locally
 
 For the bounded software demonstration and release scope, start with the
-[v0.6 quickstart](docs/releases/v0.6.0/quickstart.md), [feature maturity
-table](docs/releases/v0.6.0/feature-maturity.md) and [known limitations](docs/releases/v0.6.0/known-limitations.md).
+[v0.6 quickstart](docs/releases/v0.6.1/quickstart.md), [feature maturity
+table](docs/releases/v0.6.1/feature-maturity.md) and [known limitations](docs/releases/v0.6.1/known-limitations.md).
 The quickstart does not install optional CAD/FEM/GIS services. The broader
 research and integration workflows below remain available for contributors.
 

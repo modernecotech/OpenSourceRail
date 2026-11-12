@@ -23,6 +23,7 @@ on:
       - "docs/workbench/current/**"
       - "engineering/development_baseline/**"
       - "docs/releases/v0.6.0/**"
+      - "docs/releases/v0.6.1/**"
       - "tools/automation/default-design-workbench.py"
       - "tools/automation/osr-python"
       - "tools/automation/prepare-v06-release-checkout.py"
@@ -54,6 +55,7 @@ on:
       - "docs/workbench/current/**"
       - "engineering/development_baseline/**"
       - "docs/releases/v0.6.0/**"
+      - "docs/releases/v0.6.1/**"
       - "tools/automation/default-design-workbench.py"
       - "tools/automation/osr-python"
       - "tools/automation/prepare-v06-release-checkout.py"
@@ -108,16 +110,16 @@ jobs:
         run: npm run test:frontend
       - name: Run the fresh, warm and changed Samawah journey twice
         run: |
-          first="$RUNNER_TEMP/osr-v06-samawah-journey-a-1"
-          second="$RUNNER_TEMP/osr-v06-samawah-journey-a-2"
+          first="$RUNNER_TEMP/osr-v061-samawah-journey-a-1"
+          second="$RUNNER_TEMP/osr-v061-samawah-journey-a-2"
           node tools/automation/tests/verify-v06-software-journey-a.mjs "$first"
           node tools/automation/tests/verify-v06-software-journey-a.mjs "$second"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v06-samawah-workbench-journey
+          name: v061-samawah-workbench-journey
           path: |
-            ${{ runner.temp }}/osr-v06-samawah-journey-a-1/
-            ${{ runner.temp }}/osr-v06-samawah-journey-a-2/
+            ${{ runner.temp }}/osr-v061-samawah-journey-a-1/
+            ${{ runner.temp }}/osr-v061-samawah-journey-a-2/
           if-no-files-found: warn
           retention-days: 14

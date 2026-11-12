@@ -76,6 +76,7 @@ BASE_PATTERNS = (
     "/docs/workbench/city-atlas-assets.json",
     "/docs/workbench/current/**",
     "/docs/releases/v0.6.0/**",
+    "/docs/releases/v0.6.1/**",
     "/tools/automation/default-design-workbench.py",
     "/osr",
     "/tools/automation/osr-python",
