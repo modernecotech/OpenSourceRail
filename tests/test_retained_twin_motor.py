@@ -1,5 +1,5 @@
 """Typed historical driver fixtures do not qualify physical twin/motor models."""
-import hashlib,io,json,subprocess,tarfile
+import gzip,hashlib,io,json,subprocess,tarfile
 from pathlib import Path
 from types import SimpleNamespace
 import pytest
@@ -15,9 +15,14 @@ def packet(request,tmp_path,monkeypatch):
     git(root,'init','-q');git(root,'config','user.name','Test');git(root,'config','user.email','test@example.invalid')
     cfg=r.CATALOG[domain];method=root/cfg['producer'];method.parent.mkdir(parents=True)
     method.write_text('def verify_publication(*args,**kwargs):\n    return {"verified":True,"physical_accepted":False}\n')
-    folder=root/cfg['folder'];folder.mkdir(parents=True);payload=folder/'payload.tar.gz'
-    with tarfile.open(payload,'w:gz') as archive:
-        raw=b'{"fixture":true}\n';member=tarfile.TarInfo('fixture.json');member.size=len(raw);archive.addfile(member,io.BytesIO(raw))
+    folder=root/cfg['folder'];folder.mkdir(parents=True)
+    payload=folder/('payload.json.gz' if domain=='variants' else 'payload.tar.gz')
+    raw=b'{"fixture":true}\n'
+    if domain=='variants':
+        payload.write_bytes(gzip.compress(raw,mtime=0))
+    else:
+        with tarfile.open(payload,'w:gz') as archive:
+            member=tarfile.TarInfo('fixture.json');member.size=len(raw);archive.addfile(member,io.BytesIO(raw))
     manifest=dict(schema=cfg['schema'],source_sha256={cfg['producer']:hashlib.sha256(method.read_bytes()).hexdigest()})
     sha=hashlib.sha256(payload.read_bytes()).hexdigest()
     if domain in ('twin','cell','variants'):manifest['files_sha256']={payload.name:sha}
