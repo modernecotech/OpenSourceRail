@@ -60,6 +60,15 @@ def test_unknown_member_and_symlink_refused(epoch):
     with pytest.raises(ValueError,match='Linked'):cache.member('city.json',root)
 
 
+def test_signature_rejects_symlinked_parent_directory(epoch):
+    root,folder,_=epoch
+    outside=root/'outside';outside.mkdir();(outside/'source.py').write_text('source=1\n')
+    (root/'linked').symlink_to(outside,target_is_directory=True)
+    manifest={'source_sha256':{'linked/source.py':'0'*64},'files_sha256':{}}
+    with pytest.raises(ValueError,match='Linked completion artifacts'):
+        cache._signature(root,folder,manifest)
+
+
 def test_unverified_manifest_cannot_stat_outside_root(epoch):
     root,folder,_=epoch;m=json.loads((folder/'manifest.json').read_bytes())
     m['source_sha256']['../outside']='0'*64;(folder/'manifest.json').write_text(json.dumps(m))

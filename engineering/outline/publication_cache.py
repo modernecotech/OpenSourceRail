@@ -10,6 +10,7 @@ from hashlib import sha256
 import gzip
 import io
 import json
+import os
 from pathlib import Path
 from threading import RLock
 
@@ -29,15 +30,27 @@ def _signature(root,folder,manifest):
             if path.is_absolute() or '..' in path.parts:
                 raise ValueError('Repository-relative publication evidence required')
             paths.append(base/path)
+    # Check every unique path component once. Calling _ordinary for each file
+    # repeats the same ancestor symlink checks thousands of times in the full
+    # city publication, while this preserves the same check on every component.
+    checked=set()
+    for path in paths:
+        current=os.fspath(path)
+        while current:
+            checked.add(current)
+            parent=os.path.dirname(current)
+            if parent==current or not parent:break
+            current=parent
+    if any(os.path.islink(path) for path in checked):
+        raise ValueError('Linked completion artifacts are not permitted')
     values=[]
     for path in paths:
-        completion._ordinary(path)
-        s=path.stat()
+        s=os.stat(path)
         values.append((str(path),s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns))
     return tuple(values)
 
 
-def verified(root=ROOT):
+def _verified(root):
     root=Path(root).resolve();folder=root/completion_publication.PUBLICATION
     with _lock:
         raw=completion._ordinary(folder/'manifest.json').read_bytes()
@@ -46,18 +59,23 @@ def verified(root=ROOT):
         cached=_cache.get(key)
         if cached is not None and cached['stamp']==stamp:
             _cache.move_to_end(key)
-            return deepcopy(cached['manifest']),deepcopy(cached['catalogue'])
+            return cached['manifest'],cached['catalogue']
         actual,catalogue=completion_publication.verify(folder,root=root)
         after=(sha256((folder/'manifest.json').read_bytes()).hexdigest(),_signature(root,folder,actual))
         if after!=stamp:raise ValueError('Publication changed during verification; retry against a stable epoch')
         _cache[key]=dict(stamp=stamp,manifest=actual,catalogue=catalogue)
         _cache.move_to_end(key)
         while len(_cache)>MAX_ROOTS:_cache.popitem(last=False)
-        return deepcopy(actual),deepcopy(catalogue)
+        return actual,catalogue
+
+
+def verified(root=ROOT):
+    manifest,catalogue=_verified(root)
+    return deepcopy(manifest),deepcopy(catalogue)
 
 
 def member(name,root=ROOT):
-    root=Path(root).resolve();manifest,_=verified(root)
+    root=Path(root).resolve();manifest,_=_verified(root)
     if name not in manifest['files_sha256']:
         raise ValueError('Known published outline artifact required')
     path=completion._ordinary(root/completion_publication.PUBLICATION/name)
