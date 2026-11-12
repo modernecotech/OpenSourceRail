@@ -46,7 +46,7 @@ class Reservations:
         _ordinary(self.path);_ordinary(self.path.with_suffix('.lock'))
 
     @contextmanager
-    def transaction(self):
+    def transaction(self,*,write_back=True):
         lock=os.open(self.path.with_suffix('.lock'),os.O_RDWR|os.O_CREAT|os.O_NOFOLLOW,0o600)
         with os.fdopen(lock,'a+b') as handle:
             fcntl.flock(handle,fcntl.LOCK_EX)
@@ -74,6 +74,7 @@ class Reservations:
             rows={k:r for k,r in rows.items() if r.get('worker_pid') is None
                   or process_token(r['worker_pid'])==r.get('worker_token')}
             yield rows
+            if not write_back:return
             raw=json.dumps(dict(schema='osr-analytic-worker-reservations/1',reservations=rows),sort_keys=True).encode()
             temporary=self.path.with_name(self.path.name+f'.{uuid4().hex}.pending')
             fd=os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
@@ -81,6 +82,19 @@ class Reservations:
                 with os.fdopen(fd,'wb') as stream:stream.write(raw)
                 temporary.replace(self.path)
             finally:temporary.unlink(missing_ok=True)
+
+    @contextmanager
+    def stage_metadata(self,store,minimum_free_gib,growth_bytes):
+        # Serialize admission plus small immutable queue writes across stores.
+        # Existing worker reservations protect their still-unwritten outputs.
+        with self.transaction(write_back=False) as rows:
+            device=Path(store).stat().st_dev
+            reserved=sum(r['disk_bytes'] for r in rows.values() if r['device']==device)
+            disk=disk_admission(store,minimum_free_gib=minimum_free_gib+(reserved+growth_bytes)/1024**3)
+            yield dict(admitted=disk['admitted'],reason=None if disk['admitted'] else 'Insufficient disk to retain queued request/control files',
+                disk=disk,queued_control_reservation_bytes=growth_bytes,
+                outstanding_worker_reservation_bytes=reserved,
+                enforcement='Serialized cooperative admission, not an aggregate filesystem quota')
 
     def claim(self,job_id,store,minimum_free_gib):
         key=str(Path(store).resolve())+'/'+job_id

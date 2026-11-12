@@ -72,7 +72,7 @@ def test_shared_stores_and_memory_refusal_resume_without_failed_run(pool,monkeyp
 
 def test_disk_reservation_refusal_keeps_queued_request(pool,monkeypatch):
     make,processes=pool
-    monkeypatch.setattr(resources,'disk_admission',lambda *a,**kw:dict(admitted=False))
+    monkeypatch.setattr(resources,'disk_admission',lambda *a,**kw:dict(admitted=kw['minimum_free_gib']<20.05))
     s=make('a');job=s.submit(dict(city_slug='samawah'))
     assert job['state']=='queued' and not processes
     assert (s._job(job['job_id'])/'request.json').exists()
@@ -111,8 +111,8 @@ def test_malformed_shared_ledger_defers_without_launch(pool):
     make,processes=pool;s=make('a')
     s.reservations.path.write_text(json.dumps(dict(schema='osr-analytic-worker-reservations/1',reservations=[])))
     job=s.submit(dict(city_slug='samawah'))
-    assert job['state']=='queued' and not processes
-    assert 'ledger unavailable' in job['resource_admission']['reason']
+    assert job['state']=='held' and not processes and job['request_accepted'] is False
+    assert 'metadata reservation unavailable' in job['error']
 
 
 def test_unknown_crashed_launch_is_reserved_until_reconciled(pool,monkeypatch,tmp_path):
@@ -137,3 +137,59 @@ def test_close_stops_all_owned_workers_even_if_ledger_is_corrupt(pool):
         state=json.loads((s._job(job['job_id'])/'status.json').read_bytes())
         assert state['state']=='interrupted'
         assert (s._job(job['job_id'])/'request.json').exists()
+
+
+def test_metadata_near_host_reserve_refuses_before_writing_request(pool,monkeypatch):
+    make,processes=pool;s=make('a')
+    monkeypatch.setattr(resources,'disk_admission',lambda *a,**kw:dict(admitted=False))
+    status=s.submit(dict(city_slug='samawah'))
+    assert status['state']=='held' and status['request_accepted'] is False
+    assert not processes and list(s.store.glob('*/request.json'))==[]
+
+
+def parent_request():
+    from engineering.station_rail.common import identity
+    request=city_workflow.normalize(dict(city_slug='samawah',expected_outline_evaluation_id='a'*64))
+    parent=dict(snapshot_id='d'*64,escaped='é'*10000)
+    key=identity(dict(request=request,seed_id='b'*64,sources={'worker':'c'*64},parent_snapshot_id=parent['snapshot_id']))
+    return request,key,parent
+
+
+def test_exact_escaped_parent_bytes_counted_before_store_admission(pool,monkeypatch):
+    make,processes=pool;s=make('a');request,key,parent=parent_request()
+    # Fits the Unicode character count; does not fit actual escaped canonical bytes.
+    monkeypatch.setattr(s,'_usage',lambda:jobs.MAX_STORE_BYTES-50*1024)
+    status=s._submit_queued(request,key,parent)
+    assert status['state']=='held' and status['request_accepted'] is False
+    assert not processes and list(s.store.glob('*/parent-study.json'))==[]
+
+
+def test_accepted_queue_records_exact_parent_request_bytes(pool,monkeypatch):
+    make,processes=pool;s=make('a');request,key,parent=parent_request()
+    monkeypatch.setattr(resources,'available_memory',lambda:0)
+    status=s._submit_queued(request,key,parent)
+    assert status['state']=='queued' and not processes
+    assert status['queued_payload_bytes']==dict(request=len(encoded(request)),parent_snapshot=len(encoded(parent)))
+    folder=s._job(status['job_id'])
+    assert (folder/'parent-study.json').read_bytes()==encoded(parent)
+
+
+def test_attach_failure_stops_launched_owned_process_and_retains_inputs(pool,monkeypatch):
+    make,processes=pool;s=make('a')
+    def broken(*args):raise ValueError('Reservation attach failed')
+    monkeypatch.setattr(s.reservations,'attach',broken)
+    status=s.submit(dict(city_slug='samawah'))
+    assert status['state']=='failed-integrity' and len(processes)==1 and processes[0].poll() is not None
+    assert s.jobs[status['job_id']]['finished'] is True
+    assert (s._job(status['job_id'])/'request.json').exists()
+
+
+def test_large_escaped_parent_cannot_cross_host_reserve(pool,monkeypatch):
+    make,processes=pool;s=make('a');request,key,parent=parent_request()
+    # 80KiB spare would fit the raw character count plus control margin, but not
+    # the actual ensure_ascii canonical snapshot and reserved status generations.
+    available_gib=20+80*1024/1024**3
+    monkeypatch.setattr(resources,'disk_admission',lambda *a,**kw:dict(admitted=kw['minimum_free_gib']<=available_gib))
+    status=s._submit_queued(request,key,parent)
+    assert status['state']=='held' and status['request_accepted'] is False
+    assert not processes and list(s.store.glob('*/request.json'))==[]

@@ -23,6 +23,7 @@ from . import completion,city_workflow,publication_cache
 MAX_REQUEST=2*1024**2
 MAX_JOB_BYTES=64*1024**2
 MAX_STORE_BYTES=512*1024**2
+MAX_QUEUED_STATUS_BYTES=16*1024
 WALL_SECONDS=120
 MINIMUM_FREE_GIB=4.0
 FLAGS=city_workflow.FLAGS
@@ -141,6 +142,8 @@ class CityStudyService:
         self.pending.sort(key=lambda job:json.loads((self._job(job)/'status.json').read_bytes()).get('queued_at_ns',0))
 
     def _write(self,folder,status):
+        if status.get('state')=='queued' and len(encoded(status))>MAX_QUEUED_STATUS_BYTES:
+            raise ValueError('Queued control record exceeds its reserved byte budget')
         completion._write(folder/'status.json',status)
         self._set_index(folder.name,status)
 
@@ -320,14 +323,43 @@ class CityStudyService:
         if len(self.pending)>=4:
             return dict(schema='osr-city-study-job/1',state='held',busy=True,
                 error='Four pending city requests already retained',**FLAGS)
-        job_id=uuid4().hex;folder=self._job(job_id);folder.mkdir()
-        (folder/'request.json').write_bytes(encoded(request))
-        if parent is not None:(folder/'parent-study.json').write_bytes(encoded(parent))
+        # Encode before admission: ASCII escaping and parent snapshots can be
+        # much larger than their character counts or on-disk compressed source.
+        request_raw=encoded(request);parent_raw=encoded(parent) if parent is not None else None
+        if len(request_raw)>MAX_REQUEST or parent_raw is not None and len(parent_raw)>city_workflow.MAX_PARENT_SNAPSHOT_BYTES:
+            raise ValueError('Queued request or parent snapshot exceeds its byte budget')
+        # Four filesystem blocks plus two maximum queued-status generations and
+        # ledger bookkeeping supplement exact payload bytes. This is conservative
+        # allocation admission; it is not an aggregate quota.
+        growth=len(request_raw)+(len(parent_raw) if parent_raw is not None else 0)+4*4096+2*MAX_QUEUED_STATUS_BYTES
+        active=sum(not r.get('finished') for r in self.jobs.values())
+        if self._usage()+growth+active*MAX_JOB_BYTES>MAX_STORE_BYTES:
+            return dict(schema='osr-city-study-job/1',state='held',cache_hit=False,request_accepted=False,
+                error='Insufficient store reserve to retain queued request and control files',**FLAGS)
+        job_id=uuid4().hex;folder=self._job(job_id)
         status=dict(schema='osr-city-study-job/1',job_id=job_id,state='queued',request_key=key,
-            queued_at_ns=time.time_ns(),request_sha256=digest(folder/'request.json'),
-            parent_snapshot_sha256=digest(folder/'parent-study.json') if parent is not None else None,
-            queued_sources=city_workflow._sources(self.root),cache_hit=False,resource_budget=self._budget(),**FLAGS)
-        self.pending.append(job_id);self._write(folder,status);self._dispatch()
+            queued_at_ns=time.time_ns(),request_sha256=sha256(request_raw).hexdigest(),
+            parent_snapshot_sha256=sha256(parent_raw).hexdigest() if parent_raw is not None else None,
+            queued_sources=city_workflow._sources(self.root),cache_hit=False,resource_budget=self._budget(),
+            queued_payload_bytes=dict(request=len(request_raw),parent_snapshot=len(parent_raw) if parent_raw is not None else 0),
+            queued_control_reservation_bytes=growth,**FLAGS)
+        try:
+            with self.reservations.stage_metadata(self.store,self.minimum_free_gib,growth) as admission:
+                if not admission['admitted']:
+                    return dict(schema='osr-city-study-job/1',state='held',cache_hit=False,request_accepted=False,
+                        error=admission['reason'],resource_admission=admission,**FLAGS)
+                # Repeat the store check inside the shared admission transaction.
+                if self._usage()+growth+active*MAX_JOB_BYTES>MAX_STORE_BYTES:
+                    return dict(schema='osr-city-study-job/1',state='held',cache_hit=False,request_accepted=False,
+                        error='Retained store changed before queue admission',**FLAGS)
+                folder.mkdir();(folder/'request.json').write_bytes(request_raw)
+                if parent_raw is not None:(folder/'parent-study.json').write_bytes(parent_raw)
+                self.pending.append(job_id);self._write(folder,status)
+        except (ValueError,KeyError,TypeError,OSError) as exc:
+            if folder.exists():raise
+            return dict(schema='osr-city-study-job/1',state='held',cache_hit=False,request_accepted=False,
+                error='Shared metadata reservation unavailable: '+str(exc),**FLAGS)
+        self._dispatch()
         return self._poll(job_id)
 
     def _dispatch(self):
