@@ -150,6 +150,18 @@ The [CI record](clean-software-ci.json) includes artifact IDs and download diges
 This verifies the supported software slice, not the missing module lifecycle
 or a complete v0.7 release.
 
+The owned evaluation working tree was then reduced from 8.45 GiB to about
+0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
+city inputs. Shared Git storage is separate. Reflink sharing kept host free space
+around 22.4 GiB. In that compact tree, 53 focused tests and the actual Samawah
+browser replay passed; Baghdad's existing source-bound packet also verified with
+zero new calculations. The browser reused eligible jobs: its 11.22-second first
+click is not a cold calculation, and its warm repeat took 1.69 seconds.
+The [compact-checkout record](compact-checkout.json) preserves the environment
+and the initial missing-default-browser-cache failure. The successful run used
+the existing shared Chromium installation. The grouped/flat delivery and CI
+routing checks separately passed 60 tests after integration.
+
 Use the existing [Samawah comparison instructions](../v07-project-continuity/README.md)
 for the browser entry point. New bounded native runs require a clean source
 checkout, explicit source/tool/candidate/load/resource identity and a fresh

@@ -97,6 +97,8 @@ come from the sealed proposal; the caller cannot supply replacement quantities.
 For example, when both assemblies exist in that proposal:
 
 ```python
+from engineering.pilot_delivery import review
+
 groups = [{"id": "door-operator", "assembly_ids": [
     "body/door-opening", "services/door-electrical"]}]
 pack = review.compile_review_pack(
