@@ -336,6 +336,12 @@ def handle_api(handler):
     try:
         service=getattr(handler.server,'city_studies',None)
         if service is None:raise ValueError('Mapped-city job service is not configured')
+        project=re.fullmatch('/api/city-studies/projects/([0-9a-f]{32})/([0-9a-f]{32})',path)
+        if project:
+            from engineering.v07_project import from_comparison
+            comparison=service.corridor_comparison(*project.groups())
+            handler.respond(200,from_comparison(comparison['report']))
+            return True
         comparison=re.fullmatch('/api/city-studies/comparisons/([0-9a-f]{32})/([0-9a-f]{32})',path)
         if not post and path=='/api/city-studies/scenarios/samawah-station-merge':
             handler.respond(200,service.corridor_proposal())

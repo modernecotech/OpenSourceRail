@@ -67,7 +67,11 @@ try {
   assert.equal(report.performance.after.native_solver_jobs, 0);
   assert.equal(report.physical_accepted, false);
   assert.equal(await page.locator('.samawah-merge-costs tbody tr').count(), 14);
-  await writeFile(join(output, 'comparison.json'), JSON.stringify(envelope, null, 2) + '\n');
+  // Preserve original Python number spellings: JSON.stringify changes 20.0 to 20.
+  await writeFile(join(output, 'comparison.json'), await response.body());
+  execFileSync(python, ['-B', '-c',
+    'import json,sys; from engineering.v07_project import from_comparison; from_comparison(json.load(open(sys.argv[1]))["report"])',
+    join(output, 'comparison.json')], {cwd: root, env: {...process.env, PYTHONPATH: root}});
   await page.locator('#samawah-station-merge').screenshot({path: join(output, 'comparison-desktop.png')});
   const warmStart = performance.now();
   await page.locator('#samawah-merge-compare').click();
