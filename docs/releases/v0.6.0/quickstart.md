@@ -92,7 +92,10 @@ railway design or cost quotations.
   recorded historical source epoch; the current railway verifier holds when
   that epoch no longer matches. Run
   `python -m engineering.station_rail.retired_station_reference verify` to
-  check the retained source-pinned packet set. This check does not admit old
+  check the retained source-pinned packet set. This check reads original Git
+  blobs from the historical source epoch, which the sparse evaluation checkout
+  does not fetch. Run it from a clean full-history checkout of the same commit.
+  This separate historical byte check does not replay the campaign or admit old
   results as current evaluations or physical evidence. A research alternative
   does not replace the reference.
 

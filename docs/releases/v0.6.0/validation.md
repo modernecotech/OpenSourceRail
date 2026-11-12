@@ -33,7 +33,10 @@ On the exact release-candidate commit, perform and retain:
    input, 14 cost scopes, performance report, output-size cap and independent
    result replay.
 4. Inspect the existing Baghdad and candidate source manifests and reproduce
-   the documented read-only views from their pinned evidence.
+   the documented read-only views from their pinned evidence. Use the sparse
+   evaluation checkout for the current views and a clean full-history checkout
+   for the candidate archive byte verifier, which reads retained historical Git
+   blobs.
 5. Run the Workbench browser checks and the required Python, Rust, frontend and
    control-contract tests applicable to the advertised capabilities.
 6. Exercise resource refusal under a simulated low-space condition using the

@@ -53,9 +53,11 @@ source epoch, tools and numerical limits in the packet. Do not transfer results
 between candidates or promote either alternative to the integrated reference.
 
 Verify the coupled comparison with
-`python -m engineering.station_rail.retired_station_reference verify`. Its
-check verifies retained packet bytes against their original source epoch; it
-does not replay the calculation. The published braking source belongs to the
+`python -m engineering.station_rail.retired_station_reference verify` from a
+clean full-history checkout of the same commit. The verifier reads retained
+packet bytes from their original Git source epoch; a blob-filtered sparse
+evaluation checkout does not include those historical blobs. It does not
+replay the calculation. The published braking source belongs to the
 retained historical epoch recorded in
 [`docs/archives/coupled-railway-source-epochs`](../../archives/coupled-railway-source-epochs/README.md);
 the verifier checks retained source-pinned packets, but does not admit them as
