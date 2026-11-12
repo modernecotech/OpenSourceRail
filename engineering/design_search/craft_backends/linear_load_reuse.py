@@ -41,7 +41,12 @@ def plan(original_fem,cad_root,*,root,producer_source=None):
     old_replay=dict(state='verified',receipt=None)
     try:old_replay['receipt']=fem.verify(original_fem,old)
     except (ValueError,KeyError,OSError) as exc:old_replay=dict(state='held',reason=str(exc))
-    spec=fem.prepare(case,old['cad_artifact'],'normal',root=root);fem.validate_input(spec,root=root)
+    generated=cad_root/case['case_id']/'generate'
+    artifact=dict(candidate_id=case['candidate_id'],component_geometry_id=case['component_geometry_id'],
+        sc_path=str((generated/'assembly.sc').resolve()),sc_sha256=native.digest(generated/'assembly.sc'),
+        step_path=str((generated/'assembly.step').resolve()),step_sha256=native.digest(generated/'assembly.step'))
+    if old['cad_artifact']!=artifact:raise ValueError('Old CAD pointer differs from independently authenticated canonical archive')
+    spec=fem.prepare(case,artifact,'normal',root=root);fem.validate_input(spec,root=root)
     if spec['input_id']==old['input_id'] or spec['load_case']==old['load_case']:raise ValueError('New normal load requires its own evaluation input')
     # Parent approval selected the fresh-mesh alternative after failed replay.
     # Even if replay later succeeds this plan makes no old-load/solve reuse claim.
@@ -109,6 +114,11 @@ def run(request,output,*,root,coordinator_admitted=False):
         if sum(p.stat().st_size for p in output.rglob('*') if p.is_file())>MAX_BYTES:raise ValueError('Observed aggregate output exceeds budget')
         calls.append(operation)
     spec=request['input'];case=viaduct_cases.build('reference_box','reference',root=root)
+    if request.get('schema')!='osr-v07-normal-fem-plan/1' or request.get('mode')!='fresh-mesh-normal-load':raise ValueError('Known new-load experiment required')
+    if request.get('maximum_native_processes')!=7 or request.get('maximum_total_wall_seconds')!=900 or request.get('maximum_output_bytes')!=MAX_BYTES or request.get('minimum_host_free_bytes')!=20*1024**3:raise ValueError('Declared new-load resource contract differs')
+    if any(request.get(k) is not False for k in FLAGS):raise ValueError('New-load control cannot confer acceptance')
+    if spec!=fem.prepare(case,spec['cad_artifact'],'normal',root=root):raise ValueError('Fresh normal-load admission differs')
+    fem.validate_input(spec,root=root)
     try:
         budget('independent STEP')
         reference=viaduct_cad._reference_batch([(case,Path(request['cad_root'])/case['case_id'])],output/'independent-step')
