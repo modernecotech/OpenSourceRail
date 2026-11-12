@@ -1408,7 +1408,7 @@ byId("city-study-options").addEventListener("submit", async (event) => {
       throw Error(
         job.error || "Another calculation is running; retry after it finishes",
       );
-    const deadline = Date.now() + 150000;
+    const deadline = Date.now() + 600000;
     while (["queued", "running"].includes(job.state) && Date.now() < deadline) {
       status.textContent =
         job.state === "queued" ? "Waiting for available CPU, memory and disk reservations…" : "Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";

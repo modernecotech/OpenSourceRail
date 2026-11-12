@@ -158,8 +158,7 @@
         try {
           progress.textContent = "Preparing the source-bound station edit";
           const proposal = await read("/api/city-studies/scenarios/samawah-station-merge");
-          const before = await calculate(proposal.baseline_request, "Published-marker control");
-          const after = await calculate(proposal.revised_request, "Midpoint consolidation");
+          const [before, after] = await Promise.all([calculate(proposal.baseline_request, "Published-marker control"), calculate(proposal.revised_request, "Midpoint consolidation")]);
           progress.textContent = "Comparing verified quantities and costs";
           const url = `/api/city-studies/comparisons/${before.job_id}/${after.job_id}`;
           const response = await read(url); const report = response.report;
@@ -265,9 +264,9 @@
           const response = await fetch(`/api/rustgis/import/${packet.city.slug}/${packet.packet_id}?${query}`, {method: "POST", headers: {"Content-Type": "application/json"}, body: upload, signal});
           const imported = await response.json();if (!response.ok) throw Error(imported.error || "Native revision was refused");
           if (imported.state === "no-op") {progress.textContent = "Geometry and service are unchanged. Styling/camera edits require no new railway calculation.";return;}
-          let job = imported.job;const deadline = Date.now() + 150000;
-          while (job?.state === "running" && Date.now() < deadline) {
-            progress.textContent = "Recalculating route quantities, service, fleet, all costs and delivery drafts…";
+          let job = imported.job;const deadline = Date.now() + 600000;
+          while (["queued", "running"].includes(job?.state) && Date.now() < deadline) {
+            progress.textContent = job?.state === "queued" ? "Waiting for available CPU, memory and disk reservations…" : "Recalculating route quantities, service, fleet, all costs and delivery drafts…";
             await new Promise(resolve => setTimeout(resolve, 1000));
             const poll = await fetch(`/api/city-studies/${job.job_id}`, {signal});job = await poll.json();
             if (!poll.ok) throw Error(job.error || "Calculation status unavailable");
