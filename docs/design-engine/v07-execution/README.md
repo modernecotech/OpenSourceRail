@@ -178,6 +178,17 @@ The reconciled lane passed 158 tests plus 13 subtests. The subsequent Rust CLI
 and assembly lifecycle additions require their own final CI run; earlier green
 checks are not relabelled as evidence for those additions.
 
+Checkpoint `a41c280544` then passed 430 selected Python contracts (four optional
+skips), Rust compilation/parity, Workbench, reconciled research and the retained
+native business-platform fixture. The latter remains flat-part compatibility,
+not native assembly validation. Shared CI identified an outdated presentation
+policy pin to the delivery compiler. The complete `DEFAULTS` syntax tree and
+every policy value are unchanged; only the current policy's producer hash was
+refreshed. No historical packet or receipt was rewritten. Sixteen analysis and
+five routing checks pass. Exact standalone policy/test edits now run in the
+bounded Python lane; mixed engineering edits still trigger retained workflows.
+The routing change itself triggers a full final Shared run.
+
 The owned evaluation working tree was then reduced from 8.45 GiB to about
 0.91 GiB, retaining project agent instructions, plans, CI contracts and the bound
 city inputs. Shared Git storage is separate. Reflink sharing kept host free space
