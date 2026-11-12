@@ -35,6 +35,10 @@ def test_native_complete_compilation_has_only_evaluation_differences():
     if not binary:pytest.skip('Explicit prebuilt verified binary required; never auto-build')
     c=fixture.city();py=dp.evaluate(c,root=ROOT)
     rs=dp.evaluate(c,root=ROOT,scheduler_backend='rust',scheduler_binary=binary)
+    assert rs['scheduler_backend']['completed_helper_jobs']==3
+    assert rs['scheduler_backend']['native_solver_jobs']==0
+    assert all(rs['source_sha256'][n]==sha for n,sha in py['source_sha256'].items())
+    assert set(rs['source_sha256'])-set(py['source_sha256'])<=set(rs['scheduler_backend']['source_sha256'])
     for key in ('plan_id','scheduler_backend','source_sha256'):
         py.pop(key);rs.pop(key)
     assert dp.encoded(py)==dp.encoded(rs)
@@ -83,7 +87,8 @@ def test_public_run_rejects_stale_or_tampered_packet(current_packet,tmp_path,mon
         m.pop('manifest_id');m['manifest_id']=dp.identity(m);path.write_bytes(dp.encoded(m))
     else:
         path=copy/'summary.json';path.write_bytes(path.read_bytes()+b' ')
-    with pytest.raises(ValueError):dp.run_delivery(copy,tmp_path/'failed',root=ROOT)
+    reason='Completion source epoch differs' if tamper=='source' else 'City study artifact differs'
+    with pytest.raises(ValueError,match=reason):dp.run_delivery(copy,tmp_path/'failed',root=ROOT)
     assert (tmp_path/'failed/upstream-manifest.json').is_file()
     assert json.loads((tmp_path/'failed/failure.json').read_bytes())['execution']=='failed'
     assert not (tmp_path/'failed/delivery-plan.json').exists()
