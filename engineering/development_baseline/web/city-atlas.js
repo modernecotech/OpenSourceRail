@@ -187,7 +187,7 @@
           findings.append(node("pre", "atlas-comparison-details", JSON.stringify({ quantities: report.quantities, lines: report.lines, unresolved_inputs: report.unresolved_inputs }, null, 2))); result.append(findings);
           const trace = node("details", "atlas-disclosure"); trace.append(node("summary", "", "Design and result identities")); trace.append(node("pre", "atlas-comparison-details", JSON.stringify(report.identities, null, 2))); result.append(trace);
           const downloads = node("div", "atlas-comparison-downloads");
-          for (const [label, href] of [["Download comparison", url], ["Project integration holds", `/api/city-studies/projects/${before.job_id}/${after.job_id}`], ["Before dossier", `/api/city-studies/${before.job_id}/artifacts/result.json`], ["Revised dossier", `/api/city-studies/${after.job_id}/artifacts/result.json`], ["Revised delivery draft", `/api/city-studies/${after.job_id}/artifacts/delivery-plan.json`]]) {
+          for (const [label, href] of [["Download comparison", url], ["Project integration holds", `/api/city-studies/projects/${before.job_id}/${after.job_id}`], ["Door module research proposal", "/api/v07/door-module"], ["Before dossier", `/api/city-studies/${before.job_id}/artifacts/result.json`], ["Revised dossier", `/api/city-studies/${after.job_id}/artifacts/result.json`], ["Revised delivery draft", `/api/city-studies/${after.job_id}/artifacts/delivery-plan.json`]]) {
             const link = node("a", "atlas-download", label); link.href = href; link.download = label.toLowerCase().replaceAll(" ", "-") + ".json"; downloads.append(link);
           }
           result.append(downloads);

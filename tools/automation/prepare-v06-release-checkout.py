@@ -40,6 +40,7 @@ BASE_PATTERNS = (
     "/services/integration/osr_integration/city_outline.py",
     "/engineering/v06_software_release/**",
     "/engineering/vehicle_optimisation/equipment.py",
+    "/engineering/vehicle_parts/**",
     "/engineering/trip_dynamics/__init__.py",
     "/engineering/trip_dynamics/__main__.py",
     "/engineering/trip_dynamics/interactive.py",
