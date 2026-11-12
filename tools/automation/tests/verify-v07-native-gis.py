@@ -110,6 +110,17 @@ def main(argv=None):
                 reason=reason,data_crs='EPSG:4326')
             validate_edit(request,base,args.stop,kind,change)
             assert not check['no_op'] and check['changed_lines']==['line-1']
+            # The edit is programmatic .rgis data, not a GUI interaction. Prove
+            # the actual native reader can reopen it before canonical import.
+            native_check_dir=out/f'edited-reopen-{index+1}';native_check_dir.mkdir()
+            station_file=native_check_dir/'stations.geojson'
+            edited_native=adapter.native(['run','--no-plugins','--project',str(out/f'edit-{index+1}.rgis'),
+                *adapter._cmd('share.exportLayer',layer='stations',path=str(station_file))],
+                native_check_dir,'edited-reopen')
+            decoded=revision.decode(edited,data_crs='EPSG:4326')['stations']
+            expected=[dict(feature,properties={k:v for k,v in feature['properties'].items() if k!=adapter.INDEX})
+                for feature in sorted(decoded['features'],key=lambda x:x['properties'][adapter.INDEX])]
+            edited_roundtrip=adapter.check_roundtrip({'features':expected},json.loads(station_file.read_bytes()))
             record=revision.import_project(edited,'samawah',packet['packet_id'],actor='v07-native-cycle',
                 reason=reason,data_crs='EPSG:4326',
                 root=root,study_id=current,service=service,store=out/'imports')
@@ -119,7 +130,7 @@ def main(argv=None):
             while job['state']=='running' and time.monotonic()<deadline:
                 time.sleep(.25);job=service.status(job['job_id']);budget()
             assert job['state']=='completed',job
-            step.update(edit=change,import_record=record,import_verification=verified,completed_job=job)
+            step.update(edit=change,edited_native_reopen=edited_native,edited_station_roundtrip=edited_roundtrip,import_record=record,import_verification=verified,completed_job=job)
             current=job['job_id']
         assert len(steps)==3 and len({x['study'] for x in steps})==3
         assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()==source,'Source revision changed during native run'
