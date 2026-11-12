@@ -97,3 +97,32 @@ def test_git_replacement_cannot_relabel_another_artifact_epoch(packet):
     with pytest.raises(ValueError,match='artifact bytes'):
         r.verify(root=root,output=out,source_revision=original)
     assert r.verify(root=root,output=out,source_revision=replacement)['retained_verified']
+
+
+def test_partial_clone_prefetch_fetches_only_selected_missing_blobs(packet,tmp_path):
+    origin,out,_=packet
+    # An unrelated old payload must stay absent instead of fetching the full tree.
+    (origin/'unselected-heavy.bin').write_bytes(b'unrelated evidence'*100)
+    git(origin,'add','.');git(origin,'commit','-qm','unselected payload')
+    revision=git(origin,'rev-parse','HEAD')
+    git(origin,'config','uploadpack.allowFilter','true')
+    clone=tmp_path/'partial'
+    subprocess.run(['git','clone','-q','--filter=blob:none','--no-checkout',
+        origin.as_uri(),str(clone)],check=True)
+    raw=subprocess.check_output(['git','-C',str(clone),'ls-tree','-r','-l',revision],env=r.GIT_ENV)
+    assert b'BAD' in raw  # The exact failure seen in GitHub Actions.
+    size_free=r.tree(clone,revision,sizes=False)
+    before=r.tree(clone,revision)
+    assert all(entry[3]==-1 for entry in before.values())
+    names=set(before)-{'unselected-heavy.bin'}
+    with pytest.raises(ValueError,match='locally available'):
+        list(r.blobs(clone,before,['input.json']))
+    assert r.tree(clone,revision)==before  # Verification did not fetch anything.
+    report=r.prefetch_selected(clone,revision,names)
+    after=r.tree(clone,revision)
+    assert report['selected_files']==len(names)
+    assert report['selected_bytes']==sum(after[n][3] for n in names)
+    assert all(after[n][3]>=0 for n in names)
+    assert after['unselected-heavy.bin'][3]==-1
+    assert {n:v[:3] for n,v in after.items()}=={n:v[:3] for n,v in size_free.items()}
+    assert dict(r.blobs(clone,after,['input.json']))['input.json']==b'original data'

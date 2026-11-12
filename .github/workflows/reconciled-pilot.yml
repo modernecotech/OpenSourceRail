@@ -82,9 +82,9 @@ jobs:
       - name: Prefetch bounded source and publication blobs explicitly
         run: |
           .venv/bin/python - <<'PY'
-          import json, subprocess
+          import json
           from pathlib import Path
-          from engineering.railway_closure.retained import tree, MAX_SOURCE_BYTES
+          from engineering.railway_closure.retained import tree, prefetch_selected
           packets = (
               ('reconciled-pilot', 'f990fc24ba9c1c2adcd8afb4456ded5c4753209a'),
               ('reconciled-pilot-no-store', '49e095ba5751706c4dcd51f25dfd8f1b728bd20e'),
@@ -92,7 +92,7 @@ jobs:
           )
           for packet, revision in packets:
               prefix = 'docs/design-engine/' + packet + '/'
-              entries = tree(Path.cwd(), revision)
+              entries = tree(Path.cwd(), revision, sizes=False)
               sources = json.loads(Path(prefix, 'manifest.json').read_bytes())['source_sha256']
               delivery = Path(prefix, 'delivery/manifest.json')
               if delivery.is_file():
@@ -100,10 +100,7 @@ jobs:
               names = set(sources) | {n for n in entries if n.startswith(prefix) or
                   (n.endswith('.py') and n.startswith(('engineering/', 'services/integration/')))}
               names.update(n for n in ('engineering/design_search/craft_backends/tools.json',) if n in entries)
-              assert sum(entries[n][3] for n in names) <= MAX_SOURCE_BYTES
-              subprocess.run(['git', 'cat-file', '--batch'],
-                  input=('\n'.join(entries[n][2] for n in sorted(names))+'\n').encode(),
-                  stdout=subprocess.DEVNULL, check=True, timeout=120)
+              print(packet, prefetch_selected(Path.cwd(), revision, names))
           PY
       - name: Authenticate retained research dossiers in their original source epochs without new CAD or FEM
         run: |

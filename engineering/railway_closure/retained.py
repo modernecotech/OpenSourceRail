@@ -1,7 +1,8 @@
 """Authenticate a retained dossier and run its unchanged, single-epoch checker.
 
 This is historical method replay, never current-design acceptance. No network,
-compilation or native calculation is performed. The child has process/resource
+compilation or native calculation is performed by verify(). The explicit
+prefetch_selected() network stage is separate from verification. The child has process/resource
 limits and a cooperative subprocess guard; it is not an OS sandbox.
 """
 from pathlib import Path, PurePosixPath
@@ -31,28 +32,33 @@ def safe_name(name):
     return name
 
 
-def tree(repository, revision):
+def tree(repository, revision, *, sizes=True):
     if not re.fullmatch(r'[0-9a-f]{40}', revision):
         raise ValueError('An explicit full historical commit is required')
     resolved = subprocess.check_output(['git', '-C', str(repository), 'rev-parse',
         revision + '^{commit}'], timeout=15, env=GIT_ENV).decode().strip()
     if resolved != revision:
         raise ValueError('Historical commit differs')
-    raw = subprocess.check_output(['git', '-C', str(repository), 'ls-tree', '-r',
-        '-l', '-z', revision], timeout=30, env=GIT_ENV)
+    command = ['git', '-C', str(repository), 'ls-tree', '-r', '-z']
+    if sizes:
+        command.append('-l')
+    raw = subprocess.check_output([*command, revision], timeout=30, env=GIT_ENV)
     result = {}
     for row in raw.split(b'\0'):
         if not row:
             continue
         meta, name = row.split(b'\t', 1)
-        mode, kind, blob, size = meta.decode().split()
+        fields = meta.decode().split()
+        mode, kind, blob = fields[:3]
+        size = fields[3] if sizes else '-'
         name = safe_name(name.decode())
-        result[name] = (mode, kind, blob, int(size) if size != '-' else -1)
+        # Missing unselected promisor blobs may be reported as BAD. Never fetch
+        # them here; blobs()/selected_size() reject a missing selected object.
+        result[name] = (mode, kind, blob, int(size) if size.isdecimal() else -1)
     return result
 
 
-def blobs(repository, entries, names):
-    """Read bounded regular Git blobs, validating object identity, without fetch."""
+def selected_size(entries, names):
     names = sorted(set(names))
     if len(names) > MAX_FILES:
         raise ValueError('Historical source file budget exceeded')
@@ -61,10 +67,43 @@ def blobs(repository, entries, names):
         safe_name(name)
         mode, kind, _, size = entries[name]
         if mode not in ('100644', '100755') or kind != 'blob' or size < 0:
-            raise ValueError('Ordinary historical blobs required')
+            raise ValueError('Ordinary locally available historical blobs required')
         total += size
     if total > MAX_SOURCE_BYTES:
         raise ValueError('Historical source byte budget exceeded')
+    return total
+
+
+def prefetch_selected(repository, revision, names):
+    """Explicit network stage: request only selected OIDs, then check size budget.
+
+    Selection requires size-free metadata because missing promisor blobs have no
+    local size. Verification never calls this function or performs lazy fetches.
+    """
+    entries = tree(repository, revision, sizes=False)
+    names = sorted(set(names))
+    if len(names) > MAX_FILES:
+        raise ValueError('Historical source file budget exceeded')
+    for name in names:
+        safe_name(name)
+        mode, kind, _, _ = entries[name]
+        if mode not in ('100644', '100755') or kind != 'blob':
+            raise ValueError('Ordinary historical blobs required')
+    oids = sorted({entries[name][2] for name in names})
+    if oids:
+        subprocess.run(['git', '-C', str(repository), 'fetch', '--quiet', '--no-tags',
+            '--no-write-fetch-head', '--no-recurse-submodules', '--filter=blob:none',
+            'origin', '--stdin'], input=('\n'.join(oids)+'\n').encode(),
+            stdout=subprocess.DEVNULL, check=True, timeout=120, env=GIT_ENV)
+    fetched = tree(repository, revision)
+    size = selected_size(fetched, names)
+    return dict(selected_files=len(names), selected_bytes=size)
+
+
+def blobs(repository, entries, names):
+    """Read bounded regular Git blobs, validating object identity, without fetch."""
+    names = sorted(set(names))
+    selected_size(entries, names)
     raw = subprocess.check_output(['git', '-C', str(repository), 'cat-file', '--batch'],
         input=('\n'.join(entries[n][2] for n in names) + '\n').encode(), timeout=60, env=GIT_ENV)
     offset = 0
@@ -181,7 +220,7 @@ def verify(*, root, output, source_revision, state=None):
     if target_parent is not None:
         target_parent.mkdir(parents=True, exist_ok=True)
     probe = Path(tempfile.gettempdir()) if target_parent is None else target_parent
-    size = sum(entries[n][3] for n in names)
+    size = selected_size(entries, names)
     if size > MAX_SOURCE_BYTES or shutil.disk_usage(probe).free - size < MIN_FREE_BYTES:
         raise ValueError('Historical replay disk reserve unavailable')
     with tempfile.TemporaryDirectory(prefix='osr-retained-epoch-', dir=target_parent) as folder:
