@@ -13,6 +13,8 @@ on:
       - "docs/design-engine/digital-twin/**"
       - "osr-twin"
       - "tools/automation/download-pinned-tool.py"
+      - "tools/automation/verify_retained_publications.py"
+      - "tests/test_retained_twin_motor.py"
       - ".github/workflows/digital-twin.yml"
       # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
       - "!engineering/station_rail/force_evidence.py"
@@ -35,6 +37,8 @@ on:
       - "docs/design-engine/digital-twin/**"
       - "osr-twin"
       - "tools/automation/download-pinned-tool.py"
+      - "tools/automation/verify_retained_publications.py"
+      - "tests/test_retained_twin_motor.py"
       - ".github/workflows/digital-twin.yml"
       # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
       - "!engineering/station_rail/force_evidence.py"
@@ -111,7 +115,7 @@ jobs:
           PYCODE
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
-      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_twin/tests
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_twin/tests tests/test_retained_twin_motor.py
       - name: Install the pinned headless CAD tool for actual file reopening
         run: |
           /usr/bin/python3 - <<'PYCODE'
