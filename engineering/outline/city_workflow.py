@@ -172,7 +172,68 @@ def _functional(record,access):
         actual_performance_qualified=False,unknown_physical_requirements=record['qualification_requirements'])
 
 
-def evaluate(request,root=ROOT):
+def parent_snapshot(output, study_id, *, root=ROOT, verified_manifest=None):
+    """Capture only server-verified parent bytes; this is not a client upload API."""
+    output=completion._ordinary(Path(output))
+    manifest=verify(output,root=root) if verified_manifest is None else verified_manifest
+    manifest_raw=completion._ordinary(output/'manifest.json').read_bytes()
+    if json.loads(manifest_raw)!=manifest:raise ValueError('Parent manifest changed during capture')
+    planning_raw=completion._ordinary(output/'planning.json').read_bytes()
+    snapshot=dict(schema='osr-city-parent-snapshot/1',study_id=study_id,manifest_id=manifest['manifest_id'],
+        manifest_json=manifest_raw.decode('utf-8'),planning_json=planning_raw.decode('utf-8'),
+        manifest_sha256=identity_bytes(manifest_raw),planning_sha256=identity_bytes(planning_raw))
+    snapshot['snapshot_id']=identity(snapshot)
+    validate_parent_snapshot(snapshot,study_id,root=root)
+    return snapshot
+
+
+def identity_bytes(raw):
+    from hashlib import sha256
+    return sha256(raw).hexdigest()
+
+
+def validate_parent_snapshot(snapshot, study_id, *, root=ROOT):
+    """Check retained content custody; callers establish initial artifact trust."""
+    from . import planning_adapter
+    keys={'schema','study_id','manifest_id','manifest_json','planning_json','manifest_sha256','planning_sha256','snapshot_id'}
+    if (not isinstance(snapshot,dict) or set(snapshot)!=keys
+            or snapshot.get('schema')!='osr-city-parent-snapshot/1'
+            or snapshot.get('study_id')!=study_id or not re.fullmatch('[0-9a-f]{32}',study_id)
+            or snapshot.get('snapshot_id')!=identity({k:v for k,v in snapshot.items() if k!='snapshot_id'})):
+        raise ValueError('Sealed exact parent study snapshot required')
+    if any(not isinstance(snapshot[k],str) or len(snapshot[k].encode('utf-8'))>32*1024**2
+           for k in ('manifest_json','planning_json')):
+        raise ValueError('Bounded parent study snapshot required')
+    manifest_raw=snapshot['manifest_json'].encode('utf-8');planning_raw=snapshot['planning_json'].encode('utf-8')
+    if identity_bytes(manifest_raw)!=snapshot['manifest_sha256'] or identity_bytes(planning_raw)!=snapshot['planning_sha256']:
+        raise ValueError('Parent snapshot bytes changed')
+    m=json.loads(manifest_raw);base=json.loads(planning_raw)
+    if (m.get('schema')!='osr-mapped-city-workflow-publication/1'
+            or m.get('manifest_id')!=snapshot['manifest_id']
+            or m.get('manifest_id')!=identity({k:v for k,v in m.items() if k!='manifest_id'})
+            or any(m.get(k) is not False for k in FLAGS)
+            or m.get('files_sha256',{}).get('planning.json')!=snapshot['planning_sha256']):
+        raise ValueError('Parent manifest/planning custody differs')
+    completion._check_sources(root,m['source_sha256'])
+    planning_adapter.verify_base(base,root=root,trusted_base_sha256=snapshot['planning_sha256'])
+    return base
+
+
+def resolve_parent(request, *, root=ROOT, study_store=None, parent=None):
+    """Resolve a server-side store or already retained snapshot, never client paths."""
+    study_id=request.get('base_study_id')
+    if study_id is None:
+        if parent is not None:raise ValueError('Parent snapshot requires a base study request')
+        return None,None,None
+    if parent is None:
+        store=completion._ordinary(Path(study_store)) if study_store is not None else Path(root)/'build/city-studies'
+        folder=completion._ordinary(store/study_id/'artifacts')
+        parent=parent_snapshot(folder,study_id,root=root)
+    base=validate_parent_snapshot(parent,study_id,root=root)
+    return parent,base,parent['planning_sha256']
+
+
+def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     from . import planning_adapter,revision_service,delivery_plan
     from services.integration.osr_integration import city_outline
     root=Path(root);start=time.perf_counter();cpu_start=time.process_time();v=normalize(request)
@@ -181,17 +242,12 @@ def evaluate(request,root=ROOT):
         raise ValueError('The selected published outline changed; reload the city before recalculating')
     seed=detail['planning_seed'];context=coordinator.prepare(root)
     baseline=planning_adapter.export_plan(seed,root=root)
-    revision=None;base_sources={};trusted_base=None;base=v.get('base_plan')
+    revision=None;trusted_base=None;base=v.get('base_plan')
     if 'base_seed_id' in v:
         if v['base_seed_id']!=seed['seed_id']:raise ValueError('Published planning seed changed; reload before editing')
         base=baseline
-    if 'base_study_id' in v:
-        folder=completion._ordinary(root/'build/city-studies'/v['base_study_id']/'artifacts')
-        parent=verify(folder,root=root)
-        base=json.loads((folder/'planning.json').read_bytes())
-        trusted_base=parent['files_sha256']['planning.json']
-        base_sources={p.relative_to(root).as_posix():digest(p) for p in
-            (folder/'planning.json',folder/'manifest.json')}
+    parent,parent_base,trusted_base=resolve_parent(v,root=root,study_store=study_store,parent=parent)
+    if parent_base is not None:base=parent_base
     if base is not None:
         if base['city']!=v['city_slug']:raise ValueError('Planning base belongs to another city')
         planning_adapter.verify_base(base,root=root,trusted_base_sha256=trusted_base)
@@ -250,7 +306,7 @@ def evaluate(request,root=ROOT):
         identity(dict(city_input_id=selected['input_id'],request=v,seed_id=seed['seed_id'])))
     selected['selected_alignment_id']=cases[chosen]['alignment_id']
     selected['selected_alignment_kind']=cases[chosen]['kind']
-    selected['source_sha256']=coordinator.merge_sources(selected['source_sha256'],_sources(root),base_sources)
+    selected['source_sha256']=coordinator.merge_sources(selected['source_sha256'],_sources(root))
     selected['evaluation_id']=identity({k:x for k,x in selected.items() if k!='evaluation_id'})
     # This record was calculated by this worker, not supplied by the client.
     # Its exact sealed bytes become the rebasing custody hash and are persisted
@@ -261,6 +317,7 @@ def evaluate(request,root=ROOT):
     business=city_outline.delivery_drafts(delivery,root=root)
     sources=coordinator.merge_sources(selected['source_sha256'],delivery['source_sha256'],
         business.get('source_sha256',{}),_sources(root))
+    parent_fields={'parent_study':deepcopy(parent)} if parent is not None else {}
     value=completion.seal(dict(schema='osr-mapped-city-workflow/1',request=v,city=selected['city'],
         source_outline_evaluation_id=seed['source_outline_evaluation_id'],planning_seed_id=seed['seed_id'],
         planning_base=baseline,planning_revision=plan,city_outline=selected,
@@ -268,7 +325,7 @@ def evaluate(request,root=ROOT):
         recommended_alignment_id=cases[chosen]['alignment_id'] if passing else None,
         outline_acceptance='accepted' if passing else 'requires-revision',
         calculation_complete=True,delivery_plan=delivery,business_drafts=business,
-        source_sha256=sources,**FLAGS))
+        source_sha256=sources,**parent_fields,**FLAGS))
     if any(digest(root/n)!=sha for n,sha in sources.items()):raise ValueError('City study inputs changed during execution')
     usage=resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
     peak_rss=(int(usage.ru_maxrss*(1 if sys.platform=='darwin' else 1024)) if usage else None)
@@ -301,11 +358,11 @@ def summary(value):
         recommended_alignment_id=value['recommended_alignment_id'],**FLAGS)
 
 
-def run(request,output,root=ROOT):
+def run(request,output,root=ROOT,*,study_store=None,parent=None):
     root=Path(root).resolve();output=Path(output);run_start=time.perf_counter();run_cpu_start=time.process_time()
     output=completion._ordinary(output if output.is_absolute() else root/output)
     if output.exists():raise ValueError('Fresh immutable mapped-city study output required')
-    value,timing=evaluate(request,root=root);output.mkdir(parents=True)
+    value,timing=evaluate(request,root=root,study_store=study_store,parent=parent);output.mkdir(parents=True)
     records={'request.json':value['request'],'result.json':value,'summary.json':summary(value),
         'planning.json':value['planning_revision'],'delivery-plan.json':value['delivery_plan'],
         'business-drafts.json':value['business_drafts']}
@@ -391,7 +448,12 @@ def verify(output,root=ROOT,*,replay=False):
         raise ValueError('City study business plan binding differs')
     _,business=city_outline.verify_export(output/'business',root=root)
     if encoded(business)!=encoded(value['business_drafts']):raise ValueError('Business draft scope differs')
+    retained_parent=value.get('parent_study')
+    if value['request'].get('base_study_id') is not None and retained_parent is None:
+        raise ValueError('Retained parent study snapshot required')
+    if retained_parent is not None:
+        validate_parent_snapshot(retained_parent,value['request'].get('base_study_id',''),root=root)
     if replay:
-        actual,_=evaluate(json.loads((output/'request.json').read_bytes()),root=root)
+        actual,_=evaluate(json.loads((output/'request.json').read_bytes()),root=root,parent=retained_parent)
         if encoded(actual)!=encoded(value):raise ValueError('Mapped-city study does not replay')
     return m

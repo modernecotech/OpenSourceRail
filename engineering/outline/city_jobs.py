@@ -202,8 +202,17 @@ class CityStudyService:
             completion._ordinary(self.store);self.store.mkdir(parents=True,exist_ok=True)
             detail=publication_cache.json_member('cities/'+request['city_slug']+'.json.gz',self.root)
             request.setdefault('expected_outline_evaluation_id',detail['evaluation_id'])
-            key=identity(dict(request=request,seed_id=detail['planning_seed']['seed_id'],
-                sources=city_workflow._sources(self.root)))
+            parent=None
+            if 'base_study_id' in request:
+                parent_id=request['base_study_id'];parent_status=self._poll(parent_id)
+                if parent_status['state']!='completed':raise ValueError('Completed verified parent city study required')
+                parent_folder=self._job(parent_id)/'artifacts'
+                parent=city_workflow.parent_snapshot(parent_folder,parent_id,root=self.root,
+                    verified_manifest=self._verify(parent_folder))
+            key_fields=dict(request=request,seed_id=detail['planning_seed']['seed_id'],
+                sources=city_workflow._sources(self.root))
+            if parent is not None:key_fields['parent_snapshot_id']=parent['snapshot_id']
+            key=identity(key_fields)
             for job_id in tuple(self.completed_by_key.get(key,())):
                 status=self._poll(job_id)
                 if status.get('request_key')==key and status['state']=='completed':
@@ -237,12 +246,16 @@ class CityStudyService:
                 raise ValueError('City study storage budget reached; preserve/export finished runs before cleanup')
             job_id=uuid4().hex;folder=self._job(job_id);folder.mkdir()
             (folder/'request.json').write_bytes(encoded(request))
+            parent_args=[]
+            if parent is not None:
+                (folder/'parent-study.json').write_bytes(encoded(parent))
+                parent_args=['--parent-snapshot',str(folder/'parent-study.json')]
             log=(folder/'worker.log').open('wb')
             env=dict(os.environ)
             for name in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS'):env[name]='1'
             process=subprocess.Popen([sys.executable,'-m','engineering.outline.city_worker',
                 '--request',str(folder/'request.json'),'--output',str(folder/'artifacts'),
-                '--root',str(self.root)],cwd=self.root,env=env,stdout=log,stderr=subprocess.STDOUT,
+                '--root',str(self.root),*parent_args],cwd=self.root,env=env,stdout=log,stderr=subprocess.STDOUT,
                 stdin=subprocess.DEVNULL,start_new_session=True)
             status=dict(schema='osr-city-study-job/1',job_id=job_id,state='running',request_key=key,
                 cache_hit=False,resource_budget=dict(worker_processes=1,wall_seconds=WALL_SECONDS,
