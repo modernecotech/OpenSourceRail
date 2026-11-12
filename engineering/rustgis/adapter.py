@@ -369,6 +369,34 @@ def export(slug, *, root=ROOT, context=None, output=None, preview=False):
         root=root,output=output,preview=preview)
 
 
+def editable_layers(layers, packet, planning_base=None):
+    """Project editable values without changing immutable source geography.
+
+    An iterative study's verified planning base is the authority for its stop
+    dwells and requested service controls. Atlas presentation may still carry
+    raw/default dwells and must not silently reset unrelated stops on import.
+    """
+    layers=deepcopy(layers)
+    service_by={line['line_id']:line for line in packet['lines']}
+    plan_by={line['id']:line for line in planning_base['lines']} if planning_base is not None else None
+    for feature in layers['routes']['features']:
+        lid=feature['properties']['line_id'];line=service_by[lid]
+        values=(dict(shape=plan_by[lid]['shape'],headway_s=plan_by[lid]['headway_s'],
+                     design_speed_cap_m_s=plan_by[lid]['design_speed_cap_m_s']) if plan_by is not None else
+                dict(shape=line['shape'],headway_s=line['requirements']['headway_s'],
+                     design_speed_cap_m_s=line['design']['speed_m_s']))
+        feature['properties'].update(values)
+    if plan_by is not None:
+        stops={(lid,s['id']):s for lid,line in plan_by.items() for s in line['stops']}
+        seen=set()
+        for feature in layers['stations']['features']:
+            props=feature['properties'];key=(props['line_id'],props['id'])
+            if key not in stops or key in seen:raise ValueError('Editable station differs from verified planning base')
+            seen.add(key);props['dwell_s']=stops[key]['dwell_s']
+        if seen!=set(stops):raise ValueError('Editable station inventory differs from verified planning base')
+    return layers
+
+
 def _export(packet,background,originals,source_layers,dossier,binding,*,root,output=None,preview=False):
     slug=packet['city']['slug']
     expected_inputs = dict(packet_id=packet['packet_id'], city=packet['city'], identity=packet['identity'],
@@ -394,11 +422,8 @@ def _export(packet,background,originals,source_layers,dossier,binding,*,root,out
         run = Path(tempfile.mkdtemp(prefix='attempt-', dir=folder))
         (run/'layers').mkdir();(run/'roundtrip').mkdir()
         all_layers = {**context_layers(background), **deepcopy(source_layers)}
-        service_by={line['line_id']:line for line in packet['lines']}
-        for feature in all_layers['routes']['features']:
-            line=service_by[feature['properties']['line_id']]
-            feature['properties'].update(shape=line['shape'],headway_s=line['requirements']['headway_s'],
-                design_speed_cap_m_s=line['design']['speed_m_s'])
+        planning_base=(json.loads(originals['sources/planning.json']) if binding['kind']=='study' else None)
+        all_layers=editable_layers(all_layers,packet,planning_base)
         all_layers['_osr_export_context']=dict(type='FeatureCollection',features=[dict(type='Feature',
             geometry=None,properties=dict(export_key=key,binding_json=encoded(binding).decode().strip(),data_crs='EPSG:4326'))])
         for name, layer in all_layers.items():

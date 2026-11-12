@@ -261,3 +261,31 @@ def test_study_export_route_uses_exact_verified_job_instead_of_published_city(tm
     monkeypatch.setattr(adapter,'study_input',lambda *a,**k:({'packet_id':'3'*64},))
     assert api.handle_api(h) and h.response[0]==409
 
+
+
+def test_study_native_projection_preserves_authoritative_dwells_during_station_move(scene):
+    p,base,binding=deepcopy(scene)
+    base['lines'][0]['stops'][0]['dwell_s']=60.
+    base['lines'][0]['stops'][1]['dwell_s']=49.
+    base['lines'][0]['stops'][2]['dwell_s']=79.
+    # Atlas/native display carried default 35 s, exactly the real-run defect.
+    decoded=revision.decode(encoded(p),data_crs='EPSG:4326')
+    layers={name:dict(type='FeatureCollection',features=[dict(f,properties={k:v for k,v in f['properties'].items() if k!=adapter.INDEX}) for f in layer['features']]) for name,layer in decoded.items()}
+    packet={'lines':[{'line_id':'L','shape':'radial','requirements':{'headway_s':100.},'design':{'speed_m_s':10.}}]}
+    old=deepcopy(layers)
+    editable=adapter.editable_layers(layers,packet,base)
+    assert layers==old # original atlas/source records remain byte-equivalent
+    assert editable['routes']['features'][0]['properties']['headway_s']==200.
+    assert editable['routes']['features'][0]['properties']['design_speed_cap_m_s']==20.
+    native=project({name:adapter.prepared(layer)["features"] for name,layer in editable.items()})
+    moved=deepcopy(native)
+    at=base['lines'][0]['stops'][1]['chainage_m']+1.
+    point=planning._point_at(base['lines'][0]['coordinates'],at)
+    dataset(moved,'stations')['features'][1]['geometry']={'Point':{'x':point[0],'y':point[1]}}
+    request,check=revision.build_request(encoded(moved),encoded(native),base,binding,
+        actor='Planner',reason='Move one native station along alignment',data_crs='EPSG:4326')
+    edit=request['edit_bundle']['edits'][0]
+    assert edit['coordinates']==base['lines'][0]['coordinates'] and len(request['edit_bundle']['edits'])==1
+    assert [x['dwell_s'] for x in edit['stops']]==[60.,49.,79.]
+    assert edit['stops'][1]['chainage_m']==pytest.approx(at,abs=.02)
+    assert [edit['stops'][i]['chainage_m'] for i in (0,2)]==[base['lines'][0]['stops'][i]['chainage_m'] for i in (0,2)]
