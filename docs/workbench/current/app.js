@@ -1408,10 +1408,10 @@ byId("city-study-options").addEventListener("submit", async (event) => {
       throw Error(
         job.error || "Another calculation is running; retry after it finishes",
       );
-    const deadline = Date.now() + 150000;
-    while (job.state === "running" && Date.now() < deadline) {
+    const deadline = Date.now() + 600000;
+    while (["queued", "running"].includes(job.state) && Date.now() < deadline) {
       status.textContent =
-        "Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";
+        job.state === "queued" ? "Waiting for available CPU, memory and disk reservations…" : "Calculating mapped service, all cost scopes, factory/civil resources and draft delivery records…";
       await new Promise((resolve) => setTimeout(resolve, 1000));
       job = await request("/api/city-studies/" + job.job_id);
     }
