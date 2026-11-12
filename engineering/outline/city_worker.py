@@ -23,7 +23,7 @@ def main():
     parent=None
     if args.parent_snapshot is not None:
         file=city_workflow.completion._ordinary(args.parent_snapshot)
-        if file.stat().st_size>64*1024**2:raise ValueError('Bounded server parent snapshot required')
+        if file.stat().st_size>city_workflow.MAX_PARENT_SNAPSHOT_BYTES:raise ValueError('Bounded server parent snapshot required')
         parent=json.loads(file.read_bytes())
     manifest=city_workflow.run(request,args.output,root=args.root,parent=parent)
     print(json.dumps({'manifest_id':manifest['manifest_id'],'evaluation_id':manifest['evaluation_id']}),flush=True)

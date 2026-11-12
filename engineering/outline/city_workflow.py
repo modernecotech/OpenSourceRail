@@ -32,6 +32,7 @@ ALIGNMENT_BOUNDS=dict(maximum_chord_deviation_m=(.1,500.),minimum_saving_m=(.1,1
     corner_samples=(4,32),unverified_square_crossing_fraction=(.01,.5))
 ARTIFACTS={'request.json','result.json','summary.json','planning.json','delivery-plan.json',
            'business-drafts.json','alignments.geojson','performance.json','manifest.json'}
+MAX_PARENT_SNAPSHOT_BYTES=32*1024**2
 GZIP_ARTIFACTS={'result.json','delivery-plan.json','business-drafts.json'}
 
 
@@ -201,6 +202,7 @@ def validate_parent_snapshot(snapshot, study_id, *, root=ROOT):
             or snapshot.get('study_id')!=study_id or not re.fullmatch('[0-9a-f]{32}',study_id)
             or snapshot.get('snapshot_id')!=identity({k:v for k,v in snapshot.items() if k!='snapshot_id'})):
         raise ValueError('Sealed exact parent study snapshot required')
+    if len(encoded(snapshot))>MAX_PARENT_SNAPSHOT_BYTES:raise ValueError('Bounded parent study snapshot required')
     if any(not isinstance(snapshot[k],str) or len(snapshot[k].encode('utf-8'))>32*1024**2
            for k in ('manifest_json','planning_json')):
         raise ValueError('Bounded parent study snapshot required')

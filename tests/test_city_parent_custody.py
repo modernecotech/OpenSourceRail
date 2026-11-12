@@ -107,3 +107,11 @@ def test_worker_receives_only_server_owned_snapshot_path(tmp_path,monkeypatch):
     b=service.submit(request)
     assert a['request_key']!=b['request_key'],'Cache identity must bind actual parent content'
     for record in service.jobs.values():record['log'].close()
+
+
+def test_total_escaped_snapshot_size_is_bounded_before_worker_write(parent,monkeypatch):
+    root,_,job,folder,_,_,_=parent
+    snapshot=flow.parent_snapshot(folder,job,root=root)
+    monkeypatch.setattr(flow,'MAX_PARENT_SNAPSHOT_BYTES',len(encoded(snapshot))-1)
+    with pytest.raises(ValueError,match='Bounded'):
+        flow.parent_snapshot(folder,job,root=root)
