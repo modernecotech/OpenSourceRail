@@ -110,3 +110,84 @@ def test_false_publication_control_requires_explicit_supersession(tmp_path):
     (root / status_path).write_text(json.dumps(status))
     with pytest.raises(ValueError, match='Superseded software-publication control'):
         release_gate.inspect(root, campaign_path=campaign_path, status_path=status_path)
+
+
+def _retention_fixture(tmp_path):
+    import subprocess
+    root, campaign, status_path = _closed_fixture(tmp_path)
+    def git(*args):
+        return subprocess.check_output(['git', '-C', str(root), *args]).decode().strip()
+    git('init', '-q')
+    git('add', '.')
+    git('-c', 'user.name=Synthetic test', '-c', 'user.email=test@example.invalid',
+        'commit', '-qm', 'Synthetic historical source fixture')
+    revision = git('rev-parse', 'HEAD')
+    (root / 'docs/result.txt').write_text('new implementation, no new execution\n')
+    return root, campaign, status_path, revision
+
+
+def test_retention_preserves_historical_hashes_states_and_is_idempotent(tmp_path):
+    from engineering.v06_design_closure.retain_sources import retain
+    root, campaign, status_path, revision = _retention_fixture(tmp_path)
+    before = json.loads((root / status_path).read_text())
+    preview = retain(root, revision, status_path=status_path)
+    assert preview['changed'] and not preview['written']
+    assert not (root / 'docs/archives').exists()
+    result = retain(root, revision, status_path=status_path, write=True)
+    assert len(result['inventory']) == 2
+    assert len(result['retained']) == 2
+    after = json.loads((root / status_path).read_text())
+    for name, gate in before['gates'].items():
+        assert {k: v for k, v in gate.items() if k != 'evidence'} == {
+            k: v for k, v in after['gates'][name].items() if k != 'evidence'}
+        assert gate['evidence'][0]['sha256'] == after['gates'][name]['evidence'][0]['sha256']
+    assert after['release_flags'] == before['release_flags']
+    assert after['release_ready'] == before['release_ready']
+    release_gate.inspect(root, campaign_path=campaign, status_path=status_path)
+    assert retain(root, revision, status_path=status_path, write=True)['changed'] is False
+    with pytest.raises(ValueError, match='different source revision'):
+        retain(root, 'a' * 40, status_path=status_path, write=True)
+
+
+def test_retention_authentication_refuses_before_writes(tmp_path):
+    from engineering.v06_design_closure.retain_sources import retain
+    root, _, status_path, revision = _retention_fixture(tmp_path)
+    path = root / status_path
+    status = json.loads(path.read_text())
+    status['gates']['alpha']['evidence'][0]['sha256'] = 'a' * 64
+    path.write_text(json.dumps(status))
+    with pytest.raises(ValueError, match='not authenticated'):
+        retain(root, revision, status_path=status_path, write=True)
+    assert not (root / 'docs/archives').exists()
+
+
+@pytest.mark.parametrize('tamper', ['bytes', 'revision', 'original_path'])
+def test_retained_source_tamper_or_origin_change_is_rejected(tmp_path, tamper):
+    from engineering.v06_design_closure.retain_sources import retain
+    root, campaign, status_path, revision = _retention_fixture(tmp_path)
+    retain(root, revision, status_path=status_path, write=True)
+    path = root / status_path
+    status = json.loads(path.read_text())
+    row = status['gates']['alpha']['evidence'][0]
+    if tamper == 'bytes':
+        (root / row['path']).write_text('tampered')
+    else:
+        row['source_revision' if tamper == 'revision' else 'original_path'] = (
+            'a' * 40 if tamper == 'revision' else 'other/source.py')
+        path.write_text(json.dumps(status))
+    with pytest.raises(ValueError, match='hash mismatch|identity mismatch'):
+        release_gate.inspect(root, campaign_path=campaign, status_path=status_path)
+
+
+def test_current_retention_keeps_all_original_engineering_findings():
+    status = json.loads((ROOT / release_gate.STATUS).read_text())
+    manifest = json.loads((ROOT / status['source_retention']['path']).read_text())
+    original = json.loads((ROOT / manifest['original_ledger']['path']).read_text())
+    assert len(manifest['inventory']) == 197
+    assert len(manifest['retained_sources']) == 3
+    assert manifest['source_revision'] == '5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea'
+    for name, record in original['gates'].items():
+        assert {k: v for k, v in record.items() if k != 'evidence'} == {
+            k: v for k, v in status['gates'][name].items() if k != 'evidence'}
+    for key in ('release_flags', 'release_ready', 'release_review', 'record_note'):
+        assert status[key] == original[key]

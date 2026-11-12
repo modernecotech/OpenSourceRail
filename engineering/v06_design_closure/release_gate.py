@@ -58,6 +58,50 @@ def _recorded_file(root: Path, row: dict, label: str) -> str:
     return actual
 
 
+
+def _retained_context(root: Path, status: dict) -> None:
+    """Verify retained original bytes and their historical source identities."""
+    retention = status.get('source_retention')
+    historical_rows = [(gate, item) for gate, record in status['gates'].items()
+                       for item in record['evidence']
+                       if 'original_path' in item or 'source_revision' in item]
+    if retention is None:
+        if historical_rows:
+            raise ValueError('retained source requires an authenticated manifest')
+        return
+    _recorded_file(root, retention, 'source retention manifest')
+    manifest = _read_json(root / retention['path'])
+    if manifest.get('schema') != 'osr-v06-retained-closure-source-context/1':
+        raise ValueError('unexpected retained source context schema')
+    revision = manifest.get('source_revision')
+    if (not isinstance(revision, str) or len(revision) != 40
+            or any(c not in '0123456789abcdef' for c in revision)):
+        raise ValueError('immutable retained source revision required')
+    original_row = manifest.get('original_ledger', {})
+    _recorded_file(root, original_row, 'original closure ledger')
+    original = _read_json(root / original_row['path'])
+    retained = manifest.get('retained_sources', [])
+    if len(historical_rows) != len(retained):
+        raise ValueError('retained source manifest row mismatch')
+    for gate, item in historical_rows:
+        matches = [row for row in retained if row.get('gate') == gate
+                   and row.get('path') == item['path']]
+        if len(matches) != 1:
+            raise ValueError('retained source manifest identity mismatch')
+        row = matches[0]
+        if any(item.get(key) != row.get(key) for key in
+               ('path', 'sha256', 'original_path', 'source_revision')):
+            raise ValueError('retained historical source identity mismatch')
+        if row['source_revision'] != revision:
+            raise ValueError('retained source revision mismatch')
+        originals = [entry for entry in original['gates'][gate]['evidence']
+                     if entry.get('path') == row['original_path']
+                     and entry.get('sha256') == row['sha256']]
+        if len(originals) != 1:
+            raise ValueError('retained source does not match original ledger identity')
+        _recorded_file(root, item, 'retained historical source')
+
+
 def inspect(root: str | Path, *, campaign_path: str = CAMPAIGN,
             status_path: str = STATUS) -> dict:
     """Validate closure ledger structure and return a release-readiness report."""
@@ -106,6 +150,7 @@ def inspect(root: str | Path, *, campaign_path: str = CAMPAIGN,
     if (not required or not isinstance(records, dict) or set(records) != required):
         raise ValueError('closure ledger must cover each and only each required campaign work ID')
 
+    _retained_context(root, status)
     open_gates = []
     for gate_id in sorted(required):
         row = records[gate_id]
