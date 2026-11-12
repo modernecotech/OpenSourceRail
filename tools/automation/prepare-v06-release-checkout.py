@@ -29,6 +29,7 @@ BASE_PATTERNS = (
     "/engineering/compact_drive/**",
     "/engineering/development_baseline/**",
     "/engineering/design_search/*.py",
+    "/engineering/design_search/craft_backends/**",
     "/engineering/design_search/tests/test_compact_launch_source_epoch.py",
     "/engineering/design_search/tests/test_line_benchmark_source_epoch.py",
     "/engineering/maglev_research/readme_context.py",

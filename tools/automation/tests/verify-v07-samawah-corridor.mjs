@@ -72,6 +72,18 @@ try {
   execFileSync(python, ['-B', '-c',
     'import json,sys; from engineering.v07_project import from_comparison; from_comparison(json.load(open(sys.argv[1]))["report"])',
     join(output, 'comparison.json')], {cwd: root, env: {...process.env, PYTHONPATH: root}});
+  const projectResponse = await context.request.get(`${origin}/api/city-studies/projects/${before}/${after}`);
+  assert(projectResponse.ok()); const project = await projectResponse.json();
+  assert.equal(project.cases.after.composition_complete, false);
+  assert(project.cases.after.missing_stages.includes('vehicle'));
+  const doorResponse = await context.request.get(`${origin}/api/v07/door-module`);
+  assert(doorResponse.ok()); const door = await doorResponse.json();
+  assert.equal(door.parent_candidate_id, report.reference_candidate_ids.candidate_id);
+  assert.notEqual(door.candidate_id, door.parent_candidate_id);
+  assert.equal(door.opening_count_per_train, 12);
+  assert.equal(door.installed_mass_kg_per_opening, null);
+  assert.equal(door.fleet, null); assert.equal(door.manufacturing_release, false);
+  await writeFile(join(output, 'door-module.json'), await doorResponse.body());
   await page.locator('#samawah-station-merge').screenshot({path: join(output, 'comparison-desktop.png')});
   const warmStart = performance.now();
   await page.locator('#samawah-merge-compare').click();
