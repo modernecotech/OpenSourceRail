@@ -1,12 +1,15 @@
 // Real local Workbench route and retained data; no numerical solver is launched.
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
-import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
-import {resolve} from 'node:path';
+import {join,resolve} from 'node:path';
+import {tmpdir} from 'node:os';
 import {launchBrowser} from './browser-launch.mjs';
 
-const root=resolve(import.meta.dirname,'../../..'),out=resolve(process.argv[2]||'build/readiness-browser');
+const root=resolve(import.meta.dirname,'../../..');
+const out=process.argv[2]?resolve(process.argv[2]):await mkdtemp(join(tmpdir(),'osr-readiness-browser-'));
+console.log('Readiness browser artifacts: '+out);
 await mkdir(out,{recursive:true});
 const python=existsSync(resolve(root,'.venv/bin/python'))?resolve(root,'.venv/bin/python'):'python3';
 const host=`import importlib.util,sys
