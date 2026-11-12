@@ -1,4 +1,8 @@
-"""Manufacturing-planning identities, quantity ownership and business boundaries."""
+"""Retained delivery consumer/quantity contracts and current compiler refusals.
+
+Original positive compilation is rechecked only in authenticated source epochs;
+stored proposals never become fresh current-source engineering acceptance.
+"""
 from copy import deepcopy
 import gzip
 import json
@@ -23,7 +27,15 @@ class PilotDeliveryTests(unittest.TestCase):
         cls.service=next(r['service']['evaluation_id'] for r in cls.study['records']
             if r['experiment']=='nominal' and r['service']['headway_s']==200
             and r['service']['opposite_phase_s']==90)
-        cls.proposal=compile_proposal(cls.study,cls.body,cls.service)
+        cls.proposal=read('docs/design-engine/reconciled-pilot/delivery/proposal.json.gz')
+        validate_proposal(cls.proposal)
+        assert cls.proposal['identities']['study_id']==cls.study['study_id']
+        assert cls.proposal['identities']['engineering_revision']==cls.body['evaluation_id']
+        assert cls.proposal['identities']['service_evaluation_id']==cls.service
+
+    def test_current_compiler_refuses_retained_study_sources(self):
+        with self.assertRaisesRegex(ValueError,'Upstream source changed'):
+            compile_proposal(self.study,self.body,self.service)
 
     def test_counted_parts_assemblies_materials_and_fleet_are_retained(self):
         p=self.proposal;s=p['summary']
@@ -164,12 +176,16 @@ class PilotDeliveryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'gross minus'):
             _external(s,items,self.proposal['identities'],4)
 
-    def test_no_store_control_compiles_without_invented_storage(self):
+    def test_no_store_control_retains_without_invented_storage(self):
         s=read('docs/design-engine/reconciled-pilot-no-store/study.json.gz')
         b=read('docs/design-engine/reconciled-pilot-no-store/vehicle/installation.json.gz')
         service=next(r['service']['evaluation_id'] for r in s['records'] if r['experiment']=='nominal'
             and r['service']['headway_s']==200 and r['service']['opposite_phase_s']==90)
-        p=compile_proposal(s,b,service)
+        p=read('docs/design-engine/reconciled-pilot-no-store/delivery/proposal.json.gz')
+        validate_proposal(p)
+        self.assertEqual(p['identities']['study_id'],s['study_id'])
+        self.assertEqual(p['identities']['engineering_revision'],b['evaluation_id'])
+        self.assertEqual(p['identities']['service_evaluation_id'],service)
         self.assertNotEqual(p['identities']['candidate_id'],self.proposal['identities']['candidate_id'])
         self.assertNotIn('capture-release-interface-reserve',{r['id'] for r in p['external_inventory']})
         self.assertEqual(len(p['items']),650)
