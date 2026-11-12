@@ -168,6 +168,35 @@ in the evidence index under their own historical identities; their outputs are
 not current installation evidence. The mated positions, controlled dimensions,
 full route fit, installed mass and physical acceptance remain open.
 
+## One-opening interface and custody handoff
+
+The [candidate-bound door handoff](door-interface-handoff.json) inventories all
+74 mechanical and electrical part types for `car-0/door-0`, with their component
+identities, source stock, make/buy policy and counted quantities. It binds the
+manufacturing child `907da368…` to the existing analytical installed child
+`17ce7a…` and keeps the source proposal's `accepted_installed_transform_m`
+empty. The opening centre at car-local x = −4.5 m and proposed 0.72 m leaf
+travel establish a layout frame, not an accepted installation datum.
+
+One opening has 694 pieces: 97 locally fabricated, 568 bought to standard and
+29 bought to qualification. Thus 597 purchased pieces across 35 part types need
+receipt and lot/serial custody. Current assembly lifecycle code supports only
+manufactured individually serialized children. The handoff identifies the
+header/body, rail/carriage, belt/pulley, motor/reducer, leaf/stop and sensor
+interfaces that need controlled datums and dimensions. Every part's installed
+transform, mating datum and approved inspection limit remains unknown. The
+packet was generated without native CAD or ERP execution. Its source-bound ID is
+`a2114619675858be7bba0a44655761b1feb45698a25181aa9f2f1ec3744e1908`.
+
+Rebuild it with `python -m tools.automation.door_interface_handoff --attachment
+<verified-one-opening-attachment> --installation <sealed-installation-packet>
+--output <new-file>` after relevant source
+changes. The compiler checks both records against the same sealed installed candidate and
+current source bindings. It rejects mixed candidate/counts, a broken attachment
+seal, missing source bindings and an asserted accepted transform. The first next engineering input is a
+controlled header-to-body datum and guide/carriage/drive mating definition;
+the first software input is typed purchased receipt/lot custody and incoming QA.
+
 ## Integration still required
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
