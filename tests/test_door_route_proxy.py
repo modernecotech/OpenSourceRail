@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from engineering.vehicle_installation.model import geometry, physical_geometry
+from engineering.vehicle_installation.model import geometry, cut_length_proxy_audit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,12 +20,13 @@ def test_door_guide_and_belt_keep_full_stock_length_separate_from_route_proxy():
         shape = geometry(part)
         assert shape['definition_basis'] == 'proposed-route-zone'
         assert shape['size_m'][0] == 2.0
-        assert shape['declared_cut_length_m'] == expected_length
-        assert shape['length_not_represented_by_proxy_m'] == expected_length - 2.0
-        assert shape['full_route_fit_verified'] is False
         assert shape['source_stock'] == part['stock']
-        assert 'declared_cut_length_m' not in physical_geometry(shape)
-        assert physical_geometry(shape)['size_m'] == shape['size_m']
+        audit = cut_length_proxy_audit([dict(id=part_id+'@opening',part_id=part_id,geometry=shape)])
+        assert audit == [dict(pattern_id=part_id+'@opening',part_id=part_id,
+            declared_cut_length_m=expected_length,straight_proxy_length_m=2.0,
+            length_not_represented_by_proxy_m=expected_length-2.0,
+            full_route_fit_verified=False)]
 
     backplate = next(p for p in parts if p['id'] == 'body/door-header-backplate')
-    assert 'declared_cut_length_m' not in geometry(backplate)
+    assert cut_length_proxy_audit([dict(id='backplate@opening',part_id=backplate['id'],
+        geometry=geometry(backplate))]) == []
