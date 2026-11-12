@@ -26,6 +26,7 @@ const server = spawn(python, ['-B', '-u', '-m', 'engineering.development_baselin
   {cwd: root, env: {...process.env, PYTHONPATH: root, PYTHONDONTWRITEBYTECODE: '1',
     OPENBLAS_NUM_THREADS: '1', OMP_NUM_THREADS: '1', MKL_NUM_THREADS: '1'}, stdio: ['ignore', 'pipe', 'pipe']});
 let log = '', origin, browser, page;
+let monitoringCapacity = false, capacityTask; const capacitySamples = [];
 const errors = [], external = [];
 server.stdout.on('data', b => {log += b; origin ||= log.match(/http:\/\/127\.0\.0\.1:\d+/)?.[0];});
 server.stderr.on('data', b => {log += b;});
@@ -48,11 +49,24 @@ try {
   await page.locator('#city-outline-select option[value="samawah"]').waitFor({state: 'attached'});
   await page.locator('#city-outline-select').selectOption('samawah');
   await page.locator('#samawah-merge-compare').waitFor({state: 'visible', timeout: 30000});
-  const coldStart = performance.now();
+  const coldStart = performance.now(); monitoringCapacity = true;
+  capacityTask = (async () => {
+    while (monitoringCapacity) {
+      const response = await context.request.get(origin + '/api/city-studies');
+      if (response.ok()) {
+        const value = await response.json();
+        assert.equal(value.maximum_worker_processes, Number(maximumWorkers));
+        capacitySamples.push({elapsed_seconds: (performance.now() - coldStart) / 1000,
+          running: value.current_worker_processes, pending: value.pending_requests});
+      }
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  })();
   await page.locator('#samawah-merge-compare').click();
   await page.waitForFunction(() => /Comparison complete|Unable to compare/.test(document.querySelector('#samawah-merge-status')?.textContent || ''), null, {timeout: 300000});
   assert.match(await page.locator('#samawah-merge-status').innerText(), /^Comparison complete/);
   const coldSeconds = (performance.now() - coldStart) / 1000;
+  monitoringCapacity = false; await capacityTask;
   const before = await page.locator('#samawah-station-merge').getAttribute('data-baseline-job');
   const after = await page.locator('#samawah-station-merge').getAttribute('data-revised-job');
   const url = `${origin}/api/city-studies/comparisons/${before}/${after}`;
@@ -113,11 +127,13 @@ try {
     source_commit: source, source_tree: git('rev-parse', 'HEAD^{tree}'), comparison_id: report.comparison_id,
     before_job_id: before, after_job_id: after, first_browser_seconds: coldSeconds, warm_browser_seconds: warmSeconds,
     study_store: studyStore, reused_prior_store: Boolean(process.env.OSR_CITY_STUDY_STORE),
+    maximum_workers: Number(maximumWorkers), observed_maximum_running: Math.max(0, ...capacitySamples.map(s => s.running)), capacity_samples: capacitySamples,
     same_verified_jobs_reused: true, total_wall_seconds: (performance.now() - started) / 1000,
     metrics: report.metrics, native_solver_jobs: 0, browser: browser.osrRendering,
     page_errors: errors, external_requests: external, result: 'pass-for-first-Samawah-corridor-milestone'}, null, 2) + '\n');
   console.log(JSON.stringify({output, coldSeconds, warmSeconds, metrics: report.metrics}));
 } catch (error) {
+  monitoringCapacity = false; if (capacityTask) await capacityTask.catch(() => {});
   await writeFile(join(output, 'failure.json'), JSON.stringify({source_commit: source, error: String(error.stack || error), page_errors: errors, external_requests: external, server_log: log}, null, 2) + '\n');
   throw error;
 } finally {
