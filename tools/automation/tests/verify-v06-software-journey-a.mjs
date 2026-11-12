@@ -269,14 +269,32 @@ try {
   );
 
   const cold = await submit(page, 120);
+  // Preserve the returned admission contract even if an assertion fails before
+  // the full cold-result receipt is assembled.
+  report.cold_admission = {
+    submitted_state: cold.submitted.state,
+    preflight: cold.submitted.resource_admission,
+    budget: cold.submitted.resource_budget,
+  };
   assert.equal(cold.submitted.state, "running");
   assert.equal(cold.submitted.cache_hit, false);
-  assert.equal(cold.submitted.resource_admission.admitted, true);
-  assert.equal(cold.submitted.resource_admission.root, store);
+  const admission = cold.submitted.resource_admission;
+  const diskAdmission = admission.disk;
+  assert.equal(admission.admitted, true);
+  assert.equal(diskAdmission.admitted, true);
+  assert.equal(diskAdmission.root, store);
+  assert.equal(cold.submitted.resource_budget.minimum_free_reserve_gib, 20);
+  assert(diskAdmission.minimum_free_reserve_bytes >= 20 * 1024 ** 3);
   assert(
-    cold.submitted.resource_admission.filesystem_free_bytes >= 4 * 1024 ** 3,
+    diskAdmission.filesystem_free_bytes >= diskAdmission.minimum_free_reserve_bytes,
   );
-  assert.equal(cold.submitted.resource_budget.minimum_free_reserve_gib, 4);
+  assert(Number.isInteger(admission.reserved_workers) && admission.reserved_workers >= 0);
+  assert(admission.reserved_workers < Math.min(2, admission.cpu_slots));
+  assert(admission.host_memory_reserve_bytes >= 2 * 1024 ** 3);
+  assert(
+    admission.available_memory_bytes >= admission.host_memory_reserve_bytes +
+      (admission.reserved_workers + 1) * cold.submitted.resource_budget.address_space_bytes,
+  );
   assert.equal(
     cold.submitted.resource_budget.maximum_output_bytes,
     64 * 1024 * 1024,
