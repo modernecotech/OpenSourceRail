@@ -181,3 +181,12 @@ def test_generated_documentation_index_uses_fast_check_without_physics_replay():
     assert 'python tools/automation/generate-doc-index.py --check' in text
     assert '/tools/automation/doc_index_policy.py' in text
     assert "['git', 'sparse-checkout', 'add', '--stdin']" in text
+
+
+def test_wheel_frontend_checks_have_installed_browser_and_fail_before_long_models():
+    text=(ROOT/'.github/workflows/development-baseline.yml').read_text()
+    current=text.split('  current-contracts:\n',1)[1].split('  retired-reference-methods:\n',1)[0]
+    assert current.index('      - run: npm ci') < current.index('Supported front-door hold and documentation contracts')
+    assert current.index('generate-doc-index.py --check') < current.index('npx playwright install --with-deps chromium')
+    assert current.index('npx playwright install --with-deps chromium') < current.index('run: npm run test:frontend')
+    assert current.index('run: npm run test:frontend') < current.index('Current vehicle, policy, planning and reference-integrity contracts')

@@ -358,7 +358,7 @@ jobs:
       - name: Pin NumPy for exact source-bound evaluator replay
         run: .venv/bin/pip install --no-cache-dir numpy==2.3.5
       - run: npm ci
-      - name: Supported front-door hold, documentation and frontend contracts
+      - name: Supported front-door hold and documentation contracts
         run: |
           .venv/bin/python - <<'PYCODE'
           import json
@@ -373,8 +373,9 @@ jobs:
           PYCODE
           .venv/bin/python tools/automation/check-readmes.py
           .venv/bin/python tools/automation/generate-doc-index.py --check
-          npm run test:frontend
       - run: npx playwright install --with-deps chromium
+      - name: Frontend contracts after browser installation
+        run: npm run test:frontend
       - name: Current vehicle, policy, planning and reference-integrity contracts
         run: |
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
