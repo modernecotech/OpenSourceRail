@@ -392,7 +392,8 @@ def editable_layers(layers, packet, planning_base=None):
         for feature in layers['stations']['features']:
             props=feature['properties'];key=(props['line_id'],props['id'])
             if key not in stops or key in seen:raise ValueError('Editable station differs from verified planning base')
-            seen.add(key);props['dwell_s']=stops[key]['dwell_s']
+            seen.add(key)
+            props.update(dwell_s=stops[key]['dwell_s'],chainage_m=stops[key]['chainage_m'])
         if seen!=set(stops):raise ValueError('Editable station inventory differs from verified planning base')
     return layers
 

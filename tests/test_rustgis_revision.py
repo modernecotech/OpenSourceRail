@@ -268,7 +268,9 @@ def test_study_native_projection_preserves_authoritative_dwells_during_station_m
     base['lines'][0]['stops'][0]['dwell_s']=60.
     base['lines'][0]['stops'][1]['dwell_s']=49.
     base['lines'][0]['stops'][2]['dwell_s']=79.
-    # Atlas/native display carried default 35 s, exactly the real-run defect.
+    # Native display carries default dwell and a sub-nanometre atlas endpoint
+    # chainage drift; both must project to the exact authoritative planning base.
+    set_value(p,'stations',2,'chainage_m',base['lines'][0]['stops'][2]['chainage_m']+8.5e-10)
     decoded=revision.decode(encoded(p),data_crs='EPSG:4326')
     layers={name:dict(type='FeatureCollection',features=[dict(f,properties={k:v for k,v in f['properties'].items() if k!=adapter.INDEX}) for f in layer['features']]) for name,layer in decoded.items()}
     packet={'lines':[{'line_id':'L','shape':'radial','requirements':{'headway_s':100.},'design':{'speed_m_s':10.}}]}
