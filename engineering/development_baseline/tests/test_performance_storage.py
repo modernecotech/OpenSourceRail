@@ -339,7 +339,9 @@ def test_measure_command_records_sampled_peak_workspace_bytes(tmp_path):
     )
 
     assert exit_code == 0
-    assert result["filesystem"]["workspace_allocated_bytes_after"] == 0
+    assert (result["filesystem"]["workspace_allocated_bytes_after"]
+            == result["filesystem"]["workspace_allocated_bytes_before"])
+    assert not payload.exists()
     assert result["filesystem"]["workspace_allocated_bytes_peak_sampled"] >= 4 * 1024**2
     assert result["filesystem"]["workspace_size_sample_count"] >= 3
     assert "peak disk use outside the measured workspace" in result["not_observed"]
