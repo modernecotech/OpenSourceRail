@@ -13,12 +13,13 @@ integration remain part of the platform's purpose.
 
 ## Finish the v0.6 handover
 
-The handover has a finite exit condition: repository instructions agree with
-what shipped, and a clean environment follows the published installation asset,
-verifies SHA256SUMS and completes the documented Samawah journey against the
-tag. Record exact commands, output identities, timings and any failing step.
-Repair the retained readiness-browser harness by using an external temporary
-output directory, then rerun that maintenance job.
+The handover is complete. A fresh public clone of the published tag followed
+its installation asset, verified SHA256SUMS and completed the documented
+Samawah journey twice. [Installation results](releases/v0.6.1/installation-verification.md)
+record commands, identities, timings and the environment limits. The retained
+readiness-browser harness now uses an external temporary output directory;
+[its repaired CI job passed](https://github.com/modernecotech/OpenSourceRail/actions/runs/43183752707/job/131065771211)
+on main `0472a4f3cadb23847e071e693294a418bf54c3b0`.
 
 The [older design-closure campaign](../campaigns/v06-design-integration-closure.toml)
 is superseded only where it controlled software publication. Its seven
@@ -45,6 +46,13 @@ the edit to the published example must produce and identify the matching new
 revision, not silently transfer old compact-drive results to another vehicle.
 Access, catchment, platform fit, route feasibility and unpriced work remain
 explicit inputs or findings.
+
+The [first Workbench comparison is implemented and browser-verified](design-engine/v07-project-continuity/README.md).
+The published case already groups the close pair operationally: raw markers
+change from 26 to 25, operational stops remain 25 and fleet remains 81. Both
+sides retain the same vehicle candidate and unchanged civil quantity identity;
+the report exposes actual service, access and fourteen-scope cost changes.
+The remaining workstreams below remain open.
 
 ## v0.7 delivery workstreams
 

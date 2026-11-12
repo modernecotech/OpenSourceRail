@@ -23,6 +23,7 @@ bind this run to the published tag and preserve evaluation identities and
 measured timings. Raw outputs remain in the external local run directory,
 not Git. Follow the [installation guide](quickstart.md) to reproduce.
 
-The retained readiness-browser repair is maintenance alongside v0.7 and does
-not change either released tag. Open engineering findings remain visible in
-the design-closure ledger.
+The retained readiness-browser repair passed its [GitHub Actions job](https://github.com/modernecotech/OpenSourceRail/actions/runs/43183752707/job/131065771211)
+on main `0472a4f3cadb23847e071e693294a418bf54c3b0`. It uses an external
+temporary output directory. This maintenance does not change either released
+tag. Open engineering findings remain visible in the design-closure ledger.
