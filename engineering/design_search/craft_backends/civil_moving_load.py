@@ -151,6 +151,8 @@ def build(root,steps=(.5,.25),*,producer_source=None):
         component_geometry_id=case['component_geometry_id'],load_policy='accounted-tare/equal-four-axles/static/no-dynamic-factor',
         support='bilateral simply supported gross uniform box',steps_m=list(steps),young_Pa=35e9)
     result=dict(schema='osr-v07-civil-moving-load/1',research_configuration_id=identity(config),configuration=config,
+        execution='completed',numerical_validity='valid-for-declared-analytical-model',engineering_screen='held',
+        evidence_maturity='analytical-research-control',selection_purpose='method-check-and-next-task-ranking',
         selected_reference_changed=False,physical_candidate_selected=False,vehicle_reference_ids={k:vehicle[k] for k in ('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')},
         civil_case_id=case['case_id'],civil_case_definition_id=case['case_definition_id'],span_m=L,
         axle_stations_m=axles,dead_stock_mass_kg=case['expected']['total_nominal_stock_mass_kg'],dead_segments=dead,
