@@ -16,6 +16,7 @@ SOURCES=('Cargo.toml','Cargo.lock','rust-toolchain.toml','crates/osr-design-sear
     'crates/osr-design-search/src/scheduling.rs','crates/osr-design-search/src/bin/osr-delivery-schedule.rs',
     'engineering/outline/native_schedule.py')
 MAX_BYTES=16*1024**2
+_LOADED_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
 def _read(path, maximum=MAX_BYTES):
@@ -28,7 +29,11 @@ def _read(path, maximum=MAX_BYTES):
     return raw
 
 
-def _sources(root):return {p:hashlib.sha256(_read(Path(root)/p)).hexdigest() for p in SOURCES}
+def _sources(root):
+    sources={p:hashlib.sha256(_read(Path(root)/p)).hexdigest() for p in SOURCES}
+    if sources['engineering/outline/native_schedule.py']!=_LOADED_SHA:
+        raise ValueError('Loaded scheduler bridge changed; restart its caller')
+    return sources
 def _tools():return {p:subprocess.check_output([p,'--version'],text=True,timeout=10).strip() for p in ('cargo','rustc')}
 def _encoded(v):return json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 

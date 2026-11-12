@@ -58,3 +58,12 @@ def test_partial_start_before_invalid_request_and_overlap_error():
 def test_cycles_rejected_without_fallback():
     rust=engine();tasks,resources=fixtures();tasks=tasks[:1];tasks[0]['predecessors']=['t00']
     with pytest.raises(ValueError,match='Cyclic'):rust.schedule(tasks,resources,'base')
+
+
+def test_changed_executable_is_rejected_before_execution(tmp_path):
+    rust=engine()
+    binary=tmp_path/'scheduler'
+    raw=bytearray(rust.binary.read_bytes());raw[-1]^=1;binary.write_bytes(raw)
+    binary.with_suffix('.receipt.json').write_bytes(rust.binary.with_suffix('.receipt.json').read_bytes())
+    with pytest.raises(ValueError,match='executable differs'):
+        native.NativeSchedule(rust.root,binary)
