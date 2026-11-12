@@ -149,6 +149,11 @@ on:
       - '!tools/automation/tests/verify-v06-release-workbench.mjs'
       - '!package.json'
       - '!.github/workflows/development-baseline.yml'
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   push:
     branches: [main]
@@ -296,6 +301,11 @@ on:
       - '!tools/automation/tests/verify-v06-release-workbench.mjs'
       - '!package.json'
       - '!.github/workflows/development-baseline.yml'
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   workflow_dispatch:
     inputs:

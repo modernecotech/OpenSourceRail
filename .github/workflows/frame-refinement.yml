@@ -20,6 +20,11 @@ on:
       - "tools/automation/tests/test_audit_frame_states.py"
       - "docs/design-engine/frame-refinement/**"
       - ".github/workflows/frame-refinement.yml"
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
@@ -40,6 +45,11 @@ on:
       - "tools/automation/tests/test_audit_frame_states.py"
       - "docs/design-engine/frame-refinement/**"
       - ".github/workflows/frame-refinement.yml"
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
 permissions:

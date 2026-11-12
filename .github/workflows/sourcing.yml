@@ -15,6 +15,11 @@ on:
       - "docs/design-engine/digital-twin/*.tar.gz"
       - "osr"
       - ".github/workflows/sourcing.yml"
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
   push:
     branches: [main]
     paths:
@@ -31,6 +36,11 @@ on:
       - "docs/design-engine/digital-twin/*.tar.gz"
       - "osr"
       - ".github/workflows/sourcing.yml"
+      # The bounded release lane covers standalone E01 code; progress receipts do not alter retained physics.
+      - "!engineering/station_rail/force_evidence.py"
+      - "!tests/test_force_evidence.py"
+      - "!campaigns/v07-execution.json"
+      - "!docs/design-engine/v07-execution/**"
   workflow_dispatch:
     inputs:
       refresh_public_feeds:

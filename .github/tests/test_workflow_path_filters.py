@@ -95,3 +95,44 @@ def test_every_selected_test_is_available_in_fast_lane_sparse_checkout():
         for path in ("tests/test_corridor_revision.py", "tests/test_corridor_revision_api.py",
                      "engineering/outline/corridor_revision.py", "engineering/outline/city_jobs.py"):
             assert _matches(path, _event_paths(workflow, event))
+
+
+V07_UNRELATED_RETAINED_WORKFLOWS = (
+    '.github/workflows/digital-twin.yml',
+    '.github/workflows/frame-refinement.yml',
+    '.github/workflows/reference-cell.yml',
+    '.github/workflows/engineering-closure.yml',
+    '.github/workflows/reconciled-pilot.yml',
+    '.github/workflows/development-baseline.yml',
+    '.github/workflows/shared-software.yml',
+    '.github/workflows/sourced-hardware.yml',
+    '.github/workflows/sourcing.yml',
+)
+
+
+def test_standalone_force_and_progress_edits_do_not_launch_retained_campaigns():
+    unrelated = (
+        'engineering/station_rail/force_evidence.py',
+        'tests/test_force_evidence.py',
+        'campaigns/v07-execution.json',
+        'docs/design-engine/v07-execution/README.md',
+        'docs/design-engine/v07-execution/evidence-index.json',
+    )
+    core = 'engineering/station_rail/vehicle.py'
+    for relative in V07_UNRELATED_RETAINED_WORKFLOWS:
+        for event in ('push', 'pull_request'):
+            patterns = _event_paths(ROOT / relative, event)
+            assert not any(_matches(path, patterns) for path in unrelated), (relative, event)
+            assert _matches(core, patterns), f'{relative} lost its core vehicle/physics trigger'
+            # GitHub evaluates each changed path. An excluded report in a mixed
+            # diff must never suppress a relevant core model change.
+            assert any(_matches(path, patterns) for path in (*unrelated, core))
+
+
+def test_force_contract_keeps_fast_and_supported_journey_coverage():
+    fast = ROOT / '.github/workflows/v06-software-release.yml'
+    journey = ROOT / '.github/workflows/v06-software-journey.yml'
+    for event in ('push', 'pull_request'):
+        for path in ('engineering/station_rail/force_evidence.py', 'tests/test_force_evidence.py'):
+            assert _matches(path, _event_paths(fast, event)), (event, path)
+        assert _matches('engineering/station_rail/force_evidence.py', _event_paths(journey, event))
