@@ -22,6 +22,10 @@ seconds with one worker, a 32.27% reduction. Exact numerical metrics and all
 fourteen cost scopes matched. Warm repeats took about 1.7 seconds. This is one
 pair per mode on one host, not a general performance guarantee. Reservations
 are cooperative; they are not an aggregate filesystem quota.
+The two workers used 37.31 combined worker CPU-seconds versus 32.47 serially,
+about 14.9% more CPU in that trial. The benefit is lower waiting time. Set
+`OSR_CITY_STUDY_WORKERS=1` to retain serial admission when CPU use matters more.
+Individual worker RSS is recorded; simultaneous aggregate RSS was not measured.
 Nine retained engineering workflow filters now exclude isolated changes to the
 new force-gap report and execution receipts. Core vehicle/physics changes still
 trigger their existing jobs; mixed report/core changes are covered by regression
@@ -105,9 +109,16 @@ not permission to invent zero mass, prices, limits or passing test results.
 
 The existing disposable ERPNext/FUXA fixture exercises a discrete workpiece.
 It does not yet demonstrate the counted 694-piece module assembly lifecycle.
-The existing candidate-delivery path must receive a matching candidate package
-and assembly mapping; no second business protocol or fabricated inspection is
-introduced here. Controlled research documents can support software tests
+The existing candidate-delivery protocol now supports source-derived assembly
+groups and nonexploding parent BOM drafts. It preserves all thirteen identity
+requirements and verifies source counts, context bindings and child-draft
+provenance. The conversion uses reviewed source estimates, USD-company and
+precision guards, and leaves assembly process cost unknown. See the
+[API and conversion limits](../../../engineering/pilot_delivery/README.md#counted-assembly-drafts).
+Twenty-three focused synthetic tests and independent review cover the extension;
+actual native persistence and the full module lifecycle remain unverified. A
+matching candidate package and controlled document coverage are still required
+for the actual door run. Controlled research documents can support software tests
 without claiming physical qualification.
 
 ## Tool migration and replay

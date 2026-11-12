@@ -88,3 +88,45 @@ Regression command:
 ```sh
 PYTHONPATH=. .venv/bin/python -m unittest tests.test_pilot_delivery -v
 ```
+
+## Counted assembly drafts
+
+The existing review compiler and project context accept the same optional
+`assembly_groups` selection. Counts, source leaves and occurrence identities
+come from the sealed proposal; the caller cannot supply replacement quantities.
+For example, when both assemblies exist in that proposal:
+
+```python
+groups = [{"id": "door-operator", "assembly_ids": [
+    "body/door-opening", "services/door-electrical"]}]
+pack = review.compile_review_pack(
+    proposal, documents, conversions, artifact_root=artifact_root,
+    city="samawah", assembly_groups=groups)
+context = review.source_context(
+    proposal, city="samawah", project=project, company=company,
+    assembly_groups=groups)
+```
+
+Every selected leaf still needs its controlled document and conversion coverage.
+All thirteen whole-candidate identity requirements remain. Group references
+identify source-proposal definitions; they do not establish an independently
+verified door-module geometry. The current grouping domain is discrete `Nos`
+leaves, with bounded depth, graph size, occurrences and single ownership.
+
+The adapter creates nonexploding parent BOM drafts and retains actual child
+draft-BOM names in reviewed provenance. It does not put unsubmitted drafts into
+ERPNext's native `bom_no` field. Native valuation defaults use explicitly
+reviewed estimates on new simulation Items, with six-decimal rounding and
+positive-to-zero rejection. This conversion currently requires a USD company;
+other currencies require an explicit reviewed FX conversion. Exact engineering
+rates remain separate from native rounded values. Assembly process cost remains
+unknown; the parent value is a non-additive known-child subtotal.
+The [pinned ERPNext implementation](https://github.com/frappe/erpnext/blob/v15.121.2/erpnext/manufacturing/doctype/bom/bom.py)
+defines the submitted sub-BOM restriction and Item valuation fallback.
+
+New valuation fields change preview fingerprints, so earlier previews require
+fresh review. Historical engineering receipts retain their original source
+bindings. Software regressions use explicitly synthetic fixtures and separately
+check that stale engineering inputs are refused. The grouped draft path has
+adapter-double and independent source review coverage; actual native persistence
+and the complete assembly serial/maintenance lifecycle remain unverified.

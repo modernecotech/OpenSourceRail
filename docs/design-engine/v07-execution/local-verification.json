@@ -1,0 +1,26 @@
+{
+  "schema": "osr-v07-local-software-verification/1",
+  "source_commit": "2a338436c951a9dfee87ca35fae15fc6cb14a3d2",
+  "checks": [
+    {
+      "scope": "full selected manifest before grouped delivery extension",
+      "passed": 313,
+      "seconds": 99.98
+    },
+    {
+      "scope": "grouped and flat delivery contracts plus workflow routing after extension",
+      "passed": 60,
+      "seconds": 88.32
+    }
+  ],
+  "source_sha256": {
+    "engineering/pilot_delivery/review.py": "55d838e6406a7c71b450098cde9c30c73cdd1e8b88608867eb5110ec8d100e3e",
+    "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery.py": "2ec34e21137e95b76b4c9dcd86f95511a4c64407a64086ec416874746b016711",
+    "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery_contract.py": "273e4fb1317460329ec27f479f3bc23886b941ed31918a5eb01a670e7140eec1",
+    "tests/test_candidate_delivery_assemblies.py": "6abaec3393b360509b97e1ebd13a78459069fc175d6877ab3b76feb625767a70",
+    "tests/test_candidate_delivery_adapter.py": "52cc6f35bd09620a93b2496a223ad459023d863ca379463b56e1fdb72a95e0ff",
+    "tests/test_pilot_delivery_review.py": "aa26faaa301608577770f1c87aa816742927cc1bcfd728523e87611a26640fd6"
+  },
+  "native_erp_executed": false,
+  "physical_accepted": false
+}

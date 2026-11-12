@@ -25,6 +25,11 @@ on:
       - "tests/test_door_cad.py"
       - "tests/test_force_evidence.py"
       - "engineering/station_rail/force_evidence.py"
+      - "engineering/pilot_delivery/review.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery*.py"
+      - "tests/test_candidate_delivery_assemblies.py"
+      - "tests/test_candidate_delivery_adapter.py"
+      - "tests/test_pilot_delivery_review.py"
       - "engineering/outline/city_resources.py"
       - "engineering/design_search/craft_backends/linear_load_reuse.py"
       - "engineering/design_search/craft_backends/civil_moving_load.py"
@@ -96,6 +101,11 @@ on:
       - "tests/test_door_cad.py"
       - "tests/test_force_evidence.py"
       - "engineering/station_rail/force_evidence.py"
+      - "engineering/pilot_delivery/review.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery*.py"
+      - "tests/test_candidate_delivery_assemblies.py"
+      - "tests/test_candidate_delivery_adapter.py"
+      - "tests/test_pilot_delivery_review.py"
       - "engineering/outline/city_resources.py"
       - "engineering/design_search/craft_backends/linear_load_reuse.py"
       - "engineering/design_search/craft_backends/civil_moving_load.py"
@@ -191,6 +201,13 @@ jobs:
             /tests/test_linear_load_reuse.py
             /tests/test_door_cad.py
             /tests/test_force_evidence.py
+            /tests/test_candidate_delivery_assemblies.py
+            /tests/test_candidate_delivery_adapter.py
+            /tests/test_pilot_delivery_review.py
+            /deployment/erpnext/apps/osr_erpnext/osr_erpnext/**
+            /services/integration/osr_integration/**
+            /tools/automation/native-v06/**
+            /docs/design-engine/reconciled-pilot-bogie-detail/delivery/proposal.json.gz
             /tests/test_corridor_profile.py
             /tests/test_outline_completion_cli_admission.py
             /tests/test_outline_completion_source_scope.py
