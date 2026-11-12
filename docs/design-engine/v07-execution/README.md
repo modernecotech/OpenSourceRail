@@ -190,6 +190,18 @@ The wrapper refuses oversized/tampered inputs, replacement Git objects, foreign
 project imports and native subprocess execution. Its import/process guards are
 cooperative controls, not an operating-system sandbox.
 
+In a partial clone, the separate CI prefetch selects object IDs without asking
+Git for sizes of absent blobs. It fetches only those selected objects explicitly;
+verification retains its no-network rule and refuses missing selected blobs.
+A real partial-clone regression reproduced the `BAD` size failure, fetched the
+selected objects successfully and left an unrelated payload absent. The three
+pinned selections total 156.01, 123.22 and 131.36 MiB respectively; their bytes
+match the prior authenticated checks. The 512 MiB size limit is checked after
+fetch, not enforced as a network-transfer quota. After integration, 42 scheduler
+and retained-verifier tests and four workflow-filter tests passed. The refreshed
+Rust scheduler build receipt binds the formatting-only source correction; old
+benchmark binaries and receipts remain unchanged.
+
 Use the existing [Samawah comparison instructions](../v07-project-continuity/README.md)
 for the browser entry point. New bounded native runs require a clean source
 checkout, explicit source/tool/candidate/load/resource identity and a fresh
