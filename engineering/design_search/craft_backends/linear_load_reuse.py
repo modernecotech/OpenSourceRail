@@ -17,9 +17,13 @@ MAX_BYTES=512*1024**2
 def runtime():
     import numpy as np,gmsh
     import numpy.linalg._umath_linalg as linalg
-    paths={'python':Path(sys.executable).resolve(),'numpy_linalg':Path(linalg.__file__),
+    paths={'python':Path(sys.executable).resolve(),'numpy_core':Path(np._core._multiarray_umath.__file__),
+           'numpy_linalg':Path(linalg.__file__),
            'gmsh_python':Path(gmsh.__file__),'gmsh_library':Path(gmsh.lib._name)}
+    for lib in sorted((Path(np.__file__).parent.parent/'numpy.libs').glob('*.so*')):
+        if lib.is_file():paths['numpy_dependency/'+lib.name]=lib
     return dict(python_version=platform.python_version(),numpy_version=np.__version__,gmsh_version=gmsh.__version__,
+        machine=platform.machine(),numpy_cpu_features=dict(np._core._multiarray_umath.__cpu_features__),
         executable=str(Path(sys.executable).absolute()),component_sha256={k:native.digest(p) for k,p in paths.items()},
         thread_environment={k:os.environ.get(k) for k in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS')})
 
