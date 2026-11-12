@@ -3,6 +3,7 @@ from hashlib import sha256
 import json
 import gzip
 import io
+from math import isfinite
 import os
 from pathlib import Path
 import re
@@ -40,7 +41,7 @@ def _json(raw):
 
 
 class CityStudyService:
-    def __init__(self,root,*,store=None):
+    def __init__(self,root,*,store=None,max_workers=1,resource_ledger=None,minimum_free_gib=None):
         self.root=Path(root).resolve()
         requested_store=Path(store).expanduser() if store is not None else self.root/STORE
         if not requested_store.is_absolute():requested_store=self.root/requested_store
@@ -48,6 +49,18 @@ class CityStudyService:
         self.store=requested_store.resolve()
         if store is not None and self.store.is_relative_to(self.root):
             raise ValueError('Explicit city-study store must be outside the source checkout')
+        if type(max_workers) is not int or max_workers not in (1,2):raise ValueError('One or two analytic workers required')
+        self.max_workers=max_workers;self.pending=[]
+        self.reservations=None;self.queuing=max_workers==2 or resource_ledger is not None
+        self.minimum_free_gib=(20.0 if self.queuing else MINIMUM_FREE_GIB) if minimum_free_gib is None else minimum_free_gib
+        if (type(self.minimum_free_gib) not in (int,float) or not isfinite(self.minimum_free_gib)
+            or not 1<=self.minimum_free_gib<=1024 or self.queuing and self.minimum_free_gib<20):
+            raise ValueError('Valid disk reserve required; queued workers retain at least20GiB')
+        if self.queuing:
+            from .city_resources import Reservations,DEFAULT_LEDGER
+            ledger=Path(resource_ledger or DEFAULT_LEDGER).expanduser().resolve()
+            if ledger.is_relative_to(self.root):raise ValueError('Worker reservation ledger must be outside source')
+            self.reservations=Reservations(ledger)
         self.lock=threading.RLock();self.jobs={};self.closed=False
         self.verified_runs={}
         self.completed_by_key={};self.indexed_key_by_job={}
@@ -71,6 +84,7 @@ class CityStudyService:
                             record['finished']=status['state']!='running'
                         except (ValueError,KeyError,TypeError,OSError) as exc:
                             self._failed_integrity(job_id,str(exc))
+                if self.queuing:self._dispatch()
 
     def _job(self,job_id):
         if not re.fullmatch('[0-9a-f]{32}',job_id):raise ValueError('Known city study identifier required')
@@ -106,7 +120,7 @@ class CityStudyService:
             try:
                 status=json.loads(completion._ordinary(path).read_bytes())
                 if (not isinstance(status,dict) or status.get('job_id')!=job_id
-                        or status.get('state') not in ('running','completed','stale','interrupted',
+                        or status.get('state') not in ('queued','running','completed','stale','interrupted',
                             'failed','failed-integrity','failed-output-budget','timed-out')):
                     raise ValueError('Invalid retained city job status')
             except (ValueError,KeyError,TypeError,OSError):
@@ -114,13 +128,17 @@ class CityStudyService:
                 # and surfaced exactly as they are during status polling.
                 self._poll(job_id)
                 continue
-            if status['state']=='running':
+            if status['state']=='queued':
+                self.pending.append(job_id)
+            elif status['state']=='running':
                 # A new coordinator has no process handle for an old worker.
                 self._poll(job_id)
             else:
                 # Completed records are only hints here. Their artifacts and
                 # source bindings are verified again when a matching key is used.
                 self._set_index(job_id,status)
+
+        self.pending.sort(key=lambda job:json.loads((self._job(job)/'status.json').read_bytes()).get('queued_at_ns',0))
 
     def _write(self,folder,status):
         completion._write(folder/'status.json',status)
@@ -145,6 +163,8 @@ class CityStudyService:
                 try:os.killpg(process.pid,signal.SIGKILL)
                 except ProcessLookupError:pass
             process.wait(timeout=5);record['log'].close();record['finished']=True
+        if job_id in self.pending:self.pending.remove(job_id)
+        if self.reservations:self.reservations.release(job_id,self.store)
         old=completion._ordinary(folder/'status.json')
         if old.exists():old.replace(folder/('status.invalid-'+uuid4().hex+'.json'))
         status=dict(schema='osr-city-study-job/1',job_id=job_id,state='failed-integrity',
@@ -157,7 +177,7 @@ class CityStudyService:
         try:
             status=json.loads(path.read_bytes())
             if (not isinstance(status,dict) or status.get('job_id')!=job_id
-                    or status.get('state') not in ('running','completed','stale','interrupted',
+                    or status.get('state') not in ('queued','running','completed','stale','interrupted',
                         'failed','failed-integrity','failed-output-budget','timed-out')):
                 raise ValueError('Invalid retained city job status')
         except (ValueError,KeyError,TypeError) as exc:
@@ -193,7 +213,9 @@ class CityStudyService:
                     artifact_url='/api/city-studies/'+job_id+'/artifacts/')
             except (ValueError,KeyError,TypeError,OSError) as exc:
                 status.update(state='failed-integrity',error=str(exc))
-        record['log'].close();self._write(folder,status);return status
+        record['log'].close();record['finished']=True
+        if self.reservations:self.reservations.release(job_id,self.store)
+        self._write(folder,status);return status
 
     def submit(self,request):
         request=city_workflow.normalize(request)
@@ -225,6 +247,7 @@ class CityStudyService:
                         return dict(status,cache_hit=True)
                     except (ValueError,KeyError,TypeError,OSError) as exc:
                         self._failed_integrity(job_id,str(exc))
+            if self.queuing:return self._submit_queued(request,key,parent)
             for job_id,record in self.jobs.items():
                 if record.get('finished'):continue
                 status=self._poll(job_id)
@@ -232,7 +255,7 @@ class CityStudyService:
                 if status['state']=='running':return dict(status,busy=True)
             # The source checkout and the job store may be on different mounts.
             # Admit against the filesystem that will receive the generated data.
-            admission=disk_admission(self.store,minimum_free_gib=MINIMUM_FREE_GIB)
+            admission=disk_admission(self.store,minimum_free_gib=self.minimum_free_gib)
             if not admission['admitted']:
                 return dict(schema='osr-city-study-job/1',state='held',
                     error=admission['reason'],cache_hit=False,
@@ -240,7 +263,7 @@ class CityStudyService:
                     resource_budget=dict(worker_processes=1,wall_seconds=WALL_SECONDS,
                         cpu_seconds=90,address_space_bytes=3*1024**3,
                         maximum_output_bytes=MAX_JOB_BYTES,
-                        minimum_free_reserve_gib=MINIMUM_FREE_GIB,native_solver_jobs=0),
+                        minimum_free_reserve_gib=self.minimum_free_gib,native_solver_jobs=0),
                     **FLAGS)
             if self._usage()+MAX_JOB_BYTES>MAX_STORE_BYTES:
                 raise ValueError('City study storage budget reached; preserve/export finished runs before cleanup')
@@ -250,23 +273,92 @@ class CityStudyService:
             if parent is not None:
                 (folder/'parent-study.json').write_bytes(encoded(parent))
                 parent_args=['--parent-snapshot',str(folder/'parent-study.json')]
-            log=(folder/'worker.log').open('wb')
-            env=dict(os.environ)
-            for name in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS'):env[name]='1'
+            status=dict(schema='osr-city-study-job/1',job_id=job_id,state='running',request_key=key,
+                cache_hit=False,resource_budget=self._budget(),resource_admission=admission,**FLAGS)
+            return self._launch(folder,status)
+
+    def _budget(self):
+        return dict(worker_processes=1,wall_seconds=WALL_SECONDS,cpu_seconds=90,
+            address_space_bytes=3*1024**3,maximum_output_bytes=MAX_JOB_BYTES,
+            minimum_free_reserve_gib=self.minimum_free_gib,native_solver_jobs=0)
+
+    def _launch(self,folder,status):
+        job_id=folder.name
+        parent_args=['--parent-snapshot',str(folder/'parent-study.json')] if (folder/'parent-study.json').exists() else []
+        log=(folder/'worker.log').open('wb')
+        env=dict(os.environ)
+        for name in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS'):env[name]='1'
+        try:
             process=subprocess.Popen([sys.executable,'-m','engineering.outline.city_worker',
                 '--request',str(folder/'request.json'),'--output',str(folder/'artifacts'),
                 '--root',str(self.root),*parent_args],cwd=self.root,env=env,stdout=log,stderr=subprocess.STDOUT,
                 stdin=subprocess.DEVNULL,start_new_session=True)
-            status=dict(schema='osr-city-study-job/1',job_id=job_id,state='running',request_key=key,
-                cache_hit=False,resource_budget=dict(worker_processes=1,wall_seconds=WALL_SECONDS,
-                    cpu_seconds=90,address_space_bytes=3*1024**3,maximum_output_bytes=MAX_JOB_BYTES,
-                    minimum_free_reserve_gib=MINIMUM_FREE_GIB,native_solver_jobs=0),
-                resource_admission=admission,**FLAGS)
-            self.jobs[job_id]=dict(process=process,log=log,started=time.monotonic())
-            self._write(folder,status);return status
+        except BaseException:
+            log.close()
+            if self.reservations:self.reservations.release(job_id,self.store)
+            raise
+        self.jobs[job_id]=dict(process=process,log=log,started=time.monotonic())
+        if self.reservations:self.reservations.attach(job_id,self.store,process.pid)
+        status.update(state='running',resource_budget=self._budget())
+        self._write(folder,status);return status
+
+    def _submit_queued(self,request,key,parent):
+        self._dispatch()
+        for job_id in [*self.pending,*self.jobs]:
+            status=self._poll(job_id)
+            if status['state'] in ('queued','running') and status.get('request_key')==key:
+                return status
+        if len(self.pending)>=4:
+            return dict(schema='osr-city-study-job/1',state='held',busy=True,
+                error='Four pending city requests already retained',**FLAGS)
+        job_id=uuid4().hex;folder=self._job(job_id);folder.mkdir()
+        (folder/'request.json').write_bytes(encoded(request))
+        if parent is not None:(folder/'parent-study.json').write_bytes(encoded(parent))
+        status=dict(schema='osr-city-study-job/1',job_id=job_id,state='queued',request_key=key,
+            queued_at_ns=time.time_ns(),request_sha256=digest(folder/'request.json'),
+            parent_snapshot_sha256=digest(folder/'parent-study.json') if parent is not None else None,
+            queued_sources=city_workflow._sources(self.root),cache_hit=False,resource_budget=self._budget(),**FLAGS)
+        self.pending.append(job_id);self._write(folder,status);self._dispatch()
+        return self._poll(job_id)
+
+    def _dispatch(self):
+        if self.closed:return
+        for job_id,record in list(self.jobs.items()):
+            if not record.get('finished'):self._poll(job_id)
+        while self.pending and sum(not r.get('finished') for r in self.jobs.values())<self.max_workers:
+            job_id=self.pending[0];folder=self._job(job_id)
+            try:
+                status=json.loads((folder/'status.json').read_bytes())
+                if status['state']!='queued':self.pending.pop(0);continue
+                if (digest(folder/'request.json')!=status['request_sha256']
+                    or status['queued_sources']!=city_workflow._sources(self.root)
+                    or ((digest(folder/'parent-study.json') if (folder/'parent-study.json').exists() else None)!=status['parent_snapshot_sha256'])):
+                    raise ValueError('Queued request, parent snapshot or source changed')
+                request=city_workflow.normalize(_json((folder/'request.json').read_bytes()))
+                detail=publication_cache.json_member('cities/'+request['city_slug']+'.json.gz',self.root)
+                if request.get('expected_outline_evaluation_id')!=detail['evaluation_id']:raise ValueError('Queued outline changed')
+                fields=dict(request=request,seed_id=detail['planning_seed']['seed_id'],sources=city_workflow._sources(self.root))
+                if status['parent_snapshot_sha256'] is not None:
+                    parent=_json((folder/'parent-study.json').read_bytes());fields['parent_snapshot_id']=parent['snapshot_id']
+                if identity(fields)!=status['request_key']:raise ValueError('Queued request identity changed')
+            except (ValueError,KeyError,TypeError,OSError) as exc:
+                self._failed_integrity(job_id,str(exc));continue
+            if self._usage()+MAX_JOB_BYTES*(1+sum(not r.get('finished') for r in self.jobs.values()))>MAX_STORE_BYTES:
+                status['resource_admission']=dict(admitted=False,reason='Retained store plus outstanding worker outputs exceeds store reserve')
+                self._write(folder,status);break
+            try:admission=self.reservations.claim(job_id,self.store,self.minimum_free_gib)
+            except (ValueError,KeyError,TypeError,OSError) as exc:admission=dict(admitted=False,reason='Shared reservation ledger unavailable: '+str(exc))
+            status['resource_admission']=admission
+            if not admission['admitted']:self._write(folder,status);break
+            self.pending.pop(0)
+            try:self._launch(folder,status)
+            except (ValueError,OSError,subprocess.SubprocessError) as exc:
+                self._failed_integrity(job_id,'Worker launch/reservation failed: '+str(exc))
 
     def status(self,job_id):
-        with self.lock:return self._poll(job_id)
+        with self.lock:
+            if self.queuing:self._dispatch()
+            return self._poll(job_id)
 
     def corridor_proposal(self):
         from . import corridor_revision
@@ -332,7 +424,9 @@ class CityStudyService:
                                 self._write(self._job(job_id),status)
                             except (ValueError,KeyError,TypeError,OSError) as exc:
                                 self._failed_integrity(job_id,str(exc))
-                    finally:record['log'].close()
+                    finally:
+                        record['log'].close()
+                        if self.reservations:self.reservations.release(job_id,self.store)
         finally:
             self.watcher.join(timeout=3)
             self._lease.__exit__(None,None,None)
@@ -371,7 +465,8 @@ def handle_api(handler):
         elif path=='/api/city-studies':
             handler.respond(200,dict(schema='osr-city-study-options/1',selections=list(city_workflow.SELECTIONS),
                 service_bounds=city_workflow.SERVICE_BOUNDS,alignment_bounds=city_workflow.ALIGNMENT_BOUNDS,
-                maximum_request_bytes=MAX_REQUEST,**FLAGS))
+                maximum_request_bytes=MAX_REQUEST,maximum_worker_processes=service.max_workers,
+                maximum_pending_requests=4 if service.queuing else 0,**FLAGS))
         else:
             parts=path.removeprefix('/api/city-studies/').split('/')
             if len(parts)==1:handler.respond(200,service.status(parts[0]))
