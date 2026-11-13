@@ -1,10 +1,20 @@
 """Comprehensive ebook receipt checks without the held integrated dossier."""
 
 import shutil
+import re
 
 import pytest
 
 from engineering import platform_book
+
+
+def test_reader_chapters_exclude_audit_identifiers():
+    assert all(name == platform_book.SOURCE or name.startswith("docs/book/")
+               for _, name in platform_book.CHAPTERS)
+    for _, name in platform_book.CHAPTERS:
+        chapter = (platform_book.ROOT / name).read_text()
+        assert "Audit anchors:" not in chapter
+        assert not re.search(r"\b[0-9a-f]{40,}\b", chapter)
 
 
 def test_historical_renderer_has_separate_default_output():
@@ -14,8 +24,8 @@ def test_historical_renderer_has_separate_default_output():
 
 def test_platform_book_receipt_binds_sources_and_pdf(tmp_path):
     source_root = platform_book.ROOT
-    assert len(platform_book.CHAPTERS) == 23
-    assert len(platform_book.PARTS) == 6
+    assert len(platform_book.CHAPTERS) == 27
+    assert len(platform_book.PARTS) == 5
     for name in (*platform_book._inputs(source_root), platform_book.BOOK, platform_book.RECEIPT):
         target = tmp_path / name
         target.parent.mkdir(parents=True, exist_ok=True)

@@ -18,49 +18,65 @@ RECEIPT = "OpenSourceRail-Book.receipt.json"
 SOURCE = "docs/BOOK.md"
 HERO = "docs/images/v06/v06-hero-elevated-station.webp"
 PARTS = (
-    ("I. Purpose and platform", "The project, its three products, candidate identities and current capabilities.", (
-        ("Scope and reading guide", "docs/BOOK.md"),
-        ("Platform and railway concept", "docs/platform-guide.md"),
-        ("Architecture and evidence boundaries", "docs/ARCHITECTURE.md"),
-        ("Capability register", "docs/capabilities/README.md"),
+    ("I. An open railway for people", "Purpose, passenger experience and the design reference.", (
+        ("A note to the reader", "docs/BOOK.md"),
+        ("Why build an open railway", "docs/book/01-purpose.md"),
+        ("The passenger journey", "docs/book/02-passenger.md"),
+        ("A reference, with room to explore", "docs/book/03-architecture.md"),
+        ("Capacity, frequency and useful service", "docs/book/19-service.md"),
     )),
-    ("II. Published software and adoption", "What v0.6.1 ships, what remains open and how a user starts.", (
-        ("Published v0.6.1 release", "docs/releases/v0.6.1/README.md"),
-        ("Installation and Samawah demonstration", "docs/releases/v0.6.1/quickstart.md"),
-        ("Feature maturity", "docs/releases/v0.6.1/feature-maturity.md"),
-        ("Known limitations", "docs/releases/v0.6.1/known-limitations.md"),
-        ("First adoption path", "docs/first-adoptable-product.md"),
+    ("II. From city to corridor", "Planning, service and a worked station revision.", (
+        ("From a city brief to an alignment", "docs/book/04-city.md"),
+        ("Samawah: one edit through the system", "docs/book/05-samawah.md"),
+        ("Networks, service and city variety", "docs/book/06-networks.md"),
+        ("Stations and the streets around them", "docs/book/20-stations.md"),
     )),
-    ("III. City and corridor", "A candidate-bound Samawah revision, native GIS and city evidence.", (
-        ("Samawah project continuity", "docs/design-engine/v07-project-continuity/README.md"),
-        ("Editable city GIS", "docs/gis/README.md"),
-        ("City design dossiers", "docs/design-engine/city-dossiers/README.md"),
+    ("III. The physical railway", "Vehicle, passenger interfaces, power, stopping and civil works.", (
+        ("Vehicle and running gear", "docs/book/07-vehicle.md"),
+        ("Inside the vehicle", "docs/book/24-inside.md"),
+        ("Doors, cabin and access", "docs/book/08-door.md"),
+        ("Propulsion, power and braking", "docs/book/09-propulsion.md"),
+        ("Stopping, faults and rescue", "docs/book/25-recovery.md"),
+        ("Heat, ventilation and electrical life", "docs/book/21-systems.md"),
+        ("Stations, structures and construction", "docs/book/10-civil.md"),
     )),
-    ("IV. Railway and engineering", "Vehicle, civil, propulsion, manufacture and numerical-method evidence.", (
-        ("Coordinated railway experiment", "docs/design-engine/coupled-railway/README.md"),
-        ("Vehicle parts and assembly", "docs/design-engine/vehicle-parts/README.md"),
-        ("Engineering model gallery", "docs/engineering-models/README.md"),
-        ("Current engineering interfaces", "docs/design-engine/engineering-closure/README.md"),
-        ("CAD and FEA backends", "docs/design-engine/craft-backends/README.md"),
-        ("Retained v0.6 engineering findings", "docs/design-engine/v06-design-closure/README.md"),
+    ("IV. Making and keeping the railway", "Local production, whole-life decisions, control and maintenance.", (
+        ("Local manufacture and sourcing", "docs/book/11-manufacture.md"),
+        ("From factory to finished corridor", "docs/book/22-delivery.md"),
+        ("Cost and whole-life decisions", "docs/book/12-cost.md"),
+        ("A corridor cost comparison", "docs/book/26-benchmark.md"),
+        ("Control and passenger protection", "docs/book/13-control.md"),
+        ("Business, maintenance and renewal", "docs/book/14-lifecycle.md"),
     )),
-    ("V. Cost and lifecycle", "From candidate quantities to production, delivery and bounded business integration.", (
-        ("Model-based cost and delivery", "docs/design-engine/model-based-cost-and-delivery.md"),
-        ("Business platform integration", "docs/integration/v06-platform.md"),
-    )),
-    ("VI. v0.7 evidence and next work", "Measured progress, unresolved interfaces and the delivery programme.", (
-        ("v0.7 execution and evidence", "docs/design-engine/v07-execution/README.md"),
-        ("Roadmap", "docs/ROADMAP.md"),
-        ("Agent delivery and tool migration plan", "docs/plans/v0.7-agent-delivery-plan.md"),
+    ("V. Evidence and the road ahead", "What the tools establish, what remains open and how v0.7 advances.", (
+        ("Engineering tools and evidence", "docs/book/15-tools.md"),
+        ("Current results and open questions", "docs/book/16-evidence.md"),
+        ("Research choices and independent checks", "docs/book/23-research.md"),
+        ("One complete candidate for v0.7", "docs/book/17-v07.md"),
+        ("Sources, terms and licensing", "docs/book/18-sources.md"),
     )),
 )
 CHAPTERS = tuple(chapter for _, _, chapters in PARTS for chapter in chapters)
+EVIDENCE_INPUTS = (
+    "README.md", "docs/platform-guide.md", "docs/ARCHITECTURE.md",
+    "docs/capabilities/README.md", "docs/ROADMAP.md",
+    "docs/releases/v0.6.1/README.md", "docs/releases/v0.6.1/known-limitations.md",
+    "docs/design-engine/v07-project-continuity/README.md",
+    "docs/design-engine/v07-execution/README.md",
+    "docs/design-engine/vehicle-parts/README.md",
+    "docs/design-engine/coupled-railway/README.md",
+    "docs/design-engine/craft-backends/README.md",
+    "docs/design-engine/model-based-cost-and-delivery.md",
+    "docs/integration/v06-platform.md", "docs/gis/README.md",
+    "docs/plans/v0.7-agent-delivery-plan.md",
+)
 INPUTS = tuple(dict.fromkeys((
     "engineering/platform_book.py",
     "tools/automation/build-doc-book.py",  # Shared Markdown/PDF renderer; historical selection is not imported.
     HERO,
     "campaigns/v07-execution.json",
     "engineering/development-baseline.toml",
+    *EVIDENCE_INPUTS,
     *(name for _, name in CHAPTERS),
 )))
 FLAGS = dict(engineering_accepted=False, physical_accepted=False,
@@ -137,7 +153,7 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
     if check:
         receipt = json.loads(receipt_path.read_bytes())
         expected = {k: v for k, v in receipt.items() if k != "receipt_id"}
-        if (receipt.get("schema") != "osr-platform-ebook/2"
+        if (receipt.get("schema") != "osr-platform-ebook/3"
                 or receipt.get("source_sha256") != source
                 or receipt.get("pdf_sha256") != _digest(output)
                 or receipt.get("pages") != _pages(output)
@@ -154,16 +170,21 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
     render.IMAGE_ERRORS.clear()
     render._register_fonts()
     styles = render._styles()
+    styles["body"].fontSize = 10
+    styles["body"].leading = 14
+    styles["body"].spaceAfter = 7
+    styles["small"].fontSize = 8
+    styles["small"].leading = 11
     for name in ("table", "table_head"):
-        styles[name].fontSize = 7.2
-        styles[name].leading = 9
+        styles[name].fontSize = 8
+        styles[name].leading = 10
     content_width = A4[0] - 2.9 * cm - 12
     content_height = A4[1] - 3.1 * cm - 12
     story = [
         Spacer(1, 1.1 * cm),
         Paragraph("OpenSourceRail", styles["title"]),
         Paragraph("Open Engineering Platform", styles["subtitle"]),
-        Paragraph("Comprehensive illustrated edition | v0.6.1 published software | v0.7 development",
+        Paragraph("An illustrated guide to the railway, its people and its open engineering work",
                   styles["subtitle"]),
         Spacer(1, 0.5 * cm),
         _cover_image(root / HERO),
@@ -174,9 +195,9 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
     ]
     story.extend((PageBreak(), render._outline_heading("Contents", styles["part"],
                                                       "contents", 0),
-                  Paragraph("Six parts and twenty-three source-attributed chapters. "
+                  Paragraph(f"Five parts and {len(CHAPTERS)} chapters. "
                             "Use the PDF outline for direct chapter navigation. "
-                            "Each chapter keeps the evidence limits stated in its source.",
+                            "The separate receipt records the exact sources and illustrations.",
                             styles["body"])))
     for part_number, (part, description, chapters) in enumerate(PARTS, 1):
         story.append(Paragraph(f"<b>{part}</b> - {description}", styles["body"]))
@@ -191,7 +212,7 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
             chapter_index += 1
             story.extend((PageBreak(), render._outline_heading(
                 f"{part_number}.{chapter_number} {title}", styles["h1"],
-                f"chapter-{chapter_index}", 1), Paragraph(name, styles["source"])))
+                f"chapter-{chapter_index}", 1)))
             story.extend(render._render_markdown(root / name, styles, content_width,
                                                 content_height, 1200, 76, True))
     if render.IMAGE_ERRORS:
@@ -213,7 +234,7 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
         temporary.replace(output)
     finally:
         temporary.unlink(missing_ok=True)
-    record = dict(schema="osr-platform-ebook/2", role="comprehensive-current-platform-and-engineering-ebook",
+    record = dict(schema="osr-platform-ebook/3", role="human-readable-current-platform-and-engineering-ebook",
                   source_sha256=source, pdf_sha256=_digest(output), pages=pages,
                   **FLAGS)
     record["receipt_id"] = _identity(record)

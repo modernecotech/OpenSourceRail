@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **229**.
+Indexed Markdown files: **255**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **229**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 197 |
+| [docs](#docs) | 223 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -76,10 +76,36 @@ Indexed Markdown files: **229**.
 | File | Title |
 |---|---|
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
-| [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: comprehensive open engineering ebook |
+| [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
+| [`docs/book/01-purpose.md`](../docs/book/01-purpose.md) | Why build an open railway |
+| [`docs/book/02-passenger.md`](../docs/book/02-passenger.md) | The passenger journey |
+| [`docs/book/03-architecture.md`](../docs/book/03-architecture.md) | A reference, with room to explore |
+| [`docs/book/04-city.md`](../docs/book/04-city.md) | From a city brief to an alignment |
+| [`docs/book/05-samawah.md`](../docs/book/05-samawah.md) | Samawah: one edit through the system |
+| [`docs/book/06-networks.md`](../docs/book/06-networks.md) | Networks, service and city variety |
+| [`docs/book/07-vehicle.md`](../docs/book/07-vehicle.md) | Vehicle and running gear |
+| [`docs/book/08-door.md`](../docs/book/08-door.md) | Doors, cabin and access |
+| [`docs/book/09-propulsion.md`](../docs/book/09-propulsion.md) | Propulsion, power and braking |
+| [`docs/book/10-civil.md`](../docs/book/10-civil.md) | Stations, structures and construction |
+| [`docs/book/11-manufacture.md`](../docs/book/11-manufacture.md) | Local manufacture and sourcing |
+| [`docs/book/12-cost.md`](../docs/book/12-cost.md) | Cost and whole-life decisions |
+| [`docs/book/13-control.md`](../docs/book/13-control.md) | Control and passenger protection |
+| [`docs/book/14-lifecycle.md`](../docs/book/14-lifecycle.md) | Business, maintenance and renewal |
+| [`docs/book/15-tools.md`](../docs/book/15-tools.md) | Engineering tools and evidence |
+| [`docs/book/16-evidence.md`](../docs/book/16-evidence.md) | Current results and open questions |
+| [`docs/book/17-v07.md`](../docs/book/17-v07.md) | One complete candidate for v0.7 |
+| [`docs/book/18-sources.md`](../docs/book/18-sources.md) | Sources, terms and licensing |
+| [`docs/book/19-service.md`](../docs/book/19-service.md) | Capacity, frequency and useful service |
+| [`docs/book/20-stations.md`](../docs/book/20-stations.md) | Stations and the streets around them |
+| [`docs/book/21-systems.md`](../docs/book/21-systems.md) | Heat, ventilation and electrical life |
+| [`docs/book/22-delivery.md`](../docs/book/22-delivery.md) | From factory to finished corridor |
+| [`docs/book/23-research.md`](../docs/book/23-research.md) | Research choices and independent checks |
+| [`docs/book/24-inside.md`](../docs/book/24-inside.md) | Inside the vehicle |
+| [`docs/book/25-recovery.md`](../docs/book/25-recovery.md) | Stopping, faults and rescue |
+| [`docs/book/26-benchmark.md`](../docs/book/26-benchmark.md) | A corridor cost comparison |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
