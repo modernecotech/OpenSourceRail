@@ -150,5 +150,5 @@ Installed engineering, robust protected service, manufacturing and operation:
 geometry, axle reactions, receiving/positioning behaviour, civil moving loads and
 prototype correlation before advancing an integrated design.
 
-Study `620c66b4548cbad410a9ba6aba0420e0b875d405f49e7548fad8b27b3cfab2f3` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
+Study `70798a62fe6725dd582720b1306f7a57eb6d3a96cba54adf6cefb8795bfa2bb6` · body `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a`.
 [Canonical source](../../../engineering/station_pair/).

@@ -322,7 +322,13 @@ def test_fault_followups_replay_nominal_brake_point_without_refitting(data,monke
  monkeypatch.setattr(coordinator,'source_hashes',lambda root:{'unit-test':'stable-mocked-source'})
  monkeypatch.setattr(coordinator,'fit_brake',fit)
  monkeypatch.setattr(coordinator,'repeated_proxy',lambda *a,**k:dict(state='mock-not-executed',qualified=False))
- monkeypatch.setattr(native_bridge,'build',lambda *a,**k:(None,dict(receipt_id='mock-build-not-executed',binary_sha256='0'*64)))
+ def mock_build(state,*args,**kwargs):
+  state=Path(state)
+  state.mkdir(parents=True,exist_ok=True)
+  (state/'native-build.json').write_text('{"mock":"build-not-executed"}')
+  (state/'native-build.log').write_text('Mock build: no native execution.\n')
+  return None,dict(receipt_id='mock-build-not-executed',binary_sha256='0'*64)
+ monkeypatch.setattr(native_bridge,'build',mock_build)
  monkeypatch.setattr(native_bridge,'execute',execute)
  result=coordinator._run(tmp_path,coordinator.ROOT)
  assert fit_calls==[1]  #Only the nominal controller is fitted.
