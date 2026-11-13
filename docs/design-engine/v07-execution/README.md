@@ -66,6 +66,56 @@ enforced. The local packet under
 is retained as research evidence. The combined focused door suite passed
 68 tests on main after integration.
 
+The next source-only C01 variation slice on main `27a8034d53` screens proposed
+pulley radius and centre spacing independently. Its nine-case example produces
+six provisionally nondominated research children under arithmetic header,
+pulley-envelope and stock-cut/path proxies in 0.075 s on this host. No child is
+selected: the 5.8 m belt cut is not an authenticated pitch length, and tension,
+shaft, mounts, motion and removal are still missing. The existing 30 mm
+physical child retains its identity; changed source creates new evaluation
+identities. A misleading pitch-equals-cut flag for independently spaced cases
+was corrected before integration. The combined child/CAD/electrical/mating
+checks passed 36 tests. The variation worktree was removed and guarded cleanup
+ran after integration; no research packet was discarded.
+
+The selected installed child also has a source-checked E01 electrical screen on
+main `fa02ac8bab`. It counts 23 electrical part types and 249 pieces per
+opening, or 2,988 across twelve openings, while keeping cable stock allowances
+distinct from installed routes. Supply voltage, current, torque, loss, cooling,
+protection, interlock and emergency ratings remain unknown. The manually
+operated latch is not counted as an electrical isolator. The focused electrical,
+mating and route checks passed 30 tests; its clean worktree was removed and
+guarded cleanup completed.
+
+The next P01/P02 boundary on main `3c62056e48` accepts an optional exact,
+sealed installed-body input in the railway closure coordinator. It refuses an
+implicit or mismatched physical child and marks downstream work as
+**powered-wheel research**. The `17ce…` body archive authenticated against its
+11 current sources. A first run failed before native execution because the
+offline Cargo cache lacked a locked package; its build failure is retained.
+The locked package was fetched, and a fresh run completed in 112.12 s: 21
+native batches, 493,132 KiB peak coordinator RSS, 143,157,687 bytes before the
+manifest. Its source-bound study is `d37cdb4f…`; its body remains `17ce…`.
+Independent read-only review matched all 165 listed file hashes, 130 source
+bindings, input receipt, study seal and installed/civil/bundle identities.
+The supplied body has no underframe structural comparison, which is recorded
+as a hold. The model produced six nominal service alternatives; none changes
+the selected passive-wheel reference or the Samawah city publication.
+
+The source-checked stage intake accepted the closure study and matching body,
+civil bundle, nominal service and cost for **all six** explicit nominal service
+IDs. One 200 s headway, four-train case was then compiled as a local pilot
+delivery draft. Its sealed manifest is `0415dc78…`, proposal `5af750ba…` and
+selected-case stage intake `3dceb6c3…`. Independent review reproduced all five
+source-verified stages, all nine delivery file hashes, both original input
+bytes and 137 source hashes. The draft has fourteen cost scopes, 671 held
+tasks, no native CAD/solver jobs and no external transactions. The compiler
+took 7.10 s and 453,564 KiB peak RSS. Controlled part/assembly documents,
+reviewed conversions, native ERP receipts, QA, consumption and handback remain
+open; the intake leaves pack readiness, ERP admission and physical acceptance
+false. The six-case alternative report retains the other service options without
+silently selecting one.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
