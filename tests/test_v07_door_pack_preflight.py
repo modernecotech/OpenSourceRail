@@ -51,7 +51,8 @@ def test_current_inventory_is_held_and_source_bound(handoff):
 @pytest.mark.parametrize('fault', ['reference-body', 'wrong-revision', 'wrong-component',
                                    'wrong-count', 'wrong-buy-route', 'promoted',
                                    'missing-part', 'broken-seal', 'movement-authority',
-                                   'native-ready'])
+                                   'native-ready', 'installed-geometry',
+                                   'native-erp', 'pack-ready'])
 def test_mixed_or_promoted_shape_refused(handoff, fault):
     value = synthetic_proposal(handoff)
     if fault == 'reference-body':
@@ -72,6 +73,12 @@ def test_mixed_or_promoted_shape_refused(handoff, fault):
         value['movement_authority'] = True
     elif fault == 'native-ready':
         value['ready_for_native_assembly'] = True
+    elif fault == 'installed-geometry':
+        value['installed_geometry_verified'] = True
+    elif fault == 'native-erp':
+        value['native_erp_admitted'] = True
+    elif fault == 'pack-ready':
+        value['pack_ready'] = True
     else:
         value['proposal_id'] = '0' * 64
     if fault != 'broken-seal':

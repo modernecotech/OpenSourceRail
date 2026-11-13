@@ -32,7 +32,8 @@ FORBIDDEN_AUTHORITY = {'operating_release', 'movement_authority',
                        'selected_reference_changed', 'installation_accepted',
                        'transactions_performed', 'construction_release',
                        'engineering_accepted', 'physical_accepted',
-                       'manufacturing_release'}
+                       'manufacturing_release', 'installed_geometry_verified',
+                       'native_erp_admitted', 'pack_ready'}
 
 
 def _input(path: Path, expected: str) -> dict:
