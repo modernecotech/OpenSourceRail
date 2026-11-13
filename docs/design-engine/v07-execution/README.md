@@ -30,11 +30,25 @@ transform and approved fit unknown. The delivery stage intake on main
 `b75a4cb94e` checks supplied closure, body, nominal service/fleet, cost and
 proposal packets in order; without them it reports the same-child closure
 study as the first missing stage. It cannot grant pack or ERP admission.
-Together, 54 focused door tests passed on main, and a held mating assessment
-was reproduced without native CAD, FEA or ERP execution. The two clean
-development worktrees were retired after integration. The existing single
+The held mating assessment was reproduced without native CAD, FEA or ERP
+execution. The completed clean development worktrees were retired after
+integration. The existing single
 cleanup script ran after each slice; it retained incomplete research packets
 and reported no new terminal Cargo caches eligible for removal.
+
+A subsequent bounded family defines three new, unselected physical children
+with 25, 30 and 35 mm proposed pulley pitch radii. Under the declared but
+unverified assumption that belt pitch equals the 5.8 m stock cut, their ideal
+pulley centre distances are 2.821460, 2.805752 and 2.790044 m. Sampled belt
+path lengths differ from those ideal values by 0.252–0.353 mm. A 50 mm radius
+fails the counted pulley-stock envelope before CAD. An independent reviewer
+found that the first implementation included evaluation and request IDs in
+the physical definition; that was corrected and retested. Altering those IDs
+now changes the evaluation while leaving the geometry candidate unchanged.
+The corrected family is held, has no selected child, and supplies no actual
+belt pitch, tension, shaft, mount, stop or motion evidence. No native CAD/FEA
+run was admitted. The combined focused door suite passed 64 tests after the
+correction.
 
 ## Implemented and exercised
 
