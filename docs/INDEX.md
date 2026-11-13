@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **297**.
+Indexed Markdown files: **298**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **297**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 265 |
+| [docs](#docs) | 266 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -316,6 +316,7 @@ Indexed Markdown files: **297**.
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
 | [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | Retained authenticated software-review profile |
 | [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
+| [`docs/design-engine/v07-execution/door-route-request.md`](../docs/design-engine/v07-execution/door-route-request.md) | One-opening guide and belt route request |
 | [`docs/design-engine/v07-execution/tool-capabilities.md`](../docs/design-engine/v07-execution/tool-capabilities.md) | v0.7 tool selection and retirement boundaries |
 | [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
