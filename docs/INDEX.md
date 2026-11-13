@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **278**.
+Indexed Markdown files: **297**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **278**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 246 |
+| [docs](#docs) | 265 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -129,6 +129,25 @@ Indexed Markdown files: **278**.
 | [`docs/book/47-three-products.md`](../docs/book/47-three-products.md) | Three connected products |
 | [`docs/book/48-adoption.md`](../docs/book/48-adoption.md) | Who can use the platform now |
 | [`docs/book/49-open-knowledge.md`](../docs/book/49-open-knowledge.md) | Keeping the work open and useful |
+| [`docs/book/50-map-reading.md`](../docs/book/50-map-reading.md) | How to read a city route map |
+| [`docs/book/51-iraq-samawah-baghdad.md`](../docs/book/51-iraq-samawah-baghdad.md) | Samawah and Baghdad: two scales of inquiry |
+| [`docs/book/52-iraq-basra-erbil.md`](../docs/book/52-iraq-basra-erbil.md) | Basra and Erbil: different network shapes |
+| [`docs/book/53-amman-karachi.md`](../docs/book/53-amman-karachi.md) | Amman and Karachi: scale and geography |
+| [`docs/book/54-nairobi-lusaka.md`](../docs/book/54-nairobi-lusaka.md) | Nairobi and Lusaka: service across a wider city |
+| [`docs/book/55-cuenca-san-salvador.md`](../docs/book/55-cuenca-san-salvador.md) | Cuenca and San Salvador: choosing the first corridor |
+| [`docs/book/56-digital-twin.md`](../docs/book/56-digital-twin.md) | A digital twin of one candidate |
+| [`docs/book/57-train-views.md`](../docs/book/57-train-views.md) | The train in engineering views |
+| [`docs/book/58-door-and-interior.md`](../docs/book/58-door-and-interior.md) | Doors, seating and accessible interiors |
+| [`docs/book/59-station-drive-views.md`](../docs/book/59-station-drive-views.md) | Station drive and launch alternatives |
+| [`docs/book/60-civil-gallery.md`](../docs/book/60-civil-gallery.md) | Civil assemblies and construction |
+| [`docs/book/61-structural-tests.md`](../docs/book/61-structural-tests.md) | What structural tests show |
+| [`docs/book/62-journey-tests.md`](../docs/book/62-journey-tests.md) | Journey, control and fault tests |
+| [`docs/book/63-manufacturing-gallery.md`](../docs/book/63-manufacturing-gallery.md) | Manufacturing details and assembly |
+| [`docs/book/64-twin-assurance.md`](../docs/book/64-twin-assurance.md) | What twin verification can and cannot prove |
+| [`docs/book/65-current-workbench.md`](../docs/book/65-current-workbench.md) | The current Workbench |
+| [`docs/book/66-planning-screen.md`](../docs/book/66-planning-screen.md) | Planning and maps on screen |
+| [`docs/book/67-parts-screen.md`](../docs/book/67-parts-screen.md) | Parts and lifecycle on screen |
+| [`docs/book/68-reading-status.md`](../docs/book/68-reading-status.md) | Reading status and holds |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
