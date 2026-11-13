@@ -8,6 +8,7 @@ import {join} from 'node:path';
 const quote=value=>"'"+value.replaceAll("'","'\\''")+"'";
 export async function launchBrowser(options={}){
  const args=[...(options.args||[]),'--disable-gpu','--disable-gpu-compositing','--disable-features=Vulkan'];
+ const installedBrowser=process.env.OSR_BROWSER_EXECUTABLE||chromium.executablePath();
  let directory,executablePath,mode='software-requested',hidden=false;
  if(process.platform==='linux'&&spawnSync('bwrap',['--version'],{timeout:5000}).status===0){
   // A private minimal /dev prevents even GPU-information ioctls. The host
@@ -17,11 +18,11 @@ export async function launchBrowser(options={}){
   const tempRoot=tmpdir(),extraTempBind=tempRoot==='/tmp'?'':'--bind '+quote(tempRoot)+' '+quote(tempRoot)+' ';
   directory=await mkdtemp(join(tempRoot,'osr-browser-'));executablePath=join(directory,'chromium');
   await mkdir(join(directory,'config'));await mkdir(join(directory,'cache'));
-  await writeFile(executablePath,'#!/bin/sh\nexec bwrap --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp '+extraTempBind+'--setenv XDG_CONFIG_HOME '+quote(join(directory,'config'))+' --setenv XDG_CACHE_HOME '+quote(join(directory,'cache'))+' -- '+quote(chromium.executablePath())+' "$@"\n');
+  await writeFile(executablePath,'#!/bin/sh\nexec bwrap --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp '+extraTempBind+'--setenv XDG_CONFIG_HOME '+quote(join(directory,'config'))+' --setenv XDG_CACHE_HOME '+quote(join(directory,'cache'))+' -- '+quote(installedBrowser)+' "$@"\n');
   await chmod(executablePath,0o700);mode='device-isolated-software';hidden=true;
  }
  try{
-  const browser=await chromium.launch({...options,headless:true,args,...(executablePath?{executablePath}:{})});
+  const browser=await chromium.launch({...options,headless:true,args,executablePath:executablePath||installedBrowser});
   browser.osrRendering={mode,hardware_graphics_devices_hidden:hidden,browser_version:browser.version(),node_version:process.versions.node};
   if(directory){const close=browser.close.bind(browser);browser.close=async(...values)=>{try{return await close(...values);}finally{await rm(directory,{recursive:true,force:true});}};}
   return browser;

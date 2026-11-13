@@ -204,8 +204,16 @@
       openDoor.addEventListener("click", async () => {
         openDoor.disabled = true; doorStatus.textContent = "Loading the candidate-linked module…";
         try {
-          const response = await fetch("/api/v07/door-module", {signal}); const module = await response.json();
+          const [response, readinessResponse] = await Promise.all([
+            fetch("/api/v07/door-module", {signal}), fetch("/api/v07/door-readiness", {signal})
+          ]);
+          const module = await response.json(); const readiness = await readinessResponse.json();
           if (!response.ok) throw Error(module.reason || module.error || "Module unavailable");
+          if (!readinessResponse.ok) throw Error(readiness.reason || readiness.error || "Door readiness unavailable");
+          if (readiness.physical_component_candidate_id !== module.candidate_id ||
+              readiness.opening !== "car-0/door-0" || readiness.pack_ready !== false ||
+              readiness.native_erp_admitted !== false || readiness.physical_accepted !== false)
+            throw Error("Door readiness belongs to a different candidate or has unsupported authority");
           if (destroyed) return;
           doorDetails.replaceChildren(); doorPanel.dataset.moduleId = module.module_id;
           doorDetails.append(node("h4", "", "Door operator manufacturing and maintenance"));
@@ -214,6 +222,14 @@
           doorDetails.append(node("p", "atlas-note", `Known gross stock and allowance subtotal: ${module.nominal_mass.base.known_subtotal_kg_per_opening.toFixed(3)} kg/opening. Installed mass and centre of gravity remain unknown.`));
           doorStatus.textContent = "Research child proposal · installation, approved fits and inspection evidence remain open";
           doorDetails.append(node("p", "atlas-note", `Module candidate ${module.candidate_id.slice(0, 12)} descends from corridor reference ${module.parent_candidate_id.slice(0, 12)}. Corridor fleet and cost results do not transfer to this child.`));
+          const holds = node("section", "atlas-door-holds"); holds.id = "samawah-door-holds";
+          holds.append(node("h5", "", "Route and delivery evidence still needed"));
+          holds.append(node("p", "", `The full guide is ${readiness.guide_stock_cut_length_m} m of straight stock and the belt is a ${readiness.belt_stock_cut_length_m} m closed-loop stock length. Mounting and pulley datums are still missing; the shorter display models do not establish fit.`));
+          holds.append(node("p", "", `${readiness.unnamed_part_document_count} part document sets, ${readiness.unnamed_assembly_document_count} assembly document sets and ${readiness.unnamed_conversion_count} reviewed conversions remain unnamed. ${readiness.purchased_pieces_per_opening} purchased pieces across ${readiness.purchased_types} types still need supplier and custody evidence.`));
+          const stages = node("ul"); for (const stage of readiness.unverified_stage_inputs) stages.append(node("li", "", stage));
+          holds.append(node("p", "", "The following same-child stages are unverified:"), stages);
+          holds.append(node("p", "atlas-note", "Controlled files and conversion values have not been verified. Review compilation and native ERP admission remain open; this research proposal is not a released installation."));
+          doorDetails.append(holds);
           const label = node("label", "", "Inspect a part and its removal route "); const select = node("select"); select.id = "samawah-door-part";
           for (const part of module.parts) { const option = node("option", "", part.name); option.value = part.id; select.append(option); }
           label.append(select); doorDetails.append(label); const detail = node("div", "atlas-door-part"); doorDetails.append(detail);

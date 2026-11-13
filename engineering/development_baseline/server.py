@@ -84,6 +84,10 @@ class Handler(BaseHTTPRequestHandler):
                 from engineering.vehicle_parts.door_module import build
                 self.respond(200, build(root=self.root))
                 return
+            if path == '/api/v07/door-readiness':
+                from .door_readiness import summary
+                self.respond(200, summary(self.root))
+                return
             if path == '/api/default-design':
                 # The selected bundle is independently source checked. A
                 # stale integrated publication remains a visible hold, while

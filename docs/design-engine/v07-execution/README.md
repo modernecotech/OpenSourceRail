@@ -29,6 +29,13 @@ upstream stages. Station changes preserve unrelated vehicle/manufacturing
 results; cost-rate changes invalidate costs, delivery and dossier. Missing
 installed stages stay visible. A source-bound door panel exposes the 74 part
 definitions, assembly proposals, inspection gaps and removal/maintenance basis.
+The panel now reads a separate, source-checked route and pack summary for the
+same research child. It shows the full guide and belt stock lengths, missing
+mounting and pulley datums, five unverified same-child stages, 74 unnamed part
+document sets, three assembly sets, 74 conversions and purchased-child custody
+work. A changed packet or mixed candidate is held at the API boundary. This
+Workbench view does not mark the Samawah reference dossier, native ERP or the
+physical door installation complete.
 
 City workers now share cooperative CPU, memory and disk reservations, use a
 resumable bounded queue and admit at most two analytic workers. The server

@@ -95,6 +95,13 @@ try {
   assert(project.cases.after.missing_stages.includes('vehicle'));
   const doorResponse = await context.request.get(`${origin}/api/v07/door-module`);
   assert(doorResponse.ok()); const door = await doorResponse.json();
+  const readinessResponse = await context.request.get(`${origin}/api/v07/door-readiness`);
+  assert(readinessResponse.ok()); const readiness = await readinessResponse.json();
+  assert.equal(readiness.physical_component_candidate_id, door.candidate_id);
+  assert.equal(readiness.installed_body_candidate_id.length, 64);
+  assert.equal(readiness.pack_ready, false); assert.equal(readiness.native_erp_admitted, false);
+  assert.equal(readiness.unnamed_part_document_count, 74);
+  assert.equal(readiness.unnamed_assembly_document_count, 3);
   assert.equal(door.parent_candidate_id, report.reference_candidate_ids.candidate_id);
   assert.notEqual(door.candidate_id, door.parent_candidate_id);
   assert.equal(door.opening_count_per_train, 12);
@@ -106,6 +113,9 @@ try {
   assert.equal(await page.locator('#samawah-door-part option').count(), door.parts.length);
   assert.match(await page.locator('.atlas-door-part').innerText(), /Removal and maintenance/);
   assert.match(await page.locator('#samawah-door-module').innerText(), /Installed mass and centre of gravity remain unknown/);
+  assert.match(await page.locator('#samawah-door-holds').innerText(), /5\.8 m closed-loop stock length/);
+  assert.match(await page.locator('#samawah-door-holds').innerText(), /same-child stages are unverified/);
+  assert.match(await page.locator('#samawah-door-holds').innerText(), /native ERP admission remain open/);
   const electrical = door.parts.find(part => part.assembly_id === 'services/door-electrical');
   await page.locator('#samawah-door-part').selectOption(electrical.id);
   assert.match(await page.locator('.atlas-door-part').innerText(), /approved limit and observed result required/);
