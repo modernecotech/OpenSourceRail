@@ -199,6 +199,15 @@ controlled header-to-body datum and guide/carriage/drive mating definition;
 the next software input is a sealed bought-source module pack and native receipt,
 QA, consumption and maintenance replay.
 
+The new [one-opening route request](door-route-request.md) is a downstream
+input contract for those datums. It binds the unchanged 74-type/694-piece
+handoff and separates the full 2.9 m straight guide from the 5.8 m closed belt
+loop. Its 2.84 m proposed opening-plus-travels span leaves only a nominal
+60 mm difference to the guide stock; stops, mounts and clearance are unknown.
+The intake rejects the 2 m display proxy as full guide fit, a straightened belt,
+mixed identities and acceptance claims. All installation datums remain held;
+no native assembly or physical qualification followed from this software slice.
+
 ## Integration still required
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
