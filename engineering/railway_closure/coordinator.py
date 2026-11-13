@@ -4,6 +4,7 @@ from copy import deepcopy
 from math import fsum
 import gzip,json,time,resource,subprocess
 from engineering.station_rail.common import identity,encoded,digest
+from engineering.run_cache import cleanup_cargo_targets
 from engineering.station_cycle import native_bridge as cycle_bridge
 from engineering.vehicle_installation import export
 from engineering.pilot_civil import design as civil_design
@@ -214,6 +215,12 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
                native_batches_executed=len(used_receipt_ids-reused_receipt_ids),
                run_bytes_before_manifest=sum(q.stat().st_size for q in out.rglob('*') if q.is_file()))
     write(out,'usage.json',usage)
+    for group, build_name in (('serial','cycle-build.json'),('fleet','fleet-build.json')):
+        state=out/group
+        cleanup_cargo_targets(state,['native-product-target'],{
+            build_name:digest(state/build_name),
+            'native-build.json':digest(state/'native-build.json'),
+            'native-build.log':digest(state/'native-build.log')})
     files={q.relative_to(out).as_posix():digest(q) for q in out.rglob('*') if q.is_file()}
     manifest=dict(schema='osr-railway-closure-run/1',study_id=value['study_id'],source_sha256=before,files_sha256=files,**FLAGS)
     manifest['manifest_id']=identity(manifest);write(out,'manifest.json',manifest)

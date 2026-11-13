@@ -4,6 +4,7 @@ from math import ceil,pi,fsum,exp,sqrt
 from pathlib import Path
 import gzip,json,time
 from engineering.station_rail.common import encoded,identity,digest
+from engineering.run_cache import cleanup_cargo_targets
 from . import ROOT,FLAGS,mass,profiles,economics,native_bridge,control_policy,history,lifecycle
 
 BRIEF='engineering/station_pair/study.json'
@@ -14,7 +15,8 @@ def source_hashes(root=ROOT):
     names=['engineering/station_pair/'+n for n in ('__init__.py','mass.py','mass-policy.json',
         'profiles.py','economics.py','cost-policy.json','coordinator.py','native_bridge.py','study.json',
         'control_policy.py','control-policy.json','history.py')]
-    names += [profiles.ABB,profiles.TSA,economics.CIVIL,mass.INPUT,'engineering/station_rail/common.py']
+    names += [profiles.ABB,profiles.TSA,economics.CIVIL,mass.INPUT,
+              'engineering/station_rail/common.py','engineering/run_cache.py']
     names += [history.OUTPUT+'/manifest.json',history.OUTPUT+'/packet-and-declared-sources.tar.gz']
     return {**{n:digest(root/n) for n in names},**native_bridge.sources(root),**lifecycle.sources(root)}
 
@@ -352,5 +354,9 @@ def _run(output,root):
     (output/'mass-reconciliation.json.gz').write_bytes(gzip.compress(encoded(reconciliation),mtime=0))
     receipt=dict(schema='osr-station-pair-run/1',study_id=result['study_id'],source_sha256=before,
         files_sha256={n:digest(output/n) for n in ('result.json.gz','mass-reconciliation.json.gz')},**FLAGS)
+    cleanup_cargo_targets(output,['native-target'],{
+        **receipt['files_sha256'],
+        'native-build.json':digest(output/'native-build.json'),
+        'native-build.log':digest(output/'native-build.log')})
     receipt['manifest_id']=identity(receipt);(output/'manifest.json').write_bytes(encoded(receipt))
     return result

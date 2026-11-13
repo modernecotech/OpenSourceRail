@@ -5,6 +5,7 @@ import fcntl,gzip,json,time
 from engineering.station_pair import coordinator as pair, economics,lifecycle
 from engineering.station_pair import native_bridge as journey_bridge
 from engineering.station_rail.common import identity,digest,encoded
+from engineering.run_cache import cleanup_cargo_targets
 from . import ROOT,FLAGS,design,history,native_bridge
 
 
@@ -182,5 +183,10 @@ def run(output,*,root=ROOT):
         (output/'result.json.gz').write_bytes(gzip.compress(encoded(value),mtime=0))
         receipt=dict(schema='osr-station-cycle-run/1',study_id=value['study_id'],source_sha256=before,
             files_sha256={'result.json.gz':digest(output/'result.json.gz')},**FLAGS)
+        cleanup_cargo_targets(output,['native-target','native-product-target'],{
+            **receipt['files_sha256'],
+            'native-build.json':digest(output/'native-build.json'),
+            'native-build.log':digest(output/'native-build.log'),
+            'cycle-build.json':digest(output/'cycle-build.json')})
         receipt['manifest_id']=identity(receipt);(output/'manifest.json').write_bytes(encoded(receipt))
         return value
