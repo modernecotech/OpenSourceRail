@@ -24,8 +24,8 @@ def test_historical_renderer_has_separate_default_output():
 
 def test_platform_book_receipt_binds_sources_and_pdf(tmp_path):
     source_root = platform_book.ROOT
-    assert len(platform_book.CHAPTERS) == 27
-    assert len(platform_book.PARTS) == 5
+    assert len(platform_book.CHAPTERS) == 50
+    assert len(platform_book.PARTS) == 8
     for name in (*platform_book._inputs(source_root), platform_book.BOOK, platform_book.RECEIPT):
         target = tmp_path / name
         target.parent.mkdir(parents=True, exist_ok=True)

@@ -24,13 +24,16 @@ Safety, passenger protection and accessibility are requirements throughout.
 
 ## What the reader will find
 
-Part I explains the purpose and the passenger journey. Part II follows a city
-proposal into a worked Samawah corridor revision. Part III describes the
-vehicle, doors, power, braking, stations and structures. Part IV asks how the
-railway could be made, costed, controlled and maintained. Part V explains the
-engineering tools, the evidence already gained, the gaps that remain and the
-route through v0.7. Short definitions and suggested further reading close the
-book. The PDF outline provides chapter navigation.
+Part I explains the passenger purpose and the three connected products. Part
+II guides a reader through the published v0.6.1 software: its city atlas,
+Workbench journeys, candidate research, engineering views, delivery drafts and
+visible holds. Part III follows a city proposal into a worked Samawah corridor
+revision. Parts IV and V explore the physical railway and the work of making,
+costing, controlling and maintaining it. Part VI explains how the engineering
+evidence should be read. Part VII follows the v0.7 effort to connect one
+corridor, vehicle and module into a continuous project. Part VIII describes
+adoption, contributions, terms and further reading. The PDF outline provides
+chapter navigation.
 
 Illustrations are labelled as concepts or engineering views. A concept image
 can help explain a proposal without proving dimensions, performance or

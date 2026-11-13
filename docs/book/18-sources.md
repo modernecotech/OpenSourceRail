@@ -4,18 +4,25 @@ This is a reader's edition of the current platform and engineering work.
 The separately published source receipt records the exact files and
 illustrations used to build the PDF. The maintained project guides provide
 the detailed calculations, software behavior and historical records behind
-the narrative. The following titles are useful starting points for further
-reading; they remain subject to their own stated evidence limits.
+the narrative. The following titles are useful starting points in the
+project's documentation. Begin with the published release guide if you want
+to use the software; use the engineering guides when you want to examine a
+calculation or proposed physical design. Each retains its own evidence limits.
 
 | Further reading | Main subject |
 |---|---|
 | OpenSourceRail platform guide | Three products, passenger railway concept, delivery method and local capability |
+| v0.6.1 installation and quickstart | Published downloads, local setup and a first Samawah session |
 | v0.6.1 release and known limitations | Published software scope, installation and visible holds |
+| v0.6.1 feature maturity and demonstrations | Available, preview and held features, with three example journeys |
+| First adoption path | Ways a city, workshop or reviewer can use the current tools |
 | v0.7 Samawah corridor continuity | Before-and-after station comparison and its planning boundaries |
 | v0.7 execution and evidence | Current development results and unresolved interfaces |
+| City planning workspace and RustGIS guide | Planning proposals, native edits and revised city studies |
 | Vehicle parts, manufacture and assembly | Counted stock, proposed processes and assembly breakdown |
 | One coordinated railway experiment | Same-candidate engineering propagation and research alternatives |
 | SolidCraft and FieldCraft backend pilot | CAD and mechanics comparisons and their model domains |
+| Assembly lifecycle integration | What a counted module must prove before business handback |
 | v0.7 corridor-to-lifecycle roadmap | The integrated work still needed |
 
 ## Terms used in this book

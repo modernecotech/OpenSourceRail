@@ -24,14 +24,27 @@ PARTS = (
         ("The passenger journey", "docs/book/02-passenger.md"),
         ("A reference, with room to explore", "docs/book/03-architecture.md"),
         ("Capacity, frequency and useful service", "docs/book/19-service.md"),
+        ("Three connected products", "docs/book/47-three-products.md"),
     )),
-    ("II. From city to corridor", "Planning, service and a worked station revision.", (
+    ("II. The published v0.6.1 platform", "A guided tour of the released software and its limits.", (
+        ("The published v0.6.1 platform", "docs/book/27-release-orientation.md"),
+        ("A reader's first session", "docs/book/28-first-session.md"),
+        ("Exploring the city atlas", "docs/book/29-city-atlas.md"),
+        ("A Samawah Workbench journey", "docs/book/30-samawah-workbench.md"),
+        ("Baghdad and retained comparisons", "docs/book/31-baghdad.md"),
+        ("Exploring candidate research", "docs/book/32-candidate-lab.md"),
+        ("CAD and engineering views", "docs/book/33-cad-gallery.md"),
+        ("Reading costs and delivery drafts", "docs/book/34-cost-delivery-exports.md"),
+        ("Business, supervision and controls", "docs/book/35-control-business.md"),
+        ("What v0.6.1 does not claim", "docs/book/36-release-boundaries.md"),
+    )),
+    ("III. From city to corridor", "Planning, service and a worked station revision.", (
         ("From a city brief to an alignment", "docs/book/04-city.md"),
         ("Samawah: one edit through the system", "docs/book/05-samawah.md"),
         ("Networks, service and city variety", "docs/book/06-networks.md"),
         ("Stations and the streets around them", "docs/book/20-stations.md"),
     )),
-    ("III. The physical railway", "Vehicle, passenger interfaces, power, stopping and civil works.", (
+    ("IV. The physical railway", "Vehicle, passenger interfaces, power, stopping and civil works.", (
         ("Vehicle and running gear", "docs/book/07-vehicle.md"),
         ("Inside the vehicle", "docs/book/24-inside.md"),
         ("Doors, cabin and access", "docs/book/08-door.md"),
@@ -40,7 +53,7 @@ PARTS = (
         ("Heat, ventilation and electrical life", "docs/book/21-systems.md"),
         ("Stations, structures and construction", "docs/book/10-civil.md"),
     )),
-    ("IV. Making and keeping the railway", "Local production, whole-life decisions, control and maintenance.", (
+    ("V. Making and keeping the railway", "Local production, whole-life decisions, control and maintenance.", (
         ("Local manufacture and sourcing", "docs/book/11-manufacture.md"),
         ("From factory to finished corridor", "docs/book/22-delivery.md"),
         ("Cost and whole-life decisions", "docs/book/12-cost.md"),
@@ -48,26 +61,48 @@ PARTS = (
         ("Control and passenger protection", "docs/book/13-control.md"),
         ("Business, maintenance and renewal", "docs/book/14-lifecycle.md"),
     )),
-    ("V. Evidence and the road ahead", "What the tools establish, what remains open and how v0.7 advances.", (
+    ("VI. Engineering and evidence", "What the tools establish and what remains open.", (
         ("Engineering tools and evidence", "docs/book/15-tools.md"),
         ("Current results and open questions", "docs/book/16-evidence.md"),
         ("Research choices and independent checks", "docs/book/23-research.md"),
+    )),
+    ("VII. Building the continuous v0.7 project", "A corridor revision linked to design, manufacture and maintenance.", (
+        ("The v0.7 continuous project", "docs/book/37-v07-continuity.md"),
+        ("Samawah before and after", "docs/book/38-samawah-practice.md"),
+        ("Native city editing with RustGIS", "docs/book/39-native-gis.md"),
+        ("Door operator as a complete module", "docs/book/40-door-design.md"),
+        ("New CAD and mechanics tools", "docs/book/41-structural.md"),
+        ("Manufacture and maintenance custody", "docs/book/42-lifecycle-custody.md"),
+        ("Efficient repeated studies", "docs/book/43-performance.md"),
+        ("The Workbench project journey", "docs/book/44-workbench-journey.md"),
+        ("Generalising to Baghdad", "docs/book/45-baghdad-next.md"),
+        ("What completes v0.7", "docs/book/46-v07-readiness.md"),
         ("One complete candidate for v0.7", "docs/book/17-v07.md"),
+    )),
+    ("VIII. Adoption and open knowledge", "Using the platform, contributing and reading deeper.", (
+        ("Who can use the platform now", "docs/book/48-adoption.md"),
+        ("Keeping the work open and useful", "docs/book/49-open-knowledge.md"),
         ("Sources, terms and licensing", "docs/book/18-sources.md"),
     )),
 )
 CHAPTERS = tuple(chapter for _, _, chapters in PARTS for chapter in chapters)
 EVIDENCE_INPUTS = (
-    "README.md", "docs/platform-guide.md", "docs/ARCHITECTURE.md",
+    "README.md", "CONTRIBUTING.md", "GOVERNANCE.md",
+    "docs/platform-guide.md", "docs/ARCHITECTURE.md",
+    "docs/first-adoptable-product.md", "docs/engineering-models/README.md",
     "docs/capabilities/README.md", "docs/ROADMAP.md",
     "docs/releases/v0.6.1/README.md", "docs/releases/v0.6.1/known-limitations.md",
+    "docs/releases/v0.6.1/release-notes.md",
+    "docs/releases/v0.6.1/feature-maturity.md",
+    "docs/releases/v0.6.1/quickstart.md", "docs/releases/v0.6.1/demonstrations.md",
     "docs/design-engine/v07-project-continuity/README.md",
     "docs/design-engine/v07-execution/README.md",
     "docs/design-engine/vehicle-parts/README.md",
     "docs/design-engine/coupled-railway/README.md",
     "docs/design-engine/craft-backends/README.md",
     "docs/design-engine/model-based-cost-and-delivery.md",
-    "docs/integration/v06-platform.md", "docs/gis/README.md",
+    "docs/integration/v06-platform.md", "docs/integration/v07-assembly-lifecycle.md",
+    "docs/workbench/planning/README.md", "docs/gis/README.md",
     "docs/plans/v0.7-agent-delivery-plan.md",
 )
 INPUTS = tuple(dict.fromkeys((
@@ -195,14 +230,20 @@ def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False)
     ]
     story.extend((PageBreak(), render._outline_heading("Contents", styles["part"],
                                                       "contents", 0),
-                  Paragraph(f"Five parts and {len(CHAPTERS)} chapters. "
+                  Paragraph(f"{len(PARTS)} parts and {len(CHAPTERS)} chapters. "
                             "Use the PDF outline for direct chapter navigation. "
                             "The separate receipt records the exact sources and illustrations.",
                             styles["body"])))
+    toc_index = 0
     for part_number, (part, description, chapters) in enumerate(PARTS, 1):
-        story.append(Paragraph(f"<b>{part}</b> - {description}", styles["body"]))
+        story.append(Paragraph(
+            f'<link href="#part-{part_number}"><b>{part}</b></link> - {description}',
+            styles["body"]))
         for chapter_number, (title, _) in enumerate(chapters, 1):
-            story.append(Paragraph(f"{part_number}.{chapter_number} {title}", styles["small"]))
+            toc_index += 1
+            story.append(Paragraph(
+                f'<link href="#chapter-{toc_index}">{part_number}.{chapter_number} '
+                f'{title}</link>', styles["small"]))
     chapter_index = 0
     for part_number, (part, description, chapters) in enumerate(PARTS, 1):
         story.extend((PageBreak(), render._outline_heading(part, styles["part"],

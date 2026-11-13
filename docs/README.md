@@ -37,10 +37,11 @@ covers candidate-bound records, adapters, replay packets and business-system
 drafts. The [model-based cost and delivery plan](design-engine/model-based-cost-and-delivery.md)
 describes provisional cost completion and its evidence boundaries.
 
-The [comprehensive ebook](../OpenSourceRail-Book.pdf) has five parts and 27
-original chapters for human readers. It follows the passenger journey, city
-planning, one Samawah decision, the physical railway, production, delivery,
-whole-life cost and the work ahead. Its [foreword](BOOK.md) explains the
+The [comprehensive ebook](../OpenSourceRail-Book.pdf) has eight parts and 50
+original chapters for human readers. It guides users through the published
+v0.6.1 platform and the developing v0.7 project, then follows the passenger
+journey, city planning, a Samawah decision, the physical railway, production,
+delivery and whole-life cost. Its [foreword](BOOK.md) explains the
 scope. A separate receipt binds the sources and illustrations without putting
 technical identifiers into the prose. The held integrated dossier is excluded
 as passing engineering proof.
