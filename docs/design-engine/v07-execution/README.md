@@ -208,6 +208,16 @@ The intake rejects the 2 m display proxy as full guide fit, a straightened belt,
 mixed identities and acceptance claims. All installation datums remain held;
 no native assembly or physical qualification followed from this software slice.
 
+The [door delivery preflight](door-pack-preflight.md) now checks the next L01
+input boundary against that actual counted handoff. Its current inventory has
+no same-child closure study/delivery proposal, and no supplied controlled
+drawing, inspection and routing mappings for the 74 leaves or three selected
+assembly document sets. It records 597 purchased pieces across 35 types but
+does not simulate their receipt or QA. Candidate/count/route mismatches are
+rejected before any review-pack or native ERP attempt. The preflight does not
+authenticate sidecar payloads; the existing review compiler and later native
+adapter retain that responsibility.
+
 ## Integration still required
 
 The published reference `756a…` and manufacturing child `907d…` differ physically,
