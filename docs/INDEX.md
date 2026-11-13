@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **255**.
+Indexed Markdown files: **278**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **255**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 223 |
+| [docs](#docs) | 246 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -106,6 +106,29 @@ Indexed Markdown files: **255**.
 | [`docs/book/24-inside.md`](../docs/book/24-inside.md) | Inside the vehicle |
 | [`docs/book/25-recovery.md`](../docs/book/25-recovery.md) | Stopping, faults and rescue |
 | [`docs/book/26-benchmark.md`](../docs/book/26-benchmark.md) | A corridor cost comparison |
+| [`docs/book/27-release-orientation.md`](../docs/book/27-release-orientation.md) | The published v0.6.1 platform |
+| [`docs/book/28-first-session.md`](../docs/book/28-first-session.md) | A reader's first session |
+| [`docs/book/29-city-atlas.md`](../docs/book/29-city-atlas.md) | Exploring the city atlas |
+| [`docs/book/30-samawah-workbench.md`](../docs/book/30-samawah-workbench.md) | A Samawah Workbench journey |
+| [`docs/book/31-baghdad.md`](../docs/book/31-baghdad.md) | Baghdad and retained comparisons |
+| [`docs/book/32-candidate-lab.md`](../docs/book/32-candidate-lab.md) | Exploring candidate research |
+| [`docs/book/33-cad-gallery.md`](../docs/book/33-cad-gallery.md) | CAD and engineering views |
+| [`docs/book/34-cost-delivery-exports.md`](../docs/book/34-cost-delivery-exports.md) | Reading costs and delivery drafts |
+| [`docs/book/35-control-business.md`](../docs/book/35-control-business.md) | Business, supervision and controls |
+| [`docs/book/36-release-boundaries.md`](../docs/book/36-release-boundaries.md) | What v0.6.1 does not claim |
+| [`docs/book/37-v07-continuity.md`](../docs/book/37-v07-continuity.md) | The v0.7 continuous project |
+| [`docs/book/38-samawah-practice.md`](../docs/book/38-samawah-practice.md) | Samawah before and after |
+| [`docs/book/39-native-gis.md`](../docs/book/39-native-gis.md) | Native city editing with RustGIS |
+| [`docs/book/40-door-design.md`](../docs/book/40-door-design.md) | The door operator as a complete module |
+| [`docs/book/41-structural.md`](../docs/book/41-structural.md) | New CAD and mechanics tools |
+| [`docs/book/42-lifecycle-custody.md`](../docs/book/42-lifecycle-custody.md) | Manufacture and maintenance custody |
+| [`docs/book/43-performance.md`](../docs/book/43-performance.md) | Efficient repeated studies |
+| [`docs/book/44-workbench-journey.md`](../docs/book/44-workbench-journey.md) | The Workbench project journey |
+| [`docs/book/45-baghdad-next.md`](../docs/book/45-baghdad-next.md) | Generalising to Baghdad |
+| [`docs/book/46-v07-readiness.md`](../docs/book/46-v07-readiness.md) | What completes v0.7 |
+| [`docs/book/47-three-products.md`](../docs/book/47-three-products.md) | Three connected products |
+| [`docs/book/48-adoption.md`](../docs/book/48-adoption.md) | Who can use the platform now |
+| [`docs/book/49-open-knowledge.md`](../docs/book/49-open-knowledge.md) | Keeping the work open and useful |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
