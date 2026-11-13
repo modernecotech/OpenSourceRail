@@ -1,4 +1,4 @@
-# OpenSourceRail: open engineering platform
+# OpenSourceRail: comprehensive open engineering ebook
 
 **Reader edition: 13 November 2026.** The published software release is
 [v0.6.1](releases/v0.6.1/README.md). v0.7 is in development; its
@@ -10,6 +10,31 @@ tools needed to plan, design, make, operate, maintain and renew it. Local design
 knowledge, manufacture and repair are central to the project. The platform
 connects city planning, railway engineering and manufacturing/lifecycle work;
 the three products must share explicit candidate and source identities.
+
+## How to read this edition
+
+The PDF is a comprehensive illustrated ebook in six parts and 23
+source-attributed chapters. It brings together the platform guide, published
+software and adoption scope, city and corridor work, vehicle and civil
+engineering, CAD/FEA methods, manufacturing and costing, business integration,
+and the v0.7 execution record and plan. The PDF outline navigates directly to
+each part and chapter. Chapter source paths and the build receipt let a reader
+return to the maintained documents and illustrations.
+
+| Part | Subject |
+|---|---|
+| I | Purpose, three products, candidate identity and current capability |
+| II | Published v0.6.1 software, limitations and adoption |
+| III | Samawah project continuity, native GIS and city design dossiers |
+| IV | Coordinated railway, vehicle assembly, visual models, engineering controls and CAD/FEA |
+| V | Model-based cost, delivery and business lifecycle integration |
+| VI | v0.7 evidence, open interfaces, roadmap and agent delivery plan |
+
+The retained v0.6 engineering findings have their own clearly titled chapter.
+They remain research and open findings; the held integrated current dossier is
+not used as a passing release result. Other historical configurations remain
+available through their source-bound archives without silently changing the
+development reference.
 
 ## What is available
 
@@ -108,9 +133,10 @@ new physical design by itself.
 ## Source, review and history
 
 The [project README](../README.md) remains the public entry point. This PDF
-also includes that entry point, the capability register, release scope and
-limitations, and roadmap as source-attributed chapters. The v0.7 execution
-record remains linked and source-bound to this edition.
+includes 23 maintained source-attributed chapters, the illustrated platform
+guide, release scope and limitations, current development evidence, and the
+roadmap. The v0.7 execution record is a full chapter and remains source-bound
+to this edition.
 The [platform guide](platform-guide.md) retains deeper v0.6 reference and
 research background under its stated evidence limits.
 The [documentation index](INDEX.md) lists further maintained guides. The

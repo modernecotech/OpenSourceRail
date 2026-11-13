@@ -1,4 +1,4 @@
-"""Current reader receipt checks without the held integrated engineering dossier."""
+"""Comprehensive ebook receipt checks without the held integrated dossier."""
 
 import shutil
 
@@ -7,9 +7,16 @@ import pytest
 from engineering import platform_book
 
 
+def test_historical_renderer_has_separate_default_output():
+    render = platform_book._renderer(platform_book.ROOT)
+    assert render.DEFAULT_OUT != platform_book.ROOT / platform_book.BOOK
+
+
 def test_platform_book_receipt_binds_sources_and_pdf(tmp_path):
     source_root = platform_book.ROOT
-    for name in (*platform_book.INPUTS, platform_book.BOOK, platform_book.RECEIPT):
+    assert len(platform_book.CHAPTERS) == 23
+    assert len(platform_book.PARTS) == 6
+    for name in (*platform_book._inputs(source_root), platform_book.BOOK, platform_book.RECEIPT):
         target = tmp_path / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source_root / name, target)
@@ -23,6 +30,13 @@ def test_platform_book_receipt_binds_sources_and_pdf(tmp_path):
         platform_book.build(root=tmp_path, check=True)
 
     book_source.write_bytes(original)
+    illustration = tmp_path / "docs/images/v06/v06-cabin.webp"
+    with illustration.open("ab") as stream:
+        stream.write(b"changed")
+    with pytest.raises(ValueError, match="sources, PDF or receipt differ"):
+        platform_book.build(root=tmp_path, check=True)
+
+    shutil.copyfile(source_root / "docs/images/v06/v06-cabin.webp", illustration)
     with (tmp_path / platform_book.BOOK).open("ab") as stream:
         stream.write(b"\nchanged\n")
     with pytest.raises(ValueError, match="sources, PDF or receipt differ"):

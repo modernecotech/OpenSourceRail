@@ -4,7 +4,7 @@ OpenSourceRail develops affordable urban rail and open tools to **plan, design, 
 
 The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventional rails and precast concrete. Station propulsion alternatives remain under comparison; no installed architecture or powered length is selected. **This is a research and prototype design, without manufacturing or operating release.**
 
-**Start here:** [current platform book](OpenSourceRail-Book.pdf) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [v0.7 execution and open findings](docs/design-engine/v07-execution/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
+**Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [v0.7 execution and open findings](docs/design-engine/v07-execution/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
 
 The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) retains seven engineering findings. The published v0.6.1 software scope and the [v0.7 roadmap](docs/ROADMAP.md) are separate from physical, manufacturing and operating acceptance. The older authenticated [software-review profile](docs/design-engine/v06-software-release/README.md) remains historical and pending by design.
 
@@ -204,7 +204,7 @@ See [setup](tools/README.md) for dependencies. Create and check a planning/facto
 ./osr test
 ```
 
-Native workers need declared FEM/CAD tools and resources; runs retain failures and pending work. `./osr build` attempts to refresh the source-bound development packet, which is currently held by a source-binding mismatch. `./osr book` builds the current documentation reader independently of that held packet. The UI has no live train-control authority.
+Native workers need declared FEM/CAD tools and resources; runs retain failures and pending work. `./osr build` attempts to refresh the source-bound development packet, which is currently held by a source-binding mismatch. `./osr book` builds the comprehensive documentation ebook independently of that held packet. The UI has no live train-control authority.
 
 ## About the author
 

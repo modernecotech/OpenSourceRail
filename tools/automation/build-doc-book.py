@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the selected current railway reader; retain the historical adapter."""
+"""Render retained v0.5 research; export shared Markdown/PDF helpers."""
 from __future__ import annotations
 
 import argparse
@@ -62,7 +62,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 sys.path.insert(0, str(REPO_ROOT))
 
-DEFAULT_OUT = REPO_ROOT / "OpenSourceRail-Book.pdf"
+# A direct historical build must never overwrite the maintained current ebook.
+DEFAULT_OUT = REPO_ROOT / "build/historical/v0.5/OpenSourceRail-Book.pdf"
 
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
 
@@ -356,6 +357,16 @@ def _image_flowables(
         IMAGE_ERRORS.append(f"{base_path.relative_to(REPO_ROOT)}: failed image {path.name}")
         return [Paragraph(f"[image failed: {html.escape(path.name)}]", styles["caption"])]
 
+def _standalone_image(children: list[dict]) -> dict | None:
+    """Return an image displayed alone, including one wrapped in a link."""
+    if len(children) != 1:
+        return None
+    token = children[0]
+    if token.get("type") == "image":
+        return token
+    nested = token.get("children", []) if token.get("type") == "link" else []
+    return nested[0] if len(nested) == 1 and nested[0].get("type") == "image" else None
+
 def _table_flowable(
     token: dict,
     styles: dict[str, ParagraphStyle],
@@ -391,10 +402,11 @@ def _table_flowable(
     for raw_row in raw_rows:
         rendered_row: list = []
         for children, is_header in raw_row:
-            if include_images and len(children) == 1 and children[0].get("type") == "image":
+            image_token = _standalone_image(children) if include_images else None
+            if image_token is not None:
                 rendered_row.append(
                     _image_flowables(
-                        children[0],
+                        image_token,
                         base_path,
                         styles,
                         max_width=max(col_width - 8, 1),
@@ -511,10 +523,11 @@ def _render_markdown(
             flowables.append(Paragraph(_inline(token.get("children")), styles[f"h{level}"]))
         elif t == "paragraph":
             children = token.get("children", [])
-            if include_images and len(children) == 1 and children[0].get("type") == "image":
+            image_token = _standalone_image(children) if include_images else None
+            if image_token is not None:
                 flowables.extend(
                     _image_flowables(
-                        children[0],
+                        image_token,
                         path,
                         styles,
                         max_width=page_width,

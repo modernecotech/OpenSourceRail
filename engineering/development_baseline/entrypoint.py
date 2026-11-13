@@ -616,7 +616,7 @@ def main(argv=None, root=ROOT):
             return hold(root, command, 'Development adoption is not a manufacturing or operating release; physical qualification remains open')
         if command == 'book':
             if rest not in ([], ['--check']):
-                return hold(root, command, 'Use ./osr book [--check] for the selected reader')
+                return hold(root, command, 'Use ./osr book [--check] for the comprehensive ebook')
             from engineering.platform_book import build as platform_book
             emit(platform_book(root=root, output=root / 'OpenSourceRail-Book.pdf', check=bool(rest)))
             return 0

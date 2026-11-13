@@ -76,7 +76,7 @@ Indexed Markdown files: **229**.
 | File | Title |
 |---|---|
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
-| [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: open engineering platform |
+| [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: comprehensive open engineering ebook |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
