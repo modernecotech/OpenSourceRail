@@ -1,11 +1,14 @@
 """The actual counted door must not inherit a reference or fixture ERP pack."""
 from copy import deepcopy
+from hashlib import sha256
+import gzip
 import json
 
 import pytest
 
 from engineering.station_rail.common import encoded, identity
 from tools.automation import v07_door_pack_preflight as gate
+from tools.automation import v07_door_stage_intake as intake
 
 
 @pytest.fixture(scope='module')
@@ -140,3 +143,67 @@ def test_all_named_fake_paths_do_not_make_a_pack_ready(handoff):
     assert report['conversion_values_verified'] is False
     assert report['pack_ready'] is False
     assert report['native_erp_admitted'] is False
+
+
+def _study_packet(tmp_path):
+    root=tmp_path/'source';root.mkdir()
+    source=root/'controlled.txt';source.write_text('source revision A')
+    study=dict(schema='osr-railway-closure-study/1',
+               body_candidate_id=gate.INSTALLED_CHILD,
+               body_evaluation_id='b'*64,
+               source_sha256={'controlled.txt':sha256(source.read_bytes()).hexdigest()},
+               engineering_accepted=False,physical_accepted=False)
+    study['study_id']=identity(study)
+    packet=tmp_path/'study.json.gz'
+    packet.write_bytes(gzip.compress(encoded(study),mtime=0))
+    return root,source,packet,study
+
+
+def test_stage_intake_reports_first_missing_stage_without_granting_pack(tmp_path):
+    empty=intake.intake(root=tmp_path)
+    assert empty['intake_id']==identity({k:v for k,v in empty.items() if k!='intake_id'})
+    assert empty['first_unverified_stage']==gate.STAGES[0]
+    assert empty['stages'][0]['status']=='missing'
+    root,_,packet,_=_study_packet(tmp_path)
+    found=intake.intake(study_path=packet,root=root)
+    assert found['stages'][0]['status']=='source-verified'
+    assert found['first_unverified_stage']==gate.STAGES[1]
+    assert found['packet_sha256']['study']==sha256(packet.read_bytes()).hexdigest()
+    assert found['pack_ready'] is False and found['native_erp_admitted'] is False
+
+
+def test_stage_intake_refuses_stale_source_and_resealed_other_child(tmp_path):
+    root,source,packet,study=_study_packet(tmp_path)
+    source.write_text('source revision B')
+    stale=intake.intake(study_path=packet,root=root)
+    assert stale['first_unverified_stage']==gate.STAGES[0]
+    assert stale['stages'][0]['status']=='held'
+    assert 'Source bytes differ' in stale['first_unverified_reason']
+    source.write_text('source revision A')
+    study['body_candidate_id']='0'*64
+    study['study_id']=identity({k:v for k,v in study.items() if k!='study_id'})
+    packet.write_bytes(gzip.compress(encoded(study),mtime=0))
+    mixed=intake.intake(study_path=packet,root=root)
+    assert mixed['first_unverified_stage']==gate.STAGES[0]
+    assert 'another installed child' in mixed['first_unverified_reason']
+
+
+def test_stage_intake_refuses_unsealed_study_and_wrong_body(tmp_path):
+    root,_,packet,study=_study_packet(tmp_path)
+    study['study_id']='0'*64
+    packet.write_bytes(gzip.compress(encoded(study),mtime=0))
+    invalid=intake.intake(study_path=packet,root=root)
+    assert invalid['stages'][0]['status']=='held'
+    assert 'Unsealed study_id' in invalid['first_unverified_reason']
+    study['study_id']=identity({k:v for k,v in study.items() if k!='study_id'})
+    packet.write_bytes(gzip.compress(encoded(study),mtime=0))
+    physical=dict(schema='synthetic-other-child')
+    body=dict(schema='osr-vehicle-installation/1',candidate_id=identity(physical),
+              physical_definition=physical,
+              source_sha256=study['source_sha256'])
+    body['evaluation_id']=identity(body)
+    body_path=tmp_path/'body.json';body_path.write_bytes(encoded(body))
+    wrong=intake.intake(study_path=packet,body_path=body_path,root=root)
+    assert wrong['stages'][0]['status']=='source-verified'
+    assert wrong['first_unverified_stage']==gate.STAGES[1]
+    assert 'Installed body candidate' in wrong['first_unverified_reason']
