@@ -50,6 +50,22 @@ belt pitch, tension, shaft, mount, stop or motion evidence. No native CAD/FEA
 run was admitted. The combined focused door suite passed 64 tests after the
 correction.
 
+The next C01 visual control ran one pinned SolidCraft process on source
+`48375ead9a` for the held 30 mm child. It generated a native scene and STEP
+containing four closed **gross envelopes**: header stock, nominal guide box,
+and two pulley stock cylinders. Native elapsed time was 0.223 s, peak RSS
+44,876 KiB, and the sealed 13-file packet occupied 60,024 logical bytes.
+Independent read-only verification matched its manifest, file hashes, source
+commit/tree, 32 source hashes, tool binary and four measured bodies. The
+guide box is not a finished rail section or material mass; the belt has no
+solid. Scene/STEP reopening, exact B-rep comparison, mating, motion and
+physical acceptance remain open. Process-tree containment was not separately
+observed, temporary disk peak is unknown and no aggregate disk quota was
+enforced. The local packet under
+`~/.local/state/opensourcerail/runs/v07-door-cad-20261113-48375ead9a/`
+is retained as research evidence. The combined focused door suite passed
+68 tests on main after integration.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
