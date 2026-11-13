@@ -75,26 +75,27 @@ keeps the remaining installed-candidate, detailed module and lifecycle work open
 
 ## Delivery order and acceptance evidence
 
-1. **Handover and baseline:** finish the finite v0.6 installation/documentation
-   checks; identify the Samawah before/after cases, one vehicle candidate, one
-   civil assembly and the door operator. Capture baseline outputs and timings.
-2. **Project continuity:** get the station edit through service, fleet and a
-   preliminary quantity/cost delta in the existing Workbench early. Every result
-   has a source identity, and missing interfaces are visible.
-3. **Engineering and native GIS:** develop the vehicle, civil and module evidence
-   against those fixed interfaces; complete the native return path and reconcile
-   costs from actual quantity changes.
-4. **Lifecycle and generalisation:** connect the module BOM to the ERP lifecycle,
-   compile the dossier and replay one Baghdad corridor.
+1. **Handover and baseline — complete:** the published v0.6.1 installation,
+   Samawah before/after comparison, candidate boundaries and bounded performance
+   baseline have recorded source identities and timings.
+2. **Project continuity — software demonstrated:** the station edit flows through
+   service, fleet and fourteen cost scopes with dependency checks and visible
+   missing installed stages. Complete candidate integration remains open.
+3. **Engineering interfaces — active:** establish controlled door mating datums,
+   force/brake/thermal inputs and represented civil support/loading before new
+   native CAD or FEA. The Samawah and Baghdad native GIS two-edit return cycles
+   are recorded; rerun only for changed inputs.
+4. **Lifecycle and generalisation — active:** take the counted door module through
+   actual native ERPNext receipt, QA, assembly, replacement and handback, then
+   compile a same-candidate dossier and replay one Baghdad corridor.
 5. **Release acceptance:** resolve defects exposed by both journeys, run the
    clean-install v0.7 acceptance case, and publish supported scope and remaining
    engineering limitations.
 
-The indicative small-team sequence is baseline/handover first, continuity in
-weeks 1–2, engineering and GIS in weeks 3–6, lifecycle/Baghdad in weeks 7–8, and
-acceptance in weeks 9–10. These are planning estimates. Supplier inputs, physical
-measurements and unresolved structural assumptions have separate milestones;
-software can show exactly which conclusions depend on them.
+The original week ranges were planning estimates and are superseded by the
+[execution ledger](design-engine/v07-execution/README.md). Supplier inputs,
+physical measurements and unresolved structural assumptions have separate
+milestones; software can show exactly which conclusions depend on them.
 
 ## Consolidate existing computation
 

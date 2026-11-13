@@ -1,5 +1,14 @@
 # OpenSourceRail platform guide
 
+**Scope of this guide:** detailed v0.6 reference and research background. For
+the published software scope, read [v0.6.1](releases/v0.6.1/README.md); for
+current development and open engineering interfaces, read the
+[v0.7 execution record](design-engine/v07-execution/README.md) and the
+[current book](BOOK.md). The integrated v0.6 dossier cited below has a
+source-binding hold and is not supported release evidence. Historical motor,
+service and civil examples remain tied to their original candidates and do
+not select installed propulsion or physical acceptance.
+
 This guide preserves the detailed platform, engineering, delivery and research explanation. For the shorter introduction and practical starting points, see the [project README](../README.md). Current numerical results and evidence status belong to the linked source-bound publications.
 
 OpenSourceRail develops affordable urban rail and the open tools needed to **plan, design, procure, manufacture, construct, operate, maintain and renew it**. The aim is to retain design authority, software, fabrication, integration and repair capability in-country, with competitive sourcing of specialist components.
@@ -273,7 +282,7 @@ Each corridor still needs its own demand, terrain, climate, geotechnical, utilit
 The Workbench shows the factory draft inputs and open holds. Without a verified
 planning handoff, its compiler reports a hold and creates no package.
 
-The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. `./osr sim baghdad` reports the current city-evaluation hold. `./osr build` refreshes the current source-bound dossier, delivery drafts, Workbench and reader. The local review UI has no live train-control authority.
+The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. The old `./osr build` dossier path is held at its source-binding mismatch and must be regenerated only with compatible source evidence. `./osr book` builds the maintained platform reader independently. The local review UI has no live train-control authority.
 
 ## Find your way
 

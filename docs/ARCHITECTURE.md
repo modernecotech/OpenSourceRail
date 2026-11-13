@@ -83,9 +83,11 @@ acceptance remain separate records.
 | Delivery | Candidate-matched BOM, manufacturing processes, procurement, assembly, CAD/IFC and maintenance records |
 | Economics | Equal passenger service, routes, reliability, design life, installed scope and price uncertainty |
 
-The [current dossier](design-engine/current/README.md), CLI, Workbench,
-[candidate twin exports](design-engine/current/exports/manifest.json) and
-[project reader](../OpenSourceRail-Book.pdf) expose the current development
-selection. City performance publication remains held until candidate-specific
+The [held v0.6 reference dossier](design-engine/current/README.md) and its
+[candidate twin exports](design-engine/current/exports/manifest.json) retain
+their source identities. The [platform reader](../OpenSourceRail-Book.pdf)
+summarises the published software and current v0.7 work without treating that
+dossier as supported release evidence. The CLI and Workbench show source holds.
+Candidate-specific city performance publication remains held until
 propulsion, braking, route, civil and economic evidence supports it. Physical
 qualification and independent review remain open.

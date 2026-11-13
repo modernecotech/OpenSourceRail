@@ -129,10 +129,12 @@ def category(name):
 def introduction(name):
     parent = Path(name).parent
     route = Path(os.path.relpath('README.md', parent)).as_posix()
-    method = Path(os.path.relpath('docs/design-engine/current/README.md', parent)).as_posix()
+    current = 'docs/BOOK.md' if name == 'docs/README.md' else 'docs/design-engine/current/README.md'
+    method = Path(os.path.relpath(current, parent)).as_posix()
+    label = 'Current platform and evidence' if name == 'docs/README.md' else 'Engineering approach and current status'
     context = INTRODUCTION
     return '\n'.join((START, context, '',
-                      f'[Project introduction]({route}) · [Engineering approach and current status]({method})', END))
+                      f'[Project introduction]({route}) · [{label}]({method})', END))
 
 
 def render(text, name):

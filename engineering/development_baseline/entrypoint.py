@@ -617,7 +617,8 @@ def main(argv=None, root=ROOT):
         if command == 'book':
             if rest not in ([], ['--check']):
                 return hold(root, command, 'Use ./osr book [--check] for the selected reader')
-            emit(_module('book').build(root=root, output=root / 'OpenSourceRail-Book.pdf', check=bool(rest)))
+            from engineering.platform_book import build as platform_book
+            emit(platform_book(root=root, output=root / 'OpenSourceRail-Book.pdf', check=bool(rest)))
             return 0
         if command in ('catalogue', 'capabilities'):
             if rest and rest not in (['status'], ['--json']):

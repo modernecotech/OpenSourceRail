@@ -1085,7 +1085,7 @@ def build(root=ROOT,force=False,output=None):
         if not force:
             try:
                 value=verify(output,root=root,replay=False)
-                from .reader import build as reader
+                from engineering.platform_book import build as reader
                 reader(root=root,check=True);return dict(value,cached=True)
             except(ValueError,OSError,KeyError):pass
         from engineering import readme_context
@@ -1100,6 +1100,6 @@ def build(root=ROOT,force=False,output=None):
         audit=readme_context.audit(root)
         if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))
         write(output/'readme-coverage.json',(json.dumps(audit,sort_keys=True,indent=2)+'\n').encode());write(output/'readme-coverage.md',readme_context.markdown(audit).encode());seal(output,root)
-        from .reader import build as reader
+        from engineering.platform_book import build as reader
         reader(root=root);seal(output,root)
         return dict(value,verification=verify(output,root=root),cached=False)

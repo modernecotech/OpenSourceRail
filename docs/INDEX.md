@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **236**.
+Indexed Markdown files: **229**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **236**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 204 |
+| [docs](#docs) | 197 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -76,6 +76,7 @@ Indexed Markdown files: **236**.
 | File | Title |
 |---|---|
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
+| [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: open engineering platform |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
@@ -96,7 +97,6 @@ Indexed Markdown files: **236**.
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/craft-backends/README.md`](../docs/design-engine/craft-backends/README.md) | SolidCraft / FieldCraft backend pilot |
-| [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
 | [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
 | [`docs/design-engine/demand-outline/README.md`](../docs/design-engine/demand-outline/README.md) | Demand-led railway outlines |
@@ -263,13 +263,6 @@ Indexed Markdown files: **236**.
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/plans/v0.7-agent-delivery-plan.md`](../docs/plans/v0.7-agent-delivery-plan.md) | v0.7 agent delivery and tool migration plan |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
-| [`docs/releases/v0.6.0/README.md`](../docs/releases/v0.6.0/README.md) | OpenSourceRail v0.6.0 software release package |
-| [`docs/releases/v0.6.0/demonstrations.md`](../docs/releases/v0.6.0/demonstrations.md) | v0.6.0 demonstrations |
-| [`docs/releases/v0.6.0/feature-maturity.md`](../docs/releases/v0.6.0/feature-maturity.md) | v0.6.0 feature maturity |
-| [`docs/releases/v0.6.0/known-limitations.md`](../docs/releases/v0.6.0/known-limitations.md) | Known limitations for v0.6.0 |
-| [`docs/releases/v0.6.0/quickstart.md`](../docs/releases/v0.6.0/quickstart.md) | v0.6.0 evaluation quickstart |
-| [`docs/releases/v0.6.0/release-notes.md`](../docs/releases/v0.6.0/release-notes.md) | Proposed v0.6.0 release notes |
-| [`docs/releases/v0.6.0/validation.md`](../docs/releases/v0.6.0/validation.md) | v0.6.0 validation |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
 | [`docs/releases/v0.6.1/feature-maturity.md`](../docs/releases/v0.6.1/feature-maturity.md) | v0.6.1 feature maturity |

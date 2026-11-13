@@ -4,13 +4,13 @@ OpenSourceRail develops affordable urban rail and open tools to **plan, design, 
 
 The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventional rails and precast concrete. Station propulsion alternatives remain under comparison; no installed architecture or powered length is selected. **This is a research and prototype design, without manufacturing or operating release.**
 
-**Start here:** [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html) · [3D engineering gallery](docs/engineering-models/README.md) · [illustrated reader](OpenSourceRail-Book.pdf) · [detailed platform guide](docs/platform-guide.md).
+**Start here:** [current platform book](OpenSourceRail-Book.pdf) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [v0.7 execution and open findings](docs/design-engine/v07-execution/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
 
-The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) tracks seven engineering gates. A separate [software-release ledger](docs/design-engine/v06-software-release/README.md) evaluates six software gates; neither ledger asserts physical, manufacturing or operating acceptance.
+The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) retains seven engineering findings. The published v0.6.1 software scope and the [v0.7 roadmap](docs/ROADMAP.md) are separate from physical, manufacturing and operating acceptance. The older authenticated [software-review profile](docs/design-engine/v06-software-release/README.md) remains historical and pending by design.
 
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
-*Concept. The [source-bound vehicle geometry](docs/design-engine/current/vehicle-overview.svg) and [engineering models](docs/engineering-models/README.md) carry the detailed geometry and its limits.*
+*Concept. The retained [v0.6 vehicle stock view](docs/design-engine/current/vehicle-overview.svg) and [engineering models](docs/engineering-models/README.md) show partial geometry and its limits. The integrated current dossier has a source-binding hold and is excluded from supported v0.6.1 results.*
 
 ## What the project provides
 
@@ -33,7 +33,7 @@ See the [adoption path](docs/first-adoptable-product.md), [capabilities](docs/ca
 | **1. Define the brief** | Record demand, routes, access, climate, safety and local capability | [City catalogue](cities/catalogue/README.md), [planning workspace](docs/workbench/planning/index.html) |
 | **2. Compare alternatives** | Vary vehicles, propulsion, civil works, service and production under common requirements | [Workbench](docs/workbench/current/index.html), [coordinated design workflow](docs/design-engine/coupled-railway/README.md) |
 | **3. Check service and cost** | Calculate journeys, capacity, fleet, energy and low/base/high lifecycle costs | [Demand-led outline](docs/design-engine/demand-outline/README.md), [cost and delivery method](docs/design-engine/model-based-cost-and-delivery.md) |
-| **4. Plan delivery** | Inspect CAD/IFC, BOM, process hours, procurement, construction and schedules | [Delivery exports](docs/design-engine/current/exports/manifest.json), [candidate packages](docs/design-engine/coupled-railway/delivery-index.json) |
+| **4. Plan delivery** | Inspect CAD/IFC, BOM, process hours, procurement, construction and schedules | [Candidate packages](docs/design-engine/coupled-railway/delivery-index.json), [pilot delivery compiler](engineering/pilot_delivery/README.md) |
 | **5. Review, build and learn** | Validate independently; configure production, commissioning, maintenance and measured feedback | [ERPNext/Frappe HR](deployment/erpnext/README.md), [FUXA/gateway](deployment/supervision/README.md), [platform guide](docs/platform-guide.md#delivery-records-and-operations-integrations) |
 
 Revisions update one candidate through geometry, mass, checks, quantities and cost. Missing parts, hours and prices remain unknown or bounded.
@@ -204,7 +204,7 @@ See [setup](tools/README.md) for dependencies. Create and check a planning/facto
 ./osr test
 ```
 
-Native workers need declared FEM/CAD tools and resources; runs retain failures and pending work. `./osr build` refreshes publications and drafts. `./osr sim baghdad` reports a city-evaluation hold. The UI has no live train-control authority.
+Native workers need declared FEM/CAD tools and resources; runs retain failures and pending work. `./osr build` attempts to refresh the source-bound development packet, which is currently held by a source-binding mismatch. `./osr book` builds the current documentation reader independently of that held packet. The UI has no live train-control authority.
 
 ## About the author
 
