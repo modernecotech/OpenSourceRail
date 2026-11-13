@@ -116,6 +116,22 @@ open; the intake leaves pack readiness, ERP admission and physical acceptance
 false. The six-case alternative report retains the other service options without
 silently selecting one.
 
+The next P02 bridge on main `32b57a2f27` produced a retained, sealed
+Samawah research overlay `af8356e862…` in 4.00 s. It authenticates the
+station-edit milestone, closure study, delivery draft and current source
+bindings, then leaves research-child fleet, civil quantities, service and all
+fourteen cost scopes unknown. The historical browser comparison's embedded
+seal is reported false, so its numbers are not reused. No city recalculation,
+selection or physical acceptance occurred.
+
+The bounded L01 intake batch on main `6cdcba6379` checks six explicit
+service alternatives in one call. It retains exact legacy intake reports and
+adds six distinct service-bound case IDs. A paired local run took 51.21 s
+with six separate calls and 22.12 s in batch; all six cost stages
+verified and all six proposal stages remained missing. The 27 focused batch
+and existing preflight tests passed. This does not change the delivery draft,
+controlled-document hold or native ERP admission.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
