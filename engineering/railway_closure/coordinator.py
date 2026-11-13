@@ -12,6 +12,7 @@ from engineering.pilot_civil import assembly as civil_assembly,render as civil_r
 from engineering.station_pair import coordinator as pair
 from . import ROOT,FLAGS
 from . import installed as installation,service,motion,bundle,fleet,fleet_bridge,cost,electrical,civil_reference
+from . import body_input as external_body
 
 PARENT='engineering/railway_closure/data/frozen-installed-parent.json.gz'
 
@@ -35,9 +36,17 @@ def write(folder,name,value):
     p.write_bytes(raw)
 
 
-def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=False):
+def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=False,
+        body_input=None,expected_body_candidate=None):
     from engineering.vehicle_installation import underframe
-    root=Path(root).resolve();out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
+    root=Path(root).resolve()
+    if (body_input is None) != (expected_body_candidate is None):
+        raise ValueError('Body input and expected physical candidate must be supplied together')
+    if body_input is not None and bogie_detail:
+        raise ValueError('Explicit body input cannot be silently revised by bogie detail')
+    supplied_body,supplied_receipt=(external_body.load(body_input,expected_candidate_id=expected_body_candidate,root=root)
+        if body_input is not None else (None,None))
+    out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     before=sources(root);start=time.monotonic();timings={};p=service.brief(root)
     reuse_groups={};origin_manifest_id=None;origin_manifest_files=None
     if reuse_native is not None:
@@ -82,11 +91,16 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
                 origin_manifest_id=origin_manifest_id)
     write(out,'source-before.json',before)
     prepared=motion.prepare(root)
-    parent=underframe.load_parent(root/PARENT)
-    t=time.monotonic();body=underframe.build(parent,family_id=p['underframe_family_id'])
-    if bogie_detail:
-        from engineering.powered_bogie.design import build as revise_bogie
-        body=revise_bogie(body,root=root)
+    t=time.monotonic()
+    if supplied_body is not None:
+        body=supplied_body
+        write(out,'body-input-receipt.json',supplied_receipt)
+    else:
+        parent=underframe.load_parent(root/PARENT)
+        body=underframe.build(parent,family_id=p['underframe_family_id'])
+        if bogie_detail:
+            from engineering.powered_bogie.design import build as revise_bogie
+            body=revise_bogie(body,root=root)
     timings['body_s']=time.monotonic()-t
     export.write(body,out/'vehicle')
     i=installation.integrate(body,with_recovery=with_recovery,root=root);axles=installation.axle_packet(i)
@@ -184,12 +198,21 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
                body_evaluation_id=body['evaluation_id'],installed=i,civil=leading,
                civil_native_reference=civil_native,
                body_summary={k:body[k] for k in ('source_component_types','proposed_component_types','total_occurrences',
-                   'nominal_part_mass_kg','direct_parts_process_usd','mass_scenarios','structural_comparison','interface_screens')},
+                   'nominal_part_mass_kg','direct_parts_process_usd','mass_scenarios','interface_screens')},
                civil_alternatives=[dict(candidate_id=c['civil_candidate_id'],evaluation_id=c['evaluation_id'],screens=c['screens'],cost=c['cost']) for c in civil],
                service_plans=plans,records=records,battery_alternatives=battery,battery_thermal_proxies=thermal,
                serial_requests=requests,serial_results=serial,source_sha256=before,
                priced_cities_replaced=False,integrated_selection=None,
                scope='Calculated research outline and disjoint manufacturing/cost records; exact native FEM applicability is reported per candidate and evaluation, without inherited physical qualification.',**FLAGS)
+    if 'structural_comparison' in body:
+        value['body_summary']['structural_comparison']=body['structural_comparison']
+    else:
+        value['body_summary']['structural_comparison']=None
+        value['body_summary']['structural_comparison_hold']='Supplied installed layout has no underframe structural comparison; do not inherit a different physical body\'s result'
+    if supplied_receipt is not None:
+        value['body_input_receipt']=supplied_receipt
+        value['system_architecture']='powered-wheel-research; supplied body identity preserved, passive reference not selected'
+        value['body_summary']['installed_mass_complete']=body.get('installed_mass_complete')
     value['study_id']=identity(value)
     write(out,'study.json.gz',gzip.compress(encoded(value),mtime=0))
     after=sources(root);write(out,'source-after.json',after)
@@ -214,6 +237,7 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
                unchanged_native_batch_receipts_reused=len(used_receipt_ids & reused_receipt_ids),
                native_batches_executed=len(used_receipt_ids-reused_receipt_ids),
                run_bytes_before_manifest=sum(q.stat().st_size for q in out.rglob('*') if q.is_file()))
+    if supplied_receipt is not None:usage['body_input_sha256']=supplied_receipt['input_sha256']
     write(out,'usage.json',usage)
     for group, build_name in (('serial','cycle-build.json'),('fleet','fleet-build.json')):
         state=out/group
@@ -221,9 +245,12 @@ def run(output,*,root=ROOT,with_recovery=True,reuse_native=None,bogie_detail=Fal
             build_name:digest(state/build_name),
             'native-build.json':digest(state/'native-build.json'),
             'native-build.log':digest(state/'native-build.log')})
+    if supplied_receipt is not None:external_body.recheck(body_input,supplied_receipt)
     files={q.relative_to(out).as_posix():digest(q) for q in out.rglob('*') if q.is_file()}
     manifest=dict(schema='osr-railway-closure-run/1',study_id=value['study_id'],source_sha256=before,files_sha256=files,**FLAGS)
     manifest['manifest_id']=identity(manifest);write(out,'manifest.json',manifest)
     if before!=after:raise ValueError('Source drift: complete retained run held')
-    return dict(study_id=value['study_id'],candidate_id=canonical['candidate_id'],output=str(out),usage=usage,
+    result=dict(study_id=value['study_id'],candidate_id=canonical['candidate_id'],output=str(out),usage=usage,
                 nominal_model_passes=sum(r['assessment']['nominal_model_screen'] for r in records if r['experiment']=='nominal'),**FLAGS)
+    if supplied_receipt is not None:result['system_architecture']='powered-wheel-research'
+    return result

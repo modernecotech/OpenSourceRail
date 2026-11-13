@@ -10,13 +10,16 @@ def main():
     run.add_argument('--bogie-detail',action='store_true',help='Explicit research body revision; unresolved gearbox/brake and underframe fit remains held')
     run.add_argument('--without-recovery',action='store_true')
     run.add_argument('--reuse-native',type=Path,help='Reuse exact source/tool/request native batches with sealed receipt provenance')
+    run.add_argument('--body-input',type=Path,help='Sealed installed body archive for an explicit powered-wheel research closure run')
+    run.add_argument('--expect-body-candidate',help='Required exact physical body candidate SHA-256 when --body-input is used')
     pub=sub.add_parser('publish');pub.add_argument('--run',type=Path,required=True);pub.add_argument('--output',type=Path)
     pub.add_argument('--native-cad-evidence',type=Path)
     check=sub.add_parser('verify');check.add_argument('--output',type=Path)
     check.add_argument('--retained-source',help='Explicit original full Git commit; historical verification only, never current-valid')
     check.add_argument('--state',type=Path,help='External temporary source replay parent')
     args=p.parse_args()
-    if args.command=='run':result=coordinator.run(args.output,with_recovery=not args.without_recovery,reuse_native=args.reuse_native,bogie_detail=args.bogie_detail)
+    if args.command=='run':result=coordinator.run(args.output,with_recovery=not args.without_recovery,reuse_native=args.reuse_native,bogie_detail=args.bogie_detail,
+                                                  body_input=args.body_input,expected_body_candidate=args.expect_body_candidate)
     elif args.command=='publish':result=publication.publish(args.run,output=args.output,native_cad_evidence=args.native_cad_evidence)
     elif args.retained_source:
         from . import ROOT,retained
