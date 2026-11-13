@@ -28,14 +28,20 @@ Part I explains the passenger purpose and the three connected products. Part
 II guides a reader through the published v0.6.1 software: its city atlas,
 Workbench journeys, candidate research, engineering views, delivery drafts and
 visible holds. Part III follows a city proposal into a worked Samawah corridor
-revision. Parts IV and V explore the physical railway and the work of making,
-costing, controlling and maintaining it. Part VI explains how the engineering
-evidence should be read. Part VII follows the v0.7 effort to connect one
-corridor, vehicle and module into a continuous project. Part VIII describes
-adoption, contributions, terms and further reading. The PDF outline provides
-chapter navigation.
+revision. Part IV presents ten illustrated city route examples. Parts V
+through VII explore the physical railway, its product and assembly views,
+and the work of making, costing, controlling and maintaining it. Parts VIII
+and IX show how digital twins are tested and how their evidence should be
+read. Part X follows the v0.7 effort to connect one corridor, vehicle and
+module into a continuous project. Part XI tours the screens people use.
+Part XII describes adoption, contributions, terms and further reading.
+The PDF outline provides chapter navigation.
 
-Illustrations are labelled as concepts or engineering views. A concept image
+The city maps in Part IV are excerpts of calculated planning outlines; their
+routes and access are unsurveyed. Product images from separate research
+candidates are labelled separately, and screenshots identify the software
+view from which they were captured. Illustrations are labelled as concepts
+or engineering views. A concept image
 can help explain a proposal without proving dimensions, performance or
 qualification. Calculated results are presented with their assumptions and
 limits. The published v0.6.1 release is a software release: it makes planning,

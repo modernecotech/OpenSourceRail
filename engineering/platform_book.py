@@ -17,6 +17,19 @@ BOOK = "OpenSourceRail-Book.pdf"
 RECEIPT = "OpenSourceRail-Book.receipt.json"
 SOURCE = "docs/BOOK.md"
 HERO = "docs/images/v06/v06-hero-elevated-station.webp"
+CITY_CASES = (
+    "west-asia/Iraq/Samawah", "west-asia/Iraq/Baghdad",
+    "west-asia/Iraq/Basra", "west-asia/Iraq/Erbil",
+    "west-asia/Jordan/Amman", "south-asia/Pakistan/Karachi",
+    "east-africa/Kenya/Nairobi", "east-africa/Zambia/Lusaka",
+    "latin-america/Ecuador/Cuenca",
+    "latin-america/El Salvador/San-Salvador",
+)
+CITY_EVIDENCE = tuple(
+    f"cities/catalogue/{city}/{name}"
+    for city in CITY_CASES
+    for name in ("README.md", "engineering/outline/network.svg")
+)
 PARTS = (
     ("I. An open railway for people", "Purpose, passenger experience and the design reference.", (
         ("A note to the reader", "docs/BOOK.md"),
@@ -44,7 +57,15 @@ PARTS = (
         ("Networks, service and city variety", "docs/book/06-networks.md"),
         ("Stations and the streets around them", "docs/book/20-stations.md"),
     )),
-    ("IV. The physical railway", "Vehicle, passenger interfaces, power, stopping and civil works.", (
+    ("IV. Ten city route examples", "Calculated maps from different city contexts, with their planning limits.", (
+        ("How to read a city route map", "docs/book/50-map-reading.md"),
+        ("Samawah and Baghdad", "docs/book/51-iraq-samawah-baghdad.md"),
+        ("Basra and Erbil", "docs/book/52-iraq-basra-erbil.md"),
+        ("Amman and Karachi", "docs/book/53-amman-karachi.md"),
+        ("Nairobi and Lusaka", "docs/book/54-nairobi-lusaka.md"),
+        ("Cuenca and San Salvador", "docs/book/55-cuenca-san-salvador.md"),
+    )),
+    ("V. The physical railway", "Vehicle, passenger interfaces, power, stopping and civil works.", (
         ("Vehicle and running gear", "docs/book/07-vehicle.md"),
         ("Inside the vehicle", "docs/book/24-inside.md"),
         ("Doors, cabin and access", "docs/book/08-door.md"),
@@ -53,7 +74,14 @@ PARTS = (
         ("Heat, ventilation and electrical life", "docs/book/21-systems.md"),
         ("Stations, structures and construction", "docs/book/10-civil.md"),
     )),
-    ("V. Making and keeping the railway", "Local production, whole-life decisions, control and maintenance.", (
+    ("VI. Product and assembly views", "Drawings and models of distinct railway research candidates.", (
+        ("The train in engineering views", "docs/book/57-train-views.md"),
+        ("Doors, seating and accessible interiors", "docs/book/58-door-and-interior.md"),
+        ("Station drive and launch alternatives", "docs/book/59-station-drive-views.md"),
+        ("Civil assemblies and construction", "docs/book/60-civil-gallery.md"),
+        ("Manufacturing details and assembly", "docs/book/63-manufacturing-gallery.md"),
+    )),
+    ("VII. Making and keeping the railway", "Local production, whole-life decisions, control and maintenance.", (
         ("Local manufacture and sourcing", "docs/book/11-manufacture.md"),
         ("From factory to finished corridor", "docs/book/22-delivery.md"),
         ("Cost and whole-life decisions", "docs/book/12-cost.md"),
@@ -61,12 +89,18 @@ PARTS = (
         ("Control and passenger protection", "docs/book/13-control.md"),
         ("Business, maintenance and renewal", "docs/book/14-lifecycle.md"),
     )),
-    ("VI. Engineering and evidence", "What the tools establish and what remains open.", (
+    ("VIII. Digital twins and testing", "How models are connected, checked and challenged.", (
+        ("A digital twin of one candidate", "docs/book/56-digital-twin.md"),
+        ("What structural tests show", "docs/book/61-structural-tests.md"),
+        ("Journey, control and fault tests", "docs/book/62-journey-tests.md"),
+        ("What twin verification can and cannot prove", "docs/book/64-twin-assurance.md"),
+    )),
+    ("IX. Engineering and evidence", "What the tools establish and what remains open.", (
         ("Engineering tools and evidence", "docs/book/15-tools.md"),
         ("Current results and open questions", "docs/book/16-evidence.md"),
         ("Research choices and independent checks", "docs/book/23-research.md"),
     )),
-    ("VII. Building the continuous v0.7 project", "A corridor revision linked to design, manufacture and maintenance.", (
+    ("X. Building the continuous v0.7 project", "A corridor revision linked to design, manufacture and maintenance.", (
         ("The v0.7 continuous project", "docs/book/37-v07-continuity.md"),
         ("Samawah before and after", "docs/book/38-samawah-practice.md"),
         ("Native city editing with RustGIS", "docs/book/39-native-gis.md"),
@@ -79,7 +113,13 @@ PARTS = (
         ("What completes v0.7", "docs/book/46-v07-readiness.md"),
         ("One complete candidate for v0.7", "docs/book/17-v07.md"),
     )),
-    ("VIII. Adoption and open knowledge", "Using the platform, contributing and reading deeper.", (
+    ("XI. The interfaces in use", "A visual tour of the Workbench, planning and parts views.", (
+        ("The current Workbench", "docs/book/65-current-workbench.md"),
+        ("Planning and maps on screen", "docs/book/66-planning-screen.md"),
+        ("Parts and lifecycle on screen", "docs/book/67-parts-screen.md"),
+        ("Reading status and holds", "docs/book/68-reading-status.md"),
+    )),
+    ("XII. Adoption and open knowledge", "Using the platform, contributing and reading deeper.", (
         ("Who can use the platform now", "docs/book/48-adoption.md"),
         ("Keeping the work open and useful", "docs/book/49-open-knowledge.md"),
         ("Sources, terms and licensing", "docs/book/18-sources.md"),
@@ -100,14 +140,24 @@ EVIDENCE_INPUTS = (
     "docs/design-engine/vehicle-parts/README.md",
     "docs/design-engine/coupled-railway/README.md",
     "docs/design-engine/craft-backends/README.md",
+    "docs/design-engine/digital-twin/README.md",
+    "docs/design-engine/digital-twin/validation.md",
+    "docs/design-engine/reconciled-pilot/README.md",
+    "docs/design-engine/trip-dynamics/README.md",
+    "docs/design-engine/launch-detail/README.md",
+    "docs/design-engine/viaduct-backends/README.md",
+    "docs/assets/engineering-gallery-v06/manifest.json",
+    "docs/book/images/visual-provenance.json",
     "docs/design-engine/model-based-cost-and-delivery.md",
     "docs/integration/v06-platform.md", "docs/integration/v07-assembly-lifecycle.md",
     "docs/workbench/planning/README.md", "docs/gis/README.md",
     "docs/plans/v0.7-agent-delivery-plan.md",
+    *CITY_EVIDENCE,
 )
 INPUTS = tuple(dict.fromkeys((
     "engineering/platform_book.py",
     "tools/automation/build-doc-book.py",  # Shared Markdown/PDF renderer; historical selection is not imported.
+    "tools/automation/build-book-map-excerpts.py",
     HERO,
     "campaigns/v07-execution.json",
     "engineering/development-baseline.toml",

@@ -16,12 +16,16 @@ calculation or proposed physical design. Each retains its own evidence limits.
 | v0.6.1 release and known limitations | Published software scope, installation and visible holds |
 | v0.6.1 feature maturity and demonstrations | Available, preview and held features, with three example journeys |
 | First adoption path | Ways a city, workshop or reviewer can use the current tools |
+| City design catalogue and route atlas | Maps, service assumptions and costed planning outlines for the city examples |
 | v0.7 Samawah corridor continuity | Before-and-after station comparison and its planning boundaries |
 | v0.7 execution and evidence | Current development results and unresolved interfaces |
 | City planning workspace and RustGIS guide | Planning proposals, native edits and revised city studies |
+| Three-dimensional engineering gallery | Vehicle, bogie, launch and civil views with their distinct research origins |
 | Vehicle parts, manufacture and assembly | Counted stock, proposed processes and assembly breakdown |
 | One coordinated railway experiment | Same-candidate engineering propagation and research alternatives |
+| End-to-end research digital twin | Connected geometry, mass, analysis, cost and verification boundaries |
 | SolidCraft and FieldCraft backend pilot | CAD and mechanics comparisons and their model domains |
+| Viaduct alternative studies | Span geometries, structural comparisons and remaining civil interfaces |
 | Assembly lifecycle integration | What a counted module must prove before business handback |
 | v0.7 corridor-to-lifecycle roadmap | The integrated work still needed |
 
