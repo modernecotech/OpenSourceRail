@@ -1,4 +1,6 @@
 """Proposed door header geometry has distinct children and explicit holds."""
+from copy import deepcopy
+import json
 from math import pi
 
 import pytest
@@ -9,6 +11,7 @@ from tools.automation import v07_door_route as route
 
 
 def test_parametric_children_have_ancestry_and_no_selection():
+    request=json.loads(route.OUTPUT.read_bytes())
     family=child.evaluate_family()
     assert family['family_id']==identity({k:v for k,v in family.items() if k!='family_id'})
     assert family['parent_physical_candidate_id']==route.PHYSICAL_CHILD
@@ -21,6 +24,13 @@ def test_parametric_children_have_ancestry_and_no_selection():
         assert row['physical_candidate_id']!=route.PHYSICAL_CHILD
         assert definition['parent_physical_candidate_id']==route.PHYSICAL_CHILD
         assert definition['parent_installed_candidate_id']==route.INSTALLED_CHILD
+        assert 'parent_installed_evaluation_id' not in definition
+        assert 'source_route_request_id' not in definition
+        assert 'source' not in definition['proposed_car_local_header_frame']
+        assert 'exact_ideal_pitch_length_hypothesis_m' not in definition['belt']
+        assert 'supplier_limit_and_physical_test' not in definition
+        assert row['parent_installed_evaluation_id']==request['installed_evaluation_id']
+        assert row['source_route_request_id']==request['request_id']
         assert len(definition['part_definitions'])==74
         assert sum(definition['parts_per_opening'].values())==694
         assert row['selection_id'] is None and row['candidate_adopted'] is False
@@ -45,10 +55,25 @@ def test_two_pulley_ideal_pitch_bound_and_discretization_are_explicit():
     assert row['parent_route_proposal']['physical_candidate_id']==route.PHYSICAL_CHILD
     assert definition['guide']['stock_cut_length_m']==2.9
     assert definition['belt']['stock_cut_length_m']==5.8
-    assert definition['controlled_header_body_mount'] is None
-    assert definition['controlled_pulley_shafts'] is None
-    assert definition['controlled_belt_pitch_tension_and_tooth_count'] is None
+    assert definition['belt']['proposed_centre_distance_m']==pytest.approx(b['ideal_centre_distance_m'])
+    assert row['pitch_equals_cut_length_hypothesis'] is True
     assert len(row['unresolved_inputs'])==5
+
+
+def test_evaluation_and_route_receipts_do_not_create_a_new_physical_child(monkeypatch):
+    baseline=child.evaluate_radius(.03)
+    handoff,request,handoff_raw,route_raw=child.door_mating._current_inputs(child.ROOT)
+    changed=deepcopy(request)
+    changed['installed_evaluation_id']='a'*64
+    changed['request_id']='b'*64
+    monkeypatch.setattr(child.door_mating,'_current_inputs',
+        lambda root:(handoff,changed,handoff_raw,route_raw))
+    monkeypatch.setattr(child.door_mating,'evaluate',
+        lambda **kwargs:dict(assessment_id='e'*64,route_intake_holds=['synthetic held screen']))
+    alternate=child.evaluate_radius(.03)
+    assert alternate['physical_definition']==baseline['physical_definition']
+    assert alternate['physical_candidate_id']==baseline['physical_candidate_id']
+    assert alternate['evaluation_id']!=baseline['evaluation_id']
 
 
 def test_radius_outside_counted_pulley_envelope_preserves_failed_design():
