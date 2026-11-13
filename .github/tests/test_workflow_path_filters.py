@@ -169,6 +169,28 @@ def test_presentation_policy_keeps_fast_contracts_without_retained_physics_repla
     # do not relabel old presentation receipts or grant current validity.
 
 
+def test_door_workbench_changes_use_bounded_lanes_without_retained_replays():
+    door_paths = (
+        'engineering/development_baseline/door_readiness.py',
+        'engineering/development_baseline/server.py',
+        'engineering/development_baseline/web/city-atlas.js',
+    )
+    retained = (
+        'digital-twin.yml', 'frame-refinement.yml', 'reference-cell.yml',
+        'engineering-closure.yml', 'reconciled-pilot.yml',
+    )
+    journey = ROOT / '.github/workflows/v06-software-journey.yml'
+    fast = ROOT / '.github/workflows/v06-software-release.yml'
+    for event in ('push', 'pull_request'):
+        for name in retained:
+            paths = _event_paths(ROOT / '.github/workflows' / name, event)
+            assert not any(_matches(path, paths) for path in door_paths), (name, event)
+            assert _matches(SOURCE_CONTROL, paths), (name, event)
+        journey_paths = _event_paths(journey, event)
+        assert all(_matches(path, journey_paths) for path in door_paths)
+        assert _matches(door_paths[0], _event_paths(fast, event))
+
+
 def test_generated_documentation_index_uses_fast_check_without_physics_replay():
     fast=ROOT/'.github/workflows/v06-software-release.yml'
     shared=ROOT/'.github/workflows/shared-software.yml'

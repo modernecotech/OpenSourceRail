@@ -24,6 +24,10 @@ on:
       # Pure dossier presentation policy contracts run in the bounded Python lane.
       - "!engineering/city_reports/planning-policy.json"
       - "!tests/test_city_dossier_analysis.py"
+      # Door Workbench paths are covered by the fast contracts and browser journey.
+      - "!engineering/development_baseline/door_readiness.py"
+      - "!engineering/development_baseline/server.py"
+      - "!engineering/development_baseline/web/**"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
@@ -48,6 +52,10 @@ on:
       # Pure dossier presentation policy contracts run in the bounded Python lane.
       - "!engineering/city_reports/planning-policy.json"
       - "!tests/test_city_dossier_analysis.py"
+      # Door Workbench paths are covered by the fast contracts and browser journey.
+      - "!engineering/development_baseline/door_readiness.py"
+      - "!engineering/development_baseline/server.py"
+      - "!engineering/development_baseline/web/**"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
   schedule:
