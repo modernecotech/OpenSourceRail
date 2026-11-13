@@ -21,6 +21,21 @@ manufacturing data and L01 actual module custody/persistence. Completed GIS,
 profiling and reservation work is retained; Rust changes must follow the measured
 hotspots. Original plan and execution identities remain in the ledger.
 
+On 13 November, two bounded software slices advanced that door boundary.
+The door mating screen on main `b5fc2e2caa` verifies the pinned one-opening
+handoff and its source files, counts the 694 pieces, checks a proposed full
+2.9 m guide direction and pulley/closed-belt geometry, and reports the belt
+path separately from its 5.8 m stock cut length. It leaves every installed
+transform and approved fit unknown. The delivery stage intake on main
+`b75a4cb94e` checks supplied closure, body, nominal service/fleet, cost and
+proposal packets in order; without them it reports the same-child closure
+study as the first missing stage. It cannot grant pack or ERP admission.
+Together, 54 focused door tests passed on main, and a held mating assessment
+was reproduced without native CAD, FEA or ERP execution. The two clean
+development worktrees were retired after integration. The existing single
+cleanup script ran after each slice; it retained incomplete research packets
+and reported no new terminal Cargo caches eligible for removal.
+
 ## Implemented and exercised
 
 The Workbench compares the Samawah station merge, preserves all fourteen cost
