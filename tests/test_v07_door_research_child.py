@@ -96,3 +96,55 @@ def test_family_requires_small_distinct_sample_set():
     with pytest.raises(ValueError):child.evaluate_family([])
     with pytest.raises(ValueError):child.evaluate_family([.03,.03])
     with pytest.raises(ValueError):child.evaluate_family([.01]*13)
+
+
+def test_independent_spacing_is_a_new_physical_child_with_held_pitch_residual():
+    base=child.evaluate_radius(.03)
+    shifted=child.evaluate_geometry(.03,base['necessary_bounds']['ideal_centre_distance_m']-.02)
+    assert shifted['physical_candidate_id']!=base['physical_candidate_id']
+    assert shifted['physical_definition']['parent_installed_candidate_id']==route.INSTALLED_CHILD
+    assert shifted['necessary_bounds']['proposed_centre_distance_m']==pytest.approx(
+        base['necessary_bounds']['ideal_centre_distance_m']-.02)
+    assert shifted['necessary_bounds']['cut_equals_pitch_centre_distance_m']==pytest.approx(
+        base['necessary_bounds']['ideal_centre_distance_m'])
+    assert shifted['necessary_bounds']['ideal_pitch_length_residual_m']==pytest.approx(-.04)
+    assert shifted['necessary_bounds']['pitch_equals_cut_length_unverified'] is False
+    assert shifted['necessary_bounds']['belt_cut_pitch_relationship_unverified'] is True
+    assert shifted['necessary_bounds']['ideal_belt_pitch_length_hypothesis_m'] is None
+    assert shifted['pitch_equals_cut_length_hypothesis'] is False
+    assert shifted['polyline_approximation_error_m']==pytest.approx(
+        shifted['necessary_bounds']['proposed_ideal_pitch_path_length_m']
+        -shifted['sampled_belt_polyline_m'])
+    assert 0<shifted['polyline_approximation_error_m']<.001
+    assert shifted['stock_cut_to_sampled_path_difference_m']>.04
+    assert shifted['selection_id'] is None and shifted['engineering_accepted'] is False
+    assert shifted['parent_mating_assessment_id']
+
+
+def test_grid_retains_failed_trials_and_provisional_nondominated_children():
+    family=child.evaluate_variations([.025,.03,.05],[-.02,0.,.02])
+    assert family['family_id']==identity({k:v for k,v in family.items() if k!='family_id'})
+    assert len(family['rows'])==len(family['comparison'])==9
+    assert len({r['physical_candidate_id'] for r in family['rows']})==9
+    assert len({r['evaluation_id'] for r in family['rows']})==9
+    failed=[r for r in family['rows'] if r['disposition']=='infeasible-necessary-bound']
+    assert len(failed)==3
+    assert all(r['physical_candidate_id'] not in family['provisional_nondominated_physical_ids']
+               for r in failed)
+    assert family['provisional_nondominated_physical_ids']
+    assert family['selected_candidate_id'] is family['selection_id'] is None
+    assert family['candidate_adopted'] is family['physical_accepted'] is False
+    assert family==child.evaluate_variations([.025,.03,.05],[-.02,0.,.02])
+
+
+@pytest.mark.parametrize('centre',[0.,-1.,float('nan'),float('inf'),True])
+def test_invalid_centre_distance_refused(centre):
+    with pytest.raises(ValueError,match='Finite positive proposed pulley centre'):
+        child.evaluate_geometry(.03,centre)
+
+
+def test_grid_rejects_unbounded_or_duplicate_sampling():
+    with pytest.raises(ValueError):child.evaluate_variations([], [0.])
+    with pytest.raises(ValueError):child.evaluate_variations([.03], [0.,0.])
+    with pytest.raises(ValueError):child.evaluate_variations([.03]*9, [0.]*7)
+    with pytest.raises(ValueError):child.evaluate_variations([.03], [float('nan')])
