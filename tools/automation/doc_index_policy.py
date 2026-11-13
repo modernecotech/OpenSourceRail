@@ -19,6 +19,7 @@ SKIP_PARTS = {
 EXCLUDED_PREFIXES = (
     "legacy/",
     "docs/archives/",
+    "docs/design-engine/.",  # Private/retired working directories are not maintained entrypoints.
     "docs/design-engine/ferrite-maglev/",
     "docs/design-engine/design-search/",
     "docs/design-engine/design-search-twins/",
