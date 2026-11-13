@@ -12,6 +12,7 @@ from hashlib import sha256
 import io
 import json
 from pathlib import Path
+import re
 
 from engineering.pilot_delivery import model
 from engineering.railway_closure.bundle import combine
@@ -20,6 +21,7 @@ from tools.automation import v07_door_pack_preflight as door
 
 MAX_INPUT_BYTES = 128 * 1024**2
 STAGES = door.STAGES
+HEX_ID = re.compile(r'[0-9a-f]{64}\Z')
 
 
 def _sha(path: Path) -> str:
@@ -68,9 +70,54 @@ def _seal(packet: dict, key='evaluation_id') -> None:
         raise ValueError('Unsealed '+key)
 
 
+def _study(path: Path, root: Path, packet_hashes: dict | None = None) -> tuple[dict, str]:
+    value, digest = _packet(path)
+    if packet_hashes is not None:
+        packet_hashes['study'] = digest
+    if value.get('schema') != 'osr-railway-closure-study/1':
+        raise ValueError('Railway closure study schema required')
+    _seal(value, 'study_id'); _sources(value, root)
+    if value.get('body_candidate_id') != door.INSTALLED_CHILD:
+        raise ValueError('Closure study belongs to another installed child')
+    door._no_authority(value)
+    return value, digest
+
+
+def _body(path: Path, study: dict, root: Path, packet_hashes: dict | None = None) -> tuple[dict, str]:
+    body, digest = _packet(path)
+    if packet_hashes is not None:
+        packet_hashes['body'] = digest
+    if body.get('schema') != 'osr-vehicle-installation/1':
+        raise ValueError('Installed body schema required')
+    _seal(body); _sources(body, root)
+    if (body.get('candidate_id') != door.INSTALLED_CHILD
+            or body.get('candidate_id') != study.get('body_candidate_id')
+            or body.get('evaluation_id') != study.get('body_evaluation_id')
+            or identity(body['physical_definition']) != body['candidate_id']):
+        raise ValueError('Installed body candidate or evaluation differs')
+    installed, civil, bundle = (study[name] for name in ('installed','civil','bundle'))
+    for packet in (installed, civil, bundle): _seal(packet)
+    for packet in (installed, civil): _sources(packet, root)
+    if bundle != combine(installed, civil):
+        raise ValueError('Mixed installed/civil canonical bundle')
+    if (installed['vehicle_candidate_id'] != body['candidate_id']
+            or installed['body_evaluation_id'] != body['evaluation_id']
+            or bundle['body_evaluation_id'] != body['evaluation_id']):
+        raise ValueError('Installed/civil bundle belongs to another body')
+    door._no_authority(body)
+    return body, digest
+
+
 def intake(*, study_path: Path | None = None, body_path: Path | None = None,
            service_id: str | None = None, proposal_path: Path | None = None,
            root: Path = door.ROOT) -> dict:
+    return _intake(study_path=study_path, body_path=body_path,
+                   service_id=service_id, proposal_path=proposal_path, root=root)
+
+
+def _intake(*, study_path: Path | None = None, body_path: Path | None = None,
+            service_id: str | None = None, proposal_path: Path | None = None,
+            root: Path = door.ROOT, _batch_common: dict | None = None) -> dict:
     root = Path(root).resolve()
     rows = []; packet_hashes = {}; first = None; reason = None
 
@@ -93,37 +140,15 @@ def intake(*, study_path: Path | None = None, body_path: Path | None = None,
         return value
 
     def study_check():
-        value, digest = _packet(Path(study_path)); packet_hashes['study'] = digest
-        if value.get('schema') != 'osr-railway-closure-study/1':
-            raise ValueError('Railway closure study schema required')
-        _seal(value, 'study_id'); _sources(value, root)
-        if value.get('body_candidate_id') != door.INSTALLED_CHILD:
-            raise ValueError('Closure study belongs to another installed child')
-        door._no_authority(value)
+        value, digest = (_batch_common['study'], _batch_common['study_sha256']) if _batch_common else _study(Path(study_path), root, packet_hashes)
+        packet_hashes['study'] = digest
         return value
 
     study = stage(STAGES[0], study_path is not None, study_check)
 
     def body_check():
-        body, digest = _packet(Path(body_path)); packet_hashes['body'] = digest
-        if body.get('schema') != 'osr-vehicle-installation/1':
-            raise ValueError('Installed body schema required')
-        _seal(body); _sources(body, root)
-        if (body.get('candidate_id') != door.INSTALLED_CHILD
-                or body.get('candidate_id') != study.get('body_candidate_id')
-                or body.get('evaluation_id') != study.get('body_evaluation_id')
-                or identity(body['physical_definition']) != body['candidate_id']):
-            raise ValueError('Installed body candidate or evaluation differs')
-        installed, civil, bundle = (study[name] for name in ('installed','civil','bundle'))
-        for packet in (installed, civil, bundle):_seal(packet)
-        for packet in (installed, civil):_sources(packet, root)
-        if bundle != combine(installed, civil):
-            raise ValueError('Mixed installed/civil canonical bundle')
-        if (installed['vehicle_candidate_id'] != body['candidate_id']
-                or installed['body_evaluation_id'] != body['evaluation_id']
-                or bundle['body_evaluation_id'] != body['evaluation_id']):
-            raise ValueError('Installed/civil bundle belongs to another body')
-        door._no_authority(body)
+        body, digest = (_batch_common['body'], _batch_common['body_sha256']) if _batch_common else _body(Path(body_path), study, root, packet_hashes)
+        packet_hashes['body'] = digest
         return body
 
     body = stage(STAGES[1], body_path is not None, body_check)
@@ -181,16 +206,85 @@ def intake(*, study_path: Path | None = None, body_path: Path | None = None,
     return report
 
 
+def _unchanged_input(path: Path, expected: str) -> None:
+    if (any(p.is_symlink() for p in (path, *path.parents))
+            or not path.is_file() or path.stat().st_size > MAX_INPUT_BYTES
+            or _sha(path) != expected):
+        raise ValueError('Batch input changed during intake: ' + str(path))
+
+
+def intake_many(*, study_path: Path, body_path: Path,
+                service_ids: list[str] | tuple[str, ...],
+                root: Path = door.ROOT) -> dict:
+    """Reuse common authentication across a bounded explicit service set.
+
+    Each service still runs the existing full pilot-delivery cost validation.
+    Shared packet/source bytes are checked again after the final report; any
+    drift refuses the whole batch. No service is selected or promoted.
+    """
+    if (not isinstance(service_ids, (list, tuple)) or not 1 <= len(service_ids) <= 12
+            or any(not isinstance(s, str) or HEX_ID.fullmatch(s) is None for s in service_ids)
+            or len(set(service_ids)) != len(service_ids)):
+        raise ValueError('One to twelve distinct explicit service evaluation IDs required')
+    root = Path(root).resolve(); study_path = Path(study_path); body_path = Path(body_path)
+    study, study_sha = _study(study_path, root)
+    body, body_sha = _body(body_path, study, root)
+    source_map = model._source_map(study, body, root)
+    common = dict(study=study, body=body, study_sha256=study_sha,
+                  body_sha256=body_sha)
+    reports = [_intake(study_path=study_path, body_path=body_path,
+                      service_id=s, root=root, _batch_common=common)
+               for s in service_ids]
+    _unchanged_input(study_path, study_sha)
+    _unchanged_input(body_path, body_sha)
+    if model._source_map(study, body, root) != source_map:
+        raise ValueError('Batch sources changed during intake')
+    # The original stage intake also refuses source-path symlinks. Recheck
+    # those paths after processing, not just the content digests above.
+    for packet in (study, body, study['installed'], study['civil']):
+        _sources(packet, root)
+    # Legacy intake IDs do not encode the requested service and can coincide
+    # when reports have the same stage outcomes. Keep each legacy report intact
+    # while binding its batch case ID to the explicit service evaluation.
+    cases = []
+    for service_id, report in zip(service_ids, reports, strict=True):
+        case = dict(service_evaluation_id=service_id, intake_report=report)
+        case['report_id'] = identity(case)
+        cases.append(case)
+    value = dict(schema='osr-v07-door-stage-batch/1',
+                 producer_sha256=_sha(Path(__file__)),
+                 packet_sha256=dict(study=study_sha, body=body_sha),
+                 service_evaluation_ids=list(service_ids),
+                 reports=cases, selected_service_id=None,
+                 all_cost_stages_source_verified=all(
+                     row['stages'][3]['status'] == 'source-verified' for row in reports),
+                 controlled_document_review_complete=False,
+                 pack_ready=False, native_erp_admitted=False,
+                 engineering_accepted=False, physical_accepted=False,
+                 manufacturing_release=False)
+    value['batch_id'] = identity(value)
+    return value
+
+
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study',type=Path)
     parser.add_argument('--body',type=Path)
-    parser.add_argument('--service-id')
+    service = parser.add_mutually_exclusive_group()
+    service.add_argument('--service-id')
+    service.add_argument('--service-ids', help='Comma-separated explicit nominal service IDs, at most twelve')
     parser.add_argument('--proposal',type=Path)
     parser.add_argument('--root',type=Path,default=door.ROOT)
     args=parser.parse_args(argv)
-    print(json.dumps(intake(study_path=args.study,body_path=args.body,
-        service_id=args.service_id,proposal_path=args.proposal,root=args.root),sort_keys=True,indent=2))
+    if args.service_ids is not None:
+        if args.study is None or args.body is None or args.proposal is not None:
+            parser.error('Batch intake requires study and body, without a proposal')
+        value = intake_many(study_path=args.study, body_path=args.body,
+                            service_ids=args.service_ids.split(','), root=args.root)
+    else:
+        value = intake(study_path=args.study,body_path=args.body,
+                       service_id=args.service_id,proposal_path=args.proposal,root=args.root)
+    print(json.dumps(value,sort_keys=True,indent=2))
     return 0
 
 
