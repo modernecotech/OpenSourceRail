@@ -4,7 +4,7 @@ Physical candidate: `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfad
 
 Body engineering revision: `59943e9ed14b44cdd9180cccf7387c1bb09bf752b8164f4d0d49bbdca2390d29`
 
-Proposal: `a22f92d39c098dcc4376a27218541006369152f5ddf6993261d0ece0fac9fc17`
+Proposal: `d6a1ef5505c49c6a70041fbbda9c37bb0675f0d2aabb51032dee197fcc2faacb`
 
 650 body definitions, 9588 occurrence patterns, 121318 counted occurrences per train and 4 proposed trainsets. 40 source assembly routes, 13 civil requirement types and 14 existing cost scopes are retained.
 
@@ -23,4 +23,4 @@ Original compressed inputs and generic engineering-evidence metadata are retaine
 - No CAD, mesh or physical solver is executed by this compiler; numerical agreement does not establish qualified hardware.
 - Material certificates, process qualification, release dimensions/tolerances, fatigue, electrical protection and independent safety evidence remain open.
 
-Fresh compile: 7.507 s; peak RSS 638.6 MiB. No CAD/FEM batch was executed.
+Fresh compile: 7.325 s; peak RSS 638.6 MiB. No CAD/FEM batch was executed.
