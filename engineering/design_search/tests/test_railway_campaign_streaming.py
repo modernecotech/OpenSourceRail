@@ -27,11 +27,12 @@ def legacy_semantic(value):
 
 def sample():
     value = {'schema': 'test-campaign', 'rows': [
-        {'candidate_id': 'one', 'value': [1.2, -0.0, '🚆'], 'reused': True},
-        {'candidate_id': 'two', 'value': ({'reused': 'tuple remains untouched'},)},
-    ], 'new_bundles': 1, 'reused_bundles': 1,
+        {'case_context_id':'1'*64,'candidate_id': 'one', 'value': [1.2, -0.0, '🚆'], 'reused': True},
+        {'case_context_id':'2'*64,'candidate_id': 'two', 'value': ({'reused': 'tuple remains untouched'},)},
+    ], 'contract_id':'3'*64,'source_sha256':{'producer':'4'*64},'new_bundles': 1, 'reused_bundles': 1,
         'integrated_selection': None, 'selected_reference_changed': False,
         **campaign.FLAGS}
+    for row in value['rows']:row['row_id']=identity(row)
     value['campaign_id'] = legacy_semantic(value)
     value['run_id'] = identity(value)
     return value
@@ -69,117 +70,69 @@ def test_nonstring_keys_fail_closed_in_campaign_identity():
         campaign._aggregate_identity(value)
 
 
-def test_aggregate_pair_exact_bytes_and_no_hardlinks(tmp_path):
-    value = sample()
-    (tmp_path/'result.json').write_bytes(b'previous result')
-    campaign._write_aggregate(tmp_path, value)
-    invocation = tmp_path/'invocations'/(value['run_id']+'.json')
-    result = tmp_path/'result.json'
-    assert invocation.read_bytes() == result.read_bytes() == encoded(value)
-    assert invocation.stat().st_ino != result.stat().st_ino
-    assert invocation.stat().st_nlink == result.stat().st_nlink == 1
-    assert value['integrated_selection'] is None
-    assert all(value[k] is False for k in campaign.FLAGS)
+def write_case_shards(folder,value):
+    for row in value['rows']:
+        path=campaign.case_node_store.path_for(folder/'cases',row['case_context_id'])
+        campaign.case_node_store.write(path,row,'case')
 
 
-def test_unsupported_clone_falls_back_to_bounded_copy(tmp_path, monkeypatch):
-    def unsupported(*args):
-        raise OSError(errno.EOPNOTSUPP, 'unsupported')
-    monkeypatch.setattr(campaign.fcntl, 'ioctl', unsupported)
-    value = sample()
-    campaign._write_aggregate(tmp_path, value)
-    invocation = tmp_path/'invocations'/(value['run_id']+'.json')
-    assert invocation.read_bytes() == (tmp_path/'result.json').read_bytes() == encoded(value)
-    assert invocation.stat().st_ino != (tmp_path/'result.json').stat().st_ino
+def test_arrow_aggregate_streams_exact_bytes_without_json_clones(tmp_path):
+    from io import BytesIO
+    value=sample();write_case_shards(tmp_path,value)
+    pointer=campaign._write_aggregate(tmp_path,value)
+    snapshot,checked=campaign.current_aggregate(tmp_path,value['contract_id'])
+    sink=BytesIO();manifest=campaign.aggregate_store.read(snapshot,tmp_path/'cases',sink)
+    assert sink.getvalue()==encoded(value)
+    assert checked==pointer and manifest['aggregate_sha256']==pointer['aggregate_sha256']
+    assert not (tmp_path/'result.json').exists() and not (tmp_path/'invocations').exists()
+    assert value['integrated_selection'] is None and all(value[k] is False for k in campaign.FLAGS)
 
 
-def test_fatal_clone_error_preserves_previous_result(tmp_path, monkeypatch):
-    def out_of_space(*args):
-        raise OSError(errno.ENOSPC, 'full')
-    monkeypatch.setattr(campaign.fcntl, 'ioctl', out_of_space)
-    result = tmp_path/'result.json';result.write_bytes(b'previous result')
-    value = sample()
-    with pytest.raises(OSError) as exc:
-        campaign._write_aggregate(tmp_path, value)
-    assert exc.value.errno == errno.ENOSPC
-    assert result.read_bytes() == b'previous result'
-    assert (tmp_path/'invocations'/(value['run_id']+'.json')).read_bytes() == encoded(value)
+def test_same_run_reuses_verified_immutable_aggregate(tmp_path):
+    value=sample();write_case_shards(tmp_path,value)
+    first=campaign._write_aggregate(tmp_path,value)
+    snapshot,_=campaign.current_aggregate(tmp_path,value['contract_id'])
+    before={p.name:p.stat().st_ino for p in snapshot.iterdir()}
+    assert campaign._write_aggregate(tmp_path,value)==first
+    assert before=={p.name:p.stat().st_ino for p in snapshot.iterdir()}
 
 
-def test_failed_fallback_copy_preserves_previous_result(tmp_path,monkeypatch):
-    source=tmp_path/'source';source.write_bytes(b'valid source');target=tmp_path/'result';target.write_bytes(b'prior')
-    expected=(hashlib.sha256(b'valid source').hexdigest(),len(b'valid source'))
-    def unsupported(*args):raise OSError(errno.EOPNOTSUPP,'unsupported')
-    monkeypatch.setattr(campaign.fcntl,'ioctl',unsupported)
-    real_fdopen=campaign.os.fdopen
-    class NoProgress:
-        def __init__(self,stream):self.stream=stream
-        def __enter__(self):return self
-        def __exit__(self,*args):self.stream.close()
-        def __getattr__(self,name):return getattr(self.stream,name)
-        def write(self,data):return 0
-    monkeypatch.setattr(campaign.os,'fdopen',lambda *a,**kw:NoProgress(real_fdopen(*a,**kw)))
-    with pytest.raises(OSError,match='progress'):campaign._clone_result(source,target,expected)
-    assert target.read_bytes()==b'prior' and source.read_bytes()==b'valid source'
+def test_corrupt_existing_aggregate_fails_without_advancing_pointer(tmp_path):
+    value=sample();write_case_shards(tmp_path,value)
+    campaign._write_aggregate(tmp_path,value)
+    pointer=(tmp_path/'aggregate-current.json').read_bytes()
+    snapshot,_=campaign.current_aggregate(tmp_path,value['contract_id'])
+    core=snapshot/'core.parquet';core.write_bytes(core.read_bytes()[:12])
+    with pytest.raises(ValueError,match='Parquet part hash'):
+        campaign._write_aggregate(tmp_path,value)
+    assert (tmp_path/'aggregate-current.json').read_bytes()==pointer
 
 
-def test_clone_rejects_changed_source_before_result_replacement(tmp_path):
-    source=tmp_path/'source';source.write_bytes(b'changed')
-    target=tmp_path/'result';target.write_bytes(b'prior')
-    with pytest.raises(ValueError,match='changed before cloning'):
-        campaign._clone_result(source,target,(hashlib.sha256(b'expected').hexdigest(),8))
-    assert target.read_bytes()==b'prior'
-
-
-def test_false_successful_clone_is_detected(tmp_path, monkeypatch):
-    monkeypatch.setattr(campaign.fcntl, 'ioctl', lambda *args: 0)
-    result = tmp_path/'result.json';result.write_bytes(b'previous result')
-    with pytest.raises(ValueError, match='clone or invocation bytes'):
-        campaign._write_aggregate(tmp_path, sample())
-    assert result.read_bytes() == b'previous result'
-
-
-def test_short_writes_are_handled_and_no_progress_is_detected(tmp_path, monkeypatch):
-    original = campaign._DigestWriter.write
-    monkeypatch.setattr(campaign._DigestWriter, 'write', lambda self, data: original(self, data[:2]))
-    value = sample()
-    campaign._write_aggregate(tmp_path, value)
-    assert (tmp_path/'result.json').read_bytes() == encoded(value)
-    monkeypatch.setattr(campaign._DigestWriter, 'write', lambda self, data: 0)
-    other = tmp_path/'other'
-    with pytest.raises(OSError, match='progress'):
-        campaign._stream_invocation(other, value)
-    assert not other.exists()
-
-
-def test_resealed_incorrect_existing_invocation_is_not_overwritten(tmp_path):
-    value = sample();path=tmp_path/'invocations'/(value['run_id']+'.json')
-    path.parent.mkdir();path.write_bytes(b'other evidence')
-    with pytest.raises(ValueError, match='Existing invocation differs'):
-        campaign._write_aggregate(tmp_path, value)
-    assert path.read_bytes() == b'other evidence'
-    assert not (tmp_path/'result.json').exists()
-
-
-def test_hardlinked_or_mutated_invocation_rejected(tmp_path):
-    source = tmp_path/'source';source.write_bytes(b'input')
-    target = tmp_path/'result';target.write_bytes(b'previous')
-    expected=(hashlib.sha256(b'input').hexdigest(), 5)
-    os.link(source,tmp_path/'second-link')
-    with pytest.raises(ValueError, match='single-link'):
-        campaign._clone_result(source,target,expected)
-    assert target.read_bytes() == b'previous'
+def test_interrupted_aggregate_retains_pending_evidence(tmp_path,monkeypatch):
+    value=sample();write_case_shards(tmp_path,value)
+    def interrupted(*args,**kwargs):raise OSError(errno.ENOSPC,'full')
+    monkeypatch.setattr(campaign.aggregate_store,'_write_component',interrupted)
+    with pytest.raises(OSError) as exc:campaign._write_aggregate(tmp_path,value)
+    assert exc.value.errno==errno.ENOSPC
+    assert not (tmp_path/'aggregate-current.json').exists()
+    assert list((tmp_path/'aggregates').glob('.*.pending'))
 
 
 def test_source_epoch_binds_stream_implementation_and_detects_change(tmp_path, monkeypatch):
+    rust_name='crates/osr-design-search/src/case_nodes.rs'
+    rust=tmp_path/rust_name;rust.parent.mkdir(parents=True);rust.write_text('rust implementation')
+    def codec_sources(root):
+        return {rust_name:hashlib.sha256((Path(root)/rust_name).read_bytes()).hexdigest()}
+    monkeypatch.setattr(campaign.case_node_store,'codec_source_identity',codec_sources)
     names = []
     def collect(path):
         names.append(Path(path).relative_to(tmp_path).as_posix())
         return '0'*64
     real_digest=campaign.digest
     monkeypatch.setattr(campaign, 'digest', collect)
-    campaign.source_epoch(tmp_path)
+    first=campaign.source_epoch(tmp_path)
     assert 'engineering/design_search/canonical_stream.py' in names
+    assert first[rust_name]==hashlib.sha256(rust.read_bytes()).hexdigest()
     for name in set(names):
         p=tmp_path/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(name)
     monkeypatch.setattr(campaign, 'digest', real_digest)
@@ -189,6 +142,8 @@ def test_source_epoch_binds_stream_implementation_and_detects_change(tmp_path, m
     after=campaign.source_epoch(tmp_path)
     assert before[stream.relative_to(tmp_path).as_posix()] != after[stream.relative_to(tmp_path).as_posix()]
     assert identity(before) != identity(after)
+    rust.write_text('changed rust implementation')
+    assert campaign.source_epoch(tmp_path)[rust_name]!=after[rust_name]
     stream.unlink()
     with pytest.raises(FileNotFoundError):campaign.source_epoch(tmp_path)
 
@@ -224,7 +179,7 @@ def test_state_marker_rejects_foreign_contract_before_native_work(tmp_path,monke
 def test_state_marker_preserves_same_source_interrupted_stages(tmp_path):
     epoch={'producer':'a'*64};contract='b'*64
     campaign._bind_state_source(tmp_path,contract,epoch)
-    pending=tmp_path/'stages/pending';pending.parent.mkdir();pending.write_bytes(b'partial')
+    pending=tmp_path/'stages/pending.parquet.pending';pending.parent.mkdir();pending.write_bytes(b'partial')
     campaign._bind_state_source(tmp_path,contract,epoch)
     assert pending.read_bytes()==b'partial'
     with pytest.raises(ValueError,match='source contract'):
@@ -295,21 +250,11 @@ def test_symlink_lock_rejected_before_open(tmp_path,monkeypatch):
     assert external.read_bytes()==b'preserve'
 
 
-def test_unsupported_aggregate_values_fail_closed_without_replacing_result(tmp_path):
-    value={'nested':{1:'one',2:'two'},'integrated_selection':None}
-    value['campaign_id']=legacy_semantic(value);value['run_id']=identity(value)
-    result=tmp_path/'result.json';result.write_bytes(b'prior')
-    with pytest.raises(TypeError,match='built-in string object keys'):
-        campaign._write_aggregate(tmp_path,value)
-    assert result.read_bytes()==b'prior'
-    assert not (tmp_path/'invocations'/(value['run_id']+'.json')).exists()
-
-
-def test_nonfinite_failure_preserves_existing_result(tmp_path):
-    result=tmp_path/'result.json';result.write_bytes(b'prior')
-    with pytest.raises(ValueError):
-        campaign._write_aggregate(tmp_path,{'run_id':'a'*64,'value':float('nan')})
-    assert result.read_bytes()==b'prior'
+def test_nonfinite_aggregate_core_fails_before_pointer(tmp_path):
+    value=sample();write_case_shards(tmp_path,value)
+    value['provisional_test']=float('nan')
+    with pytest.raises(ValueError):campaign._write_aggregate(tmp_path,value)
+    assert not (tmp_path/'aggregate-current.json').exists()
 
 
 def test_compact_motion_preserves_legacy_bytes_without_mutating_input():
@@ -350,8 +295,12 @@ def test_one_bundle_active_stream_preserves_legacy_ids(tmp_path,monkeypatch):
     assert result['run_id']==identity({k:v for k,v in result.items() if k!='run_id'})
     assert result['new_bundles']==1 and result['integrated_selection'] is None
     assert all(result[name] is False for name in campaign.FLAGS)
-    assert (tmp_path/'active/result.json').read_bytes()==encoded(result)
-    assert (tmp_path/'active/invocations'/(result['run_id']+'.json')).read_bytes()==encoded(result)
+    from io import BytesIO
+    state=tmp_path/'active';snapshot,pointer=campaign.current_aggregate(state,result['contract_id'])
+    sink=BytesIO();receipt=campaign.aggregate_store.read(snapshot,state/'cases',sink)
+    assert sink.getvalue()==encoded(result)
+    assert receipt['aggregate_sha256']==pointer['aggregate_sha256']
+    assert not (state/'result.json').exists() and not (state/'invocations').exists()
 
 
 def test_campaign_reserves_disk_before_creating_contract(tmp_path,monkeypatch):

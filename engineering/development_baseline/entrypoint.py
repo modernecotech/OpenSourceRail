@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 from functools import lru_cache
 from hashlib import sha256
 import importlib
@@ -307,12 +308,13 @@ def main(argv=None, root=ROOT):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
                       '  plan, run [--max-bundles N] [--native-jobs N], publish, verify [--canonical-backend python|rust]\n'
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
-                      '  refine-current/refine-current-verify --parent-result PATH --candidate-id ID\n'
+                      '  refine-current/refine-current-verify (--parent-result PATH | --parent-v2-current) --candidate-id ID\n'
                       '  refine-current-fine/refine-current-fine-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current-ultrafine/refine-current-ultrafine-verify/refine-current-ultrafine-recover --parent-result PATH --candidate-id ID\n'
                       '  refine-current-fine-reconcile --parent-result PATH --candidate-id ID --request-id ID\n'
                       '  refine-next/refine-next-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-next-resource/refine-next-resource-verify/refine-next-resource-reconcile --parent-result PATH --candidate-id ID\n'
+                      '  Current-source refinement commands also accept --parent-v2-current\n'
                       '  demonstration-plan, demonstrate [--max-bundles N], demonstration-publish, demonstration-verify')
                 return 0
             from engineering.design_search import railway_campaign,railway_publication,railway_refinement,railway_fine_refinement,railway_fine_refinement_resource,remit
@@ -359,54 +361,62 @@ def main(argv=None, root=ROOT):
             if rest and rest[0] in ('refine','refine-verify','refine-current','refine-current-verify','refine-current-fine','refine-current-fine-verify','refine-current-ultrafine','refine-current-ultrafine-verify','refine-current-ultrafine-recover','refine-current-fine-reconcile','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
                 action=rest[0]
                 options=argparse.ArgumentParser(prog='./osr design railway '+action)
-                options.add_argument('--parent-result',type=Path,required=True)
+                parents=options.add_mutually_exclusive_group(required=True)
+                parents.add_argument('--parent-result',type=Path)
+                parents.add_argument('--parent-v2-current',action='store_true')
                 options.add_argument('--candidate-id',required=True)
                 options.add_argument('--request-id',required=action=='refine-current-fine-reconcile')
                 parsed=options.parse_args(rest[1:])
-                parent_result=parsed.parent_result if parsed.parent_result.is_absolute() else root/parsed.parent_result
-                if action=='refine-current-fine-reconcile' or action=='refine-current-fine-verify' and parsed.request_id:
-                    from engineering.design_search import railway_refinement_current_fine_reconcile as reconcile
-                    if action=='refine-current-fine-reconcile':
-                        emit(reconcile.reconcile(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
+                parent_result=(None if parsed.parent_result is None else
+                               parsed.parent_result if parsed.parent_result.is_absolute() else root/parsed.parent_result)
+                if parsed.parent_v2_current and not action.startswith('refine-current'):
+                    raise ValueError('--parent-v2-current is only for current-source refinement')
+                parent_context=(railway_publication.current_context(root) if parsed.parent_v2_current
+                                else nullcontext((None,None,parent_result)))
+                with parent_context as (_,_,parent_result):
+                    if action=='refine-current-fine-reconcile' or action=='refine-current-fine-verify' and parsed.request_id:
+                        from engineering.design_search import railway_refinement_current_fine_reconcile as reconcile
+                        if action=='refine-current-fine-reconcile':
+                            emit(reconcile.reconcile(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
+                        else:
+                            emit(reconcile.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
+                        return 0
+                    if action in ('refine','refine-verify'):
+                        evaluator=railway_refinement
+                    elif action in ('refine-current','refine-current-verify'):
+                        from engineering.design_search import railway_refinement_current
+                        evaluator=railway_refinement_current
+                    elif action in ('refine-current-fine','refine-current-fine-verify'):
+                        from engineering.design_search import railway_refinement_current_fine
+                        evaluator=railway_refinement_current_fine
+                    elif action in ('refine-current-ultrafine','refine-current-ultrafine-verify'):
+                        from engineering.design_search import railway_refinement_current_ultrafine
+                        evaluator=railway_refinement_current_ultrafine
+                    elif action=='refine-current-ultrafine-recover':
+                        from engineering.design_search import railway_refinement_current_ultrafine as evaluator
+                        emit(evaluator.recover(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                    elif action in ('refine-next','refine-next-verify'):
+                        evaluator=railway_fine_refinement
                     else:
-                        emit(reconcile.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
-                    return 0
-                if action in ('refine','refine-verify'):
-                    evaluator=railway_refinement
-                elif action in ('refine-current','refine-current-verify'):
-                    from engineering.design_search import railway_refinement_current
-                    evaluator=railway_refinement_current
-                elif action in ('refine-current-fine','refine-current-fine-verify'):
-                    from engineering.design_search import railway_refinement_current_fine
-                    evaluator=railway_refinement_current_fine
-                elif action in ('refine-current-ultrafine','refine-current-ultrafine-verify'):
-                    from engineering.design_search import railway_refinement_current_ultrafine
-                    evaluator=railway_refinement_current_ultrafine
-                elif action=='refine-current-ultrafine-recover':
-                    from engineering.design_search import railway_refinement_current_ultrafine as evaluator
-                    emit(evaluator.recover(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
-                elif action in ('refine-next','refine-next-verify'):
-                    evaluator=railway_fine_refinement
-                else:
-                    evaluator=railway_fine_refinement_resource
-                if action in ('refine-next-resource-verify','refine-next-resource-reconcile'):
-                    from engineering.design_search import railway_fine_refinement_recovery
-                    if action == 'refine-next-resource-reconcile':
-                        emit(railway_fine_refinement_recovery.reconcile(
-                            root, parent_result=parent_result, candidate_id=parsed.candidate_id))
-                    else:
-                        emit(railway_fine_refinement_recovery.verify(
-                            root, parent_result=parent_result, candidate_id=parsed.candidate_id))
-                    return 0
-                if action in ('refine','refine-current','refine-current-fine','refine-current-ultrafine','refine-next','refine-next-resource'):
-                    held = _disk_reserve_hold(root, 'railway-' + action)
-                    if held is not None:return held
-                    emit(evaluator.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
-                if action=='refine-current-verify':
-                    from engineering.design_search import railway_refinement_current_verifier
-                    emit(railway_refinement_current_verifier.verify(
-                        root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
-                emit(evaluator.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                        evaluator=railway_fine_refinement_resource
+                    if action in ('refine-next-resource-verify','refine-next-resource-reconcile'):
+                        from engineering.design_search import railway_fine_refinement_recovery
+                        if action == 'refine-next-resource-reconcile':
+                            emit(railway_fine_refinement_recovery.reconcile(
+                                root, parent_result=parent_result, candidate_id=parsed.candidate_id))
+                        else:
+                            emit(railway_fine_refinement_recovery.verify(
+                                root, parent_result=parent_result, candidate_id=parsed.candidate_id))
+                        return 0
+                    if action in ('refine','refine-current','refine-current-fine','refine-current-ultrafine','refine-next','refine-next-resource'):
+                        held = _disk_reserve_hold(root, 'railway-' + action)
+                        if held is not None:return held
+                        emit(evaluator.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                    if action=='refine-current-verify':
+                        from engineering.design_search import railway_refinement_current_verifier
+                        emit(railway_refinement_current_verifier.verify(
+                            root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                    emit(evaluator.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
             if rest and rest[0]=='run':
                 options=argparse.ArgumentParser(prog='./osr design railway run');options.add_argument('--max-bundles',type=int);options.add_argument('--native-jobs',type=int,default=0)
                 parsed=options.parse_args(rest[1:])

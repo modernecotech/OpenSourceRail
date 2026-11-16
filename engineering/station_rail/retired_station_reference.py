@@ -1,8 +1,9 @@
 """Verify the retired station-LIM reference without admitting it as an active design.
 
-The exact published 3bf38a5 Git tree is the archive. Sources and old packets are
-read from pinned Git blobs. A packet that has since advanced is checked by its
-own current publisher, while the original bytes remain retrievable by commit.
+The exact published 3bf38a5 Git tree is the original reference archive. The
+later Journey C coupled packet is checked against its own pinned Git tree and
+manifest, without running a current evaluator. Its presentation README has an
+exact, separately pinned documentation update.
 No lazy fetch, solver replay, current-evaluator admission or physical approval.
 Shared-filesystem integrity checks are not an OS security sandbox.
 """
@@ -12,7 +13,6 @@ import json
 import os
 from pathlib import Path
 import subprocess
-from threading import RLock
 import tomllib
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -21,6 +21,8 @@ OUTPUT='docs/archives/retired-station-reference'
 COMMIT='3bf38a501d09fa3a3c2dd6f4731be11828d04f55'
 COUPLED_SOURCE_EPOCH='docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'
 COUPLED_PACKET_MANIFEST_ID='4363503c0647f6e0aff2253b4c714e4f00d47827722d8fe3e0f6c1fe18c6f91f'
+COUPLED_PACKET_COMMIT='83b2e0c83c5ee4fca317430a4d74fd3a9186374f'
+COUPLED_DOCUMENTATION_SHA256='58ff7d9d6843cdc5618bfa1e301dbea4923c7d5f0b85efe7e7deda5967cbb653'
 COUPLED_SOURCE_EPOCH_ID='938edc9b1f3f579bb783cf9b8bf520a3f79253f7d67b28c5c302ac1208e16000'
 COUPLED_SOURCE_COMMIT='dbb62c6aeb48377cb57a00521075bba333f741d2'
 COUPLED_SOURCE_BLOB='74e12d096a4103877c1ba6a89ef33ea0e841da54'
@@ -54,7 +56,6 @@ MAX_TREE_BYTES=8*1024**2
 MAX_FILE_BYTES=512*1024**2
 MAX_TOTAL_BYTES=4*1024**3
 _cache=OrderedDict()
-_COUPLED_VERIFY_LOCK=RLock()
 
 
 class RetiredReferenceHold(ValueError):pass
@@ -109,10 +110,11 @@ def _git(root,args):
         raise RetiredReferenceHold('Retired reference history is unavailable; fetch exact commit '+COMMIT+' before verification') from exc
 
 
-def _tree(root):
-    actual=_git(root,['rev-parse','--verify',COMMIT+'^{commit}']).decode().strip()
-    if actual!=COMMIT:raise RetiredReferenceHold('Exact retired reference commit differs')
-    raw=_git(root,['ls-tree','-r','-z','-l',COMMIT])
+def _tree(root,commit=None):
+    commit=COMMIT if commit is None else commit
+    actual=_git(root,['rev-parse','--verify',commit+'^{commit}']).decode().strip()
+    if actual!=commit:raise RetiredReferenceHold('Exact retired reference commit differs')
+    raw=_git(root,['ls-tree','-r','-z','-l',commit])
     if len(raw)>MAX_TREE_BYTES:raise RetiredReferenceHold('Retired Git tree exceeds its budget')
     rows={}
     for row in raw.split(b'\0'):
@@ -208,8 +210,9 @@ def _storage_stamp(root,records):
     return str(common.resolve()),tuple(values)
 
 
-def _verify_blobs(root,records):
-    before=_storage_stamp(root,records);key=(COMMIT,identity(records),before)
+def _verify_blobs(root,records,commit=None):
+    commit=COMMIT if commit is None else commit
+    before=_storage_stamp(root,records);key=(commit,identity(records),before)
     if key in _cache:_cache.move_to_end(key);return
     process=subprocess.Popen([*_command(),'cat-file','--batch'],cwd=root,env=_env(),stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     try:
@@ -240,65 +243,126 @@ def _verify_blobs(root,records):
     while len(_cache)>2:_cache.popitem(last=False)
 
 
+def _coupled_records(root,manifest,manifest_bytes,tree):
+    prefix='docs/design-engine/coupled-railway/'
+    payload=manifest.get('files_sha256')
+    sources=manifest.get('source_sha256')
+    if not isinstance(payload,dict) or not payload or not isinstance(sources,dict) or not sources:
+        raise RetiredReferenceHold('Coupled Journey C source and payload maps required')
+    expected_files={prefix+name for name in payload}|{prefix+'manifest.json'}
+    if set(name for name in tree if name.startswith(prefix))!=expected_files:
+        raise RetiredReferenceHold('Coupled Journey C pinned Git inventory differs')
+    records={}
+    for name,wanted in {**sources,**{prefix+name:h for name,h in payload.items()},
+                        prefix+'manifest.json':sha256(manifest_bytes).hexdigest()}.items():
+        _path(root,name)
+        if name not in tree or not isinstance(wanted,str) or len(wanted)!=64:
+            raise RetiredReferenceHold('Coupled Journey C pinned source or payload is missing')
+        records[name]=dict(tree[name],sha256=wanted)
+    if len(records)>MAX_FILES or sum(v['size_bytes'] for v in records.values())>MAX_TOTAL_BYTES:
+        raise RetiredReferenceHold('Coupled Journey C Git closure exceeds its budget')
+    return expected_files,records
+
+
+def prefetch_coupled_blobs(root=ROOT):
+    """Explicitly stage only Journey C's pinned blobs before offline verification.
+
+    CI may use a blobless fetch of COUPLED_PACKET_COMMIT. This is a separate
+    network-capable preparation step; verify() itself never fetches Git objects.
+    """
+    root=Path(root).resolve()
+    manifest_bytes=_path(root,'docs/design-engine/coupled-railway/manifest.json').read_bytes()
+    manifest=json.loads(manifest_bytes)
+    _sealed(manifest,'manifest_id')
+    if manifest.get('manifest_id')!=COUPLED_PACKET_MANIFEST_ID:
+        raise RetiredReferenceHold('Coupled Journey C manifest identity differs')
+    tree=_tree(root,COUPLED_PACKET_COMMIT)
+    _,records=_coupled_records(root,manifest,manifest_bytes,tree)
+    fetched=0
+    network_env=_env();network_env.pop('GIT_NO_LAZY_FETCH')
+    for oid in sorted({v['git_blob'] for v in records.values()}):
+        available=subprocess.run([*_command(),'cat-file','-e',oid],cwd=root,env=_env(),
+            stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+        if available.returncode==0:continue
+        try:
+            subprocess.run([*_command(),'cat-file','blob',oid],cwd=root,env=network_env,
+                stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=120,check=True)
+        except (subprocess.SubprocessError,OSError) as exc:
+            raise RetiredReferenceHold('Explicit Journey C blob prefetch failed: '+oid) from exc
+        fetched+=1
+    _verify_blobs(root,records,COUPLED_PACKET_COMMIT)
+    return dict(prefetched_blobs=fetched,pinned_blob_count=len({v['git_blob'] for v in records.values()}),
+                commit=COUPLED_PACKET_COMMIT,verified=True,**FLAGS)
+
+
 def _verify_current_coupled_packet(root):
-    """Verify the changed packet in its exact current or retained source epoch."""
+    """Authenticate Journey C from pinned Git blobs, never current evaluators."""
     folder=_path(root,'docs/design-engine/coupled-railway')
     paths=list(folder.rglob('*'))
     if any(p.is_symlink() for p in paths):
-        raise RetiredReferenceHold('Linked active coupled-railway evidence is not allowed')
-    manifest=json.loads(_path(root,'docs/design-engine/coupled-railway/manifest.json').read_bytes())
-    from engineering.design_search import railway_publication
-    source_epoch='current'
-    if manifest.get('manifest_id')==COUPLED_PACKET_MANIFEST_ID:
-        support_dir=_path(root,COUPLED_SOURCE_EPOCH)
-        support_path=support_dir/'manifest.json'
-        support=json.loads(_path(root,COUPLED_SOURCE_EPOCH+'/manifest.json').read_bytes())
-        _sealed(support,'archive_id')
-        if (support.get('schema')!='osr-coupled-railway-source-epoch/1'
+        raise RetiredReferenceHold('Linked historical coupled-railway evidence is not allowed')
+    prefix='docs/design-engine/coupled-railway/'
+    manifest_path=folder/'manifest.json'
+    manifest_bytes=manifest_path.read_bytes()
+    manifest=json.loads(manifest_bytes)
+    _sealed(manifest,'manifest_id')
+    _held(manifest)
+    if manifest.get('schema')!='osr-coupled-railway-publication/1' or manifest['manifest_id']!=COUPLED_PACKET_MANIFEST_ID:
+        raise RetiredReferenceHold('Coupled Journey C manifest identity differs')
+    tree=_tree(root,COUPLED_PACKET_COMMIT)
+    if manifest_bytes!=_blob(root,tree,prefix+'manifest.json'):
+        raise RetiredReferenceHold('Coupled Journey C manifest differs from its pinned Git tree')
+    expected_files,records=_coupled_records(root,manifest,manifest_bytes,tree)
+    current_files={p.relative_to(root).as_posix() for p in paths if p.is_file()}
+    if current_files!=expected_files:
+        raise RetiredReferenceHold('Coupled Journey C working packet inventory differs')
+    _verify_blobs(root,records,COUPLED_PACKET_COMMIT)
+    for name,wanted in manifest['files_sha256'].items():
+        if name=='README.md':
+            continue
+        if _hash(_path(root,prefix+name))!=wanted:
+            raise RetiredReferenceHold('Coupled Journey C payload differs: '+name)
+    # The narrative was updated after the research packet was sealed. Keep its
+    # current bytes independently pinned, while the original README remains
+    # authenticated by the manifest and original Git tree.
+    documentation_path=prefix+'README.md'
+    if _hash(_path(root,documentation_path))!=COUPLED_DOCUMENTATION_SHA256:
+        raise RetiredReferenceHold('Coupled Journey C documentation overlay differs')
+    paths.append(_path(root,documentation_path))
+    support_dir=_path(root,COUPLED_SOURCE_EPOCH)
+    support_path=support_dir/'manifest.json'
+    support=json.loads(_path(root,COUPLED_SOURCE_EPOCH+'/manifest.json').read_bytes())
+    _sealed(support,'archive_id')
+    if (support.get('schema')!='osr-coupled-railway-source-epoch/1'
                 or support.get('archive_id')!=COUPLED_SOURCE_EPOCH_ID
                 or support.get('coupled_manifest_id')!=COUPLED_PACKET_MANIFEST_ID
                 or support.get('source_commit')!=COUPLED_SOURCE_COMMIT
                 or support.get('source_git_blob')!=COUPLED_SOURCE_BLOB
                 or support.get('scope')!='Exact historical source bytes for the unchanged coupled-railway packet; no calculation replay or current-evaluator admission'
-                or any(support.get(k) is not False for k in FLAGS)):
-            raise RetiredReferenceHold('Coupled source-epoch support does not match its explicit historical scope')
-        if support.get('source_sha256')!={'engineering/station_rail/braking.py':'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
-            raise RetiredReferenceHold('Coupled historical source binding differs')
-        expected_file='source/engineering/station_rail/braking.py'
-        if support.get('files_sha256')!={expected_file:'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
-            raise RetiredReferenceHold('Coupled historical source archive inventory differs')
-        if support.get('source_artifacts')!={'engineering/station_rail/braking.py':expected_file}:
-            raise RetiredReferenceHold('Coupled historical source artifact path differs')
-        source_path=_path(root,COUPLED_SOURCE_EPOCH+'/'+expected_file)
-        if source_path.stat().st_size>1024*1024 or _hash(source_path)!=support['source_sha256']['engineering/station_rail/braking.py']:
-            raise RetiredReferenceHold('Coupled historical braking source bytes differ')
-        archive_paths=list(support_dir.rglob('*'))
-        if any(p.is_symlink() for p in archive_paths):
-            raise RetiredReferenceHold('Linked coupled source-epoch evidence is not allowed')
-        archive_files={p.relative_to(support_dir).as_posix():_hash(p)
-            for p in archive_paths if p.is_file() and p!=support_path}
-        if archive_files!=support['files_sha256']:
-            raise RetiredReferenceHold('Coupled historical source archive inventory differs')
-        if manifest.get('source_sha256',{}).get('engineering/station_rail/braking.py')!=support['source_sha256']['engineering/station_rail/braking.py']:
-            raise RetiredReferenceHold('Coupled packet does not bind its retained braking source')
-        current_source=root/'engineering/station_rail/braking.py'
-        archived_hash=support['source_sha256']['engineering/station_rail/braking.py']
-        original_digest=railway_publication.digest
-        def epoch_digest(path):
-            if Path(path)==current_source:return archived_hash
-            return original_digest(path)
-        with _COUPLED_VERIFY_LOCK:
-            railway_publication.digest=epoch_digest
-            try:
-                result=railway_publication.verify(root,output=folder)
-            finally:
-                railway_publication.digest=original_digest
-        paths.extend([support_path,source_path]);source_epoch='historical'
-    else:
-        result=railway_publication.verify(root,output=folder)
-    if result.get('verified') is not True:
-        raise RetiredReferenceHold('Current coupled-railway publication did not verify')
-    return dict(result,source_epoch=source_epoch),paths
+            or any(support.get(k) is not False for k in FLAGS)):
+        raise RetiredReferenceHold('Coupled source-epoch support does not match its explicit historical scope')
+    if support.get('source_sha256')!={'engineering/station_rail/braking.py':'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
+        raise RetiredReferenceHold('Coupled historical source binding differs')
+    expected_file='source/engineering/station_rail/braking.py'
+    if support.get('files_sha256')!={expected_file:'905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'}:
+        raise RetiredReferenceHold('Coupled historical source archive inventory differs')
+    if support.get('source_artifacts')!={'engineering/station_rail/braking.py':expected_file}:
+        raise RetiredReferenceHold('Coupled historical source artifact path differs')
+    source_path=_path(root,COUPLED_SOURCE_EPOCH+'/'+expected_file)
+    if source_path.stat().st_size>1024*1024 or _hash(source_path)!=support['source_sha256']['engineering/station_rail/braking.py']:
+        raise RetiredReferenceHold('Coupled historical braking source bytes differ')
+    archive_paths=list(support_dir.rglob('*'))
+    if any(p.is_symlink() for p in archive_paths):
+        raise RetiredReferenceHold('Linked coupled source-epoch evidence is not allowed')
+    archive_files={p.relative_to(support_dir).as_posix():_hash(p)
+        for p in archive_paths if p.is_file() and p!=support_path}
+    if archive_files!=support['files_sha256']:
+        raise RetiredReferenceHold('Coupled historical source archive inventory differs')
+    if manifest.get('source_sha256',{}).get('engineering/station_rail/braking.py')!=support['source_sha256']['engineering/station_rail/braking.py']:
+        raise RetiredReferenceHold('Coupled packet does not bind its retained braking source')
+    paths.extend([support_path,source_path])
+    return dict(verified=True,manifest_id=COUPLED_PACKET_MANIFEST_ID,source_epoch='historical',
+                original_source_commit=COUPLED_PACKET_COMMIT,analytical_replay=False,**FLAGS),paths
 
 
 def verify_coupled_packet(root=ROOT):
@@ -405,6 +469,6 @@ def publish(root=ROOT,output=None):
 
 if __name__=='__main__':
     import argparse
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('verify','publish'));p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--output',type=Path)
-    a=p.parse_args();result=verify(a.root) if a.action=='verify' else publish(a.root,a.output)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('verify','publish','prefetch-coupled'));p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--output',type=Path)
+    a=p.parse_args();result=verify(a.root) if a.action=='verify' else prefetch_coupled_blobs(a.root) if a.action=='prefetch-coupled' else publish(a.root,a.output)
     print(json.dumps({k:v for k,v in result.items() if k not in ('dependency_sha256','git_files','current_path_files_sha256','packets')},sort_keys=True))

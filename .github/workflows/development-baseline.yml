@@ -345,13 +345,23 @@ jobs:
           git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
           git fetch --no-tags --depth=1 origin 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f
           git cat-file -e 5b9b943e198dd22bdabc57d705e7cc1f1462bd7f^{commit}
+          git fetch --no-tags --depth=1 --filter=blob:none origin 83b2e0c83c5ee4fca317430a4d74fd3a9186374f:refs/osr/retired-coupled-journey-c
+          git cat-file -e 83b2e0c83c5ee4fca317430a4d74fd3a9186374f^{commit}
+          python3 -B -m engineering.station_rail.retired_station_reference prefetch-coupled
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "26"
           cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build the active typed Arrow case codec
+        env:
+          CARGO_BUILD_JOBS: "2"
+        run: |
+          CARGO_TARGET_DIR="$RUNNER_TEMP/osr-arrow-codec" cargo build --locked -p osr-design-search --features columnar --bin osr-campaign-case-nodes
+          printf 'OSR_CASE_NODE_CODEC=%s\n' "$RUNNER_TEMP/osr-arrow-codec/debug/osr-campaign-case-nodes" >> "$GITHUB_ENV"
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-dejavu-core
       - run: python -m venv .venv
       - run: .venv/bin/pip install --no-cache-dir pytest --requirement engineering/requirements.txt
@@ -410,7 +420,7 @@ jobs:
           .venv/bin/python -m engineering.design_search.craft_backends viaduct verify-publication
       - name: Current explicit-model mechanics and interface contracts
         run: |
-          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_craft_cases.py tests/test_solidcraft_backend.py tests/test_fieldcraft_backend.py tests/test_craft_calculix_reference.py tests/test_craft_freecad_reference.py tests/test_craft_pilot.py tests/test_craft_handoff.py
+          .venv/bin/python -m pytest -q --import-mode=importlib tests/test_craft_cases.py tests/test_solidcraft_backend.py tests/test_fieldcraft_backend.py tests/test_code_aster_control.py tests/test_craft_calculix_reference.py tests/test_craft_freecad_reference.py tests/test_craft_pilot.py tests/test_craft_handoff.py
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py engineering/design_search/tests/test_propulsion_families.py tests/test_joint_models.py tests/test_joint_body.py
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_launch_options.py::test_zero_drag_energy_and_contact_inertia_distinction engineering/design_search/tests/test_launch_options.py::test_independent_drag_work_integral_matches_existing_profile engineering/design_search/tests/test_launch_options.py::test_ideal_cable_time_is_faster_than_coasting_but_still_misses_headway engineering/design_search/tests/test_launch_options.py::test_invalid_bound_inputs_fail_closed
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_propulsion_storage.py engineering/design_search/tests/test_sparse_launch.py engineering/design_search/tests/test_propulsion_layout.py::test_powered_cruise_counts_full_route_and_grade_work engineering/design_search/tests/test_propulsion_layout.py::test_bogie_indices_keep_identical_three_car_groups engineering/design_search/tests/test_propulsion_layout.py::test_seed_failure_is_preserved_before_storage_sizing

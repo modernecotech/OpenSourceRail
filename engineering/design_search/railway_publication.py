@@ -3,16 +3,27 @@ from pathlib import Path
 from copy import deepcopy
 from hashlib import sha256
 from math import isfinite
+from contextlib import contextmanager
 import gzip,json,shutil,tarfile,io
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
-from . import railway_campaign as engine,design_grammar,railway_bundle,grammar_shell,transient_lim,railway_delivery
+from engineering.performance import disk_reservation
+from . import aggregate_store,railway_campaign as engine,design_grammar,railway_bundle,grammar_shell,transient_lim,railway_delivery
 from .generative_publication import archive
 from .native_archive_stream import write_archive
 
 PRODUCER='engineering/design_search/railway_publication.py'
-OUTPUT='docs/design-engine/coupled-railway'
+OUTPUT='docs/design-engine/coupled-railway-v07'
 FLAGS=engine.FLAGS
+
+
+def _reader_provenance(value,root,*,executed):
+    """Report local codec bytes only in an unsealed command response."""
+    try:
+        binary=engine.case_node_store.codec_identity(root)['osr-campaign-case-nodes']
+    except ValueError:
+        binary=None
+    return dict(value,aggregate_reader_executable_sha256=binary,aggregate_reader_executed=executed)
 
 
 def compact_native_archive(folder,target):
@@ -43,13 +54,41 @@ def _retain_previous_publication(root,out):
     return retained
 
 
+@contextmanager
+def current_context(root=ROOT):
+    """Use one verified, bounded temporary parent for current-source readers."""
+    root=Path(root);epoch=engine.source_epoch(root);spec=engine.specification(root);contract=engine.contract_identity(spec,epoch,root=root)
+    folder=root/'build/coupled-railway'/contract
+    if json.loads((folder/'source-contract.json').read_bytes())!=engine.state_source_contract(contract,epoch,root=root):
+        raise ValueError('Source-matched v2 coordinated state required')
+    snapshot,pointer=engine.current_aggregate(folder,contract)
+    temporary=folder/'.aggregate-parent-result.json'
+    with disk_reservation(root,temporary,'railway-aggregate-parent',2*1024*1024*1024):
+        if temporary.exists() or temporary.is_symlink():
+            if (temporary.is_symlink() or not temporary.is_file()
+                    or temporary.stat().st_size>aggregate_store.MAX_AGGREGATE_BYTES
+                    or digest(temporary)!=pointer['aggregate_sha256']):
+                raise ValueError('Interrupted aggregate parent differs; retain it for review')
+            manifest=aggregate_store.read(snapshot,folder/'cases',engine._Discard(),root=root)
+        else:
+            manifest=aggregate_store.materialize(snapshot,folder/'cases',temporary,root=root)
+        if (manifest['manifest_id']!=pointer['manifest_id']
+                or manifest['aggregate_sha256']!=pointer['aggregate_sha256']
+                or manifest['run_id']!=pointer['run_id']):
+            raise ValueError('Active aggregate pointer and verified parent differ')
+        try:
+            value=json.loads(temporary.read_bytes(),object_pairs_hook=engine.case_node_store._unique_pairs)
+            if value['contract_id']!=contract or value['source_sha256']!=epoch or value['campaign_id']!=engine.semantic_id(value):raise ValueError('Source-matched coordinated execution required')
+            if value['run_id']!=identity({k:v for k,v in value.items() if k!='run_id'}):raise ValueError('Invocation receipt differs')
+            if len(value['rows'])!=len(value['bundles']):raise ValueError('Finish the pending bundle evaluation queue before publishing the complete comparison')
+            yield folder,value,temporary
+        finally:
+            temporary.unlink()
+
+
 def current(root=ROOT):
-    root=Path(root);epoch=engine.source_epoch(root);spec=engine.specification(root);contract=identity(dict(specification=spec,source_sha256=epoch))
-    folder=root/'build/coupled-railway'/contract;value=json.loads((folder/'result.json').read_bytes())
-    if value['contract_id']!=contract or value['source_sha256']!=epoch or value['campaign_id']!=engine.semantic_id(value):raise ValueError('Source-matched coordinated execution required')
-    if value['run_id']!=identity({k:v for k,v in value.items() if k!='run_id'}):raise ValueError('Invocation receipt differs')
-    if len(value['rows'])!=len(value['bundles']):raise ValueError('Finish the pending bundle evaluation queue before publishing the complete comparison')
-    return folder,value
+    with current_context(root) as (folder,value,_):
+        return folder,value
 
 
 def _body_response(native,body_id):
@@ -223,7 +262,7 @@ def _retain_exact_prior_body_cases(root,value,out,native_index):
     return reused,rejections
 
 
-def _current_refinement(root, value):
+def _current_refinement(root, value, parent_result=None):
     """Load the exact current-source continuation when its sealed package exists."""
     from . import railway_refinement_current, railway_refinement_current_verifier
     requested = _requested_refinement_frontier(
@@ -231,7 +270,8 @@ def _current_refinement(root, value):
         railway_refinement_current.NEXT_MESH_M)
     if requested is None:
         return None
-    parent = Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
+    parent = (Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
+              if parent_result is None else Path(parent_result))
     context = railway_refinement_current._context(
         root, parent_result=parent, candidate_id=railway_refinement_current.CANDIDATE_ID)
     if context[5] != requested:
@@ -249,7 +289,7 @@ def _current_refinement(root, value):
         manifest=json.loads((folder/'manifest.json').read_bytes()), verified=verified)
 
 
-def _current_fine_refinement(root, value):
+def _current_fine_refinement(root, value, parent_result=None):
     from . import railway_refinement_current_fine_reconcile as reconciler
     from . import railway_refinement_current as current_refinement
     from . import railway_refinement_current_fine as fine_producer
@@ -257,7 +297,8 @@ def _current_fine_refinement(root, value):
         value, reconciler.CANDIDATE_ID, current_refinement.NEXT_MESH_M)
     if requested is None:
         return None
-    parent=Path(root)/'build/coupled-railway'/value['contract_id']/'result.json'
+    parent=(Path(root)/'build/coupled-railway'/value['contract_id']/'result.json'
+            if parent_result is None else Path(parent_result))
     try:
         verification=fine_producer.verify(root,parent_result=parent,candidate_id=reconciler.CANDIDATE_ID)
     except ValueError as error:
@@ -311,7 +352,7 @@ def _current_fine_refinement(root, value):
         package_kind='reconciled-native')
 
 
-def _current_ultrafine_refinement(root, value, refinement, fine_refinement):
+def _current_ultrafine_refinement(root, value, refinement, fine_refinement, parent_result=None):
     """Load the exact current-source 0.053125 m continuation when published."""
     from . import railway_refinement_current_ultrafine as producer
     requested = next((row for row in _published_frontier(value, refinement, fine_refinement)
@@ -320,7 +361,8 @@ def _current_ultrafine_refinement(root, value, refinement, fine_refinement):
         and row.get('proposed_next_mesh_m') == producer.MESH_M), None)
     if requested is None:
         return None
-    parent = Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
+    parent = (Path(root) / 'build/coupled-railway' / value['contract_id'] / 'result.json'
+              if parent_result is None else Path(parent_result))
     if not parent.is_file():
         return None
     parent_sha = digest(parent)
@@ -628,13 +670,13 @@ def readme(s):
 
 def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
-    folder,value=current(root)
-    refinement=_current_refinement(root,value)
-    # A continuation cannot borrow an earlier parent's predecessor. Matching
-    # packages still pass their existing verifiers, whose errors must propagate.
-    fine_refinement=_current_fine_refinement(root,value) if refinement is not None else None
-    ultrafine_refinement=(_current_ultrafine_refinement(root,value,refinement,fine_refinement)
-        if fine_refinement is not None else None)
+    with current_context(root) as (folder,value,parent):
+        refinement=_current_refinement(root,value,parent)
+        # A continuation cannot borrow an earlier parent's predecessor. Matching
+        # packages still pass their existing verifiers, whose errors must propagate.
+        fine_refinement=_current_fine_refinement(root,value,parent) if refinement is not None else None
+        ultrafine_refinement=(_current_ultrafine_refinement(root,value,refinement,fine_refinement,parent)
+            if fine_refinement is not None else None)
     if (out/'manifest.json').is_file():
         m=json.loads((out/'manifest.json').read_bytes())
         if all(digest(root/n)==h for n,h in m['source_sha256'].items()):
@@ -643,7 +685,7 @@ def build(root=ROOT,output=None):
                     and execution.get('run_id')==value['run_id']
                     and execution.get('campaign_id')==value['campaign_id']
                     and _published_refinements_match(out,refinement,fine_refinement,ultrafine_refinement)):
-                return verify(root,out)
+                return _reader_provenance(verify(root,out),root,executed=True)
     if out.exists():
         _retain_previous_publication(root,out)
     out.mkdir(parents=True);(out/'native').mkdir();native=[];epochs={}
@@ -705,7 +747,8 @@ def build(root=ROOT,output=None):
     inventories=[];deliveries=[]
     for b in value['bodies']:
         row=next(r for r in value['rows'] if r['body_candidate_id']==b['candidate_id'] and r['family_id']=='P1')
-        stage=next(r for r in row['stages'] if r['stage']=='installed_inventory');record=json.loads((folder/'stages'/identity(stage['request'])).read_bytes())
+        stage=next(r for r in row['stages'] if r['stage']=='installed_inventory')
+        record=engine._read_cached_stage(engine.case_node_store.path_for(folder/'stages',identity(stage['request'])),root=root)
         if record['record_id']!=stage['record_id']:raise ValueError('Inventory stage changed')
         inventories.append(record['output'])
         CAD=next((r for r in value['native']['CAD_results'] if r['candidate_id']==b['candidate_id']),None)
@@ -751,7 +794,8 @@ def build(root=ROOT,output=None):
         'engineering/design_search/railway_native_execution.py':digest(root/'engineering/design_search/railway_native_execution.py'),
         'engineering/design_search/railway_refinement_current_fine_reconcile.py':digest(root/'engineering/design_search/railway_refinement_current_fine_reconcile.py')},
         files_sha256={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file()},**FLAGS)
-    m['manifest_id']=identity(m);(out/'manifest.json').write_bytes(encoded(m));return verify(root,out)
+    m['manifest_id']=identity(m);(out/'manifest.json').write_bytes(encoded(m))
+    return _reader_provenance(verify(root,out),root,executed=True)
 
 
 def verify(root=ROOT,output=None):
@@ -974,5 +1018,5 @@ def verify(root=ROOT,output=None):
         for p in prefix.iterdir():
             if digest(p)!=manifest['files_sha256'][p.name]:raise ValueError('Delivery bytes differ')
         if (prefix/'body-stock.ifc.gz').is_file() and sha256(gzip.decompress((prefix/'body-stock.ifc.gz').read_bytes())).hexdigest()!=manifest['files_sha256']['wheel-stock.ifc']:raise ValueError('Compressed IFC differs from native delivery')
-    return dict(verified=True,manifest_id=m['manifest_id'],campaign_id=s['campaign_id'],body_count=len(bodies),evaluated_bundle_count=len(rows),
-        native_body_case_count=s['native_body_case_count'],physical_journeys=0,complete_installed_masses=0,**FLAGS)
+    return _reader_provenance(dict(verified=True,manifest_id=m['manifest_id'],campaign_id=s['campaign_id'],body_count=len(bodies),evaluated_bundle_count=len(rows),
+        native_body_case_count=s['native_body_case_count'],physical_journeys=0,complete_installed_masses=0,**FLAGS),root,executed=False)

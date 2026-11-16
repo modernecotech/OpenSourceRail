@@ -73,6 +73,64 @@ models. GetDP remains the electromagnetic route and IFC remains the BIM route.
 - SolidCraft density assignments do not create FieldCraft structural materials.
   Analysis materials, loads and constraints must be declared independently.
 
+### Explicit Code_Aster one-box handoff control
+
+`code_aster_control.py` is a separate, bounded fallback experiment for the
+rejected FieldCraft STEP route. It imports the exact SolidCraft STEP through
+Gmsh/OpenCASCADE in metres, writes a named-face tetrahedral MED mesh, checks
+the volume against an independent FreeCAD/OpenCASCADE reimport, and only then
+attempts a Code_Aster static solve. The control uses a 1 m × 0.3 m × 0.2 m
+box, a fixed `x=0` face, 1,000 N distributed across the `x=1` face, and an
+explicit isotropic material hypothesis (`E=70 GPa`, `ν=0.33`,
+`ρ=2,700 kg/m³`). Its reaction, displacement and energy are checked against
+equilibrium, external work and the axial analytical control. Source, STEP,
+Gmsh library and container image hashes are retained with the private run.
+
+The current Code_Aster 17.4.0 control used image digest
+`sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5`
+and completed under request
+`01ece7a47c065c2659cfb9a95f92bf26e4527ab1c4c6067bdb68ff2c93f8b17c`
+and native evaluation
+`7a2efd69f8774d040b25fd70d2327d9e61a8d8b80ac5dcc397df1ed41d1feea2`.
+Gmsh 4.15.2 generated the MED mesh. The STEP and tet10 mesh both measure
+0.060000 m³; the mesh has 857 nodes and 400 elements. The fixed-face reaction
+is −1,000.0000000000075 N for a 1,000 N
+load, the mean loaded-face displacement is 2.355495351978692×10⁻⁷ m, and
+elastic energy is 1.1777470023092778×10⁻⁴ J. Independent force and
+energy/work residuals are 7.5×10⁻¹⁵ and 5.72×10⁻⁷; the displacement differs
+from the axial control by 1.07%. The 24-artifact private run verifies with
+physical acceptance false. Failed launch attempts and their logs remain in the
+sealed run package. Rootless Docker did not enforce aggregate memory or CPU
+cgroups; the execution used a 2 GiB per-process address-space limit, one MPI
+worker and thread, and a 180-second timeout. Code_Aster reported 783.50 MB
+peak process memory.
+
+```bash
+./osr design backends code-aster-box \
+  --step /path/to/exact/assembly.step \
+  --output /path/to/private/fresh-control \
+  --candidate-id explicit-synthetic-box-id \
+  --fieldcraft-rejection /path/to/held-readback.json \
+  --image simvia/code_aster:17.4.0 \
+  --python /path/to/python-with-current-gmsh
+./osr design backends verify-code-aster-box \
+  --output /path/to/private/fresh-control
+```
+
+The refusal receipt must identify the same candidate and exact STEP hash, and
+show both FieldCraft import routes rejected. The image argument is explicit so
+the adapter does not silently select an
+older installation. The current stable 17.4.0 image is listed by the
+[Open Simulation Center](https://open-simulation-center.org/fr/downloads/code_aster/code_aster/17.4.0)
+and its use in a direct `run_aster` invocation is described on the
+[Code_Aster forum](https://code-aster.org/forum/t/weird-behavior-in-docker/12303).
+The adapter pins the installed image by immutable repository digest before
+execution. An unavailable image, failed import, failed geometry check or
+nonconverged native solve is recorded as held. A completed numerical control
+does not qualify the selected beam, side sill or vehicle. Their same-candidate
+loads, supports, materials, interfaces and resource requests remain separate
+admission work, and the missing selected-reference manifest remains a hold.
+
 Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).
 The [pilot policy](../../../campaigns/craft-backend-pilot.toml) bounds 25 parts,

@@ -165,15 +165,17 @@ def test_cli_dispatches_without_running_models(comparison,tmp_path,monkeypatch,c
 
 
 @pytest.mark.parametrize('arguments,expected',[
-    (['design','campaign','create','campaign.toml'],['-m','engineering.design_search','campaign','create','campaign.toml']),
-    (['design','campaign'],['tools/automation/ferrite-maglev-study.py','campaign']),
-    (['design','campaign','--output','build/custom'],['tools/automation/ferrite-maglev-study.py','campaign','--output','build/custom']),
-    (['design','status'],['tools/automation/ferrite-maglev-study.py','status']),
-    (['twin','compile','candidate'],['-m','engineering.design_search','twin','compile','candidate']),
+    (['design','campaign','create','campaign.toml'],['-m','engineering.development_baseline.entrypoint','design','campaign','create','campaign.toml']),
+    (['design','campaign'],['-m','engineering.development_baseline.entrypoint','design','campaign']),
+    (['design','campaign','--output','build/custom'],['-m','engineering.development_baseline.entrypoint','design','campaign','--output','build/custom']),
+    (['design','status'],['-m','engineering.development_baseline.entrypoint','design','status']),
+    (['twin','compile','candidate'],['-m','engineering.development_baseline.entrypoint','twin','compile','candidate']),
 ])
-def test_launcher_preserves_legacy_and_new_routes(tmp_path,arguments,expected):
+def test_launcher_routes_through_selected_front_door(tmp_path,arguments,expected):
     launcher=tmp_path/'osr';shutil.copyfile(ROOT/'osr',launcher)
     runner=tmp_path/'tools/automation/osr-python';runner.parent.mkdir(parents=True)
+    shutil.copyfile(ROOT/'tools/automation/toolchain-release.sh',
+                    runner.parent/'toolchain-release.sh')
     runner.write_text('#!'+sys.executable+'\nimport json,sys\nprint(json.dumps(sys.argv[1:]))\n');runner.chmod(0o755)
     value=subprocess.run(['bash',str(launcher),*arguments],text=True,capture_output=True,timeout=10,check=True)
     assert json.loads(value.stdout)==expected

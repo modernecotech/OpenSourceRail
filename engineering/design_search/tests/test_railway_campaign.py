@@ -39,6 +39,9 @@ def test_native_request_cannot_be_rebound_to_another_fixture_or_resource_limit(t
 
 
 def test_resume_and_new_structural_evidence_trigger_dependent_case_evaluation(tmp_path,monkeypatch):
+    from contextlib import nullcontext
+    import engineering.performance as performance
+    monkeypatch.setattr(performance,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
     body=grammar.build(grammar.parameters());spec=c.specification();spec['families']=['P1','P2']
     monkeypatch.setattr(c,'specification',lambda root=ROOT:deepcopy(spec));monkeypatch.setattr(c,'generate_bodies',lambda:([body],[]))
     context=dict(method_status='not-run',body_admission={},body_results=[],pending=[])

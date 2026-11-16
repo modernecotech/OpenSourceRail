@@ -1,5 +1,4 @@
 from copy import deepcopy
-import json
 import os
 from pathlib import Path
 import subprocess
@@ -7,9 +6,18 @@ import sys
 
 import pytest
 
-from engineering.design_search import design_grammar as grammar, railway_campaign as campaign
+from engineering.design_search import case_node_store, design_grammar as grammar, railway_campaign as campaign
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded, identity
+
+
+def read_record(path):
+    return case_node_store.read(path,'stage')
+
+
+def write_record(path,record):
+    if path.exists() or path.is_symlink():path.unlink()
+    case_node_store.write(path,record,'stage')
 
 
 def fixture(tmp_path):
@@ -48,7 +56,7 @@ def fixture(tmp_path):
         request=dict(stage=name,bundle_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],inputs=deepcopy(inputs),source_sha256=epoch)
         record=dict(schema='osr-coupled-stage-record/1',request=deepcopy(request),output=deepcopy(outputs[name]),**campaign.FLAGS)
         record['record_id']=identity(record)
-        (tmp_path/'stages'/identity(request)).write_bytes(encoded(record))
+        write_record(case_node_store.path_for(tmp_path/'stages',identity(request)),record)
         stages.append(dict(stage=name,request=request,record_id=record['record_id'],reused=False));upstream.append(record['record_id'])
     row=dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],bundle_definition_id=bundle['definition_id'],
         case_context_id=identity(dict(bundle_definition_id=bundle['definition_id'],structure_evidence=context)),structure_context=deepcopy(context),
@@ -68,7 +76,7 @@ def check(folder,row,bundle,epoch,context):
 
 
 def stage_path(folder,row,index):
-    return folder/'stages'/identity(row['stages'][index]['request'])
+    return case_node_store.path_for(folder/'stages',identity(row['stages'][index]['request']))
 
 
 def reseal(row):row['row_id']=identity({k:v for k,v in row.items() if k!='row_id'})
@@ -85,14 +93,14 @@ def test_missing_stage_file_fails(tmp_path):
 
 def test_unresealed_stage_payload_tampering_fails(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,2)
-    record=json.loads(path.read_bytes());record['output']['evaluation_id']='8'*64;path.write_bytes(encoded(record))
+    record=read_record(path);record['output']['evaluation_id']='8'*64;write_record(path,record)
     with pytest.raises(ValueError,match='stage record differs'):check(tmp_path,row,bundle,epoch,context)
 
 
 @pytest.mark.parametrize('index',range(7))
 def test_resealed_stage_output_that_disagrees_with_row_fails(tmp_path,index):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,index)
-    record=json.loads(path.read_bytes());out=record['output']
+    record=read_record(path);out=record['output']
     if index==0:out['accounted_empty_mass_kg']=101.0
     elif index==2:
         out['trajectory']['value']=2.0
@@ -101,7 +109,7 @@ def test_resealed_stage_output_that_disagrees_with_row_fails(tmp_path,index):
     elif index==4:out['trace'][0]['v']=1.0
     else:out['value']='altered'
     if 'evaluation_id' in out:out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
-    record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});path.write_bytes(encoded(record))
+    record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});write_record(path,record)
     row['stages'][index]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='output differs from case projection'):check(tmp_path,row,bundle,epoch,context)
 
@@ -110,42 +118,42 @@ def test_resealed_stage_output_that_disagrees_with_row_fails(tmp_path,index):
 @pytest.mark.parametrize('mutation',['missing','incorrect'])
 def test_resealed_false_inner_evaluation_identity_is_rejected(tmp_path,index,mutation):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,index)
-    record=json.loads(path.read_bytes());out=record['output']
+    record=read_record(path);out=record['output']
     if mutation=='missing':out.pop('evaluation_id')
     else:out['evaluation_id']='0'*64
     name=campaign.STAGES[index]
     if index==0:row['inventory_summary']=campaign._inventory_summary(out)
     elif index==4:row['motion']=campaign._compact_motion(out)
     else:row[{'architecture':'architecture','propulsion':'propulsion','manufacturing_and_economics':'economics'}[name]]=deepcopy(out)
-    record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});path.write_bytes(encoded(record))
+    record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'});write_record(path,record)
     row['stages'][index]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='evaluation identity differs'):check(tmp_path,row,bundle,epoch,context)
 
 
 def test_resealed_false_nested_model_cost_identity_is_rejected(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,6)
-    record=json.loads(path.read_bytes());out=record['output'];out['model_cost']['evaluation_id']='0'*64
+    record=read_record(path);out=record['output'];out['model_cost']['evaluation_id']='0'*64
     out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
     row['economics']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
-    path.write_bytes(encoded(record));row['stages'][6]['record_id']=record['record_id'];reseal(row)
+    write_record(path,record);row['stages'][6]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='model cost evaluation identity differs'):check(tmp_path,row,bundle,epoch,context)
 
 
 def test_resealed_false_indexed_demand_identity_is_rejected(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,2)
-    record=json.loads(path.read_bytes());out=record['output'];out['trajectory']['indexed_demand_id']='0'*64
+    record=read_record(path);out=record['output'];out['trajectory']['indexed_demand_id']='0'*64
     out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
     row['architecture']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
-    path.write_bytes(encoded(record));row['stages'][2]['record_id']=record['record_id'];reseal(row)
+    write_record(path,record);row['stages'][2]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='indexed demand identity differs'):check(tmp_path,row,bundle,epoch,context)
 
 
 def test_resealed_false_economic_dependencies_are_rejected(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,6)
-    record=json.loads(path.read_bytes());out=record['output'];out['source_evaluation_ids'][0]='0'*64
+    record=read_record(path);out=record['output'];out['source_evaluation_ids'][0]='0'*64
     out['evaluation_id']=identity({k:v for k,v in out.items() if k!='evaluation_id'})
     row['economics']=deepcopy(out);record['record_id']=identity({k:v for k,v in record.items() if k!='record_id'})
-    path.write_bytes(encoded(record));row['stages'][6]['record_id']=record['record_id'];reseal(row)
+    write_record(path,record);row['stages'][6]['record_id']=record['record_id'];reseal(row)
     with pytest.raises(ValueError,match='economic source identities differ'):check(tmp_path,row,bundle,epoch,context)
 
 
@@ -185,10 +193,10 @@ def test_bounded_stage_reader_rejects_oversized_file(tmp_path,monkeypatch):
     with pytest.raises(ValueError,match='bounded ordinary-file domain'):check(tmp_path,row,bundle,epoch,context)
 
 
-def test_duplicate_json_keys_are_rejected(tmp_path):
+def test_corrupt_parquet_is_rejected(tmp_path):
     row,bundle,epoch,context=fixture(tmp_path);path=stage_path(tmp_path,row,0)
-    raw=path.read_bytes();path.write_bytes(raw.replace(b'{"configuration_adopted":false,',b'{"configuration_adopted":false,"configuration_adopted":false,',1))
-    with pytest.raises(ValueError,match='stage JSON differs'):check(tmp_path,row,bundle,epoch,context)
+    raw=path.read_bytes();path.write_bytes(raw[:len(raw)//2])
+    with pytest.raises(ValueError,match='Rust case-node codec rejected'):check(tmp_path,row,bundle,epoch,context)
 
 
 def test_stage_fifo_is_rejected_without_waiting_for_a_writer(tmp_path):
@@ -206,11 +214,12 @@ def test_case_fifo_is_rejected_without_waiting_for_a_writer(tmp_path):
 
 
 def test_case_reader_rejects_symlink_duplicate_keys_and_oversize(tmp_path,monkeypatch):
-    path=tmp_path/'case';target=tmp_path/'target';target.write_bytes(b'{"x":1}')
+    path=tmp_path/'case.parquet';target=tmp_path/'target.parquet';target.write_bytes(b'{"x":1}')
     path.symlink_to(target)
     with pytest.raises(ValueError,match='unavailable or unsafe'):campaign._read_cached_case(path)
     path.unlink();path.write_bytes(b'{"x":1,"x":1}')
-    with pytest.raises(ValueError,match='case JSON differs'):campaign._read_cached_case(path)
+    with pytest.raises(ValueError,match='Rust case-node codec rejected'):campaign._read_cached_case(path)
+    target.unlink();case_node_store.write(target,{'x':1},'case')
     monkeypatch.setattr(campaign,'_CASE_RECORD_MAX_BYTES',4)
     with pytest.raises(ValueError,match='bounded ordinary-file domain'):campaign._read_cached_case(target)
 
@@ -227,11 +236,11 @@ def test_cached_validation_preserves_same_epoch_resume_bytes(tmp_path,monkeypatc
     monkeypatch.setattr(campaign,'_native_campaign',lambda *args,**kwargs:deepcopy(context))
     state=tmp_path/'state';campaign.run(state=state,maximum_new_bundles=1,native_jobs=0)
     validator=campaign._verify_cached_stages
-    monkeypatch.setattr(campaign,'_verify_cached_stages',lambda *args:None)
+    monkeypatch.setattr(campaign,'_verify_cached_stages',lambda *args,**kwargs:None)
     baseline=campaign.run(state=state,maximum_new_bundles=0,native_jobs=0)
-    before=(state/'result.json').read_bytes()
+    before=(state/'aggregate-current.json').read_bytes()
     monkeypatch.setattr(campaign,'_verify_cached_stages',validator)
     checked=campaign.run(state=state,maximum_new_bundles=0,native_jobs=0)
-    assert baseline==checked and before==(state/'result.json').read_bytes()
+    assert baseline==checked and before==(state/'aggregate-current.json').read_bytes()
     assert checked['reused_bundles']==1 and checked['new_bundles']==0
     assert checked['integrated_selection'] is None and all(checked[k] is False for k in campaign.FLAGS)

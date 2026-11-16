@@ -7,11 +7,10 @@ retained component adapters and historical evidence, not silently overwritten.
 """
 from copy import deepcopy
 from pathlib import Path
-from hashlib import sha256
-import errno,fcntl,json,os,stat,tempfile,time,tomllib
+import fcntl,json,os,tempfile,time,tomllib,uuid
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
-from . import canonical_stream,design_grammar as grammar,grammar_geometry,grammar_structure
+from . import aggregate_store,canonical_stream,case_node_store,design_grammar as grammar,grammar_geometry,grammar_structure
 from . import failure_diagnosis,redesign_engine,revision_planner,design_variables,railway_bundle as bundle_adapter,model_cost
 
 PRODUCER='engineering/design_search/railway_campaign.py'
@@ -35,7 +34,7 @@ def specification(root=ROOT):
 
 def source_epoch(root=ROOT):
     root=Path(root)
-    names=['railway_campaign','canonical_stream','railway_bundle','railway_native','system_inventory','system_selection','system_motion','system_body','grammar_shell',
+    names=['railway_campaign','aggregate_store','case_node_store','canonical_stream','railway_bundle','railway_native','system_inventory','system_selection','system_motion','system_body','grammar_shell',
         'design_grammar','grammar_structure','grammar_geometry','interface_graph','failure_diagnosis','redesign_engine','revision_planner','design_variables','model_cost',
         'railway_architecture','architecture_demand','capabilities','requirement_policy','material_database','dfma','structural_families','joining_catalogue','wheel_motor']
     paths=[SPEC,'campaigns/whole-railway-architecture-search.toml',*[f'engineering/design_search/{n}.py' for n in names],
@@ -45,7 +44,11 @@ def source_epoch(root=ROOT):
         'engineering/station_rail/long_motor.py','engineering/station_rail/station_motor.py','engineering/station_rail/body_solid_frame.py',
         'docs/design-engine/ferrite-maglev/comfort-design/design.json.gz','docs/design-engine/ferrite-maglev/comfort-design/manifest.json',
         model_cost.RATE_DATA]
-    return {n:digest(root/n) for n in paths}
+    return {**{n:digest(root/n) for n in paths},**case_node_store.codec_source_identity(root)}
+
+
+def contract_identity(spec,epoch,*,root=ROOT):
+    return identity(dict(specification=spec,source_sha256=epoch,case_stage_store=case_node_store.SCHEMA))
 
 
 def _write(path,value):
@@ -61,15 +64,21 @@ def _write(path,value):
 def _stage(folder,name,bundle,inputs,epoch,calculate,*,root=ROOT):
     if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before stage execution')
     request=dict(stage=name,bundle_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],inputs=inputs,source_sha256=epoch)
-    key=identity(request);target=folder/'stages'/key
-    if target.exists():
-        r=json.loads(target.read_bytes())
+    key=identity(request);target=case_node_store.path_for(folder/'stages',key)
+    def check(r):
         if r['request']!=request or r['record_id']!=identity({k:v for k,v in r.items() if k!='record_id'}):raise ValueError('Stage cache differs from exact candidate/dependency request')
+    if target.exists() or target.is_symlink():
+        r=_read_cached_stage(target,root=root)
+        check(r)
         return r,True
+    r=case_node_store.recover(target,'stage',check,root=root,maximum=_STAGE_RECORD_MAX_BYTES)
+    if r is not None:return r,True
     output=calculate()
     if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed during stage execution')
     if isinstance(output,dict) and output.get('candidate_id',bundle['candidate_id'])!=bundle['candidate_id']:raise ValueError('Stage output belongs to another physical bundle')
-    r=dict(schema='osr-coupled-stage-record/1',request=request,output=output,**FLAGS);r['record_id']=identity(r);_write(target,r);return r,False
+    r=dict(schema='osr-coupled-stage-record/1',request=request,output=output,**FLAGS);r['record_id']=identity(r)
+    case_node_store.write(target,r,'stage',root=root)
+    return r,False
 
 
 def semantic_id(result):
@@ -81,86 +90,46 @@ def _aggregate_identity(result):
     return canonical_stream.canonical_identity(result)
 
 
-class _DigestWriter:
-    def __init__(self,stream):self.stream=stream;self.sha=sha256();self.size=0
-    def write(self,data):
-        n=self.stream.write(data)
-        if type(n) is int and 0<n<=len(data):self.sha.update(data[:n]);self.size+=n
-        return n
+class _Discard:
+    def write(self,data):return len(data)
 
 
-def _file_digest(path):
-    h=sha256();size=0
-    with Path(path).open('rb') as stream:
-        for block in iter(lambda:stream.read(1024*1024),b''):
-            h.update(block);size+=len(block)
-    return h.hexdigest(),size
+def current_aggregate(folder,contract):
+    """Resolve one sealed active snapshot without admitting historical JSON."""
+    folder=Path(folder)
+    pointer=folder/'aggregate-current.json'
+    if pointer.is_symlink() or not pointer.is_file() or pointer.stat().st_size>4096:
+        raise ValueError('Bounded active aggregate pointer required')
+    raw=pointer.read_bytes()
+    value=json.loads(raw,object_pairs_hook=case_node_store._unique_pairs)
+    if (not isinstance(value,dict) or set(value)!={'schema','contract_id','run_id','manifest_id','aggregate_sha256'}
+            or value['schema']!='osr-coupled-aggregate-pointer/2' or value['contract_id']!=contract
+            or not all(isinstance(value[k],str) and len(value[k])==64 and all(c in '0123456789abcdef' for c in value[k])
+                       for k in ('run_id','manifest_id','aggregate_sha256'))
+            or raw!=encoded(value)):
+        raise ValueError('Active aggregate pointer differs')
+    target=folder/'aggregates'/value['run_id']
+    if target.is_symlink() or not target.is_dir():raise ValueError('Active aggregate snapshot unavailable')
+    return target,value
 
 
-def _regular_single_link(path):
-    info=Path(path).lstat()
-    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1:
-        raise ValueError('An ordinary, single-link aggregate file is required')
-    return info
-
-
-def _stream_invocation(path,value):
-    """Atomically seal canonical invocation bytes; retain failed temporaries."""
-    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
-    fd,name=tempfile.mkstemp(prefix='.'+path.name+'.',suffix='.pending',dir=path.parent)
-    pending=Path(name)
-    with os.fdopen(fd,'w+b',buffering=0) as stream:
-        writer=_DigestWriter(stream)
-        canonical_stream.write_canonical(value,writer)
-        stream.flush();os.fsync(stream.fileno())
-        expected=(writer.sha.hexdigest(),writer.size)
-    _regular_single_link(pending)
-    if _file_digest(pending)!=expected:raise ValueError('Aggregate invocation bytes differ after writing')
-    if path.exists() or path.is_symlink():
-        _regular_single_link(path)
-        if _file_digest(path)!=expected:raise ValueError('Existing invocation differs for this run identity')
-        pending.unlink()
+def _write_aggregate(folder,result,*,root=ROOT):
+    """Publish immutable Arrow core and row references, then advance the pointer."""
+    folder=Path(folder);target=folder/'aggregates'/result['run_id']
+    if target.exists() or target.is_symlink():
+        manifest=aggregate_store.read(target,folder/'cases',_Discard(),root=root)
+        if manifest['aggregate_sha256']!=canonical_stream.canonical_identity(result):
+            raise ValueError('Existing aggregate snapshot differs from exact invocation')
     else:
-        os.replace(pending,path)
-    return expected
-
-
-_FICLONE=0x40049409
-_CLONE_UNSUPPORTED={errno.EOPNOTSUPP,errno.ENOTTY,errno.EXDEV,errno.EINVAL,errno.ENOSYS}
-
-
-def _clone_result(invocation,target,expected):
-    """Reflink one verified invocation, or copy it in bounded chunks."""
-    invocation=Path(invocation);target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
-    source_info=_regular_single_link(invocation)
-    if _file_digest(invocation)!=expected:raise ValueError('Aggregate invocation changed before cloning')
-    fd,name=tempfile.mkstemp(prefix='.'+target.name+'.',suffix='.pending',dir=target.parent)
-    pending=Path(name)
-    with invocation.open('rb',buffering=0) as source,os.fdopen(fd,'w+b',buffering=0) as output:
-        try:
-            fcntl.ioctl(output.fileno(),_FICLONE,source.fileno())
-        except OSError as error:
-            if error.errno not in _CLONE_UNSUPPORTED:raise
-            output.seek(0);output.truncate();source.seek(0)
-            for block in iter(lambda:source.read(1024*1024),b''):
-                view=memoryview(block)
-                while view:
-                    n=output.write(view)
-                    if type(n) is not int or not 0<n<=len(view):raise OSError('Aggregate copy made no progress')
-                    view=view[n:]
-        output.flush();os.fsync(output.fileno())
-    target_info=_regular_single_link(pending)
-    if (source_info.st_dev,source_info.st_ino)==(target_info.st_dev,target_info.st_ino):
-        raise ValueError('Aggregate snapshots must not be hardlinked')
-    if _file_digest(pending)!=expected or _file_digest(invocation)!=expected:
-        raise ValueError('Aggregate clone or invocation bytes differ')
-    os.replace(pending,target)
-
-
-def _write_aggregate(folder,result):
-    folder=Path(folder);invocation=folder/'invocations'/(result['run_id']+'.json')
-    expected=_stream_invocation(invocation,result)
-    _clone_result(invocation,folder/'result.json',expected)
+        manifest=aggregate_store.write(target,result,folder/'cases',root=root)
+    if (manifest['run_id']!=result['run_id'] or manifest['campaign_id']!=result['campaign_id']
+            or manifest['contract_id']!=result['contract_id']):
+        raise ValueError('Aggregate snapshot identity differs')
+    pointer=dict(schema='osr-coupled-aggregate-pointer/2',contract_id=result['contract_id'],
+                 run_id=result['run_id'],manifest_id=manifest['manifest_id'],
+                 aggregate_sha256=manifest['aggregate_sha256'])
+    _write(folder/'aggregate-current.json',pointer)
+    return pointer
 
 
 def _validate_cached_row(row,case_context,bundle,epoch):
@@ -210,39 +179,10 @@ def _same_compacted_motion(original,compact):
     return _same_json(original,compact)
 
 
-def _read_cached_json(path,maximum,kind):
-    """Read one bounded ordinary cache file; no filesystem sandbox is implied."""
-    try:
-        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
-    except OSError as error:
-        raise ValueError('Coupled cached '+kind+' file unavailable or unsafe') from error
-    with os.fdopen(fd,'rb') as stream:
-        before=os.fstat(stream.fileno())
-        if not stat.S_ISREG(before.st_mode) or before.st_size>maximum:
-            raise ValueError('Coupled cached '+kind+' file exceeds the bounded ordinary-file domain')
-        def unique_pairs(pairs):
-            value={}
-            for key,item in pairs:
-                if key in value:raise ValueError('Duplicate JSON object key')
-                value[key]=item
-            return value
-        try:
-            raw=stream.read(maximum+1)
-            if len(raw)>maximum:raise ValueError('Cache file grew beyond bounded domain')
-            record=json.loads(raw,object_pairs_hook=unique_pairs)
-        except (ValueError,UnicodeError) as error:raise ValueError('Coupled cached '+kind+' JSON differs') from error
-        after=os.fstat(stream.fileno())
-        current=os.stat(path,follow_symlinks=False)
-        fields=('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')
-        if any(getattr(before,k)!=getattr(after,k) or getattr(after,k)!=getattr(current,k) for k in fields):
-            raise ValueError('Coupled cached '+kind+' changed while reading')
-    return record
+def _read_cached_stage(path,*,root=ROOT):return case_node_store.read(path,'stage',root=root,maximum=_STAGE_RECORD_MAX_BYTES)
 
 
-def _read_cached_stage(path):return _read_cached_json(path,_STAGE_RECORD_MAX_BYTES,'stage')
-
-
-def _read_cached_case(path):return _read_cached_json(path,_CASE_RECORD_MAX_BYTES,'case')
+def _read_cached_case(path,*,root=ROOT):return case_node_store.read(path,'case',root=root,maximum=_CASE_RECORD_MAX_BYTES)
 
 
 def _verify_evaluation_identity(value,kind):
@@ -251,7 +191,7 @@ def _verify_evaluation_identity(value,kind):
         raise ValueError('Coupled cached '+kind+' evaluation identity differs')
 
 
-def _verify_cached_stages(folder,row,bundle,epoch,structure_context):
+def _verify_cached_stages(folder,row,bundle,epoch,structure_context,*,root=ROOT):
     """Verify all declared stage files and row projections before case reuse.
 
     These checks establish internal consistency, not authenticated physical
@@ -280,7 +220,7 @@ def _verify_cached_stages(folder,row,bundle,epoch,structure_context):
         else:inputs=dict(upstream=list(upstream),**base)
         expected=dict(stage=name,bundle_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],inputs=inputs,source_sha256=epoch)
         if ref['stage']!=name or not _same_json(ref['request'],expected):raise ValueError('Coupled cached stage request differs')
-        record=_read_cached_stage(Path(folder)/'stages'/identity(expected))
+        record=_read_cached_stage(case_node_store.path_for(Path(folder)/'stages',identity(expected)),root=root)
         if (not isinstance(record,dict) or set(record)!={'schema','request','output','record_id',*FLAGS}
                 or record['schema']!='osr-coupled-stage-record/1' or not _same_json(record['request'],expected)
                 or record['record_id']!=ref['record_id']
@@ -335,10 +275,15 @@ def _ordinary_state_path(folder):
     return path
 
 
-def _bind_state_source(folder,contract,epoch):
+def state_source_contract(contract,epoch,*,root=ROOT):
+    return dict(schema='osr-coupled-state-source/2',case_stage_store=case_node_store.SCHEMA,
+                contract_id=contract,source_sha256=epoch)
+
+
+def _bind_state_source(folder,contract,epoch,*,root=ROOT):
     """Check declared source context, not authentication or a sandbox."""
     folder=_ordinary_state_path(folder);marker=folder/'source-contract.json';journal=folder/'journal.json'
-    expected=dict(schema='osr-coupled-state-source/1',contract_id=contract,source_sha256=epoch)
+    expected=state_source_contract(contract,epoch,root=root)
     for path in (marker,journal):
         if path.is_symlink() or (path.exists() and not path.is_file()):
             raise ValueError('Coupled state contract metadata is not an ordinary file')
@@ -348,6 +293,10 @@ def _bind_state_source(folder,contract,epoch):
             raise ValueError('Coupled cache directories must be ordinary directories')
     if marker.is_file():
         if json.loads(marker.read_bytes())!=expected:raise ValueError('Coupled state source contract differs')
+        for name in ('cases','stages'):
+            cache=folder/name
+            if cache.is_dir() and any(not (item.name.endswith('.parquet') or item.name.endswith('.parquet.pending')) for item in cache.iterdir()):
+                raise ValueError('Coupled v2 state contains legacy or unexpected case/stage cache')
     else:
         for name in ('cases','stages','native'):
             p=folder/name
@@ -476,11 +425,17 @@ def _run_impl(root,*,maximum_new_bundles,native_jobs,state,lease):
     root=Path(root);spec=specification(root);epoch=source_epoch(root)
     if type(native_jobs) is not int or not 0<=native_jobs<=spec['maximum_native_jobs']:raise ValueError('Explicit bounded native job allowance required')
     if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):raise ValueError('Nonnegative resumable bundle budget required')
-    contract=identity(dict(specification=spec,source_sha256=epoch));folder=_ordinary_state_path(root/'build/coupled-railway'/contract if state is None else state);folder.mkdir(parents=True,exist_ok=True)
+    contract=contract_identity(spec,epoch,root=root);folder=_ordinary_state_path(root/'build/coupled-railway'/contract if state is None else state);folder.mkdir(parents=True,exist_ok=True)
     _ordinary_state_path(folder);lock_path=folder/'lock'
     if lock_path.is_symlink() or (lock_path.exists() and not lock_path.is_file()):raise ValueError('Coupled state lock is not an ordinary file')
     with lock_path.open('a+') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch,root=root)
+        codec_receipt=folder/'codec-executions'/(uuid.uuid4().hex+'.json')
+        codec_execution=dict(schema='osr-coupled-codec-execution/1',contract_id=contract,
+                             source_sha256=case_node_store.codec_source_identity(root),
+                             executable_sha256=case_node_store.codec_identity(root)['osr-campaign-case-nodes'],
+                             execution='started',storage_schema=case_node_store.SCHEMA)
+        _write(codec_receipt,codec_execution)
         started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
         check_space();native=_native_campaign(bodies,folder,native_jobs,root=root);check_space()
         for body in bodies:
@@ -494,11 +449,16 @@ def _run_impl(root,*,maximum_new_bundles,native_jobs,state,lease):
             if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before case dispatch')
             structure_context=_structure_context(native,bundle['body_candidate_id'])
             case_context=identity(dict(bundle_definition_id=bundle['definition_id'],structure_evidence=structure_context))
-            path=folder/'cases'/(case_context+'.json')
+            path=case_node_store.path_for(folder/'cases',case_context)
+            def check_case(cached):
+                _validate_cached_row(cached,case_context,bundle,epoch)
+                _verify_cached_stages(folder,cached,bundle,epoch,structure_context,root=root)
             if path.exists() or path.is_symlink():
-                row=_read_cached_case(path)
-                _validate_cached_row(row,case_context,bundle,epoch)
-                _verify_cached_stages(folder,row,bundle,epoch,structure_context)
+                row=_read_cached_case(path,root=root)
+                check_case(row)
+                rows.append(row);reused+=1;continue
+            row=case_node_store.recover(path,'case',check_case,root=root,maximum=_CASE_RECORD_MAX_BYTES)
+            if row is not None:
                 rows.append(row);reused+=1;continue
             if maximum_new_bundles is not None and new>=maximum_new_bundles or time.monotonic()-started>spec['maximum_seconds']:
                 pending.append(dict(kind='bundle-evaluation',bundle_id=bundle['candidate_id'],bundle_definition_id=bundle['definition_id'],state='ready'));continue
@@ -520,7 +480,7 @@ def _run_impl(root,*,maximum_new_bundles,native_jobs,state,lease):
                 motor_component_id=bundle['propulsion_component_id'],accounted_mass=bundle['mass'],architecture_added_mass_unknown=bundle['unweighed_architecture_equipment'],
                 stages=records,inventory_summary=_inventory_summary(inv),interfaces=interfaces,architecture=arch,propulsion=motor,motion=_compact_motion(motion),
                 civil=civil,economics=cost,installed_mass_kg=None,complete_body_qualified=False,physical_journey_completed=False,**FLAGS)
-            row['row_id']=identity(row);_write(path,row);rows.append(row);new+=1
+            row['row_id']=identity(row);case_node_store.write(path,row,'case',root=root);rows.append(row);new+=1
             _write(folder/'journal.json',dict(contract_id=contract,completed_rows=[r['row_id'] for r in rows],new_bundles=new,reused_bundles=reused,pending_count=len(bundles)-len(rows),**FLAGS))
             if source_epoch(root)!=epoch:raise ValueError('Coupled physical sources changed during execution')
         partial=_partial_selection(rows,bodies,root)
@@ -534,7 +494,10 @@ def _run_impl(root,*,maximum_new_bundles,native_jobs,state,lease):
         result['campaign_id']=semantic_id(result)
         result['run_id']=_aggregate_identity(result)
         check_space()
-        _write_aggregate(folder,result)
+        pointer=_write_aggregate(folder,result,root=root)
+        _write(codec_receipt,dict(codec_execution,execution='completed',run_id=result['run_id'],
+                                  campaign_id=result['campaign_id'],aggregate_sha256=pointer['aggregate_sha256'],
+                                  new_bundles=new,reused_bundles=reused))
         return result
 
 

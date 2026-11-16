@@ -109,6 +109,22 @@ def _cad_record(run, root, *, name=None, image='raw.png'):
     return recipe, result
 
 
+def _cad_card(name, recipe, result, image_path, output):
+    title, subtitle, footer, link = CARDS[name]
+    layout = plate(image_path, output/(name+'.webp'), title=title, subtitle=subtitle, footer=footer)
+    record = dict(candidate_id=recipe['candidate_id'], recipe_id=recipe['recipe_id'],
+        render_evaluation_id=result['evaluation_id'], source_evaluation_id=recipe['input_evaluation_id'],
+        image=name+'.webp', raw_image='evidence/'+name+'/native.png', dossier=link,
+        caption=recipe['caption'], layout=layout, observed_usage=result['usage'],
+        render_execution=result['execution'],render_failure=result['failure'],
+        observed_memory_target_met=result['observed_memory_target_met'],wall_s=result['wall_s'], **cad.FLAGS)
+    if result['execution']=='held':
+        record['caption']+=' Complete saved image retained from a held 600-second render; runtime and observed memory targets missed, supervisor usage unavailable.'
+    record['camera_units']=('Native SolidCraft target/distance: millimetres; yaw/pitch/FOV: radians'
+        if recipe['kind']=='native' else 'Source geometry: metres; direction is dimensionless')
+    return record
+
+
 def publish(selection, output, *, root=ROOT):
     """Compose verified saved images, retaining any explicit execution holds."""
     root, output = Path(root), Path(output)
@@ -130,18 +146,7 @@ def publish(selection, output, *, root=ROOT):
         for file in ('recipe.json','result.json','image-record.json','failure-audit.json','request.json','scene.json','geometry.json','usage.json','stdout.log','stderr.log'):
             if (run/file).is_file(): shutil.copyfile(run/file, evidence/file)
         shutil.copyfile(run/'raw.png', evidence/'native.png')
-        title, subtitle, footer, link = CARDS[name]
-        layout = plate(run/'raw.png', output/(name+'.webp'), title=title, subtitle=subtitle, footer=footer)
-        records[name] = dict(candidate_id=recipe['candidate_id'], recipe_id=recipe['recipe_id'],
-            render_evaluation_id=result['evaluation_id'], source_evaluation_id=recipe['input_evaluation_id'],
-            image=name+'.webp', raw_image='evidence/'+name+'/native.png', dossier=link,
-            caption=recipe['caption'], layout=layout, observed_usage=result['usage'],
-            render_execution=result['execution'],render_failure=result['failure'],
-            observed_memory_target_met=result['observed_memory_target_met'],wall_s=result['wall_s'], **cad.FLAGS)
-        if result['execution']=='held':
-            records[name]['caption']+=' Complete saved image retained from a held 600-second render; runtime and observed memory targets missed, supervisor usage unavailable.'
-        records[name]['camera_units']=('Native SolidCraft target/distance: millimetres; yaw/pitch/FOV: radians'
-            if recipe['kind']=='native' else 'Source geometry: metres; direction is dimensionless')
+        records[name] = _cad_card(name, recipe, result, run/'raw.png', output)
     evidence = output/'evidence'/'civil-fem'; evidence.mkdir(parents=True)
     execution = froot/'fieldcraft-request-v1'
     for file in ('request.json','result.json','commands.json','postprocess-rejection-01.json'):
@@ -165,6 +170,53 @@ def publish(selection, output, *, root=ROOT):
         producer_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
         source_sha256={name:cad.digest(root/name) for name in SOURCES}, cards=records,
         retained_failures='Earlier render attempts and native postprocessing rejection remain in private run evidence; rejection copied here.',
+        files=inventory(output), **fem.FLAGS))
+    dump(output/'manifest.json',manifest)
+    return verify(output,root=root)
+
+
+def republish_cad(previous, replacements, output, *, root=ROOT):
+    """Regenerate changed native views from new runs and reuse verified unchanged evidence.
+
+    The original packet remains immutable. Reused FEM bytes are checked by the
+    full publication verifier, including the native VTU and independent field
+    probes, before this operation reports success.
+    """
+    previous, output, root = Path(previous), Path(output), Path(root)
+    if output.exists() or previous.resolve() == output.resolve():
+        raise ValueError('Fresh publication directory required')
+    original = cad.read(previous/'manifest.json'); fem.check_seal(original)
+    if inventory(previous) != original['files']:
+        raise ValueError('Previous packet inventory changed')
+    if set(replacements) != {'bogie-cradle', 'launch-assembly', 'launch-clevis'}:
+        raise ValueError('Exactly the three changed native views must be rerendered')
+    if set(original['cards']) != set(CARDS)|{'civil-fem'}:
+        raise ValueError('Previous card inventory changed')
+    current = {recipe['id']:recipe for recipe in cad.recipes(root)}
+    for name in CARDS:
+        old_recipe = cad.read(previous/'evidence'/name/'recipe.json')
+        if name not in replacements and old_recipe != current[name]:
+            raise ValueError('Unchanged view is no longer source-current: '+name)
+        if name in replacements and old_recipe == current[name]:
+            raise ValueError('Replacement view has no source revision: '+name)
+    checked = {name:_cad_record(run, root, name=name) for name,run in replacements.items()}
+    shutil.copytree(previous, output, symlinks=False)
+    records = dict(original['cards'])
+    for name,(recipe,result) in checked.items():
+        evidence = output/'evidence'/name
+        shutil.rmtree(evidence); evidence.mkdir()
+        run = Path(replacements[name])
+        for file in ('recipe.json','result.json','image-record.json','failure-audit.json','request.json','scene.json','geometry.json','usage.json','stdout.log','stderr.log'):
+            if (run/file).is_file(): shutil.copyfile(run/file, evidence/file)
+        shutil.copyfile(run/'raw.png', evidence/'native.png')
+        (output/(name+'.webp')).unlink()
+        records[name] = _cad_card(name, recipe, result, run/'raw.png', output)
+    manifest = sealed(dict(schema='osr-readme-engineering-gallery/1',
+        purpose=original['purpose'],
+        producer_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+        source_sha256={name:cad.digest(root/name) for name in SOURCES}, cards=records,
+        retained_failures=original['retained_failures'],
+        reused_unchanged_evidence_from=original['evaluation_id'],
         files=inventory(output), **fem.FLAGS))
     dump(output/'manifest.json',manifest)
     return verify(output,root=root)
@@ -271,10 +323,12 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,default=ROOT)
     s=p.add_subparsers(dest='action',required=True)
     a=s.add_parser('publish');a.add_argument('selection',type=Path);a.add_argument('output',type=Path)
+    a=s.add_parser('republish-cad');a.add_argument('previous',type=Path);a.add_argument('selection',type=Path);a.add_argument('output',type=Path)
     a=s.add_parser('verify');a.add_argument('folder',type=Path,nargs='?',default=ROOT/DEST)
     a=s.add_parser('replot');a.add_argument('folder',type=Path);a.add_argument('output',type=Path)
     a=p.parse_args()
     value=(publish(cad.read(a.selection),a.output,root=a.root) if a.action=='publish' else
+           republish_cad(a.previous,cad.read(a.selection)['cad'],a.output,root=a.root) if a.action=='republish-cad' else
            replot(a.folder,a.output,root=a.root) if a.action=='replot' else verify(a.folder,root=a.root))
     print(json.dumps(value,sort_keys=True))
 

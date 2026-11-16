@@ -295,6 +295,11 @@ jobs:
             /docs/design-engine/outline-completion/**
             /docs/design-engine/demand-outline/**
             /docs/design-engine/supply-economics/**
+      - name: Stage exact Journey C Git blobs for offline historical verification
+        run: |
+          git fetch --no-tags --depth=1 --filter=blob:none origin 83b2e0c83c5ee4fca317430a4d74fd3a9186374f:refs/osr/retired-coupled-journey-c
+          git cat-file -e 83b2e0c83c5ee4fca317430a4d74fd3a9186374f^{commit}
+          python3 -B -m engineering.station_rail.retired_station_reference prefetch-coupled
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"

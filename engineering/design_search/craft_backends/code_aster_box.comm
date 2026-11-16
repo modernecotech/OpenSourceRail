@@ -1,0 +1,41 @@
+DEBUT()
+
+mesh = LIRE_MAILLAGE(FORMAT='MED', UNITE=20)
+mesh = DEFI_GROUP(reuse=mesh, MAILLAGE=mesh,
+                  CREA_GROUP_NO=(_F(NOM='FIXED_NODES', GROUP_MA='FIXED'),
+                                 _F(NOM='LOADED_NODES', GROUP_MA='LOADED')))
+model = AFFE_MODELE(MAILLAGE=mesh,
+                    AFFE=_F(TOUT='OUI', PHENOMENE='MECANIQUE', MODELISATION='3D'))
+material = DEFI_MATERIAU(ELAS=_F(E=70.0e9, NU=0.33, RHO=2700.0))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(TOUT='OUI', MATER=material))
+bc = AFFE_CHAR_MECA(MODELE=model,
+                    DDL_IMPO=_F(GROUP_NO='FIXED_NODES', DX=0.0, DY=0.0, DZ=0.0))
+load = AFFE_CHAR_MECA(MODELE=model,
+                      FORCE_FACE=_F(GROUP_MA='LOADED', FX=1000.0/0.06))
+result = MECA_STATIQUE(MODELE=model, CHAM_MATER=field,
+                       EXCIT=(_F(CHARGE=bc), _F(CHARGE=load)))
+result = CALC_CHAMP(reuse=result, RESULTAT=result,
+                    FORCE=('REAC_NODA',), ENERGIE=('ENEL_ELEM',))
+reactions = POST_RELEVE_T(ACTION=_F(INTITULE='FIXED_REACTION',
+                                     OPERATION='EXTRACTION',
+                                     RESULTAT=result, NOM_CHAM='REAC_NODA',
+                                     GROUP_NO='FIXED_NODES',
+                                     RESULTANTE=('DX','DY','DZ')))
+tip = POST_RELEVE_T(ACTION=_F(INTITULE='LOADED_DISPLACEMENT',
+                               OPERATION='MOYENNE_ARITH', RESULTAT=result,
+                               NOM_CHAM='DEPL', NOM_CMP='DX',
+                               GROUP_NO='LOADED_NODES'))
+energy = POST_ELEM(RESULTAT=result, CHAM_MATER=field,
+                   ENER_ELAS=_F(TOUT='OUI'))
+IMPR_TABLE(TABLE=reactions, UNITE=8)
+IMPR_TABLE(TABLE=tip, UNITE=8)
+IMPR_TABLE(TABLE=energy, UNITE=8)
+import json
+with open('/work/aster-observables.json', 'w') as stream:
+    json.dump({'reactions': [dict(row) for row in reactions.EXTR_TABLE()],
+               'tip': [dict(row) for row in tip.EXTR_TABLE()],
+               'energy': [dict(row) for row in energy.EXTR_TABLE()]}, stream,
+              default=float)
+IMPR_RESU(FORMAT='MED', UNITE=80,
+          RESU=_F(RESULTAT=result, NOM_CHAM=('DEPL','REAC_NODA')))
+FIN()

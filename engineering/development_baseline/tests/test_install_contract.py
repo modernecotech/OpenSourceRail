@@ -29,13 +29,14 @@ def test_current_install_build_and_readiness_agree_without_historical_binaries(t
     cargo = tools / 'cargo'
     cargo.write_text(
         '#!/usr/bin/env bash\nset -euo pipefail\n'
-        '[[ "$*" == "build --locked --release -p osr-atp --example wheel_station_contract" ]]\n'
+        '[[ "$*" == "build --locked --release --jobs 2 -p osr-atp --example wheel_station_contract" ]]\n'
         'mkdir -p target/release/examples\n'
         'printf "#!/bin/sh\\nexit 0\\n" > target/release/examples/wheel_station_contract\n'
         'chmod +x target/release/examples/wheel_station_contract\n'
     )
     cargo.chmod(0o755)
-    environment = {**os.environ, 'PATH': str(tools) + os.pathsep + os.environ['PATH']}
+    environment = {**os.environ, 'PATH': str(tools) + os.pathsep + os.environ['PATH'],
+                   'OSR_CARGO_JOBS': '2'}
 
     def run(action):
         return subprocess.run(

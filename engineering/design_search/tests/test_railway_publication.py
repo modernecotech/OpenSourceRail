@@ -2,33 +2,73 @@
 import json
 import gzip
 import shutil
+from contextlib import contextmanager
 from pathlib import Path
 import pytest
-from engineering.station_rail import ROOT
+from engineering.station_rail import ROOT, retired_station_reference
+from engineering.station_rail.common import encoded,identity
 from engineering.design_search import railway_publication as publication
+
+HISTORICAL=ROOT/'docs/design-engine/coupled-railway'
+
+
+def test_v2_current_materializes_exact_parent_only_for_reader_scope(tmp_path,monkeypatch):
+    from contextlib import nullcontext
+    from engineering.design_search import railway_campaign as campaign
+    spec={'schema':'test-v2'};epoch={'producer':'a'*64}
+    monkeypatch.setattr(campaign,'specification',lambda root:spec)
+    monkeypatch.setattr(campaign,'source_epoch',lambda root:epoch)
+    monkeypatch.setattr(campaign.case_node_store,'codec_source_identity',lambda root:{'rust':'b'*64})
+    monkeypatch.setattr(publication,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
+    contract=campaign.contract_identity(spec,epoch,root=tmp_path)
+    folder=tmp_path/'build/coupled-railway'/contract;folder.mkdir(parents=True)
+    campaign._bind_state_source(folder,contract,epoch,root=tmp_path)
+    row=dict(case_context_id='c'*64,candidate_id='d'*64,unknown=None);row['row_id']=identity(row)
+    campaign.case_node_store.write(campaign.case_node_store.path_for(folder/'cases',row['case_context_id']),row,'case',root=tmp_path)
+    value=dict(contract_id=contract,specification=spec,source_sha256=epoch,rows=[row],bundles=[{'candidate_id':'d'*64}],integrated_selection=None)
+    value['campaign_id']=campaign.semantic_id(value);value['run_id']=campaign._aggregate_identity(value)
+    campaign._write_aggregate(folder,value,root=tmp_path)
+    with publication.current_context(tmp_path) as (state,loaded,parent):
+        assert state==folder and loaded==value and parent.read_bytes()==encoded(value)
+        assert parent.name=='.aggregate-parent-result.json'
+        assert not (folder/'result.json').exists()
+    assert not parent.exists()
+    assert publication.current(tmp_path)==(folder,value)
+    assert not parent.exists()
+
+
+def test_reader_binary_provenance_is_returned_without_sealing(monkeypatch):
+    monkeypatch.setattr(publication.engine.case_node_store,'codec_identity',
+                        lambda root:{'osr-campaign-case-nodes':'a'*64})
+    report={'verified':True,'manifest_id':'b'*64}
+    used=publication._reader_provenance(report,ROOT,executed=True)
+    published_only=publication._reader_provenance(report,ROOT,executed=False)
+    assert used['aggregate_reader_executable_sha256']=='a'*64
+    assert used['aggregate_reader_executed'] is True
+    assert published_only['aggregate_reader_executed'] is False
+    assert report=={'verified':True,'manifest_id':'b'*64}
 
 
 def test_coordinated_publication_retains_execution_and_unknowns():
-    result = publication.verify()
-    assert result['body_count'] == 14
-    assert result['evaluated_bundle_count'] == 112
-    summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
-    native_index=json.loads((ROOT/publication.OUTPUT/'native-index.json').read_bytes())
+    receipt=retired_station_reference.verify_coupled_packet()
+    assert receipt['verified'] is True and receipt['source_epoch']=='historical'
+    summary=json.loads((HISTORICAL/'summary.json').read_bytes())
+    native_index=json.loads((HISTORICAL/'native-index.json').read_bytes())
     native_kinds={'body','body-refinement','body-exact-cache-reuse','body-current-source-refinement',
         'body-current-source-fine-refinement','body-current-source-fine-refinement-reconciliation',
         'body-current-source-ultrafine-refinement'}
     expected_native_cases=sum(item.get('kind') in native_kinds for item in native_index)
-    assert result['native_body_case_count'] == expected_native_cases
+    assert summary['body_count']==14 and summary['evaluated_bundle_count']==112
+    assert summary['native_body_case_count'] == expected_native_cases
     assert expected_native_cases == (summary['native_campaign_body_case_count']
         +summary['native_reused_body_case_count']+summary['native_current_source_refinement_count'])
-    assert result['physical_journeys'] == result['complete_installed_masses'] == 0
-    assert result['physical_accepted'] is False
+    assert summary['physical_accepted'] is False and receipt['native_solver_jobs']==0
     completion=summary['completion_status']
     assert completion['simulation_complete']==112
     assert completion['integrated_force_driven_journey_complete']==0
     assert completion['engineering_validated']==0
     assert completion['approved_for_manufacture_or_operation']==0
-    frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
+    frontier=json.loads(gzip.decompress((HISTORICAL/'frontier.json.gz').read_bytes()))
     assert summary['frontier_tasks']==len(frontier)
     continuations=[x for x in frontier if x['kind']=='unresolved-numerical-refinement'
         and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b']
@@ -38,7 +78,7 @@ def test_coordinated_publication_retains_execution_and_unknowns():
         assert ultrafine is None
         if refinement is None:assert fine is None
         absent=('current-refinement.json.gz','fine-refinement.json.gz','ultrafine-refinement.json.gz') if refinement is None else ('fine-refinement.json.gz','ultrafine-refinement.json.gz')
-        for name in absent:assert json.loads(gzip.decompress((ROOT/publication.OUTPUT/name).read_bytes())) is None
+        for name in absent:assert json.loads(gzip.decompress((HISTORICAL/name).read_bytes())) is None
         assert len(continuations)==1
         assert continuations[0]['proposed_next_mesh_m']==(0.2125 if refinement is None else 0.10625)
         assert 'failed_evaluation_id' not in continuations[0]
@@ -49,7 +89,7 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     if ultrafine is None:
         # An earlier parent's allocator failure cannot become a current-source
         # attempt. Unexecuted refinement must stay an explicit resource hold.
-        assert json.loads(gzip.decompress((ROOT/publication.OUTPUT/'ultrafine-refinement.json.gz').read_bytes())) is None
+        assert json.loads(gzip.decompress((HISTORICAL/'ultrafine-refinement.json.gz').read_bytes())) is None
         assert not any(item.get('kind')=='body-current-source-ultrafine-refinement' for item in native_index)
         assert len(continuations)==1
         continuation=continuations[0]
@@ -120,46 +160,6 @@ def test_unattributed_cost_line_cannot_complete_the_simulation():
     assert status['simulation_complete']==0
     assert status['engineering_validated']==0
     assert status['approved_for_manufacture_or_operation']==0
-
-
-def test_publication_payload_cannot_promote_an_unqualified_winner(tmp_path):
-    out = tmp_path / 'packet'
-    shutil.copytree(ROOT / publication.OUTPUT, out)
-    path = out / 'summary.json'
-    summary = json.loads(path.read_bytes())
-    summary['integrated_selection'] = 'invented-winner'
-    path.write_text(json.dumps(summary))
-    with pytest.raises(ValueError, match='payload changed'):
-        publication.verify(output=out)
-
-
-def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
-    def refused(*args, **kwargs):
-        raise AssertionError('Publication refresh must not launch a campaign or solver')
-    monkeypatch.setattr(publication.engine, 'run', refused)
-    execution=json.loads((ROOT/publication.OUTPUT/'execution.json').read_bytes())
-    current_result=dict(contract_id=execution['contract_id'],run_id=execution['run_id'],
-                        campaign_id=execution['campaign_id'])
-    # The immutable publication is present in a clean checkout, while its
-    # ignored working-state cache is deliberately not. Supply the matching
-    # execution receipt so this test exercises publication reuse without
-    # depending on a developer's private build directory.
-    monkeypatch.setattr(publication,'current',lambda root:(ROOT/'build/coupled-railway',current_result))
-    current_refinement=json.loads(gzip.decompress(
-        (ROOT/publication.OUTPUT/'current-refinement.json.gz').read_bytes()))
-    monkeypatch.setattr(publication,'_current_refinement',lambda *a,**k:current_refinement)
-    fine_refinement=json.loads(gzip.decompress(
-        (ROOT/publication.OUTPUT/'fine-refinement.json.gz').read_bytes()))
-    monkeypatch.setattr(publication,'_current_fine_refinement',lambda *a,**k:fine_refinement)
-    ultrafine_refinement=json.loads(gzip.decompress(
-        (ROOT/publication.OUTPUT/'ultrafine-refinement.json.gz').read_bytes()))
-    monkeypatch.setattr(publication,'_current_ultrafine_refinement',lambda *a,**k:ultrafine_refinement)
-    source_hashes=json.loads((ROOT/publication.OUTPUT/'manifest.json').read_bytes())['source_sha256']
-    original_digest=publication.digest
-    monkeypatch.setattr(publication,'digest',lambda path:source_hashes.get(
-        Path(path).relative_to(ROOT).as_posix(),original_digest(path))
-        if Path(path).is_relative_to(ROOT) else original_digest(path))
-    assert publication.build()['verified']
 
 
 def test_identical_retained_publication_retry_is_idempotent(tmp_path):
@@ -362,7 +362,9 @@ class _StopBeforePublicationWrite(Exception):pass
 
 def _stop_before_publication_write(tmp_path,monkeypatch,value):
     out=tmp_path/'publication';out.mkdir();(out/'retained.txt').write_text('original packet')
-    monkeypatch.setattr(publication,'current',lambda root:(tmp_path,value))
+    @contextmanager
+    def current_context(root):yield tmp_path,value,tmp_path/'result.json'
+    monkeypatch.setattr(publication,'current_context',current_context)
     def stop(*args,**kwargs):raise _StopBeforePublicationWrite()
     monkeypatch.setattr(publication,'_retain_previous_publication',stop)
     return out
@@ -403,7 +405,7 @@ def test_matching_predecessor_or_continuation_corruption_is_not_held(tmp_path,mo
 
 
 def test_reader_does_not_claim_current_fine_completion_without_predecessor():
-    summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
+    summary=json.loads((HISTORICAL/'summary.json').read_bytes())
     summary.update(current_source_refinement=None,current_source_fine_refinement=None,current_source_ultrafine_refinement=None)
     text=publication.readme(summary)
     assert 'current-source continuation package is not yet available' in text

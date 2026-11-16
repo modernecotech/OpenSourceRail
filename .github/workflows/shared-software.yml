@@ -197,6 +197,9 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin 3bf38a501d09fa3a3c2dd6f4731be11828d04f55:refs/osr/retired-station-reference
           git cat-file -e 3bf38a501d09fa3a3c2dd6f4731be11828d04f55^{commit}
+          git fetch --no-tags --depth=1 --filter=blob:none origin 83b2e0c83c5ee4fca317430a4d74fd3a9186374f:refs/osr/retired-coupled-journey-c
+          git cat-file -e 83b2e0c83c5ee4fca317430a4d74fd3a9186374f^{commit}
+          python3 -B -m engineering.station_rail.retired_station_reference prefetch-coupled
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -264,6 +267,8 @@ jobs:
           python -m engineering.design_search.native_search build
           cargo fmt --package osr-design-search -- --check
           cargo clippy --locked -p osr-design-search --all-targets -- -D warnings
+          cargo clippy --locked -p osr-design-search --features columnar --all-targets -- -D warnings
+          cargo test --locked -p osr-design-search --features columnar --all-targets
           python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_topology_revision.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
       - name: Default Rust design-search size and dependency budget
         run: bash tools/automation/check-rust-design-footprint.sh

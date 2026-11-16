@@ -87,6 +87,8 @@ def test_resource_actions_hold_before_execution_below_disk_reserve(
 def launcher(tmp_path):
     shutil.copyfile(experiments.ROOT/'osr',tmp_path/'osr')
     tools=tmp_path/'tools/automation';tools.mkdir(parents=True)
+    shutil.copyfile(experiments.ROOT/'tools/automation/toolchain-release.sh',
+                    tools/'toolchain-release.sh')
     helper=tools/'osr-python';helper.write_text('#!/bin/sh\nprintf "%s\\n" "$@"\n')
     helper.chmod(0o755)
     return tmp_path/'osr'

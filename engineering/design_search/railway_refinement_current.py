@@ -42,7 +42,7 @@ def _context(root=ROOT, *, parent_result: Path, candidate_id: str):
 
     specification = railway_campaign.specification(root)
     source_epoch = railway_campaign.source_epoch(root)
-    contract_id = identity(dict(specification=specification, source_sha256=source_epoch))
+    contract_id = railway_campaign.contract_identity(specification,source_epoch,root=root)
     if (parent.get("contract_id") != contract_id
             or parent.get("source_sha256") != source_epoch
             or parent.get("specification") != specification

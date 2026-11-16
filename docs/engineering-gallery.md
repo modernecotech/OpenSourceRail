@@ -111,6 +111,10 @@ This read-only audit reproduces the source oracles and command serialization, ch
 
 The packet includes original CAD PNGs, exact recipes/cameras/styles, native execution receipts, the full native VTU export compressed losslessly, the original mesh, a compact nodal field and figure metadata. The larger results-embedded FieldCraft project remains retained in the original private execution package; the public VTU is sufficient to regenerate the figure without solving again.
 
+The v0.7 toolchain refresh rerendered the bogie cradle, launch assembly and launch clevis with the current SolidCraft release. The unchanged vehicle and civil assembly images and the independently checked civil FEM field were reused from publication `fd10fbba92eed438ce79423f25f27cb76942c23d6f4d27b8ec586b50ef2e0e75`. The regenerated six-card publication is `e8c3db9e16dc62bcad05b35622b881989e1761feaf9af6d3c4bc1dfcf3e4b7cf`. Its packet name retains `v06` because the physical research candidates have not changed.
+
+Reproduce each current native view with `python -m tools.engineering_gallery.cad <view> --output <fresh-run>` for `bogie-cradle`, `launch-assembly` and `launch-clevis`, then supply their paths under `cad` in a JSON selection to `python -m tools.engineering_gallery.publication republish-cad docs/assets/engineering-gallery-v06 <selection.json> <fresh-packet>`. The generator checks the old inventory, validates all new render recipes and independently reopens the retained FEM field before publishing.
+
 The current vehicle PNG was rendered from the exact current door-motion installation input in 472.60 seconds; its source remained unchanged and the render completed. Blender measured 4,037,616 KiB (3.85 GiB) peak worker RSS, above the 3 GiB target; the Flatpak supervisor measured 18,648 KiB. The memory target was not met. The earlier 603.36-second held render and its missing supervisor measurement remain in the prior publication and run record. The current image is presentation evidence only and does not qualify the installation.
 
 From the repository root:
