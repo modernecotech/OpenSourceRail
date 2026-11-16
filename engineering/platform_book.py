@@ -234,10 +234,11 @@ def _cover_image(path: Path) -> Image:
     return picture
 
 
-def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False) -> dict:
+def build(root: Path = ROOT, output: Path | None = None, *, check: bool = False,
+          receipt_output: Path | None = None) -> dict:
     root = Path(root).resolve()
     output = root / BOOK if output is None else Path(output)
-    receipt_path = root / RECEIPT
+    receipt_path = root / RECEIPT if receipt_output is None else Path(receipt_output)
     source = _inputs(root)
     if check:
         receipt = json.loads(receipt_path.read_bytes())

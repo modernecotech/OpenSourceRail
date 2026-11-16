@@ -46,7 +46,7 @@ Usage: ./osr [COMMAND] [arguments]
   catalogue         Read retained city geography and evaluation holds
   trip [...]        Run explicit, source-bound candidate research
   twin [...]        Inspect verified exports for the selected physical candidate
-  book [--check]    Build/check the selected-design reader
+  book [--check]    Refresh the selected book and its manifest/check the reader
   test              Run current contracts, publication and browser checks
   cycle             Restartable cached refresh of the current design
 
@@ -173,6 +173,11 @@ if [[ "${1:-}" == design && "${2:-}" == sourced ]]; then
         tools/automation/osr-python tools/automation/sourced-archive.py ensure "$ROOT/docs/design-engine/sourced-case" >/dev/null
     fi
     exec tools/automation/osr-python -m engineering.sourced_case.cli "$@"
+fi
+# A selected manifest binds both book artifacts. Route a mutating reader
+# refresh through the selected transaction; the check remains read-only.
+if [[ "${1:-}" == book && $# -eq 1 && -f "$ROOT/docs/design-engine/current/manifest.json" ]]; then
+    set -- build
 fi
 if [[ "${1:-}" == build || "${1:-}" == run || "${1:-}" == cycle ||
       ( "${1:-}" == design && "${2:-}" == build ) ]]; then

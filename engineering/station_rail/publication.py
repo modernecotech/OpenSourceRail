@@ -2,15 +2,23 @@
 from pathlib import Path
 from hashlib import sha256
 from collections import Counter
-from contextlib import contextmanager
+from contextlib import contextmanager,nullcontext
 from decimal import Decimal, ROUND_HALF_EVEN
 import fcntl,gzip,io,json,os,shutil,subprocess,sys,tarfile,tempfile,uuid
 from . import ROOT,FLAGS
-from .common import encoded,identity,digest
+from .common import encoded,identity
 from . import evaluation,exports,cities,comparison,figures
 from .evaluation import IDS
 OUTPUT='docs/design-engine/current'
 WORKBENCH='docs/workbench/current'
+
+def digest(path):
+    """Bound linked-packet hash memory without revising shared source epochs."""
+    value=sha256()
+    with Path(path).open('rb') as source:
+        for chunk in iter(lambda:source.read(1024*1024),b''):
+            value.update(chunk)
+    return value.hexdigest()
 
 # These are current linked publications. Historical native/source epochs inside
 # their packets remain governed by their own generators and archive indexes.
@@ -319,7 +327,10 @@ def sources(root,record,index,delivery):
     for folder in LINKED_PUBLICATIONS:
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
-    return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names))})
+    # The linked map has already authenticated these bytes. Keep the directory
+    # inventory above so undeclared files still enter the selected source map.
+    linked=maps[3]
+    return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names)) if n not in linked})
 
 def compact(record,index,natives,delivery):
     value=evaluation.summary(record);value.update(cities=dict(city_count=index['city_count'],summary=index['summary'],
@@ -1027,14 +1038,43 @@ def _replace_current_output(root,output):
         raise
 
 
-def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
-    root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
+@contextmanager
+def _restore_linked_reader(root):
+    """Keep the previous PDF/receipt pair if a later selected step fails."""
+    names=('OpenSourceRail-Book.pdf','OpenSourceRail-Book.receipt.json')
+    base=root/'build/v06-development/reader-backup'
+    base.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=base) as temporary:
+        backup=Path(temporary)
+        for name in names:
+            if (root/name).is_file():shutil.copy2(root/name,backup/name)
+        try:yield
+        except BaseException:
+            failed=root/'build/v06-development/failed-reader'/uuid.uuid4().hex
+            for name in names:
+                current=root/name;old=backup/name
+                if current.is_file() and (not old.is_file() or digest(current)!=digest(old)):
+                    failed.mkdir(parents=True,exist_ok=True)
+                    shutil.move(current,failed/name)
+                if old.is_file():shutil.copy2(old,current)
+            raise
+
+
+def _publication_preflight(root):
     linked_publication_sources(root)
-    record=evaluation.build(root);natives={};packages={}
+    record=evaluation.build(root)
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
     natives,reference_archives,reference_provenance=_retired_native_results(root)
-    with _replace_current_output(root,output):
+    return record,natives,reference_archives,reference_provenance
+
+
+def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None,
+            _manage_output=True,_seal=True,_preflight_result=None):
+    root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
+    record,natives,reference_archives,reference_provenance=(
+        _publication_preflight(root) if _preflight_result is None else _preflight_result)
+    with _replace_current_output(root,output) if _manage_output else nullcontext():
         from engineering.city_reports import publication as city_reports
         index=city_reports.publish_geography(root=root)
         from engineering.development_baseline import planning
@@ -1059,12 +1099,11 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
         # and coverage reports have been written, so their inventory is current.
         for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
             subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
-        seal(output,root)
+        if _seal:seal(output,root)
     return dict(published=True,selection_id=record['selection_id'],evaluation_id=record['evaluation_id'],city_count=index['city_count'],city_performance_packages_written=0,**FLAGS)
 
 def verify(output=None,*,root=ROOT,replay=True):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
-    linked_publication_sources(root)
     from engineering.development_baseline.entrypoint import read_packet
     value,m=read_packet(root,output.relative_to(root).as_posix())
     for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
@@ -1102,16 +1141,114 @@ def verify(output=None,*,root=ROOT,replay=True):
     return dict(verified=True,replayed=replay,selection_id=record['selection_id'],evaluation_id=record['evaluation_id'],
        city_count=citycheck['city_count'],city_performance_packages_written=0,native_controls=natives['controls']['controls'],exports=delivery,**FLAGS)
 
+
+def _book_transaction_paths(root,output):
+    return {'pdf':root/'OpenSourceRail-Book.pdf',
+        'receipt':root/'OpenSourceRail-Book.receipt.json',
+        'manifest':output/'manifest.json'}
+
+
+def _recover_book_transaction(root,output):
+    """Roll back an interrupted three-file book refresh before reading a packet."""
+    transaction=root/'build/v06-development/book-transaction'
+    if not transaction.exists():return
+    journal=transaction/'journal.json'
+    if not journal.is_file():
+        # The marker is written before any live replacement.
+        shutil.rmtree(transaction)
+        return
+    value=json.loads(journal.read_bytes());paths=_book_transaction_paths(root,output)
+    if value.get('schema')!='osr-selected-book-transaction/1' or set(value['old'])!=set(paths) or set(value['new'])!=set(paths):
+        raise ValueError('Book transaction journal differs; hold for inspection')
+    for key,path in paths.items():
+        old=transaction/'old'/key
+        if not old.is_file() or digest(old)!=value['old'][key]:
+            raise ValueError('Book transaction backup differs; hold for inspection')
+        if path.is_file() and digest(path) not in (value['old'][key],value['new'][key]):
+            raise ValueError('Book transaction live artifact differs; hold for inspection: '+key)
+    attempted=transaction/'attempted';attempted.mkdir(exist_ok=True)
+    for key,path in paths.items():
+        if path.is_file() and digest(path)==value['new'][key] and value['new'][key]!=value['old'][key]:
+            shutil.copy2(path,attempted/key)
+        pending=transaction/(key+'.restore')
+        shutil.copy2(transaction/'old'/key,pending)
+        os.replace(pending,path)
+    failed=root/'build/v06-development/failed-book'/uuid.uuid4().hex
+    failed.parent.mkdir(parents=True,exist_ok=True)
+    shutil.move(transaction,failed)
+
+
+def _book_only_change(root,output):
+    """Admit only an intact old book whose exact input map has changed."""
+    from engineering import platform_book as reader
+    manifest=json.loads((output/'manifest.json').read_bytes())
+    receipt=json.loads((root/reader.RECEIPT).read_bytes())
+    linked=manifest.get('linked_artifacts_sha256',{})
+    if any(linked.get(name)!=digest(root/name) for name in (reader.BOOK,reader.RECEIPT)):
+        return False
+    prior={key:value for key,value in receipt.items() if key!='receipt_id'}
+    if (receipt.get('schema')!='osr-platform-ebook/3' or
+            receipt.get('receipt_id')!=reader._identity(prior) or
+            receipt.get('pdf_sha256')!=reader._digest(root/reader.BOOK) or
+            receipt.get('pages')!=reader._pages(root/reader.BOOK) or
+            any(receipt.get(key) is not value for key,value in reader.FLAGS.items())):
+        return False
+    return receipt.get('source_sha256')!=reader._inputs(root)
+
+
+def _refresh_book_only(root,output,verified):
+    """Render a changed book once and reseal only its two manifest links."""
+    from engineering import platform_book as reader
+    from engineering.performance import disk_reservation
+    transaction=root/'build/v06-development/book-transaction'
+    if transaction.exists():raise ValueError('Pending book transaction requires recovery')
+    with disk_reservation(root,root,'selected-book-refresh',32*1024*1024):
+        (transaction/'old').mkdir(parents=True)
+        (transaction/'new').mkdir()
+        paths=_book_transaction_paths(root,output)
+        try:
+            for key,path in paths.items():shutil.copy2(path,transaction/'old'/key)
+            reader.build(root=root,output=transaction/'new/pdf',
+                         receipt_output=transaction/'new/receipt')
+            reader.build(root=root,output=transaction/'new/pdf',
+                         receipt_output=transaction/'new/receipt',check=True)
+            manifest=json.loads((transaction/'old/manifest').read_bytes())
+            manifest['linked_artifacts_sha256']={
+                reader.BOOK:digest(transaction/'new/pdf'),
+                reader.RECEIPT:digest(transaction/'new/receipt')}
+            manifest['manifest_id']=identity({key:value for key,value in manifest.items() if key!='manifest_id'})
+            write(transaction/'new/manifest',encoded(manifest))
+            journal=dict(schema='osr-selected-book-transaction/1',
+                old={key:digest(transaction/'old'/key) for key in paths},
+                new={key:digest(transaction/'new'/key) for key in paths})
+            write(transaction/'journal.json',encoded(journal))
+            for key,path in paths.items():os.replace(transaction/'new'/key,path)
+            reader.build(root=root,check=True)
+            result=verify(output,root=root,replay=False)
+        except BaseException:
+            _recover_book_transaction(root,output)
+            raise
+        shutil.rmtree(transaction)
+    return dict(verified,verification=result,cached=False,book_only=True)
+
+
 def build(root=ROOT,force=False,output=None):
     root=Path(root);output=root/OUTPUT if output is None else Path(output);lock=root/'build/v06-development/build.lock';lock.parent.mkdir(parents=True,exist_ok=True)
     with lock.open('a+') as handle:
         fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        _recover_book_transaction(root,output)
         if not force:
             try:
                 value=verify(output,root=root,replay=False)
-                from engineering.platform_book import build as reader
-                reader(root=root,check=True);return dict(value,cached=True)
             except(ValueError,OSError,KeyError):pass
+            else:
+                from engineering.platform_book import build as reader
+                try:reader(root=root,check=True)
+                except(ValueError,OSError,KeyError):
+                    try:book_only=_book_only_change(root,output)
+                    except(ValueError,OSError,KeyError):book_only=False
+                    if book_only:return _refresh_book_only(root,output,value)
+                else:return dict(value,cached=True)
         from engineering import readme_context
         readme_context.write_owned(root)
         if (root/'docs/design-engine/supply-economics/manifest.json').is_file():
@@ -1120,12 +1257,20 @@ def build(root=ROOT,force=False,output=None):
         if (root/'docs/design-engine/outline-completion/manifest.json').is_file():
             from engineering.outline.completion_reporting import render as render_completion_readers
             render_completion_readers(root)
-        value=publish(output,root=root)
-        audit=readme_context.audit(root)
-        if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))
-        write(output/'readme-coverage.json',(json.dumps(audit,sort_keys=True,indent=2)+'\n').encode());write(output/'readme-coverage.md',readme_context.markdown(audit).encode());seal(output,root)
-        from engineering.platform_book import build as reader
-        try:reader(root=root,check=True)
-        except (ValueError,OSError,KeyError):reader(root=root)
-        seal(output,root);reader(root=root,check=True)
-        return dict(value,verification=verify(output,root=root),cached=False)
+        preflight=_publication_preflight(root)
+        # Keep the selected packet and its linked book together through the
+        # last verifier. Standalone publish retains its own sealed transaction.
+        with _replace_current_output(root,output),_restore_linked_reader(root):
+            value=publish(output,root=root,_manage_output=False,_seal=False,
+                          _preflight_result=preflight)
+            audit=readme_context.audit(root)
+            if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))
+            write(output/'readme-coverage.json',(json.dumps(audit,sort_keys=True,indent=2)+'\n').encode())
+            write(output/'readme-coverage.md',readme_context.markdown(audit).encode())
+            from engineering.platform_book import build as reader
+            try:reader(root=root,check=True)
+            except (ValueError,OSError,KeyError):reader(root=root)
+            seal(output,root)
+            reader(root=root,check=True)
+            result=dict(value,verification=verify(output,root=root),cached=False)
+        return result
