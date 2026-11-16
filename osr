@@ -171,4 +171,12 @@ if [[ "${1:-}" == design && "${2:-}" == sourced ]]; then
     fi
     exec tools/automation/osr-python -m engineering.sourced_case.cli "$@"
 fi
+if [[ "${1:-}" == build || "${1:-}" == run || "${1:-}" == cycle ||
+      ( "${1:-}" == design && "${2:-}" == build ) ]]; then
+    exec tools/automation/osr-python -m engineering.performance reserve-run \
+        --target "$ROOT" --reservation-action selected-publication \
+        --projected-bytes 1073741824 --minimum-free-gib 20 \
+        --receipt-to-stderr -- \
+        tools/automation/osr-python -m engineering.development_baseline.entrypoint "$@"
+fi
 exec tools/automation/osr-python -m engineering.development_baseline.entrypoint "$@"

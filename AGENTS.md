@@ -57,6 +57,10 @@ alternatives do not silently change the selected reference or inherit its result
   required artifacts, trial/runtime/resource budgets and completion conditions.
 - Use isolated Git worktrees for source development. Use private candidate/run
   directories for numerical work; do not create a checkout for every sample.
+- Admit projected writes for worktree materialization, tool installation and
+  publication through the shared Git-common-dir disk reservation before they
+  start. Monitor the target filesystem during long jobs and stop at the 20 GiB
+  free-space floor; a one-time `df` check is insufficient.
 - Keep source edits and numerical execution separate. Workers return immutable
   input/output/log packages; the coordinator alone integrates and publishes.
 - Resolve cheap definition and necessary-bound failures before expensive solves.
