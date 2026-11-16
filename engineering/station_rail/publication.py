@@ -126,6 +126,8 @@ def linked_publication_sources(root=ROOT):
         'docs/archives/compact-launch-source-epochs/manifest.json',
         'docs/archives/line30-benchmark-source-epochs/README.md',
         'docs/archives/line30-benchmark-source-epochs/manifest.json',
+        line_benchmark_retained.COST_RECEIPT,
+        line_benchmark_retained.COST_ARTIFACT,
         'docs/archives/coupled-railway-source-epochs/README.md',
         'docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510/manifest.json',
         'docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510/source/engineering/station_rail/braking.py',
