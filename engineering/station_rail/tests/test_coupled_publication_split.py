@@ -20,7 +20,7 @@ def test_v07_linked_packet_requires_its_own_current_source(tmp_path):
     folder.mkdir(parents=True)
     payload = folder / 'summary.json'
     payload.write_bytes(encoded({'physical_accepted': False}))
-    manifest = dict(schema='osr-coupled-railway-publication/1',
+    manifest = dict(schema='osr-coupled-railway-publication/2',
         source_sha256={'engineering/current-source.py': digest(source)},
         files_sha256={'summary.json': digest(payload)},
         physical_accepted=False, engineering_accepted=False,

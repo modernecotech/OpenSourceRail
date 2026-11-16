@@ -37,7 +37,7 @@ LINKED_PUBLICATIONS={
     'v06-adaptive-design':('osr-adaptive-publication/1','source_sha256','files_sha256','manifest_id'),
     'generative-structure':('osr-generative-structure-publication/1','source_sha256','files_sha256','manifest_id'),
     'coupled-railway':('osr-coupled-railway-publication/1','source_sha256','files_sha256','manifest_id'),
-    'coupled-railway-v07':('osr-coupled-railway-publication/1','source_sha256','files_sha256','manifest_id'),
+    'coupled-railway-v07':('osr-coupled-railway-publication/2','source_sha256','files_sha256','manifest_id'),
     'railway-closure':('osr-end-to-end-railway-closure-publication/1','sources','files','publication_id'),
     'moving-lim-method':('osr-moving-LIM-method-publication/1','source_sha256','files_sha256','manifest_id'),
     'practical-launch':('osr-practical-launch-publication/1','source_sha256','files_sha256','manifest_id'),

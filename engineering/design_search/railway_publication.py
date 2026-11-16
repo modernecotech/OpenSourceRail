@@ -4,7 +4,7 @@ from copy import deepcopy
 from hashlib import sha256
 from math import isfinite
 from contextlib import contextmanager
-import gzip,json,shutil,tarfile,io
+import gzip,json,shutil,tarfile,io,os,subprocess,stat
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from engineering.performance import disk_reservation
@@ -15,6 +15,72 @@ from .native_archive_stream import write_archive
 PRODUCER='engineering/design_search/railway_publication.py'
 OUTPUT='docs/design-engine/coupled-railway-v07'
 FLAGS=engine.FLAGS
+COMPARISON_SCHEMA='osr-coupled-comparison-rows/2'
+COMPARISON_SOURCES=(
+    'crates/osr-design-search/src/bin/osr-campaign-columnar.rs',
+    'crates/osr-design-search/src/publication_columnar.rs',
+)
+
+
+def _comparison_codec(root):
+    explicit=os.environ.get('OSR_COMPARISON_CODEC')
+    paths=([Path(explicit)] if explicit else [Path(root)/'target'/profile/'osr-campaign-columnar'
+           for profile in ('release','debug')])
+    for path in paths:
+        try: info=path.stat(follow_symlinks=False)
+        except OSError: continue
+        if stat.S_ISREG(info.st_mode) and info.st_mode & stat.S_IXUSR:
+            return path
+    raise ValueError('Build the Rust osr-campaign-columnar binary with the columnar feature')
+
+
+def _write_comparison(root,path,rows):
+    """Send one canonical row at a time; never allocate a second aggregate JSON array."""
+    with disk_reservation(root,path,'railway-comparison-arrow',1024**3):
+        command=[str(_comparison_codec(root)),'write-comparison',str(path)]
+        process=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        try:
+            for row in rows: process.stdin.write(encoded(row))
+            process.stdin.close()
+            output=process.stdout.read(4096)
+            error=process.stderr.read(4096)
+            if process.wait(timeout=180)!=0: raise ValueError('Rust comparison writer failed: '+error.decode(errors='replace'))
+            receipt=json.loads(output)
+            if receipt.get('schema')!=COMPARISON_SCHEMA or receipt.get('row_count')!=len(rows):
+                raise ValueError('Rust comparison writer count/schema differs')
+            return receipt
+        except BaseException:
+            if process.poll() is None:process.kill()
+            process.wait()
+            path.unlink(missing_ok=True)
+            raise
+
+
+def _comparison_rows(root,out,manifest):
+    """Yield authenticated current rows from a bounded Rust Arrow scanner."""
+    receipt=manifest.get('comparison')
+    if manifest.get('schema')=='osr-coupled-railway-publication/1':
+        yield from json.loads(gzip.decompress((out/'comparison.json.gz').read_bytes()))
+        return
+    if (manifest.get('schema')!='osr-coupled-railway-publication/2'
+            or not isinstance(receipt,dict) or receipt.get('schema')!=COMPARISON_SCHEMA
+            or not isinstance(receipt.get('row_count'),int)
+            or not isinstance(receipt.get('canonical_sha256'),str)):
+        raise ValueError('Current comparison schema or inventory receipt differs')
+    command=[str(_comparison_codec(root)),'scan-comparison',str(out/'comparison.parquet'),receipt['canonical_sha256']]
+    process=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    count=0
+    try:
+        for line in process.stdout:
+            count+=1
+            if count>receipt['row_count']:raise ValueError('Comparison row count exceeded receipt')
+            yield json.loads(line)
+        error=process.stderr.read(4096)
+        if process.wait(timeout=180)!=0:raise ValueError('Rust comparison scanner failed: '+error.decode(errors='replace'))
+        if count!=receipt['row_count']:raise ValueError('Comparison row count differs')
+    finally:
+        if process.poll() is None:process.kill()
+        process.wait()
 
 
 def _reader_provenance(value,root,*,executed):
@@ -149,6 +215,10 @@ def _cost_simulation_completion(row):
 
 def completion_summary(rows):
     records=[_cost_simulation_completion(row) for row in rows]
+    return completion_summary_from_records(records)
+
+
+def completion_summary_from_records(records):
     return dict(candidate_count=len(records),
         simulation_scope='The simulation-complete flag applies to the declared 14-scope Class C cost scenario only. Integrated force-driven journey simulation is reported separately.',
         simulation_complete=sum(r['simulation_complete'] for r in records),
@@ -663,7 +733,7 @@ def readme(s):
         'Candidate cost ranges are compared only where currency, rate assumptions, corridor length, trackways, station count, headway and offered capacity match. Overlapping low/base/high whole-life scenarios remain incomparable; cost dominance does not select a candidate or change the v0.6 reference. Cost inputs include declared energy, staffing, maintenance, replacement, recovery, reliability and end-of-life scenarios. City alignment/site surveys, tariffs, staffing rules, failures, supplier quotes, tax/finance and physical performance are not established. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; geotechnical, torsional and construction qualification remain open.','',
         'Immutable stage requests include candidate and upstream evidence IDs. Native cache admission checks source/executable/payload plus exact body, load, mesh, method and resource request. New structural evidence invalidates dependent case evaluations even if geometry is unchanged. Stable experiment identity is separate from invocation cache counters; interrupted/pending work remains in the frontier. Native/CAD packets retain their original receipts.','',
         '```bash','./osr design railway plan','./osr design railway run --max-bundles 2 --native-jobs 1','./osr design railway run --native-jobs 12','./osr design railway publish','./osr design railway verify','```','',
-        '[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Current refinements](current-refinement.json.gz) · [Fine refinement](fine-refinement.json.gz) · [Ultrafine refinement](ultrafine-refinement.json.gz) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)','',
+        '[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.parquet) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Current refinements](current-refinement.json.gz) · [Fine refinement](fine-refinement.json.gz) · [Ultrafine refinement](ultrafine-refinement.json.gz) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)','',
         'Large fields and CAD solids stay local or regenerate with exact sources and indexed inputs; no remote artifact object or complete manufacturing/operating release is claimed. The selected reference and all 266 city performance packages remain unchanged.','']
     return '\n'.join(lines)
 
@@ -766,7 +836,7 @@ def build(root=ROOT,output=None):
         refinement=refinement,fine_refinement=fine_refinement,ultrafine_refinement=ultrafine_refinement)
     frontier=_published_frontier(value,refinement,fine_refinement,ultrafine_refinement)
     files={'summary.json':encoded(s),'bodies.json.gz':gzip.compress(encoded(value['bodies']),mtime=0),'bundles.json.gz':gzip.compress(encoded(value['bundles']),mtime=0),
-        'comparison.json.gz':gzip.compress(encoded(value['rows']),mtime=0),'inventories.json.gz':gzip.compress(encoded(inventories),mtime=0),
+        'inventories.json.gz':gzip.compress(encoded(inventories),mtime=0),
         'frontier.json.gz':gzip.compress(encoded(frontier),mtime=0),'magnetic-method.json.gz':gzip.compress(encoded(magnetic),mtime=0),
         'current-refinement.json.gz':gzip.compress(encoded(None if refinement is None else dict(request=refinement['request'],result=refinement['result'],
             report=refinement['report'],manifest=refinement['manifest'],verification=refinement['verified'])),mtime=0),
@@ -783,7 +853,9 @@ def build(root=ROOT,output=None):
             executed_body_revisions=value['executed_body_revisions'])),
         'README.md':readme(s).encode()}
     for name,raw in files.items():(out/name).write_bytes(raw)
-    m=dict(schema='osr-coupled-railway-publication/1',source_sha256={**value['source_sha256'],PRODUCER:digest(root/PRODUCER),
+    comparison=_write_comparison(root,out/'comparison.parquet',value['rows'])
+    m=dict(schema='osr-coupled-railway-publication/2',comparison=comparison,source_sha256={**value['source_sha256'],PRODUCER:digest(root/PRODUCER),
+        **{name:digest(root/name) for name in COMPARISON_SOURCES},
         railway_delivery.PRODUCER:digest(root/railway_delivery.PRODUCER),'engineering/design_search/wheel_twin.py':digest(root/'engineering/design_search/wheel_twin.py'),
         'engineering/design_search/generative_publication.py':digest(root/'engineering/design_search/generative_publication.py'),
         'engineering/design_search/native_archive_stream.py':digest(root/'engineering/design_search/native_archive_stream.py'),
@@ -803,13 +875,16 @@ def verify(root=ROOT,output=None):
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('Coordinated publication receipt differs')
     if any(digest(root/p)!=h for p,h in m['source_sha256'].items()):raise ValueError('Coordinated source epoch changed')
     if m['files_sha256']!={p.relative_to(out).as_posix():digest(p) for p in out.rglob('*') if p.is_file() and p!=out/'manifest.json'}:raise ValueError('Coordinated payload changed')
-    s=json.loads((out/'summary.json').read_bytes());bodies=json.loads(gzip.decompress((out/'bodies.json.gz').read_bytes()));bundles=json.loads(gzip.decompress((out/'bundles.json.gz').read_bytes()));rows=json.loads(gzip.decompress((out/'comparison.json.gz').read_bytes()))
+    s=json.loads((out/'summary.json').read_bytes());bodies=json.loads(gzip.decompress((out/'bodies.json.gz').read_bytes()));bundles=json.loads(gzip.decompress((out/'bundles.json.gz').read_bytes()))
     for b in bodies:design_grammar.validate(b)
     for b in bundles:railway_bundle.validate(b)
-    if len({b['candidate_id'] for b in bundles})!=len(bundles) or {r['candidate_id'] for r in rows}!={b['candidate_id'] for b in bundles}:raise ValueError('Mixed or incomplete bundle results')
+    if len({b['candidate_id'] for b in bundles})!=len(bundles):raise ValueError('Mixed bundle identities')
     index={b['candidate_id']:b for b in bundles}
-    verified_route_candidates=0;verified_route_count=0
-    for row in rows:
+    verified_route_candidates=0;verified_route_count=0;row_count=0;row_ids=set();expected_cost_count=0;completion_records=[]
+    for row in _comparison_rows(root,out,m):
+        row_count+=1;row_ids.add(row['candidate_id'])
+        completion_records.append(_cost_simulation_completion(row))
+        expected_cost_count+=isinstance(row.get('economics',{}).get('model_cost'),dict)
         if row['row_id']!=identity({k:v for k,v in row.items() if k!='row_id'}) or row['bundle_definition_id']!=index[row['candidate_id']]['definition_id']:raise ValueError('Coupled case identity differs')
         if row['body_candidate_id']!=index[row['candidate_id']]['body_candidate_id'] or row['accounted_mass']!=index[row['candidate_id']]['mass']:raise ValueError('Coupled body/mass mismatch')
         if row['motion']['forward_motion']['execution']!='not-run' or row['physical_journey_completed'] is not False:raise ValueError('Required motion cannot become an available physical journey')
@@ -849,7 +924,7 @@ def verify(root=ROOT,output=None):
                     or route.get('operating_release') is not False):
                 raise ValueError('Candidate provisional manufacturing route identity or release gate differs')
         verified_route_candidates+=1;verified_route_count+=len(routes)
-    expected_cost_count=sum(isinstance(r.get('economics',{}).get('model_cost'),dict) for r in rows)
+    if row_count!=len(bundles) or row_ids!=set(index):raise ValueError('Mixed or incomplete bundle results')
     cost_summary=s['model_cost_summary']
     if (cost_summary.get('candidate_estimates')!=expected_cost_count
             or cost_summary.get('complete_for_declared_case')!=expected_cost_count
@@ -857,7 +932,7 @@ def verify(root=ROOT,output=None):
             or cost_summary.get('provisional_stock_route_count')!=verified_route_count
             or cost_summary.get('integrated_winner') is not None):
         raise ValueError('Published model-cost summary differs from candidate estimates')
-    if s.get('completion_status')!=completion_summary(rows):
+    if s.get('completion_status')!=completion_summary_from_records(completion_records):
         raise ValueError('Published candidate completion levels differ from their calculation evidence')
     continuation=json.loads(gzip.decompress((out/'current-refinement.json.gz').read_bytes()))
     if continuation is None:
@@ -1018,5 +1093,5 @@ def verify(root=ROOT,output=None):
         for p in prefix.iterdir():
             if digest(p)!=manifest['files_sha256'][p.name]:raise ValueError('Delivery bytes differ')
         if (prefix/'body-stock.ifc.gz').is_file() and sha256(gzip.decompress((prefix/'body-stock.ifc.gz').read_bytes())).hexdigest()!=manifest['files_sha256']['wheel-stock.ifc']:raise ValueError('Compressed IFC differs from native delivery')
-    return _reader_provenance(dict(verified=True,manifest_id=m['manifest_id'],campaign_id=s['campaign_id'],body_count=len(bodies),evaluated_bundle_count=len(rows),
+    return _reader_provenance(dict(verified=True,manifest_id=m['manifest_id'],campaign_id=s['campaign_id'],body_count=len(bodies),evaluated_bundle_count=row_count,
         native_body_case_count=s['native_body_case_count'],physical_journeys=0,complete_installed_masses=0,**FLAGS),root,executed=False)

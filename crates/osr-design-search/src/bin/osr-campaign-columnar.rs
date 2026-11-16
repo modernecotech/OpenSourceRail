@@ -3,12 +3,24 @@
 use osr_design_search::columnar::{index_cases, query_candidate, verify_index, IndexOptions};
 use std::error::Error;
 use std::path::Path;
+#[path = "../publication_columnar.rs"]
+mod publication_columnar;
 
 fn run() -> Result<(), Box<dyn Error>> {
     let mut args = std::env::args().skip(1);
-    let command = args.next().ok_or("expected index, verify or query")?;
+    let command = args
+        .next()
+        .ok_or("expected index, verify, query, write-comparison or scan-comparison")?;
     let first = args.next().ok_or("expected first path")?;
-    let second = args.next().ok_or("expected second path")?;
+    if command == "write-comparison" {
+        if args.next().is_some() {
+            return Err("too many arguments for write-comparison".into());
+        }
+        return publication_columnar::write(Path::new(&first));
+    }
+    let second = args
+        .next()
+        .ok_or("expected second path or inventory SHA-256")?;
     match command.as_str() {
         "index" => {
             if args.next().is_some() {
@@ -37,6 +49,22 @@ fn run() -> Result<(), Box<dyn Error>> {
             for row in rows {
                 println!("{}", serde_json::to_string(&row)?);
             }
+        }
+        "scan-comparison" | "read-comparison" | "query-comparison" => {
+            let candidate = if command == "query-comparison" {
+                Some(args.next().ok_or("expected candidate ID")?)
+            } else {
+                None
+            };
+            if args.next().is_some() {
+                return Err("too many comparison arguments".into());
+            }
+            publication_columnar::scan(
+                Path::new(&first),
+                &second,
+                candidate.as_deref(),
+                command == "read-comparison",
+            )?;
         }
         _ => return Err("expected index, verify or query".into()),
     }
