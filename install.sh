@@ -177,10 +177,27 @@ native_ready() {
 }
 
 python_ready() {
-    [[ -x "$ROOT/.venv/bin/python" ]] \
-        && "$ROOT/.venv/bin/python" -c \
-            'import cairosvg, mistune, numpy, scipy, matplotlib, PIL, reportlab, pytest' \
-            >/dev/null 2>&1
+    [[ -x "$ROOT/.venv/bin/python" ]] || return 1
+    "$ROOT/.venv/bin/python" - "$ROOT/engineering/requirements.txt" <<'PY' >/dev/null 2>&1
+import importlib
+from importlib import metadata
+from pathlib import Path
+import sys
+
+from packaging.requirements import Requirement
+
+for line in Path(sys.argv[1]).read_text().splitlines():
+    line = line.split('#', 1)[0].strip()
+    if not line:
+        continue
+    requirement = Requirement(line)
+    if metadata.version(requirement.name) not in requirement.specifier:
+        raise SystemExit(1)
+
+for module in ('cairosvg', 'mistune', 'numpy', 'scipy', 'matplotlib',
+               'PIL', 'reportlab', 'pytest', 'ifcopenshell', 'ifctester', 'gmsh'):
+    importlib.import_module(module)
+PY
 }
 
 rust_ready() {
@@ -347,7 +364,7 @@ install_rust() {
 
 install_python() {
     python_ready && return
-    section "Installing Python design packages"
+    section "Refreshing Python design packages"
     uv python install --upgrade "$PYTHON_VERSION"
     if [[ ! -x "$ROOT/.venv/bin/python" ]]; then
         uv venv --python "$PYTHON_VERSION" --seed "$ROOT/.venv"
@@ -355,8 +372,9 @@ install_python() {
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
-    uv pip install --python "$ROOT/.venv/bin/python" pytest \
+    uv pip install --upgrade --python "$ROOT/.venv/bin/python" \
         --requirement "$ROOT/engineering/requirements.txt"
+    python_ready || fail "Python requirements remain unsatisfied after refresh"
 }
 
 install_node_packages() {

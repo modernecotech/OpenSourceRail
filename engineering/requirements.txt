@@ -1,17 +1,22 @@
-# Shared numerical methods for current railway engineering and retained research.
-scipy==1.16.3
+# Verified minimums for current engineering and retained research. Fresh installs
+# resolve the newest compatible stable releases; runs record exact tool versions.
+numpy>=2.3.5
+scipy>=1.16.3
+packaging>=25.0
+pytest>=9.1.1
 
 # Source-bound numerical and native mesh figures.
-matplotlib==3.11.1
+matplotlib>=3.11.1
 
 # Current overview and source-bound reader book.
-mistune==3.3.4
-reportlab==5.0.1
-Pillow==12.3.0
-CairoSVG==2.9.0
+mistune>=3.3.4
+reportlab>=5.0.1
+Pillow>=12.3.0
+CairoSVG>=2.9.0
 
 # Independent railway operations and actual IFC/IDS exchange validation.
-eclipse-sumo==1.28.0
-sumolib==1.28.0
-ifcopenshell==0.8.5
-ifctester==0.8.5
+eclipse-sumo>=1.28.0
+sumolib>=1.28.0
+ifcopenshell>=0.9.0.post1
+ifctester>=0.9.0
+gmsh>=4.15.2
