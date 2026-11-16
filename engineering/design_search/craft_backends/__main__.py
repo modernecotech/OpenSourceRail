@@ -25,6 +25,12 @@ def main(argv=None, *, root=pilot.ROOT):
     p.add_argument('--python',required=True,help='Python with a current Gmsh installation')
     p=commands.add_parser('verify-code-aster-box',help='Verify preserved handoff without a fresh solve')
     p.add_argument('--output',required=True)
+    p=commands.add_parser('code-aster-candidate',help='Bounded same-candidate STEP component FEA handoff')
+    p.add_argument('--step',required=True);p.add_argument('--definition',required=True)
+    p.add_argument('--fieldcraft-rejection',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--image',required=True);p.add_argument('--python',required=True)
+    p=commands.add_parser('verify-code-aster-candidate',help='Verify preserved candidate handoff')
+    p.add_argument('--output',required=True)
     commands.add_parser('providers',help='Show scoped provider interfaces and retained specialist routes')
     group=commands.add_parser('viaduct',help='Same-candidate 20 m CAD, numerical and delivery comparison').add_subparsers(dest='action',required=True)
     p=group.add_parser('plan');p.add_argument('--full',action='store_true')
@@ -36,13 +42,13 @@ def main(argv=None, *, root=pilot.ROOT):
     p=group.add_parser('publish');p.add_argument('--state',required=True);p.add_argument('--evidence',required=True);p.add_argument('--output',required=True)
     p=group.add_parser('verify-publication');p.add_argument('--output')
     args=parser.parse_args(argv)
-    resource_action = ('backend-'+args.command if args.command in ('refresh','install','run','code-aster-box') else
+    resource_action = ('backend-'+args.command if args.command in ('refresh','install','run','code-aster-box','code-aster-candidate') else
         'backend-viaduct-run' if args.command=='viaduct' and args.action=='run' else None)
     if resource_action is not None:
         from engineering.development_baseline import FLAGS
         from engineering.performance import disk_hold_record
         admission_target=(Path(args.output).resolve().parent
-                          if args.command=='code-aster-box' else root)
+                          if args.command in ('code-aster-box','code-aster-candidate') else root)
         hold=disk_hold_record(admission_target,resource_action,FLAGS)
         if hold is not None:
             print(json.dumps(hold,sort_keys=True,indent=2,allow_nan=False));return 3
@@ -52,6 +58,13 @@ def main(argv=None, *, root=pilot.ROOT):
                 image=args.image,fieldcraft_rejection=args.fieldcraft_rejection,
                 python=args.python) if args.command=='code-aster-box'
                 else code_aster_control.verify_box(args.output))
+    elif args.command in ('code-aster-candidate','verify-code-aster-candidate'):
+        from . import code_aster_candidate
+        value=(code_aster_candidate.run_candidate(args.step,args.output,
+                json.loads(Path(args.definition).read_text()),
+                fieldcraft_rejection=args.fieldcraft_rejection,image=args.image,python=args.python)
+                if args.command=='code-aster-candidate'
+                else code_aster_candidate.verify_candidate(args.output))
     elif args.command=='providers':
         from . import backend_api
         value=backend_api.registry()
@@ -87,7 +100,7 @@ def main(argv=None, *, root=pilot.ROOT):
         value={k:v for k,v in value.items() if k not in ('artifact_sha256','stages')}
     print(json.dumps(value,sort_keys=True,indent=2,allow_nan=False))
     return 3 if isinstance(value,dict) and (value.get('software_pilot_passed') is False or
-        (args.command=='code-aster-box' and
+        (args.command in ('code-aster-box','code-aster-candidate') and
          (value.get('state')!='executed' or not value.get('numerical_checks',{}).get('numerical_screen_passed')))) else 0
 
 

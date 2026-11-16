@@ -131,6 +131,42 @@ does not qualify the selected beam, side sill or vehicle. Their same-candidate
 loads, supports, materials, interfaces and resource requests remain separate
 admission work, and the missing selected-reference manifest remains a hold.
 
+### Candidate-bound Code_Aster component handoff
+
+`code-aster-candidate` extends the proven handoff to an explicitly identified
+single-solid SolidCraft STEP component. Its definition supplies the physical
+candidate and component geometry IDs, expected exact B-rep volume and bounds,
+an isotropic elastic material hypothesis, mesh size, one fully fixed end face,
+the opposite loaded face and the total three-component force. Gmsh selects
+faces from the imported STEP geometry and divides the force by their measured
+area. Independent FreeCAD/OpenCASCADE import checks the volume, bounds and
+closed solid before a native solve is admitted. A different load or material is
+a different evaluation of the same physical geometry.
+
+```bash
+./osr design backends code-aster-candidate \
+  --step /path/to/exact/component.step \
+  --definition /path/to/candidate-fea-definition.json \
+  --fieldcraft-rejection /path/to/same-candidate-held-readback.json \
+  --output /path/to/private/fresh-run \
+  --image simvia/code_aster:17.4.0 \
+  --python /path/to/python-with-current-gmsh
+./osr design backends verify-code-aster-candidate \
+  --output /path/to/private/fresh-run
+```
+
+The second bounded control is an actual SolidCraft 0.42.0 STEP box with unequal
+dimensions, offset origin and a 1,500 N declared axial load. FieldCraft 0.7.5
+again rejected both STEP import routes for those exact bytes. Gmsh 4.15.2
+produced a 0.12 m³ MED mesh with 529 tetra10 elements, 1,100 nodes and 0.1 m²
+fixed and loaded faces; independent FreeCAD reimport agreed. Its 19-artifact
+private packet verifies, including the generated Code_Aster material,
+boundary, traction and result deck. The Code_Aster image was unavailable while
+the railway campaign's disk reserve was active, so this second case is recorded
+as **held before native solve**. The separate one-box control above remains the
+executed native Code_Aster proof. Neither control resolves selected component
+loads, joints, fatigue, buckling, material allowables or physical qualification.
+
 Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).
 The [pilot policy](../../../campaigns/craft-backend-pilot.toml) bounds 25 parts,
