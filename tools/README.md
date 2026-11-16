@@ -3,7 +3,7 @@
 <!-- osr-system-context:start -->
 OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. The reference vehicle has six 17 m comfort cars, each with 44 seats and two wheelchair places, no planned standing, and passive steel-wheel bogies on conventional rails carried by concrete. Its passive LIM interface is available for comparison; no installed propulsion architecture or powered length is selected. Acceleration, braking, speed and headway are candidate-specific design variables. The retained 120-second service control gives 8,280 nominal places/hour/direction. The reference vehicle has service batteries and independent brakes, without onboard traction motors, traction batteries or suspension magnets; alternatives must account for their complete system effects. Calculated, priced corridor and city outlines support comparison with explicit assumptions. Engineering verification, prototype validation and manufacturing or operating release remain separate gates.
 
-[Project introduction](../README.md) · [Engineering findings](../docs/design-engine/v06-design-closure/README.md) · [v0.7 execution](../docs/design-engine/v07-execution/README.md)
+[Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
 The [`./osr` launcher](../osr) is the supported entry point for the v0.6
