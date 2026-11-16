@@ -2,7 +2,10 @@
 from copy import deepcopy
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import json
 import math
+import os
+import subprocess
 import pytest
 
 P = Path(__file__).resolve().parents[1]/'engineering/design_search/craft_backends/solidcraft.py'
@@ -111,3 +114,34 @@ def test_profile_uses_source_yz_plane_normal_along_x():
     c=s.script_for(case([e]))['commands'];sketch=next(x['params'] for x in c if x['command']=='sketch.create')
     assert sketch['plane']==dict(origin=[1000.,2000.,3000.],x_dir=[0,1,0],y_dir=[0,0,1])
     assert next(x['params'] for x in c if x['command']=='solid.extrude')['distance']==300.
+
+
+def test_resolved_native_release_runs_all_declared_primitives(tmp_path):
+    """Explicit binary compatibility probe, never a body qualification claim."""
+    path=os.environ.get('OSR_SOLIDCRAFT_CLI')
+    if not path:
+        pytest.skip('Set OSR_SOLIDCRAFT_CLI to the resolved native binary for this probe')
+    binary=Path(path)
+    manifest=json.loads((P.parent/'tools.json').read_text())['tools']['solidcraft']
+    from hashlib import sha256
+    digest=sha256()
+    with binary.open('rb') as stream:
+        while block:=stream.read(1024*1024):digest.update(block)
+    assert digest.hexdigest()==manifest['binary_sha256']
+    entities=[
+        dict(id='box',shape='box',at_m=[0,0,0],size_m=[1,1,1],
+             holes=[dict(axis='z',diameter_m=.1,x_m=.5,y_m=.5)]),
+        dict(id='cylinder',shape='cylinder',at_m=[2,0,0],radius_m=.2,length_m=1,axis=[0,0,1]),
+        dict(id='tube',shape='tube',at_m=[3,0,0],radius_m=.2,inner_radius_m=.1,length_m=1,axis=[0,0,1]),
+        dict(id='sphere',shape='sphere',at_m=[4,0,0],radius_m=.2),
+        dict(id='profile',shape='profile',at_m=[5,0,0],points_yz_m=[[0,0],[.2,0],[0,.2]],length_m=1),
+    ]
+    source=tmp_path/'script.json';result=tmp_path/'results.json'
+    source.write_text(json.dumps(s.script_for(case(entities))))
+    subprocess.run([str(binary),'run',str(source),'--results','--quiet',
+                    '--param-check','strict','--json-out',str(result)],
+                   check=True,cwd=tmp_path,timeout=30,capture_output=True)
+    measured=s.parse_measurements(json.loads(result.read_text()))
+    assert {b['id'] for b in measured['bodies']}=={e['id'] for e in entities}
+    assert all(b['closed'] is True and b['volume_m3']>0 for b in measured['bodies'])
+    assert not measured['physical_accepted']

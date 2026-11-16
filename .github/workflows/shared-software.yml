@@ -200,7 +200,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - uses: dtolnay/rust-toolchain@1.92.0
+      - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt,clippy
       - run: python -m pip install pytest -r engineering/requirements.txt
@@ -265,6 +265,8 @@ jobs:
           cargo fmt --package osr-design-search -- --check
           cargo clippy --locked -p osr-design-search --all-targets -- -D warnings
           python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_search.py engineering/design_search/tests/test_native_campaign.py engineering/design_search/tests/test_topology_mutation.py engineering/design_search/tests/test_topology_revision.py engineering/design_search/tests/test_search_archive.py engineering/design_search/tests/test_native_refinement.py engineering/design_search/tests/test_search_feedback.py engineering/design_search/tests/test_axial_analysis.py engineering/design_search/tests/test_invocation_cache.py engineering/design_search/tests/test_frame_analysis.py engineering/design_search/tests/test_frame_refinement.py engineering/design_search/tests/test_frame_native.py
+      - name: Default Rust design-search size and dependency budget
+        run: bash tools/automation/check-rust-design-footprint.sh
       - name: Civil and station demonstrator identity and evidence handoffs
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_civil_demonstrator.py engineering/design_search/tests/test_station_demonstrator.py
       - name: Actual-wall torsion fields, bounded workers and same-candidate frame refinement
@@ -343,7 +345,7 @@ jobs:
         python: ["3.12", "3.13"]
     env:
       CARGO_BUILD_JOBS: "2"
-      RUSTUP_TOOLCHAIN: "1.92.0"
+      RUSTUP_TOOLCHAIN: stable
       OPENBLAS_NUM_THREADS: "1"
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
@@ -359,7 +361,7 @@ jobs:
           test -n "${GITHUB_ENV:-}"
           printf 'RUSTUP_HOME=%s\n' "$RUNNER_TEMP/osr-canonical-rustup" >> "$GITHUB_ENV"
           printf 'CARGO_HOME=%s\n' "$RUNNER_TEMP/osr-canonical-cargo" >> "$GITHUB_ENV"
-      - uses: dtolnay/rust-toolchain@1.92.0
+      - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
       - run: python -m pip install pytest numpy==2.3.5 scipy==1.16.3
@@ -369,7 +371,7 @@ jobs:
           python -m engineering.design_search.native_canonical build
       - name: Require exact canonical parity and unchanged campaign results
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_native_canonical.py engineering/design_search/tests/test_campaign_canonical_backend.py engineering/design_search/tests/test_native_sealing.py engineering/design_search/tests/test_interface_validation_performance.py
-      - name: Check the optional Rust extension under the pinned compiler
+      - name: Check the optional Rust extension under the resolved stable compiler
         run: cargo clippy --locked -p osr-design-search --lib --features python-extension -- -D warnings
   control-formal:
     name: Shared authority and retained refusal properties

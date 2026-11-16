@@ -75,10 +75,46 @@ Immutable stage requests include candidate and upstream evidence IDs. Native cac
 ```bash
 ./osr design railway plan
 ./osr design railway run --max-bundles 2 --native-jobs 1
-./osr design railway run --native-jobs 12
+```
+
+Continue the bounded campaign until its required evaluations finish. Publish
+only the complete, source-matched result:
+
+```bash
 ./osr design railway publish
 ./osr design railway verify
 ```
+
+Start with the disk reserve and the one-job budget. The earlier 12-job command
+belongs to the recorded campaign and is not a default resource recommendation;
+raise concurrency only after measuring aggregate memory, disk and process-tree
+limits for the exact workload. See the [v0.7 runtime review](../../plans/v0.7-runtime-toolchain-review.md).
+
+For repeated case comparisons, build a bounded, derived Arrow/Parquet index in
+a private directory. The Rust query checks matching source cases before showing
+rows; the canonical cases remain the source-bound evidence.
+
+```bash
+./osr design railway columnar index build/coupled-railway/<contract-id> build/private-case-index
+./osr design railway columnar verify build/private-case-index build/coupled-railway/<contract-id>
+./osr design railway columnar query build/private-case-index build/coupled-railway/<contract-id> <candidate-id>
+```
+
+The index target must share the repository filesystem so the Cargo build and
+index output are covered by one 20 GiB free-space reservation.
+
+The separate typed case-core experiment runs under the same disk guard:
+
+```bash
+./osr design railway case-v2-preview build/coupled-railway/<contract-id> build/private-case-v2
+./osr design railway case-v2-preview verify build/coupled-railway/<contract-id> build/private-case-v2
+```
+
+The Rust verifier checks every typed value, ordered stage reference, source
+case SHA-256 and file inventory. Its typed case core and seven-stage reference
+table are research previews.
+Nine case payload domains and full stage requests remain untyped, so this
+preview does not replace or delete canonical case JSON.
 
 [Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Current refinements](current-refinement.json.gz) · [Fine refinement](fine-refinement.json.gz) · [Ultrafine refinement](ultrafine-refinement.json.gz) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)
 

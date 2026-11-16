@@ -1,13 +1,15 @@
-"""Pinned native tools, bounded private runs and recorded JSON command sessions."""
+"""Current-release native tools, bounded runs and exact execution receipts."""
 from hashlib import sha256
 from pathlib import Path
-from urllib.request import urlopen
 import json, math, os, resource, shutil, subprocess, tarfile, time
 from . import FLAGS, identity
+from engineering.toolchain_release import latest_asset, download_asset, tar_member_sha256
 
 ROOT = Path(__file__).resolve().parents[3]
 LOCK = Path(__file__).with_name('tools.json')
 DEFAULT_TOOLS = Path.home()/'.local/share/opensource-rail/toolchains/craft'
+ACTIVE_TOOLS = ('solidcraft', 'fieldcraft')
+ASSET_NAMES = {name: name+'-{version}-linux-x86_64.tar.gz' for name in ACTIVE_TOOLS}
 
 
 def digest(path):
@@ -24,7 +26,56 @@ def write(path,value):
 
 
 def pin(name):
+    if name not in ACTIVE_TOOLS:
+        raise ValueError('Active native tool required')
     return json.loads(LOCK.read_bytes())['tools'][name]
+
+
+def refresh_latest(names=ACTIVE_TOOLS, tool_root=DEFAULT_TOOLS):
+    """Explicit install-time release refresh; no network in numerical workers.
+
+    The exact archive and executable hashes are committed into the source-bound
+    tool manifest only after all release metadata and bytes authenticate.
+    """
+    selected = tuple(names)
+    if not selected or any(name not in ACTIVE_TOOLS for name in selected):
+        raise ValueError('Known active native tools required')
+    manifest = json.loads(LOCK.read_bytes())
+    legacy_names = set(manifest['tools']) - set(ACTIVE_TOOLS)
+    if legacy_names:
+        manifest['tools'] = {name: manifest['tools'][name] for name in ACTIVE_TOOLS}
+    changed = bool(legacy_names)
+    for name in selected:
+        previous = manifest['tools'][name]
+        upstream = latest_asset(previous['repository'], ASSET_NAMES[name])
+        version = upstream['version'].removeprefix('v')
+        binary = f'dist/{name}-{version}-linux-x86_64/bin/{name}-cli'
+        if (previous['version'] == upstream['version']
+                and previous['asset_sha256'] == upstream['asset_sha256']
+                and previous['commit'] == upstream['commit']
+                and isinstance(previous.get('binary_sha256'), str)
+                and len(previous['binary_sha256']) == 64):
+            continue
+        folder = Path(tool_root)/(name+'-'+upstream['version'])
+        archive = download_asset(upstream, folder/upstream['asset'])
+        binary_hash = tar_member_sha256(archive, binary.removeprefix('dist/'))
+        manifest['tools'][name] = dict(previous, version=upstream['version'],
+            commit=upstream['commit'], release_immutable=upstream['release_immutable'],
+            release_published_at=upstream['release_published_at'],
+            url=upstream['url'], bytes=upstream['bytes'],
+            github_digest='sha256:'+upstream['asset_sha256'],
+            asset_id=upstream['asset_id'], directory=name+'-'+upstream['version'],
+            asset=upstream['asset'], asset_sha256=upstream['asset_sha256'],
+            binary=binary, binary_sha256=binary_hash,
+            digest_source='Current official release API and verified downloaded archive')
+        changed = True
+    if changed:
+        replacement = LOCK.with_suffix('.json.refresh')
+        if replacement.exists():
+            raise ValueError('Interrupted tool manifest refresh retained: '+str(replacement))
+        replacement.write_text(json.dumps(manifest, sort_keys=True, indent=2)+'\n')
+        replacement.replace(LOCK)
+    return {name: manifest['tools'][name] for name in selected}
 
 
 def executable(name,tool_root=DEFAULT_TOOLS):
@@ -34,22 +85,12 @@ def executable(name,tool_root=DEFAULT_TOOLS):
     return path
 
 
-def install(name,tool_root=DEFAULT_TOOLS):
+def install(name,tool_root=DEFAULT_TOOLS,*,refresh=True):
+    if refresh:
+        refresh_latest((name,), tool_root)
     p=pin(name);folder=Path(tool_root)/p['directory'];folder.mkdir(parents=True,exist_ok=True)
     archive=folder/p['asset']
-    if not archive.exists():
-        pending=archive.with_suffix(archive.suffix+'.partial')
-        if pending.exists():raise ValueError('Preserve interrupted download; inspect '+str(pending))
-        with urlopen(p['url'],timeout=60) as src,pending.open('xb') as out:
-            count=0
-            while block:=src.read(1024**2):
-                count+=len(block)
-                if count>p['bytes']:raise ValueError('Release exceeds pinned download size; partial retained')
-                out.write(block)
-        if count!=p['bytes']:raise ValueError('Release download size differs; partial retained')
-        if digest(pending)!=p['asset_sha256']:raise ValueError('Release download digest differs; failed file retained')
-        pending.rename(archive)
-    if digest(archive)!=p['asset_sha256']:raise ValueError('Pinned release archive changed')
+    download_asset(p,archive)
     dist=folder/'dist'
     if not dist.exists():
         with tarfile.open(archive) as tar:

@@ -2,21 +2,25 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 import hashlib
+import fcntl
 import json
 import math
 import os
 import platform
 from pathlib import Path
 import shutil
+import signal
 import stat
 import struct
 import subprocess
 import tempfile
 import time
 import sys
+import uuid
 from threading import Event, Thread
 
 from engineering.station_rail import ROOT
@@ -287,6 +291,240 @@ def disk_hold_record(root, action: str, dispositions: dict) -> dict | None:
         "resource_admission": admission,
         **dispositions,
     }
+
+
+class DiskReservationHeld(RuntimeError):
+    """A bounded write was refused before the associated work began."""
+
+    def __init__(self, record: dict):
+        self.record = record
+        super().__init__(record["reason"])
+
+
+class DiskCommandFailed(RuntimeError):
+    def __init__(self, returncode: int):
+        self.returncode = returncode
+        super().__init__(f"Reserved command exited with status {returncode}")
+
+
+def _reservation_store(root: Path) -> Path:
+    store = root / ".cache" / "osr-disk-reservations"
+    store.mkdir(parents=True, exist_ok=True)
+    if store.is_symlink() or not store.is_dir():
+        raise ValueError("Ordinary reservation directory required")
+    return store
+
+
+def _reservation_target(target: Path) -> Path:
+    """Find the existing filesystem ancestor without creating a run output."""
+    current = target.resolve(strict=False)
+    while not current.exists():
+        if current.parent == current:
+            raise ValueError("Reservation target has no existing filesystem ancestor")
+        current = current.parent
+    if not current.is_dir():
+        raise ValueError("Reservation target ancestor must be a directory")
+    return current
+
+
+def _live_reserved_bytes(store: Path, device: int) -> tuple[int, int]:
+    """Count receipts whose owning process still holds its kernel file lock."""
+    total = 0
+    interrupted = 0
+    paths = sorted(store.glob("*.json"))
+    if len(paths) > 10000:
+        raise ValueError("Reservation receipt inventory exceeds budget")
+    for path in paths:
+        if path.is_symlink() or path.stat().st_size > 16384:
+            raise ValueError("Reservation receipt is not a bounded ordinary file")
+        with path.open("r+b") as stream:
+            try:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                active = True
+            else:
+                active = False
+            try:
+                record = json.load(stream)
+            except (json.JSONDecodeError, UnicodeDecodeError) as error:
+                if active:
+                    raise ValueError("Active reservation receipt is unreadable") from error
+                interrupted += 1
+                continue
+            finally:
+                if not active:
+                    fcntl.flock(stream, fcntl.LOCK_UN)
+            if record.get("schema") != "osr-disk-reservation/1":
+                if active:
+                    raise ValueError("Active reservation receipt has an unknown schema")
+                interrupted += 1
+                continue
+            if record.get("filesystem_device") != device or record.get("status") != "reserved":
+                continue
+            if active:
+                amount = record.get("projected_bytes")
+                if type(amount) is not int or amount <= 0:
+                    raise ValueError("Invalid active reservation amount")
+                total += amount
+            else:
+                interrupted += 1
+    return total, interrupted
+
+
+@contextmanager
+def disk_reservation(root, target, action: str, projected_bytes: int, *,
+                     minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB):
+    """Coordinate projected OSR writes on one filesystem under a host floor.
+
+    The receipt persists after success, failure or process death. Kernel locks
+    make crashed reservations reclaimable without deleting their history.
+    External writers and underestimated outputs remain outside this guarantee.
+    """
+    if (type(projected_bytes) is not int or not 0 < projected_bytes <= 1024 * GIB
+            or not isinstance(action, str) or not action or len(action) > 128):
+        raise ValueError("Explicit bounded disk projection and action required")
+    if (isinstance(minimum_free_gib, bool)
+            or not isinstance(minimum_free_gib, (int, float))
+            or not math.isfinite(minimum_free_gib)
+            or not 1 <= minimum_free_gib <= 1024):
+        raise ValueError("Minimum free-space threshold must be 1..1024 GiB")
+    root = Path(root).resolve()
+    target = Path(target).resolve(strict=False)
+    ancestor = _reservation_target(target)
+    store = _reservation_store(root)
+    floor = int(minimum_free_gib * GIB)
+    device = ancestor.stat().st_dev
+    lock = store / "registry.lock"
+    with lock.open("a+b") as registry:
+        fcntl.flock(registry, fcntl.LOCK_EX)
+        peers, interrupted = _live_reserved_bytes(store, device)
+        free = shutil.disk_usage(ancestor).free
+        record = {
+            "schema": "osr-disk-reservation/1", "action": action,
+            "root": str(root), "target": str(target),
+            "filesystem_device": device, "filesystem_free_bytes_at_admission": free,
+            "minimum_free_reserve_bytes": floor, "peer_projected_bytes": peers,
+            "projected_bytes": projected_bytes,
+            "interrupted_receipts_observed": interrupted,
+            "pid": os.getpid(), "created_at_utc": datetime.now(timezone.utc).isoformat(),
+            "status": "reserved", "enforcement":
+                "Cooperating OSR projected-write reservation plus shared filesystem admission; external writers and underestimated outputs are not controlled",
+        }
+        if free < floor + peers + projected_bytes:
+            record.update(status="held", reason=f"Projected writes exceed filesystem free space after the {minimum_free_gib:g} GiB policy floor and live OSR reservations")
+            receipt = store / (uuid.uuid4().hex + ".json")
+            fd = os.open(receipt, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
+            record["receipt"] = str(receipt)
+            with os.fdopen(fd, "w") as rejected:
+                rejected.write(json.dumps(record, sort_keys=True) + "\n")
+                rejected.flush()
+                os.fsync(rejected.fileno())
+            fcntl.flock(registry, fcntl.LOCK_UN)
+            raise DiskReservationHeld(record)
+        receipt = store / (uuid.uuid4().hex + ".json")
+        fd = os.open(receipt, os.O_CREAT | os.O_EXCL | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+        stream = os.fdopen(fd, "r+b", buffering=0)
+        fcntl.flock(stream, fcntl.LOCK_EX)
+        stream.write((json.dumps(record, sort_keys=True) + "\n").encode())
+        os.fsync(stream.fileno())
+        fcntl.flock(registry, fcntl.LOCK_UN)
+    record["receipt"] = str(receipt)
+    try:
+        yield record
+    except DiskReservationHeld as error:
+        record.update({key: error.record[key] for key in
+                       ("reason", "filesystem_free_bytes_at_check", "execution")
+                       if key in error.record})
+        record["status"] = "held"
+        raise
+    except BaseException:
+        record["status"] = "failed"
+        raise
+    else:
+        record["status"] = "completed"
+    finally:
+        record["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
+        try:
+            record["filesystem_free_bytes_at_finish"] = shutil.disk_usage(ancestor).free
+        except OSError:
+            record["filesystem_free_bytes_at_finish"] = None
+        try:
+            with lock.open("a+b") as registry:
+                fcntl.flock(registry, fcntl.LOCK_EX)
+                stream.seek(0)
+                stream.truncate()
+                stream.write((json.dumps(record, sort_keys=True) + "\n").encode())
+                os.fsync(stream.fileno())
+                fcntl.flock(registry, fcntl.LOCK_UN)
+        finally:
+            fcntl.flock(stream, fcntl.LOCK_UN)
+            stream.close()
+
+
+def check_disk_reservation(lease: dict) -> dict:
+    """Check the actual target filesystem at a long-running job checkpoint."""
+    if lease.get("schema") != "osr-disk-reservation/1" or lease.get("status") != "reserved":
+        raise ValueError("Active disk reservation receipt required")
+    target = _reservation_target(Path(lease["target"]))
+    if target.stat().st_dev != lease["filesystem_device"]:
+        raise ValueError("Reservation target filesystem changed")
+    free = shutil.disk_usage(target).free
+    if free < lease["minimum_free_reserve_bytes"]:
+        raise DiskReservationHeld(dict(lease, status="held", execution="held",
+            filesystem_free_bytes_at_check=free,
+            reason="Target filesystem fell below its reserved free-space floor"))
+    return {"filesystem_free_bytes": free,
+            "minimum_free_reserve_bytes": lease["minimum_free_reserve_bytes"],
+            "reserve_status": "met"}
+
+
+def run_reserved_command(root, target, action, projected_bytes, command, *,
+                         minimum_free_gib=DEFAULT_MINIMUM_FREE_GIB,
+                         monitor_interval_seconds=1.0):
+    """Run a child under one cooperating OSR reservation and retain its receipt."""
+    if not command or any(not isinstance(item, str) or not item for item in command):
+        raise ValueError("Explicit command argv required")
+    if (isinstance(monitor_interval_seconds, bool)
+            or not isinstance(monitor_interval_seconds, (int, float))
+            or not math.isfinite(monitor_interval_seconds)
+            or not .05 <= monitor_interval_seconds <= 60):
+        raise ValueError("Monitor interval must be 0.05..60 seconds")
+    lease = None
+    try:
+        with disk_reservation(root, target, action, projected_bytes,
+                              minimum_free_gib=minimum_free_gib) as lease:
+            child = subprocess.Popen(command, start_new_session=True)
+            try:
+                while True:
+                    try:
+                        code = child.wait(timeout=monitor_interval_seconds)
+                    except subprocess.TimeoutExpired:
+                        check_disk_reservation(lease)
+                        continue
+                    check_disk_reservation(lease)
+                    if code:
+                        raise DiskCommandFailed(code)
+                    break
+            except BaseException:
+                if child.poll() is None:
+                    try:
+                        os.killpg(child.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
+                    try:
+                        child.wait(timeout=2)
+                    except subprocess.TimeoutExpired:
+                        try:
+                            os.killpg(child.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
+                        child.wait()
+                raise
+    except DiskCommandFailed as error:
+        return dict(lease, status="failed", execution="failed", child_exit_code=error.returncode), error.returncode
+    except DiskReservationHeld as error:
+        return error.record, 3
+    return dict(lease, status="completed", execution="completed", child_exit_code=0), 0
 
 
 def cleanup_bytecode(root=ROOT, *, minimum_age_days=DEFAULT_CACHE_AGE_DAYS,
@@ -853,6 +1091,15 @@ def main(argv=None, *, root=ROOT) -> int:
     compare = commands.add_parser("compare", help="Compare two recorded process measurements")
     compare.add_argument("--before", type=Path, required=True)
     compare.add_argument("--after", type=Path, required=True)
+    reserved = commands.add_parser("reserve-run", help="Run one command under a target-filesystem disk reservation")
+    reserved.add_argument("--target", type=Path, required=True)
+    reserved.add_argument("--reservation-action", required=True)
+    reserved.add_argument("--projected-bytes", type=int, required=True)
+    reserved.add_argument("--minimum-free-gib", type=float,
+                          default=DEFAULT_MINIMUM_FREE_GIB)
+    reserved.add_argument("--receipt-to-stderr", action="store_true",
+                          help="Keep child stdout parseable while reporting the reservation on stderr")
+    reserved.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
     try:
         if args.action == "storage":
@@ -872,10 +1119,16 @@ def main(argv=None, *, root=ROOT) -> int:
             value, exit_code = measure_command(command, workspace=args.workspace,
                                                report_path=args.report, root=root,
                                                sampling_interval_seconds=args.sample_interval)
+        elif args.action == "reserve-run":
+            command = args.command[1:] if args.command[:1] == ["--"] else args.command
+            value, exit_code = run_reserved_command(root, args.target, args.reservation_action,
+                args.projected_bytes, command, minimum_free_gib=args.minimum_free_gib)
         else:
             value = compare_measurements(args.before, args.after)
             exit_code = 0
-        print(json.dumps(value, indent=2, sort_keys=True, allow_nan=False))
+        destination = (sys.stderr if args.action == "reserve-run" and args.receipt_to_stderr
+                       else sys.stdout)
+        print(json.dumps(value, indent=2, sort_keys=True, allow_nan=False), file=destination)
         return exit_code
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         schema = {
@@ -883,11 +1136,14 @@ def main(argv=None, *, root=ROOT) -> int:
             "cleanup": "osr-performance-cleanup/1",
             "cleanup-git-packs": "osr-performance-git-temp-pack-cleanup/1",
             "measure": "osr-performance-measurement/1",
+            "reserve-run": "osr-disk-reservation/1",
             "compare": "osr-performance-comparison/1",
         }[args.action]
+        destination = (sys.stderr if args.action == "reserve-run" and args.receipt_to_stderr
+                       else sys.stdout)
         print(json.dumps({"schema": schema,
                           "execution": "held", "reason": str(error)},
-                         indent=2, sort_keys=True))
+                         indent=2, sort_keys=True), file=destination)
         return 3
 
 

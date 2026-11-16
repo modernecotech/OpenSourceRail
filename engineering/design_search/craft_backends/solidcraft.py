@@ -1,4 +1,4 @@
-"""SI scene primitives to SolidCraft 0.30.1's recorded command interface.
+"""SI scene primitives to the exact resolved SolidCraft command interface.
 
 Each occurrence is a separately named body.  Provider measurements of curved
 geometry use its tessellation and are diagnostics, not exact B-rep quantities.
@@ -8,7 +8,6 @@ from copy import deepcopy
 from math import isfinite, sqrt
 
 PROVIDER = 'solidcraft'
-VERSION = '0.30.1'
 FLAGS = dict(physical_accepted=False, engineering_accepted=False,
              manufacturing_release=False, operating_release=False,
              selected_reference_changed=False, movement_authority=False)

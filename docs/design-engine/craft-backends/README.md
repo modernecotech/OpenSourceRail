@@ -1,24 +1,28 @@
 # SolidCraft / FieldCraft backend pilot
 
-OpenSourceRail can now construct source-bound component geometry in SolidCraft
-and run matched mechanical method controls in FieldCraft. This is an **opt-in
+The retained backend pilot constructed source-bound component geometry in
+SolidCraft and matched mechanical method controls in FieldCraft. The current
+release pair has a CAD-to-FEA handoff hold described below. This is an **opt-in
 backend comparison**, integrated with the existing candidate and delivery records.
 FreeCAD, CalculiX, Gmsh/GetDP, IFC/Bonsai, Chrono and SUMO remain available.
 
 ```bash
-./osr design backends plan
+./osr design backends refresh solidcraft fieldcraft
 ./osr design backends install solidcraft fieldcraft
+./osr design backends plan
 ./osr design backends run --output /path/to/private/fresh-run
 ./osr design backends verify --output /path/to/private/fresh-run
-# Optional newer-format / tagged-surface compatibility test:
-./osr design backends install solidcraft-rc
-./osr design backends run --include-rc --output /path/to/another/fresh-run
 ```
 
+The local selected-reference packet is currently held because its manifest is
+missing. The pilot cannot plan or run that selected case until a source-matched
+packet is regenerated. Refresh and installation can be done separately; plan,
+run and verify above describe the workflow after that hold is resolved.
+
 Linux requires bubblewrap, GNU time, CalculiX (`ccx`), and the existing
-`org.freecad.FreeCAD` Flatpak. Installation downloads only the selected pinned
-upstream release, verifies its archive and executable digests, and retains its
-licence notices. There is no automatic unconfined execution fallback.
+`org.freecad.FreeCAD` Flatpak. Explicit refresh resolves the latest stable
+upstream releases; installation verifies archive and executable digests and
+retains licence notices. There is no automatic unconfined execution fallback.
 
 ## What is compared
 
@@ -54,13 +58,14 @@ models. GetDP remains the electromagnetic route and IFC remains the BIM route.
 
 ## Verified compatibility boundaries
 
-- The pinned compatible pair is **SolidCraft 0.30.1 / FieldCraft 0.7.5**.
-  FieldCraft's convenience `open` rejects `.sc`; the adapter uses its tested
-  `geometry.open` command without renaming the source file.
-- **SolidCraft 0.40.0-rc.2** writes format 50, which FieldCraft 0.7.5 (format 48)
-  rejects. The optional probe records this failure and tries face-tagged 3MF.
-  A tagged surface is not an exact solid, editable parametric history or a
-  complete transfer of analysis/material definitions.
+- The current releases are **SolidCraft 0.42.0 / FieldCraft 0.7.5**. SolidCraft
+  primitives passed the bounded current CLI probe. FieldCraft's native reader
+  does not accept this SolidCraft version. A one-box SolidCraft v0.42 STEP export
+  succeeded, but FieldCraft v0.7.5 rejected both its `open` and `geometry.open`
+  routes. The active adapter records the STEP hash and explicit FEA hold. A
+  compatible same-candidate geometry/load/mesh/material handoff remains open.
+  The earlier 0.30.1 and 0.40.0-rc.2 probes remain
+  [historical results](pilot-results.json), not active installation choices.
 - SolidCraft native/STEP reopening retains body names. FreeCAD's STEP importer
   exposes product labels instead. The pilot reports this name-retention hold.
   An unambiguous volume/centroid/bounds bijection verifies geometry separately;
@@ -72,8 +77,8 @@ Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).
 The [pilot policy](../../../campaigns/craft-backend-pilot.toml) bounds 25 parts,
 one sequential worker, at most 32 native processes, 120 seconds and 2 GiB address
-space per native process. The admitted full workload uses at most 29 process
-slots with the optional compatibility probe. This is not an aggregate memory
+space per native process. The planned full workload uses at most 25 process
+slots but is currently held. This is not an aggregate memory
 cgroup or independently authenticated physical evidence.
 
 ## Evidence, reuse and promotion
@@ -98,8 +103,8 @@ engineering, manufacturing or operating acceptance. Promotion should follow a
 larger matched CAD/FEA campaign with complete interfaces and independent review.
 
 Upstream references: [SolidCraft commands](https://docs.solidcraft.io/dev/commands.html),
-[SolidCraft source](https://github.com/tangency-labs/solidcraft/tree/8e2b0cd60d14b4152b12b8f1fdb2bcfdcd8c52f4),
-[FieldCraft source](https://github.com/tangency-labs/fieldcraft/tree/6b613217851b4c5ddf2d315930db12e9e25354dc).
+[SolidCraft v0.42.0](https://github.com/tangency-labs/solidcraft/releases/tag/v0.42.0),
+[FieldCraft v0.7.5](https://github.com/tangency-labs/fieldcraft/releases/tag/v0.7.5).
 
 ## Detailed launch assembly follow-on
 

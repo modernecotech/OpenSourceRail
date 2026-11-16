@@ -1,7 +1,6 @@
-"""Opt-in bounded-buffer canonical JSON for research identities.
+"""Bounded-buffer canonical JSON for active research identities.
 
-This standalone primitive does not modify campaign execution or admit any
-candidate. It intentionally supports only the built-in JSON value types with
+This serializer does not admit any candidate. It supports built-in JSON values with
 string object keys. Large individual string values still require an escaped
 copy; buffering bounds the combined output, not the input object.
 """

@@ -106,6 +106,10 @@ the dependency first. Benchmark an expensive required kernel before extending
 Rust or vectorisation. Avoid broad rewrites, all-city regeneration and duplicate
 calculation pipelines for this milestone. Preserve failed, interrupted and
 out-of-domain evidence and maintain the project disk reserve during execution.
+The [15 November runtime and toolchain review](plans/v0.7-runtime-toolchain-review.md)
+records the current storage inventory, bounded memory experiments and upstream
+CAD/FEA/GIS compatibility probes. It does not change the selected reference or
+the [execution ledger](../campaigns/v07-execution.json).
 
 ## Retained engineering foundation
 

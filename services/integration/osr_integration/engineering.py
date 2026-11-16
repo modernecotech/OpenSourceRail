@@ -39,7 +39,8 @@ def artifact(root, relative, tool, version):
     elif path.suffix.lower() == '.rgis':
         # Inspect saved geometry metadata only; never follow source addresses or execute commands.
         value = json.loads(raw)
-        if value.get('format') != 1 or not isinstance(value.get('maps'), list):
+        if (type(value.get('format')) is not int or value['format'] not in (1, 2)
+                or not isinstance(value.get('maps'), list)):
             raise ValueError('Supported RustGIS project format required')
         result['project_name'] = value.get('name')
         result['maps'] = [{'name': m.get('name'), 'projection': m.get('projection'),

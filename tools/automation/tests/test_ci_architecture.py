@@ -139,7 +139,8 @@ def isolated_rust_path_script(block, prefix, *, target=False):
     job_env = block.split('    steps:\n', 1)[0]
     assert not re.search(r'\$\{\{\s*runner\.', job_env, re.I), 'runner context is unavailable in job env'
     header = '      - name: Initialize isolated Rust paths\n'
-    action = '      - uses: dtolnay/rust-toolchain@1.92.0\n'
+    toolchain = 'stable' if prefix == 'canonical' else '1.92.0'
+    action = f'      - uses: dtolnay/rust-toolchain@{toolchain}\n'
     assert block.count(header) == block.count(action) == 1
     assert block.index(header) < block.index(action)
     step = block.split(header, 1)[1].split('      - ', 1)[0]
@@ -185,11 +186,11 @@ def validate_native_canonical_job(text):
     assert 'native-canonical-parity' in jobs
     block=jobs['native-canonical-parity']
     for required in ('python: ["3.12", "3.13"]', 'timeout-minutes: 15',
-            'RUSTUP_TOOLCHAIN: "1.92.0"', 'CARGO_BUILD_JOBS: "2"',
-            'OSR_TEST_NATIVE_CANONICAL: "1"', 'uses: dtolnay/rust-toolchain@1.92.0'):
+            'RUSTUP_TOOLCHAIN: stable', 'CARGO_BUILD_JOBS: "2"',
+            'OSR_TEST_NATIVE_CANONICAL: "1"', 'uses: dtolnay/rust-toolchain@stable'):
         assert required in block, required
     isolated_rust_path_script(block, 'canonical')
-    assert ('      - uses: dtolnay/rust-toolchain@1.92.0\n'
+    assert ('      - uses: dtolnay/rust-toolchain@stable\n'
             '        with:\n          components: clippy\n') in block
     build='      - name: Build explicit source-bound kernel and interpreter-specific extension\n'
     verify='      - name: Require exact canonical parity and unchanged campaign results\n'
@@ -740,12 +741,12 @@ class ArchitectureRoutingTests(unittest.TestCase):
         validate_native_canonical_job(self.shared)
         block=job_blocks(self.shared)['native-canonical-parity']
         for old,new in (('python: ["3.12", "3.13"]','python: ["3.13"]'),
-                ('      RUSTUP_TOOLCHAIN: "1.92.0"','      CARGO_HOME: ${{ runner.temp }}/cargo\n      RUSTUP_TOOLCHAIN: "1.92.0"'),
+                ('      RUSTUP_TOOLCHAIN: stable','      CARGO_HOME: ${{ runner.temp }}/cargo\n      RUSTUP_TOOLCHAIN: stable'),
                 ('"$RUNNER_TEMP/osr-canonical-rustup"','"/home/runner/.rustup"'),
                 ('          components: clippy','          components: rustfmt'),
                 ('      - name: Initialize isolated Rust paths','      - if: false\n        name: Initialize isolated Rust paths'),
                 ('OSR_TEST_NATIVE_CANONICAL: "1"','OSR_TEST_NATIVE_CANONICAL: "0"'),
-                ('uses: dtolnay/rust-toolchain@1.92.0','uses: dtolnay/rust-toolchain@stable'),
+                ('uses: dtolnay/rust-toolchain@stable','uses: dtolnay/rust-toolchain@1.92.0'),
                 ('python -m engineering.design_search.native_canonical build','echo extension-not-built'),
                 ('engineering/design_search/tests/test_native_canonical.py','nonexistent-parity-test.py'),
                 ('engineering/design_search/tests/test_native_sealing.py','nonexistent-sealing-test.py'),

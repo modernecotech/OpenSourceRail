@@ -497,6 +497,7 @@ def test_generative_cli_does_not_mask_an_accepted_result_as_research(packet,monk
 def test_coordinated_cli_routes_to_shared_research_engine_without_running_native_fixtures(packet,monkeypatch,capsys,action):
     from types import ModuleType
     import engineering.design_search as package
+    monkeypatch.setattr('engineering.performance.disk_admission',lambda root:dict(admitted=True))
     root,_,_=packet;campaign=ModuleType('engineering.design_search.railway_campaign');publication=ModuleType('engineering.design_search.railway_publication');calls=[]
     campaign.EDGES=[['body','inventory']]
     campaign.specification=lambda root:dict(schema='synthetic-contract-plan',physical_accepted=False)
@@ -508,12 +509,13 @@ def test_coordinated_cli_routes_to_shared_research_engine_without_running_native
     monkeypatch.setattr(package,'railway_campaign',campaign,raising=False);monkeypatch.setattr(package,'railway_publication',publication,raising=False)
     assert cli.main(['design','railway',action],root=root)==0
     value=json.loads(capsys.readouterr().out);assert value['physical_accepted'] is False
-    if action=='run':assert calls==[dict(maximum_new_bundles=None,native_jobs=0,stream_aggregate=False)]
+    if action=='run':assert calls==[dict(maximum_new_bundles=None,native_jobs=0)]
 
 
-def test_coordinated_cli_exposes_stream_aggregate_as_explicit_opt_in(packet,monkeypatch,capsys):
+def test_coordinated_cli_uses_bounded_aggregate_without_opt_in(packet,monkeypatch,capsys):
     from types import ModuleType
     import engineering.design_search as package
+    monkeypatch.setattr('engineering.performance.disk_admission',lambda root:dict(admitted=True))
     root,_,_=packet;campaign=ModuleType('engineering.design_search.railway_campaign');publication=ModuleType('engineering.design_search.railway_publication');calls=[]
     campaign.EDGES=[]
     def run(root,**kwargs):
@@ -522,13 +524,14 @@ def test_coordinated_cli_exposes_stream_aggregate_as_explicit_opt_in(packet,monk
     campaign.run=run;publication.build=lambda root:dict(published=True,physical_accepted=False);publication.verify=lambda root:dict(verified=True,physical_accepted=False)
     monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
     monkeypatch.setattr(package,'railway_campaign',campaign,raising=False);monkeypatch.setattr(package,'railway_publication',publication,raising=False)
-    assert cli.main(['design','railway','run','--max-bundles','0','--stream-aggregate'],root=root)==0
+    assert cli.main(['design','railway','run','--max-bundles','0'],root=root)==0
     value=json.loads(capsys.readouterr().out)
     assert value['physical_accepted'] is False
-    assert calls==[dict(maximum_new_bundles=0,native_jobs=0,stream_aggregate=True)]
+    assert calls==[dict(maximum_new_bundles=0,native_jobs=0)]
 
 
-def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monkeypatch,capsys):
+@pytest.mark.parametrize('native_jobs',[0,1])
+def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monkeypatch,capsys,native_jobs):
     from types import ModuleType
     import engineering.design_search as package
     root,_,_=packet
@@ -547,7 +550,7 @@ def test_coordinated_cli_holds_native_work_below_free_space_reserve(packet,monke
         schema='osr-performance-disk-admission/1', admitted=False,
         execution='held', reason='below reserve', enforcement='admission only'))
 
-    assert cli.main(['design','railway','run','--native-jobs','1'],root=root)==3
+    assert cli.main(['design','railway','run','--native-jobs',str(native_jobs)],root=root)==3
     value=json.loads(capsys.readouterr().out)
     assert value['schema']=='osr-performance-disk-admission/1'
     assert value['execution']=='held'

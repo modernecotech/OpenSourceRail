@@ -217,6 +217,9 @@ def test_case_reader_rejects_symlink_duplicate_keys_and_oversize(tmp_path,monkey
 
 def test_cached_validation_preserves_same_epoch_resume_bytes(tmp_path,monkeypatch):
     """Compare a bounded one-bundle replay with and without stage checks."""
+    from contextlib import nullcontext
+    import engineering.performance as performance
+    monkeypatch.setattr(performance,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
     body=grammar.build(grammar.parameters());spec=campaign.specification();spec['families']=['P1']
     monkeypatch.setattr(campaign,'specification',lambda root=ROOT:deepcopy(spec))
     monkeypatch.setattr(campaign,'generate_bodies',lambda:([body],[]))

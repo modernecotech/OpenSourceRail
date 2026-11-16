@@ -1,4 +1,4 @@
-"""Recorded optional backend pilot; existing default backends are unchanged."""
+"""Current-release backend pilot with exact tool identities per native run."""
 import argparse
 import json
 from . import native, pilot
@@ -7,11 +7,14 @@ from . import native, pilot
 def main(argv=None, *, root=pilot.ROOT):
     parser=argparse.ArgumentParser(prog='./osr design backends')
     commands=parser.add_subparsers(dest='command',required=True)
-    p=commands.add_parser('plan');p.add_argument('--full',action='store_true');p.add_argument('--include-rc',action='store_true')
-    p=commands.add_parser('install');p.add_argument('tools',nargs='*',choices=['solidcraft','fieldcraft','solidcraft-rc'])
+    p=commands.add_parser('plan');p.add_argument('--full',action='store_true')
+    p=commands.add_parser('refresh',help='Resolve latest stable official releases and seal exact tool bytes')
+    p.add_argument('tools',nargs='*',choices=native.ACTIVE_TOOLS)
+    p.add_argument('--tool-root',default=str(native.DEFAULT_TOOLS))
+    p=commands.add_parser('install');p.add_argument('tools',nargs='*',choices=native.ACTIVE_TOOLS)
     p.add_argument('--tool-root',default=str(native.DEFAULT_TOOLS))
     p=commands.add_parser('run');p.add_argument('--output',required=True)
-    p.add_argument('--tool-root',default=str(native.DEFAULT_TOOLS));p.add_argument('--include-rc',action='store_true')
+    p.add_argument('--tool-root',default=str(native.DEFAULT_TOOLS))
     p=commands.add_parser('verify');p.add_argument('--output',required=True)
     commands.add_parser('providers',help='Show scoped provider interfaces and retained specialist routes')
     group=commands.add_parser('viaduct',help='Same-candidate 20 m CAD, numerical and delivery comparison').add_subparsers(dest='action',required=True)
@@ -24,7 +27,7 @@ def main(argv=None, *, root=pilot.ROOT):
     p=group.add_parser('publish');p.add_argument('--state',required=True);p.add_argument('--evidence',required=True);p.add_argument('--output',required=True)
     p=group.add_parser('verify-publication');p.add_argument('--output')
     args=parser.parse_args(argv)
-    resource_action = ('backend-'+args.command if args.command in ('install','run') else
+    resource_action = ('backend-'+args.command if args.command in ('refresh','install','run') else
         'backend-viaduct-run' if args.command=='viaduct' and args.action=='run' else None)
     if resource_action is not None:
         from engineering.development_baseline import FLAGS
@@ -56,11 +59,12 @@ def main(argv=None, *, root=pilot.ROOT):
                 if args.action=='publish' else viaduct_publication.verify(args.output,root=root))
         else:value=viaduct_workflow.verify(args.output,root=root)
     elif args.command=='plan':
-        value=pilot.plan(root,include_rc=args.include_rc)
+        value=pilot.plan(root)
         if not args.full:value={k:v for k,v in value.items() if k!='cases'}|dict(cases=[dict(case_id=c['case_id'],candidate_id=c['candidate_id'],
             component_geometry_id=c['component_geometry_id'],parts=c['expected']['part_count'],scope=c['scope']) for c in value['cases']])
-    elif args.command=='install':value=[native.install(n,args.tool_root) for n in (args.tools or ['solidcraft','fieldcraft'])]
-    elif args.command=='run':value=pilot.run(args.output,root=root,tool_root=args.tool_root,include_rc=args.include_rc)
+    elif args.command=='refresh':value=native.refresh_latest(args.tools or native.ACTIVE_TOOLS,args.tool_root)
+    elif args.command=='install':value=[native.install(n,args.tool_root) for n in (args.tools or native.ACTIVE_TOOLS)]
+    elif args.command=='run':value=pilot.run(args.output,root=root,tool_root=args.tool_root)
     else:value=pilot.verify(args.output,root=root)
     if args.command in ('run','verify'):
         value={k:v for k,v in value.items() if k not in ('artifact_sha256','stages')}

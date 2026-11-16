@@ -5,15 +5,18 @@ set -euo pipefail
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
 readonly TOOL_BIN="$TOOL_ROOT/bin"
-readonly NODE_VERSION="22.23.2"
-readonly NODE_ROOT="$TOOL_ROOT/node-v$NODE_VERSION"
-readonly RUST_VERSION="1.92.0"
-readonly UV_VERSION="0.11.20"
-readonly PYTHON_VERSION="3.11.13"
+readonly RUST_CHANNEL="stable"
+readonly PYTHON_VERSION="3.11"
 readonly PLAYWRIGHT_ROOT="$TOOL_ROOT/playwright"
 readonly FLATHUB_URL="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 INSTALL_TEMP=""
+INSTALL_STAGE=""
+NODE_VERSION=""
+UV_VERSION=""
+# Bootstrap resolution uses only Bash, curl and the official release checksum files.
+# shellcheck source=tools/automation/toolchain-release.sh
+source "$ROOT/tools/automation/toolchain-release.sh"
 DISTRO_FAMILY=""
 PACKAGE_MANAGER=""
 
@@ -29,6 +32,9 @@ section() {
 cleanup() {
     if [[ -n "$INSTALL_TEMP" && -d "$INSTALL_TEMP" ]]; then
         rm -rf -- "$INSTALL_TEMP"
+    fi
+    if [[ -n "$INSTALL_STAGE" && -d "$INSTALL_STAGE" ]]; then
+        rm -rf -- "$INSTALL_STAGE"
     fi
 }
 trap cleanup EXIT
@@ -96,15 +102,11 @@ detect_host() {
             ARCH="x86_64"
             NODE_ARCH="x64"
             UV_TARGET="x86_64-unknown-linux-gnu"
-            NODE_SHA="d60acfe00a2932254bb0ad20e01b0d74397a0875595de719654b214f4b03f307"
-            UV_SHA="5de211d9278af365497d387e25316907b3b4a9f25b4476dd6dbf238d6f85cff3"
             ;;
         aarch64|arm64)
             ARCH="aarch64"
             NODE_ARCH="arm64"
             UV_TARGET="aarch64-unknown-linux-gnu"
-            NODE_SHA="fff4078c5def658577f92c88db7db3bc0072924bfb93fe52c1e744a54e94abb8"
-            UV_SHA="c8b5b7f9c804b640da0bb66cddddf0a00ce971f64d8076622d70bd141bc80857"
             ;;
         *)
             fail "supported CPU architectures are x86_64 and aarch64"
@@ -113,8 +115,38 @@ detect_host() {
 }
 
 activate_toolchain() {
-    export PATH="$ROOT/.venv/bin:$TOOL_BIN:$NODE_ROOT/bin:${HOME}/.cargo/bin:$PATH"
+    local node_path="" uv_path="" tool_path
+    tool_path="$ROOT/.venv/bin:$TOOL_BIN:${HOME}/.cargo/bin:$PATH"
+    node_path="$(osr_receipt_binary "$TOOL_ROOT" node)" || true
+    uv_path="$(osr_receipt_binary "$TOOL_ROOT" uv)" || true
+    [[ -z "$node_path" ]] || tool_path="$(dirname "$node_path"):$tool_path"
+    [[ -z "$uv_path" ]] || tool_path="$(dirname "$uv_path"):$tool_path"
+    export PATH="$tool_path"
     export PLAYWRIGHT_BROWSERS_PATH="$PLAYWRIGHT_ROOT"
+}
+
+installed_tool_ready() {
+    local tool="$1" path version arch archive_sha binary_sha
+    path="$(osr_verify_receipt_binary "$TOOL_ROOT" "$tool")" || return 1
+    IFS=$'\t' read -r version arch archive_sha binary_sha < "$TOOL_ROOT/$tool-current.receipt"
+    [[ "$tool" != uv || -x "$(dirname "$path")/uvx" ]] || return 1
+    command_version_is "$path" "$version"
+}
+
+existing_release_ready() {
+    local tool="$1" version="$2" arch="$3" sha="$4" path recorded_version recorded_arch recorded_sha binary_sha
+    path="$(osr_verify_receipt_binary "$TOOL_ROOT" "$tool")" || return 1
+    IFS=$'\t' read -r recorded_version recorded_arch recorded_sha binary_sha < "$TOOL_ROOT/$tool-current.receipt"
+    [[ "$recorded_version" == "$version" && "$recorded_arch" == "$arch" && "$recorded_sha" == "$sha" ]] || return 1
+    command_version_is "$path" "$version"
+}
+
+write_tool_receipt() {
+    local tool="$1" version="$2" arch="$3" archive_sha="$4" binary_sha="$5" temporary
+    temporary="$(mktemp "$TOOL_ROOT/.$tool-receipt.XXXXXXXX")"
+    printf '%s\t%s\t%s\t%s\n' "$version" "$arch" "$archive_sha" "$binary_sha" > "$temporary"
+    chmod 0600 "$temporary"
+    mv -f -- "$temporary" "$TOOL_ROOT/$tool-current.receipt"
 }
 
 status_line() {
@@ -131,7 +163,8 @@ command_version_is() {
     local command_name="$1"
     local expected="$2"
     command -v "$command_name" >/dev/null 2>&1 \
-        && "$command_name" --version 2>/dev/null | head -n 1 | grep -Fq "$expected"
+        && "$command_name" --version 2>/dev/null | head -n 1 | awk -v expected="$expected" \
+            '{ for (i = 1; i <= NF; i++) if ($i == expected) found = 1 } END { exit !found }'
 }
 
 native_ready() {
@@ -152,13 +185,14 @@ python_ready() {
 
 rust_ready() {
     command -v rustup >/dev/null 2>&1 \
-        && rustup toolchain list | grep -q "^$RUST_VERSION"
+        && rustup run "$RUST_CHANNEL" rustc --version >/dev/null 2>&1 \
+        && rustup run "$RUST_CHANNEL" cargo --version >/dev/null 2>&1
 }
 
 node_packages_ready() {
     local stamp="$ROOT/node_modules/.osr-package-lock.sha256"
     [[ -f "$stamp" && -f "$ROOT/package-lock.json" ]] || return 1
-    [[ "$(<"$stamp")" == "$(sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1)" ]]
+    [[ "$(<"$stamp")" == "$(node --version) $(sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1)" ]]
 }
 
 playwright_ready() {
@@ -175,12 +209,12 @@ show_core_status() {
     section "Current installation"
     native_ready && status_line "Linux build libraries" yes \
         || status_line "Linux build libraries" no
-    command_version_is node "v$NODE_VERSION" && status_line "Node.js $NODE_VERSION" yes \
-        || status_line "Node.js $NODE_VERSION" no
-    command_version_is uv "$UV_VERSION" && status_line "uv $UV_VERSION" yes \
-        || status_line "uv $UV_VERSION" no
-    rust_ready && status_line "Rust $RUST_VERSION" yes \
-        || status_line "Rust $RUST_VERSION" no
+    installed_tool_ready node && status_line "Node.js (receipt)" yes \
+        || status_line "Node.js (receipt)" no
+    installed_tool_ready uv && status_line "uv (receipt)" yes \
+        || status_line "uv (receipt)" no
+    rust_ready && status_line "Rust stable ($(rustup run "$RUST_CHANNEL" rustc --version))" yes \
+        || status_line "Rust stable" no
     python_ready && status_line "Python design packages" yes \
         || status_line "Python design packages" no
     node_packages_ready && status_line "JavaScript packages" yes \
@@ -229,44 +263,77 @@ download_checked() {
     local expected_sha="$2"
     local output="$3"
     curl --proto '=https' --tlsv1.2 --fail --location --retry 3 \
+        --max-time 600 --max-filesize 314572800 \
         --output "$output" "$url"
     printf '%s  %s\n' "$expected_sha" "$output" | sha256sum --check --status \
         || fail "checksum mismatch for $url"
 }
 
 install_uv() {
-    command_version_is uv "$UV_VERSION" && return
-    section "Installing uv $UV_VERSION in your home folder"
-    temporary_directory
-    mkdir -p "$TOOL_BIN"
-    local archive="$INSTALL_TEMP/uv.tar.gz"
-    download_checked \
-        "https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-$UV_TARGET.tar.gz" \
-        "$UV_SHA" "$archive"
-    tar -xzf "$archive" -C "$INSTALL_TEMP"
-    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uv" "$TOOL_BIN/uv"
-    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uvx" "$TOOL_BIN/uvx"
+    local version sha url target_root archive binary_sha release
+    release="$(osr_resolve_uv "$UV_TARGET")" || fail "cannot resolve the latest stable uv release"
+    IFS=$'\t' read -r version sha url <<< "$release"
+    [[ -n "$version" && -n "$sha" && -n "$url" ]] || fail "incomplete uv release receipt"
+    UV_VERSION="$version"
+    target_root="$TOOL_ROOT/uv-$version"
+    section "Installing current uv $version in your home folder"
+    mkdir -p "$TOOL_ROOT"
+    if [[ -d "$target_root" ]]; then
+        existing_release_ready uv "$version" "$UV_TARGET" "$sha" \
+            || fail "existing uv directory lacks a matching verified release receipt"
+        command_version_is "$target_root/bin/uvx" "$version" || fail "existing uvx differs"
+    else
+        temporary_directory
+        archive="$INSTALL_TEMP/uv-$version.tar.gz"
+        download_checked "$url" "$sha" "$archive"
+        INSTALL_STAGE="$(mktemp -d "$TOOL_ROOT/.uv-stage.XXXXXXXX")"
+        tar -xzf "$archive" -C "$INSTALL_STAGE" --no-same-owner \
+            "uv-$UV_TARGET/uv" "uv-$UV_TARGET/uvx"
+        mkdir -p "$INSTALL_STAGE/bin"
+        install -m 0755 "$INSTALL_STAGE/uv-$UV_TARGET/uv" "$INSTALL_STAGE/bin/uv"
+        install -m 0755 "$INSTALL_STAGE/uv-$UV_TARGET/uvx" "$INSTALL_STAGE/bin/uvx"
+        rm -rf -- "$INSTALL_STAGE/uv-$UV_TARGET"
+        command_version_is "$INSTALL_STAGE/bin/uv" "$version" || fail "uv archive version differs"
+        mv -- "$INSTALL_STAGE" "$target_root"
+        INSTALL_STAGE=""
+    fi
+    binary_sha="$(sha256sum "$target_root/bin/uv" | cut -d' ' -f1)"
+    write_tool_receipt uv "$version" "$UV_TARGET" "$sha" "$binary_sha"
+    activate_toolchain
 }
 
 install_node() {
-    command_version_is node "v$NODE_VERSION" && return
-    section "Installing Node.js $NODE_VERSION in your home folder"
-    temporary_directory
-    local archive_name="node-v$NODE_VERSION-linux-$NODE_ARCH.tar.xz"
-    local archive="$INSTALL_TEMP/$archive_name"
-    download_checked "https://nodejs.org/dist/v$NODE_VERSION/$archive_name" \
-        "$NODE_SHA" "$archive"
-    tar -xJf "$archive" -C "$INSTALL_TEMP"
+    local version sha url archive_name target_root archive binary_sha release
+    release="$(osr_resolve_node "$NODE_ARCH")" || fail "cannot resolve the latest Node.js LTS release"
+    IFS=$'\t' read -r version sha url <<< "$release"
+    [[ -n "$version" && -n "$sha" && -n "$url" ]] || fail "incomplete Node.js release receipt"
+    NODE_VERSION="$version"
+    target_root="$TOOL_ROOT/node-$version"
+    section "Installing current Node.js LTS $version in your home folder"
     mkdir -p "$TOOL_ROOT"
-    if [[ -e "$NODE_ROOT" ]]; then
-        fail "$NODE_ROOT exists but is not the required Node.js release"
+    if [[ -d "$target_root" ]]; then
+        existing_release_ready node "$version" "$NODE_ARCH" "$sha" \
+            || fail "existing Node.js directory lacks a matching verified release receipt"
+    else
+        temporary_directory
+        archive_name="node-$version-linux-$NODE_ARCH.tar.xz"
+        archive="$INSTALL_TEMP/$archive_name"
+        download_checked "$url" "$sha" "$archive"
+        INSTALL_STAGE="$(mktemp -d "$TOOL_ROOT/.node-stage.XXXXXXXX")"
+        tar -xJf "$archive" -C "$INSTALL_STAGE" --no-same-owner
+        command_version_is "$INSTALL_STAGE/node-$version-linux-$NODE_ARCH/bin/node" "$version" \
+            || fail "Node.js archive version differs"
+        mv -- "$INSTALL_STAGE/node-$version-linux-$NODE_ARCH" "$target_root"
+        rm -rf -- "$INSTALL_STAGE"
+        INSTALL_STAGE=""
     fi
-    cp -a "$INSTALL_TEMP/node-v$NODE_VERSION-linux-$NODE_ARCH" "$NODE_ROOT"
+    binary_sha="$(sha256sum "$target_root/bin/node" | cut -d' ' -f1)"
+    write_tool_receipt node "$version" "$NODE_ARCH" "$sha" "$binary_sha"
+    activate_toolchain
 }
 
 install_rust() {
-    rust_ready && return
-    section "Installing Rust $RUST_VERSION in your home folder"
+    section "Refreshing Rust stable in your home folder"
     if ! command -v rustup >/dev/null 2>&1; then
         temporary_directory
         curl --proto '=https' --tlsv1.2 --fail --location --retry 3 \
@@ -274,14 +341,14 @@ install_rust() {
         sh "$INSTALL_TEMP/rustup-init.sh" --default-toolchain none -y
         export PATH="${HOME}/.cargo/bin:$PATH"
     fi
-    rustup toolchain install "$RUST_VERSION" --profile minimal \
-        --component clippy --component rustfmt
+    rustup update "$RUST_CHANNEL" --no-self-update
+    rustup component add --toolchain "$RUST_CHANNEL" clippy rustfmt
 }
 
 install_python() {
     python_ready && return
     section "Installing Python design packages"
-    uv python install "$PYTHON_VERSION"
+    uv python install --upgrade "$PYTHON_VERSION"
     if [[ ! -x "$ROOT/.venv/bin/python" ]]; then
         uv venv --python "$PYTHON_VERSION" --seed "$ROOT/.venv"
     elif ! "$ROOT/.venv/bin/python" -c \
@@ -296,7 +363,7 @@ install_node_packages() {
     node_packages_ready && return
     section "Installing JavaScript packages"
     (cd "$ROOT" && npm ci)
-    sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1 \
+    printf '%s %s\n' "$(node --version)" "$(sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1)" \
         > "$ROOT/node_modules/.osr-package-lock.sha256"
 }
 
@@ -312,7 +379,7 @@ install_playwright() {
 
 build_platform() {
     section "Building wheel/station control method kernels"
-    (cd "$ROOT" && cargo build --locked --release -p osr-atp --example wheel_station_contract)
+    (cd "$ROOT" && cargo build --locked --release --jobs "${OSR_CARGO_JOBS:-2}" -p osr-atp --example wheel_station_contract)
     (cd "$ROOT" && ./osr verify)
 }
 
@@ -333,8 +400,8 @@ install_engineering() {
 verify_core() {
     activate_toolchain
     native_ready || fail "Linux build libraries are incomplete"
-    command_version_is node "v$NODE_VERSION" || fail "Node.js installation failed"
-    command_version_is uv "$UV_VERSION" || fail "uv installation failed"
+    installed_tool_ready node || fail "Node.js installation receipt failed"
+    installed_tool_ready uv || fail "uv installation receipt failed"
     rust_ready || fail "Rust installation failed"
     python_ready || fail "Python package installation failed"
     node_packages_ready || fail "JavaScript package installation failed"
@@ -343,9 +410,32 @@ verify_core() {
 }
 
 main() {
-    (( $# == 0 )) || fail "run ./install.sh without options"
+    local toolchains_only=false tool
+    if [[ "${1:-}" == --help || "${1:-}" == -h ]]; then
+        printf 'Usage: ./install.sh [--toolchains-only]\n  --toolchains-only  Refresh Node LTS, uv stable and Rust stable; skip project rebuilds.\n'
+        return
+    fi
+    if [[ $# -eq 1 && "$1" == --toolchains-only ]]; then
+        toolchains_only=true
+    elif (( $# != 0 )); then
+        fail "usage: ./install.sh [--toolchains-only]"
+    fi
     detect_host
     activate_toolchain
+
+    if [[ "$toolchains_only" == true ]]; then
+        for tool in curl tar xz sha256sum; do
+            command -v "$tool" >/dev/null 2>&1 || fail "$tool is needed for toolchain refresh"
+        done
+        install_uv
+        install_node
+        install_rust
+        activate_toolchain
+        installed_tool_ready uv && installed_tool_ready node && rust_ready \
+            || fail "toolchain refresh verification failed"
+        printf 'Current Node LTS, uv stable and Rust stable are ready.\n'
+        return
+    fi
 
     printf 'OpenSourceRail setup\n'
     printf '  Linux family: %s\n' "$DISTRO_FAMILY"
@@ -386,4 +476,6 @@ main() {
     printf 'Refresh implemented primary design studies with: ./osr build\n'
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    main "$@"
+fi

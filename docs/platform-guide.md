@@ -21,11 +21,11 @@ The wider project encompasses city planning, CAD/BIM, manufacturing, business ex
 
 **Propulsion research:** The [station regenerative capture and mechanical-launch plan](design-engine/station-regenerative-launch/README.md) compares sprung contacts, hydraulic or flywheel storage, controlled forward release, wayside rollers and compact acceleration. Its executable Rust screen compares recovery energy, storage, grade and booster demands at variable speeds. This is an **outline-stage research family**. Speed, powered length, acceleration, headway and whole-life cost must follow passenger requirements; no installed propulsion system is selected.
 
-**Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](../OpenSourceRail-Book.pdf) · [project overview](open-source-rail-overview.md) · [current platform capabilities](capabilities/README.md) · [current engineering](design-engine/current/README.md) · [sourcing and cost evidence](design-engine/sourcing/README.md) · [city designs and maps](../cities/catalogue/README.md) · [roadmap](ROADMAP.md).
+**Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](../OpenSourceRail-Book.pdf) · [project overview](open-source-rail-overview.md) · [current platform capabilities](capabilities/README.md) · [open engineering findings](design-engine/v06-design-closure/README.md) · [sourcing and cost evidence](design-engine/sourcing/README.md) · [city designs and maps](../cities/catalogue/README.md) · [roadmap](ROADMAP.md).
 
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](images/v06/v06-hero-elevated-station.webp)
 
-*Architectural concept: a lightweight wheel-supported train, roof solar, conventional rails, repeatable precast beams and an accessible elevated station. [Inspect the source-bound vehicle geometry](design-engine/current/vehicle-overview.svg) and [download the engineering models](engineering-models/README.md). The illustration communicates the design intent; geometry, installed equipment and physical qualification follow the candidate records.*
+*Architectural concept: a lightweight wheel-supported train, roof solar, conventional rails, repeatable precast beams and an accessible elevated station. [Inspect the engineering models](engineering-models/README.md). The illustration communicates the design intent; geometry, installed equipment and physical qualification follow the candidate records.*
 
 ## Why OpenSourceRail
 
@@ -224,8 +224,9 @@ The [30 km / 12 station cost benchmark](design-engine/line30-benchmark/README.md
 
 The [project-volume supply comparison](design-engine/supply-economics/README.md) reprices those same 30 km, 12 stations and 52 trains using Chinese wholesale/manufacturer observations, landed costs and calculated manufacturing alternatives. Its current **Class C central installed estimate is US$548.1m, or US$18.27m per route-km**. Fixed factories, shared premises, freight, QA, duties and future replacement setup are included once. Lower purchasing prices do not change physical acceptance or establish a globally best transport architecture.
 
-The [current dossier](design-engine/current/README.md) records the selected
-candidate and its evidence. The [coordinated railway campaign](design-engine/coupled-railway/README.md)
+The integrated v0.6 dossier is held at a source-binding mismatch and may be
+unavailable locally. The [design-closure ledger](design-engine/v06-design-closure/README.md)
+records open engineering findings. The [coordinated railway campaign](design-engine/coupled-railway/README.md)
 passes one candidate identity through geometry, mass, analysis, delivery and
 costing. A research scenario may use explicit assumptions to complete a
 calculation; physical validation and release remain separate gates.
@@ -289,7 +290,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | I want to… | Start here |
 |---|---|
 | Understand the whole project | [Overview](open-source-rail-overview.md), [architecture](ARCHITECTURE.md), [first adoption path](first-adoptable-product.md) |
-| Review the selected train and open engineering | [Current dossier](design-engine/current/README.md), [implementation](../engineering/station_rail/README.md), [roadmap](ROADMAP.md) |
+| Review the selected train and open engineering | [v0.6 design-closure ledger](design-engine/v06-design-closure/README.md), [implementation](../engineering/station_rail/README.md), [roadmap](ROADMAP.md) |
 | Generate and compare new designs | [Coupled experiment](design-engine/coupled-railway/README.md), [design engine](../engineering/design_search/README.md) |
 | Inspect city geography or planning proposals | [Current city register](design-engine/current/cities.json), [city catalogue](../cities/catalogue/README.md), [planning UI](workbench/planning/index.html) |
 | Review CAD, BIM, BOM and manufacturing | [Reference exports](design-engine/current/exports/manifest.json), [candidate delivery packages](design-engine/coupled-railway/delivery-index.json) |

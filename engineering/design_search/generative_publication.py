@@ -1,10 +1,11 @@
 """Publish the executed structural grammar without granting body acceptance."""
 from pathlib import Path
 from hashlib import sha256
-import gzip,io,json,tarfile,shutil
+import gzip,json,tarfile,shutil
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from . import generative_campaign as engine,design_grammar as grammar,grammar_structure,material_database,grammar_coupling,remit
+from .native_archive_stream import write_archive
 
 PRODUCER='engineering/design_search/generative_publication.py'
 OUTPUT='docs/design-engine/generative-structure'
@@ -12,7 +13,8 @@ FLAGS=grammar.FLAGS
 
 
 def source_map(value,root=ROOT):
-    result={**value['source_sha256'],**material_database.source_map(),PRODUCER:digest(Path(root)/PRODUCER)}
+    result={**value['source_sha256'],**material_database.source_map(),PRODUCER:digest(Path(root)/PRODUCER),
+            'engineering/design_search/native_archive_stream.py':digest(Path(root)/'engineering/design_search/native_archive_stream.py')}
     for c in value['candidates']:result.update(c['sources'])
     for e in value['evaluations']:result.update(e['DFMA']['source_sha256'])
     for name in ('requirement_policy','architecture_demand'):
@@ -39,22 +41,11 @@ def read_campaign(root=ROOT):
     return folder,value
 
 
-def archive(folder):
-    """Retain inputs/results/logs and index large locally retained field/CAD data."""
-    buf=io.BytesIO();kept={};omitted={}
-    with tarfile.open(fileobj=buf,mode='w') as tar:
-        for p in sorted(Path(folder).rglob('*')):
-            if p.is_symlink():raise ValueError('Ordinary native evidence files required')
-            if not p.is_file():continue
-            if '__pycache__' in p.parts:continue
-            name=p.relative_to(folder).as_posix();h=digest(p)
-            if p.suffix.lower() in ('.dat','.frd','.12d','.step','.fcstd','.fcstd1'):
-                omitted[name]=h;continue
-            raw=p.read_bytes();kept[name]=h;t=tarfile.TarInfo(name);t.size=len(raw);t.mtime=0;t.mode=0o644;tar.addfile(t,io.BytesIO(raw))
-        raw=encoded(dict(retained_sha256=kept,omitted_sha256=omitted,
-            storage='Large fields and native CAD remain in local immutable runs, or reproduce with exact sources and indexed inputs; no remote artifact storage is claimed'))
-        t=tarfile.TarInfo('archive-index.json');t.size=len(raw);t.mtime=0;t.mode=0o644;tar.addfile(t,io.BytesIO(raw))
-    return gzip.compress(buf.getvalue(),mtime=0)
+def archive(folder,target):
+    """Stream inputs/results/logs; index large locally retained field/CAD data."""
+    write_archive(folder,target,
+        omit=lambda p:p.suffix.lower() in ('.dat','.frd','.12d','.step','.fcstd','.fcstd1'),
+        storage='Large fields and native CAD remain in local immutable runs, or reproduce with exact sources and indexed inputs; no remote artifact storage is claimed')
 
 
 def carry_failed_method_epoch(previous, output, *, root=ROOT, native_index=None, epochs=None):
@@ -238,7 +229,7 @@ def build(root=ROOT,output=None):
             original=root/'build/generative-design/source-epochs'/h
             if digest(original)!=h:raise ValueError('Retained original producer unavailable')
             target='historical-sources/'+h;(out/'historical-sources').mkdir(exist_ok=True);(out/target).write_bytes(original.read_bytes());epochs[h]=dict(repository_path=path,artifact=target)
-        target='native/'+str(i)+'.tar.gz';(out/target).write_bytes(archive(p));native.append(dict(name=name,kind=kind,archive=target,raw_manifest=manifest,raw_result=result))
+        target='native/'+str(i)+'.tar.gz';archive(p,out/target);native.append(dict(name=name,kind=kind,archive=target,raw_manifest=manifest,raw_result=result))
     if reuse_failed_epoch:
         if previous_path is None:
             previous_path=find_retained_method_publication(root)

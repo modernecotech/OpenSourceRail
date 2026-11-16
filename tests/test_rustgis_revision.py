@@ -36,7 +36,7 @@ def project(layers):
                 attrs=[native_value(f['properties'].get(k)) for k in keys]) for i,f in enumerate(features)])
         if all(f['geometry'] is None for f in features):tables.append(dataset)
         else:values.append(dict(name=name,dataset=dataset))
-    return dict(format=1,maps=[dict(name='Map',projection='WebMercator',layers=values)],tables=tables,tasks=[])
+    return dict(format=2,maps=[dict(name='Map',projection='WebMercator',layers=values)],tables=tables,tasks=[])
 
 
 @pytest.fixture
@@ -68,6 +68,17 @@ def dataset(p,name):
 def set_value(p,name,row,key,value):
     d=dataset(p,name);index=next(i for i,f in enumerate(d['fields']) if f['name']==key)
     d['features'][row]['attrs'][index]=native_value(value)
+
+
+def test_current_format_two_and_retained_format_one_decode_explicitly(scene):
+    current=deepcopy(scene[0])
+    assert current['format']==2
+    expected=revision.decode(encoded(current),data_crs='EPSG:4326')
+    current['format']=1
+    assert revision.decode(encoded(current),data_crs='EPSG:4326')==expected
+    current['format']=3
+    with pytest.raises(ValueError,match='format'):
+        revision.decode(encoded(current),data_crs='EPSG:4326')
 
 
 def build(scene,p=None,**kwargs):

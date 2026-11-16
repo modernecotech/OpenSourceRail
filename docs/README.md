@@ -9,9 +9,11 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 Start with the [project README](../README.md), [current platform book](BOOK.md),
 [published v0.6.1 scope](releases/v0.6.1/README.md),
 [v0.7 execution record](design-engine/v07-execution/README.md) and
-[roadmap](ROADMAP.md). The [integrated v0.6 reference dossier](design-engine/current/README.md)
-is retained with a source-binding hold; it is not the current supported
-release result.
+[roadmap](ROADMAP.md). The integrated v0.6 reference packet has a source-binding
+hold and is not a supported release result; its local dossier may be unavailable.
+Use the [v0.6 design-closure ledger](design-engine/v06-design-closure/README.md)
+for the open engineering findings and the [v0.7 runtime review](plans/v0.7-runtime-toolchain-review.md)
+for performance and toolchain decisions.
 
 The [planning guide](workbench/planning/README.md) explains proposal editing
 and the candidate-bound v0.6 handoff; open the [planning workspace](workbench/planning/index.html)

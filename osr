@@ -2,9 +2,8 @@
 # Stable launcher for the explicitly selected development design.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-NODE_VERSION="22.23.2"
 TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
-export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:$TOOL_ROOT/node-v$NODE_VERSION/bin:${HOME}/.cargo/bin:$PATH"
+export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:${HOME}/.cargo/bin:$PATH"
 export PLAYWRIGHT_BROWSERS_PATH="$TOOL_ROOT/playwright"
 cd "$ROOT"
 if [[ "${1:-}" == -h || "${1:-}" == --help || "${1:-}" == help ]]; then
@@ -15,6 +14,8 @@ Usage: ./osr [COMMAND] [arguments]
   status/readiness  Show current candidate identities, evidence and open gates
   build [--force]   Regenerate reference engineering; preserve city evaluation holds
   design ...        Current status/build/verify; campaign create/run/compare/publish
+  design railway columnar ...  Bounded Rust Arrow/Parquet index, verify and query
+  design railway case-v2-preview [verify] STATE OUTPUT  Typed Arrow case-core research preview
   design space ...  Build/verify material, structure, joint and motor research options
   design architecture ... Run/publish/verify whole-railway research families
   design adaptive ...     Plan/run continuing function-first design revisions
@@ -33,7 +34,7 @@ Usage: ./osr [COMMAND] [arguments]
   verify/check      Verify the current source-bound publication
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   city [slug]       Inspect retained city geography and its evaluation hold
-  gis ...           Export selected cities to native RustGIS projects; install/audit the pinned backend
+  gis ...           Export selected cities to native RustGIS projects; install/audit the recorded backend
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
   perf storage      Read-only disk and Git worktree inventory
   perf cleanup      Dry-run/apply stale Python bytecode cleanup
@@ -53,6 +54,22 @@ open. Source-bound outputs remain tied to their declared candidate and inputs.
 EOF
     exit 0
 fi
+# Source a locally verified exact release receipt; normal commands never resolve releases online.
+# shellcheck source=tools/automation/toolchain-release.sh
+source "$ROOT/tools/automation/toolchain-release.sh"
+NODE_BINARY="$(osr_receipt_binary "$TOOL_ROOT" node)" || NODE_BINARY=""
+if [[ -n "$NODE_BINARY" ]]; then
+    export PATH="$(dirname "$NODE_BINARY"):$PATH"
+    export OSR_NODE_BINARY="$NODE_BINARY"
+fi
+case "${1:-}" in
+    build|cycle|test|workbench|book)
+        if [[ -z "$NODE_BINARY" ]] || ! osr_verify_receipt_binary "$TOOL_ROOT" node >/dev/null; then
+            printf 'Node.js release receipt or installed binary is missing or invalid; run ./install.sh to resolve the current LTS.\n' >&2
+            exit 3
+        fi
+        ;;
+esac
 if [[ "${1:-}" == release && "${2:-}" == software && "${3:-}" == readiness ]]; then
     shift 3
     exec tools/automation/osr-python -m engineering.v06_software_release readiness "$@"
@@ -64,6 +81,50 @@ fi
 if [[ "${1:-}" == design && "${2:-}" == recovery-economics ]]; then
     shift 2
     exec tools/automation/osr-python -m engineering.recovery_search "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == columnar ]]; then
+    shift 3
+    if [[ -L "$ROOT/target" ]]; then
+        printf 'Columnar build target must be an ordinary repository directory.\n' >&2
+        exit 3
+    fi
+    if [[ "${1:-}" == index ]]; then
+        if [[ $# -ne 3 ]]; then
+            printf 'Usage: ./osr design railway columnar index STATE OUTPUT\n' >&2
+            exit 2
+        fi
+        output_ancestor="$(realpath -m -- "$3")"
+        while [[ ! -e "$output_ancestor" ]]; do output_ancestor="$(dirname -- "$output_ancestor")"; done
+        if [[ "$(stat -c %d -- "$output_ancestor")" != "$(stat -c %d -- "$ROOT")" ]]; then
+            printf 'Columnar index output must share the repository filesystem for its disk reservation.\n' >&2
+            exit 3
+        fi
+    fi
+    exec tools/automation/osr-python -m engineering.performance reserve-run \
+        --target "$ROOT/target" --reservation-action columnar-campaign \
+        --projected-bytes 3221225472 --receipt-to-stderr -- env CARGO_TARGET_DIR="$ROOT/target" \
+        CARGO_BUILD_JOBS="${OSR_CARGO_JOBS:-2}" cargo run --quiet --locked \
+        -p osr-design-search --features columnar --bin osr-campaign-columnar -- "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == case-v2-preview ]]; then
+    shift 3
+    if [[ -L "$ROOT/target" || ( "${1:-}" == verify && $# -ne 3 ) || ( "${1:-}" != verify && $# -ne 2 ) ]]; then
+        printf 'Usage: ./osr design railway case-v2-preview [verify] STATE OUTPUT (ordinary build target)\n' >&2
+        exit 2
+    fi
+    if [[ "${1:-}" != verify ]]; then
+        output_ancestor="$(realpath -m -- "$2")"
+        while [[ ! -e "$output_ancestor" ]]; do output_ancestor="$(dirname -- "$output_ancestor")"; done
+        if [[ "$(stat -c %d -- "$output_ancestor")" != "$(stat -c %d -- "$ROOT")" ]]; then
+            printf 'Case v2 preview output must share the repository filesystem for its disk reservation.\n' >&2
+            exit 3
+        fi
+    fi
+    exec tools/automation/osr-python -m engineering.performance reserve-run \
+        --target "$ROOT/target" --reservation-action case-v2-preview \
+        --projected-bytes 3221225472 --receipt-to-stderr -- env CARGO_TARGET_DIR="$ROOT/target" \
+        CARGO_BUILD_JOBS="${OSR_CARGO_JOBS:-2}" cargo run --quiet --locked \
+        -p osr-design-search --features columnar --bin osr-campaign-case-v2-preview -- "$@"
 fi
 if [[ "${1:-}" == design && "${2:-}" == pilot-delivery ]]; then
     shift 2

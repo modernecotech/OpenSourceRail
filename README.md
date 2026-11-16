@@ -10,7 +10,7 @@ The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md
 
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
-*Concept. The retained [v0.6 vehicle stock view](docs/design-engine/current/vehicle-overview.svg) and [engineering models](docs/engineering-models/README.md) show partial geometry and its limits. The integrated current dossier has a source-binding hold and is excluded from supported v0.6.1 results.*
+*Concept. The [engineering models](docs/engineering-models/README.md) show partial geometry and its limits. The integrated v0.6 dossier has a source-binding hold and is excluded from supported v0.6.1 results.*
 
 ## What the project provides
 
@@ -73,7 +73,7 @@ Worked costs: [demand-led project](docs/design-engine/demand-outline/README.md),
 
 The [reference selector](engineering/development-baseline.toml) excludes onboard traction motors, traction batteries and permanent magnets. Choose architecture, powered length, acceleration, braking and service per candidate against demand, physical constraints and whole-life cost. Neither 900 m nor 100 m is mandatory.
 
-The [current dossier](docs/design-engine/current/README.md) records open mass, force, thermal, stopping, structural and installation evidence. The LIM interface supports comparison with [mechanical launch and energy recovery](docs/design-engine/station-regenerative-launch/README.md) and [other launch alternatives](docs/design-engine/practical-launch/README.md).
+The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) records open mass, force, thermal, stopping, structural and installation evidence. The source-bound integrated dossier is currently held; use the ledger and [v0.7 execution record](docs/design-engine/v07-execution/README.md) for available evidence. The LIM interface supports comparison with [mechanical launch and energy recovery](docs/design-engine/station-regenerative-launch/README.md) and [other launch alternatives](docs/design-engine/practical-launch/README.md).
 
 Research may challenge the reference under the [architecture campaign](campaigns/whole-railway-architecture-search.toml) and [transport-goal policy](engineering/outline/transport-goal.toml), with separate identities and complete system consequences. The former **120-person/car / 14,400 passengers/hour/direction** comparison and **160-person/car crowd structural control** remain named alternatives; seated service does not remove crowd, evacuation or accidental-load checks.
 
@@ -191,20 +191,30 @@ See [setup](tools/README.md) for dependencies. Create and check a planning/facto
 ./osr twin export
 ```
 
-`edits.json` is your proposal. Factory drafts require verified handoffs and remain unreleased. For bounded engineering and publication checks:
+`edits.json` is your proposal. Factory drafts require verified handoffs and remain unreleased. Inspect the development state before allocating a campaign budget:
 
 ```bash
+./osr status
+./osr readiness
+./osr perf storage
 ./osr design railway plan
-./osr design railway run --max-bundles 2 --native-jobs 1
-./osr design railway publish
-./osr design railway verify
-./osr build
-./osr verify
-./osr book --check
-./osr test
 ```
 
-Native workers need declared FEM/CAD tools and resources; runs retain failures and pending work. `./osr build` attempts to refresh the source-bound development packet, which is currently held by a source-binding mismatch. `./osr book` builds the comprehensive documentation ebook independently of that held packet. The UI has no live train-control authority.
+For an admitted, bounded candidate run with the declared native tools and resources:
+
+```bash
+./osr design railway run --max-bundles 2 --native-jobs 1
+```
+
+Repeat bounded runs as needed. Once the exact campaign is complete and
+source-matched, publish and verify its comparison:
+
+```bash
+./osr design railway publish
+./osr design railway verify
+```
+
+The run retains failures and pending work; publication requires its own complete, source-matched inputs. `./osr build` and `./osr verify` address the separate integrated reference packet, currently held by a source-binding mismatch. `./osr book --check` and `./osr test` have their own documented scopes. See the [runtime and toolchain review](docs/plans/v0.7-runtime-toolchain-review.md) before large runs. The UI has no live train-control authority.
 
 ## About the author
 

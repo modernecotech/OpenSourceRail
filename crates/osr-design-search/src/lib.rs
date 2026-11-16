@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
 pub mod canonical;
+#[cfg(feature = "columnar")]
+pub mod columnar;
 #[cfg(feature = "python-extension")]
 mod python_canonical;
 pub mod scheduling;

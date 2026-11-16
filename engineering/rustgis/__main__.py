@@ -14,7 +14,7 @@ from . import adapter
 
 def main(argv=None, root=ROOT):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('install', 'export', 'open', 'verify', 'audit','export-study','import','reprice','verify-revision'))
+    parser.add_argument('action', choices=('refresh', 'install', 'export', 'open', 'verify', 'audit','export-study','import','reprice','verify-revision'))
     parser.add_argument('--city', help='Published city slug, for example baghdad')
     parser.add_argument('--all', action='store_true', help='Export every registered city')
     parser.add_argument('--output', type=Path, help='Cache root, or exact cache directory for verify')
@@ -35,7 +35,10 @@ def main(argv=None, root=ROOT):
             parser.error('--refreshed-output is only valid with reprice')
         if args.refreshed_output.exists():
             parser.error('--refreshed-output must name a fresh directory')
-    if args.action == 'install':
+    if args.action == 'refresh':
+        from .install import refresh_latest
+        result = refresh_latest()
+    elif args.action == 'install':
         from .install import install
         result = install()
     elif args.action=='verify-revision':

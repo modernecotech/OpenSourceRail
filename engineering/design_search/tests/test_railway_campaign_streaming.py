@@ -39,15 +39,34 @@ def sample():
 
 def test_canonical_hashes_equal_original_including_tuple_omissions():
     value = sample()
-    assert campaign.semantic_id(value) == campaign.semantic_id(value,streaming=True) == legacy_semantic(value)
+    assert campaign.semantic_id(value) == legacy_semantic(value)
     run_input = {k: v for k, v in value.items() if k != 'run_id'}
     assert campaign._aggregate_identity(run_input) == identity(run_input) == value['run_id']
 
 
-def test_original_json_domain_falls_back_for_nonstring_keys():
+def test_case_write_streams_exact_bytes_and_keeps_prior_on_failure(tmp_path, monkeypatch):
+    path = tmp_path/'case.json'
+    value = {'candidate_id': 'one', 'trace': list(range(5000)), 'unknown': None}
+    campaign._write(path, value)
+    assert path.read_bytes() == encoded(value)
+    previous = path.read_bytes()
+    def interrupted(value, output):
+        output.write(b'incomplete')
+        raise OSError(errno.ENOSPC, 'full')
+    monkeypatch.setattr(campaign.canonical_stream, 'write_canonical', interrupted)
+    with pytest.raises(OSError) as exc:
+        campaign._write(path, {'candidate_id': 'two'})
+    assert exc.value.errno == errno.ENOSPC
+    assert path.read_bytes() == previous
+    assert len(list(tmp_path.glob('.case.json.*.pending'))) == 1
+
+
+def test_nonstring_keys_fail_closed_in_campaign_identity():
     value = {'nested': {1: 'one', 2: ['two', {'reused': True}]}}
-    assert campaign.semantic_id(value) == campaign.semantic_id(value,streaming=True) == legacy_semantic(value)
-    assert campaign._aggregate_identity(value) == identity(value)
+    with pytest.raises(TypeError,match='built-in string object keys'):
+        campaign.semantic_id(value)
+    with pytest.raises(TypeError,match='built-in string object keys'):
+        campaign._aggregate_identity(value)
 
 
 def test_aggregate_pair_exact_bytes_and_no_hardlinks(tmp_path):
@@ -189,7 +208,10 @@ def test_old_source_case_cannot_be_reused_even_at_explicit_state():
 
 
 def test_state_marker_rejects_foreign_contract_before_native_work(tmp_path,monkeypatch):
-    spec={'schema':'fixture','maximum_native_jobs':12};epoch={'producer':'a'*64}
+    from contextlib import nullcontext
+    import engineering.performance as performance
+    monkeypatch.setattr(performance,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
+    spec={'schema':'fixture','maximum_native_jobs':12,'maximum_bundle_cases':0};epoch={'producer':'a'*64}
     monkeypatch.setattr(campaign,'specification',lambda root:spec)
     monkeypatch.setattr(campaign,'source_epoch',lambda root:epoch)
     monkeypatch.setattr(campaign,'generate_bodies',lambda:pytest.fail('must reject before body/native work'))
@@ -261,7 +283,10 @@ def test_state_and_ancestor_symlinks_are_rejected_before_creation(tmp_path):
 
 
 def test_symlink_lock_rejected_before_open(tmp_path,monkeypatch):
-    spec={'schema':'fixture','maximum_native_jobs':12};epoch={'producer':'a'*64}
+    from contextlib import nullcontext
+    import engineering.performance as performance
+    monkeypatch.setattr(performance,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
+    spec={'schema':'fixture','maximum_native_jobs':12,'maximum_bundle_cases':0};epoch={'producer':'a'*64}
     monkeypatch.setattr(campaign,'specification',lambda root:spec)
     monkeypatch.setattr(campaign,'source_epoch',lambda root:epoch)
     external=tmp_path/'external';external.write_bytes(b'preserve');(tmp_path/'lock').symlink_to(external)
@@ -270,11 +295,14 @@ def test_symlink_lock_rejected_before_open(tmp_path,monkeypatch):
     assert external.read_bytes()==b'preserve'
 
 
-def test_unsupported_stream_values_fall_back_for_writes(tmp_path):
+def test_unsupported_aggregate_values_fail_closed_without_replacing_result(tmp_path):
     value={'nested':{1:'one',2:'two'},'integrated_selection':None}
     value['campaign_id']=legacy_semantic(value);value['run_id']=identity(value)
-    campaign._write_aggregate(tmp_path,value)
-    assert (tmp_path/'result.json').read_bytes()==encoded(value)
+    result=tmp_path/'result.json';result.write_bytes(b'prior')
+    with pytest.raises(TypeError,match='built-in string object keys'):
+        campaign._write_aggregate(tmp_path,value)
+    assert result.read_bytes()==b'prior'
+    assert not (tmp_path/'invocations'/(value['run_id']+'.json')).exists()
 
 
 def test_nonfinite_failure_preserves_existing_result(tmp_path):
@@ -284,17 +312,54 @@ def test_nonfinite_failure_preserves_existing_result(tmp_path):
     assert result.read_bytes()==b'prior'
 
 
-def test_one_bundle_default_and_opt_in_campaign_outputs_match(tmp_path,monkeypatch):
-    """Run one bounded real analytical bundle per fresh private state, no native."""
+def test_compact_motion_preserves_legacy_bytes_without_mutating_input():
+    value={'trace_index':{'old':'value'},'nested':[{'trace':[{'time':-0.0,'name':'🚆'},
+           {'time':1.0,'unknown':None}], 'keep':{'measure':[1,2]}}],
+           'trace':[{'step':1},{'step':2}], 'other':[1,{'trace':'not a list'}]}
+    original=deepcopy(value)
+    expected=deepcopy(value)
+    def old_visit(node):
+        if isinstance(node,dict):
+            for key in list(node):
+                if key=='trace' and isinstance(node[key],list):
+                    rows=node.pop(key)
+                    node['trace_index']={'rows':len(rows),'sha256':identity(rows)}
+                else:old_visit(node[key])
+        elif isinstance(node,list):
+            for item in node:old_visit(item)
+    old_visit(expected)
+    actual=campaign._compact_motion(value)
+    assert encoded(actual)==encoded(expected)
+    assert value==original
+    actual['nested'][0]['keep']['measure'].append(3)
+    assert value==original
+
+
+def test_one_bundle_active_stream_preserves_legacy_ids(tmp_path,monkeypatch):
+    """Run one bounded real analytical bundle in a private state, no native."""
+    from contextlib import nullcontext
+    import engineering.performance as performance
+    monkeypatch.setattr(performance,'disk_reservation',lambda *args,**kwargs:nullcontext(None))
     body=grammar.build(grammar.parameters());spec=campaign.specification();spec['families']=['P1']
     monkeypatch.setattr(campaign,'specification',lambda root=ROOT:deepcopy(spec))
     monkeypatch.setattr(campaign,'generate_bodies',lambda:([body],[]))
     context=dict(method_status='not-run',body_admission={},body_results=[],pending=[])
     monkeypatch.setattr(campaign,'_native_campaign',lambda *args,**kwargs:deepcopy(context))
-    default=campaign.run(state=tmp_path/'default',maximum_new_bundles=1,native_jobs=0)
-    streamed=campaign.run(state=tmp_path/'stream',maximum_new_bundles=1,native_jobs=0,stream_aggregate=True)
-    assert default==streamed
-    assert default['new_bundles']==1 and default['integrated_selection'] is None
-    assert all(default[name] is False for name in campaign.FLAGS)
-    assert (tmp_path/'default/result.json').read_bytes()==(tmp_path/'stream/result.json').read_bytes()
-    assert (tmp_path/'stream/invocations'/(streamed['run_id']+'.json')).read_bytes()==encoded(default)
+    result=campaign.run(state=tmp_path/'active',maximum_new_bundles=1,native_jobs=0)
+    assert result['campaign_id']==legacy_semantic(result)
+    assert result['run_id']==identity({k:v for k,v in result.items() if k!='run_id'})
+    assert result['new_bundles']==1 and result['integrated_selection'] is None
+    assert all(result[name] is False for name in campaign.FLAGS)
+    assert (tmp_path/'active/result.json').read_bytes()==encoded(result)
+    assert (tmp_path/'active/invocations'/(result['run_id']+'.json')).read_bytes()==encoded(result)
+
+
+def test_campaign_reserves_disk_before_creating_contract(tmp_path,monkeypatch):
+    from engineering.performance import DiskReservationHeld
+    monkeypatch.setattr(campaign,'specification',lambda root:{
+        'maximum_native_jobs':12,'maximum_bundle_cases':128})
+    with pytest.raises(DiskReservationHeld) as held:
+        campaign.run(root=tmp_path,maximum_new_bundles=0,native_jobs=0)
+    assert held.value.record['status']=='held'
+    assert held.value.record['target']==str(tmp_path/'build/coupled-railway')
+    assert not (tmp_path/'build/coupled-railway').exists()

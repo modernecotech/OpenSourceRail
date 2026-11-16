@@ -103,8 +103,9 @@ def _attribute(v):
 def decode(raw,*,data_crs):
     if data_crs!='EPSG:4326':raise ValueError('Explicit EPSG:4326 data coordinates required')
     v=read_json(raw)
-    if not isinstance(v,dict) or v.get('format')!=1 or type(v.get('format')) is not int:
-        raise ValueError('Supported native RustGIS format:1 project required')
+    if (not isinstance(v,dict) or type(v.get('format')) is not int
+            or v['format'] not in (1,2)):
+        raise ValueError('Supported native RustGIS format:1 or format:2 project required')
     if FORBIDDEN&set(v):raise ValueError('Native project cannot supply engineering approval or prices')
     maps=v.get('maps');tables=v.get('tables',[])
     if not isinstance(maps,list) or not 1<=len(maps)<=4 or not isinstance(tables,list):raise ValueError('Bounded native maps/tables required')

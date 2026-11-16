@@ -65,7 +65,7 @@ def test_success_requires_persistent_face_set_and_all_native_screens():
 
 
 def held_package(tmp_path):
-    request=dict(evaluation_id='a'*64,cases=[],execution_options=dict(include_rc=False))
+    request=dict(evaluation_id='a'*64,cases=[],execution_options=dict(admitted_native_process_slots=5))
     stage=dict(status='held',reason='independent evidence unavailable',**pilot.FLAGS)
     native.write(tmp_path/'request.json',request);native.write(tmp_path/'linear-controls/stage.json',stage)
     native.write(tmp_path/'delivery-handoffs.json',[])
@@ -88,15 +88,23 @@ def test_resealed_manifest_cannot_contradict_its_immutable_receipts(tmp_path,att
         pilot.verify(tmp_path)
 
 
+def test_plan_has_one_current_release_process_budget_without_prerelease_stage():
+    with patch.object(pilot.fixtures,'cases',return_value=[]), patch.object(pilot,'sources',return_value={}):
+        request=pilot.plan()
+    assert request['execution_options']==dict(admitted_native_process_slots=5)
+    with pytest.raises(TypeError):pilot.plan(include_rc=True)
+
+
 def test_install_cli_handles_list_result_without_attribute_error(capsys):
-    with patch.object(native,'install',return_value=dict(installed=True)) as install:
+    with patch('engineering.performance.disk_hold_record',return_value=None), \
+            patch.object(native,'install',return_value=dict(installed=True)) as install:
         assert main(['install','solidcraft'])==0
         install.assert_called_once()
     assert 'installed' in capsys.readouterr().out
 
 
 def test_cross_candidate_stage_refused_even_with_resealed_stage_and_manifest(tmp_path,control):
-    request=dict(evaluation_id='a'*64,cases=[control],execution_options=dict(include_rc=False))
+    request=dict(evaluation_id='a'*64,cases=[control],execution_options=dict(admitted_native_process_slots=5))
     stage=dict(status='completed',result=dict(case_id=control['case_id'],candidate_id='b'*64,
         component_geometry_id=control['component_geometry_id']),**pilot.FLAGS)
     held=dict(status='held',reason='pending',**pilot.FLAGS)
@@ -135,3 +143,28 @@ def test_interchange_requires_raw_si_measures_and_successful_face_reopen(control
     bad[4]['result']['content'][0]['text']=json.dumps(wrong)
     with pytest.raises(ValueError,match='explicit SI'):pilot.decode_interchange(bad,control)
     with pytest.raises(ValueError,match='coverage'):pilot.decode_interchange(replies[:-1],control)
+
+
+def test_current_step_handoff_records_unsupported_import_without_fea_admission(tmp_path,monkeypatch):
+    step=tmp_path/'one-box.step';step.write_text('ISO-10303-21;\n')
+    case=dict(case_id='synthetic-box',candidate_id='a'*64,component_geometry_id='b'*64)
+    def reply(index,value=None,error=None):
+        content=[dict(type='text',text=error if error is not None else json.dumps(value))]
+        return dict(id=index,result=dict(content=content,isError=error is not None))
+    replies=[reply(1,{}),reply(2,error='open: a .fieldcraft model, a .solidcraft design or a .3mf mesh'),
+             reply(3,dict(system='m-kg-s-N-Pa')),reply(4,error='not a readable design'),
+             reply(5,dict(bodies=[]))]
+    monkeypatch.setattr(native,'mcp',lambda *a,**k:(dict(execution='executed'),replies))
+    result=pilot.interoperability(step,tmp_path/'run',case=case)
+    assert result['source_format']=='STEP'
+    assert result['source_step_sha256']==native.digest(step)
+    assert result['candidate_id']==case['candidate_id']
+    assert result['step_extension_dispatch']=='rejected'
+    assert result['direct_geometry_open']=='rejected'
+    assert result['handoff_status']=='held'
+    assert result['candidate_fea_admitted'] is False
+    assert 'a .3mf mesh' in result['handoff_hold_reason']
+    assert json.loads((tmp_path/'run/readback.json').read_bytes())==result['readback']
+    with pytest.raises(ValueError,match='STEP source'):
+        pilot.interoperability(tmp_path/'native.sc',tmp_path/'forbidden',case=case)
+    assert not (tmp_path/'forbidden').exists()

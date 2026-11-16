@@ -20,7 +20,7 @@ def sources(root=ROOT):
     return {**{n:native.digest(Path(root)/n) for n in sorted(names)},**handoff.sources(root)}
 
 
-def plan(root=ROOT,*,include_rc=False):
+def plan(root=ROOT):
     policy = tomllib.loads((Path(root)/POLICY).read_text())
     if (policy['schema']!='osr-craft-backend-pilot/1' or policy['selected_reference_changed'] is not False
         or policy['physical_accepted'] is not False or policy['parallel_native_workers']!=1
@@ -30,14 +30,14 @@ def plan(root=ROOT,*,include_rc=False):
     records = fixtures.cases(root)
     if sum(c['expected']['part_count'] for c in records)>policy['max_parts']:
         raise ValueError('Declared CAD occurrence budget exceeded')
-    slots=5*len(records)+5+(4 if include_rc else 0)
+    slots=5*len(records)+5
     if slots>policy['max_native_processes']:raise ValueError('Declared native process budget cannot admit this pilot')
     reference_tools={name:native.digest(Path(path).resolve()) if (path:=shutil.which(name)) else None
                      for name in ('ccx','bwrap','flatpak','time')}
     result = dict(schema='osr-craft-pilot-request/1', providers=PROVIDERS,
                   policy=policy, toolchain=json.loads(native.LOCK.read_bytes()),
                   source_sha256=sources(root), cases=records,
-                  execution_options=dict(include_rc=include_rc,admitted_native_process_slots=slots),
+                  execution_options=dict(admitted_native_process_slots=slots),
                   runtime=dict(python=platform.python_version(),machine=platform.machine(),system=platform.system(),reference_tool_sha256=reference_tools),
                   evaluation_scope='Provider comparison; existing railway/BIM/delivery contracts retained',
                   **FLAGS)
@@ -164,7 +164,7 @@ def cad(case, folder, *, request, tool_root=native.DEFAULT_TOOLS):
     native.write(folder/'independent-correspondence.json',associated)
     checks['exact_step']=compare_geometry(case,associated,exact=True,policy=request['policy']['comparison'])
     checks['exact_step']['native_names_preserved']=associated['native_names_preserved']
-    field=interoperability(work/'assembly.sc',folder/'fieldcraft-interchange',case=case,tool_root=tool_root,limits=_limits(request))
+    field=interoperability(work/'assembly.step',folder/'fieldcraft-interchange',case=case,tool_root=tool_root,limits=_limits(request))
     native.write(folder/'comparisons.json',checks)
     return dict(case_id=case['case_id'],candidate_id=case['candidate_id'],
                 component_geometry_id=case['component_geometry_id'],checks=checks,
@@ -175,6 +175,9 @@ def cad(case, folder, *, request, tool_root=native.DEFAULT_TOOLS):
 
 
 def interoperability(design, folder, *, case=None, tool_root=native.DEFAULT_TOOLS,limits=None):
+    design=Path(design)
+    if design.suffix.lower() not in ('.step','.stp') or not design.is_file() or design.is_symlink():
+        raise ValueError('Exact ordinary STEP source required for current CAD-to-FEA handoff')
     folder.mkdir(parents=True,exist_ok=False)
     calls=[('open',dict(path=str(design),model='new')),
            ('execute',dict(command='model.units',params=dict(system='m-kg-s-N-Pa'))),
@@ -186,12 +189,12 @@ def interoperability(design, folder, *, case=None, tool_root=native.DEFAULT_TOOL
                   ('execute',dict(command='geometry.open',params=dict(path=str(design),model='keep'))),('inspect_model',{})]
     e,replies=native.mcp('fieldcraft',calls,folder/'native',read_root=folder.parent,tool_root=tool_root,**(limits or {}))
     _require_execution(e)
-    result=decode_interchange(replies,case)
+    result=decode_interchange(replies,case,source_step=design)
     native.write(folder/'readback.json',result['readback'])
     return result
 
 
-def decode_interchange(replies,case=None):
+def decode_interchange(replies,case=None,*,source_step=None):
     face_check=case and case['case_id']=='asymmetric-si-control'
     tools=['open','execute','execute','inspect_model']+(['execute','execute','inspect_model'] if face_check else [])
     ids=[r.get('id') for r in replies if r.get('id') is not None]
@@ -221,36 +224,20 @@ def decode_interchange(replies,case=None):
         persistent=(not any(reopened.get('stale',{}).values()) and not reopened.get('errors') and
                     not reopened.get('renamed') and not reopened.get('mismatched') and
                     model['definitions']['sets']==1 and model.get('display_units')=='m-kg-s-N-Pa')
-    return dict(native_extension_dispatch=results[0]['status'],
+    rejection=next((r['reason'] for r in results if r['status']=='rejected'),None)
+    return dict(source_format='STEP',source_step_sha256=None if source_step is None else native.digest(source_step),
+                candidate_id=None if case is None else case['candidate_id'],
+                component_geometry_id=None if case is None else case['component_geometry_id'],
+                fieldcraft_binary_sha256=native.pin('fieldcraft')['binary_sha256'],
+                step_extension_dispatch=results[0]['status'],
                 direct_geometry_open=results[2]['status'],readback=results,
                 geometry_names_and_units_verified=verified,geometry_comparison=comparison,
                 named_face_set_reopen_verified=persistent,
+                handoff_status='geometry-verified' if verified else 'held',
+                handoff_hold_reason=None if verified else rejection or 'No complete SI geometry readback',
+                candidate_fea_admitted=False,
                 materials_transferred=False,candidate_metadata_carried_by='source-bound sidecar',
-                scope='Measures/name interchange; material definitions assigned independently for analysis',**FLAGS)
-
-
-def prerelease(case, folder, *, tool_root=native.DEFAULT_TOOLS,limits=None):
-    folder.mkdir(parents=True,exist_ok=False)
-    limits=limits or {}
-    script=folder/'commands.json';native.write(script,solidcraft.script_for(case))
-    generated=folder/'generate'
-    e=native.run('solidcraft-rc',['run',script,'--save',generated/'assembly.sc','--results','--json-out',generated/'results.json'],
-                 generated,read_roots=(folder,),tool_root=tool_root,**limits)
-    _require_execution(e)
-    direct=interoperability(generated/'assembly.sc',folder/'direct-fieldcraft',tool_root=tool_root,limits=limits)
-    exported=folder/'tagged-export'
-    e,replies=native.mcp('solidcraft-rc',[('open',dict(path=str(generated/'assembly.sc'))),
-        ('export',dict(path=str(exported/'assembly.3mf'),format='3mf-tagged'))],exported,
-        read_root=folder,tool_root=tool_root,**limits)
-    _require_execution(e)
-    for i in range(2):_batch(_reply(replies,i))
-    e,replies=native.mcp('fieldcraft',[('open',dict(path=str(exported/'assembly.3mf'))),('inspect_model',{})],
-                       folder/'tagged-import',read_root=folder,tool_root=tool_root,**limits)
-    _require_execution(e);imported=_reply(replies);inspected=_reply(replies,1)
-    return dict(direct_native_interchange=direct,tagged_mesh_import=imported,inspection=inspected,
-                exact_brep=False,parametric_history_transferred=False,materials_transferred=False,
-                full_identity_and_geometry_preservation_verified=False,
-                scope='Tagged surface fallback only; not interchangeable with exact parametric geometry',**FLAGS)
+                scope='STEP geometry-only diagnostic; same-candidate loads, mesh and materials require separate admission',**FLAGS)
 
 
 def controls(folder, *, request,tool_root=native.DEFAULT_TOOLS):
@@ -300,23 +287,20 @@ def software_screen(stages,request):
         stages['linear-controls']['status']=='completed' and stages['linear-controls']['result']['numerical_controls_passed'])
 
 
-def run(output, *, root=ROOT, tool_root=native.DEFAULT_TOOLS,include_rc=False):
+def run(output, *, root=ROOT, tool_root=native.DEFAULT_TOOLS):
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh private output directory required')
-    request=plan(root,include_rc=include_rc);output.mkdir(parents=True,mode=0o700)
+    request=plan(root);output.mkdir(parents=True,mode=0o700)
     native.write(output/'request.json',request)
     started=time.monotonic();stages={}
     for case in request['cases']:
         folder=output/case['case_id']
         stages[case['case_id']]=_capture(folder,lambda c=case,f=folder:cad(c,f,request=request,tool_root=tool_root))
-    if include_rc:
-        control=next(c for c in request['cases'] if c['case_id']=='asymmetric-si-control')
-        stages['prerelease-interchange']=_capture(output/'prerelease-interchange',lambda:prerelease(control,output/'prerelease-interchange',tool_root=tool_root,limits=_limits(request)))
     stages['linear-controls']=_capture(output/'linear-controls',lambda:controls(output/'linear-controls',request=request,tool_root=tool_root))
     from . import handoff
     native.write(output/'delivery-handoffs.json',[handoff.build(c,root) for c in request['cases']])
     # Reconstruct the request after execution to refuse mid-run input/source drift.
-    if plan(root,include_rc=include_rc)!=request:raise ValueError('Pilot inputs changed during execution; results retained without promotion')
+    if plan(root)!=request:raise ValueError('Pilot inputs changed during execution; results retained without promotion')
     inventory={str(p.relative_to(output)):native.digest(p) for p in sorted(output.rglob('*')) if p.is_file()}
     native_runs=[json.loads(p.read_bytes()) for p in output.rglob('execution.json')]
     freecad_runs=[json.loads(p.read_bytes()) for p in output.glob('*/freecad-reference/result.json')]
@@ -346,7 +330,7 @@ def verify(output, *, root=ROOT):
         raise ValueError('Pilot result identity differs')
     if any(manifest.get(k) is not False for k in FLAGS):raise ValueError('Pilot cannot grant physical acceptance')
     request=json.loads((output/'request.json').read_bytes())
-    if request!=plan(root,include_rc=request['execution_options']['include_rc']) or request['evaluation_id']!=manifest['evaluation_id']:
+    if request!=plan(root) or request['evaluation_id']!=manifest['evaluation_id']:
         raise ValueError('Pilot source, physical case, assumptions, resource or tool context differs')
     files={str(p.relative_to(output)):p for p in output.rglob('*') if p.is_file() and p!=output/'manifest.json'}
     if set(files)!=set(manifest['artifact_sha256']):raise ValueError('Pilot artifact coverage differs')
@@ -354,7 +338,6 @@ def verify(output, *, root=ROOT):
         if path.is_symlink() or native.digest(path)!=manifest['artifact_sha256'][relative]:
             raise ValueError('Pilot artifact changed: '+relative)
     stage_names={c['case_id'] for c in request['cases']}|{'linear-controls'}
-    if request['execution_options']['include_rc']:stage_names.add('prerelease-interchange')
     if set(manifest['stages'])!=stage_names:raise ValueError('Pilot stage coverage differs')
     for name,stage in manifest['stages'].items():
         if stage!=json.loads((output/name/'stage.json').read_bytes()):raise ValueError('Pilot stage receipt differs: '+name)
@@ -382,7 +365,7 @@ def verify(output, *, root=ROOT):
         exact['native_names_preserved']=associated['native_names_preserved']
         if exact!=stage['checks']['exact_step']:raise ValueError('Exact STEP comparison differs')
         raw=[json.loads(line) for line in (folder/'fieldcraft-interchange/native/stdout.jsonl').read_text().splitlines() if line.strip()]
-        decoded=decode_interchange(raw,case)
+        decoded=decode_interchange(raw,case,source_step=folder/'generate/assembly.step')
         if decoded!=stage['fieldcraft_interchange'] or decoded['readback']!=json.loads((folder/'fieldcraft-interchange/readback.json').read_bytes()):
             raise ValueError('Recomputed native interchange readback differs')
         if all(c['comparison_passed'] for c in stage['checks'].values())!=stage['geometry_comparison_passed']:

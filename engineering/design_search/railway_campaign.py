@@ -49,7 +49,13 @@ def source_epoch(root=ROOT):
 
 
 def _write(path,value):
-    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True);temp=path.with_suffix(path.suffix+'.pending');temp.write_bytes(encoded(value));temp.replace(path)
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    descriptor,name=tempfile.mkstemp(prefix='.'+path.name+'.',suffix='.pending',dir=path.parent)
+    pending=Path(name)
+    with os.fdopen(descriptor,'wb') as output:
+        canonical_stream.write_canonical(value,output)
+        output.flush();os.fsync(output.fileno())
+    os.replace(pending,path)
 
 
 def _stage(folder,name,bundle,inputs,epoch,calculate,*,root=ROOT):
@@ -66,36 +72,13 @@ def _stage(folder,name,bundle,inputs,epoch,calculate,*,root=ROOT):
     r=dict(schema='osr-coupled-stage-record/1',request=request,output=output,**FLAGS);r['record_id']=identity(r);_write(target,r);return r,False
 
 
-def _reference_semantic_id(result):
-    """Original fallback for JSON-compatible values outside the stream domain."""
-    def clean(value):
-        if isinstance(value,dict):return {k:clean(v) for k,v in value.items() if k not in ('campaign_id','run_id','new_bundles','reused_bundles','new_native_jobs','reused_native_jobs','requested_native_jobs','reused')}
-        if isinstance(value,list):return [clean(x) for x in value]
-        return value
-    return identity(clean(result))
-
-
-def _unsupported_stream_value(error):
-    return str(error).startswith(('Unsupported canonical streaming type:',
-                                  'Canonical streaming requires built-in string object keys'))
-
-
-def semantic_id(result,*,streaming=False):
-    """Evidence identity; streaming is an explicit lower-memory experiment."""
-    if not streaming:return _reference_semantic_id(result)
-    try:
-        return canonical_stream.canonical_identity(result,semantic=True)
-    except TypeError as error:
-        if not _unsupported_stream_value(error):raise
-        return _reference_semantic_id(result)
+def semantic_id(result):
+    """Stream the exact semantic evidence identity; reject unsupported values."""
+    return canonical_stream.canonical_identity(result,semantic=True)
 
 
 def _aggregate_identity(result):
-    try:
-        return canonical_stream.canonical_identity(result)
-    except TypeError as error:
-        if not _unsupported_stream_value(error):raise
-        return identity(result)
+    return canonical_stream.canonical_identity(result)
 
 
 class _DigestWriter:
@@ -128,16 +111,7 @@ def _stream_invocation(path,value):
     pending=Path(name)
     with os.fdopen(fd,'w+b',buffering=0) as stream:
         writer=_DigestWriter(stream)
-        try:
-            canonical_stream.write_canonical(value,writer)
-        except TypeError as error:
-            if not _unsupported_stream_value(error):raise
-            stream.seek(0);stream.truncate();writer=_DigestWriter(stream)
-            data=encoded(value);view=memoryview(data)
-            while view:
-                n=writer.write(view)
-                if type(n) is not int or not 0<n<=len(view):raise OSError('Aggregate write made no progress')
-                view=view[n:]
+        canonical_stream.write_canonical(value,writer)
         stream.flush();os.fsync(stream.fileno())
         expected=(writer.sha.hexdigest(),writer.size)
     _regular_single_link(pending)
@@ -460,25 +434,47 @@ def economics(bundle,inventory,architecture_result,propulsion_result,motion_resu
 
 
 def _compact_motion(value):
-    value=deepcopy(value)
-    # Keep exact histories in immutable stage packets, index them in the report.
-    def visit(node):
+    # Keep exact histories in immutable stage packets. Build only the report
+    # projection; copying the full traces first doubles their live footprint.
+    def compact(node):
         if isinstance(node,dict):
-            for key in list(node):
-                if key=='trace' and isinstance(node[key],list):
-                    rows=node.pop(key);node['trace_index']=dict(rows=len(rows),sha256=identity(rows))
-                else:visit(node[key])
-        elif isinstance(node,list):
-            for x in node:visit(x)
-    visit(value);return value
+            result={key:compact(item) for key,item in node.items()
+                    if key!='trace' or not isinstance(item,list)}
+            rows=node.get('trace')
+            if isinstance(rows,list):
+                trace_id=canonical_stream.canonical_identity(rows)
+                result['trace_index']=dict(rows=len(rows),sha256=trace_id)
+            return result
+        if isinstance(node,list):return [compact(item) for item in node]
+        return deepcopy(node)
+    return compact(value)
 
 
-def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_aggregate=False):
-    """Run source-bound bundles; aggregate streaming is explicit and opt-in."""
+def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
+    """Run a source-bound campaign under the target filesystem's disk budget."""
+    root=Path(root)
+    spec=specification(root)
+    if type(native_jobs) is not int or not 0<=native_jobs<=spec['maximum_native_jobs']:
+        raise ValueError('Explicit bounded native job allowance required')
+    if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):
+        raise ValueError('Nonnegative resumable bundle budget required')
+    from engineering.performance import GIB,disk_reservation
+    count=spec['maximum_bundle_cases'] if maximum_new_bundles is None else min(maximum_new_bundles,spec['maximum_bundle_cases'])
+    projected=GIB + count*(GIB//2) + native_jobs*(8*GIB)
+    target=root/'build/coupled-railway' if state is None else state
+    with disk_reservation(root,target,'railway-campaign',projected) as lease:
+        return _run_impl(root,maximum_new_bundles=maximum_new_bundles,
+                         native_jobs=native_jobs,state=state,lease=lease)
+
+
+def _run_impl(root,*,maximum_new_bundles,native_jobs,state,lease):
+    """Execute after admission; each stage checks the actual free-space floor."""
     from . import system_inventory,system_motion,system_selection,grammar_shell
+    from engineering.performance import check_disk_reservation
+    def check_space():
+        if lease is not None:check_disk_reservation(lease)
     root=Path(root);spec=specification(root);epoch=source_epoch(root)
     if type(native_jobs) is not int or not 0<=native_jobs<=spec['maximum_native_jobs']:raise ValueError('Explicit bounded native job allowance required')
-    if type(stream_aggregate) is not bool:raise ValueError('Explicit boolean aggregate streaming mode required')
     if maximum_new_bundles is not None and (type(maximum_new_bundles) is not int or maximum_new_bundles<0):raise ValueError('Nonnegative resumable bundle budget required')
     contract=identity(dict(specification=spec,source_sha256=epoch));folder=_ordinary_state_path(root/'build/coupled-railway'/contract if state is None else state);folder.mkdir(parents=True,exist_ok=True)
     _ordinary_state_path(folder);lock_path=folder/'lock'
@@ -486,7 +482,7 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
     with lock_path.open('a+') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);_bind_state_source(folder,contract,epoch)
         started=time.monotonic();bodies,decisions=generate_bodies();rows=[];bundles=[];new=0;reused=0
-        native=_native_campaign(bodies,folder,native_jobs,root=root)
+        check_space();native=_native_campaign(bodies,folder,native_jobs,root=root);check_space()
         for body in bodies:
             for family in spec['families']:
                 for motor in bundle_adapter.motor_options()[:2 if family=='P1' else 1]:
@@ -494,6 +490,7 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
         if len(bundles)>spec['maximum_bundle_cases']:raise ValueError('Campaign exceeds physical bundle bound')
         pending=[]
         for bundle in bundles:
+            check_space()
             if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before case dispatch')
             structure_context=_structure_context(native,bundle['body_candidate_id'])
             case_context=identity(dict(bundle_definition_id=bundle['definition_id'],structure_evidence=structure_context))
@@ -507,6 +504,7 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
                 pending.append(dict(kind='bundle-evaluation',bundle_id=bundle['candidate_id'],bundle_definition_id=bundle['definition_id'],state='ready'));continue
             body=next(b for b in bodies if b['candidate_id']==bundle['body_candidate_id']);records=[]
             def stage(name,dependencies,fn):
+                check_space()
                 record,cache=_stage(folder,name,bundle,dependencies,epoch,fn,root=root);records.append(dict(stage=name,record_id=record['record_id'],request=record['request'],reused=cache));return record['output']
             inv=stage('installed_inventory',dict(body_definition_id=body['definition_id'],bundle_definition_id=bundle['definition_id']),
                 lambda:system_inventory.evaluate(body,bundle_id=bundle['candidate_id'],source_root=root,comparison_context=spec['experiment'],
@@ -533,11 +531,10 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None,stream_agg
             partial_quantity_comparison=partial,model_cost_comparisons=cost_comparisons,frontier=frontier,search_status='work-remaining',new_bundles=new,reused_bundles=reused,
             integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
         if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before final sealing')
-        result['campaign_id']=semantic_id(result,streaming=stream_aggregate)
-        if stream_aggregate:
-            result['run_id']=_aggregate_identity(result);_write_aggregate(folder,result)
-        else:
-            result['run_id']=identity(result);_write(folder/'invocations'/(result['run_id']+'.json'),result);_write(folder/'result.json',result)
+        result['campaign_id']=semantic_id(result)
+        result['run_id']=_aggregate_identity(result)
+        check_space()
+        _write_aggregate(folder,result)
         return result
 
 

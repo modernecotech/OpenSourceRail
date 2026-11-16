@@ -1,11 +1,30 @@
 from copy import deepcopy
 import importlib.util
+import importlib
 import json
 from pathlib import Path
 import zipfile
 
 import pytest
-from engineering.rustgis import adapter, api
+from engineering.rustgis import adapter, api, revision
+
+
+def test_release_refresh_and_install_reserve_their_filesystem(monkeypatch):
+    from contextlib import contextmanager
+    from engineering import performance
+    installer = importlib.import_module('engineering.rustgis.install')
+    calls = []
+    @contextmanager
+    def reserve(root, target, action, projected_bytes):
+        calls.append((str(target), action, projected_bytes))
+        yield {}
+    monkeypatch.setattr(performance, 'disk_reservation', reserve)
+    monkeypatch.setattr(installer, '_refresh_latest', lambda: {'version':'test'})
+    monkeypatch.setattr(installer, '_install', lambda: {'installed':True})
+    assert installer.refresh_latest() == {'version':'test'}
+    assert installer.install() == {'installed':True}
+    assert calls[0][1:] == ('rustgis-refresh', performance.GIB)
+    assert calls[1][1:] == ('rustgis-install', 2*performance.GIB)
 
 
 def collection(geometry=None, **properties):
@@ -158,6 +177,8 @@ def test_actual_native_import_save_reopen_holes_and_null_table(tmp_path):
         (tmp_path/'layers'/str(name+'.geojson')).write_text(json.dumps(adapter.prepared(value)))
         args+=adapter._cmd('layer.addData',path='layers/'+name+'.geojson',name=name)
     adapter.native([*args,'--save','test.rgis'],tmp_path,'test-build')
+    decoded=revision.decode((tmp_path/'test.rgis').read_bytes(),data_crs='EPSG:4326')
+    assert set(decoded)==set(data)
     args=['run','--no-plugins','--project','test.rgis']
     args+=adapter._cmd('share.exportLayer',layer='areas',path='roundtrip/areas.geojson')
     args+=adapter._cmd('share.exportTable',table='unknown',path='roundtrip/unknown.geojson')
@@ -170,6 +191,6 @@ def test_actual_native_import_save_reopen_holes_and_null_table(tmp_path):
     import sys
     module=importlib.util.module_from_spec(spec);sys.modules['osr_integration']=module;spec.loader.exec_module(module)
     from osr_integration.engineering import artifact
-    result=artifact(tmp_path,'test.rgis','rustgis','0.5.0')
+    result=artifact(tmp_path,'test.rgis','rustgis',adapter.lock_record()['version'])
     assert result['maps'][0]['layers'][0]['features']==1
     assert result['tables'][0]['name']=='unknown' and result['tables'][0]['rows']==1

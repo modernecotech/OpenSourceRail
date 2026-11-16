@@ -5,6 +5,21 @@ research controls and remaining holds separately. v0.7 is in development; these
 results do not constitute a completed installed railway or a released v0.7.
 The [agent plan](../../plans/v0.7-agent-delivery-plan.md) remains the scope.
 
+## Current status at a glance
+
+The [task ledger](../../../campaigns/v07-execution.json) is the status authority;
+the dated record below preserves the sources and receipts for each result.
+
+| Area | Reviewed result | Still open |
+|---|---|---|
+| Corridor workflow | Samawah comparison, native GIS return cycles and bounded reuse checks | Same installed candidate through city service, civil quantities and prices; Baghdad integration |
+| Vehicle and door | Counted research children, electrical screen and one native gross-envelope control | Mated geometry, belt/shaft data, motion, removal, controlled drawings and physical tests |
+| Delivery and lifecycle | Source-verified five-stage intake and one disabled delivery draft | Reviewed part documents, conversions, native receipt, QA and maintenance handback |
+| Performance | Two-worker city comparison, shared reservations and opt-in Rust scheduler | Measured memory and disk improvements on exact repeated workloads; see the [runtime review](../../plans/v0.7-runtime-toolchain-review.md) |
+
+No row is a physical acceptance or manufacturing release. The detailed
+chronology and its commit-specific claims remain below.
+
 The [closing software verification record](software-ci-final.json) pins code
 `8d1833f74c`: 480 selected Python tests pass (four optional skips), and the full
 wheel/station workflow passes its supported browser and Samawah journey. All

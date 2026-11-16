@@ -8,26 +8,19 @@ from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from . import railway_campaign as engine,design_grammar,railway_bundle,grammar_shell,transient_lim,railway_delivery
 from .generative_publication import archive
+from .native_archive_stream import write_archive
 
 PRODUCER='engineering/design_search/railway_publication.py'
 OUTPUT='docs/design-engine/coupled-railway'
 FLAGS=engine.FLAGS
 
 
-def compact_native_archive(folder):
-    """Keep exact solver decks/logs; index duplicate large node/body metadata."""
-    buf=io.BytesIO();kept={};omitted={}
-    with tarfile.open(fileobj=buf,mode='w') as tar:
-        for p in sorted(Path(folder).rglob('*')):
-            if p.is_symlink():raise ValueError('Ordinary native evidence files required')
-            if not p.is_file() or '__pycache__' in p.parts:continue
-            name=p.relative_to(folder).as_posix();h=digest(p)
-            if p.suffix.lower() in ('.dat','.frd','.12d','.step','.fcstd','.fcstd1') or p.name in ('candidate.json','definition.json','worker-result.json') and p.stat().st_size>1_000_000:
-                omitted[name]=h;continue
-            raw=p.read_bytes();kept[name]=h;t=tarfile.TarInfo(name);t.size=len(raw);t.mtime=0;t.mode=0o644;tar.addfile(t,io.BytesIO(raw))
-        raw=encoded(dict(retained_sha256=kept,omitted_sha256=omitted,storage='Exact FEM decks/results/logs retained; large fields and duplicate node/body metadata remain local or regenerate from exact source/body/request. Full raw-payload hashes preserved.'))
-        t=tarfile.TarInfo('archive-index.json');t.size=len(raw);t.mtime=0;t.mode=0o644;tar.addfile(t,io.BytesIO(raw))
-    return gzip.compress(buf.getvalue(),mtime=0)
+def compact_native_archive(folder,target):
+    """Stream solver decks/logs; index duplicate large node/body metadata."""
+    write_archive(folder,target,
+        omit=lambda p:(p.suffix.lower() in ('.dat','.frd','.12d','.step','.fcstd','.fcstd1')
+            or p.name in ('candidate.json','definition.json','worker-result.json') and p.stat().st_size>1_000_000),
+        storage='Exact FEM decks/results/logs retained; large fields and duplicate node/body metadata remain local or regenerate from exact source/body/request. Full raw-payload hashes preserved.')
 
 
 def _retain_previous_publication(root,out):
@@ -655,43 +648,43 @@ def build(root=ROOT,output=None):
         _retain_previous_publication(root,out)
     out.mkdir(parents=True);(out/'native').mkdir();native=[];epochs={}
     for i,r in enumerate(value['native']['packet_index']):
-        p=folder/'native'/r['raw_path'];target='native/'+str(i)+'.tar.gz';(out/target).write_bytes(compact_native_archive(p))
+        p=folder/'native'/r['raw_path'];target='native/'+str(i)+'.tar.gz';compact_native_archive(p,out/target)
         native.append(dict(kind=r['kind'],job_id=r['job_id'],archive=target,raw_manifest=json.loads((p/'manifest.json').read_bytes()),raw_result=json.loads((p/'result.json').read_bytes())))
     for r in value['native']['CAD_results']:
-        p=folder/'native/CAD'/r['candidate_id'];target='native/CAD-'+r['candidate_id'][:12]+'.tar.gz';(out/target).write_bytes(archive(p))
+        p=folder/'native/CAD'/r['candidate_id'];target='native/CAD-'+r['candidate_id'][:12]+'.tar.gz';archive(p,out/target)
         native.append(dict(kind='CAD',archive=target,raw_manifest=json.loads((p/'manifest.json').read_bytes()),raw_result=r))
     cad_ids={r['candidate_id'] for r in value['native']['CAD_results']}
     body_ids={b['candidate_id'] for b in value['bodies']}
     for p in sorted((root/'build/coupled-railway').glob('*/native/CAD/*/manifest.json')):
         r=json.loads((p.parent/'result.json').read_bytes())
         if r['candidate_id'] in cad_ids or r['candidate_id'] not in body_ids:continue
-        target='native/historical-CAD-'+r['candidate_id'][:12]+'.tar.gz';(out/target).write_bytes(archive(p.parent));cad_ids.add(r['candidate_id'])
+        target='native/historical-CAD-'+r['candidate_id'][:12]+'.tar.gz';archive(p.parent,out/target);cad_ids.add(r['candidate_id'])
         native.append(dict(kind='historical-CAD',archive=target,raw_manifest=json.loads(p.read_bytes()),raw_result=r))
     magnetic_path=root/'build/coupled-railway/transient-method-r1/summary.json'
     magnetic=[] if not magnetic_path.is_file() else json.loads(magnetic_path.read_bytes())
     for i,r in enumerate(magnetic):
-        p=root/r['path'];transient_lim.verify(p,root=root);target='native/magnetic-'+str(i)+'.tar.gz';(out/target).write_bytes(archive(p))
+        p=root/r['path'];transient_lim.verify(p,root=root);target='native/magnetic-'+str(i)+'.tar.gz';archive(p,out/target)
         native.append(dict(kind='transient-method',archive=target,raw_manifest=json.loads((p/'manifest.json').read_bytes()),raw_result=r['result']))
     seen={r['raw_result'].get('evaluation_id') for r in native}
     for p in sorted((root/'build/coupled-railway').glob('*/native/jobs/*/raw/result.json')):
         r=json.loads(p.read_bytes())
         if r.get('evaluation_id') in seen or r.get('execution')=='completed':continue
-        target='native/historical-failed-'+r['evaluation_id'][:12]+'.tar.gz';(out/target).write_bytes(compact_native_archive(p.parent));seen.add(r['evaluation_id'])
+        target='native/historical-failed-'+r['evaluation_id'][:12]+'.tar.gz';compact_native_archive(p.parent,out/target);seen.add(r['evaluation_id'])
         native.append(dict(kind='historical-resource-or-numerical-failure',archive=target,raw_manifest=json.loads((p.parent/'manifest.json').read_bytes()),raw_result=r))
     reused_body_cases,reuse_rejections=_retain_exact_prior_body_cases(root,value,out,native)
     if refinement is not None:
-        target='native/current-source-refinement.tar.gz';(out/target).write_bytes(archive(refinement['folder']))
+        target='native/current-source-refinement.tar.gz';archive(refinement['folder'],out/target)
         native.append(dict(kind='body-current-source-refinement',archive=target,
             raw_manifest=refinement['manifest'],raw_result=refinement['result']))
     if fine_refinement is not None:
-        target='native/current-source-fine-refinement.tar.gz';(out/target).write_bytes(archive(fine_refinement['raw_folder']))
+        target='native/current-source-fine-refinement.tar.gz';archive(fine_refinement['raw_folder'],out/target)
         native_kind=('body-current-source-fine-refinement' if fine_refinement.get('package_kind')=='direct-native'
             else 'body-current-source-fine-refinement-reconciliation')
         native.append(dict(kind=native_kind,archive=target,
             raw_manifest=fine_refinement['manifest'],raw_result=fine_refinement['result']))
     if ultrafine_refinement is not None:
         target='native/current-source-ultrafine-refinement.tar.gz'
-        (out/target).write_bytes(archive(ultrafine_refinement['raw_folder']))
+        archive(ultrafine_refinement['raw_folder'],out/target)
         native.append(dict(kind='body-current-source-ultrafine-refinement',archive=target,
             raw_manifest=ultrafine_refinement['manifest'],raw_result=ultrafine_refinement['result']))
     _retain_prior_historical_packets(root,out,value,native,epochs)
@@ -750,6 +743,7 @@ def build(root=ROOT,output=None):
     m=dict(schema='osr-coupled-railway-publication/1',source_sha256={**value['source_sha256'],PRODUCER:digest(root/PRODUCER),
         railway_delivery.PRODUCER:digest(root/railway_delivery.PRODUCER),'engineering/design_search/wheel_twin.py':digest(root/'engineering/design_search/wheel_twin.py'),
         'engineering/design_search/generative_publication.py':digest(root/'engineering/design_search/generative_publication.py'),
+        'engineering/design_search/native_archive_stream.py':digest(root/'engineering/design_search/native_archive_stream.py'),
         'engineering/design_search/railway_refinement_current.py':digest(root/'engineering/design_search/railway_refinement_current.py'),
         'engineering/design_search/railway_refinement_current_verifier.py':digest(root/'engineering/design_search/railway_refinement_current_verifier.py'),
         'engineering/design_search/railway_refinement_current_fine.py':digest(root/'engineering/design_search/railway_refinement_current_fine.py'),
