@@ -1,9 +1,11 @@
 # Editable city GIS with RustGIS
 
-OpenSourceRail uses **RustGIS 0.5.0** for native city GIS projects and headless
+The current backend records **RustGIS 0.7.0** for native city GIS projects and headless
 map export. The existing interactive city atlas, SVG maps and calculated service,
 fleet, delivery and cost dossiers remain available. QGIS is not required by any
 current city generator or by the business-platform artifact reader.
+The retained 266-city migration validation used RustGIS 0.5.0 and keeps its
+original tool and source receipts; it is not a 0.7.0 replay.
 
 In the local Workbench, select a city and choose **Download editable RustGIS
 project and source tables**. Extract the ZIP and open `<city>.rgis` in RustGIS.
@@ -128,7 +130,7 @@ ZIP/XML readers. No QGIS installation is needed to inspect those archives.
 An arbitrary external QGIS project, plugin or processing model is not covered by
 this migration; only the repository's actual current city work is covered.
 
-[Upstream release](https://github.com/opengeos/RustGIS/releases/tag/v0.5.0) ·
+[Current upstream release](https://github.com/opengeos/RustGIS/releases/tag/v0.7.0) ·
 [Pinned backend](../../engineering/rustgis/backend.json) ·
 [City catalogue](../../cities/catalogue/README.md) ·
 [Current engineering](../design-engine/current/README.md)
