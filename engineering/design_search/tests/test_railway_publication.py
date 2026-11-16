@@ -365,6 +365,9 @@ def _stop_before_publication_write(tmp_path,monkeypatch,value):
     @contextmanager
     def current_context(root):yield tmp_path,value,tmp_path/'result.json'
     monkeypatch.setattr(publication,'current_context',current_context)
+    @contextmanager
+    def streaming_publication_context(root):yield tmp_path,value,None
+    monkeypatch.setattr(publication,'streaming_publication_context',streaming_publication_context)
     def stop(*args,**kwargs):raise _StopBeforePublicationWrite()
     monkeypatch.setattr(publication,'_retain_previous_publication',stop)
     return out

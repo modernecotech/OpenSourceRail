@@ -8,7 +8,7 @@ import gzip,json,shutil,tarfile,io,os,subprocess,stat
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from engineering.performance import disk_reservation
-from . import aggregate_store,railway_campaign as engine,design_grammar,railway_bundle,grammar_shell,transient_lim,railway_delivery
+from . import aggregate_store,canonical_stream,railway_campaign as engine,design_grammar,railway_bundle,grammar_shell,transient_lim,railway_delivery
 from .generative_publication import archive
 from .native_archive_stream import write_archive
 
@@ -155,6 +155,72 @@ def current_context(root=ROOT):
 def current(root=ROOT):
     with current_context(root) as (folder,value,_):
         return folder,value
+
+
+class _VerifiedRows:
+    """Reopen one source-bound case at a time after aggregate authentication."""
+    def __init__(self,root,cases,refs):
+        self.root=Path(root);self.cases=Path(cases);self.refs=tuple(refs)
+
+    def __len__(self):return len(self.refs)
+
+    def __iter__(self):
+        for ordinal,ref in enumerate(self.refs):
+            context=ref['case_context_id'];path=engine.case_node_store.path_for(self.cases,context)
+            if (ref['ordinal']!=ordinal or ref['parquet_name']!=path.name
+                    or aggregate_store._hash_file(path)!=ref['parquet_sha256']):
+                raise ValueError('Aggregate case shard order or bytes changed')
+            _,row,raw=aggregate_store._case_bytes(self.cases,context,root=self.root)
+            if (len(raw)!=ref['case_bytes'] or sha256(raw).hexdigest()!=ref['case_sha256']
+                    or row.get('row_id')!=ref['row_id']):
+                raise ValueError('Aggregate case identity or canonical bytes changed')
+            yield row
+
+
+def _streaming_semantic_id(core,rows,visit=None):
+    """Compute the campaign identity without making a second aggregate object."""
+    canonical=b''.join(canonical_stream.iter_canonical_bytes(core,semantic=True))
+    marker=b'"rows":[]'
+    if canonical.count(marker)!=1:raise ValueError('Canonical semantic rows placeholder differs')
+    before,after=canonical.split(marker)
+    digest_value=sha256();digest_value.update(before);digest_value.update(b'"rows":[')
+    for ordinal,row in enumerate(rows):
+        if visit is not None:visit(row)
+        if ordinal:digest_value.update(b',')
+        last=None
+        for chunk in canonical_stream.iter_canonical_bytes(row,semantic=True):
+            if last is not None:digest_value.update(last)
+            last=chunk
+        if last is None or not last.endswith(b'\n'):raise ValueError('Semantic row terminator differs')
+        digest_value.update(last[:-1])
+    digest_value.update(b']');digest_value.update(after)
+    return digest_value.hexdigest()
+
+
+@contextmanager
+def streaming_publication_context(root=ROOT):
+    """Authenticate the active aggregate, then expose bounded repeatable rows."""
+    root=Path(root);epoch=engine.source_epoch(root);spec=engine.specification(root)
+    contract=engine.contract_identity(spec,epoch,root=root)
+    folder=root/'build/coupled-railway'/contract
+    if json.loads((folder/'source-contract.json').read_bytes())!=engine.state_source_contract(contract,epoch,root=root):
+        raise ValueError('Source-matched v2 coordinated state required')
+    snapshot,pointer=engine.current_aggregate(folder,contract)
+    manifest=aggregate_store.read(snapshot,folder/'cases',engine._Discard(),root=root)
+    if (manifest['manifest_id']!=pointer['manifest_id']
+            or manifest['aggregate_sha256']!=pointer['aggregate_sha256']
+            or manifest['run_id']!=pointer['run_id']):
+        raise ValueError('Active aggregate pointer and verified parent differ')
+    _,core,refs=aggregate_store._load_store(snapshot,root=root)
+    value=aggregate_store._core_value(core)
+    rows=_VerifiedRows(root,folder/'cases',refs)
+    projection=_new_row_projection()
+    if (value['contract_id']!=contract or value['source_sha256']!=epoch
+            or value['specification']!=spec or len(rows)!=len(value['bundles'])
+            or value['campaign_id']!=_streaming_semantic_id(value,rows,lambda row:_add_row_projection(projection,row))):
+        raise ValueError('Source-matched coordinated execution or complete comparison required')
+    value['rows']=rows
+    yield folder,value,_finalize_row_projection(projection)
 
 
 def _body_response(native,body_id):
@@ -618,31 +684,59 @@ def _prior_magnetic_summary(root,value):
     return []
 
 
-def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refinement=None,fine_refinement=None,ultrafine_refinement=None):
+def _new_row_projection():
+    return dict(body={},p1={},completion=[],cost_count=0,complete_cost_count=0,
+        route_complete=0,route_count=0,stages=0)
+
+
+def _add_row_projection(projection,row):
+    body_id=row['body_candidate_id'];entry=projection['body'].setdefault(body_id,dict(count=0,tare=None))
+    entry['count']+=1;projection['stages']+=len(row['stages'])
+    if row['family_id']=='P1' and body_id not in projection['p1']:
+        entry['tare']=row['accounted_mass']['accounted_tare_kg_per_car']
+        projection['p1'][body_id]=dict(candidate_id=row['candidate_id'],stages=row['stages'])
+    projection['completion'].append(_cost_simulation_completion(row))
+    estimate=row.get('economics',{}).get('model_cost')
+    if isinstance(estimate,dict):
+        projection['cost_count']+=1
+        projection['complete_cost_count']+=estimate.get('model_cost_complete_for_declared_case') is True
+        plan=estimate.get('provisional_manufacturing_plan',{})
+        projection['route_count']+=plan.get('route_count',0)
+        projection['route_complete']+=(plan.get('schema')=='osr-v06-provisional-manufacturing-plan/1'
+            and plan.get('route_count')==plan.get('coverage',{}).get('located_stock_occurrences')
+            and plan.get('route_count')==plan.get('coverage',{}).get('routed_stock_occurrences')
+            and not plan.get('coverage',{}).get('unrouted_stock_ids'))
+
+
+def _finalize_row_projection(projection):
+    return dict(projection,completion=completion_summary_from_records(projection['completion']))
+
+
+def _row_projection(rows):
+    """Retain only summary scalars and one P1 inventory stage per body."""
+    projection=_new_row_projection()
+    for row in rows:_add_row_projection(projection,row)
+    return _finalize_row_projection(projection)
+
+
+def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refinement=None,fine_refinement=None,ultrafine_refinement=None,row_projection=None):
     new_native_body_case_count=len(value['native']['body_results'])
-    if reused_body_cases:
-        value=deepcopy(value)
-        value['native']['body_results']=value['native']['body_results']+list(reused_body_cases)
+    native=value['native'] if not reused_body_cases else dict(value['native'],body_results=value['native']['body_results']+list(reused_body_cases))
+    projection=_row_projection(value['rows']) if row_projection is None else row_projection
     rows=[]
     for b in value['bodies']:
-        cases=[r for r in value['rows'] if r['body_candidate_id']==b['candidate_id']]
-        baseline=next((r for r in cases if r['family_id']=='P1'),None);response=_body_response(value['native'],b['candidate_id'])
+        body_case=projection['body'].get(b['candidate_id'],dict(count=0,tare=None))
+        response=_body_response(native,b['candidate_id'])
         rows.append(dict(label=b['label'],body_candidate_id=b['candidate_id'],parent_ids=b['parent_candidate_ids'],
-            known_structure_stock_kg=b['known_structure_stock_kg'],accounted_empty_mass_kg=None if baseline is None else baseline['accounted_mass']['accounted_tare_kg_per_car'],
-            architecture_cases=len(cases),structural_status=response['numerical_status'],response=response,complete_installed_mass_kg=None))
+            known_structure_stock_kg=b['known_structure_stock_kg'],accounted_empty_mass_kg=body_case['tare'],
+            architecture_cases=body_case['count'],structural_status=response['numerical_status'],response=response,complete_installed_mass_kg=None))
     magnetic=[] if magnetic is None else magnetic
-    model_costs=[r['economics']['model_cost'] for r in value['rows'] if isinstance(r.get('economics',{}).get('model_cost'),dict)]
-    stock_route_plans=[r.get('provisional_manufacturing_plan',{}) for r in model_costs]
-    route_complete=sum(plan.get('schema')=='osr-v06-provisional-manufacturing-plan/1'
-        and plan.get('route_count')==plan.get('coverage',{}).get('located_stock_occurrences')
-        and plan.get('route_count')==plan.get('coverage',{}).get('routed_stock_occurrences')
-        and not plan.get('coverage',{}).get('unrouted_stock_ids') for plan in stock_route_plans)
-    completion=completion_summary(value['rows'])
+    completion=projection['completion']
     refinement_count=(int(refinement is not None)+int(fine_refinement is not None)
         +int(ultrafine_refinement is not None))
     result=dict(schema='osr-coupled-railway-summary/1',campaign_id=value['campaign_id'],contract_id=value['contract_id'],body_count=len(rows),
         initial_body_count=value['specification']['initial_structural_recipes'],body_rewrite_count=len(value['executed_body_revisions']),
-        bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=sum(len(r['stages']) for r in value['rows']),
+        bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=projection['stages'],
         body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=new_native_body_case_count+len(reused_body_cases)+refinement_count,
         CAD_case_count=len(value['native']['CAD_results']),magnetic_method_cases=len(magnetic),magnetic_completed=sum(r['result']['execution']=='completed' for r in magnetic),
         native_new_body_case_count=new_native_body_case_count+refinement_count,
@@ -673,10 +767,10 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=(),refin
             source_bytes_unavailable=ultrafine_refinement['result'].get('source_bytes_unavailable',{}),
             physical_and_engineering_acceptance=False),
         native_reused_body_case_count=len(reused_body_cases),native_prior_reuse_rejections=list(reuse_rejections),
-        model_cost_summary=dict(candidate_estimates=len(model_costs),complete_for_declared_case=sum(r['model_cost_complete_for_declared_case'] is True for r in model_costs),
+        model_cost_summary=dict(candidate_estimates=projection['cost_count'],complete_for_declared_case=projection['complete_cost_count'],
             currency='IQD',estimate_class='C',required_scope_count=len(engine.model_cost.SCOPES),
-            provisional_stock_route_complete_candidates=route_complete,
-            provisional_stock_route_count=sum(plan.get('route_count',0) for plan in stock_route_plans),
+            provisional_stock_route_complete_candidates=projection['route_complete'],
+            provisional_stock_route_count=projection['route_count'],
             comparison_context_count=len(value.get('model_cost_comparisons',[])),supplier_quotes=0,
             procurement_ready=False,physical_or_safety_accepted=False,integrated_winner=None),
         completion_status=completion,
@@ -740,13 +834,16 @@ def readme(s):
 
 def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
-    with current_context(root) as (folder,value,parent):
-        refinement=_current_refinement(root,value,parent)
+    with current_context(root) as (folder,parent_value,parent):
+        refinement=_current_refinement(root,parent_value,parent)
         # A continuation cannot borrow an earlier parent's predecessor. Matching
         # packages still pass their existing verifiers, whose errors must propagate.
-        fine_refinement=_current_fine_refinement(root,value,parent) if refinement is not None else None
-        ultrafine_refinement=(_current_ultrafine_refinement(root,value,refinement,fine_refinement,parent)
+        fine_refinement=_current_fine_refinement(root,parent_value,parent) if refinement is not None else None
+        ultrafine_refinement=(_current_ultrafine_refinement(root,parent_value,refinement,fine_refinement,parent)
             if fine_refinement is not None else None)
+    del parent_value
+    with streaming_publication_context(root) as (stream_folder,value,row_projection):
+        if stream_folder!=folder:raise ValueError('Active aggregate changed after refinement verification')
     if (out/'manifest.json').is_file():
         m=json.loads((out/'manifest.json').read_bytes())
         if all(digest(root/n)==h for n,h in m['source_sha256'].items()):
@@ -816,7 +913,7 @@ def build(root=ROOT,output=None):
     if not magnetic:magnetic=_prior_magnetic_summary(root,value)
     inventories=[];deliveries=[]
     for b in value['bodies']:
-        row=next(r for r in value['rows'] if r['body_candidate_id']==b['candidate_id'] and r['family_id']=='P1')
+        row=row_projection['p1'][b['candidate_id']]
         stage=next(r for r in row['stages'] if r['stage']=='installed_inventory')
         record=engine._read_cached_stage(engine.case_node_store.path_for(folder/'stages',identity(stage['request'])),root=root)
         if record['record_id']!=stage['record_id']:raise ValueError('Inventory stage changed')
@@ -833,7 +930,7 @@ def build(root=ROOT,output=None):
                 if (target/name).is_file():shutil.copyfile(target/name,out/prefix/name)
             deliveries.append(dict(candidate_id=bundle['candidate_id'],body_candidate_id=b['candidate_id'],prefix=prefix,raw_manifest=manifest))
     s=summary(value,magnetic,reused_body_cases=reused_body_cases,reuse_rejections=reuse_rejections,
-        refinement=refinement,fine_refinement=fine_refinement,ultrafine_refinement=ultrafine_refinement)
+        refinement=refinement,fine_refinement=fine_refinement,ultrafine_refinement=ultrafine_refinement,row_projection=row_projection)
     frontier=_published_frontier(value,refinement,fine_refinement,ultrafine_refinement)
     files={'summary.json':encoded(s),'bodies.json.gz':gzip.compress(encoded(value['bodies']),mtime=0),'bundles.json.gz':gzip.compress(encoded(value['bundles']),mtime=0),
         'inventories.json.gz':gzip.compress(encoded(inventories),mtime=0),
