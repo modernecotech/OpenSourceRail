@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **300**.
+Indexed Markdown files: **301**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **300**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 268 |
+| [docs](#docs) | 269 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -164,6 +164,7 @@ Indexed Markdown files: **300**.
 | [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
 | [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
+| [`docs/design-engine/coupled-railway-v07/README.md`](../docs/design-engine/coupled-railway-v07/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/craft-backends/README.md`](../docs/design-engine/craft-backends/README.md) | SolidCraft / FieldCraft backend pilot |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
 | [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
