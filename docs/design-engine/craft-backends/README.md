@@ -14,10 +14,10 @@ FreeCAD, CalculiX, Gmsh/GetDP, IFC/Bonsai, Chrono and SUMO remain available.
 ./osr design backends verify --output /path/to/private/fresh-run
 ```
 
-The local selected-reference packet is currently held because its manifest is
-missing. The pilot cannot plan or run that selected case until a source-matched
-packet is regenerated. Refresh and installation can be done separately; plan,
-run and verify above describe the workflow after that hold is resolved.
+The committed selected-reference packet has a source-bound manifest. Run
+`./osr verify` before planning a selected case; local edits or removed packet
+files create an explicit hold until the selected packet is regenerated.
+Refresh and installation can be done separately from candidate execution.
 
 Linux requires bubblewrap, GNU time, CalculiX (`ccx`), and the existing
 `org.freecad.FreeCAD` Flatpak. Explicit refresh resolves the latest stable
@@ -130,7 +130,8 @@ execution. An unavailable image, failed import, failed geometry check or
 nonconverged native solve is recorded as held. A completed numerical control
 does not qualify the selected beam, side sill or vehicle. Their same-candidate
 loads, supports, materials, interfaces and resource requests remain separate
-admission work, and the missing selected-reference manifest remains a hold.
+admission work. A selected-reference packet with missing or changed source
+bytes remains a hold until its own generator and verifier complete.
 
 ### Candidate-bound Code_Aster component handoff
 
