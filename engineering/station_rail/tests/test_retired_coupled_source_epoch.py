@@ -58,7 +58,7 @@ def replace(path, data):
 
 @pytest.mark.parametrize(('relative', 'message'), [
     ('docs/design-engine/coupled-railway/summary.json', 'payload differs'),
-    ('docs/design-engine/coupled-railway/README.md', 'documentation overlay differs'),
+    ('docs/design-engine/coupled-railway/README.md', 'payload differs'),
     (retired_station_reference.COUPLED_SOURCE_EPOCH +
      '/source/engineering/station_rail/braking.py', 'historical braking source bytes differ'),
 ])

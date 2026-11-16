@@ -22,7 +22,6 @@ COMMIT='3bf38a501d09fa3a3c2dd6f4731be11828d04f55'
 COUPLED_SOURCE_EPOCH='docs/archives/coupled-railway-source-epochs/905af0b5762a1acf987a831d588f5b8b26f0b400f3bf33be2dac2f940ce38510'
 COUPLED_PACKET_MANIFEST_ID='4363503c0647f6e0aff2253b4c714e4f00d47827722d8fe3e0f6c1fe18c6f91f'
 COUPLED_PACKET_COMMIT='83b2e0c83c5ee4fca317430a4d74fd3a9186374f'
-COUPLED_DOCUMENTATION_SHA256='58ff7d9d6843cdc5618bfa1e301dbea4923c7d5f0b85efe7e7deda5967cbb653'
 COUPLED_SOURCE_EPOCH_ID='938edc9b1f3f579bb783cf9b8bf520a3f79253f7d67b28c5c302ac1208e16000'
 COUPLED_SOURCE_COMMIT='dbb62c6aeb48377cb57a00521075bba333f741d2'
 COUPLED_SOURCE_BLOB='74e12d096a4103877c1ba6a89ef33ea0e841da54'
@@ -318,17 +317,8 @@ def _verify_current_coupled_packet(root):
         raise RetiredReferenceHold('Coupled Journey C working packet inventory differs')
     _verify_blobs(root,records,COUPLED_PACKET_COMMIT)
     for name,wanted in manifest['files_sha256'].items():
-        if name=='README.md':
-            continue
         if _hash(_path(root,prefix+name))!=wanted:
             raise RetiredReferenceHold('Coupled Journey C payload differs: '+name)
-    # The narrative was updated after the research packet was sealed. Keep its
-    # current bytes independently pinned, while the original README remains
-    # authenticated by the manifest and original Git tree.
-    documentation_path=prefix+'README.md'
-    if _hash(_path(root,documentation_path))!=COUPLED_DOCUMENTATION_SHA256:
-        raise RetiredReferenceHold('Coupled Journey C documentation overlay differs')
-    paths.append(_path(root,documentation_path))
     support_dir=_path(root,COUPLED_SOURCE_EPOCH)
     support_path=support_dir/'manifest.json'
     support=json.loads(_path(root,COUPLED_SOURCE_EPOCH+'/manifest.json').read_bytes())
