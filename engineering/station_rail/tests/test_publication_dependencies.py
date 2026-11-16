@@ -56,6 +56,36 @@ def test_publish_checks_linked_packets_before_calculation_or_replacement(tmp_pat
     assert marker.read_text()=='original'
 
 
+def test_publish_restores_prior_packet_and_keeps_unique_failed_attempts(tmp_path,monkeypatch):
+    from engineering import mass_ledger_audit
+    from engineering.city_reports import publication as city_reports
+    out=tmp_path/'existing';out.mkdir()
+    marker=out/'manifest.json';marker.write_bytes(b'original manifest')
+    (out/'payload.json').write_bytes(b'original payload')
+    archive=tmp_path/'build/v06-development/replaced-current'/digest(marker)
+    archive.mkdir(parents=True);(archive/'earlier.txt').write_text('earlier archive')
+    monkeypatch.setattr(p,'linked_publication_sources',lambda _root:{})
+    monkeypatch.setattr(p.evaluation,'build',lambda _root:{})
+    monkeypatch.setattr(mass_ledger_audit,'verify',lambda _root:None)
+    monkeypatch.setattr(p,'_retired_native_results',lambda _root:({},{},{}))
+    attempts=[]
+    def fail(*,root):
+        (out/'partial.txt').write_text(f'attempt {len(attempts)}')
+        attempts.append(len(attempts))
+        raise RuntimeError('injected generation failure')
+    monkeypatch.setattr(city_reports,'publish_geography',fail)
+    for _ in range(2):
+        with pytest.raises(RuntimeError,match='injected generation failure'):
+            p.publish(root=tmp_path,output=out)
+        assert marker.read_bytes()==b'original manifest'
+        assert (out/'payload.json').read_bytes()==b'original payload'
+        assert not (out/'partial.txt').exists()
+        assert (archive/'earlier.txt').read_text()=='earlier archive'
+    failures=sorted((tmp_path/'build/v06-development/failed-current').iterdir())
+    assert len(failures)==2
+    assert { (folder/'partial.txt').read_text() for folder in failures }=={'attempt 0','attempt 1'}
+
+
 def test_schema_can_bind_dispositions_in_a_sealed_result_instead_of_manifest(tmp_path):
     base,m=packet(tmp_path)
     result=dict(schema='fixture-result/1',physical_accepted=False,engineering_accepted=False,

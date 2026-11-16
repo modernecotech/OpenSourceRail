@@ -2,8 +2,9 @@
 from pathlib import Path
 from hashlib import sha256
 from collections import Counter
+from contextlib import contextmanager
 from decimal import Decimal, ROUND_HALF_EVEN
-import fcntl,gzip,io,json,os,shutil,subprocess,sys,tarfile,tempfile
+import fcntl,gzip,io,json,os,shutil,subprocess,sys,tarfile,tempfile,uuid
 from . import ROOT,FLAGS
 from .common import encoded,identity,digest
 from . import evaluation,exports,cities,comparison,figures
@@ -1001,6 +1002,30 @@ def _retired_native_results(root):
     return results,archives,provenance
 
 
+@contextmanager
+def _replace_current_output(root,output):
+    """Restore the previous selected packet if generation or sealing fails."""
+    if output.is_symlink():raise ValueError('Selected output cannot be a symlink')
+    previous=None
+    if output.exists():
+        base=root/'build/v06-development/replaced-current'
+        name=digest(output/'manifest.json') if (output/'manifest.json').is_file() else 'incomplete'
+        previous=base/name
+        if previous.exists():previous=base/(name+'.'+uuid.uuid4().hex)
+        previous.parent.mkdir(parents=True,exist_ok=True)
+        shutil.move(output,previous)
+    try:
+        output.mkdir(parents=True,exist_ok=False)
+        yield
+    except BaseException:
+        if output.exists():
+            failed=root/'build/v06-development/failed-current'/uuid.uuid4().hex
+            failed.parent.mkdir(parents=True,exist_ok=True)
+            shutil.move(output,failed)
+        if previous is not None:shutil.move(previous,output)
+        raise
+
+
 def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
     linked_publication_sources(root)
@@ -1008,36 +1033,32 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     from engineering import mass_ledger_audit
     mass_ledger_audit.verify(root)
     natives,reference_archives,reference_provenance=_retired_native_results(root)
-    if output.exists():
-        previous=root/'build/v06-development/replaced-current'/digest(output/'manifest.json') if (output/'manifest.json').is_file() else root/'build/v06-development/replaced-current/incomplete'
-        if previous.exists():shutil.rmtree(output)
-        else:previous.parent.mkdir(parents=True,exist_ok=True);shutil.move(output,previous)
-    output.mkdir(parents=True,exist_ok=True)
-    from engineering.city_reports import publication as city_reports
-    index=city_reports.publish_geography(root=root)
-    from engineering.development_baseline import planning
-    planning.publish_inputs(root)
-    delivery,compiled=exports.write(output/'exports',record,root,index,None,return_compiled=True)
-    compact_value=compact(record,index,natives,delivery)
-    for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
-       'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root,compiled=compiled).encode()}.items():write(output/name,raw)
-    for name,raw in reference_archives.items():write(output/('native-'+name+'.tar.gz'),raw)
-    write(output/'reference-native-provenance.json',encoded(reference_provenance))
-    figures.write(record,output)
-    for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
-    from engineering.city_reports import publication as city_reports
-    if (root/'docs/design-engine/city-atlas/manifest.json').is_file():
-        city_reports.publish(root=root)
-    from engineering import readme_context
-    readme_audit=readme_context.audit(root)
-    if not readme_audit['current']:raise ValueError('README context: '+'; '.join(readme_audit['errors']))
-    write(output/'readme-coverage.json',encoded(readme_audit))
-    write(output/'readme-coverage.md',readme_context.markdown(readme_audit).encode())
-    # Generate navigation after the current dossier README has been replaced;
-    # and coverage reports have been written, so their inventory is current.
-    for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
-        subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
-    seal(output,root)
+    with _replace_current_output(root,output):
+        from engineering.city_reports import publication as city_reports
+        index=city_reports.publish_geography(root=root)
+        from engineering.development_baseline import planning
+        planning.publish_inputs(root)
+        delivery,compiled=exports.write(output/'exports',record,root,index,None,return_compiled=True)
+        compact_value=compact(record,index,natives,delivery)
+        for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
+           'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root,compiled=compiled).encode()}.items():write(output/name,raw)
+        for name,raw in reference_archives.items():write(output/('native-'+name+'.tar.gz'),raw)
+        write(output/'reference-native-provenance.json',encoded(reference_provenance))
+        figures.write(record,output)
+        for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
+        from engineering.city_reports import publication as city_reports
+        if (root/'docs/design-engine/city-atlas/manifest.json').is_file():
+            city_reports.publish(root=root)
+        from engineering import readme_context
+        readme_audit=readme_context.audit(root)
+        if not readme_audit['current']:raise ValueError('README context: '+'; '.join(readme_audit['errors']))
+        write(output/'readme-coverage.json',encoded(readme_audit))
+        write(output/'readme-coverage.md',readme_context.markdown(readme_audit).encode())
+        # Generate navigation after the current dossier README has been replaced;
+        # and coverage reports have been written, so their inventory is current.
+        for script in ('generate-city-geography-index.py','generate-public-overview.py','generate-doc-index.py'):
+            subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
+        seal(output,root)
     return dict(published=True,selection_id=record['selection_id'],evaluation_id=record['evaluation_id'],city_count=index['city_count'],city_performance_packages_written=0,**FLAGS)
 
 def verify(output=None,*,root=ROOT,replay=True):
