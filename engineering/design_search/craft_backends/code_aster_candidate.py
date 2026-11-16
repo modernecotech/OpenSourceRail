@@ -21,6 +21,12 @@ ROOT=HERE.parents[2]
 GIB=1024**3
 SOURCE_FILES=('code_aster_candidate.py','code_aster_candidate_mesh.py',
               'code_aster_control.py','code_aster_box.export','freecad_reference.py')
+SOURCE_PATHS=tuple('engineering/design_search/craft_backends/'+name for name in SOURCE_FILES)
+
+
+def _source_hashes(root=ROOT):
+    """Bind source bytes by repository path, independent of checkout location."""
+    return {name:box.digest(Path(root)/name) for name in SOURCE_PATHS}
 
 
 def _identity(value):
@@ -168,7 +174,7 @@ def _run(step,output,definition,refusal_path,*,image,python,lease):
     request=dict(schema='osr-code-aster-candidate-request/1',**definition,
         step_sha256=box.digest(step),fieldcraft_rejection_sha256=box.digest(refusal_path),
         fieldcraft_binary_sha256=json.loads(refusal_path.read_text())['fieldcraft_binary_sha256'],
-        source_sha256={str(HERE/name):box.digest(HERE/name) for name in SOURCE_FILES},
+        source_sha256=_source_hashes(),
         requested_image=image,requested_image_identity=box._image_identity(image),
         units='m-kg-s-N-Pa',memory_bytes=2*GIB,timeout_s=180,
         native_memory_enforcement='2 GiB POSIX per-process virtual-address limit; aggregate Docker cgroup unavailable',
@@ -270,10 +276,10 @@ def verify_candidate(output):
     refusal=validate_refusal(output/'fieldcraft-rejection.json',output/'assembly.step',request['candidate_id'],request['component_geometry_id'])
     if refusal['fieldcraft_binary_sha256']!=request['fieldcraft_binary_sha256']:
         raise ValueError('FieldCraft executable identity differs')
-    if set(request['source_sha256'])!={str(HERE/name) for name in SOURCE_FILES}:
+    if set(request['source_sha256'])!=set(SOURCE_PATHS):
         raise ValueError('Candidate source inventory differs')
     for path,sha in request['source_sha256'].items():
-        if box.digest(path)!=sha:raise ValueError('Candidate source implementation differs')
+        if box.digest(ROOT/path)!=sha:raise ValueError('Candidate source implementation differs')
     if result.get('mesh') is not None:
         mesh=json.loads((output/'mesh-summary.json').read_text())
         if mesh!=result['mesh'] or mesh['step_sha256']!=request['step_sha256']:

@@ -166,6 +166,9 @@ the railway campaign's disk reserve was active, so this second case is recorded
 as **held before native solve**. The separate one-box control above remains the
 executed native Code_Aster proof. Neither control resolves selected component
 loads, joints, fatigue, buckling, material allowables or physical qualification.
+The request binds implementation hashes by repository-relative path, so the
+preserved packet can be checked from another checkout with the exact same
+source bytes and locally available Gmsh and FreeCAD tool bytes.
 
 Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).

@@ -75,3 +75,14 @@ def test_refusal_must_bind_same_candidate_and_exact_step(tmp_path):
     step.write_bytes(b'changed step')
     with pytest.raises(ValueError,match='differs'):
         candidate.validate_refusal(path,step,'a'*64,'b'*64)
+
+
+def test_source_receipt_uses_repository_paths_across_checkout_locations(tmp_path):
+    for name in candidate.SOURCE_PATHS:
+        path=tmp_path/name
+        path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_bytes(name.encode())
+    hashes=candidate._source_hashes(tmp_path)
+    assert set(hashes)==set(candidate.SOURCE_PATHS)
+    assert all(not Path(name).is_absolute() for name in hashes)
+    assert hashes=={name:candidate.box.digest(tmp_path/name) for name in candidate.SOURCE_PATHS}
