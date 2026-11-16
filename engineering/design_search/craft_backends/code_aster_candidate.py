@@ -267,7 +267,11 @@ def verify_candidate(output):
         raise ValueError('Candidate boundary projection differs')
     if box.digest(output/'assembly.step')!=request['step_sha256'] or box.digest(output/'fieldcraft-rejection.json')!=request['fieldcraft_rejection_sha256']:
         raise ValueError('Candidate STEP or FieldCraft refusal differs')
-    validate_refusal(output/'fieldcraft-rejection.json',output/'assembly.step',request['candidate_id'],request['component_geometry_id'])
+    refusal=validate_refusal(output/'fieldcraft-rejection.json',output/'assembly.step',request['candidate_id'],request['component_geometry_id'])
+    if refusal['fieldcraft_binary_sha256']!=request['fieldcraft_binary_sha256']:
+        raise ValueError('FieldCraft executable identity differs')
+    if set(request['source_sha256'])!={str(HERE/name) for name in SOURCE_FILES}:
+        raise ValueError('Candidate source inventory differs')
     for path,sha in request['source_sha256'].items():
         if box.digest(path)!=sha:raise ValueError('Candidate source implementation differs')
     if result.get('mesh') is not None:
@@ -280,6 +284,8 @@ def verify_candidate(output):
             raise ValueError('Independent STEP geometry receipt differs')
         if _geometry_check(json.loads((output/'freecad-reference'/'result.json').read_text()),request)!=result['independent_step_geometry_verified']:
             raise ValueError('Independent STEP geometry verdict differs')
+        if result['independent_step_geometry_verified'] and not all((output/name).is_file() for name in ('candidate.comm','candidate.export')):
+            raise ValueError('Admitted Code_Aster deck absent')
         if (output/'candidate.comm').exists() and (output/'candidate.comm').read_text()!=render_comm(request,mesh):
             raise ValueError('Code_Aster input deck differs')
         if (output/'candidate.export').exists() and (output/'candidate.export').read_text()!=(HERE/'code_aster_box.export').read_text().replace('box.','candidate.'):
