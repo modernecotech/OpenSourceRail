@@ -120,14 +120,20 @@ def _tree(root,commit=None):
         if not row:continue
         meta,name=row.split(b'\t',1);mode,kind,oid,size=meta.split();name=name.decode()
         if kind==b'blob' and mode in (b'100644',b'100755'):
-            try:count=int(size)
-            except ValueError as exc:raise RetiredReferenceHold('Retired Git blob missing or damaged: '+name) from exc
+            # A blobless checkout reports BAD for objects it has not fetched.
+            # Keep their OIDs in the tree; only selected blobs need local sizes.
+            if size==b'BAD':count=-1
+            else:
+                try:count=int(size)
+                except ValueError as exc:raise RetiredReferenceHold('Retired Git blob size differs: '+name) from exc
+                if count<0:raise RetiredReferenceHold('Retired Git blob size differs: '+name)
             rows[name]=dict(git_blob=oid.decode(),size_bytes=count)
     return rows
 
 
 def _blob(root,tree,name):
     if name not in tree:raise RetiredReferenceHold('Retired source is absent from pinned Git tree: '+name)
+    if tree[name]['size_bytes']<0:raise RetiredReferenceHold('Selected retired Git blob unavailable: '+name)
     if tree[name]['size_bytes']>MAX_FILE_BYTES:raise RetiredReferenceHold('Retired source exceeds its file budget')
     raw=_git(root,['cat-file','blob',tree[name]['git_blob']])
     if len(raw)!=tree[name]['size_bytes']:raise RetiredReferenceHold('Retired Git blob size differs')
@@ -179,6 +185,8 @@ def _snapshot(root):
     cfg=tomllib.loads(selector_raw.decode())
     if identity(cfg)!=m['selection_id']:raise RetiredReferenceHold('Retired selector identity differs')
     records={p:dict(tree[p],sha256=h) for p,h in sorted(bindings.items())}
+    missing=next((name for name,value in records.items() if value['size_bytes']<0),None)
+    if missing:raise RetiredReferenceHold('Retired Git blob missing: '+missing)
     if len(records)>MAX_FILES or sum(v['size_bytes'] for v in records.values())>MAX_TOTAL_BYTES:
         raise RetiredReferenceHold('Retired source closure exceeds its budget')
     v=dict(schema='osr-retired-station-reference/1',reference_commit=COMMIT,
@@ -242,7 +250,7 @@ def _verify_blobs(root,records,commit=None):
     while len(_cache)>2:_cache.popitem(last=False)
 
 
-def _coupled_records(root,manifest,manifest_bytes,tree):
+def _coupled_records(root,manifest,manifest_bytes,tree,*,require_sizes=True):
     prefix='docs/design-engine/coupled-railway/'
     payload=manifest.get('files_sha256')
     sources=manifest.get('source_sha256')
@@ -258,7 +266,11 @@ def _coupled_records(root,manifest,manifest_bytes,tree):
         if name not in tree or not isinstance(wanted,str) or len(wanted)!=64:
             raise RetiredReferenceHold('Coupled Journey C pinned source or payload is missing')
         records[name]=dict(tree[name],sha256=wanted)
-    if len(records)>MAX_FILES or sum(v['size_bytes'] for v in records.values())>MAX_TOTAL_BYTES:
+    if require_sizes:
+        missing=next((name for name,value in records.items() if value['size_bytes']<0),None)
+        if missing:raise RetiredReferenceHold('Coupled Journey C selected Git blob missing: '+missing)
+    if (len(records)>MAX_FILES or
+            (require_sizes and sum(v['size_bytes'] for v in records.values())>MAX_TOTAL_BYTES)):
         raise RetiredReferenceHold('Coupled Journey C Git closure exceeds its budget')
     return expected_files,records
 
@@ -276,7 +288,7 @@ def prefetch_coupled_blobs(root=ROOT):
     if manifest.get('manifest_id')!=COUPLED_PACKET_MANIFEST_ID:
         raise RetiredReferenceHold('Coupled Journey C manifest identity differs')
     tree=_tree(root,COUPLED_PACKET_COMMIT)
-    _,records=_coupled_records(root,manifest,manifest_bytes,tree)
+    _,records=_coupled_records(root,manifest,manifest_bytes,tree,require_sizes=False)
     fetched=0
     network_env=_env();network_env.pop('GIT_NO_LAZY_FETCH')
     for oid in sorted({v['git_blob'] for v in records.values()}):
@@ -289,6 +301,8 @@ def prefetch_coupled_blobs(root=ROOT):
         except (subprocess.SubprocessError,OSError) as exc:
             raise RetiredReferenceHold('Explicit Journey C blob prefetch failed: '+oid) from exc
         fetched+=1
+    refreshed=_tree(root,COUPLED_PACKET_COMMIT)
+    _,records=_coupled_records(root,manifest,manifest_bytes,refreshed)
     _verify_blobs(root,records,COUPLED_PACKET_COMMIT)
     return dict(prefetched_blobs=fetched,pinned_blob_count=len({v['git_blob'] for v in records.values()}),
                 commit=COUPLED_PACKET_COMMIT,verified=True,**FLAGS)

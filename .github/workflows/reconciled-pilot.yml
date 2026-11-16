@@ -98,7 +98,7 @@ jobs:
           .venv/bin/python - <<'PY'
           import json
           from pathlib import Path
-          from engineering.railway_closure.retained import tree, prefetch_selected
+          from engineering.railway_closure.retained import tree, blobs, prefetch_selected
           packets = (
               ('reconciled-pilot', 'f990fc24ba9c1c2adcd8afb4456ded5c4753209a'),
               ('reconciled-pilot-no-store', '49e095ba5751706c4dcd51f25dfd8f1b728bd20e'),
@@ -107,13 +107,21 @@ jobs:
           for packet, revision in packets:
               prefix = 'docs/design-engine/' + packet + '/'
               entries = tree(Path.cwd(), revision, sizes=False)
-              sources = json.loads(Path(prefix, 'manifest.json').read_bytes())['source_sha256']
-              delivery = Path(prefix, 'delivery/manifest.json')
-              if delivery.is_file():
-                  sources.update(json.loads(delivery.read_bytes())['source_sha256'])
+              # Select from the pinned revision, not today's packet: newer
+              # producer paths need not exist in the retained Git tree.
+              manifest = prefix + 'manifest.json'
+              delivery = prefix + 'delivery/manifest.json'
+              heads = [manifest] + ([delivery] if delivery in entries else [])
+              prefetch_selected(Path.cwd(), revision, heads)
+              historical = dict(blobs(Path.cwd(), tree(Path.cwd(), revision), heads))
+              sources = json.loads(historical[manifest])['source_sha256']
+              if delivery in historical:
+                  sources.update(json.loads(historical[delivery])['source_sha256'])
               names = set(sources) | {n for n in entries if n.startswith(prefix) or
                   (n.endswith('.py') and n.startswith(('engineering/', 'services/integration/')))}
               names.update(n for n in ('engineering/design_search/craft_backends/tools.json',) if n in entries)
+              if not names <= set(entries):
+                  raise ValueError('Retained manifest refers to an absent pinned source')
               print(packet, prefetch_selected(Path.cwd(), revision, names))
           PY
       - name: Authenticate retained research dossiers in their original source epochs without new CAD or FEM

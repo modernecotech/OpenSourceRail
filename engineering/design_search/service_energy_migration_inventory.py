@@ -35,7 +35,7 @@ FLAGS=(*old.FLAGS,'configuration_adopted','selected_reference_changed',
        'numerical_reexecuted','current_evaluator_admission','physical_equivalence_proven')
 LINKED_EXTRA={'periodic-thermal-research/manifest.json','installed-mass-support/manifest.json'}
 LINKED_NOT_COVERED=('architecture-reach-closure','civil-shape-portfolio','implicit-geometry-study',
-                    'moving-lim-method','v06-design-space')
+                    'moving-lim-method','v06-design-space','coupled-railway-v07')
 FOLLOWUP='retained-physical-followup-source-epoch/manifest.json'
 
 

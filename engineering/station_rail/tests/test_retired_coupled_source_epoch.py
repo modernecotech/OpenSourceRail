@@ -3,10 +3,58 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+from types import SimpleNamespace
 
 import pytest
 
 from engineering.station_rail import retired_station_reference
+
+
+def test_blobless_tree_keeps_unselected_bad_size_without_admitting_it(monkeypatch,tmp_path):
+    reader=retired_station_reference
+    commit='a'*40;missing='b'*40;present='c'*40
+    def git(_root,args):
+        if args[0]=='rev-parse':return (commit+'\n').encode()
+        assert args[0]=='ls-tree'
+        return (f'100644 blob {missing} BAD\tunselected.py\0'
+                f'100644 blob {present} 4\tselected.py\0').encode()
+    monkeypatch.setattr(reader,'_git',git)
+    entries=reader._tree(tmp_path,commit)
+    assert entries['unselected.py']==dict(git_blob=missing,size_bytes=-1)
+    assert entries['selected.py']==dict(git_blob=present,size_bytes=4)
+    with pytest.raises(reader.RetiredReferenceHold,match='Selected retired Git blob unavailable'):
+        reader._blob(tmp_path,entries,'unselected.py')
+
+
+def test_coupled_prefetch_fetches_selected_bad_sizes_then_checks_budget(monkeypatch,tmp_path):
+    reader=retired_station_reference
+    prefix='docs/design-engine/coupled-railway/'
+    manifest=dict(schema='test',source_sha256={'source.py':'0'*64},
+        files_sha256={'result.json':'1'*64})
+    manifest['manifest_id']=reader.identity(manifest)
+    path=tmp_path/prefix/'manifest.json';path.parent.mkdir(parents=True)
+    path.write_bytes(reader.encoded(manifest))
+    monkeypatch.setattr(reader,'COUPLED_PACKET_MANIFEST_ID',manifest['manifest_id'])
+    selected=('source.py',prefix+'result.json',prefix+'manifest.json')
+    oids={name:f'{index+1:040x}' for index,name in enumerate(selected)}
+    calls=[0]
+    def tree(_root,_commit):
+        calls[0]+=1
+        size=-1 if calls[0]==1 else 16
+        return {**{name:dict(git_blob=oid,size_bytes=size) for name,oid in oids.items()},
+            'unselected.py':dict(git_blob='f'*40,size_bytes=-1)}
+    fetched=[]
+    def run(command,**kwargs):
+        if command[-3:-1]==['cat-file','-e']:return SimpleNamespace(returncode=1)
+        assert command[-3:-1]==['cat-file','blob']
+        fetched.append(command[-1]);return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(reader,'_tree',tree)
+    monkeypatch.setattr(reader.subprocess,'run',run)
+    monkeypatch.setattr(reader,'_verify_blobs',lambda root,records,commit:None)
+    result=reader.prefetch_coupled_blobs(tmp_path)
+    assert calls[0]==2
+    assert set(fetched)==set(oids.values())
+    assert result['pinned_blob_count']==3 and result['prefetched_blobs']==3
 
 
 def test_coupled_packet_is_historical_without_current_evaluator(monkeypatch):

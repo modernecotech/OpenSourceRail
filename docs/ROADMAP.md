@@ -29,6 +29,39 @@ open/partial engineering findings remain visible in the
 keeps its truthful pending records; it is not a reason to repeat publication
 checks or withhold the already published release.
 
+## Governing v0.7 result: one affordable railway that can be built locally
+
+The next system-level demonstration is one reproducible **30 km Samawah
+reference corridor**, with a **1.5–2 km physical demonstrator** for the
+vehicle, propulsion, stopping, recovery and civil interfaces. Use one stated
+passenger demand, route, station spacing, grade, accessibility, crowd and
+emergency requirements for every comparison. The 120-second comfort reference
+and the former higher-capacity formation are named alternatives, not automatic
+selections. Keep unsupported quantities bounded or unknown.
+
+| Priority | Decision evidence required |
+|---|---|
+| Complete corridor | One same-candidate chain from route and service through installed vehicle, propulsion, civil quantities, construction, fleet, energy, fourteen-scope capital and lifecycle cost, local production and maintenance. Show the Workbench before/after edit and all unresolved holds. |
+| Propulsion | Compare station-powered unpowered-wheel, powered-wheel and ferrite-assisted lightweight support research at equal service, with separate candidate and evaluation identities. Test the adverse grade and longest gap, wet-rail and emergency stopping, rescue, electrical and thermal duty. Do not promote the best-modelled option by default. |
+| Civil and train | Select one beam–pier–foundation–erection sequence and one representative car with a removable, testable door module. Count installed mass, interfaces, access, tooling, factory hours, erection hours and repair work. |
+| Local delivery | Report make/buy by material value, fabrication and QA hours, tooling, supplier availability and imported critical inputs; count construction months and disruption per kilometre. Component count alone is not local value added. |
+
+Rank candidates by complete installed cost per route-kilometre, cost per unit of
+normal passenger capacity, lifecycle cost per passenger-kilometre, accepted
+viaduct cost per kilometre, local manufacturing and maintenance value, and
+construction time and disruption per kilometre. Show each numerator, service
+denominator, price basis and uncertainty; safety and accessibility remain
+mandatory screens. The current 30 km estimate is a comparison control, not a
+price promise or evidence of physical acceptance.
+
+Before accepting an architecture, subsystem or major toolchain change, record
+whether it improves whole-railway cost or necessary service, local build and
+repair, independence from hard-to-source technology, complete system behaviour,
+and open reproducibility. A software-only change needs a measured runtime,
+memory, storage, reliability or user-journey gain that warrants its upkeep.
+The 266-city catalogue supports this deep example; it does not substitute for
+one integrated, buildable corridor.
+
 ## First v0.7 milestone: the Samawah station merge
 
 Open the published Samawah example, apply the retained station-merge intent,
@@ -78,16 +111,18 @@ keeps the remaining installed-candidate, detailed module and lifecycle work open
 1. **Handover and baseline — complete:** the published v0.6.1 installation,
    Samawah before/after comparison, candidate boundaries and bounded performance
    baseline have recorded source identities and timings.
-2. **Project continuity — software demonstrated:** the station edit flows through
-   service, fleet and fourteen cost scopes with dependency checks and visible
-   missing installed stages. Complete candidate integration remains open.
-3. **Engineering interfaces — active:** establish controlled door mating datums,
-   force/brake/thermal inputs and represented civil support/loading before new
-   native CAD or FEA. The Samawah and Baghdad native GIS two-edit return cycles
-   are recorded; rerun only for changed inputs.
-4. **Lifecycle and generalisation — active:** take the counted door module through
-   actual native ERPNext receipt, QA, assembly, replacement and handback, then
-   compile a same-candidate dossier and replay one Baghdad corridor.
+2. **Complete corridor — active:** finish one Samawah same-candidate installed
+   vehicle, propulsion, civil, fleet, cost and delivery handoff. The station
+   edit already reaches service, fleet and fourteen cost scopes; missing
+   installed stages stay visible until supported inputs and measurements exist.
+3. **Equal-service decisions — active:** resolve grade, stopping, recovery and
+   thermal limits across the three explicit propulsion/support families; then
+   compare one buildable civil sequence and representative car/door assembly.
+   Source-bound calculations alone do not choose a physical system.
+4. **Local delivery and interaction — active:** measure make/buy value and
+   factory/erection hours, then run the actual candidate-linked module through
+   ERPNext receipt, QA, replacement and handback. Show the complete Samawah
+   journey in the Workbench before generalising to one Baghdad corridor.
 5. **Release acceptance:** resolve defects exposed by both journeys, run the
    clean-install v0.7 acceptance case, and publish supported scope and remaining
    engineering limitations.
@@ -106,6 +141,11 @@ the dependency first. Benchmark an expensive required kernel before extending
 Rust or vectorisation. Avoid broad rewrites, all-city regeneration and duplicate
 calculation pipelines for this milestone. Preserve failed, interrupted and
 out-of-domain evidence and maintain the project disk reserve during execution.
+Keep full historical method replay as an explicit reproduction task; ordinary
+development should check bounded source/payload integrity and label current-tool
+compatibility separately. A retained verifier's tool-version mismatch remains
+a recorded historical replay hold, not a reason to pin the active CAD/FEA
+toolchain or grant physical acceptance.
 The [15 November runtime and toolchain review](plans/v0.7-runtime-toolchain-review.md)
 records the current storage inventory, bounded memory experiments and upstream
 CAD/FEA/GIS compatibility probes. It does not change the selected reference or
