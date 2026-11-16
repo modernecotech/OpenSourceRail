@@ -368,7 +368,7 @@ jobs:
       - name: Pin NumPy for exact source-bound evaluator replay
         run: .venv/bin/pip install --no-cache-dir numpy==2.3.5
       - run: npm ci
-      - name: Supported front-door hold and documentation contracts
+      - name: Current front-door publication and documentation contracts
         run: |
           .venv/bin/python - <<'PYCODE'
           import json
@@ -376,9 +376,8 @@ jobs:
           from engineering.development_baseline.entrypoint import status
           state = status()
           assert state['schema'] == 'osr-default-entrypoint/1'
-          assert state['publication_state'] == 'hold'
-          assert state['hold_reason'] == 'Current source changed: .github/workflows/development-baseline.yml'
-          assert 'publication' not in state and all(state.get(key) is False for key in FLAGS)
+          assert state['publication_state'] == 'current', state.get('hold_reason')
+          assert 'publication' in state and all(state.get(key) is False for key in FLAGS)
           print(json.dumps(state, sort_keys=True))
           PYCODE
           .venv/bin/python tools/automation/check-readmes.py
