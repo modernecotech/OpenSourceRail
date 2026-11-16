@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import sys
 
@@ -82,7 +83,11 @@ def test_python_readiness_rejects_stale_native_wheels_and_refreshes(tmp_path):
 
     root = tmp_path / 'checkout'
     (root / '.venv/bin').mkdir(parents=True)
-    (root / '.venv/bin/python').symlink_to(sys.executable)
+    # A symlink outside the real venv loses pyvenv.cfg discovery on CI and
+    # runs the base interpreter, which need not have packaging installed.
+    python = root / '.venv/bin/python'
+    python.write_text('#!/usr/bin/env bash\nexec ' + shlex.quote(sys.executable) + ' "$@"\n')
+    python.chmod(0o755)
     requirements = root / 'engineering/requirements.txt'
     requirements.parent.mkdir()
     requirements.write_text('ifcopenshell>=0.9.0.post1\nifctester>=0.9.0\ngmsh>=4.15.2\n')
@@ -96,6 +101,9 @@ def test_python_readiness_rejects_stale_native_wheels_and_refreshes(tmp_path):
         dist.mkdir()
         (dist / 'METADATA').write_text(f'Metadata-Version: 2.1\nName: {name}\nVersion: {version}\n')
     environment = {**os.environ, 'PYTHONPATH': str(site), 'OSR_TEST_SITE': str(site)}
+    prefix = subprocess.check_output([python, '-c', 'import sys; print(sys.prefix)'],
+                                     env=environment, text=True).strip()
+    assert prefix == sys.prefix
     shell = (
         'set -euo pipefail; ROOT="$1"; PYTHON_VERSION=3.11; source "$2"; '
         'section() { :; }; fail() { return 1; }; '
