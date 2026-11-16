@@ -9,8 +9,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 Start with the [project README](../README.md), [current platform book](BOOK.md),
 [published v0.6.1 scope](releases/v0.6.1/README.md),
 [v0.7 execution record](design-engine/v07-execution/README.md) and
-[roadmap](ROADMAP.md). The integrated v0.6 reference packet has a source-binding
-hold and is not a supported release result; its local dossier may be unavailable.
+[roadmap](ROADMAP.md). The [current integrated reference packet](design-engine/current/README.md)
+passed independent source-bound verification on main. It remains research evidence,
+outside the supported v0.6.1 software release and without physical acceptance.
 Use the [v0.6 design-closure ledger](design-engine/v06-design-closure/README.md)
 for the open engineering findings and the [v0.7 runtime review](plans/v0.7-runtime-toolchain-review.md)
 for performance and toolchain decisions.
@@ -45,6 +46,6 @@ v0.6.1 platform and developing v0.7 project, with Workbench screenshots,
 ten city route examples, product and assembly views, digital-twin tests,
 passenger experience, production and whole-life cost. Its [foreword](BOOK.md) explains the
 scope. A separate receipt binds the sources and illustrations without putting
-technical identifiers into the prose. The held integrated dossier is excluded
-as passing engineering proof.
+technical identifiers into the prose. The integrated dossier is presented as
+source-bound research evidence, without passing engineering or physical proof.
 Source-bound engineering packets remain authoritative for their own claims.

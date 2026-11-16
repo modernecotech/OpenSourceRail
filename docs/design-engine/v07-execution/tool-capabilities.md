@@ -1,11 +1,11 @@
 # v0.7 tool selection and retirement boundaries
 
-Use the [operation matrix](tool-capabilities.json) with the [tool inventory](tool-inventory.json). Supported means demonstrated for the listed operation, candidate and source epoch. It grants no physical acceptance or general upstream-tool parity. Receipt paths are local coordinator evidence, with byte counts and SHA-256 hashes; they are not newly published downloads.
+This is the retained tool review at its recorded source epoch. Use its [operation matrix](tool-capabilities.json) with the [tool inventory](tool-inventory.json) to reproduce those exact controls; the [v0.7 runtime review](../../plans/v0.7-runtime-toolchain-review.md) and current campaign receipts describe later upgrades. Supported means demonstrated for the listed operation, candidate and source epoch. It grants no physical acceptance or general upstream-tool parity. Receipt paths are local coordinator evidence, with byte counts and SHA-256 hashes; they are not newly published downloads.
 
 | Path | Selection and demonstrated scope | Deprecation/removal decision |
 | --- | --- | --- |
-| SolidCraft 0.30.1 | Current door-header stock blank; native/STEP reopen and volume/centroid/bounds agreement | Prefer this path for the demonstrated blank. Keep other CAD consumers until individually migrated. |
-| RustGIS 0.5.0 | Current two-edit export/import/reprice/reopen paths for selected Samawah and Baghdad corridors | Use these demonstrated operations. Retain QGZ readers; no general QGIS parity claim. |
+| SolidCraft 0.30.1 | Door-header stock blank at this review epoch; native/STEP reopen and volume/centroid/bounds agreement | Retain as an exact historical control. Keep other CAD consumers until individually migrated. |
+| RustGIS 0.5.0 | Two-edit export/import/reprice/reopen paths at this review epoch for selected Samawah and Baghdad corridors | Retain these demonstrated operations. Retain QGZ readers; no general QGIS parity claim. |
 | FieldCraft 0.7.5 | Opt-in uncracked isotropic reference-box normal-load controls, compared with CalculiX | Retain restricted research admission. Mesh independence remains false: displacement refinement changed 2.725534%. |
 | FreeCAD 1.1.4 / OCC 7.8.1 | Optional independent exact STEP geometry verification | Keep installed where existing consumers need it. Imported names/materials do not establish canonical identity or strength transfer. |
 | CalculiX, executable pinned in matrix | Independent same-mesh structural comparison; other active structural defaults remain | Keep independent verification and active consumers. No blanket retirement. |

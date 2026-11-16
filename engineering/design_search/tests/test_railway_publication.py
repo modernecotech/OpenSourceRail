@@ -12,6 +12,24 @@ from engineering.design_search import railway_publication as publication
 HISTORICAL=ROOT/'docs/design-engine/coupled-railway'
 
 
+def test_interrupted_publication_is_retained_before_retry(tmp_path):
+    out=tmp_path/'docs/design-engine/coupled-railway-v07'
+    out.mkdir(parents=True)
+    (out/'partial.json').write_text('{"execution":"interrupted"}')
+    retained=publication._retain_previous_publication(tmp_path,out)
+    assert retained.name.startswith('incomplete-')
+    assert (retained/'partial.json').read_text()=='{"execution":"interrupted"}'
+    out.mkdir(parents=True)
+    (out/'partial.json').write_text('{"execution":"interrupted"}')
+    assert publication._retain_previous_publication(tmp_path,out)==retained
+    assert not out.exists()
+
+
+def test_current_comparison_rejects_retired_gzip_json_schema(tmp_path):
+    with pytest.raises(ValueError,match='Current comparison schema'):
+        list(publication._comparison_rows(tmp_path,tmp_path,{'schema':'osr-coupled-railway-publication/1'}))
+
+
 def test_v2_current_materializes_exact_parent_only_for_reader_scope(tmp_path,monkeypatch):
     from contextlib import nullcontext
     from engineering.design_search import railway_campaign as campaign

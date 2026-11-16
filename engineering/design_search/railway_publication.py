@@ -69,9 +69,6 @@ def _write_comparison(root,path,rows):
 def _comparison_rows(root,out,manifest):
     """Yield authenticated current rows from a bounded Rust Arrow scanner."""
     receipt=manifest.get('comparison')
-    if manifest.get('schema')=='osr-coupled-railway-publication/1':
-        yield from json.loads(gzip.decompress((out/'comparison.json.gz').read_bytes()))
-        return
     if (manifest.get('schema')!='osr-coupled-railway-publication/2'
             or not isinstance(receipt,dict) or receipt.get('schema')!=COMPARISON_SCHEMA
             or not isinstance(receipt.get('row_count'),int)
@@ -115,13 +112,14 @@ def _retain_previous_publication(root,out):
     out=Path(out)
     root=Path(root)
     if not out.exists():return None
+    def tree_hashes(folder):
+        return {p.relative_to(folder).as_posix():digest(p)
+            for p in folder.rglob('*') if p.is_file()}
     manifest=out/'manifest.json'
-    retained=root/'build/coupled-railway/replaced-publications'/digest(manifest)
+    key=digest(manifest) if manifest.is_file() else 'incomplete-'+identity(tree_hashes(out))
+    retained=root/'build/coupled-railway/replaced-publications'/key
     retained.parent.mkdir(parents=True,exist_ok=True)
     if retained.exists():
-        def tree_hashes(folder):
-            return {p.relative_to(folder).as_posix():digest(p)
-                    for p in folder.rglob('*') if p.is_file()}
         if tree_hashes(out)!=tree_hashes(retained):
             raise ValueError('Previous coordinated publication already retained')
         shutil.rmtree(out)
@@ -1013,11 +1011,15 @@ def build(root=ROOT,output=None):
         inventories.append(record['output'])
         CAD=next((r for r in value['native']['CAD_results'] if r['candidate_id']==b['candidate_id']),None)
         if CAD is not None:
-            bundle=next(x for x in value['bundles'] if x['candidate_id']==row['candidate_id']);target=folder/'delivery'/bundle['candidate_id']
+            bundle=next(x for x in value['bundles'] if x['candidate_id']==row['candidate_id'])
+            context=railway_delivery.cache_context(bundle,b,record['output'],CAD)
+            target=folder/'delivery-v2'/bundle['candidate_id']/context['cache_context_id']
             if target.exists():
                 manifest=json.loads((target/'manifest.json').read_bytes())
+                if manifest.get('cache_context')!=context or manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):raise ValueError('Delivery cache context changed')
                 if manifest['files_sha256']!={p.name:digest(p) for p in target.iterdir() if p.is_file() and p.name!='manifest.json'}:raise ValueError('Delivery cache changed')
-            else:manifest=railway_delivery.write(target,bundle,b,record['output'],CAD=CAD)
+                if json.loads((target/'bim.json').read_bytes()).get('ifcopenshell_version')!=context['IFC_tool']['version']:raise ValueError('Delivery native IFC version changed')
+            else:manifest=railway_delivery.write(target,bundle,b,record['output'],CAD=CAD,context=context)
             prefix='delivery/'+bundle['candidate_id'][:12];(out/prefix).mkdir(parents=True)
             for name in ('delivery.json.gz','ERPNext-draft.json.gz','bim.json','body-stock.ifc.gz'):
                 if (target/name).is_file():shutil.copyfile(target/name,out/prefix/name)
@@ -1279,6 +1281,11 @@ def verify(root=ROOT,output=None):
                 if digest(root/name)!=h and h not in epochs:raise ValueError('Native source changed')
     for r in json.loads((out/'delivery-index.json').read_bytes()):
         prefix=out/r['prefix'];manifest=r['raw_manifest'];value=json.loads(gzip.decompress((prefix/'delivery.json.gz').read_bytes()))
+        context=manifest.get('cache_context')
+        if context is None or context.get('cache_context_id')!=identity({k:v for k,v in context.items() if k!='cache_context_id'}):raise ValueError('Delivery cache context identity differs')
+        if manifest.get('manifest_id')!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):raise ValueError('Delivery manifest identity differs')
+        if context['candidate_id']!=r['candidate_id'] or context['body_candidate_id']!=r['body_candidate_id'] or context['inventory_evaluation_id']!=value['inventory_evaluation_id']:raise ValueError('Delivery cache inputs differ')
+        if context['source_sha256']!=value['source_sha256'] or context['IFC_tool']['version']!=json.loads((prefix/'bim.json').read_bytes()).get('ifcopenshell_version'):raise ValueError('Delivery cache tool or source differs')
         if value['candidate_id']!=r['candidate_id'] or value['body_candidate_id']!=r['body_candidate_id'] or value['delivery_id']!=identity({k:v for k,v in value.items() if k!='delivery_id'}):raise ValueError('Mixed delivery identity')
         for p in prefix.iterdir():
             if digest(p)!=manifest['files_sha256'][p.name]:raise ValueError('Delivery bytes differ')

@@ -363,7 +363,8 @@ install_rust() {
 }
 
 install_python() {
-    python_ready && return
+    local force_refresh="${1:-false}"
+    if [[ "$force_refresh" != true ]] && python_ready; then return; fi
     section "Refreshing Python design packages"
     uv python install --upgrade "$PYTHON_VERSION"
     if [[ ! -x "$ROOT/.venv/bin/python" ]]; then
@@ -372,7 +373,7 @@ install_python() {
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
-    uv pip install --upgrade --python "$ROOT/.venv/bin/python" \
+    uv pip install --upgrade --no-cache --python "$ROOT/.venv/bin/python" \
         --requirement "$ROOT/engineering/requirements.txt"
     python_ready || fail "Python requirements remain unsatisfied after refresh"
 }
@@ -428,15 +429,17 @@ verify_core() {
 }
 
 main() {
-    local toolchains_only=false tool
+    local toolchains_only=false refresh_python=false tool
     if [[ "${1:-}" == --help || "${1:-}" == -h ]]; then
-        printf 'Usage: ./install.sh [--toolchains-only]\n  --toolchains-only  Refresh Node LTS, uv stable and Rust stable; skip project rebuilds.\n'
+        printf 'Usage: ./install.sh [--toolchains-only | --refresh-python]\n  --toolchains-only  Refresh Node LTS, uv stable and Rust stable; skip project rebuilds.\n  --refresh-python   Refresh Python design packages to newest compatible wheels; skip project rebuilds.\n'
         return
     fi
     if [[ $# -eq 1 && "$1" == --toolchains-only ]]; then
         toolchains_only=true
+    elif [[ $# -eq 1 && "$1" == --refresh-python ]]; then
+        refresh_python=true
     elif (( $# != 0 )); then
-        fail "usage: ./install.sh [--toolchains-only]"
+        fail "usage: ./install.sh [--toolchains-only | --refresh-python]"
     fi
     detect_host
     activate_toolchain
@@ -452,6 +455,17 @@ main() {
         installed_tool_ready uv && installed_tool_ready node && rust_ready \
             || fail "toolchain refresh verification failed"
         printf 'Current Node LTS, uv stable and Rust stable are ready.\n'
+        return
+    fi
+
+    if [[ "$refresh_python" == true ]]; then
+        local available_bytes
+        available_bytes="$(df -B1 --output=avail "$ROOT" | tail -n 1)"
+        (( available_bytes >= 23622320128 )) || fail "Python refresh needs 22 GiB free to preserve the 20 GiB workspace floor"
+        install_uv
+        activate_toolchain
+        install_python true
+        printf 'Newest compatible Python design packages are ready. Record exact versions in each new evaluation.\n'
         return
     fi
 

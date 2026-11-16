@@ -43,8 +43,9 @@ identifies measured memory and disk costs and the next bounded experiments.
 ## Automation and dependencies
 
 [`automation/default-design.py`](automation/default-design.py) defines the
-current design refresh. Shared Python dependencies are pinned in
-[`engineering/requirements.txt`](../engineering/requirements.txt). Run repository
+current design refresh. Shared Python dependencies have compatible minimums in
+[`engineering/requirements.txt`](../engineering/requirements.txt); `./install.sh --refresh-python`
+fetches the newest compatible wheels when a tool refresh is requested. Run repository
 commands through `./osr` so the declared project toolchain and environment are
 used. `./osr` uses locally verified tool receipts and never resolves new releases
 during a candidate evaluation. Background refresh scripts print proposed service configuration; they do

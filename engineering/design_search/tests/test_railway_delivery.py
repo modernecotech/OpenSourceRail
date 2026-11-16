@@ -22,3 +22,17 @@ def test_box_facets_preserve_actual_source_volume_with_outward_orientation():
     p=dict(id='stock',at_m=[1.,2.,3.],size_m=[.2,.3,.4]);r=delivery._box_mesh(p,.024);points=np.array(r['vertices_m'])
     volume=sum(np.dot(points[a],np.cross(points[b],points[c]))/6 for a,b,c in r['triangles'])
     assert volume==pytest.approx(.024,abs=1e-14)
+
+
+def test_delivery_cache_is_bound_to_native_tool_and_exact_CAD(monkeypatch):
+    body=grammar.build(grammar.parameters());bundle=railway_bundle.materialize(body)
+    inventory=system_inventory.evaluate(body,bundle_id=bundle['candidate_id'])
+    cad=dict(candidate_id=body['candidate_id'],occurrences=[])
+    monkeypatch.setattr(delivery,'ifc_tool_identity',lambda:dict(version='first',native_binary_sha256={'library':'a'}))
+    first=delivery.cache_context(bundle,body,inventory,cad)
+    monkeypatch.setattr(delivery,'ifc_tool_identity',lambda:dict(version='second',native_binary_sha256={'library':'b'}))
+    second=delivery.cache_context(bundle,body,inventory,cad)
+    assert first['cache_context_id']!=second['cache_context_id']
+    assert second['cache_context_id']==identity({k:v for k,v in second.items() if k!='cache_context_id'})
+    changed=dict(cad,occurrences=[dict(id='different')])
+    assert delivery.cache_context(bundle,body,inventory,changed)['cache_context_id']!=second['cache_context_id']

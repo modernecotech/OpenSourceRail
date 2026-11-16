@@ -1,6 +1,8 @@
 """Candidate-specific research delivery drafts, never ERP posting or release."""
 from pathlib import Path
 from hashlib import sha256
+from functools import lru_cache
+from importlib import metadata
 import gzip,json
 from copy import deepcopy
 from engineering.station_rail.common import encoded,identity,digest
@@ -8,6 +10,39 @@ from . import design_grammar,railway_bundle,wheel_twin
 
 PRODUCER='engineering/design_search/railway_delivery.py'
 FLAGS=design_grammar.FLAGS
+
+
+@lru_cache(maxsize=1)
+def ifc_tool_identity():
+    """Record the installed Python wheel and the native code that writes IFC."""
+    import ifcopenshell
+    distribution=metadata.distribution('ifcopenshell')
+    files=distribution.files
+    if not files:raise ValueError('IfcOpenShell installation has no file inventory')
+    record=next((p for p in files if str(p).endswith('.dist-info/RECORD')),None)
+    package_files=sorted((p for p in files if str(p).startswith('ifcopenshell/')),key=str)
+    if record is None or not package_files:raise ValueError('IfcOpenShell wheel or package files unavailable')
+    installed={str(p):digest(distribution.locate_file(p)) for p in package_files}
+    binaries={str(p):installed[str(p)] for p in package_files if '.so' in p.name}
+    if not binaries:raise ValueError('IfcOpenShell native binaries unavailable')
+    return dict(distribution='ifcopenshell',version=ifcopenshell.version,
+        wheel_record_sha256=digest(distribution.locate_file(record)),
+        installed_package_sha256=identity(installed),native_binary_sha256=binaries)
+
+
+def cache_context(bundle,body,inventory,CAD):
+    """Bind a delivery cache to exact inputs, producers and installed IFC tool."""
+    if CAD is None or CAD.get('candidate_id')!=body['candidate_id']:
+        raise ValueError('Native CAD candidate differs from delivery body')
+    if bundle['body_candidate_id']!=body['candidate_id'] or inventory['candidate_id']!=bundle['candidate_id'] or inventory['body_candidate_id']!=body['candidate_id']:
+        raise ValueError('Delivery cache candidate identities differ')
+    if inventory['evaluation_id']!=identity({k:v for k,v in inventory.items() if k!='evaluation_id'}):
+        raise ValueError('Delivery cache inventory receipt differs')
+    context=dict(candidate_id=bundle['candidate_id'],body_candidate_id=body['candidate_id'],
+        inventory_evaluation_id=inventory['evaluation_id'],native_CAD_sha256=identity(CAD),
+        source_sha256={PRODUCER:digest(__file__),wheel_twin.PRODUCER:digest(wheel_twin.__file__)},
+        IFC_tool=ifc_tool_identity())
+    return dict(context,cache_context_id=identity(context))
 
 
 def compile(bundle,body,inventory):
@@ -45,9 +80,11 @@ def _box_mesh(part,volume):
     return dict(id=part['id'],vertices_m=vertices,triangles=triangles,native_volume_m3=volume)
 
 
-def write(folder,bundle,body,inventory,*,CAD=None):
+def write(folder,bundle,body,inventory,*,CAD=None,context=None):
     folder=Path(folder)
     if folder.exists():raise ValueError('Fresh research delivery directory required')
+    expected=cache_context(bundle,body,inventory,CAD) if CAD is not None else None
+    if context is not None and context!=expected:raise ValueError('Delivery cache context differs')
     folder.mkdir(parents=True);value=compile(bundle,body,inventory)
     (folder/'delivery.json.gz').write_bytes(gzip.compress(encoded(value),mtime=0));(folder/'ERPNext-draft.json.gz').write_bytes(gzip.compress(encoded(value['ERPNext']),mtime=0))
     bim=dict(execution='not-run',candidate_id=bundle['candidate_id'],body_candidate_id=body['candidate_id'],complete_installed_geometry=False,**FLAGS)
@@ -64,4 +101,5 @@ def write(folder,bundle,body,inventory,*,CAD=None):
             representation='Exact box corners with native FreeCAD occurrence-volume correspondence and reopened IFC geometry checks; body stock only')
         raw=(folder/'wheel-stock.ifc').read_bytes();(folder/'body-stock.ifc.gz').write_bytes(gzip.compress(raw,mtime=0));bim['uncompressed_IFC_sha256']=sha256(raw).hexdigest()
     (folder/'bim.json').write_bytes(encoded(bim));m=dict(source_sha256=value['source_sha256'],candidate_id=bundle['candidate_id'],body_candidate_id=body['candidate_id'],
+        cache_context=expected,
         files_sha256={p.name:digest(p) for p in folder.iterdir() if p.is_file()},**FLAGS);m['manifest_id']=identity(m);(folder/'manifest.json').write_bytes(encoded(m));return m
