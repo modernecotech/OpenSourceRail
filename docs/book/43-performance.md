@@ -49,10 +49,20 @@ Rust is already part of the control and city tooling, and a bounded
 delivery scheduling kernel has a verified Rust implementation. In a
 same-input comparison, the complete delivery compilation became modestly
 faster with that optional backend, while the physical and policy outputs
-matched. Python remains the default path. A separate experiment in
-canonical encoding found only a small overall benefit, so it was not
-promoted broadly. These findings support targeted migration rather than
-a wholesale rewrite of already working engineering models.
+matched. A separate experiment in canonical encoding found only a small
+overall benefit, so it was not promoted broadly.
+
+The active coupled-railway campaign now stores case and stage records as
+bounded Arrow/Parquet parts through a Rust codec. Its aggregate is a compact
+Parquet core plus references to those immutable case parts. In a private
+112-bundle conversion trial, 896 case/stage documents occupied 237,231,446
+bytes in Parquet versus 1,899,005,588 source JSON bytes, an 87.51% reduction.
+The combined case and aggregate trial occupied 92.97% less disk than its
+source JSON representation while reconstructing the original aggregate
+byte-for-byte. These are storage measurements on that trial, not claims that
+every JSON document or Python evaluator has been replaced. Small control
+manifests and public review exports remain JSON; Python still coordinates
+engineering models where the current Rust boundary has not been validated.
 
 A reader benefits when a warm city study responds quickly and when a
 changed input receives a distinct, trustworthy answer. They do not need
