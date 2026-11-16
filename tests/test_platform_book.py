@@ -1,11 +1,28 @@
 """Comprehensive ebook receipt checks without the held integrated dossier."""
 
+from hashlib import sha256
+from pathlib import Path
 import shutil
 import re
 
 import pytest
 
 from engineering import platform_book
+
+
+def test_digest_streams_multiple_chunks_with_identical_sha(tmp_path, monkeypatch):
+    source = tmp_path / "large-source.bin"
+    source.write_bytes(bytes(range(256)) * 8193)
+    expected = sha256(source.read_bytes()).hexdigest()
+    original_read_bytes = Path.read_bytes
+
+    def reject_whole_file_read(path):
+        if path == source:
+            raise AssertionError("source digest must stream")
+        return original_read_bytes(path)
+
+    monkeypatch.setattr(Path, "read_bytes", reject_whole_file_read)
+    assert platform_book._digest(source) == expected
 
 
 def test_reader_chapters_exclude_audit_identifiers():

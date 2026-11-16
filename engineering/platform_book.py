@@ -169,7 +169,11 @@ FLAGS = dict(engineering_accepted=False, physical_accepted=False,
 
 
 def _digest(path: Path) -> str:
-    return sha256(path.read_bytes()).hexdigest()
+    hasher = sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 
 def _identity(value: dict) -> str:
