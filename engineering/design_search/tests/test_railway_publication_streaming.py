@@ -4,7 +4,7 @@ from hashlib import sha256
 import pytest
 
 from engineering.station_rail.common import encoded
-from engineering.design_search import railway_publication as publication
+from engineering.design_search import aggregate_store,canonical_stream,railway_publication as publication
 
 
 def test_streaming_semantic_identity_matches_canonical_campaign():
@@ -18,6 +18,58 @@ def test_streaming_semantic_identity_matches_canonical_campaign():
     assert publication._streaming_semantic_id(core,rows,visited.append)==publication.engine.semantic_id(full)
     assert visited==rows
     assert core['rows']==[] and rows[0]['reused']==7
+
+
+def _projection_frames():
+    rows=[dict(candidate_id='a'*64,body_candidate_id='d'*64,family_id='P1',row_id='1'*64,
+               accounted_mass={'accounted_tare_kg_per_car':1200.0},
+               stages=[{'stage':'installed_inventory','record_id':'x'}],
+               physical_journey_completed=False,economics={}),
+          dict(candidate_id='b'*64,body_candidate_id='d'*64,family_id='P2',row_id='2'*64,
+               accounted_mass={'accounted_tare_kg_per_car':1300.0},
+               stages=[{'stage':'motion'}],physical_journey_completed=False,economics={})]
+    value=dict(schema='synthetic',contract_id='c'*64,source_sha256={'source.py':'e'*64},
+               rows=rows,bundles=[{'candidate_id':row['candidate_id']} for row in rows])
+    value['campaign_id']=canonical_stream.canonical_identity(value,semantic=True)
+    value['run_id']=canonical_stream.canonical_identity(value)
+    core=encoded(dict(value,rows=[]))
+    refs=[dict(row_id=row['row_id'],case_bytes=len(encoded(row))) for row in rows]
+    return value,core,refs,rows
+
+
+def test_authenticated_aggregate_frames_project_semantics_in_one_pass():
+    value,core,refs,rows=_projection_frames()
+    sink=publication._SemanticProjectionSink(core,dict(value,rows=[]),refs)
+    composer=aggregate_store._Composer(core,sink)
+    for row in rows:composer.row(encoded(row))
+    result=composer.finish()
+    semantic,projection=sink.finish()
+    assert result['aggregate_bytes']==len(encoded(value))
+    assert semantic==value['campaign_id']==publication._streaming_semantic_id(dict(value,rows=[]),rows)
+    assert projection==publication._row_projection(rows)
+
+
+def test_projection_sink_rejects_changed_row_framing_before_completion():
+    value,core,refs,rows=_projection_frames()
+    sink=publication._SemanticProjectionSink(core,dict(value,rows=[]),refs)
+    with pytest.raises(ValueError,match='prefix'):
+        sink.write(b'changed')
+    sink=publication._SemanticProjectionSink(core,dict(value,rows=[]),refs)
+    offset=aggregate_store._core_offset(core)
+    sink.write(core[:offset+1])
+    with pytest.raises(ValueError,match='row length'):
+        sink.write(encoded(rows[0])[:-2])
+    sink=publication._SemanticProjectionSink(core,dict(value,rows=[]),refs)
+    sink.write(core[:offset+1]);sink.write(encoded(rows[0])[:-1])
+    with pytest.raises(ValueError,match='delimiter'):
+        sink.write(b';')
+    sink=publication._SemanticProjectionSink(core,dict(value,rows=[]),refs)
+    sink.write(core[:offset+1]);sink.write(encoded(rows[0])[:-1])
+    sink.write(b',');sink.write(encoded(rows[1])[:-1])
+    with pytest.raises(ValueError,match='incomplete'):
+        sink.finish()
+    with pytest.raises(ValueError,match='tail framing'):
+        sink.write(b'changed')
 
 
 def test_projection_keeps_only_summary_and_p1_inventory_fields():

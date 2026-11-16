@@ -185,24 +185,83 @@ class _VerifiedRows:
             yield row
 
 
-def _streaming_semantic_id(core,rows,visit=None):
-    """Compute the campaign identity without making a second aggregate object."""
-    canonical=b''.join(canonical_stream.iter_canonical_bytes(core,semantic=True))
-    marker=b'"rows":[]'
-    if canonical.count(marker)!=1:raise ValueError('Canonical semantic rows placeholder differs')
-    before,after=canonical.split(marker)
-    digest_value=sha256();digest_value.update(before);digest_value.update(b'"rows":[')
-    for ordinal,row in enumerate(rows):
-        if visit is not None:visit(row)
-        if ordinal:digest_value.update(b',')
+class _SemanticRows:
+    """Hash semantic rows as they arrive without retaining the complete result."""
+    def __init__(self,core):
+        canonical=b''.join(canonical_stream.iter_canonical_bytes(core,semantic=True))
+        marker=b'"rows":[]'
+        if canonical.count(marker)!=1:raise ValueError('Canonical semantic rows placeholder differs')
+        before,self.after=canonical.split(marker)
+        self.digest=sha256();self.digest.update(before);self.digest.update(b'"rows":[')
+        self.count=0
+
+    def add(self,row):
+        if self.count:self.digest.update(b',')
         last=None
         for chunk in canonical_stream.iter_canonical_bytes(row,semantic=True):
-            if last is not None:digest_value.update(last)
+            if last is not None:self.digest.update(last)
             last=chunk
         if last is None or not last.endswith(b'\n'):raise ValueError('Semantic row terminator differs')
-        digest_value.update(last[:-1])
-    digest_value.update(b']');digest_value.update(after)
-    return digest_value.hexdigest()
+        self.digest.update(last[:-1]);self.count+=1
+
+    def finish(self):
+        self.digest.update(b']');self.digest.update(self.after)
+        return self.digest.hexdigest()
+
+
+def _streaming_semantic_id(core,rows,visit=None):
+    """Compute the campaign identity without making a second aggregate object."""
+    semantic=_SemanticRows(core)
+    for row in rows:
+        if visit is not None:visit(row)
+        semantic.add(row)
+    return semantic.finish()
+
+
+class _SemanticProjectionSink:
+    """Consume only the exact row framing emitted by the verified aggregate reader."""
+    def __init__(self,core,value,refs):
+        self.refs=tuple(refs);self.semantic=_SemanticRows(value)
+        self.projection=_new_row_projection();self.row_index=0;self.tail_index=0
+        offset=aggregate_store._core_offset(core)
+        self.prefix=core[:offset+1]
+        tail=core[offset+1:]
+        marker=b',"run_id":"'+value['run_id'].encode('ascii')+b'"'
+        if tail.count(marker)!=1:raise ValueError('Aggregate projection tail differs')
+        before,after=tail.split(marker,1)
+        self.tail_frames=tuple(part for part in (before,marker,after) if part)
+        self.state='prefix'
+
+    def write(self,data):
+        size=len(data)
+        if self.state=='prefix':
+            if data!=self.prefix:raise ValueError('Aggregate projection prefix differs')
+            self.state='row' if self.refs else 'tail'
+        elif self.state=='comma':
+            if data!=b',':raise ValueError('Aggregate projection row delimiter differs')
+            self.state='row'
+        elif self.state=='row':
+            ref=self.refs[self.row_index]
+            if size!=ref['case_bytes']-1:raise ValueError('Aggregate projection row length differs')
+            row=json.loads(bytes(data),object_pairs_hook=engine.case_node_store._unique_pairs)
+            if row.get('row_id')!=ref['row_id']:raise ValueError('Aggregate projection row identity differs')
+            self.semantic.add(row);_add_row_projection(self.projection,row)
+            self.row_index+=1
+            self.state='comma' if self.row_index<len(self.refs) else 'tail'
+        elif self.state=='tail':
+            if (self.tail_index>=len(self.tail_frames)
+                    or data!=self.tail_frames[self.tail_index]):
+                raise ValueError('Aggregate projection tail framing differs')
+            self.tail_index+=1
+            if self.tail_index==len(self.tail_frames):self.state='done'
+        else:raise ValueError('Aggregate projection has extra bytes')
+        return size
+
+    def finish(self):
+        if (self.state!='done' or self.row_index!=len(self.refs)
+                or self.tail_index!=len(self.tail_frames)):
+            raise ValueError('Aggregate projection is incomplete')
+        return self.semantic.finish(),_finalize_row_projection(self.projection)
 
 
 @contextmanager
@@ -214,21 +273,21 @@ def streaming_publication_context(root=ROOT):
     if json.loads((folder/'source-contract.json').read_bytes())!=engine.state_source_contract(contract,epoch,root=root):
         raise ValueError('Source-matched v2 coordinated state required')
     snapshot,pointer=engine.current_aggregate(folder,contract)
-    manifest=aggregate_store.read(snapshot,folder/'cases',engine._Discard(),root=root)
+    _,core,refs=aggregate_store._load_store(snapshot,root=root)
+    value=aggregate_store._core_value(core)
+    sink=_SemanticProjectionSink(core,value,refs)
+    manifest=aggregate_store.read(snapshot,folder/'cases',sink,root=root)
     if (manifest['manifest_id']!=pointer['manifest_id']
             or manifest['aggregate_sha256']!=pointer['aggregate_sha256']
             or manifest['run_id']!=pointer['run_id']):
         raise ValueError('Active aggregate pointer and verified parent differ')
-    _,core,refs=aggregate_store._load_store(snapshot,root=root)
-    value=aggregate_store._core_value(core)
+    semantic_id,projection=sink.finish()
     rows=_VerifiedRows(root,folder/'cases',refs)
-    projection=_new_row_projection()
     if (value['contract_id']!=contract or value['source_sha256']!=epoch
             or value['specification']!=spec or len(rows)!=len(value['bundles'])
-            or value['campaign_id']!=_streaming_semantic_id(value,rows,lambda row:_add_row_projection(projection,row))):
+            or value['campaign_id']!=semantic_id):
         raise ValueError('Source-matched coordinated execution or complete comparison required')
     value['rows']=rows
-    projection=_finalize_row_projection(projection)
     projection['aggregate_sha256']=pointer['aggregate_sha256']
     yield folder,value,projection
 
