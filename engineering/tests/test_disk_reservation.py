@@ -15,6 +15,29 @@ import pytest
 from engineering import performance as p
 
 
+def test_linked_worktrees_share_reservation_registry(tmp_path, monkeypatch):
+    checkout = tmp_path / "checkout"
+    checkout.mkdir()
+    subprocess.run(["git", "init", "-q", str(checkout)], check=True)
+    (checkout / "source.txt").write_text("source\n")
+    subprocess.run(["git", "-C", str(checkout), "add", "source.txt"], check=True)
+    subprocess.run(["git", "-C", str(checkout), "-c", "user.name=Test",
+                    "-c", "user.email=test@example.invalid", "commit", "-qm", "initial"], check=True)
+    linked = tmp_path / "linked"
+    subprocess.run(["git", "-C", str(checkout), "worktree", "add", "-q",
+                    "--detach", str(linked), "HEAD"], check=True)
+    assert p._reservation_store(checkout) == p._reservation_store(linked)
+    monkeypatch.setattr(p.shutil, "disk_usage",
+                        lambda _: shutil._ntuple_diskusage(8*p.GIB, 3*p.GIB, 5*p.GIB))
+    with p.disk_reservation(checkout, checkout, "first", 3*p.GIB,
+                            minimum_free_gib=1):
+        with pytest.raises(p.DiskReservationHeld) as held:
+            with p.disk_reservation(linked, linked, "second", 2*p.GIB,
+                                    minimum_free_gib=1):
+                pass
+        assert held.value.record["peer_projected_bytes"] == 3*p.GIB
+
+
 def test_live_reservations_are_serialized_and_release_without_erasing_receipts(tmp_path, monkeypatch):
     monkeypatch.setattr(p.shutil, "disk_usage", lambda _: shutil._ntuple_diskusage(8*p.GIB, 3*p.GIB, 5*p.GIB))
     target = tmp_path / "state"
