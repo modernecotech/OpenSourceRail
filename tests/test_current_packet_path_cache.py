@@ -41,21 +41,24 @@ def packet(tmp_path, monkeypatch):
     return tmp_path, source, summary, manifest, manifest_path
 
 
-def test_unchanged_packet_reuses_inventory_but_checks_each_unique_path(packet, monkeypatch):
+def test_unchanged_packet_reuses_inventory_but_checks_each_bound_file(packet, monkeypatch):
     root, _, summary, manifest, manifest_path = packet
     inventory = cli._packet_paths(str(root), OUTPUT, manifest_path.read_bytes())
     calls = Counter()
-    original = os.lstat
+    original = cli._bound_file_digest
 
-    def observed(path, *args, **kwargs):
+    def observed(root_path, path):
         calls[str(path)] += 1
-        return original(path, *args, **kwargs)
+        return original(root_path, path)
 
-    monkeypatch.setattr(os, 'lstat', observed)
-    cli._packet_stamps(inventory)
-    assert set(calls) == set(inventory[0]) | set(inventory[1])
-    assert all(count == 1 for count in calls.values())
+    monkeypatch.setattr(cli, '_bound_file_digest', observed)
     assert cli.read_packet(root) == (summary, manifest)
+    assert set(calls) == {path for path, _, _ in inventory[2]}
+    assert all(count == 1 for count in calls.values())
+    calls.clear()
+    assert cli.read_packet(root) == (summary, manifest)
+    assert set(calls) == {path for path, _, _ in inventory[2]}
+    assert all(count == 1 for count in calls.values())
     assert cli._packet_paths.cache_info().hits >= 2
 
 
