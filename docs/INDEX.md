@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **301**.
+Indexed Markdown files: **302**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **301**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 269 |
+| [docs](#docs) | 270 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -333,6 +333,7 @@ Indexed Markdown files: **301**.
 | [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/plans/v0.7-agent-delivery-plan.md`](../docs/plans/v0.7-agent-delivery-plan.md) | v0.7 agent delivery and tool migration plan |
+| [`docs/plans/v0.7-follow-on-optimisation.md`](../docs/plans/v0.7-follow-on-optimisation.md) | v0.7 follow-on runtime optimisation |
 | [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
