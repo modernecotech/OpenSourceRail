@@ -172,7 +172,7 @@ Indexed Markdown files: **300**.
 | [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
 | [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
 | [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
-| [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
+| [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 16 November 2026 |
 | [`docs/design-engine/flanged-span-study/README.md`](../docs/design-engine/flanged-span-study/README.md) | Flanged-girder 20 m span: analytical research study |
 | [`docs/design-engine/flanged-system-cost-context.md`](../docs/design-engine/flanged-system-cost-context.md) | Reference geometry behind the flanged-span cost scenarios |
 | [`docs/design-engine/flanged-system-cost-study/README.md`](../docs/design-engine/flanged-system-cost-study/README.md) | Flanged-span whole-railway Class C scenarios |
