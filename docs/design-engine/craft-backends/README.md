@@ -64,9 +64,9 @@ models. GetDP remains the electromagnetic route and IFC remains the BIM route.
   rejected both `open` and `geometry.open` for those STEP bytes. The explicit
   candidate-bound Code_Aster route below accepts a declared component mesh,
   material, support and force; selected assembly loads and interfaces still
-  need their own admission. The 0.42.0 STEP/Code_Aster controls and the earlier
-  0.30.1 and 0.40.0-rc.2 probes remain source-bound
-  [historical results](pilot-results.json), not active installation choices.
+  need their own admission. The 0.42.0 STEP/Code_Aster controls remain in their
+  source-bound private packets described below. The earlier 0.30.1 and 0.40.0-rc.2
+  [pilot results](pilot-results.json) remain historical, not active installation choices.
 - SolidCraft native/STEP reopening retains body names. FreeCAD's STEP importer
   exposes product labels instead. The pilot reports this name-retention hold.
   An unambiguous volume/centroid/bounds bijection verifies geometry separately;
