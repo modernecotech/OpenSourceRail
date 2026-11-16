@@ -1,12 +1,14 @@
 """Verify the line-30 budget packet against its recorded historical source epoch.
 
-The packet differs from current sources only at the braking input. This checks
-its original identities and financial ledger without replaying the calculation.
+The original braking source and selected vehicle cost can differ from current
+sources. Their exact retained bytes authenticate the unchanged financial ledger
+without replaying the calculation or admitting it to the current evaluator.
 """
 from __future__ import annotations
 
 import argparse
 import json
+from hashlib import sha1, sha256
 from pathlib import Path
 
 from engineering.station_rail import ROOT
@@ -25,6 +27,20 @@ SOURCE_BLOB = '74e12d096a4103877c1ba6a89ef33ea0e841da54'
 SOURCE_ARTIFACT = (
     'docs/archives/coupled-railway-source-epochs/' + SOURCE_HASH
     + '/source/' + SOURCE
+)
+COST_SOURCE = line_benchmark.VEHICLE_COST
+COST_HASH = 'c0bdf46c2d1eb8cf7c74474bfc9528b430a053b2a5529ed1702b2fd4339d4b0b'
+COST_COMMIT = '946f1772540d07af85b57b0d13cac08a3293b140'
+COST_BLOB = 'b9bce33439aa7242840af83680b2ab76b46304ea'
+COST_ARTIFACT = 'docs/archives/line30-benchmark-source-epochs/selected-vehicle-cost-946f177254.json'
+COST_RECEIPT = 'docs/archives/line30-benchmark-source-epochs/selected-vehicle-cost-manifest.json'
+COST_RECEIPT_ID = '4341ff189c625859739253e686a23f4c3c5d69b318e9f5013e26ae0f6295cc73'
+COST_ESTIMATE_ID = 'c213eae2c0c90c27d3d418d5aa28b820837385949ba865124dd2218fbc9535dd'
+COST_VEHICLE_ID = '756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3'
+COST_SELECTION_ID = 'e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803'
+COST_SCOPE = (
+    'Exact historical selected vehicle cost bytes for the retained line-30 '
+    'analytical budget; no current-source evaluator admission'
 )
 SCOPE = (
     'Exact historical source bytes for the unchanged line-30 analytical budget; '
@@ -48,6 +64,42 @@ def _file(root: Path, relative: str, *, maximum: int = 32 * 1024 * 1024) -> Path
     if not target.is_file() or target.stat().st_size > maximum:
         raise ValueError('Bounded line-30 evidence file required')
     return target
+
+
+def _retained_cost(root: Path, result: dict) -> None:
+    receipt = json.loads(_file(root, COST_RECEIPT, maximum=1024 * 1024).read_bytes())
+    if (receipt.get('schema') != 'osr-line30-benchmark-selected-cost-source-epoch/1'
+            or receipt.get('receipt_id') != COST_RECEIPT_ID
+            or receipt.get('receipt_id') != identity({k: v for k, v in receipt.items() if k != 'receipt_id'})
+            or receipt.get('benchmark_manifest_id') != PACKAGE_MANIFEST_ID
+            or receipt.get('benchmark_evaluation_id') != EVALUATION_ID
+            or receipt.get('source_commit') != COST_COMMIT
+            or receipt.get('source_git_blob') != COST_BLOB
+            or receipt.get('source_path') != COST_SOURCE
+            or receipt.get('source_sha256') != COST_HASH
+            or receipt.get('source_artifact') != COST_ARTIFACT
+            or receipt.get('files_sha256') != {COST_ARTIFACT: COST_HASH}
+            or receipt.get('cost_estimate_id') != COST_ESTIMATE_ID
+            or receipt.get('selected_reference_vehicle_candidate_id') != COST_VEHICLE_ID
+            or receipt.get('selection_id') != COST_SELECTION_ID
+            or receipt.get('scope') != COST_SCOPE
+            or any(receipt.get(key) is not False for key in FLAGS)):
+        raise ValueError('Line-30 retained selected-cost receipt differs')
+    raw = _file(root, COST_ARTIFACT, maximum=1024 * 1024).read_bytes()
+    blob = sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    if sha256(raw).hexdigest() != COST_HASH or blob != COST_BLOB:
+        raise ValueError('Line-30 retained selected-cost source differs')
+    cost = json.loads(raw)
+    if (cost.get('cost_estimate_id') != identity({k: v for k, v in cost.items() if k != 'cost_estimate_id'})
+            or cost.get('cost_estimate_id') != COST_ESTIMATE_ID
+            or cost.get('candidate_id') != COST_VEHICLE_ID
+            or cost.get('selection_id') != COST_SELECTION_ID
+            or result['source_sha256'].get(COST_SOURCE) != COST_HASH
+            or result.get('vehicle_cost_estimate_id') != COST_ESTIMATE_ID
+            or result.get('selected_reference_vehicle_candidate_id') != COST_VEHICLE_ID
+            or any(cost.get(key) is not False for key in ('physical_accepted', 'engineering_accepted',
+                'manufacturing_release', 'operating_release'))):
+        raise ValueError('Line-30 retained selected-cost identity differs')
 
 
 def verify(root=ROOT, output=None):
@@ -101,24 +153,41 @@ def verify(root=ROOT, output=None):
             or any(result.get(key) is not False for key in FLAGS if key in result)):
         raise ValueError('Line-30 result identity or disposition differs')
     line_benchmark.validate_result(result, root, verify_sources=False)
+    _retained_cost(root, result)
 
     historical_sources = []
+    retained = {SOURCE: SOURCE_HASH, COST_SOURCE: COST_HASH}
     for name, expected in result['source_sha256'].items():
         current = _file(root, name)
         if digest(current) == expected:
             continue
-        if name != SOURCE or expected != SOURCE_HASH or digest(archive_source) != expected:
+        if retained.get(name) != expected:
             raise ValueError('Line-30 source epoch differs: ' + name)
         historical_sources.append(name)
-    if historical_sources != [SOURCE]:
+    if SOURCE not in historical_sources or set(historical_sources) - set(retained):
         raise ValueError('Line-30 historical source inventory differs')
     return dict(verified=True, manifest_id=PACKAGE_MANIFEST_ID,
         evaluation_id=EVALUATION_ID,requirements_id=result['requirements_id'],
         source_epoch='historical',current_source_valid=False,
         source_sha256=result['source_sha256'],
-        historical_source_paths=historical_sources, analytical_replay=False,
+        historical_source_paths=historical_sources,
+        retained_cost_receipt_id=COST_RECEIPT_ID, analytical_replay=False,
         native_solver_jobs=0,
         **{key: False for key in FLAGS})
+
+
+def historical_baseline(root=ROOT):
+    """Return only the authenticated retained result for a historical comparison."""
+    checked = verify(root)
+    root = Path(root).resolve()
+    manifest = json.loads(_file(root, PACKAGE + '/manifest.json').read_bytes())
+    raw = _file(root, PACKAGE + '/result.json').read_bytes()
+    if sha256(raw).hexdigest() != manifest['files']['result.json']:
+        raise ValueError('Line-30 retained result changed after verification')
+    result = json.loads(raw)
+    if result['evaluation_id'] != checked['evaluation_id']:
+        raise ValueError('Line-30 retained result identity changed')
+    return result
 
 
 def main(argv=None):
