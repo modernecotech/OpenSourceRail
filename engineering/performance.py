@@ -308,7 +308,14 @@ class DiskCommandFailed(RuntimeError):
 
 
 def _reservation_store(root: Path) -> Path:
-    store = root / ".cache" / "osr-disk-reservations"
+    # Linked worktrees share one Git common directory. Keep their projected
+    # writes in the same registry so admission sees every live OSR job.
+    common = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        capture_output=True, text=True, check=False, timeout=5,
+    )
+    base = Path(common.stdout.strip()) if common.returncode == 0 else root / ".cache"
+    store = base / "osr-disk-reservations"
     store.mkdir(parents=True, exist_ok=True)
     if store.is_symlink() or not store.is_dir():
         raise ValueError("Ordinary reservation directory required")
