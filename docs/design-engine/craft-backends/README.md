@@ -58,13 +58,14 @@ models. GetDP remains the electromagnetic route and IFC remains the BIM route.
 
 ## Verified compatibility boundaries
 
-- The current releases are **SolidCraft 0.42.0 / FieldCraft 0.7.5**. SolidCraft
-  primitives passed the bounded current CLI probe. FieldCraft's native reader
-  does not accept this SolidCraft version. A one-box SolidCraft v0.42 STEP export
-  succeeded, but FieldCraft v0.7.5 rejected both its `open` and `geometry.open`
-  routes. The active adapter records the STEP hash and explicit FEA hold. A
-  compatible same-candidate geometry/load/mesh/material handoff remains open.
-  The earlier 0.30.1 and 0.40.0-rc.2 probes remain
+- The current releases are **SolidCraft 0.43.0 / FieldCraft 0.7.5**. The active
+  SolidCraft binary passed the bounded primitive CLI probe. Its exact STEP
+  export reopened as one closed solid in Gmsh and FreeCAD, but FieldCraft 0.7.5
+  rejected both `open` and `geometry.open` for those STEP bytes. The explicit
+  candidate-bound Code_Aster route below accepts a declared component mesh,
+  material, support and force; selected assembly loads and interfaces still
+  need their own admission. The 0.42.0 STEP/Code_Aster controls and the earlier
+  0.30.1 and 0.40.0-rc.2 probes remain source-bound
   [historical results](pilot-results.json), not active installation choices.
 - SolidCraft native/STEP reopening retains body names. FreeCAD's STEP importer
   exposes product labels instead. The pilot reports this name-retention hold.
@@ -170,6 +171,15 @@ The request binds implementation hashes by repository-relative path, so the
 preserved packet can be checked from another checkout with the exact same
 source bytes and locally available Gmsh and FreeCAD tool bytes.
 
+The active **SolidCraft 0.43.0** probe used the same physical box dimensions and
+offset with a new CAD-tool evaluation. Its STEP SHA-256 is
+`4cae0e3c2c7183161c02787bf47e9be052db0cdef5c23b58bb1c9132ee213921`.
+FieldCraft 0.7.5 again refused both STEP routes. Gmsh 4.15.2 and independent
+FreeCAD reimport agreed on 0.12 m³; the MED mesh has 529 tetra10 elements and
+1,100 nodes. The 19-artifact private candidate handoff verifies. Its native
+Code_Aster state is **held** because that image was not installed during this
+disk-reserved probe; no 0.43 numerical solve or physical acceptance is claimed.
+
 Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).
 The [pilot policy](../../../campaigns/craft-backend-pilot.toml) bounds 25 parts,
@@ -200,7 +210,8 @@ engineering, manufacturing or operating acceptance. Promotion should follow a
 larger matched CAD/FEA campaign with complete interfaces and independent review.
 
 Upstream references: [SolidCraft commands](https://docs.solidcraft.io/dev/commands.html),
-[SolidCraft v0.42.0](https://github.com/tangency-labs/solidcraft/releases/tag/v0.42.0),
+[SolidCraft v0.43.0](https://github.com/tangency-labs/solidcraft/releases/tag/v0.43.0),
+[retained v0.42.0 release](https://github.com/tangency-labs/solidcraft/releases/tag/v0.42.0),
 [FieldCraft v0.7.5](https://github.com/tangency-labs/fieldcraft/releases/tag/v0.7.5).
 
 ## Detailed launch assembly follow-on
