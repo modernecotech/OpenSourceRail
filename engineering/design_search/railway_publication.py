@@ -1,5 +1,5 @@
 """Portable comparison of one coordinated railway experiment and its holds."""
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 from copy import deepcopy
 from hashlib import sha256
 from math import isfinite
@@ -16,6 +16,16 @@ PRODUCER='engineering/design_search/railway_publication.py'
 OUTPUT='docs/design-engine/coupled-railway-v07'
 FLAGS=engine.FLAGS
 COMPARISON_SCHEMA='osr-coupled-comparison-rows/2'
+MAX_REFINEMENT_PREFLIGHT_REQUESTS=64
+MAX_REFINEMENT_PREFLIGHT_BYTES=256*1024
+REFINEMENT_REQUEST_SCHEMAS=frozenset((
+    'osr-current-source-railway-refinement-request/1',
+    'osr-current-source-fine-refinement-request/1',
+    'osr-current-source-ultrafine-refinement-request/1',
+    'osr-railway-numerical-refinement-request/1',
+    'osr-railway-fine-refinement-request/1',
+    'osr-railway-fine-refinement-resource-request/1',
+))
 COMPARISON_SOURCES=(
     'crates/osr-design-search/src/bin/osr-campaign-columnar.rs',
     'crates/osr-design-search/src/publication_columnar.rs',
@@ -220,7 +230,81 @@ def streaming_publication_context(root=ROOT):
             or value['campaign_id']!=_streaming_semantic_id(value,rows,lambda row:_add_row_projection(projection,row))):
         raise ValueError('Source-matched coordinated execution or complete comparison required')
     value['rows']=rows
-    yield folder,value,_finalize_row_projection(projection)
+    projection=_finalize_row_projection(projection)
+    projection['aggregate_sha256']=pointer['aggregate_sha256']
+    yield folder,value,projection
+
+
+def _potential_current_refinement(root,folder,value,projection):
+    """Skip full-parent readers only when every bounded request excludes this parent.
+
+    This is a presence preflight, never refinement verification or admission.
+    An unsafe or unrecognized receipt remains an explicit hold.
+    """
+    from . import railway_refinement_current as producer
+    root=Path(root).resolve();folder=Path(folder)
+    _,pointer=engine.current_aggregate(folder,value['contract_id'])
+    if (pointer['aggregate_sha256']!=projection.get('aggregate_sha256')
+            or pointer['run_id']!=value['run_id']):
+        raise ValueError('Active aggregate changed after streamed authentication')
+    candidate_root=root/'build/coupled-railway/refinements'/producer.CANDIDATE_ID
+    for ancestor in (candidate_root,*candidate_root.parents):
+        if ancestor==root:break
+        if ancestor.is_symlink():raise ValueError('Refinement preflight path is a symlink')
+    if not candidate_root.exists():
+        _,after_pointer=engine.current_aggregate(folder,value['contract_id'])
+        if after_pointer!=pointer:raise ValueError('Active aggregate changed during refinement preflight')
+        return False
+    if not stat.S_ISDIR(candidate_root.stat(follow_symlinks=False).st_mode):
+        raise ValueError('Refinement preflight candidate root is not an ordinary directory')
+    def hex_id(item):
+        return isinstance(item,str) and len(item)==64 and all(c in '0123456789abcdef' for c in item)
+    def ordinary_source(name):
+        if not isinstance(name,str) or not name or '\\' in name:return False
+        path=PurePosixPath(name)
+        return not path.is_absolute() and '..' not in path.parts and path.as_posix()==name
+    matching=False;inspected=[]
+    for count,directory in enumerate(sorted(candidate_root.iterdir()),1):
+        if count>MAX_REFINEMENT_PREFLIGHT_REQUESTS:
+            raise ValueError('Refinement preflight request budget exceeded')
+        if not stat.S_ISDIR(directory.stat(follow_symlinks=False).st_mode):
+            raise ValueError('Refinement preflight entry is not an ordinary directory')
+        request_path=directory/'request.json'
+        try:info=request_path.stat(follow_symlinks=False)
+        except OSError as error:raise ValueError('Refinement preflight request is missing') from error
+        if (not stat.S_ISREG(info.st_mode) or info.st_nlink!=1
+                or info.st_size>MAX_REFINEMENT_PREFLIGHT_BYTES):
+            raise ValueError('Refinement preflight request is unsafe or exceeds budget')
+        raw=request_path.read_bytes()
+        after=request_path.stat(follow_symlinks=False)
+        if (len(raw)!=info.st_size or any(getattr(info,key)!=getattr(after,key)
+                for key in ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns'))):
+            raise ValueError('Refinement preflight request changed while reading')
+        inspected.append((directory.name,request_path,after))
+        try:request=json.loads(raw,object_pairs_hook=engine.case_node_store._unique_pairs)
+        except (ValueError,UnicodeError) as error:raise ValueError('Refinement preflight request is malformed') from error
+        if (not isinstance(request,dict) or encoded(request)!=raw
+                or request.get('schema') not in REFINEMENT_REQUEST_SCHEMAS
+                or not hex_id(directory.name) or identity(request)!=directory.name
+                or request.get('body_candidate_id')!=producer.CANDIDATE_ID
+                or any(not hex_id(request.get(key)) for key in
+                    ('parent_result_sha256','parent_contract_id','parent_campaign_id','parent_run_id'))
+                or not isinstance(request.get('source_sha256'),dict)
+                or not request['source_sha256']
+                or any(not ordinary_source(name) or not hex_id(h)
+                    for name,h in request['source_sha256'].items())):
+            raise ValueError('Refinement preflight receipt identity or domain differs')
+        matching|=request['parent_result_sha256']==pointer['aggregate_sha256']
+    if sorted(path.name for path in candidate_root.iterdir())!=sorted(name for name,_,_ in inspected):
+        raise ValueError('Refinement preflight inventory changed while reading')
+    for _,path,before in inspected:
+        after=path.stat(follow_symlinks=False)
+        if any(getattr(before,key)!=getattr(after,key)
+                for key in ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')):
+            raise ValueError('Refinement preflight request changed after reading')
+    _,after_pointer=engine.current_aggregate(folder,value['contract_id'])
+    if after_pointer!=pointer:raise ValueError('Active aggregate changed during refinement preflight')
+    return matching
 
 
 def _body_response(native,body_id):
@@ -834,16 +918,25 @@ def readme(s):
 
 def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
-    with current_context(root) as (folder,parent_value,parent):
-        refinement=_current_refinement(root,parent_value,parent)
-        # A continuation cannot borrow an earlier parent's predecessor. Matching
-        # packages still pass their existing verifiers, whose errors must propagate.
-        fine_refinement=_current_fine_refinement(root,parent_value,parent) if refinement is not None else None
-        ultrafine_refinement=(_current_ultrafine_refinement(root,parent_value,refinement,fine_refinement,parent)
-            if fine_refinement is not None else None)
-    del parent_value
-    with streaming_publication_context(root) as (stream_folder,value,row_projection):
-        if stream_folder!=folder:raise ValueError('Active aggregate changed after refinement verification')
+    with streaming_publication_context(root) as (folder,value,row_projection):
+        potential_refinement=_potential_current_refinement(root,folder,value,row_projection)
+    if potential_refinement:
+        with current_context(root) as (refinement_folder,parent_value,parent):
+            if (refinement_folder!=folder or parent_value['run_id']!=value['run_id']
+                    or parent_value['campaign_id']!=value['campaign_id']):
+                raise ValueError('Active aggregate changed before refinement verification')
+            refinement=_current_refinement(root,parent_value,parent)
+            # Matching packages still pass their existing source-bound verifiers.
+            fine_refinement=_current_fine_refinement(root,parent_value,parent) if refinement is not None else None
+            ultrafine_refinement=(_current_ultrafine_refinement(root,parent_value,refinement,fine_refinement,parent)
+                if fine_refinement is not None else None)
+        del parent_value
+        _,pointer=engine.current_aggregate(folder,value['contract_id'])
+        if (pointer['aggregate_sha256']!=row_projection['aggregate_sha256']
+                or pointer['run_id']!=value['run_id']):
+            raise ValueError('Active aggregate changed after refinement verification')
+    else:
+        refinement=fine_refinement=ultrafine_refinement=None
     if (out/'manifest.json').is_file():
         m=json.loads((out/'manifest.json').read_bytes())
         if all(digest(root/n)==h for n,h in m['source_sha256'].items()):

@@ -362,12 +362,16 @@ class _StopBeforePublicationWrite(Exception):pass
 
 def _stop_before_publication_write(tmp_path,monkeypatch,value):
     out=tmp_path/'publication';out.mkdir();(out/'retained.txt').write_text('original packet')
+    bound={'run_id':'a'*64,'campaign_id':'b'*64,'contract_id':'c'*64,**value}
     @contextmanager
-    def current_context(root):yield tmp_path,value,tmp_path/'result.json'
+    def current_context(root):yield tmp_path,bound,tmp_path/'result.json'
     monkeypatch.setattr(publication,'current_context',current_context)
     @contextmanager
-    def streaming_publication_context(root):yield tmp_path,value,None
+    def streaming_publication_context(root):yield tmp_path,bound,{'aggregate_sha256':'d'*64}
     monkeypatch.setattr(publication,'streaming_publication_context',streaming_publication_context)
+    monkeypatch.setattr(publication,'_potential_current_refinement',lambda *a,**kw:True)
+    monkeypatch.setattr(publication.engine,'current_aggregate',
+                        lambda *a,**kw:(tmp_path,{'aggregate_sha256':'d'*64,'run_id':bound['run_id']}))
     def stop(*args,**kwargs):raise _StopBeforePublicationWrite()
     monkeypatch.setattr(publication,'_retain_previous_publication',stop)
     return out
