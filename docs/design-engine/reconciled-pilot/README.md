@@ -30,7 +30,7 @@ The 1.5km pilot has two stations and two running tracks. Additional platform, po
 
 Energy stores start empty in nominal cases. Release substitutes for independently available grid traction with finite slew; it cannot add free force. Shared-bank collisions or unready stores bypass recovery. Actual train identities, reverse stopping offsets, route occupancy and full-grid thermal proxies carry through the timetable. Faults remain visible. Finite-run energy extrapolation, terminal maneuvers, voltage/loss/cooling assumptions and electronics allowances are disclosed in the full study; they do not establish qualified daily operation.
 
-The study has a new whole-railway identity. The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give 13.9141mm fine-mesh deflection, refinement changes 0.0067% / 0.0301%, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-native-current-6c4a9d6e5886.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.
+The study has a new whole-railway identity. The **exact current normal-base load and corrected wheel/rail interface** have a source-bound three-mesh elastic comparison. Rotation-free bearing lines give 13.9143mm fine-mesh deflection, refinement changes 0.0130% / 0.0290%, passing the unchanged5% target. FieldCraft and CalculiX agree closely. [Complete compact proof](civil-native/civil-native-current-15a5519a09dd.tar.gz) includes raw inputs, meshes, solver outputs, resource logs and sources. Earlier mismatched-gauge and biased support-patch results remain historical; their evidence is not inherited. Rotation-free line supports, gross elastic concrete and one native load pose do not verify real bearing contact, segment joints, cracking, prestress, fatigue or high/crowd3D cases.
 
 Full installed motor shapes, joints, fatigue, emergency braking, station mechanical force/flow maps, hot electrical characteristics and site conditions remain open.
 
@@ -46,5 +46,5 @@ No city is silently repriced from this pilot. [Remaining engineering tasks](fron
 ./osr design closure verify
 ```
 
-Study `c30f4bc42edc151edb9cdbcae1faf11167326d77c43475340f7dfd0fe70fc4a4`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
+Study `d68571bc412185dd7a5da630e260efe028f88b4d54017d50d2f48a352c16e7d0`. Whole bundle `f9aa3afa47a297da855b2741c9e0fde0d77ad3e3211df500f32f901cfadb1877`.
 Physical acceptance, manufacturing and operating release are false.

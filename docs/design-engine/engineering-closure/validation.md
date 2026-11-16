@@ -1,16 +1,17 @@
-# Current engineering closure — executed validation, 28 October 2026
+# Current engineering closure — executed validation, 16 November 2026
 
 The current software/evidence adapters and numerical packages execute. The physical railway remains incomplete: no complete installed vehicle, qualified available-force map, supported end-to-end journey, priced whole-life winner, manufacturing release or operating release is demonstrated.
 
 ## Retained identities and replay
 
 - Current GFRP 2 km research candidate: `fb244a9e494d8a897a1763859a6caa711c02be0394a8cec64abd0d9fa078f5a4`.
-- Current assessment: `4ab8d5d9e163e0fde778d131f65a1033adadbf875dc1a476f4b2e0cfe925dd81`; [immutable package](4ab8d5d9e163e0fde778d131f65a1033adadbf875dc1a476f4b2e0cfe925dd81.tar.gz), [manifest](manifest.json).
+- Current assessment: `f8f620ef8f3e7469c229c261a3870d99152421de561966b2a954e93beea62a2d`; [immutable package](f8f620ef8f3e7469c229c261a3870d99152421de561966b2a954e93beea62a2d.tar.gz), [manifest](manifest.json). Publication identity: `6c6b90add953ed434af211e02529f6b9e90626156bb5d105c577679abc1b3958`.
+- Earlier source-bound assessments remain available: [28 October](4ab8d5d9e163e0fde778d131f65a1033adadbf875dc1a476f4b2e0cfe925dd81.tar.gz) and [pre-streaming source epoch](76edd34a26c8c1bbf947c04cf4be17870d634623e767a3bec40c31d86505814c.tar.gz).
 - Motor experiment: `2aa264997ada48d9be52d14e69dc95fa8223a172edac7ba9c856366d9d2c27fa`; [actual inputs, logs, meshes, results and partial traces](motor-experiments.tar.gz), [manifest](motor-manifest.json).
 - Three full candidate propagations: [manifest](variant-design-manifest.json), [reference](reference.json.gz), [wider return](wide-return.json.gz), [rewound](rewound.json.gz).
 - Sources, payload inventories and semantic replay verify. Motor archive checks use the recorded execution tool identity; they do not assert local native rerun. Exact native reuse requires the current Python binary, NumPy/SciPy/SuperLU and source/request/mesh/resource identities.
 
-The current report has **0 authenticated records, 0 admitted operating maps, 0 numerical arrivals and 19 open tasks**: five engineering domains, four load-context journeys and ten physical protocols. Its four retained native component controls do not satisfy those missing records. Strict completion remains held (CLI exit 3). All physical, manufacturing and operating acceptance flags remain false. The selected reference and six earlier research-twin packages are preserved.
+The current report has **0 authenticated records, 0 admitted operating maps, 0 numerical arrivals and 19 open tasks**: five engineering domains, four load-context journeys and ten physical protocols. The separate motor experiment retains four component controls; the current assessment imports zero native component runs. Neither resolves the missing records. Strict completion remains held (CLI exit 3). All physical, manufacturing and operating acceptance flags remain false. The selected reference and six earlier research-twin packages are preserved.
 
 ## Actual motor results
 
