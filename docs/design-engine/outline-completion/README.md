@@ -18,7 +18,7 @@ Design coverage also includes **112 railway bundles**, **54 body outlines** and 
 | Lyon | 296.5 | 9 | 109 | 337 | 4,754.0 | 16.03 |
 | Agra | 158.5 | 5 | 54 | 191 | 2,709.5 | 17.09 |
 
-Calculation `9cb09432363cc3b368f344076d1337a31aab12c483dacc189f9c733fd6209d14`; publication `da1c4f47fe914a9b7a5961f4ba37adeb1e12b33f533ae1ced2d500a780547c53`.
+Calculation `2b39d04154c895d056af9e19a7828387137f748f7227ceb4a57d429655f22d85`; publication `78824cceffb985ead0534490073c6af1d74d7d837191409cab02061fed8ddb0f`.
 <!-- END calculated outline coverage -->
 
 ## City price audit
@@ -73,11 +73,11 @@ The loopback API runs one bounded worker at a time, with a 90 CPU-second/120 wal
 
 ## Validation and execution
 
-The compact-station campaign completed all 266 cities and 623 alignment scenarios with no failed or pending records in 224.28 seconds on two bounded workers. The command recorded 382,496 KiB maximum resident set size and no swaps; this is not simultaneous whole-machine memory. No native FEA, CAD or hardware test was executed by this costing campaign.
+The current selected-cost source epoch completed all 266 cities and 623 alignment scenarios with no failed or pending records in 331.76 seconds on two bounded workers. The command recorded 467,604 KiB maximum resident set size and no swaps; this is not simultaneous whole-machine memory. The full private state used approximately 1.5 GiB; the compressed publication used approximately 46 MiB. No native FEA, CAD or hardware test was executed by this costing campaign.
 
-An independent read-only service audit covered all 266 cities, 623 alignment alternatives and 3,936 line variants. It checked platform spacing/nonoverlap, retention of every access marker, connector walks, exact leg braking bounds, nominal charging, normal capacity and independently reconstructed fleet/reserve/platform arithmetic. The largest calculated connector was 119.99 m. Its sealed private receipt is `526ab62c508fa7c4d0dce0ef7d27d00cb3babd7ef0df6e43163a352805dc9a92`. Original city geography and route files remain unchanged. Shared-filesystem hashes and process resource limits were used; this is not an OS-enforced source sandbox or physical validation.
+For the earlier retained source epoch, an independent read-only service audit covered all 266 cities, 623 alignment alternatives and 3,936 line variants. It checked platform spacing/nonoverlap, retention of every access marker, connector walks, exact leg braking bounds, nominal charging, normal capacity and independently reconstructed fleet/reserve/platform arithmetic. The largest calculated connector was 119.99 m. Its sealed private receipt is `526ab62c508fa7c4d0dce0ef7d27d00cb3babd7ef0df6e43163a352805dc9a92`. Original city geography and route files remain unchanged. Shared-filesystem hashes and process resource limits were used; this is not an OS-enforced source sandbox or physical validation.
 
-An independent no-edit planning round trip also passed every city: installed cost, whole-life cost, all fourteen scope totals, resources, civil quantities, platforms, dwell and access were exactly unchanged. All 266 revisions passed their declared functional checks, with no inherited access hold. The 220.96-second audit receipt is `3dddb085baaf0396dab42eb14f0f241ab8d97e3bbbc7f03b522597bec7db51e8`. An earlier audit exposed a one-ULP projection drift; unchanged headways now preserve exact train-km and departure values. Failed/interrupted audits remain archived.
+For that earlier retained source epoch, an independent no-edit planning round trip also passed every city: installed cost, whole-life cost, all fourteen scope totals, resources, civil quantities, platforms, dwell and access were exactly unchanged. All 266 revisions passed their declared functional checks, with no inherited access hold. The 220.96-second audit receipt is `3dddb085baaf0396dab42eb14f0f241ab8d97e3bbbc7f03b522597bec7db51e8`. An earlier audit exposed a one-ULP projection drift; unchanged headways now preserve exact train-km and departure values. Failed/interrupted audits remain archived.
 
 The integrated controller tests cover real mapped-city calculation, exact editable-base custody, iterative pricing, insufficient requested capacity, child/export identities, stale sources, cache reuse, output tampering, bounded requests, concurrent ownership, interrupted workers and corrupt-status recovery. Operations tests distinguish two-shift production/civil from three-shift 24-hour operation, and retain a requested 330-day operating year. Python 3.12 and 3.13 regression runs are recorded in the private execution receipts. Per-Doctype draft fields were independently checked against pinned ERPNext/HRMS v15 schemas; no target site or real transaction was used.
 

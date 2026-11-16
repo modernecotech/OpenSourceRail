@@ -15,7 +15,7 @@ All three rows retain 12 stations, 52 six-car trainsets, 120-second peak headway
 
 The current project case spans US$172.1m / US$548.1m / US$2,374.0m, low/base/high. These are broad sensitivity cases, not confidence bounds or supplier offers.
 
-Calculation identity: `64ec720f5ec0f289c5067ab2487a77da2c4eda84928f4e6fbf60b5b313cc348e`.
+Calculation identity: `f6c4d474dc30f0dd7b3b5d06717196cd988a4ba01bc304413b37f0ebe629cf2a`.
 <!-- END calculated supply comparison -->
 
 ## What changed
