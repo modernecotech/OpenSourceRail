@@ -2,7 +2,7 @@
 
 The retained backend pilot constructed source-bound component geometry in
 SolidCraft and matched mechanical method controls in FieldCraft. The current
-release pair has a CAD-to-FEA handoff hold described below. This is an **opt-in
+release pair has a candidate-bound Code_Aster handoff described below. This is an **opt-in
 backend comparison**, integrated with the existing candidate and delivery records.
 FreeCAD, CalculiX, Gmsh/GetDP, IFC/Bonsai, Chrono and SUMO remain available.
 
@@ -176,9 +176,19 @@ offset with a new CAD-tool evaluation. Its STEP SHA-256 is
 `4cae0e3c2c7183161c02787bf47e9be052db0cdef5c23b58bb1c9132ee213921`.
 FieldCraft 0.7.5 again refused both STEP routes. Gmsh 4.15.2 and independent
 FreeCAD reimport agreed on 0.12 m³; the MED mesh has 529 tetra10 elements and
-1,100 nodes. The 19-artifact private candidate handoff verifies. Its native
-Code_Aster state is **held** because that image was not installed during this
-disk-reserved probe; no 0.43 numerical solve or physical acceptance is claimed.
+1,100 nodes. The initial 19-artifact private handoff remains a recorded
+**held-before-solve** attempt. A fresh 24-artifact run with the current stable
+Code_Aster 17.4.0 image digest
+`sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5`
+then **executed and verified** for physical candidate
+`b3bdaa8f073571770bda7aff90dbfd63127998c70cc46bf49c4e1d4499430691`,
+native evaluation `006d200026265b27eae89543620308c0074b0a836b7a797231a6b63769f41279`.
+The fixed-face reaction was −1,500 N for the declared 1,500 N axial load;
+the loaded-face mean axial displacement was 2.543 × 10⁻⁷ m. Relative force
+and energy/work residuals were 6.78 × 10⁻¹⁵ and 1.43 × 10⁻⁸. The numerical
+screen passed in 4.58 seconds of Code_Aster runtime, with physical acceptance
+still false. This component control does not qualify the selected vehicle or
+its installed joints, fatigue, buckling and material allowables.
 
 Source releases, commits, asset hashes, executable hashes and licences are in
 [`tools.json`](../../../engineering/design_search/craft_backends/tools.json).
