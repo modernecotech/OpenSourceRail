@@ -95,6 +95,12 @@ def test_changed_cargo_configuration_requires_build(built, monkeypatch):
     assert not receipt.check(built)
 
 
+def test_new_implicit_cargo_build_script_requires_build(built):
+    build_script=built/'crates/osr-design-search/build.rs'
+    build_script.write_text('fn main() {}\n')
+    assert not receipt.check(built)
+
+
 def test_changed_rust_wrapper_bytes_require_build(built, monkeypatch):
     wrapper = built / 'wrapper'
     wrapper.write_text('#!/bin/sh\nexit 0\n')

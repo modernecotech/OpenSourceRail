@@ -137,7 +137,8 @@ def _snapshot(root: Path) -> dict:
     _ordinary(binary)
     depfile_hash, dependencies = _dependencies(root)
     inputs = {name: _digest(_inside(root, name)[1]) for name in BUILD_INPUTS}
-    for name in ('.cargo/config', '.cargo/config.toml'):
+    for name in ('.cargo/config', '.cargo/config.toml',
+                 'crates/osr-design-search/build.rs'):
         optional = root / name
         if optional.exists() or optional.is_symlink():
             inputs[name] = _digest(_inside(root, name)[1])
