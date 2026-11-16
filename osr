@@ -16,7 +16,7 @@ Usage: ./osr [COMMAND] [arguments]
   design ...        Current status/build/verify; campaign create/run/compare/publish
   design railway columnar ...  Bounded Rust Arrow/Parquet index, verify and query
   design railway case-v2-preview [verify] STATE OUTPUT  Typed Arrow case-core research preview
-  design railway run/publish/verify  Build the current Rust Arrow case codec before active access
+  design railway run/publish/verify  Reuse a source-matched Rust Arrow codec or build it before active access
   design space ...  Build/verify material, structure, joint and motor research options
   design architecture ... Run/publish/verify whole-railway research families
   design adaptive ...     Plan/run continuing function-first design revisions
@@ -133,11 +133,14 @@ if [[ "${1:-}" == design && "${2:-}" == railway && ( "${3:-}" == run || "${3:-}"
             printf 'Arrow case-codec build target must be an ordinary repository directory.\n' >&2
             exit 3
         fi
-        tools/automation/osr-python -m engineering.performance reserve-run \
-            --target "$ROOT/target" --reservation-action active-arrow-case-codec \
-            --projected-bytes 3221225472 --minimum-free-gib 20 --receipt-to-stderr -- \
-            env CARGO_TARGET_DIR="$ROOT/target" CARGO_BUILD_JOBS="${OSR_CARGO_JOBS:-2}" \
-            cargo build --quiet --locked -p osr-design-search --features columnar --bin osr-campaign-case-nodes
+        if ! env CARGO_TARGET_DIR="$ROOT/target" CARGO_BUILD_JOBS="${OSR_CARGO_JOBS:-2}" \
+            tools/automation/osr-python tools/automation/case_codec_build_receipt.py check "$ROOT"; then
+            tools/automation/osr-python -m engineering.performance reserve-run \
+                --target "$ROOT/target" --reservation-action active-arrow-case-codec \
+                --projected-bytes 3221225472 --minimum-free-gib 20 --receipt-to-stderr -- \
+                env CARGO_TARGET_DIR="$ROOT/target" CARGO_BUILD_JOBS="${OSR_CARGO_JOBS:-2}" \
+                tools/automation/osr-python tools/automation/case_codec_build_receipt.py build "$ROOT"
+        fi
         export OSR_CASE_NODE_CODEC="$ROOT/target/debug/osr-campaign-case-nodes"
     fi
 fi
