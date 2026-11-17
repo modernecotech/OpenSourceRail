@@ -32,6 +32,11 @@ def test_v06_release_readme_has_an_explicit_inventory_class():
     assert context.category('docs/releases/v0.6.0/README.md') == 'versioned-release-guide'
 
 
+def test_baghdad_proposal_readmes_have_a_planning_class():
+    assert context.category('docs/proposals/README.md') == 'strategic-planning-proposal'
+    assert context.category('docs/proposals/baghdad-v07/README.md') == 'strategic-planning-proposal'
+
+
 def test_legacy_import_is_the_same_module_and_keeps_monkeypatch_compatibility(monkeypatch):
     from engineering.maglev_research import readme_context as old
     assert old is context
