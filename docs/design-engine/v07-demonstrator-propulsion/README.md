@@ -64,31 +64,33 @@ sequence. Actual stator length and count, converter ratings, brake hardware,
 mounting tolerances, supplier masses and the **single installed price** remain
 null until supplier and site inputs exist. The schedule is a request for a
 budgetary quotation, not a price or manufacturing release. Its evaluation ID is
-`c58e907b5b8de97984ea8330c88c77e873d44529f9f88cc67a44583f1c9a0a35`.
+`b67652f13daf7f2e2f9b42153e7ca29ddf9414004858a8d8807a039b95d0b691`.
 
 The stop interface needs immediate revision: from 20 m/s a 0.6 m/s² net
 deceleration requires 333.3 m before reaction distance. An illustrative,
 unapproved 1 s reaction adds 20 m. If station-mounted receiving force is
 available only once the entire 104.5 m train has entered, the geometric
 minimum under an optimistic immediately available brake becomes **457.8 m**,
-before berth tolerance, position
-uncertainty, brake build-up, grade variation or civil clearance.
+before berth tolerance, position uncertainty, brake build-up, grade variation
+or civil clearance.
 
 | Research receiving reservation | Nose-stop margin | Full-train-engagement margin |
 |---:|---:|---:|
 | 350 m retained | −3.3 m | −107.8 m |
 | 400 m revision | +46.7 m | −57.8 m |
 | 450 m revision | +96.7 m | −7.8 m |
+| 550 m revision | +196.7 m | +92.2 m |
 
 Each receiving revision has a distinct research configuration ID in the JSON.
 None is selected. The 400/450 m alternatives resolve the original nose-stop
-shortfall but not the conservative full-train engagement requirement. A design
-request should start above 457.8 m **plus justified margins**, or prove a
-different force-engagement sequence. The receiving/berth boundary and train-tail
-clearance remain undefined. The length arithmetic presumes the target brake
-force exists; inherited μ=0.05 remains below the optimistic μ≈0.0832 bound on
-a 2% downgrade. No station/civil quantity or price has been inherited or
-recalculated for the longer reservations.
+shortfall but not the full-train engagement requirement. The 550 m research
+window is the first evaluated one above the 457.8 m geometric minimum, with
+92.2 m **unallocated** for uncertainty and station interfaces. It is not an
+approved safety margin. The receiving/berth boundary and train-tail clearance
+remain undefined. The length arithmetic presumes the target brake force exists;
+inherited μ=0.05 remains below the optimistic μ≈0.0832 bound on a 2% downgrade.
+No station/civil quantity or price has been inherited or recalculated for the
+longer reservations.
 
 Reproduce from the repository root:
 

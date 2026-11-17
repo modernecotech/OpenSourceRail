@@ -57,7 +57,7 @@ def schedule(root=ROOT):
     receiving_reservation_m=350
     full_train_engagement_minimum=with_reaction+train_length
     receiving_alternatives=[]
-    for length in (350,400,450):
+    for length in (350,400,450,550):
         definition=dict(parent_booster_railway_research_configuration_id=adverse['railway_research_configuration_id'],
                         receiving_reserved_length_m=length,
                         full_train_engagement_before_brake_hypothesis=True)
@@ -79,7 +79,7 @@ def schedule(root=ROOT):
         item('station-launch-primary', '500 m full-engagement leading-nose command window; physical stator extent and group overlap unresolved',unit='m of installed primary'),
         item('midroute-booster-primary', '250 m full-engagement leading-nose command window at chainage 1000–1250 m; physical stator extent unresolved',unit='m of installed primary'),
         item('receiving-independent-brake-and-parking',
-             f'350/400/450 m research reservations; at least {full_train_engagement_minimum:.1f} m before uncertainty if full train engagement precedes braking'),
+             f'350/400/450/550 m research reservations; at least {full_train_engagement_minimum:.1f} m before uncertainty if full train engagement precedes braking'),
         item('phase-group-converters-and-dc-link', 'Separate commanded launch/booster windows; group count, simultaneous trains and phase branches to be designed'),
         item('feeder-return-isolation-grounding', 'Station and midroute groups, protected return and safe isolation; route and cable lengths to be surveyed'),
         item('sensors-position-and-protection', 'Registered phase position, train detection, berth, tail clearance, interlocking and fault monitoring'),
