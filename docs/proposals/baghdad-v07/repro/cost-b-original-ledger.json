@@ -1,0 +1,182 @@
+{
+  "schema": "osr-baghdad-2035-concept-funding-envelope/2",
+  "created_utc": "2026-11-17T08:13:00.453332+00:00",
+  "source_git_head": "bb9e0d7fd73f12a6c7ba4735566b7658e977a566",
+  "candidate_id": "0a8d50dc8e637c307ca45a14224a9b744531ff635abaeef7ca5972e2c1a61985",
+  "network_evaluation_id": "92abf9b4d5f87fdb0d228fc308712c320b1c31c076477afba5fd3a0aaa45010a",
+  "network_input_id": "61ba5814b678c67dc082d8a25999488c5b5305eeb1dca1cbfa45f3641b238b4a",
+  "source_sha256": {
+    "build/v07-baghdad/network-20261117-b/result.json": "888d85d28109161aee11ab1161e747b73b4fe70db793a3fc3f513928141e4a75",
+    "build/v07-baghdad/network-20261117-b/receipt.json": "2f9c3a39919700e2931bf1755a7edf0b44b05d7220f25d40822ba969beb5d867",
+    "build/v07-baghdad/network-20261117-b/schematic.geojson": "8103049ff2a1e1bb6ea3b3194b530ecc706a4aac1b25fc1a15879ea7cad10c6c",
+    "build/v07-baghdad/network-20261117-a/result.json": "da2769dc24aacbc3d3069c2eee893c2155df05e0becd4b8adf3c9b8a07b85336",
+    "build/v07-baghdad/cost-20261117-a/ledger.json": "e471c1df12d7df35ab9d6f45b78390b07d2eb7260ab3fa03ead3f2e3fe89683c"
+  },
+  "price_sources": {
+    "2024_nic_rfi": "https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf",
+    "2024_nic_investment_opportunity": "https://investpromo.gov.iq/announcement-of-an-international-investment-opportunity-no-3-of-2024-metro-baghdad-dbomft/",
+    "2025_world_bank_sao_paulo_metro_appraisal": "https://documents1.worldbank.org/curated/en/099022725110032757/pdf/BOSIB-0b1c6377-dcd4-470d-88ca-2342fc535d3e.pdf",
+    "2018_world_bank_bogota_metro_appraisal": "https://documents1.worldbank.org/curated/en/771821533439847685/pdf/PAD-final-07162018.pdf",
+    "2024_bernama_17_5bn_report": "https://www.bernama.com/en/news.php?id=2313076",
+    "2026_iraq_nic_update_report": "https://ninanews.com/website/News/Details?Key=1322252"
+  },
+  "unit_rates_usd": {
+    "tunnel_usd_m": "120000",
+    "elevated_usd_m": "45000",
+    "at_grade_usd_m": "15000",
+    "underground_station_usd": "55000000",
+    "elevated_station_usd": "20000000",
+    "grade_station_usd": "12000000",
+    "track_usd_track_m": "1500",
+    "controls_usd_line": "50000000",
+    "powered_zone_usd": "4000000",
+    "feeder_substation_usd": "5200000",
+    "main_grid_interface_usd": "20000000",
+    "six_car_trainset_usd": "8000000",
+    "depot_usd": "150000000",
+    "land_utilities_usd_route_m": "5000",
+    "design_supervision_fraction": "0.05",
+    "testing_commissioning_usd_line": "35000000",
+    "rescue_tooling_usd_line": "50000000"
+  },
+  "scope": "Schematic mapped chord lower bound only; 2035 research candidate, not selected or surveyed",
+  "quantities": {
+    "route_m": "605652",
+    "tunnel_m": "90847.80",
+    "at_grade_m": "60565.20",
+    "elevated_m": "454239.00",
+    "track_m": "1211304",
+    "lines": 20,
+    "stations_line_stop_assets": 226,
+    "station_class_split_assumed": {
+      "underground": 34,
+      "at_grade": 23,
+      "elevated": 169
+    },
+    "depots_assumed": 12,
+    "trainsets_assumed": 600,
+    "powered_zones_assumed": 492,
+    "feeders_assumed": 203,
+    "main_grid_interfaces_assumed": 20
+  },
+  "scopes": [
+    {
+      "scope": "twin-bore-tunnels-portals",
+      "quantity": "90847.80",
+      "unit": "route_m",
+      "rate_usd": "120000",
+      "amount_usd": "10901736000.00",
+      "basis": "Assumed 15% class; geometry and geology not surveyed."
+    },
+    {
+      "scope": "elevated-civil",
+      "quantity": "454239.00",
+      "unit": "route_m",
+      "rate_usd": "45000",
+      "amount_usd": "20440755000.00",
+      "basis": "Assumed 75% class; foundations, spans and water crossings unverified."
+    },
+    {
+      "scope": "at-grade-civil",
+      "quantity": "60565.20",
+      "unit": "route_m",
+      "rate_usd": "15000",
+      "amount_usd": "908478000.00",
+      "basis": "Assumed 10% class; segregation, crossings and land unverified."
+    },
+    {
+      "scope": "stations-access-evacuation",
+      "quantity": "5526000000",
+      "unit": "lump_sum_usd",
+      "rate_usd": "1",
+      "amount_usd": "5526000000",
+      "basis": "226 line-stop assets: 159+6+61; no unproven interchange consolidation credit; class split assumed."
+    },
+    {
+      "scope": "track-guideway-walkways",
+      "quantity": "1211304",
+      "unit": "track_m",
+      "rate_usd": "1500",
+      "amount_usd": "1816956000",
+      "basis": "Two tracks; special track, walkways and emergency access unlocated."
+    },
+    {
+      "scope": "signalling-OCC-comms",
+      "quantity": "20",
+      "unit": "lines",
+      "rate_usd": "50000000",
+      "amount_usd": "1000000000",
+      "basis": "20 lines = retained 14 plus six infill; OCC integration unqualified."
+    },
+    {
+      "scope": "station-power-and-braking",
+      "quantity": "492",
+      "unit": "powered_zones",
+      "rate_usd": "4000000",
+      "amount_usd": "1968000000",
+      "basis": "492 = two per 226 station assets plus two terminal/recovery zones per 20 lines; powered length/duty unselected."
+    },
+    {
+      "scope": "grid-feeder-and-main-interfaces",
+      "quantity": "1455600000",
+      "unit": "lump_sum_usd",
+      "rate_usd": "1",
+      "amount_usd": "1455600000",
+      "basis": "203 assumed feeder nodes from ceil(605652/3000); one main interface per line, not generation plants."
+    },
+    {
+      "scope": "rolling-stock-six-car",
+      "quantity": "600",
+      "unit": "trainsets",
+      "rate_usd": "8000000",
+      "amount_usd": "4800000000",
+      "basis": "600-set allowance. At 30 km/h average, 5-min headway on 605.652 route-km implies >=485 service sets; 20% reserve >=582 before individual line ceilings. Not validated service."
+    },
+    {
+      "scope": "depots-and-workshops",
+      "quantity": "12",
+      "unit": "depots",
+      "rate_usd": "150000000",
+      "amount_usd": "1800000000",
+      "basis": "12 assumed depots at 50 trainsets each, no sites/access approved."
+    },
+    {
+      "scope": "land-utilities-and-disruption",
+      "quantity": "605652",
+      "unit": "route_m",
+      "rate_usd": "5000",
+      "amount_usd": "3028260000",
+      "basis": "Mapped chord lower bound, parcel/access/diversion not surveyed."
+    },
+    {
+      "scope": "design-supervision-assurance",
+      "quantity": "53645785000.00",
+      "unit": "fraction_of_prior_scopes",
+      "rate_usd": "0.05",
+      "amount_usd": "2682289250.0000",
+      "basis": "5% programme assumption on first 11 scopes."
+    },
+    {
+      "scope": "testing-commissioning",
+      "quantity": "20",
+      "unit": "lines",
+      "rate_usd": "35000000",
+      "amount_usd": "700000000",
+      "basis": "20 line allowance; system qualification not complete."
+    },
+    {
+      "scope": "rescue-tooling-local-industry",
+      "quantity": "20",
+      "unit": "lines",
+      "rate_usd": "50000000",
+      "amount_usd": "1000000000",
+      "basis": "20 line allowance; actual rescue/make-buy volumes not qualified."
+    }
+  ],
+  "direct_usd": "58028074250.0000",
+  "contingency_rate": "0.20",
+  "contingency_usd": "11605614850.000000",
+  "single_planning_envelope_usd": "69633689100.000000",
+  "rounded_external_figure_usd_billion": "69.6",
+  "status": "Class C-like funding hypothesis; no local bids, no physical acceptance, no OPEX/NPV or bankability"
+}
