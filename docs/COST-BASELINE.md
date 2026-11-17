@@ -32,6 +32,17 @@ segmented beam: its joint, extra lifts, temporary support and site work are
 unpriced. Actual passenger-km lifecycle cost is unknown until patronage and
 occupancy are established.
 
+The source calculation contains 32 capital lines in eight accounting scopes.
+The proposed fourteen-scope corridor procurement structure is **not yet
+reconciled to those lines**: rail fastenings, the segmented joint, installed
+boosters, independent brakes, supplier inputs and site-specific works cannot be
+assigned a defensible price from the current result. The US$737.991m figure is
+therefore one equal-service planning estimate, not a price for the new
+demonstrator packages or a complete candidate-specific bill of quantities.
+The [segmented-span cost handoff](design-engine/v07-segmented-span/README.md)
+provides counted quote quantities and replacement-versus-increment rules;
+supplier unit prices, baseline credits and installed cost deltas remain open.
+
 The [Samawah planning case](design-engine/v07-affordable-corridor/README.md)
 has a separate **US$1.141bn** base installed-capital model and **US$2.259bn**
 30-year NPV for 57.873 km. Its long gap uses a powered-axle research fallback,

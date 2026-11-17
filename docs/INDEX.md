@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **314**.
+Indexed Markdown files: **317**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **314**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 282 |
+| [docs](#docs) | 285 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -323,11 +323,14 @@ Indexed Markdown files: **314**.
 | [`docs/design-engine/v07-affordable-corridor/README.md`](../docs/design-engine/v07-affordable-corridor/README.md) | v0.7 affordable railway: first engineering decision gate |
 | [`docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md) | 20 m box-beam civil construction experiment |
 | [`docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md) | Equal-service propulsion necessary-bound screen |
+| [`docs/design-engine/v07-demonstrator-propulsion/README.md`](../docs/design-engine/v07-demonstrator-propulsion/README.md) | Proposed 1.5–2 km demonstrator propulsion screen |
 | [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
 | [`docs/design-engine/v07-execution/door-pack-preflight.md`](../docs/design-engine/v07-execution/door-pack-preflight.md) | Door module delivery preflight |
 | [`docs/design-engine/v07-execution/door-route-request.md`](../docs/design-engine/v07-execution/door-route-request.md) | One-opening guide and belt route request |
 | [`docs/design-engine/v07-execution/tool-capabilities.md`](../docs/design-engine/v07-execution/tool-capabilities.md) | v0.7 tool selection and retirement boundaries |
 | [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
+| [`docs/design-engine/v07-representative-car/README.md`](../docs/design-engine/v07-representative-car/README.md) | Representative car: prototype planning handoff |
+| [`docs/design-engine/v07-segmented-span/README.md`](../docs/design-engine/v07-segmented-span/README.md) | Segmented 20 m span: prototype planning handoff |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |
