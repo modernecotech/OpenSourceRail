@@ -56,8 +56,47 @@ class Handler(BaseHTTPRequestHandler):
             return cities.evaluate_city(slug, root=self.root)
         raise CurrentUnavailable('No v0.6 city performance packet is authorized; regenerate the geographic hold register')
 
+    def joined_reference_journey(self):
+        """Small synchronous, loopback-only planning calculation for one joined candidate."""
+        from engineering.trip_dynamics.interactive import _loopback
+        from engineering.v07_reference_journey import evaluate
+        if self.command != 'POST':
+            self.respond(405, {'error': 'POST a bounded joined-candidate edit'})
+            return
+        if not _loopback(self, post=True):
+            self.respond(403, {'error': 'Matching loopback Host and Origin required'})
+            return
+        if self.headers.get('Content-Type', '').split(';')[0] != 'application/json':
+            self.respond(415, {'error': 'application/json required'})
+            return
+        length = self.headers.get('Content-Length', '')
+        if not length.isdecimal() or not 0 < int(length) <= 1024:
+            self.respond(413, {'error': 'Bounded request required'})
+            return
+        try:
+            def pairs(items):
+                value = {}
+                for key, item in items:
+                    if key in value:
+                        raise ValueError('Duplicate input key')
+                    value[key] = item
+                return value
+            request = json.loads(self.rfile.read(int(length)), object_pairs_hook=pairs,
+                                 parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Finite JSON required')))
+            if not isinstance(request, dict) or set(request) != {
+                    'expected_parent_candidate_id', 'route_km', 'stations'}:
+                raise ValueError('Exact candidate, route and station inputs required')
+            value = evaluate(root=self.root, **request)
+        except (ValueError, TypeError, KeyError, OSError) as exc:
+            self.respond(400, {'error': str(exc)})
+            return
+        self.respond(200, value)
+
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        if path == '/api/v07/reference-journey':
+            self.joined_reference_journey()
+            return
         from engineering.rustgis.api import handle_api as gis_api
         if gis_api(self):
             return
@@ -189,6 +228,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        if unquote(urlsplit(self.path).path) == '/api/v07/reference-journey':
+            self.joined_reference_journey()
+            return
         from engineering.rustgis.api import handle_api as gis_api
         if gis_api(self):
             return

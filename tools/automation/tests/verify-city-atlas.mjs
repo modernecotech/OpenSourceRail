@@ -30,6 +30,20 @@ try {
     assert.equal(await link.count(),1);
     assert.equal((await page.request.get(new URL(await link.getAttribute('href'),page.url()).href)).status(),200);
   }
+  const joinedResponse=page.waitForResponse(response=>response.url().endsWith('/api/v07/reference-journey')&&response.request().postDataJSON()?.stations===13);
+  await page.locator('#v07-reference-edit button').click();
+  await page.locator('#v07-reference-results').waitFor({state:'visible',timeout:30000});
+  const joined=await (await joinedResponse).json();
+  assert.equal(joined.parent_physical_candidate_id,'osr-v07-joined-prototype-20261117');
+  assert.notEqual(joined.physical_candidate_id,joined.parent_physical_candidate_id);
+  assert.equal(joined.service.active_trainsets,46);
+  assert.equal(joined.service.reserve_trainsets,8);
+  assert.equal(joined.manufacturing.quantity_schedule.powered_cars,324);
+  assert.equal(joined.manufacturing.erpnext_posted,false);
+  assert.equal(await page.locator('#v07-reference-costs tr').count(),14);
+  assert.notEqual(await page.locator('#v07-reference-results').getAttribute('data-baseline-evaluation-id'),
+    await page.locator('#v07-reference-results').getAttribute('data-revised-evaluation-id'));
+  assert.match(await page.locator('#v07-reference-measures').innerText(),/1,055\.84/);
   await page.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
   assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);

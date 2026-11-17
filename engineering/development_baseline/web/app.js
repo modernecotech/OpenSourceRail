@@ -1537,6 +1537,100 @@ function drawOutlineMap(geometry) {
     svg.append(circle);
   }
 }
+const joinedReference = byId("v07-reference");
+byId("v07-reference-edit").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector("button[type=submit]");
+  const status = byId("v07-reference-status");
+  const results = byId("v07-reference-results");
+  const parent = joinedReference.dataset.physicalCandidateId;
+  const fields = new FormData(form);
+  const routeKm = Number(fields.get("route_km"));
+  const stations = Number(fields.get("stations"));
+  const calculate = async (route_km, station_count) => {
+    const response = await fetch("/api/v07/reference-journey", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expected_parent_candidate_id: parent, route_km, stations: station_count }),
+    });
+    const value = await response.json();
+    if (!response.ok) throw Error(value.error || "Joined corridor calculation unavailable");
+    if (value.schema !== "osr-v07-reference-journey/1" ||
+        value.parent_physical_candidate_id !== parent ||
+        value.fixed_interfaces.cars_per_train !== 6 ||
+        value.fixed_interfaces.driven_axles_per_train !== 24 ||
+        value.fixed_interfaces.dc_voltage_v !== 1500 ||
+        value.fixed_interfaces.ten_metre_beams !== true ||
+        value.physical_accepted !== false || value.manufacturing_release !== false ||
+        value.manufacturing.erpnext_posted !== false)
+      throw Error("Joined candidate or digital-release boundary differs");
+    return value;
+  };
+  button.disabled = true;
+  results.hidden = true;
+  status.textContent = "Recalculating the joined corridor and fourteen capital scopes…";
+  try {
+    const baseline = await calculate(30, 12);
+    const revised = routeKm === 30 && stations === 12 ? baseline : await calculate(routeKm, stations);
+    if (baseline.physical_candidate_id !== parent ||
+        JSON.stringify(baseline.source_sha256) !== JSON.stringify(revised.source_sha256) ||
+        Object.keys(baseline.cost.scope_totals_usd_m).length !== 14 ||
+        Object.keys(revised.cost.scope_totals_usd_m).length !== 14)
+      throw Error("Reference and edited cost inputs differ");
+    results.dataset.baselineEvaluationId = baseline.evaluation_id;
+    results.dataset.revisedEvaluationId = revised.evaluation_id;
+    results.dataset.revisedPhysicalCandidateId = revised.physical_candidate_id;
+    const ids = byId("v07-reference-identities");
+    ids.replaceChildren();
+    fact(ids, "Joined parent candidate", parent);
+    fact(ids, "Edited corridor candidate", revised.physical_candidate_id);
+    fact(ids, "Edited evaluation", revised.evaluation_id);
+    fact(ids, "Edited selection", revised.selection_id);
+    const metrics = [
+      ["Route · km", (v) => format(v.corridor.route_km)],
+      ["Stations", (v) => format(v.corridor.stations)],
+      ["Extra round trip · seconds", (v) => format(v.service.additional_round_trip_s)],
+      ["Active + reserve trains", (v) => `${v.service.active_trainsets} + ${v.service.reserve_trainsets}`],
+      ["Normal offered places/hour/direction", (v) => format(v.service.peak_places_per_hour_per_direction)],
+      ["Annual grid energy allowance · GWh", (v) => format(v.energy.annual_total_kwh / 1e6)],
+      ["Ten-metre beam lifts", (v) => format(v.civil.beam_lifts)],
+      ["Supports", (v) => format(v.civil.support_positions)],
+      ["Powered cars for fleet", (v) => format(v.manufacturing.quantity_schedule.powered_cars)],
+      ["Installed capital · US$ million", (v) => format(v.cost.installed_capital_usd_m)],
+    ];
+    const measures = byId("v07-reference-measures");
+    measures.replaceChildren();
+    for (const [label, read] of metrics) {
+      const row = document.createElement("tr");
+      for (const value of [label, read(baseline), read(revised)]) {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.append(cell);
+      }
+      measures.append(row);
+    }
+    const costs = byId("v07-reference-costs");
+    costs.replaceChildren();
+    for (const [scope, value] of Object.entries(baseline.cost.scope_totals_usd_m)) {
+      const revisedValue = revised.cost.scope_totals_usd_m[scope];
+      if (!Number.isFinite(revisedValue)) throw Error("Edited cost scope differs: " + scope);
+      const row = document.createElement("tr");
+      for (const item of [scope.replaceAll("-", " "), format(value), format(revisedValue)]) {
+        const cell = document.createElement("td");
+        cell.textContent = item;
+        row.append(cell);
+      }
+      costs.append(row);
+    }
+    results.hidden = false;
+    status.textContent = "Joined corridor calculation complete. The BOM, routing and unposted ERPNext draft below belong to this vehicle and beam family.";
+  } catch (error) {
+    status.textContent = "Joined corridor calculation unavailable: " + error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
 if (new URLSearchParams(location.search).has("outlineCity"))
   byId("city-outline-load").click();
 

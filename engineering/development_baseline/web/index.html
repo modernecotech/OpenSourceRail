@@ -85,6 +85,31 @@
           <dt>Construction programme</dt><dd>43 months, subject to site survey and procurement</dd>
           <dt>Quotation basis</dt><dd>51 six-car sets; 6,000 beams; 6,002 supports; 12 stations</dd>
         </dl>
+        <form id="v07-reference-edit">
+          <h3>Recalculate the joined corridor</h3>
+          <div class="outline-inputs">
+            <label>Route length · km<input name="route_km" type="number" min="1" max="100" step="0.1" value="30" required /></label>
+            <label>Stations, including terminals<input name="stations" type="number" min="2" max="100" step="1" value="13" required /></label>
+          </div>
+          <button type="submit">Compare with the 12-station reference</button>
+          <p id="v07-reference-status" role="status" aria-live="polite">The 120-second service, six-car powered train, 1.5 kV supply and 10 m beams remain fixed.</p>
+        </form>
+        <div id="v07-reference-results" hidden>
+          <dl id="v07-reference-identities"></dl>
+          <div class="table-scroll"><table>
+            <caption>Joined corridor change · one planning estimate</caption>
+            <thead><tr><th>Measure</th><th>12-station reference</th><th>Edited corridor</th></tr></thead>
+            <tbody id="v07-reference-measures"></tbody>
+          </table></div>
+          <div class="table-scroll"><table>
+            <caption>Fourteen capital scopes · 2026 US$ million</caption>
+            <thead><tr><th>Scope</th><th>Reference</th><th>Edited</th></tr></thead>
+            <tbody id="v07-reference-costs"></tbody>
+          </table></div>
+          <p class="note">Energy is a declared budget allowance. The changed corridor has a new physical
+            identity; the vehicle, power and beam families remain fixed. These results do not post an
+            ERPNext transaction or grant fabrication or passenger approval.</p>
+        </div>
         <nav aria-label="Joined v0.7 reference package">
           <a href="../../reference-v07/integration/candidate.toml">Candidate identity and fixed interfaces</a>
           <a href="../../reference-v07/integration/arrangement.svg">System arrangement</a>
