@@ -47,6 +47,13 @@ def _load(root: Path):
     electrical_input = json.loads((root / ELECTRICAL_INPUT).read_bytes())
     service_input = json.loads((root / SERVICE_INPUT).read_bytes())
     selected = json.loads((root / SELECTED).read_bytes())
+    selected_manifest = json.loads((root / SELECTED_MANIFEST).read_bytes())
+    if (selected_manifest["files_sha256"].get("summary.json") != digest(root / SELECTED)
+            or selected_manifest["manifest_id"] != identity({
+                key: value for key, value in selected_manifest.items() if key != "manifest_id"})
+            or any(selected_manifest.get(key) != selected.get(key) for key in (
+                "candidate_id", "evaluation_id", "selection_id", "support_component_id"))):
+        raise ValueError("Selected-current summary and authenticated manifest differ")
     if encoded(powered_bogie_prototype.build(root)) != (root / VEHICLE).read_bytes():
         raise ValueError("Mechanical child differs from current authenticated sources")
     if encoded(powered_bogie_screen.evaluate(electrical_input, root)) != (root / ELECTRICAL).read_bytes():
