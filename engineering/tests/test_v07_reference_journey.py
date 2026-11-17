@@ -4,7 +4,7 @@ import unittest
 from engineering.v07_reference_journey import evaluate
 
 
-JOINED = "osr-v07-joined-prototype-20261117"
+JOINED = "osr-v07-joined-civil-518dad57a3af5046f40c8f4f"
 
 
 class ReferenceJourneyTest(unittest.TestCase):
@@ -25,8 +25,11 @@ class ReferenceJourneyTest(unittest.TestCase):
         self.assertEqual(after["civil"]["support_positions"], 6002)
         self.assertEqual(after["civil"]["station_count"], 13)
         self.assertGreater(after["energy"]["annual_total_kwh"], before["energy"]["annual_total_kwh"])
-        self.assertAlmostEqual(before["cost"]["installed_capital_usd_m"], 1023.4992)
+        self.assertAlmostEqual(before["cost"]["installed_capital_usd_m"], 1025.2272)
+        self.assertAlmostEqual(before["cost"]["whole_life_30y_present_usd_m"], 1667.647)
         self.assertGreater(after["cost"]["installed_capital_usd_m"], before["cost"]["installed_capital_usd_m"])
+        self.assertGreater(after["cost"]["whole_life_30y_present_usd_m"],
+                           before["cost"]["whole_life_30y_present_usd_m"])
         self.assertEqual(len(before["cost"]["scope_totals_usd_m"]), 14)
         self.assertEqual(len(after["cost"]["scope_totals_usd_m"]), 14)
         self.assertAlmostEqual(sum(after["cost"]["scope_totals_usd_m"].values()),
@@ -46,7 +49,8 @@ class ReferenceJourneyTest(unittest.TestCase):
     def test_mixed_candidate_and_invalid_geometry_rejected(self):
         with self.assertRaisesRegex(ValueError, "Mixed joined candidate"):
             evaluate(expected_parent_candidate_id="756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3")
-        for kwargs in ({"stations": 1}, {"stations": 101}, {"route_km": float("nan")},
+        for kwargs in ({"stations": 1}, {"stations": 101}, {"route_km": 1, "stations": 100},
+                       {"route_km": float("nan")},
                        {"route_km": 0}, {"stations": True}):
             with self.assertRaises(ValueError):
                 evaluate(expected_parent_candidate_id=JOINED, **kwargs)

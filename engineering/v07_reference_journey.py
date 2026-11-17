@@ -19,6 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCER = Path("engineering/v07_reference_journey.py")
 CONCEPT = Path("docs/reference-v07/concept.toml")
 JOINED = Path("docs/reference-v07/integration/candidate.toml")
+SELECTED = Path("docs/reference-v07/digital/selected.toml")
+VEHICLE_RESULT = Path("docs/reference-v07/digital/vehicle/result.json")
+CIVIL_RESULT = Path("docs/reference-v07/digital/civil/result.json")
 BASIS = Path("docs/reference-v07/cost/basis.csv")
 BOM = Path("docs/reference-v07/manufacturing/bom.csv")
 ROUTING = Path("docs/reference-v07/manufacturing/routing.csv")
@@ -66,18 +69,33 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
              expected_parent_candidate_id: str, root: Path = ROOT) -> dict:
     """Return a source-bound planning scenario; caller supplies exact joined ID."""
     root = Path(root)
-    paths = (PRODUCER, CONCEPT, JOINED, BASIS, BOM, ROUTING, LIFECYCLE)
+    paths = (PRODUCER, CONCEPT, JOINED, SELECTED, VEHICLE_RESULT,
+             CIVIL_RESULT, BASIS, BOM, ROUTING, LIFECYCLE)
     raw = {str(path): (root / path).read_bytes() for path in paths}
     sources = {name: _sha(content) for name, content in raw.items()}
     concept = tomllib.loads(raw[str(CONCEPT)].decode())
     joined = tomllib.loads(raw[str(JOINED)].decode())
+    selected = tomllib.loads(raw[str(SELECTED)].decode())
+    vehicle_result = json.loads(raw[str(VEHICLE_RESULT)])
+    civil_result = json.loads(raw[str(CIVIL_RESULT)])
     lifecycle = json.loads(raw[str(LIFECYCLE)])
-    parent_id = joined["physical_candidate_id"]
+    parent_id = selected["physical_candidate_id"]
     if (concept["configuration_id"] != joined["ancestry"]["planning_configuration_id"]
             or expected_parent_candidate_id != parent_id
-            or lifecycle["joined_physical_candidate_id"] != parent_id
+            or selected["parent_joined_physical_candidate_id"] != joined["physical_candidate_id"]
+            or selected["selected_civil_revision_id"] != parent_id
+            or civil_result["digital_civil_revision_option"]["revised_joined_physical_candidate_id"] != parent_id
+            or civil_result["cases"]["cg-bound-revised"]["physical_candidate_id"] != parent_id
+            or vehicle_result["joined_physical_candidate_id"] != joined["physical_candidate_id"]
+            or lifecycle["joined_physical_candidate_id"] != joined["physical_candidate_id"]
             or lifecycle["configuration_id"] != concept["configuration_id"]):
         raise ValueError("Mixed joined candidate or planning configuration")
+    if (selected["source_sha256"]["parent_joined_candidate"] != sources[str(JOINED)]
+            or selected["source_sha256"]["digital_vehicle_result"] != sources[str(VEHICLE_RESULT)]
+            or selected["source_sha256"]["digital_civil_result"] != sources[str(CIVIL_RESULT)]
+            or selected["beam"]["prestress_strands"] != 13
+            or selected["beam"]["counted_steel_t_per_beam"] != 3.1126):
+        raise ValueError("Selected digital beam or source identity differs")
     if any(lifecycle.get(key) is not False for key in
            ("external_transactions_performed", "posted", "ready_for_import",
             "physical_accepted", "manufacturing_release")):
@@ -99,6 +117,12 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
     route_km = float(route_km)
     original_km = concept["corridor"]["route_km"]
     original_stations = concept["corridor"]["stations"]
+    # Two platform zones and a braking approach must fit between stop centres.
+    # This is a planning-domain guard, not a route-specific stopping approval.
+    minimum_stop_spacing_m = 500.0
+    if (route_km * 1000 / (stations - 1) < minimum_stop_spacing_m
+            or concept["civil"]["station_platform_length_m"] * 2 > minimum_stop_spacing_m):
+        raise ValueError("Station spacing is outside the joined corridor planning domain")
     if original_km != joined["corridor"]["route_km"] or original_stations != joined["corridor"]["station_count"]:
         raise ValueError("Joined corridor baseline differs")
     speed = joined["performance"]["speed_cap_kmh"] / 3.6
@@ -129,6 +153,8 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
         "roof_collectors": fleet * concept["vehicle"]["cars_per_train"],
         "door_openings": fleet * concept["vehicle"]["cars_per_train"] * joined["vehicle"]["doors_per_car"],
         "ten_metre_beams": beams, "beam_lifts": beams, "support_positions": supports,
+        "counted_beam_steel_t": round(beams * selected["beam"]["counted_steel_t_per_beam"], 3),
+        "bare_beam_mass_t": round(beams * selected["beam"]["bare_beam_mass_t"], 3),
         "bearings": bearings, "track_km": track_km, "stations": stations,
         "station_auxiliary_feeds": stations, "rectifier_grid_sites": grid_sites,
         "terminal_turnbacks": joined["corridor"]["terminal_turnbacks"],
@@ -184,7 +210,7 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
         raise ValueError("Fourteen complete capital scopes required")
     installed = direct + contingency
     if route_km == original_km and stations == original_stations:
-        if abs(installed - Decimal(str(concept["economics"]["installed_capital_usd_m"]))) > Decimal("0.000001"):
+        if abs(installed - Decimal(str(selected["economics"]["installed_capital_usd_m"]))) > Decimal("0.000001"):
             raise ValueError("Joined baseline cost does not reconcile")
     one_way_trips_per_day = 2 * (PEAK_HOURS_PER_DAY * 3600 / headway_s
                                 + OTHER_HOURS_PER_DAY * OTHER_TRAINS_PER_HOUR_PER_DIRECTION)
@@ -198,16 +224,35 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
         raise ValueError("Energy allowance outside its useful domain")
     annual_vehicle_kwh = one_way_grid_kwh * one_way_trips_per_day * SERVICE_DAYS_PER_YEAR
     annual_station_kwh = STATION_GWH_PER_YEAR_AT_BASELINE * 1e6 * stations / original_stations
+    annual_energy_usd_m = (annual_vehicle_kwh + annual_station_kwh) * ENERGY_USD_PER_KWH / 1e6
+    # The published O&M and renewal budget is the control; only declared asset
+    # quantities change. Split the $6m civil/station allowance $4m route/$2m stops.
+    annual_opex_usd_m = (annual_energy_usd_m + 10 * fleet / (baseline_active + baseline_reserve)
+                         + 4 * route_km / original_km + 2 * stations / original_stations + 4 + 3)
+    year15_renewal_usd_m = 160 * fleet / (baseline_active + baseline_reserve)
+    year25_renewal_usd_m = 70 * ((2 * route_km / original_km + stations / original_stations) / 3)
+    discount_rate = concept["economics"]["real_discount_rate"]
+    annuity_factor = (1 - (1 + discount_rate) ** -30) / discount_rate
+    whole_life_usd_m = (float(installed) + annual_opex_usd_m * annuity_factor
+                        + year15_renewal_usd_m / (1 + discount_rate) ** 15
+                        + year25_renewal_usd_m / (1 + discount_rate) ** 25)
+    if route_km == original_km and stations == original_stations:
+        if abs(whole_life_usd_m - selected["economics"]["whole_life_30y_present_usd_m"]) > 0.0005:
+            raise ValueError("Published whole-life budget does not reconcile")
     physical_id = (parent_id if route_km == original_km and stations == original_stations else
                    "osr-v07-joined-corridor-" + _id(dict(parent=parent_id, route_km=route_km,
                                                        stations=stations))[:24])
     result = dict(schema="osr-v07-reference-journey/1", parent_physical_candidate_id=parent_id,
                   physical_candidate_id=physical_id, planning_configuration_id=concept["configuration_id"],
+                  ancestral_joined_physical_candidate_id=joined["physical_candidate_id"],
+                  selected_civil_revision_id=selected["selected_civil_revision_id"],
                   corridor=dict(route_km=route_km, stations=stations, tracks=tracks,
+                                minimum_stop_spacing_m=minimum_stop_spacing_m,
                                 synthetic_alignment=True, level_route_with_separate_grade_sizing=True),
                   fixed_interfaces=dict(cars_per_train=6, normal_places_per_train=276,
                                         driven_axles_per_train=24, dc_voltage_v=1500,
-                                        ten_metre_beams=True, traction_battery=False),
+                                        ten_metre_beams=True, prestress_strands=13,
+                                        traction_battery=False),
                   service=dict(headway_s=headway_s, peak_places_per_hour_per_direction=concept["vehicle"]["normal_places_per_train"] * 3600 / headway_s,
                                baseline_active_trainsets=baseline_active, baseline_reserve_trainsets=baseline_reserve,
                                additional_round_trip_s=round(additional_round_trip_s, 6),
@@ -222,11 +267,20 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
                               base_kwh_per_train_km=GRID_KWH_PER_TRAIN_KM,
                               incremental_launch_efficiency_assumption=INCREMENTAL_LAUNCH_EFFICIENCY),
                   civil=dict(beam_lifts=beams, support_positions=supports, bearings=bearings,
-                             track_km=track_km, station_count=stations, site_surveyed=False),
+                             track_km=track_km, station_count=stations,
+                             counted_beam_steel_t=quantities["counted_beam_steel_t"],
+                             bare_beam_mass_t=quantities["bare_beam_mass_t"],
+                             site_surveyed=False),
                   cost=dict(currency="USD", price_year=concept["price_year"],
                             direct_usd_m=float(direct), contingency_usd_m=float(contingency),
                             installed_capital_usd_m=float(installed), scope_totals_usd_m=scopes,
-                            lines=priced, estimate_status="Class C concept, not supplier quote"),
+                            lines=priced, annual_energy_usd_m=round(annual_energy_usd_m, 6),
+                            annual_opex_usd_m=round(annual_opex_usd_m, 6),
+                            year15_renewal_usd_m=round(year15_renewal_usd_m, 6),
+                            year25_renewal_usd_m=round(year25_renewal_usd_m, 6),
+                            whole_life_30y_present_usd_m=round(whole_life_usd_m, 3),
+                            real_discount_rate=discount_rate,
+                            estimate_status="Class C concept, not supplier quote"),
                   manufacturing=dict(quantity_schedule=quantities, bom_path=str(BOM), routing_path=str(ROUTING),
                                      lifecycle_draft_path=str(LIFECYCLE), erpnext_posted=False,
                                      manufacturing_release=False),
@@ -235,6 +289,12 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
                                    service_days_per_year=SERVICE_DAYS_PER_YEAR,
                                    station_gwh_per_year_at_baseline=STATION_GWH_PER_YEAR_AT_BASELINE,
                                    energy_usd_per_kwh=ENERGY_USD_PER_KWH,
+                                   annual_fleet_maintenance_usd_m_at_baseline=10,
+                                   annual_route_maintenance_usd_m_at_baseline=4,
+                                   annual_station_maintenance_usd_m_at_baseline=2,
+                                   annual_control_staff_usd_m=4,
+                                   annual_insurance_admin_usd_m=3,
+                                   renewal_scaling="year 15 by fleet; year 25 by two-thirds route and one-third stations",
                                    fleet_method="published 44+7 control plus incremental round-trip time; no absolute timetable recalibration"),
                   source_sha256=sources, physical_accepted=False, engineering_accepted=False,
                   manufacturing_release=False, operating_release=False)
@@ -250,7 +310,7 @@ def main() -> None:
     parser.add_argument("--route-km", type=float, default=30.0)
     parser.add_argument("--stations", type=int, default=12)
     args = parser.parse_args()
-    parent = tomllib.loads((ROOT / JOINED).read_text())["physical_candidate_id"]
+    parent = tomllib.loads((ROOT / SELECTED).read_text())["physical_candidate_id"]
     print(json.dumps(evaluate(route_km=args.route_km, stations=args.stations,
                               expected_parent_candidate_id=parent), sort_keys=True, indent=2))
 
