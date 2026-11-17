@@ -12,7 +12,7 @@
 | Running gear | Two two-axle bogies/car, 24 driven axles/train, steel wheel on 60E1 rail design control |
 | Selected crowd train mass | **201.092 t**, including protected contact equipment; 33.515 t/car average |
 | Crowd axle load | **8.379 t/axle** before dynamic and unequal-load factors |
-| Traction | Protected conductor shoes, sectionalised DC supply, 5 MW overhead-comparator input request; motor rating from the same 2% grade and 0.6 m/s² duty |
+| Traction | Protected conductor shoes, sectionalised DC supply, **5.004 MW** per-train DC input sizing request at 2% grade and 0.6 m/s² net acceleration |
 | Independent stop | Twelve protected rail-brake modules/train; one-out case requires at least 14.6 kN effective force per remaining module at the comparator crowd load |
 | Cooling | 45 kW/car installed envelope, 25 kW/car average summer budget |
 | Service | 150 s peak interval; 35 s dwell; 38 km/h commercial speed; 72 km/h planning speed cap |
