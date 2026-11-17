@@ -1,0 +1,49 @@
+schema = "opensourcerail.v07.concept.1"
+configuration_id = "osr-v07-30km-powered-wheel-10m-span-20261117"
+purpose = "synthetic 30 km engineering and procurement planning reference"
+status = "concept production quotation basis"
+currency = "USD"
+price_year = 2026
+
+[ancestry]
+powered_vehicle_research_candidate = "ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d"
+joint_free_span_research_candidate = "bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e"
+combined_native_evaluation = "not-run"
+
+[corridor]
+route_km = 30.0
+tracks = 2
+stations = 12
+alignment = "synthetic level reference with 2% adverse-grade equipment sizing case"
+
+[vehicle]
+cars_per_train = 6
+car_length_m = 17.0
+normal_places_per_train = 276
+normal_analytical_t_per_car = 25.072
+crowd_control_t_per_car = 33.622
+driven_axles_per_train = 24
+independent_brake_modules_per_train = 12
+dc_voltage_v = 1500
+dc_rating_request_mw_per_train = 3.037
+
+[service]
+peak_headway_s = 120
+peak_places_per_hour_per_direction = 8280
+fleet_active = 44
+fleet_reserve = 7
+
+[civil]
+span_m = 10
+beam_lifts = 6000
+support_positions = 6002
+bearings = 24000
+track_km = 60
+station_platform_length_m = 125
+
+[economics]
+installed_capital_usd_m = 1023.4992
+annual_opex_usd_m = 30.495
+whole_life_30y_present_usd_m = 1665.919
+real_discount_rate = 0.04
+delivery_months = 43

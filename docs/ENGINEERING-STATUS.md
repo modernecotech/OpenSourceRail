@@ -12,7 +12,7 @@ are evidence for a decision, not permission to manufacture or carry passengers.
 | Selected vehicle | Physical candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`; six 17 m passive-wheel comfort cars | Development reference. Installed propulsion and complete vehicle mass remain open. |
 | Synthetic 30 km | Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; [current-source evaluation](design-engine/line30-current-20261117/README.md) `947dd7cbcac7c260da721150912fba47531c96fd3f7a28365c394249608ee869` | Equal-service cost and service control, not an actual alignment. |
 | Samawah | [Current-source city evaluation](design-engine/v07-affordable-corridor/README.md) `d69d46f7adccfcaf9d9d799d6c478741e0a3010e2b0a4f20d8d34d119ccf5291` | Distinct 57.873 km planning case. The 5.738 km line-1 gap fails the retained level coasting assumption. Grades are unsurveyed. |
-| Baghdad | [148.2 km and 605.65 km concepts](../cities/Baghdad/PROPOSAL.md) | Strategic planning only. Route, demand, capacity and installed capital require their own evaluations. |
+| Baghdad | [148.2 km and 605.65 km concepts](../cities/Baghdad/PROPOSAL.md) | Separate 700-place planning train and [single capital, whole-life and delivery estimates](../cities/Baghdad/COST-AND-DELIVERY.md); routes and supplier prices require development. |
 
 ## Prototype-production decision register
 
@@ -30,3 +30,8 @@ approved site or a shortened Samawah leg. Its alignment, grade, soil, access,
 utility and emergency constraints must be recorded before a drive, footing or
 construction method is selected. The next useful deliverable is one mated car,
 span and station interface package with named measurements and supplier inputs.
+
+The [v0.7 planning configuration](reference-v07/README.md) gives the mated
+concept interfaces, a US$1.0235bn synthetic 30 km estimate and a 43-month
+construction programme. The vehicle and civil research identities remain
+separate until one native installed-candidate evaluation is produced.

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **147**.
+Indexed Markdown files: **153**.
 
 ## Sections
 
@@ -20,10 +20,10 @@ Indexed Markdown files: **147**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 3 |
+| [cities](#cities) | 5 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 113 |
+| [docs](#docs) | 117 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -54,8 +54,10 @@ Indexed Markdown files: **147**.
 
 | File | Title |
 |---|---|
+| [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad network cost and delivery concept |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad urban rail proposal |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad urban rail |
+| [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train concept |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates
@@ -79,7 +81,7 @@ Indexed Markdown files: **147**.
 |---|---|
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
-| [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost baseline |
+| [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost and delivery baseline |
 | [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | v0.7 engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
@@ -181,6 +183,10 @@ Indexed Markdown files: **147**.
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
+| [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 reference railway concept |
+| [`docs/reference-v07/civil/README.md`](../docs/reference-v07/civil/README.md) | Civil and station concept: 10 m joint-free beam |
+| [`docs/reference-v07/cost/README.md`](../docs/reference-v07/cost/README.md) | v0.7 reference corridor: one cost and delivery plan |
+| [`docs/reference-v07/vehicle/README.md`](../docs/reference-v07/vehicle/README.md) | v0.7 representative vehicle — powered wheel concept |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
 | [`docs/releases/v0.6.1/feature-maturity.md`](../docs/releases/v0.6.1/feature-maturity.md) | v0.6.1 feature maturity |

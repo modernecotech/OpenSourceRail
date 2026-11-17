@@ -1,78 +1,17 @@
-# v0.7 cost baseline
+# v0.7 cost and delivery baseline
 
-The single current **synthetic 30 km** planning estimate is **US$737.991 million
-installed capital**, or **US$24.600 million per route-km**. It covers two
-tracks, twelve stations, 52 six-car trainsets including seven reserve sets,
-8,280 offered normal places/hour/direction at a conditional 120 s headway,
-and a cable-capstan analysis anchor. Its 30-year whole-life NPV is **US$1.568
-billion**. These are model outputs, not a bid or a physically accepted system.
-The [source-bound result and quantities](design-engine/line30-current-20261117/README.md)
-remain the calculation authority.
+**2026 US dollars. One planning estimate per named configuration.** These are OpenSourceRail engineering budgets, not supplier bids. The quantities, rates, fleet and programme for each configuration are in the linked ledger.
 
-| Installed capital group | US$m |
-|---|---:|
-| Rolling stock and launch interfaces | 225.28 |
-| Elevated guideway, foundations, erection and access | 107.70 |
-| Launch machinery and traction power | 71.94 |
-| Stations, accessibility, controls and turnbacks | 45.18 |
-| Auxiliary charging and grid | 11.92 |
-| Production buildings, yards and tooling | 10.07 |
-| Depot, land and utility relocations | 38.81 |
-| Fleet spares and commissioning | 18.68 |
-| Recovery assets | 3.31 |
-| Prototypes and independent testing | 42.63 |
-| Tax and import duty | 14.86 |
-| Project risk contingency | 147.60 |
+| Configuration | Installed capital | Per route-km | 30-year real present cost | Delivery programme |
+|---|---:|---:|---:|---|
+| [Synthetic 30 km reference corridor](reference-v07/cost/README.md) · 276-place powered-bogie train, 12 stations, 10 m precast span | **US$1.023bn** | **US$34.12m** | **US$1.666bn** at 4% | **43 months** after approved corridor definition |
+| [Baghdad 148.2 km first programme](../cities/Baghdad/COST-AND-DELIVERY.md) · 700-place planning train, 64 stations | **US$8.341bn** | **US$56.28m** | **US$14.798bn** at 4% | **2027–2031**, five-year planning build |
+| [Baghdad 605.652 km complete metropolitan concept](../cities/Baghdad/COST-AND-DELIVERY.md) · 700-place planning train, 280 stations | **US$32.557bn** | **US$53.76m** | **US$58.088bn** at 4% | **2027–2035**, overlapping packages |
 
-The rounded groups reconcile to the unrounded US$737.991m result within
-rounding. The contingency is about 20% of base capital; removing it would
-understate risk while the propulsion, civil joint, ground and complete installed
-vehicle are unresolved. The guideway group is **not** a price for the proposed
-segmented beam: its joint, extra lifts, temporary support and site work are
-unpriced. Actual passenger-km lifecycle cost is unknown until patronage and
-occupancy are established.
+The metropolitan capital **includes** the 148.2 km first programme. The synthetic corridor and Baghdad have different service, fleet, stations, civil mix and cost rates; their totals are not interchangeable. Baghdad's higher-capacity train is a separate child concept and does not inherit the 276-place vehicle's traction or braking performance. Each ledger shows its own counted direct work, project allowance, operation and renewals. Debt interest, financing fees, fare revenue and foreign-exchange risk belong in a project financing model.
 
-The source calculation contains 32 capital lines in eight accounting scopes.
-The [v0.7 architecture screen](design-engine/v07-architecture-decision/README.md)
-maps each of those lines exactly once into fourteen procurement scopes that
-reconcile to the **same US$737.991m base proxy**. This accounting bridge does
-not price the changed architectures: powered bogies, overhead contact,
-independent brakes, installed boosters, segmented joints, extra 10 m supports,
-supplier inputs and site-specific works still lack matched quantities and
-quotes. Every changed-candidate installed and lifecycle total remains null.
-The base figure is therefore one planning estimate, not a price for the new
-demonstrator packages or a complete candidate-specific bill of quantities.
-The [segmented-span cost handoff](design-engine/v07-segmented-span/README.md)
-provides counted quote quantities and replacement-versus-increment rules;
-supplier unit prices, baseline credits and installed cost deltas remain open.
-The [joint-free 10 m span study](design-engine/v07-simple-span/README.md)
-removes the midspan joint but roughly doubles support and bearing counts on
-the straight 2 km example. Its beam stock is a new design, not a priced reuse
-of the 10 m segment. The [joined powered prototype bundle](design-engine/v07-prototype-bundle/README.md)
-keeps all fourteen changed-candidate installed and whole-life totals unknown
-while issuing one coherent quotation and test request.
+The 30 km budget counts fourteen capital scopes and one 20% project-risk allowance. Its direct scope includes 51 six-car sets, 6,000 joint-free 10 m beams, 6,002 support positions, 60 track-km and twelve accessible stations. It prices an overhead-fed powered-bogie concept rather than station-launch machinery. The [vehicle package](reference-v07/vehicle/README.md) and [civil package](reference-v07/civil/README.md) give the dimensions, loads, equipment counts and construction method behind the budget.
 
-At the common 30 km/12-station demand screen, the level station-only case
-requires 55 sets, the booster case 52 and the powered-wheel case 51, under a
-5% moving-time allowance and 15% spare rule. Only the old passive-train unit
-rate permits an illustrative **US$12.949m** increment for the three additional
-station-only sets; it excludes changed hardware, energy, civil and risk. No
-powered-wheel fleet credit or affordability claim is booked. The 700-place
-formation is a separate vehicle whose installed mass, doors, dwell, platform,
-braking, fleet and price are not yet defined.
+The Baghdad estimate counts its own fourteen scopes, civil split, 242 and 934 trainsets including reserve, depots, stations and power. Its first programme uses the [Iraqi 148 km, seven-line, 64-station RFI](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf) for network scale. The 605.652 km map, station allowance and delivery rate are strategic planning assumptions. Its purpose is to give Amanat Baghdad an OpenSourceRail concept and a concrete basis for route, ground, supplier and finance work.
 
-The [Samawah planning case](design-engine/v07-affordable-corridor/README.md)
-has a separate **US$1.141bn** base installed-capital model and **US$2.259bn**
-30-year NPV for 57.873 km. Its long gap uses a powered-axle research fallback,
-not an accepted installed architecture. Neither its cost nor its route is
-transferred to the synthetic case.
-
-The [Baghdad proposal](../cities/Baghdad/PROPOSAL.md) has **no established
-OpenSourceRail capital requirement**. Its 148.2 km and 605.65 km concepts need
-their own surveyed civil mix, capacity, fleet, propulsion, stations, land,
-grid, procurement and financing inputs. The [powered prototype cost handoff](design-engine/v07-powered-cost/README.md)
-keeps all fourteen changed-candidate scopes unpriced pending supplier and site data.
-
-Unknown installed quantities and unpriced work remain visible, never zero.
-The working budget presents one estimate per stated candidate and scope; the
-underlying sensitivities are retained for audit in the source packet.
+The earlier [US$737.991m synthetic station-launch calculation](design-engine/line30-current-20261117/README.md) remains a different-candidate research control. It is not the v0.7 powered-bogie budget or a Baghdad unit rate. Supplier quotes, measured installed mass, approved civil details and surveyed ground will replace the explicit planning allowances when the prototype and procurement designs advance.

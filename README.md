@@ -6,6 +6,13 @@ The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventi
 
 **Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [current railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [release gate](docs/RELEASE-v0.7.md) · [Baghdad urban rail proposal](cities/Baghdad/PROPOSAL.md) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
 
+The [v0.7 railway concept package](docs/reference-v07/README.md) now defines a
+powered-wheel six-car train, a joint-free 10 m precast span and station
+interface, a **US$1.0235bn** synthetic 30 km installed budget and a
+**43-month** delivery programme. [Baghdad](cities/Baghdad/PROPOSAL.md) has
+separate 148.2 km and 605.65 km network concepts with one capital and
+whole-life estimate each.
+
 The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) retains seven engineering findings. The published v0.6.1 software scope and the [v0.7 roadmap](docs/ROADMAP.md) are separate from physical, manufacturing and operating acceptance. The older authenticated [software-review profile](docs/design-engine/v06-software-release/README.md) remains historical and pending by design.
 
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
@@ -18,7 +25,7 @@ The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md
 |---|---|---|
 | Design and delivery tools | Turn a city brief into alternatives, engineering checks, costs and delivery records | Planning editor, calculated outlines, engineering Workbench and candidate exports |
 | Reference railway and manufacturing system | Develop vehicles, stations, civil works, tooling, assembly and repair methods | Physical candidate definitions, CAD/BIM and numerical studies; physical qualification remains open |
-| Open GoA4 control software | Develop protection, interlocking, station-led dispatch and train supervision | Rust research software, simulation and formal/method checks; no live railway or safety approval |
+| Open GoA4 control software | Develop protection, interlocking, station-led dispatch and train supervision | Research control logic, simulation and safety methods; no live railway or safety approval |
 
 Compare the **whole installed system**: vehicles, stations, civil works, factories, energy, maintenance and service availability. Comfort, safety and accessibility remain requirements.
 
@@ -32,7 +39,7 @@ See the [adoption path](docs/first-adoptable-product.md), [capabilities](docs/ca
 |---|---|---|
 | **1. Define the brief** | Record demand, routes, access, climate, safety and local capability | [City catalogue](cities/catalogue/README.md), [planning workspace](docs/workbench/planning/index.html) |
 | **2. Compare alternatives** | Vary vehicles, propulsion, civil works, service and production under common requirements | [Workbench](docs/workbench/current/index.html), [coordinated design workflow](docs/design-engine/coupled-railway/README.md) |
-| **3. Check service and cost** | Calculate journeys, capacity, fleet, energy and low/base/high lifecycle costs | [Demand-led outline](docs/design-engine/demand-outline/README.md), [cost and delivery method](docs/design-engine/model-based-cost-and-delivery.md) |
+| **3. Check service and cost** | Calculate journeys, capacity, fleet, energy and one stated lifecycle estimate per candidate | [v0.7 cost baseline](docs/COST-BASELINE.md), [cost and delivery method](docs/design-engine/model-based-cost-and-delivery.md) |
 | **4. Plan delivery** | Inspect CAD/IFC, BOM, process hours, procurement, construction and schedules | [Candidate packages](docs/design-engine/coupled-railway/delivery-index.json), [pilot delivery compiler](engineering/pilot_delivery/README.md) |
 | **5. Review, build and learn** | Validate independently; configure production, commissioning, maintenance and measured feedback | [ERPNext/Frappe HR](deployment/erpnext/README.md), [FUXA/gateway](deployment/supervision/README.md), [platform guide](docs/platform-guide.md#delivery-records-and-operations-integrations) |
 
@@ -54,7 +61,7 @@ Start with **[Baghdad](cities/Baghdad/PROPOSAL.md)** for the two urban rail conc
 
 In the Workbench, choose a priced city and calculate a scenario. **Edit this outline and recalculate** changes routes, stops and headways, updating map and figures together. Planning handoffs contain proposals. Site surveys, demand, ground, utilities, power, rescue and physical approval remain project work.
 
-Worked costs: [demand-led project](docs/design-engine/demand-outline/README.md), [30 km / 12 station benchmark](docs/design-engine/line30-benchmark/README.md) and [project-volume supply comparison](docs/design-engine/supply-economics/README.md). Compare these Class C estimates at equal service and compatible rates.
+Current worked costs: [30 km reference railway](docs/reference-v07/cost/README.md) and [Baghdad networks](cities/Baghdad/COST-AND-DELIVERY.md). The other city and research costs retain their own service and price assumptions.
 
 ## v0.6 reference vehicle
 

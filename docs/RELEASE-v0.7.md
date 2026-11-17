@@ -21,7 +21,7 @@ remain evidence, not competing scope authorities.
 | V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | Powered-bogie quote layout and track-brake interface added; installed mass/CG and supplier drawings open |
 | V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented 20 m and joint-free 10 m alternatives counted; powered-load 10 m necessary bounds checked, but site, torsion/shear, erection and installed cost open |
 | V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | Factory draft verified; supplier and ERP handback open |
-| V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs, with unpriced items shown | [Powered-child quote register](design-engine/v07-powered-cost/README.md) identifies changed scopes and supplier inputs; installed capital and whole-life price open |
+| V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs | [Concept budget](reference-v07/cost/README.md) gives fourteen priced scopes, operation, renewal and 43 months; supplier and site priced installed candidate open |
 | V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Open |
 | V07-09 | Workbench journey | Clean design edit through service, energy, quantities, cost, dossier, assembly and production handoff | Samawah edit and factory draft verified; affected engineering and ERP import open |
 | V07-10 | Release | Clean install, current CI, acceptance report, limitations and versioned artifacts | Open |
@@ -72,6 +72,7 @@ with a nominal IFC interface model and a high-mass service demand. The separate
 [10 m civil option](design-engine/v07-simple-span/README.md) has its own
 powered-load study but is not an installed site selection. The original
 passive-wheel reference remains selected for v0.6. The changed-candidate
-capital and lifecycle totals remain unpriced.
+capital and lifecycle **planning totals are now defined** in the [single-estimate
+cost baseline](COST-BASELINE.md). Supplier and site costs remain to be obtained.
 This is a development decision, not completion of V07-03 or authority to
 publish v0.7 as a prototype-production package.

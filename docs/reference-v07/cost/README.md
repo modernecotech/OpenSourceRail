@@ -21,13 +21,16 @@ configuration**, not a new physically accepted selection. The retained v0.6
 passive-wheel selection and its different-candidate US$738.0 million price
 control are not repriced here. The exact cost input identity is the SHA-256
 `e0fb358988480c0064871e0cea43b86a4b7224998d91b14b90bd71aaea3d11ff`
-of [basis.csv](basis.csv). The source packet byte identities are:
+of [basis.csv](basis.csv). The source packet byte identities below are fixed
+to the [cost preparation commit](https://github.com/modernecotech/OpenSourceRail/commit/8557b2b13f)
+so a later publication does not relabel this estimate as a new physical
+evaluation:
 
 | Source | SHA-256 |
 |---|---|
-| Powered prototype result | `0f8e75b8a66f9b886c1af1f75ef7bd9fcb55f60190fe586d5e7b6be766011e3f` |
-| Joint-free span plan | `37adb933ca2ab8aa53f5d3c9d4eb7f1147fcb64761ce8b97727e1a4638fad784` |
-| Powered cost handoff | `b905d50e0e4bc3e28b61763d9b7ea89fbcafbacf64443c266320bb261e02dbaa` |
+| [Powered prototype result at cost epoch](https://github.com/modernecotech/OpenSourceRail/blob/8557b2b13f/docs/design-engine/v07-prototype-bundle/packet/result.json) | `0f8e75b8a66f9b886c1af1f75ef7bd9fcb55f60190fe586d5e7b6be766011e3f` |
+| [Joint-free span plan at cost epoch](https://github.com/modernecotech/OpenSourceRail/blob/8557b2b13f/docs/design-engine/v07-simple-span/plan.json) | `37adb933ca2ab8aa53f5d3c9d4eb7f1147fcb64761ce8b97727e1a4638fad784` |
+| [Powered cost handoff at cost epoch](https://github.com/modernecotech/OpenSourceRail/blob/8557b2b13f/docs/design-engine/v07-powered-cost/result.json) | `b905d50e0e4bc3e28b61763d9b7ea89fbcafbacf64443c266320bb261e02dbaa` |
 
 ## Service, quantities and price basis
 

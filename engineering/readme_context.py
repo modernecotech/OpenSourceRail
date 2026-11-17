@@ -121,6 +121,8 @@ def category(name):
         return 'sourcing-evidence-and-economics'
     if name.startswith('cities/Baghdad/'):
         return 'strategic-planning-proposal'
+    if name.startswith('docs/reference-v07/'):
+        return 'current-railway-concept'
     if name.startswith('docs/design-engine/'):
         return 'retained-design-evidence'
     if name.startswith('engineering/assurance/'):

@@ -11,6 +11,13 @@ The [v0.7 engineering decision register](ENGINEERING-STATUS.md) tracks the
 selected reference and separate prototype research. The [cost baseline](COST-BASELINE.md)
 and [finite release gate](RELEASE-v0.7.md) govern current public claims.
 
+The [v0.7 concept configuration](reference-v07/README.md) combines a powered-wheel
+vehicle, joint-free 10 m span, twelve-station synthetic 30 km service,
+fourteen-scope budget and construction programme under one planning ID. Its
+**US$1.0235bn** capital and **43-month** programme are concept estimates. The
+separate [Baghdad concept](../cities/Baghdad/PROPOSAL.md) uses a 700-place child
+train and its own capital and schedule.
+
 ## Selected v0.6 vehicle reference
 
 [`development-baseline.toml`](../engineering/development-baseline.toml) selects
@@ -60,9 +67,10 @@ retained as a separately costed alternative, not assumed to be a small store.
 The proposed overhead-fed car retires the passive LIM fin and station primary
 only within its research child. The [joint-free 10 m span screen](design-engine/v07-simple-span/README.md)
 is a distinct civil alternative to the jointed 20 m beam, with a powered crowd
-load but no surveyed ground or installed price. Supplier equipment and physical
-tests must establish whether the integrated railway is affordable and buildable
-on a surveyed alignment.
+load but no surveyed ground or supplier installed price. The [priced v0.7
+concept](reference-v07/README.md) establishes a planning budget and method.
+Supplier equipment, physical tests and a surveyed alignment determine the
+installed design.
 
 ## Connected platform
 
