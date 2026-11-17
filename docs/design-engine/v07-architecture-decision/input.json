@@ -1,0 +1,60 @@
+{
+  "schema": "osr-v07-equal-service-input/1",
+  "parent_selected_vehicle_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "source_line_evaluation_id": "947dd7cbcac7c260da721150912fba47531c96fd3f7a28365c394249608ee869",
+  "source_propulsion_evaluation_id": "2bd76c62dcb510678a1366b685a4843077cb0fadaa6bc07c3cbb3f28797e52a0",
+  "design": {
+    "speed_cap_m_s": 20,
+    "acceleration_command_m_s2": 0.4,
+    "headway_s": 120,
+    "dwell_s": 35,
+    "terminal_turnback_s": 180,
+    "fleet_reserve_fraction": 0.15,
+    "running_time_margin_fraction": 0.05,
+    "illustrative_reaction_s": 1
+  },
+  "grade_magnitudes": [0, 0.01, 0.02],
+  "powered_wheel_added_mass_sensitivity_kg_per_car": 2400,
+  "architectures": [
+    {
+      "id": "station-only",
+      "driven_axles": 0,
+      "traction_supply_hypothesis": "station-installed-launch-only",
+      "powered_windows_m": [[0, 500]]
+    },
+    {
+      "id": "station-plus-250m-booster",
+      "driven_axles": 0,
+      "traction_supply_hypothesis": "station-and-midroute-grid-fed-groups",
+      "powered_windows_m": [[0, 500], [1300, 1550]]
+    },
+    {
+      "id": "powered-wheel-continuous-supply",
+      "driven_axles": 24,
+      "traction_supply_hypothesis": "continuous-1p5kV-DC-hypothesis",
+      "powered_windows_m": [[0, "segment_end"]]
+    },
+    {
+      "id": "powered-wheel-battery-supercap",
+      "driven_axles": 24,
+      "traction_supply_hypothesis": "station-recharged-small-battery-plus-supercapacitor-hypothesis",
+      "powered_windows_m": [[0, "segment_end"]]
+    }
+  ],
+  "capital_scope_mapping": [
+    {"scope": "rolling-stock-and-vehicle-interfaces", "source_line_keys": ["delivered-and-assembled-fleet", "new-launch-vehicle-interfaces"]},
+    {"scope": "guideway-beams-bearings-and-detail", "source_line_keys": ["beam_factory", "bearing_pads", "end_joint_drains_lifting_hardware", "civil_load_detail_reserve"]},
+    {"scope": "piers-foundations-and-groundworks", "source_line_keys": ["substructure_concrete", "substructure_rebar", "substructure_field_labour", "substructure_formwork_excavation_other_plant"]},
+    {"scope": "span-haul-and-erection", "source_line_keys": ["all_span_stock_haul", "crane_shifts", "erection_labour"]},
+    {"scope": "rails-welding-and-protected-access", "source_line_keys": ["field_two_rail_track_install", "field_butt_welding", "protected_nonstation_walkway"]},
+    {"scope": "launch-machinery-and-converters", "source_line_keys": ["launch-converters", "rotary-motors-and-integration", "launch-contact-and-return-hardware"]},
+    {"scope": "traction-grid-and-protection", "source_line_keys": ["launch-grid-protection-install"]},
+    {"scope": "stations-platforms-and-access", "source_line_keys": ["station-platform-structures", "station-access-protection-controls"]},
+    {"scope": "turnbacks-and-line-controls", "source_line_keys": ["terminal-turnback-and-line-controls"]},
+    {"scope": "auxiliary-charging-and-grid", "source_line_keys": ["auxiliary-charging-and-grid-increment"]},
+    {"scope": "production-depot-land-and-utilities", "source_line_keys": ["project-production-buildings-and-tooling", "depot-and-workshop", "land-and-utility-relocation"]},
+    {"scope": "fleet-spares-and-recovery", "source_line_keys": ["fleet-spares-and-commissioning", "recovery-assets"]},
+    {"scope": "prototypes-testing-and-tax", "source_line_keys": ["engineering-prototypes-independent-testing", "tax-and-import-duty-provision"]},
+    {"scope": "project-risk-contingency", "source_line_keys": ["project-risk-contingency"]}
+  ]
+}
