@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **320**.
+Indexed Markdown files: **322**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **320**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 288 |
+| [docs](#docs) | 290 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -332,8 +332,10 @@ Indexed Markdown files: **320**.
 | [`docs/design-engine/v07-powered-bogie/README.md`](../docs/design-engine/v07-powered-bogie/README.md) | Powered-bogie traction supply: bounded prototype decision screen |
 | [`docs/design-engine/v07-powered-vehicle/README.md`](../docs/design-engine/v07-powered-vehicle/README.md) | Powered-bogie research car: physical quotation handoff |
 | [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
+| [`docs/design-engine/v07-prototype-bundle/README.md`](../docs/design-engine/v07-prototype-bundle/README.md) | v0.7 powered prototype research bundle |
 | [`docs/design-engine/v07-representative-car/README.md`](../docs/design-engine/v07-representative-car/README.md) | Representative car: prototype planning handoff |
 | [`docs/design-engine/v07-segmented-span/README.md`](../docs/design-engine/v07-segmented-span/README.md) | Segmented 20 m span: prototype planning handoff |
+| [`docs/design-engine/v07-simple-span/README.md`](../docs/design-engine/v07-simple-span/README.md) | Joint-free 10 m civil prototype option |
 | [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
 | [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |

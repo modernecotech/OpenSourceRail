@@ -53,8 +53,14 @@ Their dimensions, masses, cost and ratings remain unknown. [Siemens lists
 and [1,500 V DC overhead supply with motor bogies in light rail products](https://www.mobility.siemens.com/us/en/portfolio/rolling-stock/light-rail-vehicles.html).
 Siemens lists 1C2M–1C4M converter configurations and 460–1,100 kW products
 for the 750–1,500 V DC range. Six nominal 1C4M groups are therefore one
-**quotation configuration**, subject to actual continuous and peak ratings,
-cooling, regeneration and fault segregation. This establishes an available
+**quotation configuration**. At the +2.4 t/car equipment sensitivity, the
+2.045 MW train mechanical peak and the declared 25% rating allowance require
+at least 2.556 MW motor-side peak rating. Under the 85% drive and 30 kW
+auxiliary hypotheses this implies roughly **3.04 MW train electrical input**,
+or **506 kW per six equal groups** before voltage sag and line loss. Six
+460 kW low-end modules cannot be presumed sufficient. Supplier quotations must
+confirm continuous and peak ratings, cooling, regeneration and fault
+segregation. This establishes an available
 technology family, not a matched supplier design, local-manufacturing price or
 approval of the proposed railway.
 
@@ -66,6 +72,12 @@ load transfer, wet rail, slip control and equipment mass. The 24-axle research
 choice reduces the necessary adhesion bound but increases motor/gear/inverter
 count. At the inherited μ=0.05 hypothesis, neither axle count is proven to
 meet commanded acceleration on that grade.
+The event-resolved 2 km/+2% peak force gives a stronger **model-demand**
+force-to-weight ratio of about 0.0700 at the incomplete parent normal mass;
+the +2.4 t/car equipment case gives about 0.0693. Quote and test traction
+against the actual peak-force ratio plus axle-load transfer, wet-rail and
+wheel-slide margins. The 0.0633 figure is only an optimistic necessary bound,
+not a sufficient design rating.
 
 For a normal-load 2% downgrade at 0.6 m/s², an optimistic low-speed necessary
 bound needs **111.0 kN** independent train brake force. μ=0.05 wheel contact

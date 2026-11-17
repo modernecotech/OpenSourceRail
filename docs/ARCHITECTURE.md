@@ -42,10 +42,13 @@ advances a **separate powered-wheel research child** for prototype quotation
 and measurement. Its proposed six-car layout has 24 motorised axles and
 protected 1.5 kV DC roof collection from rigid overhead supply. The
 [electrical demand](design-engine/v07-powered-bogie/README.md) and
-[mechanical car layout](design-engine/v07-powered-vehicle/README.md) have
-distinct physical and evaluation identities; they still require a coordinator
-join and same-candidate recalculation before an installed selection. This
-prototype direction does not revise the v0.6 passive-wheel reference.
+[mechanical car layout](design-engine/v07-powered-vehicle/README.md) retain
+their own component identities. A [source-bound prototype research bundle](design-engine/v07-prototype-bundle/README.md)
+joins them under a new physical candidate and propagates their upper equipment
+mass into service demand, a provisional quote BOM and nominal IFC interfaces.
+Its selection identity authorises the **next quotation and test**, not an
+installed drive or civil selection. This prototype direction does not revise
+the v0.6 passive-wheel reference.
 
 The bounded 30 km comparison shows station-only launch stalling on the tested
 1% and 2% uphill sensitivities, and one 250 m booster stalling on 2%. Powered
@@ -55,8 +58,11 @@ unproved. A station-charged battery or battery–supercapacitor system would
 require megawatt-scale charging within the 35 s dwell hypothesis; it is
 retained as a separately costed alternative, not assumed to be a small store.
 The proposed overhead-fed car retires the passive LIM fin and station primary
-only within its research child. Supplier equipment and physical tests must
-establish whether this is affordable and buildable on a surveyed alignment.
+only within its research child. The [joint-free 10 m span screen](design-engine/v07-simple-span/README.md)
+is a distinct civil alternative to the jointed 20 m beam, with a powered crowd
+load but no surveyed ground or installed price. Supplier equipment and physical
+tests must establish whether the integrated railway is affordable and buildable
+on a surveyed alignment.
 
 ## Connected platform
 

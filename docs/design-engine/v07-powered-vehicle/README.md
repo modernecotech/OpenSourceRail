@@ -39,7 +39,11 @@ gives a possible rigid-shoe packaging reference: 106 × 115 × 1000 mm,
 be 1.8 t bare for a six-car train before actuators, mounts, cables and
 protection. The catalogue's attractive force does **not** establish
 longitudinal braking force on the proposed rail, its temperature duty or
-compatibility with crossings. No vendor is selected.
+compatibility with crossings. No vendor is selected. An electromagnetic
+rail-contact brake also needs a protected excitation and actuator supply
+during overhead-line loss. Coil power, stored fault energy, drop/stow
+behaviour and independent fail-safe parking are unsized. The existing
+service battery is not credited as a certified brake source.
 
 With the high conditional normal-load budget and a 2% downgrade, an
 independent stop at 0.6 m/s² with all wheel brakes unavailable requires

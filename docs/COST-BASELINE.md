@@ -45,6 +45,12 @@ demonstrator packages or a complete candidate-specific bill of quantities.
 The [segmented-span cost handoff](design-engine/v07-segmented-span/README.md)
 provides counted quote quantities and replacement-versus-increment rules;
 supplier unit prices, baseline credits and installed cost deltas remain open.
+The [joint-free 10 m span study](design-engine/v07-simple-span/README.md)
+removes the midspan joint but roughly doubles support and bearing counts on
+the straight 2 km example. Its beam stock is a new design, not a priced reuse
+of the 10 m segment. The [joined powered prototype bundle](design-engine/v07-prototype-bundle/README.md)
+keeps all fourteen changed-candidate installed and whole-life totals unknown
+while issuing one coherent quotation and test request.
 
 At the common 30 km/12-station demand screen, the level station-only case
 requires 55 sets, the booster case 52 and the powered-wheel case 51, under a

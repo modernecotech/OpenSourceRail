@@ -16,10 +16,10 @@ remain evidence, not competing scope authorities.
 | ID | Deliverable | Acceptance evidence | State |
 |---|---|---|---|
 | V07-01 | CI and version ownership | Current fast checks pass; published tag, source epoch and development version are distinguished | In progress |
-| V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | Open |
-| V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Overhead-fed powered bogies advanced for research prototype; candidate join, measured adhesion/brake/thermal duty and surveyed site open |
+| V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | Powered vehicle/supply research bundle joined with separate IDs and source invalidation; selected civil, installed BOM and price open |
+| V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Overhead-fed powered bogies advanced for research prototype; measured adhesion, protected independent brake, thermal duty and surveyed site open |
 | V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | Powered-bogie quote layout and track-brake interface added; installed mass/CG and supplier drawings open |
-| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented 20 m and joint-free 10 m alternatives counted; both require site, structural and installed-cost evidence |
+| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented 20 m and joint-free 10 m alternatives counted; powered-load 10 m necessary bounds checked, but site, torsion/shear, erection and installed cost open |
 | V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | Factory draft verified; supplier and ERP handback open |
 | V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs, with unpriced items shown | Thirty-two base lines reconciled into fourteen scopes; changed-candidate prices and whole-life comparison open |
 | V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Open |
@@ -67,8 +67,11 @@ The 17 November architecture screen resolves the **next prototype research
 direction**: a separate powered-bogie child with protected overhead supply is
 advanced for measurement and quotation because the tested station-only and
 single-booster layouts stall on material uphill sensitivities. Its electrical
-configuration and mechanical car are not yet one evaluated physical bundle;
-the original passive-wheel reference remains selected for v0.6. The same
-screen leaves all changed-candidate capital and lifecycle totals unpriced.
+configuration and mechanical car now form one [source-bound research bundle](design-engine/v07-prototype-bundle/README.md),
+with a nominal IFC interface model and a high-mass service demand. The separate
+[10 m civil option](design-engine/v07-simple-span/README.md) has its own
+powered-load study but is not an installed site selection. The original
+passive-wheel reference remains selected for v0.6. The changed-candidate
+capital and lifecycle totals remain unpriced.
 This is a development decision, not completion of V07-03 or authority to
 publish v0.7 as a prototype-production package.
