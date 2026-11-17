@@ -5,6 +5,7 @@ run a vehicle, brake, structural or site evaluator and cannot release hardware.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 from decimal import Decimal
 from hashlib import sha256
@@ -242,3 +243,17 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
                                        purpose="concept comparison for prototype quotation"))
     result["selection_purpose"] = "concept comparison for prototype quotation"
     return result
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Evaluate the joined v0.7 digital corridor budget")
+    parser.add_argument("--route-km", type=float, default=30.0)
+    parser.add_argument("--stations", type=int, default=12)
+    args = parser.parse_args()
+    parent = tomllib.loads((ROOT / JOINED).read_text())["physical_candidate_id"]
+    print(json.dumps(evaluate(route_km=args.route_km, stations=args.stations,
+                              expected_parent_candidate_id=parent), sort_keys=True, indent=2))
+
+
+if __name__ == "__main__":
+    main()
