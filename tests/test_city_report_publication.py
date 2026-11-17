@@ -23,6 +23,7 @@ def test_published_city_pages_have_the_actual_map_and_city_calculations():
         if row['city']['slug']=='baghdad':
             assert '[OpenSourceRail Baghdad proposal](../../../../Baghdad/PROPOSAL.md)' in front
             assert '[Planning workspace]' in front
+            assert '[Current city packet](engineering/current/README.md)' in front
             assert '$18.0bn' not in front and '$69.6bn' not in front
         else:
             for section in ('## City and network','### Lines, service and fleet','## Energy and propulsion',

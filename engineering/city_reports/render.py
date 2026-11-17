@@ -180,7 +180,7 @@ def city(model,packet,detail,row,root):
             'The [OpenSourceRail Baghdad proposal]('+proposal+') is the current city planning entry point.',
             'It defines the 148.2 km first programme and the 605.65 km metropolitan concept,',
             'including airport-terminal, Sadr City and Jadriya service.','',
-            '[First-programme map]('+map_a+') · [Metropolitan map]('+map_b+') · [Planning workspace]('+planning+')','',
+            '[First-programme map]('+map_a+') · [Metropolitan map]('+map_b+') · [Planning workspace]('+planning+') · [Current city packet](engineering/current/README.md)','',
             'The calculated outline in `engineering/outline/` is a separate research scenario.',
             'Its route, fleet and prices do not define either proposal concept.','',
         ])
