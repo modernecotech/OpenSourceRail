@@ -57,7 +57,7 @@ def map_image():
                    "Airport": "#db713c"}
     for ax, filename, title in zip(axes,
             ("network-148km.geojson", "network-606km.geojson"),
-            ("148.2 km first programme", "605.65 km metropolitan screen")):
+            ("148.2 km first programme", "605.652 km metropolitan network")):
         data = json.loads((HERE / "maps" / filename).read_text())
         for feature in data["features"]:
             geometry = feature.get("geometry") or {}
@@ -101,7 +101,7 @@ def render():
         kind = node["type"]
         if kind == "heading":
             style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
-            if inline(node["children"]) == "Service and railway":
+            if inline(node["children"]) == "Civil and power design":
                 story.append(PageBreak())
             story.append(Paragraph(inline(node["children"]), styles[style]))
             if style == "TitleOSR":
@@ -115,7 +115,10 @@ def render():
             body = node["children"][1]["children"]
             rows = [head] + [row["children"] for row in body]
             cells = [[Paragraph(inline(cell["children"]), styles["CellOSR"]) for cell in row] for row in rows]
-            widths = [34 * mm, 72 * mm, 72 * mm] if len(head) == 3 else None
+            widths = ([35, 18, 16, 18, 30, 30, 16] if len(head) == 7
+                      else [34, 72, 72] if len(head) == 3 else None)
+            if widths:
+                widths = [width * mm for width in widths]
             table = Table(cells, colWidths=widths, repeatRows=1, hAlign="LEFT")
             table.setStyle(TableStyle([
                 ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#deebef")),
@@ -123,8 +126,8 @@ def render():
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ("BOX", (0, 0), (-1, -1), .4, colors.HexColor("#afc2cb")),
                 ("INNERGRID", (0, 0), (-1, -1), .2, colors.HexColor("#d7e1e5")),
-                ("LEFTPADDING", (0, 0), (-1, -1), 6),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("LEFTPADDING", (0, 0), (-1, -1), 3),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 3),
                 ("TOPPADDING", (0, 0), (-1, -1), 5),
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
             ]))
@@ -134,6 +137,45 @@ def render():
                 contents = item.get("children", [])
                 text = "".join(inline(child.get("children", [])) for child in contents)
                 story.append(Paragraph("• " + text, styles["BodyOSR"]))
+    result = json.loads((HERE / "system-results.json").read_text())
+    first = result["networks"]["first"]
+    metro = result["networks"]["metropolitan"]
+    labels = {
+        "elevated_civil": "Elevated viaduct and foundations",
+        "stations_access": "Accessible stations",
+        "track_walkways": "Track and walkways",
+        "signalling_comms": "Signalling and communications",
+        "brake_protection_recovery": "Braking, protection and recovery",
+        "line_traction_supply": "Protected conductor and sections",
+        "grid_charging_buffers": "Grid supply",
+        "vehicles": "Vehicle fleet",
+        "depots_control": "Depots and control",
+        "land_utilities_disruption": "Land, utilities and disruption",
+        "tooling_recovery": "Tooling and local production",
+        "design_assurance": "Design and assurance",
+        "testing_commissioning": "Testing and commissioning",
+        "project_allowance": "Project allowance",
+    }
+    story.append(Paragraph("Installed capital by scope", styles["SectionOSR"]))
+    rows = [["US$ million", "148.2 km", "605.652 km"]]
+    for key, label in labels.items():
+        rows.append([label, f"{first['selected_capital_scope_usd_m'][key]:,.3f}",
+                     f"{metro['selected_capital_scope_usd_m'][key]:,.3f}"])
+    rows.append(["Installed total",
+                 f"{first['power_cases'][first['digital_cost_leader']]['installed_capital_usd_m']:,.3f}",
+                 f"{metro['power_cases'][metro['digital_cost_leader']]['installed_capital_usd_m']:,.3f}"])
+    table = Table([[Paragraph(html.escape(value), styles["CellOSR"]) for value in row]
+                   for row in rows], colWidths=[94 * mm, 38 * mm, 38 * mm], repeatRows=1)
+    table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#deebef")),
+        ("BACKGROUND", (0, -1), (-1, -1), colors.HexColor("#deebef")),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -2), [colors.white, colors.HexColor("#f5f8f9")]),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 3),
+        ("BOX", (0, 0), (-1, -1), .4, colors.HexColor("#afc2cb")),
+    ]))
+    story.append(table)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=16 * mm,
                             leftMargin=16 * mm, topMargin=15 * mm, bottomMargin=17 * mm,

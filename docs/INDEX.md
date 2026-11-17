@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **159**.
+Indexed Markdown files: **160**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **159**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 5 |
+| [cities](#cities) | 6 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 123 |
@@ -54,10 +54,11 @@ Indexed Markdown files: **159**.
 
 | File | Title |
 |---|---|
-| [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad network cost and delivery concept |
+| [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad urban rail proposal |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad urban rail |
-| [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train concept |
+| [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
+| [`cities/Baghdad/VIADUCT-OFFWIRE-REBASELINE.md`](../cities/Baghdad/VIADUCT-OFFWIRE-REBASELINE.md) | Baghdad: zero-tunnel, viaduct-first, catenary-free design rebaseline |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates

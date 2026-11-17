@@ -1,70 +1,92 @@
-# Baghdad network cost and delivery concept
+# Baghdad system cost and delivery
 
-**OpenSourceRail v0.7 planning basis · 17 November 2026 · US dollars at 2026 price level**
+**OpenSourceRail digital planning estimate · 17 November 2026 · 2026 US dollars**
 
-The [148.2 km first programme](PROPOSAL.md) has one modelled installed-capital estimate of **US$8.341 billion**. The complete **605.652 km metropolitan concept** has one estimate of **US$32.557 billion**, including the first programme; the two amounts must not be added. These are quantity-and-rate planning estimates for the OpenSourceRail architecture, not construction bids or financing commitments. The corresponding 30-year, 4% real-discount whole-life estimates are **US$14.798 billion** and **US$58.088 billion**.
+The [one candidate input file](system.toml) drives the [calculated result](system-results.json), the [city proposal](PROPOSAL.md) and the Workbench. It sets **zero tunnels, zero underground stations, two elevated tracks throughout**, a six-car 700-place train and protected conductor traction. It couples supply equipment, traction battery, train mass, civil quantities, grid energy, capital, maintenance and renewals. The 605.652 km total includes the 148.2 km first programme.
 
-| Design basis | First programme | Complete metropolitan concept |
+| Quantity | First programme | Complete network |
 |---|---:|---:|
-| Physical network length | 148.2 km | 605.652 km |
-| Tunnel / elevated / at grade | 8 / 105 / 35.2 km | 30 / 405 / 170.652 km |
-| Stations | 64 | 280 planning allowance |
-| Normal train formation | Six 17 m cars, 700 places | Same planning formation |
-| Peak planned interval | 150 s per line | 150 s per line group |
-| Services used for fleet arithmetic | 7 | 14 |
-| Trains in daily service / total with reserve | 210 / 242 | 812 / 934 |
-| Depots / control centres | 4 / 2 | 12 / 4 |
+| Route length / stations | 148.2 km / 64 | 605.652 km / 280 |
+| Active trains / full fleet | 210 / 242 | 812 / 934 |
+| Depots / control centres / grid sites | 4 / 2 / 30 | 12 / 4 / 100 |
+| Two-track elevated beams, 10 m family | 29,640 | 121,156 |
+| Separate support/foundation positions | 29,654 | 121,208 |
+| Protected conductor | 296.4 track-km | 1,211.304 track-km |
+| Annual train distance | 52.429 million km | 202.724 million km |
+| Annual delivered grid energy | 1,114.4 GWh | 4,309.1 GWh |
+| **Installed capital** | **$7,865.670m** | **$31,017.749m** |
+| Annual operations, energy and maintenance | $339.974m | $1,348.404m |
+| **30-year present cost, 4% real** | **$14,493.325m** | **$57,214.119m** |
 
-The first programme's line lengths and 64 stations come from the [Iraqi National Investment Commission RFI](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf). The metropolitan station count, civil split, service groups and fleet are OpenSourceRail planning allowances, not surveyed or approved geometry. The source map includes five short physical connectors; these are not costed as separate shuttle operations. The terminal-area marker requires an accessible passenger-terminal station and airport access agreement.
+These are single point estimates at declared rates. They include a 20% project allowance and are designed for matched option comparison and initial procurement planning. They are not supplier bids, debt commitments or a measured construction alignment.
 
-## Selected planning train and service
+## Fourteen installed capital scopes
 
-The [Baghdad train](VEHICLE.md) is a **separate high-capacity child concept**, not the 276-place comfort vehicle. It retains six 17 m wheel-supported cars, with approximately 700 places per set, four double-leaf door openings on each side of each car as a planning envelope, 24 driven axles, and 1.5 kV DC overhead collection. This door and capacity allowance requires a new car layout, installed mass and dwell calculation. For civil and braking arithmetic the current **33.622 t/car crowd structural control** is retained as a conservative concept load, or 201.732 t per six-car train. At 2% adverse grade and 0.6 m/s² net acceleration, the necessary force is approximately 161 kN before extra resistance. At 20 m/s the mechanical demand is approximately 3.22 MW; allowing 82% drive efficiency and a 25% rating margin gives a **5.0 MW per-train DC equipment request**. This is a supplier sizing request, not a proven rating.
+US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-results` from `system.toml`.
 
-At 150 s intervals, a 700-place train offers 16,800 places/hour/direction on each line. Seven lines over 18 hours offer 4.234 million scheduled places/day in both directions before cancellations, overlap and load distribution. That is a capacity screen against the RFI's 3.25 million daily-passenger planning figure, not a patronage forecast. Fleet arithmetic assumes 38 km/h commercial speed, eight minutes total terminal allowance per round trip, at least 15% reserve rounded to whole sets and route lengths distributed evenly for this first budget. The metropolitan 14 service groups are provisional through routes and branches; the map does not establish junction throughput.
-
-An independent stop at 0.6 m/s² on a 2% downgrade needs about 161 kN for the 201.732 t crowd train before resistance or uncertainty allowances. With one of twelve rail-brake modules unavailable, the other eleven each require at least **14.6 kN** effective force. Protected brake power, hot repeated stops, adhesion, parking and rescue are part of the equipment specification. The existing 276-place powered-bogie research result cannot be inherited as proof of this new train.
-
-## Installed capital estimate
-
-All figures below are **US$ million**, rounded to three decimals. Each network has one estimate. Civil lengths are route-km; track and overhead equipment use two track-km per route-km. Rates are explicit budget assumptions pending Baghdad surveys and supplier quotations. Tunnel unit rates include structure and portals but exclude stations, track and systems, which are counted below. Elevated and at-grade rates include guideway, drainage, supports and foundations at an average planning allowance; the 10 m span in the [civil reference package](../../docs/reference-v07/civil/README.md) sets its repeatable geometry, while Baghdad ground and crossing costs require site design.
-
-| Capital scope and quantity rule | 148.2 km | 605.652 km |
+| Scope | First | Complete network |
 |---|---:|---:|
-| Tunnel and portals · $70m/tunnel km | 560.000 | 2,100.000 |
-| Elevated civil · $9m/elevated km | 945.000 | 3,645.000 |
-| At-grade civil · $4m/at-grade km | 140.800 | 682.608 |
-| Stations and accessible entry · $13m/station average | 832.000 | 3,640.000 |
-| Track, fastenings and walkways · $0.8m/track-km | 237.120 | 969.043 |
-| Signalling and communications · $1.2m/route-km | 177.840 | 726.782 |
-| Wayside brake, protection and recovery interfaces · $0.6m/route-km | 88.920 | 363.391 |
-| Overhead, feeders and grid · $1.2m/track-km plus $8m/substation | 595.680 | 2,253.565 |
-| Vehicles · $8.5m/700-place trainset | 2,057.000 | 7,939.000 |
-| Depots and control centres · $55m/depot plus $20m/centre | 260.000 | 740.000 |
-| Land, utilities and disruption · $2m/route-km | 296.400 | 1,211.304 |
-| Rescue, tooling and local-production setup · $0.4m/route-km plus $40m | 99.280 | 282.261 |
-| Design and independent assurance · 8% of preceding direct scopes | 503.203 | 1,964.236 |
-| Testing and commissioning · 2.5% of direct scopes | 157.251 | 613.824 |
-| **Direct and delivery subtotal** | **6,950.494** | **27,131.015** |
-| Project risk allowance · 20% of subtotal | 1,390.099 | 5,426.203 |
-| **Installed capital requirement** | **8,340.593** | **32,557.218** |
-| **Installed capital per route-km** | **56.279** | **53.756** |
+| Elevated viaduct, piers and foundations | 1,331.238 | 5,440.396 |
+| Accessible stations | 832.000 | 3,640.000 |
+| Track, fastenings and maintenance walkways | 237.120 | 969.043 |
+| Signalling and communications | 177.840 | 726.782 |
+| Wayside braking, protection and recovery | 88.920 | 363.391 |
+| Protected conductor and sectionalisation | 316.920 | 1,298.469 |
+| Grid supply and charging equipment | 240.000 | 800.000 |
+| Vehicle fleet | 2,052.160 | 7,920.320 |
+| Depots and control centres | 260.000 | 740.000 |
+| Land, utilities and construction disruption | 296.400 | 1,211.304 |
+| Tooling, recovery and local production setup | 99.280 | 282.261 |
+| Design and assurance, 8% of direct | 474.550 | 1,871.357 |
+| Testing and commissioning, 2.5% of direct | 148.297 | 584.799 |
+| Project allowance, 20% of subtotal | 1,310.945 | 5,169.625 |
+| **Installed total** | **7,865.670** | **31,017.749** |
 
-The 20% allowance is counted once and does not stand in for the separate financing cost. The grid allowance covers **30 and 100 traction substation sites** respectively, budgeted at $8m/site for larger equipment and connection demand from the 700-place trains; final feeder and substation ratings follow the electrical load study. The tunnel and station rates are intentionally planning assumptions; [cross-project cost research](https://transitcosts.com/transit-costs-study-final-report/) shows why underground shares, stations and scope definitions dominate comparisons. This estimate uses an elevated and at-grade majority, local precast production and standardised stations. Retaining more tunnel or requiring major river crossings would change the physical quantities and the estimate.
+Direct viaduct cost starts with $9m/route-km for the 10 m separate-track family and applies the train-mass-linked structural quantity factor in the [civil evaluator](../../engineering/outline/baghdad_viaduct.py). The first network's 29,640 beams and 29,654 positions count both tracks and line ends; guideway, drainage and foundations are included in that scope. Each other scope's rate and quantity rule is in the input file and calculator, including $13m/station, $8m/grid site and $8.48m/selected trainset. Revenue, debt, tax, foreign exchange and financing fees are separate from this engineering capital estimate.
 
-## Operation, renewal and programme
+## Matched power options
 
-Daily operation is modelled at 18 hours and 38 km/h for the active fleet: **52.429 million** and **202.724 million train-km/year**. The annual operation-and-maintenance budget uses **$5/train-km** for train staff, traction energy, summer cooling, maintenance and operations plus **$1m/station-year** for station staffing, cleaning, utilities and security. This gives **$326.143m/year** for the first programme and **$1,293.620m/year** for the complete network. The high-capacity train energy allowance is **20 kWh/train-km**, or about **1,049 and 4,054 GWh/year** respectively. At the modelled $0.12/kWh, traction and vehicle energy use about $2.40 of the $5/train-km allowance; it is not added twice. The 20 kWh is a Baghdad planning allowance that includes hot-weather HVAC, not a transfer of the smaller reference train's energy result.
+All cases keep the same route length, timetable, passenger capacity, grade and adhesion assumptions. Their power equipment, mass, civil quantities, energy and renewal costs change together. The lowest **30-year present cost** is the protected conductor candidate. The difference from overhead is modest, so procurement prices and electrical access engineering have a direct effect on the choice.
 
-The 30-year real NPV at 4% books the entire installed capital at the start of the comparison, then includes annual operation, replacement of 50% of signalling, wayside-brake and grid equipment value in year 15, and 75% of initial fleet value in year 25. It is **$14.798bn** for 148.2 km and **$58.088bn** for 605.652 km. Fare revenue, taxes, debt interest and foreign-exchange risk are outside these engineering whole-life totals and require a separate financing model. Passenger-km unit cost requires measured origin–destination and trip-length forecasts.
+| Traction supply | First capital | First 30-year | Complete capital | Complete 30-year |
+|---|---:|---:|---:|---:|
+| Protected conductor, selected | **$7.866bn** | **$14.493bn** | **$31.018bn** | **$57.214bn** |
+| Station battery and charging | $8.201bn | $15.238bn | $32.169bn | $59.832bn |
+| Limited conductor plus battery | $7.828bn | $14.612bn | $30.923bn | $57.679bn |
+| Overhead contact supply, comparator | $7.927bn | $14.560bn | $31.262bn | $57.473bn |
 
-The first programme is planned as a **2027–2031 five-year build**, with route/site approval and procurement in 2027, depot and early civil works in 2028, parallel viaduct/station and train production in 2029–2030, then staged test and opening in 2030–2031. Completing the 605.652 km network by **2035** requires expansion work to overlap the first programme from 2028, an average of roughly **57 additional route-km/year** across 2028–2035, two active tunnel headings and multiple elevated and at-grade construction packages. These are resource-loaded planning dates, conditional on land, survey, utility, procurement and funding decisions. The first programme averages about **$1.67bn/year** capital over five years; the complete 2027–2035 programme averages **$3.62bn/year** over nine years. The metropolitan total includes the first programme, so its incremental post-first-programme capital is **$24.217bn**.
+Protected conductor runs along both tracks. Its selected crowd train is **201.092 t** and has no traction battery. All options require 24 driven axles under the declared 0.10 low-adhesion coefficient, 2% adverse grade, 0.6 m/s² acceleration, resistance and traction margin. Station battery needs about **467 kWh/train**, 128 charging ports at **5.97 MW each** and about 14.9 MWh stationary buffer in the first network. Uncoordinated simultaneous charging is outside the provisional site power allocation, so its timetable must sequence charging. Limited conductor uses 25% of route length and about 311 kWh/train. The overhead case is a financial comparator with 1.5 kV DC wires. These are digital sizing results, with sectional isolation, touch protection and emergency access included as requirements for conductor rail.
 
-| Illustrative capital draw, US$bn | 2027 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| First programme | 0.417 | 1.251 | 2.502 | 2.502 | 1.668 | — | — | — | — |
-| Complete network, including first programme | 0.977 | 2.279 | 3.256 | 4.232 | 4.884 | 5.535 | 4.884 | 3.907 | 2.605 |
+Annual operation includes $2.60/non-energy train-km, $1m/station-year, delivered power at $0.12/kWh and option-specific maintenance. The 30-year real present cost discounts yearly operation at 4% and includes power-equipment, line-equipment, common systems and fleet renewal events. The [machine-readable result](system-results.json) itemises the year and cost of each renewal.
 
-The first row uses a 5/15/30/30/20% construction draw; the complete network uses 3/7/10/13/15/17/15/12/8%. These are expenditure profiles, not committed funding or debt service. The peak complete-network draw is approximately **$5.54bn in 2032**.
+## Viaduct and construction
 
-Local production is planned for precast spans and piers, steel fixtures, body structures, interior panels, station modules, installation and repair. Traction electronics, safety equipment, rail, bearings and some test tools are initial imported or licensed inputs until a supplier and skills plan proves local alternatives. The procurement schedule should price both equipment and Iraqi fabrication hours; the present capital model does not claim a measured local value-added percentage.
+The selected 10 m family holds the existing repeatable reference geometry as a **digital cost control**. The comparison below changes only span length and support family for the same first-network train and route. Longer spans reduce placements and foundations in the planning arithmetic, but their lift weights and structural demands differ. Their lower indicative totals are not interchangeable with the selected structural family.
+
+| Span and support family | Beams | Foundations | Indicative installed system capital | Beam hook-mass surrogate |
+|---|---:|---:|---:|---:|
+| **10 m, separate supports** | **29,640** | **29,654** | **$7.866bn** | **37.3 t** |
+| 10 m, common pier | 29,640 | 14,827 | $7.944bn | 37.3 t |
+| 20 m, separate supports | 14,820 | 14,834 | $7.709bn | 74.7 t |
+| 20 m, common pier | 14,820 | 7,417 | $7.748bn | 74.7 t |
+| 25 m, separate supports | 11,856 | 11,870 | $7.678bn | 93.3 t |
+| 25 m, common pier | 11,856 | 5,935 | $7.709bn | 93.3 t |
+| 30 m, separate supports | 9,886 | 9,900 | $7.657bn | 112.0 t |
+| 30 m, common pier | 9,886 | 4,950 | $7.683bn | 112.0 t |
+
+The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. The 10 m digital production plan uses three casting yards and three erection fronts for 148.2 km in five years; the complete network needs seven of each over nine years at eight beams/day per yard and eight lifts/day per front, 250 workdays/year.
+
+## Construction timing and financing basis
+
+| Planning milestone | First programme | Complete network |
+|---|---|---|
+| Start of programme | 2027 | 2027 |
+| Rights, utility coordination, fabrication setup | 2027–2028 | 2027–2029 |
+| Parallel civil, stations, electrical and vehicle production | 2028–2030 | 2028–2034 |
+| Systems integration and staged opening | 2030–2031 | 2031–2035 |
+| Complete network target | 2031 | 2035 |
+| Average annual installed capital across programme | $1.573bn/year over five years | $3.446bn/year over nine years |
+
+The full network requires overlapping fronts and approximately 57 additional route-km/year during 2028–2035 beyond the first programme. This schedule is a construction-capacity calculation, with staged openings. Actual land rights, station access, road and river interfaces, utility relocation, supply contracts and finance draw dates need project-specific agreements. The full capital total implies **$23.152bn** of additional works after the first programme, not another $31.018bn. Funding can combine Iraqi public capital, commercial lending and export finance for eligible imported packages. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) depends on a specific eligible export contract, bank and borrower; the model does not assume a UKEF commitment.
+
+The open GIS geometry fixes a planning envelope, not a surveyed route. The airport marker is in the terminal area, not the passenger entrance; the map lengths are declared network controls. The calculation can be rerun when the route geometry, sites or supplier rates are set, and rejects changes to its pinned source maps until their identities and dependent calculations are updated. No physical prototype or site survey is represented in this release.

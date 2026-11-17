@@ -1538,6 +1538,73 @@ function drawOutlineMap(geometry) {
   }
 }
 const joinedReference = byId("v07-reference");
+byId("baghdad-system-edit").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const fields = new FormData(form);
+  const status = byId("baghdad-system-status");
+  const results = byId("baghdad-system-results");
+  status.textContent = "Calculating vehicle, viaduct, power and 30-year cost…";
+  results.hidden = true;
+  try {
+    const response = await fetch("/api/v07/baghdad-system", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        expected_candidate_id: byId("baghdad-system").dataset.candidateId,
+        network: fields.get("network"),
+        supply: fields.get("supply"),
+        span_m: Number(fields.get("span_m")),
+        common_pier: fields.get("common_pier") === "true",
+      }),
+    });
+    const row = await response.json();
+    if (!response.ok || row.schema !== "opensourcerail.baghdad.joined-system.1")
+      throw Error(row.error || "Baghdad calculation unavailable");
+    const identities = byId("baghdad-system-identities");
+    identities.replaceChildren();
+    for (const [label, value] of [
+      ["Physical candidate", row.physical_candidate_id],
+      ["Evaluation", row.evaluation_id],
+      ["Civil option", row.civil.physical_candidate_id],
+    ]) {
+      const dt = document.createElement("dt");
+      dt.textContent = label;
+      const dd = document.createElement("dd");
+      dd.textContent = value;
+      identities.append(dt, dd);
+    }
+    const body = byId("baghdad-system-measures");
+    body.replaceChildren();
+    const measures = [
+      ["Route and stations", `${row.service.route_km.toFixed(3)} km · ${row.service.stations}`],
+      ["Offered peak capacity", `${row.service.offered_places_per_hour_direction.toLocaleString()} places/hour/direction`],
+      ["Trainsets and loaded mass", `${row.service.fleet_trainsets} · ${row.vehicle.mass_t.toFixed(3)} t/train`],
+      ["Driven axles and traction", `${row.vehicle.driven_axles} · ${row.traction.dc_input_rating_request_mw.toFixed(2)} MW/train`],
+      ["Beams and foundations", `${row.civil.quantities.beam_count.toLocaleString()} · ${row.civil.quantities.pier_foundation_count.toLocaleString()}`],
+      ["Lift mass screen", `${row.civil.physical_screen.length_and_load_scaled_hook_surrogate_t_per_beam.toFixed(1)} t/beam`],
+      ["Factory yards and erection fronts", `${row.civil.delivery.factory_yards_needed_at_declared_rate} · ${row.civil.delivery.erection_fronts_needed_at_declared_rate}`],
+      ["Overhead / protected conductor", `${row.supply_quantities.overhead_track_km.toFixed(1)} / ${row.supply_quantities.protected_conductor_track_km.toFixed(1)} track-km`],
+      ["Battery and station charging", `${row.vehicle.traction_battery_kwh_per_train.toFixed(0)} kWh/train · ${row.supply_quantities.station_charge_ports} ports at ${row.supply_quantities.station_charge_port_mw.toFixed(2)} MW`],
+      ["Annual grid energy", `${row.energy.annual_grid_gwh.toFixed(1)} GWh`],
+      ["Installed capital", `US$${(row.capital_usd_m.installed / 1000).toFixed(3)}bn`],
+      ["30-year present cost", `US$${(row.whole_life_30y_present_usd_m / 1000).toFixed(3)}bn`],
+    ];
+    for (const [label, value] of measures) {
+      const tr = document.createElement("tr");
+      for (const text of [label, value]) {
+        const td = document.createElement("td");
+        td.textContent = text;
+        tr.append(td);
+      }
+      body.append(tr);
+    }
+    status.textContent = "Joined digital planning calculation complete. The listed rates are planning allowances.";
+    results.hidden = false;
+  } catch (error) {
+    status.textContent = error.message;
+  }
+});
 byId("v07-reference-edit").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;

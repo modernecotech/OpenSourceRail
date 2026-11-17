@@ -92,8 +92,55 @@ class Handler(BaseHTTPRequestHandler):
             return
         self.respond(200, value)
 
+    def baghdad_system(self):
+        """Recalculate one above-ground Baghdad option from its pinned city input."""
+        from engineering.outline.baghdad_system import evaluate, load, release_summary
+        from engineering.trip_dynamics.interactive import _loopback
+        if self.command == 'GET':
+            try:
+                self.respond(200, release_summary(self.root))
+            except (ValueError, OSError, KeyError) as exc:
+                self.respond(503, {'error': str(exc)})
+            return
+        if self.command != 'POST':
+            self.respond(405, {'error': 'GET comparison or POST a bounded Baghdad edit'})
+            return
+        if not _loopback(self, post=True):
+            self.respond(403, {'error': 'Matching loopback Host and Origin required'})
+            return
+        if self.headers.get('Content-Type', '').split(';')[0] != 'application/json':
+            self.respond(415, {'error': 'application/json required'})
+            return
+        length = self.headers.get('Content-Length', '')
+        if not length.isdecimal() or not 0 < int(length) <= 1024:
+            self.respond(413, {'error': 'Bounded request required'})
+            return
+        try:
+            def pairs(items):
+                value = {}
+                for key, item in items:
+                    if key in value:
+                        raise ValueError('Duplicate input key')
+                    value[key] = item
+                return value
+            request = json.loads(self.rfile.read(int(length)), object_pairs_hook=pairs,
+                                 parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Finite JSON required')))
+            if not isinstance(request, dict) or set(request) != {
+                    'expected_candidate_id', 'network', 'supply', 'span_m', 'common_pier'}:
+                raise ValueError('Exact Baghdad candidate and design inputs required')
+            if request.pop('expected_candidate_id') != load(self.root)['candidate_id']:
+                raise ValueError('Baghdad candidate identity differs')
+            value = evaluate(root=self.root, **request)
+        except (ValueError, TypeError, KeyError, OSError) as exc:
+            self.respond(400, {'error': str(exc)})
+            return
+        self.respond(200, value)
+
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        if path == '/api/v07/baghdad-system':
+            self.baghdad_system()
+            return
         if path == '/api/v07/reference-journey':
             self.joined_reference_journey()
             return
@@ -228,6 +275,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        if unquote(urlsplit(self.path).path) == '/api/v07/baghdad-system':
+            self.baghdad_system()
+            return
         if unquote(urlsplit(self.path).path) == '/api/v07/reference-journey':
             self.joined_reference_journey()
             return

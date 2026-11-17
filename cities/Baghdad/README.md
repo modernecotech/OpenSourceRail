@@ -1,7 +1,7 @@
 # Baghdad urban rail
 
-[OpenSourceRail proposal](PROPOSAL.md) · [700-place train concept](VEHICLE.md) · [cost and delivery basis](COST-AND-DELIVERY.md) · [PDF proposal](../../output/pdf/Baghdad-Metro-v0.7-Proposal.pdf) · [148.2 km network map](maps/network-148km.geojson) · [605.65 km network map](maps/network-606km.geojson)
+[Proposal](PROPOSAL.md) · [PDF proposal](../../output/pdf/Baghdad-Metro-v0.7-Proposal.pdf) · [cost and delivery](COST-AND-DELIVERY.md) · [train](VEHICLE.md) · [148.2 km map](maps/network-148km.geojson) · [605.652 km map](maps/network-606km.geojson) · [model inputs](system.toml) · [calculated results](system-results.json)
 
-Two connected planning concepts cover Baghdad's airport passenger terminal, Sadr City and Jadriya. The 148.2 km seven-line programme provides a first network with a US$8.341bn installed-capital planning estimate; the 605.65 km schematic network tests a 500–800 km metropolitan ambition for 2035 with a US$32.557bn estimate including the first programme. The cost basis names its fleet, civil quantities, rates and schedule. Alignments and unit prices require site and supplier work.
+OpenSourceRail's Baghdad concept is an entirely elevated, zero-tunnel railway with an overhead-free protected conductor on a segregated guideway. It connects the airport terminal area, Sadr City and Jadriya. The first programme is **148.2 km** and the complete 2035 metropolitan concept is **605.652 km**. One matched design and cost calculation gives **US$7.866bn** and **US$31.018bn** installed capital respectively, with the complete network including the first programme.
 
-The [existing generated Baghdad outline](../catalogue/west-asia/Iraq/Baghdad/engineering/outline/summary.json) is a separate research calculation. It does not set the proposed routes, fleet or price.
+The maps are schematic GIS planning controls. The [city outline research calculation](../catalogue/west-asia/Iraq/Baghdad/engineering/outline/summary.json) has separate inputs and does not determine these prices or routes.
