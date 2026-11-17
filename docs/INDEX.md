@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **160**.
+Indexed Markdown files: **159**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **160**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 6 |
+| [cities](#cities) | 5 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 123 |
@@ -58,7 +58,6 @@ Indexed Markdown files: **160**.
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad urban rail proposal |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad urban rail |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
-| [`cities/Baghdad/VIADUCT-OFFWIRE-REBASELINE.md`](../cities/Baghdad/VIADUCT-OFFWIRE-REBASELINE.md) | Baghdad: zero-tunnel, viaduct-first, catenary-free design rebaseline |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates
