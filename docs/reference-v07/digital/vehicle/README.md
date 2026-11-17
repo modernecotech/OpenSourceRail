@@ -1,6 +1,10 @@
 # Joined v0.7 digital car: mass, CG and static reaction screen
 
-This digital calculation belongs to physical candidate `osr-v07-joined-prototype-20261117` and quotation selection `osr-v07-prototype-quotation-20261117`. Its [input](input.json) has identity `7beb441511a1b237a58277fb1d8c963d1dd548905a74cce9739169b2c1eb5c61`; the reproducible [result](result.json) has evaluation identity `ebddef0c8b9c21c2d9a023b680afa372b02396a700c77be03d6983300af5a240`. The input pins the exact bytes of the selected car geometry, powered vehicle plan, prototype IFC/result, civil plan and joined candidate. A source change requires a new input and evaluation. This is a digital model, not a measured installed car.
+This digital calculation belongs to physical candidate `osr-v07-joined-prototype-20261117` and quotation selection `osr-v07-prototype-quotation-20261117`. Its [input](input.json) has identity `29c7c74b4cea3d0e97667b6cf9d485fc9d2b04f9d08574e6826332e052ba62bb`; the reproducible [result](result.json) has evaluation identity `ea2d112d9e8b0984ead1a742930cc1d753510a6ac04ad26430a5bf9e91520bd7`. The input pins the exact bytes of the selected car geometry, powered vehicle plan, prototype IFC/result, civil plan and joined candidate. A source change requires a new input and evaluation. This is a digital model, not a measured installed car.
+
+The [v0.7 digital selection](../selected.toml) retains this car without a
+physical vehicle revision and changes only the civil beam child. The car
+result is component ancestry for that selected whole-railway candidate.
 
 ## Model and result
 

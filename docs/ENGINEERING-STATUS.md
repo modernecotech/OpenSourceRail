@@ -1,45 +1,18 @@
 # v0.7 engineering status
 
-This is the current decision register for the first prototype-production package.
-The [architecture](ARCHITECTURE.md) defines the selected reference; the
-[release gate](RELEASE-v0.7.md) defines completion. Calculated research results
-are evidence for a decision, not permission to manufacture or carry passengers.
+The [selected digital railway](reference-v07/digital/selected.toml) is a powered-wheel, two-track synthetic 30 km corridor with twelve stations. It uses one six-car vehicle family, a thirteen-strand 10 m precast beam and protected 1.5 kV DC overhead. The [release gate](RELEASE-v0.7.md) concerns the digital design, cost and production plan. Physical manufacture and passenger operation require later qualification.
 
-## Configuration boundaries
+| Design result | Selected digital basis |
+|---|---|
+| Service | 276 normal places per six-car train; 120 s peak comparison headway; 44 active plus seven reserve sets; 8,280 offered places/hour/direction. |
+| Vehicle | [CAD and mass screen](reference-v07/digital/vehicle/README.md) places 2,482 inherited geometry occurrences and ten powered items, counts the remaining mass, and retains 25.072 t/car normal and 33.622 t/car crowd sizing loads. Full equipment placement and dynamic axle loads require design development. |
+| Propulsion | Twenty-four continuously powered axles, six drive groups and a 72 km/h cap. The 2.727 km, +2% sizing leg requests 102.23 kN and at least 3.037 MW train DC input. Station-only launch does not satisfy the tested uphill cases. |
+| Braking | Twelve independent rail-contact modules per train. With one unavailable, each of the eleven working modules must deliver 10.89 kN and absorb 3.63 MJ ideal rail-interface energy under the stated normal-load downgrade case. Protected supply, hot duty, parking and rescue are qualification requirements. |
+| Civil | The [joined native beam check](reference-v07/digital/civil/README.md) carries the bounded car CG into a 1.107 MNm crowd moving-load case. The selected thirteen-strand child gives 1.576 mm gross-elastic midspan deflection and passes its declared longitudinal screen. One beam per track per 10 m bay yields 6,000 beams and 6,002 supports. The foundation cost module assumes ordinary ground; no actual alignment or soil is claimed. |
+| Station | 125 m × 8 m central island, two one-sided doors per car facing the platform, independent platform structure, accessible vertical access and protected egress. Static 75 mm body-to-edge arithmetic is not a dynamic boarding-gap approval. |
+| Production | The [digital handoff](reference-v07/digital/production/README.md) connects 41 BOM rows, 18 route steps, make/buy assumptions, 14 capital scopes and an ERPNext-shaped dry run. Native orders, receipts and repair records require real site masters, supplier and inspection records. |
+| Cost and time | [One 2026 USD estimate](reference-v07/cost/README.md): US$1,025.2272m installed capital, US$1,667.647m 30-year present cost and a 43-month construction programme after route approval. The straight 2 km construction module has a twelve-month planning allowance. |
 
-| Application | Identity and purpose | Current decision |
-|---|---|---|
-| Selected vehicle | Physical candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`; six 17 m passive-wheel comfort cars | Development reference. Installed propulsion and complete vehicle mass remain open. |
-| Synthetic 30 km | Requirements `a18e0f20b6ec40e067aff40213b312ae756f7f3389ee5b43059225cf92d05ff4`; [current-source evaluation](design-engine/line30-current-20261117/README.md) `947dd7cbcac7c260da721150912fba47531c96fd3f7a28365c394249608ee869` | Equal-service cost and service control, not an actual alignment. |
-| Samawah | [Current-source city evaluation](design-engine/v07-affordable-corridor/README.md) `d69d46f7adccfcaf9d9d799d6c478741e0a3010e2b0a4f20d8d34d119ccf5291` | Distinct 57.873 km planning case. The 5.738 km line-1 gap fails the retained level coasting assumption. Grades are unsurveyed. |
-| Baghdad | [148.2 km and 605.65 km concepts](../cities/Baghdad/PROPOSAL.md) | Separate 700-place planning train and [single capital, whole-life and delivery estimates](../cities/Baghdad/COST-AND-DELIVERY.md); routes and supplier prices require development. |
+The [v0.6 passive-wheel vehicle](../engineering/development-baseline.toml) remains its own selected development reference. The synthetic corridor, [Samawah](../cities/catalogue/west-asia/Iraq/Samawah/README.md) and [Baghdad](../cities/Baghdad/PROPOSAL.md) are separate applications. Baghdad uses a 700-place planning train and its own [cost and delivery basis](../cities/Baghdad/COST-AND-DELIVERY.md).
 
-## Prototype-production decision register
-
-| Assembly or interface | Defined now | Required to issue a controlled prototype package |
-|---|---|---|
-| Propulsion and braking | The [equal-service 30 km screen](design-engine/v07-architecture-decision/README.md) finds station-only stalls on +1%/+2% whole-leg sensitivities and a 250 m booster stalls on +2%; powered-wheel demand reaches. The [electrical screen](design-engine/v07-powered-bogie/README.md) prefers a 24-axle, 1.5 kV DC overhead-fed research child over a roughly 3.35 MW, 35 s station recharge hypothesis for the 2 km/+2% case. The [joined prototype research bundle](design-engine/v07-prototype-bundle/README.md) carries the high-mass 2.727 km/+2% demand of 102.2 kN and 2.045 MW, with a procurement request floor of 3.037 MW DC input under its stated rating/efficiency hypotheses. The [independent brake study](design-engine/v07-independent-brake/README.md) sets a necessary 10.89 kN per working module with one failed. | Survey the route and overhead envelope; obtain motor/converter/collector ratings, feeder and return, measured wet adhesion, independent rail-brake force and excitation supply during overhead loss, parking and protected tow. Prove repeated hot duty and faulted stops. Installed drive and braking remain unaccepted. |
-| Representative car | [Prototype planning handoff](design-engine/v07-representative-car/README.md) maps seven structural/running quote scopes. [Mass reconciliation](design-engine/mass-reconciliation/current/README.md) accounts for 19,221.998 kg/car, of which 10,090.200 kg is residual. A distinct [powered-bogie car child](design-engine/v07-powered-vehicle/README.md) proposes 24 axle drives, 24 rail-brake shoes and six collectors; its conditional equipment allocation is 1.345–2.670 t/car before retiring 275 kg/car of counted passive fin stock. These quantities do not establish installed mass or whole-car CG. | Locate and weigh bogies, drives, brake actuators, service equipment, HVAC, electrical protection, doors, couplings and repair access; establish whole-car CG/inertia and axle reactions. Control carbody/bogie, aperture/platform, roof conductor and six-car interfaces. |
-| Removable door | Research child `907da3680bcbd01ffe1223652443e4e34a9f581e201385917a99edf4150bd90a` has 74 part types and 694 pieces/opening. [Interface handoff](design-engine/v07-execution/door-interface-handoff.json) holds all mating datums and installed transforms. | Measure one car opening; specify guide, pulley, belt, stops, retention, seals, obstruction, release, interlock, electrical rating, tool sweep and replacement path. Cycle and fault-test the full assembly and record timed repair/QA. Do not multiply its provisional cost into the selected car. |
-| Viaduct span | Separate segmented physical candidate `abcf7e942fd1337c9872869d684ac9a8055ce94bd3e9c35de0dbcbe07f49ac82`: two 10 m segments per 20 m span, 29.59 t bare each and 34.20 t provisional hook load. [Prototype planning handoff](design-engine/v07-segmented-span/README.md) counts 200 beams, 400 lifts, 202 supports and 800 bearings for a synthetic straight 2 km two-track demonstrator. The [joint-free 10 m civil child](design-engine/v07-simple-span/README.md) uses the 33.622 t/car powered crowd control, checks a 0.586 MNm moving moment and counts 402 supports and 1,600 bearings instead. Neither is qualified or priced. | Design and test the 20 m joint or close the 10 m beam's shear, torsion, prestress transfer and handling; compare site-specific supports, ground, access and installed quotes. Fix rail/OLE and bearing datums, crane chart/haul route and foundation design before accepting either. |
-| Station module | A [candidate-bound launch/brake module quote schedule](design-engine/v07-demonstrator-propulsion/README.md) lists eight equipment groups and distinct 350/400/450/550 m receiving research envelopes. At 20 m/s, 0.6 m/s² net stopping, an illustrative 1 s reaction and full-train engagement, the optimistic geometric minimum is 457.8 m. The 550 m option leaves 92.2 m unallocated before berth and uncertainty design; inherited brake adhesion still fails the necessary bound. Installed quantities, electrical ratings, mass and prices remain null. | Survey platform, rail and door datums; size independent stopping and protected recovery with latency and uncertainty; obtain supplier force/current/thermal and protection data; establish accessible maintenance removal and civil mounts. No installed propulsion selection follows from this schedule. |
-| Manufacturing and lifecycle | The [underframe production draft](design-engine/v07-representative-car/README.md) maps 16 candidate-linked leaf Items to a 565-piece BOM, routing, QA characteristics and repair draft. The [powered prototype bundle](design-engine/v07-prototype-bundle/README.md) adds a same-candidate quotation BOM, assembly route and nominal IFC interface boxes; they are unreleased drafts with supplier price, measured hours, complete installed mass and approved QA limits null. A verified Samawah planning edit produced a passive-reference factory draft without route performance recalculation or ERP admission. | Approve supplier drawings and process/QA limits, obtain installed prices and measured hours, validate target ERPNext fields and permissions, then run a controlled receipt, installation and repair handback for the powered child. No synthetic sample item may stand in for candidate hardware. |
-
-The first physical demonstrator is a **1.5–2 km route to be surveyed**, not an
-approved site or a shortened Samawah leg. Its alignment, grade, soil, access,
-utility and emergency constraints must be recorded before a drive, footing or
-construction method is selected. The next useful deliverable is one mated car,
-span and station interface package with named measurements and supplier inputs.
-
-The [v0.7 planning configuration](reference-v07/README.md) gives the mated
-concept interfaces, a US$1.0235bn synthetic 30 km estimate and a 43-month
-construction programme. The vehicle and civil research identities remain
-separate until one native installed-candidate evaluation is produced.
-
-The [joined interface package](reference-v07/integration/README.md) now carries
-one quotation candidate through vehicle, civil, station and power counts. Its
-evaluation covers dimensional and quantity arithmetic only. The
-[manufacturing package](reference-v07/manufacturing/README.md) adds one car,
-beam, door and power-site BOM, routing, inspection points and an unposted
-ERPNext lifecycle draft. Supplier drawings, measured mass and loads, surveyed
-ground, a joined native evaluation and physical qualification remain open.
+The digital release supplies reproducible geometry, calculations, quantities, costs and methods. It does not assert measured traction or brake performance, approved fabrication details, a surveyed foundation, an ERPNext transaction or passenger-operation authority. Those results belong to a later physical qualification and project delivery stage.

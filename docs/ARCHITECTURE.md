@@ -11,19 +11,20 @@ The [v0.7 engineering decision register](ENGINEERING-STATUS.md) tracks the
 selected reference and separate prototype research. The [cost baseline](COST-BASELINE.md)
 and [finite release gate](RELEASE-v0.7.md) govern current public claims.
 
-The [v0.7 concept configuration](reference-v07/README.md) combines a powered-wheel
+The [v0.7 digital configuration](reference-v07/README.md) combines a powered-wheel
 vehicle, joint-free 10 m span, twelve-station synthetic 30 km service,
-fourteen-scope budget and construction programme under one planning ID. Its
-**US$1.0235bn** capital and **43-month** programme are concept estimates. The
+fourteen-scope budget and construction programme under one selected digital
+candidate. Its thirteen-strand 10 m beam, **US$1.0252272bn** capital and
+**43-month** programme are concept estimates. The
 separate [Baghdad concept](../cities/Baghdad/PROPOSAL.md) uses a 700-place child
 train and its own capital and schedule.
 
-The [joined prototype quotation basis](reference-v07/integration/README.md)
-controls the car, guideway, station and power interfaces for one configuration.
-Its [manufacturing handoff](reference-v07/manufacturing/README.md) gives a
-candidate-linked BOM, shop route, QA points and ERPNext import draft. These
-support supplier quotation and prototype planning; fabrication and operation
-still require approved drawings and measured tests.
+The [digital selection](reference-v07/digital/selected.toml) controls the car,
+guideway, station and power interfaces for one priced configuration. Its
+[production handoff](reference-v07/digital/production/README.md) gives a
+candidate-linked BOM, shop route, QA plan and ERPNext dry run. These support
+supplier quotation and prototype planning; fabrication and operation require
+approved drawings and measured tests.
 
 ## Selected v0.6 vehicle reference
 
@@ -49,20 +50,20 @@ service. A reference records the purpose of selection; an alternative records
 a comparison role. An evaluated result names the calculation and evidence scope.
 Prototype validation requires its own physical evidence and remains undemonstrated.
 
-## v0.7 prototype architecture under test
+## v0.7 digital railway architecture
 
-The [equal-service decision screen](design-engine/v07-architecture-decision/README.md)
-advances a **separate powered-wheel research child** for prototype quotation
-and measurement. Its proposed six-car layout has 24 motorised axles and
+The [selected digital railway](reference-v07/README.md) uses the powered-wheel
+child supported by the [equal-service screen](design-engine/v07-architecture-decision/README.md).
+Its six-car layout has 24 motorised axles and
 protected 1.5 kV DC roof collection from rigid overhead supply. The
 [electrical demand](design-engine/v07-powered-bogie/README.md) and
 [mechanical car layout](design-engine/v07-powered-vehicle/README.md) retain
 their own component identities. A [source-bound prototype research bundle](design-engine/v07-prototype-bundle/README.md)
 joins them under a new physical candidate and propagates their upper equipment
 mass into service demand, a provisional quote BOM and nominal IFC interfaces.
-Its selection identity authorises the **next quotation and test**, not an
-installed drive or civil selection. This prototype direction does not revise
-the v0.6 passive-wheel reference.
+Its component identity remains traceable through the selected thirteen-strand
+beam child, quantity schedule and cost basis. This v0.7 digital design does not
+revise the v0.6 passive-wheel development reference.
 
 The bounded 30 km comparison shows station-only launch stalling on the tested
 1% and 2% uphill sensitivities, and one 250 m booster stalling on 2%. Powered
@@ -71,13 +72,11 @@ independent braking, overhead clearance, installed mass and price remain
 unproved. A station-charged battery or battery–supercapacitor system would
 require megawatt-scale charging within the 35 s dwell hypothesis; it is
 retained as a separately costed alternative, not assumed to be a small store.
-The proposed overhead-fed car retires the passive LIM fin and station primary
-only within its research child. The [joint-free 10 m span screen](design-engine/v07-simple-span/README.md)
-is a distinct civil alternative to the jointed 20 m beam, with a powered crowd
-load but no surveyed ground or supplier installed price. The [priced v0.7
-concept](reference-v07/README.md) establishes a planning budget and method.
-Supplier equipment, physical tests and a surveyed alignment determine the
-installed design.
+The powered car has no station launcher or traction battery in this candidate.
+The [joined native beam analysis](reference-v07/digital/civil/README.md) carries
+the car CG bound into a thirteen-strand 10 m beam selection. The [priced v0.7
+design](reference-v07/README.md) gives its digital quantities and method.
+Supplier equipment, physical tests and a real alignment are later project inputs.
 
 ## Connected platform
 

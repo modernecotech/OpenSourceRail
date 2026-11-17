@@ -1,6 +1,12 @@
 # Civil and station concept: 10 m joint-free beam
 
-**Reference for concept costing and prototype procurement, 17 November 2026.** This package selects the one-piece 10 m precast box beam for a two-track, wheel-supported powered-bogie planning configuration. It provides a repeatable quantity and construction method for a straight, elevated 2 km demonstrator. The beam study and powered vehicle/supply bundle have separate research identities; this document is their explicit concept-level interface, not a joined installed-candidate evaluation. Soil, final loads, connections and approvals must be resolved before fabrication or public operation.
+**Digital design and cost reference, 17 November 2026.** The [selected
+candidate](../digital/selected.toml) uses a one-piece, thirteen-strand 10 m
+precast box beam for each track. The [native civil comparison](../digital/civil/README.md)
+carries the joined car's bounded axle loading into this beam and records the
+original nine-strand study as ancestry. This page gives quantities, a station
+interface and a construction method for the synthetic 30 km corridor and a
+straight 2 km construction module.
 
 ## Selected arrangement
 
@@ -8,10 +14,10 @@
 |---|---|
 | Track | Two separate 1,435 mm conventional rail tracks with direct fastening, one beam per track per 10 m bay |
 | Beam | One-piece, simply supported closed concrete box, 10.0 m long, 2.0 m wide, 1.4 m deep, with no field midspan joint |
-| Beam stock | 11.3376 m³ concrete and 3.0326 t counted steel per beam; 29.884 t bare handling mass; 37.356 t provisional hook load including 25% rigging allowance |
-| Prestress | Nine-strand hypothesis for the 160-person/car crowd load; tendon path, anchor zones, transfer and reinforcement details require a shop design |
+| Beam stock | 11.3376 m³ concrete and 3.1126 t counted steel per beam; 29.964382 t bare handling mass; at least 37.456 t provisional hook load including 25% rigging allowance |
+| Prestress | Thirteen-strand digital selection for the 160-person/car crowd load; tendon path, anchor zones, transfer and reinforcement details require a shop design |
 | Supports | Independent bearing seat, pier and foundation for each track; four provisional bearing units per beam; no credit for an unanalysed shared crosshead |
-| Foundation costing module | 2.5 m × 2.5 m × 1.0 m footing and 1.0 m × 1.0 m × 6.0 m pier per support, used only to calculate a reference quantity. The 2.5 m footing exceeds the gravity-only 1.90 m square sensitivity at 200 kPa, but neither lateral capacity nor soil bearing is selected. |
+| Foundation costing module | 2.5 m × 2.5 m × 1.0 m footing and 1.0 m × 1.0 m × 6.0 m pier per support, used only to calculate a reference quantity. Under the joined CG-bound gravity sensitivity, about 2.30 m square is required at an assumed 200 kPa bearing resistance; lateral and settlement design require site inputs. |
 | Power and access | Allow a rail-side protected maintenance/evacuation path, drainage, return/earthing and overhead traction-power mounts as separately counted assemblies. Do not attach equipment until fixing loads and electrical clearances are designed. |
 
 [Reference elevation and station interface](span-and-station.svg) gives the controlling dimensions. It is a schematic interface drawing, not a shop or structural approval drawing. Track-to-track spacing, walkway envelope, pier height, foundation dimensions, drainage and overhead mounts remain adjustable against the site survey; the 10 m beam length, section and two-track independent support logic are fixed for this costing candidate.
@@ -26,7 +32,7 @@ Straight, elevated route only; excludes stations, curves, switches, ramps, depot
 | Independent support/foundation positions | 202 for an isolated 1 km module | 402 | 2 tracks × (bay count + 1); continuous longer runs share boundary supports |
 | Bearing units, provisional | 800 | 1,600 | 4 per beam; final bearing schedule may differ |
 | Beam concrete | 2,267.52 m³ | 4,535.04 m³ | 11.3376 m³ per beam |
-| Counted beam steel | 606.524 t | 1,213.049 t | 3.032622 t per beam |
+| Counted beam steel | 622.52 t | 1,245.04 t | 3.1126 t per beam |
 | Footing concrete, costing module | 1,262.5 m³ for isolated 1 km | 2,512.5 m³ | 6.25 m³ per support |
 | Pier concrete, costing module | 1,212 m³ for isolated 1 km | 2,412 m³ | 6.0 m³ per support |
 | Rail stock | 4,000 m | 8,000 m | 2 rails × 2 tracks × route length |
@@ -54,10 +60,27 @@ The station is an interface template, not a universal Baghdad site design. Platf
 
 ## Load envelope and engineering handoff
 
-The source calculation uses a 25.072 t/car normal analytical load and a 33.622 t/car crowd control over four equal modelled axles, 72 km/h research cap and 60E1 rail. One 10 m beam has a 0.586 MNm crowd moving-load moment, 0.967 mm gross elastic vertical-deflection envelope and 2.174 MPa gross service-compression maximum. The one-axle/one-rail extreme torsion demand hypothesis is 76.9 kNm; section resistance and actual unequal-rail load are uncalculated. The calculated gravity-only interior support reaction is 636 kN before pier and foundation weight. These are necessary-bound screening values, not final load combinations.
+The car uses 25.072 t/car normal and 33.622 t/car crowd sizing loads. The
+earlier equal-axle study gave 0.586 MNm live moment. The [joined digital car
+placement bound](../digital/vehicle/README.md) permits a 155.77 kN static
+crowd axle; a physically consistent high/low bogie pose raises the 10 m live
+moment to **1.107 MNm**. The thirteen-strand candidate satisfies its declared
+gross longitudinal service screen and has **1.576 mm** native gross-elastic
+midspan deflection. The modelled two-span gravity support sensitivity is about
+**928 kN** before pier and footing self-weight. Local seats, prestress transfer,
+cracking, fatigue and lateral/braking load combinations remain outside this
+global beam model.
 
 Before issuing fabrication drawings, specify the actual wheel loads and dynamic/lateral/braking combinations; analyse local rail seat, shear, torsion, fatigue, cracking, prestress transfer and handling; design bearings, anchors and track/OLE fixings; check foundation bearing, settlement, flood/scour and seismic response; and close temporary stability, crane-at-radius and protected access. The selected wheel system has no magnetic-gap limit; rail twist and overhead contact geometry remain controlled interfaces. A representative prototype needs measured proof-load response and independent structural/construction review.
 
-**Source identity.** The selected civil research physical candidate is `bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e`, evaluation `1ac96f8c14960ce892bdc61703e8aec3c519ead69b06671ad7c7beb6867c4af8`, beam component `975190b5adaddaed59efcc226b6fe4c7b135276e8a7a21e27a5dcd571d709515`. This package reads [the existing quantitative packet](../../design-engine/v07-simple-span/plan.json), SHA-256 `37adb933ca2ab8aa53f5d3c9d4eb7f1147fcb64761ce8b97727e1a4638fad784`, with [input](../../design-engine/v07-simple-span/input.json) SHA-256 `239826f984bd1adc25b5d9c31701e16e5f93fe442e4e2eb01244628d00ce600d`. Added station and pier modules are explicit concept assumptions and are not part of that evaluation. The [20 m segmented comparison](../../design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md) retains its separate geometry, joint and load evidence.
+**Source identity.** The [selected digital record](../digital/selected.toml)
+names revised beam component `34161ebcca2e35599cc5896a23b763cc35d3809107dd6b0c9f2ff98516a68160`
+and its parent. The [native civil packet](../digital/civil/result.json) binds the
+joined car, beam model and solver. The earlier [simple-span packet](../../design-engine/v07-simple-span/plan.json)
+and [20 m segmented comparison](../../design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md)
+remain separate alternatives.
 
-The deterministic check for the read packet is `python3 -m engineering.design_search.simple_span_prototype check --output docs/design-engine/v07-simple-span/plan.json`. This document's quantity arithmetic was recomputed from its 2 km fields; no solver or site survey was run for the added modules. Source review and drafting stayed under a 20-minute work budget, without materialising new solver outputs; 25 GiB host free space was observed before drafting.
+Reproduce the selected digital beam with
+`python3 -m engineering.design_search.v07_joined_civil_fem check --output docs/reference-v07/digital/civil`.
+Its native model is a gross-elastic beam and its prestress screen is analytical;
+the design awaits fabrication detail and physical qualification.

@@ -77,6 +77,9 @@ on:
       - "docs/ENGINEERING-STATUS.md"
       - "docs/COST-BASELINE.md"
       - "docs/RELEASE-v0.7.md"
+      - "docs/reference-v07/**"
+      - "engineering/v07_reference_journey.py"
+      - "engineering/tests/test_v07_reference_journey.py"
       - "docs/capabilities/README.md"
       - "docs/capabilities/directory.md"
       - "docs/open-source-rail-overview.md"
@@ -174,6 +177,9 @@ on:
       - "docs/ENGINEERING-STATUS.md"
       - "docs/COST-BASELINE.md"
       - "docs/RELEASE-v0.7.md"
+      - "docs/reference-v07/**"
+      - "engineering/v07_reference_journey.py"
+      - "engineering/tests/test_v07_reference_journey.py"
       - "docs/capabilities/README.md"
       - "docs/capabilities/directory.md"
       - "docs/open-source-rail-overview.md"
@@ -229,6 +235,7 @@ jobs:
             /.github/workflows/sourcing.yml
             /campaigns/**
             /engineering/**
+            /docs/reference-v07/**
             /tests/test_v06_software_release_gate.py
             /tests/test_v06_status_portfolio_pointers.py
             /tests/test_retired_station_reference.py
@@ -327,6 +334,8 @@ jobs:
           mapfile -t selected < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' .github/release-smoke-tests.txt)
           test "${#selected[@]}" -gt 0
           python -B -m pytest -q --import-mode=importlib -p no:cacheprovider "${selected[@]}"
+      - name: Check the selected v0.7 digital production handoff
+        run: python -O docs/reference-v07/digital/production/generate.py --check
       - name: Replay historical source contracts on request
         if: github.event_name == 'workflow_dispatch'
         run: |

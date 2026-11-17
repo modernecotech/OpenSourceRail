@@ -4,7 +4,7 @@
 
 | Configuration | Installed capital | Per route-km | 30-year real present cost | Delivery programme |
 |---|---:|---:|---:|---|
-| [Synthetic 30 km reference corridor](reference-v07/cost/README.md) · 276-place powered-bogie train, 12 stations, 10 m precast span | **US$1.023bn** | **US$34.12m** | **US$1.666bn** at 4% | **43 months** after approved corridor definition |
+| [Synthetic 30 km reference corridor](reference-v07/cost/README.md) · 276-place powered-bogie train, 12 stations, 13-strand 10 m precast span | **US$1.025bn** | **US$34.17m** | **US$1.668bn** at 4% | **43 months** after approved corridor definition |
 | [Baghdad 148.2 km first programme](../cities/Baghdad/COST-AND-DELIVERY.md) · 700-place planning train, 64 stations | **US$8.341bn** | **US$56.28m** | **US$14.798bn** at 4% | **2027–2031**, five-year planning build |
 | [Baghdad 605.652 km complete metropolitan concept](../cities/Baghdad/COST-AND-DELIVERY.md) · 700-place planning train, 280 stations | **US$32.557bn** | **US$53.76m** | **US$58.088bn** at 4% | **2027–2035**, overlapping packages |
 

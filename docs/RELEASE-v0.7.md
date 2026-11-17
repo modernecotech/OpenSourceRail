@@ -1,75 +1,38 @@
-# v0.7 controlled release gate
+# OpenSourceRail v0.7 digital engineering release
 
-**Status: development, not released.** The [published v0.6.1 release](releases/v0.6.1/README.md)
-remains intact. v0.7's public result is one coherent, priced reference corridor
-and a prototype-production package for one car, viaduct span and station
-equipment module. Physical qualification for passenger service is a later gate.
+**Scope:** one reproducible, costed digital railway design and its planning tools. The [selected candidate](reference-v07/digital/selected.toml) is a six-car powered-wheel train on two conventional rail tracks, carried by thirteen-strand 10 m precast beams with 1.5 kV DC overhead. The synthetic 30 km reference has twelve stations, **US$1,025.2272m** installed capital, **US$1,667.647m** 30-year present cost and a **43-month** construction programme. [Baghdad](../cities/Baghdad/PROPOSAL.md) and Samawah remain separate city studies.
 
-The [architecture](ARCHITECTURE.md), [engineering status](ENGINEERING-STATUS.md)
-and [cost baseline](COST-BASELINE.md) are the four current decision entrypoints.
-The detailed [execution history](design-engine/v07-execution/README.md) and
-[affordable-corridor packet](design-engine/v07-affordable-corridor/README.md)
-remain evidence, not competing scope authorities.
+This version releases digital geometry, analysis, quantities, cost assumptions, production planning and an editable Workbench journey. It does not issue fabrication drawings, record a physical prototype, approve a site foundation, post ERPNext production transactions or authorize passenger operation. Those are later project and qualification decisions.
 
-## Finite backlog
+## Release acceptance
 
-| ID | Deliverable | Acceptance evidence | State |
+| ID | Deliverable | Evidence | State |
 |---|---|---|---|
-| V07-01 | CI and version ownership | Current fast checks pass; published tag, source epoch and development version are distinguished | Package metadata set to 0.7.0; current packet refreshed locally, CI pending |
-| V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | [Joined quotation candidate](reference-v07/integration/README.md) has separate IDs, interfaces and quantities; joined native evaluation and installed account open |
-| V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Overhead-fed powered bogies advanced for research prototype; [independent brake force and energy test](design-engine/v07-independent-brake/README.md) defined; measured adhesion, protected brake supply, thermal duty and surveyed site open |
-| V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | [Joined arrangement](reference-v07/integration/README.md) and [manufacturing BOM](reference-v07/manufacturing/README.md) added; weighed mass/CG, full sweeps and supplier drawings open |
-| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | 10 m beam and station quotation interfaces counted; structural detail, surveyed ground and approved erection method open |
-| V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | 41-row BOM, 18-step route, local-work basis and unposted ERPNext draft added; receipt and repair handback open |
-| V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs | [Concept budget](reference-v07/cost/README.md) gives fourteen priced scopes, operation, renewal and 43 months; supplier and site priced installed candidate open |
-| V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Current selected rebuild measured 5m04s, 659 MiB peak RSS and about 52 MiB net disk; unchanged book check cached; target improvements open |
-| V07-09 | Workbench journey | Clean design edit through service, energy, quantities, cost, dossier, assembly and production handoff | Samawah browser edit and 14-scope single-estimate display pass; joined candidate, BOM, routing and ERP draft linked; joined-candidate recalculation and live ERP receipt/repair open |
-| V07-10 | Release | Clean install, current CI, acceptance report, limitations and versioned artifacts | Open |
+| V07-01 | Version and current CI | `VERSION`, npm and Cargo metadata say 0.7.0; current fast and Workbench checks run on `main` | Tagged commit must pass current CI |
+| V07-02 | One selected digital candidate | [Selection](reference-v07/digital/selected.toml) carries parent, revised beam, evaluation and selection IDs; source hashes bind vehicle and civil results | Passed locally |
+| V07-03 | Propulsion and braking basis | [Vehicle](reference-v07/vehicle/README.md) sizes continuous powered bogies at the 2% grade case; [independent brake](design-engine/v07-independent-brake/README.md) states force and energy requests | Passed as digital sizing |
+| V07-04 | Representative car | [Digital car](reference-v07/digital/vehicle/README.md) reconciles CAD occurrences, mass bounds, CG, axle reactions and fixed interfaces | Passed as digital model |
+| V07-05 | Civil span and station | [Native beam result](reference-v07/digital/civil/README.md) screens the joined CG load; [civil package](reference-v07/civil/README.md) gives section, quantities, station interface and erection sequence | Passed as digital model |
+| V07-06 | Local production plan | [Handoff](reference-v07/digital/production/README.md) maps 41 BOM rows, 18 routes, make/buy and QA planning to the selected candidate | Passed as digital draft |
+| V07-07 | One cost and delivery plan | [Fourteen scopes](reference-v07/cost/README.md), annual O&M, renewals, 30-year present cost and 43-month programme reconcile | Passed locally |
+| V07-08 | Incremental change | `./osr reference v07 --stations 13` changes fleet, energy allowance, civil and production quantities, capital and whole-life cost with a new candidate ID | Passed locally |
+| V07-09 | Workbench journey | Browser edit shows the same joined change and links car, beam, production and cost outputs; Samawah remains a separate case | Browser test passed locally |
+| V07-10 | Publication | Clean sparse install, exact-tag checks, source archive, acceptance notes and GitHub release | Tag and release must identify the checked commit |
 
-V07-01's version rule: package metadata is `0.7.0` in `VERSION`, npm and the
-Cargo workspace. The v0.6.1 tag is immutable and historical source identities
-retain their original version. Regenerate and check affected current packets
-before a v0.7 tag; package metadata alone is not a release declaration.
+The previously published [v0.6.1 release](releases/v0.6.1/README.md) and historical source-bound packets remain intact. Research results are not silently transferred into the selected child. The parent nine-strand beam and its earlier price are retained as ancestry; the active thirteen-strand beam, mass and cost are in the selected v0.7 package.
 
-The normal v0.7 checks exercise the current reference, bounded contracts and
-the Samawah Workbench journey. Retained frame, reconciled-pilot and engineering
-closure replays are explicitly dispatched research jobs. Their saved packets
-remain intact and source-bound: the closure source map differs on
-`railway_delivery.py` and `engineering/requirements.txt`; the old viaduct
-publication differs on three native-backend sources; the archived v0.6 closure
-ledger points to an older outline manifest. These are recorded replay holds,
-not repaired by editing a receipt or inferred physical failures. A new current
-evaluation needs regeneration against the actual source and separate review.
+## Reproduce the compact digital package
 
-## Execution and release rules
+```sh
+./osr reference v07
+./osr reference v07 --stations 13
+python3 -m engineering.vehicle_parts.joined_digital_car check --output docs/reference-v07/digital/vehicle/result.json
+python3 -m engineering.design_search.v07_joined_civil_fem check --output docs/reference-v07/digital/civil
+python3 docs/reference-v07/digital/production/generate.py --check
+python3 -m unittest engineering.tests.test_v07_reference_journey
+./osr book --check
+```
 
-Use the synthetic 30 km case for equal-service economics, a surveyed 1.5–2 km
-site for the physical demonstrator, Samawah for its distinct city journey and
-Baghdad for strategic planning. Keep their physical and price assumptions
-separate. A research alternative does not inherit selected-reference results.
+The native civil check requires the recorded CalculiX backend. The rest of this compact path uses the repository's Python launcher and published data. Historical campaign replay and the 266-city rebuild are outside the routine v0.7 development path. Large native runs retain the 20 GiB free-disk reserve.
 
-Complete existing modules before adding another. Every task must change an
-engineering, production, user or measured performance output. After two
-repeats of one failure, record the cause and change the design, assumption or
-tool before another run. Run historical source replay explicitly; keep current
-checks focused on affected work. Maintain 20 GiB free space before and during
-large materialisation or solver work.
-
-Release acceptance requires the ten items above and explicit open physical
-tests. It does **not** imply serial-production approval, passenger-operation
-authority, an accepted Baghdad financing estimate or physical test results
-that have not been obtained.
-
-The 17 November architecture screen resolves the **next prototype research
-direction**: a separate powered-bogie child with protected overhead supply is
-advanced for measurement and quotation because the tested station-only and
-single-booster layouts stall on material uphill sensitivities. Its electrical
-configuration and mechanical car now form one [source-bound research bundle](design-engine/v07-prototype-bundle/README.md),
-with a nominal IFC interface model and a high-mass service demand. The separate
-[10 m civil option](design-engine/v07-simple-span/README.md) has its own
-powered-load study but is not an installed site selection. The original
-passive-wheel reference remains selected for v0.6. The changed-candidate
-capital and lifecycle **planning totals are now defined** in the [single-estimate
-cost baseline](COST-BASELINE.md). Supplier and site costs remain to be obtained.
-This is a development decision, not completion of V07-03 or authority to
-publish v0.7 as a prototype-production package.
+The digital design uses explicit route, load, material, foundation, equipment and unit-rate assumptions. An actual project must replace them with approved drawings, supplier ratings and prices, route and ground data, measured performance and independent engineering review before manufacturing or passenger service. The release does not set those unknowns to zero or claim those later approvals.

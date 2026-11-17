@@ -1,6 +1,12 @@
-# v0.7 joined prototype quotation basis
+# Parent joined prototype interface record
 
-**17 November 2026.** This is the single configuration handed to the vehicle, civil, station, power, manufacturing and cost work for a controlled prototype quotation. The [candidate record](candidate.toml), [interface register](interfaces.csv), [quantity handoff](quantity-handoff.csv) and [arrangement drawing](arrangement.svg) belong together. Change a physical field by issuing a new physical candidate; change a load, model or source by issuing a new evaluation; change the selected purpose by issuing a new selection. The v0.6 passive-wheel reference remains a separate configuration.
+**17 November 2026.** This is the nine-strand parent interface record for the
+[selected thirteen-strand v0.7 digital railway](../digital/selected.toml). The
+[candidate record](candidate.toml), [interface register](interfaces.csv),
+[quantity handoff](quantity-handoff.csv) and [arrangement drawing](arrangement.svg)
+remain source-bound ancestry. The selected child retains the car, station and
+power arrangement while changing the beam mass, prestress and central price.
+The v0.6 passive-wheel reference remains a separate configuration.
 
 | Identity | Value | Meaning |
 | --- | --- | --- |
@@ -26,7 +32,7 @@ The civil source packet named in `candidate.toml` is immutable ancestry. The cur
 | Civil | One joint-free 10 m × 2 m × 1.4 m precast beam per track per bay; independent track support lines. Four bearing units/beam are provisional. Station platforms have independent frames/foundations. |
 | Station | 125 m × 8 m central island; straight approach and approximately level platform. Tracks flank the island and both trains present their one-sided doors to it. |
 
-The 2 km straight-line count is 400 standard running beams, 402 independent support positions, 1,600 provisional bearings and 8,000 m of rail. Two station frames and their foundations are additional. Where station approaches, switches or utilities require special spans, replace the standard units and remeasure; the 400 figure is a provisional linear quantity, not an approved station structural design. The [30 km estimate](../cost/README.md) uses 6,000 beams, 6,002 supports, 24,000 bearings, 60 track-km, 12 stations and a 51-set fleet; it prices this planning configuration at **US$1,023.499 million installed capital** in 2026 dollars, with a **43-month** programme. The demonstrator construction sequence targets **12 months** after site selection, survey and approvals. These are planning figures, not contractor bids.
+The 2 km straight-line count is 400 standard running beams, 402 independent support positions, 1,600 provisional bearings and 8,000 m of rail. Two station frames and their foundations are additional. Where station approaches, switches or utilities require special spans, replace the standard units and remeasure. The active [30 km estimate](../cost/README.md) uses 6,000 thirteen-strand beams, 6,002 supports, 24,000 bearings, 60 track-km, 12 stations and a 51-set fleet; it prices the selected digital child at **US$1,025.2272 million installed capital** in 2026 dollars, with a **43-month** programme. The 2 km construction module is allowed **12 months** after route definition and approvals. These are planning figures, not contractor bids.
 
 ## Mating datums and load handoff
 

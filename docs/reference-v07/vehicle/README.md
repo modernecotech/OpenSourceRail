@@ -1,6 +1,12 @@
 # v0.7 representative vehicle — powered wheel concept
 
-**Design basis, 17 November 2026.** This is the vehicle in the 30 km concept estimate, with physical candidate `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d` from the [joined prototype bundle](../../design-engine/v07-prototype-bundle/packet/result.json). It is a development selection for a workshop quotation and controlled prototype. The existing passive-wheel v0.6 reference remains identifiable; its propulsion and price are not assigned to this vehicle.
+**Digital design basis, 17 November 2026.** This is the unchanged vehicle
+component in the [selected 30 km digital railway](../digital/selected.toml),
+with component candidate `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d`
+from the [prototype bundle](../../design-engine/v07-prototype-bundle/packet/result.json).
+The [joined digital mass and CAD screen](../digital/vehicle/README.md) carries
+its placement bounds to the selected thirteen-strand civil child. The retained
+passive-wheel v0.6 reference has a different physical identity and price.
 
 ## Formation and service
 

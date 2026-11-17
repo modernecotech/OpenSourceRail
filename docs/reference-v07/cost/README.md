@@ -2,8 +2,8 @@
 
 **17 November 2026 | 2026 US dollars | Class C concept estimate**
 
-**Installed capital: US$1,023.5 million, or US$34.12 million per route-km.** The
-30-year whole-life present cost is **US$1,665.9 million** at a 4% real discount
+**Installed capital: US$1,025.2272 million, or US$34.17 million per route-km.** The
+30-year whole-life present cost is **US$1,667.647 million** at a 4% real discount
 rate. This prices one explicit, fully elevated 30 km, two-track, 12-station
 *synthetic* corridor with powered wheel bogies and rigid 1.5 kV DC overhead.
 It is a design budget for comparing and quoting the candidate, not a Baghdad
@@ -11,20 +11,17 @@ alignment price, contracted bid, or passenger-service authority. All fourteen
 capital scopes receive an amount; the absent station-launch machinery is a
 design exclusion rather than an unpriced item.
 
-The physical parent is powered research candidate
+The [selected digital candidate](../digital/selected.toml) carries a 13-strand
+10 m beam through the same 30 km quantity and cost model. Its unchanged vehicle
+component descends from powered research candidate
 `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d`
 in the [joined prototype bundle](../../design-engine/v07-prototype-bundle/README.md).
-The [joint-free 10 m civil option](../../design-engine/v07-simple-span/README.md)
-is the costed civil child. Its structural connection to the powered vehicle is
-an analytical load screen; the resulting combination is a **concept budget
-configuration**, not a new physically accepted selection. The retained v0.6
-passive-wheel selection and its different-candidate US$738.0 million price
-control are not repriced here. The exact cost input identity is the SHA-256
-`e0fb358988480c0064871e0cea43b86a4b7224998d91b14b90bd71aaea3d11ff`
-of [basis.csv](basis.csv). The source packet byte identities below are fixed
-to the [cost preparation commit](https://github.com/modernecotech/OpenSourceRail/commit/8557b2b13f)
-so a later publication does not relabel this estimate as a new physical
-evaluation:
+The [native civil comparison](../digital/civil/README.md) identifies the revised
+beam and its higher bounded axle load. The selected cost rate includes an
+explicit US$240/beam strand allowance above the original 10 m quotation
+control. [basis.csv](basis.csv) is the current single estimate. The retained
+v0.6 passive-wheel study has a separate price and physical identity. The
+following packets are ancestry for the selected digital design:
 
 | Source | SHA-256 |
 |---|---|
@@ -53,7 +50,7 @@ fleet timetable must be demonstrated before the service plan is adopted.
 
 The civil quantity control is **6,000 ten-metre precast beam/lifts**, **6,002
 independent pier/footing positions**, **24,000 bearings**, 68,025.6 m³ of beam
-concrete, 73,524.5 m³ of assumed footing/pier concrete, 18,195.7 t of counted
+concrete, 73,524.5 m³ of assumed footing/pier concrete, 18,675.6 t of counted
 beam steel, and 60 track-km of rail, walkways and overhead. The 6,002 count
 joins 3,000 bays/track continuously and avoids counting module boundaries
 twice. It assumes simple ground supporting spread footings, no tunnel, river
@@ -62,8 +59,8 @@ conditions require remeasurement and a changed estimate.
 
 Unit rates below are **project planning allowances**, inclusive of direct
 fabrication, erection and standard installation within the stated scope.
-The vehicle allowance is US$5.9 million per powered six-car set, replacing
-the old passive-set rate with an explicit traction and collector premium.
+The vehicle allowance is US$5.9 million per powered six-car set, including
+traction and collector equipment.
 The overhead allowance is US$1.2 million/track-km plus six US$3 million
 rectifier/grid sites. For context, the [World Bank's railway electrification
 study](https://documents1.worldbank.org/curated/en/099063023170016545/pdf/P1748630c1d3630a80876405ecad08e27f8.pdf)
@@ -78,7 +75,7 @@ rates, taxes and ground must replace these allowances for procurement.
 | Scope | Quantity and unit rate | US$m |
 |---|---:|---:|
 | Powered fleet and vehicle interfaces | 51 sets × 5.9m | 300.900 |
-| 10 m beams, bearings and detail | 6,000 × 0.014m | 84.000 |
+| 10 m beams, bearings and detail | 6,000 × 0.01424m | 85.440 |
 | Piers, spread footings and ordinary groundworks | 6,002 × 0.008m | 48.016 |
 | Beam transport and erection | 6,000 lifts × 0.005m | 30.000 |
 | Rails, welding and protected access | 60 track-km × 0.5m | 30.000 |
@@ -90,8 +87,8 @@ rates, taxes and ground must replace these allowances for procurement.
 | Depot, production tooling, land and utilities | 1 complex × 62m | 62.000 |
 | Fleet spares, commissioning and recovery assets | 1 programme × 30m | 30.000 |
 | Prototype tests, independent assurance and import-tax provision | 1 programme × 55m | 55.000 |
-| Project risk contingency | 20% of US$852.916m counted direct cost | 170.583 |
-| **Installed capital** | **30 route-km** | **1,023.499** |
+| Project risk contingency | 20% of US$854.356m counted direct cost | 170.871 |
+| **Installed capital** | **30 route-km** | **1,025.227** |
 
 The station allowance includes the 125 × 8 m accessible platform deck,
 vertical access, lighting, fire and evacuation provisions, and equipment
@@ -102,12 +99,9 @@ and US$35m customs/import-tax planning provision. The contingency is applied
 **once** to direct capital. Finance interest, debt fees and recoverable VAT
 are outside installed capital and must enter a financing model separately.
 
-This is **US$123,611 per offered peak place/hour/direction**. The old 30 km
-station-launch price is a different vehicle/civil/power configuration and is
-not a transferred cost row. The greater powered fleet, continuous overhead,
-more supports and complete station allowance explain this concept's higher
-total; a supplier/design iteration must reduce actual cost rather than
-deleting required equipment.
+This is **US$123,820 per offered peak place/hour/direction**. The scope includes
+the powered fleet, overhead, two-track structures, stations, depot and project
+allowances under one estimate.
 
 ## Operation and 30-year whole-life cost
 
@@ -123,7 +117,7 @@ insurance/administration: **US$30.495m/year** in constant 2026 dollars.
 
 The 30-year model books a **US$160m year-15** vehicle/traction/controls major
 overhaul and **US$70m year-25** vehicle/civil/overhead renewal. At 4% real,
-the annual O&M factor is 17.292; the reconciled present cost is **US$1,665.919m**
+the annual O&M factor is 17.292; the reconciled present cost is **US$1,667.647m**
 including installed capital. For a single planning load assumption of 40%
 average use of the 276 normal places, annual carried travel would be
 696.315 million passenger-km and whole-life present cost **US$0.138/passenger-km**.
@@ -147,7 +141,7 @@ overlap and a three-month system-integration period, not an added blanket
 programme contingency.
 
 Applying the explicit local-work fractions in [basis.csv](basis.csv) gives
-**US$410.828m**, or **48.2% of direct capital**, for an *assumed locally
+**US$411.908m**, or **48.2% of direct capital**, for an *assumed locally
 executed work and supply budget*. This is not measured Iraqi value added:
 imported motors, control electronics, rail and specialists may be embedded in
 locally invoiced packages. Procurement should require bill-of-material origin,
@@ -157,7 +151,7 @@ assembly. The 20% risk contingency has no assumed local fraction.
 ## Cost control and next quotation
 
 The controlled cost input is [basis.csv](basis.csv). `amount_usd_m` equals
-`quantity × unit_rate_usd_m`, the fourteen scopes sum to US$1,023.4992m,
+`quantity × unit_rate_usd_m`, the fourteen scopes sum to US$1,025.2272m,
 and the contingency is 20% of the other thirteen scopes. Read it with any CSV
 tool; no specialist runtime or generated report is required. The calculation
 can be repeated with:

@@ -6,11 +6,12 @@ The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventi
 
 **Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [current railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [release gate](docs/RELEASE-v0.7.md) · [Baghdad urban rail proposal](cities/Baghdad/PROPOSAL.md) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
 
-The [v0.7 railway concept package](docs/reference-v07/README.md) now defines a
-powered-wheel six-car train, a joint-free 10 m precast span and station
-interface, a [joined quotation and manufacturing handoff](docs/reference-v07/integration/README.md),
-a **US$1.0235bn** synthetic 30 km installed budget and a **43-month** delivery
-programme. [Baghdad](cities/Baghdad/PROPOSAL.md) has
+The [v0.7 digital railway](docs/reference-v07/README.md) defines a
+powered-wheel six-car train, a thirteen-strand 10 m precast span, a [joined
+production plan](docs/reference-v07/digital/production/README.md), one
+**US$1.0252272bn** synthetic 30 km installed budget and a **43-month** delivery
+programme. The [Workbench](docs/workbench/current/index.html) recalculates a
+station edit against this design. [Baghdad](cities/Baghdad/PROPOSAL.md) has
 separate 148.2 km and 605.65 km network concepts with one capital and
 whole-life estimate each.
 

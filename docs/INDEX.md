@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **155**.
+Indexed Markdown files: **159**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **155**.
 | [cities](#cities) | 5 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 119 |
+| [docs](#docs) | 123 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -85,7 +85,7 @@ Indexed Markdown files: **155**.
 | [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | v0.7 engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
-| [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | v0.7 controlled release gate |
+| [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | OpenSourceRail v0.7 digital engineering release |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
 | [`docs/book/01-purpose.md`](../docs/book/01-purpose.md) | Why build an open railway |
 | [`docs/book/02-passenger.md`](../docs/book/02-passenger.md) | The passenger journey |
@@ -183,10 +183,13 @@ Indexed Markdown files: **155**.
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
-| [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 reference railway concept |
+| [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 digital railway reference |
 | [`docs/reference-v07/civil/README.md`](../docs/reference-v07/civil/README.md) | Civil and station concept: 10 m joint-free beam |
 | [`docs/reference-v07/cost/README.md`](../docs/reference-v07/cost/README.md) | v0.7 reference corridor: one cost and delivery plan |
-| [`docs/reference-v07/integration/README.md`](../docs/reference-v07/integration/README.md) | v0.7 joined prototype quotation basis |
+| [`docs/reference-v07/digital/civil/README.md`](../docs/reference-v07/digital/civil/README.md) | Joined 10 m civil digital check |
+| [`docs/reference-v07/digital/production/README.md`](../docs/reference-v07/digital/production/README.md) | v0.7 digital production handoff |
+| [`docs/reference-v07/digital/vehicle/README.md`](../docs/reference-v07/digital/vehicle/README.md) | Joined v0.7 digital car: mass, CG and static reaction screen |
+| [`docs/reference-v07/integration/README.md`](../docs/reference-v07/integration/README.md) | Parent joined prototype interface record |
 | [`docs/reference-v07/manufacturing/README.md`](../docs/reference-v07/manufacturing/README.md) | v0.7 representative manufacturing and lifecycle package |
 | [`docs/reference-v07/vehicle/README.md`](../docs/reference-v07/vehicle/README.md) | v0.7 representative vehicle — powered wheel concept |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
@@ -197,6 +200,7 @@ Indexed Markdown files: **155**.
 | [`docs/releases/v0.6.1/quickstart.md`](../docs/releases/v0.6.1/quickstart.md) | Install and run the published v0.6.1 release |
 | [`docs/releases/v0.6.1/release-notes.md`](../docs/releases/v0.6.1/release-notes.md) | v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/validation.md`](../docs/releases/v0.6.1/validation.md) | v0.6.1 validation |
+| [`docs/releases/v0.7.0/README.md`](../docs/releases/v0.7.0/README.md) | OpenSourceRail v0.7.0 — digital railway reference |
 | [`docs/workbench/planning/README.md`](../docs/workbench/planning/README.md) | City planning proposals |
 
 ## engineering
