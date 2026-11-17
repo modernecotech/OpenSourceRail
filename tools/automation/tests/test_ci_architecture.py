@@ -485,14 +485,18 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
         assert not re.search(r'^\s+path:', checkout, re.M), name
         assert re.findall(r'^\s+(?:- )?if: (.+)$', current, re.M) == (['always()'] if name == 'control-formal' else []), name
     shared = jobs['current-shared-software']
-    for command in ('test_ci_architecture.py', 'verify-maglev-sources.py',
+    for command in ('test_ci_architecture.py',
                     'test_doc_index.py',
                     'cargo test --locked --workspace --all-targets',
-                    'cargo check --locked -p osr-maglev-control --no-default-features',
-                    'observer-prototype/tests/differential.py',
                     'test_fe_point_load_and_modal_frequencies_have_independent_controls',
                     'test_invalid_beam_assumptions_fail_before_numerics'):
         assert command in shared, command
+    # The retained v0.5 controller and observer are replayed in the historical
+    # lane; they do not gate a current wheel-supported development change.
+    for command in ('verify-maglev-sources.py',
+                    'cargo clippy -p osr-maglev-control --all-targets -- -D warnings',
+                    'observer-prototype/tests/differential.py'):
+        assert command not in shared, command
     assert 'pilot_assurance run control-formal' in jobs['control-formal']
     formal=jobs['control-formal']
     pinned_commands=('cargo install kani-verifier --version 0.67.0 --locked',

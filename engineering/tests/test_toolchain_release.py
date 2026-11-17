@@ -52,6 +52,16 @@ def test_latest_asset_seals_tag_commit_and_exact_asset():
     assert resolved['bytes']==5
 
 
+def test_release_metadata_uses_actions_token_without_changing_release_identity(monkeypatch):
+    monkeypatch.setenv('GITHUB_TOKEN','fixture-token')
+    def authenticated(request):
+        assert request.get_header('Authorization') == 'Bearer fixture-token'
+        return json.dumps(_release_payload('a'*64)).encode()
+    value=release._json('https://api.github.com/repos/example/tool/releases/latest',
+                        opener=_opener({'https://api.github.com/repos/example/tool/releases/latest':authenticated}))
+    assert value['tag_name']=='v1.2.3'
+
+
 def test_latest_asset_rejects_unhashed_release():
     data=_release_payload('a'*64)
     data['assets'][0]['digest']=None

@@ -409,7 +409,9 @@ jobs:
           ./osr design station-cycle verify --replay --state /tmp/osr-station-cycle-replay
           node tools/automation/check-station-cycle-ui.mjs
           node tools/automation/tests/verify-station-pair.mjs
-      - name: Pinned native GIS interchange and source-preserving city exports
+      - name: Current native GIS interchange and source-preserving city exports
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           .venv/bin/python -m engineering.rustgis install
           .venv/bin/python -m pytest -q tests/test_rustgis.py

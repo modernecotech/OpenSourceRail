@@ -285,26 +285,10 @@ jobs:
           OMP_NUM_THREADS: "1"
           MKL_NUM_THREADS: "1"
         run: python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_campaign_serialization.py engineering/design_search/tests/test_campaign_benchmark_cohort.py engineering/design_search/tests/test_search_geometry.py engineering/design_search/tests/test_search_delivery.py
-      - name: Retained v0.5 source and packet portability
-        run: python tools/automation/tests/verify-maglev-sources.py
       - name: Retained offline-host compatibility contracts
         run: python tools/automation/validate-host-manifests.py
       - name: Current shared workspace unit tests
         run: cargo test --locked --workspace --all-targets
-      - name: Retained maglev controller unit tests
-        run: cargo test --locked -p osr-maglev-control --all-targets
-      - name: Retained maglev controller without default features
-        run: cargo check --locked -p osr-maglev-control --no-default-features
-      - name: Retained maglev controller formatting
-        run: cargo fmt --package osr-maglev-control -- --check
-      - name: Retained maglev controller lint
-        run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
-      - name: Retained offline normal-wrench observer prototype
-        run: |
-          cargo fmt --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml -- --check
-          cargo clippy --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets -- -D warnings
-          cargo test --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets
-          python engineering/ferrite_maglev/observer-prototype/tests/differential.py
       - name: Retained baseline-independent numerical method controls
         run: >-
           python -m pytest -q --import-mode=importlib

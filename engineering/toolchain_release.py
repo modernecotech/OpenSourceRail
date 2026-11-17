@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -24,8 +25,12 @@ MIN_FREE_BYTES = 1024 * 1024 * 1024
 
 
 def _json(url: str, *, opener=urlopen) -> dict:
-    request = Request(url, headers={"Accept": "application/vnd.github+json",
-                                    "User-Agent": "OpenSourceRail-toolchain-resolver"})
+    headers = {"Accept": "application/vnd.github+json",
+               "User-Agent": "OpenSourceRail-toolchain-resolver"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = "Bearer " + token
+    request = Request(url, headers=headers)
     with opener(request, timeout=30) as response:
         raw = response.read(MAX_METADATA_BYTES + 1)
     if len(raw) > MAX_METADATA_BYTES:
