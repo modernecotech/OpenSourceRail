@@ -258,6 +258,52 @@
     ]
   },
   "configuration_id": "osr-v07-30km-powered-wheel-10m-span-20261117",
+  "digital_analysis": {
+    "baseline_parent_price_and_10m_beam_preserved": true,
+    "civil_evaluation_id": "7c4bec060cb071880bbd3f1b87aaba2faf66bf839d097540af7d59cf555594ad",
+    "civil_input_evaluation_id": "02367714fda7e8cdb73b9c286ee4edf4758add7647cc70d0c34eaa0b979fc04a",
+    "civil_result_sha256": "c8c1d5bfbaca9b38419529bfe6e881112362e8ad67ab8b26f83d116d227c8028",
+    "civil_revision_option": {
+      "additional_counted_steel_kg_per_beam": 79.96,
+      "additional_counted_steel_t_for_400_beams": 31.983999999999998,
+      "additional_counted_steel_t_for_6000_beams": 479.76,
+      "gross_longitudinal_screens": {
+        "release_compression_N_per_m2": 3570867.8175314274,
+        "release_tension_N_per_m2": -759614.6386089243,
+        "service_compression_N_per_m2": 3358326.596344539,
+        "service_tension_N_per_m2": -106059.36856774194
+      },
+      "original_gross_longitudinal_screens": {
+        "release_compression_N_per_m2": 2200839.330900289,
+        "release_tension_N_per_m2": -797186.9848891853,
+        "service_compression_N_per_m2": 3375274.247509713,
+        "service_tension_N_per_m2": 976853.1948781335
+      },
+      "original_strands": 9,
+      "parent_beam_component_id": "975190b5adaddaed59efcc226b6fe4c7b135276e8a7a21e27a5dcd571d709515",
+      "parent_joined_physical_candidate_id": "osr-v07-joined-prototype-20261117",
+      "physical_revision_required": true,
+      "revised_bare_beam_mass_t_hypothesis": 29.964381999999983,
+      "revised_beam_component_id": "34161ebcca2e35599cc5896a23b763cc35d3809107dd6b0c9f2ff98516a68160",
+      "revised_counted_dead_mass_kg_per_beam": 31456.581999999984,
+      "revised_effective_prestress_N_hypothesis": 1895711.9999999995,
+      "revised_hook_load_t_with_25pct_allowance": 37.45547749999998,
+      "revised_initial_prestress_N_hypothesis": 2369639.9999999995,
+      "revised_joined_physical_candidate_id": "osr-v07-joined-civil-518dad57a3af5046f40c8f4f",
+      "revised_strands": 13,
+      "screen_is_structural_approval": false,
+      "screen_limits_Pa": {
+        "release_compression": 18000000.0,
+        "release_tension": 1000000.0,
+        "service_compression": 22500000.0,
+        "service_tension": 0
+      }
+    },
+    "civil_revision_option_transferred_into_cost_or_bom": false,
+    "vehicle_evaluation_id": "ebddef0c8b9c21c2d9a023b680afa372b02396a700c77be03d6983300af5a240",
+    "vehicle_input_id": "7beb441511a1b237a58277fb1d8c963d1dd548905a74cce9739169b2c1eb5c61",
+    "vehicle_result_sha256": "3062c06ee12b06265e9280f7dbe538b549668e9ad05a89bf3f35b18282f155ad"
+  },
   "erpnext_dry_run": {
     "admitted_to_native_adapter": false,
     "bom_source": "docs/reference-v07/manufacturing/bom.csv",
@@ -1099,7 +1145,11 @@
     "bom": "33463cfad19d2d420fad0c73abd157f93e991f2c547202809691a9cbd4e84f3f",
     "cost_basis": "e0fb358988480c0064871e0cea43b86a4b7224998d91b14b90bd71aaea3d11ff",
     "cost_programme": "0dd929324d8a1d5700beb2f67910da95289a4ae1fa3e6a5afefbf2ddf094f2d1",
-    "generator": "11a9f23e6192aa47df24a5b9493c409e0f27f9b43158174a752692c87f6d00e2",
+    "digital_civil_input": "6507743c54afd9cf06915c20c1bbe251318eb99d794ea82c8027710493706584",
+    "digital_civil_result": "c8c1d5bfbaca9b38419529bfe6e881112362e8ad67ab8b26f83d116d227c8028",
+    "digital_vehicle_input": "1aba33128ee968b333513ce30081ab39399d87058bb5c62ce8457a4a0f880763",
+    "digital_vehicle_result": "3062c06ee12b06265e9280f7dbe538b549668e9ad05a89bf3f35b18282f155ad",
+    "generator": "ba88179e8d3d1cedc20d29ed5e3d8b9d36321a9c1a6644027f459667e0d242ea",
     "joined_candidate": "65fc5fc13a5ad460f830c1dd348dbb0ece98465ee1d15d66d81cf2d5479d76a1",
     "lifecycle": "77cc4fafed46f92b44b470548f2b596840dd1fe4d32f4510352cb8cb0af6c1df",
     "planning_concept": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",

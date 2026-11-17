@@ -8,6 +8,18 @@ binds the exact source bytes of the candidate, 41 manufacturing BOM rows, 18
 routing steps, cost basis, and programme. It is a design release record; it
 does not state that physical assemblies were made or accepted.
 
+The handoff also binds the exact digital car result (SHA-256
+`3062c06ee12b06265e9280f7dbe538b549668e9ad05a89bf3f35b18282f155ad`,
+evaluation `ebddef0c8b9c21c2d9a023b680afa372b02396a700c77be03d6983300af5a240`)
+and civil result (SHA-256
+`c8c1d5bfbaca9b38419529bfe6e881112362e8ad67ab8b26f83d116d227c8028`,
+evaluation `7c4bec060cb071880bbd3f1b87aaba2faf66bf839d097540af7d59cf555594ad`).
+The civil calculation retains the original nine-strand beam finding and a
+separate 13-strand physical revision. That option adds 79.96 kg of counted
+steel per beam, or 479.76 t over 6,000 beams. **The revised child is not in
+this baseline BOM or price.** Selecting it requires its own candidate, revised
+beam quotation, lift plan and dependent cost handoff.
+
 | Reconciled planning output | Value |
 |---|---:|
 | Installed capital, 2026 USD | $1,023.4992m |
@@ -50,5 +62,5 @@ To regenerate after an intentional source revision, run the same command
 without `--check`, inspect the changed cost, candidate and quantity identities,
 then commit the updated result. The generator requires only Python's standard
 library, executes arithmetic and text checks in under a second, and writes
-about 42 KiB. The current `handoff.json` SHA-256 is
-`288e30e838e2ebd8b4aa987f6728d57a602d8485ff14d671080cd6246058ab89`.
+about 42 KiB. The `--check` output reports the exact current
+`handoff.json` SHA-256.
