@@ -1,6 +1,6 @@
 # Civil and station concept: 10 m joint-free beam
 
-**Reference for concept costing and prototype procurement, 17 November 2026.** This package selects the one-piece 10 m precast box beam for the two-track, wheel-supported powered-bogie research candidate. It provides a repeatable quantity and construction method for a straight, elevated 2 km demonstrator. It is a concept design; soil, final loads, connections and approvals must be resolved before fabrication or public operation.
+**Reference for concept costing and prototype procurement, 17 November 2026.** This package selects the one-piece 10 m precast box beam for a two-track, wheel-supported powered-bogie planning configuration. It provides a repeatable quantity and construction method for a straight, elevated 2 km demonstrator. The beam study and powered vehicle/supply bundle have separate research identities; this document is their explicit concept-level interface, not a joined installed-candidate evaluation. Soil, final loads, connections and approvals must be resolved before fabrication or public operation.
 
 ## Selected arrangement
 
