@@ -31,12 +31,15 @@ checks or withhold the already published release.
 
 ## Governing v0.7 result: one affordable railway that can be built locally
 
-The next system-level demonstration is one reproducible **30 km Samawah
-reference corridor**, with a **1.5–2 km physical demonstrator** for the
-vehicle, propulsion, stopping, recovery and civil interfaces. Use one stated
-passenger demand, route, station spacing, grade, accessibility, crowd and
-emergency requirements for every comparison. The 120-second comfort reference
-and the former higher-capacity formation are named alternatives, not automatic
+The next system-level benchmark is the reproducible **synthetic 30 km,
+12-station level corridor** in the [current-source line30 packet](design-engine/line30-current-20261117/README.md).
+The distinct **Samawah city demonstration** carries its actual alignment and
+station edit through the same-candidate journey. A **1.5–2 km physical
+demonstrator** must prove vehicle, propulsion, stopping, recovery and civil
+interfaces on a declared route and load case. Use one stated passenger demand,
+route, station spacing, grade, accessibility, crowd and emergency requirements
+for each equal-service comparison. The 120-second comfort reference and the
+former higher-capacity formation are named alternatives, not automatic
 selections. Keep unsupported quantities bounded or unknown.
 
 | Priority | Decision evidence required |

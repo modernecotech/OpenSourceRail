@@ -1,0 +1,7 @@
+Working directory: /home/hayder/Documents/.osr-v07-selected-20261116
+Source commit: ac30843f5c05c59ed25e636bb3cd6ca10742c682
+First attempt (failed: ModuleNotFoundError: No module named 'engineering'):
+env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -f 'elapsed_s=%e max_rss_kb=%M exit=%x' timeout 120s bash -c 'ulimit -v 524288; python3 build/v07-ethos/station-power-20261117-a/run.py' > build/v07-ethos/station-power-20261117-a/log.txt 2>&1
+Final execution (completed):
+env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. /usr/bin/time -f 'elapsed_s=%e max_rss_kb=%M exit=%x' timeout 120s bash -c 'ulimit -v 524288; python3 build/v07-ethos/station-power-20261117-a/run.py' > build/v07-ethos/station-power-20261117-a/log-final.txt 2>&1
+No native dispatch or source modification.

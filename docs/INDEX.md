@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **302**.
+Indexed Markdown files: **306**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **302**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 270 |
+| [docs](#docs) | 274 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -184,6 +184,7 @@ Indexed Markdown files: **302**.
 | [`docs/design-engine/launch-detail/README.md`](../docs/design-engine/launch-detail/README.md) | Detailed station launch shuttle — research assembly |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/line30-benchmark/README.md`](../docs/design-engine/line30-benchmark/README.md) | 30 km / 12 station cost benchmark |
+| [`docs/design-engine/line30-current-20261117/README.md`](../docs/design-engine/line30-current-20261117/README.md) | 30 km / 12 station cost benchmark |
 | [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle residual mass completion |
 | [`docs/design-engine/matched-renewal-research/README.md`](../docs/design-engine/matched-renewal-research/README.md) | Matched renewal research |
@@ -316,6 +317,9 @@ Indexed Markdown files: **302**.
 | [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
 | [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | Retained authenticated software-review profile |
+| [`docs/design-engine/v07-affordable-corridor/README.md`](../docs/design-engine/v07-affordable-corridor/README.md) | v0.7 affordable railway: first engineering decision gate |
+| [`docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md) | 20 m box-beam civil construction experiment |
+| [`docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md) | Equal-service propulsion necessary-bound screen |
 | [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
 | [`docs/design-engine/v07-execution/door-pack-preflight.md`](../docs/design-engine/v07-execution/door-pack-preflight.md) | Door module delivery preflight |
 | [`docs/design-engine/v07-execution/door-route-request.md`](../docs/design-engine/v07-execution/door-route-request.md) | One-opening guide and belt route request |
