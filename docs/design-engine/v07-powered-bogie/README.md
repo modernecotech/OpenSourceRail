@@ -7,6 +7,12 @@ The result is a numerical demand and procurement screen, not an installed
 propulsion selection or approval to carry passengers. Its evaluation and source
 identities are in `screen.json`.
 
+The separate [powered-vehicle mechanical child](../v07-powered-vehicle/plan.json)
+and this screen's rigid-overhead supply research configuration have **different
+physical IDs**. Their mass, collector and bogie interfaces have not yet been
+joined in one coordinator bundle. This screen does not inherit the mechanical
+child's installed mass or confer a selected physical vehicle identity.
+
 This reuses the [same event-resolved demand model](../v07-demonstrator-propulsion/README.md)
 for 1.5 and 2 km synthetic legs at −2%, level and +2% grades. It uses the
 selected six 17 m cars, 276 normal places, 72 km/h cap, 0.4 m/s² commanded
@@ -71,9 +77,10 @@ the longitudinal braking force for this rail, speed, temperature and gap.
 No product has been selected and no brake-force credit has been taken.
 
 The base demand predates added motor, gear, inverter, collector, cooling,
-protection and brake mass. The screen therefore also tests **+0.8 and +2.1
-t/car** as illustrative added-equipment sensitivities; at +2.1 t/car the
-2 km, +2% mechanical peak rises to **2.022 MW**. Installed mass, centre of
+protection and brake mass. The screen therefore also tests **+0.97 and +2.40
+t/car** as illustrative added-equipment sensitivities, covering the separate
+vehicle package's provisional upper net addition of +2.395 t/car; at +2.40
+t/car the 2 km, +2% mechanical peak rises to **2.045 MW**. Installed mass, centre of
 gravity, axle reactions and structural/civil consequences remain open.
 
 ## First prototype quotation and test boundary

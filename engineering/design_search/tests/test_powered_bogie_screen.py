@@ -34,4 +34,5 @@ def test_crowd_and_added_mass_raise_required_power_without_acceptance():
     value=screen.evaluate(json.loads((screen.ROOT/screen.INPUT).read_bytes()))
     assert _case(value,'160-person-crowd-control')['peak_mechanical_kW_train']>_case(value)['peak_mechanical_kW_train']
     assert value['added_equipment_mass_sensitivity'][1]['peak_mechanical_kW_train']>value['added_equipment_mass_sensitivity'][0]['peak_mechanical_kW_train']
+    assert value['added_equipment_mass_sensitivity'][1]['added_traction_equipment_kg_per_car_hypothesis'] >= 2395
     assert all(row['complete_installed_mass_kg_per_car'] is None for row in value['rows'])

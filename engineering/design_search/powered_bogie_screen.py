@@ -205,7 +205,7 @@ def evaluate(config, root=ROOT):
                                'Nominal-voltage current excludes feeder sag; simultaneous trains, voltage drop, substation count, protection/sectioning and regeneration receptivity remain open',
                                'Inherited 0.05 adhesion is below the necessary 0.6 m/s² downgrade brake bound; independent track or rail-contact braking and parking remain unmeasured',
                                '160-person crowd case is a structural/energy sensitivity, not an approved high-capacity service formation',
-                               'Base demand predates installed motor/gear/inverter/collector/brake mass; added 0.8–2.1 t/car screen is illustrative, not a complete mass reconciliation',
+                               'Base demand predates installed motor/gear/inverter/collector/brake mass; added 0.97–2.4 t/car screen is illustrative, not a complete mass reconciliation',
                                'Regeneration excluded until receptivity and braking safety are demonstrated',
                                'No full vehicle installed mass, axle reaction, thermal envelope, lifecycle or capital ranking'],
                   numerical_validity='conditional-model', evidence_maturity='analytical',
