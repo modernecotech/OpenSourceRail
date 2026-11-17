@@ -1,34 +1,5 @@
 name: "Retained research: NdFeB and lightweight vehicle research"
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/vehicle-optimisation.yml'
-      - 'engineering/research_context.py'
-      - 'engineering/research_test_support.py'
-      - 'engineering/research_ancestry.py'
-      - 'tools/automation/verify-research-snapshot.py'
-      - 'engineering/vehicle_optimisation/**'
-      - 'engineering/passive_suspension/**'
-      - 'engineering/design_search/**'
-      - 'engineering/ferrite_maglev/**'
-      - 'engineering/factory_examples/**'
-      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
-      - 'docs/design-engine/vehicle-optimisation/**'
-  pull_request:
-    paths:
-      - '.github/workflows/vehicle-optimisation.yml'
-      - 'engineering/research_context.py'
-      - 'engineering/research_test_support.py'
-      - 'engineering/research_ancestry.py'
-      - 'tools/automation/verify-research-snapshot.py'
-      - 'engineering/vehicle_optimisation/**'
-      - 'engineering/passive_suspension/**'
-      - 'engineering/design_search/**'
-      - 'engineering/ferrite_maglev/**'
-      - 'engineering/factory_examples/**'
-      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
-      - 'docs/design-engine/vehicle-optimisation/**'
   workflow_dispatch:
 permissions:
   contents: read

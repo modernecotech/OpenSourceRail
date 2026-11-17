@@ -1097,10 +1097,17 @@ class ArchitectureRoutingTests(unittest.TestCase):
                     validate_publication(name, text.replace(revision, '0'*40))
 
     def test_context_helpers_trigger_their_current_compatibility_consumers(self):
-        for name in ('comfort-options', 'comfort-design', 'vehicle-optimisation',
-                     'passive-suspension', 'engineering-native', 'halbach-scaling', 'development-baseline'):
+        for name in ('comfort-options', 'comfort-design', 'engineering-native',
+                     'halbach-scaling', 'development-baseline'):
             with self.subTest(workflow=name):
                 validate_context_triggers((ROOT / '.github/workflows' / (name + '.yml')).read_text())
+
+    def test_retained_vehicle_research_replays_are_manual(self):
+        for name in ('vehicle-optimisation', 'passive-suspension'):
+            with self.subTest(workflow=name):
+                text=(ROOT / '.github/workflows' / (name + '.yml')).read_text()
+                assert '  workflow_dispatch:' in text
+                assert not re.search(r'^  (?:push|pull_request):', text, re.M)
 
     def test_missing_context_helper_trigger_is_rejected(self):
         text=(ROOT / '.github/workflows/comfort-options.yml').read_text()

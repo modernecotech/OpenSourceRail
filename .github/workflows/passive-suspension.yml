@@ -1,32 +1,5 @@
 name: "Retained research: Passive steel-facing suspension research"
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/passive-suspension.yml'
-      - 'engineering/research_context.py'
-      - 'engineering/research_test_support.py'
-      - 'engineering/research_ancestry.py'
-      - 'tools/automation/verify-research-snapshot.py'
-      - 'engineering/passive_suspension/**'
-      - 'engineering/design_search/**'
-      - 'engineering/ferrite_maglev/**'
-      - 'engineering/factory_examples/**'
-      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
-      - 'docs/design-engine/passive-suspension/**'
-  pull_request:
-    paths:
-      - '.github/workflows/passive-suspension.yml'
-      - 'engineering/research_context.py'
-      - 'engineering/research_test_support.py'
-      - 'engineering/research_ancestry.py'
-      - 'tools/automation/verify-research-snapshot.py'
-      - 'engineering/passive_suspension/**'
-      - 'engineering/design_search/**'
-      - 'engineering/ferrite_maglev/**'
-      - 'engineering/factory_examples/**'
-      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
-      - 'docs/design-engine/passive-suspension/**'
   workflow_dispatch:
 permissions:
   contents: read
