@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **317**.
+Indexed Markdown files: **320**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **317**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 285 |
+| [docs](#docs) | 288 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -323,11 +323,14 @@ Indexed Markdown files: **317**.
 | [`docs/design-engine/v07-affordable-corridor/README.md`](../docs/design-engine/v07-affordable-corridor/README.md) | v0.7 affordable railway: first engineering decision gate |
 | [`docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md) | 20 m box-beam civil construction experiment |
 | [`docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md) | Equal-service propulsion necessary-bound screen |
+| [`docs/design-engine/v07-architecture-decision/README.md`](../docs/design-engine/v07-architecture-decision/README.md) | v0.7 equal-service architecture decision screen |
 | [`docs/design-engine/v07-demonstrator-propulsion/README.md`](../docs/design-engine/v07-demonstrator-propulsion/README.md) | Proposed 1.5–2 km demonstrator propulsion screen |
 | [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
 | [`docs/design-engine/v07-execution/door-pack-preflight.md`](../docs/design-engine/v07-execution/door-pack-preflight.md) | Door module delivery preflight |
 | [`docs/design-engine/v07-execution/door-route-request.md`](../docs/design-engine/v07-execution/door-route-request.md) | One-opening guide and belt route request |
 | [`docs/design-engine/v07-execution/tool-capabilities.md`](../docs/design-engine/v07-execution/tool-capabilities.md) | v0.7 tool selection and retirement boundaries |
+| [`docs/design-engine/v07-powered-bogie/README.md`](../docs/design-engine/v07-powered-bogie/README.md) | Powered-bogie traction supply: bounded prototype decision screen |
+| [`docs/design-engine/v07-powered-vehicle/README.md`](../docs/design-engine/v07-powered-vehicle/README.md) | Powered-bogie research car: physical quotation handoff |
 | [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
 | [`docs/design-engine/v07-representative-car/README.md`](../docs/design-engine/v07-representative-car/README.md) | Representative car: prototype planning handoff |
 | [`docs/design-engine/v07-segmented-span/README.md`](../docs/design-engine/v07-segmented-span/README.md) | Segmented 20 m span: prototype planning handoff |

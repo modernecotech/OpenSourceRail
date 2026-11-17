@@ -33,15 +33,27 @@ unpriced. Actual passenger-km lifecycle cost is unknown until patronage and
 occupancy are established.
 
 The source calculation contains 32 capital lines in eight accounting scopes.
-The proposed fourteen-scope corridor procurement structure is **not yet
-reconciled to those lines**: rail fastenings, the segmented joint, installed
-boosters, independent brakes, supplier inputs and site-specific works cannot be
-assigned a defensible price from the current result. The US$737.991m figure is
-therefore one equal-service planning estimate, not a price for the new
+The [v0.7 architecture screen](design-engine/v07-architecture-decision/README.md)
+maps each of those lines exactly once into fourteen procurement scopes that
+reconcile to the **same US$737.991m base proxy**. This accounting bridge does
+not price the changed architectures: powered bogies, overhead contact,
+independent brakes, installed boosters, segmented joints, extra 10 m supports,
+supplier inputs and site-specific works still lack matched quantities and
+quotes. Every changed-candidate installed and lifecycle total remains null.
+The base figure is therefore one planning estimate, not a price for the new
 demonstrator packages or a complete candidate-specific bill of quantities.
 The [segmented-span cost handoff](design-engine/v07-segmented-span/README.md)
 provides counted quote quantities and replacement-versus-increment rules;
 supplier unit prices, baseline credits and installed cost deltas remain open.
+
+At the common 30 km/12-station demand screen, the level station-only case
+requires 55 sets, the booster case 52 and the powered-wheel case 51, under a
+5% moving-time allowance and 15% spare rule. Only the old passive-train unit
+rate permits an illustrative **US$12.949m** increment for the three additional
+station-only sets; it excludes changed hardware, energy, civil and risk. No
+powered-wheel fleet credit or affordability claim is booked. The 700-place
+formation is a separate vehicle whose installed mass, doors, dwell, platform,
+braking, fleet and price are not yet defined.
 
 The [Samawah planning case](design-engine/v07-affordable-corridor/README.md)
 has a separate **US$1.141bn** base installed-capital model and **US$2.259bn**

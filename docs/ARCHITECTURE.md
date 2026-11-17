@@ -35,6 +35,29 @@ service. A reference records the purpose of selection; an alternative records
 a comparison role. An evaluated result names the calculation and evidence scope.
 Prototype validation requires its own physical evidence and remains undemonstrated.
 
+## v0.7 prototype architecture under test
+
+The [equal-service decision screen](design-engine/v07-architecture-decision/README.md)
+advances a **separate powered-wheel research child** for prototype quotation
+and measurement. Its proposed six-car layout has 24 motorised axles and
+protected 1.5 kV DC roof collection from rigid overhead supply. The
+[electrical demand](design-engine/v07-powered-bogie/README.md) and
+[mechanical car layout](design-engine/v07-powered-vehicle/README.md) have
+distinct physical and evaluation identities; they still require a coordinator
+join and same-candidate recalculation before an installed selection. This
+prototype direction does not revise the v0.6 passive-wheel reference.
+
+The bounded 30 km comparison shows station-only launch stalling on the tested
+1% and 2% uphill sensitivities, and one 250 m booster stalling on 2%. Powered
+wheels reach those demand cases, but available motor output, wet adhesion,
+independent braking, overhead clearance, installed mass and price remain
+unproved. A station-charged battery or battery–supercapacitor system would
+require megawatt-scale charging within the 35 s dwell hypothesis; it is
+retained as a separately costed alternative, not assumed to be a small store.
+The proposed overhead-fed car retires the passive LIM fin and station primary
+only within its research child. Supplier equipment and physical tests must
+establish whether this is affordable and buildable on a surveyed alignment.
+
 ## Connected platform
 
 The [planning workspace](workbench/planning/index.html) verifies current city

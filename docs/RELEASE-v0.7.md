@@ -17,11 +17,11 @@ remain evidence, not competing scope authorities.
 |---|---|---|---|
 | V07-01 | CI and version ownership | Current fast checks pass; published tag, source epoch and development version are distinguished | In progress |
 | V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | Open |
-| V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Analytical comparison complete; physical decision open |
-| V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | Structural quote plan partial; installed car open |
-| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented-span quote plan partial; joint/site/station open |
+| V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Overhead-fed powered bogies advanced for research prototype; candidate join, measured adhesion/brake/thermal duty and surveyed site open |
+| V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | Powered-bogie quote layout and track-brake interface added; installed mass/CG and supplier drawings open |
+| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented 20 m and joint-free 10 m alternatives counted; both require site, structural and installed-cost evidence |
 | V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | Factory draft verified; supplier and ERP handback open |
-| V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs, with unpriced items shown | One 30 km proxy and civil quote bridge; candidate-specific reconciliation open |
+| V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs, with unpriced items shown | Thirty-two base lines reconciled into fourteen scopes; changed-candidate prices and whole-life comparison open |
 | V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Open |
 | V07-09 | Workbench journey | Clean design edit through service, energy, quantities, cost, dossier, assembly and production handoff | Samawah edit and factory draft verified; affected engineering and ERP import open |
 | V07-10 | Release | Clean install, current CI, acceptance report, limitations and versioned artifacts | Open |
@@ -62,3 +62,13 @@ Release acceptance requires the ten items above and explicit open physical
 tests. It does **not** imply serial-production approval, passenger-operation
 authority, an accepted Baghdad financing estimate or physical test results
 that have not been obtained.
+
+The 17 November architecture screen resolves the **next prototype research
+direction**: a separate powered-bogie child with protected overhead supply is
+advanced for measurement and quotation because the tested station-only and
+single-booster layouts stall on material uphill sensitivities. Its electrical
+configuration and mechanical car are not yet one evaluated physical bundle;
+the original passive-wheel reference remains selected for v0.6. The same
+screen leaves all changed-candidate capital and lifecycle totals unpriced.
+This is a development decision, not completion of V07-03 or authority to
+publish v0.7 as a prototype-production package.
