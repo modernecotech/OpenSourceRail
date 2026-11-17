@@ -163,6 +163,10 @@ def compile_handoff() -> dict:
     require(D(beam_unit["unit_scope_rate_usd"]) == D(beam_cost["unit_rate_usd_m"]) * D("1000000") and
             D(steel_unit["quantity_per_assembly"]) == D(str(selected["beam"]["counted_steel_t_per_beam"])),
             "selected beam rate or counted steel differs between BOM, cost and overlay")
+    require(D(beam_unit["unit_scope_rate_usd"]) - D("14000") ==
+            D(str(selected["economics"]["incremental_beam_rate_usd"])) and
+            D(beam_cost["amount_usd_m"]) == D(beam_cost["quantity"]) * D(beam_cost["unit_rate_usd_m"]),
+            "13-strand beam allowance or extension differs from selected price basis")
     costs = []
     for scope in sorted(scope_names):
         rows = [row for row in cost if row["scope"] == scope]
