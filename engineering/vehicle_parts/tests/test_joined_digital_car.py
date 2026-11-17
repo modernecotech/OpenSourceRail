@@ -27,6 +27,10 @@ def test_published_packet_reproduces_and_keeps_uncertainty():
     assert result["normal_analytical"]["mass_kg"][1] < result["conservative_normal_service_ceiling_kg_per_car"]
     assert result["crowd_160_structural_control"]["mass_kg"][1] < result["conservative_crowd_structural_ceiling_kg_per_car"]
     assert result["crowd_160_structural_control"]["mass_kg"][0] > result["normal_analytical"]["mass_kg"][0]
+    handoff = result["sizing_load_handoff"]
+    assert isclose(handoff["normal_kg_per_car"], 25071.998134341986)
+    assert isclose(handoff["crowd_160_kg_per_car"], 33621.998134341986)
+    assert isclose(handoff["additional_round_up_above_budget_upper_kg_per_car"], 5.342775)
 
 
 def test_two_support_statics_preserve_weight_and_moment():

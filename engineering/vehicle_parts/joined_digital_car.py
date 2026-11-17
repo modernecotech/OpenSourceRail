@@ -169,6 +169,13 @@ def build(root: Path = ROOT) -> dict:
                    - (2400 - (expected[1] - selected_mass["accounted_tare_kg_per_car"])),
                    abs_tol=1e-5):
         raise ValueError("Normal mass and conservative service ceiling differ unexpectedly")
+    normal_sizing = bundle["evaluation"]["mass_account"]["normal_accounted_upper_kg_per_car"]
+    crowd_sizing = bundle["evaluation"]["mass_account"]["crowd_160_accounted_upper_kg_per_car"]
+    if (not isclose(civil["normal_accounted_mass_kg_per_car"], normal_sizing, abs_tol=1e-7)
+            or not isclose(civil["crowd_control_accounted_mass_kg_per_car"], crowd_sizing, abs_tol=1e-7)
+            or not isclose(crowd_sizing - crowd["mass_kg"][1],
+                           normal_sizing - normal["mass_kg"][1], abs_tol=1e-7)):
+        raise ValueError("Civil and powered sizing loads differ")
     screen = powered["nominal_geometry_screen"]
     gap = (joined["station"]["nominal_track_centre_to_platform_edge_m"]
            - joined["vehicle"]["car_body_width_m"] / 2)
@@ -214,8 +221,16 @@ def build(root: Path = ROOT) -> dict:
                     interval_method="enumerate independent budget endpoints and centroid-box corners"),
         tare_analytical=tare, normal_analytical=normal,
         crowd_160_structural_control=crowd,
-        conservative_normal_service_ceiling_kg_per_car=bundle["evaluation"]["mass_account"]["normal_accounted_upper_kg_per_car"],
-        conservative_crowd_structural_ceiling_kg_per_car=bundle["evaluation"]["mass_account"]["crowd_160_accounted_upper_kg_per_car"],
+        conservative_normal_service_ceiling_kg_per_car=normal_sizing,
+        conservative_crowd_structural_ceiling_kg_per_car=crowd_sizing,
+        sizing_load_handoff=dict(normal_kg_per_car=normal_sizing,
+                                 normal_kg_per_six_car_train=normal_sizing * 6,
+                                 crowd_160_kg_per_car=crowd_sizing,
+                                 crowd_160_kg_per_six_car_train=crowd_sizing * 6,
+                                 normal_equal_mean_static_axle_N=normal_sizing * G / 4,
+                                 crowd_equal_mean_static_axle_N=crowd_sizing * G / 4,
+                                 additional_round_up_above_budget_upper_kg_per_car=normal_sizing - normal["mass_kg"][1],
+                                 source="Same 2400 kg/car conservative powered addition in bundle and civil packets; analytical means are not max reactions"),
         nominal_clearances_m=dict(motor_side_after_50mm_reservation=screen["motor_swept_lateral_clearance_each_side_m"],
                                   motor_top_to_floor_after_50mm_reservation=screen["motor_swept_top_to_floor_underside_m"],
                                   straight_static_body_to_platform_edge=gap,
