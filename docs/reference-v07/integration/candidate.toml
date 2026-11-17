@@ -1,0 +1,128 @@
+schema = "opensourcerail.v07.joined-prototype.1"
+physical_candidate_id = "osr-v07-joined-prototype-20261117"
+evaluation_id = "osr-v07-interface-reconciliation-20261117"
+selection_id = "osr-v07-prototype-quotation-20261117"
+selection_purpose = "controlled prototype quotation and interface measurement"
+evaluation_scope = "dimensional, analytical-load and quantity reconciliation only"
+native_joined_evaluation = "not-run"
+physical_acceptance = false
+fabrication_release = false
+passenger_operation_release = false
+source_commit = "e4e73bfdda720c608816aa76a78148855ab8443b"
+
+[ancestry]
+powered_vehicle_physical_candidate_id = "ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d"
+powered_vehicle_evaluation_id = "b09430521e5e23098aa5287758861412e8024c2f547e1fe2763d591609a7a21a"
+joint_free_span_physical_candidate_id = "bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e"
+joint_free_span_evaluation_id = "1ac96f8c14960ce892bdc61703e8aec3c519ead69b06671ad7c7beb6867c4af8"
+planning_configuration_id = "osr-v07-30km-powered-wheel-10m-span-20261117"
+
+[immutable_inputs]
+planning_concept_sha256 = "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18"
+powered_result_sha256 = "80aebccba8a29d87a687adee3ed1db2bfcd9c45634285fa2dd3858d3dfaf583b"
+simple_span_plan_sha256 = "37adb933ca2ab8aa53f5d3c9d4eb7f1147fcb64761ce8b97727e1a4638fad784"
+independent_brake_readme_sha256 = "c4428006195e1266dc37d503f8e767465eac092f19eaeb3b42a654b23e058604"
+
+[requirements]
+rail_gauge_mm = 1435
+mandatory_passenger_protection = true
+mandatory_accessibility = true
+one_candidate_through_handoffs = true
+independent_stopping_demand = true
+local_make_repair_knowledge = true
+normal_places_per_train = 276
+crowd_structural_people_per_car = 160
+
+[corridor]
+route_km = 30.0
+track_count = 2
+station_count = 12
+alignment_status = "synthetic; no route or ground survey"
+nominal_headway_s = 120
+nominal_active_trainsets = 44
+nominal_reserve_trainsets = 7
+terminal_turnbacks = 2
+substations_allowance = 6
+
+[demonstrator]
+route_km = 2.0
+track_count = 2
+station_count = 2
+alignment_status = "straight elevated design envelope; site and utility survey required"
+station_platforms = "terminal islands; station frames and foundations separate from running beams"
+running_bays_per_track = 200
+beam_lifts = 400
+independent_support_positions = 402
+provisional_bearings = 1600
+
+[vehicle]
+cars_per_train = 6
+car_body_length_m = 17.0
+train_end_to_end_length_m = 104.5
+car_body_width_m = 2.65
+rail_to_floor_m = 1.0
+normal_analytical_t_per_car = 25.072
+crowd_analytical_t_per_car = 33.622
+conditional_tare_upper_t_per_car = 21.617
+unlocated_account_t_per_car = 10.090
+driven_axles_per_train = 24
+motorized_bogies_per_train = 12
+independent_rail_brake_modules_per_train = 12
+doors_per_car = 2
+clear_door_width_m = 1.4
+service_battery_kwh_per_car = 82.8
+traction_battery = "none in this candidate"
+
+[performance]
+speed_cap_kmh = 72
+acceleration_demand_mps2 = 0.4
+service_deceleration_demand_mps2 = 0.6
+grade_sizing_case_percent = 2.0
+grade_sizing_leg_km = 2.727
+peak_tractive_force_kn = 102.23
+peak_mechanical_power_mw = 2.045
+minimum_train_dc_input_rating_mw = 3.037
+dc_nominal_voltage_v = 1500
+independent_brake_force_kn_per_available_module_one_out = 10.89
+independent_brake_ideal_energy_mj_per_available_module = 3.63
+independent_brake_ideal_stop_m = 333.33
+
+[civil]
+rail_profile = "60E1 research control; final supplier and wear envelope to be approved"
+beam_length_m = 10.0
+beam_width_m = 2.0
+beam_depth_m = 1.4
+bare_beam_mass_t = 29.884
+provisional_hook_load_t = 37.356
+bearing_units_per_beam = 4
+support_family = "independent seat, pier and foundation per track"
+footing_cost_module_m = [2.5, 2.5, 1.0]
+pier_cost_module_m = [1.0, 1.0, 6.0]
+foundation_status = "quantity allowance only; site-specific geotechnical design required"
+
+[station]
+platform_length_m = 125.0
+platform_width_m = 8.0
+platform_type = "central island with one-sided train doors facing island"
+platform_support = "independent station structure"
+nominal_track_centres_m_at_straight_station = 10.8
+nominal_track_centre_to_platform_edge_m = 1.4
+nominal_static_body_to_platform_gap_m = 0.075
+static_gap_status = "geometric arithmetic only; full swept accessible gap unresolved"
+
+[allowed_variables]
+site_alignment = "surveyed route, curves, gradients, flood and utilities"
+foundation = "ground-tested footing, pile or other qualified support"
+overhead = "conductor height, sectioning, supports and electrical clearances"
+brake = "qualified supplier, protected energy, delay, hot duty and parking arrangement"
+traction = "motor, gear, inverter and cooling supplier within stated performance envelope"
+station = "site access, passenger flow, egress and platform edge system"
+
+[fixed_for_quotation]
+formation = "six 17 m cars, 104.5 m train, 276 normal places"
+track = "two conventional 1435 mm rail tracks"
+running_span = "joint-free 10 m precast beam, one per track per bay"
+propulsion = "24 continuously grid-fed powered axles; no station launcher or traction store"
+brake = "12 independent bogie rail-contact modules sized with one unavailable"
+power = "protected 1.5 kV DC overhead, six roof collectors per train"
+station = "125 m by 8 m island, one-sided doors facing platform"
