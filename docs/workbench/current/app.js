@@ -1558,10 +1558,13 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
     if (!response.ok) throw Error(value.error || "Joined corridor calculation unavailable");
     if (value.schema !== "osr-v07-reference-journey/1" ||
         value.parent_physical_candidate_id !== parent ||
+        value.selected_civil_revision_id !== parent ||
+        value.ancestral_joined_physical_candidate_id !== joinedReference.dataset.parentJoinedId ||
         value.fixed_interfaces.cars_per_train !== 6 ||
         value.fixed_interfaces.driven_axles_per_train !== 24 ||
         value.fixed_interfaces.dc_voltage_v !== 1500 ||
         value.fixed_interfaces.ten_metre_beams !== true ||
+        value.fixed_interfaces.prestress_strands !== 13 ||
         value.physical_accepted !== false || value.manufacturing_release !== false ||
         value.manufacturing.erpnext_posted !== false)
       throw Error("Joined candidate or digital-release boundary differs");
@@ -1584,6 +1587,7 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
     const ids = byId("v07-reference-identities");
     ids.replaceChildren();
     fact(ids, "Joined parent candidate", parent);
+    fact(ids, "Assembly ancestry", revised.ancestral_joined_physical_candidate_id);
     fact(ids, "Edited corridor candidate", revised.physical_candidate_id);
     fact(ids, "Edited evaluation", revised.evaluation_id);
     fact(ids, "Edited selection", revised.selection_id);
@@ -1595,9 +1599,13 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
       ["Normal offered places/hour/direction", (v) => format(v.service.peak_places_per_hour_per_direction)],
       ["Annual grid energy allowance · GWh", (v) => format(v.energy.annual_total_kwh / 1e6)],
       ["Ten-metre beam lifts", (v) => format(v.civil.beam_lifts)],
+      ["Prestress strands per beam", (v) => format(v.fixed_interfaces.prestress_strands)],
+      ["Counted beam steel · t", (v) => format(v.civil.counted_beam_steel_t)],
       ["Supports", (v) => format(v.civil.support_positions)],
       ["Powered cars for fleet", (v) => format(v.manufacturing.quantity_schedule.powered_cars)],
       ["Installed capital · US$ million", (v) => format(v.cost.installed_capital_usd_m)],
+      ["Annual operation and maintenance · US$ million", (v) => format(v.cost.annual_opex_usd_m)],
+      ["30-year whole-life present cost · US$ million", (v) => format(v.cost.whole_life_30y_present_usd_m)],
     ];
     const measures = byId("v07-reference-measures");
     measures.replaceChildren();
@@ -1624,7 +1632,7 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
       costs.append(row);
     }
     results.hidden = false;
-    status.textContent = "Joined corridor calculation complete. The BOM, routing and unposted ERPNext draft below belong to this vehicle and beam family.";
+    status.textContent = "Selected digital corridor calculation complete. Revised quantities have a new corridor ID; linked parent assembly definitions remain unposted.";
   } catch (error) {
     status.textContent = "Joined corridor calculation unavailable: " + error.message;
   } finally {

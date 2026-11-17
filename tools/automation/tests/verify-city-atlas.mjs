@@ -21,11 +21,14 @@ try {
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8097/docs/workbench/current/?outlineCity=samawah');
   const reference=page.locator('#v07-reference');
-  assert.equal(await reference.getAttribute('data-physical-candidate-id'),'osr-v07-joined-prototype-20261117');
-  assert.equal(await reference.getAttribute('data-evaluation-id'),'osr-v07-interface-reconciliation-20261117');
-  assert.match(await reference.innerText(),/US\$1,023\.499 million/);
+  assert.equal(await reference.getAttribute('data-physical-candidate-id'),'osr-v07-joined-civil-518dad57a3af5046f40c8f4f');
+  assert.equal(await reference.getAttribute('data-parent-joined-id'),'osr-v07-joined-prototype-20261117');
+  assert.equal(await reference.getAttribute('data-evaluation-id'),'osr-v07-digital-interface-20261117');
+  assert.equal(await reference.getAttribute('data-selection-id'),'osr-v07-digital-design-20261117');
+  assert.match(await reference.innerText(),/US\$1,025\.2272 million/);
+  assert.match(await reference.innerText(),/US\$1,667\.647 million/);
   assert.match(await reference.innerText(),/43 months/);
-  for(const label of ['Candidate identity and fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Digital vehicle mass and CAD result','Digital civil FEM result','Digital production handoff','Fourteen-scope cost and 43-month plan','Manufacturing BOM','Assembly and construction routing','Unposted ERPNext and QA draft']){
+  for(const label of ['Selected 13-strand digital candidate','Parent candidate fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Digital vehicle mass and CAD result','Digital civil FEM result','Digital production handoff','Fourteen-scope cost and 43-month plan','Parent assembly manufacturing BOM','Parent assembly and construction routing','Parent unposted ERPNext and QA draft']){
     const link=reference.getByRole('link',{name:label});
     assert.equal(await link.count(),1);
     assert.equal((await page.request.get(new URL(await link.getAttribute('href'),page.url()).href)).status(),200);
@@ -34,7 +37,9 @@ try {
   await page.locator('#v07-reference-edit button').click();
   await page.locator('#v07-reference-results').waitFor({state:'visible',timeout:30000});
   const joined=await (await joinedResponse).json();
-  assert.equal(joined.parent_physical_candidate_id,'osr-v07-joined-prototype-20261117');
+  assert.equal(joined.parent_physical_candidate_id,'osr-v07-joined-civil-518dad57a3af5046f40c8f4f');
+  assert.equal(joined.ancestral_joined_physical_candidate_id,'osr-v07-joined-prototype-20261117');
+  assert.equal(joined.fixed_interfaces.prestress_strands,13);
   assert.notEqual(joined.physical_candidate_id,joined.parent_physical_candidate_id);
   assert.equal(joined.service.active_trainsets,46);
   assert.equal(joined.service.reserve_trainsets,8);
@@ -43,7 +48,8 @@ try {
   assert.equal(await page.locator('#v07-reference-costs tr').count(),14);
   assert.notEqual(await page.locator('#v07-reference-results').getAttribute('data-baseline-evaluation-id'),
     await page.locator('#v07-reference-results').getAttribute('data-revised-evaluation-id'));
-  assert.match(await page.locator('#v07-reference-measures').innerText(),/1,055\.84/);
+  assert.match(await page.locator('#v07-reference-measures').innerText(),/1,057\.57/);
+  assert.match(await page.locator('#v07-reference-measures').innerText(),/1,725\.63/);
   await page.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
   assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);

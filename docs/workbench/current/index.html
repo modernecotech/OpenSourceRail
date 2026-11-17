@@ -70,19 +70,21 @@
         </div>
       </section>
       <section class="panel" id="v07-reference" aria-labelledby="v07-reference-heading"
-        data-physical-candidate-id="osr-v07-joined-prototype-20261117"
-        data-evaluation-id="osr-v07-interface-reconciliation-20261117"
-        data-selection-id="osr-v07-prototype-quotation-20261117">
+        data-physical-candidate-id="osr-v07-joined-civil-518dad57a3af5046f40c8f4f"
+        data-parent-joined-id="osr-v07-joined-prototype-20261117"
+        data-evaluation-id="osr-v07-digital-interface-20261117"
+        data-selection-id="osr-v07-digital-design-20261117">
         <p class="eyebrow">v0.7 reference railway · synthetic 30 km corridor</p>
-        <h2 id="v07-reference-heading">Joined prototype quotation package</h2>
+        <h2 id="v07-reference-heading">Selected joined digital design</h2>
         <p>One six-car powered-wheel train, two conventional rail tracks on joint-free
-          10 m precast beams, twelve island stations and protected 1.5 kV DC overhead.
+          10 m precast beams with 13 prestress strands, twelve island stations and protected 1.5 kV DC overhead.
           This configuration is separate from the editable Samawah and Baghdad city studies below.</p>
         <dl>
-          <dt>Physical candidate</dt><dd><code>osr-v07-joined-prototype-20261117</code></dd>
-          <dt>Installed capital estimate</dt><dd>US$1,023.499 million · 2026 dollars</dd>
-          <dt>30-year whole-life present cost</dt><dd>US$1,665.9 million</dd>
-          <dt>Construction programme</dt><dd>43 months, subject to site survey and procurement</dd>
+          <dt>Selected physical candidate</dt><dd><code>osr-v07-joined-civil-518dad57a3af5046f40c8f4f</code></dd>
+          <dt>Installed capital estimate</dt><dd>US$1,025.2272 million · 2026 dollars</dd>
+          <dt>Annual operation and maintenance</dt><dd>US$30.494912 million</dd>
+          <dt>30-year whole-life present cost</dt><dd>US$1,667.647 million</dd>
+          <dt>Digital construction programme</dt><dd>43 months</dd>
           <dt>Quotation basis</dt><dd>51 six-car sets; 6,000 beams; 6,002 supports; 12 stations</dd>
         </dl>
         <form id="v07-reference-edit">
@@ -92,7 +94,7 @@
             <label>Stations, including terminals<input name="stations" type="number" min="2" max="100" step="1" value="13" required /></label>
           </div>
           <button type="submit">Compare with the 12-station reference</button>
-          <p id="v07-reference-status" role="status" aria-live="polite">The 120-second service, six-car powered train, 1.5 kV supply and 10 m beams remain fixed.</p>
+          <p id="v07-reference-status" role="status" aria-live="polite">The 120-second service, six-car powered train, 1.5 kV supply and 13-strand 10 m beams remain fixed.</p>
         </form>
         <div id="v07-reference-results" hidden>
           <dl id="v07-reference-identities"></dl>
@@ -107,20 +109,22 @@
             <tbody id="v07-reference-costs"></tbody>
           </table></div>
           <p class="note">Energy is a declared budget allowance. The changed corridor has a new physical
-            identity; the vehicle, power and beam families remain fixed. These results do not post an
-            ERPNext transaction or grant fabrication or passenger approval.</p>
+            identity and recalculated production quantities. The linked parent BOM, routing and unposted
+            ERPNext draft define the fixed vehicle and beam assemblies; they are not revised-corridor orders.
+            These digital results do not grant physical or passenger approval.</p>
         </div>
         <nav aria-label="Joined v0.7 reference package">
-          <a href="../../reference-v07/integration/candidate.toml">Candidate identity and fixed interfaces</a>
+          <a href="../../reference-v07/digital/selected.toml">Selected 13-strand digital candidate</a>
+          <a href="../../reference-v07/integration/candidate.toml">Parent candidate fixed interfaces</a>
           <a href="../../reference-v07/integration/arrangement.svg">System arrangement</a>
           <a href="../../reference-v07/integration/README.md">Vehicle, civil, station and power integration</a>
           <a href="../../reference-v07/digital/vehicle/README.md">Digital vehicle mass and CAD result</a>
           <a href="../../reference-v07/digital/civil/README.md">Digital civil FEM result</a>
           <a href="../../reference-v07/digital/production/README.md">Digital production handoff</a>
           <a href="../../reference-v07/cost/README.md">Fourteen-scope cost and 43-month plan</a>
-          <a href="../../reference-v07/manufacturing/bom.csv">Manufacturing BOM</a>
-          <a href="../../reference-v07/manufacturing/routing.csv">Assembly and construction routing</a>
-          <a href="../../reference-v07/manufacturing/lifecycle-draft.json">Unposted ERPNext and QA draft</a>
+          <a href="../../reference-v07/manufacturing/bom.csv">Parent assembly manufacturing BOM</a>
+          <a href="../../reference-v07/manufacturing/routing.csv">Parent assembly and construction routing</a>
+          <a href="../../reference-v07/manufacturing/lifecycle-draft.json">Parent unposted ERPNext and QA draft</a>
         </nav>
         <p class="note">The joined evaluation covers dimensions, analytical loads and quantities.
           Supplier drawings, measured fit, braking, ground tests and independent approval are required
