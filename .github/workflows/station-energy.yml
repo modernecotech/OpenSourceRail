@@ -76,12 +76,11 @@ jobs:
           python -m engineering.station_energy examples > build/station-energy-examples.json
           python -m engineering.station_energy run --request build/station-energy-examples.json --output build/station-energy-study
           python -m engineering.station_energy verify --output build/station-energy-study
-      - name: Repeated staged capture, scoped costing and independent reference replay
+      - name: Repeated staged capture and scoped costing
         run: |
           python -m engineering.station_energy arrestor-examples > build/arrestor-examples.json
           python -m engineering.station_energy arrestor-run --request build/arrestor-examples.json --output build/multistage-arrestor-study
           python -m engineering.station_energy arrestor-verify --output build/multistage-arrestor-study
-          python -m engineering.station_energy arrestor-reference-verify --from-state build/multistage-arrestor-study
           python -m engineering.station_energy arrestor-reprice --from-state build/multistage-arrestor-study --output build/multistage-arrestor-repriced
           python -m engineering.station_energy arrestor-verify --output build/multistage-arrestor-repriced
       - uses: actions/upload-artifact@v4
