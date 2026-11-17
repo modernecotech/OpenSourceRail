@@ -43,7 +43,7 @@
     if (finite(value)) return number(value, 3);
     if (typeof value === "string") return value;
     if (Array.isArray(value) && value.every(item => typeof item !== "object")) return value.map(scalar).join(" · ");
-    if (typeof value === "object" && finite(value.base)) return ["low", "base", "high"].map(key => number(value[key], 2)).join(" / ");
+    if (typeof value === "object" && finite(value.base)) return number(value.base, 2);
     return null;
   }
   function readable(parent, value, depth = 0) {
@@ -176,18 +176,17 @@
           }
           table.append(rows); const scroll = node("div", "atlas-table-scroll"); scroll.append(table); result.append(scroll);
           const costs = node("table", "samawah-merge-costs"), costHead = node("tr");
-          for (const title of ["Cost scope", "Before: low / base / high", "After: low / base / high", "Base change"]) costHead.append(node("th", "", title));
+          for (const title of ["Cost scope", "Before", "Revised", "Change"]) costHead.append(node("th", "", title));
           const costHeader = node("thead"); costHeader.append(costHead); costs.append(costHeader); const costRows = node("tbody");
-          const cases = value => ["low", "base", "high"].map(key => money(value?.[key])).join(" / ");
           for (const [scope, values] of Object.entries(report.cost_scopes)) {
-            const row = node("tr"); row.append(node("th", "", human(scope)), node("td", "", cases(values.before)), node("td", "", cases(values.after)), node("td", "", money(values.delta?.base))); costRows.append(row);
+            const row = node("tr"); row.append(node("th", "", human(scope)), node("td", "", money(base(values.before))), node("td", "", money(base(values.after))), node("td", "", money(base(values.delta)))); costRows.append(row);
           }
           costs.append(costRows); const costScroll = node("div", "atlas-table-scroll"); costScroll.append(costs); result.append(node("h4", "atlas-section-title", "Fourteen cost scopes"), costScroll);
           const findings = node("details", "atlas-disclosure"); findings.append(node("summary", "", "Changed quantities, assumptions and unresolved inputs"));
           findings.append(node("pre", "atlas-comparison-details", JSON.stringify({ quantities: report.quantities, lines: report.lines, unresolved_inputs: report.unresolved_inputs }, null, 2))); result.append(findings);
           const trace = node("details", "atlas-disclosure"); trace.append(node("summary", "", "Design and result identities")); trace.append(node("pre", "atlas-comparison-details", JSON.stringify(report.identities, null, 2))); result.append(trace);
           const downloads = node("div", "atlas-comparison-downloads");
-          for (const [label, href] of [["Download comparison", url], ["Project integration holds", `/api/city-studies/projects/${before.job_id}/${after.job_id}`], ["Door module research proposal", "/api/v07/door-module"], ["Before dossier", `/api/city-studies/${before.job_id}/artifacts/result.json`], ["Revised dossier", `/api/city-studies/${after.job_id}/artifacts/result.json`], ["Revised delivery draft", `/api/city-studies/${after.job_id}/artifacts/delivery-plan.json`]]) {
+          for (const [label, href] of [["Download comparison", url], ["Project integration holds", `/api/city-studies/projects/${before.job_id}/${after.job_id}`], ["Door module research proposal", "/api/v07/door-module"], ["Before dossier", `/api/city-studies/${before.job_id}/artifacts/result.json`], ["Revised dossier", `/api/city-studies/${after.job_id}/artifacts/result.json`], ["Revised delivery draft", `/api/city-studies/${after.job_id}/artifacts/delivery-plan.json`], ["Revised business drafts", `/api/city-studies/${after.job_id}/artifacts/business-drafts.json`], ["Revised planning base", `/api/city-studies/${after.job_id}/artifacts/planning.json`]]) {
             const link = node("a", "atlas-download", label); link.href = href; link.download = label.toLowerCase().replaceAll(" ", "-") + ".json"; downloads.append(link);
           }
           result.append(downloads);
@@ -302,7 +301,7 @@
     const summaryRoute = first(summary.route_km, finite(summary.route_m) ? summary.route_m / 1000 : null);
     const routeKm = finite(summaryRoute) ? summaryRoute : lines.every(line => finite(line.route_m)) ? lines.reduce((sum, line) => sum + line.route_m, 0) / 1000 : null;
     const totalFleet = first(summary.trainsets, summary.total_trainsets, packet.resources?.total_trainsets);
-    for (const [label, value] of [["Mapped route", unit(routeKm, "km", 1)], ["Operational stations", number(summary.operational_station_complexes)], ["Fleet including reserve", unit(totalFleet, "trainsets")], ["Installed capital · base", money(base(costs.installed_capital_usd))], ["Whole-life NPV · base", money(base(costs.whole_life_npv_usd))]]) {
+    for (const [label, value] of [["Mapped route", unit(routeKm, "km", 1)], ["Operational stations", number(summary.operational_station_complexes)], ["Fleet including reserve", unit(totalFleet, "trainsets")], ["Installed capital", money(base(costs.installed_capital_usd))], ["Whole-life NPV", money(base(costs.whole_life_npv_usd))]]) {
       const card = node("div", "atlas-metric"); card.append(node("span", "", label), node("strong", "", value)); metrics.append(card);
     }
     root.append(metrics);
@@ -425,16 +424,16 @@
     table.append(tbody); serviceScroll.append(table); root.append(serviceHeading, serviceScroll);
     root.append(node("p", "atlas-note", "Offered capacity is the nominal places calculation; usable capacity includes declared occupancy and availability assumptions. Traction work is mechanical energy, before electrical losses and auxiliary loads. Missing values remain unestablished. Shared project costs are not allocated to lines without a stated basis."));
     const lower = node("div", "atlas-lower"), costSection = node("section"), evidenceSection = node("section");
-    costSection.append(node("h4", "", "Cost scope and uncertainty"));
+    costSection.append(node("h4", "", "Estimated whole-life costs"));
     const costTable = node("table", "atlas-cost-table"), costHead = node("tr");
-    for (const text of ["Whole-life scope", "Low", "Base", "High"]) costHead.append(node("th", "", text)); const costThead = node("thead"); costThead.append(costHead); costTable.append(costThead);
-    const costBody = node("tbody"); for (const [scope, value] of Object.entries(costs.scope_totals_usd || {})) { const row = node("tr"); row.append(node("th", "", human(scope))); for (const key of ["low", "base", "high"]) row.append(node("td", "", money(value?.[key]))); costBody.append(row); } costTable.append(costBody);
+    for (const text of ["Whole-life scope", "Estimate"]) costHead.append(node("th", "", text)); const costThead = node("thead"); costThead.append(costHead); costTable.append(costThead);
+    const costBody = node("tbody"); for (const [scope, value] of Object.entries(costs.scope_totals_usd || {})) { const row = node("tr"); row.append(node("th", "", human(scope)), node("td", "", money(base(value)))); costBody.append(row); } costTable.append(costBody);
     const costScroll = node("div", "atlas-table-scroll"); costScroll.append(costTable); costSection.append(costScroll);
     const reassessment = costs.capital_lines?.find(row => row.key === "revised-alignment-row-access-and-crossing-risk");
     if (reassessment) {
       const reserve = node("section", "atlas-disclosure-body"), quantities = reassessment.quantity || {}, facts = node("dl", "atlas-facts");
       reserve.append(node("h4", "", "Alignment reassessment reserve · already included"));
-      fact(facts, "Reserve · low / base / high", ["low", "base", "high"].map(key => money(reassessment.costs_usd?.[key])).join(" / "));
+      fact(facts, "Reserve", money(base(reassessment.costs_usd)));
       fact(facts, "Corridor under reassessment", unit(finite(quantities.changed_route_m) ? quantities.changed_route_m / 1000 : null, "km", 3));
       fact(facts, "Right-of-way area allowance", unit(quantities.additional_row_area_m2, "m²"));
       fact(facts, "Additional access walkway", unit(quantities.additional_access_walkway_m, "m", 1));
@@ -469,10 +468,10 @@
         const balance = revenue * factor - base(costs.whole_life_npv_usd);
         financeResult.textContent += `${years} years at ${number(rate * 100, 2)}% real: ${money(balance)} discounted fare-only balance against the modelled whole-life costs. `;
         if (annual > 0) {
-          const fares = ["low", "base", "high"].map(c => (costs.whole_life_npv_usd[c] / (annual * factor)).toLocaleString(undefined, {style:"currency",currency:"USD",maximumFractionDigits:2}));
-          financeResult.textContent += `Whole-life cost-covering average fare: ${fares.join(" / ")} (low / base / high cost cases). `;
+          const fare = base(costs.whole_life_npv_usd) / (annual * factor);
+          financeResult.textContent += `Whole-life cost-covering average fare: ${fare.toLocaleString(undefined, {style:"currency",currency:"USD",maximumFractionDigits:2})}. `;
         }
-        financeResult.textContent += "Assumes unchanged annual paid trips and real fare from the first operating year; funding timing, tax, debt, demand changes and non-fare benefits require their own scenario. These sensitivity cases are not confidence intervals.";
+        financeResult.textContent += "Assumes unchanged annual paid trips and real fare from the first operating year; funding timing, tax, debt, demand changes and non-fare benefits require their own scenario.";
       } else financeResult.textContent += "A declared cost horizon and discount rate are required for a whole-life comparison.";
     });
     lower.append(costSection, evidenceSection); root.append(lower);

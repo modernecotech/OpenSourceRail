@@ -92,19 +92,11 @@ async function renderVehicleCost(expected) {
   byId("vehicle-cost-status").textContent =
     `Class C provisional estimate · ${cost.currency} · ${cost.estimate_date} · assumptions ${cost.assumptions_id.slice(0, 12)}.`;
   const facts = byId("vehicle-cost-facts");
+  fact(facts, "Per train estimate", `${billions(train.base)} billion IQD`);
+  fact(facts, "Per car estimate", `${billions(car.base)} billion IQD`);
   fact(
     facts,
-    "Per train, low / base / high",
-    `${billions(train.low)} / ${billions(train.base)} / ${billions(train.high)} billion IQD`,
-  );
-  fact(
-    facts,
-    "Per car, low / base / high",
-    `${billions(car.low)} / ${billions(car.base)} / ${billions(car.high)} billion IQD`,
-  );
-  fact(
-    facts,
-    "Accounted / located / residual mass per car",
+    "Vehicle mass account / placed equipment / placement allowance per car",
     `${format(cost.vehicle_account.accounted_tare_kg_per_car / 1000)} / ${format(cost.vehicle_account.located_geometry_kg_per_car / 1000)} / ${format(cost.vehicle_account.residual_account_kg_per_car / 1000)} t`,
   );
   fact(
@@ -122,7 +114,7 @@ async function renderVehicleCost(expected) {
   fact(
     facts,
     "Reference delivery",
-    `${format(cost.reference_delivery_distance_km)} km · ${billions(cost.reference_delivery_cost_iqd_per_train.base)} billion IQD/train base`,
+    `${format(cost.reference_delivery_distance_km)} km · ${billions(cost.reference_delivery_cost_iqd_per_train.base)} billion IQD/train`,
   );
   const body = byId("vehicle-cost-lines");
   body.replaceChildren();
@@ -131,11 +123,9 @@ async function renderVehicleCost(expected) {
     const label = document.createElement("td");
     label.textContent = line.line_key.replaceAll("/", " · ");
     tr.append(label);
-    for (const scenario of ["low", "base", "high"]) {
-      const cell = document.createElement("td");
-      cell.textContent = format(line.cost_iqd[scenario]);
-      tr.append(cell);
-    }
+    const cell = document.createElement("td");
+    cell.textContent = format(line.cost_iqd.base);
+    tr.append(cell);
     body.append(tr);
   }
 }
@@ -359,20 +349,16 @@ async function renderPortfolios(expected) {
     fact(facts, "Mechanics evaluation", row.mechanics_evaluation_id);
     fact(
       facts,
-      "Low / base / high scoped cost",
-      ["low", "base", "high"]
-        .map((key) => format(row.cost_iqd[key]))
-        .join(" / ") + " IQD",
+      "Scoped cost estimate",
+      format(row.cost_iqd.base) + " IQD",
     );
     fact(
       facts,
-      portfolio.process_hours_label + " · low / base / high",
+      portfolio.process_hours_label + " estimate",
       row.process_hours === null
         ? row.process_hours_status ||
             "Unknown; not present in the published summary"
-        : ["low", "base", "high"]
-            .map((key) => format(row.process_hours[key]))
-            .join(" / "),
+        : format(row.process_hours.base),
     );
     fact(facts, "Complete installed mass", "Unknown");
     fact(
@@ -1052,7 +1038,7 @@ function renderOutlineRows(value, artifactBase) {
     (row) => row.outline_id === value.recommended_outline_id,
   );
   document.getElementById("outline-recommendation").textContent = selected
-    ? `Lowest central whole-life estimate in this bounded search: ${launchNames[selected.mechanism] || selected.mechanism}. Installed range ${moneyMillions(selected.installed_capital_usd.low)}–${moneyMillions(selected.installed_capital_usd.high)}; these are sensitivity cases, not confidence limits.`
+    ? `Lowest modelled whole-life cost in this search: ${launchNames[selected.mechanism] || selected.mechanism}. Installed capital ${moneyMillions(selected.installed_capital_usd.base)}.`
     : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
   const links = document.getElementById("outline-artifacts");
   links.replaceChildren();
@@ -1337,7 +1323,7 @@ async function displayMappedCityStudy(job, slug, epoch) {
     `${s.city.name} · Displaying the recalculated study ${s.evaluation_id.slice(0, 12)}, including its actual geometry, service and costs.`;
   byId("city-study-outcome").textContent =
     `${s.city.name}: ${s.outline_acceptance === "accepted" ? "Outline accepted" : "Priced proposal requires revision"}. ` +
-    `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV. ` +
+    `${s.trainsets} trainsets; ${moneyMillions(s.installed_capital_usd.base)} installed capital; ${moneyMillions(s.whole_life_npv_usd.base)} whole-life NPV across fourteen scopes. ` +
     `${Math.ceil(s.delivery.cases.base.finish_workday)} provisional working days with the priced resources; ` +
     (s.delivery.cases.base.target_met
       ? "within the planning target. "

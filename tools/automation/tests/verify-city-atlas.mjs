@@ -22,6 +22,8 @@ try {
   await page.goto('http://127.0.0.1:8097/docs/workbench/current/?outlineCity=samawah');
   await page.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
+  assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);
+  assert.equal(await page.locator('.atlas-cost-table tbody tr').count(),14);
   assert((await page.locator('#city-atlas').innerText()).includes('Samawah'));
   const gisLink=page.getByRole('link',{name:'Download editable RustGIS project and source tables'});
   const gisPath=await gisLink.getAttribute('href');
@@ -59,6 +61,9 @@ try {
   const calculatedResponse=page.waitForResponse(response=>response.url().includes('/api/city-atlas/study/')&&response.status()===200);
   await page.locator('#city-study-start').click();
   await page.waitForFunction(()=>!document.querySelector('#city-study-result').hidden,{timeout:180000});
+  assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);
+  assert((await page.locator('#city-study-links').innerText()).includes('Disabled business-system drafts'));
+  assert((await page.locator('#city-study-links').innerText()).includes('Production and construction schedule'));
   const status=await page.locator('#city-outline-status').innerText();assert(status.includes('recalculated study'),status);
   const calculated=await (await calculatedResponse).json();
   assert.equal(calculated.identity.selected_alignment_kind,'anchor-preserving-chord-research');
