@@ -52,12 +52,34 @@ its mass, cost, origin and repair method. A surveyed alignment and its two-way
 grade profile are needed before choosing the 1.5–2 km installation. No capital
 or lifecycle cost ranking is made while these quantities are unknown.
 
+## One station equipment quotation request
+
+The [station launch/brake module schedule](station-module.json) binds one
+directional departure berth, its 500 m commanded launch, one 250 m mid-route
+booster extension and a 350 m receiving reservation to booster research
+configuration `d1fec49310ae06beca16dd4fe4138b075f3b1c81476faae18c9df0877bdb7033`.
+It copies selected vehicle fin dimensions and nominal rail/primary clearances,
+lists eight equipment groups and gives a staged assembly, inspection and test
+sequence. Actual stator length and count, converter ratings, brake hardware,
+mounting tolerances, supplier masses and the **single installed price** remain
+null until supplier and site inputs exist. The schedule is a request for a
+budgetary quotation, not a price or manufacturing release. Its evaluation ID is
+`d144046c4091e01fe6a98c8a9143dcff220353a9d6d3cd44c2626fc6b2c2320a`.
+
+The stop interface needs immediate revision: from 20 m/s a 0.6 m/s² net
+deceleration requires 333.3 m before reaction distance. A declared, unapproved
+1 s reaction adds 20 m, exceeding the 350 m reservation by 3.3 m even before
+position uncertainty, brake build-up, grade variation and berth clearance.
+No 350 m receiving brake should be ordered as a verified full-speed stop.
+
 Reproduce from the repository root:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 -m engineering.design_search.demonstrator_propulsion \
   --input docs/design-engine/v07-demonstrator-propulsion/input.json \
   --output docs/design-engine/v07-demonstrator-propulsion/comparison.json --check
+PYTHONDONTWRITEBYTECODE=1 python3 -m engineering.design_search.station_module_schedule \
+  --output docs/design-engine/v07-demonstrator-propulsion/station-module.json --check
 ```
 
 The calculator calls the existing event-resolved
