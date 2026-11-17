@@ -56,6 +56,9 @@ construction time and disruption per kilometre. Show each numerator, service
 denominator, price basis and uncertainty; safety and accessibility remain
 mandatory screens. The current 30 km estimate is a comparison control, not a
 price promise or evidence of physical acceptance.
+The [first v0.7 engineering gate](design-engine/v07-affordable-corridor/README.md)
+records the distinct Samawah service and longest-gap screen, equal-service
+propulsion bounds, a segmented civil sequence and one removable door proposal.
 
 Before accepting an architecture, subsystem or major toolchain change, record
 whether it improves whole-railway cost or necessary service, local build and
@@ -88,6 +91,11 @@ The published case already groups the close pair operationally: raw markers
 change from 26 to 25, operational stops remain 25 and fleet remains 81. Both
 sides retain the same vehicle candidate and unchanged civil quantity identity;
 the report exposes actual service, access and fourteen-scope cost changes.
+The [17 November engineering gate](design-engine/v07-affordable-corridor/README.md)
+replayed the after-edit Samawah city calculation against current sources and
+retained its provisional price, while showing the 5.738 km line-1 coast failure
+and powered-axle research fallback. This is not a surveyed grade, selected
+propulsion installation or completed native GIS return journey.
 The remaining workstreams below remain open.
 
 The [agent delivery and tool migration plan](plans/v0.7-agent-delivery-plan.md)

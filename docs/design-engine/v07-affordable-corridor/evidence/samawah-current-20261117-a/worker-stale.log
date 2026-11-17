@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/hayder/Documents/.osr-v07-selected-20261116/engineering/outline/city_worker.py", line 32, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/hayder/Documents/.osr-v07-selected-20261116/engineering/outline/city_worker.py", line 28, in main
+    manifest=city_workflow.run(request,args.output,root=args.root,parent=parent)
+  File "/home/hayder/Documents/.osr-v07-selected-20261116/engineering/outline/city_workflow.py", line 367, in run
+    value,timing=evaluate(request,root=root,study_store=study_store,parent=parent);output.mkdir(parents=True)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hayder/Documents/.osr-v07-selected-20261116/engineering/outline/city_workflow.py", line 244, in evaluate
+    raise ValueError('The selected published outline changed; reload the city before recalculating')
+ValueError: The selected published outline changed; reload the city before recalculating

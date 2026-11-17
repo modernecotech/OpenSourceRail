@@ -38,6 +38,59 @@ places/hour at the same 120 s headway; spacing it at 300 s would offer roughly
 8,400 but violate this benchmark's maximum headway. It needs a distinct
 formation, platform, fleet and service evaluation before cost comparison.
 
+## Samawah is a different, unresolved railway
+
+The [sealed actual-route screen](evidence/samawah-route-20261117-a/result.json)
+uses the retained [Samawah continuity case](../v07-project-continuity/README.md),
+not the 30 km control. It has five lines totalling **57.873 km**, 25 operational
+station complexes, 20 adjacent-stop legs and **200 s headway**. At 276 normal
+places/train it offers 4,968 places/hour/direction per line against the city's
+declared 4,000 planning demand; the model's planning-usable figure is 4,180.572.
+Its fleet is 69 active plus 12 reserve trainsets. The planning revision is
+`48aa915f289bee2eaa31bd94e4040671892326edafe8bd7032019e96edc167fb`;
+new route-screen evaluation
+`cd72ac0876eed37dbd4b540f74b706c60ff001ddc5a0bded519a331d24fd6b35`.
+
+The longest line-1 gap is **5,737.645 m**. It already fails the retained
+*level-track* station-coasting model. That model uses a **powered-axle research
+fallback** for line 1, with a 26.603 km continuous-feed hypothesis, nine
+costed substations, four motors/car and an extra 1,000 kg/car allowance. The
+other four lines carry 34 costed station-launch converter sites. It also
+counts 62 boarding edges, 74.4 MW of nominal charging across them and four
+recovery units. These are model quantities, not an installed drive, verified
+grid connection or accepted cost.
+
+Actual Samawah grades are **unknown**. For an optimistic 500 m launch, 350 m
+receiving zone and 20 m/s cap, even zero-drag coasting fails a necessary
+uphill energy bound when a gap exceeds **2.889 km at +1%** or **1.869 km at
++2%**. Four short gaps need an overlapping-zone model. Of the other 16, 12
+would fail at a hypothetical +1% and 14 at +2%; these grades are **scenarios,
+not surveyed properties**. Survey the 5.738 km line-1 and 5.528 km line-2
+legs first, then every gap, vertical profile, speed restriction and protected
+turnback. The retained city packet had intact payload hashes but **four changed
+current source files**. A [fresh current-source after-edit replay](evidence/samawah-current-20261117-a/handoff.json)
+now verifies all 65 current input hashes, 20 raw artifact hashes and exact
+replay. It returns the **same numerical** $1.141bn base capital and $2.259bn
+30-year NPV, with new planning revision
+`b20df155d16bfb773e17a4e6d0984be32261fd691417d36d4fb29f4cec897f3e`
+and workflow evaluation
+`d69d46f7adccfcaf9d9d799d6c478741e0a3010e2b0a4f20d8d34d119ccf5291`.
+The [compact receipt](evidence/samawah-current-20261117-a/receipt.json)
+seals its request, proposal, fourteen-scope handoff, logs and raw artifact
+manifest hash; the 24.5 MB full numerical job remains private to avoid a
+duplicate Git publication. These prices are still Class C with unverified
+local rates and the line-1 powered-axle research fallback. Neither Samawah's
+service nor its prices transfer to the synthetic 30 km benchmark.
+
+The [same-epoch before/after comparison](evidence/samawah-current-comparison-20261117-a/comparison.json)
+also verifies against current sources: raw markers 26 to 25, operational
+complexes 25 to 25, trainsets 81 to 81, base capital **−$10,029.49** and
+whole-life NPV **+$229,759.68**. Its fourteen scopes and source identities are
+in the [sealed comparison receipt](evidence/samawah-current-comparison-20261117-a/receipt.json);
+only construction, disposal and energy change. Line 1's one-way time rises
+1.494405 s. This is a source-bound station-edit comparison, not evidence that
+the 5.738 km propulsion gap or access route works physically.
+
 ## Equal-service architecture screen
 
 | Family | Current evidence | Decision |
