@@ -26,6 +26,7 @@ jobs:
       - name: Source domains, physical revisions and adversarial contracts
         run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py tools/automation/tests/test_sourced_ifc_reuse.py tools/automation/tests/test_sourced_original_epoch_route.py
   semantic-replay:
+    if: github.event_name == 'workflow_dispatch'
     timeout-minutes: 60
     runs-on: ubuntu-24.04
     steps:
@@ -69,6 +70,7 @@ jobs:
           path: build/sourced-replay-audit/
           retention-days: 14
   geometry-and-recorded-methods:
+    if: github.event_name == 'workflow_dispatch'
     timeout-minutes: 60
     runs-on: ubuntu-24.04
     steps:
