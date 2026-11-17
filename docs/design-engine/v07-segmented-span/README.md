@@ -44,10 +44,27 @@ named release record. A contractor can quote the listed quantities and tests,
 but must return engineered methods, dimensions, measured hours and supplier
 prices before a controlled build instruction is issued.
 
-The current USD 107.703 million civil figure belongs to the **unsegmented**
-30 km Class C comparison. It is not the installed price of this candidate.
-The quote schedule has open unit prices for segments, joints, towers, lifts,
-supports, bearings, rail, fasteners, welding and protected access.
+The [cost handoff](cost-handoff.json) compares the counted straight-span
+quantities without manufacturing a price from unquoted work:
+
+| Quote or quantity | 2 km | 30 km | Pricing treatment |
+|---|---:|---:|---|
+| Complete segmented beam factory packages | 200 | 3,000 | Replace whole-beam factory allowance |
+| Segment stocks / structural joints | 400 / 200 | 6,000 / 3,000 | Breakdowns inside the complete beam quote; do not add again |
+| Certified segment lifts / tower placements | 400 / 200 | 6,000 / 3,000 | Replace old lift allowance / add new tower work |
+| Independent pier and foundation supports | 202 | 3,002 | Replace gravity-minimum site proxy |
+| Bearing units / direct fastener sets | 800 / 14,000 | 12,000 / 210,000 | Replace matching base allowances |
+| Rail stock / welds | 8,000 m / 396 | 120,000 m / 5,996 | Replace matching base allowances |
+
+The current USD 107.703 million (IQD 162.631 billion) civil figure belongs
+to the **unsegmented 30 km Class C comparison**. It is not this candidate's
+installed price. The 3 m footing adds an arithmetic material-only proxy of
+IQD 1.477 billion at 30 km, or IQD 99.4 million for 2 km when scaled by the
+actual support-count ratio. It is **not added** when a complete site support
+quote replaces the baseline support line. All candidate unit quotes, baseline
+credits, deltas and installed totals remain null until supplier and site
+inputs arrive. Geotechnics, station transitions, utilities and haul permits
+are separate unquantified quote rows.
 
 ## Reproduce and check
 
@@ -55,6 +72,7 @@ From the repository root:
 
 ```bash
 python3 -m engineering.design_search.segmented_span_prototype check
+python3 -m engineering.design_search.segmented_span_prototype check-cost
 python3 -m pytest -q engineering/design_search/tests/test_segmented_span_prototype.py
 ```
 

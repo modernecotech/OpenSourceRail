@@ -60,3 +60,41 @@ def test_resealed_source_manifest_is_not_silently_admitted(tmp_path: Path):
     manifest.write_text(json.dumps(value))
     with pytest.raises(ValueError, match='source manifest differs'):
         plan.build(tmp_path)
+
+
+def test_cost_handoff_replays_and_never_promotes_proxy_to_candidate_total():
+    expected = (plan.ROOT / plan.COST_OUTPUT).read_bytes()
+    assert expected == plan.encoded(plan.build_cost_handoff())
+    value = json.loads(expected)
+    assert value['physical_candidate_id'] == plan.CANDIDATE
+    assert value['civil_plan_id'] == plan.build()['plan_id']
+    assert value['comparison_only']['proxy_is_not_segmented_candidate_installed_cost'] is True
+    assert value['comparison_only']['unsegmented_30km_class_C_civil_proxy_usd'] == pytest.approx(107702670.9707151)
+    for key in ('candidate_installed_civil_cost_2km_iqd', 'candidate_installed_civil_cost_30km_iqd',
+                'candidate_civil_delta_2km_iqd', 'candidate_civil_delta_30km_iqd'):
+        assert value[key] is None
+    rows = {r['item']: r for r in value['quote_rows']}
+    assert rows['complete segmented beam factory package']['quantity_2km'] == 200
+    assert rows['complete segmented beam factory package']['quantity_30km'] == 3000
+    assert rows['segment stock breakdown only']['quantity_2km'] == 400
+    assert rows['segment stock breakdown only']['quantity_30km'] == 6000
+    assert rows['temporary tower placement and release']['quantity_2km'] == 200
+    assert rows['bearing and restraint unit']['quantity_30km'] == 12000
+    assert rows['joint and tendon breakdown only']['cost_treatment'] == 'breakdown_only'
+    assert value['symbolic_cost_formula']['breakdown_only_rows_in_rollup'] is False
+    assert value['symbolic_cost_formula']['formula_evaluable_with_current_inputs'] is False
+    assert value['comparison_only']['unsegmented_2km_installed_civil_proxy_iqd'] is None
+    assert all(r['unit_quote_iqd'] is None and r['delta_iqd'] is None for r in rows.values())
+    assert value['comparison_only']['three_m_footing_material_delta_2km_by_support_ratio_iqd'] == pytest.approx(
+        value['comparison_only']['three_m_footing_material_delta_30km_iqd'] * 202 / 3002)
+
+
+def test_cost_handoff_refuses_stale_plan(tmp_path: Path):
+    folder = tmp_path / plan.SOURCE
+    folder.parent.mkdir(parents=True)
+    shutil.copytree(plan.ROOT / plan.SOURCE, folder)
+    target = tmp_path / plan.OUTPUT
+    target.parent.mkdir(parents=True)
+    target.write_bytes((plan.ROOT / plan.OUTPUT).read_bytes() + b'changed')
+    with pytest.raises(ValueError, match='plan differs'):
+        plan.build_cost_handoff(tmp_path)

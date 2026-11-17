@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = Path('docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001')
 OUTPUT = Path('docs/design-engine/v07-segmented-span/plan.json')
+COST_OUTPUT = Path('docs/design-engine/v07-segmented-span/cost-handoff.json')
 SCHEMA = 'osr-v07-segmented-span-prototype-plan/1'
 CANDIDATE = 'abcf7e942fd1337c9872869d684ac9a8055ce94bd3e9c35de0dbcbe07f49ac82'
 SOURCE_MANIFEST_SHA256 = '263776c13f7fed60e1b18359eb11ade3cd6f345b6db641439489ca7f21e01470'
@@ -221,14 +222,114 @@ def build(root: Path = ROOT) -> dict:
     return plan
 
 
+def build_cost_handoff(root: Path = ROOT) -> dict:
+    """Quote quantities and substitution rules, with no inferred installed total."""
+    root = Path(root)
+    plan = build(root)
+    if (root / OUTPUT).read_bytes() != encoded(plan):
+        raise ValueError('Civil prototype plan differs before cost handoff')
+    _, _, result = source(root)
+    two = result['counts']['demonstrator_2km']
+    route = result['counts']['route']
+    proxy = result['cost']
+    if (two['route_m'], route['route_m']) != (2000, 30000):
+        raise ValueError('Civil quote route lengths differ')
+
+    def row(name, key, unit, treatment, overlap, quote):
+        return dict(item=name, quantity_2km=two[key], quantity_30km=route[key], unit=unit,
+                    cost_treatment=treatment, baseline_overlap=overlap,
+                    supplier_input=quote, unit_quote_iqd=None, baseline_credit_iqd=None,
+                    delta_iqd=None, supplier=None, local_value_added_fraction=None)
+
+    rows = [
+        row('complete segmented beam factory package', 'beam_spans', 'beam', 'replace',
+            'whole-beam factory, prestress/anchor and end-joint allowances',
+            'Quote two segment stocks, match-cast structural joint, tendons, anchors, inserts, cure, QA and rejection allowance as one beam package.'),
+        row('segment stock breakdown only', 'ten_m_segments', 'segment', 'breakdown_only',
+            'inside complete segmented beam factory package',
+            'Disclose material, cage, form, casting and handling-insert component of the complete beam quote; do not add again.'),
+        row('joint and tendon breakdown only', 'beam_spans', 'joint', 'breakdown_only',
+            'inside complete segmented beam factory package',
+            'Disclose key/epoxy/duct/tendon/anchor, tension and inspection component; do not add again.'),
+        row('certified segment crane lift', 'required_piece_lifts', 'lift', 'replace',
+            'whole-beam crane erection allowance',
+            'Measured radius, hook load, rigging, crane chart, paid hours, mats and standby.'),
+        row('temporary tower placement and release', 'temporary_tower_placements', 'placement', 'increment',
+            'no qualified tower in whole-beam base',
+            'Tower/pad design, installation, bracing, monitoring, release and removal.'),
+        row('pier and site foundation', 'independent_supports', 'support', 'replace',
+            'gravity-minimum footing/pier proxy',
+            'Geotechnical-selected footing/pile, pier, bearing seat, excavation, groundwater and seismic/lateral checks.'),
+        row('bearing and restraint unit', 'bearings', 'unit', 'replace',
+            'Class C four-pad-per-beam allowance',
+            'Supplier bearing, anchor, restraint, QA and replacement-jack interface.'),
+        row('rail stock', 'rail_stock_m', 'm', 'replace',
+            'whole-beam rail stock allowance', 'Rail section, transport, handling and installed geometry.'),
+        row('direct fastener set', 'direct_fastener_sets', 'set', 'replace',
+            'whole-beam direct-fastener allowance', 'Fastener, pad, insulation, anchor and installation/inspection.'),
+        row('rail butt weld and inspection', 'field_butt_welds_for_20m_rail_stock_hypothesis', 'weld', 'replace',
+            '20 m stock-length field-weld allowance', 'Weld procedure, operator, NDT, rework and possessions.'),
+        row('continuous protected access', 'continuous_protected_access_track_m_required', 'track-m', 'replace_or_add_after_scope_audit',
+            '30 km nonstation walkway proxy; 2 km coverage unconfirmed',
+            'Accessible protected route, fixings, drainage, guard and inspection access.'),
+    ]
+    foot_delta_30 = proxy['selected_3m_footing_additional_concrete_and_rebar_proxy_iqd']
+    foot_delta_2 = foot_delta_30 * two['independent_supports'] / route['independent_supports']
+    handoff = {
+        'schema': 'osr-v07-segmented-span-cost-handoff/1',
+        'purpose': 'candidate-specific supplier and site quote input; no installed price inferred',
+        'physical_candidate_id': plan['physical_candidate_id'],
+        'selected_vehicle_candidate_id': plan['selected_vehicle_candidate_id'],
+        'civil_source_evaluation_id': plan['source_evaluation_id'],
+        'civil_plan_id': plan['plan_id'],
+        'civil_plan_sha256': digest(root / OUTPUT),
+        'selected_reference_changed': False,
+        'physical_accepted': False,
+        'manufacturing_release': False,
+        'quote_rows': rows,
+        'site_specific_open_rows': [
+            {'item': 'geotechnical investigation and ground improvement', 'quantity_2km': None, 'quantity_30km': None,
+             'unit_quote_iqd': None, 'reason': 'alignment, boreholes, groundwater and foundation family not surveyed'},
+            {'item': 'station, terminal and crossover civil interface', 'quantity_2km': None, 'quantity_30km': None,
+             'unit_quote_iqd': None, 'reason': 'straight-span arithmetic excludes nonstandard structures'},
+            {'item': 'haul route permits, utilities and traffic management', 'quantity_2km': None, 'quantity_30km': None,
+             'unit_quote_iqd': None, 'reason': 'actual road/site access and utility conflicts not surveyed'},
+        ],
+        'comparison_only': {
+            'unsegmented_2km_installed_civil_proxy_iqd': None,
+            'unsegmented_30km_class_C_civil_proxy_iqd': proxy['fresh_unsegmented_line30_civil_class_C_proxy_iqd'],
+            'unsegmented_30km_class_C_civil_proxy_usd': proxy['fresh_unsegmented_line30_civil_class_C_proxy_usd'],
+            'three_m_footing_material_delta_30km_iqd': foot_delta_30,
+            'three_m_footing_material_delta_2km_by_support_ratio_iqd': foot_delta_2,
+            'footing_delta_is_material_only_and_not_added_when_full_support_quoted': True,
+            'proxy_is_not_segmented_candidate_installed_cost': True,
+        },
+        'reconciliation_rule': 'Each replace row requires a candidate quote and corresponding baseline credit before its delta can be summed. Increment rows enter once. Breakdown-only rows are disclosed inside the complete beam quote and never summed separately. Site-specific rows need survey and quote. The 3 m footing material proxy is a comparator only when a full support quote replaces the baseline support line.',
+        'symbolic_cost_formula': {
+            '2km': 'unsegmented_2km_scope_matched_baseline + SUM(replacement_quote - matching_baseline_credit) + SUM(increment_quote) + site_specific_quotes',
+            '30km': 'unsegmented_30km_class_C_proxy + SUM(replacement_quote - matching_baseline_credit) + SUM(increment_quote) + site_specific_quotes',
+            'breakdown_only_rows_in_rollup': False,
+            'formula_evaluable_with_current_inputs': False,
+        },
+        'candidate_installed_civil_cost_2km_iqd': None,
+        'candidate_installed_civil_cost_30km_iqd': None,
+        'candidate_civil_delta_2km_iqd': None,
+        'candidate_civil_delta_30km_iqd': None,
+        'unpriced_rows_count': len(rows) + 3,
+    }
+    handoff['cost_handoff_id'] = sha256(encoded(handoff)).hexdigest()
+    return handoff
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('write', 'check'))
+    parser.add_argument('action', choices=('write', 'check', 'write-cost', 'check-cost'))
     parser.add_argument('--root', type=Path, default=ROOT)
     args = parser.parse_args()
-    target = args.root / OUTPUT
-    raw = encoded(build(args.root))
-    if args.action == 'write':
+    cost = args.action.endswith('-cost')
+    target = args.root / (COST_OUTPUT if cost else OUTPUT)
+    raw = encoded(build_cost_handoff(args.root) if cost else build(args.root))
+    if args.action.startswith('write'):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(raw)
     elif target.read_bytes() != raw:
