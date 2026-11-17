@@ -25,7 +25,7 @@ try {
   assert.equal(await reference.getAttribute('data-evaluation-id'),'osr-v07-interface-reconciliation-20261117');
   assert.match(await reference.innerText(),/US\$1,023\.499 million/);
   assert.match(await reference.innerText(),/43 months/);
-  for(const label of ['Candidate identity and fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Fourteen-scope cost and 43-month plan','Manufacturing BOM','Assembly and construction routing','Unposted ERPNext and QA draft']){
+  for(const label of ['Candidate identity and fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Digital vehicle mass and CAD result','Digital civil FEM result','Digital production handoff','Fourteen-scope cost and 43-month plan','Manufacturing BOM','Assembly and construction routing','Unposted ERPNext and QA draft']){
     const link=reference.getByRole('link',{name:label});
     assert.equal(await link.count(),1);
     assert.equal((await page.request.get(new URL(await link.getAttribute('href'),page.url()).href)).status(),200);
