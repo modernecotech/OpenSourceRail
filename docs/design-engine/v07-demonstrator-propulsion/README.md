@@ -64,13 +64,31 @@ sequence. Actual stator length and count, converter ratings, brake hardware,
 mounting tolerances, supplier masses and the **single installed price** remain
 null until supplier and site inputs exist. The schedule is a request for a
 budgetary quotation, not a price or manufacturing release. Its evaluation ID is
-`d144046c4091e01fe6a98c8a9143dcff220353a9d6d3cd44c2626fc6b2c2320a`.
+`c58e907b5b8de97984ea8330c88c77e873d44529f9f88cc67a44583f1c9a0a35`.
 
 The stop interface needs immediate revision: from 20 m/s a 0.6 m/s² net
-deceleration requires 333.3 m before reaction distance. A declared, unapproved
-1 s reaction adds 20 m, exceeding the 350 m reservation by 3.3 m even before
-position uncertainty, brake build-up, grade variation and berth clearance.
-No 350 m receiving brake should be ordered as a verified full-speed stop.
+deceleration requires 333.3 m before reaction distance. An illustrative,
+unapproved 1 s reaction adds 20 m. If station-mounted receiving force is
+available only once the entire 104.5 m train has entered, the geometric
+minimum under an optimistic immediately available brake becomes **457.8 m**,
+before berth tolerance, position
+uncertainty, brake build-up, grade variation or civil clearance.
+
+| Research receiving reservation | Nose-stop margin | Full-train-engagement margin |
+|---:|---:|---:|
+| 350 m retained | −3.3 m | −107.8 m |
+| 400 m revision | +46.7 m | −57.8 m |
+| 450 m revision | +96.7 m | −7.8 m |
+
+Each receiving revision has a distinct research configuration ID in the JSON.
+None is selected. The 400/450 m alternatives resolve the original nose-stop
+shortfall but not the conservative full-train engagement requirement. A design
+request should start above 457.8 m **plus justified margins**, or prove a
+different force-engagement sequence. The receiving/berth boundary and train-tail
+clearance remain undefined. The length arithmetic presumes the target brake
+force exists; inherited μ=0.05 remains below the optimistic μ≈0.0832 bound on
+a 2% downgrade. No station/civil quantity or price has been inherited or
+recalculated for the longer reservations.
 
 Reproduce from the repository root:
 

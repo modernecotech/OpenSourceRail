@@ -55,6 +55,20 @@ def schedule(root=ROOT):
     reaction_s=1.0 # explicit quotation sensitivity, not an approved reaction time
     with_reaction=no_reaction+inputs['model']['speed_cap_m_s']*reaction_s
     receiving_reservation_m=350
+    full_train_engagement_minimum=with_reaction+train_length
+    receiving_alternatives=[]
+    for length in (350,400,450):
+        definition=dict(parent_booster_railway_research_configuration_id=adverse['railway_research_configuration_id'],
+                        receiving_reserved_length_m=length,
+                        full_train_engagement_before_brake_hypothesis=True)
+        receiving_alternatives.append(dict(
+            receiving_research_configuration_id=identity(definition),
+            reserved_length_m=length,selected=False,installed_brake_length_m=None,
+            nose_stop_margin_with_illustrative_reaction_m=length-with_reaction,
+            full_train_engagement_margin_m=length-full_train_engagement_minimum,
+            grade_and_adhesion_screen='held: 2% downgrade needs more than inherited mu=0.05',
+            full_load_hot_fault_stop_verified=False,
+            civil_station_quantity_and_price_effect=None))
     def item(name, demand_basis, *, unit='assembly', installed_quantity=None, rating=None):
         return dict(id=name, demand_basis=demand_basis, quote_unit=unit,
                     installed_quantity=installed_quantity, supplier_rating=rating,
@@ -64,7 +78,8 @@ def schedule(root=ROOT):
     items=[
         item('station-launch-primary', '500 m full-engagement leading-nose command window; physical stator extent and group overlap unresolved',unit='m of installed primary'),
         item('midroute-booster-primary', '250 m full-engagement leading-nose command window at chainage 1000–1250 m; physical stator extent unresolved',unit='m of installed primary'),
-        item('receiving-independent-brake-and-parking', '350 m reserved approach; full-speed stopping and reaction margin not established'),
+        item('receiving-independent-brake-and-parking',
+             f'350/400/450 m research reservations; at least {full_train_engagement_minimum:.1f} m before uncertainty if full train engagement precedes braking'),
         item('phase-group-converters-and-dc-link', 'Separate commanded launch/booster windows; group count, simultaneous trains and phase branches to be designed'),
         item('feeder-return-isolation-grounding', 'Station and midroute groups, protected return and safe isolation; route and cable lengths to be surveyed'),
         item('sensors-position-and-protection', 'Registered phase position, train detection, berth, tail clearance, interlocking and fault monitoring'),
@@ -82,6 +97,7 @@ def schedule(root=ROOT):
                           launch_command_window_m=[0,500],booster_command_window_m=[1000,1250],
                           receiving_reservation_m=receiving_reservation_m,
                           actual_installed_primary_m=None,actual_receiving_brake_m=None,
+                          receiving_revision_candidates=receiving_alternatives,
                           full_train_length_m=train_length,train_cars=stock['cars'],
                           one_sided_passenger_doors_per_train=stock['cars']*stock['passenger_doors_per_car'],
                           platform_side_and_door_datum=None),
@@ -108,9 +124,15 @@ def schedule(root=ROOT):
                               full_speed_stop_with_illustrative_reaction_m=with_reaction,
                               receiving_reservation_m=receiving_reservation_m,
                               illustrative_margin_m=receiving_reservation_m-with_reaction,
+                              full_train_engagement_before_brake_minimum_m=full_train_engagement_minimum,
+                              full_train_engagement_before_brake_hypothesis=True,
+                              speed_cap_maintained_during_unbraked_runin_hypothesis=True,
+                              extra_berth_tail_position_and_uncertainty_clearance_m=None,
+                              quoted_receiving_length_m=None,
                               optimistic_mu_floor_2pct_downhill=comparison['independent_brake']['optimistic_mu_floor_2pct_downhill'],
                               brake_type_and_count=None,adhesion_WSP_fade_and_heat_rating=None,
-                              independent_power_loss_stop_and_parking_verified=False),
+                              independent_power_loss_stop_and_parking_verified=False,
+                              limitation='Lengths assume the target net deceleration is already available; mu=0.05 fails the necessary force bound. Full-train run-in is a conservative station-mounted receiving-force hypothesis, not an approved brake geometry.'),
         quote_items=items,
         assembly_qa_sequence=[
             'Survey rail, berth, door/platform, station/civil and booster datums; approve dimensional interface control before equipment manufacture',

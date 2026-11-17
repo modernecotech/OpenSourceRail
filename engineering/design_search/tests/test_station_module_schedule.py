@@ -18,6 +18,15 @@ def test_one_station_module_matches_selected_vehicle_and_research_booster():
     assert scope['launch_command_window_m']==[0,500]
     assert scope['booster_command_window_m']==[1000,1250]
     assert scope['actual_installed_primary_m'] is None
+    alternatives=scope['receiving_revision_candidates']
+    assert [r['reserved_length_m'] for r in alternatives]==[350,400,450]
+    assert len({r['receiving_research_configuration_id'] for r in alternatives})==3
+    assert all(r['selected'] is False and r['civil_station_quantity_and_price_effect'] is None for r in alternatives)
+    assert alternatives[0]['nose_stop_margin_with_illustrative_reaction_m']<0
+    assert alternatives[1]['nose_stop_margin_with_illustrative_reaction_m']>0
+    assert alternatives[2]['full_train_engagement_margin_m']<0
+    assert value['independent_stop']['full_train_engagement_before_brake_minimum_m']>457
+    assert value['independent_stop']['extra_berth_tail_position_and_uncertainty_clearance_m'] is None
     assert value['mechanical_interfaces']['nominal_airgap_each_side_m']==.015
     assert value['mechanical_interfaces']['primary_mounting_datum_and_tolerance'] is None
     assert value['quote_request']['single_installed_budgetary_price_usd'] is None
