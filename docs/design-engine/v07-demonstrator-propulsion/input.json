@@ -1,0 +1,46 @@
+{
+  "schema": "osr-v07-demonstrator-propulsion-input/1",
+  "parent_selected_vehicle_candidate_id": "756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3",
+  "demonstrator_site": null,
+  "profile_kind": "synthetic constant uphill grade, not a surveyed route",
+  "model": {
+    "spacing_m": [1500, 2000],
+    "uphill_grade_fraction": [0, 0.01, 0.02],
+    "cars": 6,
+    "headway_s": 120,
+    "speed_cap_m_s": 20,
+    "acceleration_command_m_s2": 0.4,
+    "independent_stop_target_m_s2": 0.6,
+    "brake_mu_hypothesis": 0.05,
+    "dt_s": 0.2,
+    "rolling_coefficient": 0.0025,
+    "constant_resistance_N_per_car": 50,
+    "aero_coefficient_N_s2_m2_per_car": 1.8
+  },
+  "architectures": [
+    {
+      "id": "station-only",
+      "driven_axles": 0,
+      "powered_windows_m": {
+        "1500": [[0, 500]],
+        "2000": [[0, 500]]
+      }
+    },
+    {
+      "id": "station-plus-midroute-booster",
+      "driven_axles": 0,
+      "powered_windows_m": {
+        "1500": [[0, 500], [1000, 1250]],
+        "2000": [[0, 500], [1000, 1250]]
+      }
+    },
+    {
+      "id": "powered-wheel-sustained",
+      "driven_axles": 24,
+      "powered_windows_m": {
+        "1500": [[0, 1500]],
+        "2000": [[0, 2000]]
+      }
+    }
+  ]
+}

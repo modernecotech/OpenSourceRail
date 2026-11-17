@@ -1,0 +1,5 @@
+Command: PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -f 'elapsed_s=%e peak_rss_kib=%M exit_code=%x' python3 -m engineering.design_search.demonstrator_propulsion --input docs/design-engine/v07-demonstrator-propulsion/input.json --output docs/design-engine/v07-demonstrator-propulsion/comparison.json --check
+{"evaluation_id": "2bd76c62dcb510678a1366b685a4843077cb0fadaa6bc07c3cbb3f28797e52a0", "physical_accepted": false, "rows": 18}
+elapsed_s=2.53 peak_rss_kib=264156 exit_code=0
+Focused tests: PYTHONDONTWRITEBYTECODE=1 /home/hayder/Documents/OpenSourceRail/.venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_demonstrator_propulsion.py
+3 passed in 2.70s
