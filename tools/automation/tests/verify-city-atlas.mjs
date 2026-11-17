@@ -20,6 +20,16 @@ try {
   const page=await browser.newPage({viewport:{width:1500,height:1100}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8097/docs/workbench/current/?outlineCity=samawah');
+  const reference=page.locator('#v07-reference');
+  assert.equal(await reference.getAttribute('data-physical-candidate-id'),'osr-v07-joined-prototype-20261117');
+  assert.equal(await reference.getAttribute('data-evaluation-id'),'osr-v07-interface-reconciliation-20261117');
+  assert.match(await reference.innerText(),/US\$1,023\.499 million/);
+  assert.match(await reference.innerText(),/43 months/);
+  for(const label of ['Candidate identity and fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Fourteen-scope cost and 43-month plan','Manufacturing BOM','Assembly and construction routing','Unposted ERPNext and QA draft']){
+    const link=reference.getByRole('link',{name:label});
+    assert.equal(await link.count(),1);
+    assert.equal((await page.request.get(new URL(await link.getAttribute('href'),page.url()).href)).status(),200);
+  }
   await page.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
   assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);
