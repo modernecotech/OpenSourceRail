@@ -132,8 +132,11 @@ def test_linked_membership_matches_publication_contract():
     returns=[n.value for n in ast.walk(scopes) if isinstance(n,ast.Return)]
     assert len(returns)==1 and isinstance(returns[0],ast.Call)
     original=next(k.value for k in returns[0].keywords if k.arg=='original_packet_and_producer_bytes_only')
+    historical=next(k.value for k in returns[0].keywords if k.arg=='historical_source_epoch_integrity_only')
+    assert 'coupled-railway-v07' in ast.literal_eval(historical)
     retained=recorded.intersection(ast.literal_eval(original))
-    assert retained=={'periodic-thermal-research'}
+    retained.update(set(migration.LINKED_NOT_COVERED).intersection(ast.literal_eval(historical)))
+    assert retained=={'periodic-thermal-research','coupled-railway-v07'}
     assert not retained.intersection(linked)
     assert recorded|set(migration.LINKED_NOT_COVERED)==linked|retained
     assert not recorded.intersection(migration.LINKED_NOT_COVERED)

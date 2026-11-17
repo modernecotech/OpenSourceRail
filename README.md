@@ -8,8 +8,9 @@ The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventi
 
 The [v0.7 railway concept package](docs/reference-v07/README.md) now defines a
 powered-wheel six-car train, a joint-free 10 m precast span and station
-interface, a **US$1.0235bn** synthetic 30 km installed budget and a
-**43-month** delivery programme. [Baghdad](cities/Baghdad/PROPOSAL.md) has
+interface, a [joined quotation and manufacturing handoff](docs/reference-v07/integration/README.md),
+a **US$1.0235bn** synthetic 30 km installed budget and a **43-month** delivery
+programme. [Baghdad](cities/Baghdad/PROPOSAL.md) has
 separate 148.2 km and 605.65 km network concepts with one capital and
 whole-life estimate each.
 

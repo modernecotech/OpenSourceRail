@@ -45,7 +45,6 @@ LINKED_PUBLICATIONS={
     'v06-adaptive-design':('osr-adaptive-publication/1','source_sha256','files_sha256','manifest_id'),
     'generative-structure':('osr-generative-structure-publication/1','source_sha256','files_sha256','manifest_id'),
     'coupled-railway':('osr-coupled-railway-publication/1','source_sha256','files_sha256','manifest_id'),
-    'coupled-railway-v07':('osr-coupled-railway-publication/2','source_sha256','files_sha256','manifest_id'),
     'railway-closure':('osr-end-to-end-railway-closure-publication/1','sources','files','publication_id'),
     'moving-lim-method':('osr-moving-LIM-method-publication/1','source_sha256','files_sha256','manifest_id'),
     'practical-launch':('osr-practical-launch-publication/1','source_sha256','files_sha256','manifest_id'),
@@ -116,7 +115,7 @@ def _linked_packet_sources(root,folder,contract):
 def linked_publication_sources(root=ROOT):
     """Fail early on stale current packets; retain their exact dependency maps."""
     from engineering.design_search import retained_publication,retained_periodic_thermal,compact_launch_retained,line_benchmark_retained
-    from . import closure_retention,retired_station_reference
+    from . import closure_retention,retired_station_reference,retained_v07_coupled
     historical=retained_publication.verify(root)
     followup=closure_retention.verify(root)
     thermal=retained_periodic_thermal.verify(root)
@@ -128,6 +127,7 @@ def linked_publication_sources(root=ROOT):
         'docs/design-engine/line30-benchmark/'+name:digest(Path(root)/'docs/design-engine/line30-benchmark'/name)
         for name in ('result.json','README.md','manifest.json')})
     retired=retired_station_reference.verify(root)
+    coupled_v07=retained_v07_coupled.verify(root)
     retained_epoch_files=(
         'engineering/design_search/compact_launch_retained.py',
         'engineering/design_search/line_benchmark_retained.py',
@@ -144,7 +144,7 @@ def linked_publication_sources(root=ROOT):
     retained_epoch_sources={name:digest(Path(root)/name) for name in retained_epoch_files}
     return evaluation.merge(historical['dependency_sha256'],followup['dependency_sha256'],thermal['dependency_sha256'],benchmark_sources,
         retained_epoch_sources,
-        retired['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
+        retired['dependency_sha256'],coupled_v07['dependency_sha256'],*[_linked_packet_sources(root,folder,contract)
         for folder,contract in LINKED_PUBLICATIONS.items() if folder not in retired_station_reference.PACKETS])
 
 
@@ -154,7 +154,7 @@ def linked_publication_scope():
         retired_fixed_reference_integrity_only=sorted(retired_station_reference.PACKETS),
         retired_reference_commit=retired_station_reference.COMMIT,
         replayed_analytical_research=[],
-        historical_source_epoch_integrity_only=['compact-launch','coupled-railway','line30-benchmark'],
+        historical_source_epoch_integrity_only=['compact-launch','coupled-railway','coupled-railway-v07','line30-benchmark'],
         original_packet_and_producer_bytes_only=['v06-optimisation','v06-physical-closure','periodic-thermal-research'],
         numerical_or_physical_validation_by_this_check=False)
 
@@ -956,7 +956,7 @@ def readme(record,summary,root=ROOT,*,compiled=None):
       'The completed [bounded wheel campaign](../v06-optimisation/README.md) has its top-level campaign producer bindings pinned in a separate [source-epoch receipt](../retained-wheel-source-epoch/manifest.json). Verify that archive with `python3 -m engineering.design_search.retained_publication verify`. Nested attempt archives remain byte-for-byte preserved; additional per-attempt source coverage and numerical re-execution are not claimed. This check grants no admission under current evaluators or current design selection. Continuing architecture and adaptive studies use their current source contracts.','',
       'The [function-first adaptive generator](../v06-adaptive-design/README.md) separates mandatory obligations, advisory targets, revisable hypotheses and numerical model domains. Its extensible material/structure/joining/equipment/system variables drive coupled revision tasks. New thinner/deeper sill experiments redistribute counted material, with native normal/fine/crowd cases and matched mass, axle, demand and civil calculations. Provisional deflection alone neither rejects nor accepts a car; local stability, strength, joints, clearances and correlation remain open.','',
       'The [generative structural campaign](../generative-structure/README.md) composes different physical body arrangements, generates actual stock and interface graphs, diagnoses mechanisms and executes topology, layout and function-integration rewrites. Gross structure stock is not equipped vehicle tare. Native axial underfloor checks and CAD exports do not validate complete shell, laminate, joint or vehicle response; no integrated design is selected.','',
-      'The [current v0.7 coordinated railway experiment](../coupled-railway-v07/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through one versioned bundle and dependency graph. Changed body stock automatically triggers downstream evaluation. The [historical Journey C packet](../coupled-railway/README.md) retains its original source and payload epoch without current-evaluator admission. Three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.','',
+      'The [retained v0.7 coordinated railway experiment](../coupled-railway-v07/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through its original source-bound bundle. The [historical Journey C packet](../coupled-railway/README.md) also retains its original source and payload epoch without current-evaluator admission. A revised body or evaluator needs a new current evaluation. Three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.','',
       'The [candidate-to-journey closure matrix](../railway-closure/README.md) propagates three distinct bodies through separate 1.5 km and 2 km station-only/recovery-research bundles, empty/normal/crowd/adverse demand, independent brake hypotheses, civil and cost quantities. Its fault journeys remain not-run. The [moving-conductor LIM experiment](../moving-lim-method/README.md) translates the actual secondary through a voltage-coupled field model; unresolved refinement and high-speed domain limits prevent force-map admission. Neither experiment supplies a complete equipped vehicle or physical journey.','',
       '## Readiness and reproduction','', '| Gate | State | Evidence still needed |','|---|---|---|']
     lines += [f"| {g['gate']} | **{g['state']}** | {g['reason']} |" for g in record['gates']]

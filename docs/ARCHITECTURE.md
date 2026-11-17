@@ -18,6 +18,13 @@ fourteen-scope budget and construction programme under one planning ID. Its
 separate [Baghdad concept](../cities/Baghdad/PROPOSAL.md) uses a 700-place child
 train and its own capital and schedule.
 
+The [joined prototype quotation basis](reference-v07/integration/README.md)
+controls the car, guideway, station and power interfaces for one configuration.
+Its [manufacturing handoff](reference-v07/manufacturing/README.md) gives a
+candidate-linked BOM, shop route, QA points and ERPNext import draft. These
+support supplier quotation and prototype planning; fabrication and operation
+still require approved drawings and measured tests.
+
 ## Selected v0.6 vehicle reference
 
 [`development-baseline.toml`](../engineering/development-baseline.toml) selects

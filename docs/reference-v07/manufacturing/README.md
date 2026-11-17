@@ -4,7 +4,7 @@
 **Purpose:** one consistent quotation and controlled prototype build plan, 17 November 2026.  
 **Status:** concept production quotation basis; no shop drawing, purchase order, signed inspection, physical acceptance or passenger-operation release.
 
-The joined [interface reconciliation](../integration/candidate.toml) defines physical candidate `osr-v07-joined-prototype-20261117`, evaluation `osr-v07-interface-reconciliation-20261117` and quotation selection `osr-v07-prototype-quotation-20261117`. It combines the powered-wheel research candidate `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d` with the independent 10 m civil research candidate `bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e`. The powered prototype evaluation is `b09430521e5e23098aa5287758861412e8024c2f547e1fe2763d591609a7a21a`; the span evaluation is `1ac96f8c14960ce892bdc61703e8aec3c519ead69b06671ad7c7beb6867c4af8`. The joined evaluation covers interface and quantity arithmetic only; no combined native evaluation has been run. These identities cannot be exchanged for the retained passive-wheel selection or the station-launch research module.
+The joined [interface reconciliation](../integration/candidate.toml) defines physical candidate `osr-v07-joined-prototype-20261117`, evaluation `osr-v07-interface-reconciliation-20261117` and quotation selection `osr-v07-prototype-quotation-20261117`. It combines the powered-wheel research candidate `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d` with the independent 10 m civil research candidate `bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e`. The current powered and span packets each record their own evaluation identity. The joined evaluation covers interface and quantity arithmetic only; no combined native evaluation has been run. These identities cannot be exchanged for the retained passive-wheel selection or the station-launch research module.
 
 The [BOM and quotation schedule](bom.csv) and [shop route](routing.csv) cover a representative 17 m car, one 10 m beam and bearing set, one traction-power site with station auxiliary feed, and one door opening. The six-car train needs six cars and twelve door openings. For the 30 km corridor the priced take-off uses 51 six-car sets, 6,000 beams, 6,002 supports, 24,000 bearing units, six traction substations and twelve auxiliary-fed stations. The door is a nested vehicle assembly: **do not add its preliminary parts amount to the fleet price again**. The power site includes a grid/rectifier budget of US$3m; station auxiliary feed is a separate US$1.25m/station. Safety braking is carried on the vehicle as twelve independent modules/train; a regenerative grid sink is not an independent stopping device. This powered-wheel configuration has no station launch machine.
 
@@ -40,22 +40,8 @@ Mandatory inspection points are: material and supplier identity; body, bogie, do
 
 The completion condition for this package is a reproducible **quotation and prototype planning dossier** with quantities, responsible make/buy scope, route, budget, and identified drawings/tests for every safety-critical interface. A manufacturing release needs weighed installed equipment, supplier drawings, verified sweeps, approved structural and electrical limits, physical tests and independent sign-off. No such release is claimed here.
 
-## Fixed source identities and reproduction
-
-| Source at this package epoch | SHA-256 |
-|---|---|
-| `docs/design-engine/v07-prototype-bundle/packet/result.json` | `80aebccba8a29d87a687adee3ed1db2bfcd9c45634285fa2dd3858d3dfaf583b` |
-| `docs/design-engine/v07-powered-vehicle/plan.json` | `ff5d7142d1960609bb6004ba208e8e9c86d4a25270f1c2dc4ee70e8bd643a82c` |
-| `docs/design-engine/v07-simple-span/plan.json` | `37adb933ca2ab8aa53f5d3c9d4eb7f1147fcb64761ce8b97727e1a4638fad784` |
-| `docs/design-engine/v07-execution/door-interface-handoff.json` | `d9879607cbd6d55d35deaf013f3ad76551fa0d2f853147b30fb1d2d3ca362314` |
-| `docs/design-engine/v07-representative-car/erp-draft.json` | `2bd15959318aa33477553e362c0f106675d6fbc3facf571dbf87da014faa3bda` |
-| `docs/reference-v07/cost/basis.csv` | `e0fb358988480c0064871e0cea43b86a4b7224998d91b14b90bd71aaea3d11ff` |
-
-The source/result identities above bind this fixed dossier. They are not fresh engineering evaluations. From the repository root, reproduce the audit with:
-
-```bash
-sha256sum docs/design-engine/v07-prototype-bundle/packet/result.json docs/design-engine/v07-powered-vehicle/plan.json docs/design-engine/v07-simple-span/plan.json docs/design-engine/v07-execution/door-interface-handoff.json docs/design-engine/v07-representative-car/erp-draft.json docs/reference-v07/cost/basis.csv
-python3 -m json.tool docs/reference-v07/manufacturing/lifecycle-draft.json >/dev/null
-```
-
-Numerical execution budget for this handoff: source inspection and arithmetic only; no CAD/FEA solve or live ERPNext write. The practical next work is four bounded supplier/prototype tasks: weighed installed car and finite sweeps; full-scale beam/lift/ground test; station grid and protection quote with rated heat rejection; and mounted door cycle, egress and replacement test.
+The source packets carry their own current hashes and evaluation IDs. Check the
+current car, span and prototype packets with their named generators before
+using this handoff. The next physical work is a weighed car and full motion
+sweeps, a beam/lift/ground test, a rated station power quote, and a mounted
+door cycle and replacement test. No live ERPNext write has occurred.

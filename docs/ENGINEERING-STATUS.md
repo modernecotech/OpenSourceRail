@@ -35,3 +35,11 @@ The [v0.7 planning configuration](reference-v07/README.md) gives the mated
 concept interfaces, a US$1.0235bn synthetic 30 km estimate and a 43-month
 construction programme. The vehicle and civil research identities remain
 separate until one native installed-candidate evaluation is produced.
+
+The [joined interface package](reference-v07/integration/README.md) now carries
+one quotation candidate through vehicle, civil, station and power counts. Its
+evaluation covers dimensional and quantity arithmetic only. The
+[manufacturing package](reference-v07/manufacturing/README.md) adds one car,
+beam, door and power-site BOM, routing, inspection points and an unposted
+ERPNext lifecycle draft. Supplier drawings, measured mass and loads, surveyed
+ground, a joined native evaluation and physical qualification remain open.

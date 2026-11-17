@@ -11,7 +11,7 @@
 
 The powered vehicle research candidate `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d` and the joint-free civil candidate `bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e` are *ancestry*, not interchangeable evaluations of the joined geometry. The [vehicle](../vehicle/README.md), [independent brake](../../design-engine/v07-independent-brake/README.md), [civil](../civil/README.md) and [cost](../cost/README.md) packages retain their own evidence and limitations. No installed mass, foundation, electrical clearance, safety stop, fabrication approval or passenger operation is inferred from joining them.
 
-The civil source packet named in `candidate.toml` is an immutable earlier evaluation. Its current-source check on 17 November found a changed upstream powered-vehicle source digest; a fresh construction preserved the civil physical candidate and numerical fields but needs a new evaluation identity. This package does not relabel the old packet. The civil and prototype packet owners must regenerate their affected packets and reconcile downstream identities before release.
+The civil source packet named in `candidate.toml` is immutable ancestry. The current-source span packet retains the same physical candidate and numerical fields with its own evaluation identity. This joined interface evaluation still does not replace a native assessment of the installed car, span and station together.
 
 ## Configuration and operating case
 

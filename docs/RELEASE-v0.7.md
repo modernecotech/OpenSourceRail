@@ -15,24 +15,21 @@ remain evidence, not competing scope authorities.
 
 | ID | Deliverable | Acceptance evidence | State |
 |---|---|---|---|
-| V07-01 | CI and version ownership | Current fast checks pass; published tag, source epoch and development version are distinguished | In progress |
-| V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | Powered vehicle/supply research bundle joined with separate IDs and source invalidation; selected civil, installed BOM and price open |
+| V07-01 | CI and version ownership | Current fast checks pass; published tag, source epoch and development version are distinguished | Package metadata set to 0.7.0; current packet refreshed locally, CI pending |
+| V07-02 | Canonical candidate chain | One physical candidate, separate evaluation and selection IDs through service, vehicle, civil, BOM and cost; changed inputs invalidate dependants | [Joined quotation candidate](reference-v07/integration/README.md) has separate IDs, interfaces and quantities; joined native evaluation and installed account open |
 | V07-03 | Propulsion and braking decision | Defined surveyed demonstrator envelope, independent stop and rescue, force/current/thermal limits and named physical tests | Overhead-fed powered bogies advanced for research prototype; [independent brake force and energy test](design-engine/v07-independent-brake/README.md) defined; measured adhesion, protected brake supply, thermal duty and surveyed site open |
-| V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | Powered-bogie quote layout and track-brake interface added; installed mass/CG and supplier drawings open |
-| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | Segmented 20 m and joint-free 10 m alternatives counted; powered-load 10 m necessary bounds checked, but site, torsion/shear, erection and installed cost open |
-| V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | Factory draft verified; supplier and ERP handback open |
+| V07-04 | Representative car | Controlled general arrangement, installed mass/CG, bogie, door, HVAC/electrical and six-car interfaces, BOM and removal access | [Joined arrangement](reference-v07/integration/README.md) and [manufacturing BOM](reference-v07/manufacturing/README.md) added; weighed mass/CG, full sweeps and supplier drawings open |
+| V07-05 | Civil span and station | Joint/bearing/rail/foundation and station equipment interfaces, erection stages, site limits and test plan | 10 m beam and station quotation interfaces counted; structural detail, surveyed ground and approved erection method open |
+| V07-06 | Local manufacturing | Candidate-specific BOM, routing, make/buy value and hours, tooling, QA, ERPNext receipt and repair handback | 41-row BOM, 18-step route, local-work basis and unposted ERPNext draft added; receipt and repair handback open |
 | V07-07 | Cost | Same-candidate fourteen-scope installed capital, fleet/energy and 30-year lifecycle inputs | [Concept budget](reference-v07/cost/README.md) gives fourteen priced scopes, operation, renewal and 43 months; supplier and site priced installed candidate open |
-| V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Open |
-| V07-09 | Workbench journey | Clean design edit through service, energy, quantities, cost, dossier, assembly and production handoff | Samawah edit and factory draft verified; affected engineering and ERP import open |
+| V07-08 | Incremental processing | Correct source invalidation and measured time, peak memory and disk on one corridor edit | Current selected rebuild measured 5m04s, 659 MiB peak RSS and about 52 MiB net disk; unchanged book check cached; target improvements open |
+| V07-09 | Workbench journey | Clean design edit through service, energy, quantities, cost, dossier, assembly and production handoff | Samawah browser edit and 14-scope single-estimate display pass; joined candidate, BOM, routing and ERP draft linked; joined-candidate recalculation and live ERP receipt/repair open |
 | V07-10 | Release | Clean install, current CI, acceptance report, limitations and versioned artifacts | Open |
 
-V07-01's version rule: `VERSION`, `package.json` and the Cargo workspace still
-read `0.6.0`, including at the immutable `v0.6.1` publication tag. Those are
-embedded source and package versions, not evidence that v0.6.1 was unpublished.
-Changing them changes source-bound engineering identities. Set a consistent
-v0.7 package version only with regeneration and verification of affected
-current packets at the release candidate; do not silently relabel historical
-evidence. The v0.7 **development state** is governed by this file now.
+V07-01's version rule: package metadata is `0.7.0` in `VERSION`, npm and the
+Cargo workspace. The v0.6.1 tag is immutable and historical source identities
+retain their original version. Regenerate and check affected current packets
+before a v0.7 tag; package metadata alone is not a release declaration.
 
 The normal v0.7 checks exercise the current reference, bounded contracts and
 the Samawah Workbench journey. Retained frame, reconciled-pilot and engineering

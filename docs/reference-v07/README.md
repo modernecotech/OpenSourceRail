@@ -1,6 +1,6 @@
 # v0.7 reference railway concept
 
-This is the **single 30 km engineering and procurement planning configuration** for v0.7: [candidate specification](concept.toml), [representative vehicle](vehicle/README.md), [10 m span and station interface](civil/README.md) and [one cost and delivery ledger](cost/README.md). The vehicle and civil studies were produced under separate research identities. Their joined configuration here has its own explicit planning ID; it has no claimed native same-candidate evaluation or physical acceptance.
+This is the **single 30 km engineering and procurement planning configuration** for v0.7: [candidate specification](concept.toml), [joined interface and quantity package](integration/README.md), [representative vehicle](vehicle/README.md), [10 m span and station interface](civil/README.md), [manufacturing and lifecycle handoff](manufacturing/README.md) and [one cost and delivery ledger](cost/README.md). The vehicle and civil studies were produced under separate research identities. Their joined configuration here has its own explicit planning ID; it has no claimed native same-candidate evaluation or physical acceptance.
 
 | Output | Planning result |
 |---|---:|

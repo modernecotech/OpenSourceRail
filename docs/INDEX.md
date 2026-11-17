@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **153**.
+Indexed Markdown files: **155**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **153**.
 | [cities](#cities) | 5 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 117 |
+| [docs](#docs) | 119 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -186,6 +186,8 @@ Indexed Markdown files: **153**.
 | [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 reference railway concept |
 | [`docs/reference-v07/civil/README.md`](../docs/reference-v07/civil/README.md) | Civil and station concept: 10 m joint-free beam |
 | [`docs/reference-v07/cost/README.md`](../docs/reference-v07/cost/README.md) | v0.7 reference corridor: one cost and delivery plan |
+| [`docs/reference-v07/integration/README.md`](../docs/reference-v07/integration/README.md) | v0.7 joined prototype quotation basis |
+| [`docs/reference-v07/manufacturing/README.md`](../docs/reference-v07/manufacturing/README.md) | v0.7 representative manufacturing and lifecycle package |
 | [`docs/reference-v07/vehicle/README.md`](../docs/reference-v07/vehicle/README.md) | v0.7 representative vehicle — powered wheel concept |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
