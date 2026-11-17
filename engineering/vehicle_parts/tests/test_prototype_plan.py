@@ -55,3 +55,54 @@ def test_research_door_cannot_be_relabelled_installed():
     bad=deepcopy(door);bad['installed_geometry_verified']=True
     with pytest.raises(ValueError,match='Unverified door'):
         plan.compose(selected,mass,assembly,bad,child)
+
+
+def test_underframe_erp_draft_is_disabled_and_reconciles_exact_leaves():
+    result=plan.build_erp_draft()
+    assert result['source_plan_id']==plan.build()['plan_id']
+    assert result['assembly_id']=='body/underframe'
+    assert len(result['BOM']['items'])==16
+    assert sum(row['qty'] for row in result['BOM']['items'])==565
+    assert len(result['items'])==17
+    assert all(item['disabled']==1 and item['unit_price'] is None and item['supplier'] is None
+               for item in result['items'])
+    assert all(row['rate'] is None for row in result['BOM']['items'])
+    assert all(row['material_cost_usd'] is None and row['process_hours'] is None
+               and row['supplier_quote_id'] is None for row in result['make_buy_supplier_rows'])
+    assert all(step['time_in_mins'] is None and step['workstation'] is None
+               for step in result['Routing']['operations'])
+    assert result['BOM']['is_active']==0 and result['BOM']['docstatus']==0
+    assert result['selected_installed_mass_added_kg'] is None
+    assert result['selected_installed_cost_added_usd'] is None
+    assert result['production_orders']==result['purchase_orders']==result['work_orders']==[]
+    assert result['posted'] is result['ready_for_import'] is result['external_transactions_performed'] is False
+
+
+def test_underframe_erp_draft_refuses_mixed_candidate_or_quantity():
+    value=plan.build()
+    bad=deepcopy(value);bad['research_child_candidate_id']=bad['candidate_id']
+    bad['plan_id']=plan.sha256(plan.encoded({k:v for k,v in bad.items() if k!='plan_id'})).hexdigest()
+    with pytest.raises(ValueError,match='Research child cannot'):
+        plan.compose_erp_draft(bad)
+    bad=deepcopy(value);scope=next(s for s in bad['structural_and_running_gear_quote_scopes']
+                                  if s['assembly_id']=='body/underframe')
+    scope['counted_leaf_pieces_per_car']+=1
+    bad['plan_id']=plan.sha256(plan.encoded({k:v for k,v in bad.items() if k!='plan_id'})).hexdigest()
+    with pytest.raises(ValueError,match='leaf pieces do not reconcile'):
+        plan.compose_erp_draft(bad)
+    bad=deepcopy(value);scope=next(s for s in bad['structural_and_running_gear_quote_scopes']
+                                  if s['assembly_id']=='body/underframe')
+    scope['leaf_quote_rows'][0]['provisional_direct_cost_each_usd']=0
+    bad['plan_id']=plan.sha256(plan.encoded({k:v for k,v in bad.items() if k!='plan_id'})).hexdigest()
+    with pytest.raises(ValueError,match='zero-priced'):
+        plan.compose_erp_draft(bad)
+
+
+def test_erp_draft_refuses_stale_plan_source(tmp_path,monkeypatch):
+    current=plan.build()
+    source=tmp_path/'docs/design-engine/v07-representative-car/plan.json'
+    source.parent.mkdir(parents=True)
+    source.write_bytes(b'{"stale":true}\n')
+    monkeypatch.setattr(plan,'build',lambda root: current)
+    with pytest.raises(ValueError,match='plan source changed'):
+        plan.build_erp_draft(tmp_path)

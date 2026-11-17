@@ -104,7 +104,7 @@ def compose(selected, mass, assembly, door, child):
                 or abs(cost_sum-s['direct_parts_process_usd']['known_leaf_subtotal']['base'])>1e-6):
             raise ValueError('Child leaf quantities do not reconcile with assembly subtotal')
         leaf_rows=[dict(part_id=p['id'],quantity_per_car=p['quantity_per_train']//6,
-            material_id=p['material_id'],make_buy=p['make_buy'],stock=p['stock'],
+            material_id=p['material_id'],make_buy=p['make_buy'],unit=p['unit'],stock=p['stock'],
             provisional_mass_each_kg=p['mass_each_kg']['base'],
             provisional_direct_cost_each_usd=p['direct_cost_each_usd']['base'],
             mass_basis=p['mass_basis']['kind'],joining=p['joining'],
@@ -201,18 +201,114 @@ def build(root=ROOT):
     return result
 
 
+def compose_erp_draft(plan):
+    """Prepare disabled Item/BOM/Routing/QA/repair records for one underframe."""
+    identity={k:v for k,v in plan.items() if k!='plan_id'}
+    if sha256(encoded(identity)).hexdigest()!=plan.get('plan_id'):
+        raise ValueError('Representative-car plan identity differs')
+    if (plan['candidate_id']==plan['research_child_candidate_id']
+            or plan['physical_accepted'] or plan['manufacturing_release']
+            or plan['mass_account']['complete_installed_tare_kg_per_car'] is not None):
+        raise ValueError('Research child cannot be relabelled as an installed car')
+    scope=next(s for s in plan['structural_and_running_gear_quote_scopes']
+               if s['assembly_id']=='body/underframe')
+    if any(row['quantity_per_car']<=0 for row in scope['leaf_quote_rows']):
+        raise ValueError('Underframe leaf quantity must be positive')
+    if any(row['provisional_direct_cost_each_usd']<=0 for row in scope['leaf_quote_rows']):
+        raise ValueError('Underframe allowance cannot be zero-priced')
+    if sum(row['quantity_per_car'] for row in scope['leaf_quote_rows'])!=scope['counted_leaf_pieces_per_car']:
+        raise ValueError('Underframe leaf pieces do not reconcile')
+    if len({row['part_id'] for row in scope['leaf_quote_rows']})!=len(scope['leaf_quote_rows']):
+        raise ValueError('Underframe leaf identity repeated')
+    def code(kind,part):
+        key=(plan['candidate_id']+'|'+plan['research_child_candidate_id']+'|'+kind+'|'+part).encode()
+        return 'OSR-V07-DRAFT-'+sha256(key).hexdigest()[:20]
+    parent=code('assembly',scope['assembly_id'])
+    common=dict(candidate_id=plan['candidate_id'],evaluation_id=plan['evaluation_id'],
+        selection_id=plan['selection_id'],research_child_candidate_id=plan['research_child_candidate_id'],
+        physical_accepted=False,manufacturing_release=False)
+    items=[dict(doctype='Item',item_code=parent,item_name='Representative car underframe proposal',
+        stock_uom='Nos',is_stock_item=0,disabled=1,unit_price=None,supplier=None,
+        drawing_released=False,**common)]
+    lines=[];make_buy=[]
+    for row in scope['leaf_quote_rows']:
+        if row['unit']!='each':raise ValueError('Underframe leaf unit needs an explicit ERP conversion')
+        item=code('leaf',row['part_id'])
+        items.append(dict(doctype='Item',item_code=item,item_name=row['part_id'],
+            stock_uom='Nos',is_stock_item=0,disabled=1,unit_price=None,supplier=None,
+            supplier_quote_id=None,drawing_released=False,material_id=row['material_id'],
+            source_child_part_id=row['part_id'],**common))
+        lines.append(dict(item_code=item,qty=row['quantity_per_car'],uom='Nos',rate=None,
+                          source_child_part_id=row['part_id']))
+        make_buy.append(dict(item_code=item,source_child_part_id=row['part_id'],
+            quantity_per_car=row['quantity_per_car'],decision=row['make_buy'],
+            material_id=row['material_id'],material_cost_usd=None,
+            process_hours=None,supplier=None,supplier_quote_id=None,
+            child_combined_direct_allowance_each_usd=row['provisional_direct_cost_each_usd'],
+            cost_basis='child engineering allowance only; not an ERP rate or selected installed price'))
+    routing=dict(doctype='Routing',routing_name=code('routing',scope['assembly_id']),disabled=1,
+        operations=[dict(sequence=step['sequence'],operation=step['operation'],
+                         workstation=None,time_in_mins=None,process_hours=None,
+                         approved_instruction=False,source_part_ids=step['part_ids'])
+                    for step in scope['process_steps']])
+    qa=dict(doctype='Quality Inspection',docstatus=0,disabled=1,inspection_type='In Process',
+        reference_type='BOM',reference_name=None,
+        characteristics=[dict(sequence=step['sequence'],inspection=step['inspection'],
+                              approved_limit=None,measured_value=None,accepted=False)
+                         for step in scope['process_steps']],
+        source_part_checks={row['part_id']:row['inspection'] for row in scope['leaf_quote_rows']})
+    repair=dict(schema='osr-v07-underframe-repair-draft/1',creates_work_order=False,
+        serial_or_lot=None,removal_method=scope['removal_method'],
+        access_and_lifting_verified=False,spare_parts_approved=False,
+        repair_hours=None,inspection_after_repair_approved=False)
+    result=dict(schema='osr-v07-disabled-ERPNext-underframe-draft/1',**common,
+        source_plan_id=plan['plan_id'],source_child_bundle_id=plan['research_child_bundle_id'],
+        assembly_id=scope['assembly_id'],items=items,
+        BOM=dict(doctype='BOM',item=parent,quantity=1,is_active=0,is_default=0,
+                 docstatus=0,items=lines,routing=routing['routing_name'],
+                 with_operations=0,total_cost=None),
+        Routing=routing,quality_inspection_draft=qa,repair_draft=repair,
+        make_buy_supplier_rows=make_buy,source_child_counted_leaf_pieces=scope['counted_leaf_pieces_per_car'],
+        source_child_direct_allowance_usd=scope['child_direct_part_process_allowance_usd_per_car'],
+        selected_installed_mass_added_kg=None,selected_installed_cost_added_usd=None,
+        target_site_schema_validated=False,ready_for_import=False,posted=False,
+        external_transactions_performed=False,production_orders=[],purchase_orders=[],work_orders=[],
+        holds=['Controlled underframe mating drawings and loads',
+               'Supplier material quotations and approved make/buy routing',
+               'Timed process, workstation, tooling and inspection limits',
+               'Target ERPNext custom fields, units and schema validation',
+               'Independent procurement and manufacturing authorization'])
+    result['draft_id']=sha256(encoded(result)).hexdigest()
+    return result
+
+
+def build_erp_draft(root=ROOT):
+    root=Path(root);plan=build(root)
+    path=root/'docs/design-engine/v07-representative-car/plan.json'
+    if path.read_bytes()!=encoded(plan):
+        raise ValueError('Representative-car plan source changed; regenerate before ERP draft')
+    result=compose_erp_draft(plan)
+    result['source_plan_sha256']=digest(path)
+    result['source_producer_sha256']=digest(Path(__file__))
+    result['draft_id']=sha256(encoded({k:v for k,v in result.items() if k!='draft_id'})).hexdigest()
+    return result
+
+
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=('build','verify'))
+    parser.add_argument('action',choices=('build','verify','erp-build','erp-verify'))
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args(argv)
-    payload=encoded(build())
-    if args.action=='build':
+    erp=args.action.startswith('erp-')
+    payload=encoded(build_erp_draft() if erp else build())
+    if args.action in ('build','erp-build'):
         if args.output.exists():raise ValueError('Fresh output path required')
         args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(payload)
     elif args.output.read_bytes()!=payload:
         raise ValueError('Prototype plan differs from current sources')
-    print(json.dumps(dict(verified=True,plan_id=json.loads(payload)['plan_id'],physical_accepted=False),sort_keys=True))
+    identity='draft_id' if erp else 'plan_id'
+    print(json.dumps(dict(verified=True,**{identity:json.loads(payload)[identity]},
+                          physical_accepted=False),sort_keys=True))
     return 0
 
 
