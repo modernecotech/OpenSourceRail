@@ -3,7 +3,7 @@
 The [task ledger](../../../campaigns/v07-execution.json) records implementation,
 research controls and remaining holds separately. v0.7 is in development; these
 results do not constitute a completed installed railway or a released v0.7.
-The [agent plan](../../plans/v0.7-agent-delivery-plan.md) remains the scope.
+The [v0.7 release gate](../../RELEASE-v0.7.md) defines the current scope.
 
 ## Current status at a glance
 

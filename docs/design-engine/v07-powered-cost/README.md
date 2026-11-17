@@ -10,9 +10,12 @@ The minimum pricing request is one integrated and itemised 51-set vehicle offer 
 
 For scale only, the [World Bank rail decarbonization report](https://openknowledge.worldbank.org/server/api/core/bitstreams/c3c239ef-4236-4510-976a-58f05ffc4e72/content) describes overhead electrification of straightforward layouts at approximately US$1 million/track-km and about US$10,000/track-km/year maintenance. A naive 60 track-km application is US$60 million capital and US$0.6 million/year maintenance **before** confirming rigid 1.5 kV DC scope, station protection, substations, grid connection, viaduct interfaces, Iraq delivery, tax and pricing date. It is not a candidate cost row. [Network Rail's programme business case](https://www.networkrail.co.uk/wp-content/uploads/2020/09/Traction-Decarbonisation-Network-Strategy-Interim-Programme-Business-Case.pdf) likewise shows that electrification unit rates vary with civil complexity; its mainline 25 kV AC figures are not a rigid-DC metro quote. Public unit analogues cannot close the installed package.
 
-Verification from the worktree root:
+Regenerate the quote register after a source-bound prototype, architecture or
+benchmark packet changes, then verify from the worktree root:
 
 ```bash
+python3 -m engineering.design_search.v07_powered_cost --write
+python3 -m engineering.design_search.v07_powered_cost --check
 sha256sum docs/design-engine/v07-architecture-decision/result.json docs/design-engine/v07-prototype-bundle/packet/result.json docs/design-engine/line30-current-20261117/result.json
 jq -e '.candidate_installed_capital_usd == null and .candidate_30_year_npv_usd == null and (.capital_14_scope_bridge | length) == 14 and ([.capital_14_scope_bridge[].base_other_candidate_proxy_usd] | add | . > 737991028 and . < 737991029)' docs/design-engine/v07-powered-cost/result.json
 ```

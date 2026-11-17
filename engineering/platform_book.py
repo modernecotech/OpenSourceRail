@@ -151,7 +151,7 @@ EVIDENCE_INPUTS = (
     "docs/design-engine/model-based-cost-and-delivery.md",
     "docs/integration/v06-platform.md", "docs/integration/v07-assembly-lifecycle.md",
     "docs/workbench/planning/README.md", "docs/gis/README.md",
-    "docs/plans/v0.7-agent-delivery-plan.md",
+    "docs/RELEASE-v0.7.md",
     *CITY_EVIDENCE,
 )
 INPUTS = tuple(dict.fromkeys((

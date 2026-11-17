@@ -4,7 +4,7 @@ OpenSourceRail develops affordable urban rail and open tools to **plan, design, 
 
 The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventional rails and precast concrete. Station propulsion alternatives remain under comparison; no installed architecture or powered length is selected. **This is a research and prototype design, without manufacturing or operating release.**
 
-**Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [current railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [release gate](docs/RELEASE-v0.7.md) · [Baghdad two-concept proposal](docs/proposals/baghdad-v07/README.md) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
+**Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [current railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [release gate](docs/RELEASE-v0.7.md) · [Baghdad urban rail proposal](cities/Baghdad/PROPOSAL.md) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
 
 The [v0.6 design-closure ledger](docs/design-engine/v06-design-closure/README.md) retains seven engineering findings. The published v0.6.1 software scope and the [v0.7 roadmap](docs/ROADMAP.md) are separate from physical, manufacturing and operating acceptance. The older authenticated [software-review profile](docs/design-engine/v06-software-release/README.md) remains historical and pending by design.
 
@@ -50,11 +50,7 @@ The [reconciled research pilot](docs/design-engine/reconciled-pilot/README.md) c
 The [priced city and design outlines](docs/design-engine/outline-completion/README.md) cover **266 mapped city networks and 1565 lines**, plus 112 railway bundles, 54 bodies and 18 civil spans. The Workbench compares original, straighter and rounded square-ring proposals, joins close stop markers into operational complexes, and exposes fleet, manufacturing, construction and fourteen whole-life cost scopes. The local workflow edits and re-costs an outline, then exports a resource-leveled delivery plan and disabled business-system drafts. These are completed calculated outlines under explicit demand, site and rate assumptions; physical approval remains separate.
 <!-- END city outline completion -->
 
-Start with **[Baghdad](cities/catalogue/west-asia/Iraq/Baghdad/README.md)** or **[Samawah](cities/catalogue/west-asia/Iraq/Samawah/README.md)** for maps, service, fleet, energy, construction resources, costs and finance scenarios. Inspect routes, stations and calculations in the [city railway atlas](docs/design-engine/city-atlas/README.md).
-
-For Samawah, a current-source **equal-propulsion route sensitivity** preserves all 25 station markers while shortening the sampled line geometry by 5.64%. Its base CAPEX rises 9.27%, mainly because the simplified option carries a $97.93m unsurveyed access/crossing risk reserve. The report includes the assumptions, all fourteen cost scopes and a route-only map; this is a priced planning alternative, not a surveyed or selected alignment: [study and results](docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/README.md).
-
-Baghdad now has a **14-line route sensitivity from its current published geometry**: 13 radial lines shorten by 1.01% (5.016 km); all 157 operational stop coordinates remain fixed and the 26-stop ring is unchanged. Under a shared, assumed powered-axle research overlay, base CAPEX rises 10.44% and 30-year NPV 5.19%, mainly from an unverified corridor-risk allowance. The overlay has no supported force map, and the route is not surveyed. See the [map, full cost comparison and reserve sensitivity](docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/README.md).
+Start with **[Baghdad](cities/Baghdad/PROPOSAL.md)** for the two urban rail concepts or **[Samawah](cities/catalogue/west-asia/Iraq/Samawah/README.md)** for a calculated city outline. Inspect research routes, stations and calculations in the [city railway atlas](docs/design-engine/city-atlas/README.md).
 
 In the Workbench, choose a priced city and calculate a scenario. **Edit this outline and recalculate** changes routes, stops and headways, updating map and figures together. Planning handoffs contain proposals. Site surveys, demand, ground, utilities, power, rescue and physical approval remain project work.
 
@@ -122,7 +118,7 @@ The [full-resolution FEM image](docs/assets/engineering-gallery-v06/civil-fem.we
 
 The [3D engineering gallery](docs/engineering-models/README.md) provides **rotatable STL, coloured GLB, editable FreeCAD and STEP models**, source identities and export checks.
 
-The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.md) adds bored clevises, a revised pin, hollow frame members, wheel/axle parts, guards and fasteners, with matching component FEM and fabrication estimates. The [city price audit](docs/design-engine/city-price-review/README.md) explains corrected energy accounts and separate civil-cost alternatives.
+The [detailed launch-shuttle assembly](docs/design-engine/launch-detail/README.md) includes component geometry, FEM and fabrication estimates. The [city cost methods](docs/design-engine/city-price-review/README.md) record energy and civil-cost assumptions.
 
 The [lighting, inter-car services, coupler and rubber gangway audit](docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md) traces the counted parts and provisional mass/cost rows. Their CAD fit, full-motion clearances, electrical flex duty and controlled drawings remain open.
 

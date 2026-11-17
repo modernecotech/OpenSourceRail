@@ -41,6 +41,9 @@ def generate() -> str:
         frontdoor = quote(f"{path}/README.md", safe="/-._")
         hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
         r = reports.get(city["slug"])
+        if city["slug"] == "baghdad":
+            rows.append(f"| {city['country']} | [Baghdad proposal](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 | 7 / strategic | — | — | Unpriced | [Research outline]({hold}) |")
+            continue
         if r:
             capital = r["installed_capital_usd"]["base"] / 1e6
             rows.append(f"| {city['country']} | [{city['name']}]({frontdoor}) | {r['route_km']:,.1f} | {r['lines']} | {r['station_complexes']} | {r['trainsets']} | ${capital:,.1f}m | [Review]({hold}) |")
@@ -50,7 +53,7 @@ def generate() -> str:
         "# City railway designs and maps", "",
         f"Explore **{register['city_count']} city network outlines**. Each city dossier brings together its visible network map, line and station tables, service and fleet, civil and factory quantities, workforce, energy accounting, capital and whole-life costs, finance scenarios, site requirements and downloads.", "",
         "The figures use the exact selected calculated outline and explicit Class C estimates. A complete outline supports comparison and development; engineering verification and manufacturing or operating approval remain separate.", "",
-        "[Baghdad](west-asia/Iraq/Baghdad/README.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
+        "[Baghdad proposal](../Baghdad/PROPOSAL.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
         "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Capital is the base installed estimate for each standalone city programme. Programme totals do not assume shared factories or imply verified local prices.", "",
         "| Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |",
         "|---|---|---:|---:|---:|---:|---:|---|", *rows, "",

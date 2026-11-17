@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **322**.
+Indexed Markdown files: **147**.
 
 ## Sections
 
@@ -20,10 +20,10 @@ Indexed Markdown files: **322**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 1 |
+| [cities](#cities) | 3 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 290 |
+| [docs](#docs) | 113 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -54,6 +54,8 @@ Indexed Markdown files: **322**.
 
 | File | Title |
 |---|---|
+| [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad urban rail proposal |
+| [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad urban rail |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates
@@ -153,191 +155,21 @@ Indexed Markdown files: **322**.
 | [`docs/book/68-reading-status.md`](../docs/book/68-reading-status.md) | Reading status and holds |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
-| [`docs/design-engine/architecture-reach-closure/README.md`](../docs/design-engine/architecture-reach-closure/README.md) | Interrupted architecture reachability closure |
-| [`docs/design-engine/breadth-first-shape-portfolio/README.md`](../docs/design-engine/breadth-first-shape-portfolio/README.md) | Breadth-first shape portfolio |
 | [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway atlas |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
-| [`docs/design-engine/city-price-review/README.md`](../docs/design-engine/city-price-review/README.md) | City price review — 6 November 2026 |
-| [`docs/design-engine/civil-shape-mechanics/README.md`](../docs/design-engine/civil-shape-mechanics/README.md) | Civil shape mechanics |
-| [`docs/design-engine/civil-shape-portfolio/README.md`](../docs/design-engine/civil-shape-portfolio/README.md) | Civil shape design portfolio |
-| [`docs/design-engine/civil-topology/README.md`](../docs/design-engine/civil-topology/README.md) | Material-distribution experiments for a 20 m civil span |
-| [`docs/design-engine/civil-topology-revisions/README.md`](../docs/design-engine/civil-topology-revisions/README.md) | Explicit physical revisions of steel-web topology experiments |
-| [`docs/design-engine/compact-launch/README.md`](../docs/design-engine/compact-launch/README.md) | Compact acceleration and alternative launch mechanisms |
-| [`docs/design-engine/conditional-journey-study/README.md`](../docs/design-engine/conditional-journey-study/README.md) | Conditional P1 journey design study |
-| [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
-| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results |
-| [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
-| [`docs/design-engine/coupled-railway-v07/README.md`](../docs/design-engine/coupled-railway-v07/README.md) | One coordinated railway experiment |
-| [`docs/design-engine/craft-backends/README.md`](../docs/design-engine/craft-backends/README.md) | SolidCraft / FieldCraft backend pilot |
-| [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | Current README entrypoints |
-| [`docs/design-engine/current-mesh-preflight/README.md`](../docs/design-engine/current-mesh-preflight/README.md) | Current mesh resource preflight |
-| [`docs/design-engine/demand-outline/README.md`](../docs/design-engine/demand-outline/README.md) | Demand-led railway outlines |
-| [`docs/design-engine/demonstrator-handoffs.md`](../docs/design-engine/demonstrator-handoffs.md) | Civil and station demonstrator handoffs |
-| [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
-| [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
-| [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
-| [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 16 November 2026 |
-| [`docs/design-engine/flanged-span-study/README.md`](../docs/design-engine/flanged-span-study/README.md) | Flanged-girder 20 m span: analytical research study |
-| [`docs/design-engine/flanged-system-cost-context.md`](../docs/design-engine/flanged-system-cost-context.md) | Reference geometry behind the flanged-span cost scenarios |
-| [`docs/design-engine/flanged-system-cost-study/README.md`](../docs/design-engine/flanged-system-cost-study/README.md) | Flanged-span whole-railway Class C scenarios |
-| [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
-| [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
-| [`docs/design-engine/implicit-geometry-study/README.md`](../docs/design-engine/implicit-geometry-study/README.md) | Three-dimensional implicit cellular geometry study |
-| [`docs/design-engine/installed-mass-support/README.md`](../docs/design-engine/installed-mass-support/README.md) | Conditional vehicle mass and support sensitivity |
-| [`docs/design-engine/launch-detail/README.md`](../docs/design-engine/launch-detail/README.md) | Detailed station launch shuttle — research assembly |
-| [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
-| [`docs/design-engine/line30-benchmark/README.md`](../docs/design-engine/line30-benchmark/README.md) | 30 km / 12 station cost benchmark |
+| [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/line30-current-20261117/README.md`](../docs/design-engine/line30-current-20261117/README.md) | 30 km / 12 station cost benchmark |
-| [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
-| [`docs/design-engine/mass-reserve-sensitivity/current/README.md`](../docs/design-engine/mass-reserve-sensitivity/current/README.md) | Selected vehicle residual mass completion |
-| [`docs/design-engine/matched-renewal-research/README.md`](../docs/design-engine/matched-renewal-research/README.md) | Matched renewal research |
-| [`docs/design-engine/model-based-cost-and-delivery.md`](../docs/design-engine/model-based-cost-and-delivery.md) | Model-based cost and end-to-end delivery closure |
-| [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
-| [`docs/design-engine/native-design-search.md`](../docs/design-engine/native-design-search.md) | Rust generative design search |
 | [`docs/design-engine/outline-completion/README.md`](../docs/design-engine/outline-completion/README.md) | Complete calculated city and design outlines |
-| [`docs/design-engine/performance/city-cost-copy-benchmark-20261111.md`](../docs/design-engine/performance/city-cost-copy-benchmark-20261111.md) | City cost copy reduction benchmark |
-| [`docs/design-engine/periodic-thermal-research/README.md`](../docs/design-engine/periodic-thermal-research/README.md) | Conditional repeated-duty thermal sensitivity |
-| [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
-| [`docs/design-engine/powered-bogie-detail/README.md`](../docs/design-engine/powered-bogie-detail/README.md) | Powered-bogie research detail — HOLD |
-| [`docs/design-engine/practical-launch/README.md`](../docs/design-engine/practical-launch/README.md) | Practical launch alternatives for v0.6 research |
-| [`docs/design-engine/propulsion-layout/README.md`](../docs/design-engine/propulsion-layout/README.md) | Simpler propulsion: powered bogies and sparse accelerators |
-| [`docs/design-engine/propulsion-layout/comparison-summary.md`](../docs/design-engine/propulsion-layout/comparison-summary.md) | Propulsion layout findings |
-| [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
-| [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
-| [`docs/design-engine/reconciled-pilot/README.md`](../docs/design-engine/reconciled-pilot/README.md) | Reconciled railway research pilot |
-| [`docs/design-engine/reconciled-pilot/delivery/README.md`](../docs/design-engine/reconciled-pilot/delivery/README.md) | Pilot manufacturing and delivery planning draft |
-| [`docs/design-engine/reconciled-pilot-bogie-detail/README.md`](../docs/design-engine/reconciled-pilot-bogie-detail/README.md) | Reconciled railway research pilot |
-| [`docs/design-engine/reconciled-pilot-bogie-detail/delivery/README.md`](../docs/design-engine/reconciled-pilot-bogie-detail/delivery/README.md) | Pilot manufacturing and delivery planning draft |
-| [`docs/design-engine/reconciled-pilot-no-store/README.md`](../docs/design-engine/reconciled-pilot-no-store/README.md) | Reconciled railway research pilot |
-| [`docs/design-engine/reconciled-pilot-no-store/delivery/README.md`](../docs/design-engine/reconciled-pilot-no-store/delivery/README.md) | Pilot manufacturing and delivery planning draft |
-| [`docs/design-engine/recovery-economics/README.md`](../docs/design-engine/recovery-economics/README.md) | Station recovery economics |
-| [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
-| [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 31 October 2026 |
-| [`docs/design-engine/retained-battery-source-epoch/README.md`](../docs/design-engine/retained-battery-source-epoch/README.md) | Retained source epoch for service-energy migration |
-| [`docs/design-engine/retained-service-energy-extra/README.md`](../docs/design-engine/retained-service-energy-extra/README.md) | Additional retained service-energy source epoch |
-| [`docs/design-engine/service-energy-terminal-recharge.md`](../docs/design-engine/service-energy-terminal-recharge.md) | Service-battery terminal recharge: consistent charging limits |
-| [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
-| [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
-| [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — replayed 2 November 2026 |
-| [`docs/design-engine/sourcing/README.md`](../docs/design-engine/sourcing/README.md) | Sourcing and cost intelligence — v0.6 research snapshot |
-| [`docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md`](../docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md) | Candidate-bound Iraqi civil material + labour screen — October 2026 |
-| [`docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/README.md`](../docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/README.md) | Federated candidate domestic rebar screen — October 2026 |
-| [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md) | Iraqi local GFRP retail material and labour screen |
-| [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md) | Iraqi local GFRP retail material and labour screen |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v9/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v9/README.md) | Iraqi span logistics sensitivity |
-| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
-| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md) | regional-estimates-2026-september-v3 |
-| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md) | regional-estimates-2026-september-v4 |
-| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v5/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v5/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
-| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
-| [`docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md`](../docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) | Station-LIM bank RFQ scope drafts — October 2026 |
-| [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
-| [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
-| [`docs/design-engine/station-cycle/README.md`](../docs/design-engine/station-cycle/README.md) | Stateful station capture and relaunch |
-| [`docs/design-engine/station-pair/README.md`](../docs/design-engine/station-pair/README.md) | Candidate-linked station-pair comparison |
-| [`docs/design-engine/station-regenerative-launch/README.md`](../docs/design-engine/station-regenerative-launch/README.md) | Station regenerative capture, mechanical launch and compact booster: design plan |
-| [`docs/design-engine/supply-economics/README.md`](../docs/design-engine/supply-economics/README.md) | Project-volume purchasing and manufacturing |
-| [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
-| [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
-| [`docs/design-engine/v06-business-lifecycle-audit/README.md`](../docs/design-engine/v06-business-lifecycle-audit/README.md) | v0.6 candidate business lifecycle audit |
-| [`docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/README.md) | Retained v0.6 engineering findings for v0.7 |
-| [`docs/design-engine/v06-design-closure/all-city-audit-errata.md`](../docs/design-engine/v06-design-closure/all-city-audit-errata.md) | Erratum for the sealed all-city audit packet |
-| [`docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/README.md) | All-city coverage audit |
-| [`docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md`](../docs/design-engine/v06-design-closure/all-city-baseline-audit/reviewed-working-gate/docs/design-engine/v06-design-closure/README.md) | v0.6 design closure |
-| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/README.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/README.md) | Baghdad equal-propulsion route sensitivity |
-| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/RESULTS.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/RESULTS.md) | Baghdad route sensitivity from the current published geometry |
-| [`docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/results/independent-audit-summary.md`](../docs/design-engine/v06-design-closure/baghdad-equal-propulsion-route-study-01/results/independent-audit-summary.md) | Independent Baghdad route-study audit — attempt 05 |
-| [`docs/design-engine/v06-design-closure/compact-drive-corridor/README.md`](../docs/design-engine/v06-design-closure/compact-drive-corridor/README.md) | Compact-drive mapped-corridor attempt |
-| [`docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/README.md`](../docs/design-engine/v06-design-closure/compact-drive-delivery-audit-01/README.md) | Compact-drive downstream delivery attempt |
-| [`docs/design-engine/v06-design-closure/compact-drive-source-replay-01.md`](../docs/design-engine/v06-design-closure/compact-drive-source-replay-01.md) | Compact-drive current-source body replay |
-| [`docs/design-engine/v06-design-closure/compact-drive-support-family/README.md`](../docs/design-engine/v06-design-closure/compact-drive-support-family/README.md) | Compact-drive split-lane support family |
-| [`docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/README.md`](../docs/design-engine/v06-design-closure/controlled-stock-drawings-run-01/README.md) | Candidate 9f6d source-stock drawings — bounded research packet |
-| [`docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md`](../docs/design-engine/v06-design-closure/door-motion-vector-fix-01/README.md) | Door motion coordinate correction — current installation model |
-| [`docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md`](../docs/design-engine/v06-design-closure/door-motion-vector-fix-9f6d/README.md) | 9f6d door-motion coordinate correction |
-| [`docs/design-engine/v06-design-closure/door-subassembly-audit-01/README.md`](../docs/design-engine/v06-design-closure/door-subassembly-audit-01/README.md) | Door-system inventory audit — research candidate 9f6d |
-| [`docs/design-engine/v06-design-closure/installed-vehicle-review.md`](../docs/design-engine/v06-design-closure/installed-vehicle-review.md) | Installed-vehicle closure review |
-| [`docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md`](../docs/design-engine/v06-design-closure/native-gis-cli-refresh-loop.md) | Native GIS refresh command audit |
-| [`docs/design-engine/v06-design-closure/native-gis-run07-readiness.md`](../docs/design-engine/v06-design-closure/native-gis-run07-readiness.md) | Native GIS run07 readiness audit |
-| [`docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md`](../docs/design-engine/v06-design-closure/native-gis-source-only-prototype.md) | Native GIS source-only import prototype |
-| [`docs/design-engine/v06-design-closure/reconciled-pilot-exact-native-reuse-20261111.md`](../docs/design-engine/v06-design-closure/reconciled-pilot-exact-native-reuse-20261111.md) | Reconciled pilot refresh and exact native reuse |
-| [`docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md`](../docs/design-engine/v06-design-closure/samawah-acceleration-sensitivity.md) | Samawah acceleration sensitivity |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/README.md) | Samawah stop-preserving route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/attempt-history.md) | Preserved run history |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-05/independent-review.md) | Independent artifact and calculation review |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/README.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/README.md) | Samawah stop-preserving route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/attempt-history.md) | Preserved run history |
-| [`docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-alignment-straightening-current-source-attempt-06/independent-review.md) | Independent artifact and calculation review |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source/README.md) | Samawah detailed-candidate cost bridge |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01/README.md) | Samawah detailed-candidate cost bridge |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-01.md) | Samawah current-source bridge — first run |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-02/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-02/README.md) | Samawah detailed-candidate cost bridge |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-current-source-attempt-03/README.md) | Samawah detailed-candidate cost bridge |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt-01/README.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt-01/README.md) | Samawah detailed-candidate cost bridge |
-| [`docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt.md`](../docs/design-engine/v06-design-closure/samawah-candidate-cost-bridge-prior-attempt.md) | Samawah candidate cost bridge — prior attempt |
-| [`docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md`](../docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/README.md) | Samawah China bulk purchase vs project make/buy — bounded cost case |
-| [`docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/analysis.md`](../docs/design-engine/v06-design-closure/samawah-china-supply-cost-04/analysis.md) | Samawah make-or-buy sensitivity: Chinese bulk purchase vs project manufacturing |
-| [`docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source.md`](../docs/design-engine/v06-design-closure/samawah-city-recalculation-current-source.md) | Samawah outline recalculation — current body source |
-| [`docs/design-engine/v06-design-closure/samawah-city-recalculation.md`](../docs/design-engine/v06-design-closure/samawah-city-recalculation.md) | Samawah detailed-candidate outline recalculation — historical source snapshot |
-| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/README.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/README.md) | Samawah current-source cost comparison |
-| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/RESULTS.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/RESULTS.md) | Samawah current-source route and cost comparison |
-| [`docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/results/README.md`](../docs/design-engine/v06-design-closure/samawah-current-source-cost-recalculation-01/results/README.md) | Replaying the Samawah comparison packet |
-| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/README.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/README.md) | Samawah equal-propulsion route study |
-| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/RESULTS.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/RESULTS.md) | Samawah route geometry comparison — fixed propulsion and service |
-| [`docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/results/independent-audit-summary.md`](../docs/design-engine/v06-design-closure/samawah-equal-propulsion-route-study-01/results/independent-audit-summary.md) | Independent packet audit |
-| [`docs/design-engine/v06-design-closure/samawah-fourteen-scope-cost-audit.md`](../docs/design-engine/v06-design-closure/samawah-fourteen-scope-cost-audit.md) | Samawah candidate cost scope audit |
-| [`docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity.md`](../docs/design-engine/v06-design-closure/samawah-line-demand-sensitivity.md) | Samawah line-demand sensitivity |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/README.md) | Samawah merged-stop route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history/attempt-01-label-correction/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history/attempt-01-label-correction/README.md) | Samawah stop-preserving route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/attempt-history.md) | Retained run history |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-02/independent-review.md) | Independent artifact and calculation review |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/README.md) | Samawah merged-stop route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/README.md) | Samawah merged-stop route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history/attempt-01-label-correction/README.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history/attempt-01-label-correction/README.md) | Samawah stop-preserving route-straightening screens |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/attempt-history.md) | Retained run history |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history/attempt-02-verified-baseline/independent-review.md) | Independent artifact and calculation review |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/attempt-history.md) | Retained run history |
-| [`docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-merged-alignment-screen-current-source-attempt-03/independent-review.md) | Independent review — attempt 03 |
-| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-02-incomplete-manifest/README.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-02-incomplete-manifest/README.md) | Samawah close-stop planning alternative — current body source |
-| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/README.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/README.md) | Samawah close-stop planning alternative — current body source |
-| [`docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/independent-review.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation-current-source-attempt-03/independent-review.md) | Independent artifact review |
-| [`docs/design-engine/v06-design-closure/samawah-station-consolidation.md`](../docs/design-engine/v06-design-closure/samawah-station-consolidation.md) | Samawah close-station consolidation study |
-| [`docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md`](../docs/design-engine/v06-design-closure/vehicle-services-coupler-gangway-audit.md) | Vehicle lighting, inter-car and gangway audit |
-| [`docs/design-engine/v06-design-space/README.md`](../docs/design-engine/v06-design-space/README.md) | Broader v0.6 design space |
-| [`docs/design-engine/v06-optimisation/README.md`](../docs/design-engine/v06-optimisation/README.md) | Failure-driven v0.6 design campaign |
-| [`docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md`](../docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-optimisation/twins/168c9dc7fefa0af985e54e05427c4292d1176180596d408eb6b31fa378711331/README.md`](../docs/design-engine/v06-optimisation/twins/168c9dc7fefa0af985e54e05427c4292d1176180596d408eb6b31fa378711331/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-optimisation/twins/190290ff883a06fb0f02baa8f1582585da340d5db4f26bdd7e6e93352ed0130b/README.md`](../docs/design-engine/v06-optimisation/twins/190290ff883a06fb0f02baa8f1582585da340d5db4f26bdd7e6e93352ed0130b/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-optimisation/twins/7147932737f1ee6472099e5c5a0ce8804e6d02ca667b753adeba41efd9580bfa/README.md`](../docs/design-engine/v06-optimisation/twins/7147932737f1ee6472099e5c5a0ce8804e6d02ca667b753adeba41efd9580bfa/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md`](../docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
-| [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
-| [`docs/design-engine/v06-software-release/README.md`](../docs/design-engine/v06-software-release/README.md) | Retained authenticated software-review profile |
 | [`docs/design-engine/v07-affordable-corridor/README.md`](../docs/design-engine/v07-affordable-corridor/README.md) | v0.7 affordable railway: first engineering decision gate |
-| [`docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/civil-20261117-box20-segmented-001/README.md) | 20 m box-beam civil construction experiment |
-| [`docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md`](../docs/design-engine/v07-affordable-corridor/evidence/station-power-20261117-a/README.md) | Equal-service propulsion necessary-bound screen |
 | [`docs/design-engine/v07-architecture-decision/README.md`](../docs/design-engine/v07-architecture-decision/README.md) | v0.7 equal-service architecture decision screen |
-| [`docs/design-engine/v07-demonstrator-propulsion/README.md`](../docs/design-engine/v07-demonstrator-propulsion/README.md) | Proposed 1.5–2 km demonstrator propulsion screen |
-| [`docs/design-engine/v07-execution/README.md`](../docs/design-engine/v07-execution/README.md) | v0.7 execution and evidence |
-| [`docs/design-engine/v07-execution/door-pack-preflight.md`](../docs/design-engine/v07-execution/door-pack-preflight.md) | Door module delivery preflight |
-| [`docs/design-engine/v07-execution/door-route-request.md`](../docs/design-engine/v07-execution/door-route-request.md) | One-opening guide and belt route request |
-| [`docs/design-engine/v07-execution/tool-capabilities.md`](../docs/design-engine/v07-execution/tool-capabilities.md) | v0.7 tool selection and retirement boundaries |
+| [`docs/design-engine/v07-independent-brake/README.md`](../docs/design-engine/v07-independent-brake/README.md) | v0.7 powered-prototype independent brake: supplier and qualification decision |
 | [`docs/design-engine/v07-powered-bogie/README.md`](../docs/design-engine/v07-powered-bogie/README.md) | Powered-bogie traction supply: bounded prototype decision screen |
+| [`docs/design-engine/v07-powered-cost/README.md`](../docs/design-engine/v07-powered-cost/README.md) | v0.7 powered-bogie cost handoff — 17 November 2026 |
 | [`docs/design-engine/v07-powered-vehicle/README.md`](../docs/design-engine/v07-powered-vehicle/README.md) | Powered-bogie research car: physical quotation handoff |
-| [`docs/design-engine/v07-project-continuity/README.md`](../docs/design-engine/v07-project-continuity/README.md) | v0.7 Samawah corridor continuity |
 | [`docs/design-engine/v07-prototype-bundle/README.md`](../docs/design-engine/v07-prototype-bundle/README.md) | v0.7 powered prototype research bundle |
 | [`docs/design-engine/v07-representative-car/README.md`](../docs/design-engine/v07-representative-car/README.md) | Representative car: prototype planning handoff |
 | [`docs/design-engine/v07-segmented-span/README.md`](../docs/design-engine/v07-segmented-span/README.md) | Segmented 20 m span: prototype planning handoff |
 | [`docs/design-engine/v07-simple-span/README.md`](../docs/design-engine/v07-simple-span/README.md) | Joint-free 10 m civil prototype option |
-| [`docs/design-engine/vehicle-parts/README.md`](../docs/design-engine/vehicle-parts/README.md) | Vehicle parts, manufacture and assembly |
-| [`docs/design-engine/viaduct-backends/README.md`](../docs/design-engine/viaduct-backends/README.md) | Twelve 20 m viaduct outlines: CAD, mechanics and manufacturing |
 | [`docs/engineering-gallery.md`](../docs/engineering-gallery.md) | CAD and FEM image gallery |
 | [`docs/engineering-models/README.md`](../docs/engineering-models/README.md) | Engineering models |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: current planning and engineering tools |
@@ -347,15 +179,8 @@ Indexed Markdown files: **322**.
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
-| [`docs/plans/v0.7-agent-delivery-plan.md`](../docs/plans/v0.7-agent-delivery-plan.md) | v0.7 agent delivery and tool migration plan |
-| [`docs/plans/v0.7-follow-on-optimisation.md`](../docs/plans/v0.7-follow-on-optimisation.md) | v0.7 follow-on runtime optimisation |
 | [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
-| [`docs/proposals/README.md`](../docs/proposals/README.md) | OpenSourceRail proposals |
-| [`docs/proposals/baghdad-v07/AFFORDABILITY-REVIEW.md`](../docs/proposals/baghdad-v07/AFFORDABILITY-REVIEW.md) | Baghdad v0.7 | capital-cost correction and design-to-cost work |
-| [`docs/proposals/baghdad-v07/COST-AND-FINANCE.md`](../docs/proposals/baghdad-v07/COST-AND-FINANCE.md) | Baghdad v0.7 | cost and financing note |
-| [`docs/proposals/baghdad-v07/EVIDENCE.md`](../docs/proposals/baghdad-v07/EVIDENCE.md) | Baghdad v0.7 evidence and reproducibility |
-| [`docs/proposals/baghdad-v07/README.md`](../docs/proposals/baghdad-v07/README.md) | Baghdad urban rail | v0.7 proposal for Amanat Baghdad |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
 | [`docs/releases/v0.6.1/feature-maturity.md`](../docs/releases/v0.6.1/feature-maturity.md) | v0.6.1 feature maturity |

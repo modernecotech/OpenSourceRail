@@ -67,12 +67,11 @@ has a separate **US$1.141bn** base installed-capital model and **US$2.259bn**
 not an accepted installed architecture. Neither its cost nor its route is
 transferred to the synthetic case.
 
-The [Baghdad proposal](proposals/baghdad-v07/README.md) has **no established
-OpenSourceRail capital requirement**. US$18.0bn for 148.2 km and US$69.6bn for
-605.65 km are conventional-metro scope comparators. They must not be presented
-to Amanat Baghdad or financiers as the cost of a locally buildable OpenSourceRail
-system. Reprice a surveyed Baghdad alignment from its own civil mix, capacity,
-fleet, propulsion, stations, land, grid, procurement and financing inputs.
+The [Baghdad proposal](../cities/Baghdad/PROPOSAL.md) has **no established
+OpenSourceRail capital requirement**. Its 148.2 km and 605.65 km concepts need
+their own surveyed civil mix, capacity, fleet, propulsion, stations, land,
+grid, procurement and financing inputs. The [powered prototype cost handoff](design-engine/v07-powered-cost/README.md)
+keeps all fourteen changed-candidate scopes unpriced pending supplier and site data.
 
 Unknown installed quantities and unpriced work remain visible, never zero.
 The working budget presents one estimate per stated candidate and scope; the

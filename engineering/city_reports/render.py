@@ -170,6 +170,20 @@ def _civil_price_comparison(model):
 
 def city(model,packet,detail,row,root):
     directory=Path(row['path']);city=packet['city'];name=city['name'];slug=city['slug']
+    if slug == 'baghdad':
+        proposal=link(directory,'cities/Baghdad/PROPOSAL.md')
+        map_a=link(directory,'cities/Baghdad/maps/network-148km.geojson')
+        map_b=link(directory,'cities/Baghdad/maps/network-606km.geojson')
+        planning=link(directory,'docs/workbench/planning/index.html?city=baghdad')
+        return '\n'.join([
+            '# Baghdad railway planning data','',
+            'The [OpenSourceRail Baghdad proposal]('+proposal+') is the current city planning entry point.',
+            'It defines the 148.2 km first programme and the 605.65 km metropolitan concept,',
+            'including airport-terminal, Sadr City and Jadriya service.','',
+            '[First-programme map]('+map_a+') · [Metropolitan map]('+map_b+') · [Planning workspace]('+planning+')','',
+            'The calculated outline in `engineering/outline/` is a separate research scenario.',
+            'Its route, fleet and prices do not define either proposal concept.','',
+        ])
     p='engineering/outline/';policy=packet['assumptions']['policy'];cost=packet['costs'];r=packet['resources'];q=packet['civil']['quantities']
     lines=sorted(packet['lines'],key=lambda x:_natural(x['line_id']));stats=packet['summary'];w=detail['delivery_draft']['workforce']
     centres=[pt for line in lines for pt in (line['coordinates'][0],line['coordinates'][-1])]

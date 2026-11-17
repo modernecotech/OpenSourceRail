@@ -119,7 +119,7 @@ def category(name):
         return 'current-development-dossier'
     if name == 'docs/design-engine/sourcing/README.md':
         return 'sourcing-evidence-and-economics'
-    if name.startswith('docs/proposals/'):
+    if name.startswith('cities/Baghdad/'):
         return 'strategic-planning-proposal'
     if name.startswith('docs/design-engine/'):
         return 'retained-design-evidence'

@@ -20,12 +20,17 @@ def test_published_city_pages_have_the_actual_map_and_city_calculations():
     assert index['city_count']==len(index['cities'])==266
     for row in index['cities']:
         folder=ROOT/row['path'];front=(folder/'README.md').read_text()
-        for section in ('## City and network','### Lines, service and fleet','## Energy and propulsion',
-                        '## Civil works, depot and manufacture','## Workforce and construction programme',
-                        '## Capital, operating costs and whole-life economics','## Site, engineering and delivery evidence'):
-            assert section in front,(row['city']['slug'],section)
-        assert '![{} current calculated railway network'.format(row['city']['name']) in front
-        assert row['outline_evaluation_id'] in front
+        if row['city']['slug']=='baghdad':
+            assert '[OpenSourceRail Baghdad proposal](../../../../Baghdad/PROPOSAL.md)' in front
+            assert '[Planning workspace]' in front
+            assert '$18.0bn' not in front and '$69.6bn' not in front
+        else:
+            for section in ('## City and network','### Lines, service and fleet','## Energy and propulsion',
+                            '## Civil works, depot and manufacture','## Workforce and construction programme',
+                            '## Capital, operating costs and whole-life economics','## Site, engineering and delivery evidence'):
+                assert section in front,(row['city']['slug'],section)
+            assert '![{} current calculated railway network'.format(row['city']['name']) in front
+            assert row['outline_evaluation_id'] in front
         svg=(folder/'engineering/outline/network.svg').read_text()
         assert row['packet_id'] in svg
         dossier=json.loads((folder/'engineering/outline/manifest.json').read_bytes())
@@ -42,7 +47,8 @@ def test_published_city_pages_have_the_actual_map_and_city_calculations():
 
 
 def test_all_catalogue_and_city_markdown_links_resolve():
-    paths=[ROOT/'cities/catalogue/README.md']
+    paths=[ROOT/'cities/catalogue/README.md',ROOT/'cities/Baghdad/README.md',
+           ROOT/'cities/Baghdad/PROPOSAL.md']
     paths.extend(ROOT/row['path']/'README.md' for row in json.loads((ROOT/reports.OUTPUT/'index.json').read_bytes())['cities'])
     checked=0
     for p in paths:
@@ -75,7 +81,8 @@ def test_catalogue_generator_uses_city_dossiers_and_relative_targets():
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     module.ROOT=ROOT;module.SOURCE=ROOT/'docs/design-engine/current/cities.json'
     text=module.generate()
-    assert '[Baghdad](west-asia/Iraq/Baghdad/README.md)' in text
+    assert '[Baghdad proposal](../Baghdad/PROPOSAL.md)' in text
+    assert '| IQ | [Baghdad proposal](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 |' in text
     assert '](cities/catalogue/' not in text
     assert 'Base installed US$' in text
 

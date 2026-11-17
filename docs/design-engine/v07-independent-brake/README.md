@@ -7,12 +7,12 @@
 | Item | Source-bound value |
 | --- | --- |
 | Source Git commit | `8e762f92974857eaf3d350389ca3a43d5d09617c` |
-| Bundle result SHA-256 | `d8740e3b59e31e48fcc4b64c980bb3040dc362796b4fb9c9021d585db5b7c63c` (`../v07-prototype-bundle/packet/result.json`) |
+| Bundle result SHA-256 | `d8740e3b59e31e48fcc4b64c980bb3040dc362796b4fb9c9021d585db5b7c63c` ([packet at source commit](https://github.com/modernecotech/OpenSourceRail/blob/8e762f92974857eaf3d350389ca3a43d5d09617c/docs/design-engine/v07-prototype-bundle/packet/result.json)) |
 | Physical candidate | `ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d` |
 | Engineering revision | `b899c44ae56a45479a6218c9db94313797b40e22a107534784c0d4804fb9725a` |
 | Bundle evaluation | `26f8ccbcf5052c24c87354484781e797deda59eb69b9eb3020e41be008858ba6` |
 | Provisional next-experiment selection | `5eb17b35b100d9c72b3f5b94e37079dc559919d4757508fcc35418d146726da0` (not an installed selection) |
-| Upstream mechanical child SHA-256 | `40d4c634d7351f55656ab09d1e234252df6f6ae87d4774ba691281a34d01da0a` (`../v07-powered-vehicle/plan.json`) |
+| Upstream mechanical child SHA-256 | `40d4c634d7351f55656ab09d1e234252df6f6ae87d4774ba691281a34d01da0a` ([plan at source commit](https://github.com/modernecotech/OpenSourceRail/blob/8e762f92974857eaf3d350389ca3a43d5d09617c/docs/design-engine/v07-powered-vehicle/plan.json)) |
 
 The bundle's **analytical upper normal mass** is 25,071.998 kg/car, or 150,431.989 kg for six cars; installed mass and axle reactions remain unknown. Its 20 m/s, 2% downgrade, net 0.6 m/s² independent stop with all wheel brakes unavailable requires **119,773.95 N** longitudinal rail force. With one of 12 bogie modules unavailable, 11 active modules must each provide **10,888.54 N**. At 20 m/s that is **217.77 kW per active rail-contact interface initially**. Ideal constant-deceleration time and distance are 33.33 s and 333.33 m; each working module dissipates about **3.630 MJ** at the shoe/rail interface. This ideal distance excludes brake command, build-up, reaction, tolerance, hot fade, contamination, and safety margins. The rail and shoe divide the heat; it is not all shoe heat. A static 2% grade at this mass calls for **29.51 kN** train holding force before margin, or **2.683 kN per module** if 11 remain active. The larger 160-person crowd-control mass requires a **separate** brake and parking check.
 
@@ -48,8 +48,9 @@ The [current EN 16207:2024 publisher description](https://www.dinmedia.de/en/sta
 Read-only arithmetic (no solver or output regeneration):
 
 ```sh
-sha256sum docs/design-engine/v07-prototype-bundle/packet/result.json docs/design-engine/v07-powered-vehicle/plan.json
-jq '{candidate_id:.candidate.candidate_id,revision:.evaluation.engineering_design_revision_id,evaluation_id:.evaluation.evaluation_id,selection_id:.selection.selection_id,brake:.evaluation.independent_brake,mass:.evaluation.mass_account}' docs/design-engine/v07-prototype-bundle/packet/result.json
+git show 8e762f92974857eaf3d350389ca3a43d5d09617c:docs/design-engine/v07-prototype-bundle/packet/result.json | sha256sum
+git show 8e762f92974857eaf3d350389ca3a43d5d09617c:docs/design-engine/v07-powered-vehicle/plan.json | sha256sum
+git show 8e762f92974857eaf3d350389ca3a43d5d09617c:docs/design-engine/v07-prototype-bundle/packet/result.json | jq '{candidate_id:.candidate.candidate_id,revision:.evaluation.engineering_design_revision_id,evaluation_id:.evaluation.evaluation_id,selection_id:.selection.selection_id,brake:.evaluation.independent_brake,mass:.evaluation.mass_account}'
 python3 - <<'PY'
 m = 6 * 25071.998134341986
 F = m * (0.6 + 9.81 * 0.02)
