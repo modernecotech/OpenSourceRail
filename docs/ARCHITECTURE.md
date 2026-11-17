@@ -7,6 +7,10 @@ construction, commissioning, operation, maintenance and renewal. Local design
 authority, repairability and whole-life affordability are objectives that each
 candidate must demonstrate.
 
+The [v0.7 engineering decision register](ENGINEERING-STATUS.md) tracks the
+selected reference and separate prototype research. The [cost baseline](COST-BASELINE.md)
+and [finite release gate](RELEASE-v0.7.md) govern current public claims.
+
 ## Selected v0.6 vehicle reference
 
 [`development-baseline.toml`](../engineering/development-baseline.toml) selects
@@ -41,6 +45,12 @@ proposal handoff bound to the selected candidate, then verify it with
 `./osr plan verify build/my-plan`. The handoff carries proposals only; it
 excludes vehicle, propulsion, fleet, civil quantity, cost, performance and
 cashflow results. It grants no movement authority.
+
+The editable Workbench source is `engineering/development_baseline/web/`.
+`docs/workbench/current/` is the generated public copy: the station publisher
+copies its core assets and the city-atlas publisher copies its map assets with a
+source-checked receipt. Matching files in the two directories are expected
+publication outputs, not two independent implementations.
 
 The coordinator carries one candidate bundle through geometry, mass, analysis,
 BOM, CAD/IFC, procurement, assembly, construction and controls. The current

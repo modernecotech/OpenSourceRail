@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **306**.
+Indexed Markdown files: **314**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **306**.
 | [cities](#cities) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 274 |
+| [docs](#docs) | 282 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -77,8 +77,11 @@ Indexed Markdown files: **306**.
 |---|---|
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
+| [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost baseline |
+| [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | v0.7 engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
+| [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | v0.7 controlled release gate |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
 | [`docs/book/01-purpose.md`](../docs/book/01-purpose.md) | Why build an open railway |
 | [`docs/book/02-passenger.md`](../docs/book/02-passenger.md) | The passenger journey |
@@ -340,6 +343,11 @@ Indexed Markdown files: **306**.
 | [`docs/plans/v0.7-follow-on-optimisation.md`](../docs/plans/v0.7-follow-on-optimisation.md) | v0.7 follow-on runtime optimisation |
 | [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
+| [`docs/proposals/README.md`](../docs/proposals/README.md) | OpenSourceRail proposals |
+| [`docs/proposals/baghdad-v07/AFFORDABILITY-REVIEW.md`](../docs/proposals/baghdad-v07/AFFORDABILITY-REVIEW.md) | Baghdad v0.7 | capital-cost correction and design-to-cost work |
+| [`docs/proposals/baghdad-v07/COST-AND-FINANCE.md`](../docs/proposals/baghdad-v07/COST-AND-FINANCE.md) | Baghdad v0.7 | cost and financing note |
+| [`docs/proposals/baghdad-v07/EVIDENCE.md`](../docs/proposals/baghdad-v07/EVIDENCE.md) | Baghdad v0.7 evidence and reproducibility |
+| [`docs/proposals/baghdad-v07/README.md`](../docs/proposals/baghdad-v07/README.md) | Baghdad urban rail | v0.7 proposal for Amanat Baghdad |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |
 | [`docs/releases/v0.6.1/demonstrations.md`](../docs/releases/v0.6.1/demonstrations.md) | v0.6.1 demonstrations |
 | [`docs/releases/v0.6.1/feature-maturity.md`](../docs/releases/v0.6.1/feature-maturity.md) | v0.6.1 feature maturity |

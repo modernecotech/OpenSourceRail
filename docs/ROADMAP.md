@@ -1,5 +1,11 @@
 # v0.7 corridor-to-lifecycle roadmap
 
+The [finite v0.7 release gate](RELEASE-v0.7.md) is the current scope and
+completion tracker. [Engineering status](ENGINEERING-STATUS.md) and the
+[single-estimate cost baseline](COST-BASELINE.md) provide the current decision
+summary. The dated work and evidence below explain the earlier development
+path; they do not expand release acceptance automatically.
+
 [v0.6.1 — Open Engineering Platform](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1)
 is the published v0.6-series software release at
 `5cfe89488a64549b37d4a7fd3ea9e3d3a8923aea`. Use its
