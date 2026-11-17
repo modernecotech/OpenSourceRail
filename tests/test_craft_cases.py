@@ -1,7 +1,10 @@
 """Independent SI/source/identity boundaries; no native CAD or physical acceptance."""
 from copy import deepcopy
+from hashlib import sha256
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import gzip
+import json
 import os
 import shutil
 
@@ -113,4 +116,24 @@ def test_changed_source_producer_is_refused_without_rebinding_publication(record
         dst=tmp_path/name;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
     p=tmp_path/'engineering/visual_models/station.py';p.write_bytes(p.read_bytes()+b'\n# changed producer\n')
     with pytest.raises(ValueError,match='source changed'):
+        c.cases(tmp_path)
+
+
+def test_later_evaluation_cannot_reuse_gallery_after_physical_geometry_change(records,tmp_path):
+    names=set()
+    for value in records.values():names.update(value['source_sha256'])
+    names.update((c.CURRENT+'/manifest.json',c.GALLERY+'/manifest.json'))
+    for name in names:
+        src=Path(c.__file__) if name==c.PRODUCER else REFERENCE/name
+        dst=tmp_path/name;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
+    evaluation=tmp_path/(c.CURRENT+'/evaluation.json.gz')
+    value=json.loads(gzip.decompress(evaluation.read_bytes()))
+    value['vehicle']['geometry_parts'][0]['at_m'][0]+=.1
+    evaluation.write_bytes(gzip.compress((json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode(),mtime=0))
+    manifest_path=tmp_path/(c.CURRENT+'/manifest.json')
+    manifest=json.loads(manifest_path.read_bytes())
+    manifest['files_sha256']['evaluation.json.gz']=sha256(evaluation.read_bytes()).hexdigest()
+    manifest['manifest_id']=c.identity({k:v for k,v in manifest.items() if k!='manifest_id'})
+    manifest_path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError,match='Gallery physical model changed'):
         c.cases(tmp_path)

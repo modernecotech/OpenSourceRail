@@ -252,11 +252,43 @@ def cases(root=ROOT):
     sources = {PRODUCER:_LOADED,CURRENT+'/manifest.json':_digest(root,CURRENT+'/manifest.json'),
                current_name:_digest(root,current_name),
                GALLERY+'/manifest.json':_digest(root,GALLERY+'/manifest.json')}
+    changed_data = []
     for name, expected in gallery['source_sha256'].items():
         actual = _digest(root,name)
         if actual != expected:
-            raise ValueError('Gallery input source changed: '+name)
+            if name not in (current_name,
+                            'docs/design-engine/station-regenerative-launch/reference.json'):
+                raise ValueError('Gallery input source changed: '+name)
+            changed_data.append(name)
         sources[name] = actual
+    if changed_data:
+        # The frozen gallery may illustrate a later evaluation of the same
+        # physical stock. Rebuild the two definitions this adapter consumes
+        # and require every entity and non-epoch reference field to agree.
+        from engineering.visual_models import core as visual_core
+        current_models, _ = visual_core.collect(root)
+        used = {'vehicle-fabrication','launcher-booster'}
+        current_models = [a for a in current_models if a['id'] in used]
+        published = {a['id'] for a in gallery['assemblies']}
+        if not used <= published or {a['id'] for a in current_models} != used:
+            raise ValueError('Gallery physical model coverage changed')
+        for model in current_models:
+            key = model['id']
+            relative = 'definitions/'+key+'.json.gz'
+            if _digest(root,GALLERY+'/'+relative) != gallery['files_sha256'][relative]:
+                raise ValueError('Published component definition differs: '+key)
+            old = _json(root,GALLERY+'/'+relative)
+            for value in (model,old):
+                value.pop('visual_study_id',None)
+                context = value.pop('reference_context')
+                for epoch in ('source_evaluation_id','reference_evaluation_id',
+                              'source_physics_evaluation_id','source_publication_id'):
+                    context.pop(epoch,None)
+                if 'reference_candidate_ids' in context:
+                    context['reference_candidate_ids'].pop('evaluation_id',None)
+                value['reference_context'] = context
+            if model != old:
+                raise ValueError('Gallery physical model changed: '+key)
     definitions = {}
     for key in ('vehicle-fabrication','launcher-booster'):
         relative = 'definitions/'+key+'.json.gz'; name = GALLERY+'/'+relative
