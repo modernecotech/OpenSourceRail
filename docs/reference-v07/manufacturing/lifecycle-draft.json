@@ -1,0 +1,56 @@
+{
+  "schema": "osr-v07-representative-manufacturing-lifecycle-draft/1",
+  "configuration_id": "osr-v07-30km-powered-wheel-10m-span-20261117",
+  "joined_physical_candidate_id": "osr-v07-joined-prototype-20261117",
+  "joined_interface_evaluation_id": "osr-v07-interface-reconciliation-20261117",
+  "joined_quotation_selection_id": "osr-v07-prototype-quotation-20261117",
+  "powered_vehicle_candidate_id": "ac550fe8ff23f20cb1ae5b142f4ef6160afc9de6efe7850754bac96a7789327d",
+  "powered_vehicle_evaluation_id": "b09430521e5e23098aa5287758861412e8024c2f547e1fe2763d591609a7a21a",
+  "civil_candidate_id": "bc62448096e5e5e4bc12190fbe4c2f8c5008093d7a2eedfdd022a4d04d01c19e",
+  "civil_evaluation_id": "1ac96f8c14960ce892bdc61703e8aec3c519ead69b06671ad7c7beb6867c4af8",
+  "door_research_candidate_id": "17ce7a724fcd661e5c4f195cde19b68377c0968e4e7d7dbb5d6ac7c8d4074ad4",
+  "door_research_evaluation_id": "123896d4014fd00bc11fc755f132aa8769ebfd217f06d6f34b2fe8342d62c4f1",
+  "status": "disabled-draft-for-prototype-quotation",
+  "external_transactions_performed": false,
+  "posted": false,
+  "ready_for_import": false,
+  "physical_accepted": false,
+  "manufacturing_release": false,
+  "planning_budget_usd_2026": {
+    "six_car_vehicle_set": 5900000,
+    "ten_metre_beam_with_bearing_detail": 14000,
+    "beam_haul_and_lift": 5000,
+    "ordinary_pier_and_footing_position": 8000,
+    "one_rectifier_grid_site": 3000000,
+    "one_station_auxiliary_feed": 1250000
+  },
+  "erpnext_document_sequence": [
+    {"sequence": 1, "doctype": "Item", "state": "draft-disabled", "action": "create revisioned assembly and child item codes from bom.csv; link physical candidate and evaluation IDs"},
+    {"sequence": 2, "doctype": "BOM", "state": "draft-disabled", "action": "resolve child quantities, materials, supplier approvals, mass and cost before submission"},
+    {"sequence": 3, "doctype": "Routing", "state": "draft-disabled", "action": "assign controlled instructions, stations and shop times from routing.csv; replace allowances with measured process time"},
+    {"sequence": 4, "doctype": "Request for Quotation", "state": "draft-unsent", "action": "request one installed unit price, lead time, local process content and replacement price for each unresolved qualified package"},
+    {"sequence": 5, "doctype": "Purchase Order", "state": "not-created", "action": "issue only after supplier and drawing approval"},
+    {"sequence": 6, "doctype": "Purchase Receipt", "state": "not-created", "action": "receive serial or lot and attach certificates and measured incoming inspection"},
+    {"sequence": 7, "doctype": "Quality Inspection", "state": "draft-unmeasured", "action": "apply approved numerical limits and record instrument, inspector, measurement, disposition and nonconformance"},
+    {"sequence": 8, "doctype": "Work Order", "state": "not-created", "action": "release exact candidate and revision against approved BOM, routing and available accepted stock"},
+    {"sequence": 9, "doctype": "Installation Record", "state": "not-created", "action": "record exact car, beam, bearing, door and power-site position with serial or lot and as-built datum"},
+    {"sequence": 10, "doctype": "Maintenance Visit", "state": "not-created", "action": "link defect, isolation, removed serial, repair or replacement, retest and independent handback"}
+  ],
+  "inspection_plan": [
+    {"assembly": "17m-powered-car", "characteristic": "installed mass and axle loads", "measurement_required": "each finished car and axle on calibrated scales", "approved_limit": null, "accepted": false},
+    {"assembly": "17m-powered-car", "characteristic": "motor bogie brake and hose finite sweeps", "measurement_required": "full yaw roll heave wear tool and supported removal paths", "approved_limit": null, "accepted": false},
+    {"assembly": "17m-powered-car", "characteristic": "HV insulation earth cooling and independent brake", "measurement_required": "cold and repeated-hot duty plus loss-of-power and one-module-out", "approved_limit": null, "accepted": false},
+    {"assembly": "door-opening", "characteristic": "mounted motion and removal", "measurement_required": "complete 0.72m slide hypothesis, obstruction, seal, tool and removal envelopes", "approved_limit": null, "accepted": false},
+    {"assembly": "10m-beam", "characteristic": "strength, geometry, bearing and lift", "measurement_required": "batch strength, cover, seat survey, mass, lift plan, deflection and bearing travel", "approved_limit": null, "accepted": false},
+    {"assembly": "station-power-site", "characteristic": "electrical and thermal protection", "measurement_required": "grid fault duty, 1.5kV insulation, heat rejection, earthing, isolation and removal path", "approved_limit": null, "accepted": false}
+  ],
+  "repair_sequence": [
+    "Identify installation position, candidate, revision and serial or lot.",
+    "Create defect and lock out overhead, traction DC, auxiliary battery, brake stored energy and coolant as applicable.",
+    "Support component and inspect finite removal route, lifting capacity and access.",
+    "Remove and record old serial; inspect interface and repair or fit approved replacement.",
+    "Record new serial, joins, fastener torque, seal, cable/hose routing and as-built datum.",
+    "Repeat applicable measured retention, insulation, leakage, brake and functional tests; obtain independent handback."
+  ],
+  "open_supplier_fields": ["car and axle weighed masses", "qualified drive and brake bearings and seals", "approved joining and fastener schedules", "door operator mounting datums and motion limits", "beam bearing and lifting hardware ratings", "station rectifier room dimensions and heat rejection", "grid fault and regenerative receptivity study", "actual installed unit quotes", "local value-added evidence"]
+}
