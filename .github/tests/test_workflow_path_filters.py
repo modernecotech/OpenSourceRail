@@ -11,13 +11,24 @@ SOURCE_CONTROL = "engineering/development_baseline/vehicle_cost.py"
 HEAVY_WORKFLOWS = (
     ".github/workflows/v06-software-journey.yml",
     ".github/workflows/digital-twin.yml",
-    ".github/workflows/frame-refinement.yml",
     ".github/workflows/reference-cell.yml",
-    ".github/workflows/engineering-closure.yml",
-    ".github/workflows/reconciled-pilot.yml",
     ".github/workflows/development-baseline.yml",
     ".github/workflows/shared-software.yml",
 )
+
+MANUAL_RETAINED_REPLAYS = (
+    ".github/workflows/frame-refinement.yml",
+    ".github/workflows/engineering-closure.yml",
+    ".github/workflows/reconciled-pilot.yml",
+)
+
+
+def test_stale_retained_replays_require_explicit_dispatch():
+    for relative in MANUAL_RETAINED_REPLAYS:
+        header = (ROOT / relative).read_text().split('permissions:', 1)[0]
+        assert '  workflow_dispatch:' in header, relative
+        assert '  push:' not in header and '  pull_request:' not in header, relative
+        assert '  schedule:' not in header, relative
 
 
 def _event_paths(workflow: Path, event: str) -> list[str]:
@@ -99,10 +110,7 @@ def test_every_selected_test_is_available_in_fast_lane_sparse_checkout():
 
 V07_UNRELATED_RETAINED_WORKFLOWS = (
     '.github/workflows/digital-twin.yml',
-    '.github/workflows/frame-refinement.yml',
     '.github/workflows/reference-cell.yml',
-    '.github/workflows/engineering-closure.yml',
-    '.github/workflows/reconciled-pilot.yml',
     '.github/workflows/development-baseline.yml',
     '.github/workflows/shared-software.yml',
     '.github/workflows/sourced-hardware.yml',
@@ -176,8 +184,7 @@ def test_door_workbench_changes_use_bounded_lanes_without_retained_replays():
         'engineering/development_baseline/web/city-atlas.js',
     )
     retained = (
-        'digital-twin.yml', 'frame-refinement.yml', 'reference-cell.yml',
-        'engineering-closure.yml', 'reconciled-pilot.yml',
+        'digital-twin.yml', 'reference-cell.yml',
     )
     journey = ROOT / '.github/workflows/v06-software-journey.yml'
     fast = ROOT / '.github/workflows/v06-software-release.yml'
@@ -212,3 +219,5 @@ def test_wheel_frontend_checks_have_installed_browser_and_fail_before_long_model
     assert current.index('generate-doc-index.py --check') < current.index('npx playwright install --with-deps chromium')
     assert current.index('npx playwright install --with-deps chromium') < current.index('run: npm run test:frontend')
     assert current.index('run: npm run test:frontend') < current.index('Current vehicle, policy, planning and reference-integrity contracts')
+    assert 'tests/test_viaduct_admission.py' in current
+    assert 'tests/test_viaduct_publication.py' not in current

@@ -224,11 +224,10 @@ jobs:
           python -B tools/automation/tests/test_source_only_entry.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
-      - name: v0.6 design-closure ledger, package integrity and fail-closed release gate
+      - name: Retained package integrity and Samawah analytical contracts
         run: >-
           python -m pytest -q --import-mode=importlib
           tests/test_v06_closure_evidence_packages.py
-          tests/test_v06_release_gate.py
           tests/test_samawah_city_recalculation_packet.py
           tests/test_samawah_acceleration_sensitivity_packet.py
           tests/test_compact_drive_geometry_closure_packet.py

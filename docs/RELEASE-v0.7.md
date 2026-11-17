@@ -34,6 +34,16 @@ v0.7 package version only with regeneration and verification of affected
 current packets at the release candidate; do not silently relabel historical
 evidence. The v0.7 **development state** is governed by this file now.
 
+The normal v0.7 checks exercise the current reference, bounded contracts and
+the Samawah Workbench journey. Retained frame, reconciled-pilot and engineering
+closure replays are explicitly dispatched research jobs. Their saved packets
+remain intact and source-bound: the closure source map differs on
+`railway_delivery.py` and `engineering/requirements.txt`; the old viaduct
+publication differs on three native-backend sources; the archived v0.6 closure
+ledger points to an older outline manifest. These are recorded replay holds,
+not repaired by editing a receipt or inferred physical failures. A new current
+evaluation needs regeneration against the actual source and separate review.
+
 ## Execution and release rules
 
 Use the synthetic 30 km case for equal-service economics, a surveyed 1.5–2 km
