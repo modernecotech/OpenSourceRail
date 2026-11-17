@@ -2,9 +2,11 @@
 
 **17 November 2026 | Engineering concept and financing discussion | No route or financing approval implied**
 
-[Presentation PDF](../../../output/pdf/Baghdad-Metro-v0.7-Proposal.pdf) · [Cost and finance](COST-AND-FINANCE.md) · [Candidate and evidence register](EVIDENCE.md) · [Concept A GIS](rfi-schematic.geojson) · [Concept B GIS](concept-b-2035-map.geojson)
+[Presentation PDF](../../../output/pdf/Baghdad-Metro-v0.7-Proposal.pdf) · [Affordability correction](AFFORDABILITY-REVIEW.md) · [Cost and finance](COST-AND-FINANCE.md) · [Candidate and evidence register](EVIDENCE.md) · [Concept A GIS](rfi-schematic.geojson) · [Concept B GIS](concept-b-2035-map.geojson)
 
 This proposal places two different programmes before Amanat Baghdad. **Concept A** adapts the National Investment Commission's seven-line, 148.2 km 2024 request for information (RFI) into an initial metro programme. **Concept B** tests a 605.65 km schematic metropolitan network within a **500–800 km** 2035 vision. The two concepts have separate physical and evaluation identities. A is a potential first part of B, but neither inherits the other's cost, demand, fleet or physical acceptance. A build-out completion date of 2035 is a programme objective, not a construction commitment.
+
+**Capital-price correction:** US$18.0bn and US$69.6bn below are conventional-metro budget comparators to challenge. They were calculated with generic US$45m/km elevated civil, a 15% tunnel mix and standard station allowances, **not** with an accepted OpenSourceRail viaduct, station or installed vehicle. They are not the capital requirements for the proposed locally buildable railway. [The affordability review](AFFORDABILITY-REVIEW.md) shows the exact drivers and the engineering gate for a credible lower price.
 
 **Recommended immediate decision:** mandate Concept A as the first detailed feasibility and procurement comparison, while safeguarding Concept B's metropolitan corridors in the same study. This is a decision on **study and corridor protection**, not physical selection or a request for construction debt. Amanat Baghdad/National Investment Commission should compare both against one surveyed origin-destination model, corridor and land records, airport access agreement, geotechnical investigation and funding plan. A prior winning consortium was announced for the 2024 DBOMFT opportunity. The legal/contractual position must be confirmed before this proposal can be offered as an alternative, supplement or design input. The [Iraqi Ministry of Planning's 10 November 2026 metro workshop](https://mop.gov.iq/archives/40342) explicitly discussed revising routes and undertaking further feasibility study.
 
@@ -19,7 +21,8 @@ This proposal places two different programmes before Amanat Baghdad. **Concept A
 | Sadr City | Three population-screened access anchors to test on connected Blue/Purple services | Multiple through services and transfer nodes across both Sadr districts |
 | Jadriya | Two access anchors to test on Yellow/Karrada connection | Through service integrated with university, health and employment catchments |
 | Short services | No five standalone 6–8 km research shuttles imported from the earlier map | Retain lines 10–14 pending a through-service design that preserves their catchments |
-| Single capital funding envelope | **US$18.0bn**, including 20% contingency | **US$69.6bn**, including 20% contingency |
+| Conventional-scope budget comparator | **US$18.0bn**, including 20% contingency | **US$69.6bn**, including 20% contingency; civil classes are not mapped |
+| OpenSourceRail installed capital requirement | Not yet established for this physical route | Not yet established for this physical route |
 | Design status | Concept route and budget screening | Strategic network and budget screening; detailed alignments and stages open |
 
 ### Why revise the earlier map
@@ -75,7 +78,7 @@ The manufacturing plan should specify Iraqi fabrication, assembly, inspection an
 
 ## Cost and finance
 
-Each concept has **one** base funding figure in [the cost and financing note](COST-AND-FINANCE.md). These are planning budgets, not fixed bids or loan approvals. Their internal quantity/rate uncertainties remain visible in the engineering evidence, without low/high price columns in this external proposal. The older 494 km cost-measured/14-line US$8.35bn Class C outline is not transferred to either concept because its geometry, tunnel content, fleet and station scope differ. Fourteen installed scopes, risk contingency, local/imported origin, annual operating costs and 30-year life-cycle obligations must be measured against each chosen candidate before a credit application.
+Each concept has **one conventional-scope comparator** in [the cost and financing note](COST-AND-FINANCE.md). These are planning controls, not OpenSourceRail installed estimates, fixed bids or loan approvals. The older 494 km cost-measured/14-line US$8.35bn Class C outline is not transferred to either concept because its geometry, tunnel content, fleet and station scope differ. Fourteen installed scopes, risk contingency, local/imported origin, annual operating costs and 30-year life-cycle obligations must be measured against each chosen candidate before a credit application.
 
 UKEF finance is a potential tranche for an eligible UK export contract, not a source for the entire metro. The buyer contribution, UK content, sovereign/municipal repayment support, security, lender diligence, environmental and social review, land acquisition, procurement authority and foreign-exchange risk require named counterparties and agreements. The [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) and [Iraq country cover](https://www.gov.uk/guidance/country-cover-policy-and-indicators) are eligibility/context, not commitments. The 2024 RFI's DBOMFT concession and announced consortium rights must be resolved with Amanat and NIC first.
 
