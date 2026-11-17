@@ -1,10 +1,10 @@
 {
   "capital": {
-    "contingency_usd_m": "170.5832",
+    "contingency_usd_m": "170.8712",
     "currency": "USD",
-    "direct_usd_m": "852.916",
-    "installed_usd_m": "1023.4992",
-    "local_work_allowance_usd_m": "410.8278",
+    "direct_usd_m": "854.356",
+    "installed_usd_m": "1025.2272",
+    "local_work_allowance_usd_m": "411.9078",
     "price_year": 2026,
     "scope_count": 14,
     "scope_rows": [
@@ -43,16 +43,16 @@
         "scope": "fleet-spares-and-recovery"
       },
       {
-        "amount_usd_m": "84",
+        "amount_usd_m": "85.44",
         "basis_lines": [
           {
-            "amount_usd_m": "84",
+            "amount_usd_m": "85.44",
             "component": "precast-10m-beam-and-bearings",
             "local_work_fraction": "0.75",
             "quantity": "6000",
             "scope": "guideway-beams-bearings-and-detail",
             "unit": "beam",
-            "unit_rate_usd_m": "0.014"
+            "unit_rate_usd_m": "0.01424"
           }
         ],
         "coverage": "assembly-quote-route",
@@ -111,13 +111,13 @@
         "scope": "production-depot-land-and-utilities"
       },
       {
-        "amount_usd_m": "170.5832",
+        "amount_usd_m": "170.8712",
         "basis_lines": [
           {
-            "amount_usd_m": "170.5832",
+            "amount_usd_m": "170.8712",
             "component": "twenty-percent-of-counted-direct-cost",
             "local_work_fraction": "0",
-            "quantity": "852.916",
+            "quantity": "854.356",
             "scope": "project-risk-contingency",
             "unit": "direct-cost-usd-m",
             "unit_rate_usd_m": "0.2"
@@ -259,7 +259,7 @@
   },
   "configuration_id": "osr-v07-30km-powered-wheel-10m-span-20261117",
   "digital_analysis": {
-    "baseline_parent_price_and_10m_beam_preserved": true,
+    "baseline_parent_price_and_10m_beam_preserved": false,
     "civil_evaluation_id": "7c4bec060cb071880bbd3f1b87aaba2faf66bf839d097540af7d59cf555594ad",
     "civil_input_evaluation_id": "02367714fda7e8cdb73b9c286ee4edf4758add7647cc70d0c34eaa0b979fc04a",
     "civil_result_sha256": "c8c1d5bfbaca9b38419529bfe6e881112362e8ad67ab8b26f83d116d227c8028",
@@ -299,7 +299,7 @@
         "service_tension": 0
       }
     },
-    "civil_revision_option_transferred_into_cost_or_bom": false,
+    "civil_revision_option_transferred_into_cost_or_bom": true,
     "vehicle_evaluation_id": "ebddef0c8b9c21c2d9a023b680afa372b02396a700c77be03d6983300af5a240",
     "vehicle_input_id": "7beb441511a1b237a58277fb1d8c963d1dd548905a74cce9739169b2c1eb5c61",
     "vehicle_result_sha256": "3062c06ee12b06265e9280f7dbe538b549668e9ad05a89bf3f35b18282f155ad"
@@ -320,7 +320,7 @@
       },
       {
         "assembly": "10m-beam",
-        "item_code": "OSR-V07-PLAN-10M-BEAM",
+        "item_code": "OSR-V07-PLAN-13STRAND-10M-BEAM",
         "quantity": 6000
       },
       {
@@ -348,8 +348,10 @@
       "Asset Repair"
     ]
   },
-  "evaluation_id": "osr-v07-interface-reconciliation-20261117",
-  "physical_candidate_id": "osr-v07-joined-prototype-20261117",
+  "evaluation_id": "osr-v07-digital-interface-20261117",
+  "parent_joined_evaluation_id": "osr-v07-interface-reconciliation-20261117",
+  "parent_joined_physical_candidate_id": "osr-v07-joined-prototype-20261117",
+  "physical_candidate_id": "osr-v07-joined-civil-518dad57a3af5046f40c8f4f",
   "production": {
     "beam_count": 6000,
     "bearing_count": 24000,
@@ -777,12 +779,12 @@
         "cost_treatment": "included-in-scope; do-not-sum-child-rows",
         "item": "precast-box-and-four-bearings",
         "make_buy": "mixed",
-        "notes": "10x2x1.4m nominal; includes standard bearing/detail allowance",
+        "notes": "10x2x1.4m nominal; 13-strand revision adds 79.96kg counted steel per beam at rounded 240USD planning allowance",
         "origin_or_supplier_basis": "local-precast-plus-qualified-bearings",
         "quantity_per_assembly": "1",
-        "rate_status": "installed-concept-rate",
+        "rate_status": "installed-digital-planning-rate",
         "unit": "beam",
-        "unit_scope_rate_usd": "14000"
+        "unit_scope_rate_usd": "14240"
       },
       {
         "assembly": "10m-beam",
@@ -803,9 +805,9 @@
         "cost_treatment": "included-in-scope; do-not-sum-child-rows",
         "item": "counted-reinforcement-and-steel",
         "make_buy": "mixed",
-        "notes": "Does not include all plates anchors or lifting fixtures",
+        "notes": "Original 3.0326t plus 0.07996t strand revision rounded to 0.0001t; excludes other plates anchors and lifting fixtures",
         "origin_or_supplier_basis": "local-cut-bend-from-certified-stock",
-        "quantity_per_assembly": "3.0326",
+        "quantity_per_assembly": "3.1126",
         "rate_status": "included-in-beam-rate",
         "unit": "tonne",
         "unit_scope_rate_usd": ""
@@ -829,7 +831,7 @@
         "cost_treatment": "included-in-scope; do-not-sum-child-rows",
         "item": "haul-lift-placement",
         "make_buy": "mixed",
-        "notes": "37.356t provisional hook load; engineered lift plan required",
+        "notes": "About 37.455t revised hook load; exact 37.4554775t calculation must be rounded upward in engineered lift plan",
         "origin_or_supplier_basis": "local-haul-and-crane",
         "quantity_per_assembly": "1",
         "rate_status": "installed-concept-rate",
@@ -1075,7 +1077,11 @@
         "sequence": "40",
         "workstation_or_tool": "grid-simulator-load-bank-and-isolation-tools"
       }
-    ]
+    ],
+    "selected_beam_bare_mass_t": "29.964382",
+    "selected_beam_counted_steel_t": "3.1126",
+    "selected_beam_hook_load_t": "37.4554775",
+    "selected_beam_strands": 13
   },
   "release_status": {
     "digital_quote_build_plan": "compiled",
@@ -1140,19 +1146,20 @@
     "total_months": 43
   },
   "schema": "osr-v07-digital-production-handoff/1",
-  "selection_id": "osr-v07-prototype-quotation-20261117",
+  "selection_id": "osr-v07-digital-design-20261117",
   "source_sha256": {
-    "bom": "33463cfad19d2d420fad0c73abd157f93e991f2c547202809691a9cbd4e84f3f",
-    "cost_basis": "e0fb358988480c0064871e0cea43b86a4b7224998d91b14b90bd71aaea3d11ff",
+    "bom": "368cf164ce619615aaddf28a1700d4ed19af8fdcba94acd4ca8aea2a3e7f4ab7",
+    "cost_basis": "0766ebca7560bf218ccd6121dd20666a9ff2f8b5f3b0b764836a232a9a1c1bb8",
     "cost_programme": "0dd929324d8a1d5700beb2f67910da95289a4ae1fa3e6a5afefbf2ddf094f2d1",
     "digital_civil_input": "6507743c54afd9cf06915c20c1bbe251318eb99d794ea82c8027710493706584",
     "digital_civil_result": "c8c1d5bfbaca9b38419529bfe6e881112362e8ad67ab8b26f83d116d227c8028",
     "digital_vehicle_input": "1aba33128ee968b333513ce30081ab39399d87058bb5c62ce8457a4a0f880763",
     "digital_vehicle_result": "3062c06ee12b06265e9280f7dbe538b549668e9ad05a89bf3f35b18282f155ad",
-    "generator": "ba88179e8d3d1cedc20d29ed5e3d8b9d36321a9c1a6644027f459667e0d242ea",
+    "generator": "279c32ad61fc763286d406e6ce0edd899166c115f0e4cfc151798b8e642bf898",
     "joined_candidate": "65fc5fc13a5ad460f830c1dd348dbb0ece98465ee1d15d66d81cf2d5479d76a1",
     "lifecycle": "77cc4fafed46f92b44b470548f2b596840dd1fe4d32f4510352cb8cb0af6c1df",
     "planning_concept": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",
-    "routing": "714b3bd34d0c249d0c217da2a0f282d07cda973a095c21a505f8899e22a72692"
+    "routing": "714b3bd34d0c249d0c217da2a0f282d07cda973a095c21a505f8899e22a72692",
+    "selected_overlay": "298259e8d345477e21abb9f0ca1f610306d5b4ac7c585ff286b6486207829b2d"
   }
 }

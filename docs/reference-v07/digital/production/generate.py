@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
 SOURCES = {
     "joined_candidate": "docs/reference-v07/integration/candidate.toml",
+    "selected_overlay": "docs/reference-v07/digital/selected.toml",
     "planning_concept": "docs/reference-v07/concept.toml",
     "bom": "docs/reference-v07/manufacturing/bom.csv",
     "routing": "docs/reference-v07/manufacturing/routing.csv",
@@ -63,6 +64,7 @@ def scope_for(row: dict[str, str]) -> str:
 
 def compile_handoff() -> dict:
     joined = tomllib.loads((ROOT / SOURCES["joined_candidate"]).read_text())
+    selected = tomllib.loads((ROOT / SOURCES["selected_overlay"]).read_text())
     concept = tomllib.loads((ROOT / SOURCES["planning_concept"]).read_text())
     lifecycle = json.loads((ROOT / SOURCES["lifecycle"]).read_text())
     vehicle_input = json.loads((ROOT / SOURCES["digital_vehicle_input"]).read_text())
@@ -85,6 +87,14 @@ def compile_handoff() -> dict:
             "manufacturing lifecycle unexpectedly claims native import or acceptance")
     joined_id = joined["physical_candidate_id"]
     joined_sha = sha256((ROOT / SOURCES["joined_candidate"]).read_bytes()).hexdigest()
+    selected_id = selected["physical_candidate_id"]
+    require(selected["parent_joined_physical_candidate_id"] == joined_id and
+            selected["selected_civil_revision_id"] == selected_id,
+            "active digital selection does not identify its parent and civil child")
+    require(selected["source_sha256"]["parent_joined_candidate"] == joined_sha,
+            "active digital selection does not bind exact parent candidate bytes")
+    require(not any(selected[k] for k in ("physical_accepted", "manufacturing_release", "operating_release")),
+            "active digital selection unexpectedly claims physical release")
     require(vehicle_input["source_sha256"][SOURCES["joined_candidate"]] == joined_sha,
             "digital vehicle input did not consume the exact joined candidate")
     require(vehicle_input["joined_physical_candidate_id"] == joined_id and
@@ -101,16 +111,30 @@ def compile_handoff() -> dict:
     require(civil_result["input_evaluation_id"] == civil_input["evaluation_id"],
             "digital civil result belongs to another input evaluation")
     vehicle_sha = sha256((ROOT / SOURCES["digital_vehicle_result"]).read_bytes()).hexdigest()
+    require(selected["source_sha256"]["digital_vehicle_result"] == vehicle_sha,
+            "active digital selection does not bind exact vehicle result bytes")
     require(civil_input["source_sha256"][SOURCES["digital_vehicle_result"]] == vehicle_sha,
             "digital civil input did not consume the exact vehicle result")
     require(D(str(civil_result["quantity_context"]["bare_beam_mass_t"])) ==
             D(str(joined["civil"]["bare_beam_mass_t"])),
             "civil digital result changed the baseline beam mass without a new cost basis")
     revision = civil_result.get("digital_civil_revision_option")
-    if revision and D(str(revision.get("additional_counted_steel_kg_per_beam", 0))) > 0:
-        require(revision.get("physical_revision_required") is True and
-                revision.get("revised_joined_physical_candidate_id") != joined_id,
-                "civil reinforcement change lacks a distinct unpriced physical revision")
+    require(revision is not None and revision.get("physical_revision_required") is True and
+            revision.get("parent_joined_physical_candidate_id") == joined_id and
+            revision.get("revised_joined_physical_candidate_id") == selected_id and
+            revision.get("revised_strands") == selected["beam"]["prestress_strands"],
+            "selected civil revision differs from the exact native result")
+    civil_sha = sha256((ROOT / SOURCES["digital_civil_result"]).read_bytes()).hexdigest()
+    require(selected["source_sha256"]["digital_civil_result"] == civil_sha,
+            "active digital selection does not bind exact civil result bytes")
+    require(D(str(revision["additional_counted_steel_kg_per_beam"])) ==
+            D(str(selected["beam"]["additional_counted_steel_kg_per_beam"])),
+            "selected additional strand steel differs from civil result")
+    require(abs(D(str(revision["revised_bare_beam_mass_t_hypothesis"])) -
+                D(str(selected["beam"]["bare_beam_mass_t"]))) < D("0.000001") and
+            abs(D(str(revision["revised_hook_load_t_with_25pct_allowance"])) -
+                D(str(selected["beam"]["hook_load_t_with_25pct_allowance"]))) < D("0.000001"),
+            "selected beam mass or lift allowance differs from civil result")
     require(not vehicle_result["physical_accepted"] and not vehicle_result["fabrication_release"] and
             not civil_result["site_or_physical_accepted"],
             "digital analyses unexpectedly claim physical or fabrication acceptance")
@@ -120,16 +144,25 @@ def compile_handoff() -> dict:
     direct = sum(D(row["amount_usd_m"]) for row in cost if row["scope"] != "project-risk-contingency")
     contingency = sum(D(row["amount_usd_m"]) for row in cost if row["scope"] == "project-risk-contingency")
     total = direct + contingency
-    require(direct == D("852.916") and contingency == direct * D("0.2"), "direct capital or single contingency no longer reconciles")
-    require(total == D(str(concept["economics"]["installed_capital_usd_m"])), "installed capital differs from planning concept")
+    require(direct == D("854.356") and contingency == direct * D("0.2"), "direct capital or single contingency no longer reconciles")
+    require(D(str(concept["economics"]["installed_capital_usd_m"])) == D("1023.4992"),
+            "immutable parent concept capital changed")
+    require(total == D(str(selected["economics"]["installed_capital_usd_m"])),
+            "selected installed capital differs from active digital overlay")
     local = sum(D(row["amount_usd_m"]) * D(row["local_work_fraction"]) for row in cost)
-    require(local == D("410.8278"), "local-work planning allowance differs from cost basis")
+    require(local == D("411.9078"), "local-work planning allowance differs from cost basis")
 
     # Child prices are inclusive budgeting references, never addends to a capital scope.
     for row in bom:
         row["capital_scope"] = scope_for(row)
         require(row["capital_scope"] in scope_names, "BOM maps to an absent capital scope")
         row["cost_treatment"] = "included-in-scope; do-not-sum-child-rows"
+    beam_unit = next(row for row in bom if row["assembly"] == "10m-beam" and row["item"] == "precast-box-and-four-bearings")
+    steel_unit = next(row for row in bom if row["assembly"] == "10m-beam" and row["item"] == "counted-reinforcement-and-steel")
+    beam_cost = next(row for row in cost if row["component"] == "precast-10m-beam-and-bearings")
+    require(D(beam_unit["unit_scope_rate_usd"]) == D(beam_cost["unit_rate_usd_m"]) * D("1000000") and
+            D(steel_unit["quantity_per_assembly"]) == D(str(selected["beam"]["counted_steel_t_per_beam"])),
+            "selected beam rate or counted steel differs between BOM, cost and overlay")
     costs = []
     for scope in sorted(scope_names):
         rows = [row for row in cost if row["scope"] == scope]
@@ -145,7 +178,8 @@ def compile_handoff() -> dict:
     programme = (ROOT / SOURCES["cost_programme"]).read_text()
     schedule_pairs = [(int(a), int(b)) for a, b in re.findall(r"Month\s+(\d+)[–-](\d+)", programme)]
     require(schedule_pairs == [(0, 6), (6, 24), (8, 31), (15, 35), (26, 38), (29, 40), (40, 43)], "cost programme stage windows changed")
-    require(max(end for _, end in schedule_pairs) == concept["economics"]["delivery_months"], "delivery month differs from planning concept")
+    require(max(end for _, end in schedule_pairs) == concept["economics"]["delivery_months"] ==
+            selected["economics"]["delivery_months"], "delivery month differs from planning concept or active selection")
     stages = ["survey-design", "groundworks-supports", "beam-factory", "beam-erection",
               "rail-overhead", "stations-depot-power-controls", "integration-training-trials"]
     schedule = [dict(stage=name, start_month=start, end_month=end,
@@ -162,7 +196,7 @@ def compile_handoff() -> dict:
         "item_groups": [
             {"item_code": "OSR-V07-PLAN-POWERED-CAR", "assembly": "17m-powered-car", "quantity": six_car_sets*6},
             {"item_code": "OSR-V07-PLAN-DOOR-OPENING", "assembly": "door-opening", "quantity": six_car_sets*12},
-            {"item_code": "OSR-V07-PLAN-10M-BEAM", "assembly": "10m-beam", "quantity": 6000},
+            {"item_code": "OSR-V07-PLAN-13STRAND-10M-BEAM", "assembly": "10m-beam", "quantity": 6000},
             {"item_code": "OSR-V07-PLAN-POWER-SITE", "assembly": "station-power-site", "quantity": 6},
         ],
         "bom_source": SOURCES["bom"], "routing_source": SOURCES["routing"],
@@ -172,9 +206,11 @@ def compile_handoff() -> dict:
     }
     return {
         "schema": "osr-v07-digital-production-handoff/1",
-        "physical_candidate_id": joined["physical_candidate_id"],
-        "evaluation_id": joined["evaluation_id"],
-        "selection_id": joined["selection_id"],
+        "physical_candidate_id": selected_id,
+        "evaluation_id": selected["evaluation_id"],
+        "selection_id": selected["selection_id"],
+        "parent_joined_physical_candidate_id": joined_id,
+        "parent_joined_evaluation_id": joined["evaluation_id"],
         "configuration_id": concept["configuration_id"],
         "source_sha256": {key: sha256((ROOT / path).read_bytes()).hexdigest() for key, path in SOURCES.items()},
         "digital_analysis": {
@@ -183,10 +219,10 @@ def compile_handoff() -> dict:
             "vehicle_result_sha256": vehicle_sha,
             "civil_input_evaluation_id": civil_input["evaluation_id"],
             "civil_evaluation_id": civil_result["evaluation_id"],
-            "civil_result_sha256": sha256((ROOT / SOURCES["digital_civil_result"]).read_bytes()).hexdigest(),
+            "civil_result_sha256": civil_sha,
             "civil_revision_option": revision,
-            "civil_revision_option_transferred_into_cost_or_bom": False,
-            "baseline_parent_price_and_10m_beam_preserved": True,
+            "civil_revision_option_transferred_into_cost_or_bom": True,
+            "baseline_parent_price_and_10m_beam_preserved": False,
         },
         "capital": {"currency": "USD", "price_year": 2026, "direct_usd_m": str(direct),
                     "contingency_usd_m": str(contingency), "installed_usd_m": str(total),
@@ -196,6 +232,10 @@ def compile_handoff() -> dict:
                        "full_car_direct_assembly_hours_allowance": 720,
                        "fleet_cars": six_car_sets*6, "fleet_doors": six_car_sets*12,
                        "beam_count": 6000, "bearing_count": int(concept["civil"]["bearings"]),
+                       "selected_beam_strands": selected["beam"]["prestress_strands"],
+                       "selected_beam_counted_steel_t": str(steel_unit["quantity_per_assembly"]),
+                       "selected_beam_bare_mass_t": str(selected["beam"]["bare_beam_mass_t"]),
+                       "selected_beam_hook_load_t": str(selected["beam"]["hook_load_t_with_25pct_allowance"]),
                        "factory_and_erection_workdays_at_16_beams_per_day_each": 375,
                        "bom_rows": bom, "routing_rows": routing},
         "schedule": {"total_months": 43, "stages": schedule,
