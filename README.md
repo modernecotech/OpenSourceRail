@@ -219,7 +219,7 @@ source-matched, publish and verify its comparison:
 ./osr design railway verify
 ```
 
-The run retains failures and pending work; publication requires its own complete, source-matched inputs. `./osr build` and `./osr verify` address the separate [integrated reference packet](docs/design-engine/current/README.md); its latest main-branch packet passed independent source-bound verification, while physical qualification remains open. `./osr book --check` and `./osr test` have their own documented scopes. See the [runtime and toolchain review](docs/plans/v0.7-runtime-toolchain-review.md) before large runs. The UI has no live train-control authority.
+The run retains failures and pending work; publication requires its own complete, source-matched inputs. `./osr build` and `./osr verify` address the separate [integrated reference packet](docs/design-engine/current/README.md); its latest main-branch packet passed independent source-bound verification, while physical qualification remains open. `./osr book --check` and `./osr test` have their own documented scopes. Run `./osr perf storage` before large runs. The UI has no live train-control authority.
 
 ## About the author
 

@@ -11,6 +11,26 @@ The [v0.7 engineering decision register](ENGINEERING-STATUS.md) tracks the
 selected reference and separate prototype research. The [cost baseline](COST-BASELINE.md)
 and [finite release gate](RELEASE-v0.7.md) govern current public claims.
 
+## Which design is current?
+
+[v0.4 conventional railway](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0)
+and [v0.5 maglev](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1)
+are historical designs.
+
+| Design | Role |
+|---|---|
+| v0.6 passive-wheel station-launch vehicle | Development reference and research; no installed Baghdad service selected |
+| v0.7 powered-wheel 30 km railway | Selected synthetic digital engineering and cost reference |
+| Baghdad v0.7.1 protected-conductor railway | City-specific planning baseline, separate from the 30 km reference |
+
+The Baghdad [input](../cities/Baghdad/system.toml) and [costed result](../cities/Baghdad/system-results.json)
+are 2026 USD planning estimates. Installed capital includes construction,
+equipment and declared allowances; it is not committed expenditure. The
+30-year present cost discounts operation and renewal and is not project revenue
+or a financing offer. Local contract value is an addressable planning share,
+not a confirmed Iraqi supplier award. Physical procurement and passenger
+operation need the applicable engineering and approval work.
+
 The [v0.7 digital configuration](reference-v07/README.md) combines a powered-wheel
 vehicle, joint-free 10 m span, twelve-station synthetic 30 km service,
 fourteen-scope budget and construction programme under one selected digital

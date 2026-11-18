@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **161**.
+Indexed Markdown files: **159**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **161**.
 | [cities](#cities) | 6 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 124 |
+| [docs](#docs) | 122 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 4 |
 
@@ -157,7 +157,6 @@ Indexed Markdown files: **161**.
 | [`docs/book/67-parts-screen.md`](../docs/book/67-parts-screen.md) | Parts and lifecycle on screen |
 | [`docs/book/68-reading-status.md`](../docs/book/68-reading-status.md) | Reading status and holds |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
-| [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Current OpenSourceRail capabilities |
 | [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway atlas |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
@@ -182,7 +181,6 @@ Indexed Markdown files: **161**.
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
-| [`docs/plans/v0.7-runtime-toolchain-review.md`](../docs/plans/v0.7-runtime-toolchain-review.md) | v0.7 runtime and toolchain review |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
 | [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 digital railway reference |
 | [`docs/reference-v07/civil/README.md`](../docs/reference-v07/civil/README.md) | Civil and station concept: 10 m joint-free beam |

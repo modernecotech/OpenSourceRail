@@ -117,7 +117,6 @@ def test_current_front_door_readmes_describe_current_workflows_without_old_app_l
         root / 'docs/ARCHITECTURE.md',
         root / 'docs/first-adoptable-product.md',
         root / 'docs/capabilities/README.md',
-        root / 'docs/capabilities/directory.md',
         root / 'docs/workbench/planning/README.md',
         root / 'engineering/trip_dynamics/README.md',
         root / 'docs/archives/pre-comfort-default/README.md',

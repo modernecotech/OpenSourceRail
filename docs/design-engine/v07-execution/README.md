@@ -15,7 +15,7 @@ the dated record below preserves the sources and receipts for each result.
 | Corridor workflow | Samawah comparison, native GIS return cycles and bounded reuse checks | Same installed candidate through city service, civil quantities and prices; Baghdad integration |
 | Vehicle and door | Counted research children, electrical screen and one native gross-envelope control | Mated geometry, belt/shaft data, motion, removal, controlled drawings and physical tests |
 | Delivery and lifecycle | Source-verified five-stage intake and one disabled delivery draft | Reviewed part documents, conversions, native receipt, QA and maintenance handback |
-| Performance | Two-worker city comparison, shared reservations and opt-in Rust scheduler | Measured memory and disk improvements on exact repeated workloads; see the [runtime review](../../plans/v0.7-runtime-toolchain-review.md) |
+| Performance | Two-worker city comparison, shared reservations and opt-in Rust scheduler | Measured memory and disk improvements on exact repeated workloads; see the [performance baseline](performance-baseline.json) |
 
 No row is a physical acceptance or manufacturing release. The detailed
 chronology and its commit-specific claims remain below.

@@ -87,7 +87,6 @@ BASE_PATTERNS = (
     "/docs/design-engine/line30-benchmark/**",
     "/docs/design-engine/v06-software-release/**",
     "/docs/design-engine/v06-design-closure/status.json",
-    "/docs/capabilities/directory.md",
     "/docs/ARCHITECTURE.md",
     "/docs/first-adoptable-product.md",
     "/docs/open-source-rail-overview.md",

@@ -50,6 +50,38 @@ def test_metropolitan_civil_scope_keeps_declared_length_and_no_underground():
                for row in rows["civil_cases"].values())
 
 
+def test_costed_sections_and_civil_window_are_explicit():
+    first = compare("first")["power_cases"]["protected_conductor"]
+    metro = compare("metropolitan")["power_cases"]["protected_conductor"]
+    coverage = metro["map_and_service_coverage"]
+    assert set(coverage["unassigned_sections_km"]) == {
+        "B-X01", "B-X02", "B-X03", "B-X04", "B-X05", "B-I03"}
+    assert sum(coverage["unassigned_sections_km"].values()) == pytest.approx(50.099, abs=0.002)
+    assert coverage["all_costed_sections_have_service_paths"] is False
+    assert first["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(138.395468, abs=1e-6)
+    assert metro["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(608.460290, abs=1e-6)
+    assert first["civil"]["delivery"]["target_years"] == 3
+    assert first["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 5
+    assert metro["civil"]["delivery"]["target_years"] == 7
+    assert metro["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 9
+
+
+def test_power_price_margin_and_single_power_calculation(monkeypatch):
+    import engineering.outline.baghdad_system as system
+    actual = system.compare_power
+    calls = []
+    def counted(*args, **kwargs):
+        calls.append(1)
+        return actual(*args, **kwargs)
+    monkeypatch.setattr(system, "compare_power", counted)
+    rows = system.compare("first")
+    assert len(calls) == 1
+    margin = rows["power_cost_sensitivity"]
+    assert margin["protected_advantage_usd_m"] == pytest.approx(66.644, abs=0.01)
+    assert margin["protected_price_uplift_to_overhead_usd_m_per_track_km"] == pytest.approx(0.15837, abs=1e-4)
+    assert margin["extra_annual_maintenance_to_overhead_usd_m_per_track_km"] == pytest.approx(0.013, abs=1e-4)
+
+
 def test_metropolitan_route_and_economics_are_standalone(tmp_path: Path):
     cfg = load()
     map_path = ROOT / cfg["map_sources"]["metropolitan_path"]

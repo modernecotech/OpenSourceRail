@@ -39,7 +39,7 @@ The airport line is planned to reach the passenger-terminal building area. Its m
 
 [Open the metropolitan map](maps/Baghdad-606km.png) · [Download its GIS layers](maps/network-606km.geojson)
 
-The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared route-length control; drawn lines are schematic planning corridors. Access branches are served by through trains, without a separate shuttle fleet.
+The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared route-length control; drawn lines are schematic planning corridors. Five shared links and the east inner arc are costed without an assigned train path; the other access branches are represented in named service groups.
 
 ## People and trains
 

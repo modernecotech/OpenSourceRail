@@ -37,7 +37,7 @@ grants manufacturing or movement authority.
 
 Before a large campaign, use `./osr perf storage` to inspect the disk reserve
 and `./osr design railway plan` to inspect the candidate and stage budget. The
-[v0.7 runtime and toolchain review](../docs/plans/v0.7-runtime-toolchain-review.md)
+[Measured v0.7 performance baseline](../docs/design-engine/v07-execution/performance-baseline.json)
 identifies measured memory and disk costs and the next bounded experiments.
 
 ## Automation and dependencies

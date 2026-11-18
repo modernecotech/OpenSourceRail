@@ -1,6 +1,6 @@
 {
   "candidate_id": "osr-baghdad-zero-tunnel-offwire-20261117",
-  "evaluation_id": "af3dda827e1667d79f0cd832540354c61d237f02d96903aeff88dd07c13e80dd",
+  "evaluation_id": "4df298b4170b3f7e8c8737d46646a1314c52d105e42f09cb4135a3e2d69823e5",
   "networks": {
     "first": {
       "civil_cases": {
@@ -8,8 +8,8 @@
           "beam_count": 29640,
           "civil_option_physical_id": "9ce2d5b0968a38368d0e01d845c85bd32d2ee9ebdee595892536b6be3b52505e",
           "direct_elevated_civil_usd_m": 1390.3580113814369,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 5,
+          "factory_yards_needed": 5,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 7944.063363091786,
           "pier_foundation_count": 14827,
@@ -19,8 +19,8 @@
           "beam_count": 29640,
           "civil_option_physical_id": "dae6fe10e75edf8997401515b3d65a6457afd1233f8f9c9c5523df115d2cbf70",
           "direct_elevated_civil_usd_m": 1331.2381675490255,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 5,
+          "factory_yards_needed": 5,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 7865.670450170009,
           "pier_foundation_count": 29654,
@@ -30,8 +30,8 @@
           "beam_count": 14820,
           "civil_option_physical_id": "a609cc7a4157e4a89f844a5cc8dc75f70c0bae7cef7fb58d6b1bcafc914a2eea",
           "direct_elevated_civil_usd_m": 1242.6281797235938,
-          "erection_fronts_needed": 2,
-          "factory_yards_needed": 2,
+          "erection_fronts_needed": 3,
+          "factory_yards_needed": 3,
           "hook_surrogate_t_per_beam": 74.67329805315964,
           "installed_capital_usd_m": 7748.173606313485,
           "pier_foundation_count": 7417,
@@ -41,8 +41,8 @@
           "beam_count": 14820,
           "civil_option_physical_id": "285cb9f98a06c7831fb9dfa7524a805d2147f61d3609042eff1bd43aa57368fb",
           "direct_elevated_civil_usd_m": 1213.0543022227512,
-          "erection_fronts_needed": 2,
-          "factory_yards_needed": 2,
+          "erection_fronts_needed": 3,
+          "factory_yards_needed": 3,
           "hook_surrogate_t_per_beam": 74.67329805315964,
           "installed_capital_usd_m": 7708.958644747369,
           "pier_foundation_count": 14834,
@@ -74,8 +74,8 @@
           "beam_count": 9886,
           "civil_option_physical_id": "b49d0b13335a4077aec6bd70a9b38965b3c626c2495c0f0d125af326492e2bb6",
           "direct_elevated_civil_usd_m": 1193.7899334435788,
-          "erection_fronts_needed": 1,
-          "factory_yards_needed": 1,
+          "erection_fronts_needed": 2,
+          "factory_yards_needed": 2,
           "hook_surrogate_t_per_beam": 112.00994707973946,
           "installed_capital_usd_m": 7683.4140917461855,
           "pier_foundation_count": 4950,
@@ -85,8 +85,8 @@
           "beam_count": 9886,
           "civil_option_physical_id": "5e1dc9725df772de8853aa49ae4d032cde0d2415b6edfaa51fb833a0c7e5706a",
           "direct_elevated_civil_usd_m": 1174.0527494569033,
-          "erection_fronts_needed": 1,
-          "factory_yards_needed": 1,
+          "erection_fronts_needed": 2,
+          "factory_yards_needed": 2,
           "hook_surrogate_t_per_beam": 112.00994707973946,
           "installed_capital_usd_m": 7657.242585779854,
           "pier_foundation_count": 9900,
@@ -96,6 +96,13 @@
       "completion_year_planning": 2031,
       "digital_cost_leader": "protected_conductor",
       "elevated_route_km": 148.2,
+      "map_and_service_coverage": {
+        "all_costed_sections_have_service_paths": true,
+        "costed_route_km": 148.2,
+        "drawn_polyline_km": 138.395468448138,
+        "planning_length_adjustment_km": 9.804531551861999,
+        "unassigned_sections_km": {}
+      },
       "power_cases": {
         "limited_conductor_battery": {
           "annual_grid_gwh": 1168.7548092928737,
@@ -158,6 +165,14 @@
           "whole_life_30y_present_usd_m": 15237.785608931112
         }
       },
+      "power_cost_sensitivity": {
+        "basis": "One protected-conductor input varied against overhead; all other assumptions fixed",
+        "extra_annual_grid_gwh_to_overhead": 32.116878798303354,
+        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.013002784938584354,
+        "protected_advantage_usd_m": 66.64393652323997,
+        "protected_price_break_even_usd_m_per_track_km": 1.2083658853927015,
+        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.1583658853927015
+      },
       "route_km": 148.2,
       "selected_annual_opex_usd_m": {
         "energy": 133.73174947404254,
@@ -181,6 +196,17 @@
         "tooling_recovery": 99.28,
         "track_walkways": 237.12,
         "vehicles": 2052.1600000000003
+      },
+      "selected_civil_delivery": {
+        "erection_fronts_needed_at_declared_rate": 5,
+        "erection_lifts_per_workday_needed": 39.52,
+        "factory_beams_per_workday_needed": 39.52,
+        "factory_shifts_and_crane_availability_verified": false,
+        "factory_yards_needed_at_declared_rate": 5,
+        "road_closure_days": null,
+        "single_erection_front_workdays": 3705,
+        "single_yard_workdays": 3705,
+        "target_years": 3
       },
       "selected_control_electronics": {
         "allocation_within_capital_scopes_usd_m": {
@@ -223,7 +249,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "5e898203fd3c489ba0c00b6336f8066c2e80767ebbe05d5b29af742f1ea8d632",
+      "selected_evaluation_id": "d1d8b87ae698518c692739a7d915341b476751fb13c4a9b35ca7cc1b7d4532fb",
       "selected_local_delivery": null,
       "selected_renewals_usd_m": [
         {
@@ -308,8 +334,8 @@
           "beam_count": 121156,
           "civil_option_physical_id": "89c805693dc95cd3eb70b2cd81c3ed013134ad31abb1ab0fc28acbd83caeb430",
           "direct_elevated_civil_usd_m": 5682.043355374458,
-          "erection_fronts_needed": 7,
-          "factory_yards_needed": 7,
+          "erection_fronts_needed": 9,
+          "factory_yards_needed": 9,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 31338.172370026536,
           "pier_foundation_count": 60604,
@@ -319,8 +345,8 @@
           "beam_count": 121156,
           "civil_option_physical_id": "7fe02f8c53e52a503a6905ce1deef1a9737fbc164f4d4185665baf05b977a446",
           "direct_elevated_civil_usd_m": 5440.39642641921,
-          "erection_fronts_needed": 7,
-          "factory_yards_needed": 7,
+          "erection_fronts_needed": 9,
+          "factory_yards_needed": 9,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 31017.74854223188,
           "pier_foundation_count": 121208,
@@ -330,8 +356,8 @@
           "beam_count": 60594,
           "civil_option_physical_id": "0f70c4a23fecb6a1af628ad790f2f013c4a10951d712ed84953f6086fa781241",
           "direct_elevated_civil_usd_m": 5078.958427264689,
-          "erection_fronts_needed": 4,
-          "factory_yards_needed": 4,
+          "erection_fronts_needed": 5,
+          "factory_yards_needed": 5,
           "hook_surrogate_t_per_beam": 74.67329805315964,
           "installed_capital_usd_m": 30538.48175535298,
           "pier_foundation_count": 30323,
@@ -341,8 +367,8 @@
           "beam_count": 60594,
           "civil_option_physical_id": "da4d16eae3bee5accbe481056efdda858b930464da51a1fd40ed1eb0743f0b5c",
           "direct_elevated_civil_usd_m": 4958.051229279243,
-          "erection_fronts_needed": 4,
-          "factory_yards_needed": 4,
+          "erection_fronts_needed": 5,
+          "factory_yards_needed": 5,
           "hook_surrogate_t_per_beam": 74.67329805315964,
           "installed_capital_usd_m": 30378.15881082428,
           "pier_foundation_count": 60646,
@@ -352,8 +378,8 @@
           "beam_count": 48476,
           "civil_option_physical_id": "eae9d8320a8a5c7371f612700127b880c0baa808a3f50e899ff67bcd4cf659e8",
           "direct_elevated_civil_usd_m": 4958.2012318775405,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 4,
+          "factory_yards_needed": 4,
           "hook_surrogate_t_per_beam": 93.34162256644956,
           "installed_capital_usd_m": 30378.35771426962,
           "pier_foundation_count": 24264,
@@ -363,8 +389,8 @@
           "beam_count": 48476,
           "civil_option_physical_id": "61233e191af764c1981ebdcfd76a089a70d012db52e1a3631a028608e56ce77c",
           "direct_elevated_civil_usd_m": 4861.453144553764,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 4,
+          "factory_yards_needed": 4,
           "hook_surrogate_t_per_beam": 93.34162256644956,
           "installed_capital_usd_m": 30250.069750478295,
           "pier_foundation_count": 48528,
@@ -396,6 +422,28 @@
       "completion_year_planning": 2035,
       "digital_cost_leader": "protected_conductor",
       "elevated_route_km": 605.652,
+      "map_and_service_coverage": {
+        "all_costed_sections_have_service_paths": false,
+        "costed_route_km": 605.652,
+        "drawn_polyline_km": 608.4602896418527,
+        "planning_length_adjustment_km": -2.808289641852639,
+        "unassigned_section_purposes": {
+          "B-I03": "passenger infill; service path pending",
+          "B-X01": "passenger connector; service path pending",
+          "B-X02": "passenger connector; service path pending",
+          "B-X03": "passenger connector; service path pending",
+          "B-X04": "passenger connector; service path pending",
+          "B-X05": "passenger connector; service path pending"
+        },
+        "unassigned_sections_km": {
+          "B-I03": 15.922291139141258,
+          "B-X01": 6.765323670307929,
+          "B-X02": 6.8478660912462255,
+          "B-X03": 6.546101424304219,
+          "B-X04": 8.003916722984403,
+          "B-X05": 6.013777338326613
+        }
+      },
       "power_cases": {
         "limited_conductor_battery": {
           "annual_grid_gwh": 4516.873658475145,
@@ -458,6 +506,14 @@
           "whole_life_30y_present_usd_m": 59832.37497751966
         }
       },
+      "power_cost_sensitivity": {
+        "basis": "One protected-conductor input varied against overhead; all other assumptions fixed",
+        "extra_annual_grid_gwh_to_overhead": 124.97236559265531,
+        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.01238061120174509,
+        "protected_advantage_usd_m": 259.3231568989213,
+        "protected_price_break_even_usd_m_per_track_km": 1.200788193754485,
+        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.15078819375448516
+      },
       "route_km": 605.652,
       "selected_annual_opex_usd_m": {
         "energy": 517.0960979662979,
@@ -481,6 +537,17 @@
         "tooling_recovery": 282.2608,
         "track_walkways": 969.0432000000001,
         "vehicles": 7920.320000000001
+      },
+      "selected_civil_delivery": {
+        "erection_fronts_needed_at_declared_rate": 9,
+        "erection_lifts_per_workday_needed": 69.232,
+        "factory_beams_per_workday_needed": 69.232,
+        "factory_shifts_and_crane_availability_verified": false,
+        "factory_yards_needed_at_declared_rate": 9,
+        "road_closure_days": null,
+        "single_erection_front_workdays": 15145,
+        "single_yard_workdays": 15145,
+        "target_years": 7
       },
       "selected_control_electronics": {
         "allocation_within_capital_scopes_usd_m": {
@@ -523,7 +590,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "571e1838b400700f0161db6c7e8fe70b3fbbe93b450a4e44dcd0c038d9bbf031",
+      "selected_evaluation_id": "158fa0f76447c947c6cd947506817ad305837fbeb86dae785681e6b8c5c55342",
       "selected_local_delivery": {
         "actual_supplier_origin_established": false,
         "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital",
@@ -680,9 +747,9 @@
     "cities/Baghdad/maps/network-148km.geojson": "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4",
     "cities/Baghdad/maps/network-606km.geojson": "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056",
     "cities/Baghdad/maps/rfi-waypoints.json": "56d8f1ab75a4eb338dbb60c59947d63133e67d5990dfff71a4e45586d8295de5",
-    "cities/Baghdad/system.toml": "93cf99eaca7a6fbfeb0af75d1bed21eeac217accadd5f3cb7731b36171167da8",
+    "cities/Baghdad/system.toml": "37a7666a26aa96262ee251db6e4465eb380b555a0950b859d5b086402c850d4b",
     "engineering/outline/baghdad_power.py": "ad2087cb2162a1e81d509647b2cb778911bafc675056cf0c857cba2d2c48846f",
-    "engineering/outline/baghdad_system.py": "e0d511424c57a783ae57856be3698acf9a73b9aacdc355207c1e9f206a727119",
+    "engineering/outline/baghdad_system.py": "7b9d0b081ece2c39afd87d5d4197d710509407de533996edb1c0b1970e7664d7",
     "engineering/outline/baghdad_viaduct.py": "fbe79c6ebf203efa0a8b5b61a3b35704ce21bb05eb5ea731250aa0e14be92671"
   }
 }

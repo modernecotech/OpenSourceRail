@@ -144,6 +144,8 @@ control_centres = 2
 traction_supply_sites = 30
 construction_start_year = 2027
 construction_finish_year = 2031
+civil_start_year = 2028
+civil_finish_year = 2030
 
 [networks.first.lines_km]
 Green = 19.0
@@ -167,6 +169,8 @@ control_centres = 4
 traction_supply_sites = 100
 construction_start_year = 2027
 construction_finish_year = 2035
+civil_start_year = 2028
+civil_finish_year = 2034
 
 [networks.metropolitan.service_groups]
 M01 = ["line-1", "B-A05"]
@@ -183,6 +187,16 @@ M11 = ["B-I02"]
 M12 = ["B-I04"]
 M13 = ["B-I05"]
 M14 = ["B-I06"]
+
+# Costed physical sections without a train path in the 14 service groups.
+# Their operating use and fleet are excluded from the current service allowance.
+[networks.metropolitan.unassigned_sections]
+B-X01 = "passenger connector; service path pending"
+B-X02 = "passenger connector; service path pending"
+B-X03 = "passenger connector; service path pending"
+B-X04 = "passenger connector; service path pending"
+B-X05 = "passenger connector; service path pending"
+B-I03 = "passenger infill; service path pending"
 
 # These are planning shares of contract value addressable by Iraqi labour,
 # materials, workshops and engineering. They are not supplier origin evidence.

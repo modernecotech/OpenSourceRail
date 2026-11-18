@@ -65,27 +65,38 @@ def load(root: Path = ROOT, network: str | None = None) -> dict:
         raise ValueError("All civil planning rates must be in the one Baghdad scenario")
     for name, row in cfg["networks"].items():
         if (row["route_km"] <= 0 or row["stations"] <= row["lines"]
+                or not row["construction_start_year"] <= row["civil_start_year"]
+                       <= row["civil_finish_year"] <= row["construction_finish_year"]
                 or row["fleet_trainsets"] < row["active_trainsets"]):
             raise ValueError("Baghdad network controls differ: " + name)
     return cfg
 
 
-def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str]:
+def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str, dict]:
     row = cfg["networks"][network]
     map_path = root / cfg["map_sources"][network + "_path"]
     geo = json.loads(map_path.read_bytes())
     if network == "first":
         lines = row["lines_km"]
+        features = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"]
         mapped = {f["properties"]["line"]: f["properties"]["rfi_nominal_km"]
-                  for f in geo["features"] if f["geometry"]["type"] == "LineString"}
+                  for f in features}
         if lines != mapped or not isclose(sum(lines.values()), row["route_km"], abs_tol=1e-6):
             raise ValueError("First-programme RFI line lengths differ from pinned map")
-        return lines, "RFI nominal line lengths; drawn polylines are schematic"
+        drawn = sum(_geo_km(f["geometry"]["coordinates"]) for f in features)
+        return lines, "RFI nominal line lengths; drawn polylines are schematic", {
+            "drawn_polyline_km": drawn, "costed_route_km": row["route_km"],
+            "planning_length_adjustment_km": row["route_km"] - drawn,
+            "all_costed_sections_have_service_paths": True, "unassigned_sections_km": {}}
     segments = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"
                 and f["properties"].get("map_layer") == "railway route"]
     route_ids = {f["properties"].get("route_id") for f in segments}
     groups = row["service_groups"]
+    served = set().union(*(set(parts) for parts in groups.values()))
+    unassigned = row["unassigned_sections"]
     if (len(groups) != row["lines"] or any(not set(parts) <= route_ids for parts in groups.values())
+            or served & set(unassigned) or served | set(unassigned) != route_ids
+            or any(not reason.strip() for reason in unassigned.values())
             or not {"B-A01", "B-A02", "B-A03", "B-A04", "B-A05", "B-A06"} <= route_ids
             or any(f["properties"].get("standalone_shuttle") for f in segments)):
         raise ValueError("Independent metropolitan through-service route schedule differs")
@@ -93,8 +104,15 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str]:
     if not raw or min(raw) <= 0:
         raise ValueError("Metropolitan schematic route segments required")
     ratio = row["route_km"] / sum(raw)
-    lines = {f"segment-{i + 1:02d}": km * ratio for i, km in enumerate(raw)}
-    return lines, "Independent GIS revenue sections scaled to the declared 605.652 km planning length"
+    lines = {f["properties"]["route_id"]: km * ratio for f, km in zip(segments, raw)}
+    if len(lines) != len(segments):
+        raise ValueError("Unique metropolitan route IDs required")
+    return lines, "Independent GIS physical sections scaled to the declared 605.652 km planning length", {
+        "drawn_polyline_km": sum(raw), "costed_route_km": row["route_km"],
+        "planning_length_adjustment_km": row["route_km"] - sum(raw),
+        "all_costed_sections_have_service_paths": not unassigned,
+        "unassigned_sections_km": {key: lines[key] for key in sorted(unassigned)},
+        "unassigned_section_purposes": dict(sorted(unassigned.items()))}
 
 
 def _selected_input_id(cfg: dict, network: str) -> str:
@@ -354,9 +372,10 @@ def _check_vehicle_layout(cfg: dict, root: Path) -> None:
 
 
 def evaluate(network: str, supply: str, *, span_m: int = 10,
-             common_pier: bool = False, root: Path = ROOT) -> dict:
+             common_pier: bool = False, root: Path = ROOT,
+             _prepared: tuple | None = None) -> dict:
     root = Path(root)
-    cfg = load(root, network=network)
+    cfg = _prepared[0] if _prepared is not None else load(root, network=network)
     if network not in cfg["networks"] or supply not in (
             "station_battery", "protected_conductor", "limited_conductor_battery", "overhead"):
         raise ValueError("Known Baghdad network and supply option required")
@@ -379,12 +398,13 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         speed_cap_m_s=v["speed_cap_kmh"] / 3.6,
         service_hours_per_day=v["service_hours_per_day"],
         service_days_per_year=v["service_days_per_year"])
-    power = compare_power(power_network, PowerAssumptions(**cfg["power_assumptions"]))[supply]
-    lines, length_basis = _lines(root, cfg, network)
+    power = (_prepared[2][supply] if _prepared is not None else
+             compare_power(power_network, PowerAssumptions(**cfg["power_assumptions"]))[supply])
+    lines, length_basis, coverage = _prepared[1] if _prepared is not None else _lines(root, cfg, network)
     civil = civil_evaluate(lines, span_m=span_m, common_pier=common_pier,
                            physical_candidate_id=power["physical_candidate_id"],
                            rates=PlanningRates(**cfg["civil_rates"]),
-                           target_years=n["construction_finish_year"] - n["construction_start_year"] + 1,
+                           target_years=n["civil_finish_year"] - n["civil_start_year"] + 1,
                            train_crowd_mass_t=power["vehicle"]["mass_t"])
     cr = cfg["capital_rates_usd_m"]
     power_price = _power_cost(power, cfg, n)
@@ -482,6 +502,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                            "track_count": cfg["track_count"]},
         "network": network, "supply": supply, "span_m": span_m, "common_pier": common_pier,
         "map_length_basis": length_basis,
+        "map_and_service_coverage": coverage,
         "service": {"route_km": route_km, "stations": n["stations"],
                     "line_count": n["lines"],
                     "normal_places_per_train": v["normal_places_per_train"],
@@ -521,22 +542,62 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
 
 def compare(network: str, root: Path = ROOT) -> dict:
     cfg = load(root, network=network)
+    n, v = cfg["networks"][network], cfg["vehicle"]
+    annual_train_km = (n["active_trainsets"] * v["commercial_speed_kmh"]
+                       * v["service_hours_per_day"] * v["service_days_per_year"])
+    power_network = PowerNetwork(
+        candidate_id=cfg["candidate_id"] + "-" + network,
+        normal_places_per_train=v["normal_places_per_train"],
+        route_km=n["route_km"], station_count=n["stations"], line_count=n["lines"],
+        active_trainsets=n["active_trainsets"], fleet_trainsets=n["fleet_trainsets"],
+        annual_train_km=annual_train_km, grid_site_count=n["traction_supply_sites"],
+        train_mass_t=v["crowd_mass_t_per_train_before_supply"],
+        train_energy_kwh_per_km=v["energy_kwh_per_train_km_overhead_comparator"],
+        peak_headway_s=v["peak_headway_s"], dwell_s=v["dwell_s"],
+        speed_cap_m_s=v["speed_cap_kmh"] / 3.6,
+        service_hours_per_day=v["service_hours_per_day"],
+        service_days_per_year=v["service_days_per_year"])
+    prepared = (cfg, _lines(root, cfg, network),
+                compare_power(power_network, PowerAssumptions(**cfg["power_assumptions"])))
     fixed_span = cfg["selected_span_m"]
     fixed_common = cfg["selected_pier_family"] == "common-crosshead"
     supply_rows = {key: evaluate(network, key, span_m=fixed_span,
-                                 common_pier=fixed_common, root=root)
+                                 common_pier=fixed_common, root=root, _prepared=prepared)
                    for key in ("station_battery", "protected_conductor",
                                "limited_conductor_battery", "overhead")}
     preferred = min(supply_rows, key=lambda key: supply_rows[key]["whole_life_30y_present_usd_m"])
     civil_rows = {f"{span}m-{'common' if common else 'separate'}":
-                  evaluate(network, preferred, span_m=span, common_pier=common, root=root)
+                  evaluate(network, preferred, span_m=span, common_pier=common,
+                           root=root, _prepared=prepared)
                   for span in SUPPORTED_SPANS_M for common in (False, True)}
+    protected = supply_rows["protected_conductor"]
+    overhead = supply_rows["overhead"]
+    advantage = (overhead["whole_life_30y_present_usd_m"]
+                 - protected["whole_life_30y_present_usd_m"])
+    track_km = protected["supply_quantities"]["protected_conductor_track_km"]
+    cr = cfg["capital_rates_usd_m"]
+    rate_slope = track_km * (1 + cr["design_fraction"] + cr["testing_fraction"]) * (1 + cr["project_allowance_fraction"])
+    rate_slope += (track_km * cfg["power_assumptions"]["line_equipment_renewal_fraction_year_25"]
+                   / (1 + cfg["discount_rate_real"]) ** 25)
+    annuity = sum((1 + cfg["discount_rate_real"]) ** -year
+                  for year in range(1, cfg["comparison_years"] + 1))
+    sensitivity = {
+        "basis": "One protected-conductor input varied against overhead; all other assumptions fixed",
+        "protected_advantage_usd_m": advantage,
+        "protected_price_uplift_to_overhead_usd_m_per_track_km": advantage / rate_slope,
+        "protected_price_break_even_usd_m_per_track_km":
+            cfg["power_price_allowances_usd_m"]["protected_conductor_per_track_km"] + advantage / rate_slope,
+        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": advantage / (track_km * annuity),
+        "extra_annual_grid_gwh_to_overhead":
+            advantage / (annuity * cfg["operation_rates"]["delivered_energy_usd_per_kwh"]),
+    }
     return {"schema": "opensourcerail.baghdad.system-comparison.1",
             "network": network, "candidate_id": cfg["candidate_id"],
             "digital_cost_leader": preferred,
             "preferred_offwire": preferred != "overhead",
             "selected_digital_civil_family": f"{fixed_span}m-{'common' if fixed_common else 'separate'}",
             "power_cases": supply_rows, "civil_cases": civil_rows,
+            "power_cost_sensitivity": sensitivity,
             "physical_accepted": False}
 
 
@@ -562,6 +623,9 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_station_interfaces": selected["station_interfaces"],
             "selected_service_power": selected["service_power"],
             "selected_local_delivery": selected["local_delivery"],
+            "map_and_service_coverage": selected["map_and_service_coverage"],
+            "selected_civil_delivery": selected["civil"]["delivery"],
+            "power_cost_sensitivity": comparison["power_cost_sensitivity"],
             "service_groups": cfg["networks"][name].get("service_groups"),
             "selected_annual_opex_usd_m": selected["operation_usd_m_year"],
             "selected_renewals_usd_m": selected["renewals_usd_m"],

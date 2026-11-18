@@ -20,6 +20,8 @@ The [one candidate input file](system.toml) drives the [calculated result](syste
 
 These are single point estimates at declared rates. They include a 20% project allowance and are designed for matched option comparison and initial procurement planning. They are not supplier bids, debt commitments or a measured construction alignment.
 
+The drawn first-programme lines total **138.395 km**, while the priced RFI control is **148.2 km**. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed but have no assigned train path in the 14 service groups. The [input](system.toml) names their intended passenger connector or infill role. The 934-train figure and annual operating allowance therefore do not demonstrate service on those sections; junction paths and hourly departures must be resolved before using the total as a timetable or finance case.
+
 ## Fourteen installed capital scopes
 
 US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-results` from `system.toml`.
@@ -67,7 +69,7 @@ suppliers can quote each assembly against the [train and platform interfaces](VE
 
 ## Matched power options
 
-All cases keep the same route length, timetable, passenger capacity, grade and adhesion assumptions. Their power equipment, mass, civil quantities, energy and renewal costs change together. The lowest **30-year present cost** is the protected conductor candidate. The difference from overhead is modest, so procurement prices and electrical access engineering have a direct effect on the choice.
+All cases keep the same declared route length, service allowance, passenger capacity, grade and adhesion assumptions. Their power equipment, mass, civil quantities, energy and renewal costs change together. Protected conductor is the lowest **30-year present cost under the stated planning rates**. Its advantage over overhead is $66.644m for the first programme and $259.323m for the independent citywide network, about 0.46% of each total. Increasing only the protected-conductor equipment allowance by $0.158m/track-km (first) or $0.151m/track-km (citywide) removes that advantage. The [calculated sensitivity](system-results.json) also gives maintenance and energy break-even values. These are price thresholds, not supplier quotations or a proven procurement choice.
 
 | Traction supply | First capital | First 30-year | Complete capital | Complete 30-year |
 |---|---:|---:|---:|---:|
@@ -78,7 +80,7 @@ All cases keep the same route length, timetable, passenger capacity, grade and a
 
 Protected conductor runs along both tracks. Its selected crowd train is **201.092 t** and has no traction battery. All options require 24 driven axles under the declared 0.10 low-adhesion coefficient, 2% adverse grade, 0.6 m/s² acceleration, resistance and traction margin. Station battery needs about **467 kWh/train**, 128 charging ports at **5.97 MW each** and about 14.9 MWh stationary buffer in the first network. Uncoordinated simultaneous charging is outside the provisional site power allocation, so its timetable must sequence charging. Limited conductor uses 25% of route length and about 311 kWh/train. The overhead case is a financial comparator with 1.5 kV DC wires. These are digital sizing results, with sectional isolation, touch protection and emergency access included as requirements for conductor rail.
 
-Annual operation includes $2.60/non-energy train-km, $1m/station-year, delivered power at $0.12/kWh and option-specific maintenance. The 30-year real present cost discounts yearly operation at 4% and includes power-equipment, line-equipment, common systems and fleet renewal events. The [machine-readable result](system-results.json) itemises the year and cost of each renewal.
+Annual operation includes $2.60/non-energy train-km, $1m/station-year, delivered power at $0.12/kWh and option-specific maintenance. Annual train-km currently use active trains × 38 km/h × 18 hours/day × 365 days; this is a fleet utilisation allowance, not a peak/off-peak timetable or a passenger-demand forecast. The 30-year real present cost discounts yearly operation at 4% and includes power-equipment, line-equipment, common systems and fleet renewal events. The [machine-readable result](system-results.json) itemises the year and cost of each renewal.
 
 ## Viaduct and construction
 
@@ -95,7 +97,7 @@ The selected 10 m family holds the existing repeatable reference geometry as a *
 | 30 m, separate supports | 9,886 | 9,900 | $7.657bn | 112.0 t |
 | 30 m, common pier | 9,886 | 4,950 | $7.683bn | 112.0 t |
 
-The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. The 10 m digital production plan uses three casting yards and three erection fronts for 148.2 km in five years; the independent citywide network needs seven of each over nine years at eight beams/day per yard and eight lifts/day per front, 250 workdays/year.
+The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. Within the stated 2028–2030 civil window, 29,640 beams require **at least five casting yards and five erection fronts** at eight beams or lifts per working day and 250 working days per year. The 2028–2034 citywide civil window needs **at least nine of each** for 121,156 beams. These are zero-disruption capacity minima, with only 1.2% and 3.8% nominal headroom. Factory setup, shutdowns and traffic constraints require additional capacity or time; their incremental cost is not separately priced in this planning estimate.
 
 ## Construction timing and financing basis
 

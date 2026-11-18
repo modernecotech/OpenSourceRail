@@ -1,6 +1,6 @@
 # v0.7 tool selection and retirement boundaries
 
-This is the retained tool review at its recorded source epoch. Use its [operation matrix](tool-capabilities.json) with the [tool inventory](tool-inventory.json) to reproduce those exact controls; the [v0.7 runtime review](../../plans/v0.7-runtime-toolchain-review.md) and current campaign receipts describe later upgrades. Supported means demonstrated for the listed operation, candidate and source epoch. It grants no physical acceptance or general upstream-tool parity. Receipt paths are local coordinator evidence, with byte counts and SHA-256 hashes; they are not newly published downloads.
+This is the retained tool review at its recorded source epoch. Use its [operation matrix](tool-capabilities.json) with the [tool inventory](tool-inventory.json) to reproduce those exact controls; the [performance baseline](performance-baseline.json) and current campaign receipts describe later upgrades. Supported means demonstrated for the listed operation, candidate and source epoch. It grants no physical acceptance or general upstream-tool parity. Receipt paths are local coordinator evidence, with byte counts and SHA-256 hashes; they are not newly published downloads.
 
 | Path | Selection and demonstrated scope | Deprecation/removal decision |
 | --- | --- | --- |

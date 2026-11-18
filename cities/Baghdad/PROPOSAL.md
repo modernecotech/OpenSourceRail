@@ -33,7 +33,7 @@ The [seven-line first-programme map](maps/Baghdad-148km.png) uses the [Iraqi Nat
 
 The independent citywide network gives the **airport terminal** an access section on service M05; it assigns the three **Sadr City** anchors to M04 and M09 through branches and the two **Jadriya** anchors to M01 and M02. The Sadr cross-city services M10 and M11 and the southwest service M13 add direct capacity through those catchments. These are schematic railway corridors to the named access areas, not approved platform sites or walking routes.
 
-The [citywide map](maps/Baghdad-606km.png) contains 26 schematic revenue sections: nine principal corridors, five shared through links, six infill corridors and six access branches. All are included in the citywide route-length control. It supports the **14 service groups** below and a 280-station budget. The access branches are not shuttle routes. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
+The [citywide map](maps/Baghdad-606km.png) contains 26 schematic physical sections: nine principal corridors, five shared links, six infill corridors and six access branches. All are included in the citywide route-length control. The **14 named service groups** cover 20 sections; the other six have a stated planning purpose but no train path. The station budget is 280. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
 
 | Through-service groups | Citywide role |
 |---|---|
@@ -43,7 +43,7 @@ The [citywide map](maps/Baghdad-606km.png) contains 26 schematic revenue section
 | M10–M11 | Sadr City east–west and north–south services |
 | M12–M14 | Karkh north–south, southwest cross-city and northern cross-city services |
 
-The route IDs and their physical sections are in [the network input](system.toml) and [GIS layer](maps/network-606km.geojson). Shared links and the east inner arc connect through services; their infrastructure is counted once.
+The route IDs and their physical sections are in [the network input](system.toml) and [GIS layer](maps/network-606km.geojson). The 14 named service groups cover 20 of the 26 costed citywide sections. Five shared connectors and the east inner arc total 50.099 km of normalized guideway and have no assigned train path. They are counted once in the civil and power budget; their operation is excluded from the current service allowance.
 
 ## Trains and passenger service
 
@@ -51,7 +51,7 @@ The Baghdad train has **six 17 m cars**, a coupled length of about 104.5 m and a
 
 Powered wheel bogies give the train sustained traction between stations. The protected conductor design has **24 driven axles**, a **201.092 t** crowd-load train mass and a **5.004 MW** input sizing request at the stated uphill acceleration duty. It does not carry a traction battery or a roof collector. Each train's independent 65 kWh nominal service battery supplies controls, lighting, braking and egress duty for the declared two-hour outage case; its mass, recharge power and price are included in the existing train allowances. Baghdad summer cooling is included in the vehicle and energy allowances. The [vehicle and station section](VEHICLE.md) gives the car layout, platform gap, protected conductor position and replacement interfaces.
 
-A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The seven-corridor alternative budgets **210 active trains and 242 with reserve**; the independent citywide alternative budgets **812 active and 934 total** for 14 service groups. The seven-corridor services provide about **4.234 million scheduled places per day** over 18 hours in both directions. Places offered are not trips made. The 38 km/h commercial-speed allowance gives **52.429 million train-km/year** for the seven-corridor alternative and **202.724 million** for the citywide alternative.
+A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The seven-corridor alternative budgets **210 active trains and 242 with reserve**; the independent citywide alternative budgets **812 active and 934 total** for 14 service groups. Applying that peak interval for every hour gives about **4.234 million nominal places per day** across the seven corridors in both directions; this is a capacity allowance, not a timetable or ridership forecast. The 38 km/h commercial-speed and 18-hour utilisation allowances give **52.429 million train-km/year** for the seven-corridor alternative and **202.724 million** for the citywide alternative.
 
 ## Viaducts, stations and street works
 
