@@ -1593,6 +1593,10 @@ byId("baghdad-system-edit").addEventListener("submit", async (event) => {
       ["Installed capital", `US$${(row.capital_usd_m.installed / 1000).toFixed(3)}bn`],
       ["30-year present cost", `US$${(row.whole_life_30y_present_usd_m / 1000).toFixed(3)}bn`],
     ];
+    if (row.network === "metropolitan" && row.local_delivery) {
+      measures.push(["Independent service groups", `${row.service.line_count} citywide groups with through-service airport, Sadr City and Jadriya links`]);
+      measures.push(["Iraqi contract opportunity", `US$${(row.local_delivery.planning_local_contract_usd_m / 1000).toFixed(3)}bn within capital · ${(row.local_delivery.planning_share_of_non_contingency_capital * 100).toFixed(1)}% before allowance`]);
+    }
     for (const [label, value] of measures) {
       const tr = document.createElement("tr");
       for (const text of [label, value]) {

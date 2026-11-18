@@ -365,13 +365,12 @@ def validate(historical_text, shared_text, current_text, archive, sourced_text, 
     assert not re.search(r'^\s+ref:',axial,re.M), 'The current axial control must use current source'
     assert historical_text.startswith('name: Historical v0.5 ')
     assert shared_text.startswith('name: Shared software ')
-    assert '  workflow_dispatch:' in historical_text and '  schedule:' in historical_text
+    assert '  workflow_dispatch:' in historical_text and '  schedule:' not in historical_text
     assert 'tags: ["v0.5.*"]' in historical_text
     triggers = historical_text.split('permissions:', 1)[0]
     path_filters = re.findall(r'^      - "([^"\n]+)"$', triggers, re.M)
     assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/download-pinned-tool.py', 'tools/automation/configure-historical-apt.py', 'tools/automation/prepare-historical-replay.py'}
     assert len(path_filters) == 14  # Same narrow push and PR filters.
-    assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
     assert '  push:\n    branches: [main]\n    paths:\n' in shared_triggers
     push_block = shared_triggers.split('  push:\n', 1)[1].split('  pull_request:\n', 1)[0]

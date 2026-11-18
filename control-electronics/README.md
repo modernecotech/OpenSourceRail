@@ -23,19 +23,23 @@ station, grid and power-section counts.
 | Door controllers | 11,616 | 44,832 | One per opening on both sides; release only the platform side |
 | Bogie brake controllers | 2,904 | 11,208 | One per bogie; independent protected stop path |
 | Train service-power units | 484 | 1,868 | Two per train; backed-up control and brake power |
+| Contact-shoe status channels | 968 | 3,736 | Four per train; protected conductor contact and isolation status |
+| Traction-inverter control units | 484 | 1,868 | Two per train; traction enable and fault reporting |
 | Station dispatch controllers | 64 | 280 | Stop position, platform side, dwell and departure checks |
 | Power-section control gateways | 114 | 532 | Isolation, earth-fault and access interlocks |
 | Grid protection gateways | 30 | 100 | Substation protection and supervisory status |
 | Control-room equipment sets | 2 | 4 | Traffic supervision and incident response |
 
-The first-programme equipment price allocation is **$84.144m** across five
-existing capital scopes: vehicles $56.628m, stations $7.680m, signalling
+The first-programme equipment price allocation is **$102.536m** across five
+existing capital scopes: vehicles $75.020m, stations $7.680m, signalling
 $14.136m, grid $4.500m and control centres $1.200m. The metropolitan allocation
-is **$328.648m** within the same scopes. These are 2026 planning allowances,
+is **$399.632m** within the same scopes. These are 2026 planning allowances,
 not supplier quotations or extra capital. The model reserves **0.35 t** and
 **6 kW** per train for controls inside its existing base vehicle mass and
-auxiliary energy allowance; mounting, heat rejection and cable routing must
-fit that allowance when equipment is selected. The same model sizes a separate
+auxiliary energy allowance. The Baghdad equipment and harness schedule totals
+**299 kg** and **3.68 kW** per train, leaving **51 kg** and **2.32 kW** within
+those reserves. These are digital planning allowances for supplier quotation;
+heat rejection, cable routing and mounting use the same reserve. The same model sizes a separate
 65 kWh nominal service battery per train: 52 kWh usable covers a 50.4 kWh
 two-hour essential-duty request with brake and door events and reserve.
 Its 0.50 t and $0.10m/train allowances sit inside the base vehicle mass and
@@ -45,7 +49,8 @@ on the protected conductor.
 ## Installed arrangement
 
 The [Baghdad train](../cities/Baghdad/VEHICLE.md) has two protection channels,
-two radios, six car control nodes, 48 door controllers and twelve bogie brake
+two radios, six car control nodes, 48 door controllers, twelve bogie brake
+controllers, four contact-shoe status channels and two traction-inverter
 controllers. The protected DC conductor feeds the traction converters through
 contact shoes, isolation and fault protection. A separate service battery and
 two power units feed protection, brakes, door release and communication during
@@ -53,6 +58,14 @@ a line-power outage. Traction loss commands a protected stop; a control-room
 request cannot bypass onboard braking or grant normal-service door release on
 the wrong side. The door evaluator also treats authorised emergency egress as
 a separate path and inhibits a motor-open command while the train is moving.
+
+The [powered-wheel ATP adapter](../crates/osr-atp/src/powered_wheel.rs) inhibits
+traction when the selected configuration, contact shoes, section permission or
+inverter proof is lost and requests an independent mechanical stop. The
+[protected-conductor TCMS adapter](../crates/osr-tcms/src/protected_conductor.rs)
+keeps the service-battery contactor distinct from line traction supply. The
+older station-launch/coast ATP interface remains a separate v0.6 research
+configuration; its station-drive permissive is not the Baghdad traction gate.
 
 At each station, the dispatch controller confirms train identity, stopping
 position, platform side, doors closed and route authority before departure.

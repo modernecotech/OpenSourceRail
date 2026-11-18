@@ -54,12 +54,12 @@ additional costs.
 
 | Parent capital scope and equipment allocation, US$ million | First | Independent citywide |
 |---|---:|---:|
-| Vehicle fleet electronics | 56.628 | 218.556 |
+| Vehicle fleet electronics | 75.020 | 289.540 |
 | Station dispatch controllers | 7.680 | 33.600 |
 | Signalling, train detection and section control | 14.136 | 59.092 |
 | Grid protection gateways | 4.500 | 15.000 |
 | Control-room equipment | 1.200 | 2.400 |
-| **Total already included in capital** | **84.144** | **328.648** |
+| **Total already included in capital** | **102.536** | **399.632** |
 
 The unit allowances and fleet, station, section and grid quantities are in
 `system.toml`; the calculated allocation is in `system-results.json`. Equipment

@@ -186,6 +186,10 @@ def _control_electronics(cfg: dict, network: dict, power: dict,
         "door_controllers": doors * c["door_controllers_per_opening"],
         "brake_controllers": bogies * c["brake_controllers_per_bogie"],
         "train_service_power_units": fleet * c["train_service_power_units"],
+        "shoe_status_channels": (fleet * cfg["vehicle_geometry"]["shoe_sets_per_train"]
+                                 * c["shoe_status_channels_per_shoe_set"]
+                                 if power["supply"]["protected_conductor_track_km"] > 0 else 0),
+        "inverter_control_units": fleet * c["inverter_control_units_per_train"],
         "station_dispatch_controllers": network["stations"] * c["station_dispatch_controllers"],
         "section_control_gateways": sections * c["section_control_gateways"],
         "grid_protection_gateways": network["traction_supply_sites"] * c["grid_protection_gateways"],
@@ -196,7 +200,9 @@ def _control_electronics(cfg: dict, network: dict, power: dict,
             ("atp_channels", "atp_channel"), ("radio_links", "radio_link"),
             ("tcms_nodes", "tcms_node"), ("door_controllers", "door_controller"),
             ("brake_controllers", "brake_controller"),
-            ("train_service_power_units", "train_service_power_unit"))),
+            ("train_service_power_units", "train_service_power_unit"),
+            ("shoe_status_channels", "shoe_status_channel"),
+            ("inverter_control_units", "inverter_control_unit"))),
         "stations_access": quantities["station_dispatch_controllers"] * p["station_dispatch_controller"],
         "signalling_comms": (quantities["section_control_gateways"] * p["section_control_gateway"]
                              + network["route_km"] * p["train_detection_per_route_km"]),
@@ -206,12 +212,40 @@ def _control_electronics(cfg: dict, network: dict, power: dict,
     if any(amount < 0 or amount > capital_scopes[scope]
            for scope, amount in allocations.items()):
         raise ValueError("Control equipment allocation exceeds its parent capital scope")
-    if c["train_mass_allowance_t"] <= 0 or c["train_auxiliary_power_allowance_kw"] <= 0:
-        raise ValueError("Positive control mass and auxiliary power allowances required")
+    installed = cfg["control_electronics_installed"]
+    train_items = {
+        "atp_channel": c["atp_channels_per_train"],
+        "radio_link": c["radio_links_per_train"],
+        "tcms_node": v["cars_per_train"] * c["tcms_nodes_per_car"],
+        "door_controller": v["cars_per_train"] * v["door_openings_per_car_each_side"] * 2
+                           * c["door_controllers_per_opening"],
+        "brake_controller": v["cars_per_train"] * 2 * c["brake_controllers_per_bogie"],
+        "train_service_power_unit": c["train_service_power_units"],
+        "shoe_status_channel": (cfg["vehicle_geometry"]["shoe_sets_per_train"]
+                                * c["shoe_status_channels_per_shoe_set"]
+                                if power["supply"]["protected_conductor_track_km"] > 0 else 0),
+        "inverter_control_unit": c["inverter_control_units_per_train"],
+    }
+    if (any(type(count) is not int or count < 0 for count in train_items.values())
+            or any(type(value) not in (float, int) or value < 0 for value in installed.values())):
+        raise ValueError("Baghdad installed control schedule needs positive counts and nonnegative allowances")
+    mass_kg = sum(count * installed[name + "_kg"] for name, count in train_items.items())
+    mass_kg += installed["harness_enclosure_kg_per_train"]
+    continuous_w = sum(count * installed[name + "_w"] for name, count in train_items.items())
+    if (mass_kg <= 0 or continuous_w <= 0
+            or mass_kg > c["train_mass_allowance_t"] * 1000
+            or continuous_w > c["train_auxiliary_power_allowance_kw"] * 1000
+            or continuous_w > cfg["service_power"]["control_continuous_kw"] * 1000):
+        raise ValueError("Baghdad installed control mass or continuous power exceeds train reserve")
     return {"quantities": quantities, "allocation_within_capital_scopes_usd_m": allocations,
             "train_mass_allowance_within_base_t": c["train_mass_allowance_t"],
             "train_auxiliary_power_allowance_kw": c["train_auxiliary_power_allowance_kw"],
-            "basis": "Planning equipment schedule and price carve-out; no added capital or mass"}
+            "installed_train_items": train_items,
+            "installed_train_mass_kg": mass_kg,
+            "installed_train_continuous_w": continuous_w,
+            "mass_residual_kg": c["train_mass_allowance_t"] * 1000 - mass_kg,
+            "control_power_residual_w": c["train_auxiliary_power_allowance_kw"] * 1000 - continuous_w,
+            "basis": "Baghdad-specific installed equipment and harness planning schedule within vehicle mass, power and price reserves"}
 
 
 def _station_interfaces(cfg: dict) -> dict:
@@ -427,12 +461,20 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     annual_factor = sum((1 + r) ** -year for year in range(1, cfg["comparison_years"] + 1))
     life = installed + annual_opex * annual_factor + sum(
         row["usd_m"] / (1 + r) ** row["year"] for row in renewals)
+    installed_rates = cfg["control_electronics_installed"]
+    selected_controls = {name: {"count": count,
+                                "mass_kg_each": installed_rates[name + "_kg"],
+                                "continuous_w_each": installed_rates[name + "_w"]}
+                         for name, count in controls["installed_train_items"].items() if count}
+    control_physical = {"items": selected_controls,
+                        "harness_enclosure_kg_per_train": installed_rates["harness_enclosure_kg_per_train"]}
     result = {
         "schema": SCHEMA, "parent_candidate_id": cfg["candidate_id"],
         "physical_candidate_id": _id({"network": network, "power": power["physical_candidate_id"],
                                       "civil": civil["civil_option_physical_id"],
                                       "station_interfaces": station_interfaces,
-                                      "service_power": cfg["service_power"]}),
+                                      "service_power": cfg["service_power"],
+                                      "control_installation": control_physical}),
         "selection_purpose": "equal-service planning comparison",
         "infrastructure": {"tunnel_km": cfg["tunnel_km"],
                            "underground_stations": cfg["underground_stations"],
@@ -441,6 +483,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "network": network, "supply": supply, "span_m": span_m, "common_pier": common_pier,
         "map_length_basis": length_basis,
         "service": {"route_km": route_km, "stations": n["stations"],
+                    "line_count": n["lines"],
                     "normal_places_per_train": v["normal_places_per_train"],
                     "offered_places_per_hour_direction": v["normal_places_per_train"] * 3600 / v["peak_headway_s"],
                     "annual_train_km": annual_train_km,

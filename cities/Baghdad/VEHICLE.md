@@ -47,9 +47,10 @@ coordination geometry for car, platform, screen and electrical design.
 The [control equipment schedule](../../control-electronics/README.md) assigns
 two train protection channels, two radio links, one control node per car,
 one controller per opening, one brake controller per bogie and two protected
-service-power units per train. Their **0.35 t** and **6 kW** per-train planning
-allowances sit inside the published base mass and auxiliary-energy budgets;
-their **$0.234m/train** equipment allocation sits inside the train price.
+service-power units per train. The Baghdad-specific installed schedule totals **299 kg** and **3.68 kW** per train,
+including contact-shoe status, inverter control and a 45 kg harness/enclosure allocation.
+It fits the **0.35 t** and **6 kW** per-train reserves inside the published base mass
+and auxiliary-energy budgets; its **$0.310m/train** price allocation sits inside the train price.
 There are four contact-shoe sets per protected-conductor train. Shoe position,
 rail clearance, insulation distance, section transition and evacuation
 protection are separate electrical/track interfaces and must be demonstrated

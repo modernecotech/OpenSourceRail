@@ -76,12 +76,37 @@ tcms_nodes_per_car = 1
 door_controllers_per_opening = 1
 brake_controllers_per_bogie = 1
 train_service_power_units = 2
+shoe_status_channels_per_shoe_set = 1
+inverter_control_units_per_train = 2
 station_dispatch_controllers = 1
 section_control_gateways = 1
 grid_protection_gateways = 1
 occ_equipment_sets = 1
 train_mass_allowance_t = 0.35
 train_auxiliary_power_allowance_kw = 6.0
+
+# Baghdad-specific installed control planning allowances per counted unit.
+# The common harness/enclosure allocation covers connectors, mounting and
+# protection omitted from the electronic unit masses. All sit inside the
+# published 0.35 t train reserve and 6 kW essential-control duty.
+[control_electronics_installed]
+atp_channel_kg = 18.0
+atp_channel_w = 180.0
+radio_link_kg = 5.0
+radio_link_w = 120.0
+tcms_node_kg = 5.0
+tcms_node_w = 80.0
+door_controller_kg = 1.5
+door_controller_w = 15.0
+brake_controller_kg = 2.0
+brake_controller_w = 40.0
+train_service_power_unit_kg = 25.0
+train_service_power_unit_w = 400.0
+shoe_status_channel_kg = 3.0
+shoe_status_channel_w = 25.0
+inverter_control_unit_kg = 10.0
+inverter_control_unit_w = 250.0
+harness_enclosure_kg_per_train = 45.0
 
 [control_electronics_price_allocations_usd_m]
 atp_channel = 0.020
@@ -90,6 +115,8 @@ tcms_node = 0.006
 door_controller = 0.0015
 brake_controller = 0.003
 train_service_power_unit = 0.010
+shoe_status_channel = 0.004
+inverter_control_unit = 0.030
 station_dispatch_controller = 0.120
 section_control_gateway = 0.020
 train_detection_per_route_km = 0.080

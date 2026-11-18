@@ -10,6 +10,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "docs/design-engine/current/cities.json"
 OUTPUT = ROOT / "cities/catalogue/README.md"
+BAGHDAD_SYSTEM = ROOT / "cities/Baghdad/system-results.json"
 
 
 def generate() -> str:
@@ -20,6 +21,16 @@ def generate() -> str:
         raise ValueError("city register does not match the selected v0.6 family")
     if register.get("city_count") != len(register.get("cities", [])):
         raise ValueError("city register count is inconsistent")
+
+    baghdad = json.loads(BAGHDAD_SYSTEM.read_text(encoding="utf-8"))
+    if baghdad.get("schema") != "opensourcerail.baghdad.public-cost-comparison.1":
+        raise ValueError("current Baghdad system result required")
+    first, metro = (baghdad["networks"][name] for name in ("first", "metropolitan"))
+    if (first["route_km"] != 148.2 or metro["route_km"] != 605.652
+            or first["stations_planning_allowance"] != 64
+            or metro["stations_planning_allowance"] != 280
+            or len(metro["service_groups"]) != 14):
+        raise ValueError("Baghdad index requires the selected independent network results")
 
     import hashlib
     report_index = ROOT / "docs/design-engine/city-dossiers/index.json"
@@ -42,7 +53,9 @@ def generate() -> str:
         hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
         r = reports.get(city["slug"])
         if city["slug"] == "baghdad":
-            rows.append(f"| {city['country']} | [Baghdad proposal](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | $8.341bn / $32.557bn | [Planning basis](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
+            first_capital = first["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
+            metro_capital = metro["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
+            rows.append(f"| {city['country']} | [Baghdad alternatives](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | ${first_capital:.3f}bn / ${metro_capital:.3f}bn | [Separate planning estimates](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
             continue
         if r:
             capital = r["installed_capital_usd"]["base"] / 1e6
@@ -54,7 +67,7 @@ def generate() -> str:
         f"Explore **{register['city_count']} city network outlines**. Each city dossier brings together its visible network map, line and station tables, service and fleet, civil and factory quantities, workforce, energy accounting, capital and whole-life costs, finance scenarios, site requirements and downloads.", "",
         "The figures use the exact selected calculated outline and explicit Class C estimates. A complete outline supports comparison and development; engineering verification and manufacturing or operating approval remain separate.", "",
         "[Baghdad proposal](../Baghdad/PROPOSAL.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
-        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad's high-capacity planning concepts use their own vehicle and cost basis; its complete-network total includes the first programme. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.", "",
+        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad's two high-capacity planning networks are independent alternatives, each with its own route, fleet and cost basis. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.", "",
         "| Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |",
         "|---|---|---:|---:|---:|---:|---:|---|", *rows, "",
     ])

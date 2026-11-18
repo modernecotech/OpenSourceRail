@@ -35,6 +35,8 @@
 
 use serde::{Deserialize, Serialize};
 
+pub mod protected_conductor;
+
 // ---------------------------------------------------------------------------
 // Shared alarm level (mirrors the per-crate levels)
 // ---------------------------------------------------------------------------

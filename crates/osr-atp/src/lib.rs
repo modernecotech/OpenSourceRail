@@ -73,6 +73,7 @@
 
 pub mod envelope;
 pub mod evaluate;
+pub mod powered_wheel;
 pub mod state;
 pub mod wheel_station;
 

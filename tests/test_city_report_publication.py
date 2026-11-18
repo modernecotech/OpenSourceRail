@@ -82,8 +82,10 @@ def test_catalogue_generator_uses_city_dossiers_and_relative_targets():
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     module.ROOT=ROOT;module.SOURCE=ROOT/'docs/design-engine/current/cities.json'
     text=module.generate()
-    assert '[Baghdad proposal](../Baghdad/PROPOSAL.md)' in text
-    assert '| IQ | [Baghdad proposal](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 |' in text
+    assert '| IQ | [Baghdad alternatives](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 |' in text
+    assert '$7.866bn / $31.018bn' in text
+    assert 'independent alternatives' in text
+    assert 'includes the first programme' not in text
     assert '](cities/catalogue/' not in text
     assert 'Base installed US$' in text
 

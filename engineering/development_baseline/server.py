@@ -128,7 +128,9 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(request, dict) or set(request) != {
                     'expected_candidate_id', 'network', 'supply', 'span_m', 'common_pier'}:
                 raise ValueError('Exact Baghdad candidate and design inputs required')
-            if request.pop('expected_candidate_id') != load(self.root)['candidate_id']:
+            if request['network'] not in ('first', 'metropolitan'):
+                raise ValueError('Known Baghdad network required')
+            if request.pop('expected_candidate_id') != load(self.root, network=request['network'])['candidate_id']:
                 raise ValueError('Baghdad candidate identity differs')
             value = evaluate(root=self.root, **request)
         except (ValueError, TypeError, KeyError, OSError) as exc:

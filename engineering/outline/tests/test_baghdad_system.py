@@ -95,6 +95,8 @@ def test_control_equipment_is_counted_and_fits_existing_scope_prices():
         assert q["tcms_nodes"] == 6 * fleet
         assert q["door_controllers"] == 48 * fleet
         assert q["brake_controllers"] == 12 * fleet
+        assert q["shoe_status_channels"] == 4 * fleet
+        assert q["inverter_control_units"] == 2 * fleet
         assert q["station_dispatch_controllers"] == stations
         assert q["grid_protection_gateways"] == sites
         assert q["occ_equipment_sets"] == centres
@@ -103,6 +105,43 @@ def test_control_equipment_is_counted_and_fits_existing_scope_prices():
                    for scope, amount in controls["allocation_within_capital_scopes_usd_m"].items())
         assert sum(row["capital_usd_m"]["scope_rows"].values()) == pytest.approx(
             row["capital_usd_m"]["installed"])
+        assert controls["installed_train_mass_kg"] == pytest.approx(299)
+        assert controls["installed_train_continuous_w"] == pytest.approx(3680)
+        assert controls["mass_residual_kg"] == pytest.approx(51)
+        assert controls["control_power_residual_w"] == pytest.approx(2320)
+
+
+def test_baghdad_control_reserve_rejects_overweight_installation(tmp_path: Path):
+    (tmp_path / CONFIG).parent.mkdir(parents=True)
+    cfg = load()
+    text = (ROOT / CONFIG).read_text().replace(
+        "harness_enclosure_kg_per_train = 45.0",
+        "harness_enclosure_kg_per_train = 100.0")
+    (tmp_path / CONFIG).write_text(text)
+    for key in ("first", "waypoints"):
+        source = ROOT / cfg["map_sources"][key + "_path"]
+        target = tmp_path / cfg["map_sources"][key + "_path"]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for name in ("baghdad_power.py", "baghdad_viaduct.py"):
+        source = ROOT / "engineering/outline" / name
+        target = tmp_path / "engineering/outline" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    with pytest.raises(ValueError, match="control mass or continuous power"):
+        evaluate("first", "protected_conductor", root=tmp_path)
+    original = evaluate("first", "protected_conductor")
+    (tmp_path / CONFIG).write_text((ROOT / CONFIG).read_text().replace(
+        "atp_channel_kg = 18.0", "atp_channel_kg = 19.0"))
+    revised = evaluate("first", "protected_conductor", root=tmp_path)
+    assert revised["physical_candidate_id"] != original["physical_candidate_id"]
+    assert revised["control_electronics"]["installed_train_mass_kg"] == pytest.approx(301)
+    battery_original = evaluate("first", "station_battery")
+    (tmp_path / CONFIG).write_text((ROOT / CONFIG).read_text().replace(
+        "shoe_status_channel_kg = 3.0", "shoe_status_channel_kg = 4.0"))
+    battery_revised = evaluate("first", "station_battery", root=tmp_path)
+    assert battery_revised["physical_candidate_id"] == battery_original["physical_candidate_id"]
+    assert battery_revised["evaluation_id"] != battery_original["evaluation_id"]
 
 
 def test_changed_map_cannot_keep_the_same_candidate_input(tmp_path: Path):
