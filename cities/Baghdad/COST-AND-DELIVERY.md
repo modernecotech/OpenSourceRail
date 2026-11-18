@@ -87,6 +87,25 @@ The 20–30 m hook loads exceed the 60 t reference lift control. They require a 
 | Complete network target | 2031 | 2035 |
 | Average annual installed capital across programme | $1.573bn/year over five years | $3.446bn/year over nine years |
 
+### Annual construction capital draw
+
+The following allocation turns the selected installed capital into a planning cash schedule. The complete-network column **includes** the first programme. The additional metropolitan column is the difference each year, not an extra sum to add to the complete-network figure. Figures are US$ million in 2026 prices.
+
+| Year | First 148.2 km | Complete 605.652 km | Additional metropolitan works |
+|---|---:|---:|---:|
+| 2027 | 393.284 | 930.532 | 537.248 |
+| 2028 | 1,179.851 | 2,171.242 | 991.391 |
+| 2029 | 2,359.701 | 3,101.775 | 742.074 |
+| 2030 | 2,359.701 | 4,032.307 | 1,672.606 |
+| 2031 | 1,573.133 | 4,652.662 | 3,079.529 |
+| 2032 | 0 | 5,273.017 | 5,273.017 |
+| 2033 | 0 | 4,652.662 | 4,652.662 |
+| 2034 | 0 | 3,722.130 | 3,722.130 |
+| 2035 | 0 | 2,481.422 | 2,481.422 |
+| **Total** | **7,865.670** | **31,017.749** | **23,152.079** |
+
+The first programme is allocated 5%, 15%, 30%, 30% and 20% over 2027–2031. The complete network is allocated 3%, 7%, 10%, 13%, 15%, 17%, 15%, 12% and 8% over 2027–2035. These are cash planning weights, not contracts or a claim that finance has been raised. Interest during construction, lender fees, UKEF premium, exchange effects and any operating support are outside installed capital and require agreed financing terms.
+
 The full network requires overlapping fronts and approximately 57 additional route-km/year during 2028–2035 beyond the first programme. This schedule is a construction-capacity calculation, with staged openings. Actual land rights, station access, road and river interfaces, utility relocation, supply contracts and finance draw dates need project-specific agreements. The full capital total implies **$23.152bn** of additional works after the first programme, not another $31.018bn. Funding can combine Iraqi public capital, commercial lending and export finance for eligible imported packages. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) depends on a specific eligible export contract, bank and borrower; the model does not assume a UKEF commitment.
 
 The open GIS geometry fixes a planning envelope, not a surveyed route. The airport marker is in the terminal area, not the passenger entrance; the map lengths are declared network controls. The calculation can be rerun when the route geometry, sites or supplier rates are set, and rejects changes to its pinned source maps until their identities and dependent calculations are updated. No physical prototype or site survey is represented in this release.

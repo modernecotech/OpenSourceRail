@@ -1,0 +1,14 @@
+# Baghdad railway maps
+
+View the [first programme](Baghdad-148km.png) and [metropolitan network](Baghdad-606km.png) maps, or open either GeoJSON file below in a GIS viewer. The routes show where the railway is being planned; they are not surveyed track centre lines. Both concepts use elevated double track, no tunnels and a protected conductor rail for traction power.
+
+| Map | Declared route length | Station allowance | What it shows |
+| --- | ---: | ---: | --- |
+| [First programme](network-148km.geojson) | 148.2 km | 64 | Green, Red, Blue, Purple, Yellow, White and Airport lines; named places and priority access points |
+| [Metropolitan network](network-606km.geojson) | 605.652 km | 280 | Nine principal lines, planning connections and stop screens |
+
+The coloured railway route layer is schematic. A planning connection may be a direct-distance guide or an unconfirmed branch. A point labelled as a station or stop screen is a planning location, not an approved platform. The six pale priority areas show a 1 km straight-line radius around the airport terminal, three Sadr City points and two Jadriya points. They help compare access coverage; they do not account for streets, the river, property boundaries or walking routes.
+
+The airport terminal point is the centroid of [OpenStreetMap way 28647537](https://www.openstreetmap.org/way/28647537), not the terminal entrance. Other named places retain their feature-level OpenStreetMap links. Sadr City and Jadriya points are the existing WorldPop radial population-screen anchors recorded in the map data. The [waypoint source](rfi-waypoints.json) retains first-programme names and nominal line lengths. The larger map retains its source geometry identity in the GeoJSON header.
+
+Map distances and station allowances are programme inputs. The first map draws 138.395 km of schematic line against a 148.2 km declared programme; the larger map draws 608.460 km across principal lines and planning connections against a 605.652 km declared network. These drawn lengths must not be substituted for the programme controls or added to the cost model. The drawn polylines do not establish road clearances, grades, pier locations, river crossing designs, platform sites or construction permissions. OpenStreetMap attribution and licence information is at [openstreetmap.org/copyright](https://www.openstreetmap.org/copyright).

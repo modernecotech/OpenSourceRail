@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 from pathlib import Path
 
 import matplotlib
@@ -20,8 +21,8 @@ from reportlab.platypus import Image, PageBreak, Paragraph, SimpleDocTemplate, S
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-OUTPUT = ROOT / "output/pdf/Baghdad-Metro-v0.7-Proposal.pdf"
-TMP = ROOT / "tmp/pdfs/baghdad-v07-network.png"
+OUTPUT = HERE / "Baghdad-Metro-Proposal.pdf"
+MAP_IMAGES = (HERE / "maps" / "Baghdad-148km.png", HERE / "maps" / "Baghdad-606km.png")
 GITHUB = "https://github.com/modernecotech/OpenSourceRail/blob/main/"
 
 
@@ -46,19 +47,35 @@ def inline(nodes):
     return "".join(out)
 
 
-def map_image():
-    TMP.parent.mkdir(parents=True, exist_ok=True)
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.5), dpi=180)
-    styles = {"line": ("#146c85", 1.0), "physical_connector": ("#b77827", 1.15),
-              "schematic_control_polyline": ("#238c63", 1.3),
-              "straight_lower_bound_connector": ("#b04d54", 1.0)}
+def map_images():
+    """Publish legible, source-bound planning maps alongside the city proposal."""
+    from matplotlib.patches import Patch
+    from matplotlib.lines import Line2D
+
+    styles = {"line": ("#146c85", 1.7), "physical_connector": ("#b77827", 1.6),
+              "schematic_control_polyline": ("#238c63", 1.5),
+              "straight_lower_bound_connector": ("#b04d54", 1.25)}
     rfi_colours = {"Green": "#21875a", "Red": "#c64c52", "Blue": "#357db7",
                    "Purple": "#8d62ad", "Yellow": "#c6971d", "White": "#66747e",
                    "Airport": "#db713c"}
-    for ax, filename, title in zip(axes,
-            ("network-148km.geojson", "network-606km.geojson"),
-            ("148.2 km first programme", "605.652 km metropolitan network")):
+    for filename, title, destination in zip(
+        ("network-148km.geojson", "network-606km.geojson"),
+        ("148.2 km | first programme", "605.652 km | metropolitan network"),
+        MAP_IMAGES,
+    ):
         data = json.loads((HERE / "maps" / filename).read_text())
+        fig, ax = plt.subplots(figsize=(8.5, 9), dpi=190)
+        fig.patch.set_facecolor("white")
+        ax.set_facecolor("#f9fbfc")
+        for feature in data["features"]:
+            geometry = feature.get("geometry") or {}
+            if geometry.get("type") != "Polygon":
+                continue
+            if feature.get("properties", {}).get("kind") != "priority_proximity_area":
+                continue
+            ring = geometry["coordinates"][0]
+            ax.fill([p[0] for p in ring], [p[1] for p in ring],
+                    color="#f1cf76", alpha=.22, zorder=1)
         for feature in data["features"]:
             geometry = feature.get("geometry") or {}
             if geometry.get("type") != "LineString":
@@ -67,24 +84,58 @@ def map_image():
             colour, width = styles.get(kind, ("#89949d", 0.8))
             if filename == "network-148km.geojson":
                 colour = rfi_colours.get(feature.get("properties", {}).get("line"), colour)
-                width = 1.25
+                width = 2.25
             points = geometry["coordinates"]
             ax.plot([p[0] for p in points], [p[1] for p in points],
-                    color=colour, linewidth=width, alpha=0.85)
-        ax.set_title(title, fontsize=10, color="#17364a", pad=8)
-        ax.set_aspect("equal", adjustable="datalim")
-        ax.set_xticks([])
-        ax.set_yticks([])
+                    color=colour, linewidth=width, alpha=.88, zorder=3)
+        for feature in data["features"]:
+            geometry = feature.get("geometry") or {}
+            if geometry.get("type") != "Point":
+                continue
+            props = feature.get("properties", {})
+            x, y = geometry["coordinates"]
+            kind = props.get("kind", "")
+            if kind in ("station", "proposed_stop_anchor"):
+                ax.scatter(x, y, s=6, color="#384d5a", alpha=.5, zorder=4)
+            elif kind in ("proposed_anchor", "proposed_population_anchor"):
+                ax.scatter(x, y, s=45, marker="D", color="#bf7324", edgecolor="white", linewidth=.6, zorder=6)
+                label = props.get("map_label") or props.get("name") or props.get("rfi_name")
+                if label:
+                    ax.annotate(label, (x, y), xytext=(5, 5), textcoords="offset points",
+                                fontsize=7, color="#663f18", weight="bold", zorder=7)
+            elif kind == "rfi_named":
+                ax.scatter(x, y, s=9, color="#213b4d", alpha=.75, zorder=5)
+                label = props.get("map_label") or ""
+                if any(term in label.lower() for term in ("airport", "sadr", "jadri", "chadri")):
+                    ax.annotate(label, (x, y), xytext=(5, 4), textcoords="offset points",
+                                fontsize=7, color="#17364a", zorder=7)
+        ax.set_title(title, fontsize=15, color="#17364a", pad=15, weight="bold")
+        ax.set_xlabel("Longitude (°E)", fontsize=8, color="#51616b")
+        ax.set_ylabel("Latitude (°N)", fontsize=8, color="#51616b")
+        ax.tick_params(labelsize=7, colors="#617781")
+        ax.grid(color="#dce5e9", linewidth=.5, zorder=0)
+        ax.set_aspect(1 / math.cos(math.radians(33.3)))
         for spine in ax.spines.values():
             spine.set_color("#c6d2d9")
-    fig.text(.5, .015, "Schematic links and access points; no surveyed alignment or station site",
-             ha="center", fontsize=8, color="#51616b")
-    fig.tight_layout(rect=(0, .04, 1, 1), w_pad=2.0)
-    fig.savefig(TMP, facecolor="white")
-    plt.close(fig)
+        if filename == "network-148km.geojson":
+            legend = [Line2D([0], [0], color=colour, lw=2.4, label=name) for name, colour in rfi_colours.items()]
+        else:
+            legend = [Line2D([0], [0], color="#146c85", lw=2, label="Principal route"),
+                      Line2D([0], [0], color="#b77827", lw=2, label="Planning connection"),
+                      Line2D([0], [0], marker=".", color="#384d5a", lw=0, label="Stop screen")]
+        legend.append(Patch(facecolor="#f1cf76", alpha=.4, label="1 km priority access area"))
+        ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, -.16), ncol=4,
+                  frameon=False, fontsize=8)
+        fig.text(.5, .015, "OpenStreetMap places and WorldPop access anchors | schematic routes, no surveyed alignment",
+                 ha="center", fontsize=8, color="#51616b")
+        fig.tight_layout(rect=(0, .08, 1, .97))
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(destination, facecolor="white")
+        plt.close(fig)
 
 
 def render():
+    map_images()
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="TitleOSR", parent=styles["Title"], fontName="Helvetica-Bold",
                               fontSize=18, leading=22, textColor=colors.HexColor("#17364a"), spaceAfter=11))
@@ -101,13 +152,19 @@ def render():
         kind = node["type"]
         if kind == "heading":
             style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
-            if inline(node["children"]) == "Civil and power design":
+            if inline(node["children"]) == "The city and the routes":
+                for destination, caption in zip(MAP_IMAGES, (
+                    "First programme: seven corridors and priority access areas",
+                    "Metropolitan network: principal lines, planning connections and stop screens",
+                )):
+                    story.append(PageBreak())
+                    story.append(Paragraph(caption, styles["SectionOSR"]))
+                    story.append(Image(str(destination), width=175 * mm, height=185 * mm))
+                    story.append(Paragraph("Lines and points are planning guides; 64 and 280 stations are budget allowances, not approved sites.", styles["FooterOSR"]))
+                story.append(PageBreak())
+            if inline(node["children"]) == "Decision requested":
                 story.append(PageBreak())
             story.append(Paragraph(inline(node["children"]), styles[style]))
-            if style == "TitleOSR":
-                map_image()
-                story.append(Image(str(TMP), width=178 * mm, height=67 * mm))
-                story.append(Spacer(1, 3 * mm))
         elif kind == "paragraph":
             story.append(Paragraph(inline(node["children"]), styles["BodyOSR"]))
         elif kind == "table":
@@ -116,7 +173,9 @@ def render():
             rows = [head] + [row["children"] for row in body]
             cells = [[Paragraph(inline(cell["children"]), styles["CellOSR"]) for cell in row] for row in rows]
             widths = ([35, 18, 16, 18, 30, 30, 16] if len(head) == 7
-                      else [34, 72, 72] if len(head) == 3 else None)
+                      else [38, 25, 24, 40, 43] if len(head) == 5
+                      else [28, 47, 47, 48] if len(head) == 4
+                      else [34, 66, 70] if len(head) == 3 else None)
             if widths:
                 widths = [width * mm for width in widths]
             table = Table(cells, colWidths=widths, repeatRows=1, hAlign="LEFT")
@@ -179,14 +238,13 @@ def render():
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=16 * mm,
                             leftMargin=16 * mm, topMargin=15 * mm, bottomMargin=17 * mm,
-                            title="OpenSourceRail Baghdad urban rail proposal", author="OpenSourceRail")
+                            title="OpenSourceRail Baghdad metropolitan railway", author="OpenSourceRail")
     def footer(canvas, document):
         canvas.setFont("Helvetica", 7)
         canvas.setFillColor(colors.HexColor("#697a83"))
-        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad engineering concept | 17 November 2026")
+        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 18 November 2026")
         canvas.drawRightString(194 * mm, 10 * mm, str(document.page))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
-    TMP.unlink(missing_ok=True)
     print(OUTPUT)
 
 
