@@ -81,9 +81,8 @@ The passive v0.6 comfort vehicle is retained separately.
 Using the same unit planning allowances gives **$9.180m** of train
 electronics inside the existing **$300.900m** rolling-stock scope, **$1.440m**
 inside the **$96.000m** station scope, **$0.900m** inside the **$18.000m**
-substation scope and **$1.200m** inside the **$12.000m** terminal-control
-scope. The 22 line-section gateways, train-detection allowance and two
-control-room sets allocate another **$4.040m** within the existing
+substation scope. The 22 line-section gateways, train-detection allowance
+and two control-room sets together allocate **$4.040m** within the existing
 **$12.000m** turnback and line-control scope. The complete **$15.560m**
 equipment schedule is in the selected candidate's [52-row BOM and 23-step
 production handoff](../docs/reference-v07/digital/production/README.md).
