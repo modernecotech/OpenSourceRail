@@ -52,6 +52,9 @@ class PowerAssumptions:
     reference_driven_axles: int = 24
     traction_efficiency: float = 0.82
     traction_rating_margin: float = 1.25
+    # Evaluation voltage for a current request, not an installed supply choice.
+    electrical_screen_voltage_kv: float = 1.5
+    electrical_screen_low_voltage_fraction: float = 0.90
     roof_collector_mass_t: float = 0.96
     station_connector_mass_t: float = 0.20
     protected_shoes_mass_t: float = 0.32
@@ -98,7 +101,10 @@ def _validate(n: PowerNetwork, a: PowerAssumptions) -> None:
             or not 0 < a.limited_supply_fraction_of_route < 1
             or not 0 < a.battery_usable_fraction <= 1
             or not 0 < a.battery_discharge_efficiency <= 1
-            or not 0 < a.traction_efficiency <= 1):
+            or not 0 < a.traction_efficiency <= 1
+            or not isfinite(a.electrical_screen_voltage_kv)
+            or a.electrical_screen_voltage_kv <= 0
+            or not 0 < a.electrical_screen_low_voltage_fraction <= 1):
         raise ValueError("Inconsistent traction or storage controls")
     if (a.battery_legs_between_effective_charges < 1 or a.battery_reserve_legs < 1
             or a.limited_supply_offwire_legs < 1 or a.battery_pack_kwh_per_t <= 0
@@ -202,7 +208,10 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
             raise ValueError("Installed train mass must remain positive")
         force_n = mass_t * 1000 * acceleration_with_grade_m_s2
         axle_adhesion_n = a.low_adhesion_mu * mass_t * 1000 * 9.81 / a.total_axles
-        traction_dc_request_mw = force_n * n.speed_cap_m_s / a.traction_efficiency * a.traction_rating_margin / 1e6
+        wheel_power_mw = force_n * n.speed_cap_m_s / 1e6
+        traction_dc_duty_mw = wheel_power_mw / a.traction_efficiency
+        traction_dc_request_mw = traction_dc_duty_mw * a.traction_rating_margin
+        traction_duty_loss_mw = traction_dc_duty_mw - wheel_power_mw
         per_leg_kwh = energy_per_km * leg_km
         if option == "station_battery":
             efficiency = a.station_charge_efficiency
@@ -246,8 +255,11 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
             overhead_track_km = powered_track_km
             energized_sections = 2 * (n.station_count - n.line_count)
             onboard_contact_sets = 6 * n.fleet_trainsets
+        collection_request_mw = (max(traction_dc_request_mw, charger_port_mw)
+                                 if option != "station_battery" else 0.0)
         train_energy_gwh_year = n.annual_train_km * energy_per_km / 1e6
         grid_energy_gwh_year = train_energy_gwh_year / efficiency
+        grid_chain_loss_gwh_year = grid_energy_gwh_year - train_energy_gwh_year
         mean_service_grid_mw = grid_energy_gwh_year * 1000 / service_hours_year
         design_grid_mw = mean_service_grid_mw * a.grid_peak_over_service_mean
         if option == "station_battery":
@@ -295,11 +307,32 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
                                              >= force_n * a.adhesion_force_margin),
                           raw_minimum_driven_axles=raw_driven,
                           dc_input_rating_request_mw=traction_dc_request_mw,
+                          wheel_power_at_declared_duty_mw=wheel_power_mw,
+                          dc_input_at_declared_duty_mw=traction_dc_duty_mw,
+                          traction_drive_loss_at_declared_duty_mw=traction_duty_loss_mw,
+                          electrical_screen={
+                              "voltage_kv_not_selected": a.electrical_screen_voltage_kv,
+                              "low_voltage_fraction": a.electrical_screen_low_voltage_fraction,
+                              "line_supply_applicable": option != "station_battery",
+                              "one_train_constant_power_current_request_ka":
+                                  collection_request_mw / a.electrical_screen_voltage_kv
+                                  if collection_request_mw else None,
+                              "one_train_low_voltage_current_request_ka":
+                                  collection_request_mw / (a.electrical_screen_voltage_kv
+                                                           * a.electrical_screen_low_voltage_fraction)
+                                  if collection_request_mw else None,
+                              "two_coincident_trains_low_voltage_request_ka":
+                                  2 * collection_request_mw / (a.electrical_screen_voltage_kv
+                                                               * a.electrical_screen_low_voltage_fraction)
+                                  if collection_request_mw else None,
+                              "section_current_rating_established": False,
+                              "feeder_and_return_circuit_modelled": False},
                           independent_braking_modelled_here=False),
             energy=dict(onboard_kwh_per_train_km=energy_per_km,
                         interstation_kwh_per_train=per_leg_kwh,
                         annual_onboard_gwh=train_energy_gwh_year,
                         annual_grid_gwh=grid_energy_gwh_year,
+                        annual_grid_chain_loss_gwh=grid_chain_loss_gwh_year,
                         grid_chain_efficiency=efficiency),
             supply=dict(overhead_track_km=overhead_track_km,
                         protected_conductor_track_km=protected_track_km,
@@ -331,7 +364,10 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
             renewal_events=renewal,
             evidence_status=dict(analytical_screen=True, route_profile_measured=False,
                                  hot_thermal_qualified=False, grid_connection_approved=False,
-                                 protected_contact_approved=False, physical_accepted=False),
+                                 protected_contact_approved=False,
+                                 section_protection_selectivity_verified=False,
+                                 return_current_and_touch_voltage_modelled=False,
+                                 physical_accepted=False),
         )
         row["evaluation_id"] = _digest(row)
         result[option] = row

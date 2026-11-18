@@ -84,6 +84,40 @@ def test_metropolitan_network_uses_its_own_fleet_and_grid_counts():
     assert all(row["common_service"]["mean_interstation_km"] < 2.3 for row in cases.values())
 
 
+def test_electrical_current_and_loss_screen_does_not_select_installed_voltage():
+    base = compare_power(FIRST)
+    selected = base["protected_conductor"]
+    screen = selected["traction"]["electrical_screen"]
+    assert selected["traction"]["dc_input_rating_request_mw"] > 5.0
+    assert screen["voltage_kv_not_selected"] == 1.5
+    assert screen["one_train_constant_power_current_request_ka"] == pytest.approx(
+        selected["supply"]["train_collection_request_mw"] / 1.5)
+    assert screen["one_train_low_voltage_current_request_ka"] == pytest.approx(
+        screen["one_train_constant_power_current_request_ka"] / 0.9)
+    assert screen["two_coincident_trains_low_voltage_request_ka"] == pytest.approx(
+        2 * screen["one_train_low_voltage_current_request_ka"])
+    assert screen["section_current_rating_established"] is False
+    assert screen["feeder_and_return_circuit_modelled"] is False
+    assert selected["traction"]["traction_drive_loss_at_declared_duty_mw"] == pytest.approx(
+        selected["traction"]["dc_input_at_declared_duty_mw"]
+        - selected["traction"]["wheel_power_at_declared_duty_mw"])
+    assert selected["energy"]["annual_grid_chain_loss_gwh"] == pytest.approx(
+        selected["energy"]["annual_grid_gwh"] - selected["energy"]["annual_onboard_gwh"])
+    assert base["station_battery"]["traction"]["electrical_screen"]["line_supply_applicable"] is False
+    assert base["station_battery"]["traction"]["electrical_screen"][
+        "one_train_constant_power_current_request_ka"] is None
+    changed_voltage = compare_power(FIRST, replace(PowerAssumptions(), electrical_screen_voltage_kv=2.0))
+    assert changed_voltage["protected_conductor"]["physical_candidate_id"] == selected["physical_candidate_id"]
+    assert changed_voltage["protected_conductor"]["evaluation_id"] != selected["evaluation_id"]
+
+
+def test_invalid_electrical_screen_is_rejected():
+    with pytest.raises(ValueError, match="Inconsistent traction"):
+        compare_power(FIRST, replace(PowerAssumptions(), electrical_screen_voltage_kv=0))
+    with pytest.raises(ValueError, match="Inconsistent traction"):
+        compare_power(FIRST, replace(PowerAssumptions(), electrical_screen_low_voltage_fraction=1.1))
+
+
 def test_invalid_service_is_rejected_before_comparison():
     with pytest.raises(ValueError, match="Inconsistent station"):
         compare_power(replace(FIRST, station_count=7))
