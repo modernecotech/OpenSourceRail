@@ -455,7 +455,7 @@ try {
   assert.equal(await page.locator("#portfolio-rows tr").count(), 10);
   assert.match(await page.locator("#portfolio-count").innerText(), /12 terminal attempts.*8 numerical residual failures.*12 mesh unresolved/);
   assert.match(await page.locator("#portfolio-evidence").innerText(), /mesh-unresolved.*physical model and strength unqualified/);
-  assert.match(await page.locator("#portfolio-facts").innerText(), /Factory person-hours.*low \/ base \/ high/i);
+  assert.match(await page.locator("#portfolio-facts").innerText(), /Factory person-hours estimate\s+[0-9.,]+/i);
   assert.equal(await page.locator('#portfolio-retention option[value="quantity"]').evaluate((option) => option.disabled), true);
   assert.equal((await context.request.get(origin + (await page.locator("#portfolio-source").getAttribute("href")))).status(), 200);
   assert.equal((await context.request.get(origin + (await page.locator("#portfolio-geometry").getAttribute("href")))).status(), 200);
