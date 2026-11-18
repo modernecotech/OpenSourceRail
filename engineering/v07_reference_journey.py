@@ -165,6 +165,7 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
             raise ValueError("Published baseline quantities do not reconcile")
     rows = list(csv.DictReader(raw[str(BASIS)].decode().splitlines()))
     priced = []
+    local_work_scopes = {}
     for row in rows:
         component = row["component"]
         if component == "twenty-percent-of-counted-direct-cost":
@@ -192,10 +193,17 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
             if (Decimal(row["quantity"]) != Decimal(str(quantity))
                     or Decimal(row["amount_usd_m"]) != Decimal(str(quantity)) * rate):
                 raise ValueError("Published capital line does not reconcile: " + component)
-        priced.append(dict(scope=row["scope"], component=component, quantity=quantity,
-                           unit=row["unit"], amount_usd_m=float(Decimal(str(quantity)) * rate),
-                           local_work_fraction=float(row["local_work_fraction"])))
+        scope = row["scope"]
+        amount = Decimal(str(quantity)) * rate
+        local_fraction = Decimal(row["local_work_fraction"])
+        if not local_fraction.is_finite() or not 0 <= local_fraction <= 1:
+            raise ValueError("Local work fraction outside 0–1: " + component)
+        local_work_scopes[scope] = local_work_scopes.get(scope, Decimal(0)) + amount * local_fraction
+        priced.append(dict(scope=scope, component=component, quantity=quantity,
+                           unit=row["unit"], amount_usd_m=float(amount),
+                           local_work_fraction=float(local_fraction)))
     direct = sum(Decimal(str(row["amount_usd_m"])) for row in priced)
+    assumed_local_work = sum(local_work_scopes.values())
     contingency_rows = [row for row in rows if row["component"] == "twenty-percent-of-counted-direct-cost"]
     if len(contingency_rows) != 1:
         raise ValueError("One direct-cost contingency required")
@@ -274,6 +282,11 @@ def evaluate(*, route_km: float = 30.0, stations: int = 12,
                   cost=dict(currency="USD", price_year=concept["price_year"],
                             direct_usd_m=float(direct), contingency_usd_m=float(contingency),
                             installed_capital_usd_m=float(installed), scope_totals_usd_m=scopes,
+                            local_work=dict(assumed_usd_m=float(assumed_local_work),
+                                            assumed_fraction_of_direct=float(assumed_local_work / direct),
+                                            scope_totals_usd_m={scope: float(amount)
+                                                                for scope, amount in local_work_scopes.items()},
+                                            basis="Planning fractions applied to direct capital. Supplier origin unverified."),
                             lines=priced, annual_energy_usd_m=round(annual_energy_usd_m, 6),
                             annual_opex_usd_m=round(annual_opex_usd_m, 6),
                             year15_renewal_usd_m=round(year15_renewal_usd_m, 6),

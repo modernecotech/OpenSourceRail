@@ -6,7 +6,7 @@
 
 Baghdad needs a railway that serves daily trips across the city, reaches the airport passenger terminal, and can grow with its population. OpenSourceRail proposes a locally buildable, repairable electric railway on standardised elevated structures. The passenger lines have **no tunnels or underground stations**. Trains draw power from a protected conductor beside the track, so the preferred design has **no overhead wires**. Iraqi factories and contractors would take an increasing share of precast concrete, vehicle bodies, stations, assembly and maintenance.
 
-The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** starts from its own nine cross-city and ring corridors, six infill corridors and through-service connections. Its 2035 construction allowance covers the complete guideway plan, while six sections remain reserved without passenger paths. Its route, fleet, station and capital totals do not inherit the 148.2 km concept. Geographic crossings may be useful interchange locations, but neither map is a construction stage of the other. Short access branches belong to through trains, with no separate shuttle fleet.
+The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** has its own nine cross-city and ring corridors, six infill corridors and proposed links. Its 2035 construction allowance covers the complete guideway plan, including six sections reserved without passenger paths. The planning service assigns access branches to through trains. The route design must resolve their connections before the timetable can be set.
 
 | Programme | Costed guideway | Stations budgeted | Train fleet | Construction capital | Target completion |
 |---|---:|---:|---:|---:|---:|
@@ -53,19 +53,21 @@ The [citywide map](maps/Baghdad-606km.png) contains 26 schematic physical sectio
 
 | Through-service groups | Citywide role |
 |---|---|
-| M01–M03 | Cross-city spines; M01 reaches Jadriya west, M02 reaches Jadriya east |
-| M04–M06 | Northwest–southeast and east–west spines; M04 reaches Sadr south and centre, M05 reaches the airport terminal |
-| M07–M09 | East–west, southeast–northwest and orbital services; M09 reaches Sadr east |
+| M01–M03 | Cross-city spines with Jadriya west assigned to M01 and Jadriya east to M02 |
+| M04–M06 | Northwest–southeast and east–west spines with Sadr south and centre assigned to M04 and the airport terminal to M05 |
+| M07–M09 | East–west, southeast–northwest and orbital services with Sadr east assigned to M09 |
 | M10–M11 | Sadr City east–west and north–south services |
 | M12–M14 | Karkh north–south, southwest cross-city and northern cross-city services |
 
-The route IDs and their physical sections are in [the network input](system.toml) and [GIS layer](maps/network-606km.geojson). The 14 named service groups have passenger-path assignments on **555.553 km** of the 605.652 km costed guideway. Five shared connectors and the east inner arc total **50.099 km** and are designated reserved non-revenue corridors. They are counted once in the civil and power budget, with no train movements, station openings or operating allowance assigned to them.
+The 14 named service groups have passenger-path assignments on **555.553 km** of the 605.652 km costed guideway. Five shared connectors and the east inner arc total **50.099 km** and are reserved without scheduled trains or station openings. The capital estimate includes **$1.122bn** in identifiable construction and related allowances for those sections. Annual operations include **$2.004m/year** in conductor upkeep. A decision to build or defer the reserve would require a new network design and estimate. See the [reserve cost breakdown](COST-AND-DELIVERY.md#reserved-citywide-guideway), [network input](system.toml) and [GIS layer](maps/network-606km.geojson).
 
 ### What the maps establish
 
 The seven-corridor lines draw 138.395 km against the investment brief's 148.2 km route-length control. The citywide linework draws 608.460 km and is normalized to a 605.652 km cost control. The [mapped station screen register](station-register.json) lists 37 first-network named access points and 220 citywide stop screens against budgets of 64 and 280 stations. These are planning points, not approved platform sites. Connected junction paths and individual stops are still needed for a dispatchable timetable and location-specific land budget. The six reserved sections have declared purposes but no passenger movement.
 
-The GIS background and district names are useful for public discussion, utility searches and corridor screening. Open imagery cannot resolve bridge clearances, foundation ground, actual property rights or platform entrances. The cost estimate uses allowances for those items rather than treating them as free.
+The junction screen finds **2.323 km and 2.710 km** between the nearest ends of the two M04 Sadr City access branches and their assigned main line. The airport branch in M05 meets the drawn end of its main line. Other access branches meet the interior of a drawn line or loop. M04 needs a revised route connection. All six access branches need an explicit track layout and train path before the service assignments can establish a timetable. See the [junction screen](system-results.json).
+
+The GIS background and district names support public discussion, utility searches and corridor screening. Bridge clearances, foundation ground, property rights and platform entrances require project investigation. The cost estimate includes allowances for these scopes.
 
 ## Trains and passenger service
 

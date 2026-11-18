@@ -148,6 +148,11 @@ locally invoiced packages. Procurement should require bill-of-material origin,
 fabrication/QA hours, tooling, training and repair capability for each major
 assembly. The 20% risk contingency has no assumed local fraction.
 
+The Workbench and `./osr reference v07` apply the same fractions to each
+scenario's scope totals. A 13-station example changes the assumed local work
+from **US$411.908m** to **US$424.203m**, or **48.1%** of the revised direct capital.
+The change comes from the fleet, station access and auxiliary grid scopes.
+
 ## Cost control and next quotation
 
 The controlled cost input is [basis.csv](basis.csv). `amount_usd_m` equals

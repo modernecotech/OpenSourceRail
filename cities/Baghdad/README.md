@@ -38,7 +38,9 @@ The airport line is planned to reach the passenger-terminal building area. Its m
 
 [Open the metropolitan map](maps/Baghdad-606km.png) · [Download its GIS layers](maps/network-606km.geojson)
 
-The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared costed guideway control; drawn lines are schematic planning corridors. Five shared links and the east inner arc total 50.099 km and are reserved non-revenue corridors without assigned train paths. The other 555.553 km has passenger-path assignments. The 934-train and annual train-distance figures are planning allowances, not a route timetable.
+The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six access branches. It has fourteen service groups and a 280-station allowance. The proposal assigns the airport terminal area to M05, Sadr City anchors to M04 and M09, and Jadriya anchors to M01 and M02. Its 605.652 km is the costed length for the schematic corridors. Five shared links and the east inner arc total 50.099 km and are reserved without assigned train paths. The other 555.553 km has planning assignments. The two M04 branches are 2.323 km and 2.710 km from their assigned main line at the nearest branch ends. The proposal describes these junction gaps and the work needed to establish a timetable.
+
+The reserve accounts for **$1.122bn within the citywide capital estimate**, and **$2.004m/year** of conductor upkeep within annual operations. The full estimate equates to **$51.214m per costed guideway kilometre** or **$55.832m per kilometre with an assigned passenger path**. See the [reserve breakdown](COST-AND-DELIVERY.md#reserved-citywide-guideway).
 
 ## People and trains
 

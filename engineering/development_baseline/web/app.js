@@ -1591,10 +1591,20 @@ byId("baghdad-system-edit").addEventListener("submit", async (event) => {
       ["Independent service power", `${row.service_power.nominal_battery_kwh_per_train.toFixed(0)} kWh/train · ${row.service_power.outage_hours.toFixed(0)} h protected duty`],
       ["Annual grid energy", `${row.energy.annual_grid_gwh.toFixed(1)} GWh`],
       ["Installed capital", `US$${(row.capital_usd_m.installed / 1000).toFixed(3)}bn`],
+      ["Capital per kilometre of costed guideway", `US$${row.capital_per_km_usd_m.costed_guideway.toFixed(3)}m/km`],
       ["30-year present cost", `US$${(row.whole_life_30y_present_usd_m / 1000).toFixed(3)}bn`],
     ];
+    if (row.network === "metropolitan") {
+      const reserve = row.reserved_guideway_capital;
+      measures.push(["Guideway assigned to passenger paths", `${row.service.passenger_path_route_km.toFixed(3)} km across ${row.service.line_count} planning groups`]);
+      measures.push(["Capital per kilometre assigned to passenger paths", `US$${row.capital_per_km_usd_m.assigned_passenger_paths.toFixed(3)}m/km, including capital for reserved guideway`]);
+      measures.push(["Reserved guideway allocation within installed capital", `${reserve.route_km.toFixed(3)} km · US$${reserve.allocated_installed_usd_m.toFixed(3)}m`]);
+      const junctions = row.map_and_service_coverage.access_branch_junction_screen;
+      const disconnected = Object.entries(junctions.branches).filter(([, branch]) => !branch.within_tolerance);
+      measures.push(["Mapped gaps at assigned branches", disconnected.map(([id, branch]) =>
+        `${branch.service_group_id} ${id}: ${(branch.distance_m / 1000).toFixed(3)} km`).join(" · ") || "No gaps outside the GIS tolerance"]);
+    }
     if (row.network === "metropolitan" && row.local_delivery) {
-      measures.push(["Independent service groups", `${row.service.line_count} citywide groups with through-service airport, Sadr City and Jadriya links`]);
       measures.push(["Iraqi contract opportunity", `US$${(row.local_delivery.planning_local_contract_usd_m / 1000).toFixed(3)}bn within capital · ${(row.local_delivery.planning_share_of_non_contingency_capital * 100).toFixed(1)}% before allowance`]);
     }
     for (const [label, value] of measures) {
@@ -1678,6 +1688,8 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
       ["Supports", (v) => format(v.civil.support_positions)],
       ["Powered cars for fleet", (v) => format(v.manufacturing.quantity_schedule.powered_cars)],
       ["Installed capital · US$ million", (v) => format(v.cost.installed_capital_usd_m)],
+      ["Assumed local work within direct capital · US$ million", (v) => format(v.cost.local_work.assumed_usd_m)],
+      ["Assumed local share of direct capital · %", (v) => format(100 * v.cost.local_work.assumed_fraction_of_direct)],
       ["Annual operation and maintenance · US$ million", (v) => format(v.cost.annual_opex_usd_m)],
       ["30-year whole-life present cost · US$ million", (v) => format(v.cost.whole_life_30y_present_usd_m)],
     ];
@@ -1698,7 +1710,11 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
       const revisedValue = revised.cost.scope_totals_usd_m[scope];
       if (!Number.isFinite(revisedValue)) throw Error("Edited cost scope differs: " + scope);
       const row = document.createElement("tr");
-      for (const item of [scope.replaceAll("-", " "), format(value), format(revisedValue)]) {
+      const referenceLocal = baseline.cost.local_work.scope_totals_usd_m[scope];
+      const editedLocal = revised.cost.local_work.scope_totals_usd_m[scope];
+      for (const item of [scope.replaceAll("-", " "), format(value), format(revisedValue),
+        referenceLocal === undefined ? "—" : format(referenceLocal),
+        editedLocal === undefined ? "—" : format(editedLocal)]) {
         const cell = document.createElement("td");
         cell.textContent = item;
         row.append(cell);

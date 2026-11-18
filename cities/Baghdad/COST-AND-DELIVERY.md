@@ -14,10 +14,10 @@ The [one candidate input file](system.toml) drives the [calculated result](syste
 | Separate support/foundation positions | 29,654 | 121,208 |
 | Protected conductor | 296.4 track-km | 1,211.304 track-km |
 | Annual train distance, declared hourly service offer | 24.666 million km | 92.466 million km |
-| Annual delivered grid energy | 993.4 GWh | 3,724.1 GWh |
+| Annual delivered grid energy | 524.313 GWh | 1,965.477 GWh |
 | **Installed capital** | **$7,865.670m** | **$31,017.749m** |
 | Annual operations, energy and maintenance | $196.978m | $780.495m |
-| **30-year present cost, 4% real** | **$14,493.325m** | **$57,214.119m** |
+| **30-year present cost, 4% real** | **$12,020.636m** | **$47,393.819m** |
 
 These are single point estimates at declared rates. They include a 20% project allowance and are designed for matched option comparison and initial procurement planning. They are not supplier bids, debt commitments or a measured construction alignment.
 
@@ -46,6 +46,12 @@ US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-
 | **Installed total** | **7,865.670** | **31,017.749** |
 
 Direct viaduct cost starts with $9m/route-km for the 10 m separate-track family and applies the train-mass-linked structural quantity factor in the [civil evaluator](../../engineering/outline/baghdad_viaduct.py). The first network's 29,640 beams and 29,654 positions count both tracks and line ends; guideway, drainage and foundations are included in that scope. Each other scope's rate and quantity rule is in the input file and calculator, including $13m/station, $8m/grid site and $8.48m/selected trainset. Revenue, debt, tax, foreign exchange and financing fees are separate from this engineering capital estimate.
+
+### Reserved citywide guideway
+
+The 50.099 km reserve accounts for **10,026 beams** and **10,038 support positions** in the 10 m separate-support case. The model assigns **$845.811m** of direct capital to these sections, including civil works, track and walkway, conductor, provisions for signalling and recovery, land and utilities, and the route-based part of tooling and recovery. Design, testing and risk allowances bring the allocation to **$1,121.545m within the $31,017.749m total**. Conductor upkeep on the reserve accounts for **$2.004m/year**. The rest of the estimate includes network-wide assets such as fleet, stations, grid sites and section switches. Deciding whether to build or defer the reserve would require a new network design and estimate.
+
+The citywide total represents **$51.214m per costed guideway kilometre** and **$55.832m per kilometre with an assigned passenger path**. Both ratios use the full installed capital numerator. The seven-corridor estimate has no reserve and uses the same length in both ratios. The [calculated result](system-results.json) reconciles the allocation and the remaining capital.
 
 ### Control equipment within the estimate
 

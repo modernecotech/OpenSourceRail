@@ -28,7 +28,7 @@ try {
   assert.match(await reference.innerText(),/US\$1,025\.2272 million/);
   assert.match(await reference.innerText(),/US\$1,667\.647 million/);
   assert.match(await reference.innerText(),/43 months/);
-  for(const label of ['Selected 13-strand digital candidate','Parent candidate fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Digital vehicle mass and CAD result','Digital civil FEM result','Digital production handoff','Fourteen-scope cost and 43-month plan','Parent assembly manufacturing BOM','Parent assembly and construction routing','Parent unposted ERPNext and QA draft']){
+  for(const label of ['Selected 13-strand digital candidate','Parent candidate fixed interfaces','System arrangement','Vehicle, civil, station and power integration','Digital vehicle mass and CAD result','Digital civil FEM result','12-station reference production handoff','Fourteen-scope cost and 43-month plan','Parent assembly manufacturing BOM','Parent assembly and construction routing','Parent unposted ERPNext and QA draft']){
     const link=reference.getByRole('link',{name:label});
     assert.equal(await link.count(),1);
     assert.equal((await page.request.get(new URL(await link.getAttribute('href'),page.url()).href)).status(),200);
@@ -50,6 +50,7 @@ try {
     await page.locator('#v07-reference-results').getAttribute('data-revised-evaluation-id'));
   assert.match(await page.locator('#v07-reference-measures').innerText(),/1,057\.57/);
   assert.match(await page.locator('#v07-reference-measures').innerText(),/1,725\.63/);
+  assert.match(await page.locator('#v07-reference-measures').innerText(),/411\.91.+424\.2/s);
   await page.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await page.locator('.atlas-service-table tbody tr').count(),5);
   assert.equal(await page.locator('.atlas-cost-table thead th').count(),2);

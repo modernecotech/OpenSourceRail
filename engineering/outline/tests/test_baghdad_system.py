@@ -96,12 +96,60 @@ def test_metropolitan_coverage_rejects_missing_or_mixed_section_purpose(change):
         _lines(ROOT, cfg, "metropolitan")
 
 
+def test_metropolitan_access_branch_junction_screen_separates_gaps_and_map_touches():
+    metro = release_summary()["networks"]["metropolitan"]
+    screen = metro["map_and_service_coverage"]["access_branch_junction_screen"]
+    branches = screen["branches"]
+    assert set(branches) == {f"B-A0{index}" for index in range(1, 7)}
+    assert screen["map_source_sha256"] == load()["map_sources"]["metropolitan_sha256"]
+    assert screen["distance_tolerance_m"] == 5.0
+    assert screen["junction_locations_established"] is False
+
+    for branch, gap in (("B-A02", 2323.35), ("B-A03", 2710.15)):
+        row = branches[branch]
+        assert row["main_route_id"] == "line-4" and row["service_group_id"] == "M04"
+        assert row["distance_m"] == pytest.approx(gap, abs=0.03)
+        assert row["within_tolerance"] is False
+
+    airport = branches["B-A01"]
+    assert airport["main_route_id"] == "line-5" and airport["service_group_id"] == "M05"
+    assert airport["distance_m"] == 0
+    assert airport["nearest_main_location"] == "terminus"
+    assert airport["within_tolerance"] is True
+    assert branches["B-A04"]["nearest_main_location"] == "closed_loop"
+    assert branches["B-A05"]["nearest_main_location"] == "interior"
+
+
 def test_public_summary_distinguishes_costed_and_passenger_path_guideway():
     metro = release_summary()["networks"]["metropolitan"]
     service = metro["selected_service_allowance"]
     assert service["costed_route_km"] == pytest.approx(605.652)
     assert service["passenger_path_route_km"] == pytest.approx(555.553, abs=0.002)
     assert service["timetable_established"] is False
+
+
+def test_reserved_guideway_capital_reconciles_with_unchanged_installed_total():
+    networks = release_summary()["networks"]
+    first = networks["first"]
+    assert first["selected_reserved_guideway_capital"]["allocated_installed_usd_m"] == 0
+    assert first["capital_per_km_usd_m"]["costed_guideway"] == first["capital_per_km_usd_m"][
+        "assigned_passenger_paths"]
+
+    metro = networks["metropolitan"]
+    reserve = metro["selected_reserved_guideway_capital"]
+    scopes = reserve["scope_rows_usd_m"]
+    assert reserve["route_km"] == pytest.approx(50.0992763863)
+    assert reserve["beam_count"] == 10026
+    assert reserve["pier_foundation_count"] == 10038
+    assert scopes["elevated_civil"] == pytest.approx(450.0267399424)
+    assert scopes["line_traction_supply"] == pytest.approx(105.2084804113)
+    assert reserve["allocated_line_maintenance_usd_m_year"] == pytest.approx(2.00397105545)
+    assert reserve["allocated_installed_usd_m"] == pytest.approx(1121.545417021)
+    assert sum(scopes.values()) == pytest.approx(reserve["allocated_installed_usd_m"])
+    assert set(scopes).isdisjoint({"vehicles", "stations_access", "grid_charging_buffers", "depots_control"})
+    assert reserve["allocated_installed_usd_m"] + reserve[
+        "installed_capital_outside_allocation_usd_m"] == pytest.approx(31017.74854223188)
+    assert metro["capital_per_km_usd_m"]["assigned_passenger_paths"] == pytest.approx(55.83223198)
 
 
 def test_service_train_distance_follows_hourly_offer_and_terminal_layover():
@@ -162,6 +210,10 @@ def test_current_public_baghdad_costs_match_the_selected_calculation():
         "cities/Baghdad/PROPOSAL.md", "cities/Baghdad/COST-AND-DELIVERY.md",
         "cities/Baghdad/README.md")]
     baseline = (ROOT / "docs/COST-BASELINE.md").read_text()
+    cost_schedule = pages[1].split("## Fourteen installed capital scopes", 1)[0]
+    summary_rows = [line.replace("**", "") for line in cost_schedule.splitlines()]
+    grid_row = next(line for line in summary_rows if line.startswith("| Annual delivered grid energy |"))
+    life_row = next(line for line in summary_rows if line.startswith("| 30-year present cost, 4% real |"))
     for name in ("first", "metropolitan"):
         selected = summary["networks"][name]
         case = selected["power_cases"][selected["digital_cost_leader"]]
@@ -170,6 +222,11 @@ def test_current_public_baghdad_costs_match_the_selected_calculation():
         annual_cost = f"${selected['selected_annual_opex_usd_m']['total']:,.3f}m"
         assert all(life in page and annual_km in page and annual_cost in page for page in pages)
         assert life in baseline
+        assert f"{case['annual_grid_gwh']:,.3f} GWh" in grid_row
+        assert f"${case['whole_life_30y_present_usd_m']:,.3f}m" in life_row
+        present = selected["selected_construction_cashflow"]["construction_start_present_cost_usd_m"]
+        assert f"${present / 1000:,.3f}bn" in pages[0] and f"${present / 1000:,.3f}bn" in pages[2]
+        assert f"${present:,.3f}m" in pages[1]
 
 
 def test_power_price_margin_and_single_power_calculation(monkeypatch):

@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from hashlib import sha256
 import json
-from math import asin, ceil, cos, isclose, radians, sin, sqrt
+from math import asin, ceil, cos, hypot, isclose, radians, sin, sqrt
 from pathlib import Path
 import tomllib
 from xml.etree import ElementTree
@@ -21,6 +21,12 @@ from engineering.outline.baghdad_viaduct import PlanningRates, SUPPORTED_SPANS_M
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = Path("cities/Baghdad/system.toml")
 SCHEMA = "opensourcerail.baghdad.joined-system.1"
+LINE_MAINTENANCE_RATE = {
+    "overhead": "overhead_per_track_km",
+    "protected_conductor": "protected_conductor_per_track_km",
+    "limited_conductor_battery": "limited_conductor_per_track_km",
+}
+MAP_JUNCTION_TOLERANCE_M = 5.0
 
 
 def _hash(path: Path) -> str:
@@ -40,6 +46,69 @@ def _geo_km(coords: list[list[float]]) -> float:
         a = sin(dp / 2) ** 2 + cos(p1) * cos(p2) * sin(dl / 2) ** 2
         total += 2 * 6371.0088 * asin(min(1.0, sqrt(a)))
     return total
+
+
+def _nearest_main_point(endpoint: list[float], main: list[list[float]]) -> dict:
+    """Project one branch endpoint onto the main line in local metric coordinates."""
+    lon, lat = endpoint
+    metres_per_degree_lat = radians(1) * 6_371_008.8
+    metres_per_degree_lon = metres_per_degree_lat * cos(radians(lat))
+    projected = [((x - lon) * metres_per_degree_lon, (y - lat) * metres_per_degree_lat)
+                 for x, y in main]
+    minimum = float("inf")
+    main_length = 0.0
+    for (ax, ay), (bx, by) in zip(projected, projected[1:]):
+        dx, dy = bx - ax, by - ay
+        segment_length = hypot(dx, dy)
+        if segment_length == 0:
+            continue
+        fraction = min(1.0, max(0.0, -(ax * dx + ay * dy) / (segment_length ** 2)))
+        x, y = ax + fraction * dx, ay + fraction * dy
+        distance = hypot(x, y)
+        if distance < minimum:
+            minimum = distance
+            nearest_point = [lon + x / metres_per_degree_lon, lat + y / metres_per_degree_lat]
+            nearest_chainage = main_length + fraction * segment_length
+        main_length += segment_length
+    if main[0] == main[-1]:
+        location = "closed_loop"
+    elif min(nearest_chainage, main_length - nearest_chainage) <= MAP_JUNCTION_TOLERANCE_M:
+        location = "terminus"
+    else:
+        location = "interior"
+    return {"distance_m": minimum, "nearest_main_point_longitude_latitude": nearest_point,
+            "nearest_main_location": location,
+            "within_tolerance": minimum <= MAP_JUNCTION_TOLERANCE_M}
+
+
+def _access_branch_junction_screen(segments: dict, groups: dict, source_sha256: str) -> dict:
+    branches = {}
+    for group, (main_id, *members) in groups.items():
+        main = segments[main_id]["geometry"]["coordinates"]
+        for branch in members:
+            feature = segments[branch]
+            if feature["properties"].get("kind") != "through_service_access":
+                continue
+            coords = feature["geometry"]["coordinates"]
+            endpoints = [{**_nearest_main_point(endpoint, main),
+                          "branch_endpoint": endpoint_name,
+                          "branch_endpoint_longitude_latitude": endpoint}
+                         for endpoint_name, endpoint in (("start", coords[0]), ("end", coords[-1]))]
+            closest = min(endpoints, key=lambda row: row["distance_m"])
+            branches[branch] = {"service_group_id": group, "main_route_id": main_id, **closest}
+    access_ids = {key for key, feature in segments.items()
+                  if feature["properties"].get("kind") == "through_service_access"}
+    if set(branches) != access_ids:
+        raise ValueError("Every mapped access branch needs a main line in its service group")
+    return {
+        "map_source_sha256": source_sha256,
+        "distance_tolerance_m": MAP_JUNCTION_TOLERANCE_M,
+        "junction_locations_established": False,
+        "basis": ("The first listed group section is the main polyline. Screen the nearest branch endpoint "
+                  "against its mapped segments. Five metres allows small digitisation differences. "
+                  "A map touch establishes neither track connectivity nor switch geometry."),
+        "branches": branches,
+    }
 
 
 def load(root: Path = ROOT, network: str | None = None) -> dict:
@@ -101,7 +170,8 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str, 
             "unassigned_sections_km": {}}
     segments = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"
                 and f["properties"].get("map_layer") == "railway route"]
-    route_ids = {f["properties"].get("route_id") for f in segments}
+    segments_by_id = {f["properties"].get("route_id"): f for f in segments}
+    route_ids = set(segments_by_id)
     groups = row["service_groups"]
     group_parts = [part for parts in groups.values() for part in parts]
     served = set(group_parts)
@@ -145,7 +215,9 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str, 
         "passenger_path_route_km": sum(passenger_km.values()),
         "non_revenue_sections_km": reserved_km,
         "non_revenue_section_purposes": dict(sorted(non_revenue.items())),
-        "unassigned_sections_km": {}}
+        "unassigned_sections_km": {},
+        "access_branch_junction_screen": _access_branch_junction_screen(
+            segments_by_id, groups, cfg["map_sources"][network + "_sha256"])}
 
 
 def _selected_input_id(cfg: dict, network: str) -> str:
@@ -526,6 +598,57 @@ def _check_vehicle_layout(cfg: dict, root: Path) -> None:
             raise ValueError("Baghdad vehicle drawing door centres differ")
 
 
+def _reserved_guideway_capital(cfg: dict, network: dict, coverage: dict,
+                              power: dict, power_price: dict, civil: dict,
+                              scopes: dict, installed: float) -> dict:
+    """Attribute costed guideway without an assigned train path within the total."""
+    reserved = coverage["non_revenue_sections_km"]
+    route_km = sum(reserved.values())
+    route_fraction = route_km / network["route_km"]
+    rates = cfg["capital_rates_usd_m"]
+    beam_count = pier_count = civil_usd_m = 0
+    if reserved:
+        reserved_civil = civil_evaluate(
+            reserved, span_m=civil["span_m"], common_pier=civil["common_pier"],
+            physical_candidate_id=power["physical_candidate_id"],
+            rates=PlanningRates(**cfg["civil_rates"]),
+            civil_start_year=network["civil_start_year"],
+            target_years=network["civil_finish_year"] - network["civil_start_year"] + 1,
+            train_crowd_mass_t=power["vehicle"]["mass_t"])
+        beam_count = reserved_civil["quantities"]["beam_count"]
+        pier_count = reserved_civil["quantities"]["pier_foundation_count"]
+        civil_usd_m = reserved_civil["prices"]["changed_elevated_scope_usd"] / 1e6
+    line_track_km = power["supply"]["line_power_track_km"]
+    allocated = {scope: scopes[scope] * route_fraction for scope in (
+        "track_walkways", "signalling_comms", "brake_protection_recovery",
+        "land_utilities_disruption")}
+    allocated.update({
+        "elevated_civil": civil_usd_m,
+        "line_traction_supply": line_track_km * route_fraction * power_price["line_unit_usd_m"],
+        "tooling_recovery": route_km * rates["tooling_and_recovery_per_route_km"],
+    })
+    direct = sum(allocated.values())
+    allocated["design_assurance"] = direct * rates["design_fraction"]
+    allocated["testing_commissioning"] = direct * rates["testing_fraction"]
+    allocated["project_allowance"] = sum(allocated.values()) * rates["project_allowance_fraction"]
+    allocated_installed = sum(allocated.values())
+    if any(amount < 0 or amount > scopes[key] + 1e-8 for key, amount in allocated.items()):
+        raise ValueError("Reserved guideway costs must be included in installed capital")
+    maintenance_rate = LINE_MAINTENANCE_RATE.get(power["option"])
+    annual_maintenance = cfg["annual_power_maintenance_usd_m"][maintenance_rate] if maintenance_rate else 0.0
+    return {
+        "route_km": route_km, "beam_count": beam_count, "pier_foundation_count": pier_count,
+        "scope_rows_usd_m": allocated, "allocated_direct_usd_m": direct,
+        "allocated_installed_usd_m": allocated_installed,
+        "installed_capital_outside_allocation_usd_m": installed - allocated_installed,
+        "allocated_line_maintenance_usd_m_year": line_track_km * route_fraction * annual_maintenance,
+        "basis": ("Allocation within the installed estimate at the same quantities and rates. "
+                  "Fleet, stations, depots, grid, fixed tooling and section switchgear stay outside "
+                  "the allocation. Any partial line-power equipment is allocated by route share. "
+                  "Deferral and removal costs require a separate project design."),
+    }
+
+
 def evaluate(network: str, supply: str, *, span_m: int = 10,
              common_pier: bool = False, root: Path = ROOT,
              _prepared: tuple | None = None) -> dict:
@@ -591,6 +714,8 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     installed = subtotal + contingency
     scopes = {**common, "design_assurance": design,
               "testing_commissioning": test, "project_allowance": contingency}
+    reserved_capital = _reserved_guideway_capital(cfg, n, coverage, power, power_price, civil,
+                                                  scopes, installed)
     local_delivery = None
     if "local_contract_fraction" in n:
         fractions = n["local_contract_fraction"]
@@ -609,13 +734,8 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                           "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital"}
     op = cfg["operation_rates"]
     m = cfg["annual_power_maintenance_usd_m"]
-    maintenance = 0.0
-    if supply == "overhead":
-        maintenance += power["supply"]["overhead_track_km"] * m["overhead_per_track_km"]
-    elif supply == "protected_conductor":
-        maintenance += power["supply"]["protected_conductor_track_km"] * m["protected_conductor_per_track_km"]
-    elif supply == "limited_conductor_battery":
-        maintenance += power["supply"]["protected_conductor_track_km"] * m["limited_conductor_per_track_km"]
+    maintenance_rate = LINE_MAINTENANCE_RATE.get(supply)
+    maintenance = power["supply"]["line_power_track_km"] * m[maintenance_rate] if maintenance_rate else 0.0
     maintenance += (power["supply"]["station_charge_ports"]
                     * power["supply"]["station_charge_port_mw"] * m["station_charger_per_mw"])
     maintenance += power["supply"]["stationary_buffer_mwh"] * m["station_buffer_per_mwh"]
@@ -690,6 +810,9 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "capital_usd_m": {"scope_rows": scopes, "direct": direct,
                           "design": design, "test": test, "project_allowance": contingency,
                           "installed": installed},
+        "reserved_guideway_capital": reserved_capital,
+        "capital_per_km_usd_m": {"costed_guideway": installed / route_km,
+                                "assigned_passenger_paths": installed / coverage["passenger_path_route_km"]},
         "operation_usd_m_year": {"energy": energy_usd_m_year,
                                  "non_energy_and_station": annual_opex - energy_usd_m_year - maintenance,
                                  "power_maintenance": maintenance, "total": annual_opex},
@@ -801,6 +924,8 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_candidate_id": selected["physical_candidate_id"],
             "selected_evaluation_id": selected["evaluation_id"],
             "selected_capital_scope_usd_m": selected["capital_usd_m"]["scope_rows"],
+            "selected_reserved_guideway_capital": selected["reserved_guideway_capital"],
+            "capital_per_km_usd_m": selected["capital_per_km_usd_m"],
             "selected_control_electronics": selected["control_electronics"],
             "selected_station_interfaces": selected["station_interfaces"],
             "selected_service_power": selected["service_power"],

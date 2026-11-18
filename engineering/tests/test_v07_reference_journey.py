@@ -34,6 +34,19 @@ class ReferenceJourneyTest(unittest.TestCase):
         self.assertEqual(len(after["cost"]["scope_totals_usd_m"]), 14)
         self.assertAlmostEqual(sum(after["cost"]["scope_totals_usd_m"].values()),
                                after["cost"]["installed_capital_usd_m"])
+        before_local = before["cost"]["local_work"]
+        after_local = after["cost"]["local_work"]
+        self.assertAlmostEqual(before_local["assumed_usd_m"], 411.9078)
+        self.assertAlmostEqual(after_local["assumed_usd_m"], 424.2028)
+        self.assertAlmostEqual(after_local["assumed_fraction_of_direct"], 424.2028 / 881.306)
+        before_local_scopes = before_local["scope_totals_usd_m"]
+        after_local_scopes = after_local["scope_totals_usd_m"]
+        self.assertNotIn("project-risk-contingency", after_local_scopes)
+        self.assertAlmostEqual(sum(after_local_scopes.values()), after_local["assumed_usd_m"])
+        self.assertEqual({scope for scope in after_local_scopes
+                          if before_local_scopes[scope] != after_local_scopes[scope]},
+                         {"rolling-stock-and-vehicle-interfaces", "stations-platforms-and-access",
+                          "auxiliary-charging-and-grid"})
         self.assertEqual(after["manufacturing"]["quantity_schedule"]["powered_six_car_sets"], 54)
         self.assertEqual(after["manufacturing"]["quantity_schedule"]["ten_metre_beams"], 6000)
         for key in ("physical_accepted", "engineering_accepted", "manufacturing_release", "operating_release"):
