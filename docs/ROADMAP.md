@@ -8,6 +8,7 @@ OpenSourceRail connects three products: city planning and service, railway engin
 |---|---|---|
 | [v0.6.1](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1) | Published open engineering platform | Passive wheel development reference, software and research tools; [installation record](releases/v0.6.1/installation-verification.md) |
 | [v0.7.0](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.7.0) | Published digital engineering package | Selected powered-wheel 30 km reference, cost, delivery, CAD/FEM evidence, production handoff and Workbench journey |
+| v0.7.1 | Baghdad and control update | Independent Baghdad networks, city-background maps, elevated offwire costing and counted control electronics |
 
 The v0.6 passive vehicle, the v0.7 synthetic 30 km railway, the Samawah case and the Baghdad protected-conductor network have separate candidate identities and cost assumptions. A change in one does not revise the others. The [v0.6 engineering findings](design-engine/v06-design-closure/README.md) and [maglev archive](archives/v0.5-maglev/manifest.json) remain historical research, outside current release checks.
 

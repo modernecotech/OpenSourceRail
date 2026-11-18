@@ -85,7 +85,7 @@ def category(name):
     if name == 'docs/images/v06/README.md':
         return 'concept-illustration-brief'
     if name in {'docs/releases/v0.6.0/README.md', 'docs/releases/v0.6.1/README.md',
-                'docs/releases/v0.7.0/README.md'}:
+                'docs/releases/v0.7.0/README.md', 'docs/releases/v0.7.1/README.md'}:
         return 'versioned-release-guide'
     if name == 'docs/engineering-models/README.md':
         return 'source-bound-engineering-model-gallery'

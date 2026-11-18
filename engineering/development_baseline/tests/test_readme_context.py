@@ -30,6 +30,7 @@ def test_separate_magnetic_method_entrypoint_uses_current_context_without_archiv
 
 def test_v06_release_readme_has_an_explicit_inventory_class():
     assert context.category('docs/releases/v0.6.0/README.md') == 'versioned-release-guide'
+    assert context.category('docs/releases/v0.7.1/README.md') == 'versioned-release-guide'
 
 
 def test_baghdad_proposal_readmes_have_a_planning_class():
