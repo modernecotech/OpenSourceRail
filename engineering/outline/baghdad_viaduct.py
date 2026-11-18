@@ -78,6 +78,9 @@ def evaluate(
     lines_km: Mapping[str, float], *, span_m: int, common_pier: bool,
     physical_candidate_id: str, rates: PlanningRates = PlanningRates(),
     target_years: float = 5.0,
+    civil_start_year: int = 2028,
+    first_year_productivity_fraction: float = 0.8,
+    later_year_availability_fraction: float = 0.9,
     train_crowd_mass_t: float = BAGHDAD_COMPARATOR_CROWD_TRAIN_T,
 ) -> dict:
     """Return one source-labelled civil option for an unchanged route/service.
@@ -93,9 +96,16 @@ def evaluate(
     if not physical_candidate_id or not isinstance(physical_candidate_id, str):
         raise ValueError("Explicit physical candidate ID required")
     _positive(target_years, "target years")
+    if not float(target_years).is_integer() or type(civil_start_year) is not int:
+        raise ValueError("Integral civil window years and start year required")
     _positive(train_crowd_mass_t, "crowd train mass")
     for key, value in asdict(rates).items():
         _positive(value, key)
+    _positive(first_year_productivity_fraction, "first year productivity fraction")
+    _positive(later_year_availability_fraction, "later year availability fraction")
+    if (first_year_productivity_fraction > 1
+            or later_year_availability_fraction > 1):
+        raise ValueError("Productivity and availability fractions cannot exceed one")
     q = _quantities(lines_km, span_m, common_pier)
     baseline = _quantities(lines_km, 10, False)
     scale = span_m / 10
@@ -116,9 +126,26 @@ def evaluate(
     direct_civil = published_elevated_scope + option_itemised - baseline_itemised
     if direct_civil <= 0:
         raise ValueError("Planning civil price must remain positive")
-    days_available = target_years * rates.workdays_per_year
-    factory_beams_per_day = q["beam_count"] / days_available
-    erection_lifts_per_day = q["lift_count"] / days_available
+    nominal_workdays = target_years * rates.workdays_per_year
+    yearly_capacity = [
+        {"year": civil_start_year + index,
+         "productive_workdays_per_yard_or_front": rates.workdays_per_year * (
+             first_year_productivity_fraction if index == 0
+             else later_year_availability_fraction)}
+        for index in range(int(target_years))
+    ]
+    effective_workdays = sum(row["productive_workdays_per_yard_or_front"]
+                             for row in yearly_capacity)
+    factory_beams_per_day = q["beam_count"] / nominal_workdays
+    erection_lifts_per_day = q["lift_count"] / nominal_workdays
+    factory_yards_without_margin = ceil(q["beam_count"] /
+                                       (nominal_workdays * rates.factory_beams_per_workday_per_yard))
+    fronts_without_margin = ceil(q["lift_count"] /
+                                 (nominal_workdays * rates.erection_lifts_per_workday_per_front))
+    factory_yards_with_margin = ceil(q["beam_count"] /
+                                    (effective_workdays * rates.factory_beams_per_workday_per_yard))
+    fronts_with_margin = ceil(q["lift_count"] /
+                              (effective_workdays * rates.erection_lifts_per_workday_per_front))
     same_section_bare_t = PARENT_BARE_BEAM_T * scale * load_ratio
     same_section_hook_t = PARENT_HOOK_WITH_ALLOWANCE_T * scale * load_ratio
     physical = {
@@ -130,6 +157,10 @@ def evaluate(
         "crowd_load_ratio_planning_surrogate": load_ratio,
         "length_and_load_scaled_material_surrogate_bare_t_per_beam": same_section_bare_t,
         "length_and_load_scaled_hook_surrogate_t_per_beam": same_section_hook_t,
+        "same_section_uniform_load_bending_demand_ratio_to_10m": scale**2 * load_ratio,
+        "same_section_uniform_load_deflection_demand_ratio_to_10m": scale**4 * load_ratio,
+        "uniform_load_ratios_are_preliminary_not_a_train_load_case": True,
+        "longer_span_section_and_prestress_redesign_required": span_m > 10,
         "reference_crane_chart_t_at_12m": 60.0,
         "surrogate_hook_below_reference_crane_chart": same_section_hook_t <= 60.0,
         "surrogate_is_a_structural_or_lift_design": False,
@@ -174,12 +205,23 @@ def evaluate(
                    "unchanged_urban_access_drainage_allowance_retained": True,
                    "structural_redesign_and_actual_ground_quote_missing": True},
         "delivery": {"target_years": target_years,
+                     "civil_start_year": civil_start_year,
+                     "civil_finish_year": civil_start_year + int(target_years) - 1,
+                     "first_year_productivity_fraction": first_year_productivity_fraction,
+                     "later_year_availability_fraction": later_year_availability_fraction,
+                     "nominal_workdays_per_yard_or_front": nominal_workdays,
+                     "effective_workdays_per_yard_or_front": effective_workdays,
+                     "yearly_capacity": yearly_capacity,
                      "factory_beams_per_workday_needed": factory_beams_per_day,
                      "erection_lifts_per_workday_needed": erection_lifts_per_day,
-                     "factory_yards_needed_at_declared_rate": ceil(factory_beams_per_day / rates.factory_beams_per_workday_per_yard),
-                     "erection_fronts_needed_at_declared_rate": ceil(erection_lifts_per_day / rates.erection_lifts_per_workday_per_front),
+                     "factory_yards_without_ramp_or_downtime": factory_yards_without_margin,
+                     "erection_fronts_without_ramp_or_downtime": fronts_without_margin,
+                     "factory_yards_needed_at_declared_rate": factory_yards_with_margin,
+                     "erection_fronts_needed_at_declared_rate": fronts_with_margin,
                      "single_yard_workdays": ceil(q["beam_count"] / rates.factory_beams_per_workday_per_yard),
                      "single_erection_front_workdays": ceil(q["lift_count"] / rates.erection_lifts_per_workday_per_front),
+                     "additional_yard_and_front_cost_usd": None,
+                     "ramp_and_availability_are_planning_assumptions": True,
                      "road_closure_days": None,
                      "factory_shifts_and_crane_availability_verified": False},
         "physical_screen": physical,

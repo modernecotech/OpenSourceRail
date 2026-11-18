@@ -61,9 +61,11 @@ def test_costed_sections_and_civil_window_are_explicit():
     assert first["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(138.395468, abs=1e-6)
     assert metro["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(608.460290, abs=1e-6)
     assert first["civil"]["delivery"]["target_years"] == 3
-    assert first["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 5
+    assert first["civil"]["delivery"]["factory_yards_without_ramp_or_downtime"] == 5
+    assert first["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 6
     assert metro["civil"]["delivery"]["target_years"] == 7
-    assert metro["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 9
+    assert metro["civil"]["delivery"]["factory_yards_without_ramp_or_downtime"] == 9
+    assert metro["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 10
 
 
 def test_power_price_margin_and_single_power_calculation(monkeypatch):
