@@ -5,7 +5,8 @@ from math import isclose
 
 import pytest
 
-from engineering.outline.baghdad_power import PowerAssumptions, PowerNetwork, compare_power
+from engineering.outline.baghdad_power import (PowerAssumptions, PowerNetwork, compare_power,
+                                               priced_protected_overhead_sensitivity)
 
 
 FIRST = PowerNetwork(
@@ -98,6 +99,10 @@ def test_electrical_current_and_loss_screen_does_not_select_installed_voltage():
         2 * screen["one_train_low_voltage_current_request_ka"])
     assert screen["section_current_rating_established"] is False
     assert screen["feeder_and_return_circuit_modelled"] is False
+    assert screen["receiving_regenerative_braking_modelled"] is False
+    assert screen["powered_section_count"] == selected["supply"]["powered_section_count"]
+    assert screen["mean_powered_section_length_km"] == pytest.approx(
+        selected["supply"]["line_power_track_km"] / selected["supply"]["powered_section_count"])
     assert selected["traction"]["traction_drive_loss_at_declared_duty_mw"] == pytest.approx(
         selected["traction"]["dc_input_at_declared_duty_mw"]
         - selected["traction"]["wheel_power_at_declared_duty_mw"])
@@ -116,6 +121,51 @@ def test_invalid_electrical_screen_is_rejected():
         compare_power(FIRST, replace(PowerAssumptions(), electrical_screen_voltage_kv=0))
     with pytest.raises(ValueError, match="Inconsistent traction"):
         compare_power(FIRST, replace(PowerAssumptions(), electrical_screen_low_voltage_fraction=1.1))
+
+
+def test_priced_protected_overhead_screen_reconciles_and_shows_rate_sensitivity():
+    from engineering.outline.baghdad_system import compare, load
+
+    cfg = load()
+    for network in ("first", "metropolitan"):
+        cases = compare(network)["power_cases"]
+        sensitivity = priced_protected_overhead_sensitivity(
+            cases["protected_conductor"], cases["overhead"],
+            conductor_price_usd_m_per_track_km=cfg["power_price_allowances_usd_m"][
+                "protected_conductor_per_track_km"],
+            conductor_maintenance_usd_m_per_track_km_year=cfg["annual_power_maintenance_usd_m"][
+                "protected_conductor_per_track_km"],
+            energy_tariff_usd_per_kwh=cfg["operation_rates"]["delivered_energy_usd_per_kwh"],
+            design_fraction=cfg["capital_rates_usd_m"]["design_fraction"],
+            testing_fraction=cfg["capital_rates_usd_m"]["testing_fraction"],
+            project_allowance_fraction=cfg["capital_rates_usd_m"]["project_allowance_fraction"],
+            line_renewal_fraction_year_25=cfg["power_assumptions"][
+                "line_equipment_renewal_fraction_year_25"],
+            discount_rate_real=cfg["discount_rate_real"], years=cfg["comparison_years"])
+        advantage = sensitivity["protected_advantage_usd_m"]
+        assert advantage == pytest.approx(
+            cases["overhead"]["whole_life_30y_present_usd_m"]
+            - cases["protected_conductor"]["whole_life_30y_present_usd_m"])
+        assert sum(sensitivity["advantage_components_usd_m"].values()) == pytest.approx(advantage)
+        assert 0 < sensitivity["protected_advantage_fraction_of_overhead"] < 0.005
+        assert 1.20 < sensitivity["conductor_equipment_break_even_usd_m_per_track_km"] < 1.21
+        screens = sensitivity["one_at_a_time_screens"]
+        assert screens["conductor_equipment_plus_10_percent"]["protected_lower_under_this_input"] is True
+        assert screens["conductor_equipment_plus_20_percent"]["protected_lower_under_this_input"] is False
+        assert screens["conductor_maintenance_plus_100_percent"]["protected_lower_under_this_input"] is False
+        assert sensitivity["procurement_winner_established"] is False
+        with pytest.raises(ValueError, match="same track length"):
+            altered = {**cases["overhead"], "supply_quantities": {
+                **cases["overhead"]["supply_quantities"], "overhead_track_km": 1}}
+            priced_protected_overhead_sensitivity(
+                cases["protected_conductor"], altered,
+                conductor_price_usd_m_per_track_km=1.05,
+                conductor_maintenance_usd_m_per_track_km_year=0.02,
+                energy_tariff_usd_per_kwh=0.12,
+                design_fraction=0.08, testing_fraction=0.025,
+                project_allowance_fraction=0.20,
+                line_renewal_fraction_year_25=0.25,
+                discount_rate_real=0.04, years=30)
 
 
 def test_invalid_service_is_rejected_before_comparison():

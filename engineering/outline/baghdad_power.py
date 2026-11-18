@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from hashlib import sha256
 import json
-from math import ceil, isfinite
+from math import ceil, isclose, isfinite
 from pathlib import Path
 
 
@@ -179,6 +179,94 @@ def _renewals(a: PowerAssumptions, fleet_battery_mwh: float,
     return events
 
 
+def priced_protected_overhead_sensitivity(
+    protected: dict, overhead: dict, *,
+    conductor_price_usd_m_per_track_km: float,
+    conductor_maintenance_usd_m_per_track_km_year: float,
+    energy_tariff_usd_per_kwh: float,
+    design_fraction: float, testing_fraction: float,
+    project_allowance_fraction: float,
+    line_renewal_fraction_year_25: float,
+    discount_rate_real: float, years: int,
+) -> dict:
+    """Decompose priced 30-year costs and vary one conductor input at a time.
+
+    All physical quantities remain those of the two supplied, fully priced
+    equal-service options. This arithmetic screen does not model new equipment,
+    procurement uncertainty distributions, feeder layouts or financing.
+    """
+    if (protected.get("supply") != "protected_conductor"
+            or overhead.get("supply") != "overhead"):
+        raise ValueError("Protected conductor and overhead priced cases required")
+    if protected["parent_candidate_id"] != overhead["parent_candidate_id"]:
+        raise ValueError("Power options must share a parent candidate")
+    protected_track_km = protected["supply_quantities"]["protected_conductor_track_km"]
+    overhead_track_km = overhead["supply_quantities"]["overhead_track_km"]
+    if not isclose(protected_track_km, overhead_track_km, rel_tol=0, abs_tol=1e-6):
+        raise ValueError("Power options must cover the same track length")
+    numeric = (conductor_price_usd_m_per_track_km,
+               conductor_maintenance_usd_m_per_track_km_year,
+               energy_tariff_usd_per_kwh, design_fraction, testing_fraction,
+               project_allowance_fraction, line_renewal_fraction_year_25,
+               discount_rate_real)
+    if (any(not isfinite(value) or value < 0 for value in numeric)
+            or conductor_price_usd_m_per_track_km == 0
+            or energy_tariff_usd_per_kwh == 0 or years < 1):
+        raise ValueError("Finite, nonnegative sensitivity inputs required")
+    annuity = sum((1 + discount_rate_real) ** -year for year in range(1, years + 1))
+    capital = overhead["capital_usd_m"]["installed"] - protected["capital_usd_m"]["installed"]
+    energy = ((overhead["operation_usd_m_year"]["energy"]
+               - protected["operation_usd_m_year"]["energy"]) * annuity)
+    maintenance = ((overhead["operation_usd_m_year"]["power_maintenance"]
+                    - protected["operation_usd_m_year"]["power_maintenance"]) * annuity)
+    other_operation = ((overhead["operation_usd_m_year"]["non_energy_and_station"]
+                        - protected["operation_usd_m_year"]["non_energy_and_station"]) * annuity)
+    renewal = (sum(row["usd_m"] / (1 + discount_rate_real) ** row["year"]
+                   for row in overhead["renewals_usd_m"])
+               - sum(row["usd_m"] / (1 + discount_rate_real) ** row["year"]
+                     for row in protected["renewals_usd_m"]))
+    advantage = (overhead["whole_life_30y_present_usd_m"]
+                 - protected["whole_life_30y_present_usd_m"])
+    if not isclose(capital + energy + maintenance + other_operation + renewal,
+                   advantage, rel_tol=1e-10, abs_tol=1e-7):
+        raise ValueError("Power cost components do not reconcile")
+    installed_multiplier = ((1 + design_fraction + testing_fraction)
+                            * (1 + project_allowance_fraction))
+    line_price_slope = (protected_track_km * installed_multiplier
+                        + protected_track_km * line_renewal_fraction_year_25
+                        / (1 + discount_rate_real) ** 25)
+    maintenance_slope = protected_track_km * annuity
+    loss_slope = protected["energy"]["annual_grid_chain_loss_gwh"] * energy_tariff_usd_per_kwh * annuity
+    renewal_slope = (protected_track_km * conductor_price_usd_m_per_track_km
+                     / (1 + discount_rate_real) ** 25)
+    variations = (
+        ("conductor_equipment_plus_10_percent", line_price_slope * conductor_price_usd_m_per_track_km * 0.10),
+        ("conductor_equipment_plus_20_percent", line_price_slope * conductor_price_usd_m_per_track_km * 0.20),
+        ("conductor_maintenance_plus_50_percent", maintenance_slope * conductor_maintenance_usd_m_per_track_km_year * 0.50),
+        ("conductor_maintenance_plus_100_percent", maintenance_slope * conductor_maintenance_usd_m_per_track_km_year),
+        ("grid_chain_losses_plus_25_percent", loss_slope * 0.25),
+        ("line_renewal_fraction_plus_25_percentage_points", renewal_slope * 0.25),
+    )
+    return {
+        "basis": "One priced protected-conductor input varied against overhead; all physical quantities and other prices fixed",
+        "protected_advantage_usd_m": advantage,
+        "protected_advantage_fraction_of_overhead": advantage / overhead["whole_life_30y_present_usd_m"],
+        "advantage_components_usd_m": {"installed_capital": capital, "energy": energy,
+                                       "power_maintenance": maintenance,
+                                       "other_operation": other_operation,
+                                       "renewals": renewal},
+        "conductor_equipment_break_even_usd_m_per_track_km":
+            conductor_price_usd_m_per_track_km + advantage / line_price_slope,
+        "one_at_a_time_screens": {
+            name: {"added_protected_present_cost_usd_m": delta,
+                   "remaining_protected_advantage_usd_m": advantage - delta,
+                   "protected_lower_under_this_input": advantage > delta}
+            for name, delta in variations},
+        "limitations": "Single-input operating-energy sensitivities hold grid-site rating, equipment quantities and vehicle mass fixed; no supplier price range, financing or physical protection rating is established",
+        "procurement_winner_established": False,
+    }
+
+
 def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAssumptions()) -> dict[str, dict]:
     """Return matched option quantities for one explicit network candidate.
 
@@ -314,6 +402,9 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
                               "voltage_kv_not_selected": a.electrical_screen_voltage_kv,
                               "low_voltage_fraction": a.electrical_screen_low_voltage_fraction,
                               "line_supply_applicable": option != "station_battery",
+                              "powered_section_count": energized_sections,
+                              "mean_powered_section_length_km":
+                                  powered_track_km / energized_sections if energized_sections else None,
                               "one_train_constant_power_current_request_ka":
                                   collection_request_mw / a.electrical_screen_voltage_kv
                                   if collection_request_mw else None,
@@ -326,7 +417,8 @@ def compare_power(network: PowerNetwork, assumptions: PowerAssumptions = PowerAs
                                                                * a.electrical_screen_low_voltage_fraction)
                                   if collection_request_mw else None,
                               "section_current_rating_established": False,
-                              "feeder_and_return_circuit_modelled": False},
+                              "feeder_and_return_circuit_modelled": False,
+                              "receiving_regenerative_braking_modelled": False},
                           independent_braking_modelled_here=False),
             energy=dict(onboard_kwh_per_train_km=energy_per_km,
                         interstation_kwh_per_train=per_leg_kwh,
