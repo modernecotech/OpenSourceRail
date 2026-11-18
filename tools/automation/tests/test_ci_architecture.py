@@ -1108,6 +1108,16 @@ class ArchitectureRoutingTests(unittest.TestCase):
                 assert '  workflow_dispatch:' in text
                 assert not re.search(r'^  (?:push|pull_request):', text, re.M)
 
+    def test_retained_research_pushes_do_not_run_on_release_tags(self):
+        for name in ('city-maps', 'halbach-scaling', 'engineering-native',
+                     'trip-dynamics', 'comfort-options', 'comfort-design'):
+            with self.subTest(workflow=name):
+                text=(ROOT / '.github/workflows' / (name + '.yml')).read_text()
+                push=text.split('  push:\n',1)[1].split('  pull_request:\n',1)[0]
+                assert '    branches: [main]\n' in push
+        trip=(ROOT / '.github/workflows/trip-dynamics.yml').read_text()
+        assert '  schedule:' not in trip
+
     def test_missing_context_helper_trigger_is_rejected(self):
         text=(ROOT / '.github/workflows/comfort-options.yml').read_text()
         for name in CONTEXT_INPUTS:

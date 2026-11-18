@@ -1,6 +1,7 @@
 name: Offline city map context
 on:
   push:
+    branches: [main]
     paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'engineering/ferrite_maglev/cities.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
   pull_request:
     paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'engineering/ferrite_maglev/cities.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
