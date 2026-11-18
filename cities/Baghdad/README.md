@@ -49,15 +49,18 @@ The independent citywide map contains nine principal corridors, five shared link
 | Offered places per hour per direction per service | 16,800 | 16,800 |
 | Active trains | 210 | 812 |
 | Fleet including reserve | 242 | 934 |
-| Annual train distance, peak-all-day upper bound on assigned paths | 46.736 million km | 175.199 million km |
+| Annual train distance, declared hourly service offer | 24.666 million km | 92.466 million km |
 | Planned daily service | 18 hours | 18 hours |
 
-The train-distance estimate runs every assigned passenger path at the peak
-interval for every service hour. It is a costing upper bound, not an hourly
-timetable. The 50.099 km of reserved citywide guideway has no train movement in
-this estimate. The zero-layover peak fleet floors are 190 and 711 trainsets;
-the declared 210 and 812 active sets are planning allowances rather than train
-rotations.
+The [hourly service offer](system-results.json) runs from 06:00 to midnight:
+four hours at 24 trains/hour/direction, eight at 12 and six at 6 on each assigned
+passenger path. It includes three minutes of layover at each terminal. Peak
+cycle needs 208 and 742 trains against active fleet allowances of 210 and 812.
+The 50.099 km of reserved citywide guideway has no train movement in this
+estimate. This is a costing schedule; individual stops, junction movements and
+passenger demand have not been established. The [mapped station screen
+register](station-register.json) lists 37 named first-network access points and
+220 citywide stop screens against budgets of 64 and 280 stations.
 
 Each train has six 17 m cars, four double doors per side per car, step-free access and two wheelchair places per car. The selected full-load mass is **201.092 tonnes**. Twenty-four powered axles provide traction under the declared uphill and low-adhesion design duty. Independent brakes and service batteries remain available for controlled stopping and recovery. The [vehicle page](VEHICLE.md) gives the car layout, equipment envelopes, assembly approach and replaceable parts.
 
@@ -72,8 +75,8 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 | Traction grid sites | 30 | 100 |
 | Depots / control centres | 4 / 2 | 12 / 4 |
 | Beam-casting yards / erection fronts with stated ramp and availability | 6 / 6 | 10 / 10 |
-| Annual delivered electricity | 993 GWh | 3,724 GWh |
-| Annual operation and maintenance estimate | $310.655m | $1,206.631m |
+| Annual delivered electricity | 524 GWh | 1,965 GWh |
+| Annual operation and maintenance estimate | $196.978m | $780.495m |
 
 The first construction family uses repeatable **10 m precast beams** on separate supports for each track. The city can compare longer spans and common piers at difficult streets, but the published price uses the 10 m family throughout. Iraqi suppliers can cast beams and piers, fabricate train bodies and interiors, assemble trains, build stations, install cable routes, and maintain the finished railway. The capital estimate includes **$99.280m** for tooling and local production setup in the first programme and **$282.261m** in the independent citywide network. Motors, power electronics, bearings, safety equipment and contact materials are separately procured items until local suppliers can qualify them.
 
@@ -114,7 +117,7 @@ The calculated 2027 present cost, with annual construction draws followed by 30 
 | Commercial banks | Construction and longer-term facilities | Borrower, completion support, repayment source and lender terms |
 | UK Export Finance with a bank | Eligible UK export contracts for equipment and services | UK content, buyer down payment, credit review, country cover and UKEF approval |
 
-The 30-year present cost of the selected railway is **$13.986bn** for the first programme and **$54.763bn** for the independent citywide network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
+The 30-year present cost of the selected railway is **$12.021bn** for the first programme and **$47.394bn** for the independent citywide network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
 
 The [proposal](PROPOSAL.md) gives the requested city decision and delivery sequence. The [cost schedule](COST-AND-DELIVERY.md) gives rates, matched power alternatives, 30-year operation and renewal costs, civil-span comparisons and annual capital draws. The [map guide](maps/README.md) identifies the GIS sources and how to use the layers.
 The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.

@@ -304,7 +304,7 @@ def render():
             paragraph = Paragraph(content, styles["BodyOSR"])
             story.append(KeepTogether([paragraph]) if content.startswith((
                 "At a <b>1.5 kV calculation setting</b>",
-                "Annual train-km use every assigned passenger path",
+                "Annual train-km use the declared hourly departure pattern",
                 "The seven-corridor illustrative loan",
             ))
                          else paragraph)
