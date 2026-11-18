@@ -109,7 +109,7 @@ The first construction family uses repeatable **10 m precast beams** on separate
 | **Installed total** | **7,865.670** | **31,017.749** |
 
 The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw) allocates first-programme construction over **2027–2031** and the independent citywide network over **2027–2035**. Its highest planned annual draw is **$2.360bn** for the first programme in 2029 and 2030, and **$5.273bn** for the independent citywide network in 2032. These are construction cash requirements before borrowing costs. Financing can combine Iraqi public capital, commercial bank facilities and export credit for eligible UK export contracts. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) applies to specific contracts and lender assessments; no UKEF commitment or loan amount is included in the capital estimate.
-The calculated 2027 present cost, with annual construction draws followed by 30 years of full operation after completion, is **$12.183bn** for seven corridors and **$42.783bn** citywide. This uses a different time origin from the headline 30-year cost and includes no staged openings or financing charges.
+The calculated 2027 present cost, with annual construction draws followed by 30 years of full operation after completion, is **$10.567bn** for seven corridors and **$37.606bn** citywide. This uses a different time origin from the headline 30-year cost and includes no staged openings or financing charges.
 
 | Capital source to develop | Contract scope | What must be settled |
 |---|---|---|

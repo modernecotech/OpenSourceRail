@@ -165,7 +165,7 @@ The seven-corridor alternative is planned for **2027–2031**. The citywide alte
 
 Each column is a standalone funding requirement and is rounded from the [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw). Debt interest, export-credit premiums and operating support are outside these construction totals.
 
-The model also shows spending and later operation on a common **2027 present-cost basis**. Discounting annual construction draws at 4% real gives **$7.152bn** and **$26.101bn** of construction present cost. Assuming full operation begins after each construction programme, the construction plus following 30 years of operating and renewal costs are **$12.183bn** and **$42.783bn** at the 2027 date. These are timing comparisons; the headline $12.021bn and $47.394bn 30-year costs use the start of full service as their reference date. Neither view assumes staged openings, signed debt, interest or fares.
+The model also shows spending and later operation on a common **2027 present-cost basis**. Discounting annual construction draws at 4% real gives **$7.152bn** and **$26.101bn** of construction present cost. Assuming full operation begins after each construction programme, the construction plus following 30 years of operating and renewal costs are **$10.567bn** and **$37.606bn** at the 2027 date. These are timing comparisons; the headline $12.021bn and $47.394bn 30-year costs use the start of full service as their reference date. Neither view assumes staged openings, signed debt, interest or fares.
 
 ## Raising the capital
 
