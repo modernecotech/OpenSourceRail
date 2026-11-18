@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from engineering.design_search import station_demonstrator
-from engineering.station_rail import vehicle
+from engineering.station_rail import propulsion_layout, station_motor, vehicle
 from engineering.design_search.demonstrator_propulsion import SELECTED, encoded, evaluate, identity
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -15,6 +15,10 @@ SOURCES = (
     'engineering/design_search/station_module_schedule.py',
     'engineering/design_search/station_demonstrator.py',
     'engineering/station_rail/vehicle.py',
+    'engineering/station_rail/propulsion_layout.py',
+    'engineering/station_rail/station_motor.py',
+    'engineering/station_rail/common.py',
+    'engineering/station_rail/__init__.py',
     'engineering/development-baseline.toml',
     'docs/design-engine/v07-demonstrator-propulsion/comparison.json',
     'docs/design-engine/v07-demonstrator-propulsion/input.json',
@@ -50,6 +54,56 @@ def schedule(root=ROOT):
     train_length=stock['cars']*stock['body_length_m']+(stock['cars']-1)*stock['coupling_gap_m']
     if stock['passenger_door_sides']!=1 or stock['onboard_traction_motors']!=0:
         raise ValueError('Passive one-sided vehicle reference required')
+    # A leading-nose command window is not a physical primary length. For the
+    # complete six-car fin set to stay engaged throughout, the first stator
+    # face starts at the rear fin's trailing edge and ends at the front fin's
+    # leading edge at the end of the command window.
+    fin_length=fin['secondary_length_m']
+    front_fin_margin=(stock['body_length_m']-fin_length)/2
+    if fin_length<=0 or front_fin_margin<0:
+        raise ValueError('Fin must fit the selected car body')
+    rear_fin_offset=train_length-front_fin_margin
+    sections=[]
+    for sid, role, window in (('departure-launch','launch',adverse['powered_windows_m'][0]),
+                               ('midroute-booster','boost',adverse['powered_windows_m'][1])):
+        lo,hi=window
+        start=lo-rear_fin_offset
+        length=hi-front_fin_margin-start
+        sections.append(dict(section_id=sid,start_m=start,length_m=length,role=role))
+    unit=station_motor.definition()
+    minimum_layout=propulsion_layout.layout(
+        candidate_id=adverse['railway_research_configuration_id'],
+        body_candidate_id=v['body_candidate_id'],
+        passive_interface_id=v['propulsion_component_id'],
+        sections=sections,module_length_m=unit['addressed_module_length_m'],
+        module_policy='whole-period-tail',directions=1,
+        independent_branches_per_direction=1,
+        magnetic_period_m=unit['wavelength_m'],faces_per_track=2,root=root)
+    minimum_stock=propulsion_layout.quantities(minimum_layout,unit,root=root)
+    if (minimum_layout['candidate_id']!=adverse['railway_research_configuration_id']
+            or minimum_stock['candidate_id']!=minimum_layout['candidate_id']):
+        raise ValueError('Minimum primary stock mixed research candidates')
+    minimum_sections={r['section_id']:r for r in minimum_layout['sections']}
+    minimum_primary=dict(
+        scope='One direction, two primary faces, full engagement of all six 9 m fins throughout each leading-nose command window',
+        research_configuration_id=adverse['railway_research_configuration_id'],
+        selected_vehicle_candidate_id=SELECTED,
+        body_candidate_id=v['body_candidate_id'],
+        passive_interface_id=v['propulsion_component_id'],
+        layout_id=minimum_layout['layout_id'],
+        physical_layout_id=minimum_layout['physical_layout_id'],
+        stock_evaluation_id=minimum_stock['evaluation_id'],
+        installed_primary_candidate_id=minimum_stock['installed_primary_candidate_id'],
+        train_fin_span_m=train_length-2*front_fin_margin,
+        front_fin_margin_m=front_fin_margin,
+        module_length_m=unit['addressed_module_length_m'],
+        sections=minimum_layout['sections'],totals=minimum_layout['totals'],
+        bare_stock_kg=minimum_stock['stock'],
+        actual_installed_primary_length_m=None,
+        complete_installed_primary_mass_kg=None,
+        converter_and_cooling_mass_kg=None,
+        installed_price_usd=None,
+        available_moving_force_verified=False)
     source_sha={p:sha256((root/p).read_bytes()).hexdigest() for p in SOURCES}
     no_reaction=inputs['model']['speed_cap_m_s']**2/(2*inputs['model']['independent_stop_target_m_s2'])
     reaction_s=1.0 # explicit quotation sensitivity, not an approved reaction time
@@ -66,18 +120,23 @@ def schedule(root=ROOT):
             reserved_length_m=length,selected=False,installed_brake_length_m=None,
             nose_stop_margin_with_illustrative_reaction_m=length-with_reaction,
             full_train_engagement_margin_m=length-full_train_engagement_minimum,
+            nonnegative_full_train_geometric_screen=length>=full_train_engagement_minimum,
+            first_nonnegative_full_train_geometric_screen=(length==550),
             grade_and_adhesion_screen='held: 2% downgrade needs more than inherited mu=0.05',
             full_load_hot_fault_stop_verified=False,
             civil_station_quantity_and_price_effect=None))
-    def item(name, demand_basis, *, unit='assembly', installed_quantity=None, rating=None):
+    def item(name, demand_basis, *, unit='assembly', installed_quantity=None,
+             minimum_quote_quantity=None, rating=None):
         return dict(id=name, demand_basis=demand_basis, quote_unit=unit,
-                    installed_quantity=installed_quantity, supplier_rating=rating,
+                    installed_quantity=installed_quantity,
+                    minimum_quote_quantity=minimum_quote_quantity,
+                    supplier_rating=rating,
                     installed_mass_kg=None, installed_price_usd=None,
                     source_origin=None, local_make_buy=None,
                     maintenance_clearance_m=None, replacement_time_h=None)
     items=[
-        item('station-launch-primary', '500 m full-engagement leading-nose command window; physical stator extent and group overlap unresolved',unit='m of installed primary'),
-        item('midroute-booster-primary', '250 m full-engagement leading-nose command window at chainage 1000–1250 m; physical stator extent unresolved',unit='m of installed primary'),
+        item('station-launch-primary', '500 m leading-nose command window; complete six-car fin engagement adds occupied train length to the minimum primary extent',unit='m of installed primary',minimum_quote_quantity=minimum_sections['departure-launch']['installed_length_m']),
+        item('midroute-booster-primary', '250 m leading-nose command window at chainage 1000–1250 m; complete fin engagement needs a longer physical primary',unit='m of installed primary',minimum_quote_quantity=minimum_sections['midroute-booster']['installed_length_m']),
         item('receiving-independent-brake-and-parking',
              f'350/400/450/550 m research reservations; at least {full_train_engagement_minimum:.1f} m before uncertainty if full train engagement precedes braking'),
         item('phase-group-converters-and-dc-link', 'Separate commanded launch/booster windows; group count, simultaneous trains and phase branches to be designed'),
@@ -97,7 +156,9 @@ def schedule(root=ROOT):
                           launch_command_window_m=[0,500],booster_command_window_m=[1000,1250],
                           receiving_reservation_m=receiving_reservation_m,
                           actual_installed_primary_m=None,actual_receiving_brake_m=None,
+                          full_engagement_minimum_primary=minimum_primary,
                           receiving_revision_candidates=receiving_alternatives,
+                          first_nonnegative_full_train_geometric_research_reservation_m=550,
                           full_train_length_m=train_length,train_cars=stock['cars'],
                           one_sided_passenger_doors_per_train=stock['cars']*stock['passenger_doors_per_car'],
                           platform_side_and_door_datum=None),

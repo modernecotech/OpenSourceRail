@@ -1,0 +1,127 @@
+{
+  "communication_transport_and_protocol": null,
+  "equipment_item_count": 11,
+  "evaluation_id": "9ec5da2aee867713db388e7b64fceedd25ead65ea169370ef6e521d29aaf71df",
+  "installed_software_versions": null,
+  "interfaces": [
+    {
+      "id": "occupancy-to-interlocking",
+      "on_missing": "Treat section occupancy as unknown; withhold new movement authority",
+      "required_equipment": [
+        "train-detection-route-km",
+        "section-control-gateway"
+      ],
+      "role": "safety_feedback",
+      "sink": "interlocking",
+      "source": "train-detection"
+    },
+    {
+      "id": "authority-to-atp",
+      "on_missing": "Inhibit traction and request a protected stop within the valid authority envelope",
+      "required_equipment": [
+        "atp-channel",
+        "train-radio-link"
+      ],
+      "role": "safety_authority",
+      "sink": "train-atp",
+      "source": "interlocking"
+    },
+    {
+      "id": "door-lock-to-atp",
+      "on_missing": "Withhold traction permission and prevent departure",
+      "required_equipment": [
+        "door-controller",
+        "atp-channel"
+      ],
+      "role": "safety_feedback",
+      "sink": "train-atp",
+      "source": "door-control"
+    },
+    {
+      "id": "atp-to-independent-brake",
+      "on_missing": "Request protected stop; brake energy and physical response require qualification",
+      "required_equipment": [
+        "atp-channel",
+        "bogie-brake-controller",
+        "train-service-power-unit"
+      ],
+      "role": "safety_command",
+      "sink": "bogie-brake-control",
+      "source": "train-atp"
+    },
+    {
+      "id": "station-dispatch-request",
+      "on_missing": "Withhold departure; station request cannot create movement authority",
+      "required_equipment": [
+        "station-dispatch-controller",
+        "section-control-gateway"
+      ],
+      "role": "safety_request",
+      "sink": "interlocking",
+      "source": "station-dispatch"
+    },
+    {
+      "id": "supply-protection-status",
+      "on_missing": "Inhibit powered traction; retain independent stopping provision",
+      "required_equipment": [
+        "grid-protection-gateway",
+        "car-control-node"
+      ],
+      "role": "safety_feedback",
+      "sink": "train-control",
+      "source": "grid-protection"
+    },
+    {
+      "id": "train-status-to-fuxa",
+      "on_missing": "Display status as unavailable; no movement or brake authority transferred",
+      "required_equipment": [
+        "car-control-node",
+        "train-radio-link"
+      ],
+      "role": "observation",
+      "sink": "fuxa-gateway",
+      "source": "train-control"
+    },
+    {
+      "id": "station-status-to-fuxa",
+      "on_missing": "Display station status as unavailable; protected departure stays local",
+      "required_equipment": [
+        "station-dispatch-controller"
+      ],
+      "role": "observation",
+      "sink": "fuxa-gateway",
+      "source": "station-dispatch"
+    },
+    {
+      "id": "incident-to-erp",
+      "on_missing": "Mark lifecycle record pending; do not infer equipment acceptance",
+      "required_equipment": [],
+      "role": "business_record",
+      "sink": "erpnext",
+      "source": "fuxa-gateway"
+    },
+    {
+      "id": "service-to-passenger-display",
+      "on_missing": "Display service information as unavailable; protection remains independent",
+      "required_equipment": [
+        "car-control-node"
+      ],
+      "role": "passenger_information",
+      "sink": "passenger-information",
+      "source": "train-control"
+    }
+  ],
+  "live_control_enabled": false,
+  "passenger_display_equipment_quantity": null,
+  "passenger_display_price_usd_m": null,
+  "physical_candidate_id": "osr-v07-joined-civil-518dad57a3af5046f40c8f4f",
+  "physical_connector_pinout": null,
+  "safety_qualification": false,
+  "schema": "osr-v07-logical-control-interfaces/1",
+  "selection_id": "osr-v07-digital-design-20261117",
+  "source_selection_evaluation_id": "osr-v07-digital-interface-20261117",
+  "source_sha256": {
+    "control-electronics/reference-v07.toml": "9b4ca8e05cff2c967b7e4ab0cdc376d53250a20b7d82f89737290f1d842d373f",
+    "docs/reference-v07/digital/selected.toml": "89cae255f3aa018dd03f9fc50ef087ad50d7601ee351ee74f978fd894531d248"
+  }
+}

@@ -295,10 +295,10 @@ def compile_handoff() -> dict:
         "withheld_documents": ["Purchase Order", "Purchase Receipt", "Work Order", "Stock Entry", "Installation Record", "Asset Repair"],
         "reason": "Joined planning ID is not the existing adapter's sealed 13-hash proposal; child specifications, approved limits, suppliers, native masters and authenticated reviews are absent",
     }
-    return {
+    handoff = {
         "schema": "osr-v07-digital-production-handoff/1",
         "physical_candidate_id": selected_id,
-        "evaluation_id": selected["evaluation_id"],
+        "source_selection_evaluation_id": selected["evaluation_id"],
         "selection_id": selected["selection_id"],
         "parent_joined_physical_candidate_id": joined_id,
         "parent_joined_evaluation_id": joined["evaluation_id"],
@@ -337,6 +337,10 @@ def compile_handoff() -> dict:
                            "fabrication_release": False, "supplier_quote_received": False,
                            "native_erp_transaction": False},
     }
+    handoff["evaluation_id"] = sha256(json.dumps(
+        handoff, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False).encode()).hexdigest()
+    return handoff
 
 
 def main() -> None:
