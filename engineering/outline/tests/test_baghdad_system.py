@@ -104,6 +104,21 @@ def test_public_summary_distinguishes_costed_and_passenger_path_guideway():
     assert service["timetable_established"] is False
 
 
+def test_service_train_distance_is_bounded_by_assigned_paths_and_peak_headway():
+    for name, served_km, fleet_floor in (("first", 148.2, 190),
+                                          ("metropolitan", 555.5527236136894, 711)):
+        row = evaluate(name, "protected_conductor")
+        service = row["service"]
+        duty = service["service_duty"]
+        assert service["annual_train_km"] == pytest.approx(
+            2 * served_km * 3600 / 150 * 18 * 365)
+        assert duty["peak_fleet_zero_layover_lower_bound"] == fleet_floor
+        assert duty["former_allowance_exceeded_peak_frequency_bound"] is True
+        assert service["active_trainsets"] >= fleet_floor
+        assert "upper bound" in service["annual_train_km_basis"]
+        assert service["timetable_established"] is False
+
+
 def test_construction_cashflow_reconciles_without_assuming_a_loan_or_opening():
     for name, start, finish in (("first", 2027, 2031), ("metropolitan", 2027, 2035)):
         row = evaluate(name, "protected_conductor")
@@ -129,9 +144,9 @@ def test_power_price_margin_and_single_power_calculation(monkeypatch):
     rows = system.compare("first")
     assert len(calls) == 1
     margin = rows["power_cost_sensitivity"]
-    assert margin["protected_advantage_usd_m"] == pytest.approx(66.644, abs=0.01)
-    assert margin["protected_price_uplift_to_overhead_usd_m_per_track_km"] == pytest.approx(0.15837, abs=1e-4)
-    assert margin["extra_annual_maintenance_to_overhead_usd_m_per_track_km"] == pytest.approx(0.013, abs=1e-4)
+    assert margin["protected_advantage_usd_m"] == pytest.approx(63.700, abs=0.01)
+    assert margin["protected_price_uplift_to_overhead_usd_m_per_track_km"] == pytest.approx(0.15137, abs=1e-4)
+    assert margin["extra_annual_maintenance_to_overhead_usd_m_per_track_km"] == pytest.approx(0.012428, abs=1e-4)
 
 
 def test_metropolitan_route_and_economics_are_standalone(tmp_path: Path):

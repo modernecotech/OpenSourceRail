@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from hashlib import sha256
 import json
-from math import asin, cos, isclose, radians, sin, sqrt
+from math import asin, ceil, cos, isclose, radians, sin, sqrt
 from pathlib import Path
 import tomllib
 from xml.etree import ElementTree
@@ -158,6 +158,38 @@ def _selected_input_id(cfg: dict, network: str) -> str:
         selected["waypoints"] = {key: cfg["map_sources"]["waypoints_" + key]
                                   for key in ("path", "sha256")}
     return _id(selected)
+
+
+def _service_duty(cfg: dict, network: str, lines: dict[str, float], coverage: dict) -> dict:
+    """Bound train distance by named passenger paths and the declared peak headway.
+
+    There is no stop sequence or junction graph from which to build a clockface
+    timetable. Running every path at peak frequency throughout the declared
+    service window is therefore a transparent upper bound, not a demand case.
+    """
+    n, v = cfg["networks"][network], cfg["vehicle"]
+    groups = (lines if network == "first" else
+              {name: sum(lines[part] for part in parts)
+               for name, parts in n["service_groups"].items()})
+    served_km = sum(groups.values())
+    if not isclose(served_km, coverage["passenger_path_route_km"], abs_tol=1e-6):
+        raise ValueError("Baghdad service paths differ from mapped passenger guideway")
+    trains_per_hour_direction = 3600 / v["peak_headway_s"]
+    yearly_km = (2 * served_km * trains_per_hour_direction
+                 * v["service_hours_per_day"] * v["service_days_per_year"])
+    peak_fleet_floor = sum(ceil(2 * length / v["commercial_speed_kmh"]
+                                * trains_per_hour_direction) for length in groups.values())
+    if n["active_trainsets"] < peak_fleet_floor:
+        raise ValueError("Baghdad active fleet below zero-layover peak service lower bound")
+    former_allowance = (n["active_trainsets"] * v["commercial_speed_kmh"]
+                        * v["service_hours_per_day"] * v["service_days_per_year"])
+    return {"annual_train_km": yearly_km,
+            "passenger_path_km_by_service_group": dict(sorted(groups.items())),
+            "peak_fleet_zero_layover_lower_bound": peak_fleet_floor,
+            "active_fleet_above_lower_bound": n["active_trainsets"] - peak_fleet_floor,
+            "former_fleet_utilisation_allowance_train_km": former_allowance,
+            "former_allowance_exceeded_peak_frequency_bound": former_allowance > yearly_km,
+            "basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established"}
 
 
 def _power_cost(case: dict, cfg: dict, network: dict) -> dict:
@@ -447,8 +479,9 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     n = cfg["networks"][network]
     v = cfg["vehicle"]
     station_interfaces = _station_interfaces(cfg)
-    annual_train_km = (n["active_trainsets"] * v["commercial_speed_kmh"]
-                       * v["service_hours_per_day"] * v["service_days_per_year"])
+    lines, length_basis, coverage = _prepared[1] if _prepared is not None else _lines(root, cfg, network)
+    duty = _service_duty(cfg, network, lines, coverage)
+    annual_train_km = duty["annual_train_km"]
     power_network = PowerNetwork(
         candidate_id=cfg["candidate_id"] + "-" + network,
         normal_places_per_train=v["normal_places_per_train"],
@@ -463,7 +496,6 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         service_days_per_year=v["service_days_per_year"])
     power = (_prepared[2][supply] if _prepared is not None else
              compare_power(power_network, PowerAssumptions(**cfg["power_assumptions"]))[supply])
-    lines, length_basis, coverage = _prepared[1] if _prepared is not None else _lines(root, cfg, network)
     civil = civil_evaluate(lines, span_m=span_m, common_pier=common_pier,
                            physical_candidate_id=power["physical_candidate_id"],
                            rates=PlanningRates(**cfg["civil_rates"]),
@@ -577,7 +609,8 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                     "offered_places_per_hour_direction": v["normal_places_per_train"] * 3600 / v["peak_headway_s"],
                     "offered_places_basis": "per service group at nominal peak headway; network timetable not established",
                     "annual_train_km": annual_train_km,
-                    "annual_train_km_basis": "active fleet x commercial speed x service hours x service days; planning allowance, not a route timetable",
+                    "annual_train_km_basis": duty["basis"],
+                    "service_duty": duty,
                     "active_trainsets": n["active_trainsets"],
                     "fleet_trainsets": n["fleet_trainsets"],
                     "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
@@ -620,8 +653,8 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
 def compare(network: str, root: Path = ROOT) -> dict:
     cfg = load(root, network=network)
     n, v = cfg["networks"][network], cfg["vehicle"]
-    annual_train_km = (n["active_trainsets"] * v["commercial_speed_kmh"]
-                       * v["service_hours_per_day"] * v["service_days_per_year"])
+    prepared_lines = _lines(root, cfg, network)
+    annual_train_km = _service_duty(cfg, network, prepared_lines[0], prepared_lines[2])["annual_train_km"]
     power_network = PowerNetwork(
         candidate_id=cfg["candidate_id"] + "-" + network,
         normal_places_per_train=v["normal_places_per_train"],
@@ -634,7 +667,7 @@ def compare(network: str, root: Path = ROOT) -> dict:
         speed_cap_m_s=v["speed_cap_kmh"] / 3.6,
         service_hours_per_day=v["service_hours_per_day"],
         service_days_per_year=v["service_days_per_year"])
-    prepared = (cfg, _lines(root, cfg, network),
+    prepared = (cfg, prepared_lines,
                 compare_power(power_network, PowerAssumptions(**cfg["power_assumptions"])))
     fixed_span = cfg["selected_span_m"]
     fixed_common = cfg["selected_pier_family"] == "common-crosshead"
