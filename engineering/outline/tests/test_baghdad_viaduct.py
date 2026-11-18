@@ -1,7 +1,7 @@
 """Checks for the Baghdad two-track civil quantity/cost handoff."""
 import pytest
 
-from engineering.outline.baghdad_viaduct import evaluate
+from engineering.outline.baghdad_viaduct import PlanningRates, evaluate
 
 
 FIRST = {
@@ -72,6 +72,14 @@ def test_civil_window_has_explicit_ramp_and_availability_margin():
     assert delivery["factory_yards_needed_at_declared_rate"] == 6
     assert delivery["erection_fronts_needed_at_declared_rate"] == 6
     assert delivery["additional_yard_and_front_cost_usd"] is None
+    monthly = delivery["monthly_delivery"]
+    assert len(monthly["months"]) == 36
+    assert monthly["beam_release_lag_months"] == 1
+    assert monthly["months"][0]["beams_released"] == 0
+    assert monthly["months"][0]["beams_erected"] == 0
+    assert monthly["beams_cast"] == monthly["beams_released"] == monthly["beams_erected"] == 29_640
+    assert monthly["completed_in_civil_window"]
+    assert not monthly["utility_access_and_road_closure_calendar_modelled"]
 
 
 def test_7_year_window_keeps_same_selected_10m_quantities_and_more_capacity():
@@ -82,6 +90,22 @@ def test_7_year_window_keeps_same_selected_10m_quantities_and_more_capacity():
     assert delivery["effective_workdays_per_yard_or_front"] == pytest.approx(1550)
     assert delivery["factory_yards_needed_at_declared_rate"] > delivery["factory_yards_without_ramp_or_downtime"]
     assert delivery["erection_fronts_needed_at_declared_rate"] > delivery["erection_fronts_without_ramp_or_downtime"]
+    assert len(delivery["monthly_delivery"]["months"]) == 84
+    assert delivery["monthly_delivery"]["completed_in_civil_window"]
+
+
+def test_longer_release_lag_changes_planning_resources_without_changing_physical_beam():
+    one_month = evaluate(FIRST, span_m=10, common_pier=False,
+                         physical_candidate_id="same-beam", target_years=3)
+    two_month = evaluate(FIRST, span_m=10, common_pier=False,
+                         physical_candidate_id="same-beam", target_years=3,
+                         rates=PlanningRates(beam_release_lag_months=2))
+    assert one_month["quantities"] == two_month["quantities"]
+    assert one_month["civil_option_physical_id"] == two_month["civil_option_physical_id"]
+    assert two_month["delivery"]["factory_yards_needed_at_declared_rate"] == 7
+    assert two_month["delivery"]["erection_fronts_needed_at_declared_rate"] == 7
+    assert two_month["delivery"]["monthly_delivery"]["completed_in_civil_window"]
+    assert one_month["evaluation_id"] != two_month["evaluation_id"]
 
 
 def test_added_train_storage_mass_propagates_to_load_lift_and_civil_price():
@@ -109,3 +133,6 @@ def test_rejects_undefined_geometry_and_loading():
     with pytest.raises(ValueError):
         evaluate(FIRST, span_m=10, common_pier=False, physical_candidate_id="x",
                  first_year_productivity_fraction=1.1)
+    with pytest.raises(ValueError):
+        evaluate(FIRST, span_m=10, common_pier=False, physical_candidate_id="x",
+                 rates=PlanningRates(beam_release_lag_months=0))

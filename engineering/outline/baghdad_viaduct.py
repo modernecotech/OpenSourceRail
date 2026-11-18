@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from hashlib import sha256
-from math import ceil, isfinite
+from math import ceil, floor, isfinite
 import json
 from typing import Mapping
 
@@ -39,6 +39,7 @@ class PlanningRates:
     factory_beams_per_workday_per_yard: float = 8.0
     erection_lifts_per_workday_per_front: float = 8.0
     workdays_per_year: int = 250
+    beam_release_lag_months: int = 1
 
 
 def _identity(value: object) -> str:
@@ -74,6 +75,50 @@ def _quantities(lines_km: Mapping[str, float], span_m: int, common_pier: bool) -
             "bearing_unit_allowance": 4 * sum(row["beams_and_lifts"] for row in rows)}
 
 
+def _monthly_delivery(beam_count: int, rates: PlanningRates, years: int, start_year: int,
+                      first_year_fraction: float, later_fraction: float,
+                      yards: int, fronts: int) -> dict:
+    """Bound beam casting and erection with a declared release lag.
+
+    First-year monthly output rises linearly to full monthly capacity while
+    averaging the declared first-year productivity. Later months use the
+    declared availability. Uniform nominal workdays are a planning calendar,
+    not a site-specific construction programme.
+    """
+    produced_by_month: list[int] = []
+    monthly: list[dict] = []
+    released_total = erected_total = produced_total = 0
+    for index in range(years * 12):
+        year, month = start_year + index // 12, index % 12 + 1
+        if index < 12:
+            fraction = 1 - 2 * (1 - first_year_fraction) * (1 - (month - 0.5) / 12)
+        else:
+            fraction = later_fraction
+        productive_days = rates.workdays_per_year / 12 * fraction
+        cast = min(beam_count - produced_total,
+                   floor(productive_days * rates.factory_beams_per_workday_per_yard * yards + 1e-9))
+        produced_by_month.append(cast)
+        produced_total += cast
+        released = (produced_by_month[index - rates.beam_release_lag_months]
+                    if index >= rates.beam_release_lag_months else 0)
+        released_total += released
+        lift = min(beam_count - erected_total, released_total - erected_total,
+                   floor(productive_days * rates.erection_lifts_per_workday_per_front * fronts + 1e-9))
+        erected_total += lift
+        monthly.append({"year": year, "month": month,
+                        "productive_workdays_per_yard_or_front": productive_days,
+                        "beams_cast": cast, "beams_released": released,
+                        "beams_erected": lift,
+                        "cast_beams_awaiting_release": produced_total - released_total,
+                        "released_beams_awaiting_erection": released_total - erected_total})
+    return {"months": monthly, "beams_cast": produced_total,
+            "beams_released": released_total, "beams_erected": erected_total,
+            "completed_in_civil_window": erected_total == beam_count,
+            "beam_release_lag_months": rates.beam_release_lag_months,
+            "release_lag_is_a_planning_allowance": True,
+            "utility_access_and_road_closure_calendar_modelled": False}
+
+
 def evaluate(
     lines_km: Mapping[str, float], *, span_m: int, common_pier: bool,
     physical_candidate_id: str, rates: PlanningRates = PlanningRates(),
@@ -101,11 +146,13 @@ def evaluate(
     _positive(train_crowd_mass_t, "crowd train mass")
     for key, value in asdict(rates).items():
         _positive(value, key)
+    if type(rates.beam_release_lag_months) is not int or rates.beam_release_lag_months >= int(target_years) * 12:
+        raise ValueError("Integral beam release lag shorter than civil window required")
     _positive(first_year_productivity_fraction, "first year productivity fraction")
     _positive(later_year_availability_fraction, "later year availability fraction")
-    if (first_year_productivity_fraction > 1
+    if (first_year_productivity_fraction < 0.5 or first_year_productivity_fraction > 1
             or later_year_availability_fraction > 1):
-        raise ValueError("Productivity and availability fractions cannot exceed one")
+        raise ValueError("Linear first-year ramp needs a 0.5–1.0 mean; later availability at most one")
     q = _quantities(lines_km, span_m, common_pier)
     baseline = _quantities(lines_km, 10, False)
     scale = span_m / 10
@@ -132,8 +179,7 @@ def evaluate(
          "productive_workdays_per_yard_or_front": rates.workdays_per_year * (
              first_year_productivity_fraction if index == 0
              else later_year_availability_fraction)}
-        for index in range(int(target_years))
-    ]
+        for index in range(int(target_years))]
     effective_workdays = sum(row["productive_workdays_per_yard_or_front"]
                              for row in yearly_capacity)
     factory_beams_per_day = q["beam_count"] / nominal_workdays
@@ -146,6 +192,21 @@ def evaluate(
                                     (effective_workdays * rates.factory_beams_per_workday_per_yard))
     fronts_with_margin = ceil(q["lift_count"] /
                               (effective_workdays * rates.erection_lifts_per_workday_per_front))
+    monthly_delivery = _monthly_delivery(q["beam_count"], rates, int(target_years),
+                                         civil_start_year, first_year_productivity_fraction,
+                                         later_year_availability_fraction,
+                                         factory_yards_with_margin, fronts_with_margin)
+    # The annual capacity lower bounds may miss the release lag. Increase both
+    # planning resources until the cast/released/lifted chain closes in-window.
+    while not monthly_delivery["completed_in_civil_window"]:
+        factory_yards_with_margin += 1
+        fronts_with_margin += 1
+        if max(factory_yards_with_margin, fronts_with_margin) > q["beam_count"]:
+            raise ValueError("Monthly civil production cannot close at declared rates")
+        monthly_delivery = _monthly_delivery(q["beam_count"], rates, int(target_years),
+                                             civil_start_year, first_year_productivity_fraction,
+                                             later_year_availability_fraction,
+                                             factory_yards_with_margin, fronts_with_margin)
     same_section_bare_t = PARENT_BARE_BEAM_T * scale * load_ratio
     same_section_hook_t = PARENT_HOOK_WITH_ALLOWANCE_T * scale * load_ratio
     physical = {
@@ -212,6 +273,7 @@ def evaluate(
                      "nominal_workdays_per_yard_or_front": nominal_workdays,
                      "effective_workdays_per_yard_or_front": effective_workdays,
                      "yearly_capacity": yearly_capacity,
+                     "monthly_delivery": monthly_delivery,
                      "factory_beams_per_workday_needed": factory_beams_per_day,
                      "erection_lifts_per_workday_needed": erection_lifts_per_day,
                      "factory_yards_without_ramp_or_downtime": factory_yards_without_margin,
