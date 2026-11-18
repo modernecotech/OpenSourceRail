@@ -6,11 +6,13 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 [Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
-The Rust workspace contains research libraries for ATP, interlocking, OCC,
-TCMS, station control, train-to-ground communication, doors, passenger
-information, auxiliary power, energy, braking-related protection, event
-recording and lifecycle identity. The selected v0.6 candidate reuses control
-libraries through [candidate-bound wheel/station interface checks](../engineering/station_rail/controls.py).
+The control workspace contains modules for ATP, interlocking, the control room,
+train control, station dispatch, train-to-ground communication, doors,
+passenger information, auxiliary power, braking protection and event records.
+Their place in the current wheel railway, equipment counts and cost allocation
+are set out in the [control electronics schedule](../control-electronics/README.md).
+The passive v0.6 reference uses [wheel and station interface checks](../engineering/station_rail/controls.py).
+The maglev controller is retained research and does not drive the current train.
 
 These libraries and checks support software development. They do not qualify
 physical brakes, sensing, localisation, communications, equipment timing,

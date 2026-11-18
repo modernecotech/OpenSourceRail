@@ -34,6 +34,35 @@ speed_cap_kmh = 72
 energy_kwh_per_train_km_overhead_comparator = 20
 peak_traction_input_mw_overhead_comparator = 5.0
 
+# Control equipment is a counted allocation inside the vehicle, station,
+# signalling, grid and control-centre prices below. It is not added to capital.
+[control_electronics]
+atp_channels_per_train = 2
+radio_links_per_train = 2
+tcms_nodes_per_car = 1
+door_controllers_per_opening = 1
+brake_controllers_per_bogie = 1
+train_service_power_units = 2
+station_dispatch_controllers = 1
+section_control_gateways = 1
+grid_protection_gateways = 1
+occ_equipment_sets = 1
+train_mass_allowance_t = 0.35
+train_auxiliary_power_allowance_kw = 6.0
+
+[control_electronics_price_allocations_usd_m]
+atp_channel = 0.020
+radio_link = 0.015
+tcms_node = 0.006
+door_controller = 0.0015
+brake_controller = 0.003
+train_service_power_unit = 0.010
+station_dispatch_controller = 0.120
+section_control_gateway = 0.020
+train_detection_per_route_km = 0.080
+grid_protection_gateway = 0.150
+occ_equipment_set = 0.600
+
 [map_sources]
 first_path = "cities/Baghdad/maps/network-148km.geojson"
 first_sha256 = "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4"

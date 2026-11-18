@@ -6,46 +6,8 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 [Project introduction](../README.md) · [Current platform and evidence](BOOK.md)
 <!-- osr-system-context:end -->
 
-Start with the [project README](../README.md), [current platform book](BOOK.md),
-[published v0.6.1 scope](releases/v0.6.1/README.md),
-[v0.7 execution record](design-engine/v07-execution/README.md) and
-[roadmap](ROADMAP.md). The [current integrated reference packet](design-engine/current/README.md)
-passed independent source-bound verification on main. It remains research evidence,
-outside the supported v0.6.1 software release and without physical acceptance.
-Use the [v0.6 design-closure ledger](design-engine/v06-design-closure/README.md)
-for the open engineering findings and the [v0.7 runtime review](plans/v0.7-runtime-toolchain-review.md)
-for performance and toolchain decisions.
+Start with the [v0.7 architecture](ARCHITECTURE.md), [engineering status](ENGINEERING-STATUS.md), [cost baseline](COST-BASELINE.md) and [release scope](RELEASE-v0.7.md). The [30 km digital reference](reference-v07/README.md) joins train, civil works, power, station and manufacturing quantities for one candidate. The separate [Baghdad railway](../cities/Baghdad/README.md) has its own routes, 700-place train, protected-conductor supply, maps, capital budget and construction cash schedule. The [control electronics schedule](../control-electronics/README.md) identifies train, station, wayside and control-room equipment.
 
-The [planning guide](workbench/planning/README.md) explains proposal editing
-and the candidate-bound v0.6 handoff; open the [planning workspace](workbench/planning/index.html)
-to edit current city route, stop, service and OD proposals.
+The [planning workspace](workbench/planning/README.md) and [engineering Workbench](workbench/current/index.html) let readers inspect city proposals and design outputs. [ERPNext and Frappe HR](../deployment/erpnext/README.md) cover purchasing, production, QA, maintenance and workforce records. [FUXA and the gateway](../deployment/supervision/README.md) cover observation and alarm records. The [engineering guide](../engineering/development_baseline/README.md) gives the current calculation path.
 
-The [retained v0.6 reference overview](open-source-rail-overview.md) and
-[first adoption path](first-adoptable-product.md) describe the current planning,
-engineering, delivery and integration workflows. Current integration guides
-cover [ERPNext/Frappe HR](../deployment/erpnext/README.md),
-[FUXA and the gateway](../deployment/supervision/README.md), and the
-[candidate-bound planning workspace](workbench/planning/index.html).
-
-The [engineering Workbench](workbench/current/index.html) presents the
-selected v0.6 vehicle and its evidence holds. The [coordinated railway campaign](design-engine/coupled-railway/README.md)
-propagates one candidate through inventory, propulsion, braking, civil and
-manufacturing evaluations. Use the [engineering implementation guide](../engineering/development_baseline/README.md),
-[tools guide](../tools/README.md), and [city geography catalogue](design-engine/current/cities.json)
-to reproduce current workflows and inspect geographic inputs.
-
-The [sourcing dossier](design-engine/sourcing/README.md) describes material,
-catalogue, price and construction evidence. The [sourcing implementation](../engineering/sourcing/README.md)
-covers candidate-bound records, adapters, replay packets and business-system
-drafts. The [model-based cost and delivery plan](design-engine/model-based-cost-and-delivery.md)
-describes provisional cost completion and its evidence boundaries.
-
-The [comprehensive ebook](../OpenSourceRail-Book.pdf) has twelve parts and 69
-original chapters for human readers. It guides users through the published
-v0.6.1 platform and developing v0.7 project, with Workbench screenshots,
-ten city route examples, product and assembly views, digital-twin tests,
-passenger experience, production and whole-life cost. Its [foreword](BOOK.md) explains the
-scope. A separate receipt binds the sources and illustrations without putting
-technical identifiers into the prose. The integrated dossier is presented as
-source-bound research evidence, without passing engineering or physical proof.
-Source-bound engineering packets remain authoritative for their own claims.
+The [v0.6.1 release](releases/v0.6.1/README.md) and [research archive](archives/) preserve earlier methods and results. The [documentation index](INDEX.md) lists detailed evidence; archived results are not inputs to the selected v0.7 physical candidate. The [project book](BOOK.md) supplies a longer introduction for general readers.

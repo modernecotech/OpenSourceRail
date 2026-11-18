@@ -25,6 +25,10 @@ guideway, station and power interfaces for one priced configuration. Its
 candidate-linked BOM, shop route, QA plan and ERPNext dry run. These support
 supplier quotation and prototype planning; fabrication and operation require
 approved drawings and measured tests.
+The [control electronics schedule](../control-electronics/README.md) now counts
+train, station, wayside and control-room equipment. Baghdad has its own
+candidate-linked quantities and price allocations; the 30 km reference has
+separate one-sided door and roof-collector quantities.
 
 ## Selected v0.6 vehicle reference
 

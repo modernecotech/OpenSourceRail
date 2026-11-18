@@ -4,7 +4,7 @@ OpenSourceRail develops affordable urban rail and open tools to **plan, design, 
 
 The **v0.6 reference** uses comfort cars on passive steel-wheel bogies, conventional rails and precast concrete. Station propulsion alternatives remain under comparison; no installed architecture or powered length is selected. **This is a research and prototype design, without manufacturing or operating release.**
 
-**Start here:** [comprehensive illustrated ebook](OpenSourceRail-Book.pdf) · [current railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [release gate](docs/RELEASE-v0.7.md) · [Baghdad urban rail proposal](cities/Baghdad/PROPOSAL.md) · [published v0.6.1 software](docs/releases/v0.6.1/README.md) · [city designs and maps](cities/catalogue/README.md) · [engineering Workbench](docs/workbench/current/index.html).
+**Start here:** [railway architecture](docs/ARCHITECTURE.md) · [v0.7 engineering status](docs/ENGINEERING-STATUS.md) · [cost baseline](docs/COST-BASELINE.md) · [train and station controls](control-electronics/README.md) · [Baghdad proposal and maps](cities/Baghdad/README.md) · [engineering Workbench](docs/workbench/current/index.html) · [illustrated book](OpenSourceRail-Book.pdf).
 
 The [v0.7 digital railway](docs/reference-v07/README.md) defines a
 powered-wheel six-car train, a thirteen-strand 10 m precast span, a [joined

@@ -110,3 +110,4 @@ The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw
 The 30-year present cost of the selected railway is **$14.493bn** for the first programme and **$57.214bn** for the complete network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
 
 The [proposal](PROPOSAL.md) gives the requested city decision and delivery sequence. The [cost schedule](COST-AND-DELIVERY.md) gives rates, matched power alternatives, 30-year operation and renewal costs, civil-span comparisons and annual capital draws. The [map guide](maps/README.md) identifies the GIS sources and how to use the layers.
+The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.

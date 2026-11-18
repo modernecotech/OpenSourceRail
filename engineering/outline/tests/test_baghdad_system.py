@@ -49,6 +49,27 @@ def test_metropolitan_civil_scope_keeps_declared_length_and_no_underground():
                for row in rows["civil_cases"].values())
 
 
+def test_control_equipment_is_counted_and_fits_existing_scope_prices():
+    first = evaluate("first", "protected_conductor")
+    metro = evaluate("metropolitan", "protected_conductor")
+    for row, fleet, stations, sites, centres in (
+            (first, 242, 64, 30, 2), (metro, 934, 280, 100, 4)):
+        controls = row["control_electronics"]
+        q = controls["quantities"]
+        assert q["atp_channels"] == 2 * fleet
+        assert q["tcms_nodes"] == 6 * fleet
+        assert q["door_controllers"] == 48 * fleet
+        assert q["brake_controllers"] == 12 * fleet
+        assert q["station_dispatch_controllers"] == stations
+        assert q["grid_protection_gateways"] == sites
+        assert q["occ_equipment_sets"] == centres
+        assert q["section_control_gateways"] == row["supply_quantities"]["powered_section_count"]
+        assert all(0 < amount < row["capital_usd_m"]["scope_rows"][scope]
+                   for scope, amount in controls["allocation_within_capital_scopes_usd_m"].items())
+        assert sum(row["capital_usd_m"]["scope_rows"].values()) == pytest.approx(
+            row["capital_usd_m"]["installed"])
+
+
 def test_changed_map_cannot_keep_the_same_candidate_input(tmp_path: Path):
     (tmp_path / CONFIG).parent.mkdir(parents=True)
     shutil.copyfile(ROOT / CONFIG, tmp_path / CONFIG)

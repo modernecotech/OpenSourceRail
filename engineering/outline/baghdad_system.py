@@ -143,6 +143,52 @@ def _renewal_cost(event: dict, case: dict, cfg: dict, power_price: dict) -> floa
     return units * prices[item]
 
 
+def _control_electronics(cfg: dict, network: dict, power: dict,
+                         capital_scopes: dict) -> dict:
+    """Count the selected control equipment within existing capital scopes."""
+    c = cfg["control_electronics"]
+    p = cfg["control_electronics_price_allocations_usd_m"]
+    v = cfg["vehicle"]
+    fleet = network["fleet_trainsets"]
+    cars = fleet * v["cars_per_train"]
+    doors = cars * v["door_openings_per_car_each_side"] * 2
+    bogies = cars * 2
+    sections = power["supply"]["powered_section_count"]
+    quantities = {
+        "atp_channels": fleet * c["atp_channels_per_train"],
+        "radio_links": fleet * c["radio_links_per_train"],
+        "tcms_nodes": cars * c["tcms_nodes_per_car"],
+        "door_controllers": doors * c["door_controllers_per_opening"],
+        "brake_controllers": bogies * c["brake_controllers_per_bogie"],
+        "train_service_power_units": fleet * c["train_service_power_units"],
+        "station_dispatch_controllers": network["stations"] * c["station_dispatch_controllers"],
+        "section_control_gateways": sections * c["section_control_gateways"],
+        "grid_protection_gateways": network["traction_supply_sites"] * c["grid_protection_gateways"],
+        "occ_equipment_sets": network["control_centres"] * c["occ_equipment_sets"],
+    }
+    allocations = {
+        "vehicles": sum(quantities[key] * p[price] for key, price in (
+            ("atp_channels", "atp_channel"), ("radio_links", "radio_link"),
+            ("tcms_nodes", "tcms_node"), ("door_controllers", "door_controller"),
+            ("brake_controllers", "brake_controller"),
+            ("train_service_power_units", "train_service_power_unit"))),
+        "stations_access": quantities["station_dispatch_controllers"] * p["station_dispatch_controller"],
+        "signalling_comms": (quantities["section_control_gateways"] * p["section_control_gateway"]
+                             + network["route_km"] * p["train_detection_per_route_km"]),
+        "grid_charging_buffers": quantities["grid_protection_gateways"] * p["grid_protection_gateway"],
+        "depots_control": quantities["occ_equipment_sets"] * p["occ_equipment_set"],
+    }
+    if any(amount < 0 or amount > capital_scopes[scope]
+           for scope, amount in allocations.items()):
+        raise ValueError("Control equipment allocation exceeds its parent capital scope")
+    if c["train_mass_allowance_t"] <= 0 or c["train_auxiliary_power_allowance_kw"] <= 0:
+        raise ValueError("Positive control mass and auxiliary power allowances required")
+    return {"quantities": quantities, "allocation_within_capital_scopes_usd_m": allocations,
+            "train_mass_allowance_within_base_t": c["train_mass_allowance_t"],
+            "train_auxiliary_power_allowance_kw": c["train_auxiliary_power_allowance_kw"],
+            "basis": "Planning equipment schedule and price carve-out; no added capital or mass"}
+
+
 def evaluate(network: str, supply: str, *, span_m: int = 10,
              common_pier: bool = False, root: Path = ROOT) -> dict:
     root = Path(root)
@@ -191,6 +237,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "land_utilities_disruption": route_km * cr["land_utilities_disruption_per_route_km"],
         "tooling_recovery": route_km * cr["tooling_and_recovery_per_route_km"] + cr["tooling_and_recovery_fixed"],
     }
+    controls = _control_electronics(cfg, n, power, common)
     direct = sum(common.values())
     design = direct * cr["design_fraction"]
     test = direct * cr["testing_fraction"]
@@ -247,6 +294,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                     "fleet_trainsets": n["fleet_trainsets"]},
         "vehicle": power["vehicle"], "traction": power["traction"],
         "energy": power["energy"], "supply_quantities": power["supply"],
+        "control_electronics": controls,
         "civil": {"physical_candidate_id": civil["civil_option_physical_id"],
                   "evaluation_id": civil["evaluation_id"],
                   "quantities": civil["quantities"], "planning_prices": civil["prices"],
@@ -310,6 +358,7 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_candidate_id": selected["physical_candidate_id"],
             "selected_evaluation_id": selected["evaluation_id"],
             "selected_capital_scope_usd_m": selected["capital_usd_m"]["scope_rows"],
+            "selected_control_electronics": selected["control_electronics"],
             "selected_annual_opex_usd_m": selected["operation_usd_m_year"],
             "selected_renewals_usd_m": selected["renewals_usd_m"],
             "power_cases": {key: {

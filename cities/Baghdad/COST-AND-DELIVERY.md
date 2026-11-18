@@ -44,6 +44,27 @@ US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-
 
 Direct viaduct cost starts with $9m/route-km for the 10 m separate-track family and applies the train-mass-linked structural quantity factor in the [civil evaluator](../../engineering/outline/baghdad_viaduct.py). The first network's 29,640 beams and 29,654 positions count both tracks and line ends; guideway, drainage and foundations are included in that scope. Each other scope's rate and quantity rule is in the input file and calculator, including $13m/station, $8m/grid site and $8.48m/selected trainset. Revenue, debt, tax, foreign exchange and financing fees are separate from this engineering capital estimate.
 
+### Control equipment within the estimate
+
+The [control equipment schedule](../../control-electronics/README.md) counts
+protection, radios, car and door controllers, brake controllers, station
+dispatch, section gateways, grid protection and control-room equipment. These
+planning amounts are **inside** the capital scopes above; they are not
+additional costs.
+
+| Parent capital scope and equipment allocation, US$ million | First | Complete network |
+|---|---:|---:|
+| Vehicle fleet electronics | 56.628 | 218.556 |
+| Station dispatch controllers | 7.680 | 33.600 |
+| Signalling, train detection and section control | 14.136 | 59.092 |
+| Grid protection gateways | 4.500 | 15.000 |
+| Control-room equipment | 1.200 | 2.400 |
+| **Total already included in capital** | **84.144** | **328.648** |
+
+The unit allowances and fleet, station, section and grid quantities are in
+`system.toml`; the calculated allocation is in `system-results.json`. Equipment
+suppliers can quote each assembly against the [train and platform interfaces](VEHICLE.md).
+
 ## Matched power options
 
 All cases keep the same route length, timetable, passenger capacity, grade and adhesion assumptions. Their power equipment, mass, civil quantities, energy and renewal costs change together. The lowest **30-year present cost** is the protected conductor candidate. The difference from overhead is modest, so procurement prices and electrical access engineering have a direct effect on the choice.
