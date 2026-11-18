@@ -1,6 +1,6 @@
 {
   "candidate_id": "osr-baghdad-zero-tunnel-offwire-20261117",
-  "evaluation_id": "d22d412566fdcfd4a1772548b42a861a6ddd678a423b624810fddb69866fefcf",
+  "evaluation_id": "68a0b52aa5ed4aa9a9aaadef84308678c6a4352c7421b03e555aceefc5632169",
   "networks": {
     "first": {
       "civil_cases": {
@@ -118,7 +118,7 @@
       },
       "power_cases": {
         "limited_conductor_battery": {
-          "annual_grid_gwh": 1041.8614299982187,
+          "annual_grid_gwh": 549.8713102768378,
           "battery_kwh_per_train": 310.5000866649533,
           "civil_beams": 29640,
           "civil_piers": 29654,
@@ -130,10 +130,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 203.83475076554043,
-          "whole_life_30y_present_usd_m": 14092.693264744454
+          "whole_life_30y_present_usd_m": 12079.543183547372
         },
         "overhead": {
-          "annual_grid_gwh": 1005.0828387096773,
+          "annual_grid_gwh": 530.4603870967742,
           "battery_kwh_per_train": 0.0,
           "civil_beams": 29640,
           "civil_piers": 29654,
@@ -145,10 +145,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 201.732,
-          "whole_life_30y_present_usd_m": 14050.03545710829
+          "whole_life_30y_present_usd_m": 12072.92405134561
         },
         "protected_conductor": {
-          "annual_grid_gwh": 993.4358532357444,
+          "annual_grid_gwh": 524.3133669855318,
           "battery_kwh_per_train": 0.0,
           "civil_beams": 29640,
           "civil_piers": 29654,
@@ -160,10 +160,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 201.092,
-          "whole_life_30y_present_usd_m": 13986.33505993327
+          "whole_life_30y_present_usd_m": 12020.636324275085
         },
         "station_battery": {
-          "annual_grid_gwh": 1043.822987760347,
+          "annual_grid_gwh": 550.9065768735165,
           "battery_kwh_per_train": 466.6270179946276,
           "civil_beams": 29640,
           "civil_piers": 29654,
@@ -175,23 +175,66 @@
           "station_charge_port_mw": 5.972825830331233,
           "station_charge_ports": 128,
           "train_crowd_mass_t": 205.09387199228587,
-          "whole_life_30y_present_usd_m": 14718.061111018174
+          "whole_life_30y_present_usd_m": 12702.988934899606
         }
       },
       "power_cost_sensitivity": {
-        "basis": "One protected-conductor input varied against overhead; all other assumptions fixed",
-        "extra_annual_grid_gwh_to_overhead": 30.698335695708426,
-        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.012428475990165354,
-        "protected_advantage_usd_m": 63.70039717502004,
-        "protected_price_break_even_usd_m_per_track_km": 1.201371157299073,
-        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.15137115729907294
+        "advantage_components_usd_m": {
+          "energy": 12.755337175614777,
+          "installed_capital": 61.21058982999148,
+          "other_operation": 0.0,
+          "power_maintenance": -25.626793351584755,
+          "renewals": 3.9485934165016943
+        },
+        "basis": "One priced protected-conductor input varied against overhead; all physical quantities and other prices fixed",
+        "conductor_equipment_break_even_usd_m_per_track_km": 1.1742512466202832,
+        "extra_annual_grid_gwh_to_overhead": 25.198370333019007,
+        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.01020176936559474,
+        "limitations": "Single-input operating-energy sensitivities hold grid-site rating, equipment quantities and vehicle mass fixed; no supplier price range, financing or physical protection rating is established",
+        "one_at_a_time_screens": {
+          "conductor_equipment_plus_10_percent": {
+            "added_protected_present_cost_usd_m": 44.186368279936964,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 8.101358790587888
+          },
+          "conductor_equipment_plus_20_percent": {
+            "added_protected_present_cost_usd_m": 88.37273655987393,
+            "protected_lower_under_this_input": false,
+            "remaining_protected_advantage_usd_m": -36.085009489349076
+          },
+          "conductor_maintenance_plus_100_percent": {
+            "added_protected_present_cost_usd_m": 102.507173406339,
+            "protected_lower_under_this_input": false,
+            "remaining_protected_advantage_usd_m": -50.219446335814155
+          },
+          "conductor_maintenance_plus_50_percent": {
+            "added_protected_present_cost_usd_m": 51.2535867031695,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 1.0341403673553486
+          },
+          "grid_chain_losses_plus_25_percent": {
+            "added_protected_present_cost_usd_m": 16.319599563415185,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 35.96812750710967
+          },
+          "line_renewal_fraction_plus_25_percentage_points": {
+            "added_protected_present_cost_usd_m": 29.185962799369662,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 23.10176427115519
+          }
+        },
+        "procurement_winner_established": false,
+        "protected_advantage_fraction_of_overhead": 0.0043309911375361484,
+        "protected_advantage_usd_m": 52.28772707052485,
+        "protected_price_break_even_usd_m_per_track_km": 1.1742512466202832,
+        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.12425124662028328
       },
       "route_km": 148.2,
       "selected_annual_opex_usd_m": {
-        "energy": 119.21230238828932,
-        "non_energy_and_station": 185.51451520000003,
+        "energy": 62.91760403826382,
+        "non_energy_and_station": 128.1326608,
         "power_maintenance": 5.928,
-        "total": 310.65481758828935
+        "total": 196.9782648382638
       },
       "selected_candidate_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
       "selected_capital_scope_usd_m": {
@@ -645,10 +688,10 @@
           }
         ],
         "basis_year": 2027,
-        "construction_start_present_cost_usd_m": 12182.659051300534,
+        "construction_start_present_cost_usd_m": 10566.997976740488,
         "full_service_start_year_assumption": 2032,
         "interest_fees_premium_exchange_and_revenue_modelled": false,
-        "present_30y_operation_and_renewal_at_start_usd_m": 5030.740154147074,
+        "present_30y_operation_and_renewal_at_start_usd_m": 3415.079079587026,
         "present_capital_at_start_usd_m": 7151.91889715346,
         "staged_openings_modelled": false,
         "total_capital_usd_m": 7865.670450170009
@@ -694,7 +737,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "df59efdd720ef7f2bcd2d192b9de9adddfd5638879d63a630026fd6ddf652f31",
+      "selected_evaluation_id": "a34cb95963319f9c95325e906a733c7c3e13c29f8cb1c7bdf7cc4c4f4f0472f9",
       "selected_local_delivery": null,
       "selected_renewals_usd_m": [
         {
@@ -725,8 +768,8 @@
       ],
       "selected_service_allowance": {
         "active_trainsets": 210,
-        "annual_train_km": 46736351.99999999,
-        "annual_train_km_basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established",
+        "annual_train_km": 24666408.0,
+        "annual_train_km_basis": "planning allowance from hourly service offer on assigned passenger paths, with terminal layover; unlocated stops, junction capacity, intermediate dwell and passenger demand are not an established working timetable",
         "costed_route_km": 148.2,
         "fleet_trainsets": 242,
         "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
@@ -739,9 +782,103 @@
         "route_km": 148.2,
         "route_km_basis": "costed planning guideway including non-revenue reservations",
         "service_duty": {
-          "active_fleet_above_lower_bound": 20,
-          "annual_train_km": 46736351.99999999,
-          "basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established",
+          "active_fleet_above_lower_bound": 2,
+          "annual_train_km": 24666408.0,
+          "basis": "planning allowance from hourly service offer on assigned passenger paths, with terminal layover; unlocated stops, junction capacity, intermediate dwell and passenger demand are not an established working timetable",
+          "daily_departures_per_direction_per_group": 228,
+          "daily_train_km": 67579.2,
+          "hourly_service": [
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 6
+            },
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 7
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 8
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 9
+            },
+            {
+              "all_groups_train_km": 7113.599999999999,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 10
+            },
+            {
+              "all_groups_train_km": 7113.599999999999,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 11
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 12
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 13
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 14
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 15
+            },
+            {
+              "all_groups_train_km": 7113.599999999999,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 16
+            },
+            {
+              "all_groups_train_km": 7113.599999999999,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 17
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 18
+            },
+            {
+              "all_groups_train_km": 3556.7999999999997,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 19
+            },
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 20
+            },
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 21
+            },
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 22
+            },
+            {
+              "all_groups_train_km": 1778.3999999999999,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 23
+            }
+          ],
           "passenger_path_km_by_service_group": {
             "Airport": 12.0,
             "Blue": 22.0,
@@ -751,7 +888,8 @@
             "White": 23.0,
             "Yellow": 30.0
           },
-          "peak_fleet_zero_layover_lower_bound": 190
+          "peak_fleet_with_declared_layover": 208,
+          "terminal_layover_min_each_end": 3.0
         },
         "stations": 64,
         "stations_basis": "planning allowance; individual stop sequence and opening status not established",
@@ -950,7 +1088,7 @@
       },
       "power_cases": {
         "limited_conductor_battery": {
-          "annual_grid_gwh": 3903.595742574222,
+          "annual_grid_gwh": 2060.231086358617,
           "battery_kwh_per_train": 271.773867346292,
           "civil_beams": 121156,
           "civil_piers": 121208,
@@ -962,10 +1100,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 203.49266916155892,
-          "whole_life_30y_present_usd_m": 55119.24630538153
+          "whole_life_30y_present_usd_m": 47574.57086052586
         },
         "overhead": {
-          "annual_grid_gwh": 3767.7227294368404,
+          "annual_grid_gwh": 1988.5203294249989,
           "battery_kwh_per_train": 0.0,
           "civil_beams": 121156,
           "civil_piers": 121208,
@@ -977,10 +1115,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 201.732,
-          "whole_life_30y_present_usd_m": 55007.662057355985
+          "whole_life_30y_present_usd_m": 47596.126117010856
         },
         "protected_conductor": {
-          "annual_grid_gwh": 3724.0620377908726,
+          "annual_grid_gwh": 1965.4771866118494,
           "battery_kwh_per_train": 0.0,
           "civil_beams": 121156,
           "civil_piers": 121208,
@@ -992,10 +1130,10 @@
           "station_charge_port_mw": 0.0,
           "station_charge_ports": 0,
           "train_crowd_mass_t": 201.092,
-          "whole_life_30y_present_usd_m": 54762.57235802195
+          "whole_life_30y_present_usd_m": 47393.81873859625
         },
         "station_battery": {
-          "annual_grid_gwh": 3909.9390374567442,
+          "annual_grid_gwh": 2063.5789364355037,
           "battery_kwh_per_train": 408.32324478755373,
           "civil_beams": 121156,
           "civil_piers": 121208,
@@ -1007,23 +1145,66 @@
           "station_charge_port_mw": 5.226537533280687,
           "station_charge_ports": 560,
           "train_crowd_mass_t": 204.57885532895673,
-          "whole_life_30y_present_usd_m": 57267.432103841646
+          "whole_life_30y_present_usd_m": 49716.540979226455
         }
       },
       "power_cost_sensitivity": {
-        "basis": "One protected-conductor input varied against overhead; all other assumptions fixed",
-        "extra_annual_grid_gwh_to_overhead": 118.11301340938783,
-        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.011701077193773437,
-        "protected_advantage_usd_m": 245.08969933403569,
-        "protected_price_break_even_usd_m_per_track_km": 1.1925118894600455,
-        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.14251188946004542
+        "advantage_components_usd_m": {
+          "energy": 47.815535145232516,
+          "installed_capital": 244.3117521681197,
+          "other_operation": 0.0,
+          "power_maintenance": -104.72954552614044,
+          "renewals": 14.90963662739523
+        },
+        "basis": "One priced protected-conductor input varied against overhead; all physical quantities and other prices fixed",
+        "conductor_equipment_break_even_usd_m_per_track_km": 1.1676353262822325,
+        "extra_annual_grid_gwh_to_overhead": 97.4954645765639,
+        "extra_annual_maintenance_to_overhead_usd_m_per_track_km": 0.009658562796116968,
+        "limitations": "Single-input operating-energy sensitivities hold grid-site rating, equipment quantities and vehicle mass fixed; no supplier price range, financing or physical protection rating is established",
+        "one_at_a_time_screens": {
+          "conductor_equipment_plus_10_percent": {
+            "added_protected_present_cost_usd_m": 180.57734359973267,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 21.73003481487092
+          },
+          "conductor_equipment_plus_20_percent": {
+            "added_protected_present_cost_usd_m": 361.15468719946534,
+            "protected_lower_under_this_input": false,
+            "remaining_protected_advantage_usd_m": -158.84730878486175
+          },
+          "conductor_maintenance_plus_100_percent": {
+            "added_protected_present_cost_usd_m": 418.91818210456165,
+            "protected_lower_under_this_input": false,
+            "remaining_protected_advantage_usd_m": -216.61080368995806
+          },
+          "conductor_maintenance_plus_50_percent": {
+            "added_protected_present_cost_usd_m": 209.45909105228083,
+            "protected_lower_under_this_input": false,
+            "remaining_protected_advantage_usd_m": -7.151712637677235
+          },
+          "grid_chain_losses_plus_25_percent": {
+            "added_protected_present_cost_usd_m": 61.17677453265916,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 141.13060388194444
+          },
+          "line_renewal_fraction_plus_25_percentage_points": {
+            "added_protected_present_cost_usd_m": 119.27487679732684,
+            "protected_lower_under_this_input": true,
+            "remaining_protected_advantage_usd_m": 83.03250161727675
+          }
+        },
+        "procurement_winner_established": false,
+        "protected_advantage_fraction_of_overhead": 0.004250500931887793,
+        "protected_advantage_usd_m": 202.3073784146036,
+        "protected_price_break_even_usd_m_per_track_km": 1.1676353262822325,
+        "protected_price_uplift_to_overhead_usd_m_per_track_km": 0.11763532628223256
       },
       "route_km": 605.652,
       "selected_annual_opex_usd_m": {
-        "energy": 446.8874445349047,
-        "non_energy_and_station": 735.5176779889138,
+        "energy": 235.85726239342196,
+        "non_energy_and_station": 520.4121078274824,
         "power_maintenance": 24.226080000000003,
-        "total": 1206.6312025238185
+        "total": 780.4954502209043
       },
       "selected_candidate_id": "28d1d23756788171634dbf3ac50dbbae0254f4ca9cd5b732821ae9a88635408c",
       "selected_capital_scope_usd_m": {
@@ -1993,10 +2174,10 @@
           }
         ],
         "basis_year": 2027,
-        "construction_start_present_cost_usd_m": 42783.41508794152,
+        "construction_start_present_cost_usd_m": 37606.22653718453,
         "full_service_start_year_assumption": 2036,
         "interest_fees_premium_exchange_and_revenue_modelled": false,
-        "present_30y_operation_and_renewal_at_start_usd_m": 16682.79825163042,
+        "present_30y_operation_and_renewal_at_start_usd_m": 11505.609700873425,
         "present_capital_at_start_usd_m": 26100.6168363111,
         "staged_openings_modelled": false,
         "total_capital_usd_m": 31017.74854223188
@@ -2042,7 +2223,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "5f4f0ca18541610d3d2d14b2c13cc1d2e62e1dcfcef71fae293f3cb77c766b9f",
+      "selected_evaluation_id": "d679e0cd2972b7a4f521a97eeb1a9b41bff3ea1cab3a9cce6be10453169a8c50",
       "selected_local_delivery": {
         "actual_supplier_origin_established": false,
         "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital",
@@ -2095,8 +2276,8 @@
       ],
       "selected_service_allowance": {
         "active_trainsets": 812,
-        "annual_train_km": 175199106.91881308,
-        "annual_train_km_basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established",
+        "annual_train_km": 92466195.31826246,
+        "annual_train_km_basis": "planning allowance from hourly service offer on assigned passenger paths, with terminal layover; unlocated stops, junction capacity, intermediate dwell and passenger demand are not an established working timetable",
         "costed_route_km": 605.652,
         "fleet_trainsets": 934,
         "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
@@ -2109,9 +2290,103 @@
         "route_km": 605.652,
         "route_km_basis": "costed planning guideway including non-revenue reservations",
         "service_duty": {
-          "active_fleet_above_lower_bound": 101,
-          "annual_train_km": 175199106.91881308,
-          "basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established",
+          "active_fleet_above_lower_bound": 70,
+          "annual_train_km": 92466195.31826246,
+          "basis": "planning allowance from hourly service offer on assigned passenger paths, with terminal layover; unlocated stops, junction capacity, intermediate dwell and passenger demand are not an established working timetable",
+          "daily_departures_per_direction_per_group": 228,
+          "daily_train_km": 253332.04196784235,
+          "hourly_service": [
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 6
+            },
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 7
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 8
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 9
+            },
+            {
+              "all_groups_train_km": 26666.53073345709,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 10
+            },
+            {
+              "all_groups_train_km": 26666.53073345709,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 11
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 12
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 13
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 14
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 15
+            },
+            {
+              "all_groups_train_km": 26666.53073345709,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 16
+            },
+            {
+              "all_groups_train_km": 26666.53073345709,
+              "departures_per_direction_per_group": 24,
+              "hour_start_local": 17
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 18
+            },
+            {
+              "all_groups_train_km": 13333.265366728545,
+              "departures_per_direction_per_group": 12,
+              "hour_start_local": 19
+            },
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 20
+            },
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 21
+            },
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 22
+            },
+            {
+              "all_groups_train_km": 6666.632683364272,
+              "departures_per_direction_per_group": 6,
+              "hour_start_local": 23
+            }
+          ],
           "passenger_path_km_by_service_group": {
             "M01": 49.36324134792884,
             "M02": 53.97002697464016,
@@ -2128,7 +2403,8 @@
             "M13": 12.679228954233796,
             "M14": 16.628624616727475
           },
-          "peak_fleet_zero_layover_lower_bound": 711
+          "peak_fleet_with_declared_layover": 742,
+          "terminal_layover_min_each_end": 3.0
         },
         "stations": 280,
         "stations_basis": "planning allowance; individual stop sequence and opening status not established",
@@ -2240,9 +2516,18 @@
     "cities/Baghdad/maps/network-148km.geojson": "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4",
     "cities/Baghdad/maps/network-606km.geojson": "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056",
     "cities/Baghdad/maps/rfi-waypoints.json": "56d8f1ab75a4eb338dbb60c59947d63133e67d5990dfff71a4e45586d8295de5",
-    "cities/Baghdad/system.toml": "3781d8fa89bcce2b77ce5fcd2427bcbb8a039d4d3299e60a4d3577714598a557",
-    "engineering/outline/baghdad_power.py": "1d4f9b44fa42d920ab9d23f52a7cfedf7e8d3d4f8fd9e1f03e312440a03ed849",
-    "engineering/outline/baghdad_system.py": "eaa9b4582f57b43aab8da982abf2479d3983aabb836e301b7ed4dcca6e252b25",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "engineering/outline/baghdad_power.py": "fbc0d86c3ca4bcafe49fbdf1c4c22acac3bb9d23827ab3f5604a8122873023c1",
+    "engineering/outline/baghdad_system.py": "bb3c81d4561e06e6675084c2ea2835af6cad8f3b486e0ca81ed3f86dda88c8e3",
     "engineering/outline/baghdad_viaduct.py": "4e8f0d35ad4b81198e5eb6da2d71619ed51ea2e38e9df7eda1596f311b9ad482"
+  },
+  "station_register": {
+    "approved_station_sites": 0,
+    "evaluation_id": "625429ca894413e22e02c5e06b4b2960cb8cb31a294ac3f9307e0eca977b98f8",
+    "mapped_candidate_points": {
+      "first": 37,
+      "metropolitan": 220
+    },
+    "path": "cities/Baghdad/station-register.json"
   }
 }

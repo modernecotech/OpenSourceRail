@@ -13,7 +13,8 @@ from pathlib import Path
 import tomllib
 from xml.etree import ElementTree
 
-from engineering.outline.baghdad_power import PowerAssumptions, PowerNetwork, compare_power
+from engineering.outline.baghdad_power import (PowerAssumptions, PowerNetwork, compare_power,
+                                              priced_protected_overhead_sensitivity)
 from engineering.outline.baghdad_viaduct import PlanningRates, SUPPORTED_SPANS_M, evaluate as civil_evaluate
 
 
@@ -161,31 +162,94 @@ def _selected_input_id(cfg: dict, network: str) -> str:
 
 
 def _service_duty(cfg: dict, network: str, lines: dict[str, float], coverage: dict) -> dict:
-    """Bound train distance by named passenger paths and the declared peak headway.
+    """Calculate the declared hourly service offer on named passenger paths.
 
-    There is no stop sequence or junction graph from which to build a clockface
-    timetable. Running every path at peak frequency throughout the declared
-    service window is therefore a transparent upper bound, not a demand case.
+    All groups use the same hourly departure profile in this planning case.
+    Stop locations and junction paths are still schematic, so this is an
+    operating cost and fleet screen, not a dispatchable working timetable.
     """
     n, v = cfg["networks"][network], cfg["vehicle"]
+    plan = cfg["service_plan"]
     groups = (lines if network == "first" else
               {name: sum(lines[part] for part in parts)
                for name, parts in n["service_groups"].items()})
     served_km = sum(groups.values())
     if not isclose(served_km, coverage["passenger_path_route_km"], abs_tol=1e-6):
         raise ValueError("Baghdad service paths differ from mapped passenger guideway")
-    trains_per_hour_direction = 3600 / v["peak_headway_s"]
-    yearly_km = (2 * served_km * trains_per_hour_direction
-                 * v["service_hours_per_day"] * v["service_days_per_year"])
-    peak_fleet_floor = sum(ceil(2 * length / v["commercial_speed_kmh"]
-                                * trains_per_hour_direction) for length in groups.values())
+    departures = plan["departures_per_hour_direction"]
+    peak_tph = 3600 / v["peak_headway_s"]
+    if (type(plan["start_hour_local"]) is not int or not 0 <= plan["start_hour_local"] < 24
+            or len(departures) != v["service_hours_per_day"]
+            or plan["start_hour_local"] + len(departures) > 24
+            or any(type(value) is not int or not 0 < value <= peak_tph for value in departures)
+            or max(departures) != peak_tph
+            or not 0 <= plan["terminal_layover_min_each_end"] <= 30):
+        raise ValueError("Baghdad hourly service plan differs from peak and service controls")
+    mean_tph = sum(departures) / len(departures)
+    if cfg["power_assumptions"]["grid_peak_over_service_mean"] < peak_tph / mean_tph:
+        raise ValueError("Baghdad grid peak factor below hourly service frequency ratio")
+    hourly = [{"hour_start_local": plan["start_hour_local"] + hour,
+               "departures_per_direction_per_group": tph,
+               "all_groups_train_km": 2 * served_km * tph}
+              for hour, tph in enumerate(departures)]
+    yearly_km = sum(row["all_groups_train_km"] for row in hourly) * v["service_days_per_year"]
+    peak_fleet_floor = sum(ceil((2 * length / v["commercial_speed_kmh"] * 60
+                                 + 2 * plan["terminal_layover_min_each_end"])
+                                / (60 / peak_tph)) for length in groups.values())
     if n["active_trainsets"] < peak_fleet_floor:
-        raise ValueError("Baghdad active fleet below zero-layover peak service lower bound")
+        raise ValueError("Baghdad active fleet below peak cycle with terminal layover")
     return {"annual_train_km": yearly_km,
+            "daily_train_km": yearly_km / v["service_days_per_year"],
+            "hourly_service": hourly,
+            "daily_departures_per_direction_per_group": sum(departures),
             "passenger_path_km_by_service_group": dict(sorted(groups.items())),
-            "peak_fleet_zero_layover_lower_bound": peak_fleet_floor,
+            "terminal_layover_min_each_end": plan["terminal_layover_min_each_end"],
+            "peak_fleet_with_declared_layover": peak_fleet_floor,
             "active_fleet_above_lower_bound": n["active_trainsets"] - peak_fleet_floor,
-            "basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established"}
+            "basis": "planning allowance from hourly service offer on assigned passenger paths, with terminal layover; unlocated stops, junction capacity, intermediate dwell and passenger demand are not an established working timetable"}
+
+
+def station_register(root: Path = ROOT, cfg: dict | None = None) -> dict:
+    """Retain every mapped access/stop screen without declaring a station site."""
+    root = Path(root)
+    cfg = cfg or load(root)
+    networks = {}
+    for network, layer in (("first", "named place"),
+                           ("metropolitan", "station or stop screen")):
+        path = cfg["map_sources"][network + "_path"]
+        features = json.loads((root / path).read_bytes())["features"]
+        points = []
+        for feature_index, feature in enumerate(features):
+            if (feature["geometry"]["type"] != "Point"
+                    or feature["properties"].get("map_layer") != layer):
+                continue
+            props = feature["properties"]
+            points.append({"id": f"{'F' if network == 'first' else 'M'}-{len(points) + 1:03d}",
+                           "source_feature_index": feature_index,
+                           "longitude_latitude": feature["geometry"]["coordinates"],
+                           "route_hint": props.get("line"),
+                           "label": props.get("rfi_name") or props.get("anchor_name"),
+                           "source_kind": props.get("kind"),
+                           "coordinate_scope": props.get("coordinate_scope", "schematic stop screen"),
+                           "source_url": props.get("source_url"),
+                           "approved_station_site": False})
+        budget = cfg["networks"][network]["stations"]
+        if len(points) > budget:
+            raise ValueError("Baghdad mapped point screen exceeds station budget")
+        networks[network] = {"budgeted_stations": budget,
+                             "mapped_candidate_point_count": len(points),
+                             "count_gap_if_each_point_becomes_one_station": budget - len(points),
+                             "station_sites_approved": 0,
+                             "mapped_points": points,
+                             "basis": "Mapped points are access or stop screens, not selected station sites; remaining budget has no coordinates"}
+    result = {"schema": "opensourcerail.baghdad.station-screen-register.1",
+              "candidate_id": cfg["candidate_id"],
+              "map_source_sha256": {cfg["map_sources"][key + "_path"]:
+                                    cfg["map_sources"][key + "_sha256"]
+                                    for key in ("first", "metropolitan")},
+              "networks": networks}
+    result["evaluation_id"] = _id(result)
+    return result
 
 
 def _power_cost(case: dict, cfg: dict, network: dict) -> dict:
@@ -697,6 +761,18 @@ def compare(network: str, root: Path = ROOT) -> dict:
         "extra_annual_grid_gwh_to_overhead":
             advantage / (annuity * cfg["operation_rates"]["delivered_energy_usd_per_kwh"]),
     }
+    sensitivity.update(priced_protected_overhead_sensitivity(
+        protected, overhead,
+        conductor_price_usd_m_per_track_km=cfg["power_price_allowances_usd_m"][
+            "protected_conductor_per_track_km"],
+        conductor_maintenance_usd_m_per_track_km_year=cfg["annual_power_maintenance_usd_m"][
+            "protected_conductor_per_track_km"],
+        energy_tariff_usd_per_kwh=cfg["operation_rates"]["delivered_energy_usd_per_kwh"],
+        design_fraction=cr["design_fraction"], testing_fraction=cr["testing_fraction"],
+        project_allowance_fraction=cr["project_allowance_fraction"],
+        line_renewal_fraction_year_25=cfg["power_assumptions"][
+            "line_equipment_renewal_fraction_year_25"],
+        discount_rate_real=cfg["discount_rate_real"], years=cfg["comparison_years"]))
     return {"schema": "opensourcerail.baghdad.system-comparison.1",
             "network": network, "candidate_id": cfg["candidate_id"],
             "digital_cost_leader": preferred,
@@ -765,6 +841,7 @@ def release_summary(root: Path = ROOT) -> dict:
             } for key, row in comparison["civil_cases"].items()},
             "completion_year_planning": cfg["networks"][name]["construction_finish_year"],
         }
+    register = station_register(root, cfg)
     result = {"schema": "opensourcerail.baghdad.public-cost-comparison.1",
               "candidate_id": cfg["candidate_id"], "source_sha256": {
                   str(CONFIG): _hash(root / CONFIG),
@@ -774,6 +851,11 @@ def release_summary(root: Path = ROOT) -> dict:
                   "engineering/outline/baghdad_viaduct.py": _hash(root / "engineering/outline/baghdad_viaduct.py"),
                   "engineering/outline/baghdad_system.py": _hash(Path(__file__)),
               }, "networks": networks,
+              "station_register": {"path": "cities/Baghdad/station-register.json",
+                                   "evaluation_id": register["evaluation_id"],
+                                   "mapped_candidate_points": {name: value["mapped_candidate_point_count"]
+                                                              for name, value in register["networks"].items()},
+                                   "approved_station_sites": 0},
               "scope": "digital planning comparison; no site or physical acceptance"}
     result["evaluation_id"] = _id(result)
     return result
@@ -790,9 +872,22 @@ def main() -> None:
     p.add_argument("--summary", action="store_true")
     p.add_argument("--write-results", action="store_true")
     p.add_argument("--check-results", action="store_true")
+    p.add_argument("--write-station-register", action="store_true")
+    p.add_argument("--check-station-register", action="store_true")
     p.add_argument("--write-drawings", action="store_true")
     p.add_argument("--check-drawings", action="store_true")
     args = p.parse_args()
+    if args.write_station_register or args.check_station_register:
+        target = ROOT / "cities/Baghdad/station-register.json"
+        raw = (json.dumps(station_register(), indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
+        if args.check_station_register:
+            if not target.is_file() or target.read_bytes() != raw:
+                raise ValueError("Baghdad station register differs from pinned GIS and budget")
+            print("Baghdad station register current", sha256(raw).hexdigest())
+        else:
+            target.write_bytes(raw)
+            print("wrote", target, sha256(raw).hexdigest())
+        return
     if args.write_drawings or args.check_drawings:
         cfg = load()
         _check_vehicle_layout(cfg, ROOT)

@@ -148,7 +148,7 @@ def test_priced_protected_overhead_screen_reconciles_and_shows_rate_sensitivity(
             - cases["protected_conductor"]["whole_life_30y_present_usd_m"])
         assert sum(sensitivity["advantage_components_usd_m"].values()) == pytest.approx(advantage)
         assert 0 < sensitivity["protected_advantage_fraction_of_overhead"] < 0.005
-        assert 1.20 < sensitivity["conductor_equipment_break_even_usd_m_per_track_km"] < 1.21
+        assert 1.15 < sensitivity["conductor_equipment_break_even_usd_m_per_track_km"] < 1.20
         screens = sensitivity["one_at_a_time_screens"]
         assert screens["conductor_equipment_plus_10_percent"]["protected_lower_under_this_input"] is True
         assert screens["conductor_equipment_plus_20_percent"]["protected_lower_under_this_input"] is False

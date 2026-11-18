@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from engineering.outline.baghdad_system import CONFIG, ROOT, _lines, compare, evaluate, load, release_summary
+from engineering.outline.baghdad_system import CONFIG, ROOT, _lines, _service_duty, compare, evaluate, load, release_summary, station_register
 
 
 def test_zero_tunnel_overhead_comparator_reconciles_civil_rebaseline():
@@ -104,18 +104,42 @@ def test_public_summary_distinguishes_costed_and_passenger_path_guideway():
     assert service["timetable_established"] is False
 
 
-def test_service_train_distance_is_bounded_by_assigned_paths_and_peak_headway():
-    for name, served_km, fleet_floor in (("first", 148.2, 190),
-                                          ("metropolitan", 555.5527236136894, 711)):
+def test_service_train_distance_follows_hourly_offer_and_terminal_layover():
+    for name, served_km, fleet_floor in (("first", 148.2, 208),
+                                          ("metropolitan", 555.5527236136894, 742)):
         row = evaluate(name, "protected_conductor")
         service = row["service"]
         duty = service["service_duty"]
         assert service["annual_train_km"] == pytest.approx(
-            2 * served_km * 3600 / 150 * 18 * 365)
-        assert duty["peak_fleet_zero_layover_lower_bound"] == fleet_floor
+            2 * served_km * 228 * 365)
+        assert duty["daily_departures_per_direction_per_group"] == 228
+        assert [row["departures_per_direction_per_group"] for row in duty["hourly_service"]].count(24) == 4
+        assert duty["peak_fleet_with_declared_layover"] == fleet_floor
+        assert duty["terminal_layover_min_each_end"] == 3
         assert service["active_trainsets"] >= fleet_floor
-        assert "upper bound" in service["annual_train_km_basis"]
+        assert "hourly service offer" in service["annual_train_km_basis"]
         assert service["timetable_established"] is False
+
+
+def test_station_register_preserves_screen_points_without_approving_sites():
+    register = station_register()
+    assert register["candidate_id"] == load()["candidate_id"]
+    assert register["networks"]["first"]["mapped_candidate_point_count"] == 37
+    assert register["networks"]["metropolitan"]["mapped_candidate_point_count"] == 220
+    assert register["networks"]["first"]["budgeted_stations"] == 64
+    assert register["networks"]["metropolitan"]["budgeted_stations"] == 280
+    for network in register["networks"].values():
+        assert network["station_sites_approved"] == 0
+        assert all(not point["approved_station_site"] for point in network["mapped_points"])
+    assert release_summary()["station_register"]["evaluation_id"] == register["evaluation_id"]
+
+
+def test_grid_peak_factor_cannot_understate_hourly_service_peak():
+    cfg = deepcopy(load())
+    cfg["power_assumptions"]["grid_peak_over_service_mean"] = 1.5
+    lines, _, coverage = _lines(ROOT, cfg, "first")
+    with pytest.raises(ValueError, match="grid peak factor"):
+        _service_duty(cfg, "first", lines, coverage)
 
 
 def test_construction_cashflow_reconciles_without_assuming_a_loan_or_opening():
@@ -159,9 +183,14 @@ def test_power_price_margin_and_single_power_calculation(monkeypatch):
     rows = system.compare("first")
     assert len(calls) == 1
     margin = rows["power_cost_sensitivity"]
-    assert margin["protected_advantage_usd_m"] == pytest.approx(63.700, abs=0.01)
-    assert margin["protected_price_uplift_to_overhead_usd_m_per_track_km"] == pytest.approx(0.15137, abs=1e-4)
-    assert margin["extra_annual_maintenance_to_overhead_usd_m_per_track_km"] == pytest.approx(0.012428, abs=1e-4)
+    assert margin["protected_advantage_usd_m"] == pytest.approx(52.288, abs=0.01)
+    assert margin["protected_price_uplift_to_overhead_usd_m_per_track_km"] == pytest.approx(0.12425, abs=1e-4)
+    assert margin["extra_annual_maintenance_to_overhead_usd_m_per_track_km"] == pytest.approx(0.010202, abs=1e-4)
+    assert sum(margin["advantage_components_usd_m"].values()) == pytest.approx(
+        margin["protected_advantage_usd_m"])
+    assert margin["procurement_winner_established"] is False
+    assert margin["one_at_a_time_screens"]["conductor_equipment_plus_20_percent"][
+        "protected_lower_under_this_input"] is False
 
 
 def test_metropolitan_route_and_economics_are_standalone(tmp_path: Path):

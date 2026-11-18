@@ -34,6 +34,15 @@ speed_cap_kmh = 72
 energy_kwh_per_train_km_overhead_comparator = 20
 peak_traction_input_mw_overhead_comparator = 5.0
 
+# Planning-day departures per direction on every named passenger service group,
+# beginning at 06:00 local time. The four 24 tph hours retain the 150 s peak
+# control; lower-frequency hours avoid treating all 18 hours as peak service.
+# This is a service offer, not a demand forecast or a junction-approved timetable.
+[service_plan]
+start_hour_local = 6
+departures_per_hour_direction = [6, 6, 12, 12, 24, 24, 12, 12, 12, 12, 24, 24, 12, 12, 6, 6, 6, 6]
+terminal_layover_min_each_end = 3.0
+
 [vehicle_geometry]
 car_body_length_m = 17.0
 body_width_m = 2.7
@@ -282,7 +291,9 @@ station_charge_efficiency = 0.90
 limited_supply_charge_efficiency = 0.90
 conductor_grid_efficiency = 0.94
 overhead_grid_efficiency = 0.93
-grid_peak_over_service_mean = 1.50
+# The hourly service offer averages 12.667 tph and peaks at 24 tph (1.895x).
+# Keep the provisional grid request at least this frequency ratio.
+grid_peak_over_service_mean = 1.90
 charge_buffer_pair_cycles_per_station = 2
 buffer_life_years = 12
 battery_life_years = 10
