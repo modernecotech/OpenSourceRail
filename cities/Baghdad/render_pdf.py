@@ -226,9 +226,10 @@ def render():
     styles.add(ParagraphStyle(name="TitleOSR", parent=styles["Title"], fontName="Helvetica-Bold",
                               fontSize=18, leading=22, textColor=colors.HexColor("#17364a"), spaceAfter=11))
     styles.add(ParagraphStyle(name="SectionOSR", parent=styles["Heading2"], fontName="Helvetica-Bold",
-                              fontSize=11, leading=14, textColor=colors.HexColor("#146c85"), spaceBefore=10, spaceAfter=5))
+                              fontSize=11, leading=14, textColor=colors.HexColor("#146c85"), spaceBefore=10, spaceAfter=5,
+                              keepWithNext=True))
     styles.add(ParagraphStyle(name="BodyOSR", parent=styles["BodyText"], fontName="Helvetica",
-                              fontSize=8.6, leading=12.2, spaceAfter=6))
+                              fontSize=8.6, leading=12.0, spaceAfter=5.5))
     styles.add(ParagraphStyle(name="CellOSR", parent=styles["BodyOSR"], fontSize=7.6, leading=10.2, spaceAfter=0))
     styles.add(ParagraphStyle(name="FooterOSR", parent=styles["BodyOSR"], fontSize=7,
                               textColor=colors.HexColor("#697a83"), alignment=TA_CENTER))
@@ -243,11 +244,16 @@ def render():
         story.append(image)
         story.append(Spacer(1, 3 * mm))
     def cash_chart():
-        years = list(range(2027, 2036))
-        first = [393.284, 1179.851, 2359.701, 2359.701, 1573.133, 0, 0, 0, 0]
-        metro = [930.532, 2171.242, 3101.775, 4032.307, 4652.662, 5273.017, 4652.662, 3722.130, 2481.422]
+        cash = {name: result["networks"][name]["selected_construction_cashflow"]
+                for name in ("first", "metropolitan")}
+        years = list(range(min(row["year"] for value in cash.values() for row in value["annual_capital_draw"]),
+                           max(row["year"] for value in cash.values() for row in value["annual_capital_draw"]) + 1))
+        amounts = {name: {row["year"]: row["capital_usd_m"] for row in value["annual_capital_draw"]}
+                   for name, value in cash.items()}
+        first = [amounts["first"].get(year, 0.0) for year in years]
+        metro = [amounts["metropolitan"].get(year, 0.0) for year in years]
         for values, name in ((first, "first"), (metro, "metropolitan")):
-            capital = result["networks"][name]["power_cases"][result["networks"][name]["digital_cost_leader"]]["installed_capital_usd_m"]
+            capital = cash[name]["total_capital_usd_m"]
             if abs(sum(values) - capital) > .01:
                 raise ValueError(f"Construction cash chart does not reconcile with {name} capital")
         fig, ax = plt.subplots(figsize=(9, 3.4), dpi=170)

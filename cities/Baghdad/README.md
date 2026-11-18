@@ -6,7 +6,8 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 
 | Programme | Seven-corridor alternative | Independent citywide alternative |
 |---|---:|---:|
-| Route length | 148.2 km | 605.652 km |
+| Costed guideway length | 148.2 km | 605.652 km |
+| Assigned passenger-path length | 148.2 km | 555.553 km; 50.099 km reserved |
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
 | Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
@@ -39,7 +40,7 @@ The airport line is planned to reach the passenger-terminal building area. Its m
 
 [Open the metropolitan map](maps/Baghdad-606km.png) · [Download its GIS layers](maps/network-606km.geojson)
 
-The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared route-length control; drawn lines are schematic planning corridors. Five shared links and the east inner arc are costed without an assigned train path; the other access branches are represented in named service groups.
+The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared costed guideway control; drawn lines are schematic planning corridors. Five shared links and the east inner arc total 50.099 km and are reserved non-revenue corridors without assigned train paths. The other 555.553 km has passenger-path assignments. The 934-train and annual train-distance figures are planning allowances, not a route timetable.
 
 ## People and trains
 
@@ -65,7 +66,7 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 | Protected conductor along both tracks | 296.4 track-km | 1,211.304 track-km |
 | Traction grid sites | 30 | 100 |
 | Depots / control centres | 4 / 2 | 12 / 4 |
-| Minimum beam-casting yards / erection fronts in stated civil window | 5 / 5 | 9 / 9 |
+| Beam-casting yards / erection fronts with stated ramp and availability | 6 / 6 | 10 / 10 |
 | Annual delivered electricity | 1,114 GWh | 4,309 GWh |
 | Annual operation and maintenance estimate | $339.974m | $1,348.404m |
 
@@ -73,8 +74,8 @@ The first construction family uses repeatable **10 m precast beams** on separate
 
 | Workstream | Local work and skills | Purchase and delivery control |
 |---|---|---|
-| Precast yards | Steel fixing, mould preparation, casting, curing, testing and beam handling | At least five yards in the first civil window; eight beams per yard per working day is the zero-disruption planning rate |
-| Street and viaduct construction | Utilities, foundations, piers, lifting, track and walkways | At least five erection fronts in the first civil window; staged traffic and river-crossing plans require additional margin |
+| Precast yards | Steel fixing, mould preparation, casting, curing, testing and beam handling | Six first-network yards with 80% first-year productivity and 90% later availability at eight beams per productive day |
+| Street and viaduct construction | Utilities, foundations, piers, lifting, track and walkways | Six first-network erection fronts on the same planning basis; citywide requires ten of each |
 | Train factory | Carbody, doors, interior, cable looms, final assembly and depot repair | Imported motors, converters and safety equipment remain separately priced |
 | Stations and electrical railway | Accessible entries, fit-out, protected conductor, cables and substations | Isolated power sections, inspection access and replaceable equipment |
 | Railway operation | Train supervision, control, station assistance, cleaning and maintenance | Rosters and wage budgets belong in operating contracts, not extra construction capital |
@@ -100,6 +101,7 @@ The first construction family uses repeatable **10 m precast beams** on separate
 | **Installed total** | **7,865.670** | **31,017.749** |
 
 The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw) allocates first-programme construction over **2027–2031** and the independent citywide network over **2027–2035**. Its highest planned annual draw is **$2.360bn** for the first programme in 2029 and 2030, and **$5.273bn** for the independent citywide network in 2032. These are construction cash requirements before borrowing costs. Financing can combine Iraqi public capital, commercial bank facilities and export credit for eligible UK export contracts. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) applies to specific contracts and lender assessments; no UKEF commitment or loan amount is included in the capital estimate.
+The calculated 2027 present cost, with annual construction draws followed by 30 years of full operation after completion, is **$12.599bn** for seven corridors and **$44.506bn** citywide. This uses a different time origin from the headline 30-year cost and includes no staged openings or financing charges.
 
 | Capital source to develop | Contract scope | What must be settled |
 |---|---|---|

@@ -1,6 +1,6 @@
 {
   "candidate_id": "osr-baghdad-zero-tunnel-offwire-20261117",
-  "evaluation_id": "4df298b4170b3f7e8c8737d46646a1314c52d105e42f09cb4135a3e2d69823e5",
+  "evaluation_id": "5837699f3e4fbc1161d62d3cbec7a036f93cffff61a4a2642bc7f8ebfe5c4aa5",
   "networks": {
     "first": {
       "civil_cases": {
@@ -8,8 +8,8 @@
           "beam_count": 29640,
           "civil_option_physical_id": "9ce2d5b0968a38368d0e01d845c85bd32d2ee9ebdee595892536b6be3b52505e",
           "direct_elevated_civil_usd_m": 1390.3580113814369,
-          "erection_fronts_needed": 5,
-          "factory_yards_needed": 5,
+          "erection_fronts_needed": 6,
+          "factory_yards_needed": 6,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 7944.063363091786,
           "pier_foundation_count": 14827,
@@ -19,8 +19,8 @@
           "beam_count": 29640,
           "civil_option_physical_id": "dae6fe10e75edf8997401515b3d65a6457afd1233f8f9c9c5523df115d2cbf70",
           "direct_elevated_civil_usd_m": 1331.2381675490255,
-          "erection_fronts_needed": 5,
-          "factory_yards_needed": 5,
+          "erection_fronts_needed": 6,
+          "factory_yards_needed": 6,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 7865.670450170009,
           "pier_foundation_count": 29654,
@@ -52,8 +52,8 @@
           "beam_count": 11856,
           "civil_option_physical_id": "a0ec4c2ffe748eccc4dc271d819affe9ee73a86fe9020aa04e828a4ea6fd5869",
           "direct_elevated_civil_usd_m": 1213.082213392025,
-          "erection_fronts_needed": 2,
-          "factory_yards_needed": 2,
+          "erection_fronts_needed": 3,
+          "factory_yards_needed": 3,
           "hook_surrogate_t_per_beam": 93.34162256644956,
           "installed_capital_usd_m": 7708.995654957825,
           "pier_foundation_count": 5935,
@@ -63,8 +63,8 @@
           "beam_count": 11856,
           "civil_option_physical_id": "02b2563b35a72238d4ec2cc82769467c55a84370d9a2e1230093629eb8c683ff",
           "direct_elevated_civil_usd_m": 1189.417529157496,
-          "erection_fronts_needed": 2,
-          "factory_yards_needed": 2,
+          "erection_fronts_needed": 3,
+          "factory_yards_needed": 3,
           "hook_surrogate_t_per_beam": 93.34162256644956,
           "installed_capital_usd_m": 7677.616283662839,
           "pier_foundation_count": 11870,
@@ -97,9 +97,22 @@
       "digital_cost_leader": "protected_conductor",
       "elevated_route_km": 148.2,
       "map_and_service_coverage": {
+        "all_costed_sections_have_declared_purpose": true,
         "all_costed_sections_have_service_paths": true,
         "costed_route_km": 148.2,
         "drawn_polyline_km": 138.395468448138,
+        "non_revenue_section_purposes": {},
+        "non_revenue_sections_km": {},
+        "passenger_path_route_km": 148.2,
+        "passenger_path_sections_km": {
+          "Airport": 12.0,
+          "Blue": 22.0,
+          "Green": 19.0,
+          "Purple": 14.5,
+          "Red": 27.7,
+          "White": 23.0,
+          "Yellow": 30.0
+        },
         "planning_length_adjustment_km": 9.804531551861999,
         "unassigned_sections_km": {}
       },
@@ -198,15 +211,76 @@
         "vehicles": 2052.1600000000003
       },
       "selected_civil_delivery": {
-        "erection_fronts_needed_at_declared_rate": 5,
+        "additional_yard_and_front_cost_usd": null,
+        "civil_finish_year": 2030,
+        "civil_start_year": 2028,
+        "effective_workdays_per_yard_or_front": 650.0,
+        "erection_fronts_needed_at_declared_rate": 6,
+        "erection_fronts_without_ramp_or_downtime": 5,
         "erection_lifts_per_workday_needed": 39.52,
         "factory_beams_per_workday_needed": 39.52,
         "factory_shifts_and_crane_availability_verified": false,
-        "factory_yards_needed_at_declared_rate": 5,
+        "factory_yards_needed_at_declared_rate": 6,
+        "factory_yards_without_ramp_or_downtime": 5,
+        "first_year_productivity_fraction": 0.8,
+        "later_year_availability_fraction": 0.9,
+        "nominal_workdays_per_yard_or_front": 750,
+        "ramp_and_availability_are_planning_assumptions": true,
         "road_closure_days": null,
         "single_erection_front_workdays": 3705,
         "single_yard_workdays": 3705,
-        "target_years": 3
+        "target_years": 3,
+        "yearly_capacity": [
+          {
+            "productive_workdays_per_yard_or_front": 200.0,
+            "year": 2028
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2029
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2030
+          }
+        ]
+      },
+      "selected_construction_cashflow": {
+        "annual_capital_draw": [
+          {
+            "capital_usd_m": 393.2835225085005,
+            "present_capital_at_start_usd_m": 393.2835225085005,
+            "year": 2027
+          },
+          {
+            "capital_usd_m": 1179.8505675255012,
+            "present_capital_at_start_usd_m": 1134.4716995437511,
+            "year": 2028
+          },
+          {
+            "capital_usd_m": 2359.7011350510024,
+            "present_capital_at_start_usd_m": 2181.6763452764444,
+            "year": 2029
+          },
+          {
+            "capital_usd_m": 2359.7011350510024,
+            "present_capital_at_start_usd_m": 2097.7657166119657,
+            "year": 2030
+          },
+          {
+            "capital_usd_m": 1573.134090034002,
+            "present_capital_at_start_usd_m": 1344.7216132127987,
+            "year": 2031
+          }
+        ],
+        "basis_year": 2027,
+        "construction_start_present_cost_usd_m": 12599.368016232309,
+        "full_service_start_year_assumption": 2032,
+        "interest_fees_premium_exchange_and_revenue_modelled": false,
+        "present_30y_operation_and_renewal_at_start_usd_m": 5447.4491190788485,
+        "present_capital_at_start_usd_m": 7151.91889715346,
+        "staged_openings_modelled": false,
+        "total_capital_usd_m": 7865.670450170009
       },
       "selected_control_electronics": {
         "allocation_within_capital_scopes_usd_m": {
@@ -249,7 +323,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "d1d8b87ae698518c692739a7d915341b476751fb13c4a9b35ca7cc1b7d4532fb",
+      "selected_evaluation_id": "d1a7fdd1667955a221b4a99371e66d2edfa01d6c4f628f3aa8d0a2279425d90c",
       "selected_local_delivery": null,
       "selected_renewals_usd_m": [
         {
@@ -278,6 +352,25 @@
           "year": 25
         }
       ],
+      "selected_service_allowance": {
+        "active_trainsets": 210,
+        "annual_train_km": 52428600,
+        "annual_train_km_basis": "active fleet x commercial speed x service hours x service days; planning allowance, not a route timetable",
+        "costed_route_km": 148.2,
+        "fleet_trainsets": 242,
+        "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
+        "line_count": 7,
+        "non_revenue_reserved_route_km": 0,
+        "normal_places_per_train": 700,
+        "offered_places_basis": "per service group at nominal peak headway; network timetable not established",
+        "offered_places_per_hour_direction": 16800.0,
+        "passenger_path_route_km": 148.2,
+        "route_km": 148.2,
+        "route_km_basis": "costed planning guideway including non-revenue reservations",
+        "stations": 64,
+        "stations_basis": "planning allowance; individual stop sequence and opening status not established",
+        "timetable_established": false
+      },
       "selected_service_power": {
         "battery_mass_allowance_within_base_t": 0.5,
         "continuous_essential_kw": 18.0,
@@ -334,8 +427,8 @@
           "beam_count": 121156,
           "civil_option_physical_id": "89c805693dc95cd3eb70b2cd81c3ed013134ad31abb1ab0fc28acbd83caeb430",
           "direct_elevated_civil_usd_m": 5682.043355374458,
-          "erection_fronts_needed": 9,
-          "factory_yards_needed": 9,
+          "erection_fronts_needed": 10,
+          "factory_yards_needed": 10,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 31338.172370026536,
           "pier_foundation_count": 60604,
@@ -345,8 +438,8 @@
           "beam_count": 121156,
           "civil_option_physical_id": "7fe02f8c53e52a503a6905ce1deef1a9737fbc164f4d4185665baf05b977a446",
           "direct_elevated_civil_usd_m": 5440.39642641921,
-          "erection_fronts_needed": 9,
-          "factory_yards_needed": 9,
+          "erection_fronts_needed": 10,
+          "factory_yards_needed": 10,
           "hook_surrogate_t_per_beam": 37.33664902657982,
           "installed_capital_usd_m": 31017.74854223188,
           "pier_foundation_count": 121208,
@@ -400,8 +493,8 @@
           "beam_count": 40402,
           "civil_option_physical_id": "1b613b024ebc478ae1a4fd93ce7035bac6d6b87a3b174f667314ba47898a6e6d",
           "direct_elevated_civil_usd_m": 4878.0242449903835,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 4,
+          "factory_yards_needed": 4,
           "hook_surrogate_t_per_beam": 112.00994707973946,
           "installed_capital_usd_m": 30272.043029657252,
           "pier_foundation_count": 20227,
@@ -411,8 +504,8 @@
           "beam_count": 40402,
           "civil_option_physical_id": "431a1f4d81f447e0f94c1be22c31043d47198a0c5da8a25465644b124d1c027e",
           "direct_elevated_civil_usd_m": 4797.372927717962,
-          "erection_fronts_needed": 3,
-          "factory_yards_needed": 3,
+          "erection_fronts_needed": 4,
+          "factory_yards_needed": 4,
           "hook_surrogate_t_per_beam": 112.00994707973946,
           "installed_capital_usd_m": 30165.09938295402,
           "pier_foundation_count": 40454,
@@ -423,26 +516,51 @@
       "digital_cost_leader": "protected_conductor",
       "elevated_route_km": 605.652,
       "map_and_service_coverage": {
+        "all_costed_sections_have_declared_purpose": true,
         "all_costed_sections_have_service_paths": false,
         "costed_route_km": 605.652,
         "drawn_polyline_km": 608.4602896418527,
-        "planning_length_adjustment_km": -2.808289641852639,
-        "unassigned_section_purposes": {
-          "B-I03": "passenger infill; service path pending",
-          "B-X01": "passenger connector; service path pending",
-          "B-X02": "passenger connector; service path pending",
-          "B-X03": "passenger connector; service path pending",
-          "B-X04": "passenger connector; service path pending",
-          "B-X05": "passenger connector; service path pending"
+        "non_revenue_section_purposes": {
+          "B-I03": "reserved_infill",
+          "B-X01": "reserved_connector",
+          "B-X02": "reserved_connector",
+          "B-X03": "reserved_connector",
+          "B-X04": "reserved_connector",
+          "B-X05": "reserved_connector"
         },
-        "unassigned_sections_km": {
+        "non_revenue_sections_km": {
           "B-I03": 15.922291139141258,
           "B-X01": 6.765323670307929,
           "B-X02": 6.8478660912462255,
           "B-X03": 6.546101424304219,
           "B-X04": 8.003916722984403,
           "B-X05": 6.013777338326613
-        }
+        },
+        "passenger_path_route_km": 555.5527236136894,
+        "passenger_path_sections_km": {
+          "B-A01": 3.0956378266771822,
+          "B-A02": 0.4272342964536822,
+          "B-A03": 0.5713503698053866,
+          "B-A04": 0.11134854616950636,
+          "B-A05": 0.49873079773288453,
+          "B-A06": 1.3817484055029903,
+          "B-I01": 12.040789537730308,
+          "B-I02": 10.020810162647178,
+          "B-I04": 21.502450320163508,
+          "B-I05": 12.679228954233796,
+          "B-I06": 16.628624616727475,
+          "line-1": 48.86451055019596,
+          "line-2": 52.588278569137174,
+          "line-3": 49.27788202812537,
+          "line-4": 41.69692763684622,
+          "line-5": 47.06571131969444,
+          "line-6": 52.25739576838139,
+          "line-7": 39.741374853064464,
+          "line-8": 47.915666160120345,
+          "line-9": 97.18702289428018
+        },
+        "planning_length_adjustment_km": -2.808289641852639,
+        "unassigned_sections_km": {}
       },
       "power_cases": {
         "limited_conductor_battery": {
@@ -539,15 +657,112 @@
         "vehicles": 7920.320000000001
       },
       "selected_civil_delivery": {
-        "erection_fronts_needed_at_declared_rate": 9,
+        "additional_yard_and_front_cost_usd": null,
+        "civil_finish_year": 2034,
+        "civil_start_year": 2028,
+        "effective_workdays_per_yard_or_front": 1550.0,
+        "erection_fronts_needed_at_declared_rate": 10,
+        "erection_fronts_without_ramp_or_downtime": 9,
         "erection_lifts_per_workday_needed": 69.232,
         "factory_beams_per_workday_needed": 69.232,
         "factory_shifts_and_crane_availability_verified": false,
-        "factory_yards_needed_at_declared_rate": 9,
+        "factory_yards_needed_at_declared_rate": 10,
+        "factory_yards_without_ramp_or_downtime": 9,
+        "first_year_productivity_fraction": 0.8,
+        "later_year_availability_fraction": 0.9,
+        "nominal_workdays_per_yard_or_front": 1750,
+        "ramp_and_availability_are_planning_assumptions": true,
         "road_closure_days": null,
         "single_erection_front_workdays": 15145,
         "single_yard_workdays": 15145,
-        "target_years": 7
+        "target_years": 7,
+        "yearly_capacity": [
+          {
+            "productive_workdays_per_yard_or_front": 200.0,
+            "year": 2028
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2029
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2030
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2031
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2032
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2033
+          },
+          {
+            "productive_workdays_per_yard_or_front": 225.0,
+            "year": 2034
+          }
+        ]
+      },
+      "selected_construction_cashflow": {
+        "annual_capital_draw": [
+          {
+            "capital_usd_m": 930.5324562669563,
+            "present_capital_at_start_usd_m": 930.5324562669563,
+            "year": 2027
+          },
+          {
+            "capital_usd_m": 2171.242397956232,
+            "present_capital_at_start_usd_m": 2087.733074957915,
+            "year": 2028
+          },
+          {
+            "capital_usd_m": 3101.774854223188,
+            "present_capital_at_start_usd_m": 2867.7652128542786,
+            "year": 2029
+          },
+          {
+            "capital_usd_m": 4032.3073104901446,
+            "present_capital_at_start_usd_m": 3584.7065160678485,
+            "year": 2030
+          },
+          {
+            "capital_usd_m": 4652.662281334781,
+            "present_capital_at_start_usd_m": 3977.1152175308957,
+            "year": 2031
+          },
+          {
+            "capital_usd_m": 5273.017252179419,
+            "present_capital_at_start_usd_m": 4334.035813975976,
+            "year": 2032
+          },
+          {
+            "capital_usd_m": 4652.662281334781,
+            "present_capital_at_start_usd_m": 3677.0665842556355,
+            "year": 2033
+          },
+          {
+            "capital_usd_m": 3722.129825067825,
+            "present_capital_at_start_usd_m": 2828.51275711972,
+            "year": 2034
+          },
+          {
+            "capital_usd_m": 2481.4198833785504,
+            "present_capital_at_start_usd_m": 1813.149203281872,
+            "year": 2035
+          }
+        ],
+        "basis_year": 2027,
+        "construction_start_present_cost_usd_m": 44505.839022852306,
+        "full_service_start_year_assumption": 2036,
+        "interest_fees_premium_exchange_and_revenue_modelled": false,
+        "present_30y_operation_and_renewal_at_start_usd_m": 18405.22218654121,
+        "present_capital_at_start_usd_m": 26100.6168363111,
+        "staged_openings_modelled": false,
+        "total_capital_usd_m": 31017.74854223188
       },
       "selected_control_electronics": {
         "allocation_within_capital_scopes_usd_m": {
@@ -590,7 +805,7 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "158fa0f76447c947c6cd947506817ad305837fbeb86dae785681e6b8c5c55342",
+      "selected_evaluation_id": "5753b4d3b6b3d66b537282c23558e54042f4650a8b50a0e13b9b32e905bdcb3c",
       "selected_local_delivery": {
         "actual_supplier_origin_established": false,
         "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital",
@@ -641,6 +856,25 @@
           "year": 25
         }
       ],
+      "selected_service_allowance": {
+        "active_trainsets": 812,
+        "annual_train_km": 202723920,
+        "annual_train_km_basis": "active fleet x commercial speed x service hours x service days; planning allowance, not a route timetable",
+        "costed_route_km": 605.652,
+        "fleet_trainsets": 934,
+        "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
+        "line_count": 14,
+        "non_revenue_reserved_route_km": 50.09927638631065,
+        "normal_places_per_train": 700,
+        "offered_places_basis": "per service group at nominal peak headway; network timetable not established",
+        "offered_places_per_hour_direction": 16800.0,
+        "passenger_path_route_km": 555.5527236136894,
+        "route_km": 605.652,
+        "route_km_basis": "costed planning guideway including non-revenue reservations",
+        "stations": 280,
+        "stations_basis": "planning allowance; individual stop sequence and opening status not established",
+        "timetable_established": false
+      },
       "selected_service_power": {
         "battery_mass_allowance_within_base_t": 0.5,
         "continuous_essential_kw": 18.0,
@@ -747,9 +981,9 @@
     "cities/Baghdad/maps/network-148km.geojson": "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4",
     "cities/Baghdad/maps/network-606km.geojson": "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056",
     "cities/Baghdad/maps/rfi-waypoints.json": "56d8f1ab75a4eb338dbb60c59947d63133e67d5990dfff71a4e45586d8295de5",
-    "cities/Baghdad/system.toml": "37a7666a26aa96262ee251db6e4465eb380b555a0950b859d5b086402c850d4b",
+    "cities/Baghdad/system.toml": "57836b54d11b7d59d22272d8582ddd7a37ad0e0f614a1090b83d6fecf9c79091",
     "engineering/outline/baghdad_power.py": "ad2087cb2162a1e81d509647b2cb778911bafc675056cf0c857cba2d2c48846f",
-    "engineering/outline/baghdad_system.py": "7b9d0b081ece2c39afd87d5d4197d710509407de533996edb1c0b1970e7664d7",
-    "engineering/outline/baghdad_viaduct.py": "fbe79c6ebf203efa0a8b5b61a3b35704ce21bb05eb5ea731250aa0e14be92671"
+    "engineering/outline/baghdad_system.py": "d4cb1ce5b201d9470782de40ec806686553fb80bd348106ec4ce69da8efe8d33",
+    "engineering/outline/baghdad_viaduct.py": "c208bd5564680dd4f754183864c27c97124d82b3556b1a26e0442473a8aad056"
   }
 }

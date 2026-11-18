@@ -104,6 +104,20 @@ def test_public_summary_distinguishes_costed_and_passenger_path_guideway():
     assert service["timetable_established"] is False
 
 
+def test_construction_cashflow_reconciles_without_assuming_a_loan_or_opening():
+    for name, start, finish in (("first", 2027, 2031), ("metropolitan", 2027, 2035)):
+        row = evaluate(name, "protected_conductor")
+        cash = row["construction_cashflow"]
+        draws = cash["annual_capital_draw"]
+        assert [item["year"] for item in draws] == list(range(start, finish + 1))
+        assert cash["total_capital_usd_m"] == pytest.approx(row["capital_usd_m"]["installed"])
+        assert cash["present_capital_at_start_usd_m"] < cash["total_capital_usd_m"]
+        assert cash["full_service_start_year_assumption"] == finish + 1
+        assert cash["construction_start_present_cost_usd_m"] > cash["present_capital_at_start_usd_m"]
+        assert cash["staged_openings_modelled"] is False
+        assert cash["interest_fees_premium_exchange_and_revenue_modelled"] is False
+
+
 def test_power_price_margin_and_single_power_calculation(monkeypatch):
     import engineering.outline.baghdad_system as system
     actual = system.compare_power

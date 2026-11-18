@@ -6,7 +6,8 @@ The [one candidate input file](system.toml) drives the [calculated result](syste
 
 | Quantity | Seven-corridor alternative | Independent citywide |
 |---|---:|---:|
-| Route length / stations | 148.2 km / 64 | 605.652 km / 280 |
+| Costed guideway / stations budgeted | 148.2 km / 64 | 605.652 km / 280 |
+| Guideway with assigned passenger paths | 148.2 km | 555.553 km; 50.099 km reserved without a train path |
 | Active trains / full fleet | 210 / 242 | 812 / 934 |
 | Depots / control centres / grid sites | 4 / 2 / 30 | 12 / 4 / 100 |
 | Two-track elevated beams, 10 m family | 29,640 | 121,156 |
@@ -20,7 +21,7 @@ The [one candidate input file](system.toml) drives the [calculated result](syste
 
 These are single point estimates at declared rates. They include a 20% project allowance and are designed for matched option comparison and initial procurement planning. They are not supplier bids, debt commitments or a measured construction alignment.
 
-The drawn first-programme lines total **138.395 km**, while the priced RFI control is **148.2 km**. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed but have no assigned train path in the 14 service groups. The [input](system.toml) names their intended passenger connector or infill role. The 934-train figure and annual operating allowance therefore do not demonstrate service on those sections; junction paths and hourly departures must be resolved before using the total as a timetable or finance case.
+The drawn first-programme lines total **138.395 km**, while the priced RFI control is **148.2 km**. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed as **reserved non-revenue corridors** without assigned train paths. The other **555.553 km** has passenger-path assignments in the 14 service groups. The 934-train figure and annual operating allowance are declared planning allowances, not a timetable; they do not operate the reserved sections. Junction paths, individual stops and hourly departures are needed before using these totals as a service or finance case.
 
 ## Fourteen installed capital scopes
 
@@ -97,7 +98,7 @@ The selected 10 m family holds the existing repeatable reference geometry as a *
 | 30 m, separate supports | 9,886 | 9,900 | $7.657bn | 112.0 t |
 | 30 m, common pier | 9,886 | 4,950 | $7.683bn | 112.0 t |
 
-The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. Within the stated 2028–2030 civil window, 29,640 beams require **at least five casting yards and five erection fronts** at eight beams or lifts per working day and 250 working days per year. The 2028–2034 citywide civil window needs **at least nine of each** for 121,156 beams. These are zero-disruption capacity minima, with only 1.2% and 3.8% nominal headroom. Factory setup, shutdowns and traffic constraints require additional capacity or time; their incremental cost is not separately priced in this planning estimate.
+The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. A same-section, uniform-load screen now shows bending demand rising with span length squared and deflection demand with length to the fourth power; it is not a moving-train structural design. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. At eight beams or lifts per productive day and 250 nominal workdays per year, the 2028–2030 civil window needs **five yards and five fronts only with no ramp or downtime**; 2028–2034 needs **nine of each** on that basis. A stated 80% first-year productivity and 90% later availability allowance raises planning capacity to **six yards and six fronts** for 29,640 first-network beams and **ten of each** for 121,156 citywide beams. Added facility and shift costs are not separately priced in the present capital estimate.
 
 ## Construction timing and financing basis
 
@@ -128,6 +129,8 @@ The following allocation turns each independently selected installed capital tot
 | **Total** | **7,865.670** | **31,017.749** |
 
 The first programme is allocated 5%, 15%, 30%, 30% and 20% over 2027–2031. The independent citywide network is allocated 3%, 7%, 10%, 13%, 15%, 17%, 15%, 12% and 8% over 2027–2035. These are cash planning weights, not contracts or a claim that finance has been raised. Interest during construction, lender fees, UKEF premium, exchange effects and any operating support are outside installed capital and require agreed financing terms.
+
+The [calculated cash-flow view](system-results.json) now discounts each annual capital draw to the start of **2027** at the same 4% real comparison rate. This makes capital present cost **$7,151.919m** for seven corridors and **$26,100.617m** citywide. If full operation begins only after each programme finishes, and the same 30-year operation and renewal stream then follows, the corresponding **2027 present cost** is **$12,599.368m** and **$44,505.839m**. These figures use different time origins from the headline $14,493.325m and $57,214.119m 30-year comparisons, which place installed capital at the start of full service. They do not represent savings or financing offers. Staged openings, interest, debt repayment, premiums, exchange and revenue remain outside this view.
 
 The independent citywide programme requires overlapping construction fronts and an average of about 67 route-km/year across nine years. Its map includes through-service airport, Sadr City and Jadriya access sections. Actual land rights, station access, road and river interfaces, utility relocation, supply contracts and finance draw dates require project-specific agreements. Funding can combine Iraqi public capital, commercial lending and export finance for eligible imported packages. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) depends on a specific eligible export contract, bank and borrower; the model does not assume a UKEF commitment.
 

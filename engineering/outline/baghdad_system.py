@@ -69,6 +69,11 @@ def load(root: Path = ROOT, network: str | None = None) -> dict:
                        <= row["civil_finish_year"] <= row["construction_finish_year"]
                 or row["fleet_trainsets"] < row["active_trainsets"]):
             raise ValueError("Baghdad network controls differ: " + name)
+        weights = row.get("construction_cash_weights", [])
+        if (len(weights) != row["construction_finish_year"] - row["construction_start_year"] + 1
+                or any(type(weight) not in (int, float) or weight < 0 for weight in weights)
+                or not isclose(sum(weights), 1.0, abs_tol=1e-9)):
+            raise ValueError("Baghdad construction cash weights differ: " + name)
     return cfg
 
 
@@ -211,6 +216,37 @@ def _renewal_cost(event: dict, case: dict, cfg: dict, power_price: dict) -> floa
     if item not in prices:
         raise ValueError("Unpriced Baghdad renewal item: " + item)
     return units * prices[item]
+
+
+def _construction_cashflow(network: dict, installed_usd_m: float,
+                           operating_30y_present_usd_m: float,
+                           discount_rate_real: float) -> dict:
+    """Show capital draw and full-service costs from the construction-start date.
+
+    The public 30-year comparator is measured at full-service start. This
+    separate view places the declared capital draw in its actual programme
+    years and moves the same 30-year operation/renewal stream after completion.
+    It assumes no staged openings or financing terms.
+    """
+    start = network["construction_start_year"]
+    finish = network["construction_finish_year"]
+    rows = [{"year": start + index,
+             "capital_usd_m": installed_usd_m * weight,
+             "present_capital_at_start_usd_m": installed_usd_m * weight
+             / (1 + discount_rate_real) ** index}
+            for index, weight in enumerate(network["construction_cash_weights"])]
+    capital_present = sum(row["present_capital_at_start_usd_m"] for row in rows)
+    years_until_full_service = finish - start + 1
+    operations_present = operating_30y_present_usd_m / (1 + discount_rate_real) ** years_until_full_service
+    return {"basis_year": start,
+            "full_service_start_year_assumption": finish + 1,
+            "annual_capital_draw": rows,
+            "total_capital_usd_m": sum(row["capital_usd_m"] for row in rows),
+            "present_capital_at_start_usd_m": capital_present,
+            "present_30y_operation_and_renewal_at_start_usd_m": operations_present,
+            "construction_start_present_cost_usd_m": capital_present + operations_present,
+            "staged_openings_modelled": False,
+            "interest_fees_premium_exchange_and_revenue_modelled": False}
 
 
 def _control_electronics(cfg: dict, network: dict, power: dict,
@@ -509,6 +545,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     annual_factor = sum((1 + r) ** -year for year in range(1, cfg["comparison_years"] + 1))
     life = installed + annual_opex * annual_factor + sum(
         row["usd_m"] / (1 + r) ** row["year"] for row in renewals)
+    construction_cashflow = _construction_cashflow(n, installed, life - installed, r)
     installed_rates = cfg["control_electronics_installed"]
     selected_controls = {name: {"count": count,
                                 "mass_kg_each": installed_rates[name + "_kg"],
@@ -565,6 +602,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                                  "power_maintenance": maintenance, "total": annual_opex},
         "renewals_usd_m": renewals,
         "whole_life_30y_present_usd_m": life,
+        "construction_cashflow": construction_cashflow,
         "source_sha256": {str(CONFIG) + "#selected-" + network: _selected_input_id(cfg, network),
                           cfg["map_sources"][network + "_path"]:
                               cfg["map_sources"][network + "_sha256"],
@@ -669,6 +707,7 @@ def release_summary(root: Path = ROOT) -> dict:
             "service_groups": cfg["networks"][name].get("service_groups"),
             "selected_annual_opex_usd_m": selected["operation_usd_m_year"],
             "selected_renewals_usd_m": selected["renewals_usd_m"],
+            "selected_construction_cashflow": selected["construction_cashflow"],
             "power_cases": {key: {
                 "physical_candidate_id": row["physical_candidate_id"],
                 "installed_capital_usd_m": row["capital_usd_m"]["installed"],
