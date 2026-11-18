@@ -35,7 +35,12 @@ is **$328.648m** within the same scopes. These are 2026 planning allowances,
 not supplier quotations or extra capital. The model reserves **0.35 t** and
 **6 kW** per train for controls inside its existing base vehicle mass and
 auxiliary energy allowance; mounting, heat rejection and cable routing must
-fit that allowance when equipment is selected.
+fit that allowance when equipment is selected. The same model sizes a separate
+65 kWh nominal service battery per train: 52 kWh usable covers a 50.4 kWh
+two-hour essential-duty request with brake and door events and reserve.
+Its 0.50 t and $0.10m/train allowances sit inside the base vehicle mass and
+price; charging requests 36.1 kW/train over two hours. Traction duty remains
+on the protected conductor.
 
 ## Installed arrangement
 
@@ -45,7 +50,9 @@ controllers. The protected DC conductor feeds the traction converters through
 contact shoes, isolation and fault protection. A separate service battery and
 two power units feed protection, brakes, door release and communication during
 a line-power outage. Traction loss commands a protected stop; a control-room
-request cannot bypass onboard braking or open doors on the wrong side.
+request cannot bypass onboard braking or grant normal-service door release on
+the wrong side. The door evaluator also treats authorised emergency egress as
+a separate path and inhibits a motor-open command while the train is moving.
 
 At each station, the dispatch controller confirms train identity, stopping
 position, platform side, doors closed and route authority before departure.
@@ -68,15 +75,20 @@ The passive v0.6 comfort vehicle is retained separately.
 | Car control nodes | 306 |
 | Door controllers / bogie brake controllers | 612 each |
 | Station dispatch controllers / grid protection gateways | 12 / 6 |
+| Line-section gateways / train detection route-km | 22 / 30 |
 | Terminal control-room sets | 2 |
 
 Using the same unit planning allowances gives **$9.180m** of train
 electronics inside the existing **$300.900m** rolling-stock scope, **$1.440m**
 inside the **$96.000m** station scope, **$0.900m** inside the **$18.000m**
 substation scope and **$1.200m** inside the **$12.000m** terminal-control
-scope. Train-detection and line-section prices still sit within the published
-traction and control scopes; their exact section count is not defined in the
-30 km candidate, so this table does not add a separate section invoice.
+scope. The 22 line-section gateways, train-detection allowance and two
+control-room sets allocate another **$4.040m** within the existing
+**$12.000m** turnback and line-control scope. The complete **$15.560m**
+equipment schedule is in the selected candidate's [52-row BOM and 23-step
+production handoff](../docs/reference-v07/digital/production/README.md).
+Each train reserves 300 kg and 4 kW for this equipment inside the existing
+vehicle mass and auxiliary-power budgets.
 
 ## Supply and build interfaces
 
@@ -93,7 +105,8 @@ The available software modules are [ATP](../crates/osr-atp/),
 [interlocking](../crates/osr-interlocking/), [train control](../crates/osr-tcms/),
 [doors](../crates/osr-door-control/), [station control](../crates/osr-station-scada/),
 [control room](../crates/osr-occ/) and [event recording](../crates/osr-event-recorder/).
-They are development implementations; the counted hardware and drawings are
+They are development implementations, without a claimed safety integrity
+qualification; the counted hardware and drawings are
 the purchasing and installation scope. The former
 [maglev controller](../crates/osr-maglev-control/README.md) and
 [maglev host profile](../deployment/maglev.toml) are retained research only.

@@ -84,3 +84,38 @@ def test_changed_map_cannot_keep_the_same_candidate_input(tmp_path: Path):
         stream.write(b" ")
     with pytest.raises(ValueError, match="map source differs"):
         load(tmp_path)
+
+
+def test_station_geometry_changes_physical_identity_and_rejects_clashes(tmp_path: Path):
+    (tmp_path / CONFIG).parent.mkdir(parents=True)
+    shutil.copyfile(ROOT / CONFIG, tmp_path / CONFIG)
+    cfg = load()
+    for key in ("first", "metropolitan", "waypoints"):
+        source = ROOT / cfg["map_sources"][key + "_path"]
+        target = tmp_path / cfg["map_sources"][key + "_path"]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for name in ("baghdad_power.py", "baghdad_viaduct.py"):
+        target = tmp_path / "engineering/outline" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / "engineering/outline" / name, target)
+    original = evaluate("first", "protected_conductor", root=tmp_path)
+    path = tmp_path / CONFIG
+    path.write_text(path.read_text().replace("body_width_m = 2.7", "body_width_m = 2.72"))
+    wider = evaluate("first", "protected_conductor", root=tmp_path)
+    assert wider["physical_candidate_id"] != original["physical_candidate_id"]
+    assert wider["station_interfaces"]["static_body_edge_gap_m"] < original["station_interfaces"]["static_body_edge_gap_m"]
+    path.write_text(path.read_text().replace("body_width_m = 2.72", "body_width_m = 2.9"))
+    with pytest.raises(ValueError, match="station or door geometry"):
+        evaluate("first", "protected_conductor", root=tmp_path)
+
+
+def test_independent_service_power_has_outage_and_price_headroom():
+    row = evaluate("first", "protected_conductor")
+    supply = row["service_power"]
+    assert supply["declared_usable_kwh"] >= supply["required_usable_kwh_with_reserve"]
+    assert supply["nominal_battery_kwh_per_train"] == 65
+    assert supply["fleet_price_allocation_within_vehicles_usd_m"] == pytest.approx(24.2)
+    assert (supply["fleet_price_allocation_within_vehicles_usd_m"]
+            + row["control_electronics"]["allocation_within_capital_scopes_usd_m"]["vehicles"]
+            < row["capital_usd_m"]["scope_rows"]["vehicles"])

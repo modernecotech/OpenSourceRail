@@ -175,7 +175,7 @@
           }
         ],
         "coverage": "assembly-quote-route",
-        "mapped_bom_rows": 32,
+        "mapped_bom_rows": 38,
         "scope": "rolling-stock-and-vehicle-interfaces"
       },
       {
@@ -208,8 +208,8 @@
             "unit_rate_usd_m": "8"
           }
         ],
-        "coverage": "cost-ledger-only",
-        "mapped_bom_rows": 0,
+        "coverage": "assembly-quote-route",
+        "mapped_bom_rows": 1,
         "scope": "stations-platforms-and-access"
       },
       {
@@ -235,7 +235,7 @@
           }
         ],
         "coverage": "assembly-quote-route",
-        "mapped_bom_rows": 1,
+        "mapped_bom_rows": 2,
         "scope": "traction-grid-and-protection"
       },
       {
@@ -251,13 +251,84 @@
             "unit_rate_usd_m": "6"
           }
         ],
-        "coverage": "cost-ledger-only",
-        "mapped_bom_rows": 0,
+        "coverage": "assembly-quote-route",
+        "mapped_bom_rows": 3,
         "scope": "turnbacks-and-line-controls"
       }
     ]
   },
   "configuration_id": "osr-v07-30km-powered-wheel-10m-span-20261117",
+  "control_electronics": {
+    "allocation_is_extra_capital": false,
+    "allocation_within_scope_usd_m": {
+      "rolling-stock-and-vehicle-interfaces": "9.1800",
+      "stations-platforms-and-access": "1.44",
+      "traction-grid-and-protection": "0.90",
+      "turnbacks-and-line-controls": "4.040"
+    },
+    "equipment": {
+      "atp-channel": {
+        "allocation_usd_m": "2.04",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 102
+      },
+      "bogie-brake-controller": {
+        "allocation_usd_m": "1.836",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 612
+      },
+      "car-control-node": {
+        "allocation_usd_m": "1.836",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 306
+      },
+      "control-room-equipment-set": {
+        "allocation_usd_m": "1.2",
+        "parent_scope": "turnbacks-and-line-controls",
+        "quantity": 2
+      },
+      "door-controller": {
+        "allocation_usd_m": "0.9180",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 612
+      },
+      "grid-protection-gateway": {
+        "allocation_usd_m": "0.90",
+        "parent_scope": "traction-grid-and-protection",
+        "quantity": 6
+      },
+      "section-control-gateway": {
+        "allocation_usd_m": "0.44",
+        "parent_scope": "turnbacks-and-line-controls",
+        "quantity": 22
+      },
+      "station-dispatch-controller": {
+        "allocation_usd_m": "1.44",
+        "parent_scope": "stations-platforms-and-access",
+        "quantity": 12
+      },
+      "train-detection-route-km": {
+        "allocation_usd_m": "2.400",
+        "parent_scope": "turnbacks-and-line-controls",
+        "quantity": 30
+      },
+      "train-radio-link": {
+        "allocation_usd_m": "1.530",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 102
+      },
+      "train-service-power-unit": {
+        "allocation_usd_m": "1.02",
+        "parent_scope": "rolling-stock-and-vehicle-interfaces",
+        "quantity": 102
+      }
+    },
+    "installation_direct_hours_within_existing_scopes": "4308.0",
+    "physical_acceptance": false,
+    "sections": 22,
+    "train_continuous_power_allocation_kw": "4",
+    "train_mass_allocation_kg": "300"
+  },
   "digital_analysis": {
     "baseline_parent_price_and_10m_beam_preserved": false,
     "civil_evaluation_id": "e8856048364ad54e5c8ba214567c5a21c457c47293cccda219a8df5fe1ac6cee",
@@ -327,6 +398,31 @@
         "assembly": "station-power-site",
         "item_code": "OSR-V07-PLAN-POWER-SITE",
         "quantity": 6
+      },
+      {
+        "assembly": "six-car-train",
+        "item_code": "OSR-V07-PLAN-TRAIN-CONTROL",
+        "quantity": 51
+      },
+      {
+        "assembly": "station-controls",
+        "item_code": "OSR-V07-PLAN-STATION-CONTROL",
+        "quantity": 12
+      },
+      {
+        "assembly": "line-section",
+        "item_code": "OSR-V07-PLAN-LINE-SECTION",
+        "quantity": 22
+      },
+      {
+        "assembly": "line-control",
+        "item_code": "OSR-V07-PLAN-LINE-DETECTION",
+        "quantity": 30
+      },
+      {
+        "assembly": "control-centre",
+        "item_code": "OSR-V07-PLAN-CONTROL-CENTRE",
+        "quantity": 2
       }
     ],
     "mode": "ERPNext-shaped preview only; no import, API call or transaction",
@@ -355,7 +451,7 @@
   "production": {
     "beam_count": 6000,
     "bearing_count": 24000,
-    "bom_row_count": 41,
+    "bom_row_count": 52,
     "bom_rows": [
       {
         "assembly": "17m-powered-car",
@@ -889,13 +985,156 @@
         "rate_status": "excluded-by-powered-architecture",
         "unit": "station-module",
         "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "six-car-train",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "atp-channel",
+        "make_buy": "buy-qualified",
+        "notes": "Two independent train protection channels per set",
+        "origin_or_supplier_basis": "train-protection-supplier",
+        "quantity_per_assembly": "2",
+        "rate_status": "included-in-vehicle-rate",
+        "unit": "channel",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "six-car-train",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "train-radio-link",
+        "make_buy": "buy-qualified",
+        "notes": "Two train-to-ground links per set",
+        "origin_or_supplier_basis": "rail-radio-supplier",
+        "quantity_per_assembly": "2",
+        "rate_status": "included-in-vehicle-rate",
+        "unit": "link",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "six-car-train",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "train-service-power-unit",
+        "make_buy": "mixed",
+        "notes": "Independent protected controls and brake supply",
+        "origin_or_supplier_basis": "local-enclosure-plus-qualified-power-core",
+        "quantity_per_assembly": "2",
+        "rate_status": "included-in-vehicle-rate",
+        "unit": "unit",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "17m-powered-car",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "car-control-node",
+        "make_buy": "mixed",
+        "notes": "One car control and diagnostic node",
+        "origin_or_supplier_basis": "local-harness-plus-qualified-controller",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-car-rate",
+        "unit": "node",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "17m-powered-car",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "door-controller",
+        "make_buy": "buy-qualified",
+        "notes": "One controller per one-sided opening",
+        "origin_or_supplier_basis": "door-operator-supplier",
+        "quantity_per_assembly": "2",
+        "rate_status": "included-in-car-rate",
+        "unit": "controller",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "17m-powered-car",
+        "capital_scope": "rolling-stock-and-vehicle-interfaces",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "bogie-brake-controller",
+        "make_buy": "buy-qualified",
+        "notes": "One protected controller per bogie",
+        "origin_or_supplier_basis": "brake-supplier",
+        "quantity_per_assembly": "2",
+        "rate_status": "included-in-car-rate",
+        "unit": "controller",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "station-controls",
+        "capital_scope": "stations-platforms-and-access",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "station-dispatch-controller",
+        "make_buy": "mixed",
+        "notes": "Verify train stop platform side and door release",
+        "origin_or_supplier_basis": "local-cabinet-plus-qualified-core",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-station-rate",
+        "unit": "controller",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "station-power-site",
+        "capital_scope": "traction-grid-and-protection",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "grid-protection-gateway",
+        "make_buy": "mixed",
+        "notes": "Grid isolation faults and status",
+        "origin_or_supplier_basis": "local-cabinet-plus-qualified-protection",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-grid-rate",
+        "unit": "gateway",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "line-section",
+        "capital_scope": "turnbacks-and-line-controls",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "section-control-gateway",
+        "make_buy": "mixed",
+        "notes": "Section isolation and access interlock",
+        "origin_or_supplier_basis": "local-cabinet-plus-qualified-protection",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-line-controls-rate",
+        "unit": "gateway",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "line-control",
+        "capital_scope": "turnbacks-and-line-controls",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "train-detection-route-km",
+        "make_buy": "mixed",
+        "notes": "Thirty route-km planning allowance",
+        "origin_or_supplier_basis": "local-install-plus-qualified-detection",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-line-controls-rate",
+        "unit": "route-km",
+        "unit_scope_rate_usd": ""
+      },
+      {
+        "assembly": "control-centre",
+        "capital_scope": "turnbacks-and-line-controls",
+        "cost_treatment": "included-in-scope; do-not-sum-child-rows",
+        "item": "control-room-equipment-set",
+        "make_buy": "mixed",
+        "notes": "Traffic supervision without bypassing onboard protection",
+        "origin_or_supplier_basis": "local-fitout-plus-qualified-traffic-core",
+        "quantity_per_assembly": "1",
+        "rate_status": "included-in-line-controls-rate",
+        "unit": "set",
+        "unit_scope_rate_usd": ""
       }
     ],
     "factory_and_erection_workdays_at_16_beams_per_day_each": 375,
     "fleet_cars": 306,
     "fleet_doors": 612,
     "full_car_direct_assembly_hours_allowance": 720,
-    "routing_row_count": 18,
+    "routing_row_count": 23,
     "routing_rows": [
       {
         "assembly": "17m-powered-car",
@@ -1076,6 +1315,56 @@
         "record": "power-test-record",
         "sequence": "40",
         "workstation_or_tool": "grid-simulator-load-bank-and-isolation-tools"
+      },
+      {
+        "assembly": "six-car-train",
+        "direct_hours_per_unit": "60",
+        "hold_point": "Independent channels power loss and train integrity",
+        "operation": "Integrate dual protection radios and service-power units",
+        "rate_basis": "planning-direct-hours-within-train-rate",
+        "record": "train-controls-traveller",
+        "sequence": "80",
+        "workstation_or_tool": "train-cable-and-redundancy-test-bay"
+      },
+      {
+        "assembly": "station-controls",
+        "direct_hours_per_unit": "16",
+        "hold_point": "Identity stopping point side selection and door closed feedback",
+        "operation": "Install station dispatch and platform-side interface",
+        "rate_basis": "planning-direct-hours-within-station-rate",
+        "record": "station-controls-record",
+        "sequence": "10",
+        "workstation_or_tool": "station-cabinet-and-door-test-rig"
+      },
+      {
+        "assembly": "line-section",
+        "direct_hours_per_unit": "8",
+        "hold_point": "Section isolation earth fault and maintenance access",
+        "operation": "Install section control and access interlock",
+        "rate_basis": "planning-direct-hours-within-line-controls-rate",
+        "record": "section-controls-record",
+        "sequence": "10",
+        "workstation_or_tool": "protected-line-cabinet-and-isolation-tools"
+      },
+      {
+        "assembly": "line-control",
+        "direct_hours_per_unit": "24",
+        "hold_point": "Occupied section and communication loss response",
+        "operation": "Install route train detection and communications",
+        "rate_basis": "planning-direct-hours-within-line-controls-rate",
+        "record": "line-detection-record",
+        "sequence": "10",
+        "workstation_or_tool": "trackside-cable-route-and-test-rig"
+      },
+      {
+        "assembly": "control-centre",
+        "direct_hours_per_unit": "80",
+        "hold_point": "Authority separation logs and incident display",
+        "operation": "Install traffic supervision and event record",
+        "rate_basis": "planning-direct-hours-within-line-controls-rate",
+        "record": "control-centre-record",
+        "sequence": "10",
+        "workstation_or_tool": "control-room-test-rig"
       }
     ],
     "selected_beam_bare_mass_t": "29.964382",
@@ -1148,18 +1437,19 @@
   "schema": "osr-v07-digital-production-handoff/1",
   "selection_id": "osr-v07-digital-design-20261117",
   "source_sha256": {
-    "bom": "f27b13731c9c8712d3d57307692548cf8573eada5d08853142cca51c8d11a902",
+    "bom": "9c71e78e0d4e202a3fc2926423bb3a34456c8f34bccc43e63de1f2eda48a2f4d",
+    "controls": "9b4ca8e05cff2c967b7e4ab0cdc376d53250a20b7d82f89737290f1d842d373f",
     "cost_basis": "0766ebca7560bf218ccd6121dd20666a9ff2f8b5f3b0b764836a232a9a1c1bb8",
     "cost_programme": "2b981606917a4cc8b5e40ed0d4b0aed94a2acddaf104277bd2986747a64ced6b",
     "digital_civil_input": "9550e550468cdc803e214bab17d0277b40beffa0a833d0253789a6490159709e",
     "digital_civil_result": "ffe1bc03bdad9245bb8e7754455f9a4cdcacfef066cf883df009e95c4656c363",
     "digital_vehicle_input": "8f760f41b42a724c7d465cc3215cdd4ff98c88a4500a879dc56955c2f50760f3",
     "digital_vehicle_result": "298a221672a046d8bfb0d569fe2b610ce2f7e583febedd76504ed3129a55d9c2",
-    "generator": "151a97c009cc42c2a8f21bd9c75f8dd6936c65adee7e7450d3107e9a37e88911",
+    "generator": "ec469612f74c9edc1fb13820b34ad82cfdaaf52392c96c5185596c5147d29eb7",
     "joined_candidate": "65fc5fc13a5ad460f830c1dd348dbb0ece98465ee1d15d66d81cf2d5479d76a1",
     "lifecycle": "77cc4fafed46f92b44b470548f2b596840dd1fe4d32f4510352cb8cb0af6c1df",
     "planning_concept": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",
-    "routing": "a368953ae8e3129341f933ca432a5112bb7c8abb0128f43d6b7d95583539325a",
+    "routing": "5aab69eeedddda225c08b9ffbf17fe88de2e43ab2ca90c257f2f3a714a188e9a",
     "selected_overlay": "89cae255f3aa018dd03f9fc50ef087ad50d7601ee351ee74f978fd894531d248"
   }
 }

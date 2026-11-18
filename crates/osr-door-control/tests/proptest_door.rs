@@ -1,8 +1,8 @@
 //! Property tests for osr-door-control — D1 through D8.
 
 use osr_door_control::{
-    door_evaluate, DoorAction, DoorInputs, DoorParams, DoorSensors, DoorState, DoorStatus,
-    MotorCommand,
+    door_evaluate, DoorAction, DoorInputs, DoorParams, DoorSensors, DoorSide, DoorState,
+    DoorStatus, MotorCommand,
 };
 use proptest::prelude::*;
 
@@ -16,6 +16,10 @@ fn arb_action() -> impl Strategy<Value = DoorAction> {
         Just(DoorAction::Open),
         Just(DoorAction::Close),
     ]
+}
+
+fn arb_side() -> impl Strategy<Value = DoorSide> {
+    prop_oneof![Just(DoorSide::Left), Just(DoorSide::Right)]
 }
 
 fn arb_sensors() -> impl Strategy<Value = DoorSensors> {
@@ -40,18 +44,30 @@ fn arb_inputs() -> impl Strategy<Value = DoorInputs> {
         0u64..60_000_000_000,
         -1_000i32..30_000,
         any::<bool>(),
+        any::<bool>(),
+        arb_side(),
+        prop::option::of(arb_side()),
         arb_action(),
+        any::<bool>(),
         any::<bool>(),
         arb_sensors(),
     )
-        .prop_map(|(now, speed, at_s, cmd, eunlock, sensors)| DoorInputs {
-            now_ns: now,
-            speed_mmps: speed,
-            at_station: at_s,
-            commanded: cmd,
-            emergency_unlock: eunlock,
-            sensors,
-        })
+        .prop_map(
+            |(now, speed, at_s, identity, side, platform, cmd, eunlock, egress, sensors)| {
+                DoorInputs {
+                    now_ns: now,
+                    speed_mmps: speed,
+                    at_station: at_s,
+                    station_identity_verified: identity,
+                    door_side: side,
+                    verified_platform_side: platform,
+                    commanded: cmd,
+                    emergency_unlock: eunlock,
+                    emergency_egress_authorized: egress,
+                    sensors,
+                }
+            },
+        )
 }
 
 // ---------------------------------------------------------------------------
@@ -80,7 +96,7 @@ proptest! {
     #[test]
     fn d2_no_open_above_threshold(mut i in arb_inputs()) {
         let p = params();
-        // Force speed > threshold AND disable emergency unlock.
+        // Force motion AND disable emergency unlock.
         i.speed_mmps = 5_000;
         i.emergency_unlock = false;
         let out = door_evaluate(&DoorState::default(), &i, &p);
@@ -102,6 +118,25 @@ proptest! {
         i.emergency_unlock = false;
         let out = door_evaluate(&DoorState::default(), &i, &p);
         prop_assert_ne!(out.motor, MotorCommand::DriveOpen);
+    }
+
+    #[test]
+    fn d3a_wrong_or_unknown_platform_side_never_opens(mut i in arb_inputs()) {
+        i.at_station = true;
+        i.station_identity_verified = true;
+        i.speed_mmps = 0;
+        i.commanded = DoorAction::Open;
+        i.emergency_unlock = false;
+        i.verified_platform_side = Some(match i.door_side {
+            DoorSide::Left => DoorSide::Right,
+            DoorSide::Right => DoorSide::Left,
+        });
+        prop_assert_ne!(door_evaluate(&DoorState::default(), &i, &params()).motor, MotorCommand::DriveOpen);
+        i.verified_platform_side = None;
+        prop_assert_ne!(door_evaluate(&DoorState::default(), &i, &params()).motor, MotorCommand::DriveOpen);
+        i.verified_platform_side = Some(i.door_side);
+        i.station_identity_verified = false;
+        prop_assert_ne!(door_evaluate(&DoorState::default(), &i, &params()).motor, MotorCommand::DriveOpen);
     }
 }
 
@@ -143,6 +178,10 @@ proptest! {
         i.emergency_unlock = true;
         let out = door_evaluate(&DoorState::default(), &i, &p);
         prop_assert_ne!(out.motor, MotorCommand::DriveClose);
+        if out.motor == MotorCommand::DriveOpen {
+            prop_assert!(i.emergency_egress_authorized);
+            prop_assert_eq!(i.speed_mmps, 0);
+        }
     }
 }
 
@@ -202,8 +241,12 @@ proptest! {
             now_ns: 9_000_000_000,
             speed_mmps: 0,
             at_station: true,
+            station_identity_verified: true,
+            door_side: DoorSide::Left,
+            verified_platform_side: Some(DoorSide::Left),
             commanded: cmd,
             emergency_unlock: false,
+            emergency_egress_authorized: false,
             sensors,
         };
         let out = door_evaluate(&prev, &i, &p);
@@ -232,11 +275,7 @@ proptest! {
             obstruction_latched: false,
         };
         let out = door_evaluate(&prev, &i, &p);
-        // Emergency unlock is allowed to override the fault latch —
-        // life-safety takes precedence over a drive fault.
-        if !i.emergency_unlock {
-            prop_assert_eq!(out.motor, MotorCommand::Stop);
-            prop_assert_eq!(out.status, DoorStatus::Faulted);
-        }
+        prop_assert_eq!(out.motor, MotorCommand::Stop);
+        prop_assert_eq!(out.status, DoorStatus::Faulted);
     }
 }

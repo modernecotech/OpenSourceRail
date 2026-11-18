@@ -87,7 +87,7 @@ Indexed Markdown files: **160**.
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | OpenSourceRail v0.7 digital engineering release |
-| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.7 corridor-to-lifecycle roadmap |
+| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | OpenSourceRail delivery roadmap |
 | [`docs/book/01-purpose.md`](../docs/book/01-purpose.md) | Why build an open railway |
 | [`docs/book/02-passenger.md`](../docs/book/02-passenger.md) | The passenger journey |
 | [`docs/book/03-architecture.md`](../docs/book/03-architecture.md) | A reference, with room to explore |

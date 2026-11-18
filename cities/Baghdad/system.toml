@@ -34,6 +34,39 @@ speed_cap_kmh = 72
 energy_kwh_per_train_km_overhead_comparator = 20
 peak_traction_input_mw_overhead_comparator = 5.0
 
+[vehicle_geometry]
+car_body_length_m = 17.0
+body_width_m = 2.7
+train_length_m = 104.5
+floor_above_rail_m = 1.0
+door_clear_width_m = 1.3
+door_centres_m = [-6.3, -2.1, 2.1, 6.3]
+bogie_centres_m = [-6.4, 6.4]
+shoe_sets_per_train = 4
+contact_rail_outboard_offset_m = 1.9
+
+[station_geometry]
+platform_clear_length_m = 125.0
+island_width_m = 8.0
+straight_track_centre_spacing_m = 10.85
+straight_platform_edge_offset_m = 1.425
+
+# Independent service power is an allocation inside the base train mass,
+# vehicle price and normal auxiliary energy, not a traction battery.
+[service_power]
+control_continuous_kw = 6.0
+other_essential_continuous_kw = 12.0
+protected_outage_hours = 2.0
+brake_event_kwh = 4.0
+door_egress_event_kwh = 2.0
+energy_reserve_fraction = 0.20
+battery_nominal_kwh = 65.0
+usable_fraction = 0.80
+battery_mass_allowance_t = 0.50
+battery_price_allocation_usd_m_per_train = 0.10
+recharge_hours = 2.0
+recharge_efficiency = 0.90
+
 # Control equipment is a counted allocation inside the vehicle, station,
 # signalling, grid and control-centre prices below. It is not added to capital.
 [control_electronics]

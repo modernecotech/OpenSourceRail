@@ -1,6 +1,6 @@
 # Baghdad metropolitan railway
 
-[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train design](VEHICLE.md) · [Map layers and sources](maps/README.md)
+[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
 
 OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires. A protected conductor beside the track supplies powered wheel bogies. The first programme connects seven named corridors, including the airport passenger-terminal area. The larger network extends service through Sadr City, Jadriya and outer districts. The train, power supply, viaduct, fleet, operations and costs are calculated together for each programme.
 

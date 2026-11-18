@@ -1,0 +1,73 @@
+schema = "osr-v07-wheel-control-equipment/1"
+selected_physical_candidate_id = "osr-v07-joined-civil-518dad57a3af5046f40c8f4f"
+price_year = 2026
+control_mass_reserve_kg_per_train = 40
+control_power_reserve_w_per_train = 560
+
+# Each price is a carve-out of the existing 14-scope capital estimate.
+[items.atp-channel]
+count_per_train = 2
+mass_kg_each = 25
+continuous_w_each = 200
+price_usd_m_each = 0.020
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.train-radio-link]
+count_per_train = 2
+mass_kg_each = 10
+continuous_w_each = 150
+price_usd_m_each = 0.015
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.train-service-power-unit]
+count_per_train = 2
+mass_kg_each = 35
+continuous_w_each = 500
+price_usd_m_each = 0.010
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.car-control-node]
+count_per_car = 1
+mass_kg_each = 10
+continuous_w_each = 150
+price_usd_m_each = 0.006
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.door-controller]
+count_per_opening = 1
+mass_kg_each = 2
+continuous_w_each = 20
+price_usd_m_each = 0.0015
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.bogie-brake-controller]
+count_per_bogie = 1
+mass_kg_each = 3
+continuous_w_each = 50
+price_usd_m_each = 0.003
+parent_scope = "rolling-stock-and-vehicle-interfaces"
+
+[items.station-dispatch-controller]
+count_per_station = 1
+price_usd_m_each = 0.120
+parent_scope = "stations-platforms-and-access"
+
+[items.grid-protection-gateway]
+count_per_grid_site = 1
+price_usd_m_each = 0.150
+parent_scope = "traction-grid-and-protection"
+
+[items.section-control-gateway]
+count_per_section = 1
+price_usd_m_each = 0.020
+parent_scope = "turnbacks-and-line-controls"
+
+[items.train-detection-route-km]
+count_per_route_km = 1
+price_usd_m_each = 0.080
+parent_scope = "turnbacks-and-line-controls"
+
+[items.control-room-equipment-set]
+count_per_terminal = 1
+price_usd_m_each = 0.600
+parent_scope = "turnbacks-and-line-controls"

@@ -40,3 +40,14 @@ door-opening,qualified-purchased-door-pieces,29,piece,buy-qualified,door-operato
 station-power-site,rectifier-grid-connection-protection,1,site,mixed,qualified-grid-core-plus-local-civils,3000000,installed-concept-rate,Six sites/30km; equipment masses footprint heat and protection quote pending
 station-power-site,station-auxiliary-grid-feed,2,station-feed,mixed,qualified-protection-plus-local-install,1250000,installed-concept-rate-per-station,Two station feeds/site is corridor average; twelve feeds total
 station-power-site,independent-safety-brake,0,station-module,not-applicable,brake-modules-on-vehicle,,excluded-by-powered-architecture,Zero is explicit architecture exclusion only; regenerative reception is not safety braking
+six-car-train,atp-channel,2,channel,buy-qualified,train-protection-supplier,,included-in-vehicle-rate,Two independent train protection channels per set
+six-car-train,train-radio-link,2,link,buy-qualified,rail-radio-supplier,,included-in-vehicle-rate,Two train-to-ground links per set
+six-car-train,train-service-power-unit,2,unit,mixed,local-enclosure-plus-qualified-power-core,,included-in-vehicle-rate,Independent protected controls and brake supply
+17m-powered-car,car-control-node,1,node,mixed,local-harness-plus-qualified-controller,,included-in-car-rate,One car control and diagnostic node
+17m-powered-car,door-controller,2,controller,buy-qualified,door-operator-supplier,,included-in-car-rate,One controller per one-sided opening
+17m-powered-car,bogie-brake-controller,2,controller,buy-qualified,brake-supplier,,included-in-car-rate,One protected controller per bogie
+station-controls,station-dispatch-controller,1,controller,mixed,local-cabinet-plus-qualified-core,,included-in-station-rate,Verify train stop platform side and door release
+station-power-site,grid-protection-gateway,1,gateway,mixed,local-cabinet-plus-qualified-protection,,included-in-grid-rate,Grid isolation faults and status
+line-section,section-control-gateway,1,gateway,mixed,local-cabinet-plus-qualified-protection,,included-in-line-controls-rate,Section isolation and access interlock
+line-control,train-detection-route-km,1,route-km,mixed,local-install-plus-qualified-detection,,included-in-line-controls-rate,Thirty route-km planning allowance
+control-centre,control-room-equipment-set,1,set,mixed,local-fitout-plus-qualified-traffic-core,,included-in-line-controls-rate,Traffic supervision without bypassing onboard protection

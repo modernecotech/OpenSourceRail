@@ -11,6 +11,7 @@ import json
 from math import asin, cos, isclose, radians, sin, sqrt
 from pathlib import Path
 import tomllib
+from xml.etree import ElementTree
 
 from engineering.outline.baghdad_power import PowerAssumptions, PowerNetwork, compare_power
 from engineering.outline.baghdad_viaduct import PlanningRates, SUPPORTED_SPANS_M, evaluate as civil_evaluate
@@ -189,6 +190,111 @@ def _control_electronics(cfg: dict, network: dict, power: dict,
             "basis": "Planning equipment schedule and price carve-out; no added capital or mass"}
 
 
+def _station_interfaces(cfg: dict) -> dict:
+    """Screen the common straight-station train and conductor datums."""
+    v, s = cfg["vehicle_geometry"], cfg["station_geometry"]
+    doors = v["door_centres_m"]
+    if (len(doors) != cfg["vehicle"]["door_openings_per_car_each_side"]
+            or doors != sorted(doors) or len(set(doors)) != len(doors)
+            or v["car_body_length_m"] <= 0 or v["body_width_m"] <= 0
+            or v["door_clear_width_m"] <= 0 or v["floor_above_rail_m"] <= 0
+            or v["shoe_sets_per_train"] <= 0 or len(v["bogie_centres_m"]) != 2):
+        raise ValueError("Baghdad vehicle geometry is incomplete or inconsistent")
+    gap = s["straight_platform_edge_offset_m"] - v["body_width_m"] / 2
+    end = v["car_body_length_m"] / 2 - max(abs(x) for x in doors) - v["door_clear_width_m"] / 2
+    between = min(b - a - v["door_clear_width_m"] for a, b in zip(doors, doors[1:]))
+    margin = (s["platform_clear_length_m"] - v["train_length_m"]) / 2
+    conductor_clear = v["contact_rail_outboard_offset_m"] - v["body_width_m"] / 2
+    if (not 0 < gap <= 0.15 or end <= 0 or between <= 0 or margin <= 0
+            or conductor_clear <= 0.2 or
+            not isclose(s["straight_track_centre_spacing_m"],
+                        s["island_width_m"] + 2 * s["straight_platform_edge_offset_m"],
+                        abs_tol=1e-6)):
+        raise ValueError("Baghdad straight-station or door geometry fails its planning screen")
+    return {"vehicle": v, "station": s, "static_body_edge_gap_m": gap,
+            "door_end_clearance_m": end, "minimum_door_separation_m": between,
+            "centred_platform_end_margin_m": margin,
+            "conductor_offset_beyond_body_m": conductor_clear,
+            "conductor_side": "outboard of each track, opposite the island"}
+
+
+def _service_power(cfg: dict, capital_scopes: dict, fleet: int) -> dict:
+    """Bound outage power within the declared service-battery allocation."""
+    p = cfg["service_power"]
+    continuous = p["control_continuous_kw"] + p["other_essential_continuous_kw"]
+    demand = (continuous * p["protected_outage_hours"] + p["brake_event_kwh"]
+              + p["door_egress_event_kwh"]) * (1 + p["energy_reserve_fraction"])
+    usable = p["battery_nominal_kwh"] * p["usable_fraction"]
+    recharge_kw = p["battery_nominal_kwh"] / p["recharge_hours"] / p["recharge_efficiency"]
+    if (min(p.values()) <= 0 or p["usable_fraction"] > 1
+            or p["energy_reserve_fraction"] > 1 or usable < demand
+            or p["control_continuous_kw"] != cfg["control_electronics"]["train_auxiliary_power_allowance_kw"]
+            or p["battery_mass_allowance_t"] + cfg["control_electronics"]["train_mass_allowance_t"]
+            >= cfg["vehicle"]["crowd_mass_t_per_train_before_supply"]
+            or fleet * p["battery_price_allocation_usd_m_per_train"] > capital_scopes["vehicles"]):
+        raise ValueError("Baghdad independent service-power allowance does not close")
+    return {"continuous_essential_kw": continuous, "outage_hours": p["protected_outage_hours"],
+            "required_usable_kwh_with_reserve": demand, "declared_usable_kwh": usable,
+            "nominal_battery_kwh_per_train": p["battery_nominal_kwh"],
+            "battery_mass_allowance_within_base_t": p["battery_mass_allowance_t"],
+            "fleet_price_allocation_within_vehicles_usd_m":
+                fleet * p["battery_price_allocation_usd_m_per_train"],
+            "recharge_input_kw_per_train": recharge_kw,
+            "recharge_loss_heat_kw_per_train": recharge_kw * (1 - p["recharge_efficiency"]),
+            "scope": "Independent controls, light, brake and egress duty; traction supply excluded"}
+
+
+def _station_svg(cfg: dict) -> bytes:
+    g = _station_interfaces(cfg)
+    v, s = g["vehicle"], g["station"]
+    scale = 60
+    left_edge = 500 - s["island_width_m"] * scale / 2
+    right_edge = 500 + s["island_width_m"] * scale / 2
+    left_track = left_edge - s["straight_platform_edge_offset_m"] * scale
+    right_track = right_edge + s["straight_platform_edge_offset_m"] * scale
+    half_car = v["body_width_m"] * scale / 2
+    conductor = v["contact_rail_outboard_offset_m"] * scale
+    lines = [
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340" role="img" aria-label="Baghdad straight island station and outboard protected conductor planning section">',
+        '<rect width="1000" height="340" fill="#f7fafb"/>',
+        '<text x="40" y="28" font-family="sans-serif" font-size="18" fill="#17364a">Baghdad straight station — nominal train and power section</text>',
+        f'<rect x="{left_edge:g}" y="200" width="{s["island_width_m"] * scale:g}" height="70" fill="#d6e1d0" stroke="#47664b" stroke-width="2"/>',
+        f'<text x="450" y="230" font-family="sans-serif" font-size="15" fill="#294b34">{s["island_width_m"]:g} m island</text>',
+        '<line x1="35" y1="270" x2="965" y2="270" stroke="#64717b" stroke-width="4"/>',
+    ]
+    for centre, rail in ((left_track, left_track - conductor),
+                         (right_track, right_track + conductor)):
+        lines.extend([
+            f'<rect x="{centre - half_car:g}" y="94" width="{2 * half_car:g}" height="106" fill="#d7e8f0" stroke="#17364a" stroke-width="2"/>',
+            f'<line x1="{centre:g}" y1="198" x2="{centre:g}" y2="281" stroke="#17364a" stroke-width="2" stroke-dasharray="5 4"/>',
+            f'<rect x="{rail - 7:g}" y="242" width="14" height="25" fill="#bd583d" stroke="#7e2b23" stroke-width="2"/>',
+            f'<rect x="{rail - 16:g}" y="232" width="32" height="40" fill="none" stroke="#bd583d" stroke-width="2" stroke-dasharray="4 3"/>',
+        ])
+    lines.extend([
+        '<text x="36" y="67" font-family="sans-serif" font-size="13" fill="#17364a">Protected contact rail and guard are outboard of each train, away from the island.</text>',
+        f'<text x="36" y="307" font-family="sans-serif" font-size="13" fill="#17364a">Body {v["body_width_m"]:g} m · static platform gap {g["static_body_edge_gap_m"] * 1000:.0f} mm · floor {v["floor_above_rail_m"]:g} m above rail</text>',
+        f'<text x="36" y="328" font-family="sans-serif" font-size="11" fill="#596e78">Track centres {s["straight_track_centre_spacing_m"]:g} m · contact rail {v["contact_rail_outboard_offset_m"]:g} m outboard of track centre. Straight nominal section; access and insulation require detailed design.</text>',
+        '</svg>',
+    ])
+    return ('\n'.join(lines) + '\n').encode()
+
+
+def _check_vehicle_layout(cfg: dict, root: Path) -> None:
+    svg = ElementTree.parse(root / 'cities/Baghdad/vehicle-layout.svg').getroot()
+    v = cfg["vehicle_geometry"]
+    if (float(svg.attrib.get('data-body-width-m', 0)) != v["body_width_m"]
+            or float(svg.attrib.get('data-door-width-m', 0)) != v["door_clear_width_m"]):
+        raise ValueError("Baghdad vehicle drawing dimensions differ from system input")
+    ns = '{http://www.w3.org/2000/svg}'
+    doors = svg.find(f"{ns}g[@fill='#72b6cc']")
+    if doors is None or len(doors) != 2 * len(v["door_centres_m"]):
+        raise ValueError("Baghdad vehicle drawing door count differs")
+    for rect, centre in zip(list(doors)[:len(v["door_centres_m"])], v["door_centres_m"]):
+        drawn_centre = (float(rect.attrib['x']) + float(rect.attrib['width']) / 2 - 50) / 50 - 8.5
+        if abs(drawn_centre - centre) > 0.02:
+            raise ValueError("Baghdad vehicle drawing door centres differ")
+
+
 def evaluate(network: str, supply: str, *, span_m: int = 10,
              common_pier: bool = False, root: Path = ROOT) -> dict:
     root = Path(root)
@@ -200,6 +306,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         raise ValueError("Declared Baghdad span and pier option required")
     n = cfg["networks"][network]
     v = cfg["vehicle"]
+    station_interfaces = _station_interfaces(cfg)
     annual_train_km = (n["active_trainsets"] * v["commercial_speed_kmh"]
                        * v["service_hours_per_day"] * v["service_days_per_year"])
     power_network = PowerNetwork(
@@ -238,6 +345,10 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "tooling_recovery": route_km * cr["tooling_and_recovery_per_route_km"] + cr["tooling_and_recovery_fixed"],
     }
     controls = _control_electronics(cfg, n, power, common)
+    service_power = _service_power(cfg, common, n["fleet_trainsets"])
+    if (controls["allocation_within_capital_scopes_usd_m"]["vehicles"]
+            + service_power["fleet_price_allocation_within_vehicles_usd_m"] > common["vehicles"]):
+        raise ValueError("Train control and service-battery allocations exceed fleet price")
     direct = sum(common.values())
     design = direct * cr["design_fraction"]
     test = direct * cr["testing_fraction"]
@@ -279,7 +390,9 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     result = {
         "schema": SCHEMA, "parent_candidate_id": cfg["candidate_id"],
         "physical_candidate_id": _id({"network": network, "power": power["physical_candidate_id"],
-                                      "civil": civil["civil_option_physical_id"]}),
+                                      "civil": civil["civil_option_physical_id"],
+                                      "station_interfaces": station_interfaces,
+                                      "service_power": cfg["service_power"]}),
         "selection_purpose": "equal-service planning comparison",
         "infrastructure": {"tunnel_km": cfg["tunnel_km"],
                            "underground_stations": cfg["underground_stations"],
@@ -295,6 +408,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "vehicle": power["vehicle"], "traction": power["traction"],
         "energy": power["energy"], "supply_quantities": power["supply"],
         "control_electronics": controls,
+        "station_interfaces": station_interfaces, "service_power": service_power,
         "civil": {"physical_candidate_id": civil["civil_option_physical_id"],
                   "evaluation_id": civil["evaluation_id"],
                   "quantities": civil["quantities"], "planning_prices": civil["prices"],
@@ -359,6 +473,8 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_evaluation_id": selected["evaluation_id"],
             "selected_capital_scope_usd_m": selected["capital_usd_m"]["scope_rows"],
             "selected_control_electronics": selected["control_electronics"],
+            "selected_station_interfaces": selected["station_interfaces"],
+            "selected_service_power": selected["service_power"],
             "selected_annual_opex_usd_m": selected["operation_usd_m_year"],
             "selected_renewals_usd_m": selected["renewals_usd_m"],
             "power_cases": {key: {
@@ -414,7 +530,22 @@ def main() -> None:
     p.add_argument("--summary", action="store_true")
     p.add_argument("--write-results", action="store_true")
     p.add_argument("--check-results", action="store_true")
+    p.add_argument("--write-drawings", action="store_true")
+    p.add_argument("--check-drawings", action="store_true")
     args = p.parse_args()
+    if args.write_drawings or args.check_drawings:
+        cfg = load()
+        _check_vehicle_layout(cfg, ROOT)
+        target = ROOT / 'cities/Baghdad/station-interface.svg'
+        raw = _station_svg(cfg)
+        if args.check_drawings:
+            if not target.is_file() or target.read_bytes() != raw:
+                raise ValueError("Baghdad station drawing differs from system input")
+            print("Baghdad train and station drawings current", sha256(raw).hexdigest())
+        else:
+            target.write_bytes(raw)
+            print("wrote", target, sha256(raw).hexdigest())
+        return
     if args.write_results or args.check_results:
         target = ROOT / "cities/Baghdad/system-results.json"
         raw = (json.dumps(release_summary(), indent=2, sort_keys=True, allow_nan=False) + "\n").encode()

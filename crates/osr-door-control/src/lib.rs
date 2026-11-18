@@ -1,25 +1,22 @@
 //! OpenSourceRail door controller.
 //!
-//! Per-door SIL-4 evaluator enforcing the safety-critical interlock:
-//! **no door may be driven open above a low-speed threshold**
-//! (typically 5 km/h ≈ 1 400 mm/s). Opening at speed is the single
-//! highest-risk failure mode of a passenger rail vehicle; the
-//! controller makes it structurally impossible under the
-//! `commanded = Open` path.
+//! Development evaluator for a powered-wheel train door. Normal opening
+//! requires verified station identity, the matching platform side and a
+//! stopped-speed input. This software has no safety integrity approval.
 //!
 //! Phase 2c crate 1 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //!
 //! # What the controller decides each tick
 //!
 //! Given a commanded action (Open / Close / Hold), speed, at-station
-//! flag, per-door sensors, and an emergency-unlock input:
+//! identity and platform-side inputs, per-door sensors and an independently
+//! authorised emergency-egress input:
 //!
 //! - **Open path:** permitted only when
-//!   `speed ≤ stop_speed_threshold_mmps` AND `at_station`, *or* when
-//!   `emergency_unlock == true` (egress during incidents; the
-//!   speed / platform gate is waived). Emergency unlock never
-//!   commands `DriveClose` — the intent is always "let passengers
-//!   out."
+//!   `speed ≤ stop_speed_threshold_mmps`, verified station identity and
+//!   matching platform side. Emergency egress requires a separate safe-side
+//!   authorisation and the same stopped-speed input; it can occur away from
+//!   a platform. Neither path establishes physical sensor integrity.
 //! - **Close path:** motor drives closed unless obstruction is
 //!   detected (obstruction sensor OR motor-current above trip),
 //!   in which case the motor stops and the `Obstructed` state
@@ -36,16 +33,16 @@
 //! # Safety properties (proptest-verified)
 //!
 //! - **D1 determinism.**
-//! - **D2 no-open-above-threshold:** if
-//!   `speed_mmps > stop_speed_threshold_mmps` AND
-//!   `!emergency_unlock`, motor is never `DriveOpen`.
+//! - **D2 no-open-while-moving:** motion in either direction blocks open.
 //! - **D3 at-station-gates-open:** if `!at_station` AND
 //!   `!emergency_unlock`, motor is never `DriveOpen`.
+//! - **D3a platform-side-gates-open:** normal open requires verified station
+//!   identity and matching door/platform side.
 //! - **D4 obstruction-stops-close:** if
 //!   `obstruction_detected || motor_current ≥ trip`, motor is
 //!   never `DriveClose`.
-//! - **D5 emergency-unlock overrides:** `emergency_unlock == true`
-//!   → motor ∈ { `Stop`, `DriveOpen` } (never `DriveClose`).
+//! - **D5 emergency-unlock request:** motor is never `DriveClose`; it opens
+//!   only with a stopped train and authorised egress side.
 //! - **D6 interlock is 2oo2:** `interlock_ok` iff
 //!   `closed_limit && lock_sensor`.
 //! - **D7 motor timeout latches Faulted:** motor running beyond
@@ -69,6 +66,13 @@ pub enum DoorAction {
     Hold,
     Open,
     Close,
+}
+
+/// Installed side of a door relative to the train's forward direction.
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum DoorSide {
+    Left,
+    Right,
 }
 
 /// Low-level motor command emitted by the evaluator.
@@ -125,11 +129,14 @@ pub struct DoorInputs {
     pub now_ns: u64,
     pub speed_mmps: i32,
     pub at_station: bool,
+    pub station_identity_verified: bool,
+    pub door_side: DoorSide,
+    pub verified_platform_side: Option<DoorSide>,
     pub commanded: DoorAction,
-    /// `true` when emergency evacuation is in progress — waives the
-    /// speed and station gates. Hardwired to the cab emergency
-    /// control and to the fire-detection crate's trip.
+    /// Separate emergency request. It never drives a door open at speed.
     pub emergency_unlock: bool,
+    /// Independent safe-egress-side authorisation for this installed door.
+    pub emergency_egress_authorized: bool,
     pub sensors: DoorSensors,
 }
 
@@ -150,7 +157,7 @@ impl DoorParams {
     #[must_use]
     pub fn research_default() -> Self {
         Self {
-            stop_speed_threshold_mmps: 1_400, // ≈ 5 km/h
+            stop_speed_threshold_mmps: 0, // reported zero speed; sensor proof is separate
             obstruction_current_trip_ma: 5_000,
             motor_timeout_ms: 8_000,
             fault_cooldown_ms: 5_000,
@@ -234,18 +241,22 @@ pub fn door_evaluate(prev: &DoorState, inputs: &DoorInputs, params: &DoorParams)
 
     // --- 4. Determine whether opening is permitted -------------------
     //
-    // Open gate — rule (D2, D3, D5):
-    //   allowed_to_open = emergency_unlock
-    //       || (speed ≤ threshold AND at_station)
-    let allowed_to_open = inputs.emergency_unlock
-        || (inputs.speed_mmps <= params.stop_speed_threshold_mmps && inputs.at_station);
+    // A negative speed is reverse motion, not a stopped train.
+    let stopped = params.stop_speed_threshold_mmps >= 0
+        && inputs.speed_mmps.unsigned_abs() <= params.stop_speed_threshold_mmps as u32;
+    let normal_side_verified = inputs.at_station
+        && inputs.station_identity_verified
+        && inputs.verified_platform_side == Some(inputs.door_side);
+    let allowed_to_open = stopped && normal_side_verified;
+    let authorized_emergency =
+        inputs.emergency_unlock && inputs.emergency_egress_authorized && stopped;
 
     // --- 5. Emergency-unlock override --------------------------------
     //
-    // When emergency_unlock is active, the door is driven open
-    // regardless of the `commanded` input — unless it's already open.
+    // An emergency request never executes the ordinary close path. A
+    // safe-side authorisation and stopped train are required to motor open.
     if inputs.emergency_unlock && !in_fault {
-        let motor = if s.open_limit {
+        let motor = if !authorized_emergency || s.open_limit {
             MotorCommand::Stop
         } else {
             MotorCommand::DriveOpen
@@ -416,8 +427,12 @@ mod tests {
             now_ns: 0,
             speed_mmps: 0,
             at_station: true,
+            station_identity_verified: true,
+            door_side: DoorSide::Left,
+            verified_platform_side: Some(DoorSide::Left),
             commanded: cmd,
             emergency_unlock: false,
+            emergency_egress_authorized: false,
             sensors,
         }
     }
@@ -439,7 +454,7 @@ mod tests {
     fn open_above_threshold_refused() {
         let p = DoorParams::research_default();
         let mut i = at_station_stopped(DoorAction::Open, closed_sensors());
-        i.speed_mmps = 2_000; // > 1400 threshold
+        i.speed_mmps = 2_000;
         let out = door_evaluate(&DoorState::default(), &i, &p);
         assert_eq!(out.motor, MotorCommand::Stop);
     }
@@ -454,15 +469,54 @@ mod tests {
     }
 
     #[test]
-    fn emergency_unlock_opens_at_speed() {
+    fn emergency_unlock_at_speed_does_not_drive_open() {
         let p = DoorParams::research_default();
         let mut i = at_station_stopped(DoorAction::Close, closed_sensors());
         i.speed_mmps = 15_000;
         i.at_station = false;
         i.emergency_unlock = true;
+        i.emergency_egress_authorized = true;
         let out = door_evaluate(&DoorState::default(), &i, &p);
-        // Emergency-unlock overrides commanded=Close with DriveOpen.
-        assert_eq!(out.motor, MotorCommand::DriveOpen);
+        assert_eq!(out.motor, MotorCommand::Stop);
+    }
+
+    #[test]
+    fn normal_open_requires_verified_matching_platform_side() {
+        let p = DoorParams::research_default();
+        let mut i = at_station_stopped(DoorAction::Open, closed_sensors());
+        i.verified_platform_side = Some(DoorSide::Right);
+        assert_eq!(
+            door_evaluate(&DoorState::default(), &i, &p).motor,
+            MotorCommand::Stop
+        );
+        i.verified_platform_side = None;
+        assert_eq!(
+            door_evaluate(&DoorState::default(), &i, &p).motor,
+            MotorCommand::Stop
+        );
+        i.verified_platform_side = Some(DoorSide::Left);
+        i.station_identity_verified = false;
+        assert_eq!(
+            door_evaluate(&DoorState::default(), &i, &p).motor,
+            MotorCommand::Stop
+        );
+    }
+
+    #[test]
+    fn emergency_open_requires_stopped_safe_egress_side() {
+        let p = DoorParams::research_default();
+        let mut i = at_station_stopped(DoorAction::Close, closed_sensors());
+        i.at_station = false;
+        i.emergency_unlock = true;
+        assert_eq!(
+            door_evaluate(&DoorState::default(), &i, &p).motor,
+            MotorCommand::Stop
+        );
+        i.emergency_egress_authorized = true;
+        assert_eq!(
+            door_evaluate(&DoorState::default(), &i, &p).motor,
+            MotorCommand::DriveOpen
+        );
     }
 
     #[test]

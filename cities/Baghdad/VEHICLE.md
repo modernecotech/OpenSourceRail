@@ -1,8 +1,14 @@
 # Baghdad 700-place train
 
-**Selected Baghdad digital planning candidate:** `osr-baghdad-zero-tunnel-offwire-20261117`, protected conductor rail, ten-metre separate-support viaduct. This is a distinct high-capacity train from the 276-place [comfort reference](../../docs/reference-v07/vehicle/README.md); its mass, power and price are recalculated in the [integrated model](system.toml).
+**Selected Baghdad digital planning candidate:** `osr-baghdad-zero-tunnel-offwire-20261117`, protected conductor rail, ten-metre separate-support viaduct. This is a distinct high-capacity train from the 276-place [powered 30 km digital train](../../docs/reference-v07/vehicle/README.md) and the retained [passive comfort reference](../../engineering/development-baseline.toml). Its mass, power and price are recalculated in the [integrated model](system.toml).
 
 ![Six-car train planning layout and door positions](vehicle-layout.svg)
+
+![Straight island platform, trains and outboard protected conductor planning section](station-interface.svg)
+
+The train and straight-station dimensions in these drawings are controlled by
+the [Baghdad system input](system.toml); the station section is generated from
+it and the vehicle drawing is checked against its door and body dimensions.
 
 | Interface or duty | Planning control |
 |---|---:|
@@ -49,7 +55,7 @@ rail clearance, insulation distance, section transition and evacuation
 protection are separate electrical/track interfaces and must be demonstrated
 in the same vehicle and station drawing before installation.
 
-The protected conductor candidate removes roof collectors and has **no traction battery**. Service batteries independently supply braking, controls, lighting and rescue functions; their mass and maintenance remain part of the train design. The four-way power comparison changes contact equipment, battery mass, cooling and civil load in one evaluation. Station-charged battery operation requires roughly 467 kWh/train and 128 simultaneous charging ports at about 5.97 MW/port in the first programme, which is why it is not the selected cost candidate.
+The protected conductor candidate removes roof collectors and has **no traction battery**. The independent **65 kWh nominal service battery** supplies 18 kW continuous essential duty for two hours, plus a 4 kWh brake event, 2 kWh door and egress event and 20% reserve. Its 52 kWh usable allowance exceeds the calculated 50.4 kWh request. The 0.50 t and $0.10m/train battery allocations are included within the base vehicle mass and price. The model requests 36.1 kW/train for two-hour recharge. The four-way power comparison changes contact equipment, battery mass, cooling and civil load in one evaluation. Station-charged battery operation requires roughly 467 kWh/train and 128 installed charging ports at about 5.97 MW/port in the first programme, which is why it is not the selected cost candidate. Timetable mean charging concurrency is calculated separately.
 
 ## Assembly and repair
 

@@ -29,6 +29,7 @@ SOURCES = {
     "digital_civil_input": "docs/reference-v07/digital/civil/input.json",
     "digital_civil_result": "docs/reference-v07/digital/civil/result.json",
     "generator": "docs/reference-v07/digital/production/generate.py",
+    "controls": "control-electronics/reference-v07.toml",
 }
 D = Decimal
 
@@ -47,6 +48,12 @@ def scope_for(row: dict[str, str]) -> str:
     assembly, item = row["assembly"], row["item"]
     if assembly in {"17m-powered-car", "door-opening"}:
         return "rolling-stock-and-vehicle-interfaces"
+    if assembly == "six-car-train":
+        return "rolling-stock-and-vehicle-interfaces"
+    if assembly == "station-controls":
+        return "stations-platforms-and-access"
+    if assembly in {"line-section", "line-control", "control-centre"}:
+        return "turnbacks-and-line-controls"
     if assembly == "10m-beam":
         if item == "haul-lift-placement":
             return "span-haul-and-erection"
@@ -71,12 +78,16 @@ def compile_handoff() -> dict:
     vehicle_result = json.loads((ROOT / SOURCES["digital_vehicle_result"]).read_text())
     civil_input = json.loads((ROOT / SOURCES["digital_civil_input"]).read_text())
     civil_result = json.loads((ROOT / SOURCES["digital_civil_result"]).read_text())
+    controls = tomllib.loads((ROOT / SOURCES["controls"]).read_text())
     bom, routing, cost = read_csv("bom"), read_csv("routing"), read_csv("cost_basis")
     require(joined["physical_candidate_id"] == lifecycle["joined_physical_candidate_id"], "joined candidate differs from manufacturing lifecycle")
     require(joined["evaluation_id"] == lifecycle["joined_interface_evaluation_id"], "joined evaluation differs from manufacturing lifecycle")
     require(joined["selection_id"] == lifecycle["joined_quotation_selection_id"], "joined selection differs from manufacturing lifecycle")
     require(joined["ancestry"]["planning_configuration_id"] == concept["configuration_id"], "planning configuration differs from joined candidate")
-    require(len(bom) == 41 and len(routing) == 18, "manufacturing BOM or routing row count changed")
+    require(len({(row["assembly"], row["item"]) for row in bom}) == len(bom),
+            "duplicate manufacturing BOM item")
+    require(len({(row["assembly"], row["sequence"]) for row in routing}) == len(routing),
+            "duplicate manufacturing route step")
     require(sum(int(row["quantity_per_assembly"]) for row in bom
                 if row["assembly"] == "door-opening" and row["item"] != "door-parts-research-count") == 694,
             "door piece count differs from controlled manufacturing handoff")
@@ -88,6 +99,10 @@ def compile_handoff() -> dict:
     joined_id = joined["physical_candidate_id"]
     joined_sha = sha256((ROOT / SOURCES["joined_candidate"]).read_bytes()).hexdigest()
     selected_id = selected["physical_candidate_id"]
+    require(controls["schema"] == "osr-v07-wheel-control-equipment/1" and
+            controls["selected_physical_candidate_id"] == selected_id and
+            controls["price_year"] == 2026,
+            "control electronics belongs to another physical candidate or price year")
     require(selected["parent_joined_physical_candidate_id"] == joined_id and
             selected["selected_civil_revision_id"] == selected_id,
             "active digital selection does not identify its parent and civil child")
@@ -152,6 +167,73 @@ def compile_handoff() -> dict:
     local = sum(D(row["amount_usd_m"]) * D(row["local_work_fraction"]) for row in cost)
     require(local == D("411.9078"), "local-work planning allowance differs from cost basis")
 
+    fleet = int(concept["service"]["fleet_active"] + concept["service"]["fleet_reserve"])
+    cars = fleet * int(concept["vehicle"]["cars_per_train"])
+    doors = fleet * int(joined["vehicle"]["cars_per_train"]) * int(joined["vehicle"]["doors_per_car"])
+    bogies = fleet * int(joined["vehicle"]["motorized_bogies_per_train"])
+    sections = int(concept["corridor"]["tracks"]) * (int(concept["corridor"]["stations"]) - 1)
+    bases = {"count_per_train": D(fleet), "count_per_car": D(cars),
+             "count_per_opening": D(doors), "count_per_bogie": D(bogies),
+             "count_per_station": D(concept["corridor"]["stations"]),
+             "count_per_grid_site": D(joined["corridor"]["substations_allowance"]),
+             "count_per_section": D(sections),
+             "count_per_route_km": D(str(concept["corridor"]["route_km"])),
+             "count_per_terminal": D(joined["corridor"]["terminal_turnbacks"])}
+    item_names = set(controls["items"])
+    require(item_names == {row["item"] for row in bom if row["item"] in item_names}
+            and len(item_names) == 11, "controlled electronics rows missing from BOM")
+    allocations = {scope: D(0) for scope in scope_names}
+    equipment = {}
+    train_mass_kg = D(controls["control_mass_reserve_kg_per_train"])
+    train_power_w = D(controls["control_power_reserve_w_per_train"])
+    for item, spec in controls["items"].items():
+        matching_bom = [row for row in bom if row["item"] == item]
+        require(len(matching_bom) == 1 and scope_for(matching_bom[0]) == spec["parent_scope"],
+                "control item BOM scope differs: " + item)
+        count_keys = set(spec).intersection(bases)
+        require(len(count_keys) == 1 and spec["parent_scope"] in scope_names,
+                "control item count or parent scope differs: " + item)
+        count_key = next(iter(count_keys))
+        quantity = bases[count_key] * D(spec[count_key])
+        require(quantity > 0 and quantity == quantity.to_integral_value(),
+                "control item quantity must be positive and integral: " + item)
+        price = quantity * D(str(spec["price_usd_m_each"]))
+        allocations[spec["parent_scope"]] += price
+        if spec["parent_scope"] == "rolling-stock-and-vehicle-interfaces":
+            train_mass_kg += quantity / D(fleet) * D(spec["mass_kg_each"])
+            train_power_w += quantity / D(fleet) * D(spec["continuous_w_each"])
+        equipment[item] = {"quantity": int(quantity), "parent_scope": spec["parent_scope"],
+                           "allocation_usd_m": str(price)}
+    scope_budget = {scope: sum(D(row["amount_usd_m"]) for row in cost if row["scope"] == scope)
+                    for scope in scope_names}
+    require(all(amount <= scope_budget[scope] for scope, amount in allocations.items()),
+            "control equipment exceeds its parent capital scope")
+    require(train_mass_kg == D(300) and train_power_w == D(4000)
+            and train_mass_kg < D(str(joined["vehicle"]["unlocated_account_t_per_car"])) * D(6000)
+            and train_power_w < D(30000),
+            "control mass or power does not fit the selected vehicle allocation")
+    require({"six-car-train", "station-controls", "line-section", "line-control", "control-centre"}
+            <= {row["assembly"] for row in routing}, "control equipment lacks workshop routes")
+    route_quantity = {"six-car-train": D(fleet),
+                      "station-controls": bases["count_per_station"],
+                      "line-section": D(sections),
+                      "line-control": bases["count_per_route_km"],
+                      "control-centre": bases["count_per_terminal"]}
+    installation_hours = D(0)
+    for assembly, quantity in route_quantity.items():
+        steps = [row for row in routing if row["assembly"] == assembly]
+        require(steps and all(D(row["direct_hours_per_unit"]) > 0 for row in steps),
+                "control installation hours missing: " + assembly)
+        installation_hours += quantity * sum(D(row["direct_hours_per_unit"]) for row in steps)
+    control_schedule = {"equipment": equipment, "sections": sections,
+                        "train_mass_allocation_kg": str(train_mass_kg),
+                        "train_continuous_power_allocation_kw": str(train_power_w / D(1000)),
+                        "installation_direct_hours_within_existing_scopes": str(installation_hours),
+                        "allocation_within_scope_usd_m":
+                            {scope: str(amount) for scope, amount in allocations.items() if amount},
+                        "allocation_is_extra_capital": False,
+                        "physical_acceptance": False}
+
     # Child prices are inclusive budgeting references, never addends to a capital scope.
     for row in bom:
         row["capital_scope"] = scope_for(row)
@@ -192,7 +274,7 @@ def compile_handoff() -> dict:
     require(D("6000") / D("16") == D("375"), "beam rate arithmetic changed")
     require(D("375") <= D((31-8)*20) and D("375") <= D((35-15)*20), "beam factory or erection rate exceeds schedule window")
 
-    six_car_sets = int(concept["service"]["fleet_active"] + concept["service"]["fleet_reserve"])
+    six_car_sets = fleet
     require(six_car_sets == 51 and int(concept["civil"]["beam_lifts"]) == 6000, "fleet or span count differs from cost take-off")
     dry_run = {
         "mode": "ERPNext-shaped preview only; no import, API call or transaction",
@@ -202,6 +284,11 @@ def compile_handoff() -> dict:
             {"item_code": "OSR-V07-PLAN-DOOR-OPENING", "assembly": "door-opening", "quantity": six_car_sets*12},
             {"item_code": "OSR-V07-PLAN-13STRAND-10M-BEAM", "assembly": "10m-beam", "quantity": 6000},
             {"item_code": "OSR-V07-PLAN-POWER-SITE", "assembly": "station-power-site", "quantity": 6},
+            {"item_code": "OSR-V07-PLAN-TRAIN-CONTROL", "assembly": "six-car-train", "quantity": fleet},
+            {"item_code": "OSR-V07-PLAN-STATION-CONTROL", "assembly": "station-controls", "quantity": 12},
+            {"item_code": "OSR-V07-PLAN-LINE-SECTION", "assembly": "line-section", "quantity": sections},
+            {"item_code": "OSR-V07-PLAN-LINE-DETECTION", "assembly": "line-control", "quantity": 30},
+            {"item_code": "OSR-V07-PLAN-CONTROL-CENTRE", "assembly": "control-centre", "quantity": 2},
         ],
         "bom_source": SOURCES["bom"], "routing_source": SOURCES["routing"],
         "proposed_documents": ["Item", "BOM", "Routing", "Request for Quotation", "Quality Inspection"],
@@ -242,6 +329,7 @@ def compile_handoff() -> dict:
                        "selected_beam_hook_load_t": str(selected["beam"]["hook_load_t_with_25pct_allowance"]),
                        "factory_and_erection_workdays_at_16_beams_per_day_each": 375,
                        "bom_rows": bom, "routing_rows": routing},
+        "control_electronics": control_schedule,
         "schedule": {"total_months": 43, "stages": schedule,
                      "logic": "support access → beam erection → rail/overhead → power/stopping integration → trials"},
         "erpnext_dry_run": dry_run,
