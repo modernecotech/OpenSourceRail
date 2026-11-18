@@ -1,11 +1,12 @@
 """The Baghdad public estimate must follow its route, car, civil and power inputs."""
 from pathlib import Path
+from copy import deepcopy
 import shutil
 import json
 
 import pytest
 
-from engineering.outline.baghdad_system import CONFIG, ROOT, compare, evaluate, load
+from engineering.outline.baghdad_system import CONFIG, ROOT, _lines, compare, evaluate, load, release_summary
 
 
 def test_zero_tunnel_overhead_comparator_reconciles_civil_rebaseline():
@@ -54,10 +55,21 @@ def test_costed_sections_and_civil_window_are_explicit():
     first = compare("first")["power_cases"]["protected_conductor"]
     metro = compare("metropolitan")["power_cases"]["protected_conductor"]
     coverage = metro["map_and_service_coverage"]
-    assert set(coverage["unassigned_sections_km"]) == {
+    assert set(coverage["non_revenue_sections_km"]) == {
         "B-X01", "B-X02", "B-X03", "B-X04", "B-X05", "B-I03"}
-    assert sum(coverage["unassigned_sections_km"].values()) == pytest.approx(50.099, abs=0.002)
+    assert sum(coverage["non_revenue_sections_km"].values()) == pytest.approx(50.099, abs=0.002)
+    assert coverage["unassigned_sections_km"] == {}
+    assert coverage["all_costed_sections_have_declared_purpose"] is True
+    assert coverage["non_revenue_section_purposes"]["B-I03"] == "reserved_infill"
+    assert coverage["non_revenue_section_purposes"]["B-X01"] == "reserved_connector"
     assert coverage["all_costed_sections_have_service_paths"] is False
+    assert coverage["passenger_path_route_km"] == pytest.approx(555.553, abs=0.002)
+    assert metro["service"]["costed_route_km"] == pytest.approx(605.652)
+    assert metro["service"]["passenger_path_route_km"] == pytest.approx(555.553, abs=0.002)
+    assert metro["service"]["non_revenue_reserved_route_km"] == pytest.approx(50.099, abs=0.002)
+    assert metro["service"]["timetable_established"] is False
+    assert "planning allowance" in metro["service"]["annual_train_km_basis"]
+    assert "planning allowance" in metro["service"]["fleet_trainsets_basis"]
     assert first["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(138.395468, abs=1e-6)
     assert metro["map_and_service_coverage"]["drawn_polyline_km"] == pytest.approx(608.460290, abs=1e-6)
     assert first["civil"]["delivery"]["target_years"] == 3
@@ -66,6 +78,30 @@ def test_costed_sections_and_civil_window_are_explicit():
     assert metro["civil"]["delivery"]["target_years"] == 7
     assert metro["civil"]["delivery"]["factory_yards_without_ramp_or_downtime"] == 9
     assert metro["civil"]["delivery"]["factory_yards_needed_at_declared_rate"] == 10
+
+
+@pytest.mark.parametrize("change", ["missing", "duplicate", "wrong_purpose", "overlap"])
+def test_metropolitan_coverage_rejects_missing_or_mixed_section_purpose(change):
+    cfg = deepcopy(load(network="metropolitan"))
+    network = cfg["networks"]["metropolitan"]
+    if change == "missing":
+        del network["non_revenue_sections"]["B-X01"]
+    elif change == "duplicate":
+        network["service_groups"]["M02"].append("line-1")
+    elif change == "wrong_purpose":
+        network["non_revenue_sections"]["B-I03"] = "reserved_connector"
+    else:
+        network["service_groups"]["M01"].append("B-X01")
+    with pytest.raises(ValueError, match="declared service purpose"):
+        _lines(ROOT, cfg, "metropolitan")
+
+
+def test_public_summary_distinguishes_costed_and_passenger_path_guideway():
+    metro = release_summary()["networks"]["metropolitan"]
+    service = metro["selected_service_allowance"]
+    assert service["costed_route_km"] == pytest.approx(605.652)
+    assert service["passenger_path_route_km"] == pytest.approx(555.553, abs=0.002)
+    assert service["timetable_established"] is False
 
 
 def test_power_price_margin_and_single_power_calculation(monkeypatch):

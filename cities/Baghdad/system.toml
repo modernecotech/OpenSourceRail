@@ -188,15 +188,17 @@ M12 = ["B-I04"]
 M13 = ["B-I05"]
 M14 = ["B-I06"]
 
-# Costed physical sections without a train path in the 14 service groups.
-# Their operating use and fleet are excluded from the current service allowance.
-[networks.metropolitan.unassigned_sections]
-B-X01 = "passenger connector; service path pending"
-B-X02 = "passenger connector; service path pending"
-B-X03 = "passenger connector; service path pending"
-B-X04 = "passenger connector; service path pending"
-B-X05 = "passenger connector; service path pending"
-B-I03 = "passenger infill; service path pending"
+# Costed, elevated physical corridors reserved for a later service design.
+# No passenger or depot movement, station opening, train-km or fleet is allocated
+# to them in this 14-group service allowance. The schematic map does not establish
+# junction geometry or a through-running timetable for these sections.
+[networks.metropolitan.non_revenue_sections]
+B-X01 = "reserved_connector"
+B-X02 = "reserved_connector"
+B-X03 = "reserved_connector"
+B-X04 = "reserved_connector"
+B-X05 = "reserved_connector"
+B-I03 = "reserved_infill"
 
 # These are planning shares of contract value addressable by Iraqi labour,
 # materials, workshops and engineering. They are not supplier origin evidence.

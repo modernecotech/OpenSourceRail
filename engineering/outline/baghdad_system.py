@@ -87,19 +87,40 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str, 
         return lines, "RFI nominal line lengths; drawn polylines are schematic", {
             "drawn_polyline_km": drawn, "costed_route_km": row["route_km"],
             "planning_length_adjustment_km": row["route_km"] - drawn,
-            "all_costed_sections_have_service_paths": True, "unassigned_sections_km": {}}
+            "all_costed_sections_have_declared_purpose": True,
+            "all_costed_sections_have_service_paths": True,
+            "passenger_path_sections_km": dict(sorted(lines.items())),
+            "passenger_path_route_km": row["route_km"],
+            "non_revenue_sections_km": {}, "non_revenue_section_purposes": {},
+            "unassigned_sections_km": {}}
     segments = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"
                 and f["properties"].get("map_layer") == "railway route"]
     route_ids = {f["properties"].get("route_id") for f in segments}
     groups = row["service_groups"]
-    served = set().union(*(set(parts) for parts in groups.values()))
-    unassigned = row["unassigned_sections"]
-    if (len(groups) != row["lines"] or any(not set(parts) <= route_ids for parts in groups.values())
-            or served & set(unassigned) or served | set(unassigned) != route_ids
-            or any(not reason.strip() for reason in unassigned.values())
+    group_parts = [part for parts in groups.values() for part in parts]
+    served = set(group_parts)
+    non_revenue = row["non_revenue_sections"]
+    allowed_non_revenue = {"reserved_connector", "reserved_infill"}
+    expected_reservations = {"B-X01", "B-X02", "B-X03", "B-X04", "B-X05", "B-I03"}
+    mapped_purposes = {f["properties"].get("route_id"):
+                       ("reserved_infill" if f["properties"].get("kind") == "schematic_control_polyline"
+                        else "reserved_connector" if f["properties"].get("kind") == "physical_connector"
+                        else None)
+                       for f in segments if f["properties"].get("route_id") in expected_reservations}
+    if (len(groups) != row["lines"] or any(not parts for parts in groups.values())
+            or len(group_parts) != len(served)
+            or any(not set(parts) <= route_ids for parts in groups.values())
+            or set(non_revenue) != expected_reservations
+            or set(non_revenue.values()) != allowed_non_revenue
+            or any(non_revenue[key] != ("reserved_infill" if key == "B-I03" else "reserved_connector")
+                   for key in expected_reservations)
+            or mapped_purposes != non_revenue
+            or any(f["properties"].get("service_line_selected") is True
+                   for f in segments if f["properties"].get("route_id") in expected_reservations)
+            or served & set(non_revenue) or served | set(non_revenue) != route_ids
             or not {"B-A01", "B-A02", "B-A03", "B-A04", "B-A05", "B-A06"} <= route_ids
             or any(f["properties"].get("standalone_shuttle") for f in segments)):
-        raise ValueError("Independent metropolitan through-service route schedule differs")
+        raise ValueError("Every costed metropolitan section needs exactly one declared service purpose")
     raw = [_geo_km(f["geometry"]["coordinates"]) for f in segments]
     if not raw or min(raw) <= 0:
         raise ValueError("Metropolitan schematic route segments required")
@@ -107,12 +128,18 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str, 
     lines = {f["properties"]["route_id"]: km * ratio for f, km in zip(segments, raw)}
     if len(lines) != len(segments):
         raise ValueError("Unique metropolitan route IDs required")
+    reserved_km = {key: lines[key] for key in sorted(non_revenue)}
+    passenger_km = {key: lines[key] for key in sorted(served)}
     return lines, "Independent GIS physical sections scaled to the declared 605.652 km planning length", {
         "drawn_polyline_km": sum(raw), "costed_route_km": row["route_km"],
         "planning_length_adjustment_km": row["route_km"] - sum(raw),
-        "all_costed_sections_have_service_paths": not unassigned,
-        "unassigned_sections_km": {key: lines[key] for key in sorted(unassigned)},
-        "unassigned_section_purposes": dict(sorted(unassigned.items()))}
+        "all_costed_sections_have_declared_purpose": True,
+        "all_costed_sections_have_service_paths": False,
+        "passenger_path_sections_km": passenger_km,
+        "passenger_path_route_km": sum(passenger_km.values()),
+        "non_revenue_sections_km": reserved_km,
+        "non_revenue_section_purposes": dict(sorted(non_revenue.items())),
+        "unassigned_sections_km": {}}
 
 
 def _selected_input_id(cfg: dict, network: str) -> str:
@@ -404,6 +431,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     civil = civil_evaluate(lines, span_m=span_m, common_pier=common_pier,
                            physical_candidate_id=power["physical_candidate_id"],
                            rates=PlanningRates(**cfg["civil_rates"]),
+                           civil_start_year=n["civil_start_year"],
                            target_years=n["civil_finish_year"] - n["civil_start_year"] + 1,
                            train_crowd_mass_t=power["vehicle"]["mass_t"])
     cr = cfg["capital_rates_usd_m"]
@@ -503,12 +531,23 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "network": network, "supply": supply, "span_m": span_m, "common_pier": common_pier,
         "map_length_basis": length_basis,
         "map_and_service_coverage": coverage,
-        "service": {"route_km": route_km, "stations": n["stations"],
+        "service": {"route_km": route_km,
+                    "route_km_basis": "costed planning guideway including non-revenue reservations",
+                    "stations": n["stations"],
+                    "stations_basis": "planning allowance; individual stop sequence and opening status not established",
                     "line_count": n["lines"],
                     "normal_places_per_train": v["normal_places_per_train"],
                     "offered_places_per_hour_direction": v["normal_places_per_train"] * 3600 / v["peak_headway_s"],
+                    "offered_places_basis": "per service group at nominal peak headway; network timetable not established",
                     "annual_train_km": annual_train_km,
-                    "fleet_trainsets": n["fleet_trainsets"]},
+                    "annual_train_km_basis": "active fleet x commercial speed x service hours x service days; planning allowance, not a route timetable",
+                    "active_trainsets": n["active_trainsets"],
+                    "fleet_trainsets": n["fleet_trainsets"],
+                    "fleet_trainsets_basis": "declared planning allowance; not derived from train rotations",
+                    "timetable_established": False,
+                    "costed_route_km": coverage["costed_route_km"],
+                    "passenger_path_route_km": coverage["passenger_path_route_km"],
+                    "non_revenue_reserved_route_km": sum(coverage["non_revenue_sections_km"].values())},
         "vehicle": power["vehicle"], "traction": power["traction"],
         "energy": power["energy"], "supply_quantities": power["supply"],
         "control_electronics": controls,
@@ -622,6 +661,7 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_control_electronics": selected["control_electronics"],
             "selected_station_interfaces": selected["station_interfaces"],
             "selected_service_power": selected["service_power"],
+            "selected_service_allowance": selected["service"],
             "selected_local_delivery": selected["local_delivery"],
             "map_and_service_coverage": selected["map_and_service_coverage"],
             "selected_civil_delivery": selected["civil"]["delivery"],
