@@ -181,14 +181,10 @@ def _service_duty(cfg: dict, network: str, lines: dict[str, float], coverage: di
                                 * trains_per_hour_direction) for length in groups.values())
     if n["active_trainsets"] < peak_fleet_floor:
         raise ValueError("Baghdad active fleet below zero-layover peak service lower bound")
-    former_allowance = (n["active_trainsets"] * v["commercial_speed_kmh"]
-                        * v["service_hours_per_day"] * v["service_days_per_year"])
     return {"annual_train_km": yearly_km,
             "passenger_path_km_by_service_group": dict(sorted(groups.items())),
             "peak_fleet_zero_layover_lower_bound": peak_fleet_floor,
             "active_fleet_above_lower_bound": n["active_trainsets"] - peak_fleet_floor,
-            "former_fleet_utilisation_allowance_train_km": former_allowance,
-            "former_allowance_exceeded_peak_frequency_bound": former_allowance > yearly_km,
             "basis": "planning allowance (upper bound): both directions on every assigned passenger path at the declared peak headway for every service hour and day; no timetable, demand profile, terminal layover or junction capacity established"}
 
 

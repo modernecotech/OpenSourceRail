@@ -11,8 +11,6 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
 | Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
-| Target completion | 2031 | 2035 |
-
 These are single planning estimates for each programme. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
 
 ## City maps and routes
@@ -51,8 +49,15 @@ The independent citywide map contains nine principal corridors, five shared link
 | Offered places per hour per direction per service | 16,800 | 16,800 |
 | Active trains | 210 | 812 |
 | Fleet including reserve | 242 | 934 |
-| Annual train distance | 52.429 million km | 202.724 million km |
+| Annual train distance, peak-all-day upper bound on assigned paths | 46.736 million km | 175.199 million km |
 | Planned daily service | 18 hours | 18 hours |
+
+The train-distance estimate runs every assigned passenger path at the peak
+interval for every service hour. It is a costing upper bound, not an hourly
+timetable. The 50.099 km of reserved citywide guideway has no train movement in
+this estimate. The zero-layover peak fleet floors are 190 and 711 trainsets;
+the declared 210 and 812 active sets are planning allowances rather than train
+rotations.
 
 Each train has six 17 m cars, four double doors per side per car, step-free access and two wheelchair places per car. The selected full-load mass is **201.092 tonnes**. Twenty-four powered axles provide traction under the declared uphill and low-adhesion design duty. Independent brakes and service batteries remain available for controlled stopping and recovery. The [vehicle page](VEHICLE.md) gives the car layout, equipment envelopes, assembly approach and replaceable parts.
 
@@ -67,8 +72,8 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 | Traction grid sites | 30 | 100 |
 | Depots / control centres | 4 / 2 | 12 / 4 |
 | Beam-casting yards / erection fronts with stated ramp and availability | 6 / 6 | 10 / 10 |
-| Annual delivered electricity | 1,114 GWh | 4,309 GWh |
-| Annual operation and maintenance estimate | $339.974m | $1,348.404m |
+| Annual delivered electricity | 993 GWh | 3,724 GWh |
+| Annual operation and maintenance estimate | $310.655m | $1,206.631m |
 
 The first construction family uses repeatable **10 m precast beams** on separate supports for each track. The city can compare longer spans and common piers at difficult streets, but the published price uses the 10 m family throughout. Iraqi suppliers can cast beams and piers, fabricate train bodies and interiors, assemble trains, build stations, install cable routes, and maintain the finished railway. The capital estimate includes **$99.280m** for tooling and local production setup in the first programme and **$282.261m** in the independent citywide network. Motors, power electronics, bearings, safety equipment and contact materials are separately procured items until local suppliers can qualify them.
 
@@ -101,7 +106,7 @@ The first construction family uses repeatable **10 m precast beams** on separate
 | **Installed total** | **7,865.670** | **31,017.749** |
 
 The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw) allocates first-programme construction over **2027–2031** and the independent citywide network over **2027–2035**. Its highest planned annual draw is **$2.360bn** for the first programme in 2029 and 2030, and **$5.273bn** for the independent citywide network in 2032. These are construction cash requirements before borrowing costs. Financing can combine Iraqi public capital, commercial bank facilities and export credit for eligible UK export contracts. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) applies to specific contracts and lender assessments; no UKEF commitment or loan amount is included in the capital estimate.
-The calculated 2027 present cost, with annual construction draws followed by 30 years of full operation after completion, is **$12.599bn** for seven corridors and **$44.506bn** citywide. This uses a different time origin from the headline 30-year cost and includes no staged openings or financing charges.
+The calculated 2027 present cost, with annual construction draws followed by 30 years of full operation after completion, is **$12.183bn** for seven corridors and **$42.783bn** citywide. This uses a different time origin from the headline 30-year cost and includes no staged openings or financing charges.
 
 | Capital source to develop | Contract scope | What must be settled |
 |---|---|---|
@@ -109,7 +114,7 @@ The calculated 2027 present cost, with annual construction draws followed by 30 
 | Commercial banks | Construction and longer-term facilities | Borrower, completion support, repayment source and lender terms |
 | UK Export Finance with a bank | Eligible UK export contracts for equipment and services | UK content, buyer down payment, credit review, country cover and UKEF approval |
 
-The 30-year present cost of the selected railway is **$14.493bn** for the first programme and **$57.214bn** for the independent citywide network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
+The 30-year present cost of the selected railway is **$13.986bn** for the first programme and **$54.763bn** for the independent citywide network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
 
 The [proposal](PROPOSAL.md) gives the requested city decision and delivery sequence. The [cost schedule](COST-AND-DELIVERY.md) gives rates, matched power alternatives, 30-year operation and renewal costs, civil-span comparisons and annual capital draws. The [map guide](maps/README.md) identifies the GIS sources and how to use the layers.
 The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.

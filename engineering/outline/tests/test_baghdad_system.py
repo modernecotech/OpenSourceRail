@@ -113,7 +113,6 @@ def test_service_train_distance_is_bounded_by_assigned_paths_and_peak_headway():
         assert service["annual_train_km"] == pytest.approx(
             2 * served_km * 3600 / 150 * 18 * 365)
         assert duty["peak_fleet_zero_layover_lower_bound"] == fleet_floor
-        assert duty["former_allowance_exceeded_peak_frequency_bound"] is True
         assert service["active_trainsets"] >= fleet_floor
         assert "upper bound" in service["annual_train_km_basis"]
         assert service["timetable_established"] is False
@@ -131,6 +130,22 @@ def test_construction_cashflow_reconciles_without_assuming_a_loan_or_opening():
         assert cash["construction_start_present_cost_usd_m"] > cash["present_capital_at_start_usd_m"]
         assert cash["staged_openings_modelled"] is False
         assert cash["interest_fees_premium_exchange_and_revenue_modelled"] is False
+
+
+def test_current_public_baghdad_costs_match_the_selected_calculation():
+    summary = release_summary()
+    pages = [(ROOT / path).read_text() for path in (
+        "cities/Baghdad/PROPOSAL.md", "cities/Baghdad/COST-AND-DELIVERY.md",
+        "cities/Baghdad/README.md")]
+    baseline = (ROOT / "docs/COST-BASELINE.md").read_text()
+    for name in ("first", "metropolitan"):
+        selected = summary["networks"][name]
+        case = selected["power_cases"][selected["digital_cost_leader"]]
+        life = f"${case['whole_life_30y_present_usd_m'] / 1000:,.3f}bn"
+        annual_km = f"{selected['selected_service_allowance']['annual_train_km'] / 1e6:,.3f}"
+        annual_cost = f"${selected['selected_annual_opex_usd_m']['total']:,.3f}m"
+        assert all(life in page and annual_km in page and annual_cost in page for page in pages)
+        assert life in baseline
 
 
 def test_power_price_margin_and_single_power_calculation(monkeypatch):

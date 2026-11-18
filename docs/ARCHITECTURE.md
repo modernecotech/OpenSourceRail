@@ -21,7 +21,7 @@ are historical designs.
 |---|---|
 | v0.6 passive-wheel station-launch vehicle | Development reference and research; no installed Baghdad service selected |
 | v0.7 powered-wheel 30 km railway | Selected synthetic digital engineering and cost reference |
-| Baghdad v0.7.1 protected-conductor railway | City-specific planning baseline, separate from the 30 km reference |
+| Baghdad protected-conductor railway, introduced in v0.7.1 | Current-main city planning baseline, separate from the 30 km reference |
 
 The Baghdad [input](../cities/Baghdad/system.toml) and [costed result](../cities/Baghdad/system-results.json)
 are 2026 USD planning estimates. Installed capital includes construction,

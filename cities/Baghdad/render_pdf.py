@@ -20,7 +20,7 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import Image, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -300,7 +300,14 @@ def render():
                 story.append(PageBreak())
             story.append(Paragraph(inline(node["children"]), styles[style]))
         elif kind == "paragraph":
-            story.append(Paragraph(inline(node["children"]), styles["BodyOSR"]))
+            content = inline(node["children"])
+            paragraph = Paragraph(content, styles["BodyOSR"])
+            story.append(KeepTogether([paragraph]) if content.startswith((
+                "At a <b>1.5 kV calculation setting</b>",
+                "Annual train-km use every assigned passenger path",
+                "The seven-corridor illustrative loan",
+            ))
+                         else paragraph)
         elif kind == "table":
             head = node["children"][0]["children"]
             body = node["children"][1]["children"]

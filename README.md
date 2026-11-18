@@ -8,7 +8,8 @@ for every design.
 
 **Current published release: [v0.7.1](docs/RELEASE-v0.7.md).** It contains a
 costed **digital** railway reference and separate city planning applications.
-It does not authorize construction or passenger operation. The [architecture
+The main branch carries newer Baghdad planning calculations than that tag.
+Neither version authorizes construction or passenger operation. The [architecture
 guide](docs/ARCHITECTURE.md#which-design-is-current) identifies each design;
 the [engineering status](docs/ENGINEERING-STATUS.md) and [cost baseline](docs/COST-BASELINE.md)
 give the current assumptions and results.
