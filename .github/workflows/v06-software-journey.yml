@@ -35,6 +35,8 @@ on:
       - "tests/test_corridor_revision*.py"
       - "package.json"
       - "package-lock.json"
+      - "!engineering/outline/baghdad_*.py"
+      - "!engineering/outline/tests/test_baghdad_*.py"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   pull_request:
     paths:
@@ -70,6 +72,8 @@ on:
       - "tests/test_corridor_revision*.py"
       - "package.json"
       - "package-lock.json"
+      - "!engineering/outline/baghdad_*.py"
+      - "!engineering/outline/tests/test_baghdad_*.py"
       - "!engineering/development_baseline/tests/test_performance_storage.py"
   workflow_dispatch:
 permissions:

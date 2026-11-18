@@ -212,6 +212,19 @@ def test_generated_documentation_index_uses_fast_check_without_physics_replay():
     assert "['git', 'sparse-checkout', 'add', '--stdin']" in text
 
 
+def test_baghdad_model_changes_use_fast_lane_without_legacy_replays():
+    paths = ('engineering/outline/baghdad_system.py',
+             'engineering/outline/baghdad_viaduct.py',
+             'engineering/outline/tests/test_baghdad_system.py')
+    fast = ROOT / '.github/workflows/v06-software-release.yml'
+    legacy = tuple(ROOT / '.github/workflows' / name for name in
+                   ('v06-software-journey.yml', 'development-baseline.yml', 'shared-software.yml'))
+    for event in ('push', 'pull_request'):
+        assert all(_matches(path, _event_paths(fast, event)) for path in paths)
+        for workflow in legacy:
+            assert not any(_matches(path, _event_paths(workflow, event)) for path in paths)
+
+
 def test_wheel_frontend_checks_have_installed_browser_and_fail_before_long_models():
     text=(ROOT/'.github/workflows/development-baseline.yml').read_text()
     current=text.split('  current-contracts:\n',1)[1].split('  retired-reference-methods:\n',1)[0]

@@ -82,6 +82,8 @@ on:
       - "!tests/test_city_dossier_analysis.py"
       # Generated index-only edits are checked before dependencies in the bounded lane.
       - "!docs/INDEX.md"
+      - '!engineering/outline/baghdad_*.py'
+      - '!engineering/outline/tests/test_baghdad_*.py'
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   pull_request:
     paths:
@@ -164,6 +166,8 @@ on:
       - "!tests/test_city_dossier_analysis.py"
       # Generated index-only edits are checked before dependencies in the bounded lane.
       - "!docs/INDEX.md"
+      - '!engineering/outline/baghdad_*.py'
+      - '!engineering/outline/tests/test_baghdad_*.py'
       - '!engineering/development_baseline/tests/test_performance_storage.py'
   workflow_dispatch:
 permissions:
