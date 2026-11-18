@@ -65,7 +65,7 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 | Protected conductor along both tracks | 296.4 track-km | 1,211.304 track-km |
 | Traction grid sites | 30 | 100 |
 | Depots / control centres | 4 / 2 | 12 / 4 |
-| Beam-casting yards / erection fronts in production plan | 3 / 3 | 7 / 7 |
+| Minimum beam-casting yards / erection fronts in stated civil window | 5 / 5 | 9 / 9 |
 | Annual delivered electricity | 1,114 GWh | 4,309 GWh |
 | Annual operation and maintenance estimate | $339.974m | $1,348.404m |
 
@@ -73,8 +73,8 @@ The first construction family uses repeatable **10 m precast beams** on separate
 
 | Workstream | Local work and skills | Purchase and delivery control |
 |---|---|---|
-| Precast yards | Steel fixing, mould preparation, casting, curing, testing and beam handling | Three yards in the first programme; eight beams per yard per working day in the production plan |
-| Street and viaduct construction | Utilities, foundations, piers, lifting, track and walkways | Three erection fronts initially; staged traffic and river-crossing plans |
+| Precast yards | Steel fixing, mould preparation, casting, curing, testing and beam handling | At least five yards in the first civil window; eight beams per yard per working day is the zero-disruption planning rate |
+| Street and viaduct construction | Utilities, foundations, piers, lifting, track and walkways | At least five erection fronts in the first civil window; staged traffic and river-crossing plans require additional margin |
 | Train factory | Carbody, doors, interior, cable looms, final assembly and depot repair | Imported motors, converters and safety equipment remain separately priced |
 | Stations and electrical railway | Accessible entries, fit-out, protected conductor, cables and substations | Isolated power sections, inspection access and replaceable equipment |
 | Railway operation | Train supervision, control, station assistance, cleaning and maintenance | Rosters and wage budgets belong in operating contracts, not extra construction capital |

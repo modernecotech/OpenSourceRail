@@ -6,9 +6,11 @@ import html
 import json
 import math
 import gzip
+from io import BytesIO
 from hashlib import sha256
 from pathlib import Path
 
+import cairosvg
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -219,6 +221,7 @@ def map_images():
 
 def render():
     map_images()
+    result = json.loads((HERE / "system-results.json").read_text())
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="TitleOSR", parent=styles["Title"], fontName="Helvetica-Bold",
                               fontSize=18, leading=22, textColor=colors.HexColor("#17364a"), spaceAfter=11))
@@ -231,10 +234,54 @@ def render():
                               textColor=colors.HexColor("#697a83"), alignment=TA_CENTER))
     ast = mistune.create_markdown(renderer="ast", plugins=["table"])((HERE / "PROPOSAL.md").read_text())
     story = []
+    current_section = ""
+    def drawing(name, caption):
+        png = BytesIO(cairosvg.svg2png(url=str(HERE / name), output_width=1800))
+        png.seek(0)
+        story.append(Paragraph(caption, styles["SectionOSR"]))
+        image = Image(png, width=174 * mm, height=(174 * 325 / 1000 if name == "vehicle-layout.svg" else 174 * 340 / 1000) * mm)
+        story.append(image)
+        story.append(Spacer(1, 3 * mm))
+    def cash_chart():
+        years = list(range(2027, 2036))
+        first = [393.284, 1179.851, 2359.701, 2359.701, 1573.133, 0, 0, 0, 0]
+        metro = [930.532, 2171.242, 3101.775, 4032.307, 4652.662, 5273.017, 4652.662, 3722.130, 2481.422]
+        for values, name in ((first, "first"), (metro, "metropolitan")):
+            capital = result["networks"][name]["power_cases"][result["networks"][name]["digital_cost_leader"]]["installed_capital_usd_m"]
+            if abs(sum(values) - capital) > .01:
+                raise ValueError(f"Construction cash chart does not reconcile with {name} capital")
+        fig, ax = plt.subplots(figsize=(9, 3.4), dpi=170)
+        fig.patch.set_facecolor("white")
+        x = list(range(len(years)))
+        ax.bar([v - .18 for v in x], [v / 1000 for v in first], width=.35, color="#b77827", label="Seven corridors")
+        ax.bar([v + .18 for v in x], [v / 1000 for v in metro], width=.35, color="#146c85", label="Independent citywide")
+        ax.set_xticks(x, years)
+        ax.set_ylabel("US$ billion, 2026 prices")
+        ax.set_title("Annual construction capital draw", loc="left", color="#17364a", weight="bold")
+        ax.grid(axis="y", color="#dae4e8", linewidth=.7)
+        ax.set_axisbelow(True)
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.legend(frameon=False, ncol=2, loc="upper left")
+        fig.tight_layout()
+        png = BytesIO()
+        fig.savefig(png, format="png", facecolor="white")
+        plt.close(fig)
+        png.seek(0)
+        return Image(png, width=174 * mm, height=66 * mm)
     for node in ast:
         kind = node["type"]
         if kind == "heading":
+            if node["attrs"]["level"] == 2:
+                current_section = inline(node["children"])
             style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
+            if inline(node["children"]) == "Raising the capital":
+                story.append(PageBreak())
+            if inline(node["children"]) == "Trains and passenger service":
+                story.append(Paragraph("Vehicle and station interfaces", styles["SectionOSR"]))
+                drawing("vehicle-layout.svg", "17 m car: doors, accessible spaces and passenger layout")
+                drawing("station-interface.svg", "Straight island platform: train, track and protected conductor")
+                story.append(Paragraph("These diagrams are digital coordination views. The vehicle and station interface dimensions are listed in the Baghdad vehicle schedule.", styles["FooterOSR"]))
+                story.append(PageBreak())
             if inline(node["children"]) == "The city and the routes":
                 for destination, caption in zip(MAP_IMAGES, (
                     "Seven-corridor alternative and priority access areas",
@@ -272,12 +319,13 @@ def render():
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
             ]))
             story.extend((table, Spacer(1, 3 * mm)))
+            if current_section == "Capital, construction cash and delivery":
+                story.append(cash_chart())
         elif kind == "list":
             for item in node["children"]:
                 contents = item.get("children", [])
                 text = "".join(inline(child.get("children", [])) for child in contents)
                 story.append(Paragraph("• " + text, styles["BodyOSR"]))
-    result = json.loads((HERE / "system-results.json").read_text())
     first = result["networks"]["first"]
     metro = result["networks"]["metropolitan"]
     labels = {
@@ -296,7 +344,8 @@ def render():
         "testing_commissioning": "Testing and commissioning",
         "project_allowance": "Project allowance",
     }
-    story.append(Paragraph("Installed capital by scope", styles["SectionOSR"]))
+    story.append(PageBreak())
+    story.append(Paragraph("Appendix: installed capital by scope", styles["SectionOSR"]))
     rows = [["US$ million", "148.2 km", "605.652 km"]]
     for key, label in labels.items():
         rows.append([label, f"{first['selected_capital_scope_usd_m'][key]:,.3f}",
@@ -316,6 +365,11 @@ def render():
         ("BOX", (0, 0), (-1, -1), .4, colors.HexColor("#afc2cb")),
     ]))
     story.append(table)
+    story.append(Spacer(1, 5 * mm))
+    story.append(Paragraph("How to use this estimate", styles["SectionOSR"]))
+    story.append(Paragraph("Each row is an installed 2026 US-dollar planning allowance for its own network. The project allowance is 20% of the preceding subtotal. Control electronics are allocated within vehicles, stations, signalling, grid and control rooms. The annual operating and 30-year present-cost figures elsewhere in the proposal are additional lifecycle measures and should not be added to installed capital.", styles["BodyOSR"]))
+    story.append(Paragraph("The two network totals are independent choices. The seven-corridor capital cannot be treated as a first-stage payment toward the citywide network. No revenue, interest during construction, export-credit premium, tax or foreign-exchange adjustment is included. GIS linework and station counts are planning controls until corridor and station schedules are settled.", styles["BodyOSR"]))
+    story.append(Paragraph("For quotation, issue the controlled train, span, station, power and control interfaces with a bill of quantities, supplier origin, local work content, annual delivery capacity and renewal prices. The sponsoring authority can then update the same calculation with firm prices and financing terms.", styles["BodyOSR"]))
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=16 * mm,
                             leftMargin=16 * mm, topMargin=15 * mm, bottomMargin=17 * mm,
