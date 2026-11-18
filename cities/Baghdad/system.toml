@@ -100,7 +100,7 @@ occ_equipment_set = 0.600
 first_path = "cities/Baghdad/maps/network-148km.geojson"
 first_sha256 = "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4"
 metropolitan_path = "cities/Baghdad/maps/network-606km.geojson"
-metropolitan_sha256 = "44ad33cb4fb3c9ba1cd93143ea86ecbbd3e162edee81d2d43d11218c45a862cc"
+metropolitan_sha256 = "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056"
 waypoints_path = "cities/Baghdad/maps/rfi-waypoints.json"
 waypoints_sha256 = "56d8f1ab75a4eb338dbb60c59947d63133e67d5990dfff71a4e45586d8295de5"
 map_status = "schematic; lengths are source-declared planning controls, not measured alignments"
@@ -128,7 +128,8 @@ White = 23.0
 Airport = 12.0
 
 [networks.metropolitan]
-name = "605.652 km metropolitan concept"
+name = "605.652 km independent citywide concept"
+relationship_to_first = "standalone alternative; no first-programme route or budget inherited"
 route_km = 605.652
 lines = 14
 stations = 280
@@ -139,6 +140,40 @@ control_centres = 4
 traction_supply_sites = 100
 construction_start_year = 2027
 construction_finish_year = 2035
+
+[networks.metropolitan.service_groups]
+M01 = ["line-1", "B-A05"]
+M02 = ["line-2", "B-A06"]
+M03 = ["line-3"]
+M04 = ["line-4", "B-A02", "B-A03"]
+M05 = ["line-5", "B-A01"]
+M06 = ["line-6"]
+M07 = ["line-7"]
+M08 = ["line-8"]
+M09 = ["line-9", "B-A04"]
+M10 = ["B-I01"]
+M11 = ["B-I02"]
+M12 = ["B-I04"]
+M13 = ["B-I05"]
+M14 = ["B-I06"]
+
+# These are planning shares of contract value addressable by Iraqi labour,
+# materials, workshops and engineering. They are not supplier origin evidence.
+# The 20% project allowance is excluded until placed against actual contracts.
+[networks.metropolitan.local_contract_fraction]
+elevated_civil = 0.70
+stations_access = 0.60
+track_walkways = 0.45
+signalling_comms = 0.20
+brake_protection_recovery = 0.20
+line_traction_supply = 0.35
+grid_charging_buffers = 0.30
+vehicles = 0.35
+depots_control = 0.60
+land_utilities_disruption = 0.70
+tooling_recovery = 0.75
+design_assurance = 0.40
+testing_commissioning = 0.40
 
 [capital_rates_usd_m]
 elevated_per_route_km_10m_separate = 9.0

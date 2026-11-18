@@ -2,17 +2,17 @@
 
 [Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
 
-OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires. A protected conductor beside the track supplies powered wheel bogies. The first programme connects seven named corridors, including the airport passenger-terminal area. The larger network extends service through Sadr City, Jadriya and outer districts. The train, power supply, viaduct, fleet, operations and costs are calculated together for each programme.
+OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires. A protected conductor beside the track supplies powered wheel bogies. The seven-corridor concept follows the Iraqi investment brief. The independent citywide concept serves the airport passenger-terminal area, Sadr City, Jadriya and outer districts through fourteen service groups. The train, power supply, viaduct, fleet, operations and costs are calculated separately for each concept.
 
-| Programme | First seven lines | Complete metropolitan network |
+| Programme | Seven-corridor alternative | Independent citywide alternative |
 |---|---:|---:|
-| Route length | 148.2 km | 605.652 km, including the first programme |
+| Route length | 148.2 km | 605.652 km |
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
 | Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
 | Target completion | 2031 | 2035 |
 
-These are single planning estimates for each programme. The larger amount includes the first programme; the additional metropolitan works account for **$23.152bn**. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
+These are single planning estimates for each programme. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
 
 ## City maps and routes
 
@@ -39,11 +39,11 @@ The airport line is planned to reach the passenger-terminal building area. Its m
 
 [Open the metropolitan map](maps/Baghdad-606km.png) · [Download its GIS layers](maps/network-606km.geojson)
 
-The metropolitan map contains nine principal route drawings and seventeen planning or physical connections. The priced network has fourteen service groups and a 280-station allowance. Its 605.652 km is a declared programme length; drawn lines and connectors are schematic and are not measured construction quantities. Short links are part of through services or branches, without a separate shuttle fleet.
+The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six through-service access branches. It has fourteen service groups and a 280-station allowance. M05 reaches the airport terminal area, M04 and M09 reach Sadr City anchors, and M01 and M02 reach Jadriya anchors. Its 605.652 km is a declared route-length control; drawn lines are schematic planning corridors. Access branches are served by through trains, without a separate shuttle fleet.
 
 ## People and trains
 
-| Service measure | First programme | Complete network |
+| Service measure | First programme | Independent citywide |
 |---|---:|---:|
 | Six-car train, planning capacity | 700 places | 700 places |
 | Peak interval per service | 150 seconds | 150 seconds |
@@ -57,7 +57,7 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 
 ## Civil works, power and factories
 
-| Construction and operation | First programme | Complete network |
+| Construction and operation | First programme | Independent citywide |
 |---|---:|---:|
 | Elevated double-track railway | 148.2 km | 605.652 km |
 | Selected precast beam placements | 29,640 | 121,156 |
@@ -69,7 +69,7 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 | Annual delivered electricity | 1,114 GWh | 4,309 GWh |
 | Annual operation and maintenance estimate | $339.974m | $1,348.404m |
 
-The first construction family uses repeatable **10 m precast beams** on separate supports for each track. The city can compare longer spans and common piers at difficult streets, but the published price uses the 10 m family throughout. Iraqi suppliers can cast beams and piers, fabricate train bodies and interiors, assemble trains, build stations, install cable routes, and maintain the finished railway. The capital estimate includes **$99.280m** for tooling and local production setup in the first programme and **$282.261m** in the complete network. Motors, power electronics, bearings, safety equipment and contact materials are separately procured items until local suppliers can qualify them.
+The first construction family uses repeatable **10 m precast beams** on separate supports for each track. The city can compare longer spans and common piers at difficult streets, but the published price uses the 10 m family throughout. Iraqi suppliers can cast beams and piers, fabricate train bodies and interiors, assemble trains, build stations, install cable routes, and maintain the finished railway. The capital estimate includes **$99.280m** for tooling and local production setup in the first programme and **$282.261m** in the independent citywide network. Motors, power electronics, bearings, safety equipment and contact materials are separately procured items until local suppliers can qualify them.
 
 | Workstream | Local work and skills | Purchase and delivery control |
 |---|---|---|
@@ -81,7 +81,7 @@ The first construction family uses repeatable **10 m precast beams** on separate
 
 ## Installed capital and construction cash
 
-| Capital scope, US$ million | First programme | Complete network |
+| Capital scope, US$ million | First programme | Independent citywide |
 |---|---:|---:|
 | Viaduct and foundations | 1,331.238 | 5,440.396 |
 | Stations and accessible entry | 832.000 | 3,640.000 |
@@ -99,7 +99,7 @@ The first construction family uses repeatable **10 m precast beams** on separate
 | Project allowance | 1,310.945 | 5,169.625 |
 | **Installed total** | **7,865.670** | **31,017.749** |
 
-The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw) allocates first-programme construction over **2027–2031** and the complete network over **2027–2035**. Its highest planned annual draw is **$2.360bn** for the first programme in 2029 and 2030, and **$5.273bn** for the complete network in 2032. These are construction cash requirements before borrowing costs. Financing can combine Iraqi public capital, commercial bank facilities and export credit for eligible UK export contracts. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) applies to specific contracts and lender assessments; no UKEF commitment or loan amount is included in the capital estimate.
+The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw) allocates first-programme construction over **2027–2031** and the independent citywide network over **2027–2035**. Its highest planned annual draw is **$2.360bn** for the first programme in 2029 and 2030, and **$5.273bn** for the independent citywide network in 2032. These are construction cash requirements before borrowing costs. Financing can combine Iraqi public capital, commercial bank facilities and export credit for eligible UK export contracts. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) applies to specific contracts and lender assessments; no UKEF commitment or loan amount is included in the capital estimate.
 
 | Capital source to develop | Contract scope | What must be settled |
 |---|---|---|
@@ -107,7 +107,7 @@ The [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw
 | Commercial banks | Construction and longer-term facilities | Borrower, completion support, repayment source and lender terms |
 | UK Export Finance with a bank | Eligible UK export contracts for equipment and services | UK content, buyer down payment, credit review, country cover and UKEF approval |
 
-The 30-year present cost of the selected railway is **$14.493bn** for the first programme and **$57.214bn** for the complete network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
+The 30-year present cost of the selected railway is **$14.493bn** for the first programme and **$57.214bn** for the independent citywide network, including construction, operation and scheduled renewals under the published assumptions. Fare revenue and debt service are separate financial decisions; the construction totals do not treat a loan as income.
 
 The [proposal](PROPOSAL.md) gives the requested city decision and delivery sequence. The [cost schedule](COST-AND-DELIVERY.md) gives rates, matched power alternatives, 30-year operation and renewal costs, civil-span comparisons and annual capital draws. The [map guide](maps/README.md) identifies the GIS sources and how to use the layers.
 The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.

@@ -41,7 +41,7 @@ def _geo_km(coords: list[list[float]]) -> float:
     return total
 
 
-def load(root: Path = ROOT) -> dict:
+def load(root: Path = ROOT, network: str | None = None) -> dict:
     root = Path(root)
     cfg = tomllib.loads((root / CONFIG).read_text())
     if (cfg.get("schema") != "opensourcerail.baghdad.system.1"
@@ -51,7 +51,11 @@ def load(root: Path = ROOT) -> dict:
             or cfg["alignment_surveyed"] or cfg["vertical_clearance_mapped"]
             or cfg["ground_characterised"] or cfg["airport_terminal_entrance_fixed"]):
         raise ValueError("Baghdad zero-tunnel digital planning scope differs")
-    for key in ("first", "metropolitan", "waypoints"):
+    if network not in (None, "first", "metropolitan"):
+        raise ValueError("Known Baghdad network required")
+    map_keys = (("first", "metropolitan", "waypoints") if network is None else
+                ("first", "waypoints") if network == "first" else ("metropolitan",))
+    for key in map_keys:
         path = root / cfg["map_sources"][key + "_path"]
         if not path.is_file() or _hash(path) != cfg["map_sources"][key + "_sha256"]:
             raise ValueError("Baghdad map source differs: " + key)
@@ -77,13 +81,33 @@ def _lines(root: Path, cfg: dict, network: str) -> tuple[dict[str, float], str]:
         if lines != mapped or not isclose(sum(lines.values()), row["route_km"], abs_tol=1e-6):
             raise ValueError("First-programme RFI line lengths differ from pinned map")
         return lines, "RFI nominal line lengths; drawn polylines are schematic"
-    segments = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"]
+    segments = [f for f in geo["features"] if f["geometry"]["type"] == "LineString"
+                and f["properties"].get("map_layer") == "railway route"]
+    route_ids = {f["properties"].get("route_id") for f in segments}
+    groups = row["service_groups"]
+    if (len(groups) != row["lines"] or any(not set(parts) <= route_ids for parts in groups.values())
+            or not {"B-A01", "B-A02", "B-A03", "B-A04", "B-A05", "B-A06"} <= route_ids
+            or any(f["properties"].get("standalone_shuttle") for f in segments)):
+        raise ValueError("Independent metropolitan through-service route schedule differs")
     raw = [_geo_km(f["geometry"]["coordinates"]) for f in segments]
     if not raw or min(raw) <= 0:
         raise ValueError("Metropolitan schematic route segments required")
     ratio = row["route_km"] / sum(raw)
     lines = {f"segment-{i + 1:02d}": km * ratio for i, km in enumerate(raw)}
-    return lines, "Schematic GIS segment shares scaled to the declared 605.652 km planning length"
+    return lines, "Independent GIS revenue sections scaled to the declared 605.652 km planning length"
+
+
+def _selected_input_id(cfg: dict, network: str) -> str:
+    """Identify only the selected network and common railway assumptions."""
+    shared = {key: value for key, value in cfg.items()
+              if key not in ("networks", "map_sources")}
+    selected = {"common": shared, "network": cfg["networks"][network],
+                "map": {key: cfg["map_sources"][network + "_" + key]
+                        for key in ("path", "sha256")}}
+    if network == "first":
+        selected["waypoints"] = {key: cfg["map_sources"]["waypoints_" + key]
+                                  for key in ("path", "sha256")}
+    return _id(selected)
 
 
 def _power_cost(case: dict, cfg: dict, network: dict) -> dict:
@@ -298,7 +322,7 @@ def _check_vehicle_layout(cfg: dict, root: Path) -> None:
 def evaluate(network: str, supply: str, *, span_m: int = 10,
              common_pier: bool = False, root: Path = ROOT) -> dict:
     root = Path(root)
-    cfg = load(root)
+    cfg = load(root, network=network)
     if network not in cfg["networks"] or supply not in (
             "station_battery", "protected_conductor", "limited_conductor_battery", "overhead"):
         raise ValueError("Known Baghdad network and supply option required")
@@ -357,6 +381,22 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
     installed = subtotal + contingency
     scopes = {**common, "design_assurance": design,
               "testing_commissioning": test, "project_allowance": contingency}
+    local_delivery = None
+    if "local_contract_fraction" in n:
+        fractions = n["local_contract_fraction"]
+        priced_scopes = set(scopes) - {"project_allowance"}
+        if set(fractions) != priced_scopes or any(type(value) not in (float, int) or
+                                                 not 0 <= value <= 1 for value in fractions.values()):
+            raise ValueError("Metropolitan local-contract planning shares do not cover priced scopes")
+        addressable = {scope: scopes[scope] * fractions[scope] for scope in priced_scopes}
+        local_delivery = {"planning_local_contract_usd_m": sum(addressable.values()),
+                          "scope_local_contract_usd_m": addressable,
+                          "planning_share_of_non_contingency_capital":
+                              sum(addressable.values()) / (installed - contingency),
+                          "project_allowance_unassigned_usd_m": contingency,
+                          "actual_supplier_origin_established": False,
+                          "royalty_or_ip_savings_in_capital_usd_m": None,
+                          "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital"}
     op = cfg["operation_rates"]
     m = cfg["annual_power_maintenance_usd_m"]
     maintenance = 0.0
@@ -408,6 +448,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
         "vehicle": power["vehicle"], "traction": power["traction"],
         "energy": power["energy"], "supply_quantities": power["supply"],
         "control_electronics": controls,
+        "local_delivery": local_delivery,
         "station_interfaces": station_interfaces, "service_power": service_power,
         "civil": {"physical_candidate_id": civil["civil_option_physical_id"],
                   "evaluation_id": civil["evaluation_id"],
@@ -421,9 +462,11 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
                                  "power_maintenance": maintenance, "total": annual_opex},
         "renewals_usd_m": renewals,
         "whole_life_30y_present_usd_m": life,
-        "source_sha256": {str(CONFIG): _hash(root / CONFIG),
-                          **{cfg["map_sources"][key + "_path"]:
-                             cfg["map_sources"][key + "_sha256"] for key in ("first", "metropolitan", "waypoints")},
+        "source_sha256": {str(CONFIG) + "#selected-" + network: _selected_input_id(cfg, network),
+                          cfg["map_sources"][network + "_path"]:
+                              cfg["map_sources"][network + "_sha256"],
+                          **({cfg["map_sources"]["waypoints_path"]:
+                              cfg["map_sources"]["waypoints_sha256"]} if network == "first" else {}),
                           "engineering/outline/baghdad_system.py": _hash(Path(__file__)),
                           "engineering/outline/baghdad_power.py": _hash(root / "engineering/outline/baghdad_power.py"),
                           "engineering/outline/baghdad_viaduct.py": _hash(root / "engineering/outline/baghdad_viaduct.py")},
@@ -434,7 +477,7 @@ def evaluate(network: str, supply: str, *, span_m: int = 10,
 
 
 def compare(network: str, root: Path = ROOT) -> dict:
-    cfg = load(root)
+    cfg = load(root, network=network)
     fixed_span = cfg["selected_span_m"]
     fixed_common = cfg["selected_pier_family"] == "common-crosshead"
     supply_rows = {key: evaluate(network, key, span_m=fixed_span,
@@ -475,6 +518,8 @@ def release_summary(root: Path = ROOT) -> dict:
             "selected_control_electronics": selected["control_electronics"],
             "selected_station_interfaces": selected["station_interfaces"],
             "selected_service_power": selected["service_power"],
+            "selected_local_delivery": selected["local_delivery"],
+            "service_groups": cfg["networks"][name].get("service_groups"),
             "selected_annual_opex_usd_m": selected["operation_usd_m_year"],
             "selected_renewals_usd_m": selected["renewals_usd_m"],
             "power_cases": {key: {

@@ -125,13 +125,14 @@ def map_images():
 
     styles = {"line": ("#146c85", 1.7), "physical_connector": ("#b77827", 1.6),
               "schematic_control_polyline": ("#238c63", 1.5),
-              "straight_lower_bound_connector": ("#b04d54", 1.25)}
+              "straight_lower_bound_connector": ("#b04d54", 1.25),
+              "through_service_access": ("#b04d54", 1.7)}
     rfi_colours = {"Green": "#21875a", "Red": "#c64c52", "Blue": "#357db7",
                    "Purple": "#8d62ad", "Yellow": "#c6971d", "White": "#66747e",
                    "Airport": "#db713c"}
     for filename, title, destination in zip(
         ("network-148km.geojson", "network-606km.geojson"),
-        ("148.2 km | first programme", "605.652 km | metropolitan network"),
+        ("148.2 km | first programme", "605.652 km | independent citywide network"),
         MAP_IMAGES,
     ):
         data = json.loads((HERE / "maps" / filename).read_text())
@@ -201,7 +202,9 @@ def map_images():
             legend = [Line2D([0], [0], color=colour, lw=2.4, label=name) for name, colour in rfi_colours.items()]
         else:
             legend = [Line2D([0], [0], color="#146c85", lw=2, label="Principal route"),
-                      Line2D([0], [0], color="#b77827", lw=2, label="Planning connection"),
+                      Line2D([0], [0], color="#b77827", lw=2, label="Shared through link"),
+                      Line2D([0], [0], color="#238c63", lw=2, label="Infill corridor"),
+                      Line2D([0], [0], color="#b04d54", lw=2, label="Through-service access"),
                       Line2D([0], [0], marker=".", color="#384d5a", lw=0, label="Stop screen")]
         legend.append(Patch(facecolor="#f1cf76", alpha=.4, label="1 km priority access area"))
         ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, -.16), ncol=4,
@@ -234,8 +237,8 @@ def render():
             style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
             if inline(node["children"]) == "The city and the routes":
                 for destination, caption in zip(MAP_IMAGES, (
-                    "First programme: seven corridors and priority access areas",
-                    "Metropolitan network: principal lines, planning connections and stop screens",
+                    "Seven-corridor alternative and priority access areas",
+                    "Independent citywide railway: corridors, shared links and through services",
                 )):
                     story.append(PageBreak())
                     story.append(Paragraph(caption, styles["SectionOSR"]))

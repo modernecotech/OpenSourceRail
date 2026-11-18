@@ -6,14 +6,14 @@
 
 Baghdad needs a railway that serves daily trips across the city, reaches the airport passenger terminal, and can grow with its population. OpenSourceRail proposes a locally buildable, repairable electric railway on standardised elevated structures. The passenger lines have **no tunnels or underground stations**. Trains draw power from a protected conductor beside the track, so the preferred design has **no overhead wires**. Iraqi factories and contractors would take an increasing share of precast concrete, vehicle bodies, stations, assembly and maintenance.
 
-The proposal has two connected scales. The **148.2 km first programme** follows the seven corridors named in the Iraqi investment brief, with improved attention to the airport, Sadr City and Jadriya. The **605.652 km metropolitan network** includes the first programme and adds cross-city, ring and infill links for a much larger Baghdad by 2035. Short physical links are parts of through routes or branches, not a set of separate shuttle lines. The network is designed as a staged public service: each opening should connect useful origins and destinations.
+The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** starts from its own nine cross-city and ring corridors, six infill corridors and through-service connections. It is planned as a complete network for Baghdad in 2035; its route, fleet, station and capital totals do not inherit the 148.2 km concept. Geographic crossings may be useful interchange locations, but neither map is a construction stage of the other. Short access branches belong to through trains, with no separate shuttle fleet.
 
 | Programme | Railway | Stations budgeted | Train fleet | Construction capital | Target completion |
 |---|---:|---:|---:|---:|---:|
-| First programme | 148.2 km | 64 | 242 six-car trains | **US$7.866bn** | 2031 |
-| Complete metropolitan network, including the first | 605.652 km | 280 | 934 six-car trains | **US$31.018bn** | 2035 |
+| Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$7.866bn** | 2031 |
+| Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$31.018bn** | 2035 |
 
-These are **one estimate for each programme**, not lower and upper cases. The complete-network amount includes the first programme and must not be added to it. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
+These are **one estimate for each alternative**, each priced as a complete railway. They must not be added or subtracted to describe a build sequence. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
 
 ## The city and the routes
 
@@ -31,9 +31,19 @@ The [seven-line first-programme map](maps/Baghdad-148km.png) uses the [Iraqi Nat
 
 **Airport service** is part of the railway, not a feeder bus assumption. The Airport line's western end is mapped to the passenger-terminal building area. The station must connect to the landside entrance by a step-free, protected walking route, with the operating and security boundary agreed with the airport. The public map locates the terminal building, not its final station platform.
 
-**Sadr City** has three population-priority anchors in the first map. The Purple and Blue approaches and the metropolitan eastern connector and ring are intended to reach its large residential catchment with through trains and transfers. **Jadriya** is served by the Yellow corridor and two priority anchors around university and medical destinations; the larger network adds southern cross-city links. The exact platform sites and walking routes are to be chosen using open street, land-use and population layers before construction drawings.
+The independent citywide network gives the **airport terminal** an access section on service M05; it assigns the three **Sadr City** anchors to M04 and M09 through branches and the two **Jadriya** anchors to M01 and M02. The Sadr cross-city services M10 and M11 and the southwest service M13 add direct capacity through those catchments. These are schematic railway corridors to the named access areas, not approved platform sites or walking routes.
 
-The [metropolitan map](maps/Baghdad-606km.png) contains 26 schematic line and connector geometries, including the airport access link and six infill corridors. It supports 14 service groups and a 280-station budget. The five short connectors are counted in the physical length but have no standalone shuttle fleet. The two maps' line lengths are declared planning controls; their drawn polylines are not measured construction centre lines. Station markers show named places and priority areas rather than all 64 or 280 budgeted platform sites. The [map guide](maps/README.md) provides the editable GIS layers and sources.
+The [citywide map](maps/Baghdad-606km.png) contains 26 schematic revenue sections: nine principal corridors, five shared through links, six infill corridors and six access branches. All are included in the citywide route-length control. It supports the **14 service groups** below and a 280-station budget. The access branches are not shuttle routes. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
+
+| Through-service groups | Citywide role |
+|---|---|
+| M01–M03 | Cross-city spines; M01 reaches Jadriya west, M02 reaches Jadriya east |
+| M04–M06 | Northwest–southeast and east–west spines; M04 reaches Sadr south and centre, M05 reaches the airport terminal |
+| M07–M09 | East–west, southeast–northwest and orbital services; M09 reaches Sadr east |
+| M10–M11 | Sadr City east–west and north–south services |
+| M12–M14 | Karkh north–south, southwest cross-city and northern cross-city services |
+
+The route IDs and their physical sections are in [the network input](system.toml) and [GIS layer](maps/network-606km.geojson). Shared links and the east inner arc connect through services; their infrastructure is counted once.
 
 ## Trains and passenger service
 
@@ -41,19 +51,19 @@ The Baghdad train has **six 17 m cars**, a coupled length of about 104.5 m and a
 
 Powered wheel bogies give the train sustained traction between stations. The protected conductor design has **24 driven axles**, a **201.092 t** crowd-load train mass and a **5.004 MW** input sizing request at the stated uphill acceleration duty. It does not carry a traction battery or a roof collector. Each train's independent 65 kWh nominal service battery supplies controls, lighting, braking and egress duty for the declared two-hour outage case; its mass, recharge power and price are included in the existing train allowances. Baghdad summer cooling is included in the vehicle and energy allowances. The [vehicle and station section](VEHICLE.md) gives the car layout, platform gap, protected conductor position and replacement interfaces.
 
-A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The first programme budgets **210 active trains and 242 with reserve**; the complete network budgets **812 active and 934 total**. The first seven services provide about **4.234 million scheduled places per day** over 18 hours in both directions. Places offered are not trips made: ridership, interchange loading and station dwell must follow a city travel-demand study. The 38 km/h commercial-speed allowance gives **52.429 million train-km/year** for the first programme and **202.724 million** for the complete network.
+A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The seven-corridor alternative budgets **210 active trains and 242 with reserve**; the independent citywide alternative budgets **812 active and 934 total** for 14 service groups. The seven-corridor services provide about **4.234 million scheduled places per day** over 18 hours in both directions. Places offered are not trips made. The 38 km/h commercial-speed allowance gives **52.429 million train-km/year** for the seven-corridor alternative and **202.724 million** for the citywide alternative.
 
 ## Viaducts, stations and street works
 
-Both tracks are costed on an elevated alignment for every revenue route kilometre. The initial construction family uses **10 m precast beams**, separate support and foundation positions for each track, rail fastenings, drainage and a maintenance and evacuation walkway. Repetition permits local casting yards, straightforward transport and replacement. The first programme counts **29,640 beam placements and 29,654 support positions**; the complete network counts **121,156 beams and 121,208 positions**. The planning lift mass is **37.3 t per beam**, subject to an actual crane and handling design.
+Both tracks are costed on an elevated alignment for every revenue route kilometre. The construction family uses **10 m precast beams**, separate support and foundation positions for each track, rail fastenings, drainage and a maintenance and evacuation walkway. Repetition permits local casting yards, straightforward transport and replacement. The seven-corridor alternative counts **29,640 beam placements and 29,654 support positions**; the independent citywide network counts **121,156 beams and 121,208 positions**. The planning lift mass is **37.3 t per beam**, subject to an actual crane and handling design.
 
-Accessible stations provide clear passenger routes, lifts or ramps where required, protected platform edges, fire and evacuation provisions, equipment access and safe transfer to streets and buses. A station's structural and electrical modules should be replaceable without redesigning the whole line. The capital estimate counts **64 stations** first and **280** for the complete network, at a common planning rate of **US$13m each**.
+Accessible stations provide clear passenger routes, lifts or ramps where required, protected platform edges, fire and evacuation provisions, equipment access and safe transfer to streets and buses. A station's structural and electrical modules should be replaceable without redesigning the whole line. The capital estimate counts **64 stations** first and **280** for the independent citywide network, at a common planning rate of **US$13m each**.
 
 Longer 20, 25 and 30 m spans could reduce foundation counts in constrained streets. Their indicative whole-system prices are shown in the [civil comparison](COST-AND-DELIVERY.md#viaduct-and-construction). They require heavier lifts and their own structural and erection design, so the 10 m family remains the costed construction reference. Road clearances, river crossings, existing utilities and actual foundation ground are site-specific work and are not invented in the map.
 
 ## Power, operations and maintenance
 
-Protected conductor rail gives each train power throughout its journey without continuous overhead equipment or a large traction battery. The budget counts **296.4 track-km** of guarded conductor and **30 grid sites** in the first programme; the complete network counts **1,211.304 track-km** and **100 grid sites**. Section switches, isolation, return current, touch protection, maintenance access and emergency evacuation are part of the installation scope. The first network's grid design request is about **254 MW** across its sites, while annual delivered energy is **1,114 GWh**; the complete network is about **984 MW** and **4,309 GWh/year** under the same service assumptions.
+Protected conductor rail gives each train power throughout its journey without continuous overhead equipment or a large traction battery. The budget counts **296.4 track-km** of guarded conductor and **30 grid sites** in the seven-corridor alternative; the independent citywide network counts **1,211.304 track-km** and **100 grid sites**. Section switches, isolation, return current, touch protection, maintenance access and emergency evacuation are part of the installation scope. The two grid design requests are about **254 MW** and **984 MW** respectively; annual delivered energy is **1,114 GWh** and **4,309 GWh** under each alternative's service assumptions.
 
 A 30-year comparison holds the passenger service constant while changing the train mass, batteries, grid, guideway equipment, electricity use, maintenance and renewals. Under the stated prices, protected conductor has the lowest total cost. The difference from overhead supply is small enough that actual procurement prices can change the choice; the comparison must be rerun before a supply contract is awarded.
 
@@ -64,11 +74,11 @@ A 30-year comparison holds the passenger service constant while changing the tra
 | Short powered sections plus battery | $7.828bn | $14.612bn | $30.923bn | $57.679bn |
 | Overhead supply comparison | $7.927bn | $14.560bn | $31.262bn | $57.473bn |
 
-The preferred railway budgets **US$339.974m/year** for electricity, trains, stations and power-system upkeep after the first programme opens. The complete network's full-service allowance is **US$1,348.404m/year**. The 30-year present costs include those running costs and scheduled equipment and fleet renewal at a **4% real discount rate**. Fare income, public service payments, debt interest and tax are separate financial decisions.
+The selected seven-corridor railway budgets **US$339.974m/year** for electricity, trains, stations and power-system upkeep. The independent citywide railway budgets **US$1,348.404m/year** at full service. The 30-year present costs include those running costs and scheduled equipment and fleet renewal at a **4% real discount rate**. Fare income, public service payments, debt interest and tax are separate financial decisions.
 
 ## Iraqi factories and supply chain
 
-The programme should buy repeatable assemblies through open drawings and inspectable specifications. The first five-year construction plan needs **three beam-casting yards and three erection fronts** at the modelled eight beams or lifts per workday per yard or front. Reaching the complete network by 2035 needs **seven of each** across the nine-year programme. This is a production-capacity allowance, not a claim that the sites or suppliers have been appointed.
+Each alternative should buy repeatable assemblies through open drawings and inspectable specifications. The five-year seven-corridor plan needs **three beam-casting yards and three erection fronts** at the modelled eight beams or lifts per workday per yard or front. The independent citywide plan needs **seven of each** across its nine-year programme. These are production-capacity allowances within each alternative, not shared or already appointed factories.
 
 | Work package | Intended Iraqi contribution | Procured or specialist input |
 |---|---|---|
@@ -78,28 +88,30 @@ The programme should buy repeatable assemblies through open drawings and inspect
 | Electrical railway | Cable routes, cabinets, installation, protection enclosures and routine maintenance | Contact equipment, switchgear and traction substations initially |
 | Operations | Local staff, training, inspection, spares stores and renewal works | Initial specialist commissioning and training support |
 
-The capital plan includes **US$99.280m** for tooling, rescue and local-production setup in the first programme, rising to **US$282.261m** for the complete network. Each procurement package should ask bidders to price Iraqi labour, materials, tools, imported components, spare parts, repair time and training separately. The city can then measure actual local value added rather than assuming a percentage.
+The seven-corridor capital estimate includes **US$99.280m** for tooling, rescue and local-production setup; the independent citywide estimate includes **US$282.261m**. At the declared planning shares by contract scope, **US$12.599bn** of the citywide **US$25.848bn** non-contingency capital is addressable by Iraqi labour, materials, factories and engineering. This is a procurement target and contract-value opportunity, not an assertion that those orders have been placed or a deduction from the **US$31.018bn** total. The [scope-by-scope calculation](COST-AND-DELIVERY.md#local-production-and-design-rights) lets the city compare tender returns with the target.
+
+The Iraqi public design custodian and participating manufacturers should receive the editable drawings, CAD, BOMs, control source, tooling files, inspection methods and revision history needed to **make, modify, repair and re-procure** the railway. The tender should require newly funded design work to be delivered under the applicable [OpenSourceRail licences](../../LICENSE.md) or separately assigned to the Iraqi public sponsor, and identify any supplier background rights, royalties and locked interfaces. Existing third-party map and component rights stay separately recorded. No hypothetical royalty saving is deducted from capital or operations; a bidder's priced alternative can expose that saving.
 
 ## Capital, construction cash and delivery
 
-The **US$7.866bn** first-programme capital requirement covers viaducts, stations, track, signalling, protection, power, trains, depots, land and utilities, tooling, design, commissioning and a 20% project allowance. The **US$31.018bn** complete-network total includes the first programme; expansion after the first programme accounts for **US$23.152bn**. The [full fourteen-scope ledger](COST-AND-DELIVERY.md#fourteen-installed-capital-scopes) reconciles exactly to both totals.
+The **US$7.866bn** seven-corridor estimate and the **US$31.018bn** independent citywide estimate each cover viaducts, stations, track, signalling, protection, power, trains, depots, land and utilities, tooling, design, commissioning and one 20% project allowance. Neither is an increment to the other. The [fourteen-scope ledger](COST-AND-DELIVERY.md#fourteen-installed-capital-scopes) reconciles each estimate separately.
 
-Construction is planned from **2027 to 2031** for the first programme, with rights, utilities and factory setup followed by parallel civil, station, train and electrical works and staged openings. The metropolitan programme overlaps it and targets completion in **2035**. The annual construction cash requirement is:
+The seven-corridor alternative is planned for **2027–2031**. The citywide alternative has its own **2027–2035** construction sequence, with coordinated rights, utilities, factories, parallel civil works, train production and staged openings. The annual construction cash requirement for either choice is:
 
-| Year | First programme | Complete network | Additional metropolitan works |
-|---|---:|---:|---:|
-| 2027 | $393m | $931m | $537m |
-| 2028 | $1,180m | $2,171m | $991m |
-| 2029 | $2,360m | $3,102m | $742m |
-| 2030 | $2,360m | $4,032m | $1,673m |
-| 2031 | $1,573m | $4,653m | $3,080m |
-| 2032 | — | $5,273m | $5,273m |
-| 2033 | — | $4,653m | $4,653m |
-| 2034 | — | $3,722m | $3,722m |
-| 2035 | — | $2,481m | $2,481m |
-| **Total** | **$7,866m** | **$31,018m** | **$23,152m** |
+| Year | Seven-corridor alternative | Independent citywide alternative |
+|---|---:|---:|
+| 2027 | $393m | $931m |
+| 2028 | $1,180m | $2,171m |
+| 2029 | $2,360m | $3,102m |
+| 2030 | $2,360m | $4,032m |
+| 2031 | $1,573m | $4,653m |
+| 2032 | — | $5,273m |
+| 2033 | — | $4,653m |
+| 2034 | — | $3,722m |
+| 2035 | — | $2,481m |
+| **Total** | **$7,866m** | **$31,018m** |
 
-The complete-network column includes the first programme. Figures are rounded from the [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw); the additional-works column is its yearly difference. Debt interest, export-credit premiums and operating support are outside these construction totals.
+Each column is a standalone funding requirement and is rounded from the [annual cash schedule](COST-AND-DELIVERY.md#annual-construction-capital-draw). Debt interest, export-credit premiums and operating support are outside these construction totals.
 
 ## Raising the capital
 
@@ -111,6 +123,6 @@ UK export opportunities include engineering services, traction and control equip
 
 ## Decision requested
 
-Amanat Baghdad is asked to adopt the two network scales as an open comparison basis, safeguard the airport, Sadr City and Jadriya connections, and sponsor one coordinated route, station, factory, power and finance procurement process. The next tender should require bidders to return comparable quantities and prices for the same service and to show local manufacturing, repair and training commitments. The city's contracting authority would approve the final routes and contracts.
+Amanat Baghdad is asked to compare the two **independent** networks on coverage, capacity, installed and whole-life cost, local contract value and design rights. The citywide choice should safeguard through service to the airport, Sadr City and Jadriya and procure connected route, station, factory, power and finance packages. Tender returns should price local manufacturing, repair, training and transferable design deliverables against the same service specification.
 
 **Basis of this proposal:** the published Iraqi route brief, open GIS place and population layers, the [Baghdad maps](maps/README.md), the [train](VEHICLE.md) and the [integrated cost schedule](COST-AND-DELIVERY.md). The maps and figures support a funding and procurement discussion. They do not claim surveyed alignments, supplier bids or operating approval.

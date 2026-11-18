@@ -2,9 +2,9 @@
 
 **OpenSourceRail digital planning estimate · 17 November 2026 · 2026 US dollars**
 
-The [one candidate input file](system.toml) drives the [calculated result](system-results.json), the [city proposal](PROPOSAL.md) and the Workbench. It sets **zero tunnels, zero underground stations, two elevated tracks throughout**, a six-car 700-place train and protected conductor traction. It couples supply equipment, traction battery, train mass, civil quantities, grid energy, capital, maintenance and renewals. The 605.652 km total includes the 148.2 km first programme.
+The [one candidate input file](system.toml) drives the [calculated result](system-results.json), the [city proposal](PROPOSAL.md) and the Workbench. It sets **zero tunnels, zero underground stations, two elevated tracks throughout**, a six-car 700-place train and protected conductor traction. It couples supply equipment, traction battery, train mass, civil quantities, grid energy, capital, maintenance and renewals. The 605.652 km citywide network is an independent alternative with its own routes, stations, fleet and capital.
 
-| Quantity | First programme | Complete network |
+| Quantity | Seven-corridor alternative | Independent citywide |
 |---|---:|---:|
 | Route length / stations | 148.2 km / 64 | 605.652 km / 280 |
 | Active trains / full fleet | 210 / 242 | 812 / 934 |
@@ -24,7 +24,7 @@ These are single point estimates at declared rates. They include a 20% project a
 
 US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-results` from `system.toml`.
 
-| Scope | First | Complete network |
+| Scope | First | Independent citywide |
 |---|---:|---:|
 | Elevated viaduct, piers and foundations | 1,331.238 | 5,440.396 |
 | Accessible stations | 832.000 | 3,640.000 |
@@ -52,7 +52,7 @@ dispatch, section gateways, grid protection and control-room equipment. These
 planning amounts are **inside** the capital scopes above; they are not
 additional costs.
 
-| Parent capital scope and equipment allocation, US$ million | First | Complete network |
+| Parent capital scope and equipment allocation, US$ million | First | Independent citywide |
 |---|---:|---:|
 | Vehicle fleet electronics | 56.628 | 218.556 |
 | Station dispatch controllers | 7.680 | 33.600 |
@@ -95,38 +95,57 @@ The selected 10 m family holds the existing repeatable reference geometry as a *
 | 30 m, separate supports | 9,886 | 9,900 | $7.657bn | 112.0 t |
 | 30 m, common pier | 9,886 | 4,950 | $7.683bn | 112.0 t |
 
-The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. The 10 m digital production plan uses three casting yards and three erection fronts for 148.2 km in five years; the complete network needs seven of each over nine years at eight beams/day per yard and eight lifts/day per front, 250 workdays/year.
+The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. The 10 m digital production plan uses three casting yards and three erection fronts for 148.2 km in five years; the independent citywide network needs seven of each over nine years at eight beams/day per yard and eight lifts/day per front, 250 workdays/year.
 
 ## Construction timing and financing basis
 
-| Planning milestone | First programme | Complete network |
+| Planning milestone | Seven-corridor alternative | Independent citywide |
 |---|---|---|
 | Start of programme | 2027 | 2027 |
 | Rights, utility coordination, fabrication setup | 2027–2028 | 2027–2029 |
 | Parallel civil, stations, electrical and vehicle production | 2028–2030 | 2028–2034 |
 | Systems integration and staged opening | 2030–2031 | 2031–2035 |
-| Complete network target | 2031 | 2035 |
+| Target completion | 2031 | 2035 |
 | Average annual installed capital across programme | $1.573bn/year over five years | $3.446bn/year over nine years |
 
 ### Annual construction capital draw
 
-The following allocation turns the selected installed capital into a planning cash schedule. The complete-network column **includes** the first programme. The additional metropolitan column is the difference each year, not an extra sum to add to the complete-network figure. Figures are US$ million in 2026 prices.
+The following allocation turns each independently selected installed capital total into a planning cash schedule. Figures are US$ million in 2026 prices. Neither alternative assumes that the other is built.
 
-| Year | First 148.2 km | Complete 605.652 km | Additional metropolitan works |
-|---|---:|---:|---:|
-| 2027 | 393.284 | 930.532 | 537.248 |
-| 2028 | 1,179.851 | 2,171.242 | 991.391 |
-| 2029 | 2,359.701 | 3,101.775 | 742.074 |
-| 2030 | 2,359.701 | 4,032.307 | 1,672.606 |
-| 2031 | 1,573.133 | 4,652.662 | 3,079.529 |
-| 2032 | 0 | 5,273.017 | 5,273.017 |
-| 2033 | 0 | 4,652.662 | 4,652.662 |
-| 2034 | 0 | 3,722.130 | 3,722.130 |
-| 2035 | 0 | 2,481.422 | 2,481.422 |
-| **Total** | **7,865.670** | **31,017.749** | **23,152.079** |
+| Year | Seven-corridor alternative | Independent citywide alternative |
+|---|---:|---:|
+| 2027 | 393.284 | 930.532 |
+| 2028 | 1,179.851 | 2,171.242 |
+| 2029 | 2,359.701 | 3,101.775 |
+| 2030 | 2,359.701 | 4,032.307 |
+| 2031 | 1,573.133 | 4,652.662 |
+| 2032 | 0 | 5,273.017 |
+| 2033 | 0 | 4,652.662 |
+| 2034 | 0 | 3,722.130 |
+| 2035 | 0 | 2,481.422 |
+| **Total** | **7,865.670** | **31,017.749** |
 
-The first programme is allocated 5%, 15%, 30%, 30% and 20% over 2027–2031. The complete network is allocated 3%, 7%, 10%, 13%, 15%, 17%, 15%, 12% and 8% over 2027–2035. These are cash planning weights, not contracts or a claim that finance has been raised. Interest during construction, lender fees, UKEF premium, exchange effects and any operating support are outside installed capital and require agreed financing terms.
+The first programme is allocated 5%, 15%, 30%, 30% and 20% over 2027–2031. The independent citywide network is allocated 3%, 7%, 10%, 13%, 15%, 17%, 15%, 12% and 8% over 2027–2035. These are cash planning weights, not contracts or a claim that finance has been raised. Interest during construction, lender fees, UKEF premium, exchange effects and any operating support are outside installed capital and require agreed financing terms.
 
-The full network requires overlapping fronts and approximately 57 additional route-km/year during 2028–2035 beyond the first programme. This schedule is a construction-capacity calculation, with staged openings. Actual land rights, station access, road and river interfaces, utility relocation, supply contracts and finance draw dates need project-specific agreements. The full capital total implies **$23.152bn** of additional works after the first programme, not another $31.018bn. Funding can combine Iraqi public capital, commercial lending and export finance for eligible imported packages. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) depends on a specific eligible export contract, bank and borrower; the model does not assume a UKEF commitment.
+The independent citywide programme requires overlapping construction fronts and an average of about 67 route-km/year across nine years. Its map includes through-service airport, Sadr City and Jadriya access sections. Actual land rights, station access, road and river interfaces, utility relocation, supply contracts and finance draw dates require project-specific agreements. Funding can combine Iraqi public capital, commercial lending and export finance for eligible imported packages. [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) depends on a specific eligible export contract, bank and borrower; the model does not assume a UKEF commitment.
 
-The open GIS geometry fixes a planning envelope, not a surveyed route. The airport marker is in the terminal area, not the passenger entrance; the map lengths are declared network controls. The calculation can be rerun when the route geometry, sites or supplier rates are set, and rejects changes to its pinned source maps until their identities and dependent calculations are updated. No physical prototype or site survey is represented in this release.
+## Local production and design rights
+
+The independent citywide estimate allocates **US$282.261m** to tooling, recovery and local-production setup. At the declared procurement planning fractions in [the model](system.toml), **US$12,599.029m** of its **US$25,848.124m** capital before the project allowance is addressable by Iraqi contracts. The 20% project allowance is not assigned a country of origin. These are target contract values already included in the **US$31,017.749m** capital total, not extra investment or a forecast cash saving.
+
+| Locally addressable package | Planning value, US$ million |
+|---|---:|
+| Viaduct and foundations | 3,808.277 |
+| Vehicles and local assembly | 2,772.112 |
+| Stations | 2,184.000 |
+| Land, utilities and disruption | 847.913 |
+| Design and assurance | 748.543 |
+| Depots and control centres | 444.000 |
+| Track and walkways | 436.069 |
+| Power, protection and signalling | 912.499 |
+| Tooling and commissioning | 445.615 |
+| **Total planning Iraqi contract opportunity** | **12,599.029** |
+
+Contract packages should give an Iraqi public design custodian and participating factories editable drawings, CAD, parts lists, control source, tooling and repair information, plus perpetual rights to make, modify and re-procure under the applicable [OpenSourceRail licences](../../LICENSE.md). Newly funded design rights and any supplier background royalties must be settled in each tender. Third-party mapping and component rights remain separate. The capital estimate makes no speculative royalty-savings deduction.
+
+The open GIS geometry fixes a planning envelope, not a surveyed route. The airport marker is in the terminal area, not the passenger entrance; route lengths are declared network controls. The calculations can be rerun when route geometry, sites or supplier rates are set. No physical prototype or site survey is represented in this release.

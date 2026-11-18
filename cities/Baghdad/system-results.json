@@ -1,6 +1,6 @@
 {
   "candidate_id": "osr-baghdad-zero-tunnel-offwire-20261117",
-  "evaluation_id": "b3e5fb936cd96fd0289a03b6d4e76fbbe1092adf937073f2d772e85997391243",
+  "evaluation_id": "0de51e451fc40d9fde0d1bc61f129e8f20f58ca2752170f7cd491e2580954779",
   "networks": {
     "first": {
       "civil_cases": {
@@ -207,7 +207,8 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "08b1255d97aea4ec3f9afd50c910d5123d0718f49bd89b1e134b445753cc5325",
+      "selected_evaluation_id": "48d75b87b77471f77dcf267776ae71d0fa226bbe2962db285ad8e7f41b5f41b9",
+      "selected_local_delivery": null,
       "selected_renewals_usd_m": [
         {
           "component": "common_signalling_and_brake",
@@ -280,6 +281,7 @@
           "train_length_m": 104.5
         }
       },
+      "service_groups": null,
       "stations_planning_allowance": 64,
       "tunnel_km": 0.0,
       "underground_stations": 0
@@ -489,7 +491,30 @@
         "train_mass_allowance_within_base_t": 0.35
       },
       "selected_digital_civil_family": "10m-separate",
-      "selected_evaluation_id": "50fc4b7409f6a280687681f12cc5b9ce3eeec5f78e4a2a4e230a23d1a690ab45",
+      "selected_evaluation_id": "10612813ff79b29a458e378837842ff19ac2e571bd86a2353e1e7cbf0c2561de",
+      "selected_local_delivery": {
+        "actual_supplier_origin_established": false,
+        "basis": "Indicative Iraqi contract opportunity at declared scope shares; no deduction from installed capital",
+        "planning_local_contract_usd_m": 12599.028902003054,
+        "planning_share_of_non_contingency_capital": 0.487425277235025,
+        "project_allowance_unassigned_usd_m": 5169.624757038647,
+        "royalty_or_ip_savings_in_capital_usd_m": null,
+        "scope_local_contract_usd_m": {
+          "brake_protection_recovery": 72.67824,
+          "depots_control": 444.0,
+          "design_assurance": 748.5429512454148,
+          "elevated_civil": 3808.2774984934467,
+          "grid_charging_buffers": 240.0,
+          "land_utilities_disruption": 847.9128000000001,
+          "line_traction_supply": 454.46421999999995,
+          "signalling_comms": 145.35648,
+          "stations_access": 2184.0,
+          "testing_commissioning": 233.91967226419217,
+          "tooling_recovery": 211.6956,
+          "track_walkways": 436.06944000000004,
+          "vehicles": 2772.112
+        }
+      },
       "selected_renewals_usd_m": [
         {
           "component": "common_signalling_and_brake",
@@ -562,6 +587,56 @@
           "train_length_m": 104.5
         }
       },
+      "service_groups": {
+        "M01": [
+          "line-1",
+          "B-A05"
+        ],
+        "M02": [
+          "line-2",
+          "B-A06"
+        ],
+        "M03": [
+          "line-3"
+        ],
+        "M04": [
+          "line-4",
+          "B-A02",
+          "B-A03"
+        ],
+        "M05": [
+          "line-5",
+          "B-A01"
+        ],
+        "M06": [
+          "line-6"
+        ],
+        "M07": [
+          "line-7"
+        ],
+        "M08": [
+          "line-8"
+        ],
+        "M09": [
+          "line-9",
+          "B-A04"
+        ],
+        "M10": [
+          "B-I01"
+        ],
+        "M11": [
+          "B-I02"
+        ],
+        "M12": [
+          "B-I04"
+        ],
+        "M13": [
+          "B-I05"
+        ],
+        "M14": [
+          "B-I06"
+        ]
+      },
       "stations_planning_allowance": 280,
       "tunnel_km": 0.0,
       "underground_stations": 0
@@ -571,11 +646,11 @@
   "scope": "digital planning comparison; no site or physical acceptance",
   "source_sha256": {
     "cities/Baghdad/maps/network-148km.geojson": "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4",
-    "cities/Baghdad/maps/network-606km.geojson": "44ad33cb4fb3c9ba1cd93143ea86ecbbd3e162edee81d2d43d11218c45a862cc",
+    "cities/Baghdad/maps/network-606km.geojson": "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056",
     "cities/Baghdad/maps/rfi-waypoints.json": "56d8f1ab75a4eb338dbb60c59947d63133e67d5990dfff71a4e45586d8295de5",
-    "cities/Baghdad/system.toml": "313bdfab76159c095e3aed4a837637a50d39f6f3f3973f5fb3bb2263a6488a3b",
+    "cities/Baghdad/system.toml": "0c8f2574e09d53349b15e797bb626ff25a7ad533d351aa2221a083831274ac60",
     "engineering/outline/baghdad_power.py": "ad2087cb2162a1e81d509647b2cb778911bafc675056cf0c857cba2d2c48846f",
-    "engineering/outline/baghdad_system.py": "673f7a5e316ee6639278b59e4a71d960d0280d5de27e742b1f35d13e1847bee0",
+    "engineering/outline/baghdad_system.py": "7b6347894757566575218082b9ae9ffdfe2747e83bc9e56b544204a72f337d8a",
     "engineering/outline/baghdad_viaduct.py": "fbe79c6ebf203efa0a8b5b61a3b35704ce21bb05eb5ea731250aa0e14be92671"
   }
 }
