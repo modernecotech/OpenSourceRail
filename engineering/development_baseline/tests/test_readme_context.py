@@ -6,14 +6,14 @@ import pytest
 from engineering import readme_context as context
 
 
-def test_current_entrypoints_describe_reference_vehicle_and_variable_propulsion():
+def test_current_entrypoints_separate_release_and_retained_station_launch():
     text = '# Tools\n\nLocal implementation details.\n'
     updated = context.render(text, 'tools/README.md')
     assert updated.startswith('# Tools\n')
-    assert 'passive steel-wheel bogies' in updated
-    assert 'no installed propulsion architecture or powered length is selected' in updated
-    assert 'candidate-specific design variables' in updated
-    assert 'prototype validation' in updated
+    assert 'published digital release' in updated
+    assert 'earlier v0.6 passive-wheel, station-launch design remains research' in updated
+    assert 'Each candidate retains its own geometry, mass' in updated
+    assert 'Safety and accessibility remain requirements' in updated
     assert 'maglev' not in updated.lower()
     assert updated.endswith('Local implementation details.\n')
     assert context.render(updated, 'tools/README.md') == updated
@@ -22,7 +22,7 @@ def test_current_entrypoints_describe_reference_vehicle_and_variable_propulsion(
 def test_separate_magnetic_method_entrypoint_uses_current_context_without_archive_route():
     name = 'engineering/ferrite_maglev/README.md'
     updated = context.render('# Retained method\n\nOriginal method details.\n', name)
-    assert 'OpenSourceRail v0.6 develops' in updated
+    assert 'The published digital release' in updated
     assert 'docs/archives/v0.5-maglev/README.md' not in updated
     assert context.category(name) == 'historical-method-entrypoint'
     assert updated.endswith('Original method details.\n')
@@ -55,7 +55,7 @@ def test_coverage_binds_neutral_publisher_and_lists_current_entrypoints(tmp_path
     }
     rendered = context.markdown(result)
     assert '-m engineering.readme_context --check' in rendered
-    assert 'maintained v0.6 entrypoints' in rendered
+    assert 'maintained entrypoints' in rendered
     assert 'engineering.maglev_research' not in rendered
 
 

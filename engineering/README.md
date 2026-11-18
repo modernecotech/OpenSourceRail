@@ -1,14 +1,16 @@
 # OpenSourceRail engineering
 
 <!-- osr-system-context:start -->
-OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. The reference vehicle has six 17 m comfort cars, each with 44 seats and two wheelchair places, no planned standing, and passive steel-wheel bogies on conventional rails carried by concrete. Its passive LIM interface is available for comparison; no installed propulsion architecture or powered length is selected. Acceleration, braking, speed and headway are candidate-specific design variables. The retained 120-second service control gives 8,280 nominal places/hour/direction. The reference vehicle has service batteries and independent brakes, without onboard traction motors, traction batteries or suspension magnets; alternatives must account for their complete system effects. Calculated, priced corridor and city outlines support comparison with explicit assumptions. Engineering verification, prototype validation and manufacturing or operating release remain separate gates.
+OpenSourceRail develops affordable rail that local companies can build, maintain and improve. The published digital release joins a costed vehicle, civil works, controls, production plan and Workbench journey; Baghdad has separate elevated city planning alternatives. The earlier v0.6 passive-wheel, station-launch design remains research, not the installed drive selection for the v0.7 reference or Baghdad. Each candidate retains its own geometry, mass, service, power, cost and evidence. Safety and accessibility remain requirements. Digital results do not grant fabrication or passenger-operation approval.
 
 [Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
-## Current ownership
+## Selected digital design and retained research
 
-[development-baseline.toml](development-baseline.toml) selects the v0.6 passive-wheel reference with candidate-specific propulsion. [station_rail/](station_rail/README.md) owns its physical definition, counted vehicle, service energy, civil alternatives, motion requirements and candidate delivery records. [development_baseline/](development_baseline/README.md) supplies the CLI, planning handoff and Workbench adapters. Whole-life cost and physical operation remain open.
+The [v0.7 digital reference](../docs/reference-v07/README.md) joins one powered-wheel train, civil design, controls, cost and production plan. [Baghdad](../cities/Baghdad/README.md) has separate city-specific planning candidates. Their installed quantities and assumptions are in the [engineering status](../docs/ENGINEERING-STATUS.md).
+
+[development-baseline.toml](development-baseline.toml) retains the v0.6 passive-wheel, station-launch research reference. [station_rail/](station_rail/README.md) owns its physical definition, counted vehicle, service energy, civil alternatives, motion requirements and candidate delivery records. [development_baseline/](development_baseline/README.md) supplies the CLI, planning handoff and Workbench adapters. The table below describes that retained research system.
 
 | Responsibility | Current owner and boundary |
 |---|---|
@@ -27,7 +29,7 @@ The [adaptive variables](../docs/design-engine/v06-adaptive-design/README.md) an
 
 The opt-in [SolidCraft / FieldCraft backend pilot](../docs/design-engine/craft-backends/README.md) compares source-bound CAD subsets and mechanical controls against FreeCAD and CalculiX. It retains the existing BIM, electromagnetic and delivery routes. Run `./osr design backends plan` to inspect its scope. The [12-span viaduct comparison](../docs/design-engine/viaduct-backends/README.md) extends this path to reusable CAD/analysis/delivery interfaces, exact STEP readbacks, two matched solid-FEM studies and candidate-specific manufacturing/cost records.
 
-The [vehicle parts and assembly catalogue](../docs/design-engine/vehicle-parts/README.md) develops a separate six-car detail proposal into605named leaf types in40assemblies, with material/stock schedules, counted fixings, fabrication/inspection/removal methods and scoped estimates. Use `./osr design parts plan` or open **Vehicle parts** in the Workbench.
+The [vehicle parts and assembly catalogue](../docs/design-engine/vehicle-parts/README.md) develops a separate six-car detail proposal into 605 named leaf types in 40 assemblies, with material and stock schedules, counted fixings, fabrication, inspection and removal methods, and scoped estimates. Use `./osr design parts plan` or open **Vehicle parts** in the Workbench.
 
 ## Run the current workflow
 

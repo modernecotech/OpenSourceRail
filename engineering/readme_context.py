@@ -30,16 +30,13 @@ OWNED = (
 )
 CONTEXT_TARGETS = {'README.md', 'engineering/README.md', 'docs/design-engine/current/README.md'}
 INTRODUCTION = (
-    'OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. '
-    'The reference vehicle has six 17 m comfort cars, each with 44 seats and two wheelchair places, '
-    'no planned standing, and passive steel-wheel bogies on conventional rails carried by concrete. '
-    'Its passive LIM interface is available for comparison; no installed propulsion architecture or powered '
-    'length is selected. Acceleration, braking, speed and headway are candidate-specific design variables. '
-    'The retained 120-second service control gives 8,280 nominal places/hour/direction. '
-    'The reference vehicle has service batteries and independent brakes, without onboard traction motors, '
-    'traction batteries or suspension magnets; alternatives must account for their complete system effects. '
-    'Calculated, priced corridor and city outlines support comparison with explicit assumptions. '
-    'Engineering verification, prototype validation and manufacturing or operating release remain separate gates.'
+    'OpenSourceRail develops affordable rail that local companies can build, maintain and improve. '
+    'The published digital release joins a costed vehicle, civil works, controls, production plan '
+    'and Workbench journey; Baghdad has separate elevated city planning alternatives. '
+    'The earlier v0.6 passive-wheel, station-launch design remains research, not the installed drive '
+    'selection for the v0.7 reference or Baghdad. Each candidate retains its own geometry, mass, '
+    'service, power, cost and evidence. Safety and accessibility remain requirements. '
+    'Digital results do not grant fabrication or passenger-operation approval.'
 )
 HISTORICAL_ENTRYPOINTS = {
     'crates/osr-maglev-control/README.md',
@@ -311,7 +308,7 @@ def markdown(value):
     categories = Counter(row['category'] for row in current_rows)
     lines = ['# Current README entrypoints', '', INTRODUCTION, '',
         link('README.md', 'Project introduction')+' · '+link('engineering/README.md', 'System approach')+' · '+link('docs/design-engine/current/README.md', 'Current design and engineering gates'), '',
-        f"The **{len(current_rows)} maintained v0.6 entrypoints** carry the current project, engineering, deployment and tool context.", '',
+        f"The **{len(current_rows)} maintained entrypoints** carry the current project, engineering, deployment and tool context.", '',
         '| README class | Documents |', '|---|---:|']
     lines += [f'| {kind} | {count} |' for kind,count in categories.items()]
     lines += ['', 'Regenerate and check with:', '', '```bash',
