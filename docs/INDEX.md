@@ -56,7 +56,7 @@ Indexed Markdown files: **160**.
 |---|---|
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
-| [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad urban rail |
+| [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |

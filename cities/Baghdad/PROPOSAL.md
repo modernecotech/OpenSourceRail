@@ -17,7 +17,7 @@ These are **one estimate for each programme**, not lower and upper cases. The co
 
 ## The city and the routes
 
-The [seven-line first-programme map](maps/network-148km.geojson) uses the [Iraqi National Investment Commission's 2024 Baghdad Metro route brief](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf) for line names, lengths and the 64-station programme. Its named squares and districts are placed using OpenStreetMap where a usable public feature exists. The lines show corridor intent. A district centroid is a place marker, not an approved station entrance.
+The [seven-line first-programme map](maps/Baghdad-148km.png) uses the [Iraqi National Investment Commission's 2024 Baghdad Metro route brief](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf) for line names, lengths and the 64-station programme. Both maps show streets, the Tigris, land use and place names from the existing Baghdad city background beneath the railway. Its named squares and districts are placed using OpenStreetMap where a usable public feature exists. The lines show corridor intent. A district centroid is a place marker, not an approved station entrance.
 
 | Line | Length | Principal places served |
 |---|---:|---|
@@ -33,7 +33,7 @@ The [seven-line first-programme map](maps/network-148km.geojson) uses the [Iraqi
 
 **Sadr City** has three population-priority anchors in the first map. The Purple and Blue approaches and the metropolitan eastern connector and ring are intended to reach its large residential catchment with through trains and transfers. **Jadriya** is served by the Yellow corridor and two priority anchors around university and medical destinations; the larger network adds southern cross-city links. The exact platform sites and walking routes are to be chosen using open street, land-use and population layers before construction drawings.
 
-The [metropolitan map](maps/network-606km.geojson) contains 26 schematic line and connector geometries, including the airport access link and six infill corridors. It supports 14 service groups and a 280-station budget. The five short connectors are counted in the physical length but have no standalone shuttle fleet. The two maps' line lengths are declared planning controls; their drawn polylines are not measured construction centre lines. Station markers show named places and priority areas rather than all 64 or 280 budgeted platform sites. The [map guide](maps/README.md) explains the layers and their sources.
+The [metropolitan map](maps/Baghdad-606km.png) contains 26 schematic line and connector geometries, including the airport access link and six infill corridors. It supports 14 service groups and a 280-station budget. The five short connectors are counted in the physical length but have no standalone shuttle fleet. The two maps' line lengths are declared planning controls; their drawn polylines are not measured construction centre lines. Station markers show named places and priority areas rather than all 64 or 280 budgeted platform sites. The [map guide](maps/README.md) provides the editable GIS layers and sources.
 
 ## Trains and passenger service
 
@@ -107,7 +107,7 @@ Amanat Baghdad and the relevant Iraqi authorities would first settle the sponsor
 
 [UK Export Finance's Buyer Credit Facility](https://www.gov.uk/guidance/buyer-credit-facility) can guarantee an acceptable bank's loan to an overseas public or private buyer for an eligible UK export contract. The UK exporter must be carrying on business in the UK, the contract must be worth at least **£5m**, and repayment must run for at least two years. The facility can cover **up to 85% of that export contract**, with at least **15% paid directly by the buyer**. This is a contract rule, not an 85% financing assumption for the Baghdad network. [UKEF's content policy](https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content) and environmental, social, human-rights, integrity and country-cover checks also apply.
 
-The most likely UK export opportunities are engineering services, traction and control equipment, specialist station systems, train components and training. Iraqi casting, civil construction and local assembly should remain separate priced packages unless a specific export contract genuinely includes eligible UK work. The amount of bank and UKEF support can only be set against actual contracts and a repayment plan. The proposal therefore presents the **whole capital requirement clearly** without counting an unapproved loan as cash raised.
+UK export opportunities include engineering services, traction and control equipment, station systems, train components and training. Iraqi casting, civil works and assembly remain separately priced contracts unless an eligible export package includes them. Bank and UKEF amounts depend on contracts and a repayment plan. **No unapproved loan is counted as raised capital.**
 
 ## Decision requested
 
