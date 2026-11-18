@@ -1,10 +1,10 @@
 name: Current v0.6 native business platform
 on:
   pull_request:
-    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml']
+    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml', '!deployment/erpnext/README.md', '!deployment/supervision/README.md']
   push:
     branches: [main]
-    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml']
+    paths: ['tools/automation/v06-platform-native.py', 'tools/automation/native-v06/**', 'tools/automation/tests/browser-launch.mjs', 'tests/test_v06_platform_native.py', 'deployment/erpnext/**', 'deployment/supervision/**', 'services/integration/**', 'docs/design-engine/current/exports/**', 'package.json', 'package-lock.json', '.github/workflows/v06-platform.yml', '!deployment/erpnext/README.md', '!deployment/supervision/README.md']
   workflow_dispatch:
 permissions:
   contents: read

@@ -21,6 +21,8 @@ on:
       - "tests/test_delivery_schedule_integration.py"
       - "tests/test_outline_delivery_plan.py"
       - "engineering/outline/__main__.py"
+      - "!crates/README.md"
+      - "!crates/**/README.md"
   pull_request:
     paths:
       - ".github/workflows/v06-software-rust.yml"
@@ -41,6 +43,8 @@ on:
       - "tests/test_delivery_schedule_integration.py"
       - "tests/test_outline_delivery_plan.py"
       - "engineering/outline/__main__.py"
+      - "!crates/README.md"
+      - "!crates/**/README.md"
   workflow_dispatch:
 permissions:
   contents: read
