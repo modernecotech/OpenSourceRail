@@ -6,14 +6,18 @@
 
 Baghdad needs a railway that serves daily trips across the city, reaches the airport passenger terminal, and can grow with its population. OpenSourceRail proposes a locally buildable, repairable electric railway on standardised elevated structures. The passenger lines have **no tunnels or underground stations**. Trains draw power from a protected conductor beside the track, so the preferred design has **no overhead wires**. Iraqi factories and contractors would take an increasing share of precast concrete, vehicle bodies, stations, assembly and maintenance.
 
+The earlier investment process did not secure a contractor to deliver the metro. Amanat Baghdad’s spokesperson told Al-Mada that the investment offers fell short of the government’s requirements. Two days later, the National Investment Commission’s deputy chair told NINA that a new study and updated plans were being prepared for fresh investment opportunities. [Al-Mada interview with Amanat Baghdad, 25 October 2026](https://almadapaper.net/458226/) · [NINA interview with the National Investment Commission, 27 October 2026](https://ninanews.com/website/News/Details?key=1322248)
+
+OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The authority has yet to publish a submission date in the sources reviewed. The seven corridors provide a historical comparison while Baghdad revisits its routes, service and financing.
+
 The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** has its own nine cross-city and ring corridors, six infill corridors and proposed links. Its 2035 construction allowance covers the complete guideway plan, including six sections reserved without passenger paths. The planning service assigns access branches to through trains. The route design must resolve their connections before the timetable can be set.
 
-| Programme | Costed guideway | Stations budgeted | Train fleet | Construction capital | Target completion |
+| Programme | Costed guideway | Stations budgeted | Train fleet | Construction capital | Modelled completion |
 |---|---:|---:|---:|---:|---:|
 | Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$7.866bn** | 2031 |
 | Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$31.018bn** | 2035 |
 
-These are **one estimate for each alternative**, each priced as a complete railway. They must not be added or subtracted to describe a build sequence. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
+The 2027 capital draws and 2031/2035 completion years are scenario dates. Rebase them on the new procurement timetable once published. These are **one estimate for each alternative**, each priced as a complete railway. They must not be added or subtracted to describe a build sequence. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
 
 ## Earlier idea and present planning design
 
@@ -229,7 +233,7 @@ Before financial close, pair each draw with a named payer and appropriation or e
 
 ## Using the open design in a vendor negotiation
 
-The city can choose another supplier and still use OpenSourceRail to improve the purchase. Issue the same service specification and quantities for turnkey, vendor-led local production and Iraqi-led integration bids. Request both cash and financed prices, 30-year spares and renewal prices, and the incremental cost of transferring fabrication, software maintenance and repair into Iraq. Evaluate guaranteed performance and accessibility first. Compare the remaining offers on whole-life cost and verified Iraqi value added. Require origin records, editable interfaces, diagnostic access, tooling rights and a witnessed local repair before crediting the promised transfer. The [buyer comparison schedule](BUYER-COMPARISON.md) defines the bid returns, negotiation rounds and acceptance milestones.
+Use the preparation period to request a common comparison of service, installed cost, funding needs and production in Iraq. Share the open quantities and interface schedules with Iraqi manufacturers and international vendors when the authority invites proposals. Issue the same service specification and quantities for turnkey, vendor-led local production and Iraqi-led integration bids. Request both cash and financed prices, 30-year spares and renewal prices, and the incremental cost of transferring fabrication, software maintenance and repair into Iraq. Evaluate guaranteed performance and accessibility first. Compare the remaining offers on whole-life cost and verified Iraqi value added. Require origin records, editable interfaces, diagnostic access, tooling rights and a witnessed local repair before crediting the promised transfer. The [buyer comparison schedule](BUYER-COMPARISON.md) defines the bid returns, negotiation rounds and acceptance milestones.
 
 ## Delivery, governance and procurement sequence
 
@@ -246,7 +250,7 @@ Each corridor should have a contract schedule for land and utility access, mater
 
 ## Decision requested
 
-Amanat Baghdad is asked to compare the two **independent** networks on coverage, capacity, installed and whole-life cost, local contract value and design rights. The citywide choice should safeguard through service to the airport, Sadr City and Jadriya and procure connected route, station, factory, power and finance packages. Tender returns should price local manufacturing, repair, training and transferable design deliverables against the same service specification.
+For the anticipated new-ideas window, Amanat Baghdad is asked to consider the open design as a reference available to every proposer and to compare the two **independent** networks on coverage, capacity, installed and whole-life cost, local contract value and design rights. The citywide choice should safeguard through service to the airport, Sadr City and Jadriya and procure connected route, station, factory, power and finance packages. Tender returns should price local manufacturing, repair, training and transferable design deliverables against the same service specification.
 
 **Basis of this proposal:** the published Iraqi route brief, open GIS place and population layers, the [Baghdad maps](maps/README.md), the [train](VEHICLE.md) and the [integrated cost schedule](COST-AND-DELIVERY.md). The maps and figures support a funding and procurement discussion. They do not claim surveyed alignments, supplier bids or operating approval.
 

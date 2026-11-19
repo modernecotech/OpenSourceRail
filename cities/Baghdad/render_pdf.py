@@ -29,7 +29,7 @@ OUTPUT = HERE / "Baghdad-Metro-Proposal.pdf"
 MAP_IMAGES = (HERE / "maps" / "Baghdad-148km.png", HERE / "maps" / "Baghdad-606km.png")
 CITY_CONTEXT = ROOT / "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz"
 CITY_CONTEXT_SHA256 = "21ab8f69f933ee84e32158f3b5de54d29d5fea8518183457856d2745e6c78168"
-GITHUB = "https://github.com/modernecotech/OpenSourceRail/blob/main/"
+
 
 
 def inline(nodes):
@@ -45,8 +45,6 @@ def inline(nodes):
             out.append(html.escape(node["raw"]))
         elif kind == "link":
             url = node["attrs"]["url"]
-            if not url.startswith(("http://", "https://")):
-                url = GITHUB + (HERE / url).resolve().relative_to(ROOT).as_posix()
             out.append(f'<link href="{html.escape(url, quote=True)}">{inline(node["children"])}</link>')
         elif "children" in node:
             out.append(inline(node["children"]))
@@ -329,7 +327,8 @@ def render():
                     "Seven-corridor alternative and priority access areas",
                     "Independent citywide railway: corridors, shared links and through services",
                 )):
-                    story.append(PageBreak())
+                    if destination != MAP_IMAGES[0]:
+                        story.append(PageBreak())
                     story.append(Paragraph(caption, styles["SectionOSR"]))
                     story.append(Image(str(destination), width=175 * mm, height=185 * mm))
                     story.append(Paragraph("Lines and points are planning guides; 64 and 280 stations are budget allowances, not approved sites.", styles["FooterOSR"]))

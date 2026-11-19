@@ -38,6 +38,8 @@ GIS, CAD, FEM and simulation support the digital work above. Supplier quotes, si
 
 ## Baghdad work following the corridor review
 
+Prepare the open proposal for an anticipated late-2026 to early-2027 invitation for new ideas. Confirm the timetable and updated scope with the authority when it issues the opportunity. The [proposal](../cities/Baghdad/PROPOSAL.md) records the October Arabic-language interviews on the earlier unsuccessful offers and the new study.
+
 | Decision | Evidence in hand | Work needed for the decision |
 |---|---|---|
 | Where to protect land | The revised [corridor map](../cities/Baghdad/maps/README.md) records 39 located occurrences and 13 gaps. | Prioritise shared unresolved names, verify the Adhamiya and airport access points with local owners, obtain referenced alignments and walk the proposed interchanges. Reconcile revised chainage to each line allowance before repricing. |

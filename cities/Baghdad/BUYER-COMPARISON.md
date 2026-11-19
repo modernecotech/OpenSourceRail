@@ -2,6 +2,10 @@
 
 Amanat Baghdad can use OpenSourceRail to write a specification, estimate quantities and negotiate the right to build and repair locally, whether an Iraqi consortium, an international supplier or a combination delivers the railway. The working estimate is a negotiating reference. A credible fallback to a vendor offer requires priced local packages, a capable integrator, financed tooling and an acceptance programme.
 
+The earlier investment process did not secure a contractor to deliver the metro. Amanat Baghdad’s spokesperson told Al-Mada that the investment offers fell short of the government’s requirements. Two days later, the National Investment Commission’s deputy chair told NINA that a new study and updated plans were being prepared for fresh investment opportunities. [Al-Mada interview with Amanat Baghdad, 25 October 2026](https://almadapaper.net/458226/) · [NINA interview with the National Investment Commission, 27 October 2026](https://ninanews.com/website/News/Details?key=1322248)
+
+OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The authority has yet to publish a submission date in the sources reviewed. The seven corridors provide a historical comparison while Baghdad revisits its routes, service and financing. Use this period to prepare quantities, specify local repair rights and gather indicative prices. When the new brief is issued, reconcile route, service and financing requirements before asking for comparable firm offers.
+
 ## Issue the same scope to every bidder
 
 Request three returns for one network at a time. Invite a turnkey offer, a vendor-led offer with specified transfers of production and repair, and a locally integrated offer using open interfaces. Allow vendors to quote all three. Provide the same train capacity, accessibility, hourly service, route assumptions, construction dates, excavation exclusions, summer duty, spares and 30-year maintenance horizon. Require a priced departures register against the open bill. Require each supplier to identify interface responsibility through commissioning and warranty. The sponsor carries any scope it retains in a split award.
