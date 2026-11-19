@@ -97,7 +97,7 @@ def main():
         findings.append('README.md: missing repository front door')
     else:
         text=root.read_text()
-        for marker in ('docs/design-engine/v06-design-closure/README.md','docs/design-engine/v07-execution/README.md','engineering/development-baseline.toml','crates/README.md','./osr readiness','./osr test','./osr build','OpenSourceRail-Book.pdf'):
+        for marker in ('docs/design-engine/v06-design-closure/README.md','docs/design-engine/current/README.md','engineering/development-baseline.toml','crates/README.md','./osr readiness','./osr test','./osr build','OpenSourceRail-Book.pdf'):
             if marker not in text:
                 findings.append('README.md: missing current architecture/command reference '+marker)
     if not (REPO_ROOT/'OpenSourceRail-Book.pdf').is_file():

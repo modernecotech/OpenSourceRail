@@ -1,10 +1,11 @@
 # OpenSourceRail platform guide
 
-**Scope of this guide:** detailed v0.6 reference and research background. For
-the published software scope, read [v0.6.1](releases/v0.6.1/README.md); for
-current development and open engineering interfaces, read the
-[v0.7 execution record](design-engine/v07-execution/README.md) and the
-[current book](BOOK.md). The integrated v0.6 dossier cited below has a
+**Scope of this guide:** detailed history of the v0.6 passive-wheel research
+and platform. The published digital railway release is [v0.7.1](RELEASE-v0.7.md).
+For the current main-branch candidate and open interfaces, read the
+[current engineering dossier](design-engine/current/README.md), the
+[engineering status](ENGINEERING-STATUS.md) and the [current book](BOOK.md).
+The integrated v0.6 dossier cited below has a
 source-binding hold and is not supported release evidence. Historical motor,
 service and civil examples remain tied to their original candidates and do
 not select installed propulsion or physical acceptance.
@@ -13,9 +14,9 @@ This guide preserves the detailed platform, engineering, delivery and research e
 
 OpenSourceRail develops affordable urban rail and the open tools needed to **plan, design, procure, manufacture, construct, operate, maintain and renew it**. The aim is to retain design authority, software, fabrication, integration and repair capability in-country, with competitive sourcing of specialist components.
 
-**v0.6 is the station-powered freewheeling reference railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Station-side propulsion is compared under candidate-specific designs; the vehicle retains passive reaction elements for LIM research alongside mechanical launch alternatives. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
+**Historical v0.6 research used a station-powered freewheeling railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Station-side propulsion is compared under candidate-specific designs; the vehicle retains passive reaction elements for LIM research alongside mechanical launch alternatives. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
 
-The wider project encompasses city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. The current v0.6 front end exposes planning proposals, candidate engineering and delivery records; business and supervision functions require separate configuration, and complete city delivery remains open. **The railway is a research and prototype design, without manufacturing or operating release.**
+The wider project encompasses city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. The current main-branch Workbench exposes planning proposals, candidate engineering and delivery records; business and supervision functions require separate configuration, and complete city delivery remains open. **The railway is a research and prototype design, without manufacturing or operating release.**
 
 **The transport goal leads the search.** The current vehicle, station propulsion, formation, guideway and service are revisable reference choices. Alternative propulsion, shorter or articulated vehicles, running gear, alignments, manufacturing methods and other transport comparators remain open when they address the same passenger needs. The [open approach policy](../engineering/outline/transport-goal.toml) retains unfamiliar concepts as research proposals, calls for their own complete models and costs, and limits any “best” claim to the alternatives actually evaluated. Safety and accessibility remain mandatory.
 
@@ -41,8 +42,8 @@ Local content means **origin-traced domestic value added**, not the address of a
 
 | Product | Purpose | Present boundary |
 |---|---|---|
-| Design and delivery tools | City inputs, design alternatives, engineering evidence, quantities, procurement, manufacturing and project records | Current v0.6 Workbench, planning editor, candidate exports and integration components; complete city-specific delivery remains open |
-| Reference railway and manufacturing system | Lightweight vehicles, stations, civil works, tooling, assembly and repair methods | v0.6 physical candidates and numerical studies; equipment, drawings, suppliers and physical qualification are incomplete |
+| Design and delivery tools | City inputs, design alternatives, engineering evidence, quantities, procurement, manufacturing and project records | Current main-branch Workbench, planning editor, candidate exports and integration components; complete city-specific delivery remains open |
+| Reference railway and manufacturing system | Lightweight vehicles, stations, civil works, tooling, assembly and repair methods | v0.6 passive-wheel development reference plus the separate v0.7 powered-wheel digital cost reference and Baghdad planning candidate; physical equipment qualification remains open |
 | Open GoA4 control software | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
 
 The [first adoption path](first-adoptable-product.md) describes the current planning and engineering interfaces, candidate delivery drafts and separately configured business and supervision integrations. Owners can use them to organise research and review before a train is qualified; they do not provide a live railway operating interface.
@@ -162,7 +163,7 @@ The v0.6 workflow links candidate revisions to engineering and delivery records.
 
 The ERPNext app provides draft project, procurement, stock, workforce, manufacturing, quality and maintenance workflows when deployed and configured. FUXA and the gateway provide observation, trends, alarms and review-linked lifecycle integration when connected to authenticated equipment. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
 
-The current v0.6 candidate exports carry candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly, civil and controls records. The manufacturing and assembly exports also carry low/base/high process-hour work packages linked to selected cost-line identities, quantities and source/occurrence records. Hours remain provisional; they are not timed work instructions, crew assignments or qualified production capacity, and broad assembly operations remain unallocated where no direct mapping exists. Unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
+The current development candidate exports carry candidate-bound CAD/IFC, engineering BOM, manufacturing, procurement, assembly, civil and controls records. The manufacturing and assembly exports also carry low/base/high process-hour work packages linked to selected cost-line identities, quantities and source/occurrence records. Hours remain provisional; they are not timed work instructions, crew assignments or qualified production capacity, and broad assembly operations remain unallocated where no direct mapping exists. Unlocated equipment, compatible supplier prices, complete installed quantities and physical acceptance remain open. ERPNext/Frappe HR and FUXA/gateway handoffs use their own configured permissions; generated business records remain disabled drafts until reviewed.
 
 ### Candidate delivery records follow the work
 
@@ -180,7 +181,7 @@ project schedule + resource plan + local/import cash requirements
 reviewed business records + serial installation + maintenance history
 ```
 
-The current v0.6 coordinator binds the selected candidate through engineering, inventory and delivery drafts. Planning handoffs carry route, stop, service and OD proposals only; they are verified with `./osr plan verify`. Priced outline revisions generate provisional construction programmes and local business-system drafts. Verified physical performance, approved production data and measured operating records remain separate release work.
+The current development coordinator binds the selected candidate through engineering, inventory and delivery drafts. Planning handoffs carry route, stop, service and OD proposals only; they are verified with `./osr plan verify`. Priced outline revisions generate provisional construction programmes and local business-system drafts. Verified physical performance, approved production data and measured operating records remain separate release work.
 
 The [vehicle mass and support sensitivity](design-engine/installed-mass-support/README.md) shows the effect of assumed equipment positions without claiming installed mass or axle loads. A [known terminal-recharge calculation issue](design-engine/service-energy-terminal-recharge.md) and its pending source-epoch migration are recorded separately.
 

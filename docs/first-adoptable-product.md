@@ -1,18 +1,19 @@
 # First adoption path: current planning and engineering tools
 
-OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current v0.6 front end provides city-planning proposals, calculated city/design outlines, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations. Calculated completion is distinct from approved construction and live railway operation.
+OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current main-branch front end provides city-planning proposals, calculated city/design outlines, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations. Calculated completion is distinct from approved construction and live railway operation.
 
-The v0.6 software-release checklist is tracked separately from engineering
-closure. Current readiness and its six source-bound software gates are in the
-[software-release ledger](design-engine/v06-software-release/README.md).
+The published v0.6.1 software release is separate from the v0.7.1 digital
+railway release and the current main-branch engineering work. Read the
+[software-release ledger](design-engine/v06-software-release/README.md) for its
+version-specific scope and gates.
 
 ## Who can use it
 
 A public owner can edit geographic, route, stop, service and origin-destination proposals, then hand them to candidate-specific engineering review. A local builder can inspect candidate CAD/IFC, bill of materials, process, assembly and procurement drafts. An organisation can configure ERPNext/Frappe HR and FUXA/gateway workflows for its own project and equipment. Universities and reviewers can reproduce source-bound numerical methods and identify measurements needed for a prototype.
 
-The current v0.6 [engineering Workbench](workbench/current/index.html) displays the selected candidate, source-bound engineering and cost summaries, readiness holds and links to its delivery records. The [coordinated experiment](design-engine/coupled-railway/README.md) carries one candidate identity through geometry, inventory, engineering analysis and delivery drafts.
+The current [engineering Workbench](workbench/current/index.html) displays the selected candidate, source-bound engineering and cost summaries, readiness holds and links to its delivery records. The [coordinated experiment](design-engine/coupled-railway/README.md) carries one candidate identity through geometry, inventory, engineering analysis and delivery drafts.
 
-The [planning workspace](workbench/planning/index.html) verifies current city map context and route sources, then supports route, stop, service and origin-destination proposals. Run `./osr plan compile edits.json --output build/my-plan` to create an immutable handoff bound to the selected v0.6 candidate; run `./osr plan verify build/my-plan` to verify its source files and identities. The handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results; those require candidate-specific evaluation. Planning revisions do not grant movement authority.
+The [planning workspace](workbench/planning/index.html) verifies current city map context and route sources, then supports route, stop, service and origin-destination proposals. Run `./osr plan compile edits.json --output build/my-plan` to create an immutable handoff bound to the selected candidate; run `./osr plan verify build/my-plan` to verify its source files and identities. The handoff contains proposals only. It excludes vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results; those require candidate-specific evaluation. Planning revisions do not grant movement authority.
 
 The [priced outline workspace](workbench/current/index.html) evaluates mapped networks, joined station complexes, straighter corridors and rounded-ring alternatives. It calculates service, fleet, manufacturing, civil quantities, project budgets and thirty-year cost scenarios with visible assumptions. Its [completion record](design-engine/outline-completion/README.md) distinguishes complete calculated outlines from physical engineering and release. Run the local Workbench with `./osr workbench`, choose a priced city and calculate a scenario. **Edit this outline and recalculate** opens the exact calculated routes and services in the planning workspace. Stop, geometry and headway edits then recalculate fleet, civil quantities and all cost scopes. A proposal that fails demand or access remains priced with its failed checks visible. The result includes a resource-leveled production/construction programme and disabled ERPNext/Frappe BOM, routing, workstation, work-order, project and staffing drafts. Real calendars, company/warehouse masters and reviewed imports require site configuration; nothing is submitted automatically.
 

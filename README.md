@@ -49,14 +49,15 @@ uses a different train, power supply, service and cost basis.
 *The citywide map shows planning corridors over the city background. Its lines
 are not surveyed construction alignments.*
 
-The earlier [v0.6 passive-wheel, station-launch reference](engineering/development-baseline.toml)
-is retained for research. Its six 17 m comfort cars have 44 fixed seats and two
+The [v0.6 passive-wheel, station-launch design](engineering/development-baseline.toml)
+remains the repository development baseline and a separate research candidate.
+Its six 17 m comfort cars have 44 fixed seats and two
 wheelchair places per car, no planned standing, passive steel-wheel bogies and
 no onboard traction motors or traction battery. Station launch, limited
 boosters and small onboard drives remain separate design options; their
 whole-system mass, energy, braking, civil and cost consequences must be
 calculated for each route. The [v0.6 findings](docs/design-engine/v06-design-closure/README.md)
-and [v0.7 execution record](docs/design-engine/v07-execution/README.md) preserve
+and [current engineering record](docs/design-engine/current/README.md) preserve
 the research without changing the selected Baghdad or 30 km candidates.
 
 ## What OpenSourceRail provides
@@ -115,7 +116,7 @@ The [illustrated book](OpenSourceRail-Book.pdf) is a reader's overview.
 the [v0.6.1 software release](docs/releases/v0.6.1/README.md) remain available
 as historical designs and releases.
 
-The [source-bound engineering packet](docs/design-engine/current/README.md)
+The [current source-bound engineering packet](docs/design-engine/current/README.md)
 and [research gallery](docs/engineering-gallery.md)
 retain CAD, FEM and simulation evidence with their own candidate identities.
 A digital calculation or assembly view is evidence for its stated model; it is

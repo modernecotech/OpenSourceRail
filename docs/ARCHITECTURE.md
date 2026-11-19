@@ -1,8 +1,8 @@
 # OpenSourceRail architecture
 
 OpenSourceRail connects three products: a design and delivery platform, a
-reference railway and manufacturing system, and open GoA4 control software. The
-delivery lifecycle covers planning, design, procurement, manufacture,
+reference railway and manufacturing system, and open train protection and
+control software under development. The delivery lifecycle covers planning, design, procurement, manufacture,
 construction, commissioning, operation, maintenance and renewal. Local design
 authority, repairability and whole-life affordability are objectives that each
 candidate must demonstrate.
