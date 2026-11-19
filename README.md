@@ -8,19 +8,32 @@ for every design.
 
 **Current published release: [v0.7.1](docs/RELEASE-v0.7.md).** It contains a
 costed **digital** railway reference and separate city planning applications.
-The main branch carries newer Baghdad planning calculations than that tag.
+The operator workshop and the revised Baghdad corridor, financing and workshop studies are available on `main`.
 Neither version authorizes construction or passenger operation. The [architecture
 guide](docs/ARCHITECTURE.md#which-design-is-current) identifies each design;
 the [engineering status](docs/ENGINEERING-STATUS.md) and [cost baseline](docs/COST-BASELINE.md)
 give the current assumptions and results.
 
-**For prospective operators:** [Presentation and design review](docs/operator-review/README.md) · [Download the illustrated briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf) · [Railway delivery workplan](docs/operator-review/WORKPLAN.md)
+## Present the railway
+
+For a meeting with a prospective operator, [open the 14-page illustrated briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf). For a hands-on session, [download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip), extract the entire ZIP and open **START.html** in a browser. The models, control-room replay, funding calculator and workforce planner run without an installation. The same four tools are available under **Operator review** in the local Workbench.
+
+![Baghdad station and train in the interactive design viewer](docs/operator-review/twins/baghdad-station.png)
+
+| Question for the meeting | What to open and do |
+|---|---|
+| Can a passenger board here, and can we maintain the equipment? | Select the Baghdad platform edge, door or bogie in the twin. Follow the component to its drawing and ask for loaded clearances, tool space and a witnessed replacement. [Twin and IFC guide](docs/operator-review/twins/README.md) |
+| What will the control room see when equipment stops reporting? | Step through a section trip, a stale reading and restoration. Compare the timestamp with the alarm state, then follow a separate depot example through its serial history. [Operations and maintenance screens](docs/operator-review/screens/README.md) |
+| How much public funding will the service need? | Choose a railway and borrowing term, then enter paid journeys and net receipts. Inspect the annual debt, operations and renewal rows. [Funding guide and worked example](docs/operator-review/finance/README.md) |
+| Can local firms deliver the fleet and keep it running? | Walk the vehicle works and precast yard drawings. Compare line capacity with the order, allow for relief on each shift and cost the training cohorts. [Factory, employment and training plan](docs/operator-review/delivery/README.md) |
+
+The [operator guide](docs/operator-review/README.md) gives a 30-minute agenda. The [delivery workplan](docs/operator-review/WORKPLAN.md) assigns route surveys, first-article trials, supplier quotations and funding decisions to the teams that would carry them out.
 
 ## The current designs
 
 | Design | Purpose | 2026 US-dollar installed estimate |
 |---|---|---:|
-| [Synthetic 30 km reference](docs/reference-v07/README.md) | One six-car, 276-place powered-wheel train, 12 stations, 10 m precast spans and overhead power; a joined design, cost and production example | **$1.025bn** |
+| [Synthetic 30 km reference](docs/reference-v07/README.md) | 51 six-car powered-wheel trains with 276 places each, 12 stations, 10 m precast spans and overhead power; a joined design, cost and production example | **$1.025bn** |
 | [Baghdad seven-corridor concept](cities/Baghdad/README.md) | Independent 148.2 km, 64-station, all-elevated plan with 700-place trains and protected trackside power | **$7.866bn** |
 | [Baghdad citywide concept](cities/Baghdad/PROPOSAL.md) | Independent 605.652 km, 280-station, all-elevated plan; 50.099 km is reserved guideway without an assigned passenger path | **$31.018bn** |
 

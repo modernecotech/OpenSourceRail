@@ -6,7 +6,7 @@ Use this pack to review the railway with an operations director, chief engineer,
 
 ## Run a 30-minute operator review
 
-For a presentation, open the PDF. In the running Workbench, the **Operator review** navigation opens the models, funding, staffing and control-room views. For an interactive meeting without an installation, extract the workshop ZIP and open **START.html**. The kit includes both models, the Baghdad proposal, maps, factory plans and the calculators. In a repository checkout you can also open the local HTML files below. The twin, funding calculator and equipment replay run offline. GitHub's file view displays their source. The PDF and PNGs can be viewed directly on GitHub.
+For a presentation, open the PDF. In the running Workbench, the **Operator review** navigation opens the models, funding, staffing and control-room views. For an interactive meeting without an installation, extract the workshop ZIP and open **START.html**. The kit includes both models, the Baghdad proposal, maps, factory plans and the calculators. In a repository checkout you can also open the local HTML files below. The twins, equipment replay, funding calculator and workforce planner run offline. GitHub's file view displays their source. The PDF and PNGs can be viewed directly on GitHub.
 
 | Time | Open | Operator task |
 |---|---|---|
@@ -33,6 +33,23 @@ For a presentation, open the PDF. In the running Workbench, the **Operator revie
 The core comparison spreads capital evenly across the 43 construction months as a provisional draw schedule. Full annual operations start in relative Year 5. Renewals are $160m in operating year 15 and $70m in year 25. Baghdad uses the annual project schedules for construction, operating costs and renewal events. Interest on construction draws is paid from the buyer's budget. Changes to a fare scenario affect receipts only. Figures use constant 2026 US dollars. Quotes, exchange rates, fees and public-service agreements will affect a real contract. The illustration below uses 100 million paid journeys at $1 net each as a sensitivity. Neither input is a forecast. [Core cost and renewal basis](../reference-v07/cost/README.md) · [Baghdad debt schedules](../../cities/Baghdad/financing-scenarios.json)
 
 ![Interactive funding screen for Baghdad’s seven corridors with hypothetical ridership and fare receipts](finance/baghdad-funding.png)
+
+## What to take away from the meeting
+
+| Decision | Record before the meeting closes |
+|---|---|
+| Where to open | The proposed terminal pair, access to a depot and power, unresolved locations, the busiest expected hour and the owner of the next survey. |
+| What to prototype | The railway and drawing revision, the component or interface under review, the measurement needed and who will witness it. Examples include a bogie exchange, a deck edge under load or a stopped train passing from parking hold to dispatch. |
+| What to ask a vendor | A cash quotation against the same quantities as its financed offer, imported and domestic content, tooling and software rights, training commitments and a local repair demonstration. |
+| How to pay and staff the service | The funding term, paid journeys, net receipt, annual public contribution, duty coverage, relief assumptions and loaded pay used in the scenario. Assign an owner to replace each assumption with evidence. |
+
+For a second session, take the figures to the [finance guide](finance/README.md) and [workforce plan](delivery/README.md). Both explain the units and assumptions needed to reproduce the displayed result. The [workplan](WORKPLAN.md) sets out the owners and evidence needed at the next project decision.
+
+## Opening the workshop on a meeting computer
+
+- **GitHub shows HTML source.** Use the PDF for a slide-by-slide review, or download the ZIP for the working screens. A browser can open the extracted **START.html** directly.
+- **A local page has no data or styling.** Extract the complete kit to one directory and reopen its start page. The model data, scripts and styles sit beside the HTML files. Copy the whole directory when moving the demonstration to another computer.
+- **A design record opens GitHub.** The kit carries the drawings, models, cost documents and interactive tools used in the workshop. Links to the wider repository need internet access. For an offline site visit, bring local copies of any additional supplier or engineering records you plan to discuss.
 
 ## Reproduce the presentation
 

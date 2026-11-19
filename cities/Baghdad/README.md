@@ -129,3 +129,17 @@ The [proposal](PROPOSAL.md) gives the requested city decision and delivery seque
 The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.
 
 The [buyer comparison schedule](BUYER-COMPARISON.md) and [financing cases](PROPOSAL.md#what-the-city-would-need-to-pay) let the city compare turnkey bids, local manufacture and buyer cash year by year. The [mechanical package](engineering/mechanical/README.md) and [controls replay](engineering/controls/README.md) develop the interfaces that suppliers would quote.
+
+## Take the proposal to an operator and competing suppliers
+
+Use the seven-corridor design to review a typical Baghdad station and train. The independent citywide option also has its own map, service assumptions, fleet, yards and cost schedules. The two exported station twins cover the seven-corridor design and the synthetic 30 km core railway. [Baghdad twin and frame inspection](../../docs/operator-review/twins/README.md) · [Citywide map and route gaps](maps/README.md)
+
+| Bring to the meeting | What to ask for |
+|---|---|
+| Local planners and passenger representatives | Mark the entrance, step-free path, bus transfer and walking barriers at a proposed stop. Record the coordinates, owner and remaining survey work. A named neighbourhood and a budgeted station are different records. [Map review](maps/README.md) |
+| Operator and maintainers | Open a platform-side door in the boarding study, inspect the brake demand and trace the condition for dispatch. Price the physical trial with parking proof, independent brake feedback and local recovery. [Electronics, wiring and software trial](engineering/controls/README.md) |
+| Iraqi builders and international vendors | Quote one braced body, its bogie frames, a deck bay and one cast beam. Identify imported inputs, tooling ownership, drawings, diagnostics, training and repair rights. Compare turnkey, vendor-led local build and locally integrated offers on the same service. [Buyer return schedule](BUYER-COMPARISON.md) |
+| Factory managers and workforce leads | Check output for the 1,452-car seven-corridor order. Twelve proposed lines have capacity for 1,464 cars under the trial assumptions. Ask for witnessed cycle times and the cost of recovery if one cycle is lost across the lines. Confirm who trains and assesses local crews. [Factory layouts and staffing](../../docs/operator-review/delivery/README.md) |
+| City finance and prospective lenders | At 50% borrowing the seven-corridor opening-year requirement before fares is $486.4m at 4% over 20 years and $692.1m at 7% over 12 years. Request comparable cash and financed prices, loan currency, fees, guarantee requirements and an annual draw schedule. [Funding calculator and worked example](../../docs/operator-review/finance/README.md) |
+
+Leave the meeting with a terminal pair to survey, a train or station interface to test and a work package to quote locally. Record the owner, date, evidence requested and the effect on service or cost. Carry those returns into the first twelve weeks of the [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad).

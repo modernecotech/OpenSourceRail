@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **170**.
+Indexed Markdown files: **171**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **170**.
 | [cities](#cities) | 11 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 127 |
+| [docs](#docs) | 128 |
 | [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
@@ -189,6 +189,7 @@ Indexed Markdown files: **170**.
 | [`docs/operator-review/README.md`](../docs/operator-review/README.md) | OpenSourceRail for railway operators |
 | [`docs/operator-review/WORKPLAN.md`](../docs/operator-review/WORKPLAN.md) | From design review to railway opening |
 | [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building the fleet and staffing the railway |
+| [`docs/operator-review/finance/README.md`](../docs/operator-review/finance/README.md) | Funding the railway and testing fare receipts |
 | [`docs/operator-review/screens/README.md`](../docs/operator-review/screens/README.md) | Railway operations and planning screens |
 | [`docs/operator-review/twins/README.md`](../docs/operator-review/twins/README.md) | Train, platform and viaduct inspection |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
