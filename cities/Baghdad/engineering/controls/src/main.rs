@@ -1,4 +1,6 @@
 //! Offline interface replay. All proofs and commands are synthetic data.
+mod boarding;
+
 use osr_atp::powered_wheel::{powered_wheel_evaluate, PoweredWheelInputs};
 use osr_atp::BrakeCommand;
 use osr_door_control::{
@@ -15,6 +17,9 @@ use std::{fs, path::Path};
 struct Frame {
     command: DoorAction,
     station_verified: bool,
+    open_side: Option<DoorSide>,
+    parking_proved: bool,
+    brake_demand: BrakeCommand,
     platform: Option<DoorSide>,
     speed_mmps: i32,
     unlocked: Option<usize>,
@@ -30,6 +35,9 @@ impl Default for Frame {
         Self {
             command: DoorAction::Hold,
             station_verified: true,
+            open_side: None,
+            parking_proved: true,
+            brake_demand: BrakeCommand::Release,
             platform: Some(DoorSide::Left),
             speed_mmps: 0,
             unlocked: None,
@@ -50,45 +58,50 @@ struct Trace {
     brake: BrakeCommand,
 }
 
-fn sample(frame: Frame, configuration: [u8; 32], cars: usize, openings_per_side: usize) -> Trace {
+fn evaluate_frame(
+    frame: Frame,
+    configuration: [u8; 32],
+    door_states: &mut [DoorState],
+    openings_per_side: usize,
+    now_ns: u64,
+) -> (Trace, bool) {
     let mut opening_left = 0;
     let mut opening_right = 0;
     // Withhold departure as soon as release is requested, including the tick
     // before the physical lock switches change. Missing door status blocks it.
     let mut all_doors_locked = true;
-    for index in 0..cars * 2 * openings_per_side {
+    for (index, state) in door_states.iter_mut().enumerate() {
         if frame.missing == Some(index) {
             all_doors_locked = false;
             continue;
         }
-        let left = (index / openings_per_side) % 2 == 0;
+        let left = (index / openings_per_side).is_multiple_of(2);
+        let side = if left {
+            DoorSide::Left
+        } else {
+            DoorSide::Right
+        };
+        let is_open = frame.open_side == Some(side);
         let inputs = DoorInputs {
-            now_ns: 0,
+            now_ns,
             speed_mmps: frame.speed_mmps,
             at_station: true,
             station_identity_verified: frame.station_verified,
-            door_side: if left {
-                DoorSide::Left
-            } else {
-                DoorSide::Right
-            },
+            door_side: side,
             verified_platform_side: frame.platform,
             commanded: frame.command,
             emergency_unlock: false,
             emergency_egress_authorized: false,
             sensors: DoorSensors {
-                closed_limit: true,
-                lock_sensor: frame.unlocked != Some(index),
-                open_limit: false,
+                closed_limit: !is_open,
+                lock_sensor: !is_open && frame.unlocked != Some(index),
+                open_limit: is_open,
                 motor_current_ma: 0,
                 obstruction_detected: false,
             },
         };
-        let door = door_evaluate(
-            &DoorState::default(),
-            &inputs,
-            &DoorParams::research_default(),
-        );
+        let door = door_evaluate(state, &inputs, &DoorParams::research_default());
+        *state = door.state;
         all_doors_locked &= door.interlock_ok;
         if door.motor == MotorCommand::DriveOpen {
             if left {
@@ -139,19 +152,22 @@ fn sample(frame: Frame, configuration: [u8; 32], cars: usize, openings_per_side:
             inverter_healthy: true,
             traction_fault_latched: false,
             stopped: frame.speed_mmps == 0,
-            parking_brake_proved: true,
+            parking_brake_proved: frame.parking_proved,
             wheel_slide_active: false,
         },
-        BrakeCommand::Release,
+        frame.brake_demand,
     );
-    Trace {
-        opening_left,
-        opening_right,
-        traction_enable: frame.command == DoorAction::Hold
-            && status.traction_permissive
-            && atp.traction_permissive,
-        brake: atp.mechanical_brake,
-    }
+    (
+        Trace {
+            opening_left,
+            opening_right,
+            traction_enable: frame.command == DoorAction::Hold
+                && status.traction_permissive
+                && atp.traction_permissive,
+            brake: atp.mechanical_brake,
+        },
+        all_doors_locked,
+    )
 }
 
 fn main() {
@@ -294,7 +310,13 @@ fn main() {
         ),
     ];
     for (name, frame, (left, right, torque, brake)) in cases {
-        let actual = sample(frame, configuration, cars, openings);
+        let (actual, _) = evaluate_frame(
+            frame,
+            configuration,
+            &mut vec![DoorState::default(); cars * 2 * openings],
+            openings,
+            0,
+        );
         assert_eq!(
             actual,
             Trace {
@@ -307,4 +329,5 @@ fn main() {
         );
         println!("{name}: {actual:?}");
     }
+    boarding::replay(configuration, cars, openings);
 }

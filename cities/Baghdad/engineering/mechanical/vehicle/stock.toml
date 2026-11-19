@@ -1,0 +1,50 @@
+name = "Baghdad first-programme steel frame quotation A"
+# Preliminary dimensioned stocks, H by B by t, mm.
+# Nominal sharp corners in section calculation. Product certificates and actual section tables required.
+material = "S355NH hot-finished hollow steel section proposal"
+[sections]
+sill = [200, 100, 8]
+cantrail = [160, 80, 6.3]
+jamb = [120, 80, 6.3]
+end_post = [120, 80, 6.3]
+brace = [80, 80, 5]
+floor_tie = [160, 80, 6.3]
+floor_tie_trial = [100, 60, 5]
+roof_tie = [80, 60, 4]
+bolster = [200, 150, 10]
+end_tie = [160, 80, 8]
+bogie_side = [200, 100, 10]
+transom = [160, 100, 8]
+saddle = [100, 80, 8]
+
+[body]
+side_axis_y_m = 1.28
+sill_axis_z_m = 0.87
+cantrail_axis_z_m = 3.12
+sill_splice_x_m = -3.5
+cantrail_splice_x_m = 3.5
+[bogie]
+transom_axis_x_m = 0.32
+side_axis_z_m = 0.49
+# Saddles span BETWEEN transoms with their top surfaces flush.
+transom_axis_z_m = 0.51
+saddle_axis_z_m = 0.54
+[seat_plates]
+# Length along x, width along y, plate thickness mm
+secondary_top = [170, 140, 12]
+secondary_body = [170, 160, 12]
+primary_underside = [180, 140, 12]
+
+[braced_revision]
+gusset_leg_m = 0.450
+gusset_thickness_m = 0.008
+brace_end_clearance_m = 0.010
+
+[material_assumptions]
+density_kg_m3 = 7850.0
+elastic_modulus_pa = 2.10e11
+poisson_ratio = 0.30
+nominal_yield_mpa = 355.0
+[evaluation]
+gravity_m_s2 = 9.80665
+vertical_factors = [1.0, 1.3]

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **162**.
+Indexed Markdown files: **165**.
 
 ## Sections
 
@@ -20,11 +20,11 @@ Indexed Markdown files: **162**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 9 |
+| [cities](#cities) | 11 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 122 |
-| [engineering](#engineering) | 14 |
+| [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
 ## .github
@@ -61,6 +61,8 @@ Indexed Markdown files: **162**.
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
+| [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
+| [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
@@ -216,6 +218,7 @@ Indexed Markdown files: **162**.
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | OpenSourceRail design search |
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
+| [`engineering/interface_studies/REFERENCE-RIGS.md`](../engineering/interface_studies/REFERENCE-RIGS.md) | OpenSourceRail reference vehicle and track test assemblies |
 | [`engineering/pilot_civil/README.md`](../engineering/pilot_civil/README.md) | Candidate-bound pilot civil design |
 | [`engineering/pilot_delivery/README.md`](../engineering/pilot_delivery/README.md) | Pilot manufacturing and delivery proposals |
 | [`engineering/pilot_delivery/REVIEW_PROTOCOL.md`](../engineering/pilot_delivery/REVIEW_PROTOCOL.md) | Candidate-linked research delivery review |

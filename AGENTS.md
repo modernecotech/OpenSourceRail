@@ -49,15 +49,26 @@ alternatives do not silently change the selected reference or inherit its result
   remove applicable crowd, evacuation or accidental-load verification. Different
   formations require their complete platform, civil, fleet and service effects.
 
+## Repository workflow and readers
+
+- Work in the existing OpenSourceRail repository on `main`. Keep city designs in
+  their city folders and shared railway designs in the project’s engineering
+  folders. Use the existing ignored build directory for temporary outputs.
+- Check the intended changes, preserve unrelated local edits, integrate with
+  GitHub `main` and verify the published commit. Incorporate concurrent changes
+  before pushing. Keep one working checkout and one delivery branch.
+- Write for the people planning routes, building trains and stations, purchasing
+  equipment, running the service and maintaining it. Lead with the design,
+  quantities, costs, operating consequences and work still needed. Keep solver
+  settings, commands and run records in the supporting engineering material.
+
 ## Coordinated work
 
 - Use specialist agents for bounded engineering questions and evaluator work;
   use deterministic numerical workers for parameter samples. Each assignment
   identifies its candidate, requirements, allowed variables, fixed interfaces,
   required artifacts, trial/runtime/resource budgets and completion conditions.
-- Use isolated Git worktrees for source development. Use private candidate/run
-  directories for numerical work; do not create a checkout for every sample.
-- Admit projected writes for worktree materialization, tool installation and
+- Admit projected writes for tool installation and
   publication through the shared Git-common-dir disk reservation before they
   start. Monitor the target filesystem during long jobs and stop at the 20 GiB
   free-space floor; a one-time `df` check is insufficient.
@@ -121,7 +132,6 @@ alternatives do not silently change the selected reference or inherit its result
 
 Current engineering: `docs/design-engine/current/README.md`; current adapters:
 `engineering/development_baseline/`. Historical evidence is pinned by
-`docs/archives/pre-comfort-default/manifest.json`; regenerate historical methods
-only in an isolated checkout. Candidate campaigns:
+`docs/archives/pre-comfort-default/manifest.json`; use the pinned archives for historical reproduction. Candidate campaigns:
 `engineering/design_search/`. Project role files follow the
 [official Codex agent schema](https://learn.chatgpt.com/docs/agent-configuration/subagents).

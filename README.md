@@ -69,18 +69,16 @@ equipment observation, alarms and history; they do not grant train movement
 authority. The [platform guide](docs/platform-guide.md) explains these
 interfaces and their current deployment state.
 
-## Explore and use the work
+## Design, build and operate the railway
 
-1. Start with a [city](cities/catalogue/README.md), the [Baghdad proposal](cities/Baghdad/PROPOSAL.md)
-   or the [planning workspace](docs/workbench/planning/index.html).
-2. Compare complete railway choices in the [Workbench](docs/workbench/current/index.html)
-   and read the [fourteen-scope cost basis](docs/COST-BASELINE.md).
-3. Inspect the [vehicle, civil and production package](docs/reference-v07/README.md),
-   [control electronics](control-electronics/README.md) and [engineering model gallery](docs/engineering-gallery.md).
-4. Connect a reviewed design to [ERPNext/Frappe HR](deployment/erpnext/README.md)
-   and [FUXA](deployment/supervision/README.md) for delivery and operations planning.
+| Who | Where to start | What to decide |
+|---|---|---|
+| City planner or transport authority | [City plans](cities/catalogue/README.md) and [Baghdad proposal](cities/Baghdad/PROPOSAL.md) | Which journeys to serve, where passengers can board and transfer, and how the city would fund construction and service. |
+| Railway designer or manufacturer | [Reference train and viaduct](docs/reference-v07/README.md), [bogie and body frames](cities/Baghdad/engineering/mechanical/vehicle/README.md), [station and track sections](cities/Baghdad/engineering/mechanical/civil/README.md) | Which parts a local workshop can make, how they fit together, how to replace them and what to check on the first article. |
+| Procurement or construction team | [Cost and delivery schedule](cities/Baghdad/COST-AND-DELIVERY.md) and [vendor comparison](cities/Baghdad/BUYER-COMPARISON.md) | Compare installation and renewal prices, delivery obligations and the work suppliers will undertake in Iraq. |
+| Operator or maintainer | [Train and station control equipment](control-electronics/README.md), [boarding and brake sequence](cities/Baghdad/engineering/controls/README.md) and [supervision guide](deployment/supervision/README.md) | Inspect equipment, understand door and brake interlocks, and identify what crews must demonstrate before commissioning. |
 
-For the bounded digital software journey:
+Open the [Workbench](docs/workbench/current/index.html) to explore the effect of a route or station change on the train service, quantities and cost. To use the tools locally, run these commands from the repository root.
 
 ```sh
 ./install.sh

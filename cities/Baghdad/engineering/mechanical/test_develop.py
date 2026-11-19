@@ -11,6 +11,12 @@ class MechanicalInterfaces(unittest.TestCase):
         self.assertEqual(result["max_live_moment_knm_sampled"], 80*10/4)
         self.assertEqual(result["max_end_reaction_kn_sampled"], 80)
 
+    def test_axle_at_overhanging_stock_tip(self):
+        result = moving_load([0], 10, 0.317, 80, overhang=0.25)
+        self.assertEqual(result["max_end_reaction_kn_sampled"], 82)
+        self.assertEqual(result["min_end_reaction_kn_sampled"], -2)
+        self.assertEqual(result["min_live_moment_knm_sampled"], -20)
+
     def test_tandem_maximum(self):
         # Two equal loads P separated by a: peak under a wheel when wheel
         # and load centroid straddle midspan equally, M = P(2L-a)^2 / 8L.

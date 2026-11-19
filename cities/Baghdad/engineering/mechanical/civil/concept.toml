@@ -1,0 +1,49 @@
+# Preliminary straight-bay quotation geometry for the Baghdad first programme.
+[box]
+width_m = 2.0
+depth_m = 1.4
+web_m = 0.18
+slab_m = 0.20
+solid_end_m = 0.55
+pad_width_m = 0.35
+pad_length_m = 0.35
+# Stand-alone gravity/twist sensitivity; load shares are not dynamic predictions.
+superimposed_dead_kn_m = 3.0
+moving_load_factor = 1.30
+live_lateral_eccentricity_m = 0.15
+lift_pick_inset_m = 2.0
+sling_angle_above_horizontal_deg = 60.0
+effective_tendon_eccentricity_m = 0.30
+concrete_elastic_modulus_gpa = 30.0
+[pier]
+# Illustrative independent station-track support. Soil scenarios are unmeasured.
+column_width_m = 1.0
+column_height_m = 6.0
+cap_width_m = 2.2
+cap_length_m = 1.40
+cap_depth_m = 0.70
+footing_width_m = 2.5
+footing_depth_m = 1.0
+soil_pressures_kpa = [150, 200, 250]
+[platform]
+panels_across = 4
+panel_joint_m = 0.02
+panel_thickness_m = 0.28
+seat_centre_from_bent_m = 0.15
+head_width_m = 0.60
+head_depth_m = 0.75
+surface_services_kn_m2 = 1.5
+crowd_kn_m2 = 5.0
+fall_to_centre_fraction = 0.0125
+[reinforcement]
+cover_m = 0.045
+bottom_longitudinal_diameter_m = 0.016
+bottom_longitudinal_spacing_m = 0.15
+top_longitudinal_diameter_m = 0.012
+top_longitudinal_spacing_m = 0.20
+transverse_diameter_m = 0.012
+transverse_spacing_m = 0.20
+[materials]
+rc_unit_weight_kn_m3 = 25.0
+steel_mass_kg_m3 = 7850.0
+gravity_m_s2 = 9.80665

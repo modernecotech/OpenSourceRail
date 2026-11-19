@@ -1,0 +1,224 @@
+{
+  "study": "Baghdad first-programme steel frame quotation A",
+  "parent_project_id": "osr-baghdad-zero-tunnel-offwire-20261117",
+  "parent_train_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
+  "parent_interface_study_id": "0779b66f095ded313b6595da349ae040760d536d45d41575f1a530f0989969c3",
+  "unbraced_parent_id": "a9273b56f73f0bc76d96164e13e49957282fdc637578150958ac3fcb3e988391",
+  "braced_revision_id": "cf598a8171b70c0e1933b977ebe9b07d47e1a98e245322b90f28c1c2c9cc8db6",
+  "evaluation_id": "ff6e9873432f75584643bbb1f2810eeaa96ff2d1fad3270d0d548999d0f268fc",
+  "purpose": "first-article stock quotation",
+  "source_sha256": {
+    "cities/Baghdad/engineering/mechanical/vehicle/stock.toml": "024cc71a1e4866e59978feb98f71ce99c0922555d52dd94f6fe3b89443db4caa",
+    "cities/Baghdad/engineering/mechanical/vehicle/develop_vehicle.py": "1ee32d4537e7b2158e3d43e74021b1f7592061fdcd09d5e476effa805c461515",
+    "engineering/design_search/frame_analysis.py": "f66a9f0a55c68280622bbfe2bd065ba016bbef8cf2d455236ca347b973530bf1",
+    "cities/Baghdad/engineering/mechanical/vehicle/stock_mesh.py": "df1f2af182be4af9cd3e82a44a36a86ebad015e22ad49fb00a8f65ea89784f31",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "cities/Baghdad/system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
+    "cities/Baghdad/engineering/mechanical/schedule.json": "46720ad6b9279fb1365c0328d1340d038ba23eab5e51fe99efa8a2672ec66294",
+    "cities/Baghdad/engineering/mechanical/quotation.toml": "d71bcc8acd3c3ea2033f77ce6a16b8a7e211bc45ea1ed331f98a490e4b1c118f"
+  },
+  "cases": {
+    "1.0": {
+      "applied_car_gravity_kn": 328.673,
+      "assumed_secondary_seat_load_kn": 82.168,
+      "sidewall_cases": {
+        "unbraced_parent": {
+          "brace_ideal_column_diagnostic": null,
+          "peak_nodal_vertical_mm": 61.4387,
+          "max_end_axial_plus_bending_mpa": 355.686,
+          "governing_member": "jamb-16",
+          "nominal_yield_exceeded": true,
+          "sidewall_bolster_reactions_kn": {
+            "x_-6.40": 82.1683,
+            "x_+6.40": 82.1683
+          },
+          "mean_door_header_relative_x_mm": {
+            "-6.3": 0.7494,
+            "-2.1": 0.3539,
+            "2.1": -0.3539,
+            "6.3": -0.7494
+          },
+          "load_residual_n": 0.0,
+          "joint_model": "rigid-moment-continuity-research-only",
+          "model_id": "820573459f8a7bfe1fb2323085b8e9731c6e4d41b0dac662a1df87a38e87a53b"
+        },
+        "braced_revision": {
+          "brace_ideal_column_diagnostic": {
+            "member": "brace-3",
+            "compression_kn": 79.229,
+            "ideal_pinned_euler_kn": 228.879,
+            "ratio": 0.3462
+          },
+          "peak_nodal_vertical_mm": 8.6081,
+          "max_end_axial_plus_bending_mpa": 93.088,
+          "governing_member": "sill-4",
+          "nominal_yield_exceeded": false,
+          "sidewall_bolster_reactions_kn": {
+            "x_-6.40": 82.1683,
+            "x_+6.40": 82.1683
+          },
+          "mean_door_header_relative_x_mm": {
+            "-6.3": 0.8225,
+            "-2.1": 0.3716,
+            "2.1": -0.4278,
+            "6.3": -0.7734
+          },
+          "load_residual_n": 0.0,
+          "joint_model": "rigid-moment-continuity-research-only",
+          "model_id": "a4c8fb70784107a03e6153b066482590fc50f018dbd8ec559d94d81461d6f48c"
+        }
+      },
+      "local_members": {
+        "superseded_floor_tie_trial": {
+          "load_case": "superseded isolated 100x60x5 joist, same floor strip",
+          "maximum_moment_knm": 12.992,
+          "nominal_bending_stress_mpa": 331.013,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 21.5211
+        },
+        "floor_tie": {
+          "load_case": "largest ordinary floor-joist tributary strip, uniform line load",
+          "maximum_moment_knm": 12.992,
+          "nominal_bending_stress_mpa": 111.532,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 4.5321
+        },
+        "bogie_side": {
+          "load_case": "two equal transom reactions between primary seats",
+          "maximum_moment_knm": 29.991,
+          "nominal_bending_stress_mpa": 107.935,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 2.3768
+        },
+        "transom": {
+          "load_case": "two saddle reactions on one transom",
+          "maximum_moment_knm": 7.806,
+          "nominal_bending_stress_mpa": 47.197,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 1.5024
+        },
+        "saddle": {
+          "load_case": "central point load between two transom axes",
+          "maximum_moment_knm": 13.147,
+          "nominal_bending_stress_mpa": 187.514,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 0.6096
+        },
+        "body_bolster": {
+          "load_case": "end-loaded overhangs to secondary seats",
+          "maximum_moment_knm": 35.332,
+          "nominal_bending_stress_mpa": 95.96,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": null
+        }
+      }
+    },
+    "1.3": {
+      "applied_car_gravity_kn": 427.275,
+      "assumed_secondary_seat_load_kn": 106.819,
+      "sidewall_cases": {
+        "unbraced_parent": {
+          "brace_ideal_column_diagnostic": null,
+          "peak_nodal_vertical_mm": 79.8703,
+          "max_end_axial_plus_bending_mpa": 462.392,
+          "governing_member": "jamb-16",
+          "nominal_yield_exceeded": true,
+          "sidewall_bolster_reactions_kn": {
+            "x_-6.40": 106.8188,
+            "x_+6.40": 106.8188
+          },
+          "mean_door_header_relative_x_mm": {
+            "-6.3": 0.9742,
+            "-2.1": 0.4601,
+            "2.1": -0.4601,
+            "6.3": -0.9742
+          },
+          "load_residual_n": 0.0,
+          "joint_model": "rigid-moment-continuity-research-only",
+          "model_id": "78832556bfae4f84cb78eaf8ff673642bc75cf59ec8f496837f493b443bf23b2"
+        },
+        "braced_revision": {
+          "brace_ideal_column_diagnostic": {
+            "member": "brace-3",
+            "compression_kn": 102.998,
+            "ideal_pinned_euler_kn": 228.879,
+            "ratio": 0.45
+          },
+          "peak_nodal_vertical_mm": 11.1906,
+          "max_end_axial_plus_bending_mpa": 121.014,
+          "governing_member": "sill-5",
+          "nominal_yield_exceeded": false,
+          "sidewall_bolster_reactions_kn": {
+            "x_-6.40": 106.8188,
+            "x_+6.40": 106.8188
+          },
+          "mean_door_header_relative_x_mm": {
+            "-6.3": 1.0693,
+            "-2.1": 0.4831,
+            "2.1": -0.5561,
+            "6.3": -1.0054
+          },
+          "load_residual_n": 0.0,
+          "joint_model": "rigid-moment-continuity-research-only",
+          "model_id": "9c704127693cfaf93515905231fa6221707372b4a275fb5a7715190d018951b1"
+        }
+      },
+      "local_members": {
+        "superseded_floor_tie_trial": {
+          "load_case": "superseded isolated 100x60x5 joist, same floor strip",
+          "maximum_moment_knm": 16.89,
+          "nominal_bending_stress_mpa": 430.317,
+          "nominal_yield_exceeded": true,
+          "elastic_displacement_mm": 27.9774
+        },
+        "floor_tie": {
+          "load_case": "largest ordinary floor-joist tributary strip, uniform line load",
+          "maximum_moment_knm": 16.89,
+          "nominal_bending_stress_mpa": 144.991,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 5.8917
+        },
+        "bogie_side": {
+          "load_case": "two equal transom reactions between primary seats",
+          "maximum_moment_knm": 38.989,
+          "nominal_bending_stress_mpa": 140.315,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 3.0898
+        },
+        "transom": {
+          "load_case": "two saddle reactions on one transom",
+          "maximum_moment_knm": 10.148,
+          "nominal_bending_stress_mpa": 61.356,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 1.9531
+        },
+        "saddle": {
+          "load_case": "central point load between two transom axes",
+          "maximum_moment_knm": 17.091,
+          "nominal_bending_stress_mpa": 243.769,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": 0.7924
+        },
+        "body_bolster": {
+          "load_case": "end-loaded overhangs to secondary seats",
+          "maximum_moment_knm": 45.932,
+          "nominal_bending_stress_mpa": 124.748,
+          "nominal_yield_exceeded": false,
+          "elastic_displacement_mm": null
+        }
+      }
+    }
+  },
+  "cut_stock_mass_kg": {
+    "body": 3796.708,
+    "bogie": 407.278,
+    "body_bracing_addition": 584.917
+  },
+  "unbraced_body_and_two_bogie_cut_stock_kg_per_car": 4611.264,
+  "braced_body_and_two_bogie_cut_stock_kg_per_car": 5196.181,
+  "braced_mesh_component_count": 128,
+  "braced_mesh_stock_mass_kg": 5196.182,
+  "complete_installed_mass_kg": null,
+  "physical_accepted": false,
+  "selection": null
+}

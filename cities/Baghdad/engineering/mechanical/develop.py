@@ -21,25 +21,37 @@ def identity(value):
     return digest(json.dumps(value, separators=(",", ":"), sort_keys=True).encode())
 
 
-def moving_load(axles, span, step, axle_kn):
-    """Sample all train positions. For each pose, exact simple-span point-load statics."""
-    if not 0 < step <= span or not axles:
-        raise ValueError("Positive translation step and axles required")
+def moving_load(axles, span, step, axle_kn, overhang=0):
+    """Two ideal supports at 0 and span, with equal stock overhang at each end."""
+    if not 0 < step <= span or not axles or overhang < 0 or axle_kn <= 0:
+        raise ValueError("Positive translation step, axle loads and valid stock required")
     max_shear = (0, 0)
+    min_reaction = (0, 0)
     max_moment = (0, 0, 0)
-    start = -max(axles)
-    steps = math.ceil((span - min(axles) - start) / step)
-    for i in range(steps + 1):
-        car_shift = start + i * step
-        xs = [max(0, min(span, x + car_shift)) for x in axles
-              if -1e-9 <= x + car_shift <= span + 1e-9]
+    min_moment = (0, 0, 0)
+    start = -overhang - max(axles)
+    finish = span + overhang - min(axles)
+    steps = math.ceil((finish - start) / step)
+    poses = {start + i * step for i in range(steps + 1)}
+    # Evaluate exact entry and exit poses in addition to the translation grid.
+    for axle in axles:
+        poses.update((-overhang - axle, span + overhang - axle))
+    for car_shift in sorted(poses):
+        xs = [max(-overhang, min(span + overhang, x + car_shift)) for x in axles
+              if -overhang - 1e-9 <= x + car_shift <= span + overhang + 1e-9]
         left = sum(1 - x / span for x in xs) * axle_kn
         right = len(xs) * axle_kn - left
         max_shear = max(max_shear, (max(left, right), car_shift))
-        for x in xs:
-            moment = left * x - sum(max(0, x - xp) for xp in xs) * axle_kn
+        min_reaction = min(min_reaction, (min(left, right), car_shift))
+        for x in [0, span, *xs]:
+            moment = (left * max(0, x) + right * max(0, x-span)
+                      - sum(max(0, x-xp) for xp in xs) * axle_kn)
             max_moment = max(max_moment, (moment, car_shift, x))
+            min_moment = min(min_moment, (moment, car_shift, x))
     return {
+        "stock_overhang_per_end_m": overhang,
+        "min_end_reaction_kn_sampled": round(min_reaction[0], 3),
+        "min_live_moment_knm_sampled": round(min_moment[0], 3),
         "max_end_reaction_kn_sampled": round(max_shear[0], 3),
         "reaction_pose_train_centre_m_from_left_support": round(max_shear[1], 3),
         "max_live_moment_knm_sampled": round(max_moment[0], 3),
@@ -159,7 +171,7 @@ def evaluate():
                     "bearing_units_provisional": 4*civil["beam_count"],
                     "track_beam_count": civil["beam_count"],
                     "separate_support_positions": civil["pier_foundation_count"],
-                    "moving_gravity_only": moving_load(axles, effective_span, screen["load_step_m"], axle_load)},
+                    "moving_gravity_only": moving_load(axles, effective_span, screen["load_step_m"], axle_load, overhang=inset)},
     }
 
 
