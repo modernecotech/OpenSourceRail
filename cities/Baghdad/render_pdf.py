@@ -133,8 +133,8 @@ def map_images():
                    "Purple": "#8d62ad", "Yellow": "#c6971d", "White": "#66747e",
                    "Airport": "#db713c"}
     for filename, title, destination in zip(
-        ("network-148km.geojson", "network-606km.geojson"),
-        ("148.2 km | first programme", "605.652 km | independent citywide network"),
+        ("corridor-review.geojson", "network-606km.geojson"),
+        ("Baghdad | seven proposed corridors", "605.652 km | independent citywide network"),
         MAP_IMAGES,
     ):
         data = json.loads((HERE / "maps" / filename).read_text())
@@ -143,6 +143,13 @@ def map_images():
         route_points = [point for feature in data["features"]
                         if feature.get("geometry", {}).get("type") == "LineString"
                         for point in feature["geometry"]["coordinates"]]
+        first_programme = filename == "corridor-review.geojson"
+        if first_programme:
+            for relative, expected in data["source_sha256"].items():
+                if sha256((ROOT / relative).read_bytes()).hexdigest() != expected:
+                    raise ValueError("Regenerate corridor-review.geojson after source revision")
+            route_points.extend(f["geometry"]["coordinates"] for f in data["features"]
+                                if f["geometry"]["type"] == "Point")
         min_x, max_x = min(p[0] for p in route_points), max(p[0] for p in route_points)
         min_y, max_y = min(p[1] for p in route_points), max(p[1] for p in route_points)
         pad_x, pad_y = (max_x - min_x) * .07, (max_y - min_y) * .07
@@ -163,12 +170,12 @@ def map_images():
                 continue
             kind = feature.get("properties", {}).get("kind")
             colour, width = styles.get(kind, ("#89949d", 0.8))
-            if filename == "network-148km.geojson":
+            if filename == "corridor-review.geojson":
                 colour = rfi_colours.get(feature.get("properties", {}).get("line"), colour)
-                width = 2.25
+                width = 1.65
             points = geometry["coordinates"]
             ax.plot([p[0] for p in points], [p[1] for p in points],
-                    color=colour, linewidth=width, alpha=.88, zorder=3)
+                    color=colour, linewidth=width, linestyle="--" if first_programme else "-", alpha=.88, zorder=3)
         for feature in data["features"]:
             geometry = feature.get("geometry") or {}
             if geometry.get("type") != "Point":
@@ -181,15 +188,36 @@ def map_images():
             elif kind in ("proposed_anchor", "proposed_population_anchor"):
                 ax.scatter(x, y, s=45, marker="D", color="#bf7324", edgecolor="white", linewidth=.6, zorder=6)
                 label = props.get("map_label") or props.get("name") or props.get("rfi_name")
-                if label:
+                if label and not first_programme:
                     ax.annotate(label, (x, y), xytext=(5, 5), textcoords="offset points",
                                 fontsize=7, color="#663f18", weight="bold", zorder=7)
             elif kind == "rfi_named":
                 ax.scatter(x, y, s=9, color="#213b4d", alpha=.75, zorder=5)
                 label = props.get("map_label") or ""
+                if first_programme:
+                    continue
                 if any(term in label.lower() for term in ("airport", "sadr", "jadri", "chadri")):
                     ax.annotate(label, (x, y), xytext=(5, 4), textcoords="offset points",
                                 fontsize=7, color="#17364a", zorder=7)
+        if first_programme:
+            # One text label per place, including shared markers across corridors.
+            offsets = {"Al Adhamiya": (-4, 10), "Al Shaab": (6, 0),
+                       "Al Saydiyya": (6, -1), "Al Bayaa": (6, 3),
+                       "Al Mustansiriya": (5, 5), "Baghdad Airport terminal": (5, 5),
+                       "Al Zuafaraniya": (-6, -9), "Ur": (6, 5),
+                       "Sadr central planning anchor": (8, 7),
+                       "Jadriya east planning anchor": (8, -5)}
+            labelled = set()
+            for feature in data["features"]:
+                name = feature["properties"].get("map_label")
+                if name not in offsets or name in labelled or feature["geometry"]["type"] != "Point":
+                    continue
+                labelled.add(name)
+                offset = offsets[name]
+                ax.annotate(name.replace(" planning anchor", ""), feature["geometry"]["coordinates"],
+                            xytext=offset, textcoords="offset points", fontsize=7,
+                            ha="left" if offset[0] > 0 else "right", color="#17364a", zorder=8,
+                            bbox=dict(facecolor="white", edgecolor="none", alpha=.8, pad=1))
         ax.set_title(title, fontsize=15, color="#17364a", pad=15, weight="bold")
         ax.set_xlabel("Longitude (°E)", fontsize=8, color="#51616b")
         ax.set_ylabel("Latitude (°N)", fontsize=8, color="#51616b")
@@ -200,8 +228,10 @@ def map_images():
         ax.set_ylim(bounds[1], bounds[3])
         for spine in ax.spines.values():
             spine.set_color("#c6d2d9")
-        if filename == "network-148km.geojson":
-            legend = [Line2D([0], [0], color=colour, lw=2.4, label=name) for name, colour in rfi_colours.items()]
+        if filename == "corridor-review.geojson":
+            legend = [Line2D([0], [0], color=colour, lw=2.4, linestyle="--", label=name) for name, colour in rfi_colours.items()]
+            legend.extend([Line2D([0], [0], marker=".", color="#213b4d", lw=0, label="Named place"),
+                           Line2D([0], [0], marker="D", color="#bf7324", lw=0, label="Access study point")])
         else:
             legend = [Line2D([0], [0], color="#146c85", lw=2, label="Principal route"),
                       Line2D([0], [0], color="#b77827", lw=2, label="Shared through link"),
@@ -209,11 +239,15 @@ def map_images():
                       Line2D([0], [0], color="#b04d54", lw=2, label="Through-service access"),
                       Line2D([0], [0], marker=".", color="#384d5a", lw=0, label="Stop screen")]
         legend.append(Patch(facecolor="#f1cf76", alpha=.4, label="1 km priority access area"))
-        ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, -.16), ncol=4,
+        ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, -.19 if first_programme else -.16), ncol=4,
                   frameon=False, fontsize=8)
+        if first_programme:
+            fig.text(.5, .045, "148.2 km programme allowance  |  Dashed lines join successive named places."
+                     "\nA gap means an intervening named place has no resolved location.", ha="center",
+                     fontsize=8.5, color="#17364a")
         fig.text(.5, .015, "City background: OpenStreetMap, Natural Earth and Protomaps | routes are schematic",
                  ha="center", fontsize=8, color="#51616b")
-        fig.tight_layout(rect=(0, .08, 1, .97))
+        fig.tight_layout(rect=(0, .12 if first_programme else .08, 1, .97))
         destination.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(destination, facecolor="white")
         plt.close(fig)
@@ -240,7 +274,9 @@ def render():
         png = BytesIO(cairosvg.svg2png(url=str(HERE / name), output_width=1800))
         png.seek(0)
         story.append(Paragraph(caption, styles["SectionOSR"]))
-        image = Image(png, width=174 * mm, height=(174 * 325 / 1000 if name == "vehicle-layout.svg" else 174 * 340 / 1000) * mm)
+        image = Image(png)
+        image.drawWidth = 174 * mm
+        image.drawHeight = image.drawWidth * image.imageHeight / image.imageWidth
         story.append(image)
         story.append(Spacer(1, 3 * mm))
     def cash_chart():
@@ -280,8 +316,8 @@ def render():
             if node["attrs"]["level"] == 2:
                 current_section = inline(node["children"])
             style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
-            if inline(node["children"]) == "Raising the capital":
-                story.append(PageBreak())
+            if inline(node["children"]) == "Viaducts, stations and street works":
+                drawing("engineering/mechanical/bogie-interface.svg", "Powered bogie and body interfaces for supplier review")
             if inline(node["children"]) == "Trains and passenger service":
                 story.append(Paragraph("Vehicle and station interfaces", styles["SectionOSR"]))
                 drawing("vehicle-layout.svg", "17 m car: doors, accessible spaces and passenger layout")
@@ -390,7 +426,7 @@ def render():
     def footer(canvas, document):
         canvas.setFont("Helvetica", 7)
         canvas.setFillColor(colors.HexColor("#697a83"))
-        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 18 November 2026")
+        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 19 November 2026")
         canvas.drawRightString(194 * mm, 10 * mm, str(document.page))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
     print(OUTPUT)

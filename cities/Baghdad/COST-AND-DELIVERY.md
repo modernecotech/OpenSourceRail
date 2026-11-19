@@ -162,3 +162,7 @@ The independent citywide estimate allocates **US$282.261m** to tooling, recovery
 Contract packages should give an Iraqi public design custodian and participating factories editable drawings, CAD, parts lists, control source, tooling and repair information, plus perpetual rights to make, modify and re-procure under the applicable [OpenSourceRail licences](../../LICENSE.md). Newly funded design rights and any supplier background royalties must be settled in each tender. Third-party mapping and component rights remain separate. The capital estimate makes no speculative royalty-savings deduction.
 
 The open GIS geometry fixes a planning envelope, not a surveyed route. The airport marker is in the terminal area, not the passenger entrance; route lengths are declared network controls. The calculations can be rerun when route geometry, sites or supplier rates are set. No physical prototype or site survey is represented in this release.
+
+## Debt and buyer affordability
+
+The [financing comparison](PROPOSAL.md#what-the-city-would-need-to-pay) follows these construction draws through 30 operating years. Rebuild its [annual schedules](financing-scenarios.json) with `python3 cities/Baghdad/financing.py`. The [procurement schedule](BUYER-COMPARISON.md) defines the cash, financed and local-production returns for vendor comparison.

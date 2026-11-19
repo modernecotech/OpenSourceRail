@@ -1,6 +1,6 @@
 # OpenSourceRail Baghdad metropolitan railway
 
-**Proposal to Amanat Baghdad · 18 November 2026 · planning prices in 2026 US dollars**
+**Proposal to Amanat Baghdad · 19 November 2026 · planning prices in 2026 US dollars**
 
 ## Brief
 
@@ -63,7 +63,7 @@ The 14 named service groups have passenger-path assignments on **555.553 km** of
 
 ### What the maps establish
 
-The seven-corridor lines draw 138.395 km against the investment brief's 148.2 km route-length control. The citywide linework draws 608.460 km and is normalized to a 605.652 km cost control. The [mapped station screen register](station-register.json) lists 37 first-network named access points and 220 citywide stop screens against budgets of 64 and 280 stations. These are planning points, not approved platform sites. Connected junction paths and individual stops are still needed for a dispatchable timetable and location-specific land budget. The six reserved sections have declared purposes but no passenger movement.
+The [geographic review](maps/corridor-review.geojson) locates 39 of 52 named corridor occurrences. Its Red line uses the Adhamiya quarter, 6.9 km from the district centroid used previously. The map leaves gaps at 13 unresolved occurrences. The earlier schematic connected known points across gaps and drew 138.395 km. The seven lengths in the investment brief sum to 148.2 km and supply the cost allowance. The citywide linework draws 608.460 km and is normalized to a 605.652 km cost control. The [mapped station screen register](station-register.json) lists 37 first-network named access points and 220 citywide stop screens against budgets of 64 and 280 stations. These are planning points, not approved platform sites. Connected junction paths and individual stops are still needed for a dispatchable timetable and location-specific land budget. The six reserved sections have declared purposes but no passenger movement.
 
 The junction screen finds **2.323 km and 2.710 km** between the nearest ends of the two M04 Sadr City access branches and their assigned main line. The airport branch in M05 meets the drawn end of its main line. Other access branches meet the interior of a drawn line or loop. M04 needs a revised route connection. All six access branches need an explicit track layout and train path before the service assignments can establish a timetable. See the [junction screen](system-results.json).
 
@@ -88,6 +88,8 @@ Accessible stations provide clear passenger routes, lifts or ramps where require
 Longer 20, 25 and 30 m spans could reduce foundation counts in constrained streets. Their indicative whole-system prices are shown in the [civil comparison](COST-AND-DELIVERY.md#viaduct-and-construction). They require heavier lifts and their own structural and erection design, so the 10 m family remains the costed construction reference. Road clearances, river crossings, existing utilities and actual foundation ground are site-specific work and are not invented in the map.
 
 The factory sequence for each repeatable span is mould and reinforcement preparation, cast and cure, dimensional and material inspection, yard release, protected transport, support and bearing inspection, lift and temporary restraint, permanent connection, track fixing and final inspection. The estimate includes beam, support and installation allowances. The monthly production schedule applies a one-month curing, inspection and transport release lag, 80% first-year productivity and 90% later availability. At eight placements per productive day and 250 nominal working days per year, the 2028–2030 civil window closes with **six casting yards and six erection fronts** for the 148.2 km option; 2028–2034 closes with **ten of each** citywide. Crane radius, river crossings, utilities and road-closure calendars are not modelled; the additional facility cost remains unpriced rather than zero.
+
+The [bogie, body, station and viaduct study](engineering/mechanical/README.md) gives lifting and removal interfaces, door positions, bearing reactions and a dimensioned bogie drawing. On a hypothetical 250 m inner curve the straight-platform setting would overlap the body by 6.9 mm before suspension movement. Confirm station curvature and swept clearance before fixing the platform edge.
 
 ## Power, operations and maintenance
 
@@ -115,6 +117,8 @@ The [equipment schedule](../../control-electronics/README.md) counts train prote
 Onboard protection grants traction only with a valid route, safe speed, contact and section status; loss of supply commands an independent stop. Door release depends on train identity, full stop, platform side and position. Wayside detection and interlocking protect occupied track; section isolation protects maintainers and evacuation. Control-room staff supervise service and incidents. The FUXA screen and historian can observe alarms and assets through the gateway; they do **not** issue movement authority or defeat onboard protection. Public displays receive an approved timetable, train-position and disruption feed with a safe fallback message. Software and schematic interface tests are development evidence; they do not establish a commissioned railway.
 
 The systems integrator must deliver cable and connector schedules, isolated traction and control circuits, protection settings, section diagrams, event logs, software version records, access controls, fault response, recovery instructions and a trace between hazard, protective function, test and installed device. Independent braking, safe passenger egress, accessible boarding and fire protection remain fixed requirements in any cheaper option.
+
+The [cabinet schedules and software replay](engineering/controls/README.md) connect train doors, traction permission and protection at a platform stop. In the replay the powered-wheel protection adapter requested emergency braking during normal door opening. Define the standstill hold, reset and departure sequence and verify it with the brake supplier before hardware integration.
 
 ### Operating organisation and recurring cost
 
@@ -203,6 +207,29 @@ The seven-corridor illustrative loan is **14.17% of the installed railway cost**
 The annual capital draw above is a planning cash requirement, not a debt draw. At the same 20/80 sourcing target, **one sixth of each year's installed cash** is the proposed UK export package, **two thirds is Iraqi production** and **one sixth is the unassigned project allowance**. If the full UK package qualified at the 85% Buyer Credit ceiling, a bank could hypothetically provide **14.17% of each year's installed draw**, while the buyer and other lenders still provide **85.83%**, before financing charges. On the first network's $2.360bn peak annual draw, that illustrative bank share is about **$334m** and the remaining cash about **$2.025bn**. On citywide's $5.273bn peak draw, they are about **$747m** and **$4.526bn**. Actual export-credit payments follow equipment contracts and delivery milestones, so these annual proportions are a cash-planning sensitivity only.
 
 Capital raising should proceed through a funded preparation phase; matched export, civil and rolling-stock tenders; bank and UKEF review of eligible contracts; Iraqi budget and lending approvals; and corridor-by-corridor financial close. The sponsor must also decide fare policy, public service payments, debt service, interest during construction, UKEF premium, foreign exchange and operating support. None is netted against the engineering capital estimate. Local public ownership of drawings and software lowers future dependency only when licences, tooling access and repair rights are written into the signed contracts.
+
+### What the city would need to pay
+
+The table follows each programme's annual construction draws. It compares the budget paying for construction directly with three hypothetical borrowing cases. All figures are **US$ million in constant 2026 prices**, rounded. Interest is paid from the budget on the opening balance and half of each year's new borrowing. Equal annual repayments start in the first full service year. The 4% and 7% real rates and repayment periods are assumptions for comparing offers. They carry no lender commitment.
+
+| Programme and debt case | Construction interest | Peak annual buyer cash during construction | Annual debt service | First full year including operations |
+|---|---:|---:|---:|---:|
+| Seven corridors, public budget | 0 | 2,360 | 0 | 197 |
+| Seven corridors, illustrative export slice at 4%, 15 years | 91 | 2,054 | 100 | 297 |
+| Seven corridors, 50% debt at 4%, 20 years | 322 | 1,282 | 289 | 486 |
+| Seven corridors, 50% debt at 7%, 12 years | 564 | 1,359 | 495 | 692 |
+| Citywide, public budget | 0 | 5,273 | 0 | 780 |
+| Citywide, illustrative export slice at 4%, 15 years | 705 | 4,625 | 395 | 1,176 |
+| Citywide, 50% debt at 4%, 20 years | 2,488 | 2,987 | 1,141 | 1,922 |
+| Citywide, 50% debt at 7%, 12 years | 4,353 | 3,250 | 1,953 | 2,733 |
+
+The 50% cases assume combined debt from all lenders. Any export tranche sits **inside** the 50%. The buyer must fund the balance of construction, service the debt, pay operators and replace assets. In operating year 25, fleet and conductor renewals bring that year's gross requirement to **$1.814bn** or **$7.039bn** respectively, after these example loans mature. Establish a reserve contribution schedule or secure a renewal appropriation. The [annual financing schedules](financing-scenarios.json) carry the actual renewal-year cash calls.
+
+Before financial close, pair each draw with a named payer and appropriation or executed facility. For each operating year deduct evidenced net fare receipts (paid trips times collected net yield) and other contracted income from gross cash needs, then compare the remainder with committed public service payments. Offered seats do not establish revenue. Ask lenders for an IQD and foreign-currency term sheet with the fee, hedge, tax and premium schedules. For unhedged dollar obligations, a 20% rise in IQD per dollar raises their IQD cash requirement by 20% at the same dollar draw. Test delays and cost escalation against a dated nominal budget before selecting a financing mix. Iraq's existing World Bank railway loan covers the Umm Qasr–Mosul railway and provides no allocation for this metro. [World Bank project announcement](https://www.worldbank.org/en/news/press-release/2025/06/25/iraq-new-us-930-million-project-to-extend-and-modernize-railways-promote-regional-connectivity-and-boost-growth)
+
+## Using the open design in a vendor negotiation
+
+The city can choose another supplier and still use OpenSourceRail to improve the purchase. Issue the same service specification and quantities for turnkey, vendor-led local production and Iraqi-led integration bids. Request both cash and financed prices, 30-year spares and renewal prices, and the incremental cost of transferring fabrication, software maintenance and repair into Iraq. Evaluate guaranteed performance and accessibility first. Compare the remaining offers on whole-life cost and verified Iraqi value added. Require origin records, editable interfaces, diagnostic access, tooling rights and a witnessed local repair before crediting the promised transfer. The [buyer comparison schedule](BUYER-COMPARISON.md) defines the bid returns, negotiation rounds and acceptance milestones.
 
 ## Delivery, governance and procurement sequence
 

@@ -1,0 +1,332 @@
+{
+  "study": "baghdad-first-mechanical-quotation-01",
+  "purpose": "prototype quotation and interface screening",
+  "parent_project_id": "osr-baghdad-zero-tunnel-offwire-20261117",
+  "network": "first",
+  "parent_selected_candidate_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
+  "parent_evaluation_id": "12d4630a9c69a023b7c538c6b9a7413b38622697b7c127db6839d89d93170054",
+  "study_physical_id": "0779b66f095ded313b6595da349ae040760d536d45d41575f1a530f0989969c3",
+  "study_evaluation_id": "9a13a5576d21baa315cdc697b3f35aee3853e632cc9e3202622f4b5f86c9b1b9",
+  "sources_sha256": {
+    "system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
+    "quotation.toml": "d71bcc8acd3c3ea2033f77ce6a16b8a7e211bc45ea1ed331f98a490e4b1c118f",
+    "drawing.py": "39219b578be1f2add62d68fa65271f60b132ca0fbb0087485850c671954c48b4",
+    "develop.py": "8b01fa819e68919543788dcf3cc7ab66c1f72d294e75566e9ba4436f7a6a4c04"
+  },
+  "schemes": {
+    "system_selected": false,
+    "fabrication_released": false,
+    "physically_accepted": false
+  },
+  "train": {
+    "uniform_intercar_gap_m_assumption": 0.5,
+    "car_centres_m": [
+      -43.75,
+      -26.25,
+      -8.75,
+      8.75,
+      26.25,
+      43.75
+    ],
+    "body_bogie_x_m": [
+      -6.4,
+      6.4
+    ],
+    "body_axle_x_m": [
+      -7.45,
+      -5.35,
+      5.35,
+      7.45
+    ],
+    "crowd_mean_static_axle_kn": 82.168,
+    "crowd_mean_static_secondary_seat_kn": 82.168,
+    "crowd_mean_static_primary_seat_kn": 41.084,
+    "reaction_scope": "Equal lumped gravity split, ignores sprung/unsprung split and unequal loading",
+    "curve_screen": [
+      {
+        "radius_m": 150.0,
+        "inward_midbody_throw_mm": 136.6,
+        "outward_corner_throw_mm": 102.1,
+        "bogie_yaw_deg": 2.45
+      },
+      {
+        "radius_m": 250.0,
+        "inward_midbody_throw_mm": 81.9,
+        "outward_corner_throw_mm": 61.8,
+        "bogie_yaw_deg": 1.47
+      },
+      {
+        "radius_m": 500.0,
+        "inward_midbody_throw_mm": 41.0,
+        "outward_corner_throw_mm": 31.1,
+        "bogie_yaw_deg": 0.73
+      }
+    ]
+  },
+  "bogie_exchange": {
+    "minimum_plan_lane_width_m": 3.1,
+    "outward_translation_m_to_clear_body_end": 3.82,
+    "scope": "Separated straight car, frame and pallet widths only; wheels, fittings, lines, shop and overhead obstructions unresolved"
+  },
+  "station": {
+    "platform_edge_schedule_per_boarding_side": [
+      {
+        "car": 1,
+        "platform_x_m": -50.05,
+        "edge_keep_clear_x_m": [
+          -51.2,
+          -48.9
+        ]
+      },
+      {
+        "car": 1,
+        "platform_x_m": -45.85,
+        "edge_keep_clear_x_m": [
+          -47.0,
+          -44.7
+        ]
+      },
+      {
+        "car": 1,
+        "platform_x_m": -41.65,
+        "edge_keep_clear_x_m": [
+          -42.8,
+          -40.5
+        ]
+      },
+      {
+        "car": 1,
+        "platform_x_m": -37.45,
+        "edge_keep_clear_x_m": [
+          -38.6,
+          -36.3
+        ]
+      },
+      {
+        "car": 2,
+        "platform_x_m": -32.55,
+        "edge_keep_clear_x_m": [
+          -33.7,
+          -31.4
+        ]
+      },
+      {
+        "car": 2,
+        "platform_x_m": -28.35,
+        "edge_keep_clear_x_m": [
+          -29.5,
+          -27.2
+        ]
+      },
+      {
+        "car": 2,
+        "platform_x_m": -24.15,
+        "edge_keep_clear_x_m": [
+          -25.3,
+          -23.0
+        ]
+      },
+      {
+        "car": 2,
+        "platform_x_m": -19.95,
+        "edge_keep_clear_x_m": [
+          -21.1,
+          -18.8
+        ]
+      },
+      {
+        "car": 3,
+        "platform_x_m": -15.05,
+        "edge_keep_clear_x_m": [
+          -16.2,
+          -13.9
+        ]
+      },
+      {
+        "car": 3,
+        "platform_x_m": -10.85,
+        "edge_keep_clear_x_m": [
+          -12.0,
+          -9.7
+        ]
+      },
+      {
+        "car": 3,
+        "platform_x_m": -6.65,
+        "edge_keep_clear_x_m": [
+          -7.8,
+          -5.5
+        ]
+      },
+      {
+        "car": 3,
+        "platform_x_m": -2.45,
+        "edge_keep_clear_x_m": [
+          -3.6,
+          -1.3
+        ]
+      },
+      {
+        "car": 4,
+        "platform_x_m": 2.45,
+        "edge_keep_clear_x_m": [
+          1.3,
+          3.6
+        ]
+      },
+      {
+        "car": 4,
+        "platform_x_m": 6.65,
+        "edge_keep_clear_x_m": [
+          5.5,
+          7.8
+        ]
+      },
+      {
+        "car": 4,
+        "platform_x_m": 10.85,
+        "edge_keep_clear_x_m": [
+          9.7,
+          12.0
+        ]
+      },
+      {
+        "car": 4,
+        "platform_x_m": 15.05,
+        "edge_keep_clear_x_m": [
+          13.9,
+          16.2
+        ]
+      },
+      {
+        "car": 5,
+        "platform_x_m": 19.95,
+        "edge_keep_clear_x_m": [
+          18.8,
+          21.1
+        ]
+      },
+      {
+        "car": 5,
+        "platform_x_m": 24.15,
+        "edge_keep_clear_x_m": [
+          23.0,
+          25.3
+        ]
+      },
+      {
+        "car": 5,
+        "platform_x_m": 28.35,
+        "edge_keep_clear_x_m": [
+          27.2,
+          29.5
+        ]
+      },
+      {
+        "car": 5,
+        "platform_x_m": 32.55,
+        "edge_keep_clear_x_m": [
+          31.4,
+          33.7
+        ]
+      },
+      {
+        "car": 6,
+        "platform_x_m": 37.45,
+        "edge_keep_clear_x_m": [
+          36.3,
+          38.6
+        ]
+      },
+      {
+        "car": 6,
+        "platform_x_m": 41.65,
+        "edge_keep_clear_x_m": [
+          40.5,
+          42.8
+        ]
+      },
+      {
+        "car": 6,
+        "platform_x_m": 45.85,
+        "edge_keep_clear_x_m": [
+          44.7,
+          47.0
+        ]
+      },
+      {
+        "car": 6,
+        "platform_x_m": 50.05,
+        "edge_keep_clear_x_m": [
+          48.9,
+          51.2
+        ]
+      }
+    ],
+    "bent_x_m_from_platform_midpoint": [
+      -62.5,
+      -57.5,
+      -52.5,
+      -47.5,
+      -42.5,
+      -37.5,
+      -32.5,
+      -27.5,
+      -22.5,
+      -17.5,
+      -12.5,
+      -7.5,
+      -2.5,
+      2.5,
+      7.5,
+      12.5,
+      17.5,
+      22.5,
+      27.5,
+      32.5,
+      37.5,
+      42.5,
+      47.5,
+      52.5,
+      57.5,
+      62.5
+    ],
+    "paired_column_y_m": [
+      -3.0,
+      3.0
+    ]
+  },
+  "viaduct": {
+    "beam_stock_length_m": 10,
+    "effective_span_m_hypothesis": 9.5,
+    "bearing_seat_xy_m_from_stock_end": [
+      [
+        0.25,
+        -0.65
+      ],
+      [
+        0.25,
+        0.65
+      ],
+      [
+        9.75,
+        -0.65
+      ],
+      [
+        9.75,
+        0.65
+      ]
+    ],
+    "bearing_units_provisional": 118560,
+    "track_beam_count": 29640,
+    "separate_support_positions": 29654,
+    "moving_gravity_only": {
+      "max_end_reaction_kn_sampled": 211.043,
+      "reaction_pose_train_centre_m_from_left_support": -31.6,
+      "max_live_moment_knm_sampled": 409.025,
+      "moment_pose_train_centre_m_from_left_support": 39.1,
+      "moment_location_m_from_left_support": 5.4
+    }
+  }
+}

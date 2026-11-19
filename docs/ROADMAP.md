@@ -35,3 +35,11 @@ Reviewed 18 November 2026 against the repository and the published v0.7.1 releas
 | 5. Publish validated digital changes | Update the estimate, public maps and proposal, Workbench, published records and release notes from the maintained sources. Measure changed-input rebuilds and retain the 20 GiB disk reserve. | Generated results reconcile, affected checks pass and the release states the maturity of each deliverable. |
 
 GIS, CAD, FEM and simulation support the digital work above. Supplier quotes, site investigations, authenticated physical measurements and independent approval remain project inputs for procurement, fabrication and operation. The [release record](RELEASE-v0.7.md) describes the published digital scope.
+
+## Baghdad work following the corridor review
+
+| Decision | Evidence in hand | Work needed for the decision |
+|---|---|---|
+| Where to protect land | The revised [corridor map](../cities/Baghdad/maps/README.md) records 39 located occurrences and 13 gaps. | Prioritise shared unresolved names, verify the Adhamiya and airport access points with local owners, obtain referenced alignments and walk the proposed interchanges. Reconcile revised chainage to each line allowance before repricing. |
+| How to buy and fund a line | The [proposal](../cities/Baghdad/PROPOSAL.md) compares annual buyer cash for four capital structures. The [bid return schedule](../cities/Baghdad/BUYER-COMPARISON.md) records item prices, rights and Iraqi value added. | Cost one surveyed opening including interim depot, power and terminal facilities. Seek matched quotes and term sheets, test paid trips, affordability and renewal funding, then compare price and localisation commitments. |
+| Which interfaces to prototype first | The [mechanical study](../cities/Baghdad/engineering/mechanical/README.md) screens body, bogie, straight platform and typical span together. The [controls replay](../cities/Baghdad/engineering/controls/README.md) exercises platform-side doors, traction inhibition and section loss. | Obtain wheelset and frame dimensions, check curved-platform sweeps, trial a bogie removal and check bearing seats against ground and erection loads. Resolve boarding brake hold and reset, then instrument the stopped-train sequence. Record mass, load, clearance and test results against the same revision. |

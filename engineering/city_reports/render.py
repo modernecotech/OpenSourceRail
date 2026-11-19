@@ -172,7 +172,7 @@ def city(model,packet,detail,row,root):
     directory=Path(row['path']);city=packet['city'];name=city['name'];slug=city['slug']
     if slug == 'baghdad':
         proposal=link(directory,'cities/Baghdad/PROPOSAL.md')
-        map_a=link(directory,'cities/Baghdad/maps/network-148km.geojson')
+        map_a=link(directory,'cities/Baghdad/maps/corridor-review.geojson')
         map_b=link(directory,'cities/Baghdad/maps/network-606km.geojson')
         planning=link(directory,'docs/workbench/planning/index.html?city=baghdad')
         return '\n'.join([

@@ -15,11 +15,11 @@ These are single planning estimates for each programme. The routes, station allo
 
 ## City maps and routes
 
-The background shows Baghdad streets, water, land use and place names from the retained OpenStreetMap, Natural Earth and Protomaps city context. Coloured lines show the proposed railway. The gold circles highlight 1 km straight-line access areas around the airport terminal, three Sadr City locations and two Jadriya locations. They do not represent walking time or property access.
+The seven-corridor map locates 39 of 52 named corridor occurrences and breaks the lines at unresolved names. The Red line now uses the Adhamiya quarter. The 148.2 km is the sum of the investment brief’s line allowances. The background shows Baghdad streets, water, land use and place names from the retained OpenStreetMap, Natural Earth and Protomaps city context. Coloured lines show the proposed railway. The gold circles highlight 1 km straight-line access areas around the airport terminal, three Sadr City locations and two Jadriya locations. They do not represent walking time or property access.
 
 ![First seven-line Baghdad railway programme over city streets, water and land use](maps/Baghdad-148km.png)
 
-[Open the first map](maps/Baghdad-148km.png) · [Download its GIS layers](maps/network-148km.geojson)
+[Open the first map](maps/Baghdad-148km.png) · [Download the reviewed places and corridor gaps](maps/corridor-review.geojson)
 
 | First-programme line | Route length | Principal areas |
 |---|---:|---|
@@ -123,3 +123,5 @@ The 30-year present cost of the selected railway is **$12.021bn** for the first 
 
 The [proposal](PROPOSAL.md) gives the requested city decision and delivery sequence. The [cost schedule](COST-AND-DELIVERY.md) gives rates, matched power alternatives, 30-year operation and renewal costs, civil-span comparisons and annual capital draws. The [map guide](maps/README.md) identifies the GIS sources and how to use the layers.
 The [control electronics schedule](../../control-electronics/README.md) gives train, station, power-section, grid and control-room quantities and the allocations already included in the capital estimate.
+
+The [buyer comparison schedule](BUYER-COMPARISON.md) and [financing cases](PROPOSAL.md#what-the-city-would-need-to-pay) let the city compare turnkey bids, local manufacture and buyer cash year by year. The [mechanical package](engineering/mechanical/README.md) and [controls replay](engineering/controls/README.md) develop the interfaces that suppliers would quote.
