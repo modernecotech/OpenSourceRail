@@ -37,7 +37,7 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ## The city and the routes
 
-The [seven-line first-programme map](maps/Baghdad-148km.png) uses the [Iraqi National Investment Commission's 2024 Baghdad Metro route brief](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf) for line names, lengths and the 64-station programme. Both maps show streets, the Tigris, land use and place names from the existing Baghdad city background beneath the railway. Its named squares and districts are placed using OpenStreetMap where a usable public feature exists. The lines show corridor intent. A district centroid is a place marker, not an approved station entrance.
+The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Investment Commission’s February 2024 proposal. Its original satellite background shows the airport approach, route bends and crossings of the Tigris. The route table prints 148 km overall and the seven line items sum to 148.2 km. The independent OpenSourceRail citywide map uses a wider geographic extent and its own GIS linework. [NIC map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
 
 | Line | Length | Principal places served |
 |---|---:|---|
@@ -49,7 +49,7 @@ The [seven-line first-programme map](maps/Baghdad-148km.png) uses the [Iraqi Nat
 | White | 23 km | Kadhimiya, Shulah, Gazaliya, Khadhraa, Amiriya, Bayaa |
 | Airport | 12 km | Airport passenger-terminal area, Amiriya, Aamil, Bayaa, Qadisiya |
 
-**Airport service** is part of the railway, not a feeder bus assumption. The Airport line's western end is mapped to the passenger-terminal building area. The station must connect to the landside entrance by a step-free, protected walking route, with the operating and security boundary agreed with the airport. The public map locates the terminal building, not its final station platform.
+**Airport service** is part of the railway, not a feeder bus assumption. The NIC plate marks the western end at Baghdad Airport. The station must connect to the landside entrance by a step-free, protected walking route, with the operating and security boundary agreed with the airport. The separate GIS access study uses a terminal-building point.
 
 The independent citywide network gives the **airport terminal** an access section on service M05; it assigns the three **Sadr City** anchors to M04 and M09 through branches and the two **Jadriya** anchors to M01 and M02. The Sadr cross-city services M10 and M11 and the southwest service M13 add direct capacity through those catchments. These are schematic railway corridors to the named access areas, not approved platform sites or walking routes.
 
@@ -67,7 +67,7 @@ The 14 named service groups have passenger-path assignments on **555.553 km** of
 
 ### What the maps establish
 
-The [geographic review](maps/corridor-review.geojson) locates 39 of 52 named corridor occurrences. Its Red line uses the Adhamiya quarter, 6.9 km from the district centroid used previously. The map leaves gaps at 13 unresolved occurrences. The earlier schematic connected known points across gaps and drew 138.395 km. The seven lengths in the investment brief sum to 148.2 km and supply the cost allowance. The citywide linework draws 608.460 km and is normalized to a 605.652 km cost control. The [mapped station screen register](station-register.json) lists 37 first-network named access points and 220 citywide stop screens against budgets of 64 and 280 stations. These are planning points, not approved platform sites. Connected junction paths and individual stops are still needed for a dispatchable timetable and location-specific land budget. The six reserved sections have declared purposes but no passenger movement.
+The [geographic review](maps/corridor-review.geojson) locates 39 of 52 named corridor occurrences. Its Red line uses the Adhamiya quarter, 6.9 km from the district centroid used previously. The named-place GIS layer leaves gaps at 13 unresolved occurrences. The earlier schematic connected known points across gaps and drew 138.395 km. The seven lengths in the investment brief sum to 148.2 km and supply the cost allowance. The citywide linework draws 608.460 km and is normalized to a 605.652 km cost control. The [mapped station screen register](station-register.json) lists 37 first-network named access points and 220 citywide stop screens against budgets of 64 and 280 stations. These are planning points, not approved platform sites. Connected junction paths and individual stops are still needed for a dispatchable timetable and location-specific land budget. The six reserved sections have declared purposes but no passenger movement.
 
 The junction screen finds **2.323 km and 2.710 km** between the nearest ends of the two M04 Sadr City access branches and their assigned main line. The airport branch in M05 meets the drawn end of its main line. Other access branches meet the interior of a drawn line or loop. M04 needs a revised route connection. All six access branches need an explicit track layout and train path before the service assignments can establish a timetable. See the [junction screen](system-results.json).
 

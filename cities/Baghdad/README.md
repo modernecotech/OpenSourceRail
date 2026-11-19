@@ -13,17 +13,20 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
 | Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
+
 These are single planning estimates for each programme. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
 
 [Operator briefing and design twins](../../docs/operator-review/README.md) · [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad) · [Compare annual funding and fares](../../docs/operator-review/finance/index.html)
 
 ## City maps and routes
 
-The seven-corridor map locates 39 of 52 named corridor occurrences and breaks the lines at unresolved names. The Red line now uses the Adhamiya quarter. The 148.2 km is the sum of the investment brief’s line allowances. The background shows Baghdad streets, water, land use and place names from the retained OpenStreetMap, Natural Earth and Protomaps city context. Coloured lines show the proposed railway. The gold circles highlight 1 km straight-line access areas around the airport terminal, three Sadr City locations and two Jadriya locations. They do not represent walking time or property access.
+### 148.2 km · Iraqi investment proposal, February 2024
 
-![First seven-line Baghdad railway programme over city streets, water and land use](maps/Baghdad-148km.png)
+The map below is the National Investment Commission’s original seven-corridor overview. Follow the pale pink line from **B Airport** into western Baghdad, the blue line towards **Al Zafraniya** in the southeast, and the white line around the western districts. The accompanying route table prints **148 km** in total. Its seven line items add to **148.2 km**, the distance used in the OpenSourceRail cost comparison. [Original map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
 
-[Open the first map](maps/Baghdad-148km.png) · [Download the reviewed places and corridor gaps](maps/corridor-review.geojson)
+![Iraq’s February 2024 Baghdad Metro satellite map showing seven proposed corridors and the airport approach](maps/Baghdad-148km.png)
+
+[Open the full-size route map](maps/Baghdad-148km.png) · [Separate GIS review of named places and unresolved locations](maps/corridor-review.geojson)
 
 | First-programme line | Route length | Principal areas |
 |---|---:|---|
@@ -36,7 +39,11 @@ The seven-corridor map locates 39 of 52 named corridor occurrences and breaks th
 | Airport | 12 km | Passenger-terminal area, Amiriya, Aamil, Bayaa, Qadisiya |
 | **Total** | **148.2 km** | **64 stations budgeted across the programme** |
 
-The airport line is planned to reach the passenger-terminal building area. Its mapped point is a building centroid; the final platform, step-free landside route and operating/security boundary require design with the airport. The Sadr City and Jadriya access markers guide the next station-location exercise.
+The airport line is planned to reach the passenger-terminal building area. The independent station-location study uses a building centroid; the final platform, step-free landside route and operating/security boundary require design with the airport. The separate access study identifies locations to inspect in Sadr City and Jadriya.
+
+### 605.652 km · OpenSourceRail citywide alternative
+
+This independent concept uses a wider map extent. The two images have different scales.
 
 ![Baghdad metropolitan railway concept over city streets, water and land use](maps/Baghdad-606km.png)
 

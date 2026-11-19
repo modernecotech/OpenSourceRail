@@ -129,13 +129,13 @@ para(37,457,862,'¹ Per modelled service. Baghdad’s citywide plan assigns pass
 para(37,503,862,'The earlier v0.6 station-powered, passive-wheel train remains a separate development reference with its own tests.',11.5)
 link('Core service and cost','../reference-v07/cost/README.md')
 link('Baghdad service and cost','../../cities/Baghdad/COST-AND-DELIVERY.md',298)
-start('Baghdad / location', 'What the 148.2 km map measures',
-      'The investment brief supplies line lengths. The map locates named neighbourhoods and squares and breaks the line at unresolved names.')
+start('Baghdad / location', 'Baghdad’s original seven corridors',
+      'The Iraqi National Investment Commission published this map in February 2024. Its seven route lengths total 148.2 km.')
 picture('../../cities/Baghdad/maps/Baghdad-148km.png',35,141,477,390)
-point(535,152,375,'39 of 52 named occurrences located','The 64-station allowance is a separate budget quantity. A mapped place can occur on several corridors. Adhamiya now uses the quarter label, about 6.9 km from the earlier district point.')
+point(535,152,375,'Read the original routes','Trace the pale pink airport approach from the west and the blue corridor towards Al Zafraniya in the southeast. The investment brief allows 64 stations. Entrances and platform sites require surveys.')
 point(535,279,375,'What to survey first','Confirm the airport terminal entrance, accessible walks to Sadr City and Jadriya, disputed place names and river crossings. Agree a survey datum and chainage with the authority.')
 point(535,397,375,'Procurement context','October Arabic interviews describe unsuccessful earlier offers and a new study. Late 2026 to early 2027 is a preparation window. The invitation date awaits an official notice.')
-link('Full-resolution map and geographic sources','../../cities/Baghdad/maps/README.md')
+link('Original NIC map and table, page 4','https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4')
 link('Arabic ministry workshop record','https://mop.gov.iq/archives/40342',541)
 start('Design / rolling stock','Inspect the bogie and carbody',
       'The design viewer links each selected component to the drawing or schedule behind it. Inspect a train at the station, then switch to a single assembly.')
