@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protection and telemetry · OpenSourceRail</title>
+<link rel="stylesheet" href="supervision.css"></head><body>
+<header><div><span class="brand">OpenSourceRail</span><span class="sub">Equipment supervision &nbsp; / &nbsp; Simulation replay</span></div></header>
+<main><p class="kicker">30 km reference railway</p><h1>Protection and telemetry</h1>
+<p>Follow a protection trip, the loss of a fresh reading and its subsequent clearance at three sample sites.</p>
+<section class="summary" aria-label="Replay measures">
+<div class="metric"><small>Replay time · UTC</small><strong id="clock"></strong></div>
+<div class="metric"><small>Sites shown</small><strong id="count"></strong></div>
+<div class="metric"><small>Active alarms</small><strong id="alarms"></strong></div>
+<div class="metric"><small>Stale readings</small><strong id="stale"></strong></div></section>
+<div class="controls"><h2>Equipment observations</h2><label>Replay event &nbsp;<select id="event"></select></label></div>
+<div class="table"><table><thead><tr><th>Site / equipment</th><th>Protection trip</th><th>Signal quality</th><th>Source time · UTC</th><th>Alarm state</th></tr></thead><tbody id="sites"></tbody></table></div>
+<p class="response" id="response" aria-live="polite"></p>
+<footer>Read-only replay of simulated gateway readings on 19 November 2026. An active alarm stays visible when its source goes stale.<br>Digital reference <code id="candidate"></code></footer>
+</main><script src="replay-data.js"></script><script src="supervision.js"></script></body></html>

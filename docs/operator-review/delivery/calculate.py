@@ -1,0 +1,135 @@
+"""Rebuild the factory load and staffing study from the published railway quantities."""
+import argparse
+import hashlib
+import json
+from math import ceil, floor
+from pathlib import Path
+import tomllib
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+INPUTS = [
+    "docs/reference-v07/digital/production/handoff.json",
+    "docs/reference-v07/concept.toml",
+    "cities/Baghdad/system.toml",
+    "cities/Baghdad/system-results.json",
+]
+
+# Direct labour hours per car in production sequence. Baghdad values are a
+# time-study request for that car, particularly its eight openings per car.
+ROUTE = {
+    "core": [260, 120, 80, 80, 100, 80],
+    "baghdad": [260, 120, 260, 80, 200, 80],
+}
+STAGES = ["body", "bogies and drive", "doors and interior", "HVAC and auxiliaries",
+          "wiring, collection and cooling", "marriage and test"]
+
+
+def read(path):
+    data = (ROOT / path).read_text()
+    return tomllib.loads(data) if path.endswith(".toml") else json.loads(data)
+
+
+def vehicle_load(cars, days, route):
+    interval = 5
+    first_completion = len(route) * interval
+    effective_days = floor(days * 85 / 100)
+    cars_per_line = 1 + (effective_days - first_completion) // interval
+    lines = ceil(cars / cars_per_line)
+    crew = [ceil(hours / (interval * 8 * 0.80)) for hours in route]
+    return {
+        "cars": cars, "scheduled_workdays": days, "effective_line_days": effective_days,
+        "first_car_effective_day": first_completion, "takt_effective_days": interval,
+        "cars_per_line_in_window": cars_per_line, "lines": lines,
+        "cars_capacity": lines * cars_per_line, "hours_per_car_by_stage": dict(zip(STAGES, route)),
+        "direct_posts_by_stage": dict(zip(STAGES, crew)), "direct_posts_per_line": sum(crew),
+        "direct_posts_all_lines": lines * sum(crew), "support_posts_all_lines": lines * 4,
+        "direct_content_hours": cars * sum(route),
+        "direct_content_job_years_at_1720_hours": round(cars * sum(route) / 1720, 1),
+    }
+
+
+def roster(stations, controls, depots, km, active, departures):
+    # Average simultaneous train duties scale with the offered peak fleet.
+    # Retain integer duties each hour. Inspect the future diagrams for actual turns.
+    train_hours_day = sum(ceil(active * f / max(departures)) for f in departures)
+    line_teams = ceil(km / 30)
+    per_day = {
+        "train operators": train_hours_day,
+        "station duty and passenger assistance": stations * 3 * 18,
+        "station security and cleaning": stations * 2 * 18,
+        "OCC control, traction, incidents and information": controls * 4 * 24,
+        "depot rolling-stock technicians": depots * (8 * 16 + 4 * 8),
+        "civil, track and power response": line_teams * 4 * 24,
+    }
+    hours = {k: h * 365 for k, h in per_day.items()}
+    hours["planning, payroll, stores and trainers"] = depots * 6 * 1720
+    fte = {k: ceil(h / 1720) for k, h in hours.items()}
+    return {"duty_hours_per_year": hours, "posts_fte": fte, "total_fte": sum(fte.values()),
+            "train_operator_hours_per_day": train_hours_day, "field_groups": line_teams}
+
+
+def build():
+    handoff, core, baghdad, results = [read(path) for path in INPUTS]
+    production = handoff["production"]
+    assert sum(ROUTE["core"]) == production["full_car_direct_assembly_hours_allowance"]
+    stages = {s["stage"]: s for s in handoff["schedule"]["stages"]}
+    yards = 2
+    core_end = stages["beam-factory"]["end_month"]
+    erection_start = stages["beam-erection"]["start_month"]
+    minimum_buffer = max(0, ceil(production["beam_count"] / yards) - (core_end - erection_start) * 20 * 8)
+    studies = {"core": {
+        "source_physical_id": handoff["physical_candidate_id"],
+        "source_evaluation_id": handoff["evaluation_id"], "source_selection_id": handoff["selection_id"],
+        "vehicle": vehicle_load(production["fleet_cars"], 24 * 20, ROUTE["core"]),
+        "civil": {"beams": production["beam_count"], "yards": yards, "erection_fronts": 2,
+                  "minimum_pre_erection_stock_per_yard": minimum_buffer,
+                  "off_yard_slots_needed_per_yard": max(0, minimum_buffer - 180)},
+        "roster": roster(core["corridor"]["stations"], 1, 1, core["corridor"]["route_km"],
+                         core["service"]["fleet_active"], [30] * 4 + [12] * 14),
+    }}
+    for key, city in results["networks"].items():
+        network = baghdad["networks"][key]
+        civil = city["selected_civil_delivery"]
+        monthly = civil["monthly_delivery"]
+        yards = civil["factory_yards_needed_at_declared_rate"]
+        peak_inventory = max(m["cast_beams_awaiting_release"] + m["released_beams_awaiting_erection"]
+                             for m in monthly["months"])
+        cars = city["selected_service_allowance"]["fleet_trainsets"] * baghdad["vehicle"]["cars_per_train"]
+        years = civil["civil_finish_year"] - civil["civil_start_year"] + 1
+        studies[key] = {
+            "source_physical_id": city["selected_candidate_id"], "source_evaluation_id": city["selected_evaluation_id"],
+            "vehicle": vehicle_load(cars, years * baghdad["civil_rates"]["workdays_per_year"], ROUTE["baghdad"]),
+            "civil": {"beams": monthly["beams_cast"], "yards": yards,
+                      "erection_fronts": civil["erection_fronts_needed_at_declared_rate"],
+                      "peak_month_end_total_inventory": peak_inventory,
+                      "slots_per_yard_if_balanced": ceil(peak_inventory / yards),
+                      "slots_per_yard_offered": 180},
+            "roster": roster(network["stations"], network["control_centres"], network["depots"], network["route_km"],
+                             network["active_trainsets"], baghdad["service_plan"]["departures_per_hour_direction"]),
+        }
+    for study in studies.values():
+        v, c = study["vehicle"], study["civil"]
+        c["civil_yard_day_posts"] = c["yards"] * 18
+        c["erection_day_posts"] = 8 * c["erection_fronts"]
+        study["production_day_posts"] = v["direct_posts_all_lines"] + v["support_posts_all_lines"] + c["civil_yard_day_posts"] + c["erection_day_posts"]
+    return {"schema": "osr.factory-workforce.study.1", "status": "capacity and quotation study",
+            "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
+                              for p in [*INPUTS, str(Path(__file__).resolve().relative_to(ROOT))]},
+            "studies": studies}
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="compare with the published quantities")
+    args = parser.parse_args()
+    payload = build()
+    payload["study_evaluation_sha256"] = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+    content = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    target = HERE / "quantities.json"
+    if args.check:
+        if target.read_text() != content:
+            raise SystemExit("Factory/workforce quantities differ from the published study.")
+    else:
+        target.write_text(content)
+    print(payload["study_evaluation_sha256"])

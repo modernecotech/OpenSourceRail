@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Railway funding and fares | OpenSourceRail</title>
+<link rel="stylesheet" href="finance.css">
+<header>OpenSourceRail &nbsp; / &nbsp; Operator review</header>
+<main><h1>Railway funding and fares</h1><p class="desc">Compare construction funding, annual debt payments and the cash needed to run each railway. Amounts are millions of constant 2026 US dollars. Each route is a separate investment.</p>
+<section class="inputs" aria-label="Funding assumptions">
+<label>Railway<select id="network"></select></label><label>Funding terms<select id="terms"></select></label>
+<label>Annual paid journeys, millions<input id="journeys" type="number" min="0" step="any" placeholder="Enter a scenario"></label>
+<label>Net receipt per paid journey, US$<input id="fare" type="number" min="0" step="any" placeholder="Enter a scenario"></label>
+</section><div class="metrics" aria-live="polite">
+<div><small>Installed capital</small><strong id="capital"></strong></div>
+<div><small>Borrowed for construction</small><strong id="borrow"></strong></div>
+<div><small>Annual debt service</small><strong id="service"></strong></div>
+<div><small>Annual operations</small><strong id="opex"></strong></div></div>
+<section class="panel"><h2>Annual buyer cash before receipts</h2><p class="key"><b>Construction</b> includes the budget share and construction interest. <em>Service years</em> include operations, scheduled debt payments and renewals.</p><div id="bars" class="cash" aria-hidden="true"></div><div class="axis"><span id="start"></span><span id="end"></span></div></section>
+<section class="panel" aria-live="polite"><h2>Opening-year funding</h2><p id="opening"></p><p id="support"></p></section>
+<details class="panel"><summary>Annual sources and uses in US$ millions</summary><div class="scroll"><table><thead><tr><th>Year</th><th>Capital</th><th>Borrowed</th><th>Interest</th><th>Principal</th><th>Operations</th><th>Renewals</th><th>Buyer cash</th><th>Debt left</th></tr></thead><tbody id="rows"></tbody></table></div></details>
+<p class="note" id="basis"></p><p class="note">Fares, ridership, grants, lender fees and foreign-exchange movements require local evidence. The fare scenario uses collected net receipts per paying journey. Concessions and transfers affect that value. Capacity measures places offered. The opening-year difference is before other income and subsidies.</p>
+<p class="note"><a href="../../reference-v07/cost/README.md">Core construction and operating basis</a> · <a href="../../../cities/Baghdad/COST-AND-DELIVERY.md">Baghdad construction and renewal schedules</a> · <a href="../../../cities/Baghdad/BUYER-COMPARISON.md">Bid comparisons and local content</a></p>
+</main><script src="schedules.js"></script><script src="finance.js"></script></html>

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **165**.
+Indexed Markdown files: **170**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **165**.
 | [cities](#cities) | 11 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 122 |
+| [docs](#docs) | 127 |
 | [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
@@ -186,6 +186,11 @@ Indexed Markdown files: **165**.
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
+| [`docs/operator-review/README.md`](../docs/operator-review/README.md) | OpenSourceRail for railway operators |
+| [`docs/operator-review/WORKPLAN.md`](../docs/operator-review/WORKPLAN.md) | From design review to railway opening |
+| [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building the fleet and staffing the railway |
+| [`docs/operator-review/screens/README.md`](../docs/operator-review/screens/README.md) | Railway operations and planning screens |
+| [`docs/operator-review/twins/README.md`](../docs/operator-review/twins/README.md) | Train, platform and viaduct inspection |
 | [`docs/platform-guide.md`](../docs/platform-guide.md) | OpenSourceRail platform guide |
 | [`docs/reference-v07/README.md`](../docs/reference-v07/README.md) | v0.7 digital railway reference |
 | [`docs/reference-v07/civil/README.md`](../docs/reference-v07/civil/README.md) | Civil and station concept: 10 m joint-free beam |

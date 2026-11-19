@@ -1,0 +1,12 @@
+:root { color-scheme:light; font:16px/1.5 "Source Sans 3", system-ui, sans-serif; color:#183331; background:#f4f6f3; }
+* { box-sizing:border-box } body { margin:0 } main,header>div { max-width:1200px; padding:0 36px; margin:auto }
+header { background:#143733; color:white; padding:22px 0 } header>div,.summary,.controls { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap }
+.brand { font-size:20px; font-weight:700; letter-spacing:-.4px } .sub { color:#e0ebe3 }
+main { padding-top:40px; padding-bottom:40px } h1,h2,p { margin:0 } h1 { font-size:clamp(30px,4vw,50px); line-height:1.14; letter-spacing:-1.8px; margin:5px 0 10px } h2 { font-size:21px; margin:0 0 16px }
+.kicker,th,.metric small { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#41695a }
+.summary { margin:28px 0; background:white; border:1px solid #d2dfd6; padding:21px 26px; border-radius:8px } .metric { min-width:19% } .metric small,.metric strong { display:block } .metric strong { font-size:28px; line-height:1.3; font-variant-numeric:tabular-nums; }
+.controls { margin:22px 0 11px; } select { font:inherit; color:inherit; border:1px solid #9eb2a8; background:white; border-radius:5px; padding:8px 12px }
+.table { overflow-x:auto } table { width:100%; background:white; border-collapse:collapse } td,th { text-align:left; padding:16px 18px; border-bottom:1px solid #cfdbd3; white-space:nowrap; } td span { display:block; font-size:13px;color:#4f625a } td b { font-size:18px }
+tr.alarm { background:#fdf2e8 } .alarm strong { color:#8d340b } .response { border-left:4px solid #98623b; background:#f5ece1; margin:20px 0; padding:13px 18px }
+footer { margin-top:24px; border-top:1px solid #c5d5c8; padding-top:14px; font-size:14px; color:#52645b } code { overflow-wrap:anywhere }
+@media(max-width:650px) { main,header>div{padding-left:16px;padding-right:16px}.metric{min-width:38%}td,th{padding:12px} }

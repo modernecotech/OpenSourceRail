@@ -14,6 +14,8 @@ guide](docs/ARCHITECTURE.md#which-design-is-current) identifies each design;
 the [engineering status](docs/ENGINEERING-STATUS.md) and [cost baseline](docs/COST-BASELINE.md)
 give the current assumptions and results.
 
+**For prospective operators:** [Presentation and design review](docs/operator-review/README.md) · [Download the illustrated briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf) · [Railway delivery workplan](docs/operator-review/WORKPLAN.md)
+
 ## The current designs
 
 | Design | Purpose | 2026 US-dollar installed estimate |

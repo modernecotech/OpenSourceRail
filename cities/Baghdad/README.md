@@ -15,6 +15,8 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 | Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
 These are single planning estimates for each programme. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
 
+[Operator briefing and design twins](../../docs/operator-review/README.md) · [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad) · [Compare annual funding and fares](../../docs/operator-review/finance/index.html)
+
 ## City maps and routes
 
 The seven-corridor map locates 39 of 52 named corridor occurrences and breaks the lines at unresolved names. The Red line now uses the Adhamiya quarter. The 148.2 km is the sum of the investment brief’s line allowances. The background shows Baghdad streets, water, land use and place names from the retained OpenStreetMap, Natural Earth and Protomaps city context. Coloured lines show the proposed railway. The gold circles highlight 1 km straight-line access areas around the airport terminal, three Sadr City locations and two Jadriya locations. They do not represent walking time or property access.

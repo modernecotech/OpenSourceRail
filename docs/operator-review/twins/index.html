@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Station and train assembly · OpenSourceRail</title>
+    <link rel="stylesheet" href="viewer.css" />
+  </head>
+  <body>
+    <header>
+      <div class="word">
+        <i class="symbol" aria-hidden="true"></i><strong>OpenSourceRail</strong>
+      </div>
+      <span>Engineering review</span>
+    </header>
+    <main>
+      <div class="top">
+        <div>
+          <div class="eyebrow" id="subtitle"></div>
+          <h1 id="title"></h1>
+          <p class="sub" id="scope"></p>
+        </div>
+        <div class="switch" aria-label="Railway selection">
+          <button data-model="core">Core v0.7</button
+          ><button data-model="baghdad">Baghdad</button>
+        </div>
+      </div>
+      <section
+        class="metrics"
+        aria-label="Design dimensions"
+        id="metrics"
+      ></section>
+      <div class="layout">
+        <section class="stage">
+          <nav class="tools" aria-label="Assembly view">
+            <button data-view="station">Station</button
+            ><button data-view="car">Carbody</button
+            ><button data-view="bogie">Bogie</button
+            ><button data-view="door">Boarding</button
+            ><button data-view="civil">Viaduct</button
+            ><button data-view="control">Controls</button
+            ><button id="stock-study">Frame quotation ↗</button>
+          </nav>
+          <div class="screen">
+            <canvas
+              id="canvas"
+              tabindex="0"
+              aria-label="Interactive three-dimensional railway assembly. Drag or use the arrow keys to orbit. Choose an occurrence from the adjacent list to inspect it."
+            ></canvas>
+            <p class="caption" id="caption"></p>
+            <div class="camera">
+              <button class="navbtn" aria-label="Zoom in" id="plus">+</button
+              ><button class="navbtn" aria-label="Zoom out" id="minus">−</button
+              ><button class="navbtn" id="reset">Reset</button>
+            </div>
+          </div>
+        </section>
+        <aside class="panel">
+          <div class="small">Assembly inspection</div>
+          <h2 id="inspection"></h2>
+          <label class="small" for="occurrence">Design occurrence</label
+          ><select id="occurrence"></select>
+          <div class="readout" id="dimensions"></div>
+          <p id="note"></p>
+          <a id="source">Open engineering record ↗</a>
+        </aside>
+      </div>
+      <div class="foot">
+        <span
+          >Drag to orbit · Scroll to zoom · Click a component to inspect
+          it</span
+        ><a id="download">Download IFC4 model ↓</a>
+      </div>
+      <details>
+        <summary>Model scope and configuration</summary>
+        <p id="scene-scope">
+          One centred six-car train, one island and fourteen 10 m bays per
+          track. Rail head is the vertical datum. Colour identifies component
+          families. Door solids mark the openings. Window layout, shell
+          thickness, wheel tread, rail profile and installation markers are
+          illustrative. Pier solids indicate support positions. Platform
+          substructure, foundations, station access, fasteners and cable routes
+          require separate design.
+        </p>
+        <p id="identity"></p>
+        <p>
+          Design occurrences have no physical serial or commissioning record.
+          The scene supports dimensional review and discussion of access.
+          Installation mass, safety performance and passenger operation require
+          separate evidence.
+        </p>
+      </details>
+    </main>
+    <script src="models.js"></script>
+    <script src="viewer.js"></script>
+  </body>
+</html>
