@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baghdad train diagrams | OpenSourceRail</title>
+<link rel="stylesheet" href="service-diagrams.css">
+</head>
+<body>
+<header>OpenSourceRail &nbsp; / &nbsp; Baghdad operations</header>
+<main>
+<h1>Train diagrams</h1>
+<p>Select a service to follow the same train out and back. Times are local planning assumptions.</p>
+<fieldset><legend>Service selection</legend>
+<label>Railway<select id="network"><option value="first">148.2 km · First network</option><option value="metropolitan">605.652 km · Citywide</option></select></label>
+<label>Service group<select id="group"></select></label>
+<label id="set-label">Example train<select id="set"></select></label>
+</fieldset>
+<section aria-live="polite" aria-atomic="true"><h2 id="title"></h2><p id="summary"></p></section>
+<div id="working" class="grid">
+<section class="panel"><h2>Station calls</h2><p id="journey"></p>
+<div class="scroll"><table><thead><tr><th scope="col">Stop</th><th scope="col" id="leg-one"></th><th scope="col" id="leg-two"></th></tr></thead><tbody id="calls"></tbody></table></div>
+<p class="stamp note">Each cell shows arrival / departure where both apply. Read the return from bottom to top.</p>
+</section>
+<aside><section class="panel advice"><h2>Turnback and separation</h2><p id="turn"></p><p id="separation"></p></section>
+<section class="panel"><h2>Passenger connection</h2><p id="connection"></p></section></aside>
+</div>
+<p id="caveat" class="note stamp"></p>
+<noscript>This timetable card requires JavaScript to display its embedded station times.</noscript>
+</main>
+<script type="application/json" id="diagrams">__DIAGRAM_DATA__</script>
+<script src="service-diagrams.js"></script></body></html>

@@ -9,22 +9,31 @@
 <body>
 <header><strong>OpenSourceRail</strong><span>Operator review &nbsp; / &nbsp; Service planning</span></header>
 <main>
-<div class="heading"><div><h1>Operations workforce</h1><p>Size the opening roster, training programme and annual pay allowance.</p></div>
+<div class="heading"><div><h1>Operations workforce</h1><p>Compare duty coverage, payroll and the annual operating budget.</p></div>
+<div><label for="mode">Staffing scenario</label><select id="mode"><option value="goa4">Unattended GoA4</option><option value="supervised">Supervised commissioning</option><option value="assisted">Onboard passenger assistance</option></select></div>
 <div><label for="railway">Railway programme</label><select id="railway"><option value="core">Core railway · 30 km</option><option value="first" selected>Baghdad · First programme</option><option value="metropolitan">Baghdad · Citywide</option></select></div></div>
 <div class="summary" aria-live="polite">
-<div class="card"><h2>Operating establishment</h2><div class="stat" id="establishment">—</div><p class="small">Full-time equivalents across seven role groups</p></div>
-<div class="card"><h2>Annual pay scenario</h2><div class="stat" id="pay">—</div><p class="small">Listed roles only · illustrative loaded pay</p></div>
+<div class="card"><h2>Operating establishment</h2><div class="stat" id="establishment">—</div><p class="small">Full-time equivalents for listed duties</p></div>
+<div class="card"><h2>Annual pay scenario</h2><div class="stat" id="pay">—</div><p class="small">Sum of the priced roles</p></div>
 <div class="card"><h2>Initial training</h2><div class="stat" id="learner-total">—</div><p class="small">Learner-hours before independent duty</p></div></div>
 <div class="work">
 <section><div class="panel-head"><h2>Operating roster</h2><p id="fleet-description" class="small"></p></div>
-<div class="role-table"><table><thead><tr><th scope="col">Role group</th><th scope="col">Annual duty hours</th><th scope="col">Baseline FTE</th><th scope="col">Scenario FTE</th></tr></thead><tbody id="roles"></tbody><tfoot id="roster-total"></tfoot></table></div><p class="footnote">Each role group rounds up independently. Published duties include station opening hours and overnight control cover. Train diagrams, rescue cover and specialist duties need operator review.</p></section>
+<div class="role-table"><table><thead><tr><th scope="col">Role group</th><th scope="col">Annual duty hours</th><th scope="col">Study FTE</th><th scope="col">Revised FTE</th><th scope="col">Pay override<br>USD / FTE</th></tr></thead><tbody id="roles"></tbody><tfoot id="roster-total"></tfoot></table></div><p class="footnote">Each role group rounds up independently. OCC staff coordinate incidents and field crews respond to infrastructure failures. Dedicated rescue crews, relief travel and handover time await the operator’s plan.</p></section>
 <div class="side"><section><div class="panel-head"><h2>Scenario assumptions</h2></div><div class="fields">
 <div><label for="hours">Rosterable hours<br>per FTE / year</label><input type="number" id="hours" min="1" max="2080" step="1" value="1720" required></div>
-<div><label for="salary">Loaded annual pay<br>USD / FTE, optional</label><input type="number" id="salary" step="0.01" min="0.01" placeholder="Enter quoted rate"></div></div>
-<div id="error" role="alert"></div><p class="small">Baseline allows 360 of 2,080 paid hours for leave, sickness and training. Pay excludes separate overtime, recruitment and training purchases.</p></section>
+<div><label for="salary">Common loaded pay<br>USD / FTE per year</label><input type="number" id="salary" step="0.01" min="0.01" placeholder="Enter quoted rate"></div></div>
+<div id="error" role="alert"></div><p class="small">Baseline allows 360 of 2,080 paid hours for leave, sickness and training. Override pay by role where grades differ. Price overtime, recruitment and training purchases separately.</p></section>
 <section class="training"><h2>Training provision</h2><dl>
 <div><dt>Classroom groups of up to 12</dt><dd id="cohorts">—</dd></div><div><dt>Classroom instructor-hours</dt><dd id="instructors">—</dd></div><div><dt>Supervised learner-hours</dt><dd id="mentored">—</dd></div></dl><p>Allow 80 hours in class and 80 hours on supervised duties per learner. Mentoring hours depend on the approved supervision ratio.</p></section></div>
 </div>
+<section class="budget"><h2>Annual operating cost reconciliation</h2>
+<p class="small">Enter the payroll already included for these same roles in each contract allowance, in millions of 2026 US dollars per year. Enter zero only when the overlap has been checked. Each credit is removed once before the new payroll is added.</p>
+<div class="ledger"><div id="credits"></div><dl aria-live="polite">
+<div><dt>Published annual OPEX</dt><dd id="baseline-cost">—</dd></div>
+<div><dt>Less included payroll</dt><dd id="credited-cost">—</dd></div>
+<div><dt>Plus revised payroll</dt><dd id="payroll-cost">—</dd></div>
+<div><dt>Scenario annual OPEX</dt><dd id="revised-cost">—</dd></div></dl></div>
+<p id="cost-status" class="small" aria-live="polite"></p><a id="transfer" hidden>Use this annual OPEX in the finance planner</a></section>
 <section class="handoff"><h2>Assessment handover</h2><p>The operator’s assessor signs the task, equipment type, restrictions and expiry. HR records the decision and the duty planner checks the authorisation before assignment. Names and individual records belong in the operator’s HR system.</p></section>
 <footer><span>Source study <span id="study"></span> · <a href="quantities.json">View quantities</a></span><a href="README.md">Delivery and training plan</a></footer>
 </main>

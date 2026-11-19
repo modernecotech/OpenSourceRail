@@ -23,6 +23,21 @@ try {
     assert.match(await page.locator('#support').innerText(),/30\.5m to fund/);
     await page.locator('#journeys').fill('');
     assert.match(await page.locator('#support').innerText(),/Enter paid journeys/);
+    const scenario = new URL('index.html?network=first&opex=210', import.meta.url);
+    await page.goto(scenario.href);
+    assert.match(await page.locator('#opex').innerText(), /210.0m/);
+    assert.match(await page.locator('#opening').innerText(), /499.4m/);
+    await page.locator('#network').selectOption('core');
+    assert.equal(await page.locator('#staffing-case').isVisible(), false);
+    await page.locator('#network').selectOption('first');
+    await page.locator('#restore-budget').click();
+    assert.match(await page.locator('#opening').innerText(), /486.4m/);
+    for (const value of ['-10', 'Infinity', '']) {
+        scenario.searchParams.set('opex', value);
+        await page.goto(scenario.href);
+        assert.equal(await page.locator('#staffing-case').isVisible(), false);
+        assert.match(await page.locator('#opex').innerText(), /197.0m/);
+    }
 } finally {
     await browser.close();
 }

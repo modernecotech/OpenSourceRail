@@ -35,7 +35,30 @@ async function capture(name, selector, sources, maxHeight = 960, lastSelector = 
 }
 const workbench = 'engineering/development_baseline/web/';
 const cityAtlas = 'docs/design-engine/city-atlas/cities/samawah.json.gz';
+async function captureTimetable() {
+  const city = 'cities/Baghdad/';
+  await page.goto(new URL(city + 'service-diagrams.html', origin).href);
+  await page.locator('#group').selectOption('Airport');
+  await page.locator('#set').selectOption('Airport-001');
+  assert.match(await page.locator('#turn').innerText(), /180 s/);
+  assert.equal(await page.locator('#calls tr').count(), 6);
+  await capture('baghdad-service', 'main', ['service-diagrams.html','service-diagrams.js',
+    'service-diagrams.css','service-diagrams.json'].map(name => city + name));
+  await page.locator('#network').selectOption('metropolitan');
+  await page.locator('#group').selectOption('M04');
+  assert.match(await page.locator('#title').innerText(), /on hold/);
+  assert.equal(await page.locator('#working').isVisible(), false);
+}
+
 try {
+  await captureTimetable();
+  if (process.argv.includes('--timetable-only')) {
+    const previous = JSON.parse(await readFile(join(out,'captures.json'),'utf8'));
+    previous.records['baghdad-service'] = {...records['baghdad-service'], browser:browser.version()};
+    await writeFile(join(out,'captures.json'), JSON.stringify(previous,null,2)+'\n');
+    await browser.close();
+    process.exit(0);
+  }
   await page.goto(new URL('/docs/operator-review/screens/supervision.html',origin).href);
   await page.selectOption('#event','2');
   assert.equal(await page.locator('#stale').innerText(),'1');

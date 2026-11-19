@@ -8,6 +8,10 @@ The repository also retains a native FUXA screen from the earlier business pilot
 
 ## Trains and passenger journeys
 
+**Baghdad daily service.** Follow Airport-001 from the terminal to Al Qadisiya and back. The card shows the local times, the three-minute minimum turn and the interval shortfall under a one-block-per-interstop assumption. Select M04 in the citywide view to see why the service remains held. [Open the timetable card](../../../cities/Baghdad/service-diagrams.html)
+
+![Baghdad Airport train stops and return times, with peak separation screen](baghdad-service.png)
+
 **Train movement.** Compare simulated speed against distance between stations for a cable launch and a powered-wheel alternative on the same 1.5 km leg. The curves use assumed force inputs. The interactive study also lets the reviewer compare stopping and fault cases. It belongs to the station-pair research programme. [Open the movement study](../../design-engine/station-pair/index.html)
 
 ![Train speed against distance for a cable launch and powered wheels](train-movement.png)
@@ -58,4 +62,4 @@ OSR_BROWSER_EXECUTABLE=/usr/bin/google-chrome \
   node docs/operator-review/screens/capture.mjs build/operator-screen-review
 ```
 
-To include the ERP screen on an existing demonstration site, set `OSR_ERP_FIXTURE` to its private inspector login fixture. The script authenticates to the historical loopback site at port 18088. Without that variable it captures the eight public demonstration views. `OSR_WORKBENCH` accepts another loopback origin. The receipt records the captured image and source hashes, specific door and Baghdad identities, and browser version. The committed captures use Chromium 156.0.8078.47. [Capture receipt](captures.json) · [Capture script](capture.mjs) · [Gateway replay input and checks](replay.py)
+To include the ERP screen on an existing demonstration site, set `OSR_ERP_FIXTURE` to its private inspector login fixture. The script authenticates to the historical loopback site at port 18088. Without that variable it captures nine public demonstration views. To update only the Baghdad timetable image and its receipt in the existing gallery, run `node docs/operator-review/screens/capture.mjs docs/operator-review/screens --timetable-only` against the loopback Workbench. `OSR_WORKBENCH` accepts another loopback origin. The receipt records the captured image and source hashes, specific door and Baghdad identities, and browser version. The committed captures use Chromium 156.0.8078.47. [Capture receipt](captures.json) · [Capture script](capture.mjs) · [Gateway replay input and checks](replay.py)

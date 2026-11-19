@@ -38,14 +38,80 @@ pub struct PoweredWheelOutcome {
     pub rescue_required_if_stopped: bool,
 }
 
+/// Independent feedback for a requested passenger stop. The caller binds the
+/// platform side and the released openings to the current authenticated visit.
+#[derive(Clone, Copy, Debug)]
+pub struct SecuredBerth {
+    pub visit_and_platform_proved: bool,
+    pub unreleased_doors_locked: bool,
+    pub all_controllers_present: bool,
+    pub independent_hold_applied: bool,
+    pub inverter_inhibit_proved: bool,
+}
+
+/// Existing movement protection, including the all-doors-locked requirement.
 #[must_use]
 pub fn powered_wheel_evaluate(i: &PoweredWheelInputs, atp: BrakeCommand) -> PoweredWheelOutcome {
+    evaluate(i, atp, Mode::Movement)
+}
+
+/// At a secured passenger stop the released doors may be unlocked. Traction
+/// remains inhibited even if every door still reports locked.
+#[must_use]
+pub fn powered_wheel_at_berth(
+    i: &PoweredWheelInputs,
+    atp: BrakeCommand,
+    berth: SecuredBerth,
+) -> PoweredWheelOutcome {
+    evaluate(i, atp, Mode::Berth(berth))
+}
+
+/// Receiving drive after a locked, authorised handover. At zero speed the
+/// drive must already have taken the load before parking can be released.
+#[must_use]
+pub fn powered_wheel_starting(
+    i: &PoweredWheelInputs,
+    atp: BrakeCommand,
+    starting_effort_proved: bool,
+) -> PoweredWheelOutcome {
+    evaluate(
+        i,
+        atp,
+        Mode::Starting {
+            starting_effort_proved,
+        },
+    )
+}
+
+#[derive(Clone, Copy)]
+enum Mode {
+    Movement,
+    Berth(SecuredBerth),
+    Starting { starting_effort_proved: bool },
+}
+
+fn evaluate(i: &PoweredWheelInputs, atp: BrakeCommand, mode: Mode) -> PoweredWheelOutcome {
+    let state_protected = match mode {
+        Mode::Movement => i.doors_locked,
+        Mode::Starting {
+            starting_effort_proved,
+        } => i.stopped && i.doors_locked && starting_effort_proved,
+        Mode::Berth(b) => {
+            i.stopped
+                && i.parking_brake_proved
+                && b.visit_and_platform_proved
+                && b.unreleased_doors_locked
+                && b.all_controllers_present
+                && b.independent_hold_applied
+                && b.inverter_inhibit_proved
+        }
+    };
     let independent_ready = i.selected_configuration == i.observed_configuration
         && i.authority_valid
         && i.localisation_known
         && i.train_integrity_known
         && i.communications_fresh
-        && i.doors_locked
+        && state_protected
         && i.independent_brake_healthy
         && i.independent_brake_profile_valid
         && i.essential_service_supply_ready;
@@ -64,16 +130,25 @@ pub fn powered_wheel_evaluate(i: &PoweredWheelInputs, atp: BrakeCommand) -> Powe
     } else {
         atp
     };
-    let traction_permissive = independent_ready
+    let traction_permissive = !matches!(mode, Mode::Berth(_))
+        && independent_ready
         && traction_supply_ready
         && !i.wheel_slide_active
-        && (!i.stopped || i.parking_brake_proved)
+        && (!i.stopped
+            || i.parking_brake_proved
+            || matches!(
+                mode,
+                Mode::Starting {
+                    starting_effort_proved: true
+                }
+            ))
         && matches!(mechanical_brake, BrakeCommand::Release);
     PoweredWheelOutcome {
         traction_permissive,
         traction_inhibit: !traction_permissive,
         mechanical_brake,
-        parking_brake_request: i.stopped && !traction_supply_ready,
+        parking_brake_request: i.stopped
+            && (matches!(mode, Mode::Berth(_)) || !traction_supply_ready),
         rescue_required_if_stopped: i.stopped && !traction_supply_ready,
     }
 }
@@ -102,6 +177,122 @@ mod tests {
             stopped: true,
             parking_brake_proved: true,
             wheel_slide_active: false,
+        }
+    }
+
+    #[test]
+    fn passenger_stop_requires_independent_berth_and_motion_proofs() {
+        let berth = SecuredBerth {
+            visit_and_platform_proved: true,
+            unreleased_doors_locked: true,
+            all_controllers_present: true,
+            independent_hold_applied: true,
+            inverter_inhibit_proved: true,
+        };
+        let mut i = ready();
+        i.doors_locked = false;
+        for demand in [
+            BrakeCommand::Release,
+            BrakeCommand::Service(450),
+            BrakeCommand::Emergency,
+        ] {
+            let out = powered_wheel_at_berth(&i, demand, berth);
+            assert_eq!(out.mechanical_brake, demand);
+            assert!(out.parking_brake_request && out.traction_inhibit && !out.traction_permissive);
+        }
+        for fault in [
+            SecuredBerth {
+                visit_and_platform_proved: false,
+                ..berth
+            },
+            SecuredBerth {
+                unreleased_doors_locked: false,
+                ..berth
+            },
+            SecuredBerth {
+                all_controllers_present: false,
+                ..berth
+            },
+            SecuredBerth {
+                independent_hold_applied: false,
+                ..berth
+            },
+            SecuredBerth {
+                inverter_inhibit_proved: false,
+                ..berth
+            },
+        ] {
+            assert_eq!(
+                powered_wheel_at_berth(&i, BrakeCommand::Release, fault).mechanical_brake,
+                BrakeCommand::Emergency
+            );
+        }
+        for fault in [
+            PoweredWheelInputs {
+                stopped: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                parking_brake_proved: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                train_integrity_known: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                communications_fresh: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                localisation_known: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                independent_brake_healthy: false,
+                ..i.clone()
+            },
+        ] {
+            assert_eq!(
+                powered_wheel_at_berth(&fault, BrakeCommand::Release, berth).mechanical_brake,
+                BrakeCommand::Emergency
+            );
+        }
+        assert_eq!(
+            powered_wheel_evaluate(&i, BrakeCommand::Release).mechanical_brake,
+            BrakeCommand::Emergency
+        );
+    }
+
+    #[test]
+    fn starting_effort_bridges_parking_release_only_at_zero_speed() {
+        let i = PoweredWheelInputs {
+            parking_brake_proved: false,
+            ..ready()
+        };
+        assert!(!powered_wheel_evaluate(&i, BrakeCommand::Release).traction_permissive);
+        assert!(powered_wheel_starting(&i, BrakeCommand::Release, true).traction_permissive);
+        assert_eq!(
+            powered_wheel_starting(&i, BrakeCommand::Release, false).mechanical_brake,
+            BrakeCommand::Emergency
+        );
+        for fault in [
+            PoweredWheelInputs {
+                stopped: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                authority_valid: false,
+                ..i.clone()
+            },
+            PoweredWheelInputs {
+                doors_locked: false,
+                ..i.clone()
+            },
+        ] {
+            let result = powered_wheel_starting(&fault, BrakeCommand::Release, true);
+            assert!(result.traction_inhibit);
+            assert_eq!(result.mechanical_brake, BrakeCommand::Emergency);
         }
     }
 

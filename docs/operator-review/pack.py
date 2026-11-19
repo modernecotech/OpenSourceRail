@@ -25,6 +25,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <nav>
 <a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>Fourteen illustrated pages for the meeting.</small></a>
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
+<a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Inspect held citywide services.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
@@ -57,6 +58,8 @@ def build():
         if f.suffix in {'.md', '.html', '.css', '.js', '.png', '.json', '.ifc', '.svg', '.pdf'} and f.is_file():
             files.add(f)
     files.update(ROOT / f for f in ('LICENSE.md', 'cities/Baghdad/Baghdad-Metro-Proposal.pdf',
+                 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/service-diagrams.html',
+                 'cities/Baghdad/service-diagrams.js', 'cities/Baghdad/service-diagrams.css',
                  'cities/Baghdad/COST-AND-DELIVERY.md', 'cities/Baghdad/BUYER-COMPARISON.md',
                  'cities/Baghdad/maps/Baghdad-148km.png', 'cities/Baghdad/maps/Baghdad-606km.png',
                  'docs/reference-v07/cost/README.md'))

@@ -48,6 +48,8 @@ The reserve accounts for **$1.122bn within the citywide capital estimate**, and 
 
 ## People and trains
 
+Use the [operator timetable card](service-diagrams.html) and [service diagram guide](SERVICE-DIAGRAMS.md) to trace a set across both directions. The seven corridors account for 24.666 million train-km/year on these schematic diagrams. Four citywide service groups still need connected paths before their budgeted mileage can support a timetable. The workforce planner prices unattended service, full supervised cover and partial onboard assistance against each network’s service duty. [Staffing and operating allowances](../../docs/operator-review/delivery/README.md)
+
 | Service measure | First programme | Independent citywide |
 |---|---:|---:|
 | Six-car train, planning capacity | 700 places | 700 places |

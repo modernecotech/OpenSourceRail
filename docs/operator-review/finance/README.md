@@ -12,6 +12,8 @@ Use **Funding and fares** in the offline workshop kit or local Workbench. Select
 
 Each number is one year's buyer cash before fare receipts. The public-budget column assumes the buyer paid the capital during construction. The borrowing columns include scheduled principal and interest alongside that year's operations. Baghdad also has an illustrative export-credit case for a limited share of the equipment scope. Eligibility, guarantees and actual terms require a lender and a qualifying contract. [Baghdad annual cash schedules](../../../cities/Baghdad/financing-scenarios.json)
 
+The [staffing calculator](../delivery/index.html) can pass a reconciled annual operating budget to this screen. In that case the annual table and opening-year cash use the replacement budget for the selected railway in every full service year. Construction draws, debt and renewals keep their published schedules. Select **Use published budget** to restore the comparison above. Use a recurring staffing case for long-term affordability. A commissioning crew needs a separately timed budget for its period of deployment.
+
 ## A worked Baghdad fare example
 
 1. Select **Baghdad · seven corridors** and **50% debt · 4% · 20 years**. The opening year shows $197.0m of operations and $289.4m of annual debt service, giving $486.4m before receipts.

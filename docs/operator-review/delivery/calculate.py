@@ -2,7 +2,7 @@
 import argparse
 import hashlib
 import json
-from math import ceil, floor
+from math import ceil, floor, isclose
 from pathlib import Path
 import tomllib
 
@@ -13,6 +13,7 @@ INPUTS = [
     "docs/reference-v07/concept.toml",
     "cities/Baghdad/system.toml",
     "cities/Baghdad/system-results.json",
+    "cities/Baghdad/service-diagrams.json",
 ]
 
 # Direct labour hours per car in production sequence. Baghdad values are a
@@ -69,8 +70,34 @@ def roster(stations, controls, depots, km, active, departures):
             "train_operator_hours_per_day": train_hours_day, "field_groups": line_teams}
 
 
+def workforce_scenarios(legacy, train_hours, basis):
+    shared = dict(legacy["duty_hours_per_year"])
+    del shared["train operators"]
+    scenarios = {}
+    options = {
+        "goa4": ("Unattended GoA4", "scheduled onboard staff", 0),
+        "supervised": ("Supervised commissioning", "onboard commissioning supervisors", 1),
+        "assisted": ("Onboard passenger assistance", "onboard passenger assistants", 0.25),
+    }
+    for key, (label, role, share) in options.items():
+        annual = {role: ceil(train_hours * 365 * share), **shared}
+        posts = {name: ceil(h / 1720) for name, h in annual.items()}
+        scenarios[key] = {"name": label, "onboard_role": role, "onboard_duty_fraction": share,
+                          "duty_hours_per_year": annual, "posts_fte": posts,
+                          "total_fte": sum(posts.values()), "train_duty_basis": basis}
+    return scenarios
+
+
+def opex_ledger(baseline, envelopes):
+    if not 0 <= sum(envelopes.values()) <= baseline:
+        raise ValueError("Workforce cost envelopes exceed annual operating cost")
+    return {"baseline_usd_m_year": baseline, "eligible_envelopes_usd_m_year": envelopes,
+            "other_costs_usd_m_year": baseline - sum(envelopes.values()),
+            "embedded_payroll_usd_m_year": None, "operator_pay_rates_usd_per_fte_year": None}
+
+
 def build():
-    handoff, core, baghdad, results = [read(path) for path in INPUTS]
+    handoff, core, baghdad, results, diagrams = [read(path) for path in INPUTS]
     production = handoff["production"]
     assert sum(ROUTE["core"]) == production["full_car_direct_assembly_hours_allowance"]
     stages = {s["stage"]: s for s in handoff["schedule"]["stages"]}
@@ -88,6 +115,13 @@ def build():
         "roster": roster(core["corridor"]["stations"], 1, 1, core["corridor"]["route_km"],
                          core["service"]["fleet_active"], [30] * 4 + [12] * 14),
     }}
+    core_roster = studies["core"]["roster"]
+    studies["core"]["workforce_scenarios"] = workforce_scenarios(
+        core_roster, core_roster["train_operator_hours_per_day"],
+        "Peak active fleet scaled to each hourly frequency. Train diagrams and crew duties remain open.")
+    studies["core"]["opex"] = opex_ledger(core["economics"]["annual_opex_usd_m"], {
+        "Control and operations staff": 4, "Fleet maintenance": 10,
+        "Civil, station and overhead maintenance": 6, "Insurance and administration": 3})
     for key, city in results["networks"].items():
         network = baghdad["networks"][key]
         civil = city["selected_civil_delivery"]
@@ -108,14 +142,40 @@ def build():
             "roster": roster(network["stations"], network["control_centres"], network["depots"], network["route_km"],
                              network["active_trainsets"], baghdad["service_plan"]["departures_per_hour_direction"]),
         }
+        diagram = diagrams["networks"][key]
+        if (diagram["selected_candidate_id"] != city["selected_candidate_id"]
+                or diagram["selected_system_evaluation_id"] != city["selected_evaluation_id"]):
+            raise ValueError(f"{key} staff duty and cost ledger refer to different railway evaluations")
+        studies[key]["source_diagram_evaluation_id"] = diagrams["evaluation_id"]
+        hourly = baghdad["service_plan"]["departures_per_hour_direction"]
+        held_hours = sum(ceil(diagram["held_peak_trainsets_cost_screen"] * f / max(hourly)) for f in hourly)
+        diagram_hours = diagram["diagrammed_train_seconds_per_day"] / 3600
+        basis = f"{diagram_hours:,.1f} diagrammed train-hours/day including minimum turnbacks."
+        if diagram["held_service_group_ids"]:
+            basis += (f" Add {held_hours:,} train-hours/day estimated from peak fleet and hourly frequency "
+                      f"for unresolved groups {', '.join(diagram['held_service_group_ids'])}.")
+        studies[key]["workforce_scenarios"] = workforce_scenarios(studies[key]["roster"],
+                                                                  diagram_hours + held_hours, basis)
+        op = city["selected_annual_opex_usd_m"]
+        rates = baghdad["operation_rates"]
+        distance = city["selected_service_allowance"]["annual_train_km"]
+        train = distance * rates["non_energy_vehicle_operations_usd_per_train_km"] / 1e6
+        station = network["stations"] * rates["station_operations_usd_m_per_year"]
+        if not isclose(train + station, op["non_energy_and_station"]):
+            raise ValueError(f"{key} train and station allowances disagree with operating ledger")
+        studies[key]["opex"] = opex_ledger(op["total"], {
+            "Non-energy train operations": train, "Station operations": station,
+            "Power maintenance": op["power_maintenance"]})
+        if not isclose(studies[key]["opex"]["other_costs_usd_m_year"], op["energy"]):
+            raise ValueError(f"{key} workforce ledger does not conserve the energy budget")
     for study in studies.values():
         v, c = study["vehicle"], study["civil"]
         c["civil_yard_day_posts"] = c["yards"] * 18
         c["erection_day_posts"] = 8 * c["erection_fronts"]
         study["production_day_posts"] = v["direct_posts_all_lines"] + v["support_posts_all_lines"] + c["civil_yard_day_posts"] + c["erection_day_posts"]
-    return {"schema": "osr.factory-workforce.study.1", "status": "capacity and quotation study",
+    return {"schema": "osr.factory-workforce.study.2", "status": "capacity and quotation study",
             "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
-                              for p in [*INPUTS, str(Path(__file__).resolve().relative_to(ROOT))]},
+                              for p in [*INPUTS, "docs/reference-v07/cost/README.md", str(Path(__file__).resolve().relative_to(ROOT))]},
             "studies": studies}
 
 

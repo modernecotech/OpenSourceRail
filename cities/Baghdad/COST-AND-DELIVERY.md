@@ -23,6 +23,8 @@ These are single point estimates at declared rates. They include a 20% project a
 
 The drawn first-programme lines total **138.395 km**, while the priced RFI control is **148.2 km**. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed as **reserved non-revenue corridors** without assigned train paths. The other **555.553 km** has passenger-path assignments in the 14 service groups. The [station screen register](station-register.json) records 37 mapped first-network access points and 220 citywide stop screens against 64 and 280 station allowances. The 934-train fleet and hourly operating offer are planning assumptions; they do not operate the reserved sections or define stop sequences and junction movements.
 
+The [daily train diagrams](SERVICE-DIAGRAMS.md) account for the entire first-network mileage in the operating estimate. Citywide, 51.967 million annual train-km have timed paths and 40.499 million are still allowed for four unresolved groups. The [workforce calculator](../../docs/operator-review/delivery/README.md) can replace embedded payroll with priced duties for unattended operation or onboard assistance once the operator identifies its existing labour allowances.
+
 ## Fourteen installed capital scopes
 
 US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-results` from `system.toml`.
@@ -107,6 +109,8 @@ The selected 10 m family holds the existing repeatable reference geometry as a *
 | 30 m, common pier | 9,886 | 4,950 | $7.683bn | 112.0 t |
 
 The 20–30 m hook loads exceed the 60 t reference lift control. They require a different crane arrangement and span structure, so their cost rows are value-engineering screens rather than selected build quantities. A same-section, uniform-load screen now shows bending demand rising with span length squared and deflection demand with length to the fourth power; it is not a moving-train structural design. Pier design must account for loads, bearings, crossheads, segment joints, utilities, road clearance, flood/ground conditions, erection stability and evacuation walkway. The current open-GIS maps do not establish those site quantities. At eight beams or lifts per productive day and 250 nominal workdays per year, the 2028–2030 civil window needs **five yards and five fronts only with no ramp or downtime**; 2028–2034 needs **nine of each** on that basis. The [monthly casting, release and erection schedule](system-results.json) applies an 80% first-year ramp, 90% later availability and a one-month curing/inspection/transport release lag. It closes the declared beam counts within the stated windows with **six yards and six fronts** for 29,640 first-network beams and **ten of each** for 121,156 citywide beams. Access and road-closure calendars are not in the schedule. Added facility and shift costs remain unpriced rather than zero.
+
+The [matched quotation return](BUYER-COMPARISON.md#compare-a-matched-cash-return) links first-article stock, beam, platform and yard quantities to the seven-corridor estimate. Buyers can replace a matched fleet, station or civil allowance and trace the resulting design, commissioning and project percentages. A partial article retains an open installed cost until the remaining scope is priced.
 
 ## Construction timing and financing basis
 

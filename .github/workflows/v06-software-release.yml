@@ -244,6 +244,9 @@ jobs:
             /docs/reference-v07/**
             /control-electronics/reference-v07.toml
             /cities/Baghdad/**
+            /Cargo.toml
+            /rust-toolchain.toml
+            /crates/**
             /docs/workbench/current/**
             /tests/test_v06_software_release_gate.py
             /tests/test_v06_status_portfolio_pointers.py
@@ -342,6 +345,10 @@ jobs:
           mapfile -t selected < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' .github/release-smoke-tests.txt)
           test "${#selected[@]}" -gt 0
           python -B -m pytest -q --import-mode=importlib -p no:cacheprovider "${selected[@]}"
+      - name: Check the published Baghdad timetable and offline station replay
+        run: |
+          python -m engineering.outline.baghdad_diagrams --check
+          cargo test --locked --manifest-path cities/Baghdad/engineering/controls/Cargo.toml
       - name: Check the selected v0.7 digital production handoff
         run: python -O docs/reference-v07/digital/production/generate.py --check
       - name: Replay historical source contracts on request

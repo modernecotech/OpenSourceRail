@@ -149,8 +149,8 @@ start('Design / station and control', 'From the viaduct to the platform edge',
       'The Baghdad trial places the station deck on its own supports beside the track. Movement between these structures affects boarding.')
 two_column_figure('twins/baghdad-boarding.png',[
     ('Inspect the civil interface','The trial island is 125 m by 8 m. The single-track beam is 10 m long. The design team must survey bearing seats, footing pressures and the platform edge under load.'),
-    ('Exercise the boarding sequence','The fixture holds traction inhibited and opens the 24 doors on the platform side. A normal unlocked door also triggers emergency braking in the present protection adapter.'),
-    ('Before dispatch','Test the stationary mode, parking proof, independent brake feedback, fresh lock proofs and transfer of brake hold to traction on a grade.')])
+    ('Exercise the boarding sequence','With the train at rest and both brake holds proved, the replay releases 24 platform-side doors. The other side stays locked. Loss of a holding proof trips protection.'),
+    ('Before dispatch','The replay closes and proves all 48 doors, then checks drive take-up. The brake supplier and operator still need to demonstrate the handover and measure rollback under load on a gradient.')])
 link('Station and viaduct sections','../../cities/Baghdad/engineering/mechanical/civil/README.md')
 link('Wiring and boarding replay','../../cities/Baghdad/engineering/controls/README.md',633)
 start('Operate / control room','An equipment alarm during service',
@@ -163,9 +163,9 @@ link('Screen gallery and provenance','screens/README.md')
 link('Gateway replay and setup guide','screens/README.md',633)
 start('Operate / workshop', 'Passenger planning and repair history',
       'Use the passenger journey screen to inspect a proposed service and the workshop record to trace what happened to a part.')
-picture('screens/passenger-journey.png',34,152,433,206)
+picture('screens/baghdad-service.png',34,152,433,206)
 picture('screens/erp-serial-history.png',487,149,438,225)
-point(36,377,415,'An actual Workbench route search','The Samawah planning example returns the requested trip with its modelled sequence. The operator can review interchange and service assumptions with passengers before transferring that method to Baghdad.')
+point(36,377,415,'A train through its working day','Use the Baghdad diagram to follow a set through stops and a terminal turn. Inspect the platform and block conflicts at peak headway. Four citywide service groups still need a connected route.')
 point(490,377,417,'A native ERPNext serial record','The existing historical pilot shows a repair and inspection trail. The new railway still needs its own asset register, installed serials, warranty records, staff permissions and signed maintenance tasks.')
 link('Open the gallery and workshop screens','screens/README.md')
 link('ERPNext and Frappe HR setup','../../deployment/erpnext/README.md',489)
@@ -196,11 +196,12 @@ link('Yard and workforce quantities','delivery/quantities.json',633)
 start('People / training','Who will build and run the railway?',
       'Illustrative establishments cover the duties listed in the workforce plan. Agree wages, shifts, relief, contracted services and training costs with the employing operator.')
 staff = json.loads((HERE/'delivery/quantities.json').read_text())['studies']
-rosters = [staff[k]['roster']['posts_fte'] for k in ('core','first','metropolitan')]
+networks = ('core', 'first', 'metropolitan')
+rosters = [staff[k]['workforce_scenarios']['goa4']['posts_fte'] for k in networks]
 rows = [[label,*(f'{s[key]:,}' for s in rosters)] for label,key in [
-    ('Train operators','train operators'), ('Station duty and passenger assistance','station duty and passenger assistance'),
+    ('Scheduled staff onboard / GoA4','scheduled onboard staff'), ('Station duty and passenger assistance','station duty and passenger assistance'),
     ('Control centre','OCC control, traction, incidents and information'),('Rolling-stock technicians','depot rolling-stock technicians')]]
-rows += [['All listed operating duties, FTE',*(f'{staff[k]["roster"]["total_fte"]:,}' for k in ('core','first','metropolitan'))],
+rows += [['GoA4 / all listed operating duties, FTE',*(f'{staff[k]["workforce_scenarios"]["goa4"]["total_fte"]:,}' for k in ('core','first','metropolitan'))],
          ['Peak day-shift build posts¹',*(f'{staff[k]["production_day_posts"]:,}' for k in ('core','first','metropolitan'))]]
 table(35,154,[320,145,212,213],['Workforce measure','Core','Baghdad / seven corridors','Baghdad / citywide'],rows,31)
 para(36,380,884,'¹ Positions across the listed vehicle, yard and erection activities. Build jobs overlap by package. Operating FTE use 1,720 rosterable hours per person-year, including relief in the establishment.',11.5)
@@ -208,10 +209,10 @@ point(36,424,420,'Recruit and teach','Start with local instructors, pilot crews 
 point(490,424,420,'Authorise by demonstrated task','Witness assisted boarding, isolation and restoration, train recovery, welding and lifting. Record restrictions and renewal dates in the HR skills register.')
 link('Roles, wages to quote and competence assessments','delivery/README.md')
 start('People / shift coverage','Test a staffing and training budget',
-      'The staffing tool opens with pay unpriced. Change the railway, available hours and loaded annual pay to test a local employment proposal.')
+      'Choose unattended service, supervised commissioning or onboard assistance. Price the duties and reconcile existing payroll before taking a scenario to the funding calculator.')
 two_column_figure('delivery/workforce.png',[
-    ('Staff the working day','In the seven-corridor case, 1,950 full-time equivalents cover the listed duties. Annual cost for those roles is $46.8m at an illustrative $24,000 loaded pay per person.'),
-    ('Prepare local instructors','At 80 classroom hours and 80 supervised hours per employee, plan for 163 classes of up to 12. The supervised allocation totals 156,000 learner-hours. Assessors and mentor availability need separate budgets.'),
+    ('Staff the working day','The seven-corridor GoA4 case has 1,526 FTE. At an illustrative $24,000 loaded pay each, payroll is $36.624m. Subtract only documented or explicitly assumed payroll already in the operating allowances.'),
+    ('Prepare local instructors','At 80 classroom and 80 supervised hours each, plan for 128 classes of up to 12 and 122,080 supervised learner-hours. Quote instructors, assessors and roster relief separately.'),
     ('Record qualification','The employing operator records signed role, equipment, restrictions and expiry against each employee. Link training and assessment to the duties allowed on the shift.')])
 link('Workforce planner, inputs and hiring plan','delivery/README.md')
 start('Delivery / buying terms','Use the design to improve competing offers',

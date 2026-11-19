@@ -8,7 +8,7 @@ for every design.
 
 **Current published release: [v0.7.1](docs/RELEASE-v0.7.md).** It contains a
 costed **digital** railway reference and separate city planning applications.
-The operator workshop and the revised Baghdad corridor, financing and workshop studies are available on `main`.
+Subsequent work on `main` includes the Baghdad train diagrams, station boarding replay, workforce budgets and supplier quotation comparison.
 Neither version authorizes construction or passenger operation. The [architecture
 guide](docs/ARCHITECTURE.md#which-design-is-current) identifies each design;
 the [engineering status](docs/ENGINEERING-STATUS.md) and [cost baseline](docs/COST-BASELINE.md)
@@ -16,7 +16,7 @@ give the current assumptions and results.
 
 ## Present the railway
 
-For a meeting with a prospective operator, [open the 14-page illustrated briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf). For a hands-on session, [download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip), extract the entire ZIP and open **START.html** in a browser. The models, control-room replay, funding calculator and workforce planner run without an installation. The same four tools are available under **Operator review** in the local Workbench.
+For a meeting with a prospective operator, [open the 14-page illustrated briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf). For a hands-on session, [download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip), extract the entire ZIP and open **START.html** in a browser. The kit includes the train and station models, Baghdad timetable card, control-room replay, workforce planner and funding calculator. Start with one diagrammed train, inspect its turnback, then compare unattended and staffed duties against the operating budget. [Train diagram guide](cities/Baghdad/SERVICE-DIAGRAMS.md) · [First-network quotation quantities](cities/Baghdad/BUYER-COMPARISON.md#first-network-quantities-for-a-pricing-round)
 
 ![Baghdad station and train in the interactive design viewer](docs/operator-review/twins/baghdad-station.png)
 

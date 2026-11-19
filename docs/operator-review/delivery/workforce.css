@@ -9,3 +9,22 @@ table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,t
 .side{display:grid;gap:15px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 17px 8px}.fields label{min-height:32px;line-height:1.2}.side .small{padding:2px 17px 14px}.training{padding:14px 17px}.training h2{margin-bottom:8px}dl{margin:0}dl div{display:flex;justify-content:space-between;gap:6px;border-bottom:1px solid #e4e8df;padding:7px 0}dt,dd{margin:0;font-size:14px}dd{font-weight:700;font-variant-numeric:tabular-nums}.training p{font-size:13px;color:#4a605c;margin-top:9px}.handoff{margin-top:16px;padding:13px 17px;display:grid;grid-template-columns:205px 1fr;gap:15px;align-items:center}.handoff h2{font-size:18px}.handoff p{font-size:14px}
 footer{display:flex;justify-content:space-between;gap:7px;font-size:12px;color:#526760;padding:12px 0}footer a{color:#195f51}#error{color:#a63a2d;padding:0 17px 9px}#error:empty{display:none}
 @media(max-width:800px){.work{grid-template-columns:1fr}.heading{grid-template-columns:1fr}.summary{gap:7px}.card{padding:10px}.stat{font-size:24px}.handoff{grid-template-columns:1fr}}@media(max-width:550px){.summary{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.fields label{min-height:0}.work{display:block}.side{margin-top:12px}header{align-items:start;flex-direction:column}.role-table{overflow-x:auto}.card p{display:inline}footer{display:block}th,td{padding:8px 5px}}
+.heading { grid-template-columns: minmax(240px,1fr) minmax(190px,240px) minmax(190px,255px); }
+.role-table input { max-width: 95px; text-align: right; font-size: 13px; padding: 6px; }
+.budget { margin-top: 16px; padding: 16px 18px; }
+.budget p { margin: 6px 0; }
+.ledger { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: start; margin: 10px 0; }
+.credit { display: grid; grid-template-columns: 1fr 95px; align-items: center; gap: 10px; margin: 3px 0; }
+.credit label { margin: 0; font-weight: 500; }
+.credit input { padding: 5px 8px; }
+.ledger dl div:last-child { background: #eef5e9; }
+.ledger dd { white-space: nowrap; }
+@media (max-width:800px) {
+  .heading { grid-template-columns: 1fr 1fr; }
+  .heading > div:first-child { grid-column: 1/-1; }
+  .ledger { grid-template-columns: 1fr; gap: 10px; }
+}
+@media (max-width:550px) {
+  .heading { grid-template-columns: 1fr; }
+  .role-table input { min-width: 68px; }
+}

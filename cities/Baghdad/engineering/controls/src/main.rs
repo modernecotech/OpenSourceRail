@@ -1,7 +1,10 @@
 //! Offline interface replay. All proofs and commands are synthetic data.
 mod boarding;
 
-use osr_atp::powered_wheel::{powered_wheel_evaluate, PoweredWheelInputs};
+use osr_atp::powered_wheel::{
+    powered_wheel_at_berth, powered_wheel_evaluate, powered_wheel_starting, PoweredWheelInputs,
+    SecuredBerth,
+};
 use osr_atp::BrakeCommand;
 use osr_door_control::{
     door_evaluate, DoorAction, DoorInputs, DoorParams, DoorSensors, DoorSide, DoorState,
@@ -13,12 +16,39 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::{fs, path::Path};
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum Direction {
+    Forward,
+    Reverse,
+}
+
+impl Direction {
+    fn sign(self) -> i32 {
+        match self {
+            Self::Forward => 1,
+            Self::Reverse => -1,
+        }
+    }
+
+    fn opposite(self) -> Self {
+        match self {
+            Self::Forward => Self::Reverse,
+            Self::Reverse => Self::Forward,
+        }
+    }
+}
+
 #[derive(Clone, Copy)]
 struct Frame {
     command: DoorAction,
     station_verified: bool,
     open_side: Option<DoorSide>,
     parking_proved: bool,
+    hold_applied: bool,
+    torque_inhibit_proved: bool,
+    brake_healthy: bool,
+    brake_profile_valid: bool,
+    starting_effort_direction: Option<Direction>,
     brake_demand: BrakeCommand,
     platform: Option<DoorSide>,
     speed_mmps: i32,
@@ -37,6 +67,11 @@ impl Default for Frame {
             station_verified: true,
             open_side: None,
             parking_proved: true,
+            hold_applied: true,
+            torque_inhibit_proved: true,
+            brake_healthy: true,
+            brake_profile_valid: true,
+            starting_effort_direction: None,
             brake_demand: BrakeCommand::Release,
             platform: Some(DoorSide::Left),
             speed_mmps: 0,
@@ -58,29 +93,41 @@ struct Trace {
     brake: BrakeCommand,
 }
 
+fn installed_side(index: usize, openings_per_side: usize) -> DoorSide {
+    if (index / openings_per_side).is_multiple_of(2) {
+        DoorSide::Left
+    } else {
+        DoorSide::Right
+    }
+}
+
+#[derive(Clone, Copy)]
+enum Protection {
+    Movement,
+    Berth(DoorSide),
+    Starting(Direction),
+}
+
 fn evaluate_frame(
     frame: Frame,
     configuration: [u8; 32],
     door_states: &mut [DoorState],
     openings_per_side: usize,
     now_ns: u64,
+    protection: Protection,
 ) -> (Trace, bool) {
     let mut opening_left = 0;
     let mut opening_right = 0;
     // Withhold departure as soon as release is requested, including the tick
     // before the physical lock switches change. Missing door status blocks it.
-    let mut all_doors_locked = true;
+    let mut all_doors_locked = !door_states.is_empty();
+    let mut unreleased_doors_locked = all_doors_locked;
     for (index, state) in door_states.iter_mut().enumerate() {
         if frame.missing == Some(index) {
             all_doors_locked = false;
             continue;
         }
-        let left = (index / openings_per_side).is_multiple_of(2);
-        let side = if left {
-            DoorSide::Left
-        } else {
-            DoorSide::Right
-        };
+        let side = installed_side(index, openings_per_side);
         let is_open = frame.open_side == Some(side);
         let inputs = DoorInputs {
             now_ns,
@@ -103,8 +150,11 @@ fn evaluate_frame(
         let door = door_evaluate(state, &inputs, &DoorParams::research_default());
         *state = door.state;
         all_doors_locked &= door.interlock_ok;
+        if !matches!(protection, Protection::Berth(released) if released == side) {
+            unreleased_doors_locked &= door.interlock_ok;
+        }
         if door.motor == MotorCommand::DriveOpen {
-            if left {
+            if side == DoorSide::Left {
                 opening_left += 1
             } else {
                 opening_right += 1
@@ -134,29 +184,45 @@ fn evaluate_frame(
         },
         &supply,
     );
-    let atp = powered_wheel_evaluate(
-        &PoweredWheelInputs {
-            selected_configuration: configuration,
-            observed_configuration: observed,
-            authority_valid: frame.authority_valid,
-            localisation_known: true,
-            train_integrity_known: true,
-            communications_fresh: true,
-            doors_locked: all_doors_locked,
-            independent_brake_healthy: true,
-            independent_brake_profile_valid: true,
-            essential_service_supply_ready: frame.service_supply,
-            contact_shoes_proved: true,
-            powered_section_permitted: true,
-            section_isolated: frame.section_isolated,
-            inverter_healthy: true,
-            traction_fault_latched: false,
-            stopped: frame.speed_mmps == 0,
-            parking_brake_proved: frame.parking_proved,
-            wheel_slide_active: false,
-        },
-        frame.brake_demand,
-    );
+    let inputs = PoweredWheelInputs {
+        selected_configuration: configuration,
+        observed_configuration: observed,
+        authority_valid: frame.authority_valid,
+        localisation_known: true,
+        train_integrity_known: true,
+        communications_fresh: true,
+        doors_locked: all_doors_locked,
+        independent_brake_healthy: frame.brake_healthy,
+        independent_brake_profile_valid: frame.brake_profile_valid,
+        essential_service_supply_ready: frame.service_supply,
+        contact_shoes_proved: true,
+        powered_section_permitted: true,
+        section_isolated: frame.section_isolated,
+        inverter_healthy: true,
+        traction_fault_latched: false,
+        stopped: frame.speed_mmps == 0,
+        parking_brake_proved: frame.parking_proved,
+        wheel_slide_active: false,
+    };
+    let atp = match protection {
+        Protection::Berth(side) => powered_wheel_at_berth(
+            &inputs,
+            frame.brake_demand,
+            SecuredBerth {
+                visit_and_platform_proved: frame.station_verified && frame.platform == Some(side),
+                unreleased_doors_locked,
+                all_controllers_present: frame.missing.is_none(),
+                independent_hold_applied: frame.hold_applied,
+                inverter_inhibit_proved: frame.torque_inhibit_proved,
+            },
+        ),
+        Protection::Movement => powered_wheel_evaluate(&inputs, frame.brake_demand),
+        Protection::Starting(direction) => powered_wheel_starting(
+            &inputs,
+            frame.brake_demand,
+            frame.starting_effort_direction == Some(direction),
+        ),
+    };
     (
         Trace {
             opening_left,
@@ -214,10 +280,26 @@ fn main() {
         (6, 4),
         "re-review cases for revised consist"
     );
-    println!(
-        "physical {physical}\nevaluation {}",
-        first["selected_evaluation_id"]
-    );
+    let system_evaluation = first["selected_evaluation_id"].as_str().unwrap();
+    let mut replay_digest = Sha256::new();
+    let replay_inputs: &[&[u8]] = &[
+        b"baghdad-station-visit-v1",
+        physical.as_bytes(),
+        system_evaluation.as_bytes(),
+        include_bytes!("main.rs"),
+        include_bytes!("boarding.rs"),
+        include_bytes!("../Cargo.lock"),
+        include_bytes!("../../../../../crates/osr-atp/src/powered_wheel.rs"),
+        include_bytes!("../../../../../crates/osr-tcms/src/protected_conductor.rs"),
+        include_bytes!("../../../../../crates/osr-tcms/src/lib.rs"),
+        include_bytes!("../../../../../crates/osr-door-control/src/lib.rs"),
+    ];
+    for bytes in replay_inputs {
+        replay_digest.update((bytes.len() as u64).to_be_bytes());
+        replay_digest.update(bytes);
+    }
+    println!("physical {physical}\nsystem evaluation {system_evaluation}\nstation replay evaluation {:x}",
+        replay_digest.finalize());
     use BrakeCommand::{Emergency, Release, Service};
     let base = Frame::default();
     let opening = Frame {
@@ -316,6 +398,7 @@ fn main() {
             &mut vec![DoorState::default(); cars * 2 * openings],
             openings,
             0,
+            Protection::Movement,
         );
         assert_eq!(
             actual,
