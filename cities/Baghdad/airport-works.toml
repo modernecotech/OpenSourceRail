@@ -1,0 +1,75 @@
+# Conditional site quantities and 2026 unit allowances for the dedicated Airport opening.
+# Arrays are low/base/high exposure. Monetary rates below are constant IQD except
+# the World Bank comparator, originally estimated in USD. No row is a supplier offer.
+
+[materials]
+# Iraqi-origin market averages, October 2026, tables 1–2, IQD per unit.
+source = "https://www.cosit.gov.iq/documents/buildings/Employees%20wages/2026/%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%D8%A7%D9%84%D8%A7%D9%86%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%20%D9%84%D8%B4%D9%87%D8%B1%20%D8%AA%D8%B4%D8%B1%D9%8A%D9%86%20%20%D8%A7%D9%84%D8%A7%D9%88%D9%84.pdf"
+resistant_cement_iqd_t = 154000
+reinforcing_steel_iqd_t = 1050000
+sand_iqd_m3 = 18000
+crushed_gravel_iqd_m3 = 24000
+
+[ground]
+# Additional shafts below the retained standard foundation, per affected support.
+affected_support_share = [0.01, 0.04, 0.10]
+piles_per_affected_support = 2
+diameter_m = 1.0
+bored_length_m = [18, 24, 32]
+cement_t_per_m3 = 0.36
+rebar_t_per_m3 = 0.12
+sand_m3_per_m3 = 0.45
+gravel_m3_per_m3 = 0.80
+# Factor includes drilling, muck, cage assembly, batching, casing, test and margin.
+installed_to_material_factor = [2.4, 3.4, 4.6]
+
+[corridor]
+road_source = "https://mop.gov.iq/archives/10965"
+comparator_iqd = 96000000000
+comparator_km = 7
+# Judgement fraction of historical Baghdad mixed road/interchange cost per km,
+# used in 2026 nominal IQD without indexing. Includes conflicts, relocation,
+# land compensation, temporary traffic/reinstatement beyond ordinary civil access.
+corridor_share_of_road_rate = [0.10, 0.22, 0.42]
+
+[rail]
+rail_source = "https://documents1.worldbank.org/curated/en/099050425130516662/pdf/P507282-091efafd-26a7-46f4-86ce-5b25f875478b.pdf"
+renewal_estimate_usd = 33000000
+renewal_km = 32
+# Single extra running/stabling track outside the depot fence.
+extra_track_km = [0.40, 0.85, 1.50]
+# New formation, conductor, controls, imported systems, short local package
+# and elementary access ramp. Major grade separation is outside these bounds.
+lead_factor_on_renewal = [1.6, 2.5, 4.0]
+# Two crossovers (two switches each), plus depot throat and possible refuge.
+turnouts = [5, 6, 8]
+turnout_premium_iqd = [400000000, 700000000, 1100000000]
+
+[site]
+# Incremental interfaces external to the standard priced stations and substations.
+airport_forecourt_iqd = [1800000000, 4500000000, 9000000000]
+offsite_grid_iqd_per_site = [600000000, 1600000000, 3600000000]
+# Local strengthening / temporary decks above ordinary spans and possessions.
+exceptional_road_crossings = [1, 2, 4]
+extra_crossing_iqd = [450000000, 1200000000, 3000000000]
+
+[logistics]
+# Temporary yard hardstanding, remote lease and access beyond fixed equipment.
+extra_yard_iqd_per_month = [25000000, 55000000, 105000000]
+# Extra loaded-equivalent km per dispatch beyond ordinary delivery. The rate
+# includes allocated return travel, tractor, low loader, crew, fuel and permits.
+extra_km_per_beam = [3, 12, 30]
+haul_iqd_per_extra_km = [7000, 11000, 19000]
+
+[operations]
+# All quantities in an opening-year sensitivity, for this Airport corridor alone.
+air_passenger_movements_2024 = 4199253
+air_traffic_source = "https://www.cosit.gov.iq/documents/transportation%20and%20communication/transportation/fullreports/eartrans/%D8%A7%D8%AD%D8%B5%D8%A7%D8%A1%20%D8%A7%D9%84%D9%86%D9%82%D9%84%20%D8%A7%D9%84%D8%AC%D9%88%D9%8A%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%20%D9%88%D8%A7%D9%84%D8%B9%D8%A7%D9%85%20%D9%84%D8%B3%D9%86%D8%A9%202024.pdf"
+# Weak / central / strong demand. Movements already count both arrivals and departures.
+rail_share_of_air_passengers = [0.05, 0.12, 0.22]
+local_boardings_per_eligible_train_call = [2, 5, 9]
+airport_employee_and_visitor_one_way_journeys_per_day = [150, 500, 1100]
+# Low / base / high operating cost. Station ticketing, assistance, security and
+# cleaning already have normal positions. Only extra airport liaison duties here.
+additional_airport_interface_posts_on_duty = [1, 2, 3]
+non_revenue_distance_share = [0.01, 0.025, 0.05]

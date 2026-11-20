@@ -12,11 +12,15 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 | Assigned passenger-path length | 148.2 km | 555.553 km; 50.099 km reserved |
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
-| Installed construction capital, 2026 US dollars | **$7.866bn** | **$31.018bn** |
+| Construction at central Iraqi prices | **$8.37bn** | **$33.00bn** |
+| Construction at original comparison rates | $7.866bn | $31.018bn |
 
-These are single planning estimates for each programme. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
+Each row compares the two programmes at the same price basis. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The route maps show planning corridors and city geography, not surveyed track centre lines or approved station sites.
 
 [Operator briefing and design twins](../../docs/operator-review/README.md) · [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad) · [Compare annual funding and fares](../../docs/operator-review/finance/index.html)
+
+
+**Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
 
 ## City maps and routes
 
@@ -81,9 +85,11 @@ Each train has six 17 m cars, four double doors per side per car, step-free acce
 
 The station pricing register carries 64 generic station allowances on the seven corridors and 280 citywide. It distinguishes a mapped entrance, a repeated place name and an approved station site. The buyer can replace individual allowances as surveyed, complete station offers arrive. [Station sites, access classes and prices](maps/STATION-PRICING.md)
 
-For a smaller opening, the Airport corridor study prices 12 km, six stops, 21 trains and three traction supply sites. Its **$793.177m** planning allowance carries dedicated facilities. Site works and terminal connections still need prices. Compare bidder returns for civil work, trains and stations on the same scope, including Iraqi value added and repair rights. [Airport opening and exclusions](AIRPORT-OPENING.md) · [Downloadable supplier enquiries](../../docs/operator-review/README.md#taking-drawings-to-a-supplier)
+For a smaller opening, the Airport corridor study prices 12 km, six stops, 21 trains and three traction supply sites. Its Iraq-priced central estimate is **$813.7m**, with a **$782.9m–879.5m** range for the opening with dedicated facilities and local works. Central annual operations cost **$16.25m**. At IQD 750 and 3.69m paid journeys, fares cover $1.56m. Compare bidder returns for civil work, trains and stations on the same scope, including Iraqi value added and repair rights. [Airport opening and exclusions](AIRPORT-OPENING.md) · [Downloadable supplier enquiries](../../docs/operator-review/README.md#taking-drawings-to-a-supplier)
 
 For the first-network train and structure, the [train weight and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) checks two accelerating trains on a representative feed section. The [civil and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md) shows the effect of longer beams on supports, cranes and cost. Both identify the measurements a supplier must return.
+
+The central Iraqi operating estimate is **$185.7m/year** on the seven corridors and **$738.7m/year** citywide. A posted fare of **IQD 750** yields an assumed **IQD 637.5** per paid journey after discounts and collection costs. Open the funding comparison to vary costs, fares, ridership and borrowing. [Iraqi costs, wages and fares](IRAQ-ESTIMATES.md) · [Electricity and supply-site prices](IRAQ-POWER.md)
 
 ## Civil works, power and factories
 
@@ -155,6 +161,6 @@ Use the seven-corridor design to review a typical Baghdad station and train. The
 | Operator and maintainers | Open a platform-side door in the boarding study, inspect the brake demand and trace the condition for dispatch. Price the physical trial with parking proof, independent brake feedback and local recovery. [Electronics, wiring and software trial](engineering/controls/README.md) |
 | Iraqi builders and international vendors | Quote one braced body, its bogie frames, a deck bay and one cast beam. Identify imported inputs, tooling ownership, drawings, diagnostics, training and repair rights. Compare turnkey, vendor-led local build and locally integrated offers on the same service. [Buyer return schedule](BUYER-COMPARISON.md) |
 | Factory managers and workforce leads | Check output for the 1,452-car seven-corridor order. Twelve proposed lines have capacity for 1,464 cars under the trial assumptions. Ask for witnessed cycle times and the cost of recovery if one cycle is lost across the lines. Confirm who trains and assesses local crews. [Factory layouts and staffing](../../docs/operator-review/delivery/README.md) |
-| City finance and prospective lenders | At 50% borrowing the seven-corridor opening-year requirement before fares is $486.4m at 4% over 20 years and $692.1m at 7% over 12 years. Request comparable cash and financed prices, loan currency, fees, guarantee requirements and an annual draw schedule. [Funding calculator and worked example](../../docs/operator-review/finance/README.md) |
+| City finance and prospective lenders | At the central IQD 750 ticket and local pay and power rates, seven-corridor operations cost $185.7m per year. At 50% borrowing, 4% real over 20 years, the first full service year needs $414.1m after fare income. Request comparable cash and financed prices, loan currency, fees, guarantee requirements and an annual draw schedule. [Funding calculator and worked example](../../docs/operator-review/finance/README.md) |
 
 Leave the meeting with a terminal pair to survey, a train or station interface to test and a work package to quote locally. Record the owner, date, evidence requested and the effect on service or cost. Carry those returns into the first twelve weeks of the [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad).

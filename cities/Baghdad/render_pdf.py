@@ -353,7 +353,7 @@ def render():
         "project_allowance": "Project allowance",
     }
     story.append(PageBreak())
-    story.append(Paragraph("Appendix: installed capital by scope", styles["SectionOSR"]))
+    story.append(Paragraph("Appendix · Common bid-control prices by scope", styles["SectionOSR"]))
     rows = [["US$ million", "148.2 km", "605.652 km"]]
     for key, label in labels.items():
         rows.append([label, f"{first['selected_capital_scope_usd_m'][key]:,.3f}",

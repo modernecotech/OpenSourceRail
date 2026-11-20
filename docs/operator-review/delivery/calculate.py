@@ -23,6 +23,8 @@ ROUTE = {
     "core": [260, 120, 80, 80, 100, 80],
     "baghdad": [260, 120, 260, 80, 200, 80],
 }
+LINE_AVAILABILITY_PERCENT = 85
+DIRECT_SHIFT_SHARE = 0.80
 STAGES = ["body", "bogies and drive", "doors and interior", "HVAC and auxiliaries",
           "wiring, collection and cooling", "marriage and test"]
 
@@ -35,10 +37,10 @@ def read(path):
 def vehicle_load(cars, days, route):
     interval = 5
     first_completion = len(route) * interval
-    effective_days = floor(days * 85 / 100)
+    effective_days = floor(days * LINE_AVAILABILITY_PERCENT / 100)
     cars_per_line = 1 + (effective_days - first_completion) // interval
     lines = ceil(cars / cars_per_line)
-    crew = [ceil(hours / (interval * 8 * 0.80)) for hours in route]
+    crew = [ceil(hours / (interval * 8 * DIRECT_SHIFT_SHARE)) for hours in route]
     return {
         "cars": cars, "scheduled_workdays": days, "effective_line_days": effective_days,
         "first_car_effective_day": first_completion, "takt_effective_days": interval,
@@ -95,6 +97,112 @@ def opex_ledger(baseline, envelopes):
     return {"baseline_usd_m_year": baseline, "eligible_envelopes_usd_m_year": envelopes,
             "other_costs_usd_m_year": baseline - sum(envelopes.values()),
             "embedded_payroll_usd_m_year": None, "operator_pay_rates_usd_per_fte_year": None}
+
+
+MARKET = "cities/Baghdad/iraq-market.toml"
+# Daily IQD proxies from Baghdad construction trades in the October 2026 ISG bulletin.
+# Role-specific rail recruitment and shift premiums are applied separately.
+DAILY_PAY_IQD = {
+    "scheduled onboard staff": 35_000,
+    "onboard commissioning supervisors": 80_000,
+    "onboard passenger assistants": 35_000,
+    "station duty and passenger assistance": 35_000,
+    "station security and cleaning": (20_000 + 25_000) / 2,
+    "OCC control, traction, incidents and information": 80_000,
+    "depot rolling-stock technicians": (35_000 + 75_000) / 2,
+    "civil, track and power response": 0.25 * 35_000 + 0.75 * 75_000,
+    "planning, payroll, stores and trainers": (25_000 + 80_000) / 2,
+}
+
+
+def iraq_payroll(study, currency):
+    fx = currency["iqd_per_usd"]
+    paid_days, employer_share = 260, 0.12
+    annual = {role: daily * paid_days * (1 + employer_share) / fx for role, daily in DAILY_PAY_IQD.items()}
+    # Estimate the labour already purchased in the broad O&M allowances.
+    # Price only the ordinary GoA4 roles. The resulting credit stays fixed across new offers.
+    posts = study["workforce_scenarios"]["goa4"]["posts_fte"]
+    embedded = {envelope: 0.0 for envelope in study["opex"]["eligible_envelopes_usd_m_year"]}
+    for role, fte in posts.items():
+        amount = annual[role] * fte / 1e6
+        if role.startswith("station "):
+            embedded["Station operations"] += amount
+        elif role == "civil, track and power response":
+            embedded["Power maintenance"] += amount / 3
+            embedded["Non-energy train operations"] += amount * 2 / 3
+        else:
+            embedded["Non-energy train operations"] += amount
+    for envelope, credit in embedded.items():
+        if credit > study["opex"]["eligible_envelopes_usd_m_year"][envelope]:
+            raise ValueError(f"Estimated payroll exceeds the {envelope} budget")
+    total_credit = sum(embedded.values())
+    cases = {}
+    for case, premium in {"low": 0.05, "base": 0.15, "high": 0.35}.items():
+        rates = {role: round(pay * (1 + premium), 2) for role, pay in annual.items()}
+        cases[case] = {"rail_and_shift_premium": premium, "loaded_usd_per_fte_year": rates}
+        for mode, roster_case in study["workforce_scenarios"].items():
+            payroll = sum(rates[role] * count for role, count in roster_case["posts_fte"].items()) / 1e6
+            delta = payroll - total_credit
+            cases[case][mode] = {
+                "payroll_usd_m_year": payroll, "embedded_credit_usd_m_year": total_credit,
+                "net_opex_delta_usd_m_year": delta,
+                "annual_opex_usd_m_year": study["opex"]["baseline_usd_m_year"] + delta,
+            }
+    return {"basis": "Baghdad October 2026 construction wage proxies for local private-sector hires",
+            "paid_days_year": paid_days, "employer_social_insurance_share": employer_share,
+            "currency": currency, "proxy_daily_iqd": DAILY_PAY_IQD,
+            "estimated_credit_by_envelope_usd_m_year": embedded, "cases": cases}
+
+
+def iraq_factory_labour(study, cars_per_train, workdays_year):
+    # Final-assembly crew mix. Weights (skilled trade, semi-skilled, engineer)
+    # are applied to the same official Baghdad wage observations as the roster.
+    mix = {"body": (.75, .25, 0), "bogies and drive": (1, 0, 0),
+           "doors and interior": (.5, .5, 0), "HVAC and auxiliaries": (1, 0, 0),
+           "wiring, collection and cooling": (1, 0, 0), "marriage and test": (.75, 0, .25)}
+    wage = {stage: 75_000 * skilled + 35_000 * semi + 80_000 * engineer
+            for stage, (skilled, semi, engineer) in mix.items()}
+    pricing = study["iraq_payroll"]
+    route = study["vehicle"]["hours_per_car_by_stage"]
+    cars = study["vehicle"]["cars"]
+    if cars % cars_per_train:
+        raise ValueError("Factory order must contain whole trainsets")
+    # One employee is paid for 260 days, with 250 scheduled line days.
+    # 85% availability and 80% direct work match vehicle_load above.
+    productive_hours = workdays_year * 8 * LINE_AVAILABILITY_PERCENT / 100 * DIRECT_SHIFT_SHARE
+    cases = {}
+    for case, data in pricing["cases"].items():
+        multiplier = (pricing["paid_days_year"] * (1 + data["rail_and_shift_premium"])
+                      * (1 + pricing["employer_social_insurance_share"]) / pricing["currency"]["iqd_per_usd"])
+        stage_cost = {stage: route[stage] * wage[stage] * multiplier / productive_hours for stage in route}
+        per_car = sum(stage_cost.values())
+        cases[case] = {"usd_by_stage_per_car": stage_cost, "usd_per_car": per_car,
+                       "usd_per_train": per_car * cars_per_train, "usd_m_order": per_car * cars / 1e6}
+    return {"scope": "Direct repeat assembly labour within train purchase",
+            "hours_per_car": sum(route.values()), "cars_per_train": cars_per_train, "cars_order": cars,
+            "proxy_daily_iqd_by_stage": wage, "productive_hours_per_employee_year": productive_hours,
+            "cases": cases}
+
+
+def iraq_training(study):
+    pricing = study["iraq_payroll"]
+    roster = study["workforce_scenarios"]["goa4"]
+    learners = roster["total_fte"]
+    class_hours = 80 * ceil(learners / 12)
+    mentor_hours = 80 * ceil(learners / 4)
+    hours_paid = 8 * pricing["paid_days_year"]
+    cases = {}
+    for case, data in pricing["cases"].items():
+        annual_rates = data["loaded_usd_per_fte_year"]
+        learner_pay = data["goa4"]["payroll_usd_m_year"] * 1e6 * 160 / hours_paid
+        # Use the senior technical grade to value classroom and supervised instruction.
+        hourly = annual_rates["onboard commissioning supervisors"] / hours_paid
+        cases[case] = {"learner_usd": learner_pay, "instructor_usd": class_hours * hourly,
+                       "mentor_usd": mentor_hours * hourly,
+                       "total_usd_m": (learner_pay + (class_hours + mentor_hours) * hourly) / 1e6}
+    return {"scope": "One initial GoA4 operating intake, within commissioning",
+            "learners": learners, "learner_hours": 160 * learners, "classroom_instructor_hours": class_hours,
+            "field_mentor_hours": mentor_hours, "maximum_learners_per_mentor": 4, "cases": cases}
 
 
 def citywide_mainline_workforce(cfg, city, diagrams, staff):
@@ -215,9 +323,16 @@ def build():
         c["erection_day_posts"] = 8 * c["erection_fronts"]
         study["production_day_posts"] = v["direct_posts_all_lines"] + v["support_posts_all_lines"] + c["civil_yard_day_posts"] + c["erection_day_posts"]
     mainlines = citywide_mainline_workforce(baghdad, results["networks"]["metropolitan"], diagrams, studies["metropolitan"])
-    return {"operating_options": {"metropolitan-mainlines": mainlines}, "schema": "osr.factory-workforce.study.3", "status": "capacity and quotation study",
+    currency = read(MARKET)["currency"]
+    for study in (studies["first"], studies["metropolitan"], mainlines):
+        study["iraq_payroll"] = iraq_payroll(study, currency)
+        study["initial_training_labour"] = iraq_training(study)
+    for study in (studies["first"], studies["metropolitan"]):
+        study["vehicle"]["direct_assembly_labour"] = iraq_factory_labour(
+            study, baghdad["vehicle"]["cars_per_train"], baghdad["civil_rates"]["workdays_per_year"])
+    return {"operating_options": {"metropolitan-mainlines": mainlines}, "schema": "osr.factory-workforce.study.4", "status": "capacity and quotation study",
             "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
-                              for p in [*INPUTS, timetable_source, "docs/reference-v07/cost/README.md", str(Path(__file__).resolve().relative_to(ROOT))]},
+                              for p in [*INPUTS, MARKET, timetable_source, "docs/reference-v07/cost/README.md", str(Path(__file__).resolve().relative_to(ROOT))]},
             "studies": studies}
 
 

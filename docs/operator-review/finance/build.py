@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "cities/Baghdad"))
 from financing import CASES, cash_schedule
+from iraq_budget import funding_cases
 
 
 def schedules():
@@ -28,9 +29,12 @@ def schedules():
     cases = {k: cash_schedule(core_basis, *terms) for k, terms in CASES.items() if k != "export_slice"}
     data = {"core": dict(label="Core · 30 km", id=core["physical_candidate_id"], cases=cases)}
     city = json.loads((ROOT / "cities/Baghdad/financing-scenarios.json").read_text())
+    if city["source_evaluation_id"] != json.loads((ROOT / "cities/Baghdad/system-results.json").read_bytes())["evaluation_id"]:
+        raise ValueError("Update the construction and debt schedules for the current Baghdad evaluation")
+    market = funding_cases()
     for k, n in city["networks"].items():
         data[k] = dict(label={"first": "Baghdad · seven corridors", "metropolitan": "Baghdad · citywide"}[k],
-                       id=n["candidate_id"], cases=n["cases"])
+                       id=n["candidate_id"], cases=n["cases"], market=market[k])
     for network in data.values():
         for case in network["cases"].values():
             rows = case["annual"]

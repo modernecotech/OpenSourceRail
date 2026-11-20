@@ -16,7 +16,7 @@ function amountField(label, positive, step) {
   input.min = positive ? "0.01" : "0";
   input.step = step;
   input.setAttribute("aria-label", label);
-  input.addEventListener("input", render);
+  input.addEventListener("input", () => {byId("pay-basis").value = "custom"; render();});
   return input;
 }
 function buildRows(keepCommonRates = false) {
@@ -128,9 +128,33 @@ function render() {
   byId("study").textContent = workforceStudy.study_evaluation_sha256.slice(0,12);
   reconcile(payroll);
 }
-byId("railway").addEventListener("change", () => {buildRows(); buildCredits(); render();});
-byId("mode").addEventListener("change", () => {buildRows(true); render();});
+function applyPayBasis() {
+  const basis = byId("pay-basis").value;
+  const pricing = railway().iraq_payroll;
+  const rates = pricing?.cases[basis]?.loaded_usd_per_fte_year;
+  byId("salary").value = "";
+  for (const [role, row] of roleRows) row.rate.value = rates && !row.rate.disabled ? rates[role] : "";
+  for (const [name, field] of creditInputs) {
+    field.value = rates ? pricing.estimated_credit_by_envelope_usd_m_year[name] : "";
+  }
+  render();
+}
+function selectRailway() {
+  buildRows();
+  buildCredits();
+  const picker = byId("pay-basis");
+  picker.disabled = !railway().iraq_payroll;
+  picker.value = picker.disabled ? "custom" : "base";
+  applyPayBasis();
+}
+byId("railway").addEventListener("change", selectRailway);
+byId("pay-basis").addEventListener("change", applyPayBasis);
+byId("mode").addEventListener("change", () => {
+  buildRows(true);
+  const rate = railway().iraq_payroll?.cases[byId("pay-basis").value]?.loaded_usd_per_fte_year;
+  const row = roleRows.get(scenario().onboard_role);
+  if (rate && !row.rate.disabled) row.rate.value = rate[scenario().onboard_role];
+  render();
+});
 for (const id of ["hours","salary"]) byId(id).addEventListener("input", render);
-buildRows();
-buildCredits();
-render();
+selectRailway();

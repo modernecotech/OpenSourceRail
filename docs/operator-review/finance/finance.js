@@ -12,13 +12,28 @@ const scenarioBudget = amount?.trim() ? Number(amount) : NaN;
 let appliedStaffBudget = matchesNetwork && Object.hasOwn(railwayFinance, initialNetwork) &&
     Number.isFinite(scenarioBudget) && scenarioBudget > 0 ? scenarioBudget : null;
 
+function marketCase(selection = el('market').value) {
+    const railway = railwayFinance[el('network').value];
+    const service = el('network').value === 'metropolitan' ? el('operation').value : 'full';
+    return railway.market?.[service]?.[selection];
+}
+
+function seedFares() {
+    const staffingHandover = appliedStaffBudget !== null && el('network').value === initialNetwork &&
+        (el('network').value !== 'metropolitan' || el('operation').value === initialOperation);
+    const scenario = staffingHandover ? marketCase('central') : marketCase();
+    el('journeys').value = scenario ? scenario.paid_m.toFixed(4) : '';
+    el('fare').value = scenario ? scenario.net_usd.toFixed(6) : '';
+    draw();
+}
+
 function selectRailway() {
     const previous = el('terms').value;
     const {cases} = railwayFinance[el('network').value];
     el('terms').replaceChildren();
     for (const key of Object.keys(cases)) el('terms').add(new Option(names[key],key));
     el('terms').value = previous in cases ? previous : 'mixed_debt';
-    draw();
+    seedFares();
 }
 function draw() {
     const core = el('network').value === 'core';
@@ -28,26 +43,38 @@ function draw() {
     const operation = citywide ? el('operation').value : 'full';
     const mainlines = operation === mainlineKey;
     const useStaffBudget = appliedStaffBudget !== null && el('network').value === initialNetwork && operation === initialOperation;
-    const operatingAllowance = useStaffBudget ? appliedStaffBudget : mainlines
-        ? workforceStudy.operating_options[mainlineKey].opex.baseline_usd_m_year : null;
+    const scenario = marketCase();
+    el('market-label').hidden = core;
+    el('market-basis').hidden = !scenario;
+    el('market-basis').textContent = scenario ? 'Starting assumptions: IQD ' + scenario.posted_iqd.toLocaleString('en-US') +
+        ' posted fare, IQD ' + scenario.net_iqd + ' collected per paying journey, and ' + (100 * scenario.occupancy).toFixed(0) +
+        '% of place-kilometres occupied. Annual operations include ' + money(scenario.payroll_m) + ' in wages and ' +
+        money(scenario.power_m) + ' in electricity.' : '';
+    let operatingAllowance = mainlines ? workforceStudy.operating_options[mainlineKey].opex.baseline_usd_m_year : null;
+    if (scenario) operatingAllowance = scenario.opex_m;
+    if (useStaffBudget) operatingAllowance = appliedStaffBudget;
+    const capitalFactor = scenario?.capital_factor ?? 1;
     el('operating-basis').hidden = !mainlines;
     el('operating-basis').textContent = mainlines
         ? 'Fourteen main routes run with five access sections deferred. This comparison funds all citywide infrastructure, stations and the fleet. Train operations and electricity follow the diagrammed mileage.' : '';
     el('staffing-case').hidden = !useStaffBudget;
-    const rows = selected.annual.map(row => {
-        if (operatingAllowance === null || row.operations === 0) return row;
-        return {...row, operations: operatingAllowance,
-            buyer_cash: row.buyer_cash - row.operations + operatingAllowance};
+    const rows = selected.annual.map(source => {
+        const row = {...source};
+        // Same payment dates and borrowing share applied to the chosen construction price.
+        for (const key of ['capital','borrowing','interest','principal','closing_debt']) row[key] *= capitalFactor;
+        if (source.operations > 0 && operatingAllowance !== null) row.operations = operatingAllowance;
+        row.buyer_cash = row.capital - row.borrowing + row.principal + row.interest + row.operations + row.renewals;
+        return row;
     });
     const opening = rows.find(row => row.operations > 0);
     const total = key => rows.reduce((sum,row) => sum + row[key],0);
     const year = value => core ? 'Year ' + value : String(value);
     el('capital').textContent = money(total('capital'));
     el('borrow').textContent = money(total('borrowing'));
-    el('service').textContent = money(selected.annual_debt_service);
+    el('service').textContent = money(selected.annual_debt_service * capitalFactor);
     el('opex').textContent = money(opening.operations);
     el('opening').textContent = year(opening.year) + ' needs ' + money(opening.buyer_cash) + ' before receipts. During construction the largest annual buyer draw is ' +
-        money(Math.max(...rows.filter(r => r.capital > 0).map(r => r.buyer_cash))) + '. Construction interest totals ' + money(selected.construction_interest) + '.';
+        money(Math.max(...rows.filter(r => r.capital > 0).map(r => r.buyer_cash))) + '. Construction interest totals ' + money(selected.construction_interest * capitalFactor) + '.';
     const inputs = [el('journeys'),el('fare')];
     const valid = inputs.every(input => input.value !== '' && input.validity.valid && Number.isFinite(input.valueAsNumber));
     const receipts = el('journeys').valueAsNumber * el('fare').valueAsNumber;
@@ -74,7 +101,12 @@ function draw() {
 }
 el('network').value = Object.hasOwn(railwayFinance, initialNetwork) ? initialNetwork : 'first';
 el('operation').value = matchesNetwork ? initialOperation : 'full';
-el('operation').addEventListener('change',draw);
+if (appliedStaffBudget !== null) el('market').value = 'engineering';
+el('operation').addEventListener('change',seedFares);
+el('market').addEventListener('change', () => {
+    appliedStaffBudget = null;
+    seedFares();
+});
 el('restore-budget').addEventListener('click', () => {
     appliedStaffBudget = null;
     draw();

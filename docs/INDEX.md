@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **177**.
+Indexed Markdown files: **180**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **177**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 16 |
+| [cities](#cities) | 19 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 129 |
@@ -57,6 +57,9 @@ Indexed Markdown files: **177**.
 | [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
 | [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Buying a railway using an open reference |
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
+| [`cities/Baghdad/IRAQ-CAPITAL.md`](../cities/Baghdad/IRAQ-CAPITAL.md) | What the Baghdad networks could cost to build |
+| [`cities/Baghdad/IRAQ-ESTIMATES.md`](../cities/Baghdad/IRAQ-ESTIMATES.md) | What Baghdad would pay to run the railway |
+| [`cities/Baghdad/IRAQ-POWER.md`](../cities/Baghdad/IRAQ-POWER.md) | Buying traction electricity and equipment in Iraq |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |

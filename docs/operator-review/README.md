@@ -19,7 +19,7 @@ For a presentation, open the PDF. In the running Workbench, the **Operator revie
 
 ![Baghdad station, train and viaduct in the interactive assembly viewer](twins/baghdad-station.png)
 
-The [core train workings](../reference-v07/integration/TIMETABLE.md) assign 576 daily trips to 44 sets and show the effect of losing a set or terminal berth. The [Airport opening study](../../cities/Baghdad/AIRPORT-OPENING.md) builds up one six-stop Baghdad service. The [span and yard study](../../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) and [train weight and power study](../../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) give suppliers specific quantities and duties to return.
+The [core train workings](../reference-v07/integration/TIMETABLE.md) assign 576 daily trips to 44 sets and show the effect of losing a set or terminal berth. The [Airport opening study](../../cities/Baghdad/AIRPORT-OPENING.md) prices a six-stop Baghdad service at $813.7m, including local works. The [span and yard study](../../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) and [train weight and power study](../../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) give suppliers specific quantities and duties to return.
 
 ## Design records for a technical meeting
 
@@ -40,7 +40,7 @@ Enter the delivered first-article cash price, documented domestic and imported v
 
 ## What the funding screen shows
 
-The core comparison spreads capital evenly across the 43 construction months as a provisional draw schedule. Full annual operations start in relative Year 5. Renewals are $160m in operating year 15 and $70m in year 25. Baghdad uses the annual project schedules for construction, operating costs and renewal events. Interest on construction draws is paid from the buyer's budget. Changes to a fare scenario affect receipts only. Figures use constant 2026 US dollars. Quotes, exchange rates, fees and public-service agreements will affect a real contract. The illustration below uses 100 million paid journeys at $1 net each as a sensitivity. Neither input is a forecast. [Core cost and renewal basis](../reference-v07/cost/README.md) · [Baghdad debt schedules](../../cities/Baghdad/financing-scenarios.json)
+The core comparison spreads capital evenly across the 43 construction months as a provisional draw schedule. Full annual operations start in relative Year 5. Renewals are $160m in operating year 15 and $70m in year 25. Baghdad uses the annual project schedules for construction, operating costs and renewal events. Interest on construction draws is paid from the buyer's budget. Changes to a fare scenario affect receipts only. Figures use constant 2026 US dollars. Quotes, exchange rates, fees and public-service agreements will affect a real contract. The seven-corridor screen opens with Iraqi pay and electricity, a posted fare of IQD 750 and 188.4m paid journeys. The central case collects $79.5m and needs $414.1m of public funding including debt service. [Iraq estimate and sources](../../cities/Baghdad/IRAQ-ESTIMATES.md) [Core cost and renewal basis](../reference-v07/cost/README.md) · [Baghdad debt schedules](../../cities/Baghdad/financing-scenarios.json)
 
 ![Interactive funding screen for Baghdad’s seven corridors with hypothetical ridership and fare receipts](finance/baghdad-funding.png)
 

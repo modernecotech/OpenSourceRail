@@ -2,6 +2,9 @@
 
 **Proposal to Amanat Baghdad · 20 November 2026 · planning prices in 2026 US dollars**
 
+
+**Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
+
 ## Brief
 
 Baghdad needs a railway that serves daily trips across the city, reaches the airport passenger terminal, and can grow with its population. OpenSourceRail proposes a locally buildable, repairable electric railway on standardised elevated structures. The passenger lines have **no tunnels or underground stations**. Trains draw power from a protected conductor beside the track, so the preferred design has **no overhead wires**. Iraqi factories and contractors would take an increasing share of precast concrete, vehicle bodies, stations, assembly and maintenance.
@@ -12,10 +15,10 @@ OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The au
 
 The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** has its own nine cross-city and ring corridors, six infill corridors and proposed links. Its 2035 construction allowance covers the complete guideway plan, including six sections reserved without passenger paths. The planning service assigns access branches to through trains. The route design must resolve their connections before the timetable can be set.
 
-| Programme | Costed guideway | Stations budgeted | Train fleet | Construction capital | Modelled completion |
+| Programme | Costed guideway | Stations budgeted | Train fleet | Central Iraqi capital | Modelled completion |
 |---|---:|---:|---:|---:|---:|
-| Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$7.866bn** | 2031 |
-| Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$31.018bn** | 2035 |
+| Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$8.37bn** | 2031 |
+| Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$33.00bn** | 2035 |
 
 The 2027 capital draws and 2031/2035 completion years are scenario dates. Rebase them on the new procurement timetable once published. These are **one estimate for each alternative**, each priced as a complete railway. They must not be added or subtracted to describe a build sequence. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
 
@@ -126,7 +129,11 @@ The [cabinet schedules and software replay](engineering/controls/README.md) conn
 
 ### Operating organisation and recurring cost
 
-The operating company needs a staffed control room, station teams, train and electrical maintainers, civil inspection crews, cleaners, security, passenger assistance, stores and procurement, payroll and finance. The current annual operating figure combines **$2.60 per non-energy train-km**, **$1m per station-year**, grid energy at **$0.12/kWh**, and supply-specific upkeep. It is an allowance that includes operational work; it is not a payroll roster or an audited local wage bill. Staffing, shift premiums, training, spare parts, electricity tariffs and depot productivity should be priced as separate contract schedules before a fare or subsidy plan is adopted.
+The operating company needs a staffed control room, station teams, train and electrical maintainers, civil inspection crews, cleaners, security, passenger assistance, stores and procurement, payroll and finance. The original operating allowance combines **$2.60 per non-energy train-km**, **$1m per station-year**, grid energy at **$0.12/kWh**, and supply-specific upkeep. It is an allowance that includes operational work; it is not a payroll roster or an audited local wage bill. Staffing, shift premiums, training, spare parts, electricity tariffs and depot productivity should be priced as separate contract schedules before a fare or subsidy plan is adopted.
+
+For the **seven corridors**, the Iraq central case budgets **US$185.7m a year** including US$12.3m in unattended-service payroll and US$50.1m in electricity. At an assumed IQD 750 flat fare, 188.4m annual paid journeys yield US$79.5m after paid discounts and collection. The resulting public requirement including debt service at 50% borrowing, 4% real and 20 years is **US$414.1m** in 2032. The funding sensitivity spans US$201.0m to US$640.8m. This is the first full year in the construction scenario.
+
+The independent **citywide** full-service case budgets **US$738.7m** in annual operations, US$188.6m in fare receipts and **US$1,764.1m** in annual public funding on the same terms. The 14-main-route service budgets US$736.4m for operations. Passenger counts depend on trip length, transfers, uptake and service reliability. The buyer can replace these assumptions in the opening-year calculator. [Iraqi wages, tariffs, fares and ridership assumptions](IRAQ-ESTIMATES.md) · [Traction power and local supply prices](IRAQ-POWER.md)
 
 The [train diagrams](SERVICE-DIAGRAMS.md) link 3,192 daily trips on seven corridors using 208 of 210 active sets. They reproduce the 24.666 million annual train-km in the first-network estimate. Single blocks between stations cannot carry the 150-second peak on these paths. Citywide, ten groups have connected diagrams and four still need branch and junction decisions. Those four account for 40.499 million train-km in the annual budget. An alternative timetable keeps all fourteen main routes, including both directions of the M09 ring, and defers five short access sections. It diagrams **6,384 daily trips on 725 sets**. The difference from the full budget is 497,724 annual train-km. Keeping all infrastructure, stations and fleet, the corresponding annual operating estimate is **US$777.932m**. Measure demand, root each terminal turn in a platform layout and establish safe separation before committing the service offer.
 
@@ -218,6 +225,8 @@ Capital raising should proceed through a funded preparation phase; matched expor
 
 The table follows each programme's annual construction draws. It compares the budget paying for construction directly with three hypothetical borrowing cases. All figures are **US$ million in constant 2026 prices**, rounded. Interest is paid from the budget on the opening balance and half of each year's new borrowing. Equal annual repayments start in the first full service year. The 4% and 7% real rates and repayment periods are assumptions for comparing offers. They carry no lender commitment.
 
+The table uses the original operating rates so bidders can reproduce the financing comparison. The central Iraqi operating and fare assumptions above give the sponsor’s local opening-year funding estimate.
+
 | Programme and debt case | Construction interest | Peak annual buyer cash during construction | Annual debt service | First full year including operations |
 |---|---:|---:|---:|---:|
 | Seven corridors, public budget | 0 | 2,360 | 0 | 197 |
@@ -252,7 +261,9 @@ Each corridor should have a contract schedule for land and utility access, mater
 
 ## A first opening to price
 
-The Airport corridor gives the sponsor a smaller comparison with a defined passenger service. The 12 km option has six planning stops, 18 working trains and three spares. Its fourteen capital scopes total **US$793.177m** including a dedicated depot, a control centre and three supply sites. The model allows **US$16.767m a year** for operations. Turnouts, airport access works, unusual foundations and depot connections still need site quantities. The buyer can replace dedicated facilities with a priced shared or temporary arrangement. [Opening quantities, timetable and cost boundary](AIRPORT-OPENING.md)
+The Airport corridor gives the sponsor a smaller comparison with a defined passenger service. The 12 km option has six planning stops, 18 working trains and three spares. Including dedicated facilities and Iraq-priced site and terminal works, the central estimate is **US$813.7m**, with a range of **US$782.9m–879.5m**. This replaces the generic land and utility allowance in the original US$793.177m estimate. With 456 passenger trips a day, the Airport central case needs **US$16.25m/year** to operate, including 205 staff and US$4.16m in electricity. At an assumed IQD 750 ticket, 3.69m paid journeys yield US$1.56m and leave US$14.69m a year in operating support before debt payments. Survey the turnouts, airport access, foundations and depot connections to refine the works quantities. The buyer can replace dedicated facilities with a priced shared or temporary arrangement. [Opening quantities, timetable and cost boundary](AIRPORT-OPENING.md)
+
+At the original common tender prices, a scope-by-scope estimate puts Iraqi value retained within Iraqi awards at **US$1.76bn** on the seven corridors and **US$7.02bn** citywide. In the seven-corridor case the estimated award value is US$3.18bn. Imported equipment supplied under an Iraqi contract accounts for part of the difference. Ask each bidder to improve the price and traceable domestic value against the same quantities. [Iraqi value by procurement package](BUYER-COMPARISON.md#how-much-of-the-order-could-stay-in-iraq)
 
 For the first-network supply study, a pair of trains accelerating together draws the representative collector voltage to **1.344 kV** against a **1.350 kV** planning floor. Request conductor, return and source measurements before choosing feed spacing. The civil comparison also finds that the 20, 25 and 30 m trial sections exceed a 60 t crane allowance before rigging. Bidders should price the crane at the actual lift radius, changed section and closures alongside the reduction in supports. [Train and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) · [Span and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md)
 

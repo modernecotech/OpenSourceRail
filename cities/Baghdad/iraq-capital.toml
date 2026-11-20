@@ -1,0 +1,39 @@
+# Low / base / high installed rates in constant 2026 USD millions unless stated.
+# National material prices, Baghdad road and rail project values are read from airport-works.toml.
+[civil]
+# Material composition per m3 of reinforced stock. No tendon/bar layout is selected.
+cement_t_per_m3 = 0.39
+sand_m3_per_m3 = 0.45
+gravel_m3_per_m3 = 0.80
+rebar_t_per_m3 = [0.10, 0.14, 0.19]
+beam_fabrication_and_delivery_usd_each = [8000, 11500, 16500]
+support_works_usd_each = [3600, 6500, 14000]
+lift_usd_each = [3300, 5000, 8500]
+other_civil_usd_m_per_route_km = [2.4, 3.6, 6.5]
+
+[stations]
+civil_and_finishes = [6.0, 8.0, 11.5]
+electromechanical_and_platform_equipment = [2.5, 3.8, 5.5]
+public_access_and_egress = [1.1, 2.0, 3.5]
+benchmark = "https://www.mohua.gov.in/upload/whatsnew/5c6bdd5429cd4Report%20on%20Benchmarking%20for%20Cost%20Estimation%20of%20Metro%20Rail%20Projects-.pdf"
+
+[trains]
+contract_eur_m = 98
+contract_cars = 78
+award_usd_per_eur = 1.0176
+delivered_price_factor = [1.00, 1.20, 1.55]
+source = "https://www.alstom.com/sites/alstom.com/files/2022/11/10/20221111_PR_Metro_Coaches_for_Chennai_Metro_PhaseII_EN.pdf"
+exchange_source = "https://www.federalreserve.gov/releases/h10/20221114/"
+
+[route]
+track_walkway_factor_on_iraq_renewal = [0.65, 0.87, 1.20]
+land_utilities_share_of_baghdad_road_per_km = [0.12, 0.24, 0.50]
+signalling_usd_m_per_route_km = [0.9, 1.35, 2.0]
+brake_recovery_usd_m_per_route_km = [0.45, 0.65, 0.95]
+line_traction_supply_factor_on_published_equipment = [0.80, 1.07, 1.45]
+
+[facilities]
+depot_usd_m_each = [42, 60, 88]
+control_centre_usd_m_each = [14, 22, 32]
+tooling_fixed_usd_m = [30, 42, 65]
+tooling_usd_m_per_route_km = [0.3, 0.45, 0.65]

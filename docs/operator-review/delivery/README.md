@@ -36,6 +36,19 @@ Each build stage has a five-effective-day takt. The first car comes out after si
 
 Core hours follow the production route. For Baghdad, the tender assumption allocates 30 hours per additional opening for six additional openings/car and 100 extra hours/car for its collection, wiring, cooling and protection scope. Matching allowances elsewhere need independent time studies on the Baghdad prototype. These budgets cover direct final assembly. Component manufacture, incoming logistics, rework, supplier shortages, infrastructure construction and dynamic qualification require their own hours. Each line has four additional day-shift positions for coordination, quality inspection, stores and materials handling. Independent release authorisation must be available even when work backs up. [Core manufacturing route](../../reference-v07/manufacturing/README.md) · [Baghdad equipment interfaces](../../../cities/Baghdad/VEHICLE.md)
 
+### What local final assembly could cost
+
+| Direct final-assembly labour, 2026 US$ | Low | Central | High |
+|---|---:|---:|---:|
+| One repeat car, 1,000 direct hours | 10,020 | 10,975 | 12,883 |
+| One six-car train, 6,000 direct hours | 60,122 | 65,848 | 77,299 |
+| 242-train first order | 14.55m | 15.94m | 18.71m |
+| 934-train citywide order | 56.15m | 61.50m | 72.20m |
+
+These figures identify labour **inside the train purchase price**. They assume Iraqi direct hires throughout final assembly. For the six stages in production order, the assumed daily gross wages before the rail premium are IQD 65,000 / 75,000 / 55,000 / 75,000 / 75,000 / 76,250. For the body assume three skilled welders or fitters to one semi-skilled assistant. For doors and interiors assume equal skilled and semi-skilled time. Bogie assembly, HVAC and wiring use skilled trades. Final marriage and testing assume three skilled technicians to one engineer. The model applies the low, central or high pay premium and employer contribution described below. At 250 scheduled days, 85% line availability and 80% direct time per eight-hour shift, each 260-day paid year supplies 1,360 direct assembly hours. Multiply the grade-specific cost of a productive hour by the route hours at each stage. Round only after pricing the full train or order.
+
+A supplier can replace these estimates with timed station work and its own pay schedule. The amounts scale repeat work and exclude tooling, bought-in components, factory support, excess staffing during line fill and run-down, materials, rework, contingency, margin and qualification. Factory staffing and utilisation in the awarded delivery schedule determine how much of the planned local work becomes paid employment. [Baghdad wage and exchange-rate evidence](#baghdad-operating-pay-in-2026-prices)
+
 **Repair demonstration.** Receive the failed train on the isolated road and record car, bogie and symptom. Make the consist secure and verify traction, service battery, brake energy and coolant isolation. Position supports, drop the wheelset or brake module, inspect attachments, record replacement serials and measured torque, then test isolation, braking, collection and door interlocks before the independent release. Size each crane, jack, pit, hook, floor and external transfer using a weighed complete assembly, actual lift points, centre of gravity and the complete removal path. Installed lifting loads, trainset strip-down hours, building price and site rights await supplier and site evidence.
 
 ## Precast yard, stock and erection
@@ -84,13 +97,48 @@ The same roster rules give **6,339 FTE** for unattended service, **7,815** for a
 
 ### Try the operating roster
 
-Open the planner and select a railway and staffing scenario. Set annual rosterable hours, enter a common loaded annual pay rate and override any individual grade. The planner rounds up headcount by role before multiplying by the applicable rate. It starts with local pay unpriced. Leave an unpriced grade blank until the operator supplies its rate or a common rate. Instructor-hours and supervised learner-hours update with the proposed headcount. [Offline workforce planner](index.html)
+The Baghdad planner opens with central local pay estimates. Select a different pay case, adjust headcount through rosterable hours, or enter an operator’s rates and itemised contract labour credits. The planner rounds each role up to a whole FTE. The core railway opens with operator-entered pay because its location is unspecified. [Offline workforce planner](index.html)
 
-[![GoA4 roster, role pay and annual cost reconciliation for Baghdad’s first programme](workforce.png)](index.html)
+[![GoA4 roster, role pay and annual operating cost for Baghdad’s first network](workforce.png)](index.html)
 
-The screenshot prices 1,526 FTE at an illustrative US$24,000 per FTE/year, giving **US$36.624m annual payroll** and **122,080 supervised learner-hours**. To test the price against annual OPEX, enter only payroll covering these same duties already inside each existing allowance. Use the same basis for outsourced and directly employed posts. A bidder should identify the labour lines in each service contract. Leave missing splits blank and enter zero only for a reviewed envelope with no overlap.
+### Baghdad operating pay in 2026 prices
 
-For the first network the published US$196.978m/year contains US$64.133m of non-energy train operations (US$2.60 per train-km), US$64m of station operations, US$5.928m of power maintenance and US$62.918m of energy. For the screenshot alone, assume US$12m, US$25m and zero respectively of the first three allowances already purchase the listed duties. The revised annual cost is **US$196.602m** after removing US$37m once and adding US$36.624m once. Equipment, electricity and other costs remain in the ledger. Actual tendered payroll and existing labour splits are unknown. The planner can carry either fully priced passenger-service scenario into the finance planner for the same railway. For commissioning it displays the annual equivalent locally until the trial period and its actual cost are agreed. Published OPEX stays visible for comparison. The independent citywide proposal uses its own duties, contract envelopes and costs.
+Iraq’s Statistics and GIS Authority reported October 2026 Baghdad day rates of IQD 20,000 for guards, 25,000 for unskilled labour and administrators, 35,000 for semi-skilled workers, 75,000 for skilled trades and 80,000 for engineers. These are observed construction-sector rates. The planner uses them as a recruitment benchmark for permanent rail jobs. Use a collective agreement, tendered rates or a rail employer’s payroll survey when available. [Official October bulletin, Baghdad row in the wage table (Arabic)](https://www.cosit.gov.iq/documents/buildings/Employees%20wages/2026/%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%D8%A7%D9%84%D8%A7%D9%86%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%20%D9%84%D8%B4%D9%87%D8%B1%20%D8%AA%D8%B4%D8%B1%D9%8A%D9%86%20%20%D8%A7%D9%84%D8%A7%D9%88%D9%84.pdf)
+
+| Railway role | Assumed grade mix | Wage proxy, IQD per paid day |
+|---|---|---:|
+| Station and onboard passenger assistance | Semi-skilled | 35,000 |
+| Security and cleaning | Equal guard and unskilled shares | 22,500 |
+| Control room and onboard commissioning supervisors | Engineer | 80,000 |
+| Depot technicians | Equal skilled and semi-skilled shares | 55,000 |
+| Civil, track and power response | Three skilled workers to one semi-skilled | 65,000 |
+| Planning, payroll, stores and trainers | Equal administrator and engineer shares | 52,500 |
+
+Allow 260 paid eight-hour days a year including paid absence. A **5% / 15% / 35%** allowance on earnings tests rail recruitment and shift premiums. The employer pays a further **12%** on this gross pay under the assumed private-sector Iraqi employment arrangement. The employee’s 5% contribution comes out of gross salary. Different employment arrangements, international secondees, extra benefits and overtime require their own prices. Translate loaded annual IQD pay at the Central Bank’s 7 October 2026 bank-sale rate of **IQD 1,510 per US dollar**. For example, a station assistant in the central case earns IQD 10.465m per year before deductions and costs the employer IQD 11.721m (US$7,762). [ILO guide to business registration, social security chapter (Arabic)](https://www.ilo.org/sites/default/files/2025-10/%D8%AF%D9%84%D9%8A%D9%84%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%D8%B9.pdf) · [Central Bank exchange-rate decision (Arabic)](https://cbi.iq/news/view/3355)
+
+| Annual GoA4 outcome, US$m | First network | Citywide | Citywide with five access sections deferred |
+|---|---:|---:|---:|
+| Published operating allowance | 196.98 | 780.50 | 777.93 |
+| Assumed payroll inside that allowance | 10.67 | 42.63 | 42.63 |
+| Replacement payroll, low / central / high | 11.21 / 12.27 / 14.41 | 44.76 / 49.03 / 57.55 | 44.76 / 49.03 / 57.55 |
+| Revised operating cost, low / central / high | 197.51 / 198.58 / 200.71 | 782.63 / 786.89 / 795.42 | 780.06 / 784.33 / 792.85 |
+
+The first network’s **1,526 FTE** need **122,080 supervised learner-hours** for initial training. Its original US$196.978m annual budget includes US$64.133m for non-energy train operations, US$64m for stations, US$5.928m for power maintenance and US$62.918m for energy. To avoid paying twice for the same posts, estimate the embedded payroll by pricing the common GoA4 roster at the wage proxies plus employer contributions. Allocate station staff to stations, one third of civil/track/power response payroll to power maintenance and the balance of operational roles to train operations. This credits **US$7.076m, US$0.426m and US$3.170m** respectively. Leave other parts of those allowances in place. The assumed credit stays fixed when testing new pay, rosterable hours or attended duties.
+
+Embedded payroll is a separate uncertainty. A 20% error either way in the labour already allowed changes central annual OPEX by **US$2.13m** for the first network or **US$8.53m** citywide. Use each contractor’s labour/non-labour breakdown to revise the three credits. The planner passes a fully priced passenger-service scenario to finance. It shows supervised commissioning as a full-year equivalent until the trial dates are known.
+
+### Paid time for initial operator training
+
+| One GoA4 intake, 2026 US$m | First network | Citywide |
+|---|---:|---:|
+| Learners and paid learner-hours | 1,526 people / 244,160 h | 6,339 people / 1,014,240 h |
+| Classroom instructor-hours / field mentor-hours | 10,240 / 30,560 | 42,320 / 126,800 |
+| Central learner pay / instructors / field mentors | 0.944 / 0.087 / 0.261 | 3.771 / 0.361 / 1.082 |
+| Total labour, low / central / high | 1.180 / 1.292 / 1.517 | 4.760 / 5.214 / 6.121 |
+
+Include these paid hours **within pre-opening commissioning**, with one initial intake of the proposed operating establishment. Price 80 classroom hours at up to twelve learners per instructor and 80 mentored hours at an assumed four learners per mentor, rounding up the number of groups. Each learner’s hours use their role’s loaded annual pay divided by 2,080 paid hours. Price instructors and mentors at the senior technical grade. The two citywide service offers use the same GoA4 establishment. A duty-specific supervision plan may require one-to-one assessment, especially for electrical isolation or vehicle recovery. Obtain a separate quote for facilities, simulators, bilingual course preparation, certification, specialist trainers and travel.
+
+Match trainee and instructor hours to dates, employing contracts and cost centres. Credit the same hours already paid by the operating contract, supplier’s training package or phased mobilisation before valuing a new training offer. Recurrent training remains in operating rosters. This initial training estimate measures one portion of the existing commissioning scope.
 
 ### Hiring, training and release
 

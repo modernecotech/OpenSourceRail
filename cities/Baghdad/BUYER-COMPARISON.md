@@ -20,6 +20,43 @@ Request three returns for one network at a time. Invite a turnkey offer, a vendo
 
 Use the same ex-tax, ex-contingency, ex-financing denominator for all localisation comparisons. For a package priced at 100 units with 35 imported, 10 untraced and 55 documented domestic value, report **55% verified** and **10% untraced**, even if an Iraqi prime receives the entire contract. Aggregate by value across lots. Report skills separately in qualified staff, shop hours, independently accepted articles and turnaround time. A local address alone establishes none of these measures.
 
+## How much of the order could stay in Iraq?
+
+Apply the published metropolitan Iraqi-contract targets to each of its thirteen priced scopes. For the first network, transfer each target to the corresponding first-network package. Applying a single citywide percentage to $7.866bn would give the wrong answer because the mix of vehicles, stations and civil works differs. Both prices include a separately identified contingency with no origin assigned. Taxes, debt service and financing fees sit outside the engineering price. [Selected network quantities and prices](system-results.json) · [Published work-package targets](system.toml)
+
+<!-- Iraqi award estimates -->
+
+| Network | Installed price $bn | Unassigned contingency $bn | Priced scope $bn | Iraqi award $bn (% of priced scope) | Value retained in Iraq low / base / high $bn | Retained % of priced scope |
+|---|---:|---:|---:|---:|---:|---:|
+| First | 7.866 | 1.311 | 6.555 | 3.179 (48.5%) | 1.27 / 1.76 / 2.20 | 19.4% / 26.8% / 33.6% |
+| Metropolitan | 31.018 | 5.170 | 25.848 | 12.599 (48.7%) | 5.09 / 7.02 / 8.80 | 19.7% / 27.2% / 34.0% |
+
+| Scope | Target Iraqi award | Retained % of Iraqi award, low / base / high | First network award / base retained $m | Metropolitan award / base retained $m |
+|---|---:|---:|---:|---:|
+| Elevated civil works | 70% | 60.0% / 75.0% / 85.0% | 931.9 / 698.9 | 3,808.3 / 2,856.2 |
+| Stations and access | 60% | 50.0% / 65.0% / 80.0% | 499.2 / 324.5 | 2,184.0 / 1,419.6 |
+| Track and walkways | 45% | 30.0% / 45.0% / 60.0% | 106.7 / 48.0 | 436.1 / 196.2 |
+| Signalling and communications | 20% | 15.0% / 30.0% / 45.0% | 35.6 / 10.7 | 145.4 / 43.6 |
+| Brake protection and recovery | 20% | 15.0% / 30.0% / 45.0% | 17.8 / 5.3 | 72.7 / 21.8 |
+| Line traction supply | 35% | 25.0% / 40.0% / 55.0% | 110.9 / 44.4 | 454.5 / 181.8 |
+| Complete trains | 35% | 20.0% / 35.0% / 50.0% | 718.3 / 251.4 | 2,772.1 / 970.2 |
+| Depots and control centres | 60% | 40.0% / 55.0% / 70.0% | 156.0 / 85.8 | 444.0 / 244.2 |
+| Tooling and recovery | 75% | 30.0% / 45.0% / 60.0% | 74.5 / 33.5 | 211.7 / 95.3 |
+| Design and assurance | 40% | 50.0% / 65.0% / 80.0% | 189.8 / 123.4 | 748.5 / 486.6 |
+| Testing and commissioning | 40% | 45.0% / 60.0% / 75.0% | 59.3 / 35.6 | 233.9 / 140.4 |
+| Land, utilities and disruption | 70% | 13.8% / 33.8% / 58.5% | 207.5 / 70.0 | 847.9 / 286.2 |
+| Grid supply sites | 30% | 20.1% / 33.7% / 45.0% | 72.0 / 24.3 | 240.0 / 81.0 |
+
+<!-- end Iraqi award estimates -->
+
+**Reading the figures.** The target award is the budget for work assumed to be placed with Iraqi firms. Retained value is the portion of those awards expected to pay for domestic production, labour and services, including local subcontract work once. The columns reconcile to the original installed price. A larger local order does not reduce capital automatically. Domestic work under foreign-awarded packages is unestimated. The balance of the Iraqi award can include imports, overseas services and land transfers. Each case holds the award split fixed while changing how much work an Iraqi contractor performs locally. These buyer estimates are negotiating positions pending origin schedules and priced offers. [Reproduce the comparison or inspect every scope](localisation.py)
+
+**Civil works and stations.** The central assumptions retain 75% of Iraqi-awarded elevated civil work and 65% for stations. Iraq already produces cement and local crews can cast, erect and finish concrete. Allow for imported stressing systems, bearings, lifting machinery and specialist supervision. Stations also need lifts, doors, power and emergency systems. Track and depot packages include imported rail, fasteners and workshop machinery. The land and utilities account assumes 25% / 45% / 65% of an Iraqi award buys diversions or reinstatement, with 55% / 75% / 90% of those works retained. The remainder covers provisional land or compensation transfers and receives no production credit. A parcel and utilities schedule can replace that split. [Central Bank of Iraq, cement production from Ministry of Industry data, table 7](https://cbi.iq/static/uploads/up/file-173563991524858.pdf)
+
+**Electrical and vehicle work.** For the grid package, use the estimated Iraqi share of each complete traction site as a proxy for the mix within Iraqi-awarded lots. The grid table in the electricity guide covers *all* sites regardless of award. Those totals overlap this comparison. Line-side cable laying and installation offer more local work than producing traction converters, safety processors and brake electronics. For trains, retain 20% / 35% / 50% of Iraqi awards for progressively more assembly, frame fabrication, harness installation and test. Imported wheelsets, drives, brakes, doors and foreign commissioning consume part of the award. Iraq's railway modernisation project includes workshop refurbishment and procurement of equipment and spares. Metro production at the planned rate still requires first articles, tooling and witnessed tests. [Iraqi traction supply prices and factory evidence](IRAQ-POWER.md) · [World Bank project description for Iraqi Republic Railways](https://www.worldbank.org/en/news/press-release/2025/06/25/iraq-new-us-930-million-project-to-extend-and-modernize-railways-promote-regional-connectivity-and-boost-growth)
+
+**Tooling, engineering and acceptance.** Local jig fabrication and maintenance coexist with imported machine tools. Design and field testing can pay local professional wages, while specialist software, overseas factory tests and independent reviewers draw on external services. The low and high percentages model different sourcing agreements across the same packages. Bidders should replace them with labour hours, tier-level materials, origin and independently witnessed transfer milestones. The cost of tooling, licences, training or a warranty change must appear in the corresponding cash offer. [Factory and supplier pricing instructions](#take-a-package-to-a-supplier)
+
 ## Negotiate the price and the capability together
 
 1. Publish the service specification, cost basis and evaluation method to all bidders. Make safety, accessibility and demonstrable delivery capability conditions for progression. Have the sponsor approve procurement rules and applicable lender conditions before issuing weighted criteria.

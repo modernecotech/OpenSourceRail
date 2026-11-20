@@ -1,6 +1,6 @@
 # Baghdad system cost and delivery
 
-**OpenSourceRail digital planning estimate · 17 November 2026 · 2026 US dollars**
+**OpenSourceRail planning estimate · Iraq prices updated 20 November 2026 · 2026 US dollars**
 
 The [one candidate input file](system.toml) drives the [calculated result](system-results.json), the [city proposal](PROPOSAL.md) and the Workbench. It sets **zero tunnels, zero underground stations, two elevated tracks throughout**, a six-car 700-place train and protected conductor traction. It couples supply equipment, traction battery, train mass, civil quantities, grid energy, capital, maintenance and renewals. The 605.652 km citywide network is an independent alternative with its own routes, stations, fleet and capital.
 
@@ -15,18 +15,21 @@ The [one candidate input file](system.toml) drives the [calculated result](syste
 | Protected conductor | 296.4 track-km | 1,211.304 track-km |
 | Annual train distance, declared hourly service offer | 24.666 million km | 92.466 million km |
 | Annual delivered grid energy | 524.313 GWh | 1,965.477 GWh |
-| **Installed capital** | **$7,865.670m** | **$31,017.749m** |
+| **Installed capital at original comparison rates** | **$7,865.670m** | **$31,017.749m** |
 | Annual operations, energy and maintenance | $196.978m | $780.495m |
 | **30-year present cost, 4% real** | **$12,020.636m** | **$47,393.819m** |
 
 These are single point estimates at declared rates. They include a 20% project allowance and are designed for matched option comparison and initial procurement planning. They are not supplier bids, debt commitments or a measured construction alignment.
 
-The drawn first-programme lines total **138.395 km**, while the priced RFI control is **148.2 km**. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed as **reserved non-revenue corridors** without assigned train paths. The other **555.553 km** has passenger-path assignments in the 14 service groups. The [station screen register](station-register.json) records 37 mapped first-network access points and 220 citywide stop screens against 64 and 280 station allowances. The 934-train fleet and hourly operating offer are planning assumptions; they do not operate the reserved sections or define stop sequences and junction movements.
+An earlier planning trace measures **138.395 km**. The 148.2 km comparison map now reproduces the original NIC plate. Its seven published line lengths set the pricing quantity. The citywide map draws **608.460 km**; its 26 physical sections are normalized to the **605.652 km** cost control. The difference is a planning length adjustment, not surveyed track. Six citywide sections (**B-X01–B-X05 and B-I03**, 50.099 km of normalized guideway) are costed as **reserved non-revenue corridors** without assigned train paths. The other **555.553 km** has passenger-path assignments in the 14 service groups. The [station screen register](station-register.json) records 37 mapped first-network access points and 220 citywide stop screens against 64 and 280 station allowances. The 934-train fleet and hourly operating offer are planning assumptions; they do not operate the reserved sections or define stop sequences and junction movements.
 
 The [daily train diagrams](SERVICE-DIAGRAMS.md) account for the entire first-network mileage in the operating estimate. Citywide, 51.967 million annual train-km have timed paths and 40.499 million are still allowed for four unresolved groups. The [workforce calculator](../../docs/operator-review/delivery/README.md) can replace embedded payroll with priced duties for unattended operation or onboard assistance once the operator identifies its existing labour allowances.
 
 
-The Airport opening takes off a six-stop railway with dedicated facilities at **$793.177m** plus site and terminal works still to price. The citywide mainline operating option defers passenger service on five short access sections. At 91.968 million annual train-km it costs **$777.932m/year** under the existing rates and full capital scope, versus **$780.495m/year** for the full budgeted service. Wages, surveyed designs and supplier prices are inputs for the next estimate. [Airport opening](AIRPORT-OPENING.md) · [Citywide service and staffing](SERVICE-DIAGRAMS.md#a-citywide-timetable-with-five-access-sections-deferred)
+The Airport opening prices six stops and dedicated facilities at **$813.7m** in the Iraqi central case, with a **$782.9m–879.5m** range after replacing its generic land and utility allowance. The citywide mainline operating option defers passenger service on five short access sections. At 91.968 million annual train-km it costs **$777.932m/year** under the existing rates and full capital scope, versus **$780.495m/year** for the full budgeted service. Using local pay and power rates gives **$736.4m/year** for the main routes and **$738.7m/year** for the full offer in the central Iraqi case. [Iraqi operating and funding cases](IRAQ-ESTIMATES.md) [Airport opening](AIRPORT-OPENING.md) · [Citywide service and staffing](SERVICE-DIAGRAMS.md#a-citywide-timetable-with-five-access-sections-deferred)
+
+
+**Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
 
 ## Fourteen installed capital scopes
 

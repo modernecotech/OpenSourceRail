@@ -67,6 +67,10 @@ on:
       - "cities/Baghdad/**"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
+      - "docs/operator-review/delivery/calculate.py"
+      - "docs/operator-review/delivery/quantities.json"
+      - "docs/operator-review/finance/build.py"
+      - "docs/operator-review/finance/schedules.js"
       - "docs/operator-review/finance/enquiries*.py"
       - "docs/operator-review/finance/enquiries-data.js"
       - "engineering/railway_progress/archive.py"
@@ -176,6 +180,10 @@ on:
       - "cities/Baghdad/**"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
+      - "docs/operator-review/delivery/calculate.py"
+      - "docs/operator-review/delivery/quantities.json"
+      - "docs/operator-review/finance/build.py"
+      - "docs/operator-review/finance/schedules.js"
       - "docs/operator-review/finance/enquiries*.py"
       - "docs/operator-review/finance/enquiries-data.js"
       - "engineering/railway_progress/archive.py"
@@ -254,6 +262,10 @@ jobs:
             /campaigns/**
             /engineering/**
             /docs/reference-v07/**
+            /docs/operator-review/delivery/calculate.py
+            /docs/operator-review/delivery/quantities.json
+            /docs/operator-review/finance/build.py
+            /docs/operator-review/finance/schedules.js
             /docs/operator-review/finance/enquiries.py
             /docs/operator-review/finance/enquiries-data.js
             /docs/design-engine/v07-powered-cost/input.json
@@ -376,6 +388,13 @@ jobs:
           python -m unittest discover -s cities/Baghdad/engineering/mechanical/vehicle -p test_power_interface.py
           python -m unittest discover -s cities/Baghdad/engineering/controls -p test_bench_trace.py
           python docs/operator-review/finance/enquiries.py --check
+          python docs/operator-review/delivery/calculate.py --check
+          python docs/operator-review/finance/build.py --check
+          python cities/Baghdad/airport_opening.py --check
+          python cities/Baghdad/iraq_capital.py --check
+          python cities/Baghdad/iraq_budget.py --check
+          python cities/Baghdad/iraq_power.py --check
+          python cities/Baghdad/localisation.py --check
       - name: Check the selected v0.7 digital production handoff
         run: python -O docs/reference-v07/digital/production/generate.py --check
       - name: Replay historical source contracts on request

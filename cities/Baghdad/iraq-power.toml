@@ -1,0 +1,45 @@
+# Buyer planning estimates, constant 2026 money. Energy and equipment are independent sensitivities.
+[energy]
+industrial_iqd_per_kwh = 60
+governmental_iqd_per_kwh = 120
+alternate_supply_usd_per_kwh = 0.40
+grid_reference = "https://openjicareport.jica.go.jp/pdf/12352100.pdf"
+alternate_reference = "https://www.undp.org/sites/g/files/zskgke326/files/2025-09/energy_transition_in_iraq_english_version_250914_122841.pdf"
+
+[energy.low]
+grid_class = "industrial"
+alternate_kwh_fraction = 0.0
+
+[energy.base]
+grid_class = "governmental"
+alternate_kwh_fraction = 0.05
+
+[energy.high]
+grid_class = "governmental"
+alternate_kwh_fraction = 0.20
+
+[equipment]
+source = "https://www.twanist.com/imppro"
+manufacturer = "https://www.iitp.mot.gov.iq/Home/CompanyProfile?AspxAutoDetectCookieSupport=1&Id=32"
+# Completed Iraqi utility equipment supplies listed by contractor, rows 69 and 93.
+contracts = [{year=2022, iqd=12420000000, sites=9}, {year=2023, iqd=2995000000, sites=2}]
+
+# AC equipment benchmark plus estimated feeder/site installation and railway DC equipment.
+# Upgrade factors are explicit assumed price allowances from contract years to 2026.
+[equipment.low]
+uplift = 0.0
+site_works_usd_m = 1.4
+railway_plant_usd_m = {rectification_and_cooling=1.4, dc_feeders_return_and_switchgear=0.9, auxiliaries_and_integration=0.7}
+local_share = {ac_equipment=0.15, site_works=0.45, railway_plant=0.10}
+
+[equipment.base]
+uplift = 0.06
+site_works_usd_m = 2.0
+railway_plant_usd_m = {rectification_and_cooling=2.4, dc_feeders_return_and_switchgear=1.4, auxiliaries_and_integration=1.2}
+local_share = {ac_equipment=0.30, site_works=0.70, railway_plant=0.20}
+
+[equipment.high]
+uplift = 0.15
+site_works_usd_m = 3.0
+railway_plant_usd_m = {rectification_and_cooling=3.5, dc_feeders_return_and_switchgear=2.0, auxiliaries_and_integration=1.5}
+local_share = {ac_equipment=0.45, site_works=0.80, railway_plant=0.30}

@@ -1,0 +1,26 @@
+# Cost-plan assumptions for an opening year in constant 2026 money.
+[currency]
+iqd_per_usd = 1510
+source = "https://cbi.iq/news/view/3355"
+effective_date = "2026-10-07"
+basis = "Central Bank selling rate to banks used for project translation"
+
+[fare]
+bus_comparator_iqd = 500
+source = "https://cosit.gov.iq/documents/transportation%20and%20communication/transportation/fullreports/landtrans/%D8%A7%D9%84%D8%AA%D9%82%D8%B1%D9%8A%D8%B1.pdf"
+reference = "Iraq Statistics and GIS Authority, Land Transport 2024, table 7, internal transport average ticket"
+# Flat rail fare before paid discounts and collection costs. Free travel is counted below.
+posted_iqd = [500, 750, 1000]
+receipt_fraction = [0.80, 0.85, 0.90]
+
+[demand]
+# Opening-year sensitivities. All-day occupancy is passenger-km / offered place-km.
+occupancy = [0.08, 0.15, 0.24]
+paying_share_of_linked_journeys = 0.92
+baghdad_comparator = "https://jeasd.uomustansiriyah.edu.iq/index.php/jeasd/article/view/2032"
+[demand.first]
+average_rail_leg_km = 11
+legs_per_linked_journey = 1.15
+[demand.metropolitan]
+average_rail_leg_km = 16
+legs_per_linked_journey = 1.25

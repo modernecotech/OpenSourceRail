@@ -41,6 +41,21 @@ try {
       const expected = (input.studies[key] ?? input.operating_options[key]).workforce_scenarios[mode].total_fte.toLocaleString("en-US");
       assert.equal(await page.locator("#establishment").textContent(), expected);
     }
+    if (key !== "core") {
+      const pricing = (input.studies[key] ?? input.operating_options[key]).iraq_payroll;
+      assert.equal(await page.inputValue("#pay-basis"), "base");
+      for (const basis of ["low", "base", "high"]) {
+        await page.selectOption("#pay-basis", basis);
+        for (const mode of ["goa4", "assisted", "supervised"]) {
+          await page.selectOption("#mode", mode);
+          const ledger = pricing.cases[basis][mode];
+          assert.equal(await page.locator("#revised-cost").textContent(), "$" + ledger.annual_opex_usd_m_year.toFixed(3) + "m");
+          assert.equal(await page.locator("#payroll-cost").textContent(), "$" + ledger.payroll_usd_m_year.toFixed(3) + "m");
+        }
+      }
+      await page.selectOption("#mode", "goa4");
+      await page.selectOption("#pay-basis", "custom");
+    }
     assert.equal(await page.locator("#revised-cost").textContent(), "Pending");
     assert.equal(await page.locator("#transfer").getAttribute("href"), null);
   }
@@ -83,14 +98,11 @@ try {
   assert.equal(await page.locator("#revised-cost").textContent(), "Pending");
   assert.equal(await page.locator("#transfer").getAttribute("href"), null);
   await page.selectOption("#railway", "first");
-  await included("Station operations").fill("25");
-  await included("Non-energy train operations").fill("12");
-  await included("Power maintenance").fill("0");
   await page.locator("#cost-status").click();
   await page.screenshot({path:fileURLToPath(new URL("workforce.png",folder)),fullPage:true});
   await page.locator("#transfer").click();
   assert.equal(await page.locator("#network").inputValue(), "first");
-  assert.equal(await page.locator("#opex").textContent(), "$196.6m");
+  assert.equal(await page.locator("#opex").textContent(), "$198.6m");
   await page.locator("#restore-budget").click();
   assert.equal(await page.locator("#opex").textContent(), "$197.0m");
   await page.goto(url.href);
@@ -102,6 +114,7 @@ try {
   assert.equal(mainlines.opex.eligible_envelopes_usd_m_year["Station operations"], full.opex.eligible_envelopes_usd_m_year["Station operations"]);
   assert.equal(mainlines.opex.eligible_envelopes_usd_m_year["Power maintenance"], full.opex.eligible_envelopes_usd_m_year["Power maintenance"]);
   assert.match(await page.locator("#fleet-description").innerText(), /6,951.1 train-hours/);
+  await page.selectOption("#pay-basis", "custom");
   await page.fill("#salary", "24000");
   for (const name of Object.keys(mainlines.opex.eligible_envelopes_usd_m_year)) await included(name).fill("0");
   const link = new URL(await page.locator("#transfer").evaluate(a => a.href));

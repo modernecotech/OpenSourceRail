@@ -8,7 +8,7 @@ for every design.
 
 **Current published release: [v0.7.1](docs/RELEASE-v0.7.md).** It contains a
 costed **digital** railway reference and separate city planning applications.
-Subsequent work on `main` includes the Baghdad train diagrams, station boarding replay, workforce budgets and supplier quotation comparison.
+Subsequent work on `main` includes Baghdad train diagrams, station boarding controls and supplier comparisons. The seven-corridor operating plan now estimates **$185.7m/year** with Iraqi pay and power prices. At a posted IQD 750 fare, the central case needs **$414.1m** of opening-year public funding including debt service. [Iraq planning estimates and sources](cities/Baghdad/IRAQ-ESTIMATES.md)
 Neither version authorizes construction or passenger operation. The [architecture
 guide](docs/ARCHITECTURE.md#which-design-is-current) identifies each design;
 the [engineering status](docs/ENGINEERING-STATUS.md) and [cost baseline](docs/COST-BASELINE.md)
@@ -34,8 +34,10 @@ The [operator guide](docs/operator-review/README.md) gives a 30-minute agenda. T
 | Design | Purpose | 2026 US-dollar installed estimate |
 |---|---|---:|
 | [Synthetic 30 km reference](docs/reference-v07/README.md) | 51 six-car powered-wheel trains with 276 places each, 12 stations, 10 m precast spans and overhead power; a joined design, cost and production example | **$1.025bn** |
-| [Baghdad seven-corridor concept](cities/Baghdad/README.md) | Independent 148.2 km, 64-station, all-elevated plan with 700-place trains and protected trackside power | **$7.866bn** |
-| [Baghdad citywide concept](cities/Baghdad/PROPOSAL.md) | Independent 605.652 km, 280-station, all-elevated plan; 50.099 km is reserved guideway without an assigned passenger path | **$31.018bn** |
+| [Baghdad seven-corridor concept](cities/Baghdad/README.md) | Independent 148.2 km, 64-station, all-elevated plan with 700-place trains and protected trackside power | **$8.37bn** at Iraqi central prices |
+| [Baghdad citywide concept](cities/Baghdad/PROPOSAL.md) | Independent 605.652 km, 280-station, all-elevated plan; 50.099 km is reserved guideway without an assigned passenger path | **$33.00bn** at Iraqi central prices |
+
+Local pricing puts the seven-corridor railway at **$8.37bn** (range **$6.12bn–$12.35bn**) and the citywide alternative at **$33.00bn** (range **$24.10bn–$48.83bn**). The original $7.866bn and $31.018bn design-rate budgets provide a common comparison for supplier returns. The operator funding calculator opens with the local estimate. [Iraqi construction quantities and prices](cities/Baghdad/IRAQ-CAPITAL.md)
 
 The Baghdad alternatives have **zero tunnels and no overhead wires** in their
 selected planning configuration. They are independent choices, not stages to

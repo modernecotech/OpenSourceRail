@@ -123,8 +123,8 @@ table(35,160,[298,168,208,216],['Planning quantity','Core reference','Baghdad / 
     ['Peak interval / places per hour¹','120 s / 8,280','150 s / 16,800','150 s / 16,800'],
     ['Fleet including reserves','51 sets','242 sets','934 sets'],
     ['Power collection','1.5 kV DC overhead','Protected conductor','Protected conductor'],
-    ['Installed capital, 2026 US$','1.025 billion','7.866 billion','31.018 billion'],
-    ['Annual operations and maintenance','30.5 million','197.0 million','780.5 million']],35)
+    ['Installed capital / Iraq central case','1.025 billion','8.369 billion','32.995 billion'],
+    ['Annual operations / Iraq central case','30.5 million','185.7 million','738.7 million']],35)
 para(37,457,862,'¹ Per modelled service. Baghdad’s citywide plan assigns passenger paths to 555.553 km and reserves a further 50.099 km. The two Baghdad options are independent investment decisions.',12.4)
 para(37,503,862,'The earlier v0.6 station-powered, passive-wheel train remains a separate development reference with its own tests.',11.5)
 link('Core service and cost','../reference-v07/cost/README.md')
@@ -172,9 +172,9 @@ link('ERPNext and Frappe HR setup','../../deployment/erpnext/README.md',489)
 start('Finance / public budget','How much cash does the operator need?',
       'The seven-corridor case below assumes 50% borrowing at 4% real, repaid over 20 years. Figures use constant 2026 US dollars.')
 two_column_figure('finance/baghdad-funding.png',[
-    ('Construction','The city borrows about $3.93bn. Construction interest of $322.5m is paid from budget. The largest annual buyer draw during works is $1.282bn.'),
-    ('First full service year','Debt payments plus operating cost need $486.4m before receipts. With 100m paid journeys at $1 net each, the remaining requirement is $386.4m. Both fare inputs are illustrations.'),
-    ('A different term sheet','At 7% real over 12 years, the same network needs $692.1m in its first full service year. Check fees, FX exposure and guarantees alongside the cash price.')])
+    ('Construction','The city borrows about $4.18bn. Construction interest of $343.1m is paid from budget. The largest annual buyer draw during works is $1.364bn.'),
+    ('First full service year','At Iraqi central pay and power rates, operations need $185.7m. A posted IQD 750 fare on 188.4m paid journeys yields $79.5m net. Including debt payments, the city needs another $414.1m.'),
+    ('A different term sheet','At 7% real over 12 years, the same network needs $712.6m before fares in its first full service year. Check fees, FX exposure and guarantees alongside the cash price.')])
 link('How to use the funding calculator','README.md')
 link('Annual debt and renewal schedules','../../cities/Baghdad/COST-AND-DELIVERY.md',634)
 start('Build / vehicle works','Lay out the assembly and repair shops',
@@ -211,7 +211,7 @@ link('Roles, wages to quote and competence assessments','delivery/README.md')
 start('People / shift coverage','Test a staffing and training budget',
       'Choose unattended service, supervised commissioning or onboard assistance. Price the duties and reconcile existing payroll before taking a scenario to the funding calculator.')
 two_column_figure('delivery/workforce.png',[
-    ('Staff the working day','The seven-corridor GoA4 case has 1,526 FTE. At an illustrative $24,000 loaded pay each, payroll is $36.624m. Subtract only documented or explicitly assumed payroll already in the operating allowances.'),
+    ('Staff the working day','The seven-corridor GoA4 case has 1,526 FTE. The central Iraqi wage estimate is $12.27m a year. After crediting $10.67m already allowed in service contracts, the net payroll adjustment is $1.60m.'),
     ('Prepare local instructors','At 80 classroom and 80 supervised hours each, plan for 128 classes of up to 12 and 122,080 supervised learner-hours. Quote instructors, assessors and roster relief separately.'),
     ('Record qualification','The employing operator records signed role, equipment, restrictions and expiry against each employee. Link training and assessment to the duties allowed on the shift.')])
 link('Workforce planner, inputs and hiring plan','delivery/README.md')

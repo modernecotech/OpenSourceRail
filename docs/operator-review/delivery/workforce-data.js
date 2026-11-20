@@ -5,6 +5,159 @@ const workforceStudy = {
       "annual_grid_gwh": 1954.897475395032,
       "annual_train_km": 91968471.07579927,
       "infrastructure_network": "metropolitan",
+      "initial_training_labour": {
+        "cases": {
+          "base": {
+            "instructor_usd": 360981.25807692314,
+            "learner_usd": 3771280.650769231,
+            "mentor_usd": 1081579.005769231,
+            "total_usd_m": 5.2138409146153855
+          },
+          "high": {
+            "instructor_usd": 423760.5365384616,
+            "learner_usd": 4427155.420769231,
+            "mentor_usd": 1269679.4903846155,
+            "total_usd_m": 6.120595447692309
+          },
+          "low": {
+            "instructor_usd": 329591.61884615384,
+            "learner_usd": 3443343.3638461535,
+            "mentor_usd": 987528.7634615384,
+            "total_usd_m": 4.760463746153845
+          }
+        },
+        "classroom_instructor_hours": 42320,
+        "field_mentor_hours": 126800,
+        "learner_hours": 1014240,
+        "learners": 6339,
+        "maximum_learners_per_mentor": 4,
+        "scope": "One initial GoA4 operating intake, within commissioning"
+      },
+      "iraq_payroll": {
+        "basis": "Baghdad October 2026 construction wage proxies for local private-sector hires",
+        "cases": {
+          "base": {
+            "assisted": {
+              "annual_opex_usd_m_year": 787.1907997367998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 9.258997892317886,
+              "payroll_usd_m_year": 51.890870740000004
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 784.3265774567998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 6.394775612317886,
+              "payroll_usd_m_year": 49.026648460000004
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 17741.99,
+              "civil, track and power response": 14415.36,
+              "depot rolling-stock technicians": 12197.62,
+              "onboard commissioning supervisors": 17741.99,
+              "onboard passenger assistants": 7762.12,
+              "planning, payroll, stores and trainers": 11643.18,
+              "scheduled onboard staff": 7762.12,
+              "station duty and passenger assistance": 7762.12,
+              "station security and cleaning": 4989.93
+            },
+            "rail_and_shift_premium": 0.15,
+            "supervised": {
+              "annual_opex_usd_m_year": 810.5137546967998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 32.58195285231788,
+              "payroll_usd_m_year": 75.2138257
+            }
+          },
+          "high": {
+            "assisted": {
+              "annual_opex_usd_m_year": 796.2152959167998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 18.283494072317886,
+              "payroll_usd_m_year": 60.915366920000004
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 792.8529494667998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 14.921147622317882,
+              "payroll_usd_m_year": 57.55302047
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 20827.55,
+              "civil, track and power response": 16922.38,
+              "depot rolling-stock technicians": 14318.94,
+              "onboard commissioning supervisors": 20827.55,
+              "onboard passenger assistants": 9112.05,
+              "planning, payroll, stores and trainers": 13668.08,
+              "scheduled onboard staff": 9112.05,
+              "station duty and passenger assistance": 9112.05,
+              "station security and cleaning": 5857.75
+            },
+            "rail_and_shift_premium": 0.35,
+            "supervised": {
+              "annual_opex_usd_m_year": 823.5944132667998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 45.66261142231788,
+              "payroll_usd_m_year": 88.29448427
+            }
+          },
+          "low": {
+            "assisted": {
+              "annual_opex_usd_m_year": 782.6785510767997,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 4.746749232317882,
+              "payroll_usd_m_year": 47.37862208
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 780.0633927267997,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 2.13159088231788,
+              "payroll_usd_m_year": 44.76346373
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 16199.21,
+              "civil, track and power response": 13161.85,
+              "depot rolling-stock technicians": 11136.95,
+              "onboard commissioning supervisors": 16199.21,
+              "onboard passenger assistants": 7087.15,
+              "planning, payroll, stores and trainers": 10630.73,
+              "scheduled onboard staff": 7087.15,
+              "station duty and passenger assistance": 7087.15,
+              "station security and cleaning": 4556.03
+            },
+            "rail_and_shift_premium": 0.05,
+            "supervised": {
+              "annual_opex_usd_m_year": 803.9734266867998,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 26.041624842317873,
+              "payroll_usd_m_year": 68.67349768999999
+            }
+          }
+        },
+        "currency": {
+          "basis": "Central Bank selling rate to banks used for project translation",
+          "effective_date": "2026-10-07",
+          "iqd_per_usd": 1510,
+          "source": "https://cbi.iq/news/view/3355"
+        },
+        "employer_social_insurance_share": 0.12,
+        "estimated_credit_by_envelope_usd_m_year": {
+          "Non-energy train operations": 9.898228697571744,
+          "Power maintenance": 1.7883408388520972,
+          "Station operations": 30.94530331125828
+        },
+        "paid_days_year": 260,
+        "proxy_daily_iqd": {
+          "OCC control, traction, incidents and information": 80000,
+          "civil, track and power response": 65000,
+          "depot rolling-stock technicians": 55000,
+          "onboard commissioning supervisors": 80000,
+          "onboard passenger assistants": 35000,
+          "planning, payroll, stores and trainers": 52500,
+          "scheduled onboard staff": 35000,
+          "station duty and passenger assistance": 35000,
+          "station security and cleaning": 22500
+        }
+      },
       "opex": {
         "baseline_usd_m_year": 777.9318018444819,
         "eligible_envelopes_usd_m_year": {
@@ -99,12 +252,13 @@ const workforceStudy = {
       }
     }
   },
-  "schema": "osr.factory-workforce.study.3",
+  "schema": "osr.factory-workforce.study.4",
   "source_sha256": {
+    "cities/Baghdad/iraq-market.toml": "f044ba071d77b58b2427384954f5bfdf3713b48c2ba5af872e1f24c53fd3ee2b",
     "cities/Baghdad/service-diagrams.json": "37fab32fe7b04570ee7a521101d3807291173db545082660d00de190b1663ccb",
     "cities/Baghdad/system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
     "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
-    "docs/operator-review/delivery/calculate.py": "2cf1a17bd06933c210eb7c9424ee2b933682f9f21517378001b613b4e7b84f69",
+    "docs/operator-review/delivery/calculate.py": "e69287d7f29cf58763363d5053719f6f86048de6268990b4785be899a33edc89",
     "docs/reference-v07/concept.toml": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",
     "docs/reference-v07/cost/README.md": "f7d799e4f954d4bec341ed63b457e2c6918e07546a875349569cc1aefae9a75d",
     "docs/reference-v07/digital/production/handoff.json": "c8f89fd421e9413ddbe6ef4b934c153469b0a87f1ed54d8761a1d57c77512a4c",
@@ -283,6 +437,159 @@ const workforceStudy = {
         "slots_per_yard_offered": 180,
         "yards": 6
       },
+      "initial_training_labour": {
+        "cases": {
+          "base": {
+            "instructor_usd": 87345.18153846155,
+            "learner_usd": 944120.9846153846,
+            "mentor_usd": 260670.77615384618,
+            "total_usd_m": 1.2921369423076923
+          },
+          "high": {
+            "instructor_usd": 102535.63076923077,
+            "learner_usd": 1108315.886153846,
+            "mentor_usd": 306004.7730769231,
+            "total_usd_m": 1.51685629
+          },
+          "low": {
+            "instructor_usd": 79749.95692307691,
+            "learner_usd": 862023.523076923,
+            "mentor_usd": 238003.77769230766,
+            "total_usd_m": 1.1797772576923078
+          }
+        },
+        "classroom_instructor_hours": 10240,
+        "field_mentor_hours": 30560,
+        "learner_hours": 244160,
+        "learners": 1526,
+        "maximum_learners_per_mentor": 4,
+        "scope": "One initial GoA4 operating intake, within commissioning"
+      },
+      "iraq_payroll": {
+        "basis": "Baghdad October 2026 construction wage proxies for local private-sector hires",
+        "cases": {
+          "base": {
+            "assisted": {
+              "annual_opex_usd_m_year": 199.3786631505817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 2.4003983123178774,
+              "payroll_usd_m_year": 13.07307116
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 198.5791647905817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 1.600899952317878,
+              "payroll_usd_m_year": 12.2735728
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 17741.99,
+              "civil, track and power response": 14415.36,
+              "depot rolling-stock technicians": 12197.62,
+              "onboard commissioning supervisors": 17741.99,
+              "onboard passenger assistants": 7762.12,
+              "planning, payroll, stores and trainers": 11643.18,
+              "scheduled onboard staff": 7762.12,
+              "station duty and passenger assistance": 7762.12,
+              "station security and cleaning": 4989.93
+            },
+            "rail_and_shift_premium": 0.15,
+            "supervised": {
+              "annual_opex_usd_m_year": 205.88886467058168,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 8.910599832317878,
+              "payroll_usd_m_year": 19.58327268
+            }
+          },
+          "high": {
+            "assisted": {
+              "annual_opex_usd_m_year": 201.6522396605817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 4.673974822317877,
+              "payroll_usd_m_year": 15.34664767
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 200.71369851058168,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 3.7354336723178765,
+              "payroll_usd_m_year": 14.408106519999999
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 20827.55,
+              "civil, track and power response": 16922.38,
+              "depot rolling-stock technicians": 14318.94,
+              "onboard commissioning supervisors": 20827.55,
+              "onboard passenger assistants": 9112.05,
+              "planning, payroll, stores and trainers": 13668.08,
+              "scheduled onboard staff": 9112.05,
+              "station duty and passenger assistance": 9112.05,
+              "station security and cleaning": 5857.75
+            },
+            "rail_and_shift_premium": 0.35,
+            "supervised": {
+              "annual_opex_usd_m_year": 209.2946491105817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 12.316384272317876,
+              "payroll_usd_m_year": 22.98905712
+            }
+          },
+          "low": {
+            "assisted": {
+              "annual_opex_usd_m_year": 198.2418742405817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 1.2636094023178774,
+              "payroll_usd_m_year": 11.93628225
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 197.51189779058168,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 0.5336329523178769,
+              "payroll_usd_m_year": 11.206305799999999
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 16199.21,
+              "civil, track and power response": 13161.85,
+              "depot rolling-stock technicians": 11136.95,
+              "onboard commissioning supervisors": 16199.21,
+              "onboard passenger assistants": 7087.15,
+              "planning, payroll, stores and trainers": 10630.73,
+              "scheduled onboard staff": 7087.15,
+              "station duty and passenger assistance": 7087.15,
+              "station security and cleaning": 4556.03
+            },
+            "rail_and_shift_premium": 0.05,
+            "supervised": {
+              "annual_opex_usd_m_year": 204.1859723105817,
+              "embedded_credit_usd_m_year": 10.672672847682122,
+              "net_opex_delta_usd_m_year": 7.207707472317878,
+              "payroll_usd_m_year": 17.88038032
+            }
+          }
+        },
+        "currency": {
+          "basis": "Central Bank selling rate to banks used for project translation",
+          "effective_date": "2026-10-07",
+          "iqd_per_usd": 1510,
+          "source": "https://cbi.iq/news/view/3355"
+        },
+        "employer_social_insurance_share": 0.12,
+        "estimated_credit_by_envelope_usd_m_year": {
+          "Non-energy train operations": 3.1704158940397353,
+          "Power maintenance": 0.4261933774834437,
+          "Station operations": 7.076063576158942
+        },
+        "paid_days_year": 260,
+        "proxy_daily_iqd": {
+          "OCC control, traction, incidents and information": 80000,
+          "civil, track and power response": 65000,
+          "depot rolling-stock technicians": 55000,
+          "onboard commissioning supervisors": 80000,
+          "onboard passenger assistants": 35000,
+          "planning, payroll, stores and trainers": 52500,
+          "scheduled onboard staff": 35000,
+          "station duty and passenger assistance": 35000,
+          "station security and cleaning": 22500
+        }
+      },
       "opex": {
         "baseline_usd_m_year": 196.9782648382638,
         "eligible_envelopes_usd_m_year": {
@@ -325,6 +632,62 @@ const workforceStudy = {
         "cars": 1452,
         "cars_capacity": 1464,
         "cars_per_line_in_window": 122,
+        "direct_assembly_labour": {
+          "cars_order": 1452,
+          "cars_per_train": 6,
+          "cases": {
+            "base": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 978.4183872224388,
+                "body": 2755.878457343202,
+                "bogies and drive": 1467.6275808336582,
+                "doors and interior": 2331.897156213479,
+                "marriage and test": 994.7253603428128,
+                "wiring, collection and cooling": 2446.045968056097
+              },
+              "usd_m_order": 15.935108905336971,
+              "usd_per_car": 10974.592910011688,
+              "usd_per_train": 65847.55746007012
+            },
+            "high": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 1148.5781067393848,
+                "body": 3235.1616673159338,
+                "bogies and drive": 1722.8671601090773,
+                "doors and interior": 2737.444487728867,
+                "marriage and test": 1167.7210751850412,
+                "wiring, collection and cooling": 2871.445266848462
+              },
+              "usd_m_order": 18.706432193221666,
+              "usd_per_car": 12883.217763926767,
+              "usd_per_train": 77299.3065835606
+            },
+            "low": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 893.338527463966,
+                "body": 2516.2368523568375,
+                "bogies and drive": 1340.0077911959488,
+                "doors and interior": 2129.1234904557855,
+                "marriage and test": 908.2275029216987,
+                "wiring, collection and cooling": 2233.3463186599147
+              },
+              "usd_m_order": 14.54944726139463,
+              "usd_per_car": 10020.280483054152,
+              "usd_per_train": 60121.682898324914
+            }
+          },
+          "hours_per_car": 1000,
+          "productive_hours_per_employee_year": 1360,
+          "proxy_daily_iqd_by_stage": {
+            "HVAC and auxiliaries": 75000,
+            "body": 65000,
+            "bogies and drive": 75000,
+            "doors and interior": 55000,
+            "marriage and test": 76250,
+            "wiring, collection and cooling": 75000
+          },
+          "scope": "Direct repeat assembly labour within train purchase"
+        },
         "direct_content_hours": 1452000,
         "direct_content_job_years_at_1720_hours": 844.2,
         "direct_posts_all_lines": 420,
@@ -441,6 +804,159 @@ const workforceStudy = {
         "slots_per_yard_offered": 180,
         "yards": 10
       },
+      "initial_training_labour": {
+        "cases": {
+          "base": {
+            "instructor_usd": 360981.25807692314,
+            "learner_usd": 3771280.650769231,
+            "mentor_usd": 1081579.005769231,
+            "total_usd_m": 5.2138409146153855
+          },
+          "high": {
+            "instructor_usd": 423760.5365384616,
+            "learner_usd": 4427155.420769231,
+            "mentor_usd": 1269679.4903846155,
+            "total_usd_m": 6.120595447692309
+          },
+          "low": {
+            "instructor_usd": 329591.61884615384,
+            "learner_usd": 3443343.3638461535,
+            "mentor_usd": 987528.7634615384,
+            "total_usd_m": 4.760463746153845
+          }
+        },
+        "classroom_instructor_hours": 42320,
+        "field_mentor_hours": 126800,
+        "learner_hours": 1014240,
+        "learners": 6339,
+        "maximum_learners_per_mentor": 4,
+        "scope": "One initial GoA4 operating intake, within commissioning"
+      },
+      "iraq_payroll": {
+        "basis": "Baghdad October 2026 construction wage proxies for local private-sector hires",
+        "cases": {
+          "base": {
+            "assisted": {
+              "annual_opex_usd_m_year": 789.7777344732223,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 9.282284252317886,
+              "payroll_usd_m_year": 51.914157100000004
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 786.8902258332222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 6.394775612317886,
+              "payroll_usd_m_year": 49.026648460000004
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 17741.99,
+              "civil, track and power response": 14415.36,
+              "depot rolling-stock technicians": 12197.62,
+              "onboard commissioning supervisors": 17741.99,
+              "onboard passenger assistants": 7762.12,
+              "planning, payroll, stores and trainers": 11643.18,
+              "scheduled onboard staff": 7762.12,
+              "station duty and passenger assistance": 7762.12,
+              "station security and cleaning": 4989.93
+            },
+            "rail_and_shift_premium": 0.15,
+            "supervised": {
+              "annual_opex_usd_m_year": 813.2903069532222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 32.79485673231788,
+              "payroll_usd_m_year": 75.42672958
+            }
+          },
+          "high": {
+            "assisted": {
+              "annual_opex_usd_m_year": 798.8062804432222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 18.310830222317882,
+              "payroll_usd_m_year": 60.94270307
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 795.4165978432222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 14.921147622317882,
+              "payroll_usd_m_year": 57.55302047
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 20827.55,
+              "civil, track and power response": 16922.38,
+              "depot rolling-stock technicians": 14318.94,
+              "onboard commissioning supervisors": 20827.55,
+              "onboard passenger assistants": 9112.05,
+              "planning, payroll, stores and trainers": 13668.08,
+              "scheduled onboard staff": 9112.05,
+              "station duty and passenger assistance": 9112.05,
+              "station security and cleaning": 5857.75
+            },
+            "rail_and_shift_premium": 0.35,
+            "supervised": {
+              "annual_opex_usd_m_year": 826.4079922432222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 45.91254202231789,
+              "payroll_usd_m_year": 88.54441487000001
+            }
+          },
+          "low": {
+            "assisted": {
+              "annual_opex_usd_m_year": 785.2634609032223,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 4.768010682317879,
+              "payroll_usd_m_year": 47.39988353
+            },
+            "goa4": {
+              "annual_opex_usd_m_year": 782.6270411032222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 2.13159088231788,
+              "payroll_usd_m_year": 44.76346373
+            },
+            "loaded_usd_per_fte_year": {
+              "OCC control, traction, incidents and information": 16199.21,
+              "civil, track and power response": 13161.85,
+              "depot rolling-stock technicians": 11136.95,
+              "onboard commissioning supervisors": 16199.21,
+              "onboard passenger assistants": 7087.15,
+              "planning, payroll, stores and trainers": 10630.73,
+              "scheduled onboard staff": 7087.15,
+              "station duty and passenger assistance": 7087.15,
+              "station security and cleaning": 4556.03
+            },
+            "rail_and_shift_premium": 0.05,
+            "supervised": {
+              "annual_opex_usd_m_year": 806.7314655832222,
+              "embedded_credit_usd_m_year": 42.63187284768212,
+              "net_opex_delta_usd_m_year": 26.236015362317872,
+              "payroll_usd_m_year": 68.86788820999999
+            }
+          }
+        },
+        "currency": {
+          "basis": "Central Bank selling rate to banks used for project translation",
+          "effective_date": "2026-10-07",
+          "iqd_per_usd": 1510,
+          "source": "https://cbi.iq/news/view/3355"
+        },
+        "employer_social_insurance_share": 0.12,
+        "estimated_credit_by_envelope_usd_m_year": {
+          "Non-energy train operations": 9.898228697571744,
+          "Power maintenance": 1.7883408388520972,
+          "Station operations": 30.94530331125828
+        },
+        "paid_days_year": 260,
+        "proxy_daily_iqd": {
+          "OCC control, traction, incidents and information": 80000,
+          "civil, track and power response": 65000,
+          "depot rolling-stock technicians": 55000,
+          "onboard commissioning supervisors": 80000,
+          "onboard passenger assistants": 35000,
+          "planning, payroll, stores and trainers": 52500,
+          "scheduled onboard staff": 35000,
+          "station duty and passenger assistance": 35000,
+          "station security and cleaning": 22500
+        }
+      },
       "opex": {
         "baseline_usd_m_year": 780.4954502209043,
         "eligible_envelopes_usd_m_year": {
@@ -483,6 +999,62 @@ const workforceStudy = {
         "cars": 5604,
         "cars_capacity": 5840,
         "cars_per_line_in_window": 292,
+        "direct_assembly_labour": {
+          "cars_order": 5604,
+          "cars_per_train": 6,
+          "cases": {
+            "base": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 978.4183872224388,
+                "body": 2755.878457343202,
+                "bogies and drive": 1467.6275808336582,
+                "doors and interior": 2331.897156213479,
+                "marriage and test": 994.7253603428128,
+                "wiring, collection and cooling": 2446.045968056097
+              },
+              "usd_m_order": 61.5016186677055,
+              "usd_per_car": 10974.592910011688,
+              "usd_per_train": 65847.55746007012
+            },
+            "high": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 1148.5781067393848,
+                "body": 3235.1616673159338,
+                "bogies and drive": 1722.8671601090773,
+                "doors and interior": 2737.444487728867,
+                "marriage and test": 1167.7210751850412,
+                "wiring, collection and cooling": 2871.445266848462
+              },
+              "usd_m_order": 72.19755234904561,
+              "usd_per_car": 12883.217763926767,
+              "usd_per_train": 77299.3065835606
+            },
+            "low": {
+              "usd_by_stage_per_car": {
+                "HVAC and auxiliaries": 893.338527463966,
+                "body": 2516.2368523568375,
+                "bogies and drive": 1340.0077911959488,
+                "doors and interior": 2129.1234904557855,
+                "marriage and test": 908.2275029216987,
+                "wiring, collection and cooling": 2233.3463186599147
+              },
+              "usd_m_order": 56.15365182703547,
+              "usd_per_car": 10020.280483054152,
+              "usd_per_train": 60121.682898324914
+            }
+          },
+          "hours_per_car": 1000,
+          "productive_hours_per_employee_year": 1360,
+          "proxy_daily_iqd_by_stage": {
+            "HVAC and auxiliaries": 75000,
+            "body": 65000,
+            "bogies and drive": 75000,
+            "doors and interior": 55000,
+            "marriage and test": 76250,
+            "wiring, collection and cooling": 75000
+          },
+          "scope": "Direct repeat assembly labour within train purchase"
+        },
         "direct_content_hours": 5604000,
         "direct_content_job_years_at_1720_hours": 3258.1,
         "direct_posts_all_lines": 700,
@@ -589,5 +1161,5 @@ const workforceStudy = {
       }
     }
   },
-  "study_evaluation_sha256": "2cbd05b0dc6f3ef97cc2fcb67d38e9506f0257bb28536d6b4a3aaa413ef5be73"
+  "study_evaluation_sha256": "4938687fe9db277880504312861d1795fad74e6c7ec0bed2b65c57d3d8d87cc9"
 };

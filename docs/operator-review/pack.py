@@ -60,6 +60,7 @@ def workshop_files():
         if f.suffix in {'.md', '.html', '.css', '.js', '.png', '.json', '.ifc', '.svg', '.pdf'} and f.is_file():
             files.add(f)
     files.update(ROOT / f for f in ('LICENSE.md', 'cities/Baghdad/Baghdad-Metro-Proposal.pdf',
+                 'cities/Baghdad/IRAQ-CAPITAL.md', 'cities/Baghdad/IRAQ-ESTIMATES.md', 'cities/Baghdad/IRAQ-POWER.md',
                  'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',
                  'cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md',
                  'cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md', 'cities/Baghdad/service-diagrams.html',
