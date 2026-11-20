@@ -13,11 +13,13 @@ For a presentation, open the PDF. In the running Workbench, the **Operator revie
 | 0–5 min | [Baghdad map and locations](../../cities/Baghdad/maps/README.md) | Open the [timetable card](../../cities/Baghdad/service-diagrams.html) to follow one set through a terminal turn. Trace the airport corridor on the original NIC map, then use the separate place-name review to identify missing locations. Compare the airport entrance and interchange assumptions against local knowledge. |
 | 5–12 min | [Train and station twin](twins/index.html) · [core IFC](twins/core.ifc) · [Baghdad IFC](twins/baghdad.ifc) | Switch between the two designs. Orbit the bogie, select a door, then inspect the platform, viaduct and control equipment. Read the engineering source for each part. Use IFC4 in your own model viewer. |
 | 12–16 min | [Control-room replay](screens/supervision.html) · [operating screens](screens/README.md) | Compare a stale section indication with the last observed state. Identify who can authorise isolation or movement, and trace a workshop repair to a serial record. |
-| 16–21 min | [Funding and fares](finance/index.html) · [buyer comparison](../../cities/Baghdad/BUYER-COMPARISON.md) | For the seven corridors, compare 50% borrowing over 20 years at 4% real with 12 years at 7%. Enter paid journeys and net fare receipts. Ask vendors for matched cash prices, debt terms and Iraqi value added. |
+| 16–21 min | [Funding and fares](finance/index.html) · [supplier enquiries](finance/purchasing.html) | For the seven corridors, compare 50% borrowing over 20 years at 4% real with 12 years at 7%. Enter paid journeys and net fare receipts. Ask vendors for matched cash prices, debt terms and Iraqi value added. |
 | 21–26 min | [Factory layouts and training plan](delivery/README.md) · [Staffing calculator](delivery/index.html) | Follow a car from frame jig to dispatch and a beam from casting bed to site. Identify who signs the hold points. Compare shift coverage, trained staff and yard space with the proposed production rate. |
 | 26–30 min | [Workplan and opening decisions](WORKPLAN.md) | Agree an area to survey, a prototype interface to witness, a local package to quote and an owner for each decision. |
 
 ![Baghdad station, train and viaduct in the interactive assembly viewer](twins/baghdad-station.png)
+
+The [core train workings](../reference-v07/integration/TIMETABLE.md) assign 576 daily trips to 44 sets and show the effect of losing a set or terminal berth. The [Airport opening study](../../cities/Baghdad/AIRPORT-OPENING.md) builds up one six-stop Baghdad service. The [span and yard study](../../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) and [train weight and power study](../../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) give suppliers specific quantities and duties to return.
 
 ## Design records for a technical meeting
 
@@ -27,6 +29,14 @@ For a presentation, open the PDF. In the running Workbench, the **Operator revie
 | Station, platform, span and foundations | [Joined geometry and interfaces](../reference-v07/integration/README.md) · [selected 13-strand beam](../reference-v07/digital/civil/README.md) | [Station sections, moving-load check and footing trial](../../cities/Baghdad/engineering/mechanical/civil/README.md) |
 | Power, electronics and software | [Equipment schedule and software functions](../../control-electronics/README.md) · [vehicle and station software](../../crates/README.md) | [Door, brake and section sequence, wiring, fault tests and repair](../../cities/Baghdad/engineering/controls/README.md) |
 | Production, staff and repair | [Parts and manufacturing routes](../reference-v07/manufacturing/README.md) · [production handoff](../reference-v07/digital/production/README.md) | [Delivery and local production quantities](../../cities/Baghdad/COST-AND-DELIVERY.md) · [factory and shift plans](delivery/README.md) |
+
+## Taking drawings to a supplier
+
+Open **Supplier enquiries** in the offline kit. Choose the railway and article, download the enquiry and give bidders the listed drawings from the kit. Each enquiry records the design and drawing revisions. The six Baghdad packages cover a carbody, an equipped bogie, a typical kilometre, a difficult crossing, an accessible station and a cabinet with a brake bench. The core railway has separate car, precast beam and cabinet enquiries.
+
+Enter the delivered first-article cash price, documented domestic and imported values, repair terms and evidence reference for each return. The screen identifies untraced value. The buyer confirms both scopes match before the screen compares prices. Save each return locally to resume a meeting. Actual supplier returns belong in the buyer’s confidential records. [Pricing screen](finance/purchasing.html) · [Baghdad negotiation and capital reconciliation](../../cities/Baghdad/BUYER-COMPARISON.md)
+
+![Two hypothetical accessible-station returns showing price, documented Iraqi value and untraced cost](finance/supplier-returns.png)
 
 ## What the funding screen shows
 

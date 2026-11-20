@@ -63,7 +63,7 @@ def polyline_positions(coords, points):
         yield best[1]
 
 
-def metro_paths(features, register, groups, coverage):
+def metro_paths(features, register, groups, coverage, *, circulate=False):
     lines = {f["properties"]["route_id"]: f for f in features
              if f["geometry"]["type"] == "LineString"}
     junctions = coverage["access_branch_junction_screen"]["branches"]
@@ -107,6 +107,13 @@ def metro_paths(features, register, groups, coverage):
         for stop, fraction in zip(stops, polyline_positions(coords, [s["coords"] for s in stops])):
             stop["fraction"] = fraction
         stops.sort(key=lambda s: s["fraction"])
+        if circulate and coords[0] == coords[-1]:
+            # Measure laps from an existing stop. A copied timepoint marks arrival
+            # at that same platform after exactly one traversal.
+            origin = stops[0]["fraction"]
+            for stop in stops:
+                stop["fraction"] -= origin
+            stops.append({**stops[0], "id": stops[0]["id"] + "-lap", "fraction": 1.})
         if len(stops) < 2 or stops[0]["fraction"] > 1e-5 or stops[-1]["fraction"] < 1 - 1e-5:
             raise ValueError(f"{group} needs both terminal stops")
         stops[0]["fraction"], stops[-1]["fraction"] = 0., 1.
@@ -132,7 +139,7 @@ def pattern(stops, run_s, dwell_s, km, speed_cap):
     return offsets
 
 
-def workings(group, plan, run_s, layover_s, peak_interval):
+def workings(group, plan, run_s, layover_s, peak_interval, *, loop=False):
     """Allocate each departure to a set at the correct terminal, after its layover."""
     phase = (run_s + layover_s) % peak_interval
     times = [(3600 * (plan["start_hour_local"] + hour) + (3600 * i) // tph
@@ -150,42 +157,65 @@ def workings(group, plan, run_s, layover_s, peak_interval):
             fleet += 1
             train = f"{group}-{fleet:03d}"
         arrival = departure + run_s
-        ready[1-direction].append((arrival + layover_s, train))
+        ready[direction if loop else 1-direction].append((arrival + layover_s, train))
         trips.append((train, direction, departure, arrival))
     return trips, fleet
 
 
-def group_diagram(group, stops, km, cfg):
+def group_diagram(group, stops, km, cfg, *, loop=False):
     v, plan = cfg["vehicle"], cfg["service_plan"]
     layover = math.ceil(60 * plan["terminal_layover_min_each_end"])
     run = math.ceil(km * 3600 / v["commercial_speed_kmh"])
     patterns = [pattern(stops, run, v["dwell_s"], km, v["speed_cap_kmh"]),
                 pattern([{**s, "fraction": 1-s["fraction"]} for s in reversed(stops)],
                         run, v["dwell_s"], km, v["speed_cap_kmh"])]
-    trips, fleet = workings(group, plan, run, layover, v["peak_headway_s"])
+    trips, fleet = workings(group, plan, run, layover, v["peak_headway_s"], loop=loop)
     # An optimistic lower bound on full-tail exit. Extra platform dwell is applied
     # before clearing the upstream section because the train stops at its boundary.
     tail = math.ceil(cfg["vehicle_geometry"]["train_length_m"] * 3.6 / v["speed_cap_kmh"])
     gaps = []
+    block_counts = []
     for direction, offsets in enumerate(patterns):
         departures = [d for _, side, d, _ in trips if side == direction]
         min_interval = min(b-a for a, b in pairwise(departures))
         for a, b in pairwise(offsets):
             occupy = b["departure_s"] - a["departure_s"] + tail
             gaps.append((min_interval - occupy, a["id"], b["id"]))
+            # Each additional block affords at most headway minus tail clearance
+            # seconds of head travel. One block also carries the booked dwell.
+            if min_interval <= tail + b["departure_s"] - b["arrival_s"]:
+                raise ValueError("Headway cannot accommodate dwell and full-tail clearance")
+            block_counts.append(math.ceil((occupy - tail) / (min_interval - tail)))
     margin, start, end = min(gaps)
     by_train = defaultdict(list)
     for train, side, dep, arr in trips:
         by_train[train].append((side, dep, arr))
     linked = [later[1] - earlier[2] for t in by_train.values() for earlier, later in pairwise(t)]
     start_stock = [sum(t[0][0] == side for t in by_train.values()) for side in (0, 1)]
-    end_stock = [sum(t[-1][0] == 1-side for t in by_train.values()) for side in (0, 1)]
+    end_stock = [sum(t[-1][0] == (side if loop else 1-side) for t in by_train.values()) for side in (0, 1)]
+    # This alternative leaves every linked set on its arrival platform throughout
+    # its booked wait. First and last depot movements have no timing evidence.
+    platform_events = [Counter(), Counter()]
+    for path in by_train.values():
+        for (_, _, arrival), (side, departure, _) in pairwise(path):
+            platform_events[side][arrival] += 1
+            platform_events[side][departure + tail] -= 1
+    occupied = []
+    for events in platform_events:
+        active = peak = 0
+        for _, change in sorted(events.items()):
+            active += change
+            peak = max(peak, active)
+        occupied.append(peak)
     return {"sets_starting_at_A_B": start_stock, "sets_finishing_at_A_B": end_stock,
             "scheduled_trips": len(trips), "diagrammed_sets": fleet, "one_way_km": km,
             "one_way_s_including_dwell": run, "minimum_turn_s": layover,
             "linked_turns": len(linked), "shortest_linked_turn_s": min(linked),
+            "platforms_if_linked_sets_wait_in_place": occupied,
             "peak_terminal_positions_minimum_each_end": math.ceil(layover / v["peak_headway_s"]),
             "terminal_B_phase_s": (run + layover) % v["peak_headway_s"],
+            "time_based_minimum_blocks_worst_station_pair": max(block_counts),
+            "time_based_minimum_blocks_both_directions": sum(block_counts),
             "whole_interstop_block_conflicts_at_peak": sum(gap < 0 for gap, _, _ in gaps),
             "worst_block_clearance_margin_s": margin, "worst_block_from_to": [start, end],
             "outward_stops": patterns[0]}, trips, patterns
@@ -237,6 +267,45 @@ def interchanges(network, details, tail_s, walk_s=300):
         rows.append({"source_hint": hint, "groups": groups,
                      "overlap_seconds_if_shared_junction": overlap, "example_connection": example})
     return rows
+
+
+def mainline_option(cfg, source, features, points, held, base, details):
+    """Time existing main lines while deferring branch decisions and their mileage."""
+    groups = cfg["networks"]["metropolitan"]["service_groups"]
+    coverage = source["map_and_service_coverage"]
+    sections = coverage["passenger_path_sections_km"]
+    routes = {name: [groups[name][0]] for name in held}
+    paths, unexpected = metro_paths(features, points, routes, coverage, circulate=True)
+    if unexpected:
+        raise ValueError(f"Disconnected main line: {unexpected}")
+    option = "metropolitan-mainlines"
+    new_rows = {}
+    deferred = {}
+    for name, route in routes.items():
+        main = route[0]
+        is_loop = paths[name][0]["register_id"] == paths[name][-1]["register_id"]
+        row, trips, patterns = group_diagram(name, paths[name], sections[main], cfg, loop=is_loop)
+        row["main_section"] = main
+        row["operation"] = "continuous_laps_each_direction" if is_loop else "two_terminal_service"
+        new_rows[name] = row
+        details[option, name] = trips, patterns
+        deferred.update({section: sections[section] for section in groups[name][1:]})
+    for name in base["groups"]:
+        details[option, name] = details["metropolitan", name]
+    rows = {**base["groups"], **new_rows}
+    annual_km = sum(row["one_way_km"] * row["scheduled_trips"] for row in rows.values()) * cfg["vehicle"]["service_days_per_year"]
+    deferred_annual = (2 * source["selected_service_allowance"]["service_duty"]["daily_departures_per_direction_per_group"]
+                       * cfg["vehicle"]["service_days_per_year"] * sum(deferred.values()))
+    if not math.isclose(annual_km + deferred_annual, base["annual_cost_ledger_train_km"]):
+        raise ValueError("Opening option does not account for every costed passenger kilometre")
+    return {"operating_option_id": option, "infrastructure_candidate_id": source["selected_candidate_id"],
+            "selected_cost_evaluation_id": source["selected_evaluation_id"],
+            "base_groups_reused": sorted(base["groups"]), "mainline_workings": new_rows,
+            "deferred_sections_costed_km": deferred, "annual_train_km_on_deferred_sections": deferred_annual,
+            "annual_diagrammed_train_km": annual_km, "daily_trips": sum(g["scheduled_trips"] for g in rows.values()),
+            "diagrammed_sets": sum(g["diagrammed_sets"] for g in rows.values()),
+            "intermediate_interchanges": interchanges(option, details, math.ceil(
+                cfg["vehicle_geometry"]["train_length_m"] * 3.6 / cfg["vehicle"]["speed_cap_kmh"]))}
 
 
 def build():
@@ -301,6 +370,9 @@ def build():
             "annual_cost_ledger_train_km": duty["annual_train_km"],
             "diagrammed_train_seconds_per_day": sum(g["scheduled_trips"] *
                 (g["one_way_s_including_dwell"] + g["minimum_turn_s"]) for g in groups.values())}
+        if network == "metropolitan":
+            receipt["citywide_mainline_option"] = mainline_option(
+                cfg, source, features, points, holds, receipt["networks"][network], details)
     receipt["evaluation_id"] = system._id({"data": receipt, "method": sha256(Path(__file__).read_bytes()).hexdigest()})
     return receipt, details
 
@@ -308,7 +380,10 @@ def build():
 def operator_card(receipt, details):
     """Pack two actual out-and-back workings per group for the offline workshop."""
     data = {}
-    for network, report in receipt["networks"].items():
+    option = receipt["citywide_mainline_option"]
+    opening = {"groups": {**receipt["networks"]["metropolitan"]["groups"], **option["mainline_workings"]},
+               "hold_reasons": {}, "intermediate_interchanges": option["intermediate_interchanges"]}
+    for network, report in {**receipt["networks"], "metropolitan-mainlines": opening}.items():
         groups = {}
         for name, group in report["groups"].items():
             trips, patterns = details[network, name]
@@ -340,11 +415,17 @@ def operator_card(receipt, details):
             groups[name] = {"sets": group["diagrammed_sets"], "km": group["one_way_km"],
                             "count": group["scheduled_trips"], "layover": group["minimum_turn_s"],
                             "from": labels[a], "to": labels[b], "margin": group["worst_block_clearance_margin_s"],
+                            "blocks": group["time_based_minimum_blocks_worst_station_pair"],
+                            "platforms": group["platforms_if_linked_sets_wait_in_place"],
+                            "loop": group.get("operation") == "continuous_laps_each_direction",
                             "samples": examples, "connection": connection}
         caveat = ("The seven first-network diagrams use named areas and equal timing distances. "
                   "Thirteen of 52 named occurrences still lack locations." if network == "first" else
                   "Ten citywide groups have train diagrams. Four groups await a workable branch or junction. "
                   "Station timings use scaled schematic distances.")
+        if network == "metropolitan-mainlines":
+            caveat = ("Fourteen service groups run on the mapped main tracks. Five access sections are deferred. "
+                      "The capital and operating budgets still describe the full citywide proposal.")
         data[network] = {"groups": groups, "holds": report["hold_reasons"], "caveat": caveat}
     template = (CITY / "engineering/service-diagrams.template.html").read_text(encoding="utf-8")
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", r"\u003c")
@@ -356,15 +437,15 @@ def main():
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--check", action="store_true")
     action.add_argument("--write", action="store_true")
-    action.add_argument("--events", choices=("first", "metropolitan"), help="Print station events as UTF-8 CSV")
+    action.add_argument("--events", choices=("first", "metropolitan", "metropolitan-mainlines"), help="Print station events as UTF-8 CSV")
     parser.add_argument("--group", help="Filter events to a service group")
     parser.add_argument("--train", help="Filter events to one diagrammed train")
     args = parser.parse_args()
     receipt, details = build()
     if args.events:
-        network = receipt["networks"][args.events]
-        if args.group and args.group not in network["groups"]:
-            parser.error(f"Group {args.group} is unknown or held: {network['hold_reasons'].get(args.group, '')}")
+        if args.group and (args.events, args.group) not in details:
+            holds = receipt["networks"].get(args.events, {}).get("hold_reasons", {})
+            parser.error(f"Group {args.group} is unknown or held: {holds.get(args.group, '')}")
         writer = csv.writer(sys.stdout)
         rows = 0
         writer.writerow(["group", "train", "trip", "direction", "stop", "register_id", "label",

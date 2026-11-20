@@ -55,7 +55,7 @@ The reserve accounts for **$1.122bn within the citywide capital estimate**, and 
 
 ## People and trains
 
-Use the [operator timetable card](service-diagrams.html) and [service diagram guide](SERVICE-DIAGRAMS.md) to trace a set across both directions. The seven corridors account for 24.666 million train-km/year on these schematic diagrams. Four citywide service groups still need connected paths before their budgeted mileage can support a timetable. The workforce planner prices unattended service, full supervised cover and partial onboard assistance against each network’s service duty. [Staffing and operating allowances](../../docs/operator-review/delivery/README.md)
+Use the [operator timetable card](service-diagrams.html) and [service diagram guide](SERVICE-DIAGRAMS.md) to trace a set across both directions. The seven corridors account for 24.666 million train-km/year on these schematic diagrams. A separate citywide timetable diagrams all 14 main routes with five short access sections deferred. It needs 725 sets for 6,384 daily trips. The complete citywide budget still includes the five sections. At the diagrammed mileage, annual operating cost is $777.932m with the full fleet, station and track maintenance allowances retained. The workforce planner prices unattended service, full supervised cover and partial onboard assistance against each network’s service duty. [Staffing and operating allowances](../../docs/operator-review/delivery/README.md)
 
 | Service measure | First programme | Independent citywide |
 |---|---:|---:|
@@ -78,6 +78,12 @@ register](station-register.json) lists 37 named first-network access points and
 220 citywide stop screens against budgets of 64 and 280 stations.
 
 Each train has six 17 m cars, four double doors per side per car, step-free access and two wheelchair places per car. The selected full-load mass is **201.092 tonnes**. Twenty-four powered axles provide traction under the declared uphill and low-adhesion design duty. Independent brakes and service batteries remain available for controlled stopping and recovery. The [vehicle page](VEHICLE.md) gives the car layout, equipment envelopes, assembly approach and replaceable parts.
+
+The station pricing register carries 64 generic station allowances on the seven corridors and 280 citywide. It distinguishes a mapped entrance, a repeated place name and an approved station site. The buyer can replace individual allowances as surveyed, complete station offers arrive. [Station sites, access classes and prices](maps/STATION-PRICING.md)
+
+For a smaller opening, the Airport corridor study prices 12 km, six stops, 21 trains and three traction supply sites. Its **$793.177m** planning allowance carries dedicated facilities. Site works and terminal connections still need prices. Compare bidder returns for civil work, trains and stations on the same scope, including Iraqi value added and repair rights. [Airport opening and exclusions](AIRPORT-OPENING.md) · [Downloadable supplier enquiries](../../docs/operator-review/README.md#taking-drawings-to-a-supplier)
+
+For the first-network train and structure, the [train weight and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) checks two accelerating trains on a representative feed section. The [civil and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md) shows the effect of longer beams on supports, cranes and cost. Both identify the measurements a supplier must return.
 
 ## Civil works, power and factories
 

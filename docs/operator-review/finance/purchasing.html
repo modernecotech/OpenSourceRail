@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supplier pricing | OpenSourceRail</title>
+<link rel="stylesheet" href="finance.css"><link rel="stylesheet" href="purchasing.css">
+<script src="enquiries-data.js" defer></script><script src="purchasing.js" defer></script>
+</head>
+<body>
+<header>OpenSourceRail &nbsp; / &nbsp; Operator workshop</header>
+<main>
+<h1>Price a railway package</h1>
+<p class="desc">Give each supplier the same drawings and first-article scope. Compare the delivered cash price and the value each supplier can document locally.</p>
+<section class="panel" aria-label="Quotation package">
+<div class="inputs"><label>Railway<select id="railway"></select></label><label>Quotation package<select id="article"></select></label></div>
+<p id="scope"></p><p id="witness"></p><p id="quantity"></p>
+<details><summary>Drawings and source records</summary><ul id="records"></ul><p class="note" id="revision"></p></details>
+<button id="enquiry">Download supplier enquiry</button>
+</section>
+<h2>Compare two returns</h2>
+<p>Enter one first article, delivered and installed to the agreed boundary. Use constant 2026 USD excluding tax, financing and repeat orders. Enter a zero only where the supplier confirms it. Unallocated value is shown as untraced.</p>
+<div id="offers"></div>
+<template id="offer">
+<section class="panel"><h3></h3>
+<label>Supplier and return reference<input name="reference" type="text"></label>
+<label>Signed scope and origin evidence reference<input name="evidence" type="text"></label>
+<label>Total first-article cash price (USD)<input name="cash" type="number" min="0.01" step="any"></label>
+<label class="domestic"></label>
+<label>Documented imported value (USD)<input name="imports" type="number" min="0" step="any"></label>
+<label>Repair rights, training, exclusions and warranty<textarea name="terms" rows="2"></textarea></label>
+<label class="agree"><input name="matched" type="checkbox"> Buyer confirms matching scope, service, rights, safety and accessibility terms.</label>
+<p class="summary" aria-live="polite"></p>
+<div class="actions"><button class="save">Save return</button><label class="upload">Open return<input class="load" type="file" accept=".json,application/json"></label></div>
+<p class="message" role="status"></p>
+</section></template>
+<div class="panel"><h2>Commercial comparison</h2><p id="comparison" aria-live="polite"></p><button id="print">Print meeting record</button></div>
+<p class="note">Returns stay in this browser tab until you save a file. Use the funding screen for debt terms and the engineering price comparison for complete matched capital scopes. <a href="index.html">Funding and fares</a></p>
+</main></body></html>

@@ -53,3 +53,5 @@ A trial 2.20 × 1.40 × 0.70 m cap, 1.00 m square × 6.00 m column and 2.50 m sq
 5. Erect island heads and panel rows, close joints, survey both platform edges, finish falls and conduct a witnessed water test. Record clearances with representative train loading, suspension movement and platform loading. Restore accessible surfaces and inspect drain outlets after the test.
 
 Reproduce the package from this directory with `python3 develop_civil.py --check`, `python3 section_drawing.py --check` and `python3 -m unittest discover -p 'test_civil.py'`. The section study carries independent physical and evaluation identifiers. Installed reinforcement, fixtures, prices, bearing specification, fabrication approval and site acceptance remain open.
+
+The [span comparison and yard return](SPAN-COMPARISON.md) carries this box and the Baghdad train across the 10, 20, 25 and 30 m precast options. Use its placement counts, lifting limits, casting-yard occupancy and break-even costs when requesting prices from local precasters and erection contractors.

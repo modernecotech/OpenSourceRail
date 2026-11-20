@@ -11,7 +11,7 @@
 <main>
 <div class="heading"><div><h1>Operations workforce</h1><p>Compare duty coverage, payroll and the annual operating budget.</p></div>
 <div><label for="mode">Staffing scenario</label><select id="mode"><option value="goa4">Unattended GoA4</option><option value="supervised">Supervised commissioning</option><option value="assisted">Onboard passenger assistance</option></select></div>
-<div><label for="railway">Railway programme</label><select id="railway"><option value="core">Core railway · 30 km</option><option value="first" selected>Baghdad · First programme</option><option value="metropolitan">Baghdad · Citywide</option></select></div></div>
+<div><label for="railway">Railway programme</label><select id="railway"><option value="core">Core railway · 30 km</option><option value="first" selected>Baghdad · First programme</option><option value="metropolitan">Baghdad · Full citywide offer</option><option value="metropolitan-mainlines">Baghdad · Citywide, five access sections deferred</option></select></div></div>
 <div class="summary" aria-live="polite">
 <div class="card"><h2>Operating establishment</h2><div class="stat" id="establishment">—</div><p class="small">Full-time equivalents for listed duties</p></div>
 <div class="card"><h2>Annual pay scenario</h2><div class="stat" id="pay">—</div><p class="small">Sum of the priced roles</p></div>
@@ -29,7 +29,7 @@
 <section class="budget"><h2>Annual operating cost reconciliation</h2>
 <p class="small">Enter the payroll already included for these same roles in each contract allowance, in millions of 2026 US dollars per year. Enter zero only when the overlap has been checked. Each credit is removed once before the new payroll is added.</p>
 <div class="ledger"><div id="credits"></div><dl aria-live="polite">
-<div><dt>Published annual OPEX</dt><dd id="baseline-cost">—</dd></div>
+<div><dt>Annual operating allowance</dt><dd id="baseline-cost">—</dd></div>
 <div><dt>Less included payroll</dt><dd id="credited-cost">—</dd></div>
 <div><dt>Plus revised payroll</dt><dd id="payroll-cost">—</dd></div>
 <div><dt>Scenario annual OPEX</dt><dd id="revised-cost">—</dd></div></dl></div>

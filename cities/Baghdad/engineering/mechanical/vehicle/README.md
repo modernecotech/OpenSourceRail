@@ -50,3 +50,43 @@ python3 -m unittest discover -s cities/Baghdad/engineering/mechanical/vehicle -p
 ```
 
 The result lists physical IDs for the unbraced parent and braced revision, the source digests and a separate evaluation ID. If upstream geometry or the selected system evaluation changes, regenerate the parent schedule first. Reuse the project's [rigid-frame evaluator](../../../../../engineering/design_search/frame_analysis.py), the tributary-load calculation and the cut-stock/mesh reconciliation for another train. Supply that train's formation, gross mass and distribution, body and door geometry, bogie and suspension datums, propulsion/brake loads, body support conditions, section tables and functional tolerances. The passive v0.6 comfort reference has different door openings, machinery, loading and equipment interfaces and needs its own candidate and assessment.
+
+## Comparing three ways to build the body
+
+The cut list allocates **4,381.625 kg** of counted stock to one braced body and **407.278 kg** to each bogie frame. Ask competing body builders to keep the same door openings, passenger load, suspension datums and maintenance access. Quote a welded steel body, an aluminium extrusion assembly and a hybrid with identified glass-fibre composite panels and metallic attachments. Give each alternative its own drawing revision, installed weight, joint list, tooling price and repair demonstration. [Braced stock account](result.json) · [First-article pricing instructions](../../../BUYER-COMPARISON.md)
+
+For an initial check on a straight tension member at the same length, the area required for equal axial stiffness is inversely proportional to its elastic modulus. Start with the steel trial at 210 GPa and 7,850 kg/m³. The project’s illustrative aluminium input of 69 GPa and 2,710 kg/m³ needs **3.04 times the area**, giving **1.05 times the stock mass** for that particular duty. The 25 GPa axial glass-fibre assumption at 1,900 kg/m³ gives **8.40 times the area** and **2.03 times the mass**. A builder seeking a lighter car therefore needs to show where its section shape, shell or load path changes the demand. A panel in bending, a bonded joint and a whole vehicle need their own evaluations. [Steel stock inputs](stock.toml) · [Project material hypotheses](../../../../../engineering/design_search/design_grammar.py)
+
+| Supplier return | Local build and overhaul evidence | Effect to carry into the train comparison |
+|---|---|---|
+| Welded steel | Welding procedure, distortion at door jambs, coating access, inspection hours and a timed local weld repair | Finished body weight after joints, coating and fitted attachments. Measure door distortion under load and check fatigue-sensitive joints. |
+| Aluminium extrusion | Available profiles and die lead times, joining procedure, heat-affected strength, inspection and extrusion repair or replacement | Section depth at the doors, allowable joint loads, corrosion isolation at steel bogie interfaces, installed mass and replacement lead time. |
+| Composite/metal hybrid | Panel lay-up and process control, bonding and curing in local shop conditions, hot/wet and fire evidence, damage inspection and a witnessed repair | Load transfer at inserts, panel and joint stiffness, attachment mass, residual strength after repair, consumables and downtime. |
+
+Carry a returned weight into the train supply study only after completing the installed mass account. The commercial lead should compare first article, repeat production, tooling, spare stock and overhaul prices. Selection also requires the applicable carbody load cases and substantiated material and joint properties.
+
+## Weighing the installed train
+
+Use the [train weight and traction supply sheet](SECTION-POWER.md) to agree the electrical duty with the rolling stock and power suppliers. Begin with the train-wide quotation return below. Enter operating fluids and all installed parts once. Each row needs a source such as a drawing revision and weighed assembly record, or a supplier mass declaration with its scope. Include tolerances, load distribution and weighing conditions in that evidence.
+
+| Train-wide return group | Include |
+|---|---|
+| Finished body and bogie frames | Six complete bodies' structural frames and twelve bogie frames, welded, fastened and coated. The published 31.177 t is cut stock for comparison. |
+| Wheelsets and running gear | Complete wheelsets, bearings, suspension, dampers, stops, links and retention. |
+| Drive and brakes | Motors, inverters, gearboxes, brake equipment, pumps and cooling fluids. |
+| Body fitout | Body skin, floor, glazing, doors, seats, HVAC, trim and wheelchair fittings. |
+| Power and control | Shoe assemblies, service battery, protection, controllers, cabling, enclosures and connection hardware. |
+| Remaining tare | Couplers, gangways, lighting, pipes and every remaining installed item. A zero needs a referenced scope reconciliation. |
+| Crowd payload | Payload for the stated crowd loading case. Record people, mass basis, carried items and load distribution. |
+
+Assign a component supplied within a larger assembly to its quoted group and cross-reference it in the other supplier's scope. The 0.35 t control reserve and 0.50 t service-battery allowance already sit in the planning mass. Use actual included equipment for the return. Quote individual axle reactions for unequal loading and investigate axle-scale discrepancies before adopting a new design mass.
+
+From the repository root, create the editable form in the existing build directory, then run the comparison after entering the weights and source references.
+
+```sh
+python3 cities/Baghdad/engineering/mechanical/vehicle/power_interface.py --mass-form > build/baghdad-train-weight.json
+python3 cities/Baghdad/engineering/mechanical/vehicle/power_interface.py --mass-return build/baghdad-train-weight.json
+python3 cities/Baghdad/engineering/mechanical/vehicle/power_interface.py --check
+```
+
+The output reports missing rows and their effect on tare and gross mass. A complete return recalculates the mean axle load, traction rating, collector voltage, feeder current and cycle loss at the fixed train duty. Re-evaluate braking, unequal axle loads, civil reactions, energy, renewal and price before selecting a revised train.

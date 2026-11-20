@@ -62,7 +62,13 @@ on:
       - "engineering/outline/baghdad_*.py"
       - "engineering/outline/tests/test_baghdad_*.py"
       - "engineering/development_baseline/tests/test_baghdad_system_api.py"
+      - "tools/automation/check-markdown-links.py"
+      - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "docs/reference-v07/integration/timetable.py"
+      - "docs/reference-v07/integration/test_timetable.py"
+      - "docs/operator-review/finance/enquiries*.py"
+      - "docs/operator-review/finance/enquiries-data.js"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -165,7 +171,13 @@ on:
       - "engineering/outline/baghdad_*.py"
       - "engineering/outline/tests/test_baghdad_*.py"
       - "engineering/development_baseline/tests/test_baghdad_system_api.py"
+      - "tools/automation/check-markdown-links.py"
+      - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "docs/reference-v07/integration/timetable.py"
+      - "docs/reference-v07/integration/test_timetable.py"
+      - "docs/operator-review/finance/enquiries*.py"
+      - "docs/operator-review/finance/enquiries-data.js"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -242,6 +254,11 @@ jobs:
             /campaigns/**
             /engineering/**
             /docs/reference-v07/**
+            /docs/operator-review/finance/enquiries.py
+            /docs/operator-review/finance/enquiries-data.js
+            /docs/design-engine/v07-powered-cost/input.json
+            /docs/design-engine/v07-architecture-decision/result.json
+            /control-electronics/interface-schedule.json
             /control-electronics/reference-v07.toml
             /cities/Baghdad/**
             /cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz
@@ -279,6 +296,8 @@ jobs:
             /tools/automation/verify_retained_publications.py
             /tools/automation/generate-doc-index.py
             /tools/automation/doc_index_policy.py
+            /tools/automation/check-markdown-links.py
+            /tools/automation/tests/test_markdown_epoch_links.py
             /docs/INDEX.md
             /deployment/erpnext/apps/osr_erpnext/osr_erpnext/**
             /services/integration/osr_integration/**
@@ -350,6 +369,13 @@ jobs:
         run: |
           python -m engineering.outline.baghdad_diagrams --check
           cargo test --locked --manifest-path cities/Baghdad/engineering/controls/Cargo.toml
+      - name: Verify railway timetables, prototype prices and bench records
+        run: |
+          python -m unittest discover -s docs/reference-v07/integration -p test_timetable.py
+          python -m unittest discover -s cities/Baghdad/engineering/mechanical/civil -p test_spans.py
+          python -m unittest discover -s cities/Baghdad/engineering/mechanical/vehicle -p test_power_interface.py
+          python -m unittest discover -s cities/Baghdad/engineering/controls -p test_bench_trace.py
+          python docs/operator-review/finance/enquiries.py --check
       - name: Check the selected v0.7 digital production handoff
         run: python -O docs/reference-v07/digital/production/generate.py --check
       - name: Replay historical source contracts on request

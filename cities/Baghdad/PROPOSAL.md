@@ -1,6 +1,6 @@
 # OpenSourceRail Baghdad metropolitan railway
 
-**Proposal to Amanat Baghdad · 19 November 2026 · planning prices in 2026 US dollars**
+**Proposal to Amanat Baghdad · 20 November 2026 · planning prices in 2026 US dollars**
 
 ## Brief
 
@@ -128,7 +128,7 @@ The [cabinet schedules and software replay](engineering/controls/README.md) conn
 
 The operating company needs a staffed control room, station teams, train and electrical maintainers, civil inspection crews, cleaners, security, passenger assistance, stores and procurement, payroll and finance. The current annual operating figure combines **$2.60 per non-energy train-km**, **$1m per station-year**, grid energy at **$0.12/kWh**, and supply-specific upkeep. It is an allowance that includes operational work; it is not a payroll roster or an audited local wage bill. Staffing, shift premiums, training, spare parts, electricity tariffs and depot productivity should be priced as separate contract schedules before a fare or subsidy plan is adopted.
 
-The [train diagrams](SERVICE-DIAGRAMS.md) link 3,192 daily trips on seven corridors using 208 of 210 active sets. They reproduce the 24.666 million annual train-km in the first-network estimate. Single blocks between stations cannot carry the 150-second peak on these paths. Citywide, ten groups have connected diagrams and four still need branch and junction decisions. Those four account for 40.499 million train-km in the annual budget. Measure demand, root each terminal turn in a platform layout and establish safe separation before committing the service offer.
+The [train diagrams](SERVICE-DIAGRAMS.md) link 3,192 daily trips on seven corridors using 208 of 210 active sets. They reproduce the 24.666 million annual train-km in the first-network estimate. Single blocks between stations cannot carry the 150-second peak on these paths. Citywide, ten groups have connected diagrams and four still need branch and junction decisions. Those four account for 40.499 million train-km in the annual budget. An alternative timetable keeps all fourteen main routes, including both directions of the M09 ring, and defers five short access sections. It diagrams **6,384 daily trips on 725 sets**. The difference from the full budget is 497,724 annual train-km. Keeping all infrastructure, stations and fleet, the corresponding annual operating estimate is **US$777.932m**. Measure demand, root each terminal turn in a platform layout and establish safe separation before committing the service offer.
 
 The [workforce comparison](../../docs/operator-review/delivery/README.md) estimates 1,526 FTE for the listed duties under unattended operation on seven corridors. Full supervised cover gives 1,938 FTE and an assistant on 25% of train-duty hours gives 1,629. Obtain local pay by grade and itemise payroll already inside each operating contract. The workshop replaces the matching payroll allowances once and carries the resulting annual operating budget into the funding comparison.
 
@@ -249,6 +249,12 @@ The two alternatives have different scale and different funding decisions. For e
 | 2032–2035 | Operate, maintain and record the first alternative if selected | Complete citywide corridors, train delivery, integration and staged opening through 2035 |
 
 Each corridor should have a contract schedule for land and utility access, materials, factory capacity, beam and station output, train delivery, power installation, installation inspection, software acceptance and cash draw. The sponsor must approve a safe opening plan for connected passenger service, including cross-city junctions; the six reserved citywide sections require a separate service or re-scoping decision. The public PDF is a detailed planning and capital-raising proposal; the editable GIS, calculation input and controlled production drawings are the working records for tender development.
+
+## A first opening to price
+
+The Airport corridor gives the sponsor a smaller comparison with a defined passenger service. The 12 km option has six planning stops, 18 working trains and three spares. Its fourteen capital scopes total **US$793.177m** including a dedicated depot, a control centre and three supply sites. The model allows **US$16.767m a year** for operations. Turnouts, airport access works, unusual foundations and depot connections still need site quantities. The buyer can replace dedicated facilities with a priced shared or temporary arrangement. [Opening quantities, timetable and cost boundary](AIRPORT-OPENING.md)
+
+For the first-network supply study, a pair of trains accelerating together draws the representative collector voltage to **1.344 kV** against a **1.350 kV** planning floor. Request conductor, return and source measurements before choosing feed spacing. The civil comparison also finds that the 20, 25 and 30 m trial sections exceed a 60 t crane allowance before rigging. Bidders should price the crane at the actual lift radius, changed section and closures alongside the reduction in supports. [Train and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) · [Span and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md)
 
 ## Decision requested
 

@@ -8,7 +8,7 @@ The repository also retains a native FUXA screen from the earlier business pilot
 
 ## Trains and passenger journeys
 
-**Baghdad daily service.** Follow Airport-001 from the terminal to Al Qadisiya and back. The card shows the local times, the three-minute minimum turn and the interval shortfall under a one-block-per-interstop assumption. Select M04 in the citywide view to see why the service remains held. [Open the timetable card](../../../cities/Baghdad/service-diagrams.html)
+**Baghdad daily service.** Follow Airport-001 from the terminal to Al Qadisiya and back. The card shows the local times, the three-minute minimum turn and the interval shortfall under a one-block-per-interstop assumption. Select M04 in the full citywide view to inspect the gap. Switch to the option with five access sections deferred to follow its mainline working, or choose M09 to trace a ring service. [Open the timetable card](../../../cities/Baghdad/service-diagrams.html)
 
 ![Baghdad Airport train stops and return times, with peak separation screen](baghdad-service.png)
 

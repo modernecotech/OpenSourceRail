@@ -1,0 +1,14 @@
+# First-network procurement comparison for one hypothetical feed bay.
+# All electrical properties and the load pulse are assumptions pending supplier returns.
+name = "Two equal sources feeding a fixed midpoint"
+source_droop_ohm = 0.010
+outward_ohm_per_km = 0.008
+return_ohm_per_km = 0.004
+auxiliaries_mw_per_train = 0.300
+pulse_seconds = 20
+coincident_trains = [1, 2]
+available_feeds = [2, 1]
+
+# Level-track constant-deceleration trial with a non-reversible rectifier.
+braking_deceleration_m_s2 = 0.6
+braking_wheel_to_bus_efficiency = 0.82

@@ -83,3 +83,35 @@ Terminal numbers below are proposed fixture labels for one representative openin
 Issue a cabinet general arrangement, connector-to-connector wiring schedule, branch protection schedule, terminal labels, replaceable-unit list and versioned signal dictionary with each bid. Identify which enclosures, looms, software builds, test fixtures and depot repairs an Iraqi team can perform, the imported parts they depend on, and the rights and equipment needed to repeat each task.
 
 On the bench, wire a real opening, car node, both protection inputs, brake load simulator and inverter inhibit feedback. Open and short each sensor lead, interrupt each supply, remove one communications channel and interrupt contact while moving in simulation. Capture hardware timestamps from stimulus through torque removal and brake build-up. Set the permitted times from the route stopping analysis. Then instrument gap traversal, regenerative or dissipative braking under unavailable line receptivity, enclosure temperature during repeated peak service, and safe access after isolation. Log serials, wiring revision, software hash, as-tested settings, calibrated measurements and independent review against the physical candidate.
+
+## Review a recorded brake handover
+
+The [offline trace intake](bench_trace.py) compares a representative opening, two brake proofs and the actual drive effort during one complete station departure on a loaded rig. The technician supplies the as-tested build, limits, clock alignment and readings. The reviewer receives event times, maximum rollback, dispatch-to-effort delay, recording gaps, faults and unresolved evidence.
+
+**Prepare the return.** From the repository root, generate the five editable JSON records in an empty trial directory under `build`. Substitute the local trial number before capturing data.
+
+```sh
+trial=build/baghdad-bench-TRIAL_NUMBER
+mkdir -p "$trial"
+for record in manifest raw limits calibration witness
+do
+  python3 cities/Baghdad/engineering/controls/bench_trace.py --template "$record" > "$trial/$record.json"
+done
+```
+
+1. Bind all records to the same train, article serial and trial ID. The template supplies the selected first-network identity and software source fingerprints. In the manifest record the SHA256 of the build actually installed, wiring revision, UTC start, and departure sign in both transducer axes. Use `physical-measurement` for a hardware capture or `synthetic-fixture` for test data. Record the load, gradient or equivalent restraint, direction, witness identity and observations. Retain originals for the qualification reviewer.
+2. Obtain the independently approved procedure revision and time-stamped limits **before** capture. The limits include minimum retained brake force, the separate release band, permitted inhibited effort, required starting effort, stationary travel and maximum rollback. Enter the dispatch-to-effort, sample-gap and clock-alignment limits in milliseconds. Record the clock alignment method, worst absolute channel clock error, certificate references, validity and recorder input IDs in the calibration record.
+3. Log eight independent inputs on the common elapsed-time axis. Each channel has its own timestamped series of `[milliseconds, value]` pairs. Use 0 or 1 for the door lock contact, parking-applied switch, actual inverter-inhibited indication, dispatch request and release request. Supply calibrated independent brake force in kN, signed actual starting effort in kN and signed wheel position in mm. Use positive brake force for an applied hold. Retain each recorder input’s own sample times, including the stable period before the door opens and first motion after both brakes release. Identify the representative opening and modelled direction. Record the source channel for each input and keep actuator commands distinct from their physical feedback. The single-door intake covers the nominated bench assembly.
+4. Hash the completed raw, limits, calibration and witness files, then enter their relative paths and SHA256 values in the manifest. Keep the complete return together. Run the intake, retain its JSON result and investigate each hold or observed fault.
+
+```sh
+sha256sum "$trial"/{raw,limits,calibration,witness}.json
+python3 cities/Baghdad/engineering/controls/bench_trace.py --manifest "$trial/manifest.json"
+python3 -m unittest discover -s cities/Baghdad/engineering/controls -p 'test_*.py'
+```
+
+The absolute stationary-travel limit applies to displacement in either direction from the initial secured berth until departure is permitted. A reading exactly at the limit remains within it. The separate rollback limit measures reverse travel from the furthest forward wheel position. The intake continues checking the door lock and directed starting effort through physical brake release and the first departure sample.
+
+The intake uses the last observation on each channel over their common time window. It holds ambiguous event ordering within one maximum observed sample interval plus twice the stated clock error. It screens for effort with the inverter inhibited, brake release before effort, movement with a brake applied, door unlock after relock, missing milestones, excessive rollback and late acknowledgement. Repeat individual fault and reverse-direction trials with their own records. Sampled readings leave sub-sample transients open.
+
+The command exits with status 2 for faults, missing evidence or outstanding authentication. Unresolved trust is normal for a local file review. The project qualification workflow can call `assess(..., authenticator=...)` using its externally configured role and signature verifier. Producer and independent reviewer sign the manifest claim without its attestations. The limit approver signs the limits record and the calibration authority signs the calibration record. Synthetic evidence always remains held. The intake grants no equipment or service release. [Project evidence and authentication workflow](../../../../engineering/railway_completion/evidence.py)

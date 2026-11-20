@@ -1,0 +1,12 @@
+#offers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.inputs{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px}
+h3{margin:0 0 10px;font-size:20px}.panel>p{margin:12px 0}
+#offers label{display:block;margin:9px 0;font-size:14px;font-weight:600}
+textarea{width:100%;padding:8px;color:inherit;font:inherit;border:1px solid #788e89;border-radius:4px}
+button,.upload{background:#075f58;color:white;padding:8px 13px;border:0;border-radius:4px;font:inherit;cursor:pointer}
+.actions{display:flex;align-items:center;gap:12px}.upload:focus-within{outline:3px solid #ae701b}
+#offers .upload{position:relative;margin:0}.upload input{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer}
+.agree input{width:auto}.summary{font-weight:600}.message{color:#774321}
+#revision{overflow-wrap:anywhere}details{margin:12px 0}#records li{overflow-wrap:anywhere}
+@media(max-width:720px){#offers,.inputs{grid-template-columns:1fr}}
+@media print{button,.actions,.note a{display:none}#offers{grid-template-columns:repeat(2,minmax(0,1fr))}#offers .panel{margin:0}main{padding:0}.panel{padding:8px}h1{font-size:24px}}

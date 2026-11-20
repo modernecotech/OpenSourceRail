@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **172**.
+Indexed Markdown files: **177**.
 
 ## Sections
 
@@ -20,10 +20,10 @@ Indexed Markdown files: **172**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 12 |
+| [cities](#cities) | 16 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 128 |
+| [docs](#docs) | 129 |
 | [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
@@ -54,6 +54,7 @@ Indexed Markdown files: **172**.
 
 | File | Title |
 |---|---|
+| [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
 | [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Buying a railway using an open reference |
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
@@ -63,8 +64,11 @@ Indexed Markdown files: **172**.
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
+| [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
+| [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
+| [`cities/Baghdad/maps/STATION-PRICING.md`](../cities/Baghdad/maps/STATION-PRICING.md) | Baghdad station sites and prices |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
 
 ## crates
@@ -201,6 +205,7 @@ Indexed Markdown files: **172**.
 | [`docs/reference-v07/digital/production/README.md`](../docs/reference-v07/digital/production/README.md) | v0.7 digital production handoff |
 | [`docs/reference-v07/digital/vehicle/README.md`](../docs/reference-v07/digital/vehicle/README.md) | Joined v0.7 digital car: mass, CG and static reaction screen |
 | [`docs/reference-v07/integration/README.md`](../docs/reference-v07/integration/README.md) | Parent joined prototype interface record |
+| [`docs/reference-v07/integration/TIMETABLE.md`](../docs/reference-v07/integration/TIMETABLE.md) | Core 30 km passenger timetable |
 | [`docs/reference-v07/manufacturing/README.md`](../docs/reference-v07/manufacturing/README.md) | v0.7 representative manufacturing and lifecycle package |
 | [`docs/reference-v07/vehicle/README.md`](../docs/reference-v07/vehicle/README.md) | v0.7 representative vehicle — powered wheel concept |
 | [`docs/releases/v0.6.1/README.md`](../docs/releases/v0.6.1/README.md) | OpenSourceRail v0.6.1 — Open Engineering Platform |

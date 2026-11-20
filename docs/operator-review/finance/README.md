@@ -35,3 +35,7 @@ The fare fields affect the opening-year comparison. The chart and annual table c
 The core illustration spreads expenditure across its 43-month construction programme and starts full operations in relative Year 5. Baghdad uses the planned annual draws in each network's own schedule. The model assumes midyear borrowing during construction, interest paid by the buyer, and repayment after opening. The timing and prices can change when suppliers, lenders and the authority agree an opening package. [Core estimate and renewals](../../reference-v07/cost/README.md) · [Baghdad delivery and cost basis](../../../cities/Baghdad/COST-AND-DELIVERY.md) · [Matched bids and Iraqi value added](../../../cities/Baghdad/BUYER-COMPARISON.md)
 
 The published schedules can be checked from the repository root with `python3 docs/operator-review/finance/build.py --check`.
+
+## Supplier pricing
+
+Use [Price a railway package](purchasing.html) to issue matching drawings, collect separate cash and financing terms, and compare first-article price with documented local value. The core railway and Baghdad use different equipment and source revisions. The downloadable enquiries record the issued drawing hashes. Start the screen from the [offline kit](../README.md#taking-drawings-to-a-supplier). Check the issued scopes with `python3 docs/operator-review/finance/enquiries.py --check` and exercise file import, comparison and export with `node docs/operator-review/finance/check-purchasing.mjs`.

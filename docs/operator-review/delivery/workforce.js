@@ -8,7 +8,7 @@ const commonRoles = ["station duty and passenger assistance", "station security 
   "civil, track and power response", "planning, payroll, stores and trainers"];
 const roleRows = new Map();
 const creditInputs = new Map();
-const railway = () => workforceStudy.studies[byId("railway").value];
+const railway = () => workforceStudy.studies[byId("railway").value] ?? workforceStudy.operating_options[byId("railway").value];
 const scenario = () => railway().workforce_scenarios[byId("mode").value];
 function amountField(label, positive, step) {
   const input = document.createElement("input");
@@ -73,7 +73,13 @@ function reconcile(payroll) {
   const transfer = byId("transfer");
   const commissioning = byId("mode").value === "supervised";
   transfer.hidden = !ready || commissioning;
-  if (!transfer.hidden) transfer.href = "../finance/index.html?" + new URLSearchParams({network:byId("railway").value, opex:annual});
+  if (!transfer.hidden) {
+    const key = byId("railway").value;
+    const option = workforceStudy.operating_options[key];
+    const query = new URLSearchParams({network:option?.infrastructure_network ?? key, opex:annual});
+    if (option) query.set("operation",key);
+    transfer.href = "../finance/index.html?" + query;
+  }
   else transfer.removeAttribute("href");
   byId("cost-status").textContent = !valid ? "Enter an included payroll between zero and its full contract allowance." :
     !allKnown || !priced ? "Confirm the included payroll in every allowance and price every staffed role." :

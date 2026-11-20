@@ -4,9 +4,10 @@ import hashlib
 import io
 import json
 import re
+import tempfile
 from urllib.parse import quote, urlsplit
 from pathlib import Path
-from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -25,12 +26,13 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <nav>
 <a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>Fourteen illustrated pages for the meeting.</small></a>
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
-<a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Inspect held citywide services.</small></a>
+<a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Compare the full citywide offer and its mainline timetable.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
+<a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Download the first-article scope and compare price, documented domestic value and repair terms.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
 <a href="cities/Baghdad/Baghdad-Metro-Proposal.pdf"><strong>Baghdad investment proposal</strong><small>Read the routes, local delivery options and the purchasing case.</small></a>
-</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
+</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/AIRPORT-OPENING.md">Airport opening price</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
 <p>Use the included documents for design review and indicative quotations. References to the wider engineering repository open with an internet connection. <a href="https://github.com/modernecotech/OpenSourceRail/tree/main/docs/operator-review">Full workplan, screens and sources</a></p></main></html>"""
 
 
@@ -52,31 +54,69 @@ def document_content(path, included):
     return re.sub(r'(\[[^]\n]*\])\(([^()\s]+)\)', resolve_link, path.read_text()).encode()
 
 
-def build():
+def workshop_files():
     files = set()
     for f in HERE.rglob('*'):
         if f.suffix in {'.md', '.html', '.css', '.js', '.png', '.json', '.ifc', '.svg', '.pdf'} and f.is_file():
             files.add(f)
     files.update(ROOT / f for f in ('LICENSE.md', 'cities/Baghdad/Baghdad-Metro-Proposal.pdf',
-                 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/service-diagrams.html',
+                 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',
+                 'cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md',
+                 'cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md', 'cities/Baghdad/service-diagrams.html',
                  'cities/Baghdad/service-diagrams.js', 'cities/Baghdad/service-diagrams.css',
                  'cities/Baghdad/COST-AND-DELIVERY.md', 'cities/Baghdad/BUYER-COMPARISON.md',
                  'cities/Baghdad/maps/Baghdad-148km.png', 'cities/Baghdad/maps/Baghdad-606km.png',
-                 'docs/reference-v07/cost/README.md'))
+                 'docs/reference-v07/cost/README.md', 'docs/reference-v07/integration/TIMETABLE.md'))
     raw = (HERE/'twins/models.js').read_text().strip()
     models = json.loads(raw.removeprefix('window.RAIL_MODELS=').removesuffix(';'))
     for m in models.values():
         files.update(ROOT / path for path in m['links'].values())
+    raw = (HERE / 'finance/enquiries-data.js').read_text().strip()
+    enquiries = json.loads(raw.removeprefix('const railwayEnquiries = ').removesuffix(';'))
+    # Supply the exact drawing or record named in each downloadable enquiry.
+    records = {}
+    for railway in enquiries.values():
+        for article in railway['lots']:
+            for name, digest in article['records'].items():
+                path = ROOT / name
+                if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                    raise ValueError(f'Refresh the supplier enquiry for {name}')
+                records[path] = digest
+    files.update(records)
+    # Keep relative links from the original quotation records usable offline.
+    for path in records:
+        if path.suffix == '.md':
+            for destination in re.findall(r'\[[^]\n]*\]\(([^()\s]+)\)', path.read_text()):
+                parts = urlsplit(destination)
+                if not parts.scheme and not parts.netloc and parts.path:
+                    target = (path.parent / parts.path).resolve()
+                    if target.is_relative_to(ROOT) and target.is_file():
+                        files.add(target)
+    members = {'START.html': START.encode()}
+    for path in sorted(files):
+        members[path.relative_to(ROOT).as_posix()] = (
+            path.read_bytes() if path in records else document_content(path, files))
+    return members
+
+
+def current(destination, members):
+    try:
+        with ZipFile(destination) as archive:
+            return (archive.namelist() == list(members) and
+                    all(archive.read(name) == content for name, content in members.items()))
+    except (FileNotFoundError, BadZipFile):
+        return False
+
+
+def build(members=None):
+    members = workshop_files() if members is None else members
     buffer = io.BytesIO()
     with ZipFile(buffer, 'w') as archive:
-        def put(name, content):
+        for name, content in members.items():
             info = ZipInfo(name, (2026, 11, 19, 0, 0, 0))
             info.compress_type = ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, content)
-        put('START.html', START.encode())
-        for f in sorted(files):
-            put(f.relative_to(ROOT).as_posix(), document_content(f, files))
     return buffer.getvalue()
 
 
@@ -84,10 +124,16 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--check', action='store_true')
     args = ap.parse_args()
-    data = build()
     dest = HERE / 'OpenSourceRail-Operator-Kit.zip'
-    if args.check:
-        if hashlib.sha256(data).digest() != hashlib.sha256(dest.read_bytes()).digest():
+    members = workshop_files()
+    if not current(dest, members):
+        if args.check:
             raise SystemExit('Rebuild the operator kit from the published files')
-    else:
-        dest.write_bytes(data)
+        with tempfile.NamedTemporaryFile(dir=dest.parent, delete=False) as temporary:
+            path = Path(temporary.name)
+        try:
+            path.write_bytes(build(members))
+            path.chmod(0o644)
+            path.replace(dest)
+        finally:
+            path.unlink(missing_ok=True)

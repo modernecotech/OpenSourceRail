@@ -1,14 +1,114 @@
 // Generated from quantities.json by capture-workforce.mjs
 const workforceStudy = {
-  "schema": "osr.factory-workforce.study.2",
+  "operating_options": {
+    "metropolitan-mainlines": {
+      "annual_grid_gwh": 1954.897475395032,
+      "annual_train_km": 91968471.07579927,
+      "infrastructure_network": "metropolitan",
+      "opex": {
+        "baseline_usd_m_year": 777.9318018444819,
+        "eligible_envelopes_usd_m_year": {
+          "Non-energy train operations": 239.1180247970781,
+          "Power maintenance": 24.226080000000003,
+          "Station operations": 280
+        },
+        "embedded_payroll_usd_m_year": null,
+        "operator_pay_rates_usd_per_fte_year": null,
+        "other_costs_usd_m_year": 234.58769704740382
+      },
+      "source_diagram_evaluation_id": "5ee1a40e7375cf32c7c97b3a0aeed48a046f07482856d183d8c09d73645d4741",
+      "source_evaluation_id": "54c45fc9feb942bd0f63b2d9aaf4688cb794409801793967f047050e61586db3",
+      "source_physical_id": "28d1d23756788171634dbf3ac50dbbae0254f4ca9cd5b732821ae9a88635408c",
+      "train_hours_day_including_minimum_turns": 6951.086666666667,
+      "workforce_scenarios": {
+        "assisted": {
+          "duty_hours_per_year": {
+            "OCC control, traction, incidents and information": 140160,
+            "civil, track and power response": 735840,
+            "depot rolling-stock technicians": 700800,
+            "onboard passenger assistants": 634287,
+            "planning, payroll, stores and trainers": 123840,
+            "station duty and passenger assistance": 5518800,
+            "station security and cleaning": 3679200
+          },
+          "name": "Onboard passenger assistance",
+          "onboard_duty_fraction": 0.25,
+          "onboard_role": "onboard passenger assistants",
+          "posts_fte": {
+            "OCC control, traction, incidents and information": 82,
+            "civil, track and power response": 428,
+            "depot rolling-stock technicians": 408,
+            "onboard passenger assistants": 369,
+            "planning, payroll, stores and trainers": 72,
+            "station duty and passenger assistance": 3209,
+            "station security and cleaning": 2140
+          },
+          "total_fte": 6708,
+          "train_duty_basis": "All 14 routes have timed workings, totalling 6,951.1 train-hours/day including minimum turns. 5 access sections are deferred. The full 280-station and 934-set capital programme and built line upkeep are retained."
+        },
+        "goa4": {
+          "duty_hours_per_year": {
+            "OCC control, traction, incidents and information": 140160,
+            "civil, track and power response": 735840,
+            "depot rolling-stock technicians": 700800,
+            "planning, payroll, stores and trainers": 123840,
+            "scheduled onboard staff": 0,
+            "station duty and passenger assistance": 5518800,
+            "station security and cleaning": 3679200
+          },
+          "name": "Unattended GoA4",
+          "onboard_duty_fraction": 0,
+          "onboard_role": "scheduled onboard staff",
+          "posts_fte": {
+            "OCC control, traction, incidents and information": 82,
+            "civil, track and power response": 428,
+            "depot rolling-stock technicians": 408,
+            "planning, payroll, stores and trainers": 72,
+            "scheduled onboard staff": 0,
+            "station duty and passenger assistance": 3209,
+            "station security and cleaning": 2140
+          },
+          "total_fte": 6339,
+          "train_duty_basis": "All 14 routes have timed workings, totalling 6,951.1 train-hours/day including minimum turns. 5 access sections are deferred. The full 280-station and 934-set capital programme and built line upkeep are retained."
+        },
+        "supervised": {
+          "duty_hours_per_year": {
+            "OCC control, traction, incidents and information": 140160,
+            "civil, track and power response": 735840,
+            "depot rolling-stock technicians": 700800,
+            "onboard commissioning supervisors": 2537147,
+            "planning, payroll, stores and trainers": 123840,
+            "station duty and passenger assistance": 5518800,
+            "station security and cleaning": 3679200
+          },
+          "name": "Supervised commissioning",
+          "onboard_duty_fraction": 1,
+          "onboard_role": "onboard commissioning supervisors",
+          "posts_fte": {
+            "OCC control, traction, incidents and information": 82,
+            "civil, track and power response": 428,
+            "depot rolling-stock technicians": 408,
+            "onboard commissioning supervisors": 1476,
+            "planning, payroll, stores and trainers": 72,
+            "station duty and passenger assistance": 3209,
+            "station security and cleaning": 2140
+          },
+          "total_fte": 7815,
+          "train_duty_basis": "All 14 routes have timed workings, totalling 6,951.1 train-hours/day including minimum turns. 5 access sections are deferred. The full 280-station and 934-set capital programme and built line upkeep are retained."
+        }
+      }
+    }
+  },
+  "schema": "osr.factory-workforce.study.3",
   "source_sha256": {
-    "cities/Baghdad/service-diagrams.json": "8a1aa0910c29c222c9cda323d37ed7414ad31afa9d922656931a4bd72e6c1f36",
+    "cities/Baghdad/service-diagrams.json": "37fab32fe7b04570ee7a521101d3807291173db545082660d00de190b1663ccb",
     "cities/Baghdad/system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
     "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
-    "docs/operator-review/delivery/calculate.py": "16f57dea7cb95cc36346349e8bf243dd998309ae85d68c765152d402dbb01eb5",
+    "docs/operator-review/delivery/calculate.py": "2cf1a17bd06933c210eb7c9424ee2b933682f9f21517378001b613b4e7b84f69",
     "docs/reference-v07/concept.toml": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",
     "docs/reference-v07/cost/README.md": "f7d799e4f954d4bec341ed63b457e2c6918e07546a875349569cc1aefae9a75d",
-    "docs/reference-v07/digital/production/handoff.json": "c8f89fd421e9413ddbe6ef4b934c153469b0a87f1ed54d8761a1d57c77512a4c"
+    "docs/reference-v07/digital/production/handoff.json": "c8f89fd421e9413ddbe6ef4b934c153469b0a87f1ed54d8761a1d57c77512a4c",
+    "docs/reference-v07/integration/timetable.py": "955867f78178e7eaabcd5bba5b1092268bb3893a6fb6c324cd1c7f32656bf671"
   },
   "status": "capacity and quotation study",
   "studies": {
@@ -58,9 +158,11 @@ const workforceStudy = {
         "total_fte": 403,
         "train_operator_hours_per_day": 428
       },
+      "source_diagram_evaluation_id": "66624c217e2ee50fbc6acb9850609d35a3e5632fbd2e02f6bfe33c91e1e6366b",
       "source_evaluation_id": "63dbda54f7498fcd3a2e390fe37571fb6049fa39c02f9640fe39e15d70560dbc",
       "source_physical_id": "osr-v07-joined-civil-518dad57a3af5046f40c8f4f",
       "source_selection_id": "osr-v07-digital-design-20261117",
+      "train_hours_day_including_minimum_turns": 413.8,
       "vehicle": {
         "cars": 306,
         "cars_capacity": 380,
@@ -98,7 +200,7 @@ const workforceStudy = {
             "OCC control, traction, incidents and information": 35040,
             "civil, track and power response": 35040,
             "depot rolling-stock technicians": 58400,
-            "onboard passenger assistants": 39055,
+            "onboard passenger assistants": 37760,
             "planning, payroll, stores and trainers": 10320,
             "station duty and passenger assistance": 236520,
             "station security and cleaning": 157680
@@ -110,13 +212,13 @@ const workforceStudy = {
             "OCC control, traction, incidents and information": 21,
             "civil, track and power response": 21,
             "depot rolling-stock technicians": 34,
-            "onboard passenger assistants": 23,
+            "onboard passenger assistants": 22,
             "planning, payroll, stores and trainers": 6,
             "station duty and passenger assistance": 138,
             "station security and cleaning": 92
           },
-          "total_fte": 335,
-          "train_duty_basis": "Peak active fleet scaled to each hourly frequency. Train diagrams and crew duties remain open."
+          "total_fte": 334,
+          "train_duty_basis": "576 daily train workings account for 385.0 passenger train-hours and 28.8 minimum turnback hours. Each onboard duty still needs crew relief, stabling moves and handover."
         },
         "goa4": {
           "duty_hours_per_year": {
@@ -141,14 +243,14 @@ const workforceStudy = {
             "station security and cleaning": 92
           },
           "total_fte": 312,
-          "train_duty_basis": "Peak active fleet scaled to each hourly frequency. Train diagrams and crew duties remain open."
+          "train_duty_basis": "576 daily train workings account for 385.0 passenger train-hours and 28.8 minimum turnback hours. Each onboard duty still needs crew relief, stabling moves and handover."
         },
         "supervised": {
           "duty_hours_per_year": {
             "OCC control, traction, incidents and information": 35040,
             "civil, track and power response": 35040,
             "depot rolling-stock technicians": 58400,
-            "onboard commissioning supervisors": 156220,
+            "onboard commissioning supervisors": 151037,
             "planning, payroll, stores and trainers": 10320,
             "station duty and passenger assistance": 236520,
             "station security and cleaning": 157680
@@ -160,13 +262,13 @@ const workforceStudy = {
             "OCC control, traction, incidents and information": 21,
             "civil, track and power response": 21,
             "depot rolling-stock technicians": 34,
-            "onboard commissioning supervisors": 91,
+            "onboard commissioning supervisors": 88,
             "planning, payroll, stores and trainers": 6,
             "station duty and passenger assistance": 138,
             "station security and cleaning": 92
           },
-          "total_fte": 403,
-          "train_duty_basis": "Peak active fleet scaled to each hourly frequency. Train diagrams and crew duties remain open."
+          "total_fte": 400,
+          "train_duty_basis": "576 daily train workings account for 385.0 passenger train-hours and 28.8 minimum turnback hours. Each onboard duty still needs crew relief, stabling moves and handover."
         }
       }
     },
@@ -216,7 +318,7 @@ const workforceStudy = {
         "total_fte": 1950,
         "train_operator_hours_per_day": 1998
       },
-      "source_diagram_evaluation_id": "ab81fc77d3535ff324c2e5da36587b800248a5fd8f934101c133afd9f06b38f9",
+      "source_diagram_evaluation_id": "5ee1a40e7375cf32c7c97b3a0aeed48a046f07482856d183d8c09d73645d4741",
       "source_evaluation_id": "12d4630a9c69a023b7c538c6b9a7413b38622697b7c127db6839d89d93170054",
       "source_physical_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
       "vehicle": {
@@ -374,7 +476,7 @@ const workforceStudy = {
         "total_fte": 7976,
         "train_operator_hours_per_day": 7714
       },
-      "source_diagram_evaluation_id": "ab81fc77d3535ff324c2e5da36587b800248a5fd8f934101c133afd9f06b38f9",
+      "source_diagram_evaluation_id": "5ee1a40e7375cf32c7c97b3a0aeed48a046f07482856d183d8c09d73645d4741",
       "source_evaluation_id": "54c45fc9feb942bd0f63b2d9aaf4688cb794409801793967f047050e61586db3",
       "source_physical_id": "28d1d23756788171634dbf3ac50dbbae0254f4ca9cd5b732821ae9a88635408c",
       "vehicle": {
@@ -487,5 +589,5 @@ const workforceStudy = {
       }
     }
   },
-  "study_evaluation_sha256": "2ad901e105ee33089df8b5c1f4f0c1d60c992f98f330cd97a869509769af6102"
+  "study_evaluation_sha256": "2cbd05b0dc6f3ef97cc2fcb67d38e9506f0257bb28536d6b4a3aaa413ef5be73"
 };

@@ -42,3 +42,7 @@ The cost and service model retains its original source-bound schematic. Its 138.
 The citywide model assigns the airport approach to M05, Sadr City approaches to M04 and M09, and Jadriya approaches to M01 and M02. The junction screen identifies gaps at both M04 approaches. The other approaches touch their drawn main lines within the map tolerance. Switches, stop locations, clearances and pier positions require design. This map draws 608.460 km across planning lines and connections against the 605.652 km cost control. [Junction screen](../system-results.json)
 
 The independent citywide map uses the retained 24 October 2026 Protomaps background with OpenStreetMap and Natural Earth data. Rebuild the geographic review with `python3 cities/Baghdad/corridor_review.py`. The timetable uses the resulting GIS file to identify which named locations still require fieldwork. [OpenStreetMap attribution and licence](https://www.openstreetmap.org/copyright)
+
+## Station sites and purchasing
+
+The [station site and price comparison](STATION-PRICING.md) reconciles both independent budgets to the place and access records. It includes a return form for typical stations, interchanges, terminals, airport stations and constrained sites, with a separate row for each documented full-station offer.

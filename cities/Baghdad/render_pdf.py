@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import json
 import math
+from urllib.parse import urljoin
 import gzip
 from io import BytesIO
 from hashlib import sha256
@@ -45,7 +46,8 @@ def inline(nodes):
         elif kind == "codespan":
             out.append(html.escape(node["raw"]))
         elif kind == "link":
-            url = node["attrs"]["url"]
+            url = urljoin("https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/PROPOSAL.md",
+                          node["attrs"]["url"])
             out.append(f'<link href="{html.escape(url, quote=True)}">{inline(node["children"])}</link>')
         elif "children" in node:
             out.append(inline(node["children"]))
@@ -383,7 +385,7 @@ def render():
     def footer(canvas, document):
         canvas.setFont("Helvetica", 7)
         canvas.setFillColor(colors.HexColor("#697a83"))
-        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 19 November 2026")
+        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 20 November 2026")
         canvas.drawRightString(194 * mm, 10 * mm, str(document.page))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
     print(OUTPUT)

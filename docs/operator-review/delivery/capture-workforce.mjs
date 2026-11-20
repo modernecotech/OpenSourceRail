@@ -34,11 +34,11 @@ try {
     assert.match(response.headers()["content-security-policy"], /style-src 'self'/);
   }
   assert.equal(await page.locator("header").evaluate(node => getComputedStyle(node).backgroundColor), "rgb(21, 62, 61)");
-  for (const key of ["core", "metropolitan", "first"]) {
+  for (const key of ["core", "metropolitan", "metropolitan-mainlines", "first"]) {
     await page.selectOption("#railway", key);
     for (const mode of ["supervised", "assisted", "goa4"]) {
       await page.selectOption("#mode", mode);
-      const expected = input.studies[key].workforce_scenarios[mode].total_fte.toLocaleString("en-US");
+      const expected = (input.studies[key] ?? input.operating_options[key]).workforce_scenarios[mode].total_fte.toLocaleString("en-US");
       assert.equal(await page.locator("#establishment").textContent(), expected);
     }
     assert.equal(await page.locator("#revised-cost").textContent(), "Pending");
@@ -93,6 +93,32 @@ try {
   assert.equal(await page.locator("#opex").textContent(), "$196.6m");
   await page.locator("#restore-budget").click();
   assert.equal(await page.locator("#opex").textContent(), "$197.0m");
+  await page.goto(url.href);
+  await page.selectOption("#railway", "metropolitan-mainlines");
+  await page.selectOption("#mode", "assisted");
+  const mainlines = input.operating_options["metropolitan-mainlines"];
+  const full = input.studies.metropolitan;
+  assert.ok(mainlines.annual_train_km > 91.9e6 && mainlines.annual_train_km < 92e6);
+  assert.equal(mainlines.opex.eligible_envelopes_usd_m_year["Station operations"], full.opex.eligible_envelopes_usd_m_year["Station operations"]);
+  assert.equal(mainlines.opex.eligible_envelopes_usd_m_year["Power maintenance"], full.opex.eligible_envelopes_usd_m_year["Power maintenance"]);
+  assert.match(await page.locator("#fleet-description").innerText(), /6,951.1 train-hours/);
+  await page.fill("#salary", "24000");
+  for (const name of Object.keys(mainlines.opex.eligible_envelopes_usd_m_year)) await included(name).fill("0");
+  const link = new URL(await page.locator("#transfer").evaluate(a => a.href));
+  assert.equal(link.searchParams.get("network"), "metropolitan");
+  assert.equal(link.searchParams.get("operation"), "metropolitan-mainlines");
+  const annual = mainlines.opex.baseline_usd_m_year + mainlines.workforce_scenarios.assisted.total_fte * .024;
+  assert.ok(Math.abs(Number(link.searchParams.get("opex")) - annual) < 1e-8);
+  await page.locator("#transfer").click();
+  assert.equal(await page.locator("#operation").inputValue(), "metropolitan-mainlines");
+  assert.match(await page.locator("#operating-basis").innerText(), /five access sections deferred/);
+  const capital = await page.locator("#capital").innerText();
+  assert.equal(await page.locator("#staffing-case").isVisible(), true);
+  await page.locator("#restore-budget").click();
+  assert.equal(await page.locator("#opex").innerText(), "$777.9m");
+  await page.selectOption("#operation", "full");
+  assert.equal(await page.locator("#opex").innerText(), "$780.5m");
+  assert.equal(await page.locator("#capital").innerText(), capital);
   assert.deepEqual(errors, []);
   assert.deepEqual(violations, []);
   console.log(browser.version(), input.study_evaluation_sha256, url.protocol, "roster, payroll, OPEX and finance handover verified");

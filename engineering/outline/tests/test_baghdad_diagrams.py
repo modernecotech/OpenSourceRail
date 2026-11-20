@@ -14,7 +14,13 @@ def schedule():
 def test_each_train_reaches_its_next_origin_and_hourly_offer_is_met(schedule):
     report, details = schedule
     for (network, group), (trips, patterns) in details.items():
-        row = report["networks"][network]["groups"][group]
+        if network == "metropolitan-mainlines":
+            row = report["citywide_mainline_option"]["mainline_workings"].get(group)
+            if row is None:
+                row = report["networks"]["metropolitan"]["groups"][group]
+        else:
+            row = report["networks"][network]["groups"][group]
+        loop = row.get("operation") == "continuous_laps_each_direction"
         sets = defaultdict(list)
         departures = Counter()
         for train, side, dep, arr in trips:
@@ -25,7 +31,11 @@ def test_each_train_reaches_its_next_origin_and_hourly_offer_is_met(schedule):
             assert [departures[side, hour] for hour in range(6, 24)] == expected
         for path in sets.values():
             for (a, _, arr), (b, dep, _) in pairwise(path):
-                assert patterns[a][-1]["id"] == patterns[b][0]["id"]
+                if loop:
+                    assert a == b
+                    assert patterns[a][-1]["register_id"] == patterns[b][0]["register_id"]
+                else:
+                    assert patterns[a][-1]["id"] == patterns[b][0]["id"]
                 assert dep >= arr + 180
         for calls in patterns:
             assert calls[0]["departure_s"] == 0
@@ -66,3 +76,39 @@ def test_transfer_times_and_exclusive_station_blocks_remain_conditional(schedule
     assert yellow["worst_block_clearance_margin_s"] == -268
     with pytest.raises(ValueError, match="speed cap"):
         pattern([{"fraction": 0}, {"fraction": 1}], 100, 35, 3, 72)
+
+
+def test_mainline_option_accounts_for_every_traversal_and_deferred_branch(schedule):
+    report, details = schedule
+    base = report["networks"]["metropolitan"]
+    option = report["citywide_mainline_option"]
+    new = option["mainline_workings"]
+    assert set(new) == set(base["held_service_group_ids"])
+    assert set(option["base_groups_reused"]) == set(base["groups"])
+    assert option["infrastructure_candidate_id"] == base["selected_candidate_id"]
+    deferred = option["deferred_sections_costed_km"]
+    assert set(deferred) == {"B-A02", "B-A03", "B-A04", "B-A05", "B-A06"}
+    assert option["annual_train_km_on_deferred_sections"] == pytest.approx(sum(deferred.values()) * 456 * 365)
+    assert option["annual_diagrammed_train_km"] == pytest.approx(
+        base["annual_cost_ledger_train_km"] - option["annual_train_km_on_deferred_sections"])
+    assert option["daily_trips"] == 14 * 456
+    assert option["diagrammed_sets"] == base["diagrammed_sets"] + sum(r["diagrammed_sets"] for r in new.values())
+    assert all(a["register_id"] for row in new.values() for a in row["outward_stops"])
+    assert len({group for net, group in details if net == "metropolitan-mainlines"}) == 14
+    assert len(option["intermediate_interchanges"]) > len(base["intermediate_interchanges"])
+
+
+def test_platform_occupancy_and_block_screen(schedule):
+    report, details = schedule
+    row = report["networks"]["first"]["groups"]["Yellow"]
+    assert row["time_based_minimum_blocks_worst_station_pair"] == 3
+    trips, _ = details["first", "Yellow"]
+    by_set = defaultdict(list)
+    for train, side, dep, arr in trips:
+        by_set[train].append((side, dep, arr))
+    for side in (0, 1):
+        intervals = [(arrival, dep + 6) for path in by_set.values()
+                     for (_, _, arrival), (departing_side, dep, _) in pairwise(path) if departing_side == side]
+        simultaneous = max(sum(a <= t < b for a, b in intervals) for t, _ in intervals)
+        assert simultaneous == row["platforms_if_linked_sets_wait_in_place"][side]
+        assert simultaneous >= row["peak_terminal_positions_minimum_each_end"]

@@ -59,7 +59,7 @@ def start(section, title, subtitle):
     line(35, 92, title, 32, 'Bold')
     para(36, 106, 883, subtitle, 13)
     rect(35, 560, 890, 1, LINE)
-    line(35, 580, 'Railway design and delivery     /     Operator review     /     19 November 2026', 9, colour=GRAY)
+    line(35, 580, 'Railway design and delivery     /     Operator review     /     20 November 2026', 9, colour=GRAY)
     line(893, 580, f'{page:02d}', 10, 'Bold', TEAL)
 
 
@@ -165,7 +165,7 @@ start('Operate / workshop', 'Passenger planning and repair history',
       'Use the passenger journey screen to inspect a proposed service and the workshop record to trace what happened to a part.')
 picture('screens/baghdad-service.png',34,152,433,206)
 picture('screens/erp-serial-history.png',487,149,438,225)
-point(36,377,415,'A train through its working day','Use the Baghdad diagram to follow a set through stops and a terminal turn. Inspect the platform and block conflicts at peak headway. Four citywide service groups still need a connected route.')
+point(36,377,415,'A train through its working day','Use the Baghdad diagram to follow a set through stops and a terminal turn. Inspect the platform and block conflicts at peak headway. The citywide mainline option diagrams all 14 routes by deferring five access sections.')
 point(490,377,417,'A native ERPNext serial record','The existing historical pilot shows a repair and inspection trail. The new railway still needs its own asset register, installed serials, warranty records, staff permissions and signed maintenance tasks.')
 link('Open the gallery and workshop screens','screens/README.md')
 link('ERPNext and Frappe HR setup','../../deployment/erpnext/README.md',489)
@@ -217,11 +217,11 @@ two_column_figure('delivery/workforce.png',[
 link('Workforce planner, inputs and hiring plan','delivery/README.md')
 start('Delivery / buying terms','Use the design to improve competing offers',
       'Baghdad can buy from another supplier and still use the open railway to negotiate prices, domestic production, long-term repair rights and financing.')
-point(38,167,408,'01   Publish equivalent scope','Invite a turnkey bid, a vendor-led local production bid and a locally integrated bid. Give each the same service, duty, opening works, warranty and renewal schedule.')
-point(493,167,413,'02   Expose the cost of finance','Require a cash price beside a financed price. Compare annual buyer cash, currency, fees, guarantees and debt service. Allocate integration and interface risks to a funded owner.')
-point(38,325,407,'03   Verify Iraqi value added','Ask for the net package value, imported inputs, untraced value, Iraqi labour and locally produced materials. Count verified domestic value once across the supply chain.')
-point(493,325,416,'04   Secure the ability to repair','Contract for drawings, software builds and diagnostics, tooling title and replacement parts. Tie payments to an independently built repeat article and a witnessed local overhaul.')
-link('Buyer comparison and negotiation method','../../cities/Baghdad/BUYER-COMPARISON.md')
+picture('finance/supplier-returns.png',35,145,552,372)
+point(608,148,311,'Issue the same package','Download the scope and drawings for one station, body, bogie, civil kilometre, crossing or cabinet. Ask each bidder for a delivered cash price and a separate financing offer.')
+point(608,284,311,'Compare two station offers','In the illustration, B costs $250,000 less and documents $587,500 more Iraqi value. Both returns use the same first article. The remaining untraced origin stays visible.')
+point(608,418,311,'Contract for local repair','Confirm the drawings, tooling, training, spares and warranty. Witness an independent repeat build or repair before releasing the agreed payment.')
+link('Buyer comparison and supplier enquiries','../../cities/Baghdad/BUYER-COMPARISON.md')
 start('Delivery / next decisions','The first twelve weeks',
       'Start when the sponsor appoints an operator and gives the team access to routes, records and suppliers. Each decision has a named owner and a tangible return.')
 steps=[('Weeks 1–2','Sponsor + operator','Agree the service brief, decision owners and scope of the first opening.'),

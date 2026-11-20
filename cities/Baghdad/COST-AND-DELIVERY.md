@@ -25,6 +25,9 @@ The drawn first-programme lines total **138.395 km**, while the priced RFI contr
 
 The [daily train diagrams](SERVICE-DIAGRAMS.md) account for the entire first-network mileage in the operating estimate. Citywide, 51.967 million annual train-km have timed paths and 40.499 million are still allowed for four unresolved groups. The [workforce calculator](../../docs/operator-review/delivery/README.md) can replace embedded payroll with priced duties for unattended operation or onboard assistance once the operator identifies its existing labour allowances.
 
+
+The Airport opening takes off a six-stop railway with dedicated facilities at **$793.177m** plus site and terminal works still to price. The citywide mainline operating option defers passenger service on five short access sections. At 91.968 million annual train-km it costs **$777.932m/year** under the existing rates and full capital scope, versus **$780.495m/year** for the full budgeted service. Wages, surveyed designs and supplier prices are inputs for the next estimate. [Airport opening](AIRPORT-OPENING.md) · [Citywide service and staffing](SERVICE-DIAGRAMS.md#a-citywide-timetable-with-five-access-sections-deferred)
+
 ## Fourteen installed capital scopes
 
 US$ million, computed by `python3 -m engineering.outline.baghdad_system --write-results` from `system.toml`.

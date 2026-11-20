@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import runpy
 from math import ceil, floor, isclose
 from pathlib import Path
 import tomllib
@@ -96,6 +97,36 @@ def opex_ledger(baseline, envelopes):
             "embedded_payroll_usd_m_year": None, "operator_pay_rates_usd_per_fte_year": None}
 
 
+def citywide_mainline_workforce(cfg, city, diagrams, staff):
+    option = diagrams["citywide_mainline_option"]
+    if (option["infrastructure_candidate_id"] != city["selected_candidate_id"]
+            or option["selected_cost_evaluation_id"] != city["selected_evaluation_id"]):
+        raise ValueError("Citywide mainline workings belong to another infrastructure estimate")
+    original = diagrams["networks"]["metropolitan"]
+    rows = [original["groups"][name] for name in option["base_groups_reused"]]
+    rows.extend(option["mainline_workings"].values())
+    train_hours = sum(row["scheduled_trips"] * (row["one_way_s_including_dwell"] + row["minimum_turn_s"])
+                      for row in rows) / 3600
+    distance = option["annual_diagrammed_train_km"]
+    if not isclose(distance + option["annual_train_km_on_deferred_sections"], original["annual_cost_ledger_train_km"]):
+        raise ValueError("Citywide operation must account for deferred mileage")
+    rate = cfg["operation_rates"]
+    baseline = city["selected_annual_opex_usd_m"]
+    grid_gwh = city["power_cases"]["protected_conductor"]["annual_grid_gwh"] * distance / original["annual_cost_ledger_train_km"]
+    costs = {"Non-energy train operations": distance * rate["non_energy_vehicle_operations_usd_per_train_km"] / 1e6,
+             "Station operations": staff["opex"]["eligible_envelopes_usd_m_year"]["Station operations"],
+             "Power maintenance": baseline["power_maintenance"]}
+    total = sum(costs.values()) + grid_gwh * rate["delivered_energy_usd_per_kwh"]
+    infrastructure = cfg["networks"]["metropolitan"]
+    basis = (f'All {len(rows)} routes have timed workings, totalling {train_hours:,.1f} train-hours/day including minimum turns. '
+             f'{len(option["deferred_sections_costed_km"])} access sections are deferred. The full {infrastructure["stations"]}-station '
+             f'and {infrastructure["fleet_trainsets"]}-set capital programme and built line upkeep are retained.')
+    return {"infrastructure_network": "metropolitan", "source_physical_id": option["infrastructure_candidate_id"],
+            "source_evaluation_id": option["selected_cost_evaluation_id"], "source_diagram_evaluation_id": diagrams["evaluation_id"],
+            "annual_train_km": distance, "annual_grid_gwh": grid_gwh, "train_hours_day_including_minimum_turns": train_hours,
+            "opex": opex_ledger(total, costs), "workforce_scenarios": workforce_scenarios(staff["roster"], train_hours, basis)}
+
+
 def build():
     handoff, core, baghdad, results, diagrams = [read(path) for path in INPUTS]
     production = handoff["production"]
@@ -116,9 +147,19 @@ def build():
                          core["service"]["fleet_active"], [30] * 4 + [12] * 14),
     }}
     core_roster = studies["core"]["roster"]
+    timetable_source = "docs/reference-v07/integration/timetable.py"
+    core_workings = runpy.run_path(str(ROOT / timetable_source))["build"]()
+    if core_workings["physical_candidate_id"] != handoff["physical_candidate_id"]:
+        raise ValueError("Core train diagrams and workforce must share a vehicle and infrastructure selection")
+    duty = core_workings["summary"]
+    core_hours = duty["passenger_train_hours_day"] + duty["minimum_turnback_train_hours_day"]
+    studies["core"]["source_diagram_evaluation_id"] = core_workings["evaluation_id"]
+    studies["core"]["train_hours_day_including_minimum_turns"] = core_hours
     studies["core"]["workforce_scenarios"] = workforce_scenarios(
-        core_roster, core_roster["train_operator_hours_per_day"],
-        "Peak active fleet scaled to each hourly frequency. Train diagrams and crew duties remain open.")
+        core_roster, core_hours,
+        f'{duty["trip_count"]} daily train workings account for {duty["passenger_train_hours_day"]:,.1f} passenger '
+        f'train-hours and {duty["minimum_turnback_train_hours_day"]:,.1f} minimum turnback hours. '
+        'Each onboard duty still needs crew relief, stabling moves and handover.')
     studies["core"]["opex"] = opex_ledger(core["economics"]["annual_opex_usd_m"], {
         "Control and operations staff": 4, "Fleet maintenance": 10,
         "Civil, station and overhead maintenance": 6, "Insurance and administration": 3})
@@ -173,9 +214,10 @@ def build():
         c["civil_yard_day_posts"] = c["yards"] * 18
         c["erection_day_posts"] = 8 * c["erection_fronts"]
         study["production_day_posts"] = v["direct_posts_all_lines"] + v["support_posts_all_lines"] + c["civil_yard_day_posts"] + c["erection_day_posts"]
-    return {"schema": "osr.factory-workforce.study.2", "status": "capacity and quotation study",
+    mainlines = citywide_mainline_workforce(baghdad, results["networks"]["metropolitan"], diagrams, studies["metropolitan"])
+    return {"operating_options": {"metropolitan-mainlines": mainlines}, "schema": "osr.factory-workforce.study.3", "status": "capacity and quotation study",
             "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
-                              for p in [*INPUTS, "docs/reference-v07/cost/README.md", str(Path(__file__).resolve().relative_to(ROOT))]},
+                              for p in [*INPUTS, timetable_source, "docs/reference-v07/cost/README.md", str(Path(__file__).resolve().relative_to(ROOT))]},
             "studies": studies}
 
 

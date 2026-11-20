@@ -57,3 +57,7 @@ The civil section's bare beam is **29.884 t**, while the provisional hook allowa
 Ask each bidder to price and identify its material origin, local fabrication hours, bought components, tooling, transport, lifting, installation, tests, spares and maintenance replacement separately. Require a complete installed mass ledger with joints, fasteners, cooling, wiring, protection and maintenance envelopes. Unknown supplier item counts, mass, duty, price and origin remain **open**, never zero. The 14-scope [cost ledger](../cost/README.md) is the single concept price basis; substitute measured quotations by changing the appropriate row and its dependent contingency/whole-life calculation, not by adding a second competing total.
 
 This package meets an **interface and quotation handoff** only. It is not a fabrication drawing set, measured physical qualification or authority to carry passengers. The independent brake, installed CG and axle loads, beam/seat/foundation structure, overhead electrical clearance, accessible gap, fire/egress, controls and site ground are mandatory qualification holds. Their completion requires supplier drawings, physical tests, approved limits and independent review through the existing qualification workflow.
+
+## Scheduled service and disruption
+
+The [30 km reference timetable](TIMETABLE.md) assigns the priced peak and off-peak service to 44 daily train duties and screens terminal space during turnbacks, a set failure and a platform closure. Its stop-call and terminal-occupation export identifies each departure and its train.
