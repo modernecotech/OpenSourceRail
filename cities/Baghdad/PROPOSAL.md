@@ -42,6 +42,10 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Investment Commission’s February 2024 proposal. Its original satellite background shows the airport approach, route bends and crossings of the Tigris. The route table prints 148 km overall and the seven line items sum to 148.2 km. The independent OpenSourceRail citywide map uses a wider geographic extent and its own GIS linework. [NIC map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
 
+![The seven corridors in the National Investment Commission’s Baghdad Metro notice](maps/Baghdad-148km.png)
+
+*Seven-corridor alternative. The Airport line starts in the west. The published lengths in the table below price 148.2 km. Source: National Investment Commission, February 2024, page 4.*
+
 | Line | Length | Principal places served |
 |---|---:|---|
 | Green | 19 km | Al Alawi, Mansour, Yarmouk, Bayaa, Doura |
@@ -57,6 +61,10 @@ The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Inves
 The independent citywide network gives the **airport terminal** an access section on service M05; it assigns the three **Sadr City** anchors to M04 and M09 through branches and the two **Jadriya** anchors to M01 and M02. The Sadr cross-city services M10 and M11 and the southwest service M13 add direct capacity through those catchments. These are schematic railway corridors to the named access areas, not approved platform sites or walking routes.
 
 The [citywide map](maps/Baghdad-606km.png) contains 26 schematic physical sections: nine principal corridors, five shared links, six infill corridors and six access branches. All are included in the citywide guideway-length and capital controls. The **14 named service groups** cover 20 sections; six are reserved non-revenue corridors without a train path. The station budget is 280. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
+
+![The independent Baghdad citywide scheme with service corridors and access branches](maps/Baghdad-606km.png)
+
+*Citywide alternative. This map covers a wider area. Its stop markers identify places to examine for access. The estimate includes 50.099 km of reserved guideway without scheduled passenger service.*
 
 | Through-service groups | Citywide role |
 |---|---|
@@ -76,6 +84,12 @@ The junction screen finds **2.323 km and 2.710 km** between the nearest ends of 
 
 The GIS background and district names support public discussion, utility searches and corridor screening. Bridge clearances, foundation ground, property rights and platform entrances require project investigation. The cost estimate includes allowances for these scopes.
 
+### From a map point to an accessible entrance
+
+At the airport, walk from the landside terminal door to the proposed platform with airport operations and a passenger using a wheelchair. Record the kerbs, gradients, crossings, shade, security boundary and lift location. At Al Amiriya, walk the proposed transfer between the Airport and White lines in both directions. If crossing the street takes longer than the timetable allows, revise the connection or the entrance before promising a journey time.
+
+Keep the entrance, platform centre and passenger walking route as separate survey records. Moving an entrance can change land requirements, lifts and walking time without moving the track. Moving the railway can change span locations, utilities, train running time and fleet needs. Give the city both the earlier and revised quantities when it compares a site. This applies the book’s passenger journey and mapping method to locations Baghdad can inspect. [Passenger access](../../docs/book/02-passenger.md) · [Working with Baghdad route changes](../../docs/book/45-baghdad-next.md)
+
 ## Trains and passenger service
 
 The Baghdad train has **six 17 m cars**, a coupled length of about 104.5 m and a **125 m clear platform**. Each car has four 1.3 m clear double-leaf door openings on each side, 20 fixed seats and two wheelchair places. The train carries about **700 people** at its normal urban-service cap, including planned standing. Step-free access, platform gaps, evacuation width and independent stopping are design duties, not cost-saving options.
@@ -85,6 +99,30 @@ Powered wheel bogies give the train sustained traction between stations. The pro
 A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The declared 06:00–24:00 offer uses four hours at 24 trains/hour/direction, eight hours at 12 and six hours at 6 on each assigned passenger path. That is 228 departures per service and direction daily, about **2.234 million offered places/day** across the seven corridors and **4.469 million** across the independent citywide plan. These are offered places, not forecast passengers. The plans cost **24.666 million** and **92.466 million train-km/year**, respectively. A three-minute layover at each terminal gives peak cycle requirements of **208 and 742** trainsets; the fleet budgets retain **210 active/242 total** and **812 active/934 total**. The reserved citywide sections have no train service.
 
 The passenger offer includes step-free entry, wheelchair spaces, clear door signs, audible and visible next-stop information, Arabic and English wayfinding, line maps, disruption displays and staffed assistance. Station equipment needs a local information feed so a power or communications interruption cannot silently leave misleading departure or evacuation messages. Platform crowd handling, transfer walking distances, individual stop dwell and junction capacity need a location-specific service design; no daily ridership or fare revenue is assumed in the financial totals.
+
+![Baghdad car plan showing the door openings, seat groups and wheelchair places](vehicle-layout.svg)
+
+*One 17 m Baghdad car. Four openings on each side serve a high-turnover urban service. The operator can use the drawing to rehearse boarding with luggage, mobility devices and passengers waiting to alight.*
+
+### Following the first Airport train
+
+Airport-001 departs at 06:00, reaches Al Amiriya at 06:03:19 and leaves 35 seconds later. It reaches Al Qadisiya at 06:18:57 and starts its return at 06:21:57. A five-minute accessible walk at Al Amiriya would leave 5 minutes 48 seconds before the 06:14:07 White-line departure. The connection is a specific walking-time test for the station team. At peak, a single signalling block between successive stations cannot accommodate the proposed 150-second interval in this timetable. The signalling designer and operator need to resolve separation, dwell and terminal occupation together.
+
+![Airport train working showing calls, turnaround and the peak interval check](../../docs/operator-review/screens/baghdad-service.png)
+
+*Timetable screen for the seven-corridor operating study. Arrival, departure and return belong to the same trainset. Times are planned workings.*
+
+### The train an Iraqi workshop can price
+
+The braced first-article candidate has 128 steel pieces in one body and two bogie frames, totalling 5,196 kg of nominal cut stock. The shop needs to quote the welded frames, distortion control, machining, coatings, joint inspection and scrap. Equipment suppliers then add the wheelsets, suspension, drives, brakes, doors, wiring, cooling and interior. The complete loaded train budget is 201.092 t. Procurement needs both the stock return and the complete installed weight because the latter sets axle loads and traction duty.
+
+![Baghdad train twin with the braced steel carbody and bogie-frame members exposed](../../docs/operator-review/twins/baghdad-steel-frame.png)
+
+*First-article steel geometry for a Baghdad car. Bracing reduced the idealised gravity-case deflection from 61.44 mm to 8.61 mm. Torsion, joint fatigue and the shape of a loaded doorway still need physical verification.*
+
+![Dimensioned interface drawing of a powered bogie under the Baghdad car](engineering/mechanical/bogie-interface.svg)
+
+*The bogie supplier and body builder share the spring and mounting datums. A depot trial must establish where a technician disconnects the harness and brake interfaces and how the bogie clears the body during replacement.*
 
 ## Viaducts, stations and street works
 
@@ -97,6 +135,22 @@ Longer 20, 25 and 30 m spans could reduce foundation counts in constrained stree
 The factory sequence for each repeatable span is mould and reinforcement preparation, cast and cure, dimensional and material inspection, yard release, protected transport, support and bearing inspection, lift and temporary restraint, permanent connection, track fixing and final inspection. The estimate includes beam, support and installation allowances. The monthly production schedule applies a one-month curing, inspection and transport release lag, 80% first-year productivity and 90% later availability. At eight placements per productive day and 250 nominal working days per year, the 2028–2030 civil window closes with **six casting yards and six erection fronts** for the 148.2 km option; 2028–2034 closes with **ten of each** citywide. Crane radius, river crossings, utilities and road-closure calendars are not modelled; the additional facility cost remains unpriced rather than zero.
 
 The [bogie, body, station and viaduct study](engineering/mechanical/README.md) gives lifting and removal interfaces, door positions, bearing reactions and a dimensioned bogie drawing. On a hypothetical 250 m inner curve the straight-platform setting would overlap the body by 6.9 mm before suspension movement. Confirm station curvature and swept clearance before fixing the platform edge.
+
+### A station bay, from rail seat to street
+
+![Baghdad island station, six-car train and twin elevated tracks in the assembly viewer](../../docs/operator-review/twins/baghdad-station.png)
+
+*Straight-station digital twin. The island is 125 m long and 8 m wide. Platform panels and track beams have separate supports. Relative movement between them changes the boarding gap.*
+
+![Baghdad platform-edge drawing with the train, track and guarded conductor](station-interface.svg)
+
+*Platform and train interface. Check the boarding edge under passenger load, suspension movement and civil settlement, including the effect of curvature at each site.*
+
+![Sections through the Baghdad precast island platform and 10 m track box](engineering/mechanical/civil/station-and-box.svg)
+
+*Sections for supplier pricing. A 5 m platform bay uses four panel pitches across the island. A trial panel contains 2.761 m³ of concrete and about 243 kg of straight reinforcement.*
+
+A 10 m trial running beam contains 13.404 m³ of concrete and weighs approximately 34.17 t before rigging. The strength check follows wheel loads through the rail seat and beam, bearings, pier and foundation. At one trial footing the calculated soil pressure is 207.43 kPa. The 150 and 200 kPa comparison soils both fall short. Boreholes, groundwater and utility surveys decide which foundation to price at a real pier. Request a lift study at the actual radius, bearing inspection access and a replacement method with the street and railway occupied. [Civil dimensions and load cases](engineering/mechanical/civil/README.md) · [Construction method from the book](../../docs/book/10-civil.md)
 
 ## Power, operations and maintenance
 
@@ -126,6 +180,20 @@ Onboard protection grants traction only with a valid route, safe speed, contact 
 The systems integrator must deliver cable and connector schedules, isolated traction and control circuits, protection settings, section diagrams, event logs, software version records, access controls, fault response, recovery instructions and a trace between hazard, protective function, test and installed device. Independent braking, safe passenger egress, accessible boarding and fire protection remain fixed requirements in any cheaper option.
 
 The [cabinet schedules and software replay](engineering/controls/README.md) connect train doors, traction permission and protection at a platform stop. The station replay now carries a train from a braked approach through correct-side boarding, 48 closed and locked doors, and a protected departure. Parking, an independent applied brake and drive feedback are simulated. Measure holding force, brake timing and rollback on a loaded rig with the brake supplier before hardware integration.
+
+![Station controller replay showing boarding, proved doors and departure protection](../../docs/operator-review/twins/baghdad-boarding.png)
+
+*Normal station stop in the software replay. The stationary train holds on two brake proofs while 24 doors on the platform side can open. Departure requires all 48 locks and observed drive take-up before the holds release.*
+
+### When a train stops between stations
+
+On loss of a power section, the control room needs the train identity and position, age of the last reading, occupied section and status of adjacent trains. Onboard protection and the independent brakes secure the train. The operator’s incident plan assigns staff to passenger communication, ventilation and heat exposure, mobility assistance and rescue access. A timed exercise with the electricity supplier and emergency services must establish how long essential power lasts and how access will be authorised at the particular site.
+
+![Workshop control desk showing a tripped section, stale telemetry and adjacent live observations](../../docs/operator-review/screens/section-alarm.png)
+
+*Control-room training example from the shared platform. At 08:00:38 a 33-second-old reading is marked stale and the trip remains displayed. Staff need fresh indications and the authorised railway procedure before restoring service.*
+
+The book follows the failed train all the way to a place where its passengers and crew can leave safely. In Baghdad, rehearse a lost supply during hot weather with an occupied adjacent track. Record passenger message timing, staff arrival, access to each car, isolation confirmation and the decision to resume service. These results determine rescue equipment, shift coverage and the arrangements to agree with fire and ambulance services. [Stopping and rescue](../../docs/book/25-recovery.md)
 
 ### Operating organisation and recurring cost
 
@@ -162,6 +230,34 @@ The industrial contract should link each physical assembly to an engineering dra
 | Representative six-car train | General arrangement, running gear and door interfaces, mass budget, power and cooling schematics, engineering and manufacturing bills of materials, assembly and inspection route | Serialised cars and bogies, software versions, spares, depot removal and rescue instructions |
 | Repeatable viaduct span and support | Beam and bearing drawings, material and reinforcement schedules, lifting and temporary-work method, foundation family, inspection and transport records | As-built span and pier identifiers, tolerances, drainage and structural inspection plan |
 | Station and electrical module | Platform and door datum, step-free circulation, signage, conductor and section diagrams, power cabinets, fire and isolation arrangements | Tested section and station identity, maintenance access, safe isolation and replacement process |
+
+### Through the vehicle works and precast yard
+
+![Vehicle works module showing production bays, inspection and the maintenance road](../../docs/operator-review/delivery/vehicle-works.svg)
+
+*Vehicle factory layout for pricing. A 160 × 80 m module accommodates one proposed balanced line. The seven-corridor order is 1,452 cars. Twelve lines allow 1,464 cars under the assumed shifts and availability.*
+
+Follow a car from frame joining through running gear, doors and interior, cooling and auxiliaries, wiring, and final train integration. Measure the frame datums before fitting doors. Record the bought wheelsets and drives against their inspection and car serials. Budget 1,000 direct hours per repeat Baghdad car. Iraqi central final-assembly labour is about US$10,975 per car inside the purchase allowance. The builder needs to demonstrate a repeatable cycle with its available stock, machines and staff.
+
+![Precast works layout showing casting, curing, inspection, storage and dispatch areas](../../docs/operator-review/delivery/precast-yard.svg)
+
+*The 240 × 140 m yard module occupies 3.36 ha before external roads or satellite storage. Two banks of eight mould positions support the trial rate of eight beams per productive day.*
+
+Dispatch each beam against a named pier pair after checking curing and inspection records, bearings, transport access and the crane position. Track rejected or delayed units separately so a finished casting count does not bring an incomplete street section into the opening programme.
+
+### Employment, training and repair in Iraq
+
+![Baghdad workforce planner with unattended-service posts, relief and Iraqi pay assumptions](../../docs/operator-review/delivery/workforce.png)
+
+*Seven-corridor workforce scenario. The central 1,526 full-time-equivalent posts include control-room supervision, station and passenger assistance, security, cleaning, maintenance and support. Supervised commissioning can be priced separately.*
+
+For an initial intake of 1,526 staff, allow 80 classroom and 80 mentored hours per person. At twelve per classroom group this needs at least 128 groups. The central learner, instructor and mentor payroll is about US$1.29m within commissioning. Assign isolation to authorised power staff, train recovery to practised operating teams and assisted evacuation to trained passenger-facing staff. The employing operator should retain each person’s signed assessment, permitted equipment, restrictions and renewal date in the HR record.
+
+A maintainer replacing a door operator needs its car position, assembly revision and fault history before arriving at the train. Record the removed serial, fitted serial, technician, inspection result and return-to-store or repair disposition. For a locally made bracket, trace the drawing and material batch. For a purchased sensor, trace the received item and incoming inspection. The book’s lifecycle example gives the city a practical acceptance test for ERPNext records and the supplier’s repair documentation. [Manufacturing and maintenance records](../../docs/book/42-lifecycle-custody.md)
+
+![ERPNext native pilot screen with installed and removed serials, repair and inspection history](../../docs/operator-review/screens/erp-serial-history.png)
+
+*Earlier ERPNext pilot illustrating the required equipment history. Baghdad will need its own installed serials, approved tasks, staff permissions and warranty terms.*
 
 ## Capital, construction cash and delivery
 
@@ -242,9 +338,19 @@ The 50% cases assume combined debt from all lenders. Any export tranche sits **i
 
 Before financial close, pair each draw with a named payer and appropriation or executed facility. For each operating year deduct evidenced net fare receipts (paid trips times collected net yield) and other contracted income from gross cash needs, then compare the remainder with committed public service payments. Offered seats do not establish revenue. Ask lenders for an IQD and foreign-currency term sheet with the fee, hedge, tax and premium schedules. For unhedged dollar obligations, a 20% rise in IQD per dollar raises their IQD cash requirement by 20% at the same dollar draw. Test delays and cost escalation against a dated nominal budget before selecting a financing mix. Iraq's existing World Bank railway loan covers the Umm Qasr–Mosul railway and provides no allocation for this metro. [World Bank project announcement](https://www.worldbank.org/en/news/press-release/2025/06/25/iraq-new-us-930-million-project-to-extend-and-modernize-railways-promote-regional-connectivity-and-boost-growth)
 
+![Funding screen for Baghdad showing Iraqi construction prices, annual operations, debt and the opening-year public contribution](../../docs/operator-review/finance/baghdad-funding.png)
+
+*Seven-corridor central case in constant 2026 dollars. With US$4.18bn borrowed at 4% real over 20 years, annual debt payments are US$307.9m. Operations and debt need US$493.6m in the first full service year. Estimated net fares of US$79.5m leave US$414.1m to fund.*
+
 ## Using the open design in a vendor negotiation
 
 Use the preparation period to request a common comparison of service, installed cost, funding needs and production in Iraq. Share the open quantities and interface schedules with Iraqi manufacturers and international vendors when the authority invites proposals. Issue the same service specification and quantities for turnkey, vendor-led local production and Iraqi-led integration bids. Request both cash and financed prices, 30-year spares and renewal prices, and the incremental cost of transferring fabrication, software maintenance and repair into Iraq. Evaluate guaranteed performance and accessibility first. Compare the remaining offers on whole-life cost and verified Iraqi value added. Require origin records, editable interfaces, diagnostic access, tooling rights and a witnessed local repair before crediting the promised transfer. The [buyer comparison schedule](BUYER-COMPARISON.md) defines the bid returns, negotiation rounds and acceptance milestones.
+
+![Supplier-return comparison screen showing matched station prices and the evidence for domestic value](../../docs/operator-review/finance/supplier-returns.png)
+
+*Two illustrative station returns show how the buyer can compare a cash price and documented Iraqi content. The screen identifies costs with unresolved origin. Actual offers and commercial terms belong in the buyer’s procurement records.*
+
+Issue a typical elevated kilometre, a difficult crossing and an accessible station to competing teams on the same quantities and operating duties. Ask each team to separate the delivered cash price, tooling, initial training, financing fees and renewals. Return to the bidders with the same objective for Iraqi production, then compare the revised price and the work an Iraqi workshop can actually perform. Witness a locally assembled repeat article and a repair using the supplied drawings and diagnostic tools before crediting either capability.
 
 ## Delivery, governance and procurement sequence
 

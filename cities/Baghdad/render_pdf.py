@@ -22,7 +22,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
-from reportlab.platypus import Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Flowable, Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -207,6 +207,37 @@ def map_images():
     plt.close(fig)
 
 
+class ProposalFigure(Flowable):
+    """Keep the illustration and its credit together at a readable printed size."""
+
+    def __init__(self, path, caption):
+        super().__init__()
+        source = (BytesIO(cairosvg.svg2png(url=str(path), output_width=1800))
+                  if path.suffix == ".svg" else str(path))
+        self.picture = Image(source, width=174 * mm, height=164 * mm, kind="proportional")
+        self.width_at_full_size = self.picture.drawWidth
+        self.height_at_full_size = self.picture.drawHeight
+        self.caption = caption
+        self.spaceBefore = self.spaceAfter = 2 * mm
+
+    def wrap(self, width, height):
+        _, self.caption_height = self.caption.wrap(width, height)
+        available = height - self.caption_height - 2 * mm
+        # Modest resizing can keep a figure with its discussion. A larger
+        # reduction makes screenshot text hard to read, so move it to the next page.
+        scale = min(width / self.width_at_full_size, 1, max(.82, available / self.height_at_full_size))
+        self.picture.drawWidth = self.width_at_full_size * scale
+        self.picture.drawHeight = self.height_at_full_size * scale
+        self.width = width
+        self.height = self.picture.drawHeight + self.caption_height + 2 * mm
+        return self.width, self.height
+
+    def draw(self):
+        self.caption.drawOn(self.canv, 0, 0)
+        self.picture.drawOn(self.canv, (self.width - self.picture.drawWidth) / 2,
+                            self.caption_height + 2 * mm)
+
+
 def render():
     map_images()
     result = json.loads((HERE / "system-results.json").read_text())
@@ -216,6 +247,8 @@ def render():
     styles.add(ParagraphStyle(name="SectionOSR", parent=styles["Heading2"], fontName="Helvetica-Bold",
                               fontSize=11, leading=14, textColor=colors.HexColor("#146c85"), spaceBefore=10, spaceAfter=5,
                               keepWithNext=True))
+    styles.add(ParagraphStyle(name="SubsectionOSR", parent=styles["SectionOSR"],
+                              fontSize=10, leading=13, spaceBefore=7))
     styles.add(ParagraphStyle(name="BodyOSR", parent=styles["BodyText"], fontName="Helvetica",
                               fontSize=8.6, leading=12.0, spaceAfter=5.5))
     styles.add(ParagraphStyle(name="CellOSR", parent=styles["BodyOSR"], fontSize=7.6, leading=10.2, spaceAfter=0))
@@ -224,15 +257,12 @@ def render():
     ast = mistune.create_markdown(renderer="ast", plugins=["table"])((HERE / "PROPOSAL.md").read_text())
     story = []
     current_section = ""
-    def drawing(name, caption):
-        png = BytesIO(cairosvg.svg2png(url=str(HERE / name), output_width=1800))
-        png.seek(0)
-        story.append(Paragraph(caption, styles["SectionOSR"]))
-        image = Image(png)
-        image.drawWidth = 174 * mm
-        image.drawHeight = image.drawWidth * image.imageHeight / image.imageWidth
-        story.append(image)
-        story.append(Spacer(1, 3 * mm))
+    def figure(node, caption):
+        path = (HERE / node["attrs"]["url"]).resolve()
+        if not path.is_relative_to(ROOT) or not path.is_file():
+            raise ValueError(f"Missing local proposal figure {path.name}")
+        return ProposalFigure(path, Paragraph(caption, styles["FooterOSR"]))
+
     def cash_chart():
         cash = {name: result["networks"][name]["selected_construction_cashflow"]
                 for name in ("first", "metropolitan")}
@@ -264,37 +294,24 @@ def render():
         plt.close(fig)
         png.seek(0)
         return Image(png, width=174 * mm, height=66 * mm)
-    for node in ast:
+    blocks = iter(node for node in ast if node["type"] != "blank_line")
+    for node in blocks:
         kind = node["type"]
         if kind == "heading":
-            if node["attrs"]["level"] == 2:
+            level = node["attrs"]["level"]
+            if level == 2:
                 current_section = inline(node["children"])
-            style = "TitleOSR" if node["attrs"]["level"] == 1 else "SectionOSR"
-            if inline(node["children"]) == "Viaducts, stations and street works":
-                drawing("engineering/mechanical/bogie-interface.svg", "Powered bogie and body interfaces for supplier review")
-            if inline(node["children"]) == "Trains and passenger service":
-                story.append(Paragraph("Vehicle and station interfaces", styles["SectionOSR"]))
-                drawing("vehicle-layout.svg", "17 m car: doors, accessible spaces and passenger layout")
-                drawing("station-interface.svg", "Straight island platform: train, track and protected conductor")
-                story.append(Paragraph("These diagrams are digital coordination views. The vehicle and station interface dimensions are listed in the Baghdad vehicle schedule.", styles["FooterOSR"]))
-                story.append(PageBreak())
-            if inline(node["children"]) == "The city and the routes":
-                for destination, caption in zip(MAP_IMAGES, (
-                    "Baghdad Metro | Seven corridors in the February 2024 investment notice",
-                    "Independent citywide railway: corridors, shared links and through services",
-                )):
-                    if destination != MAP_IMAGES[0]:
-                        story.append(PageBreak())
-                    story.append(Paragraph(caption, styles["SectionOSR"]))
-                    story.append(Image(str(destination), width=175 * mm, height=185 * mm, kind="proportional"))
-                    note = ("Source: Iraq National Investment Commission, investment opportunity 3 of 2024, "
-                            "Arabic notice, page 4. The seven published line lengths total 148.2 km."
-                            if destination == MAP_IMAGES[0] else
-                            "OpenSourceRail independent citywide concept. The 280 stations are a budget allowance.")
-                    story.append(Paragraph(note, styles["FooterOSR"]))
-                story.append(PageBreak())
+            style = {1: "TitleOSR", 2: "SectionOSR"}.get(level, "SubsectionOSR")
             story.append(Paragraph(inline(node["children"]), styles[style]))
         elif kind == "paragraph":
+            children = node["children"]
+            if len(children) == 1 and children[0]["type"] == "image":
+                caption = next(blocks, {})
+                if (caption.get("type") != "paragraph" or len(caption["children"]) != 1
+                        or caption["children"][0]["type"] != "emphasis"):
+                    raise ValueError(f"Add a caption below {children[0]['attrs']['url']}")
+                story.append(figure(children[0], inline(caption["children"])))
+                continue
             content = inline(node["children"])
             paragraph = Paragraph(content, styles["BodyOSR"])
             story.append(KeepTogether([paragraph]) if content.startswith((
@@ -379,7 +396,15 @@ def render():
     story.append(Paragraph("The two network totals are independent choices. The seven-corridor capital cannot be treated as a first-stage payment toward the citywide network. No revenue, interest during construction, export-credit premium, tax or foreign-exchange adjustment is included. GIS linework and station counts are planning controls until corridor and station schedules are settled.", styles["BodyOSR"]))
     story.append(Paragraph("For quotation, issue the controlled train, span, station, power and control interfaces with a bill of quantities, supplier origin, local work content, annual delivery capacity and renewal prices. The sponsoring authority can then update the same calculation with firm prices and financing terms.", styles["BodyOSR"]))
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=16 * mm,
+    class ProposalDocument(SimpleDocTemplate):
+        def afterFlowable(self, flowable):
+            if isinstance(flowable, Paragraph) and flowable.style.name in ("SectionOSR", "SubsectionOSR"):
+                title = flowable.getPlainText()
+                bookmark = self.seq.nextf("proposal-heading")
+                self.canv.bookmarkPage(bookmark)
+                self.canv.addOutlineEntry(title, bookmark, level=int(flowable.style.name == "SubsectionOSR"))
+
+    doc = ProposalDocument(str(OUTPUT), pagesize=A4, rightMargin=16 * mm,
                             leftMargin=16 * mm, topMargin=15 * mm, bottomMargin=17 * mm,
                             title="OpenSourceRail Baghdad metropolitan railway", author="OpenSourceRail")
     def footer(canvas, document):
