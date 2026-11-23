@@ -1,4 +1,4 @@
-"""Resolve and install the current official RustGIS release per user."""
+"""Install the reviewed RustGIS binary or explicitly refresh its release lock."""
 import json
 from pathlib import Path
 import platform
@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import tarfile
 import tempfile
+from urllib.request import urlopen
 from engineering.toolchain_release import (
     latest_asset, download_asset, tar_member_sha256, file_sha256,
     MAX_UNPACKED_BYTES,
@@ -23,7 +24,7 @@ def refresh_latest():
 
 
 def _refresh_latest():
-    """Explicit install-time refresh; ordinary GIS evaluations stay offline."""
+    """Update the tracked lock when a maintainer requests a release refresh."""
     path = Path(__file__).with_name('backend.json')
     previous = lock_record()
     release = latest_asset('opengeos/RustGIS', 'RustGIS-{version}-linux-x86_64.tar.gz')
@@ -67,16 +68,25 @@ def install():
 def _install():
     if platform.system() != 'Linux' or platform.machine() not in ('x86_64', 'AMD64'):
         raise ValueError('Current RustGIS binary targets Linux x86_64')
-    pin = refresh_latest();asset = pin['linux_x86_64']
+    pin = lock_record()
+    asset = pin['linux_x86_64']
     home = Path.home();target = home/'.local/opt'/('rustgis-'+pin['version'])
     binary = target/asset['directory']
     if not target.exists():
         target.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix='rustgis-install-', dir=target.parent) as tmp:
             tmp = Path(tmp)
-            release = dict(url=asset['url'],bytes=asset['bytes'],asset_sha256=asset['sha256'])
+            asset_id = asset['asset_id']
+            if type(asset_id) is not int or asset_id <= 0:
+                raise ValueError('A pinned RustGIS release asset ID is required')
+            release = dict(url=f'https://api.github.com/repos/opengeos/RustGIS/releases/assets/{asset_id}',
+                           bytes=asset['bytes'], asset_sha256=asset['sha256'])
+            def open_asset(request, *, timeout):
+                request.add_header('Accept', 'application/octet-stream')
+                return urlopen(request, timeout=timeout)
             archive = download_asset(release,
-                home/'.local/share/opensource-rail/toolchains/rustgis'/Path(asset['url']).name)
+                home/'.local/share/opensource-rail/toolchains/rustgis'/Path(asset['url']).name,
+                opener=open_asset)
             unpacked = tmp/'unpacked';unpacked.mkdir()
             with tarfile.open(archive) as f:
                 members=f.getmembers()

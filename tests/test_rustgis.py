@@ -27,6 +27,48 @@ def test_release_refresh_and_install_reserve_their_filesystem(monkeypatch):
     assert calls[1][1:] == ('rustgis-install', 2*performance.GIB)
 
 
+def test_clean_install_uses_locked_asset_without_refresh(tmp_path, monkeypatch):
+    import io
+    import tarfile
+    from hashlib import sha256
+    installer = importlib.import_module('engineering.rustgis.install')
+    folder = 'RustGIS-test-linux-x86_64'
+    files = {'rustgis': b'gui', 'rustgis-cli': b'cli', 'rustgis-mime.xml': b'<mime-info/>'}
+    archive = tmp_path / 'fixture.tar.gz'
+    with tarfile.open(archive, 'w:gz') as raw:
+        for name, content in files.items():
+            member = tarfile.TarInfo(f'{folder}/{name}')
+            member.size = len(content)
+            raw.addfile(member, io.BytesIO(content))
+    pin = {
+        'version': 'test',
+        'linux_x86_64': {
+            'directory': folder, 'asset_id': 4567,
+            'url': 'https://github.com/opengeos/RustGIS/releases/download/vtest/fixture.tar.gz',
+            'bytes': archive.stat().st_size, 'sha256': installer.file_sha256(archive),
+        },
+        'executables_sha256': {n: sha256(files[n]).hexdigest() for n in ('rustgis', 'rustgis-cli')},
+    }
+    monkeypatch.setattr(Path, 'home', lambda: tmp_path)
+    monkeypatch.setattr(installer, 'lock_record', lambda: pin)
+    monkeypatch.setattr(installer, 'refresh_latest', lambda: pytest.fail('install refreshed tracked source'))
+    monkeypatch.setattr(installer.platform, 'system', lambda: 'Linux')
+    monkeypatch.setattr(installer.platform, 'machine', lambda: 'x86_64')
+    monkeypatch.setattr(installer.shutil, 'which', lambda cmd: None)
+    requests = []
+    def serve(request, *, timeout):
+        requests.append((request.full_url, request.get_header('Accept')))
+        return archive.open('rb')
+    monkeypatch.setattr(installer, 'urlopen', serve)
+    first = installer._install()
+    assert first['version'] == 'test'
+    assert installer._install() == first
+    assert requests == [('https://api.github.com/repos/opengeos/RustGIS/releases/assets/4567',
+                         'application/octet-stream')]
+    for name, digest in pin['executables_sha256'].items():
+        assert installer.file_sha256(tmp_path/'.local/bin'/name) == digest
+
+
 def collection(geometry=None, **properties):
     return dict(type='FeatureCollection', features=[dict(type='Feature', id='original-string-id',
         geometry=geometry, properties=properties)])
