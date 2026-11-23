@@ -12,6 +12,8 @@ The six [production packages and remaining tasks](PRODUCTION-READINESS.md) cover
 
 The Airport factory specification lists the machines, jigs, moulds, inspection facilities and contract services needed for the 36-car opening. Read the daily load alongside each count. A 24-hour release cycle calls for eight beam mould positions, while a 48-hour cycle calls for sixteen at the same output. Use the equipment register to return measured cycles, shared facilities and installed or hire prices against the parent ERP lot. [Factory specification](FACTORY-SPECIFICATION.md) · [Equipment price return](factory-equipment.csv)
 
+Use the [workshop price register](SHOP-COSTS.md) and [quotation procedure](PROCUREMENT-PLAN.md) to compare offers. Fabricators can start with the [plate and saw files](cam/CAM.md), [beam cutting instructions](infrastructure/YARD-CUTTING.md) and [wire kitting exercise](infrastructure/WIRE-KITTING.md). The [offline workshop](training/index.html) and [instructor guide](training/INSTRUCTOR.md) use the same candidate and factory edition.
+
 ## Price an opening or first article
 
 The buyer register gives a quantity, price period and cost basis for each enquiry. It covers 54 lots, including the five first articles, independent surveys and trials, and two six-site electrical alternatives. The ERPNext buyer view compares competing offers against the same lot. The row for statutory taxes and duties awaits a determination for the buyer and import scope. [Procurement plan and portal instructions](PROCUREMENT-PLAN.md) · [Download the estimate for ERPNext](sourcing-estimate.json)

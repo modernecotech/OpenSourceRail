@@ -8,6 +8,10 @@ The previous enquiry asked a bidder to propose tooling for 36 cars without an ow
 
 For the local factory, the first comparison is how quickly and reliably an existing shop can change over between two parts. A modular jig and removable datum blocks can preserve a repair capability after the fleet order finishes. For the precast yard, a trial of post-cast dimensional survey can compare the finished item with its IFC datum while the pre-pour inspection records concealed steel and inserts. For electrical work, the same reviewed terminal list can drive a small manual wiring bench or an outsourced machine-cut kit. Record setup, calibration, first-pass yield, rework, training, maintenance and lead time in the trial. Machine counts and investment returns should follow local trial results. [NIST manufacturing extension guidance](https://www.nist.gov/mep/lean-and-process-improvement) · [Full-scale precast inspection study](https://www.mdpi.com/2075-5309/16/12/2383) · [Modular wire preparation workstation](https://www.rittal.com/com-en/products/PG20231215RAS101/PG20240408RAS202/PG20240408RAS203/PRO114365?variantId=4051130)
 
+### Follow-up on workshop preparation
+
+The [equipment estimate](../cities/Baghdad/engineering/prototype/SHOP-COSTS.md) now extends the issued units into equipment purchase, production services and annual upkeep. Station panel handling and cabinet testing retain open quantities. The [CAM issue](../cities/Baghdad/engineering/prototype/cam/CAM.md) provides plate profiles and nests, bar-saw schedules and a posted practice path with native FreeCAD readback. The [yard guide](../cities/Baghdad/engineering/prototype/infrastructure/YARD-CUTTING.md) compares reinforcing-bar stock orders and preserves each drawing mark. The [offline course](../cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md) gives trainers a practical exercise, an answer key and a way to record observations. The nominated shop still has to prove its own equipment, people and first articles.
+
 ## Findings in decision order
 
 | Priority | Finding and consequence | Work needed |

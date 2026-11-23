@@ -33,6 +33,14 @@ def test_published_issue_matches_erp_drawings_and_all_local_links():
     assert result["fabrication_released"] is False and result["operating_authorisation"] is False
     tender = json.loads(members["sourcing-estimate.json"])
     assert result["estimate_evaluation_id"] == tender["evaluation_id"]
+    costs = json.loads(members["shop-costs.json"])
+    cam = json.loads(members["cam/cam-manifest.json"])
+    assert result["cam_evaluation_id"] == cam["evaluation_id"]
+    assert result["shop_cost_evaluation_id"] == costs["evaluation_id"]
+    assert members["machine-offer.csv"] == enquiries.shop_offers.template(costs)
+    assert all(members["cam/" + p] and sha256(members["cam/" + p]).hexdigest() == digest
+               for p, digest in cam["artifact_sha256"].items())
+    assert members["cam/input/stock.toml"] == enquiries.cam.STOCK.read_bytes()
     lots = {r["lot_id"] for r in tender["lots"]}
     assert len(result["package_lots"]) == 6
     for package in result["package_lots"]:

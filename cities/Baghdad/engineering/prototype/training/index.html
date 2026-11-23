@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory workshop · Baghdad Airport</title>
+<style>
+:root { color-scheme: light; font-family: system-ui, sans-serif; color: #192927; background: #f7f8f4; }
+body { max-width: 48rem; padding: 1rem; margin: auto; line-height: 1.55; }
+main, section, footer { margin-bottom: 2rem; }
+h1, h2 { line-height: 1.2; }
+a { color: #075557; }
+label, legend { font-weight: 650; }
+fieldset { margin: 1rem 0; padding: 1rem; border: 1px solid #56716a; }
+fieldset label { display: block; font-weight: normal; margin: .4rem 0; }
+select, button, input { font: inherit; max-width: 100%; box-sizing: border-box; }
+input[type=number], select, button { padding: .4rem; display: block; margin: .35rem 0; }
+button { border: 1px solid #214b47; background: white; cursor: pointer; }
+:focus-visible { outline: 3px solid #854500; outline-offset: 2px; }
+[role=status]:not(:empty) { border-inline-start: .25rem solid #22625c; padding-inline-start: .8rem; }
+@media print { :root { background: white; } button, input[type=file], #resume { display: none; } }
+</style>
+</head>
+<body>
+<header>
+<p>OpenSourceRail · Baghdad Airport</p>
+<h1>Factory workshop</h1>
+<p>Practise a decision from the Airport six-car production plan. Use the <a href="../FACTORY-SPECIFICATION.md">factory specification</a> to check the inputs. The <a href="INSTRUCTOR.md">printable instructor guide</a> includes the cases, answer key and handover exercise.</p>
+</header>
+<main>
+<noscript><p>Open the instructor guide above for the paper workshop and answer key. The interactive exercises require JavaScript.</p></noscript>
+<form id="exercise">
+<label for="case">Choose your role</label>
+<select id="case"></select>
+<p id="situation"></p>
+<label id="quantity-label" for="quantity">Calculated quantity</label>
+<input id="quantity" type="number" step="any" required>
+<fieldset><legend>What action should the team take?</legend><div id="choices"></div></fieldset>
+<button type="submit">Check this attempt</button>
+<p id="status" role="status"></p>
+<h2>Handover exercise</h2>
+<p id="task"></p>
+</form>
+<section aria-labelledby="attempt-heading">
+<h2 id="attempt-heading">Attempt record</h2>
+<p>Your attempts stay in this tab until you close or reload it. Save them to keep a copy. Replaying a local file adds its attempts to this list and recalculates the results. The file contains the workshop issue, choices and quantities. A supervisor records observed work separately.</p>
+<ol id="history"></ol>
+<button type="button" id="save" disabled>Save attempts as JSON</button>
+<p id="resume"><label for="restore">Replay a saved attempt file</label><br><input id="restore" type="file" accept=".json,application/json"></p>
+<p id="file-status" role="status"></p>
+</section>
+</main>
+<footer>Factory planning exercise · Physical review and task authorisation remain open.</footer>
+<script src="workshop.js"></script>
+</body>
+</html>

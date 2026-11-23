@@ -1,0 +1,343 @@
+schema = "osr.airport.shop-rates.v1"
+edition_date = "2026-11-23"
+candidate_id = "b38d4bd348cc57d8f3fab9696df06e5b35ba51380670aa8e566b7f89d9c5da01"
+frame_revision = "5904e648c5de9b4b6ad5cf4c0c5ebfa93d5a35c2c746b3c12ae52eed49c929ae"
+currency = "USD"
+# Annual planning reserve as a percentage of workshop equipment retained by its purchaser.
+# Contractor upkeep is included in the process/hire rate. Excludes labour and capital renewal.
+upkeep_percent = [2, 4, 7]
+
+[reference.saw]
+title = "Grizzly G0887 hydraulic mitre bandsaw"
+url = "https://www.grizzly.com/products/grizzly-20-x-26-5-hp-industrial-horizontal-mitering-metal-cutting-bandsaw/g0887"
+observation = "US catalogue USD 24,950 for the bare 20 × 26 inch class three-phase saw. The enquiry adds long-stock support, guarding and commissioning. Verify installed supply and frequency."
+listed_usd = 24950
+unit = "machine"
+[reference.weld]
+title = "Everlast Cyclone 503DPi"
+url = "https://www.everlastgenerators.com/catalog-mig"
+observation = "US catalogue USD 6,199 for the pulsed welder. The maker gives 60% duty at 400 A on its specified 240 V single-phase input. The workcell needs extraction and a verified local power interface."
+listed_usd = 6199
+unit = "welder"
+[reference.tracker]
+title = "Metro Metrology equipment rental"
+url = "https://metrometrology.com/services/"
+observation = "US equipment-only USD 600/day, USD 2,500/week or USD 8,000/month for certified users. Staffed US survey USD 170/hour, ten-hour minimum. Travel, shipping and Baghdad availability require a return."
+listed_usd = 600
+unit = "hire day"
+[reference.harness]
+title = "Cirris 4200 tester"
+url = "https://cirris.com/4200-2/"
+observation = "Technical example only. The low-voltage unit starts at 128 points and expands to 1,024. Provide independent insulation testing or an appropriately specified higher-voltage variant plus protected adapters."
+[reference.stress]
+title = "PAUL single-strand stressing equipment"
+url = "https://prestressed-concrete.paul.eu/fileadmin/Files/prestressed-concrete/B147.26_02-en.pdf"
+observation = "Technical example only. Mobile jack and release equipment use a separately designed bed reaction system. Quote against the strand, force, losses, tails, gauge and release plan."
+
+[reference.pump]
+title = "Whitehead Concrete Pumping 2026 rates"
+url = "https://www.whiteheadconcretepumping.com/rates.html"
+observation = "US 42 m boom pump USD 225/hour plus USD 4/cubic yard, four-hour minimum, permits and travel extra. A comparator for peak service. The proposed pooled yard-feed allowance assumes local fixed plant with shorter placement reach."
+listed_usd = 225
+unit = "pump hour before other charges"
+[reference.crane]
+title = "C.O.I. Crane Service 2025–2026 rate sheet"
+url = "https://coicraneservice.com/wp-content/uploads/2025/11/COI-Pricing-Worksheet-11042025.pdf"
+observation = "US nominal 100 ton class USD 275/hour with an eight-hour minimum plus rigger, fuel and trailers. Capacity at the Airport lift radius is unresolved. The assumed shift rate includes a rigging crew."
+listed_usd = 275
+unit = "crane hour before extras"
+
+# Each key below is an issued factory resource ID. Rates are low, base and high
+# engineering scenarios in constant 2026 USD per stated basis. Reference prices
+# above apply only to their stated products. Neither taxes nor international
+# carriage, duty, land or major building work is included. 'hours' sums actual
+# operations and setup once. 'shift' rounds up productive booking hours/day.
+[rates.vehicle-stores]
+basis = "units"
+usd = [8000, 18000, 40000]
+scope = "One long-stock cell with rated cantilever racks, axle cradles, tags and quarantine barriers. Building and forklift hire excluded."
+[rates.vehicle-saw]
+basis = "units"
+usd = [20000, 34000, 56000]
+refs = ["saw"]
+scope = "Hydraulic horizontal saw with at least 350 × 320 mm throat and supported long-stock lane. Lower rate assumes equivalent used or locally supplied equipment."
+[rates.vehicle-prep]
+basis = "units"
+usd = [3500, 8500, 17000]
+scope = "Guarded geared drill, datum stops, replaceable bushes, bench grinder and extraction. Validate spindle runout on a liner."
+[rates.vehicle-plate-contract]
+basis = "hours"
+usd = [60, 110, 190]
+scope = "Reserved CNC laser or plasma cutting and marking for 8–12 mm plate. Price includes supplier setup, machine and operator. Blank plate and freight belong to the parts lot."
+[rates.vehicle-body-bed]
+basis = "units"
+usd = [40000, 100000, 210000]
+scope = "Local surveyed 18 × 3.2 m modular body bed with clamps and replaceable locators. Includes the listed fixture components and initial geometry check. Foundation design separate."
+[rates.vehicle-bogie-bed]
+basis = "units"
+usd = [12000, 30000, 65000]
+scope = "Local 3.2 × 2.5 m axle-datum fixture and seat gauges. Includes its removable locators."
+[rates.vehicle-arc-set]
+basis = "units"
+usd = [8000, 14000, 26000]
+refs = ["weld"]
+scope = "400 A class pulse GMAW source, feeder, cooler, extraction and local commissioning per set. Major incoming supply and ongoing consumables excluded."
+[rates.vehicle-shop-crane]
+basis = "shift"
+usd = [450, 950, 2200]
+scope = "Book an existing rated bridge crane plus rigging and operator in grouped shifts. Confirm heaviest lift, spreader weight, usable hook height and roof runway."
+[rates.vehicle-metrology]
+basis = "shift"
+usd = [450, 600, 1000]
+refs = ["tracker"]
+scope = "Hire calibrated tracker and targets for grouped whole shifts. Local surveyor, travel and lost time between bookings extra. Lower rate assumes a multi-day agreement."
+[rates.vehicle-weld-ndt]
+basis = "hours"
+usd = [55, 105, 200]
+scope = "Contract one field inspection team with calibrated equipment per allocated team-hour. Method, weld coverage, reporting and repeat visits require an approved inspection plan."
+[rates.vehicle-bogie-machine]
+basis = "hours"
+usd = [100, 190, 320]
+scope = "Supplier portal mill or horizontal borer with a surveyed bed that locates both axle planes. Machine, operator and setup only."
+[rates.vehicle-coat]
+basis = "hours"
+usd = [80, 150, 270]
+scope = "Subcontract a booth accepting a 17 m body, with preparation, cure and coating team. Coating-system selection, extra blast repair and intershop transport require returns."
+[rates.vehicle-bogie-fit]
+basis = "units"
+usd = [10000, 25000, 55000]
+scope = "Axle cradle, positive restraints, rated handling fixtures and calibrated torque tooling per bay."
+[rates.vehicle-bearings]
+basis = "hours"
+usd = [65, 130, 230]
+scope = "Press fitting and measurement service for mounted wheelsets. Credit inside purchased wheelset price when included by supplier. Excludes wheelsets and bearings."
+[rates.vehicle-bogie-test]
+basis = "units"
+usd = [30000, 80000, 180000]
+scope = "Guarded functional rig with brake/drive adapters, leak test, recorder and isolation. Full thermal dynamometer and independent type testing excluded."
+[rates.vehicle-door-fixture]
+basis = "units"
+usd = [2500, 7000, 16000]
+scope = "Opening gauge, liner templates, retention checks and handling trolley. Labour for fitting is in the vehicle routine."
+[rates.vehicle-fit]
+basis = "units"
+usd = [10000, 28000, 65000]
+scope = "Mobile access platforms and torque/weather-sealing tool packages. Main lifting equipment booked in the crane line."
+[rates.vehicle-electric]
+basis = "units"
+usd = [5000, 15000, 33000]
+scope = "Vehicle build station with crimp/die and pull testing, ESD and isolated supply. Production boards and cables are in the fleet lot."
+[rates.vehicle-harness-test]
+basis = "units"
+usd = [6500, 20000, 50000]
+refs = ["harness"]
+scope = "Expandable continuity system, independent insulation test and keyed adapters. Return pin count, protected paths, measurement ranges and calibration."
+[rates.vehicle-collector-tools]
+basis = "units"
+usd = [2000, 6000, 18000]
+scope = "Portable insulated setup fixture, spring/contact gauge and calibrated indicating tools for an installed collector."
+[rates.vehicle-marriage]
+basis = "units"
+usd = [75000, 170000, 350000]
+scope = "One synchronized rail-vehicle lifting set with mechanical locks, cradles and logging. Number and rating of columns require installed mass, lift points and unbalanced load case."
+[rates.vehicle-end-test]
+basis = "units"
+usd = [50000, 145000, 300000]
+scope = "Portable car wheel-load measuring system, brake and electrical instruments with isolated test area. Floor, track construction and route tests excluded."
+[rates.vehicle-set-test]
+basis = "shift"
+usd = [700, 1800, 4000]
+scope = "Grouped shifts booking an existing full-length protected and isolated six-car test road. Construction of a new road requires a separate site estimate."
+[rates.vehicle-repair]
+basis = "units"
+usd = [60000, 160000, 330000]
+scope = "Second lift and support set, exchange pallet, isolation and repair bench for the depot. Civil repair-road construction belongs to the depot lot."
+[rates.civil-beam-position]
+basis = "units"
+usd = [80000, 175000, 350000]
+scope = "Per 10 m box mould including retractable core, end plates and allocated reaction-bed fabrication. Shared stressing jack separately priced. Ground improvement and building excluded."
+[rates.civil-cage]
+basis = "units"
+usd = [6000, 18000, 45000]
+scope = "One cage assembly position including gauges, jig and allocated share of a common cut-and-bend service setup. Reinforcement stock and production labour excluded."
+[rates.civil-stress]
+basis = "units"
+usd = [30000, 75000, 180000]
+refs = ["stress"]
+scope = "Buy a shared calibrated jack, pump, detensioning, grips and protection. Fixed reactions belong to the mould positions. Actual force and anchor design require specialist review."
+[rates.civil-placement]
+refs = ["pump"]
+basis = "hours"
+usd = [90, 180, 350]
+scope = "Shared metered concrete delivery and placing equipment with operator, assumed 20 m³/h gross. Mix material and finishing crew excluded. Beam hours known, panel workload outstanding."
+[rates.civil-pour-crew]
+basis = "hours"
+usd = [40, 90, 180]
+scope = "Crew-hour for placement, vibration and finishing. Concrete and paid pump operator excluded. Provide shifted coverage during staggered releases."
+[rates.civil-yard-hook]
+basis = "shift"
+usd = [700, 1500, 3200]
+scope = "Operated precast-yard crane and rigging for stripping and loading. Verify cast gross load at working radius and actual ground capacity."
+[rates.civil-stock-position]
+basis = "units"
+usd = [250, 700, 1600]
+scope = "One set of reusable dunnage, lateral restraint, marking and layout per single-tier slot. Yard lease and permanent paving remain in the yard lot."
+[rates.civil-haul]
+basis = "driver"
+driver = "lift_count"
+unit = "beam trip"
+usd = [250, 650, 1600]
+scope = "One loaded beam per local low-loader trip with return leg, driver and routine restraint. Abnormal permits, exceptional haul distance and escorts require route-specific pricing."
+[rates.civil-foundation]
+basis = "driver"
+driver = "pier_foundation_count"
+unit = "support position"
+usd = [150, 450, 1200]
+scope = "Survey setout, staging and record at each support position only. Excavation, piles, ground treatment, rig mobilisation and permanent piers require ground and design returns."
+[rates.civil-bearing]
+basis = "driver"
+driver = "bearing_unit_allowance"
+unit = "bearing fitted"
+usd = [25, 70, 180]
+scope = "Installation team with calibrated survey and torque tools per bearing. Bearing supply, plate, anchor, grout materials and future replacement excluded."
+[rates.civil-erection]
+refs = ["crane"]
+basis = "shift"
+usd = [3000, 7000, 16000]
+scope = "One site crane and crew in booked erection shifts at the assumed eight lifts/day. Include standard rigging. Obtain crane chart, access and ground works, mobilisation and traffic pricing separately."
+[rates.civil-panel-table]
+basis = "units"
+usd = [9000, 23000, 55000]
+scope = "One adaptable panel table with shutters and edge/insert gauges. Price four provisional positions pending the station-bay count and duty."
+[rates.civil-panel-hook]
+basis = "shift"
+usd = [550, 1200, 2800]
+scope = "Operated panel handling crane per shift with rig. Panel quantity and booked shifts open. If the same crane serves beam lifting, combine bookings and credit the overlap."
+[rates.wayside-assembly]
+basis = "units"
+usd = [3000, 9500, 22000]
+scope = "Backplate assembly stand with adjustable stops, template and controlled fastening equipment. Include integrator-owned equipment as supplier credit."
+[rates.wayside-wire]
+basis = "units"
+usd = [5000, 14000, 35000]
+scope = "Bench cutter/stripper, matched crimp dies, ferrule labelling and pull tester for LV wire. High-power busbars and cable installation belong to power lots."
+[rates.wayside-test]
+basis = "units"
+usd = [11000, 35000, 90000]
+scope = "Programmable isolated supply, protection and signalling interface simulator, breakout, recorder and controlled adapters. Excludes live HV fault tests."
+[rates.wayside-power-test]
+basis = "driver"
+driver = "installed and tested rectifier cabinets"
+unit = "cabinet witnessed"
+usd = [1800, 6000, 18000]
+scope = "Factory routine acceptance service and witness per installed rectifier cabinet. Cabinet count, special type tests, HV laboratory and travel require supplier returns."
+
+[reference.freecad]
+title = "FreeCAD project licensing FAQ"
+url = "https://github.com/FreeCAD/FreeCAD-documentation/blob/main/wiki/Frequently_asked_questions.md"
+observation = "The project permits commercial use of FreeCAD without a licence fee. Workstation setup, postprocessor adaptation, verification and local support still require staff."
+listed_usd = 0
+unit = "commercial-use licence"
+[reference.fusion]
+title = "Autodesk Fusion subscription types"
+url = "https://www.autodesk.com/products/fusion-360/blog/fusion-subscription-types/"
+observation = "US published standard subscription USD 680 per user/year. This optional comparison uses one standard seat. Regional eligibility, post support, future renewals and advanced manufacturing subscriptions require a supplier return."
+listed_usd = 680
+unit = "user-year"
+
+# A separately costed rehearsal scenario for the buyer, one CAM technician and
+# the first cohort. A factor list makes the working quantity reproducible.
+[workshop.programming_pc]
+scope = "One CAD/CAM workstation, dual screens, UPS and local backup for the manufacturing technician."
+quantity_factors = [1]
+unit = "workstation"
+period = "initial setup"
+usd = [1500, 2800, 5000]
+credit = "Existing engineering PC or CAM supplier's workstation."
+[workshop.reader]
+scope = "One rugged shop-floor reader for released drawings, work instructions and offline exercises."
+quantity_factors = [1]
+unit = "reader"
+period = "initial setup"
+usd = [450, 950, 2200]
+credit = "Existing workstation or ERP terminal in the parent shop."
+[workshop.freecad]
+scope = "FreeCAD desktop licence on the technician's PC. Reader uses a browser and the offline material."
+quantity_factors = [1]
+unit = "seat-year"
+period = "annual support"
+usd = [0, 0, 0]
+refs = ["freecad"]
+credit = "No commercial seat fee for the chosen open-source tool."
+[workshop.setup]
+scope = "One systems technician for one eight-hour day to install pinned software, test imports and record restore steps."
+quantity_factors = [1, 8]
+unit = "technician-hour"
+period = "initial setup"
+usd = [25, 55, 100]
+credit = "Buyer IT setup, including any installation bundled in the workstation quote."
+[workshop.post]
+scope = "One CAM specialist for three eight-hour days to configure one machine/controller post and document its constraints."
+quantity_factors = [3, 8]
+unit = "specialist-hour"
+period = "initial setup"
+usd = [55, 110, 210]
+credit = "Contract cutter's own postprocessor and setup fee."
+[workshop.backplot]
+scope = "One reviewer for one eight-hour day for source geometry versus post output, offline backplot and independent review record."
+quantity_factors = [1, 8]
+unit = "review-hour"
+period = "initial setup"
+usd = [40, 85, 160]
+credit = "Existing CAM validation or engineering-assurance labour."
+[workshop.instructor]
+scope = "Two supervised four-hour sessions for one cohort covering the seven workshop roles, followed by a skills handover."
+quantity_factors = [2, 4]
+unit = "instructor-hour"
+period = "first cohort and trials"
+usd = [40, 85, 150]
+credit = "Supplier training included with the machine or buyer induction."
+[workshop.attendees]
+scope = "Seven learners participate in both four-hour sessions. Attendance is owner time at a loaded hourly rate."
+quantity_factors = [7, 2, 4]
+unit = "learner-hour"
+period = "first cohort and trials"
+usd = [12, 25, 55]
+credit = "Existing workforce payroll. Use as an opportunity cost when payroll is funded."
+[workshop.witness]
+scope = "One owner quality representative for two eight-hour first-off visits, separate from the inspection supplier."
+quantity_factors = [1, 2, 8]
+unit = "owner-hour"
+period = "first cohort and trials"
+usd = [25, 55, 110]
+credit = "Owner quality or first-article assurance."
+[workshop.coupons]
+scope = "Two supervised shop bookings for sample preparation and first-off cuts against four plate families plus a representative saw cut. Includes shop time and sample stock."
+quantity_factors = [2]
+unit = "trial shift"
+period = "first cohort and trials"
+usd = [350, 850, 2000]
+credit = "Cutting supplier's setup, coupons or first article in the fleet contract."
+[workshop.metrology]
+scope = "Two staffed first-off inspection visits for datum and dimensional checks with calibrated instruments and reports. Confirm instrument uncertainty against each feature."
+quantity_factors = [2]
+unit = "survey day"
+period = "first cohort and trials"
+usd = [850, 1700, 2800]
+refs = ["tracker"]
+credit = "Credit the instrument hire and inspection labour where the series metrology booking already contains this work."
+[workshop.support]
+scope = "Two eight-hour days per year for backup restore, postprocessor change review and a reference backplot."
+quantity_factors = [2, 8]
+unit = "support-hour"
+period = "annual support"
+usd = [40, 85, 160]
+credit = "Included support, software assurance and workstation IT contracts."
+[workshop.fusion]
+scope = "Optional substitution of one standard commercial seat for the FreeCAD seat. Revalidate the post and confirm Iraqi licence terms before purchase."
+quantity_factors = [1]
+unit = "user-year"
+period = "optional annual substitution"
+usd = [680, 680, 680]
+refs = ["fusion"]
+credit = "Alternative subscription. Exclude when budgeting the open-source scenario."

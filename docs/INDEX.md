@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **208**.
+Indexed Markdown files: **213**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **208**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 45 |
+| [cities](#cities) | 50 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 131 |
@@ -78,6 +78,8 @@ Indexed Markdown files: **208**.
 | [`cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md`](../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) | Baghdad Airport estimates and competitive quotations |
 | [`cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md`](../cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md) | Baghdad Airport production preparation and v0.8 decision |
 | [`cities/Baghdad/engineering/prototype/README.md`](../cities/Baghdad/engineering/prototype/README.md) | Baghdad Airport prototype review |
+| [`cities/Baghdad/engineering/prototype/SHOP-COSTS.md`](../cities/Baghdad/engineering/prototype/SHOP-COSTS.md) | Baghdad Airport workshop cost estimate |
+| [`cities/Baghdad/engineering/prototype/cam/CAM.md`](../cities/Baghdad/engineering/prototype/cam/CAM.md) | Cut the Airport vehicle blanks and run a CAM practice job |
 | [`cities/Baghdad/engineering/prototype/civil-guide.md`](../cities/Baghdad/engineering/prototype/civil-guide.md) | First precast beam and station bay |
 | [`cities/Baghdad/engineering/prototype/commercial-guide.md`](../cities/Baghdad/engineering/prototype/commercial-guide.md) | Airport field returns and buyer cash |
 | [`cities/Baghdad/engineering/prototype/feeder-cash-guide.md`](../cities/Baghdad/engineering/prototype/feeder-cash-guide.md) | Compare two feeder bids against the Airport cash schedule |
@@ -88,8 +90,11 @@ Indexed Markdown files: **208**.
 | [`cities/Baghdad/engineering/prototype/infrastructure/README.md`](../cities/Baghdad/engineering/prototype/infrastructure/README.md) | Baghdad Airport v0.8 infrastructure first articles |
 | [`cities/Baghdad/engineering/prototype/infrastructure/STATION.md`](../cities/Baghdad/engineering/prototype/infrastructure/STATION.md) | Accessible station bay supplier schedule |
 | [`cities/Baghdad/engineering/prototype/infrastructure/VIADUCT.md`](../cities/Baghdad/engineering/prototype/infrastructure/VIADUCT.md) | Viaduct beam supplier schedule |
+| [`cities/Baghdad/engineering/prototype/infrastructure/WIRE-KITTING.md`](../cities/Baghdad/engineering/prototype/infrastructure/WIRE-KITTING.md) | Prepare a point-to-point wire kit |
+| [`cities/Baghdad/engineering/prototype/infrastructure/YARD-CUTTING.md`](../cities/Baghdad/engineering/prototype/infrastructure/YARD-CUTTING.md) | Ordering and cutting stock for one beam cage |
 | [`cities/Baghdad/engineering/prototype/manufacturing-guide.md`](../cities/Baghdad/engineering/prototype/manufacturing-guide.md) | Taking the Airport design to the workshop |
 | [`cities/Baghdad/engineering/prototype/mechanical.md`](../cities/Baghdad/engineering/prototype/mechanical.md) | Baghdad Airport first article |
+| [`cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md`](../cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md) | Run the Airport factory workshop |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md) | Airport car body-to-bogie mating sheet |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md) | Airport representative car general arrangement |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/README.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/README.md) | Baghdad Airport vehicle and local factory enquiries |

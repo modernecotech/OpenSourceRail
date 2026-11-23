@@ -8,6 +8,14 @@ parts that local teams can produce, inspect, install and eventually repair.
 That objective has to be tested against the actual site and available
 workshops, not inferred from the apparent simplicity of a drawing.
 
+## A worked example for a local shop
+
+The Baghdad Airport opening calls for 36 cars. Its workshop issue includes four plate profiles in DXF, five sheet layouts, saw patterns for 3,168 lengths and a FreeCAD machining exercise. For the viaduct yard, one beam kit contains 280 conventional reinforcing blanks. A supplier can offer 103 twelve-metre stock bars or 88 fourteen-metre bars per kit, with allowances adjusted to the shop's cutting method. The stressing-bed layout determines the extra strand needed for prestressing.
+
+A buyer can compare unit rates for 41 machines and services in the same drawing edition. The planning estimates come to $2.83 million for retained equipment, $6.97 million for known opening production and hire, and $113,088 per year for equipment upkeep. Each rate identifies its procurement lot. A shop should return its delivered price, capacity and exclusions before the buyer credits that scope against the opening budget.
+
+The offline workshop pairs a learner with a second person who checks the drawing issue, quantities and handling of a fault. The instructor records observed practical skills separately. The example CAM exercise is a practice coupon. A production part requires the nominated machine, verified postprocessor, reviewed interfaces and measured first article.
+
 ## Decide what is made locally
 
 Local manufacture begins with a useful division of work. Some parts may

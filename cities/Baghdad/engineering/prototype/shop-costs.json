@@ -1,0 +1,1936 @@
+{
+  "schema": "osr.airport.shop-costs.v1",
+  "edition_date": "2026-11-23",
+  "currency": "constant 2026 USD",
+  "candidate_id": "b38d4bd348cc57d8f3fab9696df06e5b35ba51380670aa8e566b7f89d9c5da01",
+  "frame_revision": "5904e648c5de9b4b6ad5cf4c0c5ebfa93d5a35c2c746b3c12ae52eed49c929ae",
+  "factory_evaluation_id": "be5bfe8fa5ff42de8792c720fafedd736a0cfee618ced81ba95dbd18944d891c",
+  "estimate_evaluation_id": "83de4f2c3023521a1b9a9b02c436b10ffa9c24a67763d700da624e53036ad095",
+  "opening_evaluation_id": "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87",
+  "source_sha256": {
+    "shop-rates.toml": "88d9185a994a006700f1cb21659b796fc15a5454cf71929e6214750613c67e96",
+    "shop_costs.py": "2cc1501bd393ee9198ab4b3f0e60a08947d78867bf41a39d36f7d1ae792048dc"
+  },
+  "references": {
+    "saw": {
+      "title": "Grizzly G0887 hydraulic mitre bandsaw",
+      "url": "https://www.grizzly.com/products/grizzly-20-x-26-5-hp-industrial-horizontal-mitering-metal-cutting-bandsaw/g0887",
+      "observation": "US catalogue USD 24,950 for the bare 20 × 26 inch class three-phase saw. The enquiry adds long-stock support, guarding and commissioning. Verify installed supply and frequency.",
+      "listed_usd": 24950,
+      "unit": "machine"
+    },
+    "weld": {
+      "title": "Everlast Cyclone 503DPi",
+      "url": "https://www.everlastgenerators.com/catalog-mig",
+      "observation": "US catalogue USD 6,199 for the pulsed welder. The maker gives 60% duty at 400 A on its specified 240 V single-phase input. The workcell needs extraction and a verified local power interface.",
+      "listed_usd": 6199,
+      "unit": "welder"
+    },
+    "tracker": {
+      "title": "Metro Metrology equipment rental",
+      "url": "https://metrometrology.com/services/",
+      "observation": "US equipment-only USD 600/day, USD 2,500/week or USD 8,000/month for certified users. Staffed US survey USD 170/hour, ten-hour minimum. Travel, shipping and Baghdad availability require a return.",
+      "listed_usd": 600,
+      "unit": "hire day"
+    },
+    "harness": {
+      "title": "Cirris 4200 tester",
+      "url": "https://cirris.com/4200-2/",
+      "observation": "Technical example only. The low-voltage unit starts at 128 points and expands to 1,024. Provide independent insulation testing or an appropriately specified higher-voltage variant plus protected adapters."
+    },
+    "stress": {
+      "title": "PAUL single-strand stressing equipment",
+      "url": "https://prestressed-concrete.paul.eu/fileadmin/Files/prestressed-concrete/B147.26_02-en.pdf",
+      "observation": "Technical example only. Mobile jack and release equipment use a separately designed bed reaction system. Quote against the strand, force, losses, tails, gauge and release plan."
+    },
+    "pump": {
+      "title": "Whitehead Concrete Pumping 2026 rates",
+      "url": "https://www.whiteheadconcretepumping.com/rates.html",
+      "observation": "US 42 m boom pump USD 225/hour plus USD 4/cubic yard, four-hour minimum, permits and travel extra. A comparator for peak service. The proposed pooled yard-feed allowance assumes local fixed plant with shorter placement reach.",
+      "listed_usd": 225,
+      "unit": "pump hour before other charges"
+    },
+    "crane": {
+      "title": "C.O.I. Crane Service 2025–2026 rate sheet",
+      "url": "https://coicraneservice.com/wp-content/uploads/2025/11/COI-Pricing-Worksheet-11042025.pdf",
+      "observation": "US nominal 100 ton class USD 275/hour with an eight-hour minimum plus rigger, fuel and trailers. Capacity at the Airport lift radius is unresolved. The assumed shift rate includes a rigging crew.",
+      "listed_usd": 275,
+      "unit": "crane hour before extras"
+    },
+    "freecad": {
+      "title": "FreeCAD project licensing FAQ",
+      "url": "https://github.com/FreeCAD/FreeCAD-documentation/blob/main/wiki/Frequently_asked_questions.md",
+      "observation": "The project permits commercial use of FreeCAD without a licence fee. Workstation setup, postprocessor adaptation, verification and local support still require staff.",
+      "listed_usd": 0,
+      "unit": "commercial-use licence"
+    },
+    "fusion": {
+      "title": "Autodesk Fusion subscription types",
+      "url": "https://www.autodesk.com/products/fusion-360/blog/fusion-subscription-types/",
+      "observation": "US published standard subscription USD 680 per user/year. This optional comparison uses one standard seat. Regional eligibility, post support, future renewals and advanced manufacturing subscriptions require a supplier return.",
+      "listed_usd": 680,
+      "unit": "user-year"
+    }
+  },
+  "resources": [
+    {
+      "id": "vehicle-stores",
+      "name": "Receiving and long-stock racks",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "cell",
+      "basis": "units",
+      "pricing_unit": "cell",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 8000,
+        "base": 18000,
+        "high": 40000
+      },
+      "extended_usd": {
+        "low": 8000.0,
+        "base": 18000.0,
+        "high": 40000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 160.0,
+        "base": 720.0,
+        "high": 2800.0
+      },
+      "scope": "One long-stock cell with rated cantilever racks, axle cradles, tags and quarantine barriers. Building and forklift hire excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-saw",
+      "name": "Guarded section and liner saw",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 20000,
+        "base": 34000,
+        "high": 56000
+      },
+      "extended_usd": {
+        "low": 20000.0,
+        "base": 34000.0,
+        "high": 56000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 400.0,
+        "base": 1360.0,
+        "high": 3920.0
+      },
+      "scope": "Hydraulic horizontal saw with at least 350 × 320 mm throat and supported long-stock lane. Lower rate assumes equivalent used or locally supplied equipment.",
+      "references": [
+        "saw"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-prep",
+      "name": "Bench preparation and liner drilling",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 3500,
+        "base": 8500,
+        "high": 17000
+      },
+      "extended_usd": {
+        "low": 3500.0,
+        "base": 8500.0,
+        "high": 17000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 70.0,
+        "base": 340.0,
+        "high": 1190.0
+      },
+      "scope": "Guarded geared drill, datum stops, replaceable bushes, bench grinder and extraction. Validate spindle runout on a liner.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-plate-contract",
+      "name": "Nested plate blank supply",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "supplier lane",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 140.96,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 60,
+        "base": 110,
+        "high": 190
+      },
+      "extended_usd": {
+        "low": 8457.6,
+        "base": 15505.6,
+        "high": 26782.4
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Reserved CNC laser or plasma cutting and marking for 8–12 mm plate. Price includes supplier setup, machine and operator. Blank plate and freight belong to the parts lot.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-body-bed",
+      "name": "Indexed 17 m body build bed",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 2,
+      "minimum_units": 2,
+      "factory_unit": "jig",
+      "basis": "units",
+      "pricing_unit": "jig",
+      "priced_quantity": 2,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 40000,
+        "base": 100000,
+        "high": 210000
+      },
+      "extended_usd": {
+        "low": 80000.0,
+        "base": 200000.0,
+        "high": 420000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 1600.0,
+        "base": 8000.0,
+        "high": 29400.0
+      },
+      "scope": "Local surveyed 18 × 3.2 m modular body bed with clamps and replaceable locators. Includes the listed fixture components and initial geometry check. Foundation design separate.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-bogie-bed",
+      "name": "Removable bogie frame weld bed",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "jig",
+      "basis": "units",
+      "pricing_unit": "jig",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 12000,
+        "base": 30000,
+        "high": 65000
+      },
+      "extended_usd": {
+        "low": 12000.0,
+        "base": 30000.0,
+        "high": 65000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 240.0,
+        "base": 1200.0,
+        "high": 4550.0
+      },
+      "scope": "Local 3.2 × 2.5 m axle-datum fixture and seat gauges. Includes its removable locators.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-arc-set",
+      "name": "Mobile pulsed MIG/MAG and source capture",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 3,
+      "minimum_units": 3,
+      "factory_unit": "set",
+      "basis": "units",
+      "pricing_unit": "set",
+      "priced_quantity": 3,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 8000,
+        "base": 14000,
+        "high": 26000
+      },
+      "extended_usd": {
+        "low": 24000.0,
+        "base": 42000.0,
+        "high": 78000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 480.0,
+        "base": 1680.0,
+        "high": 5460.0
+      },
+      "scope": "400 A class pulse GMAW source, feeder, cooler, extraction and local commissioning per set. Major incoming supply and ongoing consumables excluded.",
+      "references": [
+        "weld"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-shop-crane",
+      "name": "Shared runway handling and rigging",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "set",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": 61,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 450,
+        "base": 950,
+        "high": 2200
+      },
+      "extended_usd": {
+        "low": 27450.0,
+        "base": 57950.0,
+        "high": 134200.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Book an existing rated bridge crane plus rigging and operator in grouped shifts. Confirm heaviest lift, spreader weight, usable hook height and roof runway.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-metrology",
+      "name": "Shared portable tracker and dimensional QA",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "set",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": 86,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 450,
+        "base": 600,
+        "high": 1000
+      },
+      "extended_usd": {
+        "low": 38700.0,
+        "base": 51600.0,
+        "high": 86000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Hire calibrated tracker and targets for grouped whole shifts. Local surveyor, travel and lost time between bookings extra. Lower rate assumes a multi-day agreement.",
+      "references": [
+        "tracker"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-weld-ndt",
+      "name": "Weld inspection and NDT",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "team",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 495.6,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 55,
+        "base": 105,
+        "high": 200
+      },
+      "extended_usd": {
+        "low": 27258.0,
+        "base": 52038.0,
+        "high": 99120.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Contract one field inspection team with calibrated equipment per allocated team-hour. Method, weld coverage, reporting and repeat visits require an approved inspection plan.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-bogie-machine",
+      "name": "Contract bogie seat and datum machining",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "supplier lane",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 462.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 100,
+        "base": 190,
+        "high": 320
+      },
+      "extended_usd": {
+        "low": 46200.0,
+        "base": 87780.0,
+        "high": 147840.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Supplier portal mill or horizontal borer with a surveyed bed that locates both axle planes. Machine, operator and setup only.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-coat",
+      "name": "Contract blast and coating",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "supplier lane",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 816.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 80,
+        "base": 150,
+        "high": 270
+      },
+      "extended_usd": {
+        "low": 65280.0,
+        "base": 122400.0,
+        "high": 220320.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Subcontract a booth accepting a 17 m body, with preparation, cure and coating team. Coating-system selection, extra blast repair and intershop transport require returns.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-bogie-fit",
+      "name": "Bogie integration with clean stands",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "bay",
+      "basis": "units",
+      "pricing_unit": "bay",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 10000,
+        "base": 25000,
+        "high": 55000
+      },
+      "extended_usd": {
+        "low": 10000.0,
+        "base": 25000.0,
+        "high": 55000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 200.0,
+        "base": 1000.0,
+        "high": 3850.0
+      },
+      "scope": "Axle cradle, positive restraints, rated handling fixtures and calibrated torque tooling per bay.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-bearings",
+      "name": "Wheelset and supplier bearing assembly",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "supplier lane",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 300.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 65,
+        "base": 130,
+        "high": 230
+      },
+      "extended_usd": {
+        "low": 19500.0,
+        "base": 39000.0,
+        "high": 69000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Press fitting and measurement service for mounted wheelsets. Credit inside purchased wheelset price when included by supplier. Excludes wheelsets and bearings.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-bogie-test",
+      "name": "Restrained bogie functional stand",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 30000,
+        "base": 80000,
+        "high": 180000
+      },
+      "extended_usd": {
+        "low": 30000.0,
+        "base": 80000.0,
+        "high": 180000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 600.0,
+        "base": 3200.0,
+        "high": 12600.0
+      },
+      "scope": "Guarded functional rig with brake/drive adapters, leak test, recorder and isolation. Full thermal dynamometer and independent type testing excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-door-fixture",
+      "name": "Portal and liner fixture with door support trolley",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "set",
+      "basis": "units",
+      "pricing_unit": "set",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 2500,
+        "base": 7000,
+        "high": 16000
+      },
+      "extended_usd": {
+        "low": 2500.0,
+        "base": 7000.0,
+        "high": 16000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 50.0,
+        "base": 280.0,
+        "high": 1120.0
+      },
+      "scope": "Opening gauge, liner templates, retention checks and handling trolley. Labour for fitting is in the vehicle routine.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-fit",
+      "name": "Body mechanical and cabin fit",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "bay",
+      "basis": "units",
+      "pricing_unit": "bay",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 10000,
+        "base": 28000,
+        "high": 65000
+      },
+      "extended_usd": {
+        "low": 10000.0,
+        "base": 28000.0,
+        "high": 65000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 200.0,
+        "base": 1120.0,
+        "high": 4550.0
+      },
+      "scope": "Mobile access platforms and torque/weather-sealing tool packages. Main lifting equipment booked in the crane line.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-electric",
+      "name": "Electrical cabinet and harness build benches",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 5000,
+        "base": 15000,
+        "high": 33000
+      },
+      "extended_usd": {
+        "low": 5000.0,
+        "base": 15000.0,
+        "high": 33000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 100.0,
+        "base": 600.0,
+        "high": 2310.0
+      },
+      "scope": "Vehicle build station with crimp/die and pull testing, ESD and isolated supply. Production boards and cables are in the fleet lot.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-harness-test",
+      "name": "Shared cabinet and harness tester",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 6500,
+        "base": 20000,
+        "high": 50000
+      },
+      "extended_usd": {
+        "low": 6500.0,
+        "base": 20000.0,
+        "high": 50000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 130.0,
+        "base": 800.0,
+        "high": 3500.0
+      },
+      "scope": "Expandable continuity system, independent insulation test and keyed adapters. Return pin count, protected paths, measurement ranges and calibration.",
+      "references": [
+        "harness"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-collector-tools",
+      "name": "Onboard collector set install tools",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "set",
+      "basis": "units",
+      "pricing_unit": "set",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 2000,
+        "base": 6000,
+        "high": 18000
+      },
+      "extended_usd": {
+        "low": 2000.0,
+        "base": 6000.0,
+        "high": 18000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 40.0,
+        "base": 240.0,
+        "high": 1260.0
+      },
+      "scope": "Portable insulated setup fixture, spring/contact gauge and calibrated indicating tools for an installed collector.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-marriage",
+      "name": "Body lift and marriage road",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "road",
+      "basis": "units",
+      "pricing_unit": "road",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 75000,
+        "base": 170000,
+        "high": 350000
+      },
+      "extended_usd": {
+        "low": 75000.0,
+        "base": 170000.0,
+        "high": 350000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 1500.0,
+        "base": 6800.0,
+        "high": 24500.0
+      },
+      "scope": "One synchronized rail-vehicle lifting set with mechanical locks, cradles and logging. Number and rating of columns require installed mass, lift points and unbalanced load case.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-end-test",
+      "name": "Static integration and factory acceptance test road",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "road",
+      "basis": "units",
+      "pricing_unit": "road",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 50000,
+        "base": 145000,
+        "high": 300000
+      },
+      "extended_usd": {
+        "low": 50000.0,
+        "base": 145000.0,
+        "high": 300000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 1000.0,
+        "base": 5800.0,
+        "high": 21000.0
+      },
+      "scope": "Portable car wheel-load measuring system, brake and electrical instruments with isolated test area. Floor, track construction and route tests excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-set-test",
+      "name": "Set-level integration and controls test road",
+      "shop": "Vehicle works",
+      "lot_id": "fleet",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "road",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": 14,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 700,
+        "base": 1800,
+        "high": 4000
+      },
+      "extended_usd": {
+        "low": 9800.0,
+        "base": 25200.0,
+        "high": 56000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Grouped shifts booking an existing full-length protected and isolated six-car test road. Construction of a new road requires a separate site estimate.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "vehicle-repair",
+      "name": "Off-line exchange and repair road",
+      "shop": "Vehicle works",
+      "lot_id": "depot-control",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "road",
+      "basis": "units",
+      "pricing_unit": "road",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 60000,
+        "base": 160000,
+        "high": 330000
+      },
+      "extended_usd": {
+        "low": 60000.0,
+        "base": 160000.0,
+        "high": 330000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 1200.0,
+        "base": 6400.0,
+        "high": 23100.0
+      },
+      "scope": "Second lift and support set, exchange pallet, isolation and repair bench for the depot. Civil repair-road construction belongs to the depot lot.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-beam-position",
+      "name": "Wet-cast box mould and prestress position",
+      "shop": "Civil yard and erection front",
+      "lot_id": "tooling",
+      "factory_units": 8,
+      "minimum_units": 8,
+      "factory_unit": "position",
+      "basis": "units",
+      "pricing_unit": "position",
+      "priced_quantity": 8,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 80000,
+        "base": 175000,
+        "high": 350000
+      },
+      "extended_usd": {
+        "low": 640000.0,
+        "base": 1400000.0,
+        "high": 2800000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 12800.0,
+        "base": 56000.0,
+        "high": 196000.0
+      },
+      "scope": "Per 10 m box mould including retractable core, end plates and allocated reaction-bed fabrication. Shared stressing jack separately priced. Ground improvement and building excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-cage",
+      "name": "Beam reinforcement cage build and check jig",
+      "shop": "Civil yard and erection front",
+      "lot_id": "tooling",
+      "factory_units": 5,
+      "minimum_units": 5,
+      "factory_unit": "place",
+      "basis": "units",
+      "pricing_unit": "place",
+      "priced_quantity": 5,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 6000,
+        "base": 18000,
+        "high": 45000
+      },
+      "extended_usd": {
+        "low": 30000.0,
+        "base": 90000.0,
+        "high": 225000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 600.0,
+        "base": 3600.0,
+        "high": 15750.0
+      },
+      "scope": "One cage assembly position including gauges, jig and allocated share of a common cut-and-bend service setup. Reinforcement stock and production labour excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-stress",
+      "name": "Calibrated stressing and controlled detensioning plant",
+      "shop": "Civil yard and erection front",
+      "lot_id": "tooling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "set",
+      "basis": "units",
+      "pricing_unit": "set",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 30000,
+        "base": 75000,
+        "high": 180000
+      },
+      "extended_usd": {
+        "low": 30000.0,
+        "base": 75000.0,
+        "high": 180000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 600.0,
+        "base": 3000.0,
+        "high": 12600.0
+      },
+      "scope": "Buy a shared calibrated jack, pump, detensioning, grips and protection. Fixed reactions belong to the mould positions. Actual force and anchor design require specialist review.",
+      "references": [
+        "stress"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-placement",
+      "name": "Shared batching and concrete delivery to placement crews",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": null,
+      "minimum_units": 1,
+      "factory_unit": "service",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 1608.48,
+      "quantity_status": "known-subset",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 90,
+        "base": 180,
+        "high": 350
+      },
+      "extended_usd": {
+        "low": 144763.2,
+        "base": 289526.4,
+        "high": 562968.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Shared metered concrete delivery and placing equipment with operator, assumed 20 m³/h gross. Mix material and finishing crew excluded. Beam hours known, panel workload outstanding.",
+      "references": [
+        "pump"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-pour-crew",
+      "name": "Beam placement, vibration and finishing crews",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": 3,
+      "minimum_units": 3,
+      "factory_unit": "crew",
+      "basis": "hours",
+      "pricing_unit": "occupied hour",
+      "priced_quantity": 4800.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 40,
+        "base": 90,
+        "high": 180
+      },
+      "extended_usd": {
+        "low": 192000.0,
+        "base": 432000.0,
+        "high": 864000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Crew-hour for placement, vibration and finishing. Concrete and paid pump operator excluded. Provide shifted coverage during staggered releases.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-yard-hook",
+      "name": "Beam yard lifting and trailer loadout",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "hook service",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": 258,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 700,
+        "base": 1500,
+        "high": 3200
+      },
+      "extended_usd": {
+        "low": 180600.0,
+        "base": 387000.0,
+        "high": 825600.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Operated precast-yard crane and rigging for stripping and loading. Verify cast gross load at working radius and actual ground capacity.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-stock-position",
+      "name": "Single-tier beam storage and dispatch buffer",
+      "shop": "Civil yard and erection front",
+      "lot_id": "yard-access",
+      "factory_units": 176,
+      "minimum_units": 176,
+      "factory_unit": "position",
+      "basis": "units",
+      "pricing_unit": "position",
+      "priced_quantity": 176,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 250,
+        "base": 700,
+        "high": 1600
+      },
+      "extended_usd": {
+        "low": 44000.0,
+        "base": 123200.0,
+        "high": 281600.0
+      },
+      "annual_upkeep_usd": {
+        "low": 880.0,
+        "base": 4928.0,
+        "high": 19712.0
+      },
+      "scope": "One set of reusable dunnage, lateral restraint, marking and layout per single-tier slot. Yard lease and permanent paving remain in the yard lot.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-haul",
+      "name": "Beam tractor, matched trailer and haul crew",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": 4,
+      "minimum_units": 4,
+      "factory_unit": "set",
+      "basis": "driver",
+      "pricing_unit": "beam trip",
+      "priced_quantity": 2400.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 250,
+        "base": 650,
+        "high": 1600
+      },
+      "extended_usd": {
+        "low": 600000.0,
+        "base": 1560000.0,
+        "high": 3840000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "One loaded beam per local low-loader trip with return leg, driver and routine restraint. Abnormal permits, exceptional haul distance and escorts require route-specific pricing.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-foundation",
+      "name": "Foundation, column and cap work areas",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": null,
+      "minimum_units": null,
+      "factory_unit": "site work area",
+      "basis": "driver",
+      "pricing_unit": "support position",
+      "priced_quantity": 2402.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 150,
+        "base": 450,
+        "high": 1200
+      },
+      "extended_usd": {
+        "low": 360300.0,
+        "base": 1080900.0,
+        "high": 2882400.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Survey setout, staging and record at each support position only. Excavation, piles, ground treatment, rig mobilisation and permanent piers require ground and design returns.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-bearing",
+      "name": "Bearing seat survey and installation crews",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "crew",
+      "basis": "driver",
+      "pricing_unit": "bearing fitted",
+      "priced_quantity": 9600.0,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 25,
+        "base": 70,
+        "high": 180
+      },
+      "extended_usd": {
+        "low": 240000.0,
+        "base": 672000.0,
+        "high": 1728000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "Installation team with calibrated survey and torque tools per bearing. Bearing supply, plate, anchor, grout materials and future replacement excluded.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-erection",
+      "name": "Site erection front and at-radius crane service",
+      "shop": "Civil yard and erection front",
+      "lot_id": "elevated-civil",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "front",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": 300,
+      "quantity_status": "planned",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 3000,
+        "base": 7000,
+        "high": 16000
+      },
+      "extended_usd": {
+        "low": 900000.0,
+        "base": 2100000.0,
+        "high": 4800000.0
+      },
+      "annual_upkeep_usd": null,
+      "scope": "One site crane and crew in booked erection shifts at the assumed eight lifts/day. Include standard rigging. Obtain crane chart, access and ground works, mobilisation and traffic pricing separately.",
+      "references": [
+        "crane"
+      ],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-panel-table",
+      "name": "Flat station panel casting table",
+      "shop": "Civil yard and erection front",
+      "lot_id": "stations",
+      "factory_units": null,
+      "minimum_units": 4,
+      "factory_unit": "table",
+      "basis": "units",
+      "pricing_unit": "table",
+      "priced_quantity": 4,
+      "quantity_status": "known-subset",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 9000,
+        "base": 23000,
+        "high": 55000
+      },
+      "extended_usd": {
+        "low": 36000.0,
+        "base": 92000.0,
+        "high": 220000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 720.0,
+        "base": 3680.0,
+        "high": 15400.0
+      },
+      "scope": "One adaptable panel table with shutters and edge/insert gauges. Price four provisional positions pending the station-bay count and duty.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "civil-panel-hook",
+      "name": "Panel strip, yard and dispatch handling",
+      "shop": "Civil yard and erection front",
+      "lot_id": "stations",
+      "factory_units": null,
+      "minimum_units": 1,
+      "factory_unit": "hook service",
+      "basis": "shift",
+      "pricing_unit": "booked shift",
+      "priced_quantity": null,
+      "quantity_status": "open",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 550,
+        "base": 1200,
+        "high": 2800
+      },
+      "extended_usd": null,
+      "annual_upkeep_usd": null,
+      "scope": "Operated panel handling crane per shift with rig. Panel quantity and booked shifts open. If the same crane serves beam lifting, combine bookings and credit the overlap.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "wayside-assembly",
+      "name": "Adjustable enclosure and removable backplate assembly stand",
+      "shop": "Wayside electrical integrator",
+      "lot_id": "signalling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "bench",
+      "basis": "units",
+      "pricing_unit": "bench",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 3000,
+        "base": 9500,
+        "high": 22000
+      },
+      "extended_usd": {
+        "low": 3000.0,
+        "base": 9500.0,
+        "high": 22000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 60.0,
+        "base": 380.0,
+        "high": 1540.0
+      },
+      "scope": "Backplate assembly stand with adjustable stops, template and controlled fastening equipment. Include integrator-owned equipment as supplier credit.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "wayside-wire",
+      "name": "Wire preparation, labelled kitting and crimp inspection station",
+      "shop": "Wayside electrical integrator",
+      "lot_id": "signalling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "station",
+      "basis": "units",
+      "pricing_unit": "station",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 5000,
+        "base": 14000,
+        "high": 35000
+      },
+      "extended_usd": {
+        "low": 5000.0,
+        "base": 14000.0,
+        "high": 35000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 100.0,
+        "base": 560.0,
+        "high": 2450.0
+      },
+      "scope": "Bench cutter/stripper, matched crimp dies, ferrule labelling and pull tester for LV wire. High-power busbars and cable installation belong to power lots.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "wayside-test",
+      "name": "Isolated low-voltage I/O proving bench with removable test harness",
+      "shop": "Wayside electrical integrator",
+      "lot_id": "signalling",
+      "factory_units": 1,
+      "minimum_units": 1,
+      "factory_unit": "bench",
+      "basis": "units",
+      "pricing_unit": "bench",
+      "priced_quantity": 1,
+      "quantity_status": "planned",
+      "period": "equipment purchase",
+      "unit_rate_usd": {
+        "low": 11000,
+        "base": 35000,
+        "high": 90000
+      },
+      "extended_usd": {
+        "low": 11000.0,
+        "base": 35000.0,
+        "high": 90000.0
+      },
+      "annual_upkeep_usd": {
+        "low": 220.0,
+        "base": 1400.0,
+        "high": 6300.0
+      },
+      "scope": "Programmable isolated supply, protection and signalling interface simulator, breakout, recorder and controlled adapters. Excludes live HV fault tests.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    },
+    {
+      "id": "wayside-power-test",
+      "name": "Supplier switchgear and rectifier test provision",
+      "shop": "Wayside electrical integrator",
+      "lot_id": "traction-sites",
+      "factory_units": null,
+      "minimum_units": null,
+      "factory_unit": "contract service",
+      "basis": "driver",
+      "pricing_unit": "cabinet witnessed",
+      "priced_quantity": null,
+      "quantity_status": "open",
+      "period": "opening services",
+      "unit_rate_usd": {
+        "low": 1800,
+        "base": 6000,
+        "high": 18000
+      },
+      "extended_usd": null,
+      "annual_upkeep_usd": null,
+      "scope": "Factory routine acceptance service and witness per installed rectifier cabinet. Cabinet count, special type tests, HV laboratory and travel require supplier returns.",
+      "references": [],
+      "rate_status": "engineering allowance",
+      "firm_offer_usd": null
+    }
+  ],
+  "period_subtotals_usd": {
+    "equipment purchase": {
+      "low": 1197500.0,
+      "base": 2827200.0,
+      "high": 5926600.0
+    },
+    "opening services": {
+      "low": 2860308.8,
+      "base": 6972900.0,
+      "high": 16342230.4
+    },
+    "annual equipment upkeep": {
+      "low": 23950.0,
+      "base": 113088.0,
+      "high": 414862.0
+    }
+  },
+  "lot_allocations": {
+    "tooling": {
+      "planning_lot_base_usd": 44800000.0,
+      "priced_work_within_lot_usd": {
+        "low": 1104650.0,
+        "base": 2503050.0,
+        "high": 5168200.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": []
+    },
+    "fleet": {
+      "planning_lot_base_usd": 50880000.0,
+      "priced_work_within_lot_usd": {
+        "low": 176495.6,
+        "base": 341923.6,
+        "high": 619062.4
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": []
+    },
+    "depot-control": {
+      "planning_lot_base_usd": 75000000.0,
+      "priced_work_within_lot_usd": {
+        "low": 60000.0,
+        "base": 160000.0,
+        "high": 330000.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": []
+    },
+    "elevated-civil": {
+      "planning_lot_base_usd": 107941285.7429223,
+      "priced_work_within_lot_usd": {
+        "low": 2617663.2,
+        "base": 6521426.4,
+        "high": 15502968.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": [
+        "civil-placement"
+      ]
+    },
+    "yard-access": {
+      "planning_lot_base_usd": 874172.1854304635,
+      "priced_work_within_lot_usd": {
+        "low": 44000.0,
+        "base": 123200.0,
+        "high": 281600.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": []
+    },
+    "stations": {
+      "planning_lot_base_usd": 78000000.0,
+      "priced_work_within_lot_usd": {
+        "low": 36000.0,
+        "base": 92000.0,
+        "high": 220000.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": [
+        "civil-panel-table",
+        "civil-panel-hook"
+      ]
+    },
+    "signalling": {
+      "planning_lot_base_usd": 14399999.999999998,
+      "priced_work_within_lot_usd": {
+        "low": 19000.0,
+        "base": 58500.0,
+        "high": 147000.0
+      },
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": []
+    },
+    "traction-sites": {
+      "planning_lot_base_usd": 348472470.857918,
+      "priced_work_within_lot_usd": null,
+      "buyer_confirmed_overlap_credit_usd": null,
+      "uncovered_quantities": [
+        "wayside-power-test"
+      ]
+    }
+  },
+  "upkeep_percent_by_case": {
+    "low": 2,
+    "base": 4,
+    "high": 7
+  },
+  "complete_workshop_installed_price_usd": null,
+  "international_freight_usd": null,
+  "import_duty_and_tax_usd": null,
+  "open_quantity_sensitivities": [
+    {
+      "label": "6 nominal island templates, 600 panels",
+      "driver": "station bay panels after plant and access openings",
+      "assumed_panels": 600,
+      "assumed_templates": 6.0,
+      "panels_per_template": 100,
+      "placement_hours_per_panel": 0.1380456,
+      "moves_per_panel": 2,
+      "hours_per_move": 0.25,
+      "usable_hours_per_shift": 7.0,
+      "lines": [
+        {
+          "resource_id": "civil-placement",
+          "lot_id": "elevated-civil",
+          "quantity": 82.82736,
+          "unit": "placement hours",
+          "unit_rate_usd": {
+            "low": 90,
+            "base": 180,
+            "high": 350
+          },
+          "extended_usd": {
+            "low": 7454.46,
+            "base": 14908.92,
+            "high": 28989.58
+          }
+        },
+        {
+          "resource_id": "civil-panel-hook",
+          "lot_id": "stations",
+          "quantity": 43.0,
+          "unit": "hook shifts",
+          "unit_rate_usd": {
+            "low": 550,
+            "base": 1200,
+            "high": 2800
+          },
+          "extended_usd": {
+            "low": 23650.0,
+            "base": 51600.0,
+            "high": 120400.0
+          }
+        }
+      ],
+      "additional_scope_usd": {
+        "low": 31104.46,
+        "base": 66508.92,
+        "high": 149389.58
+      }
+    },
+    {
+      "label": "30 cabinets at 1 per site",
+      "driver": "installed and tested rectifier cabinets",
+      "sites": 30.0,
+      "assumed_cabinets_per_site": 1,
+      "assumed_cabinets": 30.0,
+      "lines": [
+        {
+          "resource_id": "wayside-power-test",
+          "lot_id": "traction-sites",
+          "quantity": 30.0,
+          "unit": "cabinet tests",
+          "unit_rate_usd": {
+            "low": 1800,
+            "base": 6000,
+            "high": 18000
+          },
+          "extended_usd": {
+            "low": 54000.0,
+            "base": 180000.0,
+            "high": 540000.0
+          }
+        }
+      ],
+      "additional_scope_usd": {
+        "low": 54000.0,
+        "base": 180000.0,
+        "high": 540000.0
+      }
+    },
+    {
+      "label": "60 cabinets at 2 per site",
+      "driver": "installed and tested rectifier cabinets",
+      "sites": 30.0,
+      "assumed_cabinets_per_site": 2,
+      "assumed_cabinets": 60.0,
+      "lines": [
+        {
+          "resource_id": "wayside-power-test",
+          "lot_id": "traction-sites",
+          "quantity": 60.0,
+          "unit": "cabinet tests",
+          "unit_rate_usd": {
+            "low": 1800,
+            "base": 6000,
+            "high": 18000
+          },
+          "extended_usd": {
+            "low": 108000.0,
+            "base": 360000.0,
+            "high": 1080000.0
+          }
+        }
+      ],
+      "additional_scope_usd": {
+        "low": 108000.0,
+        "base": 360000.0,
+        "high": 1080000.0
+      }
+    }
+  ],
+  "cam_and_training_scenario": {
+    "lines": [
+      {
+        "id": "programming_pc",
+        "scope": "One CAD/CAM workstation, dual screens, UPS and local backup for the manufacturing technician.",
+        "quantity_factors": [
+          1
+        ],
+        "priced_quantity": 1,
+        "pricing_unit": "workstation",
+        "period": "initial setup",
+        "scope_credit": "Existing engineering PC or CAM supplier's workstation.",
+        "unit_rate_usd": {
+          "low": 1500,
+          "base": 2800,
+          "high": 5000
+        },
+        "extended_usd": {
+          "low": 1500.0,
+          "base": 2800.0,
+          "high": 5000.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "reader",
+        "scope": "One rugged shop-floor reader for released drawings, work instructions and offline exercises.",
+        "quantity_factors": [
+          1
+        ],
+        "priced_quantity": 1,
+        "pricing_unit": "reader",
+        "period": "initial setup",
+        "scope_credit": "Existing workstation or ERP terminal in the parent shop.",
+        "unit_rate_usd": {
+          "low": 450,
+          "base": 950,
+          "high": 2200
+        },
+        "extended_usd": {
+          "low": 450.0,
+          "base": 950.0,
+          "high": 2200.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "freecad",
+        "scope": "FreeCAD desktop licence on the technician's PC. Reader uses a browser and the offline material.",
+        "quantity_factors": [
+          1
+        ],
+        "priced_quantity": 1,
+        "pricing_unit": "seat-year",
+        "period": "annual support",
+        "scope_credit": "No commercial seat fee for the chosen open-source tool.",
+        "unit_rate_usd": {
+          "low": 0,
+          "base": 0,
+          "high": 0
+        },
+        "extended_usd": {
+          "low": 0.0,
+          "base": 0.0,
+          "high": 0.0
+        },
+        "references": [
+          "freecad"
+        ],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "setup",
+        "scope": "One systems technician for one eight-hour day to install pinned software, test imports and record restore steps.",
+        "quantity_factors": [
+          1,
+          8
+        ],
+        "priced_quantity": 8,
+        "pricing_unit": "technician-hour",
+        "period": "initial setup",
+        "scope_credit": "Buyer IT setup, including any installation bundled in the workstation quote.",
+        "unit_rate_usd": {
+          "low": 25,
+          "base": 55,
+          "high": 100
+        },
+        "extended_usd": {
+          "low": 200.0,
+          "base": 440.0,
+          "high": 800.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "post",
+        "scope": "One CAM specialist for three eight-hour days to configure one machine/controller post and document its constraints.",
+        "quantity_factors": [
+          3,
+          8
+        ],
+        "priced_quantity": 24,
+        "pricing_unit": "specialist-hour",
+        "period": "initial setup",
+        "scope_credit": "Contract cutter's own postprocessor and setup fee.",
+        "unit_rate_usd": {
+          "low": 55,
+          "base": 110,
+          "high": 210
+        },
+        "extended_usd": {
+          "low": 1320.0,
+          "base": 2640.0,
+          "high": 5040.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "backplot",
+        "scope": "One reviewer for one eight-hour day for source geometry versus post output, offline backplot and independent review record.",
+        "quantity_factors": [
+          1,
+          8
+        ],
+        "priced_quantity": 8,
+        "pricing_unit": "review-hour",
+        "period": "initial setup",
+        "scope_credit": "Existing CAM validation or engineering-assurance labour.",
+        "unit_rate_usd": {
+          "low": 40,
+          "base": 85,
+          "high": 160
+        },
+        "extended_usd": {
+          "low": 320.0,
+          "base": 680.0,
+          "high": 1280.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "instructor",
+        "scope": "Two supervised four-hour sessions for one cohort covering the seven workshop roles, followed by a skills handover.",
+        "quantity_factors": [
+          2,
+          4
+        ],
+        "priced_quantity": 8,
+        "pricing_unit": "instructor-hour",
+        "period": "first cohort and trials",
+        "scope_credit": "Supplier training included with the machine or buyer induction.",
+        "unit_rate_usd": {
+          "low": 40,
+          "base": 85,
+          "high": 150
+        },
+        "extended_usd": {
+          "low": 320.0,
+          "base": 680.0,
+          "high": 1200.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "attendees",
+        "scope": "Seven learners participate in both four-hour sessions. Attendance is owner time at a loaded hourly rate.",
+        "quantity_factors": [
+          7,
+          2,
+          4
+        ],
+        "priced_quantity": 56,
+        "pricing_unit": "learner-hour",
+        "period": "first cohort and trials",
+        "scope_credit": "Existing workforce payroll. Use as an opportunity cost when payroll is funded.",
+        "unit_rate_usd": {
+          "low": 12,
+          "base": 25,
+          "high": 55
+        },
+        "extended_usd": {
+          "low": 672.0,
+          "base": 1400.0,
+          "high": 3080.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "witness",
+        "scope": "One owner quality representative for two eight-hour first-off visits, separate from the inspection supplier.",
+        "quantity_factors": [
+          1,
+          2,
+          8
+        ],
+        "priced_quantity": 16,
+        "pricing_unit": "owner-hour",
+        "period": "first cohort and trials",
+        "scope_credit": "Owner quality or first-article assurance.",
+        "unit_rate_usd": {
+          "low": 25,
+          "base": 55,
+          "high": 110
+        },
+        "extended_usd": {
+          "low": 400.0,
+          "base": 880.0,
+          "high": 1760.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "coupons",
+        "scope": "Two supervised shop bookings for sample preparation and first-off cuts against four plate families plus a representative saw cut. Includes shop time and sample stock.",
+        "quantity_factors": [
+          2
+        ],
+        "priced_quantity": 2,
+        "pricing_unit": "trial shift",
+        "period": "first cohort and trials",
+        "scope_credit": "Cutting supplier's setup, coupons or first article in the fleet contract.",
+        "unit_rate_usd": {
+          "low": 350,
+          "base": 850,
+          "high": 2000
+        },
+        "extended_usd": {
+          "low": 700.0,
+          "base": 1700.0,
+          "high": 4000.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "metrology",
+        "scope": "Two staffed first-off inspection visits for datum and dimensional checks with calibrated instruments and reports. Confirm instrument uncertainty against each feature.",
+        "quantity_factors": [
+          2
+        ],
+        "priced_quantity": 2,
+        "pricing_unit": "survey day",
+        "period": "first cohort and trials",
+        "scope_credit": "Credit the instrument hire and inspection labour where the series metrology booking already contains this work.",
+        "unit_rate_usd": {
+          "low": 850,
+          "base": 1700,
+          "high": 2800
+        },
+        "extended_usd": {
+          "low": 1700.0,
+          "base": 3400.0,
+          "high": 5600.0
+        },
+        "references": [
+          "tracker"
+        ],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "support",
+        "scope": "Two eight-hour days per year for backup restore, postprocessor change review and a reference backplot.",
+        "quantity_factors": [
+          2,
+          8
+        ],
+        "priced_quantity": 16,
+        "pricing_unit": "support-hour",
+        "period": "annual support",
+        "scope_credit": "Included support, software assurance and workstation IT contracts.",
+        "unit_rate_usd": {
+          "low": 40,
+          "base": 85,
+          "high": 160
+        },
+        "extended_usd": {
+          "low": 640.0,
+          "base": 1360.0,
+          "high": 2560.0
+        },
+        "references": [],
+        "firm_offer_usd": null
+      },
+      {
+        "id": "fusion",
+        "scope": "Optional substitution of one standard commercial seat for the FreeCAD seat. Revalidate the post and confirm Iraqi licence terms before purchase.",
+        "quantity_factors": [
+          1
+        ],
+        "priced_quantity": 1,
+        "pricing_unit": "user-year",
+        "period": "optional annual substitution",
+        "scope_credit": "Alternative subscription. Exclude when budgeting the open-source scenario.",
+        "unit_rate_usd": {
+          "low": 680,
+          "base": 680,
+          "high": 680
+        },
+        "extended_usd": {
+          "low": 680.0,
+          "base": 680.0,
+          "high": 680.0
+        },
+        "references": [
+          "fusion"
+        ],
+        "firm_offer_usd": null
+      }
+    ],
+    "period_subtotals_usd": {
+      "initial setup": {
+        "low": 3790.0,
+        "base": 7510.0,
+        "high": 14320.0
+      },
+      "annual support": {
+        "low": 640.0,
+        "base": 1360.0,
+        "high": 2560.0
+      },
+      "first cohort and trials": {
+        "low": 3792.0,
+        "base": 8060.0,
+        "high": 15640.0
+      },
+      "optional annual substitution": {
+        "low": 680.0,
+        "base": 680.0,
+        "high": 680.0
+      }
+    },
+    "complete_local_price_usd": null,
+    "confirmed_scope_credits_usd": null
+  },
+  "approved_lot_credit_usd": null,
+  "physical_acceptance": "open",
+  "fabrication_released": false,
+  "evaluation_id": "59db6c1b6cced6790c56279c291b1c2bc6cdc1d7e6731de1b5badd2baad19a0f"
+}

@@ -91,6 +91,14 @@ def verify(revision, output):
             ["./osr", "design", "railway", "prototype", "--check"],
             [".venv/bin/python", "-m", "cities.Baghdad.citywide_service", "--check"],
         ])
+    workshop = "cities/Baghdad/engineering/prototype"
+    if (source / workshop / "shop_costs.py").is_file():
+        commands.extend([
+            [".venv/bin/python", "-m", "cities.Baghdad.engineering.prototype.shop_costs", "--check"],
+            [".venv/bin/python", workshop + "/cam/build.py", "--check"],
+            [".venv/bin/python", "-m", "cities.Baghdad.engineering.prototype.infrastructure.bar_stock",
+             "--stock-mm", "14000"],
+        ])
     if has_sourcing:
         commands.extend([
             ["./osr", "design", "railway", "sourcing", "--check"],

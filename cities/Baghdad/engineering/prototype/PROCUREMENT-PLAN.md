@@ -16,6 +16,20 @@ The 22 opening construction scopes reconcile to **$1,069.75m low, $1,124.32m cen
 
 The source record identifies published allowances, Iraqi market inputs, external procurement comparators and model-based allocations separately. For example, the demand-study benchmark uses Solano Transportation Authority's $280,000 study ceiling. The alignment-survey benchmark transfers a £400,000 Network Rail award with an explicit conversion and scope range. Each row records the applicable multiplier and exclusions. [Solano Transportation Authority board packet](https://www.sta.ca.gov/wp-content/uploads/2022/09/STA-Board-Packet_04-12-2023.pdf) · [Network Rail award notice](https://www.find-tender.service.gov.uk/Notice/002326-2026/PDF)
 
+## Compare machinery and service returns
+
+Open the [buyer issue](airport-enquiries.zip) and give each supplier a copy of `machine-offer.csv`. The [shop estimate](SHOP-COSTS.md) gives the quoted unit for every line, including retained machines, occupied hours and booked shifts. Suppliers may leave whole lines blank. Use one file per ERPNext Supplier Quotation. On a priced line enter the supplier and quotation identifiers, the positive unit price in USD, delivery terms and exclusions, and a reference to the signed evidence. Enter `matches` for the issued scope or `deviation` and explain the difference. Keep the original currency and agreed conversion basis with the ERP quotation.
+
+Save the returns separately under the ignored build directory. Compare two or more with the command below. The output preserves each offered rate, extends it for the issued quantity where known, and shows the unit variance from the planning rate for matching scope. For a known subset, the extension covers only that subset. For an open quantity, compare unit rates and obtain the missing schedule before extending a total.
+
+```sh
+python3 -m cities.Baghdad.engineering.prototype.shop_offers build/supplier-a.csv build/supplier-b.csv > build/machine-comparison.json
+```
+
+Inside an extracted issue the same comparison runs with `python3 shop_offers.py supplier-a.csv supplier-b.csv`. The issue supplies the matching estimate.
+
+Attach the comparison and each signed return to the corresponding ERP quotation under the parent lot. Reconcile overlaps, annual upkeep, acceptance support and taxes in the lot comparison before changing the budget. The attachment command runs locally and creates no purchase commitments.
+
 ## Use the buyer estimate
 
 Run these commands from the repository root. The first displays each extended lot price in constant 2026 USD. The second produces the estimate for ERP import. The third displays the quantities, price sources and work included in the fleet enquiry. The example compares three invented offers and can be rerun without ERPNext.

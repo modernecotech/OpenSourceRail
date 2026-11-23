@@ -11,7 +11,9 @@ from urllib.parse import urlsplit
 from zipfile import ZipFile
 
 from cities.Baghdad.airport_integration import same_packet, write_atomic
-from cities.Baghdad.engineering.prototype import factory, review, sourcing_estimates
+from cities.Baghdad.engineering.prototype import factory, review, shop_costs, shop_offers, sourcing_estimates
+from cities.Baghdad.engineering.prototype.cam import build as cam
+from cities.Baghdad.engineering.prototype.infrastructure import bar_stock
 from engineering.outline.baghdad_system import _id
 from engineering.performance import check_disk_reservation, disk_reservation
 
@@ -48,7 +50,15 @@ LOTS = (
     ("Traction and control module", "pilot-traction-controls", "infrastructure/ELECTRICAL-CONTROLS.md"),
     ("Local production and repair", "tooling", factory.REPORT),
 )
+WORKSHOP_GUIDES = (
+    "shop-rates.toml", "shop_offers.py", "SHOP-COSTS.md", "shop-costs.json", "cam/CAM.md", "cam/build.py", "cam/test_cam.py", "cam/verify_freecad.py",
+    "cam/training/freecad-receipt.json",
+    "training/index.html", "training/workshop.js", "training/INSTRUCTOR.md", "training/evidence-template.json",
+    "infrastructure/YARD-CUTTING.md", "infrastructure/bar_stock.py", "infrastructure/WIRE-KITTING.md",
+    "infrastructure/wire_kit.py", "infrastructure/wire-practice.csv",
+)
 SCHEDULES = (
+    *WORKSHOP_GUIDES,
     factory.REPORT, factory.REGISTER, factory.ROUTES, *factory.SHOPS.values(),
     "vehicle-factory/VEHICLE-WORKCELLS.md", "infrastructure/CIVIL-WORKCELLS.md",
     "vehicle-factory/README.md", "vehicle-factory/vehicle-quote.csv", "vehicle-factory/factory-routing.md",
@@ -109,6 +119,16 @@ renewals. Identify credits where an article enters a fleet order.</p>
 <a href="factory-equipment.csv">Return machine quantities and prices</a> ·
 <a href="vehicle-factory/factory-quote.csv">Factory price schedule</a> ·
 <a href="infrastructure/connector-return.csv">Electrical connector schedule</a></p>
+<h2>Prepare a workshop quotation</h2>
+<ul><li><a href="SHOP-COSTS.md">Check the equipment, hire and upkeep estimates</a>.
+Request a <a href="machine-offer.csv">machine-level return</a> from each supplier.</li>
+<li><a href="cam/CAM.md">Prepare plate nests and saw orders</a>.
+Use the practice coupon to check the CAM workflow.</li>
+<li><a href="infrastructure/YARD-CUTTING.md">Compare cage stock lengths</a> and issue the
+<a href="infrastructure/bar-cut-tags.csv">bar cutting and traceability sheet</a>.</li>
+<li><a href="infrastructure/WIRE-KITTING.md">Kit and check a wiring harness</a> from a returned wire list.</li>
+<li><a href="training/index.html">Take the offline workshop exercises</a> or print the
+<a href="training/INSTRUCTOR.md">instructor guide</a>.</li></ul>
 <h2>Compare offers in ERPNext</h2><p>Import the <a href="sourcing-estimate.json">buyer estimate</a> using the
 <a href="guides/buyer.md">buyer procedure</a>. Give each invited supplier its own account and the same lot revision.
 Keep signed quotations, scope exclusions, technical review and purchase approval with the procurement record.</p>
@@ -138,7 +158,10 @@ def contents():
     files = {"drawings/" + k: v for k, v in members.items()}
     files.update({"airport-prototype.zip": drawings, "sourcing-estimate.json": raw_estimate,
                   "START.html": landing(estimate)})
+    cam_files = cam.artifacts(members)
     paths = {HERE / name: name for name in SCHEDULES}
+    paths.update({HERE / "cam" / name: "cam/" + name for name in cam_files})
+    paths[ROOT / "cities/Baghdad/engineering/mechanical/vehicle/stock.toml"] = "cam/input/stock.toml"
     paths.update(GUIDES)
     paths.update(DRAWING_GUIDES)
     paths.update({HERE / name: "drawings/" + name for name in members if (HERE / name).is_file()})
@@ -151,7 +174,28 @@ def contents():
     factory_files = factory.artifacts(estimate, members)
     if any((HERE / name).read_bytes() != raw for name, raw in factory_files.items()):
         raise ValueError("Rebuild the factory schedules before issuing the drawing or price revision")
-    factory_id = json.loads(factory_files[factory.ROUTES])["evaluation_id"]
+    factory_record = json.loads(factory_files[factory.ROUTES])
+    factory_id = factory_record["evaluation_id"]
+    priced = shop_costs.artifacts(factory_record, estimate)
+    if any((HERE / name).read_bytes() != raw for name, raw in priced.items()):
+        raise ValueError("Rebuild the workshop costs for the issued factory and estimate")
+    costs = json.loads(priced["shop-costs.json"])
+    files["machine-offer.csv"] = shop_offers.template(costs)
+    for name, raw in cam_files.items():
+        if (HERE / "cam" / name).read_bytes() != raw:
+            raise ValueError(f"Rebuild the CAM handoff for this drawing edition: {name}")
+        files["cam/" + name] = raw
+    cam_id = json.loads(files["cam/cam-manifest.json"])["evaluation_id"]
+    readback = json.loads(files["cam/training/freecad-receipt.json"])
+    if (readback["input_cam_evaluation_id"] != cam_id
+            or readback["verifier_sha256"] != sha256(files["cam/verify_freecad.py"]).hexdigest()
+            or readback["practice"]["posted_nc_sha256"] != sha256(files["cam/training/practice.nc"]).hexdigest()):
+        raise ValueError("FreeCAD readback references a different CAM issue or verifier")
+    files.update(bar_stock.artifacts(members["civil-article.json"]))
+    training = json.loads(files["training/evidence-template.json"])
+    if (training["factory_evaluation_id"] != factory_id or training["estimate_evaluation_id"] != estimate["evaluation_id"]
+            or any(training[key] != estimate[key] for key in ("candidate_id", "frame_revision", "opening_evaluation_id"))):
+        raise ValueError("Training exercises reference a different workshop issue")
     layout = json.loads(files["vehicle-factory/installed-ga.json"])
     if (layout["candidate_id"] != estimate["candidate_id"] or layout["frame_revision"] != estimate["frame_revision"]
             or layout["opening_evaluation_id"] != estimate["opening_evaluation_id"]
@@ -165,7 +209,9 @@ def contents():
         guide = files[directory + "/README.md"].decode()
         if not all(estimate[key] in guide for key in ("candidate_id", "opening_evaluation_id", "evaluation_id")):
             raise ValueError(f"{directory} schedules reference a different opening or ERP estimate")
-    bindings = dict(factory_evaluation_id=factory_id, layout_evaluation_id=layout["evaluation_id"], candidate_id=estimate["candidate_id"], frame_revision=estimate["frame_revision"],
+    bindings = dict(shop_cost_evaluation_id=costs["evaluation_id"],
+                    cam_evaluation_id=cam_id,
+                    training_edition=training["edition"], factory_evaluation_id=factory_id, layout_evaluation_id=layout["evaluation_id"], candidate_id=estimate["candidate_id"], frame_revision=estimate["frame_revision"],
                     drawing_evaluation_id=manifest["evaluation_id"], estimate_evaluation_id=estimate["evaluation_id"],
                     purpose="first-article enquiry", fabrication_released=False, operating_authorisation=False,
                     package_lots=[{"package": name, "lot_id": lot, "schedule": path} for name, lot, path in LOTS],
