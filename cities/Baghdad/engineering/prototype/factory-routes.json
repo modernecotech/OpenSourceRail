@@ -1,0 +1,1663 @@
+{
+  "candidate_id": "b38d4bd348cc57d8f3fab9696df06e5b35ba51380670aa8e566b7f89d9c5da01",
+  "frame_revision": "5904e648c5de9b4b6ad5cf4c0c5ebfa93d5a35c2c746b3c12ae52eed49c929ae",
+  "opening_evaluation_id": "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87",
+  "estimate_evaluation_id": "83de4f2c3023521a1b9a9b02c436b10ffa9c24a67763d700da624e53036ad095",
+  "source_sha256": {
+    "vehicle-factory/vehicle-resources.toml": "6cec1f1b2540c9fc07b51fc9cfeb83ded06181ee4947651321f970e585c158a3",
+    "infrastructure/civil-resources.toml": "8d818c2510cb879e9d3e06553f8abf44f7e856350a253f3ea3edd4defb2a9037",
+    "infrastructure/electrical-resources.toml": "b8ebb1cd3d8f1c65a9e77ec5f87044c658a465a18d6dea8bb7b3413b7d5a030b"
+  },
+  "drawing_member_sha256": {
+    "opening-bom.csv": "acc50203cccb50100299b34f66ea6ab279bde49e88d5680c75ccf69b1e71b003",
+    "opening.json": "ae6b55d85a569d5a6eab505b9297d19b664685e0ca36e1ebfabc16ee86b4b832",
+    "civil-article.json": "67c414f861743e57d65cbe5246823c0236a80463ff595c40d8031091a537ff3f"
+  },
+  "method_sha256": "76330771d264ab5aaff412399eec9da8cb52c32a199fb5100d60412704717176",
+  "opening_drivers": {
+    "sill": 144.0,
+    "cantrail": 144.0,
+    "jamb": 576.0,
+    "end_post": 144.0,
+    "floor_tie": 288.0,
+    "roof_tie": 360.0,
+    "bolster": 72.0,
+    "end_tie": 72.0,
+    "bogie_side": 144.0,
+    "transom": 144.0,
+    "saddle": 144.0,
+    "primary_underside": 288.0,
+    "secondary_top": 144.0,
+    "secondary_body": 144.0,
+    "brace": 360.0,
+    "gusset": 1440.0,
+    "jamb_liner": 576.0,
+    "Braced steel body": 36.0,
+    "Removable powered bogie": 72.0,
+    "Wheelset": 144.0,
+    "Axlebox bearing positions": 288.0,
+    "Axle drive module": 144.0,
+    "Primary spring interface": 288.0,
+    "Secondary spring interface": 144.0,
+    "Brake controller": 72.0,
+    "Door opening and controller": 288.0,
+    "Roof HVAC module": 72.0,
+    "Independent stopping and parking brake hardware": null,
+    "Drive and HVAC cooling circuits": null,
+    "Chord splice": 144.0,
+    "Post-end joint": 1440.0,
+    "Crossmember-end joint": 1584.0,
+    "Brace-end connection": 720.0,
+    "Transom and saddle ends": 576.0,
+    "Primary and secondary pad attachments": 432.0,
+    "Floor, skin, glazing, seats, wheelchair fittings and insulation": null,
+    "Flexible wiring, hoses, couplers, bonds, fasteners and cooling": null,
+    "atp_channels": 12.0,
+    "radio_links": 12.0,
+    "tcms_nodes": 36.0,
+    "shoe_status_channels": 24.0,
+    "inverter_control_units": 12.0,
+    "train_service_power_units": 12.0,
+    "sliding leaves": 576.0,
+    "two carriages per leaf": 1152.0,
+    "two guide stops per leaf": 1152.0,
+    "anti drop retention points": 1152.0,
+    "flush liner screws": 3456.0,
+    "liner threaded receivers": 3456.0,
+    "moving leaf harness paths if powered at leaf": 576.0,
+    "beam_count": 2400.0,
+    "lift_count": 2400.0,
+    "pier_foundation_count": 2402.0,
+    "bearing_unit_allowance": 9600.0,
+    "dc_source_groups": 30.0,
+    "dc_outgoing_breaker_circuits": 116.0,
+    "normally_open_track_ties": 58.0,
+    "feed_half_bays": 116.0,
+    "protected_track_km": 24.0,
+    "grid_protection_gateways": 30.0,
+    "station_dispatch_controllers": 6.0,
+    "section_control_gateways": 116.0,
+    "occ_equipment_sets": 1.0,
+    "onboard_contact_sets": 24.0,
+    "charger_ports": 0.0,
+    "depots": 1.0,
+    "control_centres": 1.0,
+    "grid_sites": 30.0,
+    "factory_yards_needed_at_declared_rate": 1.0,
+    "erection_fronts_needed_at_declared_rate": 1.0,
+    "passenger station sites": 6.0,
+    "open terminal platform faces (both ends)": 2.0,
+    "station bay panels after plant and access openings": null,
+    "installed and tested rectifier cabinets": null,
+    "wayside braking and recovery equipment": null,
+    "@rhs": 2592.0,
+    "@plate": 2016.0,
+    "@saw": 3168.0,
+    "@cut": 5184.0
+  },
+  "work_calendars": {
+    "Vehicle works": {
+      "workdays": 250,
+      "hours_per_day": 8,
+      "utilisation": 0.8,
+      "daily_targets": {}
+    },
+    "Civil yard and erection front": {
+      "workdays": 425,
+      "hours_per_day": 8,
+      "utilisation": 0.875,
+      "daily_targets": {
+        "beam_count": 8,
+        "lift_count": 8,
+        "pier_foundation_count": 8,
+        "bearing_unit_allowance": 32
+      }
+    },
+    "Wayside electrical integrator": {
+      "workdays": 250,
+      "hours_per_day": 8,
+      "utilisation": 0.8,
+      "daily_targets": {}
+    }
+  },
+  "resources": [
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-stores",
+      "name": "Receiving and long-stock racks",
+      "unit": "cell",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Cantilever stock racks, wheelset cradles, protected stores, quarantine, heat/serial tagging and contained handling. Rate rack, aisle and floor to vendor packages and actual loads.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "@cut"
+          ],
+          "hours": 0.03,
+          "setup_hours": 16
+        },
+        {
+          "items": [
+            "Braced steel body",
+            "Removable powered bogie"
+          ],
+          "hours": 0.5,
+          "setup_hours": 4
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.91808
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-saw",
+      "name": "Guarded section and liner saw",
+      "unit": "station",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "350 × 320 mm reference throat, positive clamp, input/output roller support and 12 m finished chord access with incoming trim allowance. Prove largest section and full-length cut. Include mains, coolant, chip containment and blade-change access.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "@saw"
+          ],
+          "hours": 0.15,
+          "setup_hours": 36
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.0448
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-prep",
+      "name": "Bench preparation and liner drilling",
+      "unit": "station",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Guarded drill with replaceable liner bushings and countersink stop, deburr bench and finish/squareness gauges, with local dust extraction. Demonstrate six positions per liner, edge distance, flushness and mate fit.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "jamb_liner"
+          ],
+          "hours": 0.2,
+          "setup_hours": 12
+        },
+        {
+          "items": [
+            "brace"
+          ],
+          "hours": 0.18,
+          "setup_hours": 10
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.808
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-plate-contract",
+      "name": "Nested plate blank supply",
+      "unit": "supplier lane",
+      "disposition": "contract",
+      "lot_id": "fleet",
+      "specification": "Cut and mark 8 mm gussets and 12 mm pads, allow finish stock, capture mill heat, flatness and edge condition. Reserve equivalent capacity at supplier; handoff queue and transport outside cell hours.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "@plate"
+          ],
+          "hours": 0.06,
+          "setup_hours": 20
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.56384
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-body-bed",
+      "name": "Indexed 17 m body build bed",
+      "unit": "jig",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "18 × 3.2 m concept envelope, modular surveyed bed, replaceable locator towers, clamps, door and splice bridge inserts, equipment escape and lift access. Include crew/vacancy for each scheduled bed and prove geometry with load and hot-to-cold checks.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 60,
+          "setup_hours": 48
+        }
+      ],
+      "required_units": 2,
+      "minimum_units": 2,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 8.832
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-bogie-bed",
+      "name": "Removable bogie frame weld bed",
+      "unit": "jig",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "3.2 × 2.5 m concept envelope, pin axle planes from railhead and use removable seat locators, open gauging windows and rated handling after clamp release. Demonstrate repeatability after thermal cycles.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 14,
+          "setup_hours": 28
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 4.144
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-arc-set",
+      "name": "Mobile pulsed MIG/MAG and source capture",
+      "unit": "set",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "400 A class pulsed unit with compatible gun, gas distribution and extraction at each active station. Return rated current at expected ambient and arc duty, actual input demand, airflow and simultaneous draw. Time assumes single occupied set per cell task; validate peak overlap of both body beds and bogie bed.",
+      "minimum": 3,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 36,
+          "setup_hours": 28
+        },
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 10,
+          "setup_hours": 14
+        }
+      ],
+      "required_units": 3,
+      "minimum_units": 3,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 8.232
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-shop-crane",
+      "name": "Shared runway handling and rigging",
+      "unit": "set",
+      "disposition": "existing-or-hire",
+      "lot_id": "tooling",
+      "specification": "Rate for heaviest actual lifted assembly, certified spreaders, slings, support reactions, headroom and travel. Dedicated bulk moves booked to one resource across receiving and bays.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 5,
+          "setup_hours": 16
+        },
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 2,
+          "setup_hours": 8
+        },
+        {
+          "items": [
+            "Roof HVAC module"
+          ],
+          "hours": 0.5,
+          "setup_hours": 4
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.552
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-metrology",
+      "name": "Shared portable tracker and dimensional QA",
+      "unit": "set",
+      "disposition": "hire",
+      "lot_id": "tooling",
+      "specification": "One tracker with survey targets, probe and calibrated local gauges. Verify plant temperature, setup uncertainty and repeated datum survey before moving between cells.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 6,
+          "setup_hours": 24
+        },
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 3,
+          "setup_hours": 16
+        },
+        {
+          "items": [
+            "Door opening and controller"
+          ],
+          "hours": 0.25,
+          "setup_hours": 4
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.192
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-weld-ndt",
+      "name": "Weld inspection and NDT",
+      "unit": "team",
+      "disposition": "contract",
+      "lot_id": "fleet",
+      "specification": "Series QA visual inspection during work and periodic contract NDT with approved method for each location and procedure. Joint times are booking proxies. Access, extent and qualification controlled by approved plan.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Chord splice",
+            "Post-end joint",
+            "Crossmember-end joint",
+            "Brace-end connection",
+            "Transom and saddle ends",
+            "Primary and secondary pad attachments"
+          ],
+          "hours": 0.09,
+          "setup_hours": 42
+        },
+        {
+          "items": [
+            "secondary_body"
+          ],
+          "hours": 0.09,
+          "setup_hours": 0
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.9824
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-bogie-machine",
+      "name": "Contract bogie seat and datum machining",
+      "unit": "supplier lane",
+      "disposition": "contract",
+      "lot_id": "fleet",
+      "specification": "Single datum registration across both axle planes, finish seats and mating holes under approved drawing. Confirm spindle reach, fixture and probing repeatability. Book freight and supplier queue separately.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 6,
+          "setup_hours": 30
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.848
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-coat",
+      "name": "Contract blast and coating",
+      "unit": "supplier lane",
+      "disposition": "contract",
+      "lot_id": "fleet",
+      "specification": "Process 17 m body and bogie frames; verify fixture access, blast/film/cure checks, masking and drains. Separate transport and painted-part storage.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 14,
+          "setup_hours": 16
+        },
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 4,
+          "setup_hours": 8
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 3.264
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-bogie-fit",
+      "name": "Bogie integration with clean stands",
+      "unit": "bay",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Positive anti-roll support and keyed axle cradle, calibrated torque tooling and verified lift fixtures. Fit approved drive, spring, stops and brake assemblies with tool windows and full-load clearances.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 17,
+          "setup_hours": 38
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 5.048
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-bearings",
+      "name": "Wheelset and supplier bearing assembly",
+      "unit": "supplier lane",
+      "disposition": "contract",
+      "lot_id": "fleet",
+      "specification": "Procure certified wheelsets and mounted bearings under supplier procedures. Review journal fit, manufacturer endplay and retained force-displacement trace where applicable; supplier assembly resource only.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Wheelset"
+          ],
+          "hours": 2,
+          "setup_hours": 12
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.2
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-bogie-test",
+      "name": "Restrained bogie functional stand",
+      "unit": "station",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "Protected stand, logged drive/brake and leak function to approved plan, electrical and fluid isolation and measured alignment. Repeated thermal and braking proof requires independently agreed instrumentation and loads.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Removable powered bogie"
+          ],
+          "hours": 5,
+          "setup_hours": 32
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.568
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-door-fixture",
+      "name": "Portal and liner fixture with door support trolley",
+      "unit": "set",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "Replaceable liner drill template, flush screw and retention gauges, 1,300 mm clear-aperture gauge and finite-travel surrogate plus door handling trolley. Fixture use is an occupation subtotal inside the body fit operation.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Door opening and controller"
+          ],
+          "hours": 2,
+          "setup_hours": 18
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.376
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-fit",
+      "name": "Body mechanical and cabin fit",
+      "unit": "bay",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Movable platforms, hand tools, depth/torque tools and nominated support for roof lift. Complete roof, door, interior and external weather sealing check; supplier BOM pending for several fitout groups.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 16,
+          "setup_hours": 28
+        },
+        {
+          "items": [
+            "Door opening and controller"
+          ],
+          "hours": 2,
+          "setup_hours": 8
+        },
+        {
+          "items": [
+            "Roof HVAC module"
+          ],
+          "hours": 2,
+          "setup_hours": 6
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 5.352
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-electric",
+      "name": "Electrical cabinet and harness build benches",
+      "unit": "station",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "ESD and isolated power, enclosure drilling/marking, crimp and pull verification, keyed boards and adapters, cable/hose service loops, strain relief and calibrated bond checks. Bench occupation per vehicle kit pending conductor, cabinet and connector schedule. Purchase safety electronics and prequalified HV modules.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 18,
+          "setup_hours": 36
+        },
+        {
+          "items": [
+            "train_service_power_units",
+            "inverter_control_units"
+          ],
+          "hours": 2,
+          "setup_hours": 10
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.968
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-harness-test",
+      "name": "Shared cabinet and harness tester",
+      "unit": "station",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Expandable continuity/IR tester, keyed drawings and adapter plates, controlled test voltages and isolation for sensitive components, interlocked test cover, reference checks and serial logs. Count per car kit pending actual harness list.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 5,
+          "setup_hours": 22
+        },
+        {
+          "items": [
+            "train_service_power_units",
+            "inverter_control_units"
+          ],
+          "hours": 1,
+          "setup_hours": 4
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.92
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-collector-tools",
+      "name": "Onboard collector set install tools",
+      "unit": "set",
+      "disposition": "make",
+      "lot_id": "tooling",
+      "specification": "Portable locator and insulated isolation kit. Return spring/contact limits, polarity, terminal access and stroke checks for car-role allocation under an approved test.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "onboard_contact_sets"
+          ],
+          "hours": 2,
+          "setup_hours": 12
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.24
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-marriage",
+      "name": "Body lift and marriage road",
+      "unit": "road",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Synchronized rated lift set and mechanical supports with verified concentrated floor loads, guarded pallet/cradle and approved lifting points. Use separate maintenance equipment for repair road. Record load balance, lift movement, shim stack, retention and service coupling.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 8,
+          "setup_hours": 28
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.264
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-end-test",
+      "name": "Static integration and factory acceptance test road",
+      "unit": "road",
+      "disposition": "buy",
+      "lot_id": "tooling",
+      "specification": "Calibrated equipped-car wheel-load system and isolation, bonding, controlled LV/drive and brake witness equipment. Data recorder links each serial and test revision. Separate full-train static booking and independent route qualification.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 8,
+          "setup_hours": 24
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.248
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-set-test",
+      "name": "Set-level integration and controls test road",
+      "unit": "road",
+      "disposition": "existing-or-hire",
+      "lot_id": "fleet",
+      "specification": "Book a staging or test track long enough for six 17 m cars, actual coupler gaps, access and clearances. Protect and isolate test area. Interface the inter-car wiring, controls, braking, fault handling and emergency release in a witnessed static test.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "atp_channels"
+          ],
+          "multiplier": 0.5,
+          "hours": 12,
+          "setup_hours": 12,
+          "note": "Six set-level bookings derived from two ATP channels per set. The ATP count is a set proxy, not a duplication of the car checks."
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.336
+    },
+    {
+      "shop": "Vehicle works",
+      "id": "vehicle-repair",
+      "name": "Off-line exchange and repair road",
+      "unit": "road",
+      "disposition": "buy",
+      "lot_id": "depot-control",
+      "specification": "Dedicated approved jack/support and rail pallet, wheel gauges, isolation and repair benches. One hour/car is a reserved occupation allowance, pending reject rates and equipped exchange trials. Reserve repair crew separately. Use a distinct depot budget for the road and contracted overhaul.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "Braced steel body"
+          ],
+          "hours": 1,
+          "setup_hours": 16
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.208
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-beam-position",
+      "lot_id": "tooling",
+      "name": "Wet-cast box mould and prestress position",
+      "unit": "position",
+      "disposition": "make / buy",
+      "specification": "10 m closed box with separable core, removable bulkheads, 180 mm webs, 200 mm slabs and cast ends. Prove core extraction and restrain core flotation. Qualify the complete reaction system for the two aligned six-strand banks, eccentricity and unbalanced release.",
+      "minimum": 1,
+      "hours_per_day": 24,
+      "utilisation": 1.0,
+      "note": "Base case assumes 24 elapsed hours per box and one independently occupied box per position. The guide sizes the 48-hour and two-position alternative.",
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 24
+        }
+      ],
+      "required_units": 8,
+      "minimum_units": 8,
+      "unknown_demand": [],
+      "usable_hours_per_day": 24.0,
+      "known_resource_hours_per_day": 192.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-cage",
+      "lot_id": "tooling",
+      "name": "Beam reinforcement cage build and check jig",
+      "unit": "place",
+      "disposition": "make",
+      "specification": "Provide coordinated cut-and-bend feed and cage stock staging. Gauge U-bar laps, cover, strand setbacks, inserts and dense end reinforcement. Validate the assumed staffed cycle with a timed cage.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 4
+        }
+      ],
+      "required_units": 5,
+      "minimum_units": 5,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 32.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-stress",
+      "lot_id": "tooling",
+      "name": "Calibrated stressing and controlled detensioning plant",
+      "unit": "set",
+      "disposition": "buy / hire",
+      "specification": "Include jack, pump, gauges, release equipment and functioning calibrated checks, elongations, anchor heads, working tails and exclusion zones. Return the approved load and sequence for each independent line.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 0.75
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 6.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-placement",
+      "lot_id": "elevated-civil",
+      "name": "Shared batching and concrete delivery to placement crews",
+      "unit": "service",
+      "disposition": "contract",
+      "specification": "Trial 20 m³/h gross placement feed. Verify actual net yield, mix families, humidity/temperature controls, batch traceability, test frequency, transport and staggered placements.",
+      "minimum": 1,
+      "note": "Both lines draw on this service. Planned panel peaks require a separate concurrent placement check.",
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 0.6702
+        },
+        {
+          "items": [
+            "station bay panels after plant and access openings"
+          ],
+          "hours": 0.1380456
+        }
+      ],
+      "required_units": null,
+      "minimum_units": 1,
+      "unknown_demand": [
+        "station bay panels after plant and access openings"
+      ],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 5.3616
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-pour-crew",
+      "lot_id": "elevated-civil",
+      "name": "Beam placement, vibration and finishing crews",
+      "unit": "crew",
+      "disposition": "contract",
+      "specification": "Trial two occupied crew hours per box including placement, vibration and finish. Sequence releases, supply of fresh concrete and pour continuity across multiple moulds. Staff early and late windows if demanded by the staggered 24-hour return.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 2
+        }
+      ],
+      "required_units": 3,
+      "minimum_units": 3,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 16.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-yard-hook",
+      "lot_id": "elevated-civil",
+      "name": "Beam yard lifting and trailer loadout",
+      "unit": "hook service",
+      "disposition": "buy / hire",
+      "specification": "Approve actual hook load and rigging geometry for removal and dunnage placement plus trailer loadout. Confirm safe crane travel, pick path, actual span and independent cage/core lifting arrangements.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "beam_count"
+          ],
+          "hours": 0.375,
+          "multiplier": 2
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 6.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-stock-position",
+      "lot_id": "yard-access",
+      "name": "Single-tier beam storage and dispatch buffer",
+      "unit": "position",
+      "disposition": "make / lease",
+      "specification": "Trial allowance 176 single-tier beam slots based on monthly release profile, with designed dunnage, lateral restraint, survey and serial number access. Add separately circulating routes, quarantine and repair access.",
+      "minimum": 176,
+      "note": "Stock buffer uses peak inventory rather than cumulative processing hours.",
+      "required_units": 176,
+      "minimum_units": 176,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 0.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-haul",
+      "lot_id": "elevated-civil",
+      "name": "Beam tractor, matched trailer and haul crew",
+      "unit": "set",
+      "disposition": "contract",
+      "specification": "One beam per trip. Return surveyed access, wheel loads, restraints, permits, escorted route and actual pick/set readiness. Synchronise eight loads to each eight-lift day.",
+      "minimum": 1,
+      "hours_per_day": 8,
+      "utilisation": 1.0,
+      "note": "Four-hour round-trip sensitivity includes yard and front dwell. Full eight-hour transport window is a trial. A usable seven-hour window permits only one complete round trip per set if trips must start and finish in that window.",
+      "load": [
+        {
+          "items": [
+            "lift_count"
+          ],
+          "hours": 4
+        }
+      ],
+      "required_units": 4,
+      "minimum_units": 4,
+      "unknown_demand": [],
+      "usable_hours_per_day": 8.0,
+      "known_resource_hours_per_day": 32.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-foundation",
+      "lot_id": "elevated-civil",
+      "name": "Foundation, column and cap work areas",
+      "unit": "site work area",
+      "disposition": "contract",
+      "specification": "Record soil, utilities, excavation, base bearing, settlement and flood/seismic limits. Return site-specific stage hours, crew/rig choices, curing, test hold and approved seat elevations.",
+      "minimum": 0,
+      "note": "No rated site production quantity. At eight pier positions/day, each day of release-stage occupancy adds eight open positions. Derive rigs, forms and crews from the boreholes, surveyed access and first installed support.",
+      "required_units": null,
+      "minimum_units": null,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 0.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-bearing",
+      "lot_id": "elevated-civil",
+      "name": "Bearing seat survey and installation crews",
+      "unit": "crew",
+      "disposition": "contract",
+      "specification": "Verify bearing contact, edge distances, axes, rotation and keeper engagement, drainage, survey and future jack access. Confirm approved anchor, grout and movement interfaces.",
+      "minimum": 1,
+      "note": "0.2 hours per bearing is an active alignment and inspection allowance. Add grout cure stage occupancy to the verified support calendar.",
+      "load": [
+        {
+          "items": [
+            "bearing_unit_allowance"
+          ],
+          "hours": 0.2
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 6.4
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-erection",
+      "lot_id": "elevated-civil",
+      "name": "Site erection front and at-radius crane service",
+      "unit": "front",
+      "disposition": "hire / contract",
+      "specification": "Include site crane, approved rig and crew, site access and traffic control. Return actual configuration chart, ground pressures, paved and off-road travel, slew and lift clearances, weather limits, temporary restraints and signed seat release.",
+      "minimum": 1,
+      "hours_per_day": 8,
+      "utilisation": 0.75,
+      "note": "Six active hook hours in each eight-hour possession after 1.5 hours for setup/reposition/closeout and 0.5 hours for interruption. 0.75 hours per lift includes spotting, pick, slew, seat and release.",
+      "load": [
+        {
+          "items": [
+            "lift_count"
+          ],
+          "hours": 0.75
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.0,
+      "known_resource_hours_per_day": 6.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-panel-table",
+      "lot_id": "stations",
+      "name": "Flat station panel casting table",
+      "unit": "table",
+      "disposition": "make / buy",
+      "specification": "Trial four table places for one standard bay per productive day. Use adaptable shutters and gauges for connections, edge, crossfall, inserts and tolerance.",
+      "minimum": 4,
+      "hours_per_day": 24,
+      "utilisation": 1.0,
+      "note": "Repeat of trial 4.98 × 1.98 × 0.28 m panel. Final demand and mix of panel sizes are open.",
+      "load": [
+        {
+          "items": [
+            "station bay panels after plant and access openings"
+          ],
+          "hours": 24
+        }
+      ],
+      "required_units": null,
+      "minimum_units": 4,
+      "unknown_demand": [
+        "station bay panels after plant and access openings"
+      ],
+      "usable_hours_per_day": 24.0,
+      "known_resource_hours_per_day": 0.0
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "id": "civil-panel-hook",
+      "lot_id": "stations",
+      "name": "Panel strip, yard and dispatch handling",
+      "unit": "hook service",
+      "disposition": "hire / contract",
+      "specification": "Return tested insert and handling scheme for each size, verified minimum strength, lifting weight, surveyed protective storage and segregated handling window.",
+      "minimum": 1,
+      "load": [
+        {
+          "items": [
+            "station bay panels after plant and access openings"
+          ],
+          "hours": 0.25,
+          "multiplier": 2
+        }
+      ],
+      "required_units": null,
+      "minimum_units": 1,
+      "unknown_demand": [
+        "station bay panels after plant and access openings"
+      ],
+      "usable_hours_per_day": 7.0,
+      "known_resource_hours_per_day": 0.0
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "id": "wayside-assembly",
+      "name": "Adjustable enclosure and removable backplate assembly stand",
+      "unit": "bench",
+      "disposition": "make or adapt at integrator",
+      "lot_id": "signalling",
+      "minimum": 1,
+      "specification": "Adjustable stops, replaceable drilling template, insulated terminal and label kit, controlled torque tools and ESD provision as applicable. Obtain enclosure dimensions, assembly mass, lifting and safe work envelope before specifying the stand.",
+      "load": [
+        {
+          "items": [
+            "grid_protection_gateways",
+            "section_control_gateways",
+            "station_dispatch_controllers"
+          ],
+          "hours": 4,
+          "setup_hours": 32
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.56
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "id": "wayside-wire",
+      "name": "Wire preparation, labelled kitting and crimp inspection station",
+      "unit": "station",
+      "disposition": "adapt existing equipment or contract",
+      "lot_id": "signalling",
+      "minimum": 1,
+      "specification": "Provide cut-to-length and strip tools, interchangeable calibrated dies, label printer, terminal samples and a pull-test instrument. Agree conductor sizes, ferrules, polarity, tooling/die compatibility and supplier acceptance limits. HV busbars, contact rail and power cables belong to their power-system lots.",
+      "load": [
+        {
+          "items": [
+            "grid_protection_gateways",
+            "section_control_gateways",
+            "station_dispatch_controllers"
+          ],
+          "hours": 3,
+          "setup_hours": 32
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 1.952
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "id": "wayside-test",
+      "name": "Isolated low-voltage I/O proving bench with removable test harness",
+      "unit": "bench",
+      "disposition": "build jig and buy calibrated instruments",
+      "lot_id": "signalling",
+      "minimum": 1,
+      "specification": "Provide isolated supply, point-to-point breakout, simulated contacts/loads, independent recorder and per-revision adapters. Capture wrong addressing and loss of supply or feedback. Return calibration, test duration and evidence for each serial. Live fault-duty and protection discrimination remain separate witnessed trials.",
+      "load": [
+        {
+          "items": [
+            "grid_protection_gateways",
+            "section_control_gateways"
+          ],
+          "hours": 4,
+          "setup_hours": 48
+        },
+        {
+          "items": [
+            "station_dispatch_controllers"
+          ],
+          "hours": 8,
+          "setup_hours": 16
+        }
+      ],
+      "required_units": 1,
+      "minimum_units": 1,
+      "unknown_demand": [],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 2.784
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "id": "wayside-power-test",
+      "name": "Supplier switchgear and rectifier test provision",
+      "unit": "contract service",
+      "disposition": "contract to capable power-equipment manufacturer",
+      "lot_id": "traction-sites",
+      "minimum": 0,
+      "specification": "Return tested assemblies per site, ratings, rigs, inspection capacity, traceable results and independent witnessing allowance. The 30 source groups are installation locations. The manufactured cabinet count is open.",
+      "load": [
+        {
+          "items": [
+            "installed and tested rectifier cabinets"
+          ],
+          "hours": 8,
+          "note": "Illustrative rig booking per cabinet for capacity enquiry only. Return the actual test sequence and occupied time."
+        }
+      ],
+      "required_units": null,
+      "minimum_units": null,
+      "unknown_demand": [
+        "installed and tested rectifier cabinets"
+      ],
+      "usable_hours_per_day": 6.4,
+      "known_resource_hours_per_day": 0.0
+    }
+  ],
+  "product_routes": [
+    {
+      "shop": "Vehicle works",
+      "name": "Gross RHS and liner blanks",
+      "items": [
+        "@saw"
+      ],
+      "route": "Receive, saw, trim, deburr and mark",
+      "resources": [
+        "vehicle-stores",
+        "vehicle-saw",
+        "vehicle-prep"
+      ],
+      "inspection": "First-off heat, setup, length, square/angle and traceability",
+      "disposition": "local fabrication",
+      "opening_quantities": {
+        "@saw": 3168.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Plate gussets and seat blanks",
+      "items": [
+        "@plate"
+      ],
+      "route": "Nest, cut, mark, deburr and dimensional check",
+      "resources": [
+        "vehicle-plate-contract"
+      ],
+      "inspection": "Heat, dimensions and released edge/finish allowance",
+      "disposition": "contract blank supply",
+      "opening_quantities": {
+        "@plate": 2016.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Braced steel body",
+      "items": [
+        "Braced steel body"
+      ],
+      "route": "Preset side fields, join under dimensional control, inspect and coat",
+      "resources": [
+        "vehicle-body-bed",
+        "vehicle-arc-set",
+        "vehicle-metrology",
+        "vehicle-weld-ndt",
+        "vehicle-coat",
+        "vehicle-shop-crane"
+      ],
+      "inspection": "Body release with joint and datum records after unclamping",
+      "disposition": "local build with finishing service",
+      "opening_quantities": {
+        "Braced steel body": 36.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Powered bogie",
+      "items": [
+        "Removable powered bogie"
+      ],
+      "route": "Join, inspect, machine, coat and integrate axle, suspension, drive and brake",
+      "resources": [
+        "vehicle-bogie-bed",
+        "vehicle-arc-set",
+        "vehicle-weld-ndt",
+        "vehicle-bogie-machine",
+        "vehicle-bogie-fit",
+        "vehicle-bogie-test",
+        "vehicle-metrology",
+        "vehicle-shop-crane",
+        "vehicle-coat"
+      ],
+      "inspection": "Seat and axle survey, mounting records and restrained functional check",
+      "disposition": "local integration and supplier safety assemblies",
+      "opening_quantities": {
+        "Removable powered bogie": 72.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Wheelsets and bearing seats",
+      "items": [
+        "Wheelset",
+        "Axlebox bearing positions"
+      ],
+      "route": "Buy traceable wheelsets and approved mounted bearings",
+      "resources": [
+        "vehicle-bearings",
+        "vehicle-bogie-fit"
+      ],
+      "inspection": "Seat position is distinct from the supplier bearing component count",
+      "disposition": "certified supply and clean assembly",
+      "opening_quantities": {
+        "Wheelset": 144.0,
+        "Axlebox bearing positions": 288.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Door opening assemblies",
+      "items": [
+        "Door opening and controller"
+      ],
+      "route": "Fit liners, slide/stop/retention hardware and complete door; set and verify",
+      "resources": [
+        "vehicle-door-fixture",
+        "vehicle-fit",
+        "vehicle-metrology"
+      ],
+      "inspection": "Eight loaded/worn apertures and full leaves sweep per car; proof of return/anti-drop",
+      "disposition": "buy complete door and fabricate liners",
+      "opening_quantities": {
+        "Door opening and controller": 288.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Door liner hardware",
+      "items": [
+        "flush liner screws",
+        "liner threaded receivers"
+      ],
+      "route": "Prepare and fit approved flush fasteners",
+      "resources": [
+        "vehicle-prep",
+        "vehicle-door-fixture",
+        "vehicle-fit"
+      ],
+      "inspection": "Six paired positions per liner, stock fastener strength and access subject to joint design",
+      "disposition": "buy hardware and local fitting",
+      "opening_quantities": {
+        "flush liner screws": 3456.0,
+        "liner threaded receivers": 3456.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Roof HVAC modules",
+      "items": [
+        "Roof HVAC module"
+      ],
+      "route": "Receive, stage, lift, fasten, connect and test",
+      "resources": [
+        "vehicle-fit",
+        "vehicle-shop-crane"
+      ],
+      "inspection": "Fitted mass and mount, removal sweep, cool/condensate, bond and leak tests",
+      "disposition": "buy module and local fitting",
+      "opening_quantities": {
+        "Roof HVAC module": 72.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Onboard electrical cabinet and harness kits",
+      "items": [
+        "Braced steel body"
+      ],
+      "route": "Prepare cabinet/boards by car role, cut/build harness, bench-test and install",
+      "resources": [
+        "vehicle-electric",
+        "vehicle-harness-test",
+        "vehicle-end-test"
+      ],
+      "inspection": "Kit proxy per car, individual cabinet and harness count open. Validate crimp, continuity, isolation and installed flex",
+      "disposition": "local build and supplier safety modules",
+      "opening_quantities": {
+        "Braced steel body": 36.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Onboard collector sets",
+      "items": [
+        "onboard_contact_sets"
+      ],
+      "route": "Fit suspended collector sets by role, connect and align",
+      "resources": [
+        "vehicle-collector-tools",
+        "vehicle-end-test"
+      ],
+      "inspection": "Check actual travel, contact forces and protective clearances",
+      "disposition": "buy assembly and install",
+      "opening_quantities": {
+        "onboard_contact_sets": 24.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Drive, brake and spring interfaces",
+      "items": [
+        "Axle drive module",
+        "Brake controller",
+        "Primary spring interface",
+        "Secondary spring interface"
+      ],
+      "route": "Clean assembly and torque, protect fluid/electrical runs and verify restraint",
+      "resources": [
+        "vehicle-bogie-fit",
+        "vehicle-bogie-test"
+      ],
+      "inspection": "Preserve individual quantities by family; independent brake and parking friction scope open",
+      "disposition": "buy approved modules and fit",
+      "opening_quantities": {
+        "Axle drive module": 144.0,
+        "Brake controller": 72.0,
+        "Primary spring interface": 288.0,
+        "Secondary spring interface": 144.0
+      }
+    },
+    {
+      "shop": "Vehicle works",
+      "name": "Equipped cars",
+      "items": [
+        "Braced steel body"
+      ],
+      "route": "Marriage, weigh, static test and stage six sets",
+      "resources": [
+        "vehicle-marriage",
+        "vehicle-end-test",
+        "vehicle-set-test",
+        "vehicle-repair"
+      ],
+      "inspection": "Serialised retention, flexible services, electrical and release/test records",
+      "disposition": "local integration",
+      "opening_quantities": {
+        "Braced steel body": 36.0
+      }
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "name": "Track beam",
+      "items": [
+        "beam_count"
+      ],
+      "route": "Cut/bend and cage, set core and ends, pretension, inspect, cast, protect/cure, verify strength, detension and strip, inspect, store, release to trailer.",
+      "resources": [
+        "civil-cage",
+        "civil-beam-position",
+        "civil-stress",
+        "civil-placement",
+        "civil-pour-crew",
+        "civil-yard-hook",
+        "civil-stock-position"
+      ],
+      "inspection": "Hold for pre-pour cage and insert survey, batch and cure records, calibrated strand force/elongation, approved concrete strength at transfer and lifting, and measured camber and mass.",
+      "disposition": "make / contract",
+      "opening_quantities": {
+        "beam_count": 2400.0
+      }
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "name": "Beam delivery and erection",
+      "items": [
+        "lift_count"
+      ],
+      "route": "Dispatch by seat readiness, haul, clear possession, rig, place, provisionally restrain, release, survey.",
+      "resources": [
+        "civil-haul",
+        "civil-erection",
+        "civil-bearing"
+      ],
+      "inspection": "Actual crane chart and safe radius, verified rig, ground/temporary stability, bearing contact and geometry, as-installed rail and traction interface tolerances.",
+      "disposition": "contract",
+      "opening_quantities": {
+        "lift_count": 2400.0
+      }
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "name": "Pier and foundation positions",
+      "items": [
+        "pier_foundation_count"
+      ],
+      "route": "Survey and investigate, stage utilities and access, excavate, build footing and superstructure support, verify cure, survey seats and release contiguous site bays.",
+      "resources": [
+        "civil-foundation"
+      ],
+      "inspection": "Ground, strength, temporary stability, geometry, offset, settlement and independent site acceptance.",
+      "disposition": "contract",
+      "opening_quantities": {
+        "pier_foundation_count": 2402.0
+      }
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "name": "Bearing provision",
+      "items": [
+        "bearing_unit_allowance"
+      ],
+      "route": "Approve seat, bearing, guide, jack and restraint scheme, procure, identify position, survey and fit, grout where specified, confirm release.",
+      "resources": [
+        "civil-bearing"
+      ],
+      "inspection": "Confirm seat plane, anchors, restraint, rated reaction and movement, and future replacement clearances.",
+      "disposition": "buy / install",
+      "opening_quantities": {
+        "bearing_unit_allowance": 9600.0
+      }
+    },
+    {
+      "shop": "Civil yard and erection front",
+      "name": "Station deck panel",
+      "items": [
+        "station bay panels after plant and access openings"
+      ],
+      "route": "Issue station panel family, set shutters and cage, cast and finish, cure, verify lifting strength, remove, stage, dispatch and fit to station datums.",
+      "resources": [
+        "civil-panel-table",
+        "civil-placement",
+        "civil-panel-hook"
+      ],
+      "inspection": "Check panel width and length, finish and fall, joints, edge geometry, openings and accessible boarding gap and step on the surveyed installation.",
+      "disposition": "make / contract",
+      "opening_quantities": {
+        "station bay panels after plant and access openings": null
+      }
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "name": "Wired and labelled wayside control assemblies",
+      "items": [
+        "grid_protection_gateways",
+        "section_control_gateways",
+        "station_dispatch_controllers"
+      ],
+      "resources": [
+        "wayside-assembly",
+        "wayside-wire",
+        "wayside-test"
+      ],
+      "disposition": "locally integrate bought modules and qualified protection equipment",
+      "route": "Issue revision and terminal list, prepare removable panel, kit and label conductors, fit modules, terminate, inspect, bench-test and preserve serial record.",
+      "inspection": "List quantities by allocated position, then return actual panel/terminal drawings, as-wired continuity, isolation, addressing and controlled configuration for each serial.",
+      "opening_quantities": {
+        "grid_protection_gateways": 30.0,
+        "section_control_gateways": 116.0,
+        "station_dispatch_controllers": 6.0
+      }
+    },
+    {
+      "shop": "Wayside electrical integrator",
+      "name": "Installed and tested rectifier cabinets",
+      "items": [
+        "installed and tested rectifier cabinets"
+      ],
+      "resources": [
+        "wayside-power-test"
+      ],
+      "disposition": "supplier-designed and type-tested assembly",
+      "route": "Match the selected radial circuit, approve the supplier drawings, witness the production tests and pass the evidence to the installing contractor.",
+      "inspection": "Check serials, declared fault duty, interlocks, protection study and inspection record against the issued site and circuit.",
+      "opening_quantities": {
+        "installed and tested rectifier cabinets": null
+      }
+    }
+  ],
+  "fixture_items": [
+    {
+      "parent": "vehicle-body-bed",
+      "name": "Primary datum wear pad",
+      "per_unit": 3,
+      "route": "Machine three replaceable pads for the fixture reference plane. Mark the jig and position, survey installed faces and retain the calibration record.",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "quantity": 6
+    },
+    {
+      "parent": "vehicle-body-bed",
+      "name": "Centreline survey monument",
+      "per_unit": 2,
+      "route": "Machine and attach target nests outside the joining heat zone. Record the two target locations and the transform to the car frame.",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "quantity": 4
+    },
+    {
+      "parent": "vehicle-body-bed",
+      "name": "Adjustable longitudinal reference stop",
+      "per_unit": 1,
+      "route": "Fabricate the bolted stop base, machine the replaceable contact face and inspect its position against the car datum.",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "quantity": 2
+    },
+    {
+      "parent": "vehicle-bogie-bed",
+      "name": "Primary seat locator block",
+      "per_unit": 4,
+      "route": "Machine replaceable blocks for the four primary positions at local x ±1,050 and y ±1,040 mm. Survey jig faces before and after the trial weld.",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "quantity": 4
+    },
+    {
+      "parent": "vehicle-bogie-bed",
+      "name": "Secondary seat locator block",
+      "per_unit": 2,
+      "route": "Machine and identify a left and right locator at local x 0 and y ±850 mm. Inspect the face height and protect the approved reference surfaces during transport.",
+      "shop": "Vehicle works",
+      "lot_id": "tooling",
+      "quantity": 2
+    },
+    {
+      "parent": "civil-beam-position",
+      "name": "Removable end bulkhead assembly",
+      "per_unit": 2,
+      "route": "Fabricate the two end assemblies around the coordinated insert and strand pattern. Trial form fit, strand clearance, core extraction and removal sequence on the approved casting arrangement. Prestress anchorage is designed separately.",
+      "shop": "Civil yard and erection front",
+      "lot_id": "tooling",
+      "quantity": 16
+    },
+    {
+      "parent": "civil-beam-position",
+      "name": "Box core former set",
+      "per_unit": 1,
+      "route": "Make one removable or collapsible core set per active mould position. Demonstrate extraction, restraint and mold survey before repeating the tool. The sections per set await the chosen core mechanism.",
+      "shop": "Civil yard and erection front",
+      "lot_id": "tooling",
+      "quantity": 8
+    },
+    {
+      "parent": "wayside-test",
+      "name": "Replaceable I/O breakout carrier",
+      "per_unit": 1,
+      "route": "Issue the approved low-voltage terminal list, produce a labelled removable backplate, fit the keyed test harness and check every route against the independent point list. Connector type and the number of mating adapter variants stay open.",
+      "shop": "Wayside electrical integrator",
+      "lot_id": "signalling",
+      "quantity": 1
+    }
+  ],
+  "peak_beam_inventory": 163,
+  "fabrication_released": false,
+  "prices_confirmed": false,
+  "evaluation_id": "be5bfe8fa5ff42de8792c720fafedd736a0cfee618ced81ba95dbd18944d891c"
+}

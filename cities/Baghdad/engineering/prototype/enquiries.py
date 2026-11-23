@@ -11,7 +11,7 @@ from urllib.parse import urlsplit
 from zipfile import ZipFile
 
 from cities.Baghdad.airport_integration import same_packet, write_atomic
-from cities.Baghdad.engineering.prototype import review, sourcing_estimates
+from cities.Baghdad.engineering.prototype import factory, review, sourcing_estimates
 from engineering.outline.baghdad_system import _id
 from engineering.performance import check_disk_reservation, disk_reservation
 
@@ -46,9 +46,11 @@ LOTS = (
     ("Viaduct", "pilot-beam", "infrastructure/VIADUCT.md"),
     ("Station", "pilot-station-bay", "infrastructure/STATION.md"),
     ("Traction and control module", "pilot-traction-controls", "infrastructure/ELECTRICAL-CONTROLS.md"),
-    ("Local production and repair", "tooling", "vehicle-factory/factory-routing.md"),
+    ("Local production and repair", "tooling", factory.REPORT),
 )
 SCHEDULES = (
+    factory.REPORT, factory.REGISTER, factory.ROUTES, *factory.SHOPS.values(),
+    "vehicle-factory/VEHICLE-WORKCELLS.md", "infrastructure/CIVIL-WORKCELLS.md",
     "vehicle-factory/README.md", "vehicle-factory/vehicle-quote.csv", "vehicle-factory/factory-routing.md",
     "vehicle-factory/INSTALLED-GA.md", "vehicle-factory/installed-ga.svg",
     "vehicle-factory/BODY-BOGIE.md", "vehicle-factory/body-bogie-mating.svg",
@@ -103,6 +105,8 @@ renewals. Identify credits where an article enters a fleet order.</p>
 <a href="vehicle-factory/installed-fitout-bom.csv">Installed fitout register</a> · <a href="drawings/opening-bom.csv">Opening BOM</a> · <a href="drawings/draft-work-orders.json">Five draft orders</a> ·
 <a href="drawings/returns/fitout.csv">Equipment fits and inspection</a></p>
 <p><a href="vehicle-factory/vehicle-quote.csv">Vehicle price schedule</a> ·
+<a href="FACTORY-SPECIFICATION.md">Factory sizing and production routes</a> ·
+<a href="factory-equipment.csv">Return machine quantities and prices</a> ·
 <a href="vehicle-factory/factory-quote.csv">Factory price schedule</a> ·
 <a href="infrastructure/connector-return.csv">Electrical connector schedule</a></p>
 <h2>Compare offers in ERPNext</h2><p>Import the <a href="sourcing-estimate.json">buyer estimate</a> using the
@@ -142,6 +146,12 @@ def contents():
     for source, name in paths.items():
         if name not in files:
             files[name] = portable_guide(source, name, paths) if source.suffix == ".md" else source.read_bytes()
+    # Reuse the same loaded drawings and estimate to check the published shop counts.
+    # Markdown links may have been adapted for offline use, so check its source edition.
+    factory_files = factory.artifacts(estimate, members)
+    if any((HERE / name).read_bytes() != raw for name, raw in factory_files.items()):
+        raise ValueError("Rebuild the factory schedules before issuing the drawing or price revision")
+    factory_id = json.loads(factory_files[factory.ROUTES])["evaluation_id"]
     layout = json.loads(files["vehicle-factory/installed-ga.json"])
     if (layout["candidate_id"] != estimate["candidate_id"] or layout["frame_revision"] != estimate["frame_revision"]
             or layout["opening_evaluation_id"] != estimate["opening_evaluation_id"]
@@ -155,7 +165,7 @@ def contents():
         guide = files[directory + "/README.md"].decode()
         if not all(estimate[key] in guide for key in ("candidate_id", "opening_evaluation_id", "evaluation_id")):
             raise ValueError(f"{directory} schedules reference a different opening or ERP estimate")
-    bindings = dict(layout_evaluation_id=layout["evaluation_id"], candidate_id=estimate["candidate_id"], frame_revision=estimate["frame_revision"],
+    bindings = dict(factory_evaluation_id=factory_id, layout_evaluation_id=layout["evaluation_id"], candidate_id=estimate["candidate_id"], frame_revision=estimate["frame_revision"],
                     drawing_evaluation_id=manifest["evaluation_id"], estimate_evaluation_id=estimate["evaluation_id"],
                     purpose="first-article enquiry", fabrication_released=False, operating_authorisation=False,
                     package_lots=[{"package": name, "lot_id": lot, "schedule": path} for name, lot, path in LOTS],

@@ -1,0 +1,82 @@
+workdays = 250
+hours_per_day = 8
+utilisation = 0.8
+note = "Separate wayside controls integrator, one assumed shift and 250 available workdays. Scope covers low-voltage preparation and simulation at gateway and station positions. Actual cabinets, terminal counts, harness lengths, site installation and protected HV test capacity await the returned circuit and connector schedule."
+
+[[resource]]
+id = "wayside-assembly"
+name = "Adjustable enclosure and removable backplate assembly stand"
+unit = "bench"
+disposition = "make or adapt at integrator"
+lot_id = "signalling"
+minimum = 1
+specification = "Adjustable stops, replaceable drilling template, insulated terminal and label kit, controlled torque tools and ESD provision as applicable. Obtain enclosure dimensions, assembly mass, lifting and safe work envelope before specifying the stand."
+[[resource.load]]
+items = ["grid_protection_gateways", "section_control_gateways", "station_dispatch_controllers"]
+hours = 4
+setup_hours = 32
+
+[[resource]]
+id = "wayside-wire"
+name = "Wire preparation, labelled kitting and crimp inspection station"
+unit = "station"
+disposition = "adapt existing equipment or contract"
+lot_id = "signalling"
+minimum = 1
+specification = "Provide cut-to-length and strip tools, interchangeable calibrated dies, label printer, terminal samples and a pull-test instrument. Agree conductor sizes, ferrules, polarity, tooling/die compatibility and supplier acceptance limits. HV busbars, contact rail and power cables belong to their power-system lots."
+[[resource.load]]
+items = ["grid_protection_gateways", "section_control_gateways", "station_dispatch_controllers"]
+hours = 3
+setup_hours = 32
+
+[[resource]]
+id = "wayside-test"
+name = "Isolated low-voltage I/O proving bench with removable test harness"
+unit = "bench"
+disposition = "build jig and buy calibrated instruments"
+lot_id = "signalling"
+minimum = 1
+specification = "Provide isolated supply, point-to-point breakout, simulated contacts/loads, independent recorder and per-revision adapters. Capture wrong addressing and loss of supply or feedback. Return calibration, test duration and evidence for each serial. Live fault-duty and protection discrimination remain separate witnessed trials."
+[[resource.load]]
+items = ["grid_protection_gateways", "section_control_gateways"]
+hours = 4
+setup_hours = 48
+[[resource.load]]
+items = ["station_dispatch_controllers"]
+hours = 8
+setup_hours = 16
+
+[[resource]]
+id = "wayside-power-test"
+name = "Supplier switchgear and rectifier test provision"
+unit = "contract service"
+disposition = "contract to capable power-equipment manufacturer"
+lot_id = "traction-sites"
+minimum = 0
+specification = "Return tested assemblies per site, ratings, rigs, inspection capacity, traceable results and independent witnessing allowance. The 30 source groups are installation locations. The manufactured cabinet count is open."
+[[resource.load]]
+items = ["installed and tested rectifier cabinets"]
+hours = 8
+note = "Illustrative rig booking per cabinet for capacity enquiry only. Return the actual test sequence and occupied time."
+
+[[product]]
+name = "Wired and labelled wayside control assemblies"
+items = ["grid_protection_gateways", "section_control_gateways", "station_dispatch_controllers"]
+resources = ["wayside-assembly", "wayside-wire", "wayside-test"]
+disposition = "locally integrate bought modules and qualified protection equipment"
+route = "Issue revision and terminal list, prepare removable panel, kit and label conductors, fit modules, terminate, inspect, bench-test and preserve serial record."
+inspection = "List quantities by allocated position, then return actual panel/terminal drawings, as-wired continuity, isolation, addressing and controlled configuration for each serial."
+
+[[product]]
+name = "Installed and tested rectifier cabinets"
+items = ["installed and tested rectifier cabinets"]
+resources = ["wayside-power-test"]
+disposition = "supplier-designed and type-tested assembly"
+route = "Match the selected radial circuit, approve the supplier drawings, witness the production tests and pass the evidence to the installing contractor."
+inspection = "Check serials, declared fault duty, interlocks, protection study and inspection record against the issued site and circuit."
+
+[[fixture_item]]
+parent = "wayside-test"
+name = "Replaceable I/O breakout carrier"
+per_unit = 1
+route = "Issue the approved low-voltage terminal list, produce a labelled removable backplate, fit the keyed test harness and check every route against the independent point list. Connector type and the number of mating adapter variants stay open."

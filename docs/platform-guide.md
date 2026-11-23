@@ -1,14 +1,18 @@
 # OpenSourceRail platform guide
 
-**Scope of this guide:** detailed history of the v0.6 passive-wheel research
-and platform. The published digital railway release is [v0.7.1](RELEASE-v0.7.md).
-For the current main-branch candidate and open interfaces, read the
-[current engineering dossier](design-engine/current/README.md), the
-[engineering status](ENGINEERING-STATUS.md) and the [current book](BOOK.md).
-The integrated v0.6 dossier cited below has a
-source-binding hold and is not supported release evidence. Historical motor,
-service and civil examples remain tied to their original candidates and do
-not select installed propulsion or physical acceptance.
+**Scope of this guide.** The detailed platform history below follows the v0.6
+passive-wheel development reference. The [v0.6 engineering dossier](design-engine/current/README.md)
+records that reference's open propulsion choice. Its integrated dossier has a
+source-binding hold. Motor, service and civil examples retain their original
+candidate identities and evidence limits.
+
+The [30 km digital reference](reference-v07/README.md) supplies the separate
+powered-wheel engineering and cost basis. The [v0.7.2 release](releases/v0.7.2/README.md)
+records the Baghdad Airport opening timetable, traction study and supplier
+dossier. The [current Airport prototype](../cities/Baghdad/engineering/prototype/README.md)
+carries a later frame revision and its own feeder, cost and first-article
+records. The [engineering status](ENGINEERING-STATUS.md) and [book](BOOK.md)
+link the current design records and open interfaces.
 
 This guide preserves the detailed platform, engineering, delivery and research explanation. For the shorter introduction and practical starting points, see the [project README](../README.md). Current numerical results and evidence status belong to the linked source-bound publications.
 

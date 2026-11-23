@@ -1,0 +1,532 @@
+# Occupied hours are engineering estimates for a single-shift campaign.
+# Workdays are effective scheduled production days, ahead of supplier queues and physical release.
+workdays = 250
+hours_per_day = 8
+utilisation = 0.8
+
+[[resource]]
+id = "vehicle-stores"
+name = "Receiving and long-stock racks"
+unit = "cell"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Cantilever stock racks, wheelset cradles, protected stores, quarantine, heat/serial tagging and contained handling. Rate rack, aisle and floor to vendor packages and actual loads."
+minimum = 1
+
+[[resource.load]]
+items = ["@cut"]
+hours = 0.03
+setup_hours = 16
+
+[[resource.load]]
+items = ["Braced steel body", "Removable powered bogie"]
+hours = 0.5
+setup_hours = 4
+
+[[resource]]
+id = "vehicle-saw"
+name = "Guarded section and liner saw"
+unit = "station"
+disposition = "buy"
+lot_id = "tooling"
+specification = "350 × 320 mm reference throat, positive clamp, input/output roller support and 12 m finished chord access with incoming trim allowance. Prove largest section and full-length cut. Include mains, coolant, chip containment and blade-change access."
+minimum = 1
+
+[[resource.load]]
+items = ["@saw"]
+hours = 0.15
+setup_hours = 36
+
+[[resource]]
+id = "vehicle-prep"
+name = "Bench preparation and liner drilling"
+unit = "station"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Guarded drill with replaceable liner bushings and countersink stop, deburr bench and finish/squareness gauges, with local dust extraction. Demonstrate six positions per liner, edge distance, flushness and mate fit."
+minimum = 1
+
+[[resource.load]]
+items = ["jamb_liner"]
+hours = 0.2
+setup_hours = 12
+
+[[resource.load]]
+items = ["brace"]
+hours = 0.18
+setup_hours = 10
+
+[[resource]]
+id = "vehicle-plate-contract"
+name = "Nested plate blank supply"
+unit = "supplier lane"
+disposition = "contract"
+lot_id = "fleet"
+specification = "Cut and mark 8 mm gussets and 12 mm pads, allow finish stock, capture mill heat, flatness and edge condition. Reserve equivalent capacity at supplier; handoff queue and transport outside cell hours."
+minimum = 1
+
+[[resource.load]]
+items = ["@plate"]
+hours = 0.06
+setup_hours = 20
+
+[[resource]]
+id = "vehicle-body-bed"
+name = "Indexed 17 m body build bed"
+unit = "jig"
+disposition = "make"
+lot_id = "tooling"
+specification = "18 × 3.2 m concept envelope, modular surveyed bed, replaceable locator towers, clamps, door and splice bridge inserts, equipment escape and lift access. Include crew/vacancy for each scheduled bed and prove geometry with load and hot-to-cold checks."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 60
+setup_hours = 48
+
+[[resource]]
+id = "vehicle-bogie-bed"
+name = "Removable bogie frame weld bed"
+unit = "jig"
+disposition = "make"
+lot_id = "tooling"
+specification = "3.2 × 2.5 m concept envelope, pin axle planes from railhead and use removable seat locators, open gauging windows and rated handling after clamp release. Demonstrate repeatability after thermal cycles."
+minimum = 1
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 14
+setup_hours = 28
+
+[[resource]]
+id = "vehicle-arc-set"
+name = "Mobile pulsed MIG/MAG and source capture"
+unit = "set"
+disposition = "buy"
+lot_id = "tooling"
+specification = "400 A class pulsed unit with compatible gun, gas distribution and extraction at each active station. Return rated current at expected ambient and arc duty, actual input demand, airflow and simultaneous draw. Time assumes single occupied set per cell task; validate peak overlap of both body beds and bogie bed."
+minimum = 3
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 36
+setup_hours = 28
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 10
+setup_hours = 14
+
+[[resource]]
+id = "vehicle-shop-crane"
+name = "Shared runway handling and rigging"
+unit = "set"
+disposition = "existing-or-hire"
+lot_id = "tooling"
+specification = "Rate for heaviest actual lifted assembly, certified spreaders, slings, support reactions, headroom and travel. Dedicated bulk moves booked to one resource across receiving and bays."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 5
+setup_hours = 16
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 2
+setup_hours = 8
+
+[[resource.load]]
+items = ["Roof HVAC module"]
+hours = 0.5
+setup_hours = 4
+
+[[resource]]
+id = "vehicle-metrology"
+name = "Shared portable tracker and dimensional QA"
+unit = "set"
+disposition = "hire"
+lot_id = "tooling"
+specification = "One tracker with survey targets, probe and calibrated local gauges. Verify plant temperature, setup uncertainty and repeated datum survey before moving between cells."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 6
+setup_hours = 24
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 3
+setup_hours = 16
+
+[[resource.load]]
+items = ["Door opening and controller"]
+hours = 0.25
+setup_hours = 4
+
+[[resource]]
+id = "vehicle-weld-ndt"
+name = "Weld inspection and NDT"
+unit = "team"
+disposition = "contract"
+lot_id = "fleet"
+specification = "Series QA visual inspection during work and periodic contract NDT with approved method for each location and procedure. Joint times are booking proxies. Access, extent and qualification controlled by approved plan."
+minimum = 1
+
+[[resource.load]]
+items = ["Chord splice", "Post-end joint", "Crossmember-end joint", "Brace-end connection", "Transom and saddle ends", "Primary and secondary pad attachments"]
+hours = 0.09
+setup_hours = 42
+
+[[resource.load]]
+items = ["secondary_body"]
+hours = 0.09
+setup_hours = 0
+
+[[resource]]
+id = "vehicle-bogie-machine"
+name = "Contract bogie seat and datum machining"
+unit = "supplier lane"
+disposition = "contract"
+lot_id = "fleet"
+specification = "Single datum registration across both axle planes, finish seats and mating holes under approved drawing. Confirm spindle reach, fixture and probing repeatability. Book freight and supplier queue separately."
+minimum = 1
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 6
+setup_hours = 30
+
+[[resource]]
+id = "vehicle-coat"
+name = "Contract blast and coating"
+unit = "supplier lane"
+disposition = "contract"
+lot_id = "fleet"
+specification = "Process 17 m body and bogie frames; verify fixture access, blast/film/cure checks, masking and drains. Separate transport and painted-part storage."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 14
+setup_hours = 16
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 4
+setup_hours = 8
+
+[[resource]]
+id = "vehicle-bogie-fit"
+name = "Bogie integration with clean stands"
+unit = "bay"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Positive anti-roll support and keyed axle cradle, calibrated torque tooling and verified lift fixtures. Fit approved drive, spring, stops and brake assemblies with tool windows and full-load clearances."
+minimum = 1
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 17
+setup_hours = 38
+
+[[resource]]
+id = "vehicle-bearings"
+name = "Wheelset and supplier bearing assembly"
+unit = "supplier lane"
+disposition = "contract"
+lot_id = "fleet"
+specification = "Procure certified wheelsets and mounted bearings under supplier procedures. Review journal fit, manufacturer endplay and retained force-displacement trace where applicable; supplier assembly resource only."
+minimum = 1
+
+[[resource.load]]
+items = ["Wheelset"]
+hours = 2
+setup_hours = 12
+
+[[resource]]
+id = "vehicle-bogie-test"
+name = "Restrained bogie functional stand"
+unit = "station"
+disposition = "make"
+lot_id = "tooling"
+specification = "Protected stand, logged drive/brake and leak function to approved plan, electrical and fluid isolation and measured alignment. Repeated thermal and braking proof requires independently agreed instrumentation and loads."
+minimum = 1
+
+[[resource.load]]
+items = ["Removable powered bogie"]
+hours = 5
+setup_hours = 32
+
+[[resource]]
+id = "vehicle-door-fixture"
+name = "Portal and liner fixture with door support trolley"
+unit = "set"
+disposition = "make"
+lot_id = "tooling"
+specification = "Replaceable liner drill template, flush screw and retention gauges, 1,300 mm clear-aperture gauge and finite-travel surrogate plus door handling trolley. Fixture use is an occupation subtotal inside the body fit operation."
+minimum = 1
+
+[[resource.load]]
+items = ["Door opening and controller"]
+hours = 2
+setup_hours = 18
+
+[[resource]]
+id = "vehicle-fit"
+name = "Body mechanical and cabin fit"
+unit = "bay"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Movable platforms, hand tools, depth/torque tools and nominated support for roof lift. Complete roof, door, interior and external weather sealing check; supplier BOM pending for several fitout groups."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 16
+setup_hours = 28
+
+[[resource.load]]
+items = ["Door opening and controller"]
+hours = 2
+setup_hours = 8
+
+[[resource.load]]
+items = ["Roof HVAC module"]
+hours = 2
+setup_hours = 6
+
+[[resource]]
+id = "vehicle-electric"
+name = "Electrical cabinet and harness build benches"
+unit = "station"
+disposition = "make"
+lot_id = "tooling"
+specification = "ESD and isolated power, enclosure drilling/marking, crimp and pull verification, keyed boards and adapters, cable/hose service loops, strain relief and calibrated bond checks. Bench occupation per vehicle kit pending conductor, cabinet and connector schedule. Purchase safety electronics and prequalified HV modules."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 18
+setup_hours = 36
+
+[[resource.load]]
+items = ["train_service_power_units", "inverter_control_units"]
+hours = 2
+setup_hours = 10
+
+[[resource]]
+id = "vehicle-harness-test"
+name = "Shared cabinet and harness tester"
+unit = "station"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Expandable continuity/IR tester, keyed drawings and adapter plates, controlled test voltages and isolation for sensitive components, interlocked test cover, reference checks and serial logs. Count per car kit pending actual harness list."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 5
+setup_hours = 22
+
+[[resource.load]]
+items = ["train_service_power_units", "inverter_control_units"]
+hours = 1
+setup_hours = 4
+
+[[resource]]
+id = "vehicle-collector-tools"
+name = "Onboard collector set install tools"
+unit = "set"
+disposition = "make"
+lot_id = "tooling"
+specification = "Portable locator and insulated isolation kit. Return spring/contact limits, polarity, terminal access and stroke checks for car-role allocation under an approved test."
+minimum = 1
+
+[[resource.load]]
+items = ["onboard_contact_sets"]
+hours = 2
+setup_hours = 12
+
+[[resource]]
+id = "vehicle-marriage"
+name = "Body lift and marriage road"
+unit = "road"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Synchronized rated lift set and mechanical supports with verified concentrated floor loads, guarded pallet/cradle and approved lifting points. Use separate maintenance equipment for repair road. Record load balance, lift movement, shim stack, retention and service coupling."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 8
+setup_hours = 28
+
+[[resource]]
+id = "vehicle-end-test"
+name = "Static integration and factory acceptance test road"
+unit = "road"
+disposition = "buy"
+lot_id = "tooling"
+specification = "Calibrated equipped-car wheel-load system and isolation, bonding, controlled LV/drive and brake witness equipment. Data recorder links each serial and test revision. Separate full-train static booking and independent route qualification."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 8
+setup_hours = 24
+
+[[resource]]
+id = "vehicle-set-test"
+name = "Set-level integration and controls test road"
+unit = "road"
+disposition = "existing-or-hire"
+lot_id = "fleet"
+specification = "Book a staging or test track long enough for six 17 m cars, actual coupler gaps, access and clearances. Protect and isolate test area. Interface the inter-car wiring, controls, braking, fault handling and emergency release in a witnessed static test."
+minimum = 1
+
+[[resource.load]]
+items = ["atp_channels"]
+multiplier = 0.5
+hours = 12
+setup_hours = 12
+note = "Six set-level bookings derived from two ATP channels per set. The ATP count is a set proxy, not a duplication of the car checks."
+
+[[resource]]
+id = "vehicle-repair"
+name = "Off-line exchange and repair road"
+unit = "road"
+disposition = "buy"
+lot_id = "depot-control"
+specification = "Dedicated approved jack/support and rail pallet, wheel gauges, isolation and repair benches. One hour/car is a reserved occupation allowance, pending reject rates and equipped exchange trials. Reserve repair crew separately. Use a distinct depot budget for the road and contracted overhaul."
+minimum = 1
+
+[[resource.load]]
+items = ["Braced steel body"]
+hours = 1
+setup_hours = 16
+
+[[product]]
+name = "Gross RHS and liner blanks"
+items = ["@saw"]
+route = "Receive, saw, trim, deburr and mark"
+resources = ["vehicle-stores", "vehicle-saw", "vehicle-prep"]
+inspection = "First-off heat, setup, length, square/angle and traceability"
+disposition = "local fabrication"
+
+[[product]]
+name = "Plate gussets and seat blanks"
+items = ["@plate"]
+route = "Nest, cut, mark, deburr and dimensional check"
+resources = ["vehicle-plate-contract"]
+inspection = "Heat, dimensions and released edge/finish allowance"
+disposition = "contract blank supply"
+
+[[product]]
+name = "Braced steel body"
+items = ["Braced steel body"]
+route = "Preset side fields, join under dimensional control, inspect and coat"
+resources = ["vehicle-body-bed", "vehicle-arc-set", "vehicle-metrology", "vehicle-weld-ndt", "vehicle-coat", "vehicle-shop-crane"]
+inspection = "Body release with joint and datum records after unclamping"
+disposition = "local build with finishing service"
+
+[[product]]
+name = "Powered bogie"
+items = ["Removable powered bogie"]
+route = "Join, inspect, machine, coat and integrate axle, suspension, drive and brake"
+resources = ["vehicle-bogie-bed", "vehicle-arc-set", "vehicle-weld-ndt", "vehicle-bogie-machine", "vehicle-bogie-fit", "vehicle-bogie-test", "vehicle-metrology", "vehicle-shop-crane", "vehicle-coat"]
+inspection = "Seat and axle survey, mounting records and restrained functional check"
+disposition = "local integration and supplier safety assemblies"
+
+[[product]]
+name = "Wheelsets and bearing seats"
+items = ["Wheelset", "Axlebox bearing positions"]
+route = "Buy traceable wheelsets and approved mounted bearings"
+resources = ["vehicle-bearings", "vehicle-bogie-fit"]
+inspection = "Seat position is distinct from the supplier bearing component count"
+disposition = "certified supply and clean assembly"
+
+[[product]]
+name = "Door opening assemblies"
+items = ["Door opening and controller"]
+route = "Fit liners, slide/stop/retention hardware and complete door; set and verify"
+resources = ["vehicle-door-fixture", "vehicle-fit", "vehicle-metrology"]
+inspection = "Eight loaded/worn apertures and full leaves sweep per car; proof of return/anti-drop"
+disposition = "buy complete door and fabricate liners"
+
+[[product]]
+name = "Door liner hardware"
+items = ["flush liner screws", "liner threaded receivers"]
+route = "Prepare and fit approved flush fasteners"
+resources = ["vehicle-prep", "vehicle-door-fixture", "vehicle-fit"]
+inspection = "Six paired positions per liner, stock fastener strength and access subject to joint design"
+disposition = "buy hardware and local fitting"
+
+[[product]]
+name = "Roof HVAC modules"
+items = ["Roof HVAC module"]
+route = "Receive, stage, lift, fasten, connect and test"
+resources = ["vehicle-fit", "vehicle-shop-crane"]
+inspection = "Fitted mass and mount, removal sweep, cool/condensate, bond and leak tests"
+disposition = "buy module and local fitting"
+
+[[product]]
+name = "Onboard electrical cabinet and harness kits"
+items = ["Braced steel body"]
+route = "Prepare cabinet/boards by car role, cut/build harness, bench-test and install"
+resources = ["vehicle-electric", "vehicle-harness-test", "vehicle-end-test"]
+inspection = "Kit proxy per car, individual cabinet and harness count open. Validate crimp, continuity, isolation and installed flex"
+disposition = "local build and supplier safety modules"
+
+[[product]]
+name = "Onboard collector sets"
+items = ["onboard_contact_sets"]
+route = "Fit suspended collector sets by role, connect and align"
+resources = ["vehicle-collector-tools", "vehicle-end-test"]
+inspection = "Check actual travel, contact forces and protective clearances"
+disposition = "buy assembly and install"
+
+[[product]]
+name = "Drive, brake and spring interfaces"
+items = ["Axle drive module", "Brake controller", "Primary spring interface", "Secondary spring interface"]
+route = "Clean assembly and torque, protect fluid/electrical runs and verify restraint"
+resources = ["vehicle-bogie-fit", "vehicle-bogie-test"]
+inspection = "Preserve individual quantities by family; independent brake and parking friction scope open"
+disposition = "buy approved modules and fit"
+
+[[product]]
+name = "Equipped cars"
+items = ["Braced steel body"]
+route = "Marriage, weigh, static test and stage six sets"
+resources = ["vehicle-marriage", "vehicle-end-test", "vehicle-set-test", "vehicle-repair"]
+inspection = "Serialised retention, flexible services, electrical and release/test records"
+disposition = "local integration"
+
+# Replaceable shop hardware per active jig. These quantities are included inside
+# the fixture price. Working contact geometry and tolerances require tool design.
+[[fixture_item]]
+parent = "vehicle-body-bed"
+name = "Primary datum wear pad"
+per_unit = 3
+route = "Machine three replaceable pads for the fixture reference plane. Mark the jig and position, survey installed faces and retain the calibration record."
+[[fixture_item]]
+parent = "vehicle-body-bed"
+name = "Centreline survey monument"
+per_unit = 2
+route = "Machine and attach target nests outside the joining heat zone. Record the two target locations and the transform to the car frame."
+[[fixture_item]]
+parent = "vehicle-body-bed"
+name = "Adjustable longitudinal reference stop"
+per_unit = 1
+route = "Fabricate the bolted stop base, machine the replaceable contact face and inspect its position against the car datum."
+[[fixture_item]]
+parent = "vehicle-bogie-bed"
+name = "Primary seat locator block"
+per_unit = 4
+route = "Machine replaceable blocks for the four primary positions at local x ±1,050 and y ±1,040 mm. Survey jig faces before and after the trial weld."
+[[fixture_item]]
+parent = "vehicle-bogie-bed"
+name = "Secondary seat locator block"
+per_unit = 2
+route = "Machine and identify a left and right locator at local x 0 and y ±850 mm. Inspect the face height and protect the approved reference surfaces during transport."

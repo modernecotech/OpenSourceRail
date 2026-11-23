@@ -1,0 +1,241 @@
+workdays = 425
+hours_per_day = 8
+utilisation = 0.875
+note = "425 effective workdays already include the opening's annual ramp and availability. The 0.875 factor budgets seven repeat-operation hours in a staffed eight-hour effective day for shared minor stoppages. Continuous mould occupancy and the erection front have explicit overrides. Each resource count is an arithmetic procurement screen pending supplier or site return."
+
+[daily_targets]
+beam_count = 8
+lift_count = 8
+pier_foundation_count = 8
+bearing_unit_allowance = 32
+
+[source]
+commit = "ce9cb37aedd81ac79e8bdbf46002cff840583e12"
+archive = "../airport-prototype.zip"
+opening_bom_sha256 = "acc50203cccb50100299b34f66ea6ab279bde49e88d5680c75ccf69b1e71b003"
+opening_evaluation_id = "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87"
+civil_evaluation_id = "7f67c279b41d7f40ec703f7053f9ab5aefb53fe6fc819a0e052bf13a5e9cbb10"
+civil_article_evaluation_id = "9920c8a2cb8c7e1c4a8415c5272349124f09a92e5003c75bd20d7fea69fecbc8"
+civil_article_physical_id = "9a427ebe76fd745b35f1b5db5c43364fe208ed4be3dbd30a431037fbaa105e3d"
+
+[[resource]]
+id = "civil-beam-position"
+lot_id = "tooling"
+name = "Wet-cast box mould and prestress position"
+unit = "position"
+disposition = "make / buy"
+specification = "10 m closed box with separable core, removable bulkheads, 180 mm webs, 200 mm slabs and cast ends. Prove core extraction and restrain core flotation. Qualify the complete reaction system for the two aligned six-strand banks, eccentricity and unbalanced release."
+minimum = 1
+hours_per_day = 24
+utilisation = 1.0
+note = "Base case assumes 24 elapsed hours per box and one independently occupied box per position. The guide sizes the 48-hour and two-position alternative."
+[[resource.load]]
+items = ["beam_count"]
+hours = 24
+
+[[resource]]
+id = "civil-cage"
+lot_id = "tooling"
+name = "Beam reinforcement cage build and check jig"
+unit = "place"
+disposition = "make"
+specification = "Provide coordinated cut-and-bend feed and cage stock staging. Gauge U-bar laps, cover, strand setbacks, inserts and dense end reinforcement. Validate the assumed staffed cycle with a timed cage."
+minimum = 1
+[[resource.load]]
+items = ["beam_count"]
+hours = 4
+
+[[resource]]
+id = "civil-stress"
+lot_id = "tooling"
+name = "Calibrated stressing and controlled detensioning plant"
+unit = "set"
+disposition = "buy / hire"
+specification = "Include jack, pump, gauges, release equipment and functioning calibrated checks, elongations, anchor heads, working tails and exclusion zones. Return the approved load and sequence for each independent line."
+minimum = 1
+[[resource.load]]
+items = ["beam_count"]
+hours = 0.75
+
+[[resource]]
+id = "civil-placement"
+lot_id = "elevated-civil"
+name = "Shared batching and concrete delivery to placement crews"
+unit = "service"
+disposition = "contract"
+specification = "Trial 20 m³/h gross placement feed. Verify actual net yield, mix families, humidity/temperature controls, batch traceability, test frequency, transport and staggered placements."
+minimum = 1
+note = "Both lines draw on this service. Planned panel peaks require a separate concurrent placement check."
+[[resource.load]]
+items = ["beam_count"]
+hours = 0.6702
+[[resource.load]]
+items = ["station bay panels after plant and access openings"]
+hours = 0.1380456
+
+[[resource]]
+id = "civil-pour-crew"
+lot_id = "elevated-civil"
+name = "Beam placement, vibration and finishing crews"
+unit = "crew"
+disposition = "contract"
+specification = "Trial two occupied crew hours per box including placement, vibration and finish. Sequence releases, supply of fresh concrete and pour continuity across multiple moulds. Staff early and late windows if demanded by the staggered 24-hour return."
+minimum = 1
+[[resource.load]]
+items = ["beam_count"]
+hours = 2
+
+[[resource]]
+id = "civil-yard-hook"
+lot_id = "elevated-civil"
+name = "Beam yard lifting and trailer loadout"
+unit = "hook service"
+disposition = "buy / hire"
+specification = "Approve actual hook load and rigging geometry for removal and dunnage placement plus trailer loadout. Confirm safe crane travel, pick path, actual span and independent cage/core lifting arrangements."
+minimum = 1
+[[resource.load]]
+items = ["beam_count"]
+hours = 0.375
+multiplier = 2
+
+[[resource]]
+id = "civil-stock-position"
+lot_id = "yard-access"
+name = "Single-tier beam storage and dispatch buffer"
+unit = "position"
+disposition = "make / lease"
+specification = "Trial allowance 176 single-tier beam slots based on monthly release profile, with designed dunnage, lateral restraint, survey and serial number access. Add separately circulating routes, quarantine and repair access."
+minimum = 176
+note = "Stock buffer uses peak inventory rather than cumulative processing hours."
+
+[[resource]]
+id = "civil-haul"
+lot_id = "elevated-civil"
+name = "Beam tractor, matched trailer and haul crew"
+unit = "set"
+disposition = "contract"
+specification = "One beam per trip. Return surveyed access, wheel loads, restraints, permits, escorted route and actual pick/set readiness. Synchronise eight loads to each eight-lift day."
+minimum = 1
+hours_per_day = 8
+utilisation = 1.0
+note = "Four-hour round-trip sensitivity includes yard and front dwell. Full eight-hour transport window is a trial. A usable seven-hour window permits only one complete round trip per set if trips must start and finish in that window."
+[[resource.load]]
+items = ["lift_count"]
+hours = 4
+
+[[resource]]
+id = "civil-foundation"
+lot_id = "elevated-civil"
+name = "Foundation, column and cap work areas"
+unit = "site work area"
+disposition = "contract"
+specification = "Record soil, utilities, excavation, base bearing, settlement and flood/seismic limits. Return site-specific stage hours, crew/rig choices, curing, test hold and approved seat elevations."
+minimum = 0
+note = "No rated site production quantity. At eight pier positions/day, each day of release-stage occupancy adds eight open positions. Derive rigs, forms and crews from the boreholes, surveyed access and first installed support."
+
+[[resource]]
+id = "civil-bearing"
+lot_id = "elevated-civil"
+name = "Bearing seat survey and installation crews"
+unit = "crew"
+disposition = "contract"
+specification = "Verify bearing contact, edge distances, axes, rotation and keeper engagement, drainage, survey and future jack access. Confirm approved anchor, grout and movement interfaces."
+minimum = 1
+note = "0.2 hours per bearing is an active alignment and inspection allowance. Add grout cure stage occupancy to the verified support calendar."
+[[resource.load]]
+items = ["bearing_unit_allowance"]
+hours = 0.2
+
+[[resource]]
+id = "civil-erection"
+lot_id = "elevated-civil"
+name = "Site erection front and at-radius crane service"
+unit = "front"
+disposition = "hire / contract"
+specification = "Include site crane, approved rig and crew, site access and traffic control. Return actual configuration chart, ground pressures, paved and off-road travel, slew and lift clearances, weather limits, temporary restraints and signed seat release."
+minimum = 1
+hours_per_day = 8
+utilisation = 0.75
+note = "Six active hook hours in each eight-hour possession after 1.5 hours for setup/reposition/closeout and 0.5 hours for interruption. 0.75 hours per lift includes spotting, pick, slew, seat and release."
+[[resource.load]]
+items = ["lift_count"]
+hours = 0.75
+
+[[resource]]
+id = "civil-panel-table"
+lot_id = "stations"
+name = "Flat station panel casting table"
+unit = "table"
+disposition = "make / buy"
+specification = "Trial four table places for one standard bay per productive day. Use adaptable shutters and gauges for connections, edge, crossfall, inserts and tolerance."
+minimum = 4
+hours_per_day = 24
+utilisation = 1.0
+note = "Repeat of trial 4.98 × 1.98 × 0.28 m panel. Final demand and mix of panel sizes are open."
+[[resource.load]]
+items = ["station bay panels after plant and access openings"]
+hours = 24
+
+[[resource]]
+id = "civil-panel-hook"
+lot_id = "stations"
+name = "Panel strip, yard and dispatch handling"
+unit = "hook service"
+disposition = "hire / contract"
+specification = "Return tested insert and handling scheme for each size, verified minimum strength, lifting weight, surveyed protective storage and segregated handling window."
+minimum = 1
+[[resource.load]]
+items = ["station bay panels after plant and access openings"]
+hours = 0.25
+multiplier = 2
+
+[[product]]
+name = "Track beam"
+items = ["beam_count"]
+route = "Cut/bend and cage, set core and ends, pretension, inspect, cast, protect/cure, verify strength, detension and strip, inspect, store, release to trailer."
+resources = ["civil-cage", "civil-beam-position", "civil-stress", "civil-placement", "civil-pour-crew", "civil-yard-hook", "civil-stock-position"]
+inspection = "Hold for pre-pour cage and insert survey, batch and cure records, calibrated strand force/elongation, approved concrete strength at transfer and lifting, and measured camber and mass."
+disposition = "make / contract"
+
+[[product]]
+name = "Beam delivery and erection"
+items = ["lift_count"]
+route = "Dispatch by seat readiness, haul, clear possession, rig, place, provisionally restrain, release, survey."
+resources = ["civil-haul", "civil-erection", "civil-bearing"]
+inspection = "Actual crane chart and safe radius, verified rig, ground/temporary stability, bearing contact and geometry, as-installed rail and traction interface tolerances."
+disposition = "contract"
+
+[[product]]
+name = "Pier and foundation positions"
+items = ["pier_foundation_count"]
+route = "Survey and investigate, stage utilities and access, excavate, build footing and superstructure support, verify cure, survey seats and release contiguous site bays."
+resources = ["civil-foundation"]
+inspection = "Ground, strength, temporary stability, geometry, offset, settlement and independent site acceptance."
+disposition = "contract"
+
+[[product]]
+name = "Bearing provision"
+items = ["bearing_unit_allowance"]
+route = "Approve seat, bearing, guide, jack and restraint scheme, procure, identify position, survey and fit, grout where specified, confirm release."
+resources = ["civil-bearing"]
+inspection = "Confirm seat plane, anchors, restraint, rated reaction and movement, and future replacement clearances."
+disposition = "buy / install"
+
+[[product]]
+name = "Station deck panel"
+items = ["station bay panels after plant and access openings"]
+route = "Issue station panel family, set shutters and cage, cast and finish, cure, verify lifting strength, remove, stage, dispatch and fit to station datums."
+resources = ["civil-panel-table", "civil-placement", "civil-panel-hook"]
+inspection = "Check panel width and length, finish and fall, joints, edge geometry, openings and accessible boarding gap and step on the surveyed installation."
+disposition = "make / contract"
+
+[[fixture_item]]
+parent = "civil-beam-position"
+name = "Removable end bulkhead assembly"
+per_unit = 2
+route = "Fabricate the two end assemblies around the coordinated insert and strand pattern. Trial form fit, strand clearance, core extraction and removal sequence on the approved casting arrangement. Prestress anchorage is designed separately."
+[[fixture_item]]
+parent = "civil-beam-position"
+name = "Box core former set"
+per_unit = 1
+route = "Make one removable or collapsible core set per active mould position. Demonstrate extraction, restraint and mold survey before repeating the tool. The sections per set await the chosen core mechanism."

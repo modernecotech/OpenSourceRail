@@ -3,9 +3,11 @@ import argparse
 import hashlib
 import io
 import json
+import posixpath
 import re
 import tempfile
-from urllib.parse import quote, urlsplit
+from html.parser import HTMLParser
+from urllib.parse import quote, unquote, urlsplit
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
 
@@ -31,6 +33,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="cities/Baghdad/engineering/prototype/review.html"><strong>Airport prototype</strong><small>Inspect stock, train movements, voltages and open field trials.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
 <a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Download the first-article scope and compare price, documented domestic value and repair terms.</small></a>
+<a href="cities/Baghdad/engineering/prototype/airport-enquiries.zip"><strong>Airport first-article enquiries</strong><small>Extract the package and open its START.html for drawings, factory records and quotation sheets.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
 <a href="cities/Baghdad/Baghdad-Metro-Proposal.pdf"><strong>Baghdad investment proposal</strong><small>Read the routes, local delivery options and the purchasing case.</small></a>
 </nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/airport-integration.html">Airport working plan and supplier dossier</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
@@ -55,6 +58,24 @@ def document_content(path, included):
     return re.sub(r'(\[[^]\n]*\])\(([^()\s]+)\)', resolve_link, path.read_text()).encode()
 
 
+class WorkshopLinks(HTMLParser):
+    def __init__(self, page, members):
+        super().__init__()
+        self.page = page
+        self.members = members
+
+    def handle_starttag(self, tag, attrs):
+        for key, value in attrs:
+            if key not in {'href', 'src'} or not value:
+                continue
+            parts = urlsplit(value)
+            if parts.scheme or parts.netloc or not parts.path:
+                continue
+            target = posixpath.normpath(posixpath.join(posixpath.dirname(self.page), unquote(parts.path)))
+            if target not in self.members:
+                raise ValueError(f'Offline workshop page {self.page} is missing {target}')
+
+
 def workshop_files():
     files = set()
     for f in HERE.rglob('*'):
@@ -65,9 +86,11 @@ def workshop_files():
                  'cities/Baghdad/airport-integration.html', 'cities/Baghdad/airport-integration.css',
                  'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
                  'cities/Baghdad/engineering/prototype/review.html', 'cities/Baghdad/engineering/prototype/airport-prototype.zip',
+                 'cities/Baghdad/engineering/prototype/airport-enquiries.zip',
                  'cities/Baghdad/engineering/prototype/sourcing-verification.json', 'cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md', 'cities/Baghdad/engineering/prototype/sourcing-estimate.json',
                  'cities/Baghdad/engineering/prototype/README.md', 'cities/Baghdad/engineering/prototype/mechanical.md',
-                 'cities/Baghdad/engineering/commissioning/COMMISSIONING.md', 'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
+                 'cities/Baghdad/engineering/commissioning/COMMISSIONING.md', 'cities/Baghdad/engineering/controls/STATION-BENCH.md',
+                 'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
                  'cities/Baghdad/airport-traction-single-line.svg', 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',
                  'cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md',
                  'cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md', 'cities/Baghdad/service-diagrams.html',
@@ -105,6 +128,9 @@ def workshop_files():
     for path in sorted(files):
         members[path.relative_to(ROOT).as_posix()] = (
             path.read_bytes() if path in records else document_content(path, files))
+    for page, content in members.items():
+        if page.endswith('.html'):
+            WorkshopLinks(page, members).feed(content.decode())
     return members
 
 

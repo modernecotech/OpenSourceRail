@@ -8,6 +8,10 @@ This design combines the Airport line’s 15-minute timetable with a revised ste
 
 The six [production packages and remaining tasks](PRODUCTION-READINESS.md) cover the car, bogie, viaduct, station, power and controls, and local workshops. The [offline buyer issue](airport-enquiries.zip) joins their price schedules to the same drawing and ERP estimate editions. Extract it and open **START.html**. For the proposed installed car, review the [dimensioned arrangement and fitout register](vehicle-factory/INSTALLED-GA.md). For civil and electrical work, start with the [infrastructure schedules and connector return](infrastructure/README.md).
 
+### Size a factory and quote its work
+
+The Airport factory specification lists the machines, jigs, moulds, inspection facilities and contract services needed for the 36-car opening. Read the daily load alongside each count. A 24-hour release cycle calls for eight beam mould positions, while a 48-hour cycle calls for sixteen at the same output. Use the equipment register to return measured cycles, shared facilities and installed or hire prices against the parent ERP lot. [Factory specification](FACTORY-SPECIFICATION.md) · [Equipment price return](factory-equipment.csv)
+
 ## Price an opening or first article
 
 The buyer register gives a quantity, price period and cost basis for each enquiry. It covers 54 lots, including the five first articles, independent surveys and trials, and two six-site electrical alternatives. The ERPNext buyer view compares competing offers against the same lot. The row for statutory taxes and duties awaits a determination for the buyer and import scope. [Procurement plan and portal instructions](PROCUREMENT-PLAN.md) · [Download the estimate for ERPNext](sourcing-estimate.json)

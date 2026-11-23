@@ -1,10 +1,11 @@
 # Current platform capabilities
 
-OpenSourceRail connects three products: an open railway design and engineering
-system, a manufacturing/delivery and maintenance platform, and city planning and
-service tools. The aim is affordable whole-life transport supported by local
-design, manufacture and repair knowledge. Planning, engineering, business and
-equipment-observation records have distinct identities and review gates.
+OpenSourceRail connects a design and delivery platform, a reference railway and
+manufacturing system, and open train and wayside control software. City planning
+and service studies feed design and delivery decisions. The aim is affordable
+whole-life transport supported by local design, manufacture and repair
+knowledge. Planning, engineering, business and equipment-observation records
+have distinct identities and review gates.
 
 ## Reference and research configurations
 
@@ -34,6 +35,14 @@ candidate; the no-store alternative does not inherit recovery-candidate FEM.
 
 ## Available workflows
 
+The [powered-wheel 30 km digital reference](../reference-v07/README.md)
+supplies a common vehicle, civil, power and cost basis for comparison.
+The [v0.7.2 Airport release](../releases/v0.7.2/README.md) records the Baghdad
+opening under a separate candidate. The later [Airport prototype drawings and
+enquiries](../../cities/Baghdad/engineering/prototype/README.md) carry a revised
+frame, feeder calculations and matched fabrication scope for first-article
+quotations.
+
 | Capability | Current entry point and boundary |
 |---|---|
 | Coordinated candidate engineering | [`./osr design railway`](../design-engine/coupled-railway/README.md); preserves component/evaluation identities and open evidence gates |
@@ -44,6 +53,7 @@ candidate; the no-store alternative does not inherit recovery-candidate FEM.
 | Selected reference mass account | [Mass reconciliation and roof-finish distribution estimate](../design-engine/mass-reconciliation/current/README.md#provisional-roof-finish-distribution-estimate); distinct from powered-wheel research mass |
 | Reference CAD/IFC, BOM, procurement, assembly and control records | [Current export manifest](../design-engine/current/exports/manifest.json) and [delivery package index](../design-engine/coupled-railway/delivery-index.json) |
 | City geography, maps and route/service proposals | [Planning guide](../workbench/planning/README.md), [workspace](../workbench/planning/index.html); `./osr plan compile` / `verify`; route-specific engineering remains separate |
+| Calculated city outlines and native GIS revisions | [City atlas](../design-engine/city-atlas/README.md) and [RustGIS editing guide](../gis/README.md). A revised outline recalculates service, quantities and planning costs. `./osr city` and `./osr sim` report the separate v0.6 city-performance hold. |
 | Selected-candidate factory work package | [Current Workbench](../workbench/current/index.html); `./osr twin factory-draft compile` / `verify`; planning draft from the selected Class C ledger |
 | Calculated manufacturing and lifecycle scenarios | [Selected 6 km system estimate](../design-engine/current/exports/selected-system-cost.json), [vehicle estimate](../design-engine/current/exports/selected-vehicle-cost.json), [cost and delivery method](../design-engine/model-based-cost-and-delivery.md), and separate pilot ledgers |
 | Business and workforce workflows | [ERPNext/Frappe HR](../../deployment/erpnext/README.md); retained integration contracts and native business-platform acceptance scenario, with reviewed conversion required for the new pilot |

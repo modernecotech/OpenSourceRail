@@ -75,13 +75,7 @@ on:
       - "tools/automation/check-airport-install.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
-      - "docs/operator-review/delivery/calculate.py"
-      - "docs/operator-review/delivery/quantities.json"
-      - "docs/operator-review/finance/build.py"
-      - "docs/operator-review/finance/schedules.js"
-      - "docs/operator-review/finance/enquiries*.py"
-      - "docs/operator-review/finance/enquiries-data.js"
-      - "docs/operator-review/finance/phased-first.html"
+      - "docs/operator-review/**"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -197,13 +191,7 @@ on:
       - "tools/automation/check-airport-install.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
-      - "docs/operator-review/delivery/calculate.py"
-      - "docs/operator-review/delivery/quantities.json"
-      - "docs/operator-review/finance/build.py"
-      - "docs/operator-review/finance/schedules.js"
-      - "docs/operator-review/finance/enquiries*.py"
-      - "docs/operator-review/finance/enquiries-data.js"
-      - "docs/operator-review/finance/phased-first.html"
+      - "docs/operator-review/**"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -281,17 +269,8 @@ jobs:
             /campaigns/**
             /engineering/**
             /docs/reference-v07/**
-            /docs/operator-review/delivery/calculate.py
-            /docs/operator-review/delivery/README.md
-            /docs/operator-review/delivery/vehicle-works.svg
-            /docs/operator-review/delivery/precast-yard.svg
-            /docs/operator-review/delivery/workforce.png
-            /docs/operator-review/delivery/quantities.json
-            /docs/operator-review/finance/build.py
-            /docs/operator-review/finance/schedules.js
-            /docs/operator-review/finance/enquiries.py
-            /docs/operator-review/finance/enquiries-data.js
-            /docs/operator-review/finance/phased-first.html
+            /docs/operator-review/**
+            /deployment/supervision/README.md
             /docs/design-engine/v07-powered-cost/input.json
             /docs/design-engine/v07-architecture-decision/result.json
             /control-electronics/interface-schedule.json
@@ -421,6 +400,8 @@ jobs:
           python -m cities.Baghdad.citywide_service --check
           python -m cities.Baghdad.engineering.prototype.review --check
           python -m cities.Baghdad.engineering.prototype.sourcing --check
+          python -m cities.Baghdad.engineering.prototype.factory --check
+          python docs/operator-review/pack.py --check
           python -m cities.Baghdad.phased_finance --check
           python cities/Baghdad/iraq_capital.py --check
           python cities/Baghdad/iraq_budget.py --check

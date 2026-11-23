@@ -118,6 +118,8 @@ Precast production and erection have to meet in time as well as in quantity. The
 
 ![Precast yard layout showing moulds, curing and inspection, storage bays and the load-out route](docs/operator-review/delivery/precast-yard.svg)
 
+For the 36-car Airport opening, the equipment schedule gives a smaller workshop its own production case. One guarded saw prepares 3,168 RHS and liner pieces. A subcontractor can supply 2,016 nested plate blanks. Two body jigs and one bogie jig serve the assumed 250-day vehicle window. The precast yard follows a separate two-year delivery calendar. Buyers can quote each required resource, including hire and shared capacity, against the same drawing and procurement edition. [Airport factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) · [Repository review and open technical decisions](docs/PROJECT-REVIEW-2026-11-23.md)
+
 ### Build up a price from the drawing
 
 For a fabricated member, begin with the length of stock the shop must buy, the cutting layout and the usable yield. Add preparation, jig time, joining, machining, inspection, finish and rework. For a bought assembly, record the specified quantity, delivered price, lead time, spares and who can repair it. Keep a one-off jig or lifting fixture on its own line so the buyer can see how the first article differs from the hundredth. The manufacturing bill and routing translate those quantities into material issues, operations and inspection points. [Vehicle parts and manufacturing catalogue](docs/design-engine/vehicle-parts/README.md) · [Airport manufacturing guide](cities/Baghdad/engineering/prototype/manufacturing-guide.md)
@@ -172,7 +174,7 @@ The Baghdad training budget allows 160 paid learner-hours per person for the ini
 |---|---:|---:|---:|
 | Core 30 km | $1.025bn | $30.5m | Enter paid journeys and net yield for the chosen city |
 | Airport original comparison, 21 sets / 3 sites | $813.7m | $16.25m | $1.56m |
-| Airport v0.7.2 opening, 6 sets / 30 sites | $1.123bn | $13.08m | $1.56m |
+| Airport at the v0.7.2 tag, before the revised frame, 6 sets / 30 sites | $1.123bn | $13.08m | $1.56m |
 | Baghdad seven corridors | $8.37bn | $185.7m | $79.5m |
 | Baghdad citywide, full service | $33.00bn | $738.7m | $188.6m |
 

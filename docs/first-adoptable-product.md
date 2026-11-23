@@ -2,10 +2,13 @@
 
 OpenSourceRail has three connected products: design and delivery software, a reference railway and manufacturing system, and open GoA4 controls. The current main-branch front end provides city-planning proposals, calculated city/design outlines, candidate engineering views and delivery records. ERPNext/Frappe HR and FUXA/gateway are separate configurable integrations. Calculated completion is distinct from approved construction and live railway operation.
 
-The published v0.6.1 software release is separate from the v0.7.1 digital
-railway release and the current main-branch engineering work. Read the
-[software-release ledger](design-engine/v06-software-release/README.md) for its
-version-specific scope and gates.
+The [v0.6.1 software-release ledger](design-engine/v06-software-release/README.md)
+records the earlier planning and control workflows. Use the [30 km digital
+reference](reference-v07/README.md) for a common engineering and cost basis.
+The [v0.7.2 Baghdad Airport opening](releases/v0.7.2/README.md) adds a distinct
+operating plan and supplier dossier. The [later Airport first-article
+review](../cities/Baghdad/engineering/prototype/README.md) carries its own
+drawings, feeder results and quotation requests.
 
 ## Who can use it
 
