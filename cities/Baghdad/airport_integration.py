@@ -11,7 +11,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import zipfile
 
-from cities.Baghdad import airport_assembly, airport_finance, airport_opening, airport_service, urban_opening
+from cities.Baghdad import airport_assembly, airport_finance, airport_opening, airport_service, airport_single_line, urban_opening
 from cities.Baghdad.engineering.mechanical.compare_returns import verified_record
 from cities.Baghdad.engineering.mechanical.vehicle import power_interface
 from engineering.outline.baghdad_system import _id
@@ -128,6 +128,7 @@ def html(data, *, offline=False):
     t = service["terminal"]
     alternative = supply["station_sited_quote_variant"]
     svg = "time-distance.svg" if offline else "airport-time-distance.svg"
+    single_line = "traction-single-line.svg" if offline else "airport-traction-single-line.svg"
     alternative_voltage = (
         f'{alternative["minimum_collector_kv"]:.4f} kV'
         if alternative["minimum_collector_kv"] is not None
@@ -195,7 +196,8 @@ The replay covers {supply["replay"]["pulses"]} pulses. The radial feed study add
 <p>The costed topology has {supply["grid_sites"]} supply sites, {q["dc_outgoing_breaker_circuits"]} outgoing circuits and {q["normally_open_track_ties"]} normally open ties.
 The minimum collector voltage is {supply["selected"]["minimum_collector_kv"]:.4f} kV against a 1.350 kV planning floor.
 A six-site alternative with lower source droop and lower conductor and return resistance gives {alternative_voltage} under the same sensitivity. It needs supplier prices for the heavier circuit and source equipment.
-The feeder sizing envelope assigns uphill cruise demand to every nonaccelerating working set. The annual electricity budget uses the separate train-kilometre consumption model. Validate both with a metered timetable. A train stopping from 72 km/h on level track carries {supply["braking_reception"]["kinetic_kwh"]:.2f} kWh of kinetic energy. Demonstrate independent stopping, repeated heat rejection, isolation and evacuation with the line unreceptive.</p></section>
+The feeder sizing envelope assigns uphill cruise demand to every nonaccelerating working set. The annual electricity budget uses the separate train-kilometre consumption model. Validate both with a metered timetable. A train stopping from 72 km/h on level track carries {supply["braking_reception"]["kinetic_kwh"]:.2f} kWh of kinetic energy. Demonstrate independent stopping, repeated heat rejection, isolation and evacuation with the line unreceptive.</p>
+<a href="{single_line}">Open the traction supply single-line diagram</a></section>
 <section><h2>Production and procurement</h2>
 <p>The fleet requires {6*(c["bundle"]["active_sets"]+c["bundle"]["spares"])} cars. The body, bogie, door, brake, HVAC and controls schedule uses the braced frame revision and records missing supplier quantities.
 The civil order carries {spans["beam_count"]:,} ten-metre track beams and {spans["pier_foundation_count"]:,} support positions. The construction and vehicle routes, first-article inspections, mass form and matched price form are in the dossier.</p>
@@ -231,6 +233,7 @@ def make_packet(data):
             "START.html": html(data, offline=True).encode(),
             "airport.css": (CITY / "airport-integration.css").read_bytes(),
             "time-distance.svg": airport_service.time_distance_svg(data["service"]).encode(),
+            "traction-single-line.svg": airport_single_line.single_line_svg(c).encode(),
             "bom.csv": output.getvalue().encode(),
             "supplier-return.json": encode(airport_finance.quote_form(c)),
             "mass-return.json": encode(
@@ -256,6 +259,19 @@ def make_packet(data):
             info.compress_type = zipfile.ZIP_DEFLATED
             archive.writestr(info, value)
     return output.getvalue()
+
+
+def same_packet(published, rebuilt):
+    """Compare uncompressed member names, lengths and bytes across DEFLATE implementations."""
+    with zipfile.ZipFile(published) as actual, zipfile.ZipFile(rebuilt) as expected:
+        names = actual.namelist()
+        if sorted(names) != sorted(expected.namelist()) or len(set(names)) != len(names):
+            return False
+        return all(
+            actual.getinfo(info.filename).file_size == info.file_size
+            and actual.read(info.filename) == expected.read(info.filename)
+            for info in expected.infolist()
+        )
 
 
 QUOTING = """Open START.html for the proposed operating and construction quantities.
@@ -313,12 +329,17 @@ def main():
     elif args.publish or args.check:
         entries = {
             GUIDE: html(data).encode(),
+            CITY / "airport-traction-single-line.svg": airport_single_line.single_line_svg(data["opening"]).encode(),
             CITY / "airport-time-distance.svg": airport_service.time_distance_svg(data["service"]).encode(),
         }
         entries[CITY / "airport-dossier.zip"] = make_packet(data)
         if args.check:
             for path, raw in entries.items():
-                if path.read_bytes() != raw:
+                if path.suffix == ".zip":
+                    matches = same_packet(path, io.BytesIO(raw))
+                else:
+                    matches = path.read_bytes() == raw
+                if not matches:
                     raise SystemExit(f"Refresh {path.name}")
         else:
             with disk_reservation(ROOT, CITY, "Airport opening operating and cost sheets", 4 << 20) as lease:

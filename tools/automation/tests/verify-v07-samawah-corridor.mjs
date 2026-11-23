@@ -45,10 +45,13 @@ try {
   });
   page = await context.newPage(); page.on('pageerror', error => errors.push(error.message));
   await page.goto(origin + '/', {waitUntil: 'domcontentloaded'});
-  await page.locator('#city-outline-load').click();
-  await page.locator('#city-outline-select option[value="samawah"]').waitFor({state: 'attached'});
-  await page.locator('#city-outline-select').selectOption('samawah');
-  await page.locator('#samawah-merge-compare').waitFor({state: 'visible', timeout: 30000});
+  async function openSamawah() {
+    await page.locator('#city-outline-load').click();
+    await page.locator('#city-outline-select option[value="samawah"]').waitFor({state: 'attached'});
+    await page.locator('#city-outline-select').selectOption('samawah');
+    await page.locator('#samawah-merge-compare').waitFor({state: 'visible', timeout: 30000});
+  }
+  await openSamawah();
   const coldStart = performance.now(); monitoringCapacity = true;
   capacityTask = (async () => {
     while (monitoringCapacity) {
@@ -70,6 +73,11 @@ try {
   monitoringCapacity = false; await capacityTask; if (capacityError) throw capacityError;
   const before = await page.locator('#samawah-station-merge').getAttribute('data-baseline-job');
   const after = await page.locator('#samawah-station-merge').getAttribute('data-revised-job');
+  for (const id of [before, after]) {
+    const response = await context.request.get(`${origin}/api/city-studies/${id}/artifacts/summary.json`);
+    assert(response.ok());
+    assert.equal((await response.json()).civil_policy, 'mapped-mixed-comparison');
+  }
   const url = `${origin}/api/city-studies/comparisons/${before}/${after}`;
   const response = await context.request.get(url); assert(response.ok());
   const envelope = await response.json(), report = envelope.report;
@@ -121,6 +129,9 @@ try {
   assert.match(await page.locator('.atlas-door-part').innerText(), /approved limit and observed result required/);
 
   await page.locator('#samawah-station-merge').screenshot({path: join(output, 'comparison-desktop.png')});
+  await page.setViewportSize({width: 390, height: 844});
+  await page.reload({waitUntil: 'domcontentloaded'});
+  await openSamawah();
   const warmStart = performance.now();
   await page.locator('#samawah-merge-compare').click();
   await page.waitForFunction(() => document.querySelector('#samawah-station-merge')?.dataset.cacheReused === 'true' && document.querySelector('#samawah-merge-status')?.textContent.startsWith('Comparison complete'), null, {timeout: 60000});
@@ -129,7 +140,6 @@ try {
   assert.equal(await page.locator('#samawah-station-merge').getAttribute('data-revised-job'), after);
   const warm = await (await context.request.get(url)).json();
   assert.equal(warm.cache_hit, true); assert.equal(warm.report.comparison_id, report.comparison_id);
-  await page.setViewportSize({width: 390, height: 844});
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2), 'Mobile page overflow');
   await page.locator('#samawah-station-merge').screenshot({path: join(output, 'comparison-mobile.png')});
   assert.deepEqual(errors, []); assert.deepEqual(external, []);

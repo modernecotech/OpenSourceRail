@@ -2,7 +2,7 @@
 
 from hashlib import sha256
 from io import BytesIO
-from zipfile import ZipFile
+from zipfile import ZIP_STORED, ZipFile
 import json
 import pytest
 from cities.Baghdad import airport_finance, airport_integration as integration
@@ -40,6 +40,25 @@ def test_packet_connects_planning_finance_and_sources(opening):
         manifest = json.loads(archive.read("manifest.json"))
         assert manifest["candidate_id"] == case["candidate_id"]
         assert all(sha256(archive.read(k)).hexdigest() == v for k, v in manifest["sha256"].items())
+
+
+def test_packet_verification_accepts_alternative_compression_and_detects_changed_members(opening):
+    original = BytesIO(integration.make_packet(opening))
+    with ZipFile(original) as archive:
+        members = {name: archive.read(name) for name in archive.namelist()}
+
+    def repack(items):
+        output = BytesIO()
+        with ZipFile(output, "w", compression=ZIP_STORED) as archive:
+            for name, value in reversed(items.items()):
+                archive.writestr(name, value)
+        return output
+
+    assert integration.same_packet(original, repack(members))
+    members["bom.csv"] = bytes(len(members["bom.csv"]))
+    assert not integration.same_packet(original, repack(members))
+    del members["bom.csv"]
+    assert not integration.same_packet(original, repack(members))
 
 
 def test_price_return_changes_life_cost_and_cash(opening):

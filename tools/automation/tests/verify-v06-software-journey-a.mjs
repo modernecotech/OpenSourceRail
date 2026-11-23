@@ -243,7 +243,7 @@ try {
   });
   const firstRenderStarted = Date.now();
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
-  await page.locator("#design").waitFor({ state: "visible", timeout: 30000 });
+  await page.locator("#city-outline-load").waitFor({ state: "visible", timeout: 30000 });
   report.workbench_first_render_seconds =
     (Date.now() - firstRenderStarted) / 1000;
 
@@ -268,6 +268,7 @@ try {
     "The published Samawah network must contain mapped lines",
   );
 
+  assert.equal(await page.locator('#city-study-options select[name="civil_policy"]').inputValue(), "elevated");
   const cold = await submit(page, 120);
   // Preserve the returned admission contract even if an assertion fails before
   // the full cold-result receipt is assembled.
@@ -328,6 +329,8 @@ try {
     `/api/city-studies/${coldId}/artifacts/business-drafts.json`,
   );
   assert.equal(coldSummary.calculation_complete, true);
+  assert.equal(coldSummary.civil_policy, "elevated");
+  assert.equal(coldSummary.supply_preference, "catenary-free");
   assert.equal(
     coldSummary.source_outline_evaluation_id,
     report.published_outline_evaluation_id,
@@ -431,6 +434,7 @@ try {
     context,
     `/api/city-atlas/study/${changedId}`,
   );
+  assert.equal(changedSummary.civil_policy, coldSummary.civil_policy);
   assert.equal(changedResult.request.service.maximum_headway_s, 120);
   assert.equal(changedResult.request.service.peak_demand_pphpd, 9000);
   assert.notEqual(changedSummary.evaluation_id, coldSummary.evaluation_id);

@@ -14,6 +14,7 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+from cities.Baghdad.airport_integration import same_packet
 from engineering.performance import run_reserved_command
 
 # These sources reproduce the Airport dossier and the independent v0.7 reference.
@@ -21,7 +22,8 @@ PATHS = (
     "VERSION", "LICENSE.md", "LICENSES", "osr", "Cargo.toml", "Cargo.lock", "rust-toolchain.toml",
     "package.json", "package-lock.json", "crates", "control-electronics", "cities/Baghdad",
     "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz", "docs/reference-v07",
-    "docs/operator-review/delivery/calculate.py", "docs/releases/v0.7.2", "docs/RELEASE-v0.7.md",
+    "docs/operator-review/delivery/calculate.py", "docs/operator-review/delivery/quantities.json",
+    "docs/operator-review/finance", "docs/releases/v0.7.2", "docs/RELEASE-v0.7.md",
     "engineering/design_search/frame_analysis.py", "engineering/outline", "engineering/performance.py",
     "engineering/station_rail/__init__.py", "engineering/v07_reference_journey.py",
     "tools/automation/osr-python", "tools/automation/toolchain-release.sh",
@@ -57,6 +59,7 @@ def verify(revision, output):
         ["./osr", "design", "railway", "airport", "--check"],
         ["./osr", "design", "railway", "airport", "--packet", "build/airport-supplier.zip"],
         ["./osr", "reference", "v07"],
+        [".venv/bin/python", "-m", "cities.Baghdad.phased_finance", "--check"],
     ]
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
@@ -81,12 +84,13 @@ def verify(revision, output):
         if (directory / "command-2.log").read_text().strip() != selected_id:
             raise ValueError("Exported dossier differs from the checked operating and cost sheets")
     published = source / "cities/Baghdad/airport-dossier.zip"
-    if dossier.read_bytes() != published.read_bytes():
+    if not same_packet(published, dossier):
         raise ValueError("Installed dossier differs from the committed downloadable packet")
     receipt = {"commit": revision, "source_bytes": size, "source_file_count": len(entries),
                "archive": archive.name, "archive_sha256": sha256(archive.read_bytes()).hexdigest(),
                "archive_bytes": archive.stat().st_size, "selection_id": selected_id,
-               "dossier_sha256": sha256(dossier.read_bytes()).hexdigest(), "dossier_files": dossier_files,
+               "dossier_sha256": sha256(published.read_bytes()).hexdigest(),
+               "rebuilt_dossier_sha256": sha256(dossier.read_bytes()).hexdigest(), "dossier_files": dossier_files,
                "python": sys.version, "commands": commands}
     (directory / "verification.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(directory / "verification.json")
