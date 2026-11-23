@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **193**.
+Indexed Markdown files: **204**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **193**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 31 |
+| [cities](#cities) | 42 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 130 |
@@ -61,6 +61,7 @@ Indexed Markdown files: **193**.
 | [`cities/Baghdad/IRAQ-CAPITAL.md`](../cities/Baghdad/IRAQ-CAPITAL.md) | What the Baghdad networks could cost to build |
 | [`cities/Baghdad/IRAQ-ESTIMATES.md`](../cities/Baghdad/IRAQ-ESTIMATES.md) | What Baghdad would pay to run the railway |
 | [`cities/Baghdad/IRAQ-POWER.md`](../cities/Baghdad/IRAQ-POWER.md) | Buying traction electricity and equipment in Iraq |
+| [`cities/Baghdad/OPERATING-ALTERNATIVES.md`](../cities/Baghdad/OPERATING-ALTERNATIVES.md) | Baghdad opening operating alternatives |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
@@ -74,13 +75,23 @@ Indexed Markdown files: **193**.
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
 | [`cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md`](../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) | Baghdad Airport estimates and competitive quotations |
+| [`cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md`](../cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md) | Baghdad Airport production preparation and v0.8 decision |
 | [`cities/Baghdad/engineering/prototype/README.md`](../cities/Baghdad/engineering/prototype/README.md) | Baghdad Airport prototype review |
 | [`cities/Baghdad/engineering/prototype/civil-guide.md`](../cities/Baghdad/engineering/prototype/civil-guide.md) | First precast beam and station bay |
 | [`cities/Baghdad/engineering/prototype/commercial-guide.md`](../cities/Baghdad/engineering/prototype/commercial-guide.md) | Airport field returns and buyer cash |
 | [`cities/Baghdad/engineering/prototype/feeder-cash-guide.md`](../cities/Baghdad/engineering/prototype/feeder-cash-guide.md) | Compare two feeder bids against the Airport cash schedule |
 | [`cities/Baghdad/engineering/prototype/fitout-guide.md`](../cities/Baghdad/engineering/prototype/fitout-guide.md) | Fit the powered bogie and body equipment |
+| [`cities/Baghdad/engineering/prototype/infrastructure/ELECTRICAL-CONTROLS.md`](../cities/Baghdad/engineering/prototype/infrastructure/ELECTRICAL-CONTROLS.md) | Traction and control supplier schedule |
+| [`cities/Baghdad/engineering/prototype/infrastructure/PLATFORM-SWEEP.md`](../cities/Baghdad/engineering/prototype/infrastructure/PLATFORM-SWEEP.md) | Airport platform edge and doorway curve screen |
+| [`cities/Baghdad/engineering/prototype/infrastructure/README.md`](../cities/Baghdad/engineering/prototype/infrastructure/README.md) | Baghdad Airport v0.8 infrastructure first articles |
+| [`cities/Baghdad/engineering/prototype/infrastructure/STATION.md`](../cities/Baghdad/engineering/prototype/infrastructure/STATION.md) | Accessible station bay supplier schedule |
+| [`cities/Baghdad/engineering/prototype/infrastructure/VIADUCT.md`](../cities/Baghdad/engineering/prototype/infrastructure/VIADUCT.md) | Viaduct beam supplier schedule |
 | [`cities/Baghdad/engineering/prototype/manufacturing-guide.md`](../cities/Baghdad/engineering/prototype/manufacturing-guide.md) | Taking the Airport design to the workshop |
 | [`cities/Baghdad/engineering/prototype/mechanical.md`](../cities/Baghdad/engineering/prototype/mechanical.md) | Baghdad Airport first article |
+| [`cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md) | Airport car body-to-bogie mating sheet |
+| [`cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md) | Airport representative car general arrangement |
+| [`cities/Baghdad/engineering/prototype/vehicle-factory/README.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/README.md) | Baghdad Airport vehicle and local factory enquiries |
+| [`cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md) | Vehicle factory and depot planning |
 | [`cities/Baghdad/engineering/prototype/weight-guide.md`](../cities/Baghdad/engineering/prototype/weight-guide.md) | Return installed Airport weights |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
 | [`cities/Baghdad/maps/STATION-PRICING.md`](../cities/Baghdad/maps/STATION-PRICING.md) | Baghdad station sites and prices |

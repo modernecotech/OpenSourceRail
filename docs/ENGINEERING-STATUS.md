@@ -12,6 +12,8 @@
 
 [Procurement scope, price bands and supplier workflow](../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) · [Airport decision register, digital twins and quotations](../cities/Baghdad/engineering/prototype/README.md) · [Citywide service and financial scope](../cities/Baghdad/CITYWIDE-SERVICE.md)
 
+The [v0.8 production task list](../cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md) assigns the open design interfaces across six packages. The first-article enquiries are ready for competing prices. Production release awaits the installed-car arrangement, controlled critical fits and reviewed civil, electrical and workshop details.
+
 ## Synthetic 30 km reference
 
 The [selected digital railway](reference-v07/digital/selected.toml) is a powered-wheel, two-track synthetic 30 km corridor with twelve stations. It uses one six-car vehicle family, a thirteen-strand 10 m precast beam and protected 1.5 kV DC overhead. The [release gate](RELEASE-v0.7.md) concerns the digital design, cost and production plan. Physical manufacture and passenger operation require later qualification.
@@ -32,4 +34,4 @@ The [v0.6 passive-wheel vehicle](../engineering/development-baseline.toml) remai
 
 The [Baghdad Airport planning selection](../cities/Baghdad/airport-integration.html) joins the timetable, radial supply, six-set fleet, component quantities and funding schedule. Its selection record distinguishes numerical results, engineering screens and procurement authority. The 15-minute timetable includes every passenger working, two empty journeys and the depot lead. The 30-site supply model clears the 1.35 kV planning floor by 0.925 V in its most demanding sensitivity. Obtain a priced six-site lower-resistance offer and measure source, conductor and train performance before deciding how to supply the route.
 
-For the prototype, resolve the zero nominal allowance between the 1.300 m steel door aperture and the required fitted opening, then measure the fitted door under load. The dossier keeps first-article inspection, independent braking, geotechnical investigation, supplier prices and witnessed station-visit tests open. The four unresolved metropolitan groups retain their separate service allowances. [Prototype and delivery roadmap](ROADMAP.md)
+The original 1.300 m bare-doorway trial and four unresolved metropolitan groups remain recorded with their original configurations. The revised Airport car has 1.360 m steel openings, and the separate citywide service decision covers fourteen connected main routes with access deferrals. Field measurements, site engineering and operating approval belong to the applicable revision. [Airport prototype review](../cities/Baghdad/engineering/prototype/README.md) · [Citywide operating decision](../cities/Baghdad/CITYWIDE-SERVICE.md)

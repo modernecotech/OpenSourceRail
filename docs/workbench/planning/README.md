@@ -21,4 +21,22 @@ For the connected candidate workflow, see the [coordinated railway design](../..
 
 A new mapped-city study in the Workbench or `./osr design outline city` prices elevated guideway and retains separately costed bridge crossings. It carries a catenary-free preference into the study record. The available city models use station launch or powered axles with protected conductor. A mapped tunnel proposed for replacement above ground needs an alignment survey and crossing scope before the option can be recommended.
 
-Use `{"city_slug":"samawah","civil_policy":"mapped-mixed-comparison"}` as the JSON request for a separate calculation with the mapped civil classes. The same request works through `POST /api/city-studies` and the CLI `--request` argument. Revisions of an existing study inherit its civil choice. For unchanged mapped inputs and old comparison figures, open the published atlas. The synthetic overhead reference has its own calculation under `./osr reference v07`.
+Use `{"city_slug":"samawah","civil_policy":"mapped-mixed-comparison"}` as the JSON request for a separate calculation with the mapped conventional civil classes. The same request works through `POST /api/city-studies` and the CLI `--request` argument. Revisions of an existing study inherit its civil choice. For unchanged mapped inputs and old comparison figures, open the published atlas.
+
+## Compare architecture and service
+
+On a fresh study, the automatic propulsion screen retains station launch on a line if the passive coast calculation meets its bounds. If any leg fails, the study uses the powered-axle research model for that line and prices its added vehicle equipment, continuous protected conductor and substations. The planning screen uses level track and zero wind. The output records the actual propulsion choice and the original coast failures by line. The catenary-free preference covers both models.
+
+To control the comparison, pass `service.propulsion_policy_by_line` in the study request with one entry for every exact line ID. The accepted choices are `station-launch-reference` and `powered-axle-continuous-research`. An explicit station-launch request that fails the coast bound returns a line-specific refusal. Keep civil policy, route, demand, occupancy, availability, operating hours, operating days and pricing basis fixed to compare propulsion. Change headway or dwell as a separate operating case and keep its calculated fleet, section capacity and costs with that case.
+
+For an overhead comparison, the 30 km reference under `./osr reference v07` carries its own overhead collection, vehicles, guideway and service. Baghdad also prices overhead and protected conductor at equal offered service in each of its two network studies. The generic mapped-city calculation currently offers two catenary-free propulsion models. Transferring an overhead hypothesis to another city needs that city's vehicle and clearance interfaces, feeder sections, local installation rates, power and renewal studies. Use the existing overhead cases as separately identified references. [30 km overhead reference](../../reference-v07/README.md) · [Baghdad matched supply alternatives](../../../cities/Baghdad/PROPOSAL.md) · [Iraqi electricity sensitivity](../../../cities/Baghdad/IRAQ-POWER.md)
+
+```sh
+./osr design outline city --city samawah --output build/samawah-default
+./osr design outline city --request build/samawah-alternative.json --output build/samawah-alternative
+./osr design outline city-verify --output build/samawah-alternative --replay
+```
+
+Use `summary.json` to compare civil classes, headway, propulsion, fleet and the fourteen cost scopes. Use `result.json.gz` to inspect the detailed leg and capacity screens and the selected research configuration. A service that misses its declared demand or maximum headway can retain a cost for review with a requires-revision disposition. Surveyed grade and alignment, observed directional demand, supplier force and power limits, independent braking and train protection remain physical evidence requirements.
+
+The [Baghdad connected-network decision](../../../cities/Baghdad/CITYWIDE-SERVICE.md) compares a 150-second peak offer and a 30-minute clockface arrangement on its own 700-place powered train. The [Airport first-article opening](../../../cities/Baghdad/engineering/prototype/README.md) carries a distinct 15-minute timetable and feeder evaluation. Each has a separate fleet, scope and operating evidence record.

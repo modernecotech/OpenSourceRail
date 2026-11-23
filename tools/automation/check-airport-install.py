@@ -50,6 +50,13 @@ def verify(revision, output):
     if has_sourcing:
         paths.extend(("deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing_comparison.py",
                       "engineering/development-baseline.toml"))
+    has_enquiries = subprocess.run(
+        ["git", "cat-file", "-e", revision + ":cities/Baghdad/engineering/prototype/enquiries.py"],
+        cwd=ROOT, stderr=subprocess.DEVNULL,
+    ).returncode == 0
+    if has_enquiries:
+        paths.extend("docs/operator-review/delivery/" + name for name in
+                     ("README.md", "precast-yard.svg", "vehicle-works.svg", "workforce.png"))
     listing = subprocess.check_output(["git", "ls-tree", "-rlz", revision, "--", *paths], cwd=ROOT)
     entries = [row for row in listing.split(b"\0") if row]
     size = sum(int(row.split(b"\t", 1)[0].split()[3]) for row in entries)
@@ -89,6 +96,13 @@ def verify(revision, output):
             ["./osr", "design", "railway", "sourcing", "--check"],
             ["./osr", "design", "railway", "sourcing", "--demo"],
         ])
+    if has_enquiries:
+        commands.extend([
+            ["./osr", "design", "railway", "sourcing", "--issue", "build/airport-enquiries.zip"],
+            [".venv/bin/python", "cities/Baghdad/engineering/prototype/vehicle-factory/installed_ga.py", "--check"],
+            [".venv/bin/python", "cities/Baghdad/engineering/prototype/vehicle-factory/body_bogie.py", "--check"],
+            [".venv/bin/python", "cities/Baghdad/engineering/prototype/infrastructure/platform_sweep.py", "--check"],
+        ])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
             run = subprocess.run(command, cwd=source, env=env, stdout=log, stderr=subprocess.STDOUT)
@@ -111,6 +125,10 @@ def verify(revision, output):
         selected_id = selection["selection_id"]
         if (directory / "command-2.log").read_text().strip() != selected_id:
             raise ValueError("Exported dossier differs from the checked operating and cost sheets")
+    if has_enquiries:
+        buyer_issue = source / "cities/Baghdad/engineering/prototype/airport-enquiries.zip"
+        if not same_packet(buyer_issue, source / "build/airport-enquiries.zip"):
+            raise ValueError("Installed first-article schedules differ from the downloadable buyer issue")
     published = source / "cities/Baghdad/airport-dossier.zip"
     if not same_packet(published, dossier):
         raise ValueError("Installed dossier differs from the committed downloadable packet")

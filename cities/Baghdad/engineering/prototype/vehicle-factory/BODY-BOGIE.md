@@ -1,0 +1,21 @@
+# Airport car body-to-bogie mating sheet
+
+Use the [dimensioned plan and sections](body-bogie-mating.svg) to price and check the four secondary seat pairs and eight primary pad positions on one car. The two bogie-local systems use x forward and y left, with z measured from railhead. Their origins translate to car x = −6,400 and +6,400 mm in the nominal straight pose. The centres marked on the sheet locate stock seating faces. The supplier returns the mating hole patterns, locating method and fastener details for each side. [Installed-car geometry](INSTALLED-GA.md) · [Source bogie and fitout packet](../README.md)
+
+| Step | Record at the mating and joint inspection |
+|---|---|
+| 1. Establish position and inspect stock | Set the car and bogie coordinate frames and reference the wheelset planes. Survey identified pad centre positions, seat face height, flatness and coplanarity before and after joining and machining. Use the actual paired faces and documented load state for each measured gap. Identify mirrored or handed parts by their piece and serial IDs. |
+| 2. Review joint and fastener design | Supply dimensioned mating patterns with hole type and true-position references, locating method, material and surface treatment, thread engagement, grip and bearing length, edge distance, fastener grade, tightening method, retention and inspection access. Show the load path through mounts and welds for governing vertical, braking/traction, lateral, fatigue, accident and rescue cases. Provide inspection methods and approved sizes and limits before drilling or welding. |
+| 3. Prove the installed stack | Compare actual opposed face gaps with the spring, isolator and shim stack at the documented load. The stock nominal secondary gap is **156 mm** between z +602 and +758 mm. Allocate supplier dimensions and tolerances within the as-built fit while preserving loaded motion and retention. Leave the primary stack height open until the axlebox and wheelset are selected. Review approved travel stops, full yaw/roll, jounce/rebound and clearances to hardware and services. |
+| 4. Stage mating and service connection | Use the approved body support and lifting plan and verify isolation. Identify the intended bogie, inspect the mating faces, trial the supported alignment, then assemble the approved stack and mechanical retention using the supplier procedure. Connect, retain and identify service lines and bonding. Capture the completed fastener, geometry and routing inspections before graduated load checks. |
+| 5. Inspect and sign the installed interface | Record as-built alignment and clearances across the governing load and pose, actual tightening/retention record, brake response, no leaks, electrical continuity and intact service loops. Inspect structural joints against the process-specific criteria. Document nonconformities and re-inspection before closing the item. Witness supported withdrawal and reinstallation using the equipped bogie. |
+
+Use the [signed limit-return schedule](body-bogie-limit-return.csv) as an index. Make one copy of an item row per joint, per measured metric or per governing pose as needed. Set the sign convention with the reviewer. For a lower limit, margin is the measured value minus the approved minimum. For an upper limit, it is the approved maximum minus the measured value. Apply the approved uncertainty rule and preserve the signed measurement and calculation. Record both margins for a two-sided limit or identify the controlling one. Link the signed and dated original record with method, calibration, serial, supplier revision and reviewer. Proposed limits, approved limits and measured values have distinct fields.
+
+The sheet carries the stock face dimensions and centre locations. Hole-pattern dimensions, mating tolerances, proof loads, fastener and weld capacities and clearances through fitted motion await engineering and supplier sign-off. Review the approved assembly sequence and support equipment before a physical trial. [Fitted bogie and workshop evidence](../fitout-guide.md) · [Joint inspection and exchange scope](../mechanical.md) · [Factory release and maintenance route](factory-routing.md)
+
+Reproduce the drawing and return schedule from the repository root.
+
+```sh
+python3 cities/Baghdad/engineering/prototype/vehicle-factory/body_bogie.py --check
+```

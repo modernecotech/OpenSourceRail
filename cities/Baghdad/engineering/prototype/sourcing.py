@@ -58,14 +58,20 @@ def main(argv=None):
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--check", action="store_true", help="Rebuild and check the published buyer estimate")
     modes.add_argument("--publish", action="store_true", help="Replace the canonical estimate after reserving disk space")
+    modes.add_argument("--issue", type=Path, metavar="OUTPUT.zip",
+                       help="Export the registered Airport first-article enquiry drawings and buyer schedules")
     modes.add_argument("--json", action="store_true", help="Write machine-readable output to stdout")
     parser.add_argument("--lot", help="Select one lot by exact ID")
     parser.add_argument("--packet", type=Path, help="Read a specific published Airport prototype ZIP")
     parser.add_argument("--demo", action="store_true", help="Compare three invented offers for a priced one-time lot")
     args = parser.parse_args(argv)
-    if (args.check or args.publish) and (args.lot or args.packet or args.demo):
+    if (args.check or args.publish or args.issue) and (args.lot or args.packet or args.demo):
         parser.error("The published estimate uses the complete registered Airport configuration")
     try:
+        if args.issue:
+            from .enquiries import issue
+            issue(args.issue)
+            return
         packet = estimate_lots(args.packet) if args.packet else estimate_lots()
         if args.check or args.publish:
             from cities.Baghdad.airport_integration import write_atomic
