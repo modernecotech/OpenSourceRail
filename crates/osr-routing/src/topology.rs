@@ -484,6 +484,23 @@ pub fn greedy_synthesize_lines(
     demand_w: DemandWeight,
     budget: &GreedyBudget,
 ) -> Result<Vec<Line>, TopologyError> {
+    greedy_synthesize_lines_for_policy(
+        grid,
+        anchors,
+        demand_w,
+        budget,
+        crate::civil::CivilPolicy::default(),
+    )
+}
+
+/// Use the same mapped mixed comparison for route search and subsequent civil classification.
+pub fn greedy_synthesize_lines_for_policy(
+    grid: &Grid,
+    anchors: &[Anchor],
+    demand_w: DemandWeight,
+    budget: &GreedyBudget,
+    civil_policy: crate::civil::CivilPolicy,
+) -> Result<Vec<Line>, TopologyError> {
     if anchors.len() < 2 {
         return Err(TopologyError::TooFewAnchors {
             min: 2,
@@ -592,6 +609,7 @@ pub fn greedy_synthesize_lines(
             0.0
         };
         let ctx = GreedyContext {
+            civil_policy,
             hub,
             urban_r,
             committed_chords: &committed_chords,
@@ -877,6 +895,7 @@ struct Candidate {
 }
 
 struct GreedyContext<'a> {
+    civil_policy: crate::civil::CivilPolicy,
     hub: (usize, usize),
     urban_r: f32,
     committed_chords: &'a [((usize, usize), (usize, usize))],
@@ -1137,7 +1156,11 @@ fn find_best_candidate(
             0.0
         };
         let constructability_multiplier =
-            crate::civil::route_elevated_constructability_multiplier(grid, &cells);
+            crate::civil::route_constructability_multiplier_for_policy(
+                grid,
+                &cells,
+                ctx.civil_policy,
+            );
         let effective_coverage_score =
             f64::from(new_coverage) / constructability_multiplier.max(1.0);
         let cand = Candidate {

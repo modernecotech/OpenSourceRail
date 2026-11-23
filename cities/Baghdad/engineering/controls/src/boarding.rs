@@ -44,10 +44,10 @@ struct Visit {
 #[derive(Clone, Copy)]
 struct Event {
     visit: Visit,
+    boot_id: u64,
     sequence: u64,
     sent_ms: u64,
     request: Request,
-    local_reset_key: bool,
 }
 
 #[derive(Debug)]
@@ -63,12 +63,14 @@ struct Output {
 
 struct Supervisor {
     visit: Visit,
+    boot_id: u64,
     configuration: [u8; 32],
     doors: Vec<DoorState>,
     openings_per_side: usize,
     phase: Phase,
     latched_brake: BrakeCommand,
     recovery_seen: bool,
+    last_local_key: Option<bool>,
     sequence: u64,
     last_clock_ms: Option<u64>,
     load_requested_ms: Option<u64>,
@@ -78,15 +80,23 @@ const BENCH_TIMEOUT_MS: u64 = 250;
 const BENCH_LOAD_TIMEOUT_MS: u64 = 500;
 
 impl Supervisor {
-    fn new(visit: Visit, configuration: [u8; 32], cars: usize, openings_per_side: usize) -> Self {
+    fn new(
+        visit: Visit,
+        boot_id: u64,
+        configuration: [u8; 32],
+        cars: usize,
+        openings_per_side: usize,
+    ) -> Self {
         Self {
             visit,
+            boot_id,
             configuration,
             doors: vec![DoorState::default(); cars * 2 * openings_per_side],
             openings_per_side,
             phase: Phase::Tripped,
             latched_brake: BrakeCommand::Emergency,
             recovery_seen: false,
+            last_local_key: None,
             sequence: 0,
             last_clock_ms: None,
             load_requested_ms: None,
@@ -121,7 +131,9 @@ impl Supervisor {
     fn tick(&mut self, now_ms: u64, event: Event, mut frame: Frame) -> Output {
         // The fixture supplies a monotonic clock and a 250 ms laboratory age limit.
         self.watch_silence(now_ms);
-        let address_valid = event.visit == self.visit;
+        let local_reset_edge = frame.local_reset_key && self.last_local_key == Some(false);
+        self.last_local_key = Some(frame.local_reset_key);
+        let address_valid = event.visit == self.visit && event.boot_id == self.boot_id;
         let stamp_valid = now_ms
             .checked_sub(event.sent_ms)
             .is_some_and(|age| age <= BENCH_TIMEOUT_MS)
@@ -248,7 +260,7 @@ impl Supervisor {
                 }
                 (Phase::Tripped, Request::Reset)
                     if self.recovery_seen
-                        && event.local_reset_key
+                        && local_reset_edge
                         && all_locked
                         && observation.traction_enable =>
                 {
@@ -256,7 +268,8 @@ impl Supervisor {
                     self.latched_brake = BrakeCommand::Release;
                 }
                 (Phase::Tripped, Request::Observe) => {
-                    self.recovery_seen = all_locked && observation.traction_enable;
+                    self.recovery_seen =
+                        !frame.local_reset_key && all_locked && observation.traction_enable;
                 }
                 (_, Request::Observe) | (Phase::Tripped, Request::Reset) => (),
                 _ => self.trip(BrakeCommand::Emergency),
@@ -291,10 +304,10 @@ impl Bench {
     fn event(&self, request: Request) -> Event {
         Event {
             visit: self.supervisor.visit,
+            boot_id: self.supervisor.boot_id,
             sequence: self.supervisor.sequence + 1,
             sent_ms: self.clock + 10,
             request,
-            local_reset_key: false,
         }
     }
 
@@ -336,19 +349,19 @@ fn replay_direction(configuration: [u8; 32], cars: usize, openings: usize, direc
         direction,
     };
     let healthy = Frame::default();
+    let keyed = Frame {
+        local_reset_key: true,
+        ..healthy
+    };
     let bench = || {
         let mut b = Bench {
-            supervisor: Supervisor::new(visit, configuration, cars, openings),
+            supervisor: Supervisor::new(visit, 1, configuration, cars, openings),
             clock: 500,
         };
         // Restart cannot turn a previous trip into a dispatchable train.
         assert_eq!(b.step(Berth, healthy).phase, Phase::Tripped);
         assert_eq!(b.step(Observe, healthy).brake_request, Emergency);
-        let keyed = Event {
-            local_reset_key: true,
-            ..b.event(Reset)
-        };
-        assert_eq!(b.send(keyed, healthy).phase, Phase::Secured);
+        assert_eq!(b.step(Reset, keyed).phase, Phase::Secured);
         b
     };
     let open = Frame {
@@ -466,6 +479,153 @@ fn replay_direction(configuration: [u8; 32], cars: usize, openings: usize, direc
     assert!(!b.step(TakeLoad, loaded).dispatch_pulse);
     println!("{direction:?} normal visit: approach service braking, 24 platform doors open, parking and independent hold proved, 48 locks sampled twice, starting effort confirmed before handover, moving ATP active");
 
+    // A local handle interrupts dispatch even before a lock opens. The
+    // independent egress input belongs to a single installed opening.
+    let escape = Frame {
+        emergency_handle: Some(0),
+        evacuation_path_proved_for: Some(0),
+        ..healthy
+    };
+    for (frame, permitted_openings) in [
+        (escape, 1),
+        (
+            Frame {
+                evacuation_path_proved_for: None,
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                evacuation_path_proved_for: Some(1),
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                emergency_handle: Some(openings),
+                evacuation_path_proved_for: Some(openings),
+                ..healthy
+            },
+            0,
+        ),
+        (
+            Frame {
+                parking_proved: false,
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                hold_applied: false,
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                speed_mmps: direction.sign(),
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                torque_inhibit_proved: false,
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                station_verified: false,
+                ..escape
+            },
+            0,
+        ),
+        (
+            Frame {
+                service_supply: false,
+                ..escape
+            },
+            0,
+        ),
+    ] {
+        let mut b = ready();
+        let fault = b.step(Dispatch, frame);
+        assert_eq!(
+            (fault.phase, fault.brake_request),
+            (Phase::Tripped, Emergency)
+        );
+        assert_eq!(
+            (
+                fault.observation.opening_left,
+                fault.observation.opening_right
+            ),
+            (permitted_openings, 0)
+        );
+        assert!(
+            !fault.dispatch_pulse
+                && !fault.permit_starting_effort
+                && !fault.observation.traction_enable
+        );
+        assert_eq!(b.step(Reset, keyed).phase, Phase::Tripped);
+    }
+
+    // Interrupt the service supply during transfer, then replace the station
+    // supervisor. A boot identity is provisioned independently for each
+    // startup; this model supplies distinct values and tests their consumption.
+    let mut b = ready();
+    b.step(Dispatch, healthy);
+    let old_id = b.supervisor.boot_id;
+    let interrupted = b.step(
+        TakeLoad,
+        Frame {
+            service_supply: false,
+            ..loaded
+        },
+    );
+    assert_eq!(
+        (interrupted.phase, interrupted.brake_request),
+        (Phase::Tripped, Emergency)
+    );
+    assert!(!interrupted.permit_starting_effort && interrupted.retain_independent_hold);
+    b.supervisor = Supervisor::new(visit, 2, configuration, cars, openings);
+    let old = Event {
+        boot_id: old_id,
+        ..b.event(Observe)
+    };
+    // The old command has a valid timestamp and the expected sequence.
+    assert_eq!(b.send(old, healthy).phase, Phase::Tripped);
+    assert_eq!(b.supervisor.sequence, 0);
+    assert_eq!(b.step(Reset, keyed).phase, Phase::Tripped);
+    assert_eq!(b.step(Observe, keyed).phase, Phase::Tripped);
+    assert_eq!(b.step(Reset, keyed).phase, Phase::Tripped);
+    assert_eq!(
+        b.step(
+            Observe,
+            Frame {
+                unlocked: Some(0),
+                ..healthy
+            }
+        )
+        .phase,
+        Phase::Tripped
+    );
+    assert_eq!(b.step(Reset, keyed).phase, Phase::Tripped);
+    assert_eq!(b.step(Observe, healthy).phase, Phase::Tripped);
+    let recovered = b.step(Reset, keyed);
+    assert_eq!(recovered.phase, Phase::Secured);
+    assert!(
+        recovered.retain_parking_hold
+            && !recovered.dispatch_pulse
+            && !recovered.permit_starting_effort
+    );
+    assert_eq!(b.step(Dispatch, healthy).phase, Phase::Tripped);
+    println!("{direction:?} emergency and restart: single proved berth exit, interrupted take-up, previous boot rejected, locks and fresh local key required");
+
     // Loss of offside protection, applied hold or any independent brake/ATP
     // proof during a legitimate opening must reach a latched fault.
     for frame in [
@@ -533,18 +693,10 @@ fn replay_direction(configuration: [u8; 32], cars: usize, openings: usize, direc
         };
         assert_eq!((fault.phase, fault.brake_request), (Phase::Tripped, demand));
         assert_eq!(fault.retain_parking_hold, frame.speed_mmps == 0);
-        let keyed = Event {
-            local_reset_key: true,
-            ..b.event(Reset)
-        };
-        assert_eq!(b.send(keyed, healthy).phase, Phase::Tripped);
+        assert_eq!(b.step(Reset, keyed).phase, Phase::Tripped);
         assert_eq!(b.step(Observe, healthy).brake_request, demand);
         assert_eq!(b.step(Reset, healthy).phase, Phase::Tripped);
-        let keyed = Event {
-            local_reset_key: true,
-            ..b.event(Reset)
-        };
-        assert_eq!(b.send(keyed, healthy).phase, Phase::Secured);
+        assert_eq!(b.step(Reset, keyed).phase, Phase::Secured);
     }
     for frame in [
         Frame {
@@ -645,16 +797,12 @@ fn replay_direction(configuration: [u8; 32], cars: usize, openings: usize, direc
             (Phase::Tripped, demand)
         );
         assert_eq!(b.step(Observe, healthy).brake_request, demand);
-        let reset = Event {
-            local_reset_key: true,
-            ..b.event(Reset)
-        };
         assert_eq!(
-            b.send(
-                reset,
+            b.step(
+                Reset,
                 Frame {
                     brake_demand: Emergency,
-                    ..healthy
+                    ..keyed
                 }
             )
             .brake_request,

@@ -21,19 +21,39 @@ LIMITS = ("maximum_sample_gap_ms", "maximum_clock_error_ms", "minimum_hold_kn",
           "maximum_rollback_mm", "maximum_stationary_travel_mm", "dispatch_to_effort_ms")
 
 
-def binding():
-    parent = parse((HERE.parents[1] / "system-results.json").read_bytes())["networks"]["first"]
+def binding(opening=None):
+    system = (HERE.parents[1] / "system-results.json").read_bytes()
+    parent = parse(system)["networks"]["first"]
     sources = [HERE / name for name in ("Cargo.toml", "Cargo.lock", "src/boarding.rs", "src/main.rs")]
     for crate in ("osr-atp", "osr-door-control", "osr-tcms"):
         package = ROOT / "crates" / crate
         sources.extend([package / "Cargo.toml", *sorted((package / "src").rglob("*.rs"))])
-    return {"selected_candidate": parent["selected_candidate_id"],
+    basis = {"selected_candidate": parent["selected_candidate_id"],
             "network_evaluation": parent["selected_evaluation_id"],
             "control_source_sha256": {str(path.relative_to(ROOT)): sha256(path.read_bytes()).hexdigest() for path in sources}}
+    if opening is not None:
+        from engineering.outline.baghdad_system import _id
+
+        raw = opening.read_bytes()
+        case = parse(raw)
+        bundle, power = case["bundle"], case["power"]
+        fleet = bundle["active_sets"] + bundle["spares"]
+        if (case["parent"] != basis["selected_candidate"] or bundle["parent"] != case["parent"]
+                or case["sources"]["cities/Baghdad/system-results.json"] != sha256(system).hexdigest()
+                or bundle["service_group"] != "Airport" or bundle["formation_cars"] != 6
+                or bundle["supply"] != "protected_conductor" or power["option"] != bundle["supply"]
+                or power["parent_candidate_id"] != case["candidate_id"] or _id(bundle) != case["candidate_id"]
+                or fleet <= 0 or fleet != power["common_service"]["fleet_trainsets"]
+                or case["controls"]["door_controllers"] != 48 * fleet
+                or case["controls"]["brake_controllers"] != 12 * fleet):
+            raise ValueError("Airport bench return requires the matching opening, train and controller inventory")
+        basis.update(opening_candidate=case["candidate_id"], opening_evaluation=case["evaluation_id"],
+                     opening_sha256=sha256(raw).hexdigest())
+    return basis
 
 
-def templates():
-    basis = binding()
+def templates(opening=None):
+    basis = binding(opening)
     return {
         "manifest": {"schema": "osr-baghdad-bench-handover/1", "binding": basis,
                      "provenance": None, "started_at": None, "article_serial": None, "trial_id": None,
@@ -202,8 +222,8 @@ def screen(raw, limits, direction, clock_error):
             "event_time_uncertainty_ms": uncertainty, "dispatch_to_effort_observed_ms": latency}
 
 
-def assess(root, manifest, *, authenticator=None):
-    if manifest["schema"] != "osr-baghdad-bench-handover/1" or manifest["binding"] != binding():
+def assess(root, manifest, *, authenticator=None, opening=None):
+    if manifest["schema"] != "osr-baghdad-bench-handover/1" or manifest["binding"] != binding(opening):
         raise ValueError("Bench return differs from the selected Baghdad candidate or controls revision")
     if manifest["provenance"] not in ("synthetic-fixture", "physical-measurement"):
         raise ValueError("Classify source as physical-measurement or synthetic-fixture")
@@ -263,16 +283,17 @@ def assess(root, manifest, *, authenticator=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
-    mode.add_argument("--template", choices=templates().keys())
+    mode.add_argument("--template", choices=("manifest", "raw", "limits", "calibration", "witness"))
     mode.add_argument("--manifest", type=Path)
+    parser.add_argument("--opening", type=Path, help="Bind both template and return to the same opening.json")
     args = parser.parse_args()
-    if args.template:
-        print(json.dumps(templates()[args.template], indent=2))
-        return 0
     try:
+        if args.template:
+            print(json.dumps(templates(args.opening)[args.template], indent=2))
+            return 0
         if args.manifest.stat().st_size > 65536:
             raise ValueError("Manifest exceeds 64 KiB")
-        result = assess(args.manifest.parent, parse(args.manifest.read_bytes()))
+        result = assess(args.manifest.parent, parse(args.manifest.read_bytes()), opening=args.opening)
     except (ValueError, KeyError, TypeError, AttributeError, OverflowError, OSError) as exc:
         result = {"disposition": "held", "intake_error": str(exc), "physical_accepted": False}
     print(json.dumps(result, indent=2, allow_nan=False))

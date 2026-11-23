@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **180**.
+Indexed Markdown files: **182**.
 
 ## Sections
 
@@ -20,10 +20,10 @@ Indexed Markdown files: **180**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 19 |
+| [cities](#cities) | 20 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 129 |
+| [docs](#docs) | 130 |
 | [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
@@ -65,6 +65,7 @@ Indexed Markdown files: **180**.
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
+| [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
@@ -221,6 +222,7 @@ Indexed Markdown files: **180**.
 | [`docs/releases/v0.6.1/validation.md`](../docs/releases/v0.6.1/validation.md) | v0.6.1 validation |
 | [`docs/releases/v0.7.0/README.md`](../docs/releases/v0.7.0/README.md) | OpenSourceRail v0.7.0 — digital railway reference |
 | [`docs/releases/v0.7.1/README.md`](../docs/releases/v0.7.1/README.md) | OpenSourceRail v0.7.1 — Baghdad and control update |
+| [`docs/releases/v0.7.2/README.md`](../docs/releases/v0.7.2/README.md) | OpenSourceRail v0.7.2 · Baghdad opening integration |
 | [`docs/workbench/planning/README.md`](../docs/workbench/planning/README.md) | City planning proposals |
 
 ## engineering

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baghdad Airport opening · Operating plan and supplier enquiry</title>
+<link rel="stylesheet" href="airport-integration.css">
+<main><header><p>Baghdad · 12 km elevated railway · Six stops</p><h1>Airport opening</h1>
+<p>Three six-car trains provide a departure every 15 minutes in each direction. With three spares the fleet totals six sets.
+The central construction allowance is <strong>$1,122.8m</strong>. The largest design change is the protected-conductor supply needed during a site outage.</p>
+<nav><a href="airport-dossier.zip" download>Download supplier dossier</a> · <a href="engineering/controls/STATION-BENCH.md">Bench procedure</a> · <a href="AIRPORT-OPENING.md">Original Airport budget</a></nav></header>
+<section><h2>Operating plan</h2>
+<p>144 passenger trips, 2 empty mainline trips and 6 depot moves run each day.
+One working platform face and one exclusive throat per terminus accommodate the booked movements.
+The tightest resource has 150 seconds clear.
+The timetable provides 2,800 places per hour per direction.
+The common demand profile implies 1,158 boardings across both directions in the busiest hour. Hourly and within-hour counts, station movements and route survey remain open.</p>
+<a href="airport-time-distance.svg">Open full-day time–distance diagram</a></section>
+<section><h2>Traction, braking and isolation</h2>
+<p>The 201.092 t planning load requests 5.004 MW of traction.
+The replay covers 736 pulses. The radial feed study adds a ten percent resistance sensitivity, one failed site, two accelerating trains and auxiliary and cruise loads.</p>
+<table><thead><tr><th>Supply state</th><th>Accelerating sets</th><th>Collector voltage</th><th>Path current</th></tr></thead><tbody><tr><td>All sites live</td><td>1</td><td>1.4171 kV</td><td>6.04 kA</td></tr><tr><td>All sites live</td><td>2</td><td>1.3781 kV</td><td>8.88 kA</td></tr><tr><td>One site isolated</td><td>1</td><td>1.3994 kV</td><td>6.11 kA</td></tr><tr><td>One site isolated</td><td>2</td><td>1.3509 kV</td><td>9.06 kA</td></tr></tbody></table>
+<p>The costed topology has 30 supply sites, 116 outgoing circuits and 58 normally open ties.
+The minimum collector voltage is 1.3509 kV against a 1.350 kV planning floor.
+A six-site alternative with lower source droop and lower conductor and return resistance gives 1.3550 kV under the same sensitivity. It needs supplier prices for the heavier circuit and source equipment.
+The feeder sizing envelope assigns uphill cruise demand to every nonaccelerating working set. The annual electricity budget uses the separate train-kilometre consumption model. Validate both with a metered timetable. A train stopping from 72 km/h on level track carries 11.17 kWh of kinetic energy. Demonstrate independent stopping, repeated heat rejection, isolation and evacuation with the line unreceptive.</p></section>
+<section><h2>Production and procurement</h2>
+<p>The fleet requires 36 cars. The body, bogie, door, brake, HVAC and controls schedule uses the braced frame revision and records missing supplier quantities.
+The civil order carries 2,400 ten-metre track beams and 2,402 support positions. The construction and vehicle routes, first-article inspections, mass form and matched price form are in the dossier.</p>
+<p>A separate 1.8 km demonstrator enquiry covers a car, powered bogies, guideway, station interface and controlled stopping trials. Site engineering, approved tolerances, installed weights and witnessed tests remain open for production release.</p></section>
+<section><h2>Opening budget and public support</h2><table><thead><tr><th>2026 USD</th><th>Capital</th><th>Annual operation</th><th>Annual net fares</th><th>Annual support</th><th>30-year priced cost, PV</th></tr></thead><tbody><tr><td>Central</td><td>$1,122.8m</td><td>$13.1m</td><td>$1.6m</td><td>$11.5m</td><td>$1,470.6m</td></tr><tr><td>Upside</td><td>$1,068.3m</td><td>$10.4m</td><td>$4.0m</td><td>$6.4m</td><td>$1,370.4m</td></tr><tr><td>Downside</td><td>$1,236.1m</td><td>$17.5m</td><td>$0.4m</td><td>$17.1m</td><td>$1,660.4m</td></tr></tbody></table>
+<p>The central case assumes 10,121 paid journeys a day and 18.92m passenger-km a year, held constant across the Airport offers.
+It needs $3.12 in operating support per paid journey. The original 21-set, three-site case priced $813.7m and $14.7m annual support. Its terminal and outage restrictions prevent an equal-feasibility cost ranking.</p>
+<p>The funding illustration draws 20%, 45% and 35% over three years, opens the full corridor halfway through the third year and borrows 50% at 4% real over 20 years.
+Cash covers 30 operating years with fares, debt service and timed renewals. The costed layout allows one section-equipment unit price per midpoint tie and 1% annually on incremental site and switching equipment in the central case. Prices need site and maintenance quotations, utility connections and a funded opening agreement.
+The year sequence is relative to authorisation. Construction prices and ridership are scenarios.</p></section>
+<section><h2>Urban opening comparison</h2>
+<p>Yellow is the urban survey comparator because its named stops connect with the most other proposed corridors. At four trains an hour on both lines, the common-rate urban scope is $1,139.0m against $624.5m for Airport, before corridor-specific feeder correction and site work.
+At the same net fare it would need 50,065 additional paid journeys a day to match Airport operating support under those common assumptions. Survey directional demand, road diversion and local infrastructure before selecting an investment.</p></section>
+<footer><p>Quotation basis · 196bae6a566069880ebc95e46a7a43103fb511782c4b5868b9c8eda8a45287b2</p>
+<p>Reproduce with <code>./osr design railway airport --check</code>. Export with <code>./osr design railway airport --packet build/airport-dossier.zip</code>.</p></footer></main></html>

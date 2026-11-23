@@ -73,6 +73,7 @@ on:
       - "docs/operator-review/finance/schedules.js"
       - "docs/operator-review/finance/enquiries*.py"
       - "docs/operator-review/finance/enquiries-data.js"
+      - "docs/operator-review/finance/phased-first.html"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -186,6 +187,7 @@ on:
       - "docs/operator-review/finance/schedules.js"
       - "docs/operator-review/finance/enquiries*.py"
       - "docs/operator-review/finance/enquiries-data.js"
+      - "docs/operator-review/finance/phased-first.html"
       - "engineering/railway_progress/archive.py"
       - "engineering/railway_progress/coordinator.py"
       - "engineering/railway_progress/tests/test_streaming_publication_archive.py"
@@ -268,12 +270,14 @@ jobs:
             /docs/operator-review/finance/schedules.js
             /docs/operator-review/finance/enquiries.py
             /docs/operator-review/finance/enquiries-data.js
+            /docs/operator-review/finance/phased-first.html
             /docs/design-engine/v07-powered-cost/input.json
             /docs/design-engine/v07-architecture-decision/result.json
             /control-electronics/interface-schedule.json
             /control-electronics/reference-v07.toml
             /cities/Baghdad/**
             /cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz
+            /LICENSE.md
             /Cargo.toml
             /rust-toolchain.toml
             /crates/**
@@ -391,6 +395,8 @@ jobs:
           python docs/operator-review/delivery/calculate.py --check
           python docs/operator-review/finance/build.py --check
           python cities/Baghdad/airport_opening.py --check
+          python -m cities.Baghdad.airport_integration --check
+          python -m cities.Baghdad.phased_finance --check
           python cities/Baghdad/iraq_capital.py --check
           python cities/Baghdad/iraq_budget.py --check
           python cities/Baghdad/iraq_power.py --check

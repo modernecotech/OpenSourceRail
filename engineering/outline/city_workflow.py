@@ -21,6 +21,7 @@ from . import publication_cache
 PRODUCER='engineering/outline/city_workflow.py'
 _SELF_SHA=digest(__file__)
 FLAGS=completion.FLAGS
+CIVIL_POLICIES=('elevated','mapped-mixed-comparison')
 SELECTIONS=('auto','original','anchor-preserving-chord-research','rounded-four-edge-ring-research')
 SERVICE_BOUNDS=dict(peak_demand_pphpd=(1.,100000.),maximum_headway_s=(10.,3600.),
     planning_occupancy=(.1,1.),planning_availability_assumption=(.1,1.),
@@ -57,7 +58,7 @@ def _numeric(value,name,bounds):
 
 def normalize(value):
     if not isinstance(value,dict) or set(value)-{'schema','city_slug','expected_outline_evaluation_id',
-            'service','alignment','project','selection','base_plan','base_study_id','base_seed_id','edit_bundle'}:
+            'service','alignment','project','selection','civil_policy','base_plan','base_study_id','base_seed_id','edit_bundle'}:
         raise ValueError('Typed city study request required')
     v=deepcopy(value)
     if v.get('schema','osr-city-workflow-request/1')!='osr-city-workflow-request/1':
@@ -112,6 +113,10 @@ def normalize(value):
         raise ValueError('Known published planning seed required')
     if (bool(bases)!=('edit_bundle' in v)):
         raise ValueError('Planning base and edit bundle are required together')
+    if 'civil_policy' in v and v['civil_policy'] not in CIVIL_POLICIES:
+        raise ValueError('Choose elevated or mapped-mixed-comparison civil policy')
+    if not bases:
+        v.setdefault('civil_policy','elevated')
     if len(encoded(v))>2*1024**2:raise ValueError('City study request exceeds its byte budget')
     v['schema']='osr-city-workflow-request/1'
     return v
@@ -135,6 +140,34 @@ def _rules(previous,request):
         rules['pricing_basis']=rules['project'].get('pricing_scenario',rules['pricing_basis'])
     rules['operations_shifts_per_day']=2 if rules['operating_hours_per_day']<=18 else 3
     return rules
+
+
+def _civil_input(city, policy):
+    """Apply the construction choice to priced sections, retaining source crossing classes for comparison."""
+    if policy not in CIVIL_POLICIES:
+        raise ValueError('Unknown city civil policy')
+    if city['input_id'] != identity({k:v for k,v in city.items() if k != 'input_id'}):
+        raise ValueError('Expected a sealed mapped city input')
+    segments = []
+    changed = False
+    for row in city['civil_segments']:
+        mapped = row.get('mapped_comparison_class', row['class'])
+        if mapped not in ('at-grade', 'tunnel', 'elevated', 'bridge'):
+            raise ValueError('Unknown mapped civil classification')
+        target = 'elevated' if policy == 'elevated' and mapped in ('at-grade','tunnel') else mapped
+        if target != row['class']:
+            segments.append({**row, 'class':target, 'mapped_comparison_class':mapped,
+                             'assumed':True, 'vertical_alignment_surveyed':False})
+            changed = True
+        else:
+            segments.append(row)
+    if not changed:
+        return city
+    child = {**city, 'civil_segments':segments,
+             'ancestry':{'parent_input_id':city['input_id'], 'revision_operator':policy,
+                         'reason':'Reprice civil sections on this mapped trace. Survey clearances, vertical profile, urban access and foundations.'}}
+    child['input_id'] = identity({k:v for k,v in child.items() if k != 'input_id'})
+    return child
 
 
 def _validate_line_demand_mapping(rules,city_input):
@@ -256,6 +289,8 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     # An iterative edit inherits the verified study's demand, pricing and
     # operating policy; an empty request must not revert it to the seed defaults.
     rules=_rules(base['outline_context']['study_rules'] if base is not None else seed['rules'],v)
+    rules['civil_policy']=v.get('civil_policy', rules.get('civil_policy','mapped-mixed-comparison'))
+    rules['supply_preference']='catenary-free'
     if 'line_peak_demand_pphpd' in rules:
         mapped_input=(base['outline_context']['city_input_template'] if base is not None
             else city_inputs.load(v['city_slug'],root=root))
@@ -267,6 +302,10 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     if base is not None:
         revision=planning_adapter.apply_edits(base,v['edit_bundle'],root=root,trusted_base_sha256=trusted_base)
         revision=deepcopy(revision);revision['requirements']=rules
+        geometry=_civil_input(revision['city_input'],rules['civil_policy'])
+        if geometry['input_id']!=revision['city_input']['input_id']:
+            revision['planning_revision_id']=identity(dict(parent=revision['planning_revision_id'],city_input_id=geometry['input_id']))
+            revision['city_input']=geometry
         revision['source_sha256']=coordinator.merge_sources(revision['source_sha256'],_sources(root))
         revision['evaluation_id']=identity({k:x for k,x in revision.items() if k!='evaluation_id'})
         proposals=[dict(kind='priced-planning-revision',city_input=revision['city_input'],
@@ -278,12 +317,17 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
         if not proposals:raise ValueError('This city has no requested alignment family to evaluate')
     cases=[]
     for proposal in proposals:
-        inputs=proposal['city_input']
+        inputs=_civil_input(proposal['city_input'],rules['civil_policy'])
+        if inputs['input_id']!=proposal['city_input']['input_id']:
+            proposal={**proposal,'alignment_id':identity(dict(parent=proposal['alignment_id'],city_input_id=inputs['input_id']))}
         service=(revision_service.evaluate(revision,context['spec']['design'],context['vehicle'],root=root)
                  if revision else city_service.evaluate(inputs,rules,context['spec']['design'],context['vehicle'],root=root))
         cost=city_project_cost.evaluate_city_cost(inputs,service['line_services'],context,policy=rules,root=root)
         record=completion._assemble_city(inputs,service,cost,context,rules)
         screen=_functional(record,proposal.get('selection_eligibility',{}))
+        if any(r['class']=='elevated' and r.get('mapped_comparison_class')=='tunnel' for r in inputs['civil_segments']):
+            screen['failures'].append('Above-ground replacement for a mapped tunnel needs a surveyed alignment and site-specific crossing scope')
+            screen['pass_for_outline']=False
         cases.append(dict(kind=proposal['kind'],alignment_id=proposal['alignment_id'],
             record=record,functional_screen=screen,
             selection_eligibility=proposal.get('selection_eligibility',{})))
@@ -338,11 +382,16 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
 
 def summary(value):
     city=value['city_outline'];cost=city['cost'];services=city['service_evaluation']['line_services']
+    policy=city.get('policy',{})
+    architecture=({**{key:policy[key] for key in ('civil_policy','supply_preference') if key in policy},
+                   'civil_route_m':cost['civil']['quantities']['class_route_m']}
+                  if 'civil_policy' in policy or 'supply_preference' in policy else {})
     return dict(schema='osr-mapped-city-workflow-summary/1',evaluation_id=value['evaluation_id'],
         city=value['city'],source_outline_evaluation_id=value['source_outline_evaluation_id'],
         research_configuration_id=city['research_configuration_id'],planning_seed_id=value['planning_seed_id'],
         planning_revision_sha256=value['planning_revision']['revision_sha256'],
         calculation_complete=value['calculation_complete'],outline_acceptance=value['outline_acceptance'],
+        **architecture,
         installed_capital_usd=cost['installed_capital_usd'],whole_life_npv_usd=cost['whole_life_npv_usd'],
         price_per_route_km_usd=cost['price_per_route_km_usd'],scope_totals_usd=cost['scope_totals_usd'],
         trainsets=sum(r['service']['total_trainsets'] for r in services),

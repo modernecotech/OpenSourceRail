@@ -1,5 +1,6 @@
 """Price the named Airport corridor from its train workings and independent opening assets."""
 import argparse
+from dataclasses import replace
 from hashlib import sha256
 import json
 from math import ceil, pi
@@ -90,7 +91,7 @@ def iraq_site_estimate(direct, rates, works, route, grid_sites):
             "inputs": inputs, "scenarios": scenarios}
 
 
-def airport_operations(cfg, group, bundle, power, opex, site_inputs, market):
+def airport_operations(cfg, group, bundle, power, opex, site_inputs, market, *, demand_reference_trips, positioning_km_day=0):
     staff = runpy.run_path(str(WORKFORCE_SOURCE))
     stops, route = group["outward_stops"], group["one_way_km"]
     trips = group["scheduled_trips"]
@@ -121,7 +122,9 @@ def airport_operations(cfg, group, bundle, power, opex, site_inputs, market):
         positions = site_inputs["additional_airport_interface_posts_on_duty"][j]
         additional_fte = ceil(positions * hours * days / 1720)
         extra_pay = additional_fte * wage["loaded_usd_per_fte_year"]["station duty and passenger assistance"] / 1e6
-        deadhead_fraction = site_inputs["non_revenue_distance_share"][j]
+        # Include every diagrammed empty trip within the allowance. The remainder
+        # covers yard and maintenance moves pending a surveyed depot layout.
+        deadhead_fraction = max(positioning_km_day * days / km_year, site_inputs["non_revenue_distance_share"][j])
         grid_price = energy_rates[cost]["delivered_usd_per_kwh"]
         energy_bill = grid_gwh * (1 + deadhead_fraction) * grid_price
         train_nonlabour = opex["train_operations"] - wages["estimated_credit_by_envelope_usd_m_year"]["Non-energy train operations"]
@@ -130,7 +133,7 @@ def airport_operations(cfg, group, bundle, power, opex, site_inputs, market):
                  + extra_pay + deadhead_nonenergy)
         air = site_inputs["air_passenger_movements_2024"] * site_inputs["rail_share_of_air_passengers"][i]
         employees = days * site_inputs["airport_employee_and_visitor_one_way_journeys_per_day"][i]
-        residents = trips * days * (len(local) - 1) * site_inputs["local_boardings_per_eligible_train_call"][i]
+        residents = demand_reference_trips * days * (len(local) - 1) * site_inputs["local_boardings_per_eligible_train_call"][i]
         journeys = air + employees + residents
         passenger_km = mean_airport_km * (air + employees) + mean_local_km * residents
         paid = journeys * market["demand"]["paying_share_of_linked_journeys"]
@@ -153,20 +156,96 @@ def airport_operations(cfg, group, bundle, power, opex, site_inputs, market):
             "cases": cases}
 
 
-def calculate():
-    grid_sites = 3  # Test two end feeds and one intermediate feed before locating parcels.
-    cfg = system.load()
-    report, _ = diagrams.build()
-    if json.loads(diagrams.PUBLICATION.read_bytes())["evaluation_id"] != report["evaluation_id"]:
+def opening_inputs():
+    # Verify the published timetable's method and source chain before reuse.
+    # Rebuilding all three networks for a six-stop costing took most of its time.
+    from cities.Baghdad.engineering.mechanical.compare_returns import verified_record
+
+    cfg = system.load(network="first")
+    report = json.loads(diagrams.PUBLICATION.read_bytes())
+    timetable_id = report.pop("evaluation_id")
+    if system._id({"data": report, "method": sha256(Path(diagrams.__file__).read_bytes()).hexdigest()}) != timetable_id:
         raise ValueError("Refresh the published service workings first")
+    report["evaluation_id"] = timetable_id
+    system_record = verified_record(CITY / "system-results.json", ROOT)
+    review = CITY / "maps/corridor-review.geojson"
+    verified_record(review, ROOT)
+    register = json.loads((CITY / "station-register.json").read_bytes())
+    register_id = register.pop("evaluation_id")
+    if (system._id(register) != register_id
+            or system._id({k: v for k, v in system_record.items() if k != "evaluation_id"}) != system_record["evaluation_id"]
+            or report["source_system_evaluation_id"] != system_record["evaluation_id"]
+            or report["corridor_review_sha256"] != sha256(review.read_bytes()).hexdigest()
+            or register_id != system_record["station_register"]["evaluation_id"]):
+        raise ValueError("Refresh the Airport timetable and source station register")
+    return cfg, report, system_record["networks"]["first"]
+
+
+def common_opening_cost(cfg, works, power, route, fleet, station_count, grid_sites, annual_km):
+    """Price one standalone corridor with one dedicated depot and control centre."""
+    track = route * cfg["track_count"]
+    n = {"fleet_trainsets": fleet, "stations": station_count, "route_km": route,
+         "traction_supply_sites": grid_sites, "control_centres": 1}
+    power_price = system._power_cost(power, cfg, n)
+    r = cfg["capital_rates_usd_m"]
+    direct = {
+        "Viaduct, piers and foundations": works["prices"]["changed_elevated_scope_usd"]/1e6,
+        ("Six station shells and accessible approaches" if station_count == 6 else "Station shells and accessible approaches"): station_count * r["station"],
+        "Track and walkways": track * r["track_and_walkway_per_track_km"],
+        "Signalling and communications": route * r["signalling_per_route_km"],
+        "Wayside braking and recovery": route * r["wayside_brake_and_rescue_per_route_km"],
+        "Protected conductor and switchgear": power_price["line_usd_m"],
+        "Grid supply sites": power_price["grid_and_charging_usd_m"],
+        "Fleet, including spare sets": power_price["fleet_usd_m"],
+        "Depot and control centre": r["depot"] + r["control_centre"],
+        "Land, utilities and disruption": route * r["land_utilities_disruption_per_route_km"],
+        "Fixed production setup and route tooling": r["tooling_and_recovery_fixed"] + route*r["tooling_and_recovery_per_route_km"]}
+    op = cfg["operation_rates"]
+    opex = {"station_operations": station_count * op["station_operations_usd_m_per_year"],
+            "train_operations": annual_km * op["non_energy_vehicle_operations_usd_per_train_km"]/1e6,
+            "electricity": power["energy"]["annual_grid_gwh"] * op["delivered_energy_usd_per_kwh"],
+            "line_upkeep": track * cfg["annual_power_maintenance_usd_m"]["protected_conductor_per_track_km"]}
+    return direct, opex, power_price
+
+
+def apply_feeder_quantities(power, feeder, assumptions):
+    supply = power["supply"]
+    q = feeder["procurement"]
+    sections = q["feed_half_bays"]
+    if (supply["grid_sites"] != feeder["grid_sites"] or sections < 1
+            or q["dc_outgoing_breaker_circuits"] != sections):
+        raise ValueError("Feed paths and priced switchgear must use the same topology")
+    # Preserve the comparison result in ancestry and carry the engineered DC peak
+    # through site price and replacement. Utility AC conversion remains a quote item.
+    parent_eval = power["evaluation_id"]
+    supply["uniform_share_site_mw"] = supply["provisional_grid_site_rating_mw"]
+    supply["provisional_grid_site_rating_mw"] = max(supply["uniform_share_site_mw"], q["minimum_site_peak_dc_mw"])
+    supply["powered_section_count"] = sections
+    power["maintenance_quantities"]["powered_section_count"] = sections
+    screen = power["traction"]["electrical_screen"]
+    screen.update(powered_section_count=sections, mean_powered_section_length_km=supply["line_power_track_km"]/sections)
+    for event in power["renewal_events"]:
+        if event["component"] == "line_section_protection":
+            event["quantity"] = sections * assumptions.power_electronics_renewal_fraction_year_15
+    power["parent_evaluation_id"] = parent_eval
+    power["feeder_design_id"] = feeder["design_id"]
+    power["evaluation_id"] = system._id({"parent": parent_eval, "feeder": feeder["design_id"], "supply": supply})
+
+
+def calculate(*, inputs=None, service=None, size_feeder=False, loaded_mass_t=None,
+              vehicle_revision=None, mass_basis_id=None):
+    cfg, report, selected = inputs or opening_inputs()
+    grid_sites = 3
     diagram = report["networks"]["first"]
-    selected = json.loads((CITY / "system-results.json").read_bytes())["networks"]["first"]
     validate_parent(cfg, diagram, selected)
-    group = diagram["groups"]["Airport"]
+    reference_group = diagram["groups"]["Airport"]
+    group = service["group"] if service else reference_group
+    if service:
+        cfg = {**cfg, "vehicle": {**cfg["vehicle"], "peak_headway_s": service["peak_headway_s"]},
+               "service_plan": {**cfg["service_plan"], "departures_per_hour_direction": service["hourly"]}}
     stops = group["outward_stops"]
     v = cfg["vehicle"]
     route = group["one_way_km"]
-    track = route * cfg["track_count"]
     active = group["diagrammed_sets"]
     spares = 3  # one workshop, one inspection and one ready spare, independently priced
     fleet = active + spares
@@ -177,6 +256,13 @@ def calculate():
               "depots": 1, "control_centres": 1, "grid_sites": grid_sites,
               "supply": "protected_conductor", "span_m": cfg["selected_span_m"],
               "pier_family": cfg["selected_pier_family"]}
+    if service:
+        bundle["formation_cars"] = v["cars_per_train"]
+        bundle["vehicle_revision"] = vehicle_revision
+        bundle["terminal_layout"] = {key: service["terminal"][key] for key in (
+            "open_platform_faces_each_end", "common_throats_each_end", "yard_track_km_assumed", "depot_end")}
+    if mass_basis_id:
+        bundle["installed_mass_return"] = mass_basis_id
     candidate = system._id(bundle)
     network = PowerNetwork(
         candidate_id=candidate, route_km=route, normal_places_per_train=v["normal_places_per_train"],
@@ -185,38 +271,48 @@ def calculate():
         train_energy_kwh_per_km=v["energy_kwh_per_train_km_overhead_comparator"],
         peak_headway_s=v["peak_headway_s"], dwell_s=v["dwell_s"], speed_cap_m_s=v["speed_cap_kmh"]/3.6,
         service_hours_per_day=v["service_hours_per_day"], service_days_per_year=v["service_days_per_year"])
-    power = compare_power(network, PowerAssumptions(**cfg["power_assumptions"]))["protected_conductor"]
+    assumptions = PowerAssumptions(**cfg["power_assumptions"])
+    if loaded_mass_t is not None:
+        # The network input is referenced to the overhead comparator.
+        delta = compare_power(network, assumptions)["protected_conductor"]["vehicle"]["delta_from_overhead_comparator_t"]
+        new_comparator_mass = loaded_mass_t - delta
+        adjusted_energy = network.train_energy_kwh_per_km + (
+            new_comparator_mass - network.train_mass_t) * assumptions.incremental_energy_kwh_per_km_per_t
+        network = replace(network, train_mass_t=new_comparator_mass, train_energy_kwh_per_km=adjusted_energy)
+    power = compare_power(network, assumptions)["protected_conductor"]
+    feeder = None
+    if size_feeder:
+        from cities.Baghdad.airport_supply import bind_supply, build_supply
+        feeder = build_supply(service, power, route)
+        if feeder["grid_sites"] is None:
+            raise ValueError("No priceable supply design for this train load: " + feeder["status"])
+        grid_sites = feeder["grid_sites"]
+        bundle.update(grid_sites=grid_sites, feeder_design_id=feeder["design_id"])
+        candidate = system._id(bundle)
+        network = replace(network, candidate_id=candidate, grid_site_count=grid_sites)
+        power = compare_power(network, assumptions)["protected_conductor"]
+        apply_feeder_quantities(power, feeder, assumptions)
+        feeder = bind_supply(feeder, service, power, route)
     works = civil_evaluate({"Airport": route}, span_m=bundle["span_m"], common_pier=False,
                            physical_candidate_id=power["physical_candidate_id"], rates=PlanningRates(**cfg["civil_rates"]),
                            train_crowd_mass_t=power["vehicle"]["mass_t"], target_years=2, civil_start_year=1)
+    r = cfg["capital_rates_usd_m"]
+    direct, opex, power_price = common_opening_cost(cfg, works, power, route, fleet, len(stops), grid_sites, km_year)
     n = {"fleet_trainsets": fleet, "stations": len(stops), "route_km": route,
          "traction_supply_sites": grid_sites, "control_centres": bundle["control_centres"]}
-    power_price = system._power_cost(power, cfg, n)
-    r = cfg["capital_rates_usd_m"]
-    direct = {
-        "Viaduct, piers and foundations": works["prices"]["changed_elevated_scope_usd"]/1e6,
-        "Six station shells and accessible approaches": len(stops) * r["station"],
-        "Track and walkways": track * r["track_and_walkway_per_track_km"],
-        "Signalling and communications": route * r["signalling_per_route_km"],
-        "Wayside braking and recovery": route * r["wayside_brake_and_rescue_per_route_km"],
-        "Protected conductor and switchgear": power_price["line_usd_m"],
-        "Grid supply sites": power_price["grid_and_charging_usd_m"],
-        "Fleet, including spare sets": power_price["fleet_usd_m"],
-        "Depot and control centre": bundle["depots"] * r["depot"] + bundle["control_centres"] * r["control_centre"],
-        "Land, utilities and disruption": route * r["land_utilities_disruption_per_route_km"],
-        "Fixed production setup and route tooling": r["tooling_and_recovery_fixed"] + route*r["tooling_and_recovery_per_route_km"]}
     control_budgets = dict(vehicles=direct["Fleet, including spare sets"],
                            stations_access=direct["Six station shells and accessible approaches"],
                            signalling_comms=direct["Signalling and communications"],
                            grid_charging_buffers=direct["Grid supply sites"],
                            depots_control=direct["Depot and control centre"])
     controls = system._control_electronics(cfg, n, power, control_budgets)
+    if feeder:
+        # Budget the normally open ties at a provisional section-equipment rate.
+        # Outgoing breakers are already in the section count above.
+        tie_cost = feeder["procurement"]["normally_open_track_ties"] * power_price["section_unit_usd_m"]
+        direct["Protected conductor and switchgear"] += tie_cost
     scope = allowances(direct, r)
     op = cfg["operation_rates"]
-    opex = {"station_operations": len(stops) * op["station_operations_usd_m_per_year"],
-            "train_operations": km_year * op["non_energy_vehicle_operations_usd_per_train_km"]/1e6,
-            "electricity": power["energy"]["annual_grid_gwh"] * op["delivered_energy_usd_per_kwh"],
-            "line_upkeep": track * cfg["annual_power_maintenance_usd_m"]["protected_conductor_per_track_km"]}
     # Compare returns on the same basis. Remove only the identified host scopes;
     # price all changes, transfer and reinstatement before applying allowances.
     base_with_host_assets_replaced = {key: value for key, value in direct.items()
@@ -232,19 +328,45 @@ def calculate():
                                                            * (1 + r["project_allowance_fraction"])}}
     iraq = iraq_site_estimate(direct, r, works, route, grid_sites)
     market = tomllib.loads(MARKET_INPUT.read_text(encoding="utf-8"))
-    annual = airport_operations(cfg, group, bundle, power, opex, iraq["inputs"]["operations"], market)
+    annual = airport_operations(cfg, group, bundle, power, opex, iraq["inputs"]["operations"], market,
+                                demand_reference_trips=reference_group["scheduled_trips"],
+                                positioning_km_day=service["non_revenue_km_per_day"] if service else 0)
+    renewal = [{"year": event["year"], "component": event["component"],
+                "usd_m": system._renewal_cost(event, power, cfg, power_price)}
+               for event in power["renewal_events"]]
+    renewal.extend([
+        {"year": 15, "component": "common_signalling_and_brake", "usd_m": (
+            direct["Signalling and communications"] + direct["Wayside braking and recovery"]) * op["year_15_common_systems_replacement_fraction"]},
+        {"year": 25, "component": "fleet_major_renewal", "usd_m": direct["Fleet, including spare sets"] * op["year_25_fleet_replacement_fraction"]}])
+    if feeder:
+        balance = iraq["inputs"]["feeder_upkeep"]
+        base_grid_allowance = 3 * r["traction_supply_site"]
+        added_equipment = (direct["Grid supply sites"] - base_grid_allowance + tie_cost
+                           + max(0, power["supply"]["powered_section_count"] - 2 * (len(stops)-1)) * power_price["section_unit_usd_m"])
+        renewal.append({"year": 15, "component": "midpoint_tie_equipment",
+                        "usd_m": tie_cost * assumptions.power_electronics_renewal_fraction_year_15})
+        for key, row in annual["cases"].items():
+            extra = added_equipment * balance[key]
+            row["incremental_site_and_switch_upkeep_usd_m"] = extra
+            row["opex_usd_m"] += extra
+            row["annual_operating_support_usd_m"] += extra
     sources = [Path(__file__).resolve(), SITE_INPUT, WORKFORCE_SOURCE, diagrams.PUBLICATION, CITY/"system.toml",
                CITY/"system-results.json", CITY/"iraq-power.toml", CITY/"iraq_power.py",
                ROOT/"engineering/outline/baghdad_system.py", ROOT/"engineering/outline/baghdad_power.py",
                ROOT/"engineering/outline/baghdad_viaduct.py"]
     source_hashes = {str(path.relative_to(ROOT)): sha256(path.read_bytes()).hexdigest() for path in sources}
+    if service:
+        source_hashes.update(service["source_sha256"])
+    if feeder:
+        source_hashes.update(feeder["source_sha256"])
     used_market = {"currency": market["currency"], "fare": market["fare"],
                    "paying_share_of_linked_journeys": market["demand"]["paying_share_of_linked_journeys"]}
     source_hashes["cities/Baghdad/iraq-market.toml#airport_inputs"] = sha256(json.dumps(used_market, sort_keys=True).encode()).hexdigest()
-    return {"candidate_id": candidate, "evaluation_id": system._id({"bundle": bundle, "sources": source_hashes}),
+    return {"candidate_id": candidate, "evaluation_id": system._id({"bundle": bundle, "sources": source_hashes, "service": service["evaluation_id"] if service else group, "power": power["evaluation_id"], "feeder": feeder["evaluation_id"] if feeder else None}),
             "timetable_id": report["evaluation_id"], "sources": source_hashes, "parent": parent,
             "bundle": bundle, "train": group, "civil": works["quantities"], "delivery": works["delivery"],
-            "power": power, "controls": controls["quantities"], "scopes_usd_m": scope, "annual_opex_usd_m": opex,
+            "power": power, "section_power": feeder, "civil_option_id": works["civil_option_physical_id"],
+            "civil_evaluation_id": works["evaluation_id"], "civil_load": works["physical_screen"], "renewals": renewal, "controls": controls["quantities"], "scopes_usd_m": scope, "annual_opex_usd_m": opex,
             "facility_options": facility_options, "iraq_site_estimate": iraq, "iraq_operations": annual,
             "annual_opex_including_all_site_operations_usd_m": None,
             "complete_opening_capital_usd_m": None, "opening_date": None}
@@ -323,7 +445,7 @@ def guide(case):
     scenarios = case["iraq_site_estimate"]["scenarios"]
     return f"""# Opening the Baghdad Airport corridor
 
-The Airport service is a 12 km, six-stop opening option within the seven-corridor proposal. Budget **${scenarios['base']['capital_usd_m']:,.1f}m**, with low and high cases of **${scenarios['low']['capital_usd_m']:,.1f}m and ${scenarios['high']['capital_usd_m']:,.1f}m** in 2026 USD. This dedicated opening includes a depot, a control centre, three traction supply sites, terminal trackwork and Iraqi site allowances. The published reference quantities and generic rates total ${sum(scopes.values()):,.3f}m. The railway authority still needs to agree the sites and opening date.
+The Airport service is a 12 km, six-stop opening option within the seven-corridor proposal. The priced planning scope totals **${scenarios['base']['capital_usd_m']:,.1f}m**, with low and high cases of **${scenarios['low']['capital_usd_m']:,.1f}m and ${scenarios['high']['capital_usd_m']:,.1f}m** in 2026 USD. This dedicated opening includes a depot, a control centre, three traction supply sites, terminal trackwork and Iraqi site allowances. Surveyed quantities, supplier prices, committed financing and a funded opening date remain open. The published reference quantities and generic rates total ${sum(scopes.values()):,.3f}m. The railway authority still needs to agree the sites and opening date.
 
 {calls}
 

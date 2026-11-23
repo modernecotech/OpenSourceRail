@@ -145,6 +145,7 @@ try {
   let portfolioResponsePromise;
   const firstRenderStartedAt = Date.now();
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
   await page.locator("#design").waitFor({ state: "visible" });
   report.workbench_first_render_seconds = (Date.now() - firstRenderStartedAt) / 1000;
   await portfolioRequestSeen;
@@ -475,6 +476,7 @@ try {
     });
   });
   await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
   await page.locator("#design").waitFor({ state: "visible" });
   await waitForPortfolioStatus(page);
   assert.match(
@@ -493,6 +495,7 @@ try {
     }),
   );
   await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
   await page.locator("#design").waitFor({ state: "visible" });
   await waitForPortfolioStatus(page);
   assert.equal(await page.locator("#portfolio-rows tr").count(), 54);
@@ -646,6 +649,7 @@ try {
     }),
   );
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
   await page.locator("#design").waitFor({ state: "visible" });
   await waitForPortfolioStatus(page);
   await waitForCityNavigation(page);
@@ -697,6 +701,7 @@ try {
       });
     });
     await page.reload({ waitUntil: "domcontentloaded" });
+    await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
     await page.locator("#error").waitFor({ state: "visible" });
     assert.equal(await page.locator("#error").isVisible(), true);
     assert.equal(await page.locator("#design").isVisible(), false);
@@ -714,7 +719,8 @@ try {
     }),
   );
   await page.reload({ waitUntil: "domcontentloaded" });
-  await page.locator("#error").waitFor({ state: "visible" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
+    await page.locator("#error").waitFor({ state: "visible" });
   assert.equal(await page.locator("#design").isVisible(), false);
   assert.match(
     await page.locator("#error").innerText(),

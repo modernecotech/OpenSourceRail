@@ -21,9 +21,10 @@ pub mod station;
 pub mod topology;
 
 pub use civil::{
-    civil_segments_from_classes, classify_segments, elevated_curve_cost_multiplier,
-    elevated_product_for_geometry, route_elevated_constructability_multiplier,
-    select_crossing_alternative, CivilClass, CivilSegment, ConstructionCostPenalties,
+    civil_segments_from_classes, classify_segments, classify_segments_for_policy,
+    elevated_curve_cost_multiplier, elevated_product_for_geometry,
+    route_constructability_multiplier_for_policy, route_elevated_constructability_multiplier,
+    select_crossing_alternative, CivilClass, CivilPolicy, CivilSegment, ConstructionCostPenalties,
     CrossingAlternative, CrossingAlternativeEstimate, ElevatedViaductProduct,
     ELEVATED_PREFERRED_RADIUS_M, MAX_FULL_SPAN_U_M,
 };
@@ -40,6 +41,7 @@ pub use station::{
     place_stations, remove_ordinary_interchange_neighbours, station_layout_issues, Station,
 };
 pub use topology::{
-    budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget, Line,
-    LineShape, TopologyArchetype, TopologyError, HUB_RADIUS_CELLS,
+    budget_for_population, greedy_synthesize_lines, greedy_synthesize_lines_for_policy, hub_cell,
+    synthesize_lines, GreedyBudget, Line, LineShape, TopologyArchetype, TopologyError,
+    HUB_RADIUS_CELLS,
 };

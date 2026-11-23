@@ -68,9 +68,8 @@ would fail at a hypothetical +1% and 14 at +2%; these grades are **scenarios,
 not surveyed properties**. Survey the 5.738 km line-1 and 5.528 km line-2
 legs first, then every gap, vertical profile, speed restriction and protected
 turnback. The retained city packet had intact payload hashes but **four changed
-current source files**. A [fresh current-source after-edit replay](evidence/samawah-current-20261117-a/handoff.json)
-now verifies all 65 current input hashes, 20 raw artifact hashes and exact
-replay. It returns the **same numerical** $1.141bn base capital and $2.259bn
+source files**. The [17 November after-edit replay](evidence/samawah-current-20261117-a/handoff.json)
+verified its 65 input hashes, 20 raw artifact hashes and exact replay. It returns the **same numerical** $1.141bn base capital and $2.259bn
 30-year NPV, with new planning revision
 `b20df155d16bfb773e17a4e6d0984be32261fd691417d36d4fb29f4cec897f3e`
 and workflow evaluation
@@ -82,14 +81,21 @@ duplicate Git publication. These prices are still Class C with unverified
 local rates and the line-1 powered-axle research fallback. Neither Samawah's
 service nor its prices transfer to the synthetic 30 km benchmark.
 
-The [same-epoch before/after comparison](evidence/samawah-current-comparison-20261117-a/comparison.json)
-also verifies against current sources: raw markers 26 to 25, operational
+The [17 November before/after comparison](evidence/samawah-current-comparison-20261117-a/comparison.json)
+reduced raw markers from 26 to 25, with operational
 complexes 25 to 25, trainsets 81 to 81, base capital **−$10,029.49** and
 whole-life NPV **+$229,759.68**. Its fourteen scopes and source identities are
 in the [sealed comparison receipt](evidence/samawah-current-comparison-20261117-a/receipt.json);
 only construction, disposal and energy change. Line 1's one-way time rises
 1.494405 s. This is a source-bound station-edit comparison, not evidence that
 the 5.738 km propulsion gap or access route works physically.
+
+The 23 November recalculation of both station-edit requests keeps their mapped
+civil scope, including 8.662 km at grade, 4.340 km on bridges and 44.871 km on
+viaduct. The edit retires one raw marker and gives the same financial changes.
+New mapped-city studies start with an elevated corridor and separate bridge
+quantities. [23 November calculation and subsystem identities](evidence/samawah-comparison-20261123.json) ·
+[City study choices](../../workbench/planning/README.md#civil-scope-for-a-fresh-city-calculation)
 
 ## Equal-service architecture screen
 

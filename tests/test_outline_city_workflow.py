@@ -121,3 +121,39 @@ def test_baghdad_service_comparison_replays_and_reprices_same_published_network(
     assert alternative['outline_acceptance'] in ('accepted','requires-revision')
     assert all(alternative.get(flag) is False for flag in workflow.FLAGS)
     assert not alternative['business_drafts']['external_transactions_performed']
+
+
+def test_new_city_civil_default_prices_viaducts_and_retains_mapped_comparison():
+    from engineering.outline import city_civil
+    from engineering.station_rail.common import identity
+
+    req = workflow.normalize({'city_slug': 'samawah'})
+    assert req['civil_policy'] == 'elevated'
+    explicit = workflow.normalize({'city_slug': 'samawah', 'civil_policy': 'mapped-mixed-comparison'})
+    with pytest.raises(ValueError, match='civil policy'):
+        workflow.normalize({'city_slug': 'samawah', 'civil_policy': 'unspecified'})
+    mapped = {'lines': [{'line_id': 'A', 'route_m': 400., 'shape': 'radial'}],
+              'civil_segments': [{'line_id': 'A', 'class': cls, 'from_m': i * 100., 'to_m': (i+1) * 100.}
+                                 for i, cls in enumerate(('elevated', 'at-grade', 'bridge', 'tunnel'))]}
+    mapped['input_id'] = identity(mapped)
+    first = workflow._civil_input(mapped, req['civil_policy'])
+    comparison = workflow._civil_input(first, explicit['civil_policy'])
+    assert first['ancestry']['parent_input_id'] == mapped['input_id']
+    assert len({first['input_id'], comparison['input_id']}) == 2
+    assert first['input_id'] == identity({k: v for k, v in first.items() if k != 'input_id'})
+    assert city_civil.quantities(first)['class_route_m'] == {'at-grade': 0., 'tunnel': 0., 'elevated': 300., 'bridge': 100.}
+    assert city_civil.quantities(comparison) == city_civil.quantities(workflow._civil_input(comparison, explicit['civil_policy']))
+    assert city_civil.quantities(comparison)['class_route_m'] == city_civil.quantities(mapped)['class_route_m']
+    assert mapped['civil_segments'][1]['class'] == 'at-grade'
+
+
+def test_legacy_study_summary_preserves_original_architecture_scope(study):
+    _, _, current = study
+    old = deepcopy(current)
+    del old['city_outline']['policy']['civil_policy']
+    del old['city_outline']['policy']['supply_preference']
+    legacy = workflow.summary(old)
+    assert not {'civil_policy', 'supply_preference', 'civil_route_m'} & set(legacy)
+    now = workflow.summary(current)
+    assert now['civil_policy'] == 'elevated' and now['supply_preference'] == 'catenary-free'
+    assert now['civil_route_m']['tunnel'] == now['civil_route_m']['at-grade'] == 0

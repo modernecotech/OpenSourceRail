@@ -1381,6 +1381,7 @@ byId("city-study-options").addEventListener("submit", async (event) => {
         maximum_added_walk_m: Number(fields.get("maximum_added_walk_m")),
       },
       project: { pricing_scenario: fields.get("pricing_scenario") },
+      civil_policy: fields.get("civil_policy"),
       selection: fields.get("selection"),
     };
     status.textContent = "Starting a bounded mapped-city calculation…";
@@ -1732,4 +1733,14 @@ byId("v07-reference-edit").addEventListener("submit", async (event) => {
 if (new URLSearchParams(location.search).has("outlineCity"))
   byId("city-outline-load").click();
 
-start();
+const researchArchive = byId("research-archive");
+researchArchive.addEventListener("toggle", () => {
+  if (researchArchive.open && !researchArchive.dataset.loaded) {
+    researchArchive.dataset.loaded = "true";
+    start();
+  }
+});
+if (location.hash === "#research-archive") researchArchive.open = true;
+document.querySelector('a[href="#research-archive"]').addEventListener("click", () => {
+  researchArchive.open = true;
+});

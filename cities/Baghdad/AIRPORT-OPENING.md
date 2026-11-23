@@ -1,6 +1,6 @@
 # Opening the Baghdad Airport corridor
 
-The Airport service is a 12 km, six-stop opening option within the seven-corridor proposal. Budget **$813.7m**, with low and high cases of **$782.9m and $879.5m** in 2026 USD. This dedicated opening includes a depot, a control centre, three traction supply sites, terminal trackwork and Iraqi site allowances. The published reference quantities and generic rates total $793.177m. The railway authority still needs to agree the sites and opening date.
+The Airport service is a 12 km, six-stop opening option within the seven-corridor proposal. The priced planning scope totals **$813.7m**, with low and high cases of **$782.9m and $879.5m** in 2026 USD. This dedicated opening includes a depot, a control centre, three traction supply sites, terminal trackwork and Iraqi site allowances. Surveyed quantities, supplier prices, committed financing and a funded opening date remain open. The published reference quantities and generic rates total $793.177m. The railway authority still needs to agree the sites and opening date.
 
 Baghdad Airport terminal → Al Amiriya → Hay Al Aamil → Al Bayaa → Um Al Tubol → Al Qadisiya
 
@@ -103,4 +103,4 @@ For a dedicated opening, quote one permanent depot and one permanent control cen
 
 [Train diagrams](SERVICE-DIAGRAMS.md) · [First-network estimate](COST-AND-DELIVERY.md) · [Pricing inputs](system.toml) · [Reproduce the opening quantities](airport_opening.py)
 
-Calculation identity `310887b165fe89d93c0dbb0d5477691c726d4270abc607985b5a5393ad502a3f`. The `--json` export includes the opening candidate, parent and timetable identifiers, source hashes and scope quantities.
+Calculation identity `f7f1ea9d81891f29c057408ab946a126f8db17a884c4fba488322e9ceddf19fe`. The `--json` export includes the opening candidate, parent and timetable identifiers, source hashes and scope quantities.

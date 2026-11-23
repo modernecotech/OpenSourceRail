@@ -38,17 +38,41 @@ def fixture():
     return docs
 
 
-def analyze(docs, verifier=None):
+def analyze(docs, verifier=None, opening=None):
     with TemporaryDirectory() as tmp:
         root = Path(tmp)
         for key, ref in docs["manifest"]["files"].items():
             raw = json.dumps(docs[key]).encode()
             (root / ref["path"]).write_bytes(raw)
             ref["sha256"] = sha256(raw).hexdigest()
-        return assess(root, docs["manifest"], authenticator=verifier)
+        return assess(root, docs["manifest"], authenticator=verifier, opening=opening)
 
 
 class HandoverTest(unittest.TestCase):
+    def test_recorded_opening_must_match_the_prepared_rig(self):
+        from cities.Baghdad.airport_assembly import FRAME
+        from cities.Baghdad.airport_opening import calculate, opening_inputs
+        from cities.Baghdad.airport_service import build_service
+
+        cfg, report, selected = opening_inputs()
+        service = build_service(cfg, report["networks"]["first"]["groups"]["Airport"])
+        case = calculate(inputs=(cfg, report, selected), service=service,
+                         vehicle_revision=json.loads(FRAME.read_bytes())["braced_revision_id"])
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "opening.json"
+            path.write_text(json.dumps(case))
+            records = fixture()
+            opening_basis = templates(path)["manifest"]["binding"]
+            for key in ("manifest", "raw", "limits"):
+                records[key]["binding"] = opening_basis
+            self.assertEqual(analyze(records, opening=path)["disposition"], "held")
+            with self.assertRaisesRegex(ValueError, "candidate"):
+                analyze(records)
+            case["controls"]["door_controllers"] -= 1
+            path.write_text(json.dumps(case))
+            with self.assertRaisesRegex(ValueError, "controller inventory"):
+                analyze(records, opening=path)
+
     def test_normal_fixture_and_unwitnessed_physical_claim_stay_held(self):
         docs = fixture()
         r = analyze(docs)

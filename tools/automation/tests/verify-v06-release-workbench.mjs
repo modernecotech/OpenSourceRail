@@ -133,6 +133,7 @@ try {
     }
   });
   await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
+  await page.locator("#research-archive").evaluate((panel) => { panel.open = true; });
   await page.locator("#design").waitFor({ state: "visible", timeout: 30000 });
   assert.match(await page.locator("#identities").innerText(), new RegExp(current.selection_id));
   if (current.publication_state === "hold") {

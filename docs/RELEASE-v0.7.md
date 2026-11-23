@@ -4,11 +4,17 @@
 
 The [v0.7.0 release](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.7.0) was published from commit `aba573e747c1`. **v0.7.1** carries the subsequent Baghdad city-background maps, two independent network alternatives, elevated offwire cost comparison, installed control-electronics schedule, powered-wheel control adapters and documentation cleanup. The selected 30 km digital reference remains a separate candidate. The release provides digital geometry, analysis, quantities, cost assumptions, production planning and an editable Workbench journey. It does not issue fabrication drawings, record a physical prototype, approve a site foundation, post ERPNext production transactions or authorize passenger operation. Those are later project and qualification decisions.
 
-## Release acceptance
+## v0.7.2 Baghdad opening integration
+
+The [v0.7.2 release notes](releases/v0.7.2/README.md) describe the connected six-stop Airport service, site-outage voltage calculations, engineering quantities and supplier dossier. Run `./osr design railway airport --check` in the source installation. Use `./osr design railway airport --packet build/airport-supplier.zip` for the planning and quotation package. The original [21-set Airport budget](../cities/Baghdad/AIRPORT-OPENING.md) remains a comparison with its own service and power assumptions.
+
+The local installation verifier exports one Git revision, checks the Airport and the synthetic reference calculations in a clean Python environment, and records checksums for the archive and supplier packet. Tagged publication and hosted checks belong to the exact delivered commit. Bench measurements, supplier ratings and operating acceptance remain with the engineering and railway authorities.
+
+## v0.7.1 release acceptance
 
 | ID | Deliverable | Evidence | State |
 |---|---|---|---|
-| V07-01 | Version and current CI | `VERSION`, npm and Cargo metadata say 0.7.1; the release commit passes current fast checks | Passed for v0.7.1 |
+| V07-01 | Version and current CI | `VERSION`, npm and Cargo metadata at the v0.7.1 tag say 0.7.1; the tagged v0.7.1 commit passed its fast checks | Passed for v0.7.1 |
 | V07-02 | One selected digital candidate | [Selection](reference-v07/digital/selected.toml) carries parent, revised beam, evaluation and selection IDs; source hashes bind vehicle and civil results | Passed locally |
 | V07-03 | Propulsion and braking basis | [Vehicle](reference-v07/vehicle/README.md) sizes continuous powered bogies at the 2% grade case; [independent brake](design-engine/v07-independent-brake/README.md) states force and energy requests | Passed as digital sizing |
 | V07-04 | Representative car | [Digital car](reference-v07/digital/vehicle/README.md) reconciles CAD occurrences, mass bounds, CG, axle reactions and fixed interfaces | Passed as digital model |

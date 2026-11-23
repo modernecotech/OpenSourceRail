@@ -11,12 +11,13 @@ The [railway delivery workplan](operator-review/WORKPLAN.md) assigns the first t
 | [v0.6.1](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.6.1) | Published open engineering platform | Passive wheel development reference, software and research tools; [installation record](releases/v0.6.1/installation-verification.md) |
 | [v0.7.0](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.7.0) | Published digital engineering package | Selected powered-wheel 30 km reference, cost, delivery, CAD/FEM evidence, production handoff and Workbench journey |
 | [v0.7.1](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.7.1) | Baghdad and control update | Independent Baghdad networks, city maps, elevated railway costing and control electronics quantities |
+| [v0.7.2](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.7.2) | Baghdad Airport integration | Connected workings, feeder outage checks, preliminary quantities, supplier dossier and phased investment |
 
 The v0.6 passive vehicle, the v0.7 synthetic 30 km railway, the Samawah case and the Baghdad protected-conductor network have separate candidate identities and cost assumptions. A change in one does not revise the others. The [v0.6 engineering findings](design-engine/v06-design-closure/README.md) and [maglev archive](archives/v0.5-maglev/manifest.json) remain historical research, outside current release checks.
 
 ## Status against project goals
 
-Reviewed 20 November 2026 against the current design and the published v0.7.1 release.
+Reviewed 23 November 2026 against the Airport integrated opening. The [opening dossier](../cities/Baghdad/airport-integration.html) gives the current service, engineering quantities, priced scope and first-article enquiries.
 
 | Project goal | Where we stand | Change needed |
 |---|---|---|

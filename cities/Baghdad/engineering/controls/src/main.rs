@@ -58,6 +58,9 @@ struct Frame {
     service_supply: bool,
     identity_matches: bool,
     authority_valid: bool,
+    local_reset_key: bool,
+    emergency_handle: Option<usize>,
+    evacuation_path_proved_for: Option<usize>,
 }
 
 impl Default for Frame {
@@ -81,6 +84,9 @@ impl Default for Frame {
             service_supply: true,
             identity_matches: true,
             authority_valid: true,
+            local_reset_key: false,
+            emergency_handle: None,
+            evacuation_path_proved_for: None,
         }
     }
 }
@@ -109,13 +115,17 @@ enum Protection {
 }
 
 fn evaluate_frame(
-    frame: Frame,
+    mut frame: Frame,
     configuration: [u8; 32],
     door_states: &mut [DoorState],
     openings_per_side: usize,
     now_ns: u64,
     protection: Protection,
 ) -> (Trace, bool) {
+    if frame.emergency_handle.is_some() {
+        frame.command = DoorAction::Hold;
+        frame.brake_demand = BrakeCommand::Emergency;
+    }
     let mut opening_left = 0;
     let mut opening_right = 0;
     // Withhold departure as soon as release is requested, including the tick
@@ -137,8 +147,16 @@ fn evaluate_frame(
             door_side: side,
             verified_platform_side: frame.platform,
             commanded: frame.command,
-            emergency_unlock: false,
-            emergency_egress_authorized: false,
+            emergency_unlock: frame.emergency_handle == Some(index),
+            emergency_egress_authorized: frame.evacuation_path_proved_for == Some(index)
+                && frame.platform == Some(side)
+                && frame.station_verified
+                && frame.identity_matches
+                && frame.service_supply
+                && frame.parking_proved
+                && frame.hold_applied
+                && frame.brake_healthy
+                && frame.torque_inhibit_proved,
             sensors: DoorSensors {
                 closed_limit: !is_open,
                 lock_sensor: !is_open && frame.unlocked != Some(index),
@@ -227,7 +245,8 @@ fn evaluate_frame(
         Trace {
             opening_left,
             opening_right,
-            traction_enable: frame.command == DoorAction::Hold
+            traction_enable: frame.emergency_handle.is_none()
+                && frame.command == DoorAction::Hold
                 && status.traction_permissive
                 && atp.traction_permissive,
             brake: atp.mechanical_brake,
@@ -255,16 +274,11 @@ fn main() {
     }
     let first = &packet["networks"]["first"];
     assert_eq!(first["digital_cost_leader"], "protected_conductor");
-    let physical = first["selected_candidate_id"].as_str().unwrap();
+    let parent_physical = first["selected_candidate_id"].as_str().unwrap();
     assert_eq!(
-        physical,
+        parent_physical,
         first["power_cases"]["protected_conductor"]["physical_candidate_id"]
     );
-    assert_eq!(physical.len(), 64);
-    let mut configuration = [0; 32];
-    for (i, byte) in configuration.iter_mut().enumerate() {
-        *byte = u8::from_str_radix(&physical[2 * i..2 * i + 2], 16).unwrap();
-    }
     let equipment = &first["selected_control_electronics"]["installed_train_items"];
     let cars = equipment["tcms_node"].as_u64().unwrap() as usize;
     let openings = first["selected_station_interfaces"]["vehicle"]["door_centres_m"]
@@ -280,7 +294,81 @@ fn main() {
         (6, 4),
         "re-review cases for revised consist"
     );
-    let system_evaluation = first["selected_evaluation_id"].as_str().unwrap();
+    let args: Vec<_> = std::env::args_os().skip(1).collect();
+    let opening_bytes = match args.as_slice() {
+        [] => None,
+        [flag, file] if flag == "--opening" => {
+            Some(fs::read(file).expect("read Airport opening JSON"))
+        }
+        _ => panic!("usage: baghdad-station-interface-replay [--opening OPENING.json]"),
+    };
+    let opening = opening_bytes
+        .as_ref()
+        .map(|bytes| serde_json::from_slice::<Value>(bytes).expect("valid Airport opening JSON"));
+    let (physical, system_evaluation) = if let Some(case) = &opening {
+        let bundle = &case["bundle"];
+        let power = &case["power"];
+        let fleet = power["common_service"]["fleet_trainsets"].as_u64().unwrap();
+        assert!(fleet > 0);
+        assert_eq!(case["parent"], parent_physical);
+        assert_eq!(bundle["parent"], parent_physical);
+        assert_eq!(bundle["service_group"], "Airport");
+        assert_eq!(bundle["formation_cars"], cars);
+        assert_eq!(bundle["supply"], "protected_conductor");
+        assert_eq!(power["option"], bundle["supply"]);
+        assert_eq!(power["parent_candidate_id"], case["candidate_id"]);
+        assert_eq!(
+            format!("{:x}", Sha256::digest(serde_json::to_vec(bundle).unwrap())),
+            case["candidate_id"].as_str().unwrap(),
+            "Airport bundle identity"
+        );
+        assert_eq!(
+            case["sources"]["cities/Baghdad/system-results.json"]
+                .as_str()
+                .unwrap(),
+            format!(
+                "{:x}",
+                Sha256::digest(fs::read(root.join("cities/Baghdad/system-results.json")).unwrap())
+            )
+        );
+        assert_eq!(
+            bundle["active_sets"]
+                .as_u64()
+                .unwrap()
+                .checked_add(bundle["spares"].as_u64().unwrap()),
+            Some(fleet)
+        );
+        for (total, per_train) in [
+            ("tcms_nodes", "tcms_node"),
+            ("door_controllers", "door_controller"),
+            ("brake_controllers", "brake_controller"),
+            ("shoe_status_channels", "shoe_status_channel"),
+            ("atp_channels", "atp_channel"),
+            ("radio_links", "radio_link"),
+            ("train_service_power_units", "train_service_power_unit"),
+            ("inverter_control_units", "inverter_control_unit"),
+        ] {
+            assert_eq!(
+                case["controls"][total].as_u64(),
+                fleet.checked_mul(equipment[per_train].as_u64().unwrap()),
+                "Airport quantity for {total}"
+            );
+        }
+        (
+            case["candidate_id"].as_str().unwrap(),
+            case["evaluation_id"].as_str().unwrap(),
+        )
+    } else {
+        (
+            parent_physical,
+            first["selected_evaluation_id"].as_str().unwrap(),
+        )
+    };
+    assert_eq!(physical.len(), 64);
+    let mut configuration = [0; 32];
+    for (i, byte) in configuration.iter_mut().enumerate() {
+        *byte = u8::from_str_radix(&physical[2 * i..2 * i + 2], 16).unwrap();
+    }
     let mut replay_digest = Sha256::new();
     let replay_inputs: &[&[u8]] = &[
         b"baghdad-station-visit-v1",
@@ -297,6 +385,9 @@ fn main() {
     for bytes in replay_inputs {
         replay_digest.update((bytes.len() as u64).to_be_bytes());
         replay_digest.update(bytes);
+    }
+    if let Some(bytes) = opening_bytes {
+        replay_digest.update(Sha256::digest(bytes));
     }
     println!("physical {physical}\nsystem evaluation {system_evaluation}\nstation replay evaluation {:x}",
         replay_digest.finalize());

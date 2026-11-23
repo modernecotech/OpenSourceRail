@@ -16,13 +16,17 @@
       ><span class="tag">Design and delivery Workbench</span>
     </header>
     <main>
-      <nav class="panel" aria-label="Railway operator review">
-        <strong>Operator review</strong>
-        <a href="../../operator-review/OpenSourceRail-Operator-Brief.pdf">Illustrated briefing</a>
+      <nav class="panel" aria-label="Railway design and delivery">
+        <strong>Railway design and delivery</strong>
+        <a href="../planning/">Planning</a>
+        <a href="../../../cities/Baghdad/airport-integration.html">Airport opening engineering</a>
+        <a href="../../operator-review/delivery/index.html">Production and workforce</a>
+        <a href="../../../cities/Baghdad/service-diagrams.html">Operations</a>
+        <a href="../../operator-review/finance/index.html">Finance</a>
         <a href="../../operator-review/twins/index.html">Train and station models</a>
         <a href="../../operator-review/screens/supervision.html">Control-room replay</a>
-        <a href="../../operator-review/finance/index.html">Funding and fares</a>
-        <a href="../../operator-review/delivery/index.html">Staffing and training</a>
+        <a href="../../operator-review/OpenSourceRail-Operator-Brief.pdf">Illustrated briefing</a>
+        <a href="#research-archive">Reference engineering and research</a>
       </nav>
       <section class="panel outline-start" aria-labelledby="outline-heading">
         <p class="eyebrow">Requirements → generate → compare → detail → delivery</p>
@@ -190,6 +194,7 @@
               <label>Longest planned wait · seconds<input name="maximum_headway_s" type="number" min="10" max="3600" value="300" required /></label>
               <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
               <label>Maximum added walk · metres<input name="maximum_added_walk_m" type="number" min="50" max="5000" value="500" required /></label>
+              <label>Construction scope<select name="civil_policy"><option value="elevated">Elevated guideway and bridge crossings</option><option value="mapped-mixed-comparison">Compare mapped civil sections</option></select></label>
               <label>Alignment comparison<select name="selection"><option value="auto">Compare compatible alternatives</option><option value="original">Original alignment</option><option value="anchor-preserving-chord-research">Straighter corridors</option><option value="rounded-four-edge-ring-research">Rounded square-ring concept</option></select></label>
               <label>Purchasing basis<select name="pricing_scenario"><option value="project-make-buy">Project-scale make or buy</option><option value="china-bulk-buy">China-origin bulk purchasing</option></select></label>
             </div>
@@ -224,6 +229,7 @@
           <details id="design-price-inspection"><summary>Design quantities, cost basis and further detail</summary><pre id="design-price-detail"></pre></details>
         </div>
       </section>
+      <details id="research-archive"><summary>Reference engineering and research</summary>
       <section class="intro">
         <p class="eyebrow">
           Simple infrastructure. Comfortable, frequent trains.
@@ -704,6 +710,7 @@
           </p>
         </section>
       </div>
+      </details>
     </main>
     <footer>
       Open design knowledge · local manufacture · repairability · affordable

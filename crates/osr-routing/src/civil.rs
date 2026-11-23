@@ -1,21 +1,6 @@
-//! Civil-class assignment per polyline segment.
-//!
-//! Per [RFC 0011](../../../docs/ARCHITECTURE.md),
-//! the catalogue has **three classes only — at-grade, elevated, and
-//! bridge (for water crossings)**. No tunnels. Dense built-up cells
-//! that a previous version of this inference classified as
-//! `BoredTunnel` now route `Elevated`, matching the no-tunnel
-//! invariant from RFC 0011 §1.
-//!
-//! Heuristic: the cost raster encodes "how built-up / constrained"
-//! a cell is. So:
-//!   - low cost (on arterial)     → at-grade
-//!   - medium cost (side-street)  → at-grade (tight but feasible)
-//!   - high cost (park, narrow gap between buildings) → elevated
-//!   - water cells                → bridge
-//!   - buildings / dense built-up → elevated (the no-tunnel rule —
-//!     where the corridor can't be at-grade, it goes above, never
-//!     below).
+//! New city routes use elevated guideway and bridge spans at water crossings.
+//! Explicit mixed-civil comparisons retain the cost-raster and terrain-slope
+//! classification of at-grade, elevated and bridge sections.
 
 use serde::{Deserialize, Serialize};
 
@@ -26,6 +11,15 @@ pub enum CivilClass {
     AtGrade,
     Elevated,
     Bridge,
+}
+
+/// Applies to new civil quantities and to the geometry penalty used during route search.
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum CivilPolicy {
+    #[default]
+    Elevated,
+    MappedMixedComparison,
 }
 
 /// Planning threshold only. Detailed vertical alignment and surveyed ground
@@ -251,14 +245,22 @@ const fn unit_multiplier() -> f64 {
 /// Classify each cell, then collapse runs into segments.
 #[must_use]
 pub fn classify_segments(grid: &Grid, cells: &[(usize, usize)]) -> Vec<CivilSegment> {
-    if cells.is_empty() {
-        return Vec::new();
-    }
+    classify_segments_for_policy(grid, cells, CivilPolicy::default())
+}
 
-    // Per-cell class.
+/// Classify the same trace using an explicitly named civil study policy.
+#[must_use]
+pub fn classify_segments_for_policy(
+    grid: &Grid,
+    cells: &[(usize, usize)],
+    policy: CivilPolicy,
+) -> Vec<CivilSegment> {
     let classes: Vec<CivilClass> = cells
         .iter()
-        .map(|&(r, c)| classify_cell(grid, r, c))
+        .map(|&(r, c)| match (policy, classify_cell(grid, r, c)) {
+            (CivilPolicy::Elevated, CivilClass::AtGrade) => CivilClass::Elevated,
+            (_, class) => class,
+        })
         .collect();
 
     civil_segments_from_classes(grid, cells, &classes)
@@ -271,7 +273,17 @@ pub fn classify_segments(grid: &Grid, cells: &[(usize, usize)]) -> Vec<CivilSegm
 /// rank when they require tight, expensive segmental/realignment geometry.
 #[must_use]
 pub fn route_elevated_constructability_multiplier(grid: &Grid, cells: &[(usize, usize)]) -> f64 {
-    let segments = classify_segments(grid, cells);
+    route_constructability_multiplier_for_policy(grid, cells, CivilPolicy::default())
+}
+
+/// Compare curvature penalties at the same spatial scope as the priced civil quantities.
+#[must_use]
+pub fn route_constructability_multiplier_for_policy(
+    grid: &Grid,
+    cells: &[(usize, usize)],
+    policy: CivilPolicy,
+) -> f64 {
+    let segments = classify_segments_for_policy(grid, cells, policy);
     let total_m: f64 = segments.iter().map(|segment| segment.length_m).sum();
     if total_m <= 0.0 {
         return 1.0;
@@ -506,7 +518,8 @@ mod tests {
     fn civil_transition_edges_are_counted_exactly_once() {
         let grid = grid(vec![8.0, 45.0, 45.0, 8.0]);
         let cells = vec![(0, 0), (0, 1), (0, 2), (0, 3)];
-        let segments = classify_segments(&grid, &cells);
+        let segments =
+            classify_segments_for_policy(&grid, &cells, CivilPolicy::MappedMixedComparison);
         assert_eq!(segments.len(), 3);
         let total: f64 = segments.iter().map(|segment| segment.length_m).sum();
         assert_eq!(total, 60.0);
@@ -601,7 +614,18 @@ mod tests {
         let mut grid = grid(vec![8.0, 8.0, 45.0]);
         grid.water = Some(vec![0, 25, 0]);
         grid.terrain_slope_percent = Some(vec![0.0, 0.0, 5.0]);
-        let segments = classify_segments(&grid, &[(0, 0), (0, 1), (0, 2)]);
+        let cells = [(0, 0), (0, 1), (0, 2)];
+        let elevated = classify_segments(&grid, &cells);
+        assert_eq!(
+            elevated.iter().map(|s| s.class).collect::<Vec<_>>(),
+            [
+                CivilClass::Elevated,
+                CivilClass::Bridge,
+                CivilClass::Elevated
+            ]
+        );
+        let segments =
+            classify_segments_for_policy(&grid, &cells, CivilPolicy::MappedMixedComparison);
         assert_eq!(segments.len(), 3);
         assert_eq!(segments[0].class, CivilClass::AtGrade);
         assert_eq!(segments[1].class, CivilClass::Bridge);
