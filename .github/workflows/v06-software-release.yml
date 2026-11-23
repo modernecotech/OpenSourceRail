@@ -6,6 +6,10 @@ on:
       - ".github/release-smoke-tests.txt"
       - ".github/tests/test_workflow_path_filters.py"
       - ".github/workflows/v06-software-release.yml"
+      - ".github/workflows/development-baseline.yml"
+      - ".github/workflows/shared-software.yml"
+      - ".github/workflows/trip-dynamics.yml"
+      - ".github/workflows/v06-software-journey.yml"
       - "campaigns/v06-software-release.toml"
       - "engineering/v06_software_release/**"
       - "tests/test_v06_software_release_gate.py"
@@ -65,6 +69,7 @@ on:
       - "tools/automation/check-markdown-links.py"
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "tools/automation/check-airport-install.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
       - "docs/operator-review/delivery/calculate.py"
@@ -120,6 +125,10 @@ on:
       - ".github/release-smoke-tests.txt"
       - ".github/tests/test_workflow_path_filters.py"
       - ".github/workflows/v06-software-release.yml"
+      - ".github/workflows/development-baseline.yml"
+      - ".github/workflows/shared-software.yml"
+      - ".github/workflows/trip-dynamics.yml"
+      - ".github/workflows/v06-software-journey.yml"
       - "campaigns/v06-software-release.toml"
       - "engineering/v06_software_release/**"
       - "tests/test_v06_software_release_gate.py"
@@ -179,6 +188,7 @@ on:
       - "tools/automation/check-markdown-links.py"
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "tools/automation/check-airport-install.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
       - "docs/operator-review/delivery/calculate.py"
@@ -261,6 +271,7 @@ jobs:
             /.github/workflows/shared-software.yml
             /.github/workflows/sourced-hardware.yml
             /.github/workflows/sourcing.yml
+            /.github/workflows/trip-dynamics.yml
             /campaigns/**
             /engineering/**
             /docs/reference-v07/**
@@ -276,6 +287,7 @@ jobs:
             /control-electronics/interface-schedule.json
             /control-electronics/reference-v07.toml
             /cities/Baghdad/**
+            /tools/automation/check-airport-install.py
             /cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz
             /LICENSE.md
             /Cargo.toml
@@ -401,6 +413,8 @@ jobs:
           python cities/Baghdad/iraq_budget.py --check
           python cities/Baghdad/iraq_power.py --check
           python cities/Baghdad/localisation.py --check
+      - name: Reproduce the Airport installation from the tested commit
+        run: python tools/automation/check-airport-install.py --revision HEAD
       - name: Check the selected v0.7 digital production handoff
         run: python -O docs/reference-v07/digital/production/generate.py --check
       - name: Replay historical source contracts on request

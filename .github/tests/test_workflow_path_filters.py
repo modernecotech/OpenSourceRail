@@ -234,3 +234,42 @@ def test_wheel_frontend_checks_have_installed_browser_and_fail_before_long_model
     assert current.index('run: npm run test:frontend') < current.index('Current vehicle, policy, planning and reference-integrity contracts')
     assert 'tests/test_viaduct_admission.py' in current
     assert 'tests/test_viaduct_publication.py' not in current
+
+
+def test_airport_and_journey_verifiers_run_in_their_own_lanes():
+    workflows = ROOT / '.github/workflows'
+    fast = workflows / 'v06-software-release.yml'
+    journey = workflows / 'v06-software-journey.yml'
+    shared = workflows / 'shared-software.yml'
+    wheel = workflows / 'development-baseline.yml'
+    trip = workflows / 'trip-dynamics.yml'
+    installer = 'tools/automation/check-airport-install.py'
+    browsers = ('tools/automation/tests/verify-v06-software-journey-a.mjs',
+                'tools/automation/tests/verify-v07-samawah-corridor.mjs')
+    airport_test = 'engineering/outline/tests/test_baghdad_airport_single_line.py'
+    airport_model = 'cities/Baghdad/airport_single_line.py'
+    airport_packet = 'cities/Baghdad/airport-dossier.zip'
+    airport_inputs = (installer, airport_test, airport_model, airport_packet)
+    workflow_inputs = tuple(str(path.relative_to(ROOT)) for path in (wheel, shared, trip, fast, journey))
+
+    for event in ('push', 'pull_request'):
+        for workflow, included, excluded in (
+            (trip, ('engineering/trip_dynamics/__main__.py',), ('osr',)),
+            (wheel, ('osr', SOURCE_CONTROL), (*browsers, *airport_inputs)),
+            (shared, ('osr', SOURCE_CONTROL), (*browsers, *airport_inputs)),
+            (fast, (*airport_inputs, *workflow_inputs), ()),
+            (journey, browsers, ()),
+        ):
+            patterns = _event_paths(workflow, event)
+            for path in included:
+                assert _matches(path, patterns), (workflow, event, path)
+            for path in excluded:
+                assert not _matches(path, patterns), (workflow, event, path)
+            assert any(_matches(path, patterns) for path in (*excluded, included[0]))
+
+    text = fast.read_text()
+    assert f'            /{installer}\n' in text
+    assert '            /.github/workflows/trip-dynamics.yml\n' in text
+    assert f'        run: python {installer} --revision HEAD\n' in text
+    for browser in browsers:
+        assert f'node {browser} ' in journey.read_text()
