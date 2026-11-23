@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **192**.
+Indexed Markdown files: **193**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **192**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 30 |
+| [cities](#cities) | 31 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 130 |
@@ -73,6 +73,7 @@ Indexed Markdown files: **192**.
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
+| [`cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md`](../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) | Baghdad Airport estimates and competitive quotations |
 | [`cities/Baghdad/engineering/prototype/README.md`](../cities/Baghdad/engineering/prototype/README.md) | Baghdad Airport prototype review |
 | [`cities/Baghdad/engineering/prototype/civil-guide.md`](../cities/Baghdad/engineering/prototype/civil-guide.md) | First precast beam and station bay |
 | [`cities/Baghdad/engineering/prototype/commercial-guide.md`](../cities/Baghdad/engineering/prototype/commercial-guide.md) | Airport field returns and buyer cash |

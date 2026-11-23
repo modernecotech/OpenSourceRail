@@ -41,3 +41,9 @@ permissions and accountable review apply. Alarm clearance, stock movement,
 repair completion and ERP case closure do not release a railway or manufactured
 unit. The design runner never creates credentials, measurements, supplier
 quotations, signatures or physical release evidence.
+
+## Airport supplier quotations
+
+Sign in to `/airport-sourcing` on a site with the OSR app installed. A buyer chooses the project, estimate edition and lot. Each invited supplier uses their own linked ERPNext account to enter quantity, price, exceptions and after-sales terms. The portal compares their native Supplier Quotations.
+
+The opening Project carries its central planning allowance. The private estimate holds the full quantities, extended amounts and price sources. To inspect the unit rates in Desk, open **Item Price** and filter by one of the project's three **OSR estimate** buying lists. A scenario with a different quantity uses that scenario's quantity to derive its unit rate. Rounding follows the site's Item Price precision. Supplier offer prices stay on the individual quotation. [Price register and introduction](../../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) · [ERPNext Item Price](https://docs.frappe.io/erpnext/item-price) · [ERPNext Request for Quotation](https://docs.frappe.io/erpnext/request-for-quotation)

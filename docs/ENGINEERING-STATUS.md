@@ -7,9 +7,10 @@
 | Airport vehicle | Eight revised doorways leave 10 mm after the proposed fitted allowances. The 144 counted pieces total 5,272.7 kg per car including both bogie frames. | Installed group and axle weights, equipment geometry, loaded door clearance, brake and joint trials. |
 | Airport power | The revised load leaves 0.57 V above the floor on the priced radial layout in the published hot case. Six paired-path sites clear the combined adverse screen with one site isolated. | Priced equipment, hot source and path measurements, protection and the response to combined site and branch loss. |
 | Citywide service | Fourteen connected services on 552.562 km. A lower-frequency clockface schedule clears the modelled shared resources. Five access sections are deferred. | Surveyed junction/staging sites, directional demand, operator adoption and funding. |
+| Commercial planning | ERPNext accepts independent offers on the same procurement lot. The opening has a $1.124bn central planning allowance. First articles, alternative feeders, surveys and tests now have explicit enquiry budgets. | Buyer review of supplier offers, applicable taxes and duties, funding and separate equipment acceptance. |
 | Prototype delivery | Car, bogie, beam, pier and platform models can be inspected offline. The quotation packet includes return forms, work orders, installation and inspection instructions. | Supplier drawings, independently reviewed limits, contracted local capacity, qualified articles and owner approval. |
 
-[Airport decision register, digital twins and quotations](../cities/Baghdad/engineering/prototype/README.md) · [Citywide service and financial scope](../cities/Baghdad/CITYWIDE-SERVICE.md)
+[Procurement scope, price bands and supplier workflow](../cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) · [Airport decision register, digital twins and quotations](../cities/Baghdad/engineering/prototype/README.md) · [Citywide service and financial scope](../cities/Baghdad/CITYWIDE-SERVICE.md)
 
 ## Synthetic 30 km reference
 

@@ -1,0 +1,1916 @@
+{
+  "additive_groups": {
+    "first-full-year-operations": {
+      "base_usd": 13090963.123636078,
+      "description": "Operating expenditure for one full year, after the embedded payroll credit.",
+      "high_usd": 17527006.115263,
+      "lot_ids": [
+        "opex-power",
+        "opex-payroll",
+        "opex-feeder",
+        "opex-other"
+      ],
+      "low_usd": 10446839.273308013,
+      "price_period": "annual"
+    },
+    "opening-allowances": {
+      "base_usd": 276416783.77025324,
+      "description": "Published owner design, commissioning and project allowances, each counted once.",
+      "high_usd": 304253336.8089412,
+      "lot_ids": [
+        "design-assurance",
+        "integrated-test",
+        "programme-allowance"
+      ],
+      "low_usd": 263001435.76933122,
+      "price_period": "one-time"
+    },
+    "opening-direct": {
+      "base_usd": 847904244.6940284,
+      "description": "Published one-time construction scopes, after replacement of the generic site allowance.",
+      "high_usd": 933292444.199206,
+      "lot_ids": [
+        "fleet",
+        "elevated-civil",
+        "stations",
+        "track",
+        "signalling",
+        "wayside-braking",
+        "traction-line",
+        "traction-sites",
+        "depot-control",
+        "tooling",
+        "land-utilities",
+        "turnouts",
+        "depot-lead",
+        "airport-forecourt",
+        "offsite-feed",
+        "extra-foundation",
+        "exceptional-crossings",
+        "yard-access",
+        "extra-haul"
+      ],
+      "low_usd": 806752870.4580711,
+      "price_period": "one-time"
+    },
+    "renewal-schedule": {
+      "base_usd": 233846235.428959,
+      "description": "Named undiscounted renewal events in constant money. Expenditure falls in the specified operating year.",
+      "high_usd": 233846235.428959,
+      "lot_ids": [
+        "renewal-grid-site-power-electronics",
+        "renewal-line-section-protection",
+        "renewal-line-power-equipment",
+        "renewal-common-signalling-and-brake",
+        "renewal-fleet-major-renewal",
+        "renewal-midpoint-tie-equipment"
+      ],
+      "low_usd": 233846235.428959,
+      "price_period": "scheduled"
+    }
+  },
+  "amount_semantics": "Extended lot totals. Annual prices cover one full operating year. Scheduled prices apply once in the indicated operating year. Null prices and quantities require buyer or supplier evidence.",
+  "authorised_for_purchase": false,
+  "candidate_id": "b38d4bd348cc57d8f3fab9696df06e5b35ba51380670aa8e566b7f89d9c5da01",
+  "citywide_selection_id": "d514564801b2df2cd8b2a06e59619b5aff6e0ec425256117120047a937c9aeaf",
+  "commercial_evaluation_id": "79d4ff108927df41857932652cd2e83fbf3cc596721b8a2250f56bc48c13ea0c",
+  "complete_opening_cost_usd": null,
+  "estimate_date": "2026-11-23",
+  "evaluation_id": "83de4f2c3023521a1b9a9b02c436b10ffa9c24a67763d700da624e53036ad095",
+  "frame_revision": "5904e648c5de9b4b6ad5cf4c0c5ebfa93d5a35c2c746b3c12ae52eed49c929ae",
+  "funded_opening_capital_usd": null,
+  "lots": [
+    {
+      "base_usd": 50880000.0,
+      "basis": "Published repeat-set allowance applied to three diagrammed sets and three spares. The opening holds the same fleet rate across the site scenarios.",
+      "deliverables": "Serial BOM with consumed and installed mass, axle loads, powered bogies, doors, controls, traction/brakes, service power, heat duty, factory trials, local repair support and independently witnessed evidence.",
+      "description": "Fleet, including spare sets",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Owner programme tests, wayside recovery, fixed production tooling and incremental spares or heavy repairs.",
+      "firm_price_usd": null,
+      "fleet_cars": 36,
+      "high_usd": 50880000.0,
+      "inclusion_group": "opening-direct",
+      "lot_id": "fleet",
+      "low_usd": 50880000.0,
+      "opening_installed_tare_kg": null,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Fleet, including spare sets",
+      "quantity": 6,
+      "sources": [
+        "opening",
+        "system-rates",
+        "work-orders",
+        "mechanical"
+      ],
+      "supplier_return": "trainsets",
+      "unit": "six-car trainsets"
+    },
+    {
+      "base_usd": 107941285.7429223,
+      "basis": "Published standard separate-track series including supports, bearings, routine lifts and associated elevated works.",
+      "bearing_units": 9600,
+      "deliverables": "Itemize casting and track-seat works, reinforcement, strand, bearings, supports, lifts, staging, survey and as-built inspection. Return the priced source quantities and independent structural review.",
+      "description": "Viaduct, piers and foundations",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Site extras for bored shafts, exceptional crossings, temporary access and incremental beam haul. Credit any subcontract package already in this price.",
+      "firm_price_usd": null,
+      "high_usd": 107941285.7429223,
+      "inclusion_group": "opening-direct",
+      "lifts": 2400,
+      "lot_id": "elevated-civil",
+      "low_usd": 107941285.7429223,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Viaduct, piers and foundations",
+      "quantity": 2400,
+      "sources": [
+        "opening",
+        "system-rates",
+        "civil-article"
+      ],
+      "supplier_return": "civil",
+      "supports": 2402,
+      "unit": "single-track spans"
+    },
+    {
+      "base_usd": 78000000.0,
+      "basis": "Published per-station rate for six retained stops.",
+      "deliverables": "Per-stop shell, circulation and step-free egress, equipment, lifts, measured boarding interface, fire and evacuation demonstrations and responsibility matrix.",
+      "description": "Six station shells and accessible approaches",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Airport landside forecourt, separately allocated train controls, offsite utilities and exceptional land works.",
+      "firm_price_usd": null,
+      "high_usd": 78000000.0,
+      "inclusion_group": "opening-direct",
+      "lot_id": "stations",
+      "low_usd": 78000000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Six station shells and accessible approaches",
+      "quantity": 6,
+      "sources": [
+        "opening",
+        "system-rates",
+        "civil-article"
+      ],
+      "stop_ids": [
+        "Airport-00",
+        "Airport-01",
+        "Airport-02",
+        "Airport-03",
+        "Airport-04",
+        "Airport-05"
+      ],
+      "supplier_return": "stations",
+      "unit": "station sites"
+    },
+    {
+      "base_usd": 19200000.000000004,
+      "basis": "Twin-track running route priced at the published track-and-walkway rate.",
+      "deliverables": "Rail, fasteners, track joints, survey datums, expansion/wear limits, inspection and walkway continuity.",
+      "description": "Track and walkways",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Protected traction conductor, terminal turnout premiums and depot lead/refuge additions.",
+      "firm_price_usd": null,
+      "high_usd": 19200000.000000004,
+      "inclusion_group": "opening-direct",
+      "lot_id": "track",
+      "low_usd": 19200000.000000004,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Track and walkways",
+      "quantity": 24.0,
+      "sources": [
+        "opening",
+        "system-rates",
+        "iraq-rail"
+      ],
+      "unit": "track-km"
+    },
+    {
+      "base_usd": 14399999.999999998,
+      "basis": "Published route rate plus quantities of station and line interfaces identified by the control register.",
+      "deliverables": "Installed ATP/ATO interface schedule, station interlocking, train detection, radio, network segmentation and witnessed loss-of-communications and safe-stop tests.",
+      "description": "Signalling and communications",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Equipment assigned to onboard, power protection or OCC fit-outs and separately priced integrated test programme.",
+      "firm_price_usd": null,
+      "high_usd": 14399999.999999998,
+      "inclusion_group": "opening-direct",
+      "lot_id": "signalling",
+      "low_usd": 14399999.999999998,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Signalling and communications",
+      "quantity": 12.0,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "route-km"
+    },
+    {
+      "base_usd": 7199999.999999999,
+      "basis": "Published route protection and rescue rate, applied at the same price in all three site scenarios.",
+      "deliverables": "Verified stopping and work-zone limits, rescue coupling and movement interfaces, failed-train recovery and drill records.",
+      "description": "Wayside braking and recovery",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Onboard brake equipment within fleet, fixed rescue tooling, operator drills and major renewal.",
+      "firm_price_usd": null,
+      "high_usd": 7199999.999999999,
+      "inclusion_group": "opening-direct",
+      "lot_id": "wayside-braking",
+      "low_usd": 7199999.999999999,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Wayside braking and recovery",
+      "quantity": 12.0,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "route-km"
+    },
+    {
+      "base_usd": 33900000.00000001,
+      "basis": "Published allowance for protected conductor, outgoing breaker circuits and normally open midpoint ties on the 30-site layout.",
+      "deliverables": "Return the positive and return conductors, bonds, switches, guarding, hot resistance and loss, coordinated fault protection, isolation and access records.",
+      "description": "Protected conductor and switchgear",
+      "design_id": "975912a9068c3290892e5449e8ff44e5b559ad3684ef65df06f2010718a4ace0",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Substation conversion, offsite AC utility scope and six-site alternative branches. Reconcile the AC/DC termination and switchgear boundary with the site-conversion bid.",
+      "firm_price_usd": null,
+      "high_usd": 33900000.00000001,
+      "inclusion_group": "opening-direct",
+      "lot_id": "traction-line",
+      "low_usd": 33900000.00000001,
+      "midpoint_ties": 58,
+      "outgoing_circuits": 116,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Protected conductor and switchgear",
+      "quantity": 24.0,
+      "sources": [
+        "opening",
+        "system-rates",
+        "radial-return"
+      ],
+      "supplier_return": "line_power",
+      "unit": "track-km"
+    },
+    {
+      "base_usd": 348472470.857918,
+      "basis": "Published railway-side allowance sizes the site rating to the planning peak DC request.",
+      "deliverables": "Utility availability and connection capacity, transformer/rectifier duty, cooling, switchgear interfaces, power quality, earthing, protection and metering by site.",
+      "description": "Grid supply sites",
+      "design_id": "975912a9068c3290892e5449e8ff44e5b559ad3684ef65df06f2010718a4ace0",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Offsite distribution feeders, alternative six-site arrangement and separately priced line equipment.",
+      "firm_price_usd": null,
+      "high_usd": 348472470.857918,
+      "inclusion_group": "opening-direct",
+      "lot_id": "traction-sites",
+      "low_usd": 348472470.857918,
+      "peak_dc_mw": 13.615749028597268,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Grid supply sites",
+      "quantity": 30,
+      "sources": [
+        "opening",
+        "system-rates",
+        "radial-return",
+        "iraq-grid-contracts"
+      ],
+      "supplier_return": "line_power",
+      "unit": "DC source groups"
+    },
+    {
+      "base_usd": 75000000.0,
+      "basis": "Published rates for one permanent depot and one control centre.",
+      "deliverables": "Workshop and stabling layout, storage and lifting, access, OCC extent, failover, operator training and equipment scope.",
+      "description": "Depot and control centre",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Extra lead track, traction sites and fixed production tooling. Host, shared and temporary facilities require alternative matched installed bids.",
+      "firm_price_usd": null,
+      "high_usd": 75000000.0,
+      "inclusion_group": "opening-direct",
+      "lot_id": "depot-control",
+      "low_usd": 75000000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Depot and control centre",
+      "quantity": 2,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "facilities"
+    },
+    {
+      "base_usd": 44800000.0,
+      "basis": "Published fixed production and recovery tooling allowance plus route-km tooling increment.",
+      "deliverables": "Jigs, moulds, proving pieces, calibrated tooling, recovery equipment, lead times, local content and inspection records.",
+      "description": "Fixed production setup and route tooling",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Plant already in depot or supplier prices, annual yard rent premium and trial article charges pending price reconciliation.",
+      "firm_price_usd": null,
+      "high_usd": 44800000.0,
+      "inclusion_group": "opening-direct",
+      "lot_id": "tooling",
+      "low_usd": 44800000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "published_scope": "Fixed production setup and route tooling",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "programme"
+    },
+    {
+      "base_usd": 23977294.228949863,
+      "basis": "Baghdad\u2013Wasit mixed-road benchmark times the corridor share.",
+      "deliverables": "Legal land and utility register, mapped conflicts, relocation plan, traffic plan and segregated reinstatement bill.",
+      "description": "Land, utility conflicts and traffic reinstatement",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Standard civil possessions, offsite distribution feeders and exceptional road crossings.",
+      "firm_price_usd": null,
+      "high_usd": 45774834.43708609,
+      "inclusion_group": "opening-direct",
+      "lot_id": "land-utilities",
+      "low_usd": 10898770.10406812,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 12.0,
+      "scenario_quantities": {
+        "base": 12.0,
+        "high": 12.0,
+        "low": 12.0
+      },
+      "scenario_unit_iqd": {
+        "base": 3017142857.1428576,
+        "high": 5760000000.0,
+        "low": 1371428571.4285717
+      },
+      "site_return": "Land, utility conflicts and traffic reinstatement",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion",
+        "baghdad-road"
+      ],
+      "unit": "route-km"
+    },
+    {
+      "base_usd": 2781456.953642384,
+      "basis": "Quantity and incremental turnout premiums from the Airport site schedule.",
+      "deliverables": "Survey throat and refuge geometry, return detailed switch, actuator, drainage and interlock quantities and price interfaces.",
+      "description": "Terminal and depot turnout premiums",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Base running rail, separately priced signalling controllers and depot buildings.",
+      "firm_price_usd": null,
+      "high_usd": 5827814.569536424,
+      "inclusion_group": "opening-direct",
+      "lot_id": "turnouts",
+      "low_usd": 1324503.311258278,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 6,
+      "scenario_quantities": {
+        "base": 6,
+        "high": 8,
+        "low": 5
+      },
+      "scenario_unit_iqd": {
+        "base": 700000000,
+        "high": 1100000000,
+        "low": 400000000
+      },
+      "site_return": "Terminal and depot turnout premiums",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "turnouts"
+    },
+    {
+      "base_usd": 2191406.25,
+      "basis": "Iraqi track renewal benchmark times the new-build short-package factor and extra track length.",
+      "deliverables": "Define yard boundary, formation and track, conductor, controls and refuge lengths at chainage.",
+      "description": "Extra depot lead and refuge track",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Major grade separation, depot internal tracks and terminal turnout premiums.",
+      "firm_price_usd": null,
+      "high_usd": 6187500.0,
+      "inclusion_group": "opening-direct",
+      "lot_id": "depot-lead",
+      "low_usd": 660000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 0.85,
+      "scenario_quantities": {
+        "base": 0.85,
+        "high": 1.5,
+        "low": 0.4
+      },
+      "scenario_unit_iqd": {
+        "base": 3892968750.0,
+        "high": 6228750000.0,
+        "low": 2491500000.0
+      },
+      "site_return": "Extra depot lead and refuge track",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion",
+        "iraq-rail"
+      ],
+      "unit": "track-km"
+    },
+    {
+      "base_usd": 2980132.450331126,
+      "basis": "Airport site schedule allowance for incremental landside interface.",
+      "deliverables": "Secure boundary and traffic plan, egress and step-free route survey, airport authority consent and dated scope price.",
+      "description": "Landside airport forecourt and security interface",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Standard station and access works. Land acquisition and offsite utility feeders are separate.",
+      "firm_price_usd": null,
+      "high_usd": 5960264.900662252,
+      "inclusion_group": "opening-direct",
+      "lot_id": "airport-forecourt",
+      "low_usd": 1192052.9801324503,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "scenario_quantities": {
+        "base": 1,
+        "high": 1,
+        "low": 1
+      },
+      "scenario_unit_iqd": {
+        "base": 4500000000,
+        "high": 9000000000,
+        "low": 1800000000
+      },
+      "site_return": "Landside airport forecourt and security interface",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "forecourt"
+    },
+    {
+      "base_usd": 31788079.470198676,
+      "basis": "Fixed 30-site layout multiplied by low/base/high local connection allowance per site.",
+      "deliverables": "Written utility scopes by site with metering point, firm capacity, energy and standby terms, independent source availability and asset ownership.",
+      "description": "Offsite distribution feeders and tie-ins",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Railway-side converter and DC works. Reconcile credits if the utility interface is included in a complete feeder offer.",
+      "firm_price_usd": null,
+      "high_usd": 71523178.80794702,
+      "inclusion_group": "opening-direct",
+      "lot_id": "offsite-feed",
+      "low_usd": 11920529.801324503,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 30,
+      "scenario_quantities": {
+        "base": 30,
+        "high": 30,
+        "low": 30
+      },
+      "scenario_unit_iqd": {
+        "base": 1600000000,
+        "high": 3600000000,
+        "low": 600000000
+      },
+      "site_return": "Offsite distribution feeders and tie-ins",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "sites"
+    },
+    {
+      "base_usd": 1718741.2566223147,
+      "basis": "Bored shaft quantity sensitivity and Iraqi materials with installed-to-material multiplier. Enquiry quantity rounded to three decimals. Prices retain the source quantity.",
+      "deliverables": "Survey bore-lengths and affected supports, drilling and casing, cage, spoil, trial and actual pile-test reports.",
+      "description": "Additional foundation shafts under standard caps",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Repeated standard foundations, owner geotechnical investigation and unforeseen ground improvement.",
+      "firm_price_usd": null,
+      "high_usd": 7703240.578498072,
+      "inclusion_group": "opening-direct",
+      "lot_id": "extra-foundation",
+      "low_usd": 234515.93859309936,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 3656.814,
+      "scenario_quantities": {
+        "base": 3656.813848778519,
+        "high": 12113.981272242243,
+        "low": 706.8583470577034
+      },
+      "scenario_unit_iqd": {
+        "base": 709716.0,
+        "high": 960203.9999999999,
+        "low": 500976.0
+      },
+      "site_return": "Additional foundation shafts under standard caps",
+      "source_quantity": 3656.813848778519,
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion",
+        "iraq-material"
+      ],
+      "unit": "shaft m\u00b3"
+    },
+    {
+      "base_usd": 1589403.9735099338,
+      "basis": "Additional crossings and strengthening allowances above ordinary spans.",
+      "deliverables": "Crossing-by-crossing possessions, temporary deck, approvals, clearances, staged lifts and risk owners.",
+      "description": "Exceptional road-crossing works",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Ordinary span erection and routine traffic reinstatement.",
+      "firm_price_usd": null,
+      "high_usd": 7947019.867549669,
+      "inclusion_group": "opening-direct",
+      "lot_id": "exceptional-crossings",
+      "low_usd": 298013.2450331126,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 2,
+      "scenario_quantities": {
+        "base": 2,
+        "high": 4,
+        "low": 1
+      },
+      "scenario_unit_iqd": {
+        "base": 1200000000,
+        "high": 3000000000,
+        "low": 450000000
+      },
+      "site_return": "Exceptional road-crossing works",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "crossings"
+    },
+    {
+      "base_usd": 874172.1854304635,
+      "basis": "Yard-months from the erection programme multiplied by variable temporary access and premises rates.",
+      "deliverables": "Yard lease, hardstanding, access permits, productive shifts, reinstatement and release timetable.",
+      "description": "Incremental yard premises and temporary access",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Permanent depot, included moulds and plant, ordinary shipping and incremental road haul.",
+      "firm_price_usd": null,
+      "high_usd": 1668874.1721854305,
+      "inclusion_group": "opening-direct",
+      "lot_id": "yard-access",
+      "low_usd": 397350.99337748345,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 24,
+      "scenario_quantities": {
+        "base": 24,
+        "high": 24,
+        "low": 24
+      },
+      "scenario_unit_iqd": {
+        "base": 55000000,
+        "high": 105000000,
+        "low": 25000000
+      },
+      "site_return": "Incremental yard premises and temporary access",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "yard-months"
+    },
+    {
+      "base_usd": 209801.32450331125,
+      "basis": "Incremental loaded-equivalent distance per dispatch from the Airport site schedule.",
+      "deliverables": "Dispatch and haul route records, axle permits, mobilization boundary, owner possessions and return distances.",
+      "description": "Extra beam haul above standard delivery",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "local-works-sensitivity",
+      "exclusions": "Standard delivery already in civil rates and temporary yard access already priced separately.",
+      "firm_price_usd": null,
+      "high_usd": 905960.2649006622,
+      "inclusion_group": "opening-direct",
+      "lot_id": "extra-haul",
+      "low_usd": 33377.48344370861,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 28800,
+      "scenario_quantities": {
+        "base": 28800,
+        "high": 72000,
+        "low": 7200
+      },
+      "scenario_unit_iqd": {
+        "base": 11000,
+        "high": 19000,
+        "low": 7000
+      },
+      "site_return": "Extra beam haul above standard delivery",
+      "sources": [
+        "opening",
+        "local-works",
+        "iqd-conversion"
+      ],
+      "unit": "load-km"
+    },
+    {
+      "base_usd": 67832339.57552227,
+      "basis": "Published 8.0% of direct.",
+      "deliverables": "Owner design interface register, site investigations scope, independent design assurance, procurement and contract package mapping.",
+      "description": "Design and assurance",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Direct supplier detail design and shop inspection included in supply prices.",
+      "firm_price_usd": null,
+      "high_usd": 74663395.53593649,
+      "inclusion_group": "opening-allowances",
+      "lot_id": "design-assurance",
+      "low_usd": 64540229.63664569,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 21197606.117350712,
+      "basis": "Published 2.5% of direct.",
+      "deliverables": "Commissioning plan, staged access, independent witnessing, owner test records with approved limits and authority sign-offs.",
+      "description": "Testing and commissioning",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Factory acceptance tests, direct subcontract shop evidence and routine QA already allowed in other lots.",
+      "firm_price_usd": null,
+      "high_usd": 23332311.10498015,
+      "inclusion_group": "opening-allowances",
+      "lot_id": "integrated-test",
+      "low_usd": 20168821.76145178,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 187386838.07738027,
+      "basis": "Published 20.0% of direct plus design and testing.",
+      "deliverables": "Quantified risk register, residual scope exposure and separately agreed owner contingency draw conditions.",
+      "description": "Project allowance",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Unpriced costs remain open. This allowance does not cover funding fees, escalation or unknown tax treatment automatically.",
+      "firm_price_usd": null,
+      "high_usd": 206257630.16802454,
+      "inclusion_group": "opening-allowances",
+      "lot_id": "programme-allowance",
+      "low_usd": 178292384.37123373,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 1313206.1579045798,
+      "basis": "Delivered tariff and grid/alternate supply sensitivity including non-revenue movements. Enquiry quantity rounded to three decimals. Prices retain the source quantity.",
+      "deliverables": "Return tariff class and meter boundary, weighted backup source prices, fixed charges and annual metered demand.",
+      "description": "Delivered electricity",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-operating-sensitivity",
+      "exclusions": "Site maintenance, exceptional service charges and major renewals.",
+      "firm_price_usd": null,
+      "high_usd": 2022517.8430053012,
+      "inclusion_group": "first-full-year-operations",
+      "lot_id": "opex-power",
+      "low_usd": 540949.9278999546,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 13.751,
+      "source_quantity": 13.751326618834364,
+      "sources": [
+        "opening",
+        "iraq-energy",
+        "iqd-conversion",
+        "jica-tariff",
+        "undp-alternate-power"
+      ],
+      "unit": "GWh/year"
+    },
+    {
+      "base_usd": 1987102.5300000003,
+      "basis": "Published Iraqi loaded payroll for core station, control centre, depot, civil, power and support roles.",
+      "deliverables": "Shift roster, relief factors, salaries and employer contributions by role.",
+      "description": "Core operations payroll",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-operating-sensitivity",
+      "exclusions": "Incremental airport liaison and power equipment upkeep. Embedded payroll is credited once in other operations.",
+      "firm_price_usd": null,
+      "high_usd": 2369133.52,
+      "inclusion_group": "first-full-year-operations",
+      "lot_id": "opex-payroll",
+      "low_usd": 1785962.27,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 197,
+      "sources": [
+        "opening",
+        "iqd-conversion"
+      ],
+      "unit": "full-time equivalents"
+    },
+    {
+      "base_usd": 3326724.7085791803,
+      "basis": "0.5% / 1% / 2% of the additional rail-side equipment value above the three-site comparator, applied in annual service.",
+      "deliverables": "Return preventive and corrective work, hours, parts, outage windows, service level and callout prices.",
+      "description": "Incremental site and switch upkeep",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-operating-sensitivity",
+      "exclusions": "Basic track-side upkeep, electrical tariff, extraordinary tie or onsite service charges and named renewals.",
+      "firm_price_usd": null,
+      "high_usd": 6653449.417158361,
+      "inclusion_group": "first-full-year-operations",
+      "lot_id": "opex-feeder",
+      "low_usd": 1663362.3542895901,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 30,
+      "sources": [
+        "opening",
+        "local-works",
+        "radial-return"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "base_usd": 6463929.727152319,
+      "basis": "Remaining published O&M after subtracting the other three rows. Includes credited non-energy train, station and baseline line work, incremental liaison and non-revenue non-labour costs.",
+      "deliverables": "Separate labour, replacement consumables, station attendance, security, cleaning, incident response, workshop and maintainer callouts.",
+      "description": "Other recurring operations and maintenance",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-operating-sensitivity",
+      "exclusions": "Core payroll, the energy bill and additional feeder upkeep shown separately. Exceptional site costs remain open.",
+      "firm_price_usd": null,
+      "high_usd": 6481905.335099337,
+      "inclusion_group": "first-full-year-operations",
+      "lot_id": "opex-other",
+      "low_usd": 6456564.721118469,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 365,
+      "sources": [
+        "opening",
+        "service",
+        "system-rates"
+      ],
+      "unit": "service days/year"
+    },
+    {
+      "base_usd": 174236235.428959,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Grid site power electronics",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 174236235.428959,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-grid-site-power-electronics",
+      "low_usd": 174236235.428959,
+      "operating_year": 15,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "base_usd": 2900000.0000000005,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Line section protection",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 2900000.0000000005,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-line-section-protection",
+      "low_usd": 2900000.0000000005,
+      "operating_year": 15,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "base_usd": 6300000.000000001,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Line power equipment",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 6300000.000000001,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-line-power-equipment",
+      "low_usd": 6300000.000000001,
+      "operating_year": 25,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "base_usd": 10799999.999999998,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Common signalling and brake",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 10799999.999999998,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-common-signalling-and-brake",
+      "low_usd": 10799999.999999998,
+      "operating_year": 15,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "base_usd": 38160000.0,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Fleet major renewal",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 38160000.0,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-fleet-major-renewal",
+      "low_usd": 38160000.0,
+      "operating_year": 25,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "base_usd": 1450000.0000000002,
+      "basis": "Published opening schedule using modelled replacement fractions. The same event allowance is held across site scenarios.",
+      "deliverables": "Confirm replacement population, trigger, quantities, possession plan, parts availability and price by operating year.",
+      "description": "Midpoint tie equipment",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-planning-allowance",
+      "exclusions": "Routine upkeep, debt service, escalation and other unpriced replacements.",
+      "firm_price_usd": null,
+      "high_usd": 1450000.0000000002,
+      "inclusion_group": "renewal-schedule",
+      "lot_id": "renewal-midpoint-tie-equipment",
+      "low_usd": 1450000.0000000002,
+      "operating_year": 15,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "scheduled",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates"
+      ],
+      "unit": "renewal event"
+    },
+    {
+      "alternative_to_lot_ids": [
+        "fleet"
+      ],
+      "base_usd": 55232196.92307692,
+      "basis": "EUR 98m for 78 Chennai cars at USD 1.0176/EUR. The Baghdad market study applies 1.00 / 1.20 / 1.55 factors for date, imports, duty, spares and adaptation. Chennai formations, traction and purchase scale differ.",
+      "deliverables": "Return six complete six-car sets on the published Airport formation and interfaces with explicit spares, training, commissioning and warranty boundaries.",
+      "description": "Chennai package comparison for matched Airport fleet quantities",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "published-contract-comparator",
+      "exclusions": "This sensitivity replaces the fleet allowance only through a matched return. Owner trials, exceptional local tooling and application-specific changes require separate scope allocation.",
+      "firm_price_usd": null,
+      "high_usd": 71341587.6923077,
+      "inclusion_group": "comparison-only",
+      "lot_id": "fleet-market-sensitivity",
+      "low_usd": 46026830.76923077,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 36,
+      "sources": [
+        "market-rates",
+        "chennai-trains",
+        "award-currency",
+        "work-orders"
+      ],
+      "unit": "cars"
+    },
+    {
+      "base_usd": 280000,
+      "basis": "USD 280k unindexed 2023 Vallejo study envelope, multiplied by 0.5 / 1 / 2 as a planning sensitivity. Limited corridor counts at the low end and repeat weekday, weekend and seasonal work at the high end. Local labour and sampling prices still require bids.",
+      "deliverables": "Provide sampling frame, coverage, directional OD with paying and total counts, boarding and alighting at six stops, dates, bias, linked journeys, fare net of collection costs and independently reviewed raw records.",
+      "description": "Passenger origins, destinations, counts and fare survey",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "comparator-sensitivity",
+      "exclusions": "Airport tenant or airline commercial studies and comprehensive metropolitan assignment modelling.",
+      "firm_price_usd": null,
+      "high_usd": 560000,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "demand-survey",
+      "low_usd": 140000.0,
+      "overlaps_lot_ids": [
+        "design-assurance"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 6,
+      "sources": [
+        "us-passenger-study",
+        "service"
+      ],
+      "unit": "station catchments"
+    },
+    {
+      "base_usd": 520000.0,
+      "basis": "GBP 400k excluding VAT for Network Rail aerial survey and terrain models, translated at an assumed USD 1.30/GBP. The 0.5 / 1 / 2 factors bracket desk work with selective field checks through detailed control, utilities and access mapping. Scope and labour adjustment need local offers.",
+      "deliverables": "Provide tied control and levels, utilities and land boundaries, 3D deliverables, surveyed longitudinal profiles, crossing envelopes and matched accessibility measurements.",
+      "description": "Route, utilities, land and accessibility survey",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "comparator-sensitivity",
+      "exclusions": "Ground investigations, easement purchases, utility relocations and airport permit costs.",
+      "firm_price_usd": null,
+      "high_usd": 1040000.0,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "alignment-survey",
+      "low_usd": 260000.0,
+      "overlaps_lot_ids": [
+        "design-assurance"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 12.0,
+      "sources": [
+        "uk-survey-award",
+        "opening"
+      ],
+      "unit": "route-km"
+    },
+    {
+      "base_usd": 1695808.489388057,
+      "basis": "Reserve 1% / 2.5% / 5% of owner design and assurance for corridor reconnaissance, field investigation and expanded work at difficult sites. This is an allocation sensitivity pending a borehole and laboratory bill from the geotechnical lead.",
+      "deliverables": "Return staged borehole and lab schedule, access and spoil handling, verified logs and samples, interpreted parameters and design ground model with remaining uncertainty.",
+      "description": "Geotechnical investigation and foundation parameters",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Construction shafts, production pile tests assigned to direct supply and remedial works.",
+      "firm_price_usd": null,
+      "high_usd": 3733169.7767968248,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "ground-investigation",
+      "low_usd": 645402.2963664569,
+      "overlaps_lot_ids": [
+        "design-assurance"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 12.0,
+      "sources": [
+        "nsw-ground-scope",
+        "civil-article",
+        "opening"
+      ],
+      "unit": "route-km"
+    },
+    {
+      "base_usd": 678323.3957552228,
+      "basis": "Reserve 0.5% / 1% / 2% of owner design and assurance as an internal scope allocation pending priced services. Allow for tender quantities, supplier comparisons and independent technical/commercial review.",
+      "deliverables": "Issue interface and exclusions matrix, traceable bill, acceptance schedule, local content evidence, ERP item and revision mapping and independent award recommendation.",
+      "description": "Tender preparation and independent interface review",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Supplier design, physical witness testing, legal approvals and actual tax or financing charges.",
+      "firm_price_usd": null,
+      "high_usd": 1493267.9107187297,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "procurement-assurance",
+      "low_usd": 322701.14818322845,
+      "overlaps_lot_ids": [
+        "design-assurance"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "opening"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 1059880.3058675358,
+      "basis": "Internal carve-out of the owner integrated test allowance at 2% / 5% / 10% for planning test coverage, repetition and independent witnessing. Obtain lab and trial quotes.",
+      "deliverables": "Independently witness weighing, structural/fatigue tests with approved limits, fitted door and boarding measurements, brake and emergency release tests, hot duty and bogie removal.",
+      "description": "Vehicle, doors, brakes and bogie physical test programme",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Fitted vehicle procurement, supplier factory acceptance and integrated route trial.",
+      "firm_price_usd": null,
+      "high_usd": 2333231.110498015,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "test-vehicle",
+      "low_usd": 403376.4352290356,
+      "overlaps_lot_ids": [
+        "integrated-test"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates",
+        "mechanical",
+        "work-orders"
+      ],
+      "unit": "article programme"
+    },
+    {
+      "base_usd": 1059880.3058675358,
+      "basis": "Internal carve-out of the owner integrated test allowance at 2% / 5% / 10% for planning test coverage, repetition and independent witnessing. Obtain lab and trial quotes.",
+      "deliverables": "Submit transfer-strength and bar/strand verification, proof-load and staged lift records, bearing restraint and movement, fitted bay drainage, door gap, step and egress checks.",
+      "description": "Beam, bearing, erection and accessible-bay physical test programme",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Article fabrication and quality-control checks already in the civil supply offer.",
+      "firm_price_usd": null,
+      "high_usd": 2333231.110498015,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "test-civil",
+      "low_usd": 403376.4352290356,
+      "overlaps_lot_ids": [
+        "integrated-test"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates",
+        "civil-article",
+        "work-orders"
+      ],
+      "unit": "article programme"
+    },
+    {
+      "base_usd": 2119760.6117350715,
+      "basis": "Internal carve-out of the owner integrated test allowance at 4% / 10% / 20% for planning test coverage, repetition and independent witnessing. Obtain lab and trial quotes.",
+      "deliverables": "Supply approved limits, calibrated time series, simultaneous loads, breaker grading and earthing evidence, interlocks, failed-feed recovery, blocked/wrong-side doors and emergency stop trials.",
+      "description": "Traction hot-duty, isolation and automatic-control trials",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Supplier type tests, instruments and normal installation QA already in a matched direct bid.",
+      "firm_price_usd": null,
+      "high_usd": 4666462.22099603,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "test-traction-controls",
+      "low_usd": 806752.8704580712,
+      "overlaps_lot_ids": [
+        "integrated-test"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates",
+        "feeder-options",
+        "service"
+      ],
+      "unit": "integrated programme"
+    },
+    {
+      "base_usd": 1059880.3058675358,
+      "basis": "Internal carve-out of the owner integrated test allowance at 2% / 5% / 10% for planning test coverage, repetition and independent witnessing. Obtain lab and trial quotes.",
+      "deliverables": "Run restricted operation, rescue, outage, fire, emergency communications and step-free evacuation exercises. Return signed operator, airport and emergency service evidence.",
+      "description": "Operational proving and emergency drills",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "owner-allowance-allocation",
+      "exclusions": "Annual service budget and train factory acceptance tests.",
+      "firm_price_usd": null,
+      "high_usd": 2333231.110498015,
+      "inclusion_group": "nested-owner-enquiry",
+      "lot_id": "test-operator",
+      "low_usd": 403376.4352290356,
+      "overlaps_lot_ids": [
+        "integrated-test"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "opening",
+        "system-rates",
+        "service",
+        "decision-register"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 2261000.0,
+      "basis": "One sixth of the published six-car repeat-set price, multiplied by 1.2 / 1.6 / 2.4 for first-of-kind engineering, setup, fitting and production learning. Jig sill and bolster datums, weld and inspect splices, fit doors and roof equipment, weigh completed car.",
+      "deliverables": "Measure jamb diagonals, loaded threshold and roof removal clearance. Supply drawing, weld procedure, load case and repair trial.",
+      "description": "Representative car",
+      "design_documents": [
+        "car-and-bogies.ifc",
+        "revised-cuts.csv",
+        "portal-detail.svg",
+        "returns/weights.json"
+      ],
+      "estimate_date": "2026-11-23",
+      "evidence_class": "first-article-budget-proxy",
+      "exclusions": "Budget includes the car and fitted subsystems as one unit. Credit component pilots reused in the car. Separate independent trials and production mould/tool ownership.",
+      "firm_price_usd": null,
+      "high_usd": 3392000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "pilot-car",
+      "low_usd": 1696000.0,
+      "overlaps_lot_ids": [
+        "fleet",
+        "tooling",
+        "test-vehicle"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "opening",
+        "mechanical"
+      ],
+      "unit": "first article"
+    },
+    {
+      "base_usd": 442000.0,
+      "basis": "Two axle drive modules at the published USD 90k per module. Treat them as 65% / 55% / 40% of the repeat powered bogie, then apply 1.15 / 1.35 / 1.65 for first-article design, jigs and setup. Jig and weld frame, machine and inspect seats, install wheelsets, drive, brakes and disconnectable lines.",
+      "deliverables": "Record wheel/seat alignment, bearing fits, torque retention and brake force. Demonstrate loaded roll-out on the intended pallet.",
+      "description": "Powered bogie",
+      "design_documents": [
+        "car-and-bogies.ifc",
+        "mechanical.json",
+        "returns/weights.json"
+      ],
+      "estimate_date": "2026-11-23",
+      "evidence_class": "first-article-budget-proxy",
+      "exclusions": "Excludes witnessed load and reliability trials. Quote a standalone hardware unit once and show the credit if fitted in the representative car.",
+      "firm_price_usd": null,
+      "high_usd": 742000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "pilot-bogie",
+      "low_usd": 318000.0,
+      "overlaps_lot_ids": [
+        "pilot-car",
+        "fleet",
+        "test-vehicle"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "system-rates",
+        "mechanical"
+      ],
+      "unit": "first article"
+    },
+    {
+      "base_usd": 42000.0,
+      "basis": "Published series allowance USD 14,240 per 10 m beam and USD 5,000 per routine lift. Multiply fabrication and delivery by 1.5 / 2.25 / 3.5 and lift by 1.5 / 2 / 3 for short-run casting, inspection and crane mobilization. Qualify mould and rebar cage, approve prestress and release strengths, cast and inspect before pick, ship, erect and survey.",
+      "deliverables": "Return reinforcement schedule, tendon forces and losses, bearing rotation, lift anchors, ground report and erection-stage limits.",
+      "description": "Viaduct beam",
+      "design_documents": [
+        "track-span.ifc",
+        "pier.ifc",
+        "mechanical.json"
+      ],
+      "estimate_date": "2026-11-23",
+      "evidence_class": "first-article-budget-proxy",
+      "exclusions": "Excludes independent load trials, new piers, geotechnics and extraordinary access. Cage and strand are inside the beam proxy.",
+      "firm_price_usd": null,
+      "high_usd": 65000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "pilot-beam",
+      "low_usd": 29000.0,
+      "overlaps_lot_ids": [
+        "elevated-civil",
+        "tooling",
+        "test-civil"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "system-rates",
+        "civil-article",
+        "iraq-material"
+      ],
+      "unit": "first article"
+    },
+    {
+      "base_usd": 94000.0,
+      "basis": "Take four of the 100 template panels. Allocate 3% / 6% / 10% of the published station allowance to the platform deck and edges, then multiply by 2 / 3 / 4 for one 5 m trial bay, edge/drainage equipment and standalone setup. Cast panels, form drainage and board edge, fit access and isolation equipment and check swept clearances.",
+      "deliverables": "Measure platform gap, step, drainage, wheelchair circulation and door alignment under loaded, worn and thermal cases.",
+      "description": "Accessible station bay",
+      "design_documents": [
+        "platform-bay.ifc",
+        "portal-detail.svg",
+        "workshop-guide.md"
+      ],
+      "estimate_date": "2026-11-23",
+      "evidence_class": "first-article-budget-proxy",
+      "exclusions": "Excludes the rest of the station, passenger lifts, structure below the bay and witnessed boarding trials.",
+      "firm_price_usd": null,
+      "high_usd": 208000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "pilot-station-bay",
+      "low_usd": 31000.0,
+      "overlaps_lot_ids": [
+        "stations",
+        "test-civil"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "opening",
+        "civil-article"
+      ],
+      "unit": "first article"
+    },
+    {
+      "base_usd": 301000.0,
+      "basis": "One drive module, shoe allocation, TCMS node, inverter controller, one service power unit, two shoe and two brake channels and eight door controllers at Baghdad installed budget rates. Multiply by 1.3 / 1.8 / 2.5 for one-off cabinet integration, harness and assembly. Assemble replaceable cabinets and contact interface, label terminals and verify wiring, isolation and protection.",
+      "deliverables": "Submit single-line, terminal and connector schedule, heat rejection, fault interruption, safe egress and witnessed station visit.",
+      "description": "Traction and control module",
+      "design_documents": [
+        "electrical/priced-single-line.svg",
+        "returns/priced_radial-feeder.json",
+        "commissioning.md"
+      ],
+      "estimate_date": "2026-11-23",
+      "evidence_class": "first-article-budget-proxy",
+      "exclusions": "Excludes substations, route communications, additional axle drives or cabinets, station controls and independent integrated testing.",
+      "firm_price_usd": null,
+      "high_usd": 418000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "pilot-traction-controls",
+      "low_usd": 217000.0,
+      "overlaps_lot_ids": [
+        "pilot-car",
+        "fleet",
+        "signalling",
+        "test-traction-controls"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "work-orders",
+        "system-rates",
+        "mechanical",
+        "radial-return"
+      ],
+      "unit": "first article"
+    },
+    {
+      "alternative_to_lot_ids": [
+        "traction-line",
+        "traction-sites",
+        "offsite-feed"
+      ],
+      "base_usd": 140292000.0,
+      "basis": "Six sites at a 14.62 MW DC sizing proxy. Apply the radial USD 8m/site base plus USD 1m/MW above 10 MW, multiplied by 0.85 / 1.10 / 1.40 for revised conversion duty. For 24 track-km, use the radial USD 1.05m/track-km and allocate 25% / 40% / 60% to conductor capacity. That share scales by 3.00 times the installed path count, using resistance ratios as a material proxy. Half of the remaining price scales with path count and half is shared. Price each outgoing breaker and tie at the radial USD 50k times 1 / 1.4 / 2 and each additional branch point at 10% / 20% / 40% of that USD 50k. Apply 1 / 1.5 / 2.5 to the local site works offsite rate per new site for uncertainty in utility concentration.",
+      "branch_disconnect_and_test_points": 0,
+      "deliverables": "Quote conversions, positive/return paths, protection, earthing, owner/supplier testing, AC tie-ins, annual upkeep and renewal years. Return approved capacity, hot-circuit and isolation evidence before selection.",
+      "description": "Six-site single-path feeder",
+      "design_id": "b041cad79ed5a988186b26567943b10d743358f136a1a052ffef48fbac3fe6ae",
+      "direct_breakdown_by_scenario_usd": {
+        "base": {
+          "offsite utility tie-ins": 9536000.0,
+          "outgoing breakers, ties and branch points": 2100000.0,
+          "positive and return paths including guarding and bonds": 45360000.0,
+          "railway-side supply sites and plant": 83296000.0
+        },
+        "high": {
+          "offsite utility tie-ins": 35762000.0,
+          "outgoing breakers, ties and branch points": 3000000.0,
+          "positive and return paths including guarding and bonds": 55440000.0,
+          "railway-side supply sites and plant": 106013000.0
+        },
+        "low": {
+          "offsite utility tie-ins": 2384000.0,
+          "outgoing breakers, ties and branch points": 1500000.0,
+          "positive and return paths including guarding and bonds": 37800000.0,
+          "railway-side supply sites and plant": 64365000.0
+        }
+      },
+      "estimate_date": "2026-11-23",
+      "evidence_class": "topology-scaled-budget-proxy",
+      "exclusions": "Price bound for this topology only. On-site control and earthing are requested inside plant and installation prices. Programme commissioning, major utility reinforcement, taxes and finance remain separate.",
+      "firm_price_usd": null,
+      "high_usd": 200215000.0,
+      "inclusion_group": "alternative-budget-proxy",
+      "lot_id": "six-site-quotation",
+      "low_usd": 106049000.0,
+      "midpoint_ties": 10,
+      "outgoing_circuits": 20,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "protected_track_km": 24.0,
+      "quantity": 6,
+      "site_peak_dc_mw_proxy": 14.620608048708178,
+      "sources": [
+        "six-site-return",
+        "feeder-options",
+        "radial-return",
+        "opening",
+        "system-rates",
+        "local-works"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "alternative_to_lot_ids": [
+        "opex-feeder"
+      ],
+      "base_usd": 1308000.0,
+      "basis": "Apply published 0.5% / 1% / 2% upkeep fractions to estimated railway-side capital. This applies the fractions to the whole six-site plant and line price, with no assumed shared maintenance credit.",
+      "deliverables": "Return full annual and unit upkeep rates, common-scope deductions, spares and maintenance windows before using this sensitivity in an alternative lifecycle comparison.",
+      "description": "Six-site single-path feeder rail-side upkeep sensitivity",
+      "design_id": "b041cad79ed5a988186b26567943b10d743358f136a1a052ffef48fbac3fe6ae",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "topology-scaled-budget-proxy",
+      "exclusions": "Energy, separate utility service charges, scheduled renewals and shared basic maintenance. Known boundaries differ from the radial incremental upkeep.",
+      "firm_price_usd": null,
+      "high_usd": 3289000.0,
+      "inclusion_group": "alternative-budget-proxy",
+      "lot_id": "six-site-quotation-upkeep",
+      "low_usd": 518000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 6,
+      "sources": [
+        "six-site-return",
+        "local-works",
+        "system-rates"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "alternative_to_lot_ids": [
+        "traction-line",
+        "traction-sites",
+        "offsite-feed"
+      ],
+      "base_usd": 175505000.0,
+      "basis": "Six sites at a 14.11 MW DC sizing proxy. Apply the radial USD 8m/site base plus USD 1m/MW above 10 MW, multiplied by 0.85 / 1.10 / 1.40 for revised conversion duty. For 24 track-km, use the radial USD 1.05m/track-km and allocate 25% / 40% / 60% to conductor capacity. That share scales by 3.00 times the installed path count, using resistance ratios as a material proxy. Half of the remaining price scales with path count and half is shared. Price each outgoing breaker and tie at the radial USD 50k times 1 / 1.4 / 2 and each additional branch point at 10% / 20% / 40% of that USD 50k. Apply 1 / 1.5 / 2.5 to the local site works offsite rate per new site for uncertainty in utility concentration.",
+      "branch_disconnect_and_test_points": 80,
+      "deliverables": "Quote conversions, positive/return paths, protection, earthing, owner/supplier testing, AC tie-ins, annual upkeep and renewal years. Return approved capacity, hot-circuit and isolation evidence before selection.",
+      "description": "Six-site paired-path feeder",
+      "design_id": "9f7d9d5e84fa262801874921a5398e91879cb75098dfa2e81aece3cb58db089e",
+      "direct_breakdown_by_scenario_usd": {
+        "base": {
+          "offsite utility tie-ins": 9536000.0,
+          "outgoing breakers, ties and branch points": 2900000.0,
+          "positive and return paths including guarding and bonds": 83160000.0,
+          "railway-side supply sites and plant": 79909000.0
+        },
+        "high": {
+          "offsite utility tie-ins": 35762000.0,
+          "outgoing breakers, ties and branch points": 4600000.0,
+          "positive and return paths including guarding and bonds": 105840000.0,
+          "railway-side supply sites and plant": 101703000.0
+        },
+        "low": {
+          "offsite utility tie-ins": 2384000.0,
+          "outgoing breakers, ties and branch points": 1900000.0,
+          "positive and return paths including guarding and bonds": 66150000.0,
+          "railway-side supply sites and plant": 61748000.0
+        }
+      },
+      "estimate_date": "2026-11-23",
+      "evidence_class": "topology-scaled-budget-proxy",
+      "exclusions": "Price bound for this topology only. On-site control and earthing are requested inside plant and installation prices. Programme commissioning, major utility reinforcement, taxes and finance remain separate.",
+      "firm_price_usd": null,
+      "high_usd": 247905000.0,
+      "inclusion_group": "alternative-budget-proxy",
+      "lot_id": "six-site-parallel",
+      "low_usd": 132182000.0,
+      "midpoint_ties": 10,
+      "outgoing_circuits": 20,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "protected_track_km": 24.0,
+      "quantity": 6,
+      "site_peak_dc_mw_proxy": 14.107486250390654,
+      "sources": [
+        "paired-return",
+        "feeder-options",
+        "radial-return",
+        "opening",
+        "system-rates",
+        "local-works"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "alternative_to_lot_ids": [
+        "opex-feeder"
+      ],
+      "base_usd": 1660000.0,
+      "basis": "Apply published 0.5% / 1% / 2% upkeep fractions to estimated railway-side capital. This applies the fractions to the whole six-site plant and line price, with no assumed shared maintenance credit.",
+      "deliverables": "Return full annual and unit upkeep rates, common-scope deductions, spares and maintenance windows before using this sensitivity in an alternative lifecycle comparison.",
+      "description": "Six-site paired-path feeder rail-side upkeep sensitivity",
+      "design_id": "9f7d9d5e84fa262801874921a5398e91879cb75098dfa2e81aece3cb58db089e",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "topology-scaled-budget-proxy",
+      "exclusions": "Energy, separate utility service charges, scheduled renewals and shared basic maintenance. Known boundaries differ from the radial incremental upkeep.",
+      "firm_price_usd": null,
+      "high_usd": 4243000.0,
+      "inclusion_group": "alternative-budget-proxy",
+      "lot_id": "six-site-parallel-upkeep",
+      "low_usd": 649000.0,
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 6,
+      "sources": [
+        "paired-return",
+        "local-works",
+        "system-rates"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "base_usd": 1912000.0,
+      "basis": "Illustrate a 0.2% / 0.5% / 1% annual exposure on the priced radial sites and switchgear. This is a sensitivity for ancillary recurring services above the known operating allowance.",
+      "deliverables": "Obtain recurring utility, site and tie-protection prices outside existing energy and maintenance allowances.",
+      "description": "Additional recurring site and protection work",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "contingent-exposure-sensitivity",
+      "exclusions": "Priced construction allowances, recurring base operations and modelled debt payments where applicable.",
+      "firm_price_usd": null,
+      "high_usd": 3824000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "additional-grid-operations",
+      "low_usd": 765000.0,
+      "overlaps_lot_ids": [
+        "opex-power",
+        "opex-feeder",
+        "opex-other"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "annual",
+      "price_status": "planning-price",
+      "quantity": 30,
+      "sources": [
+        "cash",
+        "opening"
+      ],
+      "unit": "DC source groups"
+    },
+    {
+      "base_usd": 1572000.0,
+      "basis": "Sensitivity of 10% / 25% / 50% of the existing extra shaft, major road crossing and forecourt scopes. It represents residual complexity risk pending survey and does not estimate authority fees.",
+      "deliverables": "Survey approval conditions and exceptional works, then return the scope and price with an accountable party.",
+      "description": "Residual exceptional works and owner approvals",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "contingent-exposure-sensitivity",
+      "exclusions": "Priced construction allowances, recurring base operations and modelled debt payments where applicable.",
+      "firm_price_usd": null,
+      "high_usd": 10805000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "approvals-exceptional-works",
+      "low_usd": 172000.0,
+      "overlaps_lot_ids": [
+        "programme-allowance",
+        "extra-foundation",
+        "exceptional-crossings",
+        "airport-forecourt"
+      ],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "cash",
+        "opening"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": 2811000.0,
+      "basis": "Illustrate a 0.25% / 0.5% / 1% one-time arrangement cost on the modelled borrowing share of each priced capital scenario. No lender offer is assumed.",
+      "deliverables": "Obtain comparable term sheets including arrangement, lender due diligence, undrawn facility fees and funding conditions.",
+      "description": "Illustrative financing arrangement costs",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "contingent-exposure-sensitivity",
+      "exclusions": "Priced construction allowances, recurring base operations and modelled debt payments where applicable.",
+      "firm_price_usd": null,
+      "high_usd": 6188000.0,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "lender-fee-sensitivity",
+      "low_usd": 1337000.0,
+      "overlaps_lot_ids": [],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "planning-price",
+      "quantity": 1,
+      "sources": [
+        "cash",
+        "opening"
+      ],
+      "unit": "opening programme"
+    },
+    {
+      "base_usd": null,
+      "basis": "Separate owner tax/customs determination needed by package, origin, declaration and contracting structure.",
+      "deliverables": "Return applicable tax and duty basis and dated rulings or fiscal agreements for the buyer and supplier.",
+      "description": "Tax and customs duty treatment",
+      "estimate_date": "2026-11-23",
+      "evidence_class": "buyer-evidence-required",
+      "exclusions": "Priced construction allowances, recurring base operations and modelled debt payments where applicable.",
+      "firm_price_usd": null,
+      "high_usd": null,
+      "inclusion_group": "reconcile-before-addition",
+      "lot_id": "tax-and-duties",
+      "low_usd": null,
+      "overlaps_lot_ids": [],
+      "physical_acceptance": "open",
+      "price_basis": "constant 2026 USD",
+      "price_period": "one-time",
+      "price_status": "unpriced",
+      "quantity": 1,
+      "sources": [
+        "cash",
+        "opening"
+      ],
+      "unit": "opening programme"
+    }
+  ],
+  "mechanical_evaluation_id": "4ab9d5d23b03233335034bc983ea82fef736053fa2cdd681cf447548897bd351",
+  "network_parent_candidate_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
+  "opening_date": null,
+  "opening_evaluation_id": "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87",
+  "opening_packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+  "parent_candidate_id": "d3f3987c2ebb5f85f9fa7fa6fda7e93be3d167744f9188c5cca88b13b33e5fbb",
+  "physical_acceptance": "open",
+  "physical_obligations_open": [
+    "Survey, utility access, ground conditions, civil detailing, staged erection and accessible egress",
+    "Signed installed masses, joint fatigue, fitted doors, brake performance, rescue and maintainability",
+    "Measured hot duty, isolation, breaker discrimination, ATP/ATO interlocks and witnessed integrated trials",
+    "Authority review, accepted commercial scope, appropriated funding and operating authorisation"
+  ],
+  "price_basis": "constant 2026 USD",
+  "reference_boundary": "Independent Airport research opening with six-car powered-wheel trains and protected conductor. The project retains its six-car passive-wheel development reference and its separately named crowd and capacity controls.",
+  "reproducibility": "Read named data members of the published packet, verify their manifest checksums and design bindings, and apply source-linked allowances. External comparator observations are recorded with their published terms for offline reproduction.",
+  "scenario_semantics": "Published opening ranges vary local works while holding a common direct reference for other scopes. Single-point allowances carry equal endpoints. Comparator and owner allocations are sensitivities outside the additive subtotals.",
+  "schema": "baghdad-airport-sourcing-estimates/1",
+  "sources": {
+    "award-currency": {
+      "source_date": "2022-11-14",
+      "title": "Federal Reserve historical exchange rates",
+      "url": "https://www.federalreserve.gov/releases/h10/20221114/"
+    },
+    "baghdad-road": {
+      "title": "Iraqi Ministry of Planning, Baghdad\u2013Wasit mixed road and interchange comparator",
+      "url": "https://mop.gov.iq/archives/10965"
+    },
+    "cash": {
+      "member": "cash.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "6ae0bf3588efb267c04f02d8f4fd1650752df4663f631cc34fbdd8d21dec3c18",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "chennai-trains": {
+      "source_date": "2022-11-11",
+      "title": "Alstom Chennai Metro 78-car contract announcement, EUR 98m",
+      "url": "https://www.alstom.com/sites/alstom.com/files/2022/11/10/20221111_PR_Metro_Coaches_for_Chennai_Metro_PhaseII_EN.pdf"
+    },
+    "civil-article": {
+      "member": "civil-article.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "67c414f861743e57d65cbe5246823c0236a80463ff595c40d8031091a537ff3f",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "decision-register": {
+      "member": "decision-register.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "5b8d933c81fcd06ae4d27d0639ba5e7d490e9b10702c0413f327b848276c5551",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "estimate-method": {
+      "path": "cities/Baghdad/engineering/prototype/sourcing_estimates.py",
+      "sha256": "963bf24966cf5b8e44e557cfe85a792814b62338dccd1dd697f2f0b6a846fa4c",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/sourcing_estimates.py"
+    },
+    "feeder-options": {
+      "member": "feeder-options.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "775281d7e52c003cc02e6126e4b814223d50302ae12aa454835d3ed7b9e3e098",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "iqd-conversion": {
+      "source_date": "2026-10-07",
+      "title": "Central Bank selling rate used in the Airport model",
+      "url": "https://cbi.iq/news/view/3355"
+    },
+    "iraq-energy": {
+      "path": "cities/Baghdad/iraq-power.toml",
+      "sha256": "d6258e84b9376db631923a5dccfbd1dc180aa92031bc33f32773268355120e1c",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/iraq-power.toml"
+    },
+    "iraq-grid-contracts": {
+      "source_date": "2022\u20132023",
+      "title": "Twanist contractor's completed Iraq utility equipment contracts, rows 69 and 93",
+      "url": "https://www.twanist.com/imppro"
+    },
+    "iraq-material": {
+      "source_date": "2026-10",
+      "title": "Iraqi Statistics and GIS Authority construction materials, tables 1\u20132",
+      "url": "https://www.cosit.gov.iq/documents/buildings/Employees%20wages/2026/%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%D8%A7%D9%84%D8%A7%D9%86%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%20%D9%84%D8%B4%D9%87%D8%B1%20%D8%AA%D8%B4%D8%B1%D9%8A%D9%86%20%20%D8%A7%D9%84%D8%A7%D9%88%D9%84.pdf"
+    },
+    "iraq-rail": {
+      "source_date": "2025",
+      "title": "World Bank Iraq Railways Extension and Modernization project appraisal, P507282",
+      "url": "https://documents1.worldbank.org/curated/en/099050425130516662/pdf/P507282-091efafd-26a7-46f4-86ce-5b25f875478b.pdf"
+    },
+    "jica-tariff": {
+      "title": "JICA Iraq grid electricity source",
+      "url": "https://openjicareport.jica.go.jp/pdf/12352100.pdf"
+    },
+    "local-works": {
+      "path": "cities/Baghdad/airport-works.toml",
+      "sha256": "3d358e6863f940e6df50e87c976b7a9bd2195df04df53ef76593080415cdd146",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/airport-works.toml"
+    },
+    "market-rates": {
+      "path": "cities/Baghdad/iraq-capital.toml",
+      "sha256": "3f4ac18dda6e6de221be9810ed4bd18443f878463abe1d5c1a856030d309e177",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/iraq-capital.toml"
+    },
+    "mechanical": {
+      "member": "mechanical.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "2ec9848993595b41fd5042aa4c2f4774eb4db201138f533e5b1d2e2616c5a5e9",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "nsw-ground-scope": {
+      "scope_use": "Investigation work scope only",
+      "title": "Transport for NSW, Country Regional Network site investigations IPD-22-12012",
+      "url": "https://www.transport.nsw.gov.au/system/files/media/documents/2023/CQR%20-%20Site%20Investigations%20Contract%20%28Contract%20No.%20IPD-22-12012%29.PDF"
+    },
+    "opening": {
+      "member": "opening.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "ae6b55d85a569d5a6eab505b9297d19b664685e0ca36e1ebfabc16ee86b4b832",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "paired-return": {
+      "member": "returns/six_site_parallel-feeder.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "1f3b98aebb7cb3befee65e1332d59ac2acbc31a198eb30517f7bab47155fcfc2",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "radial-return": {
+      "member": "returns/priced_radial-feeder.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "fe961c5db9e65d7122119254eefb5e50b64e18fb0791e67ac840f62369bd52f5",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "reference-baseline": {
+      "path": "engineering/development-baseline.toml",
+      "sha256": "1485826d5ceecf8428c6ccdda0c67746b4375196ad77048029656406a826daf4",
+      "title": "OpenSourceRail six-car, passive-wheel development reference",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/engineering/development-baseline.toml"
+    },
+    "service": {
+      "member": "service.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "fa43383e399a982d4eee12b35383123776447894d1967d83ad9015db2b37c786",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "six-site-return": {
+      "member": "returns/six_site_quotation-feeder.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "81311520f817adf952a32311749a03f876b3470321fbf9090585d6e9468b900b",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    },
+    "system-rates": {
+      "path": "cities/Baghdad/system.toml",
+      "sha256": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/system.toml"
+    },
+    "uk-survey-award": {
+      "comparator_amount_gbp_ex_vat": 400000,
+      "source_date": "2026-01-12",
+      "title": "Network Rail West Coast South Earthwork Management Strategy, notice 2026/S 000-002326",
+      "url": "https://www.find-tender.service.gov.uk/Notice/002326-2026/PDF"
+    },
+    "undp-alternate-power": {
+      "source_date": "2025",
+      "title": "UNDP Energy Transition in Iraq",
+      "url": "https://www.undp.org/sites/g/files/zskgke326/files/2025-09/energy_transition_in_iraq_english_version_250914_122841.pdf"
+    },
+    "us-passenger-study": {
+      "comparator_amount_usd": 280000,
+      "source_date": "2023-04-12",
+      "title": "Solano Transportation Authority, Vallejo Passenger Rail Study agenda item 8.D",
+      "url": "https://www.sta.ca.gov/wp-content/uploads/2022/09/STA-Board-Packet_04-12-2023.pdf"
+    },
+    "work-orders": {
+      "member": "draft-work-orders.json",
+      "packet_evaluation_id": "f1f0ca81dc1ee27c63cea9a404a62117a5b4799c5126938e000bdfbf74116772",
+      "sha256": "2db2bbff502004b717a35e48b2f92370aee29b4c98374dd0c5335e0b4ccb7ee2",
+      "url": "https://github.com/modernecotech/OpenSourceRail/blob/main/cities/Baghdad/engineering/prototype/airport-prototype.zip"
+    }
+  },
+  "subtotal_opening_priced_allowances": {
+    "base_usd": 1124321028.4642816,
+    "high_usd": 1237545781.0081472,
+    "low_usd": 1069754306.2274023
+  }
+}

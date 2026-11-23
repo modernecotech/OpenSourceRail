@@ -153,6 +153,8 @@ The repository's **v0.6 development baseline** investigates a simpler train with
 
 The [v0.6.1 software release](docs/releases/v0.6.1/README.md) preserves its own planning and control workflows. Original design images, CAD assemblies and structural results have their design identities and evidence limits in the [engineering gallery](docs/engineering-gallery.md) and [current engineering record](docs/design-engine/current/README.md).
 
+The Baghdad Airport buyer can compare a supplier’s price with 54 defined lots covering construction, vehicles, commissioning, operations and renewals. The ERPNext portal records separate offers against the same quantity and drawing revision. The buyer can review the direct price, exclusions and 30-year cost before choosing a procurement action. [Procurement plan and buyer instructions](cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md)
+
 ## Present the railway
 
 For an operator meeting, use the illustrated briefing or extract the entire offline workshop ZIP and open **START.html** in a browser. Follow a scheduled train through a turnback, inspect the platform and brake equipment, review a sample control-room alarm, then vary the staffing and funding assumptions. The drawings and IFC files accompany the screens so design and commercial teams can discuss the same component. [14-page operator briefing](docs/operator-review/OpenSourceRail-Operator-Brief.pdf) · [Download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip) · [Illustrated project book](OpenSourceRail-Book.pdf)

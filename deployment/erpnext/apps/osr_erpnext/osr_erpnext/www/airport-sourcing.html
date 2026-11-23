@@ -1,0 +1,187 @@
+{% extends "templates/web.html" %}
+{% block title %}Baghdad Airport procurement{% endblock %}
+{% macro money(amount) %}{% if amount is none %}Open{% else %}${{ "{:,.2f}".format(amount) }}{% endif %}{% endmacro %}
+{% block page_content %}
+<style>
+.airport{max-width:1000px;margin:1.5rem auto 4rem;color:var(--text-color,#233541)}
+.airport h1{font-size:2rem}.airport h2{font-size:1.4rem;margin:2rem 0 1rem}
+.airport label{display:block;font-weight:600}.airport input,.airport select,.airport textarea{display:block;width:100%;padding:.5rem;margin:.35rem 0 1rem;border:1px solid var(--border-color,#aab4bf);border-radius:4px;color:inherit;background:var(--card-bg,white)}
+.airport .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:0 1.2rem}
+.airport .prices{display:flex;gap:2rem;flex-wrap:wrap}.airport .prices dt{font-size:.85rem}.airport .prices dd{font-variant-numeric:tabular-nums;font-size:1.2rem}.airport .wide{overflow-x:auto}
+.airport th,.airport td{padding:.5rem;border-bottom:1px solid var(--border-color,#d2dbe0);text-align:left}.airport code{white-space:normal;overflow-wrap:anywhere}
+.airport details,.airport article{border-top:1px solid var(--border-color,#d2dbe0);margin-top:1rem;padding-top:1rem}.airport button{margin-bottom:1rem}
+.airport [role=status]{padding:.6rem 0}.airport pre{white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+<div class="airport">
+<h1>Baghdad Airport procurement</h1>
+<p>{{ actor|e }} · {% if buyer %}Buying team{% else %}Supplier quotations{% endif %}</p>
+{% if buyer %}
+<form method="get"><div class="grid"><label>ERPNext Project ID<input name="project" required value="{{ project|e }}"></label></div>
+<button class="btn btn-secondary" type="submit">Open project</button></form>
+{% if project %}
+<details><summary>Load a buyer estimate into ERPNext</summary>
+<form id="estimate-form"><p>Use the published Airport estimate JSON. This stages an edition for the Project and creates its purchasable planning Items and three USD buying price lists. An existing edition can be loaded again.</p>
+<label>Estimate JSON<input type="file" name="estimate" accept=".json,application/json" required></label>
+<label>Existing leaf Item Group<input name="item_group" required></label>
+<button class="btn btn-secondary">Save buyer price book</button></form></details>
+<h2>Buyer estimate</h2>
+{% if editions %}
+<form method="get"><input type="hidden" name="project" value="{{ project|e }}">
+<label>Estimate edition<select name="evaluation_id" required>{% for row in editions %}<option {% if row.evaluation_id == edition %}selected{% endif %} value="{{ row.evaluation_id|e }}">{{ row.evaluation_id|e }}</option>{% endfor %}</select></label>
+<button class="btn btn-secondary">Load edition</button></form>
+<form method="get"><input type="hidden" name="project" value="{{ project|e }}"><input type="hidden" name="evaluation_id" value="{{ edition|e }}">
+<label>Lot<select name="lot">{% for row in lots %}<option value="{{ row.lot_id|e }}" {% if row.lot_id == lot.lot_id %}selected{% endif %}>{{ row.lot_id|e }} · {{ row.description|e }}</option>{% endfor %}</select></label>
+<button class="btn btn-secondary">Show lot</button></form>
+<h3>{{ lot.description|e }}</h3>
+<p>{{ lot.quantity }} {{ lot.unit|e }} · {{ lot.price_period|e }} · constant 2026 USD</p>
+<dl class="prices">{% for key,title in [('low_usd','Low'),('base_usd','Central'),('high_usd','High')] %}<div><dt>{{ title }}</dt><dd>{{ money(lot[key]) }}</dd></div>{% endfor %}</dl>
+<p>{{ lot.basis|e }}</p><details><summary>Lot scope and identity</summary><p>{{ lot.deliverables|e }}</p><p><b>Exclusions</b> {{ lot.exclusions|e }}</p>
+<p>Physical candidate <code>{{ candidate_id|e }}</code></p><p>ERP Item <code>{{ item_code|e }}</code></p></details>
+<h2>Prepare an RFQ</h2>
+<form id="draft-form">
+<label>Eligible ERPNext Supplier IDs, one per line<textarea name="suppliers" required rows="2"></textarea></label>
+<p>Use a new round to change the supplier list. A price spread requires two comparable offers.</p>
+<div class="grid"><label>Required delivery date<input name="required_on" type="date" required></label>
+<label>Competition round<input type="number" name="round_no" min="1" value="1" step="1" required></label></div>
+<button class="btn btn-primary">Create draft RFQ</button></form>
+{% else %}<p>This project has no staged estimate editions.</p>{% endif %}
+<h2>Project competitions</h2>
+{% if requests %}<ul>{% for row in requests %}<li><a href="?project={{ project|urlencode }}&amp;evaluation_id={{ row.evaluation_id|urlencode }}&amp;lot={{ row.lot_id|urlencode }}&amp;rfq={{ row.rfq|urlencode }}">{{ row.lot_id|e }} · round {{ row.round_no }}</a> · {% if row.docstatus == 0 %}draft{% elif row.docstatus == 1 %}issued{% else %}cancelled{% endif %}</li>{% endfor %}</ul>
+{% else %}<p>No RFQs on this page.</p>{% endif %}
+{% endif %}
+{% if review %}
+<article><h2>Quotation comparison</h2><p>{{ review.lot_id|e }} · As at {{ review.as_of|e }} · <a href="/app/request-for-quotation/{{ rfq|urlencode }}">Open native RFQ</a></p>
+<dl class="prices"><div><dt>Comparable direct spread</dt><dd>{{ money(review.comparison.direct_spread_usd) }}</dd></div><div><dt>30-year present value spread</dt><dd>{{ money(review.comparison.pv_spread_usd) }}</dd></div></dl>
+<div class="wide"><table><thead><tr><th>Supplier</th><th>Direct price</th><th>Variance to central</th><th>30-year present value</th><th>Scope holds</th><th>Opening budget</th></tr></thead><tbody>
+{% for row in review.comparison.offers %}<tr><td><a href="/app/supplier-quotation/{{ row.quotation|urlencode }}">{{ row.supplier|e }}</a></td><td>{{ money(row.direct_usd) }}</td><td>{{ money(row.difference_from_base_usd) }}</td><td>{{ money(row.pv_30y_4pct_usd) }}</td><td>{{ (row.holds|join(', ') or 'Full declared scope')|e }}{% if row.exclusions %} · {{ (row.exclusions|join(', '))|e }}{% endif %}</td><td>{% if row.comparable_direct and replacement_available %}<a href="?project={{ project|urlencode }}&amp;evaluation_id={{ review.comparison.estimate_evaluation_id|urlencode }}&amp;lot={{ review.lot_id|urlencode }}&amp;rfq={{ rfq|urlencode }}&amp;quotation={{ row.quotation|urlencode }}">Model replacement</a>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div><ul>{% for row in review.suppliers %}<li>{{ row.supplier|e }} · {{ row.status|e }}{% if row.recorded_on %} · received {{ row.recorded_on|e }}{% endif %}{% if row.valid_until %} · valid until {{ row.valid_until|e }} · {{ row.lead_time_days }} days · warranty {{ row.warranty|e }}{% endif %}</li>{% endfor %}</ul>
+{% if scenario %}<h2>Opening budget with this quotation</h2>
+<p>The quotation replaces the original central allowance once. Design, commissioning and project allowances follow the revised direct budget.</p>
+<dl class="prices"><div><dt>Original central opening</dt><dd>{{ money(scenario.original_central_opening_usd) }}</dd></div><div><dt>Revised central opening</dt><dd>{{ money(scenario.revised_central_opening_usd) }}</dd></div><div><dt>Change</dt><dd>{{ money(scenario.opening_delta_usd) }}</dd></div></dl>
+<p>Direct cost changes by {{ money(scenario.direct_delta_usd) }}. Procurement and technical review remain open.</p>
+<details><summary>Scenario identity and credited allowance</summary><pre>{{ scenario|tojson(indent=2) }}</pre></details>{% endif %}
+{% for row in review.unattributed_quotations %}<p>{{ row.quotation|e }} · {{ row.reason|e }}</p>{% endfor %}</article>
+{% endif %}
+{% else %}
+<h2>Requests for quotation</h2>
+{% if requests %}<ul>{% for row in requests %}<li><a href="?rfq={{ row.rfq|urlencode }}">Open request <code>{{ row.rfq|e }}</code></a></li>{% endfor %}</ul>{% else %}<p>No issued enquiries on this page for your supplier account.</p>{% endif %}
+{% if enquiry %}
+<h2>{{ enquiry.scope.description|e }}</h2>
+<p>{{ enquiry.scope.quantity }} {{ enquiry.scope.unit|e }} · {{ enquiry.scope.price_period|e }} · round {{ enquiry.round_no }} · delivery required {{ enquiry.required_on|e }}</p>
+<p><b>Required deliverables</b> {{ enquiry.scope.deliverables|e }}</p><p><b>Buyer exclusions</b> {{ enquiry.scope.exclusions|e }}</p>
+{% if enquiry.scope.technical_scope %}<details><summary>Engineering scope and drawings</summary><dl>{% for key,value in enquiry.scope.technical_scope.items() %}<dt>{{ key|replace('_',' ')|e }}</dt><dd>{{ value|e }}</dd>{% endfor %}</dl></details>{% endif %}
+<details><summary>Design and estimate identities</summary><p>Physical candidate <code>{{ enquiry.scope.candidate_id|e }}</code></p><p>Estimate edition <code>{{ enquiry.scope.evaluation_id|e }}</code></p></details>
+{% if enquiry.previous %}
+<h2>Your recorded quotation</h2><p>{{ enquiry.previous.offer.supplier_reference|e }} · {{ enquiry.previous.status|e }} · valid until {{ enquiry.previous.offer.valid_until|e }}</p>
+<p>Extended amount {{ money(enquiry.previous.offer.direct_usd) }} · lead time {{ enquiry.previous.offer.lead_time_days }} days</p>
+<details><summary>Submitted terms</summary><pre>{{ enquiry.previous.offer|tojson(indent=2) }}</pre></details>
+<p>For a revision, request a new round from the buying team and reference this quotation.</p>
+{% else %}
+<h2>Submit a quotation</h2>
+<p>Use constant 2026 USD. Enter the unit price for the stated period and include every required deliverable. List any departures from the enquiry under coverage.</p>
+<form id="offer-form"><div class="grid">
+<label>Unit price (USD / {{ enquiry.scope.unit|e }})<input name="rate_usd" type="number" min="0.000001" step="0.000001" required></label>
+<label>Your quotation reference<input name="supplier_reference" maxlength="140" required></label>
+<label>Valid until<input name="valid_until" type="date" required></label>
+<label>Delivery lead time in days<input name="lead_time_days" type="number" min="1" max="3650" step="1" required></label>
+</div><label>Warranty, service and support terms<textarea name="warranty" maxlength="1000" required></textarea></label>
+<label>Annual upkeep (USD for the entire lot)<input name="annual_upkeep_usd" type="number" min="0" step="0.01" placeholder="Leave blank if unquoted"></label>
+<label>30-year renewals<select name="renewal_coverage"><option value="unknown">Unquoted</option><option value="none">No renewal expenditure</option><option value="scheduled">Enter scheduled renewals</option></select></label>
+<div id="renewals-area" hidden><label>Year and USD amount, one pair per line<textarea name="renewal_lines" placeholder="15, 125000"></textarea></label></div>
+<label>Coverage<select name="coverage"><option value="unknown">Unconfirmed</option><option value="full">All requested scope included</option><option value="exceptions">Exclusions or deviations apply</option></select></label>
+<div id="exclusions-area" hidden><label>Each exclusion or deviation on a separate line<textarea name="exclusion_lines"></textarea></label></div>
+<p>For an annual lot include the annual service in the unit price and enter zero for separate upkeep. For a scheduled lot allocate the full extended price to renewal years and enter zero separate upkeep.</p>
+<button class="btn btn-primary">Submit supplier quotation</button></form>
+{% endif %}{% endif %}
+{% endif %}
+{% if offset > 0 or (requests and requests|length == 50) %}<nav aria-label="Requests">{% if offset > 0 %}<a href="?project={{ (project or '')|urlencode }}&amp;offset={{ [offset - 50, 0]|max }}">Previous requests</a>{% endif %} {% if requests|length == 50 %}<a href="?project={{ (project or '')|urlencode }}&amp;offset={{ offset + 50 }}">More requests</a>{% endif %}</nav>{% endif %}
+<p id="sourcing-status" role="status" aria-live="polite"></p>
+</div>
+<script>
+(() => {
+  const status = document.getElementById('sourcing-status');
+  async function post(name, data, module = 'sourcing') {
+    const response = await fetch('/api/method/osr_erpnext.' + module + '.' + name, {
+      method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json','X-Frappe-CSRF-Token':frappe.csrf_token},
+      body: JSON.stringify(data)
+    });
+    const record = await response.json();
+    if (!response.ok || record.exc) {
+      let message = 'The request could not be recorded. Check the inputs and your access.';
+      if (record._server_messages) {
+        const messages = JSON.parse(record._server_messages);
+        message = messages.map(item => JSON.parse(item).message).join(' ');
+      }
+      throw new Error(message);
+    }
+    return record.message;
+  }
+  function handle(id, save) {
+    const form = document.getElementById(id);
+    if (!form) return;
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const button = form.querySelector('button');
+      button.disabled = true;
+      status.textContent = 'Saving…';
+      try { await save(new FormData(form)); }
+      catch(error) { status.textContent = error.message; button.disabled = false; }
+    });
+  }
+  {% if buyer and project %}
+  handle('estimate-form', async data => {
+    const file = data.get('estimate');
+    const packet = JSON.parse(await file.text());
+    const project = {{ project|tojson }};
+    const staged = await post('stage_estimate', {project,packet});
+    await post('publish_price_lists', {project, evaluation_id:staged.evaluation_id, item_group:data.get('item_group').trim()}, 'sourcing_prices');
+    const query = new URLSearchParams({project,evaluation_id:staged.evaluation_id});
+    location.assign('/airport-sourcing?' + query);
+  });
+  {% endif %}
+  {% if buyer and lot %}
+  handle('draft-form', async data => {
+    const result = await post('create_rfq', {
+      project:{{ project|tojson }},evaluation_id:{{ edition|tojson }},lot_id:{{ lot.lot_id|tojson }},item_code:{{ item_code|tojson }},
+      suppliers:data.get('suppliers').split(/\r?\n/).map(s=>s.trim()).filter(Boolean),
+      required_on:data.get('required_on'),round_no:Number(data.get('round_no'))
+    });
+    location.assign('/app/request-for-quotation/' + encodeURIComponent(result.name));
+  });
+  {% elif enquiry and not enquiry.previous %}
+  const form = document.getElementById('offer-form');
+  function toggle(select, area, visible) {
+    const update = () => document.getElementById(area).hidden = form.elements[select].value !== visible;
+    form.elements[select].addEventListener('change', update);
+    update();
+  }
+  toggle('renewal_coverage','renewals-area','scheduled');
+  toggle('coverage','exclusions-area','exceptions');
+  handle('offer-form', async data => {
+    const scope = {{ enquiry.scope|tojson }};
+    const lines = key => data.get(key).split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+    const coverage = data.get('coverage');
+    const exclusions = coverage === 'unknown' ? null : coverage === 'full' ? [] : lines('exclusion_lines');
+    if (coverage === 'exceptions' && !exclusions.length) throw new Error('Enter the scope exceptions.');
+    const mode = data.get('renewal_coverage');
+    const renewals = mode === 'unknown' ? null : {};
+    if (mode === 'scheduled') {
+      for (const line of lines('renewal_lines')) {
+        const match = line.match(/^(\d{1,2})\s*,\s*(\d+(?:\.\d{1,2})?)$/);
+        if (!match || +match[1]<1 || +match[1]>30 || Object.hasOwn(renewals,String(+match[1]))) throw new Error('Use each year 1–30 once with its USD amount.');
+        renewals[String(+match[1])] = match[2];
+      }
+      if (!Object.keys(renewals).length) throw new Error('Enter at least one renewal year and amount.');
+    }
+    await post('submit_offer',{rfq:{{ enquiry.rfq|tojson }},offer:{
+      candidate_id:scope.candidate_id,evaluation_id:scope.evaluation_id,lot_id:scope.lot_id,scope_sha256:{{ enquiry.scope_sha256|tojson }},
+      unit:scope.unit,currency:'USD',quantity:scope.quantity,rate_usd:data.get('rate_usd'),supplier_reference:data.get('supplier_reference'),
+      valid_until:data.get('valid_until'),lead_time_days:data.get('lead_time_days'),warranty:data.get('warranty'),
+      annual_upkeep_usd:data.get('annual_upkeep_usd') || null,renewals_usd:renewals,exclusions
+    }});
+    location.reload();
+  });
+  {% endif %}
+})();
+</script>
+{% endblock %}

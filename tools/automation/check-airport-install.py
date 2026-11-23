@@ -41,7 +41,16 @@ MAX_SOURCE_BYTES = 96 * 1024**2
 
 def verify(revision, output):
     directory = Path(tempfile.mkdtemp(prefix="v072-airport-", dir=output))
-    listing = subprocess.check_output(["git", "ls-tree", "-rlz", revision, "--", *PATHS], cwd=ROOT)
+    # Keep validating older release commits that predate the buyer workflow.
+    has_sourcing = subprocess.run(
+        ["git", "cat-file", "-e", revision + ":cities/Baghdad/engineering/prototype/sourcing.py"],
+        cwd=ROOT, stderr=subprocess.DEVNULL,
+    ).returncode == 0
+    paths = list(PATHS)
+    if has_sourcing:
+        paths.extend(("deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing_comparison.py",
+                      "engineering/development-baseline.toml"))
+    listing = subprocess.check_output(["git", "ls-tree", "-rlz", revision, "--", *paths], cwd=ROOT)
     entries = [row for row in listing.split(b"\0") if row]
     size = sum(int(row.split(b"\t", 1)[0].split()[3]) for row in entries)
     if size > MAX_SOURCE_BYTES:
@@ -50,7 +59,7 @@ def verify(revision, output):
     name = "OpenSourceRail-Airport-" + revision[:12] if has_prototype else "OpenSourceRail-v0.7.2-Airport"
     archive = directory / (name + ".tar.gz")
     subprocess.run(["git", "archive", "--format=tar.gz", "--prefix=" + name + "/",
-                    "-o", str(archive), revision, "--", *PATHS], cwd=ROOT, check=True)
+                    "-o", str(archive), revision, "--", *paths], cwd=ROOT, check=True)
     with tarfile.open(archive, "r:gz") as contents:
         for member in contents:
             if (not member.isfile() and not member.isdir()) or Path(member.name).parts[0] != name:
@@ -74,6 +83,11 @@ def verify(revision, output):
         commands.extend([
             ["./osr", "design", "railway", "prototype", "--check"],
             [".venv/bin/python", "-m", "cities.Baghdad.citywide_service", "--check"],
+        ])
+    if has_sourcing:
+        commands.extend([
+            ["./osr", "design", "railway", "sourcing", "--check"],
+            ["./osr", "design", "railway", "sourcing", "--demo"],
         ])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:

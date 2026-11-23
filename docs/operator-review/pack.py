@@ -65,6 +65,7 @@ def workshop_files():
                  'cities/Baghdad/airport-integration.html', 'cities/Baghdad/airport-integration.css',
                  'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
                  'cities/Baghdad/engineering/prototype/review.html', 'cities/Baghdad/engineering/prototype/airport-prototype.zip',
+                 'cities/Baghdad/engineering/prototype/sourcing-verification.json', 'cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md', 'cities/Baghdad/engineering/prototype/sourcing-estimate.json',
                  'cities/Baghdad/engineering/prototype/README.md', 'cities/Baghdad/engineering/prototype/mechanical.md',
                  'cities/Baghdad/engineering/commissioning/COMMISSIONING.md', 'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
                  'cities/Baghdad/airport-traction-single-line.svg', 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',

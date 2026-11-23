@@ -39,6 +39,9 @@ on:
       - "engineering/station_rail/force_evidence.py"
       - "engineering/pilot_delivery/review.py"
       - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery*.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing*.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/www/airport*"
+      - "deployment/erpnext/tests/verify-sourcing*.py"
       - "tests/test_candidate_delivery_assemblies.py"
       - "tests/test_candidate_delivery_assembly_lifecycle.py"
       - "tests/test_delivery_schedule_integration.py"
@@ -158,6 +161,9 @@ on:
       - "engineering/station_rail/force_evidence.py"
       - "engineering/pilot_delivery/review.py"
       - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/candidate_delivery*.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing*.py"
+      - "deployment/erpnext/apps/osr_erpnext/osr_erpnext/www/airport*"
+      - "deployment/erpnext/tests/verify-sourcing*.py"
       - "tests/test_candidate_delivery_assemblies.py"
       - "tests/test_candidate_delivery_assembly_lifecycle.py"
       - "tests/test_delivery_schedule_integration.py"
@@ -410,6 +416,7 @@ jobs:
           python -m cities.Baghdad.airport_integration --check
           python -m cities.Baghdad.citywide_service --check
           python -m cities.Baghdad.engineering.prototype.review --check
+          python -m cities.Baghdad.engineering.prototype.sourcing --check
           python -m cities.Baghdad.phased_finance --check
           python cities/Baghdad/iraq_capital.py --check
           python cities/Baghdad/iraq_budget.py --check
