@@ -28,6 +28,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
 <a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Compare the full citywide offer and its mainline timetable.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
+<a href="cities/Baghdad/engineering/prototype/review.html"><strong>Airport prototype</strong><small>Inspect stock, train movements, voltages and open field trials.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
 <a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Download the first-article scope and compare price, documented domestic value and repair terms.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
@@ -62,7 +63,10 @@ def workshop_files():
     files.update(ROOT / f for f in ('LICENSE.md', 'cities/Baghdad/Baghdad-Metro-Proposal.pdf',
                  'cities/Baghdad/IRAQ-CAPITAL.md', 'cities/Baghdad/IRAQ-ESTIMATES.md', 'cities/Baghdad/IRAQ-POWER.md',
                  'cities/Baghdad/airport-integration.html', 'cities/Baghdad/airport-integration.css',
-                 'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
+                 'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
+                 'cities/Baghdad/engineering/prototype/review.html', 'cities/Baghdad/engineering/prototype/airport-prototype.zip',
+                 'cities/Baghdad/engineering/prototype/README.md', 'cities/Baghdad/engineering/prototype/mechanical.md',
+                 'cities/Baghdad/engineering/commissioning/COMMISSIONING.md', 'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
                  'cities/Baghdad/airport-traction-single-line.svg', 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',
                  'cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md',
                  'cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md', 'cities/Baghdad/service-diagrams.html',
@@ -70,6 +74,7 @@ def workshop_files():
                  'cities/Baghdad/COST-AND-DELIVERY.md', 'cities/Baghdad/BUYER-COMPARISON.md',
                  'cities/Baghdad/maps/Baghdad-148km.png', 'cities/Baghdad/maps/Baghdad-606km.png',
                  'docs/reference-v07/cost/README.md', 'docs/reference-v07/integration/TIMETABLE.md'))
+    files.update((ROOT / 'cities/Baghdad/engineering/prototype').glob('*-guide.md'))
     raw = (HERE/'twins/models.js').read_text().strip()
     models = json.loads(raw.removeprefix('window.RAIL_MODELS=').removesuffix(';'))
     for m in models.values():

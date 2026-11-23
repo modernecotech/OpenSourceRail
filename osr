@@ -15,6 +15,7 @@ Usage: ./osr [COMMAND] [arguments]
   build [--force]   Regenerate reference engineering; preserve city evaluation holds
   design ...        Current status/build/verify; campaign create/run/compare/publish
   design railway columnar ...  Bounded Rust Arrow/Parquet index, verify and query
+  design railway prototype --check|--packet FILE  Inspect the revised Airport car, feeder and station twins
   design railway airport [--check|--packet FILE]  Reproduce the Baghdad opening dossier
   reference v07 [--stations N] [--route-km KM]  Joined digital corridor quantities and cost
   design railway case-v2-preview [verify] STATE OUTPUT  Typed Arrow case-core research preview
@@ -84,6 +85,10 @@ fi
 if [[ "${1:-}" == gis ]]; then
     shift
     exec tools/automation/osr-python -m engineering.rustgis "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == prototype ]]; then
+    shift 3
+    exec tools/automation/osr-python -m cities.Baghdad.engineering.prototype.review "$@"
 fi
 if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == airport ]]; then
     shift 3

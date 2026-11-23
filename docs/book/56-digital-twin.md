@@ -93,3 +93,11 @@ changed, which conclusions moved, which conclusions were reused, and which
 questions remain. A twin that can explain those four things helps a city,
 manufacturer or reviewer take part in the design without treating a large
 model as a mysterious authority.
+
+## Inspect a Baghdad Airport car
+
+The Baghdad Airport twin lets a workshop supervisor follow one part from a drawing to an order. Select the car, choose a door jamb, and read its dimensions and position from the rail-head datum. The quotation drawing allows 25 mm at each edge of a 1,360 mm steel opening. That leaves 1,310 mm for boarding, 10 mm above the required fitted width. The installer can record the opening after fitting the leaves, guides and seals and loading the car.
+
+The quantity surveyor sees the same revision in a different way. One car and its two bare bogie frames contain 144 cut pieces. Six six-car sets therefore require 5,184 pieces before saw loss or spares. The supplier must also price the equipment and labour that turn that stock into working trains. A weighing return identifies the assembled cars and load condition. Its results feed the power and civil calculations and the buyer’s cash schedule.
+
+In the Airport viewer, the train clock follows actual workings in the proposed timetable, including movements into the depot. Changing the electrical view shows what happens when a supply site is unavailable. The priced radial layout and a six-site paired-conductor enquiry have different quantities and different outage results. The utility and supplier can use their respective forms to return hot circuit measurements and prices. The citywide timetable has its own selection and fleet. [Open the Airport prototype review](../../cities/Baghdad/engineering/prototype/README.md)

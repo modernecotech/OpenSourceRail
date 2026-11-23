@@ -1,0 +1,21 @@
+# Taking the Airport design to the workshop
+
+Price six six-car sets for the opening. Three sets cover the timetable and three are spares. The opening needs 36 car bodies, 72 bogies, 144 wheelsets and 288 installed door openings. The preliminary fleet purchase allowance is $50.88 million in 2026 USD. The revised steel frame, fitted doors and installation remain subject to supplier prices.
+
+## Read the takeoff
+
+Use `opening-bom.csv` to select a scope. The cut-material rows give the saw list at car, train and opening scale. For a purchase enquiry group stock by the section in `draft-work-orders.json` under `gross_stock_by_profile`. It totals 5,184 pieces and 189,815.75 kg for the opening. Each car includes 144 modelled pieces and 5,272.66 kg of gross cut stock. Obtain rolled lengths, nesting, material certificates, saw kerf, fabrication allowance, spares and delivery lots from the mill or workshop. The triangular gusset row gives the piece count and mass for plate nesting.
+
+The installed-allocation rows count assemblies and interface positions. The door-detail rows break down equipment inside each door assembly. Count the door opening once on a trainset quotation and use the 576 proposed leaves to check its contents. Blank cells denote quantities awaiting a return or a unit of account that does not apply. The protected-conductor design uses zero station charging ports. Its 30 grid sites, 116 outgoing circuits, 58 normally open ties and 24 track-km of protected conductor belong to the priced radial layout. Cabinet and breaker schedules still require supplier engineering.
+
+Read 2,400 beams and 2,400 lifts as distinct supply and installation activities. The works include 2,402 pier/foundation positions and 9,600 bearing allowances. Check the six stations individually for access, plant, drainage and panel interruptions before placing a platform-panel order. The two terminal platform faces count the two ends only.
+
+## Use the five pilot orders
+
+1. Open `draft-work-orders.json` and check the physical candidate, opening evaluation and frame revision against `opening.json` and `mechanical.json`. The source bindings identify the inherited fitout, revised geometry, finance and radial feeder. Compare the BOM and cut-file SHA-256 values with the original files before issuing a request.
+2. Issue the representative car, powered bogie, beam, station bay and traction/control module as separate first-article enquiries. Each draft has quantity one. Decide whether a pilot bogie enters the representative car and whether any pilot enters the series. Record this allocation before ordering fleet quantities.
+3. Use the IFC for part locations and `revised-cuts.csv` for section and cut length. The two bogie instances share one local design. The service envelope in `mechanical.json` models straight extraction of bare stock under a supported car. Add the actual wheelsets, motors, brakes, service connectors, lift fixtures and pallet. Record loaded extraction and refit, accessible fasteners, hose travel and inspection measurements. The moving door-leaf envelope represents a travel allowance. Return the hinge or carriage, lock, seals, harness and fitted clearance dimensions.
+4. Assign company, warehouse, controlled item and BOM revisions, workstation and serial numbers in ERPNext. Enter operations, tooling and inspection acceptance with the responsible engineer, then record actual labour, scrap, material certificates, weights, nonconformities and spare parts. The draft routing covers pilot manufacture and leaves authority to release fabrication with the owners.
+5. Submit supplier evidence against the appropriate commercial lot, attach the signed original and enter the applicable service-life and maintenance scope. Preserve component detail as support for the trainset quote. The linked price-return guide explains how complete lots replace allowances. Record installed weights by axle before revising train load, power or cost.
+
+Unresolved quantities include brake friction hardware, cooling circuits, fitted wiring, finished passenger fitout, tested rectifier cabinets, final platform panels and recovery equipment. The model passes a 201.5508686 t crowd-loaded planning sensitivity to traction and civil calculations. Weighing and installed-load distribution remain open.

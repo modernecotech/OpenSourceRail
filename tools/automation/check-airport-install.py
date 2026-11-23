@@ -25,7 +25,15 @@ PATHS = (
     "docs/operator-review/delivery/calculate.py", "docs/operator-review/delivery/quantities.json",
     "docs/operator-review/finance", "docs/releases/v0.7.2", "docs/RELEASE-v0.7.md",
     "engineering/design_search/frame_analysis.py", "engineering/outline", "engineering/performance.py",
-    "engineering/station_rail/__init__.py", "engineering/v07_reference_journey.py",
+    "engineering/station_rail/__init__.py", "engineering/station_rail/common.py",
+    "engineering/station_rail/vehicle.py", "engineering/station_rail/braking.py", "engineering/station_rail/civil.py",
+    "engineering/station_rail/station_motor.py", "engineering/station_rail/long_motor.py",
+    "engineering/design_search/requirement_policy.py", "engineering/design_search/remit.py",
+    "engineering/design_search/design_grammar.py", "engineering/design_search/capabilities.py",
+    "engineering/design_search/railway_architecture.py", "engineering/design_search/wheel_motor.py",
+    "engineering/design_search/railway_bundle.py", "engineering/design_search/test_readiness.py",
+    "engineering/railway_completion/__init__.py", "engineering/railway_completion/evidence.py",
+    "engineering/v07_reference_journey.py",
     "tools/automation/osr-python", "tools/automation/toolchain-release.sh",
 )
 MAX_SOURCE_BYTES = 96 * 1024**2
@@ -38,8 +46,9 @@ def verify(revision, output):
     size = sum(int(row.split(b"\t", 1)[0].split()[3]) for row in entries)
     if size > MAX_SOURCE_BYTES:
         raise ValueError("Airport source selection exceeds the compact installation budget")
-    archive = directory / "OpenSourceRail-v0.7.2-Airport.tar.gz"
-    name = "OpenSourceRail-v0.7.2-Airport"
+    has_prototype = any(row.endswith(b"\tcities/Baghdad/engineering/prototype/review.py") for row in entries)
+    name = "OpenSourceRail-Airport-" + revision[:12] if has_prototype else "OpenSourceRail-v0.7.2-Airport"
+    archive = directory / (name + ".tar.gz")
     subprocess.run(["git", "archive", "--format=tar.gz", "--prefix=" + name + "/",
                     "-o", str(archive), revision, "--", *PATHS], cwd=ROOT, check=True)
     with tarfile.open(archive, "r:gz") as contents:
@@ -61,6 +70,11 @@ def verify(revision, output):
         ["./osr", "reference", "v07"],
         [".venv/bin/python", "-m", "cities.Baghdad.phased_finance", "--check"],
     ]
+    if has_prototype:
+        commands.extend([
+            ["./osr", "design", "railway", "prototype", "--check"],
+            [".venv/bin/python", "-m", "cities.Baghdad.citywide_service", "--check"],
+        ])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
             run = subprocess.run(command, cwd=source, env=env, stdout=log, stderr=subprocess.STDOUT)

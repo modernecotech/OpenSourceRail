@@ -1,5 +1,7 @@
 # OpenSourceRail for railway operators
 
+For the revised Airport prototype, open the [car and structure twin](../../cities/Baghdad/engineering/prototype/review.html). Turn each article, inspect a cut piece, move the service clock and compare a substation outage. The [field-return guide](../../cities/Baghdad/engineering/prototype/README.md) identifies the drawings and forms to give each supplier.
+
 [Download the illustrated operator briefing (PDF)](OpenSourceRail-Operator-Brief.pdf) · [Download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip) · [Open the delivery workplan](WORKPLAN.md) · [Read the Baghdad proposal](../../cities/Baghdad/PROPOSAL.md)
 
 Use this pack to review the railway with an operations director, chief engineer, financing team and local builders. The core example is a 30 km elevated railway with a six-car, 276-place train and overhead power. Baghdad’s seven corridors and independent citywide option use 700-place trains and protected conductor rail. Each has its own construction, service and funding assumptions. The digital designs support layout review, costing and prototype quotations. Site surveys, supplier terms, physical tests and operating authorisations remain open.

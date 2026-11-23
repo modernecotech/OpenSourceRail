@@ -1,5 +1,7 @@
 # Train, platform and viaduct inspection
 
+For the Airport first article on main, use the [prototype twin](../../../cities/Baghdad/engineering/prototype/review.html) and [offline drawings and returns](../../../cities/Baghdad/engineering/prototype/README.md). The straight-station views below retain their own reference designs.
+
 Open the station viewer locally, or serve the repository root with `python3 -m http.server 8000` and visit `/docs/operator-review/twins/`. Choose an assembly, orbit with the mouse or arrow keys and select a part to read its dimensions in metres. Each model also opens in an IFC4 viewer. The IFC coordinates use the island midpoint as the origin, track direction as x and rail-head elevation as z. [Station viewer](index.html)
 
 | Operator review | Core v0.7 powered-wheel study | Baghdad first programme |

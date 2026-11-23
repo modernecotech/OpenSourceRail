@@ -306,6 +306,8 @@ def main(argv=None, root=ROOT):
         if command=='railway':
             if rest in (['-h'], ['--help'], ['help']):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
+                      '  airport --check|--packet FILE      Baghdad Airport opening and supplier dossier\n'
+                      '  prototype --check|--packet FILE    Revised car, power and civil twins for quotation\n'
                       '  plan, run [--max-bundles N] [--native-jobs N], publish, verify [--canonical-backend python|rust]\n'
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current/refine-current-verify (--parent-result PATH | --parent-v2-current) --candidate-id ID\n'

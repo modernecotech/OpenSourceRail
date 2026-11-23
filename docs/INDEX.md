@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **182**.
+Indexed Markdown files: **192**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **182**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 20 |
+| [cities](#cities) | 30 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 130 |
@@ -56,6 +56,7 @@ Indexed Markdown files: **182**.
 |---|---|
 | [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
 | [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Buying a railway using an open reference |
+| [`cities/Baghdad/CITYWIDE-SERVICE.md`](../cities/Baghdad/CITYWIDE-SERVICE.md) | Baghdad citywide operating decision |
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/IRAQ-CAPITAL.md`](../cities/Baghdad/IRAQ-CAPITAL.md) | What the Baghdad networks could cost to build |
 | [`cities/Baghdad/IRAQ-ESTIMATES.md`](../cities/Baghdad/IRAQ-ESTIMATES.md) | What Baghdad would pay to run the railway |
@@ -64,6 +65,7 @@ Indexed Markdown files: **182**.
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
+| [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
@@ -71,6 +73,14 @@ Indexed Markdown files: **182**.
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
+| [`cities/Baghdad/engineering/prototype/README.md`](../cities/Baghdad/engineering/prototype/README.md) | Baghdad Airport prototype review |
+| [`cities/Baghdad/engineering/prototype/civil-guide.md`](../cities/Baghdad/engineering/prototype/civil-guide.md) | First precast beam and station bay |
+| [`cities/Baghdad/engineering/prototype/commercial-guide.md`](../cities/Baghdad/engineering/prototype/commercial-guide.md) | Airport field returns and buyer cash |
+| [`cities/Baghdad/engineering/prototype/feeder-cash-guide.md`](../cities/Baghdad/engineering/prototype/feeder-cash-guide.md) | Compare two feeder bids against the Airport cash schedule |
+| [`cities/Baghdad/engineering/prototype/fitout-guide.md`](../cities/Baghdad/engineering/prototype/fitout-guide.md) | Fit the powered bogie and body equipment |
+| [`cities/Baghdad/engineering/prototype/manufacturing-guide.md`](../cities/Baghdad/engineering/prototype/manufacturing-guide.md) | Taking the Airport design to the workshop |
+| [`cities/Baghdad/engineering/prototype/mechanical.md`](../cities/Baghdad/engineering/prototype/mechanical.md) | Baghdad Airport first article |
+| [`cities/Baghdad/engineering/prototype/weight-guide.md`](../cities/Baghdad/engineering/prototype/weight-guide.md) | Return installed Airport weights |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
 | [`cities/Baghdad/maps/STATION-PRICING.md`](../cities/Baghdad/maps/STATION-PRICING.md) | Baghdad station sites and prices |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |
@@ -97,7 +107,7 @@ Indexed Markdown files: **182**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
 | [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost and delivery baseline |
-| [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | v0.7 engineering status |
+| [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | Railway engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | OpenSourceRail v0.7 digital engineering release |

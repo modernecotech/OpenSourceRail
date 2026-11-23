@@ -8,6 +8,8 @@ OpenSourceRail develops affordable urban rail that local companies can design, b
 
 **[v0.7.2 integration package](docs/releases/v0.7.2/README.md).** The 12 km Baghdad Airport opening links a six-car train, full-day workings, feeder outage tests, supplier quantities and phased public funding. The project also provides the costed 30 km digital reference, city planning tools and an offline operator workshop. These designs support route review and comparable quotations. Fabrication and passenger operation require controlled drawings, physical trials and independent acceptance. [Architecture and design status](docs/ARCHITECTURE.md#which-design-is-current) · [Engineering status](docs/ENGINEERING-STATUS.md)
 
+**Current prototype work.** Inspect the revised Baghdad frame and removable bogies, follow a train through its day, or isolate a traction supply site in the offline twin. The quotation package includes distinct car, beam, pier and platform IFCs, traceable part counts and the records needed from suppliers and trial teams. [Prototype twin and drawings](cities/Baghdad/engineering/prototype/README.md) · [Fourteen-route operating decision](cities/Baghdad/CITYWIDE-SERVICE.md)
+
 ## What OpenSourceRail provides
 
 | Connected product | What a railway team can do with it |
@@ -125,7 +127,8 @@ The Baghdad training budget allows 160 paid learner-hours per person for the ini
 | Central budget, constant 2026 US dollars | Construction | Annual operations | Annual fare receipts |
 |---|---:|---:|---:|
 | Core 30 km | $1.025bn | $30.5m | Enter paid journeys and net yield for the chosen city |
-| 12 km Baghdad Airport opening | $813.7m | $16.25m | $1.56m |
+| Airport original comparison, 21 sets / 3 sites | $813.7m | $16.25m | $1.56m |
+| Airport v0.7.2 opening, 6 sets / 30 sites | $1.123bn | $13.08m | $1.56m |
 | Baghdad seven corridors | $8.37bn | $185.7m | $79.5m |
 | Baghdad citywide, full service | $33.00bn | $738.7m | $188.6m |
 

@@ -1,6 +1,13 @@
 # Baghdad metropolitan railway
 
-[Open the 12 km Airport operating plan and supplier dossier](airport-integration.html) for the 15-minute service, feeder alternatives, procurement quantities and phased budget.
+Start with the **12 km Airport line** to see one train, timetable, power system and construction estimate together. Use the citywide study for the separate question of which metropolitan routes can operate.
+
+| Decision | Open |
+|---|---|
+| Inspect and quote the revised car, station, beam and power options | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline quotation package](engineering/prototype/airport-prototype.zip) |
+| Review the published Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
+| Choose a connected citywide service and see which access sections it defers | [Fourteen-route operating decision](CITYWIDE-SERVICE.md) |
+| Compare staged service, fares, debt and maintenance on the seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
 [Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
 
