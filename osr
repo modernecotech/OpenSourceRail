@@ -16,6 +16,7 @@ Usage: ./osr [COMMAND] [arguments]
   design ...        Current status/build/verify; campaign create/run/compare/publish
   design railway columnar ...  Bounded Rust Arrow/Parquet index, verify and query
   design railway prototype --check|--packet FILE  Inspect the revised Airport car, feeder and station twins
+  design railway simulation [--check|--export FILE]  Simulate a Baghdad Airport service and its supply, factory and cash
   design railway sourcing [--json|--demo|--check|--lot LOT]  Review Baghdad Airport estimates and supplier comparison
   design railway airport [--check|--packet FILE]  Reproduce the Baghdad opening dossier
   reference v07 [--stations N] [--route-km KM]  Joined digital corridor quantities and cost
@@ -86,6 +87,10 @@ fi
 if [[ "${1:-}" == gis ]]; then
     shift
     exec tools/automation/osr-python -m engineering.rustgis "$@"
+fi
+if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == simulation ]]; then
+    shift 3
+    exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.scenario "$@"
 fi
 if [[ "${1:-}" == design && "${2:-}" == railway && "${3:-}" == sourcing ]]; then
     shift 3

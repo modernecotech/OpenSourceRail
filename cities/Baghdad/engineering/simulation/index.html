@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Airport simulation workbench | OpenSourceRail</title>
+    <link rel="stylesheet" href="scenario.css" />
+    <script src="scenario-data.js" defer></script>
+    <script src="scenario.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#results">Skip to results</a>
+    <header class="mast">
+      <div class="wrap mast-inner">
+        <nav aria-label="Project">
+          <a href="../../README.md">OpenSourceRail</a
+          ><a href="PLAN.md">Simulation programme</a>
+        </nav>
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Baghdad · Airport corridor</p>
+            <h1>Airport simulation<br />workbench</h1>
+            <p class="intro">
+              Compare service, train, civil and power choices for the 12 km
+              opening. Follow each result from its assumptions to its supporting
+              evidence.
+            </p>
+          </div>
+          <canvas
+            id="route"
+            width="420"
+            height="155"
+            role="img"
+            aria-label="Six-station Airport corridor schematic, 12 kilometres"
+          ></canvas>
+        </div>
+      </div>
+    </header>
+    <main class="wrap workspace">
+      <aside class="card controls" aria-labelledby="parameters-title">
+        <div class="panel-heading">
+          <h2 id="parameters-title">Scenario inputs</h2>
+          <div id="mode" class="mode"></div>
+        </div>
+        <form id="scenario">
+          <fieldset>
+            <legend>Service and train</legend>
+            <label
+              >Headway
+              <select name="headway_min">
+                <option value="15">15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="30">30 minutes</option>
+              </select></label
+            >
+            <label
+              >Formation
+              <select name="cars">
+                <option value="6">6 cars</option>
+                <option value="3">3 cars</option>
+              </select></label
+            >
+            <label
+              >Passenger demand
+              <select name="demand">
+                <option value="central">Central</option>
+                <option value="downside">Downside</option>
+                <option value="upside">Upside</option>
+              </select></label
+            >
+            <label
+              >Body material
+              <select name="material">
+                <option value="steel">Steel</option>
+                <option value="aluminium">Aluminium</option>
+                <option value="hybrid">Hybrid</option>
+              </select></label
+            >
+          </fieldset>
+          <fieldset>
+            <legend>Infrastructure and conditions</legend>
+            <label
+              >Precast span
+              <select name="span_m">
+                <option value="10">10 m</option>
+                <option value="20">20 m</option>
+                <option value="25">25 m</option>
+                <option value="30">30 m</option>
+              </select></label
+            >
+            <label
+              >Power supply
+              <select name="topology">
+                <option value="radial30">30-site radial</option>
+                <option value="paired6">6-site paired</option>
+              </select></label
+            >
+            <label
+              >Ambient temperature
+              <select name="ambient_c">
+                <option value="32">32 °C</option>
+                <option value="40">40 °C</option>
+                <option value="48">48 °C</option>
+              </select></label
+            >
+            <label
+              >Trial gradient
+              <select name="grade_pct">
+                <option value="0">0%</option>
+                <option value="1">1%</option>
+                <option value="2">2%</option>
+              </select></label
+            >
+            <label
+              >Operating condition
+              <select name="condition">
+                <option value="normal">Normal</option>
+                <option value="hot">Hot circuit</option>
+                <option value="site_out">Site unavailable</option>
+                <option value="path_out">Path unavailable</option>
+                <option value="combined">Combined disruption</option>
+              </select></label
+            >
+          </fieldset>
+          <button id="run" class="primary" type="submit">
+            Evaluate scenario
+          </button>
+        </form>
+        <div class="saved-controls">
+          <label for="saved">Saved scenarios</label>
+          <select id="saved">
+            <option value="">Choose a scenario</option>
+          </select>
+          <p id="offline-help" hidden>
+            Saved cases are available offline. Start the local workbench to
+            evaluate a new combination or export a dossier.
+          </p>
+        </div>
+      </aside>
+      <div id="results" tabindex="-1">
+        <p id="status" class="notice" role="status" aria-live="polite">
+          Loading published scenarios…
+        </p>
+        <nav class="view-tabs" aria-label="Result views">
+          <button
+            type="button"
+            data-view="decision"
+            aria-pressed="true"
+            aria-controls="decision"
+          >
+            Decision
+          </button>
+          <button
+            type="button"
+            data-view="engineering"
+            aria-pressed="false"
+            aria-controls="engineering"
+          >
+            Engineering
+          </button>
+          <button
+            type="button"
+            data-view="evidence"
+            aria-pressed="false"
+            aria-controls="evidence"
+          >
+            Evidence
+          </button>
+        </nav>
+        <div id="result-content" hidden>
+          <section id="decision" class="view" aria-labelledby="decision-title">
+            <div class="view-heading">
+              <div>
+                <h2 id="decision-title">Scenario decision</h2>
+                <p id="selected-summary"></p>
+              </div>
+              <span id="eligibility" class="chip"></span>
+            </div>
+            <dl id="metrics" class="metrics"></dl>
+            <section class="card subsection">
+              <h3>Open items</h3>
+              <ul id="holds"></ul>
+            </section>
+            <section class="card subsection compare">
+              <div class="view-heading">
+                <h3>Compare saved cases</h3>
+                <button id="pin" type="button">Add current case</button>
+              </div>
+              <p id="compare-empty">
+                Add a case, select another, then add it to compare results side
+                by side.
+              </p>
+              <button id="clear" type="button" hidden>Clear comparison</button>
+              <div
+                id="comparison"
+                class="table-scroll"
+                tabindex="0"
+                aria-label="Saved case comparison"
+                hidden
+              ></div>
+            </section>
+          </section>
+          <section
+            id="engineering"
+            class="view"
+            aria-labelledby="engineering-title"
+            hidden
+          >
+            <h2 id="engineering-title">Engineering results</h2>
+            <section id="plot-section" class="card subsection" hidden>
+              <div class="view-heading">
+                <div>
+                  <h3 id="trace-title">Power over the operating day</h3>
+                  <p id="trace-description">
+                    Sampled wayside supply power by local time.
+                  </p>
+                </div>
+                <label id="trace-picker" hidden
+                  >Trace
+                  <select id="trace-mode">
+                    <option value="power">Wayside power</option>
+                    <option value="distance">Train positions</option>
+                  </select></label
+                >
+              </div>
+              <canvas
+                id="trace"
+                width="760"
+                height="226"
+                role="img"
+                aria-label="Line chart of sampled wayside supply power by time"
+              ></canvas>
+              <p id="trace-summary"></p>
+            </section>
+            <div id="engineering-results" class="engineering-grid"></div>
+          </section>
+          <section
+            id="evidence"
+            class="view"
+            aria-labelledby="evidence-title"
+            hidden
+          >
+            <div class="view-heading">
+              <h2 id="evidence-title">Evidence and provenance</h2>
+              <button id="export" type="button">Export dossier ZIP</button>
+            </div>
+            <section class="card subsection">
+              <h3>Scenario identity</h3>
+              <dl id="identity" class="identity"></dl>
+            </section>
+            <section class="card subsection">
+              <h3>Replay sources</h3>
+              <ul class="sources">
+                <li>
+                  <a href="MOTION-POWER.md">Train motion and feeder power</a>
+                </li>
+                <li>
+                  <a href="passenger-guide.md"
+                    >Passenger movement and cooling</a
+                  >
+                </li>
+                <li>
+                  <a href="production-guide.md"
+                    >Workshop, procurement and cash</a
+                  >
+                </li>
+                <li><a href="PLAN.md">Vehicle and civil verification</a></li>
+              </ul>
+              <details>
+                <summary>Machine-readable provenance</summary>
+                <pre id="provenance"></pre>
+              </details>
+            </section>
+          </section>
+        </div>
+      </div>
+    <p><a href="SIMULATION.md">Assumptions and reproduction</a> · <a href="CAM-COMPARISON.md">CamCraft and FreeCAD workshop trial</a></p>
+</main>
+  </body>
+</html>

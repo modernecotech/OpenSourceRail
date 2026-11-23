@@ -73,6 +73,7 @@ on:
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
       - "tools/automation/check-airport-install.py"
+      - "engineering/design_search/storage.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
       - "docs/operator-review/**"
@@ -189,6 +190,7 @@ on:
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
       - "tools/automation/check-airport-install.py"
+      - "engineering/design_search/storage.py"
       - "docs/reference-v07/integration/timetable.py"
       - "docs/reference-v07/integration/test_timetable.py"
       - "docs/operator-review/**"
@@ -410,7 +412,7 @@ jobs:
           python cities/Baghdad/iraq_budget.py --check
           python cities/Baghdad/iraq_power.py --check
           python cities/Baghdad/localisation.py --check
-      - name: Reproduce the Airport installation from the tested commit
+      - name: Check the Airport compact install and simulation export from the tested commit
         run: python tools/automation/check-airport-install.py --revision HEAD
       - name: Check the selected v0.7 digital production handoff
         run: python -O docs/reference-v07/digital/production/generate.py --check

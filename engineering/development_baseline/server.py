@@ -277,6 +277,10 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        if unquote(urlsplit(self.path).path) == '/api/airport-simulation':
+            from cities.Baghdad.engineering.simulation.api import serve
+            serve(self)
+            return
         if unquote(urlsplit(self.path).path) == '/api/v07/baghdad-system':
             self.baghdad_system()
             return

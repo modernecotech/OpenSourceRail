@@ -1,0 +1,1804 @@
+{
+  "ac": {
+    "assumptions": {
+      "line_max_ka": 0.3,
+      "line_r_ohm_per_km": 0.22,
+      "line_x_ohm_per_km": 0.12,
+      "power_factor": 0.95,
+      "rectifier_ac_kv": 1.1,
+      "rectifier_efficiency": 0.96,
+      "station_lateral_km": 0.35,
+      "transformer_mva": 8.0,
+      "transformer_vk_percent": 6.0,
+      "transformer_vkr_percent": 0.7,
+      "upstream_kv": 33.0,
+      "weak_grid_multiplier": 2.0
+    },
+    "dc_evaluation_id": "a778a5b98cb442a4f5ec6cb44d98088ac2678072cb2c509fa8ad7b3684f8bc47",
+    "limitations": "Synthetic 33 kV source and separate site laterals from its midpoint. One-way DC peak to AC, balanced fundamental frequency only. Utility topology, impedance, harmonics and fault duties require authenticated utility data.",
+    "nominal": {
+      "converged": true,
+      "grid_mvar": 0.9254968840737661,
+      "grid_mw": 2.7248619865050614,
+      "illustrative_screen_passed": true,
+      "max_line_loading_pct": 10.065639285390796,
+      "max_transformer_loading_pct": 21.574820833033606,
+      "minimum_bus_pu": 0.9939398923125873
+    },
+    "status": "verified execution",
+    "tool": "pandapower 3.5.3",
+    "utility_approved": false,
+    "weak_grid": {
+      "converged": true,
+      "grid_mvar": 0.9289000780285182,
+      "grid_mw": 2.7276687118999954,
+      "illustrative_screen_passed": true,
+      "max_line_loading_pct": 10.387067802650197,
+      "max_transformer_loading_pct": 22.263774855117518,
+      "minimum_bus_pu": 0.9631823549688766
+    }
+  },
+  "adapter_sha256": "4c7277d1a93cfd9b85eaf57d971e24cd96b07f743ebaaca1e03ff59018f813d5",
+  "coupled_evaluation_id": "a778a5b98cb442a4f5ec6cb44d98088ac2678072cb2c509fa8ad7b3684f8bc47",
+  "sumo": {
+    "booked_route_trips": 146,
+    "completed_route_trips": 146,
+    "completed_stops": 730,
+    "launch_controls": {
+      "cases": {
+        "cars3_double_mass": {
+          "agrees": true,
+          "expected_m_s2": 0.3,
+          "observed_m_s2": 0.3,
+          "samples": [
+            [
+              180.0,
+              0.0
+            ],
+            [
+              181.0,
+              0.3
+            ],
+            [
+              182.0,
+              0.6
+            ],
+            [
+              183.0,
+              0.9
+            ],
+            [
+              184.0,
+              1.2
+            ],
+            [
+              185.0,
+              1.5
+            ]
+          ]
+        },
+        "cars3_half_force": {
+          "agrees": true,
+          "expected_m_s2": 0.29000000000000004,
+          "observed_m_s2": 0.29,
+          "samples": [
+            [
+              90.0,
+              0.0
+            ],
+            [
+              91.0,
+              0.29
+            ],
+            [
+              92.0,
+              0.58
+            ],
+            [
+              93.0,
+              0.87
+            ],
+            [
+              94.0,
+              1.16
+            ],
+            [
+              95.0,
+              1.45
+            ]
+          ]
+        },
+        "cars3_normal": {
+          "agrees": true,
+          "expected_m_s2": 0.6,
+          "observed_m_s2": 0.6,
+          "samples": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.6
+            ],
+            [
+              2.0,
+              1.2
+            ],
+            [
+              3.0,
+              1.8
+            ],
+            [
+              4.0,
+              2.4
+            ],
+            [
+              5.0,
+              3.0
+            ]
+          ]
+        },
+        "cars6_double_mass": {
+          "agrees": true,
+          "expected_m_s2": 0.3,
+          "observed_m_s2": 0.3,
+          "samples": [
+            [
+              450.0,
+              0.0
+            ],
+            [
+              451.0,
+              0.3
+            ],
+            [
+              452.0,
+              0.6
+            ],
+            [
+              453.0,
+              0.9
+            ],
+            [
+              454.0,
+              1.2
+            ],
+            [
+              455.0,
+              1.5
+            ]
+          ]
+        },
+        "cars6_half_force": {
+          "agrees": true,
+          "expected_m_s2": 0.29000000000000004,
+          "observed_m_s2": 0.29,
+          "samples": [
+            [
+              360.0,
+              0.0
+            ],
+            [
+              361.0,
+              0.29
+            ],
+            [
+              362.0,
+              0.58
+            ],
+            [
+              363.0,
+              0.87
+            ],
+            [
+              364.0,
+              1.16
+            ],
+            [
+              365.0,
+              1.45
+            ]
+          ]
+        },
+        "cars6_normal": {
+          "agrees": true,
+          "expected_m_s2": 0.6,
+          "observed_m_s2": 0.6,
+          "samples": [
+            [
+              270.0,
+              0.0
+            ],
+            [
+              271.0,
+              0.6
+            ],
+            [
+              272.0,
+              1.2
+            ],
+            [
+              273.0,
+              1.8
+            ],
+            [
+              274.0,
+              2.4
+            ],
+            [
+              275.0,
+              3.0
+            ]
+          ]
+        }
+      },
+      "scaling": "reference case mass and wheel power scaled by car count; 3/6-car force and mass perturbations",
+      "status": "passed"
+    },
+    "limitations": "Separate directed tracks and trip vehicles. Fixed loaded mass for passenger trips and tare for positioning, with Airport wheel power, resistance and force per formation and direction. Shared turnback, yard, changing passenger load and DC are specific to the coupled model.",
+    "max_absolute_difference_to_coupled_s": 8.0,
+    "median_difference_to_coupled_s": -6.0,
+    "median_running_time_s": 1134.0,
+    "native_warnings": {
+      "emergency_stops": 0,
+      "skipped_stops": 0
+    },
+    "scheduled_stops": 730,
+    "serialized_type_readback": {
+      "passenger0": {
+        "carFollowModel": "Rail",
+        "decel": "0.6",
+        "id": "passenger0",
+        "length": "104.5",
+        "mass": "198635.9582",
+        "massFactor": "1.0",
+        "maxSpeed": "20.0",
+        "resistanceTable": "3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164",
+        "sigma": "0",
+        "speedTable": "0 5 10 15 20 33.39425153 38.39425153 43.39425153",
+        "tractionTable": "123.1542941 123.1542941 123.1542941 123.1542941 123.1542941 123.1542941 107.1161778 94.77396956",
+        "trainType": "custom",
+        "vClass": "rail_urban"
+      },
+      "passenger1": {
+        "carFollowModel": "Rail",
+        "decel": "0.6",
+        "id": "passenger1",
+        "length": "104.5",
+        "mass": "198635.9582",
+        "massFactor": "1.0",
+        "maxSpeed": "20.0",
+        "resistanceTable": "3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164 3.972719164",
+        "sigma": "0",
+        "speedTable": "0 5 10 15 20 33.39425153 38.39425153 43.39425153",
+        "tractionTable": "123.1542941 123.1542941 123.1542941 123.1542941 123.1542941 123.1542941 107.1161778 94.77396956",
+        "trainType": "custom",
+        "vClass": "rail_urban"
+      },
+      "positioning0": {
+        "carFollowModel": "Rail",
+        "decel": "0.6",
+        "id": "positioning0",
+        "length": "104.5",
+        "mass": "146135.9582",
+        "massFactor": "1.0",
+        "maxSpeed": "20.0",
+        "resistanceTable": "2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164",
+        "sigma": "0",
+        "speedTable": "0 5 10 15 20 45.39128653 50.39128653 55.39128653",
+        "tractionTable": "90.60429408 90.60429408 90.60429408 90.60429408 90.60429408 90.60429408 81.61421858 74.24715567",
+        "trainType": "custom",
+        "vClass": "rail_urban"
+      },
+      "positioning1": {
+        "carFollowModel": "Rail",
+        "decel": "0.6",
+        "id": "positioning1",
+        "length": "104.5",
+        "mass": "146135.9582",
+        "massFactor": "1.0",
+        "maxSpeed": "20.0",
+        "resistanceTable": "2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164 2.922719164",
+        "sigma": "0",
+        "speedTable": "0 5 10 15 20 45.39128653 50.39128653 55.39128653",
+        "tractionTable": "90.60429408 90.60429408 90.60429408 90.60429408 90.60429408 90.60429408 81.61421858 74.24715567",
+        "trainType": "custom",
+        "vClass": "rail_urban"
+      }
+    },
+    "status": "verified execution",
+    "stop_screen_passed": true,
+    "trace": [
+      {
+        "actual_arrival_s": 21834.0,
+        "actual_departure_s": 20700.0,
+        "booked_arrival_s": 21837,
+        "booked_departure_s": 20700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-000"
+      },
+      {
+        "actual_arrival_s": 22734.0,
+        "actual_departure_s": 21600.0,
+        "booked_arrival_s": 22737,
+        "booked_departure_s": 21600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-001"
+      },
+      {
+        "actual_arrival_s": 23151.0,
+        "actual_departure_s": 22017.0,
+        "booked_arrival_s": 23154,
+        "booked_departure_s": 22017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-002"
+      },
+      {
+        "actual_arrival_s": 23634.0,
+        "actual_departure_s": 22500.0,
+        "booked_arrival_s": 23637,
+        "booked_departure_s": 22500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-003"
+      },
+      {
+        "actual_arrival_s": 24051.0,
+        "actual_departure_s": 22917.0,
+        "booked_arrival_s": 24054,
+        "booked_departure_s": 22917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-004"
+      },
+      {
+        "actual_arrival_s": 24534.0,
+        "actual_departure_s": 23400.0,
+        "booked_arrival_s": 24537,
+        "booked_departure_s": 23400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-005"
+      },
+      {
+        "actual_arrival_s": 24951.0,
+        "actual_departure_s": 23817.0,
+        "booked_arrival_s": 24954,
+        "booked_departure_s": 23817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-006"
+      },
+      {
+        "actual_arrival_s": 25434.0,
+        "actual_departure_s": 24300.0,
+        "booked_arrival_s": 25437,
+        "booked_departure_s": 24300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-007"
+      },
+      {
+        "actual_arrival_s": 25851.0,
+        "actual_departure_s": 24717.0,
+        "booked_arrival_s": 25854,
+        "booked_departure_s": 24717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-008"
+      },
+      {
+        "actual_arrival_s": 26334.0,
+        "actual_departure_s": 25200.0,
+        "booked_arrival_s": 26337,
+        "booked_departure_s": 25200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-009"
+      },
+      {
+        "actual_arrival_s": 26751.0,
+        "actual_departure_s": 25617.0,
+        "booked_arrival_s": 26754,
+        "booked_departure_s": 25617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-010"
+      },
+      {
+        "actual_arrival_s": 27234.0,
+        "actual_departure_s": 26100.0,
+        "booked_arrival_s": 27237,
+        "booked_departure_s": 26100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-011"
+      },
+      {
+        "actual_arrival_s": 27651.0,
+        "actual_departure_s": 26517.0,
+        "booked_arrival_s": 27654,
+        "booked_departure_s": 26517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-012"
+      },
+      {
+        "actual_arrival_s": 28134.0,
+        "actual_departure_s": 27000.0,
+        "booked_arrival_s": 28137,
+        "booked_departure_s": 27000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-013"
+      },
+      {
+        "actual_arrival_s": 28551.0,
+        "actual_departure_s": 27417.0,
+        "booked_arrival_s": 28554,
+        "booked_departure_s": 27417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-014"
+      },
+      {
+        "actual_arrival_s": 29034.0,
+        "actual_departure_s": 27900.0,
+        "booked_arrival_s": 29037,
+        "booked_departure_s": 27900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-015"
+      },
+      {
+        "actual_arrival_s": 29451.0,
+        "actual_departure_s": 28317.0,
+        "booked_arrival_s": 29454,
+        "booked_departure_s": 28317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-016"
+      },
+      {
+        "actual_arrival_s": 29934.0,
+        "actual_departure_s": 28800.0,
+        "booked_arrival_s": 29937,
+        "booked_departure_s": 28800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-017"
+      },
+      {
+        "actual_arrival_s": 30351.0,
+        "actual_departure_s": 29217.0,
+        "booked_arrival_s": 30354,
+        "booked_departure_s": 29217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-018"
+      },
+      {
+        "actual_arrival_s": 30834.0,
+        "actual_departure_s": 29700.0,
+        "booked_arrival_s": 30837,
+        "booked_departure_s": 29700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-019"
+      },
+      {
+        "actual_arrival_s": 31251.0,
+        "actual_departure_s": 30117.0,
+        "booked_arrival_s": 31254,
+        "booked_departure_s": 30117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-020"
+      },
+      {
+        "actual_arrival_s": 31734.0,
+        "actual_departure_s": 30600.0,
+        "booked_arrival_s": 31737,
+        "booked_departure_s": 30600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-021"
+      },
+      {
+        "actual_arrival_s": 32151.0,
+        "actual_departure_s": 31017.0,
+        "booked_arrival_s": 32154,
+        "booked_departure_s": 31017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-022"
+      },
+      {
+        "actual_arrival_s": 32634.0,
+        "actual_departure_s": 31500.0,
+        "booked_arrival_s": 32637,
+        "booked_departure_s": 31500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-023"
+      },
+      {
+        "actual_arrival_s": 33051.0,
+        "actual_departure_s": 31917.0,
+        "booked_arrival_s": 33054,
+        "booked_departure_s": 31917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-024"
+      },
+      {
+        "actual_arrival_s": 33534.0,
+        "actual_departure_s": 32400.0,
+        "booked_arrival_s": 33537,
+        "booked_departure_s": 32400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-025"
+      },
+      {
+        "actual_arrival_s": 33951.0,
+        "actual_departure_s": 32817.0,
+        "booked_arrival_s": 33954,
+        "booked_departure_s": 32817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-026"
+      },
+      {
+        "actual_arrival_s": 34434.0,
+        "actual_departure_s": 33300.0,
+        "booked_arrival_s": 34437,
+        "booked_departure_s": 33300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-027"
+      },
+      {
+        "actual_arrival_s": 34851.0,
+        "actual_departure_s": 33717.0,
+        "booked_arrival_s": 34854,
+        "booked_departure_s": 33717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-028"
+      },
+      {
+        "actual_arrival_s": 35334.0,
+        "actual_departure_s": 34200.0,
+        "booked_arrival_s": 35337,
+        "booked_departure_s": 34200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-029"
+      },
+      {
+        "actual_arrival_s": 35751.0,
+        "actual_departure_s": 34617.0,
+        "booked_arrival_s": 35754,
+        "booked_departure_s": 34617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-030"
+      },
+      {
+        "actual_arrival_s": 36234.0,
+        "actual_departure_s": 35100.0,
+        "booked_arrival_s": 36237,
+        "booked_departure_s": 35100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-031"
+      },
+      {
+        "actual_arrival_s": 36651.0,
+        "actual_departure_s": 35517.0,
+        "booked_arrival_s": 36654,
+        "booked_departure_s": 35517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-032"
+      },
+      {
+        "actual_arrival_s": 37134.0,
+        "actual_departure_s": 36000.0,
+        "booked_arrival_s": 37137,
+        "booked_departure_s": 36000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-033"
+      },
+      {
+        "actual_arrival_s": 37551.0,
+        "actual_departure_s": 36417.0,
+        "booked_arrival_s": 37554,
+        "booked_departure_s": 36417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-034"
+      },
+      {
+        "actual_arrival_s": 38034.0,
+        "actual_departure_s": 36900.0,
+        "booked_arrival_s": 38037,
+        "booked_departure_s": 36900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-035"
+      },
+      {
+        "actual_arrival_s": 38451.0,
+        "actual_departure_s": 37317.0,
+        "booked_arrival_s": 38454,
+        "booked_departure_s": 37317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-036"
+      },
+      {
+        "actual_arrival_s": 38934.0,
+        "actual_departure_s": 37800.0,
+        "booked_arrival_s": 38937,
+        "booked_departure_s": 37800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-037"
+      },
+      {
+        "actual_arrival_s": 39351.0,
+        "actual_departure_s": 38217.0,
+        "booked_arrival_s": 39354,
+        "booked_departure_s": 38217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-038"
+      },
+      {
+        "actual_arrival_s": 39834.0,
+        "actual_departure_s": 38700.0,
+        "booked_arrival_s": 39837,
+        "booked_departure_s": 38700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-039"
+      },
+      {
+        "actual_arrival_s": 40251.0,
+        "actual_departure_s": 39117.0,
+        "booked_arrival_s": 40254,
+        "booked_departure_s": 39117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-040"
+      },
+      {
+        "actual_arrival_s": 40734.0,
+        "actual_departure_s": 39600.0,
+        "booked_arrival_s": 40737,
+        "booked_departure_s": 39600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-041"
+      },
+      {
+        "actual_arrival_s": 41151.0,
+        "actual_departure_s": 40017.0,
+        "booked_arrival_s": 41154,
+        "booked_departure_s": 40017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-042"
+      },
+      {
+        "actual_arrival_s": 41634.0,
+        "actual_departure_s": 40500.0,
+        "booked_arrival_s": 41637,
+        "booked_departure_s": 40500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-043"
+      },
+      {
+        "actual_arrival_s": 42051.0,
+        "actual_departure_s": 40917.0,
+        "booked_arrival_s": 42054,
+        "booked_departure_s": 40917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-044"
+      },
+      {
+        "actual_arrival_s": 42534.0,
+        "actual_departure_s": 41400.0,
+        "booked_arrival_s": 42537,
+        "booked_departure_s": 41400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-045"
+      },
+      {
+        "actual_arrival_s": 42951.0,
+        "actual_departure_s": 41817.0,
+        "booked_arrival_s": 42954,
+        "booked_departure_s": 41817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-046"
+      },
+      {
+        "actual_arrival_s": 43434.0,
+        "actual_departure_s": 42300.0,
+        "booked_arrival_s": 43437,
+        "booked_departure_s": 42300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-047"
+      },
+      {
+        "actual_arrival_s": 43851.0,
+        "actual_departure_s": 42717.0,
+        "booked_arrival_s": 43854,
+        "booked_departure_s": 42717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-048"
+      },
+      {
+        "actual_arrival_s": 44334.0,
+        "actual_departure_s": 43200.0,
+        "booked_arrival_s": 44337,
+        "booked_departure_s": 43200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-049"
+      },
+      {
+        "actual_arrival_s": 44751.0,
+        "actual_departure_s": 43617.0,
+        "booked_arrival_s": 44754,
+        "booked_departure_s": 43617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-050"
+      },
+      {
+        "actual_arrival_s": 45234.0,
+        "actual_departure_s": 44100.0,
+        "booked_arrival_s": 45237,
+        "booked_departure_s": 44100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-051"
+      },
+      {
+        "actual_arrival_s": 45651.0,
+        "actual_departure_s": 44517.0,
+        "booked_arrival_s": 45654,
+        "booked_departure_s": 44517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-052"
+      },
+      {
+        "actual_arrival_s": 46134.0,
+        "actual_departure_s": 45000.0,
+        "booked_arrival_s": 46137,
+        "booked_departure_s": 45000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-053"
+      },
+      {
+        "actual_arrival_s": 46551.0,
+        "actual_departure_s": 45417.0,
+        "booked_arrival_s": 46554,
+        "booked_departure_s": 45417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-054"
+      },
+      {
+        "actual_arrival_s": 47034.0,
+        "actual_departure_s": 45900.0,
+        "booked_arrival_s": 47037,
+        "booked_departure_s": 45900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-055"
+      },
+      {
+        "actual_arrival_s": 47451.0,
+        "actual_departure_s": 46317.0,
+        "booked_arrival_s": 47454,
+        "booked_departure_s": 46317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-056"
+      },
+      {
+        "actual_arrival_s": 47934.0,
+        "actual_departure_s": 46800.0,
+        "booked_arrival_s": 47937,
+        "booked_departure_s": 46800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-057"
+      },
+      {
+        "actual_arrival_s": 48351.0,
+        "actual_departure_s": 47217.0,
+        "booked_arrival_s": 48354,
+        "booked_departure_s": 47217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-058"
+      },
+      {
+        "actual_arrival_s": 48834.0,
+        "actual_departure_s": 47700.0,
+        "booked_arrival_s": 48837,
+        "booked_departure_s": 47700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-059"
+      },
+      {
+        "actual_arrival_s": 49251.0,
+        "actual_departure_s": 48117.0,
+        "booked_arrival_s": 49254,
+        "booked_departure_s": 48117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-060"
+      },
+      {
+        "actual_arrival_s": 49734.0,
+        "actual_departure_s": 48600.0,
+        "booked_arrival_s": 49737,
+        "booked_departure_s": 48600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-061"
+      },
+      {
+        "actual_arrival_s": 50151.0,
+        "actual_departure_s": 49017.0,
+        "booked_arrival_s": 50154,
+        "booked_departure_s": 49017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-062"
+      },
+      {
+        "actual_arrival_s": 50634.0,
+        "actual_departure_s": 49500.0,
+        "booked_arrival_s": 50637,
+        "booked_departure_s": 49500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-063"
+      },
+      {
+        "actual_arrival_s": 51051.0,
+        "actual_departure_s": 49917.0,
+        "booked_arrival_s": 51054,
+        "booked_departure_s": 49917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-064"
+      },
+      {
+        "actual_arrival_s": 51534.0,
+        "actual_departure_s": 50400.0,
+        "booked_arrival_s": 51537,
+        "booked_departure_s": 50400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-065"
+      },
+      {
+        "actual_arrival_s": 51951.0,
+        "actual_departure_s": 50817.0,
+        "booked_arrival_s": 51954,
+        "booked_departure_s": 50817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-066"
+      },
+      {
+        "actual_arrival_s": 52434.0,
+        "actual_departure_s": 51300.0,
+        "booked_arrival_s": 52437,
+        "booked_departure_s": 51300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-067"
+      },
+      {
+        "actual_arrival_s": 52851.0,
+        "actual_departure_s": 51717.0,
+        "booked_arrival_s": 52854,
+        "booked_departure_s": 51717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-068"
+      },
+      {
+        "actual_arrival_s": 53334.0,
+        "actual_departure_s": 52200.0,
+        "booked_arrival_s": 53337,
+        "booked_departure_s": 52200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-069"
+      },
+      {
+        "actual_arrival_s": 53751.0,
+        "actual_departure_s": 52617.0,
+        "booked_arrival_s": 53754,
+        "booked_departure_s": 52617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-070"
+      },
+      {
+        "actual_arrival_s": 54234.0,
+        "actual_departure_s": 53100.0,
+        "booked_arrival_s": 54237,
+        "booked_departure_s": 53100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-071"
+      },
+      {
+        "actual_arrival_s": 54651.0,
+        "actual_departure_s": 53517.0,
+        "booked_arrival_s": 54654,
+        "booked_departure_s": 53517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-072"
+      },
+      {
+        "actual_arrival_s": 55134.0,
+        "actual_departure_s": 54000.0,
+        "booked_arrival_s": 55137,
+        "booked_departure_s": 54000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-073"
+      },
+      {
+        "actual_arrival_s": 55551.0,
+        "actual_departure_s": 54417.0,
+        "booked_arrival_s": 55554,
+        "booked_departure_s": 54417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-074"
+      },
+      {
+        "actual_arrival_s": 56034.0,
+        "actual_departure_s": 54900.0,
+        "booked_arrival_s": 56037,
+        "booked_departure_s": 54900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-075"
+      },
+      {
+        "actual_arrival_s": 56451.0,
+        "actual_departure_s": 55317.0,
+        "booked_arrival_s": 56454,
+        "booked_departure_s": 55317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-076"
+      },
+      {
+        "actual_arrival_s": 56934.0,
+        "actual_departure_s": 55800.0,
+        "booked_arrival_s": 56937,
+        "booked_departure_s": 55800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-077"
+      },
+      {
+        "actual_arrival_s": 57351.0,
+        "actual_departure_s": 56217.0,
+        "booked_arrival_s": 57354,
+        "booked_departure_s": 56217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-078"
+      },
+      {
+        "actual_arrival_s": 57834.0,
+        "actual_departure_s": 56700.0,
+        "booked_arrival_s": 57837,
+        "booked_departure_s": 56700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-079"
+      },
+      {
+        "actual_arrival_s": 58251.0,
+        "actual_departure_s": 57117.0,
+        "booked_arrival_s": 58254,
+        "booked_departure_s": 57117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-080"
+      },
+      {
+        "actual_arrival_s": 58734.0,
+        "actual_departure_s": 57600.0,
+        "booked_arrival_s": 58737,
+        "booked_departure_s": 57600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-081"
+      },
+      {
+        "actual_arrival_s": 59151.0,
+        "actual_departure_s": 58017.0,
+        "booked_arrival_s": 59154,
+        "booked_departure_s": 58017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-082"
+      },
+      {
+        "actual_arrival_s": 59634.0,
+        "actual_departure_s": 58500.0,
+        "booked_arrival_s": 59637,
+        "booked_departure_s": 58500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-083"
+      },
+      {
+        "actual_arrival_s": 60051.0,
+        "actual_departure_s": 58917.0,
+        "booked_arrival_s": 60054,
+        "booked_departure_s": 58917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-084"
+      },
+      {
+        "actual_arrival_s": 60534.0,
+        "actual_departure_s": 59400.0,
+        "booked_arrival_s": 60537,
+        "booked_departure_s": 59400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-085"
+      },
+      {
+        "actual_arrival_s": 60951.0,
+        "actual_departure_s": 59817.0,
+        "booked_arrival_s": 60954,
+        "booked_departure_s": 59817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-086"
+      },
+      {
+        "actual_arrival_s": 61434.0,
+        "actual_departure_s": 60300.0,
+        "booked_arrival_s": 61437,
+        "booked_departure_s": 60300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-087"
+      },
+      {
+        "actual_arrival_s": 61851.0,
+        "actual_departure_s": 60717.0,
+        "booked_arrival_s": 61854,
+        "booked_departure_s": 60717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-088"
+      },
+      {
+        "actual_arrival_s": 62334.0,
+        "actual_departure_s": 61200.0,
+        "booked_arrival_s": 62337,
+        "booked_departure_s": 61200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-089"
+      },
+      {
+        "actual_arrival_s": 62751.0,
+        "actual_departure_s": 61617.0,
+        "booked_arrival_s": 62754,
+        "booked_departure_s": 61617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-090"
+      },
+      {
+        "actual_arrival_s": 63234.0,
+        "actual_departure_s": 62100.0,
+        "booked_arrival_s": 63237,
+        "booked_departure_s": 62100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-091"
+      },
+      {
+        "actual_arrival_s": 63651.0,
+        "actual_departure_s": 62517.0,
+        "booked_arrival_s": 63654,
+        "booked_departure_s": 62517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-092"
+      },
+      {
+        "actual_arrival_s": 64134.0,
+        "actual_departure_s": 63000.0,
+        "booked_arrival_s": 64137,
+        "booked_departure_s": 63000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-093"
+      },
+      {
+        "actual_arrival_s": 64551.0,
+        "actual_departure_s": 63417.0,
+        "booked_arrival_s": 64554,
+        "booked_departure_s": 63417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-094"
+      },
+      {
+        "actual_arrival_s": 65034.0,
+        "actual_departure_s": 63900.0,
+        "booked_arrival_s": 65037,
+        "booked_departure_s": 63900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-095"
+      },
+      {
+        "actual_arrival_s": 65451.0,
+        "actual_departure_s": 64317.0,
+        "booked_arrival_s": 65454,
+        "booked_departure_s": 64317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-096"
+      },
+      {
+        "actual_arrival_s": 65934.0,
+        "actual_departure_s": 64800.0,
+        "booked_arrival_s": 65937,
+        "booked_departure_s": 64800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-097"
+      },
+      {
+        "actual_arrival_s": 66351.0,
+        "actual_departure_s": 65217.0,
+        "booked_arrival_s": 66354,
+        "booked_departure_s": 65217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-098"
+      },
+      {
+        "actual_arrival_s": 66834.0,
+        "actual_departure_s": 65700.0,
+        "booked_arrival_s": 66837,
+        "booked_departure_s": 65700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-099"
+      },
+      {
+        "actual_arrival_s": 67251.0,
+        "actual_departure_s": 66117.0,
+        "booked_arrival_s": 67254,
+        "booked_departure_s": 66117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-100"
+      },
+      {
+        "actual_arrival_s": 67734.0,
+        "actual_departure_s": 66600.0,
+        "booked_arrival_s": 67737,
+        "booked_departure_s": 66600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-101"
+      },
+      {
+        "actual_arrival_s": 68151.0,
+        "actual_departure_s": 67017.0,
+        "booked_arrival_s": 68154,
+        "booked_departure_s": 67017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-102"
+      },
+      {
+        "actual_arrival_s": 68634.0,
+        "actual_departure_s": 67500.0,
+        "booked_arrival_s": 68637,
+        "booked_departure_s": 67500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-103"
+      },
+      {
+        "actual_arrival_s": 69051.0,
+        "actual_departure_s": 67917.0,
+        "booked_arrival_s": 69054,
+        "booked_departure_s": 67917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-104"
+      },
+      {
+        "actual_arrival_s": 69534.0,
+        "actual_departure_s": 68400.0,
+        "booked_arrival_s": 69537,
+        "booked_departure_s": 68400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-105"
+      },
+      {
+        "actual_arrival_s": 69951.0,
+        "actual_departure_s": 68817.0,
+        "booked_arrival_s": 69954,
+        "booked_departure_s": 68817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-106"
+      },
+      {
+        "actual_arrival_s": 70434.0,
+        "actual_departure_s": 69300.0,
+        "booked_arrival_s": 70437,
+        "booked_departure_s": 69300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-107"
+      },
+      {
+        "actual_arrival_s": 70851.0,
+        "actual_departure_s": 69717.0,
+        "booked_arrival_s": 70854,
+        "booked_departure_s": 69717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-108"
+      },
+      {
+        "actual_arrival_s": 71334.0,
+        "actual_departure_s": 70200.0,
+        "booked_arrival_s": 71337,
+        "booked_departure_s": 70200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-109"
+      },
+      {
+        "actual_arrival_s": 71751.0,
+        "actual_departure_s": 70617.0,
+        "booked_arrival_s": 71754,
+        "booked_departure_s": 70617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-110"
+      },
+      {
+        "actual_arrival_s": 72234.0,
+        "actual_departure_s": 71100.0,
+        "booked_arrival_s": 72237,
+        "booked_departure_s": 71100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-111"
+      },
+      {
+        "actual_arrival_s": 72651.0,
+        "actual_departure_s": 71517.0,
+        "booked_arrival_s": 72654,
+        "booked_departure_s": 71517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-112"
+      },
+      {
+        "actual_arrival_s": 73134.0,
+        "actual_departure_s": 72000.0,
+        "booked_arrival_s": 73137,
+        "booked_departure_s": 72000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-113"
+      },
+      {
+        "actual_arrival_s": 73551.0,
+        "actual_departure_s": 72417.0,
+        "booked_arrival_s": 73554,
+        "booked_departure_s": 72417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-114"
+      },
+      {
+        "actual_arrival_s": 74034.0,
+        "actual_departure_s": 72900.0,
+        "booked_arrival_s": 74037,
+        "booked_departure_s": 72900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-115"
+      },
+      {
+        "actual_arrival_s": 74451.0,
+        "actual_departure_s": 73317.0,
+        "booked_arrival_s": 74454,
+        "booked_departure_s": 73317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-116"
+      },
+      {
+        "actual_arrival_s": 74934.0,
+        "actual_departure_s": 73800.0,
+        "booked_arrival_s": 74937,
+        "booked_departure_s": 73800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-117"
+      },
+      {
+        "actual_arrival_s": 75351.0,
+        "actual_departure_s": 74217.0,
+        "booked_arrival_s": 75354,
+        "booked_departure_s": 74217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-118"
+      },
+      {
+        "actual_arrival_s": 75834.0,
+        "actual_departure_s": 74700.0,
+        "booked_arrival_s": 75837,
+        "booked_departure_s": 74700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-119"
+      },
+      {
+        "actual_arrival_s": 76251.0,
+        "actual_departure_s": 75117.0,
+        "booked_arrival_s": 76254,
+        "booked_departure_s": 75117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-120"
+      },
+      {
+        "actual_arrival_s": 76734.0,
+        "actual_departure_s": 75600.0,
+        "booked_arrival_s": 76737,
+        "booked_departure_s": 75600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-121"
+      },
+      {
+        "actual_arrival_s": 77151.0,
+        "actual_departure_s": 76017.0,
+        "booked_arrival_s": 77154,
+        "booked_departure_s": 76017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-122"
+      },
+      {
+        "actual_arrival_s": 77634.0,
+        "actual_departure_s": 76500.0,
+        "booked_arrival_s": 77637,
+        "booked_departure_s": 76500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-123"
+      },
+      {
+        "actual_arrival_s": 78051.0,
+        "actual_departure_s": 76917.0,
+        "booked_arrival_s": 78054,
+        "booked_departure_s": 76917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-124"
+      },
+      {
+        "actual_arrival_s": 78534.0,
+        "actual_departure_s": 77400.0,
+        "booked_arrival_s": 78537,
+        "booked_departure_s": 77400,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-125"
+      },
+      {
+        "actual_arrival_s": 78951.0,
+        "actual_departure_s": 77817.0,
+        "booked_arrival_s": 78954,
+        "booked_departure_s": 77817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-126"
+      },
+      {
+        "actual_arrival_s": 79434.0,
+        "actual_departure_s": 78300.0,
+        "booked_arrival_s": 79437,
+        "booked_departure_s": 78300,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-127"
+      },
+      {
+        "actual_arrival_s": 79851.0,
+        "actual_departure_s": 78717.0,
+        "booked_arrival_s": 79854,
+        "booked_departure_s": 78717,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-128"
+      },
+      {
+        "actual_arrival_s": 80334.0,
+        "actual_departure_s": 79200.0,
+        "booked_arrival_s": 80337,
+        "booked_departure_s": 79200,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-129"
+      },
+      {
+        "actual_arrival_s": 80751.0,
+        "actual_departure_s": 79617.0,
+        "booked_arrival_s": 80754,
+        "booked_departure_s": 79617,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-130"
+      },
+      {
+        "actual_arrival_s": 81234.0,
+        "actual_departure_s": 80100.0,
+        "booked_arrival_s": 81237,
+        "booked_departure_s": 80100,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-131"
+      },
+      {
+        "actual_arrival_s": 81651.0,
+        "actual_departure_s": 80517.0,
+        "booked_arrival_s": 81654,
+        "booked_departure_s": 80517,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-132"
+      },
+      {
+        "actual_arrival_s": 82134.0,
+        "actual_departure_s": 81000.0,
+        "booked_arrival_s": 82137,
+        "booked_departure_s": 81000,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-133"
+      },
+      {
+        "actual_arrival_s": 82551.0,
+        "actual_departure_s": 81417.0,
+        "booked_arrival_s": 82554,
+        "booked_departure_s": 81417,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-134"
+      },
+      {
+        "actual_arrival_s": 83034.0,
+        "actual_departure_s": 81900.0,
+        "booked_arrival_s": 83037,
+        "booked_departure_s": 81900,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-135"
+      },
+      {
+        "actual_arrival_s": 83451.0,
+        "actual_departure_s": 82317.0,
+        "booked_arrival_s": 83454,
+        "booked_departure_s": 82317,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-136"
+      },
+      {
+        "actual_arrival_s": 83934.0,
+        "actual_departure_s": 82800.0,
+        "booked_arrival_s": 83937,
+        "booked_departure_s": 82800,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-137"
+      },
+      {
+        "actual_arrival_s": 84351.0,
+        "actual_departure_s": 83217.0,
+        "booked_arrival_s": 84354,
+        "booked_departure_s": 83217,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-138"
+      },
+      {
+        "actual_arrival_s": 84834.0,
+        "actual_departure_s": 83700.0,
+        "booked_arrival_s": 84837,
+        "booked_departure_s": 83700,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-139"
+      },
+      {
+        "actual_arrival_s": 85251.0,
+        "actual_departure_s": 84117.0,
+        "booked_arrival_s": 85254,
+        "booked_departure_s": 84117,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-140"
+      },
+      {
+        "actual_arrival_s": 85734.0,
+        "actual_departure_s": 84600.0,
+        "booked_arrival_s": 85737,
+        "booked_departure_s": 84600,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-141"
+      },
+      {
+        "actual_arrival_s": 86151.0,
+        "actual_departure_s": 85017.0,
+        "booked_arrival_s": 86154,
+        "booked_departure_s": 85017,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-142"
+      },
+      {
+        "actual_arrival_s": 86634.0,
+        "actual_departure_s": 85500.0,
+        "booked_arrival_s": 86637,
+        "booked_departure_s": 85500,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-143"
+      },
+      {
+        "actual_arrival_s": 87051.0,
+        "actual_departure_s": 85917.0,
+        "booked_arrival_s": 87054,
+        "booked_departure_s": 85917,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-144"
+      },
+      {
+        "actual_arrival_s": 87951.0,
+        "actual_departure_s": 86817.0,
+        "booked_arrival_s": 87954,
+        "booked_departure_s": 86817,
+        "depart_delay_s": 0.0,
+        "duration_s": 1134.0,
+        "id": "trip-145"
+      }
+    ],
+    "traction_curves": {
+      "passenger0": {
+        "brake_deceleration_m_s2": 0.6,
+        "grade_force_kn": 0.0,
+        "grade_pct": 0.0,
+        "mass_factor": 1.0,
+        "mass_kg": 198635.9582,
+        "net_launch_accel_m_s2": 0.6,
+        "rolling_resistance_kn": [
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164
+        ],
+        "speed_limit_m_s": 20.0,
+        "speeds_m_s": [
+          0.0,
+          5.0,
+          10.0,
+          15.0,
+          20.0,
+          33.39425153115557,
+          38.39425153115557,
+          43.39425153115557
+        ],
+        "tractive_effort_kn": [
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          107.11617780713173,
+          94.77396956208042
+        ],
+        "tractive_effort_limit_kn": 123.154294084,
+        "train_length_m": 104.5,
+        "wheel_power_limit_kw": 4112.645473783
+      },
+      "passenger1": {
+        "brake_deceleration_m_s2": 0.6,
+        "grade_force_kn": -0.0,
+        "grade_pct": -0.0,
+        "mass_factor": 1.0,
+        "mass_kg": 198635.9582,
+        "net_launch_accel_m_s2": 0.6,
+        "rolling_resistance_kn": [
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164,
+          3.972719164
+        ],
+        "speed_limit_m_s": 20.0,
+        "speeds_m_s": [
+          0.0,
+          5.0,
+          10.0,
+          15.0,
+          20.0,
+          33.39425153115557,
+          38.39425153115557,
+          43.39425153115557
+        ],
+        "tractive_effort_kn": [
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          123.154294084,
+          107.11617780713173,
+          94.77396956208042
+        ],
+        "tractive_effort_limit_kn": 123.154294084,
+        "train_length_m": 104.5,
+        "wheel_power_limit_kw": 4112.645473783
+      },
+      "positioning0": {
+        "brake_deceleration_m_s2": 0.6,
+        "grade_force_kn": 0.0,
+        "grade_pct": 0.0,
+        "mass_factor": 1.0,
+        "mass_kg": 146135.95820000002,
+        "net_launch_accel_m_s2": 0.5999999999999999,
+        "rolling_resistance_kn": [
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005
+        ],
+        "speed_limit_m_s": 20.0,
+        "speeds_m_s": [
+          0.0,
+          5.0,
+          10.0,
+          15.0,
+          20.0,
+          45.3912865318517,
+          50.3912865318517,
+          55.3912865318517
+        ],
+        "tractive_effort_kn": [
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          81.61421858486285,
+          74.24715566803278
+        ],
+        "tractive_effort_limit_kn": 90.604294084,
+        "train_length_m": 104.5,
+        "wheel_power_limit_kw": 4112.645473783
+      },
+      "positioning1": {
+        "brake_deceleration_m_s2": 0.6,
+        "grade_force_kn": -0.0,
+        "grade_pct": -0.0,
+        "mass_factor": 1.0,
+        "mass_kg": 146135.95820000002,
+        "net_launch_accel_m_s2": 0.5999999999999999,
+        "rolling_resistance_kn": [
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005,
+          2.9227191640000005
+        ],
+        "speed_limit_m_s": 20.0,
+        "speeds_m_s": [
+          0.0,
+          5.0,
+          10.0,
+          15.0,
+          20.0,
+          45.3912865318517,
+          50.3912865318517,
+          55.3912865318517
+        ],
+        "tractive_effort_kn": [
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          90.604294084,
+          81.61421858486285,
+          74.24715566803278
+        ],
+        "tractive_effort_limit_kn": 90.604294084,
+        "train_length_m": 104.5,
+        "wheel_power_limit_kw": 4112.645473783
+      }
+    },
+    "train_model": "custom",
+    "versions": {
+      "netconvert": "Eclipse SUMO netconvert 1.28.0",
+      "sumo": "Eclipse SUMO sumo 1.28.0"
+    }
+  }
+}

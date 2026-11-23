@@ -37,6 +37,42 @@ PATHS = (
     "tools/automation/osr-python", "tools/automation/toolchain-release.sh",
 )
 MAX_SOURCE_BYTES = 96 * 1024**2
+SIMULATION = "cities/Baghdad/engineering/simulation/scenario.py"
+SIMULATION_COMMAND = ["./osr", "design", "railway", "simulation"]
+SIMULATION_EXPORT = "build/simulation.zip"
+
+
+def verify_simulation(source, checked):
+    """Verify the non-default export and its relationship to the frozen opening."""
+    checked = checked["identity"]
+    packet = source / SIMULATION_EXPORT
+    with ZipFile(packet) as package:
+        names = package.namelist()
+        if len(set(names)) != len(names) or package.testzip() is not None:
+            raise ValueError("Invalid Airport simulation dossier after installation")
+        manifest = json.loads(package.read("manifest.json"))
+        dossier = json.loads(package.read("scenario.json"))
+        checksums = manifest["sha256"]
+        if (manifest.get("schema") != "osr-airport-scenario-export/1"
+                or set(checksums) != set(names) - {"manifest.json"}
+                or any(sha256(package.read(name)).hexdigest() != expected for name, expected in checksums.items())):
+            raise ValueError("Airport simulation dossier contents differ from its manifest")
+    identity = dossier["identity"]
+    for record in (checked, identity):
+        for key in ("physical_id", "evaluation_id", "parent_candidate_id"):
+            digest = record[key]
+            if type(digest) is not str or len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest):
+                raise ValueError(f"Invalid simulation identity: {key}")
+    provenance = dossier["provenance"]
+    if (identity != manifest["identity"] or dossier["inputs"]["headway_min"] != 20
+            or checked["parent_candidate_id"] != identity["parent_candidate_id"]
+            or checked["evaluation_id"] == identity["evaluation_id"]):
+        raise ValueError("Airport alternate simulation does not match its recorded identity or headway")
+    if (manifest["fabrication_released"] is not False or manifest["physical_accepted"] is not False
+            or provenance["fabrication_release"] is not False or provenance["physical_acceptance"] is not False):
+        raise ValueError("Airport simulation cannot establish physical or fabrication acceptance")
+    return {"checked_default_identity": checked, "headway_min": 20, "identity": identity,
+            "sha256": sha256(packet.read_bytes()).hexdigest(), "files": sorted(names)}
 
 
 def verify(revision, output):
@@ -57,6 +93,12 @@ def verify(revision, output):
     if has_enquiries:
         paths.extend("docs/operator-review/delivery/" + name for name in
                      ("README.md", "precast-yard.svg", "vehicle-works.svg", "workforce.png"))
+    has_simulation = subprocess.run(
+        ["git", "cat-file", "-e", revision + ":" + SIMULATION],
+        cwd=ROOT, stderr=subprocess.DEVNULL,
+    ).returncode == 0
+    if has_simulation:
+        paths.append("engineering/design_search/storage.py")
     listing = subprocess.check_output(["git", "ls-tree", "-rlz", revision, "--", *paths], cwd=ROOT)
     entries = [row for row in listing.split(b"\0") if row]
     size = sum(int(row.split(b"\t", 1)[0].split()[3]) for row in entries)
@@ -111,6 +153,13 @@ def verify(revision, output):
             [".venv/bin/python", "cities/Baghdad/engineering/prototype/vehicle-factory/body_bogie.py", "--check"],
             [".venv/bin/python", "cities/Baghdad/engineering/prototype/infrastructure/platform_sweep.py", "--check"],
         ])
+    simulation_check = None
+    if has_simulation:
+        simulation_check = directory / f"command-{len(commands)+1}.log"
+        commands.extend([
+            [*SIMULATION_COMMAND, "--check"],
+            [*SIMULATION_COMMAND, "--headway-min", "20", "--export", SIMULATION_EXPORT],
+        ])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
             run = subprocess.run(command, cwd=source, env=env, stdout=log, stderr=subprocess.STDOUT)
@@ -146,6 +195,8 @@ def verify(revision, output):
                "dossier_sha256": sha256(published.read_bytes()).hexdigest(),
                "rebuilt_dossier_sha256": sha256(dossier.read_bytes()).hexdigest(), "dossier_files": dossier_files,
                "python": sys.version, "commands": commands}
+    if simulation_check is not None:
+        receipt["simulation"] = verify_simulation(source, json.loads(simulation_check.read_text()))
     (directory / "verification.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(directory / "verification.json")
 

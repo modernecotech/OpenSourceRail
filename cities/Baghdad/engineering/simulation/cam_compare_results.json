@@ -1,0 +1,122 @@
+{
+  "backend": "CamCraft",
+  "release": "v0.25.0",
+  "source_commit": "7e2a8119c8aec2140135cadbc6afc7922aee955a",
+  "license": "Apache-2.0",
+  "binary_sha256": "2ff65ec52ef6e304eae357f6b6524a5042a027049f06fbbbbe3a06c45751f0c1",
+  "published_archive_sha256": "4dc0269e27a39525346a219db42e6f3a0e213ce3af5b9f15d2736c23ddd14cdf",
+  "script_sha256": "055f08f950134ec4a80e9ca1de7207c352f31c9b6fe8d7bbd3e3ff7ccc515ef6",
+  "source_coupon_nc_sha256": "1718b09dd08ec00c2010be334f0f21bd43d638686af79ec1760c89b10a7f0f70",
+  "freecad_design_generator_sha256": "34acd0fb13bdee829f573865a801bf76878aea003b3a9eae837b4a2a7273cf0b",
+  "comparison_step_inputs_sha256": {
+    "wax-coupon-baseline.step": "d400d8a7e2a63190ba77df5be5f81951392bcb6e0eab1ec940efc107aca88011",
+    "wax-coupon-y30.step": "60a9d830de3a613aee79af7b8780d7dda5e12f2a67f9c0a6c769fb5c05d63eb3"
+  },
+  "protocol": "2024-11-05",
+  "server_version": "0.25.0",
+  "listed_tools": 117,
+  "post": "Grbl 1.1",
+  "cases": {
+    "baseline": {
+      "verification_ok": true,
+      "post_wrote_file": true,
+      "gate_problems": [],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 0.0,
+      "max_gouge_mm": 0.0,
+      "remaining_mm3": 0.0,
+      "expected_feed_endpoints_present": true,
+      "preview_sha256": "606b72da0e73f9553271e4aa3015eaea01e1e5ecbf38bc3346e2be1f77df5bc3"
+    },
+    "target_only": {
+      "verification_ok": true,
+      "post_wrote_file": true,
+      "gate_problems": [],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 0.0,
+      "max_gouge_mm": 0.0,
+      "remaining_mm3": 6.046875,
+      "expected_feed_endpoints_present": false,
+      "preview_sha256": "606b72da0e73f9553271e4aa3015eaea01e1e5ecbf38bc3346e2be1f77df5bc3"
+    },
+    "edited": {
+      "verification_ok": true,
+      "post_wrote_file": true,
+      "gate_problems": [],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 0.0,
+      "max_gouge_mm": 0.0,
+      "remaining_mm3": 0.0,
+      "expected_feed_endpoints_present": true,
+      "preview_sha256": "4edd9a92d9fd7743faf18dba15b5a265781ca05460982157e8b5f33115ba29e4"
+    },
+    "wrong_depth": {
+      "verification_ok": false,
+      "post_wrote_file": false,
+      "gate_problems": [
+        "gouge: program cuts below the model in 1736 cell(s), worst 0.50 mm at (42.66, 10.59, z -1.50)"
+      ],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 30.515625,
+      "max_gouge_mm": 0.5,
+      "remaining_mm3": 0.0,
+      "expected_feed_endpoints_present": null,
+      "preview_sha256": null
+    },
+    "restored": {
+      "verification_ok": true,
+      "post_wrote_file": true,
+      "gate_problems": [],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 0.0,
+      "max_gouge_mm": 0.0,
+      "remaining_mm3": 0.0,
+      "expected_feed_endpoints_present": true,
+      "preview_sha256": "4edd9a92d9fd7743faf18dba15b5a265781ca05460982157e8b5f33115ba29e4"
+    },
+    "fault": {
+      "verification_ok": false,
+      "post_wrote_file": false,
+      "gate_problems": [
+        "LongLeg: flute at move 3 strikes a fixture",
+        "LongLeg: flute at move 8 strikes a fixture"
+      ],
+      "cell_mm": 0.1875,
+      "judged_cells": 68160,
+      "gouge_mm3": 0.0,
+      "max_gouge_mm": 0.0,
+      "remaining_mm3": 0.0,
+      "expected_feed_endpoints_present": null,
+      "preview_sha256": null
+    }
+  },
+  "direct_open_dxf_trace_generation": "generate: WaxSlot - could not generate the toolpath: WaxSlot: invalid machining parameters: this operation is checked against the stock 'Stock' and the chains of the DXF profile 'L28' (0 closed, 1 open) - there is no solid model; a toolpath from the chains of a DXF profile is not generated yet",
+  "direct_open_dxf_trace_post": "post: WaxSlot: no toolpath yet - generate it first",
+  "fixture_findings": [
+    {
+      "blocks_post": true,
+      "key": "LongLeg",
+      "kind": "fixture_hit",
+      "message": "flute at move 3 strikes a fixture",
+      "move": 3,
+      "op": "LongLeg",
+      "part": "flute"
+    },
+    {
+      "blocks_post": true,
+      "key": "LongLeg",
+      "kind": "fixture_hit",
+      "message": "flute at move 8 strikes a fixture",
+      "move": 8,
+      "op": "LongLeg",
+      "part": "flute"
+    }
+  ],
+  "tool_call_count": 57,
+  "elapsed_seconds": 1.7067
+}
