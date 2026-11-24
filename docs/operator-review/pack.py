@@ -35,6 +35,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Download the first-article scope and compare price, documented domestic value and repair terms.</small></a>
 <a href="cities/Baghdad/engineering/prototype/airport-enquiries.zip"><strong>Airport first-article enquiries</strong><small>Extract the package and open its START.html for drawings, factory records and quotation sheets.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
+<a href="cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md"><strong>Corridor assumption audit</strong><small>Review service delivered, electrical outages, civil quantities and the priced scope.</small></a>
 <a href="cities/Baghdad/Baghdad-Metro-Proposal.pdf"><strong>Baghdad investment proposal</strong><small>Read the routes, local delivery options and the purchasing case.</small></a>
 </nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/airport-integration.html">Airport working plan and supplier dossier</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
 <p>Use the included documents for design review and indicative quotations. References to the wider engineering repository open with an internet connection. <a href="https://github.com/modernecotech/OpenSourceRail/tree/main/docs/operator-review">Full workplan, screens and sources</a></p></main></html>"""
@@ -103,6 +104,11 @@ def workshop_files():
     models = json.loads(raw.removeprefix('window.RAIL_MODELS=').removesuffix(';'))
     for m in models.values():
         files.update(ROOT / path for path in m['links'].values())
+    simulation = ROOT / "cities/Baghdad/engineering/simulation"
+    files.update(simulation / name for name in (
+        "AUDIT-RESULTS.md", "ASSUMPTION-AUDIT.md", "ALIGNMENT-DEMAND.md",
+        "vehicle-audit-guide.md", "audit-production-guide.md", "audit-verification.json",
+    ))
     raw = (HERE / 'finance/enquiries-data.js').read_text().strip()
     enquiries = json.loads(raw.removeprefix('const railwayEnquiries = ').removesuffix(';'))
     # Supply the exact drawing or record named in each downloadable enquiry.
