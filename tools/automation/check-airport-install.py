@@ -279,8 +279,11 @@ def verify(revision, output, revision_kind="commit"):
     if audit_check is not None:
         receipt["audit"] = verify_audit(source, audit_check)
     if audit_packet_check is not None:
-        receipt["audit"]["enquiry"] = verify_audit_packet(
-            source, audit_packet_check, receipt["audit"], manifest["candidate_id"])
+        # The corrected study revises the physical prototype. The earlier
+        # opening dossier has a separate operating and financial candidate ID.
+        with ZipFile(source / workshop / "airport-prototype.zip") as prototype:
+            parent = json.loads(prototype.read("manifest.json"))["candidate_id"]
+        receipt["audit"]["enquiry"] = verify_audit_packet(source, audit_packet_check, receipt["audit"], parent)
     if has_corrected_erp:
         from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_contract import estimate_payload
         estimate = estimate_payload(json.loads((source / erp_estimate).read_bytes()))
