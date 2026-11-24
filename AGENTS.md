@@ -24,6 +24,8 @@ alternatives do not silently change the selected reference or inherit its result
   licensing. Keep current, retained and disconnected capabilities explicit, with
   exact historical links. A hardware revision must not turn the README into only
   a campaign log or silently discard the rest of the platform's purpose.
+- Keep the front README's Hayder Aziz attribution, About the author section,
+  research citations and contributor credit when reorganising the introduction.
 - The repository development default is engineering/development-baseline.toml:
   six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
   two doors on one side. The 120-second/8,280 normal passengers/hour/direction

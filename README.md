@@ -2,6 +2,8 @@
 
 OpenSourceRail helps a city **plan, price, build, operate and maintain an urban railway with local industry**. It brings together three products that railway owners usually encounter separately. Planners get an open design and delivery platform. Manufacturers get railway hardware designs, drawings and production records. Operators get train and wayside software with links to the people, parts and inspections that keep a service running. A city or workshop can use any of the three and follow the assumptions behind its results. [How the three products fit together](docs/book/47-three-products.md)
 
+Initiated by **Hayder Aziz**, building on research into collaborative engineering and open standards. [About the author](#about-the-author)
+
 **[Download the interactive workshop](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip)** · **[Read the illustrated project book](OpenSourceRail-Book.pdf)** · **[Browse the city catalogue](cities/catalogue/README.md)** · **[Install the Workbench](#run-the-workbench)**
 
 | Plan a passenger railway | Inspect what needs building |
@@ -9,20 +11,30 @@ OpenSourceRail helps a city **plan, price, build, operate and maintain an urban 
 | [![Samawah Workbench map with a selected route and its service inspector](docs/operator-review/screens/route-inspector.png)](docs/operator-review/screens/route-inspector.png) | [![Three-dimensional view of a Baghdad train at an island station on an elevated double-track viaduct](docs/operator-review/twins/baghdad-station.png)](docs/operator-review/twins/baghdad-station.png) |
 | Select a line in Samawah to see its stops, journey time and fleet. | Orbit a typical Baghdad first-programme station and inspect the train, platform and supports together. |
 
-**Project status.** [v0.7.2](docs/releases/v0.7.2/README.md) is the published software release. It includes a reproducible opening study and enquiry dossier. Development on `main` adds a corrected route study, moving-train power and service calculations, and factory and procurement tools. The earlier prototype packages cover the car, powered bogie, viaduct, station, power and controls, and local production. Use the corrected enquiry for current Airport quantities. **v0.8 production preparation remains open.** The packages identify what can be priced today and which interfaces still need supplier data, measurements or independent review. [Current decision results](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) · [Readiness by package](cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md)
+**Project status.** [v0.7.2](docs/releases/v0.7.2/README.md) is the published software release, with a reproducible opening study and enquiry dossier. Development on `main` includes editable city studies, coupled train and power simulation, rapid vehicle production, deck-fed viaduct delivery, standards traceability and supplier comparison. **v0.8 production preparation remains open.** The car, powered bogie, viaduct, station, power and controls, and local production packages identify which work can be priced and which interfaces need supplier data, measurements or independent review. [Current engineering decisions](docs/DESIGN-DECISIONS.md) · [Readiness by package](cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md)
 
-## Choose a starting point
+## What you can do with OpenSourceRail
 
-| If you are here to… | Start with… |
-|---|---|
-| Explore the project for the first time | Extract the **interactive workshop** linked above and open **START.html** in a browser. Try a route, a train model and a funding case. The [illustrated operator brief](docs/operator-review/OpenSourceRail-Operator-Brief.pdf) works for a meeting or printed handout. |
-| Plan a service or compare cities | [Maps and passenger journeys](#maps-and-passenger-journeys) and [timetables and train motion](#timetables-and-train-motion) |
-| Design a train, station or viaduct | [Vehicles, stations and civil engineering](#vehicles-stations-and-civil-engineering) and [how to read an engineering result](#how-to-read-an-engineering-result) |
-| Set the work programme, staff shifts or test capacity | [Costed workforce and shift workplan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
-| Equip a factory, train a team or quote for work | [Manufacturing and training](#manufacturing-and-training) and [purchasing and whole-life cost](#purchasing-and-whole-life-cost) |
-| Assess the evidence for funding, procurement or operation | [Standards and evidence traceability](#standards-and-evidence-traceability) |
-| Operate trains or maintain assets | [Train control, supervision and maintenance](#train-control-supervision-and-maintenance) |
-| Run, extend or reproduce the software | [Run the Workbench](#run-the-workbench), [find the right files](#find-the-right-files) and [contribute](#contribute-and-reuse) |
+Start with the **interactive workshop** linked above. Extract it, open **START.html** in a browser and try a route, a train model and a funding case. For a meeting or printed handout, use the [illustrated operator brief](docs/operator-review/OpenSourceRail-Operator-Brief.pdf).
+
+| Work | What you can do | What it helps you decide |
+|---|---|---|
+| [Plan a city railway](#maps-and-passenger-journeys) | Edit routes, stops, connections, service and origin–destination assumptions. Exchange mapped proposals with RustGIS. | Which stops and transfers improve access, and which corridor deserves survey and demand work. |
+| [Design the passenger service](#timetables-and-train-motion) | Compare headways and formations. Check waiting, boarding, fleet diagrams, turnbacks and separation. Export a planning timetable in GTFS. | How many trains, platform positions and depot moves the service needs. |
+| [Compare traction and power](#compare-traction-and-power) | Run moving-train cases with collector voltage, feeder failures, braking, energy and auxiliary loads. | Which supply arrangements merit a like-for-like equipment enquiry and what limits their degraded service. |
+| [Design vehicles, stations and viaducts](#vehicles-stations-and-civil-engineering) | Inspect CAD and IFC, compare mass and axle loads, check boarding and assembly envelopes, and trace a part to its bill of materials. | Which dimensions, interfaces and loads must change together when a design changes. |
+| [Build and staff the works](#build-the-viaduct-from-both-ends) | Compare methods, yard and machine capacity, construction windows and resource reuse. Price staff by role and shift and test coverage in Rust with Arrow and Parquet outputs. | Where a second workfront, spare equipment or more skilled staff would change cost, schedule or disruption. |
+| [Manufacture and train locally](#manufacturing-and-training) | Use stock cuts, CAM exercises, fixture and machine layouts, production simulations, inspection records and training guides. | Which jobs to make locally, which to buy and what a shop must demonstrate before repeat production. |
+| [Buy and finance the railway](#purchasing-and-whole-life-cost) | Compare supplier returns, installation and renewal scope, local work, fares, operating costs and annual funding. | Which offers cover the same work and what the owner and operator must fund over time. |
+| [Run and maintain the railway](#train-control-supervision-and-maintenance) | Exercise Rust train and wayside logic and replay faults. Follow a serialised asset through observation, replacement, inspection and handback. | What a controller, maintainer or assurance reviewer needs at each handoff. |
+| [Check and reproduce the evidence](#standards-and-evidence-traceability) | Trace requirements to drawings, tests and decisions. Run the Workbench, compare candidates and inspect versioned assumptions and review holds. | What the evidence supports and which results need to be rerun after a change. |
+
+## Why keep railway capability local?
+
+- **Buy on comparable terms.** Issue the same service requirements, quantities and maintenance boundary to turnkey, vendor-led and local integration bidders. Identify where imported equipment, licences or specialist servicing affect the city's obligations. [Matched-bid terms](cities/Baghdad/BUYER-COMPARISON.md)
+- **Make and repair more locally.** Give workshops the drawings, part revisions, fixtures, process routes and inspection points they need to quote for a component or overhaul. Compare local work content with supplier evidence and train teams for repeat work. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) · [Training exercises](cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md)
+- **Keep the information needed for a long service life.** Open CAD and IFC exchanges, source code, inspection records and serial histories let a later supplier or depot team understand which parts fit, which tests apply and who approved the change. [Twin register](docs/operator-review/twins/README.md) · [First adoption path](docs/first-adoptable-product.md)
+- **Plan for passengers and the city around the line.** Test step-free access, waiting and capacity alongside land needs, construction occupation, energy use, renewals and operating costs. Baghdad's zero-tunnel studies illustrate how these requirements drive an elevated design. [Passenger movement and summer cooling](cities/Baghdad/engineering/simulation/passenger-guide.md) · [Baghdad planning and procurement](cities/Baghdad/README.md)
 
 ## Maps and passenger journeys
 
@@ -41,6 +53,8 @@ A planning team can export route, stop, service and origin–destination edits, 
 
 A line on a map still needs a train that can reach each stop, turn around and start its next trip. Follow an individual working through its outward and return calls. Inspect the time reserved at the terminal and the interval available between successive trains. In the coupled operating study, changes in waiting and riding time affect requested journeys. The simulation records which booked trips finish under the selected service, motion and supply assumptions. [Train diagrams and outstanding connections](cities/Baghdad/SERVICE-DIAGRAMS.md) · [Route, demand and service inputs](cities/Baghdad/engineering/simulation/ALIGNMENT-DEMAND.md)
 
+Use the passenger ledger to distinguish completed journeys, capacity queues and passengers affected by an incomplete trip. The Airport example also exports a dated GTFS timetable for interchange with other planning tools. [Passenger and timetable inputs and outputs](cities/Baghdad/engineering/simulation/PLAN.md)
+
 | Follow one train through its day | Compare how a train moves |
 |---|---|
 | [![Baghdad timetable card with departure times, return calls and a terminal turnback](docs/operator-review/screens/baghdad-service.png)](docs/operator-review/screens/baghdad-service.png) | [![Two simulated speed-versus-distance curves between stations](docs/operator-review/screens/train-movement.png)](docs/operator-review/screens/train-movement.png) |
@@ -58,6 +72,12 @@ The station-pair model exposes simulated quantities including speed, stopping po
 [Open the animation on its own](docs/assets/front-page/station-pair-motion.gif) · [Read the underlying case](docs/design-engine/station-pair/README.md)
 
 </details>
+
+### Compare traction and power
+
+Choose the service first, then compare what it asks of the train and supply. The coupled study uses train position, speed and demand to evaluate collector voltage, available traction and trip completion under specified conditions. The electrical trials cover simultaneous starts, lost feeds, hot conductors, recovery and regenerative energy. Separate studies cover station charging, onboard storage, protected conductors and an overhead comparator. The outputs support matched quotations for equipment ratings, fault protection, isolation, replenishment and maintenance. [Moving-train and feeder simulation](cities/Baghdad/engineering/simulation/MOTION-POWER.md) · [Feeder options](cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md) · [Supplier enquiry packets](cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md)
+
+Review independent **SUMO** train-motion cases and **pandapower** grid-side cases against the declared model inputs. The results retain missed stops and braking warnings so a completed trip count can be checked against how the train actually ran in the simulation. [Independent solver runs and limits](cities/Baghdad/engineering/simulation/MOTION-POWER.md#independent-tool-executions)
 
 ## Vehicles, stations and civil engineering
 
@@ -106,6 +126,8 @@ Two road shifts take **145 days**. The site still needs ground works, and
 the finished deck needs verified temporary-load and access limits.
 [Shift, transport and downtime sensitivity](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
 
+The detailed workplan carries erection, haul and casting crew hours into the same Rust and Arrow workforce simulator used for factory, training and operating rosters. Test attendance and capacity loss while holding booked payroll fixed, then take the gaps and priced shifts to the contractor or staffing lead. [Deck crew and workforce commands](docs/operator-review/WORKPLAN.md#compare-street-access-and-deck-fed-erection) · [Rust workforce model](docs/operator-review/delivery/WORKFORCE-RUST.md)
+
 ## Manufacturing and training
 
 Follow a component from the drawing and bill of materials through stock preparation, cutting, assembly, inspection and removal for repair. The factory specification identifies machines, tooling, workstations and quantities for the prototype packages. The CAM material includes plate profiles, nesting, stock cuts and a practice machining job. A shop can use these to estimate hours and fixtures, then return its own machine limits, process review and trial results. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) · [CAD and CAM handoff](cities/Baghdad/engineering/prototype/cam/CAM.md) · [CamCraft and FreeCAD comparison](cities/Baghdad/engineering/simulation/CAM-COMPARISON.md)
@@ -146,6 +168,8 @@ responsible production staff own machine control and article release.
 
 Give competing suppliers the same drawing revision, quantities, fault cases and maintenance period. Compare price, exclusions, lead time, local work and renewals before recording an award. In the finance workshop, choose a funding term and inspect annual construction draws, operating costs, fares, debt service and replacements. The staffing worksheet lets an operator change coverage, pay and headcount and pass the revised operating cost into the funding calculation. [Supplier enquiry guide and downloads](cities/Baghdad/engineering/simulation/audit-production-guide.md) · [Funding and fares workbook](docs/operator-review/finance/README.md) · [Iraqi capital price basis](cities/Baghdad/IRAQ-CAPITAL.md)
 
+Start the estimate with a dated quantity and rate, then attach each supplier's return to its lot and drawing revision. Compare buying, hiring and subcontracting machinery or specialist work. The procurement workflow carries reviewed offers and item mappings toward ERPNext draft records. The buyer can distinguish budget estimates, actual quotations and costs carried within another contract before updating the cash schedule. [Machinery and supplier offers](cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md) · [Shop prices and equipment allowances](cities/Baghdad/engineering/prototype/SHOP-COSTS.md)
+
 | Compare two supplier returns | Find the years the owner needs cash |
 |---|---|
 | [![Supplier returns worksheet comparing equipment scope, costs and origin](docs/operator-review/finance/supplier-returns.png)](docs/operator-review/finance/supplier-returns.png) | [![Funding worksheet for a Baghdad planning scenario showing borrowing and annual public costs](docs/operator-review/finance/baghdad-funding.png)](docs/operator-review/finance/baghdad-funding.png) |
@@ -162,7 +186,9 @@ The annual schedule lets a funder distinguish construction contributions, repaym
 
 ## Train control, supervision and maintenance
 
-The Rust software covers automatic train protection, train management and door control. The station bench exercises arrival, boarding-side permission, holding brake feedback and departure. Try the supervision replay in the offline kit. Step through **Section trips**, **Section signal stale** and **Signal restored and trip cleared** to see why an operator needs both alarm state and reading age. The deployment guides describe the gateway and FUXA supervision setup and the ERPNext and Frappe HR connections for purchasing, staffing, serialised parts and maintenance. [Rust software](crates/README.md) · [Station bench procedure](cities/Baghdad/engineering/controls/STATION-BENCH.md) · [Gateway and FUXA](deployment/supervision/README.md) · [ERPNext and HR](deployment/erpnext/README.md)
+The Rust workspace covers automatic train protection, interlocking, train management, station dispatch, door control, train-to-ground communication, passenger information and event records. The station bench exercises arrival, boarding-side permission, holding brake feedback and departure. Try the supervision replay in the offline kit. Step through **Section trips**, **Section signal stale** and **Signal restored and trip cleared** to see why an operator needs both alarm state and reading age. [Rust software](crates/README.md) · [Control equipment and interfaces](control-electronics/README.md) · [Station bench procedure](cities/Baghdad/engineering/controls/STATION-BENCH.md)
+
+The gateway feeds equipment observations, alarms and history to FUXA. ERPNext ties purchase, inventory, inspection, work order and repair back to an asset or serial number. Frappe HR keeps the training and competency records needed to staff those jobs. A railway operator can start with one depot or workshop and supply its own equipment bindings, access permissions, reviewed item masters and handback procedure. [Gateway and FUXA](deployment/supervision/README.md) · [ERPNext and HR](deployment/erpnext/README.md) · [First adoption path](docs/first-adoptable-product.md)
 
 | Respond to an equipment alarm | Trace an installed part |
 |---|---|
@@ -187,6 +213,7 @@ An operator, buyer or independent assessor can trace a control from its standard
 | What the reader can check | How OpenSourceRail supports the review |
 |---|---|
 | **Railway safety and signalling** | IEC 62278 and IEC 62425 are mapped to requirement ownership, operating assumptions and safety evidence. The station bench records the door, brake and departure cases to verify on target hardware. [Station bench](cities/Baghdad/engineering/controls/STATION-BENCH.md) |
+| **Boarding, electrical protection and structures** | The crosswalk identifies evidence for EN 14752 door interfaces, IEC 62128-1 traction isolation and return, and the EN 1990 series structural basis. It assigns site measurements, protective checks and independent review to their responsible teams. [Standards crosswalk](docs/certification/compliance-matrix.md) |
 | **Quality and supplier control** | ISO 9001 and ISO 22163 are mapped to revision-controlled offers, traceable manufacturing and first-article inspection. The buyer still needs evidence of the supplier's actual quality processes. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | **Asset and information handover** | ISO 55001 and ISO 19650 are mapped to lifecycle records, model identities and the information needed by an operator. IFC4 samples illustrate data exchange within the ISO 16739 family. [Twin register and downloads](docs/operator-review/twins/README.md) |
 | **Evidence changes and assessment** | The impact command reports whose controls need reassessment when a file, mapping or publisher reference changes. The deployment workflow records applicable clauses, test limits and decisions. [Review procedure and commands](docs/certification/README.md) |
@@ -225,10 +252,10 @@ Other useful entry points from the repository root include these commands.
 |---|---|
 | `./osr plan verify build/my-plan` | Check a compiled planning proposal against its source revision. [Planning workflow](docs/workbench/planning/README.md) |
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
-| `./osr design railway spans --route-km 12` | Compare installed civil and erection assumptions for an illustrative route length. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
+| `./osr design railway spans --route-km 20` | Compare installed civil and erection assumptions for a 20 km example. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
 | `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
 | `./osr design railway baghdad-delivery` | Recalculate the two Baghdad delivery programmes, civil quantities, resource plan, and buyer cash. [Current programme](cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) |
-| `./osr design railway rail-fed --route-km 12` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
+| `./osr design railway rail-fed --route-km 20` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
 | `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
 
@@ -247,8 +274,18 @@ Historical editions preserve the [conventional rail](https://github.com/modernec
 
 The [current standards and evidence register](docs/certification/README.md) draws on the earlier [digital standards workflow](https://github.com/modernecotech/OpenSourceRail/blob/298d4e15fbcbcd923d7fcf7e519ebc4915ef7e1b/docs/certification/digital-standards-adherence.md). The earlier [administrative proposal walkthrough](https://github.com/modernecotech/OpenSourceRail/blob/898eab2b57a739863a542cb13e7de70f47dfd9e5/README.md#step-by-step-use-cases) explains the draft workflow that the gateway and ERPNext still test.
 
+## About the author
+
+**Hayder Aziz** initiated OpenSourceRail. Since the early 2000s, his published work with collaborators has explored how engineering teams can share design knowledge, product data and manufacturing information across organisations using open standards and collaborative software. OpenSourceRail applies that approach to railways so owners, local suppliers and maintainers can use the same engineering knowledge from the first design through fabrication and repair.
+
+- **2003** · Hayder Aziz, James Gao, Paul Maropoulos and Wai Ming Cheung. [New Technologies and Standards for Design Knowledge Management in Collaborative Conceptual Design](https://researchportal.northumbria.ac.uk/en/publications/new-technologies-and-standards-for-design-knowledge-management-in/).
+- **2005** · Hayder Aziz, James Gao, Paul Maropoulos and Wai Ming Cheung, *Computers in Industry*. [Open standard, open source and peer-to-peer tools and methods for collaborative product development](https://gala.gre.ac.uk/id/eprint/17781/).
+- **2008** · Hayder Aziz, James Gao and Zheng-Xi Li, *Computer-Aided Design and Applications*. [Engineering Design Knowledge Management in De-centralised Virtual Enterprises](https://www.cad-journal.net/files/vol_5/CAD_5%286%29_2008_787-800.pdf).
+
+See the [repository contributors](https://github.com/modernecotech/OpenSourceRail/graphs/contributors) and the [project governance](GOVERNANCE.md) for the wider work and its stewardship.
+
 ## Contribute and reuse
 
-City teams can contribute surveyed stops and counts, workshops can return itemised offers and first-article measurements, and operators can supply observed service and maintenance data. Include the design revision, units, source, date and scope so the next team can check the result. Hayder Aziz initiated OpenSourceRail to keep design knowledge, manufacturing capability and repair skills accessible to railway owners and their local suppliers. [Contributing](CONTRIBUTING.md) · [Governance](GOVERNANCE.md) · [Engineering workflow](AGENTS.md) · [Research background](https://gala.gre.ac.uk/id/eprint/17781/)
+City teams can contribute surveyed stops and counts, workshops can return itemised offers and first-article measurements, and operators can supply observed service and maintenance data. Include the design revision, units, source, date and scope so the next team can check the result. [Contributing](CONTRIBUTING.md) · [Governance](GOVERNANCE.md) · [Engineering workflow](AGENTS.md)
 
 Software uses **Apache 2.0**, hardware designs use **CERN-OHL-S v2**, and documentation uses **CC-BY-SA 4.0**. File-specific and upstream notices take precedence. [Licensing and notices](LICENSE.md)
