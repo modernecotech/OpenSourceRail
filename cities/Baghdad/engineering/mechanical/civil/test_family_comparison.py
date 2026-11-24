@@ -86,6 +86,26 @@ class ViaductFamilyTests(unittest.TestCase):
             if closure is None:
                 self.assertEqual(row["ordered_excess_length_per_track_m"], 0)
 
+    def test_quotation_leaders_depend_on_rates_and_available_crane(self):
+        open_crane = family.evaluate(route_km=18, soil_kpa=150)
+        capped = family.evaluate(route_km=18, soil_kpa=150, crane_limit_t=60)
+        self.assertIn("15m U", open_crane["quotation_leaders"]["low"]["label"])
+        self.assertIn("20m U", open_crane["quotation_leaders"]["base"]["label"])
+        self.assertIn("15m U", capped["quotation_leaders"]["base"]["label"])
+        self.assertGreater(open_crane["passing_trial_count"], capped["passing_trial_count"])
+        for case, quote in capped["quotation_leaders"].items():
+            row = next(r for r in capped["rows"] if r["physical_id"] == quote["physical_id"])
+            self.assertTrue(all(row["checks"].values()))
+            self.assertLessEqual(row["actions"]["chart_class_t_at_12m"], 60)
+            self.assertEqual(row["priced_cases"][case]["lifecycle_pv_usd"], quote["lifecycle_pv_usd"])
+        self.assertIsNone(capped["physical_selection"])
+
+    def test_route_with_only_unresolved_closures_has_no_quotation_leader(self):
+        data = family.evaluate(route_km=12.003)
+        self.assertEqual(data["passing_trial_count"], 0)
+        self.assertTrue(all(q is None for q in data["quotation_leaders"].values()))
+        self.assertIn("No trial passes all checks", family.markdown(data))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,8 +1,18 @@
 # Compare straight viaduct spans and supports
 
-For repeated urban bays, request prices for a 20 m single-track U and a 25 m version alongside the 10 m box. Ask for both independent piers and a common crosshead. At constrained locations price the short bay separately. The earlier comparison kept one box and cage throughout. Its approximate $118m direct saving and $7,975 per 20 m placement headroom belong to the 148 km first programme. [Earlier common-section sensitivity](SPAN-COMPARISON.md)
+Compare the issued 10 m box with independently sized U-girders and a two-piece box under the same route, load and erection conditions. The earlier comparison kept one box and cage throughout. Its approximate $118m direct saving and $7,975 per 20 m placement headroom belong to the 148 km first programme. [Earlier common-section sensitivity](SPAN-COMPARISON.md)
 
 This screen uses 12 km of continuous double track, one straight run, 24 axles and 198.64 t at normal study crowd load. The shared running-line trial has 4.50 m track centres. Station islands require a different arrangement. End bents count once per continuous line. A partial end bay is budgeted as a whole placement. Its closure length and excess ordered length are reported separately and the closure design and price remain open.
+
+### Which design to quote
+
+9 of 26 trials pass the stated checks at 200 kPa and a 180 t maximum working load at 12 m radius. Each price case identifies the lowest estimated 30-year present value among the passing trials. A supplier return and independent design review are still required.
+
+| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km |
+|---|---|---:|---:|
+| low | 20m U 1.55m / shared | 5.95 | 6.07 |
+| base | 20m U 1.55m / shared | 8.97 | 9.35 |
+| high | 20m U 1.55m / shared | 15.63 | 16.86 |
 
 ### Shallow foundation case
 
@@ -29,7 +39,7 @@ The following base-rate comparison assumes 200 kPa. Each single-track U has 3.60
 
 ### What changes the order
 
-The following three quotation cases show the cost range for the current soil trial and the effect of softer and stronger shallow soil at base rates. An asterisk marks a footing trial where the independent pads touch or overlap. The geometry must change before that price can be used. If local lifts are limited to 60 t at radius, the 15 m monolithic girder merits a quotation. The two-piece 20 m box requires a revised joint stressing sequence.
+These three design sensitivities show how soil and price uncertainty affect the installed subtotal. An asterisk marks a footing trial where the independent pads touch or overlap. The preceding table gives each design's failed checks.
 
 | Quotation case | Low / base / high installed $m/km | 150 / 200 / 250 kPa installed $m/km at base rates |
 |---|---:|---:|
@@ -51,7 +61,8 @@ Run the same comparison for another route length, soil pressure, train or materi
 
 ```sh
 python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --check
+python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 18 --soil-kpa 150 --crane-limit-t 60
 python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 148.2 --soil-kpa 150 --json > build/span-families.json
 ```
 
-Evaluation `497965283bc145fff74d7b54b2d8cc3bde0f472d250288e4f9e13155f372e2aa`. All cases remain open for independent engineering review.
+Evaluation `f0e3acd3b58650143a9c7e55cb09f1a00318f74a1d76ded2fcdcabf27a0c7bc9`. All cases remain open for independent engineering review.

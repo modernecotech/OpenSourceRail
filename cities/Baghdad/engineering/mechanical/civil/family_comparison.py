@@ -273,7 +273,9 @@ def cost(row, rates, shop, basket):
     return options
 
 
-def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200):
+def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=180):
+    if crane_limit_t not in (60, 110, 180):
+        raise ValueError("Use a priced crane capacity of 60, 110 or 180 t at 12 m radius")
     route_decimal = Decimal(str(route_km))
     if not route_decimal.is_finite() or not 0 < route_decimal <= 1000 or cars not in (3, 6) or material not in vehicle.MATERIAL or soil_kpa not in (150, 200, 250):
         raise ValueError("Use 0–1000 route-km, 3 or 6 cars, a supported body, and 150/200/250 kPa soil trial")
@@ -315,6 +317,7 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200):
             row["closure_bay_m"] = float(closure) if closure else None
             row["ordered_excess_length_per_track_m"] = float(bays*length-route_m)
             row["checks"] = dict(a["checks"], independent_footings_clear=base["independent_footings_clear"],
+                                 available_crane=a["chart_class_t_at_12m"] <= crane_limit_t,
                                  full_length_standard_bays=closure == 0)
             row["placements_per_shift"] = {60: 8, 110: 4, 180: 2}[a["chart_class_t_at_12m"]]
             row["haul_trips"] = row["placements"]
@@ -352,10 +355,21 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200):
              HERE/"concept.toml", CITY/"system.toml", CITY/"iraq-capital.toml", CITY/"airport-works.toml", CITY/"iraq-market.toml",
              vehicle.PROTOTYPE/"shop-rates.toml", vehicle.PROTOTYPE/"airport-prototype.zip"]
     sources = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in files}
+    screened = [r for r in rows if all(r["checks"].values())]
+    quotations = {}
+    for case in CASES:
+        if screened:
+            leader = min(screened, key=lambda r: r["priced_cases"][case]["lifecycle_pv_usd"])
+            prices = leader["priced_cases"][case]
+            quotations[case] = dict(label=leader["label"], physical_id=leader["physical_id"],
+                                    installed_usd=prices["installed_usd"], lifecycle_pv_usd=prices["lifecycle_pv_usd"])
+        else:
+            quotations[case] = None
     decimal_text = format(route_decimal, "f")
     report = dict(schema="viaduct-family-comparison/1", route_km=route_km,
                   route_km_decimal=decimal_text.rstrip("0").rstrip(".") if "." in decimal_text else decimal_text,
-                  cars=cars, material=material, soil_kpa=soil_kpa,
+                  cars=cars, material=material, soil_kpa=soil_kpa, crane_limit_t_at_12m=crane_limit_t,
+                  passing_trial_count=len(screened), quotation_leaders=quotations,
                   passenger_train_kg=load["loaded_train_kg"], axle_count=len(axles), member_sources=sources, trials=TRIALS,
                   rows=rows, physical_selection=None, physical_acceptance=False)
     report["evaluation_id"] = digest(report)
@@ -366,8 +380,7 @@ def markdown(data):
     lines = [
         "# Compare straight viaduct spans and supports",
         "",
-        "For repeated urban bays, request prices for a 20 m single-track U and a 25 m version alongside the 10 m box. "
-        "Ask for both independent piers and a common crosshead. At constrained locations price the short bay separately. "
+        "Compare the issued 10 m box with independently sized U-girders and a two-piece box under the same route, load and erection conditions. "
         "The earlier comparison kept one box and cage throughout. Its approximate $118m direct saving and $7,975 per 20 m placement headroom "
         "belong to the 148 km first programme. [Earlier common-section sensitivity](SPAN-COMPARISON.md)",
         "",
@@ -375,6 +388,24 @@ def markdown(data):
         f"{data['axle_count']} axles and {data['passenger_train_kg']/1000:.2f} t at normal study crowd load. "
         "The shared running-line trial has 4.50 m track centres. Station islands require a different arrangement. "
         "End bents count once per continuous line. A partial end bay is budgeted as a whole placement. Its closure length and excess ordered length are reported separately and the closure design and price remain open.",
+        "",
+        "### Which design to quote",
+        "",
+        f"{data['passing_trial_count']} of {len(data['rows'])} trials pass the stated checks at {data['soil_kpa']} kPa and a "
+        f"{data['crane_limit_t_at_12m']} t maximum working load at 12 m radius. "
+        "Each price case identifies the lowest estimated 30-year present value among the passing trials. "
+        "A supplier return and independent design review are still required.",
+        "",
+        "| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km |",
+        "|---|---|---:|---:|",
+    ]
+    for case, leader in data["quotation_leaders"].items():
+        if leader:
+            lines.append(f"| {case} | {leader['label']} | {leader['installed_usd']/data['route_km']/1e6:.2f} "
+                         f"| {leader['lifecycle_pv_usd']/data['route_km']/1e6:.2f} |")
+        else:
+            lines.append(f"| {case} | No trial passes all checks | — | — |")
+    lines.extend([
         "",
         "### Shallow foundation case",
         "",
@@ -386,7 +417,7 @@ def markdown(data):
         "",
         "| Span and family | Depth m | Pier | Footing width m | Supports | Lift unit t | Strand count | Crane trial t at 12 m | Installed $m/km | 30-year PV $m/km | Extra $/placement to match 10 m¹ | Screen |",
         "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|",
-    ]
+    ])
     chosen = {}
     for row in data["rows"]:
         key = (row["span_m"], row["section"]["shape"], row["shared_pier"])
@@ -398,6 +429,7 @@ def markdown(data):
         a, s, costcase = row["actions"], row["section"], row["priced_cases"]["base"]
         reasons = {"lift_fibre_min": "lifting tension", "release_fibre_min": "transfer tension",
                    "independent_footings_clear": "footings touch or overlap",
+                   "available_crane": "crane exceeds available capacity",
                    "full_length_standard_bays": "partial end bay"}
         failed = [reasons.get(k, k.replace("_", " ")) for k,v in row["checks"].items() if not v]
         lines.append(f"| {row['span_m']} m {s['shape']} | {s['depth_m']:.2f} | {'shared' if row['shared_pier'] else 'separate'} "
@@ -411,9 +443,8 @@ def markdown(data):
         "",
         "### What changes the order",
         "",
-        "The following three quotation cases show the cost range for the current soil trial and the effect of softer and stronger shallow soil at base rates. "
-        "An asterisk marks a footing trial where the independent pads touch or overlap. The geometry must change before that price can be used. "
-        "If local lifts are limited to 60 t at radius, the 15 m monolithic girder merits a quotation. The two-piece 20 m box requires a revised joint stressing sequence.",
+        "These three design sensitivities show how soil and price uncertainty affect the installed subtotal. "
+        "An asterisk marks a footing trial where the independent pads touch or overlap. The preceding table gives each design's failed checks.",
         "",
         "| Quotation case | Low / base / high installed $m/km | 150 / 200 / 250 kPa installed $m/km at base rates |",
         "|---|---:|---:|",
@@ -462,6 +493,7 @@ def markdown(data):
         "",
         "```sh",
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --check",
+        "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 18 --soil-kpa 150 --crane-limit-t 60",
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 148.2 --soil-kpa 150 --json > build/span-families.json",
         "```",
         "",
@@ -474,6 +506,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--route-km", default="12.0")
     p.add_argument("--soil-kpa", type=int, choices=(150,200,250), default=200)
+    p.add_argument("--crane-limit-t", type=int, choices=(60,110,180), default=180,
+                   help="maximum available working load in tonnes at a 12 m radius")
     p.add_argument("--cars", type=int, choices=(3,6), default=6)
     p.add_argument("--material", choices=vehicle.MATERIAL, default="steel")
     group = p.add_mutually_exclusive_group()
@@ -481,7 +515,7 @@ def main():
         group.add_argument(flag, action="store_true")
     args = p.parse_args()
     try:
-        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa)
+        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t)
     except (InvalidOperation, ValueError) as error:
         p.error(str(error))
     if args.json:
@@ -490,7 +524,7 @@ def main():
     guide = markdown(data)
     path = HERE/"SPAN-FAMILIES.md"
     if args.check or args.write:
-        if (data["route_km_decimal"],args.cars,args.material,args.soil_kpa) != ("12",6,"steel",200):
+        if (data["route_km_decimal"],args.cars,args.material,args.soil_kpa,args.crane_limit_t) != ("12",6,"steel",200,180):
             p.error("The published guide uses the named reference inputs")
         if args.check and guide != path.read_text():
             raise ValueError("Rebuild SPAN-FAMILIES.md")
