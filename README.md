@@ -70,7 +70,7 @@ Compare annual cash as the line opens in phases. Include staff, debt service, en
 | Use a worked case to… | Where to go |
 |---|---|
 | Reproduce the same drawings, BOM and cost calculation after a software change | [Synthetic 30 km digital reference](docs/reference-v07/README.md) |
-| Trace service, train, supply and civil quantities into a supplier enquiry and factory programme | [Baghdad Airport operating comparison](cities/Baghdad/engineering/simulation/SIMULATION.md) · [First-article packages](cities/Baghdad/engineering/prototype/README.md) |
+| Trace service, train, supply and civil quantities into a supplier enquiry and factory programme | [Corrected route, service and cost audit](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) · [Earlier schematic comparison](cities/Baghdad/engineering/simulation/SIMULATION.md) · [First-article packages](cities/Baghdad/engineering/prototype/README.md) |
 | Compare a metropolitan investment and its construction and operating budgets | [Seven corridors and citywide alternative](cities/Baghdad/README.md) · [Iraqi capital by work package](cities/Baghdad/IRAQ-CAPITAL.md) |
 | Inspect the development vehicle and open propulsion choices | [Development baseline](engineering/development-baseline.toml) · [Current engineering record](docs/design-engine/current/README.md) |
 

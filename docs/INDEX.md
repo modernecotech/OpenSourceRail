@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **225**.
+Indexed Markdown files: **230**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **225**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 61 |
+| [cities](#cities) | 66 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 132 |
@@ -103,6 +103,9 @@ Indexed Markdown files: **225**.
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/VEHICLE-WORKCELLS.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/VEHICLE-WORKCELLS.md) | Airport vehicle workcells for the 36-car opening |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md) | Vehicle factory and depot planning |
 | [`cities/Baghdad/engineering/prototype/weight-guide.md`](../cities/Baghdad/engineering/prototype/weight-guide.md) | Return installed Airport weights |
+| [`cities/Baghdad/engineering/simulation/ALIGNMENT-DEMAND.md`](../cities/Baghdad/engineering/simulation/ALIGNMENT-DEMAND.md) | Airport route and demand |
+| [`cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md`](../cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md) | Engineering decisions and evidence |
+| [`cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md`](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) | Railway assumption audit results |
 | [`cities/Baghdad/engineering/simulation/CAM-COMPARISON.md`](../cities/Baghdad/engineering/simulation/CAM-COMPARISON.md) | CamCraft and FreeCAD on the Airport wax coupon |
 | [`cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md`](../cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md) | Compare supply spacing and conductor resistance |
 | [`cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md`](../cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md) | FreeCAD CAM trial on the wax coupon |
@@ -110,8 +113,10 @@ Indexed Markdown files: **225**.
 | [`cities/Baghdad/engineering/simulation/MOTION-POWER.md`](../cities/Baghdad/engineering/simulation/MOTION-POWER.md) | Airport service, train motion and traction supply |
 | [`cities/Baghdad/engineering/simulation/PLAN.md`](../cities/Baghdad/engineering/simulation/PLAN.md) | Baghdad Airport simulation programme |
 | [`cities/Baghdad/engineering/simulation/SIMULATION.md`](../cities/Baghdad/engineering/simulation/SIMULATION.md) | Simulating the Baghdad Airport opening |
+| [`cities/Baghdad/engineering/simulation/audit-production-guide.md`](../cities/Baghdad/engineering/simulation/audit-production-guide.md) | Airport workshop and partial owner cash |
 | [`cities/Baghdad/engineering/simulation/passenger-guide.md`](../cities/Baghdad/engineering/simulation/passenger-guide.md) | Airport platform movement, doors and summer cooling |
 | [`cities/Baghdad/engineering/simulation/production-guide.md`](../cities/Baghdad/engineering/simulation/production-guide.md) | Airport workshop, procurement and operating cash |
+| [`cities/Baghdad/engineering/simulation/vehicle-audit-guide.md`](../cities/Baghdad/engineering/simulation/vehicle-audit-guide.md) | Airport vehicle mass, stopping and fit review |
 | [`cities/Baghdad/maps/README.md`](../cities/Baghdad/maps/README.md) | Baghdad railway maps |
 | [`cities/Baghdad/maps/STATION-PRICING.md`](../cities/Baghdad/maps/STATION-PRICING.md) | Baghdad station sites and prices |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City railway designs and maps |

@@ -13,6 +13,7 @@ Usage: ./osr [COMMAND] [arguments]
   (no command)      Show the v0.6 passive-wheel vehicle reference and open propulsion selection
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
+  design railway audit [--json]       Trace assumption conflicts through route, power, civil works and cash
   design railway spans --route-km KM  Compare viaduct and erection options using Iraqi planning rates
   design railway yard --beams N      Compare casting output, shifts, mould cycles, deadlines and offers
   design railway feeder --help      Test moving electrical loads or a supply-spacing hypothesis
@@ -98,6 +99,7 @@ fi
 if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
     case "${3:-}:${4:-}" in
         yard:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.prototype.yard_offers "$@" ;;
+        audit:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.assumption_audit "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
         spans:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.family_comparison "$@" ;;
         simulation:--compare) shift 4; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.decision_comparison "$@" ;;

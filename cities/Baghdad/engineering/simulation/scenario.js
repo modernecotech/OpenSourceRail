@@ -31,6 +31,8 @@ const savedData = window.AIRPORT_SIMULATION?.cases;
 const cases = (Array.isArray(savedData) ? savedData : []).filter(
   (data) => data?.inputs && data?.decision,
 );
+const auditLink = document.querySelector("#audit-link");
+if (auditLink && cases.length > 1) auditLink.hidden = false;
 const selectedCases = [];
 let current;
 let running = false;

@@ -1,5 +1,7 @@
 # Baghdad Airport simulation programme
 
+The [current assumption audit](AUDIT-RESULTS.md) follows a revised horizontal trace through the passenger service, feeder, viaduct and purchaser ledger. The programme below records the earlier schematic study and its prototype evidence. [Current delivery plan](ASSUMPTION-AUDIT.md)
+
 The 12 km opening has a powered-wheel, protected-conductor train and independently supported double track. Its prototype supplies six 17 m cars, 700 places, 24 axles, eight doors per car and a straight 125 m island. The study also evaluates three cars and 350 places. Car spacing, bogie pivots and doorway centres use the Airport article. Every experiment keeps its vehicle, infrastructure, service and equipment revisions together through loading, energy, installation, manufacturing and cash flow. The city-wide network and the repository's passive-wheel reference retain their own design records.
 
 ## Assignment and decision sequence

@@ -4,7 +4,7 @@ from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 from hashlib import sha256
 import json
-from math import ceil, inf, isfinite
+from math import ceil, inf, isfinite, radians, sin
 from pathlib import Path
 from sys import float_info
 import tomllib
@@ -39,6 +39,15 @@ TRIALS = {
     "temporary_tower_cycle_usd": [1600., 5000., 16000.], "material_delivery_multiplier": [1.0, 1.25, 1.65],
 }
 SOURCE_LINK = "https://backend.delhimetrorail.com/documents/8790/OUTLINE_CONSTRUCTION_SPECIFICATIONS_for_Civil_Works_Revision-R4_June_2025.pdf"
+AUDIT_CASES = ("central", "high")
+LIFT_HEAVY_SIDE_SHARE = .60
+AUDIT_HOLDS = [
+    "Establish applicable combinations and limits for ultimate flexure, shear/torsion, fatigue, derailment, seismic, wind and thermal movements.",
+    "Measure axle weights, dynamic wheel loads and braking distribution. Validate rail-seat and bearing load paths, track twist, camber and clearances.",
+    "Measure concrete strength at release and lifting, modulus and losses. Check local transfer, tendon anchorage, cracking, temporary bracing and lifting inserts.",
+    "Survey utilities, boreholes, water table, flood/scour and drainage. Verify settlement, foundation resistance and adjacent asset movements.",
+    "Obtain transport axle loads, route swept paths, staged stability method, signed crane chart and independent design and construction approval.",
+]
 
 
 def digest(value):
@@ -74,7 +83,7 @@ def section(kind, length, extra_depth, box):
                 clear_channel_m=inner_w if not closed else None)
 
 
-def engineering(length, sec, axle_actions, cage, cfg):
+def engineering(length, sec, axle_actions, cage, cfg, *, strands_override=None):
     box, mat = cfg["box"], cfg["materials"]
     rho = mat["rc_unit_weight_kn_m3"]
     g = mat["gravity_m_s2"]
@@ -98,6 +107,8 @@ def engineering(length, sec, axle_actions, cage, cfg):
     loss = max(tendon["assumed_losses"])
     required = moment / (bottom/area + e)
     strands = tendon["strand_count"] if sec["shape"] == "issued-box" else max(4, 2*ceil(required/(2*fp*(1-loss))))
+    if strands_override is not None:
+        strands = strands_override
     installed = strands * fp
     def fibres(force, bending, ecc=e):
         return [(force/area + (bending-force*ecc)/top)/1000,
@@ -167,7 +178,7 @@ def engineering(length, sec, axle_actions, cage, cfg):
                   lift_fibre_min=min(lift_stresses) >= -TRIALS["allowable_release_tension_mpa"],
                   lift_fibre_max=max(lift_stresses) <= TRIALS["allowable_release_compression_mpa"],
                   positive_bearing_reactions=min_bearing > 0)
-    return dict(moment_knm=moment, dead_moment_knm=dead_m, peak_track_reaction_kn=reaction,
+    actions = dict(moment_knm=moment, dead_moment_knm=dead_m, peak_track_reaction_kn=reaction,
                 dead_track_reaction_kn=reaction_dead, dynamic_live_reaction_kn=reaction_live, end_torque_knm=torque,
                 bearing_offset_m=side, peak_bearing_kn=(reaction+torque/side)/2, min_bearing_at_peak_torque_kn=(reaction-torque/side)/2,
                 minimum_bearing_independent_envelopes_kn=min_bearing,
@@ -182,9 +193,53 @@ def engineering(length, sec, axle_actions, cage, cfg):
                 tower_reaction_two_halves_kn=2*(uniform*unit_length/2
                     + sum(w*x for w,x in end_loads)/unit_length) if segments == 2 else None,
                 chart_class_t_at_12m=chart, segments=segments, checks=checks, holds=holds)
+    if strands_override is not None:
+        factor = box["moving_load_factor"]
+        hogging = factor*live["min_moment"]["value"]
+        # The moving-load negative envelope occurs at the seated overhangs.
+        # Use zero eccentricity at the seat, retaining the early straight
+        # strands' eccentricity in the staged trial.
+        end_eccentricity = e*early_strands/strands if sec["shape"] == "U" else 0.
+        stiff = box["concrete_elastic_modulus_gpa"]*1e6*inertia
+        actions.update(
+            live_hogging_moment_knm=hogging,
+            live_hogging_end_fibre_compression_mpa=fibres(installed*(1-loss), hogging, end_eccentricity),
+            live_gravity_deflection_bound_mm=factor*live["max_moment"]["value"]*span**2/(8*stiff)*1000,
+            lift_line_reactions_kn=[TRIALS["lift_dynamic_factor"]*r for r in (left_reaction,right_reaction)],
+        )
+    return actions
 
 
-def support(a, shared, soil, cfg):
+def erection_and_interfaces(actions, sec, cfg):
+    box = cfg["box"]
+    side = actions["bearing_offset_m"]
+    reactions = actions["lift_line_reactions_kn"]
+    heavy = LIFT_HEAVY_SIDE_SHARE*max(reactions)
+    light = (1-LIFT_HEAVY_SIDE_SHARE)*max(reactions)
+    angle = box["sling_angle_above_horizontal_deg"]
+    thickness = sec["web_m"]
+    floor = sec["floor_m"]
+    median_width = sec["width_m"]-thickness
+    if sec["shape"] == "U":
+        torsion_j = (median_width*floor**3+2*(sec["depth_m"]-floor/2)*thickness**3)/3
+        shear_flow = None
+    else:
+        median_depth = sec["depth_m"]-floor
+        cell_area = median_width*median_depth
+        torsion_j = 4*cell_area**2/(2*median_width/floor+2*median_depth/thickness)
+        shear_flow = actions["end_torque_knm"]/(2*cell_area)
+    return dict(
+        assumed_lift_pad_half_spacing_m=side, trial_heavy_side_share=LIFT_HEAVY_SIDE_SHARE,
+        sling_angle_above_horizontal_deg=angle, worst_vertical_load_heavy_light_leg_kn=[heavy, light],
+        worst_sling_leg_tension_kn=heavy/sin(radians(angle)), asymmetric_pick_line_twist_knm=(heavy-light)*side,
+        estimated_gross_st_venant_j_m4=torsion_j, closed_cell_end_shear_flow_kn_m=shear_flow,
+        rail_vertical_load_motion_bound_mm=actions["live_gravity_deflection_bound_mm"],
+        rail_twist_mm=None, rail_alignment_budget_mm=None, magnetic_gap_applicable=False,
+        magnetic_gap_mm=None, deformation_hold="Wheel-supported span. Track and power-interface clearances require coupled rail, bearing, pier and foundation movements.",
+    )
+
+
+def support(a, shared, soil, cfg, *, fixed_footing_width_m=None):
     # Bounding interior bent: both adjoining spans' independent maximum end reactions.
     tracks = 2 if shared else 1
     pitch = TRIALS["track_pitch_m"]
@@ -201,8 +256,8 @@ def support(a, shared, soil, cfg):
     # loaded tracks as well as transverse overturning with one loaded track.
     horizontal_ratio = TRIALS["braking_m_s2"]/cfg["materials"]["gravity_m_s2"] + TRIALS["grade_fraction"]
     resolved = False
-    for i in range(10, 101):
-        side = i*.25
+    widths = (fixed_footing_width_m,) if fixed_footing_width_m is not None else (i*.25 for i in range(10, 101))
+    for side in widths:
         depth = max(1., .25*ceil(side/4/.25))
         footing = side**2*depth
         pressures = []
@@ -226,6 +281,40 @@ def support(a, shared, soil, cfg):
                 full_bent_longitudinal_braking_kn=live*tracks*horizontal_ratio,
                 full_bent_bound_end_twist_knm=2*tracks*abs(a["end_torque_knm"]),
                 crosshead_cantilever_knm=(dead+live)*pitch/2+2*abs(a["end_torque_knm"]) if shared else None)
+
+
+def train_actions(record, bogie, service, cfg, cars, material, cases, high_train_mass_kg):
+    loads, moving = {}, {}
+    for name in cases:
+        load = vehicle.load_case(record, bogie, service, cars, material, name)
+        mass = load["loaded_train_kg"]
+        if name == "high" and high_train_mass_kg is not None:
+            if not isfinite(high_train_mass_kg) or high_train_mass_kg < loads["central"]["loaded_train_kg"]:
+                raise ValueError("High train mass must be finite and at least the central mass")
+            mass = high_train_mass_kg
+        scale = mass/load["loaded_train_kg"]
+        g = cfg["materials"]["gravity_m_s2"]
+        axles = [(f"C{i+1}-A{j+1}", cx+dx, kg*scale*g/1000)
+                 for i, cx in enumerate(record["interfaces"]["formation_body_from_car_x_m"][:cars])
+                 for j, (dx, kg) in enumerate(zip(record["interfaces"]["body_from_axle_x_m"], load["axle_kg_per_car"]))]
+        moving[name] = {length: moving_span(axles, length-.5, .25) for length in SPAN_OPTIONS}
+        if len(cases) > 1:
+            curve = []
+            for length in SPAN_OPTIONS:
+                # Occupied deck envelope, without the vertical dynamic multiplier.
+                brake = (TRIALS["braking_m_s2"]/g + TRIALS["grade_fraction"])*max(
+                    sum(force for _, x, force in axles if left <= x <= left+length) for _, left, _ in axles
+                )
+                moving[name][length]["full_stock_braking_kn"] = brake
+                curve.append([length, brake])
+            loads[name] = dict(loaded_train_kg=mass, axle_kg_per_car=[kg*scale for kg in load["axle_kg_per_car"]],
+                               axle_loads=[dict(id=i, x_m=x, force_kn=f) for i,x,f in axles],
+                               axle_mass_balance_kg=sum(f*1000/g for _,_,f in axles)-mass,
+                               whole_train_braking_kn=mass*(TRIALS["braking_m_s2"]+g*TRIALS["grade_fraction"])/1000,
+                               vehicle_load_state=name, load_scale=scale, full_stock_braking_by_span_kn=curve)
+        else:
+            loads[name] = load
+    return loads, moving
 
 
 def validate_offer(offer):
@@ -322,7 +411,8 @@ def cost(row, rates, shop, basket, offers):
 
 
 def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
-             lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=()):
+             lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=(), *, load_audit=False,
+             high_train_mass_kg=None, selected_family=None, selected_span_m=None):
     erection_offers = list(erection_offers)
     for offer in erection_offers:
         validate_offer(offer)
@@ -358,21 +448,39 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                             + rates["sand_m3_per_m3"]*market["sand_iqd_m3"])/exchange,
                   bar=market["reinforcing_steel_iqd_t"]/exchange)
     record, cage, bogie = vehicle.article_data()
-    load = vehicle.load_case(record, bogie, sys["service_power"], cars, material, "central")
-    axles = [(f"C{i+1}-A{j+1}", cx+dx, kg*cfg["materials"]["gravity_m_s2"]/1000)
-             for i, cx in enumerate(record["interfaces"]["formation_body_from_car_x_m"][:cars])
-             for j, (dx, kg) in enumerate(zip(record["interfaces"]["body_from_axle_x_m"], load["axle_kg_per_car"]))]
-    moving = {l: moving_span(axles, l-.5, .25) for l in SPAN_OPTIONS}
+    states = AUDIT_CASES if load_audit else ("central",)
+    loads, moving = train_actions(record, bogie, sys["service_power"], cfg, cars, material, states, high_train_mass_kg)
     designs = [("issued-box", 10, 0)] + [("U", l, d) for l in SPAN_OPTIONS for d in (0, .20)]
     designs += [("joined-box", 20, 0), ("joined-box", 20, .20)]
+    if load_audit and (selected_family is not None or selected_span_m is not None):
+        designs = [(family, length, depth) for family, length, depth in designs
+                   if (selected_family is None or family == selected_family)
+                   and (selected_span_m is None or length == selected_span_m)]
+        if not designs:
+            raise ValueError("No trial in the specified beam family and span")
     rows = []
     for kind, length, extra in designs:
         sec = section(kind, length, extra, cfg["box"])
-        a = engineering(length, sec, moving, cage, cfg)
+        governing_bending = max(states, key=lambda name: moving[name][length]["max_moment"]["value"])
+        a = engineering(length, sec, moving[governing_bending], cage, cfg)
+        if load_audit:
+            initial_strands = a["strand_count"]
+            cases_by_load = {name: engineering(length, sec, moving[name], cage, cfg, strands_override=initial_strands)
+                             for name in states}
+            a = dict(cases_by_load[governing_bending], shear_links_demand_mm2_per_m=max(
+                actions["shear_links_demand_mm2_per_m"] for actions in cases_by_load.values()
+            ))
+            governing_support = max(states, key=lambda name: cases_by_load[name]["dynamic_live_reaction_kn"])
+            support_actions = cases_by_load[governing_support]
+            erection = erection_and_interfaces(a, sec, cfg)
+            for actions in cases_by_load.values():
+                actions["checks"]["positive_lifting_reactions"] = min(actions["lift_line_reactions_kn"]) > 0
+        else:
+            support_actions = a
         full_bays, closure = divmod(route_m, length)
         bays = full_bays + bool(closure)
         for shared in (False, True):
-            base = support(a, shared, soil_kpa, cfg)
+            base = support(support_actions, shared, soil_kpa, cfg)
             piers = (bays+1)*(1 if shared else 2)
             segments = a["segments"]
             row = dict(label=f"{length}m {kind} {sec['depth_m']:.2f}m / {'shared' if shared else 'separate'}",
@@ -387,6 +495,42 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                 row["checks"]["independent_footings_clear"] = base["independent_footings_clear"]
             if crane_limit_t is not None:
                 row["checks"]["available_crane"] = a["chart_demand_t"] <= crane_limit_t
+            if load_audit:
+                row["governing_bending_load"] = governing_bending
+                row["governing_bent_load"] = governing_support
+                row["load_case_train_kg"] = {name: loads[name]["loaded_train_kg"] for name in states}
+                row["load_case_actions"] = cases_by_load
+                row["load_case_fixed_footing_checks"] = {
+                    name: support(actions, shared, soil_kpa, cfg, fixed_footing_width_m=base["footing_width_m"])
+                    for name, actions in cases_by_load.items()
+                } if base["footing_width_m"] is not None else dict.fromkeys(states)
+                row["checks"].update({
+                    f"{name}.{key}": passed for name, actions in cases_by_load.items()
+                    for key, passed in actions["checks"].items()
+                })
+                row["checks"]["foundation_for_load_envelope"] = all(
+                    result is not None and not result["foundation_hold"]
+                    for result in row["load_case_fixed_footing_checks"].values()
+                )
+                row["erection_and_interfaces"] = erection
+                row["full_standard_bays"] = full_bays
+                row["end_closure_design_hold"] = "Site-specific end bay geometry and price required." if closure else None
+                standard_supports = (full_bays+1)*(1 if shared else 2)
+                beam_bar = row["counted_bar_kg_per_beam"] if kind == "issued-box" else (
+                    sec["volume_m3"]*TRIALS["rebar_kg_per_m3"]
+                    + a["shear_links_demand_mm2_per_m"]*1e-6*7850*length*sec["depth_m"]
+                )
+                row["quantities"] = dict(
+                    equivalent_beam_concrete_m3=row["beams"]*sec["volume_m3"],
+                    full_standard_beam_concrete_m3=2*full_bays*sec["volume_m3"],
+                    equivalent_beam_concrete_mass_t=row["beams"]*a["mass_t"],
+                    foundation_and_support_concrete_m3=piers*base["concrete_m3"] if base["concrete_m3"] is not None else None,
+                    two_track_metres=2*float(route_m), transfer_and_erection_units=row["placements"],
+                    standard_beams=2*full_bays, standard_supports=standard_supports, standard_bearings=8*full_bays,
+                    standard_placements=2*full_bays*segments, standard_beam_bar_planning_kg=2*full_bays*beam_bar,
+                    standard_beam_strand_kg=2*full_bays*a["strand_count"]*length*row["strand_kg_m"],
+                    standard_support_concrete_m3=standard_supports*base["concrete_m3"] if base["concrete_m3"] is not None else None,
+                )
             matched_class = a["chart_class_t_at_12m"] if lift_radius_m == PRICED_LIFT_RADIUS_M else None
             row["matched_crane_price_class_t"] = matched_class
             row["haul_trips"] = row["placements"]
@@ -416,13 +560,21 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
             cases = cost(row, rates, shop, basket, matching)
             row["priced_cases"] = {k: v for k, v in cases.items() if v["installed_usd"] is not None}
             row["partial_cost_cases"] = {k: v for k, v in cases.items() if v["installed_usd"] is None}
+            if load_audit:
+                row["standard_only_cost_cases"] = cases if not closure else None
+                if closure and full_bays:
+                    standard = dict(row, route_km=full_bays*length/1000, beams=2*full_bays,
+                                    supports=standard_supports, bearings=8*full_bays, placements=2*full_bays*segments)
+                    # The scoped contractor quote is for the complete order.
+                    # A separate standard-only procurement schedule needs its own return.
+                    row["standard_only_cost_cases"] = cost(standard, rates, shop, basket, [])
             row["placements_per_shift"] = cases["base"]["placements_per_shift"]
             row["traffic_shifts"] = cases["base"]["traffic_shifts"]
             row["pricing_hold"] = base["foundation_hold"] or (None if row["priced_cases"] else
                                       f"Request crane, haul and erection rates for the {lift_radius_m:g} m lift")
             row["soil_sensitivity"] = {}
             for soil in (150, 200, 250):
-                alt_support = support(a, shared, soil, cfg)
+                alt_support = support(support_actions, shared, soil, cfg)
                 # The quote identifies the whole physical trial, including the footing dimensions.
                 same_geometry = all(alt_support[k] == base[k] for k in ("footing_width_m", "footing_depth_m"))
                 alt_cost = cost(dict(row, support=alt_support), rates, shop, basket, matching if same_geometry else [])["base"]
@@ -436,17 +588,26 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                 }
             row["complete_installed_usd"] = None
             row["eligible_for_selection"] = False
+            if load_audit:
+                row["failed_checks"] = [name for name, passed in row["checks"].items()
+                                        if not passed and name not in (*a["checks"], "full_length_standard_bays")]
+                row["quotation_screen_passed"] = not row["failed_checks"] and not base["foundation_hold"]
+                row["eligible_for_quotation"] = row["quotation_screen_passed"] and bool(row["priced_cases"])
             rows.append(row)
-    ref = rows[0]["priced_cases"].get("base")
+    reference = next((r for r in rows if r["section"]["shape"] == "issued-box" and not r["shared_pier"]), None)
+    ref = reference["priced_cases"].get("base") if reference else None
     for row in rows:
         base = row["priced_cases"].get("base")
         row["base_installed_headroom_per_placement_usd"] = (ref["installed_usd"]-base["installed_usd"])/row["placements"] if base and ref else None
         row["base_pv_change_vs_reference_usd"] = base["lifecycle_pv_usd"]-ref["lifecycle_pv_usd"] if base and ref else None
+        if load_audit:
+            row["audit_row_id"] = digest(row)
     files = [Path(__file__), Path(vehicle.__file__), Path(__import__(moving_span.__module__, fromlist=["x"]).__file__),
              HERE/"concept.toml", CITY/"system.toml", CITY/"iraq-capital.toml", CITY/"airport-works.toml", CITY/"iraq-market.toml",
              vehicle.PROTOTYPE/"shop-rates.toml", vehicle.PROTOTYPE/"airport-prototype.zip"]
     sources = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in files}
-    screened = [r for r in rows if all(r["checks"].values()) and not r["support"]["foundation_hold"]]
+    screened = [r for r in rows if (r["quotation_screen_passed"] if load_audit else
+                                    all(r["checks"].values()) and not r["support"]["foundation_hold"])]
     priced = [r for r in screened if r["priced_cases"]]
     quotations = {}
     for case in CASES:
@@ -456,6 +617,8 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
             quotations[case] = dict(label=leader["label"], physical_id=leader["physical_id"],
                                     installed_usd=prices["installed_usd"], lifecycle_pv_usd=prices["lifecycle_pv_usd"],
                                     logistics_source=prices["logistics_source"], offer_id=prices["offer_id"])
+            if load_audit:
+                quotations[case].update(closure_bay_m=leader["closure_bay_m"], modelled_standard_stock_budget=True)
         else:
             quotations[case] = None
     decimal_text = format(route_decimal, "f")
@@ -468,11 +631,37 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                   passing_trial_count=len(screened), priced_passing_trial_count=len(priced),
                   unresolved_foundation_count=sum(bool(r["support"]["foundation_hold"]) for r in rows),
                   priced_trial_count=sum(bool(r["priced_cases"]) for r in rows), quotation_leaders=quotations,
-                  passenger_train_kg=load["loaded_train_kg"], axle_count=len(axles), member_sources=sources,
+                  passenger_train_kg=loads["central"]["loaded_train_kg"], axle_count=4*cars, member_sources=sources,
                   trials=dict(TRIALS, lift_radius_m=lift_radius_m),
                   rows=rows, physical_selection=None, physical_acceptance=False)
+    if load_audit:
+        report.update(schema="viaduct-high-load-audit/1", load_cases=loads,
+                      source_train_candidate_id=record["candidate_id"], source_train_evaluation_id=record["evaluation_id"],
+                      source_cage_physical_id=cage["physical_id"],
+                      selected_family=selected_family, selected_span_m=selected_span_m,
+                      service_moving_load_factor=cfg["box"]["moving_load_factor"],
+                      acceptance_holds=AUDIT_HOLDS,
+                      pricing_scope="Comparative straight double-track stock and support budget. A partial bay carries a full standard-stock allowance; closure design and actual price remain open. Station, vehicle, power equipment, land and network costs require their own ledger.",
+                      load_case_limitations="Unequal point axle loads on a simply supported beam. The quoted dynamic multiplier, lateral eccentricity, lift imbalance, shallow bearing pressure and section properties are planning hypotheses.",
+                      calculation_sources={"moving_load": "prototype/weights.py:moving_span", "axles": "simulation/vehicle_civil.py:load_case",
+                                           "materials": "mechanical/civil/concept.toml", "rate_registers": ["iraq-capital.toml", "airport-works.toml", "iraq-market.toml", "engineering/prototype/shop-rates.toml"],
+                                           "erection_precedent": SOURCE_LINK})
+        report["input_id"] = digest(dict(route_km=report["route_km_decimal"], soil_kpa=soil_kpa, cars=cars,
+                                         material=material, limits=[crane_limit_t,lift_radius_m], erection_offers=erection_offers,
+                                         requested_mass_kg=high_train_mass_kg, load_cases=loads, family=selected_family, span_m=selected_span_m,
+                                         trials=report["trials"], dynamic_factor=report["service_moving_load_factor"],
+                                         lift_heavy_side_share=LIFT_HEAVY_SIDE_SHARE))
     report["evaluation_id"] = digest(report)
     return report
+
+
+def evaluate_high_load(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
+                       lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=(), high_train_mass_kg=None,
+                       selected_family=None, selected_span_m=None):
+    """Compare fixed physical trials carrying both central and high train loads."""
+    return evaluate(route_km, cars, material, soil_kpa, crane_limit_t, lift_radius_m, erection_offers,
+                    load_audit=True, high_train_mass_kg=high_train_mass_kg,
+                    selected_family=selected_family, selected_span_m=selected_span_m)
 
 
 def markdown(data):
@@ -665,13 +854,23 @@ def main():
                    help="scoped haul and erection offer JSON (repeat for multiple suppliers)")
     p.add_argument("--cars", type=int, choices=(3,6), default=6)
     p.add_argument("--material", choices=vehicle.MATERIAL, default="steel")
+    p.add_argument("--high-load", action="store_true", help="audit the same physical trials at central and high axle loads in JSON")
+    p.add_argument("--high-train-mass-kg", type=float)
+    p.add_argument("--family", choices=("issued-box", "U", "joined-box"))
+    p.add_argument("--span-m", type=int, choices=SPAN_OPTIONS)
     group = p.add_mutually_exclusive_group()
     for flag in ("--json","--check","--write"):
         group.add_argument(flag, action="store_true")
     args = p.parse_args()
+    if args.high_load and not args.json:
+        p.error("Use --json for the high-load audit")
+    if not args.high_load and any(value is not None for value in (args.high_train_mass_kg, args.family, args.span_m)):
+        p.error("High load options require --high-load")
     try:
         data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m,
-                        [json.loads(path.read_text()) for path in args.erection_offer])
+                        [json.loads(path.read_text()) for path in args.erection_offer],
+                        load_audit=args.high_load, high_train_mass_kg=args.high_train_mass_kg,
+                        selected_family=args.family, selected_span_m=args.span_m)
     except (InvalidOperation, ValueError, OSError) as error:
         p.error(str(error))
     if args.json:

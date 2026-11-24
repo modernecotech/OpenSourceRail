@@ -48,11 +48,16 @@ def reference():
     return cfg, group, parent, scope, study
 
 
-def make_feeder(name, chainages, conductor_factor, references=None):
+def make_feeder(name, chainages, conductor_factor, references=None, *, alignment_id=None):
     _, _, _, scopes, _ = references or reference()
     if name in scopes:
         raw = scopes[name]["design"]
         sites = tuple(x * 1000 for x in raw["site_chainage_km"])
+        if alignment_id is not None:
+            # Re-site station feeds at the new stops and radial feeds at equal
+            # distances. Equipment and working access still require local offers.
+            sites = (tuple(chainages) if name == "paired6" else
+                     tuple(i * chainages[-1] / (len(sites) - 1) for i in range(len(sites))))
     else:
         raw = scopes["paired6"]["design"]
         if name == "paired8":
@@ -100,6 +105,15 @@ def service(case, references=None):
         trips = reworked
         group = {**group, "diagrammed_sets": count, "terminal_B_phase_s": phase}
     positioning = airport_service.positioning_trips(trips, group)
+    slack = case.get("positioning_slack_s", 0)
+    if slack:
+        # Keep passenger slots and their minimum turn. Book extra terminal
+        # waiting only around the first and last empty workings of each set.
+        shifted = []
+        for unit, side, dep, arr in positioning:
+            offset = -slack if side == 0 else slack
+            shifted.append((unit, side, dep + offset, arr + offset))
+        positioning = sorted(shifted, key=lambda work: work[2])
     terminal = airport_service.terminal_screen(cfg, group, trips + positioning, patterns, profiles)
     return group, trips, patterns, profiles, positioning, terminal
 
@@ -132,8 +146,33 @@ def normalize(inputs, references=None):
     if not 0 <= case["demand_factor"] <= 2 or abs(case["grade_pct"]) > 2:
         raise ValueError("Demand and constant grade must stay inside the stated planning domain")
     chainages = tuple(float(x) * 1000 for x in case.pop("chainages_km"))
-    if len(chainages) != 6 or chainages[0] != 0 or chainages[-1] != 12000 or sorted(set(chainages)) != list(chainages):
-        raise ValueError("Six distinct stops on the 12 km Airport route are required")
+    if inputs.get("alignment") is not None:
+        from .airport_alignment import validate
+        alignment = validate(inputs["alignment"])
+        if (alignment["parent_candidate_id"] != parent["candidate_id"] or
+                tuple(x * 1000 for x in alignment["chainages_km"]) != chainages):
+            raise ValueError("Moving service and alignment must share the source candidate and stop chainages")
+        from .airport_demand import validate as validate_demand
+        demand = inputs.get("demand_record")
+        if demand is None:
+            raise ValueError("Revised alignment requires its candidate-bound demand record")
+        validate_demand(demand, alignment)
+        if (case["headway_min"] != demand["headway_min"] or case["dwell_s"] != demand["dwell_s"]
+                or case["od_matrix"] is not None or case["demand_factor"] != 1
+                or case["hourly_od"] is not None and case["hourly_od"] != demand["hourly_od"]):
+            raise ValueError("Moving service and demand must share the same timetable and hourly OD")
+        case["hourly_od"] = demand["hourly_od"]
+        case["demand_evaluation_id"] = demand["evaluation_id"]
+        case["alignment_id"] = alignment["alignment_id"]
+    elif chainages[-1:] != (12000.,):
+        raise ValueError("Supply a source-bound alignment for a revised Airport route")
+    if "positioning_slack_s" in inputs:
+        slack = inputs["positioning_slack_s"]
+        if "alignment_id" not in case or type(slack) is not int or not 0 <= slack <= 60 * case["headway_min"]:
+            raise ValueError("Positioning slack requires a revised alignment and whole seconds up to one headway")
+        case["positioning_slack_s"] = slack
+    if len(chainages) != 6 or chainages[0] != 0 or sorted(set(chainages)) != list(chainages):
+        raise ValueError("Six ordered Airport stops starting at zero are required")
     case["chainages_m"] = chainages
     case["length_m"] = case["cars"] * cfg["vehicle_geometry"]["car_body_length_m"] + (case["cars"] - 1) * .5
     case["acceleration_m_s2"] = cfg["power_assumptions"]["required_net_accel_m_s2"]
@@ -386,7 +425,8 @@ def evaluate(inputs, output_dir=None):
 
     references = reference()
     case = normalize(inputs, references)
-    supply = make_feeder(case["topology"], case["chainages_m"], case["conductor_factor"], references)
+    supply = make_feeder(case["topology"], case["chainages_m"], case["conductor_factor"], references,
+                         alignment_id=case.get("alignment_id"))
     failed_site = case["failed_site"] if case["failed_site"] is not None else len(supply.sites) // 2
     failed_path = case["failed_path"] if case["failed_path"] is not None else min(failed_site, len(supply.sites) - 2)
     if not 0 <= failed_site < len(supply.sites) or not 0 <= failed_path < len(supply.sites) - 1:
@@ -401,6 +441,8 @@ def evaluate(inputs, output_dir=None):
     physical = {"parent": parent["candidate_id"], "formation": case["cars"], "material": case["material"],
                 "upstream_candidate_id": inputs.get("candidate_id"),
                 "feeder": asdict(supply), "chainages_m": case["chainages_m"]}
+    if "alignment_id" in case:
+        physical["alignment_id"] = case["alignment_id"]
     candidate_id = _id(physical)
     evaluation_id = _id({"candidate": candidate_id, "scenario": case,
                          "retained_opening_evaluation": parent["evaluation_id"],
@@ -733,6 +775,16 @@ def evaluate(inputs, output_dir=None):
         unresolved_units=sorted(active), nominal_timetable_conflicts=len(terminal["conflicts"]),
         max_early_arrival_s=max((-ev["arrival_delay_s"] for ev in completed), default=None),
     )
+    passenger_km = len(trips) * case["chainages_m"][-1] / 1000
+    positioning_km = len(positioning) * case["chainages_m"][-1] / 1000
+    booked_km = passenger_km + positioning_km
+    if "alignment_id" in case:
+        yard_km = sum(move["distance_km"] for move in terminal["yard_moves"])
+        booked_km += yard_km
+        metrics.update(booked_positioning_trips=len(positioning),
+                       completed_positioning_trips=sum(event["kind"] == "positioning" for event in events),
+                       booked_yard_trips=len(terminal["yard_moves"]), booked_passenger_km=passenger_km,
+                       booked_positioning_km=positioning_km, booked_yard_km=yard_km)
     gates = {
         "all_workings_complete": not active and len(completed) == len(trips),
         "service_within_arrival_envelope": max_delay is not None and max_delay <= 60,
@@ -750,14 +802,13 @@ def evaluate(inputs, output_dir=None):
     return {
         "schema": "baghdad-airport-motion-dc/1", "candidate_id": candidate_id, "evaluation_id": evaluation_id,
         "source_publication_candidate_id": parent["candidate_id"],
-        "source_feeder_design_id": scopes.get(supply.name, {}).get("design_id"),
+        "source_feeder_design_id": None if "alignment_id" in case else scopes.get(supply.name, {}).get("design_id"),
         "source_opening_evaluation_id": parent["evaluation_id"],
         "source_timetable_id": parent["timetable_id"],
         "physical": physical, "scenario": {k: v for k, v in case.items() if k not in ("hourly_od", "od_matrix")},
         "demand_basis": {"hourly_od": case["hourly_od"] is not None,
                          "od_id": _id(case["hourly_od"] or case["od_matrix"]) if case["hourly_od"] or case["od_matrix"] else None},
-        "booked_annual_train_km": (len(trips) + len(positioning)) * case["chainages_m"][-1] / 1000
-                                  * cfg["vehicle"]["service_days_per_year"],
+        "booked_annual_train_km": booked_km * cfg["vehicle"]["service_days_per_year"],
         "annual_train_km": distance_km * cfg["vehicle"]["service_days_per_year"],
         "energy_kwh_per_train_km": source_kwh / distance_km if distance_km else None,
         "peak_power_mw": source_peak, "gates": gates,
@@ -785,7 +836,7 @@ def evaluate(inputs, output_dir=None):
 def unit_cost_basis(result):
     """Read matched scope lines; leave site, material and approval returns open."""
     name = result["physical"]["feeder"]["name"]
-    if name not in ("radial30", "paired6") or result["physical"]["feeder"]["trunk_factor"] != 1.:
+    if "alignment_id" in result["scenario"] or name not in ("radial30", "paired6") or result["physical"]["feeder"]["trunk_factor"] != 1.:
         return {"status": "held", "reason": "No scope-matched plant and conductor estimate for research layout"}
     file = Path(airport_opening.CITY) / "engineering/prototype/sourcing-estimate.json"
     lots = {r["lot_id"]: r for r in json.loads(file.read_text())["lots"]}

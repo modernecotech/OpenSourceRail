@@ -53,6 +53,28 @@ python3 -m cities.Baghdad.engineering.simulation.motion_evidence
 .venv/bin/python -m pytest -q cities/Baghdad/engineering/simulation/test_motion_power.py
 ```
 
-For an integrated input use `motion_power.evaluate(inputs, output_dir=None)`. Pass the same inputs and evaluation to `motion_evidence.crosscheck(inputs, result, output_dir=None)` for SUMO and pandapower. The 24×6×6 hourly OD matrices use physical station order in both directions and local civil time. The supplied full-train auxiliary load is in kW. Grade is a signed percent in the Airport–Al Qadisiya direction. The service runs on the declared 12 km chainage datum.
+For an integrated input use `motion_power.evaluate(inputs, output_dir=None)`. Pass the same inputs and evaluation to `motion_evidence.crosscheck(inputs, result, output_dir=None)` for SUMO and pandapower. The 24×6×6 hourly OD matrices use physical station order in both directions and local civil time. The supplied full-train auxiliary load is in kW. Grade is a signed percent in the Airport–Al Qadisiya direction. The retained benchmark uses its 12 km chainage datum.
+
+## Empty workings on the corrected Airport line
+
+The corrected 17.46 km horizontal study retains one common throat and one turnback face at each end. At 30-minute headway the initial static phase search used a 330 s offset and booked no overlaps, but the moving replay took 6,436 s to absorb its largest arrival delay. The moving solver reserves the berth and throat before entering the full final block. The booked terminal interval uses a shorter nominal approach. A 30-second sweep of the complete headway produced no phase with both zero booked overlaps and arrivals within 60 s. The best zero-overlap case in a finer search at phase 1,102 s was 264 s late. At 20 minutes no phase on the 30-second grid completed all 108 trips. At phase 930 s the fourth set's first depot release waited 63,197 s while three sets used the single berth and throat.
+
+Use the corrected alignment and its matching demand record with `positioning_slack_s`. The input is an optional nonnegative whole number of seconds up to one headway. It advances each first outbound empty trip and delays each last inbound empty trip. Yard timings are recalculated from the revised working. Passenger departures, rates, dwell, minima and OD remain as booked. Corrected booked distance includes passenger, empty mainline and yard mileage.
+
+| Positioning slack | Booked overlaps at phase 1,306 s | Booked overlaps at phase 1,308 s |
+| ---: | ---: | ---: |
+| 0 s | 4 | 4 |
+| 30 s | 4 | 4 |
+| 60 s | 2 | 2 |
+| 120 s | 2 | 2 |
+| 210 s | 0 | 0 |
+| 240 s | 0 | 0 |
+| 300 s | 0 | 0 |
+
+The two phases came from fine moving tests near the strongest coarse cases. At 1,308 s the largest booked overlap involving a first or last empty movement was 203 s. Rounding it to the next 30 s gives the tested 210 s allowance. With this allowance, the two-second model completes 72 passenger, two empty mainline and six yard trips. At phases 1,306 and 1,308 s, the worst arrival delays are 60 and 58 s in that model. At one-, two- and four-second time steps, the 1,308 s case gives 56, 58 and 58 s. The 1,306 s case misses the arrival limit at four seconds. The narrow timing margin and the terminal model assumptions require review alongside the route-specific timetable and signalling design.
+
+```sh
+python3 -m pytest -q cities/Baghdad/engineering/simulation/test_airport_positioning.py
+```
 
 The campaign uses a steady resistive DC circuit, fixed mass within each leg, a single selected outage location per replay and a simplified shared terminal. It supports digital comparison. Field route profile, adhesion and brake tests, isolation timing, equipment and conductor heating, smoke and evacuation cases, witness tests and approval remain open.

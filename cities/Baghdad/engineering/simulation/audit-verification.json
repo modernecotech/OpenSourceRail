@@ -1,0 +1,1289 @@
+{
+  "cases": {
+    "adverse_15min": {
+      "ac": {
+        "assumptions": {
+          "line_max_ka": 0.3,
+          "line_r_ohm_per_km": 0.22,
+          "line_x_ohm_per_km": 0.12,
+          "power_factor": 0.95,
+          "rectifier_ac_kv": 1.1,
+          "rectifier_efficiency": 0.96,
+          "station_lateral_km": 0.35,
+          "transformer_mva": 8.0,
+          "transformer_vk_percent": 6.0,
+          "transformer_vkr_percent": 0.7,
+          "upstream_kv": 33.0,
+          "weak_grid_multiplier": 2.0
+        },
+        "dc_evaluation_id": "1f0579b577289c27a1bb67f9fde0756b7187692390ff9424e5e4e27a68c5a1cd",
+        "limitations": "Synthetic 33 kV source and separate site laterals from its midpoint. One-way DC peak to AC, balanced fundamental frequency only. Utility topology, impedance, harmonics and fault duties require authenticated utility data.",
+        "nominal": {
+          "converged": true,
+          "grid_mvar": 1.101854602638042,
+          "grid_mw": 3.230422908721607,
+          "illustrative_screen_passed": true,
+          "max_line_loading_pct": 10.585733496643636,
+          "max_transformer_loading_pct": 22.689597461318783,
+          "minimum_bus_pu": 0.9909683746870982
+        },
+        "status": "verified execution",
+        "tool": "pandapower 3.5.3",
+        "utility_approved": false,
+        "weak_grid": {
+          "converged": true,
+          "grid_mvar": 1.1083278115347972,
+          "grid_mw": 3.2375225536164636,
+          "illustrative_screen_passed": true,
+          "max_line_loading_pct": 10.957966333484492,
+          "max_transformer_loading_pct": 23.487446116064877,
+          "minimum_bus_pu": 0.9573060181782915
+        }
+      },
+      "alignment_id": "fcc1577be2f4aec796f33ed8af5d34581d14025b3e029c27d8e16fa65c2330e8",
+      "alignment_record_id": "7dfc74ad00ba7a29283c628036b275aa150d2a031c601fc29ead28c2dc2ca141",
+      "case_label": "adverse_15min",
+      "case_record_id": "06dfaf7afb95b9c3bc7f7043dda23728963080c131fabd9daca320a7f5898b82",
+      "demand_evaluation_id": "cc2d2214efbdfe10a785035bded8b6c2e45d3b6cba6e6de5e048f9a2662aafd6",
+      "economics": {
+        "bound_quantities": {
+          "beams": 1746,
+          "bearings": 6984,
+          "bogies": 96,
+          "cars": 48,
+          "gateways": 32,
+          "grid_sites": 6,
+          "piers": 874,
+          "rectifier_cabinets": null,
+          "sets": 8,
+          "station_panels": null,
+          "station_sites": 6,
+          "track_km": 34.9218207076116
+        },
+        "civil_evaluation_id": "177aaab2cc1c32a4747fe3e033c6a03469804ace94870cd1d2366745f2f40169",
+        "delivery_evaluation_id": "ed6f0182baba2241f4327375095172686f5540bb9c35df56e7e9005e0cbe7c02",
+        "feeder_scope": {
+          "reason": "No scope-matched plant and conductor estimate for research layout",
+          "status": "held"
+        },
+        "operation_basis": {
+          "annual_completed_journeys": 3852384.39846,
+          "annual_estimated_utility_kwh": 4318303.935937501,
+          "annual_modelled_dc_source_kwh": 4145571.7785,
+          "annual_paid_journeys_proxy": 3544193.6465832,
+          "annualisation_status": "partial working day scaled for cost sensitivity",
+          "assumed_rectifier_efficiency": 0.96,
+          "booked_annual_train_km": 944150.8773125896,
+          "booked_annual_train_km_by_working": {
+            "passenger": 917745.448196033,
+            "positioning": 25492.92911655647,
+            "yard": 912.5
+          },
+          "booked_working_day_passenger_trips": 144,
+          "completed_working_day_passenger_trips": 103,
+          "fare_basis": "The matched offered OD paying share is applied to completed journeys.",
+          "fleet_sets_required": 8,
+          "mileage_scope": "Booked and operated train-km cover passenger, positioning and yard movements. Operated train-km uses actual replay distance, including any partial workings.",
+          "net_usd_per_paid_journey": 0.42218543046357615,
+          "operated_annual_train_km": 685551.273219207,
+          "service_days": 365,
+          "working_day_completed": false,
+          "working_day_nonrevenue_trips": {
+            "positioning": {
+              "booked": 4,
+              "completed": 2
+            },
+            "yard": {
+              "booked": 10,
+              "completed": 4
+            }
+          }
+        },
+        "provenance": {
+          "alignment_record_id": "7dfc74ad00ba7a29283c628036b275aa150d2a031c601fc29ead28c2dc2ca141",
+          "civil_evaluation_id": "177aaab2cc1c32a4747fe3e033c6a03469804ace94870cd1d2366745f2f40169",
+          "civil_row_id": "3bad51e72d7c75fceb05693e7cde650e5ae3e85f277ec217d7a46509c88f5496",
+          "demand_evaluation_id": "cc2d2214efbdfe10a785035bded8b6c2e45d3b6cba6e6de5e048f9a2662aafd6",
+          "estimate_evaluation_id": "83de4f2c3023521a1b9a9b02c436b10ffa9c24a67763d700da624e53036ad095",
+          "factory_evaluation_id": "be5bfe8fa5ff42de8792c720fafedd736a0cfee618ced81ba95dbd18944d891c",
+          "motion_evaluation_id": "1f0579b577289c27a1bb67f9fde0756b7187692390ff9424e5e4e27a68c5a1cd",
+          "motion_record_id": "c9ea2438f4554ff3d5bc7de96679e38e31563f7fb925295d1697b4d131fafc16",
+          "shop_evaluation_id": "59db6c1b6cced6790c56279c291b1c2bc6cdc1d7e6731de1b5badd2baad19a0f",
+          "source_opening_evaluation_id": "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87",
+          "vehicle_evaluation_id": "51b78b581684e208ad64b15b8d4f56c7ffe6f4b9b126df5d1ff0071300c6026b"
+        },
+        "rejected_inputs": {
+          "changed_energy_metric": "Moving working day record identity does not match its content",
+          "changed_record_id": "Moving working day record identity does not match its content",
+          "demand_evaluation": "Demand and moving service use different OD records",
+          "vehicle_candidate": "Production inputs must share the ordinary working day, Airport parent, formation and alignment"
+        }
+      },
+      "handoff": {
+        "annual_distance": true,
+        "auxiliary_kw": true,
+        "daily_od": true,
+        "economic_ranking_held": true,
+        "feeder_chainages_m": true,
+        "peak_full_mass": true,
+        "physical_alignment": true,
+        "physical_vehicle": true,
+        "price_scope_held": true,
+        "route_length": true,
+        "service_demand": true
+      },
+      "metrics": {
+        "boarded_passengers": 10554.477804,
+        "booked_passenger_trips": 144,
+        "booked_positioning_trips": 4,
+        "booked_yard_trips": 10,
+        "completed_passenger_trips": 103,
+        "completed_positioning_trips": 2,
+        "completed_yard_trips": 4,
+        "dc_balance_residual_kwh": 8.029211312532425e-09,
+        "demand_balance_residual_passengers": -0.0,
+        "distance_km": 1878.2226663539916,
+        "maximum_arrival_delay_s": 10522.0,
+        "minimum_collector_v": 1491.3364684479866,
+        "nominal_timetable_conflicts": 2,
+        "offered_passengers": 10554.477804,
+        "peak_site_current_ka": 1.352493689168883,
+        "source_kwh": 11357.7309,
+        "unserved_passengers": 0.0
+      },
+      "motion_candidate_id": "5547f4af0d9a4b6ca139fe35c00aba789a7ce3b909c718b447298a319d3ec389",
+      "motion_evaluation_id": "1f0579b577289c27a1bb67f9fde0756b7187692390ff9424e5e4e27a68c5a1cd",
+      "motion_gates": {
+        "all_workings_complete": false,
+        "capacity_screen": false,
+        "collector_voltage_screen": true,
+        "dc_numerical_screen": true,
+        "electrical_isolation_screen": true,
+        "motion_work_balance_screen": true,
+        "protection_approved": false,
+        "route_and_block_reservations": false,
+        "service_within_arrival_envelope": false,
+        "thermal_ratings_verified": false,
+        "utility_connection_approved": false
+      },
+      "passenger_evaluation_id": "c7cb561bae7d37c2ca82b5a496e7e8f520c3d8c3f5d2394092aa8afe34bb5dd1",
+      "physical_acceptance": "open",
+      "rejected_inputs": {
+        "alignment_required": "Supply a source-bound alignment for a revised Airport route",
+        "bound_demand_required": "Revised alignment requires its candidate-bound demand record",
+        "demand_alignment": "Airport demand ID, alignment or stop order does not match",
+        "demand_factor": "Moving service and demand must share the same timetable and hourly OD",
+        "demand_stop_order": "Airport demand ID, alignment or stop order does not match",
+        "dwell": "Moving service and demand must share the same timetable and hourly OD",
+        "headway": "Moving service and demand must share the same timetable and hourly OD",
+        "ordered_chainages": "Moving service and alignment must share the source candidate and stop chainages",
+        "unsupported_grade": "Demand and constant grade must stay inside the stated planning domain",
+        "unsupported_headway": "Require a 15-, 20- or 30-minute service and a three- or six-car train",
+        "unsupported_positioning_slack": "Positioning slack requires a revised alignment and whole seconds up to one headway"
+      },
+      "scenario": {
+        "acceleration_m_s2": 0.6,
+        "alignment_id": "fcc1577be2f4aec796f33ed8af5d34581d14025b3e029c27d8e16fa65c2330e8",
+        "aux_w": 87307.35576672686,
+        "auxiliary_kw": 87.30735576672686,
+        "braking_m_s2": 0.6,
+        "capacity": 700,
+        "cars": 6,
+        "chainages_m": [
+          0.0,
+          7448.812494513597,
+          13016.198556907642,
+          14962.155803891981,
+          16211.533078848892,
+          17460.9103538058
+        ],
+        "condition": "normal",
+        "conductor_factor": 1.0,
+        "delay_s": 0.0,
+        "demand_evaluation_id": "cc2d2214efbdfe10a785035bded8b6c2e45d3b6cba6e6de5e048f9a2662aafd6",
+        "demand_factor": 1.0,
+        "dwell_s": 35,
+        "efficiency": 0.82,
+        "failed_path": null,
+        "failed_site": null,
+        "grade_pct": 0.0,
+        "headway_min": 15,
+        "length_m": 104.5,
+        "loaded_train_kg": 198635.9582,
+        "material": "steel",
+        "phase_s": 330,
+        "places_per_train": null,
+        "regen_efficiency": 0.82,
+        "resistance_m_s2": 0.02,
+        "speed_m_s": 20.0,
+        "step_s": 2.0,
+        "tare_train_kg": 146135.95820000002,
+        "topology": "paired6",
+        "traction_w": 5015421.309491464
+      },
+      "scope": "Both native adapters execute on the bound numerical working day using the same track lengths and DC snapshot. Shared throat occupancy, variable train loads and DC remain specific to the coupled motion model. The AC utility supply is illustrative. Tool execution is distinct from an engineering screen.",
+      "source_price_basis": {
+        "reason": "No scope-matched plant and conductor estimate for research layout",
+        "status": "held"
+      },
+      "sumo": {
+        "booked_route_trips": 148,
+        "completed_route_trips": 148,
+        "completed_stops": 740,
+        "launch_controls": {
+          "cases": {
+            "cars3_double_mass": {
+              "agrees": true,
+              "expected_m_s2": 0.3,
+              "observed_m_s2": 0.3,
+              "samples": [
+                [
+                  180.0,
+                  0.0
+                ],
+                [
+                  181.0,
+                  0.3
+                ],
+                [
+                  182.0,
+                  0.6
+                ],
+                [
+                  183.0,
+                  0.9
+                ],
+                [
+                  184.0,
+                  1.2
+                ],
+                [
+                  185.0,
+                  1.5
+                ]
+              ]
+            },
+            "cars3_half_force": {
+              "agrees": true,
+              "expected_m_s2": 0.29000000000000004,
+              "observed_m_s2": 0.29,
+              "samples": [
+                [
+                  90.0,
+                  0.0
+                ],
+                [
+                  91.0,
+                  0.29
+                ],
+                [
+                  92.0,
+                  0.58
+                ],
+                [
+                  93.0,
+                  0.87
+                ],
+                [
+                  94.0,
+                  1.16
+                ],
+                [
+                  95.0,
+                  1.45
+                ]
+              ]
+            },
+            "cars3_normal": {
+              "agrees": true,
+              "expected_m_s2": 0.6,
+              "observed_m_s2": 0.6,
+              "samples": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  1.0,
+                  0.6
+                ],
+                [
+                  2.0,
+                  1.2
+                ],
+                [
+                  3.0,
+                  1.8
+                ],
+                [
+                  4.0,
+                  2.4
+                ],
+                [
+                  5.0,
+                  3.0
+                ]
+              ]
+            },
+            "cars6_double_mass": {
+              "agrees": true,
+              "expected_m_s2": 0.3,
+              "observed_m_s2": 0.3,
+              "samples": [
+                [
+                  450.0,
+                  0.0
+                ],
+                [
+                  451.0,
+                  0.3
+                ],
+                [
+                  452.0,
+                  0.6
+                ],
+                [
+                  453.0,
+                  0.9
+                ],
+                [
+                  454.0,
+                  1.2
+                ],
+                [
+                  455.0,
+                  1.5
+                ]
+              ]
+            },
+            "cars6_half_force": {
+              "agrees": true,
+              "expected_m_s2": 0.29000000000000004,
+              "observed_m_s2": 0.29,
+              "samples": [
+                [
+                  360.0,
+                  0.0
+                ],
+                [
+                  361.0,
+                  0.29
+                ],
+                [
+                  362.0,
+                  0.58
+                ],
+                [
+                  363.0,
+                  0.87
+                ],
+                [
+                  364.0,
+                  1.16
+                ],
+                [
+                  365.0,
+                  1.45
+                ]
+              ]
+            },
+            "cars6_normal": {
+              "agrees": true,
+              "expected_m_s2": 0.6,
+              "observed_m_s2": 0.6,
+              "samples": [
+                [
+                  270.0,
+                  0.0
+                ],
+                [
+                  271.0,
+                  0.6
+                ],
+                [
+                  272.0,
+                  1.2
+                ],
+                [
+                  273.0,
+                  1.8
+                ],
+                [
+                  274.0,
+                  2.4
+                ],
+                [
+                  275.0,
+                  3.0
+                ]
+              ]
+            }
+          },
+          "scaling": "reference case mass and wheel power scaled by car count; 3/6-car force and mass perturbations",
+          "status": "passed"
+        },
+        "limitations": "Separate directed tracks and trip vehicles. Fixed loaded mass for passenger trips and tare for positioning, with Airport wheel power, resistance and force per formation and direction. Shared turnback, yard, changing passenger load and DC are specific to the coupled model.",
+        "max_absolute_difference_to_coupled_s": 1866.0,
+        "median_difference_to_coupled_s": -10.0,
+        "median_running_time_s": 1652.0,
+        "native_warnings": {
+          "emergency_stops": 0,
+          "skipped_stops": 0
+        },
+        "scheduled_stops": 740,
+        "status": "verified execution",
+        "stop_screen_passed": true,
+        "traction_curves": {
+          "passenger0": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": 0.0,
+            "grade_pct": 0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 198635.9582,
+            "net_launch_accel_m_s2": 0.6,
+            "rolling_resistance_kn": [
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              33.39425153115557,
+              38.39425153115557,
+              43.39425153115557
+            ],
+            "tractive_effort_kn": [
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              107.11617780713173,
+              94.77396956208042
+            ],
+            "tractive_effort_limit_kn": 123.154294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "passenger1": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": -0.0,
+            "grade_pct": -0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 198635.9582,
+            "net_launch_accel_m_s2": 0.6,
+            "rolling_resistance_kn": [
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              33.39425153115557,
+              38.39425153115557,
+              43.39425153115557
+            ],
+            "tractive_effort_kn": [
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              107.11617780713173,
+              94.77396956208042
+            ],
+            "tractive_effort_limit_kn": 123.154294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "positioning0": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": 0.0,
+            "grade_pct": 0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 146135.95820000002,
+            "net_launch_accel_m_s2": 0.5999999999999999,
+            "rolling_resistance_kn": [
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              45.3912865318517,
+              50.3912865318517,
+              55.3912865318517
+            ],
+            "tractive_effort_kn": [
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              81.61421858486285,
+              74.24715566803278
+            ],
+            "tractive_effort_limit_kn": 90.604294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "positioning1": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": -0.0,
+            "grade_pct": -0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 146135.95820000002,
+            "net_launch_accel_m_s2": 0.5999999999999999,
+            "rolling_resistance_kn": [
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              45.3912865318517,
+              50.3912865318517,
+              55.3912865318517
+            ],
+            "tractive_effort_kn": [
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              81.61421858486285,
+              74.24715566803278
+            ],
+            "tractive_effort_limit_kn": 90.604294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          }
+        },
+        "train_model": "custom",
+        "versions": {
+          "netconvert": "Eclipse SUMO netconvert 1.28.0",
+          "sumo": "Eclipse SUMO sumo 1.28.0"
+        }
+      },
+      "vehicle_candidate_id": "03a57d2f8c334572837ca45c46af941acc4542a6163524577ecd7f3a350d53b8",
+      "vehicle_evaluation_id": "51b78b581684e208ad64b15b8d4f56c7ffe6f4b9b126df5d1ff0071300c6026b"
+    },
+    "refined_30min": {
+      "ac": {
+        "assumptions": {
+          "line_max_ka": 0.3,
+          "line_r_ohm_per_km": 0.22,
+          "line_x_ohm_per_km": 0.12,
+          "power_factor": 0.95,
+          "rectifier_ac_kv": 1.1,
+          "rectifier_efficiency": 0.96,
+          "station_lateral_km": 0.35,
+          "transformer_mva": 8.0,
+          "transformer_vk_percent": 6.0,
+          "transformer_vkr_percent": 0.7,
+          "upstream_kv": 33.0,
+          "weak_grid_multiplier": 2.0
+        },
+        "dc_evaluation_id": "fc977ad011110ec58a1ea555fcfa9f521141783f6ab2e5ae0af1b22aaf172c7f",
+        "limitations": "Synthetic 33 kV source and separate site laterals from its midpoint. One-way DC peak to AC, balanced fundamental frequency only. Utility topology, impedance, harmonics and fault duties require authenticated utility data.",
+        "nominal": {
+          "converged": true,
+          "grid_mvar": 0.9188161068907164,
+          "grid_mw": 2.697889570522989,
+          "illustrative_screen_passed": true,
+          "max_line_loading_pct": 10.472865314868962,
+          "max_transformer_loading_pct": 22.447674347397527,
+          "minimum_bus_pu": 0.9915745446518492
+        },
+        "status": "verified execution",
+        "tool": "pandapower 3.5.3",
+        "utility_approved": false,
+        "weak_grid": {
+          "converged": true,
+          "grid_mvar": 0.9239266877488755,
+          "grid_mw": 2.7034535068035086,
+          "illustrative_screen_passed": true,
+          "max_line_loading_pct": 10.8342039499072,
+          "max_transformer_loading_pct": 23.222172229743286,
+          "minimum_bus_pu": 0.9585038922846448
+        }
+      },
+      "alignment_id": "fcc1577be2f4aec796f33ed8af5d34581d14025b3e029c27d8e16fa65c2330e8",
+      "alignment_record_id": "7dfc74ad00ba7a29283c628036b275aa150d2a031c601fc29ead28c2dc2ca141",
+      "case_label": "refined_30min",
+      "case_record_id": "38515192e93fd03f19552d61909d14c466665d14cfc3e94622e0a6fd7bf703e4",
+      "demand_evaluation_id": "30061f6656a953c4aa502ab333c27eb8032c9f0ff36d7c53e896399824d55ff5",
+      "economics": {
+        "bound_quantities": {
+          "beams": 1746,
+          "bearings": 6984,
+          "bogies": 72,
+          "cars": 36,
+          "gateways": 32,
+          "grid_sites": 6,
+          "piers": 874,
+          "rectifier_cabinets": null,
+          "sets": 6,
+          "station_panels": null,
+          "station_sites": 6,
+          "track_km": 34.9218207076116
+        },
+        "civil_evaluation_id": "177aaab2cc1c32a4747fe3e033c6a03469804ace94870cd1d2366745f2f40169",
+        "delivery_evaluation_id": "bda2247e4b934e2624a660bdca914cabf0090e5bcd2b0960ffecd2183b0fd4b0",
+        "feeder_scope": {
+          "reason": "No scope-matched plant and conductor estimate for research layout",
+          "status": "held"
+        },
+        "operation_basis": {
+          "annual_completed_journeys": 2638540.4992,
+          "annual_estimated_utility_kwh": 2951785.4927083333,
+          "annual_modelled_dc_source_kwh": 2833714.073,
+          "annual_paid_journeys_proxy": 2427457.259264,
+          "annualisation_status": "completed working day scaled to operating year",
+          "assumed_rectifier_efficiency": 0.96,
+          "booked_annual_train_km": 472166.6886562948,
+          "booked_annual_train_km_by_working": {
+            "passenger": 458872.7240980165,
+            "positioning": 12746.464558278234,
+            "yard": 547.5
+          },
+          "booked_working_day_passenger_trips": 72,
+          "completed_working_day_passenger_trips": 72,
+          "fare_basis": "The matched offered OD paying share is applied to completed journeys.",
+          "fleet_sets_required": 6,
+          "mileage_scope": "Booked and operated train-km cover passenger, positioning and yard movements. Operated train-km uses actual replay distance, including any partial workings.",
+          "net_usd_per_paid_journey": 0.42218543046357615,
+          "operated_annual_train_km": 472166.6804535216,
+          "service_days": 365,
+          "working_day_completed": true,
+          "working_day_nonrevenue_trips": {
+            "positioning": {
+              "booked": 2,
+              "completed": 2
+            },
+            "yard": {
+              "booked": 6,
+              "completed": 6
+            }
+          }
+        },
+        "provenance": {
+          "alignment_record_id": "7dfc74ad00ba7a29283c628036b275aa150d2a031c601fc29ead28c2dc2ca141",
+          "civil_evaluation_id": "177aaab2cc1c32a4747fe3e033c6a03469804ace94870cd1d2366745f2f40169",
+          "civil_row_id": "3bad51e72d7c75fceb05693e7cde650e5ae3e85f277ec217d7a46509c88f5496",
+          "demand_evaluation_id": "30061f6656a953c4aa502ab333c27eb8032c9f0ff36d7c53e896399824d55ff5",
+          "estimate_evaluation_id": "83de4f2c3023521a1b9a9b02c436b10ffa9c24a67763d700da624e53036ad095",
+          "factory_evaluation_id": "be5bfe8fa5ff42de8792c720fafedd736a0cfee618ced81ba95dbd18944d891c",
+          "motion_evaluation_id": "fc977ad011110ec58a1ea555fcfa9f521141783f6ab2e5ae0af1b22aaf172c7f",
+          "motion_record_id": "e90dcad21f4fe43373e624a9f86f0f2bc7fc52b9c4851c7036e55cdc79a28083",
+          "shop_evaluation_id": "59db6c1b6cced6790c56279c291b1c2bc6cdc1d7e6731de1b5badd2baad19a0f",
+          "source_opening_evaluation_id": "6a0580105823dbd30dadde4e44f7d9032aee7a4b210e229950d17673a7231e87",
+          "vehicle_evaluation_id": "51b78b581684e208ad64b15b8d4f56c7ffe6f4b9b126df5d1ff0071300c6026b"
+        },
+        "rejected_inputs": {
+          "changed_energy_metric": "Moving working day record identity does not match its content",
+          "changed_record_id": "Moving working day record identity does not match its content",
+          "demand_evaluation": "Demand and moving service use different OD records",
+          "vehicle_candidate": "Production inputs must share the ordinary working day, Airport parent, formation and alignment"
+        }
+      },
+      "handoff": {
+        "annual_distance": true,
+        "auxiliary_kw": true,
+        "daily_od": true,
+        "economic_ranking_held": true,
+        "feeder_chainages_m": true,
+        "peak_full_mass": true,
+        "physical_alignment": true,
+        "physical_vehicle": true,
+        "price_scope_held": true,
+        "route_length": true,
+        "service_demand": true
+      },
+      "metrics": {
+        "boarded_passengers": 7228.87808,
+        "booked_passenger_trips": 72,
+        "booked_positioning_trips": 2,
+        "booked_yard_trips": 6,
+        "completed_passenger_trips": 72,
+        "completed_positioning_trips": 2,
+        "completed_yard_trips": 6,
+        "dc_balance_residual_kwh": 1.2811418208811018e-08,
+        "demand_balance_residual_passengers": 0.0,
+        "distance_km": 1293.6073437082784,
+        "maximum_arrival_delay_s": 58.0,
+        "minimum_collector_v": 1492.31654469326,
+        "nominal_timetable_conflicts": 0,
+        "offered_passengers": 7253.979438,
+        "peak_site_current_ka": 1.2416764039374752,
+        "source_kwh": 7763.6002,
+        "unserved_passengers": 25.101358
+      },
+      "motion_candidate_id": "5547f4af0d9a4b6ca139fe35c00aba789a7ce3b909c718b447298a319d3ec389",
+      "motion_evaluation_id": "fc977ad011110ec58a1ea555fcfa9f521141783f6ab2e5ae0af1b22aaf172c7f",
+      "motion_gates": {
+        "all_workings_complete": true,
+        "capacity_screen": true,
+        "collector_voltage_screen": true,
+        "dc_numerical_screen": true,
+        "electrical_isolation_screen": true,
+        "motion_work_balance_screen": true,
+        "protection_approved": false,
+        "route_and_block_reservations": true,
+        "service_within_arrival_envelope": true,
+        "thermal_ratings_verified": false,
+        "utility_connection_approved": false
+      },
+      "passenger_evaluation_id": "f5783f9dcab59dbc4bc50332f7f2b80145e1a98e01c7de4772d6af3528b0664a",
+      "physical_acceptance": "open",
+      "rejected_inputs": {
+        "alignment_required": "Supply a source-bound alignment for a revised Airport route",
+        "bound_demand_required": "Revised alignment requires its candidate-bound demand record",
+        "demand_alignment": "Airport demand ID, alignment or stop order does not match",
+        "demand_factor": "Moving service and demand must share the same timetable and hourly OD",
+        "demand_stop_order": "Airport demand ID, alignment or stop order does not match",
+        "dwell": "Moving service and demand must share the same timetable and hourly OD",
+        "headway": "Moving service and demand must share the same timetable and hourly OD",
+        "ordered_chainages": "Moving service and alignment must share the source candidate and stop chainages",
+        "unsupported_grade": "Demand and constant grade must stay inside the stated planning domain",
+        "unsupported_headway": "Require a 15-, 20- or 30-minute service and a three- or six-car train",
+        "unsupported_positioning_slack": "Positioning slack requires a revised alignment and whole seconds up to one headway"
+      },
+      "scenario": {
+        "acceleration_m_s2": 0.6,
+        "alignment_id": "fcc1577be2f4aec796f33ed8af5d34581d14025b3e029c27d8e16fa65c2330e8",
+        "aux_w": 91822.14979592,
+        "auxiliary_kw": 91.82214979592001,
+        "braking_m_s2": 0.6,
+        "capacity": 700,
+        "cars": 6,
+        "chainages_m": [
+          0.0,
+          7448.812494513597,
+          13016.198556907642,
+          14962.155803891981,
+          16211.533078848892,
+          17460.9103538058
+        ],
+        "condition": "normal",
+        "conductor_factor": 1.0,
+        "delay_s": 0.0,
+        "demand_evaluation_id": "30061f6656a953c4aa502ab333c27eb8032c9f0ff36d7c53e896399824d55ff5",
+        "demand_factor": 1.0,
+        "dwell_s": 35,
+        "efficiency": 0.82,
+        "failed_path": null,
+        "failed_site": null,
+        "grade_pct": 0.0,
+        "headway_min": 30,
+        "length_m": 104.5,
+        "loaded_train_kg": 198635.9582,
+        "material": "steel",
+        "phase_s": 1308,
+        "places_per_train": null,
+        "positioning_slack_s": 210,
+        "regen_efficiency": 0.82,
+        "resistance_m_s2": 0.02,
+        "speed_m_s": 20.0,
+        "step_s": 2.0,
+        "tare_train_kg": 146135.95820000002,
+        "topology": "paired6",
+        "traction_w": 5015421.309491464
+      },
+      "scope": "Both native adapters execute on the bound numerical working day using the same track lengths and DC snapshot. Shared throat occupancy, variable train loads and DC remain specific to the coupled motion model. The AC utility supply is illustrative. Tool execution is distinct from an engineering screen.",
+      "source_price_basis": {
+        "reason": "No scope-matched plant and conductor estimate for research layout",
+        "status": "held"
+      },
+      "sumo": {
+        "booked_route_trips": 74,
+        "completed_route_trips": 74,
+        "completed_stops": 370,
+        "launch_controls": {
+          "cases": {
+            "cars3_double_mass": {
+              "agrees": true,
+              "expected_m_s2": 0.3,
+              "observed_m_s2": 0.3,
+              "samples": [
+                [
+                  180.0,
+                  0.0
+                ],
+                [
+                  181.0,
+                  0.3
+                ],
+                [
+                  182.0,
+                  0.6
+                ],
+                [
+                  183.0,
+                  0.9
+                ],
+                [
+                  184.0,
+                  1.2
+                ],
+                [
+                  185.0,
+                  1.5
+                ]
+              ]
+            },
+            "cars3_half_force": {
+              "agrees": true,
+              "expected_m_s2": 0.29000000000000004,
+              "observed_m_s2": 0.29,
+              "samples": [
+                [
+                  90.0,
+                  0.0
+                ],
+                [
+                  91.0,
+                  0.29
+                ],
+                [
+                  92.0,
+                  0.58
+                ],
+                [
+                  93.0,
+                  0.87
+                ],
+                [
+                  94.0,
+                  1.16
+                ],
+                [
+                  95.0,
+                  1.45
+                ]
+              ]
+            },
+            "cars3_normal": {
+              "agrees": true,
+              "expected_m_s2": 0.6,
+              "observed_m_s2": 0.6,
+              "samples": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  1.0,
+                  0.6
+                ],
+                [
+                  2.0,
+                  1.2
+                ],
+                [
+                  3.0,
+                  1.8
+                ],
+                [
+                  4.0,
+                  2.4
+                ],
+                [
+                  5.0,
+                  3.0
+                ]
+              ]
+            },
+            "cars6_double_mass": {
+              "agrees": true,
+              "expected_m_s2": 0.3,
+              "observed_m_s2": 0.3,
+              "samples": [
+                [
+                  450.0,
+                  0.0
+                ],
+                [
+                  451.0,
+                  0.3
+                ],
+                [
+                  452.0,
+                  0.6
+                ],
+                [
+                  453.0,
+                  0.9
+                ],
+                [
+                  454.0,
+                  1.2
+                ],
+                [
+                  455.0,
+                  1.5
+                ]
+              ]
+            },
+            "cars6_half_force": {
+              "agrees": true,
+              "expected_m_s2": 0.29000000000000004,
+              "observed_m_s2": 0.29,
+              "samples": [
+                [
+                  360.0,
+                  0.0
+                ],
+                [
+                  361.0,
+                  0.29
+                ],
+                [
+                  362.0,
+                  0.58
+                ],
+                [
+                  363.0,
+                  0.87
+                ],
+                [
+                  364.0,
+                  1.16
+                ],
+                [
+                  365.0,
+                  1.45
+                ]
+              ]
+            },
+            "cars6_normal": {
+              "agrees": true,
+              "expected_m_s2": 0.6,
+              "observed_m_s2": 0.6,
+              "samples": [
+                [
+                  270.0,
+                  0.0
+                ],
+                [
+                  271.0,
+                  0.6
+                ],
+                [
+                  272.0,
+                  1.2
+                ],
+                [
+                  273.0,
+                  1.8
+                ],
+                [
+                  274.0,
+                  2.4
+                ],
+                [
+                  275.0,
+                  3.0
+                ]
+              ]
+            }
+          },
+          "scaling": "reference case mass and wheel power scaled by car count; 3/6-car force and mass perturbations",
+          "status": "passed"
+        },
+        "limitations": "Separate directed tracks and trip vehicles. Fixed loaded mass for passenger trips and tare for positioning, with Airport wheel power, resistance and force per formation and direction. Shared turnback, yard, changing passenger load and DC are specific to the coupled model.",
+        "max_absolute_difference_to_coupled_s": 100.0,
+        "median_difference_to_coupled_s": -10.0,
+        "median_running_time_s": 1652.0,
+        "native_warnings": {
+          "emergency_stops": 0,
+          "skipped_stops": 0
+        },
+        "scheduled_stops": 370,
+        "status": "verified execution",
+        "stop_screen_passed": true,
+        "traction_curves": {
+          "passenger0": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": 0.0,
+            "grade_pct": 0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 198635.9582,
+            "net_launch_accel_m_s2": 0.6,
+            "rolling_resistance_kn": [
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              33.39425153115557,
+              38.39425153115557,
+              43.39425153115557
+            ],
+            "tractive_effort_kn": [
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              107.11617780713173,
+              94.77396956208042
+            ],
+            "tractive_effort_limit_kn": 123.154294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "passenger1": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": -0.0,
+            "grade_pct": -0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 198635.9582,
+            "net_launch_accel_m_s2": 0.6,
+            "rolling_resistance_kn": [
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164,
+              3.972719164
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              33.39425153115557,
+              38.39425153115557,
+              43.39425153115557
+            ],
+            "tractive_effort_kn": [
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              123.154294084,
+              107.11617780713173,
+              94.77396956208042
+            ],
+            "tractive_effort_limit_kn": 123.154294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "positioning0": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": 0.0,
+            "grade_pct": 0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 146135.95820000002,
+            "net_launch_accel_m_s2": 0.5999999999999999,
+            "rolling_resistance_kn": [
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              45.3912865318517,
+              50.3912865318517,
+              55.3912865318517
+            ],
+            "tractive_effort_kn": [
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              81.61421858486285,
+              74.24715566803278
+            ],
+            "tractive_effort_limit_kn": 90.604294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          },
+          "positioning1": {
+            "brake_deceleration_m_s2": 0.6,
+            "grade_force_kn": -0.0,
+            "grade_pct": -0.0,
+            "mass_factor": 1.0,
+            "mass_kg": 146135.95820000002,
+            "net_launch_accel_m_s2": 0.5999999999999999,
+            "rolling_resistance_kn": [
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005,
+              2.9227191640000005
+            ],
+            "speed_limit_m_s": 20.0,
+            "speeds_m_s": [
+              0.0,
+              5.0,
+              10.0,
+              15.0,
+              20.0,
+              45.3912865318517,
+              50.3912865318517,
+              55.3912865318517
+            ],
+            "tractive_effort_kn": [
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              90.604294084,
+              81.61421858486285,
+              74.24715566803278
+            ],
+            "tractive_effort_limit_kn": 90.604294084,
+            "train_length_m": 104.5,
+            "wheel_power_limit_kw": 4112.645473783
+          }
+        },
+        "train_model": "custom",
+        "versions": {
+          "netconvert": "Eclipse SUMO netconvert 1.28.0",
+          "sumo": "Eclipse SUMO sumo 1.28.0"
+        }
+      },
+      "vehicle_candidate_id": "03a57d2f8c334572837ca45c46af941acc4542a6163524577ecd7f3a350d53b8",
+      "vehicle_evaluation_id": "51b78b581684e208ad64b15b8d4f56c7ffe6f4b9b126df5d1ff0071300c6026b"
+    }
+  },
+  "receipt_id": "984d59eac90afe72cbae18e4afa0d794e001525c1fc5a986a3108661163e34f7",
+  "schema": "osr-baghdad-airport-audit-verification/2",
+  "source_sha256": {
+    "cities/Baghdad/VEHICLE.md": "1f2a9063db7b8b1e2511624554b5e8f6bf1609cf0ef5e691416f2e5bb0ba195c",
+    "cities/Baghdad/airport-works.toml": "3d358e6863f940e6df50e87c976b7a9bd2195df04df53ef76593080415cdd146",
+    "cities/Baghdad/airport_assembly.py": "5341e5198a74db3c59613cea5fe086e2798df55573eb901d7b45952efc5a0c18",
+    "cities/Baghdad/airport_opening.py": "91dca42ea105f74929e316987a2adc0cf0d949412aac4ea311b88d51a1dcecb9",
+    "cities/Baghdad/airport_service.py": "bbf44b6f2eb2e0c699f7aa3ec279f722fc3a0e24bd3fd8d709947fcb6bee64cf",
+    "cities/Baghdad/airport_supply.py": "602be94261b4556f1f0eed15cd6431b18b23d96600bae8d267d06e767ed7d569",
+    "cities/Baghdad/engineering/commissioning/feeder.py": "4e3583b8c1cc9e4fb3a6cb39dc4ec4003c61ef00c9fe5909992445e63ffb419e",
+    "cities/Baghdad/engineering/mechanical/README.md": "a64b6be1aa73176cb277004fee79c11134703d443f0b37bbc3bc4f774164762f",
+    "cities/Baghdad/engineering/mechanical/civil/concept.toml": "60e9fc72a48455a5c5a3263a816e49b0f52350122fb9afc78d76ce3b36fa706e",
+    "cities/Baghdad/engineering/mechanical/civil/family_comparison.py": "408761453a4f4d3edb6ceadae3bddbc067ca9452b9f2146d2fa646831baf94ce",
+    "cities/Baghdad/engineering/mechanical/vehicle/section-trial.toml": "8c15d3a0fafd08b87f594052b781d0d7a4139caedea0fa83ccf182aafa003ae2",
+    "cities/Baghdad/engineering/prototype/airport-prototype.zip": "55c5faf416d11dd32d71e0a6f51bcc1c3234abd2d32cdf4a8f6b8c587ae3c909",
+    "cities/Baghdad/engineering/prototype/cam/cam-manifest.json": "c47fc0c9654509455721699caec9c609a7edcc9a29e181ffa8ad395328f30eff",
+    "cities/Baghdad/engineering/prototype/cam/parts/gusset.dxf": "52b3713c6577fe788af1753d47aac1dbae4a745f37ad922f955ff7771e5986da",
+    "cities/Baghdad/engineering/prototype/cam/parts/primary_underside.dxf": "56b3e3da92ff65ed241d1f5d77606dbe61aa17e5c9442cf224b9d67bc7d52bdc",
+    "cities/Baghdad/engineering/prototype/cam/parts/secondary_body.dxf": "e7b366d5e30e205d5c4d9d4c0b75eb2a8ecd91271a4c13240e3f301f289c00b3",
+    "cities/Baghdad/engineering/prototype/cam/parts/secondary_top.dxf": "12c274838f2ad25c934ec45bbb044ca2d3f22b69ab12688bcaf5bdd23a556831",
+    "cities/Baghdad/engineering/prototype/cam/saw-cuts.csv": "3a77ee2f276e3ed973ea9a9203ffe563fe61f0f89c23c08e2d55f363de042656",
+    "cities/Baghdad/engineering/prototype/cam/saw-stock.csv": "ff6b70a6d0a5c0eabf252d97f497ae1f2456b386df8ec34e47ecf022d601797d",
+    "cities/Baghdad/engineering/prototype/cam/sheet-placements.csv": "549971e83a119367ad14ae11a49f4fd4966c3ef5fb64b165b5c1fbedf92cb125",
+    "cities/Baghdad/engineering/prototype/cam/sheet-schedule.csv": "4dd591ec99d9d31ae5436d826d54d58f6d4c09818e39f40841fcd82be5a33127",
+    "cities/Baghdad/engineering/prototype/car.py": "e868c1abf5779889812544c185afc635200b26dbaf9fd58fa9870bd19a7ee506",
+    "cities/Baghdad/engineering/prototype/commercial.py": "3f9f9c81aef2d2bf99de15e3a3c3ef24d03bb6c763ffd90367900c1a6a9f20a8",
+    "cities/Baghdad/engineering/prototype/doorway.toml": "e40adc1dece423f8105228a5eb68f1e0d8d4c5bdf95e77c504715df3952f0377",
+    "cities/Baghdad/engineering/prototype/factory-routes.json": "e355de41394a8f610ca86a6d6a97054979c1d18f0cb6dfbdd517c6d79e4511fe",
+    "cities/Baghdad/engineering/prototype/shop-costs.json": "4f1321e969b63b0aa52183297625566e0cad40416dabddc682327b4cf9bc76c6",
+    "cities/Baghdad/engineering/prototype/shop-rates.toml": "88d9185a994a006700f1cb21659b796fc15a5454cf71929e6214750613c67e96",
+    "cities/Baghdad/engineering/prototype/sourcing-estimate.json": "acb39a064991388a813526db776bb85c49b446387b50ef31193599af48378870",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-fitout-bom.csv": "45b834d349d01bd59dcc42228b90dae3bcf0a067b4525a7a0f273d6a785b4aa8",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-ga.json": "69a24467e7abe96db16b31f1c5078365253f6a2a9bd931ff4571cb8df83b9c4b",
+    "cities/Baghdad/engineering/prototype/weights.py": "5f988eac2564600cb0d106f718a8ac702b54d62c258fc188e40b0e5c260ce329",
+    "cities/Baghdad/engineering/simulation/airport_alignment.py": "7e9d3de2454c48b0e1b87a6862122f4109e47e68a17c23d8dc0ed64822827091",
+    "cities/Baghdad/engineering/simulation/airport_audit_verify.py": "bc4f25e3c4d23e0bf9791ec5f812a70ea026f2ae77c7627d93335fa67212a069",
+    "cities/Baghdad/engineering/simulation/airport_demand.py": "94980541c6b8cf034f741c4186f2f3413dac9b8fa430cbac31ae0fcea21c7f39",
+    "cities/Baghdad/engineering/simulation/audit_production.py": "2b9ac6eb6cb114f8c8a54ab53201fe715d14c060ea4aa8f15deefc80a484add0",
+    "cities/Baghdad/engineering/simulation/corridor.py": "7b56c8c1c1cc2bc9fc753330b58de9ecf0f81db093958a3d7af47d4471c47ed2",
+    "cities/Baghdad/engineering/simulation/motion_adapters.py": "4c7277d1a93cfd9b85eaf57d971e24cd96b07f743ebaaca1e03ff59018f813d5",
+    "cities/Baghdad/engineering/simulation/motion_dc.py": "e297aed7b3ee2c7ebd57d1c82798a9486f704f951c46414949f7fd3f11e43932",
+    "cities/Baghdad/engineering/simulation/motion_evidence.py": "0fa7fbb19266311b783a8e95244c53692086bf2b0e75cd863c7b4d9fd754acac",
+    "cities/Baghdad/engineering/simulation/motion_power.py": "fdbae4cb5ae2caaedf378865212462c1be43e38fe1c55f56e8325e4a5ebef41a",
+    "cities/Baghdad/engineering/simulation/passengers.py": "5e0b9a5133c2c35c35a5f7f11aa3c709672ef88c4abf68fccae8f86eb207ed77",
+    "cities/Baghdad/engineering/simulation/production.py": "1b42aa5160bfeed57a44448a319194fb1f64ed3df7be500bf654c652fdf15813",
+    "cities/Baghdad/engineering/simulation/vehicle_audit.py": "75878cabf561b865931bf95c3cae8aab42b8949b2413e67580fa32d6220725a4",
+    "cities/Baghdad/engineering/simulation/vehicle_civil.py": "fce7fbba73bd965f5112bc8aab6153bcc3e8bd5d8d3da006fbce0f627826f353",
+    "cities/Baghdad/iraq-capital.toml": "3f4ac18dda6e6de221be9810ed4bd18443f878463abe1d5c1a856030d309e177",
+    "cities/Baghdad/iraq-market.toml": "f044ba071d77b58b2427384954f5bfdf3713b48c2ba5af872e1f24c53fd3ee2b",
+    "cities/Baghdad/maps/corridor-review.geojson": "87f2b12e3b16830e700382767a5b7db244ba221ab77df9f3782cd1004a1f822f",
+    "cities/Baghdad/maps/network-148km.geojson": "923bbe3b158b85b20f63f2611d6be61659ec373a20303c34834e71e859037bb4",
+    "cities/Baghdad/maps/network-606km.geojson": "c61c07394a0ce9cb47a5f4f01fa6963b612c7cff19a8463db91a2b00292e0056",
+    "cities/Baghdad/service-diagrams.json": "37fab32fe7b04570ee7a521101d3807291173db545082660d00de190b1663ccb",
+    "cities/Baghdad/station-register.json": "d5a87d67ecb05bd971d45bc3dd908d0f3ef9024f2b4c09d8e2f6fc372a6ebba2",
+    "cities/Baghdad/system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz": "21ab8f69f933ee84e32158f3b5de54d29d5fea8518183457856d2745e6c78168",
+    "engineering/outline/baghdad_diagrams.py": "2f1498e167888c63b69534a851e6c69ad6c969fe423df21f6a0405064344d93f",
+    "engineering/outline/baghdad_system.py": "41f25f5b32ecabdba6b5e982d617bbd9aac299ae09aa1292f55ad42327225d84"
+  }
+}

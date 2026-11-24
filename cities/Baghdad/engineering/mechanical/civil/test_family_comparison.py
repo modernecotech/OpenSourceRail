@@ -228,6 +228,64 @@ class ViaductFamilyTests(unittest.TestCase):
                 self.assertEqual(partial["known_installed_subtotal_usd"], sum(partial["installed_breakdown_usd"].values()))
         self.assertEqual(result["quotation_leaders"]["base"]["offer_id"], "B")
 
+    def test_high_load_uses_one_cage_and_footing_per_trial(self):
+        audit = family.evaluate_high_load()
+        self.assertEqual(audit["evaluation_id"], family.digest({
+            key: value for key, value in audit.items() if key != "evaluation_id"
+        }))
+        high = audit["load_cases"]["high"]
+        self.assertAlmostEqual(high["loaded_train_kg"], 246035.9582)
+        self.assertAlmostEqual(high["axle_mass_balance_kg"], 0)
+        self.assertGreater(max(high["axle_kg_per_car"]), min(high["axle_kg_per_car"]))
+        for row in audit["rows"]:
+            self.assertEqual(row["audit_row_id"], family.digest({
+                key: value for key, value in row.items() if key != "audit_row_id"
+            }))
+            central, high = (row["load_case_actions"][state] for state in ("central", "high"))
+            for key in ("strand_count", "initial_force_kn", "tendon_eccentricity_m", "transfer_top_bottom_compression_mpa",
+                        "handling_moments_knm", "lift_line_reactions_kn", "mass_t"):
+                self.assertEqual(central[key], high[key])
+            self.assertGreater(high["moment_knm"], central["moment_knm"])
+            self.assertGreater(high["end_torque_knm"], central["end_torque_knm"])
+            self.assertGreater(high["axle_reaction_envelope"]["full_stock_braking_kn"],
+                               central["axle_reaction_envelope"]["full_stock_braking_kn"])
+            self.assertEqual({result["footing_width_m"] for result in row["load_case_fixed_footing_checks"].values()},
+                             {row["support"]["footing_width_m"]})
+            self.assertIsNone(row["erection_and_interfaces"]["rail_alignment_budget_mm"])
+            self.assertGreater(row["erection_and_interfaces"]["asymmetric_pick_line_twist_knm"], 0)
+        issued = audit["rows"][0]
+        self.assertEqual(issued["actions"]["strand_count"], 12)
+        self.assertIn("high.service_bottom_compression", issued["failed_checks"])
+        self.assertFalse(issued["eligible_for_quotation"])
+        self.assertIsNone(audit["physical_selection"])
+        self.assertFalse(audit["physical_acceptance"])
+        self.assertGreater(audit["quotation_leaders"]["base"]["installed_usd"],
+                           self.study["quotation_leaders"]["base"]["installed_usd"])
+
+    def test_changed_load_cost_and_closure_allowance_keep_distinct_identities(self):
+        options = dict(route_km="12.003", selected_family="U", selected_span_m=20)
+        audit = family.evaluate_high_load(**options)
+        higher = family.evaluate_high_load(**options, high_train_mass_kg=270000.)
+        self.assertNotEqual(audit["input_id"], higher["input_id"])
+        self.assertNotEqual(audit["evaluation_id"], higher["evaluation_id"])
+        self.assertEqual({(r["section"]["shape"],r["span_m"]) for r in audit["rows"]}, {("U",20)})
+        row = next(r for r in audit["rows"] if r["physical_id"] == audit["quotation_leaders"]["base"]["physical_id"])
+        changed = next(r for r in higher["rows"] if r["label"] == row["label"])
+        self.assertNotEqual(row["physical_id"], changed["physical_id"])
+        self.assertGreater(changed["priced_cases"]["base"]["installed_usd"], row["priced_cases"]["base"]["installed_usd"])
+        self.assertEqual(row["full_standard_bays"], 600)
+        self.assertEqual(row["closure_bay_m"], 3)
+        self.assertEqual(row["placements"], 1202)
+        self.assertTrue(row["end_closure_design_hold"])
+        self.assertIsNone(row["complete_installed_usd"])
+        failed = family.evaluate_high_load(**options, crane_limit_t=20.)
+        self.assertTrue(all("available_crane" in r["failed_checks"] for r in failed["rows"]))
+        self.assertTrue(all(leader is None for leader in failed["quotation_leaders"].values()))
+        with self.assertRaises(ValueError):
+            family.evaluate_high_load(selected_family="issued-box", selected_span_m=20)
+        with self.assertRaises(ValueError):
+            family.evaluate_high_load(high_train_mass_kg=100000.)
+
 
 if __name__ == "__main__":
     unittest.main()

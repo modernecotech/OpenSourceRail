@@ -55,3 +55,19 @@ A trial 2.20 × 1.40 × 0.70 m cap, 1.00 m square × 6.00 m column and 2.50 m sq
 Reproduce the package from this directory with `python3 develop_civil.py --check`, `python3 section_drawing.py --check` and `python3 -m unittest discover -p 'test_civil.py'`. The section study carries independent physical and evaluation identifiers. Installed reinforcement, fixtures, prices, bearing specification, fabrication approval and site acceptance remain open.
 
 The [span comparison and yard return](SPAN-COMPARISON.md) carries this box and the Baghdad train across the 10, 20, 25 and 30 m precast options. Use its placement counts, lifting limits, casting-yard occupancy and break-even costs when requesting prices from local precasters and erection contractors.
+
+## Audit the straight-bay quotation under the heavier train
+
+The audit carries the same girder, strand count, pickup positions and shallow-footing geometry through the central and high axle patterns. The six-car steel study loads are 198.636 t and 246.036 t. The high case places 9.29 t on each rear axle and 11.21 t on each front axle of an identically loaded car. The issued 10 m box retains its released 12 strands and fails the high-load bottom-fibre compression screen. At 200 kPa and 12 m lift radius, the deeper 20 m U-girder on shared supports leads the 12 km quotation comparison under both load cases, with 42 strands and 6.50 m square trial footings. Its base-rate standard-stock allowance is USD 110.07m for the historical-length comparison.
+
+The calculations use the train weights and positions from the verified [Airport prototype packet](../../prototype/airport-prototype.zip), the event-based [moving axle solver](../../prototype/weights.py), and the project's [concrete, section and support assumptions](concept.toml). The trial 1.30 vertical load factor is a sensitivity. The support study combines a 1 m/s² braking allowance on a 2% grade with vertical and transverse envelopes. The lift return shows longitudinal reactions and a 60:40 transverse sensitivity. Bearing offsets stand in for the unknown lifting insert spacing. Closed boxes have a thin-wall torsional shear-flow estimate. Open sections have a gross St Venant stiffness estimate, with warping and local distortion held for a detailed model. The gross elastic rail-motion bound leaves track twist and interface clearance approval open. This Airport configuration runs on wheels.
+
+The rate comparison covers standard bays, bearings, supports, casting, haul, erection and lifecycle work. The 12 m planning bands require a supplier's certified chart at the actual radius, measured masses and a staged erection plan. Custom end bays retain a separate quantity and price hold, even where the comparison carries a full standard-stock allowance. Material release, local stressing and anchorages, bearings, ground and settlement, transport routes, temporary stability and independent engineering approval remain open. [Iraqi civil capital rates](../../../iraq-capital.toml) · [Market inputs](../../../airport-works.toml) · [Shop rates](../../prototype/shop-rates.toml) · [Delhi Metro construction precedent, section 10](https://backend.delhimetrorail.com/documents/8790/OUTLINE_CONSTRUCTION_SPECIFICATIONS_for_Civil_Works_Revision-R4_June_2025.pdf) · [FHWA construction staging precedent](https://www.fhwa.dot.gov/bridge/pubs/07022/chap04.cfm)
+
+Run the comparison at the explicitly chosen family and span. The JSON preserves ordered standard quantities, closure-only exclusions, support and axle forces, failing checks, source digests and physical, input and evaluation IDs.
+
+```sh
+python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --high-load --family U --span-m 20 --json
+python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --check
+python3 -m unittest cities.Baghdad.engineering.mechanical.civil.test_family_comparison
+```
