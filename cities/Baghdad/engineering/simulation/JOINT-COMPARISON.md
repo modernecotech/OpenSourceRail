@@ -23,14 +23,14 @@ At six cars every 15 minutes the two supply options complete 144 workings each. 
 
 Across all 18 matched timetable, formation and span pairs, the absolute opening-price difference between the two supplies ranges from $316.457m to $316.457m. These fixed enquiry prices contain no new conductor or rectifier sizing for a lighter train. The duty model does respond to a lighter or less frequent train. A supplier can price its revised duty and renewal schedule against the resulting envelope.
 
-The difference in gross priced 30-year present value is $406.87m. At 4% real discount from the study origin, an additional constant $26.47m per operating year from year 4 would consume that entire priced difference. Alternatively discount a supplier's actual extra installation, protection, renewals, downtime and upkeep at their due dates. Use the difference once. The paired renewal programme is open and its parent radial scopes have been removed. The break-even figure is a budget for unresolved **net** costs, conditional on meeting the same safety, reliability and service requirements.
+18 of the 18 normal supply pairs deliver matching simulated service at the stated numerical tolerance of 0.00001 daily journeys. Their duty and current envelopes can inform competing supplier enquiries. At six cars every 15 minutes the difference in gross priced 30-year present value is $406.87m. At 4% real discount from the study origin, an additional constant $26.47m per operating year from year 4 would consume that entire priced difference. Alternatively discount a supplier's actual extra installation, protection, renewals, downtime and upkeep at their due dates. Use the difference once. The paired renewal programme is open and its parent radial scopes have been removed. The break-even figure is a budget for unresolved **net** costs, conditional on meeting the same safety, reliability and service requirements.
 
-| Combined site and feed-path outage, 15 min | Cars | Passenger workings completed / booked | Completed journeys/day |
-|---|---:|---:|---:|
-| paired6 | 3 | 144 / 144 | 10,977.5 |
-| radial30 | 3 | 0 / 144 | 0.0 |
-| paired6 | 6 | 144 / 144 | 10,977.4 |
-| radial30 | 6 | 0 / 144 | 0.0 |
+| Combined site and feed-path outage, 15 min | Cars | Passenger workings completed / booked | Completed journeys/day | Lowest collector V on energized movements | Peak site current (kA) |
+|---|---:|---:|---:|---:|---:|
+| paired6 | 3 | 144 / 144 | 10,977.5 | 1474.4 | 0.65 |
+| radial30 | 3 | 0 / 144 | 0.0 | 1477.9 | 0.54 |
+| paired6 | 6 | 144 / 144 | 10,977.4 | 1465.1 | 1.21 |
+| radial30 | 6 | 0 / 144 | 0.0 | 1471.0 | 1.06 |
 
 The outage is one prescribed site and path. Read voltage alongside service completion. The normal price uses ordinary operating energy. Protection coordination, thermal duty, evacuation and local grid evidence remain open for both layouts.
 
@@ -63,6 +63,16 @@ The heat and demand changes occur together. Compare formations within this group
 
 Mass is an installed planning estimate. Alternative joints, repair methods, supplier quotes and a formation-specific controls replay are outstanding. The capital column includes the price model's material premium. Longer life or reduced upkeep needs a priced and evidenced scope.
 
+## Which decisions can this calculation support?
+
+**Operating the declared duty.** 44 of 46 cases complete the booked workings while meeting the modeled voltage, isolation and block checks. The radial combined outages block two directional interstation movements. A voltage reading on an energized part of that line gives no assurance of a through trip. The paired case assumes the surviving ties can be configured safely. Protection settings, clearing times, conductor and rectifier thermal ratings, utility approval and evacuation each need their own evidence.
+
+**Engineering the installed option.** The cage margin applies to the inherited box and tendon arrangement. A negative lifting margin eliminates that stock lift on the assumed chart. A positive stock margin still needs rigging, radius and ground checks. Compare a resized cage, lighter girder, segmental erection or different crane as a new physical option with its own priced operations. Footing pressure uses a trial site limit. Battery ageing, low adhesion and summer cooling margins identify specific redesign and retest work for the named duty. Changing a target requires an agreed operating envelope and demonstrated independent stopping and essential power.
+
+**Setting the service brief.** 3 cases miss the study's one-minute lateness or capacity criterion. The capacity check includes complete workings and fewer than 0.1 denied attempts or passengers left by capacity at closing. The operator must set acceptable waiting, coverage and recovery before the service can be selected. For the 15-minute paired case, one spare set represents $5.09m of direct three-car fleet price or $8.48m for six cars. That gives the price exposure to the three-spare assumption. Any revised reserve needs a maintenance and recovery diagram and repriced depot, renewals and downtime.
+
+**Qualification and cost.** Every case carries an open installed price and unapproved protection. The requirement policy has 6 mandatory criteria awaiting scoped limits or independently reviewed evidence. The modeled failed movements are observed numerical results for their stated duty. The project has no authenticated physical-limit rejection of an entire vehicle, supply or span family from this comparison. The JSON returns the named duty failures, numerical checks, trial margins, missing evidence and open cost scopes individually alongside the original integrated decision.
+
 ## Reproduce the comparison
 
 The integrated evaluator returned 0 eligible selections in 46 evaluated cases. Each JSON row retains the physical and evaluation IDs, demand matrix identity, failures and open checks. Conditional prices remain available when an option fails.
@@ -72,4 +82,4 @@ python3 -m cities.Baghdad.engineering.simulation.decision_comparison --check
 python3 -m cities.Baghdad.engineering.simulation.decision_comparison --json > build/joint-decisions.json
 ```
 
-Comparison digest `6330a1215380e5932dc5bc9cdf69f4081f44bdf7f1ac3a81a7953da716d55a29`. [Service, energy and price assumptions](SIMULATION.md) · [Factory and whole-life cost scope](production-guide.md) · [Redesigned girder and support families](../mechanical/civil/SPAN-FAMILIES.md)
+Comparison digest `3281e7418351c5023bee5b2184d8f25014873754eed32b4e5f68411887e3890a`. [Service, energy and price assumptions](SIMULATION.md) · [Factory and whole-life cost scope](production-guide.md) · [Redesigned girder and support families](../mechanical/civil/SPAN-FAMILIES.md)

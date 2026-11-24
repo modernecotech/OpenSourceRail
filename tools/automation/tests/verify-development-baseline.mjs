@@ -240,21 +240,56 @@ try {
   assert.match(await page.locator("#maturity-outline").innerText(), /being edited/i);
   await brief.locator("[name=stations]").fill("10");
   await brief.locator("[name=peak_demand_pphpd]").fill("3400");
-  const calculation = page.waitForResponse((response) =>
-    response.request().method() === "POST" && response.url() === origin + "/api/outline-study",
-    { timeout: 120000 },
-  );
-  await brief.getByRole("button", { name: "Generate and compare outlines" }).click();
-  const response = await calculation;
-  assert.equal(response.status(), 200, await response.text());
-  const revised = await response.json();
+  await brief.locator("[name=operating_hours_per_day]").fill("16.5");
+  await brief.locator("[name=maximum_one_way_minutes]").fill("260");
+  await brief.locator("summary").click();
+  await brief.locator("[name=target_percent]").fill("96");
+  await brief.locator("[name=available_percent]").fill("97");
+  await brief.locator("[name=dwell_s]").fill("25, 35, 45");
+  assert.equal(await brief.evaluate((form) => form.checkValidity()), true);
+  async function calculateBrief() {
+    const calculation = page.waitForResponse((reply) =>
+      reply.request().method() === "POST" && reply.url() === origin + "/api/outline-study",
+      { timeout: 120000 },
+    );
+    await brief.getByRole("button", { name: "Generate and compare outlines" }).click();
+    const reply = await calculation;
+    assert.equal(reply.status(), 200, await reply.text());
+    await page.locator("#outline-results").waitFor({ state: "visible" });
+    return reply.json();
+  }
+  const revised = await calculateBrief();
   assert.deepEqual([revised.brief.route_km, revised.brief.stations, revised.brief.peak_demand_pphpd], [24, 10, 3400]);
-  await page.locator("#outline-results").waitFor({ state: "visible" });
-  assert((await page.locator("#outline-status").innerText()).includes(revised.requirements_id.slice(0,12)));
+  assert.equal(revised.brief.operating_hours_per_day, 16.5);
+  assert.equal(revised.brief.maximum_one_way_minutes, 260);
+  assert.equal(revised.brief.availability_target, .96);
+  assert.equal(revised.brief.planning_availability_assumption, .97);
+  const firstWindow = revised.search_window;
+  assert.deepEqual(firstWindow.domains.dwell_s, [25, 35, 45]);
+  assert.deepEqual(firstWindow.domains.speeds_kmh, [50, 60, 72]);
+  assert.equal(firstWindow.start_index, 0);
+  assert.equal(firstWindow.examined_count, 128);
+  assert.equal(firstWindow.remaining_count, firstWindow.total_programs - firstWindow.examined_count);
+  assert(firstWindow.remaining_count > 0);
+  assert.equal(firstWindow.next_start_index, firstWindow.stop_index);
+  const status = await page.locator("#outline-status").innerText();
+  for (const key of ["requirements_id", "brief_id"]) assert(status.includes(revised[key].slice(0,12)));
+  assert.match(status, /128/);
+  assert(status.includes(String(firstWindow.remaining_count)));
+  assert(status.toLowerCase().includes("resume"));
   const manifestLink = page.locator("#outline-artifacts").getByRole("link", { name: "Source and artifact identities" });
   const saved = await context.request.get(new URL(await manifestLink.getAttribute("href"), page.url()).href);
   assert.equal(saved.status(), 200);
   assert.equal((await saved.json()).manifest_id, revised.manifest_id);
+  await brief.locator("[name=start_index]").fill(String(firstWindow.next_start_index));
+  const resumed = await calculateBrief();
+  assert.equal(resumed.brief_id, revised.brief_id);
+  assert.equal(resumed.requirements_id, revised.requirements_id);
+  assert.notEqual(resumed.variables_id, revised.variables_id);
+  assert.equal(resumed.search_window.start_index, firstWindow.stop_index);
+  assert.equal(resumed.search_window.remaining_count, 0);
+  assert.equal(resumed.search_window.next_start_index, null);
+  assert.equal(resumed.search_window.examined_count, firstWindow.remaining_count);
   assert.equal(await page.locator("#system-capex").innerText(),"Compare outlines");
   assert.equal(await page.locator("#system-whole-life").innerText(),"Candidate-specific");
   assert.equal((await page.locator("main").innerText()).includes("NaN"),false);
@@ -760,7 +795,7 @@ try {
   );
   await page.screenshot({ path: output + "/held.png", fullPage: true });
   assert.deepEqual(errors, []);
-  assert.deepEqual(mutations, [origin + "/api/outline-study"]);
+  assert.deepEqual(mutations, Array(2).fill(origin + "/api/outline-study"));
   assert.deepEqual(external, []);
   report.execution = "completed";
   report.screen = "pass";
@@ -774,7 +809,7 @@ try {
     "current city source bindings",
     "selected-candidate Class C vehicle cost and 2/3-shift operating cases",
     "desktop/mobile rendering",
-    "one explicit local outline calculation, immutable result and manifest, no other mutations",
+    "explicit corridor brief, edited duty and partial trial overrides, immutable results and a resumed search",
     "coordinated research counts and unknown installed mass",
     "portfolio family filters, exact candidate evidence and separate quantity/mechanics archives",
     "forged portfolio acceptance hides research results",

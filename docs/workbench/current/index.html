@@ -43,17 +43,33 @@
         <p class="note" id="active-propulsion-status">No installed propulsion architecture or length is selected.</p>
         <form id="outline-form">
           <div class="outline-inputs">
-            <label>Route length · km<input name="route_km" type="number" min="1" max="100" step="0.1" required /></label>
+            <label>Route length · km<input name="route_km" type="number" min="0" step="any" required /></label>
             <label>Stations, including terminals<input name="stations" type="number" min="2" max="100" required /></label>
-            <label>Peak passengers / hour / direction<input name="peak_demand_pphpd" type="number" min="1" max="50000" required /></label>
-            <label>Maximum one-way journey · minutes<input name="maximum_one_way_minutes" type="number" min="5" max="240" value="45" required /></label>
-            <label>Longest planned wait between trains · seconds<input name="maximum_headway_s" type="number" min="30" max="1800" value="300" required /></label>
-            <label>Planning occupancy · %<input name="occupancy_percent" type="number" min="10" max="100" value="85" required /></label>
-            <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
+            <label>Peak passengers / hour / direction<input name="peak_demand_pphpd" type="number" min="0" step="any" required /></label>
+            <label>Maximum one-way journey · minutes<input name="maximum_one_way_minutes" type="number" min="0" step="any" value="45" required /></label>
+            <label>Longest planned wait between trains · seconds<input name="maximum_headway_s" type="number" min="0" step="any" value="300" required /></label>
+            <label>Planning occupancy · %<input name="occupancy_percent" type="number" min="0" max="100" step="any" value="85" required /></label>
+            <label>Daily operating hours<input name="operating_hours_per_day" type="number" min="0" max="24" step="any" value="18" required /></label>
             <label>Purchasing and manufacturing basis<select name="pricing_scenario"><option value="project-make-buy">Project-volume make or buy</option><option value="china-bulk-buy">China-origin bulk purchasing</option><option value="reference-rates">Original generic reference rates</option></select></label>
           </div>
+          <details>
+            <summary>Change service assumptions and search values</summary>
+            <p>Enter trial values separated by commas. Blank lists use the worked search seeds. The calculator also derives a headway from demand. Each run can examine up to 128 combinations. The result shows how many it examined and where to resume.</p>
+            <div class="outline-inputs">
+              <label>Availability required by the brief · %<input type="number" min="0" max="100" step="any" value="99" name="target_percent" required /></label>
+              <label>Assumed available service · %<input type="number" min="0" max="100" step="any" value="99" name="available_percent" required /></label>
+              <label>Trial speeds · km/h<input name="speeds_kmh" placeholder="e.g. 45, 65, 80" /></label>
+              <label>Trial headways · seconds<input name="headways_s" placeholder="e.g. 100, 240, 450" /></label>
+              <label>Station dwell · seconds<input name="dwell_s" placeholder="e.g. 25, 40" /></label>
+              <label>Acceleration · m/s²<input name="accelerations_m_s2" placeholder="e.g. 0.7, 1.0" /></label>
+              <label>Service deceleration · m/s²<input name="service_decelerations_m_s2" placeholder="e.g. 0.6, 0.8" /></label>
+              <label>Jerk · m/s³<input name="jerks_m_s3" placeholder="e.g. 0.4, 0.6" /></label>
+              <label>Headway rounding interval · seconds<input name="headway_quantum_s" type="number" min="0" step="any" placeholder="Optional" /></label>
+              <label>Start at combination<input name="start_index" type="number" step="1" min="0" value="0" /></label>
+            </div>
+          </details>
           <p class="note">This outline calculator assumes level, fully elevated double track; six 17 m cars with
-            276 seated/wheelchair places, no planned standing. The brief supplies passenger demand. The calculator assumes 99% service availability. Two shifts for production and construction.</p>
+            276 seated/wheelchair places, no planned standing. The brief supplies passenger demand. Daily service, occupancy, availability and search values are editable. This evaluator supports 2–100 stations and assumes two shifts for production and construction.</p>
           <p class="note">Bulk scenarios use China wholesale/manufacturer observations and calculated
             material, processing and landed costs. The make/buy case includes factory setup and capacity.
             Advertised prices and engineering estimates are distinct from supplier-confirmed offers.</p>
@@ -97,7 +113,7 @@
             <div class="outline-inputs">
               <label>Peak passengers / hour / direction per line<input name="peak_demand_pphpd" type="number" min="1" max="100000" value="4000" required /></label>
               <label>Longest planned wait · seconds<input name="maximum_headway_s" type="number" min="10" max="3600" value="300" required /></label>
-              <label>Daily operating hours<select name="operating_hours_per_day"><option value="18">18 hours · two shifts</option><option value="24">24 hours · three shifts</option></select></label>
+              <label>Daily operating hours<input name="operating_hours_per_day" type="number" min="1" max="24" step="any" value="18" required /></label>
               <label>Maximum added walk · metres<input name="maximum_added_walk_m" type="number" min="50" max="5000" value="500" required /></label>
               <label>Construction scope<select name="civil_policy"><option value="elevated">Elevated guideway and bridge crossings</option><option value="mapped-mixed-comparison">Compare mapped civil sections</option></select></label>
               <label>Alignment comparison<select name="selection"><option value="auto">Compare compatible alternatives</option><option value="original">Original alignment</option><option value="anchor-preserving-chord-research">Straighter corridors</option><option value="rounded-four-edge-ring-research">Rounded square-ring concept</option></select></label>

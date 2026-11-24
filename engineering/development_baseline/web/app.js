@@ -1051,7 +1051,7 @@ function renderOutlineRows(value, artifactBase, artifacts = [
   );
   document.getElementById("outline-recommendation").textContent = selected
     ? `Lowest modelled whole-life cost in this search: ${launchNames[selected.mechanism] || selected.mechanism}. Installed capital ${moneyMillions(selected.installed_capital_usd.base)}.`
-    : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
+    : "This batch produced no priced outline. Inspect the study for unmet service assumptions, layouts needing a price and untested combinations.";
   const links = document.getElementById("outline-artifacts");
   links.replaceChildren();
   for (const [file, label] of artifacts) {
@@ -1087,16 +1087,28 @@ outlineForm.addEventListener("submit", async (event) => {
       maximum_headway_s: Number(fields.get("maximum_headway_s")),
       planning_occupancy: Number(fields.get("occupancy_percent")) / 100,
       operating_hours_per_day: Number(fields.get("operating_hours_per_day")),
-      availability_target: 0.99,
-      planning_availability_assumption: 0.99,
+      availability_target: Number(fields.get("target_percent")) / 100,
+      planning_availability_assumption: Number(fields.get("available_percent")) / 100,
       demand_source:
         "User-entered planning brief; survey evidence not attached",
     };
+    const variables = {};
+    for (const field of ["speeds_kmh", "headways_s", "dwell_s", "accelerations_m_s2", "service_decelerations_m_s2", "jerks_m_s3"]) {
+      const raw = fields.get(field).trim();
+      if (!raw) continue;
+      const values = raw.split(",").map((s) => Number(s.trim()));
+      if (values.some((n) => !Number.isFinite(n) || n <= 0))
+        throw Error(`Enter positive numbers separated by commas for ${field}.`);
+      variables[field] = values;
+    }
+    if (fields.get("headway_quantum_s")) variables.headway_quantum_s = Number(fields.get("headway_quantum_s"));
+    variables.start_index = Number(fields.get("start_index"));
     const response = await fetch("/api/outline-study", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         brief,
+        variables,
         pricing_scenario: fields.get("pricing_scenario"),
       }),
     });
@@ -1105,7 +1117,11 @@ outlineForm.addEventListener("submit", async (event) => {
       throw Error(value.error || "Outline calculation unavailable");
     if (requestId !== outlineRequest) return;
     renderOutlineRows(value, value.artifact_url);
-    outlineStatus.textContent = `${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0, 12)}.`;
+    const window = value.search_window;
+    const remaining = window.remaining_count;
+    const coverage = `Examined ${window.examined_count} of ${window.total_programs} combinations in this search. ${remaining} remain after this batch.`;
+    const continuation = remaining ? ` Resume at combination ${window.next_start_index} with the same inputs.` : "";
+    outlineStatus.textContent = `${coverage}${continuation} ${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0, 12)} · brief ${value.brief_id.slice(0, 12)}.`;
   } catch (error) {
     if (requestId !== outlineRequest) return;
     outlineStatus.textContent = `Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;

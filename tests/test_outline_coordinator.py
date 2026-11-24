@@ -120,12 +120,20 @@ def test_http_requires_same_origin_bounds_and_refuses_arbitrary_artifacts(tmp_pa
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     base='http://127.0.0.1:'+str(server.server_port)
     try:
-        assert json.load(urllib.request.urlopen(base+'/api/outline-study'))['brief']['peak_demand_pphpd']==4000
+        with urllib.request.urlopen(base+'/api/outline-study') as response:
+            template = json.load(response)
+        assert template['brief'] == coordinator.DEFAULT_BRIEF
+        assert 'example' in template['brief_role'].lower()
         def post(raw,origin):
             return urllib.request.urlopen(urllib.request.Request(base+'/api/outline-study',data=raw,
                 headers={'Content-Type':'application/json','Origin':origin}))
         with pytest.raises(urllib.error.HTTPError) as caught:post(b'{}','https://other.example')
         assert caught.value.code==403
+        for payload in (b'{}', b'{"variables":{"start_index":0}}', b'{"brief":{}}', b'{"brief":null}'):
+            with pytest.raises(urllib.error.HTTPError) as caught:
+                post(payload, base)
+            assert caught.value.code == 400
+            assert 'brief' in json.load(caught.value)['error'].lower()
         with pytest.raises(urllib.error.HTTPError) as caught:post(b'{"brief":{},"brief":{}}',base)
         assert caught.value.code==400
         assert not (tmp_path/'build/outline-workbench').exists()
@@ -134,6 +142,33 @@ def test_http_requires_same_origin_bounds_and_refuses_arbitrary_artifacts(tmp_pa
         with pytest.raises(urllib.error.HTTPError) as caught:post(b'{}'*(interactive.MAX_REQUEST_BYTES),base)
         assert caught.value.code==400
     finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_interactive_partial_domains_and_revised_corridor_assumptions():
+    brief = dict(coordinator.DEFAULT_BRIEF, route_km=101.5, maximum_one_way_minutes=260,
+                 maximum_headway_s=2000, operating_hours_per_day=16.5,
+                 planning_availability_assumption=.97, availability_target=.96)
+    trials = {'speeds_kmh': [65], 'maximum_screened': 2}
+    def screen_for(occupancy, start=0):
+        payload = {'brief': dict(brief, planning_occupancy=occupancy),
+                   'variables': dict(trials, start_index=start)}
+        request = interactive._request(json.dumps(payload).encode())
+        assert request['variables']['accelerations_m_s2'] == coordinator.DEFAULT_VARIABLES['accelerations_m_s2']
+        assert request['variables']['speeds_kmh'] == [65]
+        value, _ = coordinator.evaluate(request['brief'], request['variables'])
+        return value['service_screen']
+
+    first = screen_for(.85)
+    second = screen_for(.85, first['generation']['stop_index'])
+    changed = screen_for(.70)
+    assert first['generation']['stop_index'] == second['generation']['start_index'] == 2
+    assert second['generation']['total_programs'] == first['generation']['total_programs'] > 4
+    assert {r['case_id'] for r in first['cases']}.isdisjoint(r['case_id'] for r in second['cases'])
+    assert changed['input_ids']['brief_id'] != first['input_ids']['brief_id'] == second['input_ids']['brief_id']
+    assert changed['requirements_id'] == first['requirements_id']
+    assert changed['generation']['demand_derived_headway_limit_s'] < first['generation']['demand_derived_headway_limit_s']
+    assert changed['requirements_contract']['operating_hours_per_day'] == 16.5
+    assert changed['requirements_contract']['planning_availability_assumption'] == .97
 
 
 def test_all_three_outline_installations_reconcile_exact_cost_quantities_and_braking(study):

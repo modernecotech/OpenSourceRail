@@ -26,7 +26,13 @@ def _request(raw):
     value=json.loads(raw,object_pairs_hook=pairs,
         parse_constant=lambda x:(_ for _ in ()).throw(ValueError('Finite JSON required')))
     if not isinstance(value,dict) or set(value)-{'brief','variables','pricing_scenario'}:raise ValueError('Brief and optional bounded variables/pricing scenario required')
-    # Service-search validation supplies the numerical and variable-count caps.
+    if not isinstance(value.get('brief'),dict) or not value['brief']:
+        raise ValueError('Enter a corridor brief, or explicitly load the worked example')
+    if 'variables' in value:
+        if not isinstance(value['variables'],dict):
+            raise ValueError('Search variables must be a mapping of names to trial values')
+        value['variables']={**coordinator.DEFAULT_VARIABLES,**value['variables']}
+    # The service evaluator validates its case budget and supported inputs.
     return value
 
 
@@ -94,6 +100,14 @@ def handle_api(handler):
                 output=store/uuid4().hex
                 manifest=coordinator.run(output,brief=value.get('brief'),variables=value.get('variables'),root=handler.root,pricing_scenario=value.get('pricing_scenario'))
                 response=json.loads((output/'summary.json').read_bytes())
+                screen=json.loads((output/'result.json').read_bytes())['service_screen']
+                generation=screen['generation']
+                start,stop,total=(generation[k] for k in ('start_index','stop_index','total_programs'))
+                response['search_window']=dict(start_index=start, stop_index=stop, total_programs=total,
+                    examined_count=stop-start, remaining_count=total-stop, next_start_index=stop if stop<total else None,
+                    domains=generation['domains'])
+                response['brief_id']=screen['input_ids']['brief_id']
+                response['variables_id']=screen['input_ids']['variables_id']
                 response['artifact_url']='/api/outline-study/'+output.name+'/'
                 response['manifest_id']=manifest['manifest_id']
                 handler.respond(200,response)
@@ -103,6 +117,7 @@ def handle_api(handler):
         if path=='/api/outline-study':
             from . import supply_economics
             handler.respond(200,dict(brief=coordinator.DEFAULT_BRIEF,variables=coordinator.DEFAULT_VARIABLES,
+                brief_role='Worked example for explicit reuse',variables_role='Revisable search seeds. A case budget limits computation per request.',
                 pricing_scenarios=list(supply_economics.SCENARIOS),default_pricing_scenario=supply_economics.policy(handler.root)['default_scenario'],
                 workflow=['requirements','generate','compare','accept outline','detail and validate','prepare delivery'],**coordinator.FLAGS))
             return True

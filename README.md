@@ -135,7 +135,7 @@ From the repository root, open the Workbench and enter your corridor requirement
 ./osr readiness
 ```
 
-Use `./osr design railway spans --route-km 18 --soil-kpa 200` to compare span families on an 18 km example using Iraqi planning rates. Change the length and soil case to match the brief. For development, `./osr build` refreshes the reference engineering and `./osr test` runs its checks.
+Use `./osr design railway spans --route-km 18 --soil-kpa 200` to compare span families on an 18 km example using Iraqi planning rates. Set the soil pressure and route length for the site. Leave crane capacity blank until a contractor supplies a working load at radius. The Workbench also lets you change service hours, availability and the speeds, headways and dwell times to examine. For development, `./osr build` refreshes the reference engineering and `./osr test` runs its checks.
 
 [Installation and tools](tools/README.md) · [Roadmap](docs/ROADMAP.md) · [First adoption path](docs/first-adoptable-product.md) · [Documentation index](docs/INDEX.md)
 

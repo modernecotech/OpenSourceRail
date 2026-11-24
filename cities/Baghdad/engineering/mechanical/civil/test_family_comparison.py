@@ -1,6 +1,7 @@
 """Regression checks for the independently dimensioned straight-viaduct trials."""
 from math import ceil
 import unittest
+from unittest.mock import patch
 
 from cities.Baghdad.engineering.mechanical.civil import family_comparison as family
 
@@ -105,6 +106,85 @@ class ViaductFamilyTests(unittest.TestCase):
         self.assertEqual(data["passing_trial_count"], 0)
         self.assertTrue(all(q is None for q in data["quotation_leaders"].values()))
         self.assertIn("No trial passes all checks", family.markdown(data))
+
+    def test_actual_hook_demand_independent_of_price_band(self):
+        capacity = 95.5
+        candidate = family.evaluate(crane_limit_t=capacity)
+        for row in candidate["rows"]:
+            self.assertEqual(row["checks"]["available_crane"], row["actions"]["chart_demand_t"] <= capacity)
+        self.assertTrue(any(r["checks"]["available_crane"] and r["actions"]["chart_class_t_at_12m"] > capacity
+                            for r in candidate["rows"]))
+        self.assertIsNone(self.study["crane_limit_t_at_12m"])
+        self.assertTrue(all("available_crane" not in r["checks"] for r in self.study["rows"]))
+        for capacity in (0, -7, float("nan"), float("inf")):
+            with self.assertRaises(ValueError):
+                family.evaluate(crane_limit_t=capacity)
+
+    def test_supplied_chart_point_at_other_radius_has_no_matched_rate(self):
+        at_reference = family.evaluate(crane_limit_t=95.5)
+        at_site = family.evaluate(crane_limit_t=95.5, lift_radius_m=18.25)
+        self.assertEqual(at_reference["crane_limit_t_at_12m"], 95.5)
+        self.assertIsNone(at_site["crane_limit_t_at_12m"])
+        self.assertEqual(at_site["crane_limit_t"], 95.5)
+        self.assertEqual(at_site["lift_radius_m"], 18.25)
+        self.assertNotEqual(at_site["evaluation_id"], at_reference["evaluation_id"])
+        self.assertEqual(at_site["passing_trial_count"], at_reference["passing_trial_count"])
+        self.assertEqual(at_site["priced_trial_count"], 0)
+        self.assertTrue(all(q is None for q in at_site["quotation_leaders"].values()))
+        for site, reference in zip(at_site["rows"], at_reference["rows"], strict=True):
+            self.assertEqual(site["physical_id"], reference["physical_id"])
+            self.assertEqual(site["actions"]["chart_demand_t"], reference["actions"]["chart_demand_t"])
+            self.assertEqual(site["checks"]["available_crane"], reference["checks"]["available_crane"])
+            self.assertIsNone(site["matched_crane_price_class_t"])
+            self.assertIsNone(site["traffic_shifts"])
+            self.assertIn("18.25 m", site["pricing_hold"])
+        self.assertIn("95.5 t of available capacity at 18.25 m", family.markdown(at_site))
+        for radius in (0, -1, float("nan"), float("inf")):
+            with self.assertRaises(ValueError):
+                family.evaluate(lift_radius_m=radius)
+
+    def test_higher_demand_remains_an_unpriced_lift_trial(self):
+        with patch.dict(family.TRIALS, rigging_t=200):
+            result = family.evaluate(crane_limit_t=510.6)
+            text = family.markdown(result)
+        self.assertGreater(result["passing_trial_count"], 0)
+        self.assertEqual(result["priced_trial_count"], 0)
+        self.assertEqual(result["priced_passing_trial_count"], 0)
+        self.assertIsNone(result["quotation_leaders"]["base"])
+        self.assertIn("Passing trials need an erection quote", text)
+        for row in result["rows"]:
+            self.assertTrue(row["checks"]["available_crane"])
+            self.assertIsNone(row["actions"]["chart_class_t_at_12m"])
+            self.assertIsNone(row["traffic_shifts"])
+            self.assertTrue(row["pricing_hold"])
+
+    def test_entered_soil_and_unresolved_foundation(self):
+        ordinary = family.evaluate(route_km=1500, soil_kpa=175.5)
+        self.assertEqual(ordinary["soil_kpa"], 175.5)
+        self.assertGreater(ordinary["priced_passing_trial_count"], 0)
+        for row in ordinary["rows"]:
+            self.assertLessEqual(row["support"]["peak_soil_kpa"], 175.5)
+            self.assertEqual(set(row["soil_sensitivity"]), {"150", "200", "250"})
+        weak = family.evaluate(soil_kpa=.01)
+        self.assertEqual(weak["unresolved_foundation_count"], len(weak["rows"]))
+        self.assertEqual(weak["priced_trial_count"], 0)
+        self.assertEqual(weak["passing_trial_count"], 0)
+        self.assertTrue(all(q is None for q in weak["quotation_leaders"].values()))
+        self.assertIn("Site foundation design required", family.markdown(weak))
+        for row in weak["rows"]:
+            self.assertIsNone(row["support"]["footing_width_m"])
+            self.assertIsNone(row["support"]["independent_footings_clear"])
+            self.assertIsNone(row["support"]["peak_soil_kpa"])
+            self.assertIn("foundation", row["pricing_hold"])
+            self.assertEqual(row["actions"], next(r["actions"] for r in ordinary["rows"] if r["label"] == row["label"]))
+
+    def test_route_and_soil_numeric_domain(self):
+        for route in ("1e10000000", "1e-10000000", "NaN"):
+            with self.assertRaises(ValueError):
+                family.evaluate(route_km=route)
+        for soil in (0, -10, float("nan"), float("inf")):
+            with self.assertRaises(ValueError):
+                family.evaluate(soil_kpa=soil)
 
 
 if __name__ == "__main__":

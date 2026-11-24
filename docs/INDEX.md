@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **223**.
+Indexed Markdown files: **225**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **223**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 59 |
+| [cities](#cities) | 61 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 132 |
@@ -80,6 +80,7 @@ Indexed Markdown files: **223**.
 | [`cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md`](../cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md) | Baghdad Airport production preparation and v0.8 decision |
 | [`cities/Baghdad/engineering/prototype/README.md`](../cities/Baghdad/engineering/prototype/README.md) | Baghdad Airport prototype review |
 | [`cities/Baghdad/engineering/prototype/SHOP-COSTS.md`](../cities/Baghdad/engineering/prototype/SHOP-COSTS.md) | Baghdad Airport workshop cost estimate |
+| [`cities/Baghdad/engineering/prototype/YARD-OFFERS.md`](../cities/Baghdad/engineering/prototype/YARD-OFFERS.md) | Compare precast yard offers |
 | [`cities/Baghdad/engineering/prototype/cam/CAM.md`](../cities/Baghdad/engineering/prototype/cam/CAM.md) | Cut the Airport vehicle blanks and run a CAM practice job |
 | [`cities/Baghdad/engineering/prototype/civil-guide.md`](../cities/Baghdad/engineering/prototype/civil-guide.md) | First precast beam and station bay |
 | [`cities/Baghdad/engineering/prototype/commercial-guide.md`](../cities/Baghdad/engineering/prototype/commercial-guide.md) | Airport field returns and buyer cash |
@@ -103,6 +104,7 @@ Indexed Markdown files: **223**.
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/factory-routing.md) | Vehicle factory and depot planning |
 | [`cities/Baghdad/engineering/prototype/weight-guide.md`](../cities/Baghdad/engineering/prototype/weight-guide.md) | Return installed Airport weights |
 | [`cities/Baghdad/engineering/simulation/CAM-COMPARISON.md`](../cities/Baghdad/engineering/simulation/CAM-COMPARISON.md) | CamCraft and FreeCAD on the Airport wax coupon |
+| [`cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md`](../cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md) | Compare supply spacing and conductor resistance |
 | [`cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md`](../cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md) | FreeCAD CAM trial on the wax coupon |
 | [`cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md`](../cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md) | Which choices change the service and the price? |
 | [`cities/Baghdad/engineering/simulation/MOTION-POWER.md`](../cities/Baghdad/engineering/simulation/MOTION-POWER.md) | Airport service, train motion and traction supply |

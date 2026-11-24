@@ -4,8 +4,9 @@ from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 from hashlib import sha256
 import json
-from math import ceil
+from math import ceil, inf, isfinite
 from pathlib import Path
+from sys import float_info
 import tomllib
 
 from cities.Baghdad.engineering.prototype.weights import moving_span
@@ -23,10 +24,12 @@ U_DEPTH = {10: 0.95, 15: 1.12, 20: 1.35, 25: 1.62, 30: 1.92}
 U_WEB = {10: .17, 15: .18, 20: .20, 25: .22, 30: .24}
 U_SLAB = {10: .20, 15: .22, 20: .24, 25: .26, 30: .28}
 CASES = ("low", "base", "high")
+PRICED_CRANE_CLASSES = (60, 110, 180)
+PRICED_LIFT_RADIUS_M = 12.
 TRIALS = {
     "track_pitch_m": 4.5, "braking_m_s2": 1., "grade_fraction": .02,
     "allowable_release_tension_mpa": 1.5, "allowable_release_compression_mpa": 18.,
-    "rigging_t": 4., "lift_dynamic_factor": 1.10, "lift_radius_m": 12.,
+    "rigging_t": 4., "lift_dynamic_factor": 1.10, "lift_radius_m": PRICED_LIFT_RADIUS_M,
     "cost_discount_real": .04, "rebar_kg_per_m3": 130., "strand_usd_kg": [1.3, 1.9, 3.1],
     "bearing_purchase_usd_each": [180., 450., 1400.], "closure_usd_shift": [500., 2400., 9500.],
     "annual_inspection_usd_bearing": [4., 12., 45.], "bearing_renewal_labour_usd": [250., 800., 2400.],
@@ -145,7 +148,7 @@ def engineering(length, sec, axle_actions, cage, cfg):
     shear_legs_mm2_per_m = 1000 * reaction / (.8*h*435.)  # V=z*(Asw/s)*fy; neglect concrete
     mass_t = bare_kn / g
     charged_lift = TRIALS["lift_dynamic_factor"] * (mass_t/segments + TRIALS["rigging_t"])
-    chart = 60 if charged_lift <= 60 else 110 if charged_lift <= 110 else 180
+    chart = next((t for t in PRICED_CRANE_CLASSES if charged_lift <= t), None)
     # Group widths for a proposed strand grid; this excludes couplers/ducts and splice bars.
     # Straight pretension fits across the U floor; post-tension ducts/anchors
     # need actual detailing. Keep the issued box grid and its measured datum.
@@ -163,7 +166,7 @@ def engineering(length, sec, axle_actions, cage, cfg):
                   release_fibre_max=max(transfer) <= TRIALS["allowable_release_compression_mpa"],
                   lift_fibre_min=min(lift_stresses) >= -TRIALS["allowable_release_tension_mpa"],
                   lift_fibre_max=max(lift_stresses) <= TRIALS["allowable_release_compression_mpa"],
-                  lifting_capacity=charged_lift <= chart, positive_bearing_reactions=min_bearing > 0)
+                  positive_bearing_reactions=min_bearing > 0)
     return dict(moment_knm=moment, dead_moment_knm=dead_m, peak_track_reaction_kn=reaction,
                 dead_track_reaction_kn=reaction_dead, dynamic_live_reaction_kn=reaction_live, end_torque_knm=torque,
                 bearing_offset_m=side, peak_bearing_kn=(reaction+torque/side)/2, min_bearing_at_peak_torque_kn=(reaction-torque/side)/2,
@@ -197,6 +200,7 @@ def support(a, shared, soil, cfg):
     # Horizontal braking from both adjacent live-load upper bounds. Check both
     # loaded tracks as well as transverse overturning with one loaded track.
     horizontal_ratio = TRIALS["braking_m_s2"]/cfg["materials"]["gravity_m_s2"] + TRIALS["grade_fraction"]
+    resolved = False
     for i in range(10, 101):
         side = i*.25
         depth = max(1., .25*ceil(side/4/.25))
@@ -209,15 +213,16 @@ def support(a, shared, soil, cfg):
             amplitude = 6*(brake_moment+lateral_moment)/side**3
             pressures.extend((normal/side**2-amplitude, normal/side**2+amplitude))
         if min(pressures) >= 0 and max(pressures) <= soil:
+            resolved = True
             break
-    else:
-        raise ValueError("No compressive shallow footing fits the study envelope")
-    lateral_footing_gap = None if shared else pitch-side
-    return dict(footing_width_m=side, footing_depth_m=depth, concrete_m3=sub+footing,
+    lateral_footing_gap = pitch-side if resolved and not shared else None
+    return dict(footing_width_m=side if resolved else None, footing_depth_m=depth if resolved else None,
+                concrete_m3=sub+footing if resolved else None,
+                foundation_hold=None if resolved else "No shallow trial in the 2.5–25 m family satisfies the soil case. Price a site-specific foundation.",
                 cap_cross_track_m=cap_length, cap_along_track_m=cap_width, cap_depth_m=cap_depth,
                 cap_outer_pad_edge_margin_m=(track_head-2*a["bearing_offset_m"]-cfg["box"]["pad_width_m"])/2,
-                footing_clear_gap_m=lateral_footing_gap, independent_footings_clear=shared or lateral_footing_gap > 0,
-                peak_soil_kpa=max(pressures), minimum_soil_kpa=min(pressures),
+                footing_clear_gap_m=lateral_footing_gap, independent_footings_clear=(shared or lateral_footing_gap > 0) if resolved else None,
+                peak_soil_kpa=max(pressures) if resolved else None, minimum_soil_kpa=min(pressures) if resolved else None,
                 full_bent_longitudinal_braking_kn=live*tracks*horizontal_ratio,
                 full_bent_bound_end_twist_knm=2*tracks*abs(a["end_torque_knm"]),
                 crosshead_cantilever_knm=(dead+live)*pitch/2+2*abs(a["end_torque_knm"]) if shared else None)
@@ -226,6 +231,9 @@ def support(a, shared, soil, cfg):
 def cost(row, rates, shop, basket):
     n, p, bears, placements = (row[k] for k in ("beams", "supports", "bearings", "placements"))
     a, sec, base = row["actions"], row["section"], row["support"]
+    chart_class = row["matched_crane_price_class_t"]
+    if chart_class is None or base["foundation_hold"]:
+        return {}
     length = row["span_m"]
     options = {}
     for i, name in enumerate(CASES):
@@ -238,8 +246,8 @@ def cost(row, rates, shop, basket):
             beam_steel = sec["volume_m3"]*TRIALS["rebar_kg_per_m3"] + a["shear_links_demand_mm2_per_m"]*1e-6*7850*length*sec["depth_m"]
         steel = n*beam_steel+p*base["concrete_m3"]*rates["rebar_t_per_m3"][i]*1000
         strand_kg = n*a["strand_count"]*length*row["strand_kg_m"]
-        chart_factor = {60: 1., 110: 1.65, 180: 2.8}[a["chart_class_t_at_12m"]]
-        closure_shifts = ceil(placements / row["placements_per_shift"])
+        chart_factor = {60: 1., 110: 1.65, 180: 2.8}[chart_class]
+        closure_shifts = -(-placements // row["placements_per_shift"])
         yard_size = min(8, placements)
         # Labour and yard handling estimated against issue's first 10m delivery allowance,
         # less its stated modelled standard haul. Variants scale with casting and set-ups.
@@ -273,12 +281,23 @@ def cost(row, rates, shop, basket):
     return options
 
 
-def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=180):
-    if crane_limit_t not in (60, 110, 180):
-        raise ValueError("Use a priced crane capacity of 60, 110 or 180 t at 12 m radius")
+def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
+             lift_radius_m=PRICED_LIFT_RADIUS_M):
+    if not isfinite(lift_radius_m) or lift_radius_m <= 0:
+        raise ValueError("Lift radius must be finite and positive in metres")
+    if crane_limit_t is not None and (not isfinite(crane_limit_t) or crane_limit_t <= 0):
+        raise ValueError("Available working load at the stated radius must be a finite positive number of tonnes")
     route_decimal = Decimal(str(route_km))
-    if not route_decimal.is_finite() or not 0 < route_decimal <= 1000 or cars not in (3, 6) or material not in vehicle.MATERIAL or soil_kpa not in (150, 200, 250):
-        raise ValueError("Use 0–1000 route-km, 3 or 6 cars, a supported body, and 150/200/250 kPa soil trial")
+    if not route_decimal.is_finite() or route_decimal <= 0 or abs(route_decimal.adjusted()) > float_info.max_10_exp-9:
+        raise ValueError("Route length must be positive and leave nine decimal orders of float range for total and per-km costs")
+    if cars not in (3, 6) or material not in vehicle.MATERIAL:
+        raise ValueError("Choose an evaluated 3- or 6-car load and supported body material")
+    try:
+        soil_kpa = float(soil_kpa)
+    except OverflowError as error:
+        raise ValueError("Representative soil bearing pressure exceeds the numerical range") from error
+    if not isfinite(soil_kpa) or soil_kpa <= 0:
+        raise ValueError("Representative soil bearing pressure must be finite and positive")
     route_m = Fraction(route_decimal)*1000
     route_km = float(route_decimal)
     cfg = read_toml(HERE/"concept.toml")
@@ -316,14 +335,18 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                        counted_bar_kg_per_beam=cage["straight_and_developed_bar_kg"] if kind == "issued-box" else None)
             row["closure_bay_m"] = float(closure) if closure else None
             row["ordered_excess_length_per_track_m"] = float(bays*length-route_m)
-            row["checks"] = dict(a["checks"], independent_footings_clear=base["independent_footings_clear"],
-                                 available_crane=a["chart_class_t_at_12m"] <= crane_limit_t,
-                                 full_length_standard_bays=closure == 0)
-            row["placements_per_shift"] = {60: 8, 110: 4, 180: 2}[a["chart_class_t_at_12m"]]
+            row["checks"] = dict(a["checks"], full_length_standard_bays=closure == 0)
+            if base["independent_footings_clear"] is not None:
+                row["checks"]["independent_footings_clear"] = base["independent_footings_clear"]
+            if crane_limit_t is not None:
+                row["checks"]["available_crane"] = a["chart_demand_t"] <= crane_limit_t
+            matched_class = a["chart_class_t_at_12m"] if lift_radius_m == PRICED_LIFT_RADIUS_M else None
+            row["matched_crane_price_class_t"] = matched_class
+            row["placements_per_shift"] = {60: 8, 110: 4, 180: 2}.get(matched_class)
             row["haul_trips"] = row["placements"]
-            row["traffic_shifts"] = ceil(row["placements"]/row["placements_per_shift"])
+            row["traffic_shifts"] = -(-row["placements"] // row["placements_per_shift"]) if row["placements_per_shift"] else None
             row["mould_positions"] = min(8,row["placements"])
-            row["casting_days_at_24h_cycle"] = ceil(row["placements"]/row["mould_positions"])
+            row["casting_days_at_24h_cycle"] = -(-row["placements"] // row["mould_positions"])
             row["casting_days_at_48h_cycle"] = 2*row["casting_days_at_24h_cycle"]
             row["source_train_candidate_id"] = record["candidate_id"]
             row["physical_id"] = digest(dict(section=sec, length=length, strands=a["strand_count"], strand_e=a["tendon_eccentricity_m"],
@@ -332,34 +355,38 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                                               shared=shared, pier_height=cfg["pier"]["column_height_m"],
                                               tracks_pitch=TRIALS["track_pitch_m"], segments=segments, source_cage=cage["physical_id"]))
             row["priced_cases"] = cost(row, rates, shop, basket)
+            row["pricing_hold"] = base["foundation_hold"] or (None if row["priced_cases"] else
+                                      f"Request crane, haul and erection rates for the {lift_radius_m:g} m lift")
             row["soil_sensitivity"] = {}
             for soil in (150, 200, 250):
                 alt_support = support(a, shared, soil, cfg)
-                alt_cost = cost(dict(row, support=alt_support), rates, shop, basket)["base"]
+                alt_cost = cost(dict(row, support=alt_support), rates, shop, basket).get("base")
                 row["soil_sensitivity"][str(soil)] = {
+                    "foundation_hold": alt_support["foundation_hold"],
                     "footing_width_m": alt_support["footing_width_m"],
                     "footing_clear_gap_m": alt_support["footing_clear_gap_m"],
                     "independent_footings_clear": alt_support["independent_footings_clear"],
-                    "installed_usd_per_km": alt_cost["installed_usd"]/route_km,
-                    "lifecycle_pv_usd_per_km": alt_cost["lifecycle_pv_usd"]/route_km,
+                    "installed_usd_per_km": alt_cost["installed_usd"]/route_km if alt_cost else None,
+                    "lifecycle_pv_usd_per_km": alt_cost["lifecycle_pv_usd"]/route_km if alt_cost else None,
                 }
             row["complete_installed_usd"] = None
             row["eligible_for_selection"] = False
             rows.append(row)
-    ref = rows[0]["priced_cases"]["base"]
+    ref = rows[0]["priced_cases"].get("base")
     for row in rows:
-        base = row["priced_cases"]["base"]
-        row["base_installed_headroom_per_placement_usd"] = (ref["installed_usd"]-base["installed_usd"])/row["placements"]
-        row["base_pv_change_vs_reference_usd"] = base["lifecycle_pv_usd"]-ref["lifecycle_pv_usd"]
+        base = row["priced_cases"].get("base")
+        row["base_installed_headroom_per_placement_usd"] = (ref["installed_usd"]-base["installed_usd"])/row["placements"] if base and ref else None
+        row["base_pv_change_vs_reference_usd"] = base["lifecycle_pv_usd"]-ref["lifecycle_pv_usd"] if base and ref else None
     files = [Path(__file__), Path(vehicle.__file__), Path(__import__(moving_span.__module__, fromlist=["x"]).__file__),
              HERE/"concept.toml", CITY/"system.toml", CITY/"iraq-capital.toml", CITY/"airport-works.toml", CITY/"iraq-market.toml",
              vehicle.PROTOTYPE/"shop-rates.toml", vehicle.PROTOTYPE/"airport-prototype.zip"]
     sources = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in files}
-    screened = [r for r in rows if all(r["checks"].values())]
+    screened = [r for r in rows if all(r["checks"].values()) and not r["support"]["foundation_hold"]]
+    priced = [r for r in screened if r["priced_cases"]]
     quotations = {}
     for case in CASES:
-        if screened:
-            leader = min(screened, key=lambda r: r["priced_cases"][case]["lifecycle_pv_usd"])
+        if priced:
+            leader = min(priced, key=lambda r: r["priced_cases"][case]["lifecycle_pv_usd"])
             prices = leader["priced_cases"][case]
             quotations[case] = dict(label=leader["label"], physical_id=leader["physical_id"],
                                     installed_usd=prices["installed_usd"], lifecycle_pv_usd=prices["lifecycle_pv_usd"])
@@ -368,15 +395,26 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
     decimal_text = format(route_decimal, "f")
     report = dict(schema="viaduct-family-comparison/1", route_km=route_km,
                   route_km_decimal=decimal_text.rstrip("0").rstrip(".") if "." in decimal_text else decimal_text,
-                  cars=cars, material=material, soil_kpa=soil_kpa, crane_limit_t_at_12m=crane_limit_t,
-                  passing_trial_count=len(screened), quotation_leaders=quotations,
-                  passenger_train_kg=load["loaded_train_kg"], axle_count=len(axles), member_sources=sources, trials=TRIALS,
+                  cars=cars, material=material, soil_kpa=soil_kpa, crane_limit_t=crane_limit_t,
+                  crane_limit_t_at_12m=crane_limit_t if lift_radius_m == PRICED_LIFT_RADIUS_M else None,
+                  lift_radius_m=lift_radius_m, priced_lift_radius_m=PRICED_LIFT_RADIUS_M,
+                  passing_trial_count=len(screened), priced_passing_trial_count=len(priced),
+                  unresolved_foundation_count=sum(bool(r["support"]["foundation_hold"]) for r in rows),
+                  priced_trial_count=sum(bool(r["priced_cases"]) for r in rows), quotation_leaders=quotations,
+                  passenger_train_kg=load["loaded_train_kg"], axle_count=len(axles), member_sources=sources,
+                  trials=dict(TRIALS, lift_radius_m=lift_radius_m),
                   rows=rows, physical_selection=None, physical_acceptance=False)
     report["evaluation_id"] = digest(report)
     return report
 
 
 def markdown(data):
+    capacity = data["crane_limit_t"]
+    radius = data["lift_radius_m"]
+    capacity_text = (f"The user supplied {capacity:g} t of available capacity at {radius:g} m radius."
+                     if capacity is not None else f"Available capacity at {radius:g} m is unspecified. Every lift awaits a site chart.")
+    if radius != data["priced_lift_radius_m"]:
+        capacity_text += f" The rate register covers {data['priced_lift_radius_m']:g} m. Obtain erection rates for {radius:g} m."
     lines = [
         "# Compare straight viaduct spans and supports",
         "",
@@ -391,9 +429,10 @@ def markdown(data):
         "",
         "### Which design to quote",
         "",
-        f"{data['passing_trial_count']} of {len(data['rows'])} trials pass the stated checks at {data['soil_kpa']} kPa and a "
-        f"{data['crane_limit_t_at_12m']} t maximum working load at 12 m radius. "
-        "Each price case identifies the lowest estimated 30-year present value among the passing trials. "
+        f"{len(data['rows'])} trials were investigated at {data['soil_kpa']:g} kPa. {data['unresolved_foundation_count']} require a foundation outside the modeled family. "
+        f"{data['priced_trial_count']} have a priced civil subtotal, "
+        f"{data['passing_trial_count']} pass the stated checks, and {data['priced_passing_trial_count']} satisfy both conditions. {capacity_text} "
+        "Each price case identifies the lowest estimated 30-year present value among trials that pass and carry a price. "
         "A supplier return and independent design review are still required.",
         "",
         "| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km |",
@@ -404,38 +443,50 @@ def markdown(data):
             lines.append(f"| {case} | {leader['label']} | {leader['installed_usd']/data['route_km']/1e6:.2f} "
                          f"| {leader['lifecycle_pv_usd']/data['route_km']/1e6:.2f} |")
         else:
-            lines.append(f"| {case} | No trial passes all checks | — | — |")
+            reason = "Passing trials need an erection quote" if data["passing_trial_count"] else "No trial passes all checks"
+            if data["unresolved_foundation_count"] and not data["passing_trial_count"]:
+                reason = "No priced, passing trial. Site foundation design required."
+            lines.append(f"| {case} | {reason} | — | — |")
     lines.extend([
         "",
         "### Shallow foundation case",
         "",
-        f"The following base-rate comparison assumes {data['soil_kpa']} kPa. Each single-track U has 3.60 m of nominal clear channel. "
+        f"The following base-rate comparison assumes {data['soil_kpa']:g} kPa. Each single-track U has 3.60 m of nominal clear channel. "
         "Each standard depth and its 200 mm deeper counterpart were evaluated. The table gives the candidate with the lowest priced "
         "30-year present value among the two depths passing the listed stress and handling screens, separately for each pier arrangement. "
-        "Where both depths fail, the table gives the trial with fewer failed checks, then the lower projected cost if tied. The JSON retains every depth and every failure. "
+        "Where neither depth passes, the table gives priority to a modeled foundation, then fewer failed checks and the lower projected cost if tied. The JSON retains every depth and every failure. "
         "The two-piece option is a new post-tensioned box with a match-cast joint and a temporary tower at midspan.",
         "",
-        "| Span and family | Depth m | Pier | Footing width m | Supports | Lift unit t | Strand count | Crane trial t at 12 m | Installed $m/km | 30-year PV $m/km | Extra $/placement to match 10 m¹ | Screen |",
+        f"| Span and family | Depth m | Pier | Footing width m | Supports | Lift unit t | Strand count | Hook demand / matched price band t at {radius:g} m | Installed $m/km | 30-year PV $m/km | Extra $/placement to match 10 m¹ | Screen |",
         "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|",
     ])
     chosen = {}
     for row in data["rows"]:
         key = (row["span_m"], row["section"]["shape"], row["shared_pier"])
-        rank = (sum(not passed for passed in row["checks"].values()), row["priced_cases"]["base"]["lifecycle_pv_usd"])
+        rank = (bool(row["support"]["foundation_hold"]), sum(not passed for passed in row["checks"].values()),
+                row["priced_cases"].get("base", {}).get("lifecycle_pv_usd", inf))
         if key not in chosen or rank < chosen[key][0]:
             chosen[key] = (rank, row)
     n = data["route_km"]
     for _, row in chosen.values():
-        a, s, costcase = row["actions"], row["section"], row["priced_cases"]["base"]
+        a, s, costcase = row["actions"], row["section"], row["priced_cases"].get("base")
+        prices = (f"{costcase['installed_usd']/1e6/n:.2f} | {costcase['lifecycle_pv_usd']/1e6/n:.2f}"
+                  if costcase else "quote required | —")
+        margin = row["base_installed_headroom_per_placement_usd"]
+        extra = f"{margin:+,.0f}" if margin is not None else "—"
         reasons = {"lift_fibre_min": "lifting tension", "release_fibre_min": "transfer tension",
                    "independent_footings_clear": "footings touch or overlap",
                    "available_crane": "crane exceeds available capacity",
                    "full_length_standard_bays": "partial end bay"}
         failed = [reasons.get(k, k.replace("_", " ")) for k,v in row["checks"].items() if not v]
+        if row["support"]["foundation_hold"]:
+            failed.append("foundation unresolved")
+        width = row["support"]["footing_width_m"]
+        footing_text = f"{width:.2f}" if width is not None else "unknown"
         lines.append(f"| {row['span_m']} m {s['shape']} | {s['depth_m']:.2f} | {'shared' if row['shared_pier'] else 'separate'} "
-                     f"| {row['support']['footing_width_m']:.2f} | {row['supports']:,} | {a['handling_unit_t']:.1f} | {a['strand_count']} "
-                     f"| {a['chart_class_t_at_12m']} | {costcase['installed_usd']/1e6/n:.2f} | {costcase['lifecycle_pv_usd']/1e6/n:.2f} "
-                     f"| {row['base_installed_headroom_per_placement_usd']:+,.0f} | {', '.join(failed) or 'trial screens pass'} |")
+                     f"| {footing_text} | {row['supports']:,} | {a['handling_unit_t']:.1f} | {a['strand_count']} "
+                     f"| {a['chart_demand_t']:.1f} / {row['matched_crane_price_class_t'] or 'unpriced'} | {prices} "
+                     f"| {extra} | {', '.join(failed) or 'trial screens pass'} |")
     lines.extend([
         "",
         "¹ Positive headroom is the additional installed dollars this alternative can absorb per actual lifting placement before matching "
@@ -451,10 +502,14 @@ def markdown(data):
     ])
     for key in [(10, "issued-box", False), (20, "U", True), (25, "U", True)]:
         _, row = chosen[key]
-        range_cost = " / ".join(f"{row['priced_cases'][case]['installed_usd']/n/1e6:.2f}" for case in CASES)
-        range_soil = " / ".join(f"{row['soil_sensitivity'][str(k)]['installed_usd_per_km']/1e6:.2f}"
-                                + ("" if row["soil_sensitivity"][str(k)]["independent_footings_clear"] else "∗")
-                                for k in (150, 200, 250))
+        range_cost = (" / ".join(f"{row['priced_cases'][case]['installed_usd']/n/1e6:.2f}" for case in CASES)
+                      if row["priced_cases"] else "Quote required")
+        soil_costs = []
+        for sensitivity in row["soil_sensitivity"].values():
+            price = sensitivity["installed_usd_per_km"]
+            suffix = "∗" if sensitivity["independent_footings_clear"] is False else ""
+            soil_costs.append(f"{price/1e6:.2f}{suffix}" if price is not None else "unpriced")
+        range_soil = " / ".join(soil_costs)
         lines.append(f"| {row['label']} | {range_cost} | {range_soil} |")
     lines.extend([
         "",
@@ -466,19 +521,28 @@ def markdown(data):
         "The reported torque acts at the support pair. Open-section warping and lateral stability need shell analysis and a lifting trial. "
         "Check computed movement against rail, collector and boarding tolerances. This train uses a protected conductor and steel wheels.",
         "",
-        "Two adjacent beam ends load an interior bent. The footing increases in 0.25 m width increments until vertical bearing and no-uplift trials "
+        "Enter a positive site bearing pressure using `--soil-kpa`. The 150, 200 and 250 kPa comparisons remain visible. "
+        "Two adjacent beam ends load an interior bent. The shallow trial evaluates square widths of 2.5–25 m in 0.25 m increments until vertical bearing and no-uplift trials "
         "pass for longitudinal braking and either one or both loaded tracks. Each cap extends at least 250 mm beyond the outer bearing pad. The common pier has a wider and deeper cap. "
         "Its one-sided train loads can govern the footing. Wind, seismic, piles, settlement, utilities, drainage, clearances and cap reinforcement "
         "need site-specific offers. Both foundations at the ends are conservatively priced as interior sizes.",
         "",
-        "Each piece takes one haul and one lift. Hook demand includes 4 t rigging and a 1.10 handling multiplier. The 60, 110 and 180 t **working-load-at-radius** "
-        "options are quotation hypotheses. Verify lift radius, temporary stability, slew, supporting pavement and travel. The segmented option pays for match casting, "
+        "The 60 t figure originated as a provisional lifting assumption with no verified crane chart. "
+        "[Original pilot lifting inputs](https://github.com/modernecotech/OpenSourceRail/blob/5ffe46dceb9e23db594fbe033c472fd847772969/engineering/pilot_civil/policy.json#L103-L110)",
+        "",
+        "Each piece takes one haul and one lift. Hook demand includes assumed 4 t rigging and a 1.10 handling multiplier. "
+        "The 60, 110 and 180 t bands estimate costs at 12 m radius. A heavier lift requires a new price. "
+        "Set `--lift-radius-m` to the surveyed radius and `--crane-limit-t` to the available working load at that radius. "
+        "Changing radius changes the chart requirement and rate coverage. The suspended mass and rigging still determine hook demand. "
+        "Verify the radius, rigging, ground bearing and lift method at the site. The segmented option pays for match casting, "
         "tensioning and tower cycles. Check the joint at full tendon force with the tower still engaged, then with the tower removed. "
         "A failed supported-joint stress check requires a redesigned tendon or a controlled, analysed unloading sequence. "
         "Lifting an unstressed half requires its own reinforcing and local pick design. "
         "The yard trial holds eight moulds, with 24 h and 48 h release cycles. Obtain occupation and capacity returns alongside the traffic closure bids.",
         "",
-        "Prices use the repository's Iraqi cement, sand, gravel, reinforcing steel and currency inputs. Low/base/high rates cover ordinary civil scope, "
+        "The 1.5 MPa release tension and 18 MPa release compression checks are provisional material targets. The three shallow soil pressures are hypotheses. "
+        "Obtain release-strength data, surveyed soil and authority criteria before structural selection. "
+        "Prices use the repository's Iraqi cement, sand, gravel, reinforcing steel and currency inputs. Low/base/high are estimate cases covering ordinary civil scope, "
         "casting, haul, bearings, equipment, erection, disruption and support works. The other-elevated allowance is common per route-km. "
         "Trial moulds, strand rates, traffic bookings, maintenance and crane-class uplifts are estimating assumptions. The 30-year present value includes "
         "annual inspections and one bearing replacement at year 20 discounted at 4% real. Check contractor inclusion credits, abnormal haul limits, "
@@ -494,6 +558,7 @@ def markdown(data):
         "```sh",
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --check",
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 18 --soil-kpa 150 --crane-limit-t 60",
+        "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --lift-radius-m 18 --crane-limit-t 95.5",
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 148.2 --soil-kpa 150 --json > build/span-families.json",
         "```",
         "",
@@ -505,9 +570,11 @@ def markdown(data):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--route-km", default="12.0")
-    p.add_argument("--soil-kpa", type=int, choices=(150,200,250), default=200)
-    p.add_argument("--crane-limit-t", type=int, choices=(60,110,180), default=180,
-                   help="maximum available working load in tonnes at a 12 m radius")
+    p.add_argument("--soil-kpa", type=float, default=200, help="positive representative shallow bearing pressure in kPa")
+    p.add_argument("--crane-limit-t", type=float,
+                   help="available working load in tonnes at the entered radius, if known")
+    p.add_argument("--lift-radius-m", type=float, default=PRICED_LIFT_RADIUS_M,
+                   help="lift radius in metres; the existing rate register covers 12 m")
     p.add_argument("--cars", type=int, choices=(3,6), default=6)
     p.add_argument("--material", choices=vehicle.MATERIAL, default="steel")
     group = p.add_mutually_exclusive_group()
@@ -515,7 +582,7 @@ def main():
         group.add_argument(flag, action="store_true")
     args = p.parse_args()
     try:
-        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t)
+        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m)
     except (InvalidOperation, ValueError) as error:
         p.error(str(error))
     if args.json:
@@ -524,7 +591,7 @@ def main():
     guide = markdown(data)
     path = HERE/"SPAN-FAMILIES.md"
     if args.check or args.write:
-        if (data["route_km_decimal"],args.cars,args.material,args.soil_kpa,args.crane_limit_t) != ("12",6,"steel",200,180):
+        if (data["route_km_decimal"],args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m) != ("12",6,"steel",200,None,PRICED_LIFT_RADIUS_M):
             p.error("The published guide uses the named reference inputs")
         if args.check and guide != path.read_text():
             raise ValueError("Rebuild SPAN-FAMILIES.md")
