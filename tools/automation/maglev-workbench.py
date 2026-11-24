@@ -43,8 +43,8 @@ class Handler(SimpleHTTPRequestHandler):
                    '/docs/design-engine/passive-suspension/', '/docs/design-engine/vehicle-optimisation/',
                    '/docs/design-engine/design-search/', '/docs/design-engine/design-search-twins/')
         exact = {'/engineering/ferrite_maglev/city-index.json', '/engineering/ferrite_maglev/city-index.md',
-                 '/OpenSourceRail-Book.pdf', '/OpenSourceRail maglev station concept.png',
-                 '/Vertical spiral escape chute concept.png', '/engineering/design_search/README.md',
+                 '/OpenSourceRail-Book.pdf', '/engineering/maglev_research/inputs/OpenSourceRail maglev station concept.png',
+                 '/engineering/maglev_research/inputs/Vertical spiral escape chute concept.png', '/engineering/design_search/README.md',
                  '/docs/design-engine/design-search-interpretation.md', '/engineering/trip_dynamics/README.md'}
         lexical = ROOT/name.lstrip('/')
         path = lexical.resolve()

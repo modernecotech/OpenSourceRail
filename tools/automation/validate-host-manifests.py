@@ -64,7 +64,7 @@ def validate_primary(document=None) -> list[str]:
     profile = load_toml('deployment/maglev.toml') if document is None else document
     if not isinstance(profile, dict) or any(not isinstance(profile.get(section),dict) for section in ('runtime','io','release')):
         return ['primary profile requires runtime, io and release tables']
-    policy = load_toml('lib/templates/infrastructure.toml')
+    policy = load_toml('engineering/maglev_research/infrastructure-policy-v05.toml')
     if (profile.get('schema') != 'osr-maglev-development-host/1'
             or profile.get('family') != policy['development']['primary_family']
             or profile.get('role') != 'maglev-study-sbc'):

@@ -4,6 +4,8 @@ import json
 from pathlib import Path, PurePosixPath
 import tarfile
 
+from engineering import research_ancestry
+
 
 def verify_magnetic_archive(path, *, root=None):
     path = Path(path)
@@ -43,7 +45,7 @@ def verify_magnetic_archive(path, *, root=None):
         if root is not None:
             root = Path(root).resolve()
             for name, digest in finite['source_sha256'].items():
-                p = root/name
+                p = research_ancestry.live_input_path(root,name,digest)
                 if not p.resolve().is_relative_to(root) or p.is_symlink() or sha256(p.read_bytes()).hexdigest() != digest:
                     raise ValueError('finite coupon input no longer matches published candidate')
         from .fixtures.magnetics.finite_coupon import formulation

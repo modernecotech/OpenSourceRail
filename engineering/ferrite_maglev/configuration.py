@@ -68,7 +68,7 @@ def document(path):
 
 
 def selected(c=None,*,city='Baghdad',cars=6):
-    if c is None:c=document(ROOT/'ferrite-maglev-study.toml')
+    if c is None:c=document(ROOT/'engineering/maglev_research/inputs/ferrite-maglev-study.toml')
     a=document(INPUT);b=c['civil']['narrow_box_screen'];v=c['vehicle']
     if a['evacuation']['walkway_removal_approved'] is not False:raise ValueError('no approved alternative evacuation evidence adapter supplied')
     if (v['nominal_car_length_m'],v['nominal_car_width_m'],a['formation']['arm_width_m'])!=(17.,2.65,2.96):raise ValueError('native interface supports 17 m bodies, 2.65 m cabin and 2.96 m arm envelope; regenerate/revalidate unsupported geometry')
@@ -97,4 +97,4 @@ def selected(c=None,*,city='Baghdad',cars=6):
         dict(quantity_basis='selected native geometry; unmodelled and unpriced scope remains open',installed_programme_usd=None,origin_audited=False))
 
 
-def source_paths():return [Path(__file__),INPUT,ROOT/'ferrite-maglev-study.toml']
+def source_paths():return [Path(__file__),INPUT,ROOT/'engineering/maglev_research/inputs/ferrite-maglev-study.toml']

@@ -30,18 +30,19 @@ OWNED = (
 )
 CONTEXT_TARGETS = {'README.md', 'engineering/README.md', 'docs/design-engine/current/README.md'}
 INTRODUCTION = (
-    'OpenSourceRail develops affordable rail that local companies can build, maintain and improve. '
-    'The published digital release joins a costed vehicle, civil works, controls, production plan '
-    'and Workbench journey; Baghdad has separate elevated city planning alternatives. '
-    'The earlier v0.6 passive-wheel, station-launch design remains research, not the installed drive '
-    'selection for the v0.7 reference or Baghdad. Each candidate retains its own geometry, mass, '
-    'service, power, cost and evidence. Safety and accessibility remain requirements. '
-    'Digital results do not grant fabrication or passenger-operation approval.'
+    'OpenSourceRail connects locally maintainable railway hardware, design and delivery tools, and '
+    'train and wayside software. The published v0.7.2 Baghdad opening study includes a service plan, '
+    'traction assessment and supplier dossier. Current development joins revised route, vehicle, '
+    'power, civil and purchasing assumptions for v0.8 production preparation; first-article '
+    'measurements and independent review remain open. The v0.6 passive-wheel vehicle is a separate '
+    'research selector. Safety and accessibility remain mandatory, and digital results do not grant '
+    'fabrication or passenger-operation approval.'
 )
 HISTORICAL_ENTRYPOINTS = {
     'crates/osr-maglev-control/README.md',
     'engineering/ferrite_maglev/README.md',
     'engineering/ferrite_maglev/observer-prototype/README.md',
+    'engineering/maglev_research/README.md',
 }
 LINK = re.compile(r'(?<!!)\[[^\]\n]*\]\(([^\n]*?)\)')
 DIGEST = re.compile(r'[a-f0-9]{64}')

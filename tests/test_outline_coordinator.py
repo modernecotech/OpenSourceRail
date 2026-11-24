@@ -66,6 +66,46 @@ def test_recommendation_uses_common_brief_whole_life_cost_not_hardware_selection
     assert value['reference_library']['physical_plant_observed'] is False
 
 
+def test_equal_cost_case_order_is_independent_of_cost_evaluation_id():
+    cases = {
+        'gentler-stop': {'request': {'requirements': {}, 'design': {'service_deceleration_m_s2': 0.6}}},
+        'harder-stop': {'request': {'requirements': {}, 'design': {'service_deceleration_m_s2': 0.9}}},
+    }
+    costs = [
+        {'service_case_id': 'gentler-stop', 'evaluation_id': 'z',
+         'whole_life_npv_usd': {'base': 10.0}},
+        {'service_case_id': 'harder-stop', 'evaluation_id': 'a',
+         'whole_life_npv_usd': {'base': 10.0}},
+    ]
+    assert coordinator._best_cost_for_mechanism(costs, cases)['service_case_id'] == 'gentler-stop'
+    costs[0]['evaluation_id'], costs[1]['evaluation_id'] = 'a', 'z'
+    assert coordinator._best_cost_for_mechanism(costs, cases)['service_case_id'] == 'gentler-stop'
+
+
+def test_equal_cost_mechanism_display_is_independent_of_outline_id():
+    outlines = [
+        {'mechanism': 'cable-capstan', 'requirements': {}, 'design': {'service_deceleration_m_s2': 0.6}, 'outline_id': 'z',
+         'cost': {'whole_life_npv_usd': {'base': 10.0}}},
+        {'mechanism': 'common-drive-rollers', 'requirements': {}, 'design': {'service_deceleration_m_s2': 0.6}, 'outline_id': 'a',
+         'cost': {'whole_life_npv_usd': {'base': 10.0}}},
+    ]
+    assert coordinator._display_outline(outlines)['mechanism'] == 'cable-capstan'
+    outlines[0]['outline_id'], outlines[1]['outline_id'] = 'a', 'z'
+    assert coordinator._display_outline(outlines)['mechanism'] == 'cable-capstan'
+
+
+def test_same_braking_tie_uses_declared_design_not_case_hash():
+    cases = {
+        'z': {'request': {'requirements': {}, 'design': {'service_deceleration_m_s2': 0.6, 'speed_m_s': 15.0}}},
+        'a': {'request': {'requirements': {}, 'design': {'service_deceleration_m_s2': 0.6, 'speed_m_s': 20.0}}},
+    }
+    costs = [{'service_case_id': key, 'whole_life_npv_usd': {'base': 10.0}}
+             for key in ('z', 'a')]
+    assert coordinator._best_cost_for_mechanism(costs, cases)['service_case_id'] == 'z'
+    costs.reverse()
+    assert coordinator._best_cost_for_mechanism(costs, cases)['service_case_id'] == 'z'
+
+
 def test_frozen_reference_and_sources_are_unchanged(study):
     value,_=study
     assert coordinator.budget.specification(ROOT)['requirements']['headway_s']==120

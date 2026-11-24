@@ -157,3 +157,17 @@ def test_ancestry_live_inputs_reject_symlinked_parent_directories(tmp_path):
     bindings = {'materials/material.json': sha256(data.read_bytes()).hexdigest()}
     with pytest.raises(ValueError, match='Ordinary retained source required'):
         research_ancestry.verify(checkout, bindings, source_revision='a' * 40)
+
+
+def test_relocated_v05_input_keeps_exact_legacy_key_and_digest(tmp_path):
+    old = 'ferrite-maglev-study.toml'
+    expected = 'a1effd80c4a5390b3c615b5833258e88ed1e687cfad065c65260b8149ae50839'
+    target = tmp_path / 'engineering/maglev_research/inputs' / old
+    target.parent.mkdir(parents=True)
+    target.write_bytes((ROOT / 'engineering/maglev_research/inputs' / old).read_bytes())
+    assert research_ancestry.live_input_path(tmp_path, old, expected) == target
+    assert sha256(target.read_bytes()).hexdigest() == expected
+    assert research_ancestry.live_input_path(tmp_path, old, '0' * 64) == tmp_path / old
+    (tmp_path / old).symlink_to(target)
+    with pytest.raises(ValueError, match='Ordinary retained source required'):
+        research_ancestry.live_input_path(tmp_path, old, expected)

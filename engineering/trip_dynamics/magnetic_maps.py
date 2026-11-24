@@ -220,7 +220,7 @@ def _publication(root,relative,needed):
     bindings.update(ancestry['source_sha256'])
     bindings[CODE]=sha256(Path(__file__).read_bytes()).hexdigest()
     for name,digest in bindings.items():
-        if sha256(_path(root,name).read_bytes()).hexdigest()!=digest:
+        if sha256(research_ancestry.live_input_path(root,name,digest).read_bytes()).hexdigest()!=digest:
             raise ValueError('executing magnetic reader or live input differs: '+name)
     for flag in ('physical_accepted','engineering_accepted','configuration_adopted','physical_validation','physical_release'):
         if manifest.get(flag,False) is not False:raise ValueError('unexpected accepted publication')

@@ -16,6 +16,8 @@ import math
 from pathlib import Path
 import tomllib
 
+from engineering import research_ancestry
+
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = "osr-vehicle-equipment-optimisation/1"
 FLAGS = dict(engineering_accepted=False, physical_accepted=False,
@@ -312,11 +314,13 @@ def equipment_candidates():
 def allocation_audit(*,root=ROOT):
     """Prove the old500/500 equipment accounts remain separate from stock."""
     root=Path(root);parent=json.loads((root/'engineering/ferrite_maglev/data/candidate-parent-94ad.json').read_text())['configuration']
-    checks={}
-    for name in ('station-structure.toml','station_structure.py','closure.py'):
-        key='engineering/ferrite_maglev/'+name
-        checks[key]=parent['source_sha256'].get(key)==sha256((root/key).read_bytes()).hexdigest()
-    if not all(checks.values()):raise ValueError('historical allocation source chain differs; no automatic allocation removal')
+    keys=['engineering/ferrite_maglev/'+name for name in ('station-structure.toml','station_structure.py','closure.py')]
+    bindings={key:parent['source_sha256'][key] for key in keys}
+    try:
+        research_ancestry.verify(root,bindings,source_revision='92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164')
+    except ValueError as exc:
+        raise ValueError('historical allocation source chain differs; no automatic allocation removal') from exc
+    checks={key:True for key in keys}
     a=tomllib.loads((root/'engineering/ferrite_maglev/station-structure.toml').read_text())
     central=a['body']['cases']['central']
     if (central['doors_kg'],central['fixed_glazing_kg'],a['vehicle']['hvac_kg'])!=(500.,500.,800.):

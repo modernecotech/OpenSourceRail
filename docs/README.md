@@ -1,12 +1,12 @@
 # Technical documentation
 
 <!-- osr-system-context:start -->
-OpenSourceRail develops affordable rail that local companies can build, maintain and improve. The published digital release joins a costed vehicle, civil works, controls, production plan and Workbench journey; Baghdad has separate elevated city planning alternatives. The earlier v0.6 passive-wheel, station-launch design remains research, not the installed drive selection for the v0.7 reference or Baghdad. Each candidate retains its own geometry, mass, service, power, cost and evidence. Safety and accessibility remain requirements. Digital results do not grant fabrication or passenger-operation approval.
+OpenSourceRail connects locally maintainable railway hardware, design and delivery tools, and train and wayside software. The published v0.7.2 Baghdad opening study includes a service plan, traction assessment and supplier dossier. Current development joins revised route, vehicle, power, civil and purchasing assumptions for v0.8 production preparation; first-article measurements and independent review remain open. The v0.6 passive-wheel vehicle is a separate research selector. Safety and accessibility remain mandatory, and digital results do not grant fabrication or passenger-operation approval.
 
 [Project introduction](../README.md) · [Current platform and evidence](BOOK.md)
 <!-- osr-system-context:end -->
 
-The [development vehicle](../engineering/development-baseline.toml) retains passive wheel bogies and an aluminium secondary. Each railway study specifies its propulsion system.
+The [development vehicle](../engineering/development-baseline.toml) retains passive wheel bogies and an aluminium secondary. Each railway study specifies its propulsion system. The [current engineering packet](design-engine/current/README.md) describes the selected vehicle and its open physical requirements. The [historical archive](archives/README.md) and dated research packets preserve earlier evaluations; their results do not transfer to a different candidate.
 
 ## Choose a railway
 

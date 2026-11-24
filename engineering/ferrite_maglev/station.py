@@ -105,7 +105,7 @@ def _digest(path):
 def sources():
     """Calculation inputs only; generated packets never feed their own identity."""
     names = ['engineering/ferrite_maglev/station.py', 'engineering/ferrite_maglev/station.toml',
-             'ferrite-maglev-study.toml', 'engineering/ferrite_maglev/model.py',
+             'engineering/maglev_research/inputs/ferrite-maglev-study.toml', 'engineering/ferrite_maglev/model.py',
              'engineering/ferrite_maglev/manufacturing.py',
              'engineering/ferrite_maglev/configuration.py',
              'engineering/ferrite_maglev/reference-configuration.toml',

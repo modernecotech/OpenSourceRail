@@ -7,6 +7,7 @@ from pathlib import Path, PurePosixPath
 import re
 import tarfile
 from . import ROOT, FLAGS
+from engineering import research_ancestry
 
 
 def encoded(value):
@@ -44,7 +45,7 @@ def sources(root=ROOT,records=()):
     for name in ('.github/workflows/comfort-design.yml','tools/automation/tests/verify-comfort-design.mjs'):
         out[name]=sha256(ordinary(root,name).read_bytes()).hexdigest()
     for name,digest in out.items():
-        if not re.fullmatch('[a-f0-9]{64}',digest) or sha256(ordinary(root,name).read_bytes()).hexdigest()!=digest:
+        if not re.fullmatch('[a-f0-9]{64}',digest) or sha256(research_ancestry.live_input_path(root,name,digest).read_bytes()).hexdigest()!=digest:
             raise ValueError('executing and retained sources differ: '+name)
     return dict(sorted(out.items()))
 

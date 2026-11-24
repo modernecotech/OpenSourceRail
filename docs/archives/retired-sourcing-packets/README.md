@@ -1,0 +1,5 @@
+# Retired intermediate sourcing packets
+
+The domestic-source v3, v4 and v5 frame and federated purchasing packets, frame v11 and v12, and federated v12 were intermediate research evaluations. Current sourcing validation uses v13; repository tests use v6. These older packets have no current reader, and their original 81 files remain available at pinned commit `001ae0807cf070716bcc57d8746b0765eeb672fc`. The [manifest](manifest.json) records the exact Git tree ID, file count and size of each former packet directory. This archival move changes no candidate selection, result or physical acceptance.
+
+To retrieve one packet into a separate working directory, run `git archive 001ae0807cf070716bcc57d8746b0765eeb672fc docs/design-engine/sourcing/packets/frame-vehicle-iraq-domestic-sources-v3 | tar -x -C <directory>`. Compare the restored tree with the manifest using `git rev-parse 001ae0807cf070716bcc57d8746b0765eeb672fc:docs/design-engine/sourcing/packets/frame-vehicle-iraq-domestic-sources-v3`.

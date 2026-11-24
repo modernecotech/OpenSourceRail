@@ -1,5 +1,20 @@
 # OpenSourceRail changelog
 
+## Since v0.7.2
+
+- The [engineering audit](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) replaces the Airport schematic with a 17.46 km horizontal study for new enquiries. It compares service, loaded vehicles, degraded traction, feeder architectures, civil quantities and costs for the same candidate.
+- The [supplier workflow](cities/Baghdad/engineering/simulation/audit-production-guide.md) carries equipment, fabrication, renewal lots and competing offers through to the buyer's cash flow. The [first-article decision](cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md) records the open v0.8 interfaces and tests.
+- Superseded city maglev studies, twin exports, assurance runs and procurement comparisons have moved to [commit-pinned archives](docs/archives/README.md). The [project introduction](README.md) identifies the current release, development work and earlier research designs.
+- Equal-cost service comparisons now use declared service inputs to choose a representative. Refreshing a source identifier previously changed the displayed braking case and journey time.
+
+## Released digital railway
+
+| Release | Main change |
+|---|---|
+| [v0.7.2](docs/releases/v0.7.2/README.md) | Joined the original Baghdad Airport opening study, timetable, preliminary equipment quantities, cash flows and supplier dossier. |
+| [v0.7.1](docs/releases/v0.7.1/README.md) | Added the seven-corridor and citywide Baghdad planning options and the updated train-control work. |
+| [v0.7.0](docs/releases/v0.7.0/README.md) | Published the digital railway reference with its candidate-linked vehicle, civil design, production programme and cost estimate. |
+
 ## 0.6 development cleanup — 29 October 2026
 
 - Reconnect the retained GIS planning editor to v0.6 through an immutable,

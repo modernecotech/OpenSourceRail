@@ -28,12 +28,12 @@ def identity(value):
                              allow_nan=False).encode()).hexdigest()
 
 
-def _bytes(root, relative):
+def _bytes(root, relative, expected):
     rel = PurePosixPath(relative)
     if rel.is_absolute() or '..' in rel.parts or not rel.parts:
         raise ValueError('ordinary repository-relative source path required')
     root = Path(root).resolve()
-    path = root.joinpath(*rel.parts)
+    path = research_ancestry.live_input_path(root, relative, expected)
     if any(part.is_symlink() for part in [path, *path.parents] if part != root.parent):
         raise ValueError('symlink source is not a retained ordinary file')
     if not path.is_file() or not path.resolve().is_relative_to(root):
@@ -44,7 +44,7 @@ def _bytes(root, relative):
 
 
 def _checked(root, relative, expected):
-    data = _bytes(root, relative)
+    data = _bytes(root, relative, expected)
     if sha256(data).hexdigest() != expected:
         raise ValueError('retained source digest changed: ' + relative)
     return data

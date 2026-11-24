@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **230**.
+Indexed Markdown files: **231**.
 
 ## Sections
 
@@ -24,7 +24,7 @@ Indexed Markdown files: **230**.
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 132 |
-| [engineering](#engineering) | 15 |
+| [engineering](#engineering) | 16 |
 | [tools](#tools) | 4 |
 
 ## .github
@@ -284,6 +284,7 @@ Indexed Markdown files: **230**.
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development adapters |
 | [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
 | [`engineering/interface_studies/REFERENCE-RIGS.md`](../engineering/interface_studies/REFERENCE-RIGS.md) | OpenSourceRail reference vehicle and track test assemblies |
+| [`engineering/maglev_research/README.md`](../engineering/maglev_research/README.md) | Retained maglev research inputs |
 | [`engineering/pilot_civil/README.md`](../engineering/pilot_civil/README.md) | Candidate-bound pilot civil design |
 | [`engineering/pilot_delivery/README.md`](../engineering/pilot_delivery/README.md) | Pilot manufacturing and delivery proposals |
 | [`engineering/pilot_delivery/REVIEW_PROTOCOL.md`](../engineering/pilot_delivery/REVIEW_PROTOCOL.md) | Candidate-linked research delivery review |

@@ -39,7 +39,7 @@ PARTS = (
         ("Capacity, frequency and useful service", "docs/book/19-service.md"),
         ("Three connected products", "docs/book/47-three-products.md"),
     )),
-    ("II. The published v0.6.1 platform", "A guided tour of the released software and its limits.", (
+    ("II. The earlier v0.6.1 software edition", "A guided tour of the tools and evidence available at that release.", (
         ("The published v0.6.1 platform", "docs/book/27-release-orientation.md"),
         ("A reader's first session", "docs/book/28-first-session.md"),
         ("Exploring the city atlas", "docs/book/29-city-atlas.md"),
@@ -152,6 +152,8 @@ EVIDENCE_INPUTS = (
     "docs/integration/v06-platform.md", "docs/integration/v07-assembly-lifecycle.md",
     "docs/workbench/planning/README.md", "docs/gis/README.md",
     "docs/RELEASE-v0.7.md",
+    "docs/releases/v0.7.2/README.md",
+    "cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md",
     *CITY_EVIDENCE,
 )
 INPUTS = tuple(dict.fromkeys((

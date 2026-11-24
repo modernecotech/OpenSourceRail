@@ -12,8 +12,8 @@ import tomllib
 from . import manufacturing
 
 ROOT = Path(__file__).resolve().parents[2]
-POLICY = ROOT / 'lib/templates/infrastructure.toml'
-INPUT = ROOT / 'ferrite-maglev-study.toml'
+POLICY = ROOT / 'engineering/maglev_research/infrastructure-policy-v05.toml'
+INPUT = ROOT / 'engineering/maglev_research/inputs/ferrite-maglev-study.toml'
 SPEC = ROOT / 'engineering/ferrite_maglev/data/requirements.json'
 RELEASE_VERSION = tomllib.loads((ROOT/'Cargo.toml').read_text())['workspace']['package']['version']
 FLAGS = dict(design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
@@ -114,6 +114,8 @@ def load():
     policy = tomllib.loads(POLICY.read_text())
     if policy['development']['primary_family'] != 'ferrite-pm-maglev-study':
         raise ValueError('primary architecture policy differs')
+    # The retained policy records its original v0.5 source path. The working
+    # tree copy is relocated; the pinned v0.5 checkout keeps that old path.
     if policy['development']['primary_input']!='ferrite-maglev-study.toml' or policy['development']['primary_runner']!='tools/automation/ferrite-maglev-study.py':
         raise ValueError('selected input/adapter differs from the installed primary adapter')
     if (ROOT/'VERSION').read_text().strip()!='0.5':raise ValueError('primary architecture version differs')
@@ -374,7 +376,7 @@ def requirement_register():
 
 
 def sources(*,include_generated=True):
-    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
+    paths=[ROOT/'engineering/maglev_research/inputs/OpenSourceRail maglev station concept.png',ROOT/'engineering/maglev_research/inputs/Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'engineering/maglev_research/inputs/OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
            ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py']
     paths+=list(Path(__file__).parent.glob('*.py'))
     paths+=list(Path(__file__).parent.glob('*.txt'))

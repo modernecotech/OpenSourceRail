@@ -75,9 +75,15 @@ def _subtract(intervals, cuts):
 def _audit(root):
     parent = json.loads((root / SOURCE_FILES[3]).read_text())['configuration']
     sources = _sources(root)
-    for name in SOURCE_FILES[:3]:
-        if parent['source_sha256'].get(name) != sources[name]:
-            raise ValueError('historical interior allocation source chain differs')
+    # The parent records the executed v0.5 producers. Current reader paths may
+    # move while their exact producer bytes remain authenticated at the pin.
+    from engineering import research_ancestry
+    from . import PARENT_REVISION
+    historical = {name: parent['source_sha256'][name] for name in SOURCE_FILES[:3]}
+    try:
+        research_ancestry.verify(root, historical, source_revision=PARENT_REVISION)
+    except ValueError as exc:
+        raise ValueError('historical interior allocation source chain differs') from exc
     a = tomllib.loads((root / SOURCE_FILES[0]).read_text())
     reference = tomllib.loads((root / SOURCE_FILES[6]).read_text())
     if reference['formation']['doors_per_side_x_m'] != [-4.5, 4.5]:

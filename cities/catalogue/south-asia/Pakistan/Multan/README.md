@@ -361,17 +361,17 @@ A recalculated local study can be opened, edited and exported in the Workbench. 
 | Identity | Value |
 |---|---|
 | city_input_id | `9af93335b1d81e6c526ff68afe7da0fde7d316b774483e756bb9f1b36abdeceb` |
-| cost_evaluation_id | `eec0771fcd579572b7765a74125b2724d78178cae28ef6c553ff55f9817e26f0` |
-| outline_evaluation_id | `5988a5326eddf45f5e2168714dfd71d22bdb06eab69baf4cb667c154d8d0878f` |
+| cost_evaluation_id | `4f139dd18e5a160c415b4d78145d4a2f52ee4e44dfa85b06b619d5a16204510c` |
+| outline_evaluation_id | `7c054a7c7413cfdfc7100ef284d6920a7801c5255fb446c9cb4d281d15f2d62c` |
 | research_configuration_id | `7ba415ac08d90c5468eeeac17fd54637b6a2f27d1033b60c7b9200d8ead67ca8` |
-| seed_id | `4d501c31611e24fea462c65211d96d1f7103a3617fd31ad76914ba0b8cbac5f5` |
+| seed_id | `65d0988afa4d50a7c9592402972dc9ef71caf70aa1864feac473616063fb9843` |
 | selected_alignment_id | `041eb956c300efe9bed2a40dd820cf2aa973d26899c04b512d799c7304f418f9` |
 | selected_alignment_kind | `anchor-preserving-chord-research` |
 | selection_id | `e56fd43277b64a1c40a30bc2f6c04b74498263b6e3945a6889b01af6f4394803` |
 | service_evaluation_id | `595b2ce55e882ff47da83b0875458b538e29ff8c0f6836e702476872884e3f14` |
-| source_result_sha256 | `035bb3982eb5d246a67bc66efe9726b531daad542ec257b0ea010f15962ca2c5` |
+| source_result_sha256 | `8d67921fd4842a6d29d640cbd6b694e12b42851b5f2c621896b0a8cf5500e418` |
 
-Atlas packet `fb77db30ad629d6bcbb6d71f8aeb31d533abb5a723a61eb9acc699464ca9d6f1`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
+Atlas packet `ba29c9409c68187f69068e6be37f7a574413c2f6b8eac17e079c3b460dfc8dc5`. Physical reference `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`.
 
 </details>
 

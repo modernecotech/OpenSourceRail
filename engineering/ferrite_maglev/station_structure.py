@@ -434,7 +434,7 @@ def study():
 
 
 def source_paths():
-    return [Path(__file__), INPUT,ROOT/'ferrite-maglev-study.toml',ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx']
+    return [Path(__file__), INPUT,ROOT/'engineering/maglev_research/inputs/ferrite-maglev-study.toml',ROOT/'engineering/maglev_research/inputs/OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx']
 
 
 def _sources():

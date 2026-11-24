@@ -26,7 +26,7 @@ SOURCE_NAMES = ['engineering/maglev_research/service_envelope.py', 'engineering/
     'engineering/ferrite_maglev/station.py', 'engineering/ferrite_maglev/station.toml',
     'engineering/ferrite_maglev/corridor.py', 'engineering/ferrite_maglev/corridor.toml',
     'engineering/ferrite_maglev/operating-plan.toml', 'engineering/ferrite_maglev/line-capacity.toml',
-    'ferrite-maglev-study.toml', str(propulsion_research.ARCHIVE/'executed/results.json'),
+    'engineering/maglev_research/inputs/ferrite-maglev-study.toml', str(propulsion_research.ARCHIVE/'executed/results.json'),
     str(propulsion_research.ARCHIVE/'executed/current-boundary-diagnostic.json')]
 
 
@@ -160,7 +160,7 @@ def _slim(t):
 def study(root=ROOT, comparison_mass_kg=None, accelerations_m_s2=(.15, .2)):
     root = Path(root).resolve()
     evidence = propulsion_research.study(root)
-    primary = tomllib.loads((root/'ferrite-maglev-study.toml').read_text())
+    primary = tomllib.loads((root/'engineering/maglev_research/inputs/ferrite-maglev-study.toml').read_text())
     a = station.load()
     corridor = tomllib.loads((root/'engineering/ferrite_maglev/corridor.toml').read_text())
     base = root/propulsion_research.ARCHIVE
@@ -445,7 +445,7 @@ def read_retained(path, root=ROOT):
     if (value['parent_configuration_sha256'] != archive['parent_configuration_sha256'] or
             value['propulsion_hypothesis_sha256'] != archive['resolved_corner_alternative']['hypothesis_sha256']):
         raise ValueError('service parent/propulsion hypothesis differs')
-    primary = tomllib.loads((root/'ferrite-maglev-study.toml').read_text())
+    primary = tomllib.loads((root/'engineering/maglev_research/inputs/ferrite-maglev-study.toml').read_text())
     expected_floor = primary['vehicle']['aw2_passengers_per_car']*assumptions['baseline_cars']*3600/primary['vehicle']['scheduled_headway_seconds']
     if assumptions['reference_aw2_throughput_floor_pph'] != expected_floor:
         raise ValueError('retained normal-service capacity floor differs')

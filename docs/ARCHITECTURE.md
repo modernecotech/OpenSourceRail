@@ -13,7 +13,7 @@ and [finite release gate](RELEASE-v0.7.md) govern current public claims.
 
 ## Which design is current?
 
-A new corridor starts with passenger needs, alignment and construction constraints. Train length, pier spacing and supply equipment are choices to compare at the same service. The development reference and the two published examples below each have their own purpose and inputs. [Corridor design decisions](DESIGN-DECISIONS.md)
+A new corridor starts with passenger needs, alignment and construction constraints. Train length, pier spacing and supply equipment are choices to compare at the same service. The development reference, synthetic corridor and Baghdad revisions below each have their own purpose and inputs. [Corridor design decisions](DESIGN-DECISIONS.md)
 
 [v0.4 conventional railway](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0)
 and [v0.5 maglev](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1)
@@ -21,12 +21,15 @@ are historical designs.
 
 | Design | Role |
 |---|---|
-| v0.6 passive-wheel station-launch vehicle | Development reference and research; no installed Baghdad service selected |
-| v0.7 powered-wheel 30 km railway | Selected synthetic digital engineering and cost reference |
-| Baghdad protected-conductor railway, introduced in v0.7.1 | Current-main city planning baseline, separate from the 30 km reference |
+| [v0.6 passive-wheel vehicle](design-engine/current/README.md) | Selected development reference; station launch is a research option, with no installed propulsion selected |
+| [v0.7 powered-wheel 30 km railway](reference-v07/README.md) | Selected synthetic digital engineering and cost reference; separate candidate and route scope |
+| [Baghdad v0.7.2 Airport opening](releases/v0.7.2/README.md) | Released 12 km, six-stop schematic, six-set fleet and radial-supply budget; historical release configuration |
+| [Baghdad first-article prototype](../cities/Baghdad/engineering/prototype/README.md) | Later steel-frame, feeder and workshop revision on the earlier 12 km schematic; its drawings and estimate stay with that configuration |
+| [Baghdad current Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) | Revised 17.46 km horizontal route and paired-supply budgetary enquiry; site, protection and physical evidence remain open |
+| [Baghdad citywide planning](../cities/Baghdad/CITYWIDE-SERVICE.md) | Separate metropolitan network and fleet decision, not the Airport opening or synthetic 30 km reference |
 
-The Baghdad [input](../cities/Baghdad/system.toml) and [costed result](../cities/Baghdad/system-results.json)
-are 2026 USD planning estimates. Installed capital includes construction,
+The Baghdad citywide [input](../cities/Baghdad/system.toml) and [costed result](../cities/Baghdad/system-results.json)
+are 2026 USD planning estimates for their declared citywide configuration. Installed capital includes construction,
 equipment and declared allowances; it is not committed expenditure. The
 30-year present cost discounts operation and renewal and is not project revenue
 or a financing offer. Local contract value is an addressable planning share,

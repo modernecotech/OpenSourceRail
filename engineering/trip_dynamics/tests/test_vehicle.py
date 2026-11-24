@@ -9,6 +9,7 @@ import subprocess
 import pytest
 
 from engineering.trip_dynamics import vehicle
+from engineering import research_ancestry
 
 
 @pytest.fixture(scope='module')
@@ -105,7 +106,7 @@ def test_pinned_publication_and_actual_source_mutation_refuse(tmp_path, retained
     for name in bindings:
         dest = tmp_path/name
         dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(retained_root/name, dest)
+        shutil.copyfile(research_ancestry.live_input_path(retained_root,name,bindings[name]), dest)
     name = {'payload':'docs/design-engine/vehicle-optimisation/summary.json',
             'manifest':'docs/design-engine/vehicle-optimisation/manifest.json',
             'bound-source':'engineering/ferrite_maglev/candidate-magnetics.toml'}[corrupt]
@@ -129,7 +130,7 @@ def _copy_live_inputs_with_local_git_ancestry(destination, root, catalogue):
     for name in catalogue['source_bindings']:
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(root / name, target)
+        shutil.copyfile(research_ancestry.live_input_path(root,name,catalogue['source_bindings'][name]), target)
     # Share immutable Git objects, without copying source or creating commits.
     subprocess.run(['git', 'init', '--quiet', str(destination)], check=True)
     objects = subprocess.check_output(

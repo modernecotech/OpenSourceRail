@@ -17,7 +17,11 @@ AMENDMENTS={
 
 
 def register():
-    data=json.loads(INPUT.read_text());source=model.ROOT/data['source']
+    data=json.loads(INPUT.read_text())
+    # Preserve the immutable specification's original source key and digest.
+    if data['source'] != 'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx':
+        raise ValueError('unexpected station specification source')
+    source=model.ROOT/'engineering/maglev_research/inputs'/data['source']
     if sha256(source.read_bytes()).hexdigest()!=data['source_sha256']:raise ValueError('station specification changed; reconcile controlled requirements')
     if [r['number'] for r in data['requirements']]!=list(range(1,101)):raise ValueError('complete 100-item station specification required')
     for row in data['requirements']:

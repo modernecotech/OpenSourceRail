@@ -12,6 +12,7 @@ import subprocess
 
 from engineering.design_search.contracts import FLAGS, encoded, identity
 from engineering.design_search.storage import atomic_immutable
+from engineering import research_ancestry
 from .scenario import bind_vehicle, campaign_cases, kinematic_target, scenario, validate
 from .validation import gate, preflight_result
 from .programme import tasks
@@ -35,7 +36,7 @@ def source_snapshot(root, vehicle=None, magnetics=None):
     root = Path(root).resolve()
     for value in (vehicle, magnetics):
         for name, expected in ((value or {}).get('source_sha256') or (value or {}).get('source_bindings', {})).items():
-            p = root/name
+            p = research_ancestry.live_input_path(root, name, expected)
             if p.is_symlink() or not p.is_file() or not p.resolve().is_relative_to(root) or digest(p) != expected:
                 raise ValueError('trip evidence source changed: '+name)
             if name in mapping and mapping[name] != expected:

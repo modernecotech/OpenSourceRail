@@ -10,10 +10,10 @@ def test_current_entrypoints_separate_release_and_retained_station_launch():
     text = '# Tools\n\nLocal implementation details.\n'
     updated = context.render(text, 'tools/README.md')
     assert updated.startswith('# Tools\n')
-    assert 'published digital release' in updated
-    assert 'earlier v0.6 passive-wheel, station-launch design remains research' in updated
-    assert 'Each candidate retains its own geometry, mass' in updated
-    assert 'Safety and accessibility remain requirements' in updated
+    assert 'published v0.7.2 Baghdad opening study' in updated
+    assert 'v0.8 production preparation' in updated
+    assert 'v0.6 passive-wheel vehicle is a separate research selector' in updated
+    assert 'Safety and accessibility remain mandatory' in updated
     assert 'maglev' not in updated.lower()
     assert updated.endswith('Local implementation details.\n')
     assert context.render(updated, 'tools/README.md') == updated
@@ -22,7 +22,7 @@ def test_current_entrypoints_separate_release_and_retained_station_launch():
 def test_separate_magnetic_method_entrypoint_uses_current_context_without_archive_route():
     name = 'engineering/ferrite_maglev/README.md'
     updated = context.render('# Retained method\n\nOriginal method details.\n', name)
-    assert 'The published digital release' in updated
+    assert 'The published v0.7.2 Baghdad opening study' in updated
     assert 'docs/archives/v0.5-maglev/README.md' not in updated
     assert context.category(name) == 'historical-method-entrypoint'
     assert updated.endswith('Original method details.\n')

@@ -8,6 +8,7 @@ import time
 
 from . import ROOT, PARENT_REVISION, FLAGS
 from . import layout, glazing, systems, envelope, seats_doors
+from engineering import research_ancestry
 
 OUTPUT = 'docs/design-engine/ferrite-maglev/comfort-options'
 WORKBENCH = 'docs/workbench/trip/readiness/comfort'
@@ -34,7 +35,7 @@ def _bindings(root, records):
     for name in ('.github/workflows/comfort-options.yml', 'tools/automation/tests/verify-comfort-options.mjs'):
         result[name] = sha256((root/name).read_bytes()).hexdigest()
     for name, digest in result.items():
-        path = root/name
+        path = research_ancestry.live_input_path(root, name, digest)
         if path.is_symlink() or sha256(path.read_bytes()).hexdigest() != digest:
             raise ValueError('source changed: '+name)
     return dict(sorted(result.items()))

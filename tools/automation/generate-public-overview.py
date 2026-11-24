@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the public overview from the selected v0.6 candidate."""
+"""Generate the public overview with current releases and the v0.6 reference."""
 from __future__ import annotations
 
 import argparse
@@ -35,9 +35,35 @@ to build local design authority, production and repair capability while
 comparing whole-life cost and passenger service. These are project objectives;
 economic superiority and physical qualification have not been demonstrated.
 
-## Selected v0.6 vehicle reference
+## Published v0.7.2 and current Baghdad review
 
-The selected wheel-supported vehicle reference has
+The [v0.7.2 Baghdad Airport release](releases/v0.7.2/README.md) joins a
+12 km, six-stop schematic, a 15-minute opening timetable, a six-set fleet,
+radial traction supply, a supplier dossier and a 2026 USD planning estimate.
+Its 2,800 normal places/hour/direction and $1,122.8 million central opening
+capital belong to that released configuration. Site surveys, equipment returns,
+physical tests and an owner decision remain necessary before construction or
+passenger service.
+
+Current main-branch work tests a [revised 17.46 km horizontal Airport route](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md).
+The 30-minute paired-supply replay completes 72 of 72 booked trips under its
+declared model. Both evaluated supply layouts fail engineering screens, and
+Um Al Tubol still needs a site. The paired-supply budgetary enquiry is tied to
+that revised evaluation. The [later first-article prototype](../cities/Baghdad/engineering/prototype/README.md)
+retains revised car and workshop records on the *earlier 12 km schematic*;
+its drawings and $1.124 billion radial-layout estimate do not become the
+17.46 km enquiry. [Baghdad design and cost guide](../cities/Baghdad/README.md)
+
+The separate [v0.7 synthetic 30 km digital railway](reference-v07/README.md)
+has a powered-wheel vehicle, overhead traction supply, a candidate-linked
+beam, factory plan and fourteen-scope cost estimate. It is a comparison
+reference, not a Baghdad route or a physical approval. The
+[engineering status](ENGINEERING-STATUS.md) keeps these configurations and
+their remaining decisions separate.
+
+## Retained v0.6 development vehicle
+
+The selected development vehicle reference has
 {vehicle['cars']} cars of {vehicle['body_length_m']:g} m. Each car is planned for
 {vehicle['fixed_seats_per_car']} fixed seats and
 {vehicle['wheelchair_places_per_car']} wheelchair places, with no planned
@@ -67,7 +93,7 @@ validation and release require separate physical evidence and review.
 
 ## Concept illustrations
 
-These illustrations show the intended passenger experience, local assembly and
+These v0.6 illustrations show the intended passenger experience, local assembly and
 construction approach. They are concept artwork. Detailed dimensions,
 accessibility, equipment placement and construction methods require controlled
 engineering records; the images do not establish physical performance.
@@ -76,7 +102,19 @@ engineering records; the images do not establish physical performance.
 
 ## Planning, engineering and delivery
 
-The [planning workspace](workbench/planning/index.html) verifies current city
+Use the [current city catalogue](../cities/catalogue/README.md) and
+[planning workspace](workbench/planning/index.html) to inspect candidate
+routes, access, service and costs. The current coordinated search starts with
+`./osr design railway`, [the coupled campaign](../campaigns/coupled-railway-design.toml)
+and its candidate-specific evidence. Alternative architectures use their own
+physical, evaluation and selection identities. The source-bound public
+records support comparison and enquiry, not automatic engineering admission.
+
+The following v0.6 planning and factory example remains a development
+workflow for the selected passive-wheel vehicle. Its quantities and costs do
+not carry over to the Airport or v0.7 powered-wheel candidates.
+
+The [planning workspace](workbench/planning/index.html) verifies city
 geography and route sources, then supports route, stop, service and OD proposals.
 Run `./osr plan compile edits.json --output build/my-plan` to create an immutable
 handoff bound to the selected candidate; run `./osr plan verify build/my-plan`
@@ -125,11 +163,12 @@ case. These are planning assumptions, not approved staffing or operating plans.
 ## Start here
 
 Run `./install.sh`, then `./osr status` and `./osr workbench`. Use
-`./osr design railway plan` for coordinated research, `./osr build` to refresh
-current evidence and `./osr verify` to check sources and payloads. `./osr sim
-baghdad` reports the current city-evaluation hold.
+`./osr design railway` for coordinated candidate research and the commands
+in each named packet to reproduce its declared evaluation. `./osr verify`
+checks available source-bound publications; it does not qualify hardware.
 
-[Project introduction](../README.md) · [Current engineering](design-engine/current/README.md) ·
+[Project introduction](../README.md) · [Baghdad current audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) ·
+[v0.7.2 release](releases/v0.7.2/README.md) · [v0.6 reference](design-engine/current/README.md) ·
 [Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md) ·
 [Candidate delivery](design-engine/coupled-railway/delivery-index.json) ·
 [Reader](../OpenSourceRail-Book.pdf) · [Contribute](../CONTRIBUTING.md).

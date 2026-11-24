@@ -10,6 +10,7 @@ import tarfile
 import tempfile
 
 from engineering.design_search.storage import atomic_immutable
+from engineering import research_ancestry
 from . import ROOT,FLAGS
 from .contracts import candidate,gate,identity,encoded,preflights,require_subject
 from . import native,operations
@@ -29,8 +30,10 @@ def write(path,value):return atomic_immutable(Path(path),encoded(value))
 def retained(root):
     root=Path(root);folder=root/BASE;manifest=read(folder/'manifest.json')
     if manifest['manifest_id']!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):raise ValueError('larger-array receipt identity differs')
-    for name,digest in manifest['source_sha256'].items():
-        if sha256((root/name).read_bytes()).hexdigest()!=digest:raise ValueError('retained comparison source differs: '+name)
+    try:
+        research_ancestry.verify(root,manifest['source_sha256'],source_revision=PARENT)
+    except ValueError as exc:
+        raise ValueError('retained comparison source differs') from exc
     for name,digest in manifest['files_sha256'].items():
         if sha256((folder/name).read_bytes()).hexdigest()!=digest:raise ValueError('retained comparison payload differs: '+name)
     value=read(folder/'comparison.json')
@@ -117,7 +120,7 @@ def sources(root,paths):
         manifest=read(Path(directory)/'manifest.json')
         for name,digest in manifest['source_sha256'].items():
             if name in records and records[name]!=digest:raise ValueError('mixed executing/retained source revisions: '+name)
-            if sha256((root/name).read_bytes()).hexdigest()!=digest:raise ValueError('domain source changed: '+name)
+            if sha256(research_ancestry.live_input_path(root,name,digest).read_bytes()).hexdigest()!=digest:raise ValueError('domain source changed: '+name)
             records[name]=digest
     return dict(sorted(records.items()))
 
@@ -278,7 +281,7 @@ def verify(output,*,root=ROOT):
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}) or m['files_sha256']!=native.inventory(d,('manifest.json',)):
         raise ValueError('readiness publication identity/payload differs')
     for name,digest in m['source_sha256'].items():
-        if sha256((Path(root)/name).read_bytes()).hexdigest()!=digest:raise ValueError('readiness source changed: '+name)
+        if sha256(research_ancestry.live_input_path(root,name,digest).read_bytes()).hexdigest()!=digest:raise ValueError('readiness source changed: '+name)
     for name,digest in m['workbench_files_sha256'].items():
         if sha256((Path(root)/name).read_bytes()).hexdigest()!=digest:raise ValueError('readiness Workbench differs')
     with tempfile.TemporaryDirectory(prefix='osr-readiness-readback-') as temp:

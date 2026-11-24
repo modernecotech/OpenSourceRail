@@ -47,7 +47,7 @@ def _check_sources(root,bindings):
         p=Path(name)
         if p.is_absolute() or '..' in p.parts or not re.fullmatch('[a-f0-9]{64}',digest):
             raise ValueError('ordinary source mapping required')
-        path=Path(root)/p
+        path=research_ancestry.live_input_path(root,name,digest)
         if path.is_symlink() or not path.is_file() or sha256(path.read_bytes()).hexdigest()!=digest:
             raise ValueError('interface input source differs: '+name)
 
@@ -129,7 +129,7 @@ def _sources(root,vehicle,service,parent,thermal):
                  'engineering/ferrite_maglev/booster-kit.toml',
                  'engineering/ferrite_maglev/booster_kit.py',
                  'engineering/ferrite_maglev/stopped_recovery.py',
-                 'ferrite-maglev-study.toml'):
+                 'engineering/maglev_research/inputs/ferrite-maglev-study.toml'):
         result[name]=sha256((root/name).read_bytes()).hexdigest()
     result[THERMAL]=THERMAL_SHA
     result['engineering/comfort_design/interfaces.py']=sha256(Path(__file__).read_bytes()).hexdigest()
@@ -574,7 +574,7 @@ def restart_permission(*,stationary,protected_path,brake_control_ready,support_h
 
 def recovery_requirements(vehicle,service,winding,root=ROOT):
     root=Path(root);r=tomllib.loads((root/'engineering/ferrite_maglev/booster-kit.toml').read_text())['recovery']
-    power=tomllib.loads((root/'ferrite-maglev-study.toml').read_text())['power']
+    power=tomllib.loads((root/'engineering/maglev_research/inputs/ferrite-maglev-study.toml').read_text())['power']
     mass=vehicle['mass']['accounted_cap_loaded_kg_per_car']*6
     selected=_selected_cases(service)
     distance=max((case['inputs']['distance_m'] for case,_ in selected),default=2000.)

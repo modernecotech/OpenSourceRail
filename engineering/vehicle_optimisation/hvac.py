@@ -57,7 +57,7 @@ def _identity(value):
 
 def source_inputs(root=ROOT):
     root = Path(root)
-    names = ['ferrite-maglev-study.toml', 'engineering/ferrite_maglev/station-structure.toml',
+    names = ['engineering/maglev_research/inputs/ferrite-maglev-study.toml', 'engineering/ferrite_maglev/station-structure.toml',
              'engineering/ferrite_maglev/pilot_product.py', 'engineering/ferrite_maglev/candidate_magnetics.py',
              'engineering/ferrite_maglev/data/candidate-parent-94ad.json',
              'engineering/ferrite_maglev/data/candidate-replaced-cartridges.json',
@@ -70,7 +70,7 @@ def source_inputs(root=ROOT):
 def allocation_trace(root=ROOT):
     """Source accounting inference; no claim that 800 kg of HVAC was weighed."""
     root = Path(root)
-    base = tomllib.loads((root/'ferrite-maglev-study.toml').read_text())
+    base = tomllib.loads((root/'engineering/maglev_research/inputs/ferrite-maglev-study.toml').read_text())
     body = tomllib.loads((root/'engineering/ferrite_maglev/station-structure.toml').read_text())
     parent = json.loads((root/'engineering/ferrite_maglev/data/candidate-parent-94ad.json').read_bytes())['configuration']
     removed = json.loads((root/'engineering/ferrite_maglev/data/candidate-replaced-cartridges.json').read_bytes())

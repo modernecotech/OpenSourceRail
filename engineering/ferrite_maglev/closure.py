@@ -626,7 +626,7 @@ def obligations(evidence=None):
 def study():
     evidence=_evidence()
     selected=configuration.selected().civil
-    current=configuration.document(ROOT/'ferrite-maglev-study.toml')
+    current=configuration.document(ROOT/'engineering/maglev_research/inputs/ferrite-maglev-study.toml')
     from . import model, system_campaign
     # Match the executed wider corridor references. The retained 30 kWh model
     # remains an explicit comparison, not evidence for the heavier formation.
@@ -751,7 +751,7 @@ def source_paths():
     paths={Path(__file__),INPUT,OBLIGATIONS,*structure.source_paths(),Path(requirements.__file__),Path(transition.__file__),
         ROOT/'engineering/ferrite_maglev/specification.py',ROOT/'engineering/ferrite_maglev/evacuation.py',
         ROOT/'engineering/ferrite_maglev/data/requirements.json',ROOT/'engineering/ferrite_maglev/data/systems-inventory.json',
-        ROOT/'engineering/ferrite_maglev/data/station-powered-specification.json',ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',
+        ROOT/'engineering/ferrite_maglev/data/station-powered-specification.json',ROOT/'engineering/maglev_research/inputs/OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',
         ROOT/'engineering/ferrite_maglev/system_campaign.py',ROOT/'engineering/ferrite_maglev/system-campaign.toml',
         *configuration.source_paths()}
     paths.update(ROOT/'docs/design-engine/ferrite-maglev'/name/receipt for name,receipt in PACKETS.items() if (ROOT/'docs/design-engine/ferrite-maglev'/name/receipt).is_file())

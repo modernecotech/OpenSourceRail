@@ -9,9 +9,9 @@ candidate identities and evidence limits.
 The [30 km digital reference](reference-v07/README.md) supplies the separate
 powered-wheel engineering and cost basis. The [v0.7.2 release](releases/v0.7.2/README.md)
 records the Baghdad Airport opening timetable, traction study and supplier
-dossier. The [current Airport prototype](../cities/Baghdad/engineering/prototype/README.md)
-carries a later frame revision and its own feeder, cost and first-article
-records. The [engineering status](ENGINEERING-STATUS.md) and [book](BOOK.md)
+dossier. The [later Airport prototype](../cities/Baghdad/engineering/prototype/README.md)
+carries a frame revision on the earlier 12 km schematic and its own feeder, cost and first-article
+records. The [current Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) covers the revised 17.46 km study. The [engineering status](ENGINEERING-STATUS.md) and [book](BOOK.md)
 link the current design records and open interfaces.
 
 This guide preserves the detailed platform, engineering, delivery and research explanation. For the shorter introduction and practical starting points, see the [project README](../README.md). Current numerical results and evidence status belong to the linked source-bound publications.
@@ -26,7 +26,7 @@ The wider project encompasses city planning, CAD/BIM, manufacturing, business ex
 
 **Propulsion research:** The [station regenerative capture and mechanical-launch plan](design-engine/station-regenerative-launch/README.md) compares sprung contacts, hydraulic or flywheel storage, controlled forward release, wayside rollers and compact acceleration. Its executable Rust screen compares recovery energy, storage, grade and booster demands at variable speeds. This is an **outline-stage research family**. Speed, powered length, acceleration, headway and whole-life cost must follow passenger requirements; no installed propulsion system is selected.
 
-**Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](../OpenSourceRail-Book.pdf) · [project overview](open-source-rail-overview.md) · [current platform capabilities](capabilities/README.md) · [open engineering findings](design-engine/v06-design-closure/README.md) · [sourcing and cost evidence](design-engine/sourcing/README.md) · [city designs and maps](../cities/catalogue/README.md) · [roadmap](ROADMAP.md).
+**Start here:** [how the whole system works](#from-a-city-brief-to-a-working-railway) · [illustrated reader](../OpenSourceRail-Book.pdf) · [project overview](open-source-rail-overview.md) · [current platform capabilities](capabilities/README.md) · [selected development reference and open evidence](design-engine/current/README.md) · [sourcing and cost evidence](design-engine/sourcing/README.md) · [city designs and maps](../cities/catalogue/README.md) · [roadmap](ROADMAP.md).
 
 ![OpenSourceRail v0.6 proposed wheel-supported train at a compact elevated station](images/v06/v06-hero-elevated-station.webp)
 

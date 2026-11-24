@@ -310,6 +310,30 @@ def _outline_geometry(case,cost,installation,context):
     return seal(value,'geometry_id')
 
 
+def _best_cost_for_mechanism(costs, by_case):
+    # An evaluation ID changes with price-source provenance. Equal-cost
+    # alternatives must retain a service-based ordering across source epochs.
+    return min(costs, key=lambda cost: (
+        cost['whole_life_npv_usd']['base'],
+        by_case[cost['service_case_id']]['request']['design']['service_deceleration_m_s2'],
+        _declared_service_key(by_case[cost['service_case_id']]['request'])))
+
+
+def _declared_service_key(request):
+    return (json.dumps(request['requirements'], sort_keys=True, separators=(',', ':')),
+            json.dumps(request['design'], sort_keys=True, separators=(',', ':')))
+
+
+def _display_outline(outlines):
+    # A changed evaluation hash must not select a different mechanism for an
+    # equal-cost display. Named mechanisms provide a stable disclosure order;
+    # every priced alternative stays available in the study.
+    return min(outlines, key=lambda outline: (
+        outline['cost']['whole_life_npv_usd']['base'],
+        outline['mechanism'],
+        _declared_service_key(outline)))
+
+
 def evaluate(brief=None, variables=None, root=ROOT, *, pricing_scenario=None):
     started=time.perf_counter(); root=Path(root)
     context=prepare(root); context['root']=root
@@ -340,9 +364,9 @@ def evaluate(brief=None, variables=None, root=ROOT, *, pricing_scenario=None):
     best=[]
     for mode in budget.MODES:
         group=[c for c in costs if c['mechanism']==mode]
-        if group: best.append(min(group,key=lambda c:(c['whole_life_npv_usd']['base'],c['evaluation_id'])))
+        if group: best.append(_best_cost_for_mechanism(group,by_case))
     outlines=[_outline(by_case[c['service_case_id']],c,screen,context) for c in best]
-    best_outline=min(outlines,key=lambda o:(o['cost']['whole_life_npv_usd']['base'],o['outline_id'])) if outlines else None
+    best_outline=_display_outline(outlines) if outlines else None
     index=[dict(cost_evaluation_id=c['evaluation_id'],service_case_id=c['service_case_id'],mechanism=c['mechanism'],
         installed_capital_usd=c['installed_capital_usd'],price_per_route_km_usd=c['price_per_route_km_usd'],
         whole_life_npv_usd=c['whole_life_npv_usd']) for c in costs]
@@ -362,7 +386,10 @@ def evaluate(brief=None, variables=None, root=ROOT, *, pricing_scenario=None):
         pricing_scenario=pricing_scenario,supply_policy=supply_economics.policy(root),
         cost_index=index,outlines=outlines,pending_costs=pending_costs,
         recommended_outline_id=best_outline['outline_id'] if best_outline else None,
-        selection_purpose='next-outline-for-detailing; minimum base whole-life cost among bounded passing cases',
+        selection_purpose=('next-outline-for-detailing; minimum base whole-life cost among bounded passing cases. '
+            'Within each mechanism, equal-cost representatives prefer lower requested service deceleration, '
+            'then canonical declared service inputs. Equal-cost mechanisms use stable name order for display only; '
+            'other passing service cases and mechanisms remain in the cost index.'),
         selection_is_physical_adoption=False,reference_library=library,
         active_propulsion_policy=selection.load(root).get('active_propulsion_policy'),
         approach_policy=policy,unassessed_approaches=pending_approaches,

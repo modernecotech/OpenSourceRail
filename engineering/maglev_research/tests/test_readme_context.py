@@ -57,7 +57,8 @@ def fixture_repository(tmp_path, monkeypatch):
         path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text('# Original local title\n\nLocal technical or archived scope.\n')
     brief = tmp_path/names[-4]
-    brief.write_text('# City brief\n\n[Current package](engineering/maglev/README.md)\n')
+    brief.write_text('# City brief\n\n[Current package](engineering/maglev/README.md)\n'
+                     '[Planning workspace](../../../../../docs/workbench/planning/README.md)\n')
     package = tmp_path/names[-3]
     # Explicitly exercise percent-encoded spaces and ordinary parent traversal.
     import os
@@ -81,17 +82,19 @@ def test_write_and_audit_cover_generated_and_archived_routes_without_rewriting(t
     assert report['existing_context_routes'] + report['central_context_routes'] == len(names)
     rows = {row['path']:row for row in report['readmes']}
     brief = 'cities/catalogue/west-asia/Iraq/City With Space/README.md'
-    assert rows[brief]['existing_context_route'][-1] == 'engineering/ferrite_maglev/README.md'
+    assert rows[brief]['existing_context_route'][-1] == 'README.md'
     assert rows['engineering/assurance/frozen/archive/README.md']['coverage_context_required']
     text = r.markdown(report)
-    assert 'City%20With%20Space' in text
-    assert 'Via this coverage page' in text
+    assert 'Current README entrypoints' in text
+    assert 'deployment/README.md' in text
 
 
-def test_numerical_binding_stops_all_owned_writes_before_mutation(tmp_path, monkeypatch):
+def test_current_city_frontdoor_binding_stops_all_owned_writes_before_mutation(tmp_path, monkeypatch):
     names = fixture_repository(tmp_path, monkeypatch)
     receipt = tmp_path/'docs/design-engine/ferrite-maglev/full-dynamics/manifest.json'
-    receipt.write_text(json.dumps({'source_sha256':{'engineering/README.md':'0'*64}}))
+    receipt.write_text(json.dumps({'schema':'osr-current-city-publication/3',
+                                   'city_frontdoor_path':'engineering/README.md',
+                                   'city_frontdoor_sha256':'0'*64}))
     before = {name:(tmp_path/name).read_bytes() for name in names}
     with pytest.raises(ValueError,match='alter numerical evidence'):
         r.write_owned(tmp_path)
@@ -131,13 +134,17 @@ def test_existing_document_link_resolution_stays_local_and_supports_spaces(tmp_p
     assert r.local_links(tmp_path,name,text) == ['A Folder/README.md']
 
 
-def test_inventory_includes_new_readmes_before_git_staging(monkeypatch):
+def test_inventory_includes_new_readmes_before_git_staging(tmp_path, monkeypatch):
+    for name in ('README.md', 'docs/new/README.md'):
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text('# Test\n')
     calls = []
     def output(command, cwd):
         calls.append(command)
         return (b'docs/new/README.md\0' if '--others' in command else b'README.md\0')
     monkeypatch.setattr(r.subprocess, 'check_output', output)
-    assert r.inventory() == ['README.md', 'docs/new/README.md']
+    assert r.inventory(tmp_path) == ['README.md', 'docs/new/README.md']
     assert any('--others' in command and '--exclude-standard' in command for command in calls)
 
 
@@ -153,7 +160,7 @@ def test_publication_self_receipt_is_excluded_to_avoid_circular_source_claims(tm
     report = r.audit(tmp_path)
     assert report['current']
     row = next(row for row in report['readmes'] if row['path'] == name)
-    assert row['category'] == 'current-research-programme'
+    assert row['category'] == 'current-development-dossier'
     assert row['retained_bindings'] == []
 
 
@@ -171,10 +178,10 @@ def test_repository_coverage_accounts_for_all_current_readmes_and_receipts():
             '--', 'docs/design-engine', 'engineering/assurance'], cwd=r.ROOT).split(b'\0')
         if name and 'README' in Path(name.decode()).name and name.decode().endswith('.md')
     }
-    programme = 'docs/design-engine/ferrite-maglev/research-closure/README.md'
     expected = {
         'retained-design-evidence': {name for name in published
-            if name.startswith('docs/design-engine/') and name != programme},
+            if name.startswith('docs/design-engine/') and name not in {
+                'docs/design-engine/current/README.md', 'docs/design-engine/sourcing/README.md'}},
         'retained-assurance-evidence': {name for name in published
             if name.startswith('engineering/assurance/')},
     }

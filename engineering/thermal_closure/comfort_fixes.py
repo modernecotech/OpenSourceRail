@@ -19,6 +19,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import brentq, root as nonlinear_root
 from engineering import research_context as research
+from engineering import research_ancestry
 
 ROOT = Path(__file__).resolve().parents[2]
 CODE = 'engineering/thermal_closure/comfort_fixes.py'
@@ -445,7 +446,7 @@ def verify(output,*,root=ROOT,replay=True,research_context=None):
     folder=Path(output);m=json.loads((folder/'manifest.json').read_bytes())
     if m.get('schema')!=SCHEMA:raise ValueError('Retained capture/roof package requires its explicit research configuration schema')
     for name,digest in m['source_sha256'].items():
-        p=Path(root)/name
+        p=research_ancestry.live_input_path(root,name,digest)
         if p.is_symlink() or sha256(p.read_bytes()).hexdigest()!=digest:raise ValueError('source differs: '+name)
     for name,digest in m['files_sha256'].items():
         if Path(name).is_absolute() or '..' in Path(name).parts or sha256((folder/name).read_bytes()).hexdigest()!=digest:raise ValueError('payload differs: '+name)

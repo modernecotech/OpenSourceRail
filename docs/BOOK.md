@@ -1,74 +1,19 @@
 # OpenSourceRail: a railway designed in the open
 
-This book is for people who want to understand the railway as a whole: the
-passenger experience, the city it serves, the train and guideway, the workshops
-that could make and maintain it, and the decisions still required before anyone
-could build or operate it. It is also an account of the open engineering
-platform that connects those subjects.
+OpenSourceRail asks what it would take for a city to plan an affordable, accessible railway and develop the local skills to make, operate and repair it. This book follows that question from a passenger’s journey to the workshops, control room and maintenance depot. It looks at the cost of the whole service, including construction and renewal.
 
-OpenSourceRail begins with a practical question. Can a comfortable, accessible
-urban railway be designed so that cities can understand its complete cost and
-develop lasting local capability to make, repair and improve it? The project
-explores a relatively simple wheel-supported train and station-powered
-propulsion, while allowing other arrangements to compete when they serve
-passengers better. It treats design, construction, operation and renewal as one
-problem. A cheaper train has little value if it needs an unaffordable station,
-an unrepairable part or an unworkable service pattern.
+The [v0.7.2 release](releases/v0.7.2/README.md) joins a timetable, power and braking calculations, equipment quantities and cash flows in a supplier dossier. The [subsequent engineering review](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) shows why a buyer must check the route first. Baghdad’s original 12 km airport schematic cannot reach the mapped stops in sequence. The revised 17.46 km horizontal study identifies which connections need survey and what the trains can deliver under the modelled failures.
 
-The present reference is a six-car train of 17-metre cars, with passive steel
-wheels on conventional rails carried by concrete. Each car is planned for 44
-fixed seats and two wheelchair places, with no planned standing. These are
-development choices, not promises of an approved train. Propulsion, braking,
-headway and the final route must be established for each complete candidate.
-Safety, passenger protection and accessibility are requirements throughout.
+The station-powered chapters use a six-car development vehicle. Each 17 m car runs on passive steel wheels and has 44 fixed seats, two wheelchair places and no planned standing. Other designs carry their own traction, braking, infrastructure and cost assumptions. Each must address passenger protection and accessibility.
 
-## What the reader will find
+## Finding your way through the book
 
-Part I explains the passenger purpose and the three connected products. Part
-II guides a reader through the published v0.6.1 software: its city atlas,
-Workbench journeys, candidate research, engineering views, delivery drafts and
-visible holds. Part III follows a city proposal into a worked Samawah corridor
-revision. Part IV presents ten illustrated city route examples. Parts V
-through VII explore the physical railway, its product and assembly views,
-and the work of making, costing, controlling and maintaining it. Parts VIII
-and IX show how digital twins are tested and how their evidence should be
-read. Part X follows the v0.7 effort to connect one corridor, vehicle and
-module into a continuous project. Part XI tours the screens people use.
-Part XII describes adoption, contributions, terms and further reading.
-The PDF outline provides chapter navigation.
-
-The city maps in Part IV are excerpts of calculated planning outlines; their
-routes and access are unsurveyed. Product images from separate research
-candidates are labelled separately, and screenshots identify the software
-view from which they were captured. Illustrations are labelled as concepts
-or engineering views. A concept image
-can help explain a proposal without proving dimensions, performance or
-qualification. Calculated results are presented with their assumptions and
-limits. The published v0.6.1 release is a software release: it makes planning,
-research and review tools available, while physical manufacture and passenger
-operation remain subject to separate engineering and approval work.
+Parts I and II introduce the three products and the earlier v0.6.1 Workbench. Parts III and IV follow a route edit in Samawah and show ten illustrated city planning examples. Parts V–VII cover the physical railway, manufacture, controls, costing and maintenance. Parts VIII and IX explain how to inspect a digital twin and its tests. Parts X–XII follow the v0.7 integration work, tour the operator screens and explain how to adopt or contribute to the project. Use the PDF outline to jump to a chapter.
 
 ## Reading the evidence
 
-Four descriptions recur in this book. A **proposal** is a design intention. A
-**calculated result** follows from a stated model and its inputs. A **verified
-software result** shows that a workflow ran and its outputs can be checked. A
-**physically accepted result** would require appropriate measurements, approved
-limits and independent review. The first three can help design a railway; none
-automatically becomes the fourth.
+A **proposal** describes an intended design. A **calculated result** follows from stated inputs. A **verified software result** can be reproduced and checked. **Physical acceptance** requires measurements, approved limits and independent review. The city maps show unsurveyed planning routes. Illustration captions distinguish concepts, engineering views and software screenshots.
 
-The current railway is not a single finished object. There is a selected
-development reference and there are research alternatives. When a vehicle,
-station or propulsion arrangement changes, its new geometry, mass, forces,
-power, heat, construction and cost consequences must travel together. The book
-calls this a *candidate*. Figures from a different candidate are useful for
-comparison, but cannot be inserted into the selected train as though they had
-been measured there.
+When a design changes, follow its geometry, loads, power, construction and cost together. The source receipt beside this PDF identifies the inputs and illustrations for this edition.
 
-The machine-readable source receipt beside the PDF records the exact inputs,
-illustrations and book file. It is for verification, so long file identities and
-execution logs are kept out of these chapters. Readers who want the detailed
-methods can follow the named project guides in the final chapter.
-
-**Edition:** 13 November 2026. The v0.6.1 Open Engineering Platform software
-release is published; v0.7 engineering and integration continue.
+**Edition of 24 November 2026.** The v0.8 first-article packages are in preparation. Each supplier enquiry identifies the drawing revision and inspection evidence needed for the buyer’s next decision.

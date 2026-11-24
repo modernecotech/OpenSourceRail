@@ -129,7 +129,7 @@ def study():
 
 
 def sources():
-    paths=[*station_structure.source_paths(),Path(specification.__file__),specification.INPUT,model.ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',Path(requirements.__file__),Path(evacuation.__file__),evacuation.INPUT,model.SPEC,Path(__file__),*configuration.source_paths(),Path(geometry.__file__),Path(media.__file__),
+    paths=[*station_structure.source_paths(),Path(specification.__file__),specification.INPUT,model.ROOT/'engineering/maglev_research/inputs/OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',Path(requirements.__file__),Path(evacuation.__file__),evacuation.INPUT,model.SPEC,Path(__file__),*configuration.source_paths(),Path(geometry.__file__),Path(media.__file__),
         Path(model.__file__),Path(system_development.__file__),system_development.INPUT,
         model.ROOT/'engineering/factory_examples/native.py',model.ROOT/'engineering/factory_examples/models.py']
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in paths}

@@ -55,13 +55,13 @@ def primary_city_readme(path,text):
         if not current.startswith('# '):errors.append('city package README requires an H1')
         if '[Planning workspace]' not in current:errors.append('city package lacks the current planning workspace route')
         if summary.get('schema')!='osr-current-city-hold/1' or summary.get('execution')!='held':
-            errors.append('city package must be a current v0.6 planning hold')
+            errors.append('city package must identify the geographic planning hold')
         if summary.get('performance_evaluated') is not False or summary.get('totals') is not None:
             errors.append('city package cannot publish route performance or totals')
         for flag in ('engineering_accepted','physical_accepted','installed_mass_complete','manufacturing_release','operating_release'):
             if summary.get(flag) is not False:errors.append('city cannot grant physical release: '+flag)
         if manifest.get('schema') not in ('osr-current-city-publication/2','osr-current-city-publication/3'):
-            errors.append('city package manifest must identify the current v0.6 hold')
+            errors.append('city package manifest must identify the geographic planning hold')
         if manifest.get('schema')=='osr-current-city-publication/3':
             presentation=manifest.get('presentation',{})
             dossier=REPO_ROOT/presentation.get('dossier_manifest_path','')
@@ -97,7 +97,11 @@ def main():
         findings.append('README.md: missing repository front door')
     else:
         text=root.read_text()
-        for marker in ('docs/design-engine/v06-design-closure/README.md','docs/design-engine/current/README.md','engineering/development-baseline.toml','crates/README.md','./osr readiness','./osr test','./osr build','OpenSourceRail-Book.pdf'):
+        version = (REPO_ROOT / 'VERSION').read_text().strip()
+        for marker in (f'docs/releases/v{version}/README.md', 'docs/archives/README.md',
+                       'docs/design-engine/current/README.md', 'engineering/development-baseline.toml',
+                       'docs/operator-review/', 'crates/README.md', './osr design railway audit',
+                       './osr readiness', './osr test', './osr build', 'OpenSourceRail-Book.pdf'):
             if marker not in text:
                 findings.append('README.md: missing current architecture/command reference '+marker)
     if not (REPO_ROOT/'OpenSourceRail-Book.pdf').is_file():

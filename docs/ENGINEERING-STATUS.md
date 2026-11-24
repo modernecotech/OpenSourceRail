@@ -1,5 +1,7 @@
 # Railway engineering status
 
+The [selected development reference](design-engine/current/README.md) is the v0.6 passive-wheel vehicle with no installed propulsion selected. The Baghdad decisions and synthetic 30 km digital railway below are separate candidate and evaluation families. Their quantities, performance and costs do not transfer to that reference. Physical acceptance remains open for each family.
+
 For a new route, compare service, train, supply and viaduct options under the same passenger and delivery brief. The register gives the assumptions that could reverse each choice, the quantities a supplier can price and the checks still open. [Corridor decision review](DESIGN-DECISIONS.md)
 
 ## Baghdad decisions on main

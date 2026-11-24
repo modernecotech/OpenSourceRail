@@ -47,7 +47,7 @@ class BeamAssumptions:
         import tomllib
         cv=selected().civil
         values=dict(span_m=cv.span_m,second_moment_m4=section(cv.width_m,cv.depth_m,cv.web_m,cv.flange_m)['vertical_i_m4'],
-            young_pa=tomllib.loads((ROOT/'ferrite-maglev-study.toml').read_text())['civil']['narrow_box_screen']['gross_uncracked_concrete_e_pa'])
+            young_pa=tomllib.loads((ROOT/'engineering/maglev_research/inputs/ferrite-maglev-study.toml').read_text())['civil']['narrow_box_screen']['gross_uncracked_concrete_e_pa'])
         for name,value in values.items():
             if getattr(self,name) is None:object.__setattr__(self,name,value)
         if self.line_mass_kg_m is None:
@@ -346,7 +346,7 @@ PUBLICATION_SOURCES = (
     "engineering/ferrite_maglev/reference-configuration.toml",
     "engineering/ferrite_maglev/geometry.py",
     "engineering/ferrite_maglev/model.py",
-    "Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "ferrite-maglev-study.toml",
+    "Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "engineering/maglev_research/inputs/ferrite-maglev-study.toml",
     "crates/osr-maglev-control/Cargo.toml", "crates/osr-maglev-control/src/lib.rs",
     "crates/osr-maglev-control/src/array.rs", "crates/osr-maglev-control/src/ideal.rs",
     "crates/osr-maglev-control/src/io.rs", "crates/osr-maglev-control/src/egress.rs", "crates/osr-maglev-control/examples/coupled_bridge.rs",

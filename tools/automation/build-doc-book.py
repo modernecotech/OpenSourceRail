@@ -651,7 +651,7 @@ def primary_images() -> list[tuple[Path, str]]:
 
 def primary_book_sources() -> dict[str, str]:
     paths = primary_docs()+[Path(__file__), REPO_ROOT/'tools/automation/generate-public-overview.py',
-        REPO_ROOT/'OpenSourceRail maglev station concept.png', REPO_ROOT/'engineering/ferrite_maglev/city-index.json',
+        REPO_ROOT/'engineering/maglev_research/inputs/OpenSourceRail maglev station concept.png', REPO_ROOT/'engineering/ferrite_maglev/city-index.json',
         REPO_ROOT/'docs/design-engine/ferrite-maglev/reference/manifest.json']
     paths += [p for p, _ in primary_images()]
     return {p.relative_to(REPO_ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
