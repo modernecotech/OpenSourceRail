@@ -10,6 +10,16 @@ The current Airport case traces a 17.46 km horizontal alignment through demand, 
 
 Reproduce the redesigned sections, lifting loads and 30-year civil costs at your corridor length, or inspect the crossed train, supply and civil cases for the worked opening. [Span family comparison](../cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) · [Joint operating comparison](../cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md)
 
+## Current civil pricing basis
+
+Use 20 m shared-pier U-girders for repeat standard bays. Inward gantries take
+beams by flatbed from the terminal yards on open main lines. Price starter
+bays, closures, track staging, yard facilities and ground access against the
+actual route. Retain the 10 m box for constrained short bays and the original
+comparison. Survey, construction-stage verification and supplier returns
+govern acceptance of each section. [Network civil programme](../cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) ·
+[Matched road and deck-fed cases](../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
+
 ## Decisions a buyer should reopen
 
 | Decision | What the evidence changes | What decides the corridor choice |

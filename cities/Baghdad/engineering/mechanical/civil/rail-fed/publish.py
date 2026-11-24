@@ -31,15 +31,22 @@ LABELS = {
 }
 
 
-def markdown(reference, programmes):
+def markdown(reference, programmes, flexibility):
     scope, geometry = reference["scope"], reference["geometry"]
     title = "# Erection prices, programme and traffic occupation"
+    yard = reference["shared_quantities"]["yard"]
     lines = [title, "", f"Evaluation `{reference['evaluation_id']}`.", "",
              f"The illustrative {scope['route_km']:g} km double-track corridor uses "
              f"{geometry['standard_bays']:,} paired standard bays and {geometry['standard_girders']:,} girders. "
              "Both methods carry the same permanent works and terminal casting capacity.", "",
+             f"Each terminal uses a **{yard['length_m']} × {yard['width_m']} m** preliminary envelope "
+             f"(**{yard['area_ha']:.2f} ha**), {yard['mould_count']} working beds and "
+             f"{yard['released_storage_slots']} released-girder positions. The normal "
+             f"{yard['mould_cycle_hours']}-hour cycle caps output at "
+             f"{yard['releases_per_yard_day']:g} girders per yard per calendar day.", "",
+             "![Dimensioned casting, released stock, services and delivery strips](terminal-yard.png)", "",
              "## Compare the default methods", "",
-             "| Method and allowed daily window | Calendar days | Labour h | Loaded public-road beam trips "
+             "| Method and allowed daily window | Calendar days | Paid hours · erection / with casting | Loaded public-road beam trips "
              "| Erection lane-hours | Erection cost low / base / high | Standard stock + erection base |",
              "|---|---:|---:|---:|---:|---:|---:|"]
     for row in programmes:
@@ -48,11 +55,14 @@ def markdown(reference, programmes):
         costs = " / ".join(f"${row[f'method_{case}_usd'] / 1e6:.2f}m" for case in ("low", "base", "high"))
         lines.append(
             f"| {LABELS[row['method']]} | {row['calendar_days']:.1f} | {row['erection_scope_labour_hours']:,.0f} "
+            f"/ {row['labour_hours_including_casting']:,.0f} "
             f"| {row['public_road_loaded_beam_trips']:,} | {row['lane_hours']:,} | {costs} "
             f"| ${row['base_stock_and_erection_usd'] / 1e6:.2f}m |"
         )
     lines += ["", "Days cover preliminary release and the girder erection programme. Labour covers the "
-              "method crews. Erection lane-hours exclude common substructure, utilities and station works. "
+              "method crews and planned casting shifts, with casting pay already in fabrication. "
+              "Erection costs include the time-dependent terminal yard lease. Hardstand is common to each comparison "
+              "with the same layout. Erection lane-hours exclude common substructure, utilities and station works. "
               "Rates are planning estimates in constant US dollars.", "",
               "## Test route length and overhead exclusions", "",
               "| Length and excluded share | Road-crane 8 h | Road-crane 16 h | Deck-fed 24 h "
@@ -66,6 +76,16 @@ def markdown(reference, programmes):
         lines.append(f"| {day['route_km']:g} km · {day['overhead_exclusion_pct']}% "
                      f"| {day['calendar_days']:.1f} d | {extended['calendar_days']:.1f} d "
                      f"| {deck['calendar_days']:.1f} d | {price} |")
+    lines.extend(["", "## Test plant and possession options on the same 12 km order", "",
+                  "| Deck-fed scenario | Calendar days | Labour h, including casting | Base method price | Yard ha per end |",
+                  "|---|---:|---:|---:|---:|"])
+    for row in flexibility:
+        lines.append(f"| {row['scenario']} | {row['calendar_days']:.1f} | {row['labour_hours_including_casting']:,} "
+                     f"| ${row['base_method_usd']/1e6:.2f}m | {row['yard_ha_each']:.2f} |")
+    lines.extend(["", "The two-feed scenario requires two separate approved temporary paths at each front. "
+                  "The second flatbed overlaps travel while terminal handoffs, placing and deck release remain serial. "
+                  "Repeated use of a gantry on another line requires sequential access, reconfiguration, "
+                  "independent review and a new booked mobilisation period."])
     return "\n".join([*lines, "", "[Read the workplan and holds](../RAIL-FED-ERECTION.md) · "
                       "[Exact cost and shift detail](comparison.json)", ""])
 
@@ -87,6 +107,7 @@ def build():
                 "method": key,
                 "calendar_days": round(method["calendar_days"], 2),
                 "erection_scope_labour_hours": round(method["labour_hours"], 1),
+                "labour_hours_including_casting": method["labour_hours_including_casting"],
                 "public_road_loaded_beam_trips": method["routine_public_road_beam_trips"],
                 "lane_hours": method["road_lane_hours"],
                 "method_low_usd": round(costs["low"]["method_scope_usd"], 2),
@@ -98,13 +119,31 @@ def build():
     crews = [
         {"method": key, **row, "evaluation_id": reference["evaluation_id"]}
         for key, method in reference["methods"].items()
-        for row in method["crew_shifts"]
+        for row in (*method["crew_shifts"], *method["yard_shifts"])
     ]
+    flexibility = []
+    for label, options in (
+        ("Single feed per end", {}),
+        ("Two independent feeds per end", {"flatbeds_per_front": 2, "independent_feed_paths": 2}),
+        ("Single feed with 10-day outage at one front", {"launcher_outage_days": 10}),
+    ):
+        result = study.evaluate(**options) if options else reference
+        method = result["methods"]["rail_24h"]
+        flexibility.append({
+            "scenario": label, "calendar_days": round(method["calendar_days"], 2),
+            "labour_hours_including_casting": method["labour_hours_including_casting"],
+            "base_method_usd": round(method["cases"]["base"]["method_scope_usd"], 2),
+            "yard_ha_each": result["shared_quantities"]["yard"]["area_ha"],
+            "flatbeds": method["plant"]["flatbeds"],
+            "gantries": method["plant"]["launching_gantries"],
+            "evaluation_id": result["evaluation_id"],
+        })
     return {
         "comparison.json": json.dumps(reference, indent=2, allow_nan=False) + "\n",
         "scenarios.csv": csv_text(programmes),
         "crew-workplan.csv": csv_text(crews),
-        "comparison.md": markdown(reference, programmes),
+        "flexibility.csv": csv_text(flexibility),
+        "comparison.md": markdown(reference, programmes, flexibility),
     }
 
 

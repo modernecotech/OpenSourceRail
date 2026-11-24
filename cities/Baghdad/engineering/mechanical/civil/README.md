@@ -1,4 +1,9 @@
-# Baghdad station bay and 10 m track span
+# Baghdad civil drawings and retained 10 m study
+
+Use the [20 m shared-pier delivery programme](rail-fed/network-delivery.md)
+for current standard totals, yard land, erection quantities and costs. The
+drawings on this page reproduce the earlier station and 10 m stock exercise.
+Station transitions to the longer-span family require a separate interface check.
 
 ![Dimensioned straight island station and track box cross-sections](station-and-box.svg)
 

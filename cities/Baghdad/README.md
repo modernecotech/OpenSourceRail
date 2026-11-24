@@ -1,6 +1,13 @@
 # Baghdad metropolitan railway
 
-Start with the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. Use the citywide study to review which metropolitan routes can operate.
+For civil budgeting and supplier enquiries, start with the **20 m shared-pier
+delivery programme**. It recalculates the standard girders, foundations,
+terminal yards, labour, construction windows and cash for the seven-corridor
+and independent citywide alternatives. Open main lines use two inward
+deck-fed gantries, subject to temporary works and access. [Current costs and
+delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
+
+Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. Use the citywide study to review which metropolitan routes can operate.
 
 | Decision | Open |
 |---|---|
@@ -22,8 +29,8 @@ OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires.
 | Assigned passenger-path length | 148.2 km | 555.553 km; 50.099 km reserved |
 | Budgeted stations | 64 | 280 |
 | Six-car trains, including reserve | 242 | 934 |
-| Construction at central Iraqi prices | **$8.37bn** | **$33.00bn** |
-| Construction at original comparison rates | $7.866bn | $31.018bn |
+| Earlier construction at central Iraqi prices | **$8.37bn** | **$33.00bn** |
+| Earlier construction at original comparison rates | $7.866bn | $31.018bn |
 
 Each row compares the two programmes at the same price basis. The routes, station allowances, fleets and capital totals are separate and cannot be added as construction stages. The maps show planning corridors and city geography. Track centre lines and station sites need survey and approval.
 

@@ -1,6 +1,7 @@
 """Render the two-terminal viaduct logistics concept and local CAD envelopes."""
 import argparse
 from pathlib import Path
+import sys
 
 import matplotlib
 matplotlib.use("Agg")
@@ -8,6 +9,7 @@ from matplotlib import pyplot as plt
 from matplotlib.patches import FancyArrowPatch, Polygon, Rectangle
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[5]))
 SPAN, WIDTH, DEPTH, PITCH = 20., 4., 1.55, 4.5
 WEB, SLAB = .20, .24
 SOFFIT = 6.
@@ -161,6 +163,53 @@ def launch_section(path):
     plt.close(fig)
 
 
+def yard_cells(yard, zone, prefix, margin, offset):
+    rows, columns = yard[f"{prefix}_matrix"]
+    dx, dy = yard[f"{prefix}_cell_m"]
+    for index in range(yard["mould_count" if prefix == "casting" else "released_storage_slots"]):
+        row, column = divmod(index, columns)
+        if row >= rows:
+            raise ValueError(f"Insufficient {prefix} cells in the yard")
+        yield margin + column * dx, zone["y_start_m"] + offset + row * dy, dx, dy
+
+
+def terminal_yard(path, yard, margin):
+    length, width = yard["length_m"], yard["width_m"]
+    fig = illustration(
+        "Production and buffer at each terminal",
+        f"{length} m × {width} m yard footprint · {yard['area_ha']:.2f} ha per end",
+        "Planning boundary · Check the actual terminal transfer, swept paths, drainage and temporary load design.",
+        height=6.6,
+    )
+    ax = fig.add_axes((.05, .13, .90, .69), xlim=(-17, length+85), ylim=(-11, width+9))
+    ax.set_aspect("equal", adjustable="box")
+    ax.axis("off")
+    colors = [PALE, "#d4eeeb", "#c3d5e2", "#e5ebf0", "#c3d5e2", "#f5e2d2", "#d4eeeb", PALE]
+    for zone, shade in zip(yard["layout_bands"], colors, strict=True):
+        y, h = zone["y_start_m"], zone["width_m"]
+        box(ax, 0, y, length, h, shade, edgecolor="white")
+        if h >= 10:
+            label(ax, length+3, y+h/2, zone["name"], MUTED, align="left", size=8.7)
+        if zone["name"].startswith("Casting"):
+            for x, start, dx, dy in yard_cells(yard, zone, "casting", margin, 3):
+                box(ax, x + 1, start, dx - 2, dy - 2, TEAL)
+            label(ax, margin+126, y+h/2, f"{yard['mould_count']} moulds", TEAL, align="left", bold=True, size=8.6)
+        elif zone["name"].startswith("Released"):
+            for x, start, dx, dy in yard_cells(yard, zone, "storage", margin, 4):
+                box(ax, x + 1, start, dx - 2, dy - 2, DECK)
+        elif zone["name"].startswith("Transfer"):
+            arrow(ax, (20, y+h/2), (length-6, y+h/2))
+            label(ax, length/2, y+h/2+5, "Load and feed advancing gantry", TEAL, bold=True, size=8.4)
+        elif zone["name"].startswith("Batch"):
+            label(ax, length/2, y+h/2, "Batching  ·  aggregate  ·  QA  ·  services", ORANGE, bold=True, size=9)
+    ax.add_patch(Rectangle((0, 0), length, width, fill=False, edgecolor=INK, linewidth=1.2))
+    arrow(ax, (0, -6), (length, -6), MUTED, "<->", 1)
+    ax.text(length/2, -6, f"  {length} m  ", va="center", ha="center", color=INK,
+            fontsize=8, bbox=dict(fc=BG, ec=BG, pad=1))
+    fig.savefig(path, dpi=125)
+    plt.close(fig)
+
+
 class Mesh:
     def __init__(self):
         self.lines = [
@@ -230,8 +279,8 @@ def model(path):
     path.write_text("\n".join(mesh.lines) + "\n", encoding="ascii")
 
 
-def dxf(path):
-    """Write a small model-space DXF with an elevation and a cross section."""
+def dxf(path, yard=None, margin=0):
+    """Write the construction views or the terminal yard in metre units."""
     records = []
 
     def add(*pairs):
@@ -239,8 +288,10 @@ def dxf(path):
 
     add((0, "SECTION"), (2, "HEADER"), (9, "$ACADVER"), (1, "AC1015"),
         (9, "$INSUNITS"), (70, 6), (0, "ENDSEC"))
-    add((0, "SECTION"), (2, "TABLES"), (0, "TABLE"), (2, "LAYER"), (70, 7))
     layers = {"ground": 8, "pier": 9, "girder": 9, "feed": 4, "gantry": 3, "target": 30, "labels": 7}
+    if yard:
+        layers = {"yard_boundary": 8, "yard_zones": 9, "mould_cells": 4, "storage_cells": 5, "labels": 7}
+    add((0, "SECTION"), (2, "TABLES"), (0, "TABLE"), (2, "LAYER"), (70, len(layers)))
     for key, color in layers.items():
         add((0, "LAYER"), (2, key), (70, 0), (62, color), (6, "CONTINUOUS"))
     add((0, "ENDTAB"), (0, "ENDSEC"), (0, "SECTION"), (2, "ENTITIES"))
@@ -256,9 +307,27 @@ def dxf(path):
     def block(x0, x1, z0, z1, layer):
         contour([(x0, z0), (x1, z0), (x1, z1), (x0, z1)], layer)
 
-    def mark(x, z, caption):
+    def mark(x, z, caption, height=.38):
         add((0, "TEXT"), (8, "labels"), (10, x), (20, z), (30, 0),
-            (40, .38), (1, caption))
+            (40, height), (1, caption))
+
+    if yard:
+        length, width = yard["length_m"], yard["width_m"]
+        block(0, length, 0, width, "yard_boundary")
+        for zone in yard["layout_bands"]:
+            offset = zone["y_start_m"]
+            line((0, offset), (length, offset), "yard_zones")
+            mark(length + 3, offset + zone["width_m"] / 2, zone["name"], 1.9)
+            prefix = {"Casting and stressing": ("casting", "mould_cells", 3),
+                      "Released stock and inspection": ("storage", "storage_cells", 4)}
+            if zone["name"] in prefix:
+                matrix, layer, start = prefix[zone["name"]]
+                for x, y, dx, dy in yard_cells(yard, zone, matrix, margin, start):
+                    block(x, x + dx, y, y + dy, layer)
+        mark(0, width + 4, f"Typical terminal yard / {length} m x {width} m / indicative layout", 2.5)
+        add((0, "ENDSEC"), (0, "EOF"))
+        path.write_text("\n".join(records) + "\n", encoding="ascii")
+        return
 
     line((-42., 0), (32., 0), "ground")
     for x in (-40., -20., 0., 20.):
@@ -291,14 +360,21 @@ def dxf(path):
 
 
 def main():
+    from cities.Baghdad.engineering.mechanical.civil.rail_fed_erection import load_assumptions, yard_layout
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=HERE)
     args = parser.parse_args()
     args.output.mkdir(exist_ok=True, parents=True)
     two_fronts(args.output / "two-fronts.png")
     launch_section(args.output / "launch-section.png")
+    params = load_assumptions()
+    yard = yard_layout(params)
+    margin = params["yard"]["end_clearance_m"]
+    terminal_yard(args.output / "terminal-yard.png", yard, margin)
     model(args.output / "rail-fed-launch.obj")
     dxf(args.output / "rail-fed-launch.dxf")
+    dxf(args.output / "terminal-yard.dxf", yard, margin)
 
 
 if __name__ == "__main__":

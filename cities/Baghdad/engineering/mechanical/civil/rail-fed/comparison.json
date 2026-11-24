@@ -35,15 +35,101 @@
   },
   "shared_quantities": {
     "yards": 2,
-    "area_ha_each": 3.36,
+    "area_ha_each": 3.5424,
+    "shared_offsite_yard": false,
     "moulds_per_yard": 16,
     "mould_cycle_h": 48,
-    "released_stock_slots_per_yard": 24
+    "released_stock_slots_per_yard": 24,
+    "yard": {
+      "length_m": 216,
+      "width_m": 164,
+      "area_m2": 35424,
+      "area_ha": 3.5424,
+      "usable_run_m": 156,
+      "casting_matrix": [
+        4,
+        4
+      ],
+      "casting_cell_m": [
+        30,
+        8
+      ],
+      "mould_count": 16,
+      "mould_cycle_hours": 48,
+      "storage_matrix": [
+        4,
+        6
+      ],
+      "storage_cell_m": [
+        26,
+        7
+      ],
+      "released_storage_slots": 24,
+      "initial_released_stock": 16,
+      "free_contingency_slots": 8,
+      "releases_per_yard_day": 8.0,
+      "independent_feed_paths": 1,
+      "layout_bands": [
+        {
+          "name": "Perimeter access",
+          "y_start_m": 0,
+          "width_m": 6,
+          "area_m2": 1296
+        },
+        {
+          "name": "Casting and stressing",
+          "y_start_m": 6,
+          "width_m": 40,
+          "area_m2": 8640
+        },
+        {
+          "name": "Plant travel",
+          "y_start_m": 46,
+          "width_m": 12,
+          "area_m2": 2592
+        },
+        {
+          "name": "Released stock and inspection",
+          "y_start_m": 58,
+          "width_m": 38,
+          "area_m2": 8208
+        },
+        {
+          "name": "Truck route and turning access",
+          "y_start_m": 96,
+          "width_m": 12,
+          "area_m2": 2592
+        },
+        {
+          "name": "Batch plant, aggregate and services",
+          "y_start_m": 108,
+          "width_m": 32,
+          "area_m2": 6912
+        },
+        {
+          "name": "Transfer, recovery and feed",
+          "y_start_m": 140,
+          "width_m": 18,
+          "area_m2": 3888
+        },
+        {
+          "name": "Perimeter clearance",
+          "y_start_m": 158,
+          "width_m": 6,
+          "area_m2": 1296
+        }
+      ]
+    }
   },
   "engineering_screen": {
     "rail_feed_deck_and_equipment": "held pending construction-stage load and geometry review",
     "physically_eligible_methods": [],
     "cost_scenarios_ranked": false
+  },
+  "schedule_options": {
+    "flatbeds_per_front": 1,
+    "independent_feed_paths": 1,
+    "one_front_booked_midrun_outage_days": 0
   },
   "assumptions": {
     "delivery": {
@@ -58,7 +144,6 @@
       "cast_pieces_per_yard_day": 8.0,
       "stock_slots_per_yard": 24,
       "initial_stock_per_yard": 16,
-      "yard_area_ha_each": 3.36,
       "yard_to_deck_rail_km_each": 0.3,
       "road_front_availability": 0.78,
       "launcher_front_availability": 0.82,
@@ -137,7 +222,40 @@
         8.0,
         10.0,
         14.0
+      ],
+      "yard_temporary_hardstand_usd_m2": [
+        8.0,
+        18.0,
+        35.0
+      ],
+      "yard_temporary_land_lease_usd_m2_day": [
+        0.005,
+        0.015,
+        0.04
       ]
+    },
+    "yard": {
+      "mould_rows": 4,
+      "mould_pitch_length_m": 30,
+      "mould_pitch_width_m": 8,
+      "stock_rows": 4,
+      "stock_pitch_length_m": 26,
+      "stock_pitch_width_m": 7,
+      "end_clearance_m": 30,
+      "perimeter_clearance_m": 6,
+      "casting_service_width_m": 8,
+      "storage_service_width_m": 10,
+      "longitudinal_haul_aisle_width_m": 12,
+      "batching_services_width_m": 32,
+      "terminal_transfer_width_per_path_m": 18
+    },
+    "yard_crew": {
+      "Yard lead and dispatch": 1,
+      "Steel, cages and stressing": 6,
+      "Concrete placing and mould servicing": 4,
+      "Yard plant and released stock": 4,
+      "Batching and materials": 2,
+      "QA, strength and release records": 2
     },
     "road_crew": {
       "Front supervisor": 1,
@@ -178,6 +296,7 @@
           "maximum_shuttle_hours_per_bay": 0.0,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 1.0
         },
@@ -193,6 +312,7 @@
           "maximum_shuttle_hours_per_bay": 0.0,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 1.0
         }
@@ -208,6 +328,14 @@
       "road_plant_shift_bookings": 300,
       "temporary_track_km": 0,
       "labour_hours": 24000,
+      "plant": {
+        "concurrent_erection_fronts": 2,
+        "launching_gantries": 0,
+        "flatbeds": 0,
+        "terminal_yards": 2,
+        "total_moulds": 32
+      },
+      "labour_hours_including_casting": 46800,
       "crew_shifts": [
         {
           "phase": "road erection and public haul",
@@ -300,17 +428,111 @@
           "price_basis": "Embedded in road haul and operated crane rates"
         }
       ],
+      "yard_shifts": [
+        {
+          "phase": "casting yard",
+          "role": "Yard lead and dispatch",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Steel, cages and stressing",
+          "posts_per_front": 6,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 7200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Concrete placing and mould servicing",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Yard plant and released stock",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Batching and materials",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "QA, strength and release records",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        }
+      ],
       "cases": {
         "low": {
-          "method_scope_usd": 7179000.0,
-          "common_scope_usd": 69096355.28113092,
-          "installed_standard_stock_usd": 76275355.28113092,
+          "method_scope_usd": 7257041.796923077,
+          "common_scope_usd": 69663139.28113092,
+          "installed_standard_stock_usd": 76920181.078054,
           "road_allowance_usd": {
             "haul": 495000.0,
             "erection": 6534000.0,
             "road_occupation": 150000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 78041.79692307657
+          },
           "common_scope_breakdown_usd": {
             "materials": 15000129.318580784,
             "fabrication": 15221083.258728739,
@@ -318,19 +540,22 @@
             "common_elevated_scope": 28800000.0,
             "supports": 2704500.0,
             "stressed_after_landing": 2208000.0,
-            "two_yard_forms": 4178642.703821396
+            "two_yard_forms": 4178642.703821396,
+            "terminal_yard_temporary_hardstand": 566784.0
           }
         },
         "base": {
-          "method_scope_usd": 11907000.0,
-          "common_scope_usd": 104845040.92471492,
-          "installed_standard_stock_usd": 116752040.92471492,
+          "method_scope_usd": 12141125.39076923,
+          "common_scope_usd": 106120304.92471492,
+          "installed_standard_stock_usd": 118261430.31548415,
           "road_allowance_usd": {
             "haul": 1287000.0,
             "erection": 9900000.0,
             "road_occupation": 720000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 234125.3907692297
+          },
           "common_scope_breakdown_usd": {
             "materials": 18785961.594342373,
             "fabrication": 21309516.562220234,
@@ -338,19 +563,22 @@
             "common_elevated_scope": 43200000.0,
             "supports": 4883125.0,
             "stressed_after_landing": 5256000.0,
-            "two_yard_forms": 8914437.768152311
+            "two_yard_forms": 8914437.768152311,
+            "terminal_yard_temporary_hardstand": 1275264.0
           }
         },
         "high": {
-          "method_scope_usd": 22848000.0,
-          "common_scope_usd": 183279383.85290813,
-          "installed_standard_stock_usd": 206127383.85290813,
+          "method_scope_usd": 23472334.375384614,
+          "common_scope_usd": 185759063.85290813,
+          "installed_standard_stock_usd": 209231398.22829276,
           "road_allowance_usd": {
             "haul": 3168000.0,
             "erection": 16830000.0,
             "road_occupation": 2850000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 624334.3753846126
+          },
           "common_scope_breakdown_usd": {
             "materials": 24512638.80294502,
             "fabrication": 29263760.071620412,
@@ -358,7 +586,8 @@
             "common_elevated_scope": 78000000.0,
             "supports": 10517500.0,
             "stressed_after_landing": 13344000.0,
-            "two_yard_forms": 20057484.9783427
+            "two_yard_forms": 20057484.9783427,
+            "terminal_yard_temporary_hardstand": 2479680.0
           }
         }
       }
@@ -382,6 +611,7 @@
           "maximum_shuttle_hours_per_bay": 0.0,
           "pier_wait_days": 20.96666666666731,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 2.0
         },
@@ -397,6 +627,7 @@
           "maximum_shuttle_hours_per_bay": 0.0,
           "pier_wait_days": 20.96666666666731,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 2.0
         }
@@ -412,6 +643,14 @@
       "road_plant_shift_bookings": 300,
       "temporary_track_km": 0,
       "labour_hours": 24000,
+      "plant": {
+        "concurrent_erection_fronts": 2,
+        "launching_gantries": 0,
+        "flatbeds": 0,
+        "terminal_yards": 2,
+        "total_moulds": 32
+      },
+      "labour_hours_including_casting": 46800,
       "crew_shifts": [
         {
           "phase": "road erection and public haul",
@@ -594,17 +833,111 @@
           "price_basis": "Embedded in road haul and operated crane rates"
         }
       ],
+      "yard_shifts": [
+        {
+          "phase": "casting yard",
+          "role": "Yard lead and dispatch",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Steel, cages and stressing",
+          "posts_per_front": 6,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 7200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Concrete placing and mould servicing",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Yard plant and released stock",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Batching and materials",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "QA, strength and release records",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        }
+      ],
       "cases": {
         "low": {
-          "method_scope_usd": 7179000.0,
-          "common_scope_usd": 69096355.28113092,
-          "installed_standard_stock_usd": 76275355.28113092,
+          "method_scope_usd": 7230407.490461539,
+          "common_scope_usd": 69663139.28113092,
+          "installed_standard_stock_usd": 76893546.77159247,
           "road_allowance_usd": {
             "haul": 495000.0,
             "erection": 6534000.0,
             "road_occupation": 150000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 51407.49046153845
+          },
           "common_scope_breakdown_usd": {
             "materials": 15000129.318580784,
             "fabrication": 15221083.258728739,
@@ -612,19 +945,22 @@
             "common_elevated_scope": 28800000.0,
             "supports": 2704500.0,
             "stressed_after_landing": 2208000.0,
-            "two_yard_forms": 4178642.703821396
+            "two_yard_forms": 4178642.703821396,
+            "terminal_yard_temporary_hardstand": 566784.0
           }
         },
         "base": {
-          "method_scope_usd": 11907000.0,
-          "common_scope_usd": 104845040.92471492,
-          "installed_standard_stock_usd": 116752040.92471492,
+          "method_scope_usd": 12061222.471384615,
+          "common_scope_usd": 106120304.92471492,
+          "installed_standard_stock_usd": 118181527.39609954,
           "road_allowance_usd": {
             "haul": 1287000.0,
             "erection": 9900000.0,
             "road_occupation": 720000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 154222.47138461535
+          },
           "common_scope_breakdown_usd": {
             "materials": 18785961.594342373,
             "fabrication": 21309516.562220234,
@@ -632,19 +968,22 @@
             "common_elevated_scope": 43200000.0,
             "supports": 4883125.0,
             "stressed_after_landing": 5256000.0,
-            "two_yard_forms": 8914437.768152311
+            "two_yard_forms": 8914437.768152311,
+            "terminal_yard_temporary_hardstand": 1275264.0
           }
         },
         "high": {
-          "method_scope_usd": 22848000.0,
-          "common_scope_usd": 183279383.85290813,
-          "installed_standard_stock_usd": 206127383.85290813,
+          "method_scope_usd": 23259259.92369231,
+          "common_scope_usd": 185759063.85290813,
+          "installed_standard_stock_usd": 209018323.77660045,
           "road_allowance_usd": {
             "haul": 3168000.0,
             "erection": 16830000.0,
             "road_occupation": 2850000.0
           },
-          "temporary_and_other_costs_usd": {},
+          "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 411259.9236923076
+          },
           "common_scope_breakdown_usd": {
             "materials": 24512638.80294502,
             "fabrication": 29263760.071620412,
@@ -652,7 +991,8 @@
             "common_elevated_scope": 78000000.0,
             "supports": 10517500.0,
             "stressed_after_landing": 13344000.0,
-            "two_yard_forms": 20057484.9783427
+            "two_yard_forms": 20057484.9783427,
+            "terminal_yard_temporary_hardstand": 2479680.0
           }
         }
       }
@@ -676,6 +1016,7 @@
           "maximum_shuttle_hours_per_bay": 5.456,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 2.0
         },
@@ -691,6 +1032,7 @@
           "maximum_shuttle_hours_per_bay": 5.468,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 2.0
         }
@@ -706,6 +1048,14 @@
       "road_plant_shift_bookings": 19,
       "temporary_track_km": 12.6,
       "labour_hours": 67672,
+      "plant": {
+        "concurrent_erection_fronts": 2,
+        "launching_gantries": 2,
+        "flatbeds": 2,
+        "terminal_yards": 2,
+        "total_moulds": 32
+      },
+      "labour_hours_including_casting": 90624,
       "crew_shifts": [
         {
           "phase": "road erection and public haul",
@@ -1038,17 +1388,110 @@
           }
         }
       ],
+      "yard_shifts": [
+        {
+          "phase": "casting yard",
+          "role": "Yard lead and dispatch",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 1208,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Steel, cages and stressing",
+          "posts_per_front": 6,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 7248,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Concrete placing and mould servicing",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 4832,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Yard plant and released stock",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 4832,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Batching and materials",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 2416,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "QA, strength and release records",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 2416,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        }
+      ],
       "cases": {
         "low": {
-          "method_scope_usd": 4990903.4,
-          "common_scope_usd": 69096355.28113092,
-          "installed_standard_stock_usd": 74087258.68113093,
+          "method_scope_usd": 5068126.271692308,
+          "common_scope_usd": 69663139.28113092,
+          "installed_standard_stock_usd": 74731265.55282323,
           "road_allowance_usd": {
             "haul": 28875.0,
             "erection": 381150.0,
             "road_occupation": 9500.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 77222.87169230767,
             "launcher_mobilisation": 1200000,
             "launcher_dry_use": 940000,
             "flatbed_mobilisation": 240000,
@@ -1068,19 +1511,21 @@
             "common_elevated_scope": 28800000.0,
             "supports": 2704500.0,
             "stressed_after_landing": 2208000.0,
-            "two_yard_forms": 4178642.703821396
+            "two_yard_forms": 4178642.703821396,
+            "terminal_yard_temporary_hardstand": 566784.0
           }
         },
         "base": {
-          "method_scope_usd": 9296523.0,
-          "common_scope_usd": 104845040.92471492,
-          "installed_standard_stock_usd": 114141563.92471492,
+          "method_scope_usd": 9528191.615076922,
+          "common_scope_usd": 106120304.92471492,
+          "installed_standard_stock_usd": 115648496.53979185,
           "road_allowance_usd": {
             "haul": 75075.0,
             "erection": 577500.0,
             "road_occupation": 45600.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 231668.61507692302,
             "launcher_mobilisation": 2400000,
             "launcher_dry_use": 1692000,
             "flatbed_mobilisation": 500000,
@@ -1100,19 +1545,21 @@
             "common_elevated_scope": 43200000.0,
             "supports": 4883125.0,
             "stressed_after_landing": 5256000.0,
-            "two_yard_forms": 8914437.768152311
+            "two_yard_forms": 8914437.768152311,
+            "terminal_yard_temporary_hardstand": 1275264.0
           }
         },
         "high": {
-          "method_scope_usd": 18636137.2,
-          "common_scope_usd": 183279383.85290813,
-          "installed_standard_stock_usd": 201915521.05290812,
+          "method_scope_usd": 19253920.17353846,
+          "common_scope_usd": 185759063.85290813,
+          "installed_standard_stock_usd": 205012984.02644658,
           "road_allowance_usd": {
             "haul": 184800.0,
             "erection": 981750.0,
             "road_occupation": 180500.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 617782.9735384614,
             "launcher_mobilisation": 4800000,
             "launcher_dry_use": 3384000,
             "flatbed_mobilisation": 1200000,
@@ -1132,7 +1579,8 @@
             "common_elevated_scope": 78000000.0,
             "supports": 10517500.0,
             "stressed_after_landing": 13344000.0,
-            "two_yard_forms": 20057484.9783427
+            "two_yard_forms": 20057484.9783427,
+            "terminal_yard_temporary_hardstand": 2479680.0
           }
         }
       }
@@ -1156,6 +1604,7 @@
           "maximum_shuttle_hours_per_bay": 5.456,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 3.0
         },
@@ -1171,6 +1620,7 @@
           "maximum_shuttle_hours_per_bay": 5.468,
           "pier_wait_days": 0.0,
           "casting_wait_days": 0.0,
+          "prescribed_outage_days": 0,
           "nominal_cast_pieces_per_yard_day": 8.0,
           "scheduled_shifts_per_day": 3.0
         }
@@ -1186,6 +1636,14 @@
       "road_plant_shift_bookings": 19,
       "temporary_track_km": 12.6,
       "labour_hours": 72512,
+      "plant": {
+        "concurrent_erection_fronts": 2,
+        "launching_gantries": 2,
+        "flatbeds": 2,
+        "terminal_yards": 2,
+        "total_moulds": 32
+      },
+      "labour_hours_including_casting": 95464,
       "crew_shifts": [
         {
           "phase": "road erection and public haul",
@@ -1638,17 +2096,110 @@
           }
         }
       ],
+      "yard_shifts": [
+        {
+          "phase": "casting yard",
+          "role": "Yard lead and dispatch",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 1208,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Steel, cages and stressing",
+          "posts_per_front": 6,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 7248,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Concrete placing and mould servicing",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 4832,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Yard plant and released stock",
+          "posts_per_front": 4,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 4832,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "Batching and materials",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 2416,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        },
+        {
+          "phase": "casting yard",
+          "role": "QA, strength and release records",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 151,
+          "paid_hours": 2416,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in girder fabrication"
+        }
+      ],
       "cases": {
         "low": {
-          "method_scope_usd": 4744315.8,
-          "common_scope_usd": 69096355.28113092,
-          "installed_standard_stock_usd": 73840671.08113092,
+          "method_scope_usd": 4802471.883692307,
+          "common_scope_usd": 69663139.28113092,
+          "installed_standard_stock_usd": 74465611.16482323,
           "road_allowance_usd": {
             "haul": 28875.0,
             "erection": 381150.0,
             "road_occupation": 9500.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 58156.08369230767,
             "launcher_mobilisation": 1200000,
             "launcher_dry_use": 672500,
             "flatbed_mobilisation": 240000,
@@ -1668,19 +2219,21 @@
             "common_elevated_scope": 28800000.0,
             "supports": 2704500.0,
             "stressed_after_landing": 2208000.0,
-            "two_yard_forms": 4178642.703821396
+            "two_yard_forms": 4178642.703821396,
+            "terminal_yard_temporary_hardstand": 566784.0
           }
         },
         "base": {
-          "method_scope_usd": 8805051.0,
-          "common_scope_usd": 104845040.92471492,
-          "installed_standard_stock_usd": 113650091.92471492,
+          "method_scope_usd": 8979519.251076922,
+          "common_scope_usd": 106120304.92471492,
+          "installed_standard_stock_usd": 115099824.17579184,
           "road_allowance_usd": {
             "haul": 75075.0,
             "erection": 577500.0,
             "road_occupation": 45600.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 174468.25107692298,
             "launcher_mobilisation": 2400000,
             "launcher_dry_use": 1210500,
             "flatbed_mobilisation": 500000,
@@ -1700,19 +2253,21 @@
             "common_elevated_scope": 43200000.0,
             "supports": 4883125.0,
             "stressed_after_landing": 5256000.0,
-            "two_yard_forms": 8914437.768152311
+            "two_yard_forms": 8914437.768152311,
+            "terminal_yard_temporary_hardstand": 1275264.0
           }
         },
         "high": {
-          "method_scope_usd": 17579996.4,
-          "common_scope_usd": 183279383.85290813,
-          "installed_standard_stock_usd": 200859380.25290814,
+          "method_scope_usd": 18045245.06953846,
+          "common_scope_usd": 185759063.85290813,
+          "installed_standard_stock_usd": 203804308.9224466,
           "road_allowance_usd": {
             "haul": 184800.0,
             "erection": 981750.0,
             "road_occupation": 180500.0
           },
           "temporary_and_other_costs_usd": {
+            "terminal_yard_temporary_land_lease": 465248.66953846137,
             "launcher_mobilisation": 4800000,
             "launcher_dry_use": 2421000,
             "flatbed_mobilisation": 1200000,
@@ -1732,7 +2287,8 @@
             "common_elevated_scope": 78000000.0,
             "supports": 10517500.0,
             "stressed_after_landing": 13344000.0,
-            "two_yard_forms": 20057484.9783427
+            "two_yard_forms": 20057484.9783427,
+            "terminal_yard_temporary_hardstand": 2479680.0
           }
         }
       }
@@ -1742,60 +2298,60 @@
     "road_day": {
       "rail_extended": {
         "low": {
-          "saving_usd": 2188096.5999999996,
-          "maximum_combined_launcher_mobilisation_usd": 3388096.5999999996
+          "saving_usd": 2188915.525230769,
+          "maximum_combined_launcher_mobilisation_usd": 3388915.525230769
         },
         "base": {
-          "saving_usd": 2610477.0,
-          "maximum_combined_launcher_mobilisation_usd": 5010477.0
+          "saving_usd": 2612933.7756923083,
+          "maximum_combined_launcher_mobilisation_usd": 5012933.775692308
         },
         "high": {
-          "saving_usd": 4211862.800000001,
-          "maximum_combined_launcher_mobilisation_usd": 9011862.8
+          "saving_usd": 4218414.201846153,
+          "maximum_combined_launcher_mobilisation_usd": 9018414.201846153
         }
       },
       "rail_24h": {
         "low": {
-          "saving_usd": 2434684.2,
-          "maximum_combined_launcher_mobilisation_usd": 3634684.2
+          "saving_usd": 2454569.9132307693,
+          "maximum_combined_launcher_mobilisation_usd": 3654569.9132307693
         },
         "base": {
-          "saving_usd": 3101949.0,
-          "maximum_combined_launcher_mobilisation_usd": 5501949.0
+          "saving_usd": 3161606.1396923084,
+          "maximum_combined_launcher_mobilisation_usd": 5561606.139692308
         },
         "high": {
-          "saving_usd": 5268003.6000000015,
-          "maximum_combined_launcher_mobilisation_usd": 10068003.600000001
+          "saving_usd": 5427089.305846155,
+          "maximum_combined_launcher_mobilisation_usd": 10227089.305846155
         }
       }
     },
     "road_extended": {
       "rail_extended": {
         "low": {
-          "saving_usd": 2188096.5999999996,
-          "maximum_combined_launcher_mobilisation_usd": 3388096.5999999996
+          "saving_usd": 2162281.218769231,
+          "maximum_combined_launcher_mobilisation_usd": 3362281.218769231
         },
         "base": {
-          "saving_usd": 2610477.0,
-          "maximum_combined_launcher_mobilisation_usd": 5010477.0
+          "saving_usd": 2533030.856307693,
+          "maximum_combined_launcher_mobilisation_usd": 4933030.856307693
         },
         "high": {
-          "saving_usd": 4211862.800000001,
-          "maximum_combined_launcher_mobilisation_usd": 9011862.8
+          "saving_usd": 4005339.750153847,
+          "maximum_combined_launcher_mobilisation_usd": 8805339.750153847
         }
       },
       "rail_24h": {
         "low": {
-          "saving_usd": 2434684.2,
-          "maximum_combined_launcher_mobilisation_usd": 3634684.2
+          "saving_usd": 2427935.606769231,
+          "maximum_combined_launcher_mobilisation_usd": 3627935.606769231
         },
         "base": {
-          "saving_usd": 3101949.0,
-          "maximum_combined_launcher_mobilisation_usd": 5501949.0
+          "saving_usd": 3081703.220307693,
+          "maximum_combined_launcher_mobilisation_usd": 5481703.220307693
         },
         "high": {
-          "saving_usd": 5268003.6000000015,
-          "maximum_combined_launcher_mobilisation_usd": 10068003.600000001
+          "saving_usd": 5214014.854153849,
+          "maximum_combined_launcher_mobilisation_usd": 10014014.85415385
         }
       }
     }
@@ -1820,8 +2376,8 @@
     "cities/Baghdad/iraq-market.toml": "f044ba071d77b58b2427384954f5bfdf3713b48c2ba5af872e1f24c53fd3ee2b",
     "cities/Baghdad/engineering/prototype/shop-rates.toml": "88d9185a994a006700f1cb21659b796fc15a5454cf71929e6214750613c67e96",
     "cities/Baghdad/engineering/prototype/airport-prototype.zip": "55c5faf416d11dd32d71e0a6f51bcc1c3234abd2d32cdf4a8f6b8c587ae3c909",
-    "cities/Baghdad/engineering/mechanical/civil/rail_fed_assumptions.toml": "70f84313d6175ee9b29352649806dc579d1feaad70bc9e428a1fe63d87799664",
-    "cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py": "0312eaff61847914035aa5552f2d91b999002ebb0214a5234f83d8a5d8af0c59"
+    "cities/Baghdad/engineering/mechanical/civil/rail_fed_assumptions.toml": "3692a94edd1d71f08e9ba3afba200c91e8d1570cc8d2517c52c101c5fc2a9999",
+    "cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py": "bd22b7a3e022b5e184e0d8ecdad7934b7e5da5b176d01216e7dc21391983d693"
   },
   "source_prototype_member_sha256": {
     "mechanical.json": "2ec9848993595b41fd5042aa4c2f4774eb4db201138f533e5b1d2e2616c5a5e9",
@@ -1841,7 +2397,9 @@
     "The travelling girder is wider than the receiving U channel. Design an elevated cradle, prove clearance at curves and verify transfer across the two track centres.",
     "A starter or crossing fallback bay must reach the required construction strength and be inspected before the temporary feed track is extended. The after-landing hold is a planning allowance.",
     "Two identical yards are compared at 16 moulds and 24 released slots per yard. Release dates are earliest production dates under call-off. Confirm feasible casting batches, dispatch inventory and rejection reserve against the supplier schedule.",
+    "Temporary hardstand is separate from casting forms and fabrication. Lease pricing assumes payment over the complete booked programme. Confirm land availability, service hookups, permit scope and credits against the shared works allowance.",
+    "Two flatbeds require separately verified feed paths, independent route clearances and concurrently permitted vehicle loads. Overlap is limited to travel; terminal handling, gantry work and deck release remain serial.",
     "Street control beneath overhead operations, nighttime restrictions, wind, lifting permissions and public safety need project-specific approval."
   ],
-  "evaluation_id": "dbadc623facd63b690a5d919a05da7fc678df7fa058ac7b92737a7f1d5b41d6a"
+  "evaluation_id": "853b8623498a67ac7fef1fd623fcd78cdaa8069be384d0e4d20269f8fc966cef"
 }

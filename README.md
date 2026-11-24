@@ -78,22 +78,33 @@ In this study the longer standard span needs fewer placements and a higher hook 
 
 ### Build the viaduct from both ends
 
-Two terminal precast yards can feed two inward-moving launching gantries over
-the finished deck. The construction flatbeds deliver beams behind the active
-front, reducing the need for beam trucks and mobile cranes at each bay.
-The comparison keeps the same girder and pier family and separates starter
-works, temporary track, terminal transfer, crossing exclusions and night shifts.
-In the 12 km trial, the 24-hour deck-fed case reduces the base erection
-allowance from **$11.91m to $8.81m** and booked erection lane-hours from
-**4,800 to 352**. It takes **164 days**, compared with **220** for day-shift
-road cranes and **145** with two road shifts. The deck-fed case needs more
-staffed hours and construction-stage verification.
-[Costs, programme and road occupation](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
+The current Baghdad delivery plan uses **20 m U-girders on shared piers** for
+standard bays. Two terminal precast yards feed two inward-moving gantries on
+an open main line. Each yard has **16 moulds**, **24 released-beam positions**
+and a proposed **216 × 164 m** footprint. Each line can start independently,
+or share gantries with later lines. The citywide ring, short branches and
+reserved connections carry their own access and delivery assumptions.
+[Network quantities, workplan, costs and cash](cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md)
 
-| Compare the two erection methods | Inspect the feed and placement envelopes |
+For the seven-corridor programme, the model counts **14,820 girders**,
+**7,417 shared support positions** and **14 terminal yards**. Deck feed
+reduces base direct civil scope from **$1.406bn to $1.350bn** against road
+erection of the same 20 m stock. The earlier 10 m planning allowance was
+**$1.331bn**. The workplan prices the heavier handling and terminal yards
+and shows how available gantries change the delivery sequence.
+
+| Deliver beams behind the advancing fronts | Lay out each terminal yard |
 |---|---|
-| [![Road-fed crane operation and two terminal yards feeding inward launching gantries](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png) | [![A construction flatbed feeds the launching gantry from the released viaduct deck](cities/Baghdad/engineering/mechanical/civil/rail-fed/launch-section.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/launch-section.png) |
-| [Open the civil workplan and quotation basis](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | [3D concept mesh](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.obj) · [DXF views](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.dxf) · [Geometry basis](cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md) |
+| [![Road-fed crane operation and two terminal yards feeding inward launching gantries](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png) | [![Dimensioned end yard with sixteen mould cells, storage, batching, traffic paths and deck transfer](cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.png) |
+| [Close-up of the placement envelopes](cities/Baghdad/engineering/mechanical/civil/rail-fed/launch-section.png) · [3D concept mesh](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.obj) · [Gantry DXF](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.dxf) | [Terminal yard DXF](cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.dxf) · [Geometry basis](cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md) |
+
+In the 12 km trial, three-shift deck feed takes **164 days** and **$8.98m**
+for erection, versus **220 days** and **$12.14m** for day-shift road cranes.
+Booked erection lane-hours fall from **4,800 to 352**. A second independent
+feed path per end shortens the deck-fed trial to **150 days** at higher cost.
+Two road shifts take **145 days**. The site still needs ground works, and
+the finished deck needs verified temporary-load and access limits.
+[Shift, transport and downtime sensitivity](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
 
 ## Manufacturing and training
 
@@ -107,6 +118,29 @@ Follow a component from the drawing and bill of materials through stock preparat
 For a team session, assign buyer, technician, fabricator, precast planner, electrical integrator or maintenance roles. Use the offline exercise to pass a part and its evidence from one role to the next. Try doubling mould occupancy from 24 to 48 hours while holding output at eight beams a day. The required mould positions rise from eight to sixteen. Workshops can replace that assumption with timed production evidence. [Instructor guide and handover exercises](cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md) · [Factory, yard and staffing layouts](docs/operator-review/delivery/README.md)
 
 The counted parts catalogue records stock, assembly and draft business data. The delivery compiler carries a selected revision into part occurrences, process routes, inspection holds and installation proposals. A shop can review which jobs belong in-house, which need a specialist supplier and what evidence the next workstation needs. The factory drafts and ERPNext handoffs show where reviewed item mappings and actual inspection records enter. [Vehicle parts catalogue](docs/design-engine/vehicle-parts/README.md) · [Pilot delivery compiler](engineering/pilot_delivery/README.md) · [ERPNext deployment and business records](deployment/erpnext/README.md)
+
+### Produce car and bogie frames in flexible workcells
+
+Group the steel frame into cutting, keyed fit-up, welding, finishing and
+inspection work. A shared CNC cell and reusable jigs can feed multiple manual
+or automated assembly stations. In the 36-car steel-frame comparison,
+shared CNC reduces modelled staffed shift days from **208 to 176** and direct
+local shop hours from **4,825 to 3,795**. Base fabrication cost rises from
+**$22,981 to $23,355 per frame set** for 36 cars and falls from **$18,956
+to $17,799** for 180 cars. The dedicated laser and robotic route
+requires its own utilisation, workholding, seam qualification and recosting.
+Aluminium extrusion and friction stir welding remain a separate carbody
+comparison with their own mass and load paths.
+[Rapid production, CAM and cost comparison](cities/Baghdad/engineering/prototype/rapid-production/README.md)
+
+[![Flexible vehicle workcells for cutting, frame fit-up, welding, finishing and inspection](cities/Baghdad/engineering/prototype/rapid-production/workcells.png)](cities/Baghdad/engineering/prototype/rapid-production/workcells.png)
+
+The factory replay links the asset, part serial, fixture and drawing revision
+to the exact FreeCAD CAM practice file. It exercises stale or disconnected
+machine observations, wrong setup and missing or failed inspection. ERPNext
+can hold the draft work and evidence. Local certified safety equipment and
+responsible production staff own machine control and article release.
+[Workcell OBJ](cities/Baghdad/engineering/prototype/rapid-production/workcell-envelopes.obj) · [DXF layout](cities/Baghdad/engineering/prototype/rapid-production/workcell-plan.dxf) · [Software, embedded interfaces and replay](cities/Baghdad/engineering/prototype/rapid-controls/README.md)
 
 ## Purchasing and whole-life cost
 
@@ -193,6 +227,7 @@ Other useful entry points from the repository root include these commands.
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
 | `./osr design railway spans --route-km 12` | Compare installed civil and erection assumptions for an illustrative route length. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
 | `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
+| `./osr design railway baghdad-delivery` | Recalculate the two Baghdad delivery programmes, civil quantities, resource plan, and buyer cash. [Current programme](cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) |
 | `./osr design railway rail-fed --route-km 12` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
 | `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |

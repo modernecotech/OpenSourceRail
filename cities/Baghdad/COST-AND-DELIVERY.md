@@ -1,5 +1,10 @@
 # Baghdad system cost and delivery
 
+For the current 20 m shared-pier, deck-fed case use the [revised civil price,
+workforce and buyer cash programme](engineering/mechanical/civil/rail-fed/network-delivery.md).
+The comparison below retains the earlier system issue and its original prices,
+quantities and schedule for reproduction.
+
 **OpenSourceRail planning estimate · Iraq prices updated 20 November 2026 · 2026 US dollars**
 
 The [one candidate input file](system.toml) drives the [calculated result](system-results.json), the [city proposal](PROPOSAL.md) and the Workbench. It sets **zero tunnels, zero underground stations, two elevated tracks throughout**, a six-car 700-place train and protected conductor traction. It couples supply equipment, traction battery, train mass, civil quantities, grid energy, capital, maintenance and renewals. The 605.652 km citywide network is an independent alternative with its own routes, stations, fleet and capital.

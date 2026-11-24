@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **239**.
+Indexed Markdown files: **243**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **239**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 69 |
+| [cities](#cities) | 73 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 137 |
@@ -71,11 +71,12 @@ Indexed Markdown files: **239**.
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
 | [`cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md`](../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | Feed the launching gantries from the deck |
-| [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
+| [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad civil drawings and retained 10 m study |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) | Compare straight viaduct spans and supports |
 | [`cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md`](../cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md) | Rail-fed erection concept geometry |
 | [`cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.md`](../cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.md) | Erection prices, programme and traffic occupation |
+| [`cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md`](../cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) | Baghdad civil delivery programme |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
 | [`cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md`](../cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) | Baghdad Airport factory specification |
@@ -99,6 +100,9 @@ Indexed Markdown files: **239**.
 | [`cities/Baghdad/engineering/prototype/infrastructure/YARD-CUTTING.md`](../cities/Baghdad/engineering/prototype/infrastructure/YARD-CUTTING.md) | Ordering and cutting stock for one beam cage |
 | [`cities/Baghdad/engineering/prototype/manufacturing-guide.md`](../cities/Baghdad/engineering/prototype/manufacturing-guide.md) | Taking the Airport design to the workshop |
 | [`cities/Baghdad/engineering/prototype/mechanical.md`](../cities/Baghdad/engineering/prototype/mechanical.md) | Baghdad Airport first article |
+| [`cities/Baghdad/engineering/prototype/rapid-controls/README.md`](../cities/Baghdad/engineering/prototype/rapid-controls/README.md) | From a CAM revision to a reviewed manufacturing record |
+| [`cities/Baghdad/engineering/prototype/rapid-production/README.md`](../cities/Baghdad/engineering/prototype/rapid-production/README.md) | Rapid manufacture of steel carbody and bogie frames |
+| [`cities/Baghdad/engineering/prototype/rapid-production/comparison.md`](../cities/Baghdad/engineering/prototype/rapid-production/comparison.md) | Rapid manufacture comparison |
 | [`cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md`](../cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md) | Run the Airport factory workshop |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/BODY-BOGIE.md) | Airport car body-to-bogie mating sheet |
 | [`cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md`](../cities/Baghdad/engineering/prototype/vehicle-factory/INSTALLED-GA.md) | Airport representative car general arrangement |

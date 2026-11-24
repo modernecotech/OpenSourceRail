@@ -50,7 +50,8 @@ The **seven-corridor** and **citywide** programmes have independent fleets, stat
 
 ## Compare street access and deck-fed erection
 
-For a long run of standard spans, review two terminal precast yards and inward
+Use the [current 20 m Baghdad delivery programme](../../cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) to book the yards,
+paid shifts and gantry pairs. For a long run of standard spans, review two terminal precast yards and inward
 deck-fed erection beside the road/crane method. Appoint the precaster, temporary
 works designer, substructure contractor, traffic authority and erection
 contractor before fixing the launch sequence. The construction programme needs
@@ -58,6 +59,18 @@ an agreed handover for every pier, starter bays, released deck track, safe
 delivery access at both ends, the meeting span and demobilisation. Confirm
 acoustic and access limits before pricing the third shift. [Cost, shift and
 road-occupation comparison](../../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
+
+Send the same quantities to the Rust and Apache Arrow workforce model for a
+shift-coverage test and a Parquet export. The example tests 85% available crew
+capacity. Casting and operated-road equipment labour are already included in
+the corresponding supplier rates.
+
+```sh
+python3 -m cities.Baghdad.engineering.mechanical.civil.delivery_workforce first > build/deck-crew-plan.json
+./osr workplan --plan build/deck-crew-plan.json --availability-bps 8500 --output build/deck-crew-review
+```
+
+Use `metropolitan` to export the separate citywide programme.
 
 ## What to record after opening
 

@@ -2,6 +2,9 @@
 
 [Two terminal precast yards and inward gantries](two-fronts.png) · [View along and across the deck](launch-section.png) · [3D concept mesh](rail-fed-launch.obj) · [2D DXF](rail-fed-launch.dxf)
 
+The [dimensioned yard plan](terminal-yard.png) and [editable DXF](terminal-yard.dxf)
+use the same metre-based footprint, zones, mould cells and released beam positions.
+
 Each terminal yard feeds a launching gantry from behind. Two starter bays at
 each end provide a launch and transfer zone. The flatbed travels on a
 temporary construction rail path supported by released deck units. At the

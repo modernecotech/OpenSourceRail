@@ -8,6 +8,7 @@ raw materials at the yards, starter work and unusual spans. Work over traffic
 can still require a protected area underneath. The comparison prices and reports
 those operations separately.
 
+[Current Baghdad network delivery and cash plan](rail-fed/network-delivery.md) ·
 [Cost and programme results](rail-fed/comparison.md) ·
 [Machine-readable comparison](rail-fed/comparison.json) ·
 [Concept views and editable geometry](rail-fed/CONCEPT-GEOMETRY.md) ·
@@ -25,11 +26,11 @@ erection takes **220 days**, and two-shift road work takes **145 days**.
 The road extended case retains the same price per booked lift and assumes
 both daily windows are accessible at that rate.
 
-The 24-hour deck-fed case lowers the **base erection allowance from $11.91m to
-$8.81m**. That is about **26%** of the method budget, or **2.7%** of the
+The 24-hour deck-fed case lowers the **base erection allowance from $12.14m to
+$8.98m**. That is about **26%** of the method budget, or **2.7%** of the
 combined standard stock and erection allowance. The pair of launchers has a
 combined mobilisation allowance of **$2.40m** and a break-even mobilisation
-ceiling of about **$5.50m** with the other base allowances fixed. At **3 km**
+ceiling of about **$5.56m** with the other base allowances fixed. At **3 km**
 the same two-end method costs more than road erection under these assumptions.
 
 The ordinary and exceptional beam delivery count on public roads falls
@@ -38,7 +39,7 @@ from **4,800 to 352 lane-hours**. The retained road feed covers four terminal
 starter bays, the meeting bay and 30 bays assigned to road fallback. Common
 under-street and terminal deliveries still need a traffic plan.
 
-Staffed method crew hours rise from **24,000 to about 72,500**. Deck feed replaces
+Paid hours including casting rise from **46,800 to about 95,500**. Deck feed replaces
 road haul and mobile crane reliance with covered gantry, track inspection,
 flatbed, terminal transfer and access posts through the full working window.
 The cost falls in this scenario because the avoided haul and crane allowance
@@ -78,9 +79,10 @@ supplier and site evidence.
 
 At each terminal the comparison allows 16 mould positions, a 48-hour mould
 cycle and 24 released stock places. That gives up to eight releases per yard
-per day before applying site constraints. Yard space and the assumed release
-rate carry forward from the planning case and require a layout for the actual
-20 m units. Each front uses one flatbed and reserves its feed path for the
+per day before applying site constraints. The layout is **216 × 164 m**
+(**3.54 ha** per terminal), with **30 × 8 m** mould cells, **26 × 7 m** stock
+positions, plant, circulation and transfer. The clear working area and lease
+need a site offer. [Dimensioned terminal layout](rail-fed/terminal-yard.png) Each front uses one flatbed and reserves its feed path for the
 delivery and empty return. At 6 km from the yard, the reported one-girder
 journey takes about 2.65 hours including transfer at the planning speeds.
 Repetitive travel becomes a larger share of the cycle as the fronts advance.
@@ -91,6 +93,18 @@ occupied. It does not estimate travel delay, queues, access loss or exposure
 under a suspended load. Ground works and raw-material deliveries stay in the
 workplan. They need their own link, lane and time-of-day measurement before a
 city can estimate total disruption.
+
+## How to vary capacity without rebuilding the design
+
+The [flexibility comparison](rail-fed/flexibility.csv) tests a second flatbed
+per end on two independently released feed paths. It overlaps the travelling
+legs while retaining terminal and lifting conflicts. One blocked launcher can
+stop its half while the other continues; a 10-day outage case shows the
+programme exposure. Cast to a released stock buffer, and move a gantry pair
+to the next line when overlapping programmes matter less than peak equipment
+hire. The network programme retains a separate mobilisation and test allowance
+per line. Quote relocation, tracks capable of carrying two occupied feed
+paths, and a recovery method before treating the scenario as a commitment.
 
 ## Conditions to check before buying equipment
 

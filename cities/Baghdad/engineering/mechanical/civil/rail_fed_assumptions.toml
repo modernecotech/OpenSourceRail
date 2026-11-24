@@ -12,7 +12,6 @@ mould_cycle_h = 48
 cast_pieces_per_yard_day = 8.0
 stock_slots_per_yard = 24
 initial_stock_per_yard = 16
-yard_area_ha_each = 3.36
 yard_to_deck_rail_km_each = 0.30
 road_front_availability = 0.78
 launcher_front_availability = 0.82
@@ -45,6 +44,32 @@ construction_stage_engineering_usd_per_line = [120000, 280000, 650000]
 meeting_interfaces_usd = [35000, 75000, 180000]
 residual_interfaces_usd = [35000, 75000, 180000]
 effective_paid_labor_usd_hour = [8.0, 10.0, 14.0]
+yard_temporary_hardstand_usd_m2 = [8.0, 18.0, 35.0]
+yard_temporary_land_lease_usd_m2_day = [0.005, 0.015, 0.04]
+
+[yard]
+# Planning envelopes in metres, to the outside of the working zone.
+mould_rows = 4
+mould_pitch_length_m = 30
+mould_pitch_width_m = 8
+stock_rows = 4
+stock_pitch_length_m = 26
+stock_pitch_width_m = 7
+end_clearance_m = 30
+perimeter_clearance_m = 6
+casting_service_width_m = 8
+storage_service_width_m = 10
+longitudinal_haul_aisle_width_m = 12
+batching_services_width_m = 32
+terminal_transfer_width_per_path_m = 18
+
+[yard_crew]
+"Yard lead and dispatch" = 1
+"Steel, cages and stressing" = 6
+"Concrete placing and mould servicing" = 4
+"Yard plant and released stock" = 4
+"Batching and materials" = 2
+"QA, strength and release records" = 2
 
 [road_crew]
 "Front supervisor" = 1

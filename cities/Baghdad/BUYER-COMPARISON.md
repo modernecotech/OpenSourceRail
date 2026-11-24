@@ -8,6 +8,12 @@ OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The au
 
 ## Issue the same scope to every bidder
 
+For the current civil enquiry use the [20 m shared-pier delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
+and ask for both deck-fed and road erection against identical stock and site
+conditions. Request separate prices for yard works, launchers, deck haul,
+night shifts and special crossings. Use the 10 m quantities and local-content
+examples below to reproduce the earlier common estimate.
+
 Request three returns for one network at a time. Invite a turnkey offer, a vendor-led offer with specified transfers of production and repair, and a locally integrated offer using open interfaces. Allow vendors to quote all three. Provide the same train capacity, accessibility, hourly service, route assumptions, construction dates, excavation exclusions, summer duty, spares and 30-year maintenance horizon. Require a priced departures register against the open bill. Require each supplier to identify interface responsibility through commissioning and warranty. The sponsor carries any scope it retains in a split award.
 
 | Return schedule | What the bidder supplies | How the city compares it |
