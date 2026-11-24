@@ -27,6 +27,8 @@ class PacketEvidenceTests(unittest.TestCase):
             ("duty candidate", ("engineering/feeder.json", "high_mass", 0, "candidate_id"), "other"),
             ("duty gate", ("engineering/feeder.json", "high_mass", 0, "gates", "protection_approved"), True),
             ("equipment duty inventory", ("engineering/feeder.json", "equipment", "duties"), []),
+            ("vehicle decision", ("decision.json", "assessment", "vehicle_screens", "aged_battery_energy"), "pass"),
+            ("combined functional decision", ("decision.json", "assessment", "functional_screen", "status"), "passed"),
             ("operating decision", ("decision.json", "assessment", "operating_screen"), "failed"),
         )
         for expected, path, value in mutations:

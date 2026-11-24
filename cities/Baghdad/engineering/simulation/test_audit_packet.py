@@ -119,6 +119,7 @@ class AuditPacketTests(unittest.TestCase):
             (("civil_quotation", "priced_cases", "base", "offer_id"), "Private erection offer"),
             (("vehicle", "return_assessment", "submission_id"), "Private vehicle return"),
             (("feeder_equipment", "source_return_id"), "Private feeder return"),
+            (("production", "radial30", "cash", "owner_risk_sensitivity", "lines"), [{"evidence_basis": "Owner memo"}]),
         )
         target = self.directory / "private.zip"
         for keys, value in mutations:
@@ -129,7 +130,7 @@ class AuditPacketTests(unittest.TestCase):
                     section = section[key]
                 section[keys[-1]] = value
                 result["evaluation_id"] = scenario._id(audit_packet.without(result, "evaluation_id"))
-                with self.assertRaisesRegex(ValueError, "before buyer offers, awards or equipment returns"):
+                with self.assertRaisesRegex(ValueError, "before buyer offers, awards, risk estimates or equipment returns"):
                     audit_packet.issue(result, "paired6", target)
                 self.assertFalse(target.exists())
 
@@ -145,7 +146,7 @@ class AuditPacketTests(unittest.TestCase):
         contents["manifest.json"] = scenario.encode(manifest)
         target = self.directory / "private.zip"
         target.write_bytes(scenario.archive(contents))
-        with self.assertRaisesRegex(ValueError, "before buyer offers, awards or equipment returns"):
+        with self.assertRaisesRegex(ValueError, "before buyer offers, awards, risk estimates or equipment returns"):
             audit_packet.verify(target, manifest["issue_id"])
 
     def test_rehashed_archive_cannot_mix_layouts(self):

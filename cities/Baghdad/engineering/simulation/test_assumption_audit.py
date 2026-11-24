@@ -103,6 +103,8 @@ class AssumptionAuditTests(unittest.TestCase):
             config = self.working_day()["scenario"]
         args = self.route, self.demand, self.vehicle, self.civil, self.climate
         rows = {row["id"]: row for row in audit_register.register(*args, [config], {})}
+        self.assertEqual(rows["route.posted_speed_limits"]["value_type"], "unknown")
+        self.assertTrue(any(row["policy_class"] == "mandatory_obligation" for row in rows.values()))
         self.assertEqual(rows["route.vertical_profile"]["evidence_maturity"], "unknown")
         self.assertEqual(rows["civil.crane_limit_t"]["evidence_maturity"], "unknown")
         self.assertEqual(rows["motion.paired6.step_s"]["policy_class"], "numerical_validity_domain")
@@ -113,6 +115,20 @@ class AssumptionAuditTests(unittest.TestCase):
         demand["generalised_cost"]["unexplained_response"] = 1
         with self.assertRaisesRegex(ValueError, "Classify the changed generalised-cost"):
             audit_register.register(self.route, demand, self.vehicle, self.civil, self.climate, [config], {})
+
+    def test_vehicle_screen_reports_known_failure_without_credit_for_missing_proof(self):
+        stock = audit_register.vehicle_screens(self.vehicle)
+        self.assertEqual(stock["aged_battery_energy"], "fail")
+        self.assertEqual(stock["protected_stop_distance"], "unknown")
+        constrained = vehicle_audit.evaluate(available_stop_m=350, overlap_m=30)
+        screen = audit_register.vehicle_screens(constrained)
+        self.assertEqual(screen["protected_stop_distance"], "fail")
+        self.assertAlmostEqual(screen["protected_stop_margin_m"], 320 - screen["brake_trial_stop_m"])
+        for trial in constrained["braking"]["high"]:
+            case = trial["cases"]["none_wheel_brakes/1_rail_modules_out"]
+            case["stop_at_comparator"]["stop_distance_m"] = None
+            case["comparator_stop_room_margin_m"] = None
+        self.assertEqual(audit_register.vehicle_screens(constrained)["protected_stop_distance"], "fail")
 
     def test_disposition_requires_all_duties_one_physical_candidate_and_prices(self):
         gates = dict(protection_approved=False, thermal_ratings_verified=False, utility_connection_approved=False,
@@ -158,6 +174,12 @@ class AssumptionAuditTests(unittest.TestCase):
             self.assertAlmostEqual(heavy, self.vehicle["mass_cases"]["high"]["loaded_train_kg"])
             self.assertGreater(heavy, base["civil"]["load_cases"]["central"]["loaded_train_kg"])
             self.assertTrue(base["civil_quotation"]["quotation_screen_passed"])
+            combined = base["decision"]["candidates"]["paired6"]["functional_screen"]
+            self.assertEqual(combined["status"], "failed")
+            self.assertIn("aged battery", combined["failed"])
+            self.assertIn("traction adhesion", combined["failed"])
+            self.assertTrue(base["vehicle"]["traction"]["high"]["declared_static_adhesion_necessary_screen_passes"])
+            self.assertIn("protected stopping distance", combined["unknown"])
             model = base["production"]["paired6"]
             self.assertIsNone(model["complete_installed_price_usd"])
             rows = {row["lot_id"]: row for row in model["pricings"]}
@@ -184,6 +206,27 @@ class AssumptionAuditTests(unittest.TestCase):
             self.assertEqual(paid["usd"]["base"], second["price_usd"])
             self.assertEqual(after["feeder_scope"], model["feeder_scope"])
             self.assertIsNone(awarded["decision"]["investment_selection"])
+            scope = after["inputs"]
+            feeder_id = next(row["feeder_physical_id"] for row in awarded["power_days"] if row["topology"] == "paired6")
+            risk_line = dict(risk_id="access-delay", description="Illustrative access delay",
+                             evidence_basis="Test buyer estimate", cost_exclusions=["feeder supply"],
+                             period="opening-direct", operating_year=None, range_usd=dict(low=10, base=20, high=30),
+                             cash_treatment="exposure-only", substitutes_unpriced_lot_id=None,
+                             historical_contingency_overlap_usd=None, overlap_basis=None)
+            risk = dict(candidate_id=scope["vehicle_candidate_id"], alignment_id=scope["alignment_id"],
+                        feeder_physical_id=feeder_id, civil_row_id=scope["civil_row_id"],
+                        cash_basis_id=after["cash"]["owner_risk_sensitivity"]["cash_basis_id"],
+                        currency="constant 2026 USD", basis_date="2026-11-24", calibration="uncalibrated",
+                        lines=[risk_line])
+            risk_file = Path(directory) / "owner-risk.json"
+            risk_file.write_text(json.dumps(dict(schema="baghdad-airport-owner-risk/1", layouts={"paired6": risk})))
+            review = audit.audit(offers=file, risk_return=risk_file, cache=Path(directory) / "cache")
+            registered = [r for r in review["assumptions"] if r["id"] == "risk.paired6.access-delay"]
+            self.assertEqual(len(registered), 1)
+            self.assertEqual(review["production"]["paired6"]["cash"]["profiles"], after["cash"]["profiles"])
+            self.assertFalse(review["production"]["radial30"]["cash"]["owner_risk_sensitivity"]["lines"])
+            with self.assertRaisesRegex(ValueError, "cash basis|nominal cash"):
+                audit.audit(risk_return=risk_file, cache=Path(directory) / "cache")
 
 
 if __name__ == "__main__":

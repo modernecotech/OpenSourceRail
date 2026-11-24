@@ -61,6 +61,27 @@ def rail_level_profile(points, datum, elevations):
                 chainages_m=list(accumulate(lengths, initial=0.0)), grades_pct=grades)
 
 
+def posted_speed_profile(points, limits):
+    """Retain submitted directional limits without deriving speed from polyline bends."""
+    def valid(speed):
+        if type(speed) not in (int, float):
+            return False
+        try:
+            return isfinite(speed) and speed > 0
+        except OverflowError:
+            return False
+
+    if (not isinstance(limits, dict) or set(limits) != {"outward_kmh", "inward_kmh"}
+            or any(not isinstance(limits[direction], list) or len(limits[direction]) != len(points) - 1
+                   or any(not valid(speed) for speed in limits[direction])
+                   for direction in ("outward_kmh", "inward_kmh"))):
+        raise ValueError("Posted speed needs positive finite limits in both directions for every centreline segment")
+    return {"chainages_m": list(accumulate((1000 * corridor.distance_km(a, b)
+                                            for a, b in pairwise(points)), initial=0.0)),
+            "limits_kmh": {direction: list(map(float, limits[direction]))
+                           for direction in ("outward_kmh", "inward_kmh")}}
+
+
 def survey_input(path, parent_id, bounds):
     raw = Path(path).read_bytes()
     supplied = json.loads(raw)
@@ -102,6 +123,12 @@ def survey_input(path, parent_id, bounds):
         if not isinstance(vertical, dict) or vertical.get("geometry_sha256") != supplied["geometry_sha256"]:
             raise ValueError("Vertical profile must bind the supplied horizontal geometry")
         profile = rail_level_profile(points, vertical.get("datum"), vertical.get("elevations_m"))
+    speed_profile = None
+    if "speed_profile" in supplied:
+        speed = supplied["speed_profile"]
+        if not isinstance(speed, dict) or speed.get("geometry_sha256") != supplied["geometry_sha256"]:
+            raise ValueError("Posted speed profile must bind the supplied horizontal geometry")
+        speed_profile = posted_speed_profile(points, speed.get("limits_kmh"))
     source = {
         "document": supplied["document"],
         "revision": supplied["revision"],
@@ -114,7 +141,9 @@ def survey_input(path, parent_id, bounds):
     }
     if profile is not None:
         source["vertical_profile_sha256"] = identity(profile)
-    return points, vertices, profile, source
+    if speed_profile is not None:
+        source["speed_profile_sha256"] = identity(speed_profile)
+    return points, vertices, profile, speed_profile, source
 
 
 def map_context(hashes):
@@ -188,6 +217,19 @@ def validate(record):
     if (any(a["coordinates"][-1] != b["coordinates"][0] for a, b in pairwise(record["segments"]))
             or abs(length_km(points) - record["route_km"]) > 1e-9):
         raise ValueError("Airport alignment geometry does not match the horizontal screen")
+    cumulative = list(accumulate((length_km(segment["coordinates"]) for segment in record["segments"]),
+                                 initial=0.0))
+    if any(abs(segment["start_km"] - start) > 1e-9 or abs(segment["end_km"] - end) > 1e-9
+           for segment, start, end in zip(record["segments"], cumulative[:-1], cumulative[1:], strict=True)):
+        raise ValueError("Airport segment chainages do not match the centreline")
+    if record["geometry_mode"] == "supplied_centreline" and (
+            len(record["segments"]) != len(STOP_IDS) - 1
+            or any(stop["longitude_latitude"] != point or abs(stop["chainage_km"] - km) > 1e-9
+                   for stop, point, km in zip(record["stops"],
+                                              [record["segments"][0]["coordinates"][0]]
+                                              + [segment["coordinates"][-1] for segment in record["segments"]],
+                                              cumulative, strict=True))):
+        raise ValueError("Airport surveyed stops do not match centreline endpoints and chainages")
     profile = record["grade_profile"]
     if profile is not None and (
             record["geometry_mode"] != "supplied_centreline" or not record["survey_source"]
@@ -195,6 +237,16 @@ def validate(record):
             or profile != rail_level_profile(points, profile.get("datum"), profile.get("elevations_m"))
             or record["survey_source"].get("vertical_profile_sha256") != identity(profile)):
         raise ValueError("Airport alignment grade profile differs from the supplied centreline and rail levels")
+    speed_profile = record.get("speed_profile")
+    if (speed_profile is None and record["survey_source"] is not None
+            and "speed_profile_sha256" in record["survey_source"]):
+        raise ValueError("Airport posted speed profile is missing from its survey receipt")
+    if speed_profile is not None and (
+            record["geometry_mode"] != "supplied_centreline" or not record["survey_source"]
+            or not isinstance(speed_profile, dict)
+            or speed_profile != posted_speed_profile(points, speed_profile.get("limits_kmh"))
+            or record["survey_source"].get("speed_profile_sha256") != identity(speed_profile)):
+        raise ValueError("Airport posted speed profile differs from the supplied centreline and source")
     return record
 
 
@@ -223,6 +275,7 @@ def evaluate(survey=None):
     bound = length_km(anchors)
     survey_source = None
     profile = None
+    speed_profile = None
     if survey is None:
         sections = mapped_sections(anchors, context["layers"]["roads"])
         if not all(within_coverage(point, bounds) for _, points, _ in sections for point in points):
@@ -230,7 +283,7 @@ def evaluate(survey=None):
         locations = places
         mode = "mapped_road_reference_and_review_connectors"
     else:
-        points, vertices, profile, survey_source = survey_input(survey, parent_id, bounds)
+        points, vertices, profile, speed_profile, survey_source = survey_input(survey, parent_id, bounds)
         locations = [points[i] for i in vertices]
         sections = [("supplied_centreline", points[a:b + 1], "Submitted centreline between declared stop vertices.")
                     for a, b in pairwise(vertices)]
@@ -282,6 +335,8 @@ def evaluate(survey=None):
         "dwell_s": service["patterns"][0][1]["departure_s"] - service["patterns"][0][1]["arrival_s"],
         "source_sha256": {**hashes, str(Path(__file__).resolve().relative_to(ROOT)): sha256(Path(__file__).read_bytes()).hexdigest()},
     }
+    if speed_profile is not None:
+        record["speed_profile"] = speed_profile
     record["alignment_id"] = identity(physical_record(record))
     record["record_id"] = identity(record)
     return validate(record)

@@ -77,12 +77,92 @@ class FeederReturnTests(unittest.TestCase):
             document["layouts"][key]["ratings"]["branch_peak_ka"] = 3.
             passed = power.assess([normal], [stress], document, evidence_directory=directory)["layouts"][key]
             self.assertEqual(passed["equipment_return_screen"], "pass")
+            self.assertEqual(passed["complete_equipment_duty_screen"], "unknown")
             self.assertFalse(passed["production_ranking_eligible"])
             missing = deepcopy(stress)
             missing["numerical_valid"] = False
             unknown = power.assess([normal], [missing], document, evidence_directory=directory)["layouts"][key]
             self.assertEqual(unknown["equipment_return_screen"], "unknown")
             self.assertFalse(unknown["envelope"]["source_rms_ka"]["complete"])
+
+    def test_missing_band_and_incomplete_day_cannot_hide_a_known_overload(self):
+        day = self.day("paired6", "normal")
+        key = day["feeder_physical_id"]
+        missing = self.day("paired6", "incomplete", numerical_valid=False)
+        with TemporaryDirectory() as directory:
+            document = self.document(directory, key)
+            protection = document["layouts"][key]["protection"]
+            protection.update(bands=[], maximum_healthy_current_ka=1.)
+            def assessed():
+                return power.assess([day], [missing], document, evidence_directory=directory)["layouts"][key]
+            result = assessed()
+            self.assertEqual(result["declared_protection"]["status"], "fail")
+            self.assertEqual(result["equipment_return_screen"], "fail")
+            protection.update(maximum_healthy_current_ka=2.5)
+            self.assertEqual(assessed()["equipment_return_screen"], "unknown")
+            protection.update(rated_breaking_ka=1.)
+            self.assertEqual(assessed()["equipment_return_screen"], "fail")
+
+    def test_sourced_rc_bounds_daily_heat_without_claiming_exceedance(self):
+        day = self.day("paired6", "normal")
+        day["service_day_current_basis_seconds"] = 1000.
+        key = day["feeder_physical_id"]
+        model = dict(hot_resistance_ohm=.001, thermal_resistance_k_per_w=.01,
+                     heat_capacity_j_per_k=10000., ambient_c=40.,
+                     initial_temperature_c=40., maximum_temperature_c=90.)
+        with TemporaryDirectory() as directory:
+            document = self.document(directory, key)
+            document["layouts"][key]["thermal"] = {"branch": dict(model), "source": dict(model)}
+            def assessed(duties):
+                return power.assess(duties, [], document, evidence_directory=directory)["layouts"][key]
+            result = assessed([day])["declared_thermal"]
+            branch = result["branch"]["duties"][0]
+            self.assertAlmostEqual(branch["current_i2t_upper_a2s"], .35**2 * 1e6 * 1000)
+            self.assertAlmostEqual(branch["maximum_temperature_upper_c"], 52.25)
+            self.assertEqual(result["branch"]["status"], "pass")
+            self.assertEqual(result["source"]["status"], "pass")
+            self.assertEqual(assessed([day])["complete_equipment_duty_screen"], "pass")
+            document["layouts"][key]["thermal"]["branch"]["maximum_temperature_c"] = 45.
+            self.assertEqual(assessed([day])["declared_thermal"]["branch"]["status"], "unknown")
+            self.assertEqual(assessed([day])["complete_equipment_duty_screen"], "unknown")
+            document["layouts"][key]["thermal"]["branch"]["initial_temperature_c"] = 46.
+            self.assertEqual(assessed([day])["declared_thermal"]["branch"]["status"], "fail")
+
+    def test_thermal_return_requires_exact_scope_and_preserves_missing_duty(self):
+        day = self.day("paired6", "normal")
+        key = day["feeder_physical_id"]
+        with TemporaryDirectory() as directory:
+            document = self.document(directory, key)
+            document["layouts"][key]["thermal"] = {"branch": {}, "source": None}
+            with self.assertRaisesRegex(ValueError, "complete sourced RC"):
+                power.assess([day], [], document, evidence_directory=directory)
+            document["layouts"][key]["thermal"] = {"branch": None, "source": None}
+            row = power.assess([day], [], document, evidence_directory=directory)["layouts"][key]
+            self.assertEqual(row["declared_thermal"]["branch"]["status"], "unknown")
+            self.assertIsNone(row["declared_thermal"]["branch"]["duties"][0]["current_i2t_upper_a2s"])
+            day["service_day_current_basis_seconds"] = 0.
+            with self.assertRaisesRegex(ValueError, "duration must be positive"):
+                power.assess([day], [], document, evidence_directory=directory)
+
+    def test_known_thermal_failure_survives_partial_protection_return(self):
+        day = self.day("paired6", "normal")
+        day["service_day_current_basis_seconds"] = 1000.
+        key = day["feeder_physical_id"]
+        with TemporaryDirectory() as directory:
+            document = self.document(directory, key)
+            reply = document["layouts"][key]
+            reply["protection"]["bands"] = []
+            reply["thermal"] = {
+                "branch": dict(hot_resistance_ohm=.001, thermal_resistance_k_per_w=.01,
+                               heat_capacity_j_per_k=10000., ambient_c=40.,
+                               initial_temperature_c=91., maximum_temperature_c=90.),
+                "source": None,
+            }
+            row = power.assess([day], [], document, evidence_directory=directory)["layouts"][key]
+            self.assertEqual(row["declared_protection"]["status"], "unknown")
+            self.assertEqual(row["declared_thermal"]["branch"]["status"], "fail")
+            self.assertEqual(row["equipment_return_screen"], "unknown")
+            self.assertEqual(row["complete_equipment_duty_screen"], "fail")
 
     def test_refuses_wrong_physical_identity_and_changed_attachments(self):
         duty = self.day("paired6", "normal")

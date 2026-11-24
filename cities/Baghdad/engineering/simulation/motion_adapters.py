@@ -1,6 +1,7 @@
 """Independent route and upstream AC checks with explicit modelling boundaries."""
 
 from contextlib import ExitStack
+from hashlib import sha256
 from itertools import pairwise
 from math import sqrt
 from pathlib import Path
@@ -19,6 +20,37 @@ def _executable(name):
 
 def _xml(path, node):
     ET.ElementTree(node).write(path, encoding="utf-8", xml_declaration=True)
+
+
+def matched_gtfs(alignment, case, scheduled, path, *, service_date="20261123"):
+    """Export the booked route speed offer, retaining unmapped stop times in the receipt."""
+    from cities.Baghdad.engineering.simulation import airport_alignment
+    airport_alignment.validate(alignment)
+    if case.get("alignment_id") != alignment["alignment_id"]:
+        raise ValueError("GTFS and moving service need the same alignment")
+    expected = min(case["speed_offer"]["parent_speed_cap_kmh"],
+                   case["speed_offer"]["posted_minimum_kmh"])
+    if case["speed_cap_kmh"] != expected:
+        raise ValueError("GTFS service must use the effective posted route cap")
+    group, trips, patterns, profiles, _, _ = scheduled
+    stop_ids = [stop["id"] for stop in alignment["stops"]]
+    if ([stop["id"] for stop in patterns[0]] != stop_ids
+            or [stop["id"] for stop in patterns[1]] != stop_ids[::-1]
+            or any(side not in (0, 1) or not isinstance(unit, str) or not unit
+                   for unit, side, _, _ in trips)
+            or len({(side, start) for _, side, start, _ in trips}) != len(trips)
+            or any(arrival != start + group["one_way_s_including_dwell"]
+                   for _, _, start, arrival in trips)):
+        raise ValueError("GTFS trips must match the directional booked service and six route stops")
+    if any(leg["cruise_m_s"] > case["speed_m_s"] + 1e-9 for side in profiles for leg in side):
+        raise ValueError("GTFS booked legs exceed the posted route cap")
+    from .corridor import write_booked_gtfs
+    written = write_booked_gtfs(alignment["stops"], trips, patterns, path, service_date=service_date)
+    return dict(alignment_id=alignment["alignment_id"], speed_offer=case["speed_offer"],
+                service_date=service_date, trips=len(trips), **written,
+                terminal_B_phase_s=group["terminal_B_phase_s"],
+                gtfs_sha256=sha256(Path(path).read_bytes()).hexdigest(),
+                scope="Planning timetable for the conservative whole-route cap; unmapped stops retained in receipt. Route survey and independent operation remain open.")
 
 
 def train_curve(case, side, positioning=False):

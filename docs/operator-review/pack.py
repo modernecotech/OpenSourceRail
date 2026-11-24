@@ -14,8 +14,6 @@ from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SIMULATION = ROOT / "cities/Baghdad/engineering/simulation"
-AIRPORT_ENQUIRY = SIMULATION / "audited-enquiry.zip"
-AIRPORT_ISSUER_RECEIPT = SIMULATION / "audited-enquiry.receipt.json"
 START = """<!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OpenSourceRail | Railway operator workshop</title>
@@ -80,18 +78,20 @@ class WorkshopLinks(HTMLParser):
                 raise ValueError(f'Offline workshop page {self.page} is missing {target}')
 
 
-def checked_airport_enquiry():
+def checked_airport_enquiry(layout, stem):
     report = (SIMULATION / "AUDIT-RESULTS.md").read_text()
     match = re.search(r"^Evaluation `([a-f0-9]{64})`$", report, re.MULTILINE)
-    contents = AIRPORT_ENQUIRY.read_bytes()
-    receipt_bytes = AIRPORT_ISSUER_RECEIPT.read_bytes()
+    enquiry_path = SIMULATION / (stem + ".zip")
+    receipt_path = SIMULATION / (stem + ".receipt.json")
+    contents = enquiry_path.read_bytes()
+    receipt_bytes = receipt_path.read_bytes()
     receipt = json.loads(receipt_bytes)
     with ZipFile(io.BytesIO(contents)) as archive:
         names = archive.namelist()
         manifest = json.loads(archive.read("manifest.json"))
         checksums = manifest["members_sha256"]
         receipt_fields = ("candidate_id", "evaluation_id", "issue_id", "layout")
-        if (not match or manifest["evaluation_id"] != match[1] or manifest["layout"] != "paired6"
+        if (not match or manifest["evaluation_id"] != match[1] or manifest["layout"] != layout
                 or receipt != {key: manifest[key] for key in receipt_fields}
                 or manifest["purpose"] != "budgetary enquiry" or manifest["fabrication_release"] is not False
                 or manifest["operating_authorisation"] is not False or manifest["physical_acceptance"] is not False
@@ -99,8 +99,8 @@ def checked_airport_enquiry():
                 or len(names) != len(set(names)) or set(checksums) != set(names) - {"manifest.json"}
                 or any(hashlib.sha256(archive.read(name)).hexdigest() != digest for name, digest in checksums.items())):
             raise ValueError("Rebuild the corrected Airport enquiry from the published audit")
-    return {AIRPORT_ENQUIRY.relative_to(ROOT).as_posix(): contents,
-            AIRPORT_ISSUER_RECEIPT.relative_to(ROOT).as_posix(): receipt_bytes}
+    return {enquiry_path.relative_to(ROOT).as_posix(): contents,
+            receipt_path.relative_to(ROOT).as_posix(): receipt_bytes}
 
 
 def workshop_files():
@@ -156,10 +156,14 @@ def workshop_files():
                     target = (path.parent / parts.path).resolve()
                     if target.is_relative_to(ROOT) and target.is_file():
                         files.add(target)
-    members = {'START.html': START.encode(), **checked_airport_enquiry()}
+    members = {'START.html': START.encode()}
+    for layout, stem in (("paired6", "audited-enquiry"), ("radial30", "audited-enquiry-radial30")):
+        payload = checked_airport_enquiry(layout, stem)
+        members.update(payload)
+    offline_files = files | {ROOT / name for name in members}
     for path in sorted(files):
         members[path.relative_to(ROOT).as_posix()] = (
-            path.read_bytes() if path in records else document_content(path, files))
+            path.read_bytes() if path in records else document_content(path, offline_files))
     for page, content in members.items():
         if page.endswith('.html'):
             WorkshopLinks(page, members).feed(content.decode())

@@ -121,13 +121,28 @@ def evaluate(inputs=None):
 
 def gtfs(record,path,*,service_date="20261123"):
     """Make a valid mapped-stop subset feed; retain full stop times for survey reconciliation."""
-    from datetime import datetime
     from cities.Baghdad.engineering.simulation import motion_power
-    datetime.strptime(service_date,"%Y%m%d")
     case=motion_power.normalize(dict(headway_min=record["headway_min"],cars=record["cars"],
                                     chainages_km=record["chainages_km"],dwell_s=record["dwell_s"]))
     group,trips,patterns,*_=motion_power.service(case)
-    stops=record["stops"]
+    written=write_booked_gtfs(record["stops"],trips,patterns,path,service_date=service_date)
+    return dict(motion_timetable_source_sha256=sha256(Path(motion_power.__file__).read_bytes()).hexdigest(),
+                source_sha256=record["source_sha256"],candidate_id=record["candidate_id"],gtfs_sha256=sha256(Path(path).read_bytes()).hexdigest(),
+                mapped_stop_ids=written["mapped_stop_ids"],held_stop_ids=written["held_stop_ids"],
+                trips=len(trips),full_six_stop_times=written["full_six_stop_times"],terminal_B_phase_s=group["terminal_B_phase_s"],
+                service_date=service_date,scope="Planning feed of five mapped centroids. Full six-stop times supplied separately. No OTP routing or accessible transfers verified. Requires local pedestrian OSM extract and field survey.")
+
+
+def write_booked_gtfs(stops,trips,patterns,path,*,service_date):
+    """Write the common booked timetable tables for historic and audited Airport offers."""
+    from datetime import datetime
+    from re import fullmatch
+    datetime.strptime(service_date,"%Y%m%d")
+    if (len(patterns)!=2 or len(stops)!=6
+            or any(not fullmatch(r"[A-Za-z0-9_-]+",s["id"]) for s in stops)
+            or any(not fullmatch(r"[A-Za-z0-9_-]+",unit) or side not in (0,1)
+                   for unit,side,_,_ in trips)):
+        raise ValueError("GTFS requires six safe stop IDs and two directional booked trip patterns")
     mapped={s["id"] for s in stops if s["longitude_latitude"]}
     def clock(seconds):
         return f"{seconds//3600:02d}:{seconds//60%60:02d}:{seconds%60:02d}"
@@ -155,11 +170,8 @@ def gtfs(record,path,*,service_date="20261123"):
             writer.writerow(fields)
             writer.writerows(rows)
             z.writestr(ZipInfo(name,(1980,1,1,0,0,0)),buf.getvalue(),compress_type=ZIP_DEFLATED)
-    return dict(motion_timetable_source_sha256=sha256(Path(motion_power.__file__).read_bytes()).hexdigest(),
-                source_sha256=record["source_sha256"],candidate_id=record["candidate_id"],gtfs_sha256=sha256(Path(path).read_bytes()).hexdigest(),
-                mapped_stop_ids=sorted(mapped),held_stop_ids=[s["id"] for s in stops if s["id"] not in mapped],
-                trips=len(trips),full_six_stop_times=full,terminal_B_phase_s=group["terminal_B_phase_s"],
-                service_date=service_date,scope="Planning feed of five mapped centroids. Full six-stop times supplied separately. No OTP routing or accessible transfers verified. Requires local pedestrian OSM extract and field survey.")
+    return dict(mapped_stop_ids=sorted(mapped),held_stop_ids=[s["id"] for s in stops if s["id"] not in mapped],
+                full_six_stop_times=full)
 
 
 if __name__=="__main__":

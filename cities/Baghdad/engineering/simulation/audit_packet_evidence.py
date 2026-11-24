@@ -80,6 +80,7 @@ def check_duties(feeder, assessment, layout, feeder_id):
     require(equipment["duties"] == inventory["duties"]
             and equipment["envelope"] == audit_power_return._envelope(inventory["duties"])
             and equipment["equipment_return_screen"] in ("pass", "fail", "unknown")
+            and equipment["complete_equipment_duty_screen"] in ("pass", "fail", "unknown")
             and equipment["production_ranking_eligible"] is False,
             "equipment duty inventory and margins")
     if equipment["supplier_return_id"] is None:
@@ -89,17 +90,21 @@ def check_duties(feeder, assessment, layout, feeder_id):
 
 
 def check_decision(decision, route, vehicle, price, feeder, heavy):
+    from .audit_register import vehicle_screens, functional_screen
     assessment = decision["assessment"]
+    require(assessment["vehicle_screens"] == vehicle_screens(vehicle), "vehicle decision")
     duties = feeder["duties"]
     failures = {day["condition"]: [key for key in day["failed_screens"] if key not in APPROVAL_GATES]
                 for day in duties}
     heavy_failed = any(key not in APPROVAL_GATES for key in heavy["failed_screens"])
     require(assessment["failures_by_duty"] == failures
-            and assessment["numerical_valid"] is all(day["numerical_valid"] for day in duties)
+            and assessment["numerical_valid"] is all(day["numerical_valid"] for day in [*duties, heavy])
             and assessment["operating_screen"] == ("failed" if any(failures.values()) or heavy_failed else "passed")
             and assessment["supplier_and_utility_checks"] == dict.fromkeys(APPROVAL_GATES, False)
-            and assessment["equipment_return_screen"] == feeder["equipment"]["equipment_return_screen"],
+            and assessment["equipment_return_screen"] == feeder["equipment"]["equipment_return_screen"]
+            and assessment["complete_equipment_duty_screen"] == feeder["equipment"]["complete_equipment_duty_screen"],
             "operating decision")
+    require(assessment["functional_screen"] == functional_screen(assessment), "combined functional decision")
     require(assessment["qualification"] == "open" and assessment["investment_rank"] is None
             and assessment["scope_cost_status"] == "partial or unpriced"
             and assessment["remaining_cost_scope"] == price["unpriced_lots"]

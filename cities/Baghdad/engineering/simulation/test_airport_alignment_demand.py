@@ -80,6 +80,22 @@ class AlignmentDemandTests(unittest.TestCase):
             self.assertEqual(profile["grades_pct"][2], 0)
             self.assertEqual(levelled["survey_source"]["vertical_profile_sha256"], airport_alignment.identity(profile))
             self.assertEqual(airport_alignment.validate(json.loads(json.dumps(levelled))), levelled)
+            for change, reason in (
+                (lambda record: record["stops"][1].update(longitude_latitude=record["stops"][2]["longitude_latitude"]),
+                 "surveyed stops"),
+                (lambda record: record["segments"][1].update(start_km=record["segments"][1]["start_km"] + .01),
+                 "segment chainages"),
+                (lambda record: (record["stops"][1].update(chainage_km=record["stops"][1]["chainage_km"] + .01),
+                                 record["chainages_km"].__setitem__(1, record["chainages_km"][1] + .01)),
+                 "surveyed stops"),
+            ):
+                tampered = copy.deepcopy(levelled)
+                change(tampered)
+                tampered["alignment_id"] = airport_alignment.identity(airport_alignment.physical_record(tampered))
+                tampered["record_id"] = airport_alignment.identity(
+                    {key: value for key, value in tampered.items() if key != "record_id"})
+                with self.assertRaisesRegex(ValueError, reason):
+                    airport_alignment.validate(tampered)
             tampered = copy.deepcopy(levelled)
             tampered["grade_profile"]["grades_pct"][0] = 0
             tampered["alignment_id"] = airport_alignment.identity(airport_alignment.physical_record(tampered))
@@ -172,6 +188,17 @@ class AlignmentDemandTests(unittest.TestCase):
             self.assertAlmostEqual(result["annual_passenger_km"], 3650 * alignment["route_km"])
             self.assertEqual(result["observed_source"]["service_offer"], submitted["service_offer"])
             self.assertEqual(airport_demand.validate(json.loads(json.dumps(result)), alignment), result)
+            tampered = copy.deepcopy(result)
+            tampered["hourly_od"][9][0][5] += 1
+            tampered["evaluation_id"] = airport_alignment.identity(
+                {key: value for key, value in tampered.items() if key != "evaluation_id"})
+            with self.assertRaisesRegex(ValueError, "conserve its annual count"):
+                airport_demand.validate(tampered, alignment)
+            tampered["annual_all_journeys"] += 365
+            tampered["evaluation_id"] = airport_alignment.identity(
+                {key: value for key, value in tampered.items() if key != "evaluation_id"})
+            with self.assertRaisesRegex(ValueError, "loading and passenger-km"):
+                airport_demand.validate(tampered, alignment)
             tampered = copy.deepcopy(result)
             tampered["observed_source"]["service_offer"]["headway_min"] = 15
             tampered.pop("evaluation_id")

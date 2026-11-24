@@ -82,7 +82,9 @@ def service(case, references=None):
              for stop, p in zip(parent["outward_stops"], chainages)]
     headway = case["headway_min"] * 60
     v = cfg["vehicle"]
-    cfg = {**cfg, "vehicle": {**v, "peak_headway_s": headway, "dwell_s": case["dwell_s"]},
+    cfg = {**cfg, "vehicle": {**v, "peak_headway_s": headway, "dwell_s": case["dwell_s"],
+                              "speed_cap_kmh": case.get("speed_cap_kmh", v["speed_cap_kmh"]),
+                              "commercial_speed_kmh": case.get("commercial_speed_kmh", v["commercial_speed_kmh"])},
            "service_plan": {**cfg["service_plan"], "departures_per_hour_direction":
                             [3600 // headway] * v["service_hours_per_day"]},
            "vehicle_geometry": {**cfg["vehicle_geometry"], "train_length_m": case["length_m"]}}
@@ -159,11 +161,23 @@ def normalize(inputs, references=None):
         if (alignment["parent_candidate_id"] != parent["candidate_id"] or
                 tuple(x * 1000 for x in alignment["chainages_km"]) != chainages):
             raise ValueError("Moving service and alignment must share the source candidate and stop chainages")
+        from .airport_demand import speed_offer
+        offered_speed = speed_offer(alignment, cfg)
+        case["speed_cap_kmh"] = offered_speed["speed_cap_kmh"]
+        case["commercial_speed_kmh"] = offered_speed["commercial_speed_kmh"]
+        case["speed_offer"] = offered_speed
+        if alignment.get("speed_profile") is not None:
+            case["speed_profile"] = alignment["speed_profile"]
         from .airport_demand import validate as validate_demand
         demand = inputs.get("demand_record")
         if demand is None:
             raise ValueError("Revised alignment requires its candidate-bound demand record")
         validate_demand(demand, alignment)
+        if (demand["service_offer"]["observation_context"]["speed_cap_kmh"] != case["speed_cap_kmh"]
+                or not isfinite(case["commercial_speed_kmh"])
+                or abs(demand["service_offer"]["observation_context"]["commercial_speed_kmh"]
+                       - case["commercial_speed_kmh"]) > 1e-9):
+            raise ValueError("Moving service and demand must share the restricted route speed offer")
         if (case["headway_min"] != demand["headway_min"] or case["dwell_s"] != demand["dwell_s"]
                 or case["od_matrix"] is not None or case["demand_factor"] != 1
                 or case["hourly_od"] is not None and case["hourly_od"] != demand["hourly_od"]):
@@ -194,7 +208,7 @@ def normalize(inputs, references=None):
     case["length_m"] = case["cars"] * cfg["vehicle_geometry"]["car_body_length_m"] + (case["cars"] - 1) * .5
     case["acceleration_m_s2"] = cfg["power_assumptions"]["required_net_accel_m_s2"]
     case["braking_m_s2"] = trial["braking_deceleration_m_s2"]
-    case["speed_m_s"] = cfg["vehicle"]["speed_cap_kmh"] / 3.6
+    case["speed_m_s"] = case.get("speed_cap_kmh", cfg["vehicle"]["speed_cap_kmh"]) / 3.6
     case["efficiency"] = cfg["power_assumptions"]["traction_efficiency"]
     case["regen_efficiency"] = trial["braking_wheel_to_bus_efficiency"]
     if case["auxiliary_kw"] is not None and not 0 < case["auxiliary_kw"] <= 1500:

@@ -1,12 +1,15 @@
 """Regression checks for moving ports, protective holds and common demand."""
 
 import json
+from types import SimpleNamespace
+from zipfile import ZipFile
 
 import pytest
 
 from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, motion_adapters
 from cities.Baghdad.engineering.simulation.motion_dc import Feeder, loadflow
-from cities.Baghdad.engineering.simulation.motion_power import evaluate, moving_grade, normalize, service, validate_od
+from cities.Baghdad.engineering.simulation.motion_power import (HourlyPassengerLedger, evaluate, moving_grade,
+                                                                 normalize, service, validate_od)
 
 
 def test_shared_droop_and_directional_line_resistance():
@@ -88,6 +91,73 @@ def test_profile_grade_at_motion_position_and_in_each_direction(tmp_path):
     with pytest.raises(ValueError, match="planning domain"):
         normalize(steep_inputs)
 
+    # Posted limits are evidence attached to this trace, not radii inferred
+    # from its polyline vertices. Use the lowest limit in either direction
+    # for a conservative whole-route service and motion sensitivity.
+    vertical["elevations_m"][1] = 38
+    survey["speed_profile"] = dict(
+        geometry_sha256=digest,
+        limits_kmh=dict(outward_kmh=[72] * (len(trace) - 1),
+                        inward_kmh=[72] * (len(trace) - 1)))
+    path.write_text(json.dumps(survey))
+    same_cap = airport_alignment.evaluate(path)
+    assert same_cap["alignment_id"] == alignment["alignment_id"]
+    assert same_cap["record_id"] != alignment["record_id"]
+    same_cap_inputs = dict(inputs, alignment=same_cap,
+                           demand_record=airport_demand.evaluate(same_cap, headway_min=30))
+    assert normalize(same_cap_inputs)["speed_profile"] == same_cap["speed_profile"]
+    same_cap_motion = evaluate(same_cap_inputs)
+    assert same_cap_motion["candidate_id"] == profiled["candidate_id"]
+    assert same_cap_motion["evaluation_id"] != profiled["evaluation_id"]
+    assert same_cap_motion["metrics"]["completed_passenger_trips"] == profiled["metrics"]["completed_passenger_trips"]
+    assert same_cap_motion["metrics"]["distance_km"] == profiled["metrics"]["distance_km"]
+    survey["speed_profile"]["limits_kmh"]["inward_kmh"][2] = 45
+    path.write_text(json.dumps(survey))
+    reduced = airport_alignment.evaluate(path)
+    slower_demand = airport_demand.evaluate(reduced, headway_min=30)
+    assert slower_demand["service_offer"]["observation_context"]["speed_cap_kmh"] == 45
+    assert slower_demand["service_offer"]["observation_context"]["commercial_speed_kmh"] == 38 * 45 / 72
+    assert slower_demand["generalised_cost"]["reference_minutes"] == demand["generalised_cost"]["reference_minutes"]
+    assert slower_demand["service_offer"]["booked_ride_minutes"][0][5] > demand["service_offer"]["booked_ride_minutes"][0][5]
+    slower_inputs = dict(inputs, alignment=reduced, demand_record=slower_demand)
+    slower_case = normalize(slower_inputs)
+    assert slower_case["speed_m_s"] == 45 / 3.6
+    with pytest.raises(ValueError, match="Airport demand ID"):
+        normalize(dict(inputs, alignment=reduced, demand_record=same_cap_inputs["demand_record"]))
+    slower_schedule = service(slower_case)
+    assert max(leg["cruise_m_s"] for direction in slower_schedule[3] for leg in direction) <= 45 / 3.6
+    slower = evaluate(slower_inputs)
+    assert slower["scenario"]["speed_m_s"] == 45 / 3.6
+    assert slower["metrics"]["fleet_sets_required"] >= same_cap_motion["metrics"]["fleet_sets_required"]
+    feed = tmp_path / "restricted.gtfs.zip"
+    exported = motion_adapters.matched_gtfs(reduced, slower_case, slower_schedule, feed)
+    assert exported["speed_offer"]["speed_cap_kmh"] == 45
+    assert exported["trips"] == len(slower_schedule[1])
+    with ZipFile(feed) as archive:
+        assert len(archive.read("trips.txt").splitlines()) == exported["trips"] + 1
+        assert len(archive.read("stop_times.txt").splitlines()) > exported["trips"]
+    repeated = (slower_schedule[0], slower_schedule[1] + [slower_schedule[1][0]], *slower_schedule[2:])
+    with pytest.raises(ValueError, match="directional booked service"):
+        motion_adapters.matched_gtfs(reduced, slower_case, repeated, tmp_path / "duplicate.zip")
+    flat_slower_case = normalize(dict(slower_inputs, grade_basis="constant_sensitivity"))
+    flat_slower = evaluate(dict(slower_inputs, grade_basis="constant_sensitivity"))
+    native = motion_adapters.sumo_check(flat_slower_case, service(flat_slower_case), flat_slower["events"])
+    if motion_adapters._executable("sumo") and motion_adapters._executable("netconvert"):
+        assert native["status"] == "verified execution"
+        assert native["booked_route_trips"] == len(slower_schedule[1]) + len(slower_schedule[4])
+        assert max(curve["speed_limit_m_s"] for curve in native["traction_curves"].values()) == 45 / 3.6
+    else:
+        assert native["status"] == "held"
+    survey["speed_profile"]["geometry_sha256"] = "wrong"
+    path.write_text(json.dumps(survey))
+    with pytest.raises(ValueError, match="bind the supplied"):
+        airport_alignment.evaluate(path)
+    survey["speed_profile"]["geometry_sha256"] = digest
+    del survey["speed_profile"]["limits_kmh"]["inward_kmh"]
+    path.write_text(json.dumps(survey))
+    with pytest.raises(ValueError, match="both directions"):
+        airport_alignment.evaluate(path)
+
 
 def test_observed_demand_cannot_move_under_a_different_formation(tmp_path):
     alignment = airport_alignment.evaluate()
@@ -128,6 +198,24 @@ def test_all_workings_and_radial_isolation():
     assert loss["metrics"]["protected_hold_train_s"] > 0
     assert not loss["gates"]["all_workings_complete"]
     assert not loss["gates"]["electrical_isolation_screen"]
+
+
+def test_boarded_but_interrupted_od_is_not_a_completed_journey():
+    od = [[[0.] * 6 for _ in range(6)] for _ in range(24)]
+    od[9][0][5] = 100.
+    ledger = HourlyPassengerLedger(dict(hourly_od=od, demand_factor=1., capacity=700))
+    job = SimpleNamespace(kind="passenger", side=0, boarded=0., denied=0., riders=[0.] * 5)
+    train = SimpleNamespace(job=job, leg=0, onboard={})
+    ledger.board(train, 36000)
+    interrupted = ledger.totals()
+    assert interrupted["gross_boardings"] == pytest.approx(100.)
+    assert interrupted["boarded_passengers"] == 0.
+    assert interrupted["unserved_incomplete_trip"] == pytest.approx(100.)
+    train.leg = 4
+    ledger.alight(train)
+    completed = ledger.totals()
+    assert completed["boarded_passengers"] == pytest.approx(100.)
+    assert completed["unserved_incomplete_trip"] == 0.
 
 
 def test_sumo_force_curve_uses_formation_and_selected_mass():

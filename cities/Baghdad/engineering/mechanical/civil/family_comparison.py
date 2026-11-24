@@ -4,7 +4,7 @@ from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 from hashlib import sha256
 import json
-from math import ceil, inf, isfinite, radians, sin
+from math import ceil, inf, isfinite, lcm, radians, sin
 from pathlib import Path
 from sys import float_info
 import tomllib
@@ -410,6 +410,81 @@ def cost(row, rates, shop, basket, offers):
     return options
 
 
+def high_load_quotation_shortlist(rows, route_m, lift_radius_m, crane_limit_t, rates, shop, basket):
+    """Comparable whole standard stock lot; residual route and physical holds stay open."""
+    surviving = [row for row in rows if row["quotation_screen_passed"]]
+    quantum_m = lcm(*(row["span_m"] for row in surviving)) if surviving else None
+    common_m = route_m // quantum_m * quantum_m if quantum_m is not None else 0
+    residual_m = route_m - common_m
+    entries = []
+    if not common_m:
+        return dict(common_span_multiple_m=quantum_m, common_standard_km=0,
+                    residual_route_m=float(route_m), entries=[], cheapest_base_standard_lifecycle_pv_usd=None,
+                    scope="No common whole-span standard-stock lot fits the surviving high-load rows and route length.")
+    for row in surviving:
+        span = row["span_m"]
+        bays = int(common_m / span)
+        placements = 2*bays*row["actions"]["segments"]
+        stock = dict(row, route_km=float(common_m/1000), beams=2*bays,
+                     supports=(bays+1)*(1 if row["shared_pier"] else 2),
+                     bearings=8*bays, placements=placements)
+        # Existing full-route contractor offers bind their stated order count.
+        # They cannot silently reprice this distinct standard-stock lot.
+        prices = cost(stock, rates, shop, basket, [])["base"]
+        residual_full, residual_partial = divmod(residual_m, span)
+        blockers = list(prices["missing_cost_scope"])
+        if residual_m:
+            blockers.append("remaining route beyond common standard-stock lot")
+        if residual_partial:
+            blockers.append("site-specific nonstandard end closure")
+        blockers.extend(("actual haul route and lifting/handling method", "signed crane chart and ground bearing",
+                         "verified high-load structural and foundation limits"))
+        entries.append(dict(label=row["label"], physical_id=row["physical_id"],
+            audit_row_id=row["audit_row_id"], source_train_candidate_id=row["source_train_candidate_id"],
+            load_case="high", high_train_kg=row["load_case_train_kg"]["high"],
+            shared_pier=row["shared_pier"], support_scheme="shared" if row["shared_pier"] else "separate",
+            span_m=span, depth_m=row["section"]["depth_m"],
+            common_standard_km=float(common_m/1000), standard_bays=bays,
+            standard_beams=2*bays, standard_supports=stock["supports"], standard_placements=placements,
+            residual_route_m=float(residual_m), residual_standard_bays=int(residual_full),
+            residual_partial_bay_m=float(residual_partial) if residual_partial else None,
+            standard_end_bent_chainage_m=float(common_m), full_route_end_bent_chainage_m=float(route_m),
+            residual_supports=row["supports"]-stock["supports"],
+            full_route_placements=row["placements"],
+            handling_unit_t=row["actions"]["handling_unit_t"],
+            hook_demand_t=row["actions"]["chart_demand_t"], lift_radius_m=lift_radius_m,
+            entered_working_load_t=crane_limit_t,
+            planning_crane_price_class_t_at_12m=row["matched_crane_price_class_t"],
+            site_crane_chart_verified=False,
+            heavy_sling_leg_tension_kn=row["erection_and_interfaces"]["worst_sling_leg_tension_kn"],
+            asymmetric_pick_line_twist_knm=row["erection_and_interfaces"]["asymmetric_pick_line_twist_knm"],
+            base_standard_installed_usd=prices["installed_usd"],
+            base_standard_lifecycle_pv_usd=prices["lifecycle_pv_usd"],
+            base_standard_known_subtotal_usd=prices["known_installed_subtotal_usd"],
+            base_standard_logistics_source=prices["logistics_source"],
+            base_standard_haul_erection_usd=(prices["installed_breakdown_usd"]["haul"]
+                                              + prices["installed_breakdown_usd"]["erection"])
+                                              if not {"haul", "erection"} & set(prices["missing_cost_scope"]) else None,
+            base_standard_traffic_shifts=prices["traffic_shifts"],
+            base_pv_gap_vs_cheapest_standard_usd=None,
+            base_haul_erection_ceiling_per_placement_usd=None,
+            unpriced_or_unverified_scope=blockers,
+            offer_scope="Quote this exact physical ID, high-load duty and stated standard lot; separately price the residual route, lifting method, supports and exclusions. Planning prices are not supplier offers."))
+    priced = [entry for entry in entries if entry["base_standard_lifecycle_pv_usd"] is not None
+              and entry["base_standard_haul_erection_usd"] is not None]
+    if priced:
+        cheapest = min(entry["base_standard_lifecycle_pv_usd"] for entry in priced)
+        for entry in priced:
+            entry["base_pv_gap_vs_cheapest_standard_usd"] = entry["base_standard_lifecycle_pv_usd"]-cheapest
+            # Fixed planning traffic shifts and all other modeled costs. A
+            # different supplier productivity requires recalculation.
+            other = entry["base_standard_lifecycle_pv_usd"]-entry["base_standard_haul_erection_usd"]
+            entry["base_haul_erection_ceiling_per_placement_usd"] = (cheapest-other)/entry["standard_placements"]
+    return dict(common_span_multiple_m=quantum_m, common_standard_km=float(common_m/1000), residual_route_m=float(residual_m),
+                entries=entries, cheapest_base_standard_lifecycle_pv_usd=cheapest if priced else None,
+                scope="Base-rate 30-year PV and haul/erection ceilings compare the same whole-span standard length for every surviving row, at fixed planning closure shifts. Residual route and physical acceptance are excluded; a negative ceiling cannot be met by a nonnegative haul/erection offer.")
+
+
 def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
              lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=(), *, load_audit=False,
              high_train_mass_kg=None, selected_family=None, selected_span_m=None):
@@ -646,6 +721,8 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                       calculation_sources={"moving_load": "prototype/weights.py:moving_span", "axles": "simulation/vehicle_civil.py:load_case",
                                            "materials": "mechanical/civil/concept.toml", "rate_registers": ["iraq-capital.toml", "airport-works.toml", "iraq-market.toml", "engineering/prototype/shop-rates.toml"],
                                            "erection_precedent": SOURCE_LINK})
+        report["high_load_quotation_shortlist"] = high_load_quotation_shortlist(
+            rows, route_m, lift_radius_m, crane_limit_t, rates, shop, basket)
         report["input_id"] = digest(dict(route_km=report["route_km_decimal"], soil_kpa=soil_kpa, cars=cars,
                                          material=material, limits=[crane_limit_t,lift_radius_m], erection_offers=erection_offers,
                                          requested_mass_kg=high_train_mass_kg, load_cases=loads, family=selected_family, span_m=selected_span_m,

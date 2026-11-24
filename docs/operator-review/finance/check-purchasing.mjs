@@ -22,6 +22,16 @@ try {
   const receiptUrl = new URL(await receipt.getAttribute('href'), page.url());
   const expectedReceipt = new URL('audited-enquiry.receipt.json', expectedEnquiry);
   assert.deepEqual(await readFile(receiptUrl), await readFile(expectedReceipt));
+  const radialDownload = page.waitForEvent('download');
+  await page.getByRole('link', {name:'30-site radial comparison enquiry'}).click();
+  const radial = await radialDownload;
+  assert.equal(radial.suggestedFilename(), 'audited-enquiry-radial30.zip');
+  const expectedRadial = new URL('../../../cities/Baghdad/engineering/simulation/audited-enquiry-radial30.zip', import.meta.url);
+  assert.deepEqual(await readFile(await radial.path()), await readFile(expectedRadial));
+  const radialReceipt = page.getByRole('link', {name:'Radial issue receipt'});
+  const radialReceiptUrl = new URL(await radialReceipt.getAttribute('href'), page.url());
+  assert.deepEqual(await readFile(radialReceiptUrl),
+    await readFile(new URL('audited-enquiry-radial30.receipt.json', expectedRadial)));
   await page.getByText('Historical 12 km schematic and ERPNext estimate').click();
   const historyDownload = page.waitForEvent('download');
   await page.getByRole('link', {name:'Download historical drawings and schedules'}).click();

@@ -183,9 +183,13 @@ def traction_case(row, power, grade):
                                driven_static_load_fraction=supported / mass, adhesion_upper_bound_kn=force / 1000,
                                required_adhesion_with_margin=factored / (supported * G),
                                margin_kn=(force - factored) / 1000))
+    declared = [item for item in layout if item["driven_positions_per_car"] == [1, 2, 3, 4]]
     return dict(upgrade_pct=100 * grade, roll_resistance_m_s2=power["resistance_accel_m_s2"],
                 adhesion_assumed=mu, required_train_force_kn=demand / 1000, factored_train_force_kn=factored / 1000,
-                min_driven_static_load_fraction=factored / (mass * G * mu), layouts=layout)
+                min_driven_static_load_fraction=factored / (mass * G * mu), layouts=layout,
+                declared_physical_layout=declared,
+                declared_static_adhesion_necessary_screen_passes=all(item["margin_kn"] >= 0 for item in declared),
+                layout_scope="Only the four-axle-per-car layout belongs to this physical candidate. Pair-drive rows are offline static necessary-bound comparisons without revised installed mass, bogies, braking, protection or cost. Even a positive margin would not prove hot tractive effort, inverter independence or slip control.")
 
 
 def battery_case(cfg):
@@ -195,12 +199,25 @@ def battery_case(cfg):
               + service["door_egress_event_kwh"]) * (1 + service["energy_reserve_fraction"])
     nominal = service["battery_nominal_kwh"]
     usable = service["usable_fraction"]
+    retained = .8  # Explicit end-of-life sensitivity, not a measured pack rating.
+    hot_factors = (1.0, .9, .8)  # Capacity sensitivity only; no supplier hot data.
+    eol_usable = nominal * usable * retained
+    required_hot_factor = demand / eol_usable
     return dict(scope="One fixed per-train service pack in both studied formations; actual equipment position and consumption await evidence.",
-                usable_new_kwh=nominal * usable, usable_at_80pct_retention_kwh=nominal * usable * .8,
+                usable_new_kwh=nominal * usable, usable_at_80pct_retention_kwh=eol_usable,
                 demand_with_reserve_kwh=demand, new_margin_kwh=nominal * usable - demand,
-                end_of_life_margin_kwh=nominal * usable * .8 - demand,
-                minimum_nominal_kwh_at_80pct_retention=demand / (usable * .8),
+                end_of_life_margin_kwh=eol_usable - demand,
+                minimum_nominal_kwh_at_80pct_retention=demand / (usable * retained),
                 minimum_retention_fraction=demand / (nominal * usable),
+                hot_end_of_life=dict(capacity_factor_measured=None, deliverable_energy_kwh=None,
+                    minimum_capacity_factor_required=required_hot_factor,
+                    energy_possible_with_capacity_factor_at_most_one=required_hot_factor <= 1,
+                    sensitivity=[dict(assumed_hot_capacity_factor=factor,
+                                      usable_kwh=eol_usable * factor,
+                                      energy_margin_kwh=eol_usable * factor - demand,
+                                      minimum_nominal_kwh=demand / (usable * retained * factor))
+                                 for factor in hot_factors],
+                    scope="Analytical capacity derating after 80% retention. Factors are hypothetical, not measured hot performance. Discharge power, voltage and brake excitation duration remain unknown."),
                 nominal_kwh=nominal, continuous_kw=load, recharge_input_kw=nominal / (
                     service["recharge_hours"] * service["recharge_efficiency"]),
                 brake_electrical_input_vs_4kwh_allocation=None, required_hot_discharge_peak_kw=None)
@@ -329,6 +346,7 @@ def evaluate(*, cars=6, material="steel", grade_pct=None, available_stop_m=None,
                     braking=braking, level_service_force_reference=level_force_reference,
                     traction={state: traction_case(row, cfg["power_assumptions"], grade_pct / 100)
                                               for state, row in cases.items() if state != "low"},
+                    high_load_adverse_traction=traction_case(cases["high"], cfg["power_assumptions"], design_grade),
                     battery=battery_case(cfg), fit=fit_case(record, cage, fit, ga, cases, material),
                     return_assessment=assess_return(basis, evidence_return, evidence_directory,
                                                     route_bound=alignment is not None or route is not None),

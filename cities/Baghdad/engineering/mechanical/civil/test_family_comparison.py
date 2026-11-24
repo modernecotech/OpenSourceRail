@@ -286,6 +286,59 @@ class ViaductFamilyTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             family.evaluate_high_load(high_train_mass_kg=100000.)
 
+    def test_1746091km_high_load_supplier_shortlist_uses_common_standard_stock(self):
+        audit = family.evaluate_high_load(route_km="17.46091")
+        shortlist = audit["high_load_quotation_shortlist"]
+        self.assertEqual(shortlist["common_span_multiple_m"], 60)
+        self.assertEqual(shortlist["common_standard_km"], 17.46)
+        self.assertAlmostEqual(shortlist["residual_route_m"], .91)
+        entries = shortlist["entries"]
+        self.assertEqual(len(entries), audit["passing_trial_count"])
+        self.assertEqual({e["support_scheme"] for e in entries}, {"shared", "separate"})
+        self.assertEqual({e["span_m"] for e in entries}, {10, 15, 20})
+        self.assertNotIn(audit["rows"][0]["physical_id"], {e["physical_id"] for e in entries})
+        cheapest = min(entries, key=lambda e: e["base_standard_lifecycle_pv_usd"])
+        self.assertEqual(cheapest["span_m"], 20)
+        self.assertEqual(cheapest["support_scheme"], "shared")
+        for entry in entries:
+            row = next(r for r in audit["rows"] if r["audit_row_id"] == entry["audit_row_id"])
+            self.assertTrue(row["quotation_screen_passed"])
+            self.assertEqual(entry["physical_id"], row["physical_id"])
+            self.assertEqual(entry["high_train_kg"], audit["load_cases"]["high"]["loaded_train_kg"])
+            self.assertEqual(entry["standard_placements"], 2*(17460//row["span_m"])*row["actions"]["segments"])
+            self.assertEqual(entry["full_route_placements"], row["placements"])
+            self.assertEqual(entry["hook_demand_t"], row["actions"]["chart_demand_t"])
+            self.assertEqual(entry["lift_radius_m"], 12)
+            self.assertAlmostEqual(entry["residual_partial_bay_m"], .91)
+            self.assertEqual(entry["standard_end_bent_chainage_m"], 17460)
+            self.assertAlmostEqual(entry["full_route_end_bent_chainage_m"], 17460.91)
+            self.assertEqual(entry["residual_supports"], 1 if row["shared_pier"] else 2)
+            self.assertEqual(entry["base_standard_installed_usd"], row["standard_only_cost_cases"]["base"]["installed_usd"])
+            self.assertLess(entry["base_standard_installed_usd"], row["priced_cases"]["base"]["installed_usd"])
+            self.assertAlmostEqual(entry["base_pv_gap_vs_cheapest_standard_usd"],
+                                   entry["base_standard_lifecycle_pv_usd"]-cheapest["base_standard_lifecycle_pv_usd"])
+            ceiling = (cheapest["base_standard_lifecycle_pv_usd"]
+                       - entry["base_standard_lifecycle_pv_usd"]
+                       + entry["base_standard_haul_erection_usd"])/entry["standard_placements"]
+            self.assertAlmostEqual(entry["base_haul_erection_ceiling_per_placement_usd"], ceiling)
+            self.assertIn("remaining route beyond common standard-stock lot", entry["unpriced_or_unverified_scope"])
+            self.assertIn("site-specific nonstandard end closure", entry["unpriced_or_unverified_scope"])
+        site = family.evaluate_high_load(route_km="17.46091", lift_radius_m=18)
+        self.assertEqual(len(site["high_load_quotation_shortlist"]["entries"]), len(entries))
+        self.assertTrue(all(e["base_standard_lifecycle_pv_usd"] is None
+                            for e in site["high_load_quotation_shortlist"]["entries"]))
+        self.assertTrue(all(e["base_standard_haul_erection_usd"] is None
+                            and e["base_haul_erection_ceiling_per_placement_usd"] is None
+                            for e in site["high_load_quotation_shortlist"]["entries"]))
+        closure = family.evaluate_high_load(route_km="12.003", selected_family="U", selected_span_m=20)
+        quote = closure["high_load_quotation_shortlist"]["entries"][0]
+        self.assertEqual(quote["common_standard_km"], 12)
+        self.assertEqual(quote["residual_partial_bay_m"], 3)
+        self.assertIn("site-specific nonstandard end closure", quote["unpriced_or_unverified_scope"])
+        row = next(r for r in closure["rows"] if r["audit_row_id"] == quote["audit_row_id"])
+        self.assertEqual(quote["base_standard_installed_usd"], row["standard_only_cost_cases"]["base"]["installed_usd"])
+        self.assertLess(quote["base_standard_installed_usd"], row["priced_cases"]["base"]["installed_usd"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -34,7 +34,7 @@ class AuditFeederCostTests(unittest.TestCase):
         prices, rows = self.inputs("radial30")
         comparable, _ = self.inputs("paired6", pv=1200)
         original = deepcopy(prices)
-        screens = {"failed_operating_layouts": [], "unmatched_duties": []}
+        screens = {"failed_equipment_layouts": [], "failed_operating_layouts": [], "unmatched_duties": []}
         result = costing.evaluate(prices, rows, comparison=comparable, operating_comparison=screens)
         self.assertEqual(prices, original)
         self.assertEqual(result["quantities"]["dc_source_groups"], 30)
@@ -48,6 +48,9 @@ class AuditFeederCostTests(unittest.TestCase):
         self.assertAlmostEqual(base["parts_usd"]["railway_side_supply_sites_and_plant"], 30 * 10_000_000)
         self.assertAlmostEqual(base["rail_side_annual_upkeep_usd"], base["known_rail_side_direct_subtotal_usd"] * .01)
         self.assertEqual(result["priced_cash_break_even"]["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"], 200)
+        rejected = costing.priced_cash_gap(prices, comparable, dict(screens, failed_equipment_layouts=["radial30"]))
+        self.assertTrue(rejected["achieved_service_comparable"])
+        self.assertIsNone(rejected["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"])
         incomparable = dict(screens, failed_operating_layouts=["radial30"], unmatched_duties=["combined"])
         gap = costing.priced_cash_gap(prices, comparable, incomparable)
         self.assertTrue(gap["ordinary_service_comparable"])
@@ -73,11 +76,21 @@ class AuditFeederCostTests(unittest.TestCase):
 
     def test_equal_normal_day_can_hide_an_unavailable_route_or_different_outage_load(self):
         layouts = ("paired6", "radial30")
-        decisions = {layout: dict(assemblies={"feeder": layout}, operating_screen="passed") for layout in layouts}
+        decisions = {layout: dict(assemblies={"feeder": layout}, operating_screen="passed",
+                                  equipment_return_screen="unknown", complete_equipment_duty_screen="unknown")
+                     for layout in layouts}
         rows = [dict(topology=layout, candidate_id=layout, condition=duty, completed=72, booked=72,
                      numerical_valid=True, served=7000) for duty in motion_power.CONDITIONS for layout in layouts]
         high = [row.copy() for row in rows if row["condition"] == "combined"]
         self.assertEqual(costing.compare_operating_duties(rows, high, decisions)["unmatched_duties"], [])
+        decisions["paired6"]["complete_equipment_duty_screen"] = "fail"
+        thermal_failed = costing.compare_operating_duties(rows, high, decisions)
+        self.assertEqual(thermal_failed["failed_equipment_layouts"], ["paired6"])
+        radial, _ = self.inputs("radial30")
+        paired, _ = self.inputs("paired6", pv=1200)
+        self.assertIsNone(costing.priced_cash_gap(radial, paired, thermal_failed)
+                          ["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"])
+        decisions["paired6"]["complete_equipment_duty_screen"] = "unknown"
         for row in rows:
             if row["condition"] == "combined" and row["topology"] == "radial30":
                 row.update(completed=0, served=0)
@@ -85,7 +98,7 @@ class AuditFeederCostTests(unittest.TestCase):
         decisions["radial30"]["operating_screen"] = "failed"
         actual = costing.compare_operating_duties(rows, high, decisions)
         self.assertEqual(actual, dict(unmatched_duties=["combined", "high_mass_combined"],
-                                      failed_operating_layouts=["radial30"]))
+                                      failed_operating_layouts=["radial30"], failed_equipment_layouts=[]))
         with self.assertRaisesRegex(ValueError, "both physical layouts"):
             costing.compare_operating_duties(rows, high[:1], decisions)
         high[0]["candidate_id"] = "old feeder revision"

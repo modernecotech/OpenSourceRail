@@ -88,4 +88,4 @@ To enter a contractor return, copy the exact `physical_id` and `placements` from
 
 Run the matching scope with `--lift-radius-m 18 --erection-offer offer.json`. Repeat `--erection-offer` for other bidders. Matched returns replace the planning haul and erection rates. For each rate case the model compares those offers including traffic closures at their respective production rates. Materials, the price per closure and other civil work retain their estimating basis. Each return has a digest and match status in JSON.
 
-Evaluation `50142166951cd7899cc66fb9e6783fc95a6014eb31472182ba2283319992ee74`. All cases remain open for independent engineering review.
+Evaluation `f8172e94762df09d85b7d426a8ae2359b304bfaee79ab55777c6ebbb07c408e0`. All cases remain open for independent engineering review.

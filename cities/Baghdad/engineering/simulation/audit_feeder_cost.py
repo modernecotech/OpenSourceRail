@@ -47,6 +47,8 @@ def compare_operating_duties(days, high_mass, assessments):
                 or a["booked"] != b["booked"] or not isclose(a["served"], b["served"], abs_tol=.01)):
             unmatched.append(label)
     return dict(unmatched_duties=unmatched,
+                failed_equipment_layouts=sorted(name for name, assessment in assessments.items()
+                                                if assessment["complete_equipment_duty_screen"] == "fail"),
                 failed_operating_layouts=sorted(name for name, assessment in assessments.items()
                                                if assessment["operating_screen"] != "passed"))
 
@@ -68,14 +70,16 @@ def priced_cash_gap(production, comparison, operating_comparison):
                                   for key in ("constant_currency", "discount_rate_real", "service_start_year")))
     comparable = (None if operating_comparison is None else ordinary
                   and not operating_comparison["unmatched_duties"] and not operating_comparison["failed_operating_layouts"])
+    equipment_conflict = bool(operating_comparison and operating_comparison["failed_equipment_layouts"])
+    parity_applicable = comparable and matched_cost_scope and not equipment_conflict
     own_pv, other_pv = (finite(row["cash"]["profiles"]["base"]["priced_30y_pv_usd"], "priced PV")
                         for row in (production, comparison))
     return dict(other_layout=second["feeder"]["name"], base_priced_pv_difference_usd=own_pv - other_pv,
                 ordinary_service_comparable=ordinary, operating_comparison=operating_comparison,
                 achieved_service_comparable=comparable, matched_pricing_boundary=matched_cost_scope,
-                extra_unpriced_pv_own_minus_other_for_equal_totals_usd=other_pv - own_pv if comparable and matched_cost_scope else None,
+                extra_unpriced_pv_own_minus_other_for_equal_totals_usd=other_pv - own_pv if parity_applicable else None,
                 scope=("Arithmetic on priced cash with matched modelled service and priced periods. Site and equipment evidence remain open."
-                       if comparable and matched_cost_scope else "Partial cash amounts only. Establish equivalent service across the declared duties and match the pricing boundary before calculating parity."))
+                       if parity_applicable else "Partial cash amounts only. Resolve failed equipment ratings, establish equivalent service across duties and match pricing periods and scope before calculating parity."))
 
 
 def evaluate(production, duties, *, comparison=None, operating_comparison=None):

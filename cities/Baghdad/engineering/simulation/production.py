@@ -414,6 +414,12 @@ def capital_and_operations(estimate, q, reference, inputs):
     return rows, sorted(dropped)
 
 
+OPENING_DESIGN_RATE = 0.08
+OPENING_TEST_RATE = 0.025
+OPENING_CONTINGENCY_RATE = 0.20
+DISCOUNT_RATE_REAL = 0.04
+
+
 def cash_profile(rows, service_year, paid_journeys, fare, stress):
     """Cash timing uses relative years and 30 full years of operations."""
     import random
@@ -424,7 +430,7 @@ def cash_profile(rows, service_year, paid_journeys, fare, stress):
 
     def annual(case):
         direct = sums("opening-direct", case)
-        capital = direct * (1 + 0.08 + 0.025) * 1.2
+        capital = direct * (1 + OPENING_DESIGN_RATE + OPENING_TEST_RATE) * (1 + OPENING_CONTINGENCY_RATE)
         opex = sums("first-full-year-operations", case)
         receipts = paid_journeys * fare
         renewals = {
@@ -443,7 +449,8 @@ def cash_profile(rows, service_year, paid_journeys, fare, stress):
                 "fare_usd": receipts if operating_year >= 1 else 0,
                 "renewals_usd": renewals.get(operating_year, 0),
             })
-        pv = sum((r["capital_usd"] + r["opex_usd"] + r["renewals_usd"]) / 1.04 ** r["year"] for r in out)
+        pv = sum((r["capital_usd"] + r["opex_usd"] + r["renewals_usd"])
+                 / (1 + DISCOUNT_RATE_REAL) ** r["year"] for r in out)
         return {"capital_usd": capital, "annual_opex_usd": opex, "annual_fares_usd": receipts,
                 "annual_operating_support_usd": opex - receipts,
                 "annual_subsidy_per_paid_journey_usd": (opex - receipts) / paid_journeys if paid_journeys else None,
@@ -466,12 +473,12 @@ def cash_profile(rows, service_year, paid_journeys, fare, stress):
         for row, other in zip(base["cash_by_year"], tail["cash_by_year"]):
             capital = row["capital_usd"] + amount * (other["capital_usd"] - row["capital_usd"])
             future = sum(row[k] + amount * (other[k] - row[k]) for k in ("opex_usd", "renewals_usd"))
-            shifted += capital / 1.04 ** row["year"] + future / 1.04 ** (row["year"] + slip)
+            shifted += capital / (1 + DISCOUNT_RATE_REAL) ** row["year"] + future / (1 + DISCOUNT_RATE_REAL) ** (row["year"] + slip)
         pv_samples.append(shifted)
         exposure = base["annual_opex_usd"] + amount * (tail["annual_opex_usd"] - base["annual_opex_usd"])
         support_samples.append(exposure - base["annual_fares_usd"] * (1 - shared * 0.2 + demand_residual))
     return {
-        "constant_currency": "2026 USD", "discount_rate_real": 0.04, "service_start_year": service_year,
+        "constant_currency": "2026 USD", "discount_rate_real": DISCOUNT_RATE_REAL, "service_start_year": service_year,
         "profiles": profiles, "sensitivity": {
             "seed": 80409, "samples": 256, "quantiles": [0.1, 0.5, 0.9],
             "priced_30y_pv_usd": quantiles(pv_samples, n=10)[::4],

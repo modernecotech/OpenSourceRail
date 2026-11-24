@@ -1,6 +1,7 @@
 """Workshop, purchasing and partial owner cash for one Airport audit configuration."""
 
 from copy import deepcopy
+from datetime import date
 from hashlib import sha256
 import json
 from math import ceil, isclose, isfinite
@@ -107,8 +108,188 @@ def bind_current_rate_units(rows, length):
             row["renewal_events"] = 1
 
 
+def opening_year(completion_workday):
+    """Use 250 production workdays per year and the owner's year-four opening assumption."""
+    return max(4, 1 + ceil(completion_workday / 250))
+
+
+def factory_disruption_phasing(rows, results, nominal_cash, paid_journeys, fare):
+    """Rephase the same priced lots for each factory completion, without pricing disruption claims."""
+    nominal_year = nominal_cash["service_start_year"]
+    phasing = {}
+    for name, result in results.items():
+        finish = result["last_completion_workday"]
+        year = opening_year(finish)
+        profiles = (None if year == nominal_year else
+                    production.cash_profile(rows, year, paid_journeys, fare, False)["profiles"])
+        timing_delta = {
+            case: 0 if profiles is None else
+            profiles[case]["priced_30y_pv_usd"] - nominal_cash["profiles"][case]["priced_30y_pv_usd"]
+            for case in production.PRICES
+        }
+        phasing[name] = dict(
+            last_completion_workday=finish, material_delay_workdays=result["material_delay_workdays"],
+            availability_factor=result["availability_factor"],
+            first_article_scrap_gate=result["first_article_scrap_gate"],
+            civil_beam_position_occupied_workdays=result["occupied_resource_workdays"].get("civil-beam-position", 0),
+            civil_beam_position_peak=result["peak_resource_occupation"].get("civil-beam-position", 0),
+            mould_dwell_hours=result["mould_dwell_hours"], mould_positions=result["mould_positions"],
+            service_start_year=year, opening_slip_years=year - nominal_year,
+            cash_profile_reference="cash.profiles" if profiles is None else None,
+            price_profiles=profiles,
+            priced_30y_pv_timing_delta_usd=timing_delta,
+            **(nominal_cash["profiles"] if profiles is None else profiles)["base"],
+            disruption_increment_usd=None,
+        )
+    return phasing
+
+
+def cash_basis(price):
+    """Seal one scoped nominal ledger before adding optional owner risk returns."""
+    cash = price["cash"]
+    return _id(dict(pricing_context=price["inputs"],
+                    scoped_lots=[dict(scope_id=row["scope_id"], usd=row["usd"],
+                                      offer_id=row.get("offer_id")) for row in price["pricings"]],
+                    accepted_offer_ids=[row["submission_id"] for row in
+                                        price.get("buyer_referenced_offers",
+                                                  price.get("localisation", {}).get("buyer_referenced_offers", []))],
+                    nominal_profiles_id=_id(cash["profiles"]),
+                    discount_rate_real=cash["discount_rate_real"],
+                    service_start_year=cash["service_start_year"]))
+
+
+def owner_risk_sensitivity(risk_return, *, candidate_id, alignment_id, feeder_physical_id, civil_row_id, cash_basis_id,
+                           unpriced_rows, nominal_cash, priced_rows, paid_journeys):
+    """Keep an uncalibrated, scope-substituted purchaser stress separate from nominal cash."""
+    if risk_return is None:
+        return dict(status="no itemised return", calibration="none", lines=[], revised_profiles=None,
+                    cash_basis_id=cash_basis_id)
+    required = {"candidate_id", "alignment_id", "feeder_physical_id", "civil_row_id",
+                "cash_basis_id", "currency", "basis_date", "calibration", "lines"}
+    if not isinstance(risk_return, dict) or risk_return.keys() != required:
+        raise ValueError("Owner risk return needs the complete candidate-bound header")
+    if (risk_return["candidate_id"] != candidate_id or risk_return["alignment_id"] != alignment_id
+            or risk_return["feeder_physical_id"] != feeder_physical_id
+            or risk_return["civil_row_id"] != civil_row_id
+            or risk_return["cash_basis_id"] != cash_basis_id
+            or risk_return["currency"] != SCOPE_UNIT or risk_return["calibration"] != "uncalibrated"):
+        raise ValueError("Owner risk return must match candidate, alignment, feeder, civil row, exact cash basis and constant 2026 USD")
+    try:
+        date.fromisoformat(risk_return["basis_date"])
+    except (TypeError, ValueError):
+        raise ValueError("Owner risk return needs an ISO basis date") from None
+    if not isinstance(risk_return["lines"], list) or not risk_return["lines"]:
+        raise ValueError("Owner risk return needs itemised exposure lines")
+    open_lots = {row["lot_id"]: row for row in unpriced_rows}
+    seen_ids, substituted = set(), set()
+    direct = {case: sum(row["usd"][case] for row in priced_rows if row["group"] == "opening-direct")
+              for case in production.PRICES}
+    # The historical 20% contingency applies after design and test factors.
+    contingency_pool = {case: nominal_cash["profiles"][case]["capital_usd"] * production.OPENING_CONTINGENCY_RATE
+                        / (1 + production.OPENING_CONTINGENCY_RATE) for case in production.PRICES}
+    allocated = dict.fromkeys(production.PRICES, 0)
+    lines = []
+    for line in risk_return["lines"]:
+        fields = {"risk_id", "description", "evidence_basis", "cost_exclusions", "period",
+                  "operating_year", "range_usd", "cash_treatment", "substitutes_unpriced_lot_id",
+                  "historical_contingency_overlap_usd", "overlap_basis"}
+        if not isinstance(line, dict) or line.keys() != fields:
+            raise ValueError("Owner risk line needs complete scope, timing and overlap fields")
+        if (any(not isinstance(line[key], str) or not line[key].strip()
+                for key in ("risk_id", "description", "evidence_basis"))
+                or not isinstance(line["cost_exclusions"], list) or not line["cost_exclusions"]
+                or any(not isinstance(item, str) or not item.strip() for item in line["cost_exclusions"])):
+            raise ValueError("Owner risk line needs an identified evidence basis and cost exclusions")
+        if line["risk_id"] in seen_ids:
+            raise ValueError("Owner risk IDs must be unique")
+        seen_ids.add(line["risk_id"])
+        period = line["period"]
+        if period not in {"opening-direct", "first-full-year-operations", "renewal-schedule"}:
+            raise ValueError("Owner risk period is outside the purchaser cash ledger")
+        operating_year = line["operating_year"]
+        if (period == "renewal-schedule" and (type(operating_year) is not int or not 1 <= operating_year <= 30)
+                or period != "renewal-schedule" and operating_year is not None):
+            raise ValueError("Owner risk renewal needs an operating year within the 30-year ledger")
+        values = line["range_usd"]
+        if not isinstance(values, dict) or set(values) != set(production.PRICES):
+            raise ValueError("Owner risk needs low, base and high cost bounds")
+        costs = {case: quantity(values[case], "owner risk cost") for case in production.PRICES}
+        if not costs["low"] <= costs["base"] <= costs["high"]:
+            raise ValueError("Owner risk cost bounds must be ordered")
+        treatment = line["cash_treatment"]
+        if treatment not in {"exposure-only", "substitute-unpriced-lot"}:
+            raise ValueError("Owner risk cash treatment is unknown")
+        replacement = line["substitutes_unpriced_lot_id"]
+        overlap = line["historical_contingency_overlap_usd"]
+        if treatment == "exposure-only":
+            if replacement is not None or overlap is not None or line["overlap_basis"] is not None:
+                raise ValueError("Exposure-only risks cannot change the priced cash ledger")
+            net = None
+        else:
+            if replacement not in open_lots or replacement in substituted or open_lots[replacement]["group"] != period:
+                raise ValueError("Risk cash substitution needs one matching unpriced lot")
+            if (not isinstance(overlap, dict) or set(overlap) != set(production.PRICES)
+                    or not isinstance(line["overlap_basis"], str) or not line["overlap_basis"].strip()):
+                raise ValueError("Risk cash substitution needs documented historical contingency overlap")
+            overlap = {case: quantity(overlap[case], "historical contingency overlap") for case in production.PRICES}
+            if any(overlap[case] > costs[case] for case in production.PRICES):
+                raise ValueError("Historical contingency overlap exceeds gross exposure")
+            if period != "opening-direct" and any(overlap.values()):
+                raise ValueError("Opening contingency cannot offset annual or renewal exposure")
+            for case in production.PRICES:
+                allocated[case] += overlap[case]
+                if allocated[case] > contingency_pool[case]:
+                    raise ValueError("Risk allocations exceed the existing historical contingency")
+            net = {case: costs[case] - overlap[case] for case in production.PRICES}
+            substituted.add(replacement)
+        lines.append({**deepcopy(line), "net_increment_usd": net})
+
+    revised = None
+    if substituted:
+        revised = {}
+        start = nominal_cash["service_start_year"]
+        for case in production.PRICES:
+            profile = deepcopy(nominal_cash["profiles"][case])
+            additions = []
+            for year_row in profile["cash_by_year"]:
+                year = year_row["year"]
+                increment = {"capital_usd": 0, "opex_usd": 0, "renewals_usd": 0}
+                for line in lines:
+                    net = line["net_increment_usd"]
+                    if net is None:
+                        continue
+                    target = (start - 1 if line["period"] == "opening-direct" else
+                              start + line["operating_year"] - 1 if line["period"] == "renewal-schedule" else None)
+                    if line["period"] == "first-full-year-operations" and year >= start:
+                        increment["opex_usd"] += net[case]
+                    elif year == target:
+                        field = "capital_usd" if line["period"] == "opening-direct" else "renewals_usd"
+                        increment[field] += net[case]
+                additions.append({"year": year, **increment})
+                for field, value in increment.items():
+                    year_row[field] += value
+            profile["capital_usd"] += sum(row["capital_usd"] for row in additions)
+            profile["annual_opex_usd"] += sum(line["net_increment_usd"][case] for line in lines
+                                              if line["net_increment_usd"] is not None and line["period"] == "first-full-year-operations")
+            profile["annual_operating_support_usd"] = profile["annual_opex_usd"] - profile["annual_fares_usd"]
+            profile["annual_subsidy_per_paid_journey_usd"] = (
+                profile["annual_operating_support_usd"] / paid_journeys if paid_journeys else None)
+            profile["priced_30y_pv_usd"] = sum(
+                (row["capital_usd"] + row["opex_usd"] + row["renewals_usd"])
+                / (1 + nominal_cash["discount_rate_real"]) ** row["year"]
+                for row in profile["cash_by_year"])
+            profile["risk_increment_cash_by_year"] = additions
+            revised[case] = profile
+    return dict(status="illustrative itemised owner exposure", calibration="uncalibrated; no observed local loss data",
+                return_id=_id(risk_return), cash_basis_id=cash_basis_id,
+                basis_date=risk_return["basis_date"], currency=SCOPE_UNIT,
+                lines=lines, historical_contingency_pool_usd=contingency_pool,
+                historical_contingency_allocated_usd=allocated, substituted_unpriced_lots=sorted(substituted),
+                revised_profiles=revised, nominal_profile_reference="cash.profiles")
+
+
 def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None, topology=None,
-             demand=None, supplier_offers=()):
+             demand=None, supplier_offers=(), risk_return=None):
     """Join explicitly bound audit records and keep each missing scope visible."""
     airport_alignment.validate(alignment)
     require_identity(vehicle, "evaluation_id", car.identity, "Vehicle audit")
@@ -203,12 +384,26 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
     span = civil_row["span_m"]
     schedule_q = dict(q, beams=placements)
     results = {}
-    for name, (_, _, reject) in production.SCENARIOS.items():
-        result = deepcopy(production.cached_simulation(json.dumps(routes), tuple(sorted(schedule_q.items())),
-                                                       name, span, scenario["material"]))
+    # The longer curing trial uses the same moulds, crews, and production order.
+    # Only their occupied time changes, and the alternative cycle remains unverified.
+    slow_routes = deepcopy(routes)
+    slow_mould = next(r for r in slow_routes["resources"] if r["id"] == "civil-beam-position")
+    slow_mould["load"][0]["hours"] = 48
+    for name in (*production.SCENARIOS, "48h-mould-dwell"):
+        slow_cycle = name == "48h-mould-dwell"
+        plan = slow_routes if slow_cycle else routes
+        scenario_name = "normal" if slow_cycle else name
+        reject = production.SCENARIOS[scenario_name][2]
+        result = deepcopy(production.cached_simulation(json.dumps(plan), tuple(sorted(schedule_q.items())),
+                                                       scenario_name, span, scenario["material"]))
         result["completed_units"]["installed_standard_placements"] = result["completed_units"].pop("installed_beams", 0)
         result["stock"] = production.cam_stock(cam, cars, ref["cars"], reject)
         result["stock"]["basis"] = "Archived steel-pattern analogue" if scenario["material"] != "steel" else "Archived steel pattern"
+        mould = next(r for r in plan["resources"] if r["id"] == "civil-beam-position")
+        result["mould_dwell_hours"] = mould["load"][0]["hours"]
+        result["mould_positions"] = mould["required_units"]
+        if slow_cycle:
+            result["process_assumption_status"] = "unverified 48-hour dwell sensitivity on unchanged mould count"
         results[name] = result
 
     # The historical engine supplies comparable residual price rates. Remove
@@ -287,17 +482,22 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
                        ("installed_standard_placements", "pier_positions_assumed", "proved_sets"))
         if expected != actual:
             raise ArithmeticError(f"Schedule failed to reconcile standard placements, piers and fleet in {name}")
-    starts = {name: max(4, 1 + ceil(result["last_completion_workday"]/250)) for name, result in results.items()}
+    starts = {name: opening_year(result["last_completion_workday"]) for name, result in results.items()}
     cash = production.cash_profile(known, starts["normal"], paid, fare, len(set(starts.values())) > 1)
     cash["scope"] = dict(status="priced subtotal", unpriced_lots_by_group=unpriced_by_group,
                          owner_exposures=RISKS)
     cash["sensitivity"]["status"] = "Illustrative input stress percentiles"
     cash["sensitivity"]["confidence_interval"] = None
-    cash["disruption_phasing"] = {
-        name: dict(service_start_year=year,
-                   **production.cash_profile(known, year, paid, fare, False)["profiles"]["base"],
-                   disruption_increment_usd=None) for name, year in starts.items()
-    }
+    cash["disruption_phasing"] = factory_disruption_phasing(known, results, cash, paid, fare)
+    cash_basis_id = cash_basis(dict(inputs=context, pricings=rows, cash=cash,
+                                   buyer_referenced_offers=offers))
+    cash["owner_risk_sensitivity"] = owner_risk_sensitivity(
+        risk_return, candidate_id=vehicle["candidate_id"], alignment_id=alignment["alignment_id"],
+        feeder_physical_id=_id(dict(alignment_id=alignment["alignment_id"], feeder=traction)),
+        civil_row_id=civil_row["audit_row_id"], cash_basis_id=cash_basis_id,
+        unpriced_rows=[row for row in rows if row["usd"] is None] +
+        [{**feeder_renewal, "group": "renewal-schedule"}], nominal_cash=cash, priced_rows=known,
+        paid_journeys=paid)
     local = production.localisation(shop, q, ref)
     local["displaced_parent_lot_addresses"] = sorted(omitted)
     local["buyer_referenced_offers"] = offers

@@ -48,6 +48,8 @@ class VehicleAuditTest(unittest.TestCase):
         self.assertAlmostEqual(high_traction["min_driven_static_load_fraction"], .95705766)
         self.assertGreater(high_traction["layouts"][-2]["margin_kn"], 0)
         self.assertLess(high_traction["layouts"][-1]["margin_kn"], 0)
+        self.assertEqual(high_traction["declared_physical_layout"], high_traction["layouts"][-2:])
+        self.assertFalse(high_traction["declared_static_adhesion_necessary_screen_passes"])
 
     def test_route_grade_changes_duty_and_train_length_remains_centred(self):
         route = corridor.evaluate({"cars": 3, "grade_pct": -1})
@@ -63,6 +65,20 @@ class VehicleAuditTest(unittest.TestCase):
             audit.evaluate(cars=6, route=route)
         with self.assertRaisesRegex(ValueError, "different candidates"):
             audit.evaluate(cars=3, route=route, grade_pct=2)
+
+    def test_hot_end_of_life_battery_capacity_is_a_sensitivity_not_a_rating(self):
+        battery = self.result["battery"]
+        hot = battery["hot_end_of_life"]
+        self.assertIsNone(hot["capacity_factor_measured"])
+        self.assertIsNone(hot["deliverable_energy_kwh"])
+        self.assertAlmostEqual(hot["minimum_capacity_factor_required"], 50.4 / 41.6)
+        self.assertFalse(hot["energy_possible_with_capacity_factor_at_most_one"])
+        for row in hot["sensitivity"]:
+            factor = row["assumed_hot_capacity_factor"]
+            self.assertAlmostEqual(row["usable_kwh"], 41.6 * factor)
+            self.assertAlmostEqual(row["energy_margin_kwh"], 41.6 * factor - 50.4)
+            self.assertAlmostEqual(row["minimum_nominal_kwh"], 50.4 / (.8 * .8 * factor))
+        self.assertIsNone(battery["required_hot_discharge_peak_kw"])
 
     def test_claim_checks_identity_and_attachment_only(self):
         form = deepcopy(self.result["return_template"])

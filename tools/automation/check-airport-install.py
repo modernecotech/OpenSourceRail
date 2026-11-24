@@ -232,9 +232,14 @@ def verify(revision, output, revision_kind="commit"):
             ])
     erp_estimate = "build/corrected-erp-estimate.json"
     has_corrected_erp = (source / "cities/Baghdad/engineering/simulation/audit_erpnext.py").is_file()
+    erp_packets = [(AUDIT_PACKET_EXPORT, erp_estimate, "paired6")]
+    radial_packet = str(Path(AUDIT).parent / "audited-enquiry-radial30.zip")
+    if (source / radial_packet).is_file():
+        erp_packets.append((radial_packet, "build/radial-erp-estimate.json", "radial30"))
     if has_corrected_erp:
-        commands.append([".venv/bin/python", "-m", "cities.Baghdad.engineering.simulation.audit_erpnext",
-                         AUDIT_PACKET_EXPORT, "2026-11-24", erp_estimate])
+        for packet_path, estimate_path, _layout in erp_packets:
+            commands.append([".venv/bin/python", "-m", "cities.Baghdad.engineering.simulation.audit_erpnext",
+                             packet_path, "2026-11-24", estimate_path])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
             try:
@@ -286,14 +291,20 @@ def verify(revision, output, revision_kind="commit"):
         receipt["audit"]["enquiry"] = verify_audit_packet(source, audit_packet_check, receipt["audit"], parent)
     if has_corrected_erp:
         from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_contract import estimate_payload
-        estimate = estimate_payload(json.loads((source / erp_estimate).read_bytes()))
-        with ZipFile(source / AUDIT_PACKET_EXPORT) as package:
-            issued = json.loads(package.read("manifest.json"))
-            lots = json.loads(package.read("pricing/production.json"))["pricings"]
-        if (estimate["issue_id"] != issued["issue_id"] or estimate["candidate_id"] != issued["candidate_id"]
-                or {r["design_id"] for r in estimate["lots"]} != {r["scope_id"] for r in lots if r["quantity"]}):
-            raise ValueError("Clean ERPNext estimate differs from the issued procurement lots")
-        receipt["audit"]["enquiry"]["erp_estimate_id"] = estimate["evaluation_id"]
+        editions = {}
+        for packet_path, estimate_path, layout in erp_packets:
+            estimate = estimate_payload(json.loads((source / estimate_path).read_bytes()))
+            with ZipFile(source / packet_path) as package:
+                issued = json.loads(package.read("manifest.json"))
+                lots = json.loads(package.read("pricing/production.json"))["pricings"]
+            if (estimate["issue_id"] != issued["issue_id"] or estimate["candidate_id"] != issued["candidate_id"]
+                    or issued["layout"] != layout or issued["evaluation_id"] != receipt["audit"]["evaluation_id"]
+                    or {r["design_id"] for r in estimate["lots"]} != {r["scope_id"] for r in lots if r["quantity"]}):
+                raise ValueError(f"Clean ERPNext estimate differs from the {layout} procurement issue")
+            editions[layout] = dict(issue_id=issued["issue_id"], candidate_id=issued["candidate_id"],
+                                    erp_estimate_id=estimate["evaluation_id"], priced_and_unpriced_lots=len(estimate["lots"]))
+        receipt["audit"]["enquiry"]["erp_estimate_id"] = editions["paired6"]["erp_estimate_id"]
+        receipt["audit"]["erp_editions"] = editions
     (directory / "verification.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(directory / "verification.json")
 

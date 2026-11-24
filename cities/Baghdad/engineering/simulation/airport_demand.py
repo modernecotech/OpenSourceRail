@@ -3,7 +3,7 @@
 from datetime import date
 from hashlib import sha256
 import json
-from math import ceil, exp, isfinite
+from math import ceil, exp, isclose, isfinite
 from pathlib import Path
 import tomllib
 
@@ -49,6 +49,19 @@ def booked_minutes(stops, cfg, dwell_s):
             times[a][b] = (outward[b]["arrival_s"] - outward[a]["departure_s"]) / 60
             times[b][a] = (inward[a]["arrival_s"] - inward[b]["departure_s"]) / 60
     return times
+
+
+def speed_offer(alignment, cfg):
+    """Conservative whole-route cap from both posted directions, with proportional run allowance."""
+    vehicle = cfg["vehicle"]
+    parent_cap = vehicle["speed_cap_kmh"]
+    profile = alignment.get("speed_profile")
+    posted = min((speed for direction in profile["limits_kmh"].values() for speed in direction),
+                 default=parent_cap) if profile is not None else parent_cap
+    cap = min(parent_cap, posted)
+    return dict(speed_cap_kmh=cap, commercial_speed_kmh=vehicle["commercial_speed_kmh"] * cap / parent_cap,
+                parent_speed_cap_kmh=parent_cap, posted_minimum_kmh=posted,
+                method="whole-route minimum of both posted directions; commercial speed scaled by cap ratio")
 
 
 def generalised_minutes(ride, headway, walk, transfer, transfer_share, transfer_penalty_min,
@@ -182,17 +195,21 @@ def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="cen
     raw = SYSTEM.read_bytes()
     cfg = tomllib.loads(raw.decode())
     vehicle = cfg["vehicle"]
+    speed = speed_offer(alignment, cfg)
+    booked_cfg = {**cfg, "vehicle": {**vehicle, "speed_cap_kmh": speed["speed_cap_kmh"],
+                                     "commercial_speed_kmh": speed["commercial_speed_kmh"]}}
     service_plan = cfg["service_plan"]
     service = dict(headway_min=headway_min, dwell_s=dwell_s, formation_cars=formation_cars,
                    start_hour_local=service_plan["start_hour_local"],
                    service_hours_per_day=vehicle["service_hours_per_day"],
                    terminal_layover_min_each_end=service_plan["terminal_layover_min_each_end"],
-                   commercial_speed_kmh=vehicle["commercial_speed_kmh"], speed_cap_kmh=vehicle["speed_cap_kmh"],
+                   commercial_speed_kmh=speed["commercial_speed_kmh"], speed_cap_kmh=speed["speed_cap_kmh"],
+                   speed_offer=speed,
                    fare_usd=fare_usd, walk_case=walk, transfer_friction=transfer)
     if transfer:
         service.update(transfer_share_at_interchange_od=transfer_share, transfer_fixed_penalty_min=transfer_penalty_min,
                        connecting_headway_min=connecting_headway_min)
-    current_ride = booked_minutes(alignment["chainages_km"], cfg, dwell_s)
+    current_ride = booked_minutes(alignment["chainages_km"], booked_cfg, dwell_s)
     reference_ride = booked_minutes(historical["chainages_km"], cfg, alignment["dwell_s"])
     current = generalised_minutes(current_ride, headway_min, walk, transfer, transfer_share,
                                   transfer_penalty_min, connecting_headway_min, fare_usd, value_of_time_usd_h)
@@ -255,6 +272,19 @@ def validate(record, alignment):
                 {key: value for key, value in record.items() if key != "evaluation_id"}
             )):
         raise ValueError("Airport demand ID, alignment or stop order does not match")
+    matrices = record["hourly_od"]
+    if (len(matrices) != 24 or any(len(matrix) != 6 or any(len(row) != 6 for row in matrix)
+                                   for matrix in matrices)
+            or any(type(value) not in (int, float) or not isfinite(value) or value < 0
+                   for matrix in matrices for row in matrix for value in row)
+            or any(matrix[i][i] != 0 for matrix in matrices for i in range(6))
+            or not isclose(annual_total(matrices), record["annual_all_journeys"], rel_tol=1e-12)
+            or not 0 <= record["annual_paid_journeys"] <= record["annual_all_journeys"]):
+        raise ValueError("Airport demand hourly OD does not conserve its annual count")
+    summary = summarize(matrices, alignment["chainages_km"], record["headway_min"])
+    if any(not isclose(record[key], value, rel_tol=1e-12, abs_tol=1e-9)
+           for key, value in summary.items()):
+        raise ValueError("Airport demand loading and passenger-km differ from the hourly OD")
     if record["mode"] == "observed":
         source = record.get("observed_source")
         context = record["service_offer"].get("observation_context")

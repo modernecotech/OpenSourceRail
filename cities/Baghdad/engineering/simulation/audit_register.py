@@ -1,6 +1,7 @@
 """Decision inputs, their authority, and the checks that govern the use of each result."""
 from collections import defaultdict
 
+from engineering.design_search import requirement_policy
 from engineering.outline.baghdad_system import _id
 
 
@@ -16,7 +17,12 @@ MOTION_UNITS = {
     "regen_efficiency":"ratio", "resistance_m_s2":"m/s²", "speed_m_s":"m/s", "step_s":"s",
     "tare_train_kg":"kg", "topology":"configuration", "traction_w":"W",
 }
-OPTIONAL_MOTION_UNITS = {"grade_basis": "scenario", "grade_profile": "chainage m, elevation m above datum, segment grade %"}
+OPTIONAL_MOTION_UNITS = {
+    "grade_basis": "scenario", "grade_profile": "chainage m, elevation m above datum, segment grade %",
+    "speed_profile": "directional limits in km/h by surveyed segment",
+    "speed_offer": "route and parent limits in km/h and booking method",
+    "speed_cap_kmh": "km/h", "commercial_speed_kmh": "km/h",
+}
 DEMAND_UNITS = {
     "response_per_min":"1/min", "waiting_time_weight":"ratio", "walking_time_weight":"ratio",
     "fare_usd":"USD", "value_of_time_usd_h":"USD/h", "walk_case":"scenario",
@@ -42,16 +48,23 @@ def group_duties(days):
 
 def register(route, demand, vehicle, civil, climate, configs, delivery, equipment=None):
     rows = []
-    def add(key, value, unit, basis, source, revision, affects, verification, bounds=None):
+    def add(key, value, unit, basis, source, revision, affects, verification, bounds=None, *, category=None):
         status = ("unknown" if value is None or basis == "open" else
                   "supplier declaration" if "offer input" in basis else
-                  "observation submission" if basis == "observed" else "planning or calculated")
+                  "observation submission" if basis == "observed" else "buyer estimate" if basis == "buyer risk estimate" else "planning or calculated")
         origin = ("unknown" if status == "unknown" else "supplied" if status == "supplier declaration"
                   else "submitted observation" if status == "observation submission" else "estimated")
         rows.append(dict(id=key, value=value, unit=unit, basis=basis, evidence_maturity=status, evidence_type=origin,
-                         policy_class="numerical_validity_domain" if key.endswith(".step_s") else "revisable_assumption",
+                         policy_class=category or ("numerical_validity_domain" if key.endswith(".step_s") else "revisable_assumption"),
                          source=source, revision=revision,
                          assessed_range=bounds, affects=affects, validation=verification))
+    policy = requirement_policy.catalogue()
+    for key, criterion in policy["criteria"].items():
+        if criterion["category"] == "mandatory_obligation":
+            add("requirement." + key, criterion["limit"], criterion["unit"], "mandatory functional obligation",
+                requirement_policy.PRODUCER, policy["policy_id"], criterion["affected_interfaces"],
+                f"Bind {criterion['observable']} to an approved candidate-specific limit or procedure and independent evidence.",
+                category=criterion["category"])
     route_stages = ["service", "motion", "power", "civil", "workshop", "cash"]
     add("route.ordered_chainages", route["chainages_km"], "km", route["geometry_mode"], "airport_alignment.evaluate",
         route["alignment_id"], route_stages, "Survey centreline, entrances, grades, obstacles and land")
@@ -59,6 +72,10 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     add("route.vertical_profile", profile, "chainage m, elevation m above datum, segment grade %",
         "observed" if profile else "open", "airport_alignment.evaluate",
         route["alignment_id"], route_stages, "Survey longitudinal profile against the same horizontal trace")
+    posted = route.get("speed_profile")
+    add("route.posted_speed_limits", posted, "directional km/h by surveyed segment",
+        "observed" if posted else "open", "airport_alignment.posted_speed_profile", route["record_id"],
+        ["demand", "timetable", "motion", "power"], "Confirm permissible speeds, curve geometry and operating restrictions")
     if route["survey_source"]:
         add("route.survey_submission", route["survey_source"], "document and geometry references",
             "observed", "airport_alignment.survey_input", route["alignment_id"], route_stages,
@@ -84,6 +101,13 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     for key in ("nominal_kwh", "usable_at_80pct_retention_kwh", "demand_with_reserve_kwh"):
         add("battery."+key, vehicle["battery"][key], "kWh", "planning duty", "vehicle_audit.battery_case",
             vehicle["evaluation_id"], ["essential power", "equipment", "quote"], "Test hot aged pack at the required load")
+    hot = vehicle["battery"]["hot_end_of_life"]
+    add("battery.hot_capacity_factors", [row["assumed_hot_capacity_factor"] for row in hot["sensitivity"]],
+        "fraction of retained capacity", "thermal sensitivity", "vehicle_audit.battery_case", vehicle["duty_id"],
+        ["battery size", "equipment", "evacuation"], "Obtain hot end-of-life output and discharge power under the actual load")
+    for key in ("available_stop_m", "overlap_m"):
+        add("brake." + key, vehicle["inputs"][key], "m", "stopping distance hypothesis", "vehicle_audit.evaluate",
+            vehicle["duty_id"], ["braking", "train protection", "service"], "Review the protected stopping distance and reserved overlap for the alignment")
     for key in ("wheel_adhesions","brake_delays_s","net_decelerations_m_s2","published_comparator_kn"):
         unit = dict(wheel_adhesions="ratio",brake_delays_s="s",net_decelerations_m_s2="m/s²",published_comparator_kn="kN/module")[key]
         add("brake."+key, vehicle["inputs"][key], unit, "trial duty", "vehicle_audit.evaluate", vehicle["duty_id"],
@@ -140,6 +164,14 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
         add("cash."+layout+".owner_risks", model["owner_risks"], "unpriced exposures", "open",
             "audit_production.RISKS", model["evaluation_id"], ["purchaser cash", "financing"],
             "Return scope, currency, date, quantities, rates, terms and risk owners")
+        risk = cash["owner_risk_sensitivity"]
+        add("cash." + layout + ".risk_cash_basis_id", risk["cash_basis_id"], "exact ledger identity",
+            "calculated ledger binding", "audit_production.cash_basis", model["evaluation_id"],
+            ["purchaser cash", "risk return"], "Recompute after demand, motion, offers or nominal cash change")
+        for line in risk["lines"]:
+            add(f"risk.{layout}.{line['risk_id']}", line, "scope, treatment and constant 2026 USD per stated period",
+                "buyer risk estimate", line["evidence_basis"], risk["return_id"],
+                ["risk sensitivity", "purchaser cash"], "Review exclusions, pricing period, underlying lot and contingency overlap")
     for ident, item in (equipment or {}).get("layouts", {}).items():
         feeder = item["feeder_physical"]["feeder"]
         units = {"sites":"m", "droop":"Ω", "outward":"Ω/km","return_path":"Ω/km", "paths":"count", "trunk_factor":"ratio"}
@@ -147,6 +179,32 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
             add("feeder."+feeder["name"]+"."+key, feeder[key], unit, "feeder layout and circuit assumption",
                 "motion_power.make_feeder and motion_dc.Feeder", ident, ["DC voltage", "working day", "protection", "price"],
                 "Survey site locations, measure circuit resistance, and match equipment and utility duty.")
+        for key, margin in item["current_rating_screen"].items():
+            add("rating." + feeder["name"] + "." + key, margin["capacity"], "kA",
+                "equipment offer input", "audit_power_return.assess", item["supplier_return_id"] or ident,
+                ["equipment duty", "protection", "procurement"], "Check the declared rating against the complete simulated duty and witnessed equipment tests")
+        for component, thermal in item["declared_thermal"].items():
+            scope = "thermal." + feeder["name"] + "." + component
+            parameters = thermal["parameters"] or {}
+            units = {"hot_resistance_ohm": "Ω", "thermal_resistance_k_per_w": "K/W",
+                     "heat_capacity_j_per_k": "J/K", "ambient_c": "°C",
+                     "initial_temperature_c": "°C", "maximum_temperature_c": "°C"}
+            for field, unit in units.items():
+                add(scope + "." + field, parameters.get(field), unit, "equipment offer input",
+                    "audit_power_return.assess", item["supplier_return_id"] or ident,
+                    ["equipment duty", "cooling", "procurement"],
+                    "Verify installed component RC properties and temperature limits at the declared ambient")
+            for duty in thermal["duties"]:
+                add(scope + "." + duty["evaluation_id"] + ".current_i2t_upper_a2s",
+                    duty["current_i2t_upper_a2s"], "A²s", "calculated duty bound",
+                    "audit_power_return._thermal_screen", duty["evaluation_id"],
+                    ["equipment duty", "cooling", "protection"],
+                    "Replay the exact current trace and measure installed component temperature")
+                add(scope + "." + duty["evaluation_id"] + ".maximum_temperature_upper_c",
+                    duty["maximum_temperature_upper_c"], "°C", "calculated duty bound",
+                    "audit_power_return._thermal_screen", duty["evaluation_id"],
+                    ["equipment duty", "cooling", "procurement"],
+                    "Confirm a conservative bound with measured thermal response under repeated service")
     # Preserve the maturity of the operands when giving a derived value its
     # own unit and identity. A calculated value can still depend on estimates.
     calculated = {"route.ordered_chainages", "battery.usable_at_80pct_retention_kwh", "battery.demand_with_reserve_kwh"}
@@ -155,10 +213,52 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
         key = row["id"]
         if row["value"] is not None and (key in calculated or key.startswith("fit.")
                 or key.startswith("motion.") and key.rsplit(".",1)[-1] in derived_motion
+                or key.startswith("thermal.") and key.rsplit(".", 1)[-1] in
+                    {"current_i2t_upper_a2s", "maximum_temperature_upper_c"}
                 or key.startswith("production.") or key.endswith(".required_cooling_kw_thermal")
                 or key.endswith(".total_dwell_with_one_assisted_transfer_s")):
             row["evidence_type"] = "calculated"
+    if len({row["id"] for row in rows}) != len(rows):
+        raise ValueError("Multiple values for the same scoped audit parameter")
+    for row in rows:
+        row["value_type"] = type(row["value"]).__name__ if row["value"] is not None else "unknown"
     return rows
+
+
+def vehicle_screens(vehicle):
+    battery = vehicle["battery"]
+    brake_trials = [row["cases"]["none_wheel_brakes/1_rail_modules_out"]
+                    for row in vehicle["braking"]["high"] if row["coast_delay_s"] == 2]
+    brake = max(brake_trials, key=lambda row: row["stop_at_comparator"]["stop_distance_m"] or float("inf"))
+    margin = brake["comparator_stop_room_margin_m"]
+    return dict(
+        aged_battery_energy="unknown" if battery["hot_end_of_life"]["energy_possible_with_capacity_factor_at_most_one"] else "fail",
+        traction_static_adhesion="pass" if all(case["declared_static_adhesion_necessary_screen_passes"]
+                                              for case in [*vehicle["traction"].values(), vehicle["high_load_adverse_traction"]]) else "fail",
+        protected_stop_distance=("fail" if brake["stop_at_comparator"]["stop_distance_m"] is None else
+                                 "unknown" if margin is None else "pass" if margin >= 0 else "fail"),
+        installed_vehicle_interfaces="pass" if vehicle["fit"]["installed_door_and_suspension_verified"] else "unknown",
+        protected_stop_margin_m=margin, brake_comparator_kn_per_module=brake["proposed_comparator_per_module_kn"],
+        brake_trial_stop_m=brake["stop_at_comparator"]["stop_distance_m"],
+    )
+
+
+def functional_screen(assessment):
+    """Combine the evaluated necessary conditions, preserving the distinction from physical approval."""
+    vehicle = assessment["vehicle_screens"]
+    checks = {
+        "timetable": assessment["operating_screen"],
+        "returned equipment": assessment["complete_equipment_duty_screen"],
+        "aged battery": vehicle["aged_battery_energy"],
+        "traction adhesion": vehicle["traction_static_adhesion"],
+        "protected stopping distance": vehicle["protected_stop_distance"],
+        "installed door and suspension clearances": vehicle["installed_vehicle_interfaces"],
+    }
+    failed = [name for name, status in checks.items() if status in ("fail", "failed")]
+    unknown = [name for name, status in checks.items() if status == "unknown"]
+    status = ("failed" if failed else "unverified" if unknown or not assessment["numerical_valid"]
+              else "passed evaluated conditions")
+    return dict(status=status, failed=failed, unknown=unknown)
 
 
 def completion_tests(route, demand, girder, delivery):
@@ -181,11 +281,11 @@ def completion_tests(route, demand, girder, delivery):
         dict(task="A03", work="Passenger service", result=service_result,
              outstanding="Authenticate local counts and travel times and calibrate demand response."),
         dict(task="A04", work="Braking", result="Stopping distance, failed-module force and heat bounds",
-             outstanding="Measure braking and wheel-slide duty and verify protected stopping distance and recovery."),
+             outstanding="Match the Airport train protection curve to measured brake response and wheel-slide duty. Survey the stopping limit and overlap, then verify recovery."),
         dict(task="A05", work="Vehicle and interfaces", result="Loaded mass, axle, battery and fit screens",
              outstanding="Weigh the equipped article and measure loaded door, suspension, removal and hot aged battery duty."),
         dict(task="A06", work="Electrical supply", result="Matched ordinary, hot and outage working days",
-             outstanding="Review equipment duty, protection clearing, return circuits, safe isolation and utility terms."),
+             outstanding="Confirm source and branch thermal response, protection clearing, return circuits, safe isolation and utility terms."),
         dict(task="A07", work="Civil and erection", result="Priced stock and erection comparison" if girder
              else "No priced comparison for the requested civil scope",
              outstanding="Obtain ground and access data, signed lift chart, verified prestress, fatigue, shear, bearing and staged erection designs."),
@@ -232,7 +332,7 @@ def disposition(route, demand, vehicle, days, girder, delivery):
                         feeder=conditions[0]["candidate_id"], civil=girder["physical_id"] if girder else None)
         if len({r["candidate_id"] for r in conditions}) != 1:
             raise ValueError("Supply duties returned different physical candidates")
-        layout_results[layout] = dict(physical_candidate_id=_id(physical), assemblies=physical,
+        layout_results[layout] = dict(vehicle_screens=vehicle_screens(vehicle), physical_candidate_id=_id(physical), assemblies=physical,
             numerical_valid=all(r["numerical_valid"] for r in conditions),
             operating_screen="failed" if any(failures.values()) else "passed",
             failures_by_duty=failures, supplier_and_utility_checks=approval,
@@ -296,13 +396,18 @@ def markdown(data):
         volts = f"{d['minimum_v']:.1f} V" if d["minimum_v"] is not None else "Open"
         delay = f"{d['maximum_delay_s']:.0f} s" if d["maximum_delay_s"] is not None else "No arrivals"
         lines.append(f"| {d['topology']} | {d['completed']} / {d['booked']} | {volts} | {d['peak_site_ka']:.2f} | {delay} |")
-    lines += ["", "Use `--supply-return` with an exact feeder ID to check supplied peak and RMS current ratings, protection settings and fault duties. The assessment keeps missing equipment and site data open. [Return format and worked checks](test_audit_power_return.py)"]
+    lines += ["", "Use `--supply-return` with the feeder ID to check peak and RMS current ratings, protection settings and fault duties. A returned resistance, heat capacity and thermal resistance allow a conservative temperature bound for each working day. A bound above the limit calls for a more detailed thermal trace or direct measurement. [Return format and worked checks](test_audit_power_return.py)"]
+    for name, candidate in data["decision"]["candidates"].items():
+        gates = candidate["functional_screen"]
+        failed = ", ".join(gates["failed"]) or "none"
+        unknown = ", ".join(gates["unknown"]) or "none"
+        lines += ["", f"{name} · **{gates['status']}** across the evaluated conditions. Checks reporting failure include {failed}. Checks awaiting evidence include {unknown}."]
     b = vehicle["battery"]
     margin = b["end_of_life_margin_kwh"]
     battery_outcome = "shortfall" if margin < 0 else "surplus" if margin > 0 else "margin"
     lines += ["", "## What changes the vehicle and civil enquiry?", "",
               f"The central and high loaded trains weigh {vehicle['mass_cases']['central']['loaded_train_kg']/1000:.2f} and {vehicle['mass_cases']['high']['loaded_train_kg']/1000:.2f} tonnes under the component allowances. "
-              f"The aged essential battery has a {abs(margin):.1f} kWh {battery_outcome}. The same duty requires {b['minimum_nominal_kwh_at_80pct_retention']:.2f} kWh nominal before additional hot-weather losses. "
+              f"The aged essential battery shows a {battery_outcome} of {abs(margin):.1f} kWh. The same duty requires {b['minimum_nominal_kwh_at_80pct_retention']:.2f} kWh nominal before additional hot-weather losses. "
               "Select brake hardware after measuring response, force and repeat duty against the protected stopping distance. "
               "[Vehicle and braking results](vehicle-audit-guide.md)", ""]
     conservative_brake = next(r for r in vehicle["braking"]["high"]
@@ -310,6 +415,16 @@ def markdown(data):
     brake = conservative_brake["cases"]["none_wheel_brakes/1_rail_modules_out"]
     lines += [f"With wheel braking unavailable and one independent module out, the high-load 2% downhill trial needs {brake['required_force_per_available_module_kn']:.2f} kN per remaining module for a 0.6 m/s² net stop. "
               f"The {brake['proposed_comparator_per_module_kn']:.1f} kN comparison gives a {brake['stop_at_comparator']['stop_distance_m']:.1f} m stopping distance including the two-second delay. Confirm force, heat and protected distance for the fitted arrangement.", ""]
+    adverse = vehicle["high_load_adverse_traction"]
+    failed_drive = min(adverse["declared_physical_layout"], key=lambda row: row["margin_kn"])
+    lines += [f"At high load on the {adverse['upgrade_pct']:g}% upgrade, the declared drive with its heaviest powered axle unavailable has {failed_drive['margin_kn']:+.2f} kN of static adhesion margin at the assumed coefficient {adverse['adhesion_assumed']:g}. This compares the available wheel force with the acceleration and margin requested for that duty.", ""]
+    screens = vehicle_screens(vehicle)
+    hot = b["hot_end_of_life"]["sensitivity"]
+    lines += ["At the assessed hot capacity factors, the required nominal battery capacities are " +
+              ", ".join(f"{row['minimum_nominal_kwh']:.2f} kWh at {row['assumed_hot_capacity_factor']:.0%}" for row in hot) +
+              ". A supplier must establish the applicable capacity factor and peak discharge rating.", ""]
+    if screens["protected_stop_margin_m"] is not None:
+        lines += [f"The high-load failed-wheel-brake and one-module-out trial has {screens['protected_stop_margin_m']:.1f} m of stopping margin after reserving the requested overlap. The distance screen is **{screens['protected_stop_distance']}**.", ""]
     leader = data["civil"]["quotation_leaders"]["base"]
     if leader:
         residual = leader["closure_bay_m"]
@@ -318,6 +433,19 @@ def markdown(data):
         lines += [f"The lowest base-rate 30-year civil quotation case is **{leader['label']}**. Its whole-stock allowance is ${leader['installed_usd']/1e6:,.2f}m. "
                   + closure + "Verify the local transport plan, ground, load chart, bearing and prestress designs. "
                   "[Civil comparison](../mechanical/civil/SPAN-FAMILIES.md)", ""]
+    shortlist = data["civil"]["high_load_quotation_shortlist"]
+    if shortlist["entries"]:
+        lines += [f"The following high-load options cover {shortlist['common_standard_km']:.3f} km of identical double-track scope. The remaining {shortlist['residual_route_m']:.2f} m and site works need their own price. The haul and erection ceiling is the most each placement could cost to match the lowest modelled base 30-year present value, holding other rates fixed.", "",
+                  "| Standard girder and piers | Placements | Hook demand at working radius | Base 30-year PV | Haul and erection ceiling per placement |",
+                  "| --- | ---: | ---: | ---: | ---: |"]
+        for row in shortlist["entries"]:
+            ceiling = row["base_haul_erection_ceiling_per_placement_usd"]
+            value = row["base_standard_lifecycle_pv_usd"]
+            pv = "Unpriced" if value is None else f"${value/1e6:,.2f}m"
+            handling = ("Unpriced" if ceiling is None else "Cannot match even with free haul and erection"
+                        if ceiling < 0 else f"${ceiling:,.0f}")
+            lines.append(f"| {row['label']} | {row['standard_placements']:,} | {row['hook_demand_t']:.2f} t at {row['lift_radius_m']:g} m | {pv} | {handling} |")
+        lines.append("")
     if data.get("feeder_price_sensitivities"):
         lines += ["## What could the revised supply cost?", "",
                   "These figures apply dated planning rates to the actual site count, track length, assumed switching and simulated current duty. Each figure covers rail-side plant and conductors. The buyer cash accounts below await scope-matched offers.", "",
@@ -344,6 +472,12 @@ def markdown(data):
     for layout, model in data["production"].items():
         timings = ", ".join(f"{name} {case['last_completion_workday']:.0f}" for name,case in model["scenarios"].items())
         lines += ["", f"The {layout} workshop completes in the following modelled workdays. {timings}. The owner cash model retains unpriced delay exposures."]
+        for name, case in model["cash"]["disruption_phasing"].items():
+            if case["opening_slip_years"]:
+                lines.append(f"Under {name.replace('_', ' ')}, service starts in project year {case['service_start_year']}. Moving the priced flows changes their base present value by ${case['priced_30y_pv_timing_delta_usd']['base']/1e6:+,.2f}m. Delay claims and financing effects remain open.")
+        risk = model["cash"]["owner_risk_sensitivity"]
+        if risk["lines"]:
+            lines.append(f"The buyer supplied {len(risk['lines'])} itemised risk exposures. See the owner ledger for cash substitutions, contingency overlaps and exclusions.")
     if data["production"]:
         for layout, model in data["production"].items():
             unpriced = model["cash"]["scope"]["unpriced_lots_by_group"]
@@ -363,7 +497,7 @@ def markdown(data):
         lines.append(f"| {task['task']} · {task['work']} | {task['result']} | {task['outstanding']} |")
     lines += ["",
               "## Reproduce or revise the comparison", "",
-              "[Download the published paired6 budgetary enquiry](audited-enquiry.zip) · "
+              "[Six-site paired enquiry](audited-enquiry.zip) · [30-site radial enquiry](audited-enquiry-radial30.zip) · "
               "[Independent SUMO and grid-side reproduction for the published 15- and 30-minute cases](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)", "",
               f"The audit records {len(data['assumptions'])} scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. "
               "[Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)", "",
@@ -411,6 +545,11 @@ def review_page(data):
                      if route["survey_source"] else
                      f"The {route['route_km']:.2f} km horizontal study includes {route['review_connector_km']:.2f} km "
                      "of proposed connections. Um Al Tubol needs a confirmed site.")
+    decisions = table(("Supply layout", "Timetabled operation", "Complete equipment duty", "Aged battery energy", "Protected stopping distance", "Failed conditions"),
+                      [(name, row["operating_screen"], row["complete_equipment_duty_screen"],
+                        row["vehicle_screens"]["aged_battery_energy"], row["vehicle_screens"]["protected_stop_distance"],
+                        ", ".join(row["functional_screen"]["failed"]) or "See outstanding evidence")
+                       for name, row in data["decision"]["candidates"].items()])
     tests = table(("Work", "Digital result", "Evidence and review still needed"),
                   [(f"{t['task']} · {t['work']}", t["result"], t["outstanding"])
                    for t in data["decision"]["completion_tests"]])
@@ -423,11 +562,12 @@ def review_page(data):
 Investment and fabrication decisions remain open.</p>
 <h2>Passenger service</h2><p>{DEMAND_BASIS[data["demand"]["mode"]]} Completed trips and maximum arrival delay come from a full operating-day replay with terminal and depot movements.</p>{services}
 <h2>Traction power</h2><p>Compare live collector voltages alongside delivered trips. Source-current and protection returns are still required.</p>{"".join(day_rows)}
-<h2>Construction and purchaser cash</h2><p>{civil_result} {scope}</p>{procurement}
+<h2>Construction and purchaser cash</h2><p>{civil_result} {scope} Compare lifting duties and price ceilings in the <a href="AUDIT-RESULTS.md">high-load civil shortlist</a>.</p>{procurement}
 <h3>Traction supply price sensitivity</h3><p>The estimates below use planning rates for the revised layout. The purchaser ledger awaits scope-matched equipment, utility and renewal offers.</p>{rail_side}
+<h2>Which checks govern the decision?</h2>{decisions}<p>Stopping uses the high-load two-second delay trial with wheel braking unavailable and one rail module out. Supply ratings require a return for the exact circuit. Both layouts use the same service battery.</p>
 <h2>Evidence still needed</h2>{tests}
 <h2>Reproduce the decision</h2><p><code>./osr design railway audit --check</code> reproduces this view.
 Use <code>--json</code> for the input register, identities and purchaser ledger.</p>
-<p><a href="audited-enquiry.zip" download>Published paired6 budgetary enquiry</a> · <a href="ASSUMPTION-AUDIT.md">Delivery plan</a> · <a href="AUDIT-RESULTS.md">Engineering results</a> · <a href="audit-verification.json">Independent comparison</a></p>
+<p><a href="audited-enquiry.zip" download>Six-site paired enquiry</a> · <a href="audited-enquiry-radial30.zip" download>30-site radial enquiry</a> · <a href="ASSUMPTION-AUDIT.md">Delivery plan</a> · <a href="AUDIT-RESULTS.md">Engineering results</a> · <a href="audit-verification.json">Independent comparison</a></p>
 </main></body></html>
 """
