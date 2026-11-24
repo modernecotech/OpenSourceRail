@@ -43,7 +43,7 @@ Indexed Markdown files: **243**.
 
 | File | Title |
 |---|---|
-| [`AGENTS.md`](../AGENTS.md) | OpenSourceRail engineering work |
+| [`AGENTS.md`](../AGENTS.md) | OpenSourceRail operating rules |
 | [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail changelog |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
 | [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |

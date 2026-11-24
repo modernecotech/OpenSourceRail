@@ -36,6 +36,9 @@ safety case for a real railway.
 
 ## Development Workflow
 
+Read the [project operating rules](AGENTS.md) before changing assumptions,
+engineering outputs, software behaviour or publication files.
+
 Use the root [one-command setup](README.md). Installation
 behaviour is documented there only so it cannot drift between guides.
 

@@ -1,12 +1,59 @@
-# OpenSourceRail engineering work
+# OpenSourceRail operating rules
 
-Develop affordable whole-life transport and high normal passenger throughput,
-using simple station-powered wheel-supported vehicles as the v0.6 reference.
-Preserve local manufacture, repairability and open design knowledge. Explicit
-research configurations may challenge propulsion distribution, onboard traction,
-formation, bogies, speed, station spacing and civil sections. Mandatory safety,
-passenger protection and accessibility are never financial trade-offs. Research
-alternatives do not silently change the selected reference or inherit its results.
+Use this file for project-wide engineering, software, evidence and publication
+rules. [Governance](GOVERNANCE.md) assigns decisions and release responsibilities.
+[Contributing](CONTRIBUTING.md) explains issue and review practice.
+[Design decisions](docs/DESIGN-DECISIONS.md) records current choices and why they can
+change. The [standards register](docs/certification/README.md) records applicable
+evidence and review ownership. Update values and decisions in their own sources.
+
+## Project principles
+
+- Optimise for safe, accessible, affordable whole-life transport and high normal
+  passenger throughput. Preserve local manufacture, repairability, vendor choice
+  and open engineering knowledge.
+- Treat safety, passenger protection and applicable accessibility as obligations
+  before comparing cost. Prefer simple, locally maintainable, elevated solutions
+  and catenary-free supply where feasible. Apply location-specific requirements
+  explicitly, such as zero tunnels for the Baghdad brief.
+- Let the corridor, demand and evidence determine train, supply, civil and
+  production choices. The v0.6 passive-wheel reference, synthetic corridor and
+  Baghdad studies serve different purposes. Each has its own inputs, results
+  and evidence. Keep comparative options and their original scope reproducible.
+
+## Standard sequence for a change
+
+1. **Define the decision.** Identify the user, candidate, intended use, affected
+   interfaces and sourced requirement. For a correction, capture a reproducible
+   example of the original problem before changing the model.
+2. **Check the inputs.** Validate geometry, units, identities, scope and simple
+   necessary bounds. Record missing survey data, estimates and open decisions at
+   their source before running dependent calculations.
+3. **Evaluate and propagate.** Change the authoritative input once. Rerun
+   dependent outputs and compare credible alternatives on equal service and cost
+   scope. Reuse results whose inputs and tools are unchanged.
+4. **Review against the original problem.** Exercise the case that exposed it and
+   a previously valid case. Retain failed or incomplete results and record their
+   causes, affected outputs and evidence needed. Independently confirm a proposed
+   engineering selection.
+5. **Publish a coherent revision.** Update affected readers and regenerate linked
+   records. Record the candidate and evaluation, commands, results, assumptions
+   and limits. Verify the published revision against the reviewed changes.
+
+## Requirements and assumptions
+
+- Record the source, date or revision, units, applicable candidate, range or
+  tolerance, downstream use and evidence maturity for a decision-driving input.
+  Keep requirements, project preferences, provisional estimates, supplier data
+  and physical measurements distinguishable.
+- Treat a trial value as a candidate input. Span, crane capacity, formation and
+  headway are examples to reassess. For a lift, use the load chart at the working
+  radius and configuration with the actual stock, rigging, clearance and ground
+  basis. Record what evidence could change the decision.
+- Keep digital calculation validity, functional feasibility, cost comparison,
+  production readiness and physical acceptance visible in reports and tools.
+  Rank eligible options on equal scope. Carry incomplete options forward for
+  research or quotation with their governing limits and outstanding evidence.
 
 ## Configuration discipline
 
@@ -29,13 +76,14 @@ alternatives do not silently change the selected reference or inherit its result
 - The repository development default is engineering/development-baseline.toml:
   six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
   two doors on one side. The 120-second/8,280 normal passengers/hour/direction
-  case is a named reference control, not a mandatory operating design. The retained-stop network proposal uses a 72 km/h launch cap.
+  case is a named reference control. The retained-stop network proposal uses a
+  72 km/h launch cap.
   Version 0.6 uses passive wheel bogies on conventional rails carried by concrete.
   The reference vehicle retains its passive aluminium secondary interface; this
   does not select an installed propulsion system. Architecture, powered length,
   acceleration, braking and headway must be selected per candidate against demand,
-  physical constraints and whole-life cost. Neither900m nor100m is a mandatory
-  installation. The reference vehicle has no onboard traction motors, traction
+  physical constraints and whole-life cost. Treat 900 m and 100 m powered
+  lengths as hypotheses. The reference vehicle has no onboard traction motors, traction
   batteries or permanent magnets; independently sized service batteries, braking and rescue remain.
   The former PM-assisted maglev is retained historical research. Development
   selection is not physical acceptance.
@@ -51,6 +99,17 @@ alternatives do not silently change the selected reference or inherit its result
   remove applicable crowd, evacuation or accidental-load verification. Different
   formations require their complete platform, civil, fleet and service effects.
 
+## Railway and delivery interfaces
+
+| Area | What to check and carry forward |
+|---|---|
+| Route and passenger service | Check ordered stops against mapped distances and identify survey and grade gaps. Verify a connected route, dwell, headways, junctions, turnbacks, depot moves and fleet reserve. Label observed demand, inferred demand and allowances. Price reserved guideway and unproven services explicitly. |
+| Vehicle, power and controls | Carry installed mass, unequal axle loads, clearance, normal and degraded stopping, traction duty, heat, auxiliary energy, protection and recovery into the corresponding simulations. Test loss of or stale feedback and the door, brake and traction handover. Keep simulation, supervision, business approval and movement authority distinct. |
+| Civil works and construction | Size each span and support family for its own load cases, ground, bearings, access and maintenance. Check temporary works, loaded transport, erection and traffic or night windows as well as passenger loading. Derive yard size and throughput from mould occupancy, release, buffer, handling, staffing and access. Price special bays, starter works, closure and fallback separately when they differ. |
+| CAD, CAM and factory | Match controlled drawings, installed or bounded mass, quantities, BOM, workholding, process route and inspection to the same revision. Reconcile material, tooling, machine capacity, labour, yield and rework. Establish the actual machine, controller, post, tooling and collision checks before releasing a production job. Keep training jobs and ERP drafts identifiable. |
+| Offers, lifecycle costs and cash | Ask suppliers for matched quantities, inclusions, currency and price date, lead times, exclusions, origin and maintenance. Replace an allowance once and identify labour, plant or tooling already priced elsewhere. Distinguish illustrative low/base/high ranges from calibrated probabilities. Propagate scope changes through installed cost, operations, renewals and phased cash. Declare any inherited schedules or allowances. |
+| Evidence and handover | Use the standards crosswalk and project-specific acceptance criteria to link requirements, hazards, models, tests, supplier evidence, decisions and responsible reviewers. Maintain part and asset identity from quotation through as-built records, inspection, repair and return to service. |
+
 ## Repository workflow and readers
 
 - Work in the existing OpenSourceRail repository on `main`. Keep city designs in
@@ -63,6 +122,13 @@ alternatives do not silently change the selected reference or inherit its result
   equipment, running the service and maintaining it. Lead with the design,
   quantities, costs, operating consequences and work still needed. Keep solver
   settings, commands and run records in the supporting engineering material.
+- Keep source data, generated results and historical archives distinct. Keep the
+  README, Workbench and release notes aligned with the current source. Point to
+  exact archived revisions for retained studies. Name the historical case when
+  reusing its chart, price or result.
+- Use existing modules, commands and dependency-aware publication paths where
+  they satisfy the work. Bound new calculations and storage, preserve useful logs
+  and leave unrelated city catalogues and historical packets outside routine rebuilds.
 
 ## Coordinated work
 
@@ -131,6 +197,19 @@ alternatives do not silently change the selected reference or inherit its result
 - Preserve unrelated user edits, including local editor settings. Commit and
   update main only within the user's authorized scope; never force-push around a
   conflicting update or publish an automatically accepted physical design.
+
+## Verification and release
+
+- Run the affected unit, integration and generator checks. For a changed current
+  source-bound publication, run `./osr build` and verify the resulting packet.
+  Check changed Markdown, links and the rendered reader where applicable.
+  `./osr book --check` checks the book. Use `./osr test` for the broader current
+  software, engineering and browser checks when verifying a release.
+- State the exact scope tested and the unresolved work. A digital platform release,
+  a budgetary enquiry, a controlled fabrication package and permission to operate
+  each require their own evidence. Use the existing release workflow and
+  [roadmap](docs/ROADMAP.md) for milestones. Confirm the published commit and
+  the affected assets after an authorised push.
 
 Current engineering: `docs/design-engine/current/README.md`; current adapters:
 `engineering/development_baseline/`. Historical evidence is pinned by
