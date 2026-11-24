@@ -98,6 +98,10 @@ In this study the longer standard span needs fewer placements and a higher hook 
 
 ### Build the viaduct from both ends
 
+[![Play the CAD animation of the Baghdad viaduct construction and launching gantry](docs/assets/assembly-animations/viaduct.webp)](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/viaduct.mp4)
+
+**[Watch the viaduct construction animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/viaduct.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
+
 The current Baghdad delivery plan uses **20 m U-girders on shared piers** for
 standard bays. Two terminal precast yards feed two inward-moving gantries on
 an open main line. Each yard has **16 moulds**, **24 released-beam positions**
@@ -142,6 +146,10 @@ For a team session, assign buyer, technician, fabricator, precast planner, elect
 The counted parts catalogue records stock, assembly and draft business data. The delivery compiler carries a selected revision into part occurrences, process routes, inspection holds and installation proposals. A shop can review which jobs belong in-house, which need a specialist supplier and what evidence the next workstation needs. The factory drafts and ERPNext handoffs show where reviewed item mappings and actual inspection records enter. [Vehicle parts catalogue](docs/design-engine/vehicle-parts/README.md) · [Pilot delivery compiler](engineering/pilot_delivery/README.md) · [ERPNext deployment and business records](deployment/erpnext/README.md)
 
 ### Produce car and bogie frames in flexible workcells
+
+[![Play the exploded CAD assembly of the Baghdad steel carbody and bogie frames](docs/assets/assembly-animations/train.webp)](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)
+
+**[Watch the train body fabrication and assembly animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
 
 Group the steel frame into cutting, keyed fit-up, welding, finishing and
 inspection work. A shared CNC cell and reusable jigs can feed multiple manual

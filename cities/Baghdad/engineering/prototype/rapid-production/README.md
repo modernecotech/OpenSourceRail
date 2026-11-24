@@ -6,6 +6,8 @@ A shared CNC service and datum-controlled modular fixtures are the first rapid-p
 
 [Editable workcell OBJ](workcell-envelopes.obj) · [DXF dimensions and zoning](workcell-plan.dxf) · [Volume, cost and schedule results](comparison.md) · [Source hashes, rates and resource counts](comparison.json)
 
+[Exploded assembly film and its geometry sources](../../../../../docs/assets/assembly-animations/GUIDE.md)
+
 ## The work that moves faster
 
 | Operation | Equipment and labour for a 36-car shared CNC order | Evidence a supplier can return |

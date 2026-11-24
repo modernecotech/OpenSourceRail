@@ -2,6 +2,8 @@
 
 [Two terminal precast yards and inward gantries](two-fronts.png) · [View along and across the deck](launch-section.png) · [3D concept mesh](rail-fed-launch.obj) · [2D DXF](rail-fed-launch.dxf)
 
+[Construction film and its geometry sources](../../../../../../docs/assets/assembly-animations/GUIDE.md)
+
 The [dimensioned yard plan](terminal-yard.png) and [editable DXF](terminal-yard.dxf)
 use the same metre-based footprint, zones, mould cells and released beam positions.
 
