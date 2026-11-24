@@ -8,10 +8,10 @@ One `Nos` at USD 1 represents a synthetic software kit; it does not establish
 purchased stock, manufacturing yield, a supplier quote or complete installed BOM.
 
 ```bash
-python3 tools/automation/v06-platform-native.py preflight
-python3 tools/automation/v06-platform-native.py run --output build/v06-platform-local
-python3 tools/automation/v06-platform-native.py verify --output build/v06-platform-local/evidence
-python3 -m pytest -q tests/test_v06_platform_native.py
+tools/automation/osr-python tools/automation/v06-platform-native.py preflight
+tools/automation/osr-python tools/automation/v06-platform-native.py run --output build/v06-platform-local
+tools/automation/osr-python tools/automation/v06-platform-native.py verify --output build/v06-platform-local/evidence
+tools/automation/osr-python -m pytest -q tests/test_v06_platform_native.py
 ```
 
 `preflight` and `verify` start no services. `run` requires Docker Compose and all
@@ -68,12 +68,16 @@ build budget is 90 minutes; the local runner's individual service/fixture waits
 are bounded. A cached-image local run should be allowed 45 minutes and at least
 6 GiB available RAM; actual elapsed time and image IDs are retained per execution.
 
-Historical v0.4 acceptance remains at
-[`205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e`](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/.github/workflows/integrated-stack.yml).
-The later maglev native runner and its source-bound receipts remain separate.
-This current campaign neither relabels their candidates nor inherits their
-native result. No completed calculation or submitted business document supplies
-physical acceptance evidence.
+Historical v0.4 acceptance used the [integrated-stack workflow](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/.github/workflows/integrated-stack.yml).
+The [last retained example-city guide](https://github.com/modernecotech/OpenSourceRail/blob/a0389044828f661fe74ff314aed7fbe26748638a/deployment/example-city/README.md)
+records its transactional Samawah and Mosul Workbench and retired
+`./osr example-city legacy` command. The archived
+[coordinated recovery guide](https://github.com/modernecotech/OpenSourceRail/blob/a0389044828f661fe74ff314aed7fbe26748638a/docs/operating/platform-recovery.md)
+describes restoring business data and services together into isolated volumes.
+The current v0.6 campaign exercises an ERP interruption, gateway restart and
+delivery of the same queued event. Whole-site cold restore remains outside its
+verified scope. The historical results retain their original candidate identities
+and source revisions.
 
 A local cached-image execution on 6 November 2026 completed the covered chain
 in 284.834 seconds before teardown, with 21 native document readbacks. Separate

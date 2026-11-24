@@ -85,6 +85,8 @@ def category(name):
     if name in {'docs/releases/v0.6.0/README.md', 'docs/releases/v0.6.1/README.md',
                 'docs/releases/v0.7.0/README.md', 'docs/releases/v0.7.1/README.md', 'docs/releases/v0.7.2/README.md'}:
         return 'versioned-release-guide'
+    if name == 'docs/certification/README.md':
+        return 'current-standards-and-evidence-guide'
     if name == 'docs/engineering-models/README.md':
         return 'source-bound-engineering-model-gallery'
     if name in {'engineering/development_baseline/README.md','engineering/station_rail/README.md'}:

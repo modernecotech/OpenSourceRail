@@ -1,0 +1,238 @@
+{
+  "controls": {
+    "ACCESS-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/controls/STATION-BENCH.md": "5a16e03f3814994604b77c7a462e4897bc764c59a9341975b8b1b81023a44116",
+        "cities/Baghdad/engineering/prototype/infrastructure/PLATFORM-SWEEP.md": "65ed8166cd7fb4bc016a744a10d5c9abed32252476e1eb272d8b3fde033ef3fa",
+        "cities/Baghdad/engineering/simulation/vehicle-audit-guide.md": "18369174c4a94445ea8fd981c88bcf7f7a4dc41a9b058be547babb8a1dd89bcb"
+      },
+      "gap": "Apply local accessibility requirements. Test loaded movements, obstacle response and egress on fitted equipment and the surveyed platform.",
+      "match": "Platform sweeps and the fitted-train review expose nominal clearances and items awaiting evidence. Boarding permissions are exercised by the station bench.",
+      "maturity": "digital study",
+      "objective": "Review door permissives, movement clearances and accessibility across the complete train-platform interface.",
+      "owner": "Vehicle and station integrators",
+      "risk": "Passengers can be trapped, encounter an excessive boarding gap or be exposed to movement.",
+      "scope": "Baghdad fitted-vehicle and prototype platform interface studies",
+      "standards": [
+        "EN 14752:2025",
+        "IEC 62267:2009"
+      ],
+      "subject": "Boarding and door interfaces"
+    },
+    "ASSET-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/simulation/audit_feeder_cost.py": "c44e17a88f83437d9cc9434caa2ba6f5416c527f77baba6a5e82bdfec46c62fc",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/field_operations.py": "2b7861c8dacf17d083b1c74ae5fee36a5c68aa9d18faa025947fb88b602ea1e7",
+        "docs/operator-review/screens/README.md": "b159446960020554578e736486fcff262d03cce0f65c629afb98e04f94bbf5d1"
+      },
+      "gap": "Agree asset-management objectives, owner responsibilities, maintenance intervals and as-installed information. Demonstrate the process on operator records.",
+      "match": "The pilot demonstrates serial history. The corrected cost study identifies renewal scope and the timing of owner costs.",
+      "maturity": "process and sample records",
+      "objective": "Keep the installed serial, maintenance history and lifecycle obligations accessible to the operator.",
+      "owner": "Operator asset manager",
+      "risk": "An asset loses its identity or its required inspection, replacement or renewal funding.",
+      "scope": "ERPNext maintenance pilot and revised Baghdad Airport cost study",
+      "standards": [
+        "ISO 55001:2024"
+      ],
+      "subject": "Asset history and renewal"
+    },
+    "BIM-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "docs/operator-review/twins/baghdad.ifc": "a647e2406febde027a7a18f42f6068349ce72c740f9a56f5fa81714e5c58ea28",
+        "docs/operator-review/twins/core.ifc": "65d69278e7ce77dcdea08be51991dffbd037d00f9ab2b10e45b47acd720cf5f4",
+        "docs/operator-review/twins/model-register.json": "53992c161f5e91eb9bffeb84f129a37c1df73c0de02d0241f86ad9232bebe8b9"
+      },
+      "gap": "Set information requirements and validation rules. Verify the required IFC edition, exchange view and as-built handover with the recipient.",
+      "match": "The twin register identifies candidates, occurrence counts and export hashes. The showcased IFC4 exports are an exchange example within the ISO 16739 standards family.",
+      "maturity": "digital model",
+      "objective": "Exchange a model with identifiable occurrences, source revisions and a declared information scope.",
+      "owner": "Project information manager",
+      "risk": "The buyer or maintainer imports the wrong model revision or misreads its quantities.",
+      "scope": "Operator review IFC4 model examples, each on its registered candidate",
+      "standards": [
+        "ISO 19650-1:2018",
+        "ISO 16739-1:2024"
+      ],
+      "subject": "Information handover and IFC exchange"
+    },
+    "CIV-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md": "8e6b7587c8ca26a3f3a16b21671e1a16a3abe949d1fcac4f5f9544fedd4423ac",
+        "cities/Baghdad/engineering/mechanical/civil/family_comparison.py": "8df7dee270b47595cf6c365c9d949d62eef2fcb6b2418ddfddfc78ab53568b6b",
+        "cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md": "18c221be994099d30ac01e56fd0efce5ffd05ebf35714fdaa5d0a21795ee08e4"
+      },
+      "gap": "Select the local structural basis, applicable action and material codes and National Annex. Verify geotechnical conditions, fatigue, detailed prestress and lift conditions.",
+      "match": "The family comparison tests span alternatives, vehicle loading, foundation assumptions and erection scope.",
+      "maturity": "digital study",
+      "objective": "Carry governing loads and working-life assumptions into structural checks and construction methods.",
+      "owner": "Civil designer and independent checker",
+      "risk": "A girder, bearing, foundation or temporary lift fails under the governing site or train load.",
+      "scope": "Baghdad viaduct family and erection comparison",
+      "standards": [
+        "EN 1990 series (deployment edition)"
+      ],
+      "subject": "Structural verification and erection"
+    },
+    "LAB-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/controls/STATION-BENCH.md": "5a16e03f3814994604b77c7a462e4897bc764c59a9341975b8b1b81023a44116",
+        "cities/Baghdad/engineering/controls/bench_trace.py": "4e9f76b4d4c4afdacd8e1c19ba595c1ca8d995a4b4058fb2b8a4069e2ea4299f",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09"
+      },
+      "gap": "Agree methods, uncertainty and acceptance limits. Obtain authenticated results for the exact article from a laboratory with the required scope.",
+      "match": "The bench procedure and ERPNext qualification gate specify evidence intake and reviewer responsibilities.",
+      "maturity": "software and test procedure",
+      "objective": "Record the tested article, approved method and limit, instrument calibration and raw results.",
+      "owner": "Test lead and competent laboratory",
+      "risk": "A replay or measurement is attributed to the wrong article, instrument or test boundary.",
+      "scope": "Baghdad station bench and first-article qualification preparation",
+      "standards": [
+        "ISO/IEC 17025:2017"
+      ],
+      "subject": "Test evidence and calibration"
+    },
+    "POWER-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md": "18c221be994099d30ac01e56fd0efce5ffd05ebf35714fdaa5d0a21795ee08e4",
+        "cities/Baghdad/engineering/simulation/audited-enquiry-radial30.receipt.json": "f748d16a70749ca132fcad1e7782b9035ad462784ee5f6b7b6a8a6d02f7dffae",
+        "cities/Baghdad/engineering/simulation/audited-enquiry.receipt.json": "5223962129169b3f7050d83331c884213e1f6671a13aea2e2485a069d27558ac",
+        "cities/Baghdad/engineering/simulation/test_audit_power_return.py": "75cde5f911a067b8e0ddb1f000e6329acc298b256e73c0543af6d918f93da23c"
+      },
+      "gap": "Obtain source and fault data. Verify earthing, return paths, touch voltage, protective clearing, isolation and emergency access at site.",
+      "match": "The audit maps outages to service and collects equipment return data. The voltage screen covers collectors, with electrical safety evidence still due.",
+      "maturity": "digital study",
+      "objective": "Identify the live paths, protection interfaces and evidence needed to isolate and maintain the railway.",
+      "owner": "Utility and traction protection engineer",
+      "risk": "An isolated section remains energised or access exposes people to hazardous touch voltage.",
+      "scope": "Revised Baghdad Airport paired-feed and radial traction studies",
+      "standards": [
+        "IEC 62128-1:2013"
+      ],
+      "subject": "Traction power isolation and return"
+    },
+    "QMS-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md": "55a7683eb4d5ba864192064382111133d4525860e59e795d3accbdc45b0490d3",
+        "cities/Baghdad/engineering/simulation/audit_erpnext.py": "cb6afe4c8d84615b63ef87cfa3006f50b1b979b83e2ff16339cbbc3d5dcacf14",
+        "cities/Baghdad/engineering/simulation/audit_packet_evidence.py": "c4709fa8a05fa7065b1613c52b36d95d1f8a32ccb466647a2e29d279344648c9",
+        "cities/Baghdad/engineering/simulation/audited-enquiry.receipt.json": "5223962129169b3f7050d83331c884213e1f6671a13aea2e2485a069d27558ac"
+      },
+      "gap": "Audit actual supplier controls, competence, special processes, nonconformance and production records. Agree how the railway standard's dated ISO 9001 reference applies.",
+      "match": "Factory routes, matched enquiry issues and the ERPNext handoff specify evidence for supplier comparisons, work orders and inspection.",
+      "maturity": "process and sample records",
+      "objective": "Carry quantity, revision, ownership and inspection points from the enquiry into purchasing and production.",
+      "owner": "Buyer and manufacturer quality leads",
+      "risk": "An offer, manufactured part or inspection record applies to a different design issue.",
+      "scope": "Baghdad first-article planning and corrected supplier enquiry",
+      "standards": [
+        "ISO 9001:2026",
+        "ISO 22163:2023"
+      ],
+      "subject": "Supplier, manufacturing and inspection records"
+    },
+    "RAMS-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/simulation/audit-verification.json": "6df3b5634f2d3ea2cf571cf38978cdf84e3841115cf90051c2d59722ddc1d636",
+        "cities/Baghdad/engineering/simulation/audit_register.py": "72a517eb3b43e5064e98b5be1f9d6cb46c2d7b5e679e0dbdded599a759d3abb7",
+        "engineering/design_search/requirement_policy.py": "fa2c12bc0ff302dd4e05986d0f79e03556d9c45a683f3e8d91df8536baa4be2c"
+      },
+      "gap": "Set project RAMS targets and hazard ownership. Allocate safety and integrity requirements and review accepted residual risk for the installed system.",
+      "match": "Requirement policy and the Airport register distinguish obligations, assumptions and evidence holds. The verification record identifies the inputs evaluated.",
+      "maturity": "digital study",
+      "objective": "Carry an identified system, operating conditions, requirements and open risks into each design decision.",
+      "owner": "System integrator and independent safety assessor",
+      "risk": "Scope or a design change invalidates an earlier safety or operating assumption.",
+      "scope": "Shared selection method and revised Baghdad Airport study",
+      "standards": [
+        "IEC 62278-1:2025",
+        "IEC 62278-2:2025",
+        "ISO/IEC/IEEE 15288:2023"
+      ],
+      "subject": "Railway lifecycle and hazards"
+    },
+    "SIG-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        "cities/Baghdad/engineering/controls/STATION-BENCH.md": "5a16e03f3814994604b77c7a462e4897bc764c59a9341975b8b1b81023a44116",
+        "cities/Baghdad/engineering/controls/test_bench_trace.py": "11a37ef118bf4e2606842ef7d3d28186bcd60d2e04919cf0b46b12f7bc0161e3",
+        "crates/osr-safety-case/src/lib.rs": "198da047ec877b7d8fc05f6048aa652487e2495114bd379e275c06f5fe602800"
+      },
+      "gap": "Measure target hardware timing, position and brake feedback. Exercise loss of authority, degraded operations, rescue and evacuation with the operator.",
+      "match": "The station bench specifies signals and fault cases. Its trace tests cover replay validation with simulated inputs.",
+      "maturity": "software and test procedure",
+      "objective": "Verify the station cycle and degraded responses across train and wayside boundaries.",
+      "owner": "Train control integrator and independent safety assessor",
+      "risk": "A train moves while passengers are boarding or after trusted feedback is lost.",
+      "scope": "Baghdad powered-wheel station controls and software bench",
+      "standards": [
+        "IEC 62425:2025",
+        "IEC 62290-1:2025",
+        "IEC 62267:2009"
+      ],
+      "subject": "Train protection and command/control"
+    },
+    "SW-01": {
+      "acceptance": "open",
+      "deployment_applicability": "open",
+      "evidence_sha256": {
+        ".github/workflows/v06-software-rust.yml": "3f88aed87388c4eae612ff4ae6feb8add290610318edf69125c3c33e04366a1a",
+        "Cargo.lock": "36d1d5ec2fc968306bab22cd3fc180618f7b70b847848f1a060f864ed7b67f1e",
+        "crates/osr-atp/src/lib.rs": "3a5b716ea8b9569e252021e32594db422c0dffe50349efa6eb7f054495c39ec2",
+        "crates/osr-door-control/src/lib.rs": "4cf46e6a4d23350f9c257d4443981034f46bc0f1ce1806aa9bb52c5aa912da2f",
+        "crates/osr-tcms/src/lib.rs": "db541bf0fd02e63706fb0922e03763a34d90fad00363553fcc78b3562223fb83"
+      },
+      "gap": "Agree the applicable software route, software requirements and integrity allocation. Review independence, tool and target baselines and hardware-in-the-loop records.",
+      "match": "Crate boundaries and pinned dependencies identify the software scope. Source-level and CI checks exercise software contracts.",
+      "maturity": "software and test procedure",
+      "objective": "Tie verification to source, tests and the deployed configuration.",
+      "owner": "Software assurance lead",
+      "risk": "A changed binary or configuration invalidates tested interlocks.",
+      "scope": "Current Rust ATP, TCMS and door software",
+      "standards": [
+        "IEC 62279:2015",
+        "EN 50716:2023"
+      ],
+      "subject": "Safety-related software lifecycle"
+    }
+  },
+  "publisher_review_due": "2027-02-24",
+  "publisher_reviewed": "2026-11-24",
+  "schema": "osr-standards-crosswalk/1",
+  "standards": {
+    "EN 14752:2025": "https://www.dinmedia.de/en/standard/din-en-14752/392372313",
+    "EN 1990 series (deployment edition)": "https://eurocodes.jrc.ec.europa.eu/EN-Eurocodes/eurocode-basis-structural-design",
+    "EN 50716:2023": "https://www.dinmedia.de/en/standard/din-en-50716/378381071",
+    "IEC 62128-1:2013": "https://webstore.iec.ch/en/publication/6496",
+    "IEC 62267:2009": "https://webstore.iec.ch/en/publication/6681",
+    "IEC 62278-1:2025": "https://webstore.iec.ch/en/publication/68933",
+    "IEC 62278-2:2025": "https://webstore.iec.ch/en/publication/79793",
+    "IEC 62279:2015": "https://webstore.iec.ch/en/publication/22781",
+    "IEC 62290-1:2025": "https://webstore.iec.ch/en/publication/83773",
+    "IEC 62425:2025": "https://webstore.iec.ch/en/publication/68909",
+    "ISO 16739-1:2024": "https://www.iso.org/standard/84123.html",
+    "ISO 19650-1:2018": "https://www.iso.org/standard/68078.html",
+    "ISO 22163:2023": "https://www.iso.org/standard/79427.html",
+    "ISO 55001:2024": "https://www.iso.org/standard/83054.html",
+    "ISO 9001:2026": "https://www.iso.org/standard/9001",
+    "ISO/IEC 17025:2017": "https://www.iso.org/standard/17025",
+    "ISO/IEC/IEEE 15288:2023": "https://www.iso.org/standard/81702.html"
+  }
+}

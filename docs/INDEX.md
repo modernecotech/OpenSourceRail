@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **231**.
+Indexed Markdown files: **233**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **231**.
 | [cities](#cities) | 66 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 132 |
+| [docs](#docs) | 134 |
 | [engineering](#engineering) | 16 |
 | [tools](#tools) | 4 |
 
@@ -219,6 +219,8 @@ Indexed Markdown files: **231**.
 | [`docs/book/67-parts-screen.md`](../docs/book/67-parts-screen.md) | Parts and lifecycle on screen |
 | [`docs/book/68-reading-status.md`](../docs/book/68-reading-status.md) | Reading status and holds |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Current platform capabilities |
+| [`docs/certification/README.md`](../docs/certification/README.md) | Standards and evidence for railway decisions |
+| [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | Standards and evidence crosswalk |
 | [`docs/design-engine/city-atlas/README.md`](../docs/design-engine/city-atlas/README.md) | City railway atlas |
 | [`docs/design-engine/city-dossiers/README.md`](../docs/design-engine/city-dossiers/README.md) | City railway design dossiers |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |

@@ -254,6 +254,8 @@ jobs:
           python -B tools/automation/tests/test_source_only_entry.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
+      - name: Administrative draft approval and ERPNext attestation
+        run: python -m pytest -q tests/test_executive_council.py tests/test_executive_erp_contract.py
       - name: Retained package integrity and Samawah analytical contracts
         run: >-
           python -m pytest -q --import-mode=importlib

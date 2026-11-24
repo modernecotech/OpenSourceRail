@@ -19,6 +19,7 @@ OpenSourceRail helps a city **plan, price, build, operate and maintain an urban 
 | Plan a service or compare cities | [Maps and passenger journeys](#maps-and-passenger-journeys) and [timetables and train motion](#timetables-and-train-motion) |
 | Design a train, station or viaduct | [Vehicles, stations and civil engineering](#vehicles-stations-and-civil-engineering) and [how to read an engineering result](#how-to-read-an-engineering-result) |
 | Equip a factory, train a team or quote for work | [Manufacturing and training](#manufacturing-and-training) and [purchasing and whole-life cost](#purchasing-and-whole-life-cost) |
+| Assess the evidence for funding, procurement or operation | [Standards and evidence for railway decisions](docs/certification/README.md) · [Standards crosswalk](docs/certification/compliance-matrix.md) |
 | Operate trains or maintain assets | [Train control, supervision and maintenance](#train-control-supervision-and-maintenance) |
 | Run, extend or reproduce the software | [Run the Workbench](#run-the-workbench), [find the right files](#find-the-right-files) and [contribute](#contribute-and-reuse) |
 
@@ -124,7 +125,9 @@ Use `./osr status` and `./osr readiness` to inspect the development reference. R
 | [crates/](crates/README.md), [control-electronics/](control-electronics/README.md), [services/](services) and [deployment/](deployment/README.md) | Railway software, device interfaces, services and deployment adapters. |
 | [docs/](docs/README.md), [tools/](tools/README.md) and [tests/](tests) | Guides, Workbench, published drawings and packages, build tools and regression checks. [Archive index and exact historical editions](docs/archives/README.md) |
 
-Historical editions preserve the [conventional rail](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0), [maglev](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1) and [station-powered vehicle studies](docs/design-engine/v06-design-closure/README.md). Earlier work also documented [standards and evidence traceability](https://github.com/modernecotech/OpenSourceRail/blob/298d4e15fbcbcd923d7fcf7e519ebc4915ef7e1b/docs/certification/digital-standards-adherence.md) and [human-attested administrative proposals](https://github.com/modernecotech/OpenSourceRail/blob/898eab2b57a739863a542cb13e7de70f47dfd9e5/README.md#step-by-step-use-cases).
+Historical editions preserve the [conventional rail](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0), [maglev](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1) and [station-powered vehicle studies](docs/design-engine/v06-design-closure/README.md).
+
+The [current standards and evidence register](docs/certification/README.md) draws on the earlier [digital standards workflow](https://github.com/modernecotech/OpenSourceRail/blob/298d4e15fbcbcd923d7fcf7e519ebc4915ef7e1b/docs/certification/digital-standards-adherence.md). The earlier [administrative proposal walkthrough](https://github.com/modernecotech/OpenSourceRail/blob/898eab2b57a739863a542cb13e7de70f47dfd9e5/README.md#step-by-step-use-cases) explains the draft workflow that the gateway and ERPNext still test.
 
 ## Contribute and reuse
 

@@ -9,6 +9,7 @@
 #![forbid(unsafe_code)]
 
 pub mod alignment;
+pub mod cant;
 pub mod chainage;
 pub mod landxml;
 pub mod railml;

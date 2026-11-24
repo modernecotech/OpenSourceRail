@@ -12,6 +12,13 @@ Use the dated editions below to follow the routes, equipment records and city in
 | v0.5.2 execution evidence | The [retired execution-tree register](../../engineering/assurance/retired-v052-execution-trees.json) pins five former assurance trees, including city affordability, closure, drives, integrated and stopped-recovery trials, to their original commit and Git tree IDs. |
 | City PM-maglev studies | The [retired city study inventory](retired-city-maglev/README.md) pins 265 former four-file city maglev packets to their exact Git trees and gives single-city and all-city recovery instructions. Maintained city maps and outlines remain in each city folder. |
 
+The earlier owner–builder–operator and joint-development guides record entity
+and contracting options, owner decisions and responsibilities for suppliers.
+Use them alongside the current adoption and purchasing material when preparing
+a governance discussion. [Owner, builder and operator setup](https://github.com/modernecotech/OpenSourceRail/blob/a0389044828f661fe74ff314aed7fbe26748638a/docs/owner-builder-operator-setup.md) ·
+[Joint-development framework](https://github.com/modernecotech/OpenSourceRail/blob/a0389044828f661fe74ff314aed7fbe26748638a/docs/commercial/joint-development-framework.md) ·
+[Current adoption guide](../first-adoptable-product.md)
+
 For the railway now presented to operators, open the [operator guide](../operator-review/README.md) or [current engineering guide](../design-engine/current/README.md).
 
 ## Finding files from an earlier study
