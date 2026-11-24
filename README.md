@@ -76,6 +76,25 @@ The coordinated design search carries a change in structure, installed mass or p
 
 In this study the longer standard span needs fewer placements and a higher hook load. Read the audited cost scope, break-even erection prices and outstanding ground and lift checks before using the result to prepare an enquiry. [Cost and erection cases](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md#what-changes-the-vehicle-and-civil-enquiry)
 
+### Build the viaduct from both ends
+
+Two terminal precast yards can feed two inward-moving launching gantries over
+the finished deck. The construction flatbeds deliver beams behind the active
+front, reducing the need for beam trucks and mobile cranes at each bay.
+The comparison keeps the same girder and pier family and separates starter
+works, temporary track, terminal transfer, crossing exclusions and night shifts.
+In the 12 km trial, the 24-hour deck-fed case reduces the base erection
+allowance from **$11.91m to $8.81m** and booked erection lane-hours from
+**4,800 to 352**. It takes **164 days**, compared with **220** for day-shift
+road cranes and **145** with two road shifts. The deck-fed case needs more
+staffed hours and construction-stage verification.
+[Costs, programme and road occupation](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
+
+| Compare the two erection methods | Inspect the feed and placement envelopes |
+|---|---|
+| [![Road-fed crane operation and two terminal yards feeding inward launching gantries](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/two-fronts.png) | [![A construction flatbed feeds the launching gantry from the released viaduct deck](cities/Baghdad/engineering/mechanical/civil/rail-fed/launch-section.png)](cities/Baghdad/engineering/mechanical/civil/rail-fed/launch-section.png) |
+| [Open the civil workplan and quotation basis](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | [3D concept mesh](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.obj) · [DXF views](cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.dxf) · [Geometry basis](cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md) |
+
 ## Manufacturing and training
 
 Follow a component from the drawing and bill of materials through stock preparation, cutting, assembly, inspection and removal for repair. The factory specification identifies machines, tooling, workstations and quantities for the prototype packages. The CAM material includes plate profiles, nesting, stock cuts and a practice machining job. A shop can use these to estimate hours and fixtures, then return its own machine limits, process review and trial results. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) · [CAD and CAM handoff](cities/Baghdad/engineering/prototype/cam/CAM.md) · [CamCraft and FreeCAD comparison](cities/Baghdad/engineering/simulation/CAM-COMPARISON.md)
@@ -174,6 +193,7 @@ Other useful entry points from the repository root include these commands.
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
 | `./osr design railway spans --route-km 12` | Compare installed civil and erection assumptions for an illustrative route length. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
 | `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
+| `./osr design railway rail-fed --route-km 12` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
 | `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
 

@@ -1,0 +1,1847 @@
+{
+  "schema": "osr-rail-fed-erection-study/1",
+  "scope": {
+    "route_km": 12.0,
+    "route_kind": "illustrative straight double-track corridor",
+    "overhead_exclusion_pct": 5,
+    "rolling_stock": "Baghdad six-car steel high-load civil envelope",
+    "permanent_cost_scope": "Standard-stock package plus temporary erection method. Actual nonstandard stock and site costs open.",
+    "calendar_scope": "Initial release and superstructure erection windows. Operating opening date is outside this study.",
+    "rate_basis": "Published road haul, crane-class, stock and road-occupation allowances plus explicit rail-fed planning estimates in constant USD.",
+    "physical_acceptance": false
+  },
+  "geometry": {
+    "span_m": 20,
+    "standard_bays": 600,
+    "standard_girders": 1200,
+    "standard_shared_support_positions": 601,
+    "residual_m": 0.0,
+    "single_girder_bare_mass_t": 77.68198110465859,
+    "source_hook_demand_t": 89.85017921512446,
+    "girder_width_m": 4.0,
+    "girder_depth_m": 1.55,
+    "track_pitch_m": 4.5,
+    "flatbed_gross_loaded_t": 102.68198110465859,
+    "flatbed_mean_loaded_axle_t": 12.835247638082324,
+    "high_operating_max_axle_t": 11.213737841666667,
+    "flatbed_mean_exceeds_high_operating_max_axle": true,
+    "minimum_axles_to_match_operating_max_mean_only": 10,
+    "flatbed_axles": 8,
+    "civil_physical_id": "ced2631d98197177cd483c085a1e330a2849954c005b8b9b1b63c786678d75db",
+    "civil_audit_row_id": "316cb4fddd272b1213cdb445a92fe11abd146c4ec54abfeec8f709280b2753ba",
+    "civil_evaluation_id": "f71b95e9afe2b203f1cbf738b7c8d118d709187979b8cd2a58a9cb5724680193",
+    "train_candidate_id": "03a57d2f8c334572837ca45c46af941acc4542a6163524577ecd7f3a350d53b8",
+    "train_evaluation_id": "06682c68562e06375f2f81e19df0b5a70984fab831cd90f4c26ef36c297640cb"
+  },
+  "shared_quantities": {
+    "yards": 2,
+    "area_ha_each": 3.36,
+    "moulds_per_yard": 16,
+    "mould_cycle_h": 48,
+    "released_stock_slots_per_yard": 24
+  },
+  "engineering_screen": {
+    "rail_feed_deck_and_equipment": "held pending construction-stage load and geometry review",
+    "physically_eligible_methods": [],
+    "cost_scenarios_ranked": false
+  },
+  "assumptions": {
+    "delivery": {
+      "starter_bays_each_end": 2,
+      "meeting_bays": 1,
+      "overhead_exclusion_pct": 5,
+      "initial_released_bays_each_end": 8,
+      "additional_pier_releases_per_end_per_day": 2.5,
+      "pier_release_first_day": 28,
+      "moulds_per_yard": 16,
+      "mould_cycle_h": 48,
+      "cast_pieces_per_yard_day": 8.0,
+      "stock_slots_per_yard": 24,
+      "initial_stock_per_yard": 16,
+      "yard_area_ha_each": 3.36,
+      "yard_to_deck_rail_km_each": 0.3,
+      "road_front_availability": 0.78,
+      "launcher_front_availability": 0.82,
+      "road_lanes_occupied": 2,
+      "terminal_access_lane_hours": 48,
+      "mobile_prelim_days": 5,
+      "launch_prelim_days": 10,
+      "meeting_days": 2,
+      "residual_days": 2,
+      "launcher_hours_per_standard_bay": 3.2,
+      "track_extension_and_ground_check_h_per_bay": 0.6,
+      "after_landing_deck_release_h": 1.25,
+      "rail_shift_pay_factors": [
+        1.0,
+        1.1,
+        1.2
+      ],
+      "flatbed_terminal_load_unload_h_per_trip": 0.85,
+      "flatbed_loaded_speed_kmh": 5.0,
+      "flatbed_empty_speed_kmh": 10.0,
+      "flatbed_tare_t": 25.0,
+      "flatbed_axles": 8
+    },
+    "prices": {
+      "launcher_mobilisation_usd_each": [
+        600000,
+        1200000,
+        2400000
+      ],
+      "launcher_dry_use_usd_day_each": [
+        2500,
+        4500,
+        9000
+      ],
+      "flatbed_mobilisation_usd_each": [
+        120000,
+        250000,
+        600000
+      ],
+      "flatbed_dry_use_usd_day_each": [
+        450,
+        900,
+        2000
+      ],
+      "temporary_track_installed_and_recovered_usd_km": [
+        70000,
+        140000,
+        280000
+      ],
+      "terminal_transfer_and_enabling_usd_each": [
+        180000,
+        350000,
+        750000
+      ],
+      "power_consumables_usd_per_launched_girder": [
+        60,
+        130,
+        260
+      ],
+      "construction_stage_engineering_usd_per_line": [
+        120000,
+        280000,
+        650000
+      ],
+      "meeting_interfaces_usd": [
+        35000,
+        75000,
+        180000
+      ],
+      "residual_interfaces_usd": [
+        35000,
+        75000,
+        180000
+      ],
+      "effective_paid_labor_usd_hour": [
+        8.0,
+        10.0,
+        14.0
+      ]
+    },
+    "road_crew": {
+      "Front supervisor": 1,
+      "Crane operator": 1,
+      "Rigging": 2,
+      "Alignment and installation": 2,
+      "Traffic and access": 2,
+      "Haul driver for loaded round trip": 1
+    },
+    "rail_crew": {
+      "Front supervisor": 1,
+      "Gantry operator": 1,
+      "Rigging": 2,
+      "Alignment and installation": 2,
+      "Temporary track and inspection": 2,
+      "Flatbed operator": 1,
+      "Terminal transload coordinator": 1,
+      "Access and protection": 1
+    }
+  },
+  "methods": {
+    "road_day": {
+      "calendar_days": 220.30769230769133,
+      "erection_elapsed_days": 192.30769230769133,
+      "setup_and_initial_release_days": 28,
+      "staffed_hours_per_front_day": 8,
+      "launcher_dry_hire_days_across_fronts": 0,
+      "fronts": [
+        {
+          "standard_bays": 300,
+          "road_bays": 300,
+          "rail_bays": 0,
+          "calendar_days": 220.30769230769133,
+          "road_productive_hours": 1200.0,
+          "rail_productive_hours": 0.0,
+          "flatbed_hours": 0.0,
+          "track_release_hours": 0.0,
+          "maximum_shuttle_hours_per_bay": 0.0,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 1.0
+        },
+        {
+          "standard_bays": 300,
+          "road_bays": 300,
+          "rail_bays": 0,
+          "calendar_days": 220.30769230769133,
+          "road_productive_hours": 1200.0,
+          "rail_productive_hours": 0.0,
+          "flatbed_hours": 0.0,
+          "track_release_hours": 0.0,
+          "maximum_shuttle_hours_per_bay": 0.0,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 1.0
+        }
+      ],
+      "launched_bays": 0,
+      "starter_bays": 0,
+      "meeting_bays": 0,
+      "overhead_fallback_bays": 0,
+      "residual_bay_m": 0.0,
+      "routine_public_road_beam_trips": 1200,
+      "public_road_beam_trips": 1200,
+      "road_lane_hours": 4800,
+      "road_plant_shift_bookings": 300,
+      "temporary_track_km": 0,
+      "labour_hours": 24000,
+      "crew_shifts": [
+        {
+          "phase": "road erection and public haul",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Crane operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Traffic and access",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Haul driver for loaded round trip",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 300,
+          "paid_hours": 4800,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        }
+      ],
+      "cases": {
+        "low": {
+          "method_scope_usd": 7179000.0,
+          "common_scope_usd": 69096355.28113092,
+          "installed_standard_stock_usd": 76275355.28113092,
+          "road_allowance_usd": {
+            "haul": 495000.0,
+            "erection": 6534000.0,
+            "road_occupation": 150000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 15000129.318580784,
+            "fabrication": 15221083.258728739,
+            "bearing_supply_and_install": 984000.0,
+            "common_elevated_scope": 28800000.0,
+            "supports": 2704500.0,
+            "stressed_after_landing": 2208000.0,
+            "two_yard_forms": 4178642.703821396
+          }
+        },
+        "base": {
+          "method_scope_usd": 11907000.0,
+          "common_scope_usd": 104845040.92471492,
+          "installed_standard_stock_usd": 116752040.92471492,
+          "road_allowance_usd": {
+            "haul": 1287000.0,
+            "erection": 9900000.0,
+            "road_occupation": 720000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 18785961.594342373,
+            "fabrication": 21309516.562220234,
+            "bearing_supply_and_install": 2496000.0,
+            "common_elevated_scope": 43200000.0,
+            "supports": 4883125.0,
+            "stressed_after_landing": 5256000.0,
+            "two_yard_forms": 8914437.768152311
+          }
+        },
+        "high": {
+          "method_scope_usd": 22848000.0,
+          "common_scope_usd": 183279383.85290813,
+          "installed_standard_stock_usd": 206127383.85290813,
+          "road_allowance_usd": {
+            "haul": 3168000.0,
+            "erection": 16830000.0,
+            "road_occupation": 2850000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 24512638.80294502,
+            "fabrication": 29263760.071620412,
+            "bearing_supply_and_install": 7584000.0,
+            "common_elevated_scope": 78000000.0,
+            "supports": 10517500.0,
+            "stressed_after_landing": 13344000.0,
+            "two_yard_forms": 20057484.9783427
+          }
+        }
+      }
+    },
+    "road_extended": {
+      "calendar_days": 145.1205128205128,
+      "erection_elapsed_days": 117.1205128205128,
+      "setup_and_initial_release_days": 28,
+      "staffed_hours_per_front_day": 16,
+      "launcher_dry_hire_days_across_fronts": 0,
+      "fronts": [
+        {
+          "standard_bays": 300,
+          "road_bays": 300,
+          "rail_bays": 0,
+          "calendar_days": 145.1205128205128,
+          "road_productive_hours": 1200.0,
+          "rail_productive_hours": 0.0,
+          "flatbed_hours": 0.0,
+          "track_release_hours": 0.0,
+          "maximum_shuttle_hours_per_bay": 0.0,
+          "pier_wait_days": 20.96666666666731,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 2.0
+        },
+        {
+          "standard_bays": 300,
+          "road_bays": 300,
+          "rail_bays": 0,
+          "calendar_days": 145.1205128205128,
+          "road_productive_hours": 1200.0,
+          "rail_productive_hours": 0.0,
+          "flatbed_hours": 0.0,
+          "track_release_hours": 0.0,
+          "maximum_shuttle_hours_per_bay": 0.0,
+          "pier_wait_days": 20.96666666666731,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 2.0
+        }
+      ],
+      "launched_bays": 0,
+      "starter_bays": 0,
+      "meeting_bays": 0,
+      "overhead_fallback_bays": 0,
+      "residual_bay_m": 0.0,
+      "routine_public_road_beam_trips": 1200,
+      "public_road_beam_trips": 1200,
+      "road_lane_hours": 4800,
+      "road_plant_shift_bookings": 300,
+      "temporary_track_km": 0,
+      "labour_hours": 24000,
+      "crew_shifts": [
+        {
+          "phase": "road erection and public haul",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Crane operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Traffic and access",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Haul driver for loaded round trip",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Crane operator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 1200,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Traffic and access",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Haul driver for loaded round trip",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 150,
+          "paid_hours": 2400,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        }
+      ],
+      "cases": {
+        "low": {
+          "method_scope_usd": 7179000.0,
+          "common_scope_usd": 69096355.28113092,
+          "installed_standard_stock_usd": 76275355.28113092,
+          "road_allowance_usd": {
+            "haul": 495000.0,
+            "erection": 6534000.0,
+            "road_occupation": 150000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 15000129.318580784,
+            "fabrication": 15221083.258728739,
+            "bearing_supply_and_install": 984000.0,
+            "common_elevated_scope": 28800000.0,
+            "supports": 2704500.0,
+            "stressed_after_landing": 2208000.0,
+            "two_yard_forms": 4178642.703821396
+          }
+        },
+        "base": {
+          "method_scope_usd": 11907000.0,
+          "common_scope_usd": 104845040.92471492,
+          "installed_standard_stock_usd": 116752040.92471492,
+          "road_allowance_usd": {
+            "haul": 1287000.0,
+            "erection": 9900000.0,
+            "road_occupation": 720000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 18785961.594342373,
+            "fabrication": 21309516.562220234,
+            "bearing_supply_and_install": 2496000.0,
+            "common_elevated_scope": 43200000.0,
+            "supports": 4883125.0,
+            "stressed_after_landing": 5256000.0,
+            "two_yard_forms": 8914437.768152311
+          }
+        },
+        "high": {
+          "method_scope_usd": 22848000.0,
+          "common_scope_usd": 183279383.85290813,
+          "installed_standard_stock_usd": 206127383.85290813,
+          "road_allowance_usd": {
+            "haul": 3168000.0,
+            "erection": 16830000.0,
+            "road_occupation": 2850000.0
+          },
+          "temporary_and_other_costs_usd": {},
+          "common_scope_breakdown_usd": {
+            "materials": 24512638.80294502,
+            "fabrication": 29263760.071620412,
+            "bearing_supply_and_install": 7584000.0,
+            "common_elevated_scope": 78000000.0,
+            "supports": 10517500.0,
+            "stressed_after_landing": 13344000.0,
+            "two_yard_forms": 20057484.9783427
+          }
+        }
+      }
+    },
+    "rail_extended": {
+      "calendar_days": 217.99591150719195,
+      "erection_elapsed_days": 189.99591150719195,
+      "setup_and_initial_release_days": 28,
+      "staffed_hours_per_front_day": 16,
+      "launcher_dry_hire_days_across_fronts": 376,
+      "fronts": [
+        {
+          "standard_bays": 299,
+          "road_bays": 17,
+          "rail_bays": 282,
+          "calendar_days": 215.244742808005,
+          "road_productive_hours": 68.0,
+          "rail_productive_hours": 2109.3599999999988,
+          "flatbed_hours": 1037.7600000000004,
+          "track_release_hours": 373.75,
+          "maximum_shuttle_hours_per_bay": 5.456,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 2.0
+        },
+        {
+          "standard_bays": 300,
+          "road_bays": 17,
+          "rail_bays": 283,
+          "calendar_days": 215.99591150719195,
+          "road_productive_hours": 68.0,
+          "rail_productive_hours": 2118.5319999999983,
+          "flatbed_hours": 1043.1320000000005,
+          "track_release_hours": 375.0,
+          "maximum_shuttle_hours_per_bay": 5.468,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 2.0
+        }
+      ],
+      "launched_bays": 565,
+      "starter_bays": 4,
+      "meeting_bays": 1,
+      "overhead_fallback_bays": 30,
+      "residual_bay_m": 0.0,
+      "routine_public_road_beam_trips": 70,
+      "public_road_beam_trips": 70,
+      "road_lane_hours": 352,
+      "road_plant_shift_bookings": 19,
+      "temporary_track_km": 12.6,
+      "labour_hours": 67672,
+      "crew_shifts": [
+        {
+          "phase": "road erection and public haul",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 152,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Crane operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 152,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Traffic and access",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Haul driver for loaded round trip",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 280,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 24064.0,
+            "base": 30080.0,
+            "high": 42112.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Gantry operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 24064.0,
+            "base": 30080.0,
+            "high": 42112.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 48128.0,
+            "base": 60160.0,
+            "high": 84224.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 48128.0,
+            "base": 60160.0,
+            "high": 84224.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Temporary track and inspection",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 48128.0,
+            "base": 60160.0,
+            "high": 84224.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Flatbed operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 24064.0,
+            "base": 30080.0,
+            "high": 42112.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Terminal transload coordinator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 24064.0,
+            "base": 30080.0,
+            "high": 42112.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Access and protection",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 24064.0,
+            "base": 30080.0,
+            "high": 42112.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 26470.4,
+            "base": 33088.0,
+            "high": 46323.200000000004
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Gantry operator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 26470.4,
+            "base": 33088.0,
+            "high": 46323.200000000004
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 52940.8,
+            "base": 66176.0,
+            "high": 92646.40000000001
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 52940.8,
+            "base": 66176.0,
+            "high": 92646.40000000001
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Temporary track and inspection",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 6016,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 52940.8,
+            "base": 66176.0,
+            "high": 92646.40000000001
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Flatbed operator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 26470.4,
+            "base": 33088.0,
+            "high": 46323.200000000004
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Terminal transload coordinator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 26470.4,
+            "base": 33088.0,
+            "high": 46323.200000000004
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Access and protection",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 376,
+          "paid_hours": 3008,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 26470.4,
+            "base": 33088.0,
+            "high": 46323.200000000004
+          }
+        }
+      ],
+      "cases": {
+        "low": {
+          "method_scope_usd": 4990903.4,
+          "common_scope_usd": 69096355.28113092,
+          "installed_standard_stock_usd": 74087258.68113093,
+          "road_allowance_usd": {
+            "haul": 28875.0,
+            "erection": 381150.0,
+            "road_occupation": 9500.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 1200000,
+            "launcher_dry_use": 940000,
+            "flatbed_mobilisation": 240000,
+            "flatbed_dry_use": 169200,
+            "temporary_track": 882000.0,
+            "terminal_transfer": 360000,
+            "supplies": 67800,
+            "launcher_payroll": 555878.4,
+            "staged_engineering": 120000,
+            "meeting_interfaces": 35000,
+            "terminal_street_access": 1500.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 15000129.318580784,
+            "fabrication": 15221083.258728739,
+            "bearing_supply_and_install": 984000.0,
+            "common_elevated_scope": 28800000.0,
+            "supports": 2704500.0,
+            "stressed_after_landing": 2208000.0,
+            "two_yard_forms": 4178642.703821396
+          }
+        },
+        "base": {
+          "method_scope_usd": 9296523.0,
+          "common_scope_usd": 104845040.92471492,
+          "installed_standard_stock_usd": 114141563.92471492,
+          "road_allowance_usd": {
+            "haul": 75075.0,
+            "erection": 577500.0,
+            "road_occupation": 45600.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 2400000,
+            "launcher_dry_use": 1692000,
+            "flatbed_mobilisation": 500000,
+            "flatbed_dry_use": 338400,
+            "temporary_track": 1764000.0,
+            "terminal_transfer": 700000,
+            "supplies": 146900,
+            "launcher_payroll": 694848.0,
+            "staged_engineering": 280000,
+            "meeting_interfaces": 75000,
+            "terminal_street_access": 7200.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 18785961.594342373,
+            "fabrication": 21309516.562220234,
+            "bearing_supply_and_install": 2496000.0,
+            "common_elevated_scope": 43200000.0,
+            "supports": 4883125.0,
+            "stressed_after_landing": 5256000.0,
+            "two_yard_forms": 8914437.768152311
+          }
+        },
+        "high": {
+          "method_scope_usd": 18636137.2,
+          "common_scope_usd": 183279383.85290813,
+          "installed_standard_stock_usd": 201915521.05290812,
+          "road_allowance_usd": {
+            "haul": 184800.0,
+            "erection": 981750.0,
+            "road_occupation": 180500.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 4800000,
+            "launcher_dry_use": 3384000,
+            "flatbed_mobilisation": 1200000,
+            "flatbed_dry_use": 752000,
+            "temporary_track": 3528000.0,
+            "terminal_transfer": 1500000,
+            "supplies": 293800,
+            "launcher_payroll": 972787.2000000001,
+            "staged_engineering": 650000,
+            "meeting_interfaces": 180000,
+            "terminal_street_access": 28500.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 24512638.80294502,
+            "fabrication": 29263760.071620412,
+            "bearing_supply_and_install": 7584000.0,
+            "common_elevated_scope": 78000000.0,
+            "supports": 10517500.0,
+            "stressed_after_landing": 13344000.0,
+            "two_yard_forms": 20057484.9783427
+          }
+        }
+      }
+    },
+    "rail_24h": {
+      "calendar_days": 164.17141963727323,
+      "erection_elapsed_days": 136.17141963727323,
+      "setup_and_initial_release_days": 28,
+      "staffed_hours_per_front_day": 24,
+      "launcher_dry_hire_days_across_fronts": 269,
+      "fronts": [
+        {
+          "standard_bays": 299,
+          "road_bays": 17,
+          "rail_bays": 282,
+          "calendar_days": 161.65327939337078,
+          "road_productive_hours": 68.0,
+          "rail_productive_hours": 2109.3599999999988,
+          "flatbed_hours": 1037.7600000000004,
+          "track_release_hours": 373.75,
+          "maximum_shuttle_hours_per_bay": 5.456,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 3.0
+        },
+        {
+          "standard_bays": 300,
+          "road_bays": 17,
+          "rail_bays": 283,
+          "calendar_days": 162.17141963727323,
+          "road_productive_hours": 68.0,
+          "rail_productive_hours": 2118.5319999999983,
+          "flatbed_hours": 1043.1320000000005,
+          "track_release_hours": 375.0,
+          "maximum_shuttle_hours_per_bay": 5.468,
+          "pier_wait_days": 0.0,
+          "casting_wait_days": 0.0,
+          "nominal_cast_pieces_per_yard_day": 8.0,
+          "scheduled_shifts_per_day": 3.0
+        }
+      ],
+      "launched_bays": 565,
+      "starter_bays": 4,
+      "meeting_bays": 1,
+      "overhead_fallback_bays": 30,
+      "residual_bay_m": 0.0,
+      "routine_public_road_beam_trips": 70,
+      "public_road_beam_trips": 70,
+      "road_lane_hours": 352,
+      "road_plant_shift_bookings": 19,
+      "temporary_track_km": 12.6,
+      "labour_hours": 72512,
+      "crew_shifts": [
+        {
+          "phase": "road erection and public haul",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 152,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Crane operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 152,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Traffic and access",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 304,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "road erection and public haul",
+          "role": "Haul driver for loaded round trip",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 19,
+          "paid_hours": 280,
+          "cost_usd": {
+            "low": null,
+            "base": null,
+            "high": null
+          },
+          "price_basis": "Embedded in road haul and operated crane rates"
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 17216.0,
+            "base": 21520.0,
+            "high": 30128.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Gantry operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 17216.0,
+            "base": 21520.0,
+            "high": 30128.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 34432.0,
+            "base": 43040.0,
+            "high": 60256.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 34432.0,
+            "base": 43040.0,
+            "high": 60256.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Temporary track and inspection",
+          "posts_per_front": 2,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 34432.0,
+            "base": 43040.0,
+            "high": 60256.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Flatbed operator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 17216.0,
+            "base": 21520.0,
+            "high": 30128.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Terminal transload coordinator",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 17216.0,
+            "base": 21520.0,
+            "high": 30128.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Access and protection",
+          "posts_per_front": 1,
+          "shift": "06:00\u201314:00",
+          "start_minute": 360,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 17216.0,
+            "base": 21520.0,
+            "high": 30128.0
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 18937.600000000002,
+            "base": 23672.000000000004,
+            "high": 33140.8
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Gantry operator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 18937.600000000002,
+            "base": 23672.000000000004,
+            "high": 33140.8
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 37875.200000000004,
+            "base": 47344.00000000001,
+            "high": 66281.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 37875.200000000004,
+            "base": 47344.00000000001,
+            "high": 66281.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Temporary track and inspection",
+          "posts_per_front": 2,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 37875.200000000004,
+            "base": 47344.00000000001,
+            "high": 66281.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Flatbed operator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 18937.600000000002,
+            "base": 23672.000000000004,
+            "high": 33140.8
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Terminal transload coordinator",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 18937.600000000002,
+            "base": 23672.000000000004,
+            "high": 33140.8
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Access and protection",
+          "posts_per_front": 1,
+          "shift": "14:00\u201322:00",
+          "start_minute": 840,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 18937.600000000002,
+            "base": 23672.000000000004,
+            "high": 33140.8
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Front supervisor",
+          "posts_per_front": 1,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 20659.2,
+            "base": 25824.0,
+            "high": 36153.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Gantry operator",
+          "posts_per_front": 1,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 20659.2,
+            "base": 25824.0,
+            "high": 36153.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Rigging",
+          "posts_per_front": 2,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 41318.4,
+            "base": 51648.0,
+            "high": 72307.2
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Alignment and installation",
+          "posts_per_front": 2,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 41318.4,
+            "base": 51648.0,
+            "high": 72307.2
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Temporary track and inspection",
+          "posts_per_front": 2,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 4304,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 41318.4,
+            "base": 51648.0,
+            "high": 72307.2
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Flatbed operator",
+          "posts_per_front": 1,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 20659.2,
+            "base": 25824.0,
+            "high": 36153.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Terminal transload coordinator",
+          "posts_per_front": 1,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 20659.2,
+            "base": 25824.0,
+            "high": 36153.6
+          }
+        },
+        {
+          "phase": "rail-fed erection",
+          "role": "Access and protection",
+          "posts_per_front": 1,
+          "shift": "22:00\u201306:00",
+          "start_minute": 1320,
+          "staffed_front_shifts": 269,
+          "paid_hours": 2152,
+          "price_basis": "Modeled paid shift included in launcher payroll",
+          "cost_usd": {
+            "low": 20659.2,
+            "base": 25824.0,
+            "high": 36153.6
+          }
+        }
+      ],
+      "cases": {
+        "low": {
+          "method_scope_usd": 4744315.8,
+          "common_scope_usd": 69096355.28113092,
+          "installed_standard_stock_usd": 73840671.08113092,
+          "road_allowance_usd": {
+            "haul": 28875.0,
+            "erection": 381150.0,
+            "road_occupation": 9500.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 1200000,
+            "launcher_dry_use": 672500,
+            "flatbed_mobilisation": 240000,
+            "flatbed_dry_use": 121050,
+            "temporary_track": 882000.0,
+            "terminal_transfer": 360000,
+            "supplies": 67800,
+            "launcher_payroll": 624940.8,
+            "staged_engineering": 120000,
+            "meeting_interfaces": 35000,
+            "terminal_street_access": 1500.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 15000129.318580784,
+            "fabrication": 15221083.258728739,
+            "bearing_supply_and_install": 984000.0,
+            "common_elevated_scope": 28800000.0,
+            "supports": 2704500.0,
+            "stressed_after_landing": 2208000.0,
+            "two_yard_forms": 4178642.703821396
+          }
+        },
+        "base": {
+          "method_scope_usd": 8805051.0,
+          "common_scope_usd": 104845040.92471492,
+          "installed_standard_stock_usd": 113650091.92471492,
+          "road_allowance_usd": {
+            "haul": 75075.0,
+            "erection": 577500.0,
+            "road_occupation": 45600.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 2400000,
+            "launcher_dry_use": 1210500,
+            "flatbed_mobilisation": 500000,
+            "flatbed_dry_use": 242100,
+            "temporary_track": 1764000.0,
+            "terminal_transfer": 700000,
+            "supplies": 146900,
+            "launcher_payroll": 781176.0,
+            "staged_engineering": 280000,
+            "meeting_interfaces": 75000,
+            "terminal_street_access": 7200.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 18785961.594342373,
+            "fabrication": 21309516.562220234,
+            "bearing_supply_and_install": 2496000.0,
+            "common_elevated_scope": 43200000.0,
+            "supports": 4883125.0,
+            "stressed_after_landing": 5256000.0,
+            "two_yard_forms": 8914437.768152311
+          }
+        },
+        "high": {
+          "method_scope_usd": 17579996.4,
+          "common_scope_usd": 183279383.85290813,
+          "installed_standard_stock_usd": 200859380.25290814,
+          "road_allowance_usd": {
+            "haul": 184800.0,
+            "erection": 981750.0,
+            "road_occupation": 180500.0
+          },
+          "temporary_and_other_costs_usd": {
+            "launcher_mobilisation": 4800000,
+            "launcher_dry_use": 2421000,
+            "flatbed_mobilisation": 1200000,
+            "flatbed_dry_use": 538000,
+            "temporary_track": 3528000.0,
+            "terminal_transfer": 1500000,
+            "supplies": 293800,
+            "launcher_payroll": 1093646.4,
+            "staged_engineering": 650000,
+            "meeting_interfaces": 180000,
+            "terminal_street_access": 28500.0
+          },
+          "common_scope_breakdown_usd": {
+            "materials": 24512638.80294502,
+            "fabrication": 29263760.071620412,
+            "bearing_supply_and_install": 7584000.0,
+            "common_elevated_scope": 78000000.0,
+            "supports": 10517500.0,
+            "stressed_after_landing": 13344000.0,
+            "two_yard_forms": 20057484.9783427
+          }
+        }
+      }
+    }
+  },
+  "break_even": {
+    "road_day": {
+      "rail_extended": {
+        "low": {
+          "saving_usd": 2188096.5999999996,
+          "maximum_combined_launcher_mobilisation_usd": 3388096.5999999996
+        },
+        "base": {
+          "saving_usd": 2610477.0,
+          "maximum_combined_launcher_mobilisation_usd": 5010477.0
+        },
+        "high": {
+          "saving_usd": 4211862.800000001,
+          "maximum_combined_launcher_mobilisation_usd": 9011862.8
+        }
+      },
+      "rail_24h": {
+        "low": {
+          "saving_usd": 2434684.2,
+          "maximum_combined_launcher_mobilisation_usd": 3634684.2
+        },
+        "base": {
+          "saving_usd": 3101949.0,
+          "maximum_combined_launcher_mobilisation_usd": 5501949.0
+        },
+        "high": {
+          "saving_usd": 5268003.6000000015,
+          "maximum_combined_launcher_mobilisation_usd": 10068003.600000001
+        }
+      }
+    },
+    "road_extended": {
+      "rail_extended": {
+        "low": {
+          "saving_usd": 2188096.5999999996,
+          "maximum_combined_launcher_mobilisation_usd": 3388096.5999999996
+        },
+        "base": {
+          "saving_usd": 2610477.0,
+          "maximum_combined_launcher_mobilisation_usd": 5010477.0
+        },
+        "high": {
+          "saving_usd": 4211862.800000001,
+          "maximum_combined_launcher_mobilisation_usd": 9011862.8
+        }
+      },
+      "rail_24h": {
+        "low": {
+          "saving_usd": 2434684.2,
+          "maximum_combined_launcher_mobilisation_usd": 3634684.2
+        },
+        "base": {
+          "saving_usd": 3101949.0,
+          "maximum_combined_launcher_mobilisation_usd": 5501949.0
+        },
+        "high": {
+          "saving_usd": 5268003.6000000015,
+          "maximum_combined_launcher_mobilisation_usd": 10068003.600000001
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "cities/Baghdad/engineering/simulation/vehicle_audit.py": "35fbc105b3eb30ca2dcf95762a46c616314e569da56a62ea4f80ed8a9d740ab9",
+    "cities/Baghdad/engineering/simulation/vehicle_civil.py": "e58a9aab3efd14179b3da18d5163908e6afb824496e2ce64f49f961a88f7c26b",
+    "cities/Baghdad/engineering/prototype/weights.py": "5f988eac2564600cb0d106f718a8ac702b54d62c258fc188e40b0e5c260ce329",
+    "cities/Baghdad/engineering/prototype/commercial.py": "3f9f9c81aef2d2bf99de15e3a3c3ef24d03bb6c763ffd90367900c1a6a9f20a8",
+    "cities/Baghdad/engineering/prototype/car.py": "e868c1abf5779889812544c185afc635200b26dbaf9fd58fa9870bd19a7ee506",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "cities/Baghdad/engineering/mechanical/vehicle/section-trial.toml": "8c15d3a0fafd08b87f594052b781d0d7a4139caedea0fa83ccf182aafa003ae2",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-ga.json": "69a24467e7abe96db16b31f1c5078365253f6a2a9bd931ff4571cb8df83b9c4b",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-fitout-bom.csv": "45b834d349d01bd59dcc42228b90dae3bcf0a067b4525a7a0f273d6a785b4aa8",
+    "cities/Baghdad/VEHICLE.md": "1f2a9063db7b8b1e2511624554b5e8f6bf1609cf0ef5e691416f2e5bb0ba195c",
+    "cities/Baghdad/airport_assembly.py": "5341e5198a74db3c59613cea5fe086e2798df55573eb901d7b45952efc5a0c18",
+    "cities/Baghdad/engineering/mechanical/README.md": "a64b6be1aa73176cb277004fee79c11134703d443f0b37bbc3bc4f774164762f",
+    "cities/Baghdad/engineering/mechanical/civil/family_comparison.py": "8df7dee270b47595cf6c365c9d949d62eef2fcb6b2418ddfddfc78ab53568b6b",
+    "cities/Baghdad/engineering/mechanical/civil/concept.toml": "60e9fc72a48455a5c5a3263a816e49b0f52350122fb9afc78d76ce3b36fa706e",
+    "cities/Baghdad/iraq-capital.toml": "3f4ac18dda6e6de221be9810ed4bd18443f878463abe1d5c1a856030d309e177",
+    "cities/Baghdad/airport-works.toml": "3d358e6863f940e6df50e87c976b7a9bd2195df04df53ef76593080415cdd146",
+    "cities/Baghdad/iraq-market.toml": "f044ba071d77b58b2427384954f5bfdf3713b48c2ba5af872e1f24c53fd3ee2b",
+    "cities/Baghdad/engineering/prototype/shop-rates.toml": "88d9185a994a006700f1cb21659b796fc15a5454cf71929e6214750613c67e96",
+    "cities/Baghdad/engineering/prototype/airport-prototype.zip": "55c5faf416d11dd32d71e0a6f51bcc1c3234abd2d32cdf4a8f6b8c587ae3c909",
+    "cities/Baghdad/engineering/mechanical/civil/rail_fed_assumptions.toml": "70f84313d6175ee9b29352649806dc579d1feaad70bc9e428a1fe63d87799664",
+    "cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py": "0312eaff61847914035aa5552f2d91b999002ebb0214a5234f83d8a5d8af0c59"
+  },
+  "source_prototype_member_sha256": {
+    "mechanical.json": "2ec9848993595b41fd5042aa4c2f4774eb4db201138f533e5b1d2e2616c5a5e9",
+    "civil-article.json": "67c414f861743e57d65cbe5246823c0236a80463ff595c40d8031091a537ff3f",
+    "fitout-interfaces.json": "7f23ff526ac00e90d4f84de3ce11fe8e3cced288de38111e37a48a69628dba84",
+    "opening.json": "ae6b55d85a569d5a6eab505b9297d19b664685e0ca36e1ebfabc16ee86b4b832",
+    "revised-cuts.csv": "819f7d10f082ec7d3c58b4581575f58aa9a38ca5df2883e692c9033650088e84",
+    "returns/weights.json": "fd1260b2758fe19908798b6d3022105fedcbef0de96ac72f87c9266f45bdbd6f",
+    "returns/fitout.csv": "fd14a31548f9e5da884ac69ae7620cf24c0edc64bff49965bbb9cb5565b7160e",
+    "manifest.json": "2c91d93f0dad85a7c7d86b9420f93f1f8a1dd67f68f7efd7676ec04ea4edd8e8"
+  },
+  "holds": [
+    "Public road hours are booked lane-hours for girder erection and terminal access. They exclude road impacts of both methods' common foundations, piers, utilities, material deliveries and station works.",
+    "The prescribed foundation release and casting rates are planning inputs. Check end land, supplier output, beam storage, crew competence and availability.",
+    "Verify launcher reactions and cross-track transfer, one-girder/two-girder stages, lateral stability, midline discontinuity, curves, grade, camber and emergency recovery.",
+    "Approve temporary rails, rear loading and terminal transload, transporter braking and axle group loads. Mean axle mass is a planning value. The deck must be checked for actual axle groups plus gantry reactions at construction stages, even if the mean falls within the operating envelope.",
+    "The travelling girder is wider than the receiving U channel. Design an elevated cradle, prove clearance at curves and verify transfer across the two track centres.",
+    "A starter or crossing fallback bay must reach the required construction strength and be inspected before the temporary feed track is extended. The after-landing hold is a planning allowance.",
+    "Two identical yards are compared at 16 moulds and 24 released slots per yard. Release dates are earliest production dates under call-off. Confirm feasible casting batches, dispatch inventory and rejection reserve against the supplier schedule.",
+    "Street control beneath overhead operations, nighttime restrictions, wind, lifting permissions and public safety need project-specific approval."
+  ],
+  "evaluation_id": "dbadc623facd63b690a5d919a05da7fc678df7fa058ac7b92737a7f1d5b41d6a"
+}

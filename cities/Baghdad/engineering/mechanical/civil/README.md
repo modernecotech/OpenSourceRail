@@ -56,6 +56,14 @@ Reproduce the package from this directory with `python3 develop_civil.py --check
 
 The [span comparison and yard return](SPAN-COMPARISON.md) carries this box and the Baghdad train across the 10, 20, 25 and 30 m precast options. Use its placement counts, lifting limits, casting-yard occupancy and break-even costs when requesting prices from local precasters and erection contractors.
 
+## Deliver girders over the advancing viaduct
+
+The [rail-fed erection comparison](RAIL-FED-ERECTION.md) evaluates two terminal
+yards and two inward launching fronts against road delivery and mobile cranes
+on the same span family. Use the concept drawings and workplan to inspect the
+temporary load path, transit time, workforce, possessions and break-even price
+before asking contractors for a matched return.
+
 ## Audit the straight-bay quotation under the heavier train
 
 The audit carries the same girder, strand count, pickup positions and shallow-footing geometry through the central and high axle patterns. The six-car steel study loads are 198.636 t and 246.036 t. The high case places 9.29 t on each rear axle and 11.21 t on each front axle of an identically loaded car. The issued 10 m box retains its released 12 strands and fails the high-load bottom-fibre compression screen. At 200 kPa and 12 m lift radius, the deeper 20 m U-girder on shared supports leads the 12 km quotation comparison under both load cases, with 42 strands and 6.50 m square trial footings. Its base-rate standard-stock allowance is USD 110.07m for the historical-length comparison.

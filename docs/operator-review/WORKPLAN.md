@@ -48,6 +48,17 @@ The **seven-corridor** and **citywide** programmes have independent fleets, stat
 4. **Put the open design to work in negotiations.** Issue the same service and priced quantity schedules for turnkey, vendor-led local production and open local integration. Seek revised price and verified Iraqi value added at each localisation level. Ask for editable drawings, source/build access, diagnostic rights, tooling title, warranty and spare parts. An Iraqi team should build the repeat article and complete an overhaul. Compare the resulting whole-life price and demonstrated capabilities even if another vendor wins. [Bid return and negotiation method](../../cities/Baghdad/BUYER-COMPARISON.md)
 5. **Commission with the operator.** Recruit control-room, station, depot, track and power teams before acceptance trials. Exercise a failed train, passenger evacuation including assisted travel, heat or grid disruption, and a transfer of control between shifts. Register inspection intervals and spare holdings against installed asset IDs. Demonstrate dispatch, braking and electrical isolation under approved limits. Hand over as-built models, configuration history, defects, emergency procedures, maintenance budget and staff authorisations together. [Control cabinet and boarding trial](../../cities/Baghdad/engineering/controls/README.md) · [Employment and training](delivery/README.md)
 
+## Compare street access and deck-fed erection
+
+For a long run of standard spans, review two terminal precast yards and inward
+deck-fed erection beside the road/crane method. Appoint the precaster, temporary
+works designer, substructure contractor, traffic authority and erection
+contractor before fixing the launch sequence. The construction programme needs
+an agreed handover for every pier, starter bays, released deck track, safe
+delivery access at both ends, the meeting span and demobilisation. Confirm
+acoustic and access limits before pricing the third shift. [Cost, shift and
+road-occupation comparison](../../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md)
+
 ## What to record after opening
 
 The operator owns a monthly return of paid journeys, fare receipts, denied boardings, on-time departures, passenger assistance failures, asset availability, energy, maintenance hours, labour by grade and arrears on renewal funding. The maintainer links each repeated fault to the asset serial, model revision, software version and repair order. The owner compares actual costs and Iraqi value added with bid commitments each quarter. Record the observed baseline before agreeing performance targets or deductions.

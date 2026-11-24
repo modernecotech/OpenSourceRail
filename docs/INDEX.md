@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **236**.
+Indexed Markdown files: **239**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **236**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 66 |
+| [cities](#cities) | 69 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 137 |
@@ -70,9 +70,12 @@ Indexed Markdown files: **236**.
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
+| [`cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md`](../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | Feed the launching gantries from the deck |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) | Compare straight viaduct spans and supports |
+| [`cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md`](../cities/Baghdad/engineering/mechanical/civil/rail-fed/CONCEPT-GEOMETRY.md) | Rail-fed erection concept geometry |
+| [`cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.md`](../cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.md) | Erection prices, programme and traffic occupation |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
 | [`cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md`](../cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) | Baghdad Airport factory specification |

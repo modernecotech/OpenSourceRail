@@ -16,6 +16,7 @@ Usage: ./osr [COMMAND] [arguments]
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
   design railway audit [--json]       Trace assumption conflicts through route, power, civil works and cash
   design railway spans --route-km KM  Compare viaduct and erection options using Iraqi planning rates
+  design railway rail-fed --help     Compare road-fed cranes with two terminal-fed launching gantries
   design railway yard --beams N      Compare casting output, shifts, mould cycles, deadlines and offers
   design railway feeder --help      Test moving electrical loads or a supply-spacing hypothesis
   status/readiness  Show current candidate identities, evidence and open gates
@@ -106,6 +107,7 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         yard:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.prototype.yard_offers "$@" ;;
         audit:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.assumption_audit "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
+        rail-fed:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.rail_fed_erection "$@" ;;
         spans:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.family_comparison "$@" ;;
         simulation:--compare) shift 4; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.decision_comparison "$@" ;;
         baghdad-options:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.network_option_audit "$@" ;;

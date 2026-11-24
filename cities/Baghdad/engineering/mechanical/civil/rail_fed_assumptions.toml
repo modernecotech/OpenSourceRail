@@ -1,0 +1,65 @@
+# Conditional planning assumptions. Values are not supplier quotes, rates of
+# achieved construction, permission for night work, or limits of the equipment.
+[delivery]
+starter_bays_each_end = 2
+meeting_bays = 1
+overhead_exclusion_pct = 5
+initial_released_bays_each_end = 8
+additional_pier_releases_per_end_per_day = 2.5
+pier_release_first_day = 28
+moulds_per_yard = 16
+mould_cycle_h = 48
+cast_pieces_per_yard_day = 8.0
+stock_slots_per_yard = 24
+initial_stock_per_yard = 16
+yard_area_ha_each = 3.36
+yard_to_deck_rail_km_each = 0.30
+road_front_availability = 0.78
+launcher_front_availability = 0.82
+road_lanes_occupied = 2
+terminal_access_lane_hours = 48
+mobile_prelim_days = 5
+launch_prelim_days = 10
+meeting_days = 2
+residual_days = 2
+launcher_hours_per_standard_bay = 3.2
+track_extension_and_ground_check_h_per_bay = 0.6
+after_landing_deck_release_h = 1.25
+rail_shift_pay_factors = [1.0, 1.10, 1.20]
+flatbed_terminal_load_unload_h_per_trip = 0.85
+flatbed_loaded_speed_kmh = 5.0
+flatbed_empty_speed_kmh = 10.0
+flatbed_tare_t = 25.0
+flatbed_axles = 8
+
+[prices]
+# Fixed and time-dependent costs exclude the separately measured front payroll.
+launcher_mobilisation_usd_each = [600000, 1200000, 2400000]
+launcher_dry_use_usd_day_each = [2500, 4500, 9000]
+flatbed_mobilisation_usd_each = [120000, 250000, 600000]
+flatbed_dry_use_usd_day_each = [450, 900, 2000]
+temporary_track_installed_and_recovered_usd_km = [70000, 140000, 280000]
+terminal_transfer_and_enabling_usd_each = [180000, 350000, 750000]
+power_consumables_usd_per_launched_girder = [60, 130, 260]
+construction_stage_engineering_usd_per_line = [120000, 280000, 650000]
+meeting_interfaces_usd = [35000, 75000, 180000]
+residual_interfaces_usd = [35000, 75000, 180000]
+effective_paid_labor_usd_hour = [8.0, 10.0, 14.0]
+
+[road_crew]
+"Front supervisor" = 1
+"Crane operator" = 1
+"Rigging" = 2
+"Alignment and installation" = 2
+"Traffic and access" = 2
+"Haul driver for loaded round trip" = 1
+
+[rail_crew]
+"Front supervisor" = 1
+"Gantry operator" = 1
+"Rigging" = 2
+"Alignment and installation" = 2
+"Temporary track and inspection" = 2
+"Flatbed operator" = 1
+"Terminal transload coordinator" = 1
+"Access and protection" = 1
