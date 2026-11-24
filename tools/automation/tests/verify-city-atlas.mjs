@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
-import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,mkdtemp,readFile,rm,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {launchBrowser} from './browser-launch.mjs';
 if(process.argv[2]==='--cached-native-upload-only'){
@@ -10,7 +10,11 @@ if(process.argv[2]==='--cached-native-upload-only'){
 }else{
 const root=process.env.OSR_ROOT||process.cwd(),python=process.env.OSR_PYTHON||'/home/hayder/Documents/OpenSourceRail/.venv/bin/python';
 const out=resolve(root,'build/city-atlas-browser');await mkdir(out,{recursive:true});
-const server=spawn(python,['-u','tools/automation/default-design-workbench.py','--port','8097'],{cwd:root,stdio:['ignore','pipe','pipe']});
+// The service explicitly requires external stores and reserves 20 GiB free
+// on their volume. Keep them on the checkout volume and release after the run.
+const stores = await mkdtemp(resolve(root,'../.osr-city-atlas-check-'));
+const server=spawn(python,['-u','tools/automation/default-design-workbench.py','--port','8097',
+  '--city-study-store',resolve(stores,'cities'),'--trip-store',resolve(stores,'trips')],{cwd:root,stdio:['ignore','pipe','pipe']});
 let log='',browser;server.stdout.on('data',c=>log+=c);server.stderr.on('data',c=>log+=c);
 try {
   const deadline=Date.now()+30000;
@@ -20,6 +24,7 @@ try {
   const page=await browser.newPage({viewport:{width:1500,height:1100}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8097/docs/workbench/current/?outlineCity=samawah');
+  await page.locator('#worked-railways > summary').click();
   const reference=page.locator('#v07-reference');
   assert.equal(await reference.getAttribute('data-physical-candidate-id'),'osr-v07-joined-civil-518dad57a3af5046f40c8f4f');
   assert.equal(await reference.getAttribute('data-parent-joined-id'),'osr-v07-joined-prototype-20261117');
@@ -134,6 +139,19 @@ try {
   await published.locator('.atlas-service-table tbody tr').first().waitFor({timeout:60000});
   assert.equal(await published.locator('.atlas-service-table tbody tr').count(),5);
   assert((await published.locator('.atlas-attribution').innerText()).includes('source bytes verified'));
+  const example = published.locator('#outline-load-example');
+  const results = published.locator('#outline-results');
+  assert.equal(await results.isVisible(), false);
+  assert.equal(await published.locator('#outline-form [name=route_km]').inputValue(), '');
+  await example.click();
+  await results.waitFor({state:'visible'});
+  assert.match(await published.locator('#outline-status').innerText(), /Published example/);
+  for (const link of await published.locator('#outline-artifacts a').all()) {
+    assert.equal(await link.evaluate(async (anchor) => (await fetch(anchor.href)).status), 200);
+  }
+  await published.locator('#outline-form [name=route_km]').fill('19');
+  assert.equal(await results.isVisible(), false);
+  assert.match(await published.locator('#maturity-outline').innerText(), /being edited/i);
   tamper=true;await published.reload();
   await published.waitForFunction(()=>document.querySelector('#city-outline-status')?.textContent.includes('payload differs'),{timeout:60000});
   assert.equal(await published.locator('.atlas-service-table').count(),0);
@@ -143,6 +161,7 @@ try {
 } finally {
   await writeFile(out+'/server.log',log);
   if(browser)await browser.close();server.kill('SIGTERM');
+  await rm(stores,{recursive:true,force:true});
 }
 
 }

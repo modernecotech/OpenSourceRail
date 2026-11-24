@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **220**.
+Indexed Markdown files: **223**.
 
 ## Sections
 
@@ -20,10 +20,10 @@ Indexed Markdown files: **220**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 57 |
+| [cities](#cities) | 59 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 131 |
+| [docs](#docs) | 132 |
 | [engineering](#engineering) | 15 |
 | [tools](#tools) | 4 |
 
@@ -72,6 +72,7 @@ Indexed Markdown files: **220**.
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad station bay and 10 m track span |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
+| [`cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) | Compare straight viaduct spans and supports |
 | [`cities/Baghdad/engineering/mechanical/vehicle/README.md`](../cities/Baghdad/engineering/mechanical/vehicle/README.md) | Baghdad powered bogie and braced carbody |
 | [`cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md`](../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) | Train weight and traction supply for the first Baghdad network |
 | [`cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md`](../cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) | Baghdad Airport factory specification |
@@ -103,6 +104,7 @@ Indexed Markdown files: **220**.
 | [`cities/Baghdad/engineering/prototype/weight-guide.md`](../cities/Baghdad/engineering/prototype/weight-guide.md) | Return installed Airport weights |
 | [`cities/Baghdad/engineering/simulation/CAM-COMPARISON.md`](../cities/Baghdad/engineering/simulation/CAM-COMPARISON.md) | CamCraft and FreeCAD on the Airport wax coupon |
 | [`cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md`](../cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md) | FreeCAD CAM trial on the wax coupon |
+| [`cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md`](../cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md) | Which choices change the service and the price? |
 | [`cities/Baghdad/engineering/simulation/MOTION-POWER.md`](../cities/Baghdad/engineering/simulation/MOTION-POWER.md) | Airport service, train motion and traction supply |
 | [`cities/Baghdad/engineering/simulation/PLAN.md`](../cities/Baghdad/engineering/simulation/PLAN.md) | Baghdad Airport simulation programme |
 | [`cities/Baghdad/engineering/simulation/SIMULATION.md`](../cities/Baghdad/engineering/simulation/SIMULATION.md) | Simulating the Baghdad Airport opening |
@@ -134,6 +136,7 @@ Indexed Markdown files: **220**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
 | [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost and delivery baseline |
+| [`docs/DESIGN-DECISIONS.md`](../docs/DESIGN-DECISIONS.md) | Choosing a railway for a corridor |
 | [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | Railway engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/PROJECT-REVIEW-2026-11-23.md`](../docs/PROJECT-REVIEW-2026-11-23.md) | Project review, 23 November 2026 |

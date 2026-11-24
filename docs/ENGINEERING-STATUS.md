@@ -1,5 +1,7 @@
 # Railway engineering status
 
+For a new route, compare service, train, supply and viaduct options under the same passenger and delivery brief. The register gives the assumptions that could reverse each choice, the quantities a supplier can price and the checks still open. [Corridor decision review](DESIGN-DECISIONS.md)
+
 ## Baghdad decisions on main
 
 | Area | Current digital result | Evidence needed to close the decision |

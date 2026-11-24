@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { gunzipSync } from "node:zlib";
 import { launchBrowser } from "./browser-launch.mjs";
@@ -36,6 +37,7 @@ const planningRun = await mkdtemp(
   resolve(root, "build/current-planning-check-"),
 );
 const python = process.env.OSR_PYTHON || root + "/.venv/bin/python";
+const tripStore = await mkdtemp(resolve(tmpdir(), "osr-current-browser-trips-"));
 const server = spawn(
   python,
   [
@@ -47,6 +49,8 @@ const server = spawn(
     "--port",
     "0",
     "--no-browser",
+    "--trip-store",
+    tripStore,
   ],
   {
     cwd: sourceRoot,
@@ -104,6 +108,7 @@ try {
   assert.equal(current.development_default, true);
   assert.equal(current.family, "wheel_rail_vehicle_reference");
   assert.equal(current.reference_service_values_are_active_requirements,false);
+  assert.equal(current.publication_state, "current", current.hold_reason);
   const activePolicy=current.active_propulsion_policy;
   assert.equal(activePolicy.policy.selection_mode,"candidate-specific");
   assert.equal(activePolicy.policy.prescribed_powered_length,false);
@@ -113,7 +118,6 @@ try {
   for (const id of ["support_component_id", "propulsion_component_id"])
     assert.match(current[id], /^[a-f0-9]{64}$/);
   assert.equal("magnet_component_id" in current, false);
-  assert.equal(current.publication_state, "current");
   // These scalar values are retained reproducibility controls, not active requirements.
   assert.equal(current.service.launch_speed_cap_m_s, 20);
   assert.equal(current.service.headway_s, 120);
@@ -211,9 +215,17 @@ try {
   report.vehicle_cost_train_iqd =
     vehicleCost.total_vehicle_factory_delivery_assembly_iqd_per_train;
   assert.equal(await page.locator("#speed").innerText(), "Variable");
-  assert.equal(await page.locator("#headway").innerText(), "Optimised");
+  assert.equal(await page.locator("#headway").innerText(), "Set per service");
   assert.equal(await page.locator("#capacity").innerText(), "Demand-led");
   assert.match(await page.locator("#active-propulsion-status").innerText(),/No installed propulsion/);
+  assert.equal(await page.locator("#outline-results").isVisible(), false);
+  const brief = page.locator("#outline-form");
+  for (const field of ["route_km", "stations", "peak_demand_pphpd"])
+    assert.equal(await brief.locator(`[name=${field}]`).inputValue(), "");
+  assert.equal(await brief.evaluate((form) => form.checkValidity()), false);
+  assert.equal(await page.locator("#worked-railways").getAttribute("open"), null);
+  assert.deepEqual(mutations, []);
+  await page.locator("#outline-load-example").click();
   await page.locator("#outline-results").waitFor({state:"visible"});
   assert((await page.locator("#outline-rows tr").count())>=3);
   assert.match(await page.locator("#outline-rows").innerText(),/Cable \/ capstan/);
@@ -223,6 +235,26 @@ try {
   assert.match(await page.locator("#maturity-engineering").innerText(),/pending/);
   assert.match(await page.locator("#maturity-prototype").innerText(),/Not validated/);
   assert.match(await page.locator("#maturity-release").innerText(),/Not approved/);
+  await brief.locator("[name=route_km]").fill("24");
+  assert.equal(await page.locator("#outline-results").isVisible(), false);
+  assert.match(await page.locator("#maturity-outline").innerText(), /being edited/i);
+  await brief.locator("[name=stations]").fill("10");
+  await brief.locator("[name=peak_demand_pphpd]").fill("3400");
+  const calculation = page.waitForResponse((response) =>
+    response.request().method() === "POST" && response.url() === origin + "/api/outline-study",
+    { timeout: 120000 },
+  );
+  await brief.getByRole("button", { name: "Generate and compare outlines" }).click();
+  const response = await calculation;
+  assert.equal(response.status(), 200, await response.text());
+  const revised = await response.json();
+  assert.deepEqual([revised.brief.route_km, revised.brief.stations, revised.brief.peak_demand_pphpd], [24, 10, 3400]);
+  await page.locator("#outline-results").waitFor({ state: "visible" });
+  assert((await page.locator("#outline-status").innerText()).includes(revised.requirements_id.slice(0,12)));
+  const manifestLink = page.locator("#outline-artifacts").getByRole("link", { name: "Source and artifact identities" });
+  const saved = await context.request.get(new URL(await manifestLink.getAttribute("href"), page.url()).href);
+  assert.equal(saved.status(), 200);
+  assert.equal((await saved.json()).manifest_id, revised.manifest_id);
   assert.equal(await page.locator("#system-capex").innerText(),"Compare outlines");
   assert.equal(await page.locator("#system-whole-life").innerText(),"Candidate-specific");
   assert.equal((await page.locator("main").innerText()).includes("NaN"),false);
@@ -728,7 +760,7 @@ try {
   );
   await page.screenshot({ path: output + "/held.png", fullPage: true });
   assert.deepEqual(errors, []);
-  assert.deepEqual(mutations, []);
+  assert.deepEqual(mutations, [origin + "/api/outline-study"]);
   assert.deepEqual(external, []);
   report.execution = "completed";
   report.screen = "pass";
@@ -742,7 +774,7 @@ try {
     "current city source bindings",
     "selected-candidate Class C vehicle cost and 2/3-shift operating cases",
     "desktop/mobile rendering",
-    "read-only API",
+    "one explicit local outline calculation, immutable result and manifest, no other mutations",
     "coordinated research counts and unknown installed mass",
     "portfolio family filters, exact candidate evidence and separate quantity/mechanics archives",
     "forged portfolio acceptance hides research results",
@@ -760,6 +792,7 @@ try {
   if (browser) await browser.close();
   server.kill("SIGTERM");
   await rm(planningRun, { recursive: true, force: true });
+  await rm(tripStore, { recursive: true, force: true });
   await writeFile(output + "/server.log", log);
   await writeFile(
     output + "/result.json",

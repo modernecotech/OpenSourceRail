@@ -183,7 +183,7 @@ function showMaturity(complete, label) {
 }
 async function sourceBoundOutlineSummary(expected) {
   const name = "docs/design-engine/demand-outline/summary.json";
-  const response = await fetch("/" + name, { cache: "no-store" });
+  const response = await fetch("../../design-engine/demand-outline/summary.json", { cache: "no-store" });
   if (!response.ok) throw Error("Current outline comparison unavailable");
   const raw = await response.arrayBuffer();
   const actual = Array.from(
@@ -191,7 +191,7 @@ async function sourceBoundOutlineSummary(expected) {
     (b) => b.toString(16).padStart(2, "0"),
   ).join("");
   const manifest = validated(
-    await request("/docs/design-engine/current/manifest.json"),
+    await request("../../design-engine/current/manifest.json"),
     expected,
   );
   if (manifest.source_sha256?.[name] !== actual)
@@ -225,32 +225,13 @@ async function renderSystemCost(expected) {
     throw Error(
       "Reference-control comparison must not become the active budget.",
     );
-  const value = await sourceBoundOutlineSummary(expected);
-  renderOutlineRows(value, "../../design-engine/demand-outline/");
   byId("system-capex").textContent = "Compare outlines";
   byId("system-whole-life").textContent = "Candidate-specific";
   byId("system-cost-status").textContent =
     "Current calculated corridor alternatives · no installed propulsion selected. Use the requirement form above to generate a new comparison.";
   const facts = byId("system-cost-facts");
   facts.replaceChildren();
-  fact(
-    facts,
-    "Calculated example",
-    `${value.brief.route_km} km · ${value.brief.stations} stations · ${format(value.brief.peak_demand_pphpd)} peak passengers/hour/direction`,
-  );
-  fact(
-    facts,
-    "Compared approaches",
-    value.outlines
-      .map((row) => launchNames[row.mechanism] || row.mechanism)
-      .join(" · "),
-  );
-  fact(
-    facts,
-    "Scope",
-    "Fourteen whole-life cost scopes per outline; assumptions remain inspectable. Engineering, prototype and release are separate.",
-  );
-  outlineStatus.textContent = `${value.outlines.length} calculated outlines for the starting brief. Change the requirements above to generate and compare alternatives.`;
+  fact(facts, "Scope", "Compare capital and 30-year cost at the service level defined in your brief.");
 }
 
 async function renderPortfolios(expected) {
@@ -619,7 +600,7 @@ async function start() {
     )
       throw Error("Reference vehicle passenger policy differs.");
     byId("speed").textContent = "Variable";
-    byId("headway").textContent = "Optimised";
+    byId("headway").textContent = "Set per service";
     byId("capacity").textContent = "Demand-led";
     byId("active-propulsion-status").textContent =
       "No installed propulsion architecture, powered length or operating headway is selected. Compare candidates against passenger needs, physics and complete cost." +
@@ -945,14 +926,42 @@ async function start() {
 // The local server calculates immutable studies; the static site explains how
 // to start it instead of substituting historical results.
 const outlineForm = document.getElementById("outline-form");
+let outlineRequest = 0;
+outlineForm.addEventListener("input", () => {
+  ++outlineRequest;
+  byId("outline-results").hidden = true;
+  byId("maturity-outline").textContent = "Brief being edited";
+  outlineStatus.textContent = "Generate a comparison for the edited brief.";
+});
 const outlineStatus = document.getElementById("outline-status");
+byId("outline-load-example").addEventListener("click", async () => {
+  const requestId = ++outlineRequest;
+  byId("outline-results").hidden = true;
+  outlineStatus.textContent = "Loading the published outline…";
+  try {
+    const local = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+    const expected = local ? validated(await request("/api/default-design")) : undefined;
+    if (local && expected.publication_state !== "current")
+      throw Error("The local reference publication needs verification.");
+    const value = await sourceBoundOutlineSummary(expected);
+    if (requestId !== outlineRequest) return;
+    renderOutlineRows(value, "../../design-engine/demand-outline/", [
+      ["summary.json", "Published comparison and assumptions"],
+      ["inputs.json", "Example corridor brief"],
+      ["manifest.json", "Source and artifact identities"],
+    ]);
+    outlineStatus.textContent = `Published example · ${value.brief.route_km} km · ${value.brief.stations} stations · ${format(value.brief.peak_demand_pphpd)} peak passengers/hour/direction.`;
+  } catch (error) {
+    if (requestId === outlineRequest) outlineStatus.textContent = error.message;
+  }
+});
 const launchNames = {
   "cable-capstan": "Cable / capstan",
   "common-drive-rollers": "Common-drive rollers",
   "compact-launch-LIM": "Compact LIM",
 };
 const moneyMillions = (value) => `$${(value / 1e6).toFixed(1)}m`;
-function outlineInspect(row, open = true) {
+function outlineInspect(row) {
   const area = document.getElementById("outline-evidence");
   area.replaceChildren();
   const title = document.createElement("h3");
@@ -973,11 +982,14 @@ function outlineInspect(row, open = true) {
       task.explanation || task.reason || task.action || JSON.stringify(task);
     area.append(paragraph);
   }
-  document.getElementById("outline-detail").open = open;
+  document.getElementById("outline-detail").open = true;
 }
-function renderOutlineRows(value, artifactBase) {
-  if (!Array.isArray(value.outlines) || !value.outlines.length)
-    throw Error("No calculated outline alternatives available");
+function renderOutlineRows(value, artifactBase, artifacts = [
+  ["result.json", "Complete study and evidence"],
+  ["manifest.json", "Source and artifact identities"],
+  ["performance.json", "Execution measurements"],
+]) {
+  if (!Array.isArray(value.outlines)) throw Error("Missing calculated outline list");
   for (const row of value.outlines) {
     for (const field of [
       "headway_s",
@@ -1042,11 +1054,7 @@ function renderOutlineRows(value, artifactBase) {
     : "No outline meets this brief within the current search budget. Inspect the complete study for failures, pending work and alternative requirements.";
   const links = document.getElementById("outline-artifacts");
   links.replaceChildren();
-  for (const [file, label] of [
-    ["result.json", "Complete study and evidence"],
-    ["manifest.json", "Source and artifact identities"],
-    ["performance.json", "Execution measurements"],
-  ]) {
+  for (const [file, label] of artifacts) {
     const link = document.createElement("a");
     link.href = artifactBase + file;
     link.textContent = label;
@@ -1056,12 +1064,14 @@ function renderOutlineRows(value, artifactBase) {
 
   showMaturity(
     value.outlines.some((row) => row.maturity === "accepted"),
-    `${value.brief.route_km} km example`,
+    `${value.brief.route_km} km comparison`,
   );
-  if (selected) outlineInspect(selected, false);
+  byId("outline-detail").open = false;
+  byId("outline-evidence").textContent = "Choose an outline to inspect its assumptions.";
 }
 outlineForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const requestId = ++outlineRequest;
   const button = document.getElementById("outline-generate");
   button.disabled = true;
   outlineStatus.textContent =
@@ -1093,9 +1103,11 @@ outlineForm.addEventListener("submit", async (event) => {
     const value = await response.json();
     if (!response.ok)
       throw Error(value.error || "Outline calculation unavailable");
+    if (requestId !== outlineRequest) return;
     renderOutlineRows(value, value.artifact_url);
     outlineStatus.textContent = `${value.costed_cases} complete cost cases · ${value.outlines.length} retained outlines · ${value.pricing_scenario} · requirements ${value.requirements_id.slice(0, 12)}.`;
   } catch (error) {
+    if (requestId !== outlineRequest) return;
     outlineStatus.textContent = `Unable to complete the outline: ${error.message}. For calculations, open the local Workbench with ./osr workbench.`;
   } finally {
     button.disabled = false;
@@ -1281,7 +1293,7 @@ byId("city-outline-load").addEventListener("click", async () => {
       select.append(option);
     }
     const requested =
-      new URLSearchParams(location.search).get("outlineCity") || "baghdad";
+      new URLSearchParams(location.search).get("outlineCity");
     select.value = completionCatalogue.cities.some(
       (r) => r.city.slug === requested,
     )

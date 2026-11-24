@@ -13,6 +13,8 @@ and [finite release gate](RELEASE-v0.7.md) govern current public claims.
 
 ## Which design is current?
 
+A new corridor starts with passenger needs, alignment and construction constraints. Train length, pier spacing and supply equipment are choices to compare at the same service. The development reference and the two published examples below each have their own purpose and inputs. [Corridor design decisions](DESIGN-DECISIONS.md)
+
 [v0.4 conventional railway](https://github.com/modernecotech/OpenSourceRail/tree/v0.4.0)
 and [v0.5 maglev](https://github.com/modernecotech/OpenSourceRail/tree/v0.5.1)
 are historical designs.
