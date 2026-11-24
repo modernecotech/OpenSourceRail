@@ -242,7 +242,9 @@ jobs:
   release-fast-tests:
     name: Selected v0.6 software and resource contracts
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    # The selected tests and the independent clean install share this runner.
+    # Cold checkout and both replays together can exceed ten minutes.
+    timeout-minutes: 20
     env:
       PYTHONDONTWRITEBYTECODE: "1"
       OPENBLAS_NUM_THREADS: "1"
