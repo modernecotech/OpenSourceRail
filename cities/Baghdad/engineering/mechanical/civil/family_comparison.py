@@ -228,26 +228,40 @@ def support(a, shared, soil, cfg):
                 crosshead_cantilever_knm=(dead+live)*pitch/2+2*abs(a["end_torque_knm"]) if shared else None)
 
 
-def cost(row, rates, shop, basket):
+def validate_offer(offer):
+    fields = {"supplier", "offer_id", "physical_id", "placements", "lift_radius_m", "working_load_t",
+              "haul_usd_per_placement", "erection_usd_per_placement", "placements_per_shift"}
+    if not isinstance(offer, dict) or offer.keys() != fields:
+        raise ValueError(f"Erection offer requires these fields: {', '.join(sorted(fields))}")
+    if any(not isinstance(offer[k], str) or not offer[k].strip() for k in ("supplier", "offer_id", "physical_id")):
+        raise ValueError("Identify the supplier, offer and physical trial")
+    if len(offer["physical_id"]) != 64 or any(c not in "0123456789abcdef" for c in offer["physical_id"]):
+        raise ValueError("Use the trial's full SHA-256 physical_id")
+    if type(offer["placements"]) is not int or offer["placements"] <= 0:
+        raise ValueError("Quote a positive whole number of placements")
+    for key in fields-{"supplier", "offer_id", "physical_id", "placements"}:
+        value = offer[key]
+        if type(value) not in (float, int) or not isfinite(value) or value < 0 or (value == 0 and not key.endswith("_per_placement")):
+            raise ValueError(f"Invalid quantity in erection offer: {key}")
+
+
+def cost(row, rates, shop, basket, offers):
     n, p, bears, placements = (row[k] for k in ("beams", "supports", "bearings", "placements"))
     a, sec, base = row["actions"], row["section"], row["support"]
     chart_class = row["matched_crane_price_class_t"]
-    if chart_class is None or base["foundation_hold"]:
-        return {}
     length = row["span_m"]
     options = {}
     for i, name in enumerate(CASES):
         # Material allowances bought separately from fabrication, site works and haul labour.
-        vol = n*sec["volume_m3"]+p*base["concrete_m3"]
+        support_volume = p*base["concrete_m3"] if base["concrete_m3"] is not None else None
+        vol = n*sec["volume_m3"]+(support_volume or 0)
         if sec["shape"] == "issued-box":
             beam_steel = row["counted_bar_kg_per_beam"]
         else:
             # Budget includes extra cage steel for links; supplier must return a cage schedule.
             beam_steel = sec["volume_m3"]*TRIALS["rebar_kg_per_m3"] + a["shear_links_demand_mm2_per_m"]*1e-6*7850*length*sec["depth_m"]
-        steel = n*beam_steel+p*base["concrete_m3"]*rates["rebar_t_per_m3"][i]*1000
+        steel = n*beam_steel+(support_volume or 0)*rates["rebar_t_per_m3"][i]*1000
         strand_kg = n*a["strand_count"]*length*row["strand_kg_m"]
-        chart_factor = {60: 1., 110: 1.65, 180: 2.8}[chart_class]
-        closure_shifts = -(-placements // row["placements_per_shift"])
         yard_size = min(8, placements)
         # Labour and yard handling estimated against issue's first 10m delivery allowance,
         # less its stated modelled standard haul. Variants scale with casting and set-ups.
@@ -257,13 +271,36 @@ def cost(row, rates, shop, basket):
         overhead = rates["other_civil_usd_m_per_route_km"][i]*1e6*row["route_km"]
         parts = dict(materials=vol*basket["concrete"]*TRIALS["material_delivery_multiplier"][i]
                      +steel*basket["bar"]/1000 + strand_kg*TRIALS["strand_usd_kg"][i],
-                     fabrication=fabrication, haul=placements*haul_rate*chart_factor,
-                     supports=p*rates["support_works_usd_each"][i]*(1.25 if row["shared_pier"] else 1.),
+                     fabrication=fabrication,
                      bearing_supply_and_install=bears*(TRIALS["bearing_purchase_usd_each"][i]+shop["civil-bearing"]["usd"][i]),
-                     erection=placements*rates["lift_usd_each"][i]*chart_factor,
-                     road_occupation=closure_shifts*TRIALS["closure_usd_shift"][i],
                      forms=yard_size*TRIALS["bed_and_form_usd"][i]*(length/a["segments"]/10)**.8,
                      common_elevated_scope=overhead)
+        missing = []
+        if support_volume is None:
+            missing.append("site foundation, associated materials and support works")
+        else:
+            parts["supports"] = p*rates["support_works_usd_each"][i]*(1.25 if row["shared_pier"] else 1.)
+        closure_rate = TRIALS["closure_usd_shift"][i]
+        logistics = []
+        for offer in offers:
+            shifts = ceil(Fraction(placements)/Fraction(str(offer["placements_per_shift"])))
+            amounts = dict(haul=placements*offer["haul_usd_per_placement"],
+                           erection=placements*offer["erection_usd_per_placement"], road_occupation=shifts*closure_rate)
+            logistics.append((sum(amounts.values()), offer["offer_id"], offer["placements_per_shift"], shifts, amounts))
+        if logistics:
+            _, offer_id, productivity, shifts, amounts = min(logistics)
+            source = "contractor offer"
+            parts.update(amounts)
+        elif chart_class is not None:
+            factor = {60: 1., 110: 1.65, 180: 2.8}[chart_class]
+            productivity = {60: 8, 110: 4, 180: 2}[chart_class]
+            shifts = -(-placements // productivity)
+            offer_id, source = None, "12 m planning rate"
+            parts.update(haul=placements*haul_rate*factor, erection=placements*rates["lift_usd_each"][i]*factor,
+                         road_occupation=shifts*closure_rate)
+        else:
+            missing.extend(("haul", "erection", "road occupation"))
+            offer_id, source, productivity, shifts = None, "unpriced", None, None
         if a["profiled_second_stage"]:
             parts["stressed_after_landing"] = n*(TRIALS["staged_pt_per_girder_usd"][i]+
                 (a["strand_count"]-a["straight_handling_strands"])*length*TRIALS["duct_grout_stressing_usd_per_strand_m"][i])
@@ -276,13 +313,23 @@ def cost(row, rates, shop, basket):
         rate = TRIALS["cost_discount_real"]
         installed = sum(parts.values())
         pv = installed + annual*(1-(1+rate)**-30)/rate + renew/(1+rate)**20
-        options[name] = dict(installed_usd=installed, annual_inspection_usd=annual, year20_bearings_usd=renew,
-                             lifecycle_pv_usd=pv, installed_breakdown_usd=parts)
+        options[name] = dict(installed_usd=None if missing else installed, annual_inspection_usd=annual,
+                             known_installed_subtotal_usd=installed, missing_cost_scope=missing, year20_bearings_usd=renew,
+                             lifecycle_pv_usd=None if missing else pv, installed_breakdown_usd=parts,
+                             logistics_source=source, offer_id=offer_id, placements_per_shift=productivity,
+                             traffic_shifts=shifts)
     return options
 
 
 def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
-             lift_radius_m=PRICED_LIFT_RADIUS_M):
+             lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=()):
+    erection_offers = list(erection_offers)
+    for offer in erection_offers:
+        validate_offer(offer)
+    if len({o["offer_id"] for o in erection_offers}) != len(erection_offers):
+        raise ValueError("Use distinct offer IDs for different erection returns")
+    erection_offers.sort(key=lambda o: o["offer_id"])
+    offer_status = {o["offer_id"]: "physical ID outside current study" for o in erection_offers}
     if not isfinite(lift_radius_m) or lift_radius_m <= 0:
         raise ValueError("Lift radius must be finite and positive in metres")
     if crane_limit_t is not None and (not isfinite(crane_limit_t) or crane_limit_t <= 0):
@@ -342,9 +389,7 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                 row["checks"]["available_crane"] = a["chart_demand_t"] <= crane_limit_t
             matched_class = a["chart_class_t_at_12m"] if lift_radius_m == PRICED_LIFT_RADIUS_M else None
             row["matched_crane_price_class_t"] = matched_class
-            row["placements_per_shift"] = {60: 8, 110: 4, 180: 2}.get(matched_class)
             row["haul_trips"] = row["placements"]
-            row["traffic_shifts"] = -(-row["placements"] // row["placements_per_shift"]) if row["placements_per_shift"] else None
             row["mould_positions"] = min(8,row["placements"])
             row["casting_days_at_24h_cycle"] = -(-row["placements"] // row["mould_positions"])
             row["casting_days_at_48h_cycle"] = 2*row["casting_days_at_24h_cycle"]
@@ -354,20 +399,40 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                                               crosshead=[base["cap_cross_track_m"], base["cap_along_track_m"], base["cap_depth_m"]],
                                               shared=shared, pier_height=cfg["pier"]["column_height_m"],
                                               tracks_pitch=TRIALS["track_pitch_m"], segments=segments, source_cage=cage["physical_id"]))
-            row["priced_cases"] = cost(row, rates, shop, basket)
+            matching = []
+            for offer in erection_offers:
+                if offer["physical_id"] != row["physical_id"]:
+                    continue
+                if offer["lift_radius_m"] != lift_radius_m:
+                    status = "different lift radius"
+                elif offer["placements"] != row["placements"]:
+                    status = "different order quantity"
+                elif offer["working_load_t"] < a["chart_demand_t"]:
+                    status = "offered working load below hook demand"
+                else:
+                    status = "matched"
+                    matching.append(offer)
+                offer_status[offer["offer_id"]] = status
+            cases = cost(row, rates, shop, basket, matching)
+            row["priced_cases"] = {k: v for k, v in cases.items() if v["installed_usd"] is not None}
+            row["partial_cost_cases"] = {k: v for k, v in cases.items() if v["installed_usd"] is None}
+            row["placements_per_shift"] = cases["base"]["placements_per_shift"]
+            row["traffic_shifts"] = cases["base"]["traffic_shifts"]
             row["pricing_hold"] = base["foundation_hold"] or (None if row["priced_cases"] else
                                       f"Request crane, haul and erection rates for the {lift_radius_m:g} m lift")
             row["soil_sensitivity"] = {}
             for soil in (150, 200, 250):
                 alt_support = support(a, shared, soil, cfg)
-                alt_cost = cost(dict(row, support=alt_support), rates, shop, basket).get("base")
+                # The quote identifies the whole physical trial, including the footing dimensions.
+                same_geometry = all(alt_support[k] == base[k] for k in ("footing_width_m", "footing_depth_m"))
+                alt_cost = cost(dict(row, support=alt_support), rates, shop, basket, matching if same_geometry else [])["base"]
                 row["soil_sensitivity"][str(soil)] = {
                     "foundation_hold": alt_support["foundation_hold"],
                     "footing_width_m": alt_support["footing_width_m"],
                     "footing_clear_gap_m": alt_support["footing_clear_gap_m"],
                     "independent_footings_clear": alt_support["independent_footings_clear"],
-                    "installed_usd_per_km": alt_cost["installed_usd"]/route_km if alt_cost else None,
-                    "lifecycle_pv_usd_per_km": alt_cost["lifecycle_pv_usd"]/route_km if alt_cost else None,
+                    "installed_usd_per_km": alt_cost["installed_usd"]/route_km if alt_cost["installed_usd"] is not None else None,
+                    "lifecycle_pv_usd_per_km": alt_cost["lifecycle_pv_usd"]/route_km if alt_cost["lifecycle_pv_usd"] is not None else None,
                 }
             row["complete_installed_usd"] = None
             row["eligible_for_selection"] = False
@@ -389,7 +454,8 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
             leader = min(priced, key=lambda r: r["priced_cases"][case]["lifecycle_pv_usd"])
             prices = leader["priced_cases"][case]
             quotations[case] = dict(label=leader["label"], physical_id=leader["physical_id"],
-                                    installed_usd=prices["installed_usd"], lifecycle_pv_usd=prices["lifecycle_pv_usd"])
+                                    installed_usd=prices["installed_usd"], lifecycle_pv_usd=prices["lifecycle_pv_usd"],
+                                    logistics_source=prices["logistics_source"], offer_id=prices["offer_id"])
         else:
             quotations[case] = None
     decimal_text = format(route_decimal, "f")
@@ -398,6 +464,7 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                   cars=cars, material=material, soil_kpa=soil_kpa, crane_limit_t=crane_limit_t,
                   crane_limit_t_at_12m=crane_limit_t if lift_radius_m == PRICED_LIFT_RADIUS_M else None,
                   lift_radius_m=lift_radius_m, priced_lift_radius_m=PRICED_LIFT_RADIUS_M,
+                  erection_offers=[dict(offer=o, sha256=digest(o), status=offer_status[o["offer_id"]]) for o in erection_offers],
                   passing_trial_count=len(screened), priced_passing_trial_count=len(priced),
                   unresolved_foundation_count=sum(bool(r["support"]["foundation_hold"]) for r in rows),
                   priced_trial_count=sum(bool(r["priced_cases"]) for r in rows), quotation_leaders=quotations,
@@ -411,10 +478,11 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
 def markdown(data):
     capacity = data["crane_limit_t"]
     radius = data["lift_radius_m"]
+    example = next(r for r in data["rows"] if r["span_m"] == 20 and r["section"]["staged_post_tension"] and r["shared_pier"])
     capacity_text = (f"The user supplied {capacity:g} t of available capacity at {radius:g} m radius."
-                     if capacity is not None else f"Available capacity at {radius:g} m is unspecified. Every lift awaits a site chart.")
+                     if capacity is not None else f"No common site rating was entered at {radius:g} m. Each contractor offer is checked against its stated working load.")
     if radius != data["priced_lift_radius_m"]:
-        capacity_text += f" The rate register covers {data['priced_lift_radius_m']:g} m. Obtain erection rates for {radius:g} m."
+        capacity_text += f" The planning rates cover {data['priced_lift_radius_m']:g} m. Only matched contractor offers price the {radius:g} m lift."
     lines = [
         "# Compare straight viaduct spans and supports",
         "",
@@ -433,20 +501,20 @@ def markdown(data):
         f"{data['priced_trial_count']} have a priced civil subtotal, "
         f"{data['passing_trial_count']} pass the stated checks, and {data['priced_passing_trial_count']} satisfy both conditions. {capacity_text} "
         "Each price case identifies the lowest estimated 30-year present value among trials that pass and carry a price. "
-        "A supplier return and independent design review are still required.",
+        "Confirm supplier scope, the load chart and independent design review before procurement.",
         "",
-        "| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km |",
-        "|---|---|---:|---:|",
+        "| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km | Haul and erection rates |",
+        "|---|---|---:|---:|---|",
     ]
     for case, leader in data["quotation_leaders"].items():
         if leader:
             lines.append(f"| {case} | {leader['label']} | {leader['installed_usd']/data['route_km']/1e6:.2f} "
-                         f"| {leader['lifecycle_pv_usd']/data['route_km']/1e6:.2f} |")
+                         f"| {leader['lifecycle_pv_usd']/data['route_km']/1e6:.2f} | {leader['offer_id'] or leader['logistics_source']} |")
         else:
             reason = "Passing trials need an erection quote" if data["passing_trial_count"] else "No trial passes all checks"
             if data["unresolved_foundation_count"] and not data["passing_trial_count"]:
                 reason = "No priced, passing trial. Site foundation design required."
-            lines.append(f"| {case} | {reason} | — | — |")
+            lines.append(f"| {case} | {reason} | — | — | — |")
     lines.extend([
         "",
         "### Shallow foundation case",
@@ -471,7 +539,7 @@ def markdown(data):
     for _, row in chosen.values():
         a, s, costcase = row["actions"], row["section"], row["priced_cases"].get("base")
         prices = (f"{costcase['installed_usd']/1e6/n:.2f} | {costcase['lifecycle_pv_usd']/1e6/n:.2f}"
-                  if costcase else "quote required | —")
+                  if costcase else f"{row['partial_cost_cases']['base']['known_installed_subtotal_usd']/1e6/n:.2f} partial | —")
         margin = row["base_installed_headroom_per_placement_usd"]
         extra = f"{margin:+,.0f}" if margin is not None else "—"
         reasons = {"lift_fibre_min": "lifting tension", "release_fibre_min": "transfer tension",
@@ -483,14 +551,18 @@ def markdown(data):
             failed.append("foundation unresolved")
         width = row["support"]["footing_width_m"]
         footing_text = f"{width:.2f}" if width is not None else "unknown"
+        matched = costcase["offer_id"] if costcase and costcase["offer_id"] else row["matched_crane_price_class_t"] or "unpriced"
         lines.append(f"| {row['span_m']} m {s['shape']} | {s['depth_m']:.2f} | {'shared' if row['shared_pier'] else 'separate'} "
                      f"| {footing_text} | {row['supports']:,} | {a['handling_unit_t']:.1f} | {a['strand_count']} "
-                     f"| {a['chart_demand_t']:.1f} / {row['matched_crane_price_class_t'] or 'unpriced'} | {prices} "
+                     f"| {a['chart_demand_t']:.1f} / {matched} | {prices} "
                      f"| {extra} | {', '.join(failed) or 'trial screens pass'} |")
     lines.extend([
         "",
         "¹ Positive headroom is the additional installed dollars this alternative can absorb per actual lifting placement before matching "
         "the independent 10 m box at the same length and rates. A negative number means it is already dearer. Complete installed prices remain open.",
+        "",
+        "A partial figure includes only priced work. The JSON lists every included amount and the outstanding scope in `partial_cost_cases`. "
+        "When the crane has no price, the material, casting, forms and modeled support costs remain visible. They do not enter the quotation ranking on their own.",
         "",
         "### What changes the order",
         "",
@@ -562,6 +634,20 @@ def markdown(data):
         "python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 148.2 --soil-kpa 150 --json > build/span-families.json",
         "```",
         "",
+        "To enter a contractor return, copy the exact `physical_id` and `placements` from the relevant trial's JSON. This example uses the deeper 20 m U on a shared pier. "
+        "The haul and erection rates are delivered USD per placement, exclusive of traffic closure. The working load must cover modeled hook demand at the quoted radius.",
+        "",
+        "```json",
+        json.dumps(dict(supplier="Example contractor", offer_id="example-A",
+            physical_id=example["physical_id"], placements=example["placements"],
+            lift_radius_m=18, working_load_t=95.5, haul_usd_per_placement=1200, erection_usd_per_placement=3500,
+            placements_per_shift=4), indent=2),
+        "```",
+        "",
+        "Run the matching scope with `--lift-radius-m 18 --erection-offer offer.json`. Repeat `--erection-offer` for other bidders. "
+        "Matched returns replace the planning haul and erection rates. For each rate case the model compares those offers including traffic closures at their respective production rates. "
+        "Materials, the price per closure and other civil work retain their estimating basis. Each return has a digest and match status in JSON.",
+        "",
         f"Evaluation `{data['evaluation_id']}`. All cases remain open for independent engineering review.",
     ])
     return "\n".join(lines)+"\n"
@@ -575,6 +661,8 @@ def main():
                    help="available working load in tonnes at the entered radius, if known")
     p.add_argument("--lift-radius-m", type=float, default=PRICED_LIFT_RADIUS_M,
                    help="lift radius in metres; the existing rate register covers 12 m")
+    p.add_argument("--erection-offer", action="append", type=Path, default=[],
+                   help="scoped haul and erection offer JSON (repeat for multiple suppliers)")
     p.add_argument("--cars", type=int, choices=(3,6), default=6)
     p.add_argument("--material", choices=vehicle.MATERIAL, default="steel")
     group = p.add_mutually_exclusive_group()
@@ -582,8 +670,9 @@ def main():
         group.add_argument(flag, action="store_true")
     args = p.parse_args()
     try:
-        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m)
-    except (InvalidOperation, ValueError) as error:
+        data = evaluate(args.route_km,args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m,
+                        [json.loads(path.read_text()) for path in args.erection_offer])
+    except (InvalidOperation, ValueError, OSError) as error:
         p.error(str(error))
     if args.json:
         print(json.dumps(data, indent=2, sort_keys=True, allow_nan=False))
@@ -591,7 +680,7 @@ def main():
     guide = markdown(data)
     path = HERE/"SPAN-FAMILIES.md"
     if args.check or args.write:
-        if (data["route_km_decimal"],args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m) != ("12",6,"steel",200,None,PRICED_LIFT_RADIUS_M):
+        if args.erection_offer or (data["route_km_decimal"],args.cars,args.material,args.soil_kpa,args.crane_limit_t,args.lift_radius_m) != ("12",6,"steel",200,None,PRICED_LIFT_RADIUS_M):
             p.error("The published guide uses the named reference inputs")
         if args.check and guide != path.read_text():
             raise ValueError("Rebuild SPAN-FAMILIES.md")

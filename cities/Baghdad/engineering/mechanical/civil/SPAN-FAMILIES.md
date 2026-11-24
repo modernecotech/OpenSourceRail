@@ -6,13 +6,13 @@ This screen uses 12 km of continuous double track, one straight run, 24 axles an
 
 ### Which design to quote
 
-26 trials were investigated at 200 kPa. 0 require a foundation outside the modeled family. 26 have a priced civil subtotal, 9 pass the stated checks, and 9 satisfy both conditions. Available capacity at 12 m is unspecified. Every lift awaits a site chart. Each price case identifies the lowest estimated 30-year present value among trials that pass and carry a price. A supplier return and independent design review are still required.
+26 trials were investigated at 200 kPa. 0 require a foundation outside the modeled family. 26 have a priced civil subtotal, 9 pass the stated checks, and 9 satisfy both conditions. No common site rating was entered at 12 m. Each contractor offer is checked against its stated working load. Each price case identifies the lowest estimated 30-year present value among trials that pass and carry a price. Confirm supplier scope, the load chart and independent design review before procurement.
 
-| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km |
-|---|---|---:|---:|
-| low | 20m U 1.55m / shared | 5.95 | 6.07 |
-| base | 20m U 1.55m / shared | 8.97 | 9.35 |
-| high | 20m U 1.55m / shared | 15.63 | 16.86 |
+| Rate case | Lowest 30-year cost among screened options | Installed $m/km | 30-year PV $m/km | Haul and erection rates |
+|---|---|---:|---:|---|
+| low | 20m U 1.55m / shared | 5.95 | 6.07 | 12 m planning rate |
+| base | 20m U 1.55m / shared | 8.97 | 9.35 | 12 m planning rate |
+| high | 20m U 1.55m / shared | 15.63 | 16.86 | 12 m planning rate |
 
 ### Shallow foundation case
 
@@ -36,6 +36,8 @@ The following base-rate comparison assumes 200 kPa. Each single-track U has 3.60
 | 20 m joined-box | 1.55 | shared | 6.00 | 601 | 41.7 | 28 | 50.3 / 60 | 10.78 | 11.33 | -4,260 | transfer tension |
 
 ¹ Positive headroom is the additional installed dollars this alternative can absorb per actual lifting placement before matching the independent 10 m box at the same length and rates. A negative number means it is already dearer. Complete installed prices remain open.
+
+A partial figure includes only priced work. The JSON lists every included amount and the outstanding scope in `partial_cost_cases`. When the crane has no price, the material, casting, forms and modeled support costs remain visible. They do not enter the quotation ranking on their own.
 
 ### What changes the order
 
@@ -68,4 +70,22 @@ python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --lift-
 python3 -m cities.Baghdad.engineering.mechanical.civil.family_comparison --route-km 148.2 --soil-kpa 150 --json > build/span-families.json
 ```
 
-Evaluation `b67a764e165730ca3043bf0bf996a4a327942fabdb4de309cb63e9e007a9aae0`. All cases remain open for independent engineering review.
+To enter a contractor return, copy the exact `physical_id` and `placements` from the relevant trial's JSON. This example uses the deeper 20 m U on a shared pier. The haul and erection rates are delivered USD per placement, exclusive of traffic closure. The working load must cover modeled hook demand at the quoted radius.
+
+```json
+{
+  "supplier": "Example contractor",
+  "offer_id": "example-A",
+  "physical_id": "6c9560ea68ef50fed774f256a8d7d373cad9a7e2fd590eb086e553dc802ff076",
+  "placements": 1200,
+  "lift_radius_m": 18,
+  "working_load_t": 95.5,
+  "haul_usd_per_placement": 1200,
+  "erection_usd_per_placement": 3500,
+  "placements_per_shift": 4
+}
+```
+
+Run the matching scope with `--lift-radius-m 18 --erection-offer offer.json`. Repeat `--erection-offer` for other bidders. Matched returns replace the planning haul and erection rates. For each rate case the model compares those offers including traffic closures at their respective production rates. Materials, the price per closure and other civil work retain their estimating basis. Each return has a digest and match status in JSON.
+
+Evaluation `8034e0f4e19877c032d247258f827b2bcc2aa8132e0e52049540c48192c22400`. All cases remain open for independent engineering review.

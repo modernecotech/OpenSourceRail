@@ -186,6 +186,48 @@ class ViaductFamilyTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 family.evaluate(soil_kpa=soil)
 
+    def test_scoped_erection_quote_and_partial_subtotals(self):
+        reference = next(r for r in self.study["rows"] if r["label"] == "20m U 1.55m / shared")
+        quantity = reference["placements"]
+        quote = dict(supplier="Trial supplier", offer_id="A", physical_id=reference["physical_id"], placements=quantity,
+                     lift_radius_m=18.25, working_load_t=95.5, haul_usd_per_placement=1200,
+                     erection_usd_per_placement=3500, placements_per_shift=3)
+        # The faster B costs more per lift, but pays for fewer closure shifts.
+        faster = dict(quote, supplier="Second trial supplier", offer_id="B", erection_usd_per_placement=3700,
+                      placements_per_shift=6)
+        wrong_radius = dict(quote, offer_id="wrong radius", lift_radius_m=12)
+        low_chart = dict(quote, offer_id="short chart", working_load_t=30)
+        wrong_count = dict(quote, offer_id="different lot", placements=quantity+1)
+        result = family.evaluate(lift_radius_m=18.25, erection_offers=[quote, faster, low_chart, wrong_radius, wrong_count])
+        self.assertEqual(result["priced_trial_count"], 1)
+        self.assertEqual(result["priced_passing_trial_count"], 1)
+        self.assertIsNone(result["physical_selection"])
+        self.assertEqual({q["offer"]["offer_id"]: q["status"] for q in result["erection_offers"]},
+                         {"A":"matched", "B":"matched", "wrong radius":"different lift radius",
+                          "different lot":"different order quantity", "short chart":"offered working load below hook demand"})
+        for row in result["rows"]:
+            if row["physical_id"] == reference["physical_id"]:
+                self.assertEqual(row["priced_cases"]["low"]["offer_id"], "A")
+                self.assertEqual(row["traffic_shifts"], quantity//6)
+                actual = row["priced_cases"]["base"]
+                self.assertEqual(actual["offer_id"], "B")
+                self.assertEqual(actual["logistics_source"], "contractor offer")
+                self.assertEqual(actual["installed_breakdown_usd"]["haul"], 1200*quantity)
+                self.assertEqual(actual["installed_breakdown_usd"]["erection"], 3700*quantity)
+                self.assertEqual(actual["installed_breakdown_usd"]["road_occupation"], quantity//6*2400)
+                self.assertIsNone(row["soil_sensitivity"]["150"]["installed_usd_per_km"])
+                self.assertAlmostEqual(row["soil_sensitivity"]["200"]["installed_usd_per_km"], actual["installed_usd"]/12)
+            else:
+                self.assertFalse(row["priced_cases"])
+                partial = row["partial_cost_cases"]["base"]
+                self.assertIsNone(partial["installed_usd"])
+                self.assertIsNone(partial["lifecycle_pv_usd"])
+                self.assertEqual(partial["missing_cost_scope"], ["haul", "erection", "road occupation"])
+                for key in ("materials", "fabrication", "forms", "supports"):
+                    self.assertGreater(partial["installed_breakdown_usd"][key], 0)
+                self.assertEqual(partial["known_installed_subtotal_usd"], sum(partial["installed_breakdown_usd"].values()))
+        self.assertEqual(result["quotation_leaders"]["base"]["offer_id"], "B")
+
 
 if __name__ == "__main__":
     unittest.main()
