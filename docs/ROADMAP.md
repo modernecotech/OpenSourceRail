@@ -4,6 +4,8 @@ The [Baghdad Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESUL
 
 OpenSourceRail connects three products: city planning and service, railway engineering and manufacturing, and controls and maintenance. Local design, fabrication, repair and open knowledge are the governing economic aims. The [project introduction](../README.md) explains the full platform; the [architecture](ARCHITECTURE.md), [engineering status](ENGINEERING-STATUS.md), [cost baseline](COST-BASELINE.md) and [v0.7 release record](RELEASE-v0.7.md) are the current decision documents.
 
+Start with the [stakeholder partnership plan](operator-review/PARTNERSHIP-PLAN.md) to recruit a host, test one workflow with local evidence and decide whether to fund a bounded study. It proposes owners, an engagement budget and a decision at week twelve.
+
 The [railway delivery workplan](operator-review/WORKPLAN.md) assigns the first twelve weeks of core and Baghdad work to operators, engineers, local manufacturers and sponsors. Use the [operator briefing and design twins](operator-review/README.md) to review the proposals with them.
 
 ## Published digital releases

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **244**.
+Indexed Markdown files: **245**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **244**.
 | [cities](#cities) | 73 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 138 |
+| [docs](#docs) | 139 |
 | [engineering](#engineering) | 16 |
 | [tools](#tools) | 4 |
 
@@ -253,6 +253,7 @@ Indexed Markdown files: **244**.
 | [`docs/integration/v06-platform.md`](../docs/integration/v06-platform.md) | Current v0.6 native business platform acceptance |
 | [`docs/integration/v07-assembly-lifecycle.md`](../docs/integration/v07-assembly-lifecycle.md) | Counted research assembly software custody |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
+| [`docs/operator-review/PARTNERSHIP-PLAN.md`](../docs/operator-review/PARTNERSHIP-PLAN.md) | How to secure a first operating partner and sponsor |
 | [`docs/operator-review/README.md`](../docs/operator-review/README.md) | OpenSourceRail for railway operators |
 | [`docs/operator-review/WORKPLAN.md`](../docs/operator-review/WORKPLAN.md) | From design review to railway opening |
 | [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building the fleet and staffing the railway |

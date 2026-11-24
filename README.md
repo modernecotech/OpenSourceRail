@@ -13,6 +13,8 @@ Initiated by **Hayder Aziz**, building on research into collaborative engineerin
 
 **Project status.** [v0.7.2](docs/releases/v0.7.2/README.md) is the published software release, with a reproducible opening study and enquiry dossier. Development on `main` includes editable city studies, coupled train and power simulation, rapid vehicle production, deck-fed viaduct delivery, standards traceability and supplier comparison. **v0.8 production preparation remains open.** The car, powered bogie, viaduct, station, power and controls, and local production packages identify which work can be priced and which interfaces need supplier data, measurements or independent review. [Current engineering decisions](docs/DESIGN-DECISIONS.md) · [Readiness by package](cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md)
 
+**For prospective partners.** Bring one local service or maintenance question to a two-week operator trial. The partnership plan explains what cities, passengers, workshops and funders can contribute, what the trial costs and how to decide whether to continue. [Stakeholder partnership plan](docs/operator-review/PARTNERSHIP-PLAN.md)
+
 ## What you can do with OpenSourceRail
 
 Start with the **interactive workshop** linked above. Extract it, open **START.html** in a browser and try a route, a train model and a funding case. For a meeting or printed handout, use the [illustrated operator brief](docs/operator-review/OpenSourceRail-Operator-Brief.pdf).

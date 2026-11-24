@@ -28,6 +28,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <h1>Design, build and operate the railway</h1><p>Start with the illustrated briefing, then use the models and calculators to review a core railway and the two Baghdad proposals. Extract the whole kit before opening these files.</p>
 <nav>
 <a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>Fourteen illustrated pages for the meeting.</small></a>
+<a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
 <a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Compare the full citywide offer and its mainline timetable.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
