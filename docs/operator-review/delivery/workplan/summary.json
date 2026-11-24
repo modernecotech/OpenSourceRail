@@ -1,0 +1,222 @@
+{
+  "schema": "osr-workforce-result/1",
+  "currency_unit": "USD cent",
+  "plan_id": "33f5c5695e8a1b5f63aab594b0121855c04de9c62e4cd98911966ee5ba8b01cd",
+  "scope": {
+    "annual_paid_hours_per_fte": 2080,
+    "annual_rosterable_hours_per_fte": 1720,
+    "calendar_basis": "Repeated day patterns in local time. Fixed 06:00 public start is a planning assumption. Annual wages include relief from the source role pool. Civil crews are budgeted over the full reservation window, with effective availability from the source plan.",
+    "candidate_id": "f6844cd4d9f5d9320fa421b37eb074b9911d3cd695d350fdc464cc3597184a72",
+    "cost_basis": "Programme labour, intake and operating-year payroll have separate periods. These are allowances inside the fleet, civil, commissioning and operating accounts. Match contract exclusions and labour credits before substituting them.",
+    "currency": "constant 2026 USD",
+    "diagram_evaluation_id": "5ee1a40e7375cf32c7c97b3a0aeed48a046f07482856d183d8c09d73645d4741",
+    "label": "Unattended GoA4",
+    "network": "first",
+    "operating_establishment_fte": 1526,
+    "scope_boundaries": "No named staff, awarded shifts or authorisation. Peak role/shift coverage is a workload screen. Onboard scenarios distribute annual duty using the departure profile where available.",
+    "source_evaluation_id": "12d4630a9c69a023b7c538c6b9a7413b38622697b7c127db6839d89d93170054",
+    "train_duty_basis": "1,938.4 diagrammed train-hours/day including minimum turnbacks.",
+    "workforce_mode": "goa4"
+  },
+  "source_sha256": {
+    "cities/Baghdad/iraq-market.toml": "f044ba071d77b58b2427384954f5bfdf3713b48c2ba5af872e1f24c53fd3ee2b",
+    "cities/Baghdad/service-diagrams.json": "37fab32fe7b04570ee7a521101d3807291173db545082660d00de190b1663ccb",
+    "cities/Baghdad/system-results.json": "be01359239e9b97efdae45822628688ffb1225a17afd36df136aaffb0928c06e",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "docs/operator-review/delivery/README.md": "a3280935f3ed1444a6c117c6ced7a05087ace9e2c81c32da5769899debc9ef57",
+    "docs/operator-review/delivery/calculate.py": "e69287d7f29cf58763363d5053719f6f86048de6268990b4785be899a33edc89",
+    "docs/operator-review/delivery/quantities.json": "625dda2c4043d61899d07912801a9515b1368d2b5d2b2cfa0ea8f1ad1fe0566a",
+    "docs/reference-v07/concept.toml": "033849bb4db3a0b28adb5a345a39601330f5160cd8c100a4dd4b790123485a18",
+    "docs/reference-v07/cost/README.md": "f7d799e4f954d4bec341ed63b457e2c6918e07546a875349569cc1aefae9a75d",
+    "docs/reference-v07/digital/production/handoff.json": "c8f89fd421e9413ddbe6ef4b934c153469b0a87f1ed54d8761a1d57c77512a4c",
+    "docs/reference-v07/integration/timetable.py": "955867f78178e7eaabcd5bba5b1092268bb3893a6fb6c324cd1c7f32656bf671",
+    "engineering/outline/workforce_plan.py": "6f9f4140ad3b3190f3d526007c7e55f0a311ea340f95323a1fea431811d0cd3b"
+  },
+  "input_sha256": "290b867bf31ab3ad43ebce146441dd5c869ed64e6080432c21a3b2fa864343b9",
+  "availability_bps": 9000,
+  "row_count": 55,
+  "groups": [
+    {
+      "phase": "Initial operator training",
+      "cost_account": "Commissioning · one initial GoA4 operating intake",
+      "row_count": 14,
+      "known_required_minutes": 17097600,
+      "known_paid_minutes": 17097600,
+      "known_capacity_minutes": 0,
+      "known_stressed_capacity_minutes": 0,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 0,
+      "known_cost_cents": [
+        118009440,
+        129192320,
+        151688000
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 14,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 14,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    },
+    {
+      "phase": "Operating year",
+      "cost_account": "Operating payroll · annual equivalent",
+      "row_count": 19,
+      "known_required_minutes": 157353600,
+      "known_paid_minutes": 190444800,
+      "known_capacity_minutes": 157353600,
+      "known_stressed_capacity_minutes": 141618240,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 15735360,
+      "known_cost_cents": [
+        1120941119,
+        1227068961,
+        1441013599
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 0,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 0,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    },
+    {
+      "phase": "Precast production",
+      "cost_account": "Elevated civil · precast production crew allowance",
+      "row_count": 7,
+      "known_required_minutes": 32011200,
+      "known_paid_minutes": 40435200,
+      "known_capacity_minutes": 33693408,
+      "known_stressed_capacity_minutes": 30324064,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 1687136,
+      "known_cost_cents": [
+        433704960,
+        475188480,
+        557743680
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 0,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 0,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    },
+    {
+      "phase": "Site erection",
+      "cost_account": "Elevated civil · site erection crew allowance",
+      "row_count": 5,
+      "known_required_minutes": 14227200,
+      "known_paid_minutes": 17971200,
+      "known_capacity_minutes": 14974848,
+      "known_stressed_capacity_minutes": 13477360,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 749840,
+      "known_cost_cents": [
+        191355840,
+        209626560,
+        246055680
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 0,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 0,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    },
+    {
+      "phase": "Vehicle final assembly",
+      "cost_account": "Fleet purchase · factory support posts",
+      "row_count": 4,
+      "known_required_minutes": 17280000,
+      "known_paid_minutes": 17971200,
+      "known_capacity_minutes": 17280000,
+      "known_stressed_capacity_minutes": 15552000,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 1728000,
+      "known_cost_cents": [
+        156723840,
+        171699840,
+        201502080
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 0,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 0,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    },
+    {
+      "phase": "Vehicle final assembly",
+      "cost_account": "Fleet purchase · staffed assembly window",
+      "row_count": 6,
+      "known_required_minutes": 87120000,
+      "known_paid_minutes": 157248000,
+      "known_capacity_minutes": 102816000,
+      "known_stressed_capacity_minutes": 92534400,
+      "known_shortage_minutes": 0,
+      "known_stressed_shortage_minutes": 0,
+      "known_cost_cents": [
+        1719095040,
+        1883232000,
+        2210906880
+      ],
+      "unknown_required_rows": 0,
+      "unknown_capacity_rows": 0,
+      "unknown_paid_rows": 0,
+      "unknown_shortage_rows": 0,
+      "unpriced_rows": 0,
+      "known_unpriced_paid_minutes": 0
+    }
+  ],
+  "gaps": [
+    {
+      "phase": "Operating year",
+      "work": "Timetabled relief, peak coverage, staff breaks, accessibility and rescue",
+      "owner": "Operating and safety directors",
+      "cost_basis": "Price actual duty diagrams, mobilisation and specialist response separately; annual pools only."
+    },
+    {
+      "phase": "Initial operator training",
+      "work": "Classroom capacity, mentors, assessors, bilingual courses and operator competence",
+      "owner": "HR and assessment leads",
+      "cost_basis": "Price facilities, independent assessments, simulators, travel and backfill; intake labour only is priced."
+    },
+    {
+      "phase": "Programme definition",
+      "work": "Survey, access, design review, utility diversion, permits and programme management",
+      "owner": "Owner and designer",
+      "cost_basis": "Use matched surveys and engineering tenders. Dates and staff quantities await the issue scope. Scope comparator from the selected infrastructure estimate, in US$m at its published basis. Design assurance 474.55, land/utilities/disruption 296.40."
+    },
+    {
+      "phase": "Site construction",
+      "work": "Foundations, stations, trackwork, traction electrical, controls and depot construction",
+      "owner": "Civil and systems contractors",
+      "cost_basis": "Use candidate-specific work breakdown and priced bills. Crew rows cover beam production and erection. Same-candidate scope comparators include elevated civil 1,331.24, stations/access 832.00, track/walkways 237.12, traction supply 316.92, signalling/comms 177.84 and depots/control 260.00 US$m."
+    },
+    {
+      "phase": "Precast production",
+      "work": "Transport, stock imbalance, rejected batches, contractor supervision and night watch",
+      "owner": "Yard and logistics leads",
+      "cost_basis": "Separate labour after mapping operated crane and haul contracts to the crew allowance."
+    },
+    {
+      "phase": "Site erection",
+      "work": "Possessions, closures, relief, lifting design and subcontract staff",
+      "owner": "Installation planner",
+      "cost_basis": "Return actual front bookings and split labour from hire; do not add the allowance to an operated crane quote."
+    },
+    {
+      "phase": "Vehicle final assembly",
+      "work": "Component factories, supplier lead time, specialised shops, rework and integrated qualification",
+      "owner": "Vehicle supply and quality leads",
+      "cost_basis": "Use measured times and matched fleet or supplier lots; the staffing allowance covers final assembly and support."
+    },
+    {
+      "phase": "Commissioning",
+      "work": "System tests, transition, trials and independent review",
+      "owner": "Operator and integrator",
+      "cost_basis": "Set trial dates and approval work. Use supervisory payroll for the actual trial period. The testing/commissioning envelope is 148.30 US$m."
+    }
+  ]
+}

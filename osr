@@ -11,6 +11,7 @@ if [[ "${1:-}" == -h || "${1:-}" == --help || "${1:-}" == help ]]; then
 Usage: ./osr [COMMAND] [arguments]
 
   (no command)      Show the v0.6 passive-wheel vehicle reference and open propulsion selection
+  workplan [...]    Cost and simulate repeated workforce shifts; export CSV and Arrow/Parquet
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
   design railway audit [--json]       Trace assumption conflicts through route, power, civil works and cash
@@ -75,6 +76,10 @@ NODE_BINARY="$(osr_receipt_binary "$TOOL_ROOT" node)" || NODE_BINARY=""
 if [[ -n "$NODE_BINARY" ]]; then
     export PATH="$(dirname "$NODE_BINARY"):$PATH"
     export OSR_NODE_BINARY="$NODE_BINARY"
+fi
+if [[ "${1:-}" == workplan ]]; then
+    shift
+    exec tools/automation/osr-python -m engineering.outline.workforce_workplan "$@"
 fi
 case "${1:-}" in
     build|cycle|test|workbench|book)

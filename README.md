@@ -18,6 +18,7 @@ OpenSourceRail helps a city **plan, price, build, operate and maintain an urban 
 | Explore the project for the first time | Extract the **interactive workshop** linked above and open **START.html** in a browser. Try a route, a train model and a funding case. The [illustrated operator brief](docs/operator-review/OpenSourceRail-Operator-Brief.pdf) works for a meeting or printed handout. |
 | Plan a service or compare cities | [Maps and passenger journeys](#maps-and-passenger-journeys) and [timetables and train motion](#timetables-and-train-motion) |
 | Design a train, station or viaduct | [Vehicles, stations and civil engineering](#vehicles-stations-and-civil-engineering) and [how to read an engineering result](#how-to-read-an-engineering-result) |
+| Set the work programme, staff shifts or test capacity | [Costed workforce and shift workplan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
 | Equip a factory, train a team or quote for work | [Manufacturing and training](#manufacturing-and-training) and [purchasing and whole-life cost](#purchasing-and-whole-life-cost) |
 | Assess the evidence for funding, procurement or operation | [Standards and evidence traceability](#standards-and-evidence-traceability) |
 | Operate trains or maintain assets | [Train control, supervision and maintenance](#train-control-supervision-and-maintenance) |
@@ -172,6 +173,7 @@ Other useful entry points from the repository root include these commands.
 | `./osr plan verify build/my-plan` | Check a compiled planning proposal against its source revision. [Planning workflow](docs/workbench/planning/README.md) |
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
 | `./osr design railway spans --route-km 12` | Compare installed civil and erection assumptions for an illustrative route length. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
+| `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
 | `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
 

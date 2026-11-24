@@ -1,0 +1,49 @@
+name: Workforce shift planning
+on:
+  push:
+    paths:
+      - ".github/workflows/workforce.yml"
+      - "crates/osr-workforce/**"
+      - "engineering/outline/workforce*.py"
+      - "engineering/outline/tests/test_workforce_plan.py"
+      - "docs/operator-review/delivery/workplan/**"
+      - "docs/operator-review/delivery/quantities.json"
+  pull_request:
+    paths:
+      - ".github/workflows/workforce.yml"
+      - "crates/osr-workforce/**"
+      - "engineering/outline/workforce*.py"
+      - "engineering/outline/tests/test_workforce_plan.py"
+      - "docs/operator-review/delivery/workplan/**"
+      - "docs/operator-review/delivery/quantities.json"
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install pytest==9.2.0
+      - run: python -m pytest -q engineering/outline/tests/test_workforce_plan.py
+      - run: cargo test --locked --manifest-path crates/osr-workforce/Cargo.toml
+      - name: Replay the published cost and shift result
+        run: |
+          source=docs/operator-review/delivery/workplan
+          python -m engineering.outline.workforce_plan --output "$RUNNER_TEMP/plan.json"
+          cargo run --quiet --locked --manifest-path crates/osr-workforce/Cargo.toml -- "$source/plan.json" "$RUNNER_TEMP/result" --availability-bps 9000
+          diff "$source/workforce.csv" "$RUNNER_TEMP/result/workforce.csv"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          docs = Path("docs/operator-review/delivery/workplan")
+          replay = Path(os.environ["RUNNER_TEMP"])
+          assert json.loads((docs / "plan.json").read_text()) == json.loads((replay / "plan.json").read_text())
+          published = json.loads((docs / "summary.json").read_text())
+          result = json.loads((replay / "result/summary.json").read_text())
+          assert published == result
+          PY

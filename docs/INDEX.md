@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **233**.
+Indexed Markdown files: **236**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **233**.
 | [cities](#cities) | 66 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 134 |
+| [docs](#docs) | 137 |
 | [engineering](#engineering) | 16 |
 | [tools](#tools) | 4 |
 
@@ -248,6 +248,9 @@ Indexed Markdown files: **233**.
 | [`docs/operator-review/README.md`](../docs/operator-review/README.md) | OpenSourceRail for railway operators |
 | [`docs/operator-review/WORKPLAN.md`](../docs/operator-review/WORKPLAN.md) | From design review to railway opening |
 | [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building the fleet and staffing the railway |
+| [`docs/operator-review/delivery/WORKFORCE-RUST.md`](../docs/operator-review/delivery/WORKFORCE-RUST.md) | Rust efficiency review for workforce and delivery planning |
+| [`docs/operator-review/delivery/WORKFORCE-SIMULATION.md`](../docs/operator-review/delivery/WORKFORCE-SIMULATION.md) | Costed shift workplan and workload simulation |
+| [`docs/operator-review/delivery/workplan/summary.md`](../docs/operator-review/delivery/workplan/summary.md) | Costed workforce and shift workplan |
 | [`docs/operator-review/finance/README.md`](../docs/operator-review/finance/README.md) | Funding the railway and testing fare receipts |
 | [`docs/operator-review/screens/README.md`](../docs/operator-review/screens/README.md) | Railway operations and planning screens |
 | [`docs/operator-review/twins/README.md`](../docs/operator-review/twins/README.md) | Train, platform and viaduct inspection |

@@ -1,11 +1,15 @@
 #![cfg(feature = "columnar")]
 
+use arrow_array::{RecordBatch, UInt64Array};
 use osr_design_search::columnar::{
     index_cases, query_candidate, scan_index, verify_index, IndexOptions, MAX_PART_BYTES,
 };
-use std::fs;
+use parquet::arrow::arrow_reader::ParquetRecordBatchReaderBuilder;
+use parquet::arrow::arrow_writer::ArrowWriter;
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::Arc;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 static FIXTURE_COUNTER: AtomicU64 = AtomicU64::new(0);
@@ -128,6 +132,37 @@ fn query_authenticates_only_matching_backing_case() {
     assert_eq!(rows.len(), 1);
     assert_eq!(rows[0].case_path, "cases/a.json");
     assert!(query_candidate(&f.index(), &f.state(), "candidate-two").is_err());
+}
+
+#[test]
+fn query_checks_skipped_ordinals_across_parts() {
+    let f = Fixture::new();
+    f.add("a", "candidate-one", None);
+    f.add("b", "candidate-two", None);
+    index_cases(
+        &f.state(),
+        &f.index(),
+        IndexOptions {
+            batch_rows: 1,
+            part_rows: 1,
+        },
+    )
+    .unwrap();
+    let skipped_part = f.index().join("part-000001.parquet");
+    let reader =
+        ParquetRecordBatchReaderBuilder::try_new(File::open(&skipped_part).unwrap()).unwrap();
+    let schema = Arc::clone(reader.schema());
+    let batch = reader.build().unwrap().next().unwrap().unwrap();
+    let mut columns = batch.columns().to_vec();
+    columns[0] = Arc::new(UInt64Array::from(vec![0]));
+    let changed = RecordBatch::try_new(schema, columns).unwrap();
+    let mut writer =
+        ArrowWriter::try_new(File::create(&skipped_part).unwrap(), changed.schema(), None).unwrap();
+    writer.write(&changed).unwrap();
+    writer.close().unwrap();
+
+    let error = query_candidate(&f.index(), &f.state(), "candidate-one").unwrap_err();
+    assert_eq!(error.to_string(), "index ordinal sequence differs");
 }
 
 #[test]

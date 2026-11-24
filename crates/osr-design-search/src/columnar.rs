@@ -386,75 +386,112 @@ fn parts(dir: &Path) -> AnyResult<Vec<PathBuf>> {
     Ok(paths)
 }
 
-fn string(batch: &RecordBatch, column: usize) -> AnyResult<&StringArray> {
+fn typed_column<T: Array + 'static>(batch: &RecordBatch, column: usize) -> AnyResult<&T> {
     batch
         .column(column)
         .as_any()
-        .downcast_ref::<StringArray>()
-        .ok_or_else(|| invalid("index string column type differs").into())
+        .downcast_ref()
+        .ok_or_else(|| invalid("index column type differs").into())
 }
 
-fn boolean(batch: &RecordBatch, column: usize) -> AnyResult<&BooleanArray> {
-    batch
-        .column(column)
-        .as_any()
-        .downcast_ref::<BooleanArray>()
-        .ok_or_else(|| invalid("index boolean column type differs").into())
+struct IndexColumns<'a> {
+    ordinals: &'a UInt64Array,
+    candidate_ids: &'a StringArray,
+    row_ids: &'a StringArray,
+    body_ids: &'a StringArray,
+    bundle_ids: &'a StringArray,
+    context_ids: &'a StringArray,
+    family_ids: &'a StringArray,
+    case_paths: &'a StringArray,
+    case_hashes: &'a StringArray,
+    tare_masses: &'a Float64Array,
+    installed_masses: &'a Float64Array,
+    journey_completed: &'a BooleanArray,
+    body_qualified: &'a BooleanArray,
 }
 
-fn optional_float(batch: &RecordBatch, column: usize, row: usize) -> AnyResult<Option<f64>> {
-    let array = batch
-        .column(column)
-        .as_any()
-        .downcast_ref::<Float64Array>()
-        .ok_or_else(|| invalid("index float column type differs"))?;
-    Ok((!array.is_null(row)).then(|| array.value(row)))
+impl<'a> IndexColumns<'a> {
+    fn new(batch: &'a RecordBatch) -> AnyResult<Self> {
+        if batch
+            .schema_ref()
+            .fields()
+            .iter()
+            .zip(batch.columns())
+            .any(|(field, array)| !field.is_nullable() && array.null_count() > 0)
+        {
+            return Err(invalid("null required index column").into());
+        }
+        Ok(Self {
+            ordinals: typed_column(batch, 0)?,
+            candidate_ids: typed_column(batch, 1)?,
+            row_ids: typed_column(batch, 2)?,
+            body_ids: typed_column(batch, 3)?,
+            bundle_ids: typed_column(batch, 4)?,
+            context_ids: typed_column(batch, 5)?,
+            family_ids: typed_column(batch, 6)?,
+            case_paths: typed_column(batch, 7)?,
+            case_hashes: typed_column(batch, 8)?,
+            tare_masses: typed_column(batch, 9)?,
+            installed_masses: typed_column(batch, 10)?,
+            journey_completed: typed_column(batch, 11)?,
+            body_qualified: typed_column(batch, 12)?,
+        })
+    }
+
+    fn row(&self, index: usize) -> IndexRow {
+        let optional_mass =
+            |masses: &Float64Array| (!masses.is_null(index)).then(|| masses.value(index));
+        IndexRow {
+            ordinal: self.ordinals.value(index),
+            candidate_id: self.candidate_ids.value(index).to_owned(),
+            row_id: self.row_ids.value(index).to_owned(),
+            body_candidate_id: self.body_ids.value(index).to_owned(),
+            bundle_definition_id: self.bundle_ids.value(index).to_owned(),
+            case_context_id: self.context_ids.value(index).to_owned(),
+            family_id: self.family_ids.value(index).to_owned(),
+            case_path: self.case_paths.value(index).to_owned(),
+            case_sha256: self.case_hashes.value(index).to_owned(),
+            accounted_tare_kg_per_car: optional_mass(self.tare_masses),
+            installed_mass_kg: optional_mass(self.installed_masses),
+            physical_journey_completed: self.journey_completed.value(index),
+            complete_body_qualified: self.body_qualified.value(index),
+        }
+    }
 }
 
-/// Stream typed rows from bounded Parquet parts, checking schema and ordinal order.
-pub fn scan_index(
+fn scan_rows(
     dir: &Path,
+    candidate_id: Option<&str>,
     mut visit: impl FnMut(IndexRow) -> AnyResult<()>,
 ) -> AnyResult<usize> {
     let mut expected = 0u64;
+    let expected_schema = schema();
     for path in parts(dir)? {
         let builder = ParquetRecordBatchReaderBuilder::try_new(File::open(path)?)?;
-        if builder.schema().as_ref() != schema().as_ref() {
+        if builder.schema().as_ref() != expected_schema.as_ref() {
             return Err(invalid("index Arrow schema/version differs").into());
         }
         let reader = builder.with_batch_size(MAX_BATCH_ROWS).build()?;
         for result in reader {
             let batch = result?;
-            let ordinals = batch
-                .column(0)
-                .as_any()
-                .downcast_ref::<UInt64Array>()
-                .ok_or_else(|| invalid("index ordinal column type differs"))?;
+            let columns = IndexColumns::new(&batch)?;
             for row in 0..batch.num_rows() {
-                if ordinals.value(row) != expected {
+                if columns.ordinals.value(row) != expected {
                     return Err(invalid("index ordinal sequence differs").into());
                 }
-                let item = IndexRow {
-                    ordinal: expected,
-                    candidate_id: string(&batch, 1)?.value(row).to_owned(),
-                    row_id: string(&batch, 2)?.value(row).to_owned(),
-                    body_candidate_id: string(&batch, 3)?.value(row).to_owned(),
-                    bundle_definition_id: string(&batch, 4)?.value(row).to_owned(),
-                    case_context_id: string(&batch, 5)?.value(row).to_owned(),
-                    family_id: string(&batch, 6)?.value(row).to_owned(),
-                    case_path: string(&batch, 7)?.value(row).to_owned(),
-                    case_sha256: string(&batch, 8)?.value(row).to_owned(),
-                    accounted_tare_kg_per_car: optional_float(&batch, 9, row)?,
-                    installed_mass_kg: optional_float(&batch, 10, row)?,
-                    physical_journey_completed: boolean(&batch, 11)?.value(row),
-                    complete_body_qualified: boolean(&batch, 12)?.value(row),
-                };
-                visit(item)?;
+                if candidate_id.is_none_or(|id| id == columns.candidate_ids.value(row)) {
+                    visit(columns.row(row))?;
+                }
                 expected += 1;
             }
         }
     }
     Ok(expected as usize)
+}
+
+/// Stream typed rows from bounded Parquet parts, checking schema and ordinal order.
+pub fn scan_index(dir: &Path, visit: impl FnMut(IndexRow) -> AnyResult<()>) -> AnyResult<usize> {
+    scan_rows(dir, None, visit)
 }
 
 fn verify_row(row: &IndexRow, state_dir: &Path) -> AnyResult<()> {
@@ -497,14 +534,12 @@ pub fn query_candidate(
     candidate_id: &str,
 ) -> AnyResult<Vec<IndexRow>> {
     let mut rows = Vec::new();
-    scan_index(dir, |row| {
-        if row.candidate_id == candidate_id {
-            if rows.len() >= 1024 {
-                return Err(invalid("candidate query exceeded bounded result count").into());
-            }
-            verify_row(&row, state_dir)?;
-            rows.push(row);
+    scan_rows(dir, Some(candidate_id), |row| {
+        if rows.len() >= 1024 {
+            return Err(invalid("candidate query exceeded bounded result count").into());
         }
+        verify_row(&row, state_dir)?;
+        rows.push(row);
         Ok(())
     })?;
     Ok(rows)

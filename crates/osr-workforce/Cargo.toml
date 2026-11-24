@@ -1,0 +1,25 @@
+[package]
+name = "osr-workforce"
+version = "0.7.2"
+edition = "2021"
+rust-version = "1.92"
+license = "Apache-2.0"
+repository = "https://github.com/modernecotech/OpenSourceRail"
+description = "Shift coverage and labour costing for OpenSourceRail workplans"
+
+[workspace]
+resolver = "2"
+
+[dependencies]
+arrow-array = "=60.1.0"
+arrow-schema = "=60.1.0"
+parquet = { version = "=60.1.0", default-features = false, features = ["arrow", "zstd"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "=0.10.9"
+
+[profile.release]
+overflow-checks = true
+
+[lints.rust]
+unsafe_code = "forbid"

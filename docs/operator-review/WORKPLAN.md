@@ -2,6 +2,15 @@
 
 This is a work programme for a prospective railway owner and operator. It starts with decisions they can take using the published designs. The dates below are proposed work periods from appointment of a sponsor and access to the required people and records. The digital reference can support consultation and indicative quotations. The owner releases money for construction and passenger operation through separate approvals.
 
+## Cost and test the shift workplan
+
+Use the [costed shift workplan](delivery/WORKFORCE-SIMULATION.md) alongside this
+programme. It prices designated workers, shift coverage and labour demand for
+operations, training, vehicle assembly, beam production and erection. It also
+shows which estimates depend on supplier returns, site access and actual duty
+diagrams, and which allowances already sit inside procurement or operating
+accounts. [First-programme example](delivery/workplan/summary.md)
+
 ## What the operator should commission first
 
 | Period and accountable lead | Core OpenSourceRail | Baghdad application | Evidence to take to the next decision |
