@@ -6,10 +6,111 @@ from zipfile import ZipFile
 
 import pytest
 
-from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, motion_adapters
+from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, motion_adapters, vehicle_audit
 from cities.Baghdad.engineering.simulation.motion_dc import Feeder, loadflow
-from cities.Baghdad.engineering.simulation.motion_power import (HourlyPassengerLedger, evaluate, moving_grade,
-                                                                 normalize, service, validate_od)
+from cities.Baghdad.engineering.simulation.motion_power import (HourlyPassengerLedger, evaluate, fault_force_limit,
+                                                                 moving_grade, normalize, service, validate_od)
+
+
+def test_candidate_bound_one_axle_out_replay_changes_evaluation_and_caps_force():
+    vehicle = vehicle_audit.evaluate(cars=3)
+    row = vehicle["mass_cases"]["high"]
+    traction = vehicle["traction"]["high"]
+    fault = dict(mode="heaviest_driven_axle_out", vehicle_candidate_id=vehicle["candidate_id"],
+                 vehicle_evaluation_id=vehicle["evaluation_id"], load_state="high",
+                 low_adhesion_mu=traction["adhesion_assumed"],
+                 adhesion_force_margin=traction["corrective_procurement"]["adhesion_force_margin"],
+                 axles={name: {key: axle[key] for key in ("tare_kg", "loaded_kg")}
+                        for name, axle in row["axles"].items()})
+    base = dict(candidate_id=vehicle["candidate_id"], cars=3, step_s=4,
+                loaded_train_kg=row["loaded_train_kg"], tare_train_kg=row["tare_train_kg"],
+                grade_pct=1.5, grade_basis="constant_sensitivity")
+    ordinary = evaluate(base)
+    failed = evaluate(dict(base, traction_fault=fault))
+    limit, lost = fault_force_limit(fault, row["loaded_train_kg"], normalize(dict(base, traction_fault=fault)))
+    assert lost in row["axles"]
+    assert limit == pytest.approx(traction["adhesion_assumed"] * 9.81
+                                  * (row["loaded_train_kg"] - row["axles"][lost]["loaded_kg"]))
+    partial_mass = row["tare_train_kg"] + .3 * (row["loaded_train_kg"] - row["tare_train_kg"])
+    partial_limit, partial_lost = fault_force_limit(fault, partial_mass, normalize(dict(base, traction_fault=fault)))
+    partial_reactions = {name: axle["tare_kg"] + .3 * (axle["loaded_kg"] - axle["tare_kg"])
+                         for name, axle in fault["axles"].items()}
+    assert partial_lost == max(partial_reactions, key=partial_reactions.get)
+    assert partial_limit == pytest.approx(traction["adhesion_assumed"] * 9.81
+                                          * (partial_mass - partial_reactions[partial_lost]))
+    assert failed["candidate_id"] == ordinary["candidate_id"]
+    assert failed["evaluation_id"] != ordinary["evaluation_id"]
+    assert failed["failure"]["traction"]["vehicle_candidate_id"] == vehicle["candidate_id"]
+    assert "traction_fault_force_envelope" in failed["gates"]
+    assert "traction_fault_force_envelope" not in ordinary["gates"]
+    weak = dict(fault, low_adhesion_mu=.02)
+    curtailed = evaluate(dict(base, traction_fault=weak))
+    assert curtailed["metrics"]["traction_fault_curtailed_s"] > 0
+    assert curtailed["metrics"]["traction_fault_required_force_deficit_s"] > 0
+    assert not curtailed["gates"]["traction_fault_force_envelope"]
+    with pytest.raises(ValueError, match="same evaluated vehicle"):
+        normalize(dict(base, traction_fault=dict(fault, vehicle_candidate_id="wrong")))
+
+
+def test_loaded_mass_reference_is_distinct_from_offered_places():
+    base = dict(cars=3, places_per_train=132, loaded_train_kg=100000., tare_train_kg=70000.)
+    case = normalize(dict(base, mass_reference_people=350))
+    assert case["capacity"] == 132
+    assert case["mass_reference_people"] == 350
+    with pytest.raises(ValueError, match="at least the offered capacity"):
+        normalize(dict(base, mass_reference_people=131))
+    with pytest.raises(ValueError, match="integer"):
+        normalize(dict(base, mass_reference_people=350.0))
+    # A full booked load uses only 132/350 of the planning loaded payload.
+    od = [[[0.] * 6 for _ in range(6)] for _ in range(24)]
+    od[10][0][5] = 132.
+    day = evaluate(dict(base, mass_reference_people=350, hourly_od=od, step_s=4))
+    assert day["scenario"]["mass_reference_people"] == 350
+    assert day["metrics"]["boarded_passengers"] == pytest.approx(132.)
+    record = next(row for sample in day["trace"] for row in sample["trains"]
+                  if row["passengers"] > 0)
+    assert record["mass_kg"] == pytest.approx(70000 + record["passengers"] / 350 * 30000, abs=1.)
+
+
+def test_revised_capacity_above_historical_envelope_requires_bound_offer_and_mass_reference():
+    alignment = airport_alignment.evaluate()
+    demand = airport_demand.evaluate(alignment, headway_min=30, normal_places_per_train=720)
+    base = dict(alignment=alignment, chainages_km=alignment["chainages_km"], demand_record=demand,
+                headway_min=30, dwell_s=demand["dwell_s"], places_per_train=720)
+    assert normalize(dict(base, mass_reference_people=800))["capacity"] == 720
+    with pytest.raises(ValueError, match="capacity and loaded mass"):
+        normalize(base)
+    with pytest.raises(ValueError, match="capacity and loaded mass"):
+        normalize(dict(base, places_per_train=721, mass_reference_people=800))
+    with pytest.raises(ValueError, match="studied formation envelope"):
+        normalize(dict(places_per_train=720, mass_reference_people=800))
+
+
+def test_reserve_limited_fault_controller_is_separate_sensitivity():
+    vehicle = vehicle_audit.evaluate(cars=6)
+    row = vehicle["mass_cases"]["high"]
+    traction = vehicle["traction"]["high"]
+    fault = dict(mode="heaviest_driven_axle_out", vehicle_candidate_id=vehicle["candidate_id"],
+                 vehicle_evaluation_id=vehicle["evaluation_id"], load_state="high",
+                 low_adhesion_mu=traction["adhesion_assumed"],
+                 adhesion_force_margin=traction["corrective_procurement"]["adhesion_force_margin"],
+                 axles={name: {key: axle[key] for key in ("tare_kg", "loaded_kg")}
+                        for name, axle in row["axles"].items()})
+    base = dict(candidate_id=vehicle["candidate_id"], cars=6, step_s=4, grade_pct=2.,
+                grade_basis="constant_sensitivity", loaded_train_kg=row["loaded_train_kg"],
+                tare_train_kg=row["tare_train_kg"], traction_fault=fault)
+    original = evaluate(base)
+    controlled = evaluate(dict(base, traction_fault_controller="reserve_limited"))
+    assert controlled["candidate_id"] == original["candidate_id"]
+    assert controlled["evaluation_id"] != original["evaluation_id"]
+    assert controlled["failure"]["traction"]["controller"] == "reserve_limited"
+    assert original["failure"]["traction"]["controller"] is None
+    assert controlled["metrics"]["traction_fault_original_request_shortfall_s"] > 0
+    assert controlled["metrics"]["traction_fault_curtailed_s"] > 0
+    assert controlled["metrics"]["traction_fault_required_force_deficit_s"] == original["metrics"]["traction_fault_required_force_deficit_s"]
+    assert controlled["metrics"]["booked_passenger_trips"] == original["metrics"]["booked_passenger_trips"]
+    with pytest.raises(ValueError, match="requires the identified axle-out fault"):
+        normalize(dict(base, traction_fault=None, traction_fault_controller="reserve_limited"))
 
 
 def test_shared_droop_and_directional_line_resistance():

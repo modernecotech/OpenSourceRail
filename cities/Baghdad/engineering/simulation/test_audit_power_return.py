@@ -60,6 +60,18 @@ class FeederReturnTests(unittest.TestCase):
         self.assertFalse(row["production_ranking_eligible"])
         self.assertFalse(data["physical_acceptance"])
 
+    def test_axle_fault_has_distinct_rating_and_thermal_duty(self):
+        normal = self.day("paired6", "normal")
+        fault = self.day("paired6", "axle-fault", branch_peak=2.3, source_peak=2.8)
+        fault["service_day_current_basis_seconds"] = 1200.
+        row = power.assess([normal], [], traction_fault_power=[fault])["layouts"][normal["feeder_physical_id"]]
+        self.assertEqual([d["category"] for d in row["duties"]], ["matched service", "one-driven-axle-out"])
+        self.assertEqual(row["envelope"]["source_peak_ka"]["governing_evaluation_id"], "axle-fault")
+        self.assertEqual(row["envelope"]["branch_peak_ka"]["value"], 2.3)
+        self.assertEqual(len(row["declared_thermal"]["branch"]["duties"]), 2)
+        with self.assertRaisesRegex(ValueError, "more than once"):
+            power.assess([normal], [], traction_fault_power=[normal])
+
     def test_sourced_ratings_keep_declared_capabilities_and_ideal_indicators_separate(self):
         normal = self.day("paired6", "normal")
         stress = self.day("paired6", "stress", branch_peak=2.1, source_peak=2.2)

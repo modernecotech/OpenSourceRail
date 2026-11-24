@@ -18,6 +18,7 @@ MOTION_UNITS = {
     "tare_train_kg":"kg", "topology":"configuration", "traction_w":"W",
 }
 OPTIONAL_MOTION_UNITS = {
+    "mass_reference_people": "passengers in the loaded mass case",
     "grade_basis": "scenario", "grade_profile": "chainage m, elevation m above datum, segment grade %",
     "speed_profile": "directional limits in km/h by surveyed segment",
     "speed_offer": "route and parent limits in km/h and booking method",
@@ -76,6 +77,10 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     add("route.posted_speed_limits", posted, "directional km/h by surveyed segment",
         "observed" if posted else "open", "airport_alignment.posted_speed_profile", route["record_id"],
         ["demand", "timetable", "motion", "power"], "Confirm permissible speeds, curve geometry and operating restrictions")
+    add("route.platforms_and_curves", route.get("horizontal_design_screen"), "m, degrees",
+        "submitted track design" if route.get("horizontal_design") else "open",
+        "airport_alignment.horizontal_design_screen", route["record_id"], route_stages,
+        "Check surveyed stop order, platform length, tangent fit and transition curves against the train envelope")
     if route["survey_source"]:
         add("route.survey_submission", route["survey_source"], "document and geometry references",
             "observed", "airport_alignment.survey_input", route["alignment_id"], route_stages,
@@ -92,6 +97,14 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     add("demand.hourly_od", demand["evaluation_id"], "hourly passenger OD matrix reference", demand["mode"],
         "airport_demand.evaluate", demand["alignment_id"], ["passenger loads", "energy", "fare"],
         "Check station order, observation period, paying share and applicable headway")
+    saloon = vehicle.get("saloon_layout")
+    if saloon is not None:
+        layout = saloon["source"]
+        for key, unit in (("standing_density_person_m2", "people/m²"), ("clear_aisle_width_m", "m"),
+                          ("seat_area_m2_per_place", "m²/place"), ("wheelchair_area_m2_per_place", "m²/place")):
+            add("saloon." + key, layout[key], unit, "planning layout", "vehicle_audit.validate_saloon_layout",
+                layout["source_sha256"], ["capacity", "service", "mass", "accessibility", "interior"],
+                "Confirm fit, whole-person loads, clear door approaches and accessible routes on the fitted car")
     loads = vehicle["mass_cases"]
     for group, mass in loads["central"]["group_kg_per_car"].items():
         add("vehicle."+group, mass, "kg/car", "component allocation", "vehicle_civil.load_case",
@@ -101,6 +114,16 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     for key in ("nominal_kwh", "usable_at_80pct_retention_kwh", "demand_with_reserve_kwh"):
         add("battery."+key, vehicle["battery"][key], "kWh", "planning duty", "vehicle_audit.battery_case",
             vehicle["evaluation_id"], ["essential power", "equipment", "quote"], "Test hot aged pack at the required load")
+    alternative = vehicle["battery"].get("alternative")
+    if alternative:
+        for key, unit in (("installed_mass_kg", "kg per train"), ("installed_car_x_m", "m"),
+                          ("installed_car_z_m", "m"), ("installed_price_usd", "2026 USD per train"),
+                          ("quoted_hot_end_of_life_usable_kwh", "kWh"), ("quoted_hot_continuous_discharge_kw", "kW")):
+            add("battery.alternative." + key, alternative[key], unit,
+                "offer input" if alternative["basis_kind"] == "supplier-quote" else "planning estimate",
+                alternative["supplier_reference"], alternative["quote_source_sha256"],
+                ["emergency power", "axle loads", "traction", "braking", "civil", "fleet procurement"],
+                "Verify fitted mass, moments, emergency duty and package scope against the submitted revision")
     hot = vehicle["battery"]["hot_end_of_life"]
     add("battery.hot_capacity_factors", [row["assumed_hot_capacity_factor"] for row in hot["sensitivity"]],
         "fraction of retained capacity", "thermal sensitivity", "vehicle_audit.battery_case", vehicle["duty_id"],
@@ -231,8 +254,15 @@ def vehicle_screens(vehicle):
                     for row in vehicle["braking"]["high"] if row["coast_delay_s"] == 2]
     brake = max(brake_trials, key=lambda row: row["stop_at_comparator"]["stop_distance_m"] or float("inf"))
     margin = brake["comparator_stop_room_margin_m"]
+    alternative = battery.get("alternative")
+    energy_status = "unknown" if battery["hot_end_of_life"]["energy_possible_with_capacity_factor_at_most_one"] else "fail"
+    if alternative:
+        energy_status = "pass" if alternative["hot_energy_necessary_screen_passes"] else "fail"
     return dict(
-        aged_battery_energy="unknown" if battery["hot_end_of_life"]["energy_possible_with_capacity_factor_at_most_one"] else "fail",
+        aged_battery_energy=energy_status,
+        battery_continuous_hot_power=("unknown" if alternative is None else
+                                      "pass" if alternative["continuous_power_necessary_screen_passes"] else "fail"),
+        battery_brake_and_egress_peak="unknown",
         traction_static_adhesion="pass" if all(case["declared_static_adhesion_necessary_screen_passes"]
                                               for case in [*vehicle["traction"].values(), vehicle["high_load_adverse_traction"]]) else "fail",
         protected_stop_distance=("fail" if brake["stop_at_comparator"]["stop_distance_m"] is None else
@@ -250,10 +280,15 @@ def functional_screen(assessment):
         "timetable": assessment["operating_screen"],
         "returned equipment": assessment["complete_equipment_duty_screen"],
         "aged battery": vehicle["aged_battery_energy"],
+        "battery continuous hot power": vehicle["battery_continuous_hot_power"],
+        "battery brake and egress peak duty": vehicle["battery_brake_and_egress_peak"],
         "traction adhesion": vehicle["traction_static_adhesion"],
         "protected stopping distance": vehicle["protected_stop_distance"],
         "installed door and suspension clearances": vehicle["installed_vehicle_interfaces"],
     }
+    fault = assessment.get("one_driven_axle_out")
+    if fault is not None:
+        checks["one-driven-axle-out required force"] = "pass" if fault["force_envelope_passes"] else "fail"
     failed = [name for name, status in checks.items() if status in ("fail", "failed")]
     unknown = [name for name, status in checks.items() if status == "unknown"]
     status = ("failed" if failed else "unverified" if unknown or not assessment["numerical_valid"]
@@ -376,6 +411,18 @@ def markdown(data):
         original = p["as_booked"].get("conflicts", "unavailable")
         lines.append(f"| {h} min | {r['dwell_s']:g} s | {r['normal_places_per_train']:,} | {r['annual_requested']:,.0f} | "
                      f"{original} → {p['best']['conflicts']} | {p['best']['phase_s']} s | {day['completed']} / {day['booked']} |")
+    design = route.get("horizontal_design_screen")
+    if design:
+        lines += ["", f"The submitted track design declares {design['design_route_chainage_m']/1000:.3f} km. "
+                  f"This timetable and takeoff use the {design['evaluated_polyline_length_m']/1000:.3f} km supplied polyline. "
+                  "The alignment record gives the difference at each declared platform before transfer to detailed design."]
+    saloon = vehicle.get("saloon_layout")
+    if saloon:
+        lines += ["", f"The allocated floor provides {saloon['seats_per_car']} fixed seats, "
+                  f"{saloon['wheelchair_places_per_car']} wheelchair places and {saloon['standing_places_per_car']} "
+                  f"standing places per car. The normal offer is {saloon['places_per_train']} places per train. "
+                  f"The adverse structural load retains {vehicle['mass_cases']['high']['people']} people. "
+                  "Door access and aisle areas are reserved. Confirm the accessible path and installed fit on the article."]
     selected = data["demand"]["headway_min"]
     timing = data["service_offers"][selected]["phases"]["best"]
     lines += ["", f"The detailed comparison uses the {selected}-minute offer with a {timing['phase_s']} s terminal offset and {timing.get('positioning_slack_s',0)} s additional time for the first and last empty movements. "
@@ -397,6 +444,14 @@ def markdown(data):
         delay = f"{d['maximum_delay_s']:.0f} s" if d["maximum_delay_s"] is not None else "No arrivals"
         lines.append(f"| {d['topology']} | {d['completed']} / {d['booked']} | {volts} | {d['peak_site_ka']:.2f} | {delay} |")
     lines += ["", "Use `--supply-return` with the feeder ID to check peak and RMS current ratings, protection settings and fault duties. A returned resistance, heat capacity and thermal resistance allow a conservative temperature bound for each working day. A bound above the limit calls for a more detailed thermal trace or direct measurement. [Return format and worked checks](test_audit_power_return.py)"]
+    lines += ["", "### Loss of one driven axle", "",
+              "Both feeders remain energised for this trial. The train boards the offered passengers with its high equipment mass. The model removes the most heavily loaded driven axle from the available adhesion and replays the working day. The operator still needs to specify the service required during a drive fault.", "",
+              "| Supply | Trips finished / booked | Maximum arrival delay |",
+              "| --- | ---: | ---: |"]
+    for day in data["traction_fault_days"]:
+        delay = day["maximum_delay_s"]
+        label = "No arrivals" if delay is None else f"{delay:.0f} s"
+        lines.append(f"| {day['topology']} | {day['completed']} / {day['booked']} | {label} |")
     for name, candidate in data["decision"]["candidates"].items():
         gates = candidate["functional_screen"]
         failed = ", ".join(gates["failed"]) or "none"
@@ -410,6 +465,12 @@ def markdown(data):
               f"The aged essential battery shows a {battery_outcome} of {abs(margin):.1f} kWh. The same duty requires {b['minimum_nominal_kwh_at_80pct_retention']:.2f} kWh nominal before additional hot-weather losses. "
               "Select brake hardware after measuring response, force and repeat duty against the protected stopping distance. "
               "[Vehicle and braking results](vehicle-audit-guide.md)", ""]
+    alternate = b.get("alternative")
+    if alternate:
+        lines += [f"The revised {b['nominal_kwh']:g} kWh pack supplies {alternate['quoted_hot_end_of_life_usable_kwh']:.2f} kWh under its submitted hot and aged factors against {b['demand_with_reserve_kwh']:.2f} kWh required. "
+                  f"Each train gains {alternate['mass_delta_kg']:+,.1f} kg relative to the reference allocation. "
+                  f"The fleet ledger prices one fitted pack per set at ${alternate['installed_price_usd']:,.0f} and removes the displaced pack allowance. "
+                  "Peak brake and egress duty still needs a measured power trace.", ""]
     conservative_brake = next(r for r in vehicle["braking"]["high"]
         if r["downgrade_pct"] == 2 and r["coast_delay_s"] == 2 and r["target_net_deceleration_m_s2"] == 0.6)
     brake = conservative_brake["cases"]["none_wheel_brakes/1_rail_modules_out"]
@@ -550,6 +611,11 @@ def review_page(data):
                         row["vehicle_screens"]["aged_battery_energy"], row["vehicle_screens"]["protected_stop_distance"],
                         ", ".join(row["functional_screen"]["failed"]) or "See outstanding evidence")
                        for name, row in data["decision"]["candidates"].items()])
+    axle_fault = table(("Feeder", "Trips with one driven axle lost", "Arrival delay", "Requested force reserve"),
+                      [(day["topology"], f"{day['completed']} / {day['booked']}",
+                        "No arrivals" if day["maximum_delay_s"] is None else f"{day['maximum_delay_s']:.0f} s",
+                        "Met" if day["gates"]["traction_fault_force_envelope"] else "Missed")
+                       for day in data["traction_fault_days"]])
     tests = table(("Work", "Digital result", "Evidence and review still needed"),
                   [(f"{t['task']} · {t['work']}", t["result"], t["outstanding"])
                    for t in data["decision"]["completion_tests"]])
@@ -562,6 +628,7 @@ def review_page(data):
 Investment and fabrication decisions remain open.</p>
 <h2>Passenger service</h2><p>{DEMAND_BASIS[data["demand"]["mode"]]} Completed trips and maximum arrival delay come from a full operating-day replay with terminal and depot movements.</p>{services}
 <h2>Traction power</h2><p>Compare live collector voltages alongside delivered trips. Source-current and protection returns are still required.</p>{"".join(day_rows)}
+<h3>Loss of one driven axle</h3><p>The normal timetable is replayed on the adverse grade with the other axles available. Agree a degraded-service requirement with the operator.</p>{axle_fault}
 <h2>Construction and purchaser cash</h2><p>{civil_result} {scope} Compare lifting duties and price ceilings in the <a href="AUDIT-RESULTS.md">high-load civil shortlist</a>.</p>{procurement}
 <h3>Traction supply price sensitivity</h3><p>The estimates below use planning rates for the revised layout. The purchaser ledger awaits scope-matched equipment, utility and renewal offers.</p>{rail_side}
 <h2>Which checks govern the decision?</h2>{decisions}<p>Stopping uses the high-load two-second delay trial with wheel braking unavailable and one rail module out. Supply ratings require a return for the exact circuit. Both layouts use the same service battery.</p>

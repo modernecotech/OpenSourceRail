@@ -26,6 +26,27 @@ def without(record, key):
     return {name: value for name, value in record.items() if name != key}
 
 
+SALOON_DRAWING = "engineering/saloon-allocation.dxf"
+
+
+def saloon_dxf(train):
+    """Draw the same single-car allocation in metres, using the car centre as origin."""
+    layout = train["physical"]["saloon_geometry"]
+    pairs = [(999, "Planning floor allocations for vehicle " + train["candidate_id"]),
+             (0, "SECTION"), (2, "HEADER"), (9, "$ACADVER"), (1, "AC1015"),
+             (9, "$INSUNITS"), (70, 6), (0, "ENDSEC"), (0, "SECTION"), (2, "ENTITIES")]
+    length, width = layout["inner_length_m"], layout["inner_width_m"]
+    interior = dict(kind="interior", x0_m=-length/2, x1_m=length/2, y0_m=-width/2, y1_m=width/2)
+    for row in [interior, *layout["allocations"]]:
+        x0, x1, y0, y1 = (row[key] for key in ("x0_m", "x1_m", "y0_m", "y1_m"))
+        pairs.extend([(0, "LWPOLYLINE"), (100, "AcDbEntity"), (8, row["kind"]),
+                      (100, "AcDbPolyline"), (90, 4), (70, 1)])
+        for x, y in ((x0,y0), (x1,y0), (x1,y1), (x0,y1)):
+            pairs.extend([(10, x), (20, y)])
+    pairs.extend([(0, "ENDSEC"), (0, "EOF")])
+    return "".join(f"{code}\n{value}\n" for code, value in pairs).encode("ascii")
+
+
 def reject_buyer_returns(present):
     if present:
         raise ValueError("Supplier enquiries require the audit before buyer offers, awards, risk estimates or equipment returns. "
@@ -35,9 +56,12 @@ def reject_buyer_returns(present):
 def issue(result, layout, path):
     if result["evaluation_id"] != scenario._id(without(result, "evaluation_id")):
         raise ValueError("Recalculate the audit before issuing a changed evaluation")
+    if "traction_fault_controller_sensitivity" in result:
+        raise ValueError("Reserve-limited controller sensitivity is outside the default supplier enquiry")
     if layout not in ("radial30", "paired6") or layout not in result["production"]:
         raise ValueError("Choose a layout with a civil and production quotation scope")
-    reject_buyer_returns(any(result["supplier_comparisons"].values()) or result["civil"]["erection_offers"]
+    reject_buyer_returns((result["vehicle"]["battery"].get("alternative") or {}).get("basis_kind") == "supplier-quote"
+                         or any(result["supplier_comparisons"].values()) or result["civil"]["erection_offers"]
                          or result["feeder_equipment"]["source_return_id"] is not None
                          or any(model["cash"]["owner_risk_sensitivity"]["lines"] for model in result["production"].values()))
     price = result["production"][layout]
@@ -54,6 +78,7 @@ def issue(result, layout, path):
         "engineering/civil.json": result["civil_quotation"],
         "engineering/feeder.json": dict(equipment=result["feeder_equipment"]["layouts"][feeder_id], duties=duties,
             high_mass=[r for r in result["high_mass_power"] if r["topology"] == layout],
+            traction_fault=[r for r in result["traction_fault_days"] if r["topology"] == layout],
             planning_price_sensitivity=result["feeder_price_sensitivities"][layout]),
         "factory/routing-basis.json": factory, "pricing/production.json": price,
         "pricing/supplier-comparisons.json": result["supplier_comparisons"].get(layout, []),
@@ -66,6 +91,11 @@ def issue(result, layout, path):
     members = {name: json.dumps(data, indent=2, sort_keys=True, allow_nan=False).encode() + b"\n"
                for name, data in docs.items()}
     members["README.md"] = guide(route, train, price, layout, decision, feeder_id).encode()
+    if "saloon_geometry" in train["physical"]:
+        members[SALOON_DRAWING] = saloon_dxf(train)
+        members["README.md"] += (b"\n[Dimensioned floor allocations](engineering/saloon-allocation.dxf) use metres "
+                                 b"from the car centre. Each layer names its use. Confirm clearances, access, "
+                                 b"seat hardware and joining details before releasing fabrication drawings.\n")
     manifest = dict(schema=SCHEMA, layout=layout, candidate_id=decision["physical_candidate_id"],
                     parent_candidate_id=route["parent_candidate_id"], evaluation_id=result["evaluation_id"],
                     assemblies=decision["assemblies"], production_evaluation_id=price["evaluation_id"],
@@ -94,7 +124,7 @@ decision.json for failures by duty and the evidence needed before selecting equi
 | Powered bogie | {q['bogies']} bogies. Vehicle file gives static axle reactions, traction and degraded stopping demand. | Suspension stroke, mounting loads, removal clearance, brake response, thermal rating and failed-module performance. |
 | Viaduct | {q['beams']} standard beams, {q['piers']} standard support positions and {q['bearings']} bearings. See [the civil takeoff](engineering/civil.json) for span, section and end closures. | Price stock, prestress, foundations, bearing replacement, haulage and erection at working radius. Identify closure design, ground data and temporary works separately. |
 | Station | {q['station_sites']} sites. See the [route](engineering/route.geojson), [service](engineering/service.json) and [station calculations](engineering/station.json) for locations, passenger exchanges and summer duty. | Site layout, accessible boarding, clearances, evacuation and platform equipment. Identify allowances for unconfirmed sites. |
-| Power and controls | {q['grid_sites']} supply sites. The [feeder study](engineering/feeder.json) lists chainages, failed cases, peak and RMS envelopes. | Rate continuous and transient loads, protection, return paths and safe isolation for feeder {feeder_id}. Use the rail-side rate sensitivity to compare scope. Quote utility terms, installation, validation and scheduled renewals separately. |
+| Power and controls | {q['grid_sites']} supply sites. The [feeder study](engineering/feeder.json) lists chainages, failed cases, peak and RMS envelopes, including the separately identified one-driven-axle-out replay. | Rate continuous and transient loads, protection, return paths and safe isolation for feeder {feeder_id}. Use the rail-side rate sensitivity to compare scope. Quote utility terms, installation, validation and scheduled renewals separately. |
 | Local production | The [production study](pricing/production.json) gives the planned quantities, equipment counts by resource and disruption schedules. The [routing basis](factory/routing-basis.json) identifies inherited process and fixture assumptions. | Return machine/crew hours, tool and fixture quantities, workcell capacity, yield, inspection holds, training, logistics and origin evidence. |
 
 ## Return an offer
@@ -104,6 +134,8 @@ decision.json for failures by duty and the evidence needed before selecting equi
 3. Run the original audit with its original service and engineering inputs plus `--offers buyer-offers.json --json`. Review the competing prices, revised cash flows and open items. Vehicle or feeder evidence uses the respective template and adjacent source documents with `--vehicle-return` or `--supply-return`.
 
 The factory basis and released steel cut list describe the parent prototype. Confirm compatibility with this issue before pricing any change of material, girder, formation or tooling. Prices with unknown quantities, unpriced closures and unverified capabilities remain visible in the ledger. Use the source repository's prototype training workshop for supervised practice. Fabrication requires reviewed drawings, confirmed interfaces and inspection instructions.
+
+The equipment rating and rail-side site-capacity price sensitivity include ordinary, high-mass outage and one-driven-axle-out current envelopes. Annual operating cash and service parity use the booked and achieved ordinary service comparison; the fault replay has no approved degraded timetable or annual frequency.
 """
 
 
@@ -120,7 +152,9 @@ def verify(path, expected_issue_id=None):
     try:
         with ZipFile(path) as bundle:
             names = bundle.namelist()
-            if len(set(names)) != len(names) or set(names) != MEMBERS | {"manifest.json"}:
+            member_set = set(names) - {"manifest.json"}
+            if (len(set(names)) != len(names) or "manifest.json" not in names
+                    or member_set not in (MEMBERS, MEMBERS | {SALOON_DRAWING})):
                 raise ValueError("Enquiry members are missing, unexpected or duplicated")
             m = json.loads(bundle.read("manifest.json"))
             if (m["schema"] != SCHEMA or m["issue_id"] != scenario._id(without(m, "issue_id"))
@@ -134,10 +168,14 @@ def verify(path, expected_issue_id=None):
                 raise ValueError("Enquiry differs from the trusted issue ID. Use the original issuer reference for a custom case.")
             if any(m[key] != value for key, value in pin.items()):
                 raise ValueError("Enquiry differs from the published evaluation, candidate or layout pin")
-            raw = {k: bundle.read(k) for k in MEMBERS}
+            raw = {k: bundle.read(k) for k in member_set}
             if {k: scenario.sha(v) for k,v in raw.items()} != m["members_sha256"]:
                 raise ValueError("Enquiry member digest differs from the issued scope")
             docs = {k: json.loads(v) for k,v in raw.items() if k.endswith((".json", ".geojson"))}
+        train = docs["engineering/vehicle.json"]
+        expected_plan = saloon_dxf(train) if "saloon_geometry" in train["physical"] else None
+        if raw.get(SALOON_DRAWING) != expected_plan:
+            raise ValueError("The floor drawing must reproduce the installed vehicle layout")
         check_scope(m, docs)
         from .audit_packet_evidence import check_evidence
         check_evidence(docs, m)
@@ -157,7 +195,8 @@ def check_scope(m, docs):
     factory = docs["factory/routing-basis.json"]
     vehicle_return = train["return_assessment"]
     equipment = feeder["equipment"]
-    reject_buyer_returns(docs["pricing/supplier-comparisons.json"] != []
+    reject_buyer_returns((train["battery"].get("alternative") or {}).get("basis_kind") == "supplier-quote"
+                         or docs["pricing/supplier-comparisons.json"] != []
                          or price["localisation"]["buyer_referenced_offers"] != []
                          or price["cash"]["owner_risk_sensitivity"] != dict(
                              status="no itemised return", calibration="none", lines=[], revised_profiles=None,
@@ -193,6 +232,7 @@ def check_scope(m, docs):
     require_equal("vehicle duty", ctx["vehicle_duty_id"], train["duty_id"])
     require_equal("vehicle candidate", ctx["vehicle_candidate_id"], assemblies["train"], scenario._id(train["physical"]))
     require_equal("vehicle return", docs["returns/vehicle.json"], train["return_template"])
+    require_equal("installed vehicle for the civil load cases", train["candidate_id"], civil["installed_vehicle_candidate_id"])
     require_equal("civil geometry", ctx["civil_physical_id"], assemblies["civil"])
     require_equal("civil pricing basis", ids["civil_row_id"], civil["audit_row_id"],
                   family_comparison.digest(without(civil, "audit_row_id")))
@@ -210,7 +250,7 @@ def check_scope(m, docs):
     require_equal("feeder duties", sorted(d["condition"] for d in feeder["duties"]), sorted(motion_power.CONDITIONS))
     for d in feeder["duties"]:
         require_equal("working candidate", d["candidate_id"], assemblies["feeder"])
-    for d in feeder["duties"] + feeder["high_mass"]:
+    for d in feeder["duties"] + feeder["high_mass"] + feeder["traction_fault"]:
         require_equal("feeder scope", d["feeder_physical"], circuit)
         require_equal("feeder configuration", d["feeder_physical_id"], m["feeder_physical_id"])
     for row in price["pricings"]:

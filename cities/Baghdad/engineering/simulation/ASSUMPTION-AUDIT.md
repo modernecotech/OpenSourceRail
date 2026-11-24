@@ -25,6 +25,31 @@ Cost sensitivity is conditional on the chosen quantities and rates. The UK Infra
 
 Run `./osr design railway audit` from the repository root. Use `--json` for stage identities, source references, assumption values, case results and unresolved evidence. Use `--help` for alternate inputs. The offline [decision results](AUDIT-RESULTS.md) show the default comparison. Each reference describes its own study scope. The production release remains held for physical and procurement evidence.
 
+## Compare a fitted train on the same railway
+
+The original Airport study allocates 700 places and a 65 kWh service battery to a six-car train. The battery falls short of its emergency energy duty at the assumed end of life. The [replacement battery input](battery-trial.json) sizes a 100 kWh trial and identifies its mass, mounting position and installed price. The [interior input](saloon-trial.json) allocates the usable floor to seats, wheelchair places, standing, doors and circulation. Both are planning inputs. A workshop can replace them with its own dimensions and documented equipment return. [Assumptions and mounting datums](vehicle-audit-guide.md)
+
+Run the two inputs together to compare their operating, civil and purchasing consequences. From the repository root:
+
+```sh
+study=cities/Baghdad/engineering/simulation
+./osr design railway audit --saloon-layout "$study/saloon-trial.json" \
+  --battery-alternative "$study/battery-trial.json" --json > build/fitted-airport.json
+./osr design railway audit --saloon-layout "$study/saloon-trial.json" \
+  --battery-alternative "$study/battery-trial.json" --layout paired6 --packet build/fitted-enquiry.zip
+```
+
+Start with `service_offers` for trips completed and `decision.candidates` for failed and outstanding duties. The normal service boards up to the floor-plan capacity. The civil comparison also carries the high crowd load and adverse longitudinal distribution. The packet includes dimensioned floor allocations in DXF, their fleet quantities and the separately priced installed battery. The fleet price removes the original pack allowance once. Seat support, accessibility, suspension, braking and peak battery power still need tests on the fitted article.
+
+| Fitted six-car trial | Result | Consequence for the enquiry |
+| --- | --- | --- |
+| Normal passenger layout | 20 fixed seats, two wheelchair places and four standing places per car. The train offers 156 places. | Price the fitted floor plan and return the installed furniture mass. |
+| Loaded train mass | 158.136 t in the central 156-person case and 246.336 t with the 700-person adverse crowd and high equipment allowances. | Use the heavier axle distribution for the civil screen even when the ordinary service carries fewer people. |
+| Emergency energy | The 100 kWh trial supplies 64 kWh after the usable-energy and ageing allowances. A further assumed 20% hot-weather loss leaves 51.2 kWh against 50.4 kWh required. | Obtain the hot discharge curve and brake-excitation duty. A further 0.8 kWh loss consumes the remaining energy margin. |
+| Loss of one driven axle | Both layouts finish 72 of 72 trips in the fitted 30-minute replay. The required force reserve is deficient for 6,424 seconds of accumulated train duty on each layout. | Obtain the allowable degraded service and measured wheel-force data before selecting the drive. |
+
+Add `--fault-controller-sensitivity` to the JSON command to repeat the axle fault with the reserve enforced by the controller. The fitted trial still completes 72 trips per layout and records 898 seconds per layout when the original traction request exceeds the controller limit. The trial does not establish an approved degraded timetable.
+
 ## Return prices against a revised design
 
 Download the [six-site paired enquiry](audited-enquiry.zip) or the [30-site radial enquiry](audited-enquiry-radial30.zip) and open its README. Both use the same alignment, train, passenger offer, degraded duties and cash periods. Each has its own circuit, quantities and issue receipt. The radial enquiry includes the lost service under path isolation. Each package includes the alignment in GeoJSON, train and station loads, feeder duties, girder takeoff, workshop routing basis, quantities, cash periods and blank return files. The manifest binds the files to one physical candidate and evaluation. To verify a download, run `python3 -m cities.Baghdad.engineering.simulation.audit_packet path/to/enquiry.zip` in the checked-out edition. For a custom enquiry, record the issue ID printed by the original export in the buyer's register. Pass that value with `--issue-id` when verifying the returned file. The local SHA-256 check detects changed contents. Issuer identity and approval of the underlying drawings require separate evidence. The earlier [12 km drawing issue](../prototype/airport-enquiries.zip) is retained for prototype detail. Check each drawing against the revised interfaces before quoting it.

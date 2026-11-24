@@ -58,6 +58,56 @@ class AuditPacketTests(unittest.TestCase):
             self.assertEqual(manifest["members_sha256"],
                              {name: sha256(archive.read(name)).hexdigest() for name in payloads})
 
+    def test_fitted_interior_drawing_matches_the_priceable_car(self):
+        saloon = scenario.HERE / "saloon-trial.json"
+        battery = scenario.HERE / "battery-trial.json"
+        with patch.object(motion_power, "evaluate", side_effect=test_assumption_audit.AssumptionAuditTests.short_day):
+            fitted = assumption_audit.audit(cache=None, saloon_layout=saloon, battery_alternative=battery, span=20)
+        path = self.directory / "fitted.zip"
+        issue = audit_packet.issue(fitted, "paired6", path)
+        self.assertEqual(audit_packet.verify(path, expected_issue_id=issue["issue_id"]), issue)
+        with ZipFile(path) as archive:
+            drawing = archive.read(audit_packet.SALOON_DRAWING).decode("ascii").splitlines()
+        codes = list(zip(drawing[::2], drawing[1::2], strict=True))
+        geometry = fitted["vehicle"]["physical"]["saloon_geometry"]
+        self.assertIn(("2", "ENTITIES"), codes)
+        self.assertEqual(codes.count(("0", "LWPOLYLINE")), 1 + len(geometry["allocations"]))
+        for kind in {row["kind"] for row in geometry["allocations"]}:
+            self.assertEqual(codes.count(("8", kind)), sum(row["kind"] == kind for row in geometry["allocations"]))
+        estimate = audit_erpnext.portal_estimate(path, "2026-11-24", expected_issue_id=issue["issue_id"])
+        fleet = next(row for row in estimate["lots"] if row["lot_id"] == "fleet")
+        self.assertIn("Excludes the separately priced essential-service-battery lot", fleet["published_scope"])
+        self.assertIn("wheelchair places", fleet["published_scope"])
+
+    def test_fault_replay_is_packaged_and_semantically_bound(self):
+        from cities.Baghdad.engineering.simulation.audit_packet_evidence import check_evidence
+        path, _ = self.issue()
+        with ZipFile(path) as archive:
+            docs = {name: json.loads(archive.read(name)) for name in archive.namelist() if name.endswith(".json")}
+        fault, = docs["engineering/feeder.json"]["traction_fault"]
+        assessment = docs["decision.json"]["assessment"]
+        self.assertEqual(assessment["one_driven_axle_out"]["evaluation_id"], fault["evaluation_id"])
+        self.assertEqual(assessment["one_driven_axle_out"]["booked"], fault["booked"])
+        for path, value in (
+            (("engineering/feeder.json", "traction_fault", 0, "grade_pct"), 0.),
+            (("engineering/feeder.json", "traction_fault", 0, "completed"), 0),
+            (("engineering/feeder.json", "traction_fault", 0, "failure", "traction", "low_adhesion_mu"), .99),
+        ):
+            changed = deepcopy(docs)
+            section = changed
+            for key in path[:-1]:
+                section = section[key]
+            section[path[-1]] = value
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, "traction-fault|duty gate|equipment duty"):
+                check_evidence(changed, changed["manifest.json"])
+
+    def test_controller_sensitivity_cannot_enter_default_enquiry(self):
+        result = deepcopy(self.result)
+        result["traction_fault_controller_sensitivity"] = {"controller": "reserve_limited", "days": []}
+        result["evaluation_id"] = scenario._id(audit_packet.without(result, "evaluation_id"))
+        with self.assertRaisesRegex(ValueError, "outside the default supplier enquiry"):
+            audit_packet.issue(result, "paired6", self.directory / "controller.zip")
+
     def test_issue_shell_accepts_its_offer_and_rejects_cross_layout_reuse(self):
         paired, paired_manifest = self.issue()
         radial, radial_manifest = self.issue("radial30", "radial.zip")

@@ -37,7 +37,7 @@ The planning tools cover 266 cities. Check where passengers can enter a station 
 
 ## Inside the train and station
 
-Choose formation and frequency together. A shorter train can serve the same hourly demand with more departures if the blocks, platforms, traction supply and turnbacks can handle them. Price both offers at the waiting time, peak load and spare cover the operator can accept. The installed-car account includes passengers, doors, brakes, wheelsets, cabling and cooling. Weighing and locating that equipment determines what each axle, bearing and beam must carry. [Train and station models](docs/operator-review/twins/README.md) · [Installed equipment and fits](cities/Baghdad/engineering/prototype/fitout-guide.md)
+Choose formation and frequency together. A shorter train can serve the same hourly demand with more departures if the blocks, platforms, traction supply and turnbacks can handle them. Price both offers at the waiting time, peak load and spare cover the operator can accept. The installed-car account includes passengers, doors, brakes, wheelsets, cabling and cooling. A revised saloon layout can change normal capacity while the viaduct still carries its adverse crowd load. A replacement service battery changes axle reactions, emergency endurance and fleet price. The [worked comparison](cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md#compare-a-fitted-train-on-the-same-railway) follows both changes through to a supplier enquiry. [Train and station models](docs/operator-review/twins/README.md) · [Installed equipment and fits](cities/Baghdad/engineering/prototype/fitout-guide.md)
 
 ## Viaducts, construction and traction power
 

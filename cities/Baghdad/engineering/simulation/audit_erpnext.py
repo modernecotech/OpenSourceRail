@@ -43,6 +43,12 @@ def estimate_payload(issue, pricing, estimate_date):
         scope = row["supplier_scope"]
         title = row["lot_id"].replace("-", " ").capitalize()
         description = f"{title} for {issue['layout']}, full scope of {scope['quantity']} {scope['unit']}"
+        if row.get("excluded_scope"):
+            description += f". Excludes the separately priced {row['excluded_scope']['lot_id']} lot"
+        interior = row.get("interior_takeoff")
+        if interior is not None:
+            description += (f". Includes {interior['fixed_seats']} fixed seats and {interior['wheelchair_places']} "
+                            f"wheelchair places across {interior['cars']} cars. Include fittings and installation")
         if scope["operating_year"] is not None:
             description += f" in operating year {scope['operating_year']}"
         lots.append(dict(

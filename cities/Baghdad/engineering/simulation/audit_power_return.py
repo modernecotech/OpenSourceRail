@@ -31,10 +31,11 @@ def _margin(capacity, demand, *, strict=False, unit="kA"):
                 screen="unknown" if passed is None else "pass" if passed else "fail")
 
 
-def _inventory(power_days, high_mass_power):
+def _inventory(power_days, high_mass_power, traction_fault_power=()):
     layouts = {}
     seen = set()
-    for category, days in (("matched service", power_days), ("high-mass stress", high_mass_power)):
+    for category, days in (("matched service", power_days), ("high-mass stress", high_mass_power),
+                           ("one-driven-axle-out", traction_fault_power)):
         for row in days:
             physical = row.get("feeder_physical")
             key = row.get("feeder_physical_id")
@@ -187,7 +188,7 @@ def _thermal_screen(duties, thermal):
                 status = "fail"
             elif duty["numerical_valid"] and upper is not None and upper <= parameters["maximum_temperature_c"]:
                 status = "pass"
-            rows.append(dict(evaluation_id=duty["evaluation_id"], condition=duty["condition"],
+            rows.append(dict(evaluation_id=duty["evaluation_id"], category=duty["category"], condition=duty["condition"],
                              numerical_valid=duty["numerical_valid"], duration_s=duration,
                              current_peak_ka=peak, current_rms_upper_ka=rms,
                              current_i2t_upper_a2s=energy, maximum_temperature_upper_c=upper,
@@ -200,9 +201,9 @@ def _thermal_screen(duties, thermal):
     return result
 
 
-def assess(power_days, high_mass_power, document=None, *, evidence_directory=None):
+def assess(power_days, high_mass_power, document=None, *, evidence_directory=None, traction_fault_power=()):
     """Return equipment enquiry and conditional matching margins for each physical layout."""
-    layouts = _inventory(power_days, high_mass_power)
+    layouts = _inventory(power_days, high_mass_power, traction_fault_power)
     submitted, documents = _supplier_returns(document, layouts, evidence_directory)
     for key, layout in layouts.items():
         reply = submitted.get(key) or {}

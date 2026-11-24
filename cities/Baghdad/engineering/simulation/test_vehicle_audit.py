@@ -4,7 +4,7 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
-from cities.Baghdad.engineering.simulation import airport_alignment, corridor, vehicle_audit as audit
+from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, corridor, passengers, vehicle_audit as audit
 
 
 class VehicleAuditTest(unittest.TestCase):
@@ -79,6 +79,114 @@ class VehicleAuditTest(unittest.TestCase):
             self.assertAlmostEqual(row["energy_margin_kwh"], 41.6 * factor - 50.4)
             self.assertAlmostEqual(row["minimum_nominal_kwh"], 50.4 / (.8 * .8 * factor))
         self.assertIsNone(battery["required_hot_discharge_peak_kw"])
+
+    def test_corrective_envelopes_preserve_failed_obligations(self):
+        battery = self.result["battery"]["corrective_procurement"]
+        self.assertAlmostEqual(battery["minimum_hot_end_of_life_deliverable_kwh"], 50.4)
+        self.assertAlmostEqual(battery["minimum_nominal_kwh_by_hot_capacity_factor"]["0.9"], 87.5)
+        self.assertEqual(battery["baseline_installed_mass_allowance_kg"], 500)
+        self.assertIsNone(battery["required_combined_hot_discharge_peak_kw"])
+        self.assertIsNone(battery["changed_installed_mass_kg"])
+        high = self.result["traction"]["high"]
+        quote = high["corrective_procurement"]
+        self.assertFalse(high["declared_static_adhesion_necessary_screen_passes"])
+        self.assertAlmostEqual(quote["maximum_lost_driven_axle_static_kg"], 10565.35980535284)
+        self.assertAlmostEqual(quote["minimum_reaction_transfer_from_each_heaviest_axle_kg"], 648.3780363138267)
+        self.assertAlmostEqual(quote["minimum_reaction_transfer_per_car_kg"], 2 * quote["minimum_reaction_transfer_from_each_heaviest_axle_kg"])
+        self.assertAlmostEqual(quote["required_adhesion_if_loads_unchanged"], .10027611443045059)
+        self.assertAlmostEqual(quote["minimum_hot_wheel_force_after_one_axle_out_kn"], high["required_train_force_kn"])
+        self.assertIsNone(quote["changed_installed_mass_kg"])
+
+    def test_identified_battery_alternative_substitutes_mass_and_keeps_commercial_out_of_physical_id(self):
+        alternative = dict(basis_kind="planning-estimate", supplier_reference="synthetic-study",
+                           quote_source_sha256="a" * 64, nominal_kwh=100.0, usable_fraction=.8,
+                           retained_capacity_fraction=.8, hot_capacity_factor=.8,
+                           installed_mass_kg=800.0, installed_price_usd=180000.0,
+                           car_x_m=0.0, car_z_m=.85, hot_continuous_discharge_kw=30.0,
+                           hot_peak_discharge_kw=100.0, peak_duration_s=30.0)
+        revised = audit.evaluate(battery_alternative=alternative)
+        self.assertNotEqual(revised["candidate_id"], self.result["candidate_id"])
+        self.assertAlmostEqual(revised["mass_cases"]["high"]["loaded_train_kg"],
+                               self.result["mass_cases"]["high"]["loaded_train_kg"] + 300)
+        self.assertAlmostEqual(revised["mass_cases"]["high"]["group_allocations"]["independent_service_pack"]["car_from_centroid_m"][0], 0)
+        self.assertAlmostEqual(sum(a["loaded_kg"] for a in revised["mass_cases"]["high"]["axles"].values()),
+                               revised["mass_cases"]["high"]["loaded_train_kg"])
+        self.assertTrue(revised["battery"]["alternative"]["hot_energy_necessary_screen_passes"])
+        self.assertIsNone(revised["battery"]["alternative"]["brake_and_egress_peak_power_screen_passes"])
+        self.assertEqual(revised["battery"]["alternative"]["price_delta_usd"], 80000)
+        shifted = audit.evaluate(battery_alternative={**alternative, "car_x_m": 1.0, "car_z_m": 1.85})
+        for state, load in revised["mass_cases"].items():
+            shifted_load = shifted["mass_cases"][state]
+            expected_shift = alternative["installed_mass_kg"] / load["loaded_train_kg"]
+            for axis in ("x", "z"):
+                key = f"loaded_car_cg_{axis}_m"
+                self.assertAlmostEqual(shifted_load[key] - load[key], expected_shift)
+            self.assertGreater(shifted_load["axle_kg_per_car"][-1], load["axle_kg_per_car"][-1])
+            self.assertAlmostEqual(sum(shifted_load["axle_kg_per_car"]), sum(load["axle_kg_per_car"]))
+        repriced = audit.evaluate(battery_alternative={**alternative, "installed_price_usd": 200000})
+        self.assertEqual(repriced["candidate_id"], revised["candidate_id"])
+        self.assertNotEqual(repriced["evaluation_id"], revised["evaluation_id"])
+        rehypothesized = audit.evaluate(battery_alternative={**alternative, "hot_capacity_factor": .7})
+        self.assertEqual(rehypothesized["candidate_id"], revised["candidate_id"])
+        self.assertFalse(rehypothesized["battery"]["alternative"]["hot_energy_necessary_screen_passes"])
+        with self.assertRaisesRegex(ValueError, "source document"):
+            audit.evaluate(battery_alternative={**alternative, "basis_kind": "supplier-quote"})
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "quote.txt"
+            path.write_text("synthetic quote fixture")
+            documented = {**alternative, "basis_kind": "supplier-quote", "source_document": str(path),
+                          "quote_source_sha256": audit.sha(path.read_bytes())}
+            self.assertTrue(audit.evaluate(battery_alternative=documented)["battery"]["alternative"]["source_document_verified"])
+            path.write_text("changed")
+            with self.assertRaisesRegex(ValueError, "missing or changed"):
+                audit.evaluate(battery_alternative=documented)
+
+    def test_saloon_layout_counts_only_nonoverlapping_allocations_and_retains_high_crowd(self):
+        folder = Path(audit.__file__).parent
+        layout = json.loads((folder / "saloon-trial.json").read_text())
+        trial = audit.evaluate(saloon_layout=layout, saloon_directory=folder)
+        saloon = trial["saloon_layout"]
+        self.assertEqual((saloon["seats_per_car"], saloon["wheelchair_places_per_car"],
+                          saloon["standing_places_per_car"], saloon["places_per_train"]), (20, 2, 4, 156))
+        self.assertGreaterEqual(saloon["unallocated_area_m2"], 0)
+        self.assertEqual(trial["mass_cases"]["central"]["people"], 156)
+        self.assertEqual(trial["mass_cases"]["high"]["people"], 700)
+        self.assertEqual(trial["mass_cases"]["high"]["passenger_centroid_x_m"], 1.8)
+        self.assertNotEqual(trial["candidate_id"], self.result["candidate_id"])
+        lower_density = audit.evaluate(saloon_layout={**layout, "standing_density_person_m2": 2},
+                                       saloon_directory=folder)
+        self.assertEqual(lower_density["candidate_id"], trial["candidate_id"])
+        self.assertNotEqual(lower_density["duty_id"], trial["duty_id"])
+        overlap = deepcopy(layout)
+        overlap["allocations"][-1]["y1_m"] = -.3
+        with self.assertRaisesRegex(ValueError, "overlap"):
+            audit.evaluate(saloon_layout=overlap, saloon_directory=folder)
+        false_places = deepcopy(layout)
+        false_places["allocations"][-1]["places"] = 700
+        with self.assertRaisesRegex(ValueError, "Only seat and wheelchair"):
+            audit.evaluate(saloon_layout=false_places, saloon_directory=folder)
+        impossible_seats = deepcopy(layout)
+        seat = next(row for row in impossible_seats["allocations"] if row["kind"] == "seat" and row["places"] == 4)
+        seat["footprint_length_m"] = 3.0
+        with self.assertRaisesRegex(ValueError, "whole footprint packing"):
+            audit.evaluate(saloon_layout=impossible_seats, saloon_directory=folder)
+        isolated = deepcopy(layout)
+        isolated["allocations"] = [row for row in isolated["allocations"]
+                                   if not (row["kind"] == "aisle" and row["x0_m"] == -5.65)]
+        wheelchair = next(row for row in isolated["allocations"] if row["kind"] == "wheelchair" and row["x0_m"] == -5.65)
+        wheelchair["x0_m"] = -5.5
+        wheelchair["footprint_length_m"] = 1.8
+        isolated["wheelchair_area_m2_per_place"] = 1.3
+        with self.assertRaisesRegex(ValueError, "isolated"):
+            audit.evaluate(saloon_layout=isolated, saloon_directory=folder)
+        alignment = airport_alignment.evaluate()
+        demand = airport_demand.evaluate(alignment, headway_min=30, normal_places_per_train=156)
+        self.assertEqual(demand["service_offer"]["observation_context"]["normal_places_per_train"], 156)
+        climate = passengers.evaluate(dict(cars=6, normal_places_per_train=156,
+                                           busiest_departure_load=156, platform_queue=100))
+        self.assertLessEqual(climate["door_exchange"]["arriving_load"], 156)
+        with self.assertRaisesRegex(ValueError, "study domain"):
+            passengers.evaluate(dict(cars=6, normal_places_per_train=156, busiest_departure_load=700))
 
     def test_claim_checks_identity_and_attachment_only(self):
         form = deepcopy(self.result["return_template"])

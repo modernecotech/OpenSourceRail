@@ -20,15 +20,20 @@ LAYOUTS = ("radial30", "paired6")
 def service_inputs(route, vehicle, headway, ambient, observed, demand_mode, *, dwell_s=None):
     """Account for an assisted transfer at the demand used to book the working day."""
     cars = vehicle["physical"]["formation_cars"]
+    capacity = (vehicle["saloon_layout"]["places_per_train"] if vehicle.get("saloon_layout") is not None
+                else 700 * cars // 6)
     dwell = route["dwell_s"] if dwell_s is None else dwell_s
     # Increase the booked dwell if necessary. A smaller updated dwell requirement
     # leaves the allowance in the timetable. Two unsuccessful revisions trigger review.
     for _ in range(3):
         demand = airport_demand.evaluate(route, headway_min=headway, dwell_s=dwell,
-                                         observed=observed, mode=demand_mode, formation_cars=cars)
+                                         observed=observed, mode=demand_mode, formation_cars=cars,
+                                         normal_places_per_train=capacity if vehicle.get("saloon_layout") is not None else None)
         climate_inputs = dict(cars=cars, headway_min=headway, ambient_c=ambient,
-                              busiest_departure_load=min(700 * cars // 6, math.ceil(demand["busiest_departure_load"])),
+                              busiest_departure_load=min(capacity, math.ceil(demand["busiest_departure_load"])),
                               platform_queue=math.ceil(demand["platform_queue"]))
+        if vehicle.get("saloon_layout") is not None:
+            climate_inputs["normal_places_per_train"] = capacity
         if dwell != route["dwell_s"]:
             climate_inputs["dwell_s"] = dwell
         climate = passengers.evaluate(climate_inputs)
@@ -84,7 +89,7 @@ def positioning_trial(route, vehicle, interval, dwell, phase, slack):
                 initial_block_overlap_s=overlap, operating_sets=group["diagrammed_sets"], positioning=len(positions))
 
 
-def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, cache, sources, phase=None, slack=0, step=2, mass_state="central", constant_grade=False):
+def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, cache, sources, phase=None, slack=0, step=2, mass_state="central", constant_grade=False, traction_fault=False, traction_fault_controller=False):
     airport_demand.validate(demand, route)
     physical = vehicle["physical"]
     if route["parent_candidate_id"] != physical["parent_candidate_id"]:
@@ -96,7 +101,24 @@ def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, c
                   dwell_s=demand["dwell_s"], grade_pct=float(grade_pct), auxiliary_kw=climate["auxiliary_kw"],
                   tare_train_kg=mass["tare_train_kg"], loaded_train_kg=mass["loaded_train_kg"],
                   topology=layout, condition=condition, phase_s=phase, step_s=float(step))
-    if constant_grade and route["grade_profile"] is not None:
+    if vehicle.get("saloon_layout") is not None:
+        inputs["places_per_train"] = vehicle["saloon_layout"]["places_per_train"]
+        inputs["mass_reference_people"] = mass["people"]
+    if traction_fault:
+        if mass_state not in vehicle["traction"]:
+            raise ValueError("Traction fault needs a matched vehicle load and traction case")
+        inputs["traction_fault"] = dict(
+            mode="heaviest_driven_axle_out", vehicle_candidate_id=vehicle["candidate_id"],
+            vehicle_evaluation_id=vehicle["evaluation_id"], load_state=mass_state,
+            low_adhesion_mu=vehicle["traction"][mass_state]["adhesion_assumed"],
+            adhesion_force_margin=vehicle["traction"][mass_state]["corrective_procurement"]["adhesion_force_margin"],
+            axles={name: {"tare_kg": row["tare_kg"], "loaded_kg": row["loaded_kg"]}
+                   for name, row in mass["axles"].items()})
+    if traction_fault_controller:
+        if not traction_fault:
+            raise ValueError("Reserve-limited fault controller needs the identified axle-out replay")
+        inputs["traction_fault_controller"] = "reserve_limited"
+    if constant_grade and (route["grade_profile"] is not None or traction_fault):
         inputs["grade_basis"] = "constant_sensitivity"
     if slack:
         inputs["positioning_slack_s"] = slack
@@ -123,6 +145,15 @@ def screen_day(row):
                 booked=m["booked_passenger_trips"], completed=m["completed_passenger_trips"],
                 minimum_v=m["minimum_collector_v"], peak_site_ka=m["peak_site_current_ka"],
                 maximum_delay_s=m["maximum_arrival_delay_s"],
+                traction_fault_required_force_deficit_s=m.get("traction_fault_required_force_deficit_s"),
+                traction_fault_curtailed_s=m.get("traction_fault_curtailed_s"),
+                traction_fault_limit_min_n=m.get("traction_fault_limit_min_n"),
+                traction_fault_original_request_shortfall_s=m.get("traction_fault_original_request_shortfall_s"),
+                traction_fault_original_request_shortfall_ns=m.get("traction_fault_original_request_shortfall_ns"),
+                grade_pct=row["scenario"]["grade_pct"],
+                grade_basis=row["scenario"].get("grade_basis"),
+                loaded_train_kg=row["scenario"]["loaded_train_kg"],
+                tare_train_kg=row["scenario"]["tare_train_kg"],
                 service_day_current_basis_seconds=m.get("service_day_current_basis_seconds"),
                 rms_branch_ka=m["bound_branch_rms_current_ka"], site_rms_ka=m["max_site_rms_current_ka"],
                 served=m["boarded_passengers"], fleet=m["fleet_sets_required"],
@@ -136,8 +167,10 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
           survey=None, observed=None, demand_mode="service_sensitive", dwell_s=None,
           available_stop_m=None, overlap_m=None,
           span=None, offers=None, phase_s=None, positioning_slack_s=None, vehicle_return=None,
+          battery_alternative=None, saloon_layout=None,
           lift_radius=12., crane_capacity=None, erection_offer=(), supply_return=None, risk_return=None,
-          cache=scenario.CACHE):
+          renewals=None,
+          cache=scenario.CACHE, fault_controller_sensitivity=False):
     from . import audit_feeder_cost, audit_offers, audit_production
     route = airport_alignment.evaluate(survey=survey)
     evidence = Path(vehicle_return) if vehicle_return else None
@@ -147,6 +180,10 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
     braking_grade = abs(grade) if use_constant_grade else max((abs(x) for x in slopes), default=0.)
     vehicle = vehicle_audit.evaluate(cars=cars, material=material, alignment=route, grade_pct=braking_grade,
         available_stop_m=available_stop_m, overlap_m=overlap_m,
+        battery_alternative=json.loads(Path(battery_alternative).read_bytes()) if battery_alternative else None,
+        battery_directory=Path(battery_alternative).parent if battery_alternative else None,
+        saloon_layout=json.loads(Path(saloon_layout).read_bytes()) if saloon_layout else None,
+        saloon_directory=Path(saloon_layout).parent if saloon_layout else None,
         evidence_return=json.loads(evidence.read_bytes()) if evidence else None,
         evidence_directory=evidence.parent if evidence else None)
     demand, climate = service_inputs(route, vehicle, headway, ambient, observed, demand_mode, dwell_s=dwell_s)
@@ -186,7 +223,7 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
             annual_requested=passengers_at_interval["annual_all_journeys"], ordinary=screen_day(nominal))
     chosen_timing = service_offers[headway]["phases"]["best"]
     civil = family_comparison.evaluate_high_load(route_km=route["route_km"], cars=cars, material=material,
-                                                 soil_kpa=soil, selected_span_m=span, lift_radius_m=lift_radius,
+                                                 soil_kpa=soil, selected_span_m=span, lift_radius_m=lift_radius, installed_vehicle=vehicle,
                                                  crane_limit_t=crane_capacity, erection_offers=[
                                                      json.loads(Path(path).read_bytes()) for path in erection_offer])
     for state, load in civil["load_cases"].items():
@@ -213,6 +250,15 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
         if not girder:
             raise ValueError("Owner risk return needs a comparable production and civil scope")
         risk_by_layout = submitted["layouts"]
+    renewal_by_layout = {}
+    if renewals is not None:
+        submitted = json.loads(Path(renewals).read_bytes())
+        if (not isinstance(submitted, dict) or set(submitted) != {"schema", "layouts"}
+                or submitted["schema"] != audit_feeder_cost.RENEWAL_SCHEMA
+                or not isinstance(submitted["layouts"], dict) or not submitted["layouts"]
+                or set(submitted["layouts"]) - set(LAYOUTS)):
+            raise ValueError("Feeder renewals need named layouts in the renewal return schema")
+        renewal_by_layout = submitted["layouts"]
     days, delivery, configs, comparisons = [], {}, [], {}
     for layout in LAYOUTS:
         for condition in motion_power.CONDITIONS:
@@ -222,7 +268,9 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
             if condition == "normal":
                 configs.append(day["scenario"])
                 if girder:
-                    kwargs = dict(civil_evaluation_id=civil["evaluation_id"], topology=layout, demand=demand)
+                    kwargs = dict(civil_evaluation_id=civil["evaluation_id"], topology=layout, demand=demand,
+                                  renewal_return=renewal_by_layout.get(layout),
+                                  renewal_directory=Path(renewals).parent if renewals is not None else None)
                     priced = audit_production.evaluate(route, vehicle, day, girder, **kwargs)
                     chosen = []
                     if bids is not None:
@@ -244,10 +292,28 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
                           vehicle["high_load_adverse_traction"]["upgrade_pct"], cache, sources,
                           mass_state="high", constant_grade=True, **timing)
         stress.append(screen_day(day))
+    # A distinct evaluation of the same physical train loses its heaviest driven
+    # axle at each boarded load. The high planning mass and adverse uphill grade
+    # remain explicit; no degraded-service timetable is presumed approved.
+    fault_days = []
+    for layout in LAYOUTS:
+        fault = working_day(route, demand, vehicle, climate, layout, "normal",
+                            vehicle["high_load_adverse_traction"]["upgrade_pct"], cache, sources,
+                            mass_state="high", constant_grade=True, traction_fault=True, **timing)
+        fault_days.append(screen_day(fault))
+    controller_days = []
+    if fault_controller_sensitivity:
+        for layout in LAYOUTS:
+            controlled = working_day(route, demand, vehicle, climate, layout, "normal",
+                                     vehicle["high_load_adverse_traction"]["upgrade_pct"], cache, sources,
+                                     mass_state="high", constant_grade=True, traction_fault=True,
+                                     traction_fault_controller=True, **timing)
+            controller_days.append(screen_day(controlled))
     supplied = Path(supply_return) if supply_return else None
     equipment = audit_power_return.assess(days, stress,
         json.loads(supplied.read_bytes()) if supplied else None,
-        evidence_directory=supplied.parent if supplied else None)
+        evidence_directory=supplied.parent if supplied else None,
+        traction_fault_power=fault_days)
     from .audit_register import register, disposition, functional_screen
     register_rows = register(route, demand, vehicle, civil, climate, configs, delivery, equipment)
     booked_case = next(case for case in configs if case["topology"] == "paired6")
@@ -261,9 +327,15 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
                 vehicle=vehicle, climate=climate, service_offers=service_offers, timetable_offer=timetable_offer,
                 power_days=days,
                 civil={k:v for k,v in civil.items() if k != "rows"}, civil_quotation=girder, feeder_equipment=equipment, step_trials=step_trials, high_mass_power=stress,
+                traction_fault_days=fault_days,
                 production=delivery, supplier_comparisons=comparisons, assumptions=register_rows,
                 requirement_policy_id=requirement_policy.catalogue()["policy_id"],
                 decision=disposition(route, demand, vehicle, days, girder, delivery))
+    if controller_days:
+        results["traction_fault_controller_sensitivity"] = dict(
+            purpose="Unapproved reserve-limited degraded-response comparison; physical vehicle and rail condition unchanged",
+            controller="reserve_limited", assumption="Demand force limited to failed-axle adhesion divided by the declared force reserve before DC limiting",
+            degraded_service_requirement=None, days=controller_days)
     for layout, assessment in results["decision"]["candidates"].items():
         heavy = next(r for r in stress if r["topology"] == layout)
         assessment["numerical_valid"] = assessment["numerical_valid"] and heavy["numerical_valid"]
@@ -271,13 +343,29 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
         assessment["complete_equipment_duty_screen"] = equipment["layouts"][heavy["feeder_physical_id"]]["complete_equipment_duty_screen"]
         assessment["high_mass_combined_outage"] = {
             "evaluation_id":heavy["evaluation_id"], "failed_or_open_checks":heavy["failed_screens"]}
+        fault = next(r for r in fault_days if r["topology"] == layout)
+        assessment["numerical_valid"] = assessment["numerical_valid"] and fault["numerical_valid"]
+        assessment["one_driven_axle_out"] = {
+            "evaluation_id": fault["evaluation_id"], "candidate_id": fault["candidate_id"],
+            "failure": fault["failure"], "force_envelope_passes": fault["gates"]["traction_fault_force_envelope"],
+            "required_force_deficit_s": fault["traction_fault_required_force_deficit_s"],
+            "completed": fault["completed"], "booked": fault["booked"],
+            "maximum_delay_s": fault["maximum_delay_s"],
+            "grade_pct": fault["grade_pct"], "grade_basis": fault["grade_basis"],
+            "grade_direction": "outward uphill; inbound downhill; yard level",
+            "load_state": "high", "low_adhesion_mu": fault["failure"]["traction"]["low_adhesion_mu"],
+            "adhesion_force_margin": fault["failure"]["traction"]["adhesion_force_margin"],
+            "required_net_acceleration_m_s2": vehicle["high_load_adverse_traction"]["corrective_procurement"]["required_net_accel_m_s2"],
+            "degraded_service_requirement": None,
+            "failed_or_open_checks": fault["failed_screens"],
+        }
         if any(not passed for key,passed in heavy["gates"].items()
                if key not in ("protection_approved", "utility_connection_approved", "thermal_ratings_verified")):
             assessment["operating_screen"] = "failed"
         assessment["functional_screen"] = functional_screen(assessment)
     operating_comparison = audit_feeder_cost.compare_operating_duties(days, stress, results["decision"]["candidates"])
     results["feeder_price_sensitivities"] = {
-        layout: audit_feeder_cost.evaluate(model, [row for row in days + stress if row["topology"] == layout],
+        layout: audit_feeder_cost.evaluate(model, [row for row in days + stress + fault_days if row["topology"] == layout],
                                            comparison=delivery.get(next(other for other in LAYOUTS if other != layout)),
                                            operating_comparison=operating_comparison)
         for layout, model in delivery.items()
@@ -292,6 +380,9 @@ def main():
     parser.add_argument("--available-stop-m", type=float, help="Front-of-train protection distance in metres, including the reserved overlap")
     parser.add_argument("--overlap-m", type=float, help="Reserved overlap in metres withheld from the stopping distance")
     parser.add_argument("--risk-return", type=Path, help="Buyer-only itemised owner exposure by supply layout (JSON)")
+    parser.add_argument("--renewals", type=Path, help="Owner feeder replacement lots by physical layout, with adjacent source documents")
+    parser.add_argument("--battery-alternative", type=Path, help="Installed essential battery alternative, including fitted mass, position, price and evidence basis")
+    parser.add_argument("--saloon-layout", type=Path, help="Source-bound one-car accessible saloon allocation JSON")
     parser.add_argument("--vehicle-return", type=Path, help="Scoped first-article evidence manifest with adjacent documents")
     parser.add_argument("--lift-radius", type=float, default=12., help="Working crane radius (m)")
     parser.add_argument("--crane-capacity", type=float, help="Optional site capacity at the specified radius (tonnes)")
@@ -308,6 +399,7 @@ def main():
     parser.add_argument("--positioning-slack-s", type=int, help="Time added before first and after last empty moves (seconds)")
     parser.add_argument("--ambient", type=int, choices=(32, 40, 48), default=40)
     parser.add_argument("--grade", type=float, help="Override the submitted grade profile with a signed constant-grade sensitivity (%)")
+    parser.add_argument("--fault-controller-sensitivity", action="store_true", help="Compare an unapproved reserve-limited one-axle-out traction response")
     parser.add_argument("--soil", type=float, default=200, help="Illustrative allowable soil pressure in kPa")
     parser.add_argument("--span", type=int, choices=(10,15,20,25,30), help="Limit the civil quotation comparison to a stock span (m)")
     parser.add_argument("--service-date", default="20261123", help="YYYYMMDD date for --gtfs")

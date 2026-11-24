@@ -62,6 +62,28 @@ class AuditFeederCostTests(unittest.TestCase):
         self.assertFalse(delayed["matched_pricing_boundary"])
         self.assertIsNone(delayed["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"])
         comparable["cash"]["service_start_year"] -= 1
+        prices["pricings"] = [dict(lot_id="feeder-renewal-radial-electronics", group="renewal-schedule",
+                                    equipment_class="dc_source_groups", year=12, quantity=30,
+                                    installed_population=30, replacement_exclusions=["annual maintenance"])]
+        scoped = costing.priced_cash_gap(prices, comparable, screens)
+        self.assertFalse(scoped["matched_pricing_boundary"])
+        self.assertIsNone(scoped["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"])
+        comparable["pricings"] = [dict(lot_id="feeder-renewal-paired-power-modules", group="renewal-schedule",
+                                        equipment_class="dc_source_groups", year=12, quantity=6,
+                                        installed_population=6, replacement_exclusions=["annual maintenance"])]
+        equal_coverage = costing.priced_cash_gap(prices, comparable, screens)
+        self.assertTrue(equal_coverage["matched_pricing_boundary"])
+        self.assertEqual(equal_coverage["extra_unpriced_pv_own_minus_other_for_equal_totals_usd"], 200)
+        comparable["pricings"][0]["quantity"] = 3
+        self.assertFalse(costing.priced_cash_gap(prices, comparable, screens)["matched_pricing_boundary"])
+        comparable["pricings"][0]["quantity"] = 6
+        comparable["pricings"][0]["year"] = 13
+        self.assertFalse(costing.priced_cash_gap(prices, comparable, screens)["matched_pricing_boundary"])
+        comparable["pricings"][0]["year"] = 12
+        comparable["pricings"][0]["replacement_exclusions"] = ["annual maintenance", "site civil"]
+        self.assertFalse(costing.priced_cash_gap(prices, comparable, screens)["matched_pricing_boundary"])
+        prices.pop("pricings")
+        comparable.pop("pricings")
         comparable["cash"]["scope"]["unpriced_lots_by_group"] = {"opening-direct": ["unpriced extra lot"]}
         gap = costing.priced_cash_gap(prices, comparable, screens)
         self.assertFalse(gap["matched_pricing_boundary"])

@@ -51,16 +51,17 @@ def article_data():
     return record, cage, bogie
 
 
-def load_case(record, bogie, service, cars, material, state):
+def load_case(record, bogie, service, cars, material, state, passengers_per_car=None,
+              passenger_centroid_x_m=None, battery_position=(-2.0, .85)):
     i = STATES.index(state)
     body = record["mass"]["cut_kg_per_car"] - bogie
     groups = {k: (m[i], z, x) for k, (m, z, x) in GROUPS.items()}
     groups.update(body_stock=(body * MATERIAL[material][i], 1.8, 0),
                   bogie_frame_stock=(bogie, .55, 0),
-                  independent_service_pack=(service["battery_mass_allowance_t"]*1000/cars, .85, -2.0))
-    passengers = 700 * cars // 6
+                  independent_service_pack=(service["battery_mass_allowance_t"]*1000/cars, battery_position[1], battery_position[0]))
+    passengers = 700 * cars // 6 if passengers_per_car is None else int(round(passengers_per_car * cars))
     person_kg = (65, 75, 90)[i]
-    passenger_x = (0, .8, 1.8)[i]
+    passenger_x = (0, .8, 1.8)[i] if passenger_centroid_x_m is None else passenger_centroid_x_m
     tare = sum(m for m, _, _ in groups.values())
     loaded = tare + passengers * person_kg / cars
     items = list(groups.values()) + [(loaded-tare, 1.6, passenger_x)]

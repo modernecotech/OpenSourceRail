@@ -8,7 +8,57 @@ The schedule runs normal releases, a 30-workday material delay, 75% workcell ava
 
 Low, base and high price cases use constant 2026 USD. Partial cash uses 30 operating years and 4% real discounting, with historical opening design, testing and contingency factors. Scenario phasing moves those same priced opening, operating and renewal amounts in calendar time; its present-value difference from normal is a timing comparison, not an additional cost line. A scenario opening in the same year points to `cash.profiles`; a later opening carries complete low, base and high annual ledgers in `price_profiles`. The disruption increment remains unknown, and the timing difference must not be added to the already rephased present value. The 256 seeded stress draws describe the selected rate ranges, correlated changes, opening slips and a demand residual; they are a separate sensitivity and must not be summed with factory scenario ledgers. Return freight, utilities, taxes, finance, extra approval work, disruption claims and supplier performance remain owner exposures. Statistical confidence remains open pending calibrated inputs.
 
-The cash receipt lists unpriced lots by opening, annual operation and renewal alongside its priced subtotals. The archived feeder estimates cover different electrical duties and layouts. The audit ledger shows any buyer-referenced opening or annual upkeep price separately. Feeder renewal remains an untimed exposure until the equipment schedule and replacement timing are available. The closure bay and other owner exposures also remain outside priced cash until their quantities, scope and prices can be established.
+The cash receipt lists unpriced lots by opening, annual operation and renewal alongside its priced subtotals. The archived feeder estimates cover different electrical duties and layouts. The audit ledger shows any buyer-referenced opening or annual upkeep price separately. Without an owner replacement plan, feeder renewal remains an untimed exposure. The closure bay and other owner exposures also remain outside priced cash until their quantities, scope and prices can be established.
+
+## Source-bound feeder replacements
+
+Use `--renewals` for an owner-authored replacement plan tied to an issued alignment and physical feeder. The JSON schema is `baghdad-airport-feeder-renewals/1`; its `layouts` object may contain `paired6` and/or `radial30`. Each layout needs `alignment_id`, `feeder_physical_id`, an ISO `basis_date`, an adjacent `source_document`, its SHA-256, and nonempty `lots`. Each lot states a unique name, equipment class, replacement quantity, operating year 1–30, `price_usd` as low/base/high complete-lot prices in constant 2026 USD **or `null` when unknown**, and nonempty exclusions. Unknown prices remain open in cash but still receive a complete buyer quotation and ERPNext scope. The model checks that the quantity does not exceed its topology population and that lots of one class in one year do not cumulatively exceed that population. Counts of source groups, circuits, ties and test points must be whole integers; protected track-km may be fractional. `dc_source_groups` equals the source-site count; `protected_track_km` equals two times route length; `outgoing_circuits` and `midpoint_ties` follow the modeled section counts; `branch_disconnect_and_test_points` exists for the paired path layout. These are **modeled equipment populations**, not a verified installed bill of materials. The owner must reconcile them with an installed equipment register before treating replacement coverage as complete.
+
+This is the exact JSON shape for a **synthetic example**. Replace both IDs, the source filename and digest, quantities and prices with reviewed project values. The source file must sit beside the JSON.
+
+```json
+{
+  "schema": "baghdad-airport-feeder-renewals/1",
+  "layouts": {
+    "paired6": {
+      "alignment_id": "COPY_THE_ALIGNMENT_ID_FROM_THE_AUDIT",
+      "feeder_physical_id": "COPY_THE_PAIRED6_FEEDER_PHYSICAL_ID",
+      "source_document": "owner-feeder-schedule.txt",
+      "source_sha256": "COPY_THE_SHA256_OF_OWNER_FEEDER_SCHEDULE",
+      "basis_date": "2026-11-24",
+      "lots": [
+        {
+          "lot_id": "source-electronics-year-12",
+          "equipment_class": "dc_source_groups",
+          "replace_quantity": 2,
+          "operating_year": 12,
+          "price_usd": {"low": 400000, "base": 500000, "high": 600000},
+          "exclusions": ["source civil works", "annual maintenance"]
+        },
+        {
+          "lot_id": "test-points-year-22",
+          "equipment_class": "branch_disconnect_and_test_points",
+          "replace_quantity": 2,
+          "operating_year": 22,
+          "price_usd": null,
+          "exclusions": ["annual inspection", "new feeder cable"]
+        }
+      ]
+    }
+  }
+}
+```
+
+```sh
+python3 -m cities.Baghdad.engineering.simulation.assumption_audit --json > build/airport-baseline.json
+sha256sum build/owner-feeder-schedule.txt
+python3 -m cities.Baghdad.engineering.simulation.assumption_audit \
+  --renewals build/feeder-renewals.json --json > build/airport-with-renewals.json
+```
+
+Read the IDs from `alignment.alignment_id` and `power_days` for the matching topology in the baseline JSON. For an owner plan, the audit excludes the four archived feeder renewal allowances from that layout's priced cash and records each excluded historical allowance, source price and year under `feeder_scope.renewal_scope.displaced_archived_allowances`. The named replacement enters its actual operating year. `feeder-renewals` remains unpriced for unlisted equipment or later replacement events; a purchaser risk line cannot substitute that whole residual over named lots. It must identify a narrower, nonoverlapping exposure. A comparison of feeders with different named renewal scopes cannot claim a price parity or saving.
+
+Each named lot receives its own `scope_id` in `production.<layout>.pricings`. The buyer can collect competing returns in the ordinary `--offers` file and award one complete matching scope. A verified enquiry containing that lot can be converted with `audit_erpnext` into a scheduled ERPNext estimate Item whose `operating_year`, complete quantity and scope ID match the audit. Retain the owner source document with the return; the priced estimate and ERP quotation do not authenticate its equipment population or replacement interval.
 
 ## Itemised owner risk sensitivity
 

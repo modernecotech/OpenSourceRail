@@ -9,6 +9,7 @@ from pathlib import Path
 from sys import float_info
 import tomllib
 
+from cities.Baghdad.engineering.prototype.car import identity as vehicle_identity
 from cities.Baghdad.engineering.prototype.weights import moving_span
 from cities.Baghdad.engineering.simulation import vehicle_civil as vehicle
 from engineering.performance import disk_reservation
@@ -283,10 +284,11 @@ def support(a, shared, soil, cfg, *, fixed_footing_width_m=None):
                 crosshead_cantilever_knm=(dead+live)*pitch/2+2*abs(a["end_torque_knm"]) if shared else None)
 
 
-def train_actions(record, bogie, service, cfg, cars, material, cases, high_train_mass_kg):
+def train_actions(record, bogie, service, cfg, cars, material, cases, high_train_mass_kg, installed_vehicle=None):
     loads, moving = {}, {}
     for name in cases:
-        load = vehicle.load_case(record, bogie, service, cars, material, name)
+        load = (installed_vehicle["mass_cases"][name] if installed_vehicle is not None else
+                vehicle.load_case(record, bogie, service, cars, material, name))
         mass = load["loaded_train_kg"]
         if name == "high" and high_train_mass_kg is not None:
             if not isfinite(high_train_mass_kg) or high_train_mass_kg < loads["central"]["loaded_train_kg"]:
@@ -294,8 +296,10 @@ def train_actions(record, bogie, service, cfg, cars, material, cases, high_train
             mass = high_train_mass_kg
         scale = mass/load["loaded_train_kg"]
         g = cfg["materials"]["gravity_m_s2"]
+        centres = (installed_vehicle["physical"]["car_centres_train_x_m"] if installed_vehicle is not None else
+                   record["interfaces"]["formation_body_from_car_x_m"][:cars])
         axles = [(f"C{i+1}-A{j+1}", cx+dx, kg*scale*g/1000)
-                 for i, cx in enumerate(record["interfaces"]["formation_body_from_car_x_m"][:cars])
+                 for i, cx in enumerate(centres)
                  for j, (dx, kg) in enumerate(zip(record["interfaces"]["body_from_axle_x_m"], load["axle_kg_per_car"]))]
         moving[name] = {length: moving_span(axles, length-.5, .25) for length in SPAN_OPTIONS}
         if len(cases) > 1:
@@ -487,7 +491,7 @@ def high_load_quotation_shortlist(rows, route_m, lift_radius_m, crane_limit_t, r
 
 def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
              lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=(), *, load_audit=False,
-             high_train_mass_kg=None, selected_family=None, selected_span_m=None):
+             high_train_mass_kg=None, selected_family=None, selected_span_m=None, installed_vehicle=None):
     erection_offers = list(erection_offers)
     for offer in erection_offers:
         validate_offer(offer)
@@ -524,7 +528,17 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                   bar=market["reinforcing_steel_iqd_t"]/exchange)
     record, cage, bogie = vehicle.article_data()
     states = AUDIT_CASES if load_audit else ("central",)
-    loads, moving = train_actions(record, bogie, sys["service_power"], cfg, cars, material, states, high_train_mass_kg)
+    if installed_vehicle is not None:
+        physical = installed_vehicle["physical"]
+        if (not load_audit or high_train_mass_kg is not None
+                or installed_vehicle["evaluation_id"] != vehicle_identity(
+                    {k: v for k, v in installed_vehicle.items() if k != "evaluation_id"})
+                or vehicle_identity(physical) != installed_vehicle["candidate_id"]
+                or physical["parent_candidate_id"] != record["candidate_id"]
+                or physical["formation_cars"] != cars or physical["material"] != material):
+            raise ValueError("Civil loads require the identified vehicle audit for this formation and material")
+    loads, moving = train_actions(record, bogie, sys["service_power"], cfg, cars, material, states,
+                                  high_train_mass_kg, installed_vehicle)
     designs = [("issued-box", 10, 0)] + [("U", l, d) for l in SPAN_OPTIONS for d in (0, .20)]
     designs += [("joined-box", 20, 0), ("joined-box", 20, .20)]
     if load_audit and (selected_family is not None or selected_span_m is not None):
@@ -613,6 +627,8 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
             row["casting_days_at_24h_cycle"] = -(-row["placements"] // row["mould_positions"])
             row["casting_days_at_48h_cycle"] = 2*row["casting_days_at_24h_cycle"]
             row["source_train_candidate_id"] = record["candidate_id"]
+            if installed_vehicle is not None:
+                row["installed_vehicle_candidate_id"] = installed_vehicle["candidate_id"]
             row["physical_id"] = digest(dict(section=sec, length=length, strands=a["strand_count"], strand_e=a["tendon_eccentricity_m"],
                                               footing=[base["footing_width_m"], base["footing_depth_m"]],
                                               crosshead=[base["cap_cross_track_m"], base["cap_along_track_m"], base["cap_depth_m"]],
@@ -721,6 +737,9 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
                       calculation_sources={"moving_load": "prototype/weights.py:moving_span", "axles": "simulation/vehicle_civil.py:load_case",
                                            "materials": "mechanical/civil/concept.toml", "rate_registers": ["iraq-capital.toml", "airport-works.toml", "iraq-market.toml", "engineering/prototype/shop-rates.toml"],
                                            "erection_precedent": SOURCE_LINK})
+        if installed_vehicle is not None:
+            report["installed_vehicle_candidate_id"] = installed_vehicle["candidate_id"]
+            report["calculation_sources"]["axles"] = "simulation/vehicle_audit.py:mass_cases"
         report["high_load_quotation_shortlist"] = high_load_quotation_shortlist(
             rows, route_m, lift_radius_m, crane_limit_t, rates, shop, basket)
         report["input_id"] = digest(dict(route_km=report["route_km_decimal"], soil_kpa=soil_kpa, cars=cars,
@@ -734,11 +753,11 @@ def evaluate(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t
 
 def evaluate_high_load(route_km=12., cars=6, material="steel", soil_kpa=200, crane_limit_t=None,
                        lift_radius_m=PRICED_LIFT_RADIUS_M, erection_offers=(), high_train_mass_kg=None,
-                       selected_family=None, selected_span_m=None):
+                       selected_family=None, selected_span_m=None, installed_vehicle=None):
     """Compare fixed physical trials carrying both central and high train loads."""
     return evaluate(route_km, cars, material, soil_kpa, crane_limit_t, lift_radius_m, erection_offers,
                     load_audit=True, high_train_mass_kg=high_train_mass_kg,
-                    selected_family=selected_family, selected_span_m=selected_span_m)
+                    selected_family=selected_family, selected_span_m=selected_span_m, installed_vehicle=installed_vehicle)
 
 
 def markdown(data):

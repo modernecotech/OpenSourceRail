@@ -10,7 +10,7 @@ import tomllib
 
 from cities.Baghdad.engineering.mechanical.civil import family_comparison
 from cities.Baghdad.engineering.prototype import car
-from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, motion_power, production
+from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, audit_feeder_cost, motion_power, production
 from engineering.outline.baghdad_system import _id
 
 CIVIL_DISPLACED = {"elevated-civil", "extra-haul", "extra-foundation", "exceptional-crossings", "yard-access", "tooling"}
@@ -19,6 +19,7 @@ FEEDER_LOTS = {
     "six-site-parallel-upkeep", "renewal-grid-site-power-electronics", "renewal-line-section-protection",
     "renewal-line-power-equipment", "renewal-midpoint-tie-equipment",
 }
+FEEDER_RENEWAL_LOTS = {lot for lot in FEEDER_LOTS if lot.startswith("renewal-")}
 RISKS = {
     "civil and alignment": "Closure bays, utilities, exceptional crossings, ground treatment, yard access and owner possessions",
     "fleet and workshop": "Installed materials and labour, line-fit and recovery tooling, interfaces, rejects, freight and depot commissioning",
@@ -289,7 +290,7 @@ def owner_risk_sensitivity(risk_return, *, candidate_id, alignment_id, feeder_ph
 
 
 def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None, topology=None,
-             demand=None, supplier_offers=(), risk_return=None):
+             demand=None, supplier_offers=(), risk_return=None, renewal_return=None, renewal_directory=None):
     """Join explicitly bound audit records and keep each missing scope visible."""
     airport_alignment.validate(alignment)
     require_identity(vehicle, "evaluation_id", car.identity, "Vehicle audit")
@@ -313,6 +314,10 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
             or not isclose(civil_row["route_km"], length, rel_tol=1e-12)
             or motion["physical"].get("upstream_candidate_id") != vehicle["candidate_id"]):
         raise ValueError("Production inputs must share the ordinary working day, Airport parent, formation and alignment")
+    installed_id = civil_row.get("installed_vehicle_candidate_id")
+    alternate_pack = vehicle["battery"].get("alternative")
+    if (alternate_pack is not None or installed_id is not None) and installed_id != vehicle["candidate_id"]:
+        raise ValueError("Civil actions and fleet procurement must use the same installed vehicle revision")
     for state in ("central", "high"):
         civil_mass = civil_row["load_case_train_kg"][state]
         if not isclose(civil_mass, vehicle["mass_cases"][state]["loaded_train_kg"], abs_tol=.01, rel_tol=1e-8):
@@ -415,8 +420,43 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
     feeder_basis = motion_power.unit_cost_basis(motion)
     if feeder_basis["status"] != "planning estimate":
         omitted = omitted | FEEDER_LOTS
+    renewal_rows, renewal_scope = audit_feeder_cost.renewal_rows(
+        renewal_return, renewal_directory, alignment_id=alignment["alignment_id"], feeder=traction,
+        track_km=q["track_km"])
+    if renewal_rows:
+        omitted = omitted | FEEDER_RENEWAL_LOTS
+        archived = [row for row in estimate["lots"] if row["lot_id"] in FEEDER_RENEWAL_LOTS]
+        renewal_scope["displaced_archived_allowances"] = [
+            dict(lot_id=row["lot_id"], historical_operating_year=row["operating_year"],
+                 historical_source_quantity=row["quantity"], historical_source_unit=row["unit"],
+                 historical_planning_usd={case: row[f"{case}_usd"] for case in production.PRICES},
+                 status="excluded from priced cash; replacement completeness and price remain open")
+            for row in archived]
     rows = [dict(row, cost_evidence="historical planning rate transferred to audit scope") for row in priced
             if row["lot_id"] not in omitted]
+    if alternate_pack is not None:
+        # The archive includes the original pack inside the complete fleet amount.
+        # Apply its same set/formation/material factors when removing the allowance.
+        fleet = next(row for row in rows if row["lot_id"] == "fleet")
+        service = tomllib.loads(cfg_bytes.decode())["service_power"]
+        reference_pack_usd = service["battery_price_allocation_usd_m_per_train"] * 1e6
+        removed = {case: reference_pack_usd * fleet["source_quantity"] * factor
+                   for case, factor in fleet["factor"].items()}
+        fleet["usd"] = {case: amount - removed[case] for case, amount in fleet["usd"].items()}
+        fleet["excluded_scope"] = dict(lot_id="essential-service-battery", archived_allowance_usd=removed)
+        rows.append(make_lot("essential-service-battery", "opening-direct", sets, "installed pack per trainset",
+                             dict.fromkeys(production.PRICES, sets * alternate_pack["installed_price_usd"]),
+                             "Candidate-specific installed battery input in constant 2026 USD"))
+    saloon = vehicle.get("saloon_layout")
+    if saloon is not None:
+        fleet = next(row for row in rows if row["lot_id"] == "fleet")
+        fleet["interior_takeoff"] = dict(
+            cars=cars, fixed_seats=saloon["seats_per_car"] * cars,
+            wheelchair_places=saloon["wheelchair_places_per_car"] * cars,
+            standing_floor_m2=saloon["standing_area_m2_per_car"] * cars,
+            installed_fitout_cost_usd=None, workcell_hours=None,
+            scope="Quote the revised interior within the fleet lot, including fittings, accessible paths, installation and inspection.")
+        fleet["cost_evidence"] = "Parent fleet planning rate. Revised interior and installation await a complete fleet quotation."
     energy = next(row for row in rows if row["lot_id"] == "opex-power")
     energy_source = next(row for row in estimate["lots"] if row["lot_id"] == "opex-power")
     energy["quantity"] = annual_grid/1e6
@@ -430,6 +470,7 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
             make_lot("revised-feeder-upkeep", "first-full-year-operations", grid_sites, "site-count with attached line scope",
                      None, "no matched source"),
         ])
+    rows.extend(renewal_rows)
     civil_cases = civil_row["standard_only_cost_cases"]
     civil_renewal = None
     if civil_cases is not None:
@@ -467,6 +508,8 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
     # Keep that exposure outside the offer ledger until a renewal event can be scoped.
     feeder_renewal = dict(lot_id="feeder-renewals", status="equipment and replacement timing required",
                           operating_year=None, usd=None)
+    if renewal_scope is not None:
+        feeder_renewal["status"] = renewal_scope["residual_status"]
     unpriced_by_group["renewal-schedule"].append(feeder_renewal["lot_id"])
     unpriced_lots = [lot for lots in unpriced_by_group.values() for lot in lots]
     if feeder_basis["status"] == "held":
@@ -476,6 +519,12 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
             for kind, lot in (("opening", "revised-feeder-package"), ("annual_upkeep", "revised-feeder-upkeep"))
         }
     feeder_basis["renewals"] = feeder_renewal
+    if renewal_scope is not None:
+        feeder_basis["renewal_scope"] = renewal_scope
+        if isinstance(risk_return, dict) and isinstance(risk_return.get("lines"), list) and any(
+                isinstance(line, dict) and line.get("substitutes_unpriced_lot_id") == "feeder-renewals"
+                for line in risk_return["lines"]):
+            raise ValueError("Owner risk cannot substitute feeder-renewals over named replacement lots")
     for name, result in results.items():
         expected = (placements, supports, sets)
         actual = tuple(result["completed_units"].get(k, 0) for k in

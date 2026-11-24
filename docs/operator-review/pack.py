@@ -134,6 +134,7 @@ def workshop_files():
     files.update(SIMULATION / name for name in (
         "AUDIT-RESULTS.md", "ASSUMPTION-AUDIT.md", "ALIGNMENT-DEMAND.md",
         "vehicle-audit-guide.md", "audit-production-guide.md", "audit-verification.json",
+        "saloon-trial.json", "battery-trial.json",
     ))
     raw = (HERE / 'finance/enquiries-data.js').read_text().strip()
     enquiries = json.loads(raw.removeprefix('const railwayEnquiries = ').removesuffix(';'))

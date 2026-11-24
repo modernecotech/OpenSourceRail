@@ -174,13 +174,15 @@ def summarize(hourly_od, chainages_km, headway_min):
 def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="central", observed=None,
              walk="central", transfer=True, transfer_share=0.35, transfer_penalty_min=5.0,
              connecting_headway_min=15.0, fare_usd=0.0, value_of_time_usd_h=3.0, response_per_min=0.025,
-             dwell_s=None, formation_cars=6):
+             dwell_s=None, formation_cars=6, normal_places_per_train=None):
     airport_alignment.validate(alignment)
     dwell_s = alignment["dwell_s"] if dwell_s is None else dwell_s
     if (headway_min not in (15, 20, 30) or mode not in ("fixed", "service_sensitive", "observed")
             or demand not in ("downside", "central", "upside") or walk not in WALK_CASES
             or type(transfer) is not bool or (mode == "observed" and observed is None)
-            or type(formation_cars) is not int or formation_cars not in (3, 6)):
+            or type(formation_cars) is not int or formation_cars not in (3, 6)
+            or (normal_places_per_train is not None and
+                (type(normal_places_per_train) is not int or normal_places_per_train <= 0))):
         raise ValueError("Use a supported Airport service, demand mode and walking case")
     bounded = ((transfer_share, 0, 1), (transfer_penalty_min, 0, 30), (connecting_headway_min, 0, 60),
                (fare_usd, 0, 20), (value_of_time_usd_h, 0.1, 50), (response_per_min, 0, .1), (dwell_s, 5, 120))
@@ -206,6 +208,8 @@ def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="cen
                    commercial_speed_kmh=speed["commercial_speed_kmh"], speed_cap_kmh=speed["speed_cap_kmh"],
                    speed_offer=speed,
                    fare_usd=fare_usd, walk_case=walk, transfer_friction=transfer)
+    if normal_places_per_train is not None:
+        service["normal_places_per_train"] = normal_places_per_train
     if transfer:
         service.update(transfer_share_at_interchange_od=transfer_share, transfer_fixed_penalty_min=transfer_penalty_min,
                        connecting_headway_min=connecting_headway_min)

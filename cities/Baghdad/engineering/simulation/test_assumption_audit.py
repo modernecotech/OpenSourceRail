@@ -40,15 +40,26 @@ class AssumptionAuditTests(unittest.TestCase):
             scenario={key: value for key, value in case.items() if key not in ("hourly_od", "od_matrix")},
             demand_basis={"od_id": scenario._id(case["hourly_od"])},
             booked_annual_train_km=(km+.5)*year_days, annual_train_km=(km+.5)*year_days,
-            energy_kwh_per_train_km=120/(km+.5), electrical_enquiry={}, failure={},
+            energy_kwh_per_train_km=120/(km+.5), electrical_enquiry={},
+            failure=({"traction": {"mode": "heaviest_driven_axle_out",
+                                   "vehicle_candidate_id": case["traction_fault"]["vehicle_candidate_id"],
+                                   "vehicle_evaluation_id": case["traction_fault"]["vehicle_evaluation_id"],
+                                   "load_state": case["traction_fault"]["load_state"],
+                                   "low_adhesion_mu": case["traction_fault"]["low_adhesion_mu"],
+                                   "adhesion_force_margin": case["traction_fault"]["adhesion_force_margin"],
+                                   "controller": case.get("traction_fault_controller")}}
+                     if "traction_fault" in case else {}),
             metrics=dict(booked_passenger_trips=1, completed_passenger_trips=1, booked_positioning_trips=0,
                          completed_positioning_trips=0, booked_yard_trips=2, completed_yard_trips=2,
                          booked_passenger_km=km, booked_positioning_km=0., booked_yard_km=.5,
                          fleet_sets_required=7, distance_km=km+.5, source_kwh=120.,
                          minimum_collector_v=1490., peak_site_current_ka=.7, bound_branch_rms_current_ka=.4,
-                         max_site_rms_current_ka=.5, maximum_arrival_delay_s=20, boarded_passengers=10.),
+                         max_site_rms_current_ka=.5, maximum_arrival_delay_s=20, boarded_passengers=10.,
+                         **({"traction_fault_required_force_deficit_s": 0., "traction_fault_curtailed_s": 0.,
+                             "traction_fault_limit_min_n": 100000.} if "traction_fault" in case else {})),
             gates=dict(all_workings_complete=True, dc_numerical_screen=True, motion_work_balance_screen=True,
-                       utility_connection_approved=False, protection_approved=False, thermal_ratings_verified=False),
+                       utility_connection_approved=False, protection_approved=False, thermal_ratings_verified=False,
+                       **({"traction_fault_force_envelope": True} if "traction_fault" in case else {})),
         )
 
     def working_day(self, cache=None, sources=None):
@@ -129,6 +140,28 @@ class AssumptionAuditTests(unittest.TestCase):
             case["stop_at_comparator"]["stop_distance_m"] = None
             case["comparator_stop_room_margin_m"] = None
         self.assertEqual(audit_register.vehicle_screens(constrained)["protected_stop_distance"], "fail")
+
+    def test_replacement_pack_displaces_fleet_allowance_and_moves_the_civil_axles(self):
+        path = audit.HERE / "battery-trial.json"
+        with patch.object(motion_power, "evaluate", side_effect=self.short_day):
+            revised = audit.audit(battery_alternative=path, span=20, cache=None)
+        train = revised["vehicle"]
+        self.assertNotEqual(train["candidate_id"], self.vehicle["candidate_id"])
+        self.assertEqual(revised["civil_quotation"]["installed_vehicle_candidate_id"], train["candidate_id"])
+        for state, load in revised["civil"]["load_cases"].items():
+            self.assertEqual(load["loaded_train_kg"], train["mass_cases"][state]["loaded_train_kg"])
+            self.assertEqual(load["axle_kg_per_car"], train["mass_cases"][state]["axle_kg_per_car"])
+            self.assertAlmostEqual(load["loaded_train_kg"] - self.vehicle["mass_cases"][state]["loaded_train_kg"], 300)
+        price = revised["production"]["paired6"]
+        rows = {row["lot_id"]: row for row in price["pricings"]}
+        count = price["quantities"]["sets"]
+        self.assertEqual(rows["essential-service-battery"]["usd"]["base"], count * 160000)
+        self.assertAlmostEqual(rows["fleet"]["excluded_scope"]["archived_allowance_usd"]["base"], count * 100000)
+        self.assertEqual(price["inputs"]["vehicle_candidate_id"], train["candidate_id"])
+        screens = revised["decision"]["candidates"]["paired6"]["vehicle_screens"]
+        self.assertEqual(screens["aged_battery_energy"], "pass")
+        self.assertEqual(screens["battery_brake_and_egress_peak"], "unknown")
+        self.assertIsNone(revised["decision"]["investment_selection"])
 
     def test_disposition_requires_all_duties_one_physical_candidate_and_prices(self):
         gates = dict(protection_approved=False, thermal_ratings_verified=False, utility_connection_approved=False,
@@ -227,6 +260,24 @@ class AssumptionAuditTests(unittest.TestCase):
             self.assertFalse(review["production"]["radial30"]["cash"]["owner_risk_sensitivity"]["lines"])
             with self.assertRaisesRegex(ValueError, "cash basis|nominal cash"):
                 audit.audit(risk_return=risk_file, cache=Path(directory) / "cache")
+
+    def test_optional_fault_controller_is_separate_unapproved_comparison(self):
+        phase = dict(phase_s=300, conflicts=0, positioning_slack_s=0)
+        with (patch.object(motion_power, "evaluate", side_effect=self.short_day),
+              patch.object(audit, "phase_options", return_value=dict(as_booked=phase, best=phase)),
+              patch.object(audit, "positioning_trial", return_value=phase)):
+            ordinary = audit.audit(cache=None)
+            alternative = audit.audit(cache=None, fault_controller_sensitivity=True)
+        self.assertNotIn("traction_fault_controller_sensitivity", ordinary)
+        study = alternative["traction_fault_controller_sensitivity"]
+        self.assertIsNone(study["degraded_service_requirement"])
+        self.assertEqual(study["controller"], "reserve_limited")
+        self.assertEqual(len(study["days"]), len(audit.LAYOUTS))
+        default_fault = {row["topology"]: row for row in alternative["traction_fault_days"]}
+        for row in study["days"]:
+            self.assertEqual(row["candidate_id"], default_fault[row["topology"]]["candidate_id"])
+            self.assertNotEqual(row["evaluation_id"], default_fault[row["topology"]]["evaluation_id"])
+            self.assertEqual(row["failure"]["traction"]["controller"], "reserve_limited")
 
 
 if __name__ == "__main__":

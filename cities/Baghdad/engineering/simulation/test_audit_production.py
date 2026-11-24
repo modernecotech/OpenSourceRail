@@ -1,11 +1,14 @@
 """Scope, service and production reconciliations for the Airport audit."""
 
 from copy import deepcopy
+from hashlib import sha256
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
 
 from cities.Baghdad.engineering.mechanical.civil import family_comparison
 from cities.Baghdad.engineering.simulation import (
-    airport_alignment, airport_demand, audit_power_return, audit_production, motion_power, vehicle_audit,
+    airport_alignment, airport_demand, audit_erpnext, audit_offers, audit_power_return, audit_production, motion_power, vehicle_audit,
 )
 
 
@@ -28,12 +31,138 @@ class AuditProductionTests(unittest.TestCase):
         cls.result = audit_production.evaluate(cls.alignment, cls.vehicle, cls.motion, cls.civil, demand=cls.demand,
                                                civil_evaluation_id=cls.civil_evaluation_id)
 
-    def evaluate(self, *, vehicle=None, motion=None, civil=None, offers=(), risk_return=None):
+    def evaluate(self, *, vehicle=None, motion=None, civil=None, offers=(), risk_return=None,
+                 renewal_return=None, renewal_directory=None):
         return audit_production.evaluate(
             self.alignment, vehicle or self.vehicle, motion or self.motion, civil or self.civil,
             demand=self.demand, civil_evaluation_id=self.civil_evaluation_id, supplier_offers=offers,
-            risk_return=risk_return,
+            risk_return=risk_return, renewal_return=renewal_return, renewal_directory=renewal_directory,
         )
+
+    def test_source_bound_feeder_renewal_lots_and_cash(self):
+        with TemporaryDirectory(dir=airport_alignment.ROOT / "build") as directory:
+            source = Path(directory) / "owner-schedule.txt"
+            source.write_text("Synthetic owner replacement schedule; fixture only.\n")
+            physical_id = audit_power_return.binding(self.motion)["feeder_physical_id"]
+            submission = dict(alignment_id=self.alignment["alignment_id"], feeder_physical_id=physical_id,
+                              source_document=source.name, source_sha256=sha256(source.read_bytes()).hexdigest(),
+                              basis_date="2026-11-24", lots=[
+                                  dict(lot_id="site-electronics-12", equipment_class="dc_source_groups",
+                                       replace_quantity=2, operating_year=12,
+                                       price_usd={"low": 400_000, "base": 500_000, "high": 600_000},
+                                       exclusions=["source civil works", "annual maintenance"]),
+                                  dict(lot_id="switches-18", equipment_class="outgoing_circuits",
+                                       replace_quantity=4, operating_year=18,
+                                       price_usd={"low": 80_000, "base": 100_000, "high": 120_000},
+                                       exclusions=["new conductor", "annual maintenance"]),
+                                  dict(lot_id="test-points-22", equipment_class="branch_disconnect_and_test_points",
+                                       replace_quantity=2, operating_year=22, price_usd=None,
+                                       exclusions=["annual inspection", "new feeder cable"]),
+                              ])
+            result = self.evaluate(renewal_return=submission, renewal_directory=directory)
+            lots = {row["lot_id"]: row for row in result["pricings"]}
+            self.assertIn("feeder-renewal-site-electronics-12", lots)
+            self.assertIsNone(lots["feeder-renewal-test-points-22"]["usd"])
+            self.assertIn("feeder-renewal-test-points-22", result["unpriced_lots"])
+            self.assertEqual(lots["feeder-renewal-site-electronics-12"]["year"], 12)
+            self.assertIn("feeder-renewals", result["unpriced_lots"])
+            self.assertEqual(result["feeder_scope"]["renewal_scope"]["feeder_physical_id"], physical_id)
+            displaced = result["feeder_scope"]["renewal_scope"]["displaced_archived_allowances"]
+            self.assertEqual(len(displaced), 4)
+            self.assertTrue(all(row["historical_planning_usd"]["base"] > 0 for row in displaced))
+            self.assertIn("feeder-renewals", result["cash"]["scope"]["unpriced_lots_by_group"]["renewal-schedule"])
+            cash = result["cash"]["profiles"]["base"]["cash_by_year"]
+            start = result["cash"]["service_start_year"]
+            self.assertEqual(next(row["renewals_usd"] for row in cash if row["year"] == start + 11), 500_000)
+            self.assertEqual(next(row["renewals_usd"] for row in cash if row["year"] == start + 17), 100_000)
+            offer_lot = lots["feeder-renewal-site-electronics-12"]
+            offer = dict(offer_id="synthetic replacement bid", supplier="Fixture supplier",
+                         scope_id=offer_lot["scope_id"], buyer_review_reference="Fixture review",
+                         offer_sha256="8" * 64, price_usd=550_000, claimed_domestic_value_usd=None)
+            second = dict(offer, offer_id="second replacement bid", supplier="Other fixture",
+                          offer_sha256="9" * 64, price_usd=525_000)
+            choices, compared = audit_offers.choices(dict(schema=audit_offers.SCHEMA,
+                layouts={"paired6": dict(offers=[offer, second], awards=[dict(
+                    scope_id=offer_lot["scope_id"], offer_id=second["offer_id"],
+                    buyer_award_reference="Fixture award")])}), "paired6", result["pricings"], result["inputs"])
+            self.assertEqual(choices, [second])
+            self.assertEqual(len(compared), 2)
+            issue = dict(layout="paired6", issue_id="a" * 64, candidate_id=self.vehicle["candidate_id"],
+                         parent_candidate_id=self.alignment["parent_candidate_id"],
+                         evaluation_id="b" * 64)
+            estimate = audit_erpnext.estimate_payload(issue, result, "2026-11-24")
+            item = next(row for row in estimate["lots"] if row["lot_id"] == offer_lot["lot_id"])
+            self.assertEqual(item["price_period"], "scheduled")
+            self.assertEqual(item["operating_year"], 12)
+            self.assertEqual(item["design_id"], offer_lot["scope_id"])
+            self.assertEqual(item["supplier_scope"]["quantity"], 2)
+            unpriced_item = next(row for row in estimate["lots"] if row["lot_id"] == "feeder-renewal-test-points-22")
+            self.assertIsNone(unpriced_item["base_usd"])
+            self.assertEqual(unpriced_item["operating_year"], 22)
+            unpriced_offer = dict(offer, offer_id="test-point complete bid", supplier="Third fixture",
+                                  scope_id=lots["feeder-renewal-test-points-22"]["scope_id"],
+                                  offer_sha256="7" * 64, price_usd=70_000)
+            offered = self.evaluate(offers=(unpriced_offer,), renewal_return=submission, renewal_directory=directory)
+            self.assertNotIn("feeder-renewal-test-points-22", offered["unpriced_lots"])
+            self.assertIsNone(offered["localisation"]["buyer_referenced_offers"][0]["displaced_usd"])
+            self.assertEqual(next(row["renewals_usd"] for row in offered["cash"]["profiles"]["base"]["cash_by_year"]
+                                  if row["year"] == offered["cash"]["service_start_year"] + 21), 70_000)
+            awarded = self.evaluate(offers=(offer,), renewal_return=submission, renewal_directory=directory)
+            self.assertEqual(next(row for row in awarded["pricings"] if row["lot_id"] == offer_lot["lot_id"])
+                             ["usd"]["base"], 550_000)
+            central = self.vehicle["mass_cases"]["central"]
+            radial_day = audit_production.seal_motion(motion_power.compact(motion_power.evaluate(dict(
+                candidate_id=self.vehicle["candidate_id"], alignment=self.alignment,
+                chainages_km=self.alignment["chainages_km"], demand_record=self.demand,
+                dwell_s=self.demand["dwell_s"], topology="radial30", headway_min=self.demand["headway_min"],
+                loaded_train_kg=central["loaded_train_kg"], tare_train_kg=central["tare_train_kg"],
+            ))))
+            radial_baseline = self.evaluate(motion=radial_day)
+            radial_return = deepcopy(submission)
+            radial_return["feeder_physical_id"] = audit_power_return.binding(radial_day)["feeder_physical_id"]
+            radial_return["lots"] = radial_return["lots"][:2]
+            radial = self.evaluate(motion=radial_day, renewal_return=radial_return, renewal_directory=directory)
+            historical_ids = audit_production.FEEDER_RENEWAL_LOTS
+            self.assertEqual(set(radial_baseline["historical_displaced_lots"]) & historical_ids,
+                             historical_ids)
+            self.assertFalse({row["lot_id"] for row in radial["pricings"]} & historical_ids)
+            self.assertEqual({row["lot_id"] for row in radial["feeder_scope"]["renewal_scope"]
+                              ["displaced_archived_allowances"]}, historical_ids)
+            self.assertIn("feeder-renewals", radial["unpriced_lots"])
+            self.assertEqual(radial["feeder_scope"]["renewal_scope"]["installed_population"]
+                             ["branch_disconnect_and_test_points"], 0)
+            self.assertEqual(result["feeder_scope"]["renewal_scope"]["installed_population"]
+                             ["branch_disconnect_and_test_points"], 80)
+            impossible_radial = deepcopy(radial_return)
+            impossible_radial["lots"][0]["equipment_class"] = "branch_disconnect_and_test_points"
+            with self.assertRaisesRegex(ValueError, "exceeds installed equipment"):
+                self.evaluate(motion=radial_day, renewal_return=impossible_radial, renewal_directory=directory)
+            changed = deepcopy(submission)
+            changed["feeder_physical_id"] = "stale"
+            with self.assertRaisesRegex(ValueError, "matched physical feeder"):
+                self.evaluate(renewal_return=changed, renewal_directory=directory)
+            changed = deepcopy(submission)
+            changed["source_sha256"] = "0" * 64
+            with self.assertRaisesRegex(ValueError, "digest does not match"):
+                self.evaluate(renewal_return=changed, renewal_directory=directory)
+            changed = deepcopy(submission)
+            changed["lots"].append(dict(changed["lots"][0], lot_id="overlap", replace_quantity=5))
+            with self.assertRaisesRegex(ValueError, "overlap"):
+                self.evaluate(renewal_return=changed, renewal_directory=directory)
+            changed = deepcopy(submission)
+            changed["lots"][0]["exclusions"] = []
+            with self.assertRaisesRegex(ValueError, "exclusions"):
+                self.evaluate(renewal_return=changed, renewal_directory=directory)
+            changed = deepcopy(submission)
+            changed["lots"][0]["replace_quantity"] = 1.5
+            with self.assertRaisesRegex(ValueError, "whole integers"):
+                self.evaluate(renewal_return=changed, renewal_directory=directory)
+            risk = self.risk_return()
+            risk["lines"][0].update(period="renewal-schedule", operating_year=12,
+                                    substitutes_unpriced_lot_id="feeder-renewals",
+                                    historical_contingency_overlap_usd=dict.fromkeys(audit_production.production.PRICES, 0))
+            with self.assertRaisesRegex(ValueError, "cannot substitute feeder-renewals"):
+                self.evaluate(risk_return=risk, renewal_return=submission, renewal_directory=directory)
 
     def risk_return(self):
         return dict(candidate_id=self.vehicle["candidate_id"], alignment_id=self.alignment["alignment_id"],

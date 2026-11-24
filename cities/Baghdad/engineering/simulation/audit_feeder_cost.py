@@ -19,6 +19,88 @@ UNPRICED = (
     "commissioning and any maintenance shared with other cash lots",
     "feeder replacements by equipment population and operating year",
 )
+RENEWAL_SCHEMA = "baghdad-airport-feeder-renewals/1"
+RENEWAL_UNITS = {
+    "dc_source_groups": "DC source groups",
+    "outgoing_circuits": "outgoing circuits",
+    "midpoint_ties": "midpoint ties",
+    "branch_disconnect_and_test_points": "branch disconnect/test points",
+    "protected_track_km": "protected track-km",
+}
+DISCRETE_RENEWAL_CLASSES = set(RENEWAL_UNITS) - {"protected_track_km"}
+
+
+def renewal_rows(submission, directory, *, alignment_id, feeder, track_km):
+    """Turn an owner-scoped replacement schedule into priced, matched cash lots."""
+    from engineering.outline.baghdad_system import _id
+
+    if submission is None:
+        return [], None
+    physical_id = _id(dict(alignment_id=alignment_id, feeder=feeder))
+    fields = {"feeder_physical_id", "alignment_id", "source_document", "source_sha256",
+              "basis_date", "lots"}
+    if (not isinstance(submission, dict) or set(submission) != fields
+            or submission["feeder_physical_id"] != physical_id
+            or submission["alignment_id"] != alignment_id
+            or not isinstance(submission["source_document"], str)
+            or Path(submission["source_document"]).name != submission["source_document"]
+            or not isinstance(submission["source_sha256"], str)
+            or len(submission["source_sha256"]) != 64
+            or not isinstance(submission["lots"], list) or not submission["lots"]):
+        raise ValueError("Feeder renewal return needs a matched physical feeder and adjacent source")
+    from datetime import date
+    try:
+        date.fromisoformat(submission["basis_date"])
+    except (TypeError, ValueError):
+        raise ValueError("Feeder renewal return needs an ISO basis date") from None
+    if directory is None:
+        raise ValueError("Feeder renewal return needs its adjacent source directory")
+    source_path = Path(directory) / submission["source_document"]
+    if not source_path.is_file() or sha256(source_path.read_bytes()).hexdigest() != submission["source_sha256"]:
+        raise ValueError("Feeder renewal source document digest does not match")
+    count = len(feeder["sites"])
+    outgoing = 4 * (count - 1)
+    population = dict(dc_source_groups=count, outgoing_circuits=outgoing,
+                      midpoint_ties=2 * (count - 1),
+                      branch_disconnect_and_test_points=4 * outgoing if feeder["paths"] == 2 else 0,
+                      protected_track_km=track_km)
+    rows, totals, ids = [], {}, set()
+    for item in submission["lots"]:
+        required = {"lot_id", "equipment_class", "replace_quantity", "operating_year",
+                    "price_usd", "exclusions"}
+        if (not isinstance(item, dict) or set(item) != required
+                or not isinstance(item["lot_id"], str) or not item["lot_id"].strip()
+                or item["lot_id"] in ids or item["equipment_class"] not in RENEWAL_UNITS
+                or type(item["operating_year"]) is not int or not 1 <= item["operating_year"] <= 30
+                or not isinstance(item["exclusions"], list) or not item["exclusions"]
+                or any(not isinstance(value, str) or not value.strip() for value in item["exclusions"])
+                or (item["price_usd"] is not None and
+                    (not isinstance(item["price_usd"], dict) or set(item["price_usd"]) != set(CASES)))):
+            raise ValueError("Feeder renewal lot needs named equipment, dated quantity, prices and exclusions")
+        ids.add(item["lot_id"])
+        units = finite(item["replace_quantity"], "replacement quantity")
+        if units <= 0 or units > population[item["equipment_class"]]:
+            raise ValueError("Feeder replacement quantity exceeds installed equipment")
+        if item["equipment_class"] in DISCRETE_RENEWAL_CLASSES and type(units) is not int:
+            raise ValueError("Feeder replacement equipment counts must be whole integers")
+        key = item["equipment_class"], item["operating_year"]
+        totals[key] = totals.get(key, 0) + units
+        if totals[key] > population[item["equipment_class"]] + 1e-9:
+            raise ValueError("Feeder replacement lots overlap the installed equipment population")
+        prices = (None if item["price_usd"] is None else
+                  {case: finite(item["price_usd"][case], "renewal lot price") for case in CASES})
+        if prices is not None and not prices["low"] <= prices["base"] <= prices["high"]:
+            raise ValueError("Feeder replacement price bounds must be ordered")
+        rows.append(dict(lot_id=f"feeder-renewal-{item['lot_id']}", group="renewal-schedule",
+                         quantity=units, source_unit=RENEWAL_UNITS[item["equipment_class"]],
+                         year=item["operating_year"], usd=prices,
+                         cost_evidence="owner source-bound replacement scope",
+                         equipment_class=item["equipment_class"], installed_population=population[item["equipment_class"]],
+                         replacement_exclusions=item["exclusions"], source_document=submission["source_document"],
+                         source_sha256=submission["source_sha256"]))
+    return rows, dict(feeder_physical_id=physical_id, source_sha256=submission["source_sha256"],
+                      basis_date=submission["basis_date"], installed_population=population,
+                      lot_ids=[row["lot_id"] for row in rows], residual_status="open: unlisted equipment and renewal events")
 
 
 def finite(value, label):
@@ -63,9 +145,37 @@ def priced_cash_gap(production, comparison, operating_comparison):
         isclose(op_a[key], op_b[key], rel_tol=1e-8, abs_tol=.01)
         for key in ("operated_annual_train_km", "annual_completed_journeys", "annual_paid_journeys_proxy")
     )
+    def renewal_scope(model):
+        scope = {}
+        for row in model.get("pricings", ()):
+            if row["group"] != "renewal-schedule" or not (
+                    row["lot_id"].startswith("feeder-renewal-")
+                    or row["lot_id"].startswith("renewal-grid-site-")
+                    or row["lot_id"].startswith("renewal-line-")
+                    or row["lot_id"].startswith("renewal-midpoint-")):
+                continue
+            if row.get("equipment_class") is not None:
+                # A full renewal of six paired source groups and thirty radial
+                # groups has equivalent coverage, despite different local names.
+                key = ("owner", row["equipment_class"], row["year"],
+                       tuple(sorted(row["replacement_exclusions"])))
+                coverage = row["quantity"] / row["installed_population"]
+            else:
+                # Unresolved archival proxies have no equipment population.
+                key = ("archived", row["lot_id"], row["year"], ())
+                coverage = row["quantity"]
+            scope[key] = scope.get(key, 0) + coverage
+        return scope
+
+    own_renewals, other_renewals = renewal_scope(production), renewal_scope(comparison)
+    matched_renewals = (own_renewals.keys() == other_renewals.keys()
+                        and all(isclose(own_renewals[key], other_renewals[key], rel_tol=1e-10, abs_tol=1e-12)
+                                for key in own_renewals))
+
     matched_cost_scope = (first["civil_row_id"] == second["civil_row_id"]
                           and production["cash"]["scope"]["unpriced_lots_by_group"]
                           == comparison["cash"]["scope"]["unpriced_lots_by_group"]
+                          and matched_renewals
                           and all(production["cash"][key] == comparison["cash"][key]
                                   for key in ("constant_currency", "discount_rate_real", "service_start_year")))
     comparable = (None if operating_comparison is None else ordinary

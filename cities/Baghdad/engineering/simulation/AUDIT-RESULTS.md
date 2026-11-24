@@ -44,9 +44,18 @@ The combined-outage stress replay uses the high installed-mass allocation, a 2% 
 
 Use `--supply-return` with the feeder ID to check peak and RMS current ratings, protection settings and fault duties. A returned resistance, heat capacity and thermal resistance allow a conservative temperature bound for each working day. A bound above the limit calls for a more detailed thermal trace or direct measurement. [Return format and worked checks](test_audit_power_return.py)
 
-radial30 · **failed** across the evaluated conditions. Checks reporting failure include timetable, aged battery, traction adhesion. Checks awaiting evidence include returned equipment, protected stopping distance, installed door and suspension clearances.
+### Loss of one driven axle
 
-paired6 · **failed** across the evaluated conditions. Checks reporting failure include aged battery, traction adhesion. Checks awaiting evidence include returned equipment, protected stopping distance, installed door and suspension clearances.
+Both feeders remain energised for this trial. The train boards the offered passengers with its high equipment mass. The model removes the most heavily loaded driven axle from the available adhesion and replays the working day. The operator still needs to specify the service required during a drive fault.
+
+| Supply | Trips finished / booked | Maximum arrival delay |
+| --- | ---: | ---: |
+| radial30 | 72 / 72 | 58 s |
+| paired6 | 72 / 72 | 58 s |
+
+radial30 · **failed** across the evaluated conditions. Checks reporting failure include timetable, aged battery, traction adhesion, one-driven-axle-out required force. Checks awaiting evidence include returned equipment, battery continuous hot power, battery brake and egress peak duty, protected stopping distance, installed door and suspension clearances.
+
+paired6 · **failed** across the evaluated conditions. Checks reporting failure include aged battery, traction adhesion, one-driven-axle-out required force. Checks awaiting evidence include returned equipment, battery continuous hot power, battery brake and egress peak duty, protected stopping distance, installed door and suspension clearances.
 
 ## What changes the vehicle and civil enquiry?
 
@@ -121,6 +130,6 @@ Annual figures extrapolate the modelled day. Match installed scope, service achi
 
 [Six-site paired enquiry](audited-enquiry.zip) · [30-site radial enquiry](audited-enquiry-radial30.zip) · [Independent SUMO and grid-side reproduction for the published 15- and 30-minute cases](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)
 
-The audit records 357 scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. [Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)
+The audit records 366 scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. [Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)
 
-Evaluation `ef2047b30ebbfec5c2b55a6fcda70091111fb68ca6a54c563c6d6c130ad42ec1`
+Evaluation `840139180dd2e9356ac010b931e4650e0577c972cd2fb6ea13ea7bf7831f159b`

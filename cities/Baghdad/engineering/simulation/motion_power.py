@@ -185,6 +185,10 @@ def normalize(inputs, references=None):
         if (demand["mode"] == "observed" and
                 case["cars"] != demand["service_offer"]["observation_context"]["formation_cars"]):
             raise ValueError("Moving service formation must match the observed demand service offer")
+        offered_capacity = demand["service_offer"]["observation_context"].get("normal_places_per_train")
+        if offered_capacity is not None and (
+                case["places_per_train"] != offered_capacity or inputs.get("mass_reference_people") is None):
+            raise ValueError("Moving service capacity and loaded mass must match the demand service offer")
         case["hourly_od"] = demand["hourly_od"]
         case["demand_evaluation_id"] = demand["evaluation_id"]
         case["alignment_id"] = alignment["alignment_id"]
@@ -216,9 +220,20 @@ def normalize(inputs, references=None):
     case["aux_w"] = (case["auxiliary_kw"] * 1000 if case["auxiliary_kw"] is not None
                      else trial["auxiliaries_mw_per_train"] * 1e6 * case["cars"] / 6)
     case["traction_w"] = parent["section_power"]["assumptions"]["train_traction_rating_mw"] * 1e6 * case["cars"] / 6
-    if case["places_per_train"] is not None and not 0 < case["places_per_train"] <= 700 * case["cars"] // 6:
-        raise ValueError("Places per train outside the studied formation envelope")
+    if case["places_per_train"] is not None:
+        if type(case["places_per_train"]) is not int or case["places_per_train"] <= 0:
+            raise ValueError("Places per train must be a positive integer")
+        if case["places_per_train"] > 700 * case["cars"] // 6 and (
+                "alignment_id" not in case or inputs.get("mass_reference_people") is None
+                or inputs["demand_record"]["service_offer"]["observation_context"].get("normal_places_per_train")
+                != case["places_per_train"]):
+            raise ValueError("Places per train outside the studied formation envelope")
     case["capacity"] = case["places_per_train"] or cfg["vehicle"]["normal_places_per_train"] * case["cars"] // 6
+    mass_reference_people = inputs.get("mass_reference_people")
+    if mass_reference_people is not None:
+        if type(mass_reference_people) is not int or mass_reference_people < case["capacity"]:
+            raise ValueError("Loaded mass reference people must be an integer at least the offered capacity")
+        case["mass_reference_people"] = mass_reference_people
     if case["hourly_od"] is not None:
         if len(case["hourly_od"]) != 24:
             raise ValueError("hourly_od must contain one 6×6 matrix per local hour")
@@ -227,6 +242,33 @@ def normalize(inputs, references=None):
     if case["od_matrix"] is not None:
         validate_od(case["od_matrix"])
     case["resistance_m_s2"] = cfg["power_assumptions"]["resistance_accel_m_s2"]
+    fault = inputs.get("traction_fault")
+    controller = inputs.get("traction_fault_controller")
+    if controller not in (None, "reserve_limited") or controller is not None and fault is None:
+        raise ValueError("Reserve-limited traction controller requires the identified axle-out fault")
+    if controller is not None:
+        case["traction_fault_controller"] = controller
+    if fault is not None:
+        if (not isinstance(fault, dict) or fault.get("mode") != "heaviest_driven_axle_out"
+                or fault.get("vehicle_candidate_id") != inputs.get("candidate_id")
+                or not isinstance(fault.get("vehicle_evaluation_id"), str)
+                or not fault["vehicle_evaluation_id"]):
+            raise ValueError("Traction fault must identify the same evaluated vehicle candidate")
+        axles = fault.get("axles")
+        mu = fault.get("low_adhesion_mu")
+        margin = fault.get("adhesion_force_margin")
+        if (not isinstance(axles, dict) or len(axles) != 4 * case["cars"]
+                or not isinstance(mu, (int, float)) or not isfinite(mu) or not 0 < mu <= 1
+                or not isinstance(margin, (int, float)) or not isfinite(margin) or margin < 1
+                or not isinstance(fault.get("load_state"), str)
+                or any(not isinstance(row, dict) or not all(
+                    isinstance(row.get(key), (int, float)) and isfinite(row[key]) and row[key] > 0
+                    for key in ("tare_kg", "loaded_kg")) for row in axles.values())):
+            raise ValueError("Traction fault requires positive finite four-axle loads and adhesion")
+        if (abs(sum(row["tare_kg"] for row in axles.values()) - case["tare_train_kg"]) > .01
+                or abs(sum(row["loaded_kg"] for row in axles.values()) - case["loaded_train_kg"]) > .01):
+            raise ValueError("Traction fault axle reactions differ from the simulated train mass")
+        case["traction_fault"] = fault
     # Simulate forecast planning demand above a three-car physical capacity,
     # keeping denied boardings explicit. This does not infer new passenger load.
     return case
@@ -456,6 +498,31 @@ def drive_request(train, target, cap, resistance, mass, case, step):
     return wheel_force, bus
 
 
+def fault_force_limit(fault, mass, case):
+    """Static necessary bound after the heaviest driven axle loses traction."""
+    load_fraction = ((mass - case["tare_train_kg"])
+                     / (case["loaded_train_kg"] - case["tare_train_kg"])
+                     if case["loaded_train_kg"] > case["tare_train_kg"] else 0.)
+    reactions = {name: row["tare_kg"] + load_fraction * (row["loaded_kg"] - row["tare_kg"])
+                 for name, row in fault["axles"].items()}
+    lost = max(reactions, key=reactions.get)
+    return fault["low_adhesion_mu"] * 9.81 * (sum(reactions.values()) - reactions[lost]), lost
+
+
+def cap_fault_request(train, requested_force, mass, resistance, case, step):
+    fault = case["traction_fault"]
+    physical_limit, lost = fault_force_limit(fault, mass, case)
+    demand_limit = (physical_limit / fault["adhesion_force_margin"]
+                    if case.get("traction_fault_controller") == "reserve_limited" else physical_limit)
+    force = min(requested_force, demand_limit) if requested_force > 0 else requested_force
+    if force < requested_force:
+        mean_speed = max(0., train.speed + (force / mass - resistance) * step / 2)
+        bus = min(case["traction_w"], force * mean_speed / case["efficiency"])
+    else:
+        bus = None
+    return force, bus, physical_limit, demand_limit, lost
+
+
 def realize(train, force, bus_w, mass, resistance, case, step):
     if force > 0:
         # Solve wheel work over the same step used to integrate position.
@@ -644,17 +711,26 @@ def evaluate(inputs, output_dir=None):
                 if not train.moving and train.position < 0 and job.kind == "yard":
                     continue
                 riders = job.riders[leg]
-                mass = case["tare_train_kg"] + riders / case["capacity"] * (case["loaded_train_kg"] - case["tare_train_kg"])
+                mass = (case["tare_train_kg"] + riders / case.get("mass_reference_people", case["capacity"])
+                        * (case["loaded_train_kg"] - case["tare_train_kg"]))
                 grade = moving_grade(case, train.position, across, yard)
                 drag = 0. if yard else case["resistance_m_s2"]
                 resistance = 9.81 * grade + drag
                 effort = drive = 0.
+                fault_data = None
                 if train.moving:
                     cap = min(case["speed_m_s"], job.speeds[leg] + (0. if yard else train.gain))
                     effort, drive = drive_request(train, target, cap, resistance, mass, case, step)
+                    if "traction_fault" in case:
+                        requested_effort = effort
+                        effort, capped_bus, fault_limit, demand_limit, lost_axle = cap_fault_request(
+                            train, effort, mass, resistance, case, step)
+                        if capped_bus is not None:
+                            drive = capped_bus
+                        fault_data = (requested_effort, fault_limit, demand_limit, lost_axle)
                 port = circuit.port(train.position, track)
                 request = power_factor * (case["aux_w"] + max(0., drive)) + min(0., drive)
-                row = (train, port, request, effort, drive, mass, resistance, grade, riders, target, across, block)
+                row = (train, port, request, effort, drive, mass, resistance, grade, riders, target, across, block, fault_data)
                 by_site[port[0] if port else None].append(row)
             total_source_w = 0.
             site_snapshot = {}
@@ -684,7 +760,7 @@ def evaluate(inputs, output_dir=None):
                                                residual_v=round(residual, 5), branch_peak_a=round(branch, 3)))
                 for row, voltage, collector in zip(rows, volts, accepted):
                     (train, _, request, effort, drive, mass, resistance, grade, riders,
-                     target, across, block) = row
+                     target, across, block, fault_data) = row
                     job = train.job
                     yard = job.kind == "yard"
                     sold_traction = min(drive, max(0., collector / power_factor - case["aux_w"])) if drive > 0 else 0.
@@ -709,6 +785,27 @@ def evaluate(inputs, output_dir=None):
                     old_position, old_speed = train.position, train.speed
                     was_moving = train.moving
                     if train.moving:
+                        if fault_data is not None:
+                            requested_effort, fault_limit, demand_limit, lost_axle = fault_data
+                            totals["traction_fault_moving_s"] += step
+                            totals["traction_fault_requested_peak_n"] = max(
+                                totals["traction_fault_requested_peak_n"], requested_effort)
+                            totals["traction_fault_limit_min_n"] = min(
+                                totals.get("traction_fault_limit_min_n", fault_limit), fault_limit)
+                            totals["traction_fault_curtailment_ns"] += max(0., requested_effort - effort) * step
+                            totals["traction_fault_original_request_shortfall_ns"] += max(
+                                0., requested_effort - demand_limit) * step
+                            if requested_effort > demand_limit + 1e-6:
+                                totals["traction_fault_original_request_shortfall_s"] += step
+                            if requested_effort > demand_limit + 1e-6:
+                                totals["traction_fault_curtailed_s"] += step
+                            required = (mass * (case["acceleration_m_s2"] + resistance)
+                                        * case["traction_fault"]["adhesion_force_margin"])
+                            if required > fault_limit + 1e-6:
+                                totals["traction_fault_required_force_deficit_ns"] += (required - fault_limit) * step
+                                totals["traction_fault_required_force_deficit_s"] += step
+                            totals["traction_fault_required_peak_n"] = max(
+                                totals["traction_fault_required_peak_n"], required)
                         speed, travel, effort = realize(train, effort, sold_traction, mass, resistance, case, step)
                         remain = abs(target - train.position)
                         if travel >= remain:
@@ -862,6 +959,12 @@ def evaluate(inputs, output_dir=None):
         "utility_connection_approved": False,
         "thermal_ratings_verified": False,
     }
+    if "traction_fault" in case:
+        for key in ("traction_fault_required_force_deficit_s", "traction_fault_curtailed_s",
+                    "traction_fault_curtailment_ns", "traction_fault_required_force_deficit_ns",
+                    "traction_fault_original_request_shortfall_s", "traction_fault_original_request_shortfall_ns"):
+            metrics.setdefault(key, 0.)
+        gates["traction_fault_force_envelope"] = not totals["traction_fault_required_force_deficit_s"]
     return {
         "schema": "baghdad-airport-motion-dc/1", "candidate_id": candidate_id, "evaluation_id": evaluation_id,
         "source_publication_candidate_id": parent["candidate_id"],
@@ -883,7 +986,15 @@ def evaluate(inputs, output_dir=None):
         "electrical_enquiry": electrical_enquiry(circuit, supply, metrics),
         "failure": {"site": failed_site if case["condition"] in ("site_out", "combined") else None,
                     "path_bay": circuit.failed_path,
-                    "closed_service_blocks": sorted(dark_blocks)},
+                    "closed_service_blocks": sorted(dark_blocks),
+                    **({"traction": {"mode": "heaviest_driven_axle_out",
+                                     "vehicle_candidate_id": case["traction_fault"]["vehicle_candidate_id"],
+                                     "vehicle_evaluation_id": case["traction_fault"]["vehicle_evaluation_id"],
+                                     "load_state": case["traction_fault"]["load_state"],
+                                     "low_adhesion_mu": case["traction_fault"]["low_adhesion_mu"],
+                                     "adhesion_force_margin": case["traction_fault"]["adhesion_force_margin"],
+                                     "controller": case.get("traction_fault_controller")}}
+                       if "traction_fault" in case else {})},
         "method_sources": METHOD_SOURCES,
         "limits": [
             "Steady resistive DC equivalent at each step. Return touch potential, intertrack leakage, harmonics, protection transients, converter duty and thermal ratings require separate evidence.",

@@ -21,11 +21,12 @@ def project(record, omitted):
     return {key: value for key, value in record.items() if key not in omitted}
 
 
-def demand_projection(demand, alignment, cars):
+def demand_projection(demand, alignment, cars, normal_places_per_train=None):
     mode = demand["mode"]
     require(mode in ("fixed", "service_sensitive", "observed"), "demand mode")
     upstream = airport_demand.evaluate(alignment, headway_min=demand["headway_min"], dwell_s=demand["dwell_s"],
-                                       formation_cars=cars, mode="fixed" if mode == "observed" else mode)
+                                       formation_cars=cars, mode="fixed" if mode == "observed" else mode,
+                                       normal_places_per_train=normal_places_per_train)
     if mode != "observed":
         require(scenario.encode(demand) == scenario.encode(project(upstream, {"hourly_od"})), "forecast demand")
         return
@@ -56,11 +57,14 @@ def demand_projection(demand, alignment, cars):
 def check_duties(feeder, assessment, layout, feeder_id):
     duties = feeder["duties"]
     heavy_rows = feeder["high_mass"]
+    fault_rows = feeder["traction_fault"]
     require(len(heavy_rows) == 1 and heavy_rows[0]["condition"] == "combined", "high-mass duty coverage")
+    require(len(fault_rows) == 1 and fault_rows[0]["condition"] == "normal", "traction-fault duty coverage")
     heavy = heavy_rows[0]
+    fault = fault_rows[0]
     normal, = (day for day in duties if day["condition"] == "normal")
     require(all(day["topology"] == layout and day["candidate_id"] == normal["candidate_id"]
-                for day in duties + heavy_rows), "duty candidate")
+                for day in duties + heavy_rows + fault_rows), "duty candidate")
     require(all(APPROVAL_GATES <= day["gates"].keys()
                 and all(type(met) is bool for met in day["gates"].values())
                 and not any(day["gates"][key] for key in APPROVAL_GATES)
@@ -71,11 +75,18 @@ def check_duties(feeder, assessment, layout, feeder_id):
                 and type(day["booked"]) is int and type(day["completed"]) is int
                 and 0 <= day["completed"] <= day["booked"]
                 and (not day["gates"]["all_workings_complete"] or day["completed"] == day["booked"])
-                for day in duties + heavy_rows),
+                for day in duties + heavy_rows + fault_rows),
             "duty gate and trip results")
     require(assessment["high_mass_combined_outage"] == dict(evaluation_id=heavy["evaluation_id"],
             failed_or_open_checks=heavy["failed_screens"]), "high-mass decision")
-    inventory = audit_power_return._inventory(duties, heavy_rows)[feeder_id]
+    require(fault["gates"].get("traction_fault_force_envelope") is
+            (fault["traction_fault_required_force_deficit_s"] == 0)
+            and fault["failure"]["traction"]["mode"] == "heaviest_driven_axle_out"
+            and fault["grade_basis"] == "constant_sensitivity"
+            and fault["grade_pct"] > 0
+            and fault["traction_fault_curtailed_s"] >= 0,
+            "traction-fault force and grade")
+    inventory = audit_power_return._inventory(duties, heavy_rows, fault_rows)[feeder_id]
     equipment = feeder["equipment"]
     require(equipment["duties"] == inventory["duties"]
             and equipment["envelope"] == audit_power_return._envelope(inventory["duties"])
@@ -84,12 +95,12 @@ def check_duties(feeder, assessment, layout, feeder_id):
             and equipment["production_ranking_eligible"] is False,
             "equipment duty inventory and margins")
     if equipment["supplier_return_id"] is None:
-        expected = audit_power_return.assess(duties, heavy_rows)["layouts"][feeder_id]
+        expected = audit_power_return.assess(duties, heavy_rows, traction_fault_power=fault_rows)["layouts"][feeder_id]
         require(equipment == expected, "equipment declaration")
-    return normal, heavy
+    return normal, heavy, fault
 
 
-def check_decision(decision, route, vehicle, price, feeder, heavy):
+def check_decision(decision, route, vehicle, price, feeder, heavy, fault):
     from .audit_register import vehicle_screens, functional_screen
     assessment = decision["assessment"]
     require(assessment["vehicle_screens"] == vehicle_screens(vehicle), "vehicle decision")
@@ -98,12 +109,33 @@ def check_decision(decision, route, vehicle, price, feeder, heavy):
                 for day in duties}
     heavy_failed = any(key not in APPROVAL_GATES for key in heavy["failed_screens"])
     require(assessment["failures_by_duty"] == failures
-            and assessment["numerical_valid"] is all(day["numerical_valid"] for day in [*duties, heavy])
+            and assessment["numerical_valid"] is all(day["numerical_valid"] for day in [*duties, heavy, fault])
             and assessment["operating_screen"] == ("failed" if any(failures.values()) or heavy_failed else "passed")
             and assessment["supplier_and_utility_checks"] == dict.fromkeys(APPROVAL_GATES, False)
             and assessment["equipment_return_screen"] == feeder["equipment"]["equipment_return_screen"]
             and assessment["complete_equipment_duty_screen"] == feeder["equipment"]["complete_equipment_duty_screen"],
             "operating decision")
+    traction = vehicle["high_load_adverse_traction"]
+    source = fault["failure"]["traction"]
+    require(source["vehicle_candidate_id"] == vehicle["candidate_id"]
+            and source["vehicle_evaluation_id"] == vehicle["evaluation_id"]
+            and source["load_state"] == "high"
+            and fault["loaded_train_kg"] == vehicle["mass_cases"]["high"]["loaded_train_kg"]
+            and fault["tare_train_kg"] == vehicle["mass_cases"]["high"]["tare_train_kg"]
+            and source["low_adhesion_mu"] == traction["adhesion_assumed"]
+            and source["adhesion_force_margin"] == traction["corrective_procurement"]["adhesion_force_margin"]
+            and fault["grade_pct"] == traction["upgrade_pct"], "traction-fault upstream inputs")
+    require(assessment["one_driven_axle_out"] == dict(
+        evaluation_id=fault["evaluation_id"], candidate_id=fault["candidate_id"],
+        failure=fault["failure"], force_envelope_passes=fault["gates"]["traction_fault_force_envelope"],
+        required_force_deficit_s=fault["traction_fault_required_force_deficit_s"],
+        completed=fault["completed"], booked=fault["booked"], maximum_delay_s=fault["maximum_delay_s"],
+        grade_pct=fault["grade_pct"], grade_basis=fault["grade_basis"],
+        grade_direction="outward uphill; inbound downhill; yard level", load_state="high",
+        low_adhesion_mu=source["low_adhesion_mu"], adhesion_force_margin=source["adhesion_force_margin"],
+        required_net_acceleration_m_s2=traction["corrective_procurement"]["required_net_accel_m_s2"],
+        degraded_service_requirement=None, failed_or_open_checks=fault["failed_screens"]),
+        "traction-fault decision")
     require(assessment["functional_screen"] == functional_screen(assessment), "combined functional decision")
     require(assessment["qualification"] == "open" and assessment["investment_rank"] is None
             and assessment["scope_cost_status"] == "partial or unpriced"
@@ -127,12 +159,16 @@ def check_evidence(docs, manifest):
     feeder = docs["engineering/feeder.json"]
     decision = docs["decision.json"]
     cars = vehicle["physical"]["formation_cars"]
-    demand_projection(demand, route, cars)
+    saloon = vehicle.get("saloon_layout")
+    capacity = None if saloon is None else saloon["places_per_train"]
+    demand_projection(demand, route, cars, capacity)
     require(price["child_ids"]["demand_evaluation_id"] == demand["evaluation_id"], "pricing demand reference")
 
     climate_inputs = dict(cars=cars, headway_min=demand["headway_min"], ambient_c=climate["inputs"]["ambient_c"],
-                          busiest_departure_load=min(700 * cars // 6, ceil(demand["busiest_departure_load"])),
+                          busiest_departure_load=min(capacity or 700 * cars // 6, ceil(demand["busiest_departure_load"])),
                           platform_queue=ceil(demand["platform_queue"]))
+    if capacity is not None:
+        climate_inputs["normal_places_per_train"] = capacity
     if demand["dwell_s"] != route["dwell_s"]:
         climate_inputs["dwell_s"] = demand["dwell_s"]
     require(scenario.encode(climate) == scenario.encode(passengers.evaluate(climate_inputs))
@@ -140,9 +176,9 @@ def check_evidence(docs, manifest):
             "station, ventilation and accessible dwell")
     require(scenario.encode(docs["factory/routing-basis.json"]) == scenario.encode(factory.build()),
             "factory routing")
-    normal, heavy = check_duties(feeder, decision["assessment"], manifest["layout"], manifest["feeder_physical_id"])
+    normal, heavy, fault = check_duties(feeder, decision["assessment"], manifest["layout"], manifest["feeder_physical_id"])
     sensitivity = feeder["planning_price_sensitivity"]
-    independent = audit_feeder_cost.evaluate(price, feeder["duties"] + feeder["high_mass"])
+    independent = audit_feeder_cost.evaluate(price, feeder["duties"] + feeder["high_mass"] + feeder["traction_fault"])
     projected = {"priced_cash_break_even", "sensitivity_id"}
     require(sensitivity["sensitivity_id"] == scenario._id(project(sensitivity, {"sensitivity_id"}))
             and project(independent, projected) == project(sensitivity, projected), "feeder rate sensitivity")
@@ -157,4 +193,4 @@ def check_evidence(docs, manifest):
             and isclose(operations["annual_completed_journeys"], served, abs_tol=1e-6)
             and isclose(operations["annual_paid_journeys_proxy"], served * share, abs_tol=1e-6),
             "working-day operating and fare basis")
-    check_decision(decision, route, vehicle, price, feeder, heavy)
+    check_decision(decision, route, vehicle, price, feeder, heavy, fault)

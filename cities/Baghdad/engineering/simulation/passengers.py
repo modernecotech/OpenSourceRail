@@ -89,7 +89,7 @@ def cooling(cars, passengers, ambient, dwell, config, trial, case):
 
 
 def door_exchange(data, config, door, cars, peak, waiting):
-    capacity = config["vehicle"]["normal_places_per_train"] * cars // 6
+    capacity = data.get("normal_places_per_train", config["vehicle"]["normal_places_per_train"] * cars // 6)
     active = config["vehicle"]["door_openings_per_car_each_side"] * cars
     clear = door["rough_opening_m"] - 2 * sum(door[f"{key}_per_edge_m"] for key in
         ("seal_projection", "fabrication_inward", "loaded_distortion", "fitting_and_wear"))
@@ -231,9 +231,11 @@ def evaluate(inputs=None):
     headway = case.get("headway_min", 15)
     dwell = case.get("dwell_s", cfg["vehicle"]["dwell_s"])
     ambient = case.get("ambient_c", 48)
-    peak = case.get("busiest_departure_load", 700 * cars // 6)
+    capacity = case.get("normal_places_per_train", cfg["vehicle"]["normal_places_per_train"] * cars // 6)
+    peak = case.get("busiest_departure_load", min(700 * cars // 6, capacity))
     waiting = case.get("platform_queue", 350)
-    if (cars not in (3, 6) or type(peak) is not int or not 0 <= peak <= 700 * cars // 6 or
+    if (cars not in (3, 6) or type(capacity) is not int or capacity <= 0 or
+        type(peak) is not int or not 0 <= peak <= capacity or
         type(waiting) is not int or not 0 <= waiting <= 1400 or headway <= 0 or not 25 <= ambient <= 55):
         raise ValueError("Passenger and climate inputs lie outside the Airport study domain")
     if not all(math.isfinite(case.get(key, value)) and low <= case.get(key, value) <= high for key, value, low, high in (

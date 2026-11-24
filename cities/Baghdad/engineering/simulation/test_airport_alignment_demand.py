@@ -58,6 +58,53 @@ class AlignmentDemandTests(unittest.TestCase):
             candidate = airport_alignment.evaluate(path)
             self.assertNotEqual(candidate["alignment_id"], alignment["alignment_id"])
             self.assertEqual(candidate["geometry_mode"], "supplied_centreline")
+            self.assertNotIn("horizontal_design", candidate)
+            stop_m = candidate["stops"][1]["chainage_km"] * 1000
+            design = {
+                "geometry_sha256": submission["geometry_sha256"], "document": "Synthetic track plan",
+                "revision": "1", "route_chainage_m": candidate["route_km"] * 1000,
+                "straight_platforms": [{"stop_id": "Airport-01", "stop_chainage_m": stop_m,
+                                        "start_m": stop_m - 62.5, "end_m": stop_m + 62.5,
+                                        "tangent_start_m": stop_m - 70, "tangent_end_m": stop_m + 70,
+                                        "required_clear_length_m": 125}],
+                "circular_curves": [{"start_m": 1000, "end_m": 1100,
+                                     "radius_m": 100, "absolute_deflection_deg": 45}],
+            }
+            submission["horizontal_design"] = design
+            write(path)
+            designed = airport_alignment.evaluate(path)
+            self.assertNotEqual(designed["alignment_id"], candidate["alignment_id"])
+            self.assertEqual(len(designed["horizontal_design_screen"]["straight_platforms"]), 1)
+            self.assertEqual(airport_alignment.validate(json.loads(json.dumps(designed))), designed)
+            self.assertEqual(airport_demand.evaluate(designed)["alignment_id"], designed["alignment_id"])
+            design["revision"] = "2"
+            write(path)
+            revised = airport_alignment.evaluate(path)
+            self.assertEqual(revised["alignment_id"], designed["alignment_id"])
+            self.assertNotEqual(revised["record_id"], designed["record_id"])
+            design["straight_platforms"][0]["tangent_start_m"] = stop_m - 40
+            write(path)
+            with self.assertRaisesRegex(ValueError, "tangent fit is impossible"):
+                airport_alignment.evaluate(path)
+            design["straight_platforms"][0]["tangent_start_m"] = stop_m - 70
+            design["circular_curves"][0]["radius_m"] = 200
+            write(path)
+            with self.assertRaisesRegex(ValueError, "too short for its radius"):
+                airport_alignment.evaluate(path)
+            design["circular_curves"][0]["radius_m"] = 100
+            design["circular_curves"][0]["start_m"] = stop_m - 10
+            design["circular_curves"][0]["end_m"] = stop_m + 90
+            write(path)
+            with self.assertRaisesRegex(ValueError, "overlaps a declared"):
+                airport_alignment.evaluate(path)
+            design["circular_curves"] = []
+            design["straight_platforms"] = []
+            design["route_chainage_m"] = 12
+            write(path)
+            with self.assertRaisesRegex(ValueError, "cannot reach the mapped stations"):
+                airport_alignment.evaluate(path)
+            submission.pop("horizontal_design")
+            write(path)
             self.assertTrue(all(s["longitude_latitude"] for s in candidate["stops"]))
             self.assertIsNone(candidate["grade_profile"])
             offset = candidate["stops"][1]["offset_from_register_centroid_km"]

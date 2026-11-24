@@ -99,7 +99,7 @@ def handoff(inputs, result, vehicle, passenger):
 
 def economics(inputs, result, vehicle):
     alignment, demand = inputs["alignment"], inputs["demand_record"]
-    civil = family_comparison.evaluate_high_load(route_km=alignment["route_km"])
+    civil = family_comparison.evaluate_high_load(route_km=alignment["route_km"], installed_vehicle=vehicle)
     leader = civil["quotation_leaders"]["base"]
     girder = next(row for row in civil["rows"] if row["physical_id"] == leader["physical_id"])
     compact_day = motion_power.compact(result)

@@ -4,7 +4,7 @@ import gzip
 from hashlib import sha256
 from itertools import accumulate, pairwise
 import json
-from math import isfinite
+from math import isfinite, radians
 from pathlib import Path
 
 from cities.Baghdad.engineering.simulation import corridor
@@ -82,6 +82,85 @@ def posted_speed_profile(points, limits):
                            for direction in ("outward_kmh", "inward_kmh")}}
 
 
+def horizontal_design_screen(design, geometry_sha256, station_points, model_chainages_m):
+    """Check necessary fits using declared track design, never polyline bends."""
+    def number(value):
+        try:
+            return type(value) in (int, float) and isfinite(value)
+        except OverflowError:
+            return False
+
+    if (not isinstance(design, dict) or design.get("geometry_sha256") != geometry_sha256
+            or not isinstance(design.get("document"), str) or not design["document"].strip()
+            or not isinstance(design.get("revision"), str) or not design["revision"].strip()
+            or not isinstance(design.get("straight_platforms"), list)
+            or not isinstance(design.get("circular_curves"), list)
+            or not number(design.get("route_chainage_m")) or design["route_chainage_m"] <= 0):
+        raise ValueError("Horizontal design needs a geometry-bound document, revision, platforms and curves")
+    route_m = design["route_chainage_m"]
+    epsilon = 1e-6  # Arithmetic tolerance only; no clearance allowance.
+    seen = set()
+    platforms = []
+    for row in design["straight_platforms"]:
+        if (not isinstance(row, dict) or row.get("stop_id") not in STOP_IDS
+                or row["stop_id"] in seen
+                or any(not number(row.get(key)) for key in
+                       ("stop_chainage_m", "start_m", "end_m", "tangent_start_m",
+                        "tangent_end_m", "required_clear_length_m"))):
+            raise ValueError("Straight platform needs one known stop and finite chainage/length values")
+        seen.add(row["stop_id"])
+        start, end = row["start_m"], row["end_m"]
+        tangent_start, tangent_end = row["tangent_start_m"], row["tangent_end_m"]
+        required = row["required_clear_length_m"]
+        if (required <= 0 or start < 0 or end > route_m + epsilon
+                or tangent_start < 0 or tangent_end > route_m + epsilon
+                or end <= start or tangent_end <= tangent_start
+                or not start - epsilon <= row["stop_chainage_m"] <= end + epsilon
+                or end - start + epsilon < required
+                or start + epsilon < tangent_start or end > tangent_end + epsilon):
+            raise ValueError("Straight platform clear length, stop or tangent fit is impossible")
+        platforms.append({"stop_id": row["stop_id"], "clear_length_m": end - start,
+                          "required_clear_length_m": required,
+                          "tangent_length_m": tangent_end - tangent_start})
+    # Design stations and digitised line vertices can use different chainages.
+    # Both still have to reach the same stop coordinates in order.
+    stations = {p["stop_id"]: p["stop_chainage_m"] for p in design["straight_platforms"]}
+    for stop_id, chainage in ((STOP_IDS[0], 0.), (STOP_IDS[-1], route_m)):
+        if stop_id in stations and abs(stations[stop_id] - chainage) > epsilon:
+            raise ValueError("Terminal platform stop chainage must coincide with the route endpoint")
+        stations[stop_id] = chainage
+    anchored = [(index, stations[stop_id]) for index, stop_id in enumerate(STOP_IDS) if stop_id in stations]
+    for (first, start), (last, end) in pairwise(anchored):
+        chord_m = 1000 * length_km(station_points[first:last + 1])
+        if end - start + epsilon < chord_m:
+            raise ValueError("Designed stop chainages cannot reach the mapped stations in route order")
+    curves = []
+    for row in design["circular_curves"]:
+        if (not isinstance(row, dict) or any(not number(row.get(key)) for key in
+                ("start_m", "end_m", "radius_m", "absolute_deflection_deg"))):
+            raise ValueError("Circular curve needs finite chainage, radius and absolute deflection")
+        start, end = row["start_m"], row["end_m"]
+        radius, angle = row["radius_m"], row["absolute_deflection_deg"]
+        required = radius * radians(angle)
+        if (start < 0 or end > route_m + epsilon or end <= start or radius <= 0
+                or not 0 < angle <= 360 or not isfinite(required)
+                or end - start + epsilon < required):
+            raise ValueError("Circular curve chainage is too short for its radius and deflection")
+        if any(start < platform["tangent_end_m"] - epsilon
+               and end > platform["tangent_start_m"] + epsilon
+               for platform in design["straight_platforms"]):
+            raise ValueError("Circular curve overlaps a declared straight platform tangent")
+        curves.append({"start_m": start, "end_m": end, "minimum_arc_m": required,
+                       "available_m": end - start})
+    by_start = sorted(curves, key=lambda row: row["start_m"])
+    if any(first["end_m"] > following["start_m"] + epsilon for first, following in pairwise(by_start)):
+        raise ValueError("Declared circular curve intervals overlap on the same track alignment")
+    differences = {STOP_IDS[i]: chainage - model_chainages_m[i] for i, chainage in anchored}
+    return {"design_route_chainage_m": route_m, "evaluated_polyline_length_m": model_chainages_m[-1],
+            "design_minus_evaluated_chainage_m": differences, "straight_platforms": platforms, "circular_curves": curves,
+            "scope": "Necessary internal fit only; tangent locations, radius, sweep and clearance need independent survey and vehicle review."}
+
+
 def survey_input(path, parent_id, bounds):
     raw = Path(path).read_bytes()
     supplied = json.loads(raw)
@@ -143,7 +222,14 @@ def survey_input(path, parent_id, bounds):
         source["vertical_profile_sha256"] = identity(profile)
     if speed_profile is not None:
         source["speed_profile_sha256"] = identity(speed_profile)
-    return points, vertices, profile, speed_profile, source
+    design = supplied.get("horizontal_design")
+    screen = None
+    if design is not None:
+        model_chainages = list(accumulate((1000 * corridor.distance_km(a, b) for a, b in pairwise(points)), initial=0.))
+        screen = horizontal_design_screen(design, supplied["geometry_sha256"], [points[i] for i in vertices],
+                                          [model_chainages[i] for i in vertices])
+        source["horizontal_design_sha256"] = identity(design)
+    return points, vertices, profile, speed_profile, design, screen, source
 
 
 def map_context(hashes):
@@ -201,7 +287,9 @@ def physical_record(record):
         "schema": record["schema"], "parent_candidate_id": record["parent_candidate_id"],
         "grade_profile": record["grade_profile"], "horizontal_trace": trace,
         "stops": [(s["id"], s["longitude_latitude"], s["chainage_km"]) for s in record["stops"]],
-    }
+    } | ({"horizontal_design": {key: record["horizontal_design"][key] for key in
+                               ("route_chainage_m", "straight_platforms", "circular_curves")}}
+         if record.get("horizontal_design") is not None else {})
 
 
 def validate(record):
@@ -247,6 +335,19 @@ def validate(record):
             or speed_profile != posted_speed_profile(points, speed_profile.get("limits_kmh"))
             or record["survey_source"].get("speed_profile_sha256") != identity(speed_profile)):
         raise ValueError("Airport posted speed profile differs from the supplied centreline and source")
+    design = record.get("horizontal_design")
+    if design is not None:
+        model_chainages = list(accumulate((1000 * corridor.distance_km(a, b) for a, b in pairwise(points)), initial=0.))
+        stop_points = [s["longitude_latitude"] for s in record["stops"]]
+        if (record["geometry_mode"] != "supplied_centreline" or not record["survey_source"]
+                or record["survey_source"].get("horizontal_design_sha256") != identity(design)
+                or record.get("horizontal_design_screen") != horizontal_design_screen(
+                    design, record["survey_source"]["geometry_sha256"], stop_points,
+                    [model_chainages[points.index(point)] for point in stop_points])):
+            raise ValueError("Airport horizontal design differs from the supplied centreline and source")
+    elif (record.get("horizontal_design_screen") is not None
+          or record.get("survey_source") and "horizontal_design_sha256" in record["survey_source"]):
+        raise ValueError("Airport horizontal design screen has no submitted design")
     return record
 
 
@@ -276,6 +377,8 @@ def evaluate(survey=None):
     survey_source = None
     profile = None
     speed_profile = None
+    design = None
+    design_screen = None
     if survey is None:
         sections = mapped_sections(anchors, context["layers"]["roads"])
         if not all(within_coverage(point, bounds) for _, points, _ in sections for point in points):
@@ -283,7 +386,8 @@ def evaluate(survey=None):
         locations = places
         mode = "mapped_road_reference_and_review_connectors"
     else:
-        points, vertices, profile, speed_profile, survey_source = survey_input(survey, parent_id, bounds)
+        points, vertices, profile, speed_profile, design, design_screen, survey_source = survey_input(
+            survey, parent_id, bounds)
         locations = [points[i] for i in vertices]
         sections = [("supplied_centreline", points[a:b + 1], "Submitted centreline between declared stop vertices.")
                     for a, b in pairwise(vertices)]
@@ -331,12 +435,17 @@ def evaluate(survey=None):
         "review_gaps": [segment["description"] for segment in segments if segment["kind"] == "review_connector"]
         + (["Survey vertical alignment, curves, clearances, geotechnics, utilities and land."] if profile is None else
            ["Review the submitted rail levels and vertical curves. Survey clearances, geotechnics, utilities and land."])
+        + (["Authenticate designed chainages, tangents and radii; verify swept clearance and transitions."]
+           if design is not None else [])
         + ["Confirm all station sites, entrances and step-free access."],
         "dwell_s": service["patterns"][0][1]["departure_s"] - service["patterns"][0][1]["arrival_s"],
         "source_sha256": {**hashes, str(Path(__file__).resolve().relative_to(ROOT)): sha256(Path(__file__).read_bytes()).hexdigest()},
     }
     if speed_profile is not None:
         record["speed_profile"] = speed_profile
+    if design is not None:
+        record["horizontal_design"] = design
+        record["horizontal_design_screen"] = design_screen
     record["alignment_id"] = identity(physical_record(record))
     record["record_id"] = identity(record)
     return validate(record)
