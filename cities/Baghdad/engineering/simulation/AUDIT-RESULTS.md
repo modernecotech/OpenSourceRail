@@ -4,15 +4,15 @@ The original 12 km schematic falls 3.09 km short of the geographic minimum throu
 
 ## Which service can the terminal handle?
 
-Each offer uses its own waiting-time demand and train diagram. The terminal search tests 30-second phase offsets. The moving replay includes depot movements, track reservations and actual station calls.
+Requested journeys respond to changes in expected wait and in-vehicle time. The terminal search tests 30-second phase offsets. The moving replay includes depot movements, track reservations and actual station calls.
 
-| Headway | Annual requested journeys | Initial diagram → revised conflicts | Terminal offset | Completed / booked trips on paired supply |
-| --- | ---: | ---: | ---: | ---: |
-| 15 min | 3,852,384 | 72 → 2 | 330 s | 103 / 144 |
-| 20 min | 3,399,717 | 54 → 0 | 930 s | 84 / 108 |
-| 30 min | 2,647,702 | 37 → 0 | 1308 s | 72 / 72 |
+| Headway | Booked dwell | Normal places per train | Annual requested journeys | Initial diagram → trial conflicts | Terminal offset | Completed / booked trips on paired supply |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 15 min | 35 s | 700 | 3,852,384 | 72 → 2 | 330 s | 103 / 144 |
+| 20 min | 35 s | 700 | 3,399,717 | 54 → 0 | 930 s | 84 / 108 |
+| 30 min | 35 s | 700 | 2,647,702 | 37 → 0 | 1308 s | 72 / 72 |
 
-The detailed comparison uses the 30-minute offer with a 1308 s terminal offset and 210 s additional time for the first and last empty movements. The published 30-minute trial refines the offset at two-second intervals. Each changed service is replayed before it can be compared.
+The detailed comparison uses the 30-minute offer with a 1308 s terminal offset and 210 s additional time for the first and last empty movements. These terminal offsets apply to the evaluated offers.
 
 The paired-supply replay gives these maximum arrival delays at each simulation step. 1 s step → 56 s delay, 2 s step → 58 s delay, 4 s step → 58 s delay.
 
@@ -61,7 +61,9 @@ These figures apply dated planning rates to the actual site count, track length,
 | radial30 | $285.37m / $285.37m / $285.37m | $1.43m / $2.85m / $5.71m |
 | paired6 | $138.95m / $176.70m / $225.81m | $0.69m / $1.77m / $4.52m |
 
-Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices. The radial layout also loses through service after a path outage. A price difference alone cannot establish a viable saving.
+Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices.
+
+Service differs between the layouts under a feed-path outage, a combined site and path outage, the high-mass combined outage. Their priced subtotals cannot establish a break-even feeder price.
 
 ## What can a buyer price?
 
@@ -86,7 +88,7 @@ Annual figures extrapolate the modelled day. Match installed scope, service achi
 | --- | --- | --- |
 | A01 · Integration | Scoped input register and candidate joins | Review submitted replacements against their exact alignment, formation, equipment and lot scope. |
 | A02 · Alignment | Horizontal distance and stop-order screen | Approve surveyed levels, curves, utility and land interfaces, and all station sites. |
-| A03 · Passenger service | Fixed-demand control and service-sensitive working days | Authenticate local counts and travel times and calibrate demand response. |
+| A03 · Passenger service | Service-sensitive working days | Authenticate local counts and travel times and calibrate demand response. |
 | A04 · Braking | Stopping distance, failed-module force and heat bounds | Measure braking and wheel-slide duty and verify protected stopping distance and recovery. |
 | A05 · Vehicle and interfaces | Loaded mass, axle, battery and fit screens | Weigh the equipped article and measure loaded door, suspension, removal and hot aged battery duty. |
 | A06 · Electrical supply | Matched ordinary, hot and outage working days | Review equipment duty, protection clearing, return circuits, safe isolation and utility terms. |
@@ -101,4 +103,4 @@ Annual figures extrapolate the modelled day. Match installed scope, service achi
 
 The audit records 219 scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. [Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)
 
-Evaluation `41800bcc7610a63bebaed2ce786fb828f270a1d5da4eebb7fe8d7749cf37c9ad`
+Evaluation `7c7b06c1108291e0ce9b2410e74c5c976d8ed3101d7861c00804de904c036dce`

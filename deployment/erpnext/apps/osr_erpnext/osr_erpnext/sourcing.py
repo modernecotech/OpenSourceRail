@@ -13,6 +13,7 @@ from osr_erpnext.sourcing_contract import (
     amount_usd,
     calendar_date,
     canonical,
+    corrected_enquiry_reference,
     decimal_value,
     digest,
     estimate_payload,
@@ -443,8 +444,16 @@ def get_request(rfq):
             frappe.throw("This offer requires integrity review")
         prior = dict(quotation=native.name, docstatus=native.docstatus, status=native.status,
                      offer=receipt["offer"])
-    return dict(rfq=rfq, round_no=binding["round_no"], required_on=binding["required_on"],
-                scope=scope, scope_sha256=digest(scope), previous=prior)
+    result = dict(rfq=rfq, round_no=binding["round_no"], required_on=binding["required_on"],
+                  scope=scope, scope_sha256=digest(scope), previous=prior)
+    packet = _staged_estimate(binding["project"], scope["evaluation_id"])
+    if digest(packet) != binding["estimate_sha256"]:
+        frappe.throw("RFQ estimate requires integrity review")
+    lot = _input(one_lot, packet, scope["lot_id"])
+    reference = _input(corrected_enquiry_reference, packet, lot)
+    if reference is not None:
+        result["enquiry_reference"] = reference
+    return result
 
 
 def _terms(offer):

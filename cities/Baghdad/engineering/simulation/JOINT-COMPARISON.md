@@ -82,4 +82,4 @@ python3 -m cities.Baghdad.engineering.simulation.decision_comparison --check
 python3 -m cities.Baghdad.engineering.simulation.decision_comparison --json > build/joint-decisions.json
 ```
 
-Comparison digest `5ba42d07664a18721e193fcc0d08dd2870fc1f9b9d95e66ffd474030110143af`. [Service, energy and price assumptions](SIMULATION.md) · [Factory and whole-life cost scope](production-guide.md) · [Redesigned girder and support families](../mechanical/civil/SPAN-FAMILIES.md)
+Comparison digest `dcc5f6ddf8f0c14d83a193c43fc72c221ea0f41c6eb79e15024432ca63616cfc`. [Service, energy and price assumptions](SIMULATION.md) · [Factory and whole-life cost scope](production-guide.md) · [Redesigned girder and support families](../mechanical/civil/SPAN-FAMILIES.md)

@@ -58,9 +58,11 @@ Pass an optional JSON path as `observed` to `airport_demand.evaluate`. Use schem
 
 The count rows use `from`, `to`, `all` and `paying`, with local integer `hour` (0–23) for hourly resolution. Counts require finite model arithmetic. Vehicle and station capacity screens assess crowding separately. Hours and pairs absent from the file contribute zero counted journeys to the supplied sample. Daily counts retain their observed pair totals and use the historical hourly pattern for peak estimates. In observed mode the record annualises the observed daily mean over 365 days and records the sample dates and source digest. Seasonal representativeness and evidence review remain open.
 
+For the coupled audit, pass `--observed` with the matching `--headway`, `--cars` and `--dwell-s` if the sample uses a dwell other than 35 seconds. The audit replays that one headway and uses the booked dwell in the door-exchange and cooling calculation. If the booked dwell falls short of the assisted door-exchange screen, a longer offer requires matching observations. The implied exchange uses peak queue and load inputs. Door-open cooling uses the unassisted exchange estimate capped by booked dwell.
+
 ## Independent working-day replay
 
-Both cases use the corrected paired six-site layout, six steel cars at 146.136 t tare and 198.636 t peak, 35-second stops and a 40 °C auxiliary load case. The 15-minute case retains the 330-second terminal offset to expose the effect of shared terminal resources. The refined 30-minute case uses a 1,308-second offset and adds 210 seconds before the first and after the last empty positioning moves.
+Both cases use the corrected paired six-site layout, six steel cars at 146.136 t tare and 198.636 t peak, 35-second stops and a 40 °C auxiliary load case. The Airport study uses its historical planning capacity of 700 normal places per six-car train, equivalent to 2,800 and 1,400 places per hour per direction at 15 and 30 minutes. The separate v0.6 development reference uses 276 normal places per six-car train. The 15-minute case retains the 330-second terminal offset to expose the effect of shared terminal resources. The refined 30-minute case uses a 1,308-second offset and adds 210 seconds before the first and after the last empty positioning moves. [Airport study inputs](../../system.toml) · [v0.6 development reference](../../../../engineering/development-baseline.toml)
 
 | Working-day check | 15 min, adverse | 30 min, refined |
 | --- | ---: | ---: |

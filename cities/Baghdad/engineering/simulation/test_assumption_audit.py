@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from cities.Baghdad.engineering.mechanical.civil import family_comparison
 from cities.Baghdad.engineering.simulation import (
-    airport_alignment, assumption_audit as audit, audit_offers, audit_production, audit_register,
+    airport_alignment, airport_demand, assumption_audit as audit, audit_offers, audit_production, audit_register,
     motion_power, scenario, vehicle_audit,
 )
 
@@ -54,6 +54,32 @@ class AssumptionAuditTests(unittest.TestCase):
     def working_day(self, cache=None, sources=None):
         return audit.working_day(self.route, self.demand, self.vehicle, self.climate, "paired6", "normal", 0,
                                  cache, sources or {"solver-test": "revision-a"}, phase=1306)
+
+    def test_observed_od_uses_booked_dwell_and_cannot_rebook_a_short_sample(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "observed.json"
+            for dwell in (35, 66):
+                forecast = airport_demand.evaluate(self.route, headway_min=30, dwell_s=dwell)
+                path.write_text(json.dumps(dict(
+                    schema=airport_demand.OBSERVED_SCHEMA, alignment_id=self.route["alignment_id"],
+                    stop_ids=forecast["stop_ids"], timezone="Asia/Baghdad", document="Test survey",
+                    sample_date_from="2026-06-01", sample_date_to="2026-06-01", observed_days=1,
+                    service_offer=forecast["service_offer"]["observation_context"], resolution="hourly",
+                    od=[{"from": forecast["stop_ids"][0], "to": forecast["stop_ids"][-1],
+                         "all": 1200, "paying": 1000, "hour": 9}],
+                )))
+                if dwell == 35:
+                    with self.assertRaisesRegex(ValueError, "books 35 s dwell.*requires at least 66 s"):
+                        audit.service_inputs(self.route, self.vehicle, 30, 40, path, "service_sensitive")
+                else:
+                    with self.assertRaisesRegex(ValueError, "must match the booked service"):
+                        audit.service_inputs(self.route, self.vehicle, 30, 40, path, "service_sensitive")
+                    demand, climate = audit.service_inputs(self.route, self.vehicle, 30, 40, path,
+                                                           "service_sensitive", dwell_s=66)
+                    self.assertEqual(demand["mode"], "observed")
+                    self.assertEqual(demand["dwell_s"], 66)
+                    self.assertEqual(demand["annual_all_journeys"], 1200 * 365)
+                    self.assertEqual(climate["door_exchange"]["planned_dwell_s"], 66)
 
     def test_working_day_reuses_bound_cache_and_refuses_mixed_candidates(self):
         with TemporaryDirectory() as cache, patch.object(motion_power, "evaluate", side_effect=self.short_day) as solver:

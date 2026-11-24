@@ -1,11 +1,12 @@
 # Baghdad metropolitan railway
 
-Start with the **12 km Airport line** to see one train, timetable, power system and construction estimate together. Use the citywide study for the separate question of which metropolitan routes can operate.
+Start with the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. Use the citywide study to review which metropolitan routes can operate.
 
 | Decision | Open |
 |---|---|
-| Inspect and quote the revised car, station, beam and power options | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline quotation package](engineering/prototype/airport-prototype.zip) |
-| Review the published Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
+| Review the revised alignment and request budgetary prices on the matched scope | [Airport audit results](engineering/simulation/AUDIT-RESULTS.md) · [Paired-supply budgetary enquiry](engineering/simulation/audited-enquiry.zip) |
+| Inspect the earlier car, station, beam and power drawings | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline prototype drawings](engineering/prototype/airport-prototype.zip) |
+| Review the historical 12 km Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
 | Choose a connected citywide service and see which access sections it defers | [Fourteen-route operating decision](CITYWIDE-SERVICE.md) |
 | Compare staged service, fares, debt and maintenance on the seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
@@ -119,7 +120,7 @@ The straight platform is **125 m long and 8 m wide**. The centred train leaves 1
 
 The station pricing register carries 64 generic station allowances on the seven corridors and 280 citywide. It distinguishes a mapped entrance, a repeated place name and an approved station site. The buyer can replace individual allowances as surveyed, complete station offers arrive. [Station sites, access classes and prices](maps/STATION-PRICING.md)
 
-For a smaller opening, the Airport corridor study prices 12 km, six stops, 21 trains and three traction supply sites. Its Iraq-priced central estimate is **$813.7m**, with a **$782.9m–879.5m** range for the opening with dedicated facilities and local works. Central annual operations cost **$16.25m**. At IQD 750 and 3.69m paid journeys, fares cover $1.56m. Compare bidder returns for civil work, trains and stations on the same scope, including Iraqi value added and repair rights. [Airport opening and exclusions](AIRPORT-OPENING.md) · [Downloadable supplier enquiries](../../docs/operator-review/README.md#taking-drawings-to-a-supplier)
+An earlier Airport corridor budget priced 12 km, six stops, 21 trains and three traction supply sites on its own assumptions. Its Iraq-priced central estimate is **$813.7m**, with a **$782.9m–879.5m** range for the opening with dedicated facilities and local works. Central annual operations cost **$16.25m**. At IQD 750 and 3.69m paid journeys, fares cover $1.56m. Compare bidder returns for civil work, trains and stations on the same scope, including Iraqi value added and repair rights. [Airport opening and exclusions](AIRPORT-OPENING.md) · [Downloadable supplier enquiries](../../docs/operator-review/README.md#taking-drawings-to-a-supplier)
 
 For the first-network train and structure, the [train weight and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) checks two accelerating trains on a representative feed section. The [civil and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md) shows the effect of longer beams on supports, cranes and cost. Both identify the measurements a supplier must return.
 

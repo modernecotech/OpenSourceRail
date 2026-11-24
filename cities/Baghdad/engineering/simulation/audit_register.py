@@ -26,6 +26,11 @@ DEMAND_UNITS = {
     "connecting_headway_min":"min", "transfer_interchange_stop_ids":"stop IDs",
 }
 LAYOUTS = ("radial30", "paired6")
+DEMAND_BASIS = {
+    "fixed": "Requested journeys carry forward the historical hourly origin–destination matrix.",
+    "service_sensitive": "Requested journeys respond to changes in expected wait and in-vehicle time.",
+    "observed": "Requested journeys use the annualised sample for this booked offer.",
+}
 
 
 def group_duties(days):
@@ -158,14 +163,22 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
 
 def completion_tests(route, demand, girder, delivery):
     """Record each digital result alongside its outstanding release evidence."""
+    alignment_result = "Horizontal distance and stop-order screen"
+    if route["survey_source"]:
+        alignment_result = "Submitted horizontal geometry"
+        if route["grade_profile"]:
+            alignment_result = "Submitted horizontal and vertical geometry"
+    service_result = {
+        "observed": "Submitted OD replay",
+        "fixed": "Fixed-demand working days",
+        "service_sensitive": "Service-sensitive working days",
+    }[demand["mode"]]
     return [
         dict(task="A01", work="Integration", result="Scoped input register and candidate joins",
              outstanding="Review submitted replacements against their exact alignment, formation, equipment and lot scope."),
-        dict(task="A02", work="Alignment", result=("Submitted horizontal and vertical geometry" if route["grade_profile"]
-             else "Horizontal distance and stop-order screen"),
+        dict(task="A02", work="Alignment", result=alignment_result,
              outstanding="Approve surveyed levels, curves, utility and land interfaces, and all station sites."),
-        dict(task="A03", work="Passenger service", result=("Submitted OD replay" if demand.get("observed_source")
-             else "Fixed-demand control and service-sensitive working days"),
+        dict(task="A03", work="Passenger service", result=service_result,
              outstanding="Authenticate local counts and travel times and calibrate demand response."),
         dict(task="A04", work="Braking", result="Stopping distance, failed-module force and heat bounds",
              outstanding="Measure braking and wheel-slide duty and verify protected stopping distance and recovery."),
@@ -254,17 +267,19 @@ def markdown(data):
              f"The original {hist['nominal_km']:g} km schematic falls {hist['bound_minus_nominal_km']:.2f} km short of the geographic minimum through five stops in order. "
              + route_provenance + " Investment selection and first-article fabrication remain held.", "",
              "## Which service can the terminal handle?", "",
-             "Each offer uses its own waiting-time demand and train diagram. The terminal search tests 30-second phase offsets. The moving replay includes depot movements, track reservations and actual station calls.", "",
-             "| Headway | Annual requested journeys | Initial diagram → revised conflicts | Terminal offset | Completed / booked trips on paired supply |",
-             "| --- | ---: | ---: | ---: | ---: |"]
+             DEMAND_BASIS[data["demand"]["mode"]] + " The terminal search tests 30-second phase offsets. "
+             "The moving replay includes depot movements, track reservations and actual station calls.", "",
+             "| Headway | Booked dwell | Normal places per train | Annual requested journeys | Initial diagram → trial conflicts | Terminal offset | Completed / booked trips on paired supply |",
+             "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for h, r in data["service_offers"].items():
         p, day = r["phases"], r["ordinary"]
         original = p["as_booked"].get("conflicts", "unavailable")
-        lines.append(f"| {h} min | {r['annual_requested']:,.0f} | {original} → {p['best']['conflicts']} | {p['best']['phase_s']} s | {day['completed']} / {day['booked']} |")
+        lines.append(f"| {h} min | {r['dwell_s']:g} s | {r['normal_places_per_train']:,} | {r['annual_requested']:,.0f} | "
+                     f"{original} → {p['best']['conflicts']} | {p['best']['phase_s']} s | {day['completed']} / {day['booked']} |")
     selected = data["demand"]["headway_min"]
     timing = data["service_offers"][selected]["phases"]["best"]
     lines += ["", f"The detailed comparison uses the {selected}-minute offer with a {timing['phase_s']} s terminal offset and {timing.get('positioning_slack_s',0)} s additional time for the first and last empty movements. "
-              "The published 30-minute trial refines the offset at two-second intervals. Each changed service is replayed before it can be compared.",
+              "These terminal offsets apply to the evaluated offers.",
               "", "The paired-supply replay gives these maximum arrival delays at each simulation step. " +
               ", ".join(f"{s} s step → {d['maximum_delay_s']:.0f} s delay" if d["maximum_delay_s"] is not None else f"{s} s step → no arrivals" for s,d in data["step_trials"].items())+".",
               "", "## What happens when a feeder fails?", "",
@@ -312,7 +327,16 @@ def markdown(data):
             direct = cost_bands(prices, "known_rail_side_direct_subtotal_usd")
             upkeep = cost_bands(prices, "rail_side_annual_upkeep_usd")
             lines.append(f"| {layout} | {direct} | {upkeep} |")
-        lines += ["", "Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices. The radial layout also loses through service after a path outage. A price difference alone cannot establish a viable saving.", ""]
+        lines += ["", "Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices.", ""]
+        for prices in data["feeder_price_sensitivities"].values():
+            gap = prices["priced_cash_break_even"]
+            if gap and gap["operating_comparison"] and gap["operating_comparison"]["unmatched_duties"]:
+                names = {"normal": "ordinary service", "hot": "hot-weather service", "site_out": "a site outage",
+                         "path_out": "a feed-path outage", "combined": "a combined site and path outage",
+                         "high_mass_combined": "the high-mass combined outage"}
+                duties = ", ".join(names[duty] for duty in gap["operating_comparison"]["unmatched_duties"])
+                lines += [f"Service differs between the layouts under {duties}. Their priced subtotals cannot establish a break-even feeder price.", ""]
+                break
     lines += ["## What can a buyer price?", "", "| Layout | Fleet sets | Operated / booked train-km per year | Partial capital | Partial 30-year PV |", "| --- | ---: | ---: | ---: | ---: |"]
     for layout, p in data["production"].items():
         op, cash = p["operation_basis"], p["cash"]["profiles"]["base"]
@@ -363,8 +387,10 @@ def review_page(data):
                    f"{r['peak_site_ka']:.2f}", ", ".join(k.replace("_", " ") for k in r["failed_screens"])) for r in rows]
         day_rows.append(f"<details><summary>{escape(layout)} · five working days</summary>"+
                         table(("Duty", "Trips", "Minimum V", "Peak site kA", "Failed or open checks"), values)+"</details>")
-    services = table(("Headway", "Annual requested journeys", "Terminal conflicts", "Trips finished / booked", "Maximum delay"),
-                     [(f"{h} min", f"{s['annual_requested']:,.0f}", s["phases"]["best"]["conflicts"],
+    services = table(("Headway", "Booked dwell", "Normal places per train", "Annual requested journeys",
+                      "Terminal conflicts", "Trips finished / booked", "Maximum delay"),
+                     [(f"{h} min", f"{s['dwell_s']:g} s", s["normal_places_per_train"],
+                       f"{s['annual_requested']:,.0f}", s["phases"]["best"]["conflicts"],
                        f"{s['ordinary']['completed']} / {s['ordinary']['booked']}",
                        f"{s['ordinary']['maximum_delay_s']:,.0f} s" if s['ordinary']['maximum_delay_s'] is not None else "Open") for h,s in runs.items()])
     procurement = table(("Layout", "Fleet", "Estimated capital in priced scope", "30-year PV in priced scope"),
@@ -395,7 +421,7 @@ def review_page(data):
 <body><main><nav><a href="index.html">Simulation workbench</a></nav><h1>Corridor design review</h1>
 <p>{route_summary}
 Investment and fabrication decisions remain open.</p>
-<h2>Passenger service</h2><p>Requested journeys change with expected wait and in-vehicle time. Completed trips and maximum arrival delay come from a full operating-day replay with terminal and depot movements.</p>{services}
+<h2>Passenger service</h2><p>{DEMAND_BASIS[data["demand"]["mode"]]} Completed trips and maximum arrival delay come from a full operating-day replay with terminal and depot movements.</p>{services}
 <h2>Traction power</h2><p>Compare live collector voltages alongside delivered trips. Source-current and protection returns are still required.</p>{"".join(day_rows)}
 <h2>Construction and purchaser cash</h2><p>{civil_result} {scope}</p>{procurement}
 <h3>Traction supply price sensitivity</h3><p>The estimates below use planning rates for the revised layout. The purchaser ledger awaits scope-matched equipment, utility and renewal offers.</p>{rail_side}

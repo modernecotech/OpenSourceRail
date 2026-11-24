@@ -6,6 +6,8 @@ OpenSourceRail develops affordable rail that local companies can build, maintain
 [Project introduction](../README.md) · [Current platform and evidence](BOOK.md)
 <!-- osr-system-context:end -->
 
+The [development vehicle](../engineering/development-baseline.toml) retains passive wheel bogies and an aluminium secondary. Each railway study specifies its propulsion system.
+
 ## Choose a railway
 
 | For this decision | Start here | What you get |
@@ -32,4 +34,4 @@ The demonstrations include proposed designs, simulated equipment and an earlier 
 
 The [architecture](ARCHITECTURE.md) identifies the vehicle and power supply for each railway. The [engineering status](ENGINEERING-STATUS.md) records open checks. The [cost baseline](COST-BASELINE.md) and [delivery roadmap](ROADMAP.md) connect those choices to quantities, budgets and the next trials. For the commands behind the local Workbench, use the [engineering guide](../engineering/development_baseline/README.md).
 
-The [v0.7.2 release record](releases/v0.7.2/README.md) describes the released Baghdad Airport timetable, traction study and supplier dossier. The [current Airport prototype review](../cities/Baghdad/engineering/prototype/README.md) uses a later frame revision and its own feeder and cost calculations. The [v0.7 release ledger](RELEASE-v0.7.md) records the digital reference and its release checks. The [v0.6.1 software release](releases/v0.6.1/README.md) and [research archive](archives/) preserve earlier work, including the passive station-powered reference. Use the [illustrated book](../OpenSourceRail-Book.pdf) for a longer introduction and the [documentation index](INDEX.md) to locate an individual guide.
+The [v0.7.2 release record](releases/v0.7.2/README.md) describes the released Baghdad Airport timetable, traction study and supplier dossier. The [Airport prototype review](../cities/Baghdad/engineering/prototype/README.md) retains a later frame revision on the earlier 12 km schematic. The [current Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) covers the revised 17.46 km study and its paired-supply budgetary enquiry. The [v0.7 release ledger](RELEASE-v0.7.md) records the digital reference and its release checks. The [v0.6.1 software release](releases/v0.6.1/README.md) and [research archive](archives/) preserve earlier work, including the passive station-powered reference. Use the [illustrated book](../OpenSourceRail-Book.pdf) for a longer introduction and the [documentation index](INDEX.md) to locate an individual guide.

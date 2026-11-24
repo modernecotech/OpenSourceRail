@@ -10,7 +10,9 @@ from unittest.mock import patch
 from zipfile import ZipFile
 
 from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_comparison import compare_lot
-from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_contract import estimate_payload
+from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_contract import (
+    corrected_enquiry_reference, estimate_payload,
+)
 from cities.Baghdad.engineering.simulation import (
     assumption_audit, audit_erpnext, audit_offers, audit_packet, motion_power, scenario, test_assumption_audit,
 )
@@ -92,6 +94,60 @@ class AuditPacketTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_packet.verify(changed, manifest["issue_id"])
 
+    def test_published_verification_checks_all_receipt_pins(self):
+        path, manifest = self.issue()
+        receipt = self.directory / "receipt.json"
+        pin = {key: manifest[key] for key in ("issue_id", "evaluation_id", "candidate_id", "layout")}
+        with patch.object(audit_packet, "PUBLISHED_RECEIPT", receipt):
+            receipt.write_text(json.dumps(pin))
+            self.assertEqual(audit_packet.verify(path), manifest)
+            for key in pin:
+                with self.subTest(field=key):
+                    receipt.write_text(json.dumps({**pin, key: "changed pin"}))
+                    with self.assertRaisesRegex(ValueError, "pin|trusted issue ID"):
+                        audit_packet.verify(path)
+                    self.assertEqual(audit_packet.verify(path, manifest["issue_id"]), manifest)
+                    receipt.write_text(json.dumps({name: value for name, value in pin.items() if name != key}))
+                    with self.assertRaisesRegex(ValueError, "requires.*pins"):
+                        audit_packet.verify(path)
+
+    def test_buyer_returns_cannot_be_issued(self):
+        mutations = (
+            (("supplier_comparisons", "radial30"), [{"supplier": "Private competitor"}]),
+            (("production", "paired6", "localisation", "buyer_referenced_offers"), [{"offer_id": "Private award"}]),
+            (("civil", "erection_offers"), [{"offer_id": "Private erection offer"}]),
+            (("civil_quotation", "priced_cases", "base", "offer_id"), "Private erection offer"),
+            (("vehicle", "return_assessment", "submission_id"), "Private vehicle return"),
+            (("feeder_equipment", "source_return_id"), "Private feeder return"),
+        )
+        target = self.directory / "private.zip"
+        for keys, value in mutations:
+            with self.subTest(keys=keys):
+                result = deepcopy(self.result)
+                section = result
+                for key in keys[:-1]:
+                    section = section[key]
+                section[keys[-1]] = value
+                result["evaluation_id"] = scenario._id(audit_packet.without(result, "evaluation_id"))
+                with self.assertRaisesRegex(ValueError, "before buyer offers, awards or equipment returns"):
+                    audit_packet.issue(result, "paired6", target)
+                self.assertFalse(target.exists())
+
+    def test_verification_rejects_rehashed_supplier_comparisons(self):
+        path, manifest = self.issue()
+        member = "pricing/supplier-comparisons.json"
+        private = json.dumps([{"supplier": "Private competitor"}]).encode()
+        with ZipFile(path) as original:
+            contents = {name: original.read(name) for name in original.namelist()}
+        contents[member] = private
+        manifest["members_sha256"][member] = sha256(private).hexdigest()
+        manifest["issue_id"] = scenario._id(audit_packet.without(manifest, "issue_id"))
+        contents["manifest.json"] = scenario.encode(manifest)
+        target = self.directory / "private.zip"
+        target.write_bytes(scenario.archive(contents))
+        with self.assertRaisesRegex(ValueError, "before buyer offers, awards or equipment returns"):
+            audit_packet.verify(target, manifest["issue_id"])
+
     def test_rehashed_archive_cannot_mix_layouts(self):
         paired, manifest = self.issue()
         radial, _ = self.issue("radial30", "radial.zip")
@@ -143,6 +199,13 @@ class AuditPacketTests(unittest.TestCase):
         self.assertEqual(lot["quantity"], 1)
         self.assertIsNone(lot["base_usd"])
         self.assertEqual(lot["supplier_scope"]["quantity"], self.result["production"]["paired6"]["quantities"]["grid_sites"])
+        self.assertEqual(corrected_enquiry_reference(estimate, lot), dict(
+            issue_id=manifest["issue_id"], scope_id=lot["design_id"], lot_id=lot_id,
+            quantity=lot["supplier_scope"]["quantity"], unit=lot["supplier_scope"]["unit"],
+        ))
+        self.assertIsNone(corrected_enquiry_reference(dict(estimate, schema="baghdad-airport-sourcing-estimates/1"), lot))
+        with self.assertRaisesRegex(ValueError, "exact issue and lot scope IDs"):
+            corrected_enquiry_reference(estimate, dict(lot, supplier_scope=dict(lot["supplier_scope"], quantity=123)))
         quote = dict(candidate_id=estimate["candidate_id"], evaluation_id=estimate["evaluation_id"], lot_id=lot_id,
                      unit=lot["unit"], quantity=1, currency="USD", supplier="Test supplier", quotation="Q-TEST",
                      evidence_kind="supplier-offer", direct_usd=500, annual_upkeep_usd=None, renewals_usd=None, exclusions=[])
@@ -162,6 +225,17 @@ class AuditPacketTests(unittest.TestCase):
         self.assertEqual(offer["scope_id"], lot["design_id"])
         self.assertIn(f'"rfq": "{identity["rfq"]}"', offer["buyer_review_reference"])
         self.assertIn("comparison_receipt_sha256", offer["buyer_review_reference"])
+        empty = self.directory / "empty-offer.txt"
+        empty.touch()
+        for document in (None, "", empty, self.directory / "missing.txt", self.directory):
+            with self.subTest(document=document), self.assertRaisesRegex(ValueError, "quotation document"):
+                audit_erpnext.reviewed_offers(
+                    path, edition_date, export, [dict(review, quotation_document=document)], **pin
+                )
+        with self.assertRaisesRegex(ValueError, "quotation document"):
+            audit_erpnext.reviewed_offers(
+                path, edition_date, export, [{k: v for k, v in review.items() if k != "quotation_document"}], **pin
+            )
         for updates in (
             dict(rfq_docstatus=True), dict(rfq_docstatus=1.0), dict(as_of="2026-12-25"),
             dict(as_of="2026-11-23"), dict(as_of="20261124"), dict(suppliers=[trace, trace]),

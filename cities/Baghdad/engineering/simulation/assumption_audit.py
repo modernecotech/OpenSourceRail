@@ -17,21 +17,29 @@ REPORT = HERE / "AUDIT-RESULTS.md"
 LAYOUTS = ("radial30", "paired6")
 
 
-def service_inputs(route, vehicle, headway, ambient, observed, demand_mode):
+def service_inputs(route, vehicle, headway, ambient, observed, demand_mode, *, dwell_s=None):
     """Account for an assisted transfer at the demand used to book the working day."""
     cars = vehicle["physical"]["formation_cars"]
-    dwell = route["dwell_s"]
+    dwell = route["dwell_s"] if dwell_s is None else dwell_s
     # Increase the booked dwell if necessary. A smaller updated dwell requirement
     # leaves the allowance in the timetable. Two unsuccessful revisions trigger review.
     for _ in range(3):
         demand = airport_demand.evaluate(route, headway_min=headway, dwell_s=dwell,
                                          observed=observed, mode=demand_mode, formation_cars=cars)
-        climate = passengers.evaluate(dict(cars=cars, headway_min=headway, ambient_c=ambient,
-                    busiest_departure_load=min(700 * cars // 6, math.ceil(demand["busiest_departure_load"])),
-                    platform_queue=math.ceil(demand["platform_queue"])))
+        climate_inputs = dict(cars=cars, headway_min=headway, ambient_c=ambient,
+                              busiest_departure_load=min(700 * cars // 6, math.ceil(demand["busiest_departure_load"])),
+                              platform_queue=math.ceil(demand["platform_queue"]))
+        if dwell != route["dwell_s"]:
+            climate_inputs["dwell_s"] = dwell
+        climate = passengers.evaluate(climate_inputs)
         required = math.ceil(climate["door_exchange"]["total_dwell_with_one_assisted_transfer_s"])
         if dwell >= required:
             return demand, climate
+        if observed is not None:
+            raise ValueError(
+                f"The observed offer books {dwell:g} s dwell, but the assisted door-exchange screen "
+                f"requires at least {required} s. A longer booked offer requires matching observations."
+            )
         dwell = required
     raise ValueError("Assisted dwell and the demand response require a revised timetable")
 
@@ -120,7 +128,8 @@ def screen_day(row):
 
 
 def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=200.,
-          survey=None, observed=None, demand_mode="service_sensitive", span=None, offers=None, phase_s=None, positioning_slack_s=None, vehicle_return=None,
+          survey=None, observed=None, demand_mode="service_sensitive", dwell_s=None,
+          span=None, offers=None, phase_s=None, positioning_slack_s=None, vehicle_return=None,
           lift_radius=12., crane_capacity=None, erection_offer=(), supply_return=None,
           cache=scenario.CACHE):
     from . import audit_feeder_cost, audit_offers, audit_production
@@ -133,7 +142,7 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
     vehicle = vehicle_audit.evaluate(cars=cars, material=material, alignment=route, grade_pct=braking_grade,
         evidence_return=json.loads(evidence.read_bytes()) if evidence else None,
         evidence_directory=evidence.parent if evidence else None)
-    demand, climate = service_inputs(route, vehicle, headway, ambient, observed, demand_mode)
+    demand, climate = service_inputs(route, vehicle, headway, ambient, observed, demand_mode, dwell_s=dwell_s)
     sources = scenario.source_contract(scenario.read_bound_sources()[0])["motion"]
     sources.update(scenario.source_hashes([HERE / "airport_alignment.py", HERE / "airport_demand.py"]))
     sources["compact_motion_contract"] = scenario.sha(
@@ -145,13 +154,18 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
         raise ValueError("Choose a terminal phase for a custom positioning allowance")
     if phase_s is not None and not 0 <= phase_s < headway * 60:
         raise ValueError("Terminal phase must fall within the chosen headway")
-    for interval in ((headway,) if observed else (15, 20, 30)):
-        passengers_at_interval, station = service_inputs(route, vehicle, interval, ambient, observed, demand_mode)
+    for interval in ((headway,) if observed is not None else (15, 20, 30)):
+        passengers_at_interval, station = demand, climate
+        if interval != headway:
+            passengers_at_interval, station = service_inputs(route, vehicle, interval, ambient, observed,
+                                                             demand_mode, dwell_s=dwell_s)
         phases = phase_options(route, vehicle, interval, passengers_at_interval["dwell_s"])
         phase = phase_s if interval == headway else None
         # This offset was discovered on the reference horizontal trace by replaying
         # 30-second candidates and refining the minimum delay at 2-second intervals.
-        if (phase is None and interval == 30 and survey is None and cars == 6 and material == "steel"):
+        if (phase is None and interval == 30 and survey is None and cars == 6 and material == "steel"
+                and observed is None and demand_mode == "service_sensitive" and ambient == 40
+                and not use_constant_grade and passengers_at_interval["dwell_s"] == route["dwell_s"]):
             phase = 1308
         if phase is not None:
             phases["static_shortlist"] = phases["best"]
@@ -160,8 +174,9 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
         nominal = working_day(route, passengers_at_interval, vehicle, station, "paired6", "normal",
                               grade, cache, sources, constant_grade=use_constant_grade, phase=phases["best"]["phase_s"],
                               slack=phases["best"].get("positioning_slack_s", 0))
-        service_offers[interval] = dict(phases=phases, annual_requested=passengers_at_interval["annual_all_journeys"],
-                                ordinary=screen_day(nominal))
+        service_offers[interval] = dict(phases=phases, dwell_s=passengers_at_interval["dwell_s"],
+            normal_places_per_train=nominal["scenario"]["capacity"],
+            annual_requested=passengers_at_interval["annual_all_journeys"], ordinary=screen_day(nominal))
     chosen_timing = service_offers[headway]["phases"]["best"]
     civil = family_comparison.evaluate_high_load(route_km=route["route_km"], cars=cars, material=material,
                                                  soil_kpa=soil, selected_span_m=span, lift_radius_m=lift_radius,
@@ -228,9 +243,11 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=
         if any(not passed for key,passed in heavy["gates"].items()
                if key not in ("protection_approved", "utility_connection_approved", "thermal_ratings_verified")):
             assessment["operating_screen"] = "failed"
+    operating_comparison = audit_feeder_cost.compare_operating_duties(days, stress, results["decision"]["candidates"])
     results["feeder_price_sensitivities"] = {
         layout: audit_feeder_cost.evaluate(model, [row for row in days + stress if row["topology"] == layout],
-                                           comparison=delivery.get(next(other for other in LAYOUTS if other != layout)))
+                                           comparison=delivery.get(next(other for other in LAYOUTS if other != layout)),
+                                           operating_comparison=operating_comparison)
         for layout, model in delivery.items()
     }
     results["evaluation_id"] = scenario._id(results)
@@ -249,6 +266,7 @@ def main():
     parser.add_argument("--observed", type=Path, help="Observed counts bound to the alignment and service")
     parser.add_argument("--demand-mode", choices=("fixed", "service_sensitive"), default="service_sensitive")
     parser.add_argument("--headway", type=int, choices=(15, 20, 30), default=30)
+    parser.add_argument("--dwell-s", type=float, help="Booked dwell in seconds, matching the sampled offer for observed OD")
     parser.add_argument("--cars", choices=(3, 6), type=int, default=6)
     parser.add_argument("--material", choices=("steel", "aluminium", "hybrid"), default="steel")
     parser.add_argument("--phase-s", type=int, help="Terminal B offset within the chosen headway (seconds)")

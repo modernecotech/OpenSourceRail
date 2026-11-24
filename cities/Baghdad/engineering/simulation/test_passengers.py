@@ -39,6 +39,16 @@ class PassengerTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             passengers.evaluate({"cars": 3, "busiest_departure_load": 351})
 
+    def test_booked_dwell_limits_door_open_cooling_duty(self):
+        inputs = dict(platform_queue=600, busiest_departure_load=600)
+        baseline = passengers.evaluate(inputs)
+        longer = passengers.evaluate(dict(inputs, dwell_s=66))
+        self.assertEqual(baseline["door_exchange"]["planned_dwell_s"], 35)
+        self.assertEqual(longer["door_exchange"]["planned_dwell_s"], 66)
+        self.assertLess(baseline["door_exchange"]["assisted_dwell_margin_s"], 0)
+        self.assertGreater(longer["door_exchange"]["assisted_dwell_margin_s"], 0)
+        self.assertGreater(longer["auxiliary_kw"], baseline["auxiliary_kw"])
+
     def test_archived_native_comparison_and_provenance(self):
         path = Path(passengers.__file__).with_name("passenger-benchmark.json")
         if not path.exists():

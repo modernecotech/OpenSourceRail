@@ -31,26 +31,54 @@ def finite(value, label):
     raise ValueError(f"Expected a finite nonnegative {label}")
 
 
-def priced_cash_gap(production, comparison):
+def compare_operating_duties(days, high_mass, assessments):
+    """Test the ordinary and degraded passenger offers on their actual outcomes."""
+    unmatched = []
+    cases = {name: [r for r in days if r["condition"] == name] for name in motion_power.CONDITIONS}
+    cases["high_mass_combined"] = [r for r in high_mass if r["condition"] == "combined"]
+    for label, rows in cases.items():
+        pair = [r for r in rows if r["topology"] in assessments]
+        if len(pair) != 2 or {r["topology"] for r in pair} != set(assessments):
+            raise ValueError(f"Price comparison requires both physical layouts for {label}")
+        if any(r["candidate_id"] != assessments[r["topology"]]["assemblies"]["feeder"] for r in pair):
+            raise ValueError(f"Price comparison received another physical design for {label}")
+        a, b = pair
+        if (not all(r["numerical_valid"] and r["completed"] == r["booked"] for r in pair)
+                or a["booked"] != b["booked"] or not isclose(a["served"], b["served"], abs_tol=.01)):
+            unmatched.append(label)
+    return dict(unmatched_duties=unmatched,
+                failed_operating_layouts=sorted(name for name, assessment in assessments.items()
+                                               if assessment["operating_screen"] != "passed"))
+
+
+def priced_cash_gap(production, comparison, operating_comparison):
     first, second = (row["inputs"] for row in (production, comparison))
     scope_keys = ("alignment_id", "demand_evaluation_id", "vehicle_candidate_id", "vehicle_duty_id")
     if first["feeder"]["name"] == second["feeder"]["name"] or any(first[k] != second[k] for k in scope_keys):
         raise ValueError("Priced PV comparison requires different feeders for the same alignment, train, duty and requested demand")
     op_a, op_b = (row["operation_basis"] for row in (production, comparison))
-    comparable = all(op["working_day_completed"] for op in (op_a, op_b)) and all(
+    ordinary = all(op["working_day_completed"] for op in (op_a, op_b)) and all(
         isclose(op_a[key], op_b[key], rel_tol=1e-8, abs_tol=.01)
         for key in ("operated_annual_train_km", "annual_completed_journeys", "annual_paid_journeys_proxy")
     )
+    matched_cost_scope = (first["civil_row_id"] == second["civil_row_id"]
+                          and production["cash"]["scope"]["unpriced_lots_by_group"]
+                          == comparison["cash"]["scope"]["unpriced_lots_by_group"]
+                          and all(production["cash"][key] == comparison["cash"][key]
+                                  for key in ("constant_currency", "discount_rate_real", "service_start_year")))
+    comparable = (None if operating_comparison is None else ordinary
+                  and not operating_comparison["unmatched_duties"] and not operating_comparison["failed_operating_layouts"])
     own_pv, other_pv = (finite(row["cash"]["profiles"]["base"]["priced_30y_pv_usd"], "priced PV")
                         for row in (production, comparison))
     return dict(other_layout=second["feeder"]["name"], base_priced_pv_difference_usd=own_pv - other_pv,
-                achieved_service_comparable=comparable,
-                extra_unpriced_pv_own_minus_other_for_equal_totals_usd=other_pv - own_pv if comparable else None,
-                scope=("Parity arithmetic on partial cash, conditional on equivalent pricing scope."
-                       if comparable else "Achieved service differs or is incomplete. Price parity remains open."))
+                ordinary_service_comparable=ordinary, operating_comparison=operating_comparison,
+                achieved_service_comparable=comparable, matched_pricing_boundary=matched_cost_scope,
+                extra_unpriced_pv_own_minus_other_for_equal_totals_usd=other_pv - own_pv if comparable and matched_cost_scope else None,
+                scope=("Arithmetic on priced cash with matched modelled service and priced periods. Site and equipment evidence remain open."
+                       if comparable and matched_cost_scope else "Partial cash amounts only. Establish equivalent service across the declared duties and match the pricing boundary before calculating parity."))
 
 
-def evaluate(production, duties, *, comparison=None):
+def evaluate(production, duties, *, comparison=None, operating_comparison=None):
     """Price only attributable rate-sensitivity scope. Leave the owner cash ledger alone."""
     context = production["inputs"]
     design = context["feeder"]
@@ -121,7 +149,7 @@ def evaluate(production, duties, *, comparison=None):
         results[case] = dict(parts_usd=parts, known_rail_side_direct_subtotal_usd=subtotal,
                              rail_side_annual_upkeep_usd=subtotal * upkeep if base_site_usd_m is not None else None,
                              upkeep_share=upkeep)
-    gap = priced_cash_gap(production, comparison) if comparison is not None else None
+    gap = priced_cash_gap(production, comparison, operating_comparison) if comparison is not None else None
     record = dict(
         status="rail-side planning sensitivity outside priced cash", layout=layout, feeder_physical_id=physical_id,
         source_date=register["estimate_date"], price_basis=register["price_basis"], cases=results,

@@ -128,6 +128,8 @@ def check_evidence(docs, manifest):
     climate_inputs = dict(cars=cars, headway_min=demand["headway_min"], ambient_c=climate["inputs"]["ambient_c"],
                           busiest_departure_load=min(700 * cars // 6, ceil(demand["busiest_departure_load"])),
                           platform_queue=ceil(demand["platform_queue"]))
+    if demand["dwell_s"] != route["dwell_s"]:
+        climate_inputs["dwell_s"] = demand["dwell_s"]
     require(scenario.encode(climate) == scenario.encode(passengers.evaluate(climate_inputs))
             and ceil(climate["door_exchange"]["total_dwell_with_one_assisted_transfer_s"]) <= demand["dwell_s"],
             "station, ventilation and accessible dwell")

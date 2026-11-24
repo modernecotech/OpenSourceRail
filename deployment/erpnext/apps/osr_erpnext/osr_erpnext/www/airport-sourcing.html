@@ -72,6 +72,11 @@
 <h2>{{ enquiry.scope.description|e }}</h2>
 <p>{{ enquiry.scope.quantity }} {{ enquiry.scope.unit|e }} · {{ enquiry.scope.price_period|e }} · round {{ enquiry.round_no }} · delivery required {{ enquiry.required_on|e }}</p>
 <p><b>Required deliverables</b> {{ enquiry.scope.deliverables|e }}</p><p><b>Buyer exclusions</b> {{ enquiry.scope.exclusions|e }}</p>
+{% if enquiry.enquiry_reference %}
+{% set reference = enquiry.enquiry_reference %}
+<p>Quote the complete {{ reference.quantity }} {{ reference.unit|e }} for lot <code>{{ reference.lot_id|e }}</code>. Obtain the matching budgetary enquiry packet from the buyer.</p>
+<p>Enquiry issue <code>{{ reference.issue_id|e }}</code> · Lot scope <code>{{ reference.scope_id|e }}</code></p>
+{% endif %}
 {% if enquiry.scope.technical_scope %}<details><summary>Engineering scope and drawings</summary><dl>{% for key,value in enquiry.scope.technical_scope.items() %}<dt>{{ key|replace('_',' ')|e }}</dt><dd>{{ value|e }}</dd>{% endfor %}</dl></details>{% endif %}
 <details><summary>Design and estimate identities</summary><p>Physical candidate <code>{{ enquiry.scope.candidate_id|e }}</code></p><p>Estimate edition <code>{{ enquiry.scope.evaluation_id|e }}</code></p></details>
 {% if enquiry.previous %}

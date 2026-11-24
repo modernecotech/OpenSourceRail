@@ -229,6 +229,7 @@ def evaluate(inputs=None):
     cfg, trial, door, sources = source_data()
     cars = case.get("cars", 6)
     headway = case.get("headway_min", 15)
+    dwell = case.get("dwell_s", cfg["vehicle"]["dwell_s"])
     ambient = case.get("ambient_c", 48)
     peak = case.get("busiest_departure_load", 700 * cars // 6)
     waiting = case.get("platform_queue", 350)
@@ -238,8 +239,11 @@ def evaluate(inputs=None):
     if not all(math.isfinite(case.get(key, value)) and low <= case.get(key, value) <= high for key, value, low, high in (
         ("outdoor_relative_humidity", 0.25, 0.0, 1.0), ("door_open_cycle_s", 180, 45, 900),
         ("assumed_cooling_kw_per_car", 48, 10, 120), ("headway_min", headway, 1, 120),
+        ("dwell_s", dwell, 5, 120),
     )):
         raise ValueError("Airport climate and service assumptions exceed the bounded domain")
+    if dwell != cfg["vehicle"]["dwell_s"]:
+        cfg = {**cfg, "vehicle": {**cfg["vehicle"], "dwell_s": dwell}}
     exchange = door_exchange(case, cfg, door, cars, peak, waiting)
     open_s = min(exchange["planned_dwell_s"], max(0, exchange["total_unassisted_dwell_s"] - 5))
     hvac = cooling(cars, peak, ambient, open_s, cfg, trial, case)

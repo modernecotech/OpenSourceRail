@@ -69,6 +69,23 @@ def one_lot(packet, lot_id):
     return matches[0]
 
 
+def corrected_enquiry_reference(packet, lot):
+    """Return the public packet and physical lot pointers without the estimate."""
+    if packet.get("schema") != "baghdad-airport-erpnext-estimate/1":
+        return None
+    scope = lot.get("supplier_scope")
+    if not isinstance(scope, dict) or scope.get("lot_id") != lot["lot_id"]:
+        raise ValueError("Corrected enquiry requires its physical lot scope")
+    issue_id, scope_id = packet.get("issue_id"), lot.get("design_id")
+    if (not isinstance(issue_id, str) or not re.fullmatch(r"[0-9a-f]{64}", issue_id)
+            or scope_id != digest(scope)):
+        raise ValueError("Corrected enquiry requires the exact issue and lot scope IDs")
+    qty = scope.get("quantity")
+    decimal_value(qty, "physical lot quantity", places=18, positive=True)
+    return dict(issue_id=issue_id, scope_id=scope_id, lot_id=lot["lot_id"], quantity=qty,
+                unit=exact_text(scope.get("unit"), "physical lot unit"))
+
+
 def estimate_payload(value):
     packet = object_value(value)
     if not isinstance(packet.get("lots"), list) or not packet["lots"]:

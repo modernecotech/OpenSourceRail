@@ -1,7 +1,7 @@
 """Prepare and reconcile verified Airport budgetary enquiries with ERPNext."""
 
 import argparse
-from hashlib import sha256
+from hashlib import file_digest
 from io import BytesIO
 import json
 from pathlib import Path
@@ -72,6 +72,19 @@ def matching_quotation(rows, quotation):
     return matching[0]
 
 
+def quotation_digest(value):
+    try:
+        path = Path(value)
+        if path.is_file():
+            with path.open("rb") as document:
+                if document.read(1):
+                    document.seek(0)
+                    return file_digest(document, "sha256").hexdigest()
+    except (OSError, TypeError, ValueError) as exc:
+        raise ValueError("Provide a readable, nonempty original quotation document") from exc
+    raise ValueError("Provide a readable, nonempty original quotation document")
+
+
 def reviewed_offers(path, estimate_date, export, reviews, *, expected_issue_id=None):
     """Map current, complete ERPNext quote amounts to buyer-reviewed audit offers."""
     manifest, pricing = issue_data(path, expected_issue_id)
@@ -119,7 +132,7 @@ def reviewed_offers(path, estimate_date, export, reviews, *, expected_issue_id=N
         native_reference = json.dumps(origin, sort_keys=True)
         offers.append(dict(offer_id=quote, supplier=supplier, scope_id=lot["design_id"],
                            buyer_review_reference=f"{reference} | ERPNext {native_reference}",
-                           offer_sha256=sha256(Path(review["quotation_document"]).read_bytes()).hexdigest(),
+                           offer_sha256=quotation_digest(review.get("quotation_document")),
                            price_usd=float(amount), claimed_domestic_value_usd=None))
         if "buyer_award_reference" in review:
             awards.append(dict(scope_id=lot["design_id"], offer_id=quote,
