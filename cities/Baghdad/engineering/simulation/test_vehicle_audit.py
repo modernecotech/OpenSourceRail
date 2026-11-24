@@ -4,7 +4,7 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
-from cities.Baghdad.engineering.simulation import corridor, vehicle_audit as audit
+from cities.Baghdad.engineering.simulation import airport_alignment, corridor, vehicle_audit as audit
 
 
 class VehicleAuditTest(unittest.TestCase):
@@ -82,6 +82,40 @@ class VehicleAuditTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Missing or changed"):
                 audit.evaluate(evidence_return=form, evidence_directory=path.parent)
         json.dumps(self.result, allow_nan=False)
+
+    def test_route_protection_return_checks_exact_alignment_record(self):
+        alignment = airport_alignment.evaluate()
+        aligned = audit.evaluate(alignment=alignment)
+        self.assertEqual(aligned["candidate_id"], self.result["candidate_id"])
+        self.assertNotEqual(aligned["duty_id"], self.result["duty_id"])
+        self.assertEqual(aligned["inputs"]["alignment_id"], alignment["alignment_id"])
+        form = deepcopy(aligned["return_template"])
+        form["kind"] = "synthetic-fixture"
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "fixture.txt"
+            path.write_text("synthetic protection record")
+            form["documents"][path.name] = dict(sha256=audit.sha(path.read_bytes()), issuer="Fixture", date="2026-11-24")
+            form["returns"]["route_protection"] = dict(document=path.name, article_serial="FIXTURE",
+                                                       procedure_revision="TEST", witness="Synthetic fixture")
+            options = dict(evidence_return=form, evidence_directory=path.parent)
+            attached = audit.evaluate(alignment=alignment, **options)
+            self.assertEqual(attached["braking"], aligned["braking"])
+            self.assertFalse(attached["return_assessment"]["physical_accepted"])
+            revised = deepcopy(alignment)
+            revised["review_gaps"].append("Synthetic later survey review")
+            with self.assertRaisesRegex(ValueError, "alignment ID"):
+                audit.evaluate(alignment=revised)
+            revised["record_id"] = airport_alignment.identity({k: v for k, v in revised.items() if k != "record_id"})
+            with self.assertRaisesRegex(ValueError, "exact vehicle and duty"):
+                audit.evaluate(alignment=revised, **options)
+            form["basis"] = self.result["basis"]
+            with self.assertRaisesRegex(ValueError, "evaluated alignment"):
+                audit.evaluate(**options)
+        revised["parent_candidate_id"] = "unrelated"
+        revised["alignment_id"] = airport_alignment.identity(airport_alignment.physical_record(revised))
+        revised["record_id"] = airport_alignment.identity({k: v for k, v in revised.items() if k != "record_id"})
+        with self.assertRaisesRegex(ValueError, "different Airport candidates"):
+            audit.evaluate(alignment=revised)
 
 
 if __name__ == "__main__":

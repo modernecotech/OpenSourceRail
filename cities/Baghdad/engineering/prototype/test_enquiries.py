@@ -31,6 +31,8 @@ def test_published_issue_matches_erp_drawings_and_all_local_links():
     assert _id({k: v for k, v in result.items() if k != "issue_id"}) == result["issue_id"]
     assert {k: sha256(v).hexdigest() for k, v in members.items() if k != "manifest.json"} == result["sha256"]
     assert result["fabrication_released"] is False and result["operating_authorisation"] is False
+    assert result["current_enquiry"] is False and result["route_scope"] == "12 km schematic"
+    assert b"corrected 17.46 km horizontal study" in members["START.html"]
     tender = json.loads(members["sourcing-estimate.json"])
     assert result["estimate_evaluation_id"] == tender["evaluation_id"]
     costs = json.loads(members["shop-costs.json"])

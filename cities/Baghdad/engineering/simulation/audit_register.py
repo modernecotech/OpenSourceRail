@@ -1,5 +1,5 @@
 """Decision inputs, their authority, and the checks that govern the use of each result."""
-from itertools import groupby
+from collections import defaultdict
 
 from engineering.outline.baghdad_system import _id
 
@@ -16,6 +16,7 @@ MOTION_UNITS = {
     "regen_efficiency":"ratio", "resistance_m_s2":"m/s²", "speed_m_s":"m/s", "step_s":"s",
     "tare_train_kg":"kg", "topology":"configuration", "traction_w":"W",
 }
+OPTIONAL_MOTION_UNITS = {"grade_basis": "scenario", "grade_profile": "chainage m, elevation m above datum, segment grade %"}
 DEMAND_UNITS = {
     "response_per_min":"1/min", "waiting_time_weight":"ratio", "walking_time_weight":"ratio",
     "fare_usd":"USD", "value_of_time_usd_h":"USD/h", "walk_case":"scenario",
@@ -24,6 +25,14 @@ DEMAND_UNITS = {
     "transfer_share_at_interchange_od":"fraction", "transfer_fixed_penalty_min":"min",
     "connecting_headway_min":"min", "transfer_interchange_stop_ids":"stop IDs",
 }
+LAYOUTS = ("radial30", "paired6")
+
+
+def group_duties(days):
+    duties = defaultdict(list)
+    for day in days:
+        duties[day["topology"]].append(day)
+    return duties
 
 
 def register(route, demand, vehicle, civil, climate, configs, delivery, equipment=None):
@@ -41,8 +50,14 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     route_stages = ["service", "motion", "power", "civil", "workshop", "cash"]
     add("route.ordered_chainages", route["chainages_km"], "km", route["geometry_mode"], "airport_alignment.evaluate",
         route["alignment_id"], route_stages, "Survey centreline, entrances, grades, obstacles and land")
-    add("route.vertical_profile", route["grade_profile"], "m above datum", "unknown", "airport_alignment.evaluate",
+    profile = route["grade_profile"]
+    add("route.vertical_profile", profile, "chainage m, elevation m above datum, segment grade %",
+        "observed" if profile else "open", "airport_alignment.evaluate",
         route["alignment_id"], route_stages, "Survey longitudinal profile against the same horizontal trace")
+    if route["survey_source"]:
+        add("route.survey_submission", route["survey_source"], "document and geometry references",
+            "observed", "airport_alignment.survey_input", route["alignment_id"], route_stages,
+            "Authenticate the submitted survey and approve site and profile relevance")
     add("route.historical_nominal", route["historical_route_order_screen"]["nominal_km"], "km", "schematic assumption",
         "prototype service.json", route["parent_candidate_id"], route_stages, "Compare ordered geographic lower bound")
     derived_od = {"minutes", "reference_minutes", "demand_multiplier", "scope"}
@@ -85,7 +100,8 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
                 "Inspect installed interface and record performance at declared temperature and passenger load")
     for cfg in configs:
         cfg = {"positioning_slack_s":0, **cfg}
-        units = {**MOTION_UNITS, "positioning_slack_s":"s"}
+        units = {**MOTION_UNITS, "positioning_slack_s":"s",
+                 **{key: unit for key, unit in OPTIONAL_MOTION_UNITS.items() if key in cfg}}
         if set(cfg) != set(units):
             raise ValueError(f"Unclassified normalized motion inputs: {set(cfg) ^ set(units)}")
         for key, value in cfg.items():
@@ -140,12 +156,43 @@ def register(route, demand, vehicle, civil, climate, configs, delivery, equipmen
     return rows
 
 
+def completion_tests(route, demand, girder, delivery):
+    """Record each digital result alongside its outstanding release evidence."""
+    return [
+        dict(task="A01", work="Integration", result="Scoped input register and candidate joins",
+             outstanding="Review submitted replacements against their exact alignment, formation, equipment and lot scope."),
+        dict(task="A02", work="Alignment", result=("Submitted horizontal and vertical geometry" if route["grade_profile"]
+             else "Horizontal distance and stop-order screen"),
+             outstanding="Approve surveyed levels, curves, utility and land interfaces, and all station sites."),
+        dict(task="A03", work="Passenger service", result=("Submitted OD replay" if demand.get("observed_source")
+             else "Fixed-demand control and service-sensitive working days"),
+             outstanding="Authenticate local counts and travel times and calibrate demand response."),
+        dict(task="A04", work="Braking", result="Stopping distance, failed-module force and heat bounds",
+             outstanding="Measure braking and wheel-slide duty and verify protected stopping distance and recovery."),
+        dict(task="A05", work="Vehicle and interfaces", result="Loaded mass, axle, battery and fit screens",
+             outstanding="Weigh the equipped article and measure loaded door, suspension, removal and hot aged battery duty."),
+        dict(task="A06", work="Electrical supply", result="Matched ordinary, hot and outage working days",
+             outstanding="Review equipment duty, protection clearing, return circuits, safe isolation and utility terms."),
+        dict(task="A07", work="Civil and erection", result="Priced stock and erection comparison" if girder
+             else "No priced comparison for the requested civil scope",
+             outstanding="Obtain ground and access data, signed lift chart, verified prestress, fatigue, shear, bearing and staged erection designs."),
+        dict(task="A08", work="Production and procurement", result="Ordinary and disrupted workshop schedules" if delivery
+             else "Workshop comparison pending a priced civil scope",
+             outstanding="Return matched shop offers, measured process cycles and first-article inspection records."),
+        dict(task="A09", work="Economics", result="Scoped capital and 30-year cash subtotals" if delivery
+             else "Cash comparison pending a priced civil scope",
+             outstanding="Complete unpriced owner, installation and renewal scope and calibrate risk and funding terms."),
+        dict(task="A10", work="Independent review and publication", result="Reproducible review with a native replay receipt for the published defaults",
+             outstanding="Run the exact edition in a clean installation and obtain independent physical review before release."),
+    ]
+
+
 def disposition(route, demand, vehicle, days, girder, delivery):
     """Gates for this issue. Missing or failed evidence excludes a production choice."""
     if not days or len({(r["condition"], r["topology"]) for r in days}) != len(days):
         raise ValueError("No power cases or duplicated duty")
     from . import motion_power
-    expected = {(condition, layout) for condition in motion_power.CONDITIONS for layout in ("radial30", "paired6")}
+    expected = {(condition, layout) for condition in motion_power.CONDITIONS for layout in LAYOUTS}
     if expected != {(r["condition"],r["topology"]) for r in days}:
         raise ValueError("Required matched normal and degraded comparisons are incomplete")
     holds = {
@@ -158,8 +205,13 @@ def disposition(route, demand, vehicle, days, girder, delivery):
     }
     layout_results = {}
     obligations = {"protection_approved", "thermal_ratings_verified", "utility_connection_approved"}
-    for layout, records in groupby(days, key=lambda r:r["topology"]):
-        conditions = list(records)
+    grouped = group_duties(days)
+    for layout in LAYOUTS:
+        by_condition = {row["condition"]: row for row in grouped[layout]}
+        conditions = [by_condition[key] for key in motion_power.CONDITIONS]
+        for row in conditions:
+            if set(row["failed_screens"]) != {key for key, met in row["gates"].items() if not met}:
+                raise ValueError("Recorded power failures differ from the case gates")
         failures = {r["condition"]:[k for k in r["failed_screens"] if k not in obligations] for r in conditions}
         approval = {k:all(r["gates"][k] for r in conditions) for k in sorted(obligations)}
         scope = delivery.get(layout)
@@ -175,7 +227,8 @@ def disposition(route, demand, vehicle, days, girder, delivery):
             remaining_cost_scope=scope["unpriced_lots"] if scope else None,
             qualification="open", investment_rank=None)
     return dict(candidates=layout_results, historical_alignment_screen=route["historical_route_order_screen"]["screen_passed"],
-                digital_reference="held", evidence_holds=holds, partial_cost_layouts=list(delivery),
+                digital_reference="review issue; physical release held", evidence_holds=holds,
+                completion_tests=completion_tests(route, demand, girder, delivery), partial_cost_layouts=list(delivery),
                 numerically_valid_days=sum(r["numerical_valid"] for r in days),
                 passing_operational_days=sum(all(v for k,v in r["gates"].items()
                     if k not in ("protection_approved","thermal_ratings_verified","utility_connection_approved")) for r in days),
@@ -183,13 +236,23 @@ def disposition(route, demand, vehicle, days, girder, delivery):
                 investment_selection=None, fabrication_release=False, physical_acceptance=False)
 
 
+def cost_bands(prices, key):
+    values = (prices["cases"][band][key] for band in ("low", "base", "high"))
+    return " / ".join("unknown" if value is None else f"${value/1e6:,.2f}m" for value in values)
+
+
 def markdown(data):
     route, vehicle = data["alignment"], data["vehicle"]
     hist = data["historical_route"]
+    route_provenance = (
+        f"The submitted alignment is {route['route_km']:.2f} km long. Approval of station sites and geometry remains open."
+        if route["survey_source"] else
+        f"The revised {route['route_km']:.2f} km horizontal study includes {route['mapped_road_reference_km']:.2f} km of road reference "
+        f"and {route['review_connector_km']:.2f} km of proposed connections. Um Al Tubol still needs a site."
+    )
     lines = ["# Railway assumption audit results", "",
              f"The original {hist['nominal_km']:g} km schematic falls {hist['bound_minus_nominal_km']:.2f} km short of the geographic minimum through five stops in order. "
-             f"The revised {route['route_km']:.2f} km horizontal study includes {route['mapped_road_reference_km']:.2f} km of road reference and {route['review_connector_km']:.2f} km of proposed connections. "
-             "Um Al Tubol still needs a site. Investment selection and first-article fabrication remain held.", "",
+             + route_provenance + " Investment selection and first-article fabrication remain held.", "",
              "## Which service can the terminal handle?", "",
              "Each offer uses its own waiting-time demand and train diagram. The terminal search tests 30-second phase offsets. The moving replay includes depot movements, track reservations and actual station calls.", "",
              "| Headway | Annual requested journeys | Initial diagram → revised conflicts | Terminal offset | Completed / booked trips on paired supply |",
@@ -220,9 +283,11 @@ def markdown(data):
         lines.append(f"| {d['topology']} | {d['completed']} / {d['booked']} | {volts} | {d['peak_site_ka']:.2f} | {delay} |")
     lines += ["", "Use `--supply-return` with an exact feeder ID to check supplied peak and RMS current ratings, protection settings and fault duties. The assessment keeps missing equipment and site data open. [Return format and worked checks](test_audit_power_return.py)"]
     b = vehicle["battery"]
+    margin = b["end_of_life_margin_kwh"]
+    battery_outcome = "shortfall" if margin < 0 else "surplus" if margin > 0 else "margin"
     lines += ["", "## What changes the vehicle and civil enquiry?", "",
               f"The central and high loaded trains weigh {vehicle['mass_cases']['central']['loaded_train_kg']/1000:.2f} and {vehicle['mass_cases']['high']['loaded_train_kg']/1000:.2f} tonnes under the component allowances. "
-              f"The aged essential battery has an {abs(b['end_of_life_margin_kwh']):.1f} kWh shortfall. The same duty requires {b['minimum_nominal_kwh_at_80pct_retention']:.2f} kWh nominal before additional hot-weather losses. "
+              f"The aged essential battery has a {abs(margin):.1f} kWh {battery_outcome}. The same duty requires {b['minimum_nominal_kwh_at_80pct_retention']:.2f} kWh nominal before additional hot-weather losses. "
               "Select brake hardware after measuring response, force and repeat duty against the protected stopping distance. "
               "[Vehicle and braking results](vehicle-audit-guide.md)", ""]
     conservative_brake = next(r for r in vehicle["braking"]["high"]
@@ -232,7 +297,22 @@ def markdown(data):
               f"The {brake['proposed_comparator_per_module_kn']:.1f} kN comparison gives a {brake['stop_at_comparator']['stop_distance_m']:.1f} m stopping distance including the two-second delay. Confirm force, heat and protected distance for the fitted arrangement.", ""]
     leader = data["civil"]["quotation_leaders"]["base"]
     if leader:
-        lines += [f"The lowest base-rate 30-year civil quotation case is **{leader['label']}**. Its whole-stock allowance is ${leader['installed_usd']/1e6:,.2f}m, with a {leader['closure_bay_m']:.2f} m residual bay on each track. The workshop and cash accounts below exclude the unresolved closures. Verify the local transport plan, ground, load chart and bearing and prestress designs. [Civil comparison](../mechanical/civil/SPAN-FAMILIES.md)", ""]
+        residual = leader["closure_bay_m"]
+        closure = (f"There is a {residual:.2f} m residual bay on each track. The workshop and cash accounts "
+                   "exclude design and installation of those closures. " if residual else "")
+        lines += [f"The lowest base-rate 30-year civil quotation case is **{leader['label']}**. Its whole-stock allowance is ${leader['installed_usd']/1e6:,.2f}m. "
+                  + closure + "Verify the local transport plan, ground, load chart, bearing and prestress designs. "
+                  "[Civil comparison](../mechanical/civil/SPAN-FAMILIES.md)", ""]
+    if data.get("feeder_price_sensitivities"):
+        lines += ["## What could the revised supply cost?", "",
+                  "These figures apply dated planning rates to the actual site count, track length, assumed switching and simulated current duty. Each figure covers rail-side plant and conductors. The buyer cash accounts below await scope-matched offers.", "",
+                  "| Layout | Modelled rail-side subtotal, low / base / high | Annual upkeep sensitivity, low / base / high |",
+                  "| --- | ---: | ---: |"]
+        for layout, prices in data["feeder_price_sensitivities"].items():
+            direct = cost_bands(prices, "known_rail_side_direct_subtotal_usd")
+            upkeep = cost_bands(prices, "rail_side_annual_upkeep_usd")
+            lines.append(f"| {layout} | {direct} | {upkeep} |")
+        lines += ["", "Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices. The radial layout also loses through service after a path outage. A price difference alone cannot establish a viable saving.", ""]
     lines += ["## What can a buyer price?", "", "| Layout | Fleet sets | Operated / booked train-km per year | Partial capital | Partial 30-year PV |", "| --- | ---: | ---: | ---: | ---: |"]
     for layout, p in data["production"].items():
         op, cash = p["operation_basis"], p["cash"]["profiles"]["base"]
@@ -240,9 +320,27 @@ def markdown(data):
     for layout, model in data["production"].items():
         timings = ", ".join(f"{name} {case['last_completion_workday']:.0f}" for name,case in model["scenarios"].items())
         lines += ["", f"The {layout} workshop completes in the following modelled workdays. {timings}. The owner cash model retains unpriced delay exposures."]
-    lines += ["", "These subtotals exclude unmatched feeder equipment and outstanding civil and owner scope. Annual figures extrapolate the modelled day. Compare installed offers only after matching the service achieved, equipment duties, maintenance and replacement scope.", "",
+    if data["production"]:
+        for layout, model in data["production"].items():
+            unpriced = model["cash"]["scope"]["unpriced_lots_by_group"]
+            groups = ("opening-direct", "first-full-year-operations", "renewal-schedule")
+            counts = ", ".join(f"{len(unpriced.get(group, []))} {label}" for group, label in
+                               zip(groups, ("opening", "annual operation", "renewal"), strict=True))
+            lines += ["", f"The {layout} ledger has {counts} lots without prices. "
+                      "The owner cash model lists separate unpriced risks."]
+        lines += ["", "Annual figures extrapolate the modelled day. Match installed scope, service achieved, "
+                  "equipment duties, maintenance and replacements before comparing offers."]
+    else:
+        lines += ["", "A priced civil scope is required to build the workshop and cash comparison."]
+    lines += ["",
+              "## What remains open for release?", "",
+              "| Work | Digital result | Evidence and review still needed |", "| --- | --- | --- |"]
+    for task in data["decision"]["completion_tests"]:
+        lines.append(f"| {task['task']} · {task['work']} | {task['result']} | {task['outstanding']} |")
+    lines += ["",
               "## Reproduce or revise the comparison", "",
-              "[Independent SUMO and grid-side reproduction](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)", "",
+              "[Download the published paired6 budgetary enquiry](audited-enquiry.zip) · "
+              "[Independent SUMO and grid-side reproduction for the published 15- and 30-minute cases](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)", "",
               f"The audit records {len(data['assumptions'])} scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. "
               "[Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)", "",
               f"Evaluation `{data['evaluation_id']}`", ""]
@@ -260,8 +358,7 @@ def review_page(data):
     route = data["alignment"]
     runs = data["service_offers"]
     day_rows = []
-    for layout, group in groupby(data["power_days"], key=lambda d:d["topology"]):
-        rows = list(group)
+    for layout, rows in group_duties(data["power_days"]).items():
         values = [(r["condition"], f"{r['completed']} / {r['booked']}", f"{r['minimum_v']:.1f}" if r['minimum_v'] is not None else "Open",
                    f"{r['peak_site_ka']:.2f}", ", ".join(k.replace("_", " ") for k in r["failed_screens"])) for r in rows]
         day_rows.append(f"<details><summary>{escape(layout)} · five working days</summary>"+
@@ -273,20 +370,38 @@ def review_page(data):
     procurement = table(("Layout", "Fleet", "Estimated capital in priced scope", "30-year PV in priced scope"),
                         [(l, p["operation_basis"]["fleet_sets_required"], f"${p['cash']['profiles']['base']['capital_usd']/1e6:,.2f}m",
                           f"${p['cash']['profiles']['base']['priced_30y_pv_usd']/1e6:,.2f}m") for l,p in data["production"].items()])
-    civil = data["decision"]["civil_enquiry"] or "No passing priced standard girder"
+    rail_side = table(("Layout", "Rail-side equipment, low / base / high", "Annual upkeep, low / base / high"),
+                      [(name, cost_bands(prices, "known_rail_side_direct_subtotal_usd"),
+                        cost_bands(prices, "rail_side_annual_upkeep_usd"))
+                       for name, prices in data.get("feeder_price_sensitivities", {}).items()])
+    civil = data["decision"]["civil_enquiry"]
+    civil_result = (f"The civil quotation comparison identifies {escape(civil)} for pricing." if civil else
+                    "The civil comparison has no passing priced standard girder for this case.")
+    scope = ("The ledgers give each outstanding equipment, installation, owner and renewal scope. "
+             "The priced totals reflect the returns included in this evaluation." if data["production"] else
+             "The workshop and cash comparison requires a priced civil scope.")
+    route_summary = (f"The submitted Airport alignment is {route['route_km']:.2f} km long. "
+                     "Review the survey and verify all station sites before selecting the corridor."
+                     if route["survey_source"] else
+                     f"The {route['route_km']:.2f} km horizontal study includes {route['review_connector_km']:.2f} km "
+                     "of proposed connections. Um Al Tubol needs a confirmed site.")
+    tests = table(("Work", "Digital result", "Evidence and review still needed"),
+                  [(f"{t['task']} · {t['work']}", t["result"], t["outstanding"])
+                   for t in data["decision"]["completion_tests"]])
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Corridor design review | OpenSourceRail</title><link rel="stylesheet" href="scenario.css">
 <style>main{{max-width:72rem;margin:auto;padding:2rem clamp(1rem,4vw,3rem)}}h1{{color:#102b3a;font-size:clamp(2rem,5vw,3.6rem)}}h2{{margin-top:2.4rem}}summary{{cursor:pointer;padding:.7rem 0;font-weight:bold}}.scroll{{overflow-x:auto}}td,th{{text-align:left;padding:.6rem;vertical-align:top}}table{{width:100%;border-collapse:collapse}}tr{{border-bottom:1px solid #cbd8dc}}code{{overflow-wrap:anywhere}}</style></head>
 <body><main><nav><a href="index.html">Simulation workbench</a></nav><h1>Corridor design review</h1>
-<p>The {route['route_km']:.2f} km horizontal study replaces the conflicting 12 km distance in this comparison.
-The route includes {route['review_connector_km']:.2f} km of proposed connections. Um Al Tubol needs a confirmed site.
+<p>{route_summary}
 Investment and fabrication decisions remain open.</p>
 <h2>Passenger service</h2><p>Requested journeys change with expected wait and in-vehicle time. Completed trips and maximum arrival delay come from a full operating-day replay with terminal and depot movements.</p>{services}
 <h2>Traction power</h2><p>Compare live collector voltages alongside delivered trips. Source-current and protection returns are still required.</p>{"".join(day_rows)}
-<h2>Construction and purchaser cash</h2><p>Civil quotation candidate: {escape(civil)}. The workshop accounts use standard bays. End closures, electrical equipment, site risks and owner costs still need matched prices.</p>{procurement}
+<h2>Construction and purchaser cash</h2><p>{civil_result} {scope}</p>{procurement}
+<h3>Traction supply price sensitivity</h3><p>The estimates below use planning rates for the revised layout. The purchaser ledger awaits scope-matched equipment, utility and renewal offers.</p>{rail_side}
+<h2>Evidence still needed</h2>{tests}
 <h2>Reproduce the decision</h2><p><code>./osr design railway audit --check</code> reproduces this view.
 Use <code>--json</code> for the input register, identities and purchaser ledger.</p>
-<p><a href="ASSUMPTION-AUDIT.md">Delivery plan</a> · <a href="AUDIT-RESULTS.md">Engineering results</a> · <a href="audit-verification.json">Independent comparison</a></p>
+<p><a href="audited-enquiry.zip" download>Published paired6 budgetary enquiry</a> · <a href="ASSUMPTION-AUDIT.md">Delivery plan</a> · <a href="AUDIT-RESULTS.md">Engineering results</a> · <a href="audit-verification.json">Independent comparison</a></p>
 </main></body></html>
 """

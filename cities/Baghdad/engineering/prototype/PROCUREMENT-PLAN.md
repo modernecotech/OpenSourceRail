@@ -1,6 +1,8 @@
 # Baghdad Airport estimates and competitive quotations
 
-The buyer can take the six-stop Airport opening to market one lot at a time. The priced configuration uses 12 route-km, 24 track-km, 30 traction supply sites and six six-car sets. Three sets run the service and three cover spare and maintenance needs. Suppliers should price the same drawings, quantities, delivery boundary and period. Keep alternative equipment and layouts on their own enquiries. [Airport design and drawings](README.md)
+This estimate and ERPNext workflow reproduce the earlier Airport opening. The historical priced configuration uses 12 route-km, 24 track-km, 30 traction supply sites and six six-car sets. Three sets run the service and three cover spare and maintenance needs. For new quotes, issue the exact drawing revision, quantities, delivery boundary and operating period for each revised layout. [Earlier Airport design and drawings](README.md)
+
+Generate candidate-specific scopes from the [corrected 17.46 km Airport study](../simulation/ASSUMPTION-AUDIT.md) with `./osr design railway audit --packet build/baghdad-airport-paired6-enquiries.zip --layout paired6`. The estimate and ERPNext instructions below apply to the historical 12 km lot edition. Match returns for the corrected layout to its own scope IDs.
 
 ## Planning position at 23 November 2026
 
@@ -18,7 +20,7 @@ The source record identifies published allowances, Iraqi market inputs, external
 
 ## Compare machinery and service returns
 
-Open the [buyer issue](airport-enquiries.zip) and give each supplier a copy of `machine-offer.csv`. The [shop estimate](SHOP-COSTS.md) gives the quoted unit for every line, including retained machines, occupied hours and booked shifts. Suppliers may leave whole lines blank. Use one file per ERPNext Supplier Quotation. On a priced line enter the supplier and quotation identifiers, the positive unit price in USD, delivery terms and exclusions, and a reference to the signed evidence. Enter `matches` for the issued scope or `deviation` and explain the difference. Keep the original currency and agreed conversion basis with the ERP quotation.
+For the earlier schematic, open the [historical buyer issue](airport-enquiries.zip) and give each supplier a copy of `machine-offer.csv`. The [shop estimate](SHOP-COSTS.md) gives the quoted unit for every line, including retained machines, occupied hours and booked shifts. Suppliers may leave whole lines blank. Use one file per ERPNext Supplier Quotation. On a priced line enter the supplier and quotation identifiers, the positive unit price in USD, delivery terms and exclusions, and a reference to the signed evidence. Enter `matches` for the issued scope or `deviation` and explain the difference. Keep the original currency and agreed conversion basis with the ERP quotation.
 
 Save the returns separately under the ignored build directory. Compare two or more with the command below. The output preserves each offered rate, extends it for the issued quantity where known, and shows the unit variance from the planning rate for matching scope. For a known subset, the extension covers only that subset. For an open quantity, compare unit rates and obtain the missing schedule before extending a total.
 

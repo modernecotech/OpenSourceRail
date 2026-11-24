@@ -1,12 +1,14 @@
 # Baghdad Airport prototype review
 
-Open the [interactive prototype twin](review.html) in a browser. For the complete first-article quotation package, download [airport-prototype.zip](airport-prototype.zip), extract it and open **START.html**. Both work offline. The archive includes IFC4, OBJ, drawings, quantities, electrical scenarios, cash flows and blank field-return forms.
+Open the [interactive prototype twin](review.html) in a browser. To review the earlier first-article drawings, download [airport-prototype.zip](airport-prototype.zip), extract it and open **START.html**. Both work offline. The archive includes IFC4, OBJ, drawings, quantities, electrical scenarios, cash flows and blank field-return forms.
 
-This design combines the Airport line’s 15-minute timetable with a revised steel car. It preserves the [published v0.7.2 opening](../../airport-integration.html) as the price and engineering comparison. The separate [citywide operating decision](../../CITYWIDE-SERVICE.md) uses fourteen main routes and a different fleet.
+This historical 12 km schematic combines the Airport line’s 15-minute timetable with a revised steel car. It preserves the [published v0.7.2 opening](../../airport-integration.html) as the price and engineering comparison. The separate [citywide operating decision](../../CITYWIDE-SERVICE.md) uses fourteen main routes and a different fleet.
 
-## Production tasks and first-article enquiries
+For new enquiries, start from the [corrected Airport design review](../simulation/ASSUMPTION-AUDIT.md) and issue only the scopes bound to the chosen revised layout. The drawings below refer to the earlier schematic. Fabrication and passenger service still require approved limits and site and first-article evidence.
 
-The six [production packages and remaining tasks](PRODUCTION-READINESS.md) cover the car, bogie, viaduct, station, power and controls, and local workshops. The [offline buyer issue](airport-enquiries.zip) joins their price schedules to the same drawing and ERP estimate editions. Extract it and open **START.html**. For the proposed installed car, review the [dimensioned arrangement and fitout register](vehicle-factory/INSTALLED-GA.md). For civil and electrical work, start with the [infrastructure schedules and connector return](infrastructure/README.md).
+## Production tasks and first-article records
+
+The six [production packages and remaining tasks](PRODUCTION-READINESS.md) cover the car, bogie, viaduct, station, power and controls, and local workshops. The [historical offline buyer issue](airport-enquiries.zip) joins their price schedules to the same drawing and ERP estimate editions. Extract it and open **START.html**. For the proposed installed car, review the [dimensioned arrangement and fitout register](vehicle-factory/INSTALLED-GA.md). For civil and electrical work, start with the [infrastructure schedules and connector return](infrastructure/README.md).
 
 ### Size a factory and quote its work
 
@@ -14,7 +16,7 @@ The Airport factory specification lists the machines, jigs, moulds, inspection f
 
 Use the [workshop price register](SHOP-COSTS.md) and [quotation procedure](PROCUREMENT-PLAN.md) to compare offers. Fabricators can start with the [plate and saw files](cam/CAM.md), [beam cutting instructions](infrastructure/YARD-CUTTING.md) and [wire kitting exercise](infrastructure/WIRE-KITTING.md). The [offline workshop](training/index.html) and [instructor guide](training/INSTRUCTOR.md) use the same candidate and factory edition.
 
-## Price an opening or first article
+## Review the earlier opening and first-article prices
 
 The buyer register gives a quantity, price period and cost basis for each enquiry. It covers 54 lots, including the five first articles, independent surveys and trials, and two six-site electrical alternatives. The ERPNext buyer view compares competing offers against the same lot. The row for statutory taxes and duties awaits a determination for the buyer and import scope. [Procurement plan and portal instructions](PROCUREMENT-PLAN.md) · [Download the estimate for ERPNext](sourcing-estimate.json)
 

@@ -8,10 +8,38 @@ The schedule runs normal releases, a 30-workday material delay, 75% workcell ava
 
 Low, base and high price cases use constant 2026 USD. Partial cash uses 30 operating years and 4% real discounting, with historical opening design, testing and contingency factors. The 256 seeded stress draws describe the selected rate ranges, correlated changes, opening slips and a demand residual. Return freight, utilities, taxes, finance, extra approval work, disruption claims and supplier performance remain owner exposures. Statistical confidence remains open pending calibrated inputs.
 
+The cash receipt lists unpriced lots by opening, annual operation and renewal alongside its priced subtotals. The archived feeder estimates cover different electrical duties and layouts. The audit ledger shows any buyer-referenced opening or annual upkeep price separately. Feeder renewal remains an untimed exposure until the equipment schedule and replacement timing are available. The closure bay and other owner exposures also remain outside priced cash until their quantities, scope and prices can be established.
+
+The budgetary packet carries a separate rail-side feeder planning sensitivity in `engineering/feeder.json`. It applies the 23 November 2026 rate basis to the issued site count, two-track length, breakers, midpoint ties and paired disconnect or test points. The converter allowance applies the archived base site cost and marginal MW rate to a proxy from the largest source current in valid normal, abnormal and matching high-mass replays. Conductor costs use the archived split between shared structure and resistance-sensitive paths. Current and resistance provide rate inputs. Equipment nameplate, conductor cross-section, hot-circuit and fault ratings, utility works, site installation details and renewals still require returns.
+
+For the 17.461 km paired six-site working alignment, the rail-side direct allowances are **$139.0m, $176.7m and $225.8m** in the low, base and high cases, in constant 2026 USD. At base, paths account for $121.0m, supply sites for $52.8m and switches and branch points for $2.9m. Annual rail-side upkeep varies from **$0.69m to $4.52m**, with a **$1.77m** base. The radial layouts use fixed published opening rates at the reference resistance with varied upkeep fractions. These figures stay outside posted cash and direct comparison of prices requires matched service and complete scopes. A comparison may show the difference between priced present-value subtotals. It shows a price parity figure only when completed days deliver matching mileage and journeys for the same train and demand. [Dated price register](../prototype/sourcing-estimate.json) · [Rate settings](../../system.toml)
+
 Each supplier enquiry binds its complete lot, quantities, timing, physical geometry, working day, rate basis, feeder and currency under a scope ID. The priced signal, wayside braking and land allowances count route-km. Track lots count each track separately. Renewal scope records the number of trainsets, bearings or kilometres covered by the event. A buyer-referenced complete offer replaces the matching line in the cash ledger and retains its displaced price. Addressable training, local labour and shop work are recorded within parent lots. An offer's domestic-value declaration requires itemized material and service origin plus invoice and production evidence before the buyer can report verified Iraqi participation.
+
+## Use the corrected enquiry in ERPNext
+
+With a verified budgetary packet, generate an estimate edition for the existing buyer upload in `/airport-sourcing`. Use the buyer's edition date in place of the example date. The corrected edition retains its own audit, packet and candidate IDs. Each ERPNext Item prices a single complete lot. The description, engineering files and scope ID retain the exact physical quantity and unit, including kilometres beyond ERPNext quotation precision. Unknown prices generate no Item Price. The buyer can review and create a draft RFQ through the existing workflow. [ERPNext sourcing workflow](../../../../deployment/erpnext/README.md)
+
+The adapter checks the published issue pin by default. For a separately issued packet, pass `--issue-id` with the issue ID obtained independently from the buyer's issue record. Use the same trusted ID for staging and quotation replay.
+
+```sh
+python3 -m cities.Baghdad.engineering.simulation.audit_erpnext \
+  build/airport-paired6.zip 2026-11-24 build/airport-erp-estimate.json
+```
+
+For a corrected RFQ, save **Comparison JSON for the corrected Airport audit** from the buyer portal as `build/erp-comparison.json`. In `build/erp-buyer-reviews.json`, provide a JSON list with `quotation`, `buyer_review_reference` and `quotation_document` for each reviewed complete offer. The document path is relative to the working directory unless absolute. Add `buyer_award_reference` only to the offer the buyer explicitly selected for that lot. The adapter hashes the original quotation document and retains the native project, RFQ, lot, supplier, quotation, comparison IDs and dates alongside the review reference. It requires a unique supplier trace for a submitted RFQ, with the comparison date between quotation receipt and expiry. It carries the complete quoted amount for the matched estimate edition, lot and period. Additional upkeep and renewal terms need their own matched cash scope. Historical opening estimates continue to use their own opening-budget comparison in the portal.
+
+```sh
+python3 -m cities.Baghdad.engineering.simulation.audit_erpnext \
+  build/airport-paired6.zip 2026-11-24 build/buyer-offers.json \
+  --comparison build/erp-comparison.json --reviews build/erp-buyer-reviews.json
+```
+
+The generated buyer-offers JSON covers one RFQ. Combine the offer and award lists under their existing layout keys when reviewing several lots together, then replay the original audit with `--offers build/buyer-offers.json`. Export and replay operate on local files. Native draft creation, supplier submission and purchase decisions remain with the authorised ERPNext users.
 
 The Airport assumption audit includes the civil and service child identities and the workshop scope ledger. Reproduce the targeted checks from the repository root.
 
 ```sh
-python3 -m unittest cities.Baghdad.engineering.simulation.test_audit_production
+python3 -m unittest cities.Baghdad.engineering.simulation.test_audit_production \
+  cities.Baghdad.engineering.simulation.test_audit_packet
 ```

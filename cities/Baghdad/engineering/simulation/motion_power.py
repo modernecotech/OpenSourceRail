@@ -1,11 +1,12 @@
 """Baghdad Airport time-domain rolling stock, service and sectioned DC research."""
 
+from bisect import bisect_left, bisect_right
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from hashlib import sha256
 import csv
 import json
-from math import sqrt
+from math import isfinite, sqrt
 from pathlib import Path
 import tomllib
 from zipfile import ZipFile
@@ -143,8 +144,14 @@ def normalize(inputs, references=None):
         raise ValueError("Delay or dwell outside study domain")
     if not .5 <= case["conductor_factor"] <= 1.5:
         raise ValueError("Conductor resistance scaling outside study domain")
-    if not 0 <= case["demand_factor"] <= 2 or abs(case["grade_pct"]) > 2:
+    if (not 0 <= case["demand_factor"] <= 2 or type(case["grade_pct"]) not in (int, float)
+            or not isfinite(case["grade_pct"]) or abs(case["grade_pct"]) > 2):
         raise ValueError("Demand and constant grade must stay inside the stated planning domain")
+    grade_basis = inputs.get("grade_basis")
+    if grade_basis not in (None, "constant_sensitivity"):
+        raise ValueError("Use grade_basis='constant_sensitivity' for a scalar grade override")
+    if grade_basis is not None:
+        case["grade_basis"] = grade_basis
     chainages = tuple(float(x) * 1000 for x in case.pop("chainages_km"))
     if inputs.get("alignment") is not None:
         from .airport_alignment import validate
@@ -161,9 +168,19 @@ def normalize(inputs, references=None):
                 or case["od_matrix"] is not None or case["demand_factor"] != 1
                 or case["hourly_od"] is not None and case["hourly_od"] != demand["hourly_od"]):
             raise ValueError("Moving service and demand must share the same timetable and hourly OD")
+        if (demand["mode"] == "observed" and
+                case["cars"] != demand["service_offer"]["observation_context"]["formation_cars"]):
+            raise ValueError("Moving service formation must match the observed demand service offer")
         case["hourly_od"] = demand["hourly_od"]
         case["demand_evaluation_id"] = demand["evaluation_id"]
         case["alignment_id"] = alignment["alignment_id"]
+        profile = alignment["grade_profile"]
+        if profile is not None and grade_basis is None:
+            if case["grade_pct"] != 0:
+                raise ValueError("A profiled alignment requires zero scalar grade or an explicit constant sensitivity")
+            if any(not isfinite(grade) or abs(grade) > 2 for grade in profile["grades_pct"]):
+                raise ValueError("Profiled grade exceeds the motion model's ±2% planning domain")
+            case["grade_profile"] = profile
     elif chainages[-1:] != (12000.,):
         raise ValueError("Supply a source-bound alignment for a revised Airport route")
     if "positioning_slack_s" in inputs:
@@ -199,6 +216,27 @@ def normalize(inputs, references=None):
     # Simulate forecast planning demand above a three-car physical capacity,
     # keeping denied boardings explicit. This does not infer new passenger load.
     return case
+
+
+def grade_segment(profile, position_m, direction):
+    """Select the segment ahead of the train at an exact vertical break."""
+    breaks = profile["chainages_m"]
+    index = (bisect_right if direction > 0 else bisect_left)(breaks, position_m) - 1
+    return min(max(0, index), len(breaks) - 2)
+
+
+def moving_grade(case, position_m, direction, yard):
+    if yard:
+        return 0.
+    profile = case.get("grade_profile")
+    local = case["grade_pct"] if profile is None else profile["grades_pct"][grade_segment(profile, position_m, direction)]
+    return direction * local / 100
+
+
+def profile_elevation(profile, position_m):
+    index = grade_segment(profile, position_m, 1)
+    return (profile["elevations_m"][index]
+            + (position_m - profile["chainages_m"][index]) * profile["grades_pct"][index] / 100)
 
 
 def validate_od(matrix):
@@ -425,6 +463,7 @@ def evaluate(inputs, output_dir=None):
 
     references = reference()
     case = normalize(inputs, references)
+    grade_profile = case.get("grade_profile")
     supply = make_feeder(case["topology"], case["chainages_m"], case["conductor_factor"], references,
                          alignment_id=case.get("alignment_id"))
     failed_site = case["failed_site"] if case["failed_site"] is not None else len(supply.sites) // 2
@@ -592,7 +631,7 @@ def evaluate(inputs, output_dir=None):
                     continue
                 riders = job.riders[leg]
                 mass = case["tare_train_kg"] + riders / case["capacity"] * (case["loaded_train_kg"] - case["tare_train_kg"])
-                grade = 0. if yard else across * case["grade_pct"] / 100
+                grade = moving_grade(case, train.position, across, yard)
                 drag = 0. if yard else case["resistance_m_s2"]
                 resistance = 9.81 * grade + drag
                 effort = drive = 0.
@@ -668,6 +707,14 @@ def evaluate(inputs, output_dir=None):
                         totals["mechanical_balance_ws"] += (
                             (effort - mass * resistance) * travel - mass * (speed**2 - old_speed**2) / 2
                         )
+                        if grade_profile is not None and not yard and travel:
+                            new_position = old_position + across * travel
+                            if grade_segment(grade_profile, old_position, across) != grade_segment(grade_profile, new_position, -across):
+                                elevation_change = (profile_elevation(grade_profile, new_position)
+                                                    - profile_elevation(grade_profile, old_position))
+                                grade_error = mass * 9.81 * (grade * travel - elevation_change)
+                                totals["mechanical_balance_ws"] += grade_error
+                                totals["vertical_break_step_absolute_error_ws"] += abs(grade_error)
                         train.position += across * travel
                         train.speed = speed
                         if travel >= remain or (remain - travel < .12 and speed < .15):
@@ -752,6 +799,8 @@ def evaluate(inputs, output_dir=None):
     metrics = {key: round(value / 3.6e6, 4) if key.endswith("_ws") else value
                for key, value in totals.items() if key not in ("peak_source_w",)}
     metrics = {(k[:-3] + "_kwh" if k.endswith("_ws") else k): v for k, v in metrics.items()}
+    if grade_profile is not None:
+        metrics.setdefault("vertical_break_step_absolute_error_kwh", 0.)
     metrics.update(
         booked_passenger_trips=len(trips), completed_passenger_trips=len(completed),
         positioning_trips=len(positioning), completed_yard_trips=sum(e["kind"] == "yard" for e in events),
@@ -824,7 +873,9 @@ def evaluate(inputs, output_dir=None):
         "method_sources": METHOD_SOURCES,
         "limits": [
             "Steady resistive DC equivalent at each step. Return touch potential, intertrack leakage, harmonics, protection transients, converter duty and thermal ratings require separate evidence.",
-            "Illustrative constant signed elevation grade. The chainage and vertical datum await route survey and verified profile.",
+            ("Signed local grade is evaluated at the start of each motion step. Vertical break crossing work error is tracked against the piecewise-linear profile. Yard grade is zero."
+             if grade_profile is not None else
+             "Illustrative constant signed elevation grade. The chainage and vertical datum await route survey and verified profile."),
             "Supplied hourly OD boards at actual departure calls. The generated benchmark demand uses booked station calls. Abandonment and transfers are outside the queue model.",
             "Train force includes declared constant resistance and grade. Brake recovery is capped by section demand with a conservative non-reversible rectifier. No field calibration.",
             "An isolated radial path blocks both affected directional interstation movements at their preceding stops. Combined paired-path run assumes the surviving branches are intact and open ties have been safely configured.",

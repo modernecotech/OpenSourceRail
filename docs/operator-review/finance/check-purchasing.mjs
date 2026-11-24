@@ -11,6 +11,21 @@ try {
   await page.context().setOffline(true);
   const deliveredPage = process.argv.find(arg => arg.startsWith('--page='))?.slice(7);
   await page.goto(deliveredPage ? pathToFileURL(deliveredPage).href : new URL('purchasing.html', import.meta.url).href);
+  const candidateLink = page.getByRole('link', {name:'Download corrected Airport budgetary enquiry'});
+  const enquiryDownload = page.waitForEvent('download');
+  await candidateLink.click();
+  const enquiry = await enquiryDownload;
+  assert.equal(enquiry.suggestedFilename(), 'audited-enquiry.zip');
+  const expectedEnquiry = new URL('../../../cities/Baghdad/engineering/simulation/audited-enquiry.zip', import.meta.url);
+  assert.deepEqual(await readFile(await enquiry.path()), await readFile(expectedEnquiry));
+  const receipt = page.getByRole('link', {name:'Issuer receipt'});
+  const receiptUrl = new URL(await receipt.getAttribute('href'), page.url());
+  const expectedReceipt = new URL('audited-enquiry.receipt.json', expectedEnquiry);
+  assert.deepEqual(await readFile(receiptUrl), await readFile(expectedReceipt));
+  await page.getByText('Historical 12 km schematic and ERPNext estimate').click();
+  const historyDownload = page.waitForEvent('download');
+  await page.getByRole('link', {name:'Download historical drawings and schedules'}).click();
+  assert.equal((await historyDownload).suggestedFilename(), 'airport-enquiries.zip');
   const forms = page.locator('#offers section');
   async function fill(i, data) {
     const form = forms.nth(i);

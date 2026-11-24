@@ -38,4 +38,6 @@ The published schedules can be checked from the repository root with `python3 do
 
 ## Supplier pricing
 
+For the Airport, use the corrected 17.46 km budgetary enquiry and retain each quoted lot scope ID. The pricing worksheet covers first articles for the core railway and seven-corridor references. Use it to compare cash terms and documented local value against the issued drawings. [Corrected Airport enquiry](../../../cities/Baghdad/engineering/simulation/audited-enquiry.zip) · [First-article worksheet](purchasing.html)
+
 Use [Price a railway package](purchasing.html) to issue matching drawings, collect separate cash and financing terms, and compare first-article price with documented local value. The core railway and Baghdad use different equipment and source revisions. The downloadable enquiries record the issued drawing hashes. Start the screen from the [offline kit](../README.md#taking-drawings-to-a-supplier). Check the issued scopes with `python3 docs/operator-review/finance/enquiries.py --check` and exercise file import, comparison and export with `node docs/operator-review/finance/check-purchasing.mjs`.

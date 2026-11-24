@@ -13,6 +13,9 @@ from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+SIMULATION = ROOT / "cities/Baghdad/engineering/simulation"
+AIRPORT_ENQUIRY = SIMULATION / "audited-enquiry.zip"
+AIRPORT_ISSUER_RECEIPT = SIMULATION / "audited-enquiry.receipt.json"
 START = """<!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OpenSourceRail | Railway operator workshop</title>
@@ -30,14 +33,14 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
 <a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Compare the full citywide offer and its mainline timetable.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
-<a href="cities/Baghdad/engineering/prototype/review.html"><strong>Airport prototype</strong><small>Inspect stock, train movements, voltages and open field trials.</small></a>
+<a href="cities/Baghdad/engineering/prototype/review.html"><strong>Historical Airport prototype</strong><small>Inspect stock drawings, train movements and field-trial forms for the 12 km schematic.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
-<a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Download the first-article scope and compare price, documented domestic value and repair terms.</small></a>
-<a href="cities/Baghdad/engineering/prototype/airport-enquiries.zip"><strong>Airport first-article enquiries</strong><small>Extract the package and open its START.html for drawings, factory records and quotation sheets.</small></a>
+<a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Review the corrected Airport scope or compare first-article prices and local value for the other references.</small></a>
+<a href="cities/Baghdad/engineering/simulation/audited-enquiry.zip" download><strong>Corrected Airport budgetary enquiry</strong><small>Download the paired supply comparison, scoped price lots and return forms for the 17.46 km study.</small></a>
 <a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
 <a href="cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md"><strong>Corridor assumption audit</strong><small>Review service delivered, electrical outages, civil quantities and the priced scope.</small></a>
 <a href="cities/Baghdad/Baghdad-Metro-Proposal.pdf"><strong>Baghdad investment proposal</strong><small>Read the routes, local delivery options and the purchasing case.</small></a>
-</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/airport-integration.html">Airport working plan and supplier dossier</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
+</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/airport-integration.html">Historical Airport working plan</a> · <a href="cities/Baghdad/engineering/prototype/airport-enquiries.zip" download>Historical Airport drawings and ERP schedules</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/maps/Baghdad-148km.png">Seven corridors map</a> · <a href="cities/Baghdad/maps/Baghdad-606km.png">Citywide map</a></p>
 <p>Use the included documents for design review and indicative quotations. References to the wider engineering repository open with an internet connection. <a href="https://github.com/modernecotech/OpenSourceRail/tree/main/docs/operator-review">Full workplan, screens and sources</a></p></main></html>"""
 
 
@@ -77,6 +80,29 @@ class WorkshopLinks(HTMLParser):
                 raise ValueError(f'Offline workshop page {self.page} is missing {target}')
 
 
+def checked_airport_enquiry():
+    report = (SIMULATION / "AUDIT-RESULTS.md").read_text()
+    match = re.search(r"^Evaluation `([a-f0-9]{64})`$", report, re.MULTILINE)
+    contents = AIRPORT_ENQUIRY.read_bytes()
+    receipt_bytes = AIRPORT_ISSUER_RECEIPT.read_bytes()
+    receipt = json.loads(receipt_bytes)
+    with ZipFile(io.BytesIO(contents)) as archive:
+        names = archive.namelist()
+        manifest = json.loads(archive.read("manifest.json"))
+        checksums = manifest["members_sha256"]
+        receipt_fields = ("candidate_id", "evaluation_id", "issue_id", "layout")
+        if (not match or manifest["evaluation_id"] != match[1] or manifest["layout"] != "paired6"
+                or receipt != {key: manifest[key] for key in receipt_fields}
+                or manifest["purpose"] != "budgetary enquiry" or manifest["fabrication_release"] is not False
+                or manifest["operating_authorisation"] is not False or manifest["physical_acceptance"] is not False
+                or manifest["investment_selection"] is not None
+                or len(names) != len(set(names)) or set(checksums) != set(names) - {"manifest.json"}
+                or any(hashlib.sha256(archive.read(name)).hexdigest() != digest for name, digest in checksums.items())):
+            raise ValueError("Rebuild the corrected Airport enquiry from the published audit")
+    return {AIRPORT_ENQUIRY.relative_to(ROOT).as_posix(): contents,
+            AIRPORT_ISSUER_RECEIPT.relative_to(ROOT).as_posix(): receipt_bytes}
+
+
 def workshop_files():
     files = set()
     for f in HERE.rglob('*'):
@@ -90,6 +116,7 @@ def workshop_files():
                  'cities/Baghdad/engineering/prototype/airport-enquiries.zip',
                  'cities/Baghdad/engineering/prototype/sourcing-verification.json', 'cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md', 'cities/Baghdad/engineering/prototype/sourcing-estimate.json',
                  'cities/Baghdad/engineering/prototype/README.md', 'cities/Baghdad/engineering/prototype/mechanical.md',
+                 'cities/Baghdad/engineering/prototype/PRODUCTION-READINESS.md',
                  'cities/Baghdad/engineering/commissioning/COMMISSIONING.md', 'cities/Baghdad/engineering/controls/STATION-BENCH.md',
                  'cities/Baghdad/airport-dossier.zip', 'cities/Baghdad/airport-time-distance.svg',
                  'cities/Baghdad/airport-traction-single-line.svg', 'cities/Baghdad/SERVICE-DIAGRAMS.md', 'cities/Baghdad/AIRPORT-OPENING.md', 'cities/Baghdad/maps/STATION-PRICING.md',
@@ -104,8 +131,7 @@ def workshop_files():
     models = json.loads(raw.removeprefix('window.RAIL_MODELS=').removesuffix(';'))
     for m in models.values():
         files.update(ROOT / path for path in m['links'].values())
-    simulation = ROOT / "cities/Baghdad/engineering/simulation"
-    files.update(simulation / name for name in (
+    files.update(SIMULATION / name for name in (
         "AUDIT-RESULTS.md", "ASSUMPTION-AUDIT.md", "ALIGNMENT-DEMAND.md",
         "vehicle-audit-guide.md", "audit-production-guide.md", "audit-verification.json",
     ))
@@ -130,7 +156,7 @@ def workshop_files():
                     target = (path.parent / parts.path).resolve()
                     if target.is_relative_to(ROOT) and target.is_file():
                         files.add(target)
-    members = {'START.html': START.encode()}
+    members = {'START.html': START.encode(), **checked_airport_enquiry()}
     for path in sorted(files):
         members[path.relative_to(ROOT).as_posix()] = (
             path.read_bytes() if path in records else document_content(path, files))

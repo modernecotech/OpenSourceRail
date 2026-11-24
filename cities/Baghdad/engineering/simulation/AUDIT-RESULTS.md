@@ -46,11 +46,22 @@ Use `--supply-return` with an exact feeder ID to check supplied peak and RMS cur
 
 ## What changes the vehicle and civil enquiry?
 
-The central and high loaded trains weigh 198.64 and 246.04 tonnes under the component allowances. The aged essential battery has an 8.8 kWh shortfall. The same duty requires 78.75 kWh nominal before additional hot-weather losses. Select brake hardware after measuring response, force and repeat duty against the protected stopping distance. [Vehicle and braking results](vehicle-audit-guide.md)
+The central and high loaded trains weigh 198.64 and 246.04 tonnes under the component allowances. The aged essential battery has a 8.8 kWh shortfall. The same duty requires 78.75 kWh nominal before additional hot-weather losses. Select brake hardware after measuring response, force and repeat duty against the protected stopping distance. [Vehicle and braking results](vehicle-audit-guide.md)
 
 With wheel braking unavailable and one independent module out, the high-load 2% downhill trial needs 17.81 kN per remaining module for a 0.6 m/s² net stop. The 14.6 kN comparison gives a 495.7 m stopping distance including the two-second delay. Confirm force, heat and protected distance for the fitted arrangement.
 
-The lowest base-rate 30-year civil quotation case is **20m U 1.55m / shared**. Its whole-stock allowance is $159.23m, with a 0.91 m residual bay on each track. The workshop and cash accounts below exclude the unresolved closures. Verify the local transport plan, ground, load chart and bearing and prestress designs. [Civil comparison](../mechanical/civil/SPAN-FAMILIES.md)
+The lowest base-rate 30-year civil quotation case is **20m U 1.55m / shared**. Its whole-stock allowance is $159.23m. There is a 0.91 m residual bay on each track. The workshop and cash accounts exclude design and installation of those closures. Verify the local transport plan, ground, load chart, bearing and prestress designs. [Civil comparison](../mechanical/civil/SPAN-FAMILIES.md)
+
+## What could the revised supply cost?
+
+These figures apply dated planning rates to the actual site count, track length, assumed switching and simulated current duty. Each figure covers rail-side plant and conductors. The buyer cash accounts below await scope-matched offers.
+
+| Layout | Modelled rail-side subtotal, low / base / high | Annual upkeep sensitivity, low / base / high |
+| --- | ---: | ---: |
+| radial30 | $285.37m / $285.37m / $285.37m | $1.43m / $2.85m / $5.71m |
+| paired6 | $138.95m / $176.70m / $225.81m | $0.69m / $1.77m / $4.52m |
+
+Utility reinforcement, site-specific works, demonstrated protection and scheduled renewals require separate scope and prices. The radial layout also loses through service after a path outage. A price difference alone cannot establish a viable saving.
 
 ## What can a buyer price?
 
@@ -63,12 +74,31 @@ The radial30 workshop completes in the following modelled workdays. normal 449, 
 
 The paired6 workshop completes in the following modelled workdays. normal 449, delayed-material 490, reduced-capacity 772, rejected-first-article 501. The owner cash model retains unpriced delay exposures.
 
-These subtotals exclude unmatched feeder equipment and outstanding civil and owner scope. Annual figures extrapolate the modelled day. Compare installed offers only after matching the service achieved, equipment duties, maintenance and replacement scope.
+The radial30 ledger has 1 opening, 1 annual operation, 1 renewal lots without prices. The owner cash model lists separate unpriced risks.
+
+The paired6 ledger has 1 opening, 1 annual operation, 1 renewal lots without prices. The owner cash model lists separate unpriced risks.
+
+Annual figures extrapolate the modelled day. Match installed scope, service achieved, equipment duties, maintenance and replacements before comparing offers.
+
+## What remains open for release?
+
+| Work | Digital result | Evidence and review still needed |
+| --- | --- | --- |
+| A01 · Integration | Scoped input register and candidate joins | Review submitted replacements against their exact alignment, formation, equipment and lot scope. |
+| A02 · Alignment | Horizontal distance and stop-order screen | Approve surveyed levels, curves, utility and land interfaces, and all station sites. |
+| A03 · Passenger service | Fixed-demand control and service-sensitive working days | Authenticate local counts and travel times and calibrate demand response. |
+| A04 · Braking | Stopping distance, failed-module force and heat bounds | Measure braking and wheel-slide duty and verify protected stopping distance and recovery. |
+| A05 · Vehicle and interfaces | Loaded mass, axle, battery and fit screens | Weigh the equipped article and measure loaded door, suspension, removal and hot aged battery duty. |
+| A06 · Electrical supply | Matched ordinary, hot and outage working days | Review equipment duty, protection clearing, return circuits, safe isolation and utility terms. |
+| A07 · Civil and erection | Priced stock and erection comparison | Obtain ground and access data, signed lift chart, verified prestress, fatigue, shear, bearing and staged erection designs. |
+| A08 · Production and procurement | Ordinary and disrupted workshop schedules | Return matched shop offers, measured process cycles and first-article inspection records. |
+| A09 · Economics | Scoped capital and 30-year cash subtotals | Complete unpriced owner, installation and renewal scope and calibrate risk and funding terms. |
+| A10 · Independent review and publication | Reproducible review with a native replay receipt for the published defaults | Run the exact edition in a clean installation and obtain independent physical review before release. |
 
 ## Reproduce or revise the comparison
 
-[Independent SUMO and grid-side reproduction](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)
+[Download the published paired6 budgetary enquiry](audited-enquiry.zip) · [Independent SUMO and grid-side reproduction for the published 15- and 30-minute cases](audit-verification.json) · [Workshop, offers and cash scope](audit-production-guide.md)
 
 The audit records 219 scoped input entries. Run `./osr design railway audit --check` to reproduce this report or `--json` to inspect each input, constraint and result. [Execution plan and acceptance tests](ASSUMPTION-AUDIT.md) · [Route and demand inputs](ALIGNMENT-DEMAND.md)
 
-Evaluation `8d7e908e89eaf9dcc2db1526a7d7cea1e31ed54e3b5e24388011c37c0be84cb3`
+Evaluation `41800bcc7610a63bebaed2ce786fb828f270a1d5da4eebb7fe8d7749cf37c9ad`

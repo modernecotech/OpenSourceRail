@@ -1,4 +1,4 @@
-"""Source-bound horizontal alignment screen for the six-stop Baghdad Airport corridor."""
+"""Source-bound alignment screen for the six-stop Baghdad Airport corridor."""
 
 import gzip
 from hashlib import sha256
@@ -39,6 +39,28 @@ def within_coverage(point, bounds):
     return west <= point[0] <= east and south <= point[1] <= north
 
 
+def rail_level_profile(points, datum, elevations):
+    """Derive signed section grades from rail levels at the horizontal vertices."""
+    if (not isinstance(datum, str) or not datum.strip() or not isinstance(elevations, list)
+            or len(elevations) != len(points)
+            or any(type(level) not in (int, float) for level in elevations)):
+        raise ValueError("Supply a vertical datum and one finite rail-level elevation in metres per vertex")
+    try:
+        levels = list(map(float, elevations))
+    except OverflowError as error:
+        raise ValueError("Rail-level elevations must be finite") from error
+    if not all(map(isfinite, levels)):
+        raise ValueError("Rail-level elevations must be finite")
+    lengths = [1000 * corridor.distance_km(a, b) for a, b in pairwise(points)]
+    if any(not isfinite(length) or length <= 0 for length in lengths):
+        raise ValueError("Vertical profile sections need positive finite horizontal distances")
+    grades = [(b - a) / length * 100 for (a, b), length in zip(pairwise(levels), lengths, strict=True)]
+    if not all(map(isfinite, grades)):
+        raise ValueError("Vertical profile grades must be finite")
+    return dict(datum=datum, elevations_m=levels,
+                chainages_m=list(accumulate(lengths, initial=0.0)), grades_pct=grades)
+
+
 def survey_input(path, parent_id, bounds):
     raw = Path(path).read_bytes()
     supplied = json.loads(raw)
@@ -74,7 +96,13 @@ def survey_input(path, parent_id, bounds):
             or any(not isinstance(coverage_decision.get(k), str) or not coverage_decision[k].strip()
                    for k in ("document", "review_reference", "reason"))):
         raise ValueError("A trace beyond the retained Baghdad map needs a geometry-bound coverage decision")
-    return points, vertices, {
+    profile = None
+    if "vertical_profile" in supplied:
+        vertical = supplied["vertical_profile"]
+        if not isinstance(vertical, dict) or vertical.get("geometry_sha256") != supplied["geometry_sha256"]:
+            raise ValueError("Vertical profile must bind the supplied horizontal geometry")
+        profile = rail_level_profile(points, vertical.get("datum"), vertical.get("elevations_m"))
+    source = {
         "document": supplied["document"],
         "revision": supplied["revision"],
         "verification_reference": supplied["verification_reference"],
@@ -84,6 +112,9 @@ def survey_input(path, parent_id, bounds):
         "coverage_decision": coverage_decision,
         "scope": "Verification reference supplied by the submitter. Independent review remains open.",
     }
+    if profile is not None:
+        source["vertical_profile_sha256"] = identity(profile)
+    return points, vertices, profile, source
 
 
 def map_context(hashes):
@@ -153,10 +184,17 @@ def validate(record):
             or record["chainages_km"][0] != 0
             or any(b <= a for a, b in pairwise(record["chainages_km"]))):
         raise ValueError("Airport alignment ID, stop order or chainage does not match")
-    if (record["grade_profile"] is not None
-            or any(a["coordinates"][-1] != b["coordinates"][0] for a, b in pairwise(record["segments"]))
-            or abs(length_km(physical_record(record)["horizontal_trace"]) - record["route_km"]) > 1e-9):
-        raise ValueError("Airport alignment geometry or grade basis does not match the horizontal screen")
+    points = physical_record(record)["horizontal_trace"]
+    if (any(a["coordinates"][-1] != b["coordinates"][0] for a, b in pairwise(record["segments"]))
+            or abs(length_km(points) - record["route_km"]) > 1e-9):
+        raise ValueError("Airport alignment geometry does not match the horizontal screen")
+    profile = record["grade_profile"]
+    if profile is not None and (
+            record["geometry_mode"] != "supplied_centreline" or not record["survey_source"]
+            or not isinstance(profile, dict)
+            or profile != rail_level_profile(points, profile.get("datum"), profile.get("elevations_m"))
+            or record["survey_source"].get("vertical_profile_sha256") != identity(profile)):
+        raise ValueError("Airport alignment grade profile differs from the supplied centreline and rail levels")
     return record
 
 
@@ -184,6 +222,7 @@ def evaluate(survey=None):
         raise ValueError("Airport station register differs from the retained Baghdad map coverage")
     bound = length_km(anchors)
     survey_source = None
+    profile = None
     if survey is None:
         sections = mapped_sections(anchors, context["layers"]["roads"])
         if not all(within_coverage(point, bounds) for _, points, _ in sections for point in points):
@@ -191,7 +230,7 @@ def evaluate(survey=None):
         locations = places
         mode = "mapped_road_reference_and_review_connectors"
     else:
-        points, vertices, survey_source = survey_input(survey, parent_id, bounds)
+        points, vertices, profile, survey_source = survey_input(survey, parent_id, bounds)
         locations = [points[i] for i in vertices]
         sections = [("supplied_centreline", points[a:b + 1], "Submitted centreline between declared stop vertices.")
                     for a, b in pairwise(vertices)]
@@ -227,7 +266,7 @@ def evaluate(survey=None):
                                         if segment["kind"] == "mapped_road_reference"),
         "review_connector_km": sum(length for length, segment in zip(lengths, segments)
                                    if segment["kind"] == "review_connector"),
-        "grade_profile": None, "physical_acceptance": "open", "survey_source": survey_source,
+        "grade_profile": profile, "physical_acceptance": "open", "survey_source": survey_source,
         "historical_route_order_screen": {
             "nominal_km": nominal,
             "mapped_centroid_bound_km": bound,
@@ -237,8 +276,9 @@ def evaluate(survey=None):
         },
         "retained_map_bounds_wsen": bounds,
         "review_gaps": [segment["description"] for segment in segments if segment["kind"] == "review_connector"]
-        + ["Survey vertical alignment, curves, clearances, geotechnics, utilities and land.",
-           "Confirm all station sites, entrances and step-free access."],
+        + (["Survey vertical alignment, curves, clearances, geotechnics, utilities and land."] if profile is None else
+           ["Review the submitted rail levels and vertical curves. Survey clearances, geotechnics, utilities and land."])
+        + ["Confirm all station sites, entrances and step-free access."],
         "dwell_s": service["patterns"][0][1]["departure_s"] - service["patterns"][0][1]["arrival_s"],
         "source_sha256": {**hashes, str(Path(__file__).resolve().relative_to(ROOT)): sha256(Path(__file__).read_bytes()).hexdigest()},
     }

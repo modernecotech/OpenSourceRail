@@ -11,7 +11,7 @@ from cities.Baghdad.engineering.simulation import airport_alignment, corridor
 from engineering.outline import baghdad_diagrams
 
 SCHEMA = "osr-baghdad-airport-demand/1"
-OBSERVED_SCHEMA = "osr-baghdad-airport-observed-od/1"
+OBSERVED_SCHEMA = "osr-baghdad-airport-observed-od/2"
 SERVICE_DAY_COUNT = 365
 WALK_CASES = {
     "short": (100, 1.2, 20),
@@ -71,7 +71,7 @@ def generalised_minutes(ride, headway, walk, transfer, transfer_share, transfer_
     ]
 
 
-def observed_matrices(path, alignment, prior):
+def observed_matrices(path, alignment, prior, expected_service):
     raw = Path(path).read_bytes()
     supplied = json.loads(raw)
     if (not isinstance(supplied, dict) or supplied.get("schema") != OBSERVED_SCHEMA
@@ -79,7 +79,12 @@ def observed_matrices(path, alignment, prior):
             or supplied.get("stop_ids") != list(airport_alignment.STOP_IDS)
             or supplied.get("timezone") != "Asia/Baghdad"
             or not isinstance(supplied.get("document"), str) or not supplied["document"].strip()):
-        raise ValueError("Observed OD needs the matching alignment, ordered stop IDs, Baghdad local time and a source document")
+        raise ValueError("Observed OD v2 needs the matching alignment, ordered stop IDs, Baghdad local time and a source document")
+    service = supplied.get("service_offer")
+    if (not isinstance(service, dict) or service != expected_service
+            or any(isinstance(service[key], bool) != isinstance(value, bool)
+                   for key, value in expected_service.items())):
+        raise ValueError("Observed OD service offer must match the booked service, fare and access context")
     try:
         first, last = (date.fromisoformat(supplied[k]) for k in ("sample_date_from", "sample_date_to"))
     except (KeyError, ValueError, TypeError) as error:
@@ -124,6 +129,7 @@ def observed_matrices(path, alignment, prior):
             paid_od[h][i][j] = weight * daily_paying
     source = {
         "document": supplied["document"], "file_sha256": sha256(raw).hexdigest(),
+        "service_offer": service,
         "sample_date_from": str(first), "sample_date_to": str(last), "observed_days": sample_days,
         "annualisation_days": SERVICE_DAY_COUNT, "count_resolution": resolution,
         "peak_scope": ("Sample mean local hour" if resolution == "hourly" else
@@ -155,12 +161,13 @@ def summarize(hourly_od, chainages_km, headway_min):
 def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="central", observed=None,
              walk="central", transfer=True, transfer_share=0.35, transfer_penalty_min=5.0,
              connecting_headway_min=15.0, fare_usd=0.0, value_of_time_usd_h=3.0, response_per_min=0.025,
-             dwell_s=None):
+             dwell_s=None, formation_cars=6):
     airport_alignment.validate(alignment)
     dwell_s = alignment["dwell_s"] if dwell_s is None else dwell_s
     if (headway_min not in (15, 20, 30) or mode not in ("fixed", "service_sensitive", "observed")
             or demand not in ("downside", "central", "upside") or walk not in WALK_CASES
-            or type(transfer) is not bool or (mode == "observed" and observed is None)):
+            or type(transfer) is not bool or (mode == "observed" and observed is None)
+            or type(formation_cars) is not int or formation_cars not in (3, 6)):
         raise ValueError("Use a supported Airport service, demand mode and walking case")
     bounded = ((transfer_share, 0, 1), (transfer_penalty_min, 0, 30), (connecting_headway_min, 0, 60),
                (fare_usd, 0, 20), (value_of_time_usd_h, 0.1, 50), (response_per_min, 0, .1), (dwell_s, 5, 120))
@@ -174,6 +181,17 @@ def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="cen
     prior = historical["hourly_od"]
     raw = SYSTEM.read_bytes()
     cfg = tomllib.loads(raw.decode())
+    vehicle = cfg["vehicle"]
+    service_plan = cfg["service_plan"]
+    service = dict(headway_min=headway_min, dwell_s=dwell_s, formation_cars=formation_cars,
+                   start_hour_local=service_plan["start_hour_local"],
+                   service_hours_per_day=vehicle["service_hours_per_day"],
+                   terminal_layover_min_each_end=service_plan["terminal_layover_min_each_end"],
+                   commercial_speed_kmh=vehicle["commercial_speed_kmh"], speed_cap_kmh=vehicle["speed_cap_kmh"],
+                   fare_usd=fare_usd, walk_case=walk, transfer_friction=transfer)
+    if transfer:
+        service.update(transfer_share_at_interchange_od=transfer_share, transfer_fixed_penalty_min=transfer_penalty_min,
+                       connecting_headway_min=connecting_headway_min)
     current_ride = booked_minutes(alignment["chainages_km"], cfg, dwell_s)
     reference_ride = booked_minutes(historical["chainages_km"], cfg, alignment["dwell_s"])
     current = generalised_minutes(current_ride, headway_min, walk, transfer, transfer_share,
@@ -181,7 +199,7 @@ def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="cen
     reference = generalised_minutes(reference_ride, 15, "central", True, .35, 5, 15, 0, 3)
     observed_source = None
     if observed is not None:
-        hourly_od, paid_od, observed_source = observed_matrices(observed, alignment, prior)
+        hourly_od, paid_od, observed_source = observed_matrices(observed, alignment, prior, service)
         mode = "observed"
         response = None
     else:
@@ -209,7 +227,8 @@ def evaluate(alignment, *, headway_min=15, mode="service_sensitive", demand="cen
         "mean_trip_km": summary["annual_passenger_km"] / total if total else None,
         "headway_min": headway_min, "headway_wait_min": headway_min / 2, "dwell_s": dwell_s,
         "service_offer": {"departures_per_hour_per_direction": 60 / headway_min,
-                          "nonuniform_headway_assessment": None, "booked_ride_minutes": current_ride},
+                          "nonuniform_headway_assessment": None, "booked_ride_minutes": current_ride,
+                          "observation_context": service},
         "generalised_cost": {
             "minutes": current, "reference_minutes": reference, "demand_multiplier": response,
             "response_per_min": response_per_min, "waiting_time_weight": 2, "walking_time_weight": 2,
@@ -236,4 +255,13 @@ def validate(record, alignment):
                 {key: value for key, value in record.items() if key != "evaluation_id"}
             )):
         raise ValueError("Airport demand ID, alignment or stop order does not match")
+    if record["mode"] == "observed":
+        source = record.get("observed_source")
+        context = record["service_offer"].get("observation_context")
+        if (not isinstance(source, dict) or not isinstance(context, dict)
+                or source.get("service_offer") != context
+                or source.get("file_sha256") != record["source_sha256"].get("observed_od_input")
+                or context.get("headway_min") != record["headway_min"]
+                or context.get("dwell_s") != record["dwell_s"]):
+            raise ValueError("Observed OD receipt must retain its matched service offer and source digest")
     return record

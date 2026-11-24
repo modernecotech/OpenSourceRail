@@ -52,7 +52,11 @@ def get_context(context):
         estimate_id = context.review["comparison"]["estimate_evaluation_id"]
         selected_packet = packet if edition and edition == estimate_id else sourcing.get_estimate(project, estimate_id)
         review_lot = next(r for r in selected_packet["lots"] if r["lot_id"] == context.review["lot_id"])
-        context.replacement_available = review_lot["inclusion_group"] == "opening-direct"
-        if query.get("quotation"):
+        context.corrected_airport_issue = selected_packet.get("schema") == "baghdad-airport-erpnext-estimate/1"
+        context.replacement_available = (
+            selected_packet.get("schema") == "baghdad-airport-sourcing-estimates/1"
+            and review_lot["inclusion_group"] == "opening-direct"
+        )
+        if context.replacement_available and query.get("quotation"):
             from osr_erpnext.sourcing_scenario_api import price_scenario
             context.scenario = price_scenario(project, context.rfq, query.get("quotation"))

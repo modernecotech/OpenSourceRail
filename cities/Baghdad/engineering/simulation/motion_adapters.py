@@ -109,6 +109,8 @@ def sumo_check(case, scheduled, custom_events, output_dir=None):
     SUMO independently computes interstop physics and following. It uses separate
     trips per working, with no turnback platform/throat coupling across directions.
     """
+    if case.get("grade_profile") is not None:
+        return {"status": "out of domain", "reason": "The SUMO adapter supports scalar grade only"}
     netconvert, sumo = _executable("netconvert"), _executable("sumo")
     if not netconvert or not sumo:
         return {"status": "held", "reason": "SUMO and netconvert executables unavailable"}

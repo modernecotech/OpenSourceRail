@@ -42,6 +42,10 @@ SIMULATION_COMMAND = ["./osr", "design", "railway", "simulation"]
 SIMULATION_EXPORT = "build/simulation.zip"
 AUDIT = "cities/Baghdad/engineering/simulation/assumption_audit.py"
 AUDIT_COMMAND = ["./osr", "design", "railway", "audit", "--check"]
+AUDIT_PACKET = "cities/Baghdad/engineering/simulation/audit_packet.py"
+AUDIT_PACKET_EXPORT = "build/corrected-enquiry.zip"
+AUDIT_PACKET_COMMAND = ["./osr", "design", "railway", "audit", "--packet", AUDIT_PACKET_EXPORT,
+                        "--layout", "paired6"]
 # The audit replays a bounded working-day matrix in the clean archive. Four
 # minutes covers cold-cache standard-library execution without a native install.
 AUDIT_TIMEOUT_S = 240
@@ -97,6 +101,27 @@ def verify_audit(source, log):
             "review_page_sha256": sha256((folder / "assumption-review.html").read_bytes()).hexdigest()}
 
 
+def verify_audit_packet(source, log, audit, historical_candidate):
+    manifest = json.loads(log.read_text())
+    candidate = manifest.get("candidate_id")
+    if (not isinstance(candidate, str) or len(candidate) != 64
+            or any(char not in "0123456789abcdef" for char in candidate)
+            or candidate == historical_candidate
+            or manifest["parent_candidate_id"] != historical_candidate
+            or manifest["evaluation_id"] != audit["evaluation_id"]
+            or manifest["layout"] != "paired6" or manifest["purpose"] != "budgetary enquiry"
+            or manifest["fabrication_release"] is not False or manifest["physical_acceptance"] is not False
+            or manifest["operating_authorisation"] is not False or manifest["investment_selection"] is not None
+            or not manifest["members_sha256"]):
+        raise ValueError("Corrected Airport enquiry differs from the checked study or grants approval")
+    packet = source / AUDIT_PACKET_EXPORT
+    fields = ("candidate_id", "parent_candidate_id", "evaluation_id", "layout", "purpose", "fabrication_release",
+              "physical_acceptance", "operating_authorisation", "investment_selection", "members_sha256")
+    return {**{key: manifest[key] for key in fields},
+            "archive_sha256": sha256(packet.read_bytes()).hexdigest(),
+            "verification_log": log.name}
+
+
 def verify(revision, output, revision_kind="commit"):
     directory = Path(tempfile.mkdtemp(prefix="v072-airport-", dir=output))
     # Keep validating older release commits that predate the buyer workflow.
@@ -107,6 +132,7 @@ def verify(revision, output, revision_kind="commit"):
     paths = list(PATHS)
     if has_sourcing:
         paths.extend(("deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing_comparison.py",
+                      "deployment/erpnext/apps/osr_erpnext/osr_erpnext/sourcing_contract.py",
                       "engineering/development-baseline.toml"))
     has_enquiries = subprocess.run(
         ["git", "cat-file", "-e", revision + ":cities/Baghdad/engineering/prototype/enquiries.py"],
@@ -190,14 +216,30 @@ def verify(revision, output, revision_kind="commit"):
             [*SIMULATION_COMMAND, "--headway-min", "20", "--export", SIMULATION_EXPORT],
         ])
     audit_check = None
+    audit_packet_check = None
     if has_audit:
         audit_check = directory / f"command-{len(commands)+1}.log"
         commands.append(AUDIT_COMMAND)
+        if (source / AUDIT_PACKET).is_file():
+            commands.append(AUDIT_PACKET_COMMAND)
+            audit_packet_check = directory / f"command-{len(commands)+1}.log"
+            commands.append([
+                ".venv/bin/python", "-c",
+                "import json, pathlib, sys; "
+                "from cities.Baghdad.engineering.simulation.audit_packet import verify; "
+                "print(json.dumps(verify(pathlib.Path(sys.argv[1]))))",
+                AUDIT_PACKET_EXPORT,
+            ])
+    erp_estimate = "build/corrected-erp-estimate.json"
+    has_corrected_erp = (source / "cities/Baghdad/engineering/simulation/audit_erpnext.py").is_file()
+    if has_corrected_erp:
+        commands.append([".venv/bin/python", "-m", "cities.Baghdad.engineering.simulation.audit_erpnext",
+                         AUDIT_PACKET_EXPORT, "2026-11-24", erp_estimate])
     for i, command in enumerate(commands):
         with (directory / f"command-{i+1}.log").open("wb") as log:
             try:
                 run = subprocess.run(command, cwd=source, env=env, stdout=log, stderr=subprocess.STDOUT,
-                                     timeout=AUDIT_TIMEOUT_S if command == AUDIT_COMMAND else None)
+                                     timeout=AUDIT_TIMEOUT_S if command in (AUDIT_COMMAND, AUDIT_PACKET_COMMAND) else None)
             except subprocess.TimeoutExpired as error:
                 raise RuntimeError(f"Clean installation timed out at {command}. See {log.name}") from error
         if run.returncode:
@@ -236,6 +278,19 @@ def verify(revision, output, revision_kind="commit"):
         receipt["simulation"] = verify_simulation(source, json.loads(simulation_check.read_text()))
     if audit_check is not None:
         receipt["audit"] = verify_audit(source, audit_check)
+    if audit_packet_check is not None:
+        receipt["audit"]["enquiry"] = verify_audit_packet(
+            source, audit_packet_check, receipt["audit"], manifest["candidate_id"])
+    if has_corrected_erp:
+        from deployment.erpnext.apps.osr_erpnext.osr_erpnext.sourcing_contract import estimate_payload
+        estimate = estimate_payload(json.loads((source / erp_estimate).read_bytes()))
+        with ZipFile(source / AUDIT_PACKET_EXPORT) as package:
+            issued = json.loads(package.read("manifest.json"))
+            lots = json.loads(package.read("pricing/production.json"))["pricings"]
+        if (estimate["issue_id"] != issued["issue_id"] or estimate["candidate_id"] != issued["candidate_id"]
+                or {r["design_id"] for r in estimate["lots"]} != {r["scope_id"] for r in lots if r["quantity"]}):
+            raise ValueError("Clean ERPNext estimate differs from the issued procurement lots")
+        receipt["audit"]["enquiry"]["erp_estimate_id"] = estimate["evaluation_id"]
     (directory / "verification.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(directory / "verification.json")
 

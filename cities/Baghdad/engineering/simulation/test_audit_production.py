@@ -14,14 +14,15 @@ class AuditProductionTests(unittest.TestCase):
     def setUpClass(cls):
         cls.alignment = airport_alignment.evaluate()
         cls.vehicle = vehicle_audit.evaluate()
-        cls.demand = airport_demand.evaluate(cls.alignment)
+        cls.demand = airport_demand.evaluate(cls.alignment, headway_min=30)
         civil = family_comparison.evaluate_high_load(cls.alignment["route_km"], selected_family="U", selected_span_m=20)
         cls.civil = next(row for row in civil["rows"] if row["physical_id"] == civil["quotation_leaders"]["base"]["physical_id"])
         central = cls.vehicle["mass_cases"]["central"]
         cls.motion = audit_production.seal_motion(motion_power.compact(motion_power.evaluate(dict(
             candidate_id=cls.vehicle["candidate_id"], alignment=cls.alignment,
             chainages_km=cls.alignment["chainages_km"], demand_record=cls.demand, dwell_s=cls.demand["dwell_s"],
-            topology="paired6", loaded_train_kg=central["loaded_train_kg"], tare_train_kg=central["tare_train_kg"],
+            topology="paired6", headway_min=cls.demand["headway_min"],
+            loaded_train_kg=central["loaded_train_kg"], tare_train_kg=central["tare_train_kg"],
         ))))
         cls.civil_evaluation_id = civil["evaluation_id"]
         cls.result = audit_production.evaluate(cls.alignment, cls.vehicle, cls.motion, cls.civil, demand=cls.demand,
@@ -60,6 +61,9 @@ class AuditProductionTests(unittest.TestCase):
         self.assertFalse(receipt["financial_selection_eligible"])
         self.assertIsNone(receipt["cash"]["sensitivity"]["confidence_interval"])
         self.assertIsNone(receipt["complete_installed_price_usd"])
+        self.assertEqual(receipt["cash"]["scope"]["status"], "priced subtotal")
+        self.assertIn("feeder-renewals", receipt["cash"]["scope"]["unpriced_lots_by_group"]["renewal-schedule"])
+        self.assertIsNone(receipt["feeder_scope"]["renewals"]["operating_year"])
 
     def test_workshop_excludes_closure_and_keeps_disruptions(self):
         result = self.result
@@ -111,6 +115,23 @@ class AuditProductionTests(unittest.TestCase):
         result = deepcopy(self.motion)
         result.pop(audit_production.MOTION_RECORD_ID)
         return result
+
+    def test_feeder_offer_prices_only_the_matching_cash_period(self):
+        lot = next(row for row in self.result["pricings"] if row["lot_id"] == "revised-feeder-upkeep")
+        offer = dict(offer_id="test feeder upkeep", supplier="Synthetic supplier", scope_id=lot["scope_id"],
+                     buyer_review_reference="Scope approval input", offer_sha256="2"*64,
+                     price_usd=500_000, claimed_domestic_value_usd=None)
+        new = self.evaluate(offers=(offer,))
+        prior, changed = (receipt["cash"]["profiles"]["base"] for receipt in (self.result, new))
+        self.assertEqual(changed["capital_usd"], prior["capital_usd"])
+        self.assertAlmostEqual(changed["annual_opex_usd"] - prior["annual_opex_usd"], offer["price_usd"])
+        self.assertNotIn(lot["lot_id"], new["unpriced_lots"])
+        self.assertIn("revised-feeder-package", new["unpriced_lots"])
+        self.assertIn("feeder-renewals", new["unpriced_lots"])
+        feeder = new["feeder_scope"]["audit_ledger"]
+        self.assertEqual(feeder["annual_upkeep"]["usd"]["base"], offer["price_usd"])
+        self.assertIsNone(feeder["opening"]["usd"])
+        self.assertFalse(new["financial_selection_eligible"])
 
     def test_mixed_upstream_identity_refused(self):
         motion = self.unsealed_motion()

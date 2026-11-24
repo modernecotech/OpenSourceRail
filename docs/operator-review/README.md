@@ -1,6 +1,6 @@
 # OpenSourceRail for railway operators
 
-For the revised Airport prototype, open the [car and structure twin](../../cities/Baghdad/engineering/prototype/review.html). Turn each article, inspect a cut piece, move the service clock and compare a substation outage. The [field-return guide](../../cities/Baghdad/engineering/prototype/README.md) identifies the drawings and forms to give each supplier.
+For the corrected 17.46 km Airport study, use the paired supply budgetary enquiry and the audit of service, outages, civil works and prices. The earlier 12 km prototype twin remains available for inspecting car and structure drawings and reproducing its departure and outage cases. [Corrected budgetary enquiry](../../cities/Baghdad/engineering/simulation/audited-enquiry.zip) · [Corrected Airport audit](../../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) · [Historical prototype twin](../../cities/Baghdad/engineering/prototype/review.html)
 
 [Download the illustrated operator briefing (PDF)](OpenSourceRail-Operator-Brief.pdf) · [Download the offline workshop kit](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip) · [Open the delivery workplan](WORKPLAN.md) · [Read the Baghdad proposal](../../cities/Baghdad/PROPOSAL.md)
 
@@ -21,7 +21,7 @@ For a presentation, open the PDF. In the running Workbench, the **Operator revie
 
 ![Baghdad station, train and viaduct in the interactive assembly viewer](twins/baghdad-station.png)
 
-The [core train workings](../reference-v07/integration/TIMETABLE.md) assign 576 daily trips to 44 sets and show the effect of losing a set or terminal berth. The [Airport opening study](../../cities/Baghdad/AIRPORT-OPENING.md) prices a six-stop Baghdad service at $813.7m, including local works. The [span and yard study](../../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) and [train weight and power study](../../cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md) give suppliers specific quantities and duties to return.
+The core train workings assign 576 daily trips to 44 sets and show the effect of losing a set or terminal berth. The earlier Airport opening study estimated $813.7m including local works on the 12 km schematic. Use the revised audit for current Airport scope and priced subtotals. [Core train workings](../reference-v07/integration/TIMETABLE.md) · [Historical Airport opening study](../../cities/Baghdad/AIRPORT-OPENING.md) · [Corrected Airport prices](../../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md)
 
 ## Design records for a technical meeting
 
@@ -34,7 +34,7 @@ The [core train workings](../reference-v07/integration/TIMETABLE.md) assign 576 
 
 ## Taking drawings to a supplier
 
-Open **Supplier enquiries** in the offline kit. Choose the railway and article, download the enquiry and give bidders the listed drawings from the kit. Each enquiry records the design and drawing revisions. The six Baghdad packages cover a carbody, an equipped bogie, a typical kilometre, a difficult crossing, an accessible station and a cabinet with a brake bench. The core railway has separate car, precast beam and cabinet enquiries.
+Open **Supplier enquiries** in the offline kit. For the Airport, extract the budgetary enquiry and open its README. Give each bidder the issued lot and request scope-matched returns against its ID. For the seven-corridor or core reference, use the separate first-article worksheet to download the relevant design and drawing revisions. The earlier Airport drawings and ERP schedules remain available for historical reproduction. [Supplier enquiries](finance/purchasing.html)
 
 Enter the delivered first-article cash price, documented domestic and imported values, repair terms and evidence reference for each return. The screen identifies untraced value. The buyer confirms both scopes match before the screen compares prices. Save each return locally to resume a meeting. Actual supplier returns belong in the buyer’s confidential records. [Pricing screen](finance/purchasing.html) · [Baghdad negotiation and capital reconciliation](../../cities/Baghdad/BUYER-COMPARISON.md)
 

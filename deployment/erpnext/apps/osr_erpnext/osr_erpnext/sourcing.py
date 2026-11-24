@@ -612,6 +612,8 @@ def comparison_inputs(rfq, as_of=None):
         name = _quote_name(rfq, supplier)
         receipt = _read_record("offer", name)
         trace = dict(supplier=supplier, status="pending" if request.docstatus == 1 else "unissued")
+        if packet.get("schema") == "baghdad-airport-erpnext-estimate/1":
+            trace.update(project=binding["project"], rfq=rfq, lot_id=binding["scope"]["lot_id"])
         suppliers.append(trace)
         if not receipt:
             continue

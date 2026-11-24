@@ -25,7 +25,7 @@ def service_inputs(route, vehicle, headway, ambient, observed, demand_mode):
     # leaves the allowance in the timetable. Two unsuccessful revisions trigger review.
     for _ in range(3):
         demand = airport_demand.evaluate(route, headway_min=headway, dwell_s=dwell,
-                                         observed=observed, mode=demand_mode)
+                                         observed=observed, mode=demand_mode, formation_cars=cars)
         climate = passengers.evaluate(dict(cars=cars, headway_min=headway, ambient_c=ambient,
                     busiest_departure_load=min(700 * cars // 6, math.ceil(demand["busiest_departure_load"])),
                     platform_queue=math.ceil(demand["platform_queue"])))
@@ -72,7 +72,7 @@ def positioning_trial(route, vehicle, interval, dwell, phase, slack):
                 initial_block_overlap_s=overlap, operating_sets=group["diagrammed_sets"], positioning=len(positions))
 
 
-def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, cache, sources, phase=None, slack=0, step=2, mass_state="central"):
+def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, cache, sources, phase=None, slack=0, step=2, mass_state="central", constant_grade=False):
     airport_demand.validate(demand, route)
     physical = vehicle["physical"]
     if route["parent_candidate_id"] != physical["parent_candidate_id"]:
@@ -84,6 +84,8 @@ def working_day(route, demand, vehicle, climate, layout, condition, grade_pct, c
                   dwell_s=demand["dwell_s"], grade_pct=float(grade_pct), auxiliary_kw=climate["auxiliary_kw"],
                   tare_train_kg=mass["tare_train_kg"], loaded_train_kg=mass["loaded_train_kg"],
                   topology=layout, condition=condition, phase_s=phase, step_s=float(step))
+    if constant_grade and route["grade_profile"] is not None:
+        inputs["grade_basis"] = "constant_sensitivity"
     if slack:
         inputs["positioning_slack_s"] = slack
     def calculate(request):
@@ -117,14 +119,18 @@ def screen_day(row):
                 equipment_enquiry=row["electrical_enquiry"], installed_cost=row["cost_scope"])
 
 
-def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=0, soil=200.,
+def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=None, soil=200.,
           survey=None, observed=None, demand_mode="service_sensitive", span=None, offers=None, phase_s=None, positioning_slack_s=None, vehicle_return=None,
           lift_radius=12., crane_capacity=None, erection_offer=(), supply_return=None,
           cache=scenario.CACHE):
-    from . import audit_offers, audit_production
+    from . import audit_feeder_cost, audit_offers, audit_production
     route = airport_alignment.evaluate(survey=survey)
     evidence = Path(vehicle_return) if vehicle_return else None
-    vehicle = vehicle_audit.evaluate(cars=cars, material=material, grade_pct=abs(grade),
+    use_constant_grade = grade is not None
+    grade = 0. if grade is None else grade
+    slopes = route["grade_profile"]["grades_pct"] if route["grade_profile"] else []
+    braking_grade = abs(grade) if use_constant_grade else max((abs(x) for x in slopes), default=0.)
+    vehicle = vehicle_audit.evaluate(cars=cars, material=material, alignment=route, grade_pct=braking_grade,
         evidence_return=json.loads(evidence.read_bytes()) if evidence else None,
         evidence_directory=evidence.parent if evidence else None)
     demand, climate = service_inputs(route, vehicle, headway, ambient, observed, demand_mode)
@@ -152,7 +158,7 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=0, soil=200
             phases["best"] = positioning_trial(route, vehicle, interval, passengers_at_interval["dwell_s"],
                                                phase, positioning_slack_s if interval == headway else None)
         nominal = working_day(route, passengers_at_interval, vehicle, station, "paired6", "normal",
-                              grade, cache, sources, phase=phases["best"]["phase_s"],
+                              grade, cache, sources, constant_grade=use_constant_grade, phase=phases["best"]["phase_s"],
                               slack=phases["best"].get("positioning_slack_s", 0))
         service_offers[interval] = dict(phases=phases, annual_requested=passengers_at_interval["annual_all_journeys"],
                                 ordinary=screen_day(nominal))
@@ -176,7 +182,7 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=0, soil=200
     days, delivery, configs, comparisons = [], {}, [], {}
     for layout in LAYOUTS:
         for condition in motion_power.CONDITIONS:
-            day = working_day(route, demand, vehicle, climate, layout, condition, grade, cache, sources,
+            day = working_day(route, demand, vehicle, climate, layout, condition, grade, cache, sources, constant_grade=use_constant_grade,
                               phase=chosen_timing["phase_s"], slack=chosen_timing.get("positioning_slack_s", 0))
             days.append(screen_day(day))
             if condition == "normal":
@@ -193,13 +199,13 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=0, soil=200
                     raise ValueError("No comparable civil and production scope for submitted offers")
     timing = dict(phase=chosen_timing["phase_s"], slack=chosen_timing.get("positioning_slack_s", 0))
     step_trials = {step:screen_day(working_day(route, demand, vehicle, climate, "paired6", "normal",
-                    grade, cache, sources, step=step, **timing)) for step in (1, 2, 4)}
+                    grade, cache, sources, step=step, constant_grade=use_constant_grade, **timing)) for step in (1, 2, 4)}
     # Same OD and auxiliary duty for every feeder. Heavier fitted equipment and
     # passengers follow the high BOM case; the train still boards actual riders.
     stress = []
     for layout in ("radial30", "paired6", "paired8", "paired6_heavy"):
         day = working_day(route, demand, vehicle, climate, layout, "combined", 2, cache, sources,
-                          mass_state="high", **timing)
+                          mass_state="high", constant_grade=True, **timing)
         stress.append(screen_day(day))
     supplied = Path(supply_return) if supply_return else None
     equipment = audit_power_return.assess(days, stress,
@@ -222,6 +228,11 @@ def audit(*, headway=30, cars=6, material="steel", ambient=40, grade=0, soil=200
         if any(not passed for key,passed in heavy["gates"].items()
                if key not in ("protection_approved", "utility_connection_approved", "thermal_ratings_verified")):
             assessment["operating_screen"] = "failed"
+    results["feeder_price_sensitivities"] = {
+        layout: audit_feeder_cost.evaluate(model, [row for row in days + stress if row["topology"] == layout],
+                                           comparison=delivery.get(next(other for other in LAYOUTS if other != layout)))
+        for layout, model in delivery.items()
+    }
     results["evaluation_id"] = scenario._id(results)
     return results
 
@@ -243,19 +254,29 @@ def main():
     parser.add_argument("--phase-s", type=int, help="Terminal B offset within the chosen headway (seconds)")
     parser.add_argument("--positioning-slack-s", type=int, help="Time added before first and after last empty moves (seconds)")
     parser.add_argument("--ambient", type=int, choices=(32, 40, 48), default=40)
-    parser.add_argument("--grade", type=float, default=0, help="Signed motion sensitivity in percent")
+    parser.add_argument("--grade", type=float, help="Override the submitted grade profile with a signed constant-grade sensitivity (%)")
     parser.add_argument("--soil", type=float, default=200, help="Illustrative allowable soil pressure in kPa")
     parser.add_argument("--span", type=int, choices=(10,15,20,25,30), help="Limit the civil quotation comparison to a stock span (m)")
     action = parser.add_mutually_exclusive_group()
     for flag in ("json", "publish", "check"):
         action.add_argument("--" + flag, action="store_true")
+    action.add_argument("--packet", type=Path, help="Export a budgetary supplier enquiry ZIP for one layout")
+    parser.add_argument("--layout", choices=LAYOUTS, help="Feeder layout for the enquiry")
     opts = vars(parser.parse_args())
+    packet, layout = opts.pop("packet"), opts.pop("layout")
+    if (packet is None) != (layout is None):
+        parser.error("Choose both --packet PATH and --layout for a supplier enquiry")
     raw, publish, check = (opts.pop(k) for k in ("json","publish","check"))
     if (check or publish) and any(opts[k] != parser.get_default(k) for k in opts):
         parser.error("The published comparison uses the documented defaults. Use --json for another case.")
     try:
         with disk_reservation(scenario.ROOT, scenario.ROOT, "Airport design assumption audit", 96 << 20):
             result = audit(**opts)
+            if packet:
+                from .audit_packet import issue
+                manifest = issue(result, layout, packet)
+                print(f"{packet}  {manifest['issue_id']}")
+                return
             from .audit_register import markdown, review_page
             report = markdown(result)
             pages = {REPORT:report, HERE / "assumption-review.html":review_page(result)}
@@ -266,6 +287,19 @@ def main():
                     day = result["service_offers"][interval]["ordinary"]
                     if day["evaluation_id"] != native["cases"][label]["motion_evaluation_id"]:
                         raise ValueError("Independent native comparison and published timetable differ")
+            if check or publish:
+                from .audit_packet import PUBLISHED_RECEIPT, issue, verify
+                published_packet = HERE / "audited-enquiry.zip"
+                if publish:
+                    manifest = issue(result, "paired6", published_packet)
+                    receipt = {k: manifest[k] for k in ("issue_id", "evaluation_id", "candidate_id", "layout")}
+                    scenario.write_atomic(PUBLISHED_RECEIPT, scenario.encode(receipt) + b"\n")
+                else:
+                    from tempfile import TemporaryDirectory
+                    with TemporaryDirectory() as tmp:
+                        fresh = Path(tmp) / "enquiry.zip"
+                        if issue(result, "paired6", fresh) != verify(published_packet):
+                            raise ValueError("Rebuild the corrected supplier packet with --publish")
             if publish:
                 for path, content in pages.items():
                     scenario.write_atomic(path, content.encode())

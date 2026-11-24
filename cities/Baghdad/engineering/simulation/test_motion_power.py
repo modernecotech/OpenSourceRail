@@ -1,9 +1,12 @@
 """Regression checks for moving ports, protective holds and common demand."""
 
+import json
+
 import pytest
 
+from cities.Baghdad.engineering.simulation import airport_alignment, airport_demand, motion_adapters
 from cities.Baghdad.engineering.simulation.motion_dc import Feeder, loadflow
-from cities.Baghdad.engineering.simulation.motion_power import evaluate, normalize, service, validate_od
+from cities.Baghdad.engineering.simulation.motion_power import evaluate, moving_grade, normalize, service, validate_od
 
 
 def test_shared_droop_and_directional_line_resistance():
@@ -36,6 +39,73 @@ def test_formation_phase_and_hourly_demand():
         normalize({"hourly_od": [[[0.] * 6 for _ in range(6)]]})
     with pytest.raises(ValueError, match="nonnegative"):
         validate_od([[-1.] * 6 for _ in range(6)])
+
+
+def test_profile_grade_at_motion_position_and_in_each_direction(tmp_path):
+    parent = airport_alignment.evaluate()
+    points = [stop["longitude_latitude"] for stop in parent["stops"]]
+    points[1] = [44.322, 33.298]
+    points[4] = [44.351, 33.281]
+    midpoint = [(a + b) / 2 for a, b in zip(points[0], points[1])]
+    trace = [points[0], midpoint, *points[1:]]
+    geometry = {"type": "LineString", "coordinates": trace}
+    stops = [dict(id=stop_id, vertex=index, coordinates=point) for stop_id, index, point in
+             zip(airport_alignment.STOP_IDS, [0, 2, 3, 4, 5, 6], points, strict=True)]
+    digest = airport_alignment.identity(dict(geometry=geometry, stops=stops))
+    vertical = dict(geometry_sha256=digest, datum="Synthetic datum", elevations_m=[30, 38, 31, 28, 28, 30, 29])
+    survey = dict(schema=airport_alignment.SURVEY_SCHEMA, parent_candidate_id=parent["parent_candidate_id"],
+                  crs="EPSG:4326", document="Synthetic fixture", revision="1", verification_reference="Fixture only",
+                  geometry=geometry, stops=stops, geometry_sha256=digest, vertical_profile=vertical)
+    path = tmp_path / "survey.json"
+    path.write_text(json.dumps(survey))
+    alignment = airport_alignment.evaluate(path)
+    demand = airport_demand.evaluate(alignment, headway_min=30)
+    inputs = dict(headway_min=30, step_s=4, alignment=alignment, chainages_km=alignment["chainages_km"],
+                  demand_record=demand, dwell_s=demand["dwell_s"])
+    case = normalize(inputs)
+    vertex = case["grade_profile"]["chainages_m"][1]
+    assert moving_grade(case, vertex - 1, 1, False) > 0
+    assert moving_grade(case, vertex + 1, -1, False) > 0
+    assert moving_grade(case, vertex, 1, False) < 0
+    assert moving_grade(case, vertex, -1, False) < 0
+    assert moving_grade(case, vertex, 1, True) == 0
+    assert motion_adapters.sumo_check(case, None, None)["status"] == "out of domain"
+    with pytest.raises(ValueError, match="explicit constant sensitivity"):
+        normalize(dict(inputs, grade_pct=1.25))
+    override = dict(inputs, grade_pct=1.25, grade_basis="constant_sensitivity")
+    assert moving_grade(normalize(override), vertex, -1, False) == -.0125
+    profiled = evaluate(inputs)
+    flat = evaluate(dict(inputs, grade_basis="constant_sensitivity"))
+    assert profiled["candidate_id"] == flat["candidate_id"]
+    assert profiled["evaluation_id"] != flat["evaluation_id"]
+    assert profiled["metrics"]["vertical_break_step_absolute_error_kwh"] > 0
+    assert profiled["energy_kwh_per_train_km"] != flat["energy_kwh_per_train_km"]
+
+    vertical["elevations_m"][1] = 3000
+    path.write_text(json.dumps(survey))
+    steep = airport_alignment.evaluate(path)
+    steep_inputs = dict(inputs, alignment=steep, demand_record=airport_demand.evaluate(steep, headway_min=30))
+    with pytest.raises(ValueError, match="planning domain"):
+        normalize(steep_inputs)
+
+
+def test_observed_demand_cannot_move_under_a_different_formation(tmp_path):
+    alignment = airport_alignment.evaluate()
+    forecast = airport_demand.evaluate(alignment)
+    survey = dict(schema=airport_demand.OBSERVED_SCHEMA, alignment_id=alignment["alignment_id"],
+                  stop_ids=forecast["stop_ids"], timezone="Asia/Baghdad", document="Synthetic fixture",
+                  service_offer=forecast["service_offer"]["observation_context"], sample_date_from="2026-11-24",
+                  sample_date_to="2026-11-24", observed_days=1, resolution="hourly",
+                  od=[{"from": forecast["stop_ids"][0], "to": forecast["stop_ids"][-1],
+                       "hour": 10, "all": 50, "paying": 30}])
+    path = tmp_path / "observed.json"
+    path.write_text(json.dumps(survey))
+    observed = airport_demand.evaluate(alignment, observed=path)
+    inputs = dict(alignment=alignment, chainages_km=alignment["chainages_km"], demand_record=observed)
+    assert normalize(inputs)["cars"] == 6
+    with pytest.raises(ValueError, match="formation must match"):
+        normalize(dict(inputs, cars=3))
+    assert normalize(dict(inputs, cars=3, demand_record=forecast))["cars"] == 3
 
 
 def test_all_workings_and_radial_isolation():

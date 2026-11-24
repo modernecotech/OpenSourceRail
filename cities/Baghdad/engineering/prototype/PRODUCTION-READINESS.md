@@ -1,8 +1,10 @@
 # Baghdad Airport production preparation and v0.8 decision
 
-**Decision on 23 November 2026: hold v0.8.** The six packages below can be issued together for first-article prices and design returns. The representative car still has unlocated equipment, and several moving, load-bearing and electrical interfaces have only nominal dimensions or supplier-proposed limits. Those are release criteria for the production package. The last published software release is [v0.7.2](../../../../docs/releases/v0.7.2/README.md).
+**Decision on 23 November 2026: hold v0.8.** The six packages below document earlier first-article preparation and the critical interfaces still to resolve. The representative car still has unlocated equipment, and several moving, load-bearing and electrical interfaces have only nominal dimensions or supplier-proposed limits. Those are release criteria for the production package. The last published software release is [v0.7.2](../../../../docs/releases/v0.7.2/README.md).
 
-For quotations, use the 12 km Airport opening with six six-car sets, 15-minute passenger service and protected conductor rail. Compare each lot with its dated planning estimate. The budget has 54 procurement and comparison lines, including one unresolved statutory line. A bidder can now price outstanding engineering, testing and review as work. Accepted design limits still need their own records, even if a complete price is available. [Buyer estimate and offer procedure](PROCUREMENT-PLAN.md)
+For new enquiries, use the [corrected 17.46 km horizontal Airport study](../simulation/ASSUMPTION-AUDIT.md). Export the price scopes for the feeder layout under review. The 30-minute paired6 comparison completes the booked working day in the modelled normal and degraded cases. Site selection, surveyed levels, protection approval and first-article fabrication remain open.
+
+The earlier 12 km, 15-minute schematic retains its drawings, six six-car sets, 54 procurement and comparison lines, and ERPNext edition for reproduction. Its length fails the minimum distance through the mapped stops. Rebind drawings, quantities and prices to the corrected candidate before using them in a new enquiry.
 
 ## Tasks and assignments
 
@@ -19,7 +21,7 @@ Two lower-cost Sol workers prepared the vehicle/factory and infrastructure enqui
 
 ## Taking the factory issue to a workshop
 
-The [cost schedule](SHOP-COSTS.md) prices the 41 machine and service lines using the output and operating periods in the factory register. Use the [machine quotation procedure](PROCUREMENT-PLAN.md) to collect competing returns for the same units. The [CAM handoff](cam/CAM.md) provides DXF profiles, placements, saw patterns and a postprocessed practice exercise. The [yard procedure](infrastructure/YARD-CUTTING.md) converts the beam cage schedule to stock orders and traceable cut bundles. Buyers, operators and inspectors can work through a sample handover in the [offline class](training/index.html).
+For the earlier schematic, the [cost schedule](SHOP-COSTS.md) prices the 41 machine and service lines using the output and operating periods in the factory register. Use the [machine quotation procedure](PROCUREMENT-PLAN.md) to collect competing returns for the same units. The [CAM handoff](cam/CAM.md) provides DXF profiles, placements, saw patterns and a postprocessed practice exercise. The [yard procedure](infrastructure/YARD-CUTTING.md) converts the beam cage schedule to stock orders and traceable cut bundles. Buyers, operators and inspectors can work through a sample handover in the [offline class](training/index.html).
 
 Before a production order, the nominated workshop must identify the machine and post revision, return delivered prices and capacity, record first-off inspection, and obtain release of the specific interfaces it will build. The instructor records a learner’s practical observation separately from the software exercise. The $347.50 classroom example covers 14 learners in short role exercises. The separate $8,060 shop trial covers seven learners in two four-hour sessions, two first-off shifts and staffed inspection. Budget the scope the operator intends to deliver and credit shared time.
 
@@ -46,13 +48,20 @@ Before a production order, the nominated workshop must identify the machine and 
 
 ## Reproduce and use the enquiry
 
-Run from a checkout of this edition with the project Python environment. The exported ZIP opens offline. Extract it and open **START.html**, choose a package, and follow its quote sheet, drawing, BOM and shop route. Each invited party submits its own offer in the configured ERPNext site. Retain signed returns against the issued lot and revision.
+Run from the repository root with the project Python environment. Generate an enquiry for the corrected candidate and retain the original signed returns against its lot scopes. Use `--layout radial30` with a separate output path to price that comparison. Review the normal and degraded service results for each layout before comparing prices.
+
+```sh
+./osr design railway audit --check
+./osr design railway audit --packet build/baghdad-airport-paired6-enquiries.zip --layout paired6
+```
+
+For historical reproduction, extract the earlier first-article archive and open **START.html**. Its ERPNext edition, drawings and shop exercises remain available for that schematic.
 
 ```sh
 ./osr design railway prototype --check
 ./osr design railway sourcing --check
 python3 cities/Baghdad/engineering/prototype/vehicle-factory/installed_ga.py --check
-./osr design railway sourcing --issue build/baghdad-airport-enquiries.zip
+./osr design railway sourcing --issue build/baghdad-airport-12km-reference.zip
 ```
 
 The issue manifest identifies every member, the physical candidate, the drawing evaluation and the buyer estimate. The working-file checksums support revision control. A changed fit, circuit, drawing or estimate requires the affected schedules and pack to be reviewed and reissued.

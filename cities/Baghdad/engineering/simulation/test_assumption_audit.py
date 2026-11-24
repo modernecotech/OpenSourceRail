@@ -98,6 +98,8 @@ class AssumptionAuditTests(unittest.TestCase):
         self.assertEqual(result["passing_operational_days"], len(days))
         self.assertEqual(result["candidates"]["paired6"]["operating_screen"], "passed")
         self.assertEqual(result["candidates"]["paired6"]["scope_cost_status"], "partial or unpriced")
+        self.assertEqual([row["task"] for row in result["completion_tests"]],
+                         [f"A{index:02d}" for index in range(1, 11)])
         self.assertFalse(result["physical_acceptance"])
         self.assertIsNone(result["investment_selection"])
         with self.assertRaisesRegex(ValueError, "comparisons are incomplete"):
@@ -106,11 +108,17 @@ class AssumptionAuditTests(unittest.TestCase):
             audit_register.disposition(self.route, self.demand, self.vehicle, days + [days[0]], None, {})
         mismatched = deepcopy(days)
         mismatched[-1]["candidate_id"] = "revised physical feeder"
+        half = len(days) // 2
+        interleaved = [row for pair in zip(days[:half], days[half:], strict=True) for row in pair]
+        self.assertEqual(result, audit_register.disposition(self.route, self.demand, self.vehicle, interleaved, None, {}))
+        mixed_interleaved = [row for pair in zip(mismatched[:half], mismatched[half:], strict=True) for row in pair]
         with self.assertRaisesRegex(ValueError, "different physical candidates"):
-            audit_register.disposition(self.route, self.demand, self.vehicle, mismatched, None, {})
-        days[-1]["failed_screens"].append("all_workings_complete")
+            audit_register.disposition(self.route, self.demand, self.vehicle, mixed_interleaved, None, {})
         days[-1]["gates"]["all_workings_complete"] = False
-        failed = audit_register.disposition(self.route, self.demand, self.vehicle, days, None, {})
+        with self.assertRaisesRegex(ValueError, "failures differ from the case gates"):
+            audit_register.disposition(self.route, self.demand, self.vehicle, interleaved, None, {})
+        days[-1]["failed_screens"].append("all_workings_complete")
+        failed = audit_register.disposition(self.route, self.demand, self.vehicle, interleaved, None, {})
         self.assertEqual(failed["candidates"][days[-1]["topology"]]["operating_screen"], "failed")
 
     def test_audit_offer_entry_point_retains_bids_and_high_load_holds(self):

@@ -11,7 +11,7 @@ import tomllib
 from zipfile import ZipFile
 
 from cities.Baghdad.engineering.prototype import car, commercial, weights
-from cities.Baghdad.engineering.simulation import vehicle_civil
+from cities.Baghdad.engineering.simulation import airport_alignment, vehicle_civil
 
 CITY = vehicle_civil.CITY
 ROOT = CITY.parents[1]
@@ -234,7 +234,7 @@ def fit_case(record, cage, fit, ga, rows, material):
         equipped_exchange_verified=False, installed_door_and_suspension_verified=False)
 
 
-def assess_return(basis, submission, directory):
+def assess_return(basis, submission, directory, *, route_bound=False):
     if submission is None:
         return dict(submission_id=None, claim=None, documents={}, submitted={}, missing=list(PHYSICAL_RETURNS),
                     physical_accepted=False)
@@ -246,6 +246,8 @@ def assess_return(basis, submission, directory):
     rows = submission["returns"]
     if not isinstance(rows, dict) or rows.keys() - PHYSICAL_RETURNS.keys():
         raise ValueError("Use the named vehicle evidence scopes")
+    if "route_protection" in rows and not route_bound:
+        raise ValueError("Bind the route protection return to an evaluated alignment")
     for scope, row in rows.items():
         if (not isinstance(row, dict) or row.keys() != {"document", "article_serial", "procedure_revision", "witness"}
                 or not commercial.has_document(row["document"], docs)
@@ -257,13 +259,19 @@ def assess_return(basis, submission, directory):
 
 
 def evaluate(*, cars=6, material="steel", grade_pct=None, available_stop_m=None, overlap_m=None,
-             route=None, evidence_return=None, evidence_directory=None):
+             route=None, alignment=None, evidence_return=None, evidence_directory=None):
     """Audit a studied formation. A distance allowance includes the withheld overlap."""
     if type(cars) is not int or cars not in (3, 6) or material not in vehicle_civil.MATERIAL:
         raise ValueError("Choose a supported Airport train formation and body material")
     record, cage, fit, opening, ga, bom, bogie, sources = source_data()
     cfg = tomllib.loads(SYSTEM.read_text())
     design_grade = cfg["power_assumptions"]["adverse_grade"]
+    if alignment is not None:
+        if route is not None:
+            raise ValueError("Supply one Airport alignment basis")
+        airport_alignment.validate(alignment)
+        if alignment["parent_candidate_id"] != opening["candidate_id"]:
+            raise ValueError("Alignment and vehicle audit identify different Airport candidates")
     if route is not None:
         stops = [(s["id"], s["chainage_km"], s["register_id"]) for s in route["stops"]]
         route_basis = dict(parent=opening["candidate_id"], stops=stops, grade_pct=route["grade_pct"], cars=cars)
@@ -290,6 +298,8 @@ def evaluate(*, cars=6, material="steel", grade_pct=None, available_stop_m=None,
                         overlap_m=overlap_m, brake_delays_s=[0.0, 2.0], wheel_adhesions=[.08, cfg["power_assumptions"]["low_adhesion_mu"]],
                         net_decelerations_m_s2=[net, 1.0], rail_modules_per_car=2, published_comparator_kn=MODULE_COMPARATOR_KN,
                         route_candidate_id=None if route is None else route["candidate_id"])
+    if alignment is not None:
+        trial_inputs.update(alignment_id=alignment["alignment_id"], alignment_record_id=alignment["record_id"])
     physical = dict(parent_candidate_id=opening["candidate_id"], frame_revision=ga["frame_revision"],
                     formation_cars=cars, material=material, car_centres_train_x_m=centres,
                     length_m=length, powered_axle_positions_per_car=[1, 2, 3, 4], supply="protected_conductor")
@@ -320,7 +330,8 @@ def evaluate(*, cars=6, material="steel", grade_pct=None, available_stop_m=None,
                     traction={state: traction_case(row, cfg["power_assumptions"], grade_pct / 100)
                                               for state, row in cases.items() if state != "low"},
                     battery=battery_case(cfg), fit=fit_case(record, cage, fit, ga, cases, material),
-                    return_assessment=assess_return(basis, evidence_return, evidence_directory),
+                    return_assessment=assess_return(basis, evidence_return, evidence_directory,
+                                                    route_bound=alignment is not None or route is not None),
                     return_template=dict(basis=basis, kind=None, documents={}, returns={}),
                     physical_measurements_required=PHYSICAL_RETURNS,
                     braking_scope="Static-load adhesion upper bounds, worst single-axle failure, constant-force analytical sensitivities with gravity during coast, no drag or regeneration. Rail-contact dissipation includes the rail and shoe; train excitation and equipment heat split are unknown.",

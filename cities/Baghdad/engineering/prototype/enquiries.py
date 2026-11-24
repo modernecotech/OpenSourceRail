@@ -101,13 +101,14 @@ def landing(estimate):
         rows.append(f'<tr><th scope="row"><a href="{path}">{escape(name)}</a></th>'
                     f'<td>{lot_id}</td><td>{amount}</td></tr>')
     return ("""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport"
-content="width=device-width, initial-scale=1"><title>Baghdad Airport first-article enquiries</title>
+content="width=device-width, initial-scale=1"><title>Baghdad Airport historical first-article reference</title>
 <style>body{font:1rem/1.55 system-ui,sans-serif;max-width:56rem;margin:2rem auto;padding:0 1rem;color:#162e34}
 h1,h2{line-height:1.15}table{border-collapse:collapse}td,th{padding:.45rem .8rem;text-align:left;border-bottom:1px solid #ccd6d6}
-a{color:#035d71}code{overflow-wrap:anywhere}</style><main><h1>Baghdad Airport first-article enquiries</h1>
-<p>Use the same drawing and estimate edition for each supplier. Quote five individual articles and the
-workshop scope for a 36-car opening. Itemise repeat production, inspection, commissioning, spares and
-renewals. Identify credits where an article enters a fleet order.</p>
+a{color:#035d71}code{overflow-wrap:anywhere}</style><main><h1>Baghdad Airport historical first-article reference</h1>
+<p>These drawings and ERP schedules reproduce the 12 km schematic and its 36-car opening.
+The corrected 17.46 km horizontal study has its own price scopes. Generate a packet for the
+chosen layout before requesting new quotes. See the
+<a href="guides/production-readiness.md">production and enquiry instructions</a>.</p>
 <table><thead><tr><th>Package and schedule</th><th>ERP lot</th><th>Central planning amount, 2026 USD</th></tr></thead>
 <tbody>""" + "".join(rows) + """</tbody></table>
 <h2>Drawings and returns</h2><p><a href="drawings/START.html">Open the offline prototype twin</a> ·
@@ -213,7 +214,8 @@ def contents():
                     cam_evaluation_id=cam_id,
                     training_edition=training["edition"], factory_evaluation_id=factory_id, layout_evaluation_id=layout["evaluation_id"], candidate_id=estimate["candidate_id"], frame_revision=estimate["frame_revision"],
                     drawing_evaluation_id=manifest["evaluation_id"], estimate_evaluation_id=estimate["evaluation_id"],
-                    purpose="first-article enquiry", fabrication_released=False, operating_authorisation=False,
+                    purpose="historical first-article reference", route_scope="12 km schematic", current_enquiry=False,
+                    fabrication_released=False, operating_authorisation=False,
                     package_lots=[{"package": name, "lot_id": lot, "schedule": path} for name, lot, path in LOTS],
                     sha256={k: sha256(v).hexdigest() for k, v in sorted(files.items())})
     files["manifest.json"] = review.encode({**bindings, "issue_id": _id(bindings)})

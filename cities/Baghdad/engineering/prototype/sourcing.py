@@ -59,7 +59,7 @@ def main(argv=None):
     modes.add_argument("--check", action="store_true", help="Rebuild and check the published buyer estimate")
     modes.add_argument("--publish", action="store_true", help="Replace the canonical estimate after reserving disk space")
     modes.add_argument("--issue", type=Path, metavar="OUTPUT.zip",
-                       help="Export the registered Airport first-article enquiry drawings and buyer schedules")
+                       help="Export the historical 12 km Airport drawings and buyer schedules")
     modes.add_argument("--json", action="store_true", help="Write machine-readable output to stdout")
     parser.add_argument("--lot", help="Select one lot by exact ID")
     parser.add_argument("--packet", type=Path, help="Read a specific published Airport prototype ZIP")

@@ -30,4 +30,15 @@ python3 -m cities.Baghdad.engineering.simulation.vehicle_audit > build/vehicle-a
 python3 -m unittest cities.Baghdad.engineering.simulation.test_vehicle_audit
 ```
 
-The output includes a physical candidate ID, duty ID, evaluation ID and source digests. A new load, grade, block assumption or source revision requires its own evaluation. Use the `return_template` as a separate local JSON file. Set `kind` to `supplier-declaration`, `physical-measurement` or `synthetic-fixture`. Under `documents`, record original local filenames with issuer, date and SHA-256. Under `returns`, name the evidence scope and cite the document, article serial, procedure revision and witness. Give the file to `--evidence-return`. The audit checks scope, identity and attachment integrity. Independent review still needs to authenticate instruments and witnesses, approve limits and determine whether the results meet them. Use the existing weighed-train intake for mass recalculation.
+The output includes a physical candidate ID, duty ID, evaluation ID and source digests. A new load, grade, block assumption or source revision requires its own evaluation. Use the `return_template` as a separate local JSON file. Set `kind` to `supplier-declaration`, `physical-measurement` or `synthetic-fixture`. Under `documents`, record original local filenames with issuer, date and SHA-256. Under `returns`, name the evidence scope and cite the document, article serial, procedure revision and witness. Give the file to `--evidence-return` on the standalone audit.
+
+For the integrated Airport audit, generate the form from `vehicle.return_template` in the JSON for the formation, material and grade under review. Reuse the same arguments when attaching the return.
+
+```sh
+./osr design railway audit --json > build/airport-audit.json
+./osr design railway audit --json --vehicle-return build/returns/vehicle.json > build/airport-audit-with-return.json
+```
+
+`vehicle.return_assessment` records the submitted scopes and verifies the attachment hashes. The model continues to use planning mass, braking, battery and fit inputs. The integrated return template binds both the physical alignment and its exact record. When using a supplied centreline, pass the same `--survey` file to both commands. For `route_protection`, include the exact alignment evaluation, direction, stopping limit and overlap in the signed records. Reviewers still need to authenticate instruments and witnesses, approve limits and determine whether the reported duty meets them.
+
+For the released six-car steel article, return the seven train mass groups and the 24 tare and loaded axle readings through the weighed-train intake. A complete return can recalculate the opening feeder sizing, planning cash flow and global civil gravity envelope. The changed load still requires instrumented stopping and repeated brake thermal tests, a protection review, and actual loaded door and suspension measurements. The packet's weighing form and fitted body and bogie limit schedule are blank evidence requests. [Weighed-train intake](../prototype/weight-guide.md) · [Body and bogie limit schedule](../prototype/vehicle-factory/body-bogie-limit-return.csv)

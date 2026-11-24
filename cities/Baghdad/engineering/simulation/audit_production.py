@@ -264,7 +264,23 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
             row["usd"] is not None and row["quantity"] > 0
         ) else None
     known = [row for row in rows if row["usd"] is not None]
-    unpriced_lots = [row["lot_id"] for row in rows if row["usd"] is None]
+    unpriced_by_group = {
+        group: [row["lot_id"] for row in rows if row["group"] == group and row["usd"] is None]
+        for group in ("opening-direct", "first-full-year-operations", "renewal-schedule")
+    }
+    # The installed equipment and its replacement timing are still design inputs.
+    # Keep that exposure outside the offer ledger until a renewal event can be scoped.
+    feeder_renewal = dict(lot_id="feeder-renewals", status="equipment and replacement timing required",
+                          operating_year=None, usd=None)
+    unpriced_by_group["renewal-schedule"].append(feeder_renewal["lot_id"])
+    unpriced_lots = [lot for lots in unpriced_by_group.values() for lot in lots]
+    if feeder_basis["status"] == "held":
+        feeder_rows = {row["lot_id"]: row for row in rows}
+        feeder_basis["audit_ledger"] = {
+            kind: {key: feeder_rows[lot][key] for key in ("lot_id", "scope_id", "cost_evidence", "usd")}
+            for kind, lot in (("opening", "revised-feeder-package"), ("annual_upkeep", "revised-feeder-upkeep"))
+        }
+    feeder_basis["renewals"] = feeder_renewal
     for name, result in results.items():
         expected = (placements, supports, sets)
         actual = tuple(result["completed_units"].get(k, 0) for k in
@@ -273,6 +289,8 @@ def evaluate(alignment, vehicle, motion, civil_row, *, civil_evaluation_id=None,
             raise ArithmeticError(f"Schedule failed to reconcile standard placements, piers and fleet in {name}")
     starts = {name: max(4, 1 + ceil(result["last_completion_workday"]/250)) for name, result in results.items()}
     cash = production.cash_profile(known, starts["normal"], paid, fare, len(set(starts.values())) > 1)
+    cash["scope"] = dict(status="priced subtotal", unpriced_lots_by_group=unpriced_by_group,
+                         owner_exposures=RISKS)
     cash["sensitivity"]["status"] = "Illustrative input stress percentiles"
     cash["sensitivity"]["confidence_interval"] = None
     cash["disruption_phasing"] = {

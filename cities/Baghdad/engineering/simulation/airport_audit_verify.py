@@ -25,7 +25,7 @@ def ordinary_inputs(label="adverse_15min"):
     headway, phase, positioning_slack = CASE_TIMINGS[label]
     alignment = airport_alignment.evaluate()
     demand = airport_demand.evaluate(alignment, headway_min=headway)
-    vehicle = vehicle_audit.evaluate(cars=6, material="steel", grade_pct=0)
+    vehicle = vehicle_audit.evaluate(cars=6, material="steel", alignment=alignment, grade_pct=0)
     mass = vehicle["mass_cases"]["central"]
     passenger = passengers.evaluate({
         "cars": 6, "headway_min": demand["headway_min"], "ambient_c": 40,
