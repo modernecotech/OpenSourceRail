@@ -19,7 +19,7 @@ OpenSourceRail helps a city **plan, price, build, operate and maintain an urban 
 | Plan a service or compare cities | [Maps and passenger journeys](#maps-and-passenger-journeys) and [timetables and train motion](#timetables-and-train-motion) |
 | Design a train, station or viaduct | [Vehicles, stations and civil engineering](#vehicles-stations-and-civil-engineering) and [how to read an engineering result](#how-to-read-an-engineering-result) |
 | Equip a factory, train a team or quote for work | [Manufacturing and training](#manufacturing-and-training) and [purchasing and whole-life cost](#purchasing-and-whole-life-cost) |
-| Assess the evidence for funding, procurement or operation | [Standards and evidence for railway decisions](docs/certification/README.md) · [Standards crosswalk](docs/certification/compliance-matrix.md) |
+| Assess the evidence for funding, procurement or operation | [Standards and evidence traceability](#standards-and-evidence-traceability) |
 | Operate trains or maintain assets | [Train control, supervision and maintenance](#train-control-supervision-and-maintenance) |
 | Run, extend or reproduce the software | [Run the Workbench](#run-the-workbench), [find the right files](#find-the-right-files) and [contribute](#contribute-and-reuse) |
 
@@ -34,6 +34,8 @@ Start with a trip people need to make. In the city Workbench, select a line, cho
 
 For a different planning question, compare how Amman’s terrain and Karachi’s network scale affect route choices, or how a team in Cuenca might choose its first corridor. Each city example identifies the geography and passenger information needed to improve the outline. [Amman and Karachi](docs/book/53-amman-karachi.md) · [Nairobi and Lusaka](docs/book/54-nairobi-lusaka.md) · [Cuenca and San Salvador](docs/book/55-cuenca-san-salvador.md)
 
+A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
+
 ## Timetables and train motion
 
 A line on a map still needs a train that can reach each stop, turn around and start its next trip. Follow an individual working through its outward and return calls. Inspect the time reserved at the terminal and the interval available between successive trains. In the coupled operating study, changes in waiting and riding time affect requested journeys. The simulation records which booked trips finish under the selected service, motion and supply assumptions. [Train diagrams and outstanding connections](cities/Baghdad/SERVICE-DIAGRAMS.md) · [Route, demand and service inputs](cities/Baghdad/engineering/simulation/ALIGNMENT-DEMAND.md)
@@ -42,6 +44,19 @@ A line on a map still needs a train that can reach each stop, turn around and st
 |---|---|
 | [![Baghdad timetable card with departure times, return calls and a terminal turnback](docs/operator-review/screens/baghdad-service.png)](docs/operator-review/screens/baghdad-service.png) | [![Two simulated speed-versus-distance curves between stations](docs/operator-review/screens/train-movement.png)](docs/operator-review/screens/train-movement.png) |
 | The metropolitan timetable shows the Airport-001 working and flags a separation shortfall under its assumed signalling arrangement. | A separate 1.5 km research exercise compares cable launch and powered wheels on the same leg. Its assumed forces and stopping cases are available for inspection. |
+
+The station-pair model exposes simulated quantities including speed, stopping position and grid energy. Compare a fixed braking point with distance feedback under the same scenarios, then inspect the cases that miss their target. The station-cycle study also follows capture, storage and relaunch across repeated arrivals. [Motion traces and braking comparisons](docs/design-engine/station-pair/README.md) · [Station energy and repeated duty](docs/design-engine/station-cycle/README.md)
+
+[![Simulated speed rises toward 50 km/h and falls to zero near 196 seconds for the 1.5 km eight-driven-axle research case](docs/assets/front-page/station-pair-speed.png)](docs/assets/front-page/station-pair-speed.png)
+
+<details>
+<summary>Watch the simulated train travel from departure to the berth target</summary>
+
+![Animated position and speed from the same published research trace. The final recorded position is about 1,498.5 metres at zero speed.](docs/assets/front-page/station-pair-motion.gif)
+
+[Open the animation on its own](docs/assets/front-page/station-pair-motion.gif) · [Read the underlying case](docs/design-engine/station-pair/README.md)
+
+</details>
 
 ## Vehicles, stations and civil engineering
 
@@ -54,6 +69,12 @@ Open the digital twin, choose an assembly and select a part. A station reviewer 
 
 The fitted-train exercise connects seating, wheelchair places, door approaches and installed mass allocations to axle loads, traction and stopping. The civil comparison follows a change of span through beams, bearings, foundations, transport, lifting at working radius and upkeep. A price advantage can tell a precaster which option is worth quoting. A lift still needs the equipment chart and ground support for the proposed site. [Fitted-train exercise](cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md#compare-a-fitted-train-on-the-same-railway) · [Span and erection alternatives](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) · [Design decision register](docs/DESIGN-DECISIONS.md)
 
+The coordinated design search carries a change in structure, installed mass or propulsion through braking, civil loading, production and cost, while keeping each candidate's results together. Compare body arrangements and joints, inspect stress and displacement, and review where independent solver results apply to a particular load or geometry. [Coordinated railway design](docs/design-engine/coupled-railway/README.md) · [CAD and solver comparison](docs/design-engine/craft-backends/README.md) · [Viaduct model comparison](docs/design-engine/viaduct-backends/README.md)
+
+[![Baghdad audit comparison of shared-pier girder stock at 10, 15 and 20 metres. Placements fall from 3,492 to 1,746 while hook demand at the assumed radius rises from 37.74 to 89.85 tonnes.](docs/assets/front-page/span-erection.png)](docs/assets/front-page/span-erection.png)
+
+In this study the longer standard span needs fewer placements and a higher hook load. Read the audited cost scope, break-even erection prices and outstanding ground and lift checks before using the result to prepare an enquiry. [Cost and erection cases](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md#what-changes-the-vehicle-and-civil-enquiry)
+
 ## Manufacturing and training
 
 Follow a component from the drawing and bill of materials through stock preparation, cutting, assembly, inspection and removal for repair. The factory specification identifies machines, tooling, workstations and quantities for the prototype packages. The CAM material includes plate profiles, nesting, stock cuts and a practice machining job. A shop can use these to estimate hours and fixtures, then return its own machine limits, process review and trial results. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) · [CAD and CAM handoff](cities/Baghdad/engineering/prototype/cam/CAM.md) · [CamCraft and FreeCAD comparison](cities/Baghdad/engineering/simulation/CAM-COMPARISON.md)
@@ -65,6 +86,8 @@ Follow a component from the drawing and bill of materials through stock preparat
 
 For a team session, assign buyer, technician, fabricator, precast planner, electrical integrator or maintenance roles. Use the offline exercise to pass a part and its evidence from one role to the next. Try doubling mould occupancy from 24 to 48 hours while holding output at eight beams a day. The required mould positions rise from eight to sixteen. Workshops can replace that assumption with timed production evidence. [Instructor guide and handover exercises](cities/Baghdad/engineering/prototype/training/INSTRUCTOR.md) · [Factory, yard and staffing layouts](docs/operator-review/delivery/README.md)
 
+The counted parts catalogue records stock, assembly and draft business data. The delivery compiler carries a selected revision into part occurrences, process routes, inspection holds and installation proposals. A shop can review which jobs belong in-house, which need a specialist supplier and what evidence the next workstation needs. The factory drafts and ERPNext handoffs show where reviewed item mappings and actual inspection records enter. [Vehicle parts catalogue](docs/design-engine/vehicle-parts/README.md) · [Pilot delivery compiler](engineering/pilot_delivery/README.md) · [ERPNext deployment and business records](deployment/erpnext/README.md)
+
 ## Purchasing and whole-life cost
 
 Give competing suppliers the same drawing revision, quantities, fault cases and maintenance period. Compare price, exclusions, lead time, local work and renewals before recording an award. In the finance workshop, choose a funding term and inspect annual construction draws, operating costs, fares, debt service and replacements. The staffing worksheet lets an operator change coverage, pay and headcount and pass the revised operating cost into the funding calculation. [Supplier enquiry guide and downloads](cities/Baghdad/engineering/simulation/audit-production-guide.md) · [Funding and fares workbook](docs/operator-review/finance/README.md) · [Iraqi capital price basis](cities/Baghdad/IRAQ-CAPITAL.md)
@@ -73,6 +96,10 @@ Give competing suppliers the same drawing revision, quantities, fault cases and 
 |---|---|
 | [![Supplier returns worksheet comparing equipment scope, costs and origin](docs/operator-review/finance/supplier-returns.png)](docs/operator-review/finance/supplier-returns.png) | [![Funding worksheet for a Baghdad planning scenario showing borrowing and annual public costs](docs/operator-review/finance/baghdad-funding.png)](docs/operator-review/finance/baghdad-funding.png) |
 | The worked offers are hypothetical. The buyer can inspect scope and enter supplier terms for the enquiry. | Change fares or financing and inspect the effect on public funding through construction and operation. |
+
+[![Annual buyer cash for the core digital financing example. The chart stacks capital less borrowing, principal and interest, operations and renewals. Large planned renewals appear in years 19 and 29.](docs/assets/front-page/annual-funding.png)](docs/assets/front-page/annual-funding.png)
+
+The annual schedule lets a funder distinguish construction contributions, repayment, routine operations and years when replacements are due. The chart uses the core digital example. The purchasing workflow compares terms and renewal scope against a particular offer, including local work and its evidence. [Financing workbook and assumptions](docs/operator-review/finance/README.md) · [Buyer comparison](cities/Baghdad/BUYER-COMPARISON.md)
 
 | Plan the construction yard | Staff the service you intend to run |
 |---|---|
@@ -87,6 +114,28 @@ The Rust software covers automatic train protection, train management and door c
 |---|---|
 | [![Supervision replay with an active section trip and a stale signal](docs/operator-review/screens/section-alarm.png)](docs/operator-review/screens/section-alarm.png) | [![ERPNext pilot serial history showing component installation, removal and work-order records](docs/operator-review/screens/erp-serial-history.png)](docs/operator-review/screens/erp-serial-history.png) |
 | In the simulated incident the trip stays active while the reading is stale. A fresh clear reading changes its state. | The ERPNext pilot shows how a maintainer can trace a replacement through serial records and work orders. |
+
+The supervision and ERPNext fixtures cover equipment observations, alarm delivery through an interruption, repair review and serial replacement. The native rehearsal shows which record follows each handoff and which whole-site recovery work remains for a deployment. [Native integration and recovery guide](docs/integration/v06-platform.md) · [Open train, interlocking and platform-door software](crates/README.md)
+
+<details>
+<summary>Watch a simulated protection trip persist through a stale reading</summary>
+
+![The section is clear at 08:00:00, trips at 08:00:05, remains tripped with stale data at 08:00:38, and clears after the fresh sample at 08:00:40.](docs/assets/front-page/section-alarm-replay.gif)
+
+[Open the animation on its own](docs/assets/front-page/section-alarm-replay.gif) · [Step through the replay](docs/operator-review/screens/README.md)
+
+</details>
+
+## Standards and evidence traceability
+
+An operator, buyer or independent assessor can trace a control from its standard and edition to the railway risk, requirement, design revision and verification evidence. The register identifies whose design each record describes and what still needs a supplier, a site test or an assessor's decision. [Standards crosswalk](docs/certification/compliance-matrix.md) · [Machine-readable report](docs/certification/digital-assurance-report.json)
+
+| What the reader can check | How OpenSourceRail supports the review |
+|---|---|
+| **Railway safety and signalling** | IEC 62278 and IEC 62425 are mapped to requirement ownership, operating assumptions and safety evidence. The station bench records the door, brake and departure cases to verify on target hardware. [Station bench](cities/Baghdad/engineering/controls/STATION-BENCH.md) |
+| **Quality and supplier control** | ISO 9001 and ISO 22163 are mapped to revision-controlled offers, traceable manufacturing and first-article inspection. The buyer still needs evidence of the supplier's actual quality processes. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
+| **Asset and information handover** | ISO 55001 and ISO 19650 are mapped to lifecycle records, model identities and the information needed by an operator. IFC4 samples illustrate data exchange within the ISO 16739 family. [Twin register and downloads](docs/operator-review/twins/README.md) |
+| **Evidence changes and assessment** | The impact command reports whose controls need reassessment when a file, mapping or publisher reference changes. The deployment workflow records applicable clauses, test limits and decisions. [Review procedure and commands](docs/certification/README.md) |
 
 ## How to read an engineering result
 
@@ -115,6 +164,18 @@ To reproduce the corrected operating and purchasing case, run the audit from the
 ```
 
 Use `./osr status` and `./osr readiness` to inspect the development reference. Run `./osr build` and `./osr test` to regenerate and verify its development outputs. The [system architecture](docs/ARCHITECTURE.md) and [documentation index](docs/INDEX.md) link to the underlying modules.
+
+Other useful entry points from the repository root include these commands.
+
+| Command | What you get |
+|---|---|
+| `./osr plan verify build/my-plan` | Check a compiled planning proposal against its source revision. [Planning workflow](docs/workbench/planning/README.md) |
+| `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
+| `./osr design railway spans --route-km 12` | Compare installed civil and erection assumptions for an illustrative route length. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
+| `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
+| `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
+
+The [chart and animation generator](docs/assets/front-page/render.py) reads the published station-pair trace, span comparison, finance schedule and supervision replay. Run it with Python, Matplotlib and Pillow to reproduce the figures.
 
 ## Find the right files
 
